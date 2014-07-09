@@ -109,3 +109,20 @@ fr:
       block: "Liste"
       grid: "Grille"
       blog: "Blog"
+
+  formtastic:
+    yes: 'Oui'
+    no: 'Non'
+    create: "Créer %{model}"
+    update: "Mettre à jour %{model}"
+    submit: 'Soumettre %{model}'
+    cancel: 'Annuler %{model}'
+    reset: "Réinitiaser %{model}"
+    required: 'obligatoire'
+
+  activerecord:
+    models:
+      member:
+        one: Membre
+        other: Membres
+    attributes:
