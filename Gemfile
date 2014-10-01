@@ -17,6 +17,8 @@ gem 'uglifier'
 gem 'jbuilder'
 gem 'google_drive'
 
+gem 'rails_12factor', group: :production
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails', github: 'rspec/rspec-rails'
