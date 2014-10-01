@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140901142941) do
+ActiveRecord::Schema.define(version: 20141001172745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,21 @@ ActiveRecord::Schema.define(version: 20140901142941) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "halfday_works", force: true do |t|
+    t.integer  "member_id"
+    t.date     "date"
+    t.string   "period"
+    t.datetime "validated_at"
+    t.integer  "validator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "halfday_works", ["date"], name: "index_halfday_works_on_date", using: :btree
+  add_index "halfday_works", ["member_id"], name: "index_halfday_works_on_member_id", using: :btree
+  add_index "halfday_works", ["validated_at"], name: "index_halfday_works_on_validated_at", using: :btree
+  add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 
   create_table "members", force: true do |t|
     t.string   "emails",          array: true

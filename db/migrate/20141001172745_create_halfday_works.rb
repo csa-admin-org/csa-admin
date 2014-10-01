@@ -1,0 +1,16 @@
+class CreateHalfdayWorks < ActiveRecord::Migration
+  def change
+    create_table :halfday_works do |t|
+      t.references :member, index: true
+      t.date :date
+      t.string :period
+      t.datetime :validated_at
+      t.references :validator, index: true
+
+      t.timestamps
+    end
+
+    add_index :halfday_works, :date
+    add_index :halfday_works, :validated_at
+  end
+end

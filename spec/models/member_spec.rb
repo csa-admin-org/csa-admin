@@ -11,7 +11,7 @@ describe Member do
   describe '#phones=' do
     it 'parses phones list' do
       member = Member.new(phones: '1234, 4567')
-      expect(member.phones).to eq '1234, 45677'
+      expect(member.phones).to eq '1234, 4567'
     end
   end
 end

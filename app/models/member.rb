@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  has_many :halfday_works
   belongs_to :distribution
 
   def emails
