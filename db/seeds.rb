@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Distribution.create(name: 'La Chaux-de-Fonds')
+Distribution.create(name: 'Vélo')
+Distribution.create(name: 'Vin Libre')
+Distribution.create(name: 'Jardin de la Main')
+Distribution.create(name: 'Marin')

@@ -1,6 +1,16 @@
 class Member < ActiveRecord::Base
+  belongs_to :distribution
+
+  def emails
+    read_attribute(:emails).try(:join, ', ')
+  end
+
   def emails=(string)
     write_attribute :emails, string.split(',').each(&:strip!)
+  end
+
+  def phones
+    read_attribute(:phones).try(:join, ', ')
   end
 
   def phones=(string)

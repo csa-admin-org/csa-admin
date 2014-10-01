@@ -1,21 +1,24 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.4'
+ruby '2.1.3'
+
+gem 'rails', '4.1.6'
 gem 'rails-i18n'
 
 gem 'pg'
 
-gem 'activeadmin', github: 'gregbell/active_admin'
-gem 'jquery-ui-rails', '~> 4.2.1'
+gem 'activeadmin', github: 'activeadmin'
+gem 'jquery-ui-rails'
 
 gem 'devise'
 gem 'devise-i18n'
 
 gem 'uglifier'
-gem 'turbolinks'
 gem 'jbuilder'
+gem 'google_drive'
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'rspec-rails', github: 'rspec/rspec-rails'
   gem 'spring-commands-rspec'
 end
