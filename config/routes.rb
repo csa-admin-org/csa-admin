@@ -19,4 +19,7 @@ Rails.application.routes.draw do
     ActiveAdmin.routes(self)
   end
 
+  constraints subdomain: 'admin' do
+    get 'halfday_works/calendar' => 'halfday_works_calendar#show'
+  end
 end
