@@ -4,7 +4,7 @@ describe Member do
   describe '#emails=' do
     it 'parses emails list' do
       member = Member.new(emails: 'john@doe.com, foo@bar.com')
-      expect(member.emails).to eq 'john@doe.com, foo@bar.com'
+      expect(member.emails).to eq ['john@doe.com', 'foo@bar.com']
     end
   end
 

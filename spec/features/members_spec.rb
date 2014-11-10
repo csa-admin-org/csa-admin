@@ -2,10 +2,11 @@ require 'rails_helper'
 
 feature 'members page' do
   fixtures :members, :halfday_works
+  let(:member) { members(:john) }
   before { Capybara.app_host = 'http://membres.example.com' }
 
   context 'existing member token' do
-    before { visit "/#{members(:john).token}" }
+    before { visit "/#{member.token}" }
     scenario 'add new halfday work' do
       check 'halfday_work_period_am'
       check 'halfday_work_period_pm'
@@ -26,10 +27,22 @@ feature 'members page' do
     end
   end
 
-  context 'non-existing member token' do
-    scenario 'redirect to recover token page' do
+  context 'wrong member token' do
+    let(:email) { member.emails.first }
+
+    scenario 'recover token from email' do
       visit '/wrong_token'
       expect(current_path).to eq '/token/recover'
+
+      fill_in 'email', with: email
+      click_button 'Retrouver'
+
+      open_email(email)
+      expect(current_email.body)
+        .to include "membres.ragedevert.ch/#{member.token}"
+
+      expect(current_path).to eq '/token/recover'
+      expect(page).to have_content 'Merci'
     end
   end
 end

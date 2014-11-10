@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activeadmin/activeadmin.git
-  revision: 31858f1fe18d3970527d93270df72c877b63cc07
+  revision: a08c6f9f773bf76c0172f4f142f6cac769865a01
   specs:
     activeadmin (1.0.0.pre)
       arbre (~> 1.0, >= 1.0.2)
@@ -68,6 +68,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.4.0)
+      capybara (~> 2.4)
+      mail
     celluloid (0.16.0)
       timers (~> 4.0.0)
     coderay (1.1.0)
@@ -287,7 +290,7 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
-    turbolinks (2.5.1)
+    turbolinks (2.5.2)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -309,6 +312,7 @@ DEPENDENCIES
   bitters
   bourbon
   capybara
+  capybara-email
   devise
   devise-i18n
   dotenv-rails

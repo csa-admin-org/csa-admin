@@ -1,5 +1,5 @@
 john:
-  emails: ['john@doe.ch']
+  emails: ['john2@doe.ch', 'john@doe.ch']
   phones: ['076 449 59 37']
   name: John Doe
   address: Chemin du Bois 42

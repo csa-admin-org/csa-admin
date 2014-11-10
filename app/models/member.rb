@@ -4,10 +4,6 @@ class Member < ActiveRecord::Base
 
   uniquify :token, length: 10
 
-  def emails
-    read_attribute(:emails).try(:join, ', ')
-  end
-
   def emails=(string)
     write_attribute :emails, string.split(',').each(&:strip!)
   end
