@@ -1,0 +1,53 @@
+// Place all the styles related to the member controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import 'bourbon';
+@import 'base/base';
+@import 'neat';
+
+$max-width: em(860);
+$green: rgb(131, 157, 73);
+
+body {
+  @include outer-container;
+  padding: 0 1em 0 1em;
+}
+
+section {
+  @include outer-container;
+  margin-top: 2em;
+}
+
+h2 {
+  font-size: $base-font-size * 1.25;
+}
+
+section.form {
+  @include outer-container;
+  margin: 0;
+  height: 375px;
+
+  .column-left, .column-right {
+    @include span-columns(6);
+    padding: 0;
+    width: 380px;
+  }
+
+  .column-right {
+    padding-top: 1em;
+
+    p {
+      margin: 2em 0;
+    }
+  }
+
+  input.participants_count {
+    width: 50px;
+  }
+
+}
+
+@import 'refills/navigation';
+@import 'refills/table';
+@import 'calendar';

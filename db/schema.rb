@@ -59,11 +59,12 @@ ActiveRecord::Schema.define(version: 20141001172745) do
   end
 
   create_table "halfday_works", force: true do |t|
-    t.integer  "member_id"
-    t.date     "date"
-    t.string   "period"
+    t.integer  "member_id",                      null: false
+    t.date     "date",                           null: false
+    t.string   "periods",                        null: false, array: true
     t.datetime "validated_at"
     t.integer  "validator_id"
+    t.integer  "participants_count", default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -74,12 +75,13 @@ ActiveRecord::Schema.define(version: 20141001172745) do
   add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 
   create_table "members", force: true do |t|
-    t.string   "emails",          array: true
-    t.string   "phones",          array: true
-    t.string   "name"
+    t.string   "emails",                       array: true
+    t.string   "phones",                       array: true
+    t.string   "name",            null: false
     t.string   "address"
     t.string   "zip"
     t.string   "city"
+    t.string   "token",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "distribution_id"

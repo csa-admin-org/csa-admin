@@ -1,0 +1,11 @@
+new_am:
+  member: john
+  periods: ['am']
+  date: <%= 5.day.from_now %>
+
+new_pm2:
+  member: john
+  periods: ['pm']
+  date: <%= 3.day.from_now %>
+  participants_count: 2
+

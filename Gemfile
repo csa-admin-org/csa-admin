@@ -29,8 +29,6 @@ gem 'uglifier'
 gem 'jbuilder'
 gem 'google_drive'
 
-gem 'icalendar'
-
 gem 'rails_12factor', group: :production
 
 group :development do

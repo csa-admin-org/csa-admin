@@ -1,0 +1,65 @@
+header.navigation {
+  $navigation-padding: 1em;
+  $navigation-background: $light-gray;
+  $navigation-color: transparentize(white, 0.3);
+  $navigation-color-hover: rgb(131, 157, 73);
+  $navigation-height: 75px;
+  $navigation-search-background: lighten($navigation-background, 5);
+  $navigation-search-border: 1px solid darken($navigation-background, 5);
+  $navigation-active-link-color: transparentize(white, 0.5);
+  $navigation-submenu-padding: 1em;
+  $navigation-submenu-width: 12em;
+  $horizontal-bar-mode: $large-screen;
+
+  // background-color: $navigation-background;
+  // border-bottom: 1px solid darken($navigation-background, 10);
+  height: $navigation-height;
+  width: 100%;
+  z-index: 999;
+  margin-bottom: 2em;
+
+  .navigation-wrapper {
+    @include clearfix;
+    @include outer-container;
+    position: relative;
+    z-index: 9999;
+  }
+
+  .logo {
+    float: left;
+    padding-right: 1em;
+
+    img {
+      max-height: $navigation-height;
+    }
+  }
+
+  .nav {
+    z-index: 9999999;
+    float: left;
+    line-height: $navigation-height;
+
+    h1 {
+      line-height: $navigation-height;
+      font-family: $sans-serif;
+    }
+  }
+
+  .nav-right {
+    z-index: 9999999;
+    float: right;
+    line-height: $navigation-height;
+    padding-right: 1em;
+
+    a {
+      color: $base-font-color;
+      display: inline-block;
+      font-weight: 400;
+
+      &:hover {
+        color: $navigation-color-hover;
+      }
+    }
+  }
+
+}

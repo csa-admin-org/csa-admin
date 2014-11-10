@@ -1,0 +1,74 @@
+section
+  h4= "#{@member.name}"
+  ul
+    li Panier: Abondance
+    li Nombre de ½ journée de travail par année: 4
+    li= "Nombre de ½ journée restantes: #{@member.remaining_halfday_works_count}"
+
+section
+  h2 ½ journée de travail à venir
+  - if @member.halfday_works.coming.empty?
+    p Merci de vous inscrire à l'aide du formulaire ci-dessous.
+  - else
+    table.halfday_works
+      thead
+        tr
+          th.date Date
+          th.periods Horaire
+          th.participants_count Participants
+          th
+      tbody
+      - @member.halfday_works.coming.each do |halfday_work|
+        tr
+          td=l halfday_work.date, format: :long
+          td= diplay_periods halfday_work.periods
+          td= halfday_work.participants_count
+          td
+            = button_to [@member, halfday_work], method: :delete do
+              span style='display: none' Effacer
+
+section
+  h2 Inscription ½ journée de travail
+
+  section.form
+    - @halfday_work ||= HalfdayWork.new(date: Date.today)
+    = form_for [@member, @halfday_work] do |f|
+      .column-left
+          #datepicker.calendar
+          = f.hidden_field :date
+      .column-right
+        p
+          label for='periods' Horaire
+          label
+            = f.check_box :period_am,  {}
+            = '8:00 - 12:00'
+          label
+            = f.check_box :period_pm,  {}
+            = '13:30 - 17:30'
+        p
+          label Nbr. de participants
+          = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count'
+
+        = f.submit 'Inscription'
+
+section
+  h2 ½ journée de travail effectuées
+  - if @member.halfday_works.past.empty?
+    p On se réjouit de vous voir!
+  - else
+    table.halfday_works
+      thead
+        tr
+          th.date Date
+          th.periods Horaire
+          th.participants_count Participants
+          th
+      tbody
+      - @member.halfday_works.past.each do |halfday_work|
+        tr
+          td
+            =l halfday_work.date, format: :long
+            - unless halfday_work.validated?
+              span= ' (en attente de validation)'
+          td= diplay_periods halfday_work.periods
+          td= halfday_work.participants_count

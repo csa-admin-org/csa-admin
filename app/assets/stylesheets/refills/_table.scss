@@ -1,0 +1,100 @@
+table.halfday_works {
+  $table-border-color: $base-border-color;
+  $table-border: 1px solid $table-border-color;
+  $table-background: lighten($table-border-color, 10);
+  $table-header-color: lighten($table-background, 10);
+  $table-hover-color: darken($table-background, 5);
+  $table-stripe-color: darken($table-background, 4);
+  $table-stripe-color-hover: darken($table-stripe-color, 5);
+  $table-padding: 0.1em;
+
+  // border: $table-border;
+  // border-left: 0px;
+  // border-collapse: separate;
+  // border-spacing: 0;
+  // border-radius: $base-border-radius;
+
+  tbody {
+      // background-color: $table-background;
+    tr:hover > td, tr:hover > th {
+      background-color: $table-hover-color;
+    }
+    // tr:nth-child(even) {
+    //   background-color: $table-stripe-color;
+    //   &:hover > td {
+    //     background-color: $table-stripe-color-hover;
+    //   }
+    // }
+  }
+
+  // thead:first-of-type {
+  //   tr:first-child > th:first-child {
+  //     border-top-left-radius: $base-border-radius;
+  //   }
+
+  //   tr:first-child > th:last-child {
+  //     border-top-right-radius: $base-border-radius;
+  //   }
+  // }
+
+  // tbody:last-child {
+  //   tr:last-child > td:first-child {
+  //     border-bottom-left-radius: $base-border-radius;
+  //   }
+
+  //   tr:last-child > td:last-child {
+  //     border-bottom-right-radius: $base-border-radius;
+  //   }
+  // }
+
+  thead {
+    th {
+      // background-color: $table-header-color;
+      padding: $table-padding;
+      // border-left: 1px solid $table-border-color;
+      // border-bottom: 0px;
+    }
+
+    th.date {
+      width: 40%
+    }
+    th.periods, th.participants_count {
+      min-width: 120px;
+      width: 20%;
+    }
+  }
+
+  tbody {
+    // background-color: $table-background;
+    tr {
+      line-height: 2em;
+    }
+    td {
+      // line-height: 0.5em;
+      padding: $table-padding;
+      // border-left: 1px solid $table-border-color;
+      // border-top: 1px solid $table-border-color;
+      border-bottom: 0px;
+
+      button {
+        @include button(simple, white);
+        // margin-right: 0.5em;
+        float: right;// display: ;
+        width: 100%;
+        // font-size: 8em;
+        // margin-bottom: .3em;
+        // outline: none;
+        padding: 4px 6px;
+        margin: 0px;
+
+        @include media($medium-screen) {
+          width: auto;
+          // margin-bottom: 0;
+        }
+
+        &:before { content: "\2718"; }
+        &:hover { color: red; }
+      }
+    }
+  }
+}
