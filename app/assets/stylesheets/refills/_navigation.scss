@@ -48,13 +48,17 @@ header.navigation {
   .nav-right {
     z-index: 9999999;
     float: right;
-    line-height: $navigation-height;
-    padding-right: 1em;
+    line-height: $navigation-height + 15px;
+    padding-bottom: 0em;
 
     a {
       color: $base-font-color;
       display: inline-block;
       font-weight: 400;
+
+      span {
+        margin-left: 5px;
+      }
 
       &:hover {
         color: $navigation-color-hover;

@@ -5,6 +5,20 @@
 //= require jquery
 //= require jquery-ui
 
+class @ParticipantsCount
+  constructor: (count) -> @count = count
+  am: -> @count[0]
+  pm: -> @count[1]
+  total: -> @am() + @pm()
+  title: -> "matin: #{@am()} participant(es)\naprès-midi: #{@pm()} participant(es)"
+  class: ->
+    max = 10
+    if @total() <= max
+      "participants-#{@total()}"
+    else
+      "participants-#{max}"
+
+
 $.datepicker.regional["fr"] =
   clearText: "Effacer"
   clearStatus: ""
@@ -85,12 +99,18 @@ $.datepicker.regional["fr"] =
 $.datepicker.setDefaults $.datepicker.regional["fr"]
 
 $ ->
+  datesWithParticipantsCount = $('#datepicker').data('dates-with-participants-count')
+
   $('#datepicker').datepicker
     firstDay: 1
     minDate: new Date()
     defaultDate: $('#halfday_work_date').val()
     onSelect: (dateText, inst) ->
       $('#halfday_work_date').val dateText
-      return
-
-  return
+    beforeShowDay: (date) ->
+      date = $.datepicker.formatDate('yy-mm-dd', date)
+      if count = datesWithParticipantsCount[date]
+        count = new ParticipantsCount(count)
+        [true, count.class(), count.title()]
+      else
+        [false, null, null]

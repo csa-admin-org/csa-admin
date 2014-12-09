@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.1.4'
+ruby '2.1.5'
 
-gem 'rails', '4.1.7'
+gem 'rails', '4.1.8'
 gem 'rails-i18n'
 
 gem 'pg'
@@ -16,6 +16,7 @@ gem 'jquery-ui-rails'
 gem 'slim'
 
 gem 'sass-rails', '5.0.0.beta1'
+gem 'font-awesome-sass'
 
 gem 'bourbon'
 gem 'bitters'

@@ -2,13 +2,13 @@ section
   h4= "#{@member.name}"
   ul
     li Panier: Abondance
-    li Nombre de ½ journée de travail par année: 4
+    li Nombre de ½ journée de travail par année: 2
     li= "Nombre de ½ journée restantes: #{@member.remaining_halfday_works_count}"
 
 section
   h2 ½ journée de travail à venir
   - if @member.halfday_works.coming.empty?
-    p Merci de vous inscrire à l'aide du formulaire ci-dessous.
+    p.table-empty Nada, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
     table.halfday_works
       thead
@@ -34,11 +34,14 @@ section
     - @halfday_work ||= HalfdayWork.new(date: Date.today)
     = form_for [@member, @halfday_work] do |f|
       .column-left
-          #datepicker.calendar
+          #datepicker.calendar data={ dates_with_participants_count: ComingCalendarDates.dates_with_participants_count.to_json }
           = f.hidden_field :date
       .column-right
         p
           label for='periods' Horaire
+          - if @halfday_work.errors[:periods]
+            label.label-error= @halfday_work.errors[:periods].first
+
           label
             = f.check_box :period_am,  {}
             = '8:00 - 12:00'
@@ -51,10 +54,10 @@ section
 
         = f.submit 'Inscription'
 
-section
+section.past
   h2 ½ journée de travail effectuées
   - if @member.halfday_works.past.empty?
-    p On se réjouit de vous voir!
+    p.table-empty Rien à sigaler pour le moment, on se réjouit de vous voir!
   - else
     table.halfday_works
       thead
@@ -62,7 +65,6 @@ section
           th.date Date
           th.periods Horaire
           th.participants_count Participants
-          th
       tbody
       - @member.halfday_works.past.each do |halfday_work|
         tr

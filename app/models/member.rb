@@ -17,7 +17,7 @@ class Member < ActiveRecord::Base
   end
 
   def remaining_halfday_works_count
-    4 - halfday_works.past.validated.to_a.sum(&:value)
+    2 - halfday_works.past.validated.to_a.sum(&:value)
   end
 
   def to_param

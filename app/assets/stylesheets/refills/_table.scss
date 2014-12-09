@@ -49,6 +49,7 @@ table.halfday_works {
 
   thead {
     th {
+      font-size: 1em;
       // background-color: $table-header-color;
       padding: $table-padding;
       // border-left: 1px solid $table-border-color;
@@ -56,7 +57,7 @@ table.halfday_works {
     }
 
     th.date {
-      width: 40%
+      width: 50%
     }
     th.periods, th.participants_count {
       min-width: 120px;
@@ -77,7 +78,7 @@ table.halfday_works {
       border-bottom: 0px;
 
       button {
-        @include button(simple, white);
+        @include button(flat, white);
         // margin-right: 0.5em;
         float: right;// display: ;
         width: 100%;
@@ -85,7 +86,7 @@ table.halfday_works {
         // margin-bottom: .3em;
         // outline: none;
         padding: 4px 6px;
-        margin: 0px;
+        margin-right: 6px;
 
         @include media($medium-screen) {
           width: auto;

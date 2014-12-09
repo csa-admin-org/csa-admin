@@ -68,6 +68,7 @@
 }
 .ui-datepicker-title {
   text-align: center;
+  font-weight: bold;
 }
 .ui-datepicker-calendar {
   width: 100%;
@@ -79,26 +80,69 @@
   margin-bottom: 5px;
   font-size: $base-font-size;
 }
-.ui-state-default {
+.ui-state-default, .ui-datepicker-unselectable {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: block;
   text-decoration: none;
   color: #000;
   line-height: 40px;
   font-size: $base-font-size;
 }
-.ui-state-default:hover {
-  background: rgba(0,0,0,0.02);
+
+.ui-state-default {
+
+  &:hover {
+    color: #000;
+    border: 1px solid black;
+    line-height: 38px;
+  }
 }
-.ui-state-highlight {
-  color: #8dd391;
+td.participants-0 .ui-state-default{
+  background: lighten($green, 40);
 }
-.ui-state-active {
-  background: $green;
-  color: #fff;
+td.participants-1 .ui-state-default{
+  background: lighten($green, 40/1);
 }
-.ui-datepicker-unselectable .ui-state-default {
-  // color: #eee;
-  border: 2px solid transparent;
+td.participants-2 .ui-state-default{
+  background: lighten($green, 40/2);
+}
+td.participants-3 .ui-state-default{
+  background: lighten($green, 40/3);
+}
+td.participants-4 .ui-state-default{
+  background: lighten($green, 40/4);
+}
+td.participants-5 .ui-state-default{
+  background: lighten($green, 100/5);
+}
+td.participants-6 .ui-state-default{
+  background: lighten($green, 100/6);
+}
+td.participants-7 .ui-state-default{
+  background: lighten($green, 100/7);
+}
+td.participants-8 .ui-state-default{
+  background: lighten($green, 100/8);
+}
+td.participants-9 .ui-state-default{
+  background: lighten($green, 100/9);
+}
+td.participants-10 .ui-state-default{
+  background: lighten($green, 0);
 }
 
+.ui-state-highlight {
+  font-weight: bold;
+}
+.ui-state-active {
+  border: 3px solid black;
+  line-height: 34px;
+}
+.ui-datepicker-unselectable .ui-state-default {
+  background: none;
+  color: #aaa;
+  border: 2px solid transparent;
+}
 

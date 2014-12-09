@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Halfday Works calendar feed' do
-  fixtures :members, :halfday_works
+  fixtures :halfday_works
 
   before do
     reset!

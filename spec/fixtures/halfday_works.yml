@@ -1,11 +1,23 @@
-new_am:
+new_john_am:
   member: john
   periods: ['am']
-  date: <%= 5.day.from_now %>
+  date: <%= Date.today.beginning_of_week + 7.day %>
 
-new_pm2:
+new_john_pm2:
   member: john
   periods: ['pm']
-  date: <%= 3.day.from_now %>
+  date: <%= Date.today.beginning_of_week + 10.days %>
   participants_count: 2
+
+new_bob_am1:
+  member: bob
+  periods: ['am']
+  date: <%= Date.today.beginning_of_week + 8.days %>
+  participants_count: 2
+
+new_bob_ampm:
+  member: bob
+  periods: ['am', 'pm']
+  date: <%= Date.today.beginning_of_week + 10.days %>
+  participants_count: 1
 

@@ -2,11 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
 @import 'bourbon';
 @import 'base/base';
 @import 'neat';
 
-$max-width: em(860);
+$max-width: em(800);
 $green: rgb(131, 157, 73);
 
 body {
@@ -20,7 +22,12 @@ section {
 }
 
 h2 {
-  font-size: $base-font-size * 1.25;
+  font-size: $base-font-size * 1.4;
+}
+
+p.table-empty {
+  margin: 20px;
+  font-style: italic;
 }
 
 section.form {
@@ -31,14 +38,14 @@ section.form {
   .column-left, .column-right {
     @include span-columns(6);
     padding: 0;
-    width: 380px;
+    width: 360px;
   }
 
   .column-right {
-    padding-top: 1em;
+    padding: .25em 0 0 1em;
 
     p {
-      margin: 2em 0;
+      margin: 1.6em 0;
     }
   }
 
@@ -48,6 +55,17 @@ section.form {
 
 }
 
+section.past {
+  th, h2 {
+    color: #777;
+  }
+  td {
+    color: #aaa;
+  }
+}
+
 @import 'refills/navigation';
 @import 'refills/table';
+@import 'refills/flashes';
+@import 'refills/labels';
 @import 'calendar';

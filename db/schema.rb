@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001172745) do
+ActiveRecord::Schema.define(version: 20141123194101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,10 +67,12 @@ ActiveRecord::Schema.define(version: 20141001172745) do
     t.integer  "participants_count", default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "rejected_at"
   end
 
   add_index "halfday_works", ["date"], name: "index_halfday_works_on_date", using: :btree
   add_index "halfday_works", ["member_id"], name: "index_halfday_works_on_member_id", using: :btree
+  add_index "halfday_works", ["rejected_at"], name: "index_halfday_works_on_rejected_at", using: :btree
   add_index "halfday_works", ["validated_at"], name: "index_halfday_works_on_validated_at", using: :btree
   add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 

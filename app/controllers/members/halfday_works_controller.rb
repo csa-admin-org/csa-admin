@@ -7,7 +7,6 @@ class Members::HalfdayWorksController < Members::ApplicationController
         flash[:notice] = 'Merci pour votre inscription!'
         format.html { redirect_to @member }
       else
-        Rails.logger.debug @halfday_work.errors.inspect
         format.html { render 'members/members/show' }
       end
     end
