@@ -65,6 +65,12 @@ fr:
       action_label: "%{title} les éléments sélectionnés"
       labels:
         destroy: "Supprimer"
+        validate: "Valider"
+        reject: "Refuser"
+    scopes:
+        waiting: "En attente"
+        validated: "Validé"
+        rejected: "Refusé"
     comments:
       body: "Corps"
       author: "Auteur"
@@ -126,6 +132,18 @@ fr:
         one: Membre
         other: Membres
     attributes:
+      halfday_work:
+        member: Membre
+        periods: Horaire
+        participants_count: Participants
+        status: Statut
+
+  halfday_work:
+    status:
+      waiting: "En attente"
+      validated: Validé
+      rejected: Refusé
+
 
   date:
     formats:

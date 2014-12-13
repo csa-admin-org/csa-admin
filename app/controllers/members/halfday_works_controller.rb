@@ -5,7 +5,7 @@ class Members::HalfdayWorksController < Members::ApplicationController
     respond_to do |format|
       if @halfday_work.save
         flash[:notice] = 'Merci pour votre inscription!'
-        format.html { redirect_to @member }
+        format.html { redirect_to [:members, @member] }
       else
         format.html { render 'members/members/show' }
       end
@@ -15,7 +15,7 @@ class Members::HalfdayWorksController < Members::ApplicationController
   # DELETE /:member_id/halfday_works/:id
   def destroy
     @member.halfday_works.destroy(params[:id])
-    redirect_to @member
+    redirect_to [:members, @member]
   end
 
   private

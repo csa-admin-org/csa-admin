@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  scope module: 'members' do
+  scope module: 'members',  as: 'members' do
     constraints subdomain: 'membres' do
       get '/' => redirect('/token/recover')
       resources :members, only: [:show], path: '' do

@@ -24,7 +24,7 @@ section
           td= diplay_periods halfday_work.periods
           td= halfday_work.participants_count
           td
-            = button_to [@member, halfday_work], method: :delete do
+            = button_to [:members, @member, halfday_work], method: :delete do
               span style='display: none' Effacer
 
 section
@@ -32,7 +32,7 @@ section
 
   section.form
     - @halfday_work ||= HalfdayWork.new(date: Date.today)
-    = form_for [@member, @halfday_work] do |f|
+    = form_for [:members, @member, @halfday_work] do |f|
       .column-left
           #datepicker.calendar data={ dates_with_participants_count: ComingCalendarDates.dates_with_participants_count.to_json }
           = f.hidden_field :date

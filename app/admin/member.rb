@@ -1,20 +1,12 @@
 ActiveAdmin.register Member do
-  # See permitted parameters documentation:
-  # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #  permitted = [:permitted, :attributes]
-  #  permitted << :other if resource.something?
-  #  permitted
-  # end
+  menu priority: 2
+
   index do
     selectable_column
     # id_column
-    column :name
+    column :name do |member|
+      link_to member.name, member
+    end
     column :emails
     column :phones
     column :distribution, sortable: :distribution_id
@@ -27,6 +19,12 @@ ActiveAdmin.register Member do
   filter :distribution
   filter :zip, as: :select, collection: -> { Member.pluck(:zip).uniq.compact.sort }
   filter :created_at
+
+  controller do
+    def resource
+      Member.find_by(token: params[:id])
+    end
+  end
 
   config.per_page = 150
 end

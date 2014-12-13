@@ -1,11 +1,13 @@
 class HalfdayWork < ActiveRecord::Base
   belongs_to :member
-  belongs_to :validator, class: 'Admin'
+  belongs_to :validator, class_name: 'Admin'
 
   PERIODS = %w[am pm].freeze
 
+  scope :status, ->(status) { send(status) }
   scope :validated, -> { where.not(validated_at: nil) }
   scope :rejected, -> { where.not(rejected_at: nil) }
+  scope :waiting, -> { where(rejected_at: nil, validated_at: nil) }
   scope :waiting_validation, -> do
     where('date =< ?', Date.today).where(validated_at: nil, rejected_at: nil)
   end
@@ -19,8 +21,9 @@ class HalfdayWork < ActiveRecord::Base
   validate :periods_include_good_value
 
   def status
-    return 'validated' if validated?
-    return 'rejected' if rejected?
+    return :validated if validated?
+    return :rejected if rejected?
+    :waiting
   end
 
   def validated?
@@ -35,6 +38,14 @@ class HalfdayWork < ActiveRecord::Base
     periods.size * participants_count
   end
 
+  def validate!(validator)
+    update!(rejected_at: nil, validated_at: Time.now, validator: validator)
+  end
+
+  def reject!(validator)
+    update!(rejected_at: Time.now, validated_at: nil, validator: validator)
+  end
+
   PERIODS.each do |period|
     define_method "period_#{period}" do
       periods.try(:include?, period)
@@ -44,14 +55,19 @@ class HalfdayWork < ActiveRecord::Base
     end
 
     define_method "period_#{period}=" do |bool|
+      periods_will_change!
       self.periods ||= []
-      if bool == '1'
+      if bool.in? [1, '1']
         self.periods << period
         self.periods.uniq!
       else
         self.periods.delete(period)
       end
     end
+  end
+
+  def self.ransackable_scopes(auth_object = nil)
+    %i(status)
   end
 
   private

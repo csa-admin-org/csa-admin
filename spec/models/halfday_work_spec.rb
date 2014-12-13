@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe HalfdayWork do
-  fixtures :members
+  fixtures :members, :admins, :halfday_works
   let(:member) { Member.first }
 
   describe 'validations' do
@@ -39,15 +39,50 @@ describe HalfdayWork do
     end
   end
 
+  describe '#validate!' do
+    let(:halfday_work) { halfday_works(:new_john_am) }
+    let(:admin) { Admin.first }
+
+    it 'sets validated_at' do
+      halfday_work.validate!(admin)
+      expect(halfday_work.reload.validated_at).to be_present
+    end
+
+    it 'set validator with admin' do
+      halfday_work.validate!(admin)
+      expect(halfday_work.reload.validator).to eq admin
+    end
+  end
+
+  describe '#reject!' do
+    let(:halfday_work) { halfday_works(:new_john_am) }
+    let(:admin) { Admin.first }
+
+    it 'sets rejected_at' do
+      halfday_work.reject!(admin)
+      expect(halfday_work.reload.rejected_at).to be_present
+    end
+
+    it 'set validator with admin' do
+      halfday_work.reject!(admin)
+      expect(halfday_work.reload.validator).to eq admin
+    end
+  end
+
   describe '#status' do
+    context 'when waiting' do
+      subject { HalfdayWork.new.status }
+      it { is_expected.to eq :waiting }
+    end
+
     context 'when validated' do
       subject { HalfdayWork.new(validated_at: Time.now).status }
-      it { is_expected.to eq 'validated' }
+      it { is_expected.to eq :validated }
     end
 
     context 'when rejected' do
       subject { HalfdayWork.new(rejected_at: Time.now).status }
-      it { is_expected.to eq 'rejected' }
+      it { is_expected.to eq :rejected }
     end
   end
 
