@@ -17,7 +17,7 @@ class Member < ActiveRecord::Base
   end
 
   def remaining_halfday_works_count
-    2 - halfday_works.past.validated.to_a.sum(&:value)
+    [2 - halfday_works.past.validated.to_a.sum(&:value), 0].max
   end
 
   def to_param

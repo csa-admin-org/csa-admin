@@ -68,7 +68,8 @@ fr:
         validate: "Valider"
         reject: "Refuser"
     scopes:
-        waiting: "En attente"
+        waiting_validation: "A valider"
+        coming: "A venir"
         validated: "Validé"
         rejected: "Refusé"
     comments:
@@ -131,6 +132,9 @@ fr:
       member:
         one: Membre
         other: Membres
+      halfday_work:
+        one: ½ Journée de travail
+        other: ½ Journées de travail
     attributes:
       halfday_work:
         member: Membre
@@ -140,7 +144,8 @@ fr:
 
   halfday_work:
     status:
-      waiting: "En attente"
+      waiting_validation: "A valider"
+      coming: "A venir"
       validated: Validé
       rejected: Refusé
 

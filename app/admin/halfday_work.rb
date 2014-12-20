@@ -1,7 +1,8 @@
 ActiveAdmin.register HalfdayWork do
   menu label: '½ Journée de travail'
 
-  scope :waiting, default: true
+  scope :waiting_validation, default: true
+  scope :coming
   scope :validated
   scope :rejected
 

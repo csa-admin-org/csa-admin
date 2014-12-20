@@ -7,11 +7,10 @@ class HalfdayWork < ActiveRecord::Base
   scope :status, ->(status) { send(status) }
   scope :validated, -> { where.not(validated_at: nil) }
   scope :rejected, -> { where.not(rejected_at: nil) }
-  scope :waiting, -> { where(rejected_at: nil, validated_at: nil) }
   scope :waiting_validation, -> do
-    where('date =< ?', Date.today).where(validated_at: nil, rejected_at: nil)
+    where('date <= ?', Date.today).where(validated_at: nil, rejected_at: nil)
   end
-  scope :coming, -> { where('date >= ?', Date.today) }
+  scope :coming, -> { where('date > ?', Date.today) }
   scope :past, -> do
     where('date < ? AND date >= ?', Date.today, Date.today.beginning_of_year)
   end
@@ -23,7 +22,16 @@ class HalfdayWork < ActiveRecord::Base
   def status
     return :validated if validated?
     return :rejected if rejected?
-    :waiting
+    return :coming if coming?
+    return :waiting_validation if waiting_validation?
+  end
+
+  def waiting_validation
+    !validated? && !rejected && date <= Date.today
+  end
+
+  def coming?
+    date > Date.today
   end
 
   def validated?
@@ -39,10 +47,12 @@ class HalfdayWork < ActiveRecord::Base
   end
 
   def validate!(validator)
+    return if coming?
     update!(rejected_at: nil, validated_at: Time.now, validator: validator)
   end
 
   def reject!(validator)
+    return if coming?
     update!(rejected_at: Time.now, validated_at: nil, validator: validator)
   end
 
