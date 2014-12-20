@@ -26,8 +26,8 @@ class HalfdayWork < ActiveRecord::Base
     return :waiting_validation if waiting_validation?
   end
 
-  def waiting_validation
-    !validated? && !rejected && date <= Date.today
+  def waiting_validation?
+    !validated? && !rejected? && date <= Date.today
   end
 
   def coming?

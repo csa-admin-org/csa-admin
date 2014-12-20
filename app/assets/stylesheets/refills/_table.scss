@@ -70,6 +70,9 @@ table.halfday_works {
     tr {
       line-height: 2em;
     }
+    tr.rejected {
+      text-decoration:line-through;
+    }
     td {
       // line-height: 0.5em;
       padding: $table-padding;

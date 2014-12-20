@@ -67,10 +67,12 @@ section.past
           th.participants_count Participants
       tbody
       - @member.halfday_works.past.each do |halfday_work|
-        tr
+        tr class="#{halfday_work.rejected? ? 'rejected' : ''}"
           td
             =l halfday_work.date, format: :long
-            - unless halfday_work.validated?
+            - if halfday_work.waiting_validation?
               span= ' (en attente de validation)'
+            - elsif halfday_work.rejected?
+              span= ' (refusé)'
           td= diplay_periods halfday_work.periods
           td= halfday_work.participants_count
