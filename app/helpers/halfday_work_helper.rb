@@ -10,7 +10,7 @@ module HalfdayWorkHelper
   def halfday_work_summary(halfday_work)
     summary = halfday_work.member.name
     if halfday_work.participants_count > 1
-      summary += " (#{halfday_work.participants_count})"
+      summary << " (#{halfday_work.participants_count})"
     end
     summary
   end

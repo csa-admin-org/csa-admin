@@ -5,7 +5,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "RageDeVert Admin"
+  config.site_title = 'Rage de Vert - Admin'
   config.root_to = 'dashboard#index'
 
   # Set an optional image to be displayed for the header
@@ -25,10 +25,10 @@ ActiveAdmin.setup do |config|
   # method in a before filter of all controller actions to
   # ensure that there is a user with proper rights. You can use
   # CanCanAdapter or make your own. Please refer to documentation.
-  # config.authorization_adapter = ActiveAdmin::CanCanAdapter
+  config.authorization_adapter = ActiveAdmin::CanCanAdapter
 
   # You can customize your CanCan Ability class name here.
-  # config.cancan_ability_class = "Ability"
+  config.cancan_ability_class = 'Ability'
 
   # You can specify a method to be called on unauthorized access.
   # This is necessary in order to prevent a redirect loop which happens
@@ -61,7 +61,7 @@ ActiveAdmin.setup do |config|
   # This allows your users to comment on any resource registered with Active Admin.
   #
   # You can completely disable comments:
-  config.allow_comments = false
+  config.comments = false
   #
   # You can disable the menu item for the comments index page:
   config.show_comments_in_menu = false
@@ -151,19 +151,16 @@ ActiveAdmin.setup do |config|
   #
   # To disable/customize for the :admin namespace:
   #
-  #   config.namespace :admin do |admin|
-  #
-  #     # Disable the links entirely
-  #     admin.download_links = false
-  #
-  #     # Only show XML & PDF options
-  #     admin.download_links = [:xml, :pdf]
-  #
-  #     # Enable/disable the links based on block
-  #     #   (for example, with cancan)
-  #     admin.download_links = proc { can?(:view_download_links) }
-  #
-  #   end
+  # config.namespace :admin do |admin|
+    # # Disable the links entirely
+    # # admin.download_links = false
+
+    config.download_links = [:csv]
+
+    #  # Enable/disable the links based on block
+    #  #   (for example, with cancan)
+    #  admin.download_links = proc { can?(:view_download_links) }
+  # end
 
   # == Pagination
   #

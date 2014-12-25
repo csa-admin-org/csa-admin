@@ -1,5 +1,5 @@
 ActiveAdmin.register HalfdayWork do
-  menu label: '½ Journée de travail'
+  menu priority: 4
 
   scope :waiting_validation, default: true
   scope :coming
@@ -15,9 +15,7 @@ ActiveAdmin.register HalfdayWork do
     column :status, ->(halfday_work) {
       I18n.t("halfday_work.status.#{halfday_work.status}")
     }
-    actions defaults: false do |halfday_work|
-      item 'Modifier', [:edit, halfday_work]
-    end
+    actions
   end
 
   filter :member
@@ -49,6 +47,10 @@ ActiveAdmin.register HalfdayWork do
   end
 
   controller do
+    def scoped_collection
+      HalfdayWork.includes(:member)
+    end
+
     def create
       super do |format|
         redirect_to collection_url and return if resource.valid?

@@ -11,6 +11,7 @@ class HalfdayWork < ActiveRecord::Base
     where('date <= ?', Date.today).where(validated_at: nil, rejected_at: nil)
   end
   scope :coming, -> { where('date > ?', Date.today) }
+  scope :coming_for_member, -> { where('date >= ?', Date.today) }
   scope :past, -> do
     where('date < ? AND date >= ?', Date.today, Date.today.beginning_of_year)
   end
@@ -20,26 +21,21 @@ class HalfdayWork < ActiveRecord::Base
   validate :periods_include_good_value
 
   def status
-    return :validated if validated?
-    return :rejected if rejected?
-    return :coming if coming?
-    return :waiting_validation if waiting_validation?
+    if validated_at?
+      :validated
+    elsif rejected_at?
+      :rejected
+    elsif date <= Date.today
+      :waiting_validation
+    else
+      :coming
+    end
   end
 
-  def waiting_validation?
-    !validated? && !rejected? && date <= Date.today
-  end
-
-  def coming?
-    date > Date.today
-  end
-
-  def validated?
-    validated_at?
-  end
-
-  def rejected?
-    rejected_at?
+  %i[validated rejected waiting_validation coming].each do |status|
+    define_method "#{status}?" do
+      self.status == status
+    end
   end
 
   def value

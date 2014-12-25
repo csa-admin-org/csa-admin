@@ -1,0 +1,14 @@
+john_eveil:
+  member: john
+  basket: eveil
+  distribution: main
+  started_on: <%= Date.new(2015).beginning_of_year %>
+  ended_on: <%= Date.new(2015).end_of_year %>
+
+bob_abondance:
+  member: bob
+  billing_member: john
+  basket: eveil
+  distribution: velo
+  started_on: <%= Date.new(2015).beginning_of_year %>
+  ended_on: <%= Date.new(2015).end_of_year %>

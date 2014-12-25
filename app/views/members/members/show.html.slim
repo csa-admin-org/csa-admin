@@ -7,7 +7,7 @@ section
 
 section
   h2 ½ journée de travail à venir
-  - if @member.halfday_works.coming.empty?
+  - if @member.halfday_works.coming_for_member.empty?
     p.table-empty Nada, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
     table.halfday_works
@@ -18,7 +18,7 @@ section
           th.participants_count Participants
           th
       tbody
-      - @member.halfday_works.coming.each do |halfday_work|
+      - @member.halfday_works.coming_for_member.each do |halfday_work|
         tr
           td=l halfday_work.date, format: :long
           td= diplay_periods halfday_work.periods
@@ -57,7 +57,7 @@ section
 section.past
   h2 ½ journée de travail effectuées
   - if @member.halfday_works.past.empty?
-    p.table-empty Rien à sigaler pour le moment, on se réjouit de vous voir!
+    p.table-empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else
     table.halfday_works
       thead

@@ -18,7 +18,7 @@ feature 'members page' do
     end
 
     scenario 'remove halfday work' do
-      date = halfday_works(:new_am).date
+      date = halfday_works(:new_john_am).date
       date_text = I18n.l(date, format: :long)
 
       expect(page).to have_content date_text
@@ -28,7 +28,7 @@ feature 'members page' do
   end
 
   context 'wrong member token' do
-    let(:email) { member.emails.first }
+    let(:email) { member.emails_array.first }
 
     scenario 'recover token from email' do
       visit '/wrong_token'

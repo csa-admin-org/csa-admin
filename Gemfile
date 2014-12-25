@@ -7,6 +7,10 @@ gem 'rails-i18n'
 
 gem 'pg'
 gem 'uniquify'
+gem 'cancancan'
+
+gem 'foreigner'
+gem 'immigrant' # TODO
 
 gem 'activeadmin', github: 'activeadmin'
 gem 'responsive_active_admin'

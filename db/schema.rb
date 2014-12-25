@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141123194101) do
+ActiveRecord::Schema.define(version: 20141224125016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,23 @@ ActiveRecord::Schema.define(version: 20141123194101) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
+  create_table "baskets", force: true do |t|
+    t.string   "name",                                         null: false
+    t.integer  "year",                                         null: false
+    t.decimal  "annual_price",         precision: 8, scale: 2, null: false
+    t.integer  "annual_halfday_works",                         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "deliveries", force: true do |t|
+    t.date     "date",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "deliveries", ["date"], name: "index_deliveries_on_date", using: :btree
+
   create_table "distributions", force: true do |t|
     t.string   "name"
     t.string   "address"
@@ -56,6 +73,7 @@ ActiveRecord::Schema.define(version: 20141123194101) do
     t.string   "city"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "basket_price", precision: 8, scale: 2, null: false
   end
 
   create_table "halfday_works", force: true do |t|
@@ -77,18 +95,43 @@ ActiveRecord::Schema.define(version: 20141123194101) do
   add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 
   create_table "members", force: true do |t|
-    t.string   "emails",                       array: true
-    t.string   "phones",                       array: true
-    t.string   "name",            null: false
+    t.string   "emails"
+    t.string   "phones"
     t.string   "address"
     t.string   "zip"
     t.string   "city"
-    t.string   "token",           null: false
+    t.string   "token",            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "distribution_id"
+    t.string   "first_name",       null: false
+    t.string   "last_name",        null: false
+    t.boolean  "support_member",   null: false
+    t.datetime "waiting_from"
+    t.string   "billing_interval", null: false
+    t.text     "food_note"
+    t.text     "note"
+    t.integer  "validator_id"
+    t.datetime "validated_at"
   end
 
-  add_index "members", ["distribution_id"], name: "index_members_on_distribution_id", using: :btree
+  create_table "memberships", force: true do |t|
+    t.integer  "basket_id",                                    null: false
+    t.integer  "distribution_id",                              null: false
+    t.integer  "member_id",                                    null: false
+    t.integer  "billing_member_id"
+    t.decimal  "annual_price",         precision: 8, scale: 2
+    t.integer  "annual_halfday_works"
+    t.date     "started_on",                                   null: false
+    t.date     "ended_on",                                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "memberships", ["basket_id"], name: "index_memberships_on_basket_id", using: :btree
+  add_index "memberships", ["billing_member_id"], name: "index_memberships_on_billing_member_id", using: :btree
+  add_index "memberships", ["distribution_id"], name: "index_memberships_on_distribution_id", using: :btree
+  add_index "memberships", ["ended_on"], name: "index_memberships_on_ended_on", using: :btree
+  add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", using: :btree
+  add_index "memberships", ["started_on"], name: "index_memberships_on_started_on", using: :btree
 
 end

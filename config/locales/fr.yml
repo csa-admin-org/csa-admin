@@ -70,8 +70,16 @@ fr:
     scopes:
         waiting_validation: "A valider"
         coming: "A venir"
-        validated: "Validé"
-        rejected: "Refusé"
+        validated: "Validées"
+        rejected: "Refusées"
+        waiting_list: "Liste d'attente"
+        active: "Actif"
+        support: "Membre soutien"
+        inactive: "Ancien"
+        with_name: "Prénom/Nom de famille"
+        all: Tous
+        current: En cours
+        old: Ancien
     comments:
       body: "Corps"
       author: "Auteur"
@@ -135,26 +143,279 @@ fr:
       halfday_work:
         one: ½ Journée de travail
         other: ½ Journées de travail
+      membership:
+        one: Abonnement
+        other: Abonnements
+      basket:
+        one: Panier
+        other: Paniers
+      distribution:
+        one: Lieu de distribution
+        other: Lieu de distributions
+      delivery:
+        one: Livraison
+        other: Livraisons
     attributes:
       halfday_work:
-        member: Membre
+        member_id: Membre
         periods: Horaire
         participants_count: Participants
         status: Statut
+      distribution:
+        name: Nom
+        address: Adresse
+        city: Ville
+        basket_price: Prix/panier
+      basket:
+        name: Nom
+        year: Année
+        annual_price: Prix/annnée (40 paniers)
+        annual_halfday_works: ½ Journées de travail/année
+      member:
+        name: Nom
+        first_name: Prénom
+        last_name: Nom de famille
+        address: Adresse
+        city: Ville
+        phones: Téléphones
+        support_member: Membre de soutien
+        billing_interval: Interval de paiement
+        food_note: Note alimentaire
+        waiting_list: Sur liste d'attente
+        basket: Panier
+        current_basket: Panier
+        current_distribution: Distribution
+        current_membership: Abonnement
+        with_name: Nom
+        with_current_basket: Panier
+        with_current_distribution: Distribution
+        created_at: Créé le
+        waiting_from: En liste d'attente depuis
+        validated_at: Validé le
+        validator: Validé par
+      membership:
+        member_id: Membre
+        member: Membre
+        basket_id: Panier
+        basket: Panier
+        billing_member: Membre (Facture)
+        billing_member_id: Membre (Facture)
+        started_on: Début
+        ended_on: Fin
+        annual_price: Prix/année (40 paniers)
+        annual_halfday_works: ½ Journées de travail/année
+        basket_price: Prix/panier (inclus distribution)
+
+  member:
+    status:
+      waiting_validation: A valider
+      waiting_list: Liste d'attente
+      active: Actif
+      support: Soutien
+      inactive: Ancien
+    billing_interval:
+      annual: annuel
+      quarterly: trimestriel
 
   halfday_work:
     status:
       waiting_validation: "A valider"
       coming: "A venir"
-      validated: Validé
-      rejected: Refusé
-
+      validated: Validée
+      rejected: Refusée
 
   date:
+    abbr_day_names:
+    - dim
+    - lun
+    - mar
+    - mer
+    - jeu
+    - ven
+    - sam
+    abbr_month_names:
+    -
+    - jan.
+    - fév.
+    - mar.
+    - avr.
+    - mai
+    - juin
+    - juil.
+    - août
+    - sept.
+    - oct.
+    - nov.
+    - déc.
+    day_names:
+    - dimanche
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
     formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
-      default: "%d/%m/%Y"
-      short: "%b %d"
-      long: "%a. %d %b %Y"
+      default: ! '%d.%m.%Y'
+      long: ! '%e %B %Y'
+      short: ! '%e %b'
+    month_names:
+    -
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: environ une heure
+        other: environ %{count} heures
+      about_x_months:
+        one: environ un mois
+        other: environ %{count} mois
+      about_x_years:
+        one: environ un an
+        other: environ %{count} ans
+      almost_x_years:
+        one: presqu'un an
+        other: presque %{count} ans
+      half_a_minute: une demi-minute
+      less_than_x_minutes:
+        one: moins d'une minute
+        other: moins de %{count} minutes
+        zero: moins d'une minute
+      less_than_x_seconds:
+        one: moins d'une seconde
+        other: moins de %{count} secondes
+        zero: moins d'une seconde
+      over_x_years:
+        one: plus d'un an
+        other: plus de %{count} ans
+      x_days:
+        one: 1 jour
+        other: ! '%{count} jours'
+      x_minutes:
+        one: 1 minute
+        other: ! '%{count} minutes'
+      x_months:
+        one: 1 mois
+        other: ! '%{count} mois'
+      x_seconds:
+        one: 1 seconde
+        other: ! '%{count} secondes'
+    prompts:
+      day: Jour
+      hour: Heure
+      minute: Minute
+      month: Mois
+      second: Seconde
+      year: Année
+  errors:
+    format: '%{attribute} %{message}'
+    messages:
+      accepted: doit être accepté(e)
+      blank: doit être rempli(e)
+      confirmation: ne concorde pas avec la confirmation
+      empty: doit être rempli(e)
+      equal_to: doit être égal à %{count}
+      even: doit être pair
+      exclusion: n'est pas disponible
+      greater_than: doit être supérieur à %{count}
+      greater_than_or_equal_to: doit être supérieur ou égal à %{count}
+      inclusion: n'est pas inclus(e) dans la liste
+      invalid: n'est pas valide
+      less_than: doit être inférieur à %{count}
+      less_than_or_equal_to: doit être inférieur ou égal à %{count}
+      not_a_number: n'est pas un nombre
+      not_an_integer: doit être un nombre entier
+      odd: doit être impair
+      record_invalid: ! 'La validation a échoué : %{errors}'
+      taken: n'est pas disponible
+      too_long:
+        one: est trop long (pas plus d'un caractère)
+        other: est trop long (pas plus de %{count} caractères)
+      too_short:
+        one: est trop court (au moins un caractère)
+        other: est trop court (au moins %{count} caractères)
+      wrong_length:
+        one: ne fait pas la bonne longueur (doit comporter un seul caractère)
+        other: ne fait pas la bonne longueur (doit comporter %{count} caractères)
+    template:
+      body: ! 'Veuillez vérifier les champs suivants : '
+      header:
+        one: ! 'Impossible d''enregistrer ce %{model} : 1 erreur'
+        other: ! 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
+  helpers:
+    select:
+      prompt: Veuillez sélectionner
+    submit:
+      create: Créer un %{model}
+      submit: Enregistrer ce %{model}
+      update: Modifier ce %{model}
+  number:
+    currency:
+      format:
+        delimiter: ! ''''
+        format: ! '%n %u'
+        precision: 2
+        separator: .
+        significant: false
+        strip_insignificant_zeros: false
+        unit: sFr.
+    format:
+      delimiter: ! ''''
+      precision: 3
+      separator: .
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: milliard
+          million: million
+          quadrillion: million de milliards
+          thousand: millier
+          trillion: billion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 2
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: octet
+            other: octets
+          gb: Go
+          kb: ko
+          mb: Mo
+          tb: To
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ! ' et '
+      two_words_connector: ! ' et '
+      words_connector: ! ', '
+  time:
+    am: am
+

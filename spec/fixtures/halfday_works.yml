@@ -1,7 +1,12 @@
+old_john_am:
+  member: john
+  periods: ['am']
+  date: <%= Date.today.beginning_of_week - 7.days %>
+
 new_john_am:
   member: john
   periods: ['am']
-  date: <%= Date.today.beginning_of_week + 7.day %>
+  date: <%= Date.today.beginning_of_week + 7.days %>
 
 new_john_pm2:
   member: john

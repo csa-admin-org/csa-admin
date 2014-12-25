@@ -1,17 +1,69 @@
 john:
-  emails: ['john2@doe.ch', 'john@doe.ch']
-  phones: ['076 449 59 37']
-  name: John Doe
+  emails: 'john2@doe.ch, john@doe.ch'
+  phones: '076 449 59 37'
+  first_name: John
+  last_name: Doe
   address: Chemin du Bois 42
   zip: 2001
   city: Neuchâtel
   token: Yzd5NiXoNy
+  support_member: false
+  billing_interval: annual
+  validated_at: <%= Date.today.beginning_of_week %>
 
 bob:
-  emails: ['bob@rickley.ch']
-  phones: ['078 419 39 30']
-  name: Bob Rickley
+  emails: 'bob@rickley.ch'
+  phones: '078 419 39 30, 079 412 32 12'
+  first_name: Bob
+  last_name: Rickley
   address: Vert 42
   zip: 2300
   city: La Chaux-de-Fonds
   token: token_bob
+  support_member: false
+  billing_interval: quarterly
+  validated_at: <%= Date.today.beginning_of_week %>
+
+nick:
+  emails: 'nick@rickley.ch'
+  phones: '078 419 39 30'
+  first_name: Bob
+  last_name: Rickley
+  address: Vert 42
+  zip: 2300
+  city: La Chaux-de-Fonds
+  token: token_bob
+  support_member: true
+  billing_interval: quarterly
+  validated_at: <%= Date.today.beginning_of_week %>
+
+waiting_validation:
+  first_name: John
+  last_name: Doe
+  token: foo
+  support_member: false
+  billing_interval: annual
+  validated_at:
+
+waiting_list:
+  first_name: John
+  last_name: Doe
+  token: foo
+  support_member: false
+  billing_interval: annual
+  validated_at: <%= Date.yesterday %>
+  waiting_from: <%= Date.yesterday %>
+
+inactive:
+  emails: 'inactive@doe.ch'
+  phones: '076 449 59 37'
+  first_name: John
+  last_name: Doe
+  address: Chemin du Bois 42
+  zip: 2001
+  city: Neuchâtel
+  token: foo
+  support_member: false
+  billing_interval: annual
+  validated_at: <%= Date.today.beginning_of_week %>
+

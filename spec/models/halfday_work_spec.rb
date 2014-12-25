@@ -40,7 +40,7 @@ describe HalfdayWork do
   end
 
   describe '#validate!' do
-    let(:halfday_work) { halfday_works(:new_john_am) }
+    let(:halfday_work) { halfday_works(:old_john_am) }
     let(:admin) { Admin.first }
 
     it 'sets validated_at' do
@@ -55,7 +55,7 @@ describe HalfdayWork do
   end
 
   describe '#reject!' do
-    let(:halfday_work) { halfday_works(:new_john_am) }
+    let(:halfday_work) { halfday_works(:old_john_am) }
     let(:admin) { Admin.first }
 
     it 'sets rejected_at' do
@@ -70,9 +70,14 @@ describe HalfdayWork do
   end
 
   describe '#status' do
-    context 'when waiting' do
-      subject { HalfdayWork.new.status }
-      it { is_expected.to eq :waiting }
+    context 'when waiting validation' do
+      subject { HalfdayWork.new(date: Date.today).status }
+      it { is_expected.to eq :waiting_validation }
+    end
+
+    context 'when coming' do
+      subject { HalfdayWork.new(date: Date.tomorrow).status }
+      it { is_expected.to eq :coming }
     end
 
     context 'when validated' do
