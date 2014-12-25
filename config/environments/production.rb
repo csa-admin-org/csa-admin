@@ -52,6 +52,13 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
+  config.cache_store = :dalli_store, ENV['MEMCACHIER_SERVERS'].split(','), {
+    username: ENV['MEMCACHIER_USERNAME'],
+    password: ENV['MEMCACHIER_PASSWORD'],
+    failover: true,
+    socket_timeout: 1.5,
+    socket_failure_delay: 0.2
+  }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -64,6 +71,18 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'admin.ragedevert.ch' }
+  config.action_mailer.default_options = { from: 'info@ragedevert.ch' }
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    port:          '587',
+    address:       'smtp.mandrillapp.com',
+    user_name:     ENV['MANDRILL_USERNAME'],
+    password:      ENV['MANDRILL_APIKEY'],
+    domain:        'heroku.com',
+    authenticatio: :plain
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

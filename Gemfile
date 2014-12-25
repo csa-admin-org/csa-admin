@@ -37,6 +37,11 @@ gem 'google_drive'
 gem 'icalendar'
 
 gem 'rails_12factor', group: :production
+gem 'exception_notification'
+
+group :production do
+  gem 'dalli'
+end
 
 group :development do
   gem 'rack-livereload'
