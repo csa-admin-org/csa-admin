@@ -6,6 +6,7 @@ gem 'rails', '4.1.8'
 gem 'rails-i18n'
 
 gem 'passenger'
+gem 'rack-status'
 
 gem 'pg'
 gem 'uniquify'
