@@ -156,6 +156,9 @@ fr:
         one: Livraison
         other: Livraisons
     attributes:
+      admin:
+        password: Mot de passe
+        password_confirmation: Mot de passe (confirmation)
       halfday_work:
         member_id: Membre
         periods: Horaire
