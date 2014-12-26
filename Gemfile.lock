@@ -82,6 +82,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    daemon_controller (1.2.0)
     dalli (2.7.2)
     devise (3.4.1)
       bcrypt (~> 3.0)
@@ -200,6 +201,10 @@ GEM
       multi_xml (~> 0.5)
       rack (~> 1.2)
     orm_adapter (0.5.0)
+    passenger (4.0.56)
+      daemon_controller (>= 1.2.0)
+      rack
+      rake (>= 0.8.1)
     pg (0.17.1)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
@@ -340,6 +345,7 @@ DEPENDENCIES
   jbuilder
   jquery-ui-rails
   neat (>= 1.7.0)
+  passenger
   pg
   quiet_assets
   rack-livereload

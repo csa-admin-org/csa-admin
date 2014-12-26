@@ -5,6 +5,8 @@ ruby '2.1.5'
 gem 'rails', '4.1.8'
 gem 'rails-i18n'
 
+gem 'passenger'
+
 gem 'pg'
 gem 'uniquify'
 gem 'cancancan'
