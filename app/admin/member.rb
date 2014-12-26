@@ -64,8 +64,8 @@ ActiveAdmin.register Member do
       f.input :address
       f.input :city
       f.input :zip
-      f.input :emails
-      f.input :phones
+      f.input :emails, hint: "séparés par ', '"
+      f.input :phones, hint: "séparés par ', '"
     end
     f.inputs 'Abonnement' do
       if f.object.new_record?
