@@ -42,7 +42,9 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_price
-    annual_price / 40.0 + distribution.basket_price
+    price = annual_price.to_i / 40.0
+    price += distribution.basket_price if annual_price.to_i > 0
+    price
   end
 
   def deliveries_done_since(date)
