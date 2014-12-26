@@ -60,9 +60,9 @@ class Importer
   def distribution(name)
     case name
     when 'Jardin', '' then Distribution.find_by(name: 'Jardin de la main')
-    when 'CDF' then Distribution.find_by(name: "L'entre-deux")
-    when 'Marin' then Distribution.find_by(name: 'Marin-Epagnier')
-    when 'Vélo' then Distribution.find_by(name: 'Domicile à Vélo')
+    when 'CDF' then Distribution.find_by(name: "L'Entre-deux")
+    when 'Marin' then Distribution.find_by(name: 'Particulier')
+    when 'Vélo' then Distribution.find_by(name: 'Vélo')
     when 'Vin Libre' then Distribution.find_by(name: 'Vin libre')
     else raise 'unknown distribution name'
     end
