@@ -43,6 +43,7 @@ gem 'exception_notification'
 
 group :production do
   gem 'dalli'
+  gem 'newrelic_rpm'
 end
 
 group :development do
