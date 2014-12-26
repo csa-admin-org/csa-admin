@@ -20,7 +20,7 @@ ActiveAdmin.register_page 'Dashboard' do
         end
       end
       column do
-        panel '$$$' do
+        panel 'Facturation' do
           ul do
             li para '...'
           end
