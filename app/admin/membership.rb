@@ -69,7 +69,7 @@ ActiveAdmin.register Membership do
   controller do
     def build_resource
       super
-      resource.started_on = Date.today_2015.beginning_of_year.max
+      resource.started_on = Date.today_2015.beginning_of_year
       resource.ended_on = Date.today_2015.end_of_year
       resource
     end
