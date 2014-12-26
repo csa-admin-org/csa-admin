@@ -34,16 +34,16 @@ ActiveAdmin.register Membership do
       row :billing_member
       row :basket
       row :distribution
-      row(:started_on) { l membership.started_on }
-      row(:ended_on) { l membership.ended_on }
       row(:annual_price) { number_to_currency(membership.annual_price) }
       row(:basket_price) { number_to_currency(membership.basket_price) }
       row(:annual_halfday_works) { membership.annual_halfday_works }
+      row(:started_on) { l membership.started_on }
+      row(:ended_on) { l membership.ended_on }
     end
   end
 
   form do |f|
-    f.inputs do
+    f.inputs 'Membre' do
       member_ids = Membership.pluck(:member_id)
       member_ids.delete(f.object.member_id)
       f.input :member,
@@ -51,10 +51,14 @@ ActiveAdmin.register Membership do
       f.input :billing_member,
         collection: Member.order(:last_name).map { |d| [d.name, d.id] },
         hint: 'laisser blanc si identique (membre)'
+    end
+    f.inputs 'Détails' do
       f.input :basket, include_blank: false
       f.input :distribution, include_blank: false
       f.input :annual_price, hint: 'laisser blanc si identique (panier)'
       f.input :annual_halfday_works, hint: 'laisser blanc si identique (panier)'
+    end
+    f.inputs 'Dates' do
       years_range = Basket.years_range
       f.input :started_on, start_year: years_range.first, include_blank: false
       f.input :ended_on, start_year: years_range.first, end_year: years_range.last, include_blank: false

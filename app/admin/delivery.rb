@@ -2,9 +2,16 @@ ActiveAdmin.register Delivery do
   menu parent: 'Autre', priority: 10
 
   index do
-    column '#', ->(delivery) { Delivery.pluck(:date).index(delivery.date) + 1 }
+    column '#', ->(delivery) { delivery.number }
     column :date
     actions if current_admin.email == 'thibaud@thibaud.gg'
+  end
+
+  show do |delivery|
+    attributes_table do
+      row('#') { delivery.number }
+      row(:date) { l delivery.date }
+    end
   end
 
   config.filters = false

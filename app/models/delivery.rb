@@ -15,6 +15,14 @@ class Delivery < ActiveRecord::Base
     end
   end
 
+  def display_name
+    "Livraison #{date.year} ##{number}"
+  end
+
+  def number
+    year_dates.index(date) + 1
+  end
+
   private
 
   def self.next_date(date)
@@ -22,6 +30,13 @@ class Delivery < ActiveRecord::Base
       date + 1.week
     else
       date + 2.weeks
+    end
+  end
+
+  def year_dates
+    today = Date.today_2015
+    Rails.cache.fetch "#{today.year}_deliveries_dates" do
+      Delivery.between(today.beginning_of_year..today.end_of_year).pluck(:date)
     end
   end
 end

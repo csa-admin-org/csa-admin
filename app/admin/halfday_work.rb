@@ -23,8 +23,9 @@ ActiveAdmin.register HalfdayWork do
 
   form do |f|
     f.inputs 'Details' do
-      f.input :date
-      f.input :member
+      years_range = Basket.years_range
+      f.input :date, start_year: years_range.first, end_year: years_range.last, include_blank: false
+      f.input :member, include_blank: false
       f.input :participants_count
       f.input :period_am, as: :boolean, label: 'AM'
       f.input :period_pm, as: :boolean, label: 'PM'
