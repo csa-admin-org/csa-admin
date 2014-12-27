@@ -33,6 +33,8 @@ ActiveAdmin.register HalfdayWork do
     f.actions
   end
 
+  permit_params *%i[date member_id participants_count period_am period_pm]
+
   batch_action :reject do |selection|
     HalfdayWork.find(selection).each do |halfday_work|
       halfday_work.reject!(current_admin)
@@ -63,10 +65,6 @@ ActiveAdmin.register HalfdayWork do
         redirect_to collection_url and return if resource.valid?
       end
     end
-  end
-
-  permit_params do
-    %i[date member_id participants_count period_am period_pm]
   end
 
   config.per_page = 50

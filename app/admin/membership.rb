@@ -66,6 +66,12 @@ ActiveAdmin.register Membership do
     f.actions
   end
 
+  permit_params *%i[
+    member_id billing_member_id basket_id distribution_id
+    annual_price annual_halfday_works
+    started_on ended_on
+  ]
+
   controller do
     def build_resource
       super
@@ -77,14 +83,6 @@ ActiveAdmin.register Membership do
     def scoped_collection
       Membership.includes(:member, :billing_member, :basket, :distribution)
     end
-  end
-
-  permit_params do
-    %i[
-      member_id billing_member_id basket_id distribution_id
-      annual_price annual_halfday_works
-      started_on ended_on
-    ]
   end
 
   config.per_page = 150

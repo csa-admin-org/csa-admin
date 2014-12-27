@@ -1,6 +1,5 @@
 ActiveAdmin.register Distribution do
   menu parent: 'Autre', priority: 10
-  actions :all, except: [:show]
 
   index do
     column :name
@@ -12,6 +11,18 @@ ActiveAdmin.register Distribution do
     end
     actions
   end
+
+  show do |distribution|
+    attributes_table do
+      row :name
+      row :address
+      row :zip
+      row :city
+      row(:basket_price) { number_to_currency(distribution.basket_price) }
+    end
+  end
+
+  permit_params *%i[name address zip city basket_price]
 
   config.filters = false
   config.per_page = 50

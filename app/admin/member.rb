@@ -73,12 +73,12 @@ ActiveAdmin.register Member do
         f.semantic_fields_for :membership do |m_f|
           m_f.input :basket_id, label: 'Panier',
             collection: options_for_select(
-              Basket.all.map { |b| [b.name, b.id] },
+              Basket.all.map { |b| [b.display_name, b.id] },
               f.object.memberships.first.try(:basket_id)
             )
           m_f.input :distribution_id,
             collection: options_for_select(
-              Distribution.all.map { |d| [d.name, d.id] },
+              Distribution.all.map { |d| [d.display_name, d.id] },
               f.object.memberships.first.try(:distribution_id)
             )
         end
@@ -101,19 +101,19 @@ ActiveAdmin.register Member do
     f.actions
   end
 
-  batch_action :validate do |selection|
-    Member.find(selection).each do |member|
-      member.validate!(current_admin)
-    end
-    redirect_to collection_path
-  end
-
   permit_params do
     %i[
       first_name last_name address city zip emails phones
       support_member billing_interval waiting_list
       food_note note
     ].concat([membership: %i[basket_id distribution_id]])
+  end
+
+  batch_action :validate do |selection|
+    Member.find(selection).each do |member|
+      member.validate!(current_admin)
+    end
+    redirect_to collection_path
   end
 
   controller do
