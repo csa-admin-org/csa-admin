@@ -1,0 +1,5 @@
+class AddGribouilleFieldToMembers < ActiveRecord::Migration
+  def change
+    add_column :members, :gribouille, :boolean, default: false, null: false
+  end
+end

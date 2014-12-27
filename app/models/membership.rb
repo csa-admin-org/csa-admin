@@ -15,6 +15,13 @@ class Membership < ActiveRecord::Base
   scope :active, -> { joins(:member).merge(Member.active) }
   scope :with_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
+  scope :during_year, ->(year) {
+    where(
+      'started_on >= ? AND ended_on <= ?',
+      Date.new(year).beginning_of_year,
+      Date.new(year).end_of_year
+    )
+  }
 
   def billing_member
     id = billing_member_id || member_id
@@ -49,6 +56,10 @@ class Membership < ActiveRecord::Base
 
   def deliveries_done_since(date)
     Delivery.between(started_on..date).count
+  end
+
+  def deliveries_count
+    Delivery.between(started_on..ended_on).count
   end
 
   def date_range

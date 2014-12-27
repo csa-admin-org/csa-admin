@@ -3,6 +3,13 @@ require 'rails_helper'
 describe Member do
   fixtures :all
 
+  describe '.gribouille_emails' do
+    it 'returns all active emails and gribouille emails' do
+      expect(Member.gribouille_emails)
+        .to eq %w[john2@doe.ch john@doe.ch bob@rickley.ch gribouille@doe.ch]
+    end
+  end
+
   describe 'validations' do
     describe 'support_member' do
       let(:member) { members(:john) }
@@ -75,7 +82,7 @@ describe Member do
 
   describe '.inactive' do
     subject { Member.inactive }
-    it { is_expected.to eq [members(:inactive)] }
+    it { is_expected.to eq [members(:inactive), members(:gribouille)] }
   end
 
   describe '#status' do

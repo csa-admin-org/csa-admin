@@ -44,10 +44,14 @@ class Member < ActiveRecord::Base
     inclusion: { in: BILLING_INERVALS }
   validates :first_name, :last_name, presence: true
   validates :address, :city, :zip, presence: true,
-    unless: ->(member) { member.status.in? %i[waiting_validation waiting_list] }
+    if: ->(member) { member.status.in?(%i[active support]) }
   validate :support_member_not_waiting
   validate :support_member_without_current_membership
   validate :active_with_current_membership
+
+  def self.gribouille_emails
+    all.select(&:gribouille).map(&:emails_array).flatten.uniq.compact
+  end
 
   def name
     "#{first_name} #{last_name}"
@@ -99,6 +103,15 @@ class Member < ActiveRecord::Base
     return unless status == :waiting_validation
     update!(waiting_from: Time.now, validated_at: Time.now, validator: validator)
   end
+
+  def gribouille=(bool)
+    write_attribute(:gribouille, bool) unless status == :active
+  end
+
+  def gribouille
+    status == :active || read_attribute(:gribouille)
+  end
+  alias_method :gribouille?, :gribouille
 
   def emails_array
     string_to_a(emails)

@@ -2,6 +2,7 @@ ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: 'Tableau de bord'
 
   content title: 'Tableau de bord' do
+    next_delivery_date = Delivery.coming.first.try(:date)
     columns do
       column do
         panel 'Membres' do
@@ -20,10 +21,16 @@ ActiveAdmin.register_page 'Dashboard' do
         end
       end
       column do
+        panel 'Gribouille' do
+          emails = Member.gribouille_emails
+          str = "#{emails.count} emails amoureux de Gribouille: "
+          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery_date, format: :short}")
+          str << " / "
+          str << link_to('liste', gribouille_emails_members_path(format: :csv))
+          str.html_safe
+        end
         panel 'Facturation' do
-          ul do
-            li para '...'
-          end
+          '...'
         end
       end
       # column do
@@ -38,7 +45,6 @@ ActiveAdmin.register_page 'Dashboard' do
     end
     columns do
       column do
-        next_delivery_date = Delivery.coming.first.try(:date)
         members = Member.active.merge(Membership.with_date(next_delivery_date)).includes(:current_membership).to_a
         panel "Prochaine livraison: #{ l next_delivery_date, format: :long } (#{members.size} paniers)" do
           table_for Distribution.joins(:memberships).merge(Membership.with_date(next_delivery_date)).distinct.order(:id).all do |distribution|
@@ -56,9 +62,7 @@ ActiveAdmin.register_page 'Dashboard' do
       end
       column do
         panel '½ Journées de travail' do
-          ul do
-            li para '...'
-          end
+          '...'
         end
       end
     end

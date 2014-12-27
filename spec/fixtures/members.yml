@@ -67,3 +67,13 @@ inactive:
   billing_interval: annual
   validated_at: <%= Date.today.beginning_of_week %>
 
+gribouille:
+  emails: 'gribouille@doe.ch'
+  first_name: John
+  last_name: Doe
+  gribouille: true
+  token: foo
+  support_member: false
+  billing_interval: annual
+  validated_at: <%= Date.today.beginning_of_week %>
+

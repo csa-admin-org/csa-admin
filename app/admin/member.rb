@@ -34,6 +34,7 @@ ActiveAdmin.register Member do
       row(:city) { member.city? ? "#{member.city} (#{member.zip})" : nil }
       row :emails
       row :phones
+      row(:gribouille) { member.gribouille? ? 'envoyée' : 'non-envoyée' }
       row :current_membership do
         if member.current_membership
           link_to "#{member.current_basket.name} (#{member.current_distribution.name})", member.current_membership
@@ -66,6 +67,7 @@ ActiveAdmin.register Member do
       f.input :zip
       f.input :emails, hint: "séparés par ', '"
       f.input :phones, hint: "séparés par ', '"
+      f.input :gribouille, hint: 'toujours vrai pour les membres actifs'
     end
     f.inputs 'Abonnement' do
       if f.object.new_record?
@@ -103,7 +105,7 @@ ActiveAdmin.register Member do
 
   permit_params do
     %i[
-      first_name last_name address city zip emails phones
+      first_name last_name address city zip emails phones gribouille
       support_member billing_interval waiting_list
       food_note note
     ].concat([membership: %i[basket_id distribution_id]])
@@ -114,6 +116,10 @@ ActiveAdmin.register Member do
       member.validate!(current_admin)
     end
     redirect_to collection_path
+  end
+
+  collection_action :gribouille_emails, method: :get do
+    render text: Member.gribouille_emails.to_csv
   end
 
   controller do
