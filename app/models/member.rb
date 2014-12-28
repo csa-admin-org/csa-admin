@@ -95,6 +95,11 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def support_member=(bool)
+    self.billing_interval = 'annual' if bool || bool == '1'
+    write_attribute(:support_member, bool)
+  end
+
   def waiting_list=(bool)
     self.waiting_from = bool == '1' ? Time.now : nil
   end

@@ -34,7 +34,7 @@ nick:
   city: La Chaux-de-Fonds
   token: token_bob
   support_member: true
-  billing_interval: quarterly
+  billing_interval: annual
   validated_at: <%= Date.today.beginning_of_week %>
 
 waiting_validation:

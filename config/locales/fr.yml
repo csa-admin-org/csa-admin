@@ -165,6 +165,7 @@ fr:
         periods: Horaire
         participants_count: Participants
         status: Statut
+        member: Membre
       distribution:
         name: Nom
         address: Adresse

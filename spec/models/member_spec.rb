@@ -55,6 +55,16 @@ describe Member do
     end
   end
 
+  describe '#support_member=' do
+    let(:member) { members(:nick) }
+
+    it 'sets billing_interval to annual' do
+      member.billing_interval = 'quarterly'
+      member.update(support_member: '1')
+      expect(member.reload.billing_interval).to eq 'annual'
+    end
+  end
+
   describe '#current_membership' do
     subject { members(:john).current_membership }
     it { is_expected.to eq memberships(:john_eveil) }

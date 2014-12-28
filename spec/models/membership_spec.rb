@@ -13,6 +13,12 @@ describe Membership do
       expect(new_membership.errors[:ended_on]).to be_present
     end
 
+    it 'allows valid attributes' do
+      new_membership = Membership.new(membership.attributes.except('id'))
+      new_membership.member = members(:nick)
+      expect(new_membership.errors).to be_empty
+    end
+
     it 'allows started_on only in basket year' do
       membership.update(started_on: Date.new(2000))
       expect(membership.errors[:started_on]).to be_present
