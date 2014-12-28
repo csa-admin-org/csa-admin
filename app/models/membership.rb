@@ -69,7 +69,7 @@ class Membership < ActiveRecord::Base
   private
 
   def only_one_alongs_the_year
-    Membership.where(member: member).each do |membership|
+    Membership.where(member: member).where.not(id: id).each do |membership|
       if membership.date_range.include?(started_on)
         errors.add(:started_on, 'déjà inclus dans un abonnement existant')
       end

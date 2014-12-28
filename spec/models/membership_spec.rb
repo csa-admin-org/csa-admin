@@ -7,7 +7,7 @@ describe Membership do
     let(:membership) { memberships(:john_eveil) }
 
     it 'allows only one current memberships per member' do
-      new_membership = Membership.new(membership.attributes.except(:id))
+      new_membership = Membership.new(membership.attributes.except('id'))
       new_membership.valid?
       expect(new_membership.errors[:started_on]).to be_present
       expect(new_membership.errors[:ended_on]).to be_present
