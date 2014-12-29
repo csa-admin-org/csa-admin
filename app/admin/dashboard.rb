@@ -31,7 +31,7 @@ ActiveAdmin.register_page 'Dashboard' do
           end
           para do
             div class: 'excel_link' do
-              link_to 'Fichier excel', billing_path(format: :xls)
+              link_to 'Fichier Excel', billing_path(format: :xls)
             end
             div class: 'total_price' do
               "Total: #{number_to_currency Billing.total_price}"
