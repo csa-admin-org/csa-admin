@@ -8,7 +8,7 @@ ActiveAdmin.register_page 'Dashboard' do
         panel 'Membres' do
           statuses = %i[waiting_validation waiting_list active support inactive]
           table_for statuses do
-            column 'Status', ->(status) { I18n.t("member.status.#{status}") }
+            column 'Status', ->(status) { link_to I18n.t("member.status.#{status}"), members_path(scope: status) }
             column 'Membres', ->(status) { Member.send(status).count }
             column 'Détails' do |status|
               if status.in?(%i[waiting_list active])
@@ -19,31 +19,26 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
-      end
-      column do
-        panel 'Gribouille' do
-          emails = Member.gribouille_emails
-          str = "#{emails.count} emails amoureux de Gribouille: "
-          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery_date, format: :short}")
-          str << " / "
-          str << link_to('liste', gribouille_emails_members_path(format: :csv))
-          str.html_safe
+        panel "Facturation #{Date.today_2015.year} (prévision)" do
+          types = %w[Eveil Abondance Soutien]
+          table_for types do
+            column('Type') { |type| type }
+            column('') do |type|
+              div class: 'price' do
+                number_to_currency Billing.total_price(type)
+              end
+            end
+          end
+          para do
+            div class: 'excel_link' do
+              link_to 'fichier excel', billing_path(format: :xls)
+            end
+            div class: 'total_price' do
+              "Total: #{number_to_currency Billing.total_price}"
+            end
+          end
         end
-        panel 'Facturation' do
-          '...'
-        end
       end
-      # column do
-      #   panel 'Distributions' do
-      #     distribution_counts = Member.active.group(:distribution_id).count
-      #     table_for Distribution.all do
-      #       column 'Lieu', ->(distribution) { "#{distribution.city} (#{distribution.name})" }
-      #       column '', ->(distribution) { distribution_counts[distribution.id].to_i }
-      #     end
-      #   end
-      # end
-    end
-    columns do
       column do
         members = Member.active.merge(Membership.with_date(next_delivery_date)).includes(:current_membership).to_a
         panel "Prochaine livraison: #{ l next_delivery_date, format: :long } (#{members.size} paniers)" do
@@ -59,8 +54,14 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
-      end
-      column do
+        panel 'Gribouille' do
+          emails = Member.gribouille_emails
+          str = "#{emails.count} emails amoureux de Gribouille: "
+          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery_date, format: :short}")
+          str << " / "
+          str << link_to('liste', gribouille_emails_members_path(format: :csv))
+          str.html_safe
+        end
         panel '½ Journées de travail' do
           '...'
         end

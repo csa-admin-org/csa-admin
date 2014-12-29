@@ -35,7 +35,7 @@ ActiveAdmin.register Membership do
       row :basket
       row :distribution
       row(:annual_price) { number_to_currency(membership.annual_price) }
-      row(:basket_price) { number_to_currency(membership.basket_price) }
+      row(:total_basket_price) { number_to_currency(membership.total_basket_price) }
       row(:annual_halfday_works) { membership.annual_halfday_works }
       row(:started_on) { l membership.started_on }
       row(:ended_on) { l membership.ended_on }

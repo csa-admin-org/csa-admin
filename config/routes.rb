@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   constraints subdomain: 'admin' do
     devise_for :admins, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
+    resource :billing, only: [:show]
   end
 
   scope module: 'members',  as: 'members' do

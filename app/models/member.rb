@@ -50,7 +50,7 @@ class Member < ActiveRecord::Base
   validate :active_with_current_membership
 
   def self.gribouille_emails
-    all.select(&:gribouille).map(&:emails_array).flatten.uniq.compact
+    all.includes(:current_membership).select(&:gribouille).map(&:emails_array).flatten.uniq.compact
   end
 
   def name

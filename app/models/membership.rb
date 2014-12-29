@@ -12,7 +12,6 @@ class Membership < ActiveRecord::Base
 
   scope :old, -> { where('ended_on < ?', Time.now) }
   scope :current, -> { with_date(Date.today_2015) }
-  scope :active, -> { joins(:member).merge(Member.active) }
   scope :with_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :during_year, ->(year) {
@@ -24,8 +23,7 @@ class Membership < ActiveRecord::Base
   }
 
   def billing_member
-    id = billing_member_id || member_id
-    id && Member.find(id)
+    (billing_member_id && Member.find(billing_member_id)) || member
   end
 
   def current?
@@ -40,6 +38,10 @@ class Membership < ActiveRecord::Base
     current?
   end
 
+  def billable?
+    member.status.in? %i[active support inactive]
+  end
+
   def annual_price
     read_attribute(:annual_price) || basket.try(:annual_price)
   end
@@ -49,9 +51,19 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_price
-    price = annual_price.to_i / 40.0
-    price += distribution.basket_price if annual_price.to_i > 0
-    price
+    annual_price.to_i / 40.0
+  end
+
+  def distribution_basket_price
+    distribution.basket_price
+  end
+
+  def total_basket_price
+    if annual_price.to_i > 0
+      basket_price + distribution_basket_price
+    else
+      0
+    end
   end
 
   def deliveries_done_since(date)

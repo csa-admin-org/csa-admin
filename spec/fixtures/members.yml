@@ -27,8 +27,8 @@ bob:
 nick:
   emails: 'nick@rickley.ch'
   phones: '078 419 39 30'
-  first_name: Bob
-  last_name: Rickley
+  first_name: Nick
+  last_name: Rash
   address: Vert 42
   zip: 2300
   city: La Chaux-de-Fonds
@@ -58,7 +58,7 @@ inactive:
   emails: 'inactive@doe.ch'
   phones: '076 449 59 37'
   first_name: John
-  last_name: Doe
+  last_name: Inactive
   address: Chemin du Bois 42
   zip: 2001
   city: Neuchâtel

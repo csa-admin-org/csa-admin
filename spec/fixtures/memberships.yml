@@ -9,6 +9,13 @@ bob_abondance:
   member: bob
   billing_member: john
   basket: eveil
-  distribution: velo
+  distribution: vélo
   started_on: <%= Date.new(2015).beginning_of_year %>
   ended_on: <%= Date.new(2015).end_of_year %>
+
+inactive_abondance:
+  member: inactive
+  basket: eveil
+  distribution: vélo
+  started_on: <%= Date.new(2015,2) %>
+  ended_on: <%= Date.new(2015,3) %>

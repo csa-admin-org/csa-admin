@@ -209,7 +209,7 @@ fr:
         ended_on: Fin
         annual_price: Prix/année (40 paniers)
         annual_halfday_works: ½ Journées de travail/année
-        basket_price: Prix/panier (inclus distribution)
+        total_basket_price: Prix/panier (inclus distribution)
 
   member:
     status:
