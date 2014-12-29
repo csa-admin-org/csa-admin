@@ -77,7 +77,7 @@ ActiveAdmin.register Member do
       f.input :zip
       f.input :emails, hint: "séparés par ', '"
       f.input :phones, hint: "séparés par ', '"
-      f.input :gribouille, label: 'Gribouille (toujours envoyée aux membres actifs'
+      f.input :gribouille, label: 'Gribouille (toujours envoyée aux membres actifs)'
       f.input :billing_interval,
         collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
