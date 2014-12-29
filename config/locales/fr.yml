@@ -68,18 +68,17 @@ fr:
         validate: "Valider"
         reject: "Refuser"
     scopes:
-        waiting_validation: "A valider"
-        coming: "A venir"
-        validated: "Validées"
-        rejected: "Refusées"
-        waiting_list: "Liste d'attente"
-        active: "Actif"
-        support: "Membre soutien"
-        inactive: "Ancien"
-        with_name: "Prénom/Nom de famille"
-        all: Tous
-        current: En cours
-        old: Ancien
+        waiting_validation: "à valider"
+        coming: "à venir"
+        validated: "validés"
+        rejected: "refusés"
+        waiting_list: "en attente"
+        active: "actifs"
+        support: "soutien"
+        inactive: "inactifs"
+        all: tous
+        current: en cours
+        old: passés
     comments:
       body: "Corps"
       author: "Auteur"
@@ -188,14 +187,15 @@ fr:
         food_note: Note alimentaire
         waiting_list: Sur liste d'attente
         basket: Panier
-        current_basket: Panier
-        current_distribution: Distribution
         current_membership: Abonnement
         with_name: Nom
+        with_address: Adresse
         with_current_basket: Panier
         with_current_distribution: Distribution
         created_at: Créé le
-        waiting_from: En liste d'attente depuis
+        waiting_from: Sur liste d'attente depuis
+        waiting_basket: Panier (en attente)
+        waiting_distribution: Distribution (en attente)
         validated_at: Validé le
         validator: Validé par
       membership:
@@ -214,10 +214,10 @@ fr:
   member:
     status:
       waiting_validation: A valider
-      waiting_list: Liste d'attente
+      waiting_list: En attente
       active: Actif
       support: Soutien
-      inactive: Ancien
+      inactive: Inactif
     billing_interval:
       annual: annuel
       quarterly: trimestriel

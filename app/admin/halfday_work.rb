@@ -6,7 +6,9 @@ ActiveAdmin.register HalfdayWork do
   scope :validated
   scope :rejected
 
-  index do
+  index_title = -> { "½ Journées de travail (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
+
+  index title: index_title do
     selectable_column
     column :date
     column :member

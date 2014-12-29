@@ -1,6 +1,6 @@
 class Membership < ActiveRecord::Base
-  belongs_to :member
-  belongs_to :billing_member, class_name: 'Member'
+  belongs_to :member, validate: true
+  belongs_to :billing_member, class_name: 'Member', validate: true
   belongs_to :basket
   belongs_to :distribution
 
@@ -36,10 +36,6 @@ class Membership < ActiveRecord::Base
 
   def can_update?
     current?
-  end
-
-  def billable?
-    member.status.in? %i[active support inactive]
   end
 
   def annual_price

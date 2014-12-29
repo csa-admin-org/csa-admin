@@ -20,22 +20,6 @@ describe Member do
     end
   end
 
-  describe '#membership=' do
-    it 'creates a memberships alongs' do
-      member = Member.create!(
-        first_name: 'John',
-        last_name: 'Doe',
-        billing_interval: 'annual',
-        support_member: false,
-        membership: {
-          basket_id: Basket.first.id,
-          distribution_id: Distribution.first.id
-        }
-      )
-      expect(member.current_membership).to be_present
-    end
-  end
-
   describe '#waiting_list=' do
     it 'sets waiting_from when "1"' do
       member = Member.create!(
@@ -49,9 +33,13 @@ describe Member do
     end
 
     it 'sets waiting_from when "0"' do
-      member = members(:john)
-      member.update(waiting_list: '1')
+      member = members(:waiting_list)
       expect{ member.update!(waiting_list: '0') }.to change(member, :waiting_from).to(nil)
+    end
+
+    it 'creates a memberships alongs' do
+      member = members(:waiting_list)
+      expect{ member.update!(waiting_list: '0') }.to change(Membership, :count).by(1)
     end
   end
 

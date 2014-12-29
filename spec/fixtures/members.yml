@@ -49,8 +49,13 @@ waiting_list:
   first_name: John
   last_name: Doe
   token: foo
+  address: Vert 42
+  zip: 2300
+  city: La Chaux-de-Fonds
   support_member: false
   billing_interval: annual
+  waiting_basket: abondance
+  waiting_distribution: main
   validated_at: <%= Date.yesterday %>
   waiting_from: <%= Date.yesterday %>
 

@@ -8,8 +8,9 @@ ActiveAdmin.register Member do
   scope :support
   scope :inactive
 
+  index_title = -> { "Membres (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
 
-  index do
+  index title: index_title do
     selectable_column
     if params[:scope] == 'waiting_list'
       @waiting_froms ||= Member.waiting_list.order(:waiting_from).pluck(:waiting_from)
@@ -19,7 +20,12 @@ ActiveAdmin.register Member do
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : nil }
     column :current_membership do |member|
       if member.current_membership
-        link_to "#{member.current_basket.name} (#{member.current_distribution.name})", member.current_membership
+        link_to "#{member.basket.name} / #{member.distribution.name}", member.current_membership
+      else
+        a = []
+        a << link_to(member.waiting_basket.name, member.waiting_basket) if member.waiting_basket
+        a << link_to(member.waiting_distribution.name, member.waiting_distribution) if member.waiting_distribution
+        a.join(' / ').html_safe
       end
     end
     column :status, ->(member) { I18n.t("member.status.#{member.status}") }
@@ -37,7 +43,7 @@ ActiveAdmin.register Member do
       row(:gribouille) { member.gribouille? ? 'envoyée' : 'non-envoyée' }
       row :current_membership do
         if member.current_membership
-          link_to "#{member.current_basket.name} (#{member.current_distribution.name})", member.current_membership
+          link_to "#{member.basket.name} / #{member.distribution.name}", member.current_membership
         end
       end
       row(:status) { I18n.t("member.status.#{member.status}") }
@@ -45,13 +51,17 @@ ActiveAdmin.register Member do
       row :note
       row :created_at
       row :waiting_from
+      if member.status.in? %i[waiting_validation waiting_list]
+        row :waiting_basket
+        row :waiting_distribution
+      end
       row :validated_at
       row :validator
     end
   end
 
   filter :with_name, as: :string
-  filter :address
+  filter :with_address, as: :string
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
@@ -70,30 +80,16 @@ ActiveAdmin.register Member do
       f.input :gribouille, hint: 'toujours vrai pour les membres actifs'
     end
     f.inputs 'Abonnement' do
-      if f.object.new_record?
-        f.input :support_member
-        f.semantic_fields_for :membership do |m_f|
-          m_f.input :basket_id, label: 'Panier',
-            collection: options_for_select(
-              Basket.all.map { |b| [b.display_name, b.id] },
-              f.object.memberships.first.try(:basket_id)
-            )
-          m_f.input :distribution_id,
-            collection: options_for_select(
-              Distribution.all.map { |d| [d.display_name, d.id] },
-              f.object.memberships.first.try(:distribution_id)
-            )
+      f.input :support_member
+      f.input :billing_interval,
+        collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
+        include_blank: false
+      if !member.persisted? || member.waiting_from_changed? || member.status.in?(%i[waiting_validation waiting_list])
+        f.inputs "En attente" do
+          f.input :waiting_list, as: :boolean
+          f.input :waiting_basket
+          f.input :waiting_distribution
         end
-        f.input :billing_interval,
-          collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
-          include_blank: false
-        f.input :waiting_list, as: :boolean
-      else
-        f.input :support_member
-        f.input :billing_interval,
-          collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
-          include_blank: false
-        f.input :waiting_list, as: :boolean
       end
     end
     f.inputs 'Notes' do
@@ -103,13 +99,12 @@ ActiveAdmin.register Member do
     f.actions
   end
 
-  permit_params do
-    %i[
-      first_name last_name address city zip emails phones gribouille
-      support_member billing_interval waiting_list
-      food_note note
-    ].concat([membership: %i[basket_id distribution_id]])
-  end
+  permit_params %i[
+    first_name last_name address city zip emails phones gribouille
+    support_member billing_interval waiting_list
+    waiting_basket_id waiting_distribution_id
+    food_note note
+  ]
 
   batch_action :validate do |selection|
     Member.find(selection).each do |member|

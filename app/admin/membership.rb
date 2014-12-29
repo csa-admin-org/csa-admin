@@ -5,7 +5,9 @@ ActiveAdmin.register Membership do
   scope :current, default: true
   scope :old
 
-  index do
+  index_title = -> { "Abonnements (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
+
+  index title: index_title do
     column :member do |membership|
       if membership.billing_member_id
         "#{link_to membership.member.name, membership.member} (payé par #{link_to membership.billing_member.name, membership.billing_member})".html_safe
@@ -44,12 +46,10 @@ ActiveAdmin.register Membership do
 
   form do |f|
     f.inputs 'Membre' do
-      member_ids = Membership.pluck(:member_id)
-      member_ids.delete(f.object.member_id)
       f.input :member,
-        collection: Member.where.not(id: member_ids).order(:last_name).map { |d| [d.name, d.id] }, include_blank: false
+        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] }, include_blank: false
       f.input :billing_member,
-        collection: Member.order(:last_name).map { |d| [d.name, d.id] },
+        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
         hint: 'laisser blanc si identique (membre)'
     end
     f.inputs 'Détails' do

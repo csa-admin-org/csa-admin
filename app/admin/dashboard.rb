@@ -11,9 +11,10 @@ ActiveAdmin.register_page 'Dashboard' do
             column 'Status', ->(status) { link_to I18n.t("member.status.#{status}"), members_path(scope: status) }
             column 'Membres', ->(status) { Member.send(status).count }
             column 'Détails' do |status|
-              if status.in?(%i[waiting_list active])
+              if status.in?(%i[waiting_validation waiting_list active])
+                members = Member.send(status).all.to_a
                 Basket.all.map { |basket|
-                  "#{basket.name}: #{Member.send(status).with_current_basket(basket).count}"
+                  "#{basket.name}: #{members.count{ |m| m.basket == basket }}"
                 }.join(' / ')
               end
             end
