@@ -1,4 +1,5 @@
 - Detailed delivery page with food note
+- Import new inscriptions (with email notif)
 - [x] Billing csv for Eric
 - [x] Import support members
 - [x] Gribouille-only members
@@ -10,5 +11,4 @@ To discuss
 
 Later
 - Improve membership edit form
-- Import new inscriptions
 - Absence
