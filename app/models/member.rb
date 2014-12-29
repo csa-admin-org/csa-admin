@@ -42,11 +42,11 @@ class Member < ActiveRecord::Base
   }
   scope :with_current_basket, ->(basket_id) {
     member_ids = Membership.where(basket_id: basket_id).pluck(:member_id)
-    where("members.id IN (?) OR waiting_basket_id = ?", member_ids, basket_id)
+    where('members.id IN (?) OR waiting_basket_id = ?', member_ids, basket_id)
   }
   scope :with_current_distribution, ->(distribution_id) {
     member_ids = Membership.where(distribution_id: distribution_id).pluck(:member_id)
-    where("members.id IN (?) OR waiting_distribution_id = ?", member_ids, distribution_id)
+    where('members.id IN (?) OR waiting_distribution_id = ?', member_ids, distribution_id)
   }
 
   validates :billing_interval,
@@ -56,12 +56,13 @@ class Member < ActiveRecord::Base
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }
   validates :address, :city, :zip, presence: true,
-    if: ->(member) { member.status.in?(%i[active support inactive]) }
+    if: ->(member) { member.status.in?(%i[active support]) || (member.status == :inactive && !member.gribouille) }
   validates :waiting_basket, :waiting_distribution, presence: true,
     if: ->(member) { member.waiting_from_changed? && member.waiting_from.nil? }
   validate :support_member_not_waiting
   validate :support_member_without_current_membership
-  # validate :active_with_current_membership
+
+  before_save :build_membership
 
   def self.gribouille_emails
     all.includes(:current_membership).select(&:gribouille).map(&:emails_array).flatten.uniq.compact
@@ -104,15 +105,6 @@ class Member < ActiveRecord::Base
 
   def waiting_list=(bool)
     self.waiting_from = bool == '1' ? Time.now : nil
-    if waiting_from_changed? && waiting_from.nil? && waiting_basket_id? && waiting_distribution_id?
-      memberships.build(
-        basket_id: waiting_basket_id,
-        distribution_id: waiting_distribution_id,
-        member: self,
-        started_on: Date.today_2015,
-        ended_on: Date.today_2015.end_of_year
-      )
-    end
   end
 
   def validate!(validator)
@@ -160,6 +152,19 @@ class Member < ActiveRecord::Base
 
   private
 
+  def build_membership
+    if (new_record? || waiting_from_changed?) &&
+        waiting_from.nil? && waiting_basket_id? && waiting_distribution_id?
+      self.memberships.build(
+        basket_id: waiting_basket_id,
+        distribution_id: waiting_distribution_id,
+        member: self,
+        started_on: Date.today_2015,
+        ended_on: Date.today_2015.end_of_year
+      )
+    end
+  end
+
   def string_to_a(str)
     str.to_s.split(',').each(&:strip!)
   end
@@ -173,12 +178,6 @@ class Member < ActiveRecord::Base
   def support_member_without_current_membership
     if support_member && memberships.any?(&:current?)
       errors.add(:support_member, 'invalide avec un abonnement')
-    end
-  end
-
-  def active_with_current_membership
-    if waiting_from_changed? && waiting_from.nil? && !support_member && !current_membership
-      errors.add(:waiting_list, "ne peut être décocher sans abonnement")
     end
   end
 end

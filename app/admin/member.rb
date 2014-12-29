@@ -77,24 +77,22 @@ ActiveAdmin.register Member do
       f.input :zip
       f.input :emails, hint: "séparés par ', '"
       f.input :phones, hint: "séparés par ', '"
-      f.input :gribouille, hint: 'toujours vrai pour les membres actifs'
-    end
-    f.inputs 'Abonnement' do
-      f.input :support_member
+      f.input :gribouille, label: 'Gribouille (toujours envoyée aux membres actifs'
       f.input :billing_interval,
         collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
-      if !member.persisted? || member.waiting_from_changed? || member.status.in?(%i[waiting_validation waiting_list])
-        f.inputs "En attente" do
-          f.input :waiting_list, as: :boolean
-          f.input :waiting_basket
-          f.input :waiting_distribution
-        end
-      end
+      f.input :support_member
     end
     f.inputs 'Notes' do
       f.input :food_note, input_html: { rows: 3 }
       f.input :note, input_html: { rows: 3 }
+    end
+    if member.new_record? || member.waiting_from_changed? || member.status.in?(%i[waiting_validation waiting_list])
+      f.inputs "Abonnement" do
+        f.input :waiting_list, as: :boolean
+        f.input :waiting_basket, label: 'Panier'
+        f.input :waiting_distribution, label: 'Distribution'
+      end
     end
     f.actions
   end
