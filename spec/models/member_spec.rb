@@ -12,9 +12,11 @@ describe Member do
     let!(:gribouille_member) { create(:member, :inactive, gribouille: true) }
 
     it 'returns all gribouille emails' do
-      expect(Member.gribouille_emails)
-        .to eq waiting_member.emails_array + trial_member.emails_array +
-          active_member.emails_array + support_member.emails_array + gribouille_member.emails_array
+      expect(Member.gribouille_emails).to eq(
+        waiting_member.emails_array + trial_member.emails_array +
+        active_member.emails_array + support_member.emails_array +
+        gribouille_member.emails_array
+      )
     end
   end
 
@@ -25,6 +27,16 @@ describe Member do
         member.update(support_member: true)
         expect(member.errors[:support_member]).to be_present
       end
+    end
+
+    it 'does not require address, city, zip when inactive && gribouille' do
+      member = create(:member, :inactive,
+        gribouille: true,
+        address: nil,
+        city: nil,
+        zip: nil
+      )
+      expect(member).to be_valid
     end
   end
 

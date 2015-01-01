@@ -63,16 +63,22 @@ class Member < ActiveRecord::Base
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }
   validates :address, :city, :zip, presence: true,
-    if: ->(member) { !member.status.in?(%i[pending waiting]) || (member.status == :inactive && !member.gribouille) }
+    if: ->(member) {
+      member.status.in?(%i[trial active support]) ||
+        (member.status == :inactive && member.gribouille == false)
+    }
   validates :waiting_basket, :waiting_distribution, presence: true,
-    if: ->(member) { member.waiting_started_at_changed? && member.waiting_started_at.nil? }
+    if: ->(member) {
+      member.waiting_started_at_changed? && member.waiting_started_at.nil?
+    }
   validate :support_member_not_waiting
   validate :support_member_without_current_membership
 
   before_save :build_membership
 
   def self.gribouille_emails
-    all.includes(:current_membership).select(&:gribouille?).map(&:emails_array).flatten.uniq.compact
+    all.includes(:current_membership).select(&:gribouille?)
+      .map(&:emails_array).flatten.uniq.compact
   end
 
   def name
