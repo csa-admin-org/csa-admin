@@ -81,9 +81,9 @@ class Billing
       str << ", #{membership.member.name}" if membership.billing_member_id?
       str << "): #{membership.deliveries_count} * "
       if membership.halfday_works_basket_price > 0 || membership.distribution_basket_price > 0
-        str << "(#{membership.basket_price}"
-        str << " + #{membership.halfday_works_basket_price}" if membership.halfday_works_basket_price > 0
-        str << " + #{membership.distribution_basket_price}" if membership.distribution_basket_price > 0
+        str << "(#{membership.basket_price} (panier)"
+        str << " + #{membership.halfday_works_basket_price} (½ journées de travail non-effectuées)" if membership.halfday_works_basket_price > 0
+        str << " + #{membership.distribution_basket_price} (distribution)" if membership.distribution_basket_price > 0
         str << ')'
       else
         str << membership.basket_price.to_s
