@@ -51,15 +51,16 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_basket_price
-    distribution.basket_price
+    read_attribute(:distribution_basket_price) || distribution.basket_price
+  end
+
+  def halfday_works_basket_price
+    diff = basket.annual_halfday_works - annual_halfday_works
+    diff > 0 ? diff * HalfdayWork::PRICE/40.0 : 0
   end
 
   def total_basket_price
-    if annual_price.to_i > 0
-      basket_price + distribution_basket_price
-    else
-      0
-    end
+    basket_price + distribution_basket_price + halfday_works_basket_price
   end
 
   def deliveries_received_count

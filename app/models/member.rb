@@ -111,6 +111,12 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def display_status
+    I18n.t("member.status.#{status}").tap do |status|
+      status << " (panier salaire)" if salary_basket?
+    end
+  end
+
   def support_member=(bool)
     self.billing_interval = 'annual' if bool || bool == '1'
     write_attribute(:support_member, bool)
@@ -177,6 +183,10 @@ class Member < ActiveRecord::Base
   def deliveries_received_count_since_first_membership
     first_membership_started_on = memberships.pluck(:started_on).sort.first
     Delivery.between(first_membership_started_on..Date.today).count
+  end
+
+  def billable?
+    status == :active
   end
 
   private

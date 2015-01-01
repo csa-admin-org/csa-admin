@@ -200,6 +200,7 @@ fr:
         validated_at: Validé le
         validator: Validé par
         deliveries_received_count_since_first_membership: Paniers en essai reçus
+        salary_basket: Panier(s) salaire
       membership:
         member_id: Membre
         member: Membre
@@ -209,9 +210,12 @@ fr:
         billing_member_id: Membre (Facture)
         started_on: Début
         ended_on: Fin
-        annual_price: Prix/année (40 paniers)
+        annual_price: Prix panniers/année (40 paniers)
+        basket_price: Prix/panier
         annual_halfday_works: ½ Journées de travail/année
-        total_basket_price: Prix/panier (inclus distribution)
+        distribution_basket_price: Prix distribution/panier
+        halfday_works_basket_price: Prix ½ Journées de travail non-effectuées/panier
+        total_basket_price: Prix final/panier
 
   member:
     status:

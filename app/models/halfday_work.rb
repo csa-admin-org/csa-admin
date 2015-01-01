@@ -1,4 +1,5 @@
 class HalfdayWork < ActiveRecord::Base
+  PRICE = 60
   belongs_to :member
   belongs_to :validator, class_name: 'Admin'
 

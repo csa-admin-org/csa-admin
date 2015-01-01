@@ -50,4 +50,28 @@ describe Membership do
       it { is_expected.to eq membership.member }
     end
   end
+
+  describe '#halfday_works_basket_price' do
+    subject { membership.halfday_works_basket_price }
+
+    context 'when annual_halfday_works is nil' do
+      let(:membership) { create(:membership, annual_halfday_works: nil) }
+
+      it { is_expected.to eq 0 }
+    end
+
+    context 'when annual_halfday_works is smaller than basket' do
+      let(:basket) { create(:basket, annual_halfday_works: 3) }
+      let(:membership) { create(:membership, basket: basket, annual_halfday_works: 1) }
+
+      it { is_expected.to eq(2 * 60 / 40.0) }
+    end
+
+    context 'when annual_halfday_works is smaller than basket' do
+      let(:basket) { create(:basket, annual_halfday_works: 2) }
+      let(:membership) { create(:membership, basket: basket, annual_halfday_works: 4) }
+
+      it { is_expected.to eq 0 }
+    end
+  end
 end

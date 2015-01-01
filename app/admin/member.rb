@@ -33,7 +33,7 @@ ActiveAdmin.register Member do
         a.join(' / ').html_safe
       end
     end
-    column :status, ->(member) { I18n.t("member.status.#{member.status}") }
+    column :status, ->(member) { member.display_status }
     if params[:scope] == 'trial'
       column 'Essai(s)', ->(member) {
         member.deliveries_received_count_since_first_membership
@@ -56,7 +56,7 @@ ActiveAdmin.register Member do
           link_to "#{member.basket.name} / #{member.distribution.name}", member.current_membership
         end
       end
-      row(:status) { I18n.t("member.status.#{member.status}") }
+      row(:status) { member.display_status }
       if member.status == :trial
         row :deliveries_received_count_since_first_membership
       end
@@ -97,6 +97,7 @@ ActiveAdmin.register Member do
         collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
       f.input :support_member
+      f.input :salary_basket, hint: 'Abonnement(s) gratuit(s)'
     end
     f.inputs 'Notes' do
       f.input :food_note, input_html: { rows: 3 }
@@ -114,7 +115,7 @@ ActiveAdmin.register Member do
 
   permit_params %i[
     first_name last_name address city zip emails phones gribouille
-    support_member billing_interval waiting
+    support_member salary_basket billing_interval waiting
     waiting_basket_id waiting_distribution_id
     food_note note
   ]

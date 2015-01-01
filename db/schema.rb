@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141230190902) do
+ActiveRecord::Schema.define(version: 20150101193013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,14 +100,14 @@ ActiveRecord::Schema.define(version: 20141230190902) do
     t.string   "address"
     t.string   "zip"
     t.string   "city"
-    t.string   "token",                   null: false
+    t.string   "token",                                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",              null: false
-    t.string   "last_name",               null: false
-    t.boolean  "support_member",          null: false
+    t.string   "first_name",                              null: false
+    t.string   "last_name",                               null: false
+    t.boolean  "support_member",                          null: false
     t.datetime "waiting_started_at"
-    t.string   "billing_interval",        null: false
+    t.string   "billing_interval",                        null: false
     t.text     "food_note"
     t.text     "note"
     t.integer  "validator_id"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20141230190902) do
     t.boolean  "gribouille"
     t.integer  "waiting_basket_id"
     t.integer  "waiting_distribution_id"
+    t.boolean  "salary_basket",           default: false
   end
 
   add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
@@ -122,16 +123,18 @@ ActiveRecord::Schema.define(version: 20141230190902) do
   add_index "members", ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree
 
   create_table "memberships", force: true do |t|
-    t.integer  "basket_id",                                    null: false
-    t.integer  "distribution_id",                              null: false
-    t.integer  "member_id",                                    null: false
+    t.integer  "basket_id",                                         null: false
+    t.integer  "distribution_id",                                   null: false
+    t.integer  "member_id",                                         null: false
     t.integer  "billing_member_id"
-    t.decimal  "annual_price",         precision: 8, scale: 2
+    t.decimal  "annual_price",              precision: 8, scale: 2
     t.integer  "annual_halfday_works"
-    t.date     "started_on",                                   null: false
-    t.date     "ended_on",                                     null: false
+    t.date     "started_on",                                        null: false
+    t.date     "ended_on",                                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "distribution_basket_price"
+    t.text     "note"
   end
 
   add_index "memberships", ["basket_id"], name: "index_memberships_on_basket_id", using: :btree

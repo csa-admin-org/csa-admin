@@ -36,11 +36,19 @@ ActiveAdmin.register Membership do
       row :billing_member
       row :basket
       row :distribution
-      row(:annual_price) { number_to_currency(membership.annual_price) }
-      row(:total_basket_price) { number_to_currency(membership.total_basket_price) }
-      row(:annual_halfday_works) { membership.annual_halfday_works }
+      if membership.billing_member.salary_basket?
+        row(:total_basket_price) { 'Gratuit, panier salaire'}
+      else
+        row(:annual_halfday_works) { membership.annual_halfday_works }
+        row(:annual_price) { number_to_currency(membership.annual_price) }
+        row(:basket_price) { number_to_currency(membership.basket_price) }
+        row(:distribution_basket_price) { number_to_currency(membership.distribution_basket_price) }
+        row(:halfday_works_basket_price) { number_to_currency(membership.halfday_works_basket_price) }
+        row(:total_basket_price) { number_to_currency(membership.total_basket_price) }
+      end
       row(:started_on) { l membership.started_on }
       row(:ended_on) { l membership.ended_on }
+      row :note
     end
   end
 
@@ -56,6 +64,7 @@ ActiveAdmin.register Membership do
       f.input :basket, include_blank: false
       f.input :distribution, include_blank: false
       f.input :annual_price, hint: 'laisser blanc si identique (panier)'
+      f.input :distribution_basket_price, hint: 'laisser blanc si identique (distribution)'
       f.input :annual_halfday_works, hint: 'laisser blanc si identique (panier)'
     end
     f.inputs 'Dates' do
@@ -63,6 +72,10 @@ ActiveAdmin.register Membership do
       f.input :started_on, start_year: years_range.first, include_blank: false
       f.input :ended_on, start_year: years_range.first, end_year: years_range.last, include_blank: false
     end
+    f.inputs 'Note' do
+      f.input :note, input_html: { rows: 5 }
+    end
+
     f.actions
   end
 

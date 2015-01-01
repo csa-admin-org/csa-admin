@@ -57,7 +57,7 @@ class Billing
     def self.all
       year = Date.today.year
       memberships = ::Membership.during_year(year).includes(:member).map do |membership|
-        next if membership.member.trial?
+        next if membership.member.trial? || membership.billing_member.salary_basket?
         new(membership)
       end.compact
       memberships.reject { |m| m.price == 0 }
@@ -80,8 +80,11 @@ class Billing
       str << " (#{I18n.l membership.started_on}-#{I18n.l membership.ended_on}"
       str << ", #{membership.member.name}" if membership.billing_member_id?
       str << "): #{membership.deliveries_count} * "
-      if membership.distribution_basket_price > 0
-        str << "(#{membership.basket_price} + #{membership.distribution_basket_price})"
+      if membership.halfday_works_basket_price > 0 || membership.distribution_basket_price > 0
+        str << "(#{membership.basket_price}"
+        str << " + #{membership.halfday_works_basket_price}" if membership.halfday_works_basket_price > 0
+        str << " + #{membership.distribution_basket_price}" if membership.distribution_basket_price > 0
+        str << ')'
       else
         str << membership.basket_price.to_s
       end
