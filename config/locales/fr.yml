@@ -221,7 +221,7 @@ fr:
     status:
       pending: A valider
       waiting: En attente
-      trial: "Actif (Essai)"
+      trial: "Période d'essai"
       active: Actif
       support: Soutien
       inactive: Inactif
