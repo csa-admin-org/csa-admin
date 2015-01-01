@@ -106,6 +106,13 @@ GEM
       activesupport (>= 3.0.4)
     execjs (2.2.2)
     extlib (0.9.16)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
+    faker (1.4.3)
+      i18n (~> 0.5)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.6)
@@ -343,6 +350,8 @@ DEPENDENCIES
   devise-i18n
   dotenv-rails
   exception_notification
+  factory_girl_rails
+  faker
   font-awesome-sass
   foreigner
   google_drive

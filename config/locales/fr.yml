@@ -68,11 +68,12 @@ fr:
         validate: "Valider"
         reject: "Refuser"
     scopes:
-        waiting_validation: "à valider"
+        pending: "à valider"
         coming: "à venir"
         validated: "validés"
         rejected: "refusés"
-        waiting_list: "en attente"
+        waiting: "en attente"
+        trial: "période d'essai"
         active: "actifs"
         support: "soutien"
         inactive: "inactifs"
@@ -185,7 +186,7 @@ fr:
         support_member: Membre de soutien
         billing_interval: Interval de paiement
         food_note: Note alimentaire
-        waiting_list: Sur liste d'attente
+        waiting: Sur liste d'attente
         basket: Panier
         current_membership: Abonnement
         with_name: Nom
@@ -193,11 +194,12 @@ fr:
         with_current_basket: Panier
         with_current_distribution: Distribution
         created_at: Créé le
-        waiting_from: Sur liste d'attente depuis
+        waiting_started_at: Sur liste d'attente depuis
         waiting_basket: Panier (en attente)
         waiting_distribution: Distribution (en attente)
         validated_at: Validé le
         validator: Validé par
+        deliveries_received_count_since_first_membership: Paniers en essai reçus
       membership:
         member_id: Membre
         member: Membre
@@ -213,8 +215,9 @@ fr:
 
   member:
     status:
-      waiting_validation: A valider
-      waiting_list: En attente
+      pending: A valider
+      waiting: En attente
+      trial: "Actif (Essai)"
       active: Actif
       support: Soutien
       inactive: Inactif
@@ -224,7 +227,7 @@ fr:
 
   halfday_work:
     status:
-      waiting_validation: "A valider"
+      pending: "A valider"
       coming: "A venir"
       validated: Validée
       rejected: Refusée

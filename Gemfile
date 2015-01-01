@@ -60,4 +60,6 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'capybara'
   gem 'capybara-email'
+  gem 'factory_girl_rails'
+  gem 'faker'
 end

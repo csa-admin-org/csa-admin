@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 feature 'members page' do
-  fixtures :members, :halfday_works
-  let(:member) { members(:john) }
+  # fixtures :members, :halfday_works
+  let!(:member) { create(:member) }
+  let!(:halfday_work) { create(:halfday_work, member: member) }
+
   before { Capybara.app_host = 'http://membres.example.com' }
 
   context 'existing member token' do
@@ -18,7 +20,7 @@ feature 'members page' do
     end
 
     scenario 'remove halfday work' do
-      date = halfday_works(:new_john_am).date
+      date = halfday_work.date
       date_text = I18n.l(date, format: :long)
 
       expect(page).to have_content date_text

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'Halfday Works calendar feed' do
-  fixtures :halfday_works
-
   before do
     reset!
     integration_session.host = 'admin.example.com'
@@ -23,12 +21,14 @@ describe 'Halfday Works calendar feed' do
   end
 
   context 'with a good auth token' do
+    let!(:halfday_work) { create(:halfday_work, participants_count: 3) }
+
     it 'responds 200' do
-      get '/halfday_works/calendar.ics', auth_token: ENV['ICALENDAR_AUTH_TOKEN'], subdomain: 'admin'
+      get '/halfday_works/calendar.ics',
+        auth_token: ENV['ICALENDAR_AUTH_TOKEN'],
+        subdomain: 'admin'
       expect(response.status).to eq 200
-      expect(response.body).to include 'John Doe'
-      expect(response.body).to include 'John Doe (2)'
+      expect(response.body).to include "#{halfday_work.member.name} (3)"
     end
   end
-
 end

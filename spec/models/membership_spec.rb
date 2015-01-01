@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 describe Membership do
-  fixtures :memberships, :members, :baskets
-
   describe 'validations' do
-    let(:membership) { memberships(:john_eveil) }
+    let(:membership) { create(:membership) }
 
     it 'allows only one current memberships per member' do
       new_membership = Membership.new(membership.attributes.except('id'))
@@ -15,7 +13,7 @@ describe Membership do
 
     it 'allows valid attributes' do
       new_membership = Membership.new(membership.attributes.except('id'))
-      new_membership.member = members(:nick)
+      new_membership.member = create(:member)
       expect(new_membership.errors).to be_empty
     end
 
@@ -37,20 +35,19 @@ describe Membership do
   end
 
   describe '#billing_member' do
-    subject { membership.billing_member}
+    subject { membership.billing_member }
 
     context 'when explicitly set' do
-      let(:membership) { memberships(:bob_abondance) }
-      let(:member) { members(:john) }
+      let(:member) { create(:member) }
+      let(:membership) { create(:membership, billing_member: member) }
 
       it { is_expected.to eq member }
     end
 
     context 'when not set' do
-      let(:membership) { memberships(:john_eveil) }
-      let(:member) { members(:john) }
+      let(:membership) { create(:membership) }
 
-      it { is_expected.to eq member }
+      it { is_expected.to eq membership.member }
     end
   end
 end

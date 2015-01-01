@@ -1,7 +1,7 @@
 ActiveAdmin.register HalfdayWork do
   menu priority: 4
 
-  scope :waiting_validation, default: true
+  scope :pending, default: true
   scope :coming
   scope :validated
   scope :rejected

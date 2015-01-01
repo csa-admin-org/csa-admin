@@ -7,7 +7,7 @@ class BillingsController < ApplicationController
       format.xls do
         send_data(@billing.to_xls,
           type: 'application/excel; charset=utf-8; header=present',
-          filename: "RageDeVert-Facturation-#{Date.today_2015.strftime("%Y%m%d-%Hh%M")}.xls"
+          filename: "RageDeVert-Facturation-#{Date.today.strftime("%Y%m%d-%Hh%M")}.xls"
         )
       end
     end

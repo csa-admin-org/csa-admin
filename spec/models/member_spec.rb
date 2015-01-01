@@ -1,18 +1,26 @@
 require 'rails_helper'
 
 describe Member do
-  fixtures :all
-
   describe '.gribouille_emails' do
-    it 'returns all active emails and gribouille emails' do
+    let!(:pending_member) { create(:member, :pending) }
+    let!(:waiting_member) { create(:member, :waiting) }
+    let!(:trial_member) { create(:member, :trial) }
+    let!(:active_member) { create(:member, :active) }
+    let!(:non_gribouille_member) { create(:member, :active, gribouille: false) }
+    let!(:support_member) { create(:member, :support) }
+    let!(:inactive_member) { create(:member, :inactive) }
+    let!(:gribouille_member) { create(:member, :inactive, gribouille: true) }
+
+    it 'returns all gribouille emails' do
       expect(Member.gribouille_emails)
-        .to eq %w[john2@doe.ch john@doe.ch bob@rickley.ch gribouille@doe.ch]
+        .to eq waiting_member.emails_array + trial_member.emails_array +
+          active_member.emails_array + support_member.emails_array + gribouille_member.emails_array
     end
   end
 
   describe 'validations' do
     describe 'support_member' do
-      let(:member) { members(:john) }
+      let(:member) { create(:member, :active) }
       it 'cannot become support member with current_membership' do
         member.update(support_member: true)
         expect(member.errors[:support_member]).to be_present
@@ -20,115 +28,74 @@ describe Member do
     end
   end
 
-  describe '#waiting_list=' do
-    it 'sets waiting_from when "1"' do
+  describe '#waiting=' do
+    let(:member) { create(:member, :waiting) }
+
+    it 'sets waiting_started_at when "1"' do
       member = Member.create!(
         first_name: 'John',
         last_name: 'Doe',
         billing_interval: 'annual',
         support_member: false,
-        waiting_list: '1',
+        waiting: '1',
       )
-      expect(member.waiting_from).to be_present
+      expect(member.waiting_started_at).to be_present
     end
 
-    it 'sets waiting_from when "0"' do
-      member = members(:waiting_list)
-      expect{ member.update!(waiting_list: '0') }.to change(member, :waiting_from).to(nil)
+    it 'sets waiting_started_at when "0"' do
+      expect{ member.update!(waiting: '0') }
+        .to change(member, :waiting_started_at).to(nil)
     end
 
     it 'creates a memberships alongs' do
-      member = members(:waiting_list)
-      expect{ member.update!(waiting_list: '0') }.to change(Membership, :count).by(1)
+      expect{ member.update!(waiting: '0') }.to change(Membership, :count).by(1)
     end
   end
 
   describe '#support_member=' do
-    let(:member) { members(:nick) }
+    let(:member) { create(:member) }
 
     it 'sets billing_interval to annual' do
       member.billing_interval = 'quarterly'
       member.update(support_member: '1')
-      expect(member.reload.billing_interval).to eq 'annual'
+      expect(member.billing_interval).to eq 'annual'
     end
   end
 
   describe '#current_membership' do
-    subject { members(:john).current_membership }
-    it { is_expected.to eq memberships(:john_eveil) }
-  end
+    subject { create(:member, :active).current_membership }
 
-  describe '.waiting_validation' do
-    subject { Member.waiting_validation }
-    it { is_expected.to eq [members(:waiting_validation)] }
-  end
-
-  describe '.waiting_list' do
-    subject { Member.waiting_list }
-    it { is_expected.to eq [members(:waiting_list)] }
-  end
-
-  describe '.active' do
-    subject { Member.active }
-    it { is_expected.to eq [members(:john), members(:bob)] }
-  end
-
-  describe '.support' do
-    subject { Member.support }
-    it { is_expected.to eq [members(:nick)] }
-  end
-
-  describe '.inactive' do
-    subject { Member.inactive }
-    it { is_expected.to eq [members(:inactive), members(:gribouille)] }
+    it { is_expected.to eq Membership.last }
   end
 
   describe '#status' do
-    subject { member.status }
-
-    context 'when waiting_validation' do
-      let(:member) { members(:waiting_validation) }
-      it { is_expected.to eq :waiting_validation }
-    end
-
-    context 'when waiting_list' do
-      let(:member) { members(:waiting_list) }
-      it { is_expected.to eq :waiting_list }
-    end
-
-    context 'when active' do
-      let(:member) { members(:john) }
-      it { is_expected.to eq :active }
-    end
-
-    context 'when support' do
-      let(:member) { members(:nick) }
-      it { is_expected.to eq :support }
-    end
-
-    context 'when inactive' do
-      let(:member) { members(:inactive) }
-      it { is_expected.to eq :inactive }
+    %i[pending waiting trial active support inactive].each do |status|
+      context "when #{status}" do
+        let(:member) { create(:member, status) }
+        specify { expect(member).to be_valid }
+        specify { expect(member.status).to eq status }
+        specify { expect(described_class.send(status)).to eq [member] }
+      end
     end
   end
 
   describe '#validate!' do
-    let(:member) { members(:waiting_validation) }
-    let(:admin) { Admin.first }
+    let(:member) { create(:member, :pending) }
+    let(:admin) { create(:admin) }
 
     it 'sets validated_at' do
       member.validate!(admin)
-      expect(member.reload.validated_at).to be_present
+      expect(member.validated_at).to be_present
     end
 
     it 'sets validator with admin' do
       member.validate!(admin)
-      expect(member.reload.validator).to eq admin
+      expect(member.validator).to eq admin
     end
 
-    it 'sets status to waiting_list' do
+    it 'sets status to waiting' do
       member.validate!(admin)
-      expect(member.reload.status).to eq :waiting_list
+      expect(member.status).to eq :waiting
     end
   end
 

@@ -13,17 +13,24 @@ class Member < ActiveRecord::Base
 
   accepts_nested_attributes_for :memberships
 
-  scope :waiting_validation, -> { where(validated_at: nil) }
+  scope :pending, -> { where(validated_at: nil) }
   scope :validated, -> { where.not(validated_at: nil) }
-  scope :waiting_list, -> { validated.where.not(waiting_from: nil) }
-  scope :not_waiting, -> { validated.where(waiting_from: nil) }
-  scope :with_current_membership, -> { joins(:current_membership) }
+  scope :waiting, -> { validated.where.not(waiting_started_at: nil) }
+  scope :not_waiting, -> { validated.where(waiting_started_at: nil) }
+  scope :with_current_membership, -> { not_waiting.joins(:current_membership) }
   scope :without_current_membership,
     -> { where.not(id: Member.with_current_membership.pluck(:id)) }
-  scope :valid_for_memberships, -> {
-    validated.not_waiting.where(support_member: false)
+  scope :valid_for_memberships,
+    -> { validated.not_waiting.where(support_member: false) }
+  scope :trial, -> {
+    with_current_membership.
+      where('members.created_at >= ?', Time.utc(2014,11)).
+      where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Date.today)
   }
-  scope :active, -> { not_waiting.with_current_membership }
+  scope :active, -> {
+    with_current_membership.
+      where('members.created_at < ? OR (SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.utc(2014,11), Date.today)
+  }
   scope :support, -> {
     not_waiting
       .without_current_membership
@@ -56,16 +63,16 @@ class Member < ActiveRecord::Base
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }
   validates :address, :city, :zip, presence: true,
-    if: ->(member) { member.status.in?(%i[active support]) || (member.status == :inactive && !member.gribouille) }
+    if: ->(member) { !member.status.in?(%i[pending waiting]) || (member.status == :inactive && !member.gribouille) }
   validates :waiting_basket, :waiting_distribution, presence: true,
-    if: ->(member) { member.waiting_from_changed? && member.waiting_from.nil? }
+    if: ->(member) { member.waiting_started_at_changed? && member.waiting_started_at.nil? }
   validate :support_member_not_waiting
   validate :support_member_without_current_membership
 
   before_save :build_membership
 
   def self.gribouille_emails
-    all.includes(:current_membership).select(&:gribouille).map(&:emails_array).flatten.uniq.compact
+    all.includes(:current_membership).select(&:gribouille?).map(&:emails_array).flatten.uniq.compact
   end
 
   def name
@@ -85,13 +92,13 @@ class Member < ActiveRecord::Base
   end
 
   def status
-    if !validated_at?
-      :waiting_validation
-    elsif waiting_from?
-      :waiting_list
+    if pending?
+      :pending
+    elsif waiting?
+      :waiting
     elsif current_membership
-      :active
-    elsif support_member?
+      trial? ? :trial : :active
+    elsif support?
       :support
     else
       :inactive
@@ -103,27 +110,24 @@ class Member < ActiveRecord::Base
     write_attribute(:support_member, bool)
   end
 
-  def waiting_list=(bool)
-    self.waiting_from = bool == '1' ? Time.now : nil
+  def waiting=(bool)
+    self.waiting_started_at = (bool == '1') ? Time.now : nil
   end
 
   def validate!(validator)
-    return unless status == :waiting_validation
+    return unless status == :pending
     update!(
-      waiting_from: Time.now,
+      waiting_started_at: Time.now,
       validated_at: Time.now,
       validator: validator
     )
   end
 
-  def gribouille=(bool)
-    write_attribute(:gribouille, bool) unless status == :active
+  def gribouille?
+    (status.in?(%i[waiting trial active support]) &&
+      read_attribute(:gribouille) != false) ||
+      read_attribute(:gribouille) == true
   end
-
-  def gribouille
-    status == :active || read_attribute(:gribouille)
-  end
-  alias_method :gribouille?, :gribouille
 
   def emails_array
     string_to_a(emails)
@@ -141,26 +145,45 @@ class Member < ActiveRecord::Base
     token
   end
 
-  def waiting_list
-    waiting_from?
-  end
-  alias_method :waiting_list?, :waiting_list
-
   def can_destroy?
-    status.in? %i[waiting_validation waiting_list]
+    status.in? %i[pending waiting]
+  end
+
+  def pending?
+    !validated_at?
+  end
+
+  def waiting
+    waiting_started_at?
+  end
+  alias_method :waiting?, :waiting
+
+  def support?
+    support_member?
+  end
+
+  def trial?
+    created_at >= Time.utc(2014, 11) && # TODO: remove once 4 deliveries are done.
+      current_membership &&
+      deliveries_received_count_since_first_membership <= 4
+  end
+
+  def deliveries_received_count_since_first_membership
+    first_membership_started_on = memberships.pluck(:started_on).sort.first
+    Delivery.between(first_membership_started_on..Date.today).count
   end
 
   private
 
   def build_membership
-    if (new_record? || waiting_from_changed?) &&
-        waiting_from.nil? && waiting_basket_id? && waiting_distribution_id?
-      self.memberships.build(
+    if (new_record? || waiting_started_at_changed?) &&
+       waiting_started_at.nil? && waiting_basket_id? && waiting_distribution_id?
+      memberships.build(
         basket_id: waiting_basket_id,
         distribution_id: waiting_distribution_id,
         member: self,
-        started_on: Date.today_2015,
-        ended_on: Date.today_2015.end_of_year
+        started_on: Date.today,
+        ended_on: Date.today.end_of_year
       )
     end
   end
@@ -170,7 +193,7 @@ class Member < ActiveRecord::Base
   end
 
   def support_member_not_waiting
-    if support_member && status == :waiting_list
+    if support_member && status == :waiting
       errors.add(:support_member, "ne peut pas être sur liste d'attente")
     end
   end

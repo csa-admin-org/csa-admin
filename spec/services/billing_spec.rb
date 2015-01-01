@@ -1,32 +1,37 @@
 require 'rails_helper'
 
 describe Billing do
-  fixtures :all
-
   describe '.all' do
-    let(:billings) { described_class.all }
+    subject { described_class.all.first }
+    let(:membership) { member.current_membership }
 
-    it 'bills everything' do
-      expect(billings.size).to eq 3
+    context 'when active' do
+      let!(:member) { create(:member, :active) }
+
+      specify { expect(subject.member_name).to eq member.name }
+      specify { expect(subject.price).to eq membership.deliveries_count * membership.basket_price }
     end
 
-    it 'bills billing_member' do
-      billing = billings.first
-      expect(billing.member_name).to eq members(:john).name
-      expect(billing.price).to eq 159.75
-      expect(billing.details).to include('/')
+    context 'when active (and billing_support)' do
+      let!(:member) { create(:member, :active) }
+      before { create(:membership, billing_member: member)}
+
+      specify { expect(subject.member_name).to eq member.name }
+      specify { expect(subject.price).to eq 2 * membership.deliveries_count * membership.basket_price }
     end
 
-    it 'bills inactive' do
-      billing = billings.second
-      expect(billing.member_name).to eq members(:inactive).name
-      expect(billing.price).to eq 30.125
+    context 'when trial' do
+      let!(:member) { create(:member, :trial) }
+
+      specify { expect(subject).to be_nil }
     end
 
-    it 'bills support' do
-      billing = billings.last
-      expect(billing.member_name).to eq members(:nick).name
-      expect(billing.price).to eq 30
+    context 'when support' do
+      let!(:member) { create(:member, :support) }
+
+      specify { expect(subject.member_name).to eq member.name }
+      specify { expect(subject.price).to eq 30 }
+      specify { expect(subject.details).to eq 'Soutien: 30.00 sFr.' }
     end
   end
 end

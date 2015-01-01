@@ -11,8 +11,8 @@ class Membership < ActiveRecord::Base
   validate :only_one_alongs_the_year
 
   scope :old, -> { where('ended_on < ?', Time.now) }
-  scope :current, -> { with_date(Date.today_2015) }
-  scope :with_date,
+  scope :current, -> { including_date(Date.today) }
+  scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :during_year, ->(year) {
     where(
@@ -27,11 +27,11 @@ class Membership < ActiveRecord::Base
   end
 
   def current?
-    started_on <= Date.today_2015 && ended_on >= Date.today_2015
+    started_on <= Date.today && ended_on >= Date.today
   end
 
   def can_destroy?
-    deliveries_done_since(Date.today) == 0
+    deliveries_received_count == 0
   end
 
   def can_update?
@@ -62,8 +62,8 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def deliveries_done_since(date)
-    Delivery.between(started_on..date).count
+  def deliveries_received_count
+    Delivery.between(started_on..Date.today).count
   end
 
   def deliveries_count

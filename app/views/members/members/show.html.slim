@@ -70,7 +70,7 @@ section.past
         tr class="#{halfday_work.rejected? ? 'rejected' : ''}"
           td
             =l halfday_work.date, format: :long
-            - if halfday_work.waiting_validation?
+            - if halfday_work.pending?
               span= ' (en attente de validation)'
             - elsif halfday_work.rejected?
               span= ' (refusé)'

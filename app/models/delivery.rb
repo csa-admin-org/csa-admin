@@ -34,7 +34,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def year_dates
-    today = Date.today_2015
+    today = Date.today
     Rails.cache.fetch "#{today.year}_deliveries_dates" do
       Delivery.between(today.beginning_of_year..today.end_of_year).pluck(:date)
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141229160302) do
+ActiveRecord::Schema.define(version: 20141230190902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,25 +100,26 @@ ActiveRecord::Schema.define(version: 20141229160302) do
     t.string   "address"
     t.string   "zip"
     t.string   "city"
-    t.string   "token",                                   null: false
+    t.string   "token",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",                              null: false
-    t.string   "last_name",                               null: false
-    t.boolean  "support_member",                          null: false
-    t.datetime "waiting_from"
-    t.string   "billing_interval",                        null: false
+    t.string   "first_name",              null: false
+    t.string   "last_name",               null: false
+    t.boolean  "support_member",          null: false
+    t.datetime "waiting_started_at"
+    t.string   "billing_interval",        null: false
     t.text     "food_note"
     t.text     "note"
     t.integer  "validator_id"
     t.datetime "validated_at"
-    t.boolean  "gribouille",              default: false, null: false
+    t.boolean  "gribouille"
     t.integer  "waiting_basket_id"
     t.integer  "waiting_distribution_id"
   end
 
   add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
   add_index "members", ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id", using: :btree
+  add_index "members", ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree
 
   create_table "memberships", force: true do |t|
     t.integer  "basket_id",                                    null: false

@@ -6,12 +6,12 @@ ActiveAdmin.register_page 'Dashboard' do
     columns do
       column do
         panel 'Membres' do
-          statuses = %i[waiting_validation waiting_list active support inactive]
+          statuses = %i[pending waiting trial active support inactive]
           table_for statuses do
             column 'Status', ->(status) { link_to I18n.t("member.status.#{status}"), members_path(scope: status) }
             column 'Membres', ->(status) { Member.send(status).count }
             column 'Détails' do |status|
-              if status.in?(%i[waiting_validation waiting_list active])
+              if status.in?(%i[pending waiting trial active])
                 members = Member.send(status).all.to_a
                 Basket.all.map { |basket|
                   "#{basket.name}: #{members.count{ |m| m.basket == basket }}"
@@ -20,7 +20,7 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
-        panel "Facturation #{Date.today_2015.year} (prévision)" do
+        panel "Facturation #{Date.today.year} (prévision)" do
           types = %w[Eveil Abondance Soutien]
           table_for types do
             column('Type') { |type| type }
@@ -41,10 +41,10 @@ ActiveAdmin.register_page 'Dashboard' do
         end
       end
       column do
-        members = Member.active.merge(Membership.with_date(next_delivery_date)).includes(:current_membership).to_a
+        members = Member.active.merge(Membership.including_date(next_delivery_date)).includes(:current_membership).to_a
         panel "Prochaine livraison: #{ l next_delivery_date, format: :long } (#{members.size} paniers)" do
-          table_for Distribution.joins(:memberships).merge(Membership.with_date(next_delivery_date)).distinct.order(:id).all do |distribution|
-            column 'Lieu', ->(distribution) { "#{distribution.city} (#{distribution.name})" }
+          table_for Distribution.joins(:memberships).merge(Membership.including_date(next_delivery_date)).distinct.order(:id).all do |distribution|
+            column 'Lieu', ->(distribution) { distribution.display_name }
             column 'Paniers' do |distribution|
               members.count { |m| m.current_membership.distribution_id == distribution.id }
             end

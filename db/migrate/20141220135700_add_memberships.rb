@@ -11,7 +11,7 @@ class AddMemberships < ActiveRecord::Migration
     change_column :members, :phones, :string
 
     add_column :members, :support_member, :boolean, null: false
-    add_column :members, :waiting_from, :datetime
+    add_column :members, :waiting_started_at, :datetime
     add_column :members, :billing_interval, :string, null: false
     add_column :members, :food_note, :text
     add_column :members, :note, :text

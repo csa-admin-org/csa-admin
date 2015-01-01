@@ -2,8 +2,9 @@ ActiveAdmin.register Member do
   menu priority: 2
 
   scope :all
-  scope :waiting_validation
-  scope :waiting_list
+  scope :pending
+  scope :waiting
+  scope :trial
   scope :active, default: true
   scope :support
   scope :inactive
@@ -12,9 +13,13 @@ ActiveAdmin.register Member do
 
   index title: index_title do
     selectable_column
-    if params[:scope] == 'waiting_list'
-      @waiting_froms ||= Member.waiting_list.order(:waiting_from).pluck(:waiting_from)
-      column '#', ->(member) { @waiting_froms.index(member.waiting_from) + 1 }, sortable: :waiting_from
+    if params[:scope] == 'waiting'
+      @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
+      column '#', ->(member) {
+        str = (@waiting_started_ats.index(member.waiting_started_at) + 1).to_s
+        str << '*' if member.waiting_started_at >= Time.utc(2016)
+        str
+      }, sortable: :waiting_started_at
     end
     column :name, ->(member) { link_to member.name, member }, sortable: :last_name
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : nil }
@@ -29,6 +34,11 @@ ActiveAdmin.register Member do
       end
     end
     column :status, ->(member) { I18n.t("member.status.#{member.status}") }
+    if params[:scope] == 'trial'
+      column 'Essai(s)', ->(member) {
+        member.deliveries_received_count_since_first_membership
+      }
+    end
     actions
   end
 
@@ -47,11 +57,14 @@ ActiveAdmin.register Member do
         end
       end
       row(:status) { I18n.t("member.status.#{member.status}") }
+      if member.status == :trial
+        row :deliveries_received_count_since_first_membership
+      end
       row :food_note
       row :note
       row :created_at
-      row :waiting_from
-      if member.status.in? %i[waiting_validation waiting_list]
+      row :waiting_started_at
+      if member.status.in? %i[pending waiting]
         row :waiting_basket
         row :waiting_distribution
       end
@@ -77,7 +90,9 @@ ActiveAdmin.register Member do
       f.input :zip
       f.input :emails, hint: "séparés par ', '"
       f.input :phones, hint: "séparés par ', '"
-      f.input :gribouille, label: 'Gribouille (toujours envoyée aux membres actifs)'
+      f.input :gribouille, as: :select,
+        collection: [['envoyée', true], ['non-envoyée', false]],
+        hint: 'laisser blanc, pour le comportement par défault (en fonction du status)'
       f.input :billing_interval,
         collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
@@ -87,9 +102,9 @@ ActiveAdmin.register Member do
       f.input :food_note, input_html: { rows: 3 }
       f.input :note, input_html: { rows: 3 }
     end
-    if member.new_record? || member.waiting_from_changed? || member.status.in?(%i[waiting_validation waiting_list])
+    if member.new_record? || member.waiting_started_at_changed? || member.status.in?(%i[pending waiting])
       f.inputs "Abonnement" do
-        f.input :waiting_list, as: :boolean
+        f.input :waiting, as: :boolean
         f.input :waiting_basket, label: 'Panier'
         f.input :waiting_distribution, label: 'Distribution'
       end
@@ -99,7 +114,7 @@ ActiveAdmin.register Member do
 
   permit_params %i[
     first_name last_name address city zip emails phones gribouille
-    support_member billing_interval waiting_list
+    support_member billing_interval waiting
     waiting_basket_id waiting_distribution_id
     food_note note
   ]
@@ -121,7 +136,7 @@ ActiveAdmin.register Member do
     end
 
     def apply_sorting(chain)
-      params[:order] ||= 'waiting_from_asc' if params[:scope] == 'waiting_list'
+      params[:order] ||= 'waiting_started_at_asc' if params[:scope] == 'waiting'
       super
     end
 

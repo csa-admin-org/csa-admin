@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe HalfdayWork do
-  fixtures :members, :admins, :halfday_works
-  let(:member) { Member.first }
+  let(:member) { create(:member) }
+  let(:admin) { create(:admin) }
 
   describe 'validations' do
     describe 'date' do
@@ -40,8 +40,11 @@ describe HalfdayWork do
   end
 
   describe '#validate!' do
-    let(:halfday_work) { halfday_works(:old_john_am) }
-    let(:admin) { Admin.first }
+    let(:halfday_work) do
+      h = build(:halfday_work, date: Date.today.beginning_of_week - 7.days)
+      h.save(validate: false)
+      h
+    end
 
     it 'sets validated_at' do
       halfday_work.validate!(admin)
@@ -55,8 +58,11 @@ describe HalfdayWork do
   end
 
   describe '#reject!' do
-    let(:halfday_work) { halfday_works(:old_john_am) }
-    let(:admin) { Admin.first }
+    let(:halfday_work) do
+      h = build(:halfday_work, date: Date.today.beginning_of_week - 7.days)
+      h.save(validate: false)
+      h
+    end
 
     it 'sets rejected_at' do
       halfday_work.reject!(admin)
@@ -72,7 +78,7 @@ describe HalfdayWork do
   describe '#status' do
     context 'when waiting validation' do
       subject { HalfdayWork.new(date: Date.today).status }
-      it { is_expected.to eq :waiting_validation }
+      it { is_expected.to eq :pending }
     end
 
     context 'when coming' do

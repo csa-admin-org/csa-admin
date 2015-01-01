@@ -55,10 +55,11 @@ class Billing
     attr :membership
 
     def self.all
-      year = Date.today_2015.year
+      year = Date.today.year
       memberships = ::Membership.during_year(year).includes(:member).map do |membership|
+        next if membership.member.trial?
         new(membership)
-      end
+      end.compact
       memberships.reject { |m| m.price == 0 }
     end
 
@@ -93,6 +94,8 @@ class Billing
   end
 
   class Support
+    SUPPORT_PRICE = 30
+
     attr :member
 
     def self.all
@@ -104,7 +107,7 @@ class Billing
     end
 
     def price
-      30
+      SUPPORT_PRICE
     end
 
     def details
