@@ -112,9 +112,7 @@ class Member < ActiveRecord::Base
   end
 
   def display_status
-    I18n.t("member.status.#{status}").tap do |status|
-      status << " (panier salaire)" if salary_basket?
-    end
+    I18n.t("member.status.#{status}")
   end
 
   def support_member=(bool)

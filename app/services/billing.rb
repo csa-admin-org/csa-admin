@@ -57,7 +57,7 @@ class Billing
     def self.all
       year = Date.today.year
       memberships = ::Membership.during_year(year).includes(:member).map do |membership|
-        next if membership.member.trial? || membership.billing_member.salary_basket?
+        next if membership.member.trial?
         new(membership)
       end.compact
       memberships.reject { |m| m.price == 0 }

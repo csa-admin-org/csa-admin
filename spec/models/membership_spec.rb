@@ -51,6 +51,34 @@ describe Membership do
     end
   end
 
+  describe '#annual_halfday_works' do
+    let(:membership) { create(:membership) }
+    subject { membership.annual_halfday_works }
+
+    it { is_expected.to eq 2 }
+
+    context 'when billing_member has a salary_basket' do
+      let(:member) { create(:member, salary_basket: true) }
+      let(:membership) { create(:membership, billing_member: member) }
+
+      it { is_expected.to eq 0 }
+    end
+  end
+
+  describe '#total_basket_price' do
+    let(:membership) { create(:membership) }
+    subject { membership.total_basket_price }
+
+    it { is_expected.to eq 30 }
+
+    context 'when billing_member has a salary_basket' do
+      let(:member) { create(:member, salary_basket: true) }
+      let(:membership) { create(:membership, billing_member: member) }
+
+      it { is_expected.to eq 0 }
+    end
+  end
+
   describe '#halfday_works_basket_price' do
     subject { membership.halfday_works_basket_price }
 

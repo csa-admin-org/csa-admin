@@ -20,7 +20,7 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
-        panel "Facturation #{Date.today.year} (prévision)" do
+        panel "Facturation #{Date.today.year} (prévision, sans les paniers à l'essai)" do
           types = %w[Eveil Abondance Soutien]
           table_for types do
             column('Type') { |type| type }

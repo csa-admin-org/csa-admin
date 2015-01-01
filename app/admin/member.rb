@@ -48,8 +48,8 @@ ActiveAdmin.register Member do
       row :name
       row :address
       row(:city) { member.city? ? "#{member.city} (#{member.zip})" : nil }
-      row :emails
       row :phones
+      row :emails
       row(:gribouille) { member.gribouille? ? 'envoyée' : 'non-envoyée' }
       row :current_membership do
         if member.current_membership
@@ -60,16 +60,19 @@ ActiveAdmin.register Member do
       if member.status == :trial
         row :deliveries_received_count_since_first_membership
       end
-      row :food_note
-      row :note
-      row :created_at
-      row :waiting_started_at
+      if member.status == :waiting
+        row :waiting_started_at
+      end
       if member.status.in? %i[pending waiting]
         row :waiting_basket
         row :waiting_distribution
       end
+      row :food_note
+      row :note
+      row :created_at
       row :validated_at
       row :validator
+      row(:salary_basket) { member.salary_basket? ? 'oui' : 'non' }
     end
   end
 
