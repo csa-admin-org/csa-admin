@@ -94,7 +94,7 @@ ActiveAdmin.register Member do
       f.input :phones, hint: "séparés par ', '"
       f.input :gribouille, as: :select,
         collection: [['envoyée', true], ['non-envoyée', false]],
-        hint: 'laisser vide, pour le comportement par défault (en fonction du status)'
+        hint: 'laisser vide pour le comportement par défault (en fonction du status)'
       f.input :billing_interval,
         collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
