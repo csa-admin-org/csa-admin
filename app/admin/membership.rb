@@ -82,7 +82,7 @@ ActiveAdmin.register Membership do
   permit_params *%i[
     member_id billing_member_id basket_id distribution_id
     annual_price annual_halfday_works
-    started_on ended_on
+    started_on ended_on note
   ]
 
   controller do
