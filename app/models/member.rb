@@ -98,15 +98,15 @@ class Member < ActiveRecord::Base
   end
 
   def delivery_address
-    read_attribute(:delivery_address) || address
+    read_attribute(:delivery_address).presence || address
   end
 
   def delivery_city
-    read_attribute(:delivery_city) || city
+    read_attribute(:delivery_city).presence || city
   end
 
   def delivery_zip
-    read_attribute(:delivery_zip) || zip
+    read_attribute(:delivery_zip).presence || zip
   end
 
   def basket
