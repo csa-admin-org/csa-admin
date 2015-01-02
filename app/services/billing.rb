@@ -25,21 +25,6 @@ class Billing
     end
   end
 
-  def self.all_for_xls
-    all.map do |b|
-      {
-        membre: "##{b.member_id}",
-        nom: b.member_name,
-        adresse: b.member_address,
-        zip: b.member_zip,
-        ville: b.member_city,
-        paiement: I18n.t("member.billing_interval.#{b.member_billing_interval}"),
-        montant_sfr: b.price,
-        details: b.details
-      }
-    end
-  end
-
   def self.total_price(type = nil)
     case type
     when 'Abondance', 'Eveil'

@@ -21,7 +21,7 @@ gem 'responsive_active_admin'
 gem 'turbolinks'
 gem 'jquery-ui-rails'
 gem 'slim'
-gem 'to_xls-rails'
+gem 'to_spreadsheet'
 
 gem 'sass-rails', '5.0.0.beta1'
 gem 'font-awesome-sass'

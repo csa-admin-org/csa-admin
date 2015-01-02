@@ -1,15 +1,12 @@
 class BillingsController < ApplicationController
-  # GET billing.xls
+  # GET billing.xlsx
   def show
-    @billing = Billing.all_for_xls
-
+    @billings = Billing.all
     respond_to do |format|
-      format.xls do
-        send_data(@billing.to_xls,
-          type: 'application/excel; charset=utf-8; header=present',
-          filename: "RageDeVert-Facturation-#{Date.today.strftime("%Y%m%d-%Hh%M")}.xls"
-        )
-      end
+      format.xlsx {
+        render xlsx: :show,
+          filename: "RageDeVert-Facturation-#{Time.now.strftime("%Y%m%d-%Hh%M")}"
+      }
     end
   end
 end

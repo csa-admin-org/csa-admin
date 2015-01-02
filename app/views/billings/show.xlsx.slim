@@ -1,0 +1,23 @@
+table
+  caption Facturation
+  thead
+    tr
+      td Membre ID
+      td Nom
+      td Adresse
+      td Zip
+      td Ville
+      td Paiement
+      td Montant (sFr.)
+      td Détails
+  tbody
+    - @billings.each do |billing|
+      tr
+        td= billing.member_id
+        td= billing.member_name
+        td= billing.member_address
+        td= billing.member_zip
+        td= billing.member_city
+        td= t("member.billing_interval.#{billing.member_billing_interval}")
+        td= billing.price
+        td= billing.details
