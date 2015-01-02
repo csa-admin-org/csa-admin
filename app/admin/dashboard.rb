@@ -2,15 +2,17 @@ ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: 'Tableau de bord'
 
   content title: 'Tableau de bord' do
-    next_delivery_date = Delivery.coming.first.try(:date)
+    next_delivery = Delivery.coming.first
     columns do
       column do
         panel 'Membres' do
           statuses = %i[pending waiting trial active support inactive]
           table_for statuses do
             column 'Status', ->(status) { link_to I18n.t("member.status.#{status}"), members_path(scope: status) }
-            column 'Membres', ->(status) { Member.send(status).count }
-            column 'Détails' do |status|
+            column 'Membres', class: 'align-right' do |status|
+              Member.send(status).count
+            end
+            column 'Détails', class: 'align-right' do |status|
               if status.in?(%i[pending waiting trial active])
                 members = Member.send(status).all.to_a
                 Basket.all.map { |basket|
@@ -24,10 +26,8 @@ ActiveAdmin.register_page 'Dashboard' do
           types = %w[Eveil Abondance Soutien]
           table_for types do
             column('Type') { |type| type }
-            column('') do |type|
-              div class: 'price' do
-                number_to_currency Billing.total_price(type)
-              end
+            column('', class: 'align-right') do |type|
+              number_to_currency Billing.total_price(type)
             end
           end
           para do
@@ -41,24 +41,40 @@ ActiveAdmin.register_page 'Dashboard' do
         end
       end
       column do
-        members = Member.active.merge(Membership.including_date(next_delivery_date)).includes(:current_membership).to_a
-        panel "Prochaine livraison: #{ l next_delivery_date, format: :long } (#{members.size} paniers)" do
-          table_for Distribution.joins(:memberships).merge(Membership.including_date(next_delivery_date)).distinct.order(:id).all do |distribution|
-            column 'Lieu', ->(distribution) { distribution.display_name }
-            column 'Paniers' do |distribution|
-              members.count { |m| m.current_membership.distribution_id == distribution.id }
+        panel "Prochaine livraison: #{ l next_delivery.date, format: :long }" do
+          distributions = Distribution.with_delivery_memberships(next_delivery)
+          table_for distributions do |distribution|
+            column 'Lieu', ->(distribution) { distribution.name }
+            column 'Paniers', class: 'align-right' do |distribution|
+              distribution.delivery_memberships.count
             end
-            column 'Détails', ->(distribution) do
+            column('Détails', class: 'align-right') do |distribution|
               Basket.all.map { |basket|
-                "#{basket.name}: #{members.count { |m| m.current_membership.distribution_id == distribution.id && m.current_membership.basket_id == basket.id }}"
+                "#{basket.name}: #{distribution.delivery_memberships.to_a.count { |m| m.distribution_id == distribution.id && m.basket_id == basket.id }}"
               }.join(' / ')
+            end
+          end
+          para do
+            div class: 'excel_link' do
+              link_to 'Fichier Excel', delivery_path(Delivery.coming.first, format: :xlsx)
+            end
+            div class: 'total_deliveries' do
+              "Total: #{distributions.sum { |d| d.delivery_memberships.count }}"
+            end
+            div class: 'total_deliveries_basket' do
+              Basket.all.map { |basket|
+                "#{basket.name}: #{distributions.sum { |d| d.delivery_memberships.select { |m| m.basket_id == basket.id }.count }}"
+              }.join(' / ')
+            end
+            div do
+             '&nbsp;'.html_safe
             end
           end
         end
         panel 'Gribouille' do
           emails = Member.gribouille_emails
           str = "#{emails.count} emails amoureux de Gribouille: "
-          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery_date, format: :short}")
+          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
           str << " / "
           str << link_to('liste', gribouille_emails_members_path(format: :csv))
           str.html_safe

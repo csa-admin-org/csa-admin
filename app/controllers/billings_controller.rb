@@ -1,11 +1,11 @@
 class BillingsController < ApplicationController
   # GET billing.xlsx
   def show
-    @billings = Billing.all
+    @delivery = Delivery.find(params[:id])
     respond_to do |format|
       format.xlsx {
         render xlsx: :show,
-          filename: "RageDeVert-Facturation-#{Time.zone.now.strftime("%Y%m%d-%Hh%M")}"
+          filename: "RageDeVert-Livraison-#{Delivery.next_coming_date.strftime("%Y%m%d")}"
       }
     end
   end

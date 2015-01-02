@@ -14,6 +14,19 @@ ActiveAdmin.register Delivery do
     end
   end
 
+  controller do
+    def show
+      @delivery = resource
+      respond_to do |format|
+        format.html
+        format.xlsx {
+          render xlsx: 'deliveries/show',
+            filename: "RageDeVert-Livraison-#{Delivery.next_coming_date.strftime("%Y%m%d")}"
+        }
+      end
+    end
+  end
+
   config.filters = false
   config.sort_order = 'date_asc'
   config.per_page = 50

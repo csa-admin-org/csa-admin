@@ -58,14 +58,14 @@ ActiveAdmin.register Membership do
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] }, include_blank: false
       f.input :billing_member,
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
-        hint: 'laisser blanc si identique (membre)'
+        hint: 'laisser vide si identique (membre)'
     end
     f.inputs 'Détails' do
       f.input :basket, include_blank: false
       f.input :distribution, include_blank: false
-      f.input :annual_price, hint: 'laisser blanc si identique (panier)'
-      f.input :distribution_basket_price, hint: 'laisser blanc si identique (distribution)'
-      f.input :annual_halfday_works, hint: 'laisser blanc si identique (panier)'
+      f.input :annual_price, hint: 'laisser vide si identique (panier)'
+      f.input :distribution_basket_price, hint: 'laisser vide si identique (distribution)'
+      f.input :annual_halfday_works, hint: 'laisser vide si identique (panier)'
     end
     f.inputs 'Dates' do
       years_range = Basket.years_range

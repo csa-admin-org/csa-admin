@@ -182,6 +182,10 @@ fr:
         last_name: Nom de famille
         address: Adresse
         city: Ville
+        zip: ZIP
+        delivery_address: Adresse (Livraison)
+        delivery_city: Ville (Livraison)
+        delivery_zip: ZIP (Livraison)
         phones: Téléphones
         support_member: Membre de soutien
         billing_interval: Interval de paiement

@@ -46,8 +46,10 @@ ActiveAdmin.register Member do
     attributes_table do
       row :id
       row :name
-      row :address
-      row(:city) { member.city? ? "#{member.city} (#{member.zip})" : nil }
+      row(:address) { member.display_address }
+      unless member.same_delivery_address?
+        row(:delivery_address) { member.display_delivery_address }
+      end
       row :phones
       row :emails
       row(:gribouille) { member.gribouille? ? 'envoyée' : 'non-envoyée' }
@@ -88,19 +90,26 @@ ActiveAdmin.register Member do
     f.inputs 'Details' do
       f.input :first_name
       f.input :last_name
-      f.input :address
-      f.input :city
-      f.input :zip
       f.input :emails, hint: "séparés par ', '"
       f.input :phones, hint: "séparés par ', '"
       f.input :gribouille, as: :select,
         collection: [['envoyée', true], ['non-envoyée', false]],
-        hint: 'laisser blanc, pour le comportement par défault (en fonction du status)'
+        hint: 'laisser vide, pour le comportement par défault (en fonction du status)'
       f.input :billing_interval,
         collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
       f.input :support_member
-      f.input :salary_basket, hint: 'Abonnement(s) gratuit(s)'
+      f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'
+    end
+    f.inputs 'Adresse' do
+      f.input :address
+      f.input :city
+      f.input :zip
+    end
+    f.inputs 'Adresse (Livraison)' do
+      f.input :delivery_address, hint: 'laisser vide si identique'
+      f.input :delivery_city, hint: 'laisser vide si identique'
+      f.input :delivery_zip, hint: 'laisser vide si identique'
     end
     f.inputs 'Notes' do
       f.input :food_note, input_html: { rows: 3 }
@@ -118,6 +127,7 @@ ActiveAdmin.register Member do
 
   permit_params %i[
     first_name last_name address city zip emails phones gribouille
+    delivery_address delivery_city delivery_zip
     support_member salary_basket billing_interval waiting
     waiting_basket_id waiting_distribution_id
     food_note note

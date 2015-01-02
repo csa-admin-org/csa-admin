@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150101193013) do
+ActiveRecord::Schema.define(version: 20150102175005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,9 @@ ActiveRecord::Schema.define(version: 20150101193013) do
     t.integer  "waiting_basket_id"
     t.integer  "waiting_distribution_id"
     t.boolean  "salary_basket",           default: false
+    t.string   "delivery_address"
+    t.string   "delivery_zip"
+    t.string   "delivery_city"
   end
 
   add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree

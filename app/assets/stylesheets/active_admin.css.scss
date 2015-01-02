@@ -17,7 +17,7 @@
 //
 //   .status_tag { background: #6090DB; }
 
-.price {
+.align-right {
   text-align :right;
 }
 
@@ -28,5 +28,17 @@
 
 .total_price {
   margin-right: 11px;
+  text-align :right;
+}
+
+.total_deliveries {
+  float: left;
+  width: 100px;
+  margin-left: 130px;
+  text-align :right;
+}
+.total_deliveries_basket {
+  float: left;
+  width: 253px;
   text-align :right;
 }

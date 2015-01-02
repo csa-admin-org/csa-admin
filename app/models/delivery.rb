@@ -23,6 +23,10 @@ class Delivery < ActiveRecord::Base
     year_dates.index(date) + 1
   end
 
+  def self.next_coming_date
+    coming.first.try(:date)
+  end
+
   private
 
   def self.next_date(date)

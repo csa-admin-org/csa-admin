@@ -85,6 +85,30 @@ class Member < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def display_address
+    "#{address}, #{city} (#{zip})"
+  end
+
+  def display_delivery_address
+    "#{delivery_address}, #{delivery_city} (#{delivery_zip})"
+  end
+
+  def same_delivery_address?
+    display_address == display_delivery_address
+  end
+
+  def delivery_address
+    read_attribute(:delivery_address) || address
+  end
+
+  def delivery_city
+    read_attribute(:delivery_city) || city
+  end
+
+  def delivery_zip
+    read_attribute(:delivery_zip) || zip
+  end
+
   def basket
     current_membership.try(:basket) || waiting_basket
   end
