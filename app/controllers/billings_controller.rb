@@ -5,7 +5,7 @@ class BillingsController < ApplicationController
     respond_to do |format|
       format.xlsx {
         render xlsx: :show,
-          filename: "RageDeVert-Facturation-#{Time.now.strftime("%Y%m%d-%Hh%M")}"
+          filename: "RageDeVert-Facturation-#{Time.zone.now.strftime("%Y%m%d-%Hh%M")}"
       }
     end
   end
