@@ -36,7 +36,7 @@ ActiveAdmin.register Membership do
       row :billing_member
       row :basket
       row :distribution
-      if membership.billing_member.salary_basket?
+      if membership.billing_member.try(:salary_basket?)
         row(:total_basket_price) { 'Gratuit, panier salaire'}
       else
         row(:annual_halfday_works) { membership.annual_halfday_works }

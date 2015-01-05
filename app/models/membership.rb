@@ -43,7 +43,7 @@ class Membership < ActiveRecord::Base
   end
 
   def annual_halfday_works
-    if billing_member.salary_basket?
+    if billing_member.try(:salary_basket?)
       0
     else
       read_attribute(:annual_halfday_works) || basket.try(:annual_halfday_works)
@@ -55,7 +55,7 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_basket_price
-    read_attribute(:distribution_basket_price) || distribution.basket_price
+    read_attribute(:distribution_basket_price) || distribution.try(:basket_price)
   end
 
   def halfday_works_basket_price
@@ -64,10 +64,10 @@ class Membership < ActiveRecord::Base
   end
 
   def total_basket_price
-    if billing_member.salary_basket?
+    if billing_member.try(:salary_basket?)
       0
     else
-      basket_price + distribution_basket_price + halfday_works_basket_price
+      basket_price + distribution_basket_price.to_f + halfday_works_basket_price.to_f
     end
   end
 
