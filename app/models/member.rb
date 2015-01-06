@@ -215,7 +215,7 @@ class Member < ActiveRecord::Base
   private
 
   def build_membership
-    if (new_record? || waiting_started_at_changed?) &&
+    if !pending? && (new_record? || waiting_started_at_changed?) &&
        waiting_started_at.nil? && waiting_basket_id? && waiting_distribution_id?
       memberships.build(
         basket_id: waiting_basket_id,
