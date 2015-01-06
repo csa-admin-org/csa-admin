@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102175005) do
+ActiveRecord::Schema.define(version: 20150105201040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,14 +100,14 @@ ActiveRecord::Schema.define(version: 20150102175005) do
     t.string   "address"
     t.string   "zip"
     t.string   "city"
-    t.string   "token",                                   null: false
+    t.string   "token",                                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",                              null: false
-    t.string   "last_name",                               null: false
-    t.boolean  "support_member",                          null: false
+    t.string   "first_name",                               null: false
+    t.string   "last_name",                                null: false
+    t.boolean  "support_member",                           null: false
     t.datetime "waiting_started_at"
-    t.string   "billing_interval",                        null: false
+    t.string   "billing_interval",                         null: false
     t.text     "food_note"
     t.text     "note"
     t.integer  "validator_id"
@@ -115,12 +115,16 @@ ActiveRecord::Schema.define(version: 20150102175005) do
     t.boolean  "gribouille"
     t.integer  "waiting_basket_id"
     t.integer  "waiting_distribution_id"
-    t.boolean  "salary_basket",           default: false
+    t.boolean  "salary_basket",            default: false
     t.string   "delivery_address"
     t.string   "delivery_zip"
     t.string   "delivery_city"
+    t.datetime "inscription_submitted_at"
+    t.datetime "deleted_at"
   end
 
+  add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
+  add_index "members", ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at", using: :btree
   add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
   add_index "members", ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id", using: :btree
   add_index "members", ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree
@@ -138,10 +142,12 @@ ActiveRecord::Schema.define(version: 20150102175005) do
     t.datetime "updated_at"
     t.integer  "distribution_basket_price"
     t.text     "note"
+    t.datetime "deleted_at"
   end
 
   add_index "memberships", ["basket_id"], name: "index_memberships_on_basket_id", using: :btree
   add_index "memberships", ["billing_member_id"], name: "index_memberships_on_billing_member_id", using: :btree
+  add_index "memberships", ["deleted_at"], name: "index_memberships_on_deleted_at", using: :btree
   add_index "memberships", ["distribution_id"], name: "index_memberships_on_distribution_id", using: :btree
   add_index "memberships", ["ended_on"], name: "index_memberships_on_ended_on", using: :btree
   add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", using: :btree

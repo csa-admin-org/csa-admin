@@ -1,4 +1,6 @@
 class Membership < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :member, validate: true
   belongs_to :billing_member, class_name: 'Member', validate: true
   belongs_to :basket

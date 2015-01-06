@@ -1,6 +1,7 @@
 class Member < ActiveRecord::Base
   BILLING_INERVALS = %w[annual quarterly].freeze
 
+  acts_as_paranoid
   uniquify :token, length: 10
 
   belongs_to :validator, class_name: 'Admin'

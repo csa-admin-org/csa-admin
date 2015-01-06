@@ -1,11 +1,14 @@
-require 'importer'
-require 'support_importer'
-
 namespace :spreadsheet do
   desc 'Import ordinary members'
   task import_members: :environment do
     Importer.import('Membres', 1..-1)
     p "#{Member.count} members imported."
+  end
+
+  desc 'Import new inscriptions'
+  task import_new_inscriptions: :environment do
+    InscriptionsImporter.import
+    p "New inscriptions imported."
   end
 
   desc 'Import support members'

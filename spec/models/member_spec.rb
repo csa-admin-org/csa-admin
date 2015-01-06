@@ -12,7 +12,7 @@ describe Member do
     let!(:gribouille_member) { create(:member, :inactive, gribouille: true) }
 
     it 'returns all gribouille emails' do
-      expect(Member.gribouille_emails).to eq(
+      expect(Member.gribouille_emails).to match_array(
         waiting_member.emails_array + trial_member.emails_array +
         active_member.emails_array + support_member.emails_array +
         gribouille_member.emails_array

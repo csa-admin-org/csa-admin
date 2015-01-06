@@ -1,3 +1,5 @@
+require 'google_access_token_fetcher'
+
 class Importer
   attr_reader :worksheet, :row_range
 
@@ -6,7 +8,8 @@ class Importer
   end
 
   def initialize(filename, row_range)
-    session = GoogleDrive.login(ENV['GD_EMAIL'], ENV['GD_PASS'])
+    access_token = GoogleAccessTokenFetcher.access_token
+    session = GoogleDrive.login_with_oauth(access_token)
     @worksheet = session.file_by_title(filename).worksheets.first
     @row_range = row_range
   end

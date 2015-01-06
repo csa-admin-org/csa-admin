@@ -1,0 +1,13 @@
+class AdminMailer < ActionMailer::Base
+  default from: 'info@ragedevert.ch'
+
+  def new_inscription(member)
+    @member = member
+    admin_emails = Admin.pluck(:email)
+    mail(
+      to: admin_emails.delete('chantalgraef@gmail.com'),
+      cc: admin_emails,
+      subject: 'Rage de Vert: nouvelle inscription à valider'
+    )
+  end
+end

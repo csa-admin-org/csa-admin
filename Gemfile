@@ -10,10 +10,11 @@ gem 'rack-status'
 
 gem 'pg'
 gem 'uniquify'
+gem 'paranoia'
 gem 'cancancan'
 
-gem 'foreigner'
-gem 'immigrant' # TODO
+# gem 'foreigner'
+# gem 'immigrant' # TODO
 
 gem 'activeadmin', github: 'activeadmin'
 gem 'responsive_active_admin'
@@ -37,6 +38,7 @@ gem 'devise-i18n'
 gem 'uglifier'
 gem 'jbuilder'
 gem 'google_drive'
+gem 'google-api-client'
 
 gem 'icalendar'
 
@@ -52,6 +54,7 @@ group :development do
   gem 'rack-livereload'
   gem 'guard-livereload', require: false
   gem 'quiet_assets'
+  gem 'letter_opener'
 end
 
 group :development, :test do
