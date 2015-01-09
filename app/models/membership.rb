@@ -53,7 +53,7 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_price
-    annual_price.to_i / 40.0
+    annual_price.to_f / 40.0
   end
 
   def distribution_basket_price
