@@ -2,8 +2,9 @@ ActiveAdmin.register Membership do
   menu priority: 3
 
   scope :all
+  scope :past
   scope :current, default: true
-  scope :old
+  scope :future
 
   index_title = -> { "Abonnements (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
 
@@ -36,6 +37,7 @@ ActiveAdmin.register Membership do
       row :billing_member
       row :basket
       row :distribution
+      row :deliveries_received_count
       if membership.billing_member.try(:salary_basket?)
         row(:total_basket_price) { 'Gratuit, panier salaire'}
       else
@@ -68,6 +70,19 @@ ActiveAdmin.register Membership do
       f.input :annual_halfday_works, hint: 'laisser vide si identique (panier)'
     end
     f.inputs 'Dates' do
+      if membership.deliveries_received_count > 0
+        collection = [
+          ["début de l'abonnement", nil]
+        ].concat(
+          Delivery.coming.map { |d| ["panier ##{d.number} (#{d.date})", d.date] }
+        )
+        f.input :will_be_changed_at,
+          collection: collection,
+          include_blank: false,
+          hint: "Si une date de panier à venir est sélectionnée, un nouvel abonnement sera
+                 automatiquement créé à partir de cette date avec les nouvelles conditions. <br/>
+                 Seule la date de fin de l'abonnement courant sera pas modifiée.".html_safe
+      end
       years_range = Basket.years_range
       f.input :started_on, start_year: years_range.first, include_blank: false
       f.input :ended_on, start_year: years_range.first, end_year: years_range.last, include_blank: false
@@ -81,8 +96,8 @@ ActiveAdmin.register Membership do
 
   permit_params *%i[
     member_id billing_member_id basket_id distribution_id
-    annual_price distribution_basket_price annual_halfday_works 
-    started_on ended_on note
+    annual_price distribution_basket_price annual_halfday_works
+    will_be_changed_at started_on ended_on note
   ]
 
   controller do

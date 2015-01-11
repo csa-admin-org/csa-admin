@@ -11,8 +11,13 @@ class Membership < ActiveRecord::Base
   validate :withing_basket_year
   validate :good_period_range
   validate :only_one_alongs_the_year
+  validate :will_be_changed_at_good_date
 
-  scope :old, -> { where('ended_on < ?', Time.now) }
+  before_save :build_new_membership
+  after_save :save_new_membership
+
+  scope :past, -> { where('ended_on < ?', Time.now) }
+  scope :future, -> { where('started_on > ?', Time.now) }
   scope :current, -> { including_date(Date.today) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
@@ -23,6 +28,14 @@ class Membership < ActiveRecord::Base
       Date.new(year).end_of_year
     )
   }
+
+  attr_accessor :will_be_changed_at
+
+  def will_be_changed_at=(date)
+    if date.present?
+      @will_be_changed_at = Date.parse(date)
+    end
+  end
 
   def billing_member
     (billing_member_id && Member.find(billing_member_id)) || member
@@ -87,6 +100,19 @@ class Membership < ActiveRecord::Base
 
   private
 
+  def build_new_membership
+    if @will_be_changed_at
+      attrs = attributes.except('id').merge('started_on' => @will_be_changed_at)
+      @new_membership = Membership.new(attrs)
+      reload
+      self.ended_on = @will_be_changed_at - 1.day
+    end
+  end
+
+  def save_new_membership
+    @new_membership && @new_membership.save!
+  end
+
   def only_one_alongs_the_year
     Membership.where(member: member).where.not(id: id).each do |membership|
       if membership.date_range.include?(started_on)
@@ -112,6 +138,16 @@ class Membership < ActiveRecord::Base
     if started_on >= ended_on
       errors.add(:started_on, 'doit être avant la fin')
       errors.add(:ended_on, 'doit être après le début')
+    end
+  end
+
+  def will_be_changed_at_good_date
+    if @will_be_changed_at && (
+         @will_be_changed_at < Date.today ||
+         @will_be_changed_at <= started_on ||
+         @will_be_changed_at >= ended_on
+       )
+      errors.add(:will_be_changed_at, :invalid)
     end
   end
 end

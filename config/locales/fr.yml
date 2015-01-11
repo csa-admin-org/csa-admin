@@ -79,7 +79,8 @@ fr:
         inactive: "inactifs"
         all: tous
         current: en cours
-        old: passés
+        past: passés
+        future: futures
     comments:
       body: "Corps"
       author: "Auteur"
@@ -220,6 +221,8 @@ fr:
         distribution_basket_price: Prix distribution/panier
         halfday_works_basket_price: Prix ½ Journées de travail non-effectuées/panier
         total_basket_price: Prix final/panier
+        will_be_changed_at: Changement effectif depuis le
+        deliveries_received_count: Paniers déjà livrés
 
   member:
     status:

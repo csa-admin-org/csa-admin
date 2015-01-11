@@ -34,6 +34,86 @@ describe Membership do
     end
   end
 
+  describe '#will_be_changed_at=' do
+    let!(:membership) { create(:membership) }
+    let(:date) { Delivery.next_coming_date }
+
+    context 'when not present' do
+      it 'updates normaly' do
+        expect { membership.update(will_be_changed_at: '') }.not_to change {
+          Membership.count
+        }
+      end
+    end
+
+    context 'when present' do
+      let(:new_membership) { Membership.last }
+
+      specify do
+        expect { membership.update(will_be_changed_at: date.to_s) }.to change {
+          Membership.count
+        }.by(1)
+      end
+
+      specify do
+        expect {
+          membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        }.not_to change {
+          membership.reload.started_on
+        }
+      end
+
+      specify do
+        expect {
+          membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        }.to change {
+          membership.reload.ended_on
+        }.to(date - 1.day)
+      end
+
+      specify do
+        expect {
+          membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        }.not_to change {
+          membership.reload.annual_price
+        }
+      end
+
+      specify do
+        membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        expect(new_membership.started_on).to eq date
+      end
+
+      specify do
+        ended_on = membership.ended_on
+        membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        expect(new_membership.ended_on).to eq ended_on
+      end
+
+      specify do
+        membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        expect(new_membership.annual_price).to eq 100
+      end
+
+      specify do
+        membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        expect(new_membership.member).to eq membership.member
+      end
+
+      specify do
+        membership.update(annual_price: 100, will_be_changed_at: date.to_s)
+        expect(new_membership.basket).to eq membership.basket
+      end
+    end
+
+    context 'when present (past)' do
+      it 'fails validation' do
+        membership.update(will_be_changed_at: 1.days.ago.to_s)
+        expect(membership.errors[:will_be_changed_at]).to be_present
+      end
+    end
+  end
+
   describe '#billing_member' do
     subject { membership.billing_member }
 
