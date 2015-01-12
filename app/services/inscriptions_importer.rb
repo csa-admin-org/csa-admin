@@ -68,7 +68,13 @@ class InscriptionsImporter
 
   def distribution_id(str)
     case str
-    when /Chaux-de-Fonds/ then Distribution.find_by(name: 'La Chaux-de-Fonds').id
+    when /Jardin/i then 1
+    when /vélo/i then 2
+    when /libre/i then 3
+    when /Chaux-de-Fonds/i then 4
+    when /marin/i then 5
+    when /Chaux-du-Milieu/i then 6
+    when /Colombier/i then 7
     else nil
     end
   end
