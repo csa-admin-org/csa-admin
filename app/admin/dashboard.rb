@@ -23,11 +23,19 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
         panel "Facturation #{Date.today.year} (prévision, sans les paniers à l'essai)" do
+          total_price = 0
           types = %w[Eveil Abondance Soutien]
           table_for types do
             column('Type') { |type| type }
             column('', class: 'align-right') do |type|
-              number_to_currency Billing.total_price(type)
+              price = case type
+              when 'Abondance', 'Eveil'
+                Membership.billable.select { |m| m.basket.name == type }.sum(&:price)
+              when 'Soutien'
+                Member.support.count * Member::SUPPORT_PRICE
+              end
+              total_price += price
+              number_to_currency price
             end
           end
           para do
@@ -35,7 +43,7 @@ ActiveAdmin.register_page 'Dashboard' do
               link_to 'Fichier Excel', billing_path(format: :xlsx)
             end
             div class: 'total_price' do
-              "Total: #{number_to_currency Billing.total_price}"
+              "Total: #{number_to_currency total_price}"
             end
           end
         end

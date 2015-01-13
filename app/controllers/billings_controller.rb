@@ -1,7 +1,8 @@
 class BillingsController < ApplicationController
   # GET billing.xlsx
   def show
-    @billings = Billing.all
+    @memberships = Membership.billable
+    @members = Member.support
     respond_to do |format|
       format.xlsx {
         render xlsx: :show,

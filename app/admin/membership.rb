@@ -38,6 +38,7 @@ ActiveAdmin.register Membership do
       row :basket
       row :distribution
       row :deliveries_received_count
+      row :deliveries_count
       if membership.billing_member.try(:salary_basket?)
         row(:total_basket_price) { 'Gratuit, panier salaire'}
       else
@@ -47,6 +48,7 @@ ActiveAdmin.register Membership do
         row(:distribution_basket_price) { number_to_currency(membership.distribution_basket_price) }
         row(:halfday_works_basket_price) { number_to_currency(membership.halfday_works_basket_price) }
         row(:total_basket_price) { number_to_currency(membership.total_basket_price) }
+        row(:price) { "#{number_to_currency(membership.price)} (#{membership.deliveries_count} * #{membership.total_basket_price})" }
       end
       row(:started_on) { l membership.started_on }
       row(:ended_on) { l membership.ended_on }

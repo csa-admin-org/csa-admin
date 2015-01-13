@@ -1,5 +1,6 @@
 class Member < ActiveRecord::Base
   BILLING_INERVALS = %w[annual quarterly].freeze
+  SUPPORT_PRICE = 30
 
   acts_as_paranoid
   uniquify :token, length: 10

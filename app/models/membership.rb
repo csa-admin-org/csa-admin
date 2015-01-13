@@ -37,6 +37,12 @@ class Membership < ActiveRecord::Base
     end
   end
 
+  def self.billable(year = Date.today.year)
+    during_year(year).includes(:member).select do |membership|
+      membership.price > 0 && !membership.member.trial?
+    end
+  end
+
   def billing_member
     (billing_member_id && Member.find(billing_member_id)) || member
   end
@@ -88,6 +94,23 @@ class Membership < ActiveRecord::Base
 
   def deliveries_received_count
     Delivery.between(started_on..Date.today).count
+  end
+
+  def price
+    deliveries_count * total_basket_price
+  end
+
+  def price_details
+    str = "#{deliveries_count} * "
+    if halfday_works_basket_price > 0 || distribution_basket_price > 0
+      str << "(#{basket_price}"
+      str << " + #{halfday_works_basket_price}" if halfday_works_basket_price > 0
+      str << " + #{distribution_basket_price}" if distribution_basket_price > 0
+      str << ')'
+    else
+      str << basket_price.to_s
+    end
+    str << " = #{ActionView::Base.new.number_to_currency price}"
   end
 
   def deliveries_count

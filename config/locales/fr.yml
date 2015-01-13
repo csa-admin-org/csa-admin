@@ -223,6 +223,8 @@ fr:
         total_basket_price: Prix final/panier
         will_be_changed_at: Changement effectif depuis le
         deliveries_received_count: Paniers déjà livrés
+        deliveries_count: Paniers livrés (total)
+        price: Prix final
 
   member:
     status:

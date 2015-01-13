@@ -1,5 +1,5 @@
 table
-  caption Facturation
+  caption Abonnements
   thead
     tr
       td Membre ID
@@ -9,17 +9,63 @@ table
       td Zip
       td Ville
       td Paiement
-      td Montant (sFr.)
+      td Abo ID
+      td Abo Membre
+      td Début
+      td Fin
+      td Panier
+      td Lieu de Distribution
+      td Prix/Panier (sFr.)
+      td Distribution/Panier (sFr.)
+      td ½ journées de travail non-effectuées/Panier (sFr.)
+      td Nbr de livraisons
+      td Total/Panier (sFr.)
+      td Total (sFr.)
       td Détails
   tbody
-    - @billings.each do |billing|
+    - @memberships.each do |membership|
       tr
-        td= billing.member_id
-        td= billing.member_name
-        td= billing.member_emails
-        td= billing.member_address
-        td= billing.member_zip
-        td= billing.member_city
-        td= t("member.billing_interval.#{billing.member_billing_interval}")
-        td= billing.price
-        td= billing.details
+        td= membership.billing_member.id
+        td= membership.billing_member.name
+        td= membership.billing_member.emails
+        td= membership.billing_member.address
+        td= membership.billing_member.zip
+        td= membership.billing_member.city
+        td= t("member.billing_interval.#{membership.billing_member.billing_interval}")
+        td= membership.id
+        td= membership.member.name
+        td= l membership.started_on
+        td= l membership.ended_on
+        td= membership.basket.name
+        td= membership.distribution.name
+        td= membership.basket_price
+        td= membership.distribution_basket_price
+        td= membership.halfday_works_basket_price
+        td= membership.deliveries_count
+        td= membership.total_basket_price
+        td= membership.price
+        td= membership.price_details
+
+table
+  caption= 'Membres Soutien'
+  thead
+    tr
+      td Membre ID
+      td Nom
+      td Emails
+      td Adresse
+      td Zip
+      td Ville
+      td Paiement
+      td Total (sFr.)
+  tbody
+    - @members.each do |member|
+      tr
+        td= member.id
+        td= member.name
+        td= member.emails
+        td= member.address
+        td= member.zip
+        td= member.city
+        td= t("member.billing_interval.#{member.billing_interval}")
+        td= Member::SUPPORT_PRICE
