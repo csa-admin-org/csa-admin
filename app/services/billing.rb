@@ -15,6 +15,7 @@ class Billing
       a << OpenStruct.new(
         member_id: member.id,
         member_name: member.name,
+        member_emails: member.emails,
         member_address: member.address,
         member_zip: member.zip,
         member_city: member.city,
