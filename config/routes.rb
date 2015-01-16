@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   constraints subdomain: 'admin' do
     get 'gribouille_emails' => 'gribouille_emails#index'
+    get 'deliveries/next' => 'next_delivery#next'
     get 'halfday_works/calendar' => 'halfday_works_calendar#show'
   end
 

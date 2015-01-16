@@ -21,7 +21,7 @@ ActiveAdmin.register Delivery do
         format.html
         format.xlsx {
           render xlsx: 'deliveries/show',
-            filename: "RageDeVert-Livraison-#{Delivery.next_coming_date.strftime("%Y%m%d")}"
+            filename: "RageDeVert-Livraison-#{@delivery.date.strftime("%Y%m%d")}"
         }
       end
     end
