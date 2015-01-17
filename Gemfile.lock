@@ -302,6 +302,8 @@ GEM
       faraday (~> 0.9)
       jwt (~> 1.0)
       multi_json (~> 1.10)
+    skylight (0.5.2)
+      activesupport (>= 3.0.0)
     slim (3.0.1)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -382,6 +384,7 @@ DEPENDENCIES
   responsive_active_admin
   rspec-rails
   sass-rails (= 5.0.0.beta1)
+  skylight
   slim
   spring-commands-rspec
   to_spreadsheet
