@@ -1,13 +1,10 @@
-- memberships = Membership.including_date(@delivery.date)
-- distributions = Distribution.joins(:memberships).merge(memberships).distinct.map { |d| { id: d.id, name: d.name, count: memberships.to_a.count { |m| m.distribution_id == d.id } } }.sort_by { |d| d[:count] }.reverse
-
-
 - Distribution.with_delivery_memberships(@delivery).each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
   table
     caption= "#{distribution.name} (#{Basket.all.map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_id == b.id } }.join('+')})"
     thead
       tr
+        td Prénom
         td Nom
         - if distribution.require_delivery_address?
           td Adresse
@@ -21,7 +18,8 @@
       - memberships.each do |membership|
         - member = membership.member
         tr
-          td= member.name
+          td= member.first_name
+          td= member.last_name
           - if distribution.require_delivery_address?
             td= member.delivery_address
             td= member.delivery_zip

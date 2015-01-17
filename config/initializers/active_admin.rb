@@ -185,3 +185,7 @@ class MyFooter < ActiveAdmin::Component
   end
 end
 ActiveAdmin.setup { |config| config.view_factory.footer = MyFooter }
+
+module ActiveAdmin::ViewHelpers
+  include ApplicationHelper
+end

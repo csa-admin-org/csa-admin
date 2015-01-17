@@ -3,6 +3,7 @@ table
   thead
     tr
       td Membre ID
+      td Prénom
       td Nom
       td Emails
       td Adresse
@@ -23,10 +24,12 @@ table
       td Total (sFr.)
       td Détails
   tbody
-    - @memberships.each do |membership|
+    - memberships = @memberships.sort_by { |m| m.billing_member.last_name }
+    - memberships.each do |membership|
       tr
         td= membership.billing_member.id
-        td= membership.billing_member.name
+        td= membership.billing_member.first_name
+        td= membership.billing_member.last_name
         td= membership.billing_member.emails
         td= membership.billing_member.address
         td= membership.billing_member.zip
@@ -51,6 +54,7 @@ table
   thead
     tr
       td Membre ID
+      td Prénom
       td Nom
       td Emails
       td Adresse
@@ -59,10 +63,11 @@ table
       td Paiement
       td Total (sFr.)
   tbody
-    - @members.each do |member|
+    - @members.order(:last_name).each do |member|
       tr
         td= member.id
-        td= member.name
+        td= member.first_name
+        td= member.last_name
         td= member.emails
         td= member.address
         td= member.zip

@@ -3,6 +3,8 @@ ActiveAdmin.register_page 'Dashboard' do
 
   content title: 'Tableau de bord' do
     next_delivery = Delivery.coming.first
+    small_basket = Basket.current_small
+    big_basket = Basket.current_big
     columns do
       column do
         panel 'Membres' do
@@ -12,12 +14,12 @@ ActiveAdmin.register_page 'Dashboard' do
             column 'Membres', class: 'align-right' do |status|
               Member.send(status).count
             end
-            column 'Détails', class: 'align-right' do |status|
+            column "#{small_basket.name} / #{big_basket.name}", class: 'align-right' do |status|
               if status.in?(%i[pending waiting trial active])
-                members = Member.send(status).all.to_a
-                Basket.all.map { |basket|
-                  "#{basket.name}: #{members.count{ |m| m.basket == basket }}"
-                }.join(' / ')
+                members = Member.send(status).includes(current_membership: :basket).all.to_a
+                count_small_basket = members.count{ |m| m.basket == small_basket }
+                count_big_basket = members.count{ |m| m.basket == big_basket }
+                [count_small_basket, count_big_basket].join(' / ').html_safe
               end
             end
           end
@@ -38,11 +40,11 @@ ActiveAdmin.register_page 'Dashboard' do
               number_to_currency price
             end
           end
-          para do
-            div class: 'excel_link' do
-              link_to 'Fichier Excel', billing_path(format: :xlsx)
+          table_for ['foo'] do |foo|
+            column('') do
+              "Télécharger : #{link_to 'Excel', billing_path(format: :xlsx)}".html_safe
             end
-            div class: 'total_price' do
+            column('', class: 'align-right') do
               "Total: #{number_to_currency total_price}"
             end
           end
@@ -51,31 +53,30 @@ ActiveAdmin.register_page 'Dashboard' do
       column do
         panel "Prochaine livraison: #{ l next_delivery.date, format: :long }" do
           distributions = Distribution.with_delivery_memberships(next_delivery)
+          total_small_basket = 0
+          total_big_basket = 0
           table_for distributions do |distribution|
             column 'Lieu', ->(distribution) { distribution.name }
-            column 'Paniers', class: 'align-right' do |distribution|
+            column('Paniers', class: 'align-right') do |distribution|
               distribution.delivery_memberships.count
             end
-            column('Détails', class: 'align-right') do |distribution|
-              Basket.all.map { |basket|
-                "#{basket.name}: #{distribution.delivery_memberships.to_a.count { |m| m.distribution_id == distribution.id && m.basket_id == basket.id }}"
-              }.join(' / ')
+            column("#{small_basket.name} / #{big_basket.name}", class: 'align-right') do |distribution|
+              count_small_basket = distribution.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id }
+              count_big_basket = distribution.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id }
+              total_small_basket += count_small_basket
+              total_big_basket += count_big_basket
+              [count_small_basket, count_big_basket].join(' / ').html_safe
             end
           end
-          para do
-            div class: 'excel_link' do
-              link_to 'Fichier Excel', delivery_path(Delivery.coming.first, format: :xlsx)
+          table_for ['foo'] do |foo|
+            column('') do
+              "Télécharger : #{link_to 'Excel', delivery_path(Delivery.coming.first, format: :xlsx)}".html_safe
             end
-            div class: 'total_deliveries' do
-              "Total: #{distributions.sum { |d| d.delivery_memberships.count }}"
+            column('', class: 'align-right') do
+              "Total: #{total_small_basket + total_big_basket}"
             end
-            div class: 'total_deliveries_basket' do
-              Basket.all.map { |basket|
-                "#{basket.name}: #{distributions.sum { |d| d.delivery_memberships.select { |m| m.basket_id == basket.id }.count }}"
-              }.join(' / ')
-            end
-            div do
-             '&nbsp;'.html_safe
+            column('', class: 'align-right') do
+              spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}", size: 20)
             end
           end
         end

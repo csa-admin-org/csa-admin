@@ -6,6 +6,14 @@ class Basket < ActiveRecord::Base
     "#{name} (#{year})"
   end
 
+  def self.current_small
+    self.where(year: Date.today.year).order(:annual_price).first
+  end
+
+  def self.current_big
+    self.where(year: Date.today.year).order(:annual_price).last
+  end
+
   def self.years_range
     years = pluck(:year)
     years.min..years.max
