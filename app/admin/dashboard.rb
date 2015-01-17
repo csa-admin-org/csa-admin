@@ -76,7 +76,7 @@ ActiveAdmin.register_page 'Dashboard' do
               "Total: #{total_small_basket + total_big_basket}"
             end
             column('', class: 'align-right') do
-              spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}", size: 20)
+              spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}", size: 27)
             end
           end
         end
