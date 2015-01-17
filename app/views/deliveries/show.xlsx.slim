@@ -17,7 +17,8 @@
         - unless @filter_distribution
           td Note alimentaire
     tbody
-      - distribution.delivery_memberships.each do |membership|
+      - memberships = distribution.delivery_memberships.sort_by { |m| m.member.last_name }
+      - memberships.each do |membership|
         - member = membership.member
         tr
           td= member.name
