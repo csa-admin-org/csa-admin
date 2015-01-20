@@ -18,7 +18,7 @@ class HalfdayWork < ActiveRecord::Base
   end
 
   validates :member_id, :date, presence: true
-  validate :date_cannot_be_in_the_past, on: :create
+  # validate :date_cannot_be_in_the_past, on: :create
   validate :periods_include_good_value
 
   def status
@@ -79,9 +79,9 @@ class HalfdayWork < ActiveRecord::Base
 
   private
 
-  def date_cannot_be_in_the_past
-    errors.add(:date, :invalid) if date && date < Date.today
-  end
+  # def date_cannot_be_in_the_past
+  #   errors.add(:date, :invalid) if date && date < Date.today
+  # end
 
   def periods_include_good_value
     if periods.blank? || !periods.all? { |d| d.in? PERIODS }
