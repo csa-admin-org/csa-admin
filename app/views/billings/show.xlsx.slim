@@ -50,7 +50,7 @@ table
         td= membership.price_details
 
 table
-  caption= 'Membres Soutien'
+  caption Cotisations
   thead
     tr
       td Membre ID
@@ -61,9 +61,11 @@ table
       td Zip
       td Ville
       td Paiement
+      td Membre soutien uniq.
       td Total (sFr.)
   tbody
-    - @members.order(:last_name).each do |member|
+    - members = @members.sort_by { |m| m.last_name }
+    - members.each do |member|
       tr
         td= member.id
         td= member.first_name
@@ -73,4 +75,5 @@ table
         td= member.zip
         td= member.city
         td= t("member.billing_interval.#{member.billing_interval}")
+        td= member.support_member ? 'oui' : 'non'
         td= Member::SUPPORT_PRICE

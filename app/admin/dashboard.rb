@@ -26,15 +26,16 @@ ActiveAdmin.register_page 'Dashboard' do
         end
         panel "Facturation #{Date.today.year} (prévision, sans les paniers à l'essai)" do
           total_price = 0
-          types = %w[Eveil Abondance Soutien]
+          types = ['Paniers Eveil', 'Paniers Abondance', 'Cotisations']
           table_for types do
             column('Type') { |type| type }
             column('', class: 'align-right') do |type|
               price = case type
-              when 'Abondance', 'Eveil'
-                Membership.billable.select { |m| m.basket.name == type }.sum(&:price)
-              when 'Soutien'
-                Member.support.count * Member::SUPPORT_PRICE
+              when /Eveil/, /Abondance/
+                basket_name = type.sub /Paniers /, ''
+                Membership.billable.select { |m| m.basket.name == basket_name }.sum(&:price)
+              when 'Cotisations'
+                Member.billable_for_membership_fee.size * Member::SUPPORT_PRICE
               end
               total_price += price
               number_to_currency price

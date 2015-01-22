@@ -26,12 +26,12 @@ class Member < ActiveRecord::Base
     -> { validated.not_waiting.where(support_member: false) }
   scope :trial, -> {
     with_current_membership.
-      where('members.created_at >= ?', Time.utc(2014,11)).
+      where('members.created_at >= ?', Time.utc(2014, 11)).
       where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Date.today)
   }
   scope :active, -> {
     with_current_membership.
-      where('members.created_at < ? OR (SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.utc(2014,11), Date.today)
+      where('members.created_at < ? OR (SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.utc(2014, 11), Date.today)
   }
   scope :support, -> {
     not_waiting
@@ -81,6 +81,12 @@ class Member < ActiveRecord::Base
   def self.gribouille_emails
     all.includes(:current_membership).select(&:gribouille?)
       .map(&:emails_array).flatten.uniq.compact
+  end
+
+  def self.billable_for_membership_fee(year = Date.today.year)
+    members = Member.support.all
+    members += Member.joins(:memberships).merge(Membership.during_year(year))
+    members.uniq.reject { |m| m.trial? }
   end
 
   def name
