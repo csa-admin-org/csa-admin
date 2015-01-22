@@ -8,10 +8,10 @@ describe HalfdayWork do
     describe 'date' do
       let(:halfday_work) { HalfdayWork.new(member: member, periods: ['am']) }
 
-      it 'does not accept date in the past' do
-        halfday_work.date = Date.yesterday
-        expect(halfday_work).not_to be_valid
-      end
+      # it 'does not accept date in the past' do
+      #   halfday_work.date = Date.yesterday
+      #   expect(halfday_work).not_to be_valid
+      # end
 
       it 'accepts date after or on today' do
         halfday_work.date = Date.today
