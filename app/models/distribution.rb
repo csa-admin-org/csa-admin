@@ -12,7 +12,6 @@ class Distribution < ActiveRecord::Base
     address.blank?
   end
 
-
   def self.with_delivery_memberships(delivery)
     joins(:memberships).merge(Membership.including_date(delivery.date))
       .distinct

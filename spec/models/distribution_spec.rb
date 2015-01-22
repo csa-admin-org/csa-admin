@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Distribution do
-
   describe '.with_delivery_memberships' do
     subject { described_class.with_delivery_memberships(delivery) }
 
@@ -28,5 +27,4 @@ describe Distribution do
       expect(subject.last.delivery_memberships.size).to eq 1
     end
   end
-
 end

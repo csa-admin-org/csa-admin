@@ -69,6 +69,29 @@ ActiveAdmin.register_page 'Dashboard' do
               [count_small_basket, count_big_basket].join(' / ').html_safe
             end
           end
+          table_for [false, true] do |delivered|
+            column('') do |delivered|
+              delivered ? 'Paniers à préparer' : 'Paniers Jardin de la Main'
+            end
+            column('', class: 'align-right') do |delivered|
+              if delivered
+                tot = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 } }
+              else
+                tot = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 } }
+              end
+              "Total: #{tot}"
+            end
+            column('', class: 'align-right') do |delivered|
+              if delivered
+                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == small_basket.id } }
+                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == big_basket.id } }
+              else
+                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == small_basket.id } }
+                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == big_basket.id } }
+              end
+              spaced("Totaux: #{[count_small_basket, count_big_basket].join(' / ')}", size: 33)
+            end
+          end
           table_for ['foo'] do |foo|
             column('') do
               "Télécharger : #{link_to 'Excel', delivery_path(Delivery.coming.first, format: :xlsx)}".html_safe

@@ -1,4 +1,43 @@
-- Distribution.with_delivery_memberships(@delivery).each do |distribution|
+- distributions = Distribution.with_delivery_memberships(@delivery)
+- small_basket = Basket.current_small
+- big_basket = Basket.current_big
+
+- unless @filter_distribution
+  table
+    caption Récap
+    thead
+      tr
+        td
+        td Total
+        td Eveil
+        td Abondance
+    tbody
+      - distributions.each do |distribution|
+        tr
+          td= distribution.name
+          td= distribution.delivery_memberships.to_a.size
+          td= distribution.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id }
+          td= distribution.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id }
+      tr
+      tr
+        td Paniers Jardin de la Main
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == small_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == big_basket.id } }
+      tr
+        td Paniers à préparer
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == small_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == big_basket.id } }
+      tr
+      tr
+        td Total
+        td= distributions.sum { |d| d.delivery_memberships.to_a.size }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id } }
+
+
+- distributions.each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
   table
     caption= "#{distribution.name} (#{Basket.all.map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_id == b.id } }.join('+')})"
