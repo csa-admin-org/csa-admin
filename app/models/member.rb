@@ -85,7 +85,9 @@ class Member < ActiveRecord::Base
 
   def self.billable_for_membership_fee(year = Date.today.year)
     members = Member.support.all
-    members += Member.joins(:memberships).merge(Membership.during_year(year))
+    members += Member.joins(:memberships).merge(
+      Membership.during_year(year).started
+    )
     members.uniq.reject { |m| m.trial? }
   end
 

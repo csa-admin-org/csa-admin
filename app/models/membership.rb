@@ -16,6 +16,7 @@ class Membership < ActiveRecord::Base
   before_save :build_new_membership
   after_save :save_new_membership
 
+  scope :started, -> { where('started_on < ?', Time.now) }
   scope :past, -> { where('ended_on < ?', Time.now) }
   scope :future, -> { where('started_on > ?', Time.now) }
   scope :current, -> { including_date(Date.today) }
@@ -38,7 +39,7 @@ class Membership < ActiveRecord::Base
   end
 
   def self.billable(year = Date.today.year)
-    during_year(year).includes(:member).select do |membership|
+    during_year(year).started.includes(:member).select do |membership|
       membership.price > 0 && !membership.member.trial?
     end
   end
