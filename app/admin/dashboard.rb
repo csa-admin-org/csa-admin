@@ -10,12 +10,21 @@ ActiveAdmin.register_page 'Dashboard' do
         panel 'Membres' do
           statuses = %i[pending waiting trial active support inactive]
           table_for statuses do
-            column 'Status', ->(status) { link_to I18n.t("member.status.#{status}"), members_path(scope: status) }
+            column 'Status', ->(status) {
+              link_to I18n.t("member.status.#{status}"), members_path(scope: status)
+            }
             column 'Membres', class: 'align-right' do |status|
-              Member.send(status).count
+              str = ''
+              if status == :active
+                str += "(#{Member.where(salary_basket: true).count} panier-salaire) "
+              end
+              if status == :inactive
+                str += "(#{Member.inactive.joins(:memberships).merge(Membership.future).count} futur actif) "
+              end
+              str += Member.send(status).count.to_s
             end
             column "#{small_basket.name} / #{big_basket.name}", class: 'align-right' do |status|
-              if status.in?(%i[pending waiting trial active])
+              if status.in?(%i[pending waiting trial active inactive])
                 members = Member.send(status).includes(current_membership: :basket).all.to_a
                 count_small_basket = members.count{ |m| m.basket == small_basket }
                 count_big_basket = members.count{ |m| m.basket == big_basket }
