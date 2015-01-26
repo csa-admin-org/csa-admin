@@ -125,4 +125,11 @@ describe Member do
     subject { Member.new(phones: '1234, 4567').phones }
     it { is_expected.to eq '1234, 4567' }
   end
+
+  describe '#absent?' do
+    let(:member) { create(:member) }
+    before { create(:absence, member: member, started_on: Date.today, ended_on: 2.days.from_now) }
+
+    specify { expect(member.absent?(Date.tomorrow)).to eq true }
+  end
 end

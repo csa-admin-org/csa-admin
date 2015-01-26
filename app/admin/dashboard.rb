@@ -112,6 +112,12 @@ ActiveAdmin.register_page 'Dashboard' do
               spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}", size: 27)
             end
           end
+          absences_count = Absence.including_date(next_delivery.date).count
+          if absences_count > 0
+            span do
+              link_to "Absences: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+            end
+          end
         end
         panel 'Gribouille' do
           emails = Member.gribouille_emails

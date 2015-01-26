@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150109134745) do
+ActiveRecord::Schema.define(version: 20150126185753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "absences", force: true do |t|
+    t.integer  "member_id"
+    t.date     "started_on"
+    t.date     "ended_on"
+    t.text     "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "absences", ["member_id"], name: "index_absences_on_member_id", using: :btree
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"

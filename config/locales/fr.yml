@@ -225,6 +225,11 @@ fr:
         deliveries_received_count: Paniers déjà livrés
         deliveries_count: Paniers livrés (total)
         price: Prix final
+      absence:
+        member_id: Membre
+        member: Membre
+        started_on: Début
+        ended_on: Fin
 
   member:
     status:

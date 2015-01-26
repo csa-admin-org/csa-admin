@@ -8,6 +8,7 @@ class Member < ActiveRecord::Base
   belongs_to :validator, class_name: 'Admin'
   belongs_to :waiting_basket, class_name: 'Basket'
   belongs_to :waiting_distribution, class_name: 'Distribution'
+  has_many :absences
   has_many :halfday_works
   has_many :memberships
   has_many :billing_memberships, class_name: 'Membership', foreign_key: 'billing_member_id'
@@ -171,6 +172,10 @@ class Member < ActiveRecord::Base
     (status.in?(%i[waiting trial active support]) &&
       read_attribute(:gribouille) != false) ||
       read_attribute(:gribouille) == true
+  end
+
+  def absent?(date)
+    absences.any? { |absence| absence.period.include?(date) }
   end
 
   def emails_array

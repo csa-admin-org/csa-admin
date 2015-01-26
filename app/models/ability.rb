@@ -8,7 +8,7 @@ class Ability
       cannot [:manage, :read], Admin
       can [:manage, :read], Admin, id: admin.id
       cannot :manage, [Basket, Delivery]
-      can :manage, [HalfdayWork]
+      can :manage, [HalfdayWork, Absence]
       can :create, [Member, Membership, Distribution]
       can :update, [Member, Distribution]
       can :destroy, [Member, Membership], can_destroy?: true

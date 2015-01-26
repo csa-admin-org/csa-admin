@@ -35,7 +35,11 @@
         td= distributions.sum { |d| d.delivery_memberships.to_a.size }
         td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id } }
         td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id } }
-
+      tr
+      tr
+      tr
+        td Absences
+        td= Absence.including_date(@delivery.date).count
 
 - distributions.each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
