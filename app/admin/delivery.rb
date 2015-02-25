@@ -19,10 +19,12 @@ ActiveAdmin.register Delivery do
       @delivery = resource
       respond_to do |format|
         format.html
-        format.xlsx {
-          render xlsx: 'deliveries/show',
-            filename: "RageDeVert-Livraison-#{@delivery.date.strftime("%Y%m%d")}"
-        }
+        format.xlsx do
+          render(
+            xlsx: 'deliveries/show',
+            filename: "RageDeVert-Livraison-#{@delivery.date.strftime('%Y%m%d')}"
+          )
+        end
       end
     end
   end

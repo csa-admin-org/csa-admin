@@ -20,7 +20,8 @@ class ComingCalendarDates
   def selectable_dates
     range = Date.today..Date.today.end_of_year
     range.reject do |date|
-      date.saturday? || date.sunday?
+      week_number = date.strftime('%W').to_i
+      (week_number % 2 == 0 && date.saturday?) || date.sunday?
     end
   end
 

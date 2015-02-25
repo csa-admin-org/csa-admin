@@ -23,8 +23,12 @@ ActiveAdmin.register Membership do
     actions
   end
 
-  filter :member, as: :select, collection: -> { Member.joins(:memberships).order(:last_name).distinct }
-  filter :billing_member, as: :select, collection: -> { Member.joins(:billing_memberships).order(:last_name).distinct }
+  filter :member,
+    as: :select,
+    collection: -> { Member.joins(:memberships).order(:last_name).distinct }
+  filter :billing_member,
+    as: :select,
+    collection: -> { Member.joins(:billing_memberships).order(:last_name).distinct }
   filter :basket
   filter :distribution
   filter :started_on
@@ -59,7 +63,8 @@ ActiveAdmin.register Membership do
   form do |f|
     f.inputs 'Membre' do
       f.input :member,
-        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] }, include_blank: false
+        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
+        include_blank: false
       f.input :billing_member,
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
         hint: 'laisser vide si identique (membre)'

@@ -20,14 +20,21 @@ ActiveAdmin.register HalfdayWork do
     actions
   end
 
-  filter :member
+  filter :member,
+    as: :select,
+    collection: -> { Member.joins(:halfday_works).order(:last_name).distinct }
   filter :date
 
   form do |f|
     f.inputs 'Details' do
       years_range = Basket.years_range
-      f.input :date, start_year: years_range.first, end_year: years_range.last, include_blank: false
-      f.input :member, include_blank: false
+      f.input :date,
+        start_year: years_range.first,
+        end_year: years_range.last,
+        include_blank: false
+      f.input :member,
+        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
+        include_blank: false
       f.input :participants_count
       f.input :period_am, as: :boolean, label: 'AM'
       f.input :period_pm, as: :boolean, label: 'PM'

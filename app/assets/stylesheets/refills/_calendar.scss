@@ -103,16 +103,16 @@ td.participants-0 .ui-state-default{
   background: lighten($green, 40);
 }
 td.participants-1 .ui-state-default{
-  background: lighten($green, 40/1);
-}
-td.participants-2 .ui-state-default{
   background: lighten($green, 40/2);
 }
-td.participants-3 .ui-state-default{
+td.participants-2 .ui-state-default{
   background: lighten($green, 40/3);
 }
-td.participants-4 .ui-state-default{
+td.participants-3 .ui-state-default{
   background: lighten($green, 40/4);
+}
+td.participants-4 .ui-state-default{
+  background: lighten($green, 40/5);
 }
 td.participants-5 .ui-state-default{
   background: lighten($green, 100/5);

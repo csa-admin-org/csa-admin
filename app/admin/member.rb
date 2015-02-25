@@ -56,7 +56,10 @@ ActiveAdmin.register Member do
       row(:billing_interval) { t("member.billing_interval.#{member.billing_interval}") }
       row :current_membership do
         if member.current_membership
-          link_to "#{member.basket.name} / #{member.distribution.name}", member.current_membership
+          link_to(
+            "#{member.basket.name} / #{member.distribution.name}",
+            member.current_membership
+          )
         end
       end
       row(:status) { member.display_status }
@@ -86,6 +89,8 @@ ActiveAdmin.register Member do
   }
   filter :with_current_basket, as: :select, collection: -> { Basket.all }
   filter :with_current_distribution, as: :select, collection: -> { Distribution.all }
+  filter :billing_interval, as: :select, collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
+
 
   form do |f|
     f.inputs 'Details' do
