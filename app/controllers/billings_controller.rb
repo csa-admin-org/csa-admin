@@ -1,4 +1,6 @@
 class BillingsController < ApplicationController
+  before_action :authenticate_admin!
+
   # GET billing.xlsx
   def show
     @memberships = Membership.billable
