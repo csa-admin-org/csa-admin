@@ -1,5 +1,5 @@
 class BillingsController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :verify_auth_token
 
   # GET billing.xlsx
   def show
@@ -10,6 +10,14 @@ class BillingsController < ApplicationController
         render xlsx: :show,
           filename: "RageDeVert-Facturation-#{Time.zone.now.strftime("%Y%m%d-%Hh%M")}"
       }
+    end
+  end
+
+  private
+
+  def verify_auth_token
+    if params[:auth_token] != ENV['BILLING_AUTH_TOKEN'] && !admin_signed_in?
+      render text: 'unauthorized', status: :unauthorized
     end
   end
 end
