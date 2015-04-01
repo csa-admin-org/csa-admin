@@ -21,7 +21,7 @@ ActiveAdmin.register Delivery do
         format.html
         format.xlsx do
           render(
-            xlsx: 'deliveries/show',
+            xlsx: :show,
             filename: "RageDeVert-Livraison-#{@delivery.date.strftime('%Y%m%d')}"
           )
         end

@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.2.1'
 
-gem 'rails', '4.1.9'
+gem 'rails', '4.2.1'
 gem 'rails-i18n'
 
-gem 'passenger', '~> 5.0.0.rc2'
+gem 'passenger'
 gem 'rack-status'
 
 gem 'pg'
@@ -19,7 +19,7 @@ gem 'responsive_active_admin'
 gem 'turbolinks'
 gem 'jquery-ui-rails'
 gem 'slim'
-gem 'to_spreadsheet'
+gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
 
 gem 'sass-rails', '5.0.0.beta1'
 gem 'font-awesome-sass'

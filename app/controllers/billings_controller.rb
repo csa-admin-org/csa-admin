@@ -7,8 +7,10 @@ class BillingsController < ApplicationController
     @members = Member.billable_for_membership_fee
     respond_to do |format|
       format.xlsx {
-        render xlsx: :show,
+        render(
+          xlsx: :show,
           filename: "RageDeVert-Facturation-#{Time.zone.now.strftime("%Y%m%d-%Hh%M")}"
+        )
       }
     end
   end
