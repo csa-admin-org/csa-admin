@@ -193,18 +193,18 @@ fr:
         food_note: Note alimentaire
         waiting: Sur liste d'attente
         basket: Panier
-        current_membership: Abonnement
+        current_membership: Abonnement (en cours)
         with_name: Nom
         with_address: Adresse
-        with_current_basket: Panier
-        with_current_distribution: Distribution
+        with_current_basket: Panier (en cours)
+        with_current_distribution: Distribution (en cours)
         created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
         waiting_basket: Panier (en attente)
         waiting_distribution: Distribution (en attente)
         validated_at: Validé le
         validator: Validé par
-        deliveries_received_count_since_first_membership: Paniers en essai reçus
+        deliveries_received_count_since_first_membership: Paniers reçus
         salary_basket: Panier(s) salaire
       membership:
         member_id: Membre
