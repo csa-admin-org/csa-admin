@@ -100,10 +100,13 @@ $.datepicker.setDefaults $.datepicker.regional["fr"]
 
 $ ->
   datesWithParticipantsCount = $('#datepicker').data('dates-with-participants-count')
+  today = new Date()
+  lastDate = new Date(today.getFullYear(), 11, 31)
 
   $('#datepicker').datepicker
     firstDay: 1
-    minDate: new Date()
+    minDate: today
+    maxDate: lastDate
     defaultDate: $('#halfday_work_date').val()
     onSelect: (dateText, inst) ->
       $('#halfday_work_date').val dateText
