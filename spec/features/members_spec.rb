@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 feature 'members page' do
-  # fixtures :members, :halfday_works
-  let!(:member) { create(:member) }
+  let!(:member) { create(:member, :active) }
   let!(:halfday_work) { create(:halfday_work, member: member) }
 
   before { Capybara.app_host = 'http://membres.example.com' }

@@ -21,8 +21,8 @@ describe 'Next Delivery xlsx' do
   end
 
   context 'with a good auth token' do
-    let!(:distribution) { create(:distribution, id: 2) }
-    let!(:delivery) { create(:delivery, date: 1.week.from_now) }
+    # let!(:distribution) { create(:distribution) }
+    # let!(:delivery) { create(:delivery, date: 1.week.from_now) }
 
     it 'responds 200' do
       get '/deliveries/next',

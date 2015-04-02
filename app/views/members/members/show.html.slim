@@ -2,13 +2,14 @@ section
   h4= "#{@member.name}"
   ul
     li Panier: Abondance
-    li Nombre de ½ journée de travail par année: 2
-    li= "Nombre de ½ journée restantes: #{@member.remaining_halfday_works_count}"
+    li
+      = '½ journée(s) de travail effectuée(s): '
+      b= "#{@member.validated_halfday_works}/#{@member.annual_halfday_works}"
 
 section
   h2 ½ journée de travail à venir
   - if @member.halfday_works.coming_for_member.empty?
-    p.table-empty Nada, merci de vous inscrire à l'aide du formulaire ci-dessous.
+    p.table-empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
     table.halfday_works
       thead
@@ -21,7 +22,7 @@ section
       - @member.halfday_works.coming_for_member.each do |halfday_work|
         tr
           td=l halfday_work.date, format: :long
-          td= diplay_periods halfday_work.periods
+          td= display_periods halfday_work
           td= halfday_work.participants_count
           td
             = button_to [:members, @member, halfday_work], method: :delete do
@@ -29,6 +30,7 @@ section
 
 section
   h2 Inscription ½ journée de travail
+  p.label Sélectionez une date sur le calendrier ci-dessous. Plus le vert de la date est foncé, plus le nombre d'inscriptions est élevé. Dans la mesure du possible, merci de choisir les dates les moins fréquentées (vert clair)
 
   section.form
     - @halfday_work ||= HalfdayWork.new(date: Date.today)
@@ -73,6 +75,6 @@ section.past
             - if halfday_work.pending?
               span= ' (en attente de validation)'
             - elsif halfday_work.rejected?
-              span= ' (refusé)'
-          td= diplay_periods halfday_work.periods
+              span= ' (refusée)'
+          td= display_periods halfday_work
           td= halfday_work.participants_count

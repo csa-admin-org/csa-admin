@@ -1,6 +1,7 @@
 .calendar {
   // position: absolute;
-  width: 350px;
+  width: 360px;
+  height: 400px;
   // left: 50%;
   // top: 50%;
   margin-top: 1em;
@@ -27,12 +28,6 @@
   cursor: pointer;
   overflow: hidden;
   margin-top: 12px;
-
-  // &.ui-state-disabled {
-  //   background: #fff;
-  //   border-color: #fff;
-  //   color: #fff;
-  // }
 }
 .ui-datepicker-prev {
   float: left;
@@ -74,29 +69,40 @@
   width: 100%;
   text-align: center;
 }
-.ui-datepicker-calendar thead tr th span {
-  display: block;
+.ui-datepicker-calendar {
+  width: 360px;
+}
+
+.ui-datepicker-calendar thead tr th {
   width: 40px;
+  height: 40px;
   margin-bottom: 5px;
   font-size: $base-font-size;
 }
-.ui-state-default, .ui-datepicker-unselectable {
+
+.ui-datepicker-calendar tr td {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  display: block;
-  text-decoration: none;
-  color: #000;
   line-height: 40px;
   font-size: $base-font-size;
+  text-decoration: none;
+}
+
+.ui-datepicker-calendar tr td a {
+  display: block;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+
+.ui-state-default, .ui-datepicker-unselectable {
+  color: #000;
 }
 
 .ui-state-default {
-
   &:hover {
     color: #000;
-    border: 1px solid black;
-    line-height: 38px;
+    border: 2px solid #555;
   }
 }
 td.participants-0 .ui-state-default{
@@ -136,9 +142,8 @@ td.participants-10 .ui-state-default{
 .ui-state-highlight {
   font-weight: bold;
 }
-.ui-state-active {
-  border: 3px solid black;
-  line-height: 34px;
+.ui-datepicker-calendar a.ui-state-active {
+  border: 2px solid black;
 }
 .ui-datepicker-unselectable .ui-state-default {
   background: none;

@@ -21,8 +21,10 @@ gem 'jquery-ui-rails'
 gem 'slim'
 gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
 
-gem 'sass-rails', '5.0.0.beta1'
+gem 'sass-rails'
 gem 'font-awesome-sass'
+
+gem 'sucker_punch'
 
 gem 'bourbon'
 gem 'bitters'

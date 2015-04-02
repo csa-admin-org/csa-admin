@@ -186,8 +186,12 @@ class Member < ActiveRecord::Base
     string_to_a(phones)
   end
 
-  def remaining_halfday_works_count
-    [2 - halfday_works.past.validated.to_a.sum(&:value), 0].max
+  def annual_halfday_works
+    current_membership.annual_halfday_works
+  end
+
+  def validated_halfday_works
+    [halfday_works.past.validated.to_a.sum(&:value), 0].max
   end
 
   def to_param

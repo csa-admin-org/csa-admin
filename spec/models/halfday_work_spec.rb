@@ -55,6 +55,11 @@ describe HalfdayWork do
       halfday_work.validate!(admin)
       expect(halfday_work.reload.validator).to eq admin
     end
+
+    it 'sends validated email' do
+      expect { halfday_work.validate!(admin) }
+        .to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
   end
 
   describe '#reject!' do
@@ -72,6 +77,11 @@ describe HalfdayWork do
     it 'set validator with admin' do
       halfday_work.reject!(admin)
       expect(halfday_work.reload.validator).to eq admin
+    end
+
+    it 'sends rejected email' do
+      expect { halfday_work.reject!(admin) }
+        .to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 

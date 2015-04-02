@@ -21,6 +21,8 @@ class HalfdayWork < ActiveRecord::Base
   # validate :date_cannot_be_in_the_past, on: :create
   validate :periods_include_good_value
 
+  after_save :send_notifications
+
   def status
     if validated_at?
       :validated
@@ -86,6 +88,15 @@ class HalfdayWork < ActiveRecord::Base
   def periods_include_good_value
     if periods.blank? || !periods.all? { |d| d.in? PERIODS }
       errors.add(:periods, 'Sélectionner au moins un horaire, merci')
+    end
+  end
+
+  def send_notifications
+    if validated_at_changed? && validated_at?
+      HalfdayWorkMailer.validated(self).deliver_later
+    end
+    if rejected_at_changed? && rejected_at?
+      HalfdayWorkMailer.rejected(self).deliver_later
     end
   end
 end

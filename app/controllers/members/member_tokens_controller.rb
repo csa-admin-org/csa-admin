@@ -8,8 +8,8 @@ class Members::MemberTokensController < Members::ApplicationController
   # POST /token/recover
   def recover
     @member = Member.where('emails LIKE ?', "%#{params[:email]}%").first
-    MemberMailer.recover_token_email(params[:email], @member).deliver if @member
+    MemberMailer.recover_token(params[:email], @member).deliver_later if @member
     redirect_to edit_members_member_token_path,
-      notice: "Merci, si l'email correspond à un membre, un email vient de vous être envoyé."
+      notice: "Merci! Un email vient de vous être envoyé."
   end
 end

@@ -30,6 +30,12 @@ p.table-empty {
   font-style: italic;
 }
 
+p.label {
+  margin: 10px 0 0 0;
+  font-size: $base-font-size * 0.9;
+  font-style: italic;
+}
+
 section.form {
   @include outer-container;
   margin: 0;
@@ -52,7 +58,6 @@ section.form {
   input.participants_count {
     width: 50px;
   }
-
 }
 
 section.past {
