@@ -12,6 +12,13 @@ module HalfdayWorksHelper
     if halfday_work.participants_count > 1
       summary << " (#{halfday_work.participants_count})"
     end
+    if halfday_work.pending?
+      summary << ' [en attente de validation]'
+    elsif halfday_work.rejected?
+      summary << ' [refusée]'
+    elsif halfday_work.validated?
+      summary << ' [validée]'
+    end
     summary
   end
 end
