@@ -187,7 +187,7 @@ class Member < ActiveRecord::Base
   end
 
   def annual_halfday_works
-    current_membership.annual_halfday_works
+    current_membership.try(:annual_halfday_works) || 0
   end
 
   def validated_halfday_works
