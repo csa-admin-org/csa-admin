@@ -6,7 +6,6 @@ class HalfdayWorkMailer < ActionMailer::Base
   def coming(halfday_work)
     @halfday_work = halfday_work
     @member = halfday_work.member
-    # TODO Ajouter date @halfday_work.date, format: :long
     mail(to: @member.emails, subject: subject('à venir'))
   end
 
