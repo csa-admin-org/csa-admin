@@ -77,5 +77,6 @@ ActiveAdmin.register HalfdayWork do
   end
 
   config.per_page = 50
+  config.sort_order = 'date_asc'
   config.batch_actions = true
 end
