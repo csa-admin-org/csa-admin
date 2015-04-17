@@ -88,7 +88,7 @@ FactoryGirl.define do
   factory :halfday_work do
     member
     periods { ['am'] }
-    date { Date.today.beginning_of_week + 10.days }
+    date { Date.today.beginning_of_week + 8.days }
     participants_count 1
   end
 end

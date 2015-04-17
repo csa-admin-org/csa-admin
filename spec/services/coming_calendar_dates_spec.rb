@@ -10,6 +10,6 @@ describe ComingCalendarDates do
     end
 
     it { is_expected.to be_kind_of(Hash) }
-    it { is_expected.to include((beginning_of_week + 10.days).to_s => [2, 1]) }
+    it { is_expected.to include((beginning_of_week + 8.days).to_s => [2, 1]) }
   end
 end
