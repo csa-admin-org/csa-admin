@@ -176,6 +176,8 @@ ActiveAdmin.setup do |config|
   # You can enable or disable them for all resources here.
   #
   # config.filters = true
+
+  config.current_filters = false
 end
 
 class MyFooter < ActiveAdmin::Component
