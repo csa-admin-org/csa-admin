@@ -48,10 +48,13 @@ header.navigation {
   .nav-right {
     z-index: 9999999;
     float: right;
-    line-height: $navigation-height + 15px;
+    line-height: 25px;
+    margin-top: 10px;
     padding-bottom: 0em;
+    width: 150px;
 
     a {
+      float: right;
       color: $base-font-color;
       display: inline-block;
       font-weight: 400;
@@ -65,5 +68,4 @@ header.navigation {
       }
     }
   }
-
 }
