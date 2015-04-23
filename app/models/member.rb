@@ -151,7 +151,12 @@ class Member < ActiveRecord::Base
   end
 
   def support_member=(bool)
-    self.billing_interval = 'annual' if bool || bool == '1'
+    if bool || bool == '1'
+      self.billing_interval = 'annual'
+      self.waiting_started_at = nil
+      self.waiting_basket_id = nil
+      self.waiting_distribution_id = nil
+    end
     write_attribute(:support_member, bool)
   end
 
@@ -162,7 +167,7 @@ class Member < ActiveRecord::Base
   def validate!(validator)
     return unless status == :pending
     update!(
-      waiting_started_at: Time.now,
+      waiting_started_at: support? ? nil : Time.now,
       validated_at: Time.now,
       validator: validator
     )

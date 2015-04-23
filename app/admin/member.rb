@@ -75,8 +75,8 @@ ActiveAdmin.register Member do
       end
       row :food_note
       row :note
-      row :created_at
-      row :validated_at
+      row(:created_at) { l member.created_at }
+      row(:validated_at) { member.validated_at ? l(member.validated_at) : nil }
       row :validator
       row(:salary_basket) { member.salary_basket? ? 'oui' : 'non' }
     end

@@ -33,9 +33,9 @@ class InscriptionsImporter
       city: city(row[2]),
       emails: row[3],
       phones: row[4],
-      waiting_basket_id: basket_id(row[5]),
-      support_member: !!(row[5] =~ /soutien/),
-      waiting_distribution_id: distribution_id(row[12]),
+      support_member: support?(row[5]),
+      waiting_basket_id: support?(row[5]) ? nil : basket_id(row[5]),
+      waiting_distribution_id: support?(row[5]) ? nil : distribution_id(row[12]),
       billing_interval:  row[8] =~ /Trimestriel/ ? 'quarterly' : 'annual',
       food_note: row[9],
       note: row[11]
@@ -56,6 +56,10 @@ class InscriptionsImporter
 
   def inscription_submitted_at(row)
     Time.strptime(row[0], '%m/%d/%Y %H:%M:%S')
+  end
+
+  def support?(str)
+    !!(str =~ /soutien/)
   end
 
   def basket_id(str)
