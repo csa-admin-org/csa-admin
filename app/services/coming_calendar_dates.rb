@@ -18,7 +18,7 @@ class ComingCalendarDates
   private
 
   def selectable_dates
-    range = Date.today..Date.today.end_of_year
+    range = Date.today.next_week..Date.today.end_of_year
     range.select { |date| date.monday? || date.tuesday? }
   end
 
