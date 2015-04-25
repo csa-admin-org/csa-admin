@@ -173,7 +173,7 @@ ActiveAdmin.register Member do
     end
   end
 
-  config.per_page = 150
+  config.per_page = 25
   config.sort_order = 'last_name_asc'
   config.batch_actions = true
 end

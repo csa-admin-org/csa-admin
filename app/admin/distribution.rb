@@ -25,5 +25,5 @@ ActiveAdmin.register Distribution do
   permit_params *%i[name address zip city basket_price]
 
   config.filters = false
-  config.per_page = 50
+  config.per_page = 25
 end

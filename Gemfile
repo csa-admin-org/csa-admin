@@ -26,6 +26,7 @@ gem 'sass-rails'
 gem 'font-awesome-sass'
 
 gem 'sucker_punch'
+gem 'facets', require: false
 
 gem 'bourbon'
 gem 'bitters'

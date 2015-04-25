@@ -1,5 +1,5 @@
 ActiveAdmin.register HalfdayWork do
-  menu priority: 4
+  menu priority: 6
 
   scope :pending, default: true
   scope :coming
@@ -76,7 +76,7 @@ ActiveAdmin.register HalfdayWork do
     end
   end
 
-  config.per_page = 50
+  config.per_page = 25
   config.sort_order = 'date_asc'
   config.batch_actions = true
 end

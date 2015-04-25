@@ -17,4 +17,10 @@ namespace :spreadsheet do
     SupportImporter.import('Membres Soutien', 1..-1)
     p "#{Member.support.count} support members imported."
   end
+
+  desc 'Import invoices'
+  task import_invoices: :environment do
+    InvoicesImporter.import
+    p "Invoices imported."
+  end
 end

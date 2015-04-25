@@ -120,5 +120,5 @@ ActiveAdmin.register Membership do
     end
   end
 
-  config.per_page = 150
+  config.per_page = 25
 end

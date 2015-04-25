@@ -1,5 +1,5 @@
 ActiveAdmin.register Absence do
-  menu priority: 4
+  menu priority: 5
 
   scope :all, default: true
   scope :past
@@ -76,5 +76,5 @@ ActiveAdmin.register Absence do
     end
   end
 
-  config.per_page = 50
+  config.per_page = 25
 end

@@ -9,6 +9,7 @@ class Member < ActiveRecord::Base
   belongs_to :waiting_basket, class_name: 'Basket'
   belongs_to :waiting_distribution, class_name: 'Distribution'
   has_many :absences
+  has_many :invoices
   has_many :halfday_works
   has_many :memberships
   has_many :billing_memberships, class_name: 'Membership', foreign_key: 'billing_member_id'

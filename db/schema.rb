@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302190807) do
+ActiveRecord::Schema.define(version: 20150417192236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "absences", force: :cascade do |t|
     t.integer  "member_id"
@@ -105,6 +106,20 @@ ActiveRecord::Schema.define(version: 20150302190807) do
   add_index "halfday_works", ["validated_at"], name: "index_halfday_works_on_validated_at", using: :btree
   add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 
+  create_table "invoices", force: :cascade do |t|
+    t.integer  "member_id",                          null: false
+    t.date     "date",                               null: false
+    t.text     "number",                             null: false
+    t.decimal  "amount",     precision: 8, scale: 2, null: false
+    t.decimal  "balance",    precision: 8, scale: 2, null: false
+    t.hstore   "data",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invoices", ["member_id"], name: "index_invoices_on_member_id", using: :btree
+  add_index "invoices", ["number"], name: "index_invoices_on_number", using: :btree
+
   create_table "members", force: :cascade do |t|
     t.string   "emails",                   limit: 255
     t.string   "phones",                   limit: 255
@@ -133,10 +148,12 @@ ActiveRecord::Schema.define(version: 20150302190807) do
     t.datetime "inscription_submitted_at"
     t.datetime "deleted_at"
     t.datetime "welcome_email_sent_at"
+    t.integer  "invoice_identifier"
   end
 
   add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
   add_index "members", ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at", using: :btree
+  add_index "members", ["invoice_identifier"], name: "index_members_on_invoice_identifier", using: :btree
   add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
   add_index "members", ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id", using: :btree
   add_index "members", ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree

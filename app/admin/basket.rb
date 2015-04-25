@@ -19,5 +19,5 @@ ActiveAdmin.register Basket do
   end
 
   config.filters = false
-  config.per_page = 50
+  config.per_page = 25
 end

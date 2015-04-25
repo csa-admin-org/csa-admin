@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activeadmin/activeadmin.git
-  revision: 714d100cd8d99dcfba5d908c56887e170f1ec708
+  revision: 8968efcc51cc7c765c35c75aa7bf68c758ca03f3
   specs:
     activeadmin (1.0.0.pre1)
       arbre (~> 1.0, >= 1.0.2)
@@ -130,6 +130,7 @@ GEM
       activesupport (>= 3.0.4)
     execjs (2.5.2)
     extlib (0.9.16)
+    facets (3.0.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -407,6 +408,7 @@ DEPENDENCIES
   devise-i18n
   dotenv-rails
   exception_notification
+  facets
   factory_girl_rails
   faker
   font-awesome-sass

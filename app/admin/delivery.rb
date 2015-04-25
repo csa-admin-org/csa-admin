@@ -31,5 +31,5 @@ ActiveAdmin.register Delivery do
 
   config.filters = false
   config.sort_order = 'date_asc'
-  config.per_page = 50
+  config.per_page = 40
 end

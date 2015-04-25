@@ -85,6 +85,14 @@ FactoryGirl.define do
     date { Time.now }
   end
 
+  factory :invoice do
+    member
+    date { Time.now }
+    sequence(:number) { |n| "FA000#{n}" }
+    amount 100
+    balance 100
+  end
+
   factory :halfday_work do
     member
     periods { ['am'] }
