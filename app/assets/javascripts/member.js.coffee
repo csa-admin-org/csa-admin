@@ -4,6 +4,7 @@
 
 //= require jquery
 //= require jquery-ui
+//= require moment
 
 class @ParticipantsCount
   constructor: (count) -> @count = count
@@ -101,11 +102,11 @@ $.datepicker.setDefaults $.datepicker.regional["fr"]
 $ ->
   datesWithParticipantsCount = $('#datepicker').data('dates-with-participants-count')
   today = new Date()
-  lastDate = new Date(today.getFullYear(), 11, 31)
+  lastDate = new Date(today.getFullYear(), 9, 31)
 
   $('#datepicker').datepicker
     firstDay: 1
-    minDate: today
+    minDate: moment().add(1, 'weeks').startOf('isoWeek').toDate()
     maxDate: lastDate
     defaultDate: $('#halfday_work_date').val()
     onSelect: (dateText, inst) ->

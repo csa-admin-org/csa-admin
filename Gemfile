@@ -18,6 +18,7 @@ gem 'responsive_active_admin'
 
 gem 'turbolinks'
 gem 'jquery-ui-rails'
+gem 'momentjs-rails'
 gem 'slim'
 gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
 
