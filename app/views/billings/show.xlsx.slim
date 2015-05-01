@@ -22,6 +22,9 @@ table
       td Nbr de livraisons
       td Total/Panier (sFr.)
       td Total (sFr.)
+      td Total Facture(s) (sFr.)
+      td Total Facture(s) Solde (sFr.)
+      td Restant à facturé (sFr.)
       td Détails
   tbody
     - memberships = @memberships.sort_by { |m| m.billing_member.last_name }
@@ -47,6 +50,9 @@ table
         td= membership.deliveries_count
         td= membership.total_basket_price
         td= membership.price
+        td= membership.member.current_year_invoices.to_a.sum(&:amount)
+        td= membership.member.current_year_invoices.to_a.sum(&:balance)
+        td= membership.price - membership.member.current_year_invoices.to_a.sum(&:amount)
         td= membership.price_details
 
 table
@@ -63,6 +69,7 @@ table
       td Paiement
       td Membre soutien uniq.
       td Total (sFr.)
+      td Facturé?
   tbody
     - members = @members.sort_by { |m| m.last_name }
     - members.each do |member|
@@ -77,3 +84,5 @@ table
         td= t("member.billing_interval.#{member.billing_interval}")
         td= member.support_member ? 'oui' : 'non'
         td= Member::SUPPORT_PRICE
+        td= (member.current_year_memberships.to_a.sum(&:price) - member.current_year_invoices.to_a.sum(&:amount)) <= -30 ? 'oui' : 'non'
+

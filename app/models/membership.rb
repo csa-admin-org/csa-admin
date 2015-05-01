@@ -38,8 +38,8 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def self.billable(year = Date.today.year)
-    during_year(year).started.includes(:member).select do |membership|
+  def self.billable
+    during_year(Date.today.year).started.includes(member: :current_year_invoices).select do |membership|
       membership.price > 0 && !membership.member.trial?
     end
   end

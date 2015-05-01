@@ -8,6 +8,13 @@ class Invoice < ActiveRecord::Base
     "data->'last_name' != members.last_name"
   ) }
   scope :diff_zip, -> { joins(:member).where("data->'zip' != members.zip") }
+  scope :during_year, ->(year) {
+    where(
+      'date >= ? AND date <= ?',
+      Date.new(year).beginning_of_year,
+      Date.new(year).end_of_year
+    )
+  }
 
   def status
     balance > 0 ? :open : :closed
