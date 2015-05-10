@@ -176,6 +176,15 @@ class Member < ActiveRecord::Base
     )
   end
 
+  def wait!
+    return unless status == :inactive
+    update!(
+      waiting_started_at: Time.now,
+      waiting_basket_id: nil,
+      waiting_distribution_id: nil
+    )
+  end
+
   def gribouille?
     (status.in?(%i[waiting trial active support]) &&
       read_attribute(:gribouille) != false) ||

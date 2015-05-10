@@ -146,6 +146,13 @@ ActiveAdmin.register Member do
     redirect_to collection_path
   end
 
+  batch_action :wait do |selection|
+    Member.find(selection).each do |member|
+      member.wait!
+    end
+    redirect_to collection_path
+  end
+
   collection_action :gribouille_emails, method: :get do
     render text: Member.gribouille_emails.to_csv
   end
