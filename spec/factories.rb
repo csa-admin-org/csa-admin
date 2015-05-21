@@ -93,6 +93,11 @@ FactoryGirl.define do
     balance 100
   end
 
+  factory :halfday_work_date do
+    date { Date.today.beginning_of_week + 8.days }
+    periods { ['am'] }
+  end
+
   factory :halfday_work do
     member
     periods { ['am'] }

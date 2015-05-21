@@ -31,13 +31,13 @@ section
 section
   h2 Inscription ½ journée de travail
   p.label Sélectionez une date sur le calendrier ci-dessous. Plus le vert de la date est foncé, plus le nombre d'inscriptions est élevé. Dans la mesure du possible, merci de choisir les dates les moins fréquentées (vert clair).
-  p.label Pour le moment, seul les lundis et mardis sont disponibles, merci pour votre compréhension.
 
   section.form
     - @halfday_work ||= HalfdayWork.new(date: Date.today)
+    - @coming_halfday_work_date = ComingHalfdayWorkDates.new
     = form_for [:members, @member, @halfday_work] do |f|
       .column-left
-          #datepicker.calendar data={ dates_with_participants_count: ComingCalendarDates.dates_with_participants_count.to_json }
+          #datepicker.calendar data={ dates_with_participants_count: @coming_halfday_work_date.dates_with_participants_count.to_json, min_date: @coming_halfday_work_date.min, max_date: @coming_halfday_work_date.max }
           = f.hidden_field :date
       .column-right
         p
@@ -45,11 +45,11 @@ section
           - if @halfday_work.errors[:periods]
             label.label-error= @halfday_work.errors[:periods].first
 
-          label
-            = f.check_box :period_am,  {}
+          label#halfday_work_period_am_label
+            = f.check_box :period_am, { id: 'halfday_work_period_am' }
             = '8:00 - 12:00'
-          label
-            = f.check_box :period_pm,  {}
+          label#halfday_work_period_pm_label
+            = f.check_box :period_pm, { id: 'halfday_work_period_pm' }
             = '13:30 - 17:30'
         p
           label Nbr. de participants

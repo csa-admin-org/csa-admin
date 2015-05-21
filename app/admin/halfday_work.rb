@@ -10,7 +10,7 @@ ActiveAdmin.register HalfdayWork do
 
   index title: index_title do
     selectable_column
-    column :date
+    column :date, ->(halfday_work) { l halfday_work.date, format: :long }
     column :member
     column :periods, ->(halfday_work) { halfday_work.periods.join(' + ') }
     column :participants_count

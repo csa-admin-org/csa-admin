@@ -11,14 +11,26 @@ class @ParticipantsCount
   am: -> @count[0]
   pm: -> @count[1]
   total: -> @am() + @pm()
-  title: -> "matin: #{@am()} participant(es)\naprès-midi: #{@pm()} participant(es)"
+  title: ->
+    t = []
+    unless @am() == null
+      t.push "matin: #{@am()} participant(es)"
+    unless @pm() == null
+      t.push "après-midi: #{@pm()} participant(es)"
+    t.join('\n')
   class: ->
     max = 10
-    if @total() <= max
-      "participants-#{@total()}"
-    else
-      "participants-#{max}"
-
+    c = []
+    if @am() != null && @pm() != null
+      c.push "participants-#{Math.min(@total(), max)}"
+      c.push "ampm"
+    else if @am() != null && @pm() == null
+      c.push "participants-#{Math.min(@am() * 2, max)}"
+      c.push "am"
+    else if @am() == null && @pm() != null
+      c.push "participants-#{Math.min(@pm() * 2, max)}"
+      c.push "pm"
+    c.join(" ")
 
 $.datepicker.regional["fr"] =
   clearText: "Effacer"
@@ -101,19 +113,33 @@ $.datepicker.setDefaults $.datepicker.regional["fr"]
 
 $ ->
   datesWithParticipantsCount = $('#datepicker').data('dates-with-participants-count')
-  today = new Date()
-  lastDate = new Date(today.getFullYear(), 9, 31)
+  minDate = $('#datepicker').data('min-date')
+  maxDate = $('#datepicker').data('max-date')
 
   $('#datepicker').datepicker
     firstDay: 1
-    minDate: moment().add(1, 'weeks').startOf('isoWeek').toDate()
-    maxDate: lastDate
+    minDate: minDate
+    maxDate: maxDate
     defaultDate: $('#halfday_work_date').val()
     onSelect: (dateText, inst) ->
       $('#halfday_work_date').val dateText
+      count = datesWithParticipantsCount[dateText]
+      console.log count
+      if count[0] == null
+        $('#halfday_work_period_am').prop('disabled', true)
+        $('#halfday_work_period_am_label').addClass('disabled')
+      else
+        $('#halfday_work_period_am').prop('disabled', false)
+        $('#halfday_work_period_am_label').removeClass('disabled')
+      if count[1] == null
+        $('#halfday_work_period_pm').prop('disabled', true)
+        $('#halfday_work_period_pm_label').addClass('disabled')
+      else
+        $('#halfday_work_period_pm').prop('disabled', false)
+        $('#halfday_work_period_pm_label').removeClass('disabled')
     beforeShowDay: (date) ->
-      date = $.datepicker.formatDate('yy-mm-dd', date)
-      if count = datesWithParticipantsCount[date]
+      dateText = $.datepicker.formatDate('yy-mm-dd', date)
+      if count = datesWithParticipantsCount[dateText]
         count = new ParticipantsCount(count)
         [true, count.class(), count.title()]
       else

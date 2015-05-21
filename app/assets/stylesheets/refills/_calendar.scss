@@ -81,17 +81,38 @@
 }
 
 .ui-datepicker-calendar tr td {
-  width: 40px;
-  height: 40px;
+  height: 44px;
+  width: 44px;
   line-height: 40px;
   font-size: $base-font-size;
   text-decoration: none;
 }
 
 .ui-datepicker-calendar tr td a {
+  height: 44px;
+  width: 44px;
   display: block;
-  border-radius: 50%;
   border: 2px solid transparent;
+}
+
+.ui-datepicker-calendar tr td.ampm a {
+  border-radius: 44px;
+}
+
+.ui-datepicker-calendar tr td.am a {
+  height: 22px;
+  padding-bottom: 2px;
+  line-height: 0px;
+  position: absolute;
+  border-radius: 0 0 22px 22px;
+  border-top: 0;
+}
+
+.ui-datepicker-calendar tr td.pm a {
+  height: 22px;
+  margin-bottom: 22px;
+  border-bottom: 0;
+  border-radius: 22px 22px 0 0;
 }
 
 

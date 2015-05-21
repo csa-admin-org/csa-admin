@@ -3,6 +3,7 @@ require 'rails_helper'
 feature 'members page' do
   let!(:member) { create(:member, :active) }
   let!(:halfday_work) { create(:halfday_work, member: member) }
+  let!(:halfday_work_date) { create(:halfday_work_date) }
 
   before { Capybara.app_host = 'http://membres.example.com' }
 
