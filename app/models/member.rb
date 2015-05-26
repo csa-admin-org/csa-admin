@@ -73,10 +73,6 @@ class Member < ActiveRecord::Base
       member.status.in?(%i[trial active support]) ||
         (member.status == :inactive && member.gribouille == false)
     }
-  validates :waiting_basket, :waiting_distribution, presence: true,
-    if: ->(member) {
-      member.waiting_started_at_changed? && member.waiting_started_at.nil?
-    }
   validate :support_member_not_waiting
   validate :support_member_without_current_membership
 
