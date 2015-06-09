@@ -2,7 +2,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(admin)
-    can :read, :all
     if admin.email == 'thibaud@thibaud.gg'
       can :manage, :all
     else
@@ -16,5 +15,6 @@ class Ability
       can :update, Membership, can_update?: true
     end
     cannot :manage, [Invoice]
+    can :read, :all
   end
 end
