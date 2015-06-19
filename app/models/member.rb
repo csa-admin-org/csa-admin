@@ -26,8 +26,7 @@ class Member < ActiveRecord::Base
   scope :with_current_membership, -> { not_waiting.joins(:current_membership) }
   scope :without_current_membership,
     -> { where.not(id: Member.with_current_membership.pluck(:id)) }
-  scope :valid_for_memberships,
-    -> { validated.not_waiting.where(support_member: false) }
+  scope :valid_for_memberships, -> { validated.not_waiting }
   scope :trial, -> {
     with_current_membership.
       where('members.created_at >= ?', Time.utc(2014, 11)).
