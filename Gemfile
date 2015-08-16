@@ -48,7 +48,6 @@ gem 'exception_notification'
 group :production do
   gem 'rails_12factor'
   gem 'dalli'
-  gem 'newrelic_rpm'
   gem 'skylight'
 end
 
