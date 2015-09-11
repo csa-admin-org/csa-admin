@@ -19,6 +19,9 @@ class HalfdayWork < ActiveRecord::Base
 
   validates :member_id, :date, presence: true
   validate :periods_include_good_value
+  validates :date, inclusion: { in: ->(hwc) { HalfdayWorkDate.pluck(:date) } }
+  validates :period_am, absence: { if: ->(hwc) { hwc.available_periods.exclude?('am') } }
+  validates :period_pm, absence: { if: ->(hwc) { hwc.available_periods.exclude?('pm') } }
 
   after_save :send_notifications
 
@@ -46,12 +49,12 @@ class HalfdayWork < ActiveRecord::Base
 
   def validate!(validator)
     return if coming?
-    update!(rejected_at: nil, validated_at: Time.now, validator: validator)
+    update(rejected_at: nil, validated_at: Time.now, validator_id: validator.id)
   end
 
   def reject!(validator)
     return if coming?
-    update!(rejected_at: Time.now, validated_at: nil, validator: validator)
+    update(rejected_at: Time.now, validated_at: nil, validator_id: validator.id)
   end
 
   PERIODS.each do |period|
@@ -76,6 +79,10 @@ class HalfdayWork < ActiveRecord::Base
 
   def self.ransackable_scopes(auth_object = nil)
     %i(status)
+  end
+
+  def available_periods
+    HalfdayWorkDate.find_by(date: date).try(:periods) || PERIODS
   end
 
   private

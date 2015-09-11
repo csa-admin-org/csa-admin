@@ -8,6 +8,7 @@ feature 'members page' do
   before { Capybara.app_host = 'http://membres.example.com' }
 
   context 'existing member token' do
+    before { create(:halfday_work_date, date: Date.today, periods: %w[am pm]) }
     before { visit "/#{member.token}" }
     scenario 'add new halfday work' do
       check 'halfday_work_period_am'

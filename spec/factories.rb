@@ -103,5 +103,9 @@ FactoryGirl.define do
     periods { ['am'] }
     date { Date.today.beginning_of_week + 8.days }
     participants_count 1
+
+    after :build do |_, evaluator|
+      create(:halfday_work_date, date: evaluator.date, periods: evaluator.periods)
+    end
   end
 end

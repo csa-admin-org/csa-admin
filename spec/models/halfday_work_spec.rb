@@ -6,12 +6,8 @@ describe HalfdayWork do
 
   describe 'validations' do
     describe 'date' do
-      let(:halfday_work) { HalfdayWork.new(member: member, periods: ['am']) }
-
-      # it 'does not accept date in the past' do
-      #   halfday_work.date = Date.yesterday
-      #   expect(halfday_work).not_to be_valid
-      # end
+      before { create(:halfday_work_date, date: Date.today) }
+      let(:halfday_work) { build(:halfday_work, member: member, periods: ['am']) }
 
       it 'accepts date after or on today' do
         halfday_work.date = Date.today
@@ -21,6 +17,7 @@ describe HalfdayWork do
 
     describe 'periods' do
       let(:halfday_work) { HalfdayWork.new(member: member, date: Date.today) }
+      before { create(:halfday_work_date, date: Date.today, periods: %w[am pm]) }
 
       it 'does accept good period value' do
         halfday_work.periods = %w[am pm]
