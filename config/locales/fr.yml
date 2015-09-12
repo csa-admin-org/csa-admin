@@ -73,6 +73,7 @@ fr:
         validate: "Valider"
         reject: "Refuser"
         wait: "Mettre en attente"
+        renew: "Renouveller"
     scopes:
       pending: "à valider"
       coming: "à venir"
@@ -86,7 +87,8 @@ fr:
       all: tous
       current: en cours
       past: passés
-      future: futures
+      future: futures, année courante
+      renew: renouvellement, année prochaine
       open: ouvertes
       closed: fermées
       diff_name: "Prénom/Nom différents"

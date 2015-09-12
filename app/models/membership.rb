@@ -18,7 +18,8 @@ class Membership < ActiveRecord::Base
 
   scope :started, -> { where('started_on < ?', Time.now) }
   scope :past, -> { where('ended_on < ?', Time.now) }
-  scope :future, -> { where('started_on > ?', Time.now) }
+  scope :future, -> { where('started_on > ? AND ended_on <= ?', Time.now, Date.today.end_of_year) }
+  scope :renew, -> { during_year(Date.today.next_year) }
   scope :current, -> { including_date(Date.today) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
@@ -120,6 +121,25 @@ class Membership < ActiveRecord::Base
 
   def date_range
     started_on..ended_on
+  end
+
+  def renew
+    return if Membership.renew.exists?(member_id: member_id)
+    renew_year = Date.today.next_year
+    Membership.create!(
+      attributes.slice(*%i[
+        billing_member_id
+        annual_price
+        annual_halfday_works
+        note
+      ]).merge(
+        member: member,
+        distribution: distribution,
+        basket: Basket.find_by!(name: basket.name, year: renew_year.year),
+        started_on: renew_year.beginning_of_year,
+        ended_on: renew_year.end_of_year
+      )
+    )
   end
 
   private

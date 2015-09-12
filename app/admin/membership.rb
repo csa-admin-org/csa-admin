@@ -5,10 +5,12 @@ ActiveAdmin.register Membership do
   scope :past
   scope :current, default: true
   scope :future
+  scope :renew
 
   index_title = -> { "Abonnements (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
 
   index title: index_title do
+    selectable_column
     column :member do |membership|
       if membership.billing_member_id
         "#{link_to membership.member.name, membership.member} (payé par #{link_to membership.billing_member.name, membership.billing_member})".html_safe
@@ -107,6 +109,11 @@ ActiveAdmin.register Membership do
     will_be_changed_at started_on ended_on note
   ]
 
+  batch_action :renew do |selection|
+    Membership.find(selection).each(&:renew)
+    redirect_to collection_path
+  end
+
   controller do
     def build_resource
       super
@@ -121,4 +128,5 @@ ActiveAdmin.register Membership do
   end
 
   config.per_page = 25
+  config.batch_actions = true
 end
