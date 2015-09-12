@@ -19,7 +19,7 @@ class Membership < ActiveRecord::Base
   scope :started, -> { where('started_on < ?', Time.now) }
   scope :past, -> { where('ended_on < ?', Time.now) }
   scope :future, -> { where('started_on > ? AND ended_on <= ?', Time.now, Date.today.end_of_year) }
-  scope :renew, -> { during_year(Date.today.next_year) }
+  scope :renew, -> { during_year(Date.today.next_year.year) }
   scope :current, -> { including_date(Date.today) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
