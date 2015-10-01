@@ -11,7 +11,7 @@ class InvoicesImporter
   def initialize
     access_token = GoogleAccessTokenFetcher.access_token
     session = GoogleDrive.login_with_oauth(access_token)
-    csv_string = session.file_by_title('Factures').download_to_string
+    csv_string = session.file_by_title('Factures2').download_to_string
     csv_string = csv_string.unpack("C*").pack("U*")
     @invoices = parse_csv(csv_string)
   end
