@@ -16,6 +16,13 @@ class HalfdayWork < ActiveRecord::Base
   scope :past, -> do
     where('date < ? AND date >= ?', Date.today, Date.today.beginning_of_year)
   end
+  scope :during_year, ->(year) {
+    where(
+      'date >= ? AND date <= ?',
+      Date.new(year).beginning_of_year,
+      Date.new(year).end_of_year
+    )
+  }
 
   validates :member_id, :date, presence: true
   validate :periods_include_good_value

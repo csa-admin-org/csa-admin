@@ -80,6 +80,7 @@ fr:
       validated: "validés"
       rejected: "refusés"
       waiting: "en attente"
+      missing: "manquantes"
       trial: "période d'essai"
       active: "actifs"
       support: "soutien"
