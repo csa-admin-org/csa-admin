@@ -21,7 +21,7 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar 'Dernière mise à jour', only: :index do
-    l Invoice.maximum(:updated_at)
+    l Invoice.maximum(:updated_at).in_time_zone
   end
 
   filter :member,
