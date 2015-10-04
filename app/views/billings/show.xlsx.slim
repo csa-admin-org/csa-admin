@@ -41,7 +41,7 @@ table
         td= t("member.billing_interval.#{membership.billing_member.billing_interval}")
         td= membership.id
         td= membership.member.name
-        td= membership.member.status
+        td= membership.member.display_status
         td= l membership.started_on
         td= l membership.ended_on
         td= membership.basket.name
@@ -68,10 +68,11 @@ table
       td Adresse
       td Zip
       td Ville
+      td Status
       td Paiement
       td Membre soutien uniq.
       td Total (sFr.)
-      td Facturé?
+      td Facturé? (si somme facturé plus grand que 30.-)
   tbody
     - members = @members.sort_by { |m| m.last_name }
     - members.each do |member|
@@ -83,6 +84,7 @@ table
         td= member.address
         td= member.zip
         td= member.city
+        td= member.display_status
         td= t("member.billing_interval.#{member.billing_interval}")
         td= member.support_member ? 'oui' : 'non'
         td= Member::SUPPORT_PRICE
