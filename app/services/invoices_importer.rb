@@ -62,8 +62,8 @@ class InvoicesImporter
     invoice.update!(
       member: member,
       date: hash['Date pièce'],
-      amount: hash['total'].to_f,
-      balance: hash['Solde'].to_f,
+      amount: hash['total'].try(:tr, ',', '.').to_f,
+      balance: hash['Solde'].try(:tr, ',', '.').to_f,
       data: {
         identifier: hash['N° client'],
         first_name: hash['Prénom'],
