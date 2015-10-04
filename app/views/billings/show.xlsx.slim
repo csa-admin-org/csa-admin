@@ -12,6 +12,7 @@ table
       td Paiement
       td Abo ID
       td Abo Membre
+      td Abo Membre Status
       td Début
       td Fin
       td Panier
@@ -40,6 +41,7 @@ table
         td= t("member.billing_interval.#{membership.billing_member.billing_interval}")
         td= membership.id
         td= membership.member.name
+        td= membership.member.status
         td= l membership.started_on
         td= l membership.ended_on
         td= membership.basket.name
@@ -85,4 +87,3 @@ table
         td= member.support_member ? 'oui' : 'non'
         td= Member::SUPPORT_PRICE
         td= (member.current_year_memberships.to_a.sum(&:price) - member.current_year_invoices.to_a.sum(&:amount)) <= -30 ? 'oui' : 'non'
-
