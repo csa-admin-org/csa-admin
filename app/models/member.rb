@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
   has_many :current_year_invoices, -> { during_year(Date.today.year) }, class_name: 'Invoice'
   has_many :halfday_works
   has_many :memberships
-  has_many :current_year_memberships, -> { during_year(Date.today.year) }, class_name: 'Membership'
+  has_many :current_year_billing_memberships, -> { during_year(Date.today.year) }, class_name: 'Membership', foreign_key: 'billing_member_id'
   has_many :billing_memberships, class_name: 'Membership', foreign_key: 'billing_member_id'
   has_one :current_membership, -> { current }, class_name: 'Membership'
 
@@ -82,11 +82,11 @@ class Member < ActiveRecord::Base
       .map(&:emails_array).flatten.uniq.compact
   end
 
-  def self.billable_for_membership_fee(year = Date.today.year)
-    members = Member.support.includes(:current_year_memberships, :current_year_invoices).all
-    members += Member.joins(:memberships).merge(
+  def self.billable(year = Date.today.year)
+    members = Member.support.includes(:current_year_billing_memberships, :current_year_invoices).all
+    members += Member.joins(:billing_memberships).merge(
       Membership.during_year(year).started
-    ).includes(:current_year_memberships, :current_year_invoices)
+    ).includes(:current_year_billing_memberships, :current_year_invoices)
     members.uniq.reject { |m| m.trial? }
   end
 

@@ -45,7 +45,7 @@ ActiveAdmin.register_page 'Dashboard' do
                 basket_name = type.sub /Paniers /, ''
                 Membership.billable.select { |m| m.basket.name == basket_name }.sum(&:price)
               when 'Cotisations'
-                Member.billable_for_membership_fee.size * Member::SUPPORT_PRICE
+                Member.billable.size * Member::SUPPORT_PRICE
               end
               total_price += price
               number_to_currency price

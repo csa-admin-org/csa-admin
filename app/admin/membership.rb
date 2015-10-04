@@ -69,7 +69,7 @@ ActiveAdmin.register Membership do
         include_blank: false
       f.input :billing_member,
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
-        hint: 'laisser vide si identique (membre)'
+        hint: membership.persisted? ? '' : 'laisser vide si identique (membre)'
     end
     f.inputs 'Détails' do
       f.input :basket, include_blank: false

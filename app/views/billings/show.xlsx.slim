@@ -1,18 +1,18 @@
 table
-  caption Abonnements
+  caption Abonnements + Cotisations
   thead
     tr
       td Membre ID
       td Prénom
       td Nom
       td Emails
+      td Téléphones
       td Adresse
       td Zip
       td Ville
+      td Status
       td Paiement
       td Abo ID
-      td Abo Membre
-      td Abo Membre Status
       td Début
       td Fin
       td Panier
@@ -22,70 +22,40 @@ table
       td ½ journées de travail non-effectuées/Panier (sFr.)
       td Nbr de livraisons
       td Total/Panier (sFr.)
+      td Total Paniers (sFr.)
+      td Cotisations (sFr.)
       td Total (sFr.)
       td Total Facture(s) (sFr.)
       td Total Facture(s) Solde (sFr.)
       td Restant à facturer (sFr.)
       td Détails
   tbody
-    - memberships = @memberships.sort_by { |m| m.billing_member.last_name }
-    - memberships.each do |membership|
-      tr
-        td= membership.billing_member.id
-        td= membership.billing_member.first_name
-        td= membership.billing_member.last_name
-        td= membership.billing_member.emails
-        td= membership.billing_member.address
-        td= membership.billing_member.zip
-        td= membership.billing_member.city
-        td= t("member.billing_interval.#{membership.billing_member.billing_interval}")
-        td= membership.id
-        td= membership.member.name
-        td= membership.member.display_status
-        td= l membership.started_on
-        td= l membership.ended_on
-        td= membership.basket.name
-        td= membership.distribution.name
-        td= membership.basket_price
-        td= membership.distribution_basket_price
-        td= membership.halfday_works_basket_price
-        td= membership.deliveries_count
-        td= membership.total_basket_price
-        td= membership.price
-        td= membership.member.current_year_invoices.to_a.sum(&:amount)
-        td= membership.member.current_year_invoices.to_a.sum(&:balance)
-        td= membership.price - membership.member.current_year_invoices.to_a.sum(&:amount)
-        td= membership.price_details
-
-table
-  caption Cotisations
-  thead
-    tr
-      td Membre ID
-      td Prénom
-      td Nom
-      td Emails
-      td Adresse
-      td Zip
-      td Ville
-      td Status
-      td Paiement
-      td Membre soutien uniq.
-      td Total (sFr.)
-      td Facturé? (si somme facturé plus grand que 30.-)
-  tbody
-    - members = @members.sort_by { |m| m.last_name }
-    - members.each do |member|
+    - @members.sort_by { |m| m.last_name }.each do |member|
       tr
         td= member.id
         td= member.first_name
         td= member.last_name
         td= member.emails
+        td= member.phones
         td= member.address
         td= member.zip
         td= member.city
-        td= member.display_status
+        td= member.status
         td= t("member.billing_interval.#{member.billing_interval}")
-        td= member.support_member ? 'oui' : 'non'
+        td= member.current_year_billing_memberships.map(&:id).join(', ')
+        td= member.current_year_billing_memberships.map { |m| l m.started_on }.join(', ')
+        td= member.current_year_billing_memberships.map { |m| l m.ended_on }.join(', ')
+        td= member.current_year_billing_memberships.map { |m| m.basket.name }.join(', ')
+        td= member.current_year_billing_memberships.map { |m| m.distribution.name }.join(', ')
+        td= member.current_year_billing_memberships.map(&:basket_price).join(', ')
+        td= member.current_year_billing_memberships.map(&:distribution_basket_price).join(', ')
+        td= member.current_year_billing_memberships.map(&:halfday_works_basket_price).join(', ')
+        td= member.current_year_billing_memberships.map(&:deliveries_count).join(', ')
+        td= member.current_year_billing_memberships.map(&:total_basket_price).join(', ')
+        td= member.current_year_billing_memberships.to_a.sum(&:price)
         td= Member::SUPPORT_PRICE
-        td= (member.current_year_memberships.to_a.sum(&:price) - member.current_year_invoices.to_a.sum(&:amount)) <= -30 ? 'oui' : 'non'
+        td= member.current_year_billing_memberships.to_a.sum(&:price) + Member::SUPPORT_PRICE
+        td= member.current_year_invoices.to_a.sum(&:amount)
+        td= member.current_year_invoices.to_a.sum(&:balance)
+        td= (member.current_year_billing_memberships.to_a.sum(&:price) + Member::SUPPORT_PRICE) - member.current_year_invoices.to_a.sum(&:amount)
+        td= member.current_year_billing_memberships.map(&:price_details).join(', ')

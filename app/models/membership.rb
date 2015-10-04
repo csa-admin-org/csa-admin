@@ -6,7 +6,7 @@ class Membership < ActiveRecord::Base
   belongs_to :basket
   belongs_to :distribution
 
-  validates :member, :distribution, :basket, presence: true
+  validates :member, :billing_member, :distribution, :basket, presence: true
   validates :started_on, :ended_on, presence: true
   validate :withing_basket_year
   validate :good_period_range
@@ -45,8 +45,8 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def billing_member
-    (billing_member_id && Member.find(billing_member_id)) || member
+  def billing_member_id=(billing_member_id)
+    write_attribute :billing_member_id, billing_member_id.presence || member.id
   end
 
   def current?
