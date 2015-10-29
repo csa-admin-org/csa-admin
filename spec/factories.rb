@@ -60,6 +60,7 @@ FactoryGirl.define do
 
   factory :membership do
     member
+    billing_member { member }
     basket
     distribution
     started_on { Date.today.beginning_of_year }
