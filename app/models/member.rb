@@ -49,6 +49,7 @@ class Member < ActiveRecord::Base
   scope :with_name, ->(name) {
     where('first_name ILIKE :name OR last_name ILIKE :name', name: "%#{name}%")
   }
+  scope :mailable, -> { where.not(emails: nil) }
   scope :with_address, ->(address) {
     where('members.address ILIKE ?', "%#{address}%")
   }
