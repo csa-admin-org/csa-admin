@@ -188,6 +188,7 @@ fr:
         member: Membre
       halfday_work_date:
         periods: Horaire
+        participants_limit: Limite de participants
       distribution:
         name: Nom
         address: Adresse

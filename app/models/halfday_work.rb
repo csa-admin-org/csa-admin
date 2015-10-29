@@ -29,6 +29,7 @@ class HalfdayWork < ActiveRecord::Base
   validates :date, inclusion: { in: ->(hwc) { HalfdayWorkDate.pluck(:date) } }
   validates :period_am, absence: { if: ->(hwc) { hwc.available_periods.exclude?('am') } }
   validates :period_pm, absence: { if: ->(hwc) { hwc.available_periods.exclude?('pm') } }
+  validate :participants_limit_must_not_be_reached
 
   after_save :send_notifications
 
@@ -88,6 +89,10 @@ class HalfdayWork < ActiveRecord::Base
     %i(status)
   end
 
+  def halfday_work_date
+    @halfday_work_date ||= HalfdayWorkDate.find_by(date: date)
+  end
+
   def available_periods
     HalfdayWorkDate.find_by(date: date).try(:periods) || PERIODS
   end
@@ -106,6 +111,22 @@ class HalfdayWork < ActiveRecord::Base
     end
     if rejected_at_changed? && rejected_at?
       HalfdayWorkMailer.rejected(self).deliver_later
+    end
+  end
+
+  private
+
+  def participants_limit_must_not_be_reached
+    if period_am || period_pm
+      am_limit_reached = halfday_work_date.participants_limit_reached?('am')
+      pm_limit_reached = halfday_work_date.participants_limit_reached?('pm')
+      if am_limit_reached && pm_limit_reached
+        errors.add(:periods, 'La journée est déjà complète, merci!')
+      elsif period_am && am_limit_reached
+        errors.add(:periods, 'Le matin est déjà complet, merci!')
+      elsif period_pm && pm_limit_reached
+        errors.add(:periods, "L'après-midi est déjà complète, merci!")
+      end
     end
   end
 end

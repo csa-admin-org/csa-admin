@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521145628) do
+ActiveRecord::Schema.define(version: 20151029192504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,21 +89,22 @@ ActiveRecord::Schema.define(version: 20150521145628) do
   end
 
   create_table "halfday_work_dates", force: :cascade do |t|
-    t.date     "date",       null: false
-    t.string   "periods",    null: false, array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.date     "date",               null: false
+    t.string   "periods",            null: false, array: true
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "participants_limit"
   end
 
   add_index "halfday_work_dates", ["date"], name: "index_halfday_work_dates_on_date", using: :btree
 
   create_table "halfday_works", force: :cascade do |t|
-    t.integer  "member_id",                      null: false
-    t.date     "date",                           null: false
-    t.string   "periods",                        null: false, array: true
+    t.integer  "member_id",                                  null: false
+    t.date     "date",                                       null: false
+    t.string   "periods",            limit: 255,             null: false, array: true
     t.datetime "validated_at"
     t.integer  "validator_id"
-    t.integer  "participants_count", default: 1, null: false
+    t.integer  "participants_count",             default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "rejected_at"

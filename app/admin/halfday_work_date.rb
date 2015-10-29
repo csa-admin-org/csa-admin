@@ -7,8 +7,9 @@ ActiveAdmin.register HalfdayWorkDate do
   index_title = -> { "Date ½ Journées de travail (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
 
   index title: index_title do
-    column :date, ->(halfday_work_date) { l halfday_work_date.date, format: :long }
-    column :periods, ->(halfday_work_date) { halfday_work_date.periods.join(' + ') }
+    column :date, ->(hwd) { l hwd.date, format: :long }
+    column :periods, ->(hwd) { hwd.periods.join(' + ') }
+    column :participants_limit, ->(hwd) { hwd.participants_limit || '-' }
     actions
   end
 
@@ -23,18 +24,20 @@ ActiveAdmin.register HalfdayWorkDate do
         include_blank: false
       f.input :period_am, as: :boolean, label: 'AM'
       f.input :period_pm, as: :boolean, label: 'PM'
+      f.input :participants_limit, as: :number, input_html: { style: 'width: 35px;' }, hint: 'Laisser vide si pas de limite.'
     end
     f.actions
   end
 
-  show do |halfday_work_date|
+  show do |hwd|
     attributes_table do
-      row(:date) { l halfday_work_date.date, format: :long }
-      row(:periods) { halfday_work_date.periods.join(' + ') }
+      row(:date) { l hwd.date, format: :long }
+      row(:periods) { hwd.periods.join(' + ') }
+      row(:participants_limit) { hwd.participants_limit || '-' }
     end
   end
 
-  permit_params *%i[date period_am period_pm]
+  permit_params *%i[date period_am period_pm participants_limit]
 
   controller do
     def create

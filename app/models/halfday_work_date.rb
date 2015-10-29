@@ -24,4 +24,12 @@ class HalfdayWorkDate < ActiveRecord::Base
       end
     end
   end
+
+  def participants_limit_reached?(period)
+    return unless participants_limit.present?
+
+    HalfdayWork.where(date: date)
+      .select { |hw| hw.periods.include?(period) }
+      .sum(&:participants_count) >= participants_limit
+  end
 end

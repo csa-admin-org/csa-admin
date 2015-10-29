@@ -6,7 +6,7 @@ describe ComingHalfdayWorkDates do
     let(:beginning_of_week) { Date.today.beginning_of_week }
     before do
       create(:halfday_work_date, periods: ['am'])
-      create(:halfday_work, periods: ['am', 'pm'])
+      create(:halfday_work, periods: ['am'])
       create(:halfday_work, periods: ['am'])
     end
 

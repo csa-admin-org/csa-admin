@@ -106,7 +106,12 @@ FactoryGirl.define do
     participants_count 1
 
     after :build do |_, evaluator|
-      create(:halfday_work_date, date: evaluator.date, periods: evaluator.periods)
+      unless evaluator.halfday_work_date
+        create(:halfday_work_date,
+          date: evaluator.date,
+          periods: evaluator.periods
+        )
+      end
     end
   end
 end

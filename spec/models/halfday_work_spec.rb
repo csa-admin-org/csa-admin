@@ -34,6 +34,23 @@ describe HalfdayWork do
         expect(halfday_work).not_to be_valid
       end
     end
+
+    context 'when halfday_work_date has a reached participants limit' do
+      before do
+        create(:halfday_work_date, periods: ['am', 'pm'], participants_limit: 1)
+        create(:halfday_work, periods: ['am'])
+      end
+
+      it 'does not accept new participant in am' do
+        halfday_work = build(:halfday_work, periods: ['am'])
+        expect(halfday_work).not_to be_valid
+      end
+
+      it 'does not accept new participant in pm' do
+        halfday_work = build(:halfday_work, periods: ['pm'])
+        expect(halfday_work).to be_valid
+      end
+    end
   end
 
   describe '#validate!' do
