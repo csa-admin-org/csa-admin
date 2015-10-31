@@ -23,7 +23,10 @@ describe Membership do
     end
 
     it 'allows started_on to be only smaller than ended_on' do
-      membership.update(started_on: Date.new(2015, 2), ended_on: Date.new(2015, 1))
+      membership.update(
+        started_on: Date.new(2015, 2),
+        ended_on: Date.new(2015, 1)
+      )
       expect(membership.errors[:started_on]).to be_present
       expect(membership.errors[:ended_on]).to be_present
     end
@@ -114,6 +117,26 @@ describe Membership do
     end
   end
 
+  describe '#renew' do
+    let(:membership) { create(:membership) }
+    let!(:basket) { create(:basket, :next_year, name: membership.basket.name) }
+    let(:next_year) { Date.today.next_year }
+    before { membership.renew }
+    subject { Membership.renew.first }
+
+    specify { expect(subject.started_on).to eq next_year.beginning_of_year }
+    specify { expect(subject.ended_on).to eq next_year.end_of_year }
+    specify { expect(subject.member).to eq membership.member }
+    specify { expect(subject.billing_member).to eq membership.billing_member }
+    specify { expect(subject.distribution).to eq membership.distribution }
+    specify { expect(subject.basket).to eq basket }
+    specify { expect(subject.note).to eq membership.note }
+    specify { expect(subject.annual_price).to eq membership.annual_price }
+    specify do
+      expect(subject.annual_halfday_works).to eq membership.annual_halfday_works
+    end
+  end
+
   describe '#billing_member' do
     subject { membership.billing_member }
 
@@ -170,14 +193,18 @@ describe Membership do
 
     context 'when annual_halfday_works is smaller than basket' do
       let(:basket) { create(:basket, annual_halfday_works: 3) }
-      let(:membership) { create(:membership, basket: basket, annual_halfday_works: 1) }
+      let(:membership) {
+        create(:membership, basket: basket, annual_halfday_works: 1)
+      }
 
       it { is_expected.to eq(2 * 60 / 40.0) }
     end
 
     context 'when annual_halfday_works is smaller than basket' do
       let(:basket) { create(:basket, annual_halfday_works: 2) }
-      let(:membership) { create(:membership, basket: basket, annual_halfday_works: 4) }
+      let(:membership) {
+        create(:membership, basket: basket, annual_halfday_works: 4)
+      }
 
       it { is_expected.to eq 0 }
     end

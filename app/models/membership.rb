@@ -1,12 +1,13 @@
 class Membership < ActiveRecord::Base
   acts_as_paranoid
 
-  belongs_to :member, validate: true
-  belongs_to :billing_member, class_name: 'Member', validate: true
+  belongs_to :member
+  belongs_to :billing_member, class_name: 'Member'
   belongs_to :basket
   belongs_to :distribution
 
-  validates :member, :billing_member, :distribution, :basket, presence: true
+  validates :member, :billing_member, presence: true
+  validates :distribution, :basket, presence: true
   validates :started_on, :ended_on, presence: true
   validate :withing_basket_year
   validate :good_period_range
@@ -128,12 +129,12 @@ class Membership < ActiveRecord::Base
     renew_year = Date.today.next_year
     Membership.create!(
       attributes.slice(*%i[
-        billing_member_id
         annual_price
         annual_halfday_works
         note
       ]).merge(
         member: member,
+        billing_member: billing_member,
         distribution: distribution,
         basket: Basket.find_by!(name: basket.name, year: renew_year.year),
         started_on: renew_year.beginning_of_year,

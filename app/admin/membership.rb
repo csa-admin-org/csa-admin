@@ -12,7 +12,7 @@ ActiveAdmin.register Membership do
   index title: index_title do
     selectable_column
     column :member do |membership|
-      if membership.billing_member_id
+      if membership.billing_member_id != membership.member_id
         "#{link_to membership.member.name, membership.member} (payé par #{link_to membership.billing_member.name, membership.billing_member})".html_safe
       else
         link_to membership.member.name, membership.member

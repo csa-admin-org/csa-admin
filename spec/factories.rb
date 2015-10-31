@@ -72,6 +72,10 @@ FactoryGirl.define do
     year { Date.today.year }
     annual_price { 40 * 30 }
     annual_halfday_works 2
+
+    trait :next_year do
+      year { Date.today.year + 1 }
+    end
   end
 
   factory :distribution do
