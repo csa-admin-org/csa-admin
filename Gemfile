@@ -45,6 +45,9 @@ gem 'icalendar'
 
 gem 'exception_notification'
 
+gem 'faraday'
+gem 'faraday-cookie_jar'
+
 group :production do
   gem 'rails_12factor'
   gem 'dalli'
