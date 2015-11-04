@@ -55,12 +55,13 @@ describe Member do
     end
 
     it 'sets waiting_started_at when "0"' do
-      expect{ member.update!(waiting: '0') }
+      expect { member.update!(waiting: '0') }
         .to change(member, :waiting_started_at).to(nil)
     end
 
     it 'creates a memberships alongs' do
-      expect{ member.update!(waiting: '0') }.to change(Membership, :count).by(1)
+      expect { member.update!(waiting: '0') }
+        .to change(Membership, :count).by(1)
     end
   end
 
@@ -128,7 +129,13 @@ describe Member do
 
   describe '#absent?' do
     let(:member) { create(:member) }
-    before { create(:absence, member: member, started_on: Date.today, ended_on: 2.days.from_now) }
+    before do
+      create(:absence,
+        member: member,
+        started_on: Date.today,
+        ended_on: 2.days.from_now
+      )
+    end
 
     specify { expect(member.absent?(Date.tomorrow)).to eq true }
   end
