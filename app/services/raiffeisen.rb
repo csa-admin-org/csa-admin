@@ -13,12 +13,11 @@ class Raiffeisen
     login
   end
 
-  def get_esr_data
+  def get_isr_data
     client.get '/root/datatransfer/esrdownload',
       ESRAccountNumber: 'all',
       ESRDataType: 'allESR',
-      Download: 'Abholen',
-      output: 'xml'
+      Download: 'Abholen'
   end
 
   private
