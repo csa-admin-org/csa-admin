@@ -2,11 +2,10 @@ class Membership < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :member
-  belongs_to :billing_member, class_name: 'Member'
   belongs_to :basket
   belongs_to :distribution
 
-  validates :member, :billing_member, presence: true
+  validates :member, presence: true
   validates :distribution, :basket, presence: true
   validates :started_on, :ended_on, presence: true
   validate :withing_basket_year
@@ -17,9 +16,12 @@ class Membership < ActiveRecord::Base
   before_save :build_new_membership
   after_save :save_new_membership
 
-  scope :started, -> { where('started_on < ?', Time.now) }
-  scope :past, -> { where('ended_on < ?', Time.now) }
-  scope :future, -> { where('started_on > ? AND ended_on <= ?', Time.now, Date.today.end_of_year) }
+  scope :started, -> { where('started_on < ?', Time.zone.now) }
+  scope :past, -> { where('ended_on < ?', Time.zone.now) }
+  scope :future, -> {
+    where('started_on > ? AND ended_on <= ?',
+      Time.zone.now, Time.zone.today.end_of_year)
+  }
   scope :renew, -> { during_year(Date.today.next_year.year) }
   scope :current, -> { including_date(Date.today) }
   scope :including_date,
@@ -41,13 +43,16 @@ class Membership < ActiveRecord::Base
   end
 
   def self.billable
-    during_year(Date.today.year).started.includes(member: :current_year_invoices).select do |membership|
-      membership.price > 0 && !membership.member.trial?
-    end
+    during_year(Date.today.year)
+      .started
+      .includes(
+        :basket, :distribution, member: [:current_membership, :first_membership, :current_year_invoices]
+      )
+      .select(&:billable?)
   end
 
-  def billing_member_id=(billing_member_id)
-    write_attribute :billing_member_id, billing_member_id.presence || member.id
+  def billable?
+    price > 0 && !member.trial?
   end
 
   def current?
@@ -67,7 +72,7 @@ class Membership < ActiveRecord::Base
   end
 
   def annual_halfday_works
-    if billing_member.try(:salary_basket?)
+    if member.salary_basket?
       0
     else
       read_attribute(:annual_halfday_works) || basket.try(:annual_halfday_works)
@@ -79,19 +84,22 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_basket_price
-    read_attribute(:distribution_basket_price) || distribution.try(:basket_price)
+    read_attribute(:distribution_basket_price) ||
+      distribution.try(:basket_price)
   end
 
   def halfday_works_basket_price
     diff = basket.annual_halfday_works - annual_halfday_works
-    diff > 0 ? diff * HalfdayWork::PRICE/40.0 : 0
+    diff > 0 ? (diff * HalfdayWork::PRICE / 40.0) : 0
   end
 
   def total_basket_price
-    if billing_member.try(:salary_basket?)
+    if member.salary_basket?
       0
     else
-      basket_price + distribution_basket_price.to_f + halfday_works_basket_price.to_f
+      basket_price +
+        distribution_basket_price.to_f +
+        halfday_works_basket_price.to_f
     end
   end
 
@@ -134,7 +142,6 @@ class Membership < ActiveRecord::Base
         note
       ]).merge(
         member: member,
-        billing_member: billing_member,
         distribution: distribution,
         basket: Basket.find_by!(name: basket.name, year: renew_year.year),
         started_on: renew_year.beginning_of_year,

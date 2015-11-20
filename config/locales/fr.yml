@@ -233,8 +233,6 @@ fr:
         member: Membre
         basket_id: Panier
         basket: Panier
-        billing_member: Membre (Facture)
-        billing_member_id: Membre (Facture)
         started_on: Début
         ended_on: Fin
         annual_price: Prix panniers/année (40 paniers)

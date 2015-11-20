@@ -1,8 +1,8 @@
 ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: 'Tableau de bord'
+  year = Time.zone.today.year
 
   content title: 'Tableau de bord' do
-    year = Date.today.year
     next_delivery = Delivery.coming.first
     small_basket = Basket.current_small
     big_basket = Basket.current_big
@@ -26,7 +26,7 @@ ActiveAdmin.register_page 'Dashboard' do
             end
             column "#{small_basket.name} / #{big_basket.name}", class: 'align-right' do |status|
               if status.in?(%i[pending waiting trial active inactive])
-                members = Member.send(status).includes(current_membership: :basket).all.to_a
+                members = Member.send(status).includes(:waiting_basket, current_membership: :basket).all.to_a
                 count_small_basket = members.count{ |m| m.basket == small_basket }
                 count_big_basket = members.count{ |m| m.basket == big_basket }
                 [count_small_basket, count_big_basket].join(' / ').html_safe
@@ -34,7 +34,8 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
-        panel "Facturation #{Date.today.year} (prévision, sans les paniers à l'essai)" do
+        panel "Facturation #{year} (prévision, sans les paniers à l'essai)" do
+          billable_memberships = Membership.billable
           total_price = 0
           types = ['Paniers Eveil', 'Paniers Abondance', 'Cotisations']
           table_for types do
@@ -43,7 +44,9 @@ ActiveAdmin.register_page 'Dashboard' do
               price = case type
               when /Eveil/, /Abondance/
                 basket_name = type.sub /Paniers /, ''
-                Membership.billable.select { |m| m.basket.name == basket_name }.sum(&:price)
+                billable_memberships
+                  .select { |m| m.basket.name == basket_name }
+                  .sum(&:price)
               when 'Cotisations'
                 Member.billable.size * Member::SUPPORT_PRICE
               end

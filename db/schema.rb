@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029192504) do
+ActiveRecord::Schema.define(version: 20151119195911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,7 +173,6 @@ ActiveRecord::Schema.define(version: 20151029192504) do
     t.integer  "basket_id",                                         null: false
     t.integer  "distribution_id",                                   null: false
     t.integer  "member_id",                                         null: false
-    t.integer  "billing_member_id"
     t.decimal  "annual_price",              precision: 8, scale: 2
     t.integer  "annual_halfday_works"
     t.date     "started_on",                                        null: false
@@ -186,7 +185,6 @@ ActiveRecord::Schema.define(version: 20151029192504) do
   end
 
   add_index "memberships", ["basket_id"], name: "index_memberships_on_basket_id", using: :btree
-  add_index "memberships", ["billing_member_id"], name: "index_memberships_on_billing_member_id", using: :btree
   add_index "memberships", ["deleted_at"], name: "index_memberships_on_deleted_at", using: :btree
   add_index "memberships", ["distribution_id"], name: "index_memberships_on_distribution_id", using: :btree
   add_index "memberships", ["ended_on"], name: "index_memberships_on_ended_on", using: :btree

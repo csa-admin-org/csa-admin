@@ -127,7 +127,6 @@ describe Membership do
     specify { expect(subject.started_on).to eq next_year.beginning_of_year }
     specify { expect(subject.ended_on).to eq next_year.end_of_year }
     specify { expect(subject.member).to eq membership.member }
-    specify { expect(subject.billing_member).to eq membership.billing_member }
     specify { expect(subject.distribution).to eq membership.distribution }
     specify { expect(subject.basket).to eq basket }
     specify { expect(subject.note).to eq membership.note }
@@ -137,32 +136,15 @@ describe Membership do
     end
   end
 
-  describe '#billing_member' do
-    subject { membership.billing_member }
-
-    context 'when explicitly set' do
-      let(:member) { create(:member) }
-      let(:membership) { create(:membership, billing_member: member) }
-
-      it { is_expected.to eq member }
-    end
-
-    context 'when not set' do
-      let(:membership) { create(:membership) }
-
-      it { is_expected.to eq membership.member }
-    end
-  end
-
   describe '#annual_halfday_works' do
     let(:membership) { create(:membership) }
     subject { membership.annual_halfday_works }
 
     it { is_expected.to eq 2 }
 
-    context 'when billing_member has a salary_basket' do
+    context 'when member has a salary_basket' do
       let(:member) { create(:member, salary_basket: true) }
-      let(:membership) { create(:membership, billing_member: member) }
+      let(:membership) { create(:membership, member: member) }
 
       it { is_expected.to eq 0 }
     end
@@ -174,9 +156,9 @@ describe Membership do
 
     it { is_expected.to eq 30 }
 
-    context 'when billing_member has a salary_basket' do
+    context 'when member has a salary_basket' do
       let(:member) { create(:member, salary_basket: true) }
-      let(:membership) { create(:membership, billing_member: member) }
+      let(:membership) { create(:membership, member: member) }
 
       it { is_expected.to eq 0 }
     end

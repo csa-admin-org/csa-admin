@@ -13,8 +13,8 @@ class Member < ActiveRecord::Base
   has_many :current_year_invoices, -> { during_year(Date.today.year) }, class_name: 'Invoice'
   has_many :halfday_works
   has_many :memberships
-  has_many :current_year_billing_memberships, -> { during_year(Date.today.year) }, class_name: 'Membership', foreign_key: 'billing_member_id'
-  has_many :billing_memberships, class_name: 'Membership', foreign_key: 'billing_member_id'
+  has_many :current_year_memberships, -> { during_year(Date.today.year) }, class_name: 'Membership'
+  has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
 
   accepts_nested_attributes_for :memberships
@@ -28,9 +28,7 @@ class Member < ActiveRecord::Base
     -> { where.not(id: Member.with_current_membership.pluck(:id)) }
   scope :valid_for_memberships, -> { validated.not_waiting }
   scope :trial, -> {
-    with_current_membership.
-      where('members.created_at >= ?', Time.utc(2014, 11)).
-      where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Date.today)
+    with_current_membership.where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Date.today)
   }
   scope :active, -> {
     with_current_membership.
@@ -83,12 +81,14 @@ class Member < ActiveRecord::Base
       .map(&:emails_array).flatten.uniq.compact
   end
 
-  def self.billable(year = Date.today.year)
-    members = Member.support.includes(:current_year_billing_memberships, :current_year_invoices).all
-    members += Member.joins(:billing_memberships).merge(
-      Membership.during_year(year).started
-    ).includes(:current_year_billing_memberships, :current_year_invoices)
-    members.uniq.reject { |m| m.trial? }
+  def self.billable
+    includes = %i[
+      current_year_memberships
+      current_year_invoices
+      first_membership
+      current_membership
+    ]
+    Member.includes(*includes).all.select(&:billable?)
   end
 
   def name
@@ -229,18 +229,15 @@ class Member < ActiveRecord::Base
   end
 
   def trial?
-    created_at >= Time.utc(2014, 11) && # TODO: remove once 4 deliveries are done.
-      current_membership &&
-      deliveries_received_count_since_first_membership <= 4
+    current_membership && deliveries_received_count_since_first_membership <= 4
   end
 
   def deliveries_received_count_since_first_membership
-    first_membership_started_on = memberships.pluck(:started_on).sort.first
-    Delivery.between(first_membership_started_on..Date.today).count
+    Delivery.between(first_membership.started_on..Date.today).count
   end
 
   def billable?
-    status == :active
+    support? || !salary_basket? && current_year_memberships.present? && !trial?
   end
 
   private

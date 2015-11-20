@@ -11,26 +11,17 @@ ActiveAdmin.register Membership do
 
   index title: index_title do
     selectable_column
-    column :member do |membership|
-      if membership.billing_member_id != membership.member_id
-        "#{link_to membership.member.name, membership.member} (payé par #{link_to membership.billing_member.name, membership.billing_member})".html_safe
-      else
-        link_to membership.member.name, membership.member
-      end
-    end
+    column :member, ->(m) { link_to m.member.name, m.member }
     column :basket
     column :distribution
-    column :started_on, ->(membership) { l membership.started_on }
-    column :ended_on, ->(membership) { l membership.ended_on }
+    column :started_on, ->(m) { l m.started_on }
+    column :ended_on, ->(m) { l m.ended_on }
     actions
   end
 
   filter :member,
     as: :select,
     collection: -> { Member.joins(:memberships).order(:last_name).distinct }
-  filter :billing_member,
-    as: :select,
-    collection: -> { Member.joins(:billing_memberships).order(:last_name).distinct }
   filter :basket
   filter :distribution
   filter :started_on
@@ -40,12 +31,11 @@ ActiveAdmin.register Membership do
     attributes_table do
       row :id
       row :member
-      row :billing_member
       row :basket
       row :distribution
       row :deliveries_received_count
       row :deliveries_count
-      if membership.billing_member.try(:salary_basket?)
+      if membership.member.try(:salary_basket?)
         row(:total_basket_price) { 'Gratuit, panier salaire'}
       else
         row(:annual_halfday_works) { membership.annual_halfday_works }
@@ -67,9 +57,6 @@ ActiveAdmin.register Membership do
       f.input :member,
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
         include_blank: false
-      f.input :billing_member,
-        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
-        hint: membership.persisted? ? '' : 'laisser vide si identique (membre)'
     end
     f.inputs 'Détails' do
       f.input :basket, include_blank: false
@@ -104,7 +91,7 @@ ActiveAdmin.register Membership do
   end
 
   permit_params *%i[
-    member_id billing_member_id basket_id distribution_id
+    member_id basket_id distribution_id
     annual_price distribution_basket_price annual_halfday_works
     will_be_changed_at started_on ended_on note
   ]
@@ -123,7 +110,7 @@ ActiveAdmin.register Membership do
     end
 
     def scoped_collection
-      Membership.includes(:member, :billing_member, :basket, :distribution)
+      Membership.includes(:member, :basket, :distribution)
     end
   end
 
