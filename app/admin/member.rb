@@ -159,7 +159,10 @@ ActiveAdmin.register Member do
 
   controller do
     def scoped_collection
-      Member.includes(current_membership: [:basket, :distribution])
+      Member.includes(
+        :first_membership,
+        current_membership: [:basket, :distribution]
+      )
     end
 
     def apply_sorting(chain)
