@@ -59,6 +59,7 @@ group :development do
   gem 'guard-livereload', require: false
   gem 'quiet_assets'
   gem 'letter_opener'
+  gem 'bullet'
 end
 
 group :development, :test do
