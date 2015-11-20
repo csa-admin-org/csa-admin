@@ -14,7 +14,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
-    Delivery.create_all(Date.new(Date.today.year, 1, 14))
+    Delivery.create_all(Date.new(Time.zone.today.year, 1, 14))
   end
   config.after(:suite) do
     Delivery.delete_all

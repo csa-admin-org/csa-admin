@@ -3,7 +3,7 @@ class Delivery < ActiveRecord::Base
 
   default_scope { order(:date) }
 
-  scope :coming, -> { where('date >= ?', Date.today)}
+  scope :coming, -> { where('date >= ?', Time.zone.today)}
   scope :between,
     ->(range) { where('date >= ? AND date <= ?', range.first, range.last) }
 
@@ -38,7 +38,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def year_dates
-    today = Date.today
+    today = Time.zone.today
     Rails.cache.fetch "#{today.year}_deliveries_dates" do
       Delivery.between(today.beginning_of_year..today.end_of_year).pluck(:date)
     end

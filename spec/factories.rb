@@ -37,9 +37,9 @@ FactoryGirl.define do
     end
 
     trait :trial do
-      created_at { Time.utc(Date.today.year) }
+      created_at { Time.utc(Time.zone.today.year) }
       after :create do |member|
-        create(:membership, member: member, started_on: Date.today)
+        create(:membership, member: member, started_on: Time.zone.today)
         member.reload
       end
     end
@@ -62,18 +62,18 @@ FactoryGirl.define do
     member
     basket
     distribution
-    started_on { Date.today.beginning_of_year }
-    ended_on { Date.today.end_of_year }
+    started_on { Time.zone.today.beginning_of_year }
+    ended_on { Time.zone.today.end_of_year }
   end
 
   factory :basket do
     name { Faker::Name.name }
-    year { Date.today.year }
+    year { Time.zone.today.year }
     annual_price { 40 * 30 }
     annual_halfday_works 2
 
     trait :next_year do
-      year { Date.today.year + 1 }
+      year { Time.zone.today.year + 1 }
     end
   end
 
@@ -98,14 +98,14 @@ FactoryGirl.define do
   end
 
   factory :halfday_work_date do
-    date { Date.today.beginning_of_week + 8.days }
+    date { Time.zone.today.beginning_of_week + 8.days }
     periods { ['am'] }
   end
 
   factory :halfday_work do
     member
     periods { ['am'] }
-    date { Date.today.beginning_of_week + 8.days }
+    date { Time.zone.today.beginning_of_week + 8.days }
     participants_count 1
 
     after :build do |_, evaluator|

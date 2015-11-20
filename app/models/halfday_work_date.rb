@@ -1,9 +1,9 @@
 class HalfdayWorkDate < ActiveRecord::Base
   PERIODS = %w[am pm].freeze
 
-  scope :coming, -> { where('date > ?', Date.today) }
-  scope :after_next_week, -> { where('date > ?', Date.today.next_week) }
-  scope :past, -> { where('date < ?', Date.today) }
+  scope :coming, -> { where('date > ?', Time.zone.today) }
+  scope :after_next_week, -> { where('date > ?', Time.zone.today.next_week) }
+  scope :past, -> { where('date < ?', Time.zone.today) }
 
   PERIODS.each do |period|
     define_method "period_#{period}" do

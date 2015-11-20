@@ -120,7 +120,7 @@ describe Membership do
   describe '#renew' do
     let(:membership) { create(:membership) }
     let!(:basket) { create(:basket, :next_year, name: membership.basket.name) }
-    let(:next_year) { Date.today.next_year }
+    let(:next_year) { Time.zone.today.next_year }
     before { membership.renew }
     subject { Membership.renew.first }
 

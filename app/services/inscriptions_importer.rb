@@ -64,8 +64,8 @@ class InscriptionsImporter
 
   def basket_id(str)
     case str
-    when /veil/ then Basket.find_by(year: Date.today.year, name: 'Eveil').id
-    when /Abon/ then Basket.find_by(year: Date.today.year, name: 'Abondance').id
+    when /veil/ then Basket.find_by(year: Time.zone.today.year, name: 'Eveil').id
+    when /Abon/ then Basket.find_by(year: Time.zone.today.year, name: 'Abondance').id
     else nil
     end
   end

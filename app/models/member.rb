@@ -10,10 +10,10 @@ class Member < ActiveRecord::Base
   belongs_to :waiting_distribution, class_name: 'Distribution'
   has_many :absences
   has_many :invoices
-  has_many :current_year_invoices, -> { during_year(Date.today.year) }, class_name: 'Invoice'
+  has_many :current_year_invoices, -> { during_year(Time.zone.today.year) }, class_name: 'Invoice'
   has_many :halfday_works
   has_many :memberships
-  has_many :current_year_memberships, -> { during_year(Date.today.year) }, class_name: 'Membership'
+  has_many :current_year_memberships, -> { during_year(Time.zone.today.year) }, class_name: 'Membership'
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
 
@@ -28,11 +28,11 @@ class Member < ActiveRecord::Base
     -> { where.not(id: Member.with_current_membership.pluck(:id)) }
   scope :valid_for_memberships, -> { validated.not_waiting }
   scope :trial, -> {
-    with_current_membership.where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Date.today)
+    with_current_membership.where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Time.zone.today)
   }
   scope :active, -> {
     with_current_membership.
-      where('members.created_at < ? OR (SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.utc(2014, 11), Date.today)
+      where('members.created_at < ? OR (SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.utc(2014, 11), Time.zone.today)
   }
   scope :support, -> {
     not_waiting
@@ -233,7 +233,7 @@ class Member < ActiveRecord::Base
   end
 
   def deliveries_received_count_since_first_membership
-    Delivery.between(first_membership.started_on..Date.today).count
+    Delivery.between(first_membership.started_on..Time.zone.today).count
   end
 
   def billable?
@@ -249,8 +249,8 @@ class Member < ActiveRecord::Base
         basket_id: waiting_basket_id,
         distribution_id: waiting_distribution_id,
         member: self,
-        started_on: Date.today,
-        ended_on: Date.today.end_of_year
+        started_on: Time.zone.today,
+        ended_on: Time.zone.today.end_of_year
       )
     end
   end

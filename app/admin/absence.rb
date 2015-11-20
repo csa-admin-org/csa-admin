@@ -47,12 +47,12 @@ ActiveAdmin.register Absence do
     end
     f.inputs 'Dates' do
       f.input :started_on,
-        start_year: Date.today.year,
-        end_year: Date.today.year,
+        start_year: Time.zone.today.year,
+        end_year: Time.zone.today.year,
         include_blank: false
       f.input :ended_on,
-        start_year: Date.today.year,
-        end_year: Date.today.year,
+        start_year: Time.zone.today.year,
+        end_year: Time.zone.today.year,
         include_blank: false
     end
 
@@ -66,8 +66,8 @@ ActiveAdmin.register Absence do
   controller do
     def build_resource
       super
-      resource.started_on ||= Date.today
-      resource.ended_on ||= Date.today
+      resource.started_on ||= Time.zone.today
+      resource.ended_on ||= Time.zone.today
       resource
     end
 

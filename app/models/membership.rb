@@ -22,8 +22,8 @@ class Membership < ActiveRecord::Base
     where('started_on > ? AND ended_on <= ?',
       Time.zone.now, Time.zone.today.end_of_year)
   }
-  scope :renew, -> { during_year(Date.today.next_year.year) }
-  scope :current, -> { including_date(Date.today) }
+  scope :renew, -> { during_year(Time.zone.today.next_year.year) }
+  scope :current, -> { including_date(Time.zone.today) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :during_year, ->(year) {
@@ -43,7 +43,7 @@ class Membership < ActiveRecord::Base
   end
 
   def self.billable
-    during_year(Date.today.year)
+    during_year(Time.zone.today.year)
       .started
       .includes(
         :basket, :distribution, member: [:current_membership, :first_membership, :current_year_invoices]
@@ -56,7 +56,7 @@ class Membership < ActiveRecord::Base
   end
 
   def current?
-    started_on <= Date.today && ended_on >= Date.today
+    started_on <= Time.zone.today && ended_on >= Time.zone.today
   end
 
   def can_destroy?
@@ -104,7 +104,7 @@ class Membership < ActiveRecord::Base
   end
 
   def deliveries_received_count
-    Delivery.between(started_on..Date.today).count
+    Delivery.between(started_on..Time.zone.today).count
   end
 
   def price
@@ -134,7 +134,7 @@ class Membership < ActiveRecord::Base
 
   def renew
     return if Membership.renew.exists?(member_id: member_id)
-    renew_year = Date.today.next_year
+    renew_year = Time.zone.today.next_year
     Membership.create!(
       attributes.slice(*%i[
         annual_price
@@ -195,7 +195,7 @@ class Membership < ActiveRecord::Base
 
   def will_be_changed_at_good_date
     if @will_be_changed_at && (
-         @will_be_changed_at < Date.today ||
+         @will_be_changed_at < Time.zone.today ||
          @will_be_changed_at <= started_on ||
          @will_be_changed_at >= ended_on
        )

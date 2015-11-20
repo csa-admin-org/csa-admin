@@ -8,7 +8,7 @@ feature 'members page' do
   before { Capybara.app_host = 'http://membres.example.com' }
 
   context 'existing member token' do
-    before { create(:halfday_work_date, date: Date.today, periods: %w[am pm]) }
+    before { create(:halfday_work_date, date: Time.zone.today, periods: %w[am pm]) }
     before { visit "/#{member.token}" }
     scenario 'add new halfday work' do
       check 'halfday_work_period_am'
@@ -17,7 +17,7 @@ feature 'members page' do
       click_button 'Inscription'
 
       expect(page)
-        .to have_content "#{I18n.l Date.today, format: :long}8:00 - 17:303"
+        .to have_content "#{I18n.l Time.zone.today, format: :long}8:00 - 17:303"
     end
 
     scenario 'remove halfday work' do

@@ -6,18 +6,18 @@ describe HalfdayWork do
 
   describe 'validations' do
     describe 'date' do
-      before { create(:halfday_work_date, date: Date.today) }
+      before { create(:halfday_work_date, date: Time.zone.today) }
       let(:halfday_work) { build(:halfday_work, member: member, periods: ['am']) }
 
       it 'accepts date after or on today' do
-        halfday_work.date = Date.today
+        halfday_work.date = Time.zone.today
         expect(halfday_work).to be_valid
       end
     end
 
     describe 'periods' do
-      let(:halfday_work) { HalfdayWork.new(member: member, date: Date.today) }
-      before { create(:halfday_work_date, date: Date.today, periods: %w[am pm]) }
+      let(:halfday_work) { HalfdayWork.new(member: member, date: Time.zone.today) }
+      before { create(:halfday_work_date, date: Time.zone.today, periods: %w[am pm]) }
 
       it 'does accept good period value' do
         halfday_work.periods = %w[am pm]
@@ -55,7 +55,7 @@ describe HalfdayWork do
 
   describe '#validate!' do
     let(:halfday_work) do
-      h = build(:halfday_work, date: Date.today.beginning_of_week - 7.days)
+      h = build(:halfday_work, date: Time.zone.today.beginning_of_week - 7.days)
       h.save(validate: false)
       h
     end
@@ -78,7 +78,7 @@ describe HalfdayWork do
 
   describe '#reject!' do
     let(:halfday_work) do
-      h = build(:halfday_work, date: Date.today.beginning_of_week - 7.days)
+      h = build(:halfday_work, date: Time.zone.today.beginning_of_week - 7.days)
       h.save(validate: false)
       h
     end
@@ -101,7 +101,7 @@ describe HalfdayWork do
 
   describe '#status' do
     context 'when waiting validation' do
-      subject { HalfdayWork.new(date: Date.today).status }
+      subject { HalfdayWork.new(date: Time.zone.today).status }
       it { is_expected.to eq :pending }
     end
 

@@ -6,7 +6,7 @@ class Absence < ActiveRecord::Base
 
   scope :past, -> { where('ended_on < ?', Time.now) }
   scope :future, -> { where('started_on > ?', Time.now) }
-  scope :current, -> { including_date(Date.today) }
+  scope :current, -> { including_date(Time.zone.today) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :during_year, ->(year) {

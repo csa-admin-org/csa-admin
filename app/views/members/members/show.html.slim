@@ -33,7 +33,7 @@ section
   p.label Sélectionez une date sur le calendrier ci-dessous. Plus le vert de la date est foncé, plus le nombre d'inscriptions est élevé. Dans la mesure du possible, merci de choisir les dates les moins fréquentées (vert clair).
 
   section.form
-    - @halfday_work ||= HalfdayWork.new(date: Date.today)
+    - @halfday_work ||= HalfdayWork.new(date: Time.zone.today)
     - @coming_halfday_work_date = ComingHalfdayWorkDates.new
     = form_for [:members, @member, @halfday_work] do |f|
       .column-left

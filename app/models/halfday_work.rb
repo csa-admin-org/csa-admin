@@ -9,12 +9,12 @@ class HalfdayWork < ActiveRecord::Base
   scope :validated, -> { where.not(validated_at: nil) }
   scope :rejected, -> { where.not(rejected_at: nil) }
   scope :pending, -> do
-    where('date <= ?', Date.today).where(validated_at: nil, rejected_at: nil)
+    where('date <= ?', Time.zone.today).where(validated_at: nil, rejected_at: nil)
   end
-  scope :coming, -> { where('date > ?', Date.today) }
-  scope :coming_for_member, -> { where('date >= ?', Date.today) }
+  scope :coming, -> { where('date > ?', Time.zone.today) }
+  scope :coming_for_member, -> { where('date >= ?', Time.zone.today) }
   scope :past, -> do
-    where('date < ? AND date >= ?', Date.today, Date.today.beginning_of_year)
+    where('date < ? AND date >= ?', Time.zone.today, Time.zone.today.beginning_of_year)
   end
   scope :during_year, ->(year) {
     where(
@@ -38,7 +38,7 @@ class HalfdayWork < ActiveRecord::Base
       :validated
     elsif rejected_at?
       :rejected
-    elsif date <= Date.today
+    elsif date <= Time.zone.today
       :pending
     else
       :coming

@@ -132,7 +132,7 @@ describe Member do
     before do
       create(:absence,
         member: member,
-        started_on: Date.today,
+        started_on: Time.zone.today,
         ended_on: 2.days.from_now
       )
     end
