@@ -176,7 +176,7 @@ ActiveAdmin.register Member do
 
     def create_resource(object)
       run_create_callbacks object do
-        object.validated_at = Time.now
+        object.validated_at = Time.zone.now
         object.validator = current_admin
         save_resource(object)
       end

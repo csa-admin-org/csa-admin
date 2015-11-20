@@ -33,7 +33,7 @@ class SupportImporter
         city: row[4],
         phones: row[5],
         emails: row[6],
-        validated_at: Time.now.utc,
+        validated_at: Time.zone.now.utc,
         validator: Admin.first,
         note: row[10]
       )

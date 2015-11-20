@@ -20,7 +20,7 @@ FactoryGirl.define do
     support_member false
     billing_interval  'quarterly'
 
-    validated_at { Time.now }
+    validated_at { Time.zone.now }
     validator { create(:admin) }
 
     created_at { Time.utc(2014) } # no trial by default
@@ -31,7 +31,7 @@ FactoryGirl.define do
     end
 
     trait :waiting do
-      waiting_started_at { Time.now }
+      waiting_started_at { Time.zone.now }
       waiting_basket { create(:basket) }
       waiting_distribution { create(:distribution) }
     end
@@ -86,12 +86,12 @@ FactoryGirl.define do
   end
 
   factory :delivery do
-    date { Time.now }
+    date { Time.zone.now }
   end
 
   factory :invoice do
     member
-    date { Time.now }
+    date { Time.zone.now }
     sequence(:number) { |n| "FA000#{n}" }
     amount 100
     balance 100

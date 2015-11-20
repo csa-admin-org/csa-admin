@@ -10,10 +10,12 @@ class Member < ActiveRecord::Base
   belongs_to :waiting_distribution, class_name: 'Distribution'
   has_many :absences
   has_many :invoices
-  has_many :current_year_invoices, -> { during_year(Time.zone.today.year) }, class_name: 'Invoice'
+  has_many :current_year_invoices, -> { during_year(Time.zone.today.year) },
+    class_name: 'Invoice'
   has_many :halfday_works
   has_many :memberships
-  has_many :current_year_memberships, -> { during_year(Time.zone.today.year) }, class_name: 'Membership'
+  has_many :current_year_memberships, -> { during_year(Time.zone.today.year) },
+    class_name: 'Membership'
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
 
@@ -31,8 +33,8 @@ class Member < ActiveRecord::Base
     with_current_membership.where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Time.zone.today)
   }
   scope :active, -> {
-    with_current_membership.
-      where('members.created_at < ? OR (SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.utc(2014, 11), Time.zone.today)
+    with_current_membership
+      .where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.zone.today)
   }
   scope :support, -> {
     not_waiting
@@ -56,8 +58,9 @@ class Member < ActiveRecord::Base
     where('members.id IN (?) OR waiting_basket_id = ?', member_ids, basket_id)
   }
   scope :with_current_distribution, ->(distribution_id) {
-    member_ids = Membership.where(distribution_id: distribution_id).pluck(:member_id)
-    where('members.id IN (?) OR waiting_distribution_id = ?', member_ids, distribution_id)
+    ids = Membership.where(distribution_id: distribution_id).pluck(:member_id)
+    where('members.id IN (?) OR waiting_distribution_id = ?',
+      ids, distribution_id)
   }
 
   validates :billing_interval,
@@ -127,7 +130,7 @@ class Member < ActiveRecord::Base
     current_membership.try(:distribution) || waiting_distribution
   end
 
-  def self.ransackable_scopes(auth_object = nil)
+  def self.ransackable_scopes(_auth_object = nil)
     %i[with_name with_address with_current_basket with_current_distribution]
   end
 
@@ -160,14 +163,15 @@ class Member < ActiveRecord::Base
   end
 
   def waiting=(bool)
-    self.waiting_started_at = (bool == '1') ? Time.now : nil
+    self.waiting_started_at = (bool == '1') ? Time.zone.now : nil
   end
 
   def validate!(validator)
     return unless status == :pending
+    now = Time.zone.now
     update!(
-      waiting_started_at: support? ? nil : Time.now,
-      validated_at: Time.now,
+      waiting_started_at: support? ? nil : now,
+      validated_at: now,
       validator: validator
     )
   end
@@ -175,16 +179,16 @@ class Member < ActiveRecord::Base
   def wait!
     return unless status == :inactive
     update!(
-      waiting_started_at: Time.now,
+      waiting_started_at: Time.zone.now,
       waiting_basket_id: nil,
       waiting_distribution_id: nil
     )
   end
 
   def gribouille?
+    gribouille = read_attribute(:gribouille)
     (status.in?(%i[waiting trial active support]) &&
-      read_attribute(:gribouille) != false) ||
-      read_attribute(:gribouille) == true
+      gribouille != false) || gribouille == true
   end
 
   def absent?(date)
@@ -237,20 +241,23 @@ class Member < ActiveRecord::Base
   end
 
   def billable?
-    support? || !salary_basket? && current_year_memberships.present? && !trial?
+    support? ||
+      (!salary_basket? && current_year_memberships.present? && !trial?)
   end
 
   private
 
   def build_membership
     if !pending? && (new_record? || waiting_started_at_changed?) &&
-       waiting_started_at.nil? && waiting_basket_id? && waiting_distribution_id?
+        waiting_started_at.nil? &&
+        waiting_basket_id? && waiting_distribution_id?
+      today = Time.zone.today
       memberships.build(
         basket_id: waiting_basket_id,
         distribution_id: waiting_distribution_id,
         member: self,
-        started_on: Time.zone.today,
-        ended_on: Time.zone.today.end_of_year
+        started_on: today,
+        ended_on: today.end_of_year
       )
     end
   end

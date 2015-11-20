@@ -57,12 +57,12 @@ class HalfdayWork < ActiveRecord::Base
 
   def validate!(validator)
     return if coming?
-    update(rejected_at: nil, validated_at: Time.now, validator_id: validator.id)
+    update(rejected_at: nil, validated_at: Time.zone.now, validator_id: validator.id)
   end
 
   def reject!(validator)
     return if coming?
-    update(rejected_at: Time.now, validated_at: nil, validator_id: validator.id)
+    update(rejected_at: Time.zone.now, validated_at: nil, validator_id: validator.id)
   end
 
   PERIODS.each do |period|

@@ -111,12 +111,12 @@ describe HalfdayWork do
     end
 
     context 'when validated' do
-      subject { HalfdayWork.new(validated_at: Time.now).status }
+      subject { HalfdayWork.new(validated_at: Time.zone.now).status }
       it { is_expected.to eq :validated }
     end
 
     context 'when rejected' do
-      subject { HalfdayWork.new(rejected_at: Time.now).status }
+      subject { HalfdayWork.new(rejected_at: Time.zone.now).status }
       it { is_expected.to eq :rejected }
     end
   end

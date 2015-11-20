@@ -31,7 +31,7 @@ class Importer
       address: row[9],
       zip: row[10].to_i,
       city: row[11],
-      validated_at: Time.now.utc,
+      validated_at: Time.zone.now.utc,
       validator: Admin.first,
       support_member: false,
       billing_interval: row[19] == 'annuel' ? 'annual' : 'quarterly',
@@ -48,7 +48,7 @@ class Importer
       )
     end
     if ['Liste attente', 'Invités'].include?(row[1])
-      member.waiting_started_at = Time.now - (200 - index).minutes
+      member.waiting_started_at = Time.zone.now - (200 - index).minutes
     end
     if row[1] == 'Panier salaire'
       member.memberships.first.annual_price = 0

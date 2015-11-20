@@ -4,8 +4,8 @@ class Absence < ActiveRecord::Base
   validates :member, :started_on, :ended_on, presence: true
   validate :good_period_range
 
-  scope :past, -> { where('ended_on < ?', Time.now) }
-  scope :future, -> { where('started_on > ?', Time.now) }
+  scope :past, -> { where('ended_on < ?', Time.zone.now) }
+  scope :future, -> { where('started_on > ?', Time.zone.now) }
   scope :current, -> { including_date(Time.zone.today) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
