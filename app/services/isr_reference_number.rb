@@ -23,6 +23,10 @@ class ISRReferenceNumber
     check_digit!(ref)
   end
 
+  def amount_cents
+    amount_str.last(2)
+  end
+
   private
 
   def invoice_ref
