@@ -104,7 +104,8 @@ class Membership < ActiveRecord::Base
   end
 
   def deliveries_received_count
-    Delivery.between(started_on..Time.zone.today).count
+    end_date = [ended_on, Time.zone.today].min
+    Delivery.between(started_on..end_date).count
   end
 
   def price

@@ -1,6 +1,7 @@
 class Member < ActiveRecord::Base
   BILLING_INERVALS = %w[annual quarterly].freeze
   SUPPORT_PRICE = 30
+  TRIAL_DELIVERIES = 4
 
   acts_as_paranoid
   uniquify :token, length: 10
@@ -29,12 +30,24 @@ class Member < ActiveRecord::Base
   scope :without_current_membership,
     -> { where.not(id: Member.with_current_membership.pluck(:id)) }
   scope :valid_for_memberships, -> { validated.not_waiting }
+  DELIVERIES_COUNT = %{(
+    SELECT COUNT(deliveries.id)
+    FROM deliveries
+    WHERE
+      date >= (
+        SELECT m.started_on
+        FROM memberships m
+        WHERE m.member_id = members.id
+        ORDER BY m.started_on
+        LIMIT 1
+      ) AND
+      date <= current_date
+  )}
   scope :trial, -> {
-    with_current_membership.where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) <= 4', Time.zone.today)
+    with_current_membership.where("#{DELIVERIES_COUNT} <= #{TRIAL_DELIVERIES}")
   }
   scope :active, -> {
-    with_current_membership
-      .where('(SELECT COUNT(deliveries.id) FROM deliveries WHERE date >= (SELECT m.started_on FROM memberships m WHERE m.member_id = members.id ORDER BY m.started_on LIMIT 1) AND date <= ?) > 4', Time.zone.today)
+    with_current_membership.where("#{DELIVERIES_COUNT} > #{TRIAL_DELIVERIES}")
   }
   scope :support, -> {
     not_waiting
@@ -54,8 +67,8 @@ class Member < ActiveRecord::Base
     where('members.address ILIKE ?', "%#{address}%")
   }
   scope :with_current_basket, ->(basket_id) {
-    member_ids = Membership.where(basket_id: basket_id).pluck(:member_id)
-    where('members.id IN (?) OR waiting_basket_id = ?', member_ids, basket_id)
+    ids = Membership.where(basket_id: basket_id).pluck(:member_id)
+    where('members.id IN (?) OR waiting_basket_id = ?', ids, basket_id)
   }
   scope :with_current_distribution, ->(distribution_id) {
     ids = Membership.where(distribution_id: distribution_id).pluck(:member_id)
@@ -88,6 +101,7 @@ class Member < ActiveRecord::Base
     includes = %i[
       current_year_memberships
       current_year_invoices
+      memberships
       first_membership
       current_membership
     ]
@@ -146,6 +160,10 @@ class Member < ActiveRecord::Base
     else
       :inactive
     end
+  end
+
+  def active?
+    status == :active
   end
 
   def display_status
@@ -233,16 +251,27 @@ class Member < ActiveRecord::Base
   end
 
   def trial?
-    current_membership && deliveries_received_count_since_first_membership <= 4
+    current_membership == first_membership &&
+      first_membership.deliveries_received_count <= TRIAL_DELIVERIES
   end
 
   def deliveries_received_count_since_first_membership
-    Delivery.between(first_membership.started_on..Time.zone.today).count
+    first_membership.deliveries_received_count
   end
 
   def billable?
     support? ||
       (!salary_basket? && current_year_memberships.present? && !trial?)
+  end
+
+  def support_billable?
+    billable? &&
+      (support? ||
+        (active? &&
+          memberships.to_a.sum(&:deliveries_received_count) > 4 ||
+          deliveries_received_count_since_first_membership == TRIAL_DELIVERIES
+        )
+      )
   end
 
   private

@@ -48,7 +48,7 @@ ActiveAdmin.register_page 'Dashboard' do
                   .select { |m| m.basket.name == basket_name }
                   .sum(&:price)
               when 'Cotisations'
-                Member.billable.size * Member::SUPPORT_PRICE
+                Member.billable.select(&:support_billable?).size * Member::SUPPORT_PRICE
               end
               total_price += price
               number_to_currency price
