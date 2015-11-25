@@ -3,6 +3,13 @@ class Delivery < ActiveRecord::Base
 
   default_scope { order(:date) }
 
+  scope :current_year, -> {
+    where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year}")
+  }
+  scope :next_year, -> {
+    where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year + 1}")
+  }
+
   scope :coming, -> { where('date >= ?', Time.zone.today)}
   scope :between,
     ->(range) { where('date >= ? AND date <= ?', range.first, range.last) }
@@ -30,7 +37,7 @@ class Delivery < ActiveRecord::Base
   private
 
   def self.next_date(date)
-    if date >= Date.new(date.year, 5, 15) && date <= Date.new(date.year, 12, 15)
+    if date >= Date.new(date.year, 5, 18) && date <= Date.new(date.year, 12, 21)
       date + 1.week
     else
       date + 2.weeks
@@ -38,9 +45,8 @@ class Delivery < ActiveRecord::Base
   end
 
   def year_dates
-    today = Time.zone.today
-    Rails.cache.fetch "#{today.year}_deliveries_dates" do
-      Delivery.between(today.beginning_of_year..today.end_of_year).pluck(:date)
+    Rails.cache.fetch "#{date.year}_deliveries_dates" do
+      Delivery.between(date.beginning_of_year..date.end_of_year).pluck(:date)
     end
   end
 end

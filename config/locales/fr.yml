@@ -75,16 +75,16 @@ fr:
         wait: "Mettre en attente"
         renew: "Renouveller"
     scopes:
-      pending: "à valider"
-      coming: "à venir"
-      validated: "validés"
-      rejected: "refusés"
-      waiting: "en attente"
-      missing: "manquantes"
-      trial: "période d'essai"
-      active: "actifs"
-      support: "soutien"
-      inactive: "inactifs"
+      pending: à valider
+      coming: à venir
+      validated: validés
+      rejected: refusés
+      waiting: en attente
+      missing: manquantes
+      trial: période d'essai
+      active: actifs
+      support: soutien
+      inactive: inactifs
       all: tous
       current: en cours
       past: passés
@@ -92,8 +92,10 @@ fr:
       renew: renouvellement, année prochaine
       open: ouvertes
       closed: fermées
-      diff_name: "Prénom/Nom différents"
-      diff_zip: "ZIP différents"
+      diff_name: Prénom/Nom différents
+      diff_zip: ZIP différents
+      current_year: année courante
+      next_year: année prochaine
     comments:
       body: "Corps"
       author: "Auteur"
@@ -429,13 +431,13 @@ fr:
   number:
     currency:
       format:
-        delimiter: ! ''''
-        format: ! '%n %u'
+        delimiter: "'"
+        format: '%u %n'
         precision: 2
         separator: .
         significant: false
         strip_insignificant_zeros: false
-        unit: sFr.
+        unit: CHF
     format:
       delimiter: ! ''''
       precision: 3

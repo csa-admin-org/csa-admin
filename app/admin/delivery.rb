@@ -1,6 +1,9 @@
 ActiveAdmin.register Delivery do
   menu parent: 'Autre', priority: 10
 
+  scope :current_year, default: true
+  scope :next_year
+
   index do
     column '#', ->(delivery) { delivery.number }
     column :date
