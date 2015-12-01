@@ -16,7 +16,7 @@ class Distribution < ActiveRecord::Base
     joins(:memberships).merge(Membership.including_date(delivery.date))
       .distinct
       .each { |d|
-        d.delivery_memberships = d.memberships.including_date(delivery.date).includes(member: :absences).to_a
+        d.delivery_memberships = d.memberships.including_date(delivery.date).includes(:basket, member: :absences).to_a
         d.delivery_memberships.reject! { |membership| membership.member.absent?(delivery.date) }
       }
       .sort_by { |d| d.delivery_memberships.size }.reverse

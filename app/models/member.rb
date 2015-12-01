@@ -19,6 +19,7 @@ class Member < ActiveRecord::Base
     class_name: 'Membership'
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
+  has_one :future_membership, -> { future }, class_name: 'Membership'
 
   accepts_nested_attributes_for :memberships
 
@@ -137,11 +138,15 @@ class Member < ActiveRecord::Base
   end
 
   def basket
-    current_membership.try(:basket) || waiting_basket
+    current_membership.try(:basket) ||
+      waiting_basket ||
+      future_membership.try(:basket)
   end
 
   def distribution
-    current_membership.try(:distribution) || waiting_distribution
+    current_membership.try(:distribution) ||
+      waiting_distribution ||
+      future_membership.try(:distribution)
   end
 
   def self.ransackable_scopes(_auth_object = nil)
@@ -280,14 +285,16 @@ class Member < ActiveRecord::Base
     if !pending? && (new_record? || waiting_started_at_changed?) &&
         waiting_started_at.nil? &&
         waiting_basket_id? && waiting_distribution_id?
-      today = Time.zone.today
+      basket_date = Date.new(waiting_basket.year)
       memberships.build(
         basket_id: waiting_basket_id,
         distribution_id: waiting_distribution_id,
         member: self,
-        started_on: today,
-        ended_on: today.end_of_year
+        started_on: [Time.zone.today, basket_date.beginning_of_year].max,
+        ended_on: basket_date.end_of_year
       )
+      self.waiting_basket_id = nil
+      self.waiting_distribution_id = nil
     end
   end
 

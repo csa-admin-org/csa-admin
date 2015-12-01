@@ -4,8 +4,6 @@ ActiveAdmin.register_page 'Dashboard' do
 
   content title: 'Tableau de bord' do
     next_delivery = Delivery.coming.first
-    small_basket = Basket.current_small
-    big_basket = Basket.current_big
     columns do
       column do
         panel 'Membres' do
@@ -24,11 +22,15 @@ ActiveAdmin.register_page 'Dashboard' do
               end
               str += Member.send(status).count.to_s
             end
-            column "#{small_basket.name} / #{big_basket.name}", class: 'align-right' do |status|
+            column "#{Basket::SMALL} / #{Basket::BIG}", class: 'align-right' do |status|
               if status.in?(%i[pending waiting trial active inactive])
-                members = Member.send(status).includes(:waiting_basket, current_membership: :basket).all.to_a
-                count_small_basket = members.count{ |m| m.basket == small_basket }
-                count_big_basket = members.count{ |m| m.basket == big_basket }
+                members = Member.send(status).includes(
+                  :waiting_basket,
+                  current_membership: :basket,
+                  future_membership: :basket
+                ).all.to_a
+                count_small_basket = members.count { |m| m.basket.try(:small?) }
+                count_big_basket = members.count { |m| m.basket.try(:big?) }
                 [count_small_basket, count_big_basket].join(' / ').html_safe
               end
             end
@@ -82,9 +84,10 @@ ActiveAdmin.register_page 'Dashboard' do
             column('Paniers', class: 'align-right') do |distribution|
               distribution.delivery_memberships.count
             end
-            column("#{small_basket.name} / #{big_basket.name}", class: 'align-right') do |distribution|
-              count_small_basket = distribution.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id }
-              count_big_basket = distribution.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id }
+            column("#{Basket::SMALL} / #{Basket::BIG}", class: 'align-right') do |distribution|
+              memberships = distribution.delivery_memberships.to_a
+              count_small_basket = memberships.count { |m| m.basket.small? }
+              count_big_basket = memberships.count { |m| m.basket.big? }
               total_small_basket += count_small_basket
               total_big_basket += count_big_basket
               [count_small_basket, count_big_basket].join(' / ').html_safe
@@ -104,11 +107,11 @@ ActiveAdmin.register_page 'Dashboard' do
             end
             column('', class: 'align-right') do |delivered|
               if delivered
-                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == small_basket.id } }
-                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == big_basket.id } }
+                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket.small? } }
+                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket.big? } }
               else
-                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == small_basket.id } }
-                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == big_basket.id } }
+                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket.small? } }
+                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket.big? } }
               end
               spaced("Totaux: #{[count_small_basket, count_big_basket].join(' / ')}", size: 33)
             end

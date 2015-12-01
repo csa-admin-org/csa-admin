@@ -2,16 +2,31 @@ class Basket < ActiveRecord::Base
   has_many :memberships
   has_many :members, through: :memberships
 
+  SMALL = 'Eveil'
+  BIG = 'Abondance'
+
+  scope :current_year, -> { where(year: Time.zone.today.year) }
+  scope :small, -> { where(name: SMALL) }
+  scope :big, -> { where(name: BIG) }
+
   def display_name
     "#{name} (#{year})"
   end
 
+  def small?
+    name == SMALL
+  end
+
+  def big?
+    name == BIG
+  end
+
   def self.current_small
-    self.where(year: Time.zone.today.year).order(:annual_price).first
+    current_year.small.first
   end
 
   def self.current_big
-    self.where(year: Time.zone.today.year).order(:annual_price).last
+    current_year.big.first
   end
 
   def self.years_range
