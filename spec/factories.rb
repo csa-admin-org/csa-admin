@@ -92,9 +92,6 @@ FactoryGirl.define do
   factory :invoice do
     member
     date { Time.zone.now }
-    sequence(:number) { |n| "FA000#{n}" }
-    amount 100
-    balance 100
   end
 
   factory :halfday_work_date do

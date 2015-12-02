@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.3'
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5'
 gem 'rails-i18n'
 
 gem 'passenger'
@@ -30,8 +30,8 @@ gem 'facets', require: false
 
 gem 'bourbon'
 gem 'bitters'
-gem 'neat', '>= 1.7.0'
-gem 'refills' #, github: 'thoughtbot/refills'
+gem 'neat'
+gem 'refills'
 
 gem 'devise'
 gem 'devise-i18n'
@@ -47,6 +47,9 @@ gem 'exception_notification'
 
 gem 'faraday'
 gem 'faraday-cookie_jar'
+
+gem 'prawn'
+gem 'prawn-table'
 
 group :production do
   gem 'rails_12factor'
@@ -70,4 +73,5 @@ group :development, :test do
   gem 'capybara-email'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'pdf-inspector', require: 'pdf/inspector'
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119195911) do
+ActiveRecord::Schema.define(version: 20151125214015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,18 +117,24 @@ ActiveRecord::Schema.define(version: 20151119195911) do
   add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 
   create_table "invoices", force: :cascade do |t|
-    t.integer  "member_id",                          null: false
-    t.date     "date",                               null: false
-    t.text     "number",                             null: false
-    t.decimal  "amount",     precision: 8, scale: 2, null: false
-    t.decimal  "balance",    precision: 8, scale: 2, null: false
-    t.hstore   "data",                               null: false
+    t.integer  "member_id",                                              null: false
+    t.date     "date",                                                   null: false
+    t.decimal  "balance",                        precision: 8, scale: 2
+    t.decimal  "amount",                         precision: 8, scale: 2, null: false
+    t.decimal  "support_amount",                 precision: 8, scale: 2
+    t.string   "memberships_amount_description"
+    t.decimal  "memberships_amount",             precision: 8, scale: 2
+    t.json     "memberships_amounts_data"
+    t.decimal  "remaining_memberships_amount",   precision: 8, scale: 2
+    t.decimal  "paid_memberships_amount",        precision: 8, scale: 2
+    t.json     "isr_balance_data"
+    t.datetime "sent_at"
+    t.json     "overdue_notices"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "invoices", ["member_id"], name: "index_invoices_on_member_id", using: :btree
-  add_index "invoices", ["number"], name: "index_invoices_on_number", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "emails",                   limit: 255
@@ -190,5 +196,19 @@ ActiveRecord::Schema.define(version: 20151119195911) do
   add_index "memberships", ["ended_on"], name: "index_memberships_on_ended_on", using: :btree
   add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", using: :btree
   add_index "memberships", ["started_on"], name: "index_memberships_on_started_on", using: :btree
+
+  create_table "old_invoices", force: :cascade do |t|
+    t.integer  "member_id",                          null: false
+    t.date     "date",                               null: false
+    t.text     "number",                             null: false
+    t.decimal  "amount",     precision: 8, scale: 2, null: false
+    t.decimal  "balance",    precision: 8, scale: 2, null: false
+    t.hstore   "data",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "old_invoices", ["member_id"], name: "index_old_invoices_on_member_id", using: :btree
+  add_index "old_invoices", ["number"], name: "index_old_invoices_on_number", using: :btree
 
 end
