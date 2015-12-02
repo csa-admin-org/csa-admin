@@ -4,7 +4,7 @@ ActiveAdmin.register Membership do
   scope :all
   scope :past
   scope :current, default: true
-  scope :future
+  scope :future_current_year
   scope :renew
 
   index_title = -> { "Abonnements (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }

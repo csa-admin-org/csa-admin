@@ -88,7 +88,7 @@ fr:
       all: tous
       current: en cours
       past: passés
-      future: futures, année courante
+      future_current_year: futures, année courante
       renew: renouvellement, année prochaine
       open: ouvertes
       closed: fermées
