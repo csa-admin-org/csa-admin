@@ -89,7 +89,6 @@ class Member < ActiveRecord::Base
         (member.status == :inactive && member.gribouille == false)
     }
   validate :support_member_not_waiting
-  validate :support_member_without_current_membership
 
   before_save :build_membership
 
@@ -305,12 +304,6 @@ class Member < ActiveRecord::Base
   def support_member_not_waiting
     if support_member && status == :waiting
       errors.add(:support_member, "ne peut pas être sur liste d'attente")
-    end
-  end
-
-  def support_member_without_current_membership
-    if support_member && memberships.any?(&:current?)
-      errors.add(:support_member, 'invalide avec un abonnement')
     end
   end
 end

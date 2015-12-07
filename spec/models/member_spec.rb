@@ -21,14 +21,6 @@ describe Member do
   end
 
   describe 'validations' do
-    describe 'support_member' do
-      let(:member) { create(:member, :active) }
-      it 'cannot become support member with current_membership' do
-        member.update(support_member: true)
-        expect(member.errors[:support_member]).to be_present
-      end
-    end
-
     it 'does not require address, city, zip when inactive && gribouille' do
       member = create(:member, :inactive,
         gribouille: true,
