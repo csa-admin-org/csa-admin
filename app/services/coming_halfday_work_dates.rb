@@ -15,11 +15,11 @@ class ComingHalfdayWorkDates
   end
 
   def min
-    @coming_halfday_work_dates.min_by(&:date).date
+    @coming_halfday_work_dates.min_by(&:date).try(:date) || Time.zone.today
   end
 
   def max
-    @coming_halfday_work_dates.max_by(&:date).date
+    @coming_halfday_work_dates.max_by(&:date).try(:date) || Time.zone.today
   end
 
   private
