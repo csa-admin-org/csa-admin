@@ -1,4 +1,4 @@
-ActiveAdmin.register Invoice do
+ActiveAdmin.register OldInvoice, as: 'Invoice' do
   menu priority: 4
 
   scope :all, default: true
@@ -21,12 +21,12 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar 'Dernière mise à jour', only: :index do
-    l Invoice.maximum(:updated_at).in_time_zone
+    l OldInvoice.maximum(:updated_at).in_time_zone
   end
 
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:invoices).order(:last_name).distinct }
+    collection: -> { Member.joins(:old_invoices).order(:last_name).distinct }
   filter :date
 
   show do |invoice|
@@ -51,7 +51,7 @@ ActiveAdmin.register Invoice do
 
   controller do
     def scoped_collection
-      Invoice.includes(:member)
+      OldInvoice.includes(:member)
     end
   end
 
