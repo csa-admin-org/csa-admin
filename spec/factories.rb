@@ -46,6 +46,7 @@ FactoryGirl.define do
 
     trait :active do
       after :create do |member|
+        create(:membership, :last_year, member: member)
         create(:membership, member: member)
         member.reload
       end
@@ -64,6 +65,12 @@ FactoryGirl.define do
     distribution
     started_on { Time.zone.today.beginning_of_year }
     ended_on { Time.zone.today.end_of_year }
+
+    trait :last_year do
+      basket { create(:basket, :last_year) }
+      started_on { 1.year.ago.beginning_of_year  }
+      ended_on { 1.year.ago.end_of_year  }
+    end
   end
 
   factory :basket do
@@ -74,6 +81,9 @@ FactoryGirl.define do
 
     trait :next_year do
       year { Time.zone.today.year + 1 }
+    end
+    trait :last_year do
+      year { Time.zone.today.year - 1 }
     end
   end
 
@@ -92,6 +102,24 @@ FactoryGirl.define do
   factory :invoice do
     member
     date { Time.zone.now }
+
+    trait :membership do
+      transient do
+        membership { create(:membership, member: member) }
+      end
+      memberships_amounts_data {
+        [membership.slice(:id, :description).merge(amount: membership.price)]
+      }
+      memberships_amount_description 'Montant'
+    end
+
+    trait :support do
+      support_amount Member::SUPPORT_PRICE
+    end
+
+    trait :last_year do
+      date { 1.year.from_now }
+    end
   end
 
   factory :halfday_work_date do

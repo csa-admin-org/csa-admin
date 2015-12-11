@@ -2,10 +2,6 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
 
-  if config.files_to_run.one?
-    config.default_formatter = 'doc'
-  end
-
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.

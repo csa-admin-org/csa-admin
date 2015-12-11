@@ -110,17 +110,34 @@ class Membership < ActiveRecord::Base
     deliveries_count * total_basket_price
   end
 
+  def description
+    desc = ["Panier #{basket.name} (#{cur(basket_price)})"]
+    if distribution_basket_price > 0
+      desc << "#{distribution.name} (#{cur(distribution_basket_price)})"
+    else
+      desc << distribution.name
+    end
+    if halfday_works_basket_price > 0
+      desc << "sans ½ Journées de travail (#{cur(halfday_works_basket_price)})"
+    end
+    desc << [started_on, ended_on].map { |d| I18n.l(d, format: :number) }.join(' - ')
+    desc.join(', ') + "\n" + price_details
+  end
+
   def price_details
-    str = "#{deliveries_count} * "
+    str = "#{deliveries_count} livraisons x "
     if halfday_works_basket_price > 0 || distribution_basket_price > 0
-      str << "(#{basket_price}"
-      str << " + #{halfday_works_basket_price}" if halfday_works_basket_price > 0
-      str << " + #{distribution_basket_price}" if distribution_basket_price > 0
+      str << "(#{cur(basket_price)}"
+      if distribution_basket_price > 0
+        str << " + #{cur distribution_basket_price}"
+      end
+      if halfday_works_basket_price > 0
+        str << " + #{cur(halfday_works_basket_price)}"
+      end
       str << ')'
     else
-      str << basket_price.to_s
+      str << cur(basket_price)
     end
-    str << " = #{ActionView::Base.new.number_to_currency price}"
   end
 
   def deliveries_count
@@ -200,5 +217,11 @@ class Membership < ActiveRecord::Base
        )
       errors.add(:will_be_changed_at, :invalid)
     end
+  end
+
+  def cur(number)
+    precision = number.to_s.split('.').last.size > 2 ? 3 : 2
+    ActiveSupport::NumberHelper
+      .number_to_currency(number, unit: '', precision: precision).strip
   end
 end

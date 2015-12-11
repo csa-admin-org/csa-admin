@@ -83,7 +83,7 @@ class InvoicePdf < Prawn::Document
       data << [membership['description'], cur(membership['amount'])]
     end
 
-    if invoice.paid_memberships_amount?
+    if invoice.paid_memberships_amount.to_f > 0
       data << ['Déjà facturé', cur(-invoice.paid_memberships_amount)]
     end
 
@@ -91,7 +91,7 @@ class InvoicePdf < Prawn::Document
       data << ['Montant restant', cur(invoice.remaining_memberships_amount)]
     end
 
-    if invoice.memberships_amount_description?
+    if invoice.memberships_amount?
       data << [invoice.memberships_amount_description, cur(invoice.memberships_amount)]
     end
 

@@ -323,6 +323,7 @@ fr:
       default: ! '%e %B %Y'
       long: ! '%A, %e %B %Y'
       short: ! '%e %B'
+      number: '%d.%m.%Y'
     month_names:
     -
     - janvier

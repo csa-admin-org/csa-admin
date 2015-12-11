@@ -191,4 +191,27 @@ describe Membership do
       it { is_expected.to eq 0 }
     end
   end
+
+  describe '#description' do
+    let(:membership) { create(:membership, annual_halfday_works: 1) }
+    subject { membership.description }
+    before do
+      membership.basket.update(annual_price: 925)
+      membership.distribution.update(basket_price: 2)
+    end
+
+    it { is_expected.to include "#{membership.basket.name} (23.125), " }
+    it { is_expected.to include "#{membership.distribution.name} (2.00), " }
+    it { is_expected.to include 'sans ½ Journées de travail (1.50)' }
+    it { is_expected.to include I18n.l membership.started_on, format: :number }
+    it { is_expected.to include I18n.l membership.ended_on, format: :number }
+    it { is_expected.to include "\n40 livraisons x (23.125 + 2.00 + 1.50)" }
+
+    context 'free distribution basket_price' do
+      before { membership.distribution.update(basket_price: 0) }
+
+      it { is_expected.to include "#{membership.distribution.name}, " }
+      it { is_expected.to include "\n40 livraisons x (23.125 + 1.50)" }
+    end
+  end
 end

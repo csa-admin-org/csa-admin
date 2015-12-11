@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activeadmin/activeadmin.git
-  revision: 30b4e2a15ea431e44cf0a94346922d9aeae077b3
+  revision: 24029e2680a52df47704bd7ad91207055ccb27b7
   specs:
     activeadmin (1.0.0.pre2)
       arbre (~> 1.0, >= 1.0.2)
@@ -66,7 +66,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
+    addressable (2.4.0)
     afm (0.2.2)
     arbre (1.0.3)
       activesupport (>= 3.0.0)
@@ -127,6 +127,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    concurrent-ruby (1.0.0)
     dalli (2.7.4)
     devise (3.5.2)
       bcrypt (~> 3.0)
@@ -148,9 +149,9 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.0.8)
-    exception_notification (4.1.1)
-      actionmailer (>= 3.0.4)
-      activesupport (>= 3.0.4)
+    exception_notification (4.1.2)
+      actionmailer (~> 4.0)
+      activesupport (~> 4.0)
     execjs (2.6.0)
     extlib (0.9.16)
     facets (3.0.0)
@@ -288,7 +289,7 @@ GEM
     orm_adapter (0.5.0)
     paranoia (2.1.4)
       activerecord (~> 4.0)
-    passenger (5.0.21)
+    passenger (5.0.22)
       rack
       rake (>= 0.8.1)
     pdf-core (0.6.0)
@@ -395,13 +396,12 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
     shellany (0.0.1)
-    signet (0.6.1)
+    signet (0.7.0)
       addressable (~> 2.3)
-      extlib (~> 0.9)
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
-    skylight (0.9.4)
+    skylight (0.10.0)
       activesupport (>= 3.0.0)
     slim (3.0.6)
       temple (~> 0.7.3)
@@ -410,7 +410,8 @@ GEM
     spring (1.5.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
-    sprockets (3.4.1)
+    sprockets (3.5.2)
+      concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (2.3.3)
       actionpack (>= 3.0)
@@ -422,6 +423,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.1)
+    timecop (0.8.0)
     timers (4.1.1)
       hitimes
     ttfunk (1.4.0)
@@ -493,6 +495,7 @@ DEPENDENCIES
   slim
   spring-commands-rspec
   sucker_punch
+  timecop
   to_spreadsheet!
   turbolinks
   uglifier
