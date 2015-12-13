@@ -1,9 +1,8 @@
-class MemberMailer < ActionMailer::Base
+class MemberMailer < ApplicationMailer
   default(
     from: 'info@ragedevert.ch',
     subject: 'Rage de Vert: votre page de membre'
   )
-  layout 'member_mailer'
 
   def welcome(member)
     @member = member

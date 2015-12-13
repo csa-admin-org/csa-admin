@@ -23,6 +23,13 @@ describe InvoiceCreator do
       expect(invoice.memberships_amount).to be_nil
       expect(invoice.amount).to eq invoice.support_amount
     end
+
+    pending 'sends new invoice email' do
+      expect { invoice }
+        .to change { ActionMailer::Base.deliveries.count }.by(1)
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.to).to eq invoice.member.emails_array
+    end
   end
 
   context 'when already billed support member' do

@@ -1,5 +1,5 @@
-class AdminMailer < ActionMailer::Base
-  default from: 'info@ragedevert.ch'
+class AdminMailer < ApplicationMailer
+  layout false
 
   def new_inscription(member)
     @member = member

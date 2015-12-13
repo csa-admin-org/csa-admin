@@ -1,6 +1,4 @@
-class HalfdayWorkMailer < ActionMailer::Base
-  default from: 'info@ragedevert.ch'
-  layout 'member_mailer'
+class HalfdayWorkMailer < ApplicationMailer
   helper :halfday_works
 
   def coming(halfday_work)

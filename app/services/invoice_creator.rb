@@ -10,7 +10,10 @@ class InvoiceCreator
 
   def create
     invoice = create_invoice
-    invoice && invoice.errors.empty? ? invoice : nil
+    if invoice.try(:persisted?)
+      # InvoiceMailer.new_invoice(invoice).deliver_later
+      invoice
+    end
   end
 
   private
