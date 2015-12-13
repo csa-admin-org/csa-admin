@@ -10,11 +10,12 @@ class Ability
       cannot :manage, [Basket, Delivery]
       can :manage, [HalfdayWork, HalfdayWorkDate, Absence]
       can :create, [Member, Membership, Distribution]
-      can :update, [Member, Distribution]
+      can :update, [Invoice, Member, Distribution]
       can :destroy, [Member, Membership], can_destroy?: true
       can :update, Membership, can_update?: true
     end
-    cannot :manage, [Invoice]
+    cannot :manage, [Invoice, OldInvoice]
+    can :pdf, Invoice
     can :read, :all
   end
 end

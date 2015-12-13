@@ -20,7 +20,7 @@ class InvoiceCreator
       date: date,
       support_amount: support_amount
     }
-    if memberships.present?
+    if memberships.any?(&:billable?)
       return if quarter_already_billed?
       attributes.merge!(
         memberships_amounts_data: memberships_amounts_data,

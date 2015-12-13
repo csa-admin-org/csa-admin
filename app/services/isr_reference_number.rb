@@ -1,4 +1,5 @@
 require 'isr_digit_checker'
+require 'rounding'
 
 class ISRReferenceNumber
   include ISRDigitChecker
@@ -45,7 +46,7 @@ class ISRReferenceNumber
   end
 
   def amount_str
-    rounded_amount = '%.2f' % ((amount.round(2) * 20).round / 20.0)
+    rounded_amount = '%.2f' % amount.round_to_five_cents
     rounded_amount.to_s.delete('.').tap do |ref|
       ref.prepend('0') while ref.length != 10
     end

@@ -56,6 +56,13 @@ describe InvoiceCreator do
       )
     end
 
+    specify 'when salary basket & support member' do
+      member.update(salary_basket: true, support_member: true)
+
+      expect(invoice.support_amount).to be_present
+      expect(invoice.memberships_amount).to be_nil
+    end
+
     specify 'when already billed' do
       Timecop.travel(1.day.ago) { create_invoice }
 

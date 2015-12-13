@@ -1,3 +1,5 @@
+require 'rounding'
+
 class Membership < ActiveRecord::Base
   acts_as_paranoid
 
@@ -107,7 +109,7 @@ class Membership < ActiveRecord::Base
   end
 
   def price
-    deliveries_count * total_basket_price
+    (deliveries_count * total_basket_price).round_to_five_cents
   end
 
   def description

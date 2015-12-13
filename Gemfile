@@ -50,6 +50,8 @@ gem 'faraday-cookie_jar'
 
 gem 'prawn'
 gem 'prawn-table'
+gem 'carrierwave'
+gem 'carrierwave-postgresql'
 
 group :production do
   gem 'rails_12factor'

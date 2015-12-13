@@ -1,7 +1,11 @@
+require 'rounding'
+
 class Invoice < ActiveRecord::Base
   attr_accessor :memberships_amount_fraction
 
   belongs_to :member
+
+  mount_uploader :pdf, PdfUploader
 
   scope :current_year, -> { during_year(Time.zone.today.year) }
   scope :during_year, ->(year) {
@@ -36,6 +40,8 @@ class Invoice < ActiveRecord::Base
     if: -> { memberships_amount? }
   validate :validate_memberships_amount_for_current_year
 
+  after_create :generate_and_set_pdf
+
   def memberships_amount_fraction
     @memberships_amount_fraction || 1 # bill for everything by default
   end
@@ -58,7 +64,7 @@ class Invoice < ActiveRecord::Base
 
   def memberships_amounts_data=(data)
     self[:memberships_amounts_data] = data && data.each do |hash|
-      hash[:amount] = up_to_five_cent(hash[:amount]) if hash[:amount]
+      hash[:amount] = hash[:amount].round_to_five_cents if hash[:amount]
     end
   end
 
@@ -96,14 +102,25 @@ class Invoice < ActiveRecord::Base
   def set_memberships_amount
     return unless memberships_amounts_data?
     amount = remaining_memberships_amount / memberships_amount_fraction.to_f
-    self[:memberships_amount] ||= up_to_five_cent(amount)
+    self[:memberships_amount] ||= amount.round_to_five_cents
   end
 
   def set_amount
     self[:amount] = memberships_amount.to_f + support_amount.to_f
   end
 
-  def up_to_five_cent(amount)
-    ((amount.round(2) * 20).round / 20.0)
+  class VirtualFile < StringIO
+    attr_accessor :original_filename
+
+    def initialize(string, original_filename)
+      @original_filename = original_filename
+      super(string)
+    end
+  end
+
+  def generate_and_set_pdf
+    invoice_pdf = InvoicePdf.new(self, nil)
+    virtual_file = VirtualFile.new(invoice_pdf.render, "invoice-#{id}.pdf")
+    update_attribute(:pdf, virtual_file)
   end
 end

@@ -91,4 +91,10 @@ describe Invoice do
       end
     end
   end
+
+  it 'generates and sets pdf after createion' do
+    invoice = create(:invoice, :support)
+    expect(invoice.pdf).to be_present
+    expect(invoice.pdf.size).to be > 0
+  end
 end

@@ -178,6 +178,9 @@ fr:
       invoice:
         one: Facture
         other: Factures
+      old_invoice:
+        one: Facture (2015)
+        other: Factures (2015)
     attributes:
       admin:
         password: Mot de passe

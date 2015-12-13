@@ -20,7 +20,6 @@ Rails.application.routes.draw do
       resource :member_token,
         path: 'token',
         only: [:edit],
-        path_names: { edit: 'recover'} do
         post :recover, on: :member
       end
     end
