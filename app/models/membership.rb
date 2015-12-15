@@ -72,7 +72,7 @@ class Membership < ActiveRecord::Base
   end
 
   def annual_halfday_works
-    if member.salary_basket?
+    if member.try(:salary_basket?)
       0
     else
       read_attribute(:annual_halfday_works) || basket.try(:annual_halfday_works)
