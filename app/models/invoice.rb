@@ -15,6 +15,8 @@ class Invoice < ActiveRecord::Base
   scope :quarter, ->(n) { where('EXTRACT(QUARTER FROM date) = ?', n) }
   scope :support, -> { where.not(support_amount: nil) }
   scope :membership, -> { where.not(memberships_amount: nil) }
+  scope :open, -> { where('balance < amount') }
+  scope :closed, -> { where('balance >= amount') }
 
   before_validation \
     :set_paid_memberships_amount,
@@ -40,22 +42,39 @@ class Invoice < ActiveRecord::Base
     if: -> { memberships_amount? }
   validate :validate_memberships_amount_for_current_year
 
+  before_save :set_isr_balance_and_balance
   after_create :generate_and_set_pdf
+
+  def status
+    balance < amount ? :open : :closed
+  end
+
+  def display_status
+    I18n.t("invoice.status.#{status}")
+  end
 
   def memberships_amount_fraction
     @memberships_amount_fraction || 1 # bill for everything by default
   end
 
   def amount=(_)
-    raise 'is set automaticaly.'
+    raise NoMethodError, 'is set automaticaly.'
   end
 
   def memberships_amount=(_)
-    raise 'is set automaticaly.'
+    raise NoMethodError, 'is set automaticaly.'
   end
 
   def remaining_memberships_amount=(_)
-    raise 'is set automaticaly.'
+    raise NoMethodError, 'is set automaticaly.'
+  end
+
+  def balance=(_)
+    raise NoMethodError, 'is set automaticaly.'
+  end
+
+  def isr_balance=(_)
+    raise NoMethodError, 'is set automaticaly.'
   end
 
   def memberships_amounts
@@ -122,5 +141,10 @@ class Invoice < ActiveRecord::Base
     invoice_pdf = InvoicePdf.new(self, nil)
     virtual_file = VirtualFile.new(invoice_pdf.render, "invoice-#{id}.pdf")
     update_attribute(:pdf, virtual_file)
+  end
+
+  def set_isr_balance_and_balance
+    self[:isr_balance] = isr_balance_data.deep_symbolize_keys.sum { |_key, data| data[:amount] }
+    self[:balance] = isr_balance.to_f + manual_balance.to_f
   end
 end

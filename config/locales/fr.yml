@@ -256,6 +256,8 @@ fr:
         started_on: Début
         ended_on: Fin
       invoice:
+        manual_balance: Solde manuelle
+        isr_balance: Solde BVR
         member_id: Membre
         member: Membre
         number: Numéro

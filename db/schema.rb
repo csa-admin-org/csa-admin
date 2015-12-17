@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211185927) do
+ActiveRecord::Schema.define(version: 20151217202826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,22 +117,25 @@ ActiveRecord::Schema.define(version: 20151211185927) do
   add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
 
   create_table "invoices", force: :cascade do |t|
-    t.integer  "member_id",                                              null: false
-    t.date     "date",                                                   null: false
-    t.decimal  "balance",                        precision: 8, scale: 2
-    t.decimal  "amount",                         precision: 8, scale: 2, null: false
+    t.integer  "member_id",                                                            null: false
+    t.date     "date",                                                                 null: false
+    t.decimal  "balance",                        precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "amount",                         precision: 8, scale: 2,               null: false
     t.decimal  "support_amount",                 precision: 8, scale: 2
     t.string   "memberships_amount_description"
     t.decimal  "memberships_amount",             precision: 8, scale: 2
     t.json     "memberships_amounts_data"
     t.decimal  "remaining_memberships_amount",   precision: 8, scale: 2
     t.decimal  "paid_memberships_amount",        precision: 8, scale: 2
-    t.json     "isr_balance_data"
+    t.json     "isr_balance_data",                                       default: {},  null: false
     t.datetime "sent_at"
     t.json     "overdue_notices"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "pdf"
+    t.decimal  "isr_balance",                    precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "manual_balance",                 precision: 8, scale: 2, default: 0.0, null: false
+    t.text     "note"
   end
 
   add_index "invoices", ["member_id"], name: "index_invoices_on_member_id", using: :btree

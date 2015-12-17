@@ -13,14 +13,28 @@ class Raiffeisen
     login
   end
 
-  def get_isr_data
-    client.get '/root/datatransfer/esrdownload',
-      ESRAccountNumber: 'all',
-      ESRDataType: 'allESR',
-      Download: 'Abholen'
+  def get_isr_data(type = :new)
+    raw_data = new_isr_download(type)
+    lines = raw_data.split("\r\n").select { |l| l.start_with?('002010137346') }
+    lines.map do |line|
+      line = line.delete(' ').gsub(/^002010137346/, '')
+      {
+        invoice_id: line[14..25].to_i,
+        amount: line[27..36].to_i / 100.0,
+        data: line,
+      }
+    end
   end
 
   private
+
+  def new_isr_download(type)
+    response = client.get '/root/datatransfer/esrdownload',
+      ESRAccountNumber: 'all',
+      ESRDataType: "#{type}ESR", # all, new or old
+      Download: 'Abholen'
+    response.body.start_with?('<html>') ? '' : response.body
+  end
 
   def login
     client.post '/softCertLogin/offlinetool',

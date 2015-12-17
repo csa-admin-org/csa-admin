@@ -46,7 +46,9 @@ class Membership < ActiveRecord::Base
     during_year(Time.zone.today.year)
       .started
       .includes(
-        :basket, :distribution, member: [:current_membership, :first_membership, :current_year_invoices]
+        :basket,
+        :distribution,
+        member: [:current_membership, :first_membership, :current_year_invoices]
       )
       .select(&:billable?)
   end

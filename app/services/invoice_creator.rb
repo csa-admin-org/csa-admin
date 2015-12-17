@@ -14,6 +14,9 @@ class InvoiceCreator
       # InvoiceMailer.new_invoice(invoice).deliver_later
       invoice
     end
+  rescue => ex
+    ExceptionNotifier.notify_exception(ex)
+    nil
   end
 
   private

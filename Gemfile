@@ -78,3 +78,8 @@ group :development, :test do
   gem 'faker'
   gem 'pdf-inspector', require: 'pdf/inspector'
 end
+
+group :test do
+  gem 'vcr'
+  gem 'webmock'
+end

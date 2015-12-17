@@ -10,7 +10,10 @@ describe Distribution do
     let(:delivery) { Delivery.coming.first }
     before {
       create(:membership, distribution: distribution1)
-      create(:membership, distribution: distribution1, started_on: delivery.date + 10.days)
+      create(:membership,
+        distribution: distribution1,
+        started_on: delivery.date + 10.days
+      )
       create(:membership, distribution: distribution2)
       create(:membership, distribution: distribution2)
     }

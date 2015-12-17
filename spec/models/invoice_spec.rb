@@ -2,15 +2,25 @@ require 'rails_helper'
 
 describe Invoice do
   it 'raises on amount=' do
-    expect { build(:invoice, amount: 1).to raise_error }
+    expect { build(:invoice, amount: 1) }.to raise_error(NoMethodError)
+  end
+
+  it 'raises on balance=' do
+    expect { build(:invoice, balance: 1) }.to raise_error(NoMethodError)
+  end
+
+  it 'raises on isr_balance=' do
+    expect { build(:invoice, isr_balance: 1) }.to raise_error(NoMethodError)
   end
 
   it 'raises on memberships_amount=' do
-    expect { build(:invoice, memberships_amount: 1).to raise_error }
+    expect { build(:invoice, memberships_amount: 1) }
+      .to raise_error(NoMethodError)
   end
 
   it 'raises on remaining_memberships_amount=' do
-    expect { build(:invoice, remaining_memberships_amount: 1).to raise_error }
+    expect { build(:invoice, remaining_memberships_amount: 1) }
+      .to raise_error(NoMethodError)
   end
 
   it 'validates memberships_amounts_data presence when no support_amount' do
@@ -92,9 +102,21 @@ describe Invoice do
     end
   end
 
-  it 'generates and sets pdf after createion' do
+  it 'generates and sets pdf after creation' do
     invoice = create(:invoice, :support)
     expect(invoice.pdf).to be_present
     expect(invoice.pdf.size).to be > 0
+  end
+
+  it 'sets balance before save' do
+    invoice = create(:invoice, :support,
+      id: 2,
+      manual_balance: 5.3,
+      isr_balance_data: {
+        'foo' => { 'amount' => 21.0, 'date' => Time.zone.today.to_s },
+        'bar' => { 'amount' => 12.5, 'date' => Time.zone.today.to_s }
+      }
+    )
+    expect(invoice.balance).to eq 21 + 12.5 + 5.3
   end
 end

@@ -23,5 +23,4 @@ class OldInvoice < ActiveRecord::Base
   def display_status
     I18n.t("invoice.status.#{status}")
   end
-
 end

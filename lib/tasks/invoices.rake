@@ -6,4 +6,10 @@ namespace :invoices do
     end
     p 'New invoice(s) created.'
   end
+
+  desc 'Update invoices isr balance data'
+  task update_isr_balances: :environment do
+    IsrBalanceUpdater.new.update_all
+    p 'All invoices isr balance data updated.'
+  end
 end
