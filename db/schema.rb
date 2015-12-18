@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217202826) do
+ActiveRecord::Schema.define(version: 20151218154520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,19 +141,19 @@ ActiveRecord::Schema.define(version: 20151217202826) do
   add_index "invoices", ["member_id"], name: "index_invoices_on_member_id", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.string   "emails",                   limit: 255
-    t.string   "phones",                   limit: 255
-    t.string   "address",                  limit: 255
-    t.string   "zip",                      limit: 255
-    t.string   "city",                     limit: 255
-    t.string   "token",                    limit: 255,                 null: false
+    t.string   "emails",                     limit: 255
+    t.string   "phones",                     limit: 255
+    t.string   "address",                    limit: 255
+    t.string   "zip",                        limit: 255
+    t.string   "city",                       limit: 255
+    t.string   "token",                      limit: 255,                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",               limit: 255,                 null: false
-    t.string   "last_name",                limit: 255,                 null: false
-    t.boolean  "support_member",                                       null: false
+    t.string   "first_name",                 limit: 255,                 null: false
+    t.string   "last_name",                  limit: 255,                 null: false
+    t.boolean  "support_member",                                         null: false
     t.datetime "waiting_started_at"
-    t.string   "billing_interval",         limit: 255,                 null: false
+    t.string   "billing_interval",           limit: 255,                 null: false
     t.text     "food_note"
     t.text     "note"
     t.integer  "validator_id"
@@ -161,19 +161,19 @@ ActiveRecord::Schema.define(version: 20151217202826) do
     t.boolean  "gribouille"
     t.integer  "waiting_basket_id"
     t.integer  "waiting_distribution_id"
-    t.boolean  "salary_basket",                        default: false
-    t.string   "delivery_address",         limit: 255
-    t.string   "delivery_zip",             limit: 255
-    t.string   "delivery_city",            limit: 255
+    t.boolean  "salary_basket",                          default: false
+    t.string   "delivery_address",           limit: 255
+    t.string   "delivery_zip",               limit: 255
+    t.string   "delivery_city",              limit: 255
     t.datetime "inscription_submitted_at"
     t.datetime "deleted_at"
     t.datetime "welcome_email_sent_at"
-    t.integer  "invoice_identifier"
+    t.integer  "old_old_invoice_identifier"
   end
 
   add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
   add_index "members", ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at", using: :btree
-  add_index "members", ["invoice_identifier"], name: "index_members_on_invoice_identifier", using: :btree
+  add_index "members", ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier", using: :btree
   add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
   add_index "members", ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id", using: :btree
   add_index "members", ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree

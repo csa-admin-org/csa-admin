@@ -36,7 +36,7 @@ class InvoicesImporter
 
   def find_member(invoice_hash)
     identifier = invoice_hash['N° client']
-    Member.find_by_invoice_identifier(identifier) || guess_member(invoice_hash)
+    Member.find_by_old_invoice_identifier(identifier) || guess_member(invoice_hash)
   end
 
   def guess_member(invoice_hash)
@@ -46,7 +46,7 @@ class InvoicesImporter
     if members.present? && members.last.name.similarity(name) > 0.7
       member = members.last
       p "Found: #{member.name}"
-      member.update!(invoice_identifier: invoice_hash['N° client'])
+      member.update!(old_invoice_identifier: invoice_hash['N° client'])
       member
     else
       p "NOT FOUND"
