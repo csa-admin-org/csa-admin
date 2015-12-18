@@ -51,6 +51,7 @@ describe Membership do
 
     context 'when present' do
       let(:new_membership) { Membership.last }
+      around { |ex| Timecop.travel(Time.zone.now.beginning_of_year) { ex.run } }
 
       specify do
         expect { membership.update(will_be_changed_at: date.to_s) }.to change {

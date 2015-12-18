@@ -8,7 +8,8 @@ describe Distribution do
     let!(:distribution2) { create(:distribution) }
     let!(:distribution3) { create(:distribution) }
     let(:delivery) { Delivery.coming.first }
-    before {
+    around { |ex| Timecop.travel(Time.zone.now.beginning_of_year) { ex.run } }
+    before do
       create(:membership, distribution: distribution1)
       create(:membership,
         distribution: distribution1,
@@ -16,7 +17,7 @@ describe Distribution do
       )
       create(:membership, distribution: distribution2)
       create(:membership, distribution: distribution2)
-    }
+    end
 
     it 'returns only used distributions' do
       expect(subject.size).to eq 2
