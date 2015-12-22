@@ -9,8 +9,8 @@ table
     - total_annual_price = 0
     tr
       td Déscription
-      td Montant trimestriel
-      td Montant annuel
+      td Paiement trimestriel
+      td Paiement annuel
       td Total
     - Basket.current_year.each do |basket|
       - quarter_price = quarter_memberships.where(basket_id: basket.id).to_a.sum(&:basket_total_price)
@@ -65,8 +65,8 @@ table
     - annual_invoices = Invoice.current_year.where(member_billing_interval: 'annual').to_a
     tr
       td Déscription
-      td Montant trimestriel
-      td Montant annuel
+      td Facture trimestriel
+      td Facture annuel
       td Total
     tr
       - quarter_memberships_amount = quarter_invoices.sum { |i| i.memberships_amount.to_f }
