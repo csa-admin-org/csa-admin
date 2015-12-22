@@ -15,7 +15,7 @@ class Ability
       can :update, Membership, can_update?: true
     end
     cannot :manage, OldInvoice
-    cannot :destroy, Invoice
+    cannot [:create, :destroy], Invoice
     can :pdf, Invoice
     can :read, :all
   end
