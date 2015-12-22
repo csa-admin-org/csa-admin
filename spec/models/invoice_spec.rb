@@ -102,6 +102,28 @@ describe Invoice do
     end
   end
 
+  describe '#send_email' do
+    let(:invoice) { create(:invoice, :support) }
+
+    it 'delivers email' do
+      expect { invoice.send_email }
+        .to change { ActionMailer::Base.deliveries.count }.by(1)
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.to).to eq invoice.member.emails_array
+    end
+
+    it 'touches sent_at' do
+      expect { invoice.send_email }
+        .to change { invoice.reload.sent_at }.from(nil)
+    end
+
+    it 'does nothing when already sent' do
+      invoice.touch(:sent_at)
+      expect { invoice.send_email }
+        .not_to change { ActionMailer::Base.deliveries.count }
+    end
+  end
+
   it 'generates and sets pdf after creation' do
     invoice = create(:invoice, :support)
     expect(invoice.pdf).to be_present

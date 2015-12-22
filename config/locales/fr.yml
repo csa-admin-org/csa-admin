@@ -90,6 +90,7 @@ fr:
       past: passés
       future_current_year: futures, année courante
       renew: renouvellement, année prochaine
+      not_sent: non-envoyées
       open: ouvertes
       closed: fermées
       diff_name: Prénom/Nom différents
@@ -263,12 +264,13 @@ fr:
         balance:
         balance: Payé
         updated_at: Mis à jour le
+        sent_at: Envoyé le
 
   invoice:
     status:
+      not_sent: non-envoyée
       open: ouverte
       closed: fermée
-
 
   member:
     status:

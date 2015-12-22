@@ -2,6 +2,7 @@ ActiveAdmin.register Invoice do
   menu priority: 4
 
   scope :all, default: true
+  scope :not_sent
   scope :open
   scope :closed
 
@@ -9,7 +10,7 @@ ActiveAdmin.register Invoice do
 
   index title: index_title do
     column :id
-    column :date
+    column :date, ->(i) { l i.date }
     column :member
     column :amount, ->(invoice) { number_to_currency(invoice.amount) }
     column :balance, ->(invoice) { number_to_currency(invoice.balance) }
@@ -30,12 +31,13 @@ ActiveAdmin.register Invoice do
       row :id
       row :member
       row(:date) { l invoice.date }
+      row(:sent_at) { l invoice.sent_at if invoice.sent_at }
       row(:amount) { number_to_currency(invoice.amount) }
       row(:isr_balance) { number_to_currency(invoice.balance) }
       row(:manual_balance) { number_to_currency(invoice.balance) }
       row(:balance) { number_to_currency(invoice.balance) }
       row(:status) { invoice.display_status }
-      row(:note) { invoice.display_status }
+      row :note
       row(:updated_at) { l invoice.updated_at }
     end
   end

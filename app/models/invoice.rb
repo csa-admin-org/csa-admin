@@ -15,6 +15,7 @@ class Invoice < ActiveRecord::Base
   scope :quarter, ->(n) { where('EXTRACT(QUARTER FROM date) = ?', n) }
   scope :support, -> { where.not(support_amount: nil) }
   scope :membership, -> { where.not(memberships_amount: nil) }
+  scope :not_sent, -> { where(sent_at: nil) }
   scope :open, -> { where('balance < amount') }
   scope :closed, -> { where('balance >= amount') }
 
@@ -49,6 +50,7 @@ class Invoice < ActiveRecord::Base
   after_create :generate_and_set_pdf
 
   def status
+    return :not_sent unless sent_at?
     balance < amount ? :open : :closed
   end
 
@@ -87,6 +89,13 @@ class Invoice < ActiveRecord::Base
   def memberships_amounts_data=(data)
     self[:memberships_amounts_data] = data && data.each do |hash|
       hash[:price] = hash[:price].round_to_five_cents if hash[:price]
+    end
+  end
+
+  def send_email
+    unless sent_at?
+      InvoiceMailer.new_invoice(self).deliver_later
+      touch(:sent_at)
     end
   end
 

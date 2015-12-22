@@ -11,7 +11,7 @@ class InvoiceCreator
   def create
     invoice = create_invoice
     if invoice.try(:persisted?)
-      # InvoiceMailer.new_invoice(invoice).deliver_later
+      # invoice.send_email
       invoice
     end
   rescue => ex
