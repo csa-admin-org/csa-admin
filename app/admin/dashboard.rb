@@ -179,10 +179,7 @@ ActiveAdmin.register_page 'Dashboard' do
                 when :pending then pending_halfday_works
                 when :validated then validated_halfday_works
                 when :rejected then rejected_halfday_works
-                when :missing
-                  total = Member.active.to_a.sum(&:annual_halfday_works)
-                  done = coming_halfday_works + pending_halfday_works + validated_halfday_works
-                  "(#{total} - #{done}) #{total - done}"
+                when :missing then Member.all.to_a.sum(&:remaining_halfday_works)
                 end
             end
           end

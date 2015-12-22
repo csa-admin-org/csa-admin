@@ -226,12 +226,22 @@ class Member < ActiveRecord::Base
     string_to_a(phones)
   end
 
-  def annual_halfday_works
-    current_membership.try(:annual_halfday_works) || 0
+  def annual_halfday_works(year = nil)
+    if salary_basket?
+      0
+    else
+      year ||= Time.zone.today.year
+      memberships.during_year(year).to_a.sum(&:halfday_works)
+    end
   end
 
-  def validated_halfday_works
-    [halfday_works.past.validated.to_a.sum(&:value), 0].max
+  def validated_halfday_works(year = nil)
+    year ||= Time.zone.today.year
+    halfday_works.during_year(year).validated.to_a.sum(&:value)
+  end
+
+  def remaining_halfday_works(year = nil)
+    [annual_halfday_works(year) - validated_halfday_works(year), 0].max
   end
 
   def to_param
