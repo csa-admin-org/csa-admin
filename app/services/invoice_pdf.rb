@@ -80,7 +80,21 @@ class InvoicePdf < Prawn::Document
     data = [['déscription', 'montant (CHF)']]
 
     invoice.memberships_amounts_data.try(:each) do |membership|
-      data << [membership['description'], cur(membership['amount'])]
+      data << [membership['description'], nil]
+      data << [
+        membership['basket_description'],
+        cur(membership['basket_total_price'])
+      ]
+      data << [
+        membership['distribution_description'],
+        cur(membership['distribution_total_price'])
+      ]
+      unless membership['halfday_works_total_price'].zero?
+        data << [
+          membership['halfday_works_description'],
+          cur(membership['halfday_works_total_price'])
+        ]
+      end
     end
 
     if invoice.paid_memberships_amount.to_f > 0
@@ -92,7 +106,10 @@ class InvoicePdf < Prawn::Document
     end
 
     if invoice.memberships_amount?
-      data << [invoice.memberships_amount_description, cur(invoice.memberships_amount)]
+      data << [
+        invoice.memberships_amount_description,
+        cur(invoice.memberships_amount)
+      ]
     end
 
     if invoice.support_amount?
@@ -118,11 +135,13 @@ class InvoicePdf < Prawn::Document
       t.rows(2..-1).padding_top = 0
 
       t.columns(0).rows(1..-1).filter do |cell|
-        Rails.logger.debug cell.content
         if cell.content == 'Déjà facturé'
           t.row(cell.row).font_style = :italic
           break
         end
+      end
+      t.columns(1).rows(1..-1).filter do |cell|
+        t.row(cell.row).font_style = :italic if cell.content == ''
       end
 
       if invoice.memberships_amount? &&

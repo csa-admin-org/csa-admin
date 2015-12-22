@@ -203,7 +203,6 @@ fr:
         name: Nom
         year: Année
         annual_price: Prix/annnée (40 paniers)
-        annual_halfday_works: ½ Journées de travail/année
       member:
         name: Nom
         first_name: Prénom
@@ -240,33 +239,28 @@ fr:
         basket: Panier
         started_on: Début
         ended_on: Fin
-        annual_price: Prix panniers/année (40 paniers)
-        basket_price: Prix/panier
-        annual_halfday_works: ½ Journées de travail/année
-        distribution_basket_price: Prix distribution/panier
-        halfday_works_basket_price: Prix ½ Journées de travail non-effectuées/panier
-        total_basket_price: Prix final/panier
+        basket_total_price: Prix Paniers (total)
+        distribution_total_price: Prix Distributions (total)
+        halfday_works_total_price: Prix ½ Journées de travail (total)
+        price: Prix
         will_be_changed_at: Changement effectif depuis le
         deliveries_received_count: Paniers déjà livrés
         deliveries_count: Paniers livrés (total)
-        price: Prix final
       absence:
         member_id: Membre
         member: Membre
         started_on: Début
         ended_on: Fin
       invoice:
-        manual_balance: Solde manuelle
-        isr_balance: Solde BVR
+        manual_balance: Payé (manuelle)
+        isr_balance: Payé (BVR)
         member_id: Membre
         member: Membre
-        number: Numéro
         amount: Montant
-        balance: Solde
+        balance: Payé
+        balance:
+        balance: Payé
         updated_at: Mis à jour le
-        name: Nom
-        city: Ville
-        zip: ZIP
 
   invoice:
     status:

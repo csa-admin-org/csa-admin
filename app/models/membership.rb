@@ -7,9 +7,14 @@ class Membership < ActiveRecord::Base
   belongs_to :basket
   belongs_to :distribution
 
+  after_initialize :set_default_annual_halfday_works
+
   validates :member, presence: true
+  validates :annual_halfday_works, presence: true
   validates :distribution, :basket, presence: true
   validates :started_on, :ended_on, presence: true
+  validates :halfday_works_annual_price, numericality: { greater_than: 0 },
+    if: -> { annual_halfday_works < HalfdayWork::MEMBER_PER_YEAR }
   validate :withing_basket_year
   validate :good_period_range
   validate :only_one_alongs_the_year
@@ -24,6 +29,7 @@ class Membership < ActiveRecord::Base
   scope :future_current_year, -> { future.during_year(Date.today.year) }
   scope :renew, -> { during_year(Time.zone.today.next_year.year) }
   scope :current, -> { including_date(Time.zone.today) }
+  scope :current_year, -> { during_year(Date.today.year) }
   scope :including_date,
     ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :during_year, ->(year) {
@@ -69,83 +75,69 @@ class Membership < ActiveRecord::Base
     current?
   end
 
-  def annual_price
-    read_attribute(:annual_price) || basket.try(:annual_price)
-  end
-
-  def annual_halfday_works
-    if member.try(:salary_basket?)
-      0
-    else
-      read_attribute(:annual_halfday_works) || basket.try(:annual_halfday_works)
-    end
-  end
-
-  def basket_price
-    annual_price.to_f / 40.0
-  end
-
-  def distribution_basket_price
-    read_attribute(:distribution_basket_price) ||
-      distribution.try(:basket_price)
+  def halfday_works
+    (deliveries_count / Delivery::PER_YEAR.to_f * annual_halfday_works).round
   end
 
   def halfday_works_basket_price
-    diff = basket.annual_halfday_works - annual_halfday_works
-    diff > 0 ? (diff * HalfdayWork::PRICE / 40.0) : 0
+    halfday_works_annual_price.to_f / Delivery::PER_YEAR.to_f
   end
 
-  def total_basket_price
-    if member.salary_basket?
-      0
+  def distribution_basket_price
+    distribution.basket_price
+  end
+
+  def basket_total_price
+    rounded_price(deliveries_count * basket.price)
+  end
+
+  def distribution_total_price
+    rounded_price(deliveries_count * distribution_basket_price)
+  end
+
+  def halfday_works_total_price
+    rounded_price(deliveries_count * halfday_works_basket_price)
+  end
+
+  def price
+    basket_total_price + distribution_total_price + halfday_works_total_price
+  end
+
+  def description
+    dates = [started_on, ended_on].map { |d| I18n.l(d, format: :number) }
+    "Abonnement du #{dates.first} au #{dates.last} (#{deliveries_count} livraisons)"
+  end
+
+  def basket_description
+    "Panier: #{basket.name} (#{deliveries_count} x #{cur(basket.price)})"
+  end
+
+  def distribution_description
+    if distribution_basket_price > 0
+      "Distribution: #{distribution.name} (#{deliveries_count} x #{cur(distribution.basket_price)})"
     else
-      basket_price +
-        distribution_basket_price.to_f +
-        halfday_works_basket_price.to_f
+      "Distribution: #{distribution.name} (gratuit)"
     end
+  end
+
+  def halfday_works_description
+    diff = annual_halfday_works - HalfdayWork::MEMBER_PER_YEAR
+    base =
+      if diff > 0
+        "Réduction pour #{diff} demi-journées de travail supplémentaires"
+      elsif diff < 0
+        "#{diff.abs} demi-journées de travail non effectuées"
+      end
+    "#{base} (#{deliveries_count} x #{cur(halfday_works_basket_price)})"
+  end
+
+  def deliveries_count
+    Delivery.between(started_on..ended_on).count
   end
 
   def deliveries_received_count
     end_date = [ended_on, Time.zone.today].min
     Delivery.between(started_on..end_date).count
-  end
-
-  def price
-    (deliveries_count * total_basket_price).round_to_five_cents
-  end
-
-  def description
-    desc = ["Panier #{basket.name} (#{cur(basket_price)})"]
-    if distribution_basket_price > 0
-      desc << "#{distribution.name} (#{cur(distribution_basket_price)})"
-    else
-      desc << distribution.name
-    end
-    if halfday_works_basket_price > 0
-      desc << "sans ½ Journées de travail (#{cur(halfday_works_basket_price)})"
-    end
-    desc << [started_on, ended_on].map { |d| I18n.l(d, format: :number) }.join(' - ')
-    desc.join(', ') + "\n" + price_details
-  end
-
-  def price_details
-    str = "#{deliveries_count} livraisons x "
-    if halfday_works_basket_price > 0 || distribution_basket_price > 0
-      str << "(#{cur(basket_price)}"
-      if distribution_basket_price > 0
-        str << " + #{cur distribution_basket_price}"
-      end
-      if halfday_works_basket_price > 0
-        str << " + #{cur(halfday_works_basket_price)}"
-      end
-      str << ')'
-    else
-      str << cur(basket_price)
-    end
-  end
-
-  def deliveries_count
-    Delivery.between(started_on..ended_on).count
   end
 
   def date_range
@@ -157,7 +149,7 @@ class Membership < ActiveRecord::Base
     renew_year = Time.zone.today.next_year
     Membership.create!(
       attributes.slice(*%i[
-        annual_price
+        halfday_works_annual_price
         annual_halfday_works
         note
       ]).merge(
@@ -171,6 +163,10 @@ class Membership < ActiveRecord::Base
   end
 
   private
+
+  def set_default_annual_halfday_works
+    self.annual_halfday_works ||= HalfdayWork::MEMBER_PER_YEAR
+  end
 
   def build_new_membership
     if @will_be_changed_at
@@ -221,6 +217,11 @@ class Membership < ActiveRecord::Base
        )
       errors.add(:will_be_changed_at, :invalid)
     end
+  end
+
+  def rounded_price(price)
+    return 0 if member.salary_basket?
+    price.round_to_five_cents
   end
 
   def cur(number)

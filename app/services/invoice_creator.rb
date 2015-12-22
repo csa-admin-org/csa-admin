@@ -24,7 +24,8 @@ class InvoiceCreator
   def create_invoice
     attributes = {
       date: date,
-      support_amount: support_amount
+      support_amount: support_amount,
+      member_billing_interval: member.billing_interval
     }
     if memberships.any?(&:billable?)
       return if quarter_already_billed?
@@ -47,7 +48,16 @@ class InvoiceCreator
 
   def memberships_amounts_data
     memberships.map do |membership|
-      membership.slice(:id, :description).merge(amount: membership.price)
+      membership.slice(:id, :basket_id, :distribution_id).merge(
+        basket_total_price: membership.basket_total_price,
+        basket_description: membership.basket_description,
+        distribution_total_price: membership.distribution_total_price,
+        distribution_description: membership.distribution_description,
+        halfday_works_total_price: membership.halfday_works_total_price,
+        halfday_works_description: membership.halfday_works_description,
+        description: membership.description,
+        price: membership.price
+      )
     end
   end
 

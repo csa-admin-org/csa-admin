@@ -20,6 +20,7 @@ describe InvoiceCreator do
 
     specify do
       expect(invoice.support_amount).to be_present
+      expect(invoice.member_billing_interval).to eq member.billing_interval
       expect(invoice.memberships_amount).to be_nil
       expect(invoice.amount).to eq invoice.support_amount
     end
@@ -58,8 +59,16 @@ describe InvoiceCreator do
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.memberships_amounts_data.first).to match(
         'id' => membership.id,
-        'amount' => membership.price,
-        'description' => String
+        'basket_id' => membership.basket_id,
+        'distribution_id' => membership.distribution_id,
+        'basket_total_price' => membership.basket_total_price,
+        'basket_description' => membership.basket_description,
+        'distribution_total_price' => membership.distribution_total_price,
+        'distribution_description' => membership.distribution_description,
+        'halfday_works_total_price' => membership.halfday_works_total_price,
+        'halfday_works_description' => membership.halfday_works_description,
+        'description' => membership.description,
+        'price' => membership.price,
       )
     end
 
@@ -103,8 +112,16 @@ describe InvoiceCreator do
         .to eq 'Montant trimestriel #1'
       expect(invoice.memberships_amounts_data.first).to match(
         'id' => membership.id,
-        'amount' => membership.price,
-        'description' => String
+        'basket_id' => membership.basket_id,
+        'distribution_id' => membership.distribution_id,
+        'basket_total_price' => membership.basket_total_price,
+        'basket_description' => membership.basket_description,
+        'distribution_total_price' => membership.distribution_total_price,
+        'distribution_description' => membership.distribution_description,
+        'halfday_works_total_price' => membership.halfday_works_total_price,
+        'halfday_works_description' => membership.halfday_works_description,
+        'description' => membership.description,
+        'price' => membership.price,
       )
     end
 

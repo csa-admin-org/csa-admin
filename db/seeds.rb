@@ -61,12 +61,10 @@ Basket.delete_all
 Basket.create!(name: 'Eveil',
   year: 2015,
   annual_price: 925,
-  annual_halfday_works: 2
 )
 Basket.create!(name: 'Abondance',
   year: 2015,
   annual_price: 1330,
-  annual_halfday_works: 2
 )
 
 Delivery.delete_all

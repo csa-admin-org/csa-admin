@@ -12,8 +12,8 @@ describe WelcomeEmailSender do
     context 'with multiple members' do
       let!(:member) { create(:member, :active) }
       before do
-        create(:member, :active, welcome_email_sent_at: 1.days.ago)
-        create(:member, :active).current_membership.update(annual_halfday_works: 0)
+        create(:member, :active, welcome_email_sent_at: 1.day.ago)
+        create(:member, :active, salary_basket: true)
         create(:member, :trial)
       end
 

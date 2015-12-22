@@ -89,7 +89,7 @@ ActiveAdmin.register Member do
   }
   filter :with_current_basket, as: :select, collection: -> { Basket.all }
   filter :with_current_distribution, as: :select, collection: -> { Distribution.all }
-  filter :billing_interval, as: :select, collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
+  filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
 
 
   form do |f|
@@ -102,7 +102,7 @@ ActiveAdmin.register Member do
         collection: [['envoyée', true], ['non-envoyée', false]],
         hint: 'laisser vide pour le comportement par défault (en fonction du status)'
       f.input :billing_interval,
-        collection: Member::BILLING_INERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
+        collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
       f.input :support_member
       f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'

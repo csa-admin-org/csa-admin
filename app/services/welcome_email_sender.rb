@@ -7,7 +7,7 @@ class WelcomeEmailSender
 
   def initialize
     @members = Member.active.where(welcome_email_sent_at: nil).select { |member|
-      member.annual_halfday_works > 0 && member.emails?
+      !member.salary_basket? && member.emails?
     }
   end
 

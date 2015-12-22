@@ -1,5 +1,5 @@
 class Member < ActiveRecord::Base
-  BILLING_INERVALS = %w[annual quarterly].freeze
+  BILLING_INTERVALS = %w[annual quarterly].freeze
   SUPPORT_PRICE = 30
   TRIAL_DELIVERIES = 4
 
@@ -80,7 +80,7 @@ class Member < ActiveRecord::Base
 
   validates :billing_interval,
     presence: true,
-    inclusion: { in: BILLING_INERVALS }
+    inclusion: { in: BILLING_INTERVALS }
   validates :first_name, :last_name, presence: true
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }

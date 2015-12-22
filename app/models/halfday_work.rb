@@ -1,9 +1,11 @@
 class HalfdayWork < ActiveRecord::Base
+  MEMBER_PER_YEAR = 2
+  PERIODS = %w[am pm].freeze
   PRICE = 60
+
   belongs_to :member
   belongs_to :validator, class_name: 'Admin'
 
-  PERIODS = %w[am pm].freeze
 
   scope :status, ->(status) { send(status) }
   scope :validated, -> { where.not(validated_at: nil) }

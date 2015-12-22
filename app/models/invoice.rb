@@ -40,6 +40,9 @@ class Invoice < ActiveRecord::Base
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
+  validates :member_billing_interval,
+    presence: true,
+    inclusion: { in: Member::BILLING_INTERVALS }
   validate :validate_memberships_amount_for_current_year
 
   before_save :set_isr_balance_and_balance
@@ -78,12 +81,12 @@ class Invoice < ActiveRecord::Base
   end
 
   def memberships_amounts
-    (memberships_amounts_data || []).sum { |m| m.symbolize_keys[:amount] }
+    (memberships_amounts_data || []).sum { |m| m.symbolize_keys[:price] }
   end
 
   def memberships_amounts_data=(data)
     self[:memberships_amounts_data] = data && data.each do |hash|
-      hash[:amount] = hash[:amount].round_to_five_cents if hash[:amount]
+      hash[:price] = hash[:price].round_to_five_cents if hash[:price]
     end
   end
 
@@ -100,7 +103,19 @@ class Invoice < ActiveRecord::Base
 
   def validate_memberships_amounts_data
     if memberships_amounts_data && memberships_amounts_data.any? { |h|
-      h.keys.map(&:to_s).sort != %w[amount description id]
+      h.keys.map(&:to_s).sort != %w[
+        basket_description
+        basket_id
+        basket_total_price
+        description
+        distribution_description
+        distribution_id
+        distribution_total_price
+        halfday_works_description
+        halfday_works_total_price
+        id
+        price
+      ]
     }
       errors.add(:memberships_amounts_data)
     end
@@ -144,7 +159,9 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_isr_balance_and_balance
-    self[:isr_balance] = isr_balance_data.deep_symbolize_keys.sum { |_key, data| data[:amount] }
+    self[:isr_balance] = isr_balance_data.deep_symbolize_keys.sum { |_k, data|
+      data[:amount]
+    }
     self[:balance] = isr_balance.to_f + manual_balance.to_f
   end
 end

@@ -36,42 +36,69 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
-        panel "Facturation #{year} (prévision, sans les paniers à l'essai)" do
-          billable_memberships = Membership.billable
+        panel "Facturation #{year}" do
+          memberships =
+            Membership.current_year.includes(:basket, :member, :distribution)
           total_price = 0
-          types = ['Paniers Eveil', 'Paniers Abondance', 'Cotisations']
+          types = [
+            'Panier Eveil',
+            'Panier Abondance',
+            'Distribution',
+            'Ajustement ½ journées de travail',
+            'Cotisation'
+          ]
           table_for types do
-            column('Type') { |type| type }
+            column('Chiffre d\'Affaire') { |type| type }
             column('', class: 'align-right') do |type|
-              price = case type
-              when /Eveil/, /Abondance/
-                basket_name = type.sub /Paniers /, ''
-                billable_memberships
-                  .select { |m| m.basket.name == basket_name }
-                  .sum(&:price)
-              when 'Cotisations'
-                Member.billable.select(&:support_billable?).size * Member::SUPPORT_PRICE
-              end
+              price =
+                case type
+                when /Eveil/, /Abondance/
+                  basket_name = type.sub(/Panier /, '')
+                  memberships
+                    .select { |m| m.basket.name == basket_name }
+                    .sum(&:basket_total_price)
+                when 'Distribution'
+                  memberships.to_a.sum(&:distribution_total_price)
+                when 'Ajustement ½ journées de travail'
+                  memberships.to_a.sum(&:halfday_works_total_price)
+                when 'Cotisation'
+                  Member.billable.count(&:support_billable?) *
+                    Member::SUPPORT_PRICE
+                end
               total_price += price
-              number_to_currency price
+              number_to_currency(price, unit: '')
+            end
+          end
+          table_for ['foo'] do |foo|
+            column('', class: 'align-right') do
+              "Total: #{number_to_currency total_price}"
+            end
+          end
+
+          invoices = Invoice.current_year.to_a
+          types = [
+            'Facturé',
+            'Payé',
+            'Restant à facturer',
+          ]
+          table_for types do
+            column('Facturation (Nouveau Système)') { |type| type }
+            column('', class: 'align-right') do |type|
+              case type
+              when /Facturé/
+                number_to_currency invoices.sum(&:amount)
+              when 'Payé'
+                number_to_currency invoices.sum(&:balance)
+              when 'Restant à facturer'
+                number_to_currency total_price - invoices.sum(&:amount)
+              end
             end
           end
           table_for ['foo'] do |foo|
             column('') do
               "Télécharger : #{link_to 'Excel', billing_path(format: :xlsx)}".html_safe
             end
-            column('', class: 'align-right') do
-              "Total: #{number_to_currency total_price}"
-            end
           end
-        end
-        panel 'Gribouille' do
-          emails = Member.gribouille_emails
-          str = "#{emails.count} emails amoureux de Gribouille: "
-          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
-          str << " / "
-          str << link_to('liste', gribouille_emails_members_path(format: :csv))
-          str.html_safe
         end
       end
       column do
@@ -159,6 +186,14 @@ ActiveAdmin.register_page 'Dashboard' do
                 end
             end
           end
+        end
+        panel 'Gribouille' do
+          emails = Member.gribouille_emails
+          str = "#{emails.count} emails amoureux de Gribouille: "
+          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
+          str << " / "
+          str << link_to('liste', gribouille_emails_members_path(format: :csv))
+          str.html_safe
         end
       end
     end

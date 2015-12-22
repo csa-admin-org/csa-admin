@@ -13,6 +13,10 @@ class Basket < ActiveRecord::Base
     "#{name} (#{year})"
   end
 
+  def price
+    annual_price / Delivery::PER_YEAR.to_f
+  end
+
   def small?
     name == SMALL
   end

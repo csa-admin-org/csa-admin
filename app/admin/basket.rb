@@ -5,7 +5,6 @@ ActiveAdmin.register Basket do
     column :name
     column :year
     column :annual_price, ->(basket) { number_to_currency(basket.annual_price)}
-    column :annual_halfday_works
     actions if current_admin.email == 'thibaud@thibaud.gg'
   end
 
@@ -14,7 +13,6 @@ ActiveAdmin.register Basket do
       row :name
       row :year
       row(:annual_price) { number_to_currency(basket.annual_price) }
-      row :annual_halfday_works
     end
   end
 

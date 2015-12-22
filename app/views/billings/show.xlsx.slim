@@ -1,61 +1,96 @@
 table
-  caption Abonnements + Cotisations
-  thead
-    tr
-      td Membre ID
-      td Prénom
-      td Nom
-      td Emails
-      td Téléphones
-      td Adresse
-      td Zip
-      td Ville
-      td Status
-      td Paiement
-      td Abo ID
-      td Début
-      td Fin
-      td Panier
-      td Lieu de Distribution
-      td Prix/Panier (sFr.)
-      td Distribution/Panier (sFr.)
-      td ½ journées de travail non-effectuées/Panier (sFr.)
-      td Nbr de livraisons
-      td Total/Panier (sFr.)
-      td Total Paniers (sFr.)
-      td Cotisations (sFr.)
-      td Total (sFr.)
-      td Total Facture(s) (sFr.)
-      td Total Facture(s) Solde (sFr.)
-      td Restant à facturer (sFr.)
-      td Détails
+  caption Chiffre d'affaire & Facturation
   tbody
-    - @members.sort_by { |m| m.last_name }.each do |member|
+    tr
+      td Chiffre d'affaire
+    - quarter_memberships = Membership.current_year.joins(:member).merge(Member.where(billing_interval: 'quarterly'))
+    - annual_memberships = Membership.current_year.joins(:member).merge(Member.where(billing_interval: 'annual'))
+    - total_quarter_price = 0
+    - total_annual_price = 0
+    tr
+      td Déscription
+      td Montant trimestriel
+      td Montant annuel
+      td Total
+    - Basket.current_year.each do |basket|
+      - quarter_price = quarter_memberships.where(basket_id: basket.id).to_a.sum(&:basket_total_price)
+      - annual_price = annual_memberships.where(basket_id: basket.id).to_a.sum(&:basket_total_price)
+      - total_quarter_price += quarter_price
+      - total_annual_price += annual_price
       tr
-        td= member.id
-        td= member.first_name
-        td= member.last_name
-        td= member.emails
-        td= member.phones
-        td= member.address
-        td= member.zip
-        td= member.city
-        td= member.status
-        td= t("member.billing_interval.#{member.billing_interval}")
-        td= member.current_year_memberships.map(&:id).join(', ')
-        td= member.current_year_memberships.map { |m| l m.started_on }.join(', ')
-        td= member.current_year_memberships.map { |m| l m.ended_on }.join(', ')
-        td= member.current_year_memberships.map { |m| m.basket.name }.join(', ')
-        td= member.current_year_memberships.map { |m| m.distribution.name }.join(', ')
-        td= member.current_year_memberships.map(&:basket_price).join(', ')
-        td= member.current_year_memberships.map(&:distribution_basket_price).join(', ')
-        td= member.current_year_memberships.map(&:halfday_works_basket_price).join(', ')
-        td= member.current_year_memberships.map(&:deliveries_count).join(', ')
-        td= member.current_year_memberships.map(&:total_basket_price).join(', ')
-        td= member.current_year_memberships.to_a.sum(&:price)
-        td= Member::SUPPORT_PRICE
-        td= member.current_year_memberships.to_a.sum(&:price) + Member::SUPPORT_PRICE
-        td= member.current_year_invoices.to_a.sum(&:amount)
-        td= member.current_year_invoices.to_a.sum(&:balance)
-        td= (member.current_year_memberships.to_a.sum(&:price) + Member::SUPPORT_PRICE) - member.current_year_invoices.to_a.sum(&:amount)
-        td= member.current_year_memberships.map(&:price_details).join(', ')
+        td= "Panier: #{basket.name}"
+        td.decimal= quarter_price
+        td.decimal= annual_price
+        td.decimal= quarter_price + annual_price
+    - Distribution.where('basket_price > 0').each do |distribution|
+      - quarter_price = quarter_memberships.where(distribution_id: distribution.id).to_a.sum(&:distribution_total_price)
+      - annual_price = annual_memberships.where(distribution_id: distribution.id).to_a.sum(&:distribution_total_price)
+      - total_quarter_price += quarter_price
+      - total_annual_price += annual_price
+      tr
+        td= "Distribution: #{distribution.name}"
+        td.decimal= quarter_price
+        td.decimal= annual_price
+        td.decimal= quarter_price + annual_price
+    tr
+      - quarter_price = quarter_memberships.to_a.sum(&:halfday_works_total_price)
+      - annual_price = annual_memberships.to_a.sum(&:halfday_works_total_price)
+      - total_quarter_price += quarter_price
+      - total_annual_price += annual_price
+      td Ajustement ½ journées de travail
+      td.decimal= quarter_price
+      td.decimal= annual_price
+      td.decimal= quarter_price + annual_price
+    tr
+      - members = Member.billable
+      - quarter_price = members.select { |m| m.billing_interval == 'quarterly' }.count(&:support_billable?) * Member::SUPPORT_PRICE
+      - annual_price = members.select { |m| m.billing_interval == 'annual' }.count(&:support_billable?) * Member::SUPPORT_PRICE
+      - total_quarter_price += quarter_price
+      - total_annual_price += annual_price
+      td Cotistation
+      td= quarter_price
+      td= annual_price
+      td= quarter_price + annual_price
+    tr
+      td Total
+      td= total_quarter_price
+      td= total_annual_price
+      td= total_quarter_price + total_annual_price
+    tr
+      td
+
+    tr
+      td Facturation
+    - quarter_invoices = Invoice.current_year.where(member_billing_interval: 'quarterly').to_a
+    - annual_invoices = Invoice.current_year.where(member_billing_interval: 'annual').to_a
+    tr
+      td Déscription
+      td Montant trimestriel
+      td Montant annuel
+      td Total
+    tr
+      - quarter_memberships_amount = quarter_invoices.sum { |i| i.memberships_amount.to_f }
+      - annual_memberships_amount = annual_invoices.sum { |i| i.memberships_amount.to_f }
+      td Facturé (abonnement)
+      td.decimal= quarter_memberships_amount
+      td.decimal= annual_memberships_amount
+      td.decimal= quarter_memberships_amount + annual_memberships_amount
+    tr
+      - quarter_support_amount = quarter_invoices.sum { |i| i.support_amount.to_f }
+      - annual_support_amount = annual_invoices.sum { |i| i.support_amount.to_f }
+      td Facturé (cotisations)
+      td.decimal= quarter_support_amount
+      td.decimal= annual_support_amount
+      td.decimal= quarter_support_amount + annual_support_amount
+    tr
+      - quarter_balance = quarter_invoices.sum(&:balance)
+      - annual_balance = annual_invoices.sum(&:balance)
+      td Payé
+      td.decimal= quarter_balance
+      td.decimal= annual_balance
+      td.decimal= quarter_balance + annual_balance
+    tr
+      td Restant à facturer
+      td.decimal= total_quarter_price - quarter_memberships_amount - quarter_support_amount
+      td.decimal= total_annual_price - annual_memberships_amount - annual_support_amount
+      td.decimal= total_quarter_price + total_annual_price - quarter_memberships_amount - quarter_support_amount - annual_memberships_amount - annual_support_amount

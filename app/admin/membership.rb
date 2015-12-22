@@ -27,7 +27,7 @@ ActiveAdmin.register Membership do
   filter :started_on
   filter :ended_on
 
-  show do |membership|
+  show do |m|
     attributes_table do
       row :id
       row :member
@@ -35,19 +35,32 @@ ActiveAdmin.register Membership do
       row :distribution
       row :deliveries_received_count
       row :deliveries_count
-      if membership.member.try(:salary_basket?)
-        row(:total_basket_price) { 'Gratuit, panier salaire'}
+      if m.member.try(:salary_basket?)
+        row(:price) { 'Gratuit, panier salaire' }
       else
-        row(:annual_halfday_works) { membership.annual_halfday_works }
-        row(:annual_price) { number_to_currency(membership.annual_price) }
-        row(:basket_price) { number_to_currency(membership.basket_price) }
-        row(:distribution_basket_price) { number_to_currency(membership.distribution_basket_price) }
-        row(:halfday_works_basket_price) { number_to_currency(membership.halfday_works_basket_price) }
-        row(:total_basket_price) { number_to_currency(membership.total_basket_price) }
-        row(:price) { "#{number_to_currency(membership.price)} (#{membership.deliveries_count} * #{membership.total_basket_price})" }
+        row(:basket_total_price) {
+          detail = "#{m.deliveries_count} * #{m.basket.price}"
+          "#{number_to_currency(m.basket_total_price)} (#{detail})"
+        }
+        row(:distribution_total_price) {
+          detail = "#{m.deliveries_count} * #{m.distribution_basket_price}"
+          "#{number_to_currency(m.distribution_total_price)} (#{detail})"
+        }
+        row(:halfday_works_total_price) {
+          detail = "#{m.deliveries_count} * #{m.halfday_works_basket_price}"
+          "#{number_to_currency(m.halfday_works_total_price)} (#{detail})"
+        }
+        row(:price) {
+          detail = [
+            m.basket_total_price,
+            m.distribution_total_price,
+            m.halfday_works_total_price
+          ].map { |price| number_to_currency(price, unit: '') }
+          "#{number_to_currency(m.price)} (#{detail.join(' + ')})"
+        }
       end
-      row(:started_on) { l membership.started_on }
-      row(:ended_on) { l membership.ended_on }
+      row(:started_on) { l m.started_on }
+      row(:ended_on) { l m.ended_on }
       row :note
     end
   end
@@ -58,12 +71,13 @@ ActiveAdmin.register Membership do
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
         include_blank: false
     end
-    f.inputs 'Détails' do
+    f.inputs 'Panier & Distribution' do
       f.input :basket, include_blank: false
       f.input :distribution, include_blank: false
-      f.input :annual_price, hint: 'laisser vide si identique (panier)'
-      f.input :distribution_basket_price, hint: 'laisser vide si identique (distribution)'
-      f.input :annual_halfday_works, hint: 'laisser vide si identique (panier)'
+    end
+    f.inputs '½ journée de travails' do
+      f.input :annual_halfday_works
+      f.input :halfday_works_annual_price, hint: 'augmentation ou réduction du prix du panier à l\'année contre service (½ journée de travails) rendu ou non.'
     end
     f.inputs 'Dates' do
       if membership.deliveries_received_count > 0
@@ -92,7 +106,7 @@ ActiveAdmin.register Membership do
 
   permit_params *%i[
     member_id basket_id distribution_id
-    annual_price distribution_basket_price annual_halfday_works
+    halfday_works_annual_price annual_halfday_works
     will_be_changed_at started_on ended_on note
   ]
 

@@ -41,8 +41,8 @@ describe Invoice do
   describe '#memberships_amounts' do
     let(:invoice) do
       build(:invoice, memberships_amounts_data: [
-        { id: 1, description: 'foo', 'amount' => 12 },
-        { id: 2, description: 'foo', amount: 34 }
+        { 'price' => 12 },
+        { price: 34 }
       ])
     end
 

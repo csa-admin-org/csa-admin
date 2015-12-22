@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151218154520) do
+ActiveRecord::Schema.define(version: 20151220192823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,10 +62,9 @@ ActiveRecord::Schema.define(version: 20151218154520) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "baskets", force: :cascade do |t|
-    t.string   "name",                 limit: 255,                         null: false
-    t.integer  "year",                                                     null: false
-    t.decimal  "annual_price",                     precision: 8, scale: 2, null: false
-    t.integer  "annual_halfday_works",                                     null: false
+    t.string   "name",         limit: 255,                         null: false
+    t.integer  "year",                                             null: false
+    t.decimal  "annual_price",             precision: 8, scale: 2, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -136,6 +135,7 @@ ActiveRecord::Schema.define(version: 20151218154520) do
     t.decimal  "isr_balance",                    precision: 8, scale: 2, default: 0.0, null: false
     t.decimal  "manual_balance",                 precision: 8, scale: 2, default: 0.0, null: false
     t.text     "note"
+    t.string   "member_billing_interval",                                              null: false
   end
 
   add_index "invoices", ["member_id"], name: "index_invoices_on_member_id", using: :btree
@@ -180,16 +180,15 @@ ActiveRecord::Schema.define(version: 20151218154520) do
   add_index "members", ["welcome_email_sent_at"], name: "index_members_on_welcome_email_sent_at", using: :btree
 
   create_table "memberships", force: :cascade do |t|
-    t.integer  "basket_id",                                         null: false
-    t.integer  "distribution_id",                                   null: false
-    t.integer  "member_id",                                         null: false
-    t.decimal  "annual_price",              precision: 8, scale: 2
+    t.integer  "basket_id",                                          null: false
+    t.integer  "distribution_id",                                    null: false
+    t.integer  "member_id",                                          null: false
+    t.decimal  "halfday_works_annual_price", precision: 8, scale: 2
     t.integer  "annual_halfday_works"
-    t.date     "started_on",                                        null: false
-    t.date     "ended_on",                                          null: false
+    t.date     "started_on",                                         null: false
+    t.date     "ended_on",                                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "distribution_basket_price", precision: 8, scale: 2
     t.text     "note"
     t.datetime "deleted_at"
   end

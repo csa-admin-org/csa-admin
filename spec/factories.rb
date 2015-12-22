@@ -18,7 +18,7 @@ FactoryGirl.define do
     city { Faker::Address.city }
     zip { Faker::Address.zip }
     support_member false
-    billing_interval  'quarterly'
+    billing_interval 'quarterly'
 
     validated_at { Time.zone.now }
     validator { create(:admin) }
@@ -77,7 +77,6 @@ FactoryGirl.define do
     name { Faker::Name.name }
     year { Time.zone.today.year }
     annual_price { 40 * 30 }
-    annual_halfday_works 2
 
     trait :next_year do
       year { Time.zone.today.year + 1 }
@@ -102,13 +101,25 @@ FactoryGirl.define do
   factory :invoice do
     member
     date { Time.zone.now }
+    member_billing_interval { member.billing_interval }
 
     trait :membership do
       transient do
         membership { create(:membership, member: member) }
       end
       memberships_amounts_data {
-        [membership.slice(:id, :description).merge(amount: membership.price)]
+        [
+          membership.slice(:id, :basket_id, :distribution_id).merge(
+            basket_total_price: membership.basket_total_price,
+            basket_description: membership.basket_description,
+            distribution_total_price: membership.distribution_total_price,
+            distribution_description: membership.distribution_description,
+            halfday_works_total_price: membership.halfday_works_total_price,
+            halfday_works_description: membership.halfday_works_description,
+            description: membership.description,
+            price: membership.price
+          )
+        ]
       }
       memberships_amount_description 'Montant'
     end
