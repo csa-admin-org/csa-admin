@@ -47,7 +47,7 @@ table
       - annual_price = members.select { |m| m.billing_interval == 'annual' }.count(&:support_billable?) * Member::SUPPORT_PRICE
       - total_quarter_price += quarter_price
       - total_annual_price += annual_price
-      td Cotistation
+      td Cotisation
       td= quarter_price
       td= annual_price
       td= quarter_price + annual_price
