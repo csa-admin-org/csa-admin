@@ -33,6 +33,7 @@ ActiveAdmin.register Membership do
       row :member
       row :basket
       row :distribution
+      row :annual_halfday_works
       row :deliveries_received_count
       row :deliveries_count
       if m.member.try(:salary_basket?)
