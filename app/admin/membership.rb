@@ -77,7 +77,7 @@ ActiveAdmin.register Membership do
     end
     f.inputs '½ journée de travails' do
       f.input :annual_halfday_works
-      f.input :halfday_works_annual_price, hint: 'augmentation ou réduction du prix du panier à l\'année contre service (½ journée de travails) rendu ou non.'
+      f.input :halfday_works_annual_price, hint: 'augmentation ou réduction du prix de l\'abonnement contre service (½ journée de travails) rendu ou non.'
     end
     f.inputs 'Dates' do
       if membership.deliveries_received_count > 0

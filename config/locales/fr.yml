@@ -239,6 +239,8 @@ fr:
         basket: Panier
         started_on: Début
         ended_on: Fin
+        annual_halfday_works: ½ journée de travails par année
+        halfday_works_annual_price: Ajustement du prix de l'abonnement
         basket_total_price: Prix Paniers (total)
         distribution_total_price: Prix Distributions (total)
         halfday_works_total_price: Prix ½ Journées de travail (total)
