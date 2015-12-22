@@ -13,7 +13,8 @@ class Membership < ActiveRecord::Base
   validates :annual_halfday_works, presence: true
   validates :distribution, :basket, presence: true
   validates :started_on, :ended_on, presence: true
-  validates :halfday_works_annual_price, numericality: { greater_than: 0 },
+  validates :halfday_works_annual_price,
+    numericality: { greater_than_or_equal_to: 1 },
     if: -> { annual_halfday_works < HalfdayWork::MEMBER_PER_YEAR }
   validate :withing_basket_year
   validate :good_period_range
