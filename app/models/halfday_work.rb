@@ -6,7 +6,6 @@ class HalfdayWork < ActiveRecord::Base
   belongs_to :member
   belongs_to :validator, class_name: 'Admin'
 
-
   scope :status, ->(status) { send(status) }
   scope :validated, -> { where.not(validated_at: nil) }
   scope :rejected, -> { where.not(rejected_at: nil) }
@@ -28,12 +27,14 @@ class HalfdayWork < ActiveRecord::Base
 
   validates :member_id, :date, presence: true
   validate :periods_include_good_value
-  validates :date, inclusion: { in: ->(hwc) { HalfdayWorkDate.pluck(:date) } }
-  validates :period_am, absence: { if: ->(hwc) { hwc.available_periods.exclude?('am') } }
-  validates :period_pm, absence: { if: ->(hwc) { hwc.available_periods.exclude?('pm') } }
-  validate :participants_limit_must_not_be_reached
+  validates :date,
+    inclusion: { in: :available_dates },
+    unless: :validated_at?
+  validates :period_am, absence: { if: -> { available_periods.exclude?('am') } }
+  validates :period_pm, absence: { if: -> { available_periods.exclude?('pm') } }
+  validate :participants_limit_must_not_be_reached, unless: :validated_at?
 
-  after_save :send_notifications
+  after_update :send_notifications
 
   def status
     if validated_at?
@@ -99,6 +100,10 @@ class HalfdayWork < ActiveRecord::Base
     HalfdayWorkDate.find_by(date: date).try(:periods) || PERIODS
   end
 
+  def available_dates
+    HalfdayWorkDate.pluck(:date)
+  end
+
   private
 
   def periods_include_good_value
@@ -119,7 +124,7 @@ class HalfdayWork < ActiveRecord::Base
   private
 
   def participants_limit_must_not_be_reached
-    if period_am || period_pm
+    if halfday_work_date && (period_am || period_pm)
       am_limit_reached = halfday_work_date.participants_limit_reached?('am')
       pm_limit_reached = halfday_work_date.participants_limit_reached?('pm')
       if am_limit_reached && pm_limit_reached

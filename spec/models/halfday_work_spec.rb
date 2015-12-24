@@ -13,6 +13,12 @@ describe HalfdayWork do
         halfday_work.date = Time.zone.today
         expect(halfday_work).to be_valid
       end
+
+      specify 'when no halfday_work_date' do
+        halfday_work = build(:halfday_work, :validated)
+        HalfdayWorkDate.delete_all
+        expect(halfday_work).to be_valid
+      end
     end
 
     describe 'periods' do
@@ -48,6 +54,12 @@ describe HalfdayWork do
 
       it 'does not accept new participant in pm' do
         halfday_work = build(:halfday_work, periods: ['pm'])
+        expect(halfday_work).to be_valid
+      end
+
+      specify 'when no halfday_work_date' do
+        halfday_work = build(:halfday_work, :validated, periods: ['pm'])
+        HalfdayWorkDate.delete_all
         expect(halfday_work).to be_valid
       end
     end

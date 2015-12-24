@@ -144,6 +144,11 @@ FactoryGirl.define do
     date { Time.zone.today.beginning_of_week + 8.days }
     participants_count 1
 
+    trait :validated do
+      validated_at { date }
+      validator { create(:admin) }
+    end
+
     after :build do |_, evaluator|
       unless evaluator.halfday_work_date
         create(:halfday_work_date,

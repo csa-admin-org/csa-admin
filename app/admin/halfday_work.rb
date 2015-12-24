@@ -36,8 +36,11 @@ ActiveAdmin.register HalfdayWork do
         collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
         include_blank: false
       f.input :participants_count
-      f.input :period_am, as: :boolean, label: 'AM'
-      f.input :period_pm, as: :boolean, label: 'PM'
+      f.inputs 'Horaire' do
+        f.semantic_errors :periods
+        f.input :period_am, as: :boolean, label: 'AM'
+        f.input :period_pm, as: :boolean, label: 'PM'
+      end
     end
     f.actions
   end
@@ -61,6 +64,11 @@ ActiveAdmin.register HalfdayWork do
   controller do
     def scoped_collection
       HalfdayWork.includes(:member)
+    end
+
+    before_create do |halfday_work|
+      halfday_work.validated_at = Time.zone.now
+      halfday_work.validator = current_admin
     end
 
     def create
