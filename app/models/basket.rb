@@ -6,6 +6,7 @@ class Basket < ActiveRecord::Base
   BIG = 'Abondance'
 
   scope :current_year, -> { where(year: Time.zone.today.year) }
+  scope :during_year, ->(year) { where(year: year) }
   scope :small, -> { where(name: SMALL) }
   scope :big, -> { where(name: BIG) }
 
