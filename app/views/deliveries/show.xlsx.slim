@@ -64,9 +64,9 @@
           td= member.first_name
           td= member.last_name
           - if distribution.require_delivery_address?
-            td= member.delivery_address
-            td= member.delivery_zip
-            td= member.delivery_city
+            td= member.final_delivery_address
+            td= member.final_delivery_zip
+            td= member.final_delivery_city
           td= membership.basket.name
           - unless @filter_distribution
             td= truncate(member.food_note, length: 80)

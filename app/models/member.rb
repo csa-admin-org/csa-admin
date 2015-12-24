@@ -118,22 +118,22 @@ class Member < ActiveRecord::Base
   end
 
   def display_delivery_address
-    "#{delivery_address}, #{delivery_city} (#{delivery_zip})"
+    "#{final_delivery_address}, #{final_delivery_city} (#{final_delivery_zip})"
   end
 
   def same_delivery_address?
     display_address == display_delivery_address
   end
 
-  def delivery_address
+  def final_delivery_address
     read_attribute(:delivery_address).presence || address
   end
 
-  def delivery_city
+  def final_delivery_city
     read_attribute(:delivery_city).presence || city
   end
 
-  def delivery_zip
+  def final_delivery_zip
     read_attribute(:delivery_zip).presence || zip
   end
 
