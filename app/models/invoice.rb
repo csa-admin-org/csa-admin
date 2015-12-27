@@ -16,8 +16,9 @@ class Invoice < ActiveRecord::Base
   scope :support, -> { where.not(support_amount: nil) }
   scope :membership, -> { where.not(memberships_amount: nil) }
   scope :not_sent, -> { where(sent_at: nil) }
-  scope :open, -> { where('balance < amount') }
-  scope :closed, -> { where('balance >= amount') }
+  scope :sent, -> { where.not(sent_at: nil) }
+  scope :open, -> { sent.where('balance < amount') }
+  scope :closed, -> { sent.where('balance >= amount') }
 
   before_validation \
     :set_paid_memberships_amount,
