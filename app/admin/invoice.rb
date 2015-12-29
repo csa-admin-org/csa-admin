@@ -4,16 +4,18 @@ ActiveAdmin.register Invoice do
   scope :all, default: true
   scope :not_sent
   scope :open
+  scope :with_overdue_notice
   scope :closed
 
   index_title = -> { "Factures (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
 
   index title: index_title do
     column :id
-    column :date, ->(i) { l i.date }
+    column :date, ->(i) { l i.date, format: :number }
     column :member
     column :amount, ->(invoice) { number_to_currency(invoice.amount) }
     column :balance, ->(invoice) { number_to_currency(invoice.balance) }
+    column :overdue_notices_count
     column :status, ->(invoice) { invoice.display_status }
     actions defaults: true do |invoice|
       link_to 'PDF', pdf_invoice_path(invoice), target: '_blank'
@@ -37,6 +39,8 @@ ActiveAdmin.register Invoice do
       row(:manual_balance) { number_to_currency(invoice.balance) }
       row(:balance) { number_to_currency(invoice.balance) }
       row(:status) { invoice.display_status }
+      row :overdue_notices_count
+      row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
       row :note
       row(:updated_at) { l invoice.updated_at }
     end

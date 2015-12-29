@@ -131,6 +131,10 @@ FactoryGirl.define do
     trait :last_year do
       date { 1.year.from_now }
     end
+
+    trait :sent do
+      sent_at { Time.zone.now }
+    end
   end
 
   factory :halfday_work_date do

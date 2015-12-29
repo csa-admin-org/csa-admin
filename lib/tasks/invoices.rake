@@ -12,4 +12,10 @@ namespace :invoices do
     IsrBalanceUpdater.new.update_all
     p 'All invoices isr balance data updated.'
   end
+
+  desc 'Send invoice overdue notices'
+  task send_overdue_notices: :environment do
+    Invoice.open.each { |invoice| InvoiceOverdueNoticer.perform(invoice) }
+    p 'All invoice overdue notices sent.'
+  end
 end

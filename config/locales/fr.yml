@@ -97,6 +97,7 @@ fr:
       diff_zip: ZIP différents
       current_year: année courante
       next_year: année prochaine
+      with_overdue_notice: avec rappels
     comments:
       body: "Corps"
       author: "Auteur"
@@ -265,6 +266,8 @@ fr:
         balance: Payé
         updated_at: Mis à jour le
         sent_at: Envoyé le
+        overdue_notices_count: 'Rappel #'
+        overdue_notice_sent_at: Dernier rappel envoyé le
 
   invoice:
     status:
