@@ -45,11 +45,6 @@ describe Membership do
       membership.update(ended_on: Date.new(2000))
       expect(membership.errors[:ended_on]).to be_present
     end
-
-    it 'validates halfday_works_annual_price when no annual_halfday_works' do
-      membership.update(annual_halfday_works: 0, halfday_works_annual_price: 0)
-      expect(membership.errors[:halfday_works_annual_price]).to be_present
-    end
   end
 
   describe '#will_be_changed_at=' do
