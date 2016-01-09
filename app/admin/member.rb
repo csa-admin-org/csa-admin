@@ -16,9 +16,7 @@ ActiveAdmin.register Member do
     if params[:scope] == 'waiting'
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
       column '#', ->(member) {
-        str = (@waiting_started_ats.index(member.waiting_started_at) + 1).to_s
-        str << '*' if member.waiting_started_at >= Time.utc(2016)
-        str
+        @waiting_started_ats.index(member.waiting_started_at) + 1
       }, sortable: :waiting_started_at
     end
     column :name, ->(member) { link_to member.name, member }, sortable: :last_name
