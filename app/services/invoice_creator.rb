@@ -10,10 +10,7 @@ class InvoiceCreator
 
   def create
     invoice = create_invoice
-    if invoice.try(:persisted?)
-      # invoice.send_email
-      invoice
-    end
+    invoice if invoice&.persisted?
   rescue => ex
     ExceptionNotifier.notify_exception(ex)
     nil

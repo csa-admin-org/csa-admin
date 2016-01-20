@@ -1,10 +1,15 @@
 namespace :invoices do
   desc 'Create and send new invoices'
   task create: :environment do
-    Member.billable.each do |member|
-      InvoiceCreator.new(member).create
+    if Time.zone.today.tuesday? && Date.today > Delivery.current_year.first.date
+      Member.billable.each do |member|
+        invoice = InvoiceCreator.new(member).create
+        invoice&.send_email
+      end
+      p 'New invoice(s) created.'
+    else
+      p "It's not Tuesday dude."
     end
-    p 'New invoice(s) created.'
   end
 
   desc 'Update invoices isr balance data'

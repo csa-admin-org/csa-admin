@@ -1,5 +1,7 @@
 Sauf erreur ou omission de notre part, le paiement de la facture n° <%= @invoice.id %> datée du <%= l @invoice.date, format: :long %>, ne nous est pas parvenu.
 
+Le montant restant à payer est de: <%= number_to_currency @invoice.remaining_amount %>
+
 Nous vous prions de bien vouloir procéder à son règlement dans les meilleurs délais, et vous adressons, à toutes fins utiles, un duplicata de cette facture en pièce jointe.
 
 Si par ailleurs votre paiement venait à nous parvenir avant la réception de la présente, nous vous saurions gré de ne pas en tenir compte.

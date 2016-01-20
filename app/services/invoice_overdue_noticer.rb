@@ -11,13 +11,19 @@ class InvoiceOverdueNoticer
   end
 
   def perform
-    return unless invoice.status == :open && last_sent_at < DAYS_DELAY.ago
+    return unless overdue_noticable?
 
-    @invoice.increment(:overdue_notices_count)
-    @invoice.overdue_notice_sent_at = Time.zone.now
-    @invoice.save!
+    invoice.increment(:overdue_notices_count)
+    invoice.overdue_notice_sent_at = Time.zone.now
+    invoice.save!
 
     InvoiceMailer.overdue_notice(invoice).deliver_later
+  end
+
+  private
+
+  def overdue_noticable?
+    invoice.status == :open && last_sent_at < DAYS_DELAY.ago
   end
 
   def last_sent_at

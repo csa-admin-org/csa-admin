@@ -56,6 +56,10 @@ class Invoice < ActiveRecord::Base
     balance < amount ? :open : :closed
   end
 
+  def remaining_amount
+    (amount - balance).round_to_five_cents
+  end
+
   def display_status
     I18n.t("invoice.status.#{status}")
   end

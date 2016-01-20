@@ -1,6 +1,3 @@
 # admin|membres.ragedevert.ch
 
-### ENV variables
-
-GD_EMAIL=<Google Drive Email>
-GD_PASS=<Google Drive Password>
+Please contact thibaud@thibaud.gg
