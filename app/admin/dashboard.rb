@@ -15,7 +15,7 @@ ActiveAdmin.register_page 'Dashboard' do
             column 'Membres', class: 'align-right' do |status|
               str = ''
               if status == :active
-                str += "(#{Member.where(salary_basket: true).count} panier-salaire) "
+                str += "(#{Member.active.where(salary_basket: true).count} panier-salaire) "
               end
               if status == :inactive
                 str += "(#{Member.inactive.joins(:memberships).merge(Membership.future).count} futur actif) "
