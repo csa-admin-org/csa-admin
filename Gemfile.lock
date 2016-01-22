@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/DigitalReflow/active_admin_editor.git
-  revision: 77273b65d4d3af85cfa591c02b6947485096502f
-  specs:
-    active_admin_editor (1.1.1)
-      activeadmin (>= 0.4.0)
-      ejs
-      rails (>= 3.0.0)
-
-GIT
   remote: git://github.com/activeadmin/activeadmin.git
   revision: bf29c0e6ac786bbaa98ce08d3d5c6074e0cbc948
   specs:
@@ -35,6 +26,15 @@ GIT
       chronic
       nokogiri
       rails
+
+GIT
+  remote: git://github.com/thibaudgg/active_admin_editor.git
+  revision: 1c3bb02b80905fc909a7d4936573307408e86c56
+  specs:
+    active_admin_editor (1.1.1)
+      activeadmin (>= 0.4.0)
+      ejs
+      rails (>= 3.0.0)
 
 GEM
   remote: https://rubygems.org/

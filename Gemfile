@@ -21,7 +21,7 @@ gem 'jquery-ui-rails'
 gem 'momentjs-rails'
 gem 'slim'
 gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
-gem 'active_admin_editor', github: 'DigitalReflow/active_admin_editor'
+gem 'active_admin_editor', github: 'thibaudgg/active_admin_editor'
 
 gem 'sass-rails'
 gem 'font-awesome-sass'
