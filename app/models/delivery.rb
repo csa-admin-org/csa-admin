@@ -3,6 +3,8 @@ class Delivery < ActiveRecord::Base
 
   default_scope { order(:date) }
 
+  has_one :gribouille
+
   scope :current_year, -> {
     where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year}")
   }

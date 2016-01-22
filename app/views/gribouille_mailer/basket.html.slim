@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+    style type='text/css'= 'h1 { font-size: 105%; }'
+  body
+    = @gribouille.header.html_safe
+
+    h1 Contenu du panier
+    = @gribouille.basket_content.html_safe
+
+    - if @gribouille.fields_echo.present?
+      h1 Écho des champs
+      = @gribouille.fields_echo.html_safe
+
+    - if @gribouille.events.present?
+      h1 Événements à venir
+      = @gribouille.events.html_safe
+
+    - if @gribouille.footer.present?
+      h1 Le mot de la faim
+      = @gribouille.footer.html_safe

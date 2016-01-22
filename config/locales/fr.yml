@@ -268,7 +268,12 @@ fr:
         sent_at: Envoyé le
         overdue_notices_count: 'Rappel #'
         overdue_notice_sent_at: Dernier rappel envoyé le
-
+      gribouille:
+        header: En-tête
+        basket_content: Contenu du panier
+        fields_echo: Écho des champs
+        events: Événements à venir
+        footer: Le mot de la faim
   invoice:
     status:
       not_sent: non-envoyée
