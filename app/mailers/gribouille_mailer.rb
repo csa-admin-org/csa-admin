@@ -1,16 +1,10 @@
 class GribouilleMailer < ApplicationMailer
   layout false
 
-  def basket(gribouille)
+  def basket(gribouille, email)
     @gribouille = gribouille
-    # emails = Member.gribouille_emails
-    emails = %w[
-      thibaud@thibaud.gg
-      thibaud@electricfeel.com
-      leilapecon@gmail.com
-    ]
     mail \
-      bcc: emails,
+      to: email,
       subject: "Gribouille du #{l gribouille.delivery.date, format: :short}"
   end
 end

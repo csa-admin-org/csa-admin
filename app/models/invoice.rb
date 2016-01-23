@@ -100,7 +100,7 @@ class Invoice < ActiveRecord::Base
 
   def send_email
     unless sent_at?
-      InvoiceMailer.new_invoice(self).deliver_later
+      InvoiceMailer.new_invoice(self).deliver_now
       touch(:sent_at)
     end
   end

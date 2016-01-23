@@ -2,20 +2,40 @@ ActiveAdmin.register Gribouille do
   menu false
 
   form title: "Gribouille du #{Delivery.coming.first&.date}" do |f|
-    panel 'Comment que ça marche?' do
-      [
-        "<p>Si au moins les textes \"en-tête\" et \"contenu du panier\" sont remplis la gribouille sera envoyée à tous les membres le mardi #{Delivery.coming.first.date - 1.day} à midi.</p>",
-        "<p>Chaque texte vide ne sera pas inclus dans la gribouille.</p>"
-      ].join('').html_safe
+    delivery = Delivery.coming.first
+    gribouille = Delivery.coming.first.gribouille
+    if delivery
+      date = delivery.date
+      gribouille = delivery.gribouille
+      if Time.now.to_i.in? (date - 12.hours).to_i..date.end_of_day.to_i
+        if gribouille
+          if gribouille.sent_at?
+            panel 'Info' do "<h1>Gribouilles envoyées!</h1>".html_safe end
+          else
+            panel 'Info' do "<h1>Gribouilles en cours d'envoi...</h1>".html_safe end
+          end
+        else
+          panel 'Info' do "<h1>!!! Aucune Gribouilles n'a été envoyées!!!</h1>".html_safe end
+        end
+      else
+        panel 'Comment que ça marche?' do
+          [
+            "<p>Si au moins les textes \"en-tête\" et \"contenu du panier\" sont remplis la gribouille sera envoyée à tous les membres le mardi #{Delivery.coming.first.date - 1.day} à midi.</p>",
+            "<p>Chaque texte vide ne sera pas inclus dans la gribouille.</p>"
+          ].join('').html_safe
+        end
+        f.inputs 'Textes' do
+          f.input :header, as: :html_editor
+          f.input :basket_content, as: :html_editor
+          f.input :fields_echo, as: :html_editor
+          f.input :events, as: :html_editor
+          f.input :footer, as: :html_editor
+        end
+        f.actions
+      end
+    else
+      panel 'Info' do "<h1>Aucune prochaine livraison à l'horizon</h1>".html_safe end
     end
-    f.inputs 'Textes' do
-      f.input :header, as: :html_editor
-      f.input :basket_content, as: :html_editor
-      f.input :fields_echo, as: :html_editor
-      f.input :events, as: :html_editor
-      f.input :footer, as: :html_editor
-    end
-    f.actions
   end
 
   permit_params *%i[header basket_content fields_echo events footer]

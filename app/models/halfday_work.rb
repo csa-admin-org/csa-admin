@@ -114,10 +114,10 @@ class HalfdayWork < ActiveRecord::Base
 
   def send_notifications
     if validated_at_changed? && validated_at?
-      HalfdayWorkMailer.validated(self).deliver_later
+      HalfdayWorkMailer.validated(self).deliver_now
     end
     if rejected_at_changed? && rejected_at?
-      HalfdayWorkMailer.rejected(self).deliver_later
+      HalfdayWorkMailer.rejected(self).deliver_now
     end
   end
 

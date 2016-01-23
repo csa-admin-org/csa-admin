@@ -17,7 +17,7 @@ class InvoiceOverdueNoticer
     invoice.overdue_notice_sent_at = Time.zone.now
     invoice.save!
 
-    InvoiceMailer.overdue_notice(invoice).deliver_later
+    InvoiceMailer.overdue_notice(invoice).deliver_now
   end
 
   private
