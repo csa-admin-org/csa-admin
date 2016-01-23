@@ -39,3 +39,5 @@ ExceptionNotification.configure do |config|
   # }
 
 end
+
+ExceptionNotifier::Rake.configure
