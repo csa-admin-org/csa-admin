@@ -35,8 +35,8 @@ ActiveAdmin.register Invoice do
       row(:date) { l invoice.date }
       row(:sent_at) { l invoice.sent_at if invoice.sent_at }
       row(:amount) { number_to_currency(invoice.amount) }
-      row(:isr_balance) { number_to_currency(invoice.balance) }
-      row(:manual_balance) { number_to_currency(invoice.balance) }
+      row(:isr_balance) { number_to_currency(invoice.isr_balance) }
+      row(:manual_balance) { number_to_currency(invoice.manual_balance) }
       row(:balance) { number_to_currency(invoice.balance) }
       row(:status) { invoice.display_status }
       row :overdue_notices_count

@@ -46,7 +46,7 @@ class Invoice < ActiveRecord::Base
   validates :member_billing_interval,
     presence: true,
     inclusion: { in: Member::BILLING_INTERVALS }
-  validate :validate_memberships_amount_for_current_year
+  validate :validate_memberships_amount_for_current_year, on: :create
 
   before_save :set_isr_balance_and_balance
   after_create :generate_and_set_pdf
