@@ -3,8 +3,14 @@ namespace :invoices do
   task create: :environment do
     if Time.zone.today.tuesday? && Date.today > Delivery.current_year.first.date
       Member.billable.each do |member|
-        invoice = InvoiceCreator.new(member).create
-        invoice&.send_email
+        begin
+          invoice = InvoiceCreator.new(member).create
+          invoice&.send_email
+        rescue => ex
+          ExceptionNotifier.notify_exception(ex,
+            data: { member_id: member.id, invoice_id: invoice&.id }
+          )
+        end
       end
       p 'New invoice(s) created.'
     else
