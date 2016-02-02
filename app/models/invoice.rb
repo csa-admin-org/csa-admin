@@ -99,7 +99,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def send_email
-    unless sent_at?
+    unless sent_at? || !member.emails?
       InvoiceMailer.new_invoice(self).deliver_now
       touch(:sent_at)
     end

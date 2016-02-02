@@ -222,6 +222,10 @@ class Member < ActiveRecord::Base
     string_to_a(emails)
   end
 
+  def emails?
+    emails_array.present?
+  end
+
   def phones_array
     string_to_a(phones)
   end

@@ -122,6 +122,12 @@ describe Invoice do
       expect { invoice.send_email }
         .not_to change { ActionMailer::Base.deliveries.count }
     end
+
+    it 'does nothing when member has no email' do
+      invoice.member.update(emails: '')
+      expect { invoice.send_email }
+        .not_to change { ActionMailer::Base.deliveries.count }
+    end
   end
 
   it 'generates and sets pdf after creation' do
