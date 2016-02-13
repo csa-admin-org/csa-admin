@@ -10,7 +10,7 @@ class Stats::BaseStat
   end
 
   def cached_data
-    Rails.cache.fetch "#{self.class.name}-data", expires_in: 1.day do
+    Rails.cache.fetch "#{cache_key}-data", expires_in: 1.day do
       data
     end
   end
@@ -22,5 +22,9 @@ class Stats::BaseStat
     by_user.map { |_, memberships|
       memberships.max_by { |m| m.ended_on - m.started_on }
     }
+  end
+
+  def cache_key
+    "#{self.class.name}-#{year}"
   end
 end
