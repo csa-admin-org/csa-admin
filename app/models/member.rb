@@ -227,21 +227,29 @@ class Member < ActiveRecord::Base
   end
 
   def annual_halfday_works(year = nil)
-    if salary_basket?
-      0
-    else
-      year ||= Time.zone.today.year
-      memberships.during_year(year).to_a.sum(&:halfday_works)
+    @annual_halfday_works ||= begin
+      if salary_basket?
+        0
+      else
+        year ||= Time.zone.today.year
+        memberships.during_year(year).to_a.sum(&:halfday_works)
+      end
     end
   end
 
   def validated_halfday_works(year = nil)
-    year ||= Time.zone.today.year
-    halfday_works.during_year(year).validated.to_a.sum(&:value)
+    @validated_halfday_works ||= begin
+      year ||= Time.zone.today.year
+      halfday_works.during_year(year).validated.to_a.sum(&:value)
+    end
   end
 
   def remaining_halfday_works(year = nil)
     [annual_halfday_works(year) - validated_halfday_works(year), 0].max
+  end
+
+  def extra_halfday_works(year = nil)
+    [annual_halfday_works(year) - validated_halfday_works(year), 0].min.abs
   end
 
   def to_param

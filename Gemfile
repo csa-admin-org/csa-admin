@@ -2,8 +2,12 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.5.1'
 gem 'rails-i18n'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-highcharts'
+end
 
 gem 'passenger'
 gem 'rack-status'
@@ -41,6 +45,7 @@ gem 'uglifier'
 gem 'jbuilder'
 gem 'google_drive'
 gem 'google-api-client'
+gem 'google_maps_geocoder'
 
 gem 'icalendar'
 

@@ -37,6 +37,9 @@ class Membership < ActiveRecord::Base
       Date.new(year).end_of_year
     )
   }
+  scope :duration_gt, ->(days) {
+    where("age(ended_on, started_on) > interval '? day'", days)
+  }
 
   attr_accessor :will_be_changed_at
 

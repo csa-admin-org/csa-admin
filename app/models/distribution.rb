@@ -13,7 +13,8 @@ class Distribution < ActiveRecord::Base
   end
 
   def self.with_delivery_memberships(delivery)
-    joins(:memberships).merge(Membership.including_date(delivery.date))
+    joins(:memberships)
+      .merge(Membership.including_date(delivery.date))
       .distinct
       .each { |d|
         d.delivery_memberships = d.memberships.including_date(delivery.date).includes(:basket, member: :absences).to_a

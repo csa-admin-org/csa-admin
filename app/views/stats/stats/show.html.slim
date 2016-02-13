@@ -1,0 +1,2 @@
+section.span-columns-12
+  = content_tag :div, id: 'chart', data: { series: @stats.map { |stat| [stat.year.to_s, stat.data] }.to_h } do
