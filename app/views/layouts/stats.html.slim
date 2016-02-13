@@ -1,0 +1,20 @@
+html
+  head
+    title Rage de Vert: Stats
+    = stylesheet_link_tag 'stats', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'stats', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body
+    header.navigation role="banner"
+      .navigation-wrapper
+      a.logo href='http://www.ragedevert.ch'
+        img src=asset_path('logo.jpg') alt='Rave de Vert Logo'
+      nav role="navigation"
+        ul.navigation-menu.show
+          - Stats::TYPES.each do |stats_type|
+            li.nav-link class=('active-nav-item' if stats_type.to_s == params[:id])
+              = link_to t(".navigation.#{stats_type}"), stat_path(stats_type)
+          /li.nav-link= link_to t('.navigation.map'), ''
+    section.main
+      = yield

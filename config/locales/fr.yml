@@ -288,6 +288,7 @@ fr:
       active: Actif
       support: Soutien
       inactive: Inactif
+      future: Future
     billing_interval:
       annual: annuel
       quarterly: trimestriel
@@ -510,3 +511,11 @@ fr:
       next: Suivant &rsaquo;
       previous: "&lsaquo; Précédent"
       truncate: "&hellip;"
+  layouts:
+    stats:
+      navigation:
+        members: Membres
+        deliveries: Distributions
+        baskets: Paniers
+        halfday_works: ½ Journées
+        map: Carte
