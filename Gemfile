@@ -21,6 +21,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'responsive_active_admin'
 
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
 gem 'momentjs-rails'
 gem 'slim'

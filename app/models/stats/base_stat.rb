@@ -9,6 +9,12 @@ class Stats::BaseStat
     @year = year
   end
 
+  def cached_data
+    Rails.cache.fetch "#{self.class.name}-data", expires_in: 1.day do
+      data
+    end
+  end
+
   private
 
   def memberships(includes: [])

@@ -1,6 +1,8 @@
 //= require jquery
+//= require jquery.turbolinks
 //= require highcharts
 //= require highcharts-pattern-fill-v2
+//= require turbolinks
 
 var chartSeries = function() {
   var el = document.getElementById('chart');
