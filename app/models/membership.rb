@@ -125,6 +125,10 @@ class Membership < ActiveRecord::Base
         "Réduction pour #{diff} demi-journées de travail supplémentaires"
       elsif diff < 0
         "#{diff.abs} demi-journées de travail non effectuées"
+      elsif halfday_works_basket_price > 0
+        "Demi-journées de travail non effectuées"
+      else
+        "Demi-journées de travail"
       end
     "#{base} (#{deliveries_count} x #{cur(halfday_works_basket_price)})"
   end
