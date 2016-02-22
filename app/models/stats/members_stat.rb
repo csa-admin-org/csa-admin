@@ -13,10 +13,13 @@ class Stats::MembersStat < Stats::BaseStat
 
   def stats
     @stats ||= {
-      waiting: Member.pending.count + Member.waiting.count,
+      waiting: (
+        Member.pending.count +
+        Member.waiting.count +
+        Member.inactive.joins(:memberships).merge(Membership.future).count
+      ),
       trial: Member.trial.count,
       active: Member.active.count,
-      future: Member.inactive.joins(:memberships).merge(Membership.future).count,
       support: Member.support.count
     }.sort_by { |_k, v| -1 * v }.to_h
   end
