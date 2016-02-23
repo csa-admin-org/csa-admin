@@ -7,16 +7,8 @@ ActiveAdmin.register Gribouille do
     if delivery
       date = delivery.date
       gribouille = delivery.gribouille
-      if Time.now.to_i.in? (date - 12.hours).to_i..date.end_of_day.to_i
-        if gribouille
-          if gribouille.sent_at?
-            panel 'Info' do "<h1>Gribouilles envoyées!</h1>".html_safe end
-          else
-            panel 'Info' do "<h1>Gribouilles en cours d'envoi...</h1>".html_safe end
-          end
-        else
-          panel 'Info' do "<h1>!!! Aucune Gribouilles n'a été envoyées!!!</h1>".html_safe end
-        end
+      if gribouille.sent_at?
+        panel 'Info' do "<h1>Gribouilles envoyées!</h1>".html_safe end
       else
         panel 'Comment que ça marche?' do
           [
