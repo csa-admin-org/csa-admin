@@ -77,11 +77,12 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     port:          '587',
-    address:       'smtp.mandrillapp.com',
-    user_name:     ENV['MANDRILL_USERNAME'],
-    password:      ENV['MANDRILL_APIKEY'],
-    domain:        'heroku.com',
-    authenticatio: :plain
+    address:       ENV['POSTMARK_SMTP_SERVER'],
+    user_name:     ENV['POSTMARK_API_TOKEN'],
+    password:      ENV['POSTMARK_API_TOKEN'],
+    domain:        'ragedevert-admin.herokuapp.com',
+    authenticatio: :cram_md5,
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
