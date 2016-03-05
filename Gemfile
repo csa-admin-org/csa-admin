@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '4.2.5.1'
+gem 'rails', '4.2.5.2'
 gem 'rails-i18n'
 
 source 'https://rails-assets.org' do
@@ -35,7 +35,7 @@ gem 'sucker_punch'
 gem 'facets', require: false
 
 gem 'bourbon'
-gem 'bitters'
+gem 'bitters', '~> 1.2.0'
 gem 'neat'
 gem 'refills'
 

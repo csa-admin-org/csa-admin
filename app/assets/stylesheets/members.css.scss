@@ -39,7 +39,7 @@ p.label {
 section.form {
   @include outer-container;
   margin: 0;
-  height: 375px;
+  height: 435px;
 
   .column-left, .column-right {
     @include span-columns(6);
