@@ -47,7 +47,7 @@ ActiveAdmin.register Invoice do
   end
 
   form do |f|
-    f.inputs :manual_balance
+    f.inputs :manual_balance, as: :number
     f.inputs :note, input_html: { rows: 3 }
     f.actions
   end
