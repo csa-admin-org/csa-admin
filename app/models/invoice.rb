@@ -19,7 +19,7 @@ class Invoice < ActiveRecord::Base
   scope :sent, -> { where.not(sent_at: nil) }
   scope :open, -> { sent.where('balance < amount') }
   scope :closed, -> { sent.where('balance >= amount') }
-  scope :with_overdue_notice, -> { where('overdue_notices_count > 0') }
+  scope :with_overdue_notice, -> { open.where('overdue_notices_count > 0') }
 
   before_validation \
     :set_paid_memberships_amount,
