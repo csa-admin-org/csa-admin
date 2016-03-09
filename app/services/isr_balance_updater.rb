@@ -6,7 +6,7 @@ class IsrBalanceUpdater
   end
 
   def update_all
-    isr_data = raiffeisen.get_isr_data(:new)
+    isr_data = raiffeisen.get_isr_data(:all)
     isr_data.each { |isr| update_invoice(isr) }
   end
 
