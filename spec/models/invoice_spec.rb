@@ -40,10 +40,12 @@ describe Invoice do
 
   describe '#memberships_amounts' do
     let(:invoice) do
-      build(:invoice, memberships_amounts_data: [
-        { 'price' => 12 },
-        { price: 34 }
-      ])
+      build(:invoice,
+        memberships_amounts_data: [
+          { 'price' => 12 },
+          { price: 34 }
+        ]
+      )
     end
 
     specify { expect(invoice.memberships_amounts).to eq 46 }
@@ -139,12 +141,12 @@ describe Invoice do
   it 'sets balance before save' do
     invoice = create(:invoice, :support,
       id: 2,
-      manual_balance: 5.3,
+      manual_balance: -5.3,
       isr_balance_data: {
         'foo' => { 'amount' => 21.0, 'date' => Time.zone.today.to_s },
         'bar' => { 'amount' => 12.5, 'date' => Time.zone.today.to_s }
       }
     )
-    expect(invoice.balance).to eq 21 + 12.5 + 5.3
+    expect(invoice.balance).to eq 21 + 12.5 - 5.3
   end
 end

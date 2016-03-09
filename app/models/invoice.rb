@@ -31,9 +31,7 @@ class Invoice < ActiveRecord::Base
   validates :member, presence: true
   validates :date, presence: true, uniqueness: { scope: :member_id }
   validates :memberships_amount_fraction, inclusion: { in: [1, 2, 3, 4] }
-  validates :manual_balance,
-    presence: true,
-    numericality: { greater_than_or_equal_to: 0 }
+  validates :manual_balance, presence: true, numericality: true
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
     allow_nil: true
