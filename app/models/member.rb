@@ -98,6 +98,10 @@ class Member < ActiveRecord::Base
       .map(&:emails_array).flatten.uniq.compact
   end
 
+  def self.with_current_membership_emails
+    all.with_current_membership.map(&:emails_array).flatten.uniq.compact
+  end
+
   def self.billable
     includes = %i[
       current_year_memberships
