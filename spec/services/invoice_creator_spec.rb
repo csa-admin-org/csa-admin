@@ -78,6 +78,11 @@ describe InvoiceCreator do
       expect(invoice).to be_nil
     end
 
+    specify 'when membership did not started yet' do
+      Timecop.travel(1.day.from_now) { membership.touch(:started_on) }
+      expect(invoice).to be_nil
+    end
+
     specify 'when already billed, but with a membership change' do
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(

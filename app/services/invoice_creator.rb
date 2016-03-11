@@ -19,20 +19,18 @@ class InvoiceCreator
   private
 
   def create_invoice
-    attributes = {
+    attrs = {
       date: date,
       support_amount: support_amount,
       member_billing_interval: member.billing_interval
     }
     if memberships.any?(&:billable?)
-      return if quarter_already_billed?
-      attributes.merge!(
-        memberships_amounts_data: memberships_amounts_data,
-        memberships_amount_description: memberships_amount_description,
-        memberships_amount_fraction: memberships_amount_fraction
-      )
+      return if quarter_already_billed? || memberships_not_started?
+      attrs[:memberships_amounts_data] = memberships_amounts_data
+      attrs[:memberships_amount_description] = memberships_amount_description
+      attrs[:memberships_amount_fraction] = memberships_amount_fraction
     end
-    invoices.create(attributes)
+    invoices.create(attrs)
   end
 
   def support_billed?
@@ -41,6 +39,10 @@ class InvoiceCreator
 
   def support_amount
     Member::SUPPORT_PRICE if !support_billed? && member.support_billable?
+  end
+
+  def memberships_not_started?
+    memberships.map(&:started_on).min > Time.zone.now
   end
 
   def memberships_amounts_data
