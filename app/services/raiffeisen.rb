@@ -22,7 +22,7 @@ class Raiffeisen
         amount: line[40..48].to_i / 100.0,
         data: line
       }
-    }.reject { |h| h[:data].in?(ignored_isr_datas) }
+    }.reject { |h| h[:invoice_id] > 9999999 || h[:data].in?(ignored_isr_datas) }
   end
 
   private

@@ -10,6 +10,9 @@ describe Raiffeisen, :vcr do
       amount: 1075.0,
       data: start_with('0020101373460011041908024100000000014380000107500999')
     )
-    expect(isr_data.size).to eq 88
+    invoice_ids = isr_data.map { |i| i[:invoice_id] }
+    expect(invoice_ids).not_to include(2)
+    expect(invoice_ids).not_to include(999999999999)
+    expect(isr_data.size).to eq 87
   end
 end
