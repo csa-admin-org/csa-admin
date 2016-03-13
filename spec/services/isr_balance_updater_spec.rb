@@ -5,7 +5,7 @@ describe IsrBalanceUpdater do
   let(:data) do
     [
       { invoice_id: 2, amount: 1.15, data: 'foo'  },
-      { invoice_id: 2, amount: 0.95, data: 'bar' },
+      { invoice_id: 2, amount: 0.95, data: 'bar' }
     ]
   end
   before { allow(Raiffeisen).to receive(:new) { raiffeisen } }

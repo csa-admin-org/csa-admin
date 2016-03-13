@@ -5,12 +5,11 @@ describe Raiffeisen, :vcr do
 
   specify '#get_isr_data' do
     isr_data = raiffeisen.get_isr_data(:all)
-    expect(isr_data).to match(
-      [
-        { invoice_id: 2,   amount: 1.15,   data: String },
-        { invoice_id: 2,   amount: 0.95,   data: String },
-        { invoice_id: 706, amount: 123.45, data: String }
-      ]
+    expect(isr_data).to include(
+      invoice_id: 143,
+      amount: 1075.0,
+      data: start_with('0020101373460011041908024100000000014380000107500999')
     )
+    expect(isr_data.size).to eq 88
   end
 end

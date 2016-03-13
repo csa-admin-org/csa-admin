@@ -1,5 +1,5 @@
 class Raiffeisen
-  URL = 'https://ebanking.raiffeisen.ch'
+  URL = 'https://ebanking.raiffeisen.ch'.freeze
   P12 = Rails.root.join('config', 'raiffeisen.p12').to_s
 
   attr_reader :client
@@ -13,17 +13,16 @@ class Raiffeisen
     login
   end
 
-  def get_isr_data(type = :new)
+  def get_isr_data(type = :all)
     raw_data = new_isr_download(type)
-    lines = raw_data.split("\r\n").select { |l| l.start_with?('002010137346') }
-    lines.map do |line|
-      line = line.delete(' ').gsub(/^002010137346/, '')
+    lines = raw_data.delete(' ').split("\r\n")
+    lines.map { |line|
       {
-        invoice_id: line[14..25].to_i,
-        amount: line[27..36].to_i / 100.0,
-        data: line,
+        invoice_id: line[26..37].to_i,
+        amount: line[40..48].to_i / 100.0,
+        data: line
       }
-    end
+    }.reject { |h| h[:data].in?(ignored_isr_datas) }
   end
 
   private
@@ -44,5 +43,11 @@ class Raiffeisen
   def ssl_options
     p12 = OpenSSL::PKCS12.new File.read(P12)
     { client_cert: p12.certificate, client_key: p12.key }
+  end
+
+  def ignored_isr_datas
+    path = Rails.root.join('config/ignored_isr.yml')
+    file = File.read(path)
+    YAML.load(file)
   end
 end
