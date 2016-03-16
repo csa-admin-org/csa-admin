@@ -175,9 +175,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_isr_balance_and_balance
-    self[:isr_balance] = isr_balance_data.deep_symbolize_keys.sum { |_k, data|
-      data[:amount]
-    }
+    self[:isr_balance] = isr_balance_data.values.sum
     self[:balance] = isr_balance.to_f + manual_balance.to_f
   end
 end

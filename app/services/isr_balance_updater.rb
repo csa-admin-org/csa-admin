@@ -8,24 +8,27 @@ class IsrBalanceUpdater
   end
 
   def update_all
-    isr_data = raiffeisen.get_isr_data(:all)
-    isr_data.each { |isr| update_invoice(isr) }
+    raiffeisen
+      .get_isr_data(:all)
+      .group_by { |isr| isr.delete(:invoice_id) }
+      .each { |invoice_id, isrs| update_invoice(invoice_id, isrs) }
   end
 
   private
 
-  def update_invoice(isr)
-    invoice = Invoice.find(isr[:invoice_id])
-    invoice.isr_balance_data[isr[:data]] ||=
-      isr.slice(:amount).merge(date: Time.zone.today)
-    invoice.save!
+  def update_invoice(invoice_id, isrs)
+    invoice = Invoice.find(invoice_id)
+    data = isrs.map.with_index { |isr, index|
+      ["#{index}-#{isr[:data]}", isr[:amount]]
+    }.to_h
+    invoice.update!(isr_balance_data: data)
   rescue => ex
-    report_error(ex, isr)
+    report_error(ex, invoice_id)
   end
 
-  def report_error(ex, isr)
+  def report_error(ex, invoice_id)
     error = InvoiceIsrBalanceUpdateError.new(
-      "Issue with invoice id: #{isr[:invoice_id]}, " \
+      "Issue with invoice id: #{invoice_id}, " \
       "error: #{ex.message} " \
       "backtrace: #{ex.backtrace.inspect}"
     )

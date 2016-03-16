@@ -143,8 +143,8 @@ describe Invoice do
       id: 2,
       manual_balance: -5.3,
       isr_balance_data: {
-        'foo' => { 'amount' => 21.0, 'date' => Time.zone.today.to_s },
-        'bar' => { 'amount' => 12.5, 'date' => Time.zone.today.to_s }
+        '0-foo' => 21.0,
+        '1-bar' => 12.5
       }
     )
     expect(invoice.balance).to eq 21 + 12.5 - 5.3
