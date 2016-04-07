@@ -23,6 +23,7 @@ describe InvoiceCreator do
       expect(invoice.member_billing_interval).to eq member.billing_interval
       expect(invoice.memberships_amount).to be_nil
       expect(invoice.amount).to eq invoice.support_amount
+      expect(invoice.pdf).to be_present
     end
   end
 
@@ -63,6 +64,7 @@ describe InvoiceCreator do
         'description' => membership.description,
         'price' => membership.price
       )
+      expect(invoice.pdf).to be_present
     end
 
     specify 'when salary basket & support member' do
@@ -70,6 +72,7 @@ describe InvoiceCreator do
 
       expect(invoice.support_amount).to be_present
       expect(invoice.memberships_amount).to be_nil
+      expect(invoice.pdf).to be_present
     end
 
     specify 'when already billed' do

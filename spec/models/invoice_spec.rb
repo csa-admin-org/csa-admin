@@ -132,10 +132,13 @@ describe Invoice do
     end
   end
 
-  it 'generates and sets pdf after creation' do
-    invoice = create(:invoice, :support)
-    expect(invoice.pdf).to be_present
-    expect(invoice.pdf.size).to be > 0
+  describe '#set_pdf' do
+    it 'generates and sets pdf' do
+      invoice = create(:invoice, :support)
+      invoice.set_pdf
+      expect(invoice.pdf).to be_present
+      expect(invoice.pdf.size).to be > 0
+    end
   end
 
   it 'sets balance before save' do

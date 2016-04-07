@@ -50,7 +50,6 @@ class Invoice < ActiveRecord::Base
   validate :validate_memberships_amount_for_current_year, on: :create
 
   before_save :set_isr_balance_and_balance
-  after_create :generate_and_set_pdf
 
   def status
     return :not_sent unless sent_at?
@@ -97,6 +96,12 @@ class Invoice < ActiveRecord::Base
     self[:memberships_amounts_data] = data && data.each do |hash|
       hash[:price] = hash[:price].round_to_five_cents if hash[:price]
     end
+  end
+
+  def set_pdf
+    invoice_pdf = InvoicePdf.new(self, nil)
+    virtual_file = VirtualFile.new(invoice_pdf.render, "invoice-#{id}.pdf")
+    update_attribute(:pdf, virtual_file)
   end
 
   def send_email
@@ -166,12 +171,6 @@ class Invoice < ActiveRecord::Base
       @original_filename = original_filename
       super(string)
     end
-  end
-
-  def generate_and_set_pdf
-    invoice_pdf = InvoicePdf.new(self, nil)
-    virtual_file = VirtualFile.new(invoice_pdf.render, "invoice-#{id}.pdf")
-    update_attribute(:pdf, virtual_file)
   end
 
   def set_isr_balance_and_balance
