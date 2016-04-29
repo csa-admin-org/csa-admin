@@ -1,8 +1,8 @@
 module HalfdayWorksHelper
   def display_periods(halfday_work)
     case halfday_work.periods.sort.join('')
-    when 'ampm' then '8:00 - 17:30'
-    when 'am' then '8:00 - 12:00'
+    when 'ampm' then '8:30 - 17:30'
+    when 'am' then '8:30 - 12:00'
     when 'pm' then '13:30 - 17:30'
     end
   end
