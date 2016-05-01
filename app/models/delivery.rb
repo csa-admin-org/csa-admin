@@ -12,7 +12,7 @@ class Delivery < ActiveRecord::Base
     where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year + 1}")
   }
 
-  scope :coming, -> { where('date >= ?', Time.zone.today)}
+  scope :coming, -> { where('date >= ?', Time.zone.today) }
   scope :between,
     ->(range) { where('date >= ? AND date <= ?', range.first, range.last) }
 

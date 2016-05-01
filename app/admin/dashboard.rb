@@ -82,7 +82,7 @@ ActiveAdmin.register_page 'Dashboard' do
             'Restant à facturer',
           ]
           table_for types do
-            column('Facturation (Nouveau Système)') { |type| type }
+            column('Facturation') { |type| type }
             column('', class: 'align-right') do |type|
               case type
               when /Facturé/

@@ -77,6 +77,7 @@ class Member < ActiveRecord::Base
     where('members.id IN (?) OR waiting_distribution_id = ?',
       ids, distribution_id)
   }
+  scope :paid_basket, -> { where(salary_basket: false) }
 
   validates :billing_interval,
     presence: true,

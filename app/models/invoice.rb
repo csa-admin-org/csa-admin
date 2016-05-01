@@ -92,6 +92,36 @@ class Invoice < ActiveRecord::Base
     (memberships_amounts_data || []).sum { |m| m.symbolize_keys[:price] }
   end
 
+  def memberships_quarter_basket_amount(basket_id)
+    amount =
+      (memberships_amounts_data || [])
+        .select { |m| m['basket_id'] == basket_id }
+        .sum { |m| m['basket_total_price'].to_f }
+    quarter_amount(amount)
+  end
+
+  def memberships_quarter_distribution_amount(distribution_ids)
+    amount =
+      (memberships_amounts_data || [])
+        .select { |m| m['distribution_id'].in?(distribution_ids) }
+        .sum { |m| m['distribution_total_price'].to_f }
+    quarter_amount(amount)
+  end
+
+  def memberships_quarter_halfday_works_amount
+    amount =
+      (memberships_amounts_data || [])
+        .sum { |m| m['halfday_works_total_price'].to_f }
+    quarter_amount(amount)
+  end
+
+  def quarter_amount(amount)
+    case member_billing_interval
+    when 'annual' then amount
+    when 'quarterly' then amount / 4.0
+    end
+  end
+
   def memberships_amounts_data=(data)
     self[:memberships_amounts_data] = data && data.each do |hash|
       hash[:price] = hash[:price].round_to_five_cents if hash[:price]
