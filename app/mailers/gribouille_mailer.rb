@@ -1,8 +1,9 @@
 class GribouilleMailer < ApplicationMailer
   layout false
 
-  def basket(gribouille, email)
+  def basket(gribouille, member, email)
     @gribouille = gribouille
+    @member = member
     mail \
       to: email,
       subject: "Gribouille du #{l gribouille.delivery.date, format: :short}"

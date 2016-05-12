@@ -20,7 +20,9 @@ class Member < ActiveRecord::Base
     class_name: 'Membership'
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
-  has_one :future_membership, -> { future }, class_name: 'Membership'
+  has_one :future_membership,
+    -> { future_current_year },
+    class_name: 'Membership'
 
   accepts_nested_attributes_for :memberships
 
@@ -94,9 +96,12 @@ class Member < ActiveRecord::Base
 
   before_save :build_membership
 
+  def self.gribouille
+    all.includes(:current_membership, :future_membership).select(&:gribouille?)
+  end
+
   def self.gribouille_emails
-    all.includes(:current_membership).select(&:gribouille?)
-      .map(&:emails_array).flatten.uniq.compact
+    gribouille.map(&:emails_array).flatten.uniq.compact
   end
 
   def self.with_current_membership_emails
@@ -215,8 +220,10 @@ class Member < ActiveRecord::Base
 
   def gribouille?
     gribouille = read_attribute(:gribouille)
-    (status.in?(%i[waiting trial active support]) &&
-      gribouille != false) || gribouille == true
+    gribouille == true || (
+      (waiting? || current_membership || future_membership || support?) &&
+      gribouille != false
+    )
   end
 
   def absent?(date)

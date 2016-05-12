@@ -2,11 +2,15 @@ doctype html
 html
   head
     meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
-    style type='text/css'= 'h1 { font-size: 105%; }'
+    style type='text/css'= 'h1 { font-size: 105%; } em { font-size: 95%; }'
   body
     = @gribouille.header.html_safe
 
     h1 Contenu du panier
+    - if @member.waiting?
+      em= "Vous êtes actuellement sur liste d'attente."
+    - elsif @member.future_membership
+      em= "Votre abonnement commencera avec le panier du #{l @member.future_membership.first_delivery.date, format: :short}."
     = @gribouille.basket_content.html_safe
 
     - if @gribouille.fields_echo.present?
@@ -20,3 +24,5 @@ html
     - if @gribouille.footer.present?
       h1 Le mot de la faim
       = @gribouille.footer.html_safe
+    <br/>
+      em N'hésitez pas à nous contacter en cas de questions ou remarques sur la gribouille en répondant simplement à cet email. Merci.

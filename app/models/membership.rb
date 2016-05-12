@@ -24,7 +24,7 @@ class Membership < ActiveRecord::Base
   scope :started, -> { where('started_on < ?', Time.zone.now) }
   scope :past, -> { where('ended_on < ?', Time.zone.now) }
   scope :future, -> { where('started_on > ?', Time.zone.now) }
-  scope :future_current_year, -> { future.during_year(Date.today.year) }
+  scope :future_current_year, -> { future.current_year }
   scope :renew, -> { during_year(Time.zone.today.next_year.year) }
   scope :current, -> { including_date(Time.zone.today) }
   scope :current_year, -> { during_year(Date.today.year) }
@@ -134,6 +134,10 @@ class Membership < ActiveRecord::Base
         "Demi-journées de travail"
       end
     "#{base} (#{deliveries_count} x #{cur(halfday_works_basket_price)})"
+  end
+
+  def first_delivery
+    Delivery.between(started_on..ended_on).first
   end
 
   def deliveries_count

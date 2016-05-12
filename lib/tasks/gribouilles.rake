@@ -5,11 +5,16 @@ namespace :gribouilles do
     if next_delivery && Time.zone.today == (next_delivery.date - 1.day)
       gribouille = next_delivery.gribouille
       if gribouille&.deliverable?
-        Member.gribouille_emails.each do |email|
-          begin
-            GribouilleMailer.basket(gribouille, email).deliver_now
-          rescue => ex
-            ExceptionNotifier.notify_exception(ex, data: { email: email })
+        Member.gribouille.each do |member|
+          member.emails_array.each do |email|
+            begin
+              GribouilleMailer.basket(gribouille, member, email).deliver_now
+            rescue => ex
+              ExceptionNotifier.notify_exception(
+                ex,
+                data: { email: email, member: member }
+              )
+            end
           end
         end
         gribouille.touch(:sent_at)
