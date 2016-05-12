@@ -1,6 +1,8 @@
 require 'rounding'
 
 class Invoice < ActiveRecord::Base
+  NoPdfError = Class.new(StandardError)
+
   attr_accessor :memberships_amount_fraction
 
   belongs_to :member
@@ -135,6 +137,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def send_email
+    raise NoPdfError unless pdf?
     unless sent_at? || !member.emails?
       InvoiceMailer.new_invoice(self).deliver_now
       touch(:sent_at)
