@@ -290,7 +290,7 @@ class Member < ActiveRecord::Base
   end
 
   def trial?
-    current_membership == first_membership &&
+    memberships.count == 1 && first_membership &&
       first_membership.deliveries_received_count <= TRIAL_DELIVERIES
   end
 
@@ -300,17 +300,18 @@ class Member < ActiveRecord::Base
 
   def billable?
     support? ||
-      (!salary_basket? && current_year_memberships.present? && !trial?)
+      (!salary_basket? && current_year_memberships.present? && !trial?) ||
+      (trial? && !current_membership)
   end
 
   def support_billable?
     billable? &&
       (support? ||
-        (active? &&
-          memberships.to_a.sum(&:deliveries_received_count) > 4 ||
-          deliveries_received_count_since_first_membership == TRIAL_DELIVERIES
-        )
-      )
+        (active? && memberships.to_a.sum(&:deliveries_received_count) > 4))
+  end
+
+  def billing_interval
+    trial? ? 'annual' : self[:billing_interval]
   end
 
   private

@@ -61,7 +61,7 @@ class Membership < ActiveRecord::Base
   end
 
   def billable?
-    price > 0 && !member.trial?
+    price > 0
   end
 
   def current?

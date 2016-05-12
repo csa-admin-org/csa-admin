@@ -131,4 +131,12 @@ describe Member do
 
     specify { expect(member.absent?(Date.tomorrow)).to eq true }
   end
+
+  describe '#billing_interval' do
+    it 'always returns annual when in trial' do
+      member = create(:member, :trial, billing_interval: 'quarterly')
+      member.reload
+      expect(member.billing_interval).to eq('annual')
+    end
+  end
 end
