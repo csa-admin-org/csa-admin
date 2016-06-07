@@ -20,8 +20,8 @@ describe InvoicePdf do
     expect(pdf).to include 'Banque Raiffeisen du Vignoble'
     expect(pdf).to include '2023 Gorgier'
     expect(pdf).to include 'Association Rage de Vert'
-    expect(pdf).to include 'Pertuis-du-Sault 1'
-    expect(pdf).to include '2001 Neuchâtel 1'
+    expect(pdf).to include 'Closel-Bourbon 3'
+    expect(pdf).to include '2075 Thielle'
     expect(pdf).to include "N° facture: #{invoice.id}"
     expect(pdf).to include '01-13734-6'
     expect(pdf).to include isr_ref.ref

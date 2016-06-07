@@ -13,7 +13,7 @@ class InvoicePdf < Prawn::Document
     CreationDate: Time.zone.now
   }
   PAYMENT_FOR = "Banque Raiffeisen du Vignoble\n2023 Gorgier"
-  IN_FAVOR_OF = "Association Rage de Vert\nPertuis-du-Sault 1\n2001 Neuchâtel 1"
+  IN_FAVOR_OF = "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle"
 
   def initialize(invoice, view)
     super(page_size: 'A4', margin: [0, 0, 0, 0], info: INFO)
