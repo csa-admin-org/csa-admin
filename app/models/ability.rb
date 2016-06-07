@@ -10,7 +10,7 @@ class Ability
       cannot :manage, [Basket, Delivery]
       can :manage, [HalfdayWork, HalfdayWorkDate, Absence]
       can :create, [Gribouille, Member, Membership, Distribution]
-      can :update, [Gribouille, Invoice, Member, Distribution]
+      can :update, [Gribouille, Invoice, Member]
       can :destroy, [Member, Membership], can_destroy?: true
       can :update, Membership, can_update?: true
     end
