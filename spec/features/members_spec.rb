@@ -10,6 +10,7 @@ feature 'members page' do
   context 'existing member token' do
     before { create(:halfday_work_date, date: Time.zone.today, periods: %w[am pm]) }
     before { visit "/#{member.token}" }
+
     scenario 'add new halfday work' do
       check 'halfday_work_period_am'
       check 'halfday_work_period_pm'
@@ -18,6 +19,27 @@ feature 'members page' do
 
       expect(page)
         .to have_content "#{I18n.l Time.zone.today, format: :long}8:30 - 17:303"
+    end
+
+    scenario 'add new halfday work with carpooling' do
+      check 'halfday_work_period_am'
+      check 'halfday_work_period_pm'
+      fill_in 'halfday_work_participants_count', with: 3
+      check 'halfday_work_carpooling'
+      fill_in 'carpooling_phone', with: '077 447 58 31'
+      click_button 'Inscription'
+
+      expect(page).to have_content 'oui (077 447 58 31)'
+    end
+
+    scenario 'add new halfday work with carpooling (default phone)' do
+      check 'halfday_work_period_am'
+      check 'halfday_work_period_pm'
+      fill_in 'halfday_work_participants_count', with: 3
+      check 'halfday_work_carpooling'
+      click_button 'Inscription'
+
+      expect(page).to have_content "oui (#{member.phones_array.first})"
     end
 
     scenario 'remove halfday work' do

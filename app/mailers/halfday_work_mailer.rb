@@ -3,6 +3,7 @@ class HalfdayWorkMailer < ApplicationMailer
 
   def coming(halfday_work)
     @halfday_work = halfday_work
+    @halfday_works_with_carpooling = HalfdayWork.carpooling(halfday_work.date)
     @member = halfday_work.member
     mail(to: @member.emails, subject: subject('à venir'))
   end

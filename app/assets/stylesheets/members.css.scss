@@ -58,6 +58,28 @@ section.form {
   input.participants_count {
     width: 50px;
   }
+  label i {
+    margin-left: 5px;
+  }
+
+  label.carpooling, label.carpooling_phone {
+    font-weight: normal;
+  }
+  label.carpooling_phone {
+    span {
+      padding-top: 7px;
+      float: left;
+      width: 40px;
+    }
+  }
+  input#carpooling_phone_text {
+    float: left;
+    width: 200px;
+  }
+}
+
+input[type='submit'] {
+  margin-top: 15px;
 }
 
 label.disabled {
@@ -72,6 +94,60 @@ section.past {
     color: #aaa;
   }
 }
+
+//The good stuff
+.tooltip-toggle {
+  cursor: pointer;
+  position: relative;
+
+  //Tooltip text container
+  &::before {
+    position: absolute;
+    top: -170px;
+    left: -115px;
+    background-color: #2B222A;
+    border-radius: 5px;
+    color: #fff;
+    content: attr(data-tooltip); //This pulls in the text from the element with the tooltip
+    padding: 1rem;
+    text-transform: none;
+    transition: all 0.5s ease;
+    width: 300px;
+  }
+
+  //Tooltip arrow
+  &::after {
+    position: absolute;
+    top: -12px;
+    left: 9px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #2B222A;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+    margin-left: -5px;
+    width: 0;
+  }
+
+  //Setting up the transition
+  &::before,
+  &::after {
+    color: #efefef;
+    font-size: $base-font-size * 0.9;
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+  }
+
+  //Triggering the transition
+  &:hover::before,
+  &:hover::after {
+    opacity: 1;
+    transition: all 0.75s ease;
+  }
+}
+
 
 @import 'refills/navigation';
 @import 'refills/table';

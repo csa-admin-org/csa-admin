@@ -17,6 +17,7 @@ section
           th.date Date
           th.periods Horaire
           th.participants_count Participants
+          th.carpooling Covoiturage
           th
       tbody
       - @member.halfday_works.coming_for_member.each do |halfday_work|
@@ -24,6 +25,7 @@ section
           td=l halfday_work.date, format: :long
           td= display_periods halfday_work
           td= halfday_work.participants_count
+          td= halfday_work.carpooling? ? "oui (#{halfday_work.carpooling_phone})" : 'non'
           td
             = button_to [:members, @member, halfday_work], method: :delete do
               span style='display: none' Effacer
@@ -54,6 +56,17 @@ section
         p
           label Nbr. de participants
           = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count'
+        p
+          label#title
+            = 'Covoiturage'
+            span.tooltip-toggle data-tooltip="Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour."
+              i.fa.fa-info-circle
+          label.carpooling
+            = f.check_box :carpooling
+            = "Je viens en voiture et j'ai de la place!"
+          label.carpooling_phone
+            span= 'Tél.:'
+            = f.text_field :carpooling_phone, { id: 'carpooling_phone', placeholder: @member.phones_array.first }
 
         = f.submit 'Inscription'
 

@@ -3,6 +3,8 @@ class HalfdayWork < ActiveRecord::Base
   PERIODS = %w[am pm].freeze
   PRICE = 60
 
+  attr_reader :carpooling
+
   belongs_to :member
   belongs_to :validator, class_name: 'Admin'
 
@@ -24,6 +26,7 @@ class HalfdayWork < ActiveRecord::Base
       Date.new(year).end_of_year
     )
   }
+  scope :carpooling, -> (date) { where(date: date).where.not(carpooling_phone: nil) }
 
   validates :member_id, :date, presence: true
   validate :periods_include_good_value
@@ -34,6 +37,7 @@ class HalfdayWork < ActiveRecord::Base
   validates :period_pm, absence: { if: -> { available_periods.exclude?('pm') } }
   validate :participants_limit_must_not_be_reached, unless: :validated_at?
 
+  before_create :set_carpooling_phone
   after_update :send_notifications
 
   def status
@@ -56,6 +60,14 @@ class HalfdayWork < ActiveRecord::Base
 
   def value
     periods.size * participants_count
+  end
+
+  def carpooling=(carpooling)
+    @carpooling = carpooling
+  end
+
+  def carpooling?
+    carpooling_phone
   end
 
   def validate!(validator)
@@ -112,6 +124,16 @@ class HalfdayWork < ActiveRecord::Base
     end
   end
 
+  def set_carpooling_phone
+    if @carpooling
+      if carpooling_phone.blank?
+        self.carpooling_phone = member.phones_array.first
+      end
+    else
+      self.carpooling_phone = nil
+    end
+  end
+
   def send_notifications
     if validated_at_changed? && validated_at?
       HalfdayWorkMailer.validated(self).deliver_now
@@ -120,8 +142,6 @@ class HalfdayWork < ActiveRecord::Base
       HalfdayWorkMailer.rejected(self).deliver_now
     end
   end
-
-  private
 
   def participants_limit_must_not_be_reached
     if halfday_work_date && (period_am || period_pm)

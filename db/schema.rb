@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120191040) do
+ActiveRecord::Schema.define(version: 20160606184813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20160120191040) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "rejected_at"
+    t.string   "carpooling_phone"
   end
 
   add_index "halfday_works", ["date"], name: "index_halfday_works_on_date", using: :btree

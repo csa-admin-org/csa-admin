@@ -150,4 +150,25 @@ describe HalfdayWork do
     specify { expect(halfday_work.am?).to eq false }
     specify { expect(halfday_work.pm?).to eq true }
   end
+
+  describe '#carpooling=' do
+    before { create(:halfday_work_date, date: Time.zone.today) }
+    let(:halfday_work) {
+      build(:halfday_work, date: Time.zone.today, member: member, periods: ['am'])
+    }
+
+    it 'sets first member phones if carpooling_phone is blank' do
+      halfday_work.carpooling = true
+      halfday_work.carpooling_phone = ''
+      halfday_work.save
+      expect(halfday_work.carpooling_phone).to eq member.phones_array.first
+    end
+
+    it 'uses carpooling_phone when present' do
+      halfday_work.carpooling = true
+      halfday_work.carpooling_phone = '077 123 41 12'
+      halfday_work.save
+      expect(halfday_work.carpooling_phone).to eq '077 123 41 12'
+    end
+  end
 end

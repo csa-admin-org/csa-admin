@@ -57,11 +57,15 @@ table.halfday_works {
     }
 
     th.date {
-      width: 50%
+      width: 30%
     }
     th.periods, th.participants_count {
       min-width: 120px;
-      width: 20%;
+      width: 18%;
+    }
+    th.carpooling {
+      min-width: 200px;
+      width: 30%;
     }
   }
 

@@ -8,4 +8,11 @@ Merci de noter que le de rendez-vous sont à Thielle, devant le grand chêne à 
 Direction Google Maps: https://goo.gl/S7XIEZ
 En cas de doute vous pouvez contacter les jardiniers au 077 447 26 16.
 
+<% if @halfday_works_with_carpooling.any? %>
+Covoiturage, les membres suivants se déplacent en voiture, n'hésitez pas à prendre contact avec eux:
+<% @halfday_works_with_carpooling.each do |halfday_work| %>
+- <%= halfday_work.member.name %>: <%= halfday_work.carpooling_phone %> (<%= display_periods halfday_work %>)
+<% end %>
+<% end %>
+
 Modifier vos ½ journées à tout moment sur: <%= members_member_url(@member) %>

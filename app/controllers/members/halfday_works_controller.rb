@@ -23,6 +23,6 @@ class Members::HalfdayWorksController < Members::ApplicationController
   def halfday_work_params
     params
       .require(:halfday_work)
-      .permit(%i[date period_am period_pm participants_count])
+      .permit(%i[date period_am period_pm participants_count carpooling carpooling_phone])
   end
 end
