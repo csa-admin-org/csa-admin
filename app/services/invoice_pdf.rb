@@ -185,7 +185,7 @@ class InvoicePdf < Prawn::Document
     bounding_box [0, 300], width: bounds.width, height: 50 do
       text \
         '<b>Association Rage de Vert</b>, ' +
-          'CP 1665, 2001 Neuchâtel /// ' +
+          'Closel-Bourbon 3, 2075 Thielle /// ' +
           'info@ragedevert.ch, 076 481 13 84',
         inline_format: true,
         align: :center
