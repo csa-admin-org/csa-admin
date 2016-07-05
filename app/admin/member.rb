@@ -90,6 +90,14 @@ ActiveAdmin.register Member do
   filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
 
 
+  action_item :memberships, only: :show do
+    link_to 'Abonnements', memberships_path(q: { member_id_eq: member.id }, scope: :all)
+  end
+  action_item :invoices, only: :show do
+    link_to 'Factures', invoices_path(q: { member_id_eq: member.id }, scope: :all)
+  end
+
+
   form do |f|
     f.inputs 'Details' do
       f.input :first_name
