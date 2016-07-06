@@ -106,7 +106,7 @@ describe Member do
 
   describe '#name' do
     subject { Member.new(first_name: 'John', last_name: 'Doe').name }
-    it { is_expected.to eq 'John Doe' }
+    it { is_expected.to eq 'Doe John' }
   end
 
   describe '#emails= / #emails' do
