@@ -3,7 +3,10 @@ class InvoiceMailer < ApplicationMailer
 
   def new_invoice(invoice)
     @invoice = invoice
-    attachments.inline[invoice_filename] = invoice_pdf
+    attachments[invoice_filename] = {
+      mime_type: 'application/pdf',
+      content: invoice_pdf
+    }
     mail(
       to: invoice.member.emails,
       subject: "Rage de Vert: Nouvelle facture ##{invoice.id}"
@@ -12,7 +15,10 @@ class InvoiceMailer < ApplicationMailer
 
   def overdue_notice(invoice)
     @invoice = invoice
-    attachments.inline[invoice_filename] = invoice_pdf
+    attachments[invoice_filename] = {
+      mime_type: 'application/pdf',
+      content: invoice_pdf
+    }
     subject = "Rappel ##{invoice.overdue_notices_count} facture ##{invoice.id}"
     mail(
       to: invoice.member.emails,
