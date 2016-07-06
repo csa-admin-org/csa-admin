@@ -157,15 +157,21 @@ describe HalfdayWork do
       build(:halfday_work, date: Time.zone.today, member: member, periods: ['am'])
     }
 
+    it 'does not set carpooling_phone if carpooling = 0' do
+      halfday_work.carpooling = '0'
+      halfday_work.save
+      expect(halfday_work.carpooling_phone).to be_nil
+    end
+
     it 'sets first member phones if carpooling_phone is blank' do
-      halfday_work.carpooling = true
+      halfday_work.carpooling = '1'
       halfday_work.carpooling_phone = ''
       halfday_work.save
       expect(halfday_work.carpooling_phone).to eq member.phones_array.first
     end
 
     it 'uses carpooling_phone when present' do
-      halfday_work.carpooling = true
+      halfday_work.carpooling = '1'
       halfday_work.carpooling_phone = '077 123 41 12'
       halfday_work.save
       expect(halfday_work.carpooling_phone).to eq '077 123 41 12'

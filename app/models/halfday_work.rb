@@ -63,7 +63,7 @@ class HalfdayWork < ActiveRecord::Base
   end
 
   def carpooling=(carpooling)
-    @carpooling = carpooling
+    @carpooling = carpooling == '1'
   end
 
   def carpooling?

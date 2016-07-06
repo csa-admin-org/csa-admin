@@ -19,6 +19,7 @@ feature 'members page' do
 
       expect(page)
         .to have_content "#{I18n.l Time.zone.today, format: :long}8:30 - 17:303"
+      expect(page).not_to have_content "oui (#{member.phones_array.first})"
     end
 
     scenario 'add new halfday work with carpooling' do
