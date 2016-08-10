@@ -67,8 +67,10 @@ ActiveAdmin.register HalfdayWork do
     end
 
     before_create do |halfday_work|
-      halfday_work.validated_at = Time.zone.now
-      halfday_work.validator = current_admin
+      if halfday_work.date.past?
+        halfday_work.validated_at = Time.zone.now
+        halfday_work.validator = current_admin
+      end
     end
 
     def create
