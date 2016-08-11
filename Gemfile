@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.1'
 
-gem 'rails', '4.2.5.2'
+gem 'rails', '4.2.7.1'
 gem 'rails-i18n'
 
 source 'https://rails-assets.org' do
@@ -44,9 +44,9 @@ gem 'devise-i18n'
 
 gem 'uglifier'
 gem 'jbuilder'
-gem 'google_drive'
-gem 'google-api-client'
-gem 'google_maps_geocoder'
+gem 'google_drive', '~> 1.0.6'
+gem 'google-api-client', '~> 0.7.1'
+gem 'google_maps_geocoder', '~> 0.3.1'
 
 gem 'icalendar'
 
