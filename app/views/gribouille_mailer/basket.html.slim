@@ -2,7 +2,7 @@ doctype html
 html
   head
     meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
-    style type='text/css'= 'h1 { font-size: 105%; } em { font-size: 95%; }'
+    style type='text/css'= 'h1{font-size:110%;margin-top:30px;} em{font-size:95%;}'
   body
     = @gribouille.header.html_safe
 
@@ -24,6 +24,23 @@ html
     - if @gribouille.footer.present?
       h1 Le mot de la faim
       = @gribouille.footer.html_safe
+
+    - dates = HalfdayWorkDate.coming_dates_for_gribouille(@member)
+    - if dates.any?
+      h1 ½ journée de travail à venir
+      ul
+        - dates.each do |date|
+         li
+           =(l date[:halfday_work_date].date, format: :long).capitalize
+           = ', '
+           - if date[:halfday_work]
+             b
+              = "insrit pour #{display_periods(date[:halfday_work])}, "
+              =t :person, count: date[:halfday_work].participants_count
+           - else
+             = display_periods(date[:halfday_work_date])
+      p= link_to 'Inscription', members_member_url(@member)
+
     br
     br
     em N'hésitez pas à nous contacter en cas de questions ou remarques sur la gribouille en répondant simplement à cet email. Merci.

@@ -1,4 +1,7 @@
 fr:
+  person:
+    one: "1 personne"
+    other: "%{count} personnes"
   active_admin:
     dashboard: "Tableau de bord"
     dashboard_welcome:
@@ -333,7 +336,7 @@ fr:
     - samedi
     formats:
       default: ! '%e %B %Y'
-      long: ! '%A, %e %B %Y'
+      long: ! '%A %e %B %Y'
       short: ! '%e %B'
       number: '%d.%m.%Y'
     month_names:

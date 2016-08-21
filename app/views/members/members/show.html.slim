@@ -7,7 +7,7 @@ section
       b= "#{@member.validated_halfday_works}/#{@member.annual_halfday_works}"
 
 section
-  h2 ½ journée de travail à venir
+  h2 ½ journées de travail à venir
   - if @member.halfday_works.coming_for_member.empty?
     p.table-empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
@@ -22,7 +22,7 @@ section
       tbody
       - @member.halfday_works.coming_for_member.each do |halfday_work|
         tr
-          td=l halfday_work.date, format: :long
+          td=(l halfday_work.date, format: :long).capitalize
           td= display_periods halfday_work
           td= halfday_work.participants_count
           td= halfday_work.carpooling? ? "oui (#{halfday_work.carpooling_phone})" : 'non'
@@ -71,7 +71,7 @@ section
         = f.submit 'Inscription'
 
 section.past
-  h2 ½ journée de travail effectuées
+  h2 ½ journées de travail effectuées
   - if @member.halfday_works.past.empty?
     p.table-empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else
@@ -85,7 +85,7 @@ section.past
       - @member.halfday_works.past.each do |halfday_work|
         tr class="#{halfday_work.rejected? ? 'rejected' : ''}"
           td
-            =l halfday_work.date, format: :long
+            =(l halfday_work.date, format: :long).capitalize
             - if halfday_work.pending?
               span= ' (en attente de validation)'
             - elsif halfday_work.rejected?
