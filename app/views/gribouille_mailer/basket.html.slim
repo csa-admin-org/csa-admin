@@ -27,18 +27,23 @@ html
 
     - dates = HalfdayWorkDate.coming_dates_for_gribouille(@member)
     - if dates.any?
-      h1 ½ journée de travail à venir
+      h1 ½ journées de travail
+      p
+        = 'Voici les ½ journées de travail à venir pour lesquelles nous avons encore besoin de monde.'
+        br
+        = 'En gras, les ½ journées auxquelles vous êtes déjà inscrit.'
       ul
         - dates.each do |date|
-         li
-           =(l date[:halfday_work_date].date, format: :long).capitalize
-           = ', '
-           - if date[:halfday_work]
-             b
-              = "insrit pour #{display_periods(date[:halfday_work])}, "
-              =t :person, count: date[:halfday_work].participants_count
-           - else
-             = display_periods(date[:halfday_work_date])
+          li
+            - if date[:halfday_work]
+              b
+                =(l date[:halfday_work_date].date, format: :long).capitalize
+                = ", insrit pour #{display_periods(date[:halfday_work])}, "
+                =t :person, count: date[:halfday_work].participants_count
+            - else
+              =(l date[:halfday_work_date].date, format: :long).capitalize
+              = ', '
+              = display_periods(date[:halfday_work_date])
       p= link_to 'Inscription', members_member_url(@member)
 
     br
