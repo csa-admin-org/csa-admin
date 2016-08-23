@@ -4,26 +4,26 @@ html
     meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
     style type='text/css'= 'h1{font-size:110%;margin-top:30px;} em{font-size:95%;}'
   body
-    = @gribouille.header.html_safe
+    == gribouille_content(@gribouille.header)
 
     h1 Contenu du panier
     - if @member.waiting?
       em= "Vous êtes actuellement sur liste d'attente."
     - elsif @member.future_membership
       em= "Votre abonnement commencera avec le panier du #{l @member.future_membership.first_delivery.date, format: :short}."
-    = @gribouille.basket_content.html_safe
+    == gribouille_content(@gribouille.basket_content)
 
     - if @gribouille.fields_echo.present?
       h1 Écho des champs
-      = @gribouille.fields_echo.html_safe
+      == gribouille_content(@gribouille.fields_echo)
 
     - if @gribouille.events.present?
       h1 Événements à venir
-      = @gribouille.events.html_safe
+      == gribouille_content(@gribouille.events)
 
     - if @gribouille.footer.present?
       h1 Le mot de la faim
-      = @gribouille.footer.html_safe
+      == gribouille_content(@gribouille.footer)
 
     - dates = HalfdayWorkDate.coming_dates_for_gribouille(@member)
     - if dates.any?

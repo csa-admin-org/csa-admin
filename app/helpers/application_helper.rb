@@ -6,4 +6,8 @@ module ApplicationHelper
     end
     string.html_safe
   end
+
+  def gribouille_content(html)
+    html.sub(/(<br>)+(<\/\w*>)*\z/) { |match| p match.gsub(/<br>/, '') }
+  end
 end

@@ -1,5 +1,6 @@
 class GribouilleMailer < ApplicationMailer
   helper :halfday_works
+  helper :application
   layout false
 
   def basket(gribouille, member, email)
