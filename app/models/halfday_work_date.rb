@@ -44,7 +44,7 @@ class HalfdayWorkDate < ActiveRecord::Base
     coming_dates.each_with_object([]) do |hw_date, dates|
       break dates if dates.size == 8
       halfday_work = member.halfday_works.find_by(date: hw_date.date)
-      next unless hw_date.date >= next_week || halfday_work
+      next unless hw_date.date > next_week || halfday_work
 
       if halfday_work
         dates << { halfday_work_date: hw_date, halfday_work: halfday_work }
