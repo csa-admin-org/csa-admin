@@ -80,6 +80,7 @@ class Member < ActiveRecord::Base
       ids, distribution_id)
   }
   scope :paid_basket, -> { where(salary_basket: false) }
+  scope :renew_membership, -> { where(renew_membership: true) }
 
   validates :billing_interval,
     presence: true,

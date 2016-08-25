@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606184813) do
+ActiveRecord::Schema.define(version: 20160825194535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(version: 20160606184813) do
     t.datetime "deleted_at"
     t.datetime "welcome_email_sent_at"
     t.integer  "old_old_invoice_identifier"
+    t.boolean  "renew_membership",                       default: false, null: false
   end
 
   add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree

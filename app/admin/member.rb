@@ -8,6 +8,7 @@ ActiveAdmin.register Member do
   scope :active, default: true
   scope :support
   scope :inactive
+  scope :renew_membership
 
   index_title = -> { "Membres (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
 
@@ -60,6 +61,7 @@ ActiveAdmin.register Member do
           )
         end
       end
+      row :renew_membership
       row(:status) { member.display_status }
       if member.status == :trial
         row :deliveries_received_count_since_first_membership
@@ -112,6 +114,7 @@ ActiveAdmin.register Member do
         include_blank: false
       f.input :support_member
       f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'
+      f.input :renew_membership
     end
     f.inputs 'Adresse' do
       f.input :address
@@ -143,6 +146,7 @@ ActiveAdmin.register Member do
     support_member salary_basket billing_interval waiting
     waiting_basket_id waiting_distribution_id
     food_note note
+    renew_membership
   ]
 
   batch_action :validate do |selection|

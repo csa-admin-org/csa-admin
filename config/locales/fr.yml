@@ -93,6 +93,7 @@ fr:
       past: passés
       future_current_year: futures, année courante
       renew: renouvellement, année prochaine
+      renew_membership: renouvellement
       not_sent: non-envoyées
       open: ouvertes
       closed: fermées
@@ -237,6 +238,7 @@ fr:
         validator: Validé par
         deliveries_received_count_since_first_membership: Paniers reçus
         salary_basket: Panier(s) salaire
+        renew_membership: Renouvellement de l'abonnement
       membership:
         member_id: Membre
         member: Membre
