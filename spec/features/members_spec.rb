@@ -18,7 +18,7 @@ feature 'members page' do
       click_button 'Inscription'
 
       expect(page)
-        .to have_content "#{I18n.l Time.zone.today, format: :long}8:30 - 17:303"
+        .to have_content "#{I18n.l(Time.zone.today, format: :long).capitalize}8:30 - 17:303"
       expect(page).not_to have_content "oui (#{member.phones_array.first})"
     end
 
@@ -45,7 +45,7 @@ feature 'members page' do
 
     scenario 'remove halfday work' do
       date = halfday_work.date
-      date_text = I18n.l(date, format: :long)
+      date_text = I18n.l(date, format: :long).capitalize
 
       expect(page).to have_content date_text
       click_button 'Effacer', match: :first
