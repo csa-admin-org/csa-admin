@@ -1,6 +1,7 @@
 require 'rounding'
 
 class Invoice < ActiveRecord::Base
+  include ActionView::Helpers::NumberHelper
   NoPdfError = Class.new(StandardError)
 
   attr_accessor :memberships_amount_fraction
@@ -21,6 +22,7 @@ class Invoice < ActiveRecord::Base
   scope :sent, -> { where.not(sent_at: nil) }
   scope :open, -> { sent.where('balance < amount') }
   scope :closed, -> { sent.where('balance >= amount') }
+  scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { open.where('overdue_notices_count > 0') }
 
   before_validation \
@@ -127,6 +129,24 @@ class Invoice < ActiveRecord::Base
   def memberships_amounts_data=(data)
     self[:memberships_amounts_data] = data && data.each do |hash|
       hash[:price] = hash[:price].round_to_five_cents if hash[:price]
+    end
+  end
+
+  def add_note(text)
+    self.note = "#{note}\n\n#{text}"
+  end
+
+  def collect_overbalances!
+    overbalance_invoices = member.invoices.where.not(id: id).overbalance
+    overbalance_invoices.each do |invoice|
+      transaction do
+        invoice.increment(:manual_balance, invoice.remaining_amount)
+        invoice.add_note "Transférer #{number_to_currency(-invoice.remaining_amount)} sur la facture ##{id}"
+        increment(:manual_balance, -invoice.remaining_amount)
+        add_note "Réçu #{number_to_currency(-invoice.remaining_amount)} de la facture ##{invoice.id}"
+        invoice.save!
+        save!
+      end
     end
   end
 

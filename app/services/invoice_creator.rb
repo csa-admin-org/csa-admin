@@ -11,6 +11,7 @@ class InvoiceCreator
   def create
     invoice = create_invoice
     if invoice&.persisted?
+      invoice.collect_overbalances!
       invoice.set_pdf
       invoice
     end

@@ -167,6 +167,33 @@ describe InvoiceCreator do
         .to eq 'Montant trimestriel #3'
     end
 
+    specify 'when quarter #3 (with overbalance on previous invoices)' do
+      @first_invoice = create_invoice
+      Timecop.travel(Date.new(Time.zone.today.year, 5)) {
+        @second_invoice = create_invoice
+      }
+      Timecop.travel(Date.new(Time.zone.today.year, 8))
+
+      memberships_amount = membership.price / 4.0
+      support_amount = 30
+      @first_invoice.update(manual_balance: memberships_amount + support_amount + 15)
+      @second_invoice.update(manual_balance: memberships_amount + 50)
+
+      expect(@first_invoice.remaining_amount).to eq(-15)
+      expect(@second_invoice.remaining_amount).to eq(-50)
+
+      expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
+      expect(invoice.memberships_amount).to eq membership.price / 4.0
+      expect(invoice.memberships_amount_description)
+        .to eq 'Montant trimestriel #3'
+
+      invoice.reload
+      expect(@first_invoice.reload.remaining_amount).to be_zero
+      expect(@second_invoice.reload.remaining_amount).to be_zero
+      expect(invoice.manual_balance).to eq(65)
+      expect(invoice.remaining_amount).to eq(invoice.amount - 65)
+    end
+
     specify 'when quarter #3 (already billed)' do
       create_invoice
       Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
