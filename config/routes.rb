@@ -34,11 +34,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  get ".well-known/acme-challenge/#{ENV['LETSENCRYPT_CHALLENGE'].split('.').first}",
-    to: proc { [200, {}, [ENV['LETSENCRYPT_CHALLENGE']]] }
-  get ".well-known/acme-challenge/#{ENV['LETSENCRYPT_CHALLENGE2'].split('.').first}",
-    to: proc { [200, {}, [ENV['LETSENCRYPT_CHALLENGE2']]] }
-  get ".well-known/acme-challenge/#{ENV['LETSENCRYPT_CHALLENGE3'].split('.').first}",
-    to: proc { [200, {}, [ENV['LETSENCRYPT_CHALLENGE3']]] }
 end
