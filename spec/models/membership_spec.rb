@@ -195,7 +195,7 @@ describe Membership do
       .to eq membership.basket_total_price + membership.distribution_total_price
   end
 
-  specify 'with halfday_works_basket_price prices' do
+  specify 'with halfday_works_annual_price prices' do
     membership = create(:membership,
       basket: create(:basket, annual_price: 40 * 23.125),
       distribution: create(:distribution, basket_price: 2),

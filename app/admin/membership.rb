@@ -48,8 +48,7 @@ ActiveAdmin.register Membership do
           "#{number_to_currency(m.distribution_total_price)} (#{detail})"
         }
         row(:halfday_works_total_price) {
-          detail = "#{m.deliveries_count} * #{m.halfday_works_basket_price}"
-          "#{number_to_currency(m.halfday_works_total_price)} (#{detail})"
+          number_to_currency(m.halfday_works_total_price)
         }
         row(:price) {
           detail = [

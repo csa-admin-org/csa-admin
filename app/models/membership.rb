@@ -80,10 +80,6 @@ class Membership < ActiveRecord::Base
     (deliveries_count / Delivery::PER_YEAR.to_f * annual_halfday_works).round
   end
 
-  def halfday_works_basket_price
-    halfday_works_annual_price.to_f / Delivery::PER_YEAR.to_f
-  end
-
   def distribution_basket_price
     distribution.basket_price
   end
@@ -97,7 +93,7 @@ class Membership < ActiveRecord::Base
   end
 
   def halfday_works_total_price
-    rounded_price(deliveries_count * halfday_works_basket_price)
+    rounded_price(halfday_works_annual_price.to_f)
   end
 
   def price
@@ -123,17 +119,15 @@ class Membership < ActiveRecord::Base
 
   def halfday_works_description
     diff = annual_halfday_works - HalfdayWork::MEMBER_PER_YEAR
-    base =
-      if diff > 0
-        "Réduction pour #{diff} demi-journées de travail supplémentaires"
-      elsif diff < 0
-        "#{diff.abs} demi-journées de travail non effectuées"
-      elsif halfday_works_basket_price > 0
-        "Demi-journées de travail non effectuées"
-      else
-        "Demi-journées de travail"
-      end
-    "#{base} (#{deliveries_count} x #{cur(halfday_works_basket_price)})"
+    if diff > 0
+      "Réduction pour #{diff} demi-journées de travail supplémentaires"
+    elsif diff < 0
+      "#{diff.abs} demi-journées de travail non effectuées"
+    elsif halfday_works_total_price > 0
+      "Demi-journées de travail non effectuées"
+    else
+      "Demi-journées de travail"
+    end
   end
 
   def first_delivery
