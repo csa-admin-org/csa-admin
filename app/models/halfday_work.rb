@@ -100,20 +100,17 @@ class HalfdayWork < ActiveRecord::Base
     end
   end
 
-  def self.ransackable_scopes(auth_object = nil)
+  def self.ransackable_scopes(_auth_object = nil)
     %i(status)
   end
 
-  def halfday_work_date
-    @halfday_work_date ||= HalfdayWorkDate.find_by(date: date)
-  end
-
   def available_periods
-    HalfdayWorkDate.find_by(date: date).try(:periods) || PERIODS
+    periods = HalfdayWorkDate.where(date: date).flat_map(&:periods).uniq
+    periods.empty? ? PERIODS : periods
   end
 
   def available_dates
-    HalfdayWorkDate.pluck(:date)
+    HalfdayWorkDate.pluck(:date).uniq
   end
 
   private
@@ -144,9 +141,10 @@ class HalfdayWork < ActiveRecord::Base
   end
 
   def participants_limit_must_not_be_reached
-    if halfday_work_date && (period_am || period_pm)
-      am_limit_reached = halfday_work_date.participants_limit_reached?('am')
-      pm_limit_reached = halfday_work_date.participants_limit_reached?('pm')
+    halfday_work_dates = HalfdayWorkDate.where(date: date)
+    if halfday_work_dates.present? && (period_am || period_pm)
+      am_limit_reached = halfday_work_dates.find(&:am?)&.am_full?
+      pm_limit_reached = halfday_work_dates.find(&:pm?)&.pm_full?
       if am_limit_reached && pm_limit_reached
         errors.add(:periods, 'La journée est déjà complète, merci!')
       elsif period_am && am_limit_reached

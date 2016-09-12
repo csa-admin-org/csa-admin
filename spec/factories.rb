@@ -154,7 +154,7 @@ FactoryGirl.define do
     end
 
     after :build do |_, evaluator|
-      unless evaluator.halfday_work_date
+      unless HalfdayWorkDate.exists?(date: evaluator.date)
         create(:halfday_work_date,
           date: evaluator.date,
           periods: evaluator.periods

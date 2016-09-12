@@ -3,7 +3,6 @@ require 'rails_helper'
 feature 'members page' do
   let!(:member) { create(:member, :active) }
   let!(:halfday_work) { create(:halfday_work, member: member) }
-  let!(:halfday_work_date) { create(:halfday_work_date) }
 
   before { Capybara.app_host = 'http://membres.example.com' }
 
@@ -16,9 +15,8 @@ feature 'members page' do
       check 'halfday_work_period_pm'
       fill_in 'halfday_work_participants_count', with: 3
       click_button 'Inscription'
-
       expect(page)
-        .to have_content "#{I18n.l(Time.zone.today, format: :long).capitalize}8:30 - 17:303"
+        .to have_content "#{I18n.l(Time.zone.today, format: :long).capitalize}8:30 - 12:00 / 13:30 - 17:30Thielle3"
       expect(page).not_to have_content "oui (#{member.phones_array.first})"
     end
 

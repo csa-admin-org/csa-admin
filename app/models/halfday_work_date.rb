@@ -5,6 +5,9 @@ class HalfdayWorkDate < ActiveRecord::Base
   scope :after_next_week, -> { where('date > ?', Time.zone.today.next_week) }
   scope :past, -> { where('date < ?', Time.zone.today) }
 
+  validates :date, :periods, presence: true
+  validate :period_must_be_unique_per_date
+
   PERIODS.each do |period|
     define_method "period_#{period}" do
       periods.try(:include?, period)
@@ -29,9 +32,16 @@ class HalfdayWorkDate < ActiveRecord::Base
     periods.all? { |p| participants_limit_reached?(p) }
   end
 
+  def am_full?
+    participants_limit_reached?('am')
+  end
+
+  def pm_full?
+    participants_limit_reached?('pm')
+  end
+
   def participants_limit_reached?(period)
     return unless participants_limit.present?
-
     HalfdayWork.where(date: date)
       .select { |hw| hw.periods.include?(period) }
       .sum(&:participants_count) >= participants_limit
@@ -52,6 +62,14 @@ class HalfdayWorkDate < ActiveRecord::Base
         dates << { halfday_work_date: hw_date }
       end
       dates
+    end
+  end
+
+  def period_must_be_unique_per_date
+    existing_periods = HalfdayWorkDate.where(date: date).flat_map(&:periods).uniq
+    if (existing_periods & periods).present?
+      errors.add(:period_am, 'existe déjà') if am?
+      errors.add(:period_pm, 'existe déjà') if pm?
     end
   end
 end

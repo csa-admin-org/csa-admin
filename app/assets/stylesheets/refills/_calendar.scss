@@ -115,7 +115,6 @@
   border-radius: 22px 22px 0 0;
 }
 
-
 .ui-state-default, .ui-datepicker-unselectable {
   color: #000;
 }
@@ -157,6 +156,9 @@ td.participants-9 .ui-state-default{
   background: lighten($green, 100/9);
 }
 td.participants-10 .ui-state-default{
+  background: lighten($green, 0);
+}
+td.participants-full .ui-state-default{
   background: lighten($green, 0);
 }
 

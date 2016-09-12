@@ -36,6 +36,13 @@ p.label {
   font-style: italic;
 }
 
+table {
+  td {
+    line-height: 1.2em;
+    height: 2em;
+  }
+}
+
 section.form {
   @include outer-container;
   margin: 0;
@@ -53,6 +60,10 @@ section.form {
     p {
       margin: 1.6em 0;
     }
+  }
+
+  label span.neuchatel {
+    display: none;
   }
 
   input.participants_count {
@@ -84,6 +95,13 @@ input[type='submit'] {
 
 label.disabled {
   color: #aaa;
+}
+
+label.full span {
+  text-decoration:line-through;
+}
+label.full::after {
+  content: " Complet!";
 }
 
 section.past {

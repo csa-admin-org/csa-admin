@@ -52,7 +52,7 @@ describe HalfdayWork do
         expect(halfday_work).not_to be_valid
       end
 
-      it 'does not accept new participant in pm' do
+      it 'does accept new participant in pm' do
         halfday_work = build(:halfday_work, periods: ['pm'])
         expect(halfday_work).to be_valid
       end

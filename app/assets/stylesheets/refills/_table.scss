@@ -55,17 +55,17 @@ table.halfday_works {
       // border-left: 1px solid $table-border-color;
       // border-bottom: 0px;
     }
-
     th.date {
       width: 30%
     }
     th.periods, th.participants_count {
-      min-width: 120px;
-      width: 18%;
+      width: 15%;
+    }
+    th.locations {
+      width: 13%;
     }
     th.carpooling {
-      min-width: 200px;
-      width: 30%;
+      width: 20%;
     }
   }
 

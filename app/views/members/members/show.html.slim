@@ -16,6 +16,7 @@ section
         tr
           th.date Date
           th.periods Horaire
+          th.locations Lieu
           th.participants_count Participants
           th.carpooling Covoiturage
           th
@@ -24,6 +25,7 @@ section
         tr
           td=(l halfday_work.date, format: :long).capitalize
           td= display_periods halfday_work
+          td== display_locations halfday_work, format: :short
           td= halfday_work.participants_count
           td= halfday_work.carpooling? ? "oui (#{halfday_work.carpooling_phone})" : 'non'
           td
@@ -43,16 +45,23 @@ section
           = f.hidden_field :date
       .column-right
         p
-          label for='periods' Horaire
+          label for='periods' Horaire & Lieu
           - if @halfday_work.errors[:periods]
             label.label-error= @halfday_work.errors[:periods].first
 
           label#halfday_work_period_am_label
             = f.check_box :period_am, { id: 'halfday_work_period_am' }
-            = '8:30 - 12:00'
+            span.thielle
+              = '8:30 - 12:00 à '
+              == link_to 'Thielle', 'https://goo.gl/maps/xSxmiYRhKWH2', title: 'Google Maps'
+            span.neuchatel
+              = '7:00 - 10:00 à '
+              == link_to 'Neuchâtel', 'https://goo.gl/maps/tUQcLu1KkPN2', title: 'Google Maps'
           label#halfday_work_period_pm_label
             = f.check_box :period_pm, { id: 'halfday_work_period_pm' }
-            = '13:30 - 17:30'
+            span
+              = '13:30 - 17:30 à '
+              == link_to 'Thielle', 'https://goo.gl/maps/xSxmiYRhKWH2', title: 'Google Maps'
         p
           label Nbr. de participants
           = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count'
