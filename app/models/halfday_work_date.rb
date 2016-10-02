@@ -66,10 +66,11 @@ class HalfdayWorkDate < ActiveRecord::Base
   end
 
   def period_must_be_unique_per_date
-    existing_periods = HalfdayWorkDate.where(date: date).flat_map(&:periods).uniq
+    same_date = HalfdayWorkDate.where(date: date).where.not(id: id)
+    existing_periods = same_date.flat_map(&:periods).uniq
     if (existing_periods & periods).present?
-      errors.add(:period_am, 'existe déjà') if am?
-      errors.add(:period_pm, 'existe déjà') if pm?
+      errors.add(:period_am, 'existe déjà') if am? && existing_periods.include?('am')
+      errors.add(:period_pm, 'existe déjà') if pm? && existing_periods.include?('pm')
     end
   end
 end
