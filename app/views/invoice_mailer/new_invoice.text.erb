@@ -1,7 +1,12 @@
 Voici votre nouvelle facture, tous les détails se trouvent dans le PDF ci-joint.
 
+<% if @invoice.remaining_amount == 0 %>
+En tenant compte des paiements précédents, cette facture est considérée comme payée et est envoyée uniquement
+à titre d'information.
+<% end %>
+
 <% if @invoice.remaining_amount > 0 %>
-En tenant compte des excédents, le montant restant à payer est de: <%= number_to_currency @invoice.remaining_amount %>
+En tenant compte des paiements précédents, le montant restant à payer est de: <%= number_to_currency @invoice.remaining_amount %>
 <% end %>
 
 Merci.
