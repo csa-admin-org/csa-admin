@@ -279,6 +279,7 @@ fr:
         fields_echo: Écho des champs
         events: Événements à venir
         footer: Le mot de la faim
+        attachment: Pièce jointe
   invoice:
     status:
       not_sent: non-envoyée
