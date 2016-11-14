@@ -7,7 +7,7 @@ ActiveAdmin.register Gribouille do
     if delivery
       date = delivery.date
       gribouille = delivery.gribouille
-      if gribouille && gribouille.sent_at?
+      if gribouille&.sent_at?
         panel 'Info' do "<h1>Gribouilles envoyées!</h1>".html_safe end
       else
         panel 'Comment que ça marche?' do
@@ -24,7 +24,7 @@ ActiveAdmin.register Gribouille do
           f.input :footer, as: :html_editor
         end
         f.inputs 'Pièce jointe', multipart: true do
-          if gribouille.attachment_name?
+          if gribouille&.attachment_name?
             f.input :attachment_name, as: :boolean, label: gribouille.attachment_name, input_html: { checked: 'checked' }
           else
             f.input :attachment, as: :file

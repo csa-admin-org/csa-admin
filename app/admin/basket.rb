@@ -16,6 +16,8 @@ ActiveAdmin.register Basket do
     end
   end
 
+  permit_params *%i[name year annual_price]
+
   config.filters = false
   config.per_page = 25
 end
