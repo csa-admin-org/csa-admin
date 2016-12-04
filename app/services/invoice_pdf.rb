@@ -36,6 +36,9 @@ class InvoicePdf < Prawn::Document
         italic: font_path + 'HelveticaOblique.ttf',
         bold: font_path + 'HelveticaBold.ttf',
         bold_italic: font_path + 'HelveticaBoldOblique.ttf'
+      },
+      'OcrB' => {
+        normal: font_path + 'OcrB.ttf'
       }
     )
     font(name)
@@ -207,13 +210,14 @@ class InvoicePdf < Prawn::Document
           width: 120,
           height: 50
       end
+      font('OcrB')
       [87, 260].each do |x|
         text_box ISRReferenceNumber::CCP,
           at: [x, y - 120],
           width: 100,
           height: 50,
-          size: 12,
-          character_spacing: 0.8
+          size: 10,
+          character_spacing: 1
       end
       [64, 238].each do |x|
         text_box invoice.amount.to_i.to_s,
@@ -236,16 +240,16 @@ class InvoicePdf < Prawn::Document
         height: 50,
         character_spacing: 0.6
       text_box isr_ref.ref,
-        at: [360, y - 96],
+        at: [360, y - 97],
         width: 380,
         height: 50,
-        size: 12,
+        size: 10,
         character_spacing: 0.8
       text_box isr_ref.full_ref,
-        at: [197, y - 240],
+        at: [200, y - 245],
         width: 500,
         height: 50,
-        size: 11,
+        size: 10,
         character_spacing: 1
     end
   end
