@@ -1,15 +1,11 @@
-Voici votre nouvelle facture, tous les détails se trouvent dans le PDF ci-joint.
+Chers abonnés de Rage de Vert,
 
-<% if @invoice.remaining_amount == 0 %>
-En tenant compte des paiements précédents, cette facture est considérée comme payée et est envoyée uniquement
-à titre d'information.
-<% end %>
+D’après nos notes, vous n’avez semble-t-il pas effectué toutes vos demi-journées d’aide pour 2016, et pour certains d’entre vous également pour 2015. Tout d’abord, je précise évidemment que nous restons à disposition pour corriger nos données, pour le cas où nous aurions malheureusement omis de prendre note de demi-journées que vous aviez réalisées. Ensuite, je me permets de vous transmettre ci-joint la facture correspondant aux ½ journées non-réalisées. Pour plusieurs raisons, qui incluent notamment les complications administratives, nous avons décidé de facturer les demi-journées non-faites sans offrir la possibilité d’un report sur l’année suivante. En 2016, nous avons amélioré et étendu les possibilités d’effectuer ces demi-journées d’aide aux champs ou à d’autres activités de Rage de Vert. Nous allons améliorer encore ces possibilités en 2017. On espère ainsi réussir à atteindre une utilisation complète de l’aide prévue de chaque abonné.
 
-<% if @invoice.remaining_amount > 0 %>
-En tenant compte des paiements précédents, le montant restant à payer est de: <%= number_to_currency @invoice.remaining_amount %>
-<% end %>
+Tout en restant à disposition, je vous transmets mes meilleurs vœux pour 2017 et mes chaleureuses salutations.
 
-Merci.
+Au nom de Rage de Vert,
+Raphaël Coquoz
 
 —
 Depuis 2016, Rage de Vert utilise des bulletins oranges pour faciliter le traitement des paiements.
