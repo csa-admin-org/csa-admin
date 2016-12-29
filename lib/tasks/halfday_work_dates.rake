@@ -1,5 +1,4 @@
 namespace :halfday_work_dates do
-  desc 'Send coming halfday work emails'
   task seed: :environment do
     range = Date.new(2015, 4, 1)..Date.new(2015, 10, 31)
     range.each do |date|

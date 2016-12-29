@@ -165,6 +165,10 @@ class Membership < ActiveRecord::Base
     )
   end
 
+  def add_note(text)
+    self.note = "#{note}\n\n#{text}"
+  end
+
   private
 
   def set_default_annual_halfday_works
