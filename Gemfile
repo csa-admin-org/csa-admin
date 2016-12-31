@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.3'
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '5.0.1'
 gem 'rails-i18n'
 
 source 'https://rails-assets.org' do
@@ -18,6 +18,7 @@ gem 'paranoia'
 gem 'cancancan'
 
 gem 'activeadmin', github: 'activeadmin'
+gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'responsive_active_admin'
 
 gem 'turbolinks'
@@ -70,7 +71,6 @@ end
 group :development do
   gem 'rack-livereload'
   gem 'guard-livereload', require: false
-  gem 'quiet_assets'
   gem 'letter_opener'
   gem 'bullet'
 end

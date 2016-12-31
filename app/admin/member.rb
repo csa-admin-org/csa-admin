@@ -164,7 +164,7 @@ ActiveAdmin.register Member do
   end
 
   collection_action :gribouille_emails, method: :get do
-    render text: Member.gribouille_emails.to_csv
+    render plain: Member.gribouille_emails.to_csv
   end
 
   controller do

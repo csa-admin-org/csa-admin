@@ -10,7 +10,7 @@ class HalfdayWorksCalendarController < ApplicationController
 
   def verify_auth_token
     unless params[:auth_token] == ENV['ICALENDAR_AUTH_TOKEN']
-      render text: 'unauthorized', status: :unauthorized
+      render plain: 'unauthorized', status: :unauthorized
     end
   end
 end

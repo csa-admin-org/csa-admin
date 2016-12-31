@@ -15,7 +15,7 @@ describe 'Next Delivery xlsx' do
 
   context 'with a wrong auth token' do
     it 'responds 401' do
-      get '/deliveries/next', auth_token: 'wrong'
+      get '/deliveries/next', params: { auth_token: 'wrong' }
       expect(response.status).to eq 401
     end
   end
@@ -25,9 +25,7 @@ describe 'Next Delivery xlsx' do
     let!(:delivery) { create(:delivery, date: 1.week.from_now) }
 
     it 'responds 200' do
-      get '/deliveries/next',
-        auth_token: ENV['DELIVERY_AUTH_TOKEN'],
-        subdomain: 'admin'
+      get '/deliveries/next', params: { auth_token: ENV['DELIVERY_AUTH_TOKEN'] }
       expect(response.status).to eq 200
     end
   end

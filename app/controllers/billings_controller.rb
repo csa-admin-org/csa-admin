@@ -18,7 +18,7 @@ class BillingsController < ApplicationController
 
   def verify_auth_token
     if params[:auth_token] != ENV['BILLING_AUTH_TOKEN'] && !admin_signed_in?
-      render text: 'unauthorized', status: :unauthorized
+      render plain: 'unauthorized', status: :unauthorized
     end
   end
 end

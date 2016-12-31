@@ -15,7 +15,7 @@ describe 'Gribouille Emails list' do
 
   context 'with a wrong auth token' do
     it 'responds 401' do
-      get '/gribouille_emails', auth_token: 'wrong'
+      get '/gribouille_emails', params: { auth_token: 'wrong' }
       expect(response.status).to eq 401
     end
   end
@@ -24,11 +24,9 @@ describe 'Gribouille Emails list' do
     let!(:member) { create(:member, gribouille: true, emails: 'foo@foo.com') }
 
     it 'responds 200' do
-      get '/gribouille_emails',
-        auth_token: ENV['GRIBOUILLE_AUTH_TOKEN'],
-        subdomain: 'admin'
+      get '/gribouille_emails', params: { auth_token: ENV['GRIBOUILLE_AUTH_TOKEN'] }
       expect(response.status).to eq 200
-      expect(response.body).to include "#{member.emails}"
+      expect(response.body).to include member.emails
     end
   end
 end

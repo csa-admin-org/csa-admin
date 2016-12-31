@@ -15,7 +15,7 @@ describe 'Halfday Works calendar feed' do
 
   context 'with a wrong auth token' do
     it 'responds 401' do
-      get '/halfday_works/calendar.ics', auth_token: 'wrong'
+      get '/halfday_works/calendar.ics', params: { auth_token: 'wrong' }
       expect(response.status).to eq 401
     end
   end
@@ -24,9 +24,7 @@ describe 'Halfday Works calendar feed' do
     let!(:halfday_work) { create(:halfday_work, participants_count: 3) }
 
     it 'responds 200' do
-      get '/halfday_works/calendar.ics',
-        auth_token: ENV['ICALENDAR_AUTH_TOKEN'],
-        subdomain: 'admin'
+      get '/halfday_works/calendar.ics', params: { auth_token: ENV['ICALENDAR_AUTH_TOKEN'] }
       expect(response.status).to eq 200
       expect(response.body).to include "#{halfday_work.member.name} (3)"
     end
