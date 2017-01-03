@@ -164,8 +164,8 @@ fr:
         one: Membre
         other: Membres
       halfday_work:
-        one: ½ Journée de travail
-        other: ½ Journées de travail
+        one: ½ Journée
+        other: ½ Journées
       halfday_work_date:
         one: Date ½ Journée de travail
         other: Dates ½ Journée de travail
@@ -175,6 +175,9 @@ fr:
       basket:
         one: Panier
         other: Paniers
+      basket_content:
+        one: Contenu Panier
+        other: Contenu Paniers
       distribution:
         one: Lieu de distribution
         other: Lieu de distributions
@@ -187,6 +190,9 @@ fr:
       old_invoice:
         one: Facture (2015)
         other: Factures (2015)
+      vegetable:
+        one: Légume
+        other: Légumes
     attributes:
       admin:
         password: Mot de passe
@@ -209,6 +215,13 @@ fr:
         name: Nom
         year: Année
         annual_price: Prix/annnée (40 paniers)
+      basket_content:
+        quantity: Quantité
+        unit: Unité
+        vegetable: Légume
+        delivery: Livraison
+        basket: Panier
+        distributions: Lieu de distribution
       member:
         name: Nom
         first_name: Prénom
@@ -280,6 +293,8 @@ fr:
         events: Événements à venir
         footer: Le mot de la faim
         attachment: Pièce jointe
+      vegetable:
+        name: nom
   invoice:
     status:
       not_sent: non-envoyée

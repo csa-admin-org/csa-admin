@@ -4,6 +4,7 @@ class Delivery < ActiveRecord::Base
   default_scope { order(:date) }
 
   has_one :gribouille
+  has_many :basket_contents
 
   scope :current_year, -> {
     where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year}")
@@ -25,7 +26,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def display_name
-    "Livraison #{date.year} ##{number}"
+    "Livraison #{date} ##{number}"
   end
 
   def number

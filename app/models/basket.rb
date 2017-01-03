@@ -2,6 +2,7 @@ class Basket < ActiveRecord::Base
   has_many :memberships
   has_many :members, through: :memberships
 
+  TYPES = %i[small big]
   SMALL = 'Eveil'
   BIG = 'Abondance'
 

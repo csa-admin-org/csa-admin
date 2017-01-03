@@ -1,4 +1,17 @@
 FactoryGirl.define do
+  factory :basket_content do
+    vegetable
+    delivery
+    quantity 10
+    unit 'kilogramme'
+    basket_types { Basket::TYPES.map(&:to_s) }
+    distributions { [create(:distribution)] }
+  end
+
+  factory :vegetable do
+    name 'Carotte'
+  end
+
   factory :absence do
     member
   end
@@ -77,6 +90,14 @@ FactoryGirl.define do
     name { Faker::Name.name }
     year { Time.zone.today.year }
     annual_price { 40 * 30 }
+
+    trait :small do
+      name { Basket::SMALL }
+    end
+
+    trait :big do
+      name { Basket::BIG }
+    end
 
     trait :next_year do
       year { Time.zone.today.year + 1 }

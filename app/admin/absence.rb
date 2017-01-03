@@ -1,5 +1,5 @@
 ActiveAdmin.register Absence do
-  menu priority: 5
+  menu parent: 'Autre', priority: 1
 
   scope :all, default: true
   scope :past

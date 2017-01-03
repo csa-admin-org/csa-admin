@@ -15,7 +15,7 @@ class Ability
       can :update, Membership, can_update?: true
     else
       cannot :manage, :all
-      can :manage, [Gribouille, HalfdayWork, HalfdayWorkDate, Absence]
+      can :manage, [Gribouille, HalfdayWork, HalfdayWorkDate, Absence, Vegetable, BasketContent]
     end
     cannot :manage, OldInvoice
     cannot [:create, :destroy], Invoice

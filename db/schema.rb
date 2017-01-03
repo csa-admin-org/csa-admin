@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161108224948) do
+ActiveRecord::Schema.define(version: 20161231171148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,9 +23,8 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.text     "note"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["member_id"], name: "index_absences_on_member_id", using: :btree
   end
-
-  add_index "absences", ["member_id"], name: "index_absences_on_member_id", using: :btree
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -37,11 +35,10 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.string   "author_type",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
   end
-
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -56,10 +53,34 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+  create_table "basket_contents", force: :cascade do |t|
+    t.integer  "delivery_id",                                                   null: false
+    t.integer  "vegetable_id",                                                  null: false
+    t.decimal  "quantity",              precision: 8, scale: 2,                 null: false
+    t.string   "unit",                                                          null: false
+    t.decimal  "small_basket_quantity", precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "big_basket_quantity",   precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "lost_quantity",         precision: 8, scale: 2, default: "0.0", null: false
+    t.integer  "small_baskets_count",                           default: 0,     null: false
+    t.integer  "big_baskets_count",                             default: 0,     null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.index ["delivery_id"], name: "index_basket_contents_on_delivery_id", using: :btree
+    t.index ["vegetable_id", "delivery_id"], name: "index_basket_contents_on_vegetable_id_and_delivery_id", unique: true, using: :btree
+    t.index ["vegetable_id"], name: "index_basket_contents_on_vegetable_id", using: :btree
+  end
+
+  create_table "basket_contents_distributions", id: false, force: :cascade do |t|
+    t.integer "basket_content_id", null: false
+    t.integer "distribution_id",   null: false
+    t.index ["basket_content_id", "distribution_id"], name: "index_basket_contents_distributions_unique", unique: true, using: :btree
+    t.index ["basket_content_id"], name: "index_basket_contents_distributions_on_basket_content_id", using: :btree
+    t.index ["distribution_id"], name: "index_basket_contents_distributions_on_distribution_id", using: :btree
+  end
 
   create_table "baskets", force: :cascade do |t|
     t.string   "name",         limit: 255,                         null: false
@@ -73,9 +94,8 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.date     "date",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["date"], name: "index_deliveries_on_date", using: :btree
   end
-
-  add_index "deliveries", ["date"], name: "index_deliveries_on_date", using: :btree
 
   create_table "distributions", force: :cascade do |t|
     t.string   "name",         limit: 255
@@ -100,9 +120,8 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.integer  "attachment"
     t.string   "attachment_name"
     t.string   "attachment_mime_type"
+    t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id", using: :btree
   end
-
-  add_index "gribouilles", ["delivery_id"], name: "index_gribouilles_on_delivery_id", using: :btree
 
   create_table "halfday_work_dates", force: :cascade do |t|
     t.date     "date",               null: false
@@ -110,9 +129,8 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.integer  "participants_limit"
+    t.index ["date"], name: "index_halfday_work_dates_on_date", using: :btree
   end
-
-  add_index "halfday_work_dates", ["date"], name: "index_halfday_work_dates_on_date", using: :btree
 
   create_table "halfday_works", force: :cascade do |t|
     t.integer  "member_id",                                  null: false
@@ -125,39 +143,37 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.datetime "updated_at"
     t.datetime "rejected_at"
     t.string   "carpooling_phone"
+    t.index ["date"], name: "index_halfday_works_on_date", using: :btree
+    t.index ["member_id"], name: "index_halfday_works_on_member_id", using: :btree
+    t.index ["rejected_at"], name: "index_halfday_works_on_rejected_at", using: :btree
+    t.index ["validated_at"], name: "index_halfday_works_on_validated_at", using: :btree
+    t.index ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
   end
 
-  add_index "halfday_works", ["date"], name: "index_halfday_works_on_date", using: :btree
-  add_index "halfday_works", ["member_id"], name: "index_halfday_works_on_member_id", using: :btree
-  add_index "halfday_works", ["rejected_at"], name: "index_halfday_works_on_rejected_at", using: :btree
-  add_index "halfday_works", ["validated_at"], name: "index_halfday_works_on_validated_at", using: :btree
-  add_index "halfday_works", ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
-
   create_table "invoices", force: :cascade do |t|
-    t.integer  "member_id",                                                            null: false
-    t.date     "date",                                                                 null: false
-    t.decimal  "balance",                        precision: 8, scale: 2, default: 0.0, null: false
-    t.decimal  "amount",                         precision: 8, scale: 2,               null: false
+    t.integer  "member_id",                                                              null: false
+    t.date     "date",                                                                   null: false
+    t.decimal  "balance",                        precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "amount",                         precision: 8, scale: 2,                 null: false
     t.decimal  "support_amount",                 precision: 8, scale: 2
     t.string   "memberships_amount_description"
     t.decimal  "memberships_amount",             precision: 8, scale: 2
     t.json     "memberships_amounts_data"
     t.decimal  "remaining_memberships_amount",   precision: 8, scale: 2
     t.decimal  "paid_memberships_amount",        precision: 8, scale: 2
-    t.json     "isr_balance_data",                                       default: {},  null: false
+    t.json     "isr_balance_data",                                       default: {},    null: false
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "pdf"
-    t.decimal  "isr_balance",                    precision: 8, scale: 2, default: 0.0, null: false
-    t.decimal  "manual_balance",                 precision: 8, scale: 2, default: 0.0, null: false
+    t.decimal  "isr_balance",                    precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "manual_balance",                 precision: 8, scale: 2, default: "0.0", null: false
     t.text     "note"
-    t.string   "member_billing_interval",                                              null: false
-    t.integer  "overdue_notices_count",                                  default: 0,   null: false
+    t.string   "member_billing_interval",                                                null: false
+    t.integer  "overdue_notices_count",                                  default: 0,     null: false
     t.datetime "overdue_notice_sent_at"
+    t.index ["member_id"], name: "index_invoices_on_member_id", using: :btree
   end
-
-  add_index "invoices", ["member_id"], name: "index_invoices_on_member_id", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "emails",                     limit: 255
@@ -189,15 +205,14 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.datetime "welcome_email_sent_at"
     t.integer  "old_old_invoice_identifier"
     t.boolean  "renew_membership",                       default: false, null: false
+    t.index ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
+    t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at", using: :btree
+    t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier", using: :btree
+    t.index ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
+    t.index ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id", using: :btree
+    t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree
+    t.index ["welcome_email_sent_at"], name: "index_members_on_welcome_email_sent_at", using: :btree
   end
-
-  add_index "members", ["deleted_at"], name: "index_members_on_deleted_at", using: :btree
-  add_index "members", ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at", using: :btree
-  add_index "members", ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier", using: :btree
-  add_index "members", ["waiting_basket_id"], name: "index_members_on_waiting_basket_id", using: :btree
-  add_index "members", ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id", using: :btree
-  add_index "members", ["waiting_started_at"], name: "index_members_on_waiting_started_at", using: :btree
-  add_index "members", ["welcome_email_sent_at"], name: "index_members_on_welcome_email_sent_at", using: :btree
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "basket_id",                                          null: false
@@ -211,14 +226,13 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.datetime "updated_at"
     t.text     "note"
     t.datetime "deleted_at"
+    t.index ["basket_id"], name: "index_memberships_on_basket_id", using: :btree
+    t.index ["deleted_at"], name: "index_memberships_on_deleted_at", using: :btree
+    t.index ["distribution_id"], name: "index_memberships_on_distribution_id", using: :btree
+    t.index ["ended_on"], name: "index_memberships_on_ended_on", using: :btree
+    t.index ["member_id"], name: "index_memberships_on_member_id", using: :btree
+    t.index ["started_on"], name: "index_memberships_on_started_on", using: :btree
   end
-
-  add_index "memberships", ["basket_id"], name: "index_memberships_on_basket_id", using: :btree
-  add_index "memberships", ["deleted_at"], name: "index_memberships_on_deleted_at", using: :btree
-  add_index "memberships", ["distribution_id"], name: "index_memberships_on_distribution_id", using: :btree
-  add_index "memberships", ["ended_on"], name: "index_memberships_on_ended_on", using: :btree
-  add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", using: :btree
-  add_index "memberships", ["started_on"], name: "index_memberships_on_started_on", using: :btree
 
   create_table "old_invoices", force: :cascade do |t|
     t.integer  "member_id",                          null: false
@@ -229,9 +243,19 @@ ActiveRecord::Schema.define(version: 20161108224948) do
     t.hstore   "data",                               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["member_id"], name: "index_old_invoices_on_member_id", using: :btree
+    t.index ["number"], name: "index_old_invoices_on_number", using: :btree
   end
 
-  add_index "old_invoices", ["member_id"], name: "index_old_invoices_on_member_id", using: :btree
-  add_index "old_invoices", ["number"], name: "index_old_invoices_on_number", using: :btree
+  create_table "vegetables", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_vegetables_on_name", unique: true, using: :btree
+  end
 
+  add_foreign_key "basket_contents", "deliveries"
+  add_foreign_key "basket_contents", "vegetables"
+  add_foreign_key "basket_contents_distributions", "basket_contents"
+  add_foreign_key "basket_contents_distributions", "distributions"
 end

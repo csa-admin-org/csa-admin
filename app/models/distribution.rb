@@ -3,6 +3,7 @@ class Distribution < ActiveRecord::Base
 
   has_many :memberships
   has_many :members, through: :memberships
+  has_and_belongs_to_many :basket_contents
 
   default_scope { order(:name) }
 
