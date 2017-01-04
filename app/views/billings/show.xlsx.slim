@@ -2,7 +2,7 @@ table
   caption Facturation
   tbody
 
-    - year = Date.current.year - 1
+    - year = Date.current.year
     - invoices = Invoice.during_year(year).to_a
     - memberships = Membership.during_year(year).to_a
 
