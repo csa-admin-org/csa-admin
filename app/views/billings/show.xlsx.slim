@@ -1,34 +1,60 @@
 table
   caption Facturation
   tbody
-    - invoices = Invoice.current_year.to_a
+
+    - year = Date.current.year - 1
+    - invoices = Invoice.during_year(year).to_a
+    - memberships = Membership.during_year(year).to_a
+
     tr
       td Déscription
       td Total
-    - Basket.current_year.each do |basket|
-      - amount = invoices.sum { |i| i.memberships_quarter_basket_amount(basket.id) }
+
+    - Basket.during_year(year).each do |basket|
+      - amount = memberships.select { |m| m.basket_id == basket.id }.sum(&:basket_total_price)
       tr
         td= "Abonnement #{basket.name}"
         td.decimal= number_with_precision(amount, precision: 2)
-    - bike_distribution_ids = [2]
-    - amount = invoices.sum { |i| i.memberships_quarter_distribution_amount(bike_distribution_ids) }
+
+    - bike_distribution_id = 2
+    - amount = memberships.select { |m| m.distribution_id == bike_distribution_id }.sum(&:distribution_total_price)
     tr
       td= "Distribution Vélo"
       td.decimal= number_with_precision(amount, precision: 2)
-    - bike_distribution_ids = Distribution.pluck(:id) - [2]
-    - amount = invoices.sum { |i| i.memberships_quarter_distribution_amount(bike_distribution_ids) }
+
+    - amount = memberships.select { |m| m.distribution_id != bike_distribution_id }.sum(&:distribution_total_price)
     tr
       td= "Distribution Lieux de dépot"
       td.decimal= number_with_precision(amount, precision: 2)
-    - amount = invoices.sum { |i| i.memberships_quarter_halfday_works_amount }
+
+    - amount = memberships.sum { |i| i.halfday_works_total_price }
     tr
       td= "Ajustement ½ journées de travail"
       td.decimal= number_with_precision(amount, precision: 2)
+
     - amount = invoices.sum { |i| i.support_amount.to_f }
     tr
       td= "Cotisations"
       td.decimal= number_with_precision(amount, precision: 2)
-    - amount = invoices.sum { |i| i.balance.to_f }
+
     tr
-      td= "Déjà Payé"
+
+    - amount = invoices.sum { |i| i.amount }
+    tr
+      td= "Facturé"
+      td.decimal= number_with_precision(amount, precision: 2)
+
+    - amount = invoices.sum { |i| i.balance_without_overbalance }
+    tr
+      td= "Payé"
+      td.decimal= number_with_precision(amount, precision: 2)
+
+    - amount = invoices.sum { |i| i.overbalance }
+    tr
+      td= "Payé en trop (pour année suivante)"
+      td.decimal= number_with_precision(amount, precision: 2)
+
+    - amount = invoices.sum { |i| i.missing_amount }
+    tr
+      td= "Manquant"
       td.decimal= number_with_precision(amount, precision: 2)

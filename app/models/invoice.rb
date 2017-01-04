@@ -60,8 +60,16 @@ class Invoice < ActiveRecord::Base
     balance < amount ? :open : :closed
   end
 
-  def remaining_amount
-    (amount - balance).round_to_five_cents
+  def balance_without_overbalance
+    [balance, amount].min
+  end
+
+  def overbalance
+    balance > amount ? (balance - amount).round_to_five_cents : 0
+  end
+
+  def missing_amount
+    balance < amount ? (amount - balance).round_to_five_cents : 0
   end
 
   def display_status
@@ -96,36 +104,6 @@ class Invoice < ActiveRecord::Base
     (memberships_amounts_data || []).sum { |m| m.symbolize_keys[:price] }
   end
 
-  def memberships_quarter_basket_amount(basket_id)
-    amount =
-      (memberships_amounts_data || [])
-        .select { |m| m['basket_id'] == basket_id }
-        .sum { |m| m['basket_total_price'].to_f }
-    quarter_amount(amount)
-  end
-
-  def memberships_quarter_distribution_amount(distribution_ids)
-    amount =
-      (memberships_amounts_data || [])
-        .select { |m| m['distribution_id'].in?(distribution_ids) }
-        .sum { |m| m['distribution_total_price'].to_f }
-    quarter_amount(amount)
-  end
-
-  def memberships_quarter_halfday_works_amount
-    amount =
-      (memberships_amounts_data || [])
-        .sum { |m| m['halfday_works_total_price'].to_f }
-    quarter_amount(amount)
-  end
-
-  def quarter_amount(amount)
-    case member_billing_interval
-    when 'annual' then amount
-    when 'quarterly' then amount / 4.0
-    end
-  end
-
   def memberships_amounts_data=(data)
     self[:memberships_amounts_data] = data && data.each do |hash|
       hash[:price] = hash[:price].round_to_five_cents if hash[:price]
@@ -140,10 +118,11 @@ class Invoice < ActiveRecord::Base
     overbalance_invoices = member.invoices.where.not(id: id).overbalance
     overbalance_invoices.each do |invoice|
       transaction do
-        invoice.increment(:manual_balance, invoice.remaining_amount)
-        invoice.add_note "Transférer #{number_to_currency(-invoice.remaining_amount)} sur la facture ##{id}"
-        increment(:manual_balance, -invoice.remaining_amount)
-        add_note "Réçu #{number_to_currency(-invoice.remaining_amount)} de la facture ##{invoice.id}"
+        overbalance = invoice.overbalance
+        invoice.decrement(:manual_balance, overbalance)
+        invoice.add_note "Transférer #{number_to_currency(overbalance)} sur la facture ##{id}"
+        increment(:manual_balance, overbalance)
+        add_note "Réçu #{number_to_currency(overbalance)} de la facture ##{invoice.id}"
         invoice.save!
         save!
       end
