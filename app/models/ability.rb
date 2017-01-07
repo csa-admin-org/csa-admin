@@ -8,14 +8,14 @@ class Ability
       cannot [:manage, :read], Admin
       can [:manage, :read], Admin, id: admin.id
       cannot :manage, [Basket, Delivery]
-      can :manage, [HalfdayWork, HalfdayWorkDate, Absence]
+      can :manage, [Halfday, HalfdayParticipation, Absence]
       can :create, [Gribouille, Member, Membership, Distribution]
       can :update, [Gribouille, Invoice, Member]
       can :destroy, [Member, Membership], can_destroy?: true
       can :update, Membership, can_update?: true
     else
       cannot :manage, :all
-      can :manage, [Gribouille, HalfdayWork, HalfdayWorkDate, Absence, Vegetable, BasketContent]
+      can :manage, [Gribouille, Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent]
     end
     cannot :manage, OldInvoice
     cannot [:create, :destroy], Invoice

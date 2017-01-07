@@ -162,10 +162,10 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
         panel "½ Journées de travail (#{year})" do
-          coming_halfday_works = HalfdayWork.during_year(year).coming.to_a.sum(&:value)
-          pending_halfday_works = HalfdayWork.during_year(year).pending.to_a.sum(&:value)
-          validated_halfday_works = HalfdayWork.during_year(year).validated.to_a.sum(&:value)
-          rejected_halfday_works = HalfdayWork.during_year(year).rejected.to_a.sum(&:value)
+          coming_halfday_works = HalfdayParticipation.during_year(year).coming.to_a.sum(&:value)
+          pending_halfday_works = HalfdayParticipation.during_year(year).pending.to_a.sum(&:value)
+          validated_halfday_works = HalfdayParticipation.during_year(year).validated.to_a.sum(&:value)
+          rejected_halfday_works = HalfdayParticipation.during_year(year).rejected.to_a.sum(&:value)
 
           statuses = %i[coming pending validated rejected missing]
           table_for statuses do
