@@ -1,9 +1,9 @@
 module HalfdaysHelper
-  def halfday_label(halfday, date: false)
+  def halfday_label(halfday, date: false, description: true)
     labels = [
       halfday.period,
       display_place(halfday),
-      display_activity(halfday)
+      display_activity(halfday, description: description)
     ]
     labels.insert(0, l(halfday.date, format: :medium).capitalize) if date
     labels.join(', ')
@@ -17,8 +17,8 @@ module HalfdaysHelper
     end
   end
 
-  def display_activity(halfday)
-    if halfday.description?
+  def display_activity(halfday, description: true)
+    if description && halfday.description?
       halfday.activity +
         content_tag(:span, class: 'tooltip-toggle', data: { tooltip: halfday.description }) {
           content_tag :i, nil, class: 'fa fa-info-circle'

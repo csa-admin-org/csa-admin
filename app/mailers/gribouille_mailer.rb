@@ -1,5 +1,5 @@
 class GribouilleMailer < ApplicationMailer
-  helper :halfday_works
+  helper :halfdays
   helper :application
   layout false
 

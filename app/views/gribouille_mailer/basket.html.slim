@@ -37,13 +37,12 @@ html
           li
             - if date[:participation]
               b
-                =(l date[:halfday].date, format: :long).capitalize
-                = ", insrit pour #{date[:halfday]).period}, "
+                = halfday_label(date[:halfday], date: true, description: false)
+                = ", "
                 =t :person, count: date[:participation].participants_count
+                = " insrite(s)"
             - else
-              =(l date[:halfday].date, format: :long).capitalize
-              = ', '
-              = date[:halfday]).period
+              = halfday_label(date[:halfday], date: true, description: false)
       p= link_to 'Inscription', members_member_url(@member)
 
     br
