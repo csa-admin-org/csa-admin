@@ -55,17 +55,14 @@ table.halfday_works {
       // border-left: 1px solid $table-border-color;
       // border-bottom: 0px;
     }
-    th.date {
-      width: 30%
+    th.medium {
+      width: 120px;
     }
-    th.periods, th.participants_count {
-      width: 15%;
+    th.small {
+      width: 80px;
     }
-    th.locations {
-      width: 13%;
-    }
-    th.carpooling {
-      width: 20%;
+    th.action {
+      width: 50px;
     }
   }
 
@@ -84,6 +81,9 @@ table.halfday_works {
       // border-top: 1px solid $table-border-color;
       border-bottom: 0px;
 
+      span {
+        margin-left: 5px;
+      }
       button {
         @include button(flat, white);
         // margin-right: 0.5em;

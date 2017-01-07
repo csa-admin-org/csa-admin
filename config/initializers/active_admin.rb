@@ -5,7 +5,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = 'Rage de Vert - Admin'
+  config.site_title = 'Rage de Vert'
   config.root_to = 'dashboard#index'
 
   # Set an optional image to be displayed for the header

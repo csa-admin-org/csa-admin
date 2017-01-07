@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     constraints subdomain: 'membres' do
       get '/' => redirect('/token/recover')
       resources :members, only: [:show], path: '' do
-        resources :halfday_works
+        resources :halfday_participations
       end
       resource :member_token,
         path: 'token',

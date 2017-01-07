@@ -163,12 +163,12 @@ fr:
       member:
         one: Membre
         other: Membres
-      halfday_work:
+      halfday_participation:
         one: ½ Journée
         other: ½ Journées
-      halfday_work_date:
-        one: Date ½ Journée de travail
-        other: Dates ½ Journée de travail
+      halfday:
+        one: ½ Journée (Date)
+        other: ½ Journées (Date)
       membership:
         one: Abonnement
         other: Abonnements
@@ -197,14 +197,21 @@ fr:
       admin:
         password: Mot de passe
         password_confirmation: Mot de passe (confirmation)
-      halfday_work:
+      halfday_participation:
         member_id: Membre
-        periods: Horaire
-        participants_count: Participants
-        status: Statut
         member: Membre
-      halfday_work_date:
-        periods: Horaire
+        period: Horaire
+        participants_count: Participants
+        state: Statut
+      halfday:
+        date: Date
+        start_time: Heure de début
+        end_time: Heure de fin
+        period: Horaire
+        place: Lieu
+        place_url: Lieu URL
+        activity: Activité
+        description: Déscription
         participants_limit: Limite de participants
       distribution:
         name: Nom
@@ -314,8 +321,8 @@ fr:
       annual: annuel
       quarterly: trimestriel
 
-  halfday_work:
-    status:
+  halfday_participation:
+    state:
       pending: "A valider"
       coming: "A venir"
       validated: Validée
@@ -355,6 +362,7 @@ fr:
     formats:
       default: ! '%e %B %Y'
       long: ! '%A %e %B %Y'
+      medium: ! '%a %-d %b %y'
       short: ! '%e %B'
       number: '%d.%m.%Y'
     month_names:

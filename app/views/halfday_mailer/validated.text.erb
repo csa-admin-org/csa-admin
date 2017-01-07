@@ -1,0 +1,17 @@
+Nous vous remercions pour votre participation à une ½ journée de travail:
+
+Date: <%= l @halfday_participation.halfday.date, format: :long %>
+Horaire: <%= @halfday_participation.halfday.period %>
+Activité: <%= @halfday_participation.halfday.activity %>
+<% if @halfday_participation.halfday.description.present? %>
+Déscription: <%= @halfday_participation.halfday.description %>
+<% end %>
+Lieu: <%= @halfday_participation.halfday.place %>
+<% if @halfday_participation.halfday.place_url.present? %>
+Lieu (URL): <%= @halfday_participation.halfday.place_url %>
+<% end %>
+Participants: <%= @halfday_participation.participants_count %>
+
+Elle a été validée par un de nos agriculteurs, ils sont fiers de vous!
+
+Ajouter d'autres ½ journées à tout moment sur: <%= members_member_url(@member) %>

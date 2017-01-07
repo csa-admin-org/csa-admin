@@ -158,29 +158,22 @@ FactoryGirl.define do
     end
   end
 
-  factory :halfday_work_date do
+  factory :halfday do
     date { Time.zone.today.beginning_of_week + 8.days }
-    periods { ['am'] }
+    start_time { Time.zone.parse('8:30') }
+    end_time { Time.zone.parse('12:00') }
+    place 'Thielle'
+    activity 'Aide aux champs'
   end
 
-  factory :halfday_work do
+  factory :halfday_participation do
     member
-    periods { ['am'] }
-    date { Time.zone.today.beginning_of_week + 8.days }
+    halfday
     participants_count 1
 
     trait :validated do
       validated_at { date }
       validator { create(:admin) }
-    end
-
-    after :build do |_, evaluator|
-      unless HalfdayWorkDate.exists?(date: evaluator.date)
-        create(:halfday_work_date,
-          date: evaluator.date,
-          periods: evaluator.periods
-        )
-      end
     end
   end
 end

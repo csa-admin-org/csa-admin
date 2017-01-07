@@ -2,52 +2,50 @@ require 'rails_helper'
 
 feature 'members page' do
   let!(:member) { create(:member, :active) }
-  let!(:halfday_work) { create(:halfday_work, member: member) }
+  let!(:halfday_participation) { create(:halfday_participation, member: member) }
 
   before { Capybara.app_host = 'http://membres.example.com' }
 
   context 'existing member token' do
-    before { create(:halfday_work_date, date: Time.zone.today, periods: %w[am pm]) }
+    let!(:halfday) { create(:halfday, date: 4.days.from_now) }
     before { visit "/#{member.token}" }
 
-    scenario 'add new halfday work' do
-      check 'halfday_work_period_am'
-      check 'halfday_work_period_pm'
-      fill_in 'halfday_work_participants_count', with: 3
+    scenario 'add new participation' do
+      choose "halfday_participation_halfday_id_#{halfday.id}"
+      fill_in 'halfday_participation_participants_count', with: 3
       click_button 'Inscription'
       expect(page)
-        .to have_content "#{I18n.l(Time.zone.today, format: :long).capitalize}8:30 - 12:00 / 13:30 - 17:30Thielle3"
+        .to have_content "#{I18n.l(halfday.date, format: :medium).capitalize}, #{halfday.period}"
       expect(page).not_to have_content "oui (#{member.phones_array.first})"
     end
 
-    scenario 'add new halfday work with carpooling' do
-      check 'halfday_work_period_am'
-      check 'halfday_work_period_pm'
-      fill_in 'halfday_work_participants_count', with: 3
-      check 'halfday_work_carpooling'
+    scenario 'add new participation with carpooling' do
+      choose "halfday_participation_halfday_id_#{halfday.id}"
+      fill_in 'halfday_participation_participants_count', with: 3
+      check 'halfday_participation_carpooling'
       fill_in 'carpooling_phone', with: '077 447 58 31'
       click_button 'Inscription'
 
       expect(page).to have_content 'oui (077 447 58 31)'
     end
 
-    scenario 'add new halfday work with carpooling (default phone)' do
-      check 'halfday_work_period_am'
-      check 'halfday_work_period_pm'
-      fill_in 'halfday_work_participants_count', with: 3
-      check 'halfday_work_carpooling'
+    scenario 'add new participation with carpooling (default phone)' do
+      choose "halfday_participation_halfday_id_#{halfday.id}"
+      fill_in 'halfday_participation_participants_count', with: 3
+      check 'halfday_participation_carpooling'
       click_button 'Inscription'
 
       expect(page).to have_content "oui (#{member.phones_array.first})"
     end
 
-    scenario 'remove halfday work' do
-      date = halfday_work.date
-      date_text = I18n.l(date, format: :long).capitalize
+    scenario 'remove participation' do
+      halfday = halfday_participation.halfday
+      participation_text =
+        "#{I18n.l(halfday.date, format: :medium).capitalize}, #{halfday.period}"
 
-      expect(page).to have_content date_text
+      expect(page).to have_content participation_text
       click_button 'Effacer', match: :first
-      expect(page).not_to have_content date_text
+      expect(page).not_to have_content participation_text
     end
   end
 

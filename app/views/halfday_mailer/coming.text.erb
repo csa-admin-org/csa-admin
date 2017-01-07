@@ -1,0 +1,24 @@
+Un petit email automagique pour vous rappelez votre inscription à une ½ journée de travail:
+
+Date: <%= l @halfday_participation.halfday.date, format: :long %>
+Horaire: <%= @halfday_participation.halfday.period %>
+Activité: <%= @halfday_participation.halfday.activity %>
+<% if @halfday_participation.halfday.description.present? %>
+Déscription: <%= @halfday_participation.halfday.description %>
+<% end %>
+Lieu: <%= @halfday_participation.halfday.place %>
+<% if @halfday_participation.halfday.place_url.present? %>
+Lieu (URL): <%= @halfday_participation.halfday.place_url %>
+<% end %>
+Participants: <%= @halfday_participation.participants_count %>
+
+En cas de doute vous pouvez contacter les jardiniers au 077 447 26 16.
+
+<% if @halfday_participations_with_carpooling.any? %>
+Covoiturage, les membres suivants se déplacent en voiture, n'hésitez pas à prendre contact avec eux:
+<% @halfday_participations_with_carpooling.each do |participation| %>
+- <%= participation.member.name %>: <%= participation.carpooling_phone %>
+<% end %>
+<% end %>
+
+Modifier vos ½ journées à tout moment sur: <%= members_member_url(@member) %>

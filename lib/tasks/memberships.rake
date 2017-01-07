@@ -10,7 +10,7 @@ namespace :memberships do
           basket: basket,
           started_on: (Date.current + 1.year).beginning_of_year,
           ended_on: (Date.current + 1.year).end_of_year,
-          annual_halfday_works: member.current_membership&.annual_halfday_works || HalfdayWork::MEMBER_PER_YEAR,
+          annual_halfday_works: member.current_membership&.annual_halfday_works || HalfdayParticipation::MEMBER_PER_YEAR,
           halfday_works_annual_price: member.current_membership&.halfday_works_annual_price || 0)
         member.update!( # out of waiting queue
           waiting_started_at: nil,

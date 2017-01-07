@@ -3,7 +3,7 @@ class HalfdayWorksCalendarController < ApplicationController
 
   # GET halfday_works/calendar.ics
   def show
-    @halfday_works = HalfdayWork.all
+    @halfday_participations = HalfdayParticipation.all
   end
 
   private

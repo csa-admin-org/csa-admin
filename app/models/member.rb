@@ -14,7 +14,7 @@ class Member < ActiveRecord::Base
   has_many :old_invoices
   has_many :current_year_invoices, -> { during_year(Time.zone.today.year) },
     class_name: 'Invoice'
-  has_many :halfday_works
+  has_many :halfday_participations
   has_many :memberships
   has_many :current_year_memberships, -> { during_year(Time.zone.today.year) },
     class_name: 'Membership'
@@ -257,7 +257,7 @@ class Member < ActiveRecord::Base
   def validated_halfday_works(year = nil)
     @validated_halfday_works ||= begin
       year ||= Time.zone.today.year
-      halfday_works.during_year(year).validated.to_a.sum(&:value)
+      halfday_participations.during_year(year).validated.to_a.sum(&:value)
     end
   end
 

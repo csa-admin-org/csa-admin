@@ -27,5 +27,7 @@ module AdminRagedevertCh
     config.i18n.default_locale = :fr
 
     config.action_mailer.default_url_options = { host: 'membres.ragedevert.ch' }
+
+    config.active_record.time_zone_aware_types = [:datetime, :time]
   end
 end

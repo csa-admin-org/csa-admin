@@ -21,12 +21,12 @@ describe 'Halfday Works calendar feed' do
   end
 
   context 'with a good auth token' do
-    let!(:halfday_work) { create(:halfday_work, participants_count: 3) }
+    let!(:halfday_participation) { create(:halfday_participation, participants_count: 3) }
 
     it 'responds 200' do
       get '/halfday_works/calendar.ics', params: { auth_token: ENV['ICALENDAR_AUTH_TOKEN'] }
       expect(response.status).to eq 200
-      expect(response.body).to include "#{halfday_work.member.name} (3)"
+      expect(response.body).to include "#{halfday_participation.member.name} (3)"
     end
   end
 end

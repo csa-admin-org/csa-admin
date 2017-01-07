@@ -28,6 +28,58 @@ class HalfdayWorkDate < ActiveRecord::Base
     end
   end
 
+  def start_time(period)
+    if date.wednesday?
+      case period
+      when 'am' then Time.zone.parse('7:00')
+      when 'pm' then Time.zone.parse('13:30')
+      end
+    else
+      case period
+      when 'am' then Time.zone.parse('8:30')
+      when 'pm' then Time.zone.parse('13:30')
+      end
+    end
+  end
+
+  def end_time(period)
+    if date.wednesday?
+      case period
+      when 'am' then Time.zone.parse('10:00')
+      when 'pm' then Time.zone.parse('17:30')
+      end
+    else
+      case period
+      when 'am' then Time.zone.parse('12:00')
+      when 'pm' then Time.zone.parse('17:30')
+      end
+    end
+  end
+
+  def place(period)
+    if date.wednesday? && period == 'am'
+      'Jardin de la Main'
+    else
+      'Thielle'
+    end
+  end
+
+  def place_url(period)
+    if date.wednesday? && period == 'am'
+      'https://goo.gl/maps/tUQcLu1KkPN2'
+    else
+      'https://goo.gl/maps/xSxmiYRhKWH2'
+    end
+  end
+
+  def activity(period)
+    if date.wednesday? && period == 'am'
+      'Confection des paniers'
+    else
+      'Aide aux champs'
+    end
+  end
+
   def full?
     periods.all? { |p| participants_limit_reached?(p) }
   end

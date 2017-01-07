@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161231171148) do
+ActiveRecord::Schema.define(version: 20170104200309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,22 @@ ActiveRecord::Schema.define(version: 20161231171148) do
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id", using: :btree
   end
 
+  create_table "halfday_participations", force: :cascade do |t|
+    t.integer  "halfday_id",                             null: false
+    t.integer  "member_id",                              null: false
+    t.integer  "validator_id"
+    t.string   "state",              default: "pending", null: false
+    t.datetime "validated_at"
+    t.datetime "rejected_at"
+    t.integer  "participants_count", default: 1,         null: false
+    t.string   "carpooling_phone"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["halfday_id"], name: "index_halfday_participations_on_halfday_id", using: :btree
+    t.index ["member_id"], name: "index_halfday_participations_on_member_id", using: :btree
+    t.index ["validator_id"], name: "index_halfday_participations_on_validator_id", using: :btree
+  end
+
   create_table "halfday_work_dates", force: :cascade do |t|
     t.date     "date",               null: false
     t.string   "periods",            null: false, array: true
@@ -148,6 +164,21 @@ ActiveRecord::Schema.define(version: 20161231171148) do
     t.index ["rejected_at"], name: "index_halfday_works_on_rejected_at", using: :btree
     t.index ["validated_at"], name: "index_halfday_works_on_validated_at", using: :btree
     t.index ["validator_id"], name: "index_halfday_works_on_validator_id", using: :btree
+  end
+
+  create_table "halfdays", force: :cascade do |t|
+    t.date     "date",               null: false
+    t.time     "start_time",         null: false
+    t.time     "end_time",           null: false
+    t.string   "place",              null: false
+    t.string   "place_url"
+    t.string   "activity",           null: false
+    t.text     "description"
+    t.integer  "participants_limit"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["date"], name: "index_halfdays_on_date", using: :btree
+    t.index ["start_time"], name: "index_halfdays_on_start_time", using: :btree
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -258,4 +289,7 @@ ActiveRecord::Schema.define(version: 20161231171148) do
   add_foreign_key "basket_contents", "vegetables"
   add_foreign_key "basket_contents_distributions", "basket_contents"
   add_foreign_key "basket_contents_distributions", "distributions"
+  add_foreign_key "halfday_participations", "admins", column: "validator_id"
+  add_foreign_key "halfday_participations", "halfdays"
+  add_foreign_key "halfday_participations", "members"
 end

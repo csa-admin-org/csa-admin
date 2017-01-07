@@ -8,60 +8,43 @@ section
 
 section
   h2 ½ journées de travail à venir
-  - if @member.halfday_works.coming_for_member.empty?
+  - coming_participations = @member.halfday_participations.coming_for_member.includes(:halfday)
+  - if coming_participations.empty?
     p.table-empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
     table.halfday_works
       thead
         tr
-          th.date Date
-          th.periods Horaire
-          th.locations Lieu
-          th.participants_count Participants
-          th.carpooling Covoiturage
-          th
+          th Date, Horaire, Lieu et Activité
+          th.small Part.
+          th.small Covoiturage
+          th.action
       tbody
-      - @member.halfday_works.coming_for_member.each do |halfday_work|
+      - coming_participations.each do |participation|
         tr
-          td=(l halfday_work.date, format: :long).capitalize
-          td= display_periods halfday_work
-          td== display_locations halfday_work, format: :short
-          td= halfday_work.participants_count
-          td= halfday_work.carpooling? ? "oui (#{halfday_work.carpooling_phone})" : 'non'
+          td== halfday_label(participation.halfday, date: true)
+          td= participation.participants_count
+          td= participation.carpooling? ? "oui (#{participation.carpooling_phone})" : 'non'
           td
-            = button_to [:members, @member, halfday_work], method: :delete do
+            = button_to [:members, @member, participation], method: :delete do
               span style='display: none' Effacer
 
 section
   h2 Inscription ½ journée de travail
-  p.label Sélectionez une date sur le calendrier ci-dessous. Plus le vert de la date est foncé, plus le nombre d'inscriptions est élevé. Dans la mesure du possible, merci de choisir les dates les moins fréquentées (vert clair).
-
   section.form
-    - @halfday_work ||= HalfdayWork.new(date: Time.zone.today)
-    - @coming_halfday_work_date = ComingHalfdayWorkDates.new
-    = form_for [:members, @member, @halfday_work] do |f|
+    - halfdays = Halfday.available.includes(:participations).sort_by { |hd| "#{hd.date}#{hd.period}" }
+    - @halfday_participation ||= HalfdayParticipation.new(halfday: halfdays.reject { |hd| hd.participant?(@member) || hd.full? }.first)
+    - dates = halfdays.map(&:date).uniq
+    = form_for [:members, @member, @halfday_participation] do |f|
       .column-left
-          #datepicker.calendar data={ dates_with_participants_count: @coming_halfday_work_date.dates_with_participants_count.to_json, min_date: @coming_halfday_work_date.min, max_date: @coming_halfday_work_date.max }
-          = f.hidden_field :date
+          #datepicker.calendar data={ dates: dates.to_json, selected_date: @halfday_participation.halfday&.date }
       .column-right
-        p
-          label for='periods' Horaire & Lieu
-          - if @halfday_work.errors[:periods]
-            label.label-error= @halfday_work.errors[:periods].first
-
-          label#halfday_work_period_am_label
-            = f.check_box :period_am, { id: 'halfday_work_period_am' }
-            span.thielle
-              = '8:30 - 12:00 à '
-              == link_to 'Thielle', 'https://goo.gl/maps/xSxmiYRhKWH2', title: 'Google Maps'
-            span.neuchatel
-              = '7:00 - 10:00 à '
-              == link_to 'Neuchâtel', 'https://goo.gl/maps/tUQcLu1KkPN2', title: 'Google Maps'
-          label#halfday_work_period_pm_label
-            = f.check_box :period_pm, { id: 'halfday_work_period_pm' }
-            span
-              = '13:30 - 17:30 à '
-              == link_to 'Thielle', 'https://goo.gl/maps/xSxmiYRhKWH2', title: 'Google Maps'
+        label Horaire, lieu et activité
+        label.label-error= @halfday_participation.errors[:halfday].first
+        .halfdays
+          = f.collection_radio_buttons(:halfday_id, halfdays, :id, :period) do |b|
+            - disabled = b.object.participant?(@member) || b.object.full?
+            - b.label(class: "halfday-#{b.object.date} #{'disabled' if disabled}") { b.radio_button(disabled: disabled) + halfday_label(b.object).html_safe }
         p
           label Nbr. de participants
           = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count'
@@ -77,27 +60,28 @@ section
             span= 'Tél.:'
             = f.text_field :carpooling_phone, { id: 'carpooling_phone', placeholder: @member.phones_array.first }
 
-        = f.submit 'Inscription'
+        = f.submit 'Inscription', id: 'subscribe-button'
 
 section.past
   h2 ½ journées de travail effectuées
-  - if @member.halfday_works.past.empty?
+  - if @member.halfday_participations.past.empty?
     p.table-empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else
     table.halfday_works
       thead
         tr
-          th.date Date
-          th.periods Horaire
-          th.participants_count Participants
+          th Date, Horaire, Lieu et Activité
+          th.small Part.
+          th.medium Status.
       tbody
-      - @member.halfday_works.past.each do |halfday_work|
-        tr class="#{halfday_work.rejected? ? 'rejected' : ''}"
+      - @member.halfday_participations.includes(:halfday).past.each do |participation|
+        tr class="#{participation.rejected? ? 'rejected' : ''}"
+          td== halfday_label(participation.halfday, date: true)
+          td= participation.participants_count
           td
-            =(l halfday_work.date, format: :long).capitalize
-            - if halfday_work.pending?
-              span= ' (en attente de validation)'
-            - elsif halfday_work.rejected?
-              span= ' (refusée)'
-          td= display_periods halfday_work
-          td= halfday_work.participants_count
+            - if participation.pending?
+              span= 'en attente de validation'
+            - elsif participation.rejected?
+              span= 'refusée'
+            - elsif participation.validated?
+              span= 'validée'

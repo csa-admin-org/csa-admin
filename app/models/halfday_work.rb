@@ -52,6 +52,16 @@ class HalfdayWork < ActiveRecord::Base
     end
   end
 
+  def state
+    if validated_at?
+      'validated'
+    elsif rejected_at?
+      'rejected'
+    else
+      'pending'
+    end
+  end
+
   %i[validated rejected pending coming].each do |status|
     define_method "#{status}?" do
       self.status == status
@@ -133,10 +143,10 @@ class HalfdayWork < ActiveRecord::Base
 
   def send_notifications
     if validated_at_changed? && validated_at?
-      HalfdayWorkMailer.validated(self).deliver_now
+      HalfdayMailer.validated(self).deliver_now
     end
     if rejected_at_changed? && rejected_at?
-      HalfdayWorkMailer.rejected(self).deliver_now
+      HalfdayMailer.rejected(self).deliver_now
     end
   end
 

@@ -25,7 +25,7 @@ html
       h1 Le mot de la faim
       == gribouille_content(@gribouille.footer)
 
-    - dates = HalfdayWorkDate.coming_dates_for_gribouille(@member)
+    - dates = Halfday.coming_dates_for_gribouille(@member)
     - if dates.any?
       h1 ½ journées de travail
       p
@@ -35,15 +35,15 @@ html
       ul
         - dates.each do |date|
           li
-            - if date[:halfday_work]
+            - if date[:participation]
               b
-                =(l date[:halfday_work_date].date, format: :long).capitalize
-                = ", insrit pour #{display_periods(date[:halfday_work])}, "
-                =t :person, count: date[:halfday_work].participants_count
+                =(l date[:halfday].date, format: :long).capitalize
+                = ", insrit pour #{date[:halfday]).period}, "
+                =t :person, count: date[:participation].participants_count
             - else
-              =(l date[:halfday_work_date].date, format: :long).capitalize
+              =(l date[:halfday].date, format: :long).capitalize
               = ', '
-              = display_periods(date[:halfday_work_date])
+              = date[:halfday]).period
       p= link_to 'Inscription', members_member_url(@member)
 
     br

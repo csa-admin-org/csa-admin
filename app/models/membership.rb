@@ -118,7 +118,7 @@ class Membership < ActiveRecord::Base
   end
 
   def halfday_works_description
-    diff = annual_halfday_works - HalfdayWork::MEMBER_PER_YEAR
+    diff = annual_halfday_works - HalfdayParticipation::MEMBER_PER_YEAR
     if diff > 0
       "Réduction pour #{diff} demi-journées de travail supplémentaires"
     elsif diff < 0
@@ -172,7 +172,7 @@ class Membership < ActiveRecord::Base
   private
 
   def set_default_annual_halfday_works
-    self.annual_halfday_works ||= HalfdayWork::MEMBER_PER_YEAR
+    self.annual_halfday_works ||= HalfdayParticipation::MEMBER_PER_YEAR
   end
 
   def build_new_membership

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Membership do
   it 'sets annual_halfday_works default' do
     expect(Membership.new.annual_halfday_works)
-      .to eq HalfdayWork::MEMBER_PER_YEAR
+      .to eq HalfdayParticipation::MEMBER_PER_YEAR
   end
 
   describe 'validations' do

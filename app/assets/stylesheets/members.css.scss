@@ -55,15 +55,37 @@ section.form {
   }
 
   .column-right {
-    padding: .25em 0 0 1em;
+    padding: 1em 0 0 1em;
 
     p {
-      margin: 1.6em 0;
+      margin: 1.3em 0;
     }
   }
 
-  label span.neuchatel {
-    display: none;
+  .halfdays {
+    label {
+      font-weight: normal;
+      display: inline-block;
+      padding-left: 20px;
+      text-indent: -20px;
+
+      &.disabled {
+        text-decoration: line-through;
+      }
+    }
+    span {
+      display: inline-block;
+      text-indent: 0px;
+    }
+    input {
+      // width: 13px;
+      // height: 13px;
+      padding: 0;
+      margin: 0 0.375em 0 0;
+      position: relative;
+      // top: -1px;
+      *overflow: hidden;
+    }
   }
 
   input.participants_count {
@@ -121,8 +143,8 @@ section.past {
   //Tooltip text container
   &::before {
     position: absolute;
-    top: -170px;
-    left: -115px;
+    bottom: 20px;
+    left: -250px;
     background-color: #2B222A;
     border-radius: 5px;
     color: #fff;
@@ -130,22 +152,7 @@ section.past {
     padding: 1rem;
     text-transform: none;
     transition: all 0.5s ease;
-    width: 300px;
-  }
-
-  //Tooltip arrow
-  &::after {
-    position: absolute;
-    top: -12px;
-    left: 9px;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid #2B222A;
-    content: " ";
-    font-size: 0;
-    line-height: 0;
-    margin-left: -5px;
-    width: 0;
+    width: 250px;
   }
 
   //Setting up the transition
