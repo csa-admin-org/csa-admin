@@ -109,9 +109,15 @@ class BasketContent < ApplicationRecord
 
   def possibility(small_quantity, small_round_direction, big_quantity, big_round_direction)
     s_qt = round(small_quantity, small_round_direction)
+    # Splits small lost to big baskets
+    if s_qt.positive? && big_baskets_count.positive? && small_round_direction == :down
+      lost_s_qt = small_baskets_count * (small_quantity - s_qt)
+      big_quantity += lost_s_qt / big_baskets_count.to_f
+    end
     b_qt = round(big_quantity, big_round_direction)
     lost = quantity - s_qt * small_baskets_count - b_qt * big_baskets_count
     # p "#{s_qt} (#{small_round_direction}) // #{b_qt} (#{big_round_direction}) // #{lost}"
+
     OpenStruct.new(
       small_quantity: s_qt,
       big_quantity: b_qt,

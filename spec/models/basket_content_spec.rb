@@ -56,6 +56,18 @@ describe BasketContent do
       expect(basket_content.lost_quantity.to_f).to eq 0.11
     end
 
+    it 'splits kilogramme to both baskets and splits remaining to big baskets' do
+      basket_content = create(:basket_content,
+        quantity: 34,
+        unit: 'kilogramme',
+        small_baskets_count: 151,
+        big_baskets_count: 29
+      )
+      expect(basket_content.small_basket_quantity.to_f).to eq 0.170
+      expect(basket_content.big_basket_quantity.to_f).to eq 0.280
+      expect(basket_content.lost_quantity.to_f).to eq 0.21
+    end
+
     it 'splits kilogramme to both baskets (2)' do
       basket_content = create(:basket_content,
         quantity: 100,
@@ -64,8 +76,8 @@ describe BasketContent do
         big_baskets_count: 29
       )
       expect(basket_content.small_basket_quantity.to_f).to eq 0.57
-      expect(basket_content.big_basket_quantity.to_f).to eq 0.84
-      expect(basket_content.lost_quantity.to_f).to eq 0.97
+      expect(basket_content.big_basket_quantity.to_f).to eq 0.87
+      expect(basket_content.lost_quantity.to_f).to eq 0.1
     end
 
     it 'gives all kilogramme to big baskets' do
