@@ -4,6 +4,7 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.configure_rspec_metadata!
   c.ignore_localhost = true
+  c.filter_sensitive_data(ENV['RAIFFEISEN_PASSWORD']) { 'PASSWORD' }
 end
 
 require 'webmock/rspec'
