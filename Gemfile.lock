@@ -169,7 +169,6 @@ GEM
       exception_notification (~> 4.1.0)
       rake (>= 0.9.0)
     execjs (2.7.0)
-    facets (3.1.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.8.0)
@@ -485,7 +484,6 @@ DEPENDENCIES
   dotenv-rails
   exception_notification
   exception_notification-rake
-  facets
   factory_girl_rails
   faker
   faraday

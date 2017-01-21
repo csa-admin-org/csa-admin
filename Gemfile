@@ -33,7 +33,6 @@ gem 'sass-rails'
 gem 'font-awesome-sass'
 
 gem 'sucker_punch'
-gem 'facets', require: false
 
 gem 'bourbon'
 gem 'bitters', '~> 1.2.0'
@@ -74,18 +73,18 @@ group :development do
 end
 
 group :development, :test do
-  gem 'timecop'
   gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
-  gem 'capybara'
-  gem 'capybara-email'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'pdf-inspector', require: 'pdf/inspector'
 end
 
 group :test do
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'timecop'
   gem 'vcr'
   gem 'webmock'
 end
