@@ -1,6 +1,5 @@
 class Raiffeisen
   URL = 'https://ebanking.raiffeisen.ch'.freeze
-  P12 = Rails.root.join('config', 'raiffeisen.p12').to_s
 
   attr_reader :client
 
@@ -41,8 +40,10 @@ class Raiffeisen
   end
 
   def ssl_options
-    p12 = OpenSSL::PKCS12.new File.read(P12)
-    { client_cert: p12.certificate, client_key: p12.key }
+    {
+      client_key: OpenSSL::PKey.read(ENV['RAIFFEISEN_KEY']),
+      client_cert: OpenSSL::X509::Certificate.new(ENV['RAIFFEISEN_CERT'])
+    }
   end
 
   def ignored_isr_datas
