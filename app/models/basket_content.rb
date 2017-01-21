@@ -17,6 +17,7 @@ class BasketContent < ApplicationRecord
   validates :unit, inclusion: { in: UNITS }
   validates :vegetable, uniqueness: { scope: :delivery_id }
 
+  attr_accessor :same_basket_quantities
   attr_writer :basket_types
 
   before_save :set_basket_counts_and_quantities
@@ -39,6 +40,14 @@ class BasketContent < ApplicationRecord
 
   def big_basket
     @big_basket ||= Basket.big.where(year: delivery.date.year).first
+  end
+
+  def same_basket_quantities
+    both_baskets? && @same_basket_quantities == '1'
+  end
+
+  def both_baskets?
+    (basket_types & %w[small big]) == %w[small big]
   end
 
   private
@@ -87,6 +96,8 @@ class BasketContent < ApplicationRecord
         0
       elsif big_baskets_count.zero?
         1 / small_baskets_count.to_f
+      elsif same_basket_quantities
+        1 / (small_baskets_count + big_baskets_count).to_f
       else
         small_basket.price / total_baskets_price.to_f
       end
@@ -98,6 +109,8 @@ class BasketContent < ApplicationRecord
         0
       elsif small_baskets_count.zero?
         1 / big_baskets_count.to_f
+      elsif same_basket_quantities
+        1 / (small_baskets_count + big_baskets_count).to_f
       else
         big_basket.price / total_baskets_price.to_f
       end

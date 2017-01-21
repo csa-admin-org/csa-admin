@@ -33,6 +33,9 @@ ActiveAdmin.register BasketContent do
         collection: [['Eveil', 'small'], ['Abondance', 'big']],
         as: :check_boxes,
         label: false
+      f.input :same_basket_quantities,
+        as: :boolean,
+        input_html: { disabled: !f.object.both_baskets? }
     end
     f.inputs 'Distributions' do
       f.input :distributions,
@@ -90,6 +93,7 @@ ActiveAdmin.register BasketContent do
     delivery_id
     vegetable_id
     quantity
+    same_basket_quantities
     unit
   ],
     distribution_ids: [],

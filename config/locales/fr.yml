@@ -229,6 +229,7 @@ fr:
         delivery: Livraison
         basket: Panier
         distributions: Lieu de distribution
+        same_basket_quantities: Même quantité pour tous les paniers
       member:
         name: Nom
         first_name: Prénom
