@@ -45,9 +45,7 @@ gem 'devise-i18n'
 
 gem 'uglifier'
 gem 'jbuilder'
-gem 'google_drive', '~> 1.0.6'
-gem 'google-api-client', '~> 0.7.1'
-gem 'google_maps_geocoder', '~> 0.3.1'
+gem 'google_drive', '~> 2.1'
 
 gem 'icalendar'
 
