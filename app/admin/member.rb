@@ -91,14 +91,15 @@ ActiveAdmin.register Member do
   filter :with_current_distribution, as: :select, collection: -> { Distribution.all }
   filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
 
-
-  action_item :memberships, only: :show do
-    link_to 'Abonnements', memberships_path(q: { member_id_eq: member.id }, scope: :all)
+  action_item :create_invoice, only: :show do
+    link_to 'Créer facture', create_invoice_member_path(resource), method: :post
   end
   action_item :invoices, only: :show do
     link_to 'Factures', invoices_path(q: { member_id_eq: member.id }, scope: :all)
   end
-
+  action_item :memberships, only: :show do
+    link_to 'Abonnements', memberships_path(q: { member_id_eq: member.id }, scope: :all)
+  end
 
   form do |f|
     f.inputs 'Details' do
@@ -165,6 +166,11 @@ ActiveAdmin.register Member do
 
   collection_action :gribouille_emails, method: :get do
     render plain: Member.gribouille_emails.to_csv
+  end
+
+  member_action :create_invoice, method: :post do
+    InvoiceCreator.new(resource).create
+    redirect_to invoices_path(q: { member_id_eq: resource.id }, scope: :all)
   end
 
   controller do
