@@ -1,5 +1,6 @@
 ActiveAdmin.register Invoice do
   menu priority: 4
+  actions :all
 
   scope :all, default: true
   scope :not_sent
@@ -61,8 +62,18 @@ ActiveAdmin.register Invoice do
       disposition: 'inline'
   end
 
+  member_action :send_email, method: :post do
+    resource.send_email
+    redirect_to resource_path, notice: "Email envoyé!"
+  end
+
   action_item :pdf, only: :show do
     link_to 'PDF', pdf_invoice_path(params[:id]), target: '_blank'
+  end
+  action_item :send_email, only: :show do
+    if resource.sendable?
+      link_to 'Envoyer email', send_email_invoice_path(resource), method: :post
+    end
   end
 
   controller do

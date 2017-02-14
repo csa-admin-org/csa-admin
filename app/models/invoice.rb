@@ -60,6 +60,14 @@ class Invoice < ActiveRecord::Base
     balance < amount ? :open : :closed
   end
 
+  def sent?
+    sent_at?
+  end
+
+  def sendable?
+    !sent? && member.emails?
+  end
+
   def balance_without_overbalance
     [balance, amount].min
   end
@@ -141,6 +149,10 @@ class Invoice < ActiveRecord::Base
       InvoiceMailer.new_invoice(self).deliver_now
       touch(:sent_at)
     end
+  end
+
+  def can_destroy?
+    balance == 0
   end
 
   private

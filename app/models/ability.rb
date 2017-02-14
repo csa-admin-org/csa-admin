@@ -4,6 +4,8 @@ class Ability
   def initialize(admin)
     if admin.email == 'thibaud@thibaud.gg'
       can :manage, :all
+      cannot :destroy, Invoice
+      can :destroy, Invoice, can_destroy?: true
     elsif admin.email.in? %w[chantalgraef@gmail.com raphael.coquoz@bluewin.ch]
       cannot [:manage, :read], Admin
       can [:manage, :read], Admin, id: admin.id
@@ -18,7 +20,7 @@ class Ability
       can :manage, [Gribouille, Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent]
     end
     cannot :manage, OldInvoice
-    cannot [:create, :destroy], Invoice
+    cannot :create, Invoice
     can :pdf, Invoice
     can :read, :all
   end
