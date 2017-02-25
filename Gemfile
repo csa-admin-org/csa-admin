@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.0'
 
-gem 'rails', '5.0.1'
+gem 'rails', '5.0.2.rc1'
 gem 'rails-i18n'
 
 source 'https://rails-assets.org' do
@@ -27,6 +27,7 @@ gem 'jquery-ui-rails'
 gem 'momentjs-rails'
 gem 'slim'
 gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
+gem 'axlsx', github: 'randym/axlsx'
 gem 'active_admin_editor', github: 'thibaudgg/active_admin_editor'
 
 gem 'sass-rails'
@@ -34,9 +35,9 @@ gem 'font-awesome-sass'
 
 gem 'sucker_punch'
 
-gem 'bourbon'
+gem 'bourbon', '~> 4.2.7'
 gem 'bitters', '~> 1.2.0'
-gem 'neat'
+gem 'neat', '~> 1.8'
 gem 'refills'
 
 gem 'devise'
