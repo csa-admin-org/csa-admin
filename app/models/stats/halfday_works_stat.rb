@@ -8,6 +8,7 @@ class Stats::HalfdayWorksStat < Stats::BaseStat
     Member.all.each { |member|
       stats['Effectuées'] += member.validated_halfday_works(year)
       stats['Non-Effectuées'] += member.remaining_halfday_works(year)
+      stats['Non-Effectuées (Payées)'] += member.skipped_halfday_works(year)
       stats['Effectuées (extra)'] += member.extra_halfday_works(year)
     }
     stats.sort_by { |_k, v| -1 * v }.to_h

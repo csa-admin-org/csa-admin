@@ -64,7 +64,7 @@ var chartTitle = function() {
   return titles.join(' vs ');
 }
 
-$(document).ready(function() {
+$(document).on("turbolinks:load", function() {
   var series = chartSeries();
 
   Highcharts.setOptions({
