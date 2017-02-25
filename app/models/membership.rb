@@ -76,6 +76,10 @@ class Membership < ActiveRecord::Base
     ended_on >= Time.zone.today
   end
 
+  def normal_halfday_works
+    (deliveries_count / Delivery::PER_YEAR.to_f * HalfdayParticipation::MEMBER_PER_YEAR).round
+  end
+
   def halfday_works
     (deliveries_count / Delivery::PER_YEAR.to_f * annual_halfday_works).round
   end

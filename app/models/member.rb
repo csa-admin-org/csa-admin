@@ -269,6 +269,14 @@ class Member < ActiveRecord::Base
     [annual_halfday_works(year) - validated_halfday_works(year), 0].min.abs
   end
 
+  def skipped_halfday_works(year = nil)
+    if salary_basket?
+      0
+    else
+      [memberships.during_year(year).to_a.sum(&:normal_halfday_works) - validated_halfday_works(year), 0].max
+    end
+  end
+
   def to_param
     token
   end

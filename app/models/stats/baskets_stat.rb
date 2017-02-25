@@ -1,6 +1,6 @@
 class Stats::BasketsStat < Stats::BaseStat
   def self.all
-    [new(2015), new(2016)]
+    [new(2016), new(2017)]
   end
 
   def data
