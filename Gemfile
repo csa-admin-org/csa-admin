@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.0'
 
-gem 'rails', '5.0.2.rc1'
+gem 'rails', '5.0.2'
 gem 'rails-i18n'
 
 source 'https://rails-assets.org' do
