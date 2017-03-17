@@ -52,7 +52,7 @@ ActiveAdmin.register Member do
       row :phones
       row :emails
       row(:gribouille) { member.gribouille? ? 'envoyée' : 'non-envoyée' }
-      row(:billing_interval) { t("member.billing_interval.#{member[:billing_interval]}") }
+      row(:billing_interval) { t("member.billing_interval.#{member.billing_interval}") }
       row :current_membership do
         if member.current_membership
           link_to(

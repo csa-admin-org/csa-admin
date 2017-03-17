@@ -319,10 +319,6 @@ class Member < ActiveRecord::Base
         (active? && memberships.to_a.sum(&:deliveries_received_count) > 4))
   end
 
-  def billing_interval
-    trial? ? 'annual' : self[:billing_interval]
-  end
-
   private
 
   def build_membership
