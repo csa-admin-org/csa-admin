@@ -26,7 +26,7 @@ class InvoiceCreator
     attrs = {
       date: date,
       support_amount: support_amount,
-      member_billing_interval: member.billing_interval
+      member_billing_interval: billing_interval
     }
     if memberships.any?(&:billable?)
       return if quarter_already_billed? || memberships_not_started?
@@ -65,17 +65,21 @@ class InvoiceCreator
   end
 
   def memberships_amount_description
-    case member.billing_interval
+    case billing_interval
     when 'annual' then 'Montant annuel'
     when 'quarterly' then "Montant trimestriel ##{quarter}"
     end
   end
 
   def memberships_amount_fraction
-    case member.billing_interval
+    case billing_interval
     when 'annual' then 1
     when 'quarterly' then ((13 - date.month) / 3.0).ceil
     end
+  end
+
+  def billing_interval
+    member.trial? ? 'annual' : member.billing_interval
   end
 
   def quarter
