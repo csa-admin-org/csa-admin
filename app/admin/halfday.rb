@@ -68,14 +68,23 @@ ActiveAdmin.register Halfday do
     end
 
     def create
+      overwrite_date_of_time_params
       super do |format|
         redirect_to collection_url and return if resource.valid?
       end
     end
 
     def update
+      overwrite_date_of_time_params
       super do |format|
         redirect_to collection_url and return if resource.valid?
+      end
+    end
+
+    def overwrite_date_of_time_params
+      %w[1 2 3].each do |i|
+        params['halfday']["start_time(#{i}i)"] = params['halfday']["date(#{i}i)"]
+        params['halfday']["end_time(#{i}i)"] = params['halfday']["date(#{i}i)"]
       end
     end
   end

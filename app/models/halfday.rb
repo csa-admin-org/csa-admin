@@ -47,16 +47,12 @@ class Halfday < ActiveRecord::Base
     [start_time, end_time].map { |t| t.strftime('%k:%M') }.join('-')
   end
 
-  def start_at
-    date.in_time_zone +
-      start_time.strftime('%k').to_i.hours +
-      start_time.strftime('%M').to_i.minutes
+  def start_time
+    add_date_to_time(:start_time)
   end
 
-  def end_at
-    date.in_time_zone +
-      end_time.strftime('%k').to_i.hours +
-      end_time.strftime('%M').to_i.minutes
+  def end_time
+    add_date_to_time(:end_time)
   end
 
   %i[place place_url activity].each do |preset|
@@ -102,5 +98,14 @@ class Halfday < ActiveRecord::Base
       self.place_url = preset.place_url
       self.activity = preset.activity
     end
+  end
+
+  def add_date_to_time(attr)
+    return nil unless self[attr]
+    (
+      date.to_time(:utc) +
+      self[attr].utc.strftime('%k').to_i.hours +
+      self[attr].utc.strftime('%M').to_i.minutes
+    ).in_time_zone
   end
 end
