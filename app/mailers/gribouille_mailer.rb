@@ -7,7 +7,7 @@ class GribouilleMailer < ApplicationMailer
     @gribouille = gribouille
     @member = member
 
-    if @gribouille.attachment?
+    if @gribouille.attachment_name?
       attachments[@gribouille.attachment_name] = {
         mime_type: @gribouille.attachment_mime_type,
         content: @gribouille.attachment.file.read
