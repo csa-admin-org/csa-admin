@@ -60,6 +60,10 @@ class Membership < ActiveRecord::Base
       .select(&:billable?)
   end
 
+  def year
+    started_on.year
+  end
+
   def billable?
     price > 0
   end

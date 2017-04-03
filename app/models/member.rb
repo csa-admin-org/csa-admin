@@ -299,12 +299,12 @@ class Member < ActiveRecord::Base
   end
 
   def trial?
-    memberships.count == 1 && first_membership &&
-      first_membership.deliveries_received_count <= TRIAL_DELIVERIES
+    first_membership && first_membership.year == Date.current.year &&
+      deliveries_received_count_since_first_membership <= TRIAL_DELIVERIES
   end
 
   def deliveries_received_count_since_first_membership
-    first_membership.deliveries_received_count
+    current_year_memberships.sum { |m| m.deliveries_received_count }
   end
 
   def billable?
