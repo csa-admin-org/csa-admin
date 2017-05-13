@@ -10,8 +10,8 @@ ActiveAdmin.register HalfdayParticipation do
 
   index title: index_title do
     selectable_column
-    column :member
-    column 'Date', ->(hp) { l hp.halfday.date, format: :medium }
+    column :member, sortable: 'members.last_name'
+    column 'Date', ->(hp) { l hp.halfday.date, format: :medium }, sortable: 'halfdays.date'
     column 'Horaire', ->(hp) { hp.halfday.period }
     column 'Lieu', ->(hp) { display_place(hp.halfday) }
     column 'Activité', ->(hp) { hp.halfday.activity }
