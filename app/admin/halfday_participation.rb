@@ -79,6 +79,6 @@ ActiveAdmin.register HalfdayParticipation do
   end
 
   config.per_page = 25
-  config.sort_order = 'created_at_desc'
+  config.sort_order = 'halfdays.date_asc'
   config.batch_actions = true
 end
