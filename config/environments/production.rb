@@ -77,11 +77,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     port:          '587',
-    address:       ENV['POSTMARK_SMTP_SERVER'],
-    user_name:     ENV['POSTMARK_API_TOKEN'],
-    password:      ENV['POSTMARK_API_TOKEN'],
+    address:       'smtp.sendgrid.net',
+    user_name:     ENV['SENDGRID_USERNAME'],
+    password:      ENV['SENDGRID_PASSWORD'],
     domain:        'ragedevert-admin.herokuapp.com',
-    authenticatio: :cram_md5,
+    authentication: :plain,
     enable_starttls_auto: true
   }
 
