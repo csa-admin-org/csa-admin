@@ -37,13 +37,13 @@ html
           li
             - if date[:participation]
               b
-                = halfday_label(date[:halfday], date: true, description: false)
+                == halfday_label(date[:halfday], date: true, description: false)
                 = ", "
-                =t :person, count: date[:participation].participants_count
+                = t :person, count: date[:participation].participants_count
                 = " insrite(s)"
             - else
-              = halfday_label(date[:halfday], date: true, description: false)
-      p= link_to 'Inscription', members_member_url(@member)
+              == halfday_label(date[:halfday], date: true, description: false)
+      p == link_to 'Inscription', members_member_url(@member)
 
     br
     br
