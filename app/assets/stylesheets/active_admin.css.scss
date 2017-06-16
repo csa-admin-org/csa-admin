@@ -29,6 +29,14 @@ li.choice input {
   margin-right: 10px !important;
 }
 
+li.input.numeric input {
+  float: left;
+  text-align: right;
+  margin-left: 20px;
+  width: 70px;
+  // margin-right: 10px !important;
+}
+
 li.boolean label {
   padding-left: 18px;
 }

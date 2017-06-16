@@ -40,7 +40,7 @@ ActiveAdmin.register Halfday do
     end
     f.inputs 'Détails' do
       f.input :description, input_html: { rows: 5 }, hint: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien.'
-      f.input :participants_limit, as: :number, input_html: { style: 'width: 35px;' }, hint: 'Laisser vide si pas de limite.'
+      f.input :participants_limit, as: :number, hint: 'Laisser vide si pas de limite.'
     end
     f.actions
   end
