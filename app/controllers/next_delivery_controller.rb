@@ -8,11 +8,10 @@ class NextDeliveryController < ApplicationController
   # GET /deliveries/next.xlsx
   def next
     @delivery = Delivery.coming.first
-    @filter_distribution = Distribution.find(2) # Vélo
+    @filter_distribution = Distribution.find(2) # Velo
     render(
       xlsx: :show,
-      filename: "RageDeVert-Livraison-#{@delivery.date.strftime("%Y%m%d")}"
-    )
+      filename: 'RageDeVert-Livraison-#{@delivery.date.strftime("%Y%m%d")}')
   end
 
   private

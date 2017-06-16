@@ -66,7 +66,6 @@ ActiveAdmin.setup do |config|
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
 
-
   # == Batch Actions
   #
   # Enable and disable Batch Actions
@@ -79,7 +78,7 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources and pages from here.
   #
-  # config.before_filter :do_something_awesome
+  # config.before_action :do_something_awesome
 
 
   # == Setting a Favicon
@@ -176,14 +175,6 @@ ActiveAdmin.setup do |config|
 
   config.current_filters = false
 end
-
-class MyFooter < ActiveAdmin::Component
-  def build
-    super(id: 'footer')
-    para ''
-  end
-end
-ActiveAdmin.setup { |config| config.view_factory.footer = MyFooter }
 
 module ActiveAdmin::ViewHelpers
   include ApplicationHelper

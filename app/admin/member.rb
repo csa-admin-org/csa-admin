@@ -8,11 +8,9 @@ ActiveAdmin.register Member do
   scope :active, default: true
   scope :support
   scope :inactive
-  scope :renew_membership
+  # scope :renew_membership
 
-  index_title = -> { "Membres (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     selectable_column
     if params[:scope] == 'waiting'
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)

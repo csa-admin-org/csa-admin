@@ -1,6 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
-require File.expand_path('../../config/environment', __FILE__)
+require File.dirname(__FILE__) + '/../config/environment'
 require 'rspec/rails'
 require 'capybara/email/rspec'
 require 'sucker_punch/testing/inline'

@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def spaced(string, size: 4)
+  def spaced(string, size: 3)
     string = string.to_s
     (size - string.length).times do
       string = "&emsp;#{string}"

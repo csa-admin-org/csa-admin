@@ -7,9 +7,7 @@ ActiveAdmin.register Membership do
   scope :future_current_year
   scope :renew
 
-  index_title = -> { "Abonnements (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     selectable_column
     column :member, ->(m) { link_to m.member.name, m.member }
     column :basket
