@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resource :billing, only: [:show]
   end
 
-  scope module: 'stats',  as: nil do
+  scope module: 'stats', as: nil do
     constraints subdomain: 'stats' do
       get '/' => redirect('/members')
       resources :stats, only: [:show], path: '', constraints: {
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'members',  as: 'members' do
+  scope module: 'members', as: 'members' do
     constraints subdomain: 'membres' do
       get '/' => redirect('/token/recover')
       resources :members, only: [:show], path: '' do

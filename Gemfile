@@ -1,8 +1,14 @@
 source 'https://rubygems.org'
 
-ruby '2.4.0'
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
+  "https://github.com/#{repo_name}.git"
+end
 
-gem 'rails', '5.0.2'
+ruby '2.4.1'
+
+
+gem 'rails', '5.1.1'
 gem 'rails-i18n'
 
 source 'https://rails-assets.org' do
@@ -17,9 +23,8 @@ gem 'uniquify'
 gem 'paranoia'
 gem 'cancancan'
 
-gem 'activeadmin', github: 'activeadmin'
-gem 'inherited_resources', github: 'activeadmin/inherited_resources'
-gem 'responsive_active_admin'
+gem 'activeadmin'
+gem 'formadmin'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'

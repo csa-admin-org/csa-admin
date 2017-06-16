@@ -6,9 +6,7 @@ ActiveAdmin.register Absence do
   scope :current
   scope :future
 
-  index_title = -> { "Absences (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     column :member do |absence|
       link_to absence.member.name, absence.member
     end

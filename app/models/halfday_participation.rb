@@ -100,10 +100,10 @@ class HalfdayParticipation < ActiveRecord::Base
   end
 
   def send_notifications
-    if validated_at_changed? && validated_at?
+    if saved_change_to_validated_at? && validated_at?
       HalfdayMailer.validated(self).deliver_now
     end
-    if rejected_at_changed? && rejected_at?
+    if saved_change_to_rejected_at? && rejected_at?
       HalfdayMailer.rejected(self).deliver_now
     end
   end

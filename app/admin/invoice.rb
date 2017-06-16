@@ -8,9 +8,7 @@ ActiveAdmin.register Invoice do
   scope :with_overdue_notice
   scope :closed
 
-  index_title = -> { "Factures (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     column :id
     column :date, ->(i) { l i.date, format: :number }
     column :member

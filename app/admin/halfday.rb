@@ -5,9 +5,7 @@ ActiveAdmin.register Halfday do
   scope :past
   scope :coming,  default: true
 
-  index_title = -> { "Dates des ½ Journées (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     column :date, ->(h) { l h.date, format: :medium }, sortable: :date
     column :period, ->(h) { h.period }
     column :place, ->(h) { display_place(h) }

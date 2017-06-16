@@ -130,7 +130,7 @@ ActiveAdmin.register_page 'Dashboard' do
               else
                 tot = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 } }
               end
-              "Total: #{tot}"
+              "Total: #{tot}".html_safe
             end
             column('', class: 'align-right') do |delivered|
               if delivered
@@ -140,7 +140,7 @@ ActiveAdmin.register_page 'Dashboard' do
                 count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket.small? } }
                 count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket.big? } }
               end
-              spaced("Totaux: #{[count_small_basket, count_big_basket].join(' / ')}", size: 33)
+              spaced("Totaux: #{[count_small_basket, count_big_basket].join(' / ')}").html_safe
             end
           end
           table_for ['foo'] do |foo|
@@ -151,7 +151,7 @@ ActiveAdmin.register_page 'Dashboard' do
               "Total: #{total_small_basket + total_big_basket}"
             end
             column('', class: 'align-right') do
-              spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}", size: 27)
+              spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}")
             end
           end
           absences_count = Absence.including_date(next_delivery.date).count

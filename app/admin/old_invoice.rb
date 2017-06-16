@@ -8,9 +8,7 @@ ActiveAdmin.register OldInvoice do
   scope :diff_name
   scope :diff_zip, group: 2
 
-  index_title = -> { "Factures (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     column :number
     column :date
     column :member

@@ -51,7 +51,7 @@ ActiveAdmin.register BasketContent do
   filter :basket, as: :select, collection: [['Eveil', 'small'], ['Abondance', 'big']]
   filter :distributions, as: :select
 
-  before_filter only: :index do
+  before_action only: :index do
     if params['commit'].blank?
       params['q'] = {
         delivery_id_eq: Delivery.coming.first&.id,

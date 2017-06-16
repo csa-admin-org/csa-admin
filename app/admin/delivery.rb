@@ -4,7 +4,9 @@ ActiveAdmin.register Delivery do
   scope :current_year, default: true
   scope :next_year
 
-  index do
+  # Workaround for ActionController::UnknownFormat (xlsx download)
+  # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
+  index download_links: -> { params[:action] == 'show' ? [:xlsx] : nil } do
     column '#', ->(delivery) { delivery.number }
     column :date
     actions if current_admin.email == 'thibaud@thibaud.gg'
@@ -23,8 +25,7 @@ ActiveAdmin.register Delivery do
       respond_to do |format|
         format.html
         format.xlsx do
-          render(
-            xlsx: :show,
+          render(xlsx: :show,
             filename: "RageDeVert-Livraison-#{@delivery.date.strftime('%Y%m%d')}"
           )
         end

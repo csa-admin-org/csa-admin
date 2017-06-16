@@ -6,9 +6,7 @@ ActiveAdmin.register HalfdayParticipation do
   scope :validated
   scope :rejected
 
-  index_title = -> { "½ Journées (#{I18n.t("active_admin.scopes.#{current_scope.name.gsub(' ', '_').downcase}").downcase})" }
-
-  index title: index_title do
+  index do
     selectable_column
     column :member, sortable: 'members.last_name'
     column 'Date', ->(hp) { l hp.halfday.date, format: :medium }, sortable: 'halfdays.date'
