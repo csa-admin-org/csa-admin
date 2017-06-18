@@ -1,5 +1,5 @@
 namespace :gribouilles do
-  desc 'Create and send new invoices'
+  desc 'Send all gribouilles to our members'
   task deliver: :environment do
     next_delivery = Delivery.coming.first
     if next_delivery && Time.zone.today == (next_delivery.date - 1.day)
@@ -10,10 +10,8 @@ namespace :gribouilles do
             begin
               GribouilleMailer.basket(gribouille, member, email).deliver_now
             rescue => ex
-              ExceptionNotifier.notify_exception(
-                ex,
-                data: { email: email, member: member }
-              )
+              ExceptionNotifier.notify_exception(ex,
+                data: { email: email, member: member })
             end
           end
         end
