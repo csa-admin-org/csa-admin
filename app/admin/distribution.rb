@@ -19,10 +19,11 @@ ActiveAdmin.register Distribution do
       row :zip
       row :city
       row(:basket_price) { number_to_currency(distribution.basket_price) }
+      row :emails
     end
   end
 
-  permit_params *%i[name address zip city basket_price]
+  permit_params *%i[name address zip city basket_price emails]
 
   config.filters = false
   config.per_page = 25
