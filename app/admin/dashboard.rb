@@ -162,31 +162,18 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
         panel "½ Journées de travail (#{year})" do
-          coming_halfday_works = HalfdayParticipation.during_year(year).coming.to_a.sum(&:value)
-          pending_halfday_works = HalfdayParticipation.during_year(year).pending.to_a.sum(&:value)
-          validated_halfday_works = HalfdayParticipation.during_year(year).validated.to_a.sum(&:value)
-          rejected_halfday_works = HalfdayParticipation.during_year(year).rejected.to_a.sum(&:value)
+          counts = HalfdayParticipationCounts.counts(year)
 
-          statuses = %i[coming pending validated rejected missing]
-          table_for statuses do
-            column 'Status', ->(status) {
-              I18n.t("active_admin.scopes.#{status}")
-            }
-            column 'Nombres (am+pm * participants)', class: 'align-right' do |status|
-              halfday_works =
-                case status
-                when :coming then coming_halfday_works
-                when :pending then pending_halfday_works
-                when :validated then validated_halfday_works
-                when :rejected then rejected_halfday_works
-                when :missing then Member.all.to_a.sum(&:remaining_halfday_works)
-                end
+          table_for counts.keys do
+            column 'Status', ->(scope) { I18n.t("active_admin.scopes.#{scope}") }
+            column 'Nombres (am+pm * participants)', class: 'align-right' do |scope|
+              counts[scope]
             end
           end
         end
         panel 'Gribouille' do
           emails = Member.gribouille_emails
-          str = "#{emails.count} emails amoureux de Gribouille: "
+          str = "#{emails.size} emails amoureux de Gribouille: "
           str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
           str << " / "
           str << link_to('liste', gribouille_emails_members_path(format: :csv))
