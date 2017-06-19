@@ -1,26 +1,31 @@
 class HalfdayParticipationCounts
+  SCOPES = %i[coming pending validated rejected missing]
+
   def self.counts(year)
-    instance = new(year)
-    cache_key = [
-      'halfday_participation_counts',
-      HalfdayParticipation.maximum(:updated_at)
-    ]
+    cache_key = [name, HalfdayParticipation.maximum(:updated_at)]
     Rails.cache.fetch cache_key do
-      %i{coming pending validated rejected}.each_with_object({}) { |scope, hash|
-        hash[scope] = instance.count(scope)
-      }.merge(missing: instance.missing_count)
+      SCOPES.map { |scope| new(year, scope) }
     end
   end
 
-  def initialize(year)
+  attr_reader :count
+
+  def initialize(year, scope)
     @participations = HalfdayParticipation.during_year(year)
+    @scope = scope
+    count # eager load for the cache
   end
 
-  def count(scope)
-    @participations.send(scope).to_a.sum(&:value)
+  def title
+    I18n.t("active_admin.scopes.#{@scope}")
   end
 
-  def missing_count
-    Member.all.to_a.sum(&:remaining_halfday_works)
+  def count
+    @count ||=
+      case @scope
+      when :missing then Member.all.to_a.sum(&:remaining_halfday_works)
+      else
+        @participations.send(@scope).to_a.sum(&:value)
+      end
   end
 end
