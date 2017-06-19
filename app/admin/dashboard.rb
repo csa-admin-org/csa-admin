@@ -162,22 +162,17 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
         panel "½ Journées de travail (#{year})" do
-          counts = HalfdayParticipationCounts.counts(year)
-
-          table_for counts.keys do
-            column 'Status', ->(scope) { I18n.t("active_admin.scopes.#{scope}") }
-            column 'Nombres (am+pm * participants)', class: 'align-right' do |scope|
-              counts[scope]
-            end
+          table_for HalfdayParticipationCounts.counts(year) do
+            column 'Status', :title
+            column 'Nombres (am+pm * participants)', :count, class: 'align-right'
           end
         end
         panel 'Gribouille' do
           emails = Member.gribouille_emails
-          str = "#{emails.size} emails amoureux de Gribouille: "
-          str << mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
-          str << " / "
-          str << link_to('liste', gribouille_emails_members_path(format: :csv))
-          str.html_safe
+          mail_link = mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
+          csv_link = link_to('liste', gribouille_emails_members_path(format: :csv))
+
+          "#{emails.size} emails amoureux de Gribouille: #{mail_link} / #{csv_link}".html_safe
         end
       end
     end
