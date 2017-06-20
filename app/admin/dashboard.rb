@@ -7,35 +7,17 @@ ActiveAdmin.register_page 'Dashboard' do
     columns do
       column do
         panel 'Membres' do
-          statuses = %i[pending waiting trial active support inactive]
-          table_for statuses do
-            column 'Status', ->(status) {
-              link_to I18n.t("member.status.#{status}"), members_path(scope: status)
-            }
-            column 'Membres', class: 'align-right' do |status|
-              str = ''
-              if status == :active
-                str += "(#{Member.active.where(salary_basket: true).count} panier-salaire) "
-              end
-              if status == :inactive
-                str += "(#{Member.inactive.joins(:memberships).merge(Membership.future).count} futur actif) "
-              end
-              str += Member.send(status).count.to_s
+          table_for MemberCount.all do
+            column 'Status', ->(count) { link_to count.title, members_path(scope: count.scope) }
+            column 'Membres', class: 'align-right' do |count|
+              count.count.to_s.prepend(count.count_precision.to_s)
             end
-            column "#{Basket::SMALL} / #{Basket::BIG}", class: 'align-right' do |status|
-              if status.in?(%i[pending waiting trial active inactive])
-                members = Member.send(status).includes(
-                  :waiting_basket,
-                  current_membership: :basket,
-                  future_membership: :basket
-                ).all.to_a
-                count_small_basket = members.count { |m| m.basket.try(:small?) }
-                count_big_basket = members.count { |m| m.basket.try(:big?) }
-                [count_small_basket, count_big_basket].join(' / ').html_safe
-              end
+            column "#{Basket::SMALL} / #{Basket::BIG}", class: 'align-right' do |count|
+              [count.count_small_basket, count.count_big_basket].compact.join(' / ')
             end
           end
         end
+
         panel "Facturation #{year}" do
           memberships =
             Membership.current_year.includes(:basket, :member, :distribution)
@@ -102,7 +84,7 @@ ActiveAdmin.register_page 'Dashboard' do
         end
       end
       column do
-        panel "Prochaine livraison: #{ l next_delivery.date, format: :long }" do
+        panel "Prochaine livraison: #{l next_delivery.date, format: :long}" do
           distributions = Distribution.with_delivery_memberships(next_delivery)
           total_small_basket = 0
           total_big_basket = 0
@@ -161,12 +143,14 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
         end
+
         panel "½ Journées de travail (#{year})" do
-          table_for HalfdayParticipationCounts.counts(year) do
+          table_for HalfdayParticipationCount.all(year) do
             column 'Status', :title
             column 'Nombres (am+pm * participants)', :count, class: 'align-right'
           end
         end
+
         panel 'Gribouille' do
           emails = Member.gribouille_emails
           mail_link = mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
