@@ -308,6 +308,18 @@ fr:
       not_sent: non-envoyée
       open: ouverte
       closed: fermée
+    scope:
+      amount: Facturé
+      balance: Payé
+      missing_amount: Restant à facturer
+
+  billing:
+    scope:
+      small_basket: Panier Eveil
+      big_basket: Panier Abondance
+      distribution: Distribution
+      halfday_works: Ajustement ½ journées de travail
+      support: Cotisation
 
   member:
     status:

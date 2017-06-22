@@ -1,14 +1,15 @@
 ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: 'Tableau de bord'
   year = Time.zone.today.year
+  next_delivery = Delivery.coming.first
 
   content title: 'Tableau de bord' do
-    next_delivery = Delivery.coming.first
+
     columns do
       column do
         panel 'Membres' do
           table_for MemberCount.all do
-            column 'Status', ->(count) { link_to count.title, members_path(scope: count.scope) }
+            column('Status') { |count| link_to count.title, members_path(scope: count.scope) }
             column 'Membres', class: 'align-right' do |count|
               count.count.to_s.prepend(count.count_precision.to_s)
             end
@@ -19,125 +20,72 @@ ActiveAdmin.register_page 'Dashboard' do
         end
 
         panel "Facturation #{year}" do
-          memberships =
-            Membership.current_year.includes(:basket, :member, :distribution)
-          total_price = 0
-          types = [
-            'Panier Eveil',
-            'Panier Abondance',
-            'Distribution',
-            'Ajustement ½ journées de travail',
-            'Cotisation'
-          ]
-          table_for types do
-            column('Chiffre d\'Affaire') { |type| type }
-            column('', class: 'align-right') do |type|
-              price =
-                case type
-                when /Eveil/, /Abondance/
-                  basket_name = type.sub(/Panier /, '')
-                  memberships
-                    .select { |m| m.basket.name == basket_name }
-                    .sum(&:basket_total_price)
-                when 'Distribution'
-                  memberships.to_a.sum(&:distribution_total_price)
-                when 'Ajustement ½ journées de travail'
-                  memberships.to_a.sum(&:halfday_works_total_price)
-                when 'Cotisation'
-                  Member.billable.count(&:support_billable?) *
-                    Member::SUPPORT_PRICE
-                end
-              total_price += price
-              number_to_currency(price, unit: '')
-            end
-          end
-          table_for ['foo'] do |foo|
-            column('', class: 'align-right') do
-              "Total: #{number_to_currency total_price}"
-            end
+          billing_totals = BillingTotal.all
+          billing_totals_price = billing_totals.sum(&:price)
+
+          table_for billing_totals do
+            column "Chiffre d'Affaire", :title
+            column(class: 'align-right') { |total| number_to_currency(total.price) }
           end
 
-          invoices = Invoice.current_year.to_a
-          types = [
-            'Facturé',
-            'Payé',
-            'Restant à facturer',
-          ]
-          table_for types do
-            column('Facturation') { |type| type }
-            column('', class: 'align-right') do |type|
-              case type
-              when /Facturé/
-                number_to_currency invoices.sum(&:amount)
-              when 'Payé'
-                number_to_currency invoices.sum(&:balance)
-              when 'Restant à facturer'
-                number_to_currency total_price - invoices.sum(&:amount)
-              end
-            end
+          table_for nil do
+            column(class: 'align-right') { "Total: #{number_to_currency(billing_totals_price)}" }
           end
-          table_for ['foo'] do |foo|
-            column('') do
-              "Télécharger : #{link_to 'Excel', billing_path(format: :xlsx)}".html_safe
+
+          table_for InvoiceTotal.all(billing_totals_price) do
+            column 'Facturation', :title
+            column(class: 'align-right') { |total| number_to_currency(total.price) }
+          end
+
+          table_for nil do
+            column do
+              xlsx_link = link_to 'Excel', billing_path(format: :xlsx)
+              "Télécharger : #{xlsx_link}".html_safe
             end
           end
         end
       end
+
       column do
         panel "Prochaine livraison: #{l next_delivery.date, format: :long}" do
-          distributions = Distribution.with_delivery_memberships(next_delivery)
-          total_small_basket = 0
-          total_big_basket = 0
-          table_for distributions do |distribution|
-            column 'Lieu', ->(distribution) { distribution.name }
-            column('Paniers', class: 'align-right') do |distribution|
-              distribution.delivery_memberships.count
+          counts = DistributionCount.all(next_delivery)
+          table_for counts do
+            column 'Lieu', :title
+            column 'Paniers', :count, class: 'align-right'
+            column "#{Basket::SMALL} / #{Basket::BIG}", :baskets_count, class: 'align-right'
+          end
+
+          jardin_count = counts.find { |c| c.title == 'Jardin de la Main' }
+          other_counts = counts.reject { |c| c.title == 'Jardin de la Main' }
+          totals = [
+            OpenStruct.new(
+              title: 'Paniers Jardin de la Main',
+              count: "Total: #{jardin_count.count}",
+              baskets_count: "Totaux: #{jardin_count.baskets_count}"),
+            OpenStruct.new(
+              title: 'Paniers à préparer',
+              count: "Total: #{other_counts.sum(&:count)}",
+              baskets_count: "Totaux: #{other_counts.sum(&:count_small_basket)} / #{other_counts.sum(&:count_big_basket)}")
+          ]
+          table_for totals do
+            column nil, :title
+            column nil, :count, class: 'align-right'
+            column nil, :baskets_count, class: 'align-right'
+          end
+
+          table_for nil do
+            column do
+              xlsx_link = link_to 'Excel', delivery_path(Delivery.coming.first, format: :xlsx)
+              "Télécharger : #{xlsx_link}".html_safe
             end
-            column("#{Basket::SMALL} / #{Basket::BIG}", class: 'align-right') do |distribution|
-              memberships = distribution.delivery_memberships.to_a
-              count_small_basket = memberships.count { |m| m.basket.small? }
-              count_big_basket = memberships.count { |m| m.basket.big? }
-              total_small_basket += count_small_basket
-              total_big_basket += count_big_basket
-              [count_small_basket, count_big_basket].join(' / ').html_safe
+            column(class: 'align-right') { "Total: #{counts.sum(&:count)}" }
+            column(class: 'align-right') do
+              "Totaux: #{counts.sum(&:count_small_basket)} / #{counts.sum(&:count_big_basket)}"
             end
           end
-          table_for [false, true] do |delivered|
-            column('') do |delivered|
-              delivered ? 'Paniers à préparer' : 'Paniers Jardin de la Main'
-            end
-            column('', class: 'align-right') do |delivered|
-              if delivered
-                tot = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 } }
-              else
-                tot = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 } }
-              end
-              "Total: #{tot}".html_safe
-            end
-            column('', class: 'align-right') do |delivered|
-              if delivered
-                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket.small? } }
-                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket.big? } }
-              else
-                count_small_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket.small? } }
-                count_big_basket = distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket.big? } }
-              end
-              spaced("Totaux: #{[count_small_basket, count_big_basket].join(' / ')}").html_safe
-            end
-          end
-          table_for ['foo'] do |foo|
-            column('') do
-              "Télécharger : #{link_to 'Excel', delivery_path(Delivery.coming.first, format: :xlsx)}".html_safe
-            end
-            column('', class: 'align-right') do
-              "Total: #{total_small_basket + total_big_basket}"
-            end
-            column('', class: 'align-right') do
-              spaced("Totaux: #{[total_small_basket, total_big_basket].join(' / ')}")
-            end
-          end
+
           absences_count = Absence.including_date(next_delivery.date).count
-          if absences_count > 0
+          if absences_count.positive?
             span do
               link_to "Absences: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
             end

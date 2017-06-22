@@ -139,16 +139,18 @@ class Membership < ActiveRecord::Base
   end
 
   def first_delivery
-    Delivery.between(started_on..ended_on).first
+    DeliveryCount.instance.first(started_on..ended_on)
   end
 
   def deliveries_count
-    Delivery.between(started_on..ended_on).count
+    @deliveries_count ||= DeliveryCount.instance.count(started_on..ended_on)
   end
 
   def deliveries_received_count
-    end_date = [ended_on, Time.zone.today].min
-    Delivery.between(started_on..end_date).count
+    @deliveries_received_count ||= begin
+      end_date = [ended_on, Time.zone.today].min
+      DeliveryCount.instance.count(started_on..end_date)
+    end
   end
 
   def date_range

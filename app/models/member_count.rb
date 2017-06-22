@@ -6,7 +6,7 @@ class MemberCount
       name,
       Member.maximum(:updated_at),
       Membership.maximum(:updated_at),
-      Date.parse('Wednesday')
+      Date.today
     ]
     Rails.cache.fetch cache_key do
       SCOPES.map { |scope| new(scope) }
