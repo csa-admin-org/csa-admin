@@ -105,7 +105,7 @@ class Member < ActiveRecord::Base
     cache_key = [
       'gribouille_emails',
       maximum(:updated_at),
-      Time.now.beginning_of_week
+      Date.today
     ]
     Rails.cache.fetch cache_key do
       gribouille.map(&:emails_array).flatten.uniq.compact
