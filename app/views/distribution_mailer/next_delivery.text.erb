@@ -1,7 +1,0 @@
-<% @memberships.each_with_index do |membership, index| %>
-<%= (index + 1).to_s.rjust(2, ' ') %>. <%= membership.member.name %> (<%= membership.basket.name %>), <%= membership.member.phones %> / <%= membership.member.emails %>
-<% end %>
-
-
-Au plaisir,
-Rage de Vert
