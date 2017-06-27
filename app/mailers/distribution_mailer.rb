@@ -9,6 +9,7 @@ class DistributionMailer < ApplicationMailer
     mail \
       to: @distribution.emails_array,
       cc: 'bichseld@gmail.com',
+      bcc: 'thibaud@thibaud.gg',
       subject: "Rage de Vert: Liste livraison du #{l delivery.date}"
   end
 end
