@@ -1,0 +1,12 @@
+ol
+  - @memberships.each do |membership|
+    li
+      = membership.member.name
+      == ", <b>#{membership.basket.name}</b>, "
+      = membership.member.phones
+      == " / #{mail_to membership.member.emails}"
+
+p
+ == 'Au plaisir,'
+ br/
+ == 'Rage de Vert'
