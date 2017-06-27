@@ -5,7 +5,7 @@ namespace :distributions do
     if next_delivery && Time.zone.today == (next_delivery.date - 1.day)
       Distribution.where.not(emails: nil).each do |distribution|
         begin
-          DistributionMailer.next_delivery(distribution, next_delivery)
+          DistributionMailer.next_delivery(distribution, next_delivery).deliver_now
         rescue => ex
           ExceptionNotifier.notify_exception(ex,
             data: { distribution: distribution, delivery: next_delivery })
