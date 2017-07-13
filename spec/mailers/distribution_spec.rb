@@ -21,10 +21,14 @@ describe DistributionMailer do
       membership2 = create(:membership, member: member2, distribution: distribution)
       mail = DistributionMailer.next_delivery(distribution, delivery)
 
-      expect(mail.body.encoded).to include(
-        " 1. #{member1.name} (#{membership1.basket.name}), #{member1.phones} / #{member1.emails}")
-      expect(mail.body.encoded).to include(
-        " 2. #{member2.name} (#{membership2.basket.name}), #{member2.phones} / #{member2.emails}")
+      expect(mail.body.encoded).to include(member1.name)
+      expect(mail.body.encoded).to include(member1.emails)
+      expect(mail.body.encoded).to include(member1.phones)
+      expect(mail.body.encoded).to include(membership1.basket.name)
+      expect(mail.body.encoded).to include(member2.name)
+      expect(mail.body.encoded).to include(member2.emails)
+      expect(mail.body.encoded).to include(member2.phones)
+      expect(mail.body.encoded).to include(membership2.basket.name)
     end
   end
 end
