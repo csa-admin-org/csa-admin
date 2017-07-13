@@ -9,8 +9,10 @@ html
     h1 Contenu du panier
     - if @member.waiting?
       em= "Vous êtes actuellement sur liste d'attente."
+      br
     - elsif @member.future_membership
       em= "Votre abonnement commencera avec le panier du #{l @member.future_membership.first_delivery.date, format: :short}."
+      br
     == gribouille_content(@gribouille.basket_content)
 
     - if @gribouille.fields_echo.present?
