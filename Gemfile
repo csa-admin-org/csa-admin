@@ -7,15 +7,14 @@ end
 
 ruby '2.4.1'
 
-
 gem 'rails', '5.1.1'
 gem 'rails-i18n'
+gem 'puma'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-highcharts'
 end
 
-gem 'passenger'
 gem 'rack-status'
 
 gem 'pg'
@@ -68,7 +67,6 @@ gem 'carrierwave-postgresql'
 group :production do
   gem 'rails_12factor'
   gem 'dalli'
-  gem 'skylight'
 end
 
 group :development do
