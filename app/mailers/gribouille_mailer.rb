@@ -7,11 +7,13 @@ class GribouilleMailer < ApplicationMailer
     @gribouille = gribouille
     @member = member
 
-    if @gribouille.attachment_name?
-      attachments[@gribouille.attachment_name] = {
-        mime_type: @gribouille.attachment_mime_type,
-        content: @gribouille.attachment.file.read
-      }
+    3.times.each do |i|
+      if @gribouille.send("attachment_name_#{i}?")
+        attachments[@gribouille.send("attachment_name_#{i}")] = {
+          mime_type: @gribouille.send("attachment_mime_type_#{i}"),
+          content: @gribouille.send("attachment_#{i}").file.read
+        }
+      end
     end
 
     mail \

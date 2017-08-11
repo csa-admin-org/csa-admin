@@ -1,18 +1,19 @@
 class Gribouille < ActiveRecord::Base
   belongs_to :delivery
 
-  mount_uploader :attachment, AttachmentUploader
+  3.times.each do |i|
+    mount_uploader "attachment_#{i}".to_sym, AttachmentUploader
 
-  def attachment=(file)
-    super
-    self[:attachment_name] = file&.original_filename
-    self[:attachment_mime_type] = file&.content_type
-  end
+    define_method "attachment_#{i}=" do |file|
+      super(file)
+      self["attachment_name_#{i}"] = file&.original_filename
+      self["attachment_mime_type_#{i}"] = file&.content_type
+    end
 
-  # If attachment_name checkbox is false, then delete attachment
-  def attachment_name=(keep)
-    unless keep.to_s == '1'
-      self.attachment = nil
+    define_method "attachment_name_#{i}=" do |keep|
+      unless keep.to_s == '1'
+        self.send("attachment_#{i}=", nil)
+      end
     end
   end
 
