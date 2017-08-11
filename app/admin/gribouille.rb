@@ -23,11 +23,13 @@ ActiveAdmin.register Gribouille do
           f.input :events, as: :html_editor
           f.input :footer, as: :html_editor
         end
-        f.inputs 'Pièce jointe', multipart: true do
-          if gribouille&.attachment_name?
-            f.input :attachment_name, as: :boolean, label: gribouille.attachment_name, input_html: { checked: 'checked' }
-          else
-            f.input :attachment, as: :file
+        f.inputs 'Pièce jointes', multipart: true do
+          3.times.each do |i|
+            if gribouille&.send("attachment_name_#{i}?")
+              f.input "attachment_name_#{i}".to_sym, as: :boolean, label: gribouille.send("attachment_name_#{i}"), input_html: { checked: 'checked' }
+            else
+              f.input "attachment_#{i}".to_sym, as: :file
+            end
           end
         end
         f.actions
@@ -37,7 +39,12 @@ ActiveAdmin.register Gribouille do
     end
   end
 
-  permit_params *%i[header basket_content fields_echo events footer attachment attachment_name]
+  permit_params *%i[
+    header basket_content fields_echo events footer
+    attachment_0 attachment_name_0
+    attachment_1 attachment_name_1
+    attachment_2 attachment_name_2
+  ]
 
   before_build do
     gribouille = Delivery.coming.first.gribouille

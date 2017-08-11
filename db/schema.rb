@@ -1,4 +1,4 @@
-F# This file is auto-generated from the current state of the database. Instead
+# This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
@@ -10,7 +10,7 @@ F# This file is auto-generated from the current state of the database. Instead
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616124423) do
+ActiveRecord::Schema.define(version: 20170811083831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,9 +118,15 @@ ActiveRecord::Schema.define(version: 20170616124423) do
     t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.oid "attachment"
-    t.string "attachment_name"
-    t.string "attachment_mime_type"
+    t.oid "attachment_0"
+    t.string "attachment_name_0"
+    t.string "attachment_mime_type_0"
+    t.oid "attachment_1"
+    t.string "attachment_name_1"
+    t.string "attachment_mime_type_1"
+    t.oid "attachment_2"
+    t.string "attachment_name_2"
+    t.string "attachment_mime_type_2"
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id"
   end
 
@@ -170,7 +176,7 @@ ActiveRecord::Schema.define(version: 20170616124423) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.oid "pdf"
+    t.integer "pdf"
     t.decimal "isr_balance", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "manual_balance", precision: 8, scale: 2, default: "0.0", null: false
     t.text "note"

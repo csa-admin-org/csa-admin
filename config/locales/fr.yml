@@ -300,7 +300,9 @@ fr:
         fields_echo: Écho des champs
         events: Événements à venir
         footer: Le mot de la faim
-        attachment: Pièce jointe
+        attachment_0: Pièce jointe 1
+        attachment_1: Pièce jointe 2
+        attachment_2: Pièce jointe 3
       vegetable:
         name: nom
   invoice:
