@@ -13,6 +13,16 @@ ActiveAdmin.register BasketContent do
     actions
   end
 
+  csv do
+    column(:date) { |bc| bc.delivery.date.to_s }
+    column(:vegetable) { |bc| bc.vegetable.name }
+    column(:quantity) { |bc| display_quantity(bc) }
+    column('Eveil') { |bc| display_basket_quantity(bc, :small) }
+    column('Abondance') { |bc| display_basket_quantity(bc, :big) }
+    column('Perte') { |bc| display_lost_quantity(bc) }
+    column(:distributions) { |bc| display_distributions(bc) }
+  end
+
   form do |f|
     f.inputs do
       f.input :delivery,
@@ -52,7 +62,7 @@ ActiveAdmin.register BasketContent do
   filter :distributions, as: :select
 
   before_action only: :index do
-    if params['commit'].blank?
+    if params['commit'].blank? && request.format.html?
       params['q'] = {
         delivery_id_eq: Delivery.coming.first&.id,
       }
