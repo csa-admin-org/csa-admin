@@ -15,7 +15,7 @@ class Ability
       can :update, [Gribouille, Invoice, Member]
       can :destroy, [Member, Membership], can_destroy?: true
       can :update, Membership, can_update?: true
-    elsif admin.email.in? %w[albafarnos.v@gmail.com]
+    elsif admin.email.in? %w[readonly@ragedevert.ch albafarnos.v@gmail.com]
       cannot :manage, :all
       can [:manage, :read], Admin, id: admin.id
     else
