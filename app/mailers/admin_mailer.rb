@@ -3,10 +3,17 @@ class AdminMailer < ApplicationMailer
 
   def new_inscription(member)
     @member = member
-    admin_emails = Admin.pluck(:email) - %w[tguignard@gmail.com]
     mail(
-      to: admin_emails.delete('chantalgraef@gmail.com'),
-      cc: admin_emails,
+      to: 'chantalgraef@gmail.com',
+      cc: %w[
+        bichseld@gmail.com
+        olalabambel@gmail.com
+        raphael.coquoz@bluewin.ch
+        amandinebouille01@gmail.com
+        thibaud@thibaud.gg
+        sacha.dubois@hotmail.ch
+        tristan@amez-droz.org
+      ],
       subject: 'Rage de Vert: nouvelle inscription à valider'
     )
   end
