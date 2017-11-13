@@ -1,5 +1,13 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.middleware.use ExceptionNotification::Rack,
+    ignore_exceptions: %w[ActionController::InvalidAuthenticityToken] + ExceptionNotifier.ignored_exceptions,
+    email: {
+      email_prefix: '[RAVE ERROR] ',
+      sender_address: %{"Error Notifier" <info@ragedevert.ch>},
+      exception_recipients: %w[thibaud@thibaud.gg]
+    }
+  ExceptionNotifier::Rake.configure(ignore_exceptions: [])
 
   # Code is not reloaded between requests.
   config.cache_classes = true
