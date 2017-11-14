@@ -82,7 +82,11 @@ class BasketContent < ApplicationRecord
       possibility(s_qt, :up, b_qt, :up),
       possibility(s_qt, :down, b_qt, :up),
       possibility(s_qt, :up, b_qt, :down),
-      possibility(s_qt, :down, b_qt, :down)
+      possibility(s_qt, :down, b_qt, :down),
+      possibility(s_qt, :double_down, b_qt, :up),
+      possibility(s_qt, :double_down, b_qt, :down),
+      possibility(s_qt, :up, b_qt, :double_down),
+      possibility(s_qt, :down, b_qt, :double_down)
     ].reject { |p| p.lost_quantity.negative? }
     best_possibility = possibilites.sort_by!(&:lost_quantity).first
     self.small_basket_quantity = best_possibility.small_quantity
@@ -149,6 +153,11 @@ class BasketContent < ApplicationRecord
       case unit
       when 'kilogramme' then (quantity * 100).floor / 100.0
       when 'pièce' then quantity.floor
+      end
+    when :double_down
+      case unit
+      when 'kilogramme' then ((quantity * 100).floor - 1) / 100.0
+      when 'pièce' then quantity.floor - 1
       end
     end
   end
