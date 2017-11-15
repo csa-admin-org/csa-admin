@@ -83,7 +83,12 @@ class HalfdayParticipation < ActiveRecord::Base
 
   def self.send_coming_mails
     all.joins(:halfday).where(halfdays: { date: 2.days.from_now }).each do |hp|
-      HalfdayMailer.coming(hp).deliver_now
+      begin
+        HalfdayMailer.coming(hp).deliver_now
+      rescue => ex
+        ExceptionNotifier.notify_exception(ex,
+          data: { emails: hp.member.emails, member: hp.member })
+      end
     end
   end
 
@@ -106,6 +111,9 @@ class HalfdayParticipation < ActiveRecord::Base
     if saved_change_to_rejected_at? && rejected_at?
       HalfdayMailer.rejected(self).deliver_now
     end
+  rescue => ex
+    ExceptionNotifier.notify_exception(ex,
+      data: { emails: member.emails, member: member })
   end
 
   def participants_limit_must_not_be_reached
