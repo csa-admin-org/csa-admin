@@ -18,6 +18,9 @@ class InvoiceOverdueNoticer
     invoice.save!
 
     InvoiceMailer.overdue_notice(invoice).deliver_now
+  rescue => ex
+    ExceptionNotifier.notify_exception(ex,
+      data: { emails: invoice.member.emails, member: invoice.member })
   end
 
   private

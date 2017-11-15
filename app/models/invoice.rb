@@ -149,6 +149,9 @@ class Invoice < ActiveRecord::Base
       InvoiceMailer.new_invoice(self).deliver_now
       touch(:sent_at)
     end
+  rescue => ex
+    ExceptionNotifier.notify_exception(ex,
+      data: { emails: member.emails, member: member })
   end
 
   def can_destroy?
