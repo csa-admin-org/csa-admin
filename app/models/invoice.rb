@@ -1,4 +1,5 @@
 require 'rounding'
+require 'bigdecimal'
 
 class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
@@ -109,7 +110,11 @@ class Invoice < ActiveRecord::Base
   end
 
   def memberships_amounts
-    (memberships_amounts_data || []).sum { |m| m.symbolize_keys[:price] }
+    (memberships_amounts_data || []).sum do |m|
+      if m.symbolize_keys[:price]
+        BigDecimal.new(m.symbolize_keys[:price].to_s)
+      end
+    end
   end
 
   def memberships_amounts_data=(data)
