@@ -64,6 +64,8 @@ gem 'prawn-table'
 gem 'carrierwave'
 gem 'carrierwave-postgresql'
 
+gem 'postmark-rails'
+
 group :production do
   gem 'rails_12factor'
   gem 'dalli'
