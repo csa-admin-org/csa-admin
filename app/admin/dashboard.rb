@@ -1,10 +1,9 @@
 ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: 'Tableau de bord'
   year = Time.zone.today.year
-  next_delivery = Delivery.coming.first
 
   content title: 'Tableau de bord' do
-
+    next_delivery = Delivery.coming.first
     columns do
       column do
         panel 'Membres' do
@@ -86,8 +85,17 @@ ActiveAdmin.register_page 'Dashboard' do
 
           absences_count = Absence.including_date(next_delivery.date).count
           if absences_count.positive?
-            span do
+            span class: 'delivery_absences' do
               link_to "Absences: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+            end
+          end
+
+          if authorized?(:update, Delivery)
+            span class: 'delivery_note' do
+              form_for next_delivery do |f|
+                f.text_area :note
+                f.submit 'Mettre à jour la note'
+              end
             end
           end
         end

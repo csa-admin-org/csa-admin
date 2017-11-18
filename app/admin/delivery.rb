@@ -9,6 +9,7 @@ ActiveAdmin.register Delivery do
   index download_links: -> { params[:action] == 'show' ? [:xlsx] : nil } do
     column '#', ->(delivery) { delivery.number }
     column :date
+    column :note
     actions if current_admin.email == 'thibaud@thibaud.gg'
   end
 
@@ -16,6 +17,7 @@ ActiveAdmin.register Delivery do
     attributes_table do
       row('#') { delivery.number }
       row(:date) { l delivery.date }
+      row(:note)
     end
   end
 
@@ -31,7 +33,15 @@ ActiveAdmin.register Delivery do
         end
       end
     end
+
+    def update
+      super do |success, _failure|
+        success.html { redirect_to root_path }
+      end
+    end
   end
+
+  permit_params :date, :note
 
   config.filters = false
   config.sort_order = 'date_asc'
