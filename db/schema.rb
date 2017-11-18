@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811083831) do
+ActiveRecord::Schema.define(version: 20171118212455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170811083831) do
     t.date "date", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text "note"
     t.index ["date"], name: "index_deliveries_on_date"
   end
 
@@ -176,7 +177,7 @@ ActiveRecord::Schema.define(version: 20170811083831) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "pdf"
+    t.oid "pdf"
     t.decimal "isr_balance", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "manual_balance", precision: 8, scale: 2, default: "0.0", null: false
     t.text "note"

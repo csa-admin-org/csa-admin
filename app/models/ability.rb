@@ -12,7 +12,7 @@ class Ability
       cannot :manage, [Basket, Delivery]
       can :manage, [Halfday, HalfdayParticipation, Absence]
       can :create, [Gribouille, Member, Membership, Distribution]
-      can :update, [Gribouille, Invoice, Member]
+      can :update, [Gribouille, Invoice, Member, Delivery]
       can :destroy, [Member, Membership], can_destroy?: true
       can :update, Membership, can_update?: true
     elsif admin.email.in? %w[readonly@ragedevert.ch albafarnos.v@gmail.com]
@@ -22,6 +22,7 @@ class Ability
       cannot :manage, :all
       can [:manage, :read], Admin, id: admin.id
       can :manage, [Gribouille, Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent]
+      can :update, [Delivery]
     end
     cannot :manage, OldInvoice
     cannot :create, Invoice

@@ -40,3 +40,20 @@ li.input.numeric input {
 li.boolean label {
   padding-left: 18px;
 }
+
+span.delivery_note {
+  display: block;
+  margin-top: 15px;
+  textarea {
+    width: 100%;
+  }
+
+  input {
+    margin-top: 5px;
+  }
+}
+
+span.delivery_absences {
+  display: block;
+  margin-top: 5px;
+}
