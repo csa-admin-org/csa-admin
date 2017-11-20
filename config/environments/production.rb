@@ -82,16 +82,8 @@ Rails.application.configure do
   config.action_mailer.default_options = { from: 'info@ragedevert.ch' }
   config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    port:          '587',
-    address:       'smtp.sendgrid.net',
-    user_name:     ENV['SENDGRID_USERNAME'],
-    password:      ENV['SENDGRID_PASSWORD'],
-    domain:        'ragedevert-admin.herokuapp.com',
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_TOKEN'] }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
