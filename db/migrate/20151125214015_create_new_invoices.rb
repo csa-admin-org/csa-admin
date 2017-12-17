@@ -1,4 +1,4 @@
-class CreateNewInvoices < ActiveRecord::Migration
+class CreateNewInvoices < ActiveRecord::Migration[4.2]
   def change
     rename_table :invoices, :old_invoices
 

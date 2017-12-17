@@ -1,4 +1,4 @@
-class CreateHalfdayWorkDates < ActiveRecord::Migration
+class CreateHalfdayWorkDates < ActiveRecord::Migration[4.2]
   def change
     create_table :halfday_work_dates do |t|
       t.date :date, null: false

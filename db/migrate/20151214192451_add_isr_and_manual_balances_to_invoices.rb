@@ -1,4 +1,4 @@
-class AddIsrAndManualBalancesToInvoices < ActiveRecord::Migration
+class AddIsrAndManualBalancesToInvoices < ActiveRecord::Migration[4.2]
   def change
     add_column :invoices, :isr_balance, :decimal, scale: 2, precision: 8, default: 0, null: false
     add_column :invoices, :manual_balance, :decimal, scale: 2, precision: 8, default: 0, null: false

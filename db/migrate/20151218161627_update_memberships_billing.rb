@@ -1,4 +1,4 @@
-class UpdateMembershipsBilling < ActiveRecord::Migration
+class UpdateMembershipsBilling < ActiveRecord::Migration[4.2]
   def change
     remove_column :memberships, :distribution_basket_price
     remove_column :baskets, :annual_halfday_works

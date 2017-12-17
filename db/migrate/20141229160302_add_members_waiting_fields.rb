@@ -1,4 +1,4 @@
-class AddMembersWaitingFields < ActiveRecord::Migration
+class AddMembersWaitingFields < ActiveRecord::Migration[4.2]
   def change
     add_column :members, :waiting_basket_id, :integer
     add_column :members, :waiting_distribution_id, :integer
