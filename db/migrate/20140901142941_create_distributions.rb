@@ -1,4 +1,4 @@
-class CreateDistributions < ActiveRecord::Migration
+class CreateDistributions < ActiveRecord::Migration[4.2]
   def change
     create_table :distributions do |t|
       t.string :name

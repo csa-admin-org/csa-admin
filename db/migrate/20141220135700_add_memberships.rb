@@ -1,4 +1,4 @@
-class AddMemberships < ActiveRecord::Migration
+class AddMemberships < ActiveRecord::Migration[4.2]
   def change
     remove_index :members, :distribution_id
     remove_column :members, :distribution_id, :integer

@@ -1,4 +1,4 @@
-class AddOverdueNoticeFieldsToInvoices < ActiveRecord::Migration
+class AddOverdueNoticeFieldsToInvoices < ActiveRecord::Migration[4.2]
   def change
     remove_column :invoices, :overdue_notices
     add_column :invoices, :overdue_notices_count, :integer, null: false, default: 0

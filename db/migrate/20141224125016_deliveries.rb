@@ -1,4 +1,4 @@
-class Deliveries < ActiveRecord::Migration
+class Deliveries < ActiveRecord::Migration[4.2]
   def change
     create_table :deliveries do |t|
       t.date :date, null: false

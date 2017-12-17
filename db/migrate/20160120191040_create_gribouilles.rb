@@ -1,4 +1,4 @@
-class CreateGribouilles < ActiveRecord::Migration
+class CreateGribouilles < ActiveRecord::Migration[4.2]
   def change
     create_table :gribouilles do |t|
       t.references :delivery, index: true, null: false

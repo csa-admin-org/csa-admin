@@ -1,4 +1,4 @@
-class CreateHalfdayWorks < ActiveRecord::Migration
+class CreateHalfdayWorks < ActiveRecord::Migration[4.2]
   def change
     create_table :halfday_works do |t|
       t.references :member, index: true, null: false
