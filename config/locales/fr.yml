@@ -242,7 +242,6 @@ fr:
         basket_price: Prix/panier
       basket:
         name: Nom
-        year: Année
         annual_price: Prix/annnée (40 paniers)
       basket_content:
         quantity: Quantité

@@ -10,7 +10,7 @@ table
       td Déscription
       td Total
 
-    - Basket.during_year(year).each do |basket|
+    - Basket.all.each do |basket|
       - amount = memberships.select { |m| m.basket_id == basket.id }.sum(&:basket_total_price)
       tr
         td= "Abonnement #{basket.name}"

@@ -175,6 +175,7 @@ ActiveAdmin.register Member do
     def scoped_collection
       Member.includes(
         :first_membership,
+        :current_year_memberships,
         current_membership: [:basket, :distribution]
       )
     end

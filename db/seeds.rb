@@ -58,14 +58,8 @@ Distribution.create!(name: 'Particulier',
 )
 
 Basket.delete_all
-Basket.create!(name: 'Eveil',
-  year: 2015,
-  annual_price: 925,
-)
-Basket.create!(name: 'Abondance',
-  year: 2015,
-  annual_price: 1330,
-)
+Basket.create!(name: 'Eveil', annual_price: 925)
+Basket.create!(name: 'Abondance', annual_price: 1330)
 
 Delivery.delete_all
 Delivery.create_all(Date.new(2015, 1, 14))

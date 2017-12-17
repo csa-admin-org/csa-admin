@@ -332,13 +332,13 @@ class Member < ActiveRecord::Base
     if !pending? && (new_record? || waiting_started_at_changed?) &&
         waiting_started_at.nil? &&
         waiting_basket_id? && waiting_distribution_id?
-      basket_date = Date.new(waiting_basket.year)
+      today = Time.zone.today
       memberships.build(
         basket_id: waiting_basket_id,
         distribution_id: waiting_distribution_id,
         member: self,
-        started_on: [Time.zone.today, basket_date.beginning_of_year].max,
-        ended_on: basket_date.end_of_year
+        started_on: [today, today.beginning_of_year].max,
+        ended_on: today.end_of_year
       )
       self.waiting_basket_id = nil
       self.waiting_distribution_id = nil

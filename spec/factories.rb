@@ -80,7 +80,6 @@ FactoryGirl.define do
     ended_on { Time.zone.today.end_of_year }
 
     trait :last_year do
-      basket { create(:basket, :last_year) }
       started_on { 1.year.ago.beginning_of_year  }
       ended_on { 1.year.ago.end_of_year  }
     end
@@ -88,7 +87,6 @@ FactoryGirl.define do
 
   factory :basket do
     name { Faker::Name.name }
-    year { Time.zone.today.year }
     annual_price { 40 * 30 }
 
     trait :small do
@@ -97,13 +95,6 @@ FactoryGirl.define do
 
     trait :big do
       name { Basket::BIG }
-    end
-
-    trait :next_year do
-      year { Time.zone.today.year + 1 }
-    end
-    trait :last_year do
-      year { Time.zone.today.year - 1 }
     end
   end
 

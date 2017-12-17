@@ -1,6 +1,6 @@
 - distributions = Distribution.with_delivery_memberships(@delivery)
-- small_basket = Basket.small.during_year(@delivery.date.year).first
-- big_basket = Basket.big.during_year(@delivery.date.year).first
+- small_basket = Basket.small
+- big_basket = Basket.big
 
 - unless @filter_distribution
   table
@@ -44,7 +44,7 @@
 - distributions.each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
   table
-    caption= "#{distribution.name} (#{Basket.during_year(@delivery.date.year).map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_id == b.id } }.join('+')})"
+    caption= "#{distribution.name} (#{Basket.all.map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_id == b.id } }.join('+')})"
     thead
       tr
         td Prénom

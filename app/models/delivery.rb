@@ -37,6 +37,10 @@ class Delivery < ActiveRecord::Base
     coming.first.try(:date)
   end
 
+  def self.years_range
+    Delivery.minimum(:date).year..Delivery.maximum(:date).year
+  end
+
   private
 
   def self.next_date(date)

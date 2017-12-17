@@ -20,7 +20,7 @@ ActiveAdmin.register Halfday do
 
   form do |f|
     f.inputs 'Date et horaire' do
-      years_range = Basket.years_range
+      years_range = Delivery.years_range
       f.input :date,
         start_year: years_range.first,
         end_year: years_range.last,

@@ -91,7 +91,7 @@ ActiveAdmin.register Membership do
                  automatiquement créé à partir de cette date avec les nouvelles conditions. <br/>
                  Seule la date de fin de l'abonnement courant sera pas modifiée.".html_safe
       end
-      years_range = Basket.years_range
+      years_range = Delivery.years_range
       f.input :started_on, start_year: years_range.first, include_blank: false
       f.input :ended_on, start_year: years_range.first, end_year: years_range.last, include_blank: false
     end

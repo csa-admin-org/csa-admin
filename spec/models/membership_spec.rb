@@ -22,27 +22,12 @@ describe Membership do
       expect(new_membership.errors).to be_empty
     end
 
-    it 'allows started_on only in basket year' do
-      membership.update(started_on: Date.new(2000))
-      expect(membership.errors[:started_on]).to be_present
-    end
-
     it 'allows started_on to be only smaller than ended_on' do
       membership.update(
         started_on: Date.new(2015, 2),
         ended_on: Date.new(2015, 1)
       )
       expect(membership.errors[:started_on]).to be_present
-      expect(membership.errors[:ended_on]).to be_present
-    end
-
-    it 'allows ended_on only in basket year' do
-      membership.update(ended_on: Date.new(2000))
-      expect(membership.errors[:ended_on]).to be_present
-    end
-
-    it 'allows ended_on only in basket year' do
-      membership.update(ended_on: Date.new(2000))
       expect(membership.errors[:ended_on]).to be_present
     end
   end
@@ -154,7 +139,6 @@ describe Membership do
 
   specify '#renew' do
     membership = create(:membership)
-    basket = create(:basket, :next_year, name: membership.basket.name)
     next_year = Time.zone.today.next_year
     membership.renew
     new_membership = Membership.renew.first
@@ -163,7 +147,7 @@ describe Membership do
     expect(new_membership.ended_on).to eq next_year.end_of_year
     expect(new_membership.member).to eq membership.member
     expect(new_membership.distribution).to eq membership.distribution
-    expect(new_membership.basket).to eq basket
+    expect(new_membership.basket).to eq membership.basket
     expect(new_membership.note).to eq membership.note
     expect(new_membership.halfday_works_annual_price)
       .to eq membership.halfday_works_annual_price
