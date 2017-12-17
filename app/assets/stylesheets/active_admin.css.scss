@@ -23,8 +23,11 @@
   white-space: nowrap;
 }
 
-#footer p {
-  display: none;
+#footer {
+  box-shadow: none !important;
+  border: none !important;
+  color: transparent !important;
+  background-color: transparent !important;
 }
 
 li.choice input {
