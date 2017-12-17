@@ -136,7 +136,34 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu :default do |menu|
-      menu.add label: 'Gribouille', url: '/gribouilles/new'
+      menu.add label: 'Gribouille', url: '/gribouilles/new', priority: 9
+    end
+    admin.build_menu :utility_navigation do |menu|
+      if admin.current_user_method
+        menu.add \
+          id: 'current_user',
+          priority: 10,
+          html_options: {
+            class: 'fa fa-user-circle-o fa-2x',
+            title: 'Compte utilisateur'
+          },
+          label: '',
+          url: -> { edit_admin_path(current_active_admin_user) },
+          if: :current_active_admin_user?
+      end
+      if admin.logout_link_path
+        menu.add \
+          id: 'logout',
+          priority: 20,
+          html_options: {
+            method: admin.logout_link_method || :get,
+            class: 'fa fa-sign-out fa-2x',
+            title: I18n.t('active_admin.logout')
+          },
+          label: '',
+          url: ->{ render_or_call_method_or_proc_on self, admin.logout_link_path },
+          if: :current_active_admin_user?
+      end
     end
   end
 
