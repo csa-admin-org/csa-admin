@@ -4,8 +4,8 @@ describe BasketContent do
   describe '#set_basket_quantities' do
     before {
       delivery = create(:delivery)
-      create(:basket, :small, year: delivery.date.year, annual_price: 925)
-      create(:basket, :big, year: delivery.date.year, annual_price: 1330)
+      create(:basket, :small, annual_price: 925)
+      create(:basket, :big, annual_price: 1330)
     }
 
     it 'splits pieces to both baskets' do

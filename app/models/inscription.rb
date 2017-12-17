@@ -69,8 +69,8 @@ class Inscription
     return if support?
 
     case @row[5]
-    when /veil/ then Basket.find_by!(year: Time.zone.today.year, name: 'Eveil').id
-    when /Abon/ then Basket.find_by!(year: Time.zone.today.year, name: 'Abondance').id
+    when /veil/ then Basket.find_by!(name: 'Eveil').id
+    when /Abon/ then Basket.find_by!(name: 'Abondance').id
     end
   end
 

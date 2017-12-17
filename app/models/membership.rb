@@ -13,7 +13,6 @@ class Membership < ActiveRecord::Base
   validates :annual_halfday_works, presence: true
   validates :distribution, :basket, presence: true
   validates :started_on, :ended_on, presence: true
-  validate :withing_basket_year
   validate :good_period_range
   validate :only_one_alongs_the_year
   validate :will_be_changed_at_good_date
@@ -168,7 +167,7 @@ class Membership < ActiveRecord::Base
       ]).merge(
         member: member,
         distribution: distribution,
-        basket: Basket.find_by!(name: basket.name, year: renew_year.year),
+        basket: basket,
         started_on: renew_year.beginning_of_year,
         ended_on: renew_year.end_of_year
       )
@@ -207,15 +206,6 @@ class Membership < ActiveRecord::Base
         errors.add(:ended_on, 'déjà inclus dans un abonnement existant')
       end
       break
-    end
-  end
-
-  def withing_basket_year
-    if basket.year != started_on.year
-      errors.add(:started_on, 'doit être durant la même année que le panier')
-    end
-    if basket.year != ended_on.year
-      errors.add(:ended_on, 'doit être durant la même année que le panier')
     end
   end
 

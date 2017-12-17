@@ -6,37 +6,16 @@ class Basket < ActiveRecord::Base
   SMALL = 'Eveil'
   BIG = 'Abondance'
 
-  scope :current_year, -> { where(year: Time.zone.today.year) }
-  scope :during_year, ->(year) { where(year: year) }
-  scope :small, -> { where(name: SMALL) }
-  scope :big, -> { where(name: BIG) }
+  def self.small; find_by(name: SMALL) end
+  def self.big; find_by(name: BIG) end
+  def small?; name == SMALL end
+  def big?; name == BIG end
 
   def display_name
-    "#{name} (#{year})"
+    name
   end
 
   def price
     annual_price / Delivery::PER_YEAR.to_f
-  end
-
-  def small?
-    name == SMALL
-  end
-
-  def big?
-    name == BIG
-  end
-
-  def self.current_small
-    current_year.small.first
-  end
-
-  def self.current_big
-    current_year.big.first
-  end
-
-  def self.years_range
-    years = pluck(:year)
-    years.min..years.max
   end
 end

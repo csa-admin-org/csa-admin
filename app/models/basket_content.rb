@@ -35,11 +35,11 @@ class BasketContent < ApplicationRecord
   end
 
   def small_basket
-    @small_basket ||= Basket.small.where(year: delivery.date.year).first
+    @small_basket ||= Basket.small
   end
 
   def big_basket
-    @big_basket ||= Basket.big.where(year: delivery.date.year).first
+    @big_basket ||= Basket.big
   end
 
   def same_basket_quantities
