@@ -10,6 +10,8 @@
 // Active Admin's got SASS!
 @import 'formadmin/formadmin';
 @import 'active_admin/editor/wysiwyg';
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
 
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
@@ -56,4 +58,11 @@ span.delivery_note {
 span.delivery_absences {
   display: block;
   margin-top: 5px;
+}
+
+#utility_nav {
+  li a {
+    font-size: 20px;
+    padding: 5px !important;
+  }
 }
