@@ -40,7 +40,7 @@ class Inscription
       emails: @row[3],
       phones: @row[4],
       support_member: support?,
-      waiting_basket_id: basket_id,
+      waiting_basket_size_id: basket_size_id,
       waiting_distribution_id: distribution_id,
       billing_interval: billing_interval,
       food_note: @row[9],
@@ -65,12 +65,12 @@ class Inscription
     !!(@row[5] =~ /soutien/)
   end
 
-  def basket_id
+  def basket_size_id
     return if support?
 
     case @row[5]
-    when /veil/ then Basket.find_by!(name: 'Eveil').id
-    when /Abon/ then Basket.find_by!(name: 'Abondance').id
+    when /veil/ then BasketSize.first.id
+    when /Abon/ then BasketSize.last.id
     end
   end
 

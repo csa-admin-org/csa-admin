@@ -4,14 +4,14 @@ class Membership < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :member
-  belongs_to :basket
+  belongs_to :basket_size
   belongs_to :distribution
 
   after_initialize :set_default_annual_halfday_works
 
   validates :member, presence: true
   validates :annual_halfday_works, presence: true
-  validates :distribution, :basket, presence: true
+  validates :distribution, :basket_size, presence: true
   validates :started_on, :ended_on, presence: true
   validate :good_period_range
   validate :only_one_alongs_the_year
@@ -52,7 +52,7 @@ class Membership < ActiveRecord::Base
     during_year(Time.zone.today.year)
       .started
       .includes(
-        :basket,
+        :basket_size,
         :distribution,
         member: [:current_membership, :first_membership, :current_year_invoices]
       )
@@ -92,7 +92,7 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_total_price
-    rounded_price(deliveries_count * basket.price)
+    rounded_price(deliveries_count * basket_size.price)
   end
 
   def distribution_total_price
@@ -113,7 +113,7 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_description
-    "Panier: #{basket.name} (#{deliveries_count} x #{cur(basket.price)})"
+    "Panier: #{basket_size.name} (#{deliveries_count} x #{cur(basket_size.price)})"
   end
 
   def distribution_description
@@ -167,7 +167,7 @@ class Membership < ActiveRecord::Base
       ]).merge(
         member: member,
         distribution: distribution,
-        basket: basket,
+        basket_size: basket_size,
         started_on: renew_year.beginning_of_year,
         ended_on: renew_year.end_of_year
       )

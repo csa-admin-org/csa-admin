@@ -9,7 +9,7 @@ class Ability
       can :destroy, Invoice, can_destroy?: true
       can :pdf, Invoice
     when 'admin'
-      cannot :manage, [Basket, Delivery]
+      cannot :manage, [BasketSize, Delivery]
       can :manage, [Halfday, HalfdayParticipation, Absence]
       can :create, [Gribouille, Member, Membership, Distribution]
       can :update, [Gribouille, Invoice, Member, Delivery]

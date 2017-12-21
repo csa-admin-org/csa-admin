@@ -57,9 +57,9 @@ Distribution.create!(name: 'Particulier',
   basket_price: 2
 )
 
-Basket.delete_all
-Basket.create!(name: 'Eveil', annual_price: 925)
-Basket.create!(name: 'Abondance', annual_price: 1330)
+BasketSize.delete_all
+BasketSize.create!(name: 'Eveil', size: 'small', annual_price: 925)
+BasketSize.create!(name: 'Abondance', size: 'big', annual_price: 1330)
 
 Delivery.delete_all
 Delivery.create_all(Date.new(2015, 1, 14))

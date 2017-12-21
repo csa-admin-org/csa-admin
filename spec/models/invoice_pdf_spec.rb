@@ -46,7 +46,7 @@ describe InvoicePdf do
         memberships_amount_description: 'Montant annuel',
         memberships_amounts_data: [
           id: 1,
-          basket_id: 1,
+          basket_size_id: 1,
           distribution_id: 1,
           basket_description: 'basket_total_description',
           basket_total_price: 1330,
@@ -85,7 +85,7 @@ describe InvoicePdf do
         memberships_amount_description: 'Montant annuel',
         memberships_amounts_data: [
           id: 1,
-          basket_id: 1,
+          basket_size_id: 1,
           distribution_id: 1,
           basket_description: 'basket_total_description',
           basket_total_price: 1330,
@@ -126,7 +126,7 @@ describe InvoicePdf do
         memberships_amount_description: 'Montant trimestrielle #1',
         memberships_amounts_data: [
           id: 1,
-          basket_id: 1,
+          basket_size_id: 1,
           distribution_id: 1,
           basket_description: 'basket_total_description',
           basket_total_price: 1330.15,
@@ -165,7 +165,7 @@ describe InvoicePdf do
         memberships_amounts_data: [
           {
             id: 1,
-            basket_id: 1,
+            basket_size_id: 1,
             distribution_id: 1,
             basket_description: 'basket_total_description',
             basket_total_price: 465.50,
@@ -177,7 +177,7 @@ describe InvoicePdf do
             price: 465.50
           }, {
             id: 2,
-            basket_id: 2,
+            basket_size_id: 2,
             distribution_id: 1,
             basket_description: 'basket_total_description',
             basket_total_price: 1046.50,

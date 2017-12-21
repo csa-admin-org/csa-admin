@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217170530) do
+ActiveRecord::Schema.define(version: 20171217190730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20171217170530) do
     t.index ["distribution_id"], name: "index_basket_contents_distributions_on_distribution_id"
   end
 
-  create_table "baskets", id: :serial, force: :cascade do |t|
+  create_table "basket_sizes", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255, null: false
     t.decimal "annual_price", precision: 8, scale: 2, null: false
     t.datetime "created_at"
@@ -206,7 +206,7 @@ ActiveRecord::Schema.define(version: 20171217170530) do
     t.integer "validator_id"
     t.datetime "validated_at"
     t.boolean "gribouille"
-    t.integer "waiting_basket_id"
+    t.integer "waiting_basket_size_id"
     t.integer "waiting_distribution_id"
     t.boolean "salary_basket", default: false
     t.string "delivery_address", limit: 255
@@ -220,14 +220,14 @@ ActiveRecord::Schema.define(version: 20171217170530) do
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"
-    t.index ["waiting_basket_id"], name: "index_members_on_waiting_basket_id"
+    t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
     t.index ["welcome_email_sent_at"], name: "index_members_on_welcome_email_sent_at"
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|
-    t.integer "basket_id", null: false
+    t.integer "basket_size_id", null: false
     t.integer "distribution_id", null: false
     t.integer "member_id", null: false
     t.decimal "halfday_works_annual_price", precision: 8, scale: 2
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(version: 20171217170530) do
     t.datetime "updated_at"
     t.text "note"
     t.datetime "deleted_at"
-    t.index ["basket_id"], name: "index_memberships_on_basket_id"
+    t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"

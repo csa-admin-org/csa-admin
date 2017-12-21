@@ -4,7 +4,7 @@ FactoryGirl.define do
     delivery
     quantity 10
     unit 'kilogramme'
-    basket_types { Basket::TYPES.map(&:to_s) }
+    basket_sizes { BasketContent::SIZES }
     distributions { [create(:distribution)] }
   end
 
@@ -45,7 +45,7 @@ FactoryGirl.define do
 
     trait :waiting do
       waiting_started_at { Time.zone.now }
-      waiting_basket { create(:basket) }
+      waiting_basket_size { create(:basket_size) }
       waiting_distribution { create(:distribution) }
     end
 
@@ -74,7 +74,7 @@ FactoryGirl.define do
 
   factory :membership do
     member
-    basket
+    basket_size { BasketSize.first || create(:basket_size) }
     distribution
     started_on { Time.zone.today.beginning_of_year }
     ended_on { Time.zone.today.end_of_year }
@@ -85,16 +85,16 @@ FactoryGirl.define do
     end
   end
 
-  factory :basket do
+  factory :basket_size do
     name { Faker::Name.name }
     annual_price { 40 * 30 }
 
     trait :small do
-      name { Basket::SMALL }
+      name 'Eveil'
     end
 
     trait :big do
-      name { Basket::BIG }
+      name 'Abondance'
     end
   end
 
@@ -121,7 +121,7 @@ FactoryGirl.define do
       end
       memberships_amounts_data {
         [
-          membership.slice(:id, :basket_id, :distribution_id).merge(
+          membership.slice(:id, :basket_size_id, :distribution_id).merge(
             basket_total_price: membership.basket_total_price,
             basket_description: membership.basket_description,
             distribution_total_price: membership.distribution_total_price,

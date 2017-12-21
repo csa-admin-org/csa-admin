@@ -20,8 +20,7 @@ class MemberCount
     # eager load for the cache
     count
     count_precision
-    count_small_basket
-    count_big_basket
+    count_basket_sizes
   end
 
   def title
@@ -44,14 +43,11 @@ class MemberCount
       end
   end
 
-  def count_small_basket
+  def count_basket_sizes
     return if scope == :support
-    @count_small_basket ||= members.count { |m| m.basket&.small? }
-  end
-
-  def count_big_basket
-    return if scope == :support
-    @count_big_basket ||= members.count { |m| m.basket&.big? }
+    @count_basket_sizes ||= BasketSize.all.map { |bs|
+      members.count { |m| m.basket_size == bs }
+    }
   end
 
   private
@@ -59,8 +55,8 @@ class MemberCount
   def members
     @members ||=
       Member.send(scope).includes(
-        :waiting_basket,
-        current_membership: :basket,
-        future_membership: :basket).to_a
+        :waiting_basket_size,
+        current_membership: :basket_size,
+        future_membership: :basket_size).to_a
   end
 end

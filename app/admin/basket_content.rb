@@ -39,7 +39,7 @@ ActiveAdmin.register BasketContent do
         include_blank: false
     end
     f.inputs 'Paniers' do
-      f.input :basket_types,
+      f.input :basket_sizes,
         collection: [['Eveil', 'small'], ['Abondance', 'big']],
         as: :check_boxes,
         label: false
@@ -58,7 +58,7 @@ ActiveAdmin.register BasketContent do
 
   filter :delivery, as: :select
   filter :vegetable, as: :select
-  filter :basket, as: :select, collection: [['Eveil', 'small'], ['Abondance', 'big']]
+  filter :basket_size, as: :select, collection: [['Eveil', 'small'], ['Abondance', 'big']]
   filter :distributions, as: :select
 
   before_action only: :index do
@@ -73,8 +73,8 @@ ActiveAdmin.register BasketContent do
     def build_resource
       super
       resource.delivery ||= Delivery.coming.first
-      if resource.basket_types.empty?
-        resource.basket_types = Basket::TYPES.map(&:to_s)
+      if resource.basket_sizes.empty?
+        resource.basket_sizes = BasketContent::SIZES
       end
       if resource.distributions.empty?
         resource.distributions = Distribution.all
@@ -107,5 +107,5 @@ ActiveAdmin.register BasketContent do
     unit
   ],
     distribution_ids: [],
-    basket_types: []
+    basket_sizes: []
 end

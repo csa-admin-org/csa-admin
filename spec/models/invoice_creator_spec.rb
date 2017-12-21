@@ -53,7 +53,7 @@ describe InvoiceCreator do
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.memberships_amounts_data.first).to match(
         'id' => membership.id,
-        'basket_id' => membership.basket_id,
+        'basket_size_id' => membership.basket_size_id,
         'distribution_id' => membership.distribution_id,
         'basket_total_price' => membership.basket_total_price,
         'basket_description' => membership.basket_description,
@@ -113,7 +113,7 @@ describe InvoiceCreator do
         .to eq 'Montant trimestriel #1'
       expect(invoice.memberships_amounts_data.first).to match(
         'id' => membership.id,
-        'basket_id' => membership.basket_id,
+        'basket_size_id' => membership.basket_size_id,
         'distribution_id' => membership.distribution_id,
         'basket_total_price' => membership.basket_total_price,
         'basket_description' => membership.basket_description,

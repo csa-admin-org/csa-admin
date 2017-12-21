@@ -125,7 +125,7 @@ describe Membership do
           halfday_works_annual_price: -100,
           will_be_changed_at: date.to_s
         )
-        expect(new_membership.basket).to eq membership.basket
+        expect(new_membership.basket_size).to eq membership.basket_size
       end
     end
 
@@ -147,7 +147,7 @@ describe Membership do
     expect(new_membership.ended_on).to eq next_year.end_of_year
     expect(new_membership.member).to eq membership.member
     expect(new_membership.distribution).to eq membership.distribution
-    expect(new_membership.basket).to eq membership.basket
+    expect(new_membership.basket_size).to eq membership.basket_size
     expect(new_membership.note).to eq membership.note
     expect(new_membership.halfday_works_annual_price)
       .to eq membership.halfday_works_annual_price
@@ -157,8 +157,7 @@ describe Membership do
 
   specify 'standard prices' do
     membership = create(:membership,
-      basket: create(:basket, annual_price: 40 * 23.125)
-    )
+      basket_size: create(:basket_size, annual_price: 40 * 23.125))
 
     expect(membership.basket_total_price).to eq 40 * 23.125
     expect(membership.distribution_total_price).to eq 0
@@ -168,9 +167,8 @@ describe Membership do
 
   specify 'with distribution prices' do
     membership = create(:membership,
-      basket: create(:basket, annual_price: 40 * 23.125),
-      distribution: create(:distribution, basket_price: 2)
-    )
+      basket_size: create(:basket_size, annual_price: 40 * 23.125),
+      distribution: create(:distribution, basket_price: 2))
 
     expect(membership.basket_total_price).to eq 40 * 23.125
     expect(membership.distribution_total_price).to eq 40 * 2
@@ -181,10 +179,9 @@ describe Membership do
 
   specify 'with halfday_works_annual_price prices' do
     membership = create(:membership,
-      basket: create(:basket, annual_price: 40 * 23.125),
+      basket_size: create(:basket_size, annual_price: 40 * 23.125),
       distribution: create(:distribution, basket_price: 2),
-      halfday_works_annual_price: -200
-    )
+      halfday_works_annual_price: -200)
 
     expect(membership.basket_total_price).to eq 40 * 23.125
     expect(membership.distribution_total_price).to eq 40 * 2

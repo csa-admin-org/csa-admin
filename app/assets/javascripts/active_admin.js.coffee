@@ -18,11 +18,11 @@ $ ->
       $('#halfday_activity').prop('disabled', true)
       $('#halfday_activity').prop('value', 'preset')
 
-  $('#basket_content_basket_types_small, #basket_content_basket_types_big').on 'change', ->
+  $('#basket_content_basket_sizes_small, #basket_content_basket_sizes_big').on 'change', ->
     sameBasketQuantityCheckbox = $('#basket_content_same_basket_quantities')
     sameBasketQuantityCheckbox.prop('checked', false)
-    smallBasketChecked = $('#basket_content_basket_types_small').prop('checked')
-    bigBasketChecked = $('#basket_content_basket_types_big').prop('checked')
+    smallBasketChecked = $('#basket_content_basket_sizes_small').prop('checked')
+    bigBasketChecked = $('#basket_content_basket_sizes_big').prop('checked')
     if !smallBasketChecked || !bigBasketChecked
       sameBasketQuantityCheckbox.prop('disabled', true)
     if smallBasketChecked && bigBasketChecked

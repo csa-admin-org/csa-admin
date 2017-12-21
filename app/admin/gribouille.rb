@@ -1,9 +1,9 @@
 ActiveAdmin.register Gribouille do
   menu false
 
-  form title: "Gribouille du #{Delivery.coming.first&.date}" do |f|
+  form do |f|
     delivery = Delivery.coming.first
-    gribouille = Delivery.coming.first.gribouille
+    gribouille = delivery.gribouille
     if delivery
       date = delivery.date
       gribouille = delivery.gribouille
@@ -12,7 +12,7 @@ ActiveAdmin.register Gribouille do
       else
         panel 'Comment que ça marche?' do
           [
-            "<p>Si au moins les textes \"en-tête\" et \"contenu du panier\" sont remplis la gribouille sera envoyée à tous les membres le mardi #{Delivery.coming.first.date - 1.day} à midi.</p>",
+            "<p>Si au moins les textes \"en-tête\" et \"contenu du panier\" sont remplis la gribouille sera envoyée à tous les membres le mardi #{delivery.date - 1.day} à midi.</p>",
             "<p>Chaque texte vide ne sera pas inclus dans la gribouille.</p>"
           ].join('').html_safe
         end

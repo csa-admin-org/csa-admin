@@ -1,11 +1,12 @@
 class BasketContent < ApplicationRecord
   UNITS = %w[kilogramme pièce]
+  SIZES = %w[small big]
 
   belongs_to :delivery, required: true
   belongs_to :vegetable, required: true
   has_and_belongs_to_many :distributions
 
-  scope :basket_eq, ->(type) {
+  scope :basket_size_eq, ->(type) {
     case type
     when 'small' then where('small_basket_quantity > 0')
     when 'big' then where('big_basket_quantity > 0')
@@ -13,17 +14,17 @@ class BasketContent < ApplicationRecord
   }
 
   validates :quantity, presence: true
-  validates :basket_types, :distributions, presence: true
+  validates :basket_sizes, :distributions, presence: true
   validates :unit, inclusion: { in: UNITS }
   validates :vegetable_id, uniqueness: { scope: :delivery_id }
 
   attr_accessor :same_basket_quantities
-  attr_writer :basket_types
+  attr_writer :basket_sizes
 
   before_save :set_basket_counts_and_quantities
 
-  def basket_types
-    @basket_types ||
+  def basket_sizes
+    @basket_sizes ||
       [].tap { |types|
         types << 'small' unless small_baskets_count.zero?
         types << 'big' unless big_baskets_count.zero?
@@ -31,15 +32,15 @@ class BasketContent < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[basket_eq]
+    %i[basket_size_eq]
   end
 
   def small_basket
-    @small_basket ||= Basket.small
+    @small_basket ||= BasketSize.first
   end
 
   def big_basket
-    @big_basket ||= Basket.big
+    @big_basket ||= BasketSize.last
   end
 
   def same_basket_quantities
@@ -47,7 +48,7 @@ class BasketContent < ApplicationRecord
   end
 
   def both_baskets?
-    (basket_types & %w[small big]) == %w[small big]
+    (basket_sizes & SIZES) == SIZES
   end
 
   private
@@ -66,11 +67,11 @@ class BasketContent < ApplicationRecord
     delivery_distributions.select! { |dd| dd.id.in?(distribution_ids) }
     delivery_distributions.each do |distribution|
       memberships = distribution.delivery_memberships.to_a
-      if basket_types.include?('small')
-        self.small_baskets_count += memberships.count { |m| m.basket.small? }
+      if basket_sizes.include?('small')
+        self.small_baskets_count += memberships.count { |m| m.basket_size == small_basket }
       end
-      if basket_types.include?('big')
-        self.big_baskets_count += memberships.count { |m| m.basket.big? }
+      if basket_sizes.include?('big')
+        self.big_baskets_count += memberships.count { |m| m.basket_size == big_basket }
       end
     end
   end

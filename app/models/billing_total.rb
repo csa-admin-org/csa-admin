@@ -1,7 +1,5 @@
 class BillingTotal
   SCOPES = %i[
-    small_basket
-    big_basket
     distribution
     halfday_works
     support
@@ -15,8 +13,8 @@ class BillingTotal
     ]
     Rails.cache.fetch cache_key do
       memberships =
-        Membership.current_year.includes(:basket, :member, :distribution).to_a
-      SCOPES.map { |scope| new(memberships, scope) }
+        Membership.current_year.includes(:basket_size, :member, :distribution).to_a
+      [BasketSize.all + SCOPES].flatten.map { |scope| new(memberships, scope) }
     end
   end
 
@@ -30,16 +28,18 @@ class BillingTotal
   end
 
   def title
-    I18n.t("billing.scope.#{scope}")
+    if scope.is_a?(BasketSize)
+      I18n.t("billing.scope.basket_size", name: scope.name)
+    else
+      I18n.t("billing.scope.#{scope}")
+    end
   end
 
   def price
     @price ||=
       case scope
-      when :small_basket
-        @memberships.select { |m| m.basket.small? }.sum(&:basket_total_price)
-      when :big_basket
-        @memberships.select { |m| m.basket.big? }.sum(&:basket_total_price)
+      when BasketSize
+        @memberships.select { |m| m.basket_size_id == scope.id }.sum(&:basket_total_price)
       when :distribution
         @memberships.sum(&:distribution_total_price)
       when :halfday_works

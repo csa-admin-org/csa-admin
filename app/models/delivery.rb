@@ -14,8 +14,9 @@ class Delivery < ActiveRecord::Base
   }
 
   scope :coming, -> { where('date >= ?', Time.zone.today) }
-  scope :between,
-    ->(range) { where('date >= ? AND date <= ?', range.first, range.last) }
+  scope :between, ->(range) {
+    where('date >= ? AND date <= ?', range.first, range.last)
+  }
 
   def self.create_all(first_date)
     date = first_date

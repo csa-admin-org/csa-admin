@@ -5,14 +5,14 @@ namespace :memberships do
       ActiveRecord.transition do
         member.memberships.create!(
           distribution: member.distribution,
-          basket: member.basket,
+          basket_size: member.basket_size,
           started_on: (Date.current + 1.year).beginning_of_year,
           ended_on: (Date.current + 1.year).end_of_year,
           annual_halfday_works: member.current_membership&.annual_halfday_works || HalfdayParticipation::MEMBER_PER_YEAR,
           halfday_works_annual_price: member.current_membership&.halfday_works_annual_price || 0)
         member.update!( # out of waiting queue
           waiting_started_at: nil,
-          waiting_basket_id: nil,
+          waiting_basket_size_id: nil,
           waiting_distribution_id: nil)
       end
     end
