@@ -14,8 +14,8 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    Delivery.create_all(Date.new(Time.zone.today.year - 1, 1, 14))
-    Delivery.create_all(Date.new(Time.zone.today.year, 1, 14))
+    Delivery.create_all(40, Date.new(Time.zone.today.year - 1, 1, 14))
+    Delivery.create_all(40, Date.new(Time.zone.today.year, 1, 14))
   end
   config.after(:suite) do
     Delivery.delete_all

@@ -87,14 +87,17 @@ FactoryBot.define do
 
   factory :basket_size do
     name { Faker::Name.name }
-    annual_price { 40 * 30 }
+    price 30
+    annual_halfday_works 2
 
     trait :small do
       name 'Eveil'
+      price { 925 / 40.0 }
     end
 
     trait :big do
       name 'Abondance'
+      price { 1330 / 40.0 }
     end
   end
 
