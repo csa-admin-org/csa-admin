@@ -239,7 +239,7 @@ fr:
         name: Nom
         address: Adresse
         city: Ville
-        basket_price: Prix/panier
+        price: Prix/panier
       basket_size:
         name: Nom
         price: Prix

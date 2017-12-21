@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221190815) do
+ActiveRecord::Schema.define(version: 20171221193809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20171221190815) do
     t.string "city", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal "basket_price", precision: 8, scale: 2, null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
     t.string "emails"
   end
 
@@ -147,6 +147,23 @@ ActiveRecord::Schema.define(version: 20171221190815) do
     t.index ["halfday_id"], name: "index_halfday_participations_on_halfday_id"
     t.index ["member_id"], name: "index_halfday_participations_on_member_id"
     t.index ["validator_id"], name: "index_halfday_participations_on_validator_id"
+  end
+
+  create_table "halfday_works", id: :serial, force: :cascade do |t|
+    t.integer "member_id", null: false
+    t.date "date", null: false
+    t.string "periods", null: false, array: true
+    t.datetime "validated_at"
+    t.integer "validator_id"
+    t.integer "participants_count", default: 1, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "rejected_at"
+    t.index ["date"], name: "index_halfday_works_on_date"
+    t.index ["member_id"], name: "index_halfday_works_on_member_id"
+    t.index ["rejected_at"], name: "index_halfday_works_on_rejected_at"
+    t.index ["validated_at"], name: "index_halfday_works_on_validated_at"
+    t.index ["validator_id"], name: "index_halfday_works_on_validator_id"
   end
 
   create_table "halfdays", id: :serial, force: :cascade do |t|

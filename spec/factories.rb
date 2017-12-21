@@ -106,7 +106,7 @@ FactoryBot.define do
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
-    basket_price 0
+    price 0
   end
 
   factory :delivery do

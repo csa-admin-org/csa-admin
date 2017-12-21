@@ -168,7 +168,7 @@ describe Membership do
   specify 'with distribution prices' do
     membership = create(:membership,
       basket_size: create(:basket_size, annual_price: 40 * 23.125),
-      distribution: create(:distribution, basket_price: 2))
+      distribution: create(:distribution, price: 2))
 
     expect(membership.basket_total_price).to eq 40 * 23.125
     expect(membership.distribution_total_price).to eq 40 * 2
@@ -180,7 +180,7 @@ describe Membership do
   specify 'with halfday_works_annual_price prices' do
     membership = create(:membership,
       basket_size: create(:basket_size, annual_price: 40 * 23.125),
-      distribution: create(:distribution, basket_price: 2),
+      distribution: create(:distribution, price: 2),
       halfday_works_annual_price: -200)
 
     expect(membership.basket_total_price).to eq 40 * 23.125

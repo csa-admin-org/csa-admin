@@ -18,43 +18,43 @@ Distribution.create!(name: 'Jardin de la main',
   address: 'Rue de la Main 6-8',
   city: 'Neuchâtel',
   zip: 2000,
-  basket_price: 0
+  price: 0
 )
 Distribution.create!(name: 'Vélo',
   address: '–',
   city: 'Neuchâtel',
   zip: 2000,
-  basket_price: 7
+  price: 7
 )
 Distribution.create!(name: 'Vin libre',
   address: 'Rue des Chavannes 15',
   city: 'Neuchâtel',
   zip: 2000,
-  basket_price: 2
+  price: 2
 )
 Distribution.create!(name: "L'Entre-deux",
   address: 'Rue Jaquet-Droz 27',
   city: 'La Chaux-de-Fonds',
   zip: 2300,
-  basket_price: 2
+  price: 2
 )
 Distribution.create!(name: 'Particulier',
   address: 'Route de la Falaise 3',
   city: 'Marin-Epagnier',
   zip: 2074,
-  basket_price: 2
+  price: 2
 )
 Distribution.create!(name: 'Ancienne laiterie',
   address: '???',
   city: 'La Chaux-du-Milieu',
   zip: 2405,
-  basket_price: 2
+  price: 2
 )
 Distribution.create!(name: 'Particulier',
   address: '???',
   city: 'Colombier',
   zip: 2013,
-  basket_price: 2
+  price: 2
 )
 
 BasketSize.delete_all

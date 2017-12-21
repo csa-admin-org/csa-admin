@@ -90,7 +90,7 @@ describe InvoiceCreator do
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(
         will_be_changed_at: 10.days.from_now.to_s,
-        distribution_id: create(:distribution, basket_price: 2).id
+        distribution_id: create(:distribution, price: 2).id
       )
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
@@ -210,7 +210,7 @@ describe InvoiceCreator do
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(
         will_be_changed_at: 1.day.from_now.to_s,
-        distribution_id: create(:distribution, basket_price: 2).id
+        distribution_id: create(:distribution, price: 2).id
       )
 
       expect(invoice).to be_nil
@@ -249,7 +249,7 @@ describe InvoiceCreator do
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(
         will_be_changed_at: 1.day.from_now.to_s,
-        distribution_id: create(:distribution, basket_price: 2).id
+        distribution_id: create(:distribution, price: 2).id
       )
 
       expect(invoice.support_amount).to be_nil

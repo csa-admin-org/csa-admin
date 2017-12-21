@@ -42,7 +42,7 @@ ActiveAdmin.register Membership do
           "#{number_to_currency(m.basket_total_price)} (#{detail})"
         }
         row(:distribution_total_price) {
-          detail = "#{m.deliveries_count} * #{m.distribution_basket_price}"
+          detail = "#{m.deliveries_count} * #{m.distribution_price}"
           "#{number_to_currency(m.distribution_total_price)} (#{detail})"
         }
         row(:halfday_works_total_price) {
