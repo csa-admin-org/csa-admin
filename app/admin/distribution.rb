@@ -6,8 +6,8 @@ ActiveAdmin.register Distribution do
     column :address
     column :zip
     column :city
-    column :basket_price do |distribution|
-      number_to_currency(distribution.basket_price)
+    column :price do |distribution|
+      number_to_currency(distribution.price)
     end
     actions
   end
@@ -18,12 +18,12 @@ ActiveAdmin.register Distribution do
       row :address
       row :zip
       row :city
-      row(:basket_price) { number_to_currency(distribution.basket_price) }
+      row(:price) { number_to_currency(distribution.price) }
       row :emails
     end
   end
 
-  permit_params *%i[name address zip city basket_price emails]
+  permit_params *%i[name address zip city price emails]
 
   config.filters = false
   config.per_page = 25

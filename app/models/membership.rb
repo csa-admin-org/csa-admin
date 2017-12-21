@@ -87,8 +87,8 @@ class Membership < ActiveRecord::Base
     (deliveries_count / Delivery.current_year.count.to_f * annual_halfday_works).round
   end
 
-  def distribution_basket_price
-    distribution.basket_price
+  def distribution_price
+    distribution.price
   end
 
   def basket_total_price
@@ -96,7 +96,7 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_total_price
-    rounded_price(deliveries_count * distribution_basket_price)
+    rounded_price(deliveries_count * distribution_price)
   end
 
   def halfday_works_total_price
@@ -117,8 +117,8 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_description
-    if distribution_basket_price > 0
-      "Distribution: #{distribution.name} (#{deliveries_count} x #{cur(distribution.basket_price)})"
+    if distribution_price > 0
+      "Distribution: #{distribution.name} (#{deliveries_count} x #{cur(distribution.price)})"
     else
       "Distribution: #{distribution.name} (gratuit)"
     end
