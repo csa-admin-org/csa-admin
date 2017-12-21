@@ -1,6 +1,6 @@
 - distributions = Distribution.with_delivery_memberships(@delivery)
-- small_basket = Basket.small
-- big_basket = Basket.big
+- small_basket = BasketSize.first
+- big_basket = BasketSize.last
 
 - unless @filter_distribution
   table
@@ -16,25 +16,25 @@
         tr
           td= distribution.name
           td= distribution.delivery_memberships.to_a.size
-          td= distribution.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id }
-          td= distribution.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id }
+          td= distribution.delivery_memberships.to_a.count { |m| m.basket_size_id == small_basket.id }
+          td= distribution.delivery_memberships.to_a.count { |m| m.basket_size_id == big_basket.id }
       tr
       tr
         td Paniers Jardin de la Main
         td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == small_basket.id } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_id == big_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_size_id == small_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_size_id == big_basket.id } }
       tr
         td Paniers à préparer
         td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == small_basket.id } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_id == big_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_size_id == small_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_size_id == big_basket.id } }
       tr
       tr
         td Total
         td= distributions.sum { |d| d.delivery_memberships.to_a.size }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_id == small_basket.id } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_id == big_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_size_id == small_basket.id } }
+        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_size_id == big_basket.id } }
       tr
       tr
       tr
@@ -44,7 +44,7 @@
 - distributions.each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
   table
-    caption= "#{distribution.name} (#{Basket.all.map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_id == b.id } }.join('+')})"
+    caption= "#{distribution.name} (#{BasketSize.all.map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_size_id == b.id } }.join('+')})"
     thead
       tr
         td Prénom
@@ -67,6 +67,6 @@
             td= member.final_delivery_address
             td= member.final_delivery_zip
             td= member.final_delivery_city
-          td= membership.basket.name
+          td= membership.basket_size.name
           - unless @filter_distribution
             td= truncate(member.food_note, length: 80)

@@ -22,11 +22,11 @@ ActiveAdmin.register Member do
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : nil }
     column :current_membership do |member|
       if member.current_membership
-        link_to "#{member.basket.name} / #{member.distribution.name}", member.current_membership
+        link_to "#{member.basket_size.name} / #{member.distribution.name}", member.current_membership
       else
         a = []
-        a << link_to(member.waiting_basket.name, member.waiting_basket) if member.waiting_basket
-        a << link_to(member.waiting_distribution.name, member.waiting_distribution) if member.waiting_distribution
+        a << auto_link(member.waiting_basket_size) if member.waiting_basket_size
+        a << auto_link(member.waiting_distribution) if member.waiting_distribution
         a.join(' / ').html_safe
       end
     end
@@ -54,7 +54,7 @@ ActiveAdmin.register Member do
       row :current_membership do
         if member.current_membership
           link_to(
-            "#{member.basket.name} / #{member.distribution.name}",
+            "#{member.basket_size.name} / #{member.distribution.name}",
             member.current_membership
           )
         end
@@ -68,7 +68,7 @@ ActiveAdmin.register Member do
         row :waiting_started_at
       end
       if member.status.in? %i[pending waiting]
-        row :waiting_basket
+        row :waiting_basket_size
         row :waiting_distribution
       end
       row :food_note
@@ -85,7 +85,7 @@ ActiveAdmin.register Member do
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
-  filter :with_current_basket, as: :select, collection: -> { Basket.all }
+  filter :with_current_basket_size, as: :select, collection: -> { BasketSize.all }
   filter :with_current_distribution, as: :select, collection: -> { Distribution.all }
   filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
 
@@ -132,7 +132,7 @@ ActiveAdmin.register Member do
     if member.new_record? || member.waiting_started_at_changed? || member.status.in?(%i[pending waiting])
       f.inputs "Abonnement" do
         f.input :waiting, as: :boolean
-        f.input :waiting_basket, label: 'Panier'
+        f.input :waiting_basket_size, label: 'Panier'
         f.input :waiting_distribution, label: 'Distribution'
       end
     end
@@ -143,7 +143,7 @@ ActiveAdmin.register Member do
     first_name last_name address city zip emails phones gribouille
     delivery_address delivery_city delivery_zip
     support_member salary_basket billing_interval waiting
-    waiting_basket_id waiting_distribution_id
+    waiting_basket_size_id waiting_distribution_id
     food_note note
     renew_membership
   ]
@@ -176,7 +176,9 @@ ActiveAdmin.register Member do
       Member.includes(
         :first_membership,
         :current_year_memberships,
-        current_membership: [:basket, :distribution]
+        :waiting_basket_size,
+        :waiting_distribution,
+        current_membership: [:basket_size, :distribution]
       )
     end
 

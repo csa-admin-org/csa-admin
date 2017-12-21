@@ -4,9 +4,9 @@ class Stats::BasketsStat < Stats::BaseStat
   end
 
   def data
-    baskets = memberships(includes: [:basket]).map { |m| m.basket.name }
+    basket_names = memberships(includes: [:basket_size]).map { |m| m.basket_size.name }
     stats = Hash.new(0)
-    baskets.each { |basket| stats[basket] += 1 }
+    basket_names.each { |basket_name| stats[basket_name] += 1 }
     stats.sort_by { |_k, v| -1 * v }.to_h
   end
 end

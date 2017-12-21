@@ -4,8 +4,8 @@ describe BasketContent do
   describe '#set_basket_quantities' do
     before {
       delivery = create(:delivery)
-      create(:basket, :small, annual_price: 925)
-      create(:basket, :big, annual_price: 1330)
+      create(:basket_size, :small, annual_price: 925)
+      create(:basket_size, :big, annual_price: 1330)
     }
 
     it 'splits pieces to both baskets' do
@@ -88,6 +88,7 @@ describe BasketContent do
         big_baskets_count: 29,
         same_basket_quantities: '1'
       )
+
       expect(basket_content.small_basket_quantity.to_f).to eq 1
       expect(basket_content.big_basket_quantity.to_f).to eq 1
       expect(basket_content.lost_quantity.to_f).to be_zero

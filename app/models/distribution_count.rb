@@ -17,6 +17,7 @@ class DistributionCount
     # eager load for the cache
     count
     baskets_count
+    basket_sizes_count
   end
 
   def title
@@ -28,15 +29,13 @@ class DistributionCount
   end
 
   def baskets_count
-    @baskets_count ||= [count_small_basket, count_big_basket].join(' / ')
+    @baskets_count ||= basket_sizes_count.join(' / ')
   end
 
-  def count_small_basket
-    @count_small_basket ||= memberships.count { |m| m.basket.small? }
-  end
-
-  def count_big_basket
-    @count_big_basket ||= memberships.count { |m| m.basket.big? }
+  def basket_sizes_count
+    @basket_sizes_count ||= BasketSize.all.map { |bs|
+      memberships.count { |m| m.basket_size == bs }
+    }
   end
 
   private

@@ -172,9 +172,9 @@ fr:
       membership:
         one: Abonnement
         other: Abonnements
-      basket:
-        one: Panier
-        other: Paniers
+      basket_size:
+        one: Taille de panier
+        other: Tailles de panier
       basket_content:
         one: Contenu Panier
         other: Contenu Paniers
@@ -240,8 +240,9 @@ fr:
         address: Adresse
         city: Ville
         basket_price: Prix/panier
-      basket:
+      basket_size:
         name: Nom
+        size: Taille
         annual_price: Prix/annnée (40 paniers)
       basket_content:
         quantity: Quantité
@@ -266,15 +267,15 @@ fr:
         billing_interval: Interval de paiement
         food_note: Note alimentaire
         waiting: Sur liste d'attente
-        basket: Panier
+        basket_size: Taille de panier
         current_membership: Abonnement (en cours)
         with_name: Nom
         with_address: Adresse
-        with_current_basket: Panier (en cours)
+        with_current_basket_size: Taille de panier (en cours)
         with_current_distribution: Distribution (en cours)
         created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
-        waiting_basket: Panier (en attente)
+        waiting_basket_size: Taille de panier (en attente)
         waiting_distribution: Distribution (en attente)
         validated_at: Validé le
         validator: Validé par
@@ -284,8 +285,8 @@ fr:
       membership:
         member_id: Membre
         member: Membre
-        basket_id: Panier
-        basket: Panier
+        basket_size_id: Taille de panier
+        basket_size: Taille de panier
         started_on: Début
         ended_on: Fin
         annual_halfday_works: ½ journée de travails par année
@@ -338,8 +339,7 @@ fr:
 
   billing:
     scope:
-      small_basket: Panier Eveil
-      big_basket: Panier Abondance
+      basket_size: Panier %{name}
       distribution: Distribution
       halfday_works: Ajustement ½ journées de travail
       support: Cotisation

@@ -24,11 +24,11 @@ describe DistributionMailer do
       expect(mail.body.encoded).to include(member1.name)
       expect(mail.body.encoded).to include(member1.emails)
       expect(mail.body.encoded).to include(member1.phones)
-      expect(mail.body.encoded).to include(membership1.basket.name)
+      expect(mail.body.encoded).to include(membership1.basket_size.name)
       expect(mail.body.encoded).to include(member2.name)
       expect(mail.body.encoded).to include(member2.emails)
       expect(mail.body.encoded).to include(member2.phones)
-      expect(mail.body.encoded).to include(membership2.basket.name)
+      expect(mail.body.encoded).to include(membership2.basket_size.name)
     end
   end
 end

@@ -2,7 +2,7 @@ ol
   - @memberships.each do |membership|
     li
       = membership.member.name
-      == ", <b>#{membership.basket.name}</b>, "
+      == ", <b>#{membership.basket_size.name}</b>, "
       = membership.member.phones
       == " / #{mail_to membership.member.emails}"
 

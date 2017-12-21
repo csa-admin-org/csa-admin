@@ -20,4 +20,8 @@ class Gribouille < ActiveRecord::Base
   def deliverable?
     [header, basket_content].all?(&:present?) && !sent_at?
   end
+
+  def display_name
+    "Gribouille du #{delivery.date}"
+  end
 end

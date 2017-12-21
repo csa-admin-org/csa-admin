@@ -10,10 +10,10 @@ table
       td Déscription
       td Total
 
-    - Basket.all.each do |basket|
-      - amount = memberships.select { |m| m.basket_id == basket.id }.sum(&:basket_total_price)
+    - BasketSize.all.each do |basket_size|
+      - amount = memberships.select { |m| m.basket_size_id == basket_size.id }.sum(&:basket_total_price)
       tr
-        td= "Abonnement #{basket.name}"
+        td= "Abonnement #{basket_size.name}"
         td.decimal= number_with_precision(amount, precision: 2)
 
     - bike_distribution_id = 2

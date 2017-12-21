@@ -6,10 +6,10 @@ module BasketContentsHelper
     end
   end
 
-  def display_basket_quantity(basket_content, type)
-    count = basket_content.send("#{type}_baskets_count")
+  def display_basket_quantity(basket_content, size)
+    count = basket_content.send("#{size}_baskets_count")
     return '–' if count.zero?
-    quantity = basket_content.send("#{type}_basket_quantity")
+    quantity = basket_content.send("#{size}_basket_quantity")
     case basket_content.unit
     when 'kilogramme' then "#{count}x #{(quantity * 1000).to_i}g"
     when 'pièce' then  "#{count}x #{quantity.to_i}p"

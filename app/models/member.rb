@@ -7,7 +7,7 @@ class Member < ActiveRecord::Base
   uniquify :token, length: 10
 
   belongs_to :validator, class_name: 'Admin'
-  belongs_to :waiting_basket, class_name: 'Basket'
+  belongs_to :waiting_basket_size, class_name: 'BasketSize'
   belongs_to :waiting_distribution, class_name: 'Distribution'
   has_many :absences
   has_many :invoices
@@ -70,12 +70,12 @@ class Member < ActiveRecord::Base
   scope :with_address, ->(address) {
     where('members.address ILIKE ?', "%#{address}%")
   }
-  scope :with_current_basket, ->(basket_id) {
-    ids = Membership.where(basket_id: basket_id).pluck(:member_id)
-    where('members.id IN (?) OR waiting_basket_id = ?', ids, basket_id)
+  scope :with_current_basket_size, ->(basket_size_id) {
+    ids = Membership.current.where(basket_size_id: basket_size_id).pluck(:member_id)
+    where('members.id IN (?) OR waiting_basket_size_id = ?', ids, basket_size_id)
   }
   scope :with_current_distribution, ->(distribution_id) {
-    ids = Membership.where(distribution_id: distribution_id).pluck(:member_id)
+    ids = Membership.current.where(distribution_id: distribution_id).pluck(:member_id)
     where('members.id IN (?) OR waiting_distribution_id = ?',
       ids, distribution_id)
   }
@@ -155,10 +155,10 @@ class Member < ActiveRecord::Base
     read_attribute(:delivery_zip).presence || zip
   end
 
-  def basket
-    current_membership.try(:basket) ||
-      waiting_basket ||
-      future_membership.try(:basket)
+  def basket_size
+    current_membership.try(:basket_size) ||
+      waiting_basket_size ||
+      future_membership.try(:basket_size)
   end
 
   def distribution
@@ -168,7 +168,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[with_name with_address with_current_basket with_current_distribution]
+    %i[with_name with_address with_current_basket_size with_current_distribution]
   end
 
   def status
@@ -197,7 +197,7 @@ class Member < ActiveRecord::Base
     if bool || bool == '1'
       self.billing_interval = 'annual'
       self.waiting_started_at = nil
-      self.waiting_basket_id = nil
+      self.waiting_basket_size_id = nil
       self.waiting_distribution_id = nil
     end
     write_attribute(:support_member, bool)
@@ -221,7 +221,7 @@ class Member < ActiveRecord::Base
     return unless status == :inactive
     update!(
       waiting_started_at: Time.zone.now,
-      waiting_basket_id: nil,
+      waiting_basket_size_id: nil,
       waiting_distribution_id: nil
     )
   end
@@ -331,16 +331,16 @@ class Member < ActiveRecord::Base
   def build_membership
     if !pending? && (new_record? || waiting_started_at_changed?) &&
         waiting_started_at.nil? &&
-        waiting_basket_id? && waiting_distribution_id?
+        waiting_basket_size_id? && waiting_distribution_id?
       today = Time.zone.today
       memberships.build(
-        basket_id: waiting_basket_id,
+        basket_size_id: waiting_basket_size_id,
         distribution_id: waiting_distribution_id,
         member: self,
         started_on: [today, today.beginning_of_year].max,
         ended_on: today.end_of_year
       )
-      self.waiting_basket_id = nil
+      self.waiting_basket_size_id = nil
       self.waiting_distribution_id = nil
     end
   end

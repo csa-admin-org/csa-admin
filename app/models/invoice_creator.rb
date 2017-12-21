@@ -51,7 +51,7 @@ class InvoiceCreator
 
   def memberships_amounts_data
     memberships.map do |membership|
-      membership.slice(:id, :basket_id, :distribution_id).merge(
+      membership.slice(:id, :basket_size_id, :distribution_id).merge(
         basket_total_price: membership.basket_total_price,
         basket_description: membership.basket_description,
         distribution_total_price: membership.distribution_total_price,

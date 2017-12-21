@@ -10,7 +10,7 @@ ActiveAdmin.register Membership do
   index do
     selectable_column
     column :member, ->(m) { link_to m.member.name, m.member }
-    column :basket
+    column :basket_size
     column :distribution
     column :started_on, ->(m) { l m.started_on }
     column :ended_on, ->(m) { l m.ended_on }
@@ -20,7 +20,7 @@ ActiveAdmin.register Membership do
   filter :member,
     as: :select,
     collection: -> { Member.joins(:memberships).order(:last_name).distinct }
-  filter :basket
+  filter :basket_size
   filter :distribution
   filter :started_on
   filter :ended_on
@@ -29,7 +29,7 @@ ActiveAdmin.register Membership do
     attributes_table do
       row :id
       row :member
-      row :basket
+      row :basket_size
       row :distribution
       row :annual_halfday_works
       row :deliveries_received_count
@@ -38,7 +38,7 @@ ActiveAdmin.register Membership do
         row(:price) { 'Gratuit, panier salaire' }
       else
         row(:basket_total_price) {
-          detail = "#{m.deliveries_count} * #{m.basket.price}"
+          detail = "#{m.deliveries_count} * #{m.basket_size.price}"
           "#{number_to_currency(m.basket_total_price)} (#{detail})"
         }
         row(:distribution_total_price) {
@@ -70,7 +70,7 @@ ActiveAdmin.register Membership do
         include_blank: false
     end
     f.inputs 'Panier & Distribution' do
-      f.input :basket, include_blank: false
+      f.input :basket_size, include_blank: false
       f.input :distribution, include_blank: false
     end
     f.inputs '½ journée de travails' do
@@ -103,7 +103,7 @@ ActiveAdmin.register Membership do
   end
 
   permit_params *%i[
-    member_id basket_id distribution_id
+    member_id basket_size_id distribution_id
     halfday_works_annual_price annual_halfday_works
     will_be_changed_at started_on ended_on note
   ]
@@ -122,7 +122,7 @@ ActiveAdmin.register Membership do
     end
 
     def scoped_collection
-      Membership.includes(:member, :basket, :distribution)
+      Membership.includes(:member, :basket_size, :distribution)
     end
   end
 

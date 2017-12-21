@@ -19,7 +19,7 @@ class Distribution < ActiveRecord::Base
 
   def memberships_for(delivery)
     memberships
-      .including_date(delivery.date).includes(:basket, member: :absences).to_a
+      .including_date(delivery.date).includes(:basket_size, member: :absences).to_a
       .reject { |m| m.member.absent?(delivery.date) }
   end
 
