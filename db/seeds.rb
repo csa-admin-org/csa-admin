@@ -62,4 +62,4 @@ BasketSize.create!(name: 'Eveil', size: 'small', annual_price: 925)
 BasketSize.create!(name: 'Abondance', size: 'big', annual_price: 1330)
 
 Delivery.delete_all
-Delivery.create_all(Date.new(2015, 1, 14))
+Delivery.create_all(40, Date.new(2015, 1, 14))

@@ -1,6 +1,4 @@
 class Delivery < ActiveRecord::Base
-  PER_YEAR = 40
-
   default_scope { order(:date) }
 
   has_one :gribouille
@@ -18,9 +16,9 @@ class Delivery < ActiveRecord::Base
     where('date >= ? AND date <= ?', range.first, range.last)
   }
 
-  def self.create_all(first_date)
+  def self.create_all(count, first_date)
     date = first_date
-    PER_YEAR.times do
+    count.times do
       create(date: date)
       date = next_date(date)
     end

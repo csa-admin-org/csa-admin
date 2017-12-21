@@ -242,8 +242,9 @@ fr:
         basket_price: Prix/panier
       basket_size:
         name: Nom
-        size: Taille
-        annual_price: Prix/annnée (40 paniers)
+        price: Prix
+        annual_price: Prix annuel
+        annual_halfday_works: ½ journée de travails par année
       basket_content:
         quantity: Quantité
         unit: Unité

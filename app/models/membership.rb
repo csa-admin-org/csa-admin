@@ -80,11 +80,11 @@ class Membership < ActiveRecord::Base
   end
 
   def normal_halfday_works
-    (deliveries_count / Delivery::PER_YEAR.to_f * HalfdayParticipation::MEMBER_PER_YEAR).round
+    (deliveries_count / Delivery.current_year.count.to_f * HalfdayParticipation::MEMBER_PER_YEAR).round
   end
 
   def halfday_works
-    (deliveries_count / Delivery::PER_YEAR.to_f * annual_halfday_works).round
+    (deliveries_count / Delivery.current_year.count.to_f * annual_halfday_works).round
   end
 
   def distribution_basket_price
