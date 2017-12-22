@@ -178,7 +178,7 @@ class Invoice < ActiveRecord::Base
     if memberships_amounts_data && memberships_amounts_data.any? { |h|
       h.keys.map(&:to_s).sort != %w[
         basket_description
-        basket_size_id
+        basket_id
         basket_total_price
         description
         distribution_description
