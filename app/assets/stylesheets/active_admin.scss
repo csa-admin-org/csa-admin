@@ -71,8 +71,8 @@ span.delivery_absences {
   }
 }
 
-table a.edit_link { background-image: url('/assets/formadmin/edit.svg'); }
-table a.pdf_link { background-image: url('/assets/pdf_file.svg'); }
+table a.edit_link { background-image: asset-url('formadmin/edit.svg'); }
+table a.pdf_link { background-image: asset-url('pdf_file.svg'); }
 
 table .edit_link, table .pdf_link {
   background-repeat: no-repeat;
@@ -86,9 +86,6 @@ table .edit_link, table .pdf_link {
   transition: opacity 250ms;
   width: 16px;
 }
-
-//   &.pdf_link { background-image: url('/assets/pdf_file.svg'); }
-// }
 
 .status_tag {
   &.trial { background-color: #1e83f6; }
