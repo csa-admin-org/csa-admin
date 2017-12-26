@@ -76,15 +76,19 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_total_price
-    BasketSize.pluck(:id).sum { |id| basket_size_total_price(id) }
+    BasketSize.pluck(:id).sum { |id| baskets_price(id) }
   end
 
-  def basket_size_total_price(basket_size_id)
+  def baskets_price(basket_size_id)
     rounded_price(baskets.where(basket_size_id: basket_size_id).sum(:basket_price))
   end
 
   def distribution_total_price
-    rounded_price(baskets.sum(:distribution_price))
+    Distribution.pluck(:id).sum { |id| distributions_price(id) }
+  end
+
+  def distributions_price(distribution_id)
+    rounded_price(baskets.where(distribution_id: distribution_id).sum(:distribution_price))
   end
 
   def halfday_works_total_price

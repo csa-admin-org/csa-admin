@@ -38,7 +38,7 @@ class BillingTotal
     @price ||=
       case scope
       when BasketSize
-        @memberships.sum { |m| m.basket_size_total_price(scope.id) }
+        @memberships.sum { |m| m.baskets_price(scope.id) }
       when :distribution
         @memberships.sum { |m| m.distribution_total_price }
       when :halfday_works
