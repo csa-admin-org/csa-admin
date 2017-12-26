@@ -159,6 +159,8 @@ fr:
         delete_model: 'Supprimer'
       membership:
         new_model: 'Nouvel %{model}'
+      absence:
+        new_model: 'Nouvelle %{model}'
       gribouille:
         new_model: 'Nouvelle %{model}'
       halfday_participation:
