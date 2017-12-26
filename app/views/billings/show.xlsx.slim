@@ -11,18 +11,19 @@ table
       td Total
 
     - BasketSize.all.each do |basket_size|
-      - amount = memberships.select { |m| m.basket_size_id == basket_size.id }.sum(&:basket_total_price)
+      - amount = memberships.sum { |m| m.baskets_price(basket_size.id) }
       tr
         td= "Abonnement #{basket_size.name}"
         td.decimal= number_with_precision(amount, precision: 2)
 
     - bike_distribution_id = 2
-    - amount = memberships.select { |m| m.distribution_id == bike_distribution_id }.sum(&:distribution_total_price)
+    - amount = memberships.sum { |m| m.distributions_price(bike_distribution_id) }
     tr
       td= "Distribution Vélo"
       td.decimal= number_with_precision(amount, precision: 2)
 
-    - amount = memberships.select { |m| m.distribution_id != bike_distribution_id }.sum(&:distribution_total_price)
+    - non_bike_distribution_ids = Distribution.where.not(id: bike_distribution_id).pluck(:id)
+    - amount = non_bike_distribution_ids.sum { |id| memberships.sum { |m| m.distributions_price(id) } }
     tr
       td= "Distribution Lieux de dépot"
       td.decimal= number_with_precision(amount, precision: 2)
