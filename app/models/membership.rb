@@ -9,8 +9,7 @@ class Membership < ActiveRecord::Base
     -> { delivered },
     class_name: 'Basket'
 
-  # TODO Uncomment when columns removed from DB
-  # attr_accessor :basket_size_id, :distribution_id
+  attr_accessor :basket_size_id, :distribution_id
 
   validates :member, presence: true
   validates :annual_halfday_works, presence: true
@@ -201,9 +200,9 @@ class Membership < ActiveRecord::Base
   def update_baskets
     if basket_size_id || distribution_id
       baskets.between(Time.current..ended_on).each do |basket|
-        basket.update!(
-          basket_size_id: basket_size_id,
-          distribution_id: distribution_id)
+        basket.basket_size_id = basket_size_id if basket_size_id
+        basket.distribution_id = distribution_id if distribution_id
+        basket.save!
       end
     end
     if saved_change_to_attribute?(:started_on) || saved_change_to_attribute?(:ended_on)

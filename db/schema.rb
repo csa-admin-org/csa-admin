@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171223194426) do
+ActiveRecord::Schema.define(version: 20171226100929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,8 +249,6 @@ ActiveRecord::Schema.define(version: 20171223194426) do
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|
-    t.integer "basket_size_id"
-    t.integer "distribution_id"
     t.integer "member_id", null: false
     t.decimal "halfday_works_annual_price", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "annual_halfday_works", default: 0, null: false
@@ -261,9 +259,7 @@ ActiveRecord::Schema.define(version: 20171223194426) do
     t.text "note"
     t.datetime "deleted_at"
     t.integer "baskets_count", default: 0, null: false
-    t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
-    t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"
     t.index ["started_on"], name: "index_memberships_on_started_on"
