@@ -28,7 +28,7 @@ ActiveAdmin.register HalfdayParticipation do
         collection: Halfday.order(date: :desc),
         include_blank: false
       f.input :member,
-        collection: Member.valid_for_memberships.order(:last_name).distinct,
+        collection: Member.order(:last_name).distinct,
         include_blank: false
       f.input :participants_count
     end

@@ -2,15 +2,7 @@ class MemberCount
   SCOPES = %i[pending waiting trial active support inactive]
 
   def self.all
-    cache_key = [
-      name,
-      Member.maximum(:updated_at),
-      Membership.maximum(:updated_at),
-      Date.today
-    ]
-    Rails.cache.fetch cache_key do
-      SCOPES.map { |scope| new(scope) }
-    end
+    SCOPES.map { |scope| new(scope) }
   end
 
   attr_reader :scope
@@ -20,7 +12,6 @@ class MemberCount
     # eager load for the cache
     count
     count_precision
-    count_basket_sizes
   end
 
   def title
@@ -43,20 +34,9 @@ class MemberCount
       end
   end
 
-  def count_basket_sizes
-    return if scope == :support
-    @count_basket_sizes ||= BasketSize.all.map { |bs|
-      members.count { |m| m.basket_size == bs }
-    }
-  end
-
   private
 
   def members
-    @members ||=
-      Member.send(scope).includes(
-        :waiting_basket_size,
-        current_membership: :basket_size,
-        future_membership: :basket_size).to_a
+    @members ||= Member.send(scope).to_a
   end
 end

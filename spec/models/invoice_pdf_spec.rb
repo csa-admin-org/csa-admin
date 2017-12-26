@@ -40,35 +40,25 @@ describe InvoicePdf do
   end
 
   context 'when support ammount + annual membership' do
+    let(:membership) do
+      create(:membership, basket_size_id: create(:basket_size, :big).id)
+    end
     let(:invoice) do
       create(:invoice,
         support_amount: Member::SUPPORT_PRICE,
         memberships_amount_description: 'Montant annuel',
-        memberships_amounts_data: [
-          id: 1,
-          basket_size_id: 1,
-          distribution_id: 1,
-          basket_description: 'basket_total_description',
-          basket_total_price: 1330,
-          distribution_description: 'distribution_description',
-          distribution_total_price: 0,
-          halfday_works_description: 'halfday_works_description',
-          halfday_works_total_price: 0,
-          description: 'date - date (x livraisons)',
-          price: 1330
-        ]
-      )
+        membership: membership)
     end
 
     specify do
       pdf = pdf_strings
 
-      expect(pdf).to include 'date - date (x livraisons)'
-      expect(pdf).to include 'basket_total_description'
+      expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
+      expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
-      expect(pdf).to include 'distribution_description'
+      expect(pdf).to include 'Distribution: gratuit'
       expect(pdf).to include '0.00'
-      expect(pdf).not_to include 'halfday_works_description'
+      expect(pdf).not_to include 'Demi-journées de travail'
       expect(pdf).to include 'Cotisation annuelle association'
       expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
       expect(pdf).to include 'Montant annuel'
@@ -79,35 +69,28 @@ describe InvoicePdf do
   end
 
   context 'when support ammount + annual membership + halfday_works reduc' do
+    let(:membership) do
+      create(:membership, basket_size_id: create(:basket_size, :big).id)
+    end
     let(:invoice) do
       create(:invoice,
         support_amount: Member::SUPPORT_PRICE,
         memberships_amount_description: 'Montant annuel',
-        memberships_amounts_data: [
-          id: 1,
-          basket_size_id: 1,
-          distribution_id: 1,
-          basket_description: 'basket_total_description',
-          basket_total_price: 1330,
-          distribution_description: 'distribution_description',
-          distribution_total_price: 0,
-          halfday_works_description: 'halfday_works_description',
-          halfday_works_total_price: -330.50,
-          description: 'date - date (x livraisons)',
-          price: 999.50
-        ]
-      )
+        membership: membership)
     end
 
     specify do
+      membership.update!(
+        annual_halfday_works: 8,
+        halfday_works_annual_price: -330.50)
       pdf = pdf_strings
 
-      expect(pdf).to include 'date - date (x livraisons)'
-      expect(pdf).to include 'basket_total_description'
+      expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
+      expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
-      expect(pdf).to include 'distribution_description'
+      expect(pdf).to include 'Distribution: gratuit'
       expect(pdf).to include '0.00'
-      expect(pdf).to include 'halfday_works_description'
+      expect(pdf).to include 'Réduction pour 6 demi-journées de travail supplémentaires'
       expect(pdf).to include '- 330.50'
       expect(pdf).to include 'Cotisation annuelle association'
       expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
@@ -119,78 +102,65 @@ describe InvoicePdf do
   end
 
   context 'when support ammount + quarter membership' do
+    let(:member) { create(:member, billing_interval: 'annual') }
+    let(:membership) do
+      create(:membership,
+        member: member,
+        basket_size_id: create(:basket_size, :big).id,
+        distribution_id: create(:distribution, price: 2).id)
+    end
     let(:invoice) do
       create(:invoice,
+        member: member,
         support_amount: Member::SUPPORT_PRICE,
-        memberships_amount_fraction: 4,
+        membership_amount_fraction: 4,
         memberships_amount_description: 'Montant trimestrielle #1',
-        memberships_amounts_data: [
-          id: 1,
-          basket_size_id: 1,
-          distribution_id: 1,
-          basket_description: 'basket_total_description',
-          basket_total_price: 1330.15,
-          distribution_description: 'distribution_description',
-          distribution_total_price: 50,
-          halfday_works_description: 'halfday_works_description',
-          halfday_works_total_price: 0,
-          description: 'date - date (x livraisons)',
-          price: 1380.15
-        ]
-      )
+        membership: membership)
     end
 
     specify do
       pdf = pdf_strings
 
-      expect(pdf).to include 'date - date (x livraisons)'
-      expect(pdf).to include 'basket_total_description'
-      expect(pdf).to include "1'330.15"
-      expect(pdf).to include 'distribution_description'
-      expect(pdf).to include '50.00'
-      expect(pdf).not_to include 'halfday_works_description'
+      expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
+      expect(pdf).to include 'Panier: 40 x 33.25'
+      expect(pdf).to include "1'330.00"
+      expect(pdf).to include 'Distribution: 40 x 2.00'
+      expect(pdf).to include '80.00'
+      expect(pdf).not_to include 'Demi-journées de travail'
       expect(pdf).to include 'Cotisation annuelle association'
       expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
       expect(pdf).to include 'Montant trimestrielle #1'
-      expect(pdf).to include '345.05'
-      expect(pdf).to include '375.05'
+      expect(pdf).to include '352.50'
+      expect(pdf).to include '382.50'
     end
   end
 
-  context 'when quarter mmebership with change + paid amount' do
+  context 'when quarter menbership and paid amount' do
+    let(:member) { create(:member, billing_interval: 'annual') }
+    let(:membership) do
+      create(:membership,
+        member: member,
+        basket_size_id: create(:basket_size, :big).id)
+    end
     let(:invoice) do
       create(:invoice,
-        memberships_amount_fraction: 2,
+        date: Time.current.beginning_of_year,
+        member: member,
+        membership_amount_fraction: 4,
+        memberships_amount_description: 'Montant trimestrielle #1',
+        membership: membership)
+      create(:invoice,
+        date: Time.current.beginning_of_year + 4.months,
+        member: member,
+        membership_amount_fraction: 3,
+        memberships_amount_description: 'Montant trimestrielle #2',
+        membership: membership)
+      create(:invoice,
+        date: Time.current.beginning_of_year + 8.months,
+        member: member,
+        membership_amount_fraction: 2,
         memberships_amount_description: 'Montant trimestrielle #3',
-        memberships_amounts_data: [
-          {
-            id: 1,
-            basket_size_id: 1,
-            distribution_id: 1,
-            basket_description: 'basket_total_description',
-            basket_total_price: 465.50,
-            distribution_description: 'distribution_description',
-            distribution_total_price: 0,
-            halfday_works_description: 'halfday_works_description',
-            halfday_works_total_price: 0,
-            description: 'date1 - date2 (x livraisons)',
-            price: 465.50
-          }, {
-            id: 2,
-            basket_size_id: 2,
-            distribution_id: 1,
-            basket_description: 'basket_total_description',
-            basket_total_price: 1046.50,
-            distribution_description: 'distribution_description',
-            distribution_total_price: 0,
-            halfday_works_description: 'halfday_works_description',
-            halfday_works_total_price: 0,
-            description: 'date3 - date4 (x livraisons)',
-            price: 1046.50
-          }
-        ],
-        paid_memberships_amount: 665,
-      )
+        membership: membership)
     end
 
     specify do
@@ -198,13 +168,13 @@ describe InvoicePdf do
 
       expect(pdf).not_to include 'Cotisation annuelle association'
       expect(pdf).to include 'Montant trimestrielle #3'
-      expect(pdf).to include 'date1 - date2 (x livraisons)'
-      expect(pdf).to include '465.50'
-      expect(pdf).to include 'date3 - date4 (x livraisons)'
-      expect(pdf).to include "1'046.50"
+      expect(pdf).to include 'Panier: 40 x 33.25'
+      expect(pdf).to include "1'330.00"
+      expect(pdf).to include 'Distribution: gratuit'
+      expect(pdf).to include '0.00'
       expect(pdf).to include '- 665.00'
-      expect(pdf).to include '847.00'
-      expect(pdf).to include '423.50'
+      expect(pdf).to include '665.00'
+      expect(pdf).to include '332.50'
     end
   end
 end

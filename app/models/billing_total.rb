@@ -12,8 +12,7 @@ class BillingTotal
       Membership.maximum(:updated_at)
     ]
     Rails.cache.fetch cache_key do
-      memberships =
-        Membership.current_year.includes(:basket_size, :member, :distribution).to_a
+      memberships = Membership.current_year.to_a
       [BasketSize.all + SCOPES].flatten.map { |scope| new(memberships, scope) }
     end
   end
@@ -39,9 +38,9 @@ class BillingTotal
     @price ||=
       case scope
       when BasketSize
-        @memberships.select { |m| m.basket_size_id == scope.id }.sum(&:basket_total_price)
+        @memberships.sum { |m| m.basket_size_total_price(scope.id) }
       when :distribution
-        @memberships.sum(&:distribution_total_price)
+        @memberships.sum { |m| m.distribution_total_price }
       when :halfday_works
         @memberships.sum(&:halfday_works_total_price)
       when :support

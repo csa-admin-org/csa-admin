@@ -1,10 +1,14 @@
 class Member < ActiveRecord::Base
+  include HasState
+
   BILLING_INTERVALS = %w[annual quarterly].freeze
   SUPPORT_PRICE = 30
-  TRIAL_DELIVERIES = 4
+  TRIAL_BASKETS = 4
 
   acts_as_paranoid
   uniquify :token, length: 10
+
+  has_states :pending, :waiting, :trial, :active, :inactive
 
   belongs_to :validator, class_name: 'Admin'
   belongs_to :waiting_basket_size, class_name: 'BasketSize'
@@ -16,53 +20,21 @@ class Member < ActiveRecord::Base
     class_name: 'Invoice'
   has_many :halfday_participations
   has_many :memberships
-  has_many :current_year_memberships, -> { during_year(Time.zone.today.year) },
-    class_name: 'Membership'
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
-  has_one :future_membership,
-    -> { future_current_year },
+  has_one :current_year_membership,
+    -> { during_year(Time.zone.today.year) },
     class_name: 'Membership'
+  has_one :future_membership,
+    -> { future.current_year },
+    class_name: 'Membership'
+  has_many :baskets, through: :memberships
+  has_many :delivered_baskets,
+    through: :memberships,
+    source: :delivered_baskets,
+    class_name: 'Basket'
 
-  accepts_nested_attributes_for :memberships
-
-  scope :pending, -> { where(validated_at: nil) }
-  scope :validated, -> { where.not(validated_at: nil) }
-  scope :waiting, -> { validated.where.not(waiting_started_at: nil) }
-  scope :not_waiting, -> { validated.where(waiting_started_at: nil) }
-  scope :with_current_membership, -> { not_waiting.joins(:current_membership) }
-  scope :without_current_membership,
-    -> { where.not(id: Member.with_current_membership.pluck(:id)) }
-  scope :valid_for_memberships, -> { validated.not_waiting }
-  DELIVERIES_COUNT = %{(
-    SELECT COUNT(deliveries.id)
-    FROM deliveries
-    WHERE
-      date >= (
-        SELECT m.started_on
-        FROM memberships m
-        WHERE m.member_id = members.id
-        ORDER BY m.started_on
-        LIMIT 1
-      ) AND
-      date <= current_date
-  )}
-  scope :trial, -> {
-    with_current_membership.where("#{DELIVERIES_COUNT} <= #{TRIAL_DELIVERIES}")
-  }
-  scope :active, -> {
-    with_current_membership.where("#{DELIVERIES_COUNT} > #{TRIAL_DELIVERIES}")
-  }
-  scope :support, -> {
-    not_waiting
-      .without_current_membership
-      .where(support_member: true)
-  }
-  scope :inactive, -> {
-    not_waiting
-      .without_current_membership
-      .where(support_member: false)
-  }
+  scope :support, -> { inactive.where(support_member: true) }
   scope :with_name, ->(name) {
     where('first_name ILIKE :name OR last_name ILIKE :name', name: "%#{name}%")
   }
@@ -70,17 +42,7 @@ class Member < ActiveRecord::Base
   scope :with_address, ->(address) {
     where('members.address ILIKE ?', "%#{address}%")
   }
-  scope :with_current_basket_size, ->(basket_size_id) {
-    ids = Membership.current.where(basket_size_id: basket_size_id).pluck(:member_id)
-    where('members.id IN (?) OR waiting_basket_size_id = ?', ids, basket_size_id)
-  }
-  scope :with_current_distribution, ->(distribution_id) {
-    ids = Membership.current.where(distribution_id: distribution_id).pluck(:member_id)
-    where('members.id IN (?) OR waiting_distribution_id = ?',
-      ids, distribution_id)
-  }
-  scope :paid_basket, -> { where(salary_basket: false) }
-  scope :renew_membership, -> { where(renew_membership: true) }
+  scope :renew_membership, ->(bool = true) { where(renew_membership: bool) }
 
   validates :billing_interval,
     presence: true,
@@ -88,14 +50,11 @@ class Member < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }
-  validates :address, :city, :zip, presence: true,
-    if: ->(member) {
-      member.status.in?(%i[trial active support]) ||
-        (member.status == :inactive && member.gribouille == false)
-    }
+  validates :address, :city, :zip, presence: true, unless: :inactive?
   validate :support_member_not_waiting
 
-  before_save :build_membership
+  before_validation :set_waiting_started_at, on: :create
+  before_save :set_state
 
   def self.gribouille
     all.includes(:current_membership, :future_membership).select(&:gribouille?)
@@ -112,17 +71,11 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def self.with_current_membership_emails
-    all.with_current_membership.map(&:emails_array).flatten.uniq.compact
-  end
-
   def self.billable
     includes = %i[
-      current_year_memberships
-      current_year_invoices
-      memberships
-      first_membership
       current_membership
+      current_year_membership
+      current_year_invoices
     ]
     Member.includes(*includes).all.select(&:billable?)
   end
@@ -155,81 +108,75 @@ class Member < ActiveRecord::Base
     read_attribute(:delivery_zip).presence || zip
   end
 
-  def basket_size
-    current_membership.try(:basket_size) ||
-      waiting_basket_size ||
-      future_membership.try(:basket_size)
-  end
-
-  def distribution
-    current_membership.try(:distribution) ||
-      waiting_distribution ||
-      future_membership.try(:distribution)
-  end
-
   def self.ransackable_scopes(_auth_object = nil)
-    %i[with_name with_address with_current_basket_size with_current_distribution]
+    %i[with_name with_address]
   end
 
-  def status
-    if pending?
-      :pending
-    elsif waiting?
-      :waiting
-    elsif current_membership
-      trial? ? :trial : :active
-    elsif support?
-      :support
-    else
-      :inactive
+  def basket_size
+    now = Time.current
+    (baskets.between(now..now.end_of_year).first || baskets.last)&.basket_size
+  end
+
+  def update_state!
+    set_state
+    save!
+  end
+
+  def update_trial_baskets!
+    transaction do
+      baskets.update_all(trial: false)
+      baskets.limit(4).update_all(trial: true)
     end
   end
 
-  def active?
-    status == :active
-  end
-
-  def display_status
-    I18n.t("member.status.#{status}")
+  def update_absent_baskets!
+    transaction do
+      baskets.absent.update_all(absent: false)
+      absences.each do |absence|
+        baskets.between(absence.period).update_all(absent: true)
+      end
+    end
   end
 
   def support_member=(bool)
-    if bool || bool == '1'
+    if bool == '1'
+      self.state = INACTIVE_STATE
       self.billing_interval = 'annual'
       self.waiting_started_at = nil
       self.waiting_basket_size_id = nil
       self.waiting_distribution_id = nil
     end
-    write_attribute(:support_member, bool)
-  end
-
-  def waiting=(bool)
-    self.waiting_started_at = (bool == '1') ? Time.zone.now : nil
+    self[:support_member] = bool
   end
 
   def validate!(validator)
-    return unless status == :pending
-    now = Time.zone.now
+    invalid_transition(:validate!) unless pending?
+    now = Time.current
     update!(
-      waiting_started_at: support? ? nil : now,
+      waiting_started_at: support_member? ? nil : now,
       validated_at: now,
       validator: validator
     )
   end
 
-  def wait!
-    return unless status == :inactive
+  def remove_from_waiting_list!
+    invalid_transition(:remove_from_waiting_list) unless waiting?
     update!(
-      waiting_started_at: Time.zone.now,
-      waiting_basket_size_id: nil,
-      waiting_distribution_id: nil
-    )
+      state: INACTIVE_STATE,
+      waiting_started_at: nil)
+  end
+
+  def put_back_to_waiting_list!
+    invalid_transition(:wait!) unless inactive?
+    update!(
+      state: WAITING_STATE,
+      waiting_started_at: Time.current)
   end
 
   def gribouille?
     gribouille = read_attribute(:gribouille)
     gribouille == true || (
-      (waiting? || current_membership || future_membership || support?) &&
+      (waiting? || current_membership || future_membership || support_member?) &&
       gribouille != false
     )
   end
@@ -276,81 +223,59 @@ class Member < ActiveRecord::Base
     [annual_halfday_works(year) - validated_halfday_works(year), 0].min.abs
   end
 
-  def skipped_halfday_works(year = nil)
-    if salary_basket?
-      0
-    else
-      [memberships.during_year(year).to_a.sum(&:normal_halfday_works) - validated_halfday_works(year), 0].max
-    end
-  end
-
   def to_param
     token
   end
 
   def can_destroy?
-    status.in? %i[pending waiting]
+    pending? || waiting?
   end
 
-  def pending?
-    !validated_at?
-  end
-
-  def waiting
-    waiting_started_at?
-  end
-  alias_method :waiting?, :waiting
-
-  def support?
-    support_member?
-  end
-
-  def trial?
-    first_membership && first_membership.year == Date.current.year &&
-      deliveries_received_count_since_first_membership <= TRIAL_DELIVERIES
-  end
-
-  def deliveries_received_count_since_first_membership
-    current_year_memberships.sum { |m| m.deliveries_received_count }
-  end
+  alias_method :waiting, :waiting?
 
   def billable?
-    support? ||
-      (!salary_basket? && current_year_memberships.present? && !trial?) ||
+    support_member? ||
+      (!salary_basket? && current_year_membership && !trial?) ||
       (trial? && !current_membership)
   end
 
   def support_billable?
     billable? &&
-      (support? ||
-        (active? && memberships.to_a.sum(&:deliveries_received_count) > 4))
+      (support_member? ||
+        (active? && delivered_baskets.count > TRIAL_BASKETS))
   end
 
   private
-
-  def build_membership
-    if !pending? && (new_record? || waiting_started_at_changed?) &&
-        waiting_started_at.nil? &&
-        waiting_basket_size_id? && waiting_distribution_id?
-      today = Time.zone.today
-      memberships.build(
-        basket_size_id: waiting_basket_size_id,
-        distribution_id: waiting_distribution_id,
-        member: self,
-        started_on: [today, today.beginning_of_year].max,
-        ended_on: today.end_of_year
-      )
-      self.waiting_basket_size_id = nil
-      self.waiting_distribution_id = nil
-    end
-  end
 
   def string_to_a(str)
     str.to_s.split(',').each(&:strip!)
   end
 
+  def set_waiting_started_at
+    if waiting_basket_size_id? || waiting_distribution_id?
+      self.waiting_started_at ||= Time.current
+    end
+  end
+
+  def set_state
+    self.state =
+      if !validated_at?
+        PENDING_STATE
+      elsif current_membership
+        if delivered_baskets.count <= TRIAL_BASKETS
+          TRIAL_STATE
+        else
+          ACTIVE_STATE
+        end
+      elsif waiting_started_at?
+        WAITING_STATE
+      else
+        INACTIVE_STATE
+      end
+  end
+
   def support_member_not_waiting
-    if support_member && status == :waiting
+    if support_member? && waiting?
       errors.add(:support_member, "ne peut pas être sur liste d'attente")
     end
   end

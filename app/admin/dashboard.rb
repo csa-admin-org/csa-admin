@@ -9,11 +9,8 @@ ActiveAdmin.register_page 'Dashboard' do
         panel 'Membres' do
           table_for MemberCount.all do
             column('Status') { |count| link_to count.title, members_path(scope: count.scope) }
-            column 'Membres', class: 'align-right' do |count|
+            column class: 'align-right' do |count|
               count.count.to_s.prepend(count.count_precision.to_s)
-            end
-            column "#{BasketSize.pluck(:name).join(' / ')}", class: 'align-right' do |count|
-              count.count_basket_sizes&.compact&.join(' / ')
             end
           end
         end
@@ -84,7 +81,7 @@ ActiveAdmin.register_page 'Dashboard' do
               end
             end
 
-            absences_count = Absence.including_date(next_delivery.date).count
+            absences_count = next_delivery.baskets.absent.count
             if absences_count.positive?
               span class: 'delivery_absences' do
                 link_to "Absences: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })

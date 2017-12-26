@@ -3,27 +3,30 @@ require 'rounding'
 class Membership < ActiveRecord::Base
   acts_as_paranoid
 
-  belongs_to :member
-  belongs_to :basket_size
-  belongs_to :distribution
+  belongs_to :member, -> { with_deleted }
+  has_many :baskets
+  has_many :delivered_baskets,
+    -> { delivered },
+    class_name: 'Basket'
 
-  after_initialize :set_default_annual_halfday_works
+  # TODO Uncomment when columns removed from DB
+  # attr_accessor :basket_size_id, :distribution_id
 
   validates :member, presence: true
   validates :annual_halfday_works, presence: true
-  validates :distribution, :basket_size, presence: true
+  validates :distribution_id, :basket_size_id, presence: true, on: :create
   validates :started_on, :ended_on, presence: true
   validate :good_period_range
-  validate :only_one_alongs_the_year
-  validate :will_be_changed_at_good_date
+  validate :only_one_per_year
 
-  before_save :build_new_membership
-  after_save :save_new_membership
+  before_create :build_baskets
+  before_create :set_annual_halfday_works
+  after_update :update_baskets
+  after_commit :update_trial_baskets_and_user_state!
 
   scope :started, -> { where('started_on < ?', Time.zone.now) }
   scope :past, -> { where('ended_on < ?', Time.zone.now) }
   scope :future, -> { where('started_on > ?', Time.zone.now) }
-  scope :future_current_year, -> { future.current_year }
   scope :renew, -> { during_year(Time.zone.today.next_year.year) }
   scope :current, -> { including_date(Time.zone.today) }
   scope :current_year, -> { during_year(Date.today.year) }
@@ -40,20 +43,10 @@ class Membership < ActiveRecord::Base
     where("age(ended_on, started_on) > interval '? day'", days)
   }
 
-  attr_accessor :will_be_changed_at
-
-  def will_be_changed_at=(date)
-    if date.present?
-      @will_be_changed_at = Date.parse(date)
-    end
-  end
-
   def self.billable
     during_year(Time.zone.today.year)
       .started
       .includes(
-        :basket_size,
-        :distribution,
         member: [:current_membership, :first_membership, :current_year_invoices]
       )
       .select(&:billable?)
@@ -72,65 +65,77 @@ class Membership < ActiveRecord::Base
   end
 
   def can_destroy?
-    deliveries_received_count == 0
+    delivered_baskets_count.zero?
   end
 
   def can_update?
     ended_on >= Time.zone.today
   end
 
-  def normal_halfday_works
-    (deliveries_count / Delivery.current_year.count.to_f * HalfdayParticipation::MEMBER_PER_YEAR).round
-  end
-
   def halfday_works
-    (deliveries_count / Delivery.current_year.count.to_f * annual_halfday_works).round
-  end
-
-  def distribution_price
-    distribution.price
+    (baskets_count / Delivery.current_year.count.to_f * annual_halfday_works).round
   end
 
   def basket_total_price
-    rounded_price(deliveries_count * basket_size.price)
+    BasketSize.pluck(:id).sum { |id| basket_size_total_price(id) }
+  end
+
+  def basket_size_total_price(basket_size_id)
+    rounded_price(baskets.where(basket_size_id: basket_size_id).sum(:basket_price))
   end
 
   def distribution_total_price
-    rounded_price(deliveries_count * distribution_price)
+    rounded_price(baskets.sum(:distribution_price))
   end
 
   def halfday_works_total_price
-    rounded_price(halfday_works_annual_price.to_f)
+    rounded_price(halfday_works_annual_price)
   end
 
   def price
     basket_total_price + distribution_total_price + halfday_works_total_price
   end
 
-  def description
+  def short_description
     dates = [started_on, ended_on].map { |d| I18n.l(d, format: :number) }
-    "Abonnement du #{dates.first} au #{dates.last} (#{deliveries_count} livraisons)"
+    "Abonnement du #{dates.first} au #{dates.last}"
+  end
+
+  def description
+    "#{short_description} (#{baskets_count} #{Delivery.model_name.human(count: baskets_count).downcase})"
   end
 
   def basket_description
-    "Panier: #{basket_size.name} (#{deliveries_count} x #{cur(basket_size.price)})"
+    "Panier: #{basket_total_price_details}"
+  end
+
+  def basket_total_price_details
+    baskets.group_by(&:basket_price).map { |price, baskets|
+      "#{baskets.size} x #{cur(price)}"
+    }.join(' + ')
+  end
+
+  def distribution_total_price_details
+    baskets.group_by(&:distribution_price).map { |price, baskets|
+      "#{baskets.size} x #{cur(price)}"
+    }.join(' + ')
   end
 
   def distribution_description
-    if distribution_price > 0
-      "Distribution: #{distribution.name} (#{deliveries_count} x #{cur(distribution.price)})"
+    if distribution_total_price > 0
+      "Distribution: #{distribution_total_price_details}"
     else
-      "Distribution: #{distribution.name} (gratuit)"
+      "Distribution: gratuit"
     end
   end
 
   def halfday_works_description
     diff = annual_halfday_works - HalfdayParticipation::MEMBER_PER_YEAR
-    if diff > 0
+    if diff.positive?
       "Réduction pour #{diff} demi-journées de travail supplémentaires"
-    elsif diff < 0
+    elsif diff.negative?
       "#{diff.abs} demi-journées de travail non effectuées"
-    elsif halfday_works_total_price > 0
+    elsif halfday_works_total_price.positive?
       "Demi-journées de travail non effectuées"
     else
       "Demi-journées de travail"
@@ -138,74 +143,87 @@ class Membership < ActiveRecord::Base
   end
 
   def first_delivery
-    DeliveryCount.instance.first(started_on..ended_on)
+    baskets.first&.delivery
   end
 
-  def deliveries_count
-    @deliveries_count ||= DeliveryCount.instance.count(started_on..ended_on)
-  end
-
-  def deliveries_received_count
-    @deliveries_received_count ||= begin
-      end_date = [ended_on, Time.zone.today].min
-      DeliveryCount.instance.count(started_on..end_date)
-    end
+  def delivered_baskets_count
+    baskets.delivered.count
   end
 
   def date_range
     started_on..ended_on
   end
 
-  def renew
-    return if Membership.renew.exists?(member_id: member_id)
-    renew_year = Time.zone.today.next_year
-    Membership.create!(
-      attributes.slice(*%i[
-        halfday_works_annual_price
-        annual_halfday_works
-        note
-      ]).merge(
-        member: member,
-        distribution: distribution,
-        basket_size: basket_size,
-        started_on: renew_year.beginning_of_year,
-        ended_on: renew_year.end_of_year
-      )
-    )
+  # TODO Update logic
+  # def renew
+  #   # return if Membership.renew.exists?(member_id: member_id)
+  #   renew_year = Time.zone.today.next_year
+  #   Membership.create!(
+  #     attributes.slice(*%i[
+  #       halfday_works_annual_price
+  #       annual_halfday_works
+  #       note
+  #     ]).merge(
+  #       member: member,
+  #       distribution: baskets.last.distribution,
+  #       basket_size: basket_size,
+  #       started_on: renew_year.beginning_of_year,
+  #       ended_on: renew_year.end_of_year
+  #     )
+  #   )
+  # end
+
+  def basket_size
+    return unless basket_size_id
+    @basket_size ||= BasketSize.find(basket_size_id)
   end
 
-  def add_note(text)
-    self.note = "#{note}\n\n#{text}"
+  def distribution
+    return unless distribution_id
+    @distribution ||= Distribution.find(distribution_id)
   end
 
   private
 
-  def set_default_annual_halfday_works
-    self.annual_halfday_works ||= HalfdayParticipation::MEMBER_PER_YEAR
+  def set_annual_halfday_works
+    self[:annual_halfday_works] = basket_size.annual_halfday_works
   end
 
-  def build_new_membership
-    if @will_be_changed_at
-      attrs = attributes.except('id').merge('started_on' => @will_be_changed_at)
-      @new_membership = Membership.new(attrs)
-      reload
-      self.ended_on = @will_be_changed_at - 1.day
+  def build_baskets
+    Delivery.between(date_range).each do |delivery|
+      baskets.build(
+        delivery: delivery,
+        basket_size_id: basket_size_id,
+        distribution_id: distribution_id)
     end
   end
 
-  def save_new_membership
-    @new_membership && @new_membership.save!
+  def update_baskets
+    if basket_size_id || distribution_id
+      baskets.between(Time.current..ended_on).each do |basket|
+        basket.update!(
+          basket_size_id: basket_size_id,
+          distribution_id: distribution_id)
+      end
+    end
+    if saved_change_to_attribute?(:started_on) || saved_change_to_attribute?(:ended_on)
+      (baskets - baskets.between(started_on..ended_on)).each(&:destroy)
+    end
   end
 
-  def only_one_alongs_the_year
-    Membership.where(member: member).where.not(id: id).each do |membership|
-      if membership.date_range.include?(started_on)
-        errors.add(:started_on, 'déjà inclus dans un abonnement existant')
-      end
-      if membership.date_range.include?(ended_on)
-        errors.add(:ended_on, 'déjà inclus dans un abonnement existant')
-      end
-      break
+  def update_trial_baskets_and_user_state!
+    if saved_change_to_attribute?(:started_on) || saved_change_to_attribute?(:ended_on)
+      member.reload
+      member.update_trial_baskets!
+      member.update_absent_baskets!
+      member.update_state!
+    end
+  end
+
+  def only_one_per_year
+    return unless member
+    if member.memberships.during_year(started_on.year).where.not(id: id).exists?
+      errors.add(:base, 'seulement un abonnement par an et par membre')
     end
   end
 
@@ -214,15 +232,9 @@ class Membership < ActiveRecord::Base
       errors.add(:started_on, 'doit être avant la fin')
       errors.add(:ended_on, 'doit être après le début')
     end
-  end
-
-  def will_be_changed_at_good_date
-    if @will_be_changed_at && (
-         @will_be_changed_at < Time.zone.today ||
-         @will_be_changed_at <= started_on ||
-         @will_be_changed_at >= ended_on
-       )
-      errors.add(:will_be_changed_at, :invalid)
+    if ended_on.year != started_on.year
+      errors.add(:started_on, 'doit être dans la même année que la fin')
+      errors.add(:ended_on, 'doit être dans la même année que le début')
     end
   end
 

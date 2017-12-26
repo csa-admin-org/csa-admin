@@ -1,4 +1,5 @@
-- distributions = Distribution.with_delivery_memberships(@delivery)
+- distributions = Distribution.all
+- baskets = @delivery.baskets.not_absent
 - small_basket = BasketSize.first
 - big_basket = BasketSize.last
 
@@ -15,36 +16,36 @@
       - distributions.each do |distribution|
         tr
           td= distribution.name
-          td= distribution.delivery_memberships.to_a.size
-          td= distribution.delivery_memberships.to_a.count { |m| m.basket_size_id == small_basket.id }
-          td= distribution.delivery_memberships.to_a.count { |m| m.basket_size_id == big_basket.id }
+          td= baskets.where(distribution_id: distribution.id).count
+          td= baskets.where(distribution_id: distribution.id, basket_size_id: small_basket.id).count
+          td= baskets.where(distribution_id: distribution.id, basket_size_id: big_basket.id).count
       tr
       tr
         td Paniers Jardin de la Main
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_size_id == small_basket.id } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id == 1 && m.basket_size_id == big_basket.id } }
+        td= baskets.where(distribution_id: 1).count
+        td= baskets.where(distribution_id: 1, basket_size_id: small_basket.id).count
+        td= baskets.where(distribution_id: 1, basket_size_id: big_basket.id).count
       tr
         td Paniers à préparer
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_size_id == small_basket.id } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.distribution_id != 1 && m.basket_size_id == big_basket.id } }
+        td= baskets.where.not(distribution_id: 1).count
+        td= baskets.where.not(distribution_id: 1).where(basket_size_id: small_basket.id).count
+        td= baskets.where.not(distribution_id: 1).where(basket_size_id: big_basket.id).count
       tr
       tr
         td Total
-        td= distributions.sum { |d| d.delivery_memberships.to_a.size }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_size_id == small_basket.id } }
-        td= distributions.sum { |d| d.delivery_memberships.to_a.count { |m| m.basket_size_id == big_basket.id } }
+        td= baskets.count
+        td= baskets.where(basket_size_id: small_basket.id).count
+        td= baskets.where(basket_size_id: big_basket.id).count
       tr
       tr
       tr
         td Absences
-        td= Absence.including_date(@delivery.date).count
+        td= baskets.absent.count
 
 - distributions.each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
   table
-    caption= "#{distribution.name} (#{BasketSize.all.map { |b| distribution.delivery_memberships.to_a.count { |m| m.basket_size_id == b.id } }.join('+')})"
+    caption= "#{distribution.name} (#{BasketSize.all.map { |b| baskets.where(distribution_id: distribution.id, basket_size_id: b.id).count }.join('+')})"
     thead
       tr
         td Prénom
@@ -57,9 +58,8 @@
         - unless @filter_distribution
           td Note alimentaire
     tbody
-      - memberships = distribution.delivery_memberships.sort_by { |m| m.member.last_name }
-      - memberships.each do |membership|
-        - member = membership.member
+      - baskets.sort_by { |b| b.member.last_name }.each do |basket|
+        - member = basket.member
         tr
           td= member.first_name
           td= member.last_name
@@ -67,6 +67,6 @@
             td= member.final_delivery_address
             td= member.final_delivery_zip
             td= member.final_delivery_city
-          td= membership.basket_size.name
+          td= basket.basket_size.name
           - unless @filter_distribution
             td= truncate(member.food_note, length: 80)

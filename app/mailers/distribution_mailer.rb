@@ -4,7 +4,7 @@ class DistributionMailer < ApplicationMailer
   def next_delivery(distribution, delivery)
     @distribution = distribution
     @delivery = delivery
-    @memberships = @distribution.memberships_for(@delivery).sort_by { |m| m.member.name }
+    @baskets = @distribution.baskets.where(delivery_id: @delivery.id).sort_by { |b| b.member.name }
 
     mail \
       to: @distribution.emails_array,

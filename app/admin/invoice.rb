@@ -15,9 +15,9 @@ ActiveAdmin.register Invoice do
     column :amount, ->(invoice) { number_to_currency(invoice.amount) }
     column :balance, ->(invoice) { number_to_currency(invoice.balance) }
     column :overdue_notices_count
-    column :status, ->(invoice) { invoice.display_status }
+    column :status, ->(invoice) { status_tag invoice.status }
     actions defaults: true do |invoice|
-      link_to 'PDF', pdf_invoice_path(invoice), target: '_blank'
+      link_to 'PDF', pdf_invoice_path(invoice), class: 'pdf_link', target: '_blank'
     end
   end
 

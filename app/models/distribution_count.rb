@@ -1,19 +1,12 @@
 class DistributionCount
   def self.all(next_delivery)
-    cache_key = [
-      name,
-      Membership.maximum(:updated_at),
-      Date.today
-    ]
-    Rails.cache.fetch cache_key do
-      distributions = Distribution.with_delivery_memberships(next_delivery)
-      distributions.map { |dist| new(dist, next_delivery) }
-    end
+    Distribution.all.map { |dist| new(dist, next_delivery) }
   end
 
   def initialize(distribution, next_delivery)
     @distribution = distribution
     @next_delivery = next_delivery
+    @baskets = distribution.baskets.where(delivery_id: next_delivery.id)
     # eager load for the cache
     count
     baskets_count
@@ -25,7 +18,7 @@ class DistributionCount
   end
 
   def count
-    @count ||= memberships.size
+    @count ||= @baskets.size
   end
 
   def baskets_count
@@ -34,13 +27,7 @@ class DistributionCount
 
   def basket_sizes_count
     @basket_sizes_count ||= BasketSize.all.map { |bs|
-      memberships.count { |m| m.basket_size == bs }
+      @baskets.count { |m| m.basket_size_id == bs.id }
     }
-  end
-
-  private
-
-  def memberships
-    @memberships ||= @distribution.delivery_memberships.to_a
   end
 end

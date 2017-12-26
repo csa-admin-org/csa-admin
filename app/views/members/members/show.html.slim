@@ -1,7 +1,7 @@
 section
   h4= "#{@member.name}"
   ul
-    li= "Panier: #{@member.basket_size.try(:name) || '–'}"
+    li= "Panier: #{@member.basket_size&.name || '–'}"
     li
       = '½ journée(s) de travail effectuée(s): '
       b= "#{@member.validated_halfday_works}/#{@member.annual_halfday_works}"

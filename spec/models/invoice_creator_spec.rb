@@ -49,26 +49,14 @@ describe InvoiceCreator do
     specify 'when not already billed' do
       expect(invoice.support_amount).to be_present
       expect(invoice.paid_memberships_amount).to eq 0
+      expect(invoice.remaining_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to be_present
       expect(invoice.memberships_amount).to eq membership.price
-      expect(invoice.memberships_amounts_data.first).to match(
-        'id' => membership.id,
-        'basket_size_id' => membership.basket_size_id,
-        'distribution_id' => membership.distribution_id,
-        'basket_total_price' => membership.basket_total_price,
-        'basket_description' => membership.basket_description,
-        'distribution_total_price' => membership.distribution_total_price,
-        'distribution_description' => membership.distribution_description,
-        'halfday_works_total_price' => membership.halfday_works_total_price,
-        'halfday_works_description' => membership.halfday_works_description,
-        'description' => membership.description,
-        'price' => membership.price
-      )
       expect(invoice.pdf).to be_present
     end
 
     specify 'when salary basket & support member' do
-      member.update(salary_basket: true, support_member: true)
+      member.update!(salary_basket: true, support_member: true)
 
       expect(invoice.support_amount).to be_present
       expect(invoice.memberships_amount).to be_nil
@@ -88,10 +76,9 @@ describe InvoiceCreator do
 
     specify 'when already billed, but with a membership change' do
       Timecop.travel(1.day.ago) { create_invoice }
-      membership.update!(
-        will_be_changed_at: 10.days.from_now.to_s,
-        distribution_id: create(:distribution, price: 2).id
-      )
+      Timecop.travel(10.days.from_now) do
+        membership.update!(distribution_id: create(:distribution, price: 2).id)
+      end
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to be_present
@@ -109,21 +96,7 @@ describe InvoiceCreator do
       expect(invoice.paid_memberships_amount).to eq 0
       expect(invoice.remaining_memberships_amount).to eq membership.price
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description)
-        .to eq 'Montant trimestriel #1'
-      expect(invoice.memberships_amounts_data.first).to match(
-        'id' => membership.id,
-        'basket_size_id' => membership.basket_size_id,
-        'distribution_id' => membership.distribution_id,
-        'basket_total_price' => membership.basket_total_price,
-        'basket_description' => membership.basket_description,
-        'distribution_total_price' => membership.distribution_total_price,
-        'distribution_description' => membership.distribution_description,
-        'halfday_works_total_price' => membership.halfday_works_total_price,
-        'halfday_works_description' => membership.halfday_works_description,
-        'description' => membership.description,
-        'price' => membership.price
-      )
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #1'
     end
 
     specify 'when quarter #1 (already billed)' do
@@ -138,11 +111,9 @@ describe InvoiceCreator do
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
-      expect(invoice.remaining_memberships_amount)
-        .to eq membership.price - membership.price / 4.0
+      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description)
-        .to eq 'Montant trimestriel #2'
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #2'
     end
 
     specify 'when quarter #2 (already billed)' do
@@ -160,11 +131,9 @@ describe InvoiceCreator do
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
-      expect(invoice.remaining_memberships_amount)
-        .to eq membership.price - membership.price / 2.0
+      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 2.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description)
-        .to eq 'Montant trimestriel #3'
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #3'
     end
 
     specify 'when quarter #3 (with overbalance on previous invoices)' do
@@ -184,8 +153,7 @@ describe InvoiceCreator do
 
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description)
-        .to eq 'Montant trimestriel #3'
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #3'
 
       invoice.reload
       expect(@first_invoice.reload.overbalance).to be_zero
@@ -208,10 +176,7 @@ describe InvoiceCreator do
       Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
       Timecop.travel(Date.new(Time.zone.today.year, 8))
       Timecop.travel(1.day.ago) { create_invoice }
-      membership.update!(
-        will_be_changed_at: 1.day.from_now.to_s,
-        distribution_id: create(:distribution, price: 2).id
-      )
+      membership.update!(distribution_id: create(:distribution, price: 2).id)
 
       expect(invoice).to be_nil
     end
@@ -224,11 +189,9 @@ describe InvoiceCreator do
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
-      expect(invoice.remaining_memberships_amount)
-        .to eq membership.price - membership.price * 3 / 4.0
+      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price * 3 / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description)
-        .to eq 'Montant trimestriel #4'
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #4'
     end
 
     specify 'when quarter #4 (already billed)' do
@@ -247,17 +210,13 @@ describe InvoiceCreator do
       Timecop.travel(Date.new(Time.zone.today.year, 8)) { create_invoice }
       Timecop.travel(Date.new(Time.zone.today.year, 11))
       Timecop.travel(1.day.ago) { create_invoice }
-      membership.update!(
-        will_be_changed_at: 1.day.from_now.to_s,
-        distribution_id: create(:distribution, price: 2).id
-      )
+      membership.update!(distribution_id: create(:distribution, price: 2).id)
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.remaining_memberships_amount).to eq 7 * 2
       expect(invoice.memberships_amount).to eq 7 * 2
-      expect(invoice.memberships_amount_description)
-        .to eq 'Montant trimestriel #4'
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #4'
     end
   end
 end

@@ -6,17 +6,17 @@ class WelcomeEmailSender
   end
 
   def initialize
-    @members = Member.active.where(welcome_email_sent_at: nil).select { |member|
-      !member.salary_basket? && member.emails?
-    }
+    @members =
+      Member
+        .active
+        .where(welcome_email_sent_at: nil, salary_basket: false)
+        .select { |member| member.emails? }
   end
 
   def send
     members.each do |member|
-      member.transaction do
-        MemberMailer.welcome(member).deliver_now
-        member.touch(:welcome_email_sent_at)
-      end
+      MemberMailer.welcome(member).deliver_now
+      member.touch(:welcome_email_sent_at)
     end
   end
 end

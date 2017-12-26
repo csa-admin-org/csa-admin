@@ -32,29 +32,29 @@ describe Member do
     end
   end
 
-  describe '#waiting=' do
-    let(:member) { create(:member, :waiting) }
+  it 'sets state and waiting_started_at if basket_size/distribution present on creation' do
+    member = create(:member,
+      waiting_started_at: nil,
+      waiting_basket_size: create(:basket_size),
+      waiting_distribution: create(:distribution))
 
-    it 'sets waiting_started_at when "1"' do
-      member = Member.create!(
-        first_name: 'John',
-        last_name: 'Doe',
-        billing_interval: 'annual',
-        support_member: false,
-        waiting: '1',
-      )
-      expect(member.waiting_started_at).to be_present
-    end
+    expect(member.state).to eq 'waiting'
+    expect(member.waiting_started_at).to be_present
+  end
 
-    it 'sets waiting_started_at when "0"' do
-      expect { member.update!(waiting: '0') }
-        .to change(member, :waiting_started_at).to(nil)
-    end
+  it 'updates waiting basket_size/distribution on update' do
+    member = create(:member, :waiting)
+    new_basket_size = create(:basket_size)
+    new_distribution = create(:distribution)
 
-    it 'creates a memberships alongs' do
-      expect { member.update!(waiting: '0') }
-        .to change(Membership, :count).by(1)
-    end
+    member.update!(
+      waiting_basket_size: new_basket_size,
+      waiting_distribution: new_distribution)
+
+    expect(member.state).to eq 'waiting'
+    expect(member.waiting_started_at).to be_present
+    expect(member.waiting_basket_size).to eq new_basket_size
+    expect(member.waiting_distribution).to eq new_distribution
   end
 
   describe '#support_member=' do
@@ -73,17 +73,6 @@ describe Member do
     it { is_expected.to eq Membership.last }
   end
 
-  describe '#status' do
-    %i[pending waiting trial active support inactive].each do |status|
-      context "when #{status}" do
-        let(:member) { create(:member, status) }
-        specify { expect(member).to be_valid }
-        specify { expect(member.status).to eq status }
-        specify { expect(described_class.send(status)).to eq [member] }
-      end
-    end
-  end
-
   describe '#validate!' do
     let(:member) { create(:member, :pending) }
     let(:admin) { create(:admin) }
@@ -98,9 +87,9 @@ describe Member do
       expect(member.validator).to eq admin
     end
 
-    it 'sets status to waiting' do
+    it 'sets state to waiting' do
       member.validate!(admin)
-      expect(member.status).to eq :waiting
+      expect(member.state).to eq 'waiting'
     end
   end
 
