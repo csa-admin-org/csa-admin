@@ -2,6 +2,7 @@ class Delivery < ActiveRecord::Base
   default_scope { order(:date) }
 
   has_one :gribouille
+  has_many :baskets
   has_many :basket_contents
 
   scope :current_year, -> {
@@ -11,6 +12,7 @@ class Delivery < ActiveRecord::Base
     where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year + 1}")
   }
 
+  scope :past, -> { where('date < ?', Time.zone.today) }
   scope :coming, -> { where('date >= ?', Time.zone.today) }
   scope :between, ->(range) {
     where('date >= ? AND date <= ?', range.first, range.last)
@@ -24,8 +26,12 @@ class Delivery < ActiveRecord::Base
     end
   end
 
+  def delivered?
+    date < Time.current
+  end
+
   def display_name
-    "Livraison #{date} ##{number}"
+    "#{date} ##{number}"
   end
 
   def number
@@ -33,7 +39,11 @@ class Delivery < ActiveRecord::Base
   end
 
   def self.next_coming_date
-    coming.first.try(:date)
+    @next_coming_date ||= coming.first&.date
+  end
+
+  def self.next_coming_id
+    @next_coming_id ||= coming.first&.id
   end
 
   def self.years_range

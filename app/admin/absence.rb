@@ -37,7 +37,7 @@ ActiveAdmin.register Absence do
   form do |f|
     f.inputs 'Membre' do
       f.input :member,
-        collection: Member.valid_for_memberships.order(:last_name).map { |d| [d.name, d.id] },
+        collection: Member.joins(:memberships).distinct.order(:last_name).map { |d| [d.name, d.id] },
         include_blank: false
     end
     f.inputs 'Note' do

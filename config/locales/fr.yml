@@ -25,6 +25,14 @@ fr:
     has_many_new: "Ajouter un nouveau %{model}"
     has_many_delete: "Supprimer"
     has_many_remove: "Enlever"
+    status_tag:
+      trial: essai
+      closed: fermée
+      open: ouverte
+      active: actif
+      inactive: inactif
+      waiting: attente
+      pending: a valider
     filters:
       buttons:
         filter: "Filtrer"
@@ -45,7 +53,7 @@ fr:
     powered_by: "Propulsé par %{active_admin} %{version}"
     sidebars:
       filters: "Filtres"
-      search_status: "Status de la recherche"
+      search_status: "Résultats de la recherche"
     pagination:
       empty: "Aucun %{model} trouvé"
       one: "Affichage de <b>1</b> %{model}"
@@ -80,23 +88,21 @@ fr:
     scopes:
       pending: à valider
       coming: à venir
-      validated: validés
-      rejected: refusés
-      waiting: en attente
-      missing: manquantes
-      trial: période d'essai
-      active: actifs
+      validated: validé
+      rejected: refusé
+      waiting: attente
+      missing: manquante
+      trial: essai
+      active: actif
       support: soutien
-      inactive: inactifs
+      inactive: inactif
       all: tous
       current: en cours
-      past: passés
-      future_current_year: futures, année courante
-      renew: renouvellement, année prochaine
-      renew_membership: renouvellement
+      past: passé
+      future: future
       not_sent: non-envoyées
-      open: ouvertes
-      closed: fermées
+      open: ouverte
+      closed: fermée
       diff_name: Prénom/Nom différents
       diff_zip: ZIP différents
       current_year: année courante
@@ -147,6 +153,20 @@ fr:
       block: "Liste"
       grid: "Grille"
       blog: "Blog"
+    resources:
+      member:
+        edit_model: 'Modifier'
+        delete_model: 'Supprimer'
+      membership:
+        new_model: 'Nouvel %{model}'
+      gribouille:
+        new_model: 'Nouvelle %{model}'
+      halfday_participation:
+        new_model: 'Nouvelle %{model}'
+      basket_size:
+        new_model: 'Nouvel %{model}'
+      delivery:
+        new_model: 'Nouvelle %{model}'
 
   formtastic:
     yes: 'Oui'
@@ -172,6 +192,9 @@ fr:
       membership:
         one: Abonnement
         other: Abonnements
+      basket:
+        one: Panier
+        other: Paniers
       basket_size:
         one: Taille de panier
         other: Tailles de panier
@@ -219,6 +242,11 @@ fr:
         unlock_token: Clé de déverrouillage
         updated_at: Date de mise à jour
         rights: Droit d'accès
+      basket:
+        delivery: Livraison
+        basket_size: Taille du panier
+        distribution: Lieu de distribution
+        price: Prix
       halfday_participation:
         member_id: Membre
         member: Membre
@@ -255,6 +283,7 @@ fr:
         same_basket_quantities: Même quantité pour tous les paniers
       member:
         name: Nom
+        state: Statut
         first_name: Prénom
         last_name: Nom de famille
         address: Adresse
@@ -272,12 +301,10 @@ fr:
         current_membership: Abonnement (en cours)
         with_name: Nom
         with_address: Adresse
-        with_current_basket_size: Taille de panier (en cours)
-        with_current_distribution: Distribution (en cours)
         created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
-        waiting_basket_size: Taille de panier (en attente)
-        waiting_distribution: Distribution (en attente)
+        waiting_basket_size: Taille de panier
+        waiting_distribution: Distribution
         validated_at: Validé le
         validator: Validé par
         deliveries_received_count_since_first_membership: Paniers reçus
@@ -288,23 +315,26 @@ fr:
         member: Membre
         basket_size_id: Taille de panier
         basket_size: Taille de panier
+        baskets_count: Paniers
         started_on: Début
         ended_on: Fin
-        annual_halfday_works: ½ journée de travails par année
+        annual_halfday_works: ½ journée de travails
         halfday_works_annual_price: Ajustement du prix de l'abonnement
-        basket_total_price: Prix Paniers (total)
-        distribution_total_price: Prix Distributions (total)
-        halfday_works_total_price: Prix ½ Journées de travail (total)
-        price: Prix
+        baskets: Paniers
+        basket_total_price: Prix Paniers
+        distribution_total_price: Prix Distributions
+        halfday_works_total_price: Ajustement du prix de l'abonnement (½ journées)
+        price: Total
         will_be_changed_at: Changement effectif depuis le
-        deliveries_received_count: Paniers déjà livrés
-        deliveries_count: Paniers livrés (total)
+        deliveries_received_count: Paniers livrés
+        deliveries_count: Paniers
       absence:
         member_id: Membre
         member: Membre
         started_on: Début
         ended_on: Fin
       invoice:
+        id: ID
         manual_balance: Payé (manuelle)
         isr_balance: Payé (BVR)
         member_id: Membre

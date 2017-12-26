@@ -17,8 +17,8 @@ describe DistributionMailer do
       delivery = create(:delivery)
       member1 = create(:member, last_name: 'Dylan')
       member2 = create(:member, last_name: 'Zylan')
-      membership1 = create(:membership, member: member1, distribution: distribution)
-      membership2 = create(:membership, member: member2, distribution: distribution)
+      membership1 = create(:membership, member: member1, distribution_id: distribution.id)
+      membership2 = create(:membership, member: member2, distribution_id: distribution.id)
       mail = DistributionMailer.next_delivery(distribution, delivery)
 
       expect(mail.body.encoded).to include(member1.name)

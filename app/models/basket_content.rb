@@ -63,16 +63,12 @@ class BasketContent < ApplicationRecord
 
     self.small_baskets_count = 0
     self.big_baskets_count = 0
-    delivery_distributions = Distribution.with_delivery_memberships(delivery)
-    delivery_distributions.select! { |dd| dd.id.in?(distribution_ids) }
-    delivery_distributions.each do |distribution|
-      memberships = distribution.delivery_memberships.to_a
-      if basket_sizes.include?('small')
-        self.small_baskets_count += memberships.count { |m| m.basket_size == small_basket }
-      end
-      if basket_sizes.include?('big')
-        self.big_baskets_count += memberships.count { |m| m.basket_size == big_basket }
-      end
+    baskets = delivery.baskets.not_absent.where(distribution_id: distribution_ids)
+    if basket_sizes.include?('small')
+      self.small_baskets_count += baskets.where(basket_size_id: small_basket.id).count
+    end
+    if basket_sizes.include?('big')
+      self.small_baskets_count += baskets.where(basket_size_id: big_basket.id).count
     end
   end
 

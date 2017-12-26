@@ -5,7 +5,7 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   NoPdfError = Class.new(StandardError)
 
-  attr_accessor :memberships_amount_fraction
+  attr_accessor :membership, :membership_amount_fraction
 
   belongs_to :member
 
@@ -32,20 +32,17 @@ class Invoice < ActiveRecord::Base
     :set_memberships_amount,
     :set_amount
 
-  validate :validate_memberships_amounts_data
   validates :member, presence: true
   validates :date, presence: true, uniqueness: { scope: :member_id }
-  validates :memberships_amount_fraction, inclusion: { in: [1, 2, 3, 4] }
+  validates :membership_amount_fraction, inclusion: { in: [1, 2, 3, 4] }
   validates :manual_balance, presence: true, numericality: true
+  validates :amount, numericality: { greater_than: 0 }
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
     allow_nil: true
   validates :memberships_amount,
     numericality: { greater_than: 0 },
     allow_nil: true
-  validates :memberships_amounts_data,
-    presence: true,
-    unless: -> { support_amount? }
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
@@ -85,8 +82,8 @@ class Invoice < ActiveRecord::Base
     I18n.t("invoice.status.#{status}")
   end
 
-  def memberships_amount_fraction
-    @memberships_amount_fraction || 1 # bill for everything by default
+  def membership_amount_fraction
+    @membership_amount_fraction || 1 # bill for everything by default
   end
 
   def amount=(_)
@@ -107,20 +104,6 @@ class Invoice < ActiveRecord::Base
 
   def isr_balance=(_)
     raise NoMethodError, 'is set automaticaly.'
-  end
-
-  def memberships_amounts
-    (memberships_amounts_data || []).sum do |m|
-      if m.symbolize_keys[:price]
-        BigDecimal.new(m.symbolize_keys[:price].to_s)
-      end
-    end
-  end
-
-  def memberships_amounts_data=(data)
-    self[:memberships_amounts_data] = data && data.each do |hash|
-      hash[:price] = hash[:price].round_to_five_cents if hash[:price]
-    end
   end
 
   def add_note(text)
@@ -166,54 +149,32 @@ class Invoice < ActiveRecord::Base
   private
 
   def validate_memberships_amount_for_current_year
-    return unless memberships_amounts_data?
+    return unless membership
     paid_invoices = member.invoices.membership.during_year(date.year)
-    if paid_invoices.sum(:memberships_amount) + memberships_amount >
-        memberships_amounts
+    if paid_invoices.sum(:memberships_amount) + memberships_amount > membership.price
       errors.add(:base, 'Somme de la facturation des abonnements trop grande')
     end
   end
 
-  def validate_memberships_amounts_data
-    if memberships_amounts_data && memberships_amounts_data.any? { |h|
-      h.keys.map(&:to_s).sort != %w[
-        basket_description
-        basket_id
-        basket_total_price
-        description
-        distribution_description
-        distribution_id
-        distribution_total_price
-        halfday_works_description
-        halfday_works_total_price
-        id
-        price
-      ]
-    }
-      errors.add(:memberships_amounts_data)
-    end
-  end
-
   def set_paid_memberships_amount
-    return unless memberships_amounts_data?
+    return unless membership
     paid_invoices = member.invoices.membership.during_year(date.year)
     self[:paid_memberships_amount] ||= paid_invoices.sum(:memberships_amount)
   end
 
   def set_remaining_memberships_amount
-    return unless memberships_amounts_data?
-    self[:remaining_memberships_amount] ||=
-      memberships_amounts - paid_memberships_amount
+    return unless membership
+    self[:remaining_memberships_amount] ||= membership.price - paid_memberships_amount
   end
 
   def set_memberships_amount
-    return unless memberships_amounts_data?
-    amount = remaining_memberships_amount / memberships_amount_fraction.to_f
+    return unless membership
+    amount = remaining_memberships_amount / membership_amount_fraction.to_f
     self[:memberships_amount] ||= amount.round_to_five_cents
   end
 
   def set_amount
-    self[:amount] = memberships_amount.to_f + support_amount.to_f
+    self[:amount] = (memberships_amount || 0) + (support_amount || 0)
   end
 
   class VirtualFile < StringIO
@@ -227,6 +188,6 @@ class Invoice < ActiveRecord::Base
 
   def set_isr_balance_and_balance
     self[:isr_balance] = isr_balance_data.values.sum
-    self[:balance] = isr_balance.to_f + manual_balance.to_f
+    self[:balance] = (isr_balance || 0) + (manual_balance || 0)
   end
 end

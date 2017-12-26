@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221193809) do
+ActiveRecord::Schema.define(version: 20171223194426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,24 @@ ActiveRecord::Schema.define(version: 20171221193809) do
     t.index ["name"], name: "index_basket_sizes_on_name", unique: true
   end
 
+  create_table "baskets", force: :cascade do |t|
+    t.bigint "membership_id", null: false
+    t.bigint "delivery_id", null: false
+    t.bigint "basket_size_id", null: false
+    t.bigint "distribution_id", null: false
+    t.decimal "basket_price", precision: 8, scale: 3, default: "0.0", null: false
+    t.decimal "distribution_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.boolean "trial", default: false, null: false
+    t.boolean "absent", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
+    t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
+    t.index ["distribution_id"], name: "index_baskets_on_distribution_id"
+    t.index ["membership_id", "delivery_id"], name: "index_baskets_on_membership_id_and_delivery_id", unique: true
+    t.index ["membership_id"], name: "index_baskets_on_membership_id"
+  end
+
   create_table "deliveries", id: :serial, force: :cascade do |t|
     t.date "date", null: false
     t.datetime "created_at"
@@ -147,23 +165,6 @@ ActiveRecord::Schema.define(version: 20171221193809) do
     t.index ["halfday_id"], name: "index_halfday_participations_on_halfday_id"
     t.index ["member_id"], name: "index_halfday_participations_on_member_id"
     t.index ["validator_id"], name: "index_halfday_participations_on_validator_id"
-  end
-
-  create_table "halfday_works", id: :serial, force: :cascade do |t|
-    t.integer "member_id", null: false
-    t.date "date", null: false
-    t.string "periods", null: false, array: true
-    t.datetime "validated_at"
-    t.integer "validator_id"
-    t.integer "participants_count", default: 1, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "rejected_at"
-    t.index ["date"], name: "index_halfday_works_on_date"
-    t.index ["member_id"], name: "index_halfday_works_on_member_id"
-    t.index ["rejected_at"], name: "index_halfday_works_on_rejected_at"
-    t.index ["validated_at"], name: "index_halfday_works_on_validated_at"
-    t.index ["validator_id"], name: "index_halfday_works_on_validator_id"
   end
 
   create_table "halfdays", id: :serial, force: :cascade do |t|
@@ -236,9 +237,11 @@ ActiveRecord::Schema.define(version: 20171221193809) do
     t.datetime "welcome_email_sent_at"
     t.integer "old_old_invoice_identifier"
     t.boolean "renew_membership", default: false, null: false
+    t.string "state", default: "pending", null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"
+    t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
@@ -246,17 +249,18 @@ ActiveRecord::Schema.define(version: 20171221193809) do
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|
-    t.integer "basket_size_id", null: false
-    t.integer "distribution_id", null: false
+    t.integer "basket_size_id"
+    t.integer "distribution_id"
     t.integer "member_id", null: false
-    t.decimal "halfday_works_annual_price", precision: 8, scale: 2
-    t.integer "annual_halfday_works"
+    t.decimal "halfday_works_annual_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.integer "annual_halfday_works", default: 0, null: false
     t.date "started_on", null: false
     t.date "ended_on", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "note"
     t.datetime "deleted_at"
+    t.integer "baskets_count", default: 0, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
@@ -289,6 +293,10 @@ ActiveRecord::Schema.define(version: 20171221193809) do
   add_foreign_key "basket_contents", "vegetables"
   add_foreign_key "basket_contents_distributions", "basket_contents"
   add_foreign_key "basket_contents_distributions", "distributions"
+  add_foreign_key "baskets", "basket_sizes"
+  add_foreign_key "baskets", "deliveries"
+  add_foreign_key "baskets", "distributions"
+  add_foreign_key "baskets", "memberships"
   add_foreign_key "halfday_participations", "admins", column: "validator_id"
   add_foreign_key "halfday_participations", "halfdays"
   add_foreign_key "halfday_participations", "members"

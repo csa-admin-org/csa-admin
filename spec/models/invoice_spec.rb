@@ -23,32 +23,10 @@ describe Invoice do
       .to raise_error(NoMethodError)
   end
 
-  it 'validates memberships_amounts_data presence when no support_amount' do
-    expect(build(:invoice)).not_to have_valid(:memberships_amounts_data)
-  end
-
-  it 'validates memberships_amounts_data keys' do
-    expect(build(:invoice, memberships_amounts_data: [foo: 'bar']))
-      .not_to have_valid(:memberships_amounts_data)
-  end
-
   it 'validates date uniqueness' do
     invoice = create(:invoice, :membership)
     expect(build(:invoice, :support, member: invoice.member))
       .not_to have_valid(:date)
-  end
-
-  describe '#memberships_amounts' do
-    let(:invoice) do
-      build(:invoice,
-        memberships_amounts_data: [
-          { 'price' => 12 },
-          { price: 34 }
-        ]
-      )
-    end
-
-    specify { expect(invoice.memberships_amounts).to eq 46 }
   end
 
   context 'when support only' do
@@ -59,7 +37,7 @@ describe Invoice do
     specify { expect(invoice.amount).to eq invoice.support_amount }
   end
 
-  context 'when memberships_amounts_data only' do
+  context 'when membership only' do
     let(:invoice) { create(:invoice, :membership) }
     let(:amount) { invoice.member.memberships.first.price }
 
@@ -80,9 +58,9 @@ describe Invoice do
       specify { expect(invoice.amount).to eq invoice.memberships_amount }
     end
 
-    context 'when memberships_amount_fraction set' do
+    context 'when membership_amount_fraction set' do
       let(:invoice) do
-        create(:invoice, :membership, memberships_amount_fraction: 3)
+        create(:invoice, :membership, membership_amount_fraction: 3)
       end
 
       specify { expect(invoice.memberships_amount).to eq amount / 3.0 }

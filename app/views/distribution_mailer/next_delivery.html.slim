@@ -1,10 +1,10 @@
 ol
-  - @memberships.each do |membership|
+  - @baskets.each do |basket|
     li
-      = membership.member.name
-      == ", <b>#{membership.basket_size.name}</b>, "
-      = membership.member.phones
-      == " / #{mail_to membership.member.emails}"
+      = basket.member.name
+      == ", <b>#{basket.basket_size.name}</b>, "
+      = basket.member.phones
+      == " / #{mail_to basket.member.emails}"
 
 p
  == 'Au plaisir,'

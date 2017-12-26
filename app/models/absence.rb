@@ -4,6 +4,8 @@ class Absence < ActiveRecord::Base
   validates :member, :started_on, :ended_on, presence: true
   validate :good_period_range
 
+  after_commit :update_absent_baskets!
+
   scope :past, -> { where('ended_on < ?', Time.zone.now) }
   scope :future, -> { where('started_on > ?', Time.zone.now) }
   scope :current, -> { including_date(Time.zone.today) }
@@ -32,5 +34,9 @@ class Absence < ActiveRecord::Base
       errors.add(:started_on, 'doit être avant la fin')
       errors.add(:ended_on, 'doit être après le début')
     end
+  end
+
+  def update_absent_baskets!
+    member.update_absent_baskets!
   end
 end

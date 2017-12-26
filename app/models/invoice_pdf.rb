@@ -3,7 +3,7 @@ require 'prawn/measurement_extensions'
 class InvoicePdf < Prawn::Document
   include ActionView::Helpers::NumberHelper
 
-  attr_reader :invoice, :isr_ref
+  attr_reader :invoice, :membership, :isr_ref
 
   INFO = {
     Title:        'Facture',
@@ -18,6 +18,7 @@ class InvoicePdf < Prawn::Document
   def initialize(invoice, view)
     super(page_size: 'A4', margin: [0, 0, 0, 0], info: INFO)
     @invoice = invoice
+    @membership = invoice.membership
     @isr_ref = ISRReferenceNumber.new(invoice.id, invoice.amount)
     setup_font('Helvetica')
     logo
@@ -82,20 +83,12 @@ class InvoicePdf < Prawn::Document
     font_size 10
     data = [['déscription', 'montant (CHF)']]
 
-    invoice.memberships_amounts_data.try(:each) do |membership|
-      data << [membership['description'], nil]
-      data << [
-        membership['basket_description'],
-        cur(membership['basket_total_price'])
-      ]
-      data << [
-        membership['distribution_description'],
-        cur(membership['distribution_total_price'])
-      ]
-      unless membership['halfday_works_total_price'].zero?
-        data << [
-          membership['halfday_works_description'],
-          cur(membership['halfday_works_total_price'])
+    if membership
+      data << [membership.description, nil]
+      data << [membership.basket_description, cur(membership.basket_total_price)]
+      data << [membership.distribution_description, cur(membership.distribution_total_price)]
+      unless membership.halfday_works_total_price.zero?
+        data << [membership.halfday_works_description, cur(membership.halfday_works_total_price)
         ]
       end
     end

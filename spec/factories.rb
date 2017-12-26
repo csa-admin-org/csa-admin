@@ -39,21 +39,22 @@ FactoryBot.define do
     created_at { Time.utc(2014) } # no trial by default
 
     trait :pending do
+      state Member::PENDING_STATE
       validated_at { nil }
       validator { nil }
     end
 
     trait :waiting do
+      state Member::WAITING_STATE
       waiting_started_at { Time.zone.now }
       waiting_basket_size { create(:basket_size) }
       waiting_distribution { create(:distribution) }
     end
 
     trait :trial do
-      created_at { Time.utc(Time.zone.today.year) }
+      created_at { Time.current.beginning_of_year }
       after :create do |member|
-        create(:membership, member: member, started_on: Time.zone.today)
-        member.reload
+        create(:membership, member: member, started_on: Time.zone.today - 3.weeks)
       end
     end
 
@@ -69,13 +70,15 @@ FactoryBot.define do
       support_member true
     end
 
-    trait :inactive
+    trait :inactive do
+      state Member::INACTIVE_STATE
+    end
   end
 
   factory :membership do
     member
-    basket_size { BasketSize.first || create(:basket_size) }
-    distribution
+    basket_size_id { BasketSize.first&.id || create(:basket_size).id }
+    distribution_id { Distribution.first&.id || create(:distribution).id }
     started_on { Time.zone.today.beginning_of_year }
     ended_on { Time.zone.today.end_of_year }
 
@@ -83,6 +86,13 @@ FactoryBot.define do
       started_on { 1.year.ago.beginning_of_year  }
       ended_on { 1.year.ago.end_of_year  }
     end
+  end
+
+  factory :basket do
+    membership
+    delivery
+    basket_size
+    distribution
   end
 
   factory :basket_size do
@@ -119,23 +129,7 @@ FactoryBot.define do
     member_billing_interval { member.billing_interval }
 
     trait :membership do
-      transient do
-        membership { create(:membership, member: member) }
-      end
-      memberships_amounts_data {
-        [
-          membership.slice(:id, :basket_size_id, :distribution_id).merge(
-            basket_total_price: membership.basket_total_price,
-            basket_description: membership.basket_description,
-            distribution_total_price: membership.distribution_total_price,
-            distribution_description: membership.distribution_description,
-            halfday_works_total_price: membership.halfday_works_total_price,
-            halfday_works_description: membership.halfday_works_description,
-            description: membership.description,
-            price: membership.price
-          )
-        ]
-      }
+      membership { create(:membership, member: member) }
       memberships_amount_description 'Montant'
     end
 
