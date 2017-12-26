@@ -46,11 +46,11 @@ ActiveAdmin.register Absence do
     f.inputs 'Dates' do
       f.input :started_on,
         start_year: Time.zone.today.year,
-        end_year: Time.zone.today.year,
+        end_year: Time.zone.today.year + 1,
         include_blank: false
       f.input :ended_on,
         start_year: Time.zone.today.year,
-        end_year: Time.zone.today.year,
+        end_year: Time.zone.today.year + 1,
         include_blank: false
     end
 
