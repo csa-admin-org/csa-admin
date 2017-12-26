@@ -10,12 +10,17 @@ namespace :halfdays do
     Member.all.select { |m| m.remaining_halfday_works.positive? }.each do |member|
       missing_halfdays = member.remaining_halfday_works
       price = missing_halfdays * HalfdayParticipation::PRICE
-      membership = member.current_year_memberships.last
+      membership = member.current_year_membership
       p "Member #{member.id}, Facturé #{missing_halfdays} demi-journée(s) de travail à #{price}"
-      membership.decrement(:annual_halfday_works, missing_halfdays)
-      membership.increment(:halfday_works_annual_price, price)
-      membership.add_note("#{Date.current}: Facturé #{missing_halfdays} demi-journée(s) de travail à #{price}.-")
-      membership.save!
+      Membership.transaction do
+        membership.decrement(:annual_halfday_works, missing_halfdays)
+        membership.increment(:halfday_works_annual_price, price)
+        membership.save!
+        ActiveAdmin::Comment.create!(
+          resource: membership,
+          body: "Facturé #{missing_halfdays} demi-journée(s) de travail à #{price}.-",
+          namespace: 'root')
+      end
     end
   end
 end

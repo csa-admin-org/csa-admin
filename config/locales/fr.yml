@@ -33,6 +33,7 @@ fr:
       inactive: inactif
       waiting: attente
       pending: a valider
+      not_sent: non-envoyée
     filters:
       buttons:
         filter: "Filtrer"
@@ -250,6 +251,7 @@ fr:
         distribution: Lieu de distribution
         price: Prix
       halfday_participation:
+        halfday: ½ Journée
         member_id: Membre
         member: Membre
         period: Horaire
