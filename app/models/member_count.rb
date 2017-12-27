@@ -2,7 +2,15 @@ class MemberCount
   SCOPES = %i[pending waiting trial active support inactive]
 
   def self.all
-    SCOPES.map { |scope| new(scope) }
+    cache_key = [
+      name,
+      Member.maximum(:updated_at),
+      Membership.maximum(:updated_at),
+      Date.today
+    ]
+    Rails.cache.fetch cache_key do
+      SCOPES.map { |scope| new(scope) }
+    end
   end
 
   attr_reader :scope
