@@ -26,7 +26,6 @@ class Membership < ActiveRecord::Base
   scope :started, -> { where('started_on < ?', Time.zone.now) }
   scope :past, -> { where('ended_on < ?', Time.zone.now) }
   scope :future, -> { where('started_on > ?', Time.zone.now) }
-  scope :renew, -> { during_year(Time.zone.today.next_year.year) }
   scope :current, -> { including_date(Time.zone.today) }
   scope :current_year, -> { during_year(Date.today.year) }
   scope :including_date,
@@ -157,24 +156,16 @@ class Membership < ActiveRecord::Base
     started_on..ended_on
   end
 
-  # TODO Update logic
-  # def renew
-  #   # return if Membership.renew.exists?(member_id: member_id)
-  #   renew_year = Time.zone.today.next_year
-  #   Membership.create!(
-  #     attributes.slice(*%i[
-  #       halfday_works_annual_price
-  #       annual_halfday_works
-  #       note
-  #     ]).merge(
-  #       member: member,
-  #       distribution: baskets.last.distribution,
-  #       basket_size: basket_size,
-  #       started_on: renew_year.beginning_of_year,
-  #       ended_on: renew_year.end_of_year
-  #     )
-  #   )
-  # end
+  def renew!
+    renew_year = Time.zone.today.next_year
+    last_basket = baskets.last
+    Membership.create!(
+      member: member,
+      basket_size_id: last_basket.basket_size_id,
+      distribution_id: last_basket.distribution_id,
+      started_on: renew_year.beginning_of_year,
+      ended_on: renew_year.end_of_year)
+  end
 
   def basket_size
     return unless basket_size_id
