@@ -261,7 +261,14 @@ fr:
         member: Membre
         period: Horaire
         participants_count: Participants
+        status: Statut
         state: Statut
+        validator: Validateur
+        validated_at: Validée à
+        rejected_at: Refusée à
+        phones: Téléphone(s)
+        created_at: Enregistrée à
+        updated_at: Mise à jour à
       halfday:
         date: Date
         start_time: Heure de début

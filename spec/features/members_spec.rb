@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'members page' do
-  let!(:member) { create(:member, :active) }
+  let!(:member) { create(:member, :active, phones: "76 332 33 11") }
   let!(:halfday_participation) { create(:halfday_participation, member: member) }
 
   before { Capybara.app_host = 'http://membres.example.com' }
@@ -23,7 +23,7 @@ feature 'members page' do
       choose "halfday_participation_halfday_id_#{halfday.id}"
       fill_in 'halfday_participation_participants_count', with: 3
       check 'halfday_participation_carpooling'
-      fill_in 'carpooling_phone', with: '077 447 58 31'
+      fill_in 'carpooling_phone', with: '+41 77 447 58 31'
       click_button 'Inscription'
 
       expect(page).to have_content 'oui (077 447 58 31)'
@@ -35,7 +35,7 @@ feature 'members page' do
       check 'halfday_participation_carpooling'
       click_button 'Inscription'
 
-      expect(page).to have_content "oui (#{member.phones_array.first})"
+      expect(page).to have_content "oui (076 332 33 11)"
     end
 
     scenario 'remove participation' do

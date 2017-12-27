@@ -57,7 +57,7 @@ describe HalfdayParticipation do
       participation.carpooling = '1'
       participation.carpooling_phone = '077 123 41 12'
       participation.save
-      expect(participation.carpooling_phone).to eq '077 123 41 12'
+      expect(participation.carpooling_phone).to eq '+41771234112'
     end
   end
 end

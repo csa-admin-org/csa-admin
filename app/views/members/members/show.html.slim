@@ -24,7 +24,7 @@ section
         tr
           td== halfday_label(participation.halfday, date: true)
           td= participation.participants_count
-          td= participation.carpooling? ? "oui (#{participation.carpooling_phone})" : 'non'
+          td= participation.carpooling? ? "oui (#{participation.carpooling_phone.phony_formatted})" : 'non'
           td
             = button_to [:members, @member, participation], method: :delete do
               span style='display: none' Effacer
@@ -75,7 +75,7 @@ section.past
         tr
           th Date, Horaire, Lieu et Activité
           th.small Part.
-          th.medium Status.
+          th.medium Statut.
       tbody
       - @member.halfday_participations.includes(:halfday).past.each do |participation|
         tr class="#{participation.rejected? ? 'rejected' : ''}"

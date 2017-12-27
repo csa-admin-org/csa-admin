@@ -54,6 +54,10 @@ class HalfdayParticipation < ActiveRecord::Base
     participants_count
   end
 
+  def carpooling_phone=(phone)
+    super PhonyRails.normalize_number(phone, default_country_code: 'CH')
+  end
+
   def carpooling=(carpooling)
     @carpooling = carpooling == '1'
   end
