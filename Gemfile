@@ -52,6 +52,7 @@ gem 'jbuilder'
 gem 'google_drive', '~> 2.1'
 
 gem 'icalendar'
+gem 'phony_rails'
 
 gem 'exception_notification'
 gem 'exception_notification-rake'

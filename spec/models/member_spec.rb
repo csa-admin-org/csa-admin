@@ -104,8 +104,8 @@ describe Member do
   end
 
   describe '#phones= / #phones' do
-    subject { Member.new(phones: '1234, 4567').phones }
-    it { is_expected.to eq '1234, 4567' }
+    subject { Member.new(phones: '123456789, 987654321').phones }
+    it { is_expected.to eq '+41123456789, +41987654321' }
   end
 
   describe '#absent?' do

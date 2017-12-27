@@ -39,9 +39,9 @@ class Member < ActiveRecord::Base
     where('first_name ILIKE :name OR last_name ILIKE :name', name: "%#{name}%")
   }
   scope :mailable, -> { where.not(emails: nil) }
-  scope :with_address, ->(address) {
-    where('members.address ILIKE ?', "%#{address}%")
-  }
+  scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
+  scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
+  scope :with_phone, ->(phone) { where('members.phones ILIKE ?', "%#{phone}%") }
   scope :renew_membership, ->(bool = true) { where(renew_membership: bool) }
 
   validates :billing_interval,
@@ -109,7 +109,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[with_name with_address]
+    %i[with_name with_address with_email with_phone]
   end
 
   def basket_size
@@ -191,6 +191,12 @@ class Member < ActiveRecord::Base
 
   def emails?
     emails_array.present?
+  end
+
+  def phones=(phones)
+    super string_to_a(phones).map { |phone|
+      PhonyRails.normalize_number(phone, default_country_code: 'CH')
+    }.join(', ')
   end
 
   def phones_array
