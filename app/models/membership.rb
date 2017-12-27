@@ -67,7 +67,7 @@ class Membership < ActiveRecord::Base
   end
 
   def can_update?
-    ended_on >= Time.zone.today
+    ended_on.year >= Time.current.year
   end
 
   def halfday_works
