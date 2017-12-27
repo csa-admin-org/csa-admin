@@ -118,8 +118,8 @@ ActiveAdmin.register Membership do
       resource.member_id ||= params[:member_id]
       resource.basket_size_id ||= params[:basket_size_id]
       resource.distribution_id ||= params[:distribution_id]
-      resource.started_on ||= params[:started_on] || Time.zone.today.beginning_of_year
-      resource.ended_on ||= Time.zone.today.end_of_year
+      resource.started_on ||= params[:started_on] || Delivery.next_coming_date.beginning_of_year
+      resource.ended_on ||= Delivery.next_coming_date.end_of_year
       resource
     end
 
