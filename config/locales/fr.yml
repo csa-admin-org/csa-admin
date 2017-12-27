@@ -226,6 +226,7 @@ fr:
         other: Légumes
     attributes:
       admin:
+        name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
         confirmation_token: Clé de confirmation du mot de passe
         confirmed_at: Confirmé à

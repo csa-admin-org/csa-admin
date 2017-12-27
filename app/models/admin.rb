@@ -6,6 +6,7 @@ class Admin < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  validates :name, presence: true
   validates :rights, inclusion: { in: RIGHTS }
 
   def superadmin?
