@@ -32,8 +32,11 @@ fr:
       active: actif
       inactive: inactif
       waiting: attente
-      pending: a valider
+      pending: à valider
       not_sent: non-envoyée
+      coming: à venir
+      validated: validée
+      rejected: refusée
     filters:
       buttons:
         filter: "Filtrer"
@@ -166,6 +169,8 @@ fr:
         new_model: 'Nouvelle %{model}'
       halfday_participation:
         new_model: 'Nouvelle %{model}'
+      halfday:
+        new_model: 'Nouvelle %{model}'
       basket_size:
         new_model: 'Nouvel %{model}'
       delivery:
@@ -265,7 +270,7 @@ fr:
         place: Lieu
         place_url: Lieu URL
         activity: Activité
-        description: Déscription
+        description: Description
         participants_limit: Limite de participants
       distribution:
         name: Nom
@@ -391,14 +396,6 @@ fr:
     billing_interval:
       annual: annuel
       quarterly: trimestriel
-
-  halfday_participation:
-    state:
-      pending: "A valider"
-      coming: "A venir"
-      validated: Validée
-      rejected: Refusée
-
   date:
     abbr_day_names:
     - dim

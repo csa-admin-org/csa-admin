@@ -27,31 +27,47 @@ ActiveAdmin.register Member do
   show do |member|
     columns do
       column do
-        panel "Abonnement" do
+        panel "Abonnements" do
           memberships = member.memberships.order(:started_on)
           if memberships.none?
             em "Aucun abonnement"
           else
-            table_for(member.memberships.order(:started_on), class: 'table-memberships') do |basket|
+            table_for(memberships, class: 'table-memberships') do |basket|
               column(:description) { |m| auto_link m, m.short_description }
               column(:baskets) { |m| auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
             end
           end
         end
+
+        panel "½ Journées" do
+          halfday_participations = member.halfday_participations.includes(:halfday).order('halfdays.date, halfdays.start_time')
+          if halfday_participations.none?
+            em "Aucune ½ journée"
+          else
+            table_for(halfday_participations, class: 'table-halfday_participations') do |basket|
+              column('Description') { |hp|
+                link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
+              }
+              column('Part. #') { |hp| hp.participants_count }
+              column(:state) { |hp| status_tag(hp.state) }
+            end
+          end
+        end
+
         panel "Factures" do
           invoices = member.invoices.order(:date)
           if invoices.none?
             em "Aucune facture"
           else
-            table_for(member.invoices.order(:date), class: 'table-invoices') do |invoice|
+            table_for(invoices, class: 'table-invoices') do |invoice|
               column(:date) { |i| auto_link i, l(i.date, format: :number) }
               column(:amount) { |i| number_to_currency(i.amount) }
               column(:balance) { |i| number_to_currency(i.balance) }
               column(:overdue_notices_count)
-              column(:status) { |i| status_tag i.status }
               column(class: 'col-actions') { |i|
                 link_to 'PDF', pdf_invoice_path(i), class: 'pdf_link', target: '_blank'
               }
+              column(:status) { |i| status_tag i.status }
             end
           end
         end

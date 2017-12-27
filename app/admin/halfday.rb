@@ -10,7 +10,10 @@ ActiveAdmin.register Halfday do
     column :period, ->(h) { h.period }
     column :place, ->(h) { display_place(h) }
     column :activity, ->(h) { h.activity }
-    column :participants_limit, ->(h) { h.participants_limit || '-' }
+    column 'Participants', ->(h) {
+      text = [h.participations.sum(&:participants_count), h.participants_limit || '∞'].join(' / ')
+      link_to text, halfday_participations_path(q: { halfday_id_eq: h.id }, scope: :all)
+    }
     actions
   end
 
@@ -58,6 +61,10 @@ ActiveAdmin.register Halfday do
   ]
 
   controller do
+    def scoped_collection
+      Halfday.includes(:participations)
+    end
+
     def build_resource
       super
       resource.preset_id ||= 1

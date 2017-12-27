@@ -1,6 +1,7 @@
 ActiveAdmin.register HalfdayParticipation do
   menu priority: 6
 
+  scope :all
   scope :pending, default: true
   scope :coming
   scope :validated
@@ -9,18 +10,20 @@ ActiveAdmin.register HalfdayParticipation do
   index do
     selectable_column
     column :member, sortable: 'members.last_name'
-    column 'Date', ->(hp) { l hp.halfday.date, format: :medium }, sortable: 'halfdays.date'
-    column 'Horaire', ->(hp) { hp.halfday.period }
-    column 'Lieu', ->(hp) { display_place(hp.halfday) }
-    column 'Activité', ->(hp) { hp.halfday.activity }
+    column :halfday, ->(hp) {
+      link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
+    }, sortable: 'halfdays.date, halfdays.start_time'
     column 'Part.', :participants_count
-    column :state, ->(hp) { I18n.t("halfday_participation.state.#{hp.state}") }
+    column :state, ->(hp) { status_tag(hp.state) }
     actions
   end
 
   filter :member,
     as: :select,
     collection: -> { Member.joins(:halfday_participations).order(:last_name).distinct }
+  filter :halfday,
+    as: :select,
+    collection: -> { Halfday.order(:date, :start_time) }
 
   form do |f|
     f.inputs 'Details' do
