@@ -2,6 +2,7 @@ ActiveAdmin.register Admin do
   menu false
 
   index download_links: false do
+    column :name
     column :email
     column :last_sign_in_at
     column :last_sign_in_ip
@@ -11,6 +12,7 @@ ActiveAdmin.register Admin do
 
   show do |admin|
     attributes_table do
+      row :name
       row :email
       row :rights
       row :sign_in_count
@@ -25,6 +27,7 @@ ActiveAdmin.register Admin do
 
   form do |f|
     f.inputs 'Admin' do
+      f.input :name
       f.input :email
       if current_admin.superadmin?
         f.input :rights, collection: Admin::RIGHTS, include_blank: false
@@ -37,7 +40,7 @@ ActiveAdmin.register Admin do
   end
 
   permit_params do
-    params = %i[email password password_confirmation]
+    params = %i[name email password password_confirmation]
     params << :rights if current_admin.superadmin?
     params
   end
