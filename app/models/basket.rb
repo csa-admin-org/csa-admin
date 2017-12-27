@@ -1,7 +1,7 @@
 class Basket < ActiveRecord::Base
   default_scope { joins(:delivery).order('deliveries.date') }
 
-  belongs_to :membership, counter_cache: true
+  belongs_to :membership, counter_cache: true, touch: true
   belongs_to :delivery
   belongs_to :basket_size
   belongs_to :distribution

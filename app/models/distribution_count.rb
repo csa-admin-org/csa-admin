@@ -1,6 +1,13 @@
 class DistributionCount
   def self.all(next_delivery)
-    Distribution.all.map { |dist| new(dist, next_delivery) }
+    cache_key = [
+      name,
+      Membership.maximum(:updated_at),
+      Date.today
+    ]
+    Rails.cache.fetch cache_key do
+      Distribution.all.map { |dist| new(dist, next_delivery) }
+    end
   end
 
   def initialize(distribution, next_delivery)
