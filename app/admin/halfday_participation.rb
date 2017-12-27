@@ -40,6 +40,49 @@ ActiveAdmin.register HalfdayParticipation do
 
   permit_params *%i[halfday_id member_id participants_count]
 
+  show do |hp|
+    attributes_table title: 'Détails' do
+      row(:halfday) { link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all) }
+      row(:created_at) { l(hp.created_at) }
+      row(:updated_at) { l(hp.updated_at) }
+    end
+
+    attributes_table title: 'Contact' do
+      row :member
+      row(:phones) {
+        hp.member.phones_array.map { |phone|
+          link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
+        }.join(', ')
+
+      }
+      if hp.carpooling_phone?
+        row(:carpooling_phone) {
+          link_to hp.carpooling_phone.phony_formatted, "tel:" + hp.carpooling_phone.phony_formatted(spaces: '', format: :international)
+        }
+      end
+    end
+
+    if hp.validated? || hp.rejected?
+      attributes_table title: 'Statut' do
+        row(:status) { status_tag hp.state }
+        row :validator
+        if hp.validated?
+          row(:validated_at) { l(hp.validated_at) }
+        end
+        if hp.rejected?
+          row(:rejected_at) { l(hp.rejected_at) }
+        end
+      end
+    end
+
+
+
+
+    active_admin_comments
+  end
+
+
+
   batch_action :reject do |selection|
     HalfdayParticipation.find(selection).each do |participation|
       participation.reject!(current_admin)

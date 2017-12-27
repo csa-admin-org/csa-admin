@@ -8,7 +8,7 @@ ActiveAdmin.register_page 'Dashboard' do
       column do
         panel 'Membres' do
           table_for MemberCount.all do
-            column('Status') { |count| link_to count.title, members_path(scope: count.scope) }
+            column('Statut') { |count| link_to count.title, members_path(scope: count.scope) }
             column class: 'align-right' do |count|
               count.count.to_s.prepend(count.count_precision.to_s)
             end
@@ -101,7 +101,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
         panel "½ Journées de travail (#{year})" do
           table_for HalfdayParticipationCount.all(year) do
-            column 'Status', :title
+            column 'Statut', :title
             column 'Nombres (am+pm * participants)', :count, class: 'align-right'
           end
         end
