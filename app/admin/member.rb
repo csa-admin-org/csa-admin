@@ -136,12 +136,13 @@ ActiveAdmin.register Member do
     link_to "Remettre en liste d'attente", put_back_to_waiting_list_member_path(resource), method: :post
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do
+    delivery_date = Delivery.next_coming_date
     link_to 'Créer abonnement',
       new_membership_path(
         member_id: resource.id,
         basket_size_id: resource.waiting_basket_size_id,
         distribution_id: resource.waiting_distribution_id,
-        started_on: Date.current)
+        started_on: [Date.current, delivery_date.beginning_of_year, delivery_date.beginning_of_week].max)
   end
 
   form do |f|
