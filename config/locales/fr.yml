@@ -310,6 +310,8 @@ fr:
         current_membership: Abonnement (en cours)
         with_name: Nom
         with_address: Adresse
+        with_phone: Téléphone
+        with_email: Email
         created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
         waiting_basket_size: Taille de panier

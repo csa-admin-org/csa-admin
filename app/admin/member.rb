@@ -97,8 +97,12 @@ ActiveAdmin.register Member do
           end
         end
         attributes_table title: 'Contact' do
-          row :phones
-          row :emails
+          row(:phones) {
+            member.phones_array.map { |phone|
+              link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
+            }.join(', ')
+          }
+          row(:emails) { member.emails_array.map { |e| mail_to(e) }.join(', ') }
           row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
         end
         attributes_table title: 'Facturation' do
@@ -117,6 +121,8 @@ ActiveAdmin.register Member do
 
   filter :with_name, as: :string
   filter :with_address, as: :string
+  filter :with_phone, as: :string
+  filter :with_email, as: :string
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }

@@ -318,6 +318,10 @@ GEM
       ruby-rc4
       ttfunk
     pg (0.21.0)
+    phony (2.16.2)
+    phony_rails (0.14.6)
+      activesupport (>= 3.0)
+      phony (> 2.15)
     polyamorous (1.3.1)
       activerecord (>= 3.0)
     postmark (1.10.0)
@@ -518,6 +522,7 @@ DEPENDENCIES
   paranoia
   pdf-inspector
   pg
+  phony_rails
   postmark-rails
   prawn
   prawn-table
@@ -546,4 +551,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
