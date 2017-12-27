@@ -26,7 +26,7 @@ class Member < ActiveRecord::Base
     -> { during_year(Time.zone.today.year) },
     class_name: 'Membership'
   has_one :future_membership,
-    -> { future.current_year },
+    -> { future },
     class_name: 'Membership'
   has_many :baskets, through: :memberships
   has_many :delivered_baskets,
@@ -258,20 +258,23 @@ class Member < ActiveRecord::Base
   end
 
   def set_state
-    self.state =
-      if !validated_at?
-        PENDING_STATE
-      elsif current_membership
-        if delivered_baskets.count <= TRIAL_BASKETS
-          TRIAL_STATE
-        else
-          ACTIVE_STATE
-        end
-      elsif waiting_started_at?
-        WAITING_STATE
+    if !validated_at?
+      self.state = PENDING_STATE
+    elsif current_membership
+      self.waiting_started_at = nil
+      if delivered_baskets.count <= TRIAL_BASKETS
+        self.state = TRIAL_STATE
       else
-        INACTIVE_STATE
+        self.state = ACTIVE_STATE
       end
+    elsif future_membership
+      self.waiting_started_at = nil
+      self.state = INACTIVE_STATE
+    elsif waiting_started_at?
+      self.state = WAITING_STATE
+    else
+      self.state = INACTIVE_STATE
+    end
   end
 
   def support_member_not_waiting
