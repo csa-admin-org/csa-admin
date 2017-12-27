@@ -14,7 +14,6 @@ class HalfdayParticipation < ActiveRecord::Base
     joins(:halfday).where('halfdays.date <= ?', Time.zone.today).where(state: 'pending')
   end
   scope :coming, -> { joins(:halfday).where('halfdays.date > ?', Time.zone.today) }
-  scope :coming_for_member, -> { joins(:halfday).where('halfdays.date >= ?', Time.zone.today) }
   scope :past, -> do
     joins(:halfday).where(
       'halfdays.date < ? AND halfdays.date >= ?',

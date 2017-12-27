@@ -88,11 +88,10 @@ table .edit_link, table .pdf_link {
 }
 
 .status_tag {
-  &.trial { background-color: #1e83f6; }
-  &.closed { background-color: #1e83f6; }
-  &.open, &.no { background-color: #ff2600; }
+  &.trial, &.coming, &.not_sent { background-color: #1e83f6; }
+  &.open, &.no, &.rejected { background-color: #ff2600; }
   &.pending { background-color: #ff2600; }
-  &.active { background-color: #80a432; }
+  &.active, &.closed, &.validated { background-color: #80a432; }
   &.waiting { background-color: #91ba3a; }
   &.pending { background-color: #addf45; }
 }
@@ -108,8 +107,23 @@ table.table-baskets {
 }
 
 table.table-invoices {
-  .col-status { width: 90px; }
-  .col-actions { width: 30px; }
+  .col-actions {
+    padding-right: 10px;
+    width: 30px;
+  }
+  .col-status {
+    text-align: right;
+    width: 100px;
+  }
+}
+
+table.table-halfday_participations {
+  .col-description { width: 300px; }
+  .col-part { width: 40px; }
+  .col-state {
+    text-align: right;
+    width: 80px;
+  }
 }
 
 table.table-memberships {

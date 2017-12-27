@@ -40,7 +40,7 @@ class Halfday < ActiveRecord::Base
   end
 
   def name
-    [date, place, period].join(', ')
+    [I18n.l(date, format: :medium), place, period].join(', ')
   end
 
   def period

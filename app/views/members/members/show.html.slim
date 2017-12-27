@@ -8,7 +8,7 @@ section
 
 section
   h2 ½ journées de travail à venir
-  - coming_participations = @member.halfday_participations.coming_for_member.includes(:halfday)
+  - coming_participations = @member.halfday_participations.coming.includes(:halfday)
   - if coming_participations.empty?
     p.table-empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
