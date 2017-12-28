@@ -17,7 +17,9 @@ FactoryBot.define do
   end
 
   factory :admin do
+    name 'Bob'
     email { Faker::Internet.email }
+    rights 'superadmin'
     password '12345678'
     password_confirmation '12345678'
   end

@@ -132,13 +132,13 @@ ActiveAdmin.register Member do
   action_item :create_invoice, only: :show, if: -> { resource.billable? && authorized?(:create, Invoice) } do
     link_to 'Créer facture', create_invoice_member_path(resource), method: :post
   end
-  action_item :validate, only: :show, if: -> { resource.pending? && authorized?(:update, Member) } do
+  action_item :validate, only: :show, if: -> { resource.pending? && authorized?(:validate, Member) } do
     link_to 'Valider', validate_member_path(resource), method: :post
   end
-  action_item :remove_from_waiting_list, only: :show, if: -> { resource.waiting? && authorized?(:update, Member) } do
+  action_item :remove_from_waiting_list, only: :show, if: -> { resource.waiting? && authorized?(:remove_from_waiting_list, Member) } do
     link_to "Retirer de la liste d'attente", remove_from_waiting_list_member_path(resource), method: :post
   end
-  action_item :put_back_to_waiting_list!, only: :show, if: -> { resource.inactive? && authorized?(:update, Member) } do
+  action_item :put_back_to_waiting_list!, only: :show, if: -> { resource.inactive? && authorized?(:put_back_to_waiting_list!, Member) } do
     link_to "Remettre en liste d'attente", put_back_to_waiting_list_member_path(resource), method: :post
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do

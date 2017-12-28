@@ -13,6 +13,9 @@ class Ability
       can :manage, [Halfday, HalfdayParticipation, Absence]
       can :create, [Gribouille, Member, Membership, Distribution]
       can :update, [Gribouille, Invoice, Member, Delivery]
+      can :validate, Member
+      can :remove_from_waiting_list, Member
+      can :put_back_to_waiting_list, Member
       can :destroy, [Member, Membership], can_destroy?: true
       can :update, Membership, can_update?: true
       can :pdf, Invoice
