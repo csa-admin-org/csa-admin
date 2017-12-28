@@ -15,6 +15,14 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
+        panel 'Gribouille' do
+          emails = Member.gribouille_emails
+          mail_link = mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
+          csv_link = link_to('liste', gribouille_emails_members_path(format: :csv))
+
+          "#{emails.size} emails amoureux de Gribouille: #{mail_link} / #{csv_link}".html_safe
+        end
+
         panel "Facturation #{year}" do
           billing_totals = BillingTotal.all
           billing_totals_price = billing_totals.sum(&:price)
@@ -104,14 +112,6 @@ ActiveAdmin.register_page 'Dashboard' do
             column 'Statut', :title
             column 'Nombres (am+pm * participants)', :count, class: 'align-right'
           end
-        end
-
-        panel 'Gribouille' do
-          emails = Member.gribouille_emails
-          mail_link = mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
-          csv_link = link_to('liste', gribouille_emails_members_path(format: :csv))
-
-          "#{emails.size} emails amoureux de Gribouille: #{mail_link} / #{csv_link}".html_safe
         end
       end
     end
