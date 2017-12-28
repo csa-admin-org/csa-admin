@@ -243,7 +243,7 @@ class Membership < ActiveRecord::Base
   def only_one_per_year
     return unless member
     if member.memberships.during_year(started_on.year).where.not(id: id).exists?
-      errors.add(:base, 'seulement un abonnement par an et par membre')
+      errors.add(:member, 'seulement un abonnement par an et par membre')
     end
   end
 

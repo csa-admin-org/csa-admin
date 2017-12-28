@@ -1,5 +1,6 @@
 #= require active_admin/base
 #= require active_admin/editor
+#= require jquery-ui/i18n/datepicker-fr-CH
 
 $ ->
   $('#halfday_preset_id').on 'change', ->

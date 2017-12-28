@@ -80,9 +80,8 @@ ActiveAdmin.register Membership do
         include_blank: false
     end
     f.inputs 'Dates' do
-      years_range = Delivery.years_range
-      f.input :started_on, start_year: years_range.first, include_blank: false
-      f.input :ended_on, start_year: years_range.first, end_year: years_range.last, include_blank: false
+      f.input :started_on, as: :datepicker, include_blank: false
+      f.input :ended_on, as: :datepicker, include_blank: false
     end
     f.inputs 'Panier & Distribution' do
       f.input :basket_size_id,

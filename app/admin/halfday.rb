@@ -23,11 +23,7 @@ ActiveAdmin.register Halfday do
 
   form do |f|
     f.inputs 'Date et horaire' do
-      years_range = Delivery.years_range
-      f.input :date,
-        start_year: years_range.first,
-        end_year: years_range.last,
-        include_blank: false
+      f.input :date, as: :datepicker, include_blank: false
       f.input :start_time, as: :time_select, include_blank: false, minute_step: 30
       f.input :end_time, as: :time_select, include_blank: false, minute_step: 30
     end
