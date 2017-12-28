@@ -73,6 +73,40 @@ describe Membership do
     expect { last_basket.reload }.to raise_error ActiveRecord::RecordNotFound
   end
 
+  it 'creates new baskets when started_on and ended_on changes' do
+    membership = create(:membership)
+    baskets = membership.baskets
+    first_basket = baskets.first
+    last_basket = baskets.last
+    basket_size = last_basket.basket_size
+    distribution = last_basket.distribution
+
+    expect(membership.baskets_count).to eq(40)
+
+    membership.update!(
+      started_on: first_basket.delivery.date + 1.days,
+      ended_on: last_basket.delivery.date - 1.days)
+    expect(membership.baskets_count).to eq(38)
+
+    new_basket_size = create(:basket_size)
+    new_distribution = create(:distribution)
+    membership.reload.baskets.first.update!(
+      basket_size: new_basket_size,
+      distribution: new_distribution)
+
+    membership.update!(
+      started_on: first_basket.delivery.date - 1.days,
+      ended_on: last_basket.delivery.date + 1.days)
+
+    expect(membership.reload.baskets_count).to eq(40)
+    new_first_basket = membership.reload.baskets.first
+    expect(new_first_basket.basket_size).to eq new_basket_size
+    expect(new_first_basket.distribution).to eq new_distribution
+    new_last_basket = membership.reload.baskets.last
+    expect(new_last_basket.basket_size).to eq basket_size
+    expect(new_last_basket.distribution).to eq distribution
+  end
+
   it 'updates future baskets/distribution when present' do
     basket_size = create(:basket_size)
     distribution = create(:distribution)

@@ -193,15 +193,41 @@ class Membership < ActiveRecord::Base
   end
 
   def update_baskets
-    if basket_size_id || distribution_id
-      baskets.between(Time.current..ended_on).each do |basket|
-        basket.basket_size_id = basket_size_id if basket_size_id
-        basket.distribution_id = distribution_id if distribution_id
-        basket.save!
+    if saved_change_to_attribute?(:started_on)
+      if attribute_before_last_save(:started_on) > started_on
+        first_basket = baskets.first
+        Delivery.between(started_on...attribute_before_last_save(:started_on)).each do |delivery|
+          baskets.create!(
+            delivery: delivery,
+            basket_size_id: first_basket.basket_size_id,
+            distribution_id: first_basket.distribution_id)
+        end
+      end
+      if attribute_before_last_save(:started_on) < started_on
+        baskets.between(attribute_before_last_save(:started_on)...started_on).each(&:destroy)
       end
     end
-    if saved_change_to_attribute?(:started_on) || saved_change_to_attribute?(:ended_on)
-      (baskets - baskets.between(started_on..ended_on)).each(&:destroy)
+
+    if saved_change_to_attribute?(:ended_on)
+      if attribute_before_last_save(:ended_on) < ended_on
+        last_basket = baskets.last
+        Delivery.between((attribute_before_last_save(:ended_on) + 1.day)..ended_on).each do |delivery|
+          baskets.create!(
+            delivery: delivery,
+            basket_size_id: last_basket.basket_size_id,
+            distribution_id: last_basket.distribution_id)
+        end
+      end
+      if attribute_before_last_save(:ended_on) > ended_on
+        baskets.between((ended_on + 1.day)...attribute_before_last_save(:ended_on)).each(&:destroy)
+      end
+    end
+    if basket_size_id.present? || distribution_id.present?
+      reload.baskets.between(Time.current..ended_on).each do |basket|
+        basket.basket_size_id = basket_size_id if basket_size_id.present?
+        basket.distribution_id = distribution_id if distribution_id.present?
+        basket.save!
+      end
     end
   end
 
