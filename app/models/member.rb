@@ -241,14 +241,14 @@ class Member < ActiveRecord::Base
 
   def billable?
     support_member? ||
-      (!salary_basket? && current_year_membership && !trial?) ||
-      (trial? && !current_membership)
+      (!salary_basket? && !trial? && current_year_membership) ||
+      (trial? && !current_membership) ||
+      (trial? && Delivery.next_coming_date.year > Time.current.year)
   end
 
   def support_billable?
-    billable? &&
-      (support_member? ||
-        (active? && delivered_baskets.count > TRIAL_BASKETS))
+    support_member? ||
+        (!salary_basket? && current_year_membership && current_year_membership.baskets_count > TRIAL_BASKETS)
   end
 
   private
