@@ -36,9 +36,6 @@ class MemberCount
       when :active
         sub_count = Member.active.where(salary_basket: true).count
         "(#{sub_count} panier-salaire) "
-      when :inactive then
-        sub_count = Member.inactive.joins(:memberships).merge(Membership.future).count
-        "(#{sub_count} futur actif) "
       end
   end
 
