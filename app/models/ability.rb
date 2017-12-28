@@ -10,7 +10,7 @@ class Ability
       can :pdf, Invoice
     when 'admin'
       cannot :manage, [BasketSize, Delivery]
-      can :manage, [Halfday, HalfdayParticipation, Absence]
+      can :manage, [Halfday, HalfdayParticipation, Absence, ActiveAdmin::Comment]
       can :create, [Gribouille, Member, Membership, Distribution]
       can :update, [Gribouille, Invoice, Member, Delivery]
       can :validate, Member
@@ -23,6 +23,7 @@ class Ability
     when 'standard'
       cannot :manage, :all
       can :manage, [Gribouille, Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent]
+      can :create, ActiveAdmin::Comment
       can :update, [Delivery]
       can :pdf, Invoice
       can :read, :all
