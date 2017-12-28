@@ -44,14 +44,8 @@ ActiveAdmin.register Absence do
       f.input :note, input_html: { rows: 5 }
     end
     f.inputs 'Dates' do
-      f.input :started_on,
-        start_year: Time.zone.today.year,
-        end_year: Time.zone.today.year + 1,
-        include_blank: false
-      f.input :ended_on,
-        start_year: Time.zone.today.year,
-        end_year: Time.zone.today.year + 1,
-        include_blank: false
+      f.input :started_on, as: :datepicker, include_blank: false
+      f.input :ended_on, as: :datepicker, include_blank: false
     end
 
     f.actions
