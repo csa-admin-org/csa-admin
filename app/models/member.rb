@@ -275,7 +275,11 @@ class Member < ActiveRecord::Base
       end
     elsif future_membership
       self.waiting_started_at = nil
-      self.state = INACTIVE_STATE
+      if delivered_baskets.count <= TRIAL_BASKETS
+        self.state = TRIAL_STATE
+      else
+        self.state = INACTIVE_STATE
+      end
     elsif waiting_started_at?
       self.state = WAITING_STATE
     else
