@@ -1,21 +1,29 @@
 class DeliveryCount
-  include Singleton
-
-  def initialize
-    @deliveries = Delivery.all.to_a
+  def self.all(next_delivery)
+    basket_size_ids = BasketSize.pluck(:id)
+    Distribution.select(:name, :id).map { |dist| new(dist, next_delivery.id, basket_size_ids) }
   end
 
-  def count(range)
-    all(range).size
+  def initialize(distribution, delivery_id, basket_size_ids)
+    @distribution = distribution
+    @basket_size_ids = basket_size_ids
+    @baskets = distribution.baskets.where(delivery_id: delivery_id)
   end
 
-  def first(range)
-    all(range).first
+  def title
+    @distribution.name
   end
 
-  def all(range)
-    @deliveries.select do |d|
-      d.date >= range.first && d.date <= range.last
-    end
+  def count
+    @count ||= @baskets.count
+  end
+
+  def baskets_count
+    @baskets_count ||= basket_sizes_count.join(' / ')
+  end
+
+  def basket_sizes_count
+    @basket_sizes_count ||=
+      @basket_size_ids.map { |id| @baskets.where(basket_size_id: id).count }
   end
 end

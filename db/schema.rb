@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227212453) do
+ActiveRecord::Schema.define(version: 20171228211903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,6 +260,8 @@ ActiveRecord::Schema.define(version: 20171227212453) do
     t.text "note"
     t.datetime "deleted_at"
     t.integer "baskets_count", default: 0, null: false
+    t.integer "halfday_works", default: 0, null: false
+    t.integer "validated_halfday_works", default: 0, null: false
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"

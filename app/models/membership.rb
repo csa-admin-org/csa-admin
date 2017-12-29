@@ -20,6 +20,7 @@ class Membership < ActiveRecord::Base
 
   before_create :build_baskets
   before_create :set_annual_halfday_works
+  after_save :update_halfday_works
   after_update :update_baskets
   after_commit :update_trial_baskets_and_user_state!
 
@@ -70,8 +71,9 @@ class Membership < ActiveRecord::Base
     ended_on.year >= Time.current.year
   end
 
-  def halfday_works
-    (baskets_count / Delivery.current_year.count.to_f * annual_halfday_works).round
+  def future_or_last_basket_size
+    now = Time.current
+    (baskets.between(now..now.end_of_year).first || baskets.last)&.basket_size
   end
 
   def basket_total_price
@@ -178,10 +180,32 @@ class Membership < ActiveRecord::Base
     @distribution ||= Distribution.find(distribution_id)
   end
 
+  def update_validated_halfday_works!
+    validated_participations = member.halfday_participations.validated.during_year(started_on.year)
+    update_column(:validated_halfday_works, validated_participations.sum(:participants_count))
+  end
+
+  def update_halfday_works!
+    deliveries_count = Delivery.current_year.count.to_f
+    halfday_works =
+      if member.salary_basket?
+        0
+      else
+        (baskets_count / deliveries_count * annual_halfday_works).round
+      end
+    update_column(:halfday_works, halfday_works)
+  end
+
   private
 
   def set_annual_halfday_works
     self[:annual_halfday_works] = basket_size.annual_halfday_works
+  end
+
+  def update_halfday_works
+    if saved_change_to_attribute?(:annual_halfday_works) || saved_change_to_attribute?(:baskets_count)
+      update_halfday_works!
+    end
   end
 
   def build_baskets
@@ -194,7 +218,7 @@ class Membership < ActiveRecord::Base
   end
 
   def update_baskets
-    if saved_change_to_attribute?(:started_on)
+    if saved_change_to_attribute?(:started_on) && attribute_before_last_save(:started_on)
       if attribute_before_last_save(:started_on) > started_on
         first_basket = baskets.first
         Delivery.between(started_on...attribute_before_last_save(:started_on)).each do |delivery|
@@ -209,7 +233,7 @@ class Membership < ActiveRecord::Base
       end
     end
 
-    if saved_change_to_attribute?(:ended_on)
+    if saved_change_to_attribute?(:ended_on) && attribute_before_last_save(:ended_on)
       if attribute_before_last_save(:ended_on) < ended_on
         last_basket = baskets.last
         Delivery.between((attribute_before_last_save(:ended_on) + 1.day)..ended_on).each do |delivery|

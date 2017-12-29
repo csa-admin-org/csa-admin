@@ -79,6 +79,8 @@ describe InvoiceCreator do
       Timecop.travel(10.days.from_now) do
         membership.update!(distribution_id: create(:distribution, price: 2).id)
       end
+      member.current_year_membership.reload
+
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to be_present
@@ -211,6 +213,7 @@ describe InvoiceCreator do
       Timecop.travel(Date.new(Time.zone.today.year, 11))
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(distribution_id: create(:distribution, price: 2).id)
+      member.current_year_membership.reload
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200

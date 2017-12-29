@@ -52,7 +52,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
       column do
         panel "Prochaine livraison: #{l next_delivery.date, format: :long}" do
-          counts = DistributionCount.all(next_delivery)
+          counts = DeliveryCount.all(next_delivery)
           if counts.present?
             table_for counts do
               column 'Lieu', :title

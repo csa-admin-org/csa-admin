@@ -43,6 +43,11 @@ class Member < ActiveRecord::Base
   scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
   scope :with_phone, ->(phone) { where('members.phones ILIKE ?', "%#{phone}%") }
   scope :renew_membership, ->(bool = true) { where(renew_membership: bool) }
+  scope :gribouille, -> {
+    where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]).where(gribouille: [nil, true])
+      .or(Member.where(support_member: true).where(gribouille: [nil, true]))
+      .or(Member.where(gribouille: true))
+  }
 
   validates :billing_interval,
     presence: true,
@@ -55,20 +60,14 @@ class Member < ActiveRecord::Base
 
   before_validation :set_waiting_started_at, on: :create
   before_save :set_state
+  after_save :update_membership_halfday_works
 
-  def self.gribouille
-    all.includes(:current_membership, :future_membership).select(&:gribouille?)
+  def gribouille?
+    Member.gribouille.where(id: id).exists?
   end
 
   def self.gribouille_emails
-    cache_key = [
-      'gribouille_emails',
-      maximum(:updated_at),
-      Date.today
-    ]
-    Rails.cache.fetch cache_key do
-      gribouille.map(&:emails_array).flatten.uniq.compact
-    end
+    gribouille.select(:emails).map(&:emails_array).flatten.uniq.compact
   end
 
   def self.billable
@@ -110,11 +109,6 @@ class Member < ActiveRecord::Base
 
   def self.ransackable_scopes(_auth_object = nil)
     %i[with_name with_address with_email with_phone]
-  end
-
-  def basket_size
-    now = Time.current
-    (baskets.between(now..now.end_of_year).first || baskets.last)&.basket_size
   end
 
   def update_state!
@@ -173,14 +167,6 @@ class Member < ActiveRecord::Base
       waiting_started_at: Time.current)
   end
 
-  def gribouille?
-    gribouille = read_attribute(:gribouille)
-    gribouille == true || (
-      (waiting? || current_membership || future_membership || support_member?) &&
-      gribouille != false
-    )
-  end
-
   def absent?(date)
     absences.any? { |absence| absence.period.include?(date) }
   end
@@ -203,30 +189,26 @@ class Member < ActiveRecord::Base
     string_to_a(phones)
   end
 
-  def annual_halfday_works(year = nil)
+  def halfday_works(year = nil)
     @annual_halfday_works ||= begin
-      if salary_basket?
-        0
-      else
-        year ||= Time.zone.today.year
-        memberships.during_year(year).to_a.sum(&:halfday_works)
-      end
+      year ||= Time.zone.today.year
+      memberships.during_year(year).first&.halfday_works
     end
   end
 
   def validated_halfday_works(year = nil)
     @validated_halfday_works ||= begin
       year ||= Time.zone.today.year
-      halfday_participations.during_year(year).validated.to_a.sum(&:value)
+      halfday_participations.during_year(year).validated.sum(&:participants_count)
     end
   end
 
   def remaining_halfday_works(year = nil)
-    [annual_halfday_works(year) - validated_halfday_works(year), 0].max
+    [halfday_works(year) - validated_halfday_works(year), 0].max
   end
 
   def extra_halfday_works(year = nil)
-    [annual_halfday_works(year) - validated_halfday_works(year), 0].min.abs
+    [halfday_works(year) - validated_halfday_works(year), 0].min.abs
   end
 
   def to_param
@@ -284,6 +266,12 @@ class Member < ActiveRecord::Base
       self.state = WAITING_STATE
     else
       self.state = INACTIVE_STATE
+    end
+  end
+
+  def update_membership_halfday_works
+    if saved_change_to_attribute?(:salary_basket?)
+      current_year_membership&.update_halfday_works!
     end
   end
 

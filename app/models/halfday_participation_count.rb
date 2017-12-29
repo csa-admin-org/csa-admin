@@ -2,13 +2,11 @@ class HalfdayParticipationCount
   SCOPES = %i[coming pending validated rejected missing]
 
   def self.all(year)
-    cache_key = [name, HalfdayParticipation.maximum(:updated_at)]
-    Rails.cache.fetch cache_key do
-      SCOPES.map { |scope| new(year, scope) }
-    end
+    SCOPES.map { |scope| new(year, scope) }
   end
 
   def initialize(year, scope)
+    @participations = HalfdayParticipation.during_year(year)
     @year = year
     @scope = scope
     count # eager load for the cache
@@ -21,15 +19,13 @@ class HalfdayParticipationCount
   def count
     @count ||=
       case @scope
-      when :missing then Member.all.to_a.sum(&:remaining_halfday_works)
+      when :missing
+        Membership
+          .during_year(@year)
+          .select('SUM(GREATEST(halfday_works - validated_halfday_works, 0)) as missing')
+          .to_a.first[:missing]
       else
-        participations.send(@scope).to_a.sum(&:value)
+        @participations.send(@scope).sum(:participants_count)
       end
-  end
-
-  private
-
-  def participations
-    HalfdayParticipation.during_year(@year)
   end
 end

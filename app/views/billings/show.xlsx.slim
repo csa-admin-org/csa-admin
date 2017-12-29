@@ -33,14 +33,14 @@ table
       td= "Ajustement ½ journées de travail"
       td.decimal= number_with_precision(amount, precision: 2)
 
-    - amount = invoices.sum { |i| i.support_amount.to_f }
+    - amount = invoices.sum { |i| i.support_amount || 0 }
     tr
       td= "Cotisations"
       td.decimal= number_with_precision(amount, precision: 2)
 
     tr
 
-    - amount = invoices.sum { |i| i.amount }
+    - amount = invoices.sum { |i| i.amount || 0 }
     tr
       td= "Facturé"
       td.decimal= number_with_precision(amount, precision: 2)

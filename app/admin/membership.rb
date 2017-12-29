@@ -10,7 +10,11 @@ ActiveAdmin.register Membership do
     column :member, ->(m) { auto_link m.member }
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
-    column :baskets_count, -> (m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
+    column '½ journées',
+      -> (m) { auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}" },
+      sortable: 'halfday_works'
+    column :baskets_count,
+      -> (m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
     actions
   end
 
@@ -49,6 +53,8 @@ ActiveAdmin.register Membership do
           row(:started_on) { l m.started_on }
           row(:ended_on) { l m.ended_on }
           row :annual_halfday_works
+          row :halfday_works
+          row :validated_halfday_works
         end
 
         attributes_table title: "Facturation" do
