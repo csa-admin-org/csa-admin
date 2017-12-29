@@ -40,7 +40,7 @@
       tr
       tr
         td Absences
-        td= baskets.absent.count
+        td= @delivery.baskets.absent.count
 
 - distributions.each do |distribution|
   - next if @filter_distribution && @filter_distribution != distribution
@@ -50,6 +50,8 @@
       tr
         td Prénom
         td Nom
+        td Emails
+        td Téléphones
         - if distribution.require_delivery_address?
           td Adresse
           td Zip
@@ -58,11 +60,13 @@
         - unless @filter_distribution
           td Note alimentaire
     tbody
-      - baskets.sort_by { |b| b.member.last_name }.each do |basket|
+      - baskets.where(distribution_id: distribution.id).joins(:member).order('members.last_name').each do |basket|
         - member = basket.member
         tr
           td= member.first_name
           td= member.last_name
+          td= member.emails_array.join(', ')
+          td= member.phones_array.map(&:phony_formatted).join(', ')
           - if distribution.require_delivery_address?
             td= member.final_delivery_address
             td= member.final_delivery_zip

@@ -7,7 +7,7 @@ class DeliveryCount
   def initialize(distribution, delivery_id, basket_size_ids)
     @distribution = distribution
     @basket_size_ids = basket_size_ids
-    @baskets = distribution.baskets.where(delivery_id: delivery_id)
+    @baskets = distribution.baskets.not_absent.where(delivery_id: delivery_id)
   end
 
   def title
