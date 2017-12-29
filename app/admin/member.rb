@@ -32,9 +32,14 @@ ActiveAdmin.register Member do
           if memberships.none?
             em "Aucun abonnement"
           else
-            table_for(memberships, class: 'table-memberships') do |basket|
+            table_for(memberships, class: 'table-memberships') do |membership|
               column(:description) { |m| auto_link m, m.short_description }
-              column(:baskets) { |m| auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
+              column('½ journées') { |m|
+                auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}"
+              }
+              column(:baskets) { |m|
+                auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}"
+              }
             end
           end
         end

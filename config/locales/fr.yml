@@ -337,7 +337,9 @@ fr:
         baskets_count: Paniers
         started_on: Début
         ended_on: Fin
-        annual_halfday_works: ½ journée de travails
+        annual_halfday_works: ½ journées (100%)
+        halfday_works: ½ journées (prorata)
+        validated_halfday_works: ½ journées validées
         halfday_works_annual_price: Ajustement du prix de l'abonnement
         baskets: Paniers
         basket_total_price: Prix Paniers

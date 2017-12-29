@@ -35,6 +35,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   before_create :set_carpooling_phone
   after_update :send_notifications
+  after_save :update_membership_validated_halfday_works
 
   def coming?
     pending? && halfday.date > Date.current
@@ -105,6 +106,11 @@ class HalfdayParticipation < ActiveRecord::Base
     else
       self.carpooling_phone = nil
     end
+  end
+
+  def update_membership_validated_halfday_works
+    membership = member.memberships.during_year(halfday.date.year).first
+    membership&.update_validated_halfday_works!
   end
 
   def send_notifications

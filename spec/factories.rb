@@ -57,6 +57,8 @@ FactoryBot.define do
       created_at { Time.current.beginning_of_year }
       after :create do |member|
         create(:membership, member: member, started_on: Time.zone.today - 3.weeks)
+        member.reload
+        member.update_state!
       end
     end
 
@@ -65,6 +67,7 @@ FactoryBot.define do
         create(:membership, :last_year, member: member)
         create(:membership, member: member)
         member.reload
+        member.update_state!
       end
     end
 

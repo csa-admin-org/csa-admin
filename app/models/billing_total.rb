@@ -1,27 +1,15 @@
 class BillingTotal
-  SCOPES = %i[
-    distribution
-    halfday_works
-    support
-  ]
+  SCOPES = %i[distribution halfday_works support]
 
   def self.all
-    cache_key = [
-      name,
-      Member.maximum(:updated_at),
-      Membership.maximum(:updated_at),
-      Date.today
-    ]
-    Rails.cache.fetch cache_key do
-      memberships = Membership.current_year.includes(:member, :baskets).to_a
-      [BasketSize.all + SCOPES].flatten.map { |scope| new(memberships, scope) }
-    end
+    scopes = [BasketSize.all + SCOPES]
+    scopes.flatten.map { |scope| new(scope) }
   end
 
   attr_reader :scope
 
-  def initialize(memberships, scope)
-    @memberships = memberships
+  def initialize(scope)
+    @memberships = Membership.joins(:member).where(members: { salary_basket: false }).current_year
     @scope = scope
     # eager load for the cache
     price
@@ -39,14 +27,13 @@ class BillingTotal
     @price ||=
       case scope
       when BasketSize
-        @memberships.sum { |m| m.baskets_price(scope.id) }
+        @memberships.joins(:baskets).where(baskets: { basket_size_id: scope.id }).sum(:basket_price)
       when :distribution
-        distribution_ids = Distribution.pluck(:id)
-        @memberships.sum { |m| m.distribution_total_price(distribution_ids) }
+        @memberships.joins(:baskets).sum(:distribution_price)
       when :halfday_works
-        @memberships.sum(&:halfday_works_total_price)
+        @memberships.sum(:halfday_works_annual_price)
       when :support
-        Member.billable.count(&:support_billable?) * Member::SUPPORT_PRICE
+        Invoice.current_year.sum(:support_amount)
       end
   end
 end

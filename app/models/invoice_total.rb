@@ -2,21 +2,13 @@ class InvoiceTotal
   SCOPES = %i[amount balance missing_amount]
 
   def self.all(billing_totals_price)
-    cache_key = [
-      name,
-      Invoice.maximum(:updated_at),
-      billing_totals_price
-    ]
-    Rails.cache.fetch cache_key do
-      invoices = Invoice.current_year.to_a
-      SCOPES.map { |scope| new(invoices, billing_totals_price, scope) }
-    end
+    SCOPES.map { |scope| new(scope, billing_totals_price) }
   end
 
   attr_reader :scope
 
-  def initialize(invoices, billing_totals_price, scope)
-    @invoices = invoices
+  def initialize(scope, billing_totals_price)
+    @invoices = Invoice.current_year
     @billing_totals_price = billing_totals_price
     @scope = scope
     # eager load for the cache
@@ -30,10 +22,12 @@ class InvoiceTotal
   def price
     @price ||=
       case scope
+      when :amount
+        @invoices.sum(:amount)
+      when :balance
+        @invoices.sum(:balance)
       when :missing_amount
-        @billing_totals_price - @invoices.sum(&:amount)
-      else
-        @invoices.sum { |i| i.send(scope) }
+        @billing_totals_price - @invoices.sum(:amount)
       end
   end
 end
