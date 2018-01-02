@@ -247,7 +247,7 @@ ActiveAdmin.register Member do
     end
 
     def find_resource
-      Member.find_by(token: params[:id])
+      Member.find_by!(token: params[:id])
     end
 
     def create_resource(object)
