@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171228211903) do
+ActiveRecord::Schema.define(version: 20180102171404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,21 +191,20 @@ ActiveRecord::Schema.define(version: 20171228211903) do
     t.decimal "support_amount", precision: 8, scale: 2
     t.string "memberships_amount_description"
     t.decimal "memberships_amount", precision: 8, scale: 2
-    t.json "memberships_amounts_data"
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
     t.decimal "paid_memberships_amount", precision: 8, scale: 2
-    t.json "isr_balance_data", default: {}, null: false
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.oid "pdf"
-    t.decimal "isr_balance", precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal "manual_balance", precision: 8, scale: 2, default: "0.0", null: false
-    t.text "note"
     t.string "member_billing_interval", null: false
     t.integer "overdue_notices_count", default: 0, null: false
     t.datetime "overdue_notice_sent_at"
+    t.datetime "canceled_at"
+    t.string "state", default: "not_sent", null: false
+    t.index ["date", "member_id"], name: "index_invoices_on_date_and_member_id", unique: true
     t.index ["member_id"], name: "index_invoices_on_member_id"
+    t.index ["state"], name: "index_invoices_on_state"
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
@@ -257,7 +256,6 @@ ActiveRecord::Schema.define(version: 20171228211903) do
     t.date "ended_on", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text "note"
     t.datetime "deleted_at"
     t.integer "baskets_count", default: 0, null: false
     t.integer "halfday_works", default: 0, null: false
@@ -281,6 +279,21 @@ ActiveRecord::Schema.define(version: 20171228211903) do
     t.index ["number"], name: "index_old_invoices_on_number"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "invoice_id"
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.date "date", null: false
+    t.string "isr_data"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_payments_on_deleted_at"
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id"
+    t.index ["isr_data"], name: "index_payments_on_isr_data", unique: true
+    t.index ["member_id"], name: "index_payments_on_member_id"
+  end
+
   create_table "vegetables", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -299,4 +312,6 @@ ActiveRecord::Schema.define(version: 20171228211903) do
   add_foreign_key "halfday_participations", "admins", column: "validator_id"
   add_foreign_key "halfday_participations", "halfdays"
   add_foreign_key "halfday_participations", "members"
+  add_foreign_key "payments", "invoices"
+  add_foreign_key "payments", "members"
 end

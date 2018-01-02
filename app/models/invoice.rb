@@ -2,12 +2,16 @@ require 'rounding'
 require 'bigdecimal'
 
 class Invoice < ActiveRecord::Base
+  include HasState
   include ActionView::Helpers::NumberHelper
   NoPdfError = Class.new(StandardError)
 
   attr_accessor :membership, :membership_amount_fraction
 
+  has_states :not_sent, :open, :closed, :canceled
+
   belongs_to :member
+  has_many :payments
 
   mount_uploader :pdf, PdfUploader
 
@@ -19,10 +23,8 @@ class Invoice < ActiveRecord::Base
   scope :quarter, ->(n) { where('EXTRACT(QUARTER FROM date) = ?', n) }
   scope :support, -> { where.not(support_amount: nil) }
   scope :membership, -> { where.not(memberships_amount: nil) }
-  scope :not_sent, -> { where(sent_at: nil) }
-  scope :sent, -> { where.not(sent_at: nil) }
-  scope :open, -> { sent.where('balance < amount') }
-  scope :closed, -> { sent.where('balance >= amount') }
+  scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
+  scope :cancelable, -> { where(state: [PENDING_STATE, OPEN_STATE]) }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { open.where('overdue_notices_count > 0') }
 
@@ -35,7 +37,6 @@ class Invoice < ActiveRecord::Base
   validates :member, presence: true
   validates :date, presence: true, uniqueness: { scope: :member_id }
   validates :membership_amount_fraction, inclusion: { in: [1, 2, 3, 4] }
-  validates :manual_balance, presence: true, numericality: true
   validates :amount, numericality: { greater_than: 0 }
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
@@ -51,19 +52,34 @@ class Invoice < ActiveRecord::Base
     inclusion: { in: Member::BILLING_INTERVALS }
   validate :validate_memberships_amount_for_current_year, on: :create
 
-  before_save :set_isr_balance_and_balance
+  def send!
+    raise NoPdfError unless pdf?
+    invalid_transition(:send!) unless can_send?
 
-  def status
-    return :not_sent unless sent_at?
-    balance < amount ? :open : :closed
+    InvoiceMailer.new_invoice(self).deliver_now
+    touch(:sent_at)
+    close_or_open!
+  rescue => ex
+    ExceptionNotifier.notify_exception(ex,
+      data: { invoice_id: id, emails: member.emails, member_id: member_id })
   end
 
-  def sent?
-    sent_at?
+  def cancel!
+    invalid_transition(:close!) unless not_sent? || open?
+
+    update!(
+      canceled_at: Time.current,
+      state: CANCELED_STATE)
   end
 
-  def sendable?
-    !sent? && member.emails?
+  def close_or_open!
+    invalid_transition(:update_state!) if canceled?
+
+    if balance >= amount
+      update!(state: CLOSED_STATE)
+    elsif sent_at?
+      update!(state: OPEN_STATE)
+    end
   end
 
   def balance_without_overbalance
@@ -76,10 +92,6 @@ class Invoice < ActiveRecord::Base
 
   def missing_amount
     balance < amount ? (amount - balance).round_to_five_cents : 0
-  end
-
-  def display_status
-    I18n.t("invoice.status.#{status}")
   end
 
   def membership_amount_fraction
@@ -102,55 +114,25 @@ class Invoice < ActiveRecord::Base
     raise NoMethodError, 'is set automaticaly.'
   end
 
-  def isr_balance=(_)
-    raise NoMethodError, 'is set automaticaly.'
-  end
-
-  def add_note(text)
-    self.note = "#{note}\n\n#{text}"
-  end
-
-  def collect_overbalances!
-    overbalance_invoices = member.invoices.where.not(id: id).overbalance
-    overbalance_invoices.each do |invoice|
-      transaction do
-        overbalance = invoice.overbalance
-        invoice.decrement(:manual_balance, overbalance)
-        invoice.add_note "Transférer #{number_to_currency(overbalance)} sur la facture ##{id}"
-        increment(:manual_balance, overbalance)
-        add_note "Réçu #{number_to_currency(overbalance)} de la facture ##{invoice.id}"
-        invoice.save!
-        save!
-      end
-    end
-  end
-
   def set_pdf
     invoice_pdf = InvoicePdf.new(self, nil)
     virtual_file = VirtualFile.new(invoice_pdf.render, "invoice-#{id}.pdf")
     update_attribute(:pdf, virtual_file)
   end
 
-  def send_email
-    raise NoPdfError unless pdf?
-    unless sent_at? || !member.emails?
-      InvoiceMailer.new_invoice(self).deliver_now
-      touch(:sent_at)
-    end
-  rescue => ex
-    ExceptionNotifier.notify_exception(ex,
-      data: { emails: member.emails, member: member })
+  def can_cancel?
+    date.year == Date.current.year && (not_sent? || open?)
   end
 
-  def can_destroy?
-    balance == 0
+  def can_send?
+    !sent_at? && member.emails?
   end
 
   private
 
   def validate_memberships_amount_for_current_year
     return unless membership
-    paid_invoices = member.invoices.membership.during_year(date.year)
+    paid_invoices = member.invoices.not_canceled.membership.during_year(date.year)
     if paid_invoices.sum(:memberships_amount) + memberships_amount > membership.price
       errors.add(:base, 'Somme de la facturation des abonnements trop grande')
     end
@@ -158,7 +140,7 @@ class Invoice < ActiveRecord::Base
 
   def set_paid_memberships_amount
     return unless membership
-    paid_invoices = member.invoices.membership.during_year(date.year)
+    paid_invoices = member.invoices.not_canceled.membership.during_year(date.year)
     self[:paid_memberships_amount] ||= paid_invoices.sum(:memberships_amount)
   end
 
@@ -184,10 +166,5 @@ class Invoice < ActiveRecord::Base
       @original_filename = original_filename
       super(string)
     end
-  end
-
-  def set_isr_balance_and_balance
-    self[:isr_balance] = isr_balance_data.values.sum
-    self[:balance] = (isr_balance || 0) + (manual_balance || 0)
   end
 end

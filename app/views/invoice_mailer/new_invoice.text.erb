@@ -1,11 +1,11 @@
 Voici votre nouvelle facture, tous les détails se trouvent dans le PDF ci-joint.
 
-<% if @invoice.missing_amount.zero? %>
+<% if @invoice.closed? %>
 En tenant compte des paiements précédents, cette facture est considérée comme payée et est envoyée uniquement
 à titre d'information.
 <% end %>
 
-<% if @invoice.missing_amount > 0 %>
+<% if @invoice.missing_amount.positive? %>
 En tenant compte des paiements précédents, le montant restant à payer est de: <%= number_to_currency @invoice.missing_amount %>
 <% end %>
 

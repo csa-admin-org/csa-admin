@@ -3,7 +3,7 @@ table
   tbody
 
     - year = Date.current.year
-    - invoices = Invoice.during_year(year).to_a
+    - invoices = Invoice.not_canceled.during_year(year).to_a
     - memberships = Membership.during_year(year).to_a
 
     tr

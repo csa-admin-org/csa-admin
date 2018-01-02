@@ -75,13 +75,8 @@ ActiveAdmin.register HalfdayParticipation do
       end
     end
 
-
-
-
     active_admin_comments
   end
-
-
 
   batch_action :reject do |selection|
     HalfdayParticipation.find(selection).each do |participation|

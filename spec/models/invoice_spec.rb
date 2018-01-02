@@ -9,10 +9,6 @@ describe Invoice do
     expect { build(:invoice, balance: 1) }.to raise_error(NoMethodError)
   end
 
-  it 'raises on isr_balance=' do
-    expect { build(:invoice, isr_balance: 1) }.to raise_error(NoMethodError)
-  end
-
   it 'raises on memberships_amount=' do
     expect { build(:invoice, memberships_amount: 1) }
       .to raise_error(NoMethodError)
@@ -82,30 +78,30 @@ describe Invoice do
     end
   end
 
-  describe '#send_email' do
-    let(:invoice) { create(:invoice, :support) }
+  describe '#send!' do
+    let(:invoice) { create(:invoice, :support, :not_sent) }
 
     it 'delivers email' do
-      expect { invoice.send_email }
+      expect { invoice.send! }
         .to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.to).to eq invoice.member.emails_array
     end
 
     it 'touches sent_at' do
-      expect { invoice.send_email }
+      expect { invoice.send! }
         .to change { invoice.reload.sent_at }.from(nil)
     end
 
     it 'does nothing when already sent' do
       invoice.touch(:sent_at)
-      expect { invoice.send_email }
+      expect { invoice.send! }
         .not_to change { ActionMailer::Base.deliveries.count }
     end
 
     it 'does nothing when member has no email' do
       invoice.member.update(emails: '')
-      expect { invoice.send_email }
+      expect { invoice.send! }
         .not_to change { ActionMailer::Base.deliveries.count }
     end
   end
@@ -117,17 +113,5 @@ describe Invoice do
       expect(invoice.pdf).to be_present
       expect(invoice.pdf.size).to be > 0
     end
-  end
-
-  it 'sets balance before save' do
-    invoice = create(:invoice, :support,
-      id: 2,
-      manual_balance: -5.3,
-      isr_balance_data: {
-        '0-foo' => 21.0,
-        '1-bar' => 12.5
-      }
-    )
-    expect(invoice.balance).to eq 21 + 12.5 - 5.3
   end
 end

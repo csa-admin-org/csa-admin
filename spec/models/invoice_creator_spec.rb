@@ -126,6 +126,18 @@ describe InvoiceCreator do
       expect(invoice).to be_nil
     end
 
+    specify 'when quarter #2 (already billed but canceled)' do
+      create_invoice
+      Timecop.travel(Date.new(Time.zone.today.year, 5))
+      Timecop.travel(1.day.ago) { create_invoice.cancel! }
+
+      expect(invoice.support_amount).to be_nil
+      expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
+      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
+      expect(invoice.memberships_amount).to eq membership.price / 4.0
+      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #2'
+    end
+
     specify 'when quarter #3' do
       create_invoice
       Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
@@ -147,11 +159,12 @@ describe InvoiceCreator do
 
       memberships_amount = membership.price / 4.0
       support_amount = 30
-      @first_invoice.update(manual_balance: memberships_amount + support_amount + 15)
-      @second_invoice.update(manual_balance: memberships_amount + 50)
 
-      expect(@first_invoice.overbalance).to eq(15)
-      expect(@second_invoice.overbalance).to eq(50)
+      create(:payment, member: member, amount: memberships_amount + support_amount + 15)
+      create(:payment, member: member, amount: memberships_amount + 50)
+
+      expect(@first_invoice.reload.overbalance).to be_zero
+      expect(@second_invoice.reload.overbalance).to eq(65)
 
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
@@ -160,7 +173,6 @@ describe InvoiceCreator do
       invoice.reload
       expect(@first_invoice.reload.overbalance).to be_zero
       expect(@second_invoice.reload.overbalance).to be_zero
-      expect(invoice.manual_balance).to eq(65)
       expect(invoice.missing_amount).to eq(invoice.amount - 65)
     end
 

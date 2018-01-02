@@ -5,7 +5,7 @@ namespace :invoices do
       Member.billable.each do |member|
         begin
           invoice = InvoiceCreator.new(member).create
-          invoice&.send_email
+          invoice&.send!
         rescue => ex
           ExceptionNotifier.notify_exception(ex,
             data: { member_id: member.id, invoice_id: invoice&.id }
@@ -18,10 +18,10 @@ namespace :invoices do
     end
   end
 
-  desc 'Update invoices isr balance data'
-  task update_isr_balances: :environment do
-    IsrBalanceUpdater.new.update_all
-    p 'All invoices isr balance data updated.'
+  desc 'Process all new payments'
+  task process_payments: :environment do
+    PaymentsProcessor.new.process
+    p 'All payments processed.'
   end
 
   desc 'Send invoice overdue notices'
