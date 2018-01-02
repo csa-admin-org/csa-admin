@@ -68,7 +68,7 @@ class BasketContent < ApplicationRecord
       self.small_baskets_count += baskets.where(basket_size_id: small_basket.id).count
     end
     if basket_sizes.include?('big')
-      self.small_baskets_count += baskets.where(basket_size_id: big_basket.id).count
+      self.big_baskets_count += baskets.where(basket_size_id: big_basket.id).count
     end
   end
 
