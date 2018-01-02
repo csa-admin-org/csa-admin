@@ -3,16 +3,22 @@ require 'rails_helper'
 describe Raiffeisen, :vcr do
   let(:raiffeisen) { Raiffeisen.new }
 
-  specify '#get_isr_data' do
-    isr_data = raiffeisen.get_isr_data(:all)
-    expect(isr_data).to include(
-      invoice_id: 143,
-      amount: 1075.0,
-      data: start_with('0020101373460011041908024100000000014380000107500999')
+  specify '#payments_data' do
+    payments_data = raiffeisen.payments_data
+    expect(payments_data).to include(
+      Raiffeisen::PaymentData.new(
+        invoice_id: 143,
+        amount: BigDecimal(1075),
+        date: Date.new(2016, 2, 29),
+        isr_data: '0-00201013734600110419080241000000000143800001075009999999916022916022916022999999999500000000000000'),
+      Raiffeisen::PaymentData.new(
+        invoice_id: 272,
+        amount: BigDecimal(955),
+        date: Date.new(2016, 2, 29),
+        isr_data: '7-00201013734600110419080241000000000272600000955009999999916022916022916022999999999500000000000000')
     )
-    invoice_ids = isr_data.map { |i| i[:invoice_id] }
-    expect(invoice_ids).not_to include(2)
+    invoice_ids = payments_data.map { |i| i.invoice_id }
     expect(invoice_ids).not_to include(999999999999)
-    expect(isr_data.size).to eq 87
+    expect(payments_data.size).to eq 90
   end
 end

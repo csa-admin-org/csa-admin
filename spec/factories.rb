@@ -56,7 +56,9 @@ FactoryBot.define do
     trait :trial do
       created_at { Time.current.beginning_of_year }
       after :create do |member|
-        create(:membership, member: member, started_on: Time.zone.today - 3.weeks)
+        create(:membership,
+          member: member,
+          started_on: [Time.current.beginning_of_year, Time.zone.today - 3.weeks].max)
         member.reload
         member.update_state!
       end
@@ -90,6 +92,12 @@ FactoryBot.define do
     trait :last_year do
       started_on { 1.year.ago.beginning_of_year  }
       ended_on { 1.year.ago.end_of_year  }
+    end
+
+    # Clear memory attributes
+    after :create do |membership|
+      membership.basket_size_id = nil
+      membership.distribution_id = nil
     end
   end
 
@@ -130,7 +138,7 @@ FactoryBot.define do
 
   factory :invoice do
     member
-    date { Time.zone.now }
+    date { Time.current }
     member_billing_interval { member.billing_interval }
 
     trait :membership do
@@ -146,9 +154,26 @@ FactoryBot.define do
       date { 1.year.from_now }
     end
 
-    trait :sent do
-      sent_at { Time.zone.now }
+    trait :not_sent do
+      state 'not_sent'
+      sent_at nil
     end
+
+    trait :open do
+      state 'open'
+      sent_at { Time.current }
+    end
+
+    trait :canceled do
+      state 'canceled'
+      canceled_at { Time.current }
+    end
+  end
+
+  factory :payment do
+    member
+    date { Time.current }
+    amount 1000
   end
 
   factory :halfday do

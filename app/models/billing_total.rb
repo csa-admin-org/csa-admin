@@ -33,7 +33,7 @@ class BillingTotal
       when :halfday_works
         @memberships.sum(:halfday_works_annual_price)
       when :support
-        Invoice.current_year.sum(:support_amount)
+        Invoice.current_year.not_canceled.sum(:support_amount)
       end
   end
 end

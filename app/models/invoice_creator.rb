@@ -4,14 +4,14 @@ class InvoiceCreator
   def initialize(member)
     @member = member
     @membership = member.current_year_membership
-    @invoices = member.invoices
+    @invoices = member.invoices.not_canceled.current_year
     @date = Time.zone.today
   end
 
   def create
     invoice = create_invoice
     if invoice&.persisted?
-      invoice.collect_overbalances!
+      Payment.update_invoices_balance!(invoice.member)
       invoice.set_pdf
       invoice
     end
@@ -38,7 +38,7 @@ class InvoiceCreator
   end
 
   def support_billed?
-    invoices.current_year.support.exists?
+    invoices.support.exists?
   end
 
   def support_amount
@@ -76,7 +76,7 @@ class InvoiceCreator
   # yearly members.
   def quarter_already_billed?
     if membership_amount_fraction != 1
-      invoices.current_year.quarter(quarter).exists?
+      invoices.quarter(quarter).exists?
     end
   end
 end

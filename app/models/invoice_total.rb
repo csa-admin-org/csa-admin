@@ -8,7 +8,7 @@ class InvoiceTotal
   attr_reader :scope
 
   def initialize(scope, billing_totals_price)
-    @invoices = Invoice.current_year
+    @invoices = Invoice.current_year.not_canceled
     @billing_totals_price = billing_totals_price
     @scope = scope
     # eager load for the cache

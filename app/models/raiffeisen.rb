@@ -1,4 +1,5 @@
 class Raiffeisen
+  PaymentData = Class.new(OpenStruct)
   URL = 'https://ebanking.raiffeisen.ch'.freeze
 
   attr_reader :client
@@ -12,26 +13,47 @@ class Raiffeisen
     login
   end
 
-  def get_isr_data(type = :all)
-    raw_data = new_isr_download(type)
-    lines = raw_data.delete(' ').split("\r\n")
-    lines.map { |line|
-      {
-        invoice_id: line[26..37].to_i,
-        amount: line[40..48].to_i / 100.0,
-        data: line
+  def payments_data
+    get_isr_lines(:all)
+      .group_by { |line| isr_date(line) }
+      .flat_map { |date, lines|
+        lines.map.with_index { |line, i|
+           PaymentData.new(
+            invoice_id: isr_invoice_id(line),
+            amount: isr_amount(line),
+            date: date,
+            isr_data: "#{i}-#{line}")
+        }
       }
-    }.reject { |h| h[:invoice_id] > 9999999 || h[:data].in?(ignored_isr_datas) }
+      .reject { |pd| pd.invoice_id > 9999999 || !pd.date }
   end
 
   private
 
-  def new_isr_download(type)
+  def isr_date(line)
+    Date.new("20#{line[69..70]}".to_i, line[71..72].to_i, line[73..74].to_i)
+  rescue ArgumentError
+    nil
+  end
+
+  def isr_invoice_id(line)
+    line[26..37].to_i
+  end
+
+  def isr_amount(line)
+    line[40..48].to_i / BigDecimal(100)
+  end
+
+  def get_isr_lines(type)
     response = client.get '/root/datatransfer/esrdownload',
       ESRAccountNumber: 'all',
       ESRDataType: "#{type}ESR", # all, new or old
       Download: 'Abholen'
-    response.body.start_with?('<html>') ? '' : response.body
+    if response.body.start_with?('<html>')
+      []
+    else
+      response.body.delete(' ').split("\r\n")
+    end
   end
 
   def login
@@ -44,11 +66,5 @@ class Raiffeisen
       client_key: OpenSSL::PKey.read(ENV['RAIFFEISEN_KEY']),
       client_cert: OpenSSL::X509::Certificate.new(ENV['RAIFFEISEN_CERT'])
     }
-  end
-
-  def ignored_isr_datas
-    path = Rails.root.join('config/ignored_isr.yml')
-    file = File.read(path)
-    YAML.load(file)
   end
 end

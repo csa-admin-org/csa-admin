@@ -16,6 +16,7 @@ class Member < ActiveRecord::Base
   has_many :absences
   has_many :invoices
   has_many :old_invoices
+  has_many :payments
   has_many :current_year_invoices, -> { during_year(Time.zone.today.year) },
     class_name: 'Invoice'
   has_many :halfday_participations
@@ -223,7 +224,7 @@ class Member < ActiveRecord::Base
 
   def billable?
     support_member? ||
-      (!salary_basket? && !trial? && current_year_membership) ||
+      (!salary_basket? && !trial? && current_year_membership.present?) ||
       (trial? && !current_membership) ||
       (trial? && Delivery.next_coming_date.year > Time.current.year)
   end

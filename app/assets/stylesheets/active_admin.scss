@@ -94,16 +94,30 @@ table .edit_link, table .pdf_link {
 }
 
 .status_tag {
-  &.trial, &.coming, &.not_sent { background-color: #1e83f6; }
+  &.trial, &.coming, &.not_sent, &.manual { background-color: #1e83f6; }
   &.open, &.no, &.rejected { background-color: #ff2600; }
   &.pending { background-color: #ff2600; }
-  &.active, &.closed, &.validated { background-color: #80a432; }
+  &.active, &.closed, &.validated, &.isr { background-color: #80a432; }
   &.waiting { background-color: #91ba3a; }
   &.pending { background-color: #addf45; }
 }
 
-table.table-baskets {
+table#index_table_invoices, table#index_table_payments {
+  .col-amount, .col-balance {
+    text-align: right;
+    width: 130px;
+  }
+  .col-rap {
+    text-align: right;
+  }
+  .col-actions {
+    padding: 0 5px;
+    margin: 0;
+    width: 65px;
+  }
+}
 
+table.table-baskets {
   .col-status { width: 70px; }
   .col-actions { width: 30px; }
 
@@ -113,6 +127,14 @@ table.table-baskets {
 }
 
 table.table-invoices {
+  .col-id {
+    width: 80px;
+  }
+  .col-rap {
+    text-align: right;
+    width: 30px;
+    padding-right: 10px;
+  }
   .col-actions {
     padding-right: 10px;
     width: 30px;
@@ -120,6 +142,21 @@ table.table-invoices {
   .col-status {
     text-align: right;
     width: 100px;
+  }
+  .col-amount, .col-balance {
+    text-align: right;
+    padding-right: 10px;
+  }
+}
+
+table.table-payments {
+  .col-type {
+    text-align: right;
+    width: 100px;
+  }
+  .col-amount {
+    text-align: right;
+    padding-right: 10px;
   }
 }
 

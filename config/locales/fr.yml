@@ -37,6 +37,9 @@ fr:
       coming: à venir
       validated: validée
       rejected: refusée
+      manual: manuel
+      canceled: annulée
+      isr: BVR
     filters:
       buttons:
         filter: "Filtrer"
@@ -104,7 +107,7 @@ fr:
       current: en cours
       past: passé
       future: future
-      not_sent: non-envoyées
+      not_sent: non-envoyée
       open: ouverte
       closed: fermée
       diff_name: Prénom/Nom différents
@@ -112,6 +115,9 @@ fr:
       current_year: année courante
       next_year: année prochaine
       with_overdue_notice: avec rappels
+      isr: BVR
+      manual: manuel
+      canceled: annulée
     comments:
       body: "Corps"
       author: "Auteur"
@@ -215,6 +221,9 @@ fr:
       delivery:
         one: Livraison
         other: Livraisons
+      payment:
+        one: Paiement
+        other: Paiements
       invoice:
         one: Facture
         other: Factures
@@ -356,8 +365,6 @@ fr:
         ended_on: Fin
       invoice:
         id: ID
-        manual_balance: Payé (manuelle)
-        isr_balance: Payé (BVR)
         member_id: Membre
         member: Membre
         amount: Montant
@@ -366,8 +373,18 @@ fr:
         balance: Payé
         updated_at: Mis à jour le
         sent_at: Envoyé le
-        overdue_notices_count: 'Rappel #'
+        overdue_notices_count: 'Rappels'
         overdue_notice_sent_at: Dernier rappel envoyé le
+        state: Statut
+      payment:
+        id: ID
+        amount: Montant
+        invoice: Facture
+        invoice_id: Facture ID
+        member_id: Membre
+        member: Membre
+        updated_at: Mis à jour le
+        sent_at: Envoyé le
       gribouille:
         header: En-tête
         basket_content: Contenu du panier

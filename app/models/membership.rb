@@ -93,6 +93,10 @@ class Membership < ActiveRecord::Base
     rounded_price(baskets.select { |b| b.distribution_id == distribution_id }.sum(&:distribution_price))
   end
 
+  def halfday_works_annual_price=(price)
+    super(price.to_f)
+  end
+
   def halfday_works_total_price
     rounded_price(halfday_works_annual_price)
   end
@@ -257,7 +261,7 @@ class Membership < ActiveRecord::Base
   end
 
   def update_trial_baskets_and_user_state!
-    if saved_change_to_attribute?(:started_on) || saved_change_to_attribute?(:ended_on)
+    if saved_change_to_attribute?(:started_on) || saved_change_to_attribute?(:ended_on) || deleted?
       member.reload
       member.update_trial_baskets!
       member.update_absent_baskets!

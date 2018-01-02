@@ -27,8 +27,8 @@ ActiveAdmin.register Member do
   show do |member|
     columns do
       column do
-        panel "Abonnements" do
-          memberships = member.memberships.order(:started_on)
+        panel link_to("Abonnements", memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
+          memberships = member.memberships.includes(:delivered_baskets).order(:started_on)
           if memberships.none?
             em "Aucun abonnement"
           else
@@ -44,12 +44,13 @@ ActiveAdmin.register Member do
           end
         end
 
-        panel "½ Journées" do
-          halfday_participations = member.halfday_participations.includes(:halfday).order('halfdays.date, halfdays.start_time')
+        halfday_participations = member.halfday_participations.includes(:halfday).order('halfdays.date, halfdays.start_time')
+        count = halfday_participations.count
+        panel link_to("½ Journées (#{count})", halfday_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
           if halfday_participations.none?
             em "Aucune ½ journée"
           else
-            table_for(halfday_participations, class: 'table-halfday_participations') do |basket|
+            table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do |halfday_participation|
               column('Description') { |hp|
                 link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
               }
@@ -59,20 +60,35 @@ ActiveAdmin.register Member do
           end
         end
 
-        panel "Factures" do
+        panel link_to("Factures", invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
           invoices = member.invoices.order(:date)
           if invoices.none?
             em "Aucune facture"
           else
             table_for(invoices, class: 'table-invoices') do |invoice|
-              column(:date) { |i| auto_link i, l(i.date, format: :number) }
+              column(:id) { |i| auto_link i, i.id }
+              column(:date) { |i| l(i.date, format: :number) }
               column(:amount) { |i| number_to_currency(i.amount) }
               column(:balance) { |i| number_to_currency(i.balance) }
-              column(:overdue_notices_count)
+              column('Rap.') { |i| i.overdue_notices_count }
               column(class: 'col-actions') { |i|
                 link_to 'PDF', pdf_invoice_path(i), class: 'pdf_link', target: '_blank'
               }
-              column(:status) { |i| status_tag i.status }
+              column(:status) { |i| status_tag i.state }
+            end
+          end
+        end
+
+        panel link_to("Paiements", payments_path(q: { member_id_eq: member.id }, scope: :all)) do
+          payments = member.payments.includes(:invoice).order(:date)
+          if payments.none?
+            em "Aucun paiement"
+          else
+            table_for(payments, class: 'table-payments') do |payment|
+              column(:date) { |p| l(p.date, format: :number) }
+              column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
+              column(:amount) { |p| number_to_currency(p.amount) }
+              column(:type) { |p| status_tag p.type }
             end
           end
         end
@@ -113,6 +129,11 @@ ActiveAdmin.register Member do
         attributes_table title: 'Facturation' do
           row(:billing_interval) { t("member.billing_interval.#{member.billing_interval}") }
           row(:salary_basket) { member.salary_basket? ? 'oui' : 'non' }
+          row('Montant facturé') { number_to_currency member.invoices.sum(:amount) }
+          row('Paiements versés') { number_to_currency member.payments.sum(:amount) }
+          row('Différence') {
+            number_to_currency(member.invoices.sum(:amount) - member.payments.sum(:amount))
+          }
         end
         attributes_table title: 'Notes' do
           row :food_note
@@ -134,7 +155,7 @@ ActiveAdmin.register Member do
   filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
   filter :renew_membership, as: :boolean
 
-  action_item :create_invoice, only: :show, if: -> { resource.billable? && authorized?(:create, Invoice) } do
+  action_item :create_invoice, only: :show, if: -> { resource.billable? && authorized?(:create_invoice, resource) } do
     link_to 'Créer facture', create_invoice_member_path(resource), method: :post
   end
   action_item :validate, only: :show, if: -> { resource.pending? && authorized?(:validate, Member) } do

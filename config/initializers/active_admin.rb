@@ -135,6 +135,9 @@ ActiveAdmin.setup do |config|
   # If you wanted to add a static menu item to the default menu provided:
   #
   config.namespace false do |admin|
+    admin.build_menu do |menu|
+      menu.add label: 'Facturation', priority: 4
+    end
     admin.build_menu :default do |menu|
       menu.add label: 'Gribouille', url: '/gribouilles/new', priority: 9
     end

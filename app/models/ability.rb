@@ -5,19 +5,25 @@ class Ability
     case admin.rights
     when 'superadmin'
       can :manage, :all
-      cannot :destroy, Invoice
-      can :destroy, Invoice, can_destroy?: true
+      cannot :send, Invoice
+      can :send, Invoice, can_send?: true
+      cannot :cancel, Invoice
+      can :cancel, Invoice, can_cancel?: true
       can :pdf, Invoice
+      cannot :destroy, [Member, Invoice, Payment]
+      can :destroy, [Member, Payment], can_destroy?: true
     when 'admin'
       cannot :manage, [BasketSize, Delivery]
       can :manage, [Halfday, HalfdayParticipation, Absence, ActiveAdmin::Comment]
-      can :create, [Gribouille, Member, Membership, Distribution]
-      can :update, [Gribouille, Invoice, Member, Delivery]
+      can :create, [Gribouille, Member, Membership, Distribution, Payment]
+      can :update, [Gribouille, Member, Delivery]
       can :validate, Member
       can :remove_from_waiting_list, Member
       can :put_back_to_waiting_list, Member
-      can :destroy, [Member, Membership], can_destroy?: true
+      can :destroy, [Member, Membership, Payment], can_destroy?: true
       can :update, Membership, can_update?: true
+      can :send, Invoice, can_send?: true
+      can :cancel, Invoice, can_cancel?: true
       can :pdf, Invoice
       can :read, :all
     when 'standard'
