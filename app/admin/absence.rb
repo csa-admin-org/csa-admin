@@ -18,7 +18,7 @@ ActiveAdmin.register Absence do
 
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:absences).order(:last_name).distinct }
+    collection: -> { Member.joins(:absences).order(:name).distinct }
   filter :including_date,
     as: :select,
     collection: -> { Delivery.all.map { |d| ["Panier ##{d.number} (#{d.date})", d.date] } },
@@ -37,7 +37,7 @@ ActiveAdmin.register Absence do
   form do |f|
     f.inputs 'Membre' do
       f.input :member,
-        collection: Member.joins(:memberships).distinct.order(:last_name).map { |d| [d.name, d.id] },
+        collection: Member.joins(:memberships).distinct.order(:name).map { |d| [d.name, d.id] },
         include_blank: false
     end
     f.inputs 'Note' do

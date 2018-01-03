@@ -25,7 +25,7 @@ ActiveAdmin.register Invoice do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:invoices).order(:last_name).distinct }
+    collection: -> { Member.joins(:invoices).order(:name).distinct }
   filter :date
 
   show do |invoice|

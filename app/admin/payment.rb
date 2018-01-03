@@ -9,7 +9,7 @@ ActiveAdmin.register Payment do
   index do
     column :id
     column :date, ->(p) { l p.date, format: :number }
-    column :member, sortable: 'members.last_name'
+    column :member, sortable: 'members.name'
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
     column :amount, ->(p) { number_to_currency(p.amount) }
     column :type, ->(p) { status_tag p.type }
@@ -19,7 +19,7 @@ ActiveAdmin.register Payment do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:payments).order(:last_name).distinct }
+    collection: -> { Member.joins(:payments).order(:name).distinct }
   filter :invoice_id, as: :numeric
   filter :date
 
@@ -31,7 +31,7 @@ ActiveAdmin.register Payment do
 
   form do |f|
     f.inputs 'Details' do
-      f.input :member, collection: Member.order(:last_name).distinct, include_blank: false
+      f.input :member, collection: Member.order(:name).distinct, include_blank: false
       f.input :date, as: :datepicker, include_blank: false
       f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05
     end

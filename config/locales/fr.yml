@@ -310,8 +310,6 @@ fr:
       member:
         name: Nom
         state: Statut
-        first_name: Prénom
-        last_name: Nom de famille
         address: Adresse
         city: Ville
         zip: ZIP

@@ -20,7 +20,7 @@ ActiveAdmin.register Membership do
 
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:memberships).order(:last_name).distinct }
+    collection: -> { Member.joins(:memberships).order(:name).distinct }
   filter :started_on
   filter :ended_on
 
@@ -82,7 +82,7 @@ ActiveAdmin.register Membership do
   form do |f|
     f.inputs 'Membre' do
       f.input :member,
-        collection: Member.order(:last_name).map { |d| [d.name, d.id] },
+        collection: Member.order(:name).map { |d| [d.name, d.id] },
         include_blank: false
     end
     f.inputs 'Dates' do

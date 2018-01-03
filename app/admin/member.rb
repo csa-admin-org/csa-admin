@@ -15,7 +15,7 @@ ActiveAdmin.register Member do
         @waiting_started_ats.index(member.waiting_started_at) + 1
       }, sortable: :waiting_started_at
     end
-    column :name, ->(member) { link_to member.name, member }, sortable: :last_name
+    column :name, ->(member) { auto_link member }
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : nil }
     column :state, ->(member) { status_tag(member.state) }
     if params[:scope] == 'trial'
@@ -179,8 +179,7 @@ ActiveAdmin.register Member do
 
   form do |f|
     f.inputs 'Details' do
-      f.input :first_name
-      f.input :last_name
+      f.input :name
       f.input :renew_membership unless resource.new_record?
     end
     if member.pending? || member.waiting?
@@ -221,7 +220,7 @@ ActiveAdmin.register Member do
   end
 
   permit_params %i[
-    first_name last_name address city zip emails phones gribouille
+    name address city zip emails phones gribouille
     delivery_address delivery_city delivery_zip
     support_member salary_basket billing_interval waiting
     waiting_basket_size_id waiting_distribution_id
@@ -281,5 +280,5 @@ ActiveAdmin.register Member do
   end
 
   config.per_page = 50
-  config.sort_order = 'last_name_asc'
+  config.sort_order = 'name_asc'
 end

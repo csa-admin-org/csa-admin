@@ -9,7 +9,7 @@ ActiveAdmin.register HalfdayParticipation do
 
   index do
     selectable_column
-    column :member, sortable: 'members.last_name'
+    column :member, sortable: 'members.name'
     column :halfday, ->(hp) {
       link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
     }, sortable: 'halfdays.date, halfdays.start_time'
@@ -20,7 +20,7 @@ ActiveAdmin.register HalfdayParticipation do
 
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:halfday_participations).order(:last_name).distinct }
+    collection: -> { Member.joins(:halfday_participations).order(:name).distinct }
   filter :halfday,
     as: :select,
     collection: -> { Halfday.order(:date, :start_time) }
@@ -31,7 +31,7 @@ ActiveAdmin.register HalfdayParticipation do
         collection: Halfday.order(date: :desc),
         include_blank: false
       f.input :member,
-        collection: Member.order(:last_name).distinct,
+        collection: Member.order(:name).distinct,
         include_blank: false
       f.input :participants_count
     end

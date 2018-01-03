@@ -48,7 +48,6 @@
     caption= "#{distribution.name} (#{BasketSize.all.map { |b| baskets.where(distribution_id: distribution.id, basket_size_id: b.id).count }.join('+')})"
     thead
       tr
-        td Prénom
         td Nom
         td Emails
         td Téléphones
@@ -60,11 +59,10 @@
         - unless @filter_distribution
           td Note alimentaire
     tbody
-      - baskets.where(distribution_id: distribution.id).joins(:member).order('members.last_name').each do |basket|
+      - baskets.where(distribution_id: distribution.id).joins(:member).order('members.name').each do |basket|
         - member = basket.member
         tr
-          td= member.first_name
-          td= member.last_name
+          td= member.name
           td= member.emails_array.join(', ')
           td= member.phones_array.map(&:phony_formatted).join(', ')
           - if distribution.require_delivery_address?

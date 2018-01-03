@@ -32,8 +32,7 @@ class Inscription
   def create_member!
     member = Member.create!(
       inscription_submitted_at: submitted_at,
-      first_name: first_name,
-      last_name: last_name,
+      name: [last_name, first_name].join(' '),
       address: address,
       zip: zip,
       city: city,
