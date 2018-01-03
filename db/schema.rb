@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103114034) do
+ActiveRecord::Schema.define(version: 20180103195356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,19 +263,6 @@ ActiveRecord::Schema.define(version: 20180103114034) do
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"
     t.index ["started_on"], name: "index_memberships_on_started_on"
-  end
-
-  create_table "old_invoices", id: :serial, force: :cascade do |t|
-    t.integer "member_id", null: false
-    t.date "date", null: false
-    t.text "number", null: false
-    t.decimal "amount", precision: 8, scale: 2, null: false
-    t.decimal "balance", precision: 8, scale: 2, null: false
-    t.hstore "data", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["member_id"], name: "index_old_invoices_on_member_id"
-    t.index ["number"], name: "index_old_invoices_on_number"
   end
 
   create_table "payments", force: :cascade do |t|

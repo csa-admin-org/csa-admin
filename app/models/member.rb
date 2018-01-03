@@ -15,7 +15,6 @@ class Member < ActiveRecord::Base
   belongs_to :waiting_distribution, class_name: 'Distribution'
   has_many :absences
   has_many :invoices
-  has_many :old_invoices
   has_many :payments
   has_many :current_year_invoices, -> { during_year(Time.zone.today.year) },
     class_name: 'Invoice'

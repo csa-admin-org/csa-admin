@@ -46,7 +46,6 @@ class Ability
       can :manage, Admin, id: admin.id
     end
 
-    cannot :manage, OldInvoice
     cannot :create, Invoice
   end
 end
