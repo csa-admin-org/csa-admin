@@ -102,7 +102,6 @@ ActiveAdmin.register Member do
           row(:created_at) { l member.created_at }
           row(:validated_at) { member.validated_at ? l(member.validated_at) : nil }
           row :validator
-          row :renew_membership
         end
         if member.pending? || member.waiting?
           attributes_table title: 'Abonnement (en attente)' do
@@ -153,7 +152,6 @@ ActiveAdmin.register Member do
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
   filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
-  filter :renew_membership, as: :boolean
 
   action_item :create_invoice, only: :show, if: -> { resource.billable? && authorized?(:create_invoice, resource) } do
     link_to 'Créer facture', create_invoice_member_path(resource), method: :post
@@ -180,7 +178,6 @@ ActiveAdmin.register Member do
   form do |f|
     f.inputs 'Details' do
       f.input :name
-      f.input :renew_membership unless resource.new_record?
     end
     if member.pending? || member.waiting?
       f.inputs 'Abonnement (en attente)' do
@@ -225,7 +222,6 @@ ActiveAdmin.register Member do
     support_member salary_basket billing_interval waiting
     waiting_basket_size_id waiting_distribution_id
     food_note note
-    renew_membership
   ]
 
   collection_action :gribouille_emails, method: :get do

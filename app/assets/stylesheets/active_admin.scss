@@ -53,6 +53,15 @@ li.boolean label {
   padding-left: 18px;
 }
 
+form input[type='checkbox']:checked {
+  border-color: #80a432 !important;
+  box-shadow: inset 0 0 0 13px #80a432 !important;
+}
+
+form input[type='checkbox']:checked:after {
+  border-color: #80a432 !important;
+}
+
 span.delivery_note {
   display: block;
   margin-top: 15px;
@@ -93,11 +102,13 @@ table .edit_link, table .pdf_link {
   width: 16px;
 }
 
+
+
 .status_tag {
   &.trial, &.coming, &.not_sent, &.manual { background-color: #1e83f6; }
   &.open, &.no, &.rejected { background-color: #ff2600; }
   &.pending { background-color: #ff2600; }
-  &.active, &.closed, &.validated, &.isr { background-color: #80a432; }
+  &.active, &.closed, &.validated, &.isr, &.yes { background-color: #80a432; }
   &.waiting { background-color: #91ba3a; }
   &.pending { background-color: #addf45; }
 }

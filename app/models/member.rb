@@ -41,7 +41,6 @@ class Member < ActiveRecord::Base
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
   scope :with_phone, ->(phone) { where('members.phones ILIKE ?', "%#{phone}%") }
-  scope :renew_membership, ->(bool = true) { where(renew_membership: bool) }
   scope :gribouille, -> {
     where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]).where(gribouille: [nil, true])
       .or(Member.where(support_member: true).where(gribouille: [nil, true]))

@@ -184,4 +184,34 @@ describe Membership do
     expect(membership.halfday_works_total_price).to eq 0
     expect(membership.price).to eq 0
   end
+
+  describe 'renew update' do
+    it 'sets renew to true on creation when ended_on is end of year' do
+      membership = create(:membership, ended_on: Date.current.end_of_year)
+      expect(membership.renew).to eq true
+    end
+
+    it 'leaves renew to false on creation when ended_on is not end of year' do
+      membership = create(:membership, ended_on: Date.current.end_of_year - 1.day)
+      expect(membership.renew).to eq false
+    end
+
+    it 'sets renew to true when ended_on is changed to end of year' do
+      membership = create(:membership, ended_on: Date.current.end_of_year - 1.day)
+      membership.update!(ended_on: Date.current.end_of_year)
+      expect(membership.renew).to eq true
+    end
+
+    it 'sets renew to false when ended_on is not changed to end of year' do
+      membership = create(:membership, ended_on: Date.current.end_of_year)
+      membership.update!(ended_on: Date.current.end_of_year - 1.day)
+      expect(membership.renew).to eq false
+    end
+
+    it 'sets renew to false when changed manually' do
+      membership = create(:membership, ended_on: Date.current.end_of_year)
+      membership.update!(renew: false)
+      expect(membership.renew).to eq false
+    end
+  end
 end

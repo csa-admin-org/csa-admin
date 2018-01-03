@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103112654) do
+ActiveRecord::Schema.define(version: 20180103114034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,7 +234,6 @@ ActiveRecord::Schema.define(version: 20180103112654) do
     t.datetime "deleted_at"
     t.datetime "welcome_email_sent_at"
     t.integer "old_old_invoice_identifier"
-    t.boolean "renew_membership", default: false, null: false
     t.string "state", default: "pending", null: false
     t.string "name", null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
@@ -259,6 +258,7 @@ ActiveRecord::Schema.define(version: 20180103112654) do
     t.integer "baskets_count", default: 0, null: false
     t.integer "halfday_works", default: 0, null: false
     t.integer "validated_halfday_works", default: 0, null: false
+    t.boolean "renew", default: false, null: false
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"

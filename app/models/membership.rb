@@ -20,6 +20,7 @@ class Membership < ActiveRecord::Base
 
   before_create :build_baskets
   before_create :set_annual_halfday_works
+  before_save :set_renew
   after_save :update_halfday_works
   after_update :update_baskets
   after_commit :update_trial_baskets_and_user_state!
@@ -204,6 +205,12 @@ class Membership < ActiveRecord::Base
 
   def set_annual_halfday_works
     self[:annual_halfday_works] = basket_size.annual_halfday_works
+  end
+
+  def set_renew
+    if ended_on_changed?
+      self.renew = (ended_on == Date.current.end_of_year)
+    end
   end
 
   def update_halfday_works

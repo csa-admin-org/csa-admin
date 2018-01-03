@@ -23,6 +23,7 @@ ActiveAdmin.register Membership do
     collection: -> { Member.joins(:memberships).order(:name).distinct }
   filter :started_on
   filter :ended_on
+  filter :renew
 
   show do |m|
     columns do
@@ -52,6 +53,10 @@ ActiveAdmin.register Membership do
           row :member
           row(:started_on) { l m.started_on }
           row(:ended_on) { l m.ended_on }
+          row :renew
+        end
+
+        attributes_table title: "½ journées" do
           row :annual_halfday_works
           row :halfday_works
           row :validated_halfday_works
@@ -88,6 +93,7 @@ ActiveAdmin.register Membership do
     f.inputs 'Dates' do
       f.input :started_on, as: :datepicker, include_blank: false
       f.input :ended_on, as: :datepicker, include_blank: false
+      f.input :renew unless resource.new_record? || resource.ended_on.year != Date.current.year
     end
     f.inputs 'Panier & Distribution' do
       f.input :basket_size_id,
@@ -113,7 +119,7 @@ ActiveAdmin.register Membership do
   permit_params *%i[
     member_id
     basket_size_id distribution_id
-    started_on ended_on
+    started_on ended_on renew
     halfday_works_annual_price annual_halfday_works
   ]
 
