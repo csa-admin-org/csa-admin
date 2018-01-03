@@ -27,6 +27,7 @@ FactoryBot.define do
   factory :member do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
+    name { [Faker::Name.last_name, Faker::Name.first_name].join(' ') }
     emails { [Faker::Internet.email, Faker::Internet.email].join(', ') }
     phones { Faker::PhoneNumber.phone_number }
     address { Faker::Address.street_address }

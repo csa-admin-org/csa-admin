@@ -36,10 +36,8 @@ class Member < ActiveRecord::Base
     class_name: 'Basket'
 
   scope :support, -> { inactive.where(support_member: true) }
-  scope :with_name, ->(name) {
-    where('first_name ILIKE :name OR last_name ILIKE :name', name: "%#{name}%")
-  }
   scope :mailable, -> { where.not(emails: nil) }
+  scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
   scope :with_phone, ->(phone) { where('members.phones ILIKE ?', "%#{phone}%") }
@@ -53,7 +51,7 @@ class Member < ActiveRecord::Base
   validates :billing_interval,
     presence: true,
     inclusion: { in: BILLING_INTERVALS }
-  validates :first_name, :last_name, presence: true
+  validates :name, presence: true
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }
   validates :address, :city, :zip, presence: true, unless: :inactive?
@@ -80,8 +78,8 @@ class Member < ActiveRecord::Base
     Member.includes(*includes).all.select(&:billable?)
   end
 
-  def name
-    "#{last_name} #{first_name}".strip
+  def name=(name)
+    super name.strip
   end
 
   def display_address
