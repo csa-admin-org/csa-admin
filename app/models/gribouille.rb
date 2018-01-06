@@ -1,19 +1,23 @@
 class Gribouille < ActiveRecord::Base
+  ATTACHMENTS_NUMBER = 3
+
   belongs_to :delivery
 
-  3.times.each do |i|
-    mount_uploader "attachment_#{i}".to_sym, AttachmentUploader
+  has_many_attached :attachments
 
-    define_method "attachment_#{i}=" do |file|
-      super(file)
-      self["attachment_name_#{i}"] = file&.original_filename
-      self["attachment_mime_type_#{i}"] = file&.content_type
+  ATTACHMENTS_NUMBER.times.each do |i|
+    define_method "attachment_#{i}=" do |attachment|
+      attachments.attach(attachment)
     end
 
     define_method "attachment_name_#{i}=" do |keep|
       unless keep.to_s == '1'
-        self.send("attachment_#{i}=", nil)
+        attachments[i]&.purge_later
       end
+    end
+
+    define_method "attachment_name_#{i}" do
+      attachments[i]&.filename&.to_s
     end
   end
 

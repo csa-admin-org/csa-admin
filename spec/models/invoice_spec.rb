@@ -82,6 +82,7 @@ describe Invoice do
     let(:invoice) { create(:invoice, :support, :not_sent) }
 
     it 'delivers email' do
+      invoice.set_pdf
       expect { invoice.send! }
         .to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
@@ -89,6 +90,7 @@ describe Invoice do
     end
 
     it 'touches sent_at' do
+      invoice.set_pdf
       expect { invoice.send! }
         .to change { invoice.reload.sent_at }.from(nil)
     end
@@ -110,8 +112,8 @@ describe Invoice do
     it 'generates and sets pdf' do
       invoice = create(:invoice, :support)
       invoice.set_pdf
-      expect(invoice.pdf).to be_present
-      expect(invoice.pdf.size).to be > 0
+      expect(invoice.pdf_file).to be_attached
+      expect(invoice.pdf_file.byte_size).to be_positive
     end
   end
 end

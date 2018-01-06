@@ -6,7 +6,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   belongs_to :halfday
   belongs_to :member
-  belongs_to :validator, class_name: 'Admin'
+  belongs_to :validator, class_name: 'Admin', optional: true
 
   scope :validated, -> { where(state: 'validated') }
   scope :rejected, -> { where(state: 'rejected') }

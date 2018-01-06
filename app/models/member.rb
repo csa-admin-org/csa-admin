@@ -10,9 +10,9 @@ class Member < ActiveRecord::Base
 
   has_states :pending, :waiting, :trial, :active, :inactive
 
-  belongs_to :validator, class_name: 'Admin'
-  belongs_to :waiting_basket_size, class_name: 'BasketSize'
-  belongs_to :waiting_distribution, class_name: 'Distribution'
+  belongs_to :validator, class_name: 'Admin', optional: true
+  belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
+  belongs_to :waiting_distribution, class_name: 'Distribution', optional: true
   has_many :absences
   has_many :invoices
   has_many :payments

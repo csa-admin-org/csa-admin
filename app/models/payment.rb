@@ -3,7 +3,7 @@ class Payment < ActiveRecord::Base
 
   default_scope { order(:date) }
 
-  belongs_to :member, optional: false
+  belongs_to :member
   belongs_to :invoice, optional: true
 
   scope :current_year, -> { during_year(Time.zone.today.year) }

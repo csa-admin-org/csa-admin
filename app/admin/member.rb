@@ -72,7 +72,7 @@ ActiveAdmin.register Member do
               column(:balance) { |i| number_to_currency(i.balance) }
               column('Rap.') { |i| i.overdue_notices_count }
               column(class: 'col-actions') { |i|
-                link_to 'PDF', pdf_invoice_path(i), class: 'pdf_link', target: '_blank'
+                link_to 'PDF', rails_blob_path(i.pdf_file, disposition: 'attachment'), class: 'pdf_link'
               }
               column(:status) { |i| status_tag i.state }
             end

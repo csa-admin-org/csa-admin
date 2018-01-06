@@ -33,6 +33,6 @@ class InvoiceMailer < ApplicationMailer
   end
 
   def invoice_pdf
-    invoice.pdf.file.read
+    invoice.pdf_file.download
   end
 end
