@@ -1,6 +1,7 @@
 ActiveAdmin.register Invoice do
   menu parent: 'Facturation', priority: 1
   actions :all, except: [:new, :create, :edit, :update, :destroy]
+  includes :member, pdf_file_attachment: :blob
 
   scope :all, default: true
   scope :not_sent
@@ -18,7 +19,7 @@ ActiveAdmin.register Invoice do
     column 'Rap.',  ->(invoice) { invoice.overdue_notices_count }
     column :state, ->(invoice) { status_tag invoice.state }
     actions defaults: true do |invoice|
-      link_to 'PDF', pdf_invoice_path(invoice), class: 'pdf_link', target: '_blank'
+      link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
     end
   end
 
@@ -71,7 +72,7 @@ ActiveAdmin.register Invoice do
   end
 
   action_item :pdf, only: :show do
-    link_to 'PDF', pdf_invoice_path(params[:id]), target: '_blank'
+    link_to 'PDF', rails_blob_path(resource.pdf_file, disposition: 'attachment')
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send, resource) } do
@@ -82,13 +83,6 @@ ActiveAdmin.register Invoice do
     link_to 'Annuler', cancel_invoice_path(resource), method: :post
   end
 
-  member_action :pdf, method: :get do
-    send_data resource.pdf.file.read,
-      filename: "invoice-#{resource.id}.pdf",
-      type: 'application/pdf',
-      disposition: 'inline'
-  end
-
   member_action :send_email, method: :post do
     resource.send!
     redirect_to resource_path, notice: "Email envoyé!"
@@ -97,12 +91,6 @@ ActiveAdmin.register Invoice do
   member_action :cancel, method: :post do
     resource.cancel!
     redirect_to resource_path, notice: "Facture annulée"
-  end
-
-  controller do
-    def scoped_collection
-      Invoice.includes(:member)
-    end
   end
 
   config.per_page = 50

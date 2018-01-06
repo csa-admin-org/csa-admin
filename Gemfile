@@ -7,7 +7,9 @@ end
 
 ruby '2.4.3'
 
-gem 'rails', '5.1.4'
+gem 'rails', '5.2.0.beta2'
+gem 'bootsnap', require: false
+
 gem 'rails-i18n'
 gem 'puma'
 
@@ -24,6 +26,8 @@ gem 'cancancan'
 
 gem 'activeadmin'
 gem 'formadmin'
+gem 'polyamorous', github: 'spark-solutions/polyamorous'
+gem 'ransack', github: 'spark-solutions/ransack'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'
@@ -62,14 +66,13 @@ gem 'faraday-cookie_jar'
 
 gem 'prawn'
 gem 'prawn-table'
-gem 'carrierwave'
-gem 'carrierwave-postgresql'
 
 gem 'postmark-rails'
 
 group :production do
   gem 'rails_12factor'
   gem 'dalli'
+  gem 'aws-sdk-s3', require: false
 end
 
 group :development do

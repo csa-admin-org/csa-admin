@@ -24,8 +24,8 @@ ActiveAdmin.register Gribouille do
           f.input :footer, as: :html_editor
         end
         f.inputs 'Pièce jointes', multipart: true do
-          3.times.each do |i|
-            if gribouille&.send("attachment_name_#{i}?")
+          Gribouille::ATTACHMENTS_NUMBER.times.each do |i|
+            if gribouille&.send("attachment_name_#{i}")
               f.input "attachment_name_#{i}".to_sym, as: :boolean, label: gribouille.send("attachment_name_#{i}"), input_html: { checked: 'checked' }
             else
               f.input "attachment_#{i}".to_sym, as: :file

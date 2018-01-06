@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103195356) do
+ActiveRecord::Schema.define(version: 2018_01_06_134418) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "plpgsql"
 
   create_table "absences", id: :serial, force: :cascade do |t|
     t.integer "member_id"
@@ -38,6 +38,27 @@ ActiveRecord::Schema.define(version: 20180103195356) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "admins", id: :serial, force: :cascade do |t|
@@ -140,15 +161,6 @@ ActiveRecord::Schema.define(version: 20180103195356) do
     t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.oid "attachment_0"
-    t.string "attachment_name_0"
-    t.string "attachment_mime_type_0"
-    t.oid "attachment_1"
-    t.string "attachment_name_1"
-    t.string "attachment_mime_type_1"
-    t.oid "attachment_2"
-    t.string "attachment_name_2"
-    t.string "attachment_mime_type_2"
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id"
   end
 
@@ -196,7 +208,6 @@ ActiveRecord::Schema.define(version: 20180103195356) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.oid "pdf"
     t.string "member_billing_interval", null: false
     t.integer "overdue_notices_count", default: 0, null: false
     t.datetime "overdue_notice_sent_at"

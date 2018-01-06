@@ -2,8 +2,8 @@ class BasketContent < ApplicationRecord
   UNITS = %w[kilogramme pièce]
   SIZES = %w[small big]
 
-  belongs_to :delivery, required: true
-  belongs_to :vegetable, required: true
+  belongs_to :delivery
+  belongs_to :vegetable
   has_and_belongs_to_many :distributions
 
   scope :basket_size_eq, ->(type) {

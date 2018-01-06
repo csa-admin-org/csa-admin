@@ -13,7 +13,7 @@ class Invoice < ActiveRecord::Base
   belongs_to :member
   has_many :payments
 
-  mount_uploader :pdf, PdfUploader
+  has_one_attached :pdf_file
 
   scope :current_year, -> { during_year(Time.zone.today.year) }
   scope :during_year, ->(year) {
@@ -53,8 +53,8 @@ class Invoice < ActiveRecord::Base
   validate :validate_memberships_amount_for_current_year, on: :create
 
   def send!
-    raise NoPdfError unless pdf?
     invalid_transition(:send!) unless can_send?
+    raise NoPdfError unless pdf_file.attached?
 
     InvoiceMailer.new_invoice(self).deliver_now
     touch(:sent_at)
@@ -116,8 +116,10 @@ class Invoice < ActiveRecord::Base
 
   def set_pdf
     invoice_pdf = InvoicePdf.new(self, nil)
-    virtual_file = VirtualFile.new(invoice_pdf.render, "invoice-#{id}.pdf")
-    update_attribute(:pdf, virtual_file)
+    pdf_file.attach(
+      io: StringIO.new(invoice_pdf.render),
+      filename: "invoice-#{id}.pdf",
+      content_type: 'application/pdf')
   end
 
   def can_cancel?
@@ -157,14 +159,5 @@ class Invoice < ActiveRecord::Base
 
   def set_amount
     self[:amount] = (memberships_amount || 0) + (support_amount || 0)
-  end
-
-  class VirtualFile < StringIO
-    attr_accessor :original_filename
-
-    def initialize(string, original_filename)
-      @original_filename = original_filename
-      super(string)
-    end
   end
 end
