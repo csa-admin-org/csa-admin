@@ -1,6 +1,6 @@
 html
   head
-    title Rage de Vert: Stats
+    title = "#{Current.acp.name}: Stats"
     = stylesheet_link_tag 'stats', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'stats', 'data-turbolinks-track' => true
     = csrf_meta_tags
@@ -9,7 +9,7 @@ html
     header.navigation role="banner"
       .navigation-wrapper
       a.logo href='http://www.ragedevert.ch'
-        img src=asset_path('logo.jpg') alt='Rave de Vert Logo'
+        img src=asset_path('logo.jpg') alt="#{Current.acp.name} Logo"
       nav role="navigation"
         ul.navigation-menu.show
           - Stats::TYPES.each do |stats_type|

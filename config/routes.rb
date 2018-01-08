@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
   constraints subdomain: 'admin' do
     devise_for :admins, ActiveAdmin::Devise.config
+
+    get '/settings' => 'acps#edit', as: :edit_acp
+    get '/settings' => 'acps#edit', as: :acps
+    resource :acp, path: 'settings', only: :update
     ActiveAdmin.routes(self)
     resource :billing, only: [:show]
   end

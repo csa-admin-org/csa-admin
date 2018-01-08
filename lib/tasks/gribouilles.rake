@@ -1,6 +1,8 @@
 namespace :gribouilles do
   desc 'Send all gribouilles to our members'
   task deliver: :environment do
+    Apartment::Tenant.switch!('ragedevert')
+
     next_delivery = Delivery.coming.first
     if next_delivery && Time.zone.today == (next_delivery.date - 1.day)
       gribouille = next_delivery.gribouille

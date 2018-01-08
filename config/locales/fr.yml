@@ -167,6 +167,8 @@ fr:
       member:
         edit_model: 'Modifier'
         delete_model: 'Supprimer'
+      acp:
+        edit_model: 'Paramètres'
       membership:
         new_model: 'Nouvel %{model}'
       absence:
@@ -234,6 +236,8 @@ fr:
         one: Légume
         other: Légumes
     attributes:
+      acp:
+        name: Nom
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation

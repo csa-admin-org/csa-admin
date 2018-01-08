@@ -1,5 +1,5 @@
 ActiveAdmin.register Admin do
-  menu false
+  menu parent: 'Autre', priority: 99
 
   index download_links: false do
     column :name

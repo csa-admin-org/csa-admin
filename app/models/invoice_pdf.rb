@@ -7,8 +7,6 @@ class InvoicePdf < Prawn::Document
 
   INFO = {
     Title:        'Facture',
-    Author:       'Associtation Rage de Vert',
-    Creator:      'Associtation Rage de Vert',
     Producer:     'Prawn',
     CreationDate: Time.zone.now
   }
@@ -16,7 +14,12 @@ class InvoicePdf < Prawn::Document
   IN_FAVOR_OF = "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle"
 
   def initialize(invoice, view)
-    super(page_size: 'A4', margin: [0, 0, 0, 0], info: INFO)
+    super(
+      page_size: 'A4',
+      margin: [0, 0, 0, 0],
+      info: INFO.merge(
+        Author:  Current.acp.name,
+        Creator: Current.acp.name))
     @invoice = invoice
     @membership = invoice.membership
     @isr_ref = ISRReferenceNumber.new(invoice.id, invoice.amount)

@@ -2,7 +2,6 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.dirname(__FILE__) + '/../config/environment'
 require 'rspec/rails'
-require 'capybara/email/rspec'
 require 'sucker_punch/testing/inline'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -14,10 +13,29 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    Delivery.create_all(40, Date.new(Time.zone.today.year - 1, 1, 14))
-    Delivery.create_all(40, Date.new(Time.zone.today.year, 1, 14))
+    FactoryBot.reload
+    unless ACP.exists?(host: 'ragedevert')
+      FactoryBot.create(:acp, host: 'ragedevert', tenant_name: 'ragedevert')
+    end
+    Apartment::Tenant.switch('ragedevert') do
+      Delivery.create_all(40, Date.new(Time.zone.today.year - 1, 1, 14))
+      Delivery.create_all(40, Date.new(Time.zone.today.year, 1, 14))
+    end
   end
+
   config.after(:suite) do
-    Delivery.delete_all
+    Apartment::Tenant.switch('ragedevert') do
+      Delivery.delete_all
+    end
+  end
+
+  config.around(:each) do |example|
+    Apartment::Tenant.switch('ragedevert') do
+      example.run
+    end
+  end
+
+  config.before(:each, type: :system) do
+    driven_by :rack_test
   end
 end

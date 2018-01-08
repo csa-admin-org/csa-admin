@@ -6,12 +6,18 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+ACP.create!(
+  name: 'Rage de Vert',
+  host: 'ragedevert',
+  tenant_name: 'ragedevert')
+
 Admin.delete_all
 Admin.create!(
+  name: 'Thibaud',
+  rights: 'superadmin',
   email: 'thibaud@thibaud.gg',
   password: '12345678',
-  password_confirmation: '12345678'
-)
+  password_confirmation: '12345678')
 
 Distribution.delete_all
 Distribution.create!(name: 'Jardin de la main',

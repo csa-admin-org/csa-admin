@@ -106,6 +106,14 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     afm (0.2.2)
+    apartment (2.1.0)
+      activerecord (>= 3.1.2, < 6.0)
+      parallel (>= 0.7.1)
+      public_suffix (>= 2)
+      rack (>= 1.3.6)
+    apartment-activejob (0.0.1)
+      activesupport
+      apartment
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (9.0.0)
@@ -150,9 +158,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    capybara-email (2.5.0)
-      capybara (~> 2.4)
-      mail
     chronic (0.10.2)
     coderay (1.1.2)
     coffee-rails (4.2.2)
@@ -344,6 +349,7 @@ GEM
       shellany (~> 0.0)
     orm_adapter (0.5.0)
     os (0.9.6)
+    parallel (1.12.1)
     paranoia (2.4.0)
       activerecord (>= 4.0, < 5.2)
     pdf-core (0.7.0)
@@ -520,6 +526,8 @@ PLATFORMS
 DEPENDENCIES
   active_admin_editor!
   activeadmin
+  apartment
+  apartment-activejob
   aws-sdk-s3
   axlsx!
   better_errors
@@ -530,7 +538,6 @@ DEPENDENCIES
   bullet
   cancancan
   capybara
-  capybara-email
   dalli
   devise
   devise-i18n
