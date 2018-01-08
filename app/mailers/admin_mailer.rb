@@ -14,7 +14,7 @@ class AdminMailer < ApplicationMailer
         sacha.dubois@hotmail.ch
         tristan@amez-droz.org
       ],
-      subject: 'Rage de Vert: nouvelle inscription à valider'
+      subject: "#{Current.acp.name}: nouvelle inscription à valider"
     )
   end
 end

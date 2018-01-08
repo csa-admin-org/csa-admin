@@ -1,4 +1,4 @@
-# Rage de Vert - Admin
+# ACP Admin
 
 Cette application permet l'administration de l'association Rage de Vert ([ragedevert.ch](http://www.ragedevert.ch)).
 

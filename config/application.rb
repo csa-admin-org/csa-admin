@@ -7,7 +7,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module AdminRagedevertCh
+module ACPAdmin
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
@@ -24,8 +24,12 @@ module AdminRagedevertCh
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :fr
 
-    config.action_mailer.default_url_options = { host: 'membres.ragedevert.ch' }
-
     config.active_record.time_zone_aware_types = [:datetime, :time]
+
+    # The project specific .irbrc is automatically loaded on Heroku,
+    # we want to load it locally as well.
+    console do
+      load File.expand_path('../.irbrc', __dir__)
+    end
   end
 end

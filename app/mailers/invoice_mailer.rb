@@ -9,7 +9,7 @@ class InvoiceMailer < ApplicationMailer
     }
     mail(
       to: invoice.member.emails,
-      subject: "Rage de Vert: Nouvelle facture ##{invoice.id}"
+      subject: "#{Current.acp.name}: Nouvelle facture ##{invoice.id}"
     )
   end
 
@@ -22,14 +22,14 @@ class InvoiceMailer < ApplicationMailer
     subject = "Rappel ##{invoice.overdue_notices_count} facture ##{invoice.id}"
     mail(
       to: invoice.member.emails,
-      subject: "Rage de Vert: #{subject}"
+      subject: "#{Current.acp.name}: #{subject}"
     )
   end
 
   private
 
   def invoice_filename
-    "facture-rage-de-vert-#{invoice.id}.pdf"
+    "facture-#{Current.acp.name.parameterize}-#{invoice.id}.pdf"
   end
 
   def invoice_pdf

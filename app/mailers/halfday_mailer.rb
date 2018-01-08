@@ -23,13 +23,13 @@ class HalfdayMailer < ApplicationMailer
 
   def recall(member)
     @member = member
-    mail(to: @member.emails, subject: 'Rage de Vert: ½ journées de travail')
+    mail(to: @member.emails, subject: "#{Current.acp.name}: ½ journées de travail")
   end
 
   private
 
   def subject(type)
     date = l(@halfday_participation.halfday.date, format: :long).sub(/^\s/, '')
-    "Rage de Vert: ½ journée de travail #{type} (#{date})"
+    "#{Current.acp.name}: ½ journée de travail #{type} (#{date})"
   end
 end

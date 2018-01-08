@@ -12,6 +12,10 @@ Rails.application.configure do
   # Store files on Amazon S3.
   config.active_storage.service = :amazon
 
+  # Use SuckerPunch for jobs
+  require 'sucker_punch/async_syntax'
+  config.active_job.queue_adapter = :sucker_punch
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -76,10 +80,7 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  config.action_mailer.default_url_options = { host: 'admin.ragedevert.ch' }
-  config.action_mailer.default_options = { from: 'info@ragedevert.ch' }
   config.action_mailer.raise_delivery_errors = true
-
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_TOKEN'] }
 

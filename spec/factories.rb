@@ -1,4 +1,10 @@
 FactoryBot.define do
+  factory :acp do
+    name 'Rage de Vert'
+    host 'ragedevert'
+    tenant_name 'ragedevert'
+  end
+
   factory :basket_content do
     vegetable
     delivery

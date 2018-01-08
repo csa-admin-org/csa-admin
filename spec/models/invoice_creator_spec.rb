@@ -196,6 +196,7 @@ describe InvoiceCreator do
     end
 
     specify 'when quarter #4' do
+
       create_invoice
       Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
       Timecop.travel(Date.new(Time.zone.today.year, 8)) { create_invoice }

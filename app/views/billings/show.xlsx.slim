@@ -50,12 +50,12 @@ table
       td= "Payé"
       td.decimal= number_with_precision(amount, precision: 2)
 
+    - amount = invoices.sum { |i| i.missing_amount }
+    tr
+      td= "Non-payé (manquant)"
+      td.decimal= number_with_precision(amount, precision: 2)
+
     - amount = invoices.sum { |i| i.overbalance }
     tr
       td= "Payé en trop (pour année suivante)"
-      td.decimal= number_with_precision(amount, precision: 2)
-
-    - amount = invoices.sum { |i| i.missing_amount }
-    tr
-      td= "Manquant"
       td.decimal= number_with_precision(amount, precision: 2)

@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 describe 'Halfday Works calendar feed' do
-  before do
-    reset!
-    integration_session.host = 'admin.example.com'
-  end
+  before { integration_session.host = 'admin.ragedevert.test' }
 
   context 'without auth token' do
     it 'responds 401' do

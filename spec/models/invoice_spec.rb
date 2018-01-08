@@ -83,7 +83,7 @@ describe Invoice do
 
     it 'delivers email' do
       invoice.set_pdf
-      expect { invoice.send! }
+      expect { invoice.send!; }
         .to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
       expect(mail.to).to eq invoice.member.emails_array
@@ -91,8 +91,7 @@ describe Invoice do
 
     it 'touches sent_at' do
       invoice.set_pdf
-      expect { invoice.send! }
-        .to change { invoice.reload.sent_at }.from(nil)
+      expect { invoice.send! }.to change(invoice, :sent_at).from(nil)
     end
 
     it 'does nothing when already sent' do

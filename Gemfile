@@ -23,6 +23,8 @@ gem 'pg'
 gem 'uniquify'
 gem 'paranoia'
 gem 'cancancan'
+gem 'apartment'
+gem 'apartment-activejob'
 
 gem 'activeadmin'
 gem 'formadmin'
@@ -87,6 +89,7 @@ end
 group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails'
+  gem 'capybara'
   gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
   gem 'faker'
@@ -94,8 +97,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
-  gem 'capybara-email'
   gem 'timecop'
   gem 'vcr'
   gem 'webmock'

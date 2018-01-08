@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 2018_01_06_134418) do
     t.index ["member_id"], name: "index_absences_on_member_id"
   end
 
+  create_table "acps", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "host", null: false
+    t.string "tenant_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host"], name: "index_acps_on_host"
+    t.index ["tenant_name"], name: "index_acps_on_tenant_name"
+  end
+
   create_table "active_admin_comments", id: :serial, force: :cascade do |t|
     t.string "namespace", limit: 255
     t.text "body"
