@@ -4,10 +4,8 @@ class Membership < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :member, -> { with_deleted }
-  has_many :baskets
-  has_many :delivered_baskets,
-    -> { delivered },
-    class_name: 'Basket'
+  has_many :baskets, dependent: :destroy
+  has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
 
   attr_accessor :basket_size_id, :distribution_id
 
@@ -30,17 +28,13 @@ class Membership < ActiveRecord::Base
   scope :future, -> { where('started_on > ?', Time.zone.now) }
   scope :current, -> { including_date(Time.zone.today) }
   scope :current_year, -> { during_year(Date.today.year) }
-  scope :including_date,
-    ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
+  scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
+  scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
   scope :during_year, ->(year) {
     where(
       'started_on >= ? AND ended_on <= ?',
       Date.new(year).beginning_of_year,
-      Date.new(year).end_of_year
-    )
-  }
-  scope :duration_gt, ->(days) {
-    where("age(ended_on, started_on) > interval '? day'", days)
+      Date.new(year).end_of_year)
   }
 
   def self.billable
@@ -240,7 +234,7 @@ class Membership < ActiveRecord::Base
         end
       end
       if attribute_before_last_save(:started_on) < started_on
-        baskets.between(attribute_before_last_save(:started_on)...started_on).each(&:destroy)
+        baskets.between(attribute_before_last_save(:started_on)...started_on).each(&:really_destroy!)
       end
     end
 
@@ -255,7 +249,7 @@ class Membership < ActiveRecord::Base
         end
       end
       if attribute_before_last_save(:ended_on) > ended_on
-        baskets.between((ended_on + 1.day)...attribute_before_last_save(:ended_on)).each(&:destroy)
+        baskets.between((ended_on + 1.day)...attribute_before_last_save(:ended_on)).each(&:really_destroy!)
       end
     end
     if basket_size_id.present? || distribution_id.present?
