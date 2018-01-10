@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_01_09_121103) do
+ActiveRecord::Schema.define(version: 2018_01_09_191857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2018_01_09_121103) do
     t.string "tenant_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "features", default: [], null: false, array: true
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

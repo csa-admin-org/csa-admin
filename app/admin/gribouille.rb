@@ -1,5 +1,5 @@
 ActiveAdmin.register Gribouille do
-  menu false
+  menu priority: 9
 
   form do |f|
     delivery = Delivery.coming.first

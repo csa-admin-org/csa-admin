@@ -1,4 +1,9 @@
 class ACP < ActiveRecord::Base
+  FEATURES = %w[
+    basket_content
+    gribouille
+  ]
+
   validates :name, presence: true
   validates :host, presence: true
   validates :tenant_name, presence: true
@@ -13,6 +18,10 @@ class ACP < ActiveRecord::Base
     end
   ensure
     Apartment::Tenant.reset
+  end
+
+  def feature?(feature)
+    self.features.include?(feature.to_s)
   end
 
   private

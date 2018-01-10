@@ -138,9 +138,6 @@ ActiveAdmin.setup do |config|
     admin.build_menu do |menu|
       menu.add label: 'Facturation', priority: 4
     end
-    admin.build_menu :default do |menu|
-      menu.add label: 'Gribouille', url: '/gribouilles/new', priority: 9
-    end
     admin.build_menu :utility_navigation do |menu|
       if admin.current_user_method
         menu.add \
@@ -208,4 +205,9 @@ end
 
 module ActiveAdmin::ViewHelpers
   include ApplicationHelper
+  include AcpsHelper
+end
+
+class ActiveAdmin::ResourceController
+  include AcpsHelper
 end

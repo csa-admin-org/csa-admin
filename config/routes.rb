@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
     get '/settings' => 'acps#edit', as: :edit_acp
     get '/settings' => 'acps#edit', as: :acps
+    get 'gribouilles/new' => 'gribouilles#new', as: :gribouilles
     resource :acp, path: 'settings', only: :update
     ActiveAdmin.routes(self)
     resource :billing, only: [:show]
