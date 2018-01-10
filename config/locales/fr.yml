@@ -223,6 +223,9 @@ fr:
       delivery:
         one: Livraison
         other: Livraisons
+      gribouille:
+        one: Gribouille
+        other: Gribouilles
       payment:
         one: Paiement
         other: Paiements
@@ -238,6 +241,7 @@ fr:
     attributes:
       acp:
         name: Nom
+        features: Fonctionalités
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation

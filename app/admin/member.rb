@@ -123,7 +123,9 @@ ActiveAdmin.register Member do
             }.join(', ')
           }
           row(:emails) { member.emails_array.map { |e| mail_to(e) }.join(', ') }
-          row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
+          if feature?('gribouille')
+            row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
+          end
         end
         attributes_table title: 'Facturation' do
           row(:billing_interval) { t("member.billing_interval.#{member.billing_interval}") }
@@ -196,11 +198,13 @@ ActiveAdmin.register Member do
       f.input :delivery_zip, hint: 'laisser vide si identique'
     end
     f.inputs 'Contact' do
-      f.input :emails, hint: "séparés par ', '"
-      f.input :phones, hint: "séparés par ', '"
-      f.input :gribouille, as: :select,
-        collection: [['Oui', true], ['Non', false]],
-        hint: 'laisser vide pour le comportement par défault (en fonction du statut)'
+      f.input :emails, hint: "séparés par une virgule"
+      f.input :phones, hint: "séparés par une virgule"
+      if feature?('gribouille')
+        f.input :gribouille, as: :select,
+          collection: [['Oui', true], ['Non', false]],
+          hint: 'laisser vide pour le comportement par défault (en fonction du statut)'
+      end
     end
     f.inputs 'Facturation' do
       f.input :billing_interval,
