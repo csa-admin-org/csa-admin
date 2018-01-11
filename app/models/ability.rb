@@ -16,7 +16,7 @@ class Ability
       cannot :manage, [BasketSize, Delivery]
       can :manage, [Halfday, HalfdayParticipation, Absence, ActiveAdmin::Comment]
       can :create, available_models & [Gribouille, Member, Membership, Distribution, Payment]
-      can :update, available_models & [Gribouille, Member, Delivery]
+      can :update, available_models & [Gribouille, Member, Delivery, Distribution]
       can :validate, Member
       can :remove_from_waiting_list, Member
       can :put_back_to_waiting_list, Member

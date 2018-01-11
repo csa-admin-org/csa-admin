@@ -1,4 +1,5 @@
 class Admin < ActiveRecord::Base
+  NOTIFICATIONS = %w[new_inscription]
   RIGHTS = %w[superadmin admin standard readonly none]
 
   # Include default devise modules. Others available are:
@@ -6,8 +7,14 @@ class Admin < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
+
   validates :name, presence: true
   validates :rights, inclusion: { in: RIGHTS }
+
+  def notifications=(notifications)
+    super(notifications.select(&:presence).compact)
+  end
 
   def superadmin?
     rights == 'superadmin'

@@ -193,7 +193,15 @@ fr:
     cancel: 'Annuler %{model}'
     reset: "Réinitiaser %{model}"
     required: 'obligatoire'
+    hints:
+      distribution:
+        emails: "Chaque email reçoit la liste des membres qui recevront un panier le jour précédant la livraison"
+      admin:
+        password: "Laisser vide si inchangé"
 
+  admin:
+    notifications:
+      new_inscription: Nouvelle inscription
   activerecord:
     models:
       member:
