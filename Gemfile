@@ -28,6 +28,7 @@ gem 'apartment-activejob'
 
 gem 'activeadmin'
 gem 'formadmin'
+# Rails 5.2 support
 gem 'polyamorous', github: 'spark-solutions/polyamorous'
 gem 'ransack', github: 'spark-solutions/ransack'
 
@@ -72,7 +73,6 @@ gem 'prawn-table'
 gem 'postmark-rails'
 
 group :production do
-  gem 'rails_12factor'
   gem 'dalli'
   gem 'aws-sdk-s3', require: false
 end
