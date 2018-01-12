@@ -250,6 +250,9 @@ fr:
       acp:
         name: Nom
         features: Fonctionalités
+        email_api_token: API token
+        email_default_host: Default host
+        email_default_from: Default from
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
