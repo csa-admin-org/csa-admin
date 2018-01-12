@@ -120,9 +120,9 @@ ActiveAdmin.register Member do
           row(:phones) {
             member.phones_array.map { |phone|
               link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
-            }.join(', ')
+            }.join(', ').html_safe
           }
-          row(:emails) { member.emails_array.map { |e| mail_to(e) }.join(', ') }
+          row(:emails) { member.emails_array.map { |e| mail_to(e) }.join(', ').html_safe }
           if feature?('gribouille')
             row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
           end
