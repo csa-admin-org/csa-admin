@@ -189,7 +189,7 @@ class Member < ActiveRecord::Base
   def halfday_works(year = nil)
     @annual_halfday_works ||= begin
       year ||= Time.zone.today.year
-      memberships.during_year(year).first&.halfday_works
+      memberships.during_year(year).first&.halfday_works.to_i
     end
   end
 

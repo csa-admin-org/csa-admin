@@ -1,12 +1,14 @@
 class Stats::BasketsStat < Stats::BaseStat
   def self.all
-    [new(2016), new(2017)]
+    [new(Date.current.year - 1), new(Date.current.year)]
   end
 
   def data
-    basket_names = memberships(includes: [:basket_size]).map { |m| m.basket_size.name }
+    basket_sizes =
+      memberships(includes: [baskets: :basket_size])
+        .flat_map { |m| m.baskets.map { |b| b.basket_size.name } }
     stats = Hash.new(0)
-    basket_names.each { |basket_name| stats[basket_name] += 1 }
+    basket_sizes.each { |bn| stats[bn] += 1 }
     stats.sort_by { |_k, v| -1 * v }.to_h
   end
 end

@@ -1,6 +1,6 @@
 class Stats::MembersStat < Stats::BaseStat
   def self.all
-    [new(Date.today.year)]
+    [new(Date.current.year)]
   end
 
   def data

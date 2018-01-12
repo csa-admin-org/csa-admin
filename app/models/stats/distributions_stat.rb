@@ -1,10 +1,12 @@
 class Stats::DistributionsStat < Stats::BaseStat
   def self.all
-    [new(Date.today.year - 1), new(Date.today.year)]
+    [new(Date.current.year - 1), new(Date.current.year)]
   end
 
   def data
-    distributions = memberships(includes: [:distribution]).map { |m| m.distribution.name }
+    distributions =
+      memberships(includes: [baskets: :distribution])
+        .flat_map { |m| m.baskets.map { |b| b.distribution.name } }
     stats = Hash.new(0)
     distributions.each { |distribution| stats[distribution] += 1 }
     stats.delete('Domicile')
