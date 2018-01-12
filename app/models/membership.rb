@@ -27,7 +27,7 @@ class Membership < ActiveRecord::Base
   scope :past, -> { where('ended_on < ?', Time.zone.now) }
   scope :future, -> { where('started_on > ?', Time.zone.now) }
   scope :current, -> { including_date(Time.zone.today) }
-  scope :current_year, -> { during_year(Date.today.year) }
+  scope :current_year, -> { during_year(Date.current.year) }
   scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
   scope :during_year, ->(year) {

@@ -4,10 +4,17 @@ Rails.application.configure do
     ignore_exceptions: %w[ActionController::InvalidAuthenticityToken] + ExceptionNotifier.ignored_exceptions,
     email: {
       email_prefix: '[ACP-Admin ERROR] ',
-      sender_address: %{"Error Notifier" <acp-admin@ragedevert.ch>},
+      sender_address: %{"Error Notifier" <acp-admin@thibaud.gg>},
       exception_recipients: %w[thibaud@thibaud.gg],
-      postmark_settings: {
-        api_key: ENV['POSTMARK_API_KEY']
+      delivery_method: :smtp,
+      smtp_settings: {
+        user_name: ENV['SMTP_USERNAME'],
+        password: ENV['SMTP_PASSWORD'],
+        domain: 'thibaud.gg',
+        address: ENV['SMTP_ADDRESS'],
+        port: 587,
+        authentication: :plain,
+        enable_starttls_auto: true
       }
     }
   ExceptionNotifier::Rake.configure(ignore_exceptions: [])
