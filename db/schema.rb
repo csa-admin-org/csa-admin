@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(version: 2018_01_10_202513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "features", default: [], null: false, array: true
+    t.string "email_api_token"
+    t.string "email_default_host"
+    t.string "email_default_from"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

@@ -3,6 +3,8 @@ FactoryBot.define do
     name 'Rage de Vert'
     host 'ragedevert'
     tenant_name 'ragedevert'
+    email_default_host 'membres.ragedevert.ch'
+    email_default_from 'Rage de Vert <info@ragedevert.ch>'
   end
 
   factory :basket_content do
