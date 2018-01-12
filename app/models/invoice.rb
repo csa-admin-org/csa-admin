@@ -123,11 +123,15 @@ class Invoice < ActiveRecord::Base
   end
 
   def can_cancel?
-    date.year == Date.current.year && (not_sent? || open?)
+    not_sent? || open? || current_year?
   end
 
   def can_send?
     !sent_at? && member.emails?
+  end
+
+  def current_year?
+    date.year == Date.current.year
   end
 
   private
