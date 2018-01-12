@@ -3,9 +3,12 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     ignore_exceptions: %w[ActionController::InvalidAuthenticityToken] + ExceptionNotifier.ignored_exceptions,
     email: {
-      email_prefix: '[RAVE ERROR] ',
-      sender_address: %{"Error Notifier" <info@ragedevert.ch>},
-      exception_recipients: %w[thibaud@thibaud.gg]
+      email_prefix: '[ACP-Admin ERROR] ',
+      sender_address: %{"Error Notifier" <acp-admin@ragedevert.ch>},
+      exception_recipients: %w[thibaud@thibaud.gg],
+      postmark_settings: {
+        api_key: ENV['POSTMARK_API_KEY']
+      }
     }
   ExceptionNotifier::Rake.configure(ignore_exceptions: [])
 
