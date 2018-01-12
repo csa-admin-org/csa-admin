@@ -13,10 +13,6 @@ gem 'bootsnap', require: false
 gem 'rails-i18n'
 gem 'puma'
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-highcharts'
-end
-
 gem 'rack-status'
 
 gem 'pg'
@@ -35,6 +31,7 @@ gem 'ransack', github: 'spark-solutions/ransack'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
+gem 'highcharts-rails'
 gem 'momentjs-rails'
 gem 'slim'
 gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'

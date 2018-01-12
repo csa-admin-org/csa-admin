@@ -48,7 +48,6 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://rails-assets.org/
   specs:
     Ascii85 (1.0.2)
     actioncable (5.2.0.beta2)
@@ -265,6 +264,8 @@ GEM
       activesupport (>= 4.1, < 5.2)
     hashdiff (0.3.7)
     hashery (2.1.2)
+    highcharts-rails (6.0.3)
+      railties (>= 3.1)
     htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -401,7 +402,6 @@ GEM
       bundler (>= 1.3.0)
       railties (= 5.2.0.beta2)
       sprockets-rails (>= 2.0.0)
-    rails-assets-highcharts (6.0.4)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -547,6 +547,7 @@ DEPENDENCIES
   formadmin
   google_drive (~> 2.1)
   guard-livereload
+  highcharts-rails
   icalendar
   jbuilder
   jquery-turbolinks
@@ -566,7 +567,6 @@ DEPENDENCIES
   rack-livereload
   rack-status
   rails (= 5.2.0.beta2)
-  rails-assets-highcharts!
   rails-i18n
   ransack!
   refills
