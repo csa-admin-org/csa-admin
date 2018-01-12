@@ -74,13 +74,12 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  config.cache_store = :dalli_store, ENV['MEMCACHIER_SERVERS'].split(','), {
-    username: ENV['MEMCACHIER_USERNAME'],
-    password: ENV['MEMCACHIER_PASSWORD'],
+  config.cache_store = :redis_cache_store, {
+    driver: :hiredis,
+    compress: true,
+    timeout: 1,
     namespace: -> { Apartment::Tenant.current },
-    failover: true,
-    socket_timeout: 1.5,
-    socket_failure_delay: 0.2
+    url: ENV['REDIS_CACHE_URL']
   }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)

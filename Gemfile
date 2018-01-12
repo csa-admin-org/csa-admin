@@ -15,10 +15,9 @@ gem 'puma'
 
 gem 'rack-status'
 
-gem 'pg'
+gem 'pg', '~> 0.21'
 gem 'uniquify'
 gem 'paranoia'
-gem 'cancancan'
 gem 'apartment'
 gem 'apartment-activejob'
 
@@ -27,6 +26,7 @@ gem 'formadmin'
 # Rails 5.2 support
 gem 'polyamorous', github: 'spark-solutions/polyamorous'
 gem 'ransack', github: 'spark-solutions/ransack'
+gem 'cancancan'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'
@@ -67,10 +67,10 @@ gem 'faraday-cookie_jar'
 gem 'prawn'
 gem 'prawn-table'
 
-gem 'postmark-rails'
-
 group :production do
-  gem 'dalli'
+  gem 'redis'
+  gem 'hiredis', require: false
+  gem 'postmark-rails'
   gem 'aws-sdk-s3', require: false
 end
 
