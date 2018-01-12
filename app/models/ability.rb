@@ -58,6 +58,8 @@ class Ability
       ActiveAdmin::Comment,
       Delivery,
       Distribution,
+      Halfday,
+      HalfdayParticipation,
       Invoice,
       Member,
       Membership,

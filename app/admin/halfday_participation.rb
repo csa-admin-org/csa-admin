@@ -52,7 +52,7 @@ ActiveAdmin.register HalfdayParticipation do
       row(:phones) {
         hp.member.phones_array.map { |phone|
           link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
-        }.join(', ')
+        }.join(', ').html_safe
 
       }
       if hp.carpooling_phone?
