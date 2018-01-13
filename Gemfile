@@ -22,6 +22,7 @@ gem 'apartment'
 gem 'apartment-activejob'
 
 gem 'activeadmin'
+gem 'activeadmin_medium_editor'
 gem 'formadmin'
 # Rails 5.2 support
 gem 'polyamorous', github: 'spark-solutions/polyamorous'
@@ -36,7 +37,6 @@ gem 'momentjs-rails'
 gem 'slim'
 gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
 gem 'axlsx', github: 'randym/axlsx'
-gem 'active_admin_editor', github: 'thibaudgg/active_admin_editor'
 
 gem 'sass-rails'
 gem 'font-awesome-sass'
