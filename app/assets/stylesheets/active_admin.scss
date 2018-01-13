@@ -9,8 +9,8 @@
 
 // Active Admin's got SASS!
 @import 'formadmin/formadmin';
-@import 'active_admin/editor';
-@import 'active_admin/editor/wysiwyg';
+@import 'activeadmin/medium_editor_input';
+@import 'activeadmin/medium_editor/themes/default'; // or another theme
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 
@@ -189,4 +189,16 @@ table.table-memberships {
 
 #titlebar_right .action_item {
   margin-bottom: 3px !important;
+}
+
+.medium_editor li {
+  list-style: inherit;
+  border: none;
+}
+
+.medium-editor-element {
+  padding: 10px !important;
+  max-height: 500px !important;
+  width: 600px !important;
+  min-height: 100px;
 }

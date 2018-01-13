@@ -17,11 +17,11 @@ ActiveAdmin.register Gribouille do
           ].join('').html_safe
         end
         f.inputs 'Textes' do
-          f.input :header, as: :html_editor
-          f.input :basket_content, as: :html_editor
-          f.input :fields_echo, as: :html_editor
-          f.input :events, as: :html_editor
-          f.input :footer, as: :html_editor
+          f.input :header, as: :medium_editor, input_html: { data: { options: '{"placeholder":{"text":"Doit être rempli"},"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor","unorderedlist","orderedlist"]}}' } }
+          f.input :basket_content, as: :medium_editor, input_html: { data: { options: '{"placeholder":{"text":"Doit être rempli"},"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor","unorderedlist","orderedlist"]}}' } }
+          f.input :fields_echo, as: :medium_editor, input_html: { data: { options: '{"placeholder":false,"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor","unorderedlist","orderedlist"]}}' } }
+          f.input :events, as: :medium_editor, input_html: { data: { options: '{"placeholder":false,"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor","unorderedlist","orderedlist"]}}' } }
+          f.input :footer, as: :medium_editor, input_html: { data: { options: '{"placeholder":false,"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor","unorderedlist","orderedlist"]}}' } }
         end
         f.inputs 'Pièce jointes', multipart: true do
           Gribouille::ATTACHMENTS_NUMBER.times.each do |i|
