@@ -35,24 +35,21 @@ gem 'jquery-ui-rails'
 gem 'highcharts-rails'
 gem 'momentjs-rails'
 gem 'slim'
-gem 'to_spreadsheet', github: 'farukca/to_spreadsheet', ref: '922b63'
-gem 'axlsx', github: 'randym/axlsx'
 
+gem 'uglifier'
+gem 'jbuilder'
 gem 'sass-rails'
 gem 'font-awesome-sass'
-
-gem 'sucker_punch'
-
 gem 'bourbon', '~> 4.2.7'
 gem 'bitters', '~> 1.2.0'
 gem 'neat', '~> 1.8'
 gem 'refills'
 
+gem 'sucker_punch'
+
 gem 'devise'
 gem 'devise-i18n'
 
-gem 'uglifier'
-gem 'jbuilder'
 gem 'google_drive', '~> 2.1'
 
 gem 'icalendar'
@@ -66,6 +63,8 @@ gem 'faraday-cookie_jar'
 
 gem 'prawn'
 gem 'prawn-table'
+
+gem 'rubyXL'
 
 group :production do
   gem 'redis'

@@ -114,6 +114,8 @@ fr:
       diff_zip: ZIP différents
       current_year: année courante
       next_year: année prochaine
+      past_year: années passées
+      future_year: années prochaines
       with_overdue_notice: avec rappels
       isr: BVR
       manual: manuel
@@ -233,7 +235,7 @@ fr:
         other: Livraisons
       gribouille:
         one: Gribouille
-        other: Gribouilles
+        other: Gribouille
       payment:
         one: Paiement
         other: Paiements

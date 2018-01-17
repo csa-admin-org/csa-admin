@@ -88,8 +88,9 @@ span.delivery_absences {
 
 table a.edit_link { background-image: asset-url('formadmin/edit.svg'); }
 table a.pdf_link { background-image: asset-url('pdf_file.svg'); }
+table a.xlsx_link { background-image: asset-url('xlsx_file.svg'); }
 
-table .edit_link, table .pdf_link {
+table .edit_link, table .pdf_link, table .xlsx_link {
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -125,6 +126,18 @@ table#index_table_invoices, table#index_table_payments {
     padding: 0 5px;
     margin: 0;
     width: 65px;
+  }
+}
+
+table#index_table_deliveries {
+  .col- {
+    width: 40px;
+  }
+  .col-date {
+    width: 200px;
+  }
+  .col-actions {
+    width: 140px;
   }
 }
 

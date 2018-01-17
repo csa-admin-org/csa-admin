@@ -49,7 +49,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
           table_for nil do
             column do
-              xlsx_link = link_to 'Excel', billing_path(format: :xlsx)
+              xlsx_link = link_to 'Excel', billing_path(year, format: :xlsx)
               "Télécharger : #{xlsx_link}".html_safe
             end
           end

@@ -116,7 +116,7 @@ FactoryBot.define do
   end
 
   factory :basket_size do
-    name { Faker::Name.name }
+    sequence(:name) { |n| "Basket Size #{n}" }
     price 30
     annual_halfday_works 2
 

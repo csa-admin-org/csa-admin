@@ -1,16 +1,19 @@
 ActiveAdmin.register Delivery do
   menu parent: 'Autre', priority: 10
 
+  scope :past_year
   scope :current_year, default: true
-  scope :next_year
+  scope :future_year
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
-  index download_links: -> { params[:action] == 'show' ? [:xlsx] : nil } do
-    column '#', ->(delivery) { delivery.number }
-    column :date
-    column :note
-    actions if current_admin.email == 'thibaud@thibaud.gg'
+  index download_links: -> { params[:action] == 'show' ? [:xlsx] : false } do
+    column '#', ->(delivery) { auto_link delivery, delivery.number }
+    column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
+    column :note, ->(delivery) { truncate delivery.note, length: 175 }
+    actions defaults: true do |delivery|
+      link_to 'XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link'
+    end
   end
 
   show do |delivery|
@@ -21,15 +24,19 @@ ActiveAdmin.register Delivery do
     end
   end
 
+  action_item :pdf, only: :show do
+    link_to 'Excel', delivery_path(resource, format: :xlsx)
+  end
+
   controller do
     def show
-      @delivery = resource
       respond_to do |format|
         format.html
         format.xlsx do
-          render(xlsx: :show,
-            filename: "RageDeVert-Livraison-#{@delivery.date.strftime('%Y%m%d')}"
-          )
+          xlsx = XLSX::Delivery.new(resource)
+          send_data xlsx.data,
+            content_type: xlsx.content_type,
+            filename: xlsx.filename
         end
       end
     end
@@ -45,5 +52,5 @@ ActiveAdmin.register Delivery do
 
   config.filters = false
   config.sort_order = 'date_asc'
-  config.per_page = 40
+  config.per_page = 52
 end

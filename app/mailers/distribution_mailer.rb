@@ -2,12 +2,16 @@ class DistributionMailer < ApplicationMailer
   layout false
 
   def next_delivery(distribution, delivery)
-    @distribution = distribution
-    @delivery = delivery
-    @baskets = @distribution.baskets.where(delivery_id: @delivery.id).sort_by { |b| b.member.name }
+    @baskets = distribution.baskets.not_absent.joins(:member).where(delivery_id: delivery.id).order('members.name')
+
+    xlsx = XLSX::Delivery.new(delivery, distribution)
+    attachments[xlsx.filename] = {
+      mime_type: xlsx.content_type,
+      content: xlsx.data
+    }
 
     mail \
-      to: @distribution.emails_array,
+      to: distribution.emails_array,
       subject: "#{Current.acp.name}: Liste livraison du #{l delivery.date}"
   end
 end
