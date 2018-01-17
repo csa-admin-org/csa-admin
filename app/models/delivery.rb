@@ -5,12 +5,9 @@ class Delivery < ActiveRecord::Base
   has_many :baskets
   has_many :basket_contents
 
-  scope :current_year, -> {
-    where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year}")
-  }
-  scope :next_year, -> {
-    where("EXTRACT(YEAR FROM date) = #{Time.zone.today.year + 1}")
-  }
+  scope :past_year, -> { where("EXTRACT(YEAR FROM date) < #{Date.current.year}") }
+  scope :current_year, -> { where("EXTRACT(YEAR FROM date) = #{Date.current.year}") }
+  scope :future_year, -> { where("EXTRACT(YEAR FROM date) > #{Date.current.year}") }
 
   scope :past, -> { where('date < ?', Time.zone.today) }
   scope :coming, -> { where('date >= ?', Time.zone.today) }

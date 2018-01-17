@@ -1,17 +1,12 @@
 class BillingsController < ApplicationController
   before_action :verify_auth_token
 
-  # GET billing.xlsx
+  # GET billing/:year
   def show
-    @members = Member.billable
-    respond_to do |format|
-      format.xlsx {
-        render(
-          xlsx: :show,
-          filename: "RageDeVert-Facturation-#{Time.zone.now.strftime("%Y%m%d-%Hh%M")}"
-        )
-      }
-    end
+    xlsx = XLSX::Billing.new(params[:year].to_i)
+    send_data xlsx.data,
+      content_type: xlsx.content_type,
+      filename: xlsx.filename
   end
 
   private

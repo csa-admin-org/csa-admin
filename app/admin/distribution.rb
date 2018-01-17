@@ -1,7 +1,7 @@
 ActiveAdmin.register Distribution do
   menu parent: 'Autre', priority: 10
 
-  index do
+  index download_links: false do
     column :name
     column :address
     column :zip

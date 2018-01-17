@@ -17,4 +17,5 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'ACP'
+  inflect.acronym 'XLSX'
 end

@@ -3,10 +3,11 @@ ol
     li
       = basket.member.name
       == ", <b>#{basket.basket_size.name}</b>, "
-      = basket.member.phones
+      - basket.member.phones_array.each do |phone|
+        = link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
       == " / #{mail_to basket.member.emails}"
 
 p
- == 'Au plaisir,'
- br/
- == Current.acp.name
+  == 'Au plaisir,'
+  br/
+  == Current.acp.name

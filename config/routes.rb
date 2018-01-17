@@ -1,19 +1,18 @@
 Rails.application.routes.draw do
   constraints subdomain: 'admin' do
+    devise_for :admins, ActiveAdmin::Devise.config
+
     get 'gribouille_emails' => 'gribouille_emails#index'
     get 'deliveries/next' => 'next_delivery#next'
     get 'halfday_works/calendar' => 'halfday_works_calendar#show'
-  end
-
-  constraints subdomain: 'admin' do
-    devise_for :admins, ActiveAdmin::Devise.config
-
-    get '/settings' => 'acps#edit', as: :edit_acp
-    get '/settings' => 'acps#edit', as: :acps
+    get 'settings' => 'acps#edit', as: :edit_acp
+    get 'settings' => 'acps#edit', as: :acps
     get 'gribouilles/new' => 'gribouilles#new', as: :gribouilles
+    get 'billing/:year' => 'billings#show', as: :billing
+
     resource :acp, path: 'settings', only: :update
+
     ActiveAdmin.routes(self)
-    resource :billing, only: [:show]
   end
 
   scope module: 'stats', as: nil do
