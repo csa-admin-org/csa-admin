@@ -136,7 +136,8 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu do |menu|
-      menu.add label: 'Facturation', priority: 4
+      menu.add label: '½ Journées', priority: 6
+      menu.add label: 'Facturation', priority: 7
     end
     admin.build_menu :utility_navigation do |menu|
       if admin.current_user_method

@@ -210,11 +210,11 @@ fr:
         one: Membre
         other: Membres
       halfday_participation:
-        one: ½ Journée
-        other: ½ Journées
+        one: ½ Journée - Participation
+        other: ½ Journée - Participations
       halfday:
-        one: ½ Journée (Date)
-        other: ½ Journées (Date)
+        one: ½ Journée - Date
+        other: ½ Journées - Dates
       membership:
         one: Abonnement
         other: Abonnements

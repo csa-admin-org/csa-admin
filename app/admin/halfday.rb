@@ -1,5 +1,5 @@
 ActiveAdmin.register Halfday do
-  menu parent: 'Autre', priority: 1
+  menu parent: '½ Journées', priority: 2, label: 'Dates'
   actions :all, except: [:show]
 
   scope :past
