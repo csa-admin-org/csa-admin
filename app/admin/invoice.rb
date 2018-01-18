@@ -3,9 +3,9 @@ ActiveAdmin.register Invoice do
   actions :all, except: [:new, :create, :edit, :update, :destroy]
   includes :member, pdf_file_attachment: :blob
 
-  scope :all, default: true
+  scope :all
   scope :not_sent
-  scope :open
+  scope :open, default: true
   scope :with_overdue_notice
   scope :closed
   scope :canceled
@@ -32,10 +32,10 @@ ActiveAdmin.register Invoice do
   show do |invoice|
     columns do
       column do
-        panel link_to("Paiements directs", payments_path(q: { invoice_id_equals: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
+        panel link_to('Paiements directs', payments_path(q: { invoice_id_equals: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
           payments = invoice.payments.order(:date)
           if payments.none?
-            em "Aucun paiement"
+            em 'Aucun paiement'
           else
             table_for(payments, class: 'table-payments') do |payment|
               column(:date) { |p| l(p.date, format: :number) }
