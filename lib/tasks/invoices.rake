@@ -1,22 +1,21 @@
 namespace :invoices do
   desc 'Create and send new invoices'
   task create: :environment do
-    ACP.switch_each! do
-      if Time.zone.today.tuesday? && Date.today > Delivery.current_year.first.date
-        Member.billable.each do |member|
-          begin
-            invoice = InvoiceCreator.new(member).create
-            invoice&.send!
-          rescue => ex
-            ExceptionNotifier.notify_exception(ex,
-              data: { member_id: member.id, invoice_id: invoice&.id }
-            )
-          end
+    Apartment::Tenant.switch!('ragedevert')
+    if Date.current.tuesday? && Date.current > Delivery.current_year.first.date
+      Member.billable.each do |member|
+        begin
+          invoice = InvoiceCreator.new(member).create
+          invoice&.send!
+        rescue => ex
+          ExceptionNotifier.notify_exception(ex,
+            data: { member_id: member.id, invoice_id: invoice&.id }
+          )
         end
-        p "#{Current.acp.name}: New invoice(s) created."
-      else
-        p "#{Current.acp.name}: It's not Tuesday dude."
       end
+      p "#{Current.acp.name}: New invoice(s) created."
+    else
+      p "#{Current.acp.name}: It's not Tuesday dude."
     end
   end
 
