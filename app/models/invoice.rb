@@ -53,15 +53,23 @@ class Invoice < ActiveRecord::Base
   validate :validate_memberships_amount_for_current_year, on: :create
 
   def send!
-    invalid_transition(:send!) unless can_send?
+    return unless can_send?
     raise NoPdfError unless pdf_file.attached?
 
-    InvoiceMailer.new_invoice(self).deliver_now
+    InvoiceMailer.new_invoice(self).deliver_now if can_send?
     touch(:sent_at)
     close_or_open!
   rescue => ex
     ExceptionNotifier.notify_exception(ex,
       data: { invoice_id: id, emails: member.emails, member_id: member_id })
+  end
+
+  def mark_as_sent!
+    return if sent_at?
+    raise NoPdfError unless pdf_file.attached?
+
+    touch(:sent_at)
+    close_or_open!
   end
 
   def cancel!
