@@ -80,9 +80,9 @@ describe Invoice do
 
   describe '#send!' do
     let(:invoice) { create(:invoice, :support, :not_sent) }
+    before { invoice.set_pdf }
 
     it 'delivers email' do
-      invoice.set_pdf
       expect { invoice.send!; }
         .to change { ActionMailer::Base.deliveries.count }.by(1)
       mail = ActionMailer::Base.deliveries.last
@@ -90,8 +90,11 @@ describe Invoice do
     end
 
     it 'touches sent_at' do
-      invoice.set_pdf
       expect { invoice.send! }.to change(invoice, :sent_at).from(nil)
+    end
+
+    it 'sets invoice as open' do
+      expect { invoice.send! }.to change(invoice, :state).to('open')
     end
 
     it 'does nothing when already sent' do
@@ -104,6 +107,25 @@ describe Invoice do
       invoice.member.update(emails: '')
       expect { invoice.send! }
         .not_to change { ActionMailer::Base.deliveries.count }
+      expect(invoice.reload.sent_at).to be_nil
+    end
+  end
+
+  describe '#mark_as_sent!' do
+    let(:invoice) { create(:invoice, :support, :not_sent) }
+    before { invoice.set_pdf }
+
+    it 'does not deliver email' do
+      expect { invoice.mark_as_sent!; }
+        .not_to change { ActionMailer::Base.deliveries.count }
+    end
+
+    it 'touches sent_at' do
+      expect { invoice.mark_as_sent! }.to change(invoice, :sent_at).from(nil)
+    end
+
+    it 'sets invoice as open' do
+      expect { invoice.send! }.to change(invoice, :state).to('open')
     end
   end
 
