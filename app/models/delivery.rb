@@ -16,7 +16,7 @@ class Delivery < ActiveRecord::Base
   }
 
   def self.create_all(count, first_date)
-    date = first_date
+    date = first_date.next_weekday + 2.days # Wed
     count.times do
       create(date: date)
       date = next_date(date)

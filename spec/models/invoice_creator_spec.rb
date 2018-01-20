@@ -230,8 +230,8 @@ describe InvoiceCreator do
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
-      expect(invoice.remaining_memberships_amount).to eq 7 * 2
-      expect(invoice.memberships_amount).to eq 7 * 2
+      expect(invoice.remaining_memberships_amount).to eq 8 * 2
+      expect(invoice.memberships_amount).to eq 8 * 2
       expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #4'
     end
   end
