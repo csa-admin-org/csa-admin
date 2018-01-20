@@ -1,4 +1,6 @@
 class Payment < ActiveRecord::Base
+  include HasFiscalYearScopes
+
   acts_as_paranoid
 
   default_scope { order(:date) }
@@ -6,11 +8,6 @@ class Payment < ActiveRecord::Base
   belongs_to :member
   belongs_to :invoice, optional: true
 
-  scope :current_year, -> { during_year(Time.zone.today.year) }
-  scope :during_year, ->(year) {
-    date = Date.new(year)
-    where('date >= ? AND date <= ?', date.beginning_of_year, date.end_of_year)
-  }
   scope :isr, -> { where.not(isr_data: nil) }
   scope :manual, -> { where(isr_data: nil) }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }

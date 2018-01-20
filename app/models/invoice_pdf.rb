@@ -8,7 +8,7 @@ class InvoicePdf < Prawn::Document
   INFO = {
     Title:        'Facture',
     Producer:     'Prawn',
-    CreationDate: Time.zone.now
+    CreationDate: Time.current
   }
   PAYMENT_FOR = "Banque Raiffeisen du Vignoble\n2023 Gorgier"
   IN_FAVOR_OF = "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle"

@@ -42,7 +42,7 @@ FactoryBot.define do
     support_member false
     billing_interval 'quarterly'
 
-    validated_at { Time.zone.now }
+    validated_at { Time.current }
     validator { create(:admin) }
 
     created_at { Time.utc(2014) } # no trial by default
@@ -55,7 +55,7 @@ FactoryBot.define do
 
     trait :waiting do
       state Member::WAITING_STATE
-      waiting_started_at { Time.zone.now }
+      waiting_started_at { Time.current }
       waiting_basket_size { create(:basket_size) }
       waiting_distribution { create(:distribution) }
     end
@@ -65,7 +65,7 @@ FactoryBot.define do
       after :create do |member|
         create(:membership,
           member: member,
-          started_on: [Time.current.beginning_of_year, Time.zone.today - 3.weeks].max)
+          started_on: [Time.current.beginning_of_year, Date.current - 3.weeks].max)
         member.reload
         member.update_state!
       end
@@ -93,12 +93,12 @@ FactoryBot.define do
     member
     basket_size_id { BasketSize.first&.id || create(:basket_size).id }
     distribution_id { Distribution.first&.id || create(:distribution).id }
-    started_on { Time.zone.today.beginning_of_year }
-    ended_on { Time.zone.today.end_of_year }
+    started_on { Current.fy_range.min }
+    ended_on { Current.fy_range.max }
 
     trait :last_year do
-      started_on { 1.year.ago.beginning_of_year  }
-      ended_on { 1.year.ago.end_of_year  }
+      started_on { Current.acp.fiscal_year_for(1.year.ago).range.min  }
+      ended_on { Current.acp.fiscal_year_for(1.year.ago).range.max  }
     end
 
     # Clear memory attributes
@@ -140,7 +140,7 @@ FactoryBot.define do
   end
 
   factory :delivery do
-    date { Time.zone.now }
+    date { Time.current }
   end
 
   factory :invoice do
@@ -184,7 +184,7 @@ FactoryBot.define do
   end
 
   factory :halfday do
-    date { Time.zone.today.beginning_of_week + 8.days }
+    date { Date.current.beginning_of_week + 8.days }
     start_time { Time.zone.parse('8:30') }
     end_time { Time.zone.parse('12:00') }
     place 'Thielle'

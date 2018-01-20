@@ -64,7 +64,7 @@ ActiveAdmin.register BasketContent do
   before_action only: :index do
     if params['commit'].blank? && request.format.html?
       params['q'] = {
-        delivery_id_eq: Delivery.coming.first&.id,
+        delivery_id_eq: Delivery.next&.id,
       }
     end
   end
@@ -72,7 +72,7 @@ ActiveAdmin.register BasketContent do
   controller do
     def build_resource
       super
-      resource.delivery ||= Delivery.coming.first
+      resource.delivery ||= Delivery.next
       if resource.basket_sizes.empty?
         resource.basket_sizes = BasketContent::SIZES
       end

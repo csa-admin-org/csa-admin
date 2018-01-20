@@ -1,11 +1,16 @@
 class Halfday < ActiveRecord::Base
+  include HasFiscalYearScopes
+
   attr_accessor :preset_id
 
   has_many :participations, class_name: 'HalfdayParticipation'
 
-  scope :coming, -> { where('date > ?', Time.zone.today) }
-  scope :available, -> { where('date >= ?', 3.days.from_now) }
-  scope :past, -> { where('date < ?', Time.zone.today) }
+  scope :coming, -> { where('halfdays.date > ?', Date.current) }
+  scope :available, -> { where('halfdays.date >= ?', 3.days.from_now) }
+  scope :past, -> { where('halfdays.date <= ?', Date.current) }
+  scope :past_current_year, -> {
+    where('halfdays.date < ? AND halfdays.date >= ?', Date.current, Current.fy_range.min)
+  }
 
   validates :date, :start_time, :end_time, presence: true
   validates :place, :activity, presence: true, unless: :use_preset?

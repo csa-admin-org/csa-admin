@@ -255,6 +255,7 @@ fr:
         email_api_token: API token
         email_default_host: Default host
         email_default_from: Default from
+        fiscal_year_start_month: 1er mois de l'année fiscale
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation

@@ -58,8 +58,8 @@ ActiveAdmin.register Absence do
   controller do
     def build_resource
       super
-      resource.started_on ||= Time.zone.today
-      resource.ended_on ||= Time.zone.today
+      resource.started_on ||= Date.current
+      resource.ended_on ||= Date.current
       resource
     end
 

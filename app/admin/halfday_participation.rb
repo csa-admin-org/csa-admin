@@ -99,7 +99,7 @@ ActiveAdmin.register HalfdayParticipation do
 
     before_create do |participation|
       if participation.halfday.date.past?
-        participation.validated_at = Time.zone.now
+        participation.validated_at = Time.current
         participation.validator = current_admin
       end
     end

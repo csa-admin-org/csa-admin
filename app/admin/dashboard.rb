@@ -1,9 +1,8 @@
 ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: 'Tableau de bord'
-  year = Time.zone.today.year
 
   content title: 'Tableau de bord' do
-    next_delivery = Delivery.coming.first
+    next_delivery = Delivery.next
     columns do
       column do
         panel 'Membres' do
@@ -29,7 +28,7 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel "Facturation #{year}" do
+        panel "Facturation #{Current.fy_year}" do
           billing_totals = BillingTotal.all
           billing_totals_price = billing_totals.sum(&:price)
 
@@ -49,7 +48,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
           table_for nil do
             column do
-              xlsx_link = link_to 'Excel', billing_path(year, format: :xlsx)
+              xlsx_link = link_to 'Excel', billing_path(Current.fy_year, format: :xlsx)
               "Télécharger : #{xlsx_link}".html_safe
             end
           end
@@ -87,7 +86,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
               table_for nil do
                 column do
-                  xlsx_link = link_to 'Excel', delivery_path(Delivery.coming.first, format: :xlsx)
+                  xlsx_link = link_to 'Excel', delivery_path(Delivery.next, format: :xlsx)
                   "Télécharger : #{xlsx_link}".html_safe
                 end
                 column(class: 'align-right') { "Total: #{counts.sum(&:count)}" }
@@ -115,8 +114,8 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel "½ Journées de travail (#{year})" do
-          table_for HalfdayParticipationCount.all(year) do
+        panel "½ Journées de travail (#{Current.fy_year})" do
+          table_for HalfdayParticipationCount.all(Current.fy_year) do
             column 'Statut', :title
             column 'Nombres (am+pm * participants)', :count, class: 'align-right'
           end

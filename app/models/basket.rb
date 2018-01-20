@@ -18,7 +18,8 @@ class Basket < ActiveRecord::Base
   scope :not_absent, -> { where(absent: false) }
 
   def next?
-    delivery_id == Delivery.next_coming_id
+    next_delivery = Delivery.next
+    next_delivery && delivery_id == next_delivery.id
   end
 
   def delivered?

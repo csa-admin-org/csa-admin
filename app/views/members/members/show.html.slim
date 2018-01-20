@@ -67,7 +67,8 @@ section
 
 section.past
   h2 ½ journées de travail effectuées
-  - if @member.halfday_participations.past.empty?
+  - past_participations = @member.halfday_participations.past_current_year.includes(:halfday)
+  - if past_participations.empty?
     p.table-empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else
     table.halfday_works
@@ -77,7 +78,7 @@ section.past
           th.small Part.
           th.medium Statut.
       tbody
-      - @member.halfday_participations.includes(:halfday).past.each do |participation|
+      - past_participations.each do |participation|
         tr class="#{participation.rejected? ? 'rejected' : ''}"
           td== halfday_label(participation.halfday, date: true)
           td= participation.participants_count

@@ -18,14 +18,10 @@ RSpec.configure do |config|
       FactoryBot.create(:acp, host: 'ragedevert', tenant_name: 'ragedevert')
     end
     Apartment::Tenant.switch('ragedevert') do
-      Delivery.create_all(40, Date.new(Time.zone.today.year - 1, 1, 14))
-      Delivery.create_all(40, Date.new(Time.zone.today.year, 1, 14))
-    end
-  end
-
-  config.after(:suite) do
-    Apartment::Tenant.switch('ragedevert') do
       Delivery.delete_all
+      date = Current.fiscal_year.beginning_of_year + 2.weeks
+      Delivery.create_all(40, date - 1.year)
+      Delivery.create_all(40, date)
     end
   end
 

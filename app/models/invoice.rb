@@ -2,6 +2,7 @@ require 'rounding'
 require 'bigdecimal'
 
 class Invoice < ActiveRecord::Base
+  include HasFiscalYearScopes
   include HasState
   include ActionView::Helpers::NumberHelper
   NoPdfError = Class.new(StandardError)
@@ -15,12 +16,6 @@ class Invoice < ActiveRecord::Base
 
   has_one_attached :pdf_file
 
-  scope :current_year, -> { during_year(Time.zone.today.year) }
-  scope :during_year, ->(year) {
-    date = Date.new(year)
-    where('date >= ? AND date <= ?', date.beginning_of_year, date.end_of_year)
-  }
-  scope :quarter, ->(n) { where('EXTRACT(QUARTER FROM date) = ?', n) }
   scope :support, -> { where.not(support_amount: nil) }
   scope :membership, -> { where.not(memberships_amount: nil) }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
@@ -138,15 +133,16 @@ class Invoice < ActiveRecord::Base
     !sent_at? && member.emails?
   end
 
-  def current_year?
-    date.year == Date.current.year
+  def fy_quarter
+    fy_month = fiscal_year.month(date)
+    (fy_month / 3.0).ceil
   end
 
   private
 
   def validate_memberships_amount_for_current_year
     return unless membership
-    paid_invoices = member.invoices.not_canceled.membership.during_year(date.year)
+    paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
     if paid_invoices.sum(:memberships_amount) + memberships_amount > membership.price
       errors.add(:base, 'Somme de la facturation des abonnements trop grande')
     end
@@ -154,7 +150,7 @@ class Invoice < ActiveRecord::Base
 
   def set_paid_memberships_amount
     return unless membership
-    paid_invoices = member.invoices.not_canceled.membership.during_year(date.year)
+    paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
     self[:paid_memberships_amount] ||= paid_invoices.sum(:memberships_amount)
   end
 

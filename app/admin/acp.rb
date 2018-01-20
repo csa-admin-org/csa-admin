@@ -4,6 +4,7 @@ ActiveAdmin.register ACP do
   permit_params \
     :name, :host,
     :email_api_token, :email_default_host, :email_default_from,
+    :fiscal_year_start_month,
     features: []
 
   form do |f|
@@ -20,6 +21,12 @@ ActiveAdmin.register ACP do
       f.input :email_api_token
       f.input :email_default_host
       f.input :email_default_from
+    end
+    f.inputs 'Facturation' do
+      f.input :fiscal_year_start_month,
+        as: :select,
+        collection: (1..12).map { |m| [t('date.month_names')[m], m] },
+        include_blank: false
     end
 
     f.actions do

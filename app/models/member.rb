@@ -16,18 +16,13 @@ class Member < ActiveRecord::Base
   has_many :absences
   has_many :invoices
   has_many :payments
-  has_many :current_year_invoices, -> { during_year(Time.zone.today.year) },
-    class_name: 'Invoice'
+  has_many :current_year_invoices, -> { current_year }, class_name: 'Invoice'
   has_many :halfday_participations
   has_many :memberships
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
-  has_one :current_year_membership,
-    -> { during_year(Time.zone.today.year) },
-    class_name: 'Membership'
-  has_one :future_membership,
-    -> { future },
-    class_name: 'Membership'
+  has_one :current_year_membership, -> { current_year }, class_name: 'Membership'
+  has_one :future_membership, -> { future }, class_name: 'Membership'
   has_many :baskets, through: :memberships
   has_many :delivered_baskets,
     through: :memberships,
@@ -188,14 +183,14 @@ class Member < ActiveRecord::Base
 
   def halfday_works(year = nil)
     @annual_halfday_works ||= begin
-      year ||= Time.zone.today.year
+      year ||= Current.fy_year
       memberships.during_year(year).first&.halfday_works.to_i
     end
   end
 
   def validated_halfday_works(year = nil)
     @validated_halfday_works ||= begin
-      year ||= Time.zone.today.year
+      year ||= Current.fy_year
       halfday_participations.during_year(year).validated.sum(&:participants_count)
     end
   end
@@ -222,7 +217,7 @@ class Member < ActiveRecord::Base
     support_member? ||
       (!salary_basket? && !trial? && current_year_membership.present?) ||
       (trial? && !current_membership) ||
-      (trial? && Delivery.next_coming_date.year > Time.current.year)
+      (trial? && Delivery.next.fy_year > Current.fy_year)
   end
 
   def support_billable?

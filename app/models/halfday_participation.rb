@@ -10,22 +10,10 @@ class HalfdayParticipation < ActiveRecord::Base
 
   scope :validated, -> { where(state: 'validated') }
   scope :rejected, -> { where(state: 'rejected') }
-  scope :pending, -> do
-    joins(:halfday).where('halfdays.date <= ?', Time.zone.today).where(state: 'pending')
-  end
-  scope :coming, -> { joins(:halfday).where('halfdays.date > ?', Time.zone.today) }
-  scope :past, -> do
-    joins(:halfday).where(
-      'halfdays.date < ? AND halfdays.date >= ?',
-      Time.zone.today,
-      Time.zone.today.beginning_of_year)
-  end
-  scope :during_year, ->(year) {
-    joins(:halfday).where(
-      'halfdays.date >= ? AND halfdays.date <= ?',
-      Date.new(year).beginning_of_year,
-      Date.new(year).end_of_year)
-  }
+  scope :pending, -> { joins(:halfday).merge(Halfday.past).where(state: 'pending') }
+  scope :coming, -> { joins(:halfday).merge(Halfday.coming) }
+  scope :past_current_year, -> { joins(:halfday).merge(Halfday.past_current_year) }
+  scope :during_year, ->(year) { joins(:halfday).merge(Halfday.during_year(year)) }
   scope :carpooling, ->(date) {
     joins(:halfday).where(halfdays: { date: date }).where.not(carpooling_phone: nil)
   }
@@ -109,7 +97,7 @@ class HalfdayParticipation < ActiveRecord::Base
   end
 
   def update_membership_validated_halfday_works
-    membership = member.memberships.during_year(halfday.date.year).first
+    membership = member.memberships.during_year(halfday.fy_year).first
     membership&.update_validated_halfday_works!
   end
 

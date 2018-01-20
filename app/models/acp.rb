@@ -7,6 +7,9 @@ class ACP < ActiveRecord::Base
   validates :name, presence: true
   validates :host, presence: true
   validates :tenant_name, presence: true
+  validates :fiscal_year_start_month,
+    presence: true,
+    inclusion: { in: 1..12 }
 
   after_create :create_tenant
 
@@ -22,6 +25,14 @@ class ACP < ActiveRecord::Base
 
   def feature?(feature)
     self.features.include?(feature.to_s)
+  end
+
+  def current_fiscal_year
+    FiscalYear.current(start_month: fiscal_year_start_month)
+  end
+
+  def fiscal_year_for(date_or_year)
+    FiscalYear.for(date_or_year, start_month: fiscal_year_start_month)
   end
 
   private
