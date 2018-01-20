@@ -14,7 +14,7 @@ class InvoiceOverdueNoticer
     return unless overdue_noticable?
 
     invoice.increment(:overdue_notices_count)
-    invoice.overdue_notice_sent_at = Time.zone.now
+    invoice.overdue_notice_sent_at = Time.current
     invoice.save!
 
     InvoiceMailer.overdue_notice(invoice).deliver_now

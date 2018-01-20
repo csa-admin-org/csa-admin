@@ -1,19 +1,15 @@
 class Delivery < ActiveRecord::Base
+  include HasFiscalYearScopes
+
   default_scope { order(:date) }
 
   has_one :gribouille
   has_many :baskets
   has_many :basket_contents
 
-  scope :past_year, -> { where("EXTRACT(YEAR FROM date) < #{Date.current.year}") }
-  scope :current_year, -> { where("EXTRACT(YEAR FROM date) = #{Date.current.year}") }
-  scope :future_year, -> { where("EXTRACT(YEAR FROM date) > #{Date.current.year}") }
-
-  scope :past, -> { where('date < ?', Time.zone.today) }
-  scope :coming, -> { where('date >= ?', Time.zone.today) }
-  scope :between, ->(range) {
-    where('date >= ? AND date <= ?', range.first, range.last)
-  }
+  scope :past, -> { where('date < ?', Date.current) }
+  scope :coming, -> { where('date >= ?', Date.current) }
+  scope :between, ->(range) { where(date: range) }
 
   def self.create_all(count, first_date)
     date = first_date.next_weekday + 2.days # Wed
@@ -21,6 +17,10 @@ class Delivery < ActiveRecord::Base
       create(date: date)
       date = next_date(date)
     end
+  end
+
+  def self.next
+    coming.first
   end
 
   def delivered?
@@ -35,22 +35,11 @@ class Delivery < ActiveRecord::Base
     year_dates.index(date) + 1
   end
 
-  def self.next_coming_date
-    @next_coming_date ||= coming.first&.date
-  end
-
-  def self.next_coming_id
-    @next_coming_id ||= coming.first&.id
-  end
-
-  def self.years_range
-    Delivery.minimum(:date).year..Delivery.maximum(:date).year
-  end
-
   private
 
   def self.next_date(date)
-    if date >= Date.new(date.year, 5, 18) && date <= Date.new(date.year, 12, 21)
+    fy_year = Current.acp.fiscal_year_for(date).year
+    if date >= Date.new(fy_year, 5, 18) && date <= Date.new(fy_year, 12, 21)
       date + 1.week
     else
       date + 2.weeks
@@ -58,8 +47,8 @@ class Delivery < ActiveRecord::Base
   end
 
   def year_dates
-    Rails.cache.fetch "#{date.year}_deliveries_dates" do
-      Delivery.between(date.beginning_of_year..date.end_of_year).pluck(:date)
+    Rails.cache.fetch "#{fy_year}_deliveries_dates" do
+      Delivery.between(fy_range).pluck(:date)
     end
   end
 end

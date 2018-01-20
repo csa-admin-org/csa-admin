@@ -2,10 +2,8 @@ ActiveAdmin.register Gribouille do
   menu priority: 5
 
   form do |f|
-    delivery = Delivery.coming.first
-    gribouille = delivery.gribouille
+    delivery = Delivery.next
     if delivery
-      date = delivery.date
       gribouille = delivery.gribouille
       if gribouille&.sent_at?
         panel 'Info' do "<h1>Gribouilles envoyées!</h1>".html_safe end
@@ -47,12 +45,12 @@ ActiveAdmin.register Gribouille do
   ]
 
   before_build do
-    gribouille = Delivery.coming.first.gribouille
+    gribouille = Delivery.next&.gribouille
     @resource = gribouille if gribouille
   end
 
   before_create do |gribouille|
-    gribouille.delivery = Delivery.coming.first
+    gribouille.delivery = Delivery.next
   end
 
   controller do

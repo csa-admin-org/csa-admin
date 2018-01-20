@@ -93,7 +93,7 @@ ActiveAdmin.register Membership do
     f.inputs 'Dates' do
       f.input :started_on, as: :datepicker, include_blank: false
       f.input :ended_on, as: :datepicker, include_blank: false
-      f.input :renew unless resource.new_record? || resource.ended_on.year != Date.current.year
+      f.input :renew unless resource.new_record? || resource.current_year?
     end
     f.inputs 'Panier & Distribution' do
       f.input :basket_size_id,
@@ -126,11 +126,12 @@ ActiveAdmin.register Membership do
   controller do
     def build_resource
       super
+      fy_range = Delivery.next.fy_range
       resource.member_id ||= params[:member_id]
       resource.basket_size_id ||= params[:basket_size_id]
       resource.distribution_id ||= params[:distribution_id]
-      resource.started_on ||= params[:started_on] || Delivery.next_coming_date.beginning_of_year
-      resource.ended_on ||= Delivery.next_coming_date.end_of_year
+      resource.started_on ||= params[:started_on] || fy_range.min
+      resource.ended_on ||= fy_range.max
       resource
     end
 

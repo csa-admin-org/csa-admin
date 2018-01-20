@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe InvoiceCreator do
   let(:invoice) { create_invoice }
-  before { Timecop.travel(Date.new(Time.zone.today.year, 2)) }
+  before { Timecop.travel(Date.new(Current.fy_year, 2)) }
   after { Timecop.return }
 
   def create_invoice
@@ -70,7 +70,7 @@ describe InvoiceCreator do
     end
 
     specify 'when membership did not started yet' do
-      Timecop.travel(1.day.from_now) { membership.touch(:started_on) }
+      membership.update_column(:started_on, Date.tomorrow)
       expect(invoice).to be_nil
     end
 
@@ -109,7 +109,7 @@ describe InvoiceCreator do
 
     specify 'when quarter #2' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5))
+      Timecop.travel(Date.new(Current.fy_year, 5))
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
@@ -120,7 +120,7 @@ describe InvoiceCreator do
 
     specify 'when quarter #2 (already billed)' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5))
+      Timecop.travel(Date.new(Current.fy_year, 5))
       Timecop.travel(1.day.ago) { create_invoice }
 
       expect(invoice).to be_nil
@@ -128,7 +128,7 @@ describe InvoiceCreator do
 
     specify 'when quarter #2 (already billed but canceled)' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5))
+      Timecop.travel(Date.new(Current.fy_year, 5))
       Timecop.travel(1.day.ago) { create_invoice.cancel! }
 
       expect(invoice.support_amount).to be_nil
@@ -140,8 +140,8 @@ describe InvoiceCreator do
 
     specify 'when quarter #3' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 8))
+      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 8))
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
@@ -152,10 +152,10 @@ describe InvoiceCreator do
 
     specify 'when quarter #3 (with overbalance on previous invoices)' do
       @first_invoice = create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) {
+      Timecop.travel(Date.new(Current.fy_year, 5)) {
         @second_invoice = create_invoice
       }
-      Timecop.travel(Date.new(Time.zone.today.year, 8))
+      Timecop.travel(Date.new(Current.fy_year, 8))
 
       memberships_amount = membership.price / 4.0
       support_amount = 30
@@ -178,8 +178,8 @@ describe InvoiceCreator do
 
     specify 'when quarter #3 (already billed)' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 8))
+      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 8))
       Timecop.travel(1.day.ago) { create_invoice }
 
       expect(invoice).to be_nil
@@ -187,8 +187,8 @@ describe InvoiceCreator do
 
     specify 'when quarter #3 (already billed), but with a membership change' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 8))
+      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 8))
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(distribution_id: create(:distribution, price: 2).id)
 
@@ -198,9 +198,9 @@ describe InvoiceCreator do
     specify 'when quarter #4' do
 
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 8)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 11))
+      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 11))
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
@@ -211,9 +211,9 @@ describe InvoiceCreator do
 
     specify 'when quarter #4 (already billed)' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 8)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 11))
+      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 11))
       Timecop.travel(1.day.ago) { create_invoice }
 
       expect(invoice).to be_nil
@@ -221,9 +221,9 @@ describe InvoiceCreator do
 
     specify 'when quarter #4 (already billed), but with a membership change' do
       create_invoice
-      Timecop.travel(Date.new(Time.zone.today.year, 5)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 8)) { create_invoice }
-      Timecop.travel(Date.new(Time.zone.today.year, 11))
+      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice }
+      Timecop.travel(Date.new(Current.fy_year, 11))
       Timecop.travel(1.day.ago) { create_invoice }
       membership.update!(distribution_id: create(:distribution, price: 2).id)
       member.current_year_membership.reload

@@ -5,7 +5,7 @@ class InvoiceCreator
     @member = member
     @membership = member.current_year_membership
     @invoices = member.invoices.not_canceled.current_year
-    @date = Time.zone.today
+    @date = Date.current
   end
 
   def create
@@ -29,7 +29,7 @@ class InvoiceCreator
       member_billing_interval: billing_interval
     }
     if membership&.billable?
-      return if quarter_already_billed? || membership_not_started?
+      return if quarter_already_billed? || !membership.started?
       attrs[:membership] = membership
       attrs[:membership_amount_fraction] = membership_amount_fraction
       attrs[:memberships_amount_description] = membership_amount_description
@@ -45,21 +45,17 @@ class InvoiceCreator
     Member::SUPPORT_PRICE if !support_billed? && member.support_billable?
   end
 
-  def membership_not_started?
-    membership.started_on > Time.zone.now
-  end
-
   def membership_amount_description
     case billing_interval
     when 'annual' then 'Montant annuel'
-    when 'quarterly' then "Montant trimestriel ##{quarter}"
+    when 'quarterly' then "Montant trimestriel ##{fy_quarter}"
     end
   end
 
   def membership_amount_fraction
     case billing_interval
     when 'annual' then 1
-    when 'quarterly' then ((13 - date.month) / 3.0).ceil
+    when 'quarterly' then ((13 - fy_month) / 3.0).ceil
     end
   end
 
@@ -67,8 +63,12 @@ class InvoiceCreator
     member.trial? ? 'annual' : member.billing_interval
   end
 
-  def quarter
-    (date.month / 3.0).ceil
+  def fy_quarter
+    (fy_month / 3.0).ceil
+  end
+
+  def fy_month
+    Current.acp.fiscal_year_for(date).month(date)
   end
 
   # We only want to bill the first three quarters once, even when memberships
@@ -76,7 +76,7 @@ class InvoiceCreator
   # yearly members.
   def quarter_already_billed?
     if membership_amount_fraction != 1
-      invoices.quarter(quarter).exists?
+      invoices.any? { |i| i.fy_quarter == fy_quarter }
     end
   end
 end

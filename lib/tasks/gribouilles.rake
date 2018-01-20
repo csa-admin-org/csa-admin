@@ -3,8 +3,8 @@ namespace :gribouilles do
   task deliver: :environment do
     Apartment::Tenant.switch!('ragedevert')
 
-    next_delivery = Delivery.coming.first
-    if next_delivery && Time.zone.today == (next_delivery.date - 1.day)
+    next_delivery = Delivery.next
+    if next_delivery && Date.current == (next_delivery.date - 1.day)
       gribouille = next_delivery.gribouille
       if gribouille&.deliverable?
         Member.gribouille.each do |member|

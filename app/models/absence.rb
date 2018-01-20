@@ -6,17 +6,11 @@ class Absence < ActiveRecord::Base
 
   after_commit :update_absent_baskets!
 
-  scope :past, -> { where('ended_on < ?', Time.zone.now) }
-  scope :future, -> { where('started_on > ?', Time.zone.now) }
-  scope :current, -> { including_date(Time.zone.today) }
-  scope :including_date,
-    ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
-  scope :during_year, ->(year) {
-    where(
-      'started_on >= ? AND ended_on <= ?',
-      Date.new(year).beginning_of_year,
-      Date.new(year).end_of_year
-    )
+  scope :past, -> { where('ended_on < ?', Time.current) }
+  scope :future, -> { where('started_on > ?', Time.current) }
+  scope :current, -> { including_date(Date.current) }
+  scope :including_date, ->(date) {
+    where('started_on <= ? AND ended_on >= ?', date, date)
   }
 
   def period

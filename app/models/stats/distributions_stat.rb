@@ -1,6 +1,6 @@
 class Stats::DistributionsStat < Stats::BaseStat
   def self.all
-    [new(Date.current.year - 1), new(Date.current.year)]
+    [new(Current.fy_year - 1), new(Current.fy_year)]
   end
 
   def data

@@ -23,22 +23,20 @@ class Membership < ActiveRecord::Base
   after_update :update_baskets
   after_commit :update_trial_baskets_and_user_state!
 
-  scope :started, -> { where('started_on < ?', Time.zone.now) }
-  scope :past, -> { where('ended_on < ?', Time.zone.now) }
-  scope :future, -> { where('started_on > ?', Time.zone.now) }
-  scope :current, -> { including_date(Time.zone.today) }
-  scope :current_year, -> { during_year(Date.current.year) }
+  scope :started, -> { where('started_on < ?', Time.current) }
+  scope :past, -> { where('ended_on < ?', Time.current) }
+  scope :future, -> { where('started_on > ?', Time.current) }
+  scope :current, -> { including_date(Date.current) }
   scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
+  scope :current_year, -> { during_year(Current.fy_year) }
   scope :during_year, ->(year) {
-    where(
-      'started_on >= ? AND ended_on <= ?',
-      Date.new(year).beginning_of_year,
-      Date.new(year).end_of_year)
+    fy = Current.acp.fiscal_year_for(year)
+    where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
   }
 
   def self.billable
-    during_year(Time.zone.today.year)
+    current_year
       .started
       .includes(
         member: [:current_membership, :first_membership, :current_year_invoices]
@@ -46,16 +44,24 @@ class Membership < ActiveRecord::Base
       .select(&:billable?)
   end
 
-  def year
-    started_on.year
+  def fy_year
+    Current.acp.fiscal_year_for(started_on).year
   end
 
   def billable?
     price > 0
   end
 
+  def started?
+    started_on <= Date.current
+  end
+
   def current?
-    started_on <= Time.zone.today && ended_on >= Time.zone.today
+    started? && ended_on >= Date.current
+  end
+
+  def current_year?
+    fy_year == Current.fy_year
   end
 
   def can_destroy?
@@ -63,12 +69,12 @@ class Membership < ActiveRecord::Base
   end
 
   def can_update?
-    ended_on.year >= Time.current.year
+    fy_year >= Current.fy_year
   end
 
   def future_or_last_basket_size
     now = Time.current
-    (baskets.between(now..now.end_of_year).first || baskets.last)&.basket_size
+    (baskets.between(now..Current.fy_range.max).first || baskets.last)&.basket_size
   end
 
   def basket_total_price
@@ -159,14 +165,14 @@ class Membership < ActiveRecord::Base
   end
 
   def renew!
-    renew_year = Time.zone.today.next_year
+    next_fy = Current.acp.fiscal_year_for(fy_year + 1)
     last_basket = baskets.last
     Membership.create!(
       member: member,
       basket_size_id: last_basket.basket_size_id,
       distribution_id: last_basket.distribution_id,
-      started_on: renew_year.beginning_of_year,
-      ended_on: renew_year.end_of_year)
+      started_on: next_fy.beginning_of_year,
+      ended_on: next_fy.end_of_year)
   end
 
   def basket_size
@@ -180,7 +186,7 @@ class Membership < ActiveRecord::Base
   end
 
   def update_validated_halfday_works!
-    validated_participations = member.halfday_participations.validated.during_year(started_on.year)
+    validated_participations = member.halfday_participations.validated.during_year(fy_year)
     update_column(:validated_halfday_works, validated_participations.sum(:participants_count))
   end
 
@@ -203,7 +209,7 @@ class Membership < ActiveRecord::Base
 
   def set_renew
     if ended_on_changed?
-      self.renew = (ended_on == Date.current.end_of_year)
+      self.renew = (ended_on == Current.fy_range.max)
     end
   end
 
@@ -272,7 +278,7 @@ class Membership < ActiveRecord::Base
 
   def only_one_per_year
     return unless member
-    if member.memberships.during_year(started_on.year).where.not(id: id).exists?
+    if member.memberships.during_year(fy_year).where.not(id: id).exists?
       errors.add(:member, 'seulement un abonnement par an et par membre')
     end
   end
@@ -282,9 +288,9 @@ class Membership < ActiveRecord::Base
       errors.add(:started_on, 'doit être avant la fin')
       errors.add(:ended_on, 'doit être après le début')
     end
-    if ended_on.year != started_on.year
-      errors.add(:started_on, 'doit être dans la même année que la fin')
-      errors.add(:ended_on, 'doit être dans la même année que le début')
+    if fy_year != Current.acp.fiscal_year_for(ended_on).year
+      errors.add(:started_on, 'doit être dans la même année fiscale que la fin')
+      errors.add(:ended_on, 'doit être dans la même année fiscale que le début')
     end
   end
 

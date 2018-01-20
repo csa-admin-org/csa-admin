@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_01_10_202513) do
+ActiveRecord::Schema.define(version: 2018_01_19_193710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_01_10_202513) do
     t.string "email_api_token"
     t.string "email_default_host"
     t.string "email_default_from"
+    t.integer "fiscal_year_start_month", default: 1, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

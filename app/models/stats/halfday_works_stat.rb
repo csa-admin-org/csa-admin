@@ -1,6 +1,6 @@
 class Stats::HalfdayWorksStat < Stats::BaseStat
   def self.all
-    [new(Date.current.year - 1)]
+    [new(Current.fy_year - 1)]
   end
 
   def data
