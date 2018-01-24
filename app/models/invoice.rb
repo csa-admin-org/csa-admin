@@ -126,7 +126,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def can_cancel?
-    not_sent? || open? || current_year?
+    !canceled? && (not_sent? || open? || current_year?)
   end
 
   def can_send?
