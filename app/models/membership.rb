@@ -135,7 +135,7 @@ class Membership < ActiveRecord::Base
     if distribution_total_price > 0
       "Distribution: #{distribution_total_price_details}"
     else
-      "Distribution: gratuit"
+      "Distribution: gratuite"
     end
   end
 

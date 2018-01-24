@@ -84,7 +84,7 @@ class InvoicePdf < Prawn::Document
 
   def content
     font_size 10
-    data = [['déscription', 'montant (CHF)']]
+    data = [['description', 'montant (CHF)']]
 
     if membership
       data << [membership.description, nil]

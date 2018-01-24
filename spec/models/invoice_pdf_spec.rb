@@ -56,7 +56,7 @@ describe InvoicePdf do
       expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
       expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
-      expect(pdf).to include 'Distribution: gratuit'
+      expect(pdf).to include 'Distribution: gratuite'
       expect(pdf).to include '0.00'
       expect(pdf).not_to include 'Demi-journées de travail'
       expect(pdf).to include 'Cotisation annuelle association'
@@ -88,7 +88,7 @@ describe InvoicePdf do
       expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
       expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
-      expect(pdf).to include 'Distribution: gratuit'
+      expect(pdf).to include 'Distribution: gratuite'
       expect(pdf).to include '0.00'
       expect(pdf).to include 'Réduction pour 6 demi-journées de travail supplémentaires'
       expect(pdf).to include '- 330.50'
@@ -170,7 +170,7 @@ describe InvoicePdf do
       expect(pdf).to include 'Montant trimestrielle #3'
       expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
-      expect(pdf).to include 'Distribution: gratuit'
+      expect(pdf).to include 'Distribution: gratuite'
       expect(pdf).to include '0.00'
       expect(pdf).to include '- 665.00'
       expect(pdf).to include '665.00'
