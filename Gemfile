@@ -74,10 +74,7 @@ group :production do
 end
 
 group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller' # for better_errors
-  gem 'rack-livereload'
-  gem 'guard-livereload', require: false
+  gem 'web-console'
   gem 'letter_opener'
   gem 'bullet'
 end
