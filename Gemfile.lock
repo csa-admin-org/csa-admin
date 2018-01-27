@@ -251,6 +251,10 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.6.0)
       launchy (~> 2.2)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     little-plugger (1.1.4)
     logging (2.2.2)
       little-plugger (~> 1.1)
@@ -377,6 +381,7 @@ GEM
     rubyXL (3.3.27)
       nokogiri (>= 1.4.4)
       rubyzip (>= 1.1.6)
+    ruby_dep (1.5.0)
     rubyzip (1.2.1)
     safe_yaml (1.0.4)
     sass (3.5.5)
@@ -482,6 +487,7 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails
   letter_opener
+  listen
   momentjs-rails
   neat (~> 1.8)
   paranoia

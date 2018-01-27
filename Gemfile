@@ -74,6 +74,7 @@ group :production do
 end
 
 group :development do
+  gem 'listen'
   gem 'web-console'
   gem 'letter_opener'
   gem 'bullet'
