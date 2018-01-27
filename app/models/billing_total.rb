@@ -2,7 +2,9 @@ class BillingTotal
   SCOPES = %i[distribution halfday_works support]
 
   def self.all
-    scopes = [BasketSize.all + SCOPES]
+    scopes = [BasketSize.all]
+    scopes << basket_complement if BasketComplement.any?
+    scopes += SCOPES
     scopes.flatten.map { |scope| new(scope) }
   end
 
@@ -11,8 +13,6 @@ class BillingTotal
   def initialize(scope)
     @memberships = Membership.joins(:member).where(members: { salary_basket: false }).current_year
     @scope = scope
-    # eager load for the cache
-    price
   end
 
   def title
@@ -28,6 +28,8 @@ class BillingTotal
       case scope
       when BasketSize
         @memberships.joins(:baskets).where(baskets: { basket_size_id: scope.id }).sum(:basket_price)
+      when :basket_complement
+        @memberships.joins(baskets: :baskets_basket_complements).sum(:price)
       when :distribution
         @memberships.joins(:baskets).sum(:distribution_price)
       when :halfday_works

@@ -224,6 +224,9 @@ fr:
       basket_size:
         one: Taille de panier
         other: Tailles de panier
+      basket_complement:
+        one: Complément panier
+        other: Compléments panier
       basket_content:
         one: Contenu Panier
         other: Contenu Paniers
@@ -284,9 +287,13 @@ fr:
         rights: Droit d'accès
       basket:
         delivery: Livraison
+        description: Panier
         basket_size: Taille du panier
         distribution: Lieu de distribution
         price: Prix
+      delivery:
+        date: Date
+        basket_complements: Compléments paniers
       halfday_participation:
         halfday: ½ Journée
         member_id: Membre
@@ -321,6 +328,11 @@ fr:
         price: Prix
         annual_price: Prix annuel
         annual_halfday_works: ½ journée de travails par année
+      basket_complement:
+        name: Nom
+        price: Prix
+        annual_price: Prix annuel
+        deliveries: Livraisons
       basket_content:
         quantity: Quantité
         unit: Unité
@@ -370,9 +382,11 @@ fr:
         validated_halfday_works: ½ journées validées
         halfday_works_annual_price: Ajustement du prix de l'abonnement
         baskets: Paniers
-        basket_total_price: Prix Paniers
-        distribution_total_price: Prix Distributions
-        halfday_works_total_price: Ajustement du prix de l'abonnement (½ journées)
+        baskets_price: Prix Paniers
+        subscribed_basket_complement_ids: Compléments paniers
+        basket_complements_price: Prix Compléments
+        distributions_price: Prix Distributions
+        halfday_works_price: Ajustement du prix de l'abonnement (½ journées)
         price: Total
         will_be_changed_at: Changement effectif depuis le
         deliveries_received_count: Paniers livrés
@@ -429,6 +443,7 @@ fr:
   billing:
     scope:
       basket_size: Panier %{name}
+      basket_complement: Complément
       distribution: Distribution
       halfday_works: Ajustement ½ journées de travail
       support: Cotisation

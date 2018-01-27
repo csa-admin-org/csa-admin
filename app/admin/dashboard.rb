@@ -20,7 +20,6 @@ ActiveAdmin.register_page 'Dashboard' do
               emails = Member.gribouille_emails
               mail_link = mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
               csv_link = link_to('liste', gribouille_emails_members_path(format: :csv))
-
               "#{emails.size} emails amoureux de Gribouille: #{mail_link} / #{csv_link}".html_safe
             else
               em 'Aucune prochaine livraison agendée.'
@@ -48,8 +47,9 @@ ActiveAdmin.register_page 'Dashboard' do
 
           table_for nil do
             column do
-              xlsx_link = link_to 'Excel', billing_path(Current.fy_year, format: :xlsx)
-              "Télécharger : #{xlsx_link}".html_safe
+              span do
+                link_to 'Récapitulatif Excel', billing_path(Current.fy_year, format: :xlsx)
+              end
             end
           end
         end
@@ -58,41 +58,59 @@ ActiveAdmin.register_page 'Dashboard' do
       column do
         if next_delivery
           panel "Prochaine livraison: #{l next_delivery.date, format: :long}" do
-            counts = DeliveryCount.all(next_delivery)
+            counts = BasketCount.all(next_delivery)
             if counts.present?
               table_for counts do
                 column 'Lieu', :title
                 column 'Paniers', :count, class: 'align-right'
-                column "#{BasketSize.pluck(:name).join(' / ')}", :baskets_count, class: 'align-right'
+                column "#{BasketSize.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
-              jardin_count = counts.find { |c| c.title == 'Jardin de la Main' }
-              other_counts = counts.reject { |c| c.title == 'Jardin de la Main' }
-              totals = [
-                OpenStruct.new(
-                  title: 'Paniers Jardin de la Main',
-                  count: "Total: #{jardin_count.count}",
-                  baskets_count: "Totaux: #{jardin_count.baskets_count}"),
-                OpenStruct.new(
-                  title: 'Paniers à préparer',
-                  count: "Total: #{other_counts.sum(&:count)}",
-                  baskets_count: "Totaux: #{other_counts.sum { |c| c.basket_sizes_count[0] }} / #{other_counts.sum { |c| c.basket_sizes_count[1] }}")
-              ]
-              table_for totals do
-                column nil, :title
-                column nil, :count, class: 'align-right'
-                column nil, :baskets_count, class: 'align-right'
+              if free_distributions = Distribution.free
+                paid_distributions = Distribution.paid
+                free_counts = counts.select { |c| c.distribution_id.in?(free_distributions.pluck(:id)) }
+                paid_counts = counts.select { |c| c.distribution_id.in?(paid_distributions.pluck(:id)) }
+                totals = [
+                  OpenStruct.new(
+                    title: "Paniers: #{free_distributions.pluck(:name).to_sentence}",
+                    count: "Total: #{free_counts.sum(&:count)}",
+                    baskets_count: "Totaux: #{free_counts.sum { |c| c.basket_sizes_count[0] }} / #{free_counts.sum { |c| c.basket_sizes_count[1] }}"),
+                  OpenStruct.new(
+                    title: 'Paniers à préparer',
+                    count: "Total: #{paid_counts.sum(&:count)}",
+                    baskets_count: "Totaux: #{paid_counts.sum { |c| c.basket_sizes_count[0] }} / #{paid_counts.sum { |c| c.basket_sizes_count[1] }}")
+                ]
+                table_for totals do
+                  column nil, :title
+                  column nil, :count, class: 'align-right'
+                  column nil, :baskets_count, class: 'align-right'
+                end
               end
 
               table_for nil do
-                column do
-                  xlsx_link = link_to 'Excel', delivery_path(Delivery.next, format: :xlsx)
-                  "Télécharger : #{xlsx_link}".html_safe
-                end
+                column nil, :title
                 column(class: 'align-right') { "Total: #{counts.sum(&:count)}" }
                 column(class: 'align-right') do
                   "Totaux: #{counts.sum { |c| c.basket_sizes_count[0] }} / #{counts.sum { |c| c.basket_sizes_count[1] }}"
                 end
+              end
+
+              if BasketComplement.any?
+                counts = BasketComplementCount.all(next_delivery)
+                div id: 'basket-complements-table' do
+                  if counts.any?
+                    table_for counts do
+                      column 'Complément', :title
+                      column 'Total', :count, class: 'align-right'
+                    end
+                  else
+                    em 'Aucun complément pour cette livraison'
+                  end
+                end
+              end
+
+              span do
+                link_to 'Récapitulatif Excel', delivery_path(Delivery.next, format: :xlsx)
               end
 
               absences_count = next_delivery.baskets.absent.count

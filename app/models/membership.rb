@@ -5,7 +5,12 @@ class Membership < ActiveRecord::Base
 
   belongs_to :member, -> { with_deleted }
   has_many :baskets, dependent: :destroy
+  has_many :basket_complements, source: :complements, through: :baskets
   has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
+  has_and_belongs_to_many :subscribed_basket_complements,
+    class_name: 'BasketComplement',
+    after_add: :add_subscribed_baskets_complement!,
+    after_remove: :remove_subscribed_baskets_complement!
 
   attr_accessor :basket_size_id, :distribution_id
 
@@ -20,7 +25,7 @@ class Membership < ActiveRecord::Base
   before_create :set_annual_halfday_works
   before_save :set_renew
   after_save :update_halfday_works
-  after_update :update_baskets
+  after_update :update_baskets!
   after_commit :update_trial_baskets_and_user_state!
 
   scope :started, -> { where('started_on < ?', Time.current) }
@@ -77,33 +82,45 @@ class Membership < ActiveRecord::Base
     (baskets.between(now..Current.fy_range.max).first || baskets.last)&.basket_size
   end
 
-  def basket_total_price
-    BasketSize.pluck(:id).sum { |id| baskets_price(id) }
+  def basket_sizes_price
+    BasketSize.pluck(:id).sum { |id| basket_size_price(id) }
   end
 
-  def baskets_price(basket_size_id)
-    rounded_price(baskets.select { |b| b.basket_size_id == basket_size_id }.sum(&:basket_price))
+  def basket_size_price(basket_size_id)
+    rounded_price(baskets.where(basket_size_id: basket_size_id).sum(:basket_price))
   end
 
-  def distribution_total_price(distribution_ids = nil)
-    distribution_ids ||= Distribution.pluck(:id)
-    distribution_ids.sum { |id| distributions_price(id) }
+  def basket_complements_price
+    BasketComplement.pluck(:id).sum { |id| basket_complement_price(id) }
   end
 
-  def distributions_price(distribution_id)
-    rounded_price(baskets.select { |b| b.distribution_id == distribution_id }.sum(&:distribution_price))
+  def basket_complement_price(basket_complement_id)
+    rounded_price(
+      baskets
+        .joins(:baskets_basket_complements)
+        .where(baskets_basket_complements: { basket_complement_id: basket_complement_id })
+        .sum(:price)
+    )
+  end
+
+  def distributions_price
+    Distribution.pluck(:id).sum { |id| distribution_price(id) }
+  end
+
+  def distribution_price(distribution_id)
+    rounded_price(baskets.where(distribution_id: distribution_id).sum(:distribution_price))
   end
 
   def halfday_works_annual_price=(price)
     super(price.to_f)
   end
 
-  def halfday_works_total_price
+  def halfday_works_price
     rounded_price(halfday_works_annual_price)
   end
 
   def price
-    basket_total_price + distribution_total_price + halfday_works_total_price
+    basket_sizes_price + basket_complements_price + distributions_price + halfday_works_price
   end
 
   def short_description
@@ -115,25 +132,38 @@ class Membership < ActiveRecord::Base
     "#{short_description} (#{baskets_count} #{Delivery.model_name.human(count: baskets_count).downcase})"
   end
 
-  def basket_description
-    "Panier: #{basket_total_price_details}"
+  def basket_sizes_description
+    "Panier: #{basket_sizes_price_info}"
   end
 
-  def basket_total_price_details
+  def basket_complements_description
+    "Compléments: #{basket_complements_price_info}"
+  end
+
+  def basket_sizes_price_info
     baskets.group_by(&:basket_price).map { |price, baskets|
       "#{baskets.size} x #{cur(price)}"
     }.join(' + ')
   end
 
-  def distribution_total_price_details
+  def basket_complements_price_info
+    baskets
+      .joins(:baskets_basket_complements)
+      .pluck(:basket_complement_id, :price)
+      .group_by(&:itself).sort.map { |bbc, bbcs|
+        "#{bbcs.size} x #{cur(bbc[1])}"
+      }.join(' + ')
+  end
+
+  def distributions_price_info
     baskets.group_by(&:distribution_price).map { |price, baskets|
       "#{baskets.size} x #{cur(price)}"
     }.join(' + ')
   end
 
   def distribution_description
-    if distribution_total_price > 0
-      "Distribution: #{distribution_total_price_details}"
+    if distributions_price > 0
+      "Distribution: #{distributions_price_info}"
     else
       "Distribution: gratuite"
     end
@@ -145,7 +175,7 @@ class Membership < ActiveRecord::Base
       "Réduction pour #{diff} demi-journées de travail supplémentaires"
     elsif diff.negative?
       "#{diff.abs} demi-journées de travail non effectuées"
-    elsif halfday_works_total_price.positive?
+    elsif halfday_works_price.positive?
       "Demi-journées de travail non effectuées"
     else
       "Demi-journées de travail"
@@ -193,12 +223,16 @@ class Membership < ActiveRecord::Base
   def update_halfday_works!
     deliveries_count = Delivery.current_year.count.to_f
     halfday_works =
-      if member.salary_basket?
+      if member.salary_basket? || deliveries_count.zero?
         0
       else
         (baskets_count / deliveries_count * annual_halfday_works).round
       end
     update_column(:halfday_works, halfday_works)
+  end
+
+  def subscribed?(basket_complement)
+    subscribed_basket_complements.exists?(basket_complement.id)
   end
 
   private
@@ -228,7 +262,7 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def update_baskets
+  def update_baskets!
     if saved_change_to_attribute?(:started_on) && attribute_before_last_save(:started_on)
       if attribute_before_last_save(:started_on) > started_on
         first_basket = baskets.first
@@ -264,6 +298,18 @@ class Membership < ActiveRecord::Base
         basket.distribution_id = distribution_id if distribution_id.present?
         basket.save!
       end
+    end
+  end
+
+  def add_subscribed_baskets_complement!(complement)
+    baskets.coming.where(delivery_id: complement.delivery_ids).each do |basket|
+      basket.add_complement!(complement)
+    end
+  end
+
+  def remove_subscribed_baskets_complement!(complement)
+    baskets.coming.where(delivery_id: complement.delivery_ids).each do |basket|
+      basket.remove_complement!(complement)
     end
   end
 

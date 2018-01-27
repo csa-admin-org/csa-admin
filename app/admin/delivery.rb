@@ -28,6 +28,20 @@ ActiveAdmin.register Delivery do
     link_to 'Excel', delivery_path(resource, format: :xlsx)
   end
 
+  form do |f|
+    f.inputs do
+      f.input :date, as: :datepicker, include_blank: false
+      f.input :note
+      if BasketComplement.any?
+        f.input :basket_complements,
+          as: :check_boxes,
+          collection: BasketComplement.all,
+          hint: 'Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement.'
+      end
+      f.actions
+    end
+  end
+
   controller do
     def show
       respond_to do |format|
@@ -48,7 +62,7 @@ ActiveAdmin.register Delivery do
     end
   end
 
-  permit_params :date, :note
+  permit_params :date, :note, basket_complement_ids: []
 
   config.filters = false
   config.sort_order = 'date_asc'

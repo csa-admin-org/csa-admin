@@ -6,6 +6,9 @@ class Delivery < ActiveRecord::Base
   has_one :gribouille
   has_many :baskets
   has_many :basket_contents
+  has_and_belongs_to_many :basket_complements,
+    after_add: :add_subscribed_baskets_complement!,
+    after_remove: :remove_subscribed_baskets_complement!
 
   scope :past, -> { where('date < ?', Date.current) }
   scope :coming, -> { where('date >= ?', Date.current) }
@@ -23,6 +26,10 @@ class Delivery < ActiveRecord::Base
     coming.first
   end
 
+  def next?
+    self.class.next&.id == id
+  end
+
   def delivered?
     date < Time.current
   end
@@ -33,6 +40,22 @@ class Delivery < ActiveRecord::Base
 
   def number
     year_dates.index(date) + 1
+  end
+
+  def add_subscribed_baskets_complement!(complement)
+    baskets.includes(:membership).each do |basket|
+      if basket.membership.subscribed?(complement)
+        basket.add_complement!(complement)
+      end
+    end
+  end
+
+  def remove_subscribed_baskets_complement!(complement)
+    baskets.includes(:membership).each do |basket|
+      if basket.membership.subscribed?(complement)
+        basket.remove_complement!(complement)
+      end
+    end
   end
 
   private

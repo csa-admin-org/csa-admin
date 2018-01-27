@@ -142,10 +142,10 @@ describe Membership do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id)
 
-    expect(membership.basket_total_price).to eq 40 * 23.125
-    expect(membership.distribution_total_price).to eq 0
-    expect(membership.halfday_works_total_price).to eq 0
-    expect(membership.price).to eq membership.basket_total_price
+    expect(membership.basket_sizes_price).to eq 40 * 23.125
+    expect(membership.distributions_price).to eq 0
+    expect(membership.halfday_works_price).to eq 0
+    expect(membership.price).to eq membership.basket_sizes_price
   end
 
   specify 'with distribution prices' do
@@ -153,11 +153,11 @@ describe Membership do
       basket_size_id: create(:basket_size, price: 23.125).id,
       distribution_id: create(:distribution, price: 2).id)
 
-    expect(membership.basket_total_price).to eq 40 * 23.125
-    expect(membership.distribution_total_price).to eq 40 * 2
-    expect(membership.halfday_works_total_price).to eq 0
+    expect(membership.basket_sizes_price).to eq 40 * 23.125
+    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.halfday_works_price).to eq 0
     expect(membership.price)
-      .to eq membership.basket_total_price + membership.distribution_total_price
+      .to eq membership.basket_sizes_price + membership.distributions_price
   end
 
   specify 'with halfday_works_annual_price prices' do
@@ -166,22 +166,22 @@ describe Membership do
       distribution_id: create(:distribution, price: 2).id,
       halfday_works_annual_price: -200)
 
-    expect(membership.basket_total_price).to eq 40 * 23.125
-    expect(membership.distribution_total_price).to eq 40 * 2
-    expect(membership.halfday_works_total_price).to eq(-200)
+    expect(membership.basket_sizes_price).to eq 40 * 23.125
+    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.halfday_works_price).to eq(-200)
     expect(membership.price)
       .to eq(
-        membership.basket_total_price +
-        membership.distribution_total_price -
+        membership.basket_sizes_price +
+        membership.distributions_price -
         200)
   end
 
   specify 'salary basket prices' do
     membership = create(:membership,
       member: create(:member, salary_basket: true))
-    expect(membership.basket_total_price).to eq 0
-    expect(membership.distribution_total_price).to eq 0
-    expect(membership.halfday_works_total_price).to eq 0
+    expect(membership.basket_sizes_price).to eq 0
+    expect(membership.distributions_price).to eq 0
+    expect(membership.halfday_works_price).to eq 0
     expect(membership.price).to eq 0
   end
 
@@ -212,6 +212,98 @@ describe Membership do
       membership = create(:membership, ended_on: Date.current.end_of_year)
       membership.update!(renew: false)
       expect(membership.renew).to eq false
+    end
+  end
+
+  describe '#basket_complements_price_info' do
+    it 'lists all complements with their different prices' do
+      membership = create(:membership)
+      create(:basket_complement, id: 1, price: 2.20)
+      create(:basket_complement, id: 2, price: 3.30)
+
+      membership.baskets.first.update!(complement_ids: [1, 2])
+      membership.baskets.second.update!(complement_ids: [1, 2])
+      membership.baskets.third.update!(complement_ids: [2])
+
+      expect(membership.basket_complements_price_info).to eq '2 x 2.20 + 3 x 3.30'
+    end
+  end
+
+  it 'adds basket_complement to coming baskets when subscription is added' do
+    Timecop.freeze('2017-06-01') do
+      create(:basket_complement, id: 1, price: 3.2)
+      create(:basket_complement, id: 2, price: 4.5)
+      membership = create(:membership, subscribed_basket_complement_ids: [])
+      delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
+      delivery_2 = create(:delivery, basket_complement_ids: [2], date: '2017-07-01')
+      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
+      delivery_4 = create(:delivery, basket_complement_ids: [1], date: '2017-08-02')
+
+      basket1 = create(:basket, membership: membership, delivery: delivery_1)
+      basket2 = create(:basket, membership: membership, delivery: delivery_2)
+      basket3 = create(:basket, membership: membership, delivery: delivery_3)
+      basket4 = create(:basket, membership: membership, delivery: delivery_4)
+      basket4.update!(complement_ids: [1, 2])
+
+      membership.update!(subscribed_basket_complement_ids: [1])
+
+      basket1.reload
+      expect(basket1.complement_ids).to be_empty
+      expect(basket1.complements_price).to be_zero
+
+      basket2.reload
+      expect(basket2.complement_ids).to be_empty
+      expect(basket2.complements_price).to be_zero
+
+      basket3.reload
+      expect(basket3.complement_ids).to match_array [1]
+      expect(basket3.complements_price).to eq 3.2
+
+      basket4.reload
+      expect(basket4.complement_ids).to match_array [1, 2]
+      expect(basket4.complements_price).to eq 3.2 + 4.5
+
+      expect(membership.basket_complements_price).to eq 3.2 + 3.2 + 4.5
+    end
+  end
+
+  it 'removes basket_complement to coming baskets when subscription is removed' do
+    Timecop.freeze('2017-06-01') do
+      create(:basket_complement, id: 1, price: 3.2)
+      create(:basket_complement, id: 2, price: 4.5)
+
+      membership = create(:membership, subscribed_basket_complement_ids: [1, 2])
+      delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
+      delivery_2 = create(:delivery, basket_complement_ids: [1], date: '2017-07-01')
+      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
+      delivery_4 = create(:delivery, basket_complement_ids: [2], date: '2017-08-02')
+
+      basket1 = create(:basket, membership: membership, delivery: delivery_1)
+      basket2 = create(:basket, membership: membership, delivery: delivery_2)
+      basket3 = create(:basket, membership: membership, delivery: delivery_3)
+      basket4 = create(:basket, membership: membership, delivery: delivery_4)
+      basket4.update!(complement_ids: [1, 2])
+
+      membership.reload # reset subscribed_basket_complements
+      membership.update!(subscribed_basket_complement_ids: [2])
+
+      basket1.reload
+      expect(basket1.complement_ids).to match_array [1]
+      expect(basket1.complements_price).to eq 3.2
+
+      basket2.reload
+      expect(basket2.complement_ids).to be_empty
+      expect(basket2.complements_price).to be_zero
+
+      basket3.reload
+      expect(basket3.complement_ids).to match_array [2]
+      expect(basket3.complements_price).to eq 4.5
+
+      basket4.reload
+      expect(basket4.complement_ids).to match_array [1, 2]
+      expect(basket4.complements_price).to eq 3.2 + 4.5
+
+      expect(membership.basket_complements_price).to eq 3.2 + 4.5 + 3.2 + 4.5
     end
   end
 end

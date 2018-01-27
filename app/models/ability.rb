@@ -13,10 +13,9 @@ class Ability
       cannot :destroy, [Member, Invoice, Payment]
       can :destroy, [Member, Payment], can_destroy?: true
     when 'admin'
-      cannot :manage, [BasketSize, Delivery]
       can :manage, [Halfday, HalfdayParticipation, Absence, ActiveAdmin::Comment]
-      can :create, available_models & [Gribouille, Member, Membership, Distribution, Payment]
-      can :update, available_models & [Gribouille, Member, Delivery, Distribution]
+      can :create, available_models & [BasketComplement, Gribouille, Member, Membership, Distribution, Payment,]
+      can :update, available_models & [BasketComplement, Gribouille, Member, Delivery, Distribution,]
       can :validate, Member
       can :remove_from_waiting_list, Member
       can :put_back_to_waiting_list, Member
@@ -27,10 +26,9 @@ class Ability
       can :pdf, Invoice
       can :read, available_models
     when 'standard'
-      cannot :manage, :all
       can :manage, available_models & [Gribouille, Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent]
       can :create, ActiveAdmin::Comment
-      can :update, [Delivery]
+      can :update, [BasketComplement, Delivery]
       can :pdf, Invoice
       can :read, available_models
     when 'readonly'
@@ -54,6 +52,7 @@ class Ability
       Absence,
       Basket,
       BasketSize,
+      BasketComplement,
       ActiveAdmin::Page,
       ActiveAdmin::Comment,
       Delivery,

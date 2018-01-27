@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'members page' do
+describe 'Admin login page' do
   before { Capybara.app_host = 'http://admin.ragedevert.test' }
 
   it 'logins admin' do

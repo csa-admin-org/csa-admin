@@ -131,6 +131,11 @@ FactoryBot.define do
     end
   end
 
+  factory :basket_complement do
+    sequence(:name) { |n| "Basket Complement #{n}" }
+    price 4.2
+  end
+
   factory :distribution do
     name { Faker::Name.name }
     address { Faker::Address.street_address }
