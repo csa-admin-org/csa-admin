@@ -1,4 +1,4 @@
-class DeliveryCount
+class BasketCount
   def self.all(next_delivery)
     basket_size_ids = BasketSize.pluck(:id)
     Distribution.select(:name, :id).map { |dist| new(dist, next_delivery.id, basket_size_ids) }
@@ -12,6 +12,10 @@ class DeliveryCount
 
   def title
     @distribution.name
+  end
+
+  def distribution_id
+    @distribution.id
   end
 
   def count

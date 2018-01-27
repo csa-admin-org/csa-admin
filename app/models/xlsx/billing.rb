@@ -22,16 +22,29 @@ module XLSX
       add_header('Description', 'Prix unité', 'Total')
 
       BasketSize.all.each do |basket_size|
-        total = @memberships.sum { |m| m.baskets_price(basket_size.id) }
+        total = @memberships.sum { |m| m.basket_size_price(basket_size.id) }
         add_line("Panier #{basket_size.name}", total, basket_size.price)
       end
+      add_empty_line
+
+      if BasketComplement.any?
+        BasketComplement.all.each do |basket_complement|
+          total = @memberships.sum { |m| m.basket_complement_price(basket_complement.id) }
+          add_line("Complément #{basket_complement.name}", total, basket_complement.price)
+        end
+        add_empty_line
+      end
+
       Distribution.where('price > 0').all.each do |distribution|
-        total = @memberships.sum { |m| m.distributions_price(distribution.id) }
+        total = @memberships.sum { |m| m.distribution_price(distribution.id) }
         add_line("Distribution #{distribution.name}", total, distribution.price)
       end
-      add_line('Ajustement ½ journées de travail', @memberships.sum(&:halfday_works_total_price))
+      add_empty_line
+
+      add_line('Ajustement ½ journées de travail', @memberships.sum(&:halfday_works_price))
       add_line('Cotisations', invoices_total(:support_amount), Member::SUPPORT_PRICE)
 
+      add_empty_line
       add_empty_line
 
       add_line('Facturé', invoices_total(:amount))

@@ -21,7 +21,6 @@
 
 .align-right {
   text-align: right !important;
-  white-space: nowrap;
 }
 
 #footer {
@@ -40,7 +39,6 @@ li.input.numeric input {
   text-align: right;
   margin-left: 20px;
   width: 100px;
-  // margin-right: 10px !important;
 }
 
 li.datepicker input.datepicker {
@@ -62,6 +60,11 @@ form input[type='checkbox']:checked:after {
   border-color: #80a432 !important;
 }
 
+form input[type='checkbox']:disabled {
+  border-color: #aaa !important;
+  box-shadow: inset 0 0 0 13px #aaa !important;
+}
+
 span.delivery_note {
   display: block;
   margin-top: 15px;
@@ -76,7 +79,7 @@ span.delivery_note {
 
 span.delivery_absences {
   display: block;
-  margin-top: 5px;
+  float: right;
 }
 
 #utility_nav {
@@ -214,4 +217,21 @@ table.table-memberships {
   max-height: 500px !important;
   width: 600px !important;
   min-height: 100px;
+}
+
+.basket_complements {
+  li.check_boxes {
+    margin-bottom: 25px;
+  }
+  ol.choices-group {
+    max-width: 100%;
+  }
+  li.choice {
+    float: left;
+    width: 50%;
+  }
+}
+
+#basket-complements-table {
+  margin: 15px 0 25px 0;
 }

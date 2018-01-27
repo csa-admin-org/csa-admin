@@ -53,7 +53,7 @@ describe InvoicePdf do
     specify do
       pdf = pdf_strings
 
-      expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
+      expect(pdf).to include(/Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/)
       expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
       expect(pdf).to include 'Distribution: gratuite'
@@ -68,9 +68,16 @@ describe InvoicePdf do
     end
   end
 
-  context 'when support ammount + annual membership + halfday_works reduc' do
+  context 'when support ammount + annual membership + complements + halfday_works reduc' do
+    let(:basket_complement) {
+      create(:basket_complement,
+        price: 3.4,
+        delivery_ids: Delivery.current_year.pluck(:id))
+    }
     let(:membership) do
-      create(:membership, basket_size_id: create(:basket_size, :big).id)
+      create(:membership,
+        basket_size_id: create(:basket_size, :big).id,
+        subscribed_basket_complement_ids: [basket_complement.id])
     end
     let(:invoice) do
       create(:invoice,
@@ -88,6 +95,8 @@ describe InvoicePdf do
       expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
       expect(pdf).to include 'Panier: 40 x 33.25'
       expect(pdf).to include "1'330.00"
+      expect(pdf).to include 'Compléments: 40 x 3.40'
+      expect(pdf).to include '136.00'
       expect(pdf).to include 'Distribution: gratuite'
       expect(pdf).to include '0.00'
       expect(pdf).to include 'Réduction pour 6 demi-journées de travail supplémentaires'
@@ -96,8 +105,8 @@ describe InvoicePdf do
       expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
       expect(pdf).to include 'Montant annuel'
       expect(pdf).to include 'Montant restant'
-      expect(pdf).to include '999.50'
-      expect(pdf).to include "1'029.50"
+      expect(pdf).to include "1'135.50"
+      expect(pdf).to include "1'165.50"
     end
   end
 
