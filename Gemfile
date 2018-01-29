@@ -18,6 +18,7 @@ gem 'rack-status'
 gem 'pg', '~> 0.21'
 gem 'uniquify'
 gem 'paranoia'
+gem 'phony_rails'
 gem 'apartment'
 gem 'apartment-activejob'
 
@@ -28,6 +29,8 @@ gem 'formadmin'
 gem 'polyamorous', github: 'spark-solutions/polyamorous'
 gem 'ransack', github: 'spark-solutions/ransack'
 gem 'cancancan'
+gem 'devise'
+gem 'devise-i18n'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'
@@ -47,23 +50,16 @@ gem 'refills'
 
 gem 'sucker_punch'
 
-gem 'devise'
-gem 'devise-i18n'
-
-gem 'google_drive', '~> 2.1'
-
-gem 'icalendar'
-gem 'phony_rails'
-
 gem 'exception_notification'
 gem 'exception_notification-rake'
 
 gem 'faraday'
 gem 'faraday-cookie_jar'
 
+gem 'google_drive', '~> 2.1'
+gem 'icalendar'
 gem 'prawn'
 gem 'prawn-table'
-
 gem 'rubyXL'
 
 group :production do

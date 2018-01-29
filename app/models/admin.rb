@@ -19,4 +19,8 @@ class Admin < ActiveRecord::Base
   def superadmin?
     rights == 'superadmin'
   end
+
+  def right?(right)
+    RIGHTS.index(self[:rights]) <= RIGHTS.index(right)
+  end
 end
