@@ -155,28 +155,6 @@ ActiveAdmin.register Member do
   }
   filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
 
-  action_item :create_invoice, only: :show, if: -> { resource.billable? && authorized?(:create_invoice, resource) } do
-    link_to 'Créer facture', create_invoice_member_path(resource), method: :post
-  end
-  action_item :validate, only: :show, if: -> { resource.pending? && authorized?(:validate, Member) } do
-    link_to 'Valider', validate_member_path(resource), method: :post
-  end
-  action_item :remove_from_waiting_list, only: :show, if: -> { resource.waiting? && authorized?(:remove_from_waiting_list, Member) } do
-    link_to "Retirer de la liste d'attente", remove_from_waiting_list_member_path(resource), method: :post
-  end
-  action_item :put_back_to_waiting_list!, only: :show, if: -> { resource.inactive? && authorized?(:put_back_to_waiting_list!, Member) } do
-    link_to "Remettre en liste d'attente", put_back_to_waiting_list_member_path(resource), method: :post
-  end
-  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do
-    next_delivery = Delivery.next
-    link_to 'Créer abonnement',
-      new_membership_path(
-        member_id: resource.id,
-        basket_size_id: resource.waiting_basket_size_id,
-        distribution_id: resource.waiting_distribution_id,
-        started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max)
-  end
-
   form do |f|
     f.inputs 'Details' do
       f.input :name
@@ -227,6 +205,28 @@ ActiveAdmin.register Member do
     waiting_basket_size_id waiting_distribution_id
     food_note note
   ]
+
+  action_item :create_invoice, only: :show, if: -> { authorized?(:create_invoice, resource) } do
+    link_to 'Créer facture', create_invoice_member_path(resource), method: :post
+  end
+  action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
+    link_to 'Valider', validate_member_path(resource), method: :post
+  end
+  action_item :remove_from_waiting_list, only: :show, if: -> { authorized?(:remove_from_waiting_list, resource) } do
+    link_to "Retirer de la liste d'attente", remove_from_waiting_list_member_path(resource), method: :post
+  end
+  action_item :put_back_to_waiting_list, only: :show, if: -> { authorized?(:put_back_to_waiting_list, resource) } do
+    link_to "Remettre en liste d'attente", put_back_to_waiting_list_member_path(resource), method: :post
+  end
+  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do
+    next_delivery = Delivery.next
+    link_to 'Créer abonnement',
+      new_membership_path(
+        member_id: resource.id,
+        basket_size_id: resource.waiting_basket_size_id,
+        distribution_id: resource.waiting_distribution_id,
+        started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max)
+  end
 
   collection_action :gribouille_emails, method: :get do
     render plain: Member.gribouille_emails.to_csv

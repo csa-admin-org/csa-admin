@@ -10,8 +10,8 @@ describe Ability do
     specify { expect(ability.can?(:update, Member)).to be true }
     specify { expect(ability.can?(:destroy, Member)).to be true }
     specify { expect(ability.can?(:validate, Member)).to be true }
-    specify { expect(ability.can?(:remove_from_waiting_list, Member)).to be true }
-    specify { expect(ability.can?(:put_back_to_waiting_list, Member)).to be true }
+    specify { expect(ability.can?(:remove_from_waiting_list, Member.new(state: 'waiting'))).to be true }
+    specify { expect(ability.can?(:put_back_to_waiting_list, Member.new(state: 'inactive'))).to be true }
   end
 
   context 'admin rights' do
@@ -21,9 +21,9 @@ describe Ability do
     specify { expect(ability.can?(:update, Member)).to be true }
     specify { expect(ability.can?(:destroy, Member)).to be true }
     specify { expect(ability.can?(:validate, Member)).to be true }
-    specify { expect(ability.can?(:remove_from_waiting_list, Member)).to be true }
-    specify { expect(ability.can?(:put_back_to_waiting_list, Member)).to be true }
-    specify { expect(ability.can?(:manage, ActiveAdmin::Comment)).to be true }
+    specify { expect(ability.can?(:remove_from_waiting_list, Member.new(state: 'waiting'))).to be true }
+    specify { expect(ability.can?(:put_back_to_waiting_list, Member.new(state: 'inactive'))).to be true }
+    specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be true }
   end
 
   context 'standard rights' do
@@ -33,9 +33,9 @@ describe Ability do
     specify { expect(ability.can?(:read, Member)).to be true }
     specify { expect(ability.can?(:destroy, Member)).to be false }
     specify { expect(ability.can?(:validate, Member)).to be false }
-    specify { expect(ability.can?(:remove_from_waiting_list, Member)).to be false }
-    specify { expect(ability.can?(:put_back_to_waiting_list, Member)).to be false }
-    specify { expect(ability.can?(:manage, ActiveAdmin::Comment)).to be false }
+    specify { expect(ability.can?(:remove_from_waiting_list, Member.new(state: 'waiting'))).to be false }
+    specify { expect(ability.can?(:put_back_to_waiting_list, Member.new(state: 'inactive'))).to be false }
+    specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be false }
     specify { expect(ability.can?(:create, ActiveAdmin::Comment)).to be true }
   end
 end
