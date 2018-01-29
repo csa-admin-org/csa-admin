@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     get 'halfday_works/calendar' => 'halfday_works_calendar#show'
     get 'settings' => 'acps#edit', as: :edit_acp
     get 'settings' => 'acps#edit', as: :acps
-    get 'gribouilles/new' => 'gribouilles#new', as: :gribouilles
     get 'billing/:year' => 'billings#show', as: :billing
 
     resource :acp, path: 'settings', only: :update

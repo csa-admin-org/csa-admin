@@ -54,6 +54,10 @@ ActiveAdmin.register Gribouille do
   end
 
   controller do
+    def index
+      redirect_to new_gribouille_url
+    end
+
     def create
       super do |_|
         redirect_to new_gribouille_url, notice: 'Gribouille sauvegardée!' and return if resource.valid?
