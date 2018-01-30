@@ -30,7 +30,6 @@ class Member < ActiveRecord::Base
     class_name: 'Basket'
 
   scope :support, -> { inactive.where(support_member: true) }
-  scope :mailable, -> { where.not(emails: nil) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
