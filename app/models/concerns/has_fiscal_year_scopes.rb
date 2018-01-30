@@ -6,8 +6,8 @@ module HasFiscalYearScopes
 
     scope :current_year, -> { where(date: Current.fy_range) }
     scope :during_year, ->(year) { where(date: Current.acp.fiscal_year_for(year).range) }
-    scope :past_year, -> { where("#{table_name}.date" < ?', Current.fy_range.min) }
-    scope :future_year, -> { where("#{table_name}.date < ?", Current.fy_range.max) }
+    scope :past_year, -> { where("#{table_name}.date < ?", Current.fy_range.min) }
+    scope :future_year, -> { where("#{table_name}.date > ?", Current.fy_range.max) }
   end
 
   def fiscal_year
