@@ -1,6 +1,9 @@
 class BasketComplementCount
   def self.all(delivery)
-    BasketComplement.all.map { |c| new(c, delivery) }.select { |c| c.count.positive? }
+    BasketComplement
+      .all
+      .map { |c| new(c, delivery) }
+      .select { |c| c.count.positive? }
   end
 
   def initialize(complement, delivery)
