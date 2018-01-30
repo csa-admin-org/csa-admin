@@ -1,7 +1,10 @@
 class BasketCount
   def self.all(next_delivery)
     basket_size_ids = BasketSize.pluck(:id)
-    Distribution.select(:name, :id).map { |dist| new(dist, next_delivery.id, basket_size_ids) }
+    Distribution
+      .select(:name, :id)
+      .map { |dist| new(dist, next_delivery.id, basket_size_ids) }
+      .select { |c| c.count.positive? }
   end
 
   def initialize(distribution, delivery_id, basket_size_ids)
