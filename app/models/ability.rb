@@ -22,7 +22,7 @@ class Ability
       can :create_invoice, Member, billable?: true
       can :remove_from_waiting_list, Member, waiting?: true
       can :put_back_to_waiting_list, Member, inactive?: true
-      can :send, Invoice, can_send?: true
+      can :send_email, Invoice, can_send_email?: true
       can :cancel, Invoice, can_cancel?: true
     end
     if admin.right? 'superadmin'

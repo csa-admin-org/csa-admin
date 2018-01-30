@@ -48,10 +48,10 @@ class Invoice < ActiveRecord::Base
   validate :validate_memberships_amount_for_current_year, on: :create
 
   def send!
-    return unless can_send?
+    return unless can_send_email?
     raise NoPdfError unless pdf_file.attached?
 
-    InvoiceMailer.new_invoice(self).deliver_now if can_send?
+    InvoiceMailer.new_invoice(self).deliver_now if can_send_email?
     touch(:sent_at)
     close_or_open!
   rescue => ex
@@ -129,7 +129,7 @@ class Invoice < ActiveRecord::Base
     !canceled? && (not_sent? || open? || current_year?)
   end
 
-  def can_send?
+  def can_send_email?
     !sent_at? && member.emails?
   end
 
