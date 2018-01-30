@@ -222,8 +222,8 @@ fr:
         one: Panier
         other: Paniers
       basket_size:
-        one: Taille de panier
-        other: Tailles de panier
+        one: Taille panier
+        other: Tailles panier
       basket_complement:
         one: Complément panier
         other: Compléments panier
@@ -288,7 +288,8 @@ fr:
       basket:
         delivery: Livraison
         description: Panier
-        basket_size: Taille du panier
+        basket_size: Taille
+        complement_ids: Compléments
         distribution: Lieu de distribution
         price: Prix
       delivery:
@@ -355,7 +356,7 @@ fr:
         billing_interval: Interval de paiement
         food_note: Note alimentaire
         waiting: Sur liste d'attente
-        basket_size: Taille de panier
+        basket_size: Taille panier
         current_membership: Abonnement (en cours)
         with_name: Nom
         with_address: Adresse
@@ -363,7 +364,7 @@ fr:
         with_email: Email
         created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
-        waiting_basket_size: Taille de panier
+        waiting_basket_size: Taille panier
         waiting_distribution: Distribution
         validated_at: Validé le
         validator: Validé par
@@ -372,8 +373,8 @@ fr:
       membership:
         member_id: Membre
         member: Membre
-        basket_size_id: Taille de panier
-        basket_size: Taille de panier
+        basket_size_id: Taille panier
+        basket_size: Taille panier
         baskets_count: Paniers
         started_on: Début
         ended_on: Fin
