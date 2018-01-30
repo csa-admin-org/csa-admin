@@ -3,7 +3,7 @@ class BillingTotal
 
   def self.all
     scopes = [BasketSize.all]
-    scopes << basket_complement if BasketComplement.any?
+    scopes << :basket_complement if BasketComplement.any?
     scopes += SCOPES
     scopes.flatten.map { |scope| new(scope) }
   end
