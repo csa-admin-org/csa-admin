@@ -197,7 +197,7 @@ fr:
     required: 'obligatoire'
     hints:
       distribution:
-        emails: "Chaque email reçoit la liste des membres qui recevront un panier le jour précédant la livraison"
+        emails: "Chaque email reçoit, le jour précédant la livraison, la liste des membres recevant un panier"
       admin:
         password: "Laisser vide si inchangé"
 
@@ -324,6 +324,7 @@ fr:
         address: Adresse
         city: Ville
         price: Prix/panier
+        responsible_member: Membre responsable
       basket_size:
         name: Nom
         price: Prix
