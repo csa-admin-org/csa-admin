@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_01_21_105433) do
+ActiveRecord::Schema.define(version: 2018_01_31_171230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -194,6 +194,8 @@ ActiveRecord::Schema.define(version: 2018_01_21_105433) do
     t.datetime "updated_at"
     t.decimal "price", precision: 8, scale: 2, null: false
     t.string "emails"
+    t.bigint "responsible_member_id"
+    t.index ["responsible_member_id"], name: "index_distributions_on_responsible_member_id"
   end
 
   create_table "gribouilles", id: :serial, force: :cascade do |t|
@@ -351,6 +353,7 @@ ActiveRecord::Schema.define(version: 2018_01_21_105433) do
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "distributions"
   add_foreign_key "baskets", "memberships"
+  add_foreign_key "distributions", "members", column: "responsible_member_id"
   add_foreign_key "halfday_participations", "admins", column: "validator_id"
   add_foreign_key "halfday_participations", "halfdays"
   add_foreign_key "halfday_participations", "members"

@@ -1,6 +1,7 @@
 class Distribution < ActiveRecord::Base
   attr_accessor :delivery_memberships
 
+  belongs_to :responsible_member, class_name: 'Member', optional: true
   has_many :baskets
   has_many :memberships
   has_many :members, through: :memberships
