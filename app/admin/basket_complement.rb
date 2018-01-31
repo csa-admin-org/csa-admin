@@ -15,7 +15,7 @@ ActiveAdmin.register BasketComplement do
       f.input :price
       f.input :deliveries,
         as: :check_boxes,
-        collection: Delivery.current_year,
+        collection: Delivery.current_and_future_year,
         disabled: Delivery.current_year.past.pluck(:id),
         hint: f.object.persisted? && 'Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.'
       f.actions
