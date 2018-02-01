@@ -136,7 +136,9 @@ ActiveAdmin.register Member do
             number_to_currency(member.invoices.sum(:amount) - member.payments.sum(:amount))
           }
         end
-        attributes_table title: 'Notes' do
+        attributes_table title: 'Info et Notes' do
+          row :profession
+          row :come_from
           row :food_note
           row :note
         end
@@ -191,7 +193,9 @@ ActiveAdmin.register Member do
       f.input :support_member
       f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'
     end
-    f.inputs 'Notes' do
+    f.inputs 'Info et Notes' do
+      f.input :profession
+      f.input :come_from
       f.input :food_note, input_html: { rows: 3 }
       f.input :note, input_html: { rows: 3 }
     end
@@ -203,7 +207,7 @@ ActiveAdmin.register Member do
     delivery_address delivery_city delivery_zip
     support_member salary_basket billing_interval waiting
     waiting_basket_size_id waiting_distribution_id
-    food_note note
+    profession come_from food_note note
   ]
 
   action_item :create_invoice, only: :show, if: -> { authorized?(:create_invoice, resource) } do

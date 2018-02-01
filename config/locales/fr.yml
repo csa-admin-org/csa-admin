@@ -371,6 +371,7 @@ fr:
         validator: Validé par
         deliveries_received_count_since_first_membership: Paniers reçus
         salary_basket: Panier(s) salaire
+        come_from: D'où venez-vous?
       membership:
         member_id: Membre
         member: Membre
