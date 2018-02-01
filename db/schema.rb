@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_01_31_171230) do
+ActiveRecord::Schema.define(version: 2018_02_01_193412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -294,6 +294,8 @@ ActiveRecord::Schema.define(version: 2018_01_31_171230) do
     t.integer "old_old_invoice_identifier"
     t.string "state", default: "pending", null: false
     t.string "name", null: false
+    t.string "profession"
+    t.string "come_from"
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"
