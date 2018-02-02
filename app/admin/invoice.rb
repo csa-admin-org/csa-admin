@@ -1,7 +1,6 @@
 ActiveAdmin.register Invoice do
   menu parent: 'Facturation', priority: 1
   actions :all, except: [:new, :create, :edit, :update, :destroy]
-  includes :member, pdf_file_attachment: :blob
 
   scope :all
   scope :not_sent
@@ -10,6 +9,7 @@ ActiveAdmin.register Invoice do
   scope :closed
   scope :canceled
 
+  includes :member, pdf_file_attachment: :blob
   index do
     column :id, ->(i) { auto_link i, i.id }
     column :date, ->(i) { l i.date, format: :number }

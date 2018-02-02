@@ -197,9 +197,17 @@ fr:
     required: 'obligatoire'
     hints:
       distribution:
-        emails: "Chaque email reçoit, le jour précédant la livraison, la liste des membres recevant un panier"
+        emails: "Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier"
+        phones: "Séparés par une virgule"
       admin:
         password: "Laisser vide si inchangé"
+      member:
+        emails: "Séparés par une virgule"
+        phones: "Séparés par une virgule"
+        gribouille: Laisser vide pour le comportement par défault (en fonction du statut)
+        delivery_address: Laisser vide si identique
+        delivery_city: Laisser vide si identique
+        delivery_zip: Laisser vide si identique
 
   admin:
     notifications:
@@ -307,6 +315,7 @@ fr:
         validated_at: Validée à
         rejected_at: Refusée à
         phones: Téléphone(s)
+        emails: Email(s)
         created_at: Enregistrée à
         updated_at: Mise à jour à
       halfday:
@@ -321,9 +330,12 @@ fr:
         participants_limit: Limite de participants
       distribution:
         name: Nom
+        address_name: Nom
         address: Adresse
         city: Ville
         price: Prix/panier
+        phones: Téléphone(s)
+        emails: Email(s)
         responsible_member: Membre responsable
       basket_size:
         name: Nom

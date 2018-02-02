@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_01_193412) do
+ActiveRecord::Schema.define(version: 2018_02_01_201202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -195,6 +195,9 @@ ActiveRecord::Schema.define(version: 2018_02_01_193412) do
     t.decimal "price", precision: 8, scale: 2, null: false
     t.string "emails"
     t.bigint "responsible_member_id"
+    t.string "address_name"
+    t.string "phones"
+    t.text "note"
     t.index ["responsible_member_id"], name: "index_distributions_on_responsible_member_id"
   end
 

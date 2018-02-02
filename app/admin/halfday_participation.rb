@@ -7,6 +7,7 @@ ActiveAdmin.register HalfdayParticipation do
   scope :validated
   scope :rejected
 
+  includes :member, :halfday
   index do
     selectable_column
     column :member, sortable: 'members.name'
@@ -49,16 +50,9 @@ ActiveAdmin.register HalfdayParticipation do
 
     attributes_table title: 'Contact' do
       row :member
-      row(:phones) {
-        hp.member.phones_array.map { |phone|
-          link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
-        }.join(', ').html_safe
-
-      }
+      row(:phones) { display_phones(hp.member.phones_array) }
       if hp.carpooling_phone?
-        row(:carpooling_phone) {
-          link_to hp.carpooling_phone.phony_formatted, "tel:" + hp.carpooling_phone.phony_formatted(spaces: '', format: :international)
-        }
+        row(:carpooling_phone) { display_phones(hp.carpooling_phone) }
       end
     end
 
@@ -93,10 +87,6 @@ ActiveAdmin.register HalfdayParticipation do
   end
 
   controller do
-    def scoped_collection
-      HalfdayParticipation.includes(:member, :halfday)
-    end
-
     before_create do |participation|
       if participation.halfday.date.past?
         participation.validated_at = Time.current
