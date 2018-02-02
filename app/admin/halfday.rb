@@ -5,6 +5,7 @@ ActiveAdmin.register Halfday do
   scope :past
   scope :coming,  default: true
 
+  includes :participations
   index do
     column :date, ->(h) { l h.date, format: :medium }, sortable: :date
     column :period, ->(h) { h.period }
@@ -57,10 +58,6 @@ ActiveAdmin.register Halfday do
   ]
 
   controller do
-    def scoped_collection
-      Halfday.includes(:participations)
-    end
-
     def build_resource
       super
       resource.preset_id ||= 1

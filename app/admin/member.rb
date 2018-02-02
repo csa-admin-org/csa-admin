@@ -117,12 +117,8 @@ ActiveAdmin.register Member do
           end
         end
         attributes_table title: 'Contact' do
-          row(:phones) {
-            member.phones_array.map { |phone|
-              link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
-            }.join(', ').html_safe
-          }
-          row(:emails) { member.emails_array.map { |e| mail_to(e) }.join(', ').html_safe }
+          row(:emails) { display_emails(member.emails_array) }
+          row(:phones) { display_phones(member.phones_array) }
           if feature?('gribouille')
             row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
           end
@@ -139,8 +135,8 @@ ActiveAdmin.register Member do
         attributes_table title: 'Info et Notes' do
           row :profession
           row :come_from
-          row :food_note
-          row :note
+          row(:food_note) { simple_format member.food_note }
+          row(:note) { simple_format member.note }
         end
 
         active_admin_comments
@@ -173,17 +169,16 @@ ActiveAdmin.register Member do
       f.input :zip
     end
     f.inputs 'Adresse (Livraison)' do
-      f.input :delivery_address, hint: 'laisser vide si identique'
-      f.input :delivery_city, hint: 'laisser vide si identique'
-      f.input :delivery_zip, hint: 'laisser vide si identique'
+      f.input :delivery_address
+      f.input :delivery_city
+      f.input :delivery_zip
     end
     f.inputs 'Contact' do
-      f.input :emails, hint: "séparés par une virgule"
-      f.input :phones, hint: "séparés par une virgule"
+      f.input :emails
+      f.input :phones
       if feature?('gribouille')
         f.input :gribouille, as: :select,
-          collection: [['Oui', true], ['Non', false]],
-          hint: 'laisser vide pour le comportement par défault (en fonction du statut)'
+          collection: [['Oui', true], ['Non', false]]
       end
     end
     f.inputs 'Facturation' do

@@ -6,6 +6,7 @@ ActiveAdmin.register Payment do
   scope :isr
   scope :manual
 
+  includes :member, :invoice
   index do
     column :id
     column :date, ->(p) { l p.date, format: :number }
@@ -46,10 +47,6 @@ ActiveAdmin.register Payment do
       resource.amount ||= 0
       resource.date ||= Date.current
       resource
-    end
-
-    def scoped_collection
-      Payment.includes(:member, :invoice)
     end
   end
 

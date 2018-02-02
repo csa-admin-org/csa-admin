@@ -1,4 +1,7 @@
 class Distribution < ActiveRecord::Base
+  include HasEmails
+  include HasPhones
+
   attr_accessor :delivery_memberships
 
   belongs_to :responsible_member, class_name: 'Member', optional: true

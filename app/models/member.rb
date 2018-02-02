@@ -1,5 +1,7 @@
 class Member < ActiveRecord::Base
   include HasState
+  include HasEmails
+  include HasPhones
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
   SUPPORT_PRICE = 30
@@ -32,8 +34,6 @@ class Member < ActiveRecord::Base
   scope :support, -> { inactive.where(support_member: true) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
-  scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
-  scope :with_phone, ->(phone) { where('members.phones ILIKE ?', "%#{phone}%") }
   scope :gribouille, -> {
     where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]).where(gribouille: [nil, true])
       .or(Member.where(support_member: true).where(gribouille: [nil, true]))
@@ -162,23 +162,6 @@ class Member < ActiveRecord::Base
     absences.any? { |absence| absence.period.include?(date) }
   end
 
-  def emails_array
-    string_to_a(emails)
-  end
-
-  def emails?
-    emails_array.present?
-  end
-
-  def phones=(phones)
-    super string_to_a(phones).map { |phone|
-      PhonyRails.normalize_number(phone, default_country_code: 'CH')
-    }.join(', ')
-  end
-
-  def phones_array
-    string_to_a(phones)
-  end
 
   def halfday_works(year = nil)
     @annual_halfday_works ||= begin
@@ -225,10 +208,6 @@ class Member < ActiveRecord::Base
   end
 
   private
-
-  def string_to_a(str)
-    str.to_s.split(',').each(&:strip!)
-  end
 
   def set_waiting_started_at
     if waiting_basket_size_id? || waiting_distribution_id?

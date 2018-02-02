@@ -2,6 +2,7 @@ ActiveAdmin.register BasketContent do
   menu priority: 5
   actions :all, except: [:show]
 
+  includes :delivery, :vegetable, :distributions
   index do
     column :date, ->(bc) { bc.delivery.date.to_s }
     column :vegetable, ->(bc) { bc.vegetable.name }
@@ -80,10 +81,6 @@ ActiveAdmin.register BasketContent do
         resource.distributions = Distribution.all
       end
       resource
-    end
-
-    def scoped_collection
-      BasketContent.includes(:delivery, :vegetable, :distributions)
     end
 
     def create
