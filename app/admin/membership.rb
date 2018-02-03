@@ -29,7 +29,7 @@ ActiveAdmin.register Membership do
     columns do
       column do
         panel "#{m.baskets_count} Paniers" do
-          table_for(m.baskets.includes(:delivery, :basket_size, :distribution, :complements),
+          table_for(m.baskets.includes(:delivery, :basket_size, :baskets_basket_complements, :distribution, :complements),
             row_class: ->(b) { 'next' if b.next? },
             class: 'table-baskets'
           ) do |basket|

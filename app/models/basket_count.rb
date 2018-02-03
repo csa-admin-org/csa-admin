@@ -1,6 +1,6 @@
 class BasketCount
   def self.all(next_delivery)
-    basket_size_ids = BasketSize.pluck(:id)
+    basket_size_ids = BasketSize.billable.pluck(:id)
     Distribution
       .select(:name, :id)
       .map { |dist| new(dist, next_delivery.id, basket_size_ids) }

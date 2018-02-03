@@ -141,7 +141,7 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_sizes_price_info
-    baskets.group_by(&:basket_price).map { |price, baskets|
+    baskets.group_by(&:basket_price).select { |price, _| price.positive? }.map { |price, baskets|
       "#{baskets.size} x #{cur(price)}"
     }.join(' + ')
   end
@@ -162,7 +162,7 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_description
-    if distributions_price > 0
+    if distributions_price.positive?
       "Distribution: #{distributions_price_info}"
     else
       "Distribution: gratuite"
@@ -243,7 +243,7 @@ class Membership < ActiveRecord::Base
 
   def set_renew
     if ended_on_changed?
-      self.renew = (ended_on == Current.fy_range.max)
+      self.renew = (ended_on >= Current.fy_range.max)
     end
   end
 

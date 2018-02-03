@@ -397,7 +397,7 @@ fr:
         validated_halfday_works: ½ journées validées
         halfday_works_annual_price: Ajustement du prix de l'abonnement
         baskets: Paniers
-        baskets_price: Prix Paniers
+        basket_sizes_price: Prix Paniers
         subscribed_basket_complement_ids: Compléments paniers
         basket_complements_price: Prix Compléments
         distributions_price: Prix Distributions
@@ -407,6 +407,7 @@ fr:
         deliveries_received_count: Paniers livrés
         deliveries_count: Paniers
         renew: Renouvellement
+        distribution_id: Lieu de distribution
       absence:
         member_id: Membre
         member: Membre

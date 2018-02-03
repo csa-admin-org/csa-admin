@@ -21,7 +21,7 @@ module XLSX
       worksheet = add_worksheet(name)
       add_header('Description', 'Prix unité', 'Total')
 
-      BasketSize.all.each do |basket_size|
+      BasketSize.billable.each do |basket_size|
         total = @memberships.sum { |m| m.basket_size_price(basket_size.id) }
         add_line("Panier #{basket_size.name}", total, basket_size.price)
       end
