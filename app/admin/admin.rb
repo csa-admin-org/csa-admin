@@ -52,7 +52,7 @@ ActiveAdmin.register Admin do
 
   permit_params do
     pp = %i[name email]
-    pp += %i[password password_confirmation] if params[:password].present?
+    pp += %i[password password_confirmation] if params[:admin].fetch(:password).present?
     pp << :rights if current_admin.superadmin?
     pp << { notifications: [] }
     pp
