@@ -63,10 +63,11 @@ ActiveAdmin.register_page 'Dashboard' do
               table_for counts do
                 column 'Lieu', :title
                 column 'Paniers', :count, class: 'align-right'
-                column "#{BasketSize.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+                column "#{BasketSize.billable.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
-              if free_distributions = Distribution.free
+              if Distribution.paid.any?
+                free_distributions = Distribution.free
                 paid_distributions = Distribution.paid
                 free_counts = counts.select { |c| c.distribution_id.in?(free_distributions.pluck(:id)) }
                 paid_counts = counts.select { |c| c.distribution_id.in?(paid_distributions.pluck(:id)) }

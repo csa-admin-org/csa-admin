@@ -111,9 +111,11 @@ ActiveAdmin.register Member do
           end
         end
         attributes_table title: 'Adresse' do
-          row(:address) { member.display_address }
-          unless member.same_delivery_address?
-            row(:delivery_address) { member.display_delivery_address }
+          span member.display_address
+        end
+        unless member.same_delivery_address?
+          attributes_table title: 'Adresse (Livraison)' do
+            span member.display_delivery_address
           end
         end
         attributes_table title: 'Contact' do
