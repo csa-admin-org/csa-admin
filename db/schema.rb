@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_01_201202) do
+ActiveRecord::Schema.define(version: 2018_02_04_103050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -107,6 +107,12 @@ ActiveRecord::Schema.define(version: 2018_02_01_201202) do
     t.bigint "basket_complement_id", null: false
     t.bigint "delivery_id", null: false
     t.index ["basket_complement_id", "delivery_id"], name: "basket_complements_deliveries_unique_index", unique: true
+  end
+
+  create_table "basket_complements_members", force: :cascade do |t|
+    t.bigint "basket_complement_id", null: false
+    t.bigint "member_id", null: false
+    t.index ["basket_complement_id", "member_id"], name: "basket_complements_members_unique_index", unique: true
   end
 
   create_table "basket_complements_memberships", force: :cascade do |t|

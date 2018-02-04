@@ -107,6 +107,11 @@ ActiveAdmin.register Member do
           attributes_table title: 'Abonnement (en attente)' do
             row :waiting_started_at
             row :waiting_basket_size
+            if BasketComplement.any?
+              row(:waiting_basket_complement_ids) {
+                display_basket_complement_names(member.waiting_basket_complements)
+              }
+            end
             row :waiting_distribution
           end
         end
@@ -162,6 +167,11 @@ ActiveAdmin.register Member do
     if member.pending? || member.waiting?
       f.inputs 'Abonnement (en attente)' do
         f.input :waiting_basket_size, label: 'Panier'
+        if BasketComplement.any?
+          f.input :waiting_basket_complement_ids,
+            as: :check_boxes,
+            collection: BasketComplement.all
+        end
         f.input :waiting_distribution, label: 'Distribution'
       end
     end
@@ -199,13 +209,13 @@ ActiveAdmin.register Member do
     f.actions
   end
 
-  permit_params %i[
-    name address city zip emails phones gribouille
-    delivery_address delivery_city delivery_zip
-    support_member salary_basket billing_interval waiting
-    waiting_basket_size_id waiting_distribution_id
-    profession come_from food_note note
-  ]
+  permit_params \
+    :name, :address, :city, :zip, :emails, :phones, :gribouille,
+    :delivery_address, :delivery_city, :delivery_zip,
+    :support_member, :salary_basket, :billing_interval, :waiting,
+    :waiting_basket_size_id, :waiting_distribution_id,
+    :profession, :come_from, :food_note, :note,
+    waiting_basket_complement_ids: []
 
   action_item :create_invoice, only: :show, if: -> { authorized?(:create_invoice, resource) } do
     link_to 'Créer facture', create_invoice_member_path(resource), method: :post
@@ -226,6 +236,7 @@ ActiveAdmin.register Member do
         member_id: resource.id,
         basket_size_id: resource.waiting_basket_size_id,
         distribution_id: resource.waiting_distribution_id,
+        subscribed_basket_complement_ids: resource.waiting_basket_complement_ids,
         started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max)
   end
 
