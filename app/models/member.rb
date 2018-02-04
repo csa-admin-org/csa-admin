@@ -5,7 +5,6 @@ class Member < ActiveRecord::Base
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
   SUPPORT_PRICE = 30
-  TRIAL_BASKETS = 4
 
   acts_as_paranoid
   uniquify :token, length: 10
@@ -205,7 +204,8 @@ class Member < ActiveRecord::Base
 
   def support_billable?
     support_member? ||
-        (!salary_basket? && current_year_membership && current_year_membership.baskets_count > TRIAL_BASKETS)
+        (!salary_basket? && current_year_membership &&
+          current_year_membership.baskets_count > Current.acp.trial_basket_count)
   end
 
   private
@@ -221,14 +221,14 @@ class Member < ActiveRecord::Base
       self.state = PENDING_STATE
     elsif current_membership
       self.waiting_started_at = nil
-      if delivered_baskets.count <= TRIAL_BASKETS
+      if delivered_baskets.count <= Current.acp.trial_basket_count
         self.state = TRIAL_STATE
       else
         self.state = ACTIVE_STATE
       end
     elsif future_membership
       self.waiting_started_at = nil
-      if delivered_baskets.count <= TRIAL_BASKETS
+      if delivered_baskets.count <= Current.acp.trial_basket_count
         self.state = TRIAL_STATE
       else
         self.state = INACTIVE_STATE
