@@ -22,4 +22,13 @@ module ApplicationHelper
         "tel:" + phone.phony_formatted(spaces: '', format: :international))
     }.join(', ').html_safe
   end
+
+  def display_basket_complement_names(complements)
+    names = complements.pluck(:name)
+    if names.present?
+      names.to_sentence
+    else
+      content_tag :em, 'Aucun'
+    end
+  end
 end

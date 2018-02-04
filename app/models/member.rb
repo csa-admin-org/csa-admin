@@ -15,6 +15,7 @@ class Member < ActiveRecord::Base
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
   belongs_to :waiting_distribution, class_name: 'Distribution', optional: true
+  has_and_belongs_to_many :waiting_basket_complements, class_name: 'BasketComplement'
   has_many :absences
   has_many :invoices
   has_many :payments

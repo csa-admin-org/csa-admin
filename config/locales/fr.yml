@@ -379,6 +379,7 @@ fr:
         waiting_started_at: Sur liste d'attente depuis
         waiting_basket_size: Taille panier
         waiting_distribution: Distribution
+        waiting_basket_complement_ids: Compléments panier
         validated_at: Validé le
         validator: Validé par
         deliveries_received_count_since_first_membership: Paniers reçus

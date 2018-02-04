@@ -58,12 +58,7 @@ ActiveAdmin.register Membership do
 
         if BasketComplement.any?
           panel 'Compléments Panier' do
-            names = m.subscribed_basket_complements.pluck(:name)
-            if names.present?
-              names.to_sentence
-            else
-              em 'Aucun'
-            end
+            display_basket_complement_names(m.subscribed_basket_complements)
           end
         end
 
