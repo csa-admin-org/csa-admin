@@ -1,10 +1,10 @@
 namespace :members do
   desc 'Send welcome emails to new active members'
   task send_welcome_emails: :environment do
-    ACP.switch_each! do
-      WelcomeEmailSender.send
-      p "#{Current.acp.name}: Welcome emails send to new members."
-    end
+    Apartment::Tenant.switch!('ragedevert')
+
+    WelcomeEmailSender.send
+    p "#{Current.acp.name}: Welcome emails send to new members."
   end
 
   desc 'Ensure that members state are up to date'
