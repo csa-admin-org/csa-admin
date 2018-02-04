@@ -5,6 +5,7 @@ FactoryBot.define do
     tenant_name 'ragedevert'
     email_default_host 'membres.ragedevert.ch'
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
+    trial_basket_count 4
   end
 
   factory :basket_content do

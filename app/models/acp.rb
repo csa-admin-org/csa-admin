@@ -10,6 +10,7 @@ class ACP < ActiveRecord::Base
   validates :fiscal_year_start_month,
     presence: true,
     inclusion: { in: 1..12 }
+  validates :trial_basket_count, numericality: { greater_than_or_equal_to: 0 }
 
   after_create :create_tenant
 

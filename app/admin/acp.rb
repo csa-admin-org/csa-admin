@@ -4,6 +4,7 @@ ActiveAdmin.register ACP do
   permit_params \
     :name, :host,
     :email_api_token, :email_default_host, :email_default_from,
+    :trial_basket_count,
     :fiscal_year_start_month,
     features: []
 
@@ -21,6 +22,9 @@ ActiveAdmin.register ACP do
       f.input :email_api_token
       f.input :email_default_host
       f.input :email_default_from
+    end
+    f.inputs 'Abonnement' do
+      f.input :trial_basket_count
     end
     f.inputs 'Facturation' do
       f.input :fiscal_year_start_month,
