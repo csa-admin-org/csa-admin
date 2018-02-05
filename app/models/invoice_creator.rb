@@ -42,7 +42,7 @@ class InvoiceCreator
   end
 
   def support_amount
-    Member::SUPPORT_PRICE if !support_billed? && member.support_billable?
+    member.support_price if !support_billed? && member.support_billable?
   end
 
   def membership_amount_description

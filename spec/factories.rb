@@ -6,6 +6,7 @@ FactoryBot.define do
     email_default_host 'membres.ragedevert.ch'
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
     trial_basket_count 4
+    support_price 30
   end
 
   factory :basket_content do
@@ -160,7 +161,7 @@ FactoryBot.define do
     end
 
     trait :support do
-      support_amount Member::SUPPORT_PRICE
+      support_amount { member.support_price }
     end
 
     trait :last_year do

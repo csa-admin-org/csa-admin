@@ -42,6 +42,13 @@ describe Member do
     expect(member.waiting_started_at).to be_present
   end
 
+  it 'sets support_price from ACP if not set on creation' do
+    Current.acp.update!(support_price: 42)
+    member = create(:member, support_price: nil)
+
+    expect(member.support_price).to eq 42
+  end
+
   it 'updates waiting basket_size/distribution on update' do
     member = create(:member, :waiting)
     new_basket_size = create(:basket_size)

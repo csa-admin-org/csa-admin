@@ -5,7 +5,7 @@ ActiveAdmin.register ACP do
     :name, :host,
     :email_api_token, :email_default_host, :email_default_from,
     :trial_basket_count,
-    :fiscal_year_start_month,
+    :fiscal_year_start_month, :support_price,
     features: []
 
   form do |f|
@@ -31,6 +31,7 @@ ActiveAdmin.register ACP do
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] },
         include_blank: false
+      f.input :support_price
     end
 
     f.actions do

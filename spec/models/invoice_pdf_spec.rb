@@ -29,13 +29,13 @@ describe InvoicePdf do
   end
 
   context 'when only support ammount' do
-    let(:invoice) { create(:invoice, support_amount: Member::SUPPORT_PRICE) }
+    let(:invoice) { create(:invoice, support_amount: 42) }
 
     specify do
       pdf = pdf_strings
 
       expect(pdf).to include 'Cotisation annuelle association'
-      expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
+      expect(pdf).to include "42.00"
     end
   end
 
@@ -45,7 +45,7 @@ describe InvoicePdf do
     end
     let(:invoice) do
       create(:invoice,
-        support_amount: Member::SUPPORT_PRICE,
+        support_amount: 42,
         memberships_amount_description: 'Montant annuel',
         membership: membership)
     end
@@ -60,11 +60,11 @@ describe InvoicePdf do
       expect(pdf).to include '0.00'
       expect(pdf).not_to include 'Demi-journées de travail'
       expect(pdf).to include 'Cotisation annuelle association'
-      expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
+      expect(pdf).to include '42.00'
       expect(pdf).to include 'Montant annuel'
       expect(pdf).to include 'Montant restant'
       expect(pdf).to include "1'330.00"
-      expect(pdf).to include "1'360.00"
+      expect(pdf).to include "1'372.00"
     end
   end
 
@@ -81,7 +81,7 @@ describe InvoicePdf do
     end
     let(:invoice) do
       create(:invoice,
-        support_amount: Member::SUPPORT_PRICE,
+        support_amount: 30,
         memberships_amount_description: 'Montant annuel',
         membership: membership)
     end
@@ -102,7 +102,7 @@ describe InvoicePdf do
       expect(pdf).to include 'Réduction pour 6 demi-journées de travail supplémentaires'
       expect(pdf).to include '- 330.50'
       expect(pdf).to include 'Cotisation annuelle association'
-      expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
+      expect(pdf).to include '30.00'
       expect(pdf).to include 'Montant annuel'
       expect(pdf).to include 'Montant restant'
       expect(pdf).to include "1'135.50"
@@ -121,7 +121,7 @@ describe InvoicePdf do
     let(:invoice) do
       create(:invoice,
         member: member,
-        support_amount: Member::SUPPORT_PRICE,
+        support_amount: 30,
         membership_amount_fraction: 4,
         memberships_amount_description: 'Montant trimestrielle #1',
         membership: membership)
@@ -137,7 +137,7 @@ describe InvoicePdf do
       expect(pdf).to include '80.00'
       expect(pdf).not_to include 'Demi-journées de travail'
       expect(pdf).to include 'Cotisation annuelle association'
-      expect(pdf).to include "#{Member::SUPPORT_PRICE}.00"
+      expect(pdf).to include '30.00'
       expect(pdf).to include 'Montant trimestrielle #1'
       expect(pdf).to include '352.50'
       expect(pdf).to include '382.50'
