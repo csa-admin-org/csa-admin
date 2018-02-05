@@ -267,6 +267,7 @@ fr:
         email_default_host: Default host
         email_default_from: Default from
         trial_basket_count: Paniers à l'essai
+        support_price: Cotisation anuelle
         fiscal_year_start_month: 1er mois de l'année fiscale
       admin:
         name: Nom
@@ -367,6 +368,7 @@ fr:
         delivery_zip: ZIP (Livraison)
         phones: Téléphones
         support_member: Membre de soutien
+        support_price: Cotisation anuelle
         billing_interval: Interval de paiement
         food_note: Note alimentaire
         waiting: Sur liste d'attente

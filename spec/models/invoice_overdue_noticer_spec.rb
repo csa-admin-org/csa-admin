@@ -26,7 +26,7 @@ describe InvoiceOverdueNoticer do
 
   specify 'only send overdue notice when invoice is open' do
     invoice = create(:invoice, :support, :open)
-    create(:payment, invoice: invoice, amount: Member::SUPPORT_PRICE)
+    create(:payment, invoice: invoice, amount: Current.acp.support_price)
     expect(invoice.reload.state).to eq 'closed'
     expect { perform(invoice) }
       .to change { ActionMailer::Base.deliveries.count }.by(0)

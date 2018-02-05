@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_04_202816) do
+ActiveRecord::Schema.define(version: 2018_02_04_203512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -37,7 +37,8 @@ ActiveRecord::Schema.define(version: 2018_02_04_202816) do
     t.string "email_default_host"
     t.string "email_default_from"
     t.integer "fiscal_year_start_month", default: 1, null: false
-    t.integer "trial_basket_count", default: 0, null: false
+    t.integer "trial_basket_count", default: 1, null: false
+    t.decimal "support_price", precision: 8, scale: 2, default: "0.0", null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -306,6 +307,7 @@ ActiveRecord::Schema.define(version: 2018_02_04_202816) do
     t.string "name", null: false
     t.string "profession"
     t.string "come_from"
+    t.decimal "support_price", precision: 8, scale: 2, null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"

@@ -133,6 +133,8 @@ ActiveAdmin.register Member do
         attributes_table title: 'Facturation' do
           row(:billing_interval) { t("member.billing_interval.#{member.billing_interval}") }
           row(:salary_basket) { member.salary_basket? ? 'oui' : 'non' }
+          row(:support_member) { member.support_member ? 'oui' : 'non' }
+          row(:support_price) { number_to_currency member.support_price }
           row('Montant facturé') { number_to_currency member.invoices.sum(:amount) }
           row('Paiements versés') { number_to_currency member.payments.sum(:amount) }
           row('Différence') {
@@ -197,7 +199,8 @@ ActiveAdmin.register Member do
       f.input :billing_interval,
         collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
         include_blank: false
-      f.input :support_member
+      f.input :support_member, hint: 'Paye la cotisation annuelle même si aucun abonnement'
+      f.input :support_price
       f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'
     end
     f.inputs 'Info et Notes' do
@@ -280,6 +283,11 @@ ActiveAdmin.register Member do
 
     def find_resource
       Member.find_by!(token: params[:id])
+    end
+
+    def build_resource
+      super
+      resource.support_price ||= Current.acp.support_price
     end
 
     def create_resource(object)

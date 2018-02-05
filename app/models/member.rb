@@ -4,7 +4,6 @@ class Member < ActiveRecord::Base
   include HasPhones
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
-  SUPPORT_PRICE = 30
 
   acts_as_paranoid
   uniquify :token, length: 10
@@ -48,7 +47,9 @@ class Member < ActiveRecord::Base
     if: ->(member) { member.read_attribute(:gribouille) }
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validate :support_member_not_waiting
+  validates :support_price, numericality: { greater_than_or_equal_to: 0 }
 
+  before_validation :set_support_price, on: :create
   before_validation :set_waiting_started_at, on: :create
   before_save :set_state
   after_save :update_membership_halfday_works
@@ -214,6 +215,10 @@ class Member < ActiveRecord::Base
     if waiting_basket_size_id? || waiting_distribution_id?
       self.waiting_started_at ||= Time.current
     end
+  end
+
+  def set_support_price
+    self.support_price ||= Current.acp.support_price
   end
 
   def set_state
