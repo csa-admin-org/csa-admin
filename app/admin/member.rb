@@ -288,6 +288,7 @@ ActiveAdmin.register Member do
     def build_resource
       super
       resource.support_price ||= Current.acp.support_price
+      resource
     end
 
     def create_resource(object)

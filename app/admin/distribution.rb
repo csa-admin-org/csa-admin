@@ -66,6 +66,14 @@ ActiveAdmin.register Distribution do
     emails phones responsible_member_id
   ]
 
+  controller do
+    def build_resource
+      super
+      resource.price ||= 0.0
+      resource
+    end
+  end
+
   config.filters = false
   config.per_page = 25
   config.sort_order = 'name_asc'
