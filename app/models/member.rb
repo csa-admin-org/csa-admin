@@ -47,7 +47,7 @@ class Member < ActiveRecord::Base
     if: ->(member) { member.read_attribute(:gribouille) }
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validate :support_member_not_waiting
-  validates :support_price, numericality: { greater_than_or_equal_to: 0 }
+  validates :support_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   before_validation :set_support_price, on: :create
   before_validation :set_waiting_started_at, on: :create
