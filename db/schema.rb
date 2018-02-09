@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_06_185052) do
+ActiveRecord::Schema.define(version: 2018_02_09_131334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -327,11 +327,11 @@ ActiveRecord::Schema.define(version: 2018_02_06_185052) do
     t.integer "halfday_works", default: 0, null: false
     t.integer "validated_halfday_works", default: 0, null: false
     t.boolean "renew", default: false, null: false
-    t.bigint "basket_size_id"
-    t.bigint "distribution_id"
+    t.bigint "basket_size_id", null: false
+    t.bigint "distribution_id", null: false
     t.integer "basket_quantity", default: 1, null: false
-    t.decimal "basket_price", precision: 8, scale: 3
-    t.decimal "distribution_price", precision: 8, scale: 3
+    t.decimal "basket_price", precision: 8, scale: 3, null: false
+    t.decimal "distribution_price", precision: 8, scale: 3, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
