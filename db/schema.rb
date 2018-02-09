@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_02_09_131334) do
     t.string "email_default_host"
     t.string "email_default_from"
     t.integer "fiscal_year_start_month", default: 1, null: false
-    t.integer "trial_basket_count", default: 1, null: false
+    t.integer "trial_basket_count", default: 0, null: false
     t.decimal "support_price", precision: 8, scale: 2, default: "0.0", null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
