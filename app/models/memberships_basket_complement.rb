@@ -1,5 +1,5 @@
-class BasketsBasketComplement < ActiveRecord::Base
-  belongs_to :basket
+class MembershipsBasketComplement < ActiveRecord::Base
+  belongs_to :membership
   belongs_to :basket_complement
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -9,11 +9,8 @@ class BasketsBasketComplement < ActiveRecord::Base
     self.price ||= basket_complement&.price
   end
 
-  def description
-    case quantity
-    when 1 then basket_complement.name
-    else "#{quantity} x #{basket_complement.name}"
-    end
+  def name
+    "#{"#{quantity} x " if quantity > 1}#{basket_complement.name}"
   end
 
   def total_price

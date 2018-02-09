@@ -41,13 +41,9 @@ ActiveAdmin.register Payment do
 
   permit_params *%i[member_id date amount]
 
-  controller do
-    def build_resource
-      super
-      resource.amount ||= 0
-      resource.date ||= Date.current
-      resource
-    end
+  before_build do |payment|
+    payment.date ||= Date.current
+    payment.amount ||= 0
   end
 
   config.sort_order = 'date_desc'

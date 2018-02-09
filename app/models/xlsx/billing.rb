@@ -21,22 +21,22 @@ module XLSX
       worksheet = add_worksheet(name)
       add_header('Description', 'Prix unité', 'Total')
 
-      BasketSize.billable.each do |basket_size|
-        total = @memberships.sum { |m| m.basket_size_price(basket_size.id) }
+      BasketSize.all.each do |basket_size|
+        total = @memberships.sum { |m| m.basket_size_total_price(basket_size.id) }
         add_line("Panier #{basket_size.name}", total, basket_size.price)
       end
       add_empty_line
 
       if BasketComplement.any?
         BasketComplement.all.each do |basket_complement|
-          total = @memberships.sum { |m| m.basket_complement_price(basket_complement.id) }
+          total = @memberships.sum { |m| m.basket_complement_total_price(basket_complement.id) }
           add_line("Complément #{basket_complement.name}", total, basket_complement.price)
         end
         add_empty_line
       end
 
       Distribution.where('price > 0').all.each do |distribution|
-        total = @memberships.sum { |m| m.distribution_price(distribution.id) }
+        total = @memberships.sum { |m| m.distribution_total_price(distribution.id) }
         add_line("Distribution #{distribution.name}", total, distribution.price)
       end
       add_empty_line

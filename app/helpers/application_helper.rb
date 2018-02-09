@@ -24,11 +24,15 @@ module ApplicationHelper
   end
 
   def display_basket_complement_names(complements)
-    names = complements.pluck(:name)
+    names = complements.map(&:name)
     if names.present?
       names.to_sentence
     else
       content_tag :em, 'Aucun'
     end
+  end
+
+  def display_price_description(price, description)
+    "#{number_to_currency(price)} #{"(#{description})" if price.positive?}"
   end
 end

@@ -1,7 +1,7 @@
 section
   h4= "#{@member.name}"
   ul
-    li= "Panier: #{@member.current_year_membership&.future_or_last_basket_size&.name || '–'}"
+    li= "Panier: #{@member.current_year_membership&.basket_size&.name || '–'}"
     li
       = '½ journée(s) de travail effectuée(s): '
       b= "#{@member.validated_halfday_works}/#{@member.halfday_works}"

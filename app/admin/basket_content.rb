@@ -70,19 +70,17 @@ ActiveAdmin.register BasketContent do
     end
   end
 
-  controller do
-    def build_resource
-      super
-      resource.delivery ||= Delivery.next
-      if resource.basket_sizes.empty?
-        resource.basket_sizes = BasketContent::SIZES
-      end
-      if resource.distributions.empty?
-        resource.distributions = Distribution.all
-      end
-      resource
+  before_build do |basket_content|
+    basket_content.delivery ||= Delivery.next
+    if basket_content.basket_sizes.empty?
+      basket_content.basket_sizes = BasketContent::SIZES
     end
+    if basket_content.distributions.empty?
+      basket_content.distributions = Distribution.all
+    end
+  end
 
+  controller do
     def create
       super do |format|
         redirect_to collection_url and return if resource.valid?

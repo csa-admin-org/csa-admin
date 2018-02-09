@@ -4,7 +4,7 @@ ActiveAdmin.register Member do
   scope :all
   scope :pending
   scope :waiting
-  scope :trial
+  scope :trial, if: ->(_) { Current.acp.trial_basket_count.positive? }
   scope :active, default: true
   scope :inactive
 
@@ -267,6 +267,10 @@ ActiveAdmin.register Member do
     redirect_to invoices_path(q: { member_id_eq: resource.id }, scope: :all)
   end
 
+  before_build do |member|
+    member.support_price ||= Current.acp.support_price
+  end
+
   controller do
     def apply_sorting(chain)
       params[:order] ||= 'waiting_started_at_asc' if params[:scope] == 'waiting'
@@ -283,12 +287,6 @@ ActiveAdmin.register Member do
 
     def find_resource
       Member.find_by!(token: params[:id])
-    end
-
-    def build_resource
-      super
-      resource.support_price ||= Current.acp.support_price
-      resource
     end
 
     def create_resource(object)

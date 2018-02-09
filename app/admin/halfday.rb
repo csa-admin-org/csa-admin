@@ -57,14 +57,12 @@ ActiveAdmin.register Halfday do
     participants_limit
   ]
 
-  controller do
-    def build_resource
-      super
-      resource.preset_id ||= 1
-      resource.date ||= Date.current
-      resource
-    end
+  before_build do |halfday|
+    halfday.preset_id ||= 1
+    halfday.date ||= Date.current
+  end
 
+  controller do
     def create
       overwrite_date_of_time_params
       super do |format|

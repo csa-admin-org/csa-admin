@@ -40,7 +40,7 @@ ActiveAdmin.register Distribution do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :price
+      f.input :price, hint: "Prix pour la préparation et/ou livraison d'un panier"
       f.input :note, input_html: { rows: 3 }
     end
 
@@ -66,12 +66,8 @@ ActiveAdmin.register Distribution do
     emails phones responsible_member_id
   ]
 
-  controller do
-    def build_resource
-      super
-      resource.price ||= 0.0
-      resource
-    end
+  before_build do |distribution|
+    distribution.price ||= 0.0
   end
 
   config.filters = false

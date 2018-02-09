@@ -72,7 +72,7 @@ module XLSX
       @worksheet.add_cell(@line, 0, descritption)
       @worksheet.add_cell(@line, 1, baskets.count).set_number_format('0')
       @basket_sizes.each_with_index do |basket_size, i|
-        amount = baskets.where(basket_size_id: basket_size.id).count
+        amount = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
         @worksheet.add_cell(@line, 2 + i, amount).set_number_format('0')
       end
       if @basket_complements.any?
@@ -82,7 +82,7 @@ module XLSX
             baskets
               .joins(:baskets_basket_complements)
               .where(baskets_basket_complements: { basket_complement_id: complement.id })
-              .count
+              .sum('baskets_basket_complements.quantity')
           @worksheet.add_cell(@line, cols_count + i, amount).set_number_format('0')
         end
       end
@@ -93,7 +93,7 @@ module XLSX
 
     def build_distribution_worksheet(distribution)
       baskets = @baskets.where(distribution_id: distribution.id)
-      basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).count }
+      basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).sum(:quantity) }
       add_worksheet("#{distribution.name} (#{basket_counts.join('+')})")
 
       cols = %w[
@@ -108,9 +108,11 @@ module XLSX
       cols << 'Compléments' if @basket_complements.any?
       cols << 'Note alimentaire'
       add_header(*cols)
-      baskets.joins(:member).includes(:member, :basket_size, :complements).order('members.name').each do |basket|
-        add_basket_line(basket)
-      end
+      baskets
+        .joins(:member)
+        .includes(:member, :basket_size, :baskets_basket_complements, :complements).order('members.name')
+        .reject(&:blank?)
+        .each { |basket| add_basket_line(basket) }
 
       @worksheet.change_column_width(0, 35)
       @worksheet.change_column_width(1, 30)
@@ -132,9 +134,9 @@ module XLSX
         member.final_delivery_address,
         member.final_delivery_zip,
         member.final_delivery_city,
-        basket.basket_size.name
+        basket.basket_description || '-'
       ]
-      cols << basket.complements.pluck(:name).to_sentence if @basket_complements.any?
+      cols << basket.complements_description if @basket_complements.any?
       cols << truncate(member.food_note, length: 80)
       cols.each_with_index do |col, i|
         @worksheet.add_cell(@line, i, col)

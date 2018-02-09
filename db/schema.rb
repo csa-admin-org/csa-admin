@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_04_203512) do
+ActiveRecord::Schema.define(version: 2018_02_06_185052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -117,12 +117,6 @@ ActiveRecord::Schema.define(version: 2018_02_04_203512) do
     t.index ["basket_complement_id", "member_id"], name: "basket_complements_members_unique_index", unique: true
   end
 
-  create_table "basket_complements_memberships", force: :cascade do |t|
-    t.bigint "basket_complement_id", null: false
-    t.bigint "membership_id", null: false
-    t.index ["basket_complement_id", "membership_id"], name: "basket_complements_memberships_unique_index", unique: true
-  end
-
   create_table "basket_contents", id: :serial, force: :cascade do |t|
     t.integer "delivery_id", null: false
     t.integer "vegetable_id", null: false
@@ -162,13 +156,14 @@ ActiveRecord::Schema.define(version: 2018_02_04_203512) do
     t.bigint "delivery_id", null: false
     t.bigint "basket_size_id", null: false
     t.bigint "distribution_id", null: false
-    t.decimal "basket_price", precision: 8, scale: 3, default: "0.0", null: false
-    t.decimal "distribution_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal "basket_price", precision: 8, scale: 3, null: false
+    t.decimal "distribution_price", precision: 8, scale: 2, null: false
     t.boolean "trial", default: false, null: false
     t.boolean "absent", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.integer "quantity", default: 1, null: false
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
     t.index ["distribution_id"], name: "index_baskets_on_distribution_id"
@@ -182,6 +177,7 @@ ActiveRecord::Schema.define(version: 2018_02_04_203512) do
     t.decimal "price", precision: 8, scale: 3, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 1, null: false
     t.index ["basket_complement_id", "basket_id"], name: "baskets_basket_complements_unique_index", unique: true
   end
 
@@ -331,10 +327,27 @@ ActiveRecord::Schema.define(version: 2018_02_04_203512) do
     t.integer "halfday_works", default: 0, null: false
     t.integer "validated_halfday_works", default: 0, null: false
     t.boolean "renew", default: false, null: false
+    t.bigint "basket_size_id"
+    t.bigint "distribution_id"
+    t.integer "basket_quantity", default: 1, null: false
+    t.decimal "basket_price", precision: 8, scale: 3
+    t.decimal "distribution_price", precision: 8, scale: 3
+    t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
+    t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"
     t.index ["started_on"], name: "index_memberships_on_started_on"
+  end
+
+  create_table "memberships_basket_complements", force: :cascade do |t|
+    t.bigint "basket_complement_id", null: false
+    t.bigint "membership_id", null: false
+    t.decimal "price", precision: 8, scale: 3, null: false
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
   create_table "payments", force: :cascade do |t|

@@ -29,7 +29,13 @@ ActiveAdmin.register Membership do
     columns do
       column do
         panel "#{m.baskets_count} Paniers" do
-          table_for(m.baskets.includes(:delivery, :basket_size, :baskets_basket_complements, :distribution, :complements),
+          table_for(m.baskets.includes(
+            :delivery,
+            :basket_size,
+            :distribution,
+            :complements,
+            baskets_basket_complements: :basket_complement
+          ),
             row_class: ->(b) { 'next' if b.next? },
             class: 'table-baskets'
           ) do |basket|
@@ -56,9 +62,14 @@ ActiveAdmin.register Membership do
           row :renew
         end
 
-        if BasketComplement.any?
-          panel 'Compléments Panier' do
-            display_basket_complement_names(m.subscribed_basket_complements)
+        attributes_table title: 'Description' do
+          row(:basket_size) { m.subscribed_basket_description }
+          row :distribution
+          if BasketComplement.any?
+            row(:memberships_basket_complements) {
+              display_basket_complement_names(
+                m.memberships_basket_complements.includes(:basket_complement))
+            }
           end
         end
 
@@ -75,15 +86,15 @@ ActiveAdmin.register Membership do
             em 'Pas de paniers'
           else
             row(:basket_sizes_price) {
-              "#{number_to_currency(m.basket_sizes_price)} (#{m.basket_sizes_price_info})"
+              display_price_description(m.basket_sizes_price, m.basket_sizes_price_info)
             }
             if m.basket_complements.any?
               row(:basket_complements_price) {
-                "#{number_to_currency(m.basket_complements_price)} (#{m.basket_complements_price_info})"
+                display_price_description(m.basket_complements_price, m.basket_complements_price_info)
               }
             end
             row(:distributions_price) {
-              "#{number_to_currency(m.distributions_price)} (#{m.distributions_price_info})"
+              display_price_description(m.distributions_price, m.distributions_price_info)
             }
             row(:halfday_works_price) { number_to_currency(m.halfday_works_price) }
             row(:price) { number_to_currency(m.price) }
@@ -106,28 +117,21 @@ ActiveAdmin.register Membership do
       f.input :ended_on, as: :datepicker, include_blank: false
       f.input :renew unless resource.new_record? || resource.current_year?
     end
-    f.inputs 'Panier & Distribution' do
-      f.input :basket_size_id,
-        as: :select,
-        collection: BasketSize.all,
-        include_blank: !resource.new_record?,
-        hint: !resource.new_record? && 'Seulement les paniers à venir seront modifiés.'
-      if BasketComplement.any?
-        f.input :subscribed_basket_complement_ids,
-          as: :check_boxes,
-          collection: BasketComplement.all,
-          hint: !resource.new_record? && 'Seulement les paniers à venir seront modifiés en fonction des livraisons agendées pour les compléments de panier.'
+    f.inputs 'Panier et distribution' do
+      unless resource.new_record?
+        em 'Attention, toute modification recréera tous les paniers à venir de cet abonnement!'
       end
-      f.input :distribution_id,
-        as: :select,
-        collection: Distribution.all,
-        include_blank: !resource.new_record?,
-        hint: !resource.new_record? && 'Seulement les paniers à venir seront modifiés.'
-    end
-    unless resource.new_record?
-      f.inputs '½ journée de travails' do
-        f.input :annual_halfday_works
-        f.input :halfday_works_annual_price, hint: 'Augmentation ou réduction du prix de l\'abonnement contre service (½ journée de travails) rendu ou non.'
+      f.input :basket_size, include_blank: false
+      f.input :basket_price, hint: 'Laisser blanc pour le prix par défaut.'
+      f.input :basket_quantity
+      f.input :distribution, include_blank: false
+      f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'
+      if BasketComplement.any?
+        f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
+          ff.input :basket_complement, collection: BasketComplement.all, prompt: 'Choisir un complément:'
+          ff.input :price, hint: 'Laisser blanc pour le prix par défaut.'
+          ff.input :quantity
+        end
       end
     end
     f.actions
@@ -135,23 +139,24 @@ ActiveAdmin.register Membership do
 
   permit_params \
     :member_id,
-    :basket_size_id, :distribution_id,
+    :basket_size_id, :basket_price, :basket_quantity,
+    :distribution_id, :distribution_price,
     :started_on, :ended_on, :renew,
     :halfday_works_annual_price, :annual_halfday_works,
-    subscribed_basket_complement_ids: []
+     memberships_basket_complements_attributes: [
+      :id, :basket_complement_id,
+      :price, :quantity,
+      :_destroy
+    ]
   includes :member, :delivered_baskets
 
-  controller do
-    def build_resource
-      super
-      fy_range = Delivery.next.fy_range
-      resource.member_id ||= params[:member_id]
-      resource.basket_size_id ||= params[:basket_size_id]
-      resource.distribution_id ||= params[:distribution_id]
-      resource.started_on ||= params[:started_on] || fy_range.min
-      resource.ended_on ||= fy_range.max
-      resource
-    end
+  before_build do |membership|
+    fy_range = Delivery.next.fy_range
+    membership.member_id ||= params[:member_id]
+    membership.basket_size_id ||= params[:basket_size_id]
+    membership.distribution_id ||= params[:distribution_id]
+    membership.started_on ||= params[:started_on] || fy_range.min
+    membership.ended_on ||= fy_range.max
   end
 
   config.per_page = 30

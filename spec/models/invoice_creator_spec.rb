@@ -50,7 +50,31 @@ describe InvoiceCreator do
       expect(invoice.support_amount).to be_present
       expect(invoice.paid_memberships_amount).to eq 0
       expect(invoice.remaining_memberships_amount).to eq 1200
-      expect(invoice.memberships_amount_description).to be_present
+      expect(invoice.memberships_amount_description).to eq 'Montant annuel'
+      expect(invoice.memberships_amount).to eq membership.price
+      expect(invoice.pdf_file).to be_attached
+    end
+
+    specify 'when not already billed with complements and many baskets' do
+      create(:basket_complement, id: 1, price: 3.4, delivery_ids: Delivery.pluck(:id))
+      create(:basket_complement, id: 2, price: 5.6, delivery_ids: Delivery.pluck(:id))
+
+      Timecop.travel(Current.fy_range.min) do
+        membership.update!(
+          basket_quantity: 2,
+          basket_price: 32,
+          distribution_price: 3,
+          memberships_basket_complements_attributes: {
+            '0' => { basket_complement_id: 1, price: '', quantity: 1 },
+            '1' => { basket_complement_id: 2, price: '', quantity: 2 }
+          })
+      end
+
+      expect(invoice.support_amount).to be_present
+      expect(invoice.paid_memberships_amount).to eq 0
+      expect(invoice.remaining_memberships_amount)
+        .to eq 40 * 2 * 32 + 40 * 2 * 3 + 40 * 3.4 + 40 * 2 * 5.6
+      expect(invoice.memberships_amount_description).to eq 'Montant annuel'
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.pdf_file).to be_attached
     end
@@ -77,9 +101,8 @@ describe InvoiceCreator do
     specify 'when already billed, but with a membership change' do
       Timecop.travel(1.day.ago) { create_invoice }
       Timecop.travel(10.days.from_now) do
-        membership.update!(distribution_id: create(:distribution, price: 2).id)
+        membership.update!(distribution_price: 2)
       end
-      member.current_year_membership.reload
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
@@ -190,7 +213,7 @@ describe InvoiceCreator do
       Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice }
       Timecop.travel(Date.new(Current.fy_year, 8))
       Timecop.travel(1.day.ago) { create_invoice }
-      membership.update!(distribution_id: create(:distribution, price: 2).id)
+      membership.update!(distribution_price: 2)
 
       expect(invoice).to be_nil
     end
@@ -225,8 +248,7 @@ describe InvoiceCreator do
       Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice }
       Timecop.travel(Date.new(Current.fy_year, 11))
       Timecop.travel(1.day.ago) { create_invoice }
-      membership.update!(distribution_id: create(:distribution, price: 2).id)
-      member.current_year_membership.reload
+      membership.update!(distribution_price: 2)
 
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200

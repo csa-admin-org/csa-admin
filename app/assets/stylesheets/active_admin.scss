@@ -65,6 +65,13 @@ form input[type='checkbox']:disabled {
   box-shadow: inset 0 0 0 13px #aaa !important;
 }
 
+form#edit_membership ol em {
+  color: rgba(63, 63, 63, 0.5);
+  transition: color 250ms;
+  display: block;
+  padding: 10px 15px 20px 15px;
+}
+
 span.delivery_note {
   display: block;
   margin-top: 15px;
@@ -105,8 +112,6 @@ table .edit_link, table .pdf_link, table .xlsx_link {
   transition: opacity 250ms;
   width: 16px;
 }
-
-
 
 .status_tag {
   &.trial, &.coming, &.not_sent, &.manual { background-color: #1e83f6; }
