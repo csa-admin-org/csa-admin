@@ -93,20 +93,14 @@ FactoryBot.define do
 
   factory :membership do
     member
-    basket_size_id { BasketSize.first&.id || create(:basket_size).id }
-    distribution_id { Distribution.first&.id || create(:distribution).id }
+    basket_size { BasketSize.first || create(:basket_size) }
+    distribution { Distribution.first || create(:distribution) }
     started_on { Current.fy_range.min }
     ended_on { Current.fy_range.max }
 
     trait :last_year do
       started_on { Current.acp.fiscal_year_for(1.year.ago).range.min  }
       ended_on { Current.acp.fiscal_year_for(1.year.ago).range.max  }
-    end
-
-    # Clear memory attributes
-    after :create do |membership|
-      membership.basket_size_id = nil
-      membership.distribution_id = nil
     end
   end
 

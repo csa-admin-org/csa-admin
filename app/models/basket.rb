@@ -10,13 +10,15 @@ class Basket < ActiveRecord::Base
   belongs_to :basket_size
   belongs_to :distribution
   has_one :member, through: :membership
-  has_many :baskets_basket_complements
+  has_many :baskets_basket_complements, dependent: :destroy
   has_many :complements,
     source: :basket_complement,
     through: :baskets_basket_complements
 
+  accepts_nested_attributes_for :baskets_basket_complements, allow_destroy: true
+
   before_create :add_complements
-  before_save :set_prices
+  before_validation :set_prices
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
   scope :delivered, -> { joins(:delivery).merge(Delivery.past) }
@@ -25,26 +27,44 @@ class Basket < ActiveRecord::Base
   scope :absent, -> { where(absent: true) }
   scope :not_absent, -> { where(absent: false) }
 
+  validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
+
   def description
-    txt = basket_size.name
-    if complements.any?
-      txt += ' + '
-      txt += complements.map(&:name).to_sentence
+    [
+      basket_description,
+      complements_description
+    ].compact.join(' + ').presence || '–'
+  end
+
+  def basket_description
+    case quantity
+    when 0 then nil
+    when 1 then basket_size.name
+    else "#{quantity} x #{basket_size.name}"
     end
-    txt
+  end
+
+  def complements_description
+    baskets_basket_complements.map(&:description).to_sentence.presence
   end
 
   def complements_price
-    baskets_basket_complements.sum(:price)
+    baskets_basket_complements
+      .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
   end
 
   def complement?(complement)
     complements.exists?(complement.id)
   end
 
-  def add_complement!(complement)
+  def add_complement!(complement, price:, quantity:)
     unless complement?(complement)
-      complements.push(complement)
+      baskets_basket_complements.create!(
+        basket_complement: complement,
+        quantity: quantity,
+        price: price)
     end
   end
 
@@ -52,15 +72,27 @@ class Basket < ActiveRecord::Base
     complements.delete(complement)
   end
 
+  def blank?
+    quantity + baskets_basket_complements.sum(:quantity) == 0
+  end
+
   private
 
   def add_complements
-    self.complement_ids =
+    complement_ids =
       delivery.basket_complement_ids & membership.subscribed_basket_complement_ids
+    membership
+      .memberships_basket_complements
+      .where(basket_complement_id: complement_ids).each do |mbc|
+        baskets_basket_complements.build(
+          basket_complement_id: mbc.basket_complement_id,
+          quantity: mbc.quantity,
+          price: mbc.price)
+      end
   end
 
   def set_prices
-    self.basket_price = basket_size.price if basket_size_id_changed?
-    self.distribution_price = distribution.price if distribution_id_changed?
+    self.basket_price ||= basket_size&.price
+    self.distribution_price ||= distribution&.price
   end
 end

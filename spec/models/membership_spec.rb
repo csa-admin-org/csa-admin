@@ -51,9 +51,30 @@ describe Membership do
       distribution_id: distribution.id)
 
     expect(membership.baskets.count).to eq(40)
-    expect(membership.baskets_count).to eq(40)
     expect(membership.baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
     expect(membership.baskets.pluck(:distribution_id).uniq).to eq [distribution.id]
+  end
+
+  it 'creates baskets with complements on creation' do
+    create(:basket_complement, id: 1, price: 3.2)
+    create(:basket_complement, id: 2, price: 4.5)
+    delivery = create(:delivery, basket_complement_ids: [1, 2])
+
+    basket_size = create(:basket_size)
+    distribution = create(:distribution)
+
+    membership = create(:membership,
+      basket_size_id: basket_size.id,
+      distribution_id: distribution.id,
+      memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, price: '', quantity: 1 },
+        '1' => { basket_complement_id: 2, price: '4.4', quantity: 2 }
+      })
+
+    expect(membership.baskets.count).to eq(41)
+    basket = membership.baskets.where(delivery: delivery).first
+    expect(basket.complement_ids).to match_array [1, 2]
+    expect(basket.complements_price).to eq 3.2 + 2 * 4.4
   end
 
   it 'deletes baskets when started_on and ended_on changes' do
@@ -78,8 +99,6 @@ describe Membership do
     baskets = membership.baskets
     first_basket = baskets.first
     last_basket = baskets.last
-    basket_size = last_basket.basket_size
-    distribution = last_basket.distribution
 
     expect(membership.baskets_count).to eq(40)
 
@@ -88,31 +107,23 @@ describe Membership do
       ended_on: last_basket.delivery.date - 1.days)
     expect(membership.baskets_count).to eq(38)
 
-    new_basket_size = create(:basket_size)
-    new_distribution = create(:distribution)
-    membership.reload.baskets.first.update!(
-      basket_size: new_basket_size,
-      distribution: new_distribution)
-
     membership.update!(
       started_on: first_basket.delivery.date - 1.days,
       ended_on: last_basket.delivery.date + 1.days)
 
     expect(membership.reload.baskets_count).to eq(40)
     new_first_basket = membership.reload.baskets.first
-    expect(new_first_basket.basket_size).to eq new_basket_size
-    expect(new_first_basket.distribution).to eq new_distribution
+    expect(new_first_basket.basket_size).to eq membership.basket_size
+    expect(new_first_basket.distribution).to eq membership.distribution
     new_last_basket = membership.reload.baskets.last
-    expect(new_last_basket.basket_size).to eq basket_size
-    expect(new_last_basket.distribution).to eq distribution
+    expect(new_last_basket.basket_size).to eq membership.basket_size
+    expect(new_last_basket.distribution).to eq membership.distribution
   end
 
-  it 'updates future baskets/distribution when present' do
-    basket_size = create(:basket_size)
-    distribution = create(:distribution)
-    membership = create(:membership,
-      basket_size_id: basket_size.id,
-      distribution_id: distribution.id)
+  it 're-creates future baskets/distribution' do
+    membership = create(:membership)
+    basket_size = membership.basket_size
+    distribution = membership.distribution
     new_basket_size = create(:basket_size)
     new_distribution = create(:distribution)
 
@@ -138,26 +149,84 @@ describe Membership do
       .to eq [new_distribution.id]
   end
 
-  specify 'standard prices' do
+  specify 'with standard basket_size' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to eq 0
-    expect(membership.halfday_works_price).to eq 0
+    expect(membership.basket_sizes_price_info).to eq '40 x 23.125'
+    expect(membership.basket_sizes_description).to eq 'Panier: 40 x 23.125'
+    expect(membership.distributions_price).to be_zero
+    expect(membership.distributions_price_info).to be_blank
+    expect(membership.distribution_description).to eq 'Distribution: gratuite'
+    expect(membership.halfday_works_price).to be_zero
+    expect(membership.basket_complements_price).to be_zero
     expect(membership.price).to eq membership.basket_sizes_price
   end
 
-  specify 'with distribution prices' do
+  specify 'with paid distribution' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       distribution_id: create(:distribution, price: 2).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
+    expect(membership.distribution_description).to eq 'Distribution: 40 x 2.00'
     expect(membership.distributions_price).to eq 40 * 2
-    expect(membership.halfday_works_price).to eq 0
+    expect(membership.halfday_works_price).to be_zero
+    expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.distributions_price
+  end
+
+  specify 'with paid distribution' do
+    membership = create(:membership,
+      basket_size_id: create(:basket_size, price: 23.125).id,
+      distribution_id: create(:distribution, price: 2).id)
+
+    expect(membership.distribution_description).to eq 'Distribution: 40 x 2.00'
+    expect(membership.basket_sizes_price).to eq 40 * 23.125
+    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.halfday_works_price).to be_zero
+    expect(membership.basket_complements_price).to be_zero
+    expect(membership.price)
+      .to eq membership.basket_sizes_price + membership.distributions_price
+  end
+
+  specify 'with custom prices and quantity' do
+    membership = create(:membership,
+      distribution_price: 3.2,
+      basket_price: 42,
+      basket_quantity: 3)
+
+    expect(membership.basket_sizes_description).to eq 'Panier: 120 x 42.00'
+    expect(membership.distribution_description).to eq 'Distribution: 120 x 3.20'
+    expect(membership.basket_sizes_price).to eq 40 * 3 * 42
+    expect(membership.distributions_price).to eq 40 * 3 * 3.2
+    expect(membership.halfday_works_price).to be_zero
+    expect(membership.basket_complements_price).to be_zero
+    expect(membership.price)
+      .to eq membership.basket_sizes_price + membership.distributions_price
+  end
+
+  specify 'with basket complements' do
+    membership = create(:membership, basket_price: 31)
+    create(:basket_complement, id: 1, price: 2.20)
+    create(:basket_complement, id: 2, price: 3.30)
+
+    membership.baskets.first.update!(complement_ids: [1, 2])
+    membership.baskets.second.update!(baskets_basket_complements_attributes: {
+      '0' => { basket_complement_id: 1, price: '', quantity: 2 },
+      '1' => { basket_complement_id: 2, price: 4, quantity: 3 }
+    })
+    membership.baskets.third.update!(complement_ids: [2])
+
+    expect(membership.basket_sizes_price).to eq 40 * 31
+    expect(membership.distributions_price).to be_zero
+    expect(membership.halfday_works_price).to be_zero
+    expect(membership.basket_complements_price_info).to eq '3 x 2.20 + 2 x 3.30 + 3 x 4.00'
+    expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
+    expect(membership.price)
+      .to eq membership.basket_sizes_price + membership.basket_complements_price
   end
 
   specify 'with halfday_works_annual_price prices' do
@@ -169,11 +238,9 @@ describe Membership do
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.distributions_price).to eq 40 * 2
     expect(membership.halfday_works_price).to eq(-200)
+    expect(membership.halfday_works_description).to eq 'Demi-journées de travail'
     expect(membership.price)
-      .to eq(
-        membership.basket_sizes_price +
-        membership.distributions_price -
-        200)
+      .to eq(membership.basket_sizes_price + membership.distributions_price - 200)
   end
 
   specify 'salary basket prices' do
@@ -215,25 +282,11 @@ describe Membership do
     end
   end
 
-  describe '#basket_complements_price_info' do
-    it 'lists all complements with their different prices' do
-      membership = create(:membership)
-      create(:basket_complement, id: 1, price: 2.20)
-      create(:basket_complement, id: 2, price: 3.30)
-
-      membership.baskets.first.update!(complement_ids: [1, 2])
-      membership.baskets.second.update!(complement_ids: [1, 2])
-      membership.baskets.third.update!(complement_ids: [2])
-
-      expect(membership.basket_complements_price_info).to eq '2 x 2.20 + 3 x 3.30'
-    end
-  end
-
   it 'adds basket_complement to coming baskets when subscription is added' do
     Timecop.freeze('2017-06-01') do
       create(:basket_complement, id: 1, price: 3.2)
       create(:basket_complement, id: 2, price: 4.5)
-      membership = create(:membership, subscribed_basket_complement_ids: [])
+      membership = create(:membership)
       delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
       delivery_2 = create(:delivery, basket_complement_ids: [2], date: '2017-07-01')
       delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
@@ -245,25 +298,28 @@ describe Membership do
       basket4 = create(:basket, membership: membership, delivery: delivery_4)
       basket4.update!(complement_ids: [1, 2])
 
-      membership.update!(subscribed_basket_complement_ids: [1])
+      membership.reload # reset subscribed_basket_complements
+      membership.update!(memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, price: '2.9', quantity: 2 }
+      })
 
       basket1.reload
       expect(basket1.complement_ids).to be_empty
       expect(basket1.complements_price).to be_zero
 
-      basket2.reload
+      basket2 = membership.baskets.where(delivery: delivery_2).first
       expect(basket2.complement_ids).to be_empty
       expect(basket2.complements_price).to be_zero
 
-      basket3.reload
+      basket3 = membership.baskets.where(delivery: delivery_3).first
       expect(basket3.complement_ids).to match_array [1]
-      expect(basket3.complements_price).to eq 3.2
+      expect(basket3.complements_price).to eq 2.9 * 2
 
-      basket4.reload
-      expect(basket4.complement_ids).to match_array [1, 2]
-      expect(basket4.complements_price).to eq 3.2 + 4.5
+      basket4 = membership.baskets.where(delivery: delivery_4).first
+      expect(basket4.complement_ids).to match_array [1]
+      expect(basket4.complements_price).to eq 2.9 * 2
 
-      expect(membership.basket_complements_price).to eq 3.2 + 3.2 + 4.5
+      expect(membership.basket_complements_price).to eq 2.9 * 2 + 2.9 * 2
     end
   end
 
@@ -272,7 +328,10 @@ describe Membership do
       create(:basket_complement, id: 1, price: 3.2)
       create(:basket_complement, id: 2, price: 4.5)
 
-      membership = create(:membership, subscribed_basket_complement_ids: [1, 2])
+      membership = create(:membership, memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, price: '', quantity: 1 },
+        '1' => { basket_complement_id: 2, price: '', quantity: 1 }
+      })
       delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
       delivery_2 = create(:delivery, basket_complement_ids: [1], date: '2017-07-01')
       delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
@@ -285,25 +344,29 @@ describe Membership do
       basket4.update!(complement_ids: [1, 2])
 
       membership.reload # reset subscribed_basket_complements
-      membership.update!(subscribed_basket_complement_ids: [2])
+      complements = membership.memberships_basket_complements
+      membership.update!(memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, price: '', quantity: 1, id: complements.first.id, _destroy: complements.first.id },
+        '1' => { basket_complement_id: 2, price: '', quantity: 2, id: complements.last.id }
+      })
 
       basket1.reload
       expect(basket1.complement_ids).to match_array [1]
       expect(basket1.complements_price).to eq 3.2
 
-      basket2.reload
+      basket2 = membership.baskets.where(delivery: delivery_2).first
       expect(basket2.complement_ids).to be_empty
       expect(basket2.complements_price).to be_zero
 
-      basket3.reload
+      basket3 = membership.baskets.where(delivery: delivery_3).first
       expect(basket3.complement_ids).to match_array [2]
-      expect(basket3.complements_price).to eq 4.5
+      expect(basket3.complements_price).to eq 2 * 4.5
 
-      basket4.reload
-      expect(basket4.complement_ids).to match_array [1, 2]
-      expect(basket4.complements_price).to eq 3.2 + 4.5
+      basket4 = membership.baskets.where(delivery: delivery_4).first
+      expect(basket4.complement_ids).to match_array [2]
+      expect(basket4.complements_price).to eq 2 * 4.5
 
-      expect(membership.basket_complements_price).to eq 3.2 + 4.5 + 3.2 + 4.5
+      expect(membership.basket_complements_price).to eq 3.2 + 2 * 4.5 + 2 * 4.5
     end
   end
 end

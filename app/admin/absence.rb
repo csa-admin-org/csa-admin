@@ -56,13 +56,9 @@ ActiveAdmin.register Absence do
     member_id started_on ended_on note
   ]
 
-  controller do
-    def build_resource
-      super
-      resource.started_on ||= Date.current
-      resource.ended_on ||= Date.current
-      resource
-    end
+  before_build do |absence|
+    absence.started_on ||= Date.current
+    absence.ended_on ||= Date.current
   end
 
   config.per_page = 25

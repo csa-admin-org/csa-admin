@@ -111,7 +111,7 @@ class Member < ActiveRecord::Base
   def update_trial_baskets!
     transaction do
       baskets.update_all(trial: false)
-      baskets.limit(4).update_all(trial: true)
+      baskets.limit(Current.acp.trial_basket_count).update_all(trial: true)
     end
   end
 
@@ -226,14 +226,14 @@ class Member < ActiveRecord::Base
       self.state = PENDING_STATE
     elsif current_membership
       self.waiting_started_at = nil
-      if delivered_baskets.count <= Current.acp.trial_basket_count
+      if baskets_in_trial?
         self.state = TRIAL_STATE
       else
         self.state = ACTIVE_STATE
       end
     elsif future_membership
       self.waiting_started_at = nil
-      if delivered_baskets.count <= Current.acp.trial_basket_count
+      if baskets_in_trial?
         self.state = TRIAL_STATE
       else
         self.state = INACTIVE_STATE
@@ -243,6 +243,11 @@ class Member < ActiveRecord::Base
     else
       self.state = INACTIVE_STATE
     end
+  end
+
+  def baskets_in_trial?
+    Current.acp.trial_basket_count.positive? &&
+      delivered_baskets.count <= Current.acp.trial_basket_count
   end
 
   def update_membership_halfday_works

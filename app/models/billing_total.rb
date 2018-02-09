@@ -2,7 +2,7 @@ class BillingTotal
   SCOPES = %i[distribution halfday_works support]
 
   def self.all
-    scopes = [BasketSize.billable]
+    scopes = [BasketSize.all]
     scopes << :basket_complement if BasketComplement.any?
     scopes += SCOPES
     scopes.flatten.map { |scope| new(scope) }
@@ -27,11 +27,18 @@ class BillingTotal
     @price ||=
       case scope
       when BasketSize
-        @memberships.joins(:baskets).where(baskets: { basket_size_id: scope.id }).sum(:basket_price)
+        @memberships
+          .joins(:baskets)
+          .where(baskets: { basket_size_id: scope.id })
+          .sum('baskets.quantity * baskets.basket_price')
       when :basket_complement
-        @memberships.joins(baskets: :baskets_basket_complements).sum(:price)
+        @memberships
+          .joins(baskets: :baskets_basket_complements)
+          .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
       when :distribution
-        @memberships.joins(:baskets).sum(:distribution_price)
+        @memberships
+          .joins(:baskets)
+          .sum('baskets.quantity * baskets.distribution_price')
       when :halfday_works
         @memberships.sum(:halfday_works_annual_price)
       when :support

@@ -21,6 +21,6 @@ class BasketComplementCount
         .baskets
         .joins(:baskets_basket_complements)
         .where(baskets_basket_complements: { basket_complement_id: @complement.id })
-        .count
+        .sum('baskets_basket_complements.quantity')
   end
 end

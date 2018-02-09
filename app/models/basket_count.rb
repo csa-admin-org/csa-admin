@@ -1,6 +1,6 @@
 class BasketCount
   def self.all(next_delivery)
-    basket_size_ids = BasketSize.billable.pluck(:id)
+    basket_size_ids = BasketSize.pluck(:id)
     Distribution
       .select(:name, :id)
       .map { |dist| new(dist, next_delivery.id, basket_size_ids) }
@@ -22,7 +22,7 @@ class BasketCount
   end
 
   def count
-    @count ||= @baskets.count
+    @count ||= @baskets.sum(:quantity)
   end
 
   def baskets_count
@@ -31,6 +31,6 @@ class BasketCount
 
   def basket_sizes_count
     @basket_sizes_count ||=
-      @basket_size_ids.map { |id| @baskets.where(basket_size_id: id).count }
+      @basket_size_ids.map { |id| @baskets.where(basket_size_id: id).sum(:quantity) }
   end
 end

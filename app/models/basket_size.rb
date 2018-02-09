@@ -4,8 +4,6 @@ class BasketSize < ActiveRecord::Base
 
   default_scope { order(:price) }
 
-  scope :billable, -> { where('basket_sizes.price > 0') }
-
   def annual_price
     price * Delivery.current_year.count
   end

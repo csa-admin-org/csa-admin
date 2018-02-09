@@ -63,7 +63,7 @@ ActiveAdmin.register_page 'Dashboard' do
               table_for counts do
                 column 'Lieu', :title
                 column 'Paniers', :count, class: 'align-right'
-                column "#{BasketSize.billable.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+                column "#{BasketSize.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
               if Distribution.paid.any?
