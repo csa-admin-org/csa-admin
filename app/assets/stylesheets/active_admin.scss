@@ -89,13 +89,6 @@ span.delivery_absences {
   float: right;
 }
 
-#utility_nav {
-  li a {
-    font-size: 20px;
-    padding: 5px !important;
-  }
-}
-
 table a.edit_link { background-image: asset-url('formadmin/edit.svg'); }
 table a.pdf_link { background-image: asset-url('pdf_file.svg'); }
 table a.xlsx_link { background-image: asset-url('xlsx_file.svg'); }
