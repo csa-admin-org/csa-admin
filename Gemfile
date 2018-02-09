@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '2.4.3'
+ruby '2.5.0'
 
 gem 'rails', '5.2.0.beta2'
 gem 'bootsnap', require: false
@@ -25,9 +25,8 @@ gem 'apartment-activejob'
 gem 'activeadmin'
 gem 'activeadmin_medium_editor'
 gem 'formadmin'
-# Rails 5.2 support
-gem 'polyamorous', github: 'spark-solutions/polyamorous'
-gem 'ransack', github: 'spark-solutions/ransack'
+gem 'polyamorous'
+gem 'ransack'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
