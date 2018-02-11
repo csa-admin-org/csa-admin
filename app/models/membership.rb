@@ -19,6 +19,7 @@ class Membership < ActiveRecord::Base
   before_validation do
     self.basket_price ||= basket_size&.price
     self.distribution_price ||= distribution&.price
+    self.annual_halfday_works ||= basket_size&.annual_halfday_works
   end
 
   validates :member, presence: true
@@ -30,7 +31,6 @@ class Membership < ActiveRecord::Base
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
-  before_create :set_annual_halfday_works
   before_save :set_renew
   after_save :update_halfday_works
   after_create :create_baskets!
@@ -255,21 +255,17 @@ class Membership < ActiveRecord::Base
   end
 
   def update_halfday_works!
-    deliveries_count = Delivery.current_year.count.to_f
-    halfday_works =
+    deliveries_count = Delivery.during_year(fy_year).count
+    percentage =
       if member.salary_basket? || deliveries_count.zero?
         0
       else
-        (baskets_count / deliveries_count * annual_halfday_works).round
+        baskets_count / deliveries_count.to_f
       end
-    update_column(:halfday_works, halfday_works)
+    update_column(:halfday_works, (percentage * annual_halfday_works).round)
   end
 
   private
-
-  def set_annual_halfday_works
-    self[:annual_halfday_works] = basket_size.annual_halfday_works
-  end
 
   def set_renew
     if ended_on_changed?
@@ -278,7 +274,10 @@ class Membership < ActiveRecord::Base
   end
 
   def update_halfday_works
-    if saved_change_to_attribute?(:annual_halfday_works) || saved_change_to_attribute?(:baskets_count)
+    if saved_change_to_attribute?(:annual_halfday_works) ||
+      saved_change_to_attribute?(:ended_on) ||
+      saved_change_to_attribute?(:started_on)
+
       update_halfday_works!
     end
   end

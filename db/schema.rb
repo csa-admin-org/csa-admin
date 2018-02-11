@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_09_131334) do
+ActiveRecord::Schema.define(version: 2018_02_11_105056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -317,7 +317,7 @@ ActiveRecord::Schema.define(version: 2018_02_09_131334) do
   create_table "memberships", id: :serial, force: :cascade do |t|
     t.integer "member_id", null: false
     t.decimal "halfday_works_annual_price", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "annual_halfday_works", default: 0, null: false
+    t.integer "annual_halfday_works", null: false
     t.date "started_on", null: false
     t.date "ended_on", null: false
     t.datetime "created_at"

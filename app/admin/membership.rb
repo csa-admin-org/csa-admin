@@ -117,6 +117,14 @@ ActiveAdmin.register Membership do
       f.input :ended_on, as: :datepicker, include_blank: false
       f.input :renew unless resource.new_record? || resource.current_year?
     end
+
+    unless resource.new_record?
+      f.inputs '½ journée de travails' do
+        f.input :annual_halfday_works, hint: 'Laisser blanc pour le nombre par défaut.'
+        f.input :halfday_works_annual_price, hint: 'Augmentation ou réduction du prix de l\'abonnement contre service (½ journée de travails) rendu ou non.'
+      end
+    end
+
     f.inputs 'Panier et distribution' do
       unless resource.new_record?
         em 'Attention, toute modification recréera tous les paniers à venir de cet abonnement!'
