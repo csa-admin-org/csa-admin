@@ -139,8 +139,10 @@ table#index_table_deliveries {
 }
 
 table.table-baskets {
-  .col-status { width: 70px; }
+  .col-status { width: 80px; padding-left: 10px; }
   .col-actions { width: 30px; }
+  .col-delivery { width: 180px; }
+  .col-distribution { padding-left: 20px; }
 
   tr.next  {
     background-color: #ddd;

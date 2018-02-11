@@ -20,25 +20,38 @@ describe Membership do
     it 'allows valid attributes' do
       new_membership = Membership.new(membership.attributes.except('id'))
       new_membership.member = create(:member)
-      expect(new_membership.errors).to be_empty
+
+      expect(new_membership).to be_valid
     end
 
     it 'allows started_on to be only smaller than ended_on' do
-      membership.update(
-        started_on: Date.new(2015, 2),
-        ended_on: Date.new(2015, 1)
-      )
-      expect(membership.errors[:started_on]).to be_present
-      expect(membership.errors[:ended_on]).to be_present
+      membership.started_on = Date.new(2015, 2)
+      membership.ended_on = Date.new(2015, 1)
+
+      expect(membership).not_to have_valid(:started_on)
+      expect(membership).not_to have_valid(:ended_on)
     end
 
     it 'allows started_on to be only on the same year than ended_on' do
-      membership.update(
-        started_on: Date.new(2014, 1),
-        ended_on: Date.new(2015, 12)
-      )
-      expect(membership.errors[:started_on]).to be_present
-      expect(membership.errors[:ended_on]).to be_present
+      membership.started_on = Date.new(2014, 1)
+      membership.ended_on = Date.new(2015, 12)
+
+      expect(membership).not_to have_valid(:started_on)
+      expect(membership).not_to have_valid(:ended_on)
+    end
+
+    it 'validates basket_complement_id uniqueness' do
+      create(:basket_complement, id: 1)
+
+      membership = build(:membership,
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1 },
+          '1' => { basket_complement_id: 1 }
+        })
+      membership.validate
+      mbc = membership.memberships_basket_complements.last
+
+      expect(mbc.errors[:basket_complement_id]).to be_present
     end
   end
 
@@ -241,6 +254,20 @@ describe Membership do
     expect(membership.halfday_works_description).to eq 'Demi-journées de travail'
     expect(membership.price)
       .to eq(membership.basket_sizes_price + membership.distributions_price - 200)
+  end
+
+  specify 'with only one season' do
+    Current.acp.update!(
+      summer_month_range_min: 4,
+      summer_month_range_max: 9)
+
+    membership = create(:membership,
+      basket_price: 30, basket_quantity: 2,
+      seasons: ['summer'])
+
+    expect(membership.baskets_count).to eq 40
+    expect(membership.basket_sizes_description).to eq 'Panier: 44 x 30.00'
+    expect(membership.basket_sizes_price).to eq 22 * 2 * 30
   end
 
   specify 'salary basket prices' do

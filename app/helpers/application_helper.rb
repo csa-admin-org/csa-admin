@@ -35,4 +35,8 @@ module ApplicationHelper
   def display_price_description(price, description)
     "#{number_to_currency(price)} #{"(#{description})" if price.positive?}"
   end
+
+  def seasons_collection
+    ACP.seasons.map { |season| [I18n.t("season.#{season}"), season] }
+  end
 end

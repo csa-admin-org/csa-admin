@@ -134,11 +134,24 @@ ActiveAdmin.register Membership do
       f.input :basket_quantity
       f.input :distribution, include_blank: false
       f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'
+      if Current.acp.seasons?
+        f.input :seasons,
+          as: :check_boxes,
+          collection: seasons_collection,
+          hint: 'Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.'
+      end
+
       if BasketComplement.any?
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
           ff.input :basket_complement, collection: BasketComplement.all, prompt: 'Choisir un complément:'
           ff.input :price, hint: 'Laisser blanc pour le prix par défaut.'
           ff.input :quantity
+          if Current.acp.seasons?
+            ff.input :seasons,
+              as: :check_boxes,
+              collection: seasons_collection,
+              hint: 'Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.'
+          end
         end
       end
     end
@@ -151,10 +164,12 @@ ActiveAdmin.register Membership do
     :distribution_id, :distribution_price,
     :started_on, :ended_on, :renew,
     :halfday_works_annual_price, :annual_halfday_works,
-     memberships_basket_complements_attributes: [
+    seasons: [],
+    memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,
-      :_destroy
+      :_destroy,
+      seasons: []
     ]
   includes :member, :delivered_baskets
 

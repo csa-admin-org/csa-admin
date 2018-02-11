@@ -1,6 +1,8 @@
 require 'rounding'
 
 class Membership < ActiveRecord::Base
+  include HasSeasons
+
   acts_as_paranoid
 
   belongs_to :member, -> { with_deleted }
@@ -25,11 +27,12 @@ class Membership < ActiveRecord::Base
   validates :member, presence: true
   validates :annual_halfday_works, presence: true
   validates :started_on, :ended_on, presence: true
-  validate :good_period_range
-  validate :only_one_per_year
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 1 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validate :good_period_range
+  validate :only_one_per_year
+  validate :unique_subscribed_basket_complement_id
 
   before_save :set_renew
   after_save :update_halfday_works
@@ -144,10 +147,13 @@ class Membership < ActiveRecord::Base
   end
 
   def subscribed_basket_description
-    case basket_quantity
-    when 1 then basket_size.name
-    else "#{basket_quantity} x #{basket_size.name}"
-    end
+    desc =
+      case basket_quantity
+      when 1 then basket_size.name
+      else "#{basket_quantity} x #{basket_size.name}"
+      end
+    desc += " (#{season_name})" unless all_seasons?
+    desc
   end
 
   def description
@@ -309,10 +315,12 @@ class Membership < ActiveRecord::Base
   end
 
   def handle_subscription_change!
-    if (saved_changes.keys &
-        %w[basket_size_id basket_price basket_quantity distribution_id distribution_price]).any? ||
-      memberships_basket_complements_changed?
-
+    tracked_attributes = %w[
+      basket_size_id basket_price basket_quantity
+      distribution_id distribution_price
+      seasons
+    ]
+    if (saved_changes.keys & tracked_attributes).any? || memberships_basket_complements_changed?
       deliveries = Delivery.between(Time.current..ended_on)
       baskets.where(delivery_id: deliveries.map(&:id)).each(&:really_destroy!)
       deliveries.each { |delivery| create_basket!(delivery) }
@@ -336,7 +344,7 @@ class Membership < ActiveRecord::Base
       delivery: delivery,
       basket_size_id: basket_size_id,
       basket_price: basket_price,
-      quantity: basket_quantity,
+      quantity: season_quantity(delivery),
       distribution_id: distribution_id,
       distribution_price: distribution_price)
   end
@@ -346,6 +354,10 @@ class Membership < ActiveRecord::Base
     member.update_trial_baskets!
     member.update_absent_baskets!
     member.update_state!
+  end
+
+  def season_quantity(delivery)
+    out_of_season_quantity(delivery) || basket_quantity
   end
 
   def only_one_per_year
@@ -363,6 +375,17 @@ class Membership < ActiveRecord::Base
     if fy_year != Current.acp.fiscal_year_for(ended_on).year
       errors.add(:started_on, 'doit être dans la même année fiscale que la fin')
       errors.add(:ended_on, 'doit être dans la même année fiscale que le début')
+    end
+  end
+
+  def unique_subscribed_basket_complement_id
+    used_basket_complement_ids = []
+    memberships_basket_complements.each do |mbc|
+      if mbc.basket_complement_id.in?(used_basket_complement_ids)
+        mbc.errors.add(:basket_complement_id, :taken)
+        errors.add(:base, :invalid)
+      end
+      used_basket_complement_ids << mbc.basket_complement_id
     end
   end
 

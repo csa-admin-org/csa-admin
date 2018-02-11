@@ -30,6 +30,7 @@ class Basket < ActiveRecord::Base
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validate :unique_basket_complement_id
 
   def description
     [
@@ -47,7 +48,7 @@ class Basket < ActiveRecord::Base
   end
 
   def complements_description
-    baskets_basket_complements.map(&:description).to_sentence.presence
+    baskets_basket_complements.map(&:description).compact.to_sentence.presence
   end
 
   def complements_price
@@ -86,7 +87,7 @@ class Basket < ActiveRecord::Base
       .where(basket_complement_id: complement_ids).each do |mbc|
         baskets_basket_complements.build(
           basket_complement_id: mbc.basket_complement_id,
-          quantity: mbc.quantity,
+          quantity: mbc.season_quantity(delivery),
           price: mbc.price)
       end
   end
@@ -94,5 +95,16 @@ class Basket < ActiveRecord::Base
   def set_prices
     self.basket_price ||= basket_size&.price
     self.distribution_price ||= distribution&.price
+  end
+
+  def unique_basket_complement_id
+    used_basket_complement_ids = []
+    baskets_basket_complements.each do |bbc|
+      if bbc.basket_complement_id.in?(used_basket_complement_ids)
+        bbc.errors.add(:basket_complement_id, :taken)
+        errors.add(:base, :invalid)
+      end
+      used_basket_complement_ids << bbc.basket_complement_id
+    end
   end
 end
