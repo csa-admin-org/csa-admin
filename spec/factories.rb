@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :acp do
     name 'Rage de Vert'
     host 'ragedevert'
-    tenant_name 'ragedevert'
+    sequence(:tenant_name) { |n| "acp#{n}" }
     email_default_host 'membres.ragedevert.ch'
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
     trial_basket_count 4

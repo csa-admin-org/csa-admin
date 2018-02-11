@@ -5,6 +5,7 @@ ActiveAdmin.register ACP do
     :name, :host,
     :email_api_token, :email_default_host, :email_default_from,
     :trial_basket_count,
+    :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :support_price,
     features: []
 
@@ -25,6 +26,14 @@ ActiveAdmin.register ACP do
     end
     f.inputs 'Abonnement' do
       f.input :trial_basket_count
+    end
+    f.inputs 'Saisons (été/hiver)' do
+      f.input :summer_month_range_min,
+        as: :select,
+        collection: (1..12).map { |m| [t('date.month_names')[m], m] }
+      f.input :summer_month_range_max,
+        as: :select,
+        collection: (1..12).map { |m| [t('date.month_names')[m], m] }
     end
     f.inputs 'Facturation' do
       f.input :fiscal_year_start_month,

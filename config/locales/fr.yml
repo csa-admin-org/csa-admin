@@ -275,6 +275,8 @@ fr:
         trial_basket_count: Paniers à l'essai
         support_price: Cotisation anuelle
         fiscal_year_start_month: 1er mois de l'année fiscale
+        summer_month_range_min: Été commence début
+        summer_month_range_max: Été finis fin
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
@@ -307,7 +309,7 @@ fr:
         basket_size: Taille
         basket_price: Prix panier
         complement_ids: Compléments
-        distribution: Lieu de distribution
+        distribution: Distribution
         distribution_price: Prix distribution
         price: Prix
         quantity: Quantité
@@ -319,6 +321,7 @@ fr:
         basket_complement: Complément
         price: Prix
         quantity: Quantité
+        seasons: Saisons
       delivery:
         date: Date
         basket_complements: Compléments paniers
@@ -434,6 +437,7 @@ fr:
         basket_price: Prix panier
         basket_quantity: Quantité
         distribution_price: Prix distribution
+        seasons: Saisons
       absence:
         member_id: Membre
         member: Membre
@@ -502,6 +506,11 @@ fr:
     billing_interval:
       annual: annuel
       quarterly: trimestriel
+
+  season:
+    summer: Été
+    winter: Hiver
+
   date:
     abbr_day_names:
     - dim

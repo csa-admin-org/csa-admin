@@ -35,7 +35,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def display_name
-    "#{date} ##{number}"
+    "#{date} (#{number})"
   end
 
   def number
@@ -46,14 +46,10 @@ class Delivery < ActiveRecord::Base
     baskets_with_membership_subscribed_to(complement)
       .includes(membership: :memberships_basket_complements)
       .each do |basket|
-        membership_basket_complement =
-          basket
-            .membership
-            .memberships_basket_complements
-            .find { |mbc| mbc.basket_complement_id == complement.id }
+        mbc = membership_basket_complement_for(basket, complement)
         basket.add_complement!(complement,
-          quantity: membership_basket_complement.quantity,
-          price: membership_basket_complement.price)
+          quantity: mbc.season_quantity(self),
+          price: mbc.price)
       end
   end
 
@@ -61,6 +57,10 @@ class Delivery < ActiveRecord::Base
     baskets_with_membership_subscribed_to(complement).each do |basket|
       basket.remove_complement!(complement)
     end
+  end
+
+  def season
+    Current.acp.season_for(date.month)
   end
 
   private
@@ -78,6 +78,13 @@ class Delivery < ActiveRecord::Base
     Rails.cache.fetch "#{fy_year}_deliveries_dates" do
       Delivery.between(fy_range).pluck(:date)
     end
+  end
+
+  def membership_basket_complement_for(basket, complement)
+    basket
+      .membership
+      .memberships_basket_complements
+      .find { |mbc| mbc.basket_complement_id == complement.id }
   end
 
   def baskets_with_membership_subscribed_to(complement)

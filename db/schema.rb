@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_11_105056) do
+ActiveRecord::Schema.define(version: 2018_02_11_120828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2018_02_11_105056) do
     t.integer "fiscal_year_start_month", default: 1, null: false
     t.integer "trial_basket_count", default: 0, null: false
     t.decimal "support_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.int4range "summer_month_range"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -332,6 +333,7 @@ ActiveRecord::Schema.define(version: 2018_02_11_105056) do
     t.integer "basket_quantity", default: 1, null: false
     t.decimal "basket_price", precision: 8, scale: 3, null: false
     t.decimal "distribution_price", precision: 8, scale: 3, null: false
+    t.string "seasons", default: ["summer", "winter"], null: false, array: true
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
@@ -347,6 +349,7 @@ ActiveRecord::Schema.define(version: 2018_02_11_105056) do
     t.integer "quantity", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "seasons", default: ["summer", "winter"], null: false, array: true
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
