@@ -88,6 +88,9 @@ ActiveAdmin.register Membership do
             row(:basket_sizes_price) {
               display_price_description(m.basket_sizes_price, m.basket_sizes_price_info)
             }
+            row(:baskets_annual_price_change) {
+              number_to_currency(m.baskets_annual_price_change)
+            }
             if m.basket_complements.any?
               row(:basket_complements_price) {
                 display_price_description(m.basket_complements_price, m.basket_complements_price_info)
@@ -96,7 +99,7 @@ ActiveAdmin.register Membership do
             row(:distributions_price) {
               display_price_description(m.distributions_price, m.distributions_price_info)
             }
-            row(:halfday_works_price) { number_to_currency(m.halfday_works_price) }
+            row(:halfday_works_annual_price) { number_to_currency(m.halfday_works_annual_price) }
             row(:price) { number_to_currency(m.price) }
           end
         end
@@ -131,6 +134,7 @@ ActiveAdmin.register Membership do
       end
       f.input :basket_size, include_blank: false
       f.input :basket_price, hint: 'Laisser blanc pour le prix par défaut.'
+      f.input :baskets_annual_price_change, hint: "Modifie le montant final, peu importe le nombre de paniers."
       f.input :basket_quantity
       f.input :distribution, include_blank: false
       f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'
@@ -160,7 +164,7 @@ ActiveAdmin.register Membership do
 
   permit_params \
     :member_id,
-    :basket_size_id, :basket_price, :basket_quantity,
+    :basket_size_id, :basket_price, :basket_quantity, :baskets_annual_price_change,
     :distribution_id, :distribution_price,
     :started_on, :ended_on, :renew,
     :halfday_works_annual_price, :annual_halfday_works,

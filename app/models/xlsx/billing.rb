@@ -41,7 +41,7 @@ module XLSX
       end
       add_empty_line
 
-      add_line('Ajustement ½ journées de travail', @memberships.sum(&:halfday_works_price))
+      add_line('Ajustement ½ journées de travail', @memberships.sum(&:halfday_works_annual_price))
       add_line('Cotisations', invoices_total(:support_amount), Current.acp.support_price)
 
       add_empty_line

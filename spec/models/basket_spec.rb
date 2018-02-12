@@ -86,6 +86,6 @@ describe Basket do
     basket = create(:basket, membership: membership_2, delivery: delivery)
     expect(basket.complement_ids).to match_array [2]
     expect(basket.complements_description).to be_nil
-    expect(basket.complements_price).to eq 0
+    expect(basket.complements_price).to be_zero
   end
 end

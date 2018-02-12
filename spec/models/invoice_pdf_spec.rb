@@ -110,6 +110,48 @@ describe InvoicePdf do
     end
   end
 
+  context 'when support ammount + annual membership + baskets_annual_price_change reduc + complements' do
+    let(:basket_complement) {
+      create(:basket_complement,
+        price: 3.4,
+        delivery_ids: Delivery.current_year.pluck(:id))
+    }
+    let(:membership) do
+      create(:membership,
+        basket_size_id: create(:basket_size, :big).id,
+        subscribed_basket_complement_ids: [basket_complement.id])
+    end
+    let(:invoice) do
+      create(:invoice,
+        support_amount: 75,
+        memberships_amount_description: 'Montant annuel',
+        membership: membership)
+    end
+
+    specify do
+      membership.update!(
+        annual_halfday_works: 8,
+        baskets_annual_price_change: -110.45)
+      pdf = pdf_strings
+
+      expect(pdf).to include /Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/
+      expect(pdf).to include 'Panier: 40 x 33.25'
+      expect(pdf).to include "1'330.00"
+      expect(pdf).to include 'Ajustement du prix des paniers'
+      expect(pdf).to include '- 110.45'
+      expect(pdf).to include 'Compléments: 40 x 3.40'
+      expect(pdf).to include '136.00'
+      expect(pdf).to include 'Distribution: gratuite'
+      expect(pdf).to include '0.00'
+      expect(pdf).to include 'Cotisation annuelle association'
+      expect(pdf).to include '75.00'
+      expect(pdf).to include 'Montant annuel'
+      expect(pdf).to include 'Montant restant'
+      expect(pdf).to include "1'355.55"
+      expect(pdf).to include "1'430.55"
+    end
+  end
+
   context 'when support ammount + quarter membership' do
     let(:member) { create(:member, billing_interval: 'annual') }
     let(:membership) do

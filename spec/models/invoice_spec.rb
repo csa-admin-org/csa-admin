@@ -39,7 +39,7 @@ describe Invoice do
 
     specify { expect(invoice.support_amount).to be_nil }
     specify { expect(invoice.memberships_amount).to eq amount  }
-    specify { expect(invoice.paid_memberships_amount).to eq 0 }
+    specify { expect(invoice.paid_memberships_amount).to be_zero }
     specify { expect(invoice.remaining_memberships_amount).to eq amount }
     specify { expect(invoice.amount).to eq invoice.memberships_amount }
 
@@ -60,7 +60,7 @@ describe Invoice do
       end
 
       specify { expect(invoice.memberships_amount).to eq amount / 3.0 }
-      specify { expect(invoice.paid_memberships_amount).to eq 0 }
+      specify { expect(invoice.paid_memberships_amount).to be_zero }
       specify { expect(invoice.remaining_memberships_amount).to eq amount }
       specify { expect(invoice.amount).to eq invoice.memberships_amount }
     end

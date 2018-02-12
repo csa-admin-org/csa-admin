@@ -89,13 +89,17 @@ class InvoicePdf < Prawn::Document
     if membership
       data << [membership.description, nil]
       data << [membership.basket_sizes_description, cur(membership.basket_sizes_price)]
+      baskets_annual_price_change = membership.baskets_annual_price_change
+      unless baskets_annual_price_change.zero?
+        data << [membership.baskets_annual_price_change_description, cur(baskets_annual_price_change)]
+      end
       basket_complements_price = membership.basket_complements_price
       if basket_complements_price.positive?
         data << [membership.basket_complements_description, cur(basket_complements_price)]
       end
       data << [membership.distribution_description, cur(membership.distributions_price)]
-      unless membership.halfday_works_price.zero?
-        data << [membership.halfday_works_description, cur(membership.halfday_works_price)
+      unless membership.halfday_works_annual_price.zero?
+        data << [membership.halfday_works_annual_price_description, cur(membership.halfday_works_annual_price)
         ]
       end
     end

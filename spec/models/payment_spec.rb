@@ -37,7 +37,7 @@ describe Payment do
       expect(invoice1.state).to eq 'closed'
       expect(invoice2.reload.balance).to eq 400
       expect(invoice2.state).to eq 'closed'
-      expect(invoice3.reload.balance).to eq 0
+      expect(invoice3.reload.balance).to be_zero
       expect(invoice3.state).to eq 'canceled'
       expect(invoice3_bis.reload.balance).to eq 300
       expect(invoice3_bis.state).to eq 'not_sent'

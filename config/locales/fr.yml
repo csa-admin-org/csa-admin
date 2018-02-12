@@ -419,14 +419,14 @@ fr:
         annual_halfday_works: ½ journées (100%)
         halfday_works: ½ journées (prorata)
         validated_halfday_works: ½ journées validées
-        halfday_works_annual_price: Ajustement du prix de l'abonnement
+        halfday_works_annual_price: Ajustement du prix de l'abonnement (½ journées)
+        baskets_annual_price_change: Ajustement du prix de l'abonnement (paniers)
         baskets: Paniers
         basket_sizes_price: Prix paniers
         subscribed_basket_complement_ids: Compléments paniers
         memberships_basket_complements: Compléments
         basket_complements_price: Prix compléments
         distributions_price: Prix distributions
-        halfday_works_price: Ajustement du prix de l'abonnement (½ journées)
         price: Total
         will_be_changed_at: Changement effectif depuis le
         deliveries_received_count: Paniers livrés
