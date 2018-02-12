@@ -27,7 +27,7 @@ class Membership < ActiveRecord::Base
   validates :member, presence: true
   validates :annual_halfday_works, presence: true
   validates :started_on, :ended_on, presence: true
-  validates :basket_quantity, numericality: { greater_than_or_equal_to: 1 }, presence: true
+  validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :good_period_range
