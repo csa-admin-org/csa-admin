@@ -48,7 +48,7 @@ describe InvoiceCreator do
 
     specify 'when not already billed' do
       expect(invoice.support_amount).to be_present
-      expect(invoice.paid_memberships_amount).to eq 0
+      expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to eq 'Montant annuel'
       expect(invoice.memberships_amount).to eq membership.price
@@ -71,7 +71,7 @@ describe InvoiceCreator do
       end
 
       expect(invoice.support_amount).to be_present
-      expect(invoice.paid_memberships_amount).to eq 0
+      expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount)
         .to eq 40 * 2 * 32 + 40 * 2 * 3 + 40 * 3.4 + 40 * 2 * 5.6
       expect(invoice.memberships_amount_description).to eq 'Montant annuel'
@@ -118,7 +118,7 @@ describe InvoiceCreator do
 
     specify 'when quarter #1' do
       expect(invoice.support_amount).to be_present
-      expect(invoice.paid_memberships_amount).to eq 0
+      expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq membership.price
       expect(invoice.memberships_amount).to eq membership.price / 4.0
       expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #1'

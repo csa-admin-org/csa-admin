@@ -25,11 +25,13 @@ class Membership < ActiveRecord::Base
   end
 
   validates :member, presence: true
-  validates :annual_halfday_works, presence: true
+  validates :annual_halfday_works, numericality: true
+  validates :halfday_works_annual_price, numericality: true
   validates :started_on, :ended_on, presence: true
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :baskets_annual_price_change, numericality: true
   validate :good_period_range
   validate :only_one_per_year
   validate :unique_subscribed_basket_complement_id
@@ -95,6 +97,14 @@ class Membership < ActiveRecord::Base
     super
   end
 
+  def baskets_annual_price_change=(price)
+    super rounded_price(price.to_f)
+  end
+
+  def halfday_works_annual_price=(price)
+    super rounded_price(price.to_f)
+  end
+
   def basket_sizes_price
     BasketSize.pluck(:id).sum { |id| basket_size_total_price(id) }
   end
@@ -129,16 +139,12 @@ class Membership < ActiveRecord::Base
         .sum('quantity * distribution_price'))
   end
 
-  def halfday_works_annual_price=(price)
-    super(price.to_f)
-  end
-
-  def halfday_works_price
-    rounded_price(halfday_works_annual_price)
-  end
-
   def price
-    basket_sizes_price + basket_complements_price + distributions_price + halfday_works_price
+    basket_sizes_price +
+      baskets_annual_price_change +
+      basket_complements_price +
+      distributions_price +
+      halfday_works_annual_price
   end
 
   def short_description
@@ -162,6 +168,10 @@ class Membership < ActiveRecord::Base
 
   def basket_sizes_description
     "Panier: #{basket_sizes_price_info}"
+  end
+
+  def baskets_annual_price_change_description
+    'Ajustement du prix des paniers'
   end
 
   def basket_complements_description
@@ -209,13 +219,13 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def halfday_works_description
+  def halfday_works_annual_price_description
     diff = annual_halfday_works - HalfdayParticipation::MEMBER_PER_YEAR
     if diff.positive?
       "Réduction pour #{diff} demi-journées de travail supplémentaires"
     elsif diff.negative?
       "#{diff.abs} demi-journées de travail non effectuées"
-    elsif halfday_works_price.positive?
+    elsif halfday_works_annual_price.positive?
       'Demi-journées de travail non effectuées'
     else
       'Demi-journées de travail'
