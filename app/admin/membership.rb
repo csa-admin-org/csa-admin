@@ -122,9 +122,9 @@ ActiveAdmin.register Membership do
     end
 
     unless resource.new_record?
-      f.inputs '½ journée de travails' do
+      f.inputs '½ journées de travail' do
         f.input :annual_halfday_works, hint: 'Laisser blanc pour le nombre par défaut.'
-        f.input :halfday_works_annual_price, hint: 'Augmentation ou réduction du prix de l\'abonnement contre service (½ journée de travails) rendu ou non.'
+        f.input :halfday_works_annual_price, hint: 'Augmentation ou réduction du prix de l\'abonnement contre service (½ journées de travail) rendu ou non.'
       end
     end
 
