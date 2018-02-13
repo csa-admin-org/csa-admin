@@ -246,7 +246,7 @@ fr:
         other: Contenu Paniers
       distribution:
         one: Lieu de distribution
-        other: Lieu de distributions
+        other: Lieux de distribution
       delivery:
         one: Livraison
         other: Livraisons
@@ -363,7 +363,7 @@ fr:
         name: Nom
         price: Prix
         annual_price: Prix annuel
-        annual_halfday_works: ½ journée de travails par année
+        annual_halfday_works: ½ journées de travail par année
       basket_complement:
         name: Nom
         price: Prix
