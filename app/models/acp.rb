@@ -7,8 +7,16 @@ class ACP < ActiveRecord::Base
 
   attr_accessor :summer_month_range_min, :summer_month_range_max
 
+  has_one_attached :logo
+
   validates :name, presence: true
   validates :host, presence: true
+  validates :ccp, presence: true
+  validates :isr_identity, presence: true
+  validates :isr_payment_for, presence: true
+  validates :isr_in_favor_of, presence: true
+  validates :invoice_info, presence: true
+  validates :invoice_footer, presence: true
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,

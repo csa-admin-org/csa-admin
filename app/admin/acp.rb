@@ -2,9 +2,11 @@ ActiveAdmin.register ACP do
   menu parent: 'Autre', priority: 100, label: 'Paramètres'
   actions :edit, :update
   permit_params \
-    :name, :host,
+    :name, :host, :logo,
     :email_api_token, :email_default_host, :email_default_from,
     :trial_basket_count,
+    :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
+    :invoice_info, :invoice_footer,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :support_price,
     features: []
@@ -13,6 +15,7 @@ ActiveAdmin.register ACP do
     f.inputs 'Détails' do
       f.input :name
       f.input :host, hint: '*.host.*'
+      f.input :logo, as: :file
     end
     f.inputs do
       f.input :features,
@@ -41,6 +44,14 @@ ActiveAdmin.register ACP do
         collection: (1..12).map { |m| [t('date.month_names')[m], m] },
         include_blank: false
       f.input :support_price
+    end
+    f.inputs 'Facture (BVR)' do
+      f.input :ccp
+      f.input :isr_identity
+      f.input :isr_payment_for
+      f.input :isr_in_favor_of
+      f.input :invoice_info
+      f.input :invoice_footer
     end
 
     f.actions do
