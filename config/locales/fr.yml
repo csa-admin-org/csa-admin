@@ -277,6 +277,12 @@ fr:
         fiscal_year_start_month: 1er mois de l'année fiscale
         summer_month_range_min: Été commence début
         summer_month_range_max: Été finis fin
+        ccp: Numéro CCP
+        isr_identity: Identité BVR
+        isr_payment_for: Versement pour (BVR)
+        isr_in_favor_of:  En faveur de (BVR)
+        invoice_info: Facture ligne info
+        invoice_footer: Facture bas de page
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation

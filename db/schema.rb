@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_12_192320) do
+ActiveRecord::Schema.define(version: 2018_02_13_192913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -40,6 +40,12 @@ ActiveRecord::Schema.define(version: 2018_02_12_192320) do
     t.integer "trial_basket_count", default: 0, null: false
     t.decimal "support_price", precision: 8, scale: 2, default: "0.0", null: false
     t.int4range "summer_month_range"
+    t.string "ccp"
+    t.string "isr_identity"
+    t.text "isr_payment_for"
+    t.text "isr_in_favor_of"
+    t.text "invoice_info"
+    t.text "invoice_footer"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

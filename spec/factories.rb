@@ -7,6 +7,12 @@ FactoryBot.define do
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
     trial_basket_count 4
     support_price 30
+    ccp '01-13734-6'
+    isr_identity '00 11041 90802 41000'
+    isr_payment_for "Banque Raiffeisen du Vignoble\n2023 Gorgier"
+    isr_in_favor_of "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle"
+    invoice_info 'Payable dans les 30 jours, avec nos remerciements.'
+    invoice_footer '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84'
   end
 
   factory :basket_content do
