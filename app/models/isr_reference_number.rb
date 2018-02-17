@@ -4,9 +4,8 @@ require 'rounding'
 class ISRReferenceNumber
   include ISRDigitChecker
 
-  CCP = '01-13734-6'
-  IDENDITY = '00 11041 90802 41000'
-  CODE = '01' # ISR + CHF
+  ISR_LENGHT_WITHOUT_CHECK_DIGIT = 26
+  ISR_AND_CHF_CODE = '01'
 
   attr_reader :invoice_id, :amount
 
@@ -20,8 +19,9 @@ class ISRReferenceNumber
   end
 
   def ref
-    ref = "#{IDENDITY} #{invoice_ref}"
-    check_digit!(ref)
+    ref = "#{isr_identity} #{invoice_ref}"
+    ref = check_digit!(ref)
+    format_ref(ref)
   end
 
   def amount_cents
@@ -32,16 +32,33 @@ class ISRReferenceNumber
 
   def invoice_ref
     ref = invoice_id.to_s
-    ref.prepend('0') while ref.length != 9
-    ref.gsub(/(.{5})(?=.)/, '\1 \2')
+    ref.prepend('0') while ref.length != invoice_ref_length
+    ref
+  end
+
+  def invoice_ref_length
+    @invoice_ref_length ||=
+      ISR_LENGHT_WITHOUT_CHECK_DIGIT - isr_identity.delete(' ').length
+  end
+
+  def format_ref(ref)
+    ref
+      .delete(' ')
+      .reverse
+      .gsub(/(.{5})(?=.)/, '\1 \2')
+      .reverse
+  end
+
+  def isr_identity
+    Current.acp.isr_identity.delete(' ')
   end
 
   def ccp_ref
-    CCP.delete('-')
+    Current.acp.ccp.delete('-')
   end
 
   def amount_ref
-    ref = CODE + amount_str
+    ref = ISR_AND_CHF_CODE + amount_str
     check_digit!(ref)
   end
 
