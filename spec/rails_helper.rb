@@ -28,8 +28,10 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     Rails.cache.clear
     Apartment::Tenant.switch('ragedevert') do
+      CurrentACP.set_acp_logo('rdv_logo.jpg')
       example.run
     end
+    Current.reset
   end
 
   config.before(:each, type: :system) do

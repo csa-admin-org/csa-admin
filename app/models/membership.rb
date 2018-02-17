@@ -167,7 +167,7 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_sizes_description
-    "Panier: #{basket_sizes_price_info}"
+    "Paniers: #{basket_sizes_price_info}"
   end
 
   def baskets_annual_price_change_description
@@ -212,11 +212,7 @@ class Membership < ActiveRecord::Base
   end
 
   def distribution_description
-    if distributions_price.positive?
-      "Distribution: #{distributions_price_info}"
-    else
-      'Distribution: gratuite'
-    end
+    "Distributions: #{distributions_price_info}"
   end
 
   def halfday_works_annual_price_description
