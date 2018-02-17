@@ -86,30 +86,31 @@ $.datepicker.setDefaults $.datepicker.regional["fr"]
 
 $ ->
   dates = $('#datepicker').data('dates')
-  [minDate, ..., maxDate] = dates
-  selectedDate = $('#datepicker').data('selected-date') or minDate
+  if dates
+    [minDate, ..., maxDate] = dates
+    selectedDate = $('#datepicker').data('selected-date') or minDate
 
-  $('.halfdays label').hide()
-  $("label.halfday-#{selectedDate}").show()
-  unless $("label.halfday-#{selectedDate} input:enabled").length
-    $('#subscribe-button').prop('disabled', true)
+    $('.halfdays label').hide()
+    $("label.halfday-#{selectedDate}").show()
+    unless $("label.halfday-#{selectedDate} input:enabled").length
+      $('#subscribe-button').prop('disabled', true)
 
-  $('#datepicker').datepicker
-    firstDay: 1
-    minDate: minDate
-    maxDate: maxDate
-    defaultDate: selectedDate
-    onSelect: (dateText, inst) ->
-      $('.halfdays label').hide()
-      $('#subscribe-button').prop('disabled', false)
-      $('.halfdays input').prop('checked', false)
-      $("label.halfday-#{dateText}").show()
-      $("label.halfday-#{dateText} input:enabled:first").prop('checked', true);
-      unless $("label.halfday-#{dateText} input:enabled").length
-        $('#subscribe-button').prop('disabled', true)
-    beforeShowDay: (date) ->
-      dateText = $.datepicker.formatDate('yy-mm-dd', date)
-      if dateText in dates
-        [true, 'available', null]
-      else
-        [false, null, null]
+    $('#datepicker').datepicker
+      firstDay: 1
+      minDate: minDate
+      maxDate: maxDate
+      defaultDate: selectedDate
+      onSelect: (dateText, inst) ->
+        $('.halfdays label').hide()
+        $('#subscribe-button').prop('disabled', false)
+        $('.halfdays input').prop('checked', false)
+        $("label.halfday-#{dateText}").show()
+        $("label.halfday-#{dateText} input:enabled:first").prop('checked', true);
+        unless $("label.halfday-#{dateText} input:enabled").length
+          $('#subscribe-button').prop('disabled', true)
+      beforeShowDay: (date) ->
+        dateText = $.datepicker.formatDate('yy-mm-dd', date)
+        if dateText in dates
+          [true, 'available', null]
+        else
+          [false, null, null]
