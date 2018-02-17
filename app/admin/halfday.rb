@@ -78,10 +78,14 @@ ActiveAdmin.register Halfday do
     end
 
     def overwrite_date_of_time_params
-      %w[1 2 3].each do |i|
-        params['halfday']["start_time(#{i}i)"] = params['halfday']["date(#{i}i)"]
-        params['halfday']["end_time(#{i}i)"] = params['halfday']["date(#{i}i)"]
-      end
+      date = Date.parse(params['halfday']["date"])
+      params['halfday']["start_time(1i)"] = date.year.to_s
+      params['halfday']["start_time(2i)"] = date.month.to_s
+      params['halfday']["start_time(3i)"] = date.day.to_s
+      params['halfday']["end_time(1i)"] = date.year.to_s
+      params['halfday']["end_time(2i)"] = date.month.to_s
+      params['halfday']["end_time(3i)"] = date.day.to_s
+    rescue ArgumentError
     end
   end
 

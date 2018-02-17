@@ -92,7 +92,7 @@ class Halfday < ActiveRecord::Base
   private
 
   def end_time_must_be_greather_than_start_time
-    if end_time <= start_time
+    if date && end_time <= start_time
       errors.add(:end_time, :invalid)
     end
   end
@@ -106,7 +106,7 @@ class Halfday < ActiveRecord::Base
   end
 
   def add_date_to_time(attr)
-    return nil unless self[attr]
+    return nil unless date && self[attr]
     (
       date.to_time(:utc) +
       self[attr].utc.strftime('%k').to_i.hours +
