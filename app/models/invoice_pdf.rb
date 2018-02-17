@@ -10,8 +10,6 @@ class InvoicePdf < Prawn::Document
     Producer:     'Prawn',
     CreationDate: Time.current
   }
-  PAYMENT_FOR = "Banque Raiffeisen du Vignoble\n2023 Gorgier"
-  IN_FAVOR_OF = "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle"
 
   def initialize(invoice, view)
     super(
@@ -49,9 +47,8 @@ class InvoicePdf < Prawn::Document
   end
 
   def logo
-    image "#{Rails.root}/app/assets/images/logo_big.jpg",
-      at: [15, bounds.height - 20],
-      width: 110
+    logo_io = StringIO.new(Current.acp.logo.download)
+    image logo_io, at: [15, bounds.height - 20], width: 110
   end
 
   def member_address
@@ -89,15 +86,15 @@ class InvoicePdf < Prawn::Document
     if membership
       data << [membership.description, nil]
       data << [membership.basket_sizes_description, cur(membership.basket_sizes_price)]
-      baskets_annual_price_change = membership.baskets_annual_price_change
-      unless baskets_annual_price_change.zero?
-        data << [membership.baskets_annual_price_change_description, cur(baskets_annual_price_change)]
+      unless membership.baskets_annual_price_change.zero?
+        data << [membership.baskets_annual_price_change_description, cur(membership.baskets_annual_price_change)]
       end
-      basket_complements_price = membership.basket_complements_price
-      if basket_complements_price.positive?
-        data << [membership.basket_complements_description, cur(basket_complements_price)]
+      if membership.basket_complements_price.positive?
+        data << [membership.basket_complements_description, cur(membership.basket_complements_price)]
       end
-      data << [membership.distribution_description, cur(membership.distributions_price)]
+      if membership.distributions_price.positive?
+        data << [membership.distribution_description, cur(membership.distributions_price)]
+      end
       unless membership.halfday_works_annual_price.zero?
         data << [membership.halfday_works_annual_price_description, cur(membership.halfday_works_annual_price)
         ]
@@ -106,10 +103,9 @@ class InvoicePdf < Prawn::Document
 
     if invoice.paid_memberships_amount.to_f > 0
       data << ['Déjà facturé', cur(-invoice.paid_memberships_amount)]
-    end
-
-    if invoice.remaining_memberships_amount?
-      data << ['Montant restant', cur(invoice.remaining_memberships_amount)]
+      data << ['Montant annuel restant', cur(invoice.remaining_memberships_amount)]
+    elsif invoice.remaining_memberships_amount?
+      data << ['Montant annuel', cur(invoice.remaining_memberships_amount)]
     end
 
     if invoice.memberships_amount?
@@ -161,8 +157,6 @@ class InvoicePdf < Prawn::Document
 
       if invoice.memberships_amount_description?
         if invoice.support_amount?
-          t.row(-3).font_style = :bold
-
           t.columns(1).rows(-4).borders = [:top]
           t.row(-4).padding_top = 0
           t.row(-4).padding_bottom = 15
@@ -179,23 +173,14 @@ class InvoicePdf < Prawn::Document
     end
 
     bounding_box [0, y - 30], width: bounds.width - 28, height: 50 do
-      text 'Payable dans les 30 jours, avec nos remerciements.',
-        width: 200,
-        align: :right,
-        style: :italic,
-        size: 9
+      text Current.acp.invoice_info, width: 200, align: :right, style: :italic, size: 9
     end
   end
 
   def footer
     font_size 10
     bounding_box [0, 300], width: bounds.width, height: 50 do
-      text \
-        '<b>Association Rage de Vert</b>, ' +
-          'Closel-Bourbon 3, 2075 Thielle /// ' +
-          'info@ragedevert.ch, 076 481 13 84',
-        inline_format: true,
-        align: :center
+      text Current.acp.invoice_footer, inline_format: true, align: :center
     end
   end
 
@@ -207,8 +192,8 @@ class InvoicePdf < Prawn::Document
         at: [0, y],
         width: bounds.width
       [10, 185].each do |x|
-        text_box PAYMENT_FOR, at: [x, y - 25], width: 120, height: 50, leading: 2
-        text_box IN_FAVOR_OF, at: [x, y - 62], width: 120, height: 50, leading: 2
+        text_box Current.acp.isr_payment_for, at: [x, y - 25], width: 120, height: 50, leading: 2
+        text_box Current.acp.isr_in_favor_of, at: [x, y - 62], width: 120, height: 50, leading: 2
         text_box "N° facture: #{invoice.id}",
           at: [x, y - 108],
           width: 120,
@@ -216,7 +201,7 @@ class InvoicePdf < Prawn::Document
       end
       font('OcrB')
       [87, 260].each do |x|
-        text_box ISRReferenceNumber::CCP,
+        text_box Current.acp.ccp,
           at: [x, y - 120],
           width: 100,
           height: 50,
@@ -238,11 +223,6 @@ class InvoicePdf < Prawn::Document
           size: 12,
           character_spacing: 0.8
       end
-      text_box isr_ref.ref.remove(' '),
-        at: [10, y - 173],
-        width: 180,
-        height: 50,
-        character_spacing: 0.6
       text_box isr_ref.ref,
         at: [360, y - 97],
         width: 380,
@@ -250,7 +230,7 @@ class InvoicePdf < Prawn::Document
         size: 10,
         character_spacing: 0.8
       text_box isr_ref.full_ref,
-        at: [200, y - 245],
+        at: [200, y - 241],
         width: 500,
         height: 50,
         size: 10,
