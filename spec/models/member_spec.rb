@@ -30,6 +30,13 @@ describe Member do
       )
       expect(member).to be_valid
     end
+
+    it 'only accepts ACP billing_year_divisions' do
+      Current.acp.billing_year_divisions = [1, 12]
+      member = Member.new(billing_year_division: 3)
+
+      expect(member).not_to have_valid(:billing_year_division)
+    end
   end
 
   it 'sets state and waiting_started_at if basket_size/distribution present on creation' do
@@ -62,16 +69,6 @@ describe Member do
     expect(member.waiting_started_at).to be_present
     expect(member.waiting_basket_size).to eq new_basket_size
     expect(member.waiting_distribution).to eq new_distribution
-  end
-
-  describe '#support_member=' do
-    let(:member) { create(:member) }
-
-    it 'sets billing_interval to annual' do
-      member.billing_interval = 'quarterly'
-      member.update(support_member: '1')
-      expect(member.billing_interval).to eq 'annual'
-    end
   end
 
   describe '#current_membership' do
@@ -121,5 +118,33 @@ describe Member do
     end
 
     specify { expect(member.absent?(Date.tomorrow)).to eq true }
+  end
+
+  describe '#remove_from_waiting_list!' do
+    it 'changes state from waiting to inactive' do
+      member = create(:member, :waiting)
+
+      expect { member.remove_from_waiting_list! }
+        .to change { member.state }.from('waiting').to('inactive')
+        .and change { member.waiting_started_at }.to(nil)
+    end
+  end
+
+  describe '#put_back_to_waiting_list!' do
+    it 'changes state from waiting to inactive' do
+      member = create(:member, :inactive)
+
+      expect { member.put_back_to_waiting_list! }
+        .to change { member.state }.from('inactive').to('waiting')
+        .and change { member.waiting_started_at }.from(nil)
+    end
+
+    it 'cleans support_member' do
+      member = create(:member, :support)
+
+      expect { member.put_back_to_waiting_list! }
+        .to change { member.state }.from('inactive').to('waiting')
+        .and change { member.support_member }.to(false)
+    end
   end
 end

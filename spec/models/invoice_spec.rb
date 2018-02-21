@@ -19,10 +19,18 @@ describe Invoice do
       .to raise_error(NoMethodError)
   end
 
-  it 'validates date uniqueness' do
-    invoice = create(:invoice, :membership)
-    expect(build(:invoice, :support, member: invoice.member))
-      .not_to have_valid(:date)
+  it 'generates and sets pdf after creation' do
+    invoice = create(:invoice, :support)
+    expect(invoice.pdf_file).to be_attached
+    expect(invoice.pdf_file.byte_size).to be_positive
+  end
+
+  it 'sends email when send_email is true on creation' do
+    expect { create(:invoice, :support) }
+      .not_to change { InvoiceMailer.deliveries.count }
+
+    expect { create(:invoice, :support, send_email: true) }
+      .to change { InvoiceMailer.deliveries.count }
   end
 
   context 'when support only' do
@@ -80,12 +88,11 @@ describe Invoice do
 
   describe '#send!' do
     let(:invoice) { create(:invoice, :support, :not_sent) }
-    before { invoice.set_pdf }
 
     it 'delivers email' do
       expect { invoice.send!; }
-        .to change { ActionMailer::Base.deliveries.count }.by(1)
-      mail = ActionMailer::Base.deliveries.last
+        .to change { InvoiceMailer.deliveries.count }.by(1)
+      mail = InvoiceMailer.deliveries.last
       expect(mail.to).to eq invoice.member.emails_array
     end
 
@@ -100,24 +107,23 @@ describe Invoice do
     it 'does nothing when already sent' do
       invoice.touch(:sent_at)
       expect { invoice.send! }
-        .not_to change { ActionMailer::Base.deliveries.count }
+        .not_to change { InvoiceMailer.deliveries.count }
     end
 
     it 'does nothing when member has no email' do
       invoice.member.update(emails: '')
       expect { invoice.send! }
-        .not_to change { ActionMailer::Base.deliveries.count }
+        .not_to change { InvoiceMailer.deliveries.count }
       expect(invoice.reload.sent_at).to be_nil
     end
   end
 
   describe '#mark_as_sent!' do
     let(:invoice) { create(:invoice, :support, :not_sent) }
-    before { invoice.set_pdf }
 
     it 'does not deliver email' do
-      expect { invoice.mark_as_sent!; }
-        .not_to change { ActionMailer::Base.deliveries.count }
+      expect { invoice.mark_as_sent! }
+        .not_to change { InvoiceMailer.deliveries.count }
     end
 
     it 'touches sent_at' do
@@ -126,15 +132,6 @@ describe Invoice do
 
     it 'sets invoice as open' do
       expect { invoice.send! }.to change(invoice, :state).to('open')
-    end
-  end
-
-  describe '#set_pdf' do
-    it 'generates and sets pdf' do
-      invoice = create(:invoice, :support)
-      invoice.set_pdf
-      expect(invoice.pdf_file).to be_attached
-      expect(invoice.pdf_file.byte_size).to be_positive
     end
   end
 end

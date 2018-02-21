@@ -7,7 +7,7 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   NoPdfError = Class.new(StandardError)
 
-  attr_accessor :membership, :membership_amount_fraction
+  attr_accessor :membership, :membership_amount_fraction, :send_email
 
   has_states :not_sent, :open, :closed, :canceled
 
@@ -29,8 +29,12 @@ class Invoice < ActiveRecord::Base
     :set_memberships_amount,
     :set_amount
 
+  after_create :update_member_invoices_balance!
+  after_create :set_pdf
+  after_create :send_email
+
   validates :member, presence: true
-  validates :date, presence: true, uniqueness: { scope: :member_id }
+  validates :date, presence: true
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
   validates :amount, numericality: { greater_than: 0 }
   validates :paid_memberships_amount,
@@ -42,9 +46,6 @@ class Invoice < ActiveRecord::Base
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
-  validates :member_billing_interval,
-    presence: true,
-    inclusion: { in: Member::BILLING_INTERVALS }
   validate :validate_memberships_amount_for_current_year, on: :create
 
   def send!
@@ -117,25 +118,12 @@ class Invoice < ActiveRecord::Base
     raise NoMethodError, 'is set automaticaly.'
   end
 
-  def set_pdf
-    invoice_pdf = InvoicePdf.new(self, nil)
-    pdf_file.attach(
-      io: StringIO.new(invoice_pdf.render),
-      filename: "invoice-#{id}.pdf",
-      content_type: 'application/pdf')
-  end
-
   def can_cancel?
     !canceled? && (not_sent? || open? || current_year?)
   end
 
   def can_send_email?
     !sent_at? && member.emails?
-  end
-
-  def fy_quarter
-    fy_month = fiscal_year.month(date)
-    (fy_month / 3.0).ceil
   end
 
   private
@@ -167,5 +155,21 @@ class Invoice < ActiveRecord::Base
 
   def set_amount
     self[:amount] = (memberships_amount || 0) + (support_amount || 0)
+  end
+
+  def set_pdf
+    invoice_pdf = InvoicePdf.new(self, nil)
+    pdf_file.attach(
+      io: StringIO.new(invoice_pdf.render),
+      filename: "invoice-#{id}.pdf",
+      content_type: 'application/pdf')
+  end
+
+  def update_member_invoices_balance!
+    Payment.update_invoices_balance!(member)
+  end
+
+  def send_email
+    send! if @send_email
   end
 end

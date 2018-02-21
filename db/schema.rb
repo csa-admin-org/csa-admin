@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_13_192913) do
+ActiveRecord::Schema.define(version: 2018_02_17_202556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2018_02_13_192913) do
     t.text "isr_in_favor_of"
     t.text "invoice_info"
     t.text "invoice_footer"
+    t.integer "billing_year_divisions", default: [], null: false, array: true
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -269,12 +270,10 @@ ActiveRecord::Schema.define(version: 2018_02_13_192913) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "member_billing_interval", null: false
     t.integer "overdue_notices_count", default: 0, null: false
     t.datetime "overdue_notice_sent_at"
     t.datetime "canceled_at"
     t.string "state", default: "not_sent", null: false
-    t.index ["date", "member_id"], name: "index_invoices_on_date_and_member_id", unique: true
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["state"], name: "index_invoices_on_state"
   end
@@ -311,6 +310,7 @@ ActiveRecord::Schema.define(version: 2018_02_13_192913) do
     t.string "profession"
     t.string "come_from"
     t.decimal "support_price", precision: 8, scale: 2, null: false
+    t.integer "billing_year_division", default: 1, null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"

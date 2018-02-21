@@ -9,6 +9,7 @@ ActiveAdmin.register ACP do
     :invoice_info, :invoice_footer,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :support_price,
+    billing_year_divisions: [],
     features: []
 
   form do |f|
@@ -20,7 +21,7 @@ ActiveAdmin.register ACP do
     f.inputs do
       f.input :features,
         as: :check_boxes,
-        collection: ACP::FEATURES.map { |f| [t("activerecord.models.#{f}.one"), f] }
+        collection: ACP.features.map { |f| [t("activerecord.models.#{f}.one"), f] }
     end
     f.inputs 'Mailer (Postmark)' do
       f.input :email_api_token
@@ -43,6 +44,9 @@ ActiveAdmin.register ACP do
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] },
         include_blank: false
+      f.input :billing_year_divisions,
+        as: :check_boxes,
+        collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division._#{i}"), i] }
       f.input :support_price
     end
     f.inputs 'Facture (BVR)' do

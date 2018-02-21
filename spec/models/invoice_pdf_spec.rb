@@ -114,7 +114,7 @@ describe InvoicePdf do
     end
 
     it 'generates invoice with support ammount + quarter membership' do
-      member = create(:member, billing_interval: 'quarterly')
+      member = create(:member, billing_year_division: 4)
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),
@@ -145,7 +145,7 @@ describe InvoicePdf do
     end
 
     it 'generates invoice with quarter menbership and paid amount' do
-      member = create(:member, billing_interval: 'quarterly')
+      member = create(:member, billing_year_division: 4)
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),

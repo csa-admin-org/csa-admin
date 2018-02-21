@@ -56,23 +56,24 @@ class Membership < ActiveRecord::Base
     where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
   }
 
-  def self.billable
-    current_year
-      .started
-      .includes(member: %i[current_membership first_membership current_year_invoices])
-      .select(&:billable?)
+  def trial?
+    baskets.coming.trial.any?
+  end
+
+  def trial_only?
+    baskets_count == baskets.trial.count
   end
 
   def fy_year
     Current.acp.fiscal_year_for(started_on).year
   end
 
-  def billable?
-    price.positive?
-  end
-
   def started?
     started_on <= Date.current
+  end
+
+  def past?
+    ended_on < Date.current
   end
 
   def current?

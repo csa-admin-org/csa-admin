@@ -41,7 +41,7 @@ class Inscription
       support_member: support?,
       waiting_basket_size_id: basket_size_id,
       waiting_distribution_id: distribution_id,
-      billing_interval: billing_interval,
+      billing_year_division: billing_year_division,
       food_note: @row[9],
       note: @row[11]
     )
@@ -56,8 +56,8 @@ class Inscription
     @row[1].split(' ', 2).last
   end
 
-  def billing_interval
-    @row[8] =~ /Trimestriel/ ? 'quarterly' : 'annual'
+  def billing_year_division
+    @row[8] =~ /Trimestriel/ ? 4 : 1
   end
 
   def support?
