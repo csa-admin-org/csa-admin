@@ -4,18 +4,9 @@ namespace :invoices do
     Apartment::Tenant.switch!('ragedevert')
     if Date.current.tuesday? && Date.current > Delivery.current_year.first.date
       Member.billable.each do |member|
-        begin
-          invoice = InvoiceCreator.new(member).create
-          invoice&.send!
-        rescue => ex
-          ExceptionNotifier.notify_exception(ex,
-            data: { member_id: member.id, invoice_id: invoice&.id }
-          )
-        end
+        RecurringBilling.invoice(member, send_email: true)
       end
-      p "#{Current.acp.name}: New invoice(s) created."
-    else
-      p "#{Current.acp.name}: It's not Tuesday dude."
+      p "#{Current.acp.name}: invoices created."
     end
   end
 

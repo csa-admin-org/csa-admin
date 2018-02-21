@@ -6,6 +6,7 @@ ActiveAdmin.register Member do
   scope :waiting
   scope :trial, if: ->(_) { Current.acp.trial_basket_count.positive? }
   scope :active, default: true
+  scope :support
   scope :inactive
 
   index do
@@ -27,12 +28,12 @@ ActiveAdmin.register Member do
   show do |member|
     columns do
       column do
-        panel link_to("Abonnements", memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to('Abonnements', memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
           memberships = member.memberships.includes(:delivered_baskets).order(:started_on)
           if memberships.none?
-            em "Aucun abonnement"
+            em 'Aucun abonnement'
           else
-            table_for(memberships, class: 'table-memberships') do |membership|
+            table_for(memberships, class: 'table-memberships') do
               column(:description) { |m| auto_link m, m.short_description }
               column('½ journées') { |m|
                 auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}"
@@ -48,29 +49,29 @@ ActiveAdmin.register Member do
         count = halfday_participations.count
         panel link_to("½ Journées (#{count})", halfday_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
           if halfday_participations.none?
-            em "Aucune ½ journée"
+            em 'Aucune ½ journée'
           else
-            table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do |halfday_participation|
+            table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do
               column('Description') { |hp|
                 link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
               }
-              column('Part. #') { |hp| hp.participants_count }
+              column('Part. #', &:participants_count)
               column(:state) { |hp| status_tag(hp.state) }
             end
           end
         end
 
-        panel link_to("Factures", invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to('Factures', invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
           invoices = member.invoices.order(:date)
           if invoices.none?
-            em "Aucune facture"
+            em 'Aucune facture'
           else
-            table_for(invoices, class: 'table-invoices') do |invoice|
+            table_for(invoices, class: 'table-invoices') do
               column(:id) { |i| auto_link i, i.id }
               column(:date) { |i| l(i.date, format: :number) }
               column(:amount) { |i| number_to_currency(i.amount) }
               column(:balance) { |i| number_to_currency(i.balance) }
-              column('Rap.') { |i| i.overdue_notices_count }
+              column('Rap.', &:overdue_notices_count)
               column(class: 'col-actions') { |i|
                 link_to 'PDF', rails_blob_path(i.pdf_file, disposition: 'attachment'), class: 'pdf_link'
               }
@@ -79,12 +80,12 @@ ActiveAdmin.register Member do
           end
         end
 
-        panel link_to("Paiements", payments_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to('Paiements', payments_path(q: { member_id_eq: member.id }, scope: :all)) do
           payments = member.payments.includes(:invoice).order(:date)
           if payments.none?
-            em "Aucun paiement"
+            em 'Aucun paiement'
           else
-            table_for(payments, class: 'table-payments') do |payment|
+            table_for(payments, class: 'table-payments') do
               column(:date) { |p| l(p.date, format: :number) }
               column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
               column(:amount) { |p| number_to_currency(p.amount) }
@@ -131,7 +132,7 @@ ActiveAdmin.register Member do
           end
         end
         attributes_table title: 'Facturation' do
-          row(:billing_interval) { t("member.billing_interval.#{member.billing_interval}") }
+          row(:billing_year_division) { t("billing.year_division._#{member.billing_year_division}") }
           row(:salary_basket) { member.salary_basket? ? 'oui' : 'non' }
           row(:support_member) { member.support_member ? 'oui' : 'non' }
           row(:support_price) { number_to_currency member.support_price }
@@ -160,7 +161,9 @@ ActiveAdmin.register Member do
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
-  filter :billing_interval, as: :select, collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] }
+  filter :billing_year_division,
+    as: :select,
+    collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] } }
 
   form do |f|
     f.inputs 'Details' do
@@ -196,10 +199,13 @@ ActiveAdmin.register Member do
       end
     end
     f.inputs 'Facturation' do
-      f.input :billing_interval,
-        collection: Member::BILLING_INTERVALS.map { |i| [I18n.t("member.billing_interval.#{i}"), i] },
+      f.input :billing_year_division,
+        as: :select,
+        collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] },
         include_blank: false
-      f.input :support_member, hint: 'Paye la cotisation annuelle même si aucun abonnement'
+      if member.inactive? && !member.future_membership
+        f.input :support_member, hint: 'Paye la cotisation annuelle même si aucun abonnement'
+      end
       f.input :support_price
       f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'
     end
@@ -215,13 +221,13 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :address, :city, :zip, :emails, :phones, :gribouille,
     :delivery_address, :delivery_city, :delivery_zip,
-    :support_member, :salary_basket, :billing_interval, :waiting,
+    :support_member, :salary_basket, :billing_year_division, :waiting,
     :waiting_basket_size_id, :waiting_distribution_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
 
   action_item :create_invoice, only: :show, if: -> { authorized?(:create_invoice, resource) } do
-    link_to 'Créer facture', create_invoice_member_path(resource), method: :post
+    link_to 'Facturer', create_invoice_member_path(resource), method: :post
   end
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
     link_to 'Valider', validate_member_path(resource), method: :post

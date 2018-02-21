@@ -81,4 +81,11 @@ describe ACP do
       expect { acp.season_for(1) }.to raise_error('winter/summer seasons not configured')
     end
   end
+
+  describe '#billing_year_divisions=' do
+    it 'keeps only allowed divisions' do
+      acp = ACP.new(billing_year_divisions: ["", "1", "6", "12"])
+      expect(acp.billing_year_divisions).to eq [1, 12]
+    end
+  end
 end

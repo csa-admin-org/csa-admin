@@ -6,6 +6,7 @@ FactoryBot.define do
     email_default_host 'membres.ragedevert.ch'
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
     trial_basket_count 4
+    billing_year_divisions [1, 4]
     support_price 30
     ccp '01-13734-6'
     isr_identity '00 11041 90802 41000'
@@ -48,6 +49,7 @@ FactoryBot.define do
     city { Faker::Address.city }
     zip { Faker::Address.zip }
     support_member false
+    billing_year_division 4
     billing_interval 'quarterly'
 
     validated_at { Time.current }
@@ -59,6 +61,8 @@ FactoryBot.define do
       state Member::PENDING_STATE
       validated_at { nil }
       validator { nil }
+      waiting_basket_size { create(:basket_size) }
+      waiting_distribution { create(:distribution) }
     end
 
     trait :waiting do
@@ -74,8 +78,6 @@ FactoryBot.define do
         create(:membership,
           member: member,
           started_on: [Time.current.beginning_of_year, Date.current - 3.weeks].max)
-        member.reload
-        member.update_state!
       end
     end
 
@@ -83,12 +85,11 @@ FactoryBot.define do
       after :create do |member|
         create(:membership, :last_year, member: member)
         create(:membership, member: member)
-        member.reload
-        member.update_state!
       end
     end
 
     trait :support do
+      state Member::INACTIVE_STATE
       support_member true
     end
 
@@ -153,7 +154,6 @@ FactoryBot.define do
   factory :invoice do
     member
     date { Time.current }
-    member_billing_interval { member.billing_interval }
 
     trait :membership do
       membership { create(:membership, member: member) }
@@ -162,10 +162,6 @@ FactoryBot.define do
 
     trait :support do
       support_amount { member.support_price }
-    end
-
-    trait :last_year do
-      date { 1.year.from_now }
     end
 
     trait :not_sent do

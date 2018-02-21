@@ -4,7 +4,6 @@ describe InvoiceOverdueNoticer do
   let(:invoice) { create(:invoice, :support, :open, sent_at: 40.days.ago) }
 
   def perform(invoice)
-    invoice.set_pdf
     InvoiceOverdueNoticer.perform(invoice)
   end
 

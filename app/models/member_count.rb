@@ -2,6 +2,7 @@ class MemberCount
   SCOPES = %i[pending waiting trial active support inactive]
 
   def self.all
+    SCOPES.delete(:trial) if Current.acp.trial_basket_count.zero?
     SCOPES.map { |scope| new(scope) }
   end
 

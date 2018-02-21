@@ -283,6 +283,7 @@ fr:
         isr_in_favor_of:  En faveur de (BVR)
         invoice_info: Facture ligne info
         invoice_footer: Facture bas de page
+        billing_year_divisions: Intervalle de paiement
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
@@ -380,7 +381,7 @@ fr:
         unit: Unité
         vegetable: Légume
         delivery: Livraison
-        basket: Panier
+        basket_size: Panier
         distributions: Lieu de distribution
         same_basket_quantities: Même quantité pour tous les paniers
       member:
@@ -395,7 +396,6 @@ fr:
         phones: Téléphones
         support_member: Membre de soutien
         support_price: Cotisation anuelle
-        billing_interval: Intervalle de paiement
         food_note: Note alimentaire
         waiting: Sur liste d'attente
         basket_size: Taille panier
@@ -414,6 +414,7 @@ fr:
         deliveries_received_count_since_first_membership: Paniers reçus
         salary_basket: Panier(s) salaire
         come_from: D'où venez-vous?
+        billing_year_division: Intervalle de paiement
       membership:
         member_id: Membre
         member: Membre
@@ -499,6 +500,12 @@ fr:
       distribution: Distribution
       halfday_works: Ajustement ½ journées de travail
       support: Cotisation
+    year_division:
+      _1: annuel
+      _2: semestriel
+      _3: quadrimestriel
+      _4: trimestriel
+      _12: mensuel
 
   member:
     status:
@@ -509,9 +516,6 @@ fr:
       support: Soutien
       inactive: Inactif
       future: Future
-    billing_interval:
-      annual: annuel
-      quarterly: trimestriel
 
   season:
     summer: Été

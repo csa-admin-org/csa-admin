@@ -4,6 +4,7 @@ class ACP < ActiveRecord::Base
     gribouille
   ]
   SEASONS = %w[summer winter]
+  BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
 
   attr_accessor :summer_month_range_min, :summer_month_range_max
 
@@ -45,9 +46,15 @@ class ACP < ActiveRecord::Base
   end
 
   def self.seasons; SEASONS end
+  def self.features; FEATURES end
+  def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
 
   def feature?(feature)
     self.features.include?(feature.to_s)
+  end
+
+  def billing_year_divisions=(divisions)
+    super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end
 
   def current_fiscal_year
@@ -56,6 +63,10 @@ class ACP < ActiveRecord::Base
 
   def fiscal_year_for(date_or_year)
     FiscalYear.for(date_or_year, start_month: fiscal_year_start_month)
+  end
+
+  def fy_month_for(date)
+    fiscal_year_for(date).month(date)
   end
 
   def summer_month_range_min

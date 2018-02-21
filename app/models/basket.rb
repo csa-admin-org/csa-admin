@@ -24,6 +24,7 @@ class Basket < ActiveRecord::Base
   scope :delivered, -> { joins(:delivery).merge(Delivery.past) }
   scope :coming, -> { joins(:delivery).merge(Delivery.coming) }
   scope :between, ->(range) { joins(:delivery).merge(Delivery.between(range)) }
+  scope :trial, -> { where(trial: true) }
   scope :absent, -> { where(absent: true) }
   scope :not_absent, -> { where(absent: false) }
 

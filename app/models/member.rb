@@ -30,18 +30,20 @@ class Member < ActiveRecord::Base
     source: :delivered_baskets,
     class_name: 'Basket'
 
+  scope :billable, -> { where(state: [ACTIVE_STATE, INACTIVE_STATE]) }
   scope :support, -> { inactive.where(support_member: true) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :gribouille, -> {
-    where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]).where(gribouille: [nil, true])
+    where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE])
+      .where(gribouille: [nil, true])
       .or(Member.where(support_member: true).where(gribouille: [nil, true]))
       .or(Member.where(gribouille: true))
   }
 
-  validates :billing_interval,
+  validates :billing_year_division,
     presence: true,
-    inclusion: { in: BILLING_INTERVALS }
+    inclusion: { in: ->(_) { Current.acp.billing_year_divisions } }
   validates :name, presence: true
   validates :emails, presence: true,
     if: ->(member) { member.read_attribute(:gribouille) }
@@ -49,9 +51,9 @@ class Member < ActiveRecord::Base
   validate :support_member_not_waiting
   validates :support_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
-  before_validation :set_support_price, on: :create
-  before_validation :set_waiting_started_at, on: :create
-  before_save :set_state
+  before_validation :set_initial_support_price, on: :create
+  before_validation :set_initial_waiting_started_at, on: :create
+  before_save :set_state, :set_support_member, :set_waiting_started_at
   after_save :update_membership_halfday_works
 
   def gribouille?
@@ -62,13 +64,8 @@ class Member < ActiveRecord::Base
     gribouille.select(:emails).map(&:emails_array).flatten.uniq.compact
   end
 
-  def self.billable
-    includes = %i[
-      current_membership
-      current_year_membership
-      current_year_invoices
-    ]
-    Member.includes(*includes).all.select(&:billable?)
+  def billable?
+    active? || inactive?
   end
 
   def name=(name)
@@ -124,45 +121,30 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def support_member=(bool)
-    if bool == '1'
-      self.state = INACTIVE_STATE
-      self.billing_interval = 'annual'
-      self.waiting_started_at = nil
-      self.waiting_basket_size_id = nil
-      self.waiting_distribution_id = nil
-    end
-    self[:support_member] = bool
-  end
-
   def validate!(validator)
     invalid_transition(:validate!) unless pending?
-    now = Time.current
     update!(
-      waiting_started_at: support_member? ? nil : now,
-      validated_at: now,
-      validator: validator
-    )
+      validated_at: Time.current,
+      validator: validator)
   end
 
   def remove_from_waiting_list!
     invalid_transition(:remove_from_waiting_list) unless waiting?
     update!(
-      state: INACTIVE_STATE,
+      support_member: false,
       waiting_started_at: nil)
   end
 
   def put_back_to_waiting_list!
     invalid_transition(:wait!) unless inactive?
     update!(
-      state: WAITING_STATE,
+      support_member: false,
       waiting_started_at: Time.current)
   end
 
   def absent?(date)
     absences.any? { |absence| absence.period.include?(date) }
   end
-
 
   def halfday_works(year = nil)
     @annual_halfday_works ||= begin
@@ -196,43 +178,29 @@ class Member < ActiveRecord::Base
 
   alias_method :waiting, :waiting?
 
-  def billable?
-    support_member? ||
-      (!salary_basket? && !trial? && current_year_membership.present?) ||
-      (trial? && !current_membership) ||
-      (trial? && Delivery.next.fy_year > Current.fy_year)
-  end
-
-  def support_billable?
-    support_member? ||
-        (!salary_basket? && current_year_membership &&
-          current_year_membership.baskets_count > Current.acp.trial_basket_count)
-  end
-
   private
 
-  def set_waiting_started_at
+  def set_initial_support_price
+    self.support_price ||= Current.acp.support_price
+  end
+
+  def set_initial_waiting_started_at
     if waiting_basket_size_id? || waiting_distribution_id?
       self.waiting_started_at ||= Time.current
     end
-  end
-
-  def set_support_price
-    self.support_price ||= Current.acp.support_price
   end
 
   def set_state
     if !validated_at?
       self.state = PENDING_STATE
     elsif current_membership
-      self.waiting_started_at = nil
       if baskets_in_trial?
         self.state = TRIAL_STATE
       else
         self.state = ACTIVE_STATE
       end
     elsif future_membership
-      self.waiting_started_at = nil
+
       if baskets_in_trial?
         self.state = TRIAL_STATE
       else
@@ -242,6 +210,18 @@ class Member < ActiveRecord::Base
       self.state = WAITING_STATE
     else
       self.state = INACTIVE_STATE
+    end
+  end
+
+  def set_waiting_started_at
+    if trial? || active? || inactive?
+      self.waiting_started_at = nil
+    end
+  end
+
+  def set_support_member
+    if waiting? || trial? || active? || future_membership
+      self.support_member = false
     end
   end
 

@@ -15,6 +15,10 @@ module HasFiscalYearScopes
     Current.acp.fiscal_year_for(date)
   end
 
+  def fy_month
+    fiscal_year.month(date)
+  end
+
   def current_year?
     fy_year == Current.fy_year
   end
