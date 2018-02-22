@@ -50,7 +50,6 @@ FactoryBot.define do
     zip { Faker::Address.zip }
     support_member false
     billing_year_division 4
-    billing_interval 'quarterly'
 
     validated_at { Time.current }
     validator { create(:admin) }
