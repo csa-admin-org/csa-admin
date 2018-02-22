@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_17_202556) do
+ActiveRecord::Schema.define(version: 2018_02_22_194801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -289,7 +289,6 @@ ActiveRecord::Schema.define(version: 2018_02_17_202556) do
     t.datetime "updated_at"
     t.boolean "support_member", null: false
     t.datetime "waiting_started_at"
-    t.string "billing_interval", limit: 255, null: false
     t.text "food_note"
     t.text "note"
     t.integer "validator_id"
