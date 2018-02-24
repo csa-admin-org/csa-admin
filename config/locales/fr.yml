@@ -201,6 +201,12 @@ fr:
         phones: "Séparés par une virgule"
       admin:
         password: "Laisser vide si inchangé"
+      halfday_preset:
+        place_url: "Google Maps ou autre"
+      halfday:
+        place_url: "Google Maps ou autre"
+        description: "Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien"
+        participants_limit: "Laisser vide si aucune limite"
       member:
         emails: "Séparés par une virgule"
         phones: "Séparés par une virgule"
@@ -220,6 +226,9 @@ fr:
       halfday_participation:
         one: ½ Journée - Participation
         other: ½ Journée - Participations
+      halfday_preset:
+        one: ½ Journée - Preset
+        other: ½ Journée - Presets
       halfday:
         one: ½ Journée - Date
         other: ½ Journées - Dates
@@ -347,6 +356,10 @@ fr:
         emails: Email(s)
         created_at: Enregistrée à
         updated_at: Mise à jour à
+      halfday_preset:
+        place: Lieu
+        place_url: Lieu URL
+        activity: Activité
       halfday:
         date: Date
         start_time: Heure de début

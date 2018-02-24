@@ -29,18 +29,19 @@ ActiveAdmin.register Halfday do
       f.input :end_time, as: :time_select, include_blank: false, minute_step: 30
     end
     f.inputs 'Lieu et activité' do
-      if f.object.new_record?
+      if HalfdayPreset.any?
         f.input :preset_id,
-          collection: Halfday::Preset.all + [Halfday::Preset.new(0, 'Autre')],
+          collection: HalfdayPreset.all + [HalfdayPreset.new(id: 0, place: 'Autre')],
           include_blank: false
       end
-      f.input :place, input_html: { disabled: f.object.use_preset? }
-      f.input :place_url, input_html: { disabled: f.object.use_preset? }
-      f.input :activity, input_html: { disabled: f.object.use_preset? }
+      preset_present = !!f.object.preset
+      f.input :place, input_html: { disabled: preset_present }
+      f.input :place_url, input_html: { disabled: preset_present }
+      f.input :activity, input_html: { disabled: preset_present }
     end
     f.inputs 'Détails' do
-      f.input :description, input_html: { rows: 5 }, hint: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien.'
-      f.input :participants_limit, as: :number, hint: 'Laisser vide si pas de limite.'
+      f.input :description, input_html: { rows: 5 }
+      f.input :participants_limit, as: :number
     end
     f.actions
   end
@@ -58,7 +59,7 @@ ActiveAdmin.register Halfday do
   ]
 
   before_build do |halfday|
-    halfday.preset_id ||= 1
+    halfday.preset_id ||= HalfdayPreset.first&.id
     halfday.date ||= Date.current
   end
 

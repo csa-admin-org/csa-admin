@@ -13,6 +13,7 @@ class Ability
       can :update, [Basket, BasketComplement, Delivery]
     end
     if admin.right? 'admin'
+      can :manage, HalfdayPreset
       can :create, [BasketComplement, Distribution, Member, Membership, Payment] & available_models
       can :update, [Distribution, Member] & available_models
       can :destroy, ActiveAdmin::Comment
