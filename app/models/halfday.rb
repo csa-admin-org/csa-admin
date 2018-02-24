@@ -13,7 +13,7 @@ class Halfday < ActiveRecord::Base
   }
 
   validates :date, :start_time, :end_time, presence: true
-  validates :place, :activity, presence: true, unless: :use_preset?
+  validates :place, :activity, presence: true
   validate :end_time_must_be_greather_than_start_time
 
   before_create :set_preset
@@ -60,33 +60,14 @@ class Halfday < ActiveRecord::Base
     add_date_to_time(:end_time)
   end
 
-  %i[place place_url activity].each do |preset|
-    define_method preset do
-      use_preset? ? 'preset' : self[preset]
+  %i[place place_url activity].each do |attr|
+    define_method attr do
+      preset ? 'preset' : self[attr]
     end
   end
 
-  def use_preset?
-    Preset.find(preset_id)
-  end
-
-  Preset = Struct.new(:id, :place, :place_url, :activity) do
-    def self.all
-      [
-        new(1, 'Thielle', 'https://goo.gl/maps/xSxmiYRhKWH2', 'Aide aux champs'),
-        new(2, 'Jardin de la Main', 'https://goo.gl/maps/tUQcLu1KkPN2', 'Confection des paniers')
-      ]
-    end
-
-    def self.find(id)
-      all.find { |p| p.id == id.to_i }
-    end
-
-    def name
-      str = place
-      str += ", #{activity}" if activity.present?
-      str
-    end
+  def preset
+    @preset ||= HalfdayPreset.find_by(id: preset_id)
   end
 
   private
@@ -98,7 +79,7 @@ class Halfday < ActiveRecord::Base
   end
 
   def set_preset
-    if preset = Preset.find(preset_id)
+    if preset
       self.place = preset.place
       self.place_url = preset.place_url
       self.activity = preset.activity

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_22_194801) do
+ActiveRecord::Schema.define(version: 2018_02_24_114607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -240,6 +240,13 @@ ActiveRecord::Schema.define(version: 2018_02_22_194801) do
     t.index ["halfday_id"], name: "index_halfday_participations_on_halfday_id"
     t.index ["member_id"], name: "index_halfday_participations_on_member_id"
     t.index ["validator_id"], name: "index_halfday_participations_on_validator_id"
+  end
+
+  create_table "halfday_presets", force: :cascade do |t|
+    t.string "place", null: false
+    t.string "place_url"
+    t.string "activity", null: false
+    t.index ["place", "activity"], name: "index_halfday_presets_on_place_and_activity", unique: true
   end
 
   create_table "halfdays", id: :serial, force: :cascade do |t|
