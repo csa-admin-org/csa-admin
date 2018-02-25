@@ -3,9 +3,9 @@ section
   h2 Retrouver sa page de membre
 
   p
-    = "Chaque membre a accès à une page privée lui permettant de s'inscrire aux ½ journées de travail"
+    = "Chaque membre a accès à une page privée lui permettant de s'inscrire aux #{halfdays_human_name.downcase}."
     br
-    = "Si vous ne retrouver plus le lien vers votre page, merci d'entrer votre email dans le formulaire ci-dessous."
+    = "Si vous ne retrouver plus le lien vers votre page, merci d'entrer votre email dans le formulaire ci-dessous, le lien vous sera à nouveau envoyé."
 
     = form_tag recover_members_member_token_path do
       p

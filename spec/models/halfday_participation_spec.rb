@@ -4,6 +4,10 @@ describe HalfdayParticipation do
   let(:member) { create(:member) }
   let(:admin) { create(:admin) }
 
+  def last_email
+    ActionMailer::Base.deliveries.last
+  end
+
   describe 'validations' do
     it 'validates halfday participants limit' do
       halfday = create(:halfday, participants_limit: 1)
@@ -22,6 +26,7 @@ describe HalfdayParticipation do
       expect(participation.state).to eq 'validated'
       expect(participation.validated_at).to be_present
       expect(participation.validator).to eq admin
+      expect(last_email.subject).to match /Rage de Vert: ½ Journée validée/
     end
   end
 
@@ -34,6 +39,7 @@ describe HalfdayParticipation do
       expect(participation.state).to eq 'rejected'
       expect(participation.rejected_at).to be_present
       expect(participation.validator).to eq admin
+      expect(last_email.subject).to match /Rage de Vert: ½ Journée refusée/
     end
   end
 

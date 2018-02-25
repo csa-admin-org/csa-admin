@@ -1,6 +1,5 @@
 class HalfdayParticipation < ActiveRecord::Base
-  MEMBER_PER_YEAR = 2
-  PRICE = 60
+  include HalfdayNaming
 
   attr_reader :carpooling, :halfday_ids
 
@@ -115,7 +114,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   def participants_limit_must_not_be_reached
     if halfday&.full?
-      errors.add(:halfday, 'La demi-journée est déjà complète, merci!')
+      errors.add(:halfday, 'La date est déjà complète, merci!')
     end
   end
 end

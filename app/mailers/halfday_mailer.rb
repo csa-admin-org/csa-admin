@@ -1,5 +1,5 @@
 class HalfdayMailer < ApplicationMailer
-  helper :halfdays
+  include HalfdaysHelper
 
   def coming(halfday_participation)
     @halfday_participation = halfday_participation
@@ -21,15 +21,10 @@ class HalfdayMailer < ApplicationMailer
     mail(to: @member.emails, subject: subject('refusée'))
   end
 
-  def recall(member)
-    @member = member
-    mail(to: @member.emails, subject: "#{Current.acp.name}: ½ journées de travail")
-  end
-
   private
 
   def subject(type)
     date = l(@halfday_participation.halfday.date, format: :long).sub(/^\s/, '')
-    "#{Current.acp.name}: ½ journée de travail #{type} (#{date})"
+    "#{Current.acp.name}: #{halfday_human_name} #{type} (#{date})"
   end
 end

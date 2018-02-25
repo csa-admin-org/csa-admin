@@ -74,7 +74,7 @@ describe InvoicePdf do
       expect(pdf_strings).to include (/Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/)
       expect(pdf_strings).to include 'Paniers: 40 x 33.25'
       expect(pdf_strings).to include "1'330.00"
-      expect(pdf_strings).not_to include 'Demi-journées de travail'
+      expect(pdf_strings).not_to include 'Demi-journées'
       expect(pdf_strings).to include 'Cotisation annuelle association'
       expect(pdf_strings).to include '42.00'
       expect(pdf_strings).to include 'Montant annuel'
@@ -102,7 +102,7 @@ describe InvoicePdf do
       expect(pdf_strings).to include(/Abonnement du 01\.01\.20\d\d au 31\.12\.20\d\d \(40 livraisons\)/)
       expect(pdf_strings).to include 'Paniers: 40 x 33.25'
       expect(pdf_strings).to include "1'330.00"
-      expect(pdf_strings).to include 'Réduction pour 6 demi-journées de travail supplémentaires'
+      expect(pdf_strings).to include 'Réduction pour 6 demi-journées supplémentaires'
       expect(pdf_strings).to include '- 330.50'
       expect(pdf_strings).to include 'Cotisation annuelle association'
       expect(pdf_strings).to include '30.00'
@@ -135,7 +135,7 @@ describe InvoicePdf do
       expect(pdf_strings).to include "1'330.00"
       expect(pdf_strings).to include 'Distributions: 40 x 2.00'
       expect(pdf_strings).to include '80.00'
-      expect(pdf_strings).not_to include 'Demi-journées de travail'
+      expect(pdf_strings).not_to include 'Demi-journées'
       expect(pdf_strings).to include 'Cotisation annuelle association'
       expect(pdf_strings).to include '30.00'
       expect(pdf_strings).to include 'Montant trimestriel #1'

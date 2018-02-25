@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def display_basket_complement_names(complements)
-    names = complements.map(&:name)
+    names = Array(complements).compact.map(&:name)
     if names.present?
       names.to_sentence
     else

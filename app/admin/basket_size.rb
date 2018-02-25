@@ -6,7 +6,7 @@ ActiveAdmin.register BasketSize do
     column :name
     column :price, ->(bs) { number_to_currency(bs.price, precision: 3) }
     column :annual_price, ->(bs) { number_to_currency(bs.annual_price) }
-    column :annual_halfday_works
+    column halfday_scoped_attribute(:annual_halfday_works), ->(bs) { bs.annual_halfday_works }
     actions
   end
 
@@ -14,7 +14,8 @@ ActiveAdmin.register BasketSize do
     f.inputs do
       f.input :name
       f.input :price
-      f.input :annual_halfday_works
+      f.input :annual_halfday_works,
+        label: BasketSize.human_attribute_name(halfday_scoped_attribute(:annual_halfday_works))
       f.actions
     end
   end

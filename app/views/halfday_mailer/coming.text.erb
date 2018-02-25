@@ -1,4 +1,4 @@
-Un petit email automagique pour vous rappelez votre inscription à une ½ journée de travail:
+Un petit email automagique pour vous rappelez votre inscription à une <%= halfday_human_name.downcase %>:
 
 Date: <%= l @halfday_participation.halfday.date, format: :long %>
 Horaire: <%= @halfday_participation.halfday.period %>
@@ -21,4 +21,4 @@ Covoiturage, les membres suivants se déplacent en voiture, n'hésitez pas à pr
 <% end %>
 <% end %>
 
-Modifier vos ½ journées à tout moment sur: <%= members_member_url(@member) %>
+Modifier vos inscriptions à tout moment sur: <%= members_member_url(@member) %>

@@ -7,7 +7,7 @@ Les fonctions prisent en charge sont, entre autres:
 - Gestion des abonnements (renouvellement, changement de type de panier, lieu de distribution, …)
 - Gestion des paniers (calcul des quantités en fonction des récoltes)
 - Gestion de la facturation de manière automatique (création et envoi des BVR avec numéro de référence, relevés des versements sur notre compte Raiffeisen, envoi des rappels, …)
-- Gestion des demi-journées de travail, avec page de membre pour les inscriptions
+- Gestion des demi-journées de travail / mises en panier, avec page de membre pour les inscriptions
 - Gestion de mailing-list pour l’envoi de notre email hebdomadaire (la gribouille)
 
 # Développement et support

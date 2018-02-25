@@ -136,7 +136,7 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu do |menu|
-      menu.add label: '½ Journées', priority: 6
+      menu.add label: :halfdays_human_name, priority: 6
       menu.add label: 'Facturation', priority: 7
     end
   end
@@ -179,9 +179,18 @@ end
 
 module ActiveAdmin::ViewHelpers
   include ApplicationHelper
+  include HalfdaysHelper
   include AcpsHelper
 end
 
 class ActiveAdmin::ResourceController
   include AcpsHelper
 end
+
+# Ensure that the overwritten HalfdayNaming.i18n_key is used
+class ActiveAdmin::Resource::Name
+  def i18n_key
+    @klass&.model_name&.i18n_key || super
+  end
+end
+

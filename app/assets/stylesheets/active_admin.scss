@@ -182,6 +182,10 @@ table.table-payments {
   }
 }
 
+table#index_table_memberships {
+  .col-halfday_works { width: 170px; }
+}
+
 table.table-halfday_participations {
   .col-description { width: 300px; }
   .col-part { width: 40px; }
