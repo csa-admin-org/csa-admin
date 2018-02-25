@@ -60,6 +60,7 @@ gem 'icalendar'
 gem 'prawn'
 gem 'prawn-table'
 gem 'rubyXL'
+gem 'mini_magick'
 
 group :production do
   gem 'redis'

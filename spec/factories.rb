@@ -2,6 +2,9 @@ FactoryBot.define do
   factory :acp do
     name 'Rage de Vert'
     host 'ragedevert'
+    url 'https://www.ragedevert.ch'
+    email 'info@ragedevert.ch'
+    phone '077 447 26 16'
     sequence(:tenant_name) { |n| "acp#{n}" }
     email_default_host 'membres.ragedevert.ch'
     email_default_from 'Rage de Vert <info@ragedevert.ch>'

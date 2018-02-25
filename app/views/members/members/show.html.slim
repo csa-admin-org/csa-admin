@@ -1,9 +1,9 @@
 section
   h4= "#{@member.name}"
   ul
-    li= "Panier: #{@member.current_year_membership&.subscribed_basket_description || '–'}"
+    li== "Panier: #{@member.current_year_membership&.subscribed_basket_description || content_tag(:em, 'Aucun')}"
     - if BasketComplement.any?
-      li== "Compléments: #{display_basket_complement_names(@member.current_year_membership&.memberships_basket_complements&.includes(:basket_complement)).html_safe}"
+      li== "Compléments: #{display_basket_complement_names(@member.current_year_membership&.memberships_basket_complements&.includes(:basket_complement))}"
     li
       = "#{halfdays_human_name} effectuées: "
       b= "#{@member.validated_halfday_works}/#{@member.halfday_works}"
