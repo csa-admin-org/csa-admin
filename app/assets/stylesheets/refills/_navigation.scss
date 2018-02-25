@@ -3,7 +3,7 @@ header.navigation {
   $navigation-background: $light-gray;
   $navigation-color: transparentize(white, 0.3);
   $navigation-color-hover: rgb(131, 157, 73);
-  $navigation-height: 75px;
+  $navigation-height: 100px;
   $navigation-search-background: lighten($navigation-background, 5);
   $navigation-search-border: 1px solid darken($navigation-background, 5);
   $navigation-active-link-color: transparentize(white, 0.5);
@@ -52,7 +52,14 @@ header.navigation {
     padding-bottom: 0em;
     width: 150px;
 
+    i {
+      width: 20px;
+      margin-left: 5px;
+    }
+
     a {
+      width: 100%;
+      text-align: right;
       float: right;
       color: $base-font-color;
       display: inline-block;

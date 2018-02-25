@@ -1,11 +1,11 @@
 header.navigation
   .menu-wrapper
-    a href='https://www.ragedevert.ch' class='logo'
-      img src=asset_path('logo.jpg') alt="#{Current.acp.name} Logo"
+    = link_to Current.acp.url, class: 'logo' do
+      = image_tag(Current.acp.logo.variant(resize: "300x300"), size: '100', alt: "#{Current.acp.name} Logo")
     .nav-right
-      a.envelope href='https://www.ragedevert.ch/contact'
-        i.fa.fa-envelope-o
+      = mail_to Current.acp.email do
         span Contact
-      a.mobile href='https://www.ragedevert.ch/contact'
+        i.fa.fa-envelope-o
+      = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}" do
+        span= Current.acp.phone
         i.fa.fa-phone
-        span +41 77 447 26 16
