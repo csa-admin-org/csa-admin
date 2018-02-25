@@ -263,7 +263,7 @@ describe Membership do
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.distributions_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to eq(-200)
-    expect(membership.halfday_works_annual_price_description).to eq 'Demi-journées de travail'
+    expect(membership.halfday_works_annual_price_description).to eq 'Demi-journées'
     expect(membership.price)
       .to eq(membership.basket_sizes_price + membership.distributions_price - 200)
   end

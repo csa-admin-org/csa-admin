@@ -35,7 +35,7 @@ ActiveAdmin.register Member do
           else
             table_for(memberships, class: 'table-memberships') do
               column(:description) { |m| auto_link m, m.short_description }
-              column('½ journées') { |m|
+              column(halfdays_human_name) { |m|
                 auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}"
               }
               column(:baskets) { |m|
@@ -47,9 +47,9 @@ ActiveAdmin.register Member do
 
         halfday_participations = member.halfday_participations.includes(:halfday).order('halfdays.date, halfdays.start_time')
         count = halfday_participations.count
-        panel link_to("½ Journées (#{count})", halfday_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to("#{halfdays_human_name} (#{count})", halfday_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
           if halfday_participations.none?
-            em 'Aucune ½ journée'
+            em "Aucune #{halfdays_human_name.downcase}"
           else
             table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do
               column('Description') { |hp|

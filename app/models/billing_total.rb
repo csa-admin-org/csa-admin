@@ -1,5 +1,5 @@
 class BillingTotal
-  SCOPES = %i[distribution halfday_works support]
+  SCOPES = %i[distribution halfday support]
 
   def self.all
     scopes = [BasketSize.all]
@@ -16,8 +16,11 @@ class BillingTotal
   end
 
   def title
-    if scope.is_a?(BasketSize)
+    case scope
+    when BasketSize
       I18n.t("billing.scope.basket_size", name: scope.name)
+    when :halfday
+      I18n.t("billing.scope.#{scope}/#{Current.acp.halfday_i18n_scope}")
     else
       I18n.t("billing.scope.#{scope}")
     end
@@ -39,7 +42,7 @@ class BillingTotal
         @memberships
           .joins(:baskets)
           .sum('baskets.quantity * baskets.distribution_price')
-      when :halfday_works
+      when :halfday
         @memberships.sum(:halfday_works_annual_price)
       when :support
         Invoice.current_year.not_canceled.sum(:support_amount)

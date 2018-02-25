@@ -10,10 +10,10 @@ ActiveAdmin.register Membership do
     column :member, ->(m) { auto_link m.member }
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
-    column '½ journées',
+    column halfdays_human_name,
       -> (m) { auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}" },
-      sortable: 'halfday_works'
-    column :baskets_count,
+      sortable: 'halfday_works', class: 'col-halfday_works'
+    column :baskets_count
       -> (m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
     actions
   end
@@ -73,10 +73,9 @@ ActiveAdmin.register Membership do
           end
         end
 
-        attributes_table title: "½ journées" do
-          row :annual_halfday_works
-          row :halfday_works
-          row :validated_halfday_works
+        attributes_table title: halfdays_human_name do
+          row("Demandées") { m.halfday_works }
+          row("Validées") { m.validated_halfday_works }
         end
 
         attributes_table title: 'Facturation' do
@@ -99,7 +98,7 @@ ActiveAdmin.register Membership do
             row(:distributions_price) {
               display_price_description(m.distributions_price, m.distributions_price_info)
             }
-            row(:halfday_works_annual_price) { number_to_currency(m.halfday_works_annual_price) }
+            row(halfday_scoped_attribute(:halfday_works_annual_price)) { number_to_currency(m.halfday_works_annual_price) }
             row(:price) { number_to_currency(m.price) }
           end
         end
@@ -122,9 +121,13 @@ ActiveAdmin.register Membership do
     end
 
     unless resource.new_record?
-      f.inputs '½ journées de travail' do
-        f.input :annual_halfday_works, hint: 'Laisser blanc pour le nombre par défaut.'
-        f.input :halfday_works_annual_price, hint: 'Augmentation ou réduction du prix de l\'abonnement contre service (½ journées de travail) rendu ou non.'
+      f.inputs halfdays_human_name do
+        f.input :annual_halfday_works,
+          label: "#{halfdays_human_name} (année complète)",
+          hint: 'Laisser blanc pour le nombre par défaut.'
+        f.input :halfday_works_annual_price,
+          label: "Ajustement du prix de l'abonnement",
+          hint: "Augmentation ou réduction du prix de l\'abonnement contre service (#{halfdays_human_name}) rendu ou non."
       end
     end
 
@@ -134,7 +137,9 @@ ActiveAdmin.register Membership do
       end
       f.input :basket_size, include_blank: false
       f.input :basket_price, hint: 'Laisser blanc pour le prix par défaut.'
-      f.input :baskets_annual_price_change, hint: "Modifie le montant final, peu importe le nombre de paniers."
+      f.input :baskets_annual_price_change,
+        label: "Ajustement du prix de l'abonnement",
+        hint: "Modifie le montant final, peu importe le nombre de paniers."
       f.input :basket_quantity
       f.input :distribution, include_blank: false
       f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'

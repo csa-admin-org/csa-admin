@@ -1,5 +1,4 @@
-Malheureusement votre participation à la ½ journée de travail suivante n'a
-pas pu être validée. Un oubli peut-être!?!
+Malheureusement votre participation à la <%= halfday_human_name.downcase %> suivante n'a pas pu être validée. Un oubli peut-être!?!
 
 Date: <%= l @halfday_participation.halfday.date, format: :long %>
 Horaire: <%= @halfday_participation.halfday.period %>
@@ -14,5 +13,5 @@ Lieu (URL): <%= @halfday_participation.halfday.place_url %>
 Participants: <%= @halfday_participation.participants_count %>
 
 Un empêchement de dernière minute peut toujours arriver, vous pouvez à tout moment
-annuler une ½ journée sur votre page privée, cela évite à nos agriculteurs de vous attendre
+annuler une inscription sur votre page de membre, cela évite de vous faire attendre
 inutilement: <%= members_member_url(@member) %>.

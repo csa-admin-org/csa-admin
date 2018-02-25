@@ -133,7 +133,7 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel "½ Journées de travail (#{Current.fy_year})" do
+        panel "#{halfdays_human_name} (#{Current.fy_year})" do
           table_for HalfdayParticipationCount.all(Current.fy_year) do
             column 'Statut', :title
             column 'Nombres (am+pm * participants)', :count, class: 'align-right'

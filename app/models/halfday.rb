@@ -1,5 +1,6 @@
 class Halfday < ActiveRecord::Base
   include HasFiscalYearScopes
+  include HalfdayNaming
 
   attr_accessor :preset_id
 

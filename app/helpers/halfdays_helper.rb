@@ -1,4 +1,16 @@
 module HalfdaysHelper
+  def halfday_human_name
+    t("halfday.#{Current.acp.halfday_i18n_scope}.one")
+  end
+
+  def halfdays_human_name
+    t("halfday.#{Current.acp.halfday_i18n_scope}.other")
+  end
+
+  def halfday_scoped_attribute(attr)
+    "#{attr}/#{Current.acp.halfday_i18n_scope}".to_sym
+  end
+
   def halfday_label(halfday, date: false, description: true)
     labels = [
       halfday.period,

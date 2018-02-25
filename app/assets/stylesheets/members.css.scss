@@ -17,7 +17,7 @@ body {
 
 section {
   @include outer-container;
-  margin-top: 2em;
+  margin-top: 3em;
 }
 
 h2 {
@@ -25,7 +25,7 @@ h2 {
 }
 
 p.table-empty {
-  margin: 20px;
+  color: #999;
   font-style: italic;
 }
 
@@ -126,9 +126,6 @@ label.full::after {
 }
 
 section.past {
-  th, h2 {
-    color: #777;
-  }
   td {
     color: #aaa;
   }

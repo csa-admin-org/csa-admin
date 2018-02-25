@@ -215,6 +215,14 @@ fr:
         delivery_city: Laisser vide si identique
         delivery_zip: Laisser vide si identique
 
+  halfday:
+    halfday_work:
+      one: ½ Journée
+      other: ½ Journées
+    basket_preparation:
+      one: Mise en panier
+      other: Mises en panier
+
   admin:
     notifications:
       new_inscription: Nouvelle inscription
@@ -223,15 +231,24 @@ fr:
       member:
         one: Membre
         other: Membres
-      halfday_participation:
+      halfday_participation/halfday_work:
         one: ½ Journée - Participation
         other: ½ Journée - Participations
-      halfday_preset:
+      halfday_participation/basket_preparation:
+        one: Mise en panier - Participation
+        other: Mise en panier - Participations
+      halfday_preset/halfday_work:
         one: ½ Journée - Preset
         other: ½ Journée - Presets
-      halfday:
+      halfday_preset/basket_preparation:
+        one: Mise en panier - Preset
+        other: Mise en panier - Presets
+      halfday/halfday_work:
         one: ½ Journée - Date
-        other: ½ Journées - Dates
+        other: ½ Journée - Dates
+      halfday/basket_preparation:
+        one: Mise en panier - Date
+        other: Mise en panier - Dates
       membership:
         one: Abonnement
         other: Abonnements
@@ -341,8 +358,7 @@ fr:
       delivery:
         date: Date
         basket_complements: Compléments paniers
-      halfday_participation:
-        halfday: ½ Journée
+      halfday_participation_default: &halfday_participation_default
         member_id: Membre
         member: Membre
         period: Horaire
@@ -356,11 +372,21 @@ fr:
         emails: Email(s)
         created_at: Enregistrée à
         updated_at: Mise à jour à
-      halfday_preset:
+      halfday_participation/halfday_work:
+        <<: *halfday_participation_default
+        halfday: ½ Journée
+      halfday_participation/basket_preparation:
+        <<: *halfday_participation_default
+        halfday: Mise en panier
+      halfday_preset_default: &halfday_preset_default
         place: Lieu
         place_url: Lieu URL
         activity: Activité
-      halfday:
+      halfday_preset/halfday_work:
+        <<: *halfday_preset_default
+      halfday_preset/basket_preparation:
+        <<: *halfday_preset_default
+      halfday_default: &halfday_default
         date: Date
         start_time: Heure de début
         end_time: Heure de fin
@@ -370,6 +396,10 @@ fr:
         activity: Activité
         description: Description
         participants_limit: Limite de participants
+      halfday/halfday_work:
+        <<: *halfday_default
+      halfday/basket_preparation:
+        <<: *halfday_default
       distribution:
         name: Nom
         address_name: Nom
@@ -383,7 +413,8 @@ fr:
         name: Nom
         price: Prix
         annual_price: Prix annuel
-        annual_halfday_works: ½ journées de travail par année
+        annual_halfday_works/halfday_work: ½ journées de travail par année
+        annual_halfday_works/basket_preparation: Mises en panier par année
       basket_complement:
         name: Nom
         price: Prix
@@ -436,10 +467,8 @@ fr:
         baskets_count: Paniers
         started_on: Début
         ended_on: Fin
-        annual_halfday_works: ½ journées (100%)
-        halfday_works: ½ journées (prorata)
-        validated_halfday_works: ½ journées validées
-        halfday_works_annual_price: Ajustement du prix de l'abonnement (½ journées)
+        halfday_works_annual_price/halfday_work: Ajustement du prix de l'abonnement (½ journées)
+        halfday_works_annual_price/basket_preparation: Ajustement du prix de l'abonnement (mises en panier)
         baskets_annual_price_change: Ajustement du prix de l'abonnement (paniers)
         baskets: Paniers
         basket_sizes_price: Prix paniers
@@ -458,6 +487,24 @@ fr:
         basket_quantity: Quantité
         distribution_price: Prix distribution
         seasons: Saisons
+
+        halfday_works_annual_price_reduction/halfday_work:
+          one: "Réduction pour une demi-journée supplémentaire"
+          other: "Réduction pour %{count} demi-journées supplémentaires"
+        halfday_works_annual_price_reduction/basket_preparation:
+          one: "Réduction pour une mise en panier supplémentaire"
+          other: "Réduction pour %{count} mises en panier supplémentaires"
+        halfday_works_annual_price_negative/halfday_work:
+          one: "Une demi-journée non effectuée"
+          other: "%{count} demi-journées non effectuées"
+        halfday_works_annual_price_negative/basket_preparation:
+          one: "Une mise en panier non effectuée"
+          other: "%{count} mises en panier non effectuées"
+        halfday_works_annual_price_positive/halfday_work: "Demi-journées de travail non effectuées"
+        halfday_works_annual_price_positive/basket_preparation: "Mises en panier non effectuées"
+        halfday_works_annual_price_default/halfday_work: "Demi-journées"
+        halfday_works_annual_price_default/basket_preparation: "Mises en panier"
+
       absence:
         member_id: Membre
         member: Membre
@@ -511,7 +558,8 @@ fr:
       basket_size: Panier %{name}
       basket_complement: Complément
       distribution: Distribution
-      halfday_works: Ajustement ½ journées de travail
+      halfday/halfday_work: Ajustement ½ journées
+      halfday/basket_preparation: Ajustement mises en panier
       support: Cotisation
     year_division:
       _1: annuel
@@ -752,5 +800,5 @@ fr:
         members: Membres
         deliveries: Distributions
         baskets: Paniers
-        halfday_works: ½ Journées
+        halfday_works: Participation des membres
         map: Carte

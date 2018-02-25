@@ -29,11 +29,11 @@ html
 
     - dates = Halfday.coming_dates_for_gribouille(@member)
     - if dates.any?
-      h1 ½ journées de travail
+      h1= halfdays_human_name
       p
-        = 'Voici les ½ journées de travail à venir pour lesquelles nous avons encore besoin de monde.'
+        = "Voici les #{halfdays_human_name.downcase} à venir pour lesquelles nous avons encore besoin de monde."
         br
-        = 'En gras, les ½ journées auxquelles vous êtes déjà inscrit.'
+        = "En gras, les #{halfdays_human_name.downcase} auxquelles vous êtes déjà inscrit."
       ul
         - dates.each do |date|
           li

@@ -1,5 +1,5 @@
 ActiveAdmin.register HalfdayParticipation do
-  menu parent: '½ Journées', priority: 1, label: 'Participations'
+  menu parent: :halfdays_human_name, priority: 1, label: 'Participations'
 
   scope :all
   scope :pending, default: true

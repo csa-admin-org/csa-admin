@@ -5,6 +5,7 @@ class ACP < ActiveRecord::Base
   ]
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
+  HALFDAY_I18N_SCOPES = %w[halfday_work basket_preparation]
 
   attr_accessor :summer_month_range_min, :summer_month_range_max
 
@@ -31,6 +32,7 @@ class ACP < ActiveRecord::Base
     inclusion: { in: 1..12 },
     numericality: { greater_than_or_equal_to: ->(acp) { acp.summer_month_range_min } },
     if: -> { @summer_month_range_min.present? }
+  validates :halfday_i18n_scope, inclusion: { in: HALFDAY_I18N_SCOPES }
 
   before_save :set_summer_month_range
   after_create :create_tenant
@@ -48,6 +50,7 @@ class ACP < ActiveRecord::Base
   def self.seasons; SEASONS end
   def self.features; FEATURES end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
+  def self.halfday_i18n_scopes; HALFDAY_I18N_SCOPES end
 
   def feature?(feature)
     self.features.include?(feature.to_s)

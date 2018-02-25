@@ -9,6 +9,7 @@ ActiveAdmin.register ACP do
     :invoice_info, :invoice_footer,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :support_price,
+    :halfday_i18n_scope,
     billing_year_divisions: [],
     features: []
 
@@ -56,6 +57,13 @@ ActiveAdmin.register ACP do
       f.input :isr_in_favor_of
       f.input :invoice_info
       f.input :invoice_footer
+    end
+    f.inputs 'Participation des membres' do
+      f.input :halfday_i18n_scope,
+        label: 'Appellation',
+        as: :select,
+        collection: ACP.halfday_i18n_scopes.map { |s| [t("halfday.#{s}", count: 2), s] },
+        include_blank: false
     end
 
     f.actions do

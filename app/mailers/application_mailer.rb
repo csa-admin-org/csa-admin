@@ -1,4 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
+  helper :application
+  helper :halfdays
+
   default \
     from: -> { Current.acp.email_default_from }
   layout 'mailer'

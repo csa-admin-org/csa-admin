@@ -217,15 +217,16 @@ class Membership < ActiveRecord::Base
   end
 
   def halfday_works_annual_price_description
-    diff = annual_halfday_works - HalfdayParticipation::MEMBER_PER_YEAR
+    i18n_scope = Current.acp.halfday_i18n_scope
+    diff = annual_halfday_works - basket_size.annual_halfday_works
     if diff.positive?
-      "Réduction pour #{diff} demi-journées de travail supplémentaires"
+      self.class.human_attribute_name("halfday_works_annual_price_reduction/#{i18n_scope}", count: diff)
     elsif diff.negative?
-      "#{diff.abs} demi-journées de travail non effectuées"
+      self.class.human_attribute_name("halfday_works_annual_price_negative/#{i18n_scope}", count: diff)
     elsif halfday_works_annual_price.positive?
-      'Demi-journées de travail non effectuées'
+      self.class.human_attribute_name("halfday_works_annual_price_positive/#{i18n_scope}")
     else
-      'Demi-journées de travail'
+      self.class.human_attribute_name("halfday_works_annual_price_default/#{i18n_scope}")
     end
   end
 

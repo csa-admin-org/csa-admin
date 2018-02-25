@@ -1,8 +1,8 @@
 ActiveAdmin.register HalfdayPreset do
-  menu parent: '½ Journées', priority: 3, label: 'Presets'
+  menu parent: :halfdays_human_name, priority: 3, label: 'Presets'
   actions :all, except: [:show]
 
-  index do
+  index download_links: false do
     column :place
     column :place_url
     column :activity

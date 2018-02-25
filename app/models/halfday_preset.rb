@@ -1,4 +1,6 @@
 class HalfdayPreset < ActiveRecord::Base
+  include HalfdayNaming
+
   default_scope { order(:place) }
 
   validates :place, presence: true, uniqueness: { scope: :activity }
