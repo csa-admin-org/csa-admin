@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_24_200711) do
+ActiveRecord::Schema.define(version: 2018_02_25_192922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(version: 2018_02_24_200711) do
     t.text "invoice_footer"
     t.integer "billing_year_divisions", default: [], null: false, array: true
     t.string "halfday_i18n_scope", default: "halfday_work", null: false
+    t.string "email"
+    t.string "phone"
+    t.string "url"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

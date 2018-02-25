@@ -13,6 +13,9 @@ class ACP < ActiveRecord::Base
 
   validates :name, presence: true
   validates :host, presence: true
+  validates :url, presence: true
+  validates :email, presence: true
+  validates :phone, presence: true
   validates :ccp, presence: true
   validates :isr_identity, presence: true
   validates :isr_payment_for, presence: true

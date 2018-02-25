@@ -10,6 +10,7 @@ ActiveAdmin.register ACP do
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :support_price,
     :halfday_i18n_scope,
+    :url, :email, :phone,
     billing_year_divisions: [],
     features: []
 
@@ -64,6 +65,11 @@ ActiveAdmin.register ACP do
         as: :select,
         collection: ACP.halfday_i18n_scopes.map { |s| [t("halfday.#{s}", count: 2), s] },
         include_blank: false
+    end
+    f.inputs 'Page de membre' do
+      f.input :url
+      f.input :email
+      f.input :phone
     end
 
     f.actions do
