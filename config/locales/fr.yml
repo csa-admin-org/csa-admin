@@ -310,6 +310,9 @@ fr:
         invoice_info: Facture ligne info
         invoice_footer: Facture bas de page
         billing_year_divisions: Intervalle de paiement
+        url: Site URL
+        email: Email
+        phone: Téléphone
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
