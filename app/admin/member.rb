@@ -221,8 +221,8 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :address, :city, :zip, :emails, :phones, :gribouille,
     :delivery_address, :delivery_city, :delivery_zip,
-    :support_member, :salary_basket, :billing_year_division, :waiting,
-    :waiting_basket_size_id, :waiting_distribution_id,
+    :support_member, :support_price, :salary_basket, :billing_year_division,
+    :waiting, :waiting_basket_size_id, :waiting_distribution_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
 
