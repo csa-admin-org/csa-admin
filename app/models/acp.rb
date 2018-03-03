@@ -40,14 +40,21 @@ class ACP < ActiveRecord::Base
   before_save :set_summer_month_range
   after_create :create_tenant
 
-  def self.switch_each!
-    ACP.pluck(:tenant_name).each do |tenant|
-      Apartment::Tenant.switch!(tenant)
-      Current.acp = nil
+  def self.enter_each!
+    ACP.pluck(:tenant_name).each do |tenant_name|
+      enter!(tenant_name)
       yield
     end
   ensure
     Apartment::Tenant.reset
+    Current.reset
+  end
+
+  def self.enter!(tenant_name)
+    acp = ACP.find_by!(tenant_name: tenant_name)
+    Apartment::Tenant.switch!(acp.tenant_name)
+    Current.reset
+    Current.acp = acp
   end
 
   def self.seasons; SEASONS end

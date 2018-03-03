@@ -1,7 +1,7 @@
 namespace :gribouilles do
   desc 'Send all gribouilles to our members'
   task deliver: :environment do
-    Apartment::Tenant.switch!('ragedevert')
+    ACP.enter!('ragedevert')
 
     next_delivery = Delivery.next
     if next_delivery && Date.current == (next_delivery.date - 1.day)

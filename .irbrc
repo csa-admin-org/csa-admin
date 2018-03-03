@@ -11,8 +11,7 @@ def enter
 
   Apartment::Tenant.reset if Apartment::Tenant.current != 'public'
   if acp
-    Apartment::Tenant.switch!(acp.tenant_name)
-    Current.acp = acp
+    ACP.enter!(acp.tenant_name)
     puts "Entered #{acp.name} context."
   else
     puts 'No ACP selected.'
