@@ -167,10 +167,7 @@ describe Membership do
       basket_size_id: create(:basket_size, price: 23.125).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.basket_sizes_price_info).to eq '40 x 23.125'
-    expect(membership.basket_sizes_description).to eq 'Paniers: 40 x 23.125'
     expect(membership.distributions_price).to be_zero
-    expect(membership.distributions_price_info).to be_blank
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price).to eq membership.basket_sizes_price
@@ -182,7 +179,6 @@ describe Membership do
       distribution_id: create(:distribution, price: 2).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distribution_description).to eq 'Distributions: 40 x 2.00'
     expect(membership.distributions_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
@@ -195,7 +191,6 @@ describe Membership do
       basket_size_id: create(:basket_size, price: 23.125).id,
       distribution_id: create(:distribution, price: 2).id)
 
-    expect(membership.distribution_description).to eq 'Distributions: 40 x 2.00'
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.distributions_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to be_zero
@@ -210,8 +205,6 @@ describe Membership do
       basket_price: 42,
       basket_quantity: 3)
 
-    expect(membership.basket_sizes_description).to eq 'Paniers: 120 x 42.00'
-    expect(membership.distribution_description).to eq 'Distributions: 120 x 3.20'
     expect(membership.basket_sizes_price).to eq 40 * 3 * 42
     expect(membership.distributions_price).to eq 40 * 3 * 3.2
     expect(membership.halfday_works_annual_price).to be_zero
@@ -235,7 +228,6 @@ describe Membership do
     expect(membership.basket_sizes_price).to eq 40 * 31
     expect(membership.distributions_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
-    expect(membership.basket_complements_price_info).to eq '3 x 2.20 + 2 x 3.30 + 3 x 4.00'
     expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.basket_complements_price
@@ -263,7 +255,6 @@ describe Membership do
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.distributions_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to eq(-200)
-    expect(membership.halfday_works_annual_price_description).to eq 'Demi-journées'
     expect(membership.price)
       .to eq(membership.basket_sizes_price + membership.distributions_price - 200)
   end
@@ -278,7 +269,6 @@ describe Membership do
       seasons: ['summer'])
 
     expect(membership.baskets_count).to eq 40
-    expect(membership.basket_sizes_description).to eq 'Paniers: 44 x 30.00'
     expect(membership.basket_sizes_price).to eq 22 * 2 * 30
   end
 

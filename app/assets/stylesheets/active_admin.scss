@@ -184,6 +184,9 @@ table.table-payments {
 
 table#index_table_memberships {
   .col-halfday_works { width: 170px; }
+  .col-actions {
+    min-width: 110px;
+  }
 }
 
 table.table-halfday_participations {

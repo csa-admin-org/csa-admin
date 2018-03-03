@@ -34,7 +34,7 @@ ActiveAdmin.register Member do
             em 'Aucun abonnement'
           else
             table_for(memberships, class: 'table-memberships') do
-              column(:description) { |m| auto_link m, m.short_description }
+              column(:period) { |m| auto_link m, membership_short_period(m) }
               column(halfdays_human_name) { |m|
                 auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}"
               }
@@ -110,7 +110,7 @@ ActiveAdmin.register Member do
             row :waiting_basket_size
             if BasketComplement.any?
               row(:waiting_basket_complement_ids) {
-                display_basket_complement_names(member.waiting_basket_complements)
+                member.waiting_basket_complements.map(&:name).to_sentence
               }
             end
             row :waiting_distribution

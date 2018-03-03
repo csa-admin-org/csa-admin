@@ -9,7 +9,9 @@ class Membership < ActiveRecord::Base
   belongs_to :basket_size
   belongs_to :distribution
   has_many :baskets, dependent: :destroy
-  has_many :basket_complements, source: :complements, through: :baskets
+  has_many :basket_sizes, -> { reorder(:name) }, through: :baskets
+  has_many :distributions, -> { reorder(:name) }, through: :baskets
+  has_many :basket_complements, -> { reorder(:name) }, source: :complements, through: :baskets
   has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
   has_many :memberships_basket_complements, dependent: :destroy
   has_many :subscribed_basket_complements,
@@ -146,88 +148,6 @@ class Membership < ActiveRecord::Base
       basket_complements_price +
       distributions_price +
       halfday_works_annual_price
-  end
-
-  def short_description
-    dates = [started_on, ended_on].map { |d| I18n.l(d, format: :number) }
-    "Abonnement du #{dates.first} au #{dates.last}"
-  end
-
-  def subscribed_basket_description
-    desc =
-      case basket_quantity
-      when 1 then basket_size.name
-      else "#{basket_quantity} x #{basket_size.name}"
-      end
-    desc += " (#{season_name})" unless all_seasons?
-    desc
-  end
-
-  def description
-    "#{short_description} (#{baskets_count} #{Delivery.model_name.human(count: baskets_count).downcase})"
-  end
-
-  def basket_sizes_description
-    "Paniers: #{basket_sizes_price_info}"
-  end
-
-  def baskets_annual_price_change_description
-    'Ajustement du prix des paniers'
-  end
-
-  def basket_complements_description
-    "Compléments: #{basket_complements_price_info}"
-  end
-
-  def basket_sizes_price_info
-    baskets
-      .pluck(:quantity, :basket_price)
-      .select { |_, p| p.positive? }
-      .group_by { |_, p| p }
-      .sort
-      .map { |price, baskets|
-        "#{baskets.sum { |q,_| q }} x #{cur(price)}"
-      }.join(' + ')
-  end
-
-  def basket_complements_price_info
-    baskets
-      .joins(:baskets_basket_complements)
-      .pluck('baskets_basket_complements.quantity', 'baskets_basket_complements.price')
-      .group_by { |_, price| price }
-      .sort
-      .map { |price, bbcs|
-        "#{bbcs.sum { |q,_| q }} x #{cur(price)}"
-      }.join(' + ')
-  end
-
-  def distributions_price_info
-    baskets
-      .pluck(:quantity, :distribution_price)
-      .select { |_, p| p.positive? }
-      .group_by { |_, p| p }
-      .sort
-      .map { |price, baskets|
-        "#{baskets.sum { |q,_| q }} x #{cur(price)}"
-      }.join(' + ')
-  end
-
-  def distribution_description
-    "Distributions: #{distributions_price_info}"
-  end
-
-  def halfday_works_annual_price_description
-    i18n_scope = Current.acp.halfday_i18n_scope
-    diff = annual_halfday_works - basket_size.annual_halfday_works
-    if diff.positive?
-      self.class.human_attribute_name("halfday_works_annual_price_reduction/#{i18n_scope}", count: diff)
-    elsif diff.negative?
-      self.class.human_attribute_name("halfday_works_annual_price_negative/#{i18n_scope}", count: diff)
-    elsif halfday_works_annual_price.positive?
-      self.class.human_attribute_name("halfday_works_annual_price_positive/#{i18n_scope}")
-    else
-      self.class.human_attribute_name("halfday_works_annual_price_default/#{i18n_scope}")
-    end
   end
 
   def first_delivery
@@ -400,11 +320,5 @@ class Membership < ActiveRecord::Base
   def rounded_price(price)
     return 0 if member.salary_basket?
     price.round_to_five_cents
-  end
-
-  def cur(number)
-    precision = number.to_s.split('.').last.size > 2 ? 3 : 2
-    ActiveSupport::NumberHelper
-      .number_to_currency(number, unit: '', precision: precision).strip
   end
 end

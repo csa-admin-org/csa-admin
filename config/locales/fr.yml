@@ -490,6 +490,7 @@ fr:
         basket_quantity: Quantité
         distribution_price: Prix distribution
         seasons: Saisons
+        period: Période
 
         halfday_works_annual_price_reduction/halfday_work:
           one: "Réduction pour une demi-journée supplémentaire"

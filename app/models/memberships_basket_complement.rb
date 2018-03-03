@@ -12,16 +12,6 @@ class MembershipsBasketComplement < ActiveRecord::Base
     self.price ||= basket_complement&.price
   end
 
-  def name
-    desc =
-      case quantity
-      when 1 then basket_complement.name
-      else "#{quantity} x #{basket_complement.name}"
-      end
-    desc += " (#{season_name})" unless all_seasons?
-    desc
-  end
-
   def total_price
     quantity * price
   end
