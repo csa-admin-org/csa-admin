@@ -41,7 +41,7 @@ describe 'Admin login page' do
       name: 'Lumière des Champs',
       host: 'lumiere-des-champs',
       tenant_name: 'lumieredeschamps')
-    Apartment::Tenant.switch!('lumieredeschamps')
+    ACP.enter!('lumieredeschamps')
     Capybara.app_host = 'http://admin.lumiere-des-champs.test'
 
     create(:admin,
