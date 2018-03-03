@@ -79,10 +79,12 @@ class Invoice < ActiveRecord::Base
   def close_or_open!
     invalid_transition(:update_state!) if canceled?
 
-    if balance >= amount
+    if missing_amount.zero?
       update!(state: CLOSED_STATE)
     elsif sent_at?
       update!(state: OPEN_STATE)
+    else
+      update!(state: NOT_SENT_STATE)
     end
   end
 

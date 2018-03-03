@@ -19,19 +19,34 @@ class Payment < ActiveRecord::Base
   after_create :update_invoices_balance
 
   def self.update_invoices_balance!(member)
+    payments = member.payments
     invoices = member.invoices.not_canceled.order(:date)
     last_invoice = invoices.last
-    amount = member.payments.sum(&:amount)
+    remaining_amount = 0
 
     transaction do
       member.invoices.update_all(balance: 0)
-      invoices.each do |invoice|
-        if amount.positive?
-          balance = invoice == last_invoice ? amount : [amount, invoice.amount].min
-          invoice.update_column(:balance, balance)
-          amount -= balance
+
+      # Use payment amount to targeted invoice first.
+      payments.each do |payment|
+        if payment.invoice && !payment.invoice.canceled?
+          payment.invoice.reload
+          balance = [payment.amount, payment.invoice.missing_amount].min
+          payment.invoice.increment!(:balance, balance)
+          remaining_amount += payment.amount - balance
+        else
+          remaining_amount += payment.amount
         end
-        invoice.close_or_open!
+      end
+
+      # Split remaining amount on other invoices chronogically
+      invoices.each do |invoice|
+        if remaining_amount.positive?
+          balance = invoice == last_invoice ? remaining_amount : [remaining_amount, invoice.missing_amount].min
+          invoice.increment!(:balance, balance)
+          remaining_amount -= balance
+        end
+        invoice.reload.close_or_open!
       end
     end
   end
