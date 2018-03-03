@@ -2,6 +2,7 @@ require 'prawn/measurement_extensions'
 
 class InvoicePdf < Prawn::Document
   include ActionView::Helpers::NumberHelper
+  include MembershipsHelper
 
   attr_reader :invoice, :membership, :isr_ref
 
@@ -61,7 +62,7 @@ class InvoicePdf < Prawn::Document
   end
 
   def member
-    bounding_box [12.cm, bounds.height - 6.cm], width: 8.cm, height: 3.5.cm do
+    bounding_box [12.cm, bounds.height - 6.cm], width: 8.cm, height: 3.cm do
       # stroke_bounds
       text member_address, valign: :top, leading: 2
     end
@@ -84,25 +85,41 @@ class InvoicePdf < Prawn::Document
     data = [['description', 'montant (CHF)']]
 
     if membership
-      data << [membership.description, nil]
-      data << [membership.basket_sizes_description, cur(membership.basket_sizes_price)]
+      data << [membership_period, nil]
+      if membership.basket_sizes_price.positive?
+        membership.basket_sizes.uniq.each do |basket_size|
+          data << [
+            membership_basket_size_description(basket_size),
+            cur(membership.basket_size_total_price(basket_size))
+          ]
+        end
+      end
       unless membership.baskets_annual_price_change.zero?
-        data << [membership.baskets_annual_price_change_description, cur(membership.baskets_annual_price_change)]
+        data << ['Ajustement du prix des paniers', cur(membership.baskets_annual_price_change)]
       end
       if membership.basket_complements_price.positive?
-        data << [membership.basket_complements_description, cur(membership.basket_complements_price)]
+        membership.basket_complements.uniq.each do |basket_complement|
+          data << [
+            membership_basket_complement_description(basket_complement),
+            cur(membership.basket_complement_total_price(basket_complement))
+          ]
+        end
       end
       if membership.distributions_price.positive?
-        data << [membership.distribution_description, cur(membership.distributions_price)]
+        membership.distributions.uniq.each do |distribution|
+          data << [
+            membership_distribution_description(distribution),
+            cur(membership.distribution_total_price(distribution))
+          ]
+        end
       end
       unless membership.halfday_works_annual_price.zero?
-        data << [membership.halfday_works_annual_price_description, cur(membership.halfday_works_annual_price)
-        ]
+        data << [halfday_works_annual_price_description, cur(membership.halfday_works_annual_price)]
       end
     end
 
     if invoice.paid_memberships_amount.to_f > 0
-      data << ['Déjà facturé', cur(-invoice.paid_memberships_amount)]
+      data << ["Déjà facturé", cur(-invoice.paid_memberships_amount)]
       data << ['Montant annuel restant', cur(invoice.remaining_memberships_amount)]
     elsif invoice.remaining_memberships_amount?
       data << ['Montant annuel', cur(invoice.remaining_memberships_amount)]
@@ -123,7 +140,7 @@ class InvoicePdf < Prawn::Document
       data << ['Total', number_to_currency(invoice.amount, unit: '')]
     end
 
-    table data, column_widths: [bounds.width - 130, 70], position: :center do |t|
+    table data, column_widths: [bounds.width - 120, 70], position: :center do |t|
       t.cells.borders = []
       t.cells.valign = :bottom
       t.cells.align = :right
@@ -205,8 +222,8 @@ class InvoicePdf < Prawn::Document
           at: [x, y - 120],
           width: 100,
           height: 50,
-          size: 10,
-          character_spacing: 1
+          size: 11,
+          character_spacing: 0.6
       end
       [64, 238].each do |x|
         text_box invoice.amount.to_i.to_s,
@@ -224,17 +241,55 @@ class InvoicePdf < Prawn::Document
           character_spacing: 0.8
       end
       text_box isr_ref.ref,
-        at: [360, y - 97],
-        width: 380,
+        at: [354, y - 97],
+        width: 370,
         height: 50,
-        size: 10,
-        character_spacing: 0.8
+        size: 11,
+        character_spacing: 0.6
       text_box isr_ref.full_ref,
-        at: [200, y - 241],
-        width: 500,
+        at: [185, y - 241],
+        width: 390,
         height: 50,
-        size: 10,
-        character_spacing: 1
+        size: 11,
+        align: :right,
+        character_spacing: 0.6
+    end
+  end
+
+  def membership_period
+    "Période du #{membership_short_period(membership)}"
+  end
+
+  def membership_basket_size_description(basket_size)
+    baskets = membership.baskets.where(basket_size: basket_size)
+    "Panier: #{basket_size.name} #{basket_sizes_price_info(baskets)}"
+  end
+
+  def membership_basket_complement_description(basket_complement)
+    baskets =
+      membership
+        .baskets
+        .joins(:baskets_basket_complements)
+        .where(baskets_basket_complements: { basket_complement: basket_complement })
+    "#{basket_complement.name} #{basket_complements_price_info(baskets)}"
+  end
+
+  def membership_distribution_description(distribution)
+    baskets = membership.baskets.where(distribution: distribution)
+    "Distribution: #{distribution.name} #{distributions_price_info(baskets)}"
+  end
+
+  def halfday_works_annual_price_description
+    i18n_scope = Current.acp.halfday_i18n_scope
+    diff = membership.annual_halfday_works - membership.basket_size.annual_halfday_works
+    if diff.positive?
+      Membership.human_attribute_name("halfday_works_annual_price_reduction/#{i18n_scope}", count: diff)
+    elsif diff.negative?
+      Membership.human_attribute_name("halfday_works_annual_price_negative/#{i18n_scope}", count: diff)
+    elsif membership.halfday_works_annual_price.positive?
+      Membership.human_attribute_name("halfday_works_annual_price_positive/#{i18n_scope}")
+    else
+      Membership.human_attribute_name("halfday_works_annual_price_default/#{i18n_scope}")
     end
   end
 end

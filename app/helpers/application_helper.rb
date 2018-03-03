@@ -23,15 +23,6 @@ module ApplicationHelper
     }.join(', ').html_safe
   end
 
-  def display_basket_complement_names(complements)
-    names = Array(complements).compact.map(&:name)
-    if names.present?
-      names.to_sentence
-    else
-      content_tag :em, 'Aucun'
-    end
-  end
-
   def display_price_description(price, description)
     "#{number_to_currency(price)} #{"(#{description})" if price.positive?}"
   end

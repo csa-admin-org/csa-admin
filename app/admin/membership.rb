@@ -63,11 +63,11 @@ ActiveAdmin.register Membership do
         end
 
         attributes_table title: 'Description' do
-          row(:basket_size) { m.subscribed_basket_description }
+          row(:basket_size) { basket_size_description(m) }
           row :distribution
           if BasketComplement.any?
             row(:memberships_basket_complements) {
-              display_basket_complement_names(
+              basket_complements_description(
                 m.memberships_basket_complements.includes(:basket_complement))
             }
           end
@@ -85,18 +85,18 @@ ActiveAdmin.register Membership do
             em 'Pas de paniers'
           else
             row(:basket_sizes_price) {
-              display_price_description(m.basket_sizes_price, m.basket_sizes_price_info)
+              display_price_description(m.basket_sizes_price, basket_sizes_price_info(m.baskets))
             }
             row(:baskets_annual_price_change) {
               number_to_currency(m.baskets_annual_price_change)
             }
             if m.basket_complements.any?
               row(:basket_complements_price) {
-                display_price_description(m.basket_complements_price, m.basket_complements_price_info)
+                display_price_description(m.basket_complements_price, basket_complements_price_info(m.baskets))
               }
             end
             row(:distributions_price) {
-              display_price_description(m.distributions_price, m.distributions_price_info)
+              display_price_description(m.distributions_price, distributions_price_info(m.baskets))
             }
             row(halfday_scoped_attribute(:halfday_works_annual_price)) { number_to_currency(m.halfday_works_annual_price) }
             row(:price) { number_to_currency(m.price) }
