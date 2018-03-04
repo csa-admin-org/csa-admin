@@ -7,7 +7,7 @@ class Members::MemberTokensController < Members::ApplicationController
 
   # POST /token/recover
   def recover
-    @member = Member.where('emails ILIKE ?', "%#{params[:email]}%").first
+    @member = Member.where('emails ILIKE ?', "%#{params[:email]}%").first if params[:email].present?
     MemberMailer.recover_token(params[:email], @member).deliver_later if @member
     redirect_to edit_members_member_token_path,
       notice: "Merci! Un email vient de vous être envoyé."

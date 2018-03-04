@@ -1,0 +1,149 @@
+.calendar {
+  display: block;
+  padding: 0;
+  background: #fff;
+  // -webkit-border-radius: 4px;
+  // border-radius: 4px;
+  // overflow: hidden;
+
+  // Handle iPhone S3
+  width: calc(100% + 2 * $base-spacing);
+  margin: 0 -$base-spacing;
+  @media screen and (min-width: 350px) {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.ui-datepicker-header {
+  height: 50px;
+  line-height: 50px;
+  font-size: $base-font-size;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+  width: 30px;
+  height: 30px;
+  text-indent: 9999px;
+  border: 2px solid $green;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.ui-datepicker-prev {
+  float: left;
+  margin-left: 12px;
+}
+
+.ui-datepicker-prev:after {
+  transform: rotate(45deg) scale(2);
+  margin: 12px 0px 0px 13px;
+}
+
+.ui-datepicker-next {
+  float: right;
+  margin-right: 12px;
+}
+
+.ui-datepicker-next:after {
+  transform: rotate(-135deg) scale(2);
+  margin: -38px 0px 0px 10px;
+}
+
+.ui-datepicker-prev:after,
+.ui-datepicker-next:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-left: 2px solid $green;
+  border-bottom: 2px solid $green;
+}
+
+.ui-datepicker-prev:hover,
+.ui-datepicker-next:hover,
+.ui-datepicker-prev:hover:after,
+.ui-datepicker-next:hover:after {
+  border-color: $dark-green;
+}
+
+.ui-state-disabled,
+.ui-state-disabled:after,
+.ui-state-disabled:hover,
+.ui-state-disabled:hover:after {
+  cursor: default;
+  border-color: $medium-gray;
+}
+
+
+.ui-datepicker-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.ui-datepicker-calendar {
+  width: 100%;
+  text-align: center;
+}
+
+.ui-datepicker-calendar thead tr th {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 5px;
+  font-size: $base-font-size;
+}
+
+.ui-datepicker-calendar tr td {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  font-size: $base-font-size;
+  text-decoration: none;
+}
+
+.ui-datepicker-calendar tr td a {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  display: inline-block;
+  line-height: 40px;
+  border: 3px solid transparent;
+}
+
+.ui-state-default, .ui-datepicker-unselectable {
+  color: #000;
+}
+
+.ui-state-default {
+  margin: 0 auto;
+  &:hover {
+    color: #000;
+    border: 3px solid #555;
+  }
+}
+
+td.available .ui-state-default {
+  color: white;
+  font-weight: 600;
+  background-color: $green;
+}
+
+.ui-state-highlight {
+  font-weight: bold;
+}
+
+.ui-datepicker-calendar a.ui-state-active {
+  background: $dark-green;
+  margin: 0 auto;
+  border: 3px solid black;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+  background: none;
+  color: #aaa;
+  border: 3px solid transparent;
+}

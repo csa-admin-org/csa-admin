@@ -199,6 +199,9 @@ table.table-halfday_participations {
 }
 
 table.table-memberships {
+  .col-period {
+    width: 200px;
+  }
   .col-baskets, .col-journees {
     width: 90px;
     text-align: right;

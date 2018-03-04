@@ -6,15 +6,13 @@ html
     = csrf_meta_tags
 
   body
-    header.navigation role="banner"
-      .navigation-wrapper
-      a.logo href='https://www.ragedevert.ch'
-        img src=asset_path('logo.jpg') alt="#{Current.acp.name} Logo"
-      nav role="navigation"
-        ul.navigation-menu.show
+    header
+      = link_to Current.acp.url, class: 'logo' do
+        = image_tag(Current.acp.logo.variant(resize: "180x180"), size: '60', alt: "#{Current.acp.name} Logo")
+      nav
+        ul
           - Stats::TYPES.each do |stats_type|
             li.nav-link class=('active-nav-item' if stats_type.to_s == params[:id])
               = link_to t(".navigation.#{stats_type}"), stat_path(stats_type)
-          /li.nav-link= link_to t('.navigation.map'), ''
-    section.main
+    main
       = yield

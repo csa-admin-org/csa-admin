@@ -10,6 +10,9 @@ class Stats::HalfdayWorksStat < Stats::BaseStat
       stats['Non-Effectuées (facturées)'] += member.remaining_halfday_works(year)
       stats['Effectuées (extra)'] += member.extra_halfday_works(year)
     }
-    stats.sort_by { |_k, v| -1 * v }.to_h
+    stats
+      .sort_by { |_k, v| -1 * v }
+      .select { |_k, v| v.positive? }
+      .to_h
   end
 end

@@ -42,10 +42,7 @@ gem 'uglifier'
 gem 'jbuilder'
 gem 'sass-rails'
 gem 'font-awesome-rails'
-gem 'bourbon', '~> 4.2.7'
-gem 'bitters', '~> 1.2.0'
-gem 'neat', '~> 1.8'
-gem 'refills'
+gem 'autoprefixer-rails'
 
 gem 'sucker_punch'
 

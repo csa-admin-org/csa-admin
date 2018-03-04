@@ -23,10 +23,13 @@ var chartSeries = function() {
       i++;
     });
 
+    var size;
     var center;
     if(seriesTitles.length == 1) {
+      size = '90%';
       center = ['50%', '50%'];
     } else {
+      size = '70%';
       if(seriesTitles.indexOf(title) == 0) {
         center = ['25%', '50%'];
       } else {
@@ -42,7 +45,7 @@ var chartSeries = function() {
 
     series.push({
       type: 'pie',
-      size: '80%',
+      size: size,
       center: center,
       showInLegend: showInLegend,
       data: data
@@ -81,7 +84,7 @@ $(document).on("turbolinks:load", function() {
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
-      animation: false
+      animation: false,
     },
     title: {
       text: chartTitle(),
@@ -165,35 +168,4 @@ $(document).on("turbolinks:load", function() {
       });
     });
   });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.keyCode == 13) {
-      toggleFullScreen();
-    }
-  }, false);
-
-  function toggleFullScreen() {
-    if (!document.fullscreenElement &&    // alternative standard method
-        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.msRequestFullscreen) {
-        document.documentElement.msRequestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) {
-        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
-    }
-  }
 });

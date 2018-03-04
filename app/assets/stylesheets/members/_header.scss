@@ -1,0 +1,36 @@
+header {
+  $navigation-height: 100px;
+
+  height: $navigation-height;
+  width: 100%;
+  margin: 1em 0;
+
+  .logo {
+    float: left;
+
+    img {
+      height: $navigation-height;
+    }
+  }
+
+  .contact {
+    float: right;
+    width: 150px;
+
+    i {
+      width: 20px;
+      margin-left: 5px;
+    }
+
+    a {
+      color: $base-font-color;
+      width: 100%;
+      float: right;
+      text-align: right;
+      margin-bottom: 5px;
+      &:hover {
+        color: $dark-green;
+      }
+    }
+  }
+}

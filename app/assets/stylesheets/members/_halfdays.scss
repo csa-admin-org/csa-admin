@@ -1,0 +1,94 @@
+ol.halfdays {
+  list-style-type: decimal;
+
+  li {
+    margin: $small-spacing / 2 0 0 $base-spacing;
+  }
+
+  form {
+    display: inline;
+  }
+
+  li.rejected {
+    text-decoration:line-through;
+    font-style: italic;
+  }
+}
+
+.halfdays-form {
+  display: inline-block;
+
+  .column-left, .column-right {
+    display: block;
+    float: left;
+    padding: 0;
+    width: 100%;
+
+    @media screen and (min-width: 760px) {
+      width: 50%;
+    }
+  }
+
+  .column-left {
+    margin: $base-spacing 0 0 0;
+    @media screen and (min-width: 760px) {
+      margin: 0;
+    }
+  }
+
+  .column-right {
+    margin: $base-spacing * 2 0 0 0;
+
+    @media screen and (min-width: 760px) {
+      width: calc(50% - 2em);
+      margin: 0 0 0 $base-spacing;
+    }
+
+    p {
+      margin: $base-spacing 0;
+    }
+  }
+
+  .halfdays {
+    label {
+      font-weight: normal;
+      display: inline-block;
+
+      &.disabled {
+        text-decoration: line-through;
+      }
+    }
+    input {
+      margin-bottom: 0;
+    }
+  }
+
+  input.participants_count {
+    width: 60px;
+  }
+
+  label i {
+    margin-left: 5px;
+  }
+
+  label.carpooling, label.carpooling_phone {
+    font-weight: normal;
+  }
+
+  label.disabled {
+    color: #aaa;
+  }
+
+  label.full span {
+    text-decoration:line-through;
+  }
+
+  label.full::after {
+    content: " Complet!";
+  }
+}
+
+p.empty {
+  color: #999;
+  font-style: italic;
+}

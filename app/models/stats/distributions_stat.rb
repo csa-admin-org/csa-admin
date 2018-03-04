@@ -7,9 +7,12 @@ class Stats::DistributionsStat < Stats::BaseStat
     distributions =
       memberships(includes: [baskets: :distribution])
         .flat_map { |m| m.baskets.map { |b| b.distribution.name } }
-    stats = Hash.new(0)
-    distributions.each { |distribution| stats[distribution] += 1 }
-    stats.delete('Domicile')
-    stats.sort_by { |_k, v| -1 * v }.to_h
+
+    all_distributions = Distribution.order(:name).pluck(:name)
+    all_distributions.delete('Domicile')
+    all_distributions.delete('La Chaux-du-Milieu')
+    all_distributions.map { |name|
+      [name, distributions.count { |n| n == name }]
+    }.to_h
   end
 end

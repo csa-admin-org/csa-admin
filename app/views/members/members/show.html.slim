@@ -12,32 +12,25 @@ section
   h2= "Vos #{halfdays_human_name.downcase} à venir"
   - coming_participations = @member.halfday_participations.coming.includes(:halfday)
   - if coming_participations.empty?
-    p.table-empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
+    p.empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
-    table.halfday_works
-      thead
-        tr
-          th Date, Horaire, Lieu et Activité
-          th.small Part.
-          th.small Covoiturage
-          th.action
-      tbody
+    ol.halfdays
       - coming_participations.each do |participation|
-        tr
-          td== halfday_label(participation.halfday, date: true)
-          td= participation.participants_count
-          td= participation.carpooling? ? "oui (#{participation.carpooling_phone.phony_formatted})" : 'non'
-          td
-            = button_to [:members, @member, participation], method: :delete do
-              span style='display: none' Effacer
+        li
+          == halfday_label(participation.halfday, date: true, date_format: :long)
+          = " (#{t('halfday.participant_count', count: participation.participants_count)})"
+          - if participation.carpooling?
+            span title="#{participation.carpooling_phone.phony_formatted}"= ", covoiturage"
+          = ' –'
+          == link_to "&nbsp;annuler".html_safe, [:members, @member, participation], method: :delete
 
 section
   h2= "Inscription à une #{halfday_human_name.downcase}"
   - halfdays = Halfday.available.includes(:participations).sort_by { |hd| "#{hd.date}#{hd.period}" }
   - if halfdays.empty?
-    p.table-empty= "Désolé, aucune #{halfdays_human_name.downcase} planifiées pour le moment."
+    p.empty= "Désolé, aucune #{halfdays_human_name.downcase} planifiées pour le moment."
   - else
-    section.form
+    .halfdays-form
       - @halfday_participation ||= HalfdayParticipation.new(halfday: halfdays.reject { |hd| hd.participant?(@member) || hd.full? }.first)
       - dates = halfdays.map(&:date).uniq
       = form_for [:members, @member, @halfday_participation] do |f|
@@ -52,42 +45,35 @@ section
               - b.label(class: "halfday-#{b.object.date} #{'disabled' if disabled}") { b.radio_button(disabled: disabled) + halfday_label(b.object).html_safe }
           p
             label Nbr. de participants
-            = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count'
+            = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
           p
             label#title
               = 'Covoiturage'
-              span.tooltip-toggle data-tooltip="Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour."
+              span.tooltip-toggle onclick="" data-tooltip="Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour."
                 i.fa.fa-info-circle
             label.carpooling
               = f.check_box :carpooling
               = "Je viens en voiture et j'ai de la place!"
             label.carpooling_phone
-              span= 'Tél.:'
-              = f.text_field :carpooling_phone, { id: 'carpooling_phone', placeholder: @member.phones_array.first }
+              = f.text_field :carpooling_phone, { id: 'carpooling_phone', placeholder: @member.phones_array.first || 'Mon téléphone' }
 
           = f.submit 'Inscription', id: 'subscribe-button'
 
-section.past
+section
   h2= "#{halfdays_human_name} effectuées"
   - past_participations = @member.halfday_participations.past_current_year.includes(:halfday)
   - if past_participations.empty?
-    p.table-empty Rien à signaler pour le moment, on se réjouit de vous voir!
+    p.empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else
-    table.halfday_works
-      thead
-        tr
-          th Date, Horaire, Lieu et Activité
-          th.small Part.
-          th.medium Statut.
-      tbody
+    ol.halfdays
       - past_participations.each do |participation|
-        tr class="#{participation.rejected? ? 'rejected' : ''}"
-          td== halfday_label(participation.halfday, date: true)
-          td= participation.participants_count
-          td
-            - if participation.pending?
-              span= 'en attente de validation'
-            - elsif participation.rejected?
-              span= 'refusée'
-            - elsif participation.validated?
-              span= 'validée'
+        li class="#{participation.rejected? ? 'rejected' : ''}"
+          == halfday_label(participation.halfday, date: true, date_format: :long)
+          = " (#{t('halfday.participant_count', count: participation.participants_count)})"
+          = ' –'
+          - if participation.pending?
+            span.label-yellow== "&nbsp;en attente de validation"
+          - elsif participation.rejected?
+            span.label-error== "&nbsp;refusée"
+          - elsif participation.validated?
+            span.label-success== "&nbsp;validée"

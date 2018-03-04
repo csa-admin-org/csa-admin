@@ -4,8 +4,10 @@ html
     = stylesheet_link_tag 'members', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'members', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
 
   body
-    = render 'layouts/navigation'
-    = render 'layouts/flashes'
-    = yield
+    #body-wrapper
+      = render 'layouts/members/header'
+      = render 'layouts/flashes'
+      = yield
