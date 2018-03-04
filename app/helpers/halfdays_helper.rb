@@ -11,13 +11,13 @@ module HalfdaysHelper
     "#{attr}/#{Current.acp.halfday_i18n_scope}".to_sym
   end
 
-  def halfday_label(halfday, date: false, description: true)
+  def halfday_label(halfday, date: false, date_format: :medium, description: true)
     labels = [
       halfday.period,
       display_place(halfday),
       display_activity(halfday, description: description)
     ]
-    labels.insert(0, l(halfday.date, format: :medium).capitalize) if date
+    labels.insert(0, l(halfday.date, format: date_format).capitalize) if date
     labels.join(', ')
   end
 

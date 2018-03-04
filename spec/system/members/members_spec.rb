@@ -14,9 +14,12 @@ describe 'members page' do
       choose "halfday_participation_halfday_id_#{halfday.id}"
       fill_in 'halfday_participation_participants_count', with: 3
       click_button 'Inscription'
+
       expect(page)
-        .to have_content "#{I18n.l(halfday.date, format: :medium).capitalize}, #{halfday.period}"
-      expect(page).not_to have_content "oui (#{member.phones_array.first})"
+        .to have_content "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
+      within('ol.halfdays') do
+        expect(page).not_to have_content "covoiturage"
+      end
     end
 
     it 'adds new participation with carpooling' do
@@ -26,7 +29,9 @@ describe 'members page' do
       fill_in 'carpooling_phone', with: '+41 77 447 58 31'
       click_button 'Inscription'
 
-      expect(page).to have_content 'oui (077 447 58 31)'
+      within('ol.halfdays') do
+        expect(page).to have_content "covoiturage"
+      end
     end
 
     it 'adds new participation with carpooling (default phone)' do
@@ -35,16 +40,18 @@ describe 'members page' do
       check 'halfday_participation_carpooling'
       click_button 'Inscription'
 
-      expect(page).to have_content "oui (076 332 33 11)"
+      within('ol.halfdays') do
+        expect(page).to have_content "covoiturage"
+      end
     end
 
     it 'removes participation' do
       halfday = halfday_participation.halfday
       participation_text =
-        "#{I18n.l(halfday.date, format: :medium).capitalize}, #{halfday.period}"
+        "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
 
       expect(page).to have_content participation_text
-      click_button 'Effacer', match: :first
+      click_link 'annuler', match: :first
       expect(page).not_to have_content participation_text
     end
   end

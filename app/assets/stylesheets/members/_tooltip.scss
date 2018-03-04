@@ -1,0 +1,37 @@
+//The good stuff
+.tooltip-toggle {
+  cursor: pointer;
+  position: relative;
+
+  //Tooltip text container
+  &::before {
+    position: absolute;
+    bottom: 20px;
+    left: -100px;
+    background-color: #2B222A;
+    border-radius: 5px;
+    color: #fff;
+    content: attr(data-tooltip); //This pulls in the text from the element with the tooltip
+    padding: 1rem;
+    text-transform: none;
+    transition: all 0.5s ease;
+    width: 250px;
+  }
+
+  //Setting up the transition
+  &::before,
+  &::after {
+    color: #efefef;
+    font-size: $base-font-size * 0.9;
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+  }
+
+  //Triggering the transition
+  &:hover::before,
+  &:hover::after {
+    opacity: 1;
+    transition: all 0.75s ease;
+  }
+}
