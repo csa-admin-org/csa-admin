@@ -10,12 +10,12 @@ section
 
 section
   h2= "Vos #{halfdays_human_name.downcase} à venir"
-  - coming_participations = @member.halfday_participations.coming.includes(:halfday)
-  - if coming_participations.empty?
+  - @coming_participations = @member.halfday_participations.coming.includes(:halfday)
+  - if @coming_participations.empty?
     p.empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
     ol.halfdays
-      - coming_participations.each do |participation|
+      - @coming_participations.each do |participation|
         li
           == halfday_label(participation.halfday, date: true, date_format: :long)
           = " (#{t('halfday.participant_count', count: participation.participants_count)})"
@@ -26,23 +26,21 @@ section
 
 section
   h2= "Inscription à une #{halfday_human_name.downcase}"
-  - halfdays = Halfday.available.includes(:participations).sort_by { |hd| "#{hd.date}#{hd.period}" }
-  - if halfdays.empty?
-    p.empty= "Désolé, aucune #{halfdays_human_name.downcase} planifiées pour le moment."
+  - @halfdays = Halfday.available_for(@member)
+  - if @halfdays.empty?
+    p.empty= "Désolé, aucune #{halfdays_human_name.downcase} disponible pour le moment."
   - else
     .halfdays-form
-      - @halfday_participation ||= HalfdayParticipation.new(halfday: halfdays.reject { |hd| hd.participant?(@member) || hd.full? }.first)
-      - dates = halfdays.map(&:date).uniq
+      - @halfday_participation ||= HalfdayParticipation.new(halfday: @halfdays.first)
       = form_for [:members, @member, @halfday_participation] do |f|
         .column-left
-            #datepicker.calendar data={ dates: dates.to_json, selected_date: @halfday_participation.halfday&.date }
+            #datepicker.calendar data={ dates: @halfdays.map(&:date).uniq.to_json, selected_date: @halfday_participation.halfday.date }
         .column-right
           label Horaire, lieu et activité
           label.label-error= @halfday_participation.errors[:halfday].first
           .halfdays
-            = f.collection_radio_buttons(:halfday_id, halfdays, :id, :period) do |b|
-              - disabled = b.object.participant?(@member) || b.object.full?
-              - b.label(class: "halfday-#{b.object.date} #{'disabled' if disabled}") { b.radio_button(disabled: disabled) + halfday_label(b.object).html_safe }
+            = f.collection_radio_buttons(:halfday_id, @halfdays, :id, :period) do |b|
+              - b.label(class: "halfday-#{b.object.date}") { b.radio_button + halfday_label(b.object).html_safe }
           p
             label Nbr. de participants
             = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
@@ -61,12 +59,12 @@ section
 
 section
   h2= "#{halfdays_human_name} effectuées"
-  - past_participations = @member.halfday_participations.past_current_year.includes(:halfday)
-  - if past_participations.empty?
+  - @past_participations = @member.halfday_participations.past_current_year.includes(:halfday)
+  - if @past_participations.empty?
     p.empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else
     ol.halfdays
-      - past_participations.each do |participation|
+      - @past_participations.each do |participation|
         li class="#{participation.rejected? ? 'rejected' : ''}"
           == halfday_label(participation.halfday, date: true, date_format: :long)
           = " (#{t('halfday.participant_count', count: participation.participants_count)})"
