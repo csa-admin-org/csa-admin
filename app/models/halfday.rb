@@ -7,7 +7,6 @@ class Halfday < ActiveRecord::Base
   has_many :participations, class_name: 'HalfdayParticipation'
 
   scope :coming, -> { where('halfdays.date > ?', Date.current) }
-  scope :available, -> { where('halfdays.date >= ?', 3.days.from_now) }
   scope :past, -> { where('halfdays.date <= ?', Date.current) }
   scope :past_current_year, -> {
     where('halfdays.date < ? AND halfdays.date >= ?', Date.current, Current.fy_range.min)
@@ -37,6 +36,13 @@ class Halfday < ActiveRecord::Base
       end
       dates
     end
+  end
+
+  def self.available_for(member)
+    where('date >= ?', 3.days.from_now)
+      .includes(:participations)
+      .reject { |hd| hd.participant?(member) || hd.full? }
+      .sort_by { |hd| "#{hd.date}#{hd.period}" }
   end
 
   def full?
