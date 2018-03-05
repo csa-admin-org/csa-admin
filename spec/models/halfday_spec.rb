@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 describe Halfday do
+  it 'validates participants_limit to be at least 1' do
+    halfday = Halfday.new(participants_limit: 0)
+    expect(halfday).not_to have_valid(:participants_limit)
+
+    halfday = Halfday.new(participants_limit: nil)
+    expect(halfday).to have_valid(:participants_limit)
+  end
+
   it 'creates an halfday without preset' do
     halfday = Halfday.new(
       date: '2018-03-24',
