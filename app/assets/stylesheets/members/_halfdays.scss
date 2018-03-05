@@ -17,6 +17,8 @@ ol.halfdays {
 
 .halfdays-form {
   display: inline-block;
+  width: 100%;
+  min-height: 390px;
 
   .column-left, .column-right {
     display: block;
@@ -40,7 +42,7 @@ ol.halfdays {
     margin: $base-spacing * 2 0 0 0;
 
     @media screen and (min-width: 760px) {
-      width: calc(50% - 2em);
+      width: calc(50% - #{$base-spacing});
       margin: 0 0 0 $base-spacing;
     }
 
