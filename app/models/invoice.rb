@@ -69,7 +69,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def cancel!
-    invalid_transition(:close!) unless not_sent? || open?
+    invalid_transition(:close!) unless can_cancel?
 
     update!(
       canceled_at: Time.current,
