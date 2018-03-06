@@ -33,7 +33,7 @@ describe Payment do
       create(:payment, member: member, invoice: invoice3, amount: 400)
       create(:payment, member: member, amount: 700)
 
-      Payment.update_invoices_balance!(member)
+      Payment.update_invoices_balance!(member.id)
 
       expect(invoice1.reload.balance).to eq 400
       expect(invoice1.state).to eq 'closed'
@@ -71,7 +71,7 @@ describe Payment do
       create(:payment, member: member, invoice: invoice3, amount: 400)
       create(:payment, member: member, invoice: invoice3, amount: 100)
 
-      Payment.update_invoices_balance!(member)
+      Payment.update_invoices_balance!(member.id)
 
       expect(invoice1.reload.balance).to eq 400
       expect(invoice1.state).to eq 'closed'

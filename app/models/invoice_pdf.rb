@@ -105,11 +105,12 @@ class InvoicePdf < Prawn::Document
           ]
         end
       end
-      if membership.distributions_price.positive?
-        membership.distributions.uniq.each do |distribution|
+      membership.distributions.uniq.each do |distribution|
+        price = membership.distribution_total_price(distribution)
+        if price.positive?
           data << [
             membership_distribution_description(distribution),
-            cur(membership.distribution_total_price(distribution))
+            cur(price)
           ]
         end
       end

@@ -24,7 +24,7 @@ class RecurringBilling
       attrs[:membership_amount_fraction] = membership_amount_fraction
       attrs[:memberships_amount_description] = membership_amount_description
     end
-    invoices.create(attrs)
+    member.invoices.create(attrs)
   end
 
   private

@@ -168,7 +168,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def update_member_invoices_balance!
-    Payment.update_invoices_balance!(member)
+    Payment.update_invoices_balance!(member_id)
   end
 
   def send_email
