@@ -269,7 +269,7 @@ ActiveAdmin.register Member do
   end
 
   member_action :create_invoice, method: :post do
-    InvoiceCreator.new(resource).create
+    RecurringBilling.invoice(resource)
     redirect_to invoices_path(q: { member_id_eq: resource.id }, scope: :all)
   end
 
