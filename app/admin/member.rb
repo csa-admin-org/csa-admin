@@ -270,7 +270,7 @@ ActiveAdmin.register Member do
 
   member_action :create_invoice, method: :post do
     RecurringBilling.invoice(resource)
-    redirect_to invoices_path(q: { member_id_eq: resource.id }, scope: :all)
+    redirect_to invoices_path(q: { member_id_eq: resource.id }, scope: :all, order: :date_asc)
   end
 
   before_build do |member|
