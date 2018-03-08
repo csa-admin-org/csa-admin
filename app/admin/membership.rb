@@ -187,6 +187,9 @@ ActiveAdmin.register Membership do
     membership.member_id ||= params[:member_id]
     membership.basket_size_id ||= params[:basket_size_id]
     membership.distribution_id ||= params[:distribution_id]
+    params[:subscribed_basket_complement_ids]&.each do |id|
+      membership.memberships_basket_complements.build(basket_complement_id: id)
+    end
     membership.started_on ||= params[:started_on] || fy_range.min
     membership.ended_on ||= fy_range.max
   end
