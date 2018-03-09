@@ -160,7 +160,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_pdf
-    invoice_pdf = InvoicePDF.new(self)
+    invoice_pdf = PDF::Invoice.new(self)
     pdf_file.attach(
       io: StringIO.new(invoice_pdf.render),
       filename: "invoice-#{id}.pdf",

@@ -113,6 +113,10 @@ ActiveAdmin.register_page 'Dashboard' do
               span do
                 link_to 'Récapitulatif Excel', delivery_path(Delivery.next, format: :xlsx)
               end
+              span { '&nbsp;/&nbsp;'.html_safe }
+              span do
+                link_to 'Fiches signature', delivery_path(Delivery.next, format: :pdf)
+              end
 
               absences_count = next_delivery.baskets.absent.count
               if absences_count.positive?

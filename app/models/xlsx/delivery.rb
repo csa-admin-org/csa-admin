@@ -111,7 +111,7 @@ module XLSX
       baskets
         .joins(:member)
         .includes(:member, :basket_size, :baskets_basket_complements, :complements).order('members.name')
-        .reject(&:blank?)
+        .not_empty
         .each { |basket| add_basket_line(basket) }
 
       @worksheet.change_column_width(0, 35)

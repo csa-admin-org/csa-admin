@@ -27,6 +27,10 @@ class Basket < ActiveRecord::Base
   scope :trial, -> { where(trial: true) }
   scope :absent, -> { where(absent: true) }
   scope :not_absent, -> { where(absent: false) }
+  scope :not_empty, -> {
+    left_outer_joins(:baskets_basket_complements)
+      .where('baskets.quantity > 0 OR baskets_basket_complements.quantity > 0')
+  }
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -74,7 +78,7 @@ class Basket < ActiveRecord::Base
     complements.delete(complement)
   end
 
-  def blank?
+  def empty?
     quantity + baskets_basket_complements.sum(:quantity) == 0
   end
 

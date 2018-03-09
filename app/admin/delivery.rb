@@ -7,7 +7,7 @@ ActiveAdmin.register Delivery do
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
-  index download_links: -> { params[:action] == 'show' ? [:xlsx] : false } do
+  index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : false } do
     column '#', ->(delivery) { auto_link delivery, delivery.number }
     column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
     column :note, ->(delivery) { truncate delivery.note, length: 175 }
@@ -51,6 +51,12 @@ ActiveAdmin.register Delivery do
           send_data xlsx.data,
             content_type: xlsx.content_type,
             filename: xlsx.filename
+        end
+        format.pdf do
+          pdf = PDF::Delivery.new(resource)
+          send_data pdf.render,
+            content_type: 'application/pdf',
+            filename: pdf.filename
         end
       end
     end
