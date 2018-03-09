@@ -2,6 +2,7 @@ class HalfdayParticipation < ActiveRecord::Base
   include HalfdayNaming
 
   attr_reader :carpooling, :halfday_ids
+  delegate :missing_participants_count, to: :halfday
 
   belongs_to :halfday
   belongs_to :member
@@ -18,7 +19,13 @@ class HalfdayParticipation < ActiveRecord::Base
   }
 
   validates :halfday, presence: true, uniqueness: { scope: :member_id }
-  validate :participants_limit_must_not_be_reached, unless: :validated_at?
+  validates :participants_count,
+    presence: true,
+    numericality: {
+      less_than_or_equal_to: :missing_participants_count,
+      if: :missing_participants_count
+    },
+    unless: :validated_at?
 
   before_create :set_carpooling_phone
   after_update :send_notifications
@@ -110,11 +117,5 @@ class HalfdayParticipation < ActiveRecord::Base
   rescue => ex
     ExceptionNotifier.notify_exception(ex,
       data: { emails: member.emails, member: member })
-  end
-
-  def participants_limit_must_not_be_reached
-    if halfday&.full?
-      errors.add(:halfday, 'La date est déjà complète, merci!')
-    end
   end
 end
