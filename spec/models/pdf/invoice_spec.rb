@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe DeliveryPDF do
-  def save_pdf_and_return_strings(delivery, distribution)
-    pdf = DeliveryPDF.new(delivery, distribution)
-    pdf_path = "tmp/delivery-#{Current.acp.name}-#{delivery.date}-#{distribution.name}.pdf"
+describe PDF::Invoice do
+  def save_pdf_and_return_strings(invoice)
+    pdf = PDF::Invoice.new(invoice)
+    pdf_path = "tmp/invoice-#{Current.acp.name}-##{pdf.invoice.id}.pdf"
     pdf.render_file(Rails.root.join(pdf_path))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
@@ -162,55 +162,69 @@ describe DeliveryPDF do
     end
   end
 
-  context 'Lumiere des Champs' do
+  context 'Lumiere des Champs settings' do
     before {
       set_acp_logo('ldc_logo.jpg')
-      Current.acp.update!(name: 'ldc')
+      Current.acp.update!(
+        name: 'ldc',
+        fiscal_year_start_month: 4,
+        summer_month_range: 4..9,
+        ccp: '01-9252-0',
+        isr_identity: '800250',
+        isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
+        isr_in_favor_of: "Association Lumière des Champs\nBd Paderewski 28\n1800 Vevey",
+        invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
+        invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch')
+      start_day = Current.fy_range.min.end_of_week + 2.months
+      8.times.each do |i|
+        Delivery.create(date: start_day)
+        start_day += 1.month
+      end
     }
 
     it 'generates invoice with support amount + complements + annual membership' do
-      distribution = create(:distribution, name: 'Fleurs Kissling')
-      member = create(:member, name: 'Alain Reymond')
-      member2 = create(:member, name: 'John Doe')
+      member = create(:member,
+        name: 'Alain Reymond',
+        address: 'Bd Plumhof 6',
+        zip: '1800',
+        city: 'Vevey')
       create(:basket_complement,
         id: 1,
         name: 'Oeufs',
-        delivery_ids: Delivery.current_year.pluck(:id))
+        price: 4.8,
+        delivery_ids: Delivery.current_year.pluck(:id)[0..23])
       create(:basket_complement,
         id: 2,
+        price: 7.4,
         name: 'Tomme de Lavaux',
-        delivery_ids: Delivery.current_year.pluck(:id))
+        delivery_ids: Delivery.current_year.pluck(:id)[24..48])
       membership = create(:membership,
-        member: member,
-        distribution: distribution,
         basket_size: create(:basket_size, name: 'Grand'),
+        distribution: create(:distribution, price: 0),
+        basket_price: 30.5,
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 },
           '1' => { basket_complement_id: 2 }
         })
-      membership = create(:membership,
-        member: member2,
-        distribution: distribution,
-        basket_size: create(:basket_size, name: 'Petit'),
-        basket_quantity: 2,
-        memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1, quantity: 2 },
-        })
-      delivery = Delivery.current_year.first
-      distribution = membership.distribution
+      invoice = create(:invoice,
+        id: 122,
+        support_amount: 75,
+        memberships_amount_description: 'Montant annuel',
+        membership: membership,
+        member: member)
 
-      pdf_strings = save_pdf_and_return_strings(delivery, distribution)
+      pdf_strings = save_pdf_and_return_strings(invoice)
 
-      # expect(pdf_strings)
-      #   .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
-      #   .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
-      #   .and contain_sequence('Oeufs 24x 4.80', "115.20")
-      #   .and contain_sequence('Tomme de Lavaux 24x 7.40', "177.60")
-      #   .and contain_sequence('Montant annuel', "1'756.80", 'Montant annuel', "1'756.80")
-      #   .and contain_sequence('Cotisation annuelle association', '75.00')
-      #   .and contain_sequence('Total', "1'831.80")
-      #   .and include '0100001831806>800250000000000000000001221+ 0192520>'
-      # expect(pdf_strings).not_to include 'Montant annuel restant'
+      expect(pdf_strings)
+        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Oeufs 24x 4.80', "115.20")
+        .and contain_sequence('Tomme de Lavaux 24x 7.40', "177.60")
+        .and contain_sequence('Montant annuel', "1'756.80", 'Montant annuel', "1'756.80")
+        .and contain_sequence('Cotisation annuelle association', '75.00')
+        .and contain_sequence('Total', "1'831.80")
+        .and include '0100001831806>800250000000000000000001221+ 0192520>'
+      expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
     it 'generates invoice with support ammount + four month membership + winter basket' do

@@ -35,7 +35,7 @@ module XLSX
         add_empty_line
       end
 
-      Distribution.where('price > 0').all.each do |distribution|
+      Distribution.paid.each do |distribution|
         total = @memberships.sum { |m| m.distribution_total_price(distribution.id) }
         add_line("Distribution #{distribution.name}", total, distribution.price)
       end
