@@ -1,9 +1,10 @@
 class BillingTotal
-  SCOPES = %i[distribution halfday support]
+  SCOPES = %i[halfday support]
 
   def self.all
     scopes = [BasketSize.all]
     scopes << :basket_complement if BasketComplement.any?
+    scopes << :distribution if Distribution.paid.any?
     scopes += SCOPES
     scopes.flatten.map { |scope| new(scope) }
   end
