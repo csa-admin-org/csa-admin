@@ -5,7 +5,7 @@ class Invoice < ActiveRecord::Base
   include HasFiscalYearScopes
   include HasState
   include ActionView::Helpers::NumberHelper
-  NoPdfError = Class.new(StandardError)
+  NoPDFError = Class.new(StandardError)
 
   attr_accessor :membership, :membership_amount_fraction, :send_email
 
@@ -50,7 +50,7 @@ class Invoice < ActiveRecord::Base
 
   def send!
     return unless can_send_email?
-    raise NoPdfError unless pdf_file.attached?
+    raise NoPDFError unless pdf_file.attached?
 
     InvoiceMailer.new_invoice(self).deliver_now if can_send_email?
     touch(:sent_at)
@@ -62,7 +62,7 @@ class Invoice < ActiveRecord::Base
 
   def mark_as_sent!
     return if sent_at?
-    raise NoPdfError unless pdf_file.attached?
+    raise NoPDFError unless pdf_file.attached?
 
     touch(:sent_at)
     close_or_open!
@@ -160,7 +160,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_pdf
-    invoice_pdf = InvoicePdf.new(self, nil)
+    invoice_pdf = InvoicePDF.new(self)
     pdf_file.attach(
       io: StringIO.new(invoice_pdf.render),
       filename: "invoice-#{id}.pdf",

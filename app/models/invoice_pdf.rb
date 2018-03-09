@@ -1,6 +1,6 @@
 require 'prawn/measurement_extensions'
 
-class InvoicePdf < Prawn::Document
+class InvoicePDF < Prawn::Document
   include ActionView::Helpers::NumberHelper
   include MembershipsHelper
 
@@ -12,7 +12,7 @@ class InvoicePdf < Prawn::Document
     CreationDate: Time.current
   }
 
-  def initialize(invoice, view)
+  def initialize(invoice)
     super(
       page_size: 'A4',
       margin: [0, 0, 0, 0],
