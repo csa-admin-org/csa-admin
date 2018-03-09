@@ -36,15 +36,20 @@ section
         .column-left
             #datepicker.calendar data={ dates: @halfdays.map(&:date).uniq.to_json, selected_date: @halfday_participation.halfday.date }
         .column-right
-          label Horaire, lieu et activité
-          label.label-error= @halfday_participation.errors[:halfday].first
-          .halfdays
-            = f.collection_radio_buttons(:halfday_id, @halfdays, :id, :period) do |b|
-              - b.label(class: "halfday-#{b.object.date}") { b.radio_button + halfday_label(b.object).html_safe }
-          p
+          .input
+            label Horaire, lieu et activité
+            label.label-error= @halfday_participation.errors[:halfday].first
+            .halfdays
+              = f.collection_radio_buttons(:halfday_id, @halfdays, :id, :period) do |b|
+                - b.label(class: "halfday-#{b.object.date}") { b.radio_button + halfday_label(b.object).html_safe }
+          .input
             label Nbr. de participants
+            - if @halfday_participation.errors[:participants_count].any?
+              ul.error_explanation
+                - @halfday_participation.errors[:participants_count].each do |msg|
+                  li= msg
             = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
-          p
+          .input
             label#title
               = 'Covoiturage'
               span.tooltip-toggle onclick="" data-tooltip="Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour."

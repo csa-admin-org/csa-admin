@@ -46,11 +46,16 @@ class Halfday < ActiveRecord::Base
   end
 
   def full?
-    participants_limit? && participations.map(&:participants_count).sum >= participants_limit
+    participants_limit && missing_participants_count.zero?
   end
 
   def participant?(member)
     participations.map(&:member_id).include?(member.id)
+  end
+
+  def missing_participants_count
+    participants_limit &&
+      participants_limit - participations.sum(:participants_count)
   end
 
   def name
