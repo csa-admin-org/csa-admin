@@ -9,7 +9,6 @@ module PDF
       super
       @membership = invoice.membership
       @isr_ref = ISRReferenceNumber.new(invoice.id, invoice.amount)
-      logo
       header
       member
       content
@@ -17,12 +16,10 @@ module PDF
       isr
     end
 
+    private
+
     def info
       super.merge(Title: "Facture #{invoice.id}")
-    end
-
-    def logo
-      image acp_logo_io, at: [15, bounds.height - 20], width: 110
     end
 
     def member_address
@@ -42,6 +39,7 @@ module PDF
     end
 
     def header
+      image acp_logo_io, at: [15, bounds.height - 20], width: 110
       bounding_box [25, bounds.height - 6.cm], width: 200, height: 40 do
         text "Facture N° #{invoice.id}", style: :bold, size: 16
         move_down 5
