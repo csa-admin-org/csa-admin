@@ -74,7 +74,6 @@
   border-color: $medium-gray;
 }
 
-
 .ui-datepicker-title {
   text-align: center;
   font-weight: bold;
@@ -109,7 +108,8 @@
   border: 3px solid transparent;
 }
 
-.ui-state-default, .ui-datepicker-unselectable {
+.ui-state-default,
+.ui-datepicker-unselectable {
   color: #000;
 }
 

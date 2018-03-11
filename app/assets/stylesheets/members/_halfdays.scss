@@ -10,7 +10,7 @@ ol.halfdays {
   }
 
   li.rejected {
-    text-decoration:line-through;
+    text-decoration: line-through;
     font-style: italic;
   }
 }
@@ -20,7 +20,8 @@ ol.halfdays {
   width: 100%;
   min-height: 390px;
 
-  .column-left, .column-right {
+  .column-left,
+  .column-right {
     display: block;
     float: left;
     padding: 0;
@@ -39,7 +40,7 @@ ol.halfdays {
   }
 
   .column-right {
-    margin: 0;
+    margin: $base-spacing 0 0 0;
 
     @media screen and (min-width: 760px) {
       width: calc(50% - #{$base-spacing});
@@ -81,7 +82,8 @@ ol.halfdays {
     margin-left: 5px;
   }
 
-  label.carpooling, label.carpooling_phone {
+  label.carpooling,
+  label.carpooling_phone {
     font-weight: normal;
   }
 
@@ -90,11 +92,11 @@ ol.halfdays {
   }
 
   label.full span {
-    text-decoration:line-through;
+    text-decoration: line-through;
   }
 
   label.full::after {
-    content: " Complet!";
+    content: ' Complet!';
   }
 }
 

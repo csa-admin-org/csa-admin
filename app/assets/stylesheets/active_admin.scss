@@ -8,7 +8,7 @@
 // $sidebar-width: 242px;
 
 // Active Admin's got SASS!
-$primary-color:   #7e874e !default;
+$primary-color: #7e874e !default;
 @import 'formadmin/formadmin';
 @import 'activeadmin/medium_editor_input';
 @import 'activeadmin/medium_editor/themes/default'; // or another theme
@@ -84,11 +84,19 @@ span.delivery_absences {
   float: right;
 }
 
-table a.edit_link { background-image: asset-url('formadmin/edit.svg'); }
-table a.pdf_link { background-image: asset-url('pdf_file.svg'); }
-table a.xlsx_link { background-image: asset-url('xlsx_file.svg'); }
+table a.edit_link {
+  background-image: asset-url('formadmin/edit.svg');
+}
+table a.pdf_link {
+  background-image: asset-url('pdf_file.svg');
+}
+table a.xlsx_link {
+  background-image: asset-url('xlsx_file.svg');
+}
 
-table .edit_link, table .pdf_link, table .xlsx_link {
+table .edit_link,
+table .pdf_link,
+table .xlsx_link {
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -102,16 +110,39 @@ table .edit_link, table .pdf_link, table .xlsx_link {
 }
 
 .status_tag {
-  &.trial, &.coming, &.not_sent, &.manual { background-color: #1e83f6; }
-  &.open, &.no, &.rejected { background-color: #ff2600; }
-  &.pending { background-color: #ff2600; }
-  &.active, &.closed, &.validated, &.isr, &.yes { background-color: #80a432; }
-  &.waiting { background-color: #91ba3a; }
-  &.pending { background-color: #addf45; }
+  &.trial,
+  &.coming,
+  &.not_sent,
+  &.manual {
+    background-color: #1e83f6;
+  }
+  &.open,
+  &.no,
+  &.rejected {
+    background-color: #ff2600;
+  }
+  &.pending {
+    background-color: #ff2600;
+  }
+  &.active,
+  &.closed,
+  &.validated,
+  &.isr,
+  &.yes {
+    background-color: #80a432;
+  }
+  &.waiting {
+    background-color: #91ba3a;
+  }
+  &.pending {
+    background-color: #addf45;
+  }
 }
 
-table#index_table_invoices, table#index_table_payments {
-  .col-amount, .col-balance {
+table#index_table_invoices,
+table#index_table_payments {
+  .col-amount,
+  .col-balance {
     text-align: right;
     width: 130px;
   }
@@ -138,12 +169,21 @@ table#index_table_deliveries {
 }
 
 table.table-baskets {
-  .col-status { width: 80px; padding-left: 10px; }
-  .col-actions { width: 30px; }
-  .col-delivery { width: 180px; }
-  .col-distribution { padding-left: 20px; }
+  .col-status {
+    width: 80px;
+    padding-left: 10px;
+  }
+  .col-actions {
+    width: 30px;
+  }
+  .col-delivery {
+    width: 180px;
+  }
+  .col-distribution {
+    padding-left: 20px;
+  }
 
-  tr.next  {
+  tr.next {
     background-color: #ddd;
   }
 }
@@ -165,7 +205,8 @@ table.table-invoices {
     text-align: right;
     width: 100px;
   }
-  .col-amount, .col-balance {
+  .col-amount,
+  .col-balance {
     text-align: right;
     padding-right: 10px;
   }
@@ -183,15 +224,21 @@ table.table-payments {
 }
 
 table#index_table_memberships {
-  .col-halfday_works { width: 170px; }
+  .col-halfday_works {
+    width: 170px;
+  }
   .col-actions {
     min-width: 110px;
   }
 }
 
 table.table-halfday_participations {
-  .col-description { width: 300px; }
-  .col-part { width: 40px; }
+  .col-description {
+    width: 300px;
+  }
+  .col-part {
+    width: 40px;
+  }
   .col-state {
     text-align: right;
     width: 80px;
@@ -202,7 +249,8 @@ table.table-memberships {
   .col-period {
     width: 200px;
   }
-  .col-baskets, .col-journees {
+  .col-baskets,
+  .col-journees {
     width: 90px;
     text-align: right;
   }
