@@ -3,7 +3,12 @@ $alert-yellow: #9eff00;
 $alert-green: $green;
 $base-accent-color: white;
 
-$label-alerts: (alert: $alert-yellow, error: $alert-red, notice: lighten($base-accent-color, 40), success: $alert-green);
+$label-alerts: (
+  alert: $alert-yellow,
+  error: $alert-red,
+  notice: lighten($base-accent-color, 40),
+  success: $alert-green
+);
 
 @each $alert, $color in $label-alerts {
   .label-#{$alert} {

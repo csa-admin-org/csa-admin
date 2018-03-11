@@ -5,7 +5,8 @@
 body {
   width: 100%;
   // https://css-tricks.com/snippets/css/system-font-stack/
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 #body-wrapper {
@@ -71,8 +72,8 @@ input[type='submit'] {
   }
 }
 
-[type="checkbox"],
-[type="radio"] {
+[type='checkbox'],
+[type='radio'] {
   display: inline;
   width: 1em;
   margin: $small-spacing / 2 $small-spacing / 2 $small-spacing / 2 0;

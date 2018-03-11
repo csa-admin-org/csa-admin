@@ -1,6 +1,6 @@
-$flash-red: #FBE3E4;
-$flash-yellow: #FFF6BF;
-$flash-green: #E6EFC2;
+$flash-red: #fbe3e4;
+$flash-yellow: #fff6bf;
+$flash-green: #e6efc2;
 
 %flash-base {
   display: block;
@@ -10,7 +10,12 @@ $flash-green: #E6EFC2;
   border-radius: 5px;
 }
 
-$flashes: (alert: $flash-yellow, error: $flash-red, notice: $flash-green, success: $flash-green);
+$flashes: (
+  alert: $flash-yellow,
+  error: $flash-red,
+  notice: $flash-green,
+  success: $flash-green
+);
 
 @each $flash, $color in $flashes {
   .flash-#{$flash} {
@@ -20,7 +25,7 @@ $flashes: (alert: $flash-yellow, error: $flash-red, notice: $flash-green, succes
 
     a {
       color: darken($color, 70);
-      border-bottom: 1px solid transparentize(darken($color, 70), .7);
+      border-bottom: 1px solid transparentize(darken($color, 70), 0.7);
 
       &:hover {
         color: darken($color, 90);
