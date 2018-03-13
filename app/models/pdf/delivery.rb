@@ -125,9 +125,8 @@ module PDF
       end
 
       total_line = [
-        content: 'Total',
+        content: 'Totaux',
         width: member_name_width,
-        height: 25,
         align: :right,
         padding_right: 15
       ]
@@ -136,7 +135,6 @@ module PDF
         total_line << {
           content: baskets_with_size.sum(&:quantity).to_s,
           width: 25,
-          height: 25,
           align: :center
         }
       end
@@ -145,7 +143,6 @@ module PDF
         total_line << {
           content: baskets_basket_complements.sum(&:quantity).to_s,
           width: 25,
-          height: 25,
           align: :center
         }
       end
@@ -160,7 +157,8 @@ module PDF
           t.columns(1 + i).borders = [:left, :right]
 
           t.row(-1).size = 11
-          t.row(-1).font_style = :bold
+          t.row(-1).height = 30
+          t.row(-1).valign = :center
           t.row(-1).borders = [:top]
           t.row(-1).border_color = 'DDDDDD'
           t.row(-1).background_color = 'FFFFFF'
