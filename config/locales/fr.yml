@@ -315,6 +315,7 @@ fr:
         url: Site URL
         email: Email
         phone: Téléphone
+        delivery_pdf_footer: Bas de page
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
