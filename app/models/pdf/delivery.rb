@@ -17,18 +17,18 @@ module PDF
           Distribution.where(id: @baskets.pluck(:distribution_id).uniq).order(:name)
         end
 
-      @distributions.each do |distribution|
-        baskets = @baskets.where(distribution: distribution)
+      @distributions.each do |dist|
+        baskets = @baskets.where(distribution: dist)
         basket_sizes = basket_sizes_for(baskets)
         basket_complements = basket_complements_for(baskets)
         total_pages = (baskets.count / BASKETS_PER_PAGE.to_f).ceil
 
         baskets.each_slice(BASKETS_PER_PAGE).with_index do |slice, i|
           page_n =  i + 1
-          page(distribution, slice, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
+          page(dist, slice, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
-        start_new_page unless @distributions.last == distribution
+        start_new_page unless @distributions.last == dist
       end
     end
 
@@ -63,7 +63,7 @@ module PDF
 
     def content(distribution, baskets, basket_sizes, basket_complements)
       font_size 11
-      move_down 4.cm
+      move_down 3.5.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
@@ -123,7 +123,33 @@ module PDF
         line << { content: '', width: signature_width }
         data << line
       end
-      data << data.last.size.times.map { '' }
+
+      total_line = [
+        content: 'Total',
+        width: member_name_width,
+        height: 25,
+        align: :right,
+        padding_right: 15
+      ]
+      basket_sizes.each do |bs|
+        baskets_with_size = baskets.select { |b| b.basket_size_id == bs.id }
+        total_line << {
+          content: baskets_with_size.sum(&:quantity).to_s,
+          width: 25,
+          height: 25,
+          align: :center
+        }
+      end
+      basket_complements.each do |c|
+        baskets_basket_complements = baskets.flat_map(&:baskets_basket_complements).select { |bbc| bbc.basket_complement_id == c.id }
+        total_line << {
+          content: baskets_basket_complements.sum(&:quantity).to_s,
+          width: 25,
+          height: 25,
+          align: :center
+        }
+      end
+      data << (total_line << { content: '', width: signature_width })
 
       table(data,
           row_colors: ['DDDDDD', 'FFFFFF'],
@@ -133,6 +159,8 @@ module PDF
         (bs_size + bc_size).times do |i|
           t.columns(1 + i).borders = [:left, :right]
 
+          t.row(-1).size = 11
+          t.row(-1).font_style = :bold
           t.row(-1).borders = [:top]
           t.row(-1).border_color = 'DDDDDD'
           t.row(-1).background_color = 'FFFFFF'
@@ -142,7 +170,12 @@ module PDF
 
     def footer
       font_size 8
-      bounding_box [0, 20], width: bounds.width, height: 50 do
+      bounding_box [0, 40], width: bounds.width do
+        footer_text = Current.acp.delivery_pdf_footer
+        if footer_text.present?
+          text footer_text, align: :center
+        end
+        move_down 5
         text "– #{I18n.l(current_time, format: :short)} –", inline_format: true, align: :center
       end
     end
