@@ -73,24 +73,25 @@ module PDF
       width = member_name_width + (bs_size + bc_size) * 25 + signature_width
 
       # Headers
-      bounding_box [(bounds.width - width) / 2, cursor], width: width, height: 20, position: :center do
+      bounding_box [(bounds.width - width) / 2, cursor], width: width, height: 25, position: :center do
         text_box '', width: member_name_width, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
           text_box bs.name,
             rotate: 45,
             at: [member_name_width + i * 25 + 5, cursor],
-            valign: :bottom
+            valign: :center
         end
         basket_complements.each_with_index do |c, i|
           text_box c.name,
             rotate: 45,
             at: [member_name_width + bs_size * 25 + i * 25 + 5, cursor],
-            valign: :bottom
+            valign: :center
         end
         text_box 'Signature',
           width: signature_width,
           at: [member_name_width + (bs_size + bc_size) * 25, cursor],
           align: :right,
+          height: 20,
           valign: :center
       end
 
