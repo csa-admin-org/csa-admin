@@ -10,7 +10,7 @@ section
 
 section
   h2= "Vos #{halfdays_human_name.downcase} à venir"
-  - @coming_participations = @member.halfday_participations.coming.includes(:halfday)
+  - @coming_participations = @member.halfday_participations.coming.includes(:halfday).order('halfdays.date')
   - if @coming_participations.empty?
     p.empty Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
   - else
@@ -21,8 +21,12 @@ section
           = " (#{t('halfday.participant_count', count: participation.participants_count)})"
           - if participation.carpooling?
             span title="#{participation.carpooling_phone.phony_formatted}"= ", covoiturage"
-          = ' –'
-          == link_to "&nbsp;annuler".html_safe, [:members, @member, participation], method: :delete
+          - if participation.destroyable?
+            = ' –'
+            == link_to "&nbsp;annuler".html_safe, [:members, @member, participation], method: :delete
+
+    - if @coming_participations.any? { |p| !p.destroyable? }
+      p.info == "Pour des raisons d'organisation, les inscriptions aux #{halfdays_human_name.downcase} qui ont lieu dans moins de #{Current.acp.halfday_participation_deletion_deadline_in_days} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous #{mail_to Current.acp.email, 'contacter'}."
 
 section
   h2= "Inscription à une #{halfday_human_name.downcase}"
@@ -64,7 +68,7 @@ section
 
 section
   h2= "#{halfdays_human_name} effectuées"
-  - @past_participations = @member.halfday_participations.past_current_year.includes(:halfday)
+  - @past_participations = @member.halfday_participations.past_current_year.includes(:halfday).order('halfdays.date DESC')
   - if @past_participations.empty?
     p.empty Rien à signaler pour le moment, on se réjouit de vous voir!
   - else

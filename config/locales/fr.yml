@@ -214,6 +214,8 @@ fr:
         delivery_address: Laisser vide si identique
         delivery_city: Laisser vide si identique
         delivery_zip: Laisser vide si identique
+      acp:
+        halfday_participation_deletion_deadline_in_days: "Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h."
 
   halfday:
     halfday_work:
@@ -316,6 +318,7 @@ fr:
         email: Email
         phone: Téléphone
         delivery_pdf_footer: Bas de page
+        halfday_participation_deletion_deadline_in_days: Délai de désinscription (en jours)
       admin:
         name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation

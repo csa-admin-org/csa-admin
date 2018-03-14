@@ -61,6 +61,11 @@ class HalfdayParticipation < ActiveRecord::Base
     carpooling_phone
   end
 
+  def destroyable?
+    deadline = Current.acp.halfday_participation_deletion_deadline_in_days
+    !deadline || created_at > 1.day.ago || halfday.date > deadline.days.from_now
+  end
+
   def validate!(validator)
     return if coming?
     update(

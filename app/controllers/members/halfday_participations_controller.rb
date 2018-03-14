@@ -14,7 +14,9 @@ class Members::HalfdayParticipationsController < Members::ApplicationController
 
   # DELETE /:member_id/halfday_participations/:id
   def destroy
-    @member.halfday_participations.destroy(params[:id])
+    participation = @member.halfday_participations.find(params[:id])
+    participation.destroy if participation.destroyable?
+
     redirect_to [:members, @member]
   end
 

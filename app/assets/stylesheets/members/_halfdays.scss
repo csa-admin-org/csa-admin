@@ -100,7 +100,12 @@ ol.halfdays {
   }
 }
 
-p.empty {
+p.empty,
+p.info {
   color: #999;
   font-style: italic;
+}
+
+p.info {
+  margin-top: $small-spacing;
 }
