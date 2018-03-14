@@ -9,7 +9,8 @@ ActiveAdmin.register ACP do
     :invoice_info, :invoice_footer,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :support_price,
-    :halfday_i18n_scope, :delivery_pdf_footer,
+    :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
+    :delivery_pdf_footer,
     :url, :email, :phone,
     billing_year_divisions: [],
     features: []
@@ -65,6 +66,7 @@ ActiveAdmin.register ACP do
         as: :select,
         collection: ACP.halfday_i18n_scopes.map { |s| [t("halfday.#{s}", count: 2), s] },
         include_blank: false
+      f.input :halfday_participation_deletion_deadline_in_days
     end
     f.inputs 'Fiches signature livraison (PDF)' do
       f.input :delivery_pdf_footer

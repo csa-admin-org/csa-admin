@@ -36,6 +36,8 @@ class ACP < ActiveRecord::Base
     numericality: { greater_than_or_equal_to: ->(acp) { acp.summer_month_range_min } },
     if: -> { @summer_month_range_min.present? }
   validates :halfday_i18n_scope, inclusion: { in: HALFDAY_I18N_SCOPES }
+  validates :halfday_participation_deletion_deadline_in_days,
+    numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
   before_save :set_summer_month_range
   after_create :create_tenant

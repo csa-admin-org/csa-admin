@@ -26,7 +26,7 @@ describe HalfdayParticipation do
       expect(participation.state).to eq 'validated'
       expect(participation.validated_at).to be_present
       expect(participation.validator).to eq admin
-      expect(last_email.subject).to match /Rage de Vert: ½ Journée validée/
+      expect(last_email.subject).to match(/Rage de Vert: ½ Journée validée/)
     end
   end
 
@@ -39,7 +39,7 @@ describe HalfdayParticipation do
       expect(participation.state).to eq 'rejected'
       expect(participation.rejected_at).to be_present
       expect(participation.validator).to eq admin
-      expect(last_email.subject).to match /Rage de Vert: ½ Journée refusée/
+      expect(last_email.subject).to match(/Rage de Vert: ½ Journée refusée/)
     end
   end
 
@@ -64,6 +64,30 @@ describe HalfdayParticipation do
       participation.carpooling_phone = '077 123 41 12'
       participation.save
       expect(participation.carpooling_phone).to eq '+41771234112'
+    end
+  end
+
+  describe '#destroyable?' do
+    it 'always returns true by the default' do
+      halfday = create(:halfday, date: 2.days.from_now)
+      participation = create(:halfday_participation, halfday: halfday, created_at: 25.hours.ago)
+      expect(participation).to be_destroyable
+    end
+
+    it 'returns true when a deletion deadline is set and creation is in the last 24h' do
+      Current.acp.update!(halfday_participation_deletion_deadline_in_days: 30)
+      halfday = create(:halfday, date: 29.days.from_now)
+      participation = create(:halfday_participation, halfday: halfday, created_at: 23.hours.ago)
+
+      expect(participation).to be_destroyable
+    end
+
+    it 'returns false when a deletion deadline is set and creation has been done more that 24h ago' do
+      Current.acp.update!(halfday_participation_deletion_deadline_in_days: 30)
+      halfday = create(:halfday, date: 29.days.from_now)
+      participation = create(:halfday_participation, halfday: halfday, created_at: 25.hours.ago)
+
+      expect(participation).not_to be_destroyable
     end
   end
 end
