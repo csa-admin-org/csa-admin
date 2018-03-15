@@ -2,7 +2,7 @@ class HalfdayParticipation < ActiveRecord::Base
   include HalfdayNaming
 
   attr_reader :carpooling, :halfday_ids
-  delegate :missing_participants_count, to: :halfday
+  delegate :missing_participants_count, to: :halfday, allow_nil: true
 
   belongs_to :halfday
   belongs_to :member
