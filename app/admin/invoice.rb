@@ -23,6 +23,16 @@ ActiveAdmin.register Invoice do
     end
   end
 
+  csv do
+    column :id
+    column :date
+    column :amount
+    column :balance
+    column :overdue_notices_count
+    column :member_id
+    column :state
+  end
+
   filter :id, as: :numeric
   filter :member,
     as: :select,

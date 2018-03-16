@@ -17,6 +17,15 @@ ActiveAdmin.register Payment do
     actions
   end
 
+  csv do
+    column :id
+    column :date
+    column :amount
+    column :member_id
+    column :invoice_id
+    column :type
+  end
+
   filter :id, as: :numeric
   filter :member,
     as: :select,
