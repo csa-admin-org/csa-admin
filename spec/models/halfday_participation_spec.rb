@@ -90,4 +90,87 @@ describe HalfdayParticipation do
       expect(participation).not_to be_destroyable
     end
   end
+
+  describe '#reminderable?' do
+    it 'returns true when halfday is in less than two weeks' do
+      halfday = create(:halfday, date: 2.weeks.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: nil)
+      expect(participation).to be_reminderable
+    end
+
+    it 'returns false when halfday is in less than two weeks but already reminded' do
+      halfday = create(:halfday, date: 2.weeks.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: Time.current)
+      expect(participation).not_to be_reminderable
+    end
+
+    it 'returns false when halfday is in more than two weeks' do
+      halfday = create(:halfday, date: 15.days.from_now)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: nil)
+      expect(participation).not_to be_reminderable
+    end
+
+    it 'returns false when participation has been created in less than a month' do
+      halfday = create(:halfday, date: 2.weeks.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 3.weeks.ago,
+        latest_reminder_sent_at: nil)
+      expect(participation).not_to be_reminderable
+    end
+
+    it 'returns true when halfday is in less than three days' do
+      halfday = create(:halfday, date: 3.days.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: 2.weeks.ago)
+      expect(participation).to be_reminderable
+    end
+
+    it 'returns true when halfday is in less than three days and never reminded' do
+      halfday = create(:halfday, date: 3.days.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 1.day.ago,
+        latest_reminder_sent_at: nil)
+      expect(participation).to be_reminderable
+    end
+
+    it 'returns false when halfday is in less than three days but already reminded' do
+      halfday = create(:halfday, date: 3.days.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: 6.days.ago)
+      expect(participation).not_to be_reminderable
+    end
+
+    it 'returns false when halfday is in less than three days but already reminded (now)' do
+      halfday = create(:halfday, date: 3.days.from_now - 1.hour)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: Time.current)
+      expect(participation).not_to be_reminderable
+    end
+
+    it 'returns false when halfday has past' do
+      halfday = create(:halfday, date: 1.day.ago)
+      participation = create(:halfday_participation,
+        halfday: halfday,
+        created_at: 2.months.ago,
+        latest_reminder_sent_at: nil)
+      expect(participation).not_to be_reminderable
+    end
+  end
 end
