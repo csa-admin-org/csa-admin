@@ -13,7 +13,7 @@ class Payment < ActiveRecord::Base
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true
-  validates :amount, numericality: { greater_than: 0.0 }, presence: true
+  validates :amount, numericality: true, presence: true
   validates :isr_data, uniqueness: true, allow_nil: true
 
   after_create :update_invoices_balance
