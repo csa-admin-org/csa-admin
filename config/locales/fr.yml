@@ -542,6 +542,7 @@ fr:
         member: Membre
         updated_at: Mis à jour le
         sent_at: Envoyé le
+        comment: Commentaire
       gribouille:
         header: En-tête
         basket_content: Contenu du panier

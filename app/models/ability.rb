@@ -18,7 +18,7 @@ class Ability
       can :update, [Distribution, Member] & available_models
       can :destroy, ActiveAdmin::Comment
       can :destroy, [Member, Membership, Payment], can_destroy?: true
-      can :update, Membership, can_update?: true
+      can :update, [Membership, Payment], can_update?: true
       can :validate, Member, pending?: true
       can :create_invoice, Member, billable?: true
       can :remove_from_waiting_list, Member, waiting?: true
