@@ -139,7 +139,7 @@ ActiveAdmin.register Member do
           row('Montant facturé') { number_to_currency member.invoices.not_canceled.sum(:amount) }
           row('Paiements versés') { number_to_currency member.payments.sum(:amount) }
           row('Différence') {
-            number_to_currency(member.invoices.sum(:amount) - member.payments.sum(:amount))
+            number_to_currency(member.invoices.not_canceled.sum(:amount) - member.payments.sum(:amount))
           }
         end
         attributes_table title: 'Info et Notes' do
