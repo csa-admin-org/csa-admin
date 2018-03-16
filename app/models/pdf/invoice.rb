@@ -194,15 +194,15 @@ module PDF
             at: [x, y - 120],
             width: 100,
             height: 50,
-            size: 11,
-            character_spacing: 0.6
+            size: 10.5,
+            character_spacing: 1
         end
         [64, 238].each do |x|
           text_box invoice.amount.to_i.to_s,
             at: [x, y - 145],
             width: 50,
             height: 50,
-            character_spacing: 0.8,
+            character_spacing: 1,
             size: 12,
             align: :right
           text_box isr_ref.amount_cents,
@@ -210,21 +210,21 @@ module PDF
             width: 50,
             height: 50,
             size: 12,
-            character_spacing: 0.8
+            character_spacing: 1
         end
         text_box isr_ref.ref,
-          at: [354, y - 97],
+          at: [353, y - 97],
           width: 370,
           height: 50,
-          size: 11,
-          character_spacing: 0.6
+          size: 10.5,
+          character_spacing: 1
         text_box isr_ref.full_ref,
           at: [185, y - 241],
           width: 390,
           height: 50,
-          size: 11,
+          size: 10.5,
           align: :right,
-          character_spacing: 0.6
+          character_spacing: 1
       end
     end
 
