@@ -42,6 +42,7 @@ ActiveAdmin.register Payment do
   permit_params *%i[member_id date amount]
 
   before_build do |payment|
+    payment.member_id ||= referer_filter_member_id
     payment.date ||= Date.current
     payment.amount ||= 0
   end

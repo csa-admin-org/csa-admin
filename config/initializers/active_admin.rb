@@ -185,6 +185,7 @@ module ActiveAdmin::ViewHelpers
 end
 
 class ActiveAdmin::ResourceController
+  include ApplicationHelper
   include AcpsHelper
 end
 
