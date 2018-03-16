@@ -38,7 +38,7 @@ ActiveAdmin.register Invoice do
             em 'Aucun paiement'
           else
             table_for(payments, class: 'table-payments') do |payment|
-              column(:date) { |p| l(p.date, format: :number) }
+              column(:date) { |p| auto_link p, l(p.date, format: :number) }
               column(:amount) { |p| number_to_currency(p.amount) }
               column(:type) { |p| status_tag p.type }
             end

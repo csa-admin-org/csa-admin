@@ -20,7 +20,7 @@ ActiveAdmin.register BasketSize do
     end
   end
 
-  permit_params *%i[name price annual_halfday_works]
+  permit_params(*%i[name price annual_halfday_works])
 
   config.filters = false
 end

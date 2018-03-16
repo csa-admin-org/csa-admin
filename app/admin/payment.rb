@@ -1,6 +1,6 @@
 ActiveAdmin.register Payment do
   menu parent: 'Facturation', priority: 2
-  actions :all, except: [:show, :edit, :update]
+  actions :all
 
   scope :all, default: true
   scope :isr
@@ -30,21 +30,48 @@ ActiveAdmin.register Payment do
     span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
   end
 
+  show do |payement|
+    attributes_table title: 'Détails' do
+      row :id
+      row :member
+      row :invoice
+      row(:date) { l payement.date }
+      row(:amount) { number_to_currency(payement.amount) }
+      row(:created_at) { l payement.created_at }
+      row(:updated_at) { l payement.updated_at }
+    end
+
+    active_admin_comments
+  end
+
   form do |f|
     f.inputs 'Details' do
       f.input :member, collection: Member.order(:name).distinct, include_blank: false
       f.input :date, as: :datepicker, include_blank: false
       f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05
+      unless f.object.persisted?
+        f.input :comment, as: :text
+      end
     end
     f.actions
   end
 
-  permit_params *%i[member_id date amount]
+  permit_params(*%i[member_id date amount comment])
 
   before_build do |payment|
     payment.member_id ||= referer_filter_member_id
     payment.date ||= Date.current
     payment.amount ||= 0
+  end
+
+  after_create do |payment|
+    if payment.comment.present?
+      ActiveAdmin::Comment.create!(
+        resource: payment,
+        body: payment.comment,
+        author: current_admin,
+        namespace: 'root')
+    end
   end
 
   config.sort_order = 'date_desc'

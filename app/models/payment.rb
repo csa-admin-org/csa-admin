@@ -1,6 +1,8 @@
 class Payment < ActiveRecord::Base
   include HasFiscalYearScopes
 
+  attr_accessor :comment
+
   acts_as_paranoid
 
   default_scope { order(:date) }
@@ -13,7 +15,7 @@ class Payment < ActiveRecord::Base
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true
-  validates :amount, numericality: true, presence: true
+  validates :amount, numericality: { other_than: 0 }, presence: true
   validates :isr_data, uniqueness: true, allow_nil: true
 
   after_create :update_invoices_balance
@@ -72,6 +74,10 @@ class Payment < ActiveRecord::Base
   end
 
   def can_destroy?
+    manual?
+  end
+
+  def can_update?
     manual?
   end
 

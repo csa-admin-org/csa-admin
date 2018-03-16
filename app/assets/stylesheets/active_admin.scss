@@ -156,6 +156,14 @@ table#index_table_payments {
   }
 }
 
+table#index_table_payments {
+  .col-actions {
+    padding: 0 5px;
+    margin: 0;
+    width: 90px;
+  }
+}
+
 table#index_table_deliveries {
   .col- {
     width: 40px;
