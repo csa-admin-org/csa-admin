@@ -1,7 +1,7 @@
-class HalfdayMailer < ApplicationMailer
+class HalfdayParticipationMailer < ApplicationMailer
   include HalfdaysHelper
 
-  def coming(halfday_participation)
+  def reminder(halfday_participation)
     @halfday_participation = halfday_participation
     @halfday_participations_with_carpooling =
       HalfdayParticipation.carpooling(halfday_participation.halfday.date)

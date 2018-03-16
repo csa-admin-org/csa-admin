@@ -6,10 +6,7 @@ Activité: <%= @halfday_participation.halfday.activity %>
 <% if @halfday_participation.halfday.description.present? %>
 Description: <%= @halfday_participation.halfday.description %>
 <% end %>
-Lieu: <%= @halfday_participation.halfday.place %>
-<% if @halfday_participation.halfday.place_url.present? %>
-Lieu (URL): <%= @halfday_participation.halfday.place_url %>
-<% end %>
+Lieu: <%= @halfday_participation.halfday.place %><% if @halfday_participation.halfday.place_url.present? %> (<%= @halfday_participation.halfday.place_url %>)<% end %>
 Participants: <%= @halfday_participation.participants_count %>
 
 Inscrivez-vous à d'autres <%= halfdays_human_name.downcase %> à tout moment depuis votre page de membre: <%= members_member_url(@member) %>

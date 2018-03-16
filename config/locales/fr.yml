@@ -625,7 +625,7 @@ fr:
     - samedi
     formats:
       default: ! '%e %B %Y'
-      long: ! '%A %e %B %Y'
+      long: ! '%A %-d %B %Y'
       medium: ! '%a %-d %b %y'
       short: ! '%e %B'
       number: '%d.%m.%Y'

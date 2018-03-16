@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_13_201654) do
+ActiveRecord::Schema.define(version: 2018_03_15_193542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -243,6 +243,7 @@ ActiveRecord::Schema.define(version: 2018_03_13_201654) do
     t.string "carpooling_phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "latest_reminder_sent_at"
     t.index ["halfday_id"], name: "index_halfday_participations_on_halfday_id"
     t.index ["member_id"], name: "index_halfday_participations_on_member_id"
     t.index ["validator_id"], name: "index_halfday_participations_on_validator_id"

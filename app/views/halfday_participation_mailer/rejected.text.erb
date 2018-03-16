@@ -6,12 +6,13 @@ Activité: <%= @halfday_participation.halfday.activity %>
 <% if @halfday_participation.halfday.description.present? %>
 Description: <%= @halfday_participation.halfday.description %>
 <% end %>
-Lieu: <%= @halfday_participation.halfday.place %>
-<% if @halfday_participation.halfday.place_url.present? %>
-Lieu (URL): <%= @halfday_participation.halfday.place_url %>
-<% end %>
+Lieu: <%= @halfday_participation.halfday.place %><% if @halfday_participation.halfday.place_url.present? %> (<%= @halfday_participation.halfday.place_url %>)<% end %>
 Participants: <%= @halfday_participation.participants_count %>
 
+<% if Current.acp.halfday_participation_deletion_deadline_in_days %>
+En cas d'empêchement, merci de nous contacter au <%= Current.acp.phone %>.
+<% else %>
 Un empêchement de dernière minute peut toujours arriver, vous pouvez à tout moment
 annuler une inscription sur votre page de membre, cela évite de vous faire attendre
 inutilement: <%= members_member_url(@member) %>.
+<% end %>
