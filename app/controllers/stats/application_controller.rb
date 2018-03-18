@@ -6,8 +6,9 @@ class Stats::ApplicationController < ApplicationController
 
   def authenticate!
     if Rails.env.production?
+      stats_password = Current.acp.credentials(:stats_password)
       authenticate_or_request_with_http_basic do |username, password|
-        username == 'STATS' && password == ENV['STATS_PASSWORD']
+        username == 'STATS' && stats_password && password == stats_password
       end
     end
   end

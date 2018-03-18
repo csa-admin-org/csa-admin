@@ -1,5 +1,7 @@
 class BillingsController < ApplicationController
-  before_action :verify_auth_token
+  include HasAuthToken
+
+  before_action { verify_auth_token(:billing) }
 
   # GET billing/:year
   def show
@@ -7,13 +9,5 @@ class BillingsController < ApplicationController
     send_data xlsx.data,
       content_type: xlsx.content_type,
       filename: xlsx.filename
-  end
-
-  private
-
-  def verify_auth_token
-    if params[:auth_token] != ENV['BILLING_AUTH_TOKEN'] && !admin_signed_in?
-      render plain: 'unauthorized', status: :unauthorized
-    end
   end
 end

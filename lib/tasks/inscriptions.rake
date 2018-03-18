@@ -1,8 +1,11 @@
 namespace :inscriptions do
-  desc 'Import inscriptions from google spreasheet (SquareSpace)'
+  desc 'Import new member inscriptions'
   task import: :environment do
-    ACP.enter!('ragedevert')
-    Inscription.import
-    p 'New inscriptions imported.'
+    ACP.enter_each! do
+      if worksheet_url = Current.acp.credentials(:inscriptions_worksheet_url)
+        Inscription.import_from_google_sheet(worksheet_url)
+        p 'New inscriptions from Google Spreadsheet imported.'
+      end
+    end
   end
 end
