@@ -46,6 +46,7 @@ gem 'autoprefixer-rails'
 
 gem 'sucker_punch'
 
+gem 'skylight'
 gem 'exception_notification'
 gem 'exception_notification-rake'
 
