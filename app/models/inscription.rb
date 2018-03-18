@@ -1,7 +1,8 @@
 class Inscription
-  def self.import
-    session = GoogleDriveSession.from_config_and_env
-    worksheet = session.worksheet_by_url(ENV['INSCRIPTIONS_WORKSHEET_URL'])
+  def self.import_from_google_sheet(worksheet_url)
+    session = GoogleDrive::Session.from_service_account_key(
+      StringIO.new(Current.acp.credentials(:google_service_account)))
+    worksheet = session.worksheet_by_url(worksheet_url)
     worksheet.rows[1..-1].each { |row| new(row).import }
   end
 

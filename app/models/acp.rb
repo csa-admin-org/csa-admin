@@ -102,6 +102,10 @@ class ACP < ActiveRecord::Base
     summer_month_range.include?(month) ? 'summer' : 'winter'
   end
 
+  def credentials(key)
+    Rails.application.credentials.dig(tenant_name.to_sym, key)
+  end
+
   private
 
   def create_tenant
