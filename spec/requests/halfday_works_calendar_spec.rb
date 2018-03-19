@@ -21,7 +21,9 @@ describe 'Halfday Works calendar feed' do
     let!(:halfday_participation) { create(:halfday_participation, participants_count: 3) }
 
     it 'responds 200' do
-      get '/halfday_works/calendar.ics', params: { auth_token: ENV['ICALENDAR_AUTH_TOKEN'] }
+      auth_token = Current.acp.credentials(:icalendar_auth_token)
+
+      get '/halfday_works/calendar.ics', params: { auth_token: auth_token }
       expect(response.status).to eq 200
       expect(response.body).to include "#{halfday_participation.member.name} (3)"
     end

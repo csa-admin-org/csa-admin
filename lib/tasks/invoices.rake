@@ -12,9 +12,13 @@ namespace :invoices do
 
   desc 'Process all new payments'
   task process_payments: :environment do
-    ACP.enter!('ragedevert')
-    PaymentsProcessor.new.process
-    p 'All payments processed.'
+    ACP.enter_each! do
+      if raiffeisen_credentials = Current.acp.credentials(:raiffeisen)
+        provider = Billing::Raiffeisen.new(raiffeisen_credentials)
+        PaymentsProcessor.new(provider).process
+        p 'All Raiffeisen payments processed.'
+      end
+    end
   end
 
   desc 'Send invoice overdue notices'
