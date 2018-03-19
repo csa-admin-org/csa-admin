@@ -8,6 +8,45 @@ describe 'members page' do
   context 'existing member token' do
     let!(:halfday) { create(:halfday, date: 4.days.from_now) }
 
+    it 'shows current memberhsip info and halfdays count' do
+      create(:basket_complement, id: 1, name: 'Oeufs')
+      member.current_year_membership.update!(
+        annual_halfday_works: 3,
+        basket_size: create(:basket_size, name: 'Petit'),
+        distribution: create(:distribution, name: 'Jardin de la main'),
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1 }
+        })
+
+      visit "/#{member.token}"
+      expect(page).to have_content "Panier: Petit"
+      expect(page).to have_content "Compléments: Oeufs"
+      expect(page).to have_content "Distribution: Jardin de la main"
+      expect(page).to have_content "½ Journées effectuées (#{Date.current.year}): 0/3"
+    end
+
+    it 'shows next year membership info and halfdays count' do
+      Delivery.create_all(40, Current.fiscal_year.beginning_of_year + 1.year)
+      create(:basket_complement, id: 1, name: 'Fromage')
+      member.current_year_membership.delete
+      create(:membership,
+        member: member,
+        started_on: Date.current.beginning_of_year + 1.year,
+        ended_on: Date.current.end_of_year + 1.year,
+        annual_halfday_works: 4,
+        basket_size: create(:basket_size, name: 'Grand'),
+        distribution: create(:distribution, name: 'Vélo'),
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1 }
+        })
+
+      visit "/#{member.token}"
+      expect(page).to have_content "Panier: Grand"
+      expect(page).to have_content "Compléments: Fromage"
+      expect(page).to have_content "Distribution: Vélo"
+      expect(page).to have_content "½ Journées effectuées (#{Date.current.year + 1}): 0/4"
+    end
+
     it 'adds new participation' do
       visit "/#{member.token}"
 

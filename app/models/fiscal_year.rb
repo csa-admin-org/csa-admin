@@ -9,6 +9,7 @@ class FiscalYear
       new(date_or_year, start_month: start_month)
     when Integer
       new(Date.new(date_or_year, start_month), start_month: start_month)
+    when FiscalYear then date_or_year
     else
       raise ArgumentError, 'invalid date or year'
     end
@@ -29,6 +30,14 @@ class FiscalYear
 
   def range
     beginning_of_year..end_of_year
+  end
+
+  def to_s
+    if range.min.year == range.max.year
+      range.min.year.to_s
+    else
+      [range.min.year, range.max.year].join('-')
+    end
   end
 
   def year
