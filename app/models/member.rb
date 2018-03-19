@@ -147,17 +147,13 @@ class Member < ActiveRecord::Base
   end
 
   def halfday_works(year = nil)
-    @annual_halfday_works ||= begin
-      year ||= Current.fy_year
-      memberships.during_year(year).first&.halfday_works.to_i
-    end
+    year ||= Current.fiscal_year
+    memberships.during_year(year).first&.halfday_works.to_i
   end
 
   def validated_halfday_works(year = nil)
-    @validated_halfday_works ||= begin
-      year ||= Current.fy_year
-      halfday_participations.during_year(year).validated.sum(&:participants_count)
-    end
+    year ||= Current.fiscal_year
+    halfday_participations.during_year(year).validated.sum(&:participants_count)
   end
 
   def remaining_halfday_works(year = nil)

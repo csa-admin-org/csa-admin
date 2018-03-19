@@ -66,8 +66,12 @@ class Membership < ActiveRecord::Base
     baskets_count == baskets.trial.count
   end
 
+  def fiscal_year
+    @fiscal_year ||= Current.acp.fiscal_year_for(started_on)
+  end
+
   def fy_year
-    Current.acp.fiscal_year_for(started_on).year
+    fiscal_year.year
   end
 
   def started?
