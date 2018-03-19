@@ -21,7 +21,9 @@ describe 'Gribouille Emails list' do
     let!(:member) { create(:member, gribouille: true, emails: 'foo@foo.com') }
 
     it 'responds 200' do
-      get '/gribouille_emails', params: { auth_token: ENV['GRIBOUILLE_AUTH_TOKEN'] }
+      auth_token = Current.acp.credentials(:gribouille_auth_token)
+
+      get '/gribouille_emails', params: { auth_token: auth_token }
       expect(response.status).to eq 200
       expect(response.body).to include member.emails
     end

@@ -1,8 +1,8 @@
 class PaymentsProcessor
   InvoiceIsrBalanceUpdateError = Class.new(StandardError)
 
-  def initialize(provider_class = Raiffeisen)
-    @provider = provider_class.new
+  def initialize(provider)
+    @provider = provider
   end
 
   def process

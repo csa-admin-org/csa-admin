@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-describe Raiffeisen, :vcr do
-  let(:raiffeisen) { Raiffeisen.new }
+describe Billing::Raiffeisen, :vcr do
+  let(:raiffeisen) { Billing::Raiffeisen.new(Current.acp.credentials(:raiffeisen)) }
 
   specify '#payments_data' do
     payments_data = raiffeisen.payments_data
     expect(payments_data).to include(
-      Raiffeisen::PaymentData.new(
+      Billing::Raiffeisen::PaymentData.new(
         invoice_id: 143,
         amount: BigDecimal(1075),
         date: Date.new(2016, 2, 29),
         isr_data: '0-00201013734600110419080241000000000143800001075009999999916022916022916022999999999500000000000000'),
-      Raiffeisen::PaymentData.new(
+      Billing::Raiffeisen::PaymentData.new(
         invoice_id: 272,
         amount: BigDecimal(955),
         date: Date.new(2016, 2, 29),
