@@ -55,7 +55,7 @@ class Halfday < ActiveRecord::Base
 
   def missing_participants_count
     participants_limit &&
-      participants_limit - participations.sum(:participants_count)
+      participants_limit - participations.map(&:participants_count).sum
   end
 
   def name
@@ -76,7 +76,7 @@ class Halfday < ActiveRecord::Base
 
   %i[place place_url activity].each do |attr|
     define_method attr do
-      preset ? 'preset' : self[attr]
+      preset_id ? 'preset' : self[attr]
     end
   end
 

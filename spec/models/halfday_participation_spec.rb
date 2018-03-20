@@ -12,7 +12,7 @@ describe HalfdayParticipation do
     it 'validates halfday participants limit' do
       halfday = create(:halfday, participants_limit: 3)
       create(:halfday_participation, halfday: halfday, participants_count: 1)
-      participation = build(:halfday_participation, halfday: halfday, participants_count: 3)
+      participation = build(:halfday_participation, halfday: halfday.reload, participants_count: 3)
       expect(participation).not_to have_valid(:participants_count)
     end
   end
