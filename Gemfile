@@ -7,7 +7,7 @@ end
 
 ruby '2.5.0'
 
-gem 'rails', github: 'rails', branch: '5-2-stable'
+gem 'rails', '~> 5.2.0.rc2'
 gem 'bootsnap', require: false
 
 gem 'rails-i18n'
