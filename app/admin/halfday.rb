@@ -18,6 +18,17 @@ ActiveAdmin.register Halfday do
     actions
   end
 
+  csv do
+    column(:date)
+    column(:period)
+    column(:place)
+    column(:place_url)
+    column(:activity)
+    column(:description)
+    column('Nombre de participants') { |h| h.participations.sum(&:participants_count) }
+    column(:participants_limit)
+  end
+
   filter :place, as: :select, collection: -> { Halfday.distinct.pluck(:place).sort }
   filter :activity, as: :select, collection: -> { Halfday.distinct.pluck(:activity).sort }
   filter :date

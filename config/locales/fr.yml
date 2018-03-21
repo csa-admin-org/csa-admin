@@ -378,6 +378,7 @@ fr:
         validated_at: Validée à
         rejected_at: Refusée à
         phones: Téléphone(s)
+        carpooling_phone: Téléphone covoiturage
         emails: Email(s)
         created_at: Enregistrée à
         updated_at: Mise à jour à
