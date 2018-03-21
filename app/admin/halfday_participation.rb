@@ -19,12 +19,25 @@ ActiveAdmin.register HalfdayParticipation do
     actions
   end
 
+  csv do
+    column(:date) { |hp| hp.halfday.date.to_s }
+    column('ID Membre') { |hp| hp.member_id }
+    column('Nom Membre') { |hp| hp.member.name }
+    column(:participants_count)
+    column(:carpooling_phone)
+    column(:state)
+    column(:created_at)
+    column(:validated_at)
+    column(:rejected_at)
+  end
+
   filter :member,
     as: :select,
     collection: -> { Member.joins(:halfday_participations).order(:name).distinct }
   filter :halfday,
     as: :select,
     collection: -> { Halfday.order(:date, :start_time) }
+  filter :halfday_date, label: 'Date', as: :date_range
 
   form do |f|
     f.inputs 'Details' do
