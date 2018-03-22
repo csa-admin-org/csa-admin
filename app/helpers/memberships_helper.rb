@@ -36,6 +36,14 @@ module MembershipsHelper
     end
   end
 
+  def distribution_description(membership)
+    if membership
+      membership.distribution.name
+    else
+      content_tag(:em, 'Aucun')
+    end
+  end
+
   def basket_sizes_price_info(baskets)
     baskets
       .pluck(:quantity, :basket_price)

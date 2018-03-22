@@ -5,7 +5,7 @@ section
     li== "Panier: #{basket_size_description(membership)}"
     - if BasketComplement.any?
       li== "Compléments: #{basket_complements_description(membership&.memberships_basket_complements&.includes(:basket_complement))}"
-    li== "Distribution: #{membership.distribution.name}"
+    li== "Distribution: #{distribution_description(membership)}"
 
     - [@member.current_year_membership, @member.future_membership].compact.map(&:fiscal_year).each do |fiscal_year|
       li
