@@ -23,7 +23,7 @@ class Membership < ActiveRecord::Base
   before_validation do
     self.basket_price ||= basket_size&.price
     self.distribution_price ||= distribution&.price
-    self.annual_halfday_works ||= basket_size&.annual_halfday_works
+    self.annual_halfday_works ||= basket_quantity * basket_size&.annual_halfday_works
   end
 
   validates :member, presence: true
