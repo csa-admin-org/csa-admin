@@ -1,16 +1,23 @@
 section
   h4= "#{@member.name}"
-  ul
-    - membership = @member.current_year_membership || @member.future_membership
-    li== "Panier: #{basket_size_description(membership)}"
-    - if BasketComplement.any?
-      li== "Compléments: #{basket_complements_description(membership&.memberships_basket_complements&.includes(:basket_complement))}"
-    li== "Distribution: #{distribution_description(membership)}"
 
-    - [@member.current_year_membership, @member.future_membership].compact.map(&:fiscal_year).each do |fiscal_year|
-      li
-        = "#{halfdays_human_name} effectuées (#{fiscal_year}): "
-        b= "#{@member.validated_halfday_works(fiscal_year)}/#{@member.halfday_works(fiscal_year)}"
+  - current_membership = @member.current_year_membership
+  - future_membership = @member.future_membership
+  - if membership = current_membership || future_membership
+    - basket = membership.baskets.coming.first
+    ul
+      li== "Panier: #{basket_size_description(membership, basket)}"
+      - if BasketComplement.any?
+        li== "Compléments: #{basket_complements_description(membership.memberships_basket_complements&.includes(:basket_complement))}"
+      li== "Distribution: #{distribution_description(membership, basket)}"
+      - [current_membership, future_membership].compact.map(&:fiscal_year).each do |fiscal_year|
+        li
+          = "#{halfdays_human_name} effectuées (#{fiscal_year}): "
+          b= "#{@member.validated_halfday_works(fiscal_year)}/#{@member.halfday_works(fiscal_year)}"
+  - else
+    p
+      = 'Abonnement: '
+      em.empty Aucun
 
 section
   h2= "Vos #{halfdays_human_name.downcase} à venir"

@@ -8,7 +8,7 @@ describe 'members page' do
   context 'existing member token' do
     let!(:halfday) { create(:halfday, date: 4.days.from_now) }
 
-    it 'shows current memberhsip info and halfdays count' do
+    it 'shows current membership info and halfdays count' do
       create(:basket_complement, id: 1, name: 'Oeufs')
       member.current_year_membership.update!(
         annual_halfday_works: 3,
@@ -19,9 +19,32 @@ describe 'members page' do
         })
 
       visit "/#{member.token}"
+
       expect(page).to have_content "Panier: Petit"
       expect(page).to have_content "Compléments: Oeufs"
       expect(page).to have_content "Distribution: Jardin de la main"
+      expect(page).to have_content "½ Journées effectuées (#{Date.current.year}): 0/3"
+    end
+
+    it 'shows current membership info with custom coming basket' do
+      create(:basket_complement, id: 1, name: 'Oeufs')
+      member.current_year_membership.update!(
+        annual_halfday_works: 3,
+        basket_size: create(:basket_size, name: 'Petit'),
+        distribution: create(:distribution, name: 'Jardin de la main'),
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1 }
+        })
+      member.current_year_membership.baskets.coming.first.update!(
+        basket_size: create(:basket_size, name: 'Grand'),
+        quantity: 2,
+        distribution: create(:distribution, name: 'Vélo'))
+
+      visit "/#{member.token}"
+
+      expect(page).to have_content "Panier: 2x Grand"
+      expect(page).to have_content "Compléments: Oeufs"
+      expect(page).to have_content "Distribution: Vélo"
       expect(page).to have_content "½ Journées effectuées (#{Date.current.year}): 0/3"
     end
 
@@ -41,10 +64,19 @@ describe 'members page' do
         })
 
       visit "/#{member.token}"
+
       expect(page).to have_content "Panier: Grand"
       expect(page).to have_content "Compléments: Fromage"
       expect(page).to have_content "Distribution: Vélo"
       expect(page).to have_content "½ Journées effectuées (#{Date.current.year + 1}): 0/4"
+    end
+
+    it 'shows with no membership' do
+      member.current_year_membership.delete
+
+      visit "/#{member.token}"
+
+      expect(page).to have_content "Abonnement: Aucun"
     end
 
     it 'adds new participation' do
