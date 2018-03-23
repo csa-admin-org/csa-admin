@@ -18,6 +18,11 @@ namespace :invoices do
         PaymentsProcessor.new(provider).process
         p 'All Raiffeisen payments processed.'
       end
+      if bas_credentials = Current.acp.credentials(:bas)
+        provider = Billing::BAS.new(bas_credentials)
+        PaymentsProcessor.new(provider).process
+        p 'All BAS payments processed.'
+      end
     end
   end
 
