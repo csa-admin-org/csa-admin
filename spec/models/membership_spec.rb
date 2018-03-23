@@ -8,6 +8,15 @@ describe Membership do
     expect(membership.annual_halfday_works).to eq 3
   end
 
+  it 'sets annual_halfday_works default using basket quantity' do
+    basket_size = create(:basket_size, annual_halfday_works: 3)
+    membership = create(:membership,
+      basket_quantity: 2,
+      basket_size_id: basket_size.id)
+
+    expect(membership.annual_halfday_works).to eq 2 * 3
+  end
+
   describe 'validations' do
     let(:membership) { create(:membership) }
 
