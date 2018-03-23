@@ -5,8 +5,13 @@ module MembershipsHelper
     }.join(' au ')
   end
 
-  def basket_size_description(membership)
-    if membership
+  def basket_size_description(membership, basket = nil)
+    if basket
+      case basket.quantity
+      when 1 then basket.basket_size.name
+      else "#{basket.quantity}x #{basket.basket_size.name}"
+      end
+    elsif membership
       desc =
         case membership.basket_quantity
         when 1 then membership.basket_size.name
@@ -15,7 +20,7 @@ module MembershipsHelper
       desc += " (#{membership.season_name})" unless membership.all_seasons?
       desc
     else
-      content_tag(:em, 'Aucun')
+      content_tag :em, 'Aucun', class: 'empty'
     end
   end
 
@@ -32,15 +37,17 @@ module MembershipsHelper
     if names.present?
       names.to_sentence
     else
-      content_tag :em, 'Aucun'
+      content_tag :em, 'Aucun', class: 'empty'
     end
   end
 
-  def distribution_description(membership)
-    if membership
+  def distribution_description(membership, basket = nil)
+    if basket
+      basket.distribution.name
+    elsif membership
       membership.distribution.name
     else
-      content_tag(:em, 'Aucun')
+      content_tag :em, 'Aucun', class: 'empty'
     end
   end
 
