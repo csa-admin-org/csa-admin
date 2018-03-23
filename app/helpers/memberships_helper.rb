@@ -5,19 +5,20 @@ module MembershipsHelper
     }.join(' au ')
   end
 
-  def basket_size_description(membership, basket = nil)
-    if basket
-      case basket.quantity
-      when 1 then basket.basket_size.name
-      else "#{basket.quantity}x #{basket.basket_size.name}"
+  def basket_size_description(object)
+    case object
+    when Basket
+      case object.quantity
+      when 1 then object.basket_size.name
+      else "#{object.quantity}x #{object.basket_size.name}"
       end
-    elsif membership
+    when Membership
       desc =
-        case membership.basket_quantity
-        when 1 then membership.basket_size.name
-        else "#{membership.basket_quantity}x #{membership.basket_size.name}"
+        case object.basket_quantity
+        when 1 then object.basket_size.name
+        else "#{object.basket_quantity}x #{object.basket_size.name}"
         end
-      desc += " (#{membership.season_name})" unless membership.all_seasons?
+      desc += " (#{object.season_name})" unless object.all_seasons?
       desc
     else
       content_tag :em, 'Aucun', class: 'empty'
@@ -41,11 +42,10 @@ module MembershipsHelper
     end
   end
 
-  def distribution_description(membership, basket = nil)
-    if basket
-      basket.distribution.name
-    elsif membership
-      membership.distribution.name
+  def distribution_description(object)
+    case object
+    when Basket, Membership
+      object.distribution.name
     else
       content_tag :em, 'Aucun', class: 'empty'
     end
