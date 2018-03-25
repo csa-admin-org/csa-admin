@@ -20,4 +20,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'BAS'
   inflect.acronym 'PDF'
   inflect.acronym 'XLSX'
+  inflect.acronym 'MailChimp'
 end

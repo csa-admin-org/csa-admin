@@ -1,10 +1,10 @@
 module HalfdaysHelper
   def halfday_human_name
-    t("halfday.#{Current.acp.halfday_i18n_scope}.one")
+    I18n.t("halfday.#{Current.acp.halfday_i18n_scope}.one")
   end
 
   def halfdays_human_name
-    t("halfday.#{Current.acp.halfday_i18n_scope}.other")
+    I18n.t("halfday.#{Current.acp.halfday_i18n_scope}.other")
   end
 
   def halfday_scoped_attribute(attr)

@@ -156,6 +156,11 @@ class Member < ActiveRecord::Base
     halfday_participations.during_year(year).validated.sum(&:participants_count)
   end
 
+  def coming_halfday_works(year = nil)
+    year ||= Current.fiscal_year
+    halfday_participations.during_year(year).coming.sum(&:participants_count)
+  end
+
   def remaining_halfday_works(year = nil)
     [halfday_works(year) - validated_halfday_works(year), 0].max
   end
