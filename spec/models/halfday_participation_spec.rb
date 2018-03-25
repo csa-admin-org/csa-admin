@@ -77,7 +77,7 @@ describe HalfdayParticipation do
     it 'returns true when a deletion deadline is set and creation is in the last 24h' do
       Current.acp.update!(halfday_participation_deletion_deadline_in_days: 30)
       halfday = create(:halfday, date: 29.days.from_now)
-      participation = create(:halfday_participation, halfday: halfday, created_at: 23.hours.ago)
+      participation = create(:halfday_participation, halfday: halfday, created_at: 20.hours.ago)
 
       expect(participation).to be_destroyable
     end

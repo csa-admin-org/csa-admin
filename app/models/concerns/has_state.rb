@@ -12,6 +12,14 @@ module HasState
 
       const_set('STATES', states.map(&:to_s).freeze)
     end
+
+    def state_i18n_names
+      const_get('STATES').map { |s| I18n.t("active_admin.status_tag.#{s}") }.sort
+    end
+  end
+
+  def state_i18n_name
+    I18n.t("active_admin.status_tag.#{state}")
   end
 
   def invalid_transition(action)
