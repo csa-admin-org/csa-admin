@@ -57,6 +57,14 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  config.rack_dev_mark.enable = true
+  config.rack_dev_mark.theme = [
+    :title,
+    Rack::DevMark::Theme::GithubForkRibbon.new(
+      position: 'right',
+      fixed: true)
+  ]
+
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true
