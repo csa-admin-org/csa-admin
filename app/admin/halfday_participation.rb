@@ -86,17 +86,17 @@ ActiveAdmin.register HalfdayParticipation do
   end
 
   batch_action :reject do |selection|
-    HalfdayParticipation.find(selection).each do |participation|
+    HalfdayParticipation.includes(:halfday).find(selection).each do |participation|
       participation.reject!(current_admin)
     end
-    redirect_to collection_path
+    redirect_back fallback_location: collection_path
   end
 
   batch_action :validate do |selection|
-    HalfdayParticipation.find(selection).each do |participation|
+    HalfdayParticipation.includes(:halfday).find(selection).each do |participation|
       participation.validate!(current_admin)
     end
-    redirect_to collection_path
+    redirect_back fallback_location: collection_path
   end
 
   controller do
