@@ -12,7 +12,8 @@ ActiveAdmin.register Delivery do
     column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
     column :note, ->(delivery) { truncate delivery.note, length: 175 }
     actions defaults: true do |delivery|
-      link_to 'XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link'
+      link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
+      link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link')
     end
   end
 
@@ -24,8 +25,12 @@ ActiveAdmin.register Delivery do
     end
   end
 
+  action_item :xlsx, only: :show do
+    link_to 'Récapitulatif Excel', delivery_path(resource, format: :xlsx)
+  end
+
   action_item :pdf, only: :show do
-    link_to 'Excel', delivery_path(resource, format: :xlsx)
+    link_to 'Fiches Signature', delivery_path(resource, format: :pdf)
   end
 
   form do |f|
