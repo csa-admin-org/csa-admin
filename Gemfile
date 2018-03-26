@@ -73,6 +73,7 @@ group :development do
   gem 'web-console'
   gem 'letter_opener'
   gem 'bullet'
+  gem 'rack-dev-mark'
 end
 
 group :development, :test do

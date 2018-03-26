@@ -302,6 +302,8 @@ GEM
     public_suffix (3.0.2)
     puma (3.11.3)
     rack (2.0.4)
+    rack-dev-mark (0.7.7)
+      rack (>= 1.1, < 2.1)
     rack-status (1.0.0)
     rack-test (0.8.3)
       rack (>= 1.0, < 3)
@@ -491,6 +493,7 @@ DEPENDENCIES
   prawn
   prawn-table
   puma
+  rack-dev-mark
   rack-status
   rails (~> 5.2.0.rc2)
   rails-i18n
