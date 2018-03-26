@@ -175,6 +175,9 @@ ActiveAdmin.setup do |config|
   # config.filters = true
 
   config.current_filters = false
+
+  # Streaming is causing issue with apartment DB schema.
+  config.disable_streaming_in = %w[production development test]
 end
 
 module ActiveAdmin::ViewHelpers
