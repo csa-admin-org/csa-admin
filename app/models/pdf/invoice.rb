@@ -2,13 +2,13 @@ module PDF
   class Invoice < Base
     include MembershipsHelper
 
-    attr_reader :invoice, :membership, :isr_ref
+    attr_reader :invoice, :object, :isr_ref
 
     def initialize(invoice)
       @invoice = invoice
-      super
-      @membership = invoice.membership
+      @object = invoice.object
       @isr_ref = ISRReferenceNumber.new(invoice.id, invoice.amount)
+      super
       header
       member
       content
@@ -55,29 +55,30 @@ module PDF
       font_size 10
       data = [['description', 'montant (CHF)']]
 
-      if membership
+      case object
+      when Membership
         data << [membership_period, nil]
-        if membership.basket_sizes_price.positive?
-          membership.basket_sizes.uniq.each do |basket_size|
+        if object.basket_sizes_price.positive?
+          object.basket_sizes.uniq.each do |basket_size|
             data << [
               membership_basket_size_description(basket_size),
-              cur(membership.basket_size_total_price(basket_size))
+              cur(object.basket_size_total_price(basket_size))
             ]
           end
         end
-        unless membership.baskets_annual_price_change.zero?
-          data << ['Ajustement du prix des paniers', cur(membership.baskets_annual_price_change)]
+        unless object.baskets_annual_price_change.zero?
+          data << ['Ajustement du prix des paniers', cur(object.baskets_annual_price_change)]
         end
-        if membership.basket_complements_price.positive?
-          membership.basket_complements.uniq.each do |basket_complement|
+        if object.basket_complements_price.positive?
+          object.basket_complements.uniq.each do |basket_complement|
             data << [
               membership_basket_complement_description(basket_complement),
-              cur(membership.basket_complement_total_price(basket_complement))
+              cur(object.basket_complement_total_price(basket_complement))
             ]
           end
         end
-        membership.distributions.uniq.each do |distribution|
-          price = membership.distribution_total_price(distribution)
+        object.distributions.uniq.each do |distribution|
+          price = object.distribution_total_price(distribution)
           if price.positive?
             data << [
               membership_distribution_description(distribution),
@@ -85,8 +86,8 @@ module PDF
             ]
           end
         end
-        unless membership.halfday_works_annual_price.zero?
-          data << [halfday_works_annual_price_description, cur(membership.halfday_works_annual_price)]
+        unless object.halfday_works_annual_price.zero?
+          data << [halfday_works_annual_price_description, cur(object.halfday_works_annual_price)]
         end
       end
 
@@ -229,17 +230,17 @@ module PDF
     end
 
     def membership_period
-      "Période du #{membership_short_period(membership)}"
+      "Période du #{membership_short_period(object)}"
     end
 
     def membership_basket_size_description(basket_size)
-      baskets = membership.baskets.where(basket_size: basket_size)
+      baskets = object.baskets.where(basket_size: basket_size)
       "Panier: #{basket_size.name} #{basket_sizes_price_info(baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)
       baskets =
-        membership
+        object
           .baskets
           .joins(:baskets_basket_complements)
           .where(baskets_basket_complements: { basket_complement: basket_complement })
@@ -247,18 +248,18 @@ module PDF
     end
 
     def membership_distribution_description(distribution)
-      baskets = membership.baskets.where(distribution: distribution)
+      baskets = object.baskets.where(distribution: distribution)
       "Distribution: #{distribution.name} #{distributions_price_info(baskets)}"
     end
 
     def halfday_works_annual_price_description
       i18n_scope = Current.acp.halfday_i18n_scope
-      diff = membership.annual_halfday_works - membership.basket_size.annual_halfday_works
+      diff = object.annual_halfday_works - object.basket_size.annual_halfday_works
       if diff.positive?
         Membership.human_attribute_name("halfday_works_annual_price_reduction/#{i18n_scope}", count: diff)
       elsif diff.negative?
         Membership.human_attribute_name("halfday_works_annual_price_negative/#{i18n_scope}", count: diff)
-      elsif membership.halfday_works_annual_price.positive?
+      elsif object.halfday_works_annual_price.positive?
         Membership.human_attribute_name("halfday_works_annual_price_positive/#{i18n_scope}")
       else
         Membership.human_attribute_name("halfday_works_annual_price_default/#{i18n_scope}")

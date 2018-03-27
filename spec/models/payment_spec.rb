@@ -8,25 +8,25 @@ describe Payment do
       invoice1 = create(:invoice, :open,
         date: beginning_of_year,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #1',
         membership_amount_fraction: 3)
       invoice2 = create(:invoice, :open,
         date: beginning_of_year + 1.day,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #2',
         membership_amount_fraction: 2)
       invoice3 = create(:invoice, :canceled,
         date: beginning_of_year + 2.days,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 1)
       invoice3_bis = create(:invoice, :open,
         date: beginning_of_year + 3.days,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 1)
 
@@ -51,19 +51,19 @@ describe Payment do
       invoice1 = create(:invoice, :open,
         date: beginning_of_year,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #1',
         membership_amount_fraction: 3)
       invoice2 = create(:invoice, :open,
         date: beginning_of_year + 1.day,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #2',
         membership_amount_fraction: 2)
       invoice3 = create(:invoice, :open,
         date: beginning_of_year + 2.days,
         member: member,
-        membership: member.current_membership,
+        object: member.current_membership,
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 1)
 
