@@ -158,7 +158,7 @@ FactoryBot.define do
     date { Time.current }
 
     trait :membership do
-      membership { create(:membership, member: member) }
+      object { create(:membership, member: member) }
       memberships_amount_description 'Montant'
     end
 

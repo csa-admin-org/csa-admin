@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_15_193542) do
+ActiveRecord::Schema.define(version: 2018_03_25_185352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -288,7 +288,10 @@ ActiveRecord::Schema.define(version: 2018_03_15_193542) do
     t.datetime "overdue_notice_sent_at"
     t.datetime "canceled_at"
     t.string "state", default: "not_sent", null: false
+    t.string "object_type"
+    t.bigint "object_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
+    t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
   end
 

@@ -7,31 +7,30 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   NoPDFError = Class.new(StandardError)
 
-  attr_accessor :membership, :membership_amount_fraction, :send_email
+  attr_accessor :membership_amount_fraction, :send_email
 
   has_states :not_sent, :open, :closed, :canceled
 
   belongs_to :member
+  belongs_to :object, polymorphic: true, optional: true
   has_many :payments
 
   has_one_attached :pdf_file
 
   scope :support, -> { where.not(support_amount: nil) }
-  scope :membership, -> { where.not(memberships_amount: nil) }
+  scope :membership, -> { where(object_type: 'Membership') }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :cancelable, -> { where(state: [PENDING_STATE, OPEN_STATE]) }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { open.where('overdue_notices_count > 0') }
 
-  before_validation \
-    :set_paid_memberships_amount,
-    :set_remaining_memberships_amount,
-    :set_memberships_amount,
-    :set_amount
-
-  after_create :update_member_invoices_balance!
-  after_create :set_pdf
-  after_create :send_email
+  with_options if: :membership_type?, on: :create do
+    before_validation \
+      :set_paid_memberships_amount,
+      :set_remaining_memberships_amount,
+      :set_memberships_amount
+  end
+  before_validation :set_amount, on: :create
 
   validates :member, presence: true
   validates :date, presence: true
@@ -46,7 +45,13 @@ class Invoice < ActiveRecord::Base
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
-  validate :validate_memberships_amount_for_current_year, on: :create
+  validate :validate_memberships_amount_for_current_year,
+    on: :create,
+    if: :membership_type?
+
+  after_create :update_member_invoices_balance!
+  after_create :set_pdf
+  after_create :send_email
 
   def send!
     return unless can_send_email?
@@ -128,29 +133,29 @@ class Invoice < ActiveRecord::Base
     !sent_at? && member.emails?
   end
 
+  def membership_type?
+    object.is_a?(Membership)
+  end
+
   private
 
   def validate_memberships_amount_for_current_year
-    return unless membership
     paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
-    if paid_invoices.sum(:memberships_amount) + memberships_amount > membership.price
+    if paid_invoices.sum(:memberships_amount) + memberships_amount > object.price
       errors.add(:base, 'Somme de la facturation des abonnements trop grande')
     end
   end
 
   def set_paid_memberships_amount
-    return unless membership
     paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
     self[:paid_memberships_amount] ||= paid_invoices.sum(:memberships_amount)
   end
 
   def set_remaining_memberships_amount
-    return unless membership
-    self[:remaining_memberships_amount] ||= membership.price - paid_memberships_amount
+    self[:remaining_memberships_amount] ||= object.price - paid_memberships_amount
   end
 
   def set_memberships_amount
-    return unless membership
     amount = remaining_memberships_amount / membership_amount_fraction.to_f
     self[:memberships_amount] ||= amount.round_to_five_cents
   end

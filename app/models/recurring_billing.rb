@@ -20,7 +20,7 @@ class RecurringBilling
       attrs[:support_amount] = member.support_price
     end
     if membership_billable?
-      attrs[:membership] = membership
+      attrs[:object] = membership
       attrs[:membership_amount_fraction] = membership_amount_fraction
       attrs[:memberships_amount_description] = membership_amount_description
     end
