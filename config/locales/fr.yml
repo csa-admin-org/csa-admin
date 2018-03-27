@@ -814,3 +814,8 @@ fr:
         baskets: Paniers
         halfday_works: Participation des membres
         map: Carte
+
+  flash:
+    alert:
+      coming_halfday_participations_cannot_be_rejected: Les participations à venir ne peuvent pas encore être refusées
+      coming_halfday_participations_cannot_be_validated: Les participations à venir ne peuvent pas encore être validées

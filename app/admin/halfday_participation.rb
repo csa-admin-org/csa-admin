@@ -86,15 +86,23 @@ ActiveAdmin.register HalfdayParticipation do
   end
 
   batch_action :reject do |selection|
-    HalfdayParticipation.includes(:halfday).find(selection).each do |participation|
+    participations = HalfdayParticipation.includes(:halfday).where(id: selection)
+    participations.find_each do |participation|
       participation.reject!(current_admin)
+    end
+    if participations.coming.any?
+      flash[:alert] = t('flash.alert.coming_halfday_participations_cannot_be_rejected')
     end
     redirect_back fallback_location: collection_path
   end
 
   batch_action :validate do |selection|
-    HalfdayParticipation.includes(:halfday).find(selection).each do |participation|
+    participations = HalfdayParticipation.includes(:halfday).where(id: selection)
+    participations.find_each do |participation|
       participation.validate!(current_admin)
+    end
+    if participations.coming.any?
+      flash[:alert] = t('flash.alert.coming_halfday_participations_cannot_be_validated')
     end
     redirect_back fallback_location: collection_path
   end
