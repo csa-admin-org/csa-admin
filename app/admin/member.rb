@@ -226,9 +226,6 @@ ActiveAdmin.register Member do
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
 
-  action_item :create_invoice, only: :show, if: -> { authorized?(:create_invoice, resource) } do
-    link_to 'Facturer', create_invoice_member_path(resource), method: :post
-  end
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
     link_to 'Valider', validate_member_path(resource), method: :post
   end
@@ -266,11 +263,6 @@ ActiveAdmin.register Member do
   member_action :put_back_to_waiting_list, method: :post do
     resource.put_back_to_waiting_list!
     redirect_to member_path(resource)
-  end
-
-  member_action :create_invoice, method: :post do
-    RecurringBilling.invoice(resource)
-    redirect_to invoices_path(q: { member_id_eq: resource.id }, scope: :all, order: :date_asc)
   end
 
   before_build do |member|

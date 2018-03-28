@@ -12,9 +12,25 @@ class RecurringBilling
     @date = Date.current
   end
 
+  def needed?
+    invoice_valid?
+  end
+
   def invoice(**attrs)
     return unless member.billable?
 
+    invoice = build_invoice(**attrs)
+    invoice.save
+    invoice
+  end
+
+  private
+
+  def invoice_valid?
+    member.billable? && membership_billable? && build_invoice.valid?
+  end
+
+  def build_invoice(**attrs)
     attrs[:date] = date
     if support_billable?
       attrs[:support_amount] = member.support_price
@@ -24,10 +40,9 @@ class RecurringBilling
       attrs[:membership_amount_fraction] = membership_amount_fraction
       attrs[:memberships_amount_description] = membership_amount_description
     end
-    member.invoices.create(attrs)
-  end
 
-  private
+    member.invoices.build(attrs)
+  end
 
   def support_billable?
     member.support_price.positive? &&
