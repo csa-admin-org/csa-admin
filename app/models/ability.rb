@@ -20,7 +20,7 @@ class Ability
       can :destroy, [Member, Membership, Payment], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
       can :validate, Member, pending?: true
-      can :create_invoice, Member, billable?: true
+      can :trigger_recurring_billing, Membership
       can :remove_from_waiting_list, Member, waiting?: true
       can :put_back_to_waiting_list, Member, inactive?: true
       can :send_email, Invoice, can_send_email?: true

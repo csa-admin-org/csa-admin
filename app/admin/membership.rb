@@ -78,7 +78,7 @@ ActiveAdmin.register Membership do
           row("Validées") { m.validated_halfday_works }
         end
 
-        attributes_table title: 'Facturation' do
+        attributes_table title: link_to('Facturation', invoices_path(q: { member_id_eq: resource.member_id, date_gteq: resource.fiscal_year.beginning_of_year, date_lteq: resource.fiscal_year.end_of_year })) do
           if m.member.try(:salary_basket?)
             em 'Gratuit, panier salaire'
           elsif m.baskets_count.zero?
@@ -181,6 +181,19 @@ ActiveAdmin.register Membership do
       seasons: []
     ]
   includes :member, :delivered_baskets
+
+  action_item :trigger_recurring_billing, only: :show, if: -> {
+    authorized?(:trigger_recurring_billing, resource) && RecurringBilling.new(resource.member).needed?
+  } do
+    link_to 'Forcer la facturation', trigger_recurring_billing_membership_path(resource),
+      method: :post,
+      title: 'Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier'
+  end
+
+  member_action :trigger_recurring_billing, method: :post do
+    RecurringBilling.invoice(resource.member)
+    redirect_to invoices_path(q: { member_id_eq: resource.member_id, date_gteq: resource.fiscal_year.beginning_of_year, date_lteq: resource.fiscal_year.end_of_year }, scope: :all, order: :date_asc)
+  end
 
   before_build do |membership|
     fy_range = Delivery.next.fy_range
