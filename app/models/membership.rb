@@ -42,6 +42,7 @@ class Membership < ActiveRecord::Base
   before_save :set_renew
   after_save :update_halfday_works
   after_create :create_baskets!
+  after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_subscription_change!
@@ -281,6 +282,14 @@ class Membership < ActiveRecord::Base
       quantity: season_quantity(delivery),
       distribution_id: distribution_id,
       distribution_price: distribution_price)
+  end
+
+  def clear_member_waiting_info!
+    member.update!(
+      waiting_started_at: nil,
+      waiting_basket_size: nil,
+      waiting_distribution: nil,
+      waiting_basket_complement_ids: nil)
   end
 
   def update_trial_baskets_and_user_state!
