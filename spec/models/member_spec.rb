@@ -56,7 +56,7 @@ describe Member do
     expect(member.support_price).to eq 42
   end
 
-  it 'updates waiting basket_size/distribution on update' do
+  it 'updates waiting basket_size/distribution' do
     member = create(:member, :waiting)
     new_basket_size = create(:basket_size)
     new_distribution = create(:distribution)

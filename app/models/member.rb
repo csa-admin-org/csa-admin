@@ -55,7 +55,7 @@ class Member < ActiveRecord::Base
 
   before_validation :set_initial_support_price, on: :create
   before_validation :set_initial_waiting_started_at, on: :create
-  before_save :set_state, :set_support_member, :set_waiting_started_at
+  before_save :set_state, :set_support_member
   after_save :update_membership_halfday_works
 
   def gribouille?
@@ -207,7 +207,6 @@ class Member < ActiveRecord::Base
         self.state = ACTIVE_STATE
       end
     elsif future_membership
-
       if baskets_in_trial?
         self.state = TRIAL_STATE
       else
@@ -217,12 +216,6 @@ class Member < ActiveRecord::Base
       self.state = WAITING_STATE
     else
       self.state = INACTIVE_STATE
-    end
-  end
-
-  def set_waiting_started_at
-    if trial? || active? || inactive?
-      self.waiting_started_at = nil
     end
   end
 

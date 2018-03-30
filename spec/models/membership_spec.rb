@@ -407,4 +407,15 @@ describe Membership do
       expect(membership.basket_complements_price).to eq 3.2 + 2 * 4.5 + 2 * 4.5
     end
   end
+
+  it 'clears member waiting info after creation' do
+    create(:basket_complement, id: 1)
+    member = create(:member, :waiting, waiting_basket_complement_ids: [1])
+
+    expect { create(:membership, member: member) }
+     .to change { member.waiting_started_at }.to(nil)
+     .and change { member.waiting_basket_size_id }.to(nil)
+     .and change { member.waiting_distribution_id }.to(nil)
+     .and change { member.waiting_basket_complement_ids }.to([])
+  end
 end
