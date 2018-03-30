@@ -26,6 +26,8 @@ fr:
     has_many_delete: "Supprimer"
     has_many_remove: "Enlever"
     status_tag:
+      "true": oui
+      "false": non
       trial: essai
       closed: fermée
       open: ouverte
@@ -165,6 +167,9 @@ fr:
       block: "Liste"
       grid: "Grille"
       blog: "Blog"
+    resource:
+      edit:
+        details: 'Détails'
     resources:
       member:
         edit_model: 'Modifier'
@@ -453,6 +458,8 @@ fr:
         food_note: Note alimentaire
         waiting: Sur liste d'attente
         basket_size: Taille panier
+        distribution: Distribution
+        basket_complements: Compléments panier
         current_membership: Abonnement (en cours)
         with_name: Nom
         with_address: Adresse
@@ -460,15 +467,17 @@ fr:
         with_email: Email
         created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
-        waiting_basket_size: Taille panier
-        waiting_distribution: Distribution
-        waiting_basket_complement_ids: Compléments panier
+        waiting_basket_size: Taille panier en attente
+        waiting_distribution: Distribution en attente
+        waiting_basket_complements: Compléments panier en attente
         validated_at: Validé le
         validator: Validé par
         deliveries_received_count_since_first_membership: Paniers reçus
         salary_basket: Panier(s) salaire
         come_from: D'où venez-vous?
         billing_year_division: Intervalle de paiement
+        page_url: URL page perso.
+        profession: Profession
       membership:
         member_id: Membre
         member: Membre

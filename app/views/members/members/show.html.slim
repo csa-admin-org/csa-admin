@@ -1,7 +1,7 @@
 section
   h4= "#{@member.name}"
 
-  - if next_basket = @member.baskets.coming.first
+  - if next_basket = @member.next_basket
     ul
       li== "Panier: #{basket_size_description(next_basket)}"
       - if BasketComplement.any?

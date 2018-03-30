@@ -35,7 +35,7 @@ describe 'members page' do
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 }
         })
-      member.current_year_membership.baskets.coming.first.update!(
+      member.next_basket.update!(
         basket_size: create(:basket_size, name: 'Grand'),
         quantity: 2,
         distribution: create(:distribution, name: 'Vélo'))

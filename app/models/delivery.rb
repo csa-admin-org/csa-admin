@@ -26,10 +26,6 @@ class Delivery < ActiveRecord::Base
     coming.first
   end
 
-  def next?
-    self.class.next&.id == id
-  end
-
   def delivered?
     date < Time.current
   end

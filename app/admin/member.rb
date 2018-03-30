@@ -25,6 +25,36 @@ ActiveAdmin.register Member do
     actions
   end
 
+  csv do
+    column(:id)
+    column(:name)
+    column(:state) { |m| m.state_i18n_name }
+    column(:emails) { |m| m.emails_array.join(', ') }
+    column(:phones) { |m| m.phones_array.map { |p| p.phony_formatted }.join(', ') }
+    column(:address)
+    column(:zip)
+    column(:city)
+    column(:delivery_address)
+    column(:delivery_zip)
+    column(:delivery_city)
+    column(:profession)
+    column(:billing_year_division) { |m| t("billing.year_division._#{m.billing_year_division}") }
+    column(:salary_basket) { |m| m.salary_basket? }
+    column(:support_member) { |m| m.support_member? }
+    column(:waiting_started_at)
+    column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
+    column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
+    column(:waiting_distribution) { |m| m.waiting_distribution&.name }
+    column(:basket_size) { |m| m.next_basket&.basket_size&.name }
+    column(:basket_complements) { |m| m.next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ') }
+    column(:distribution) { |m| m.next_basket&.distribution&.name }
+    column(:page_url)
+    column(:food_note)
+    column(:note)
+    column(:validated_at)
+    column(:created_at)
+  end
+
   show do |member|
     columns do
       column do
@@ -107,13 +137,13 @@ ActiveAdmin.register Member do
         if member.pending? || member.waiting?
           attributes_table title: 'Abonnement (en attente)' do
             row :waiting_started_at
-            row :waiting_basket_size
+            row(:basket_size) { member.waiting_basket_size&.name }
             if BasketComplement.any?
-              row(:waiting_basket_complement_ids) {
+              row(:basket_complements) {
                 member.waiting_basket_complements.map(&:name).to_sentence
               }
             end
-            row :waiting_distribution
+            row(:distribution) { member.waiting_distribution&.name }
           end
         end
         attributes_table title: 'Adresse' do
@@ -133,8 +163,8 @@ ActiveAdmin.register Member do
         end
         attributes_table title: 'Facturation' do
           row(:billing_year_division) { t("billing.year_division._#{member.billing_year_division}") }
-          row(:salary_basket) { member.salary_basket? ? 'oui' : 'non' }
-          row(:support_member) { member.support_member ? 'oui' : 'non' }
+          row(:salary_basket) { status_tag(member.salary_basket) }
+          row(:support_member) { status_tag(member.support_member) }
           row(:support_price) { number_to_currency member.support_price }
           row('Montant facturé') { number_to_currency member.invoices.not_canceled.sum(:amount) }
           row('Paiements versés') { number_to_currency member.payments.sum(:amount) }
@@ -166,18 +196,19 @@ ActiveAdmin.register Member do
     collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] } }
 
   form do |f|
-    f.inputs 'Details' do
+    f.inputs t('.details') do
       f.input :name
     end
     if member.pending? || member.waiting?
       f.inputs 'Abonnement (en attente)' do
-        f.input :waiting_basket_size, label: 'Panier'
+        f.input :waiting_basket_size, label: BasketSize.model_name.human
         if BasketComplement.any?
           f.input :waiting_basket_complement_ids,
+            label: BasketComplement.model_name.human(count: 2),
             as: :check_boxes,
             collection: BasketComplement.all
         end
-        f.input :waiting_distribution, label: 'Distribution'
+        f.input :waiting_distribution, label: Distribution.model_name.human
       end
     end
     f.inputs 'Adresse' do
@@ -271,16 +302,25 @@ ActiveAdmin.register Member do
 
   controller do
     def apply_sorting(chain)
-      params[:order] ||= 'waiting_started_at_asc' if params[:scope] == 'waiting'
+      params[:order] ||= 'members.waiting_started_at_asc' if params[:scope] == 'waiting'
       super
     end
 
     def scoped_collection
-      if params[:scope] == 'trial'
-        Member.includes(:delivered_baskets)
-      else
-        Member.all
+      collection = Member.all
+      collection = collection.includes(:delivered_baskets) if params[:scope] == 'trial'
+      if request.format.csv?
+        collection = collection.includes(
+          :waiting_basket_size,
+          :waiting_distribution,
+          :waiting_basket_complements,
+          next_basket: [
+            :basket_size,
+            :distribution,
+            membership: :subscribed_basket_complements
+          ])
       end
+      collection
     end
 
     def find_resource

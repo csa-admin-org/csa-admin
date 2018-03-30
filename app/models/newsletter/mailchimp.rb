@@ -91,9 +91,9 @@ class Newsletter::MailChimp
       MEMB_ID: member.id,
       MEMB_NAME: member.name,
       MEMB_STAT: member.state_i18n_name,
-      MEMB_PAGE: [Current.acp.email_default_host, member.token].join('/')
+      MEMB_PAGE: member.page_url
     }
-    if membership = (member.current_year_membership || member.future_membership)
+    if membership = member.current_year_membership || member.future_membership
       halfday_asked = member.halfday_works(membership.fiscal_year)
       halfday_validated = member.validated_halfday_works(membership.fiscal_year)
       halfday_coming = member.coming_halfday_works(membership.fiscal_year)
@@ -102,7 +102,7 @@ class Newsletter::MailChimp
       fields[:HALF_COMI] = halfday_coming
       fields[:HALF_MISS] = halfday_asked - halfday_validated - halfday_coming
     end
-    if basket = member.baskets.coming.first
+    if basket = member.next_basket
       fields[:BASK_SIZE] = basket.basket_size&.name
       fields[:BASK_DIST] = basket.distribution.name
       fields[:BASK_COMP] = basket.membership.subscribed_basket_complements.map(&:name).join(', ')

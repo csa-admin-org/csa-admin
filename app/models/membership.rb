@@ -9,6 +9,7 @@ class Membership < ActiveRecord::Base
   belongs_to :basket_size
   belongs_to :distribution
   has_many :baskets, dependent: :destroy
+  has_one :next_basket, -> { coming }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder(:name) }, through: :baskets
   has_many :distributions, -> { reorder(:name) }, through: :baskets
   has_many :basket_complements, -> { reorder(:name) }, source: :complements, through: :baskets
@@ -50,6 +51,7 @@ class Membership < ActiveRecord::Base
   scope :past, -> { where('ended_on < ?', Time.current) }
   scope :future, -> { where('started_on > ?', Time.current) }
   scope :current, -> { including_date(Date.current) }
+  scope :current_or_future, -> { current.or(future) }
   scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
   scope :current_year, -> { during_year(Current.fy_year) }
