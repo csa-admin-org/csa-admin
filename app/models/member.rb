@@ -22,9 +22,11 @@ class Member < ActiveRecord::Base
   has_many :memberships
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
-  has_one :current_year_membership, -> { current_year }, class_name: 'Membership'
   has_one :future_membership, -> { future }, class_name: 'Membership'
+  has_one :current_or_future_membership, -> { current_or_future }, class_name: 'Membership'
+  has_one :current_year_membership, -> { current_year }, class_name: 'Membership'
   has_many :baskets, through: :memberships
+  has_one :next_basket, through: :current_or_future_membership
   has_many :delivered_baskets,
     through: :memberships,
     source: :delivered_baskets,
@@ -78,6 +80,10 @@ class Member < ActiveRecord::Base
 
   def display_delivery_address
     "#{final_delivery_address}, #{final_delivery_city} (#{final_delivery_zip})"
+  end
+
+  def page_url
+    [Current.acp.email_default_host, token].join('/')
   end
 
   def same_delivery_address?

@@ -3,8 +3,6 @@ class Basket < ActiveRecord::Base
 
   default_scope { joins(:delivery).order('deliveries.date') }
 
-  delegate :next?, :delivered?, to: :delivery
-
   belongs_to :membership, counter_cache: true, touch: true
   belongs_to :delivery
   belongs_to :basket_size
