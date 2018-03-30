@@ -23,7 +23,6 @@ Rails.application.configure do
   config.active_storage.service = :amazon
 
   # Use SuckerPunch for jobs
-  require 'sucker_punch/async_syntax'
   config.active_job.queue_adapter = :sucker_punch
 
   # Code is not reloaded between requests.
