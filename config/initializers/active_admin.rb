@@ -118,6 +118,8 @@ ActiveAdmin.setup do |config|
   # Force the use of quotes
   # config.csv_options = { :force_quotes => true }
 
+  # Fix encoding issue with Excel 2003 https://stackoverflow.com/questions/155097/microsoft-excel-mangles-diacritics-in-csv-files
+  config.csv_options = { byte_order_mark: "\xEF\xBB\xBF" }
 
   # == Menu System
   #
