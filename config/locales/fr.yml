@@ -481,11 +481,13 @@ fr:
       membership:
         member_id: Membre
         member: Membre
+        name: Nom
         basket_size_id: Taille panier
         basket_size: Taille panier
         baskets_count: Paniers
         started_on: Début
         ended_on: Fin
+        phones: Téléphones
         halfday_works_annual_price/halfday_work: Ajustement du prix de l'abonnement (½ journées)
         halfday_works_annual_price/basket_preparation: Ajustement du prix de l'abonnement (mises en panier)
         baskets_annual_price_change: Ajustement du prix de l'abonnement (paniers)
@@ -493,6 +495,7 @@ fr:
         basket_sizes_price: Prix paniers
         subscribed_basket_complement_ids: Compléments paniers
         memberships_basket_complements: Compléments
+        basket_complements: Compléments panier
         basket_complements_price: Prix compléments
         distributions_price: Prix distributions
         price: Total

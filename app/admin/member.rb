@@ -9,6 +9,17 @@ ActiveAdmin.register Member do
   scope :support
   scope :inactive
 
+  filter :with_name, as: :string
+  filter :with_address, as: :string
+  filter :with_phone, as: :string
+  filter :with_email, as: :string
+  filter :city, as: :select, collection: -> {
+    Member.pluck(:city).uniq.map(&:presence).compact.sort
+  }
+  filter :billing_year_division,
+    as: :select,
+    collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] } }
+
   index do
     if params[:scope] == 'waiting'
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
@@ -43,11 +54,10 @@ ActiveAdmin.register Member do
     column(:support_member) { |m| m.support_member? }
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
-    column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
+    if BasketComplement.any?
+      column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
+    end
     column(:waiting_distribution) { |m| m.waiting_distribution&.name }
-    column(:basket_size) { |m| m.next_basket&.basket_size&.name }
-    column(:basket_complements) { |m| m.next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ') }
-    column(:distribution) { |m| m.next_basket&.distribution&.name }
     column(:page_url)
     column(:food_note)
     column(:note)
@@ -184,17 +194,6 @@ ActiveAdmin.register Member do
     end
   end
 
-  filter :with_name, as: :string
-  filter :with_address, as: :string
-  filter :with_phone, as: :string
-  filter :with_email, as: :string
-  filter :city, as: :select, collection: -> {
-    Member.pluck(:city).uniq.map(&:presence).compact.sort
-  }
-  filter :billing_year_division,
-    as: :select,
-    collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] } }
-
   form do |f|
     f.inputs t('.details') do
       f.input :name
@@ -313,12 +312,7 @@ ActiveAdmin.register Member do
         collection = collection.includes(
           :waiting_basket_size,
           :waiting_distribution,
-          :waiting_basket_complements,
-          next_basket: [
-            :basket_size,
-            :distribution,
-            membership: :subscribed_basket_complements
-          ])
+          :waiting_basket_complements)
       end
       collection
     end

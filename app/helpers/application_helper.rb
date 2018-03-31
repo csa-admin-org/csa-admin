@@ -27,6 +27,10 @@ module ApplicationHelper
     "#{number_to_currency(price)} #{"(#{description})" if price.positive?}"
   end
 
+  def any_basket_complements?
+    BasketComplement.any?
+  end
+
   def seasons_collection
     ACP.seasons.map { |season| [I18n.t("season.#{season}"), season] }
   end

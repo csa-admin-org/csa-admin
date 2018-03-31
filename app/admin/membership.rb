@@ -6,6 +6,21 @@ ActiveAdmin.register Membership do
   scope :current, default: true
   scope :future
 
+  filter :member,
+    as: :select,
+    collection: -> { Member.joins(:memberships).order(:name).distinct }
+  filter :basket_size, as: :select, collection: -> { BasketSize.all }
+  filter :basket_complements,
+    as: :select,
+    collection: -> { BasketComplement.all },
+    if: :any_basket_complements?
+  filter :distribution, as: :select, collection: -> { Distribution.all }
+  filter :renew
+  filter :started_on
+  filter :ended_on
+
+  includes :member, :delivered_baskets
+
   index do
     column :member, ->(m) { auto_link m.member }
     column :started_on, ->(m) { l m.started_on, format: :number }
@@ -18,12 +33,21 @@ ActiveAdmin.register Membership do
     actions
   end
 
-  filter :member,
-    as: :select,
-    collection: -> { Member.joins(:memberships).order(:name).distinct }
-  filter :started_on
-  filter :ended_on
-  filter :renew
+  csv do
+    column(:id)
+    column(:name) { |m| m.member.name }
+    column(:emails) { |m| m.member.emails_array.join(', ') }
+    column(:phones) { |m| m.member.phones_array.map { |p| p.phony_formatted }.join(', ') }
+    column(:basket_size) { |m| basket_size_description(m) }
+    if BasketComplement.any?
+      column(:basket_complements) { |m|
+        basket_complements_description(m.memberships_basket_complements.includes(:basket_complement))
+      }
+    end
+    column(:distribution) { |m| m.distribution&.name }
+    column(:started_on)
+    column(:ended_on)
+  end
 
   show do |m|
     columns do
@@ -181,7 +205,6 @@ ActiveAdmin.register Membership do
       :_destroy,
       seasons: []
     ]
-  includes :member, :delivered_baskets
 
   action_item :trigger_recurring_billing, only: :show, if: -> {
     authorized?(:trigger_recurring_billing, resource) && RecurringBilling.new(resource.member).needed?
@@ -206,6 +229,12 @@ ActiveAdmin.register Membership do
     end
     membership.started_on ||= params[:started_on] || fy_range.min
     membership.ended_on ||= fy_range.max
+  end
+
+  controller do
+    def apply_filtering(chain)
+      super(chain).distinct
+    end
   end
 
   config.per_page = 30
