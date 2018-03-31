@@ -38,10 +38,11 @@ ActiveAdmin.register Membership do
     column(:name) { |m| m.member.name }
     column(:emails) { |m| m.member.emails_array.join(', ') }
     column(:phones) { |m| m.member.phones_array.map { |p| p.phony_formatted }.join(', ') }
-    column(:basket_size) { |m| basket_size_description(m) }
+    column(:basket_size) { |m| basket_size_description(m, text_only: true) }
     if BasketComplement.any?
       column(:basket_complements) { |m|
-        basket_complements_description(m.memberships_basket_complements.includes(:basket_complement))
+        basket_complements_description(m.memberships_basket_complements.includes(:basket_complement),
+          text_only: true)
       }
     end
     column(:distribution) { |m| m.distribution&.name }
