@@ -24,7 +24,7 @@ ActiveAdmin.register HalfdayParticipation do
     column('ID Membre') { |hp| hp.member_id }
     column('Nom Membre') { |hp| hp.member.name }
     column(:participants_count)
-    column(:carpooling_phone)
+    column(:carpooling_phone) { |hp| hp.carpooling_phone&.phony_formatted }
     column(:state)
     column(:created_at)
     column(:validated_at)

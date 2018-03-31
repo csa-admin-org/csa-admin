@@ -5,7 +5,7 @@ module MembershipsHelper
     }.join(' au ')
   end
 
-  def basket_size_description(object)
+  def basket_size_description(object, text_only: false)
     case object
     when Basket
       case object.quantity
@@ -21,11 +21,11 @@ module MembershipsHelper
       desc += " (#{object.season_name})" unless object.all_seasons?
       desc
     else
-      content_tag :em, 'Aucun', class: 'empty'
+      content_tag(:em, 'Aucun', class: 'empty') unless text_only
     end
   end
 
-  def basket_complements_description(complements)
+  def basket_complements_description(complements, text_only: false)
     names = Array(complements).compact.map do |complement|
       desc =
         case complement.quantity
@@ -37,7 +37,7 @@ module MembershipsHelper
     end
     if names.present?
       names.to_sentence
-    else
+    elsif !text_only
       content_tag :em, 'Aucun', class: 'empty'
     end
   end
