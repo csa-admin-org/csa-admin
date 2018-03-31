@@ -160,13 +160,13 @@ ActiveAdmin.register Membership do
       unless resource.new_record?
         em 'Attention, toute modification recréera tous les paniers à venir de cet abonnement!'
       end
-      f.input :basket_size, include_blank: false
+      f.input :basket_size, include_blank: false, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: 'Laisser blanc pour le prix par défaut.'
       f.input :baskets_annual_price_change,
         label: "Ajustement du prix de l'abonnement",
         hint: "Modifie le montant final, peu importe le nombre de paniers."
       f.input :basket_quantity
-      f.input :distribution, include_blank: false
+      f.input :distribution, include_blank: false, input_html: { class: 'js-reset_price' }
       f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'
       if Current.acp.seasons?
         f.input :seasons,
@@ -177,7 +177,10 @@ ActiveAdmin.register Membership do
 
       if BasketComplement.any?
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
-          ff.input :basket_complement, collection: BasketComplement.all, prompt: 'Choisir un complément:'
+          ff.input :basket_complement,
+            collection: BasketComplement.all,
+            prompt: 'Choisir un complément:',
+            input_html: { class: 'js-reset_price' }
           ff.input :price, hint: 'Laisser blanc pour le prix par défaut.'
           ff.input :quantity
           if Current.acp.seasons?
