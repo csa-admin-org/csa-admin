@@ -7,10 +7,10 @@ section
       - if BasketComplement.any?
         li== "Compléments: #{basket_complements_description(next_basket.membership.memberships_basket_complements&.includes(:basket_complement))}"
       li== "Distribution: #{distribution_description(next_basket)}"
-      - [@member.current_year_membership, @member.future_membership].compact.map(&:fiscal_year).each do |fiscal_year|
+      - [@member.current_year_membership, @member.future_membership].compact.each do |membership|
         li
-          = "#{halfdays_human_name} effectuées (#{fiscal_year}): "
-          b= "#{@member.validated_halfday_works(fiscal_year)}/#{@member.halfday_works(fiscal_year)}"
+          = "#{halfdays_human_name} (#{membership.fiscal_year}): "
+          b= "#{membership.recognized_halfday_works}/#{membership.halfday_works}"
   - else
     p
       = 'Abonnement: '

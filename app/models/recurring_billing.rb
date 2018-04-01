@@ -33,6 +33,7 @@ class RecurringBilling
   def build_invoice(**attrs)
     attrs[:date] = date
     if support_billable?
+      attrs[:object_type] = 'Support'
       attrs[:support_amount] = member.support_price
     end
     if membership_billable?

@@ -82,6 +82,12 @@ ActiveAdmin.register HalfdayParticipation do
       end
     end
 
+    if hp.invoices.any?
+      attributes_table title: 'Facturation' do
+        row(:invoiced_at) { auto_link hp.invoices.first, l(hp.invoices.first.date) }
+      end
+    end
+
     active_admin_comments
   end
 
@@ -105,6 +111,12 @@ ActiveAdmin.register HalfdayParticipation do
       flash[:alert] = t('flash.alert.coming_halfday_participations_cannot_be_validated')
     end
     redirect_back fallback_location: collection_path
+  end
+
+  action_item :invoice, only: :show, if: -> {
+    authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
+  } do
+    link_to 'Facturer', new_invoice_path(halfday_participation_id: resource.id)
   end
 
   controller do

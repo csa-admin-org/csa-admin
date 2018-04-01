@@ -97,8 +97,8 @@ fr:
     scopes:
       pending: à valider
       coming: à venir
-      validated: validé
-      rejected: refusé
+      validated: validée
+      rejected: refusée
       waiting: attente
       missing: manquante
       trial: essai
@@ -168,6 +168,8 @@ fr:
       grid: "Grille"
       blog: "Blog"
     resource:
+      new:
+        details: 'Détails'
       edit:
         details: 'Détails'
     resources:
@@ -182,9 +184,17 @@ fr:
         new_model: 'Nouvelle %{model}'
       gribouille:
         new_model: 'Nouvelle %{model}'
-      halfday_participation:
+      halfday_participation/halfday_work:
         new_model: 'Nouvelle %{model}'
+        edit_model: 'Modifier'
+        delete_model: 'Supprimer'
+      halfday_participation/basket_preparation:
+        new_model: 'Nouvelle %{model}'
+        edit_model: 'Modifier'
+        delete_model: 'Supprimer'
       halfday:
+        new_model: 'Nouvelle %{model}'
+      invoice:
         new_model: 'Nouvelle %{model}'
       basket_size:
         new_model: 'Nouvel %{model}'
@@ -224,8 +234,8 @@ fr:
 
   halfday:
     halfday_work:
-      one: ½ Journée
-      other: ½ Journées
+      one: "½ Journée"
+      other: "½ Journées"
     basket_preparation:
       one: Mise en panier
       other: Mises en panier
@@ -235,6 +245,36 @@ fr:
   admin:
     notifications:
       new_inscription: Nouvelle inscription
+  attributes:
+    id: ID
+    name: Nom
+    date: Date
+    email: Email
+    emails: Email(s)
+    phones: Téléphone(s)
+    comment: Commentaire
+    member_id: Membre
+    member: Membre
+    address: Adresse
+    city: Ville
+    zip: ZIP
+    invoice: Facture
+    invoice_id: Facture ID
+    basket_size_id: Taille panier
+    basket_size: Taille panier
+    delivery: Livraison
+    delivery_id: Livraison
+    distribution: Distribution
+    distribution_id: Distribution
+    price: Prix
+    annual_price: Prix annuel
+    quantity: Quantité
+    status: Statut
+    state: Statut
+    amount: Montant (CHF)
+    created_at: Créé le
+    updated_at: Mis à jour le
+    sent_at: Envoyé le
   activerecord:
     models:
       member:
@@ -302,7 +342,6 @@ fr:
         other: Légumes
     attributes:
       acp:
-        name: Nom
         features: Fonctionalités
         email_api_token: API token
         email_default_host: Default host
@@ -325,7 +364,6 @@ fr:
         delivery_pdf_footer: Bas de page
         halfday_participation_deletion_deadline_in_days: Délai de désinscription (en jours)
       admin:
-        name: Nom
         confirmation_sent_at: Date d'envoi de la confirmation
         confirmation_token: Clé de confirmation du mot de passe
         confirmed_at: Confirmé à
@@ -333,7 +371,6 @@ fr:
         current_password: Mot de passe actuel
         current_sign_in_at: Date de la connexion actuelle
         current_sign_in_ip: IP de la connexion actuelle
-        email: Email
         encrypted_password: Mot de passe crypté
         failed_attempts: Tentatives échouées
         last_sign_in_at: Date de la dernière connexion
@@ -351,42 +388,28 @@ fr:
         updated_at: Date de mise à jour
         rights: Droit d'accès
       basket:
-        delivery: Livraison
         description: Panier
         basket_size: Taille
         basket_price: Prix panier
         complement_ids: Compléments
-        distribution: Distribution
         distribution_price: Prix distribution
-        price: Prix
-        quantity: Quantité
       baskets_basket_complement:
         basket_complement: Complément
-        price: Prix
-        quantity: Quantité
       memberships_basket_complement:
         basket_complement: Complément
-        price: Prix
-        quantity: Quantité
         seasons: Saisons
       delivery:
-        date: Date
         basket_complements: Compléments paniers
       halfday_participation_default: &halfday_participation_default
-        member_id: Membre
-        member: Membre
         period: Horaire
         participants_count: Participants
-        status: Statut
-        state: Statut
         validator: Validateur
         validated_at: Validée à
         rejected_at: Refusée à
-        phones: Téléphone(s)
         carpooling_phone: Téléphone covoiturage
-        emails: Email(s)
         created_at: Enregistrée à
         updated_at: Mise à jour à
+        invoiced_at: Facturé le
       halfday_participation/halfday_work:
         <<: *halfday_participation_default
         halfday: ½ Journée
@@ -402,7 +425,6 @@ fr:
       halfday_preset/basket_preparation:
         <<: *halfday_preset_default
       halfday_default: &halfday_default
-        date: Date
         start_time: Heure de début
         end_time: Heure de fin
         period: Horaire
@@ -416,43 +438,24 @@ fr:
       halfday/basket_preparation:
         <<: *halfday_default
       distribution:
-        name: Nom
         address_name: Nom
-        address: Adresse
-        city: Ville
         price: Prix/panier
-        phones: Téléphone(s)
-        emails: Email(s)
         responsible_member: Membre responsable
       basket_size:
-        name: Nom
-        price: Prix
-        annual_price: Prix annuel
         annual_halfday_works/halfday_work: ½ journées de travail par année
         annual_halfday_works/basket_preparation: Mises en panier par année
       basket_complement:
-        name: Nom
-        price: Prix
-        annual_price: Prix annuel
         deliveries: Livraisons
       basket_content:
-        quantity: Quantité
         unit: Unité
         vegetable: Légume
-        delivery: Livraison
         basket_size: Panier
         distributions: Lieu de distribution
         same_basket_quantities: Même quantité pour tous les paniers
       member:
-        name: Nom
-        state: Statut
-        address: Adresse
-        city: Ville
-        zip: ZIP
         delivery_address: Adresse (Livraison)
         delivery_city: Ville (Livraison)
         delivery_zip: ZIP (Livraison)
-        phones: Téléphones
         support_member: Membre de soutien
         support_price: Cotisation anuelle
         food_note: Note alimentaire
@@ -465,7 +468,6 @@ fr:
         with_address: Adresse
         with_phone: Téléphone
         with_email: Email
-        created_at: Créé le
         waiting_started_at: Sur liste d'attente depuis
         waiting_basket_size: Taille panier en attente
         waiting_distribution: Distribution en attente
@@ -479,15 +481,16 @@ fr:
         page_url: URL page perso.
         profession: Profession
       membership:
-        member_id: Membre
-        member: Membre
-        name: Nom
-        basket_size_id: Taille panier
-        basket_size: Taille panier
+        halfday_works_asked: Demandées
+        halfday_works_coming: À venir
+        halfday_works_pending: En attente de validation
+        halfday_works_validated: Validées
+        halfday_works_rejected: Refusées
+        halfday_works_paid: Facturées
+        halfday_works_missing: Manquantes
         baskets_count: Paniers
         started_on: Début
         ended_on: Fin
-        phones: Téléphones
         halfday_works_annual_price/halfday_work: Ajustement du prix de l'abonnement (½ journées)
         halfday_works_annual_price/basket_preparation: Ajustement du prix de l'abonnement (mises en panier)
         baskets_annual_price_change: Ajustement du prix de l'abonnement (paniers)
@@ -510,7 +513,10 @@ fr:
         distribution_price: Prix distribution
         seasons: Saisons
         period: Période
-
+        halfday_works/halfday_work: "½ journées demandées"
+        halfday_works/basket_preparation: "Mises en panier demandées"
+        missing_halfday_works/halfday_work: "½ journées manquantes"
+        missing_halfday_works/basket_preparation: "Mises en panier manquantes"
         halfday_works_annual_price_reduction/halfday_work:
           one: "Réduction pour une demi-journée supplémentaire"
           other: "Réduction pour %{count} demi-journées supplémentaires"
@@ -527,34 +533,17 @@ fr:
         halfday_works_annual_price_positive/basket_preparation: "Mises en panier non effectuées"
         halfday_works_annual_price_default/halfday_work: "Demi-journées"
         halfday_works_annual_price_default/basket_preparation: "Mises en panier"
-
       absence:
-        member_id: Membre
-        member: Membre
         started_on: Début
         ended_on: Fin
       invoice:
-        id: ID
-        member_id: Membre
-        member: Membre
-        amount: Montant
         balance: Payé
-        balance:
-        balance: Payé
-        updated_at: Mis à jour le
-        sent_at: Envoyé le
         overdue_notices_count: 'Rappels'
         overdue_notice_sent_at: Dernier rappel envoyé le
-        state: Statut
+        paid_missing_halfday_works: Nombre / Participants
+        object: Objet
+        object_type: Objet
       payment:
-        id: ID
-        amount: Montant
-        invoice: Facture
-        invoice_id: Facture ID
-        member_id: Membre
-        member: Membre
-        updated_at: Mis à jour le
-        sent_at: Envoyé le
         comment: Commentaire
       gribouille:
         header: En-tête
@@ -576,6 +565,8 @@ fr:
       amount: Facturé
       balance: Payé
       missing_amount: Restant à facturer
+    object_type:
+      support: Cotisation
 
   billing:
     scope:
@@ -638,7 +629,7 @@ fr:
     - vendredi
     - samedi
     formats:
-      default: ! '%e %B %Y'
+      default: ! '%-d %B %Y'
       long: ! '%A %-d %B %Y'
       medium: ! '%a %-d %b %y'
       short: ! '%e %B'

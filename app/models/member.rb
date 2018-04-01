@@ -152,27 +152,9 @@ class Member < ActiveRecord::Base
     absences.any? { |absence| absence.period.include?(date) }
   end
 
-  def halfday_works(year = nil)
+  def membership(year = nil)
     year ||= Current.fiscal_year
-    memberships.during_year(year).first&.halfday_works.to_i
-  end
-
-  def validated_halfday_works(year = nil)
-    year ||= Current.fiscal_year
-    halfday_participations.during_year(year).validated.sum(&:participants_count)
-  end
-
-  def coming_halfday_works(year = nil)
-    year ||= Current.fiscal_year
-    halfday_participations.during_year(year).coming.sum(&:participants_count)
-  end
-
-  def remaining_halfday_works(year = nil)
-    [halfday_works(year) - validated_halfday_works(year), 0].max
-  end
-
-  def extra_halfday_works(year = nil)
-    [halfday_works(year) - validated_halfday_works(year), 0].min.abs
+    memberships.during_year(year).first
   end
 
   def to_param

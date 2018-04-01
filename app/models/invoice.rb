@@ -7,7 +7,9 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   NoPDFError = Class.new(StandardError)
 
-  attr_accessor :membership_amount_fraction, :send_email
+  OBJECT_TYPES = %w[Membership Support HalfdayParticipation]
+
+  attr_accessor :membership_amount_fraction, :send_email, :comment
 
   has_states :not_sent, :open, :closed, :canceled
 
@@ -23,6 +25,7 @@ class Invoice < ActiveRecord::Base
   scope :cancelable, -> { where(state: [PENDING_STATE, OPEN_STATE]) }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { open.where('overdue_notices_count > 0') }
+  scope :halfday_participation_type, -> { where(object_type: 'HalfdayParticipation') }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -35,7 +38,11 @@ class Invoice < ActiveRecord::Base
   validates :member, presence: true
   validates :date, presence: true
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
+  validates :object_type, inclusion: { in: OBJECT_TYPES }
   validates :amount, numericality: { greater_than: 0 }
+  validates :paid_missing_halfday_works,
+    numericality: { greater_than_or_equal_to: 1 },
+    allow_blank: true
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
     allow_nil: true
@@ -52,6 +59,7 @@ class Invoice < ActiveRecord::Base
   after_create :update_member_invoices_balance!
   after_create :set_pdf
   after_create :send_email
+  after_commit :update_membership_recognized_halfday_works!
 
   def send!
     return unless can_send_email?
@@ -109,8 +117,12 @@ class Invoice < ActiveRecord::Base
     @membership_amount_fraction || 1 # bill for everything by default
   end
 
-  def amount=(_)
-    raise NoMethodError, 'is set automaticaly.'
+  def amount=(*args)
+    if membership_type?
+      raise NoMethodError, 'is set automaticaly.'
+    else
+      super
+    end
   end
 
   def memberships_amount=(_)
@@ -134,7 +146,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def membership_type?
-    object.is_a?(Membership)
+    object_type == 'Membership'
   end
 
   private
@@ -161,7 +173,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_amount
-    self[:amount] = (memberships_amount || 0) + (support_amount || 0)
+    self[:amount] ||= (memberships_amount || 0) + (support_amount || 0)
   end
 
   def set_pdf
@@ -174,6 +186,12 @@ class Invoice < ActiveRecord::Base
 
   def update_member_invoices_balance!
     Payment.update_invoices_balance!(member_id)
+  end
+
+  def update_membership_recognized_halfday_works!
+    if object_type == 'HalfdayParticipation'
+      member.membership(fy_year)&.update_recognized_halfday_works!
+    end
   end
 
   def send_email

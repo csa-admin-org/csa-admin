@@ -11,6 +11,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.include FactoryBot::Syntax::Methods
+  config.include Devise::Test::IntegrationHelpers
 
   config.before(:suite) do
     FactoryBot.reload
@@ -36,5 +37,6 @@ RSpec.configure do |config|
 
   config.before(:each, type: :system) do
     driven_by :rack_test
+    Capybara.app_host = 'http://admin.ragedevert.test'
   end
 end

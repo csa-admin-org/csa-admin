@@ -14,7 +14,7 @@ class Ability
     end
     if admin.right? 'admin'
       can :manage, HalfdayPreset
-      can :create, [BasketComplement, Distribution, Member, Membership, Payment] & available_models
+      can :create, [BasketComplement, Distribution, Member, Membership, Payment, Invoice] & available_models
       can :update, [Distribution, Member] & available_models
       can :destroy, ActiveAdmin::Comment
       can :destroy, [Member, Membership, Payment], can_destroy?: true

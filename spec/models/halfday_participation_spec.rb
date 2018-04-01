@@ -173,4 +173,19 @@ describe HalfdayParticipation do
       expect(participation).not_to be_reminderable
     end
   end
+
+  it 'updates membership recognized_halfday_works' do
+    member = create(:member)
+    membership = create(:membership, member: member)
+
+    participation = build(:halfday_participation,
+      halfday: create(:halfday, date: 1.day.ago),
+      member: member,
+      participants_count: 2)
+
+    expect { participation.save! }
+      .to change { membership.reload.recognized_halfday_works }.by(2)
+    expect { participation.reject!(create(:admin)) }
+      .to change { membership.reload.recognized_halfday_works }.by(-2)
+  end
 end

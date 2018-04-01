@@ -163,6 +163,7 @@ FactoryBot.define do
     end
 
     trait :support do
+      object_type 'Support'
       support_amount { member.support_price }
     end
 
@@ -200,9 +201,19 @@ FactoryBot.define do
     member
     halfday
     participants_count 1
+    state 'pending'
 
     trait :validated do
-      validated_at { date }
+      halfday { create(:halfday, date: 1.day.ago )}
+      state 'validated'
+      validated_at { Time.current }
+      validator { create(:admin) }
+    end
+
+    trait :rejected do
+      halfday { create(:halfday, date: 1.day.ago )}
+      state 'rejected'
+      rejected_at { Time.current }
       validator { create(:admin) }
     end
   end

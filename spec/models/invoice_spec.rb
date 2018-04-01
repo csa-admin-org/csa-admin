@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Invoice do
   it 'raises on amount=' do
-    expect { build(:invoice, amount: 1) }.to raise_error(NoMethodError)
+    expect { build(:invoice, :membership, amount: 1) }.to raise_error(NoMethodError)
   end
 
   it 'raises on balance=' do
@@ -33,19 +33,34 @@ describe Invoice do
       .to change { InvoiceMailer.deliveries.count }
   end
 
+  it 'updates membership recognized_halfday_works' do
+    member = create(:member)
+    membership = create(:membership, member: member)
+    invoice = build(:invoice,
+      member: member,
+      object_type: 'HalfdayParticipation',
+      paid_missing_halfday_works: 2,
+      amount: 120)
+
+    expect { invoice.save! }.to change { membership.reload.recognized_halfday_works }.by(2)
+    expect { invoice.cancel! }.to change { membership.reload.recognized_halfday_works }.by(-2)
+  end
+
   context 'when support only' do
     let(:invoice) { create(:invoice, :support) }
 
     specify { expect(invoice.support_amount).to be_present }
+    specify { expect(invoice.object_type).to eq 'Support' }
     specify { expect(invoice.memberships_amount).to be_nil }
     specify { expect(invoice.amount).to eq invoice.support_amount }
   end
 
-  context 'when membership only' do
+  context 'when membership' do
     let(:invoice) { create(:invoice, :membership) }
     let(:amount) { invoice.member.memberships.first.price }
 
     specify { expect(invoice.support_amount).to be_nil }
+    specify { expect(invoice.object_type).to eq 'Membership' }
     specify { expect(invoice.memberships_amount).to eq amount  }
     specify { expect(invoice.paid_memberships_amount).to be_zero }
     specify { expect(invoice.remaining_memberships_amount).to eq amount }
@@ -75,7 +90,7 @@ describe Invoice do
 
     context 'when support present as well' do
       let(:invoice) do
-        create(:invoice, :membership, :support)
+        create(:invoice, :support, :membership)
       end
 
       specify { expect(invoice.support_amount).to be_present }

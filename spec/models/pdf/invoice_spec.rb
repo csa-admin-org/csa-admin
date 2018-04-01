@@ -160,6 +160,55 @@ describe PDF::Invoice do
         .and include('0100000332508>001104190802410000000000112+ 01137346>')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
+
+    it 'generates invoice with HalfdayParticipation object' do
+      halfday = create(:halfday, date: '2018-3-4')
+      rejected_participation = create(:halfday_participation, :rejected,
+        halfday: halfday)
+      invoice = create(:invoice,
+        id: 2001,
+        date: '2018-4-5',
+        object: rejected_participation,
+        amount: 120,
+        paid_missing_halfday_works: 2)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('½ ', 'Journée du 4 mars 2018 non-effectuée (2 participants)', '120.00')
+        .and contain_sequence('Total', '120.00')
+        .and include('0100000120000>001104190802410000000020015+ 01137346>')
+    end
+
+    it 'generates invoice with HalfdayParticipation type (one participant)' do
+      invoice = create(:invoice,
+        id: 2002,
+        date: '2018-4-5',
+        object_type: 'HalfdayParticipation',
+        amount: 60,
+        paid_missing_halfday_works: 1)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to contain_sequence('½ ', 'Journée non-effectuée', '60.00')
+        .and contain_sequence('Total', '60.00')
+        .and include('0100000060004>001104190802410000000020020+ 01137346>')
+    end
+    it 'generates invoice with HalfdayParticipation type (many participants)' do
+      invoice = create(:invoice,
+        id: 2003,
+        date: '2018-4-5',
+        object_type: 'HalfdayParticipation',
+        amount: 180,
+        paid_missing_halfday_works: 3)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to contain_sequence('3 ', '½ ', 'journées non-effectuées', '180.00')
+        .and contain_sequence('Total', '180.00')
+        .and include('0100000180005>001104190802410000000020031+ 01137346>')
+    end
   end
 
   context 'Lumiere des Champs settings' do
@@ -175,11 +224,12 @@ describe PDF::Invoice do
         isr_in_favor_of: "Association Lumière des Champs\nBd Paderewski 28\n1800 Vevey",
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
         invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch')
-      start_day = Current.fy_range.min.end_of_week + 2.months
-      8.times.each do |i|
+      start_day = Current.fy_range.min.end_of_week + 3.months
+      (48 - Delivery.current_year.count).times.each do |i|
         Delivery.create(date: start_day)
-        start_day += 1.month
+        start_day += 3.weeks
       end
+      expect(Delivery.current_year.count).to eq (48)
     }
 
     it 'generates invoice with support amount + complements + annual membership' do
@@ -254,14 +304,13 @@ describe PDF::Invoice do
         memberships_amount_description: 'Montant quadrimestriel #2')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
-
       expect(pdf_strings)
         .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 22x 30.50', '671.00')
-        .and contain_sequence('Déjà facturé', '- 223.65')
-        .and contain_sequence('Montant annuel restant', '447.35')
-        .and contain_sequence('Montant quadrimestriel #2', "223.70")
-        .and include '0100000223709>800250000000000000000001252+ 0192520>'
+        .and contain_sequence('Panier: Grand 21x 30.50', '640.50')
+        .and contain_sequence('Déjà facturé', '- 213.50')
+        .and contain_sequence('Montant annuel restant', '427.00')
+        .and contain_sequence('Montant quadrimestriel #2', "213.50")
+        .and include '0100000213500>800250000000000000000001252+ 0192520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 

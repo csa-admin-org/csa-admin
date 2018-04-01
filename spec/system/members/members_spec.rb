@@ -23,7 +23,7 @@ describe 'members page' do
       expect(page).to have_content "Panier: Petit"
       expect(page).to have_content "Compléments: Oeufs"
       expect(page).to have_content "Distribution: Jardin de la main"
-      expect(page).to have_content "½ Journées effectuées (#{Date.current.year}): 0/3"
+      expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
     end
 
     it 'shows current membership info with custom coming basket' do
@@ -45,7 +45,7 @@ describe 'members page' do
       expect(page).to have_content "Panier: 2x Grand"
       expect(page).to have_content "Compléments: Oeufs"
       expect(page).to have_content "Distribution: Vélo"
-      expect(page).to have_content "½ Journées effectuées (#{Date.current.year}): 0/3"
+      expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
     end
 
     it 'shows next year membership info and halfdays count' do
@@ -68,7 +68,7 @@ describe 'members page' do
       expect(page).to have_content "Panier: Grand"
       expect(page).to have_content "Compléments: Fromage"
       expect(page).to have_content "Distribution: Vélo"
-      expect(page).to have_content "½ Journées effectuées (#{Date.current.year + 1}): 0/4"
+      expect(page).to have_content "½ Journées (#{Date.current.year + 1}): 0/4"
     end
 
     it 'shows with no membership' do

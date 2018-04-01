@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_25_185352) do
+ActiveRecord::Schema.define(version: 2018_04_01_110939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -288,8 +288,9 @@ ActiveRecord::Schema.define(version: 2018_03_25_185352) do
     t.datetime "overdue_notice_sent_at"
     t.datetime "canceled_at"
     t.string "state", default: "not_sent", null: false
-    t.string "object_type"
+    t.string "object_type", null: false
     t.bigint "object_id"
+    t.integer "paid_missing_halfday_works"
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
@@ -348,7 +349,7 @@ ActiveRecord::Schema.define(version: 2018_03_25_185352) do
     t.datetime "deleted_at"
     t.integer "baskets_count", default: 0, null: false
     t.integer "halfday_works", default: 0, null: false
-    t.integer "validated_halfday_works", default: 0, null: false
+    t.integer "recognized_halfday_works", default: 0, null: false
     t.boolean "renew", default: false, null: false
     t.bigint "basket_size_id", null: false
     t.bigint "distribution_id", null: false

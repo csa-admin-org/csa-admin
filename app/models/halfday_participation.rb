@@ -7,9 +7,11 @@ class HalfdayParticipation < ActiveRecord::Base
   belongs_to :halfday
   belongs_to :member
   belongs_to :validator, class_name: 'Admin', optional: true
+  has_many :invoices, as: :object
 
   scope :validated, -> { where(state: 'validated') }
   scope :rejected, -> { where(state: 'rejected') }
+  scope :not_rejected, -> { where.not(state: 'rejected') }
   scope :pending, -> { joins(:halfday).merge(Halfday.past).where(state: 'pending') }
   scope :coming, -> { joins(:halfday).merge(Halfday.coming) }
   scope :past_current_year, -> { joins(:halfday).merge(Halfday.past_current_year) }
@@ -29,7 +31,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   before_create :set_carpooling_phone
   after_update :send_notifications
-  after_save :update_membership_validated_halfday_works
+  after_commit :update_membership_recognized_halfday_works!
 
   def coming?
     pending? && halfday.date > Date.current
@@ -75,7 +77,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   def validate!(validator)
     return if coming?
-    update(
+    update!(
       state: 'validated',
       validated_at: Time.current,
       validator: validator,
@@ -84,7 +86,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   def reject!(validator)
     return if coming?
-    update(
+    update!(
       state: 'rejected',
       rejected_at: Time.current,
       validator: validator,
@@ -113,9 +115,8 @@ class HalfdayParticipation < ActiveRecord::Base
     end
   end
 
-  def update_membership_validated_halfday_works
-    membership = member.memberships.during_year(halfday.fy_year).first
-    membership&.update_validated_halfday_works!
+  def update_membership_recognized_halfday_works!
+    member.membership(halfday.fy_year)&.update_recognized_halfday_works!
   end
 
   def send_notifications
