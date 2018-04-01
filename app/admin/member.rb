@@ -76,7 +76,7 @@ ActiveAdmin.register Member do
             table_for(memberships, class: 'table-memberships') do
               column(:period) { |m| auto_link m, membership_short_period(m) }
               column(halfdays_human_name) { |m|
-                auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}"
+                auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}"
               }
               column(:baskets) { |m|
                 auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}"
@@ -93,7 +93,7 @@ ActiveAdmin.register Member do
           else
             table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do
               column('Description') { |hp|
-                link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
+                auto_link hp, hp.halfday.name
               }
               column('Part. #', &:participants_count)
               column(:state) { |hp| status_tag(hp.state) }
@@ -102,7 +102,7 @@ ActiveAdmin.register Member do
         end
 
         panel link_to('Factures', invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
-          invoices = member.invoices.order(:date)
+          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(:date)
           if invoices.none?
             em 'Aucune facture'
           else

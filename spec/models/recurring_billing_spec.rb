@@ -27,6 +27,7 @@ describe RecurringBilling do
     invoice = create_invoice(member)
 
     expect(invoice.object).to be_nil
+    expect(invoice.object_type).to eq 'Support'
     expect(invoice.support_amount).to be_present
     expect(invoice.memberships_amount).to be_nil
     expect(invoice.amount).to eq invoice.support_amount

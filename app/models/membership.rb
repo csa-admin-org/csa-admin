@@ -190,9 +190,8 @@ class Membership < ActiveRecord::Base
     @distribution ||= Distribution.find(distribution_id)
   end
 
-  def update_validated_halfday_works!
-    validated_participations = member.halfday_participations.validated.during_year(fy_year)
-    update_column(:validated_halfday_works, validated_participations.sum(:participants_count))
+  def missing_halfday_works
+    [halfday_works - recognized_halfday_works, 0].max
   end
 
   def update_halfday_works!
@@ -204,6 +203,14 @@ class Membership < ActiveRecord::Base
         baskets_count / deliveries_count.to_f
       end
     update_column(:halfday_works, (percentage * annual_halfday_works).round)
+  end
+
+  def update_recognized_halfday_works!
+    participations = member.halfday_participations.not_rejected.during_year(fiscal_year)
+    invoices = member.invoices.not_canceled.halfday_participation_type.during_year(fiscal_year)
+    update_column(
+      :recognized_halfday_works,
+      participations.sum(:participants_count) + invoices.sum(:paid_missing_halfday_works))
   end
 
   private

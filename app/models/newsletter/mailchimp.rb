@@ -45,8 +45,6 @@ class Newsletter::MailChimp
       BASK_DIST: { name: 'Distribution', type: 'dropdown', required: false, options: { choices: Distribution.order(:name).pluck(:name) } },
       BASK_COMP: { name: 'Compléments panier', type: 'text', required: false },
       HALF_ASKE: { name: "#{halfdays_human_name} demandées", type: 'number', required: true },
-      HALF_VALI: { name: "#{halfdays_human_name} validées", type: 'number', required: true },
-      HALF_COMI: { name: "#{halfdays_human_name} à venir", type: 'number', required: true },
       HALF_MISS: { name: "#{halfdays_human_name} manquantes", type: 'number', required: true }
     }
     exiting_fields =
@@ -87,26 +85,16 @@ class Newsletter::MailChimp
   end
 
   def member_merge_fields(member)
-    fields = {
+    {
       MEMB_ID: member.id,
       MEMB_NAME: member.name,
       MEMB_STAT: member.state_i18n_name,
-      MEMB_PAGE: member.page_url
+      MEMB_PAGE: member.page_url,
+      BASK_SIZE: member.next_basket&.basket_size&.name,
+      BASK_DIST: member.next_basket&.distribution&.name,
+      BASK_COMP: member.next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', '),
+      HALF_ASKE: member.current_year_membership&.halfday_works.to_i,
+      HALF_MISS: member.current_year_membership&.missing_halfday_works.to_i
     }
-    if membership = member.current_year_membership || member.future_membership
-      halfday_asked = member.halfday_works(membership.fiscal_year)
-      halfday_validated = member.validated_halfday_works(membership.fiscal_year)
-      halfday_coming = member.coming_halfday_works(membership.fiscal_year)
-      fields[:HALF_ASKE] = halfday_asked
-      fields[:HALF_VALI] = halfday_validated
-      fields[:HALF_COMI] = halfday_coming
-      fields[:HALF_MISS] = halfday_asked - halfday_validated - halfday_coming
-    end
-    if basket = member.next_basket
-      fields[:BASK_SIZE] = basket.basket_size&.name
-      fields[:BASK_DIST] = basket.distribution.name
-      fields[:BASK_COMP] = basket.membership.subscribed_basket_complements.map(&:name).join(', ')
-    end
-    fields
   end
 end

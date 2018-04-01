@@ -1,5 +1,6 @@
 module PDF
   class Invoice < Base
+    include HalfdaysHelper
     include MembershipsHelper
 
     attr_reader :invoice, :object, :isr_ref
@@ -55,8 +56,8 @@ module PDF
       font_size 10
       data = [['description', 'montant (CHF)']]
 
-      case object
-      when Membership
+      case invoice.object_type
+      when 'Membership'
         data << [membership_period, nil]
         if object.basket_sizes_price.positive?
           object.basket_sizes.uniq.each do |basket_size|
@@ -89,6 +90,18 @@ module PDF
         unless object.halfday_works_annual_price.zero?
           data << [halfday_works_annual_price_description, cur(object.halfday_works_annual_price)]
         end
+      when 'HalfdayParticipation'
+        if object
+          str = "#{halfday_human_name} du #{I18n.l object.halfday.date} non-effectuée"
+          if invoice.paid_missing_halfday_works > 1
+            str += " (#{invoice.paid_missing_halfday_works} participants)"
+          end
+        elsif invoice.paid_missing_halfday_works == 1
+          str = "#{halfday_human_name} non-effectuée"
+        else
+          str = "#{invoice.paid_missing_halfday_works} #{halfdays_human_name.downcase} non-effectuées"
+        end
+        data << [str, cur(invoice.amount)]
       end
 
       if invoice.paid_memberships_amount.to_f > 0
@@ -109,8 +122,9 @@ module PDF
         data << ['Cotisation annuelle association', cur(invoice.support_amount)]
       end
 
-      if invoice.memberships_amount? && invoice.support_amount?
-        data << ['Total', number_to_currency(invoice.amount, unit: '')]
+      if (invoice.memberships_amount? && invoice.support_amount?) ||
+          invoice.object_type != 'Membership'
+        data << ['Total', cur(invoice.amount)]
       end
 
       table data, column_widths: [bounds.width - 120, 70], position: :center do |t|
@@ -137,8 +151,9 @@ module PDF
           t.row(cell.row).font_style = :italic if cell.content == ''
         end
 
-        if invoice.memberships_amount? &&
-            (invoice.support_amount? || !invoice.memberships_amount_description?)
+        if (invoice.memberships_amount? &&
+            (invoice.support_amount? || !invoice.memberships_amount_description?)) ||
+            invoice.object_type != 'Membership'
           t.columns(1).rows(-1).borders = [:top]
           t.row(-1).font_style = :bold
           t.row(-1).padding_top = 0

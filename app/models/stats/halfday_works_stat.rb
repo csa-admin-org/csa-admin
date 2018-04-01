@@ -4,14 +4,11 @@ class Stats::HalfdayWorksStat < Stats::BaseStat
   end
 
   def data
-    stats = Hash.new(0)
-    Member.all.each { |member|
-      stats['Effectuées'] += member.validated_halfday_works(year)
-      stats['Non-Effectuées (facturées)'] += member.remaining_halfday_works(year)
-      stats['Effectuées (extra)'] += member.extra_halfday_works(year)
-    }
-    stats
-      .sort_by { |_k, v| -1 * v }
+    {
+      'Validées' => HalfdayParticipation.during_year(year).validated.sum(:participants_count),
+      'Refusées' => HalfdayParticipation.during_year(year).rejected.sum(:participants_count),
+      'Facturées' => Invoice.not_canceled.halfday_participation_type.during_year(year).sum(:paid_missing_halfday_works),
+    }.sort_by { |_k, v| -1 * v }
       .select { |_k, v| v.positive? }
       .to_h
   end

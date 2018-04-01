@@ -26,7 +26,7 @@ ActiveAdmin.register Membership do
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
     column halfdays_human_name,
-      -> (m) { auto_link m, "#{m.validated_halfday_works} / #{m.halfday_works}" },
+      -> (m) { auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}" },
       sortable: 'halfday_works', class: 'col-halfday_works'
     column :baskets_count
       -> (m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
@@ -46,6 +46,8 @@ ActiveAdmin.register Membership do
       }
     end
     column(:distribution) { |m| m.distribution&.name }
+    column(halfday_scoped_attribute(:halfday_works)) { |m| m.halfday_works }
+    column(halfday_scoped_attribute(:missing_halfday_works)) { |m| m.missing_halfday_works }
     column(:started_on)
     column(:ended_on)
   end
@@ -100,11 +102,65 @@ ActiveAdmin.register Membership do
         end
 
         attributes_table title: halfdays_human_name do
-          row("Demandées") { m.halfday_works }
-          row("Validées") { m.validated_halfday_works }
+          row(:halfday_works_asked) { m.halfday_works }
+          row(:halfday_works_coming) {
+            link_to(
+              m.member.halfday_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
+              halfday_participations_path(scope: :coming, q: {
+                member_id_eq: resource.member_id,
+                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+              }))
+          }
+          row(:halfday_works_pending) {
+            link_to(
+              m.member.halfday_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
+              halfday_participations_path(scope: :pending, q: {
+                member_id_eq: resource.member_id,
+                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+              }))
+          }
+          row(:halfday_works_validated) {
+            link_to(
+              m.member.halfday_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
+              halfday_participations_path(scope: :validated, q: {
+                member_id_eq: resource.member_id,
+                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+              }))
+          }
+          row(:halfday_works_rejected) {
+            link_to(
+              m.member.halfday_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
+              halfday_participations_path(scope: :rejected, q: {
+                member_id_eq: resource.member_id,
+                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+              }))
+          }
+          row(:halfday_works_paid) {
+            link_to(
+              m.member.invoices.not_canceled.halfday_participation_type.during_year(m.fiscal_year).sum(:paid_missing_halfday_works),
+              invoices_path(scope: :all, q: {
+                member_id_eq: resource.member_id,
+                object_type_eq: 'HalfdayParticipation',
+                date_gteq: resource.fiscal_year.beginning_of_year,
+                date_lteq: resource.fiscal_year.end_of_year
+              }))
+          }
         end
 
-        attributes_table title: link_to('Facturation', invoices_path(q: { member_id_eq: resource.member_id, date_gteq: resource.fiscal_year.beginning_of_year, date_lteq: resource.fiscal_year.end_of_year })) do
+        attributes_table(
+          title: link_to(
+            'Facturation',
+            invoices_path(scope: :all, q: {
+              member_id_eq: resource.member_id,
+              object_type_eq: 'Membership',
+              date_gteq: resource.fiscal_year.beginning_of_year,
+              date_lteq: resource.fiscal_year.end_of_year
+            }))
+          ) do
           if m.member.try(:salary_basket?)
             em 'Gratuit, panier salaire'
           elsif m.baskets_count.zero?

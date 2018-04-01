@@ -6,6 +6,7 @@ class ACP < ActiveRecord::Base
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   HALFDAY_I18N_SCOPES = %w[halfday_work basket_preparation]
+  HALFDAY_PRICE = 60
 
   attr_accessor :summer_month_range_min, :summer_month_range_max
 

@@ -139,7 +139,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
         panel "#{halfdays_human_name} (#{Current.fy_year})" do
           table_for HalfdayParticipationCount.all(Current.fy_year) do
-            column 'Statut', :title
+            column('Statut') { |count| link_to_if(count.url, count.title, count.url) }
             column 'Nombres (am+pm * participants)', :count, class: 'align-right'
           end
         end
