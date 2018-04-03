@@ -6,11 +6,11 @@ class BasketComplement < ActiveRecord::Base
   default_scope { order(:name) }
 
   def annual_price
-    price * Delivery.current_year.count
+    (price * deliveries.size).round_to_five_cents
   end
 
   def annual_price=(annual_price)
-    self.price = annual_price / Delivery.current_year.count.to_f
+    self.price = annual_price / deliveries.size.to_f
   end
 
   def display_name; name end

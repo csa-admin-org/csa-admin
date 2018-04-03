@@ -5,7 +5,7 @@ class BasketSize < ActiveRecord::Base
   default_scope { order(:price) }
 
   def annual_price
-    price * Delivery.current_year.count
+    (price * Delivery.current_year.count).round_to_five_cents
   end
 
   def annual_price=(annual_price)
