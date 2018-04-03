@@ -93,7 +93,7 @@ describe Membership do
         '1' => { basket_complement_id: 2, price: '4.4', quantity: 2 }
       })
 
-    expect(membership.baskets.count).to eq(41)
+    expect(membership.baskets.count).to eq(1)
     basket = membership.baskets.where(delivery: delivery).first
     expect(basket.complement_ids).to match_array [1, 2]
     expect(basket.complements_price).to eq 3.2 + 2 * 4.4
@@ -278,7 +278,7 @@ describe Membership do
       seasons: ['summer'])
 
     expect(membership.baskets_count).to eq 40
-    expect(membership.basket_sizes_price).to eq 22 * 2 * 30
+    expect(membership.basket_sizes_price).to eq 26 * 2 * 30
   end
 
   specify 'salary basket prices' do

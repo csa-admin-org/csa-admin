@@ -107,9 +107,19 @@ FactoryBot.define do
     started_on { Current.fy_range.min }
     ended_on { Current.fy_range.max }
 
+    transient do
+      deliveries_count 40
+    end
+
     trait :last_year do
       started_on { Current.acp.fiscal_year_for(1.year.ago).range.min  }
       ended_on { Current.acp.fiscal_year_for(1.year.ago).range.max  }
+    end
+
+    before :create do |membership, evaluator|
+      DeliveriesHelper.create_deliveries(
+        evaluator.deliveries_count,
+        membership.fiscal_year)
     end
   end
 
