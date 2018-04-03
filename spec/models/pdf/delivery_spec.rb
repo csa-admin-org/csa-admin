@@ -14,6 +14,7 @@ describe PDF::Delivery do
       Current.acp.update!(
         name: 'ldc',
         delivery_pdf_footer: "Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
+      create_deliveries(48)
     }
 
     it 'generates invoice with support amount + complements + annual membership' do

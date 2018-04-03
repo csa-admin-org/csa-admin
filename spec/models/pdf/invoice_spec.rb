@@ -224,12 +224,7 @@ describe PDF::Invoice do
         isr_in_favor_of: "Association Lumière des Champs\nBd Paderewski 28\n1800 Vevey",
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
         invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch')
-      start_day = Current.fy_range.min.end_of_week + 3.months
-      (48 - Delivery.current_year.count).times.each do |i|
-        Delivery.create(date: start_day)
-        start_day += 3.weeks
-      end
-      expect(Delivery.current_year.count).to eq (48)
+      create_deliveries(48)
     }
 
     it 'generates invoice with support amount + complements + annual membership' do
@@ -306,11 +301,11 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 21x 30.50', '640.50')
-        .and contain_sequence('Déjà facturé', '- 213.50')
-        .and contain_sequence('Montant annuel restant', '427.00')
-        .and contain_sequence('Montant quadrimestriel #2', "213.50")
-        .and include '0100000213500>800250000000000000000001252+ 0192520>'
+        .and contain_sequence('Panier: Grand 22x 30.50', '671.00')
+        .and contain_sequence('Déjà facturé', '- 223.65')
+        .and contain_sequence('Montant annuel restant', '447.35')
+        .and contain_sequence('Montant quadrimestriel #2', "223.70")
+        .and include '0100000223709>800250000000000000000001252+ 0192520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -400,13 +395,14 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/Période du 01.09.20\d\d au 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 27x 30.50', '823.50')
+        .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
         .and contain_sequence('Ajustement du prix des paniers', '- 44.00')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
-        .and contain_sequence('Montant annuel', '957.10', 'Montant annuel', '957.10')
+        .and contain_sequence('Montant annuel', '926.60', 'Montant annuel', '926.60')
         .and contain_sequence('Cotisation annuelle association', '75.00')
-        .and contain_sequence('Total', "1'032.10")
-        .and include '0100001032108>800250000000000000000001236+ 0192520>'
-      expect(pdf_strings).not_to include 'Montant restant'    end
+        .and contain_sequence('Total', "1'001.60")
+        .and include '0100001001604>800250000000000000000001236+ 0192520>'
+      expect(pdf_strings).not_to include 'Montant restant'
+    end
   end
 end

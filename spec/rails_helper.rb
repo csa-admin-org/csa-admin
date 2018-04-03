@@ -18,12 +18,6 @@ RSpec.configure do |config|
     unless ACP.exists?(host: 'ragedevert')
       FactoryBot.create(:acp, host: 'ragedevert', tenant_name: 'ragedevert')
     end
-    Apartment::Tenant.switch('ragedevert') do
-      Delivery.delete_all
-      date = Current.fiscal_year.beginning_of_year + 2.weeks
-      Delivery.create_all(40, date - 1.year)
-      Delivery.create_all(40, date)
-    end
   end
 
   config.around(:each) do |example|

@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe RecurringBilling do
-  before { Timecop.travel(Date.new(Current.fy_year, 1, 15)) }
+  before {
+    Timecop.travel(Date.new(Current.fy_year, 1, 15))
+    create_deliveries(40)
+  }
   after { Timecop.return }
 
   def create_invoice(member)
@@ -164,10 +167,11 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
+      expect(invoice.object.baskets_count).to eq 40
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to be_present
-      expect(invoice.memberships_amount).to eq 38 * 2
+      expect(invoice.memberships_amount).to eq 34 * 2
     end
   end
 
@@ -319,14 +323,14 @@ describe RecurringBilling do
       Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice(member) }
       Timecop.travel(Date.new(Current.fy_year, 11))
       Timecop.travel(1.day.ago) { create_invoice(member) }
-      membership.update!(distribution_price: 2)
+      membership.baskets.last.update!(distribution_price: 2)
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
       expect(invoice.support_amount).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
-      expect(invoice.remaining_memberships_amount).to eq 8 * 2
-      expect(invoice.memberships_amount).to eq 8 * 2
+      expect(invoice.remaining_memberships_amount).to eq 1 * 2
+      expect(invoice.memberships_amount).to eq 1 * 2
       expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #4'
     end
   end
