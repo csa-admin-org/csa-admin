@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_01_110939) do
+ActiveRecord::Schema.define(version: 2018_04_06_195407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -305,7 +305,7 @@ ActiveRecord::Schema.define(version: 2018_04_01_110939) do
     t.string "token", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "support_member", null: false
+    t.boolean "support_member", default: false, null: false
     t.datetime "waiting_started_at"
     t.text "food_note"
     t.text "note"
