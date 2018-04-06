@@ -60,7 +60,7 @@ ActiveAdmin.register Delivery do
         format.pdf do
           pdf = PDF::Delivery.new(resource)
           send_data pdf.render,
-            content_type: 'application/pdf',
+            content_type: pdf.content_type,
             filename: pdf.filename
         end
       end

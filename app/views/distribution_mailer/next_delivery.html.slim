@@ -1,13 +1,18 @@
+p= 'Bonjour,'
+p= "Voici la liste des membres pour la livraison du #{l @delivery.date}:"
 ol
   - @baskets.each do |basket|
     li
       = basket.member.name
       == ", <b>#{basket.basket_size.name}</b>, "
+      - if basket.baskets_basket_complements.any?
+        == "<b>#{basket.complements_description}</b>, "
       - basket.member.phones_array.each do |phone|
         = link_to phone.phony_formatted, "tel:" + phone.phony_formatted(spaces: '', format: :international)
       == " / #{mail_to basket.member.emails}"
 
 p
+  br/
   == 'Au plaisir,'
   br/
   == Current.acp.name
