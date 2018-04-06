@@ -33,7 +33,12 @@ module PDF
     end
 
     def filename
-      "fiches-signature-#{delivery.date}.pdf"
+      [
+        'fiches-signature',
+        'livraison',
+        "##{delivery.number}",
+        delivery.date.strftime("%Y%m%d")
+      ].join('-') + '.pdf'
     end
 
     private

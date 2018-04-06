@@ -21,6 +21,10 @@ module PDF
       }
     end
 
+    def content_type
+      'application/pdf'
+    end
+
     def setup_font(name)
       font_path = "#{Rails.root}/lib/assets/fonts/"
       font_families.update(

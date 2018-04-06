@@ -19,7 +19,6 @@ module XLSX
 
     def filename
       [
-        Current.acp.name.parameterize,
         'livraison',
         "##{@delivery.number}",
         @delivery.date.strftime("%Y%m%d")
