@@ -176,11 +176,9 @@ ActiveAdmin.register Member do
           row(:salary_basket) { status_tag(member.salary_basket) }
           row(:support_member) { status_tag(member.support_member) }
           row(:support_price) { number_to_currency member.support_price }
-          row('Montant facturé') { number_to_currency member.invoices.not_canceled.sum(:amount) }
-          row('Paiements versés') { number_to_currency member.payments.sum(:amount) }
-          row('Différence') {
-            number_to_currency(member.invoices.not_canceled.sum(:amount) - member.payments.sum(:amount))
-          }
+          row('Montant facturé') { number_to_currency member.invoices_amount }
+          row('Paiements versés') { number_to_currency member.payments_amount }
+          row('Différence') { number_to_currency(member.invoices_amount - member.payments_amount) }
         end
         attributes_table title: 'Info et Notes' do
           row :profession

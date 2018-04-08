@@ -165,6 +165,18 @@ class Member < ActiveRecord::Base
     pending? || waiting?
   end
 
+  def invoices_amount
+    invoices.not_canceled.sum(:amount)
+  end
+
+  def payments_amount
+    payments.sum(:amount)
+  end
+
+  def credit_amount
+    [payments_amount - invoices_amount, 0].max
+  end
+
   alias_method :waiting, :waiting?
 
   private

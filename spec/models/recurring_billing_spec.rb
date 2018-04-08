@@ -106,7 +106,7 @@ describe RecurringBilling do
       expect(invoice.support_amount).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq 1200
-      expect(invoice.memberships_amount_description).to eq 'Montant annuel'
+      expect(invoice.memberships_amount_description).to eq 'Facturation annuelle'
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.pdf_file).to be_attached
     end
@@ -132,7 +132,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount)
         .to eq 40 * 2 * 32 + 40 * 2 * 3 + 40 * 3.4 + 40 * 2 * 5.6
-      expect(invoice.memberships_amount_description).to eq 'Montant annuel'
+      expect(invoice.memberships_amount_description).to eq 'Facturation annuelle'
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.pdf_file).to be_attached
     end
@@ -187,7 +187,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq membership.price
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #1'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #1'
     end
 
     specify 'when quarter #1 (already billed)' do
@@ -206,7 +206,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #2'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #2'
     end
 
     specify 'when quarter #2 (already billed)' do
@@ -229,7 +229,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #2'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #2'
     end
 
     specify 'when quarter #3' do
@@ -243,7 +243,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 2.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #3'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
     end
 
     specify 'when quarter #3 (with overbalance on previous invoices)' do
@@ -265,7 +265,7 @@ describe RecurringBilling do
 
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #3'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
 
       invoice.reload
       expect(@first_invoice.reload.overbalance).to be_zero
@@ -304,7 +304,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price * 3 / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #4'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
     end
 
     specify 'when quarter #4 (already billed)' do
@@ -331,7 +331,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.remaining_memberships_amount).to eq 1 * 2
       expect(invoice.memberships_amount).to eq 1 * 2
-      expect(invoice.memberships_amount_description).to eq 'Montant trimestriel #4'
+      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
     end
   end
 
@@ -348,7 +348,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq membership.price
       expect(invoice.memberships_amount).to eq membership.price / 12.0
-      expect(invoice.memberships_amount_description).to eq 'Montant mensuel #1'
+      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #1'
     end
 
     specify 'when month #3' do
@@ -362,7 +362,7 @@ describe RecurringBilling do
       expect(invoice.paid_memberships_amount).to eq (membership.price / 12.0) * 2
       expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
       expect(invoice.memberships_amount).to eq membership.price / 12.0
-      expect(invoice.memberships_amount_description).to eq 'Montant mensuel #3'
+      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
     end
   end
 end

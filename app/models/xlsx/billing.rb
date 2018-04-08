@@ -47,6 +47,15 @@ module XLSX
       add_empty_line
       add_empty_line
 
+      if Current.acp.vat_membership_rate?
+        add_line('Abonnements HT', invoices_total(:memberships_net_amount))
+        add_line('Abonnements TVA', invoices_total(:memberships_vat_amount))
+        add_line('Abonnements TTC', invoices_total(:memberships_gross_amount))
+
+        add_empty_line
+        add_empty_line
+      end
+
       add_line('Facturé', invoices_total(:amount))
       add_line('Payé', invoices_total(:balance_without_overbalance))
       add_line('Non-payé (manquant)', invoices_total(:missing_amount))

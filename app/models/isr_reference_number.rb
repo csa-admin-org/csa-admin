@@ -24,8 +24,20 @@ class ISRReferenceNumber
     format_ref(ref)
   end
 
+  def amount_without_cents
+    if amount.zero?
+      'XXXX'
+    else
+      amount_str.to_i.to_s.chomp(amount_cents)
+    end
+  end
+
   def amount_cents
-    amount_str.last(2)
+    if amount.zero?
+      'XX'
+    else
+      amount_str.last(2)
+    end
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_06_195407) do
+ActiveRecord::Schema.define(version: 2018_04_07_092028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 2018_04_06_195407) do
     t.string "url"
     t.text "delivery_pdf_footer"
     t.integer "halfday_participation_deletion_deadline_in_days"
+    t.string "vat_number"
+    t.decimal "vat_membership_rate", precision: 8, scale: 2
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -291,6 +293,7 @@ ActiveRecord::Schema.define(version: 2018_04_06_195407) do
     t.string "object_type", null: false
     t.bigint "object_id"
     t.integer "paid_missing_halfday_works"
+    t.decimal "memberships_vat_amount", precision: 8, scale: 2
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"

@@ -12,10 +12,16 @@ describe ISRReferenceNumber do
 
   it 'rounds amount cents' do
     isr = generate_isr(amount: 456.78)
+    expect(isr.amount_without_cents).to eq '456'
     expect(isr.amount_cents).to eq '80'
 
     isr = generate_isr(amount: 123.45)
+    expect(isr.amount_without_cents).to eq '123'
     expect(isr.amount_cents).to eq '45'
+
+    isr = generate_isr(amount: 0)
+    expect(isr.amount_without_cents).to eq 'XXXX'
+    expect(isr.amount_cents).to eq 'XX'
   end
 
   it 'works with long isr_identity' do

@@ -8,7 +8,9 @@ module PDF
     def initialize(invoice)
       @invoice = invoice
       @object = invoice.object
-      @isr_ref = ISRReferenceNumber.new(invoice.id, invoice.amount)
+      # Reload object to be sure that the balance is up-to-date
+      @missing_amount = ::Invoice.find(invoice.id).missing_amount
+      @isr_ref = ISRReferenceNumber.new(invoice.id, @missing_amount)
       super
       header
       member
@@ -33,7 +35,7 @@ module PDF
     end
 
     def member
-      bounding_box [12.cm, bounds.height - 6.cm], width: 8.cm, height: 3.cm do
+      bounding_box [12.cm, bounds.height - 6.cm], width: 8.cm, height: 2.5.cm do
         # stroke_bounds
         text member_address, valign: :top, leading: 2
       end
@@ -41,15 +43,15 @@ module PDF
 
     def header
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
-      bounding_box [25, bounds.height - 6.cm], width: 200, height: 40 do
+      bounding_box [25, bounds.height - 6.cm], width: 200, height: 2.5.cm do
         text "Facture N° #{invoice.id}", style: :bold, size: 16
         move_down 5
         text I18n.l(invoice.date)
       end
     end
 
-    def cur(amount)
-      number_to_currency(amount, unit: '')
+    def cur(amount, unit: '')
+      number_to_currency(amount, unit: unit)
     end
 
     def content
@@ -112,18 +114,20 @@ module PDF
       end
 
       if invoice.memberships_amount?
-        data << [
-          invoice.memberships_amount_description,
-          cur(invoice.memberships_amount)
-        ]
+        gross_amount = cur(invoice.memberships_amount).to_s
+        gross_amount = "*#{gross_amount}" if invoice.memberships_vat_amount&.positive?
+        data << [invoice.memberships_amount_description, gross_amount]
       end
 
       if invoice.support_amount?
         data << ['Cotisation annuelle association', cur(invoice.support_amount)]
       end
 
-      if (invoice.memberships_amount? && invoice.support_amount?) ||
-          invoice.object_type != 'Membership'
+      if @missing_amount != invoice.amount
+        already_paid = invoice.amount - @missing_amount
+        data << ['Avoir', cur(-(already_paid + invoice.member.credit_amount)) ]
+        data << ['À payer', cur(@missing_amount)]
+      elsif (invoice.memberships_amount? && invoice.support_amount?) || invoice.object_type != 'Membership'
         data << ['Total', cur(invoice.amount)]
       end
 
@@ -142,42 +146,55 @@ module PDF
         t.rows(2..-1).padding_top = 0
 
         t.columns(0).rows(1..-1).filter do |cell|
-          if cell.content == 'Déjà facturé'
+          if cell.content.in? ['Déjà facturé', 'Avoir']
             t.row(cell.row).font_style = :italic
-            break
           end
         end
         t.columns(1).rows(1..-1).filter do |cell|
           t.row(cell.row).font_style = :italic if cell.content == ''
         end
 
-        if (invoice.memberships_amount? &&
+        row = -1
+        t.row(row).font_style = :bold
+
+        if (@missing_amount != invoice.amount) || (invoice.memberships_amount? &&
             (invoice.support_amount? || !invoice.memberships_amount_description?)) ||
             invoice.object_type != 'Membership'
-          t.columns(1).rows(-1).borders = [:top]
-          t.row(-1).font_style = :bold
-          t.row(-1).padding_top = 0
-          t.row(-2).padding_bottom = 10
+          t.columns(1).rows(row).borders = [:top]
+          t.row(row).padding_top = 0
+          t.row(row-1).padding_bottom = 10
         end
-
         if invoice.memberships_amount_description?
-          if invoice.support_amount?
-            t.columns(1).rows(-4).borders = [:top]
-            t.row(-4).padding_top = 0
-            t.row(-4).padding_bottom = 15
-            t.row(-5).padding_bottom = 10
+          if @missing_amount != invoice.amount
+            row -= invoice.support_amount? ? 4 : 3
           else
-            t.row(-1).font_style = :bold
-
-            t.columns(1).rows(-2).borders = [:top]
-            t.row(-2).padding_top = 0
-            t.row(-2).padding_bottom = 15
-            t.row(-3).padding_bottom = 10
+            row -= invoice.support_amount? ? 3 : 1
           end
+
+          t.columns(1).rows(row).borders = [:top]
+          t.row(row).padding_top = 0
+          t.row(row).padding_bottom = 15
+          t.row(row-1).padding_bottom = 10
         end
       end
 
-      bounding_box [0, y - 30], width: bounds.width - 28, height: 50 do
+      yy = 25
+      if invoice.memberships_vat_amount&.positive?
+        membership_vat_text = [
+          '* TTC',
+          "#{cur(invoice.memberships_net_amount, unit: 'CHF')} HT",
+          "#{cur(invoice.memberships_vat_amount, unit: 'CHF')} TVA (#{Current.acp.vat_membership_rate}%)"
+        ].join(', ')
+        bounding_box [0, y - 25], width: bounds.width - 24 do
+          text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
+        end
+        bounding_box [0, y - 5], width: bounds.width - 24 do
+          text "N° TVA #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
+        end
+        yy = 10
+      end
+
+      bounding_box [0, y - yy], width: bounds.width - 24 do
         text Current.acp.invoice_info, width: 200, align: :right, style: :italic, size: 9
       end
     end
@@ -214,7 +231,7 @@ module PDF
             character_spacing: 1
         end
         [64, 238].each do |x|
-          text_box invoice.amount.to_i.to_s,
+          text_box isr_ref.amount_without_cents,
             at: [x, y - 145],
             width: 50,
             height: 50,
