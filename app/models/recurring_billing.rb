@@ -65,12 +65,11 @@ class RecurringBilling
   end
 
   def membership_amount_description
-    division_name = I18n.t("billing.year_division._#{year_division}")
     if year_division == 1
-      "Montant #{division_name}"
+      I18n.t('billing.membership_amount_description._1')
     else
       fraction_number = (fy_month / (12 / year_division.to_f)).ceil
-      "Montant #{division_name} ##{fraction_number}"
+      I18n.t("billing.membership_amount_description._#{year_division}", number: fraction_number)
     end
   end
 

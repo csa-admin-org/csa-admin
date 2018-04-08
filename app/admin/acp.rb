@@ -12,6 +12,7 @@ ActiveAdmin.register ACP do
     :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
     :delivery_pdf_footer,
     :url, :email, :phone,
+    :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
     features: []
 
@@ -51,6 +52,8 @@ ActiveAdmin.register ACP do
         as: :check_boxes,
         collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division._#{i}"), i] }
       f.input :support_price
+      f.input :vat_number
+      f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
     end
     f.inputs 'Facture (BVR)' do
       f.input :ccp

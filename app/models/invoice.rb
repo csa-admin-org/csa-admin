@@ -31,7 +31,8 @@ class Invoice < ActiveRecord::Base
     before_validation \
       :set_paid_memberships_amount,
       :set_remaining_memberships_amount,
-      :set_memberships_amount
+      :set_memberships_amount,
+      :set_memberships_vat_amount
   end
   before_validation :set_amount, on: :create
 
@@ -49,6 +50,9 @@ class Invoice < ActiveRecord::Base
   validates :memberships_amount,
     numericality: { greater_than: 0 },
     allow_nil: true
+  validates :memberships_vat_amount,
+    presence: true,
+    if: -> { memberships_amount? && Current.acp.vat_membership_rate? }
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
@@ -56,9 +60,7 @@ class Invoice < ActiveRecord::Base
     on: :create,
     if: :membership_type?
 
-  after_create :update_member_invoices_balance!
-  after_create :set_pdf
-  after_create :send_email
+  after_create :update_member_invoices_balance!, :set_pdf, :send_email
   after_commit :update_membership_recognized_halfday_works!
 
   def send!
@@ -149,6 +151,14 @@ class Invoice < ActiveRecord::Base
     object_type == 'Membership'
   end
 
+  def memberships_gross_amount
+    memberships_amount
+  end
+
+  def memberships_net_amount
+    (memberships_gross_amount - memberships_vat_amount) if memberships_gross_amount
+  end
+
   private
 
   def validate_memberships_amount_for_current_year
@@ -174,6 +184,14 @@ class Invoice < ActiveRecord::Base
 
   def set_amount
     self[:amount] ||= (memberships_amount || 0) + (support_amount || 0)
+  end
+
+  def set_memberships_vat_amount
+    if vat_rate = Current.acp.vat_membership_rate
+      gross_amount = memberships_gross_amount
+      net_amount = gross_amount / (1 + vat_rate / 100)
+      self[:memberships_vat_amount] = gross_amount - net_amount.round(2)
+    end
   end
 
   def set_pdf

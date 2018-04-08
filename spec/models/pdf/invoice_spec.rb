@@ -46,7 +46,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('Cotisation annuelle association', '42.00')
         .and include('0100000042007>001104190802410000000008070+ 01137346>')
-      expect(pdf_strings).not_to include('Montant annuel')
+      expect(pdf_strings).not_to include('Facturation anuelle')
     end
 
     it 'generates invoice with support amount + annual membership' do
@@ -57,14 +57,14 @@ describe PDF::Invoice do
         id: 4,
         object: membership,
         support_amount: 42,
-        memberships_amount_description: 'Montant annuel')
+        memberships_amount_description: 'Facturation anuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
         .to include(/Période du 01\.01\.20\d\d au 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
-        .and contain_sequence('Montant annuel', "1'330.00", 'Montant annuel', "1'330.00")
+        .and contain_sequence('Montant annuel', "1'330.00", 'Facturation anuelle', "1'330.00")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "1'372.00")
         .and include '0100001372007>001104190802410000000000048+ 01137346>'
@@ -81,7 +81,7 @@ describe PDF::Invoice do
         id: 7,
         object: membership,
         support_amount: 30,
-        memberships_amount_description: 'Montant annuel')
+        memberships_amount_description: 'Facturation anuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -89,7 +89,7 @@ describe PDF::Invoice do
         .to include(/Période du 01\.01\.20\d\d au 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
         .and contain_sequence('Réduction pour 6 demi-journées supplémentaires', '- 330.50')
-        .and contain_sequence('Montant annuel', "999.50", 'Montant annuel', "999.50")
+        .and contain_sequence('Montant annuel', "999.50", 'Facturation anuelle', "999.50")
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', "1'029.50")
         .and include '0100001029509>001104190802410000000000077+ 01137346>'
@@ -134,20 +134,20 @@ describe PDF::Invoice do
         member: member,
         object: membership,
         membership_amount_fraction: 4,
-        memberships_amount_description: 'Montant trimestriel #1')
+        memberships_amount_description: 'Facturation trimestrielle #1')
       create(:invoice,
         date: Time.current.beginning_of_year + 4.months,
         member: member,
         object: membership,
         membership_amount_fraction: 3,
-        memberships_amount_description: 'Montant trimestriel #2')
+        memberships_amount_description: 'Facturation trimestrielle #2')
       invoice = create(:invoice,
         id: 11,
         date: Time.current.beginning_of_year + 8.months,
         member: member,
         object: membership,
         membership_amount_fraction: 2,
-        memberships_amount_description: 'Montant trimestriel #3')
+        memberships_amount_description: 'Facturation trimestrielle #3')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -156,7 +156,7 @@ describe PDF::Invoice do
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00",)
         .and contain_sequence('Déjà facturé', '- 665.00')
         .and contain_sequence('Montant annuel restant', '665.00')
-        .and contain_sequence('Montant trimestriel #3', '332.50')
+        .and contain_sequence('Facturation trimestrielle #3', '332.50')
         .and include('0100000332508>001104190802410000000000112+ 01137346>')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
@@ -218,6 +218,8 @@ describe PDF::Invoice do
         name: 'ldc',
         fiscal_year_start_month: 4,
         summer_month_range: 4..9,
+        vat_membership_rate: 0.1,
+        vat_number: 'CHE-273.220.900',
         ccp: '01-9252-0',
         isr_identity: '800250',
         isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
@@ -256,18 +258,19 @@ describe PDF::Invoice do
         member: member,
         object: membership,
         support_amount: 75,
-        memberships_amount_description: 'Montant annuel')
+        memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
-
       expect(pdf_strings)
         .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
         .and contain_sequence('Oeufs 24x 4.80', "115.20")
         .and contain_sequence('Tomme de Lavaux 24x 7.40', "177.60")
-        .and contain_sequence('Montant annuel', "1'756.80", 'Montant annuel', "1'756.80")
+        .and contain_sequence('Montant annuel', "1'756.80", 'Facturation annuelle', "* 1'756.80")
         .and contain_sequence('Cotisation annuelle association', '75.00')
         .and contain_sequence('Total', "1'831.80")
+        .and contain_sequence("* TTC, CHF 1'755.04 HT, CHF 1.76 TVA (0.1%)")
+        .and contain_sequence('N° TVA CHE-273.220.900')
         .and include '0100001831806>800250000000000000000001221+ 0192520>'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
@@ -289,22 +292,25 @@ describe PDF::Invoice do
         object: membership,
         support_amount: 75,
         membership_amount_fraction: 3,
-        memberships_amount_description: 'Montant quadrimestriel #1')
+        memberships_amount_description: 'Facturation quadrimestrielle #1')
       invoice = create(:invoice,
         id: 125,
         date: Current.fy_range.min + 4.month,
         member: member,
         object: membership,
         membership_amount_fraction: 2,
-        memberships_amount_description: 'Montant quadrimestriel #2')
+        memberships_amount_description: 'Facturation quadrimestrielle #2')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
+
       expect(pdf_strings)
         .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 22x 30.50', '671.00')
         .and contain_sequence('Déjà facturé', '- 223.65')
         .and contain_sequence('Montant annuel restant', '447.35')
-        .and contain_sequence('Montant quadrimestriel #2', "223.70")
+        .and contain_sequence('Facturation quadrimestrielle #2', "* 223.70")
+        .and contain_sequence('* TTC, CHF 223.48 HT, CHF 0.22 TVA (0.1%)')
+        .and contain_sequence('N° TVA CHE-273.220.900')
         .and include '0100000223709>800250000000000000000001252+ 0192520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
@@ -334,13 +340,13 @@ describe PDF::Invoice do
         object: membership,
         support_amount: 75,
         membership_amount_fraction: 12,
-        memberships_amount_description: 'Montant mensuel #1')
+        memberships_amount_description: 'Facturation mensuelle #1')
       create(:invoice,
         date: Current.fy_range.min + 1.month,
         member: member,
         object: membership,
         membership_amount_fraction: 11,
-        memberships_amount_description: 'Montant mensuel #2')
+        memberships_amount_description: 'Facturation mensuelle #2')
 
       invoice = create(:invoice,
         id: 127,
@@ -348,7 +354,7 @@ describe PDF::Invoice do
         member: member,
         object: membership,
         membership_amount_fraction: 10,
-        memberships_amount_description: 'Montant mensuel #3')
+        memberships_amount_description: 'Facturation mensuelle #3')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -358,7 +364,9 @@ describe PDF::Invoice do
         .and contain_sequence('Oeufs 24x 4.80', "115.20")
         .and contain_sequence('Déjà facturé', '- 187.20')
         .and contain_sequence('Montant annuel restant', '936.00')
-        .and contain_sequence('Montant mensuel #3', "93.60")
+        .and contain_sequence('Facturation mensuelle #3', "* 93.60")
+        .and contain_sequence('* TTC, CHF 93.51 HT, CHF 0.09 TVA (0.1%)')
+        .and contain_sequence('N° TVA CHE-273.220.900')
         .and include '0100000093604>800250000000000000000001273+ 0192520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
@@ -389,7 +397,7 @@ describe PDF::Invoice do
         member: member,
         object: membership,
         support_amount: 75,
-        memberships_amount_description: 'Montant annuel')
+        memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -398,11 +406,79 @@ describe PDF::Invoice do
         .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
         .and contain_sequence('Ajustement du prix des paniers', '- 44.00')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
-        .and contain_sequence('Montant annuel', '926.60', 'Montant annuel', '926.60')
+        .and contain_sequence('Montant annuel', '926.60', 'Facturation annuelle', '* 926.60')
         .and contain_sequence('Cotisation annuelle association', '75.00')
         .and contain_sequence('Total', "1'001.60")
+        .and contain_sequence('* TTC, CHF 925.67 HT, CHF 0.93 TVA (0.1%)')
+        .and contain_sequence('N° TVA CHE-273.220.900')
         .and include '0100001001604>800250000000000000000001236+ 0192520>'
       expect(pdf_strings).not_to include 'Montant restant'
+    end
+
+    it 'generates an invoice with support and a previous extra payment covering part of its amount' do
+      member = create(:member)
+      membership = create(:membership,
+        basket_size: create(:basket_size, name: 'Grand'),
+        basket_price: 30.5)
+      create(:payment, amount: 242, member: member)
+
+      invoice = create(:invoice,
+        id: 242,
+        member: member,
+        object: membership,
+        support_amount: 75,
+        memberships_amount_description: 'Facturation annuelle')
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Montant annuel', "1'464.00", 'Facturation annuelle', "* 1'464.00")
+        .and contain_sequence('Cotisation annuelle association', '75.00')
+        .and contain_sequence('Avoir', "- 242.00")
+        .and contain_sequence("À payer", "1'297.00")
+        .and contain_sequence("* TTC, CHF 1'462.54 HT, CHF 1.46 TVA (0.1%)")
+        .and contain_sequence('N° TVA CHE-273.220.900')
+        .and include '0100001297005>800250000000000000000002428+ 0192520>'
+        expect(pdf_strings).not_to include 'Montant restant'
+    end
+
+    it 'generates an invoice and a previous extra payment covering part of its amount' do
+      member = create(:member)
+      membership = create(:membership,
+        basket_size: create(:basket_size, name: 'Grand'),
+        basket_price: 30.5)
+      create(:payment, amount: 444, member: member)
+
+      create(:invoice,
+        date: Current.fy_range.min,
+        member: member,
+        object: membership,
+        support_amount: 75,
+        membership_amount_fraction: 12,
+        memberships_amount_description: 'Facturation mensuelle #1')
+      invoice = create(:invoice,
+        id: 243,
+        date: Current.fy_range.min + 1.month,
+        member: member,
+        object: membership,
+        membership_amount_fraction: 11,
+        memberships_amount_description: 'Facturation mensuelle #2')
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Déjà facturé', '- 122.00')
+        .and contain_sequence('Montant annuel restant', "1'342.00")
+        .and contain_sequence('Facturation mensuelle #2', '* 122.00')
+        .and contain_sequence('Avoir', '- 247.00')
+        .and contain_sequence("À payer", '0.00')
+        .and contain_sequence('* TTC, CHF 121.88 HT, CHF 0.12 TVA (0.1%)')
+        .and contain_sequence('N° TVA CHE-273.220.900')
+        .and include '0100000000005>800250000000000000000002433+ 0192520>'
+      expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
   end
 end

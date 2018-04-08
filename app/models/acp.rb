@@ -39,6 +39,8 @@ class ACP < ActiveRecord::Base
   validates :halfday_i18n_scope, inclusion: { in: HALFDAY_I18N_SCOPES }
   validates :halfday_participation_deletion_deadline_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
+  validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
 
   before_save :set_summer_month_range
   after_create :create_tenant

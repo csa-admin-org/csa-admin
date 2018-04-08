@@ -363,6 +363,8 @@ fr:
         phone: Téléphone
         delivery_pdf_footer: Bas de page
         halfday_participation_deletion_deadline_in_days: Délai de désinscription (en jours)
+        vat_number: Numéro TVA
+        vat_membership_rate: Taux TVA abonnement (en %)
       admin:
         confirmation_sent_at: Date d'envoi de la confirmation
         confirmation_token: Clé de confirmation du mot de passe
@@ -582,6 +584,12 @@ fr:
       _3: quadrimestriel
       _4: trimestriel
       _12: mensuel
+    membership_amount_description:
+      _1: Facturation annuelle
+      _2: "Facturation semestrielle #%{number}"
+      _3: "Facturation quadrimestrielle #%{number}"
+      _4: "Facturation trimestrielle #%{number}"
+      _12: "Facturation mensuelle #%{number}"
 
   member:
     status:
