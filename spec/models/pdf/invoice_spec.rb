@@ -473,10 +473,12 @@ describe PDF::Invoice do
         .and contain_sequence('Déjà facturé', '- 122.00')
         .and contain_sequence('Montant annuel restant', "1'342.00")
         .and contain_sequence('Facturation mensuelle #2', '* 122.00')
-        .and contain_sequence('Avoir', '- 247.00')
+        .and contain_sequence('Avoir', '** - 247.00')
         .and contain_sequence("À payer", '0.00')
         .and contain_sequence('* TTC, CHF 121.88 HT, CHF 0.12 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
+        .and contain_sequence("** L'avoir restant sera reporté sur la facture suivante.")
+        .and contain_sequence('XXXX', 'XX')
         .and include '0100000000005>800250000000000000000002433+ 0192520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end

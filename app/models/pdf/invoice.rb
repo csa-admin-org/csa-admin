@@ -115,7 +115,7 @@ module PDF
 
       if invoice.memberships_amount?
         gross_amount = cur(invoice.memberships_amount).to_s
-        gross_amount = "*#{gross_amount}" if invoice.memberships_vat_amount&.positive?
+        gross_amount = "#{appendice_star}#{gross_amount}" if invoice.memberships_vat_amount&.positive?
         data << [invoice.memberships_amount_description, gross_amount]
       end
 
@@ -125,7 +125,9 @@ module PDF
 
       if @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
-        data << ['Avoir', cur(-(already_paid + invoice.member.credit_amount)) ]
+        credit_amount = cur(-(already_paid + invoice.member.credit_amount))
+        credit_amount = "#{appendice_star} #{credit_amount}" if invoice.member.credit_amount.positive?
+        data << ['Avoir', credit_amount]
         data << ['À payer', cur(@missing_amount)]
       elsif (invoice.memberships_amount? && invoice.support_amount?) || invoice.object_type != 'Membership'
         data << ['Total', cur(invoice.amount)]
@@ -179,9 +181,11 @@ module PDF
       end
 
       yy = 25
+      reset_appendice_star
+
       if invoice.memberships_vat_amount&.positive?
         membership_vat_text = [
-          '* TTC',
+          "#{appendice_star} TTC",
           "#{cur(invoice.memberships_net_amount, unit: 'CHF')} HT",
           "#{cur(invoice.memberships_vat_amount, unit: 'CHF')} TVA (#{Current.acp.vat_membership_rate}%)"
         ].join(', ')
@@ -190,6 +194,14 @@ module PDF
         end
         bounding_box [0, y - 5], width: bounds.width - 24 do
           text "N° TVA #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
+        end
+        yy = 10
+      end
+
+      if invoice.member.credit_amount.positive?
+        positive_credit_text = "#{appendice_star} L'avoir restant sera reporté sur la facture suivante."
+        bounding_box [0, y - yy], width: bounds.width - 24 do
+          text positive_credit_text, width: 200, align: :right, style: :italic, size: 9
         end
         yy = 10
       end
@@ -259,6 +271,16 @@ module PDF
           align: :right,
           character_spacing: 1
       end
+    end
+
+    def appendice_star
+      @stars_count ||= 0
+      @stars_count += 1
+      '*' * @stars_count
+    end
+
+    def reset_appendice_star
+      @stars_count = nil
     end
 
     def membership_period
