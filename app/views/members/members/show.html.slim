@@ -51,6 +51,8 @@ section
           .input
             label Horaire, lieu et activité
             label.label-error= @halfday_participation.errors[:halfday].first
+            .no_halfdays style='display: none;'
+              p.empty = "Aucune #{halfdays_human_name.downcase} ce mois."
             .halfdays
               = f.collection_radio_buttons(:halfday_id, @halfdays, :id, :period) do |b|
                 - b.label(class: "halfday-#{b.object.date}") { b.radio_button + halfday_label(b.object).html_safe }

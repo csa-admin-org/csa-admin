@@ -62,10 +62,16 @@ input[type='submit'] {
   background-color: $green;
   transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   font-weight: 600;
+  cursor: pointer;
 
   &:hover {
     border-color: $dark-green;
     background-color: $dark-green;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    border-color: $medium-gray;
+    background-color: $medium-gray;
   }
   @media screen and (min-width: 900px) {
     width: 150px;

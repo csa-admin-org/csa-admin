@@ -85,33 +85,47 @@ $.datepicker.regional["fr"] =
 
 $.datepicker.setDefaults $.datepicker.regional["fr"]
 
-$ ->
-  dates = $('#datepicker').data('dates')
-  if dates
-    [minDate, ..., maxDate] = dates
-    selectedDate = $('#datepicker').data('selected-date') or minDate
+selectDate = (dateText) ->
+  $('.no_halfdays').hide()
+  $('.halfdays label').hide()
+  $('#subscribe-button').prop('disabled', false)
+  $('.halfdays input').prop('checked', false)
+  $("label.halfday-#{dateText}").show()
+  $("label.halfday-#{dateText} input:enabled:first").prop('checked', true);
+  unless $("label.halfday-#{dateText} input:enabled").length
+    $('#subscribe-button').prop('disabled', true)
 
-    $('.halfdays label').hide()
-    $("label.halfday-#{selectedDate}").show()
-    unless $("label.halfday-#{selectedDate} input:enabled").length
-      $('#subscribe-button').prop('disabled', true)
+$ ->
+  dateTexts = $('#datepicker').data('dates')
+  if dateTexts
+    [minDateText, ..., maxDateText] = dateTexts
+    selectedDateText = $('#datepicker').data('selected-date') or minDateText
+    selectDate(selectedDateText)
 
     $('#datepicker').datepicker
       firstDay: 1
-      minDate: minDate
-      maxDate: maxDate
-      defaultDate: selectedDate
+      minDate: minDateText
+      maxDate: maxDateText
+      defaultDate: selectedDateText
       onSelect: (dateText, inst) ->
-        $('.halfdays label').hide()
-        $('#subscribe-button').prop('disabled', false)
-        $('.halfdays input').prop('checked', false)
-        $("label.halfday-#{dateText}").show()
-        $("label.halfday-#{dateText} input:enabled:first").prop('checked', true);
-        unless $("label.halfday-#{dateText} input:enabled").length
-          $('#subscribe-button').prop('disabled', true)
+        selectDate(dateText)
       beforeShowDay: (date) ->
         dateText = $.datepicker.formatDate('yy-mm-dd', date)
-        if dateText in dates
+        if dateText in dateTexts
           [true, 'available', null]
         else
           [false, null, null]
+      onChangeMonthYear: (year, month) ->
+        dateText = (dateTexts.filter (d) ->
+          dd = new Date(d)
+          dd.getFullYear() is year and dd.getMonth() + 1 is month
+        )[0]
+        if dateText
+          $('#datepicker').datepicker('setDate', dateText)
+          selectDate(dateText)
+        else
+          $('.no_halfdays').show()
+          $('.halfdays label').hide()
+          $('#subscribe-button').prop('disabled', true)
+          $('.halfdays input').prop('checked', false)
+
