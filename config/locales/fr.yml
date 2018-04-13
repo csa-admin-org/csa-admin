@@ -63,6 +63,8 @@ fr:
     sidebars:
       filters: "Filtres"
       search_status: "Résultats de la recherche"
+      total: Total
+      amount: "Montant:"
     pagination:
       empty: "Aucun %{model} trouvé"
       one: "Affichage de <b>1</b> %{model}"

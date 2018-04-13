@@ -33,9 +33,9 @@ ActiveAdmin.register Payment do
   filter :invoice_id, as: :numeric
   filter :date
 
-  sidebar 'Total', only: :index do
+  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.limit(nil)
-    span 'Montant:'
+    span t('active_admin.sidebars.amount')
     span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
   end
 

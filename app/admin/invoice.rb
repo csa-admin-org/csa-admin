@@ -44,6 +44,12 @@ ActiveAdmin.register Invoice do
     collection: -> { object_type_collection }
   filter :date
 
+  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
+    all = collection.limit(nil)
+    span t('active_admin.sidebars.amount')
+    span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+  end
+
   show do |invoice|
     columns do
       column do
