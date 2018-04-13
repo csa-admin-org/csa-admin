@@ -4,7 +4,7 @@ module Billing
     PaymentData = Class.new(OpenStruct)
     URL = 'https://wwwsec.abs.ch'.freeze
 
-    GET_PAYMENTS_FROM = 1.week.ago
+    GET_PAYMENTS_FROM = 2.weeks.ago
 
     attr_reader :session
 
@@ -16,13 +16,13 @@ module Billing
 
     def payments_data
       get_isr_lines
-        .group_by { |line| isr_date(line) }
-        .flat_map { |date, lines|
+        .group_by(&:itself)
+        .flat_map { |_line, lines|
           lines.map.with_index { |line, i|
              PaymentData.new(
               invoice_id: isr_invoice_id(line),
               amount: isr_amount(line),
-              date: date,
+              date: isr_date(line),
               isr_data: "#{i}-#{line}")
           }
         }
