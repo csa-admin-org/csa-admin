@@ -152,24 +152,4 @@ describe 'members page' do
       expect(page).to have_content "Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de 30 jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous contacter."
     end
   end
-
-  context 'wrong member token' do
-    let(:email) { member.emails_array.first }
-
-    it 'recovers token from email' do
-      visit '/wrong_token'
-      expect(current_path).to eq '/token/recover'
-
-      fill_in 'email', with: email
-      click_button 'Retrouver'
-
-      last_email = ActionMailer::Base.deliveries.last
-      expect(last_email.to).to eq [email]
-      expect(last_email.body)
-        .to include "membres.ragedevert.ch/#{member.token}"
-
-      expect(current_path).to eq '/token/recover'
-      expect(page).to have_content 'Merci'
-    end
-  end
 end

@@ -18,9 +18,9 @@ describe InvoiceOverdueNoticer do
 
   it 'sends invoice overdue_notice email' do
     expect { perform(invoice) }
-      .to change { ActionMailer::Base.deliveries.count }.by(1)
-    mail = ActionMailer::Base.deliveries.last
-    expect(mail.subject).to include('Rappel')
+      .to change { email_adapter.deliveries.size }.by(1)
+    expect(email_adapter.deliveries.first).to match(hash_including(
+      template: 'invoice-overdue-notice-fr'))
   end
 
   specify 'only send overdue notice when invoice is open' do
@@ -28,7 +28,7 @@ describe InvoiceOverdueNoticer do
     create(:payment, invoice: invoice, amount: Current.acp.support_price)
     expect(invoice.reload.state).to eq 'closed'
     expect { perform(invoice) }
-      .to change { ActionMailer::Base.deliveries.count }.by(0)
+      .not_to change { email_adapter.deliveries.size }
   end
 
   specify 'only send first overdue notice after 35 days' do
@@ -43,7 +43,7 @@ describe InvoiceOverdueNoticer do
       overdue_notice_sent_at: 10.days.ago
     )
     expect { perform(invoice) }
-      .to change { ActionMailer::Base.deliveries.count }.by(0)
+      .not_to change { email_adapter.deliveries.size }
   end
 
   it 'sends second overdue notice after 35 days first one' do
@@ -52,7 +52,7 @@ describe InvoiceOverdueNoticer do
       overdue_notice_sent_at: 40.days.ago
     )
     expect { perform(invoice) }
-      .to change { ActionMailer::Base.deliveries.count }.by(1)
+      .to change { email_adapter.deliveries.size }.by(1)
     expect(invoice.overdue_notices_count).to eq 2
   end
 end

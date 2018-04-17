@@ -46,7 +46,7 @@ class Inscription
       food_note: @row[9],
       note: @row[11]
     )
-    AdminMailer.new_inscription(member).deliver
+    notify_admins(member)
   end
 
   def first_name
@@ -99,5 +99,11 @@ class Inscription
 
   def city
     @row[2].split(', ')[-2]
+  end
+
+  def notify_admins(member)
+    Admin.notification('new_inscription').find_each do |admin|
+      Email.deliver_now(:member_new, admin, member)
+    end
   end
 end

@@ -2,6 +2,8 @@ module HasEmails
   extend ActiveSupport::Concern
 
   included do
+    attr_accessor :email
+
     scope :with_emails, -> { where.not(emails: ['', nil]) }
     scope :with_email, ->(email) { where('emails ILIKE ?', "%#{email}%") }
   end

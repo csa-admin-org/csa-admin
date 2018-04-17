@@ -30,11 +30,8 @@ Rails.application.routes.draw do
         resources :halfday_participations
       end
       resource :member_token,
-        path: 'token',
-        only: [:edit],
-        path_names: { edit: 'recover' } do
-        post :recover, on: :member
-      end
+        path: 'token/recover',
+        only: %i[show create]
     end
   end
 end

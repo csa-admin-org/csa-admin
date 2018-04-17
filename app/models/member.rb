@@ -148,6 +148,14 @@ class Member < ActiveRecord::Base
       waiting_started_at: Time.current)
   end
 
+  def send_welcome_email
+    return unless active? && emails?
+    return if welcome_email_sent_at?
+
+    Email.deliver_now(:member_welcome, self)
+    touch(:welcome_email_sent_at)
+  end
+
   def absent?(date)
     absences.any? { |absence| absence.period.include?(date) }
   end
@@ -160,6 +168,8 @@ class Member < ActiveRecord::Base
   def to_param
     token
   end
+
+  def language; 'fr' end
 
   def can_destroy?
     pending? || waiting?

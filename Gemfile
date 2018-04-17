@@ -53,6 +53,7 @@ gem 'exception_notification-rake'
 gem 'faraday'
 gem 'faraday-cookie_jar'
 
+gem 'postmark'
 gem 'gibbon'
 gem 'google_drive'
 gem 'icalendar'

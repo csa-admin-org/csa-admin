@@ -147,4 +147,47 @@ describe Member do
         .and change { member.support_member }.to(false)
     end
   end
+
+  describe '#send_welcome_email' do
+    it 'sents a welcome email when member becomes active' do
+      member = create(:member, :active,
+        emails: 'thibaud@thibaud.gg, john@doe.com',
+        welcome_email_sent_at: nil)
+
+      expect { member.send_welcome_email }
+        .to change { email_adapter.deliveries.size }.by(1)
+        .and change { member.welcome_email_sent_at }.from(nil)
+
+      expect(email_adapter.deliveries.first).to match(hash_including(
+        to: 'thibaud@thibaud.gg, john@doe.com',
+        template: 'member-welcome-fr',
+        template_data: {
+          action_url: "https://membres.ragedevert.ch/#{member.token}"
+        }))
+    end
+
+    it 'does nothing when user is not active' do
+      member = create(:member, :pending,
+        emails: 'thibaud@thibaud.gg, john@doe.com',
+        welcome_email_sent_at: nil)
+      expect { member.send_welcome_email }
+        .not_to change { email_adapter.deliveries.size }
+    end
+
+    it 'does nothing when user has no emails' do
+      member = create(:member, :pending,
+        emails: '',
+        welcome_email_sent_at: nil)
+      expect { member.send_welcome_email }
+        .not_to change { email_adapter.deliveries.size }
+    end
+
+    it 'does nothing when user has welcome_email_sent_at set' do
+      member = create(:member, :active,
+        emails: 'thibaud@thibaud.gg, john@doe.com',
+        welcome_email_sent_at: Time.current)
+      expect { member.send_welcome_email }
+        .not_to change { email_adapter.deliveries.size }
+    end
+  end
 end

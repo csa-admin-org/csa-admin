@@ -489,6 +489,7 @@ DEPENDENCIES
   pg
   phony_rails
   polyamorous
+  postmark
   postmark-rails
   prawn
   prawn-table

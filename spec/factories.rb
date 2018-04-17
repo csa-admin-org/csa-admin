@@ -6,7 +6,7 @@ FactoryBot.define do
     email 'info@ragedevert.ch'
     phone '077 447 26 16'
     sequence(:tenant_name) { |n| "acp#{n}" }
-    email_default_host 'membres.ragedevert.ch'
+    email_default_host 'https://membres.ragedevert.ch'
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
     trial_basket_count 4
     billing_year_divisions [1, 4]
@@ -212,6 +212,10 @@ FactoryBot.define do
     halfday
     participants_count 1
     state 'pending'
+
+    trait :carpooling do
+      carpooling '1'
+    end
 
     trait :validated do
       halfday { create(:halfday, date: 1.day.ago )}
