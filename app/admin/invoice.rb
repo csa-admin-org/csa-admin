@@ -178,7 +178,7 @@ ActiveAdmin.register Invoice do
   end
 
   after_create do |invoice|
-    if invoice.comment.present?
+    if invoice.persisted? && invoice.comment.present?
       ActiveAdmin::Comment.create!(
         resource: invoice,
         body: invoice.comment,
