@@ -109,6 +109,8 @@ class ACP < ActiveRecord::Base
     Rails.application.credentials.dig(tenant_name.to_sym, key)
   end
 
+  def language; 'fr' end
+
   private
 
   def create_tenant

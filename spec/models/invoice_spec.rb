@@ -27,10 +27,10 @@ describe Invoice do
 
   it 'sends email when send_email is true on creation' do
     expect { create(:invoice, :support) }
-      .not_to change { InvoiceMailer.deliveries.count }
+      .not_to change { email_adapter.deliveries.size }
 
     expect { create(:invoice, :support, send_email: true) }
-      .to change { InvoiceMailer.deliveries.count }
+      .to change { email_adapter.deliveries.size }.by(1)
   end
 
   it 'updates membership recognized_halfday_works' do
@@ -105,10 +105,10 @@ describe Invoice do
     let(:invoice) { create(:invoice, :support, :not_sent) }
 
     it 'delivers email' do
-      expect { invoice.send!; }
-        .to change { InvoiceMailer.deliveries.count }.by(1)
-      mail = InvoiceMailer.deliveries.last
-      expect(mail.to).to eq invoice.member.emails_array
+      expect { invoice.send! }
+        .to change { email_adapter.deliveries.size }.by(1)
+      expect(email_adapter.deliveries.first).to match(hash_including(
+        template: 'invoice-new-fr'))
     end
 
     it 'touches sent_at' do
@@ -122,13 +122,13 @@ describe Invoice do
     it 'does nothing when already sent' do
       invoice.touch(:sent_at)
       expect { invoice.send! }
-        .not_to change { InvoiceMailer.deliveries.count }
+        .not_to change { email_adapter.deliveries.size }
     end
 
     it 'does nothing when member has no email' do
       invoice.member.update(emails: '')
       expect { invoice.send! }
-        .not_to change { InvoiceMailer.deliveries.count }
+        .not_to change { email_adapter.deliveries.size }
       expect(invoice.reload.sent_at).to be_nil
     end
   end
@@ -138,7 +138,7 @@ describe Invoice do
 
     it 'does not deliver email' do
       expect { invoice.mark_as_sent! }
-        .not_to change { InvoiceMailer.deliveries.count }
+        .not_to change { email_adapter.deliveries.size }
     end
 
     it 'touches sent_at' do

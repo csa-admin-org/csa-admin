@@ -23,4 +23,6 @@ class Admin < ActiveRecord::Base
   def right?(right)
     RIGHTS.index(self[:rights]) <= RIGHTS.index(right)
   end
+
+  def language; 'fr' end
 end

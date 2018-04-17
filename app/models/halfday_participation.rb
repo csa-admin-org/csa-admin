@@ -1,3 +1,4 @@
+
 class HalfdayParticipation < ActiveRecord::Base
   include HalfdayNaming
 
@@ -30,7 +31,6 @@ class HalfdayParticipation < ActiveRecord::Base
     unless: :validated_at?
 
   before_create :set_carpooling_phone
-  after_update :send_notifications
   after_commit :update_membership_recognized_halfday_works!
 
   def coming?
@@ -68,13 +68,6 @@ class HalfdayParticipation < ActiveRecord::Base
     !deadline || created_at > 1.day.ago || halfday.date > deadline.days.from_now
   end
 
-  def reminderable?
-    return unless coming?
-
-    (halfday.date < 2.weeks.from_now && !latest_reminder_sent_at && created_at < 1.month.ago) ||
-      (halfday.date < 3.days.from_now && (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
-  end
-
   def validate!(validator)
     return if coming?
     update!(
@@ -82,6 +75,9 @@ class HalfdayParticipation < ActiveRecord::Base
       validated_at: Time.current,
       validator: validator,
       rejected_at: nil)
+    unless validated_at_previous_change.first
+      Email.deliver_later(:halfday_validated, self)
+    end
   end
 
   def reject!(validator)
@@ -91,16 +87,16 @@ class HalfdayParticipation < ActiveRecord::Base
       rejected_at: Time.current,
       validator: validator,
       validated_at: nil)
+    unless rejected_at_previous_change.first
+      Email.deliver_later(:halfday_rejected, self)
+    end
   end
 
-  def self.send_reminder_emails
-    coming.select(&:reminderable?).each do |hp|
-      HalfdayParticipationMailer.reminder(hp).deliver_now
-      hp.touch(:latest_reminder_sent_at)
-    rescue => ex
-      ExceptionNotifier.notify_exception(ex,
-        data: { emails: hp.member.emails, member: hp.member })
-    end
+  def send_reminder_email
+    return unless reminderable?
+
+    Email.deliver_now(:halfday_reminder, self)
+    touch(:latest_reminder_sent_at)
   end
 
   private
@@ -119,15 +115,10 @@ class HalfdayParticipation < ActiveRecord::Base
     member.membership(halfday.fy_year)&.update_recognized_halfday_works!
   end
 
-  def send_notifications
-    if saved_change_to_validated_at? && validated_at?
-      HalfdayParticipationMailer.validated(self).deliver_now
-    end
-    if saved_change_to_rejected_at? && rejected_at?
-      HalfdayParticipationMailer.rejected(self).deliver_now
-    end
-  rescue => ex
-    ExceptionNotifier.notify_exception(ex,
-      data: { emails: member.emails, member: member })
+  def reminderable?
+    return unless coming?
+
+    (halfday.date < 2.weeks.from_now && !latest_reminder_sent_at && created_at < 1.month.ago) ||
+      (halfday.date < 3.days.from_now && (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
   end
 end

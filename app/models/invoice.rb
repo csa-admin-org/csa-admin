@@ -71,7 +71,7 @@ class Invoice < ActiveRecord::Base
     return unless can_send_email?
     raise NoPDFError unless pdf_file.attached?
 
-    InvoiceMailer.new_invoice(self).deliver_now if can_send_email?
+    Email.deliver_now(:invoice_new, self) if can_send_email?
     touch(:sent_at)
     close_or_open!
   rescue => ex

@@ -833,3 +833,9 @@ fr:
     alert:
       coming_halfday_participations_cannot_be_rejected: Les participations à venir ne peuvent pas encore être refusées
       coming_halfday_participations_cannot_be_validated: Les participations à venir ne peuvent pas encore être validées
+
+  members:
+    member_tokens:
+      create:
+        flash:
+          notice: 'Merci! Un email vient de vous être envoyé.'

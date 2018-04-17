@@ -24,4 +24,6 @@ class Distribution < ActiveRecord::Base
   def emails_array
     emails.to_s.split(',').each(&:strip!)
   end
+
+  def email_language; 'fr' end
 end
