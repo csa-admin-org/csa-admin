@@ -63,6 +63,10 @@ class Invoice < ActiveRecord::Base
   after_create :update_member_invoices_balance!, :set_pdf, :send_email
   after_commit :update_membership_recognized_halfday_works!
 
+  def display_name
+    "#{model_name.human} ##{id} (#{I18n.l date})"
+  end
+
   def send!
     return unless can_send_email?
     raise NoPDFError unless pdf_file.attached?

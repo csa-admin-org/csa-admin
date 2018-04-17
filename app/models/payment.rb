@@ -52,6 +52,11 @@ class Payment < ActiveRecord::Base
     end
   end
 
+  def invoice_id=(invoice_id)
+    super
+    self.invoice = invoice if invoice
+  end
+
   def invoice=(invoice)
     self.member = invoice.member
     super
