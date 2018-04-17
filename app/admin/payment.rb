@@ -74,7 +74,7 @@ ActiveAdmin.register Payment do
   end
 
   after_create do |payment|
-    if payment.comment.present?
+    if payment.persisted? && payment.comment.present?
       ActiveAdmin::Comment.create!(
         resource: payment,
         body: payment.comment,
