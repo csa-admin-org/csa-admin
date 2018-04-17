@@ -542,6 +542,7 @@ fr:
         ended_on: Fin
       invoice:
         balance: Payé
+        missing_amount: Montant manquant
         overdue_notices_count: 'Rappels'
         overdue_notice_sent_at: Dernier rappel envoyé le
         paid_missing_halfday_works: Nombre / Participants

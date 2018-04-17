@@ -18,7 +18,7 @@ class Payment < ActiveRecord::Base
   validates :amount, numericality: { other_than: 0 }, presence: true
   validates :isr_data, uniqueness: true, allow_nil: true
 
-  after_create :update_invoices_balance
+  after_commit :update_invoices_balance
 
   def self.update_invoices_balance!(member_id)
     member = Member.find(member_id)

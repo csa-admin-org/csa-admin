@@ -81,6 +81,7 @@ ActiveAdmin.register Invoice do
         attributes_table title: 'Montant' do
           row(:amount) { number_to_currency(invoice.amount) }
           row(:balance) { number_to_currency(invoice.balance) }
+          row(:missing_amount) { number_to_currency(invoice.missing_amount) }
         end
 
         attributes_table title: 'Rappels' do
@@ -98,7 +99,8 @@ ActiveAdmin.register Invoice do
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
-    link_to 'Nouveau paiement', new_payment_path(invoice_id: invoice.id)
+    link_to 'Nouveau paiement', new_payment_path(
+      invoice_id: invoice.id, amount: invoice.missing_amount)
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do

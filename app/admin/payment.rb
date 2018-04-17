@@ -64,7 +64,8 @@ ActiveAdmin.register Payment do
         f.input :invoice, collection: f.object.member.invoices, include_blank: true
       end
       f.input :date, as: :datepicker, include_blank: false
-      f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05
+      f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05,
+        input_html: { value: number_with_precision(f.object.amount, precision: 2) }
       unless f.object.persisted?
         f.input :comment, as: :text
       end
@@ -82,7 +83,7 @@ ActiveAdmin.register Payment do
     end
     payment.member_id ||= referer_filter_member_id
     payment.date ||= Date.current
-    payment.amount ||= 0
+    payment.amount ||= params[:amount] || 0
   end
 
   after_create do |payment|
