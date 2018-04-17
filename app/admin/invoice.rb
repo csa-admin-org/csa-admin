@@ -97,6 +97,10 @@ ActiveAdmin.register Invoice do
     link_to 'PDF', rails_blob_path(resource.pdf_file, disposition: 'attachment')
   end
 
+  action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
+    link_to 'Nouveau paiement', new_payment_path(invoice_id: invoice.id)
+  end
+
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
     link_to 'Envoyer', send_email_invoice_path(resource), method: :post
   end

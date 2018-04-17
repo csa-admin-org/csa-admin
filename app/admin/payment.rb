@@ -55,7 +55,14 @@ ActiveAdmin.register Payment do
 
   form do |f|
     f.inputs 'Details' do
-      f.input :member, collection: Member.order(:name).distinct, include_blank: false
+      f.input :member,
+        collection: Member.order(:name).distinct,
+        include_blank: false,
+        input_html: { disabled: f.object.invoice_id? }
+      if f.object.invoice_id?
+        f.input :member_id, as: :hidden
+        f.input :invoice, collection: f.object.member.invoices, include_blank: true
+      end
       f.input :date, as: :datepicker, include_blank: false
       f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05
       unless f.object.persisted?
@@ -65,9 +72,14 @@ ActiveAdmin.register Payment do
     f.actions
   end
 
-  permit_params(*%i[member_id date amount comment])
+  permit_params(*%i[member_id invoice_id date amount comment])
 
   before_build do |payment|
+    if params[:invoice_id]
+      invoice = Invoice.find(params[:invoice_id])
+      payment.invoice = invoice
+      payment.member = invoice.member
+    end
     payment.member_id ||= referer_filter_member_id
     payment.date ||= Date.current
     payment.amount ||= 0
