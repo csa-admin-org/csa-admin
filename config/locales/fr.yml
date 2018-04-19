@@ -414,6 +414,9 @@ fr:
         created_at: Enregistrée à
         updated_at: Mise à jour à
         invoiced_at: Facturé le
+        member_id: Membre ID
+        member_name: Membre
+        member_phones: Téléphones
       halfday_participation/halfday_work:
         <<: *halfday_participation_default
         halfday: ½ Journée
