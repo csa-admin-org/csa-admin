@@ -21,11 +21,12 @@ ActiveAdmin.register HalfdayParticipation do
 
   csv do
     column(:date) { |hp| hp.halfday.date.to_s }
-    column('ID Membre') { |hp| hp.member_id }
-    column('Nom Membre') { |hp| hp.member.name }
+    column(:member_id) { |hp| hp.member_id }
+    column(:member_name) { |hp| hp.member.name }
+    column(:member_phones) { |hp| hp.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:participants_count)
     column(:carpooling_phone) { |hp| hp.carpooling_phone&.phony_formatted }
-    column(:state)
+    column(:state) { |hp| hp.state_i18n_name }
     column(:created_at)
     column(:validated_at)
     column(:rejected_at)

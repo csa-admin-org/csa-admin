@@ -1,6 +1,7 @@
 
 class HalfdayParticipation < ActiveRecord::Base
   include HalfdayNaming
+  include HasState # only partially
 
   attr_reader :carpooling, :halfday_ids
   delegate :missing_participants_count, to: :halfday, allow_nil: true

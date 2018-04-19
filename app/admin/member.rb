@@ -41,7 +41,7 @@ ActiveAdmin.register Member do
     column(:name)
     column(:state) { |m| m.state_i18n_name }
     column(:emails) { |m| m.emails_array.join(', ') }
-    column(:phones) { |m| m.phones_array.map { |p| p.phony_formatted }.join(', ') }
+    column(:phones) { |m| m.phones_array.map(&:phony_formatted).join(', ') }
     column(:address)
     column(:zip)
     column(:city)
