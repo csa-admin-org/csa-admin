@@ -68,7 +68,7 @@ describe Email do
       template_data: {
         halfday_date: '24 mars 2018',
         halfday_date_long: 'samedi 24 mars 2018',
-        halfday_period: ' 8:30-12:00',
+        halfday_period: '8:30-12:00',
         halfday_activity: 'Aide aux champs',
         halfday_description: 'Que du bonheur',
         halfday_place_name: 'Thielle',
@@ -109,7 +109,7 @@ describe Email do
       template_data: {
         halfday_date: '24 mars 2018',
         halfday_date_long: 'samedi 24 mars 2018',
-        halfday_period: ' 8:30-12:00',
+        halfday_period: '8:30-12:00',
         halfday_activity: 'Aide aux champs',
         halfday_description: 'Que du bonheur',
         halfday_place: {
@@ -149,7 +149,7 @@ describe Email do
       template_data: {
         halfday_date: '24 mars 2018',
         halfday_date_long: 'samedi 24 mars 2018',
-        halfday_period: ' 8:30-12:00',
+        halfday_period: '8:30-12:00',
         halfday_activity: 'Aide aux champs',
         halfday_description: 'Que du bonheur',
         halfday_place: {

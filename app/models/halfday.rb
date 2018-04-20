@@ -71,7 +71,7 @@ class Halfday < ActiveRecord::Base
   end
 
   def period
-    [start_time, end_time].map { |t| t.strftime('%k:%M') }.join('-')
+    [start_time, end_time].map { |t| t.strftime('%-k:%M') }.join('-')
   end
 
   def start_time

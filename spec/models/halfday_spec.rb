@@ -47,4 +47,15 @@ describe Halfday do
     expect(h.place_url).to eq 'https://goo.gl/maps/xSxmiYRhKWH2'
     expect(h.activity).to eq  'Aide aux champs'
   end
+
+  describe '#period' do
+    it 'does not pad hours' do
+      halfday = Halfday.new(
+        date: '2018-03-24',
+        start_time: Time.zone.parse('8:30'),
+        end_time: Time.zone.parse('12:00'))
+
+      expect(halfday.period).to eq '8:30-12:00'
+    end
+  end
 end
