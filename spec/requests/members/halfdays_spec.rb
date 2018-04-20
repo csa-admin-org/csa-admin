@@ -13,7 +13,6 @@ describe 'Halfdays RSS feed' do
 
     expect(response.status).to eq 200
     expect(response.content_type).to eq 'application/rss+xml'
-
     expect(response.body).to include('Just Good')
     expect(response.body).not_to include('Too Soon')
     expect(response.body).not_to include('Full')
