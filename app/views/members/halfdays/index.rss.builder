@@ -6,8 +6,8 @@ xml.rss version: '2.0' do
 
     @halfdays.each do |halfday|
       xml.item do
-        xml.title halfday_label(halfday, date: true, description: false)
-        xml.description halfday_label(halfday, date: true, description: true)
+        xml.title halfday_label(halfday, date: true, date_format: :long, description: false)
+        xml.description halfday_label(halfday, date: true, date_format: :long, description: true)
         xml.pubDate halfday.created_at.to_s(:rfc822)
         xml.guid halfday.cache_key
       end
