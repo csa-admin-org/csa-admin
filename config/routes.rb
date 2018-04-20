@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   scope module: 'members', as: 'members' do
     constraints subdomain: 'membres' do
       get '/' => redirect('/token/recover')
+      resources :halfdays, only: :index
       resources :members, only: [:show], path: '' do
         resources :halfday_participations
       end
