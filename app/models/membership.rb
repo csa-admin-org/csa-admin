@@ -35,6 +35,7 @@ class Membership < ActiveRecord::Base
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :baskets_annual_price_change, numericality: true
+  validates :basket_complements_annual_price_change, numericality: true
   validate :good_period_range
   validate :only_one_per_year
   validate :unique_subscribed_basket_complement_id
@@ -115,6 +116,10 @@ class Membership < ActiveRecord::Base
     super rounded_price(price.to_f)
   end
 
+  def basket_complements_annual_price_change=(price)
+    super rounded_price(price.to_f)
+  end
+
   def halfday_works_annual_price=(price)
     super rounded_price(price.to_f)
   end
@@ -157,6 +162,7 @@ class Membership < ActiveRecord::Base
     basket_sizes_price +
       baskets_annual_price_change +
       basket_complements_price +
+      basket_complements_annual_price_change +
       distributions_price +
       halfday_works_annual_price
   end

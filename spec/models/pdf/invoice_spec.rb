@@ -415,6 +415,50 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
+    it 'generates invoice with support ammount + basket_complements_annual_price_change reduc + complements' do
+      member = create(:member,
+        name: 'Alain Reymond',
+        address: 'Bd Plumhof 6',
+        zip: '1800',
+        city: 'Vevey')
+      create(:basket_complement,
+        id: 2,
+        price: 7.4,
+        name: 'Tomme de Lavaux',
+        delivery_ids: Delivery.current_year.pluck(:id)[24..48])
+      membership = create(:membership,
+        started_on: Current.fy_range.min + 5.months,
+        basket_size: create(:basket_size, name: 'Grand'),
+        distribution: create(:distribution, price: 0),
+        basket_price: 30.5,
+        basket_complements_annual_price_change: -14.15,
+        memberships_basket_complements_attributes: {
+          '1' => { basket_complement_id: 2 }
+        })
+
+      invoice = create(:invoice,
+        id: 124,
+        member: member,
+        object: membership,
+        support_amount: 75,
+        memberships_amount_description: 'Facturation annuelle')
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to include(/Période du 01.09.20\d\d au 31.03.20\d\d/)
+        .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
+        .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
+        .and contain_sequence('Ajustement du prix des compléments', '- 14.15')
+        .and contain_sequence('Montant annuel', '956.45', 'Facturation annuelle', '* 956.45')
+        .and contain_sequence('Cotisation annuelle association', '75.00')
+        .and contain_sequence('Total', "1'031.45")
+        .and contain_sequence('* TTC, CHF 955.49 HT, CHF 0.96 TVA (0.1%)')
+        .and contain_sequence('N° TVA CHE-273.220.900')
+        .and include '0100001031458>800250000000000000000001244+ 0192520>'
+      expect(pdf_strings).not_to include 'Montant restant'
+    end
+
     it 'generates an invoice with support and a previous extra payment covering part of its amount' do
       member = create(:member)
       membership = create(:membership,
@@ -430,6 +474,7 @@ describe PDF::Invoice do
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
+
       expect(pdf_strings)
         .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")

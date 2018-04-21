@@ -176,6 +176,9 @@ ActiveAdmin.register Membership do
               row(:basket_complements_price) {
                 display_price_description(m.basket_complements_price, basket_complements_price_info(m.baskets))
               }
+              row(:basket_complements_annual_price_change) {
+                number_to_currency(m.basket_complements_annual_price_change)
+              }
             end
             row(:distributions_price) {
               display_price_description(m.distributions_price, distributions_price_info(m.baskets))
@@ -247,6 +250,9 @@ ActiveAdmin.register Membership do
               hint: 'Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.'
           end
         end
+        f.input :basket_complements_annual_price_change,
+          label: "Ajustement du prix des compléments",
+          hint: "Modifie le montant final, peu importe le nombre de paniers/compléments."
       end
     end
     f.actions
@@ -258,6 +264,7 @@ ActiveAdmin.register Membership do
     :distribution_id, :distribution_price,
     :started_on, :ended_on, :renew,
     :halfday_works_annual_price, :annual_halfday_works,
+    :basket_complements_annual_price_change,
     seasons: [],
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,

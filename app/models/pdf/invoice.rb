@@ -80,6 +80,9 @@ module PDF
             ]
           end
         end
+        unless object.basket_complements_annual_price_change.zero?
+          data << ['Ajustement du prix des compléments', cur(object.basket_complements_annual_price_change)]
+        end
         object.distributions.uniq.each do |distribution|
           price = object.distribution_total_price(distribution)
           if price.positive?
