@@ -35,15 +35,14 @@ module PDF
     end
 
     def member
-      bounding_box [12.cm, bounds.height - 6.cm], width: 8.cm, height: 2.5.cm do
-        # stroke_bounds
+      bounding_box [11.5.cm, bounds.height - 55], width: 8.cm, height: 2.5.cm do
         text member_address, valign: :top, leading: 2
       end
     end
 
     def header
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
-      bounding_box [25, bounds.height - 6.cm], width: 200, height: 2.5.cm do
+      bounding_box [155, bounds.height - 55], width: 200, height: 2.5.cm do
         text "Facture N° #{invoice.id}", style: :bold, size: 16
         move_down 5
         text I18n.l(invoice.date)
@@ -136,6 +135,7 @@ module PDF
         data << ['Total', cur(invoice.amount)]
       end
 
+      move_down 30
       table data, column_widths: [bounds.width - 120, 70], position: :center do |t|
         t.cells.borders = []
         t.cells.valign = :bottom
