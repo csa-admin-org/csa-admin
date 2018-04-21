@@ -37,8 +37,7 @@ class Member < ActiveRecord::Base
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :gribouille, -> {
-    where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE])
-      .where(gribouille: [nil, true])
+    where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]).where(gribouille: [nil, true])
       .or(Member.where(support_member: true).where(gribouille: [nil, true]))
       .or(Member.where(gribouille: true))
   }
@@ -64,6 +63,12 @@ class Member < ActiveRecord::Base
 
   def self.gribouille_emails
     gribouille.select(:emails).map(&:emails_array).flatten.uniq.compact
+  end
+
+  def newsletter?
+    (state.in?([WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]) && gribouille.in?([true, nil])) ||
+      (support_member? && gribouille.in?([true, nil])) ||
+      (gribouille?)
   end
 
   def billable?

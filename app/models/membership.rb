@@ -62,7 +62,11 @@ class Membership < ActiveRecord::Base
   }
 
   def trial?
-    baskets.coming.trial.any?
+    remaning_trial_baskets_count.positive?
+  end
+
+  def remaning_trial_baskets_count
+    baskets.coming.trial.count
   end
 
   def trial_only?
