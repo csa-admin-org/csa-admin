@@ -501,6 +501,7 @@ fr:
         halfday_works_annual_price/halfday_work: Ajustement du prix de l'abonnement (½ journées)
         halfday_works_annual_price/basket_preparation: Ajustement du prix de l'abonnement (mises en panier)
         baskets_annual_price_change: Ajustement du prix de l'abonnement (paniers)
+        basket_complements_annual_price_change: Ajustement du prix de l'abonnement (compléments)
         baskets: Paniers
         basket_sizes_price: Prix paniers
         subscribed_basket_complement_ids: Compléments paniers

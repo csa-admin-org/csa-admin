@@ -222,6 +222,19 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.distributions_price
   end
 
+  specify 'with baskets_annual_price_change price' do
+    membership = create(:membership,
+      basket_size_id: create(:basket_size, price: 23.125).id,
+      distribution_id: create(:distribution, price: 2).id,
+      baskets_annual_price_change: -111)
+
+    expect(membership.basket_sizes_price).to eq 40 * 23.125
+    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.baskets_annual_price_change).to eq(-111)
+    expect(membership.price)
+      .to eq(membership.basket_sizes_price + membership.distributions_price - 111)
+  end
+
   specify 'with basket complements' do
     membership = create(:membership, basket_price: 31)
     create(:basket_complement, id: 1, price: 2.20)
@@ -242,17 +255,25 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.basket_complements_price
   end
 
-  specify 'with baskets_annual_price_change price' do
-    membership = create(:membership,
-      basket_size_id: create(:basket_size, price: 23.125).id,
-      distribution_id: create(:distribution, price: 2).id,
-      baskets_annual_price_change: -111)
+  specify 'with basket_complements_annual_price_change price' do
+    membership = create(:membership, basket_price: 31,
+      basket_complements_annual_price_change: -12.35)
+    create(:basket_complement, id: 1, price: 2.20)
+    create(:basket_complement, id: 2, price: 3.30)
 
-    expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to eq 40 * 2
-    expect(membership.baskets_annual_price_change).to eq(-111)
+    membership.baskets.first.update!(complement_ids: [1, 2])
+    membership.baskets.second.update!(baskets_basket_complements_attributes: {
+      '0' => { basket_complement_id: 1, price: '', quantity: 2 },
+      '1' => { basket_complement_id: 2, price: 4, quantity: 3 }
+    })
+    membership.baskets.third.update!(complement_ids: [2])
+
+    expect(membership.basket_sizes_price).to eq 40 * 31
+    expect(membership.distributions_price).to be_zero
+    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
     expect(membership.price)
-      .to eq(membership.basket_sizes_price + membership.distributions_price - 111)
+      .to eq membership.basket_sizes_price + membership.basket_complements_price - 12.35
   end
 
   specify 'with halfday_works_annual_price price' do
