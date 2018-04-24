@@ -4,7 +4,9 @@ namespace :distributions do
     ACP.enter_each! do
       next_delivery = Delivery.next
       if next_delivery && Date.current == (next_delivery.date - 1.day)
-        Email.deliver_now(:delivery_list, distribution, next_delivery)
+        Distribution.with_emails.each do |distribution|
+          Email.deliver_now(:delivery_list, next_delivery, distribution)
+        end
         p "#{Current.acp.name}: Distributions next_delivery sent."
       end
     end
