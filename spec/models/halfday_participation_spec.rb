@@ -141,11 +141,11 @@ describe HalfdayParticipation do
         .not_to change { email_adapter.deliveries.size }
     end
 
-    it 'does not send an email when participation has been created in less than a month' do
+    it 'does not send an email when participation has been created less than a day ago' do
       halfday = create(:halfday, date: 2.weeks.from_now - 1.hour)
       participation = create(:halfday_participation,
         halfday: halfday,
-        created_at: 3.weeks.ago,
+        created_at: 23.hour.ago,
         latest_reminder_sent_at: nil)
       expect { participation.send_reminder_email }
         .not_to change { email_adapter.deliveries.size }

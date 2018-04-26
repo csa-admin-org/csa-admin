@@ -119,7 +119,7 @@ class HalfdayParticipation < ActiveRecord::Base
   def reminderable?
     return unless coming?
 
-    (halfday.date < 2.weeks.from_now && !latest_reminder_sent_at && created_at < 1.month.ago) ||
+    (halfday.date < 2.weeks.from_now && !latest_reminder_sent_at && created_at < 1.day.ago) ||
       (halfday.date < 3.days.from_now && (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
   end
 end
