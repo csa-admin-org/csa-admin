@@ -15,12 +15,15 @@ module Email
 
   def delivery_list(delivery, distribution)
     baskets = distribution.baskets
+      .select('members.name, deliveries.date, basket_sizes.name, baskets.quantity, baskets_basket_complements.quantity, basket_complements.name')
       .not_absent
       .not_empty
       .joins(:member)
+      .eager_load(:basket_size, :complements)
       .includes(:baskets_basket_complements)
       .where(delivery_id: delivery.id)
       .order('members.name')
+      .distinct
     xlsx = XLSX::Delivery.new(delivery, distribution)
     pdf = PDF::Delivery.new(delivery, distribution)
 
@@ -34,6 +37,7 @@ module Email
         baskets: baskets.map { |b|
           {
             member_name: b.member.name,
+            description: b.description,
             size_name: b.basket_size&.name,
             complement_names: b.complements_description
           }.compact
