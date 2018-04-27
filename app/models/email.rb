@@ -15,15 +15,12 @@ module Email
 
   def delivery_list(delivery, distribution)
     baskets = distribution.baskets
-      .select('members.name, deliveries.date, basket_sizes.name, baskets.quantity, baskets_basket_complements.quantity, basket_complements.name')
       .not_absent
       .not_empty
-      .joins(:member)
-      .eager_load(:basket_size, :complements)
-      .includes(:baskets_basket_complements)
+      .includes(:basket_size, :complements, :member, :baskets_basket_complements)
       .where(delivery_id: delivery.id)
       .order('members.name')
-      .distinct
+      .uniq
     xlsx = XLSX::Delivery.new(delivery, distribution)
     pdf = PDF::Delivery.new(delivery, distribution)
 
