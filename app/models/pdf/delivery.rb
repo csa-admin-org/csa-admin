@@ -8,7 +8,7 @@ module PDF
       @delivery = delivery
       super
       @current_time = Time.current
-      basket_ids = delivery.baskets.not_empty.pluck(:id)
+      basket_ids = delivery.baskets.not_empty.not_absent.pluck(:id)
       @baskets = Basket.where(id: basket_ids).includes(:member, :baskets_basket_complements).order('members.name')
       @distributions =
         if distribution

@@ -22,8 +22,8 @@ describe Email do
         delivery_date: '24 mars 2018',
         distribution_name: 'Jardin de la Main',
         baskets: [
-          { member_name: 'Alex Broz', size_name: 'Eveil' },
-          { member_name: 'Fred Asmo', size_name: 'Eveil' }
+          { member_name: 'Alex Broz', description: 'Eveil', size_name: 'Eveil' },
+          { member_name: 'Fred Asmo', description: 'Eveil', size_name: 'Eveil' }
         ]
       },
       attachments: [
