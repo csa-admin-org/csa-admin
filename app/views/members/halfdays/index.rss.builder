@@ -1,7 +1,7 @@
 xml.instruct! :xml, version: '1.0'
 xml.rss version: '2.0' do
   xml.channel do
-    xml.title "#{halfdays_human_name} à venir"
+    xml.title t_halfday('.coming_halfday_participations')
     xml.link members_halfdays_url
 
     @halfdays.each do |halfday|
@@ -14,7 +14,7 @@ xml.rss version: '2.0' do
     end
     if @halfdays.empty?
       xml.item do
-        xml.title "Aucune #{halfday_human_name} à venir pour le moment."
+        xml.title t_halfday('.no_coming_halfday_participations')
       end
     end
   end

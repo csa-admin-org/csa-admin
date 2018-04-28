@@ -1,0 +1,23 @@
+_:
+  halfdays:
+    basket_preparation:
+      one:
+        _de: Mise en panier
+        _fr: Mise en panier
+      other:
+        _de: Mises en panier
+        _fr: Mises en panier
+    halfday_work:
+      one:
+        _de: "½ Journée"
+        _fr: "½ Journée"
+      other:
+        _de: "½ Journées"
+        _fr: "½ Journées"
+    participant_count:
+      one:
+        _de: 1 participant
+        _fr: 1 participant
+      other:
+        _de: "%{count} partipants"
+        _fr: "%{count} partipants"

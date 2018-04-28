@@ -1,0 +1,84 @@
+_:
+  invoices:
+    cancel:
+      flash:
+        notice:
+          _de: Facture annulée
+          _fr: Facture annulée
+    object_type:
+      support:
+        _de: Cotisation
+        _fr: Cotisation
+    pdf:
+      all_taxes_included:
+        _de: TTC
+        _fr: TTC
+      annual_memberships_amount:
+        _de: Montant annuel
+        _fr: Montant annuel
+      annual_support_amount:
+        _de: Cotisation annuelle association
+        _fr: Cotisation annuelle association
+      basket_complements_annual_price_change:
+        _de: Ajustement du prix des compléments
+        _fr: Ajustement du prix des compléments
+      baskets_annual_price_change:
+        _de: Ajustement du prix des paniers
+        _fr: Ajustement du prix des paniers
+      credit_amount:
+        _de: Avoir
+        _fr: Avoir
+      extra_credit_amount:
+        _de: L'avoir restant sera reporté sur la facture suivante.
+        _fr: L'avoir restant sera reporté sur la facture suivante.
+      missed_halfday_participation/basket_preparation:
+        _de: Mise en panier non-effectuée
+        _fr: Mise en panier non-effectuée
+      missed_halfday_participation/halfday_work:
+        _de: "½ journée non-effectuée"
+        _fr: "½ journée non-effectuée"
+      missed_halfday_participation_with_date/basket_preparation:
+        _de: Mise en panier du %{date} non-effectuée
+        _fr: Mise en panier du %{date} non-effectuée
+      missed_halfday_participation_with_date/halfday_work:
+        _de: "½ journée du %{date} non-effectuée"
+        _fr: "½ journée du %{date} non-effectuée"
+      missed_halfday_participations/basket_preparation:
+        _de: "%{count} mises en panier non-effectuées"
+        _fr: "%{count} mises en panier non-effectuées"
+      missed_halfday_participations/halfday_work:
+        _de: "%{count} ½ journées non-effectuées"
+        _fr: "%{count} ½ journées non-effectuées"
+      missing_amount:
+        _de: À payer
+        _fr: À payer
+      paid_memberships_amount:
+        _de: Déjà facturé
+        _fr: Déjà facturé
+      remaining_annual_memberships_amount:
+        _de: Montant annuel restant
+        _fr: Montant annuel restant
+      total:
+        _de: Total
+        _fr: Total
+      vat:
+        _de: TVA
+        _fr: TVA
+      without_taxes:
+        _de: HT
+        _fr: HT
+    scope:
+      amount:
+        _de: Facturé
+        _fr: Facturé
+      balance:
+        _de: Payé
+        _fr: Payé
+      missing_amount:
+        _de: Restant à facturer
+        _fr: Restant à facturer
+    send_email:
+      flash:
+        notice:
+          _de: Email envoyé
+          _fr: Email envoyé

@@ -1,0 +1,47 @@
+_:
+  states:
+    halfday_participation:
+      coming:
+        _de: à venir
+        _fr: à venir
+      pending:
+        _de: en attente de validation
+        _fr: en attente de validation
+      rejected:
+        _de: refusée
+        _fr: refusée
+      validated:
+        _de: validée
+        _fr: validée
+    invoice:
+      canceled:
+        _de: annulée
+        _fr: annulée
+      closed:
+        _de: fermée
+        _fr: fermée
+      not_sent:
+        _de: non-envoyée
+        _fr: non-envoyée
+      open:
+        _de: ouverte
+        _fr: ouverte
+    member:
+      active:
+        _de: actif
+        _fr: actif
+      inactive:
+        _de: inactif
+        _fr: inactif
+      pending:
+        _de: à valider
+        _fr: à valider
+      support:
+        _de: soutien
+        _fr: soutien
+      trial:
+        _de: essai
+        _fr: essai
+      waiting:
+        _de: attente
+        _fr: attente

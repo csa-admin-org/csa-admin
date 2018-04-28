@@ -1,0 +1,83 @@
+_:
+  billing:
+    adjustments:
+      _de: Ajustements
+      _fr: Ajustements
+    amount:
+      _de: Facturé
+      _fr: Facturé
+    balance_without_overbalance:
+      _de: Payé
+      _fr: Payé
+    membership_amount_description:
+      x1:
+        _de: Facturation annuelle
+        _fr: Facturation annuelle
+      x12:
+        _de: 'Facturation mensuelle #%{number}'
+        _fr: 'Facturation mensuelle #%{number}'
+      x2:
+        _de: 'Facturation semestrielle #%{number}'
+        _fr: 'Facturation semestrielle #%{number}'
+      x3:
+        _de: 'Facturation quadrimestrielle #%{number}'
+        _fr: 'Facturation quadrimestrielle #%{number}'
+      x4:
+        _de: 'Facturation trimestrielle #%{number}'
+        _fr: 'Facturation trimestrielle #%{number}'
+    memberships_gross_amount:
+      _de: Abonnements TTC
+      _fr: Abonnements TTC
+    memberships_net_amount:
+      _de: Abonnements HT
+      _fr: Abonnements HT
+    memberships_vat_amount:
+      _de: Abonnements TVA
+      _fr: Abonnements TVA
+    missing_amount:
+      _de: Non-payé (manquant)
+      _fr: Non-payé (manquant)
+    overbalance:
+      _de: Payé en trop (pour année suivante)
+      _fr: Payé en trop (pour année suivante)
+    scope:
+      basket_complement:
+        _de: Complément
+        _fr: Complément
+      basket_size:
+        _de: Panier %{name}
+        _fr: Panier %{name}
+      distribution:
+        _de: Distribution
+        _fr: Distribution
+      halfday/basket_preparation:
+        _de: Ajustement mises en panier
+        _fr: Ajustement mises en panier
+      halfday/halfday_work:
+        _de: Ajustement ½ journées
+        _fr: Ajustement ½ journées
+      support:
+        _de: Cotisation
+        _fr: Cotisation
+    supports_amount:
+      _de: Cotisations
+      _fr: Cotisations
+    title:
+      _de: Facturation
+      _fr: Facturation
+    year_division:
+      x1:
+        _de: annuel
+        _fr: annuel
+      x12:
+        _de: mensuel
+        _fr: mensuel
+      x2:
+        _de: semestriel
+        _fr: semestriel
+      x3:
+        _de: quadrimestriel
+        _fr: quadrimestriel
+      x4:
+        _de: trimestriel
+        _fr: trimestriel

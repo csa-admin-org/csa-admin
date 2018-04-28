@@ -77,7 +77,7 @@ class Basket < ActiveRecord::Base
   end
 
   def empty?
-    quantity + baskets_basket_complements.sum(:quantity) == 0
+    (quantity + baskets_basket_complements.sum(:quantity)).zero?
   end
 
   private

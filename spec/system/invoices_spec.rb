@@ -18,11 +18,11 @@ describe 'Invoices' do
     click_button 'Créer Facture'
 
     expect(page)
-      .to have_content('Détails de Facture')
+      .to have_content('Détails')
       .and have_content('Membre Jean Paul')
       .and have_content('Objet ½ Journée - Participation #3')
       .and have_content('Statut non-envoyée')
-      .and have_content('Montant (CHF)  CHF 120.00')
+      .and have_content('Montant CHF 120.00')
       .and have_content('Commentaires (1)')
       .and have_content('Sheriff')
       .and have_content('A oublier de venir.')

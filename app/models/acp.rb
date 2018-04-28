@@ -3,6 +3,7 @@ class ACP < ActiveRecord::Base
     basket_content
     gribouille
   ]
+  LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   HALFDAY_I18N_SCOPES = %w[halfday_work basket_preparation]
@@ -63,6 +64,7 @@ class ACP < ActiveRecord::Base
   end
 
   def self.seasons; SEASONS end
+  def self.languages; LANGUAGES end
   def self.features; FEATURES end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
   def self.halfday_i18n_scopes; HALFDAY_I18N_SCOPES end
@@ -73,6 +75,10 @@ class ACP < ActiveRecord::Base
 
   def billing_year_divisions=(divisions)
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
+  end
+
+  def languages=(languages)
+    super languages & LANGUAGES
   end
 
   def current_fiscal_year
@@ -108,8 +114,6 @@ class ACP < ActiveRecord::Base
   def credentials(key)
     Rails.application.credentials.dig(tenant_name.to_sym, key)
   end
-
-  def language; 'fr' end
 
   private
 

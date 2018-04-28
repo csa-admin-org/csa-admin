@@ -1,0 +1,645 @@
+_:
+  active_admin:
+    access_denied:
+      message:
+        _de: Vous n'êtes pas autorisé à executer cette action
+        _fr: Vous n'êtes pas autorisé à executer cette action
+    any:
+      _de: N'importe lequel
+      _fr: N'importe lequel
+    batch_actions:
+      action_label:
+        _de: "%{title} les éléments sélectionnés"
+        _fr: "%{title} les éléments sélectionnés"
+      button_label:
+        _de: Actions groupées
+        _fr: Actions groupées
+      default_confirmation:
+        _de: Êtes-vous sûr de que vouloir faire cela ?
+        _fr: Êtes-vous sûr de que vouloir faire cela ?
+      delete_confirmation:
+        _de: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
+        _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
+      labels:
+        destroy:
+          _de: Supprimer
+          _fr: Supprimer
+        reject:
+          _de: Refuser
+          _fr: Refuser
+        renew:
+          _de: Renouveller
+          _fr: Renouveller
+        validate:
+          _de: Valider
+          _fr: Valider
+        wait:
+          _de: Mettre en attente
+          _fr: Mettre en attente
+      link:
+        _de: Créer un
+        _fr: Créer un
+      selection_toggle_explanation:
+        _de: "(Inverser la sélection)"
+        _fr: "(Inverser la sélection)"
+      succesfully_destroyed:
+        one:
+          _de: 1 %{model} supprimé
+          _fr: 1 %{model} supprimé
+        other:
+          _de: "%{count} %{plural_model} supprimés"
+          _fr: "%{count} %{plural_model} supprimés"
+    blank_slate:
+      content:
+        _de: Il n'y a pas encore de %{resource_name}.
+        _fr: Il n'y a pas encore de %{resource_name}.
+      link:
+        _de: Créez en un
+        _fr: Créez en un
+    cancel:
+      _de: Annuler
+      _fr: Annuler
+    comments:
+      add:
+        _de: Ajouter un commentaire
+        _fr: Ajouter un commentaire
+      author:
+        _de: Auteur
+        _fr: Auteur
+      author_type:
+        _de: Profil de l'auteur
+        _fr: Profil de l'auteur
+      body:
+        _de: Corps
+        _fr: Corps
+      errors:
+        empty_text:
+          _de: Le commentaire n'a pas été enregistré puisque le texte était vide.
+          _fr: Le commentaire n'a pas été enregistré puisque le texte était vide.
+      no_comments_yet:
+        _de: Aucun commentaire actuellement
+        _fr: Aucun commentaire actuellement
+      resource:
+        _de: Ressource
+        _fr: Ressource
+      resource_type:
+        _de: Type de ressource
+        _fr: Type de ressource
+      title:
+        _de: Commentaire
+        _fr: Commentaire
+      title_content:
+        _de: Commentaires (%{count})
+        _fr: Commentaires (%{count})
+    create_model:
+      _de: Nouveau %{model}
+      _fr: Nouveau %{model}
+    dashboard:
+      _de: Übersicht
+      _fr: Tableau de bord
+    delete:
+      _de: Supprimer
+      _fr: Supprimer
+    delete_confirmation:
+      _de: Êtes-vous certain de vouloir supprimer ceci ?
+      _fr: Êtes-vous certain de vouloir supprimer ceci ?
+    delete_model:
+      _de: Supprimer %{model}
+      _fr: Supprimer %{model}
+    details:
+      _de: Détails
+      _fr: Détails
+    devise:
+      change_password:
+        submit:
+          _de: Changer mon mot de passe
+          _fr: Changer mon mot de passe
+        title:
+          _de: Changez votre mot de passe
+          _fr: Changez votre mot de passe
+      email:
+        title:
+          _de: Email
+          _fr: Email
+      links:
+        forgot_your_password:
+          _de: Vous avez oublié votre mot de passe ?
+          _fr: Vous avez oublié votre mot de passe ?
+        sign_in:
+          _de: Connectez-vous
+          _fr: Connectez-vous
+        sign_in_with_omniauth_provider:
+          _de: Connectez-vous avec %{provider}
+          _fr: Connectez-vous avec %{provider}
+      login:
+        remember_me:
+          _de: Garder ma session ouverte
+          _fr: Garder ma session ouverte
+        submit:
+          _de: Se connecter
+          _fr: Se connecter
+        title:
+          _de: Connection
+          _fr: Connection
+      password:
+        title:
+          _de: Mot de passe
+          _fr: Mot de passe
+      resend_confirmation_instructions:
+        submit:
+          _de: Renvoyer les instructions de confirmation
+          _fr: Renvoyer les instructions de confirmation
+        title:
+          _de: Renvoyer les instructions de confirmation
+          _fr: Renvoyer les instructions de confirmation
+      reset_password:
+        submit:
+          _de: Réinitialiser mon mot de passe
+          _fr: Réinitialiser mon mot de passe
+        title:
+          _de: Vous avez oublié votre mot de passe ?
+          _fr: Vous avez oublié votre mot de passe ?
+      subdomain:
+        title:
+          _de: Sous-domaine
+          _fr: Sous-domaine
+      username:
+        title:
+          _de: Nom d'utilisateur
+          _fr: Nom d'utilisateur
+    download:
+      _de: 'Télécharger :'
+      _fr: 'Télécharger :'
+    dropdown_actions:
+      button_label:
+        _de: Actions
+        _fr: Actions
+    edit:
+      _de: Modifier
+      _fr: Modifier
+    edit_model:
+      _de: Modifier %{model}
+      _fr: Modifier %{model}
+    empty:
+      _de: Vide
+      _fr: Vide
+    filters:
+      buttons:
+        clear:
+          _de: Supprimer les filtres
+          _fr: Supprimer les filtres
+        filter:
+          _de: Filtrer
+          _fr: Filtrer
+      predicates:
+        contains:
+          _de: Contient
+          _fr: Contient
+        ends_with:
+          _de: Se termine par
+          _fr: Se termine par
+        equals:
+          _de: Egal à
+          _fr: Egal à
+        greater_than:
+          _de: Plus grand que
+          _fr: Plus grand que
+        less_than:
+          _de: Plus petit que
+          _fr: Plus petit que
+        q_including_date:
+          _de: Incluant
+          _fr: Incluant
+        starts_with:
+          _de: Commence par
+          _fr: Commence par
+    has_many_delete:
+      _de: Supprimer
+      _fr: Supprimer
+    has_many_new:
+      _de: Ajouter un nouveau %{model}
+      _fr: Ajouter un nouveau %{model}
+    has_many_remove:
+      _de: Enlever
+      _fr: Enlever
+    index_list:
+      block:
+        _de: Liste
+        _fr: Liste
+      blog:
+        _de: Blog
+        _fr: Blog
+      grid:
+        _de: Grille
+        _fr: Grille
+      table:
+        _de: Tableau
+        _fr: Tableau
+    logout:
+      _de: Déconnexion
+      _fr: Déconnexion
+    main_content:
+      _de: Veuillez implémenter %{model}#main_content pour afficher le contenu.
+      _fr: Veuillez implémenter %{model}#main_content pour afficher le contenu.
+    menu:
+      billing:
+        _de: Facturation
+        _fr: Facturation
+      other:
+        _de: Autre
+        _fr: Autre
+    new_model:
+      _de: Nouveau %{model}
+      _fr: Nouveau %{model}
+    next:
+      _de: Suivant
+      _fr: Suivant
+    page:
+      index:
+        baskets_to_prepare:
+          _de: Paniers à préparer
+          _fr: Paniers à préparer
+        billing:
+          _de: Facturation
+          _fr: Facturation
+        billing_year:
+          _de: Facturation %{fiscal_year}
+          _fr: Facturation %{fiscal_year}
+        next_delivery:
+          _de: 'Prochaine livraison: %{date}'
+          _fr: 'Prochaine livraison: %{date}'
+        no_basket_complements:
+          _de: Aucun complément pour cette livraison
+          _fr: Aucun complément pour cette livraison
+        revenue:
+          _de: Chiffre d'Affaire
+          _fr: Chiffre d'Affaire
+        signature_sheets:
+          _de: Fiches Signature
+          _fr: Fiches Signature
+        submit_delivery_note:
+          _de: Mettre à jour la note
+          _fr: Mettre à jour la note
+        total:
+          _de: Total %{number}
+          _fr: Total %{number}
+        totals:
+          _de: Totaux %{numbers}
+          _fr: Totaux %{numbers}
+    pagination:
+      empty:
+        _de: Aucun %{model} trouvé
+        _fr: Aucun %{model} trouvé
+      entry:
+        one:
+          _de: entrée
+          _fr: entrée
+        other:
+          _de: entrées
+          _fr: entrées
+      multiple:
+        _de: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
+        _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
+      multiple_without_total:
+        _de: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
+        _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
+      one:
+        _de: Affichage de <b>1</b> %{model}
+        _fr: Affichage de <b>1</b> %{model}
+      one_page:
+        _de: Affichage des <b>%{n}</b> %{model}
+        _fr: Affichage des <b>%{n}</b> %{model}
+    powered_by:
+      _de: Propulsé par %{active_admin} %{version}
+      _fr: Propulsé par %{active_admin} %{version}
+    previous:
+      _de: Précédent
+      _fr: Précédent
+    resource:
+      edit:
+        basket_and_distribution:
+          _de: Panier et distribution
+          _fr: Panier et distribution
+        details:
+          _de: Détails
+          _fr: Détails
+        full_year:
+          _fr: année complète
+        membership_edit_warning:
+          _de: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
+          _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
+      new:
+        basket_and_distribution:
+          _de: Panier et distribution
+          _fr: Panier et distribution
+        details:
+          _de: Détails
+          _fr: Détails
+        erase:
+          _de: Effacer
+          _fr: Effacer
+        refused_halfday_participation:
+          _de: Participation refusée du %{date}
+          _fr: Participation refusée du %{date}
+      show:
+        billing:
+          _de: Facturation
+          _fr: Facturation
+        cancel:
+          _de: Annuler
+          _fr: Annuler
+        create_membership:
+          _de: Créer abonnement
+          _fr: Créer abonnement
+        direct_payments:
+          _de: Paiements directs
+          _fr: Paiements directs
+        edit:
+          _de: Modifier
+          _fr: Modifier
+        invoice_action:
+          _de: Facturer
+          _fr: Facturer
+        new_payment:
+          _de: Nouveau paiement
+          _fr: Nouveau paiement
+        no_baskets:
+          _de: Pas de paniers
+          _fr: Pas de paniers
+        no_halfdays/basket_preparation:
+          _de: Aucune ½ journée
+          _fr: Aucune ½ journée
+        no_halfdays/halfday_work:
+          _de: Aucune ½ journée
+          _fr: Aucune ½ journée
+        no_invoices:
+          _de: Aucune facture
+          _fr: Aucune facture
+        no_memberships:
+          _de: Aucun abonnement
+          _fr: Aucun abonnement
+        no_payments:
+          _de: Aucun paiement
+          _fr: Aucun paiement
+        notes:
+          _de: Notes
+          _fr: Notes
+        put_back_to_waiting_list:
+          _de: Remettre en liste d'attente
+          _fr: Remettre en liste d'attente
+        remove_from_waiting_list:
+          _de: Retirer de la liste d'attente
+          _fr: Retirer de la liste d'attente
+        salary_basket:
+          _de: Gratuit, panier salaire
+          _fr: Gratuit, panier salaire
+        send_email:
+          _de: Envoyer
+          _fr: Envoyer
+        trigger_recurring_billing:
+          _de: Forcer la facturation
+          _fr: Forcer la facturation
+        trigger_recurring_billing_title:
+          _de: Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier
+          _fr: Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier
+        validate:
+          _de: Valider
+          _fr: Valider
+        waiting_membership:
+          _de: Abonnement (en attente)
+          _fr: Abonnement (en attente)
+    resources:
+      absence:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+        scopes:
+          all:
+            _de: toutes
+            _fr: toutes
+          past:
+            _de: passées
+            _fr: passées
+      acp:
+        edit_model:
+          _de: Paramètres
+          _fr: Paramètres
+      basket_size:
+        new_model:
+          _de: Nouvel %{model}
+          _fr: Nouvel %{model}
+      delivery:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+      gribouille:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+      halfday:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+        scopes:
+          past:
+            _de: passées
+            _fr: passées
+      halfday_participation:
+        scopes:
+          all:
+            _de: toutes
+            _fr: toutes
+          rejected:
+            _de: refusées
+            _fr: refusées
+          validated:
+            _de: validées
+            _fr: validées
+      halfday_participation/basket_preparation:
+        delete_model:
+          _de: Supprimer
+          _fr: Supprimer
+        edit_model:
+          _de: Modifier
+          _fr: Modifier
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+      halfday_participation/halfday_work:
+        delete_model:
+          _de: Supprimer
+          _fr: Supprimer
+        edit_model:
+          _de: Modifier
+          _fr: Modifier
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+        scopes:
+          all:
+            _de: toutes
+            _fr: toutes
+      invoice:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+        scopes:
+          all:
+            _de: toutes
+            _fr: toutes
+          canceled:
+            _de: annulées
+            _fr: annulées
+          closed:
+            _de: fermées
+            _fr: fermées
+          not_sent:
+            _de: non-envoyées
+            _fr: non-envoyées
+          open:
+            _de: ouvertes
+            _fr: ouvertes
+      member:
+        delete_model:
+          _de: Supprimer
+          _fr: Supprimer
+        edit_model:
+          _de: Modifier
+          _fr: Modifier
+      membership:
+        new_model:
+          _de: Nouvel %{model}
+          _fr: Nouvel %{model}
+    scopes:
+      active:
+        _de: actifs
+        _fr: actifs
+      all:
+        _de: tous
+        _fr: tous
+      coming:
+        _de: à venir
+        _fr: à venir
+      current:
+        _de: en cours
+        _fr: en cours
+      current_year:
+        _de: année courante
+        _fr: année courante
+      future:
+        _de: futures
+        _fr: futures
+      future_year:
+        _de: années prochaines
+        _fr: années prochaines
+      inactive:
+        _de: inactifs
+        _fr: inactifs
+      isr:
+        _de: BVR
+        _fr: BVR
+      manual:
+        _de: manuels
+        _fr: manuels
+      next_year:
+        _de: année prochaine
+        _fr: année prochaine
+      past:
+        _de: passés
+        _fr: passés
+      past_year:
+        _de: années passées
+        _fr: années passées
+      pending:
+        _de: à valider
+        _fr: à valider
+      support:
+        _de: soutien
+        _fr: soutien
+      trial:
+        _de: essai
+        _fr: essai
+      waiting:
+        _de: attente
+        _fr: attente
+      with_overdue_notice:
+        _de: avec rappels
+        _fr: avec rappels
+    search_status:
+      current_filters:
+        _de: 'Filtre courant:'
+        _fr: 'Filtre courant:'
+      headline:
+        _de: 'Scope:'
+        _fr: 'Scope:'
+      no_current_filters:
+        _de: Auncun
+        _fr: Auncun
+    sidebars:
+      amount:
+        _de: 'Montant:'
+        _fr: 'Montant:'
+      filters:
+        _de: Filtres
+        _fr: Filtres
+      search_status:
+        _de: Résultats de la recherche
+        _fr: Résultats de la recherche
+      total:
+        _de: Total
+        _fr: Total
+    status_tag:
+      active:
+        _de: actif
+        _fr: actif
+      canceled:
+        _de: annulée
+        _fr: annulée
+      closed:
+        _de: fermée
+        _fr: fermée
+      coming:
+        _de: à venir
+        _fr: à venir
+      'false':
+        _de: non
+        _fr: non
+      inactive:
+        _de: inactif
+        _fr: inactif
+      isr:
+        _de: BVR
+        _fr: BVR
+      manual:
+        _de: manuel
+        _fr: manuel
+      not_sent:
+        _de: non-envoyée
+        _fr: non-envoyée
+      open:
+        _de: ouverte
+        _fr: ouverte
+      pending:
+        _de: à valider
+        _fr: à valider
+      rejected:
+        _de: refusée
+        _fr: refusée
+      trial:
+        _de: essai
+        _fr: essai
+      'true':
+        _de: oui
+        _fr: oui
+      validated:
+        _de: validée
+        _fr: validée
+      waiting:
+        _de: attente
+        _fr: attente
+    update_model:
+      _de: Modifier %{model}
+      _fr: Modifier %{model}
+    view:
+      _de: Voir
+      _fr: Voir

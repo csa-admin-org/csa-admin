@@ -7,7 +7,7 @@ namespace :distributions do
         Distribution.with_emails.each do |distribution|
           Email.deliver_now(:delivery_list, next_delivery, distribution)
         end
-        p "#{Current.acp.name}: Distributions next_delivery sent."
+        puts "#{Current.acp.name}: Distributions next_delivery sent."
       end
     end
   end

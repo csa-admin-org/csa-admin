@@ -1,5 +1,5 @@
 ActiveAdmin.register Absence do
-  menu parent: 'Autre', priority: 1
+  menu parent: :other, priority: 1
 
   scope :all, default: true
   scope :past
@@ -22,8 +22,8 @@ ActiveAdmin.register Absence do
     collection: -> { Member.joins(:absences).order(:name).distinct }
   filter :including_date,
     as: :select,
-    collection: -> { Delivery.all.map { |d| ["Panier ##{d.number} (#{d.date})", d.date] } },
-    label: 'Incluant'
+    collection: -> { Delivery.all.map { |d| [d.display_name, d.date] } },
+    label: -> { Delivery.model_name.human }
 
   show do |absence|
     attributes_table do
@@ -36,15 +36,15 @@ ActiveAdmin.register Absence do
   end
 
   form do |f|
-    f.inputs 'Membre' do
+    f.inputs Member.model_name.human do
       f.input :member,
         collection: Member.joins(:memberships).distinct.order(:name).map { |d| [d.name, d.id] },
         include_blank: false
     end
-    f.inputs 'Note' do
+    f.inputs Absence.human_attribute_name(:note) do
       f.input :note, input_html: { rows: 5 }
     end
-    f.inputs 'Dates' do
+    f.inputs Absence.human_attribute_name(:dates) do
       f.input :started_on, as: :datepicker, include_blank: false
       f.input :ended_on, as: :datepicker, include_blank: false
     end
@@ -52,9 +52,7 @@ ActiveAdmin.register Absence do
     f.actions
   end
 
-  permit_params *%i[
-    member_id started_on ended_on note
-  ]
+  permit_params(*%i[member_id started_on ended_on note])
 
   before_build do |absence|
     absence.started_on ||= Date.current

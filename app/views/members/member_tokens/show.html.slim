@@ -1,12 +1,12 @@
 section.recover-token
-  h2 Retrouver sa page de membre
+  h1 = t('.title')
 
-  p= "Chaque membre a accès à une page privée lui permettant de s'inscrire aux #{halfdays_human_name.downcase}."
-  p= "Si vous ne retrouvez plus le lien vers votre page, merci d'entrer votre email dans le formulaire ci-dessous. Le lien vous sera à nouveau envoyé."
+  p = t_halfday('.text')
+  p = t('.form_text')
 
-  = form_tag members_member_token_path do
-    = label_tag :email, 'Votre email'
+  = form_tag members_member_token_path(locale: I18n.locale) do
+    = label_tag :email, t('.email_input')
     = email_field_tag :email, nil, autofocus: true, required: true
 
-    = submit_tag 'Retrouver'
+    = submit_tag t('.submit')
 

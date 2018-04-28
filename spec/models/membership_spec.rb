@@ -23,7 +23,7 @@ describe Membership do
     it 'allows only one current memberships per member' do
       new_membership = Membership.new(membership.attributes.except('id'))
       new_membership.validate
-      expect(new_membership.errors[:member]).to include 'seulement un abonnement par an et par membre'
+      expect(new_membership.errors[:member]).to include "n'est pas disponible"
     end
 
     it 'allows valid attributes' do

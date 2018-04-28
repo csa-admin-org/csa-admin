@@ -14,92 +14,99 @@ module Email
   private
 
   def delivery_list(delivery, distribution)
-    baskets = distribution.baskets
-      .not_absent
-      .not_empty
-      .includes(:basket_size, :complements, :member, :baskets_basket_complements)
-      .where(delivery_id: delivery.id)
-      .order('members.name')
-      .uniq
-    xlsx = XLSX::Delivery.new(delivery, distribution)
-    pdf = PDF::Delivery.new(delivery, distribution)
+    I18n.with_locale(distribution.language) do
+      baskets = distribution.baskets
+        .not_absent
+        .not_empty
+        .includes(:basket_size, :complements, :member, :baskets_basket_complements)
+        .where(delivery_id: delivery.id)
+        .order('members.name')
+        .uniq
+      xlsx = XLSX::Delivery.new(delivery, distribution)
+      pdf = PDF::Delivery.new(delivery, distribution)
 
-    {
-      from: from,
-      to: distribution.emails,
-      template: template_alias(:delivery_list, distribution.email_language),
-      template_data: {
-        delivery_date: I18n.l(delivery.date),
-        distribution_name: distribution.name,
-        baskets: baskets.map { |b|
-          {
-            member_name: b.member.name,
-            description: b.description,
-            size_name: b.basket_size&.name,
-            complement_names: b.complements_description
-          }.compact
-        }
-      },
-      attachments: [{
-        name: xlsx.filename,
-        content: xlsx.data,
-        content_type: xlsx.content_type
-      },{
-        name: pdf.filename,
-        content: pdf.render,
-        content_type: pdf.content_type
-      }]
-    }
+      {
+        from: from,
+        to: distribution.emails,
+        template: template_alias(:delivery_list, distribution.language),
+        template_data: {
+          delivery_date: I18n.l(delivery.date),
+          distribution_name: distribution.name,
+          baskets: baskets.map { |b|
+            {
+              member_name: b.member.name,
+              description: b.description,
+              size_name: b.basket_size&.name,
+              complement_names: b.complements_description
+            }.compact
+          }
+        },
+        attachments: [{
+          name: xlsx.filename,
+          content: xlsx.data,
+          content_type: xlsx.content_type
+        }, {
+          name: pdf.filename,
+          content: pdf.render,
+          content_type: pdf.content_type
+        }]
+      }
+    end
   end
 
   def halfday_reminder(halfday_participation)
     member = halfday_participation.member
     halfday = halfday_participation.halfday
-
-    data = halfday_participation_data(halfday_participation)
-    data[:halfday_participations_with_carpooling] =
-      HalfdayParticipation.carpooling(halfday.date).map { |p|
-        {
-          member_name: p.member.name,
-          carpooling_phone: p.carpooling_phone&.phony_formatted
+    I18n.with_locale(member.language) do
+      data = halfday_participation_data(halfday_participation)
+      data[:halfday_participations_with_carpooling] =
+        HalfdayParticipation.carpooling(halfday.date).map { |p|
+          {
+            member_name: p.member.name,
+            carpooling_phone: p.carpooling_phone&.phony_formatted
+          }
         }
-      }
-    unless Current.acp.halfday_participation_deletion_deadline_in_days
-      data[:action_url] = url(:members_member_url, member)
-    end
+      unless Current.acp.halfday_participation_deletion_deadline_in_days
+        data[:action_url] = url(:members_member_url, member)
+      end
 
-    {
-      from: from,
-      to: member.emails,
-      template: template_alias(:halfday_reminder, member.language),
-      template_data: data
-    }
+      {
+        from: from,
+        to: member.emails,
+        template: template_alias(:halfday_reminder, member.language),
+        template_data: data
+      }
+    end
   end
 
   def halfday_validated(halfday_participation)
     member = halfday_participation.member
-    data = halfday_participation_data(halfday_participation)
-    data[:action_url] = url(:members_member_url, member)
+    I18n.with_locale(member.language) do
+      data = halfday_participation_data(halfday_participation)
+      data[:action_url] = url(:members_member_url, member)
 
-    {
-      from: from,
-      to: member.emails,
-      template: template_alias(:halfday_validated, member.language),
-      template_data: data
-    }
+      {
+        from: from,
+        to: member.emails,
+        template: template_alias(:halfday_validated, member.language),
+        template_data: data
+      }
+    end
   end
 
   def halfday_rejected(halfday_participation)
     member = halfday_participation.member
-    data = halfday_participation_data(halfday_participation)
-    data[:action_url] = url(:members_member_url, member)
+    I18n.with_locale(member.language) do
+      data = halfday_participation_data(halfday_participation)
+      data[:action_url] = url(:members_member_url, member)
 
-    {
-      from: from,
-      to: member.emails,
-      template: template_alias(:halfday_rejected, member.language),
-      template_data: data
-    }
+      {
+        from: from,
+        to: member.emails,
+        template: template_alias(:halfday_rejected, member.language),
+        template_data: data
+      }
+    end
   end
 
   def halfday_participation_data(halfday_participation)
@@ -111,7 +118,7 @@ module Email
       halfday_period: halfday.period,
       halfday_activity: halfday.activity,
       halfday_description: halfday.description,
-      halfday_participants_count: halfday_participation.participants_count,
+      halfday_participants_count: halfday_participation.participants_count
     }
     if halfday.place_url
       data[:halfday_place] = {
@@ -125,23 +132,27 @@ module Email
   end
 
   def invoice_new(invoice)
-    {
-      from: from,
-      to: invoice.member.emails,
-      template: template_alias(:invoice_new, invoice.member.language),
-      template_data: invoice_data(invoice),
-      attachments: [invoice_attachment(invoice)]
-    }
+    I18n.with_locale(invoice.member.language) do
+      {
+        from: from,
+        to: invoice.member.emails,
+        template: template_alias(:invoice_new, invoice.member.language),
+        template_data: invoice_data(invoice),
+        attachments: [invoice_attachment(invoice)]
+      }
+    end
   end
 
   def invoice_overdue_notice(invoice)
-    {
-      from: from,
-      to: invoice.member.emails,
-      template: template_alias(:invoice_overdue_notice, invoice.member.language),
-      template_data: invoice_data(invoice),
-      attachments: [invoice_attachment(invoice)]
-    }
+    I18n.with_locale(invoice.member.language) do
+      {
+        from: from,
+        to: invoice.member.emails,
+        template: template_alias(:invoice_overdue_notice, invoice.member.language),
+        template_data: invoice_data(invoice),
+        attachments: [invoice_attachment(invoice)]
+      }
+    end
   end
 
   def invoice_data(invoice)
@@ -226,8 +237,7 @@ module Email
     end
   end
 
-  def template_alias(template, locale = nil)
-    locale ||= Current.acp.language
+  def template_alias(template, locale)
     [template, locale].join('-').dasherize
   end
 

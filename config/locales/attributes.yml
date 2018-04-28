@@ -1,0 +1,146 @@
+_:
+  attributes:
+    activity:
+      _de: Activité
+      _fr: Activité
+    address:
+      _de: Adresse
+      _fr: Adresse
+    amount:
+      _de: Montant
+      _fr: Montant
+    annual_price:
+      _de: Prix annuel
+      _fr: Prix annuel
+    basket_size:
+      _de: Taille panier
+      _fr: Taille panier
+    basket_size_id:
+      _de: Taille panier
+      _fr: Taille panier
+    city:
+      _de: Ville
+      _fr: Ville
+    comment:
+      _de: Commentaire
+      _fr: Commentaire
+    contact:
+      _de: Contact
+      _fr: Contact
+    created_at:
+      _de: Créé le
+      _fr: Créé le
+    date:
+      _de: Date
+      _fr: Date
+    dates:
+      _de: Dates
+      _fr: Dates
+    delivery:
+      _de: Livraison
+      _fr: Livraison
+    delivery_id:
+      _de: Livraison
+      _fr: Livraison
+    description:
+      _de: Description
+      _fr: Description
+    difference:
+      _de: Différence
+      _fr: Différence
+    distribution:
+      _de: Distribution
+      _fr: Distribution
+    distribution_id:
+      _de: Distribution
+      _fr: Distribution
+    email:
+      _de: Email
+      _fr: Email
+    emails:
+      _de: Email(s)
+      _fr: Email(s)
+    end_time:
+      _de: Heure de fin
+      _fr: Heure de fin
+    id:
+      _de: ID
+      _fr: ID
+    invoice:
+      _de: Facture
+      _fr: Facture
+    invoice_id:
+      _de: Facture ID
+      _fr: Facture ID
+    language:
+      _de: Langue
+      _fr: Langue
+    member:
+      _de: Membre
+      _fr: Membre
+    member_id:
+      _de: Membre
+      _fr: Membre
+    name:
+      _de: Nom
+      _fr: Nom
+    other:
+      _de: Autre
+      _fr: Autre
+    participants:
+      _de: Participants
+      _fr: Participants
+    participants_count:
+      _de: Participants
+      _fr: Participants
+    participants_limit:
+      _de: Limite de participants
+      _fr: Limite de participants
+    participations:
+      _de: Participations
+      _fr: Participations
+    period:
+      _de: Horaire
+      _fr: Horaire
+    phones:
+      _de: Téléphone(s)
+      _fr: Téléphone(s)
+    place:
+      _de: Lieu
+      _fr: Lieu
+    place_url:
+      _de: Lieu URL
+      _fr: Lieu URL
+    price:
+      _de: Prix
+      _fr: Prix
+    quantity:
+      _de: Quantité
+      _fr: Quantité
+    sent_at:
+      _de: Envoyé le
+      _fr: Envoyé le
+    start_time:
+      _de: Heure de début
+      _fr: Heure de début
+    state:
+      _de: Statut
+      _fr: Statut
+    status:
+      _de: Statut
+      _fr: Statut
+    total:
+      _de: Total
+      _fr: Total
+    unit_price:
+      _de: Prix unité
+      _fr: Prix unité
+    updated_at:
+      _de: Mis à jour le
+      _fr: Mis à jour le
+    xlsx_recap:
+      _de: Récapitulatif Excel
+      _fr: Récapitulatif Excel
+    zip:
+      _de: ZIP
+      _fr: ZIP

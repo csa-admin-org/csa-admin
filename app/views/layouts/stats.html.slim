@@ -1,6 +1,6 @@
 html
   head
-    title = "#{Current.acp.name}: Stats"
+    title = [Current.acp.name, t('.title')].join(' – ')
     = stylesheet_link_tag 'stats', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'stats', 'data-turbolinks-track' => true
     = csrf_meta_tags

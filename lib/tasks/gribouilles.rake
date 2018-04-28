@@ -18,7 +18,7 @@ namespace :gribouilles do
           end
         end
         gribouille.touch(:sent_at)
-        p 'Gribouilles sent.'
+        puts 'Gribouilles sent.'
       end
     end
   end

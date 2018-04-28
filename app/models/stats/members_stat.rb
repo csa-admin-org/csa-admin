@@ -5,7 +5,7 @@ class Stats::MembersStat < Stats::BaseStat
 
   def data
     stats.map { |key, value|
-      [I18n.t("member.status.#{key}"), value]
+      [I18n.t("states.member.#{key}").capitalize, value]
     }.to_h
   end
 

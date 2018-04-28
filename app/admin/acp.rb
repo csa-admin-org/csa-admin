@@ -1,5 +1,5 @@
 ActiveAdmin.register ACP do
-  menu parent: 'Autre', priority: 100, label: 'Paramètres'
+  menu parent: :other, priority: 100, label: 'Paramètres'
   actions :edit, :update
   permit_params \
     :name, :host, :logo,
@@ -14,6 +14,7 @@ ActiveAdmin.register ACP do
     :url, :email, :phone,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
+    languages: [],
     features: []
 
   form do |f|
@@ -21,6 +22,9 @@ ActiveAdmin.register ACP do
       f.input :name
       f.input :host, hint: '*.host.*'
       f.input :logo, as: :file
+      f.input :languages,
+        as: :check_boxes,
+        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }
     end
     f.inputs do
       f.input :features,
@@ -50,7 +54,7 @@ ActiveAdmin.register ACP do
         include_blank: false
       f.input :billing_year_divisions,
         as: :check_boxes,
-        collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division._#{i}"), i] }
+        collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
       f.input :support_price
       f.input :vat_number
       f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
@@ -67,7 +71,7 @@ ActiveAdmin.register ACP do
       f.input :halfday_i18n_scope,
         label: 'Appellation',
         as: :select,
-        collection: ACP.halfday_i18n_scopes.map { |s| [t("halfday.#{s}", count: 2), s] },
+        collection: ACP.halfday_i18n_scopes.map { |s| [t("halfdays.#{s}", count: 2), s] },
         include_blank: false
       f.input :halfday_participation_deletion_deadline_in_days
     end

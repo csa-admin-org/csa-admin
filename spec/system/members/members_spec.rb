@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'members page' do
-  let(:member) { create(:member, :active, phones: "76 332 33 11") }
+  let(:member) { create(:member, :active, phones: '76 332 33 11') }
 
   before { Capybara.app_host = 'http://membres.ragedevert.test' }
 
@@ -20,9 +20,9 @@ describe 'members page' do
 
       visit "/#{member.token}"
 
-      expect(page).to have_content "Panier: Petit"
-      expect(page).to have_content "Compléments: Oeufs"
-      expect(page).to have_content "Distribution: Jardin de la main"
+      expect(page).to have_content 'Panier: Petit'
+      expect(page).to have_content 'Complément panier: Oeufs'
+      expect(page).to have_content 'Distribution: Jardin de la main'
       expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
     end
 
@@ -42,9 +42,9 @@ describe 'members page' do
 
       visit "/#{member.token}"
 
-      expect(page).to have_content "Panier: 2x Grand"
-      expect(page).to have_content "Compléments: Oeufs"
-      expect(page).to have_content "Distribution: Vélo"
+      expect(page).to have_content 'Panier: 2x Grand'
+      expect(page).to have_content 'Complément panier: Oeufs'
+      expect(page).to have_content 'Distribution: Vélo'
       expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
     end
 
@@ -65,9 +65,9 @@ describe 'members page' do
 
       visit "/#{member.token}"
 
-      expect(page).to have_content "Panier: Grand"
-      expect(page).to have_content "Compléments: Fromage"
-      expect(page).to have_content "Distribution: Vélo"
+      expect(page).to have_content 'Panier: Grand'
+      expect(page).to have_content 'Complément panier: Fromage'
+      expect(page).to have_content 'Distribution: Vélo'
       expect(page).to have_content "½ Journées (#{Date.current.year + 1}): 0/4"
     end
 
@@ -76,7 +76,7 @@ describe 'members page' do
 
       visit "/#{member.token}"
 
-      expect(page).to have_content "Abonnement: Aucun"
+      expect(page).to have_content 'Aucun abonnement'
     end
 
     it 'adds new participation' do
@@ -86,10 +86,11 @@ describe 'members page' do
       fill_in 'halfday_participation_participants_count', with: 3
       click_button 'Inscription'
 
+      expect(page).to have_content('Merci pour votre inscription!')
       expect(page)
         .to have_content "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
       within('ol.halfdays') do
-        expect(page).not_to have_content "covoiturage"
+        expect(page).not_to have_content 'covoiturage'
       end
     end
 
@@ -102,8 +103,9 @@ describe 'members page' do
       fill_in 'carpooling_phone', with: '+41 77 447 58 31'
       click_button 'Inscription'
 
+      expect(page).to have_content('Merci pour votre inscription!')
       within('ol.halfdays') do
-        expect(page).to have_content "covoiturage"
+        expect(page).to have_content 'covoiturage'
       end
     end
 
@@ -115,8 +117,9 @@ describe 'members page' do
       check 'halfday_participation_carpooling'
       click_button 'Inscription'
 
+      expect(page).to have_content('Merci pour votre inscription!')
       within('ol.halfdays') do
-        expect(page).to have_content "covoiturage"
+        expect(page).to have_content 'covoiturage'
       end
     end
 

@@ -5,85 +5,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-
-$.datepicker.regional["fr"] =
-  clearText: "Effacer"
-  clearStatus: ""
-  closeText: "Fermer"
-  closeStatus: "Fermer sans modifier"
-  prevText: "<Préc"
-  prevStatus: "Voir le mois précédent"
-  nextText: "Suiv>"
-  nextStatus: "Voir le mois suivant"
-  currentText: "Courant"
-  currentStatus: "Voir le mois courant"
-  monthNames: [
-    "Janvier"
-    "Février"
-    "Mars"
-    "Avril"
-    "Mai"
-    "Juin"
-    "Juillet"
-    "Août"
-    "Septembre"
-    "Octobre"
-    "Novembre"
-    "Décembre"
-  ]
-  monthNamesShort: [
-    "Jan"
-    "Fév"
-    "Mar"
-    "Avr"
-    "Mai"
-    "Jun"
-    "Jul"
-    "Aoû"
-    "Sep"
-    "Oct"
-    "Nov"
-    "Déc"
-  ]
-  monthStatus: "Voir un autre mois"
-  yearStatus: "Voir un autre année"
-  weekHeader: "Sm"
-  weekStatus: ""
-  dayNames: [
-    "Dimanche"
-    "Lundi"
-    "Mardi"
-    "Mercredi"
-    "Jeudi"
-    "Vendredi"
-    "Samedi"
-  ]
-  dayNamesShort: [
-    "Dim"
-    "Lun"
-    "Mar"
-    "Mer"
-    "Jeu"
-    "Ven"
-    "Sam"
-  ]
-  dayNamesMin: [
-    "Di"
-    "Lu"
-    "Ma"
-    "Me"
-    "Je"
-    "Ve"
-    "Sa"
-  ]
-  dayStatus: "Utiliser DD comme premier jour de la semaine"
-  dateStatus: "Choisir le DD, MM d"
-  dateFormat: 'yy-mm-dd'
-  firstDay: 0
-  initStatus: "Choisir la date"
-  isRTL: false
-
-$.datepicker.setDefaults $.datepicker.regional["fr"]
+//= require jquery-ui/i18n/datepicker-fr-CH
+//= require jquery-ui/i18n/datepicker-de
 
 selectDate = (dateText) ->
   $('.no_halfdays').hide()
@@ -96,6 +19,12 @@ selectDate = (dateText) ->
     $('#subscribe-button').prop('disabled', true)
 
 $ ->
+  locale = $('body').data('locale')
+  if locale == 'fr'
+    $.datepicker.setDefaults $.datepicker.regional['fr-CH']
+  else
+    $.datepicker.setDefaults $.datepicker.regional[locale]
+
   dateTexts = $('#datepicker').data('dates')
   if dateTexts
     [minDateText, ..., maxDateText] = dateTexts
@@ -103,6 +32,7 @@ $ ->
     selectDate(selectedDateText)
 
     $('#datepicker').datepicker
+      dateFormat: 'yy-mm-dd',
       firstDay: 1
       minDate: minDateText
       maxDate: maxDateText

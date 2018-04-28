@@ -1,0 +1,65 @@
+_:
+  number:
+    currency:
+      format:
+        delimiter:
+          _de: "'"
+          _fr: "'"
+        format:
+          _de: "%u %n"
+          _fr: "%u %n"
+        precision:
+          _de: 2
+          _fr: 2
+        separator:
+          _de: "."
+          _fr: "."
+        unit:
+          _de: CHF
+          _fr: CHF
+    format:
+      delimiter:
+        _de: "'"
+        _fr: "'"
+      precision:
+        _de: 3
+        _fr: 3
+      separator:
+        _de: "."
+        _fr: "."
+    human:
+      decimal_units:
+        format:
+          _de: "%n %u"
+          _fr: "%n %u"
+        units:
+          unit:
+            _de: ''
+            _fr: ''
+      format:
+        delimiter:
+          _de: ''
+          _fr: ''
+        precision:
+          _de: 2
+          _fr: 2
+        significant:
+          _de: true
+          _fr: true
+        strip_insignificant_zeros:
+          _de: true
+          _fr: true
+      storage_units:
+        format:
+          _de: "%n %u"
+          _fr: "%n %u"
+    percentage:
+      format:
+        delimiter:
+          _de: ''
+          _fr: ''
+    precision:
+      format:
+        delimiter:
+          _de: ''
+          _fr: ''

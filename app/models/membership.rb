@@ -233,8 +233,8 @@ class Membership < ActiveRecord::Base
 
   def update_halfday_works
     if saved_change_to_attribute?(:annual_halfday_works) ||
-      saved_change_to_attribute?(:ended_on) ||
-      saved_change_to_attribute?(:started_on)
+        saved_change_to_attribute?(:ended_on) ||
+        saved_change_to_attribute?(:started_on)
 
       update_halfday_works!
     end
@@ -323,18 +323,18 @@ class Membership < ActiveRecord::Base
   def only_one_per_year
     return unless member
     if member.memberships.during_year(fy_year).where.not(id: id).exists?
-      errors.add(:member, 'seulement un abonnement par an et par membre')
+      errors.add(:member, :taken)
     end
   end
 
   def good_period_range
     if started_on >= ended_on
-      errors.add(:started_on, 'doit être avant la fin')
-      errors.add(:ended_on, 'doit être après le début')
+      errors.add(:started_on, :before_end)
+      errors.add(:ended_on, :after_start)
     end
     if fy_year != Current.acp.fiscal_year_for(ended_on).year
-      errors.add(:started_on, 'doit être dans la même année fiscale que la fin')
-      errors.add(:ended_on, 'doit être dans la même année fiscale que le début')
+      errors.add(:started_on, :same_fiscal_year)
+      errors.add(:ended_on, :same_fiscal_year)
     end
   end
 

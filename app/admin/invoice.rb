@@ -1,6 +1,6 @@
 ActiveAdmin.register Invoice do
-  menu parent: 'Facturation', priority: 1
-  actions :all, except: [:edit, :update, :destroy]
+  menu parent: :billing, priority: 1
+  actions :all, except: %i[edit update destroy]
 
   scope :all
   scope :not_sent
@@ -16,7 +16,7 @@ ActiveAdmin.register Invoice do
     column :member
     column :amount, ->(invoice) { number_to_currency(invoice.amount) }
     column :balance, ->(invoice) { number_to_currency(invoice.balance) }
-    column 'Rap.',  ->(invoice) { invoice.overdue_notices_count }
+    column :overdue_notices_count
     column :state, ->(invoice) { status_tag invoice.state }
     actions defaults: true do |invoice|
       link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
@@ -32,7 +32,7 @@ ActiveAdmin.register Invoice do
     column :amount
     column :balance
     column :overdue_notices_count
-    column(:state) { |i| i.state_i18n_name }
+    column :state, &:state_i18n_name
   end
 
   filter :id, as: :numeric
@@ -53,12 +53,12 @@ ActiveAdmin.register Invoice do
   show do |invoice|
     columns do
       column do
-        panel link_to('Paiements directs', payments_path(q: { invoice_id_equals: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
+        panel link_to(t('.direct_payments'), payments_path(q: { invoice_id_equals: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
           payments = invoice.payments.order(:date)
           if payments.none?
-            em 'Aucun paiement'
+            em t('.no_payments')
           else
-            table_for(payments, class: 'table-payments') do |payment|
+            table_for(payments, class: 'table-payments') do
               column(:date) { |p| auto_link p, l(p.date, format: :number) }
               column(:amount) { |p| number_to_currency(p.amount) }
               column(:type) { |p| status_tag p.type }
@@ -78,13 +78,13 @@ ActiveAdmin.register Invoice do
           row(:updated_at) { l invoice.updated_at }
         end
 
-        attributes_table title: 'Montant' do
+        attributes_table title: Invoice.human_attribute_name(:amount) do
           row(:amount) { number_to_currency(invoice.amount) }
           row(:balance) { number_to_currency(invoice.balance) }
           row(:missing_amount) { number_to_currency(invoice.missing_amount) }
         end
 
-        attributes_table title: 'Rappels' do
+        attributes_table title: Invoice.human_attribute_name(:overdue_notices_count) do
           row :overdue_notices_count
           row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
         end
@@ -99,26 +99,26 @@ ActiveAdmin.register Invoice do
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
-    link_to 'Nouveau paiement', new_payment_path(
+    link_to t('.new_payment'), new_payment_path(
       invoice_id: invoice.id, amount: invoice.missing_amount)
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
-    link_to 'Envoyer', send_email_invoice_path(resource), method: :post
+    link_to t('.send_email'), send_email_invoice_path(resource), method: :post
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
-    link_to 'Annuler', cancel_invoice_path(resource), method: :post
+    link_to t('.cancel'), cancel_invoice_path(resource), method: :post
   end
 
   member_action :send_email, method: :post do
     resource.send!
-    redirect_to resource_path, notice: "Email envoyé!"
+    redirect_to resource_path, notice: t('.flash.notice')
   end
 
   member_action :cancel, method: :post do
     resource.cancel!
-    redirect_to resource_path, notice: "Facture annulée"
+    redirect_to resource_path, notice: t('.flash.notice')
   end
 
   form do |f|
@@ -140,9 +140,9 @@ ActiveAdmin.register Invoice do
           if f.object.object.is_a?(HalfdayParticipation)
             li class: 'refused_halfday_participation' do
               (
-                link_to("Participation refusée du #{f.object.object.halfday.date}", halfday_participation_path(f.object.object_id)) +
+                link_to(t('.refused_halfday_participation', date: f.object.object.halfday.date), halfday_participation_path(f.object.object_id)) +
                 ' – ' +
-                link_to('Effacer', new_invoice_path(member_id: f.object.member_id))
+                link_to(t('.erase').downcase, new_invoice_path(member_id: f.object.member_id))
               ).html_safe
             end
           end

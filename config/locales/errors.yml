@@ -1,0 +1,101 @@
+_:
+  errors:
+    format:
+      _de: "%{attribute} %{message}"
+      _fr: "%{attribute} %{message}"
+    messages:
+      accepted:
+        _de: doit être accepté(e)
+        _fr: doit être accepté(e)
+      after_start:
+        _de: doit être après le début
+        _fr: doit être après le début
+      before_end:
+        _de: doit être avant la fin
+        _fr: doit être avant la fin
+      blank:
+        _de: doit être rempli(e)
+        _fr: doit être rempli(e)
+      confirmation:
+        _de: ne concorde pas avec la confirmation
+        _fr: ne concorde pas avec la confirmation
+      empty:
+        _de: doit être rempli(e)
+        _fr: doit être rempli(e)
+      equal_to:
+        _de: doit être égal à %{count}
+        _fr: doit être égal à %{count}
+      even:
+        _de: doit être pair
+        _fr: doit être pair
+      exclusion:
+        _de: n'est pas disponible
+        _fr: n'est pas disponible
+      greater_than:
+        _de: doit être supérieur à %{count}
+        _fr: doit être supérieur à %{count}
+      greater_than_or_equal_to:
+        _de: doit être supérieur ou égal à %{count}
+        _fr: doit être supérieur ou égal à %{count}
+      inclusion:
+        _de: n'est pas inclus(e) dans la liste
+        _fr: n'est pas inclus(e) dans la liste
+      invalid:
+        _de: n'est pas valide
+        _fr: n'est pas valide
+      less_than:
+        _de: doit être inférieur à %{count}
+        _fr: doit être inférieur à %{count}
+      less_than_or_equal_to:
+        _de: doit être inférieur ou égal à %{count}
+        _fr: doit être inférieur ou égal à %{count}
+      not_a_number:
+        _de: n'est pas un nombre
+        _fr: n'est pas un nombre
+      not_an_integer:
+        _de: doit être un nombre entier
+        _fr: doit être un nombre entier
+      odd:
+        _de: doit être impair
+        _fr: doit être impair
+      record_invalid:
+        _de: 'La validation a échoué : %{errors}'
+        _fr: 'La validation a échoué : %{errors}'
+      same_fiscal_year:
+        _de: doit être dans la même année fiscale
+        _fr: doit être dans la même année fiscale
+      taken:
+        _de: n'est pas disponible
+        _fr: n'est pas disponible
+      too_long:
+        one:
+          _de: est trop long (pas plus d'un caractère)
+          _fr: est trop long (pas plus d'un caractère)
+        other:
+          _de: est trop long (pas plus de %{count} caractères)
+          _fr: est trop long (pas plus de %{count} caractères)
+      too_short:
+        one:
+          _de: est trop court (au moins un caractère)
+          _fr: est trop court (au moins un caractère)
+        other:
+          _de: est trop court (au moins %{count} caractères)
+          _fr: est trop court (au moins %{count} caractères)
+      wrong_length:
+        one:
+          _de: ne fait pas la bonne longueur (doit comporter un seul caractère)
+          _fr: ne fait pas la bonne longueur (doit comporter un seul caractère)
+        other:
+          _de: ne fait pas la bonne longueur (doit comporter %{count} caractères)
+          _fr: ne fait pas la bonne longueur (doit comporter %{count} caractères)
+    template:
+      body:
+        _de: 'Veuillez vérifier les champs suivants : '
+        _fr: 'Veuillez vérifier les champs suivants : '
+      header:
+        one:
+          _de: 'Impossible d''enregistrer ce %{model} : 1 erreur'
+          _fr: 'Impossible d''enregistrer ce %{model} : 1 erreur'
+        other:
+          _de: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
+          _fr: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'

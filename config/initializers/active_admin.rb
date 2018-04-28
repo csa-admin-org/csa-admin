@@ -55,7 +55,6 @@ ActiveAdmin.setup do |config|
   # Default:
   # config.logout_link_method = :get
 
-
   # == Admin Comments
   #
   # This allows your users to comment on any resource registered with Active Admin.
@@ -79,7 +78,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_action :do_something_awesome
-
+  config.before_action :set_locale
 
   # == Setting a Favicon
   #
@@ -139,7 +138,8 @@ ActiveAdmin.setup do |config|
   config.namespace false do |admin|
     admin.build_menu do |menu|
       menu.add label: :halfdays_human_name, priority: 6
-      menu.add label: 'Facturation', priority: 7
+      menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 7, id: :billing
+      menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 8, id: :other
     end
   end
 
@@ -206,3 +206,24 @@ class ActiveAdmin::Resource::Name
   end
 end
 
+module ActiveAdmin
+  module Views
+    module Pages
+      class Base < Arbre::HTML::Document
+        def build(*args)
+          super
+          add_classes_to_body
+          add_data_attributes_to_body
+          build_active_admin_head
+          build_page
+        end
+
+        private
+
+        def add_data_attributes_to_body
+          @body.set_attribute('data-locale', I18n.locale)
+        end
+      end
+    end
+  end
+end

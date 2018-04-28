@@ -1,0 +1,13 @@
+_:
+  halfday_participations:
+    batch_action:
+      reject:
+        flash:
+          alert:
+            _de: Les participations à venir ne peuvent pas encore être refusées
+            _fr: Les participations à venir ne peuvent pas encore être refusées
+      validate:
+        flash:
+          alert:
+            _de: Les participations à venir ne peuvent pas encore être validées
+            _fr: Les participations à venir ne peuvent pas encore être validées

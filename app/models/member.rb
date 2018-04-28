@@ -2,6 +2,7 @@ class Member < ActiveRecord::Base
   include HasState
   include HasEmails
   include HasPhones
+  include HasLanguage
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
@@ -174,8 +175,6 @@ class Member < ActiveRecord::Base
     token
   end
 
-  def language; 'fr' end
-
   def can_destroy?
     pending? || waiting?
   end
@@ -207,25 +206,18 @@ class Member < ActiveRecord::Base
   end
 
   def set_state
-    if !validated_at?
-      self.state = PENDING_STATE
-    elsif current_membership
-      if baskets_in_trial?
-        self.state = TRIAL_STATE
+    self.state =
+      if !validated_at?
+        PENDING_STATE
+      elsif current_membership
+        baskets_in_trial? ? TRIAL_STATE : ACTIVE_STATE
+      elsif future_membership
+        baskets_in_trial? ? TRIAL_STATE : INACTIVE_STATE
+      elsif waiting_started_at?
+        WAITING_STATE
       else
-        self.state = ACTIVE_STATE
+        INACTIVE_STATE
       end
-    elsif future_membership
-      if baskets_in_trial?
-        self.state = TRIAL_STATE
-      else
-        self.state = INACTIVE_STATE
-      end
-    elsif waiting_started_at?
-      self.state = WAITING_STATE
-    else
-      self.state = INACTIVE_STATE
-    end
   end
 
   def set_support_member
@@ -247,7 +239,7 @@ class Member < ActiveRecord::Base
 
   def support_member_not_waiting
     if support_member? && waiting?
-      errors.add(:support_member, "ne peut pas être sur liste d'attente")
+      errors.add(:support_member, :invalid)
     end
   end
 end

@@ -1,31 +1,33 @@
 class MemberCount
-  SCOPES = %i[pending waiting trial active support inactive]
+  include ActiveModel::Model
+
+  STATES = %i[pending waiting trial active support inactive]
 
   def self.all
-    scopes = SCOPES.dup
-    scopes.delete(:trial) if Current.acp.trial_basket_count.zero?
-    scopes.map { |scope| new(scope) }
+    states = STATES.dup
+    states.delete(:trial) if Current.acp.trial_basket_count.zero?
+    states.map { |state| new(state) }
   end
 
-  attr_reader :scope
+  attr_reader :state
 
-  def initialize(scope)
-    @scope = scope
+  def initialize(state)
+    @state = state
   end
 
   def title
-    I18n.t("member.status.#{scope}")
+    I18n.t("states.member.#{@state}").capitalize
   end
 
   def count
-    Member.send(scope).count
+    Member.send(@state).count
   end
 
   def count_precision
-    case scope
+    case @state
     when :active
       sub_count = Member.active.where(salary_basket: true).count
-      "(#{sub_count} panier-salaire) "
+      "(#{sub_count} #{Member.human_attribute_name(:salary_basket).downcase}) "
     end
   end
 end

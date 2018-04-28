@@ -26,10 +26,10 @@ ActiveAdmin.register Membership do
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
     column halfdays_human_name,
-      -> (m) { auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}" },
+      ->(m) { auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}" },
       sortable: 'halfday_works', class: 'col-halfday_works'
-    column :baskets_count
-      -> (m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
+    column :baskets_count,
+      ->(m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
     actions
   end
 
@@ -37,7 +37,7 @@ ActiveAdmin.register Membership do
     column(:id)
     column(:name) { |m| m.member.name }
     column(:emails) { |m| m.member.emails_array.join(', ') }
-    column(:phones) { |m| m.member.phones_array.map { |p| p.phony_formatted }.join(', ') }
+    column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:basket_size) { |m| basket_size_description(m, text_only: true) }
     if BasketComplement.any?
       column(:basket_complements) { |m|
@@ -56,7 +56,7 @@ ActiveAdmin.register Membership do
     columns do
       column do
         next_basket = m.next_basket
-        panel "#{m.baskets_count} Paniers" do
+        panel "#{m.baskets_count} #{Basket.model_name.human(count: m.baskets_count)}" do
           table_for(m.baskets.includes(
             :delivery,
             :basket_size,
@@ -75,14 +75,14 @@ ActiveAdmin.register Membership do
               status_tag(:absent) if b.absent?
             }
             column(class: 'col-actions') { |b|
-              link_to 'Modifier', edit_basket_path(b), class: 'edit_link'
+              link_to t('.edit'), edit_basket_path(b), class: 'edit_link'
             }
           end
         end
       end
 
       column do
-        attributes_table title: 'Détails' do
+        attributes_table do
           row :id
           row :member
           row(:started_on) { l m.started_on }
@@ -90,7 +90,7 @@ ActiveAdmin.register Membership do
           row :renew
         end
 
-        attributes_table title: 'Description' do
+        attributes_table title: Membership.human_attribute_name(:description) do
           row(:basket_size) { basket_size_description(m) }
           row :distribution
           if BasketComplement.any?
@@ -153,7 +153,7 @@ ActiveAdmin.register Membership do
 
         attributes_table(
           title: link_to(
-            'Facturation',
+            t('.billing'),
             invoices_path(scope: :all, q: {
               member_id_eq: resource.member_id,
               object_type_eq: 'Membership',
@@ -162,9 +162,9 @@ ActiveAdmin.register Membership do
             }))
           ) do
           if m.member.try(:salary_basket?)
-            em 'Gratuit, panier salaire'
+            em t('.salary_basket')
           elsif m.baskets_count.zero?
-            em 'Pas de paniers'
+            em t('.no_baskets')
           else
             row(:basket_sizes_price) {
               display_price_description(m.basket_sizes_price, basket_sizes_price_info(m.baskets))
@@ -194,12 +194,12 @@ ActiveAdmin.register Membership do
   end
 
   form do |f|
-    f.inputs 'Membre' do
+    f.inputs Member.model_name.human do
       f.input :member,
         collection: Member.order(:name).map { |d| [d.name, d.id] },
         include_blank: false
     end
-    f.inputs 'Dates' do
+    f.inputs Membership.human_attribute_name(:dates) do
       f.input :started_on, as: :datepicker, include_blank: false
       f.input :ended_on, as: :datepicker, include_blank: false
       f.input :renew unless resource.new_record? || resource.current_year?
@@ -208,51 +208,45 @@ ActiveAdmin.register Membership do
     unless resource.new_record?
       f.inputs halfdays_human_name do
         f.input :annual_halfday_works,
-          label: "#{halfdays_human_name} (année complète)",
-          hint: 'Laisser blanc pour le nombre par défaut.'
-        f.input :halfday_works_annual_price,
-          label: "Ajustement du prix de l'abonnement",
-          hint: "Augmentation ou réduction du prix de l\'abonnement contre service (#{halfdays_human_name}) rendu ou non."
+          label: "#{halfdays_human_name} (#{t('.full_year')})",
+          hint: true
+        f.input :halfday_works_annual_price, label: true, hint: true
       end
     end
 
-    f.inputs 'Panier et distribution' do
+    f.inputs t('.basket_and_distribution') do
       unless resource.new_record?
-        em 'Attention, toute modification recréera tous les paniers à venir de cet abonnement!'
+        em t('.membership_edit_warning')
       end
       f.input :basket_size, include_blank: false, input_html: { class: 'js-reset_price' }
-      f.input :basket_price, hint: 'Laisser blanc pour le prix par défaut.'
-      f.input :baskets_annual_price_change,
-        label: "Ajustement du prix de l'abonnement",
-        hint: "Modifie le montant final, peu importe le nombre de paniers."
+      f.input :basket_price, hint: true
+      f.input :baskets_annual_price_change, hint: true
       f.input :basket_quantity
       f.input :distribution, include_blank: false, input_html: { class: 'js-reset_price' }
-      f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'
+      f.input :distribution_price, hint: true
       if Current.acp.seasons?
         f.input :seasons,
           as: :check_boxes,
           collection: seasons_collection,
-          hint: 'Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.'
+          hint: true
       end
 
       if BasketComplement.any?
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
           ff.input :basket_complement,
             collection: BasketComplement.all,
-            prompt: 'Choisir un complément:',
+            prompt: true,
             input_html: { class: 'js-reset_price' }
-          ff.input :price, hint: 'Laisser blanc pour le prix par défaut.'
+          ff.input :price, hint: true
           ff.input :quantity
           if Current.acp.seasons?
             ff.input :seasons,
               as: :check_boxes,
               collection: seasons_collection,
-              hint: 'Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.'
+              hint: true
           end
         end
-        f.input :basket_complements_annual_price_change,
-          label: "Ajustement du prix des compléments",
-          hint: "Modifie le montant final, peu importe le nombre de paniers/compléments."
+        f.input :basket_complements_annual_price_change, hint: true
       end
     end
     f.actions
@@ -276,9 +270,9 @@ ActiveAdmin.register Membership do
   action_item :trigger_recurring_billing, only: :show, if: -> {
     authorized?(:trigger_recurring_billing, resource) && RecurringBilling.new(resource.member).needed?
   } do
-    link_to 'Forcer la facturation', trigger_recurring_billing_membership_path(resource),
+    link_to t('.trigger_recurring_billing'), trigger_recurring_billing_membership_path(resource),
       method: :post,
-      title: 'Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier'
+      title: t('.trigger_recurring_billing_title')
   end
 
   member_action :trigger_recurring_billing, method: :post do

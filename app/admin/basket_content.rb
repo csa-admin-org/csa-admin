@@ -7,9 +7,9 @@ ActiveAdmin.register BasketContent do
     column :date, ->(bc) { bc.delivery.date.to_s }
     column :vegetable, ->(bc) { bc.vegetable.name }
     column :quantity, ->(bc) { display_quantity(bc) }
-    column 'Eveil', ->(bc) { display_basket_quantity(bc, :small) }
-    column 'Abondance', ->(bc) { display_basket_quantity(bc, :big) }
-    column 'Perte', ->(bc) { display_lost_quantity(bc) }
+    column BasketSize.first.name, ->(bc) { display_basket_quantity(bc, :small) }
+    column BasketSize.last.name, ->(bc) { display_basket_quantity(bc, :big) }
+    column :loses, ->(bc) { display_lost_quantity(bc) }
     column :distributions, ->(bc) { display_distributions(bc) }
     actions
   end
@@ -18,9 +18,9 @@ ActiveAdmin.register BasketContent do
     column(:date) { |bc| bc.delivery.date.to_s }
     column(:vegetable) { |bc| bc.vegetable.name }
     column(:quantity) { |bc| display_quantity(bc) }
-    column('Eveil') { |bc| display_basket_quantity(bc, :small) }
-    column('Abondance') { |bc| display_basket_quantity(bc, :big) }
-    column('Perte') { |bc| display_lost_quantity(bc) }
+    column(BasketSize.first.name) { |bc| display_basket_quantity(bc, :small) }
+    column(BasketSize.last.name) { |bc| display_basket_quantity(bc, :big) }
+    column(:loses) { |bc| display_lost_quantity(bc) }
     column(:distributions) { |bc| display_distributions(bc) }
   end
 
@@ -30,7 +30,7 @@ ActiveAdmin.register BasketContent do
         collection: Delivery.all,
         include_blank: false
     end
-    f.inputs 'Contenu' do
+    f.inputs BasketContent.human_attribute_name(:content) do
       f.input :vegetable,
         collection: Vegetable.all,
         include_blank: false
@@ -39,16 +39,16 @@ ActiveAdmin.register BasketContent do
         collection: BasketContent::UNITS,
         include_blank: false
     end
-    f.inputs 'Paniers' do
+    f.inputs Basket.model_name.human(count: 2) do
       f.input :basket_sizes,
-        collection: [['Eveil', 'small'], ['Abondance', 'big']],
+        collection: [[BasketSize.first.name, 'small'], [BasketSize.last.name, 'big']],
         as: :check_boxes,
         label: false
       f.input :same_basket_quantities,
         as: :boolean,
         input_html: { disabled: !f.object.both_baskets? }
     end
-    f.inputs 'Distributions' do
+    f.inputs Distribution.model_name.human(count: 2) do
       f.input :distributions,
         collection: Distribution.all,
         as: :check_boxes,
@@ -59,13 +59,13 @@ ActiveAdmin.register BasketContent do
 
   filter :delivery, as: :select
   filter :vegetable, as: :select
-  filter :basket_size, as: :select, collection: [['Eveil', 'small'], ['Abondance', 'big']]
+  filter :basket_size, as: :select, collection: -> { [[BasketSize.first.name, 'small'], [BasketSize.last.name, 'big']] }
   filter :distributions, as: :select
 
   before_action only: :index do
     if params['commit'].blank? && request.format.html?
       params['q'] = {
-        delivery_id_eq: Delivery.next&.id,
+        delivery_id_eq: Delivery.next&.id
       }
     end
   end
@@ -82,19 +82,19 @@ ActiveAdmin.register BasketContent do
 
   controller do
     def create
-      super do |format|
+      super do
         redirect_to collection_url and return if resource.valid?
       end
     end
 
     def update
-      super do |format|
+      super do
         redirect_to collection_url and return if resource.valid?
       end
     end
   end
 
-  permit_params *%i[
+  permit_params(*%i[
     delivery_id
     vegetable_id
     quantity
@@ -102,5 +102,5 @@ ActiveAdmin.register BasketContent do
     unit
   ],
     distribution_ids: [],
-    basket_sizes: []
+    basket_sizes: [])
 end

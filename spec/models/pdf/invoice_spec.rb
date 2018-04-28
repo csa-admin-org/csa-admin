@@ -35,7 +35,7 @@ describe PDF::Invoice do
         .and contain_sequence('John Doe', 'Unknown str. 42', '0123 Nowhere')
         .and contain_sequence('Banque Raiffeisen du Vignoble', '2023 Gorgier')
         .and contain_sequence('Association Rage de Vert', 'Closel-Bourbon 3', '2075 Thielle')
-        .and include('N° facture: 706')
+        .and include('N° Facture: 706')
         .and include('01-13734-6')
     end
 
@@ -62,7 +62,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01\.01\.20\d\d au 31\.12\.20\d\d/)
+        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
         .and contain_sequence('Montant annuel', "1'330.00", 'Facturation anuelle', "1'330.00")
         .and contain_sequence('Cotisation annuelle association', '42.00')
@@ -86,7 +86,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01\.01\.20\d\d au 31\.12\.20\d\d/)
+        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
         .and contain_sequence('Réduction pour 6 demi-journées supplémentaires', '- 330.50')
         .and contain_sequence('Montant annuel', "999.50", 'Facturation anuelle', "999.50")
@@ -113,7 +113,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01\.01\.20\d\d au 31\.12\.20\d\d/)
+        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Eveil 40x 23.125', '925.00')
         .and contain_sequence('Distribution: La Chaux-de-Fonds 40x 4.00', '160.00')
         .and contain_sequence('Montant annuel', "1'085.00")
@@ -152,7 +152,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01\.01\.20\d\d au 31\.12\.20\d\d/)
+        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00",)
         .and contain_sequence('Déjà facturé', '- 665.00')
         .and contain_sequence('Montant annuel restant', '665.00')
@@ -174,7 +174,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to contain_sequence('½ ', 'Journée du 4 mars 2018 non-effectuée (2 participants)', '120.00')
+        .to contain_sequence('½ ', 'journée du 4 mars 2018 non-effectuée (2 participants)', '120.00')
         .and contain_sequence('Total', '120.00')
         .and include('0100000120000>001104190802410000000020015+ 01137346>')
     end
@@ -190,7 +190,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to contain_sequence('½ ', 'Journée non-effectuée', '60.00')
+        .to contain_sequence('½ ', 'journée non-effectuée', '60.00')
         .and contain_sequence('Total', '60.00')
         .and include('0100000060004>001104190802410000000020020+ 01137346>')
     end
@@ -262,7 +262,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .to include(/01.04.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
         .and contain_sequence('Oeufs 24x 4.80', "115.20")
         .and contain_sequence('Tomme de Lavaux 24x 7.40', "177.60")
@@ -304,7 +304,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .to include(/01.04.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 22x 30.50', '671.00')
         .and contain_sequence('Déjà facturé', '- 223.65')
         .and contain_sequence('Montant annuel restant', '447.35')
@@ -359,7 +359,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .to include(/01.04.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Petit 48x 21.00', "1'008.00")
         .and contain_sequence('Oeufs 24x 4.80', "115.20")
         .and contain_sequence('Déjà facturé', '- 187.20')
@@ -402,7 +402,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01.09.20\d\d au 31.03.20\d\d/)
+        .to include(/01.09.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
         .and contain_sequence('Ajustement du prix des paniers', '- 44.00')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
@@ -446,7 +446,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01.09.20\d\d au 31.03.20\d\d/)
+        .to include(/01.09.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
         .and contain_sequence('Ajustement du prix des compléments', '- 14.15')
@@ -476,7 +476,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .to include(/01.04.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
         .and contain_sequence('Montant annuel', "1'464.00", 'Facturation annuelle', "* 1'464.00")
         .and contain_sequence('Cotisation annuelle association', '75.00')
@@ -513,7 +513,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/Période du 01.04.20\d\d au 31.03.20\d\d/)
+        .to include(/01.04.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
         .and contain_sequence('Déjà facturé', '- 122.00')
         .and contain_sequence('Montant annuel restant', "1'342.00")

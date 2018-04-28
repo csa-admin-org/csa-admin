@@ -1,0 +1,6 @@
+_:
+  admin:
+    notifications:
+      new_inscription:
+        _de: Nouvelle inscription
+        _fr: Nouvelle inscription

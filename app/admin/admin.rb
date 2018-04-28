@@ -1,5 +1,5 @@
 ActiveAdmin.register Admin do
-  menu parent: 'Autre', priority: 99
+  menu parent: :other, priority: 99
 
   index download_links: false do
     column :name
@@ -14,6 +14,9 @@ ActiveAdmin.register Admin do
     attributes_table do
       row :name
       row :email
+      if Current.acp.languages.many?
+        row(:language) { t("languages.#{admin.language}") }
+      end
       row :rights
       row :sign_in_count
       row :current_sign_in_at
@@ -29,11 +32,17 @@ ActiveAdmin.register Admin do
   end
 
   form do |f|
-    f.inputs 'Admin' do
+    f.inputs Admin.model_name.human do
       f.input :name
       f.input :email
+      if Current.acp.languages.many?
+        f.input :language,
+          as: :select,
+          collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
+          include_blank: false
+      end
     end
-    f.inputs 'Mot de passe' do
+    f.inputs Admin.human_attribute_name(:password) do
       f.input :password, required: false
       f.input :password_confirmation
     end
@@ -51,7 +60,7 @@ ActiveAdmin.register Admin do
   end
 
   permit_params do
-    pp = %i[name email]
+    pp = %i[name email language]
     pp += %i[password password_confirmation] if params[:admin]&.fetch(:password).present?
     pp << :rights if current_admin.superadmin?
     pp << { notifications: [] }

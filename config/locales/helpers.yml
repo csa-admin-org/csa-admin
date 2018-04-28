@@ -1,0 +1,18 @@
+_:
+  helpers:
+    none:
+      _de: Aucun
+      _fr: Aucun
+    page_entries_info:
+      more_pages:
+        display_entries:
+          _de: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
+          _fr: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
+      one_page:
+        display_entries:
+          one:
+            _de: "<b>%{count}</b> %{entry_name}"
+            _fr: "<b>%{count}</b> %{entry_name}"
+          other:
+            _de: "<b>tous les %{count}</b> %{entry_name}"
+            _fr: "<b>tous les %{count}</b> %{entry_name}"

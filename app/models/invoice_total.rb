@@ -16,7 +16,7 @@ class InvoiceTotal
   end
 
   def title
-    I18n.t("invoice.scope.#{scope}")
+    I18n.t("invoices.scope.#{scope}")
   end
 
   def price

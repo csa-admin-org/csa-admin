@@ -1,5 +1,5 @@
 ActiveAdmin.register Payment do
-  menu parent: 'Facturation', priority: 2
+  menu parent: :billing, priority: 2
   actions :all
 
   scope :all, default: true
@@ -40,7 +40,7 @@ ActiveAdmin.register Payment do
   end
 
   show do |payement|
-    attributes_table title: 'Détails' do
+    attributes_table do
       row :id
       row :member
       row :invoice
@@ -54,7 +54,7 @@ ActiveAdmin.register Payment do
   end
 
   form do |f|
-    f.inputs 'Details' do
+    f.inputs t('.details') do
       f.input :member,
         collection: Member.order(:name).distinct,
         include_blank: false,

@@ -22,6 +22,6 @@ module InvoicesHelper
       type.constantize.model_name.human
     end
   rescue NameError
-    I18n.t("invoice.object_type.#{type.downcase}")
+    I18n.t("invoices.object_type.#{type.downcase}")
   end
 end

@@ -1,4 +1,6 @@
 class Admin < ActiveRecord::Base
+  include HasLanguage
+
   NOTIFICATIONS = %w[new_inscription]
   RIGHTS = %w[superadmin admin standard readonly none]
 
@@ -23,6 +25,4 @@ class Admin < ActiveRecord::Base
   def right?(right)
     RIGHTS.index(self[:rights]) <= RIGHTS.index(right)
   end
-
-  def language; 'fr' end
 end

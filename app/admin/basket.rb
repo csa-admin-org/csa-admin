@@ -5,24 +5,24 @@ ActiveAdmin.register Basket do
   form do |f|
     f.inputs do
       f.input :basket_size, include_blank: false, input_html: { class: 'js-reset_price' }
-      f.input :basket_price, hint: 'Laisser blanc pour le prix par défaut.'
+      f.input :basket_price, hint: true
       f.input :quantity
       f.input :distribution, include_blank: false, input_html: { class: 'js-reset_price' }
-      f.input :distribution_price, hint: 'Laisser blanc pour le prix par défaut.'
+      f.input :distribution_price, hint: true
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
           ff.input :basket_complement,
             collection: BasketComplement.all,
-            prompt: 'Choisir un complément:',
+            prompt: true,
             input_html: { class: 'js-reset_price' }
-          ff.input :price, hint: 'Laisser blanc pour le prix par défaut.'
+          ff.input :price, hint: true
           ff.input :quantity
         end
       end
     end
     f.actions do
       f.action :submit, as: :input
-      f.action :cancel, as: :link, label: 'Annuler'
+      f.action :cancel, as: :link
     end
   end
 
@@ -37,7 +37,7 @@ ActiveAdmin.register Basket do
 
   controller do
     def update
-      super do |format|
+      super do
         redirect_to resource.membership and return if resource.valid?
       end
     end

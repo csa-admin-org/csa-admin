@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_21_135729) do
+ActiveRecord::Schema.define(version: 2018_04_22_142503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2018_04_21_135729) do
     t.integer "halfday_participation_deletion_deadline_in_days"
     t.string "vat_number"
     t.decimal "vat_membership_rate", precision: 8, scale: 2
+    t.string "languages", default: ["fr"], null: false, array: true
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -110,6 +111,7 @@ ActiveRecord::Schema.define(version: 2018_04_21_135729) do
     t.string "rights", default: "standard", null: false
     t.string "name"
     t.string "notifications", default: [], null: false, array: true
+    t.string "language", default: "fr", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
@@ -218,6 +220,7 @@ ActiveRecord::Schema.define(version: 2018_04_21_135729) do
     t.string "address_name"
     t.string "phones"
     t.text "note"
+    t.string "language", default: "fr", null: false
     t.index ["responsible_member_id"], name: "index_distributions_on_responsible_member_id"
   end
 
@@ -331,6 +334,7 @@ ActiveRecord::Schema.define(version: 2018_04_21_135729) do
     t.string "come_from"
     t.decimal "support_price", precision: 8, scale: 2, null: false
     t.integer "billing_year_division", default: 1, null: false
+    t.string "language", default: "fr", null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"
