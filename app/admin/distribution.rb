@@ -1,5 +1,5 @@
 ActiveAdmin.register Distribution do
-  menu parent: 'Autre', priority: 10
+  menu parent: :other, priority: 10
 
   includes :responsible_member
   index download_links: false do
@@ -15,20 +15,23 @@ ActiveAdmin.register Distribution do
   end
 
   show do |distribution|
-    attributes_table title: 'Détails' do
+    attributes_table do
       row :name
+      if Current.acp.languages.many?
+        row(:language) { t("languages.#{distribution.language}") }
+      end
       row(:price) { number_to_currency(distribution.price) }
       row(:note) { simple_format distribution.note }
     end
 
-    attributes_table title: 'Adresse' do
+    attributes_table title: Distribution.human_attribute_name(:address) do
       row :address_name
       row :address
       row :zip
       row :city
     end
 
-    attributes_table title: 'Contact' do
+    attributes_table title: Distribution.human_attribute_name(:contact) do
       row(:emails) { display_emails(distribution.emails_array) }
       row(:phones) { display_phones(distribution.phones_array) }
       row :responsible_member
@@ -40,18 +43,24 @@ ActiveAdmin.register Distribution do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :price, hint: "Prix pour la préparation et/ou livraison d'un panier"
+      if Current.acp.languages.many?
+        f.input :language,
+          as: :select,
+          collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
+          include_blank: false
+      end
+      f.input :price, hint: true
       f.input :note, input_html: { rows: 3 }
     end
 
-    f.inputs 'Adresse' do
+    f.inputs Distribution.human_attribute_name(:address) do
       f.input :address_name
       f.input :address
       f.input :city
       f.input :zip
     end
 
-    f.inputs 'Contact' do
+    f.inputs Distribution.human_attribute_name(:contact) do
       f.input :emails
       f.input :phones
       f.input :responsible_member, collection: Member.order(:name)
@@ -60,11 +69,11 @@ ActiveAdmin.register Distribution do
     f.actions
   end
 
-  permit_params *%i[
-    name price note
+  permit_params(*%i[
+    name language price note
     address_name address zip city
     emails phones responsible_member_id
-  ]
+  ])
 
   before_build do |distribution|
     distribution.price ||= 0.0

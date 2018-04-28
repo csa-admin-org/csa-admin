@@ -1,0 +1,30 @@
+_:
+  layouts:
+    members:
+      header:
+        contact:
+          _de: Contact
+          _fr: Contact
+      title:
+        _de: Page de Membre
+        _fr: Page de Membre
+    stats:
+      navigation:
+        baskets:
+          _de: Paniers
+          _fr: Paniers
+        deliveries:
+          _de: Distributions
+          _fr: Distributions
+        halfday_works:
+          _de: Participation des membres
+          _fr: Participation des membres
+        map:
+          _de: Carte
+          _fr: Carte
+        members:
+          _de: Membres
+          _fr: Membres
+      title:
+        _de: Stats
+        _fr: Stats

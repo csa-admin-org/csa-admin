@@ -1,5 +1,5 @@
 ActiveAdmin.register BasketSize do
-  menu parent: 'Autre', priority: 10
+  menu parent: :other, priority: 10
   actions :all, except: [:show]
 
   index download_links: false do

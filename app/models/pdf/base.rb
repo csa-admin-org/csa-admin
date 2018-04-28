@@ -4,7 +4,7 @@ module PDF
   class Base < Prawn::Document
     include ActionView::Helpers::NumberHelper
 
-    def initialize(*args)
+    def initialize(*_args)
       super(
         page_size: 'A4',
         margin: [0, 0, 0, 0],

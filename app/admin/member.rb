@@ -18,7 +18,7 @@ ActiveAdmin.register Member do
   }
   filter :billing_year_division,
     as: :select,
-    collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] } }
+    collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] } }
 
   index do
     if params[:scope] == 'waiting'
@@ -31,7 +31,7 @@ ActiveAdmin.register Member do
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : nil }
     column :state, ->(member) { status_tag(member.state) }
     if params[:scope] == 'trial'
-      column 'Paniers', ->(member) { member.delivered_baskets.size }
+      column Basket.model_name.human(count: 2), ->(member) { member.delivered_baskets.size }
     end
     actions
   end
@@ -39,9 +39,12 @@ ActiveAdmin.register Member do
   csv do
     column(:id)
     column(:name)
-    column(:state) { |m| m.state_i18n_name }
+    column(:state, &:state_i18n_name)
     column(:emails) { |m| m.emails_array.join(', ') }
     column(:phones) { |m| m.phones_array.map(&:phony_formatted).join(', ') }
+    if Current.acp.languages.many?
+      column(:language) { |m| t("languages.#{m.language}") }
+    end
     column(:address)
     column(:zip)
     column(:city)
@@ -49,9 +52,9 @@ ActiveAdmin.register Member do
     column(:delivery_zip)
     column(:delivery_city)
     column(:profession)
-    column(:billing_year_division) { |m| t("billing.year_division._#{m.billing_year_division}") }
-    column(:salary_basket) { |m| m.salary_basket? }
-    column(:support_member) { |m| m.support_member? }
+    column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
+    column(:salary_basket, &:salary_basket?)
+    column(:support_member, &:support_member?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
     if BasketComplement.any?
@@ -68,10 +71,10 @@ ActiveAdmin.register Member do
   show do |member|
     columns do
       column do
-        panel link_to('Abonnements', memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to(Membership.model_name.human(count: 2), memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
           memberships = member.memberships.includes(:delivered_baskets).order(:started_on)
           if memberships.none?
-            em 'Aucun abonnement'
+            em t('.no_memberships')
           else
             table_for(memberships, class: 'table-memberships') do
               column(:period) { |m| auto_link m, membership_short_period(m) }
@@ -89,29 +92,29 @@ ActiveAdmin.register Member do
         count = halfday_participations.count
         panel link_to("#{halfdays_human_name} (#{count})", halfday_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
           if halfday_participations.none?
-            em "Aucune #{halfdays_human_name.downcase}"
+            em t_halfday('.no_halfdays')
           else
             table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do
-              column('Description') { |hp|
+              column(HalfdayParticipation.human_attribute_name(:description)) { |hp|
                 auto_link hp, hp.halfday.name
               }
-              column('Part. #', &:participants_count)
+              column(HalfdayParticipation.human_attribute_name(:participants), &:participants_count)
               column(:state) { |hp| status_tag(hp.state) }
             end
           end
         end
 
-        panel link_to('Factures', invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to(Invoice.model_name.human(count: 2), invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
           invoices = member.invoices.includes(pdf_file_attachment: :blob).order(:date)
           if invoices.none?
-            em 'Aucune facture'
+            em t('.no_invoices')
           else
             table_for(invoices, class: 'table-invoices') do
               column(:id) { |i| auto_link i, i.id }
               column(:date) { |i| l(i.date, format: :number) }
               column(:amount) { |i| number_to_currency(i.amount) }
               column(:balance) { |i| number_to_currency(i.balance) }
-              column('Rap.', &:overdue_notices_count)
+              column(:overdue_notices_count)
               column(class: 'col-actions') { |i|
                 link_to 'PDF', rails_blob_path(i.pdf_file, disposition: 'attachment'), class: 'pdf_link'
               }
@@ -120,10 +123,10 @@ ActiveAdmin.register Member do
           end
         end
 
-        panel link_to('Paiements', payments_path(q: { member_id_eq: member.id }, scope: :all)) do
+        panel link_to(Payment.model_name.human(count: 2), payments_path(q: { member_id_eq: member.id }, scope: :all)) do
           payments = member.payments.includes(:invoice).order(:date)
           if payments.none?
-            em 'Aucun paiement'
+            em t('.no_payments')
           else
             table_for(payments, class: 'table-payments') do
               column(:date) { |p| auto_link p, l(p.date, format: :number) }
@@ -136,16 +139,19 @@ ActiveAdmin.register Member do
       end
 
       column do
-        attributes_table title: 'Détails' do
+        attributes_table do
           row :id
           row :name
           row(:status) { status_tag member.state }
+          if Current.acp.languages.many?
+            row(:language) { t("languages.#{member.language}") }
+          end
           row(:created_at) { l member.created_at }
           row(:validated_at) { member.validated_at ? l(member.validated_at) : nil }
           row :validator
         end
         if member.pending? || member.waiting?
-          attributes_table title: 'Abonnement (en attente)' do
+          attributes_table title: t('.waiting_membership') do
             row :waiting_started_at
             row(:basket_size) { member.waiting_basket_size&.name }
             if BasketComplement.any?
@@ -156,31 +162,31 @@ ActiveAdmin.register Member do
             row(:distribution) { member.waiting_distribution&.name }
           end
         end
-        attributes_table title: 'Adresse' do
+        attributes_table title: Member.human_attribute_name(:address) do
           span member.display_address
         end
         unless member.same_delivery_address?
-          attributes_table title: 'Adresse (Livraison)' do
+          attributes_table title: Member.human_attribute_name(:delivery_address) do
             span member.display_delivery_address
           end
         end
-        attributes_table title: 'Contact' do
+        attributes_table title: Member.human_attribute_name(:contact) do
           row(:emails) { display_emails(member.emails_array) }
           row(:phones) { display_phones(member.phones_array) }
           if feature?('gribouille')
             row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
           end
         end
-        attributes_table title: 'Facturation' do
-          row(:billing_year_division) { t("billing.year_division._#{member.billing_year_division}") }
+        attributes_table title: t('.billing') do
+          row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
           row(:salary_basket) { status_tag(member.salary_basket) }
           row(:support_member) { status_tag(member.support_member) }
           row(:support_price) { number_to_currency member.support_price }
-          row('Montant facturé') { number_to_currency member.invoices_amount }
-          row('Paiements versés') { number_to_currency member.payments_amount }
-          row('Différence') { number_to_currency(member.invoices_amount - member.payments_amount) }
+          row(:invoices_amount) { number_to_currency member.invoices_amount }
+          row(:payments_amount) { number_to_currency member.payments_amount }
+          row(:difference) { number_to_currency(member.invoices_amount - member.payments_amount) }
         end
-        attributes_table title: 'Info et Notes' do
+        attributes_table title: t('.notes') do
           row :profession
           row :come_from
           row(:food_note) { simple_format member.food_note }
@@ -195,9 +201,15 @@ ActiveAdmin.register Member do
   form do |f|
     f.inputs t('.details') do
       f.input :name
+      if Current.acp.languages.many?
+        f.input :language,
+          as: :select,
+          collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
+          include_blank: false
+      end
     end
     if member.pending? || member.waiting?
-      f.inputs 'Abonnement (en attente)' do
+      f.inputs t('active_admin.resource.show.waiting_membership') do
         f.input :waiting_basket_size, label: BasketSize.model_name.human
         if BasketComplement.any?
           f.input :waiting_basket_complement_ids,
@@ -208,36 +220,36 @@ ActiveAdmin.register Member do
         f.input :waiting_distribution, label: Distribution.model_name.human
       end
     end
-    f.inputs 'Adresse' do
+    f.inputs Member.human_attribute_name(:address) do
       f.input :address
       f.input :city
       f.input :zip
     end
-    f.inputs 'Adresse (Livraison)' do
+    f.inputs Member.human_attribute_name(:delivery_address) do
       f.input :delivery_address
       f.input :delivery_city
       f.input :delivery_zip
     end
-    f.inputs 'Contact' do
+    f.inputs Member.human_attribute_name(:delivery_address) do
       f.input :emails
       f.input :phones
       if feature?('gribouille')
         f.input :gribouille, as: :select,
-          collection: [['Oui', true], ['Non', false]]
+          collection: [[t('formtastic.yes'), true], [t('formtastic.no'), false]]
       end
     end
-    f.inputs 'Facturation' do
+    f.inputs t('active_admin.resource.show.billing') do
       f.input :billing_year_division,
         as: :select,
-        collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division._#{i}"), i] },
+        collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] },
         include_blank: false
       if member.inactive? && !member.future_membership
-        f.input :support_member, hint: 'Paye la cotisation annuelle même si aucun abonnement'
+        f.input :support_member, hint: true
       end
       f.input :support_price
-      f.input :salary_basket, label: 'Panier(s) salaire / Abonnement(s) gratuit(s)'
+      f.input :salary_basket
     end
-    f.inputs 'Info et Notes' do
+    f.inputs t('active_admin.resource.show.notes') do
       f.input :profession
       f.input :come_from
       f.input :food_note, input_html: { rows: 3 }
@@ -247,7 +259,7 @@ ActiveAdmin.register Member do
   end
 
   permit_params \
-    :name, :address, :city, :zip, :emails, :phones, :gribouille,
+    :name, :language, :address, :city, :zip, :emails, :phones, :gribouille,
     :delivery_address, :delivery_city, :delivery_zip,
     :support_member, :support_price, :salary_basket, :billing_year_division,
     :waiting, :waiting_basket_size_id, :waiting_distribution_id,
@@ -255,17 +267,17 @@ ActiveAdmin.register Member do
     waiting_basket_complement_ids: []
 
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
-    link_to 'Valider', validate_member_path(resource), method: :post
+    link_to t('.validate'), validate_member_path(resource), method: :post
   end
   action_item :remove_from_waiting_list, only: :show, if: -> { authorized?(:remove_from_waiting_list, resource) } do
-    link_to "Retirer de la liste d'attente", remove_from_waiting_list_member_path(resource), method: :post
+    link_to t('.remove_from_waiting_list'), remove_from_waiting_list_member_path(resource), method: :post
   end
   action_item :put_back_to_waiting_list, only: :show, if: -> { authorized?(:put_back_to_waiting_list, resource) } do
-    link_to "Remettre en liste d'attente", put_back_to_waiting_list_member_path(resource), method: :post
+    link_to t('.put_back_to_waiting_list'), put_back_to_waiting_list_member_path(resource), method: :post
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do
     next_delivery = Delivery.next
-    link_to 'Créer abonnement',
+    link_to t('.create_membership'),
       new_membership_path(
         member_id: resource.id,
         basket_size_id: resource.waiting_basket_size_id,

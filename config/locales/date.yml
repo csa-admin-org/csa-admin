@@ -1,0 +1,18 @@
+_:
+  date:
+    formats:
+      default:
+        _de: "%-d %B %Y"
+        _fr: "%-d %B %Y"
+      long:
+        _de: "%A %-d %B %Y"
+        _fr: "%A %-d %B %Y"
+      medium:
+        _de: "%a %-d %b %y"
+        _fr: "%a %-d %b %y"
+      number:
+        _de: "%d.%m.%Y"
+        _fr: "%d.%m.%Y"
+      short:
+        _de: "%e %B"
+        _fr: "%e %B"

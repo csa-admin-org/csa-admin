@@ -1,5 +1,5 @@
 ActiveAdmin.register Delivery do
-  menu parent: 'Autre', priority: 10
+  menu parent: :other, priority: 10
 
   scope :past_year
   scope :current_year, default: true
@@ -13,7 +13,7 @@ ActiveAdmin.register Delivery do
     column :note, ->(delivery) { truncate delivery.note, length: 175 }
     actions defaults: true do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
-      link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link')
+        link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link')
     end
   end
 
@@ -26,11 +26,11 @@ ActiveAdmin.register Delivery do
   end
 
   action_item :xlsx, only: :show do
-    link_to 'Récapitulatif Excel', delivery_path(resource, format: :xlsx)
+    link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(resource, format: :xlsx)
   end
 
   action_item :pdf, only: :show do
-    link_to 'Fiches Signature', delivery_path(resource, format: :pdf)
+    link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(resource, format: :pdf)
   end
 
   form do |f|
@@ -41,7 +41,7 @@ ActiveAdmin.register Delivery do
         f.input :basket_complements,
           as: :check_boxes,
           collection: BasketComplement.all,
-          hint: 'Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement.'
+          hint: true
       end
       f.actions
     end

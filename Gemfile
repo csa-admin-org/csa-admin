@@ -7,10 +7,12 @@ end
 
 ruby '2.5.1'
 
-gem 'rails', '~> 5.2.0.rc2'
+gem 'rails', '~> 5.2.0'
 gem 'bootsnap', require: false
 
 gem 'rails-i18n'
+gem 'i18n-backend-side_by_side'
+
 gem 'puma'
 
 gem 'rack-status'
@@ -19,7 +21,7 @@ gem 'pg'
 gem 'uniquify'
 gem 'paranoia'
 gem 'phony_rails'
-gem 'apartment', github: 'influitive/apartment', branch: 'development'
+gem 'apartment'
 gem 'apartment-activejob'
 
 gem 'activeadmin'

@@ -1,0 +1,150 @@
+_:
+  formtastic:
+    cancel:
+      _de: Annuler
+      _fr: Annuler
+    create:
+      _de: Créer %{model}
+      _fr: Créer %{model}
+    hints:
+      acp:
+        halfday_participation_deletion_deadline_in_days:
+          _de: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
+          _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
+      admin:
+        password:
+          _de: Laisser vide si inchangé
+          _fr: Laisser vide si inchangé
+      basket:
+        basket_price:
+          _de: Laisser blanc pour le prix par défaut
+          _fr: Laisser blanc pour le prix par défaut
+        distribution_price:
+          _de: Laisser blanc pour le prix par défaut
+          _fr: Laisser blanc pour le prix par défaut
+      basket_complement:
+        deliveries:
+          _de: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
+          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
+      baskets_basket_complement:
+        price:
+          _de: Laisser blanc pour le prix par défaut
+          _fr: Laisser blanc pour le prix par défaut
+      delivery:
+        basket_complements:
+          _de: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
+          _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
+      distribution:
+        emails:
+          _de: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
+          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
+        phones:
+          _de: Séparés par une virgule
+          _fr: Séparés par une virgule
+        price:
+          _de: Prix pour la préparation et/ou livraison d'un panier
+          _fr: Prix pour la préparation et/ou livraison d'un panier
+      halfday:
+        description:
+          _de: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
+          _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
+        participants_limit:
+          _de: Laisser vide si aucune limite
+          _fr: Laisser vide si aucune limite
+        place_url:
+          _de: Google Maps ou autre
+          _fr: Google Maps ou autre
+      halfday_preset:
+        place_url:
+          _de: Google Maps ou autre
+          _fr: Google Maps ou autre
+      member:
+        delivery_address:
+          _de: Laisser vide si identique
+          _fr: Laisser vide si identique
+        delivery_city:
+          _de: Laisser vide si identique
+          _fr: Laisser vide si identique
+        delivery_zip:
+          _de: Laisser vide si identique
+          _fr: Laisser vide si identique
+        emails:
+          _de: Séparés par une virgule
+          _fr: Séparés par une virgule
+        gribouille:
+          _de: Laisser vide pour le comportement par défault (en fonction du statut)
+          _fr: Laisser vide pour le comportement par défault (en fonction du statut)
+        phones:
+          _de: Séparés par une virgule
+          _fr: Séparés par une virgule
+        support_member:
+          _de: Paye la cotisation annuelle même si aucun abonnement
+          _fr: Paye la cotisation annuelle même si aucun abonnement
+      membership:
+        annual_halfday_works:
+          _de: Laisser blanc pour le nombre par défaut
+          _fr: Laisser blanc pour le nombre par défaut
+        basket_complements_annual_price_change:
+          _de: Modifie le montant final, peu importe le nombre de paniers/compléments
+          _fr: Modifie le montant final, peu importe le nombre de paniers/compléments
+        basket_price:
+          _de: Laisser blanc pour le prix par défaut
+          _fr: Laisser blanc pour le prix par défaut
+        baskets_annual_price_change:
+          _de: Modifie le montant final, peu importe le nombre de paniers
+          _fr: Modifie le montant final, peu importe le nombre de paniers
+        distribution_price:
+          _de: Laisser blanc pour le prix par défaut
+          _fr: Laisser blanc pour le prix par défaut
+        halfday_works_annual_price:
+          _de: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
+          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
+        price:
+          _de: Laisser blanc pour le prix par défauts
+          _fr: Laisser blanc pour le prix par défauts
+        seasons:
+          _de: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro
+          _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro
+    inputs:
+      date_and_period:
+        _de: Date et horaire
+        _fr: Date et horaire
+      place_and_activity:
+        _de: Lieu et activité
+        _fr: Lieu et activité
+    labels:
+      member:
+        salary_basket:
+          _de: Panier(s) salaire / Abonnement(s) gratuit(s)
+          _fr: Panier(s) salaire / Abonnement(s) gratuit(s)
+      membership:
+        annual_halfday_works:
+          _de: Ajustement du prix de l'abonnement
+          _fr: Ajustement du prix de l'abonnement
+        basket_complements_annual_price_change:
+          _de: Ajustement du prix des compléments
+          _fr: Ajustement du prix des compléments
+        baskets_annual_price_change:
+          _de: Ajustement du prix de l'abonnement
+          _fr: Ajustement du prix de l'abonnement
+        halfday_works_annual_price:
+          _de: Ajustement du prix de l'abonnement
+          _fr: Ajustement du prix de l'abonnement
+    'no':
+      _de: Non
+      _fr: Non
+    required:
+      _de: obligatoire
+      _fr: obligatoire
+    reset:
+      _de: Réinitiaser %{model}
+      _fr: Réinitiaser %{model}
+    submit:
+      _de: Soumettre %{model}
+      _fr: Soumettre %{model}
+    update:
+      _de: Mettre à jour %{model}
+      _fr: Mettre à jour %{model}
+    'yes':
+      _de: Oui
+      _fr: Oui

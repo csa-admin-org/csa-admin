@@ -4,7 +4,7 @@ namespace :inscriptions do
     ACP.enter_each! do
       if worksheet_url = Current.acp.credentials(:inscriptions_worksheet_url)
         Inscription.import_from_google_sheet(worksheet_url)
-        p 'New inscriptions from Google Spreadsheet imported.'
+        puts 'New inscriptions from Google Spreadsheet imported.'
       end
     end
   end

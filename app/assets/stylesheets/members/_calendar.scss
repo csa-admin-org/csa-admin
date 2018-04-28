@@ -59,6 +59,10 @@
   border-bottom: 2px solid $green;
 }
 
+.ui-datepicker-prev:after {
+  margin-top: -38px;
+}
+
 .ui-datepicker-prev:hover,
 .ui-datepicker-next:hover,
 .ui-datepicker-prev:hover:after,

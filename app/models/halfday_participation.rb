@@ -27,7 +27,7 @@ class HalfdayParticipation < ActiveRecord::Base
     presence: true,
     numericality: {
       less_than_or_equal_to: :missing_participants_count,
-      if: :missing_participants_count
+      if: :validate_participants_count?
     },
     unless: :validated_at?
 
@@ -101,6 +101,10 @@ class HalfdayParticipation < ActiveRecord::Base
   end
 
   private
+
+  def validate_participants_count?
+    coming? && missing_participants_count
+  end
 
   def set_carpooling_phone
     if @carpooling

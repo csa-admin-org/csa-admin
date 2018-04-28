@@ -17,7 +17,7 @@ class Absence < ActiveRecord::Base
     started_on..ended_on
   end
 
-  def self.ransackable_scopes(auth_object = nil)
+  def self.ransackable_scopes(_auth_object = nil)
     %i(including_date)
   end
 
@@ -25,8 +25,8 @@ class Absence < ActiveRecord::Base
 
   def good_period_range
     if started_on >= ended_on
-      errors.add(:started_on, 'doit être avant la fin')
-      errors.add(:ended_on, 'doit être après le début')
+      errors.add(:started_on, :before_end)
+      errors.add(:ended_on, :after_start)
     end
   end
 

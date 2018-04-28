@@ -1,0 +1,7 @@
+_:
+  activemodel:
+    attributes:
+      halfday_participation_count:
+        count:
+          _de: Nombres (am+pm * participants)
+          _fr: Nombres (am+pm * participants)

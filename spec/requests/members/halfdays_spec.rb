@@ -25,5 +25,5 @@ describe 'Halfdays RSS feed' do
     expect(response.content_type).to eq 'application/rss+xml'
 
     expect(response.body).to include('Aucune')
-   end
+  end
 end

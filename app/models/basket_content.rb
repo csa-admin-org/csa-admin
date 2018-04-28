@@ -18,8 +18,7 @@ class BasketContent < ApplicationRecord
   validates :unit, inclusion: { in: UNITS }
   validates :vegetable_id, uniqueness: { scope: :delivery_id }
 
-  attr_accessor :same_basket_quantities
-  attr_writer :basket_sizes
+  attr_writer :same_basket_quantities, :basket_sizes
 
   before_save :set_basket_counts_and_quantities
 

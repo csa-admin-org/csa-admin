@@ -42,7 +42,8 @@ class Newsletter::MailChimp
     fields = {
       MEMB_ID:   { name: 'ID', type: 'number', required: true },
       MEMB_NAME: { name: 'Nom', type: 'text', required: true },
-      MEMB_NEWS: { name: 'Newsletter envoyé?', type: 'dropdown', required: true, options: { choices: ['yes', 'no'] } },
+      MEMB_LANG: { name: 'Langue', type: 'text', required: true },
+      MEMB_NEWS: { name: 'Newsletter envoyé?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
       MEMB_PAGE: { name: 'Page de membre URL', type: 'text', required: true },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
@@ -62,7 +63,8 @@ class Newsletter::MailChimp
         .retrieve(params: { fields: 'merge_fields.tag,merge_fields.merge_id', count: 100 })
         .body[:merge_fields].map { |m| [m[:tag], m[:merge_id]] }.to_h
     fields.each do |tag, attrs|
-      attrs.merge!(tag: tag.to_s, public: false)
+      attrs[:tag] = tag.to_s
+      attrs[:public] = false
       if id = exiting_fields[tag.to_s]
         client.lists(@list_id).merge_fields(id).update(body: attrs)
       else
@@ -97,7 +99,8 @@ class Newsletter::MailChimp
   def member_merge_fields(member)
     fields = {
       MEMB_ID: member.id,
-      MEMB_NAME: member.name.to_s,
+      MEMB_NAME: member.name,
+      MEMB_LANG: member.language,
       MEMB_NEWS: member.newsletter? ? 'yes' : 'no',
       MEMB_STAT: member.state,
       MEMB_PAGE: member.page_url,

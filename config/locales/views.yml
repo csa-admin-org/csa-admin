@@ -1,0 +1,18 @@
+_:
+  views:
+    pagination:
+      first:
+        _de: "&laquo;"
+        _fr: "&laquo;"
+      last:
+        _de: "&raquo;"
+        _fr: "&raquo;"
+      next:
+        _de: "&rsaquo;"
+        _fr: "&rsaquo;"
+      previous:
+        _de: "&lsaquo;"
+        _fr: "&lsaquo;"
+      truncate:
+        _de: "&hellip;"
+        _fr: "&hellip;"

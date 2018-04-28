@@ -1,5 +1,5 @@
 ActiveAdmin.register HalfdayParticipation do
-  menu parent: :halfdays_human_name, priority: 1, label: 'Participations'
+  menu parent: :halfdays_human_name, priority: 1, label: Halfday.human_attribute_name(:participations)
 
   scope :all
   scope :pending, default: true
@@ -13,20 +13,20 @@ ActiveAdmin.register HalfdayParticipation do
     column :member, sortable: 'members.name'
     column :halfday, ->(hp) {
       link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
-    }, sortable: 'halfdays.date, halfdays.start_time'
-    column 'Part.', :participants_count
-    column :state, ->(hp) { status_tag(hp.state) }
+    }, sortable: 'halfdays.date'
+    column :participants_count
+    column :state, ->(hp) { status_tag hp.state }
     actions
   end
 
   csv do
     column(:date) { |hp| hp.halfday.date.to_s }
-    column(:member_id) { |hp| hp.member_id }
+    column(:member_id, &:member_id)
     column(:member_name) { |hp| hp.member.name }
     column(:member_phones) { |hp| hp.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:participants_count)
     column(:carpooling_phone) { |hp| hp.carpooling_phone&.phony_formatted }
-    column(:state) { |hp| hp.state_i18n_name }
+    column(:state, &:state_i18n_name)
     column(:created_at)
     column(:validated_at)
     column(:rejected_at)
@@ -38,10 +38,10 @@ ActiveAdmin.register HalfdayParticipation do
   filter :halfday,
     as: :select,
     collection: -> { Halfday.order(:date, :start_time) }
-  filter :halfday_date, label: 'Date', as: :date_range
+  filter :halfday_date, label: Halfday.human_attribute_name(:date), as: :date_range
 
   form do |f|
-    f.inputs 'Details' do
+    f.inputs t('.details') do
       f.input :halfday,
         collection: Halfday.order(date: :desc),
         include_blank: false
@@ -53,16 +53,16 @@ ActiveAdmin.register HalfdayParticipation do
     f.actions
   end
 
-  permit_params *%i[halfday_id member_id participants_count]
+  permit_params(*%i[halfday_id member_id participants_count])
 
   show do |hp|
-    attributes_table title: 'Détails' do
+    attributes_table do
       row(:halfday) { link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all) }
       row(:created_at) { l(hp.created_at) }
       row(:updated_at) { l(hp.updated_at) }
     end
 
-    attributes_table title: 'Contact' do
+    attributes_table title: HalfdayParticipation.human_attribute_name(:contact) do
       row :member
       row(:phones) { display_phones(hp.member.phones_array) }
       if hp.carpooling_phone?
@@ -71,8 +71,8 @@ ActiveAdmin.register HalfdayParticipation do
     end
 
     if hp.validated? || hp.rejected?
-      attributes_table title: 'Statut' do
-        row(:status) { status_tag hp.state }
+      attributes_table HalfdayParticipation.human_attribute_name(:state) do
+        row(:status) { status_tag hp.state, label: hp.state_i18n_name }
         row :validator
         if hp.validated?
           row(:validated_at) { l(hp.validated_at) }
@@ -84,7 +84,7 @@ ActiveAdmin.register HalfdayParticipation do
     end
 
     if hp.invoices.any?
-      attributes_table title: 'Facturation' do
+      attributes_table title: t('.billing') do
         row(:invoiced_at) { auto_link hp.invoices.first, l(hp.invoices.first.date) }
       end
     end
@@ -98,7 +98,7 @@ ActiveAdmin.register HalfdayParticipation do
       participation.reject!(current_admin)
     end
     if participations.coming.any?
-      flash[:alert] = t('flash.alert.coming_halfday_participations_cannot_be_rejected')
+      flash[:alert] = t('.reject.flash.alert')
     end
     redirect_back fallback_location: collection_path
   end
@@ -109,7 +109,7 @@ ActiveAdmin.register HalfdayParticipation do
       participation.validate!(current_admin)
     end
     if participations.coming.any?
-      flash[:alert] = t('flash.alert.coming_halfday_participations_cannot_be_validated')
+      flash[:alert] = t('.validate.flash.alert')
     end
     redirect_back fallback_location: collection_path
   end
@@ -117,7 +117,7 @@ ActiveAdmin.register HalfdayParticipation do
   action_item :invoice, only: :show, if: -> {
     authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
   } do
-    link_to 'Facturer', new_invoice_path(halfday_participation_id: resource.id)
+    link_to t('.invoice_action'), new_invoice_path(halfday_participation_id: resource.id)
   end
 
   controller do
@@ -129,13 +129,13 @@ ActiveAdmin.register HalfdayParticipation do
     end
 
     def create
-      super do |format|
+      super do
         redirect_to collection_url and return if resource.valid?
       end
     end
 
     def update
-      super do |format|
+      super do
         redirect_to collection_url and return if resource.valid?
       end
     end

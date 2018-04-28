@@ -1,0 +1,108 @@
+_:
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one:
+          _de: environ une heure
+          _fr: environ une heure
+        other:
+          _de: environ %{count} heures
+          _fr: environ %{count} heures
+      about_x_months:
+        one:
+          _de: environ un mois
+          _fr: environ un mois
+        other:
+          _de: environ %{count} mois
+          _fr: environ %{count} mois
+      about_x_years:
+        one:
+          _de: environ un an
+          _fr: environ un an
+        other:
+          _de: environ %{count} ans
+          _fr: environ %{count} ans
+      almost_x_years:
+        one:
+          _de: presqu'un an
+          _fr: presqu'un an
+        other:
+          _de: presque %{count} ans
+          _fr: presque %{count} ans
+      half_a_minute:
+        _de: une demi-minute
+        _fr: une demi-minute
+      less_than_x_minutes:
+        one:
+          _de: moins d'une minute
+          _fr: moins d'une minute
+        other:
+          _de: moins de %{count} minutes
+          _fr: moins de %{count} minutes
+        zero:
+          _de: moins d'une minute
+          _fr: moins d'une minute
+      less_than_x_seconds:
+        one:
+          _de: moins d'une seconde
+          _fr: moins d'une seconde
+        other:
+          _de: moins de %{count} secondes
+          _fr: moins de %{count} secondes
+        zero:
+          _de: moins d'une seconde
+          _fr: moins d'une seconde
+      over_x_years:
+        one:
+          _de: plus d'un an
+          _fr: plus d'un an
+        other:
+          _de: plus de %{count} ans
+          _fr: plus de %{count} ans
+      x_days:
+        one:
+          _de: 1 jour
+          _fr: 1 jour
+        other:
+          _de: "%{count} jours"
+          _fr: "%{count} jours"
+      x_minutes:
+        one:
+          _de: 1 minute
+          _fr: 1 minute
+        other:
+          _de: "%{count} minutes"
+          _fr: "%{count} minutes"
+      x_months:
+        one:
+          _de: 1 mois
+          _fr: 1 mois
+        other:
+          _de: "%{count} mois"
+          _fr: "%{count} mois"
+      x_seconds:
+        one:
+          _de: 1 seconde
+          _fr: 1 seconde
+        other:
+          _de: "%{count} secondes"
+          _fr: "%{count} secondes"
+    prompts:
+      day:
+        _de: Jour
+        _fr: Jour
+      hour:
+        _de: Heure
+        _fr: Heure
+      minute:
+        _de: Minute
+        _fr: Minute
+      month:
+        _de: Mois
+        _fr: Mois
+      second:
+        _de: Seconde
+        _fr: Seconde
+      year:
+        _de: Année
+        _fr: Année

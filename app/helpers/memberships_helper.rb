@@ -2,7 +2,7 @@ module MembershipsHelper
   def membership_short_period(membership)
     [:started_on, :ended_on].map { |d|
       I18n.l(membership.send(d), format: :number)
-    }.join(' au ')
+    }.join(' – ')
   end
 
   def basket_size_description(object, text_only: false)
@@ -21,7 +21,7 @@ module MembershipsHelper
       desc += " (#{object.season_name})" unless object.all_seasons?
       desc
     else
-      content_tag(:em, 'Aucun', class: 'empty') unless text_only
+      content_tag(:em, t('activerecord.models.basket_size.none'), class: 'empty') unless text_only
     end
   end
 
@@ -38,16 +38,7 @@ module MembershipsHelper
     if names.present?
       names.to_sentence
     elsif !text_only
-      content_tag :em, 'Aucun', class: 'empty'
-    end
-  end
-
-  def distribution_description(object)
-    case object
-    when Basket, Membership
-      object.distribution.name
-    else
-      content_tag :em, 'Aucun', class: 'empty'
+      content_tag :em, t('activerecord.models.basket_complement.none'), class: 'empty'
     end
   end
 

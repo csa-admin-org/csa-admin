@@ -1,5 +1,5 @@
 ActiveAdmin.register BasketComplement do
-  menu parent: 'Autre', priority: 11
+  menu parent: :other, priority: 11
   actions :all, except: [:show]
 
   index download_links: false do
@@ -17,7 +17,7 @@ ActiveAdmin.register BasketComplement do
         as: :check_boxes,
         collection: Delivery.current_and_future_year,
         disabled: Delivery.current_year.past.pluck(:id),
-        hint: f.object.persisted? && 'Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.'
+        hint: f.object.persisted?
       f.actions
     end
   end

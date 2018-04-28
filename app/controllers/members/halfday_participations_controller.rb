@@ -1,11 +1,11 @@
 class Members::HalfdayParticipationsController < Members::ApplicationController
   # POST /:member_id/halfday_participations
   def create
-    @halfday_participation = @member.halfday_participations.new(protected_params)
+    @halfday_participation = current_member.halfday_participations.new(protected_params)
     respond_to do |format|
       if @halfday_participation.save
-        flash[:notice] = 'Merci pour votre inscription!'
-        format.html { redirect_to [:members, @member] }
+        flash[:notice] = t('.flash.notice')
+        format.html { redirect_to [:members, current_member] }
       else
         format.html { render 'members/members/show' }
       end
@@ -14,10 +14,10 @@ class Members::HalfdayParticipationsController < Members::ApplicationController
 
   # DELETE /:member_id/halfday_participations/:id
   def destroy
-    participation = @member.halfday_participations.find(params[:id])
+    participation = current_member.halfday_participations.find(params[:id])
     participation.destroy if participation.destroyable?
 
-    redirect_to [:members, @member]
+    redirect_to [:members, current_member]
   end
 
   private

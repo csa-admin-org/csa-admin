@@ -1,13 +1,13 @@
 ActiveAdmin.register_page 'Dashboard' do
-  menu priority: 1, label: 'Tableau de bord'
+  menu priority: 1, label: -> { I18n.t('active_admin.dashboard') }
 
-  content title: 'Tableau de bord' do
+  content title: proc { I18n.t('active_admin.dashboard') } do
     next_delivery = Delivery.next
     columns do
       column do
-        panel 'Membres' do
-          table_for MemberCount.all do
-            column('Statut') { |count| link_to count.title, members_path(scope: count.scope) }
+        panel Member.model_name.human(count: 2) do
+          table_for MemberCount.all, i18n: MemberCount do |c|
+            column(:state) { |count| link_to count.title, members_path(scope: count.state) }
             column class: 'align-right' do |count|
               count.count.to_s.prepend(count.count_precision.to_s)
             end
@@ -27,28 +27,28 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel "Facturation #{Current.fy_year}" do
+        panel t('.billing_year', fiscal_year: Current.fy_year) do
           billing_totals = BillingTotal.all
           billing_totals_price = billing_totals.sum(&:price)
 
           table_for billing_totals do
-            column "Chiffre d'Affaire", :title
+            column t('.revenue'), :title
             column(class: 'align-right') { |total| number_to_currency(total.price) }
           end
 
           table_for nil do
-            column(class: 'align-right') { "Total: #{number_to_currency(billing_totals_price)}" }
+            column(class: 'align-right') { t('.total', number: number_to_currency(billing_totals_price)) }
           end
 
           table_for InvoiceTotal.all(billing_totals_price) do
-            column 'Facturation', :title
+            column t('.billing'), :title
             column(class: 'align-right') { |total| number_to_currency(total.price) }
           end
 
           table_for nil do
             column do
               span do
-                link_to 'Récapitulatif Excel', billing_path(Current.fy_year, format: :xlsx)
+                link_to Invoice.human_attribute_name(:xlsx_recap), billing_path(Current.fy_year, format: :xlsx)
               end
             end
           end
@@ -57,12 +57,12 @@ ActiveAdmin.register_page 'Dashboard' do
 
       column do
         if next_delivery
-          panel "Prochaine livraison: #{l next_delivery.date, format: :long}" do
+          panel t('.next_delivery', date: l(next_delivery.date, format: :long)) do
             counts = BasketCount.all(next_delivery)
             if counts.present?
               table_for counts do
-                column 'Lieu', :title
-                column 'Paniers', :count, class: 'align-right'
+                column Distribution.model_name.human, :title
+                column Basket.model_name.human, :count, class: 'align-right'
                 column "#{BasketSize.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
@@ -73,13 +73,13 @@ ActiveAdmin.register_page 'Dashboard' do
                 paid_counts = counts.select { |c| c.distribution_id.in?(paid_distributions.pluck(:id)) }
                 totals = [
                   OpenStruct.new(
-                    title: "Paniers: #{free_distributions.pluck(:name).to_sentence}",
-                    count: "Total: #{free_counts.sum(&:count)}",
-                    baskets_count: "Totaux: #{free_counts.sum { |c| c.basket_sizes_count[0] }} / #{free_counts.sum { |c| c.basket_sizes_count[1] }}"),
+                    title: "#{Basket.model_name.human(count: 2)}: #{free_distributions.pluck(:name).to_sentence}",
+                    count: t('.total', number: free_counts.sum(&:count)),
+                    baskets_count: t('.totals', numbers: [free_counts.sum { |c| c.basket_sizes_count[0] }, free_counts.sum { |c| c.basket_sizes_count[1] }].join(' / '))),
                   OpenStruct.new(
-                    title: 'Paniers à préparer',
-                    count: "Total: #{paid_counts.sum(&:count)}",
-                    baskets_count: "Totaux: #{paid_counts.sum { |c| c.basket_sizes_count[0] }} / #{paid_counts.sum { |c| c.basket_sizes_count[1] }}")
+                    title: t('.baskets_to_prepare'),
+                    count: t('.total', number: paid_counts.sum(&:count)),
+                    baskets_count: t('.totals', numbers: [paid_counts.sum { |c| c.basket_sizes_count[0] }, paid_counts.sum { |c| c.basket_sizes_count[1] }].join(' / '))),
                 ]
                 table_for totals do
                   column nil, :title
@@ -92,7 +92,7 @@ ActiveAdmin.register_page 'Dashboard' do
                 column nil, :title
                 column(class: 'align-right') { "Total: #{counts.sum(&:count)}" }
                 column(class: 'align-right') do
-                  "Totaux: #{counts.sum { |c| c.basket_sizes_count[0] }} / #{counts.sum { |c| c.basket_sizes_count[1] }}"
+                  t('.totals', numbers: [counts.sum { |c| c.basket_sizes_count[0] }, counts.sum { |c| c.basket_sizes_count[1] }].join(' / '))
                 end
               end
 
@@ -101,27 +101,27 @@ ActiveAdmin.register_page 'Dashboard' do
                 div id: 'basket-complements-table' do
                   if counts.any?
                     table_for counts do
-                      column 'Complément', :title
-                      column 'Total', :count, class: 'align-right'
+                      column BasketComplement.model_name.human, :title
+                      column t('.total', number: ''), :count, class: 'align-right'
                     end
                   else
-                    em 'Aucun complément pour cette livraison'
+                    em t('.no_basket_complements')
                   end
                 end
               end
 
               span do
-                link_to 'Récapitulatif Excel', delivery_path(Delivery.next, format: :xlsx)
+                link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(Delivery.next, format: :xlsx)
               end
               span { '&nbsp;/&nbsp;'.html_safe }
               span do
-                link_to 'Fiches signature', delivery_path(Delivery.next, format: :pdf)
+                link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(Delivery.next, format: :pdf)
               end
 
               absences_count = next_delivery.baskets.absent.count
               if absences_count.positive?
                 span class: 'delivery_absences' do
-                  link_to "Absences: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+                  link_to "#{Absence.model_name.human(count: absences_count)}: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
                 end
               end
             end
@@ -130,17 +130,17 @@ ActiveAdmin.register_page 'Dashboard' do
               span class: 'delivery_note' do
                 form_for next_delivery do |f|
                   f.text_area :note
-                  f.submit 'Mettre à jour la note'
+                  f.submit t('.submit_delivery_note')
                 end
               end
             end
           end
         end
 
-        panel "#{halfdays_human_name} (#{Current.fy_year})" do
-          table_for HalfdayParticipationCount.all(Current.fy_year) do
-            column('Statut') { |count| link_to_if(count.url, count.title, count.url) }
-            column 'Nombres (am+pm * participants)', :count, class: 'align-right'
+        panel "#{halfdays_human_name} #{Current.fy_year}" do
+          table_for HalfdayParticipationCount.all(Current.fy_year), i18n: HalfdayParticipationCount do
+            column(:state) { |count| link_to_if(count.url, count.title, count.url) }
+            column :count, class: 'align-right'
           end
         end
       end

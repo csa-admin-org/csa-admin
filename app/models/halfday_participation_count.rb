@@ -1,4 +1,6 @@
 class HalfdayParticipationCount
+  include ActiveModel::Model
+
   SCOPES = %i[coming pending validated rejected paid missing]
 
   def self.all(year)

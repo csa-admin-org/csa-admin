@@ -24,7 +24,7 @@ module PDF
         total_pages = (baskets.count / BASKETS_PER_PAGE.to_f).ceil
 
         baskets.each_slice(BASKETS_PER_PAGE).with_index do |slice, i|
-          page_n =  i + 1
+          page_n = i + 1
           page(dist, slice, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
@@ -34,17 +34,17 @@ module PDF
 
     def filename
       [
-        'fiches-signature',
-        'livraison',
+        ::Delivery.human_attribute_name(:signature_sheets).parameterize,
+        ::Delivery.model_name.human.parameterize,
         "##{delivery.number}",
-        delivery.date.strftime("%Y%m%d")
+        delivery.date.strftime('%Y%m%d')
       ].join('-') + '.pdf'
     end
 
     private
 
     def info
-      super.merge(Title: "Fiches Signature #{delivery.date}")
+      super.merge(Title: "#{::Delivery.human_attribute_name(:signature_sheets)} #{delivery.date}")
     end
 
     def page(distribution, baskets, basket_sizes, basket_complements, page:, total_pages:)
@@ -92,7 +92,7 @@ module PDF
             at: [member_name_width + bs_size * 25 + i * 25 + 5, cursor],
             valign: :center
         end
-        text_box 'Signature',
+        text_box ::Delivery.human_attribute_name(:signature),
           width: signature_width,
           at: [member_name_width + (bs_size + bc_size) * 25, cursor],
           align: :right,
@@ -154,13 +154,14 @@ module PDF
       end
       data << (total_line << { content: '', width: signature_width })
 
-      table(data,
-          row_colors: ['DDDDDD', 'FFFFFF'],
-          cell_style: { border_width: 0.5, border_color: 'AAAAAA' },
-          position: :center) do |t|
+      table(
+        data,
+        row_colors: %w[DDDDDD FFFFFF],
+        cell_style: { border_width: 0.5, border_color: 'AAAAAA' },
+        position: :center) do |t|
         t.cells.borders = []
         (bs_size + bc_size).times do |i|
-          t.columns(1 + i).borders = [:left, :right]
+          t.columns(1 + i).borders = %i[left right]
 
           t.row(-1).size = 11
           t.row(-1).height = 30

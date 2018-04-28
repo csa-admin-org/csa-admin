@@ -6,7 +6,7 @@ namespace :halfday_participations do
         .coming
         .includes(:halfday)
         .find_each(&:send_reminder_email)
-      p "#{Current.acp.name}: halfday participations reminder emails sent."
+      puts "#{Current.acp.name}: halfday participations reminder emails sent."
     end
   end
 end

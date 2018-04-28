@@ -9,7 +9,8 @@ class Invoice < ActiveRecord::Base
 
   OBJECT_TYPES = %w[Membership Support HalfdayParticipation]
 
-  attr_accessor :membership_amount_fraction, :send_email, :comment
+  attr_writer :membership_amount_fraction, :send_email
+  attr_accessor :comment
 
   has_states :not_sent, :open, :closed, :canceled
 
@@ -131,15 +132,15 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def memberships_amount=(_)
+  def memberships_amount=(*_args)
     raise NoMethodError, 'is set automaticaly.'
   end
 
-  def remaining_memberships_amount=(_)
+  def remaining_memberships_amount=(*_args)
     raise NoMethodError, 'is set automaticaly.'
   end
 
-  def balance=(_)
+  def balance=(*_args)
     raise NoMethodError, 'is set automaticaly.'
   end
 
@@ -199,11 +200,13 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_pdf
-    invoice_pdf = PDF::Invoice.new(self)
-    pdf_file.attach(
-      io: StringIO.new(invoice_pdf.render),
-      filename: "invoice-#{id}.pdf",
-      content_type: 'application/pdf')
+    I18n.with_locale(member.language) do
+      invoice_pdf = PDF::Invoice.new(self)
+      pdf_file.attach(
+        io: StringIO.new(invoice_pdf.render),
+        filename: "invoice-#{id}.pdf",
+        content_type: 'application/pdf')
+    end
   end
 
   def update_member_invoices_balance!

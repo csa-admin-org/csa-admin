@@ -41,7 +41,7 @@ html
               b
                 == halfday_label(date[:halfday], date: true, description: false)
                 = ", "
-                = t :person, count: date[:participation].participants_count
+                = t 'halfdays.participant_count', count: date[:participation].participants_count
                 = " insrite(s)"
             - else
               == halfday_label(date[:halfday], date: true, description: false)

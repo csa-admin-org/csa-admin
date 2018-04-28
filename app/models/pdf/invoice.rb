@@ -13,7 +13,7 @@ module PDF
       @isr_ref = ISRReferenceNumber.new(invoice.id, @missing_amount)
       super
       header
-      member
+      member_address
       content
       footer
       isr
@@ -22,30 +22,35 @@ module PDF
     private
 
     def info
-      super.merge(Title: "Facture #{invoice.id}")
+      super.merge(Title: "#{::Invoice.model_name.human} #{invoice.id}")
     end
 
     def member_address
       member = invoice.member
-      [
+      parts = [
         member.name,
         member.address.capitalize,
         "#{member.zip} #{member.city}"
-      ].join("\n")
-    end
+      ]
 
-    def member
       bounding_box [11.5.cm, bounds.height - 55], width: 8.cm, height: 2.5.cm do
-        text member_address, valign: :top, leading: 2
+        parts.each do |part|
+          text part, valign: :top, leading: 2
+          move_down 2
+        end
       end
     end
 
     def header
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
       bounding_box [155, bounds.height - 55], width: 200, height: 2.5.cm do
-        text "Facture N° #{invoice.id}", style: :bold, size: 16
+        text "#{::Invoice.model_name.human} N° #{invoice.id}", style: :bold, size: 16
         move_down 5
         text I18n.l(invoice.date)
+        if invoice.object_type == 'Membership'
+          move_down 5
+          text membership_short_period(object), size: 10
+        end
       end
     end
 
@@ -55,11 +60,13 @@ module PDF
 
     def content
       font_size 10
-      data = [['description', 'montant (CHF)']]
+      data = [[
+        ::Invoice.human_attribute_name(:description).downcase,
+        "#{::Invoice.human_attribute_name(:amount).downcase} (CHF)"
+      ]]
 
       case invoice.object_type
       when 'Membership'
-        data << [membership_period, nil]
         if object.basket_sizes_price.positive?
           object.basket_sizes.uniq.each do |basket_size|
             data << [
@@ -69,7 +76,10 @@ module PDF
           end
         end
         unless object.baskets_annual_price_change.zero?
-          data << ['Ajustement du prix des paniers', cur(object.baskets_annual_price_change)]
+          data << [
+            t('baskets_annual_price_change'),
+            cur(object.baskets_annual_price_change)
+          ]
         end
         if object.basket_complements_price.positive?
           object.basket_complements.uniq.each do |basket_complement|
@@ -80,7 +90,10 @@ module PDF
           end
         end
         unless object.basket_complements_annual_price_change.zero?
-          data << ['Ajustement du prix des compléments', cur(object.basket_complements_annual_price_change)]
+          data << [
+            t('basket_complements_annual_price_change'),
+            cur(object.basket_complements_annual_price_change)
+          ]
         end
         object.distributions.uniq.each do |distribution|
           price = object.distribution_total_price(distribution)
@@ -96,23 +109,32 @@ module PDF
         end
       when 'HalfdayParticipation'
         if object
-          str = "#{halfday_human_name} du #{I18n.l object.halfday.date} non-effectuée"
+          str = t_halfday('missed_halfday_participation_with_date', date: I18n.l(object.halfday.date))
           if invoice.paid_missing_halfday_works > 1
-            str += " (#{invoice.paid_missing_halfday_works} participants)"
+            str += " (#{invoice.paid_missing_halfday_works} #{HalfdayParticipation.human_attribute_name(:participants).downcase})"
           end
         elsif invoice.paid_missing_halfday_works == 1
-          str = "#{halfday_human_name} non-effectuée"
+          str = t_halfday('missed_halfday_participation')
         else
-          str = "#{invoice.paid_missing_halfday_works} #{halfdays_human_name.downcase} non-effectuées"
+          str = t_halfday('missed_halfday_participations', count: invoice.paid_missing_halfday_works)
         end
         data << [str, cur(invoice.amount)]
       end
 
-      if invoice.paid_memberships_amount.to_f > 0
-        data << ["Déjà facturé", cur(-invoice.paid_memberships_amount)]
-        data << ['Montant annuel restant', cur(invoice.remaining_memberships_amount)]
+      if invoice.paid_memberships_amount.to_f.positive?
+        data << [
+          t('paid_memberships_amount'),
+          cur(-invoice.paid_memberships_amount)
+        ]
+        data << [
+          t('remaining_annual_memberships_amount'),
+          cur(invoice.remaining_memberships_amount)
+        ]
       elsif invoice.remaining_memberships_amount?
-        data << ['Montant annuel', cur(invoice.remaining_memberships_amount)]
+        data << [
+          t('annual_memberships_amount'),
+          cur(invoice.remaining_memberships_amount)
+        ]
       end
 
       if invoice.memberships_amount?
@@ -122,17 +144,20 @@ module PDF
       end
 
       if invoice.support_amount?
-        data << ['Cotisation annuelle association', cur(invoice.support_amount)]
+        data << [
+          t('annual_support_amount'),
+          cur(invoice.support_amount)
+        ]
       end
 
       if @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
         credit_amount = cur(-(already_paid + invoice.member.credit_amount))
         credit_amount = "#{appendice_star} #{credit_amount}" if invoice.member.credit_amount.positive?
-        data << ['Avoir', credit_amount]
-        data << ['À payer', cur(@missing_amount)]
+        data << [t('credit_amount'), credit_amount]
+        data << [t('missing_amount'), cur(@missing_amount)]
       elsif (invoice.memberships_amount? && invoice.support_amount?) || invoice.object_type != 'Membership'
-        data << ['Total', cur(invoice.amount)]
+        data << [t('total'), cur(invoice.amount)]
       end
 
       move_down 30
@@ -151,7 +176,7 @@ module PDF
         t.rows(2..-1).padding_top = 0
 
         t.columns(0).rows(1..-1).filter do |cell|
-          if cell.content.in? ['Déjà facturé', 'Avoir']
+          if cell.content.in? [t('paid_memberships_amount'), t('credit_amount')]
             t.row(cell.row).font_style = :italic
           end
         end
@@ -167,19 +192,20 @@ module PDF
             invoice.object_type != 'Membership'
           t.columns(1).rows(row).borders = [:top]
           t.row(row).padding_top = 0
-          t.row(row-1).padding_bottom = 10
+          t.row(row - 1).padding_bottom = 10
         end
         if invoice.memberships_amount_description?
-          if @missing_amount != invoice.amount
-            row -= invoice.support_amount? ? 4 : 3
-          else
-            row -= invoice.support_amount? ? 3 : 1
-          end
+          row -=
+            if @missing_amount != invoice.amount
+              invoice.support_amount? ? 4 : 3
+            else
+              invoice.support_amount? ? 3 : 1
+            end
 
           t.columns(1).rows(row).borders = [:top]
           t.row(row).padding_top = 0
           t.row(row).padding_bottom = 15
-          t.row(row-1).padding_bottom = 10
+          t.row(row - 1).padding_bottom = 10
         end
       end
 
@@ -188,21 +214,21 @@ module PDF
 
       if invoice.memberships_vat_amount&.positive?
         membership_vat_text = [
-          "#{appendice_star} TTC",
-          "#{cur(invoice.memberships_net_amount, unit: 'CHF')} HT",
-          "#{cur(invoice.memberships_vat_amount, unit: 'CHF')} TVA (#{Current.acp.vat_membership_rate}%)"
+          "#{appendice_star} #{t('all_taxes_included')}",
+          "#{cur(invoice.memberships_net_amount, unit: 'CHF')} #{t('without_taxes')}",
+          "#{cur(invoice.memberships_vat_amount, unit: 'CHF')} #{t('vat')} (#{Current.acp.vat_membership_rate}%)"
         ].join(', ')
         bounding_box [0, y - 25], width: bounds.width - 24 do
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
         end
         bounding_box [0, y - 5], width: bounds.width - 24 do
-          text "N° TVA #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
+          text "N° #{t('vat')} #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
         end
         yy = 10
       end
 
       if invoice.member.credit_amount.positive?
-        positive_credit_text = "#{appendice_star} L'avoir restant sera reporté sur la facture suivante."
+        positive_credit_text = "#{appendice_star} #{t('extra_credit_amount')}"
         bounding_box [0, y - yy], width: bounds.width - 24 do
           text positive_credit_text, width: 200, align: :right, style: :italic, size: 9
         end
@@ -231,7 +257,7 @@ module PDF
         [10, 185].each do |x|
           text_box Current.acp.isr_payment_for, at: [x, y - 25], width: 120, height: 50, leading: 2
           text_box Current.acp.isr_in_favor_of, at: [x, y - 62], width: 120, height: 50, leading: 2
-          text_box "N° facture: #{invoice.id}",
+          text_box "N° #{::Invoice.model_name.human}: #{invoice.id}",
             at: [x, y - 108],
             width: 120,
             height: 50
@@ -286,13 +312,9 @@ module PDF
       @stars_count = nil
     end
 
-    def membership_period
-      "Période du #{membership_short_period(object)}"
-    end
-
     def membership_basket_size_description(basket_size)
       baskets = object.baskets.where(basket_size: basket_size)
-      "Panier: #{basket_size.name} #{basket_sizes_price_info(baskets)}"
+      "#{Basket.model_name.human}: #{basket_size.name} #{basket_sizes_price_info(baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)
@@ -306,7 +328,7 @@ module PDF
 
     def membership_distribution_description(distribution)
       baskets = object.baskets.where(distribution: distribution)
-      "Distribution: #{distribution.name} #{distributions_price_info(baskets)}"
+      "#{Distribution.model_name.human}: #{distribution.name} #{distributions_price_info(baskets)}"
     end
 
     def halfday_works_annual_price_description
@@ -321,6 +343,14 @@ module PDF
       else
         Membership.human_attribute_name("halfday_works_annual_price_default/#{i18n_scope}")
       end
+    end
+
+    def t(key, *args)
+      I18n.t("invoices.pdf.#{key}", *args)
+    end
+
+    def t_halfday(key, *args)
+      super(key, *args)
     end
   end
 end

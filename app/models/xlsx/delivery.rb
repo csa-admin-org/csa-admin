@@ -12,8 +12,8 @@ module XLSX
 
       build_recap_worksheet('Récapitulatif') unless @distribution
 
-      Array(@distribution || @distributions).each do |distribution|
-        build_distribution_worksheet(distribution)
+      Array(@distribution || @distributions).each do |dist|
+        build_distribution_worksheet(dist)
       end
     end
 
@@ -21,7 +21,7 @@ module XLSX
       [
         'livraison',
         "##{@delivery.number}",
-        @delivery.date.strftime("%Y%m%d")
+        @delivery.date.strftime('%Y%m%d')
       ].join('-') + '.xlsx'
     end
 
