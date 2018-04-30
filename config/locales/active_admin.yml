@@ -342,6 +342,9 @@ _:
           _de: Participation refusée du %{date}
           _fr: Participation refusée du %{date}
       show:
+        link_confirm:
+          _de: Êtes-vous sûr de sûr?
+          _fr: Êtes-vous sûr de sûr?
         billing:
           _de: Facturation
           _fr: Facturation
