@@ -2,6 +2,7 @@ class ACP < ActiveRecord::Base
   FEATURES = %w[
     basket_content
     gribouille
+    recurring_billing
   ]
   LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
