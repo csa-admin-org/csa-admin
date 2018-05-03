@@ -748,6 +748,10 @@ _:
         other:
           _de: Paiements
           _fr: Paiements
+      recurring_billing:
+        one:
+          _de: Facturation automatique
+          _fr: Facturation automatique
       vegetable:
         one:
           _de: Légume
