@@ -9,8 +9,7 @@ class Stats::DistributionsStat < Stats::BaseStat
         .flat_map { |m| m.baskets.map { |b| b.distribution.name } }
 
     all_distributions = Distribution.order(:name).pluck(:name)
-    all_distributions.delete('Domicile')
-    all_distributions.delete('La Chaux-du-Milieu')
+    all_distributions.select!(&:visible?)
     all_distributions.map { |name|
       [name, distributions.count { |n| n == name }]
     }.to_h

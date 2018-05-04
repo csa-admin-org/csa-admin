@@ -44,6 +44,9 @@ _:
         price:
           _de: Prix pour la préparation et/ou livraison d'un panier
           _fr: Prix pour la préparation et/ou livraison d'un panier
+        visible:
+          _de: Séléctionner "Non" si le lieu de distribution n'est plus disponible lors de l'inscription
+          _fr: Séléctionner "Non" si le lieu de distribution n'est plus disponible lors de l'inscription
       halfday:
         description:
           _de: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'

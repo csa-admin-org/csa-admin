@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_22_142503) do
+ActiveRecord::Schema.define(version: 2018_05_04_125206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -221,7 +221,9 @@ ActiveRecord::Schema.define(version: 2018_04_22_142503) do
     t.string "phones"
     t.text "note"
     t.string "language", default: "fr", null: false
+    t.boolean "visible", default: true, null: false
     t.index ["responsible_member_id"], name: "index_distributions_on_responsible_member_id"
+    t.index ["visible"], name: "index_distributions_on_visible"
   end
 
   create_table "gribouilles", id: :serial, force: :cascade do |t|
