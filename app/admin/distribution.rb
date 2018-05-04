@@ -7,6 +7,7 @@ ActiveAdmin.register Distribution do
     column :address
     column :zip
     column :city
+    column :visible
     if Distribution.pluck(:price).any?(&:positive?)
       column :price, ->(d) { number_to_currency(d.price) }
     end
@@ -21,6 +22,7 @@ ActiveAdmin.register Distribution do
         row(:language) { t("languages.#{distribution.language}") }
       end
       row(:price) { number_to_currency(distribution.price) }
+      row(:visible)
       row(:note) { simple_format distribution.note }
     end
 
@@ -50,6 +52,7 @@ ActiveAdmin.register Distribution do
           include_blank: false
       end
       f.input :price, hint: true
+      f.input :visible, as: :select, hint: true, include_blank: false
       f.input :note, input_html: { rows: 3 }
     end
 
@@ -70,7 +73,7 @@ ActiveAdmin.register Distribution do
   end
 
   permit_params(*%i[
-    name language price note
+    name language price visible note
     address_name address zip city
     emails phones responsible_member_id
   ])

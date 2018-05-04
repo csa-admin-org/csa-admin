@@ -66,6 +66,9 @@ _:
     id:
       _de: ID
       _fr: ID
+    visible:
+      _de: Visible
+      _fr: Visible
     invoice:
       _de: Facture
       _fr: Facture

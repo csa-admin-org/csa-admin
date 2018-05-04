@@ -12,6 +12,7 @@ class Distribution < ActiveRecord::Base
   has_and_belongs_to_many :basket_contents
 
   default_scope { order(:name) }
+  scope :visible, -> { where(visible: true) }
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
 
