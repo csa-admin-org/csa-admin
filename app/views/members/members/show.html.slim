@@ -71,7 +71,7 @@ section
               = f.check_box :carpooling
               = t('.carpooling_checkbox')
             label.carpooling_phone
-              = f.text_field :carpooling_phone, { id: 'carpooling_phone', placeholder: current_member.phones_array.first || t('.carpooling_phone') }
+              = f.phone_field :carpooling_phone, { id: 'carpooling_phone', placeholder: current_member.phones_array.first || t('.carpooling_phone') }
 
           = f.submit t('.halfday_form_submit'), id: 'subscribe-button'
 

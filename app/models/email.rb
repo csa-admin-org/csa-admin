@@ -56,11 +56,14 @@ module Email
 
   def halfday_reminder(halfday_participation)
     member = halfday_participation.member
-    halfday = halfday_participation.halfday
     I18n.with_locale(member.language) do
       data = halfday_participation_data(halfday_participation)
       data[:halfday_participations_with_carpooling] =
-        HalfdayParticipation.carpooling(halfday.date).map { |p|
+        HalfdayParticipation
+          .where(halfday_id: halfday_participation.halfday_id)
+          .carpooling
+          .includes(:member)
+          .map { |p|
           {
             member_name: p.member.name,
             carpooling_phone: p.carpooling_phone&.phony_formatted
