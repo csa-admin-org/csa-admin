@@ -1,4 +1,3 @@
-
 class HalfdayParticipation < ActiveRecord::Base
   include HalfdayNaming
   include HasState # only partially
@@ -18,10 +17,9 @@ class HalfdayParticipation < ActiveRecord::Base
   scope :coming, -> { joins(:halfday).merge(Halfday.coming) }
   scope :past_current_year, -> { joins(:halfday).merge(Halfday.past_current_year) }
   scope :during_year, ->(year) { joins(:halfday).merge(Halfday.during_year(year)) }
-  scope :carpooling, ->(date) {
-    joins(:halfday).where(halfdays: { date: date }).where.not(carpooling_phone: nil)
-  }
+  scope :carpooling, -> { where.not(carpooling_phone: nil) }
 
+  validates_plausible_phone :carpooling_phone, country_code: 'CH'
   validates :halfday, presence: true, uniqueness: { scope: :member_id }
   validates :participants_count,
     presence: true,
