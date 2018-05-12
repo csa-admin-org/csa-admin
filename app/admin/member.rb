@@ -231,8 +231,8 @@ ActiveAdmin.register Member do
       f.input :delivery_zip
     end
     f.inputs Member.human_attribute_name(:delivery_address) do
-      f.input :emails
-      f.input :phones
+      f.input :emails, as: :string
+      f.input :phones, as: :string
       if feature?('gribouille')
         f.input :gribouille, as: :select,
           collection: [[t('formtastic.yes'), true], [t('formtastic.no'), false]]
