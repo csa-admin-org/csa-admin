@@ -19,7 +19,7 @@ class HalfdayParticipation < ActiveRecord::Base
   scope :during_year, ->(year) { joins(:halfday).merge(Halfday.during_year(year)) }
   scope :carpooling, -> { where.not(carpooling_phone: nil) }
 
-  validates_plausible_phone :carpooling_phone, country_code: 'CH'
+  validates_plausible_phone :carpooling_phone, country_code: 'CH', on: :create
   validates :halfday, presence: true, uniqueness: { scope: :member_id }
   validates :participants_count,
     presence: true,
