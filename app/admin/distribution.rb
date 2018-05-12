@@ -49,6 +49,8 @@ ActiveAdmin.register Distribution do
         f.input :language,
           as: :select,
           collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
+          required: true,
+          prompt: '',
           include_blank: false
       end
       f.input :price, hint: true
@@ -64,8 +66,8 @@ ActiveAdmin.register Distribution do
     end
 
     f.inputs Distribution.human_attribute_name(:contact) do
-      f.input :emails
-      f.input :phones
+      f.input :emails, as: :string
+      f.input :phones, as: :string
       f.input :responsible_member, collection: Member.order(:name)
     end
 
