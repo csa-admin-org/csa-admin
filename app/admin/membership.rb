@@ -66,7 +66,7 @@ ActiveAdmin.register Membership do
           ),
             row_class: ->(b) { 'next' if b == next_basket },
             class: 'table-baskets'
-          ) do |basket|
+          ) do
             column(:delivery)
             column(:description)
             column(:distribution)
@@ -197,11 +197,11 @@ ActiveAdmin.register Membership do
     f.inputs Member.model_name.human do
       f.input :member,
         collection: Member.order(:name).map { |d| [d.name, d.id] },
-        include_blank: false
+        prompt: true
     end
     f.inputs Membership.human_attribute_name(:dates) do
-      f.input :started_on, as: :datepicker, include_blank: false
-      f.input :ended_on, as: :datepicker, include_blank: false
+      f.input :started_on, as: :datepicker
+      f.input :ended_on, as: :datepicker
       f.input :renew unless resource.new_record? || resource.current_year?
     end
 
@@ -218,11 +218,11 @@ ActiveAdmin.register Membership do
       unless resource.new_record?
         em t('.membership_edit_warning')
       end
-      f.input :basket_size, include_blank: false, input_html: { class: 'js-reset_price' }
+      f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true
       f.input :baskets_annual_price_change, hint: true
       f.input :basket_quantity
-      f.input :distribution, include_blank: false, input_html: { class: 'js-reset_price' }
+      f.input :distribution, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :distribution_price, hint: true
       if Current.acp.seasons?
         f.input :seasons,

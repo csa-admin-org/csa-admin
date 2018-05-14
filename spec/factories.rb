@@ -149,6 +149,12 @@ FactoryBot.define do
   factory :basket_complement do
     sequence(:name) { |n| "Basket Complement #{n}" }
     price 4.2
+
+    transient do
+      deliveries_count 0
+    end
+
+    delivery_ids { Delivery.current_year.limit(deliveries_count).pluck(:id) }
   end
 
   factory :distribution do

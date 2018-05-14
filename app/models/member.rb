@@ -8,6 +8,7 @@ class Member < ActiveRecord::Base
 
   acts_as_paranoid
   uniquify :token, length: 10
+  attr_accessor :public_create
 
   has_states :pending, :waiting, :trial, :active, :inactive
 
@@ -43,14 +44,16 @@ class Member < ActiveRecord::Base
       .or(Member.where(gribouille: true))
   }
 
+  validates_acceptance_of :terms_of_service
   validates :billing_year_division,
     presence: true,
     inclusion: { in: ->(_) { Current.acp.billing_year_divisions } }
   validates :name, presence: true
-  validates :emails, presence: true,
-    if: ->(member) { member.read_attribute(:gribouille) }
+  validates :emails, presence: true, on: :create
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validate :support_member_not_waiting
+  validates :waiting_basket_size_id, presence: true, if: :public_create
+  validates :waiting_distribution_id, presence: true, if: :public_create
   validates :support_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   before_validation :set_initial_support_price, on: :create

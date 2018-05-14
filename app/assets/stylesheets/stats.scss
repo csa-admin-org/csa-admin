@@ -8,9 +8,9 @@ body {
 }
 
 header {
-  $navigation-height: 60px;
+  $header-height: 60px;
 
-  height: $navigation-height;
+  height: $header-height;
   width: 100%;
   margin: 1em 0;
 
@@ -19,7 +19,7 @@ header {
     margin: 0 1em;
 
     img {
-      height: $navigation-height;
+      height: $header-height;
     }
   }
 
@@ -27,7 +27,7 @@ header {
     margin: 0 0 0 1em;
 
     li {
-      line-height: $navigation-height;
+      line-height: $header-height;
       display: inline-block;
       margin: 0 1em;
     }

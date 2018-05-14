@@ -46,6 +46,34 @@ _:
           _de: Retrouver sa page de membre
           _fr: Retrouver sa page de membre
     members:
+      new:
+        membership_text:
+          _de: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+          _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+        membership_trial_text:
+          _de: Les %{count} premières livraisons sont à l'essai et sans engagement.
+          _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+        more_info:
+          _de: Infos complémentaires
+          _fr: Infos complémentaires
+        name:
+          _de: Nom(s) de famille et prénom(s)
+          _fr: Nom(s) de famille et prénom(s)
+        note:
+          _de: Remarque(s)
+          _fr: Remarque(s)
+        submit:
+          _de: Envoyer
+          _fr: Envoyer
+        terms_of_service:
+          _de: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
+          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
+        text:
+          _de: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
+          _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
+        title:
+          _de: Formulaire d'inscription
+          _fr: Formulaire d'inscription
       show:
         cancel_link:
           _de: annuler
@@ -112,3 +140,13 @@ _:
         past_halfday_participations/halfday_work:
           _de: Vos ½ journées effectuées
           _fr: Vos ½ journées effectuées
+      welcome:
+        return_to_acp_website:
+          _de: Retourner sur %{link}
+          _fr: Retourner sur %{link}
+        text:
+          _de: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
+          _fr: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
+        title:
+          _de: Merci pour votre inscription!
+          _fr: Merci pour votre inscription!

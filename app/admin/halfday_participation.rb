@@ -44,10 +44,10 @@ ActiveAdmin.register HalfdayParticipation do
     f.inputs t('.details') do
       f.input :halfday,
         collection: Halfday.order(date: :desc),
-        include_blank: false
+        prompt: true
       f.input :member,
         collection: Member.order(:name).distinct,
-        include_blank: false
+        prompt: true
       f.input :participants_count
     end
     f.actions

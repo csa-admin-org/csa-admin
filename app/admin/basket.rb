@@ -4,10 +4,10 @@ ActiveAdmin.register Basket do
 
   form do |f|
     f.inputs do
-      f.input :basket_size, include_blank: false, input_html: { class: 'js-reset_price' }
+      f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true
       f.input :quantity
-      f.input :distribution, include_blank: false, input_html: { class: 'js-reset_price' }
+      f.input :distribution, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :distribution_price, hint: true
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|

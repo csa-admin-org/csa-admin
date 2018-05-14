@@ -57,13 +57,13 @@ ActiveAdmin.register Payment do
     f.inputs t('.details') do
       f.input :member,
         collection: Member.order(:name).distinct,
-        include_blank: false,
+        prompt: true,
         input_html: { disabled: f.object.invoice_id? }
       if f.object.invoice_id?
         f.input :member_id, as: :hidden
         f.input :invoice, collection: f.object.member.invoices, include_blank: true
       end
-      f.input :date, as: :datepicker, include_blank: false
+      f.input :date, as: :datepicker, prompt: true
       f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05,
         input_html: { value: number_with_precision(f.object.amount, precision: 2) }
       unless f.object.persisted?

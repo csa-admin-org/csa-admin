@@ -1,0 +1,134 @@
+form.formtastic {
+  input[type='text'],
+  textarea {
+    width: calc(100% - 2 * 10px);
+  }
+
+  fieldset {
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    &.actions {
+      margin-top: $small-spacing;
+    }
+
+    p {
+      font-size: $base-font-size * 0.9;
+      margin-top: $small-spacing;
+    }
+
+    ol {
+      display: block;
+
+      li {
+        display: block;
+      }
+    }
+
+    ol li.fl {
+      float: left;
+
+      &#member_zip_input {
+        width: 70px;
+        padding-right: 2em;
+      }
+
+      &#member_city_input {
+        width: calc(100% - 70px - 2em - 2 * 10px);
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  p.inline-hints {
+    font-size: $base-font-size * 0.75;
+    color: $medium-gray;
+    font-weight: 300;
+    font-style: italic;
+    margin: $small-spacing / 2 0 0 0;
+  }
+
+  legend span {
+    display: inline-block;
+    font-size: $base-font-size * 1.2;
+    line-height: $heading-line-height;
+    font-weight: 600;
+    margin: $small-spacing * 2 0 0 0;
+  }
+
+  label,
+  legend label {
+    display: inline-block;
+    width: 100%;
+    font-size: $base-font-size * 0.9;
+    font-weight: 500;
+    margin: $small-spacing 0 0 0;
+  }
+
+  li.choice,
+  li.boolean {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    label {
+      line-height: $base-line-height - 0.1;
+      padding-left: 25px;
+      text-indent: -25px;
+      width: calc(100% - 25px);
+
+      margin: $small-spacing / 2 0 0;
+      font-size: $base-font-size * 0.9;
+      font-weight: normal;
+
+      input {
+        margin: 1px 0 0 0;
+        padding: 0;
+        height: auto;
+        width: auto;
+        vertical-align: middle;
+      }
+
+      span {
+        margin: 0 0 0 $small-spacing;
+        vertical-align: middle;
+
+        em {
+          margin-left: $small-spacing / 2;
+          color: $medium-gray;
+          font-weight: 300;
+          font-style: italic;
+
+          &.price {
+            white-space: nowrap;
+          }
+        }
+      }
+
+      a {
+        i {
+          display: inline;
+          vertical-align: middle;
+          margin-left: $small-spacing / 4;
+        }
+      }
+    }
+  }
+
+  p.inline-errors {
+    color: white;
+    background-color: $red;
+    padding: $small-spacing / 2;
+    border: 3px solid $red;
+    border-radius: $base-border-radius;
+  }
+
+  #member_terms_of_service_input {
+    margin-top: $small-spacing * 2;
+  }
+}
