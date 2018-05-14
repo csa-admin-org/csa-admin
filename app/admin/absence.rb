@@ -39,14 +39,14 @@ ActiveAdmin.register Absence do
     f.inputs Member.model_name.human do
       f.input :member,
         collection: Member.joins(:memberships).distinct.order(:name).map { |d| [d.name, d.id] },
-        include_blank: false
+        prompt: true
     end
     f.inputs Absence.human_attribute_name(:note) do
       f.input :note, input_html: { rows: 5 }
     end
     f.inputs Absence.human_attribute_name(:dates) do
-      f.input :started_on, as: :datepicker, include_blank: false
-      f.input :ended_on, as: :datepicker, include_blank: false
+      f.input :started_on, as: :datepicker
+      f.input :ended_on, as: :datepicker
     end
 
     f.actions

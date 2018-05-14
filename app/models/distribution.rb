@@ -19,8 +19,20 @@ class Distribution < ActiveRecord::Base
   validates :name, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
+  def free?
+    price.zero?
+  end
+
   def require_delivery_address?
     address.blank?
+  end
+
+  def annual_price
+    (price * deliveries_count).round_to_five_cents
+  end
+
+  def deliveries_count
+    Delivery.current_year.count
   end
 
   def emails_array

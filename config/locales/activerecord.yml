@@ -365,8 +365,8 @@ _:
           _de: Ville (Livraison)
           _fr: Ville (Livraison)
         delivery_zip:
-          _de: ZIP (Livraison)
-          _fr: ZIP (Livraison)
+          _de: NPA (Livraison)
+          _fr: NPA (Livraison)
         distribution:
           _de: Distribution
           _fr: Distribution

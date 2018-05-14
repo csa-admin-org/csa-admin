@@ -35,7 +35,7 @@ ActiveAdmin.register Halfday do
 
   form do |f|
     f.inputs t('formtastic.inputs.date_and_period') do
-      f.input :date, as: :datepicker, include_blank: false
+      f.input :date, as: :datepicker
       f.input :start_time, as: :time_select, include_blank: false, minute_step: 30
       f.input :end_time, as: :time_select, include_blank: false, minute_step: 30
     end

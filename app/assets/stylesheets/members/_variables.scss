@@ -6,7 +6,7 @@ $base-line-height: 1.5;
 $heading-line-height: 1.2;
 
 // Other Sizes
-$base-border-radius: 3px;
+$base-border-radius: 5px;
 $base-spacing: $base-line-height * 1em;
 $small-spacing: $base-spacing / 2;
 
@@ -15,6 +15,7 @@ $dark-gray: #333;
 $medium-gray: #999;
 $light-gray: #ddd;
 $green: #55b946;
+$red: #cc0000;
 $dark-green: darken($green, 10);
 
 // Font Colors

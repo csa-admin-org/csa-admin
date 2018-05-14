@@ -39,7 +39,7 @@ ActiveAdmin.register Admin do
         f.input :language,
           as: :select,
           collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
-          include_blank: false
+          prompt: true
       end
     end
     f.inputs Admin.human_attribute_name(:password) do
@@ -53,7 +53,8 @@ ActiveAdmin.register Admin do
     end
     if current_admin.superadmin?
       f.inputs do
-        f.input :rights, collection: Admin::RIGHTS, include_blank: false
+        f.input :rights, collection: Admin::RIGHTS, prompt: true
+
       end
     end
     f.actions
