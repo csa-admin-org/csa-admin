@@ -205,7 +205,7 @@ ActiveAdmin.register Member do
         f.input :language,
           as: :select,
           collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
-          include_blank: false
+          prompt: true
       end
     end
     if member.pending? || member.waiting?
@@ -242,7 +242,7 @@ ActiveAdmin.register Member do
       f.input :billing_year_division,
         as: :select,
         collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] },
-        include_blank: false
+        prompt: true
       if member.inactive? && !member.future_membership
         f.input :support_member, hint: true
       end

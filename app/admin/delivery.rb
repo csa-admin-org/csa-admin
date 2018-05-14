@@ -35,7 +35,7 @@ ActiveAdmin.register Delivery do
 
   form do |f|
     f.inputs do
-      f.input :date, as: :datepicker, include_blank: false
+      f.input :date, as: :datepicker
       f.input :note
       if BasketComplement.any?
         f.input :basket_complements,

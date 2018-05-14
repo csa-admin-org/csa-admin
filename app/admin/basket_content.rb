@@ -28,16 +28,19 @@ ActiveAdmin.register BasketContent do
     f.inputs do
       f.input :delivery,
         collection: Delivery.all,
-        include_blank: false
+        required: true,
+        prompt: true
     end
     f.inputs BasketContent.human_attribute_name(:content) do
       f.input :vegetable,
         collection: Vegetable.all,
-        include_blank: false
+        required: true,
+        prompt: true
       f.input :quantity
       f.input :unit,
         collection: BasketContent::UNITS,
-        include_blank: false
+        required: true,
+        prompt: true
     end
     f.inputs Basket.model_name.human(count: 2) do
       f.input :basket_sizes,

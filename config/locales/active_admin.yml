@@ -342,9 +342,6 @@ _:
           _de: Participation refusée du %{date}
           _fr: Participation refusée du %{date}
       show:
-        link_confirm:
-          _de: Êtes-vous sûr de sûr?
-          _fr: Êtes-vous sûr de sûr?
         billing:
           _de: Facturation
           _fr: Facturation
@@ -363,6 +360,9 @@ _:
         invoice_action:
           _de: Facturer
           _fr: Facturer
+        link_confirm:
+          _de: Êtes-vous sûr de sûr?
+          _fr: Êtes-vous sûr de sûr?
         new_payment:
           _de: Nouveau paiement
           _fr: Nouveau paiement
@@ -429,9 +429,13 @@ _:
           _fr: Paramètres
       basket_size:
         new_model:
-          _de: Nouvel %{model}
-          _fr: Nouvel %{model}
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
       delivery:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+      distribution:
         new_model:
           _de: Nouvelle %{model}
           _fr: Nouvelle %{model}
@@ -440,13 +444,18 @@ _:
           _de: Nouvelle %{model}
           _fr: Nouvelle %{model}
       halfday:
-        new_model:
-          _de: Nouvelle %{model}
-          _fr: Nouvelle %{model}
         scopes:
           past:
             _de: passées
             _fr: passées
+      halfday/basket_preparation:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
+      halfday/halfday_work:
+        new_model:
+          _de: Nouvelle %{model}
+          _fr: Nouvelle %{model}
       halfday_participation:
         scopes:
           all:

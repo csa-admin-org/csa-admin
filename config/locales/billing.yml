@@ -67,17 +67,17 @@ _:
       _fr: Facturation
     year_division:
       x1:
-        _de: annuel
-        _fr: annuel
+        _de: Annuel
+        _fr: Annuel
       x12:
-        _de: mensuel
-        _fr: mensuel
+        _de: Mensuel
+        _fr: Mensuel
       x2:
-        _de: semestriel
-        _fr: semestriel
+        _de: Semestriel
+        _fr: Semestriel
       x3:
-        _de: quadrimestriel
-        _fr: quadrimestriel
+        _de: Quadrimestriel
+        _fr: Quadrimestriel
       x4:
-        _de: trimestriel
-        _fr: trimestriel
+        _de: Trimestriel
+        _fr: Trimestriel

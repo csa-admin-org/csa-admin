@@ -4,17 +4,20 @@
 
 body {
   width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   // https://css-tricks.com/snippets/css/system-font-stack/
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 #body-wrapper {
-  margin: 0 $base-spacing $base-spacing * 2 $base-spacing;
+  margin: 0 $base-spacing 0 $base-spacing;
   max-width: 100%;
 
   @media screen and (min-width: 900px) {
-    margin: 0 auto $base-spacing * 2 auto;
+    margin: 0 auto 0 auto;
     width: 800px;
   }
 }
@@ -42,7 +45,10 @@ label {
   }
 }
 
-input {
+input,
+button,
+select,
+textarea {
   display: inline-block;
   transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   font-weight: 400;
@@ -52,14 +58,19 @@ input {
   background-color: white;
   border: 1px solid $light-gray;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
 
-  width: 100%;
+input,
+button,
+textarea {
+  width: calc(100% - 22px);
   @media screen and (min-width: 900px) {
     width: 60%;
   }
 }
 
-input[type='submit'] {
+input[type='submit'],
+button[type='submit'] {
   color: white;
   border: solid 2px $green;
   padding: 9px;
@@ -68,6 +79,7 @@ input[type='submit'] {
   font-weight: 600;
   cursor: pointer;
 
+  width: 100%;
   &:hover {
     border-color: $dark-green;
     background-color: $dark-green;
@@ -121,10 +133,28 @@ table {
   }
 }
 
-@import 'members/header';
+section.welcome {
+  display: inline-block;
+  background: #e6efc2;
+  text-align: center;
+  border-radius: $base-border-radius;
+
+  p {
+    margin: $base-spacing;
+    &.link {
+      font-style: italic;
+    }
+    a {
+      white-space: nowrap;
+    }
+  }
+}
+
+@import 'members/header_and_footer';
 @import 'members/flashes';
 @import 'members/recover_token';
 @import 'members/halfdays';
 @import 'members/calendar';
 @import 'members/tooltip';
 @import 'members/labels';
+@import 'members/formtastic';

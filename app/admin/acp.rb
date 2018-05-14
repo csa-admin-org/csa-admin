@@ -51,7 +51,7 @@ ActiveAdmin.register ACP do
       f.input :fiscal_year_start_month,
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] },
-        include_blank: false
+        prompt: true
       f.input :billing_year_divisions,
         as: :check_boxes,
         collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
@@ -72,7 +72,7 @@ ActiveAdmin.register ACP do
         label: 'Appellation',
         as: :select,
         collection: ACP.halfday_i18n_scopes.map { |s| [t("halfdays.#{s}", count: 2), s] },
-        include_blank: false
+        prompt: true
       f.input :halfday_participation_deletion_deadline_in_days
     end
     f.inputs 'Fiches signature livraison (PDF)' do
