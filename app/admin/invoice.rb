@@ -125,11 +125,11 @@ ActiveAdmin.register Invoice do
     f.inputs t('.details') do
       f.input :member,
         collection: Member.order(:name).distinct,
-        include_blank: false,
+        prompt: true,
         input_html: { onchange: "self.location='#{new_invoice_path}?member_id='+$(this).val();" }
       f.hidden_field :object_id
       f.hidden_field :object_type
-      f.input :date, as: :datepicker, include_blank: false
+      f.input :date, as: :datepicker
       unless f.object.persisted?
         f.input :comment, as: :text
       end

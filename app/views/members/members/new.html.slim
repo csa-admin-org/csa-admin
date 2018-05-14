@@ -1,0 +1,42 @@
+section
+  h1 = t('.title')
+  p = t('.text')
+
+  = semantic_form_for [:members, @member] do |f|
+
+    = f.inputs do
+      = f.input :name, label: t('.name')
+      = f.input :address
+      = f.input :zip, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: 'fl' }
+      = f.input :city, wrapper_html: { class: 'fl' }
+
+    = f.inputs name: Member.human_attribute_name(:contact) do
+      = f.input :emails, as: :string, required: true
+      = f.input :phones, as: :string, required: true
+
+    = f.inputs name: Membership.model_name.human do
+      p
+        = t('.membership_text', fiscal_year_range: fiscal_year_range)
+        - if Current.acp.trial_basket_count.positive?
+          = ' '
+          = t('.membership_trial_text', count: Current.acp.trial_basket_count)
+
+      = f.input :waiting_basket_size, as: :radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
+      - if BasketComplement.any?
+        = f.input :waiting_basket_complement_ids, as: :check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
+      = f.input :waiting_distribution, as: :radio, collection: distributions_collection, label: Distribution.model_name.human, required: true
+
+    = f.inputs name: t('active_admin.resource.show.billing') do
+      = f.input :billing_year_division, as: :radio, collection: billing_year_divisions_collection
+
+    = f.inputs name: t('.more_info') do
+      = f.input :profession
+      = f.input :come_from, as: :text, input_html: { rows: 3 }
+      = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note')
+
+    = f.inputs do
+      = f.input :terms_of_service, as: :boolean, label: "<span>#{t('.terms_of_service', terms_url: Current.acp.url)}</span>".html_safe
+
+    = f.actions do
+      = f.action :submit, as: :button, label: t('.submit')
+

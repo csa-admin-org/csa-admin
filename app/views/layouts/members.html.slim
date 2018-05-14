@@ -1,9 +1,11 @@
+doctype html
 html
   head
     title = [Current.acp.name, t('.title')].join(' – ')
     = stylesheet_link_tag 'members', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'members', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    meta charset="UTF-8"
     meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
 
   body data-locale=I18n.locale
@@ -11,3 +13,5 @@ html
       = render 'layouts/members/header'
       = render 'layouts/flashes'
       = yield
+    footer
+      p = link_to_acp_website

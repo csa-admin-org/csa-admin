@@ -5,6 +5,63 @@ describe 'members page' do
 
   before { Capybara.app_host = 'http://membres.ragedevert.test' }
 
+  context 'new inscription' do
+    it 'shows a welcome page after the inscription' do
+      Current.acp.update!(languages: %w[fr de])
+      DeliveriesHelper.create_deliveries(40)
+      create(:basket_size, :small)
+      create(:basket_size, :big)
+
+      create(:basket_complement, name: 'Oeufs', price: 4.8, deliveries_count: 40)
+      create(:basket_complement, name: 'Pain', price: 6.5, deliveries_count: 20)
+
+      create(:distribution, name: 'Jardin de la main', price: 0)
+      create(:distribution, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel')
+      create(:distribution, name: 'Domicile', visible: false)
+
+      visit "/new"
+
+      fill_in "Nom(s) de famille et prénom(s)", with: 'John et Jame Doe'
+      fill_in 'Adresse', with: 'Nowhere srteet 2'
+      fill_in 'NPA', with: '2042'
+      fill_in 'Ville', with: 'Moon City'
+
+      fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
+      fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
+
+      choose 'Eveil'
+      check 'Oeufs'
+      check 'Pain'
+      choose 'Vélo'
+
+      fill_in 'Profession', with: 'Pompier'
+      fill_in "D'où venez-vous?", with: 'Bouche à oreille'
+      fill_in "Remarque(s)", with: 'Vive Rage de Vert!'
+
+      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      member = Member.last
+      expect(member.attributes.symbolize_keys).to match hash_including(
+        name: 'John et Jame Doe',
+        address: 'Nowhere srteet 2',
+        zip: '2042',
+        city: 'Moon City',
+        emails: 'john@doe.com, jane@doe.com',
+        phones: '+41771424242, +41771434444',
+        language: 'fr',
+        profession: 'Pompier',
+        come_from: 'Bouche à oreille',
+        note: 'Vive Rage de Vert!')
+      expect(member.waiting_basket_size.name).to eq 'Eveil'
+      expect(member.waiting_distribution.name).to eq 'Vélo'
+      expect(member.waiting_basket_complements.pluck(:name)).to eq %w[Oeufs Pain]
+    end
+  end
+
   context 'existing member token' do
     let!(:halfday) { create(:halfday, date: 4.days.from_now) }
 

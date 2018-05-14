@@ -66,9 +66,6 @@ _:
     id:
       _de: ID
       _fr: ID
-    visible:
-      _de: Visible
-      _fr: Visible
     invoice:
       _de: Facture
       _fr: Facture
@@ -141,9 +138,12 @@ _:
     updated_at:
       _de: Mis à jour le
       _fr: Mis à jour le
+    visible:
+      _de: Visible
+      _fr: Visible
     xlsx_recap:
       _de: Récapitulatif Excel
       _fr: Récapitulatif Excel
     zip:
-      _de: ZIP
-      _fr: ZIP
+      _de: NPA
+      _fr: NPA

@@ -49,12 +49,10 @@ ActiveAdmin.register Distribution do
         f.input :language,
           as: :select,
           collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
-          required: true,
-          prompt: '',
-          include_blank: false
+          prompt: true
       end
       f.input :price, hint: true
-      f.input :visible, as: :select, hint: true, include_blank: false
+      f.input :visible, as: :select, hint: true, prompt: true, required: true
       f.input :note, input_html: { rows: 3 }
     end
 

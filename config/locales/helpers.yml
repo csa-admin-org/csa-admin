@@ -1,5 +1,19 @@
 _:
   helpers:
+    halfdays_count_per_year/basket_preparation:
+      one:
+        _de: "%{count} mise en panier"
+        _fr: "%{count} mise en panier"
+      other:
+        _de: "%{count} mises en panier"
+        _fr: "%{count} mises en panier"
+    halfdays_count_per_year/halfday_work:
+      one:
+        _de: "%{count} demi-journée"
+        _fr: "%{count} demi-journée"
+      other:
+        _de: "%{count} demi-journées"
+        _fr: "%{count} demi-journées"
     none:
       _de: Aucun
       _fr: Aucun

@@ -1,7 +1,5 @@
 header {
-  $navigation-height: 100px;
-
-  height: $navigation-height;
+  display: inline-block;
   width: 100%;
   margin: $base-spacing 0;
 
@@ -9,7 +7,7 @@ header {
     float: left;
 
     img {
-      height: $navigation-height;
+      height: 100px;
     }
   }
 
@@ -31,6 +29,26 @@ header {
       &:hover {
         color: $dark-green;
       }
+    }
+  }
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+
+  position: sticky;
+  top: 100%;
+
+  p {
+    display: inline-block;
+    margin-top: $base-spacing * 4;
+    padding: $small-spacing $small-spacing * 2;
+    border-top: 1px dotted $light-gray;
+
+    width: auto;
+    a {
+      color: $light-gray;
     }
   }
 }

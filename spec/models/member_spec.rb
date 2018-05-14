@@ -175,9 +175,8 @@ describe Member do
     end
 
     it 'does nothing when user has no emails' do
-      member = create(:member, :pending,
-        emails: '',
-        welcome_email_sent_at: nil)
+      member = create(:member, :pending, welcome_email_sent_at: nil)
+      member.emails = ''
       expect { member.send_welcome_email }
         .not_to change { email_adapter.deliveries.size }
     end
