@@ -22,7 +22,7 @@ _:
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
       labels:
         destroy:
-          _de: Supprimer
+          _de: Löschen
           _fr: Supprimer
         reject:
           _de: Refuser
