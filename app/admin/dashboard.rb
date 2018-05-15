@@ -57,7 +57,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
       column do
         if next_delivery
-          panel t('.next_delivery', date: l(next_delivery.date, format: :long)) do
+          panel t('.next_delivery', date: l(next_delivery.date, format: :long), number: next_delivery.number) do
             counts = BasketCount.all(next_delivery)
             if counts.present?
               table_for counts do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_04_125206) do
+ActiveRecord::Schema.define(version: 2018_05_15_183450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 2018_05_04_125206) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "note"
+    t.integer "number", default: 0, null: false
     t.index ["date"], name: "index_deliveries_on_date"
   end
 

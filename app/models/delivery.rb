@@ -14,6 +14,8 @@ class Delivery < ActiveRecord::Base
   scope :coming, -> { where('date >= ?', Date.current) }
   scope :between, ->(range) { where(date: range) }
 
+  after_save :update_fiscal_year_numbers
+
   def self.create_all(count, first_date)
     date = first_date.next_weekday + 2.days # Wed
     count.times do
@@ -31,11 +33,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def display_name
-    "#{date} (#{number})"
-  end
-
-  def number
-    year_dates.index(date) + 1
+    "#{I18n.l(date)} (#{number})"
   end
 
   def add_subscribed_baskets_complement!(complement)
@@ -70,9 +68,11 @@ class Delivery < ActiveRecord::Base
     end
   end
 
-  def year_dates
-    Rails.cache.fetch "#{fy_year}_deliveries_dates" do
-      Delivery.between(fy_range).pluck(:date)
+  def update_fiscal_year_numbers
+    return unless date_previously_changed?
+
+    self.class.during_year(fiscal_year).each_with_index do |d, i|
+      d.update_column(:number, i + 1)
     end
   end
 
