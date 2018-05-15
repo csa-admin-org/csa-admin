@@ -167,6 +167,8 @@ FactoryBot.define do
 
   factory :delivery do
     date { Time.current }
+
+    after :create, &:reload
   end
 
   factory :invoice do

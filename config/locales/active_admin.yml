@@ -266,8 +266,8 @@ _:
           _de: Facturation %{fiscal_year}
           _fr: Facturation %{fiscal_year}
         next_delivery:
-          _de: 'Prochaine livraison: %{date}'
-          _fr: 'Prochaine livraison: %{date}'
+          _de: 'Prochaine livraison: %{date} (%{number})'
+          _fr: 'Prochaine livraison: %{date} (%{number})'
         no_basket_complements:
           _de: Aucun complément pour cette livraison
           _fr: Aucun complément pour cette livraison
