@@ -3,5 +3,5 @@ _:
     attributes:
       halfday_participation_count:
         count:
-          _de: Nombres (am+pm * participants)
+          _de: Anzahl (am+pm * Teilnehmer)
           _fr: Nombres (am+pm * participants)

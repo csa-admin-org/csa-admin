@@ -4,149 +4,150 @@ _:
       create:
         flash:
           notice:
-            _de: Merci pour votre inscription!
+            _de: Vielen Dank für Ihre Anmeldung!
             _fr: Merci pour votre inscription!
     halfdays:
       index:
         coming_halfday_participations/basket_preparation:
-          _de: Mises en panier à venir
+          _de: Künftige Abpackungen der Taschen
           _fr: Mises en panier à venir
         coming_halfday_participations/halfday_work:
-          _de: "½ journées à venir"
+          _de: "Künftige ½ Tage"
           _fr: "½ journées à venir"
         no_coming_halfday_participations/basket_preparation:
-          _de: Aucune mises en panier disponible pour le moment.
+          _de: Momentan gibt es keine freie Abpackungen der Taschen.
           _fr: Aucune mises en panier disponible pour le moment.
         no_coming_halfday_participations/halfday_work:
-          _de: Aucune ½ journées disponible pour le moment.
+          _de: Momentan gibt es keine freie ½ Tage.
           _fr: Aucune ½ journées disponible pour le moment.
     member_tokens:
       create:
         flash:
           notice:
-            _de: Merci! Un email vient de vous être envoyé.
+            _de: Vielen Dank! Ein Email wurde Ihnen soeben gesendet.
             _fr: Merci! Un email vient de vous être envoyé.
       show:
         email_input:
-          _de: Votre email
+          _de: Ihres Email
           _fr: Votre email
         form_text:
-          _de: Si vous ne retrouvez plus le lien vers votre page, merci d'entrer votre email dans le formulaire ci-dessous. Le lien vous sera à nouveau envoyé.
+          _de: Wenn Sie den Link zu Ihrer Mitgliedseite nicht mehr finden, tragen Sie bitte Ihre Emailadresse im Formular hier unten. Der Link wird Ihnen erneut per Email gesendet.
           _fr: Si vous ne retrouvez plus le lien vers votre page, merci d'entrer votre email dans le formulaire ci-dessous. Le lien vous sera à nouveau envoyé.
         submit:
-          _de: Retrouver
+          _de: Senden
           _fr: Retrouver
         text/basket_preparation:
-          _de: Chaque membre a accès à une page privée lui permettant de s'inscrire aux mises en panier.
+          _de: Jedes Mitglied hat Zugang zu einer persönlichen Seite, wo es sich für die Abpackungen der Taschen einschreiben kann.
           _fr: Chaque membre a accès à une page privée lui permettant de s'inscrire aux mises en panier.
         text/halfday_work:
-          _de: Chaque membre a accès à une page privée lui permettant de s'inscrire aux demi-journées.
+          _de: Jedes Mitglied hat Zugang zu einer persönlichen Seite, wo es sich für die Halbtage einschreiben kann.
           _fr: Chaque membre a accès à une page privée lui permettant de s'inscrire aux demi-journées.
         title:
-          _de: Retrouver sa page de membre
+          _de: Meine Mitgliedseite wieder finden
           _fr: Retrouver sa page de membre
     members:
       new:
         membership_text:
-          _de: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+          _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstieg im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
         membership_trial_text:
-          _de: Les %{count} premières livraisons sont à l'essai et sans engagement.
+          _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
           _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
         more_info:
-          _de: Infos complémentaires
+          _de: Zusatzinformationen
           _fr: Infos complémentaires
         name:
-          _de: Nom(s) de famille et prénom(s)
+          _de: Name(n) und Vorname(n)
           _fr: Nom(s) de famille et prénom(s)
         note:
-          _de: Remarque(s)
+          _de: Bemerkung(en)
           _fr: Remarque(s)
         submit:
-          _de: Envoyer
+          _de: Senden
           _fr: Envoyer
         terms_of_service:
-          _de: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
+          _de: Ich habe die Statuten und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
         text:
-          _de: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
+          _de: Bitte das Formular hier unten ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
         title:
-          _de: Formulaire d'inscription
+          _de: Anmeldeformular
           _fr: Formulaire d'inscription
       show:
         cancel_link:
-          _de: annuler
+          _de: abbrechen
           _fr: annuler
         carpooling:
-          _de: covoiturage
+          _de: Fahrgemeinschaften
           _fr: covoiturage
         carpooling_checkbox:
-          _de: Je viens en voiture et j'ai de la place!
+          _de: Ich komme mit dem Auto und habe freie Plätze!
           _fr: Je viens en voiture et j'ai de la place!
         carpooling_phone:
-          _de: Mon téléphone
+          _de: Meine Telefonnummer
           _fr: Mon téléphone
         carpooling_tooltip:
-          _de: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour.
+          _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer bekommen.
           _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour.
         coming_halfday_cannot_be_cancel_explanation/basket_preparation:
-          _de: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _de: Aus Organisationsgründe, die Anmeldungen zu den Abpackungen der Taschen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
         coming_halfday_cannot_be_cancel_explanation/halfday_work:
-          _de: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
         coming_halfday_participations/basket_preparation:
-          _de: Vos mises en panier à venir
+          _de: Ihre künftige Abpackungen der Taschen
           _fr: Vos mises en panier à venir
         coming_halfday_participations/halfday_work:
-          _de: Vos ½ journées à venir
+          _de: Ihre künftige ½ Tage
           _fr: Vos ½ journées à venir
         contact_link:
-          _de: contacter
+          _de: Kontakt aufnehmen
           _fr: contacter
         halfday_form_submit:
-          _de: Inscription
+          _de: Anmeldung
           _fr: Inscription
         halfday_form_title/basket_preparation:
-          _de: Inscription à une mise en panier
+          _de: Anmeldung an einer Abpackung der Taschen
           _fr: Inscription à une mise en panier
         halfday_form_title/halfday_work:
-          _de: Inscription à une ½ journée
+          _de: Anmeldung an einem ½ Tag
           _fr: Inscription à une ½ journée
         no_coming_halfday_participations:
-          _de: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
+          _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
           _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
         no_halfdays/basket_preparation:
-          _de: Désolé, aucune mise en panier disponible pour le moment.
+          _de: Sorry, momentan gibt es keine freie Abpackung der Taschen. 
           _fr: Désolé, aucune mise en panier disponible pour le moment.
         no_halfdays/halfday_work:
-          _de: Désolé, aucune ½ journée disponible pour le moment.
+          _de: Sorry, momentan gibt es keinen freien ½ Tag.
           _fr: Désolé, aucune ½ journée disponible pour le moment.
         no_halfdays_this_month/basket_preparation:
-          _de: Aucune mise en panier ce mois.
+          _de: In diesem Monat findet keine Abpakcung der Taschen statt.
           _fr: Aucune mise en panier ce mois.
         no_halfdays_this_month/halfday_work:
-          _de: Aucune ½ journée ce mois.
+          _de: In diesem Monat findet keinen ½ Tag statt.
           _fr: Aucune ½ journée ce mois.
         no_membership:
+          _de: Kein Abonnement
           _fr: Aucun abonnement
         no_past_halfday_participations:
-          _de: Rien à signaler pour le moment, on se réjouit de vous voir!
+          _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
           _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
         past_halfday_participations/basket_preparation:
-          _de: Vos mises en panier effectuées
+          _de: Ihre geleistete Abpackungen der Taschen
           _fr: Vos mises en panier effectuées
         past_halfday_participations/halfday_work:
-          _de: Vos ½ journées effectuées
+          _de: Ihre geleistete ½ Tage
           _fr: Vos ½ journées effectuées
       welcome:
         return_to_acp_website:
-          _de: Retourner sur %{link}
+          _de: Zurück zu %{link}
           _fr: Retourner sur %{link}
         text:
-          _de: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
+          _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
           _fr: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
         title:
-          _de: Merci pour votre inscription!
+          _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!

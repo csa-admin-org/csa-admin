@@ -1,153 +1,153 @@
 _:
   formtastic:
     cancel:
-      _de: Annuler
+      _de: Abbrechen
       _fr: Annuler
     create:
-      _de: Créer %{model}
+      _de: '%{model} erstellen'
       _fr: Créer %{model}
     hints:
       acp:
         halfday_participation_deletion_deadline_in_days:
-          _de: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
+          _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
       admin:
         password:
-          _de: Laisser vide si inchangé
+          _de: Leer lassen wenn unverändert
           _fr: Laisser vide si inchangé
       basket:
         basket_price:
-          _de: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
         distribution_price:
-          _de: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
       basket_complement:
         deliveries:
-          _de: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
+          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
       baskets_basket_complement:
         price:
-          _de: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
       delivery:
         basket_complements:
-          _de: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
+          _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert
           _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
       distribution:
         emails:
-          _de: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
+          _de: Jede Emailadresse (durch ein Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
         phones:
-          _de: Séparés par une virgule
+          _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule
         price:
-          _de: Prix pour la préparation et/ou livraison d'un panier
+          _de: Preis für die Abpackung und/oder Lieferung einer Tasche
           _fr: Prix pour la préparation et/ou livraison d'un panier
         visible:
-          _de: Séléctionner "Non" si le lieu de distribution n'est plus disponible lors de l'inscription
+          _de: "Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung
           _fr: Séléctionner "Non" si le lieu de distribution n'est plus disponible lors de l'inscription
       halfday:
         description:
-          _de: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
+          _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut'
           _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
         participants_limit:
-          _de: Laisser vide si aucune limite
+          _de: Leer lassen, wenn keine Grenze
           _fr: Laisser vide si aucune limite
         place_url:
-          _de: Google Maps ou autre
+          _de: Google Maps oder anderes
           _fr: Google Maps ou autre
       halfday_preset:
         place_url:
-          _de: Google Maps ou autre
+          _de: Google Maps oder anderes
           _fr: Google Maps ou autre
       member:
         delivery_address:
-          _de: Laisser vide si identique
+          _de: Leer lassen, wenn gleich
           _fr: Laisser vide si identique
         delivery_city:
-          _de: Laisser vide si identique
+          _de: Leer lassen, wenn gleich
           _fr: Laisser vide si identique
         delivery_zip:
-          _de: Laisser vide si identique
+          _de: Leer lassen, wenn gleich
           _fr: Laisser vide si identique
         emails:
-          _de: Séparés par une virgule
+          _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule
         gribouille:
-          _de: Laisser vide pour le comportement par défault (en fonction du statut)
+          _de: Leer lassen für das Standardverhalten (je nach Statusfunktion)
           _fr: Laisser vide pour le comportement par défault (en fonction du statut)
         phones:
-          _de: Séparés par une virgule
+          _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule
         support_member:
-          _de: Paye la cotisation annuelle même si aucun abonnement
+          _de: Zahlt den jährlichen Beitrag, auch wenn keine Abonnemente
           _fr: Paye la cotisation annuelle même si aucun abonnement
       membership:
         annual_halfday_works:
-          _de: Laisser blanc pour le nombre par défaut
+          _de: Leer lassen für die Standaranzahl
           _fr: Laisser blanc pour le nombre par défaut
         basket_complements_annual_price_change:
-          _de: Modifie le montant final, peu importe le nombre de paniers/compléments
+          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen/Zusätze
           _fr: Modifie le montant final, peu importe le nombre de paniers/compléments
         basket_price:
-          _de: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
         baskets_annual_price_change:
-          _de: Modifie le montant final, peu importe le nombre de paniers
+          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen
           _fr: Modifie le montant final, peu importe le nombre de paniers
         distribution_price:
-          _de: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
         halfday_works_annual_price:
-          _de: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
+          _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen
           _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
         price:
-          _de: Laisser blanc pour le prix par défauts
-          _fr: Laisser blanc pour le prix par défauts
+          _de: Leer lassen für den Standardpreis
+          _fr: Laisser blanc pour le prix par défaut
         seasons:
-          _de: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro
+          _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt
           _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro
     inputs:
       date_and_period:
-        _de: Date et horaire
+        _de: Datum und Zeitplan
         _fr: Date et horaire
       place_and_activity:
-        _de: Lieu et activité
+        _de: Standort und Arbeit
         _fr: Lieu et activité
     labels:
       member:
         salary_basket:
-          _de: Panier(s) salaire / Abonnement(s) gratuit(s)
+          _de: Lohntasche(n) / Gratis-Abonnements
           _fr: Panier(s) salaire / Abonnement(s) gratuit(s)
       membership:
         annual_halfday_works:
-          _de: Ajustement du prix de l'abonnement
+          _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
         basket_complements_annual_price_change:
-          _de: Ajustement du prix des compléments
+          _de: Anpassung Preis der Zusätze
           _fr: Ajustement du prix des compléments
         baskets_annual_price_change:
-          _de: Ajustement du prix de l'abonnement
+          _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
         halfday_works_annual_price:
-          _de: Ajustement du prix de l'abonnement
+          _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
     'no':
-      _de: Non
+      _de: Nein
       _fr: Non
     required:
-      _de: obligatoire
+      _de: obligatorisch
       _fr: obligatoire
     reset:
-      _de: Réinitiaser %{model}
+      _de: '%{model} zurücksetzten'
       _fr: Réinitiaser %{model}
     submit:
-      _de: Soumettre %{model}
+      _de: '%{model} einreichen'
       _fr: Soumettre %{model}
     update:
-      _de: Mettre à jour %{model}
+      _de: '%{model} aktualiseren'
       _fr: Mettre à jour %{model}
     'yes':
-      _de: Oui
+      _de: Ja
       _fr: Oui

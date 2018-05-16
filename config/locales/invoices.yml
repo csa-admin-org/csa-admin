@@ -3,82 +3,82 @@ _:
     cancel:
       flash:
         notice:
-          _de: Facture annulée
+          _de: Stornierte Rechnung
           _fr: Facture annulée
     object_type:
       support:
-        _de: Cotisation
+        _de: Beitrag
         _fr: Cotisation
     pdf:
       all_taxes_included:
-        _de: TTC
+        _de: inkl. MwSt.
         _fr: TTC
       annual_memberships_amount:
-        _de: Montant annuel
+        _de: Jährlicher Betrag
         _fr: Montant annuel
       annual_support_amount:
-        _de: Cotisation annuelle association
+        _de: Jährlicher Vereinsbeitrag
         _fr: Cotisation annuelle association
       basket_complements_annual_price_change:
-        _de: Ajustement du prix des compléments
+        _de: Anpassung Preis der Zusätze
         _fr: Ajustement du prix des compléments
       baskets_annual_price_change:
-        _de: Ajustement du prix des paniers
+        _de: Anpassung Preis der Taschen
         _fr: Ajustement du prix des paniers
       credit_amount:
-        _de: Avoir
+        _de: Guthaben
         _fr: Avoir
       extra_credit_amount:
-        _de: L'avoir restant sera reporté sur la facture suivante.
+        _de: Das verbleibende Guthaben wird auf der nächsten Rechnung übertragen.
         _fr: L'avoir restant sera reporté sur la facture suivante.
       missed_halfday_participation/basket_preparation:
-        _de: Mise en panier non-effectuée
+        _de: Nicht geleistete Abpackung der Taschen
         _fr: Mise en panier non-effectuée
       missed_halfday_participation/halfday_work:
-        _de: "½ journée non-effectuée"
+        _de: "nicht geleisteter ½ Tag"
         _fr: "½ journée non-effectuée"
       missed_halfday_participation_with_date/basket_preparation:
-        _de: Mise en panier du %{date} non-effectuée
+        _de: Nicht geleistete Abpackung der Taschen vom %{date}
         _fr: Mise en panier du %{date} non-effectuée
       missed_halfday_participation_with_date/halfday_work:
-        _de: "½ journée du %{date} non-effectuée"
+        _de: "nicht geleisteter ½ Tag vom %{date}"
         _fr: "½ journée du %{date} non-effectuée"
       missed_halfday_participations/basket_preparation:
-        _de: "%{count} mises en panier non-effectuées"
+        _de: "%{count} nicht geleistete Abpackungen der Taschen"
         _fr: "%{count} mises en panier non-effectuées"
       missed_halfday_participations/halfday_work:
-        _de: "%{count} ½ journées non-effectuées"
+        _de: "%{count} nicht geleistete ½ Tage"
         _fr: "%{count} ½ journées non-effectuées"
       missing_amount:
-        _de: À payer
+        _de: Zu begleichen
         _fr: À payer
       paid_memberships_amount:
-        _de: Déjà facturé
+        _de: Bereits in Rechnung gestellt
         _fr: Déjà facturé
       remaining_annual_memberships_amount:
-        _de: Montant annuel restant
+        _de: Jährlicher Betrag noch offen
         _fr: Montant annuel restant
       total:
         _de: Total
         _fr: Total
       vat:
-        _de: TVA
+        _de: MwSt.
         _fr: TVA
       without_taxes:
-        _de: HT
+        _de: exkl. MwSt.
         _fr: HT
     scope:
       amount:
-        _de: Facturé
+        _de: In Rechnung gestellt
         _fr: Facturé
       balance:
-        _de: Payé
+        _de: Eingezahlt
         _fr: Payé
       missing_amount:
-        _de: Restant à facturer
+        _de: Noch in Rechnung zu stellen
         _fr: Restant à facturer
     send_email:
       flash:
         notice:
-          _de: Email envoyé
+          _de: Email gesendet
           _fr: Email envoyé

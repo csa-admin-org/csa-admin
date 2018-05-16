@@ -3,106 +3,106 @@ _:
     distance_in_words:
       about_x_hours:
         one:
-          _de: environ une heure
+          _de: ca. eine Stunde
           _fr: environ une heure
         other:
-          _de: environ %{count} heures
+          _de: ca. %{count} Stunden
           _fr: environ %{count} heures
       about_x_months:
         one:
-          _de: environ un mois
+          _de: ca. ein Monat
           _fr: environ un mois
         other:
-          _de: environ %{count} mois
+          _de: ca. %{count} Monate
           _fr: environ %{count} mois
       about_x_years:
         one:
-          _de: environ un an
+          _de: ca. ein Jahr
           _fr: environ un an
         other:
-          _de: environ %{count} ans
+          _de: ca. %{count} Jahre
           _fr: environ %{count} ans
       almost_x_years:
         one:
-          _de: presqu'un an
+          _de: nahezu ein Jahr
           _fr: presqu'un an
         other:
-          _de: presque %{count} ans
+          _de: nahezu %{count} Jahre
           _fr: presque %{count} ans
       half_a_minute:
-        _de: une demi-minute
+        _de: eine halbe Minute
         _fr: une demi-minute
       less_than_x_minutes:
         one:
-          _de: moins d'une minute
+          _de: weniger als eine Minute
           _fr: moins d'une minute
         other:
-          _de: moins de %{count} minutes
+          _de: wenige als %{count} Minuten
           _fr: moins de %{count} minutes
         zero:
-          _de: moins d'une minute
+          _de: weniger als eine Minute
           _fr: moins d'une minute
       less_than_x_seconds:
         one:
-          _de: moins d'une seconde
+          _de: weniger als eine Sekunde
           _fr: moins d'une seconde
         other:
-          _de: moins de %{count} secondes
+          _de: weniger als %{count} Sekunden
           _fr: moins de %{count} secondes
         zero:
-          _de: moins d'une seconde
+          _de: weniger als eine Sekunde
           _fr: moins d'une seconde
       over_x_years:
         one:
-          _de: plus d'un an
+          _de: länger als ein Jahr
           _fr: plus d'un an
         other:
-          _de: plus de %{count} ans
+          _de: länger als %{count} Jahre
           _fr: plus de %{count} ans
       x_days:
         one:
-          _de: 1 jour
+          _de: 1 Tag
           _fr: 1 jour
         other:
-          _de: "%{count} jours"
+          _de: "%{count} Tage"
           _fr: "%{count} jours"
       x_minutes:
         one:
-          _de: 1 minute
+          _de: 1 Minute
           _fr: 1 minute
         other:
-          _de: "%{count} minutes"
+          _de: "%{count} Minuten"
           _fr: "%{count} minutes"
       x_months:
         one:
-          _de: 1 mois
+          _de: 1 Monat
           _fr: 1 mois
         other:
-          _de: "%{count} mois"
+          _de: "%{count} Monate"
           _fr: "%{count} mois"
       x_seconds:
         one:
-          _de: 1 seconde
+          _de: 1 Sekunde
           _fr: 1 seconde
         other:
-          _de: "%{count} secondes"
+          _de: "%{count} Sekunden"
           _fr: "%{count} secondes"
     prompts:
       day:
-        _de: Jour
+        _de: Tag
         _fr: Jour
       hour:
-        _de: Heure
+        _de: Stunde
         _fr: Heure
       minute:
         _de: Minute
         _fr: Minute
       month:
-        _de: Mois
+        _de: Monat
         _fr: Mois
       second:
-        _de: Seconde
+        _de: Sekunde
         _fr: Seconde
       year:
-        _de: Année
+        _de: Jahr
         _fr: Année
