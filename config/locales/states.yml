@@ -2,46 +2,46 @@ _:
   states:
     halfday_participation:
       coming:
-        _de: à venir
+        _de: künftig
         _fr: à venir
       pending:
-        _de: en attente de validation
+        _de: wartet auf Bestätigung
         _fr: en attente de validation
       rejected:
-        _de: refusée
+        _de: abgelehnt
         _fr: refusée
       validated:
-        _de: validée
+        _de: bestätigt
         _fr: validée
     invoice:
       canceled:
-        _de: annulée
+        _de: abgesagt
         _fr: annulée
       closed:
-        _de: fermée
+        _de: geschlossen
         _fr: fermée
       not_sent:
-        _de: non-envoyée
+        _de: nicht gesendet
         _fr: non-envoyée
       open:
-        _de: ouverte
+        _de: offen
         _fr: ouverte
     member:
       active:
-        _de: actif
+        _de: activ
         _fr: actif
       inactive:
-        _de: inactif
+        _de: inactiv
         _fr: inactif
       pending:
-        _de: à valider
+        _de: zu bestätigen
         _fr: à valider
       support:
-        _de: soutien
+        _de: Unterstützung
         _fr: soutien
       trial:
-        _de: essai
+        _de: Probe
         _fr: essai
       waiting:
-        _de: attente
+        _de: Warteliste
         _fr: attente
