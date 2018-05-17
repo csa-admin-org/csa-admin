@@ -35,13 +35,13 @@ _:
         _de: Nicht geleistete Abpackung der Taschen
         _fr: Mise en panier non-effectuée
       missed_halfday_participation/halfday_work:
-        _de: "nicht geleisteter ½ Tag"
+        _de: nicht geleisteter ½ Tag
         _fr: "½ journée non-effectuée"
       missed_halfday_participation_with_date/basket_preparation:
         _de: Nicht geleistete Abpackung der Taschen vom %{date}
         _fr: Mise en panier du %{date} non-effectuée
       missed_halfday_participation_with_date/halfday_work:
-        _de: "nicht geleisteter ½ Tag vom %{date}"
+        _de: nicht geleisteter ½ Tag vom %{date}
         _fr: "½ journée du %{date} non-effectuée"
       missed_halfday_participations/basket_preparation:
         _de: "%{count} nicht geleistete Abpackungen der Taschen"
