@@ -1,6 +1,6 @@
 # Helper available in IRB, which helps choosing a ACP to enter.
 def enter
-  acps = ACP.order(:name)
+  acps = ACP.order(:id)
   options = acps.map { |acp| "  #{acp.id}: #{acp.name}" }
 
   puts "Select ACP context: (empty for no ACP)"
