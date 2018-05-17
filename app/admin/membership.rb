@@ -219,11 +219,11 @@ ActiveAdmin.register Membership do
         em t('.membership_edit_warning')
       end
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
-      f.input :basket_price, hint: true
+      f.input :basket_price, hint: true, required: false
       f.input :baskets_annual_price_change, hint: true
       f.input :basket_quantity
       f.input :distribution, prompt: true, input_html: { class: 'js-reset_price' }
-      f.input :distribution_price, hint: true
+      f.input :distribution_price, hint: true, required: false
       if Current.acp.seasons?
         f.input :seasons,
           as: :check_boxes,
@@ -237,7 +237,7 @@ ActiveAdmin.register Membership do
             collection: BasketComplement.all,
             prompt: true,
             input_html: { class: 'js-reset_price' }
-          ff.input :price, hint: true
+          ff.input :price, hint: true, required: false
           ff.input :quantity
           if Current.acp.seasons?
             ff.input :seasons,

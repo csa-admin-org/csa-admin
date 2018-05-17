@@ -32,9 +32,9 @@ ActiveAdmin.register ACP do
         collection: ACP.features.map { |f| [t("activerecord.models.#{f}.one"), f] }
     end
     f.inputs 'Mailer (Postmark)' do
-      f.input :email_api_token
-      f.input :email_default_host
-      f.input :email_default_from
+      f.input :email_api_token, as: :string
+      f.input :email_default_host, as: :string
+      f.input :email_default_from, as: :string
     end
     f.inputs 'Abonnement' do
       f.input :trial_basket_count
