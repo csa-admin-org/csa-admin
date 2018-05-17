@@ -1,58 +1,58 @@
 _:
   attributes:
     activity:
-      _de: Activité
+      _de: Arbeit
       _fr: Activité
     address:
       _de: Adresse
       _fr: Adresse
     amount:
-      _de: Montant
+      _de: Betrag
       _fr: Montant
     annual_price:
-      _de: Prix annuel
+      _de: Jährlicher Preis
       _fr: Prix annuel
     basket_size:
-      _de: Taille panier
+      _de: Taschengrösse
       _fr: Taille panier
     basket_size_id:
-      _de: Taille panier
+      _de: Taschengrösse
       _fr: Taille panier
     city:
-      _de: Ville
+      _de: Stadt
       _fr: Ville
     comment:
-      _de: Commentaire
+      _de: Kommentar
       _fr: Commentaire
     contact:
-      _de: Contact
+      _de: Kontakt
       _fr: Contact
     created_at:
-      _de: Créé le
+      _de: Erstellt am
       _fr: Créé le
     date:
-      _de: Date
+      _de: Datum
       _fr: Date
     dates:
-      _de: Dates
+      _de: Daten
       _fr: Dates
     delivery:
-      _de: Livraison
+      _de: Lieferung
       _fr: Livraison
     delivery_id:
-      _de: Livraison
+      _de: Lieferung
       _fr: Livraison
     description:
-      _de: Description
+      _de: Beschreibung
       _fr: Description
     difference:
-      _de: Différence
+      _de: Abweichung
       _fr: Différence
     distribution:
-      _de: Distribution
+      _de: Depot
       _fr: Distribution
     distribution_id:
-      _de: Distribution
+      _de: Depot
       _fr: Distribution
     email:
       _de: Email
@@ -61,89 +61,89 @@ _:
       _de: Email(s)
       _fr: Email(s)
     end_time:
-      _de: Heure de fin
+      _de: Endzeit
       _fr: Heure de fin
     id:
       _de: ID
       _fr: ID
     invoice:
-      _de: Facture
+      _de: Rechnung
       _fr: Facture
     invoice_id:
-      _de: Facture ID
+      _de: Rechnung ID
       _fr: Facture ID
     language:
-      _de: Langue
+      _de: Sprache
       _fr: Langue
     member:
-      _de: Membre
+      _de: Mitglied
       _fr: Membre
     member_id:
-      _de: Membre
+      _de: Mitglied
       _fr: Membre
     name:
-      _de: Nom
+      _de: Name
       _fr: Nom
     other:
-      _de: Autre
+      _de: Weiteres
       _fr: Autre
     participants:
-      _de: Participants
+      _de: Teilnehmer
       _fr: Participants
     participants_count:
-      _de: Participants
+      _de: Teilnehmer
       _fr: Participants
     participants_limit:
-      _de: Limite de participants
+      _de: Begrenzung Anzahl Teilnehmer
       _fr: Limite de participants
     participations:
-      _de: Participations
+      _de: Teilnehmer
       _fr: Participations
     period:
-      _de: Horaire
+      _de: Zeitplan
       _fr: Horaire
     phones:
-      _de: Téléphone(s)
+      _de: Telefon(e)
       _fr: Téléphone(s)
     place:
-      _de: Lieu
+      _de: Standort
       _fr: Lieu
     place_url:
-      _de: Lieu URL
+      _de: Standort URL
       _fr: Lieu URL
     price:
-      _de: Prix
+      _de: Preis
       _fr: Prix
     quantity:
-      _de: Quantité
+      _de: Menge
       _fr: Quantité
     sent_at:
-      _de: Envoyé le
+      _de: Gesendet am
       _fr: Envoyé le
     start_time:
-      _de: Heure de début
+      _de: Anfangszeit
       _fr: Heure de début
     state:
-      _de: Statut
+      _de: Status
       _fr: Statut
     status:
-      _de: Statut
+      _de: Status
       _fr: Statut
     total:
       _de: Total
       _fr: Total
     unit_price:
-      _de: Prix unité
+      _de: Einheitspreis
       _fr: Prix unité
     updated_at:
-      _de: Mis à jour le
+      _de: Aktualisiert am
       _fr: Mis à jour le
     visible:
-      _de: Visible
+      _de: Sichtbar
       _fr: Visible
     xlsx_recap:
-      _de: Récapitulatif Excel
+      _de: Zusammenfassung Excel
       _fr: Récapitulatif Excel
     zip:
-      _de: NPA
+      _de: PLZ
       _fr: NPA

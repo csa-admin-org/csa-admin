@@ -4,10 +4,10 @@ _:
       reject:
         flash:
           alert:
-            _de: Les participations à venir ne peuvent pas encore être refusées
+            _de: Die künftige Teilnahmen können noch nicht abgelehnt werden
             _fr: Les participations à venir ne peuvent pas encore être refusées
       validate:
         flash:
           alert:
-            _de: Les participations à venir ne peuvent pas encore être validées
+            _de: Die künftige Teilnahmen können noch nicht bestätigt werden
             _fr: Les participations à venir ne peuvent pas encore être validées

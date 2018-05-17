@@ -3,27 +3,27 @@ _:
     members:
       header:
         contact:
-          _de: Contact
+          _de: Kontakt
           _fr: Contact
       title:
-        _de: Page de Membre
+        _de: Mitgliedseite
         _fr: Page de Membre
     stats:
       navigation:
         baskets:
-          _de: Paniers
+          _de: Taschen
           _fr: Paniers
         deliveries:
-          _de: Distributions
+          _de: Depots
           _fr: Distributions
         halfday_works:
-          _de: Participation des membres
+          _de: Mitarbeit der Mitglieder
           _fr: Participation des membres
         map:
-          _de: Carte
+          _de: Karte
           _fr: Carte
         members:
-          _de: Membres
+          _de: Mitglieder
           _fr: Membres
       title:
         _de: Stats

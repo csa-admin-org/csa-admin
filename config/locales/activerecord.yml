@@ -3,20 +3,20 @@ _:
     attributes:
       absence:
         ended_on:
-          _de: Fin
+          _de: Ende
           _fr: Fin
         started_on:
-          _de: Début
+          _de: Anfang
           _fr: Début
       acp:
         billing_year_divisions:
-          _de: Intervalle de paiement
+          _de: Zahlungsintervall
           _fr: Intervalle de paiement
         ccp:
-          _de: Numéro CCP
+          _de: Postkonto
           _fr: Numéro CCP
         delivery_pdf_footer:
-          _de: Bas de page
+          _de: Fusszeile
           _fr: Bas de page
         email:
           _de: Email
@@ -31,389 +31,389 @@ _:
           _de: Default host
           _fr: Default host
         features:
-          _de: Fonctionalités
+          _de: Funktionen
           _fr: Fonctionalités
         fiscal_year_start_month:
-          _de: 1er mois de l'année fiscale
+          _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
         halfday_participation_deletion_deadline_in_days:
-          _de: Délai de désinscription (en jours)
+          _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
         invoice_footer:
-          _de: Facture bas de page
+          _de: Fusszeile Rechnung
           _fr: Facture bas de page
         invoice_info:
-          _de: Facture ligne info
+          _de: Informationszeile Rechnung
           _fr: Facture ligne info
         isr_identity:
-          _de: Identité BVR
+          _de: Kennzeichnung ESR
           _fr: Identité BVR
         isr_in_favor_of:
-          _de: En faveur de (BVR)
+          _de: Zugunsten von (ESR)
           _fr: En faveur de (BVR)
         isr_payment_for:
-          _de: Versement pour (BVR)
+          _de: Einzahlung für (ESR)
           _fr: Versement pour (BVR)
         phone:
-          _de: Téléphone
+          _de: Telefon
           _fr: Téléphone
         summer_month_range_max:
-          _de: Été finis fin
-          _fr: Été finis fin
+          _de: Sommer endet Ende
+          _fr: Été finit fin
         summer_month_range_min:
-          _de: Été commence début
+          _de: Sommer fängt an Anfang
           _fr: Été commence début
         support_price:
-          _de: Cotisation anuelle
+          _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
         trial_basket_count:
-          _de: Paniers à l'essai
+          _de: Probetaschen
           _fr: Paniers à l'essai
         url:
-          _de: Site URL
+          _de: Webseite URL
           _fr: Site URL
         vat_membership_rate:
-          _de: Taux TVA abonnement (en %)
+          _de: Mehrwertsteuersatz Abonnement (en %)
           _fr: Taux TVA abonnement (en %)
         vat_number:
-          _de: Numéro TVA
+          _de: Mehrwertsteuernummer
           _fr: Numéro TVA
       admin:
         confirmation_sent_at:
-          _de: Date d'envoi de la confirmation
+          _de: Versanddatum der Bestätitgung
           _fr: Date d'envoi de la confirmation
         confirmation_token:
-          _de: Clé de confirmation du mot de passe
+          _de: Bestätigungsschlüssel des Passworts
           _fr: Clé de confirmation du mot de passe
         confirmed_at:
-          _de: Confirmé à
+          _de: Bestätigt am
           _fr: Confirmé à
         created_at:
-          _de: Enregistré à
+          _de: Erstellt am
           _fr: Enregistré à
         current_password:
-          _de: Mot de passe actuel
+          _de: Aktuelles Passwort
           _fr: Mot de passe actuel
         current_sign_in_at:
-          _de: Date de la connexion actuelle
+          _de: Datum der aktuellen Anmeldung
           _fr: Date de la connexion actuelle
         current_sign_in_ip:
-          _de: IP de la connexion actuelle
+          _de: IP der aktuellen Anmeldung
           _fr: IP de la connexion actuelle
         encrypted_password:
-          _de: Mot de passe crypté
+          _de: Verschlüsseltes Passwort
           _fr: Mot de passe crypté
         failed_attempts:
-          _de: Tentatives échouées
+          _de: Fehlversuche
           _fr: Tentatives échouées
         last_sign_in_at:
-          _de: Date de la dernière connexion
+          _de: Datum der letzten Anmeldung
           _fr: Date de la dernière connexion
         last_sign_in_ip:
-          _de: IP de la dernière connexion
+          _de: IP der letzten Anmeldung
           _fr: IP de la dernière connexion
         locked_at:
-          _de: Verrouillé à
+          _de: Gesperrt am
           _fr: Verrouillé à
         password:
-          _de: Mot de passe
+          _de: Passwort
           _fr: Mot de passe
         password_confirmation:
-          _de: Confirmation du mot de passe
+          _de: Passwortbestätitgung
           _fr: Confirmation du mot de passe
         remember_created_at:
-          _de: Mémorisé à
+          _de: Gespeichert am
           _fr: Mémorisé à
         remember_me:
-          _de: Se souvenir de moi?
+          _de: Angemeldet bleiben?
           _fr: Se souvenir de moi?
         reset_password_sent_at:
-          _de: Clé de réinitialisation créée à
+          _de: Rücksetzungsschlüssel erstellt am
           _fr: Clé de réinitialisation créée à
         reset_password_token:
-          _de: Clé de réinitialisation du mot de passe
+          _de: Rücksetzungschlüssel des Passworts
           _fr: Clé de réinitialisation du mot de passe
         rights:
-          _de: Droit d'accès
+          _de: Zugangsrecht
           _fr: Droit d'accès
         sign_in_count:
-          _de: Nombre des connexions
+          _de: Anzahl der Anmeldungen
           _fr: Nombre des connexions
         unconfirmed_email:
-          _de: Courriel non confirmé
+          _de: Unbestätigtes Email
           _fr: Courriel non confirmé
         unlock_token:
-          _de: Clé de déverrouillage
+          _de: Freischaltungsschlüssel
           _fr: Clé de déverrouillage
         updated_at:
-          _de: Date de mise à jour
+          _de: Datum der Aktualisierung
           _fr: Date de mise à jour
       basket:
         basket_price:
-          _de: Prix panier
+          _de: Preis Tasche
           _fr: Prix panier
         basket_size:
-          _de: Taille
+          _de: Grösse
           _fr: Taille
         complement_ids:
-          _de: Compléments
+          _de: Zusätze
           _fr: Compléments
         description:
-          _de: Panier
+          _de: Tasche
           _fr: Panier
         distribution_price:
-          _de: Prix distribution
+          _de: Preis Lieferung
           _fr: Prix distribution
       basket_complement:
         deliveries:
-          _de: Livraisons
+          _de: Lieferungen
           _fr: Livraisons
       basket_content:
         basket_size:
-          _de: Panier
+          _de: Tasche
           _fr: Panier
         content:
-          _de: Contenu
+          _de: Inhalt
           _fr: Contenu
         distributions:
-          _de: Distributions
+          _de: Depots
           _fr: Distributions
         loses:
-          _de: Pertes
+          _de: Verluste
           _fr: Pertes
         same_basket_quantities:
-          _de: Même quantité pour tous les paniers
+          _de: Gleiche Menge für alle Taschen
           _fr: Même quantité pour tous les paniers
         unit:
-          _de: Unité
+          _de: Einheit
           _fr: Unité
         vegetable:
-          _de: Légume
+          _de: Gemüse
           _fr: Légume
       basket_size:
         annual_halfday_works/basket_preparation:
-          _de: Mises en panier par année
+          _de: Abpackungen der Taschen pro Jahr
           _fr: Mises en panier par année
         annual_halfday_works/halfday_work:
-          _de: "½ journées de travail par année"
+          _de: "½ Tage Mitarbeit pro Jahr"
           _fr: "½ journées de travail par année"
       baskets_basket_complement:
         basket_complement:
-          _de: Complément
+          _de: Zusatz
           _fr: Complément
       delivery:
         basket_complements:
-          _de: Compléments paniers
+          _de: Taschenzusätze
           _fr: Compléments paniers
         signature:
-          _de: Signature
+          _de: Unterschrift
           _fr: Signature
         signature_sheets:
-          _de: Fiches Signature
+          _de: Unterschriftszettel
           _fr: Fiches Signature
       distribution:
         address_name:
-          _de: Nom
+          _de: Name
           _fr: Nom
         price:
-          _de: Prix/panier
+          _de: Preis/Tasche
           _fr: Prix/panier
         responsible_member:
-          _de: Membre responsable
+          _de: Verantwortliches Mitglied
           _fr: Membre responsable
       gribouille:
         attachment_0:
-          _de: Pièce jointe 1
+          _de: Anhang 1
           _fr: Pièce jointe 1
         attachment_1:
-          _de: Pièce jointe 2
+          _de: Anhang 2
           _fr: Pièce jointe 2
         attachment_2:
-          _de: Pièce jointe 3
+          _de: Anhang 3
           _fr: Pièce jointe 3
         basket_content:
-          _de: Contenu du panier
+          _de: Inhalt der Tasche
           _fr: Contenu du panier
         events:
-          _de: Événements à venir
+          _de: Künftige Veranstaltungen
           _fr: Événements à venir
         fields_echo:
-          _de: Écho des champs
+          _de: Echo aus dem Feld
           _fr: Écho des champs
         footer:
-          _de: Le mot de la faim
+          _de: Schlusswort
           _fr: Le mot de la faim
         header:
-          _de: En-tête
+          _de: Kopfzeile
           _fr: En-tête
       halfday_participation/basket_preparation:
         carpooling_phone:
-          _de: Téléphone covoiturage
+          _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage
         created_at:
-          _de: Enregistrée à
+          _de: Erstellt am
           _fr: Enregistrée à
         halfday:
-          _de: Mise en panier
+          _de: Abpackungen der Taschen
           _fr: Mise en panier
         invoiced_at:
-          _de: Facturée le
+          _de: In Rechnung gestellt am
           _fr: Facturée le
         member_id:
-          _de: Membre ID
+          _de: Mitglied ID
           _fr: Membre ID
         member_name:
-          _de: Membre
+          _de: Mitglied
           _fr: Membre
         member_phones:
-          _de: Téléphones
+          _de: Telefone
           _fr: Téléphones
         participants_count:
-          _de: Participants
+          _de: Teilnehmer
           _fr: Participants
         rejected_at:
-          _de: Refusée à
+          _de: Abgelehnt am
           _fr: Refusée à
         updated_at:
-          _de: Mise à jour à
+          _de: Aktualisiert am
           _fr: Mise à jour à
         validated_at:
-          _de: Validée à
+          _de: Bestätigt am
           _fr: Validée à
         validator:
-          _de: Validateur
+          _de: Bestätigt durch
           _fr: Validateur
       halfday_participation/halfday_work:
         carpooling_phone:
-          _de: Téléphone covoiturage
+          _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage
         created_at:
-          _de: Enregistrée à
+          _de: Erstellt am
           _fr: Enregistrée à
         halfday:
-          _de: "½ Journée"
+          _de: "½ Tag"
           _fr: "½ Journée"
         invoiced_at:
-          _de: Facturée le
+          _de: In Rechnung gestellt am
           _fr: Facturée le
         member_id:
-          _de: Membre ID
+          _de: Mitglied ID
           _fr: Membre ID
         member_name:
-          _de: Membre
+          _de: Mitglied
           _fr: Membre
         member_phones:
-          _de: Téléphones
+          _de: Telefone
           _fr: Téléphones
         rejected_at:
-          _de: Refusée à
+          _de: Abgelehnt am
           _fr: Refusée à
         updated_at:
-          _de: Mise à jour à
+          _de: Aktualisiert am
           _fr: Mise à jour à
         validated_at:
-          _de: Validée à
+          _de: Bestätigt am
           _fr: Validée à
         validator:
-          _de: Validateur
+          _de: Bestätigt durch
           _fr: Validateur
       invoice:
         balance:
-          _de: Payé
+          _de: Eingezahlt
           _fr: Payé
         missing_amount:
-          _de: Montant manquant
+          _de: Fehlender Betrag
           _fr: Montant manquant
         object:
-          _de: Objet
+          _de: Objekt
           _fr: Objet
         object_type:
-          _de: Objet
+          _de: Objekt
           _fr: Objet
         overdue_notice_sent_at:
-          _de: Dernier rappel envoyé le
+          _de: Letzte Mahnung gesendet am
           _fr: Dernier rappel envoyé le
         overdue_notices_count:
-          _de: Rappels
+          _de: Mahnungen
           _fr: Rappels
         paid_missing_halfday_works:
-          _de: Nombre / Participants
+          _de: Anzahl / Teilnehmer
           _fr: Nombre / Participants
       member:
         basket_complements:
-          _de: Compléments panier
+          _de: Taschenzusätze
           _fr: Compléments panier
         basket_size:
-          _de: Taille panier
+          _de: Taschengrösse
           _fr: Taille panier
         billing_year_division:
-          _de: Intervalle de paiement
+          _de: Einzahlungsintervall
           _fr: Intervalle de paiement
         come_from:
-          _de: D'où venez-vous?
+          _de: Woher kommen Sie aus?
           _fr: D'où venez-vous?
         current_membership:
-          _de: Abonnement (en cours)
+          _de: Abonnement (laufend)
           _fr: Abonnement (en cours)
         deliveries_received_count_since_first_membership:
-          _de: Paniers reçus
+          _de: Erhaltene Taschen
           _fr: Paniers reçus
         delivery_address:
-          _de: Adresse (Livraison)
+          _de: Adresse (Lieferung)
           _fr: Adresse (Livraison)
         delivery_city:
-          _de: Ville (Livraison)
+          _de: Stadt (Lieferung)
           _fr: Ville (Livraison)
         delivery_zip:
-          _de: NPA (Livraison)
+          _de: PLZ (Lieferung)
           _fr: NPA (Livraison)
         distribution:
-          _de: Distribution
+          _de: Depot
           _fr: Distribution
         food_note:
-          _de: Note alimentaire
+          _de: Notiz Lebensmittel
           _fr: Note alimentaire
         invoices_amount:
-          _de: Montant facturé
+          _de: In Rechnung gestellter Betrag
           _fr: Montant facturé
         page_url:
-          _de: URL page perso.
+          _de: URL persönliche Webseite.
           _fr: URL page perso.
         payments_amount:
-          _de: Paiements versés
+          _de: Einzahlungen erfolgt
           _fr: Paiements versés
         profession:
-          _de: Profession
+          _de: Beruf
           _fr: Profession
         salary_basket:
-          _de: Panier(s) salaire
+          _de: Lohntasche(n)
           _fr: Panier(s) salaire
         support_member:
-          _de: Membre de soutien
+          _de: Unterstützungsmitglied
           _fr: Membre de soutien
         support_price:
-          _de: Cotisation anuelle
+          _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
         validated_at:
-          _de: Validé le
+          _de: Bestätigt am
           _fr: Validé le
         validator:
-          _de: Validé par
+          _de: Bestätigt durch
           _fr: Validé par
         waiting:
-          _de: Sur liste d'attente
+          _de: Auf Warteliste
           _fr: Sur liste d'attente
         waiting_basket_complements:
-          _de: Compléments panier en attente
+          _de: Taschenzusätze Warteliste
           _fr: Compléments panier en attente
         waiting_basket_size:
-          _de: Taille panier en attente
+          _de: Taschengrösse Warteliste
           _fr: Taille panier en attente
         waiting_distribution:
-          _de: Distribution en attente
+          _de: Depot Warteliste
           _fr: Distribution en attente
         waiting_started_at:
-          _de: Sur liste d'attente depuis
+          _de: Auf Warteliste seit
           _fr: Sur liste d'attente depuis
         with_address:
           _de: Adresse
@@ -422,303 +422,303 @@ _:
           _de: Email
           _fr: Email
         with_name:
-          _de: Nom
+          _de: Name
           _fr: Nom
         with_phone:
-          _de: Téléphone
+          _de: Telefon
           _fr: Téléphone
       membership:
         basket_complements:
-          _de: Compléments panier
+          _de: Taschenzusätze
           _fr: Compléments panier
         basket_complements_annual_price_change:
-          _de: Ajustement du prix de l'abonnement (compléments)
+          _de: Anpassung Preis Abonnement (Zusätze)
           _fr: Ajustement du prix de l'abonnement (compléments)
         basket_complements_price:
-          _de: Prix compléments
+          _de: Preis Zusätze
           _fr: Prix compléments
         basket_price:
-          _de: Prix panier
+          _de: Preis Tasche
           _fr: Prix panier
         basket_quantity:
-          _de: Quantité
+          _de: Menge
           _fr: Quantité
         basket_sizes_price:
-          _de: Prix paniers
+          _de: Preis Taschen
           _fr: Prix paniers
         baskets:
-          _de: Paniers
+          _de: Taschen
           _fr: Paniers
         baskets_annual_price_change:
-          _de: Ajustement du prix de l'abonnement (paniers)
+          _de: Anpassung Preis Abonnement (Taschen)
           _fr: Ajustement du prix de l'abonnement (paniers)
         baskets_count:
-          _de: Paniers
+          _de: Taschen
           _fr: Paniers
         deliveries_count:
-          _de: Paniers
+          _de: Taschen
           _fr: Paniers
         deliveries_received_count:
-          _de: Paniers livrés
+          _de: Gelieferte Taschen
           _fr: Paniers livrés
         distribution:
-          _de: Distribution
+          _de: Depot
           _fr: Distribution
         distribution_id:
-          _de: Distribution
+          _de: Depot
           _fr: Distribution
         distribution_price:
-          _de: Prix distribution
+          _de: Preis Lieferung
           _fr: Prix distribution
         distributions_price:
-          _de: Prix distributions
+          _de: Preis Lieferungen
           _fr: Prix distributions
         ended_on:
-          _de: Fin
+          _de: Ende
           _fr: Fin
         halfday_works/basket_preparation:
-          _de: Mises en panier demandées
+          _de: Verlangte Abpackungen Taschen
           _fr: Mises en panier demandées
         halfday_works/halfday_work:
-          _de: "½ journées demandées"
+          _de: "½ Tage verlangt"
           _fr: "½ journées demandées"
         halfday_works_annual_price/basket_preparation:
-          _de: Ajustement du prix de l'abonnement (mises en panier)
+          _de: Anpassung Preis Abonnement (Abpackungen Taschen)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
         halfday_works_annual_price/halfday_work:
-          _de: Ajustement du prix de l'abonnement (½ journées)
+          _de: Anpassung Preis Abonnement (½ Tage)
           _fr: Ajustement du prix de l'abonnement (½ journées)
         halfday_works_annual_price_default/basket_preparation:
-          _de: Mises en panier
+          _de: Abpackungen Taschen
           _fr: Mises en panier
         halfday_works_annual_price_default/halfday_work:
-          _de: Demi-journées
+          _de: Halbtage
           _fr: Demi-journées
         halfday_works_annual_price_negative/basket_preparation:
           one:
-            _de: Une mise en panier non effectuée
+            _de: Eine nicht geleiste Abpackung der Taschen
             _fr: Une mise en panier non effectuée
           other:
-            _de: "%{count} mises en panier non effectuées"
+            _de: "%{count} nicht geleistete Abpackungen der Taschen"
             _fr: "%{count} mises en panier non effectuées"
         halfday_works_annual_price_negative/halfday_work:
           one:
-            _de: Une demi-journée non effectuée
+            _de: Ein nicht geleisteter Halbtag
             _fr: Une demi-journée non effectuée
           other:
-            _de: "%{count} demi-journées non effectuées"
+            _de: "%{count} nicht geleistete Halbtage"
             _fr: "%{count} demi-journées non effectuées"
         halfday_works_annual_price_positive/basket_preparation:
-          _de: Mises en panier non effectuées
+          _de: Nicht geleistete Abpackungen der Taschen
           _fr: Mises en panier non effectuées
         halfday_works_annual_price_positive/halfday_work:
-          _de: Demi-journées de travail non effectuées
+          _de: Nicht geleistete Halbtage
           _fr: Demi-journées de travail non effectuées
         halfday_works_annual_price_reduction/basket_preparation:
           one:
-            _de: Réduction pour une mise en panier supplémentaire
+            _de: Rabatt für eine zusätzliche Abpackung der Taschen
             _fr: Réduction pour une mise en panier supplémentaire
           other:
-            _de: Réduction pour %{count} mises en panier supplémentaires
+            _de: Rabatt für %{count} zusätzliche Abpackungen der Taschen
             _fr: Réduction pour %{count} mises en panier supplémentaires
         halfday_works_annual_price_reduction/halfday_work:
           one:
-            _de: Réduction pour une demi-journée supplémentaire
+            _de: Rabatt für einen zusätzlichen Halbtag
             _fr: Réduction pour une demi-journée supplémentaire
           other:
-            _de: Réduction pour %{count} demi-journées supplémentaires
+            _de: Rabatt für %{count} zusätzliche Halbtage
             _fr: Réduction pour %{count} demi-journées supplémentaires
         halfday_works_asked:
-          _de: Demandées
+          _de: Zu leisten
           _fr: Demandées
         halfday_works_coming:
-          _de: À venir
+          _de: Künftig
           _fr: À venir
         halfday_works_missing:
-          _de: Manquantes
+          _de: Fehlende
           _fr: Manquantes
         halfday_works_paid:
-          _de: Facturées
+          _de: In Rechnung gestellt
           _fr: Facturées
         halfday_works_pending:
-          _de: En attente de validation
+          _de: Wartet auf Bestätigung
           _fr: En attente de validation
         halfday_works_rejected:
-          _de: Refusées
+          _de: Abgelehnte
           _fr: Refusées
         halfday_works_validated:
-          _de: Validées
+          _de: Bestätigte
           _fr: Validées
         memberships_basket_complements:
-          _de: Compléments
+          _de: Zusätze
           _fr: Compléments
         missing_halfday_works/basket_preparation:
-          _de: Mises en panier manquantes
+          _de: Fehlende Abpackungen der Taschen
           _fr: Mises en panier manquantes
         missing_halfday_works/halfday_work:
-          _de: "½ journées manquantes"
+          _de: "Fehlende ½ Tage"
           _fr: "½ journées manquantes"
         period:
-          _de: Période
+          _de: Periode
           _fr: Période
         price:
           _de: Total
           _fr: Total
         renew:
-          _de: Renouvellement
+          _de: Verlängerung
           _fr: Renouvellement
         seasons:
           _de: Saisons
           _fr: Saisons
         started_on:
-          _de: Début
+          _de: Anfang
           _fr: Début
         subscribed_basket_complement_ids:
-          _de: Compléments paniers
+          _de: Taschenzusätze
           _fr: Compléments paniers
         will_be_changed_at:
-          _de: Changement effectif depuis le
+          _de: Änderung gültig ab
           _fr: Changement effectif depuis le
       memberships_basket_complement:
         basket_complement:
-          _de: Complément
+          _de: Zusatz
           _fr: Complément
         seasons:
           _de: Saisons
           _fr: Saisons
       payment:
         comment:
-          _de: Commentaire
+          _de: Kommentar
           _fr: Commentaire
       vegetable:
         name:
-          _de: nom
+          _de: Name
           _fr: nom
     models:
       absence:
         one:
-          _de: Absence
+          _de: Abwesenheit
           _fr: Absence
         other:
-          _de: Absences
+          _de: Abwesenheiten
           _fr: Absences
       basket:
         one:
-          _de: Panier
+          _de: Tasche
           _fr: Panier
         other:
-          _de: Paniers
+          _de: Taschen
           _fr: Paniers
       basket_complement:
         none:
-          _de: Aucun
+          _de: Kein
           _fr: Aucun
         one:
-          _de: Complément panier
+          _de: Taschenzusatz
           _fr: Complément panier
         other:
-          _de: Compléments panier
+          _de: Taschenzusätze
           _fr: Compléments panier
       basket_content:
         one:
-          _de: Contenu Panier
+          _de: Tascheninhalt
           _fr: Contenu Panier
         other:
-          _de: Contenu Paniers
+          _de: Tascheninhalt
           _fr: Contenu Paniers
       basket_size:
         none:
-          _de: Aucun
+          _de: Kein
           _fr: Aucun
         one:
-          _de: Taille panier
+          _de: Taschengrösse
           _fr: Taille panier
         other:
-          _de: Tailles panier
+          _de: Taschengrössen
           _fr: Tailles panier
       baskets_basket_complement:
         one:
-          _de: Complément
+          _de: Zusatz
           _fr: Complément
         other:
-          _de: Compléments
+          _de: Zusätze
           _fr: Compléments
       delivery:
         one:
-          _de: Livraison
+          _de: Lieferung
           _fr: Livraison
         other:
-          _de: Livraisons
+          _de: Lieferungen
           _fr: Livraisons
       distribution:
         one:
-          _de: Distribution
+          _de: Depot
           _fr: Distribution
         other:
-          _de: Distributions
+          _de: Depots
           _fr: Distributions
       gribouille:
         one:
-          _de: Gribouille
+          _de: Newsletter
           _fr: Gribouille
         other:
-          _de: Gribouille
+          _de: Newsletter
           _fr: Gribouille
       halfday/basket_preparation:
         one:
-          _de: Mise en panier - Date
+          _de: Abpackung Taschen - Datum
           _fr: Mise en panier - Date
         other:
-          _de: Mise en panier - Dates
+          _de: Abpackung Taschen - Daten
           _fr: Mise en panier - Dates
       halfday/halfday_work:
         one:
-          _de: "½ Journée - Date"
+          _de: "½ Tag - Datum"
           _fr: "½ Journée - Date"
         other:
-          _de: "½ Journée - Dates"
+          _de: "½ Tag - Daten"
           _fr: "½ Journée - Dates"
       halfday_participation/basket_preparation:
         one:
-          _de: Mise en panier - Participation
+          _de: Abpackung Taschen - Teilnahme
           _fr: Mise en panier - Participation
         other:
-          _de: Mise en panier - Participations
+          _de: Abpackung Taschen - Teilnahmen
           _fr: Mise en panier - Participations
       halfday_participation/halfday_work:
         one:
-          _de: "½ Journée - Participation"
+          _de: "½ Tag - Teilnahme"
           _fr: "½ Journée - Participation"
         other:
-          _de: "½ Journée - Participations"
+          _de: "½ Tag - Teilnahmen"
           _fr: "½ Journée - Participations"
       halfday_preset/basket_preparation:
         one:
-          _de: Mise en panier - Preset
+          _de: Abpackung Taschen - Voreinstellung
           _fr: Mise en panier - Preset
         other:
-          _de: Mise en panier - Presets
+          _de: Abpackung Taschen - Voreinstellungen
           _fr: Mise en panier - Presets
       halfday_preset/halfday_work:
         one:
-          _de: "½ Journée - Preset"
+          _de: "½ Tag - Voreinstellung"
           _fr: "½ Journée - Preset"
         other:
-          _de: "½ Journée - Presets"
+          _de: "½ Tag - Voreinstellungen"
           _fr: "½ Journée - Presets"
       invoice:
         one:
-          _de: Facture
+          _de: Rechnung
           _fr: Facture
         other:
-          _de: Factures
+          _de: Rechnungen
           _fr: Factures
       member:
         one:
-          _de: Membre
+          _de: Mitglied
           _fr: Membre
         other:
-          _de: Membres
+          _de: Mitglieder
           _fr: Membres
       membership:
         one:
@@ -729,33 +729,33 @@ _:
           _fr: Abonnements
       memberships_basket_complement:
         one:
-          _de: Complément
+          _de: Zusatz
           _fr: Complément
         other:
-          _de: Compléments
+          _de: Zusätze
           _fr: Compléments
       old_invoice:
         one:
-          _de: Facture (2015)
+          _de: Rechnung (2015)
           _fr: Facture (2015)
         other:
-          _de: Factures (2015)
+          _de: Rechnungen (2015)
           _fr: Factures (2015)
       payment:
         one:
-          _de: Paiement
+          _de: Einzahlung
           _fr: Paiement
         other:
-          _de: Paiements
+          _de: Einzahlungen
           _fr: Paiements
       recurring_billing:
         one:
-          _de: Facturation automatique
+          _de: Automatische Rechnungsstellung
           _fr: Facturation automatique
       vegetable:
         one:
-          _de: Légume
+          _de: Gemüse
           _fr: Légume
         other:
-          _de: Légumes
+          _de: Gemüse
           _fr: Légumes

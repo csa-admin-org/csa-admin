@@ -2,120 +2,120 @@ _:
   active_admin:
     access_denied:
       message:
-        _de: Vous n'êtes pas autorisé à executer cette action
+        _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _fr: Vous n'êtes pas autorisé à executer cette action
     any:
-      _de: N'importe lequel
+      _de: Irgendeins
       _fr: N'importe lequel
     batch_actions:
       action_label:
-        _de: "%{title} les éléments sélectionnés"
+        _de: "%{title} die ausgewählte Elemente"
         _fr: "%{title} les éléments sélectionnés"
       button_label:
-        _de: Actions groupées
+        _de: Gruppierte Aktionen
         _fr: Actions groupées
       default_confirmation:
-        _de: Êtes-vous sûr de que vouloir faire cela ?
-        _fr: Êtes-vous sûr de que vouloir faire cela ?
+        _de: Wollen Sie wirklich das machen?
+        _fr: Êtes-vous sûr de vouloir faire cela ?
       delete_confirmation:
-        _de: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
+        _de: Wollen Sie wirklich diese %{plural_model} löschen?
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
       labels:
         destroy:
-          _de: Supprimer
+          _de: Löschen
           _fr: Supprimer
         reject:
-          _de: Refuser
+          _de: Verweigern
           _fr: Refuser
         renew:
-          _de: Renouveller
-          _fr: Renouveller
+          _de: Verlängern
+          _fr: Renouveler
         validate:
-          _de: Valider
+          _de: Bestätigen
           _fr: Valider
         wait:
-          _de: Mettre en attente
+          _de: Auf Warteliste setzen
           _fr: Mettre en attente
       link:
-        _de: Créer un
+        _de: Erstellen eines
         _fr: Créer un
       selection_toggle_explanation:
-        _de: "(Inverser la sélection)"
+        _de: "(Auswahl invertieren)"
         _fr: "(Inverser la sélection)"
       succesfully_destroyed:
         one:
-          _de: 1 %{model} supprimé
+          _de: 1 %{model} gelöscht
           _fr: 1 %{model} supprimé
         other:
-          _de: "%{count} %{plural_model} supprimés"
+          _de: "%{count} %{plural_model} gelöscht"
           _fr: "%{count} %{plural_model} supprimés"
     blank_slate:
       content:
-        _de: Il n'y a pas encore de %{resource_name}.
+        _de: Es hat noch keine %{resource_name}.
         _fr: Il n'y a pas encore de %{resource_name}.
       link:
-        _de: Créez en un
+        _de: Erstellen Sie eins
         _fr: Créez en un
     cancel:
-      _de: Annuler
+      _de: Abbrechen
       _fr: Annuler
     comments:
       add:
-        _de: Ajouter un commentaire
+        _de: Kommentar hinzufügen
         _fr: Ajouter un commentaire
       author:
-        _de: Auteur
+        _de: Autor
         _fr: Auteur
       author_type:
-        _de: Profil de l'auteur
+        _de: Profil des Autors
         _fr: Profil de l'auteur
       body:
-        _de: Corps
+        _de: Inhalt
         _fr: Corps
       errors:
         empty_text:
-          _de: Le commentaire n'a pas été enregistré puisque le texte était vide.
+          _de: Der Kommentar wurde nicht gespeichert, da der Text leer war.
           _fr: Le commentaire n'a pas été enregistré puisque le texte était vide.
       no_comments_yet:
-        _de: Aucun commentaire actuellement
+        _de: Zurzeit keine Kommentare
         _fr: Aucun commentaire actuellement
       resource:
         _de: Ressource
         _fr: Ressource
       resource_type:
-        _de: Type de ressource
+        _de: Ressourcentyp
         _fr: Type de ressource
       title:
-        _de: Commentaire
+        _de: Kommentar
         _fr: Commentaire
       title_content:
-        _de: Commentaires (%{count})
+        _de: Kommentare (%{count})
         _fr: Commentaires (%{count})
     create_model:
-      _de: Nouveau %{model}
+      _de: Neu %{model}
       _fr: Nouveau %{model}
     dashboard:
       _de: Übersicht
       _fr: Tableau de bord
     delete:
-      _de: Supprimer
+      _de: Löschen
       _fr: Supprimer
     delete_confirmation:
-      _de: Êtes-vous certain de vouloir supprimer ceci ?
+      _de: Wollen das wirklich löschen?
       _fr: Êtes-vous certain de vouloir supprimer ceci ?
     delete_model:
-      _de: Supprimer %{model}
+      _de: Löschen %{model}
       _fr: Supprimer %{model}
     details:
-      _de: Détails
+      _de: Details
       _fr: Détails
     devise:
       change_password:
         submit:
-          _de: Changer mon mot de passe
+          _de: Mein Passwort ändern
           _fr: Changer mon mot de passe
         title:
-          _de: Changez votre mot de passe
+          _de: Ändern Sie Ihr Passwort
           _fr: Changez votre mot de passe
       email:
         title:
@@ -123,104 +123,104 @@ _:
           _fr: Email
       links:
         forgot_your_password:
-          _de: Vous avez oublié votre mot de passe ?
+          _de: Haben Sie Ihr Passwort vergessen?
           _fr: Vous avez oublié votre mot de passe ?
         sign_in:
-          _de: Connectez-vous
+          _de: Melden Sie sich an
           _fr: Connectez-vous
         sign_in_with_omniauth_provider:
-          _de: Connectez-vous avec %{provider}
+          _de: Melden Sie sich mit %{provider} an
           _fr: Connectez-vous avec %{provider}
       login:
         remember_me:
-          _de: Garder ma session ouverte
+          _de: Angemeldet bleiben
           _fr: Garder ma session ouverte
         submit:
-          _de: Se connecter
+          _de: Sich anmelden
           _fr: Se connecter
         title:
-          _de: Connection
-          _fr: Connection
+          _de: Anmeldung
+          _fr: Connexion
       password:
         title:
-          _de: Mot de passe
+          _de: Passwort
           _fr: Mot de passe
       resend_confirmation_instructions:
         submit:
-          _de: Renvoyer les instructions de confirmation
+          _de: Bestätitungsanleitung neu senden
           _fr: Renvoyer les instructions de confirmation
         title:
-          _de: Renvoyer les instructions de confirmation
+          _de: Bestätitungsanleitung neu senden
           _fr: Renvoyer les instructions de confirmation
       reset_password:
         submit:
-          _de: Réinitialiser mon mot de passe
+          _de: Mein Passwort zurücksetzen
           _fr: Réinitialiser mon mot de passe
         title:
-          _de: Vous avez oublié votre mot de passe ?
+          _de: Haben Sie Ihr Passwort vergessen?
           _fr: Vous avez oublié votre mot de passe ?
       subdomain:
         title:
-          _de: Sous-domaine
+          _de: Unterdomäne
           _fr: Sous-domaine
       username:
         title:
-          _de: Nom d'utilisateur
+          _de: Benutzername
           _fr: Nom d'utilisateur
     download:
-      _de: 'Télécharger :'
+      _de: 'Herunterladen :'
       _fr: 'Télécharger :'
     dropdown_actions:
       button_label:
-        _de: Actions
+        _de: Aktionen
         _fr: Actions
     edit:
-      _de: Modifier
+      _de: Bearbeiten
       _fr: Modifier
     edit_model:
-      _de: Modifier %{model}
+      _de: '%{model} bearbeiten'
       _fr: Modifier %{model}
     empty:
-      _de: Vide
+      _de: Leer
       _fr: Vide
     filters:
       buttons:
         clear:
-          _de: Supprimer les filtres
+          _de: Filter löschen
           _fr: Supprimer les filtres
         filter:
-          _de: Filtrer
+          _de: Filtern
           _fr: Filtrer
       predicates:
         contains:
-          _de: Contient
+          _de: Enthält
           _fr: Contient
         ends_with:
-          _de: Se termine par
+          _de: Endet mit
           _fr: Se termine par
         equals:
-          _de: Egal à
+          _de: Gleich
           _fr: Egal à
         greater_than:
-          _de: Plus grand que
+          _de: Grösser als
           _fr: Plus grand que
         less_than:
-          _de: Plus petit que
+          _de: Kleiner als
           _fr: Plus petit que
         q_including_date:
-          _de: Incluant
+          _de: Enthält
           _fr: Incluant
         starts_with:
-          _de: Commence par
+          _de: Beginnt mit
           _fr: Commence par
     has_many_delete:
-      _de: Supprimer
+      _de: Löschen
       _fr: Supprimer
     has_many_new:
-      _de: Ajouter un nouveau %{model}
+      _de: Ein neues %{model} hinzufügen
       _fr: Ajouter un nouveau %{model}
     has_many_remove:
-      _de: Enlever
+      _de: Entfernen
       _fr: Enlever
     index_list:
       block:
@@ -230,428 +230,429 @@ _:
         _de: Blog
         _fr: Blog
       grid:
-        _de: Grille
+        _de: Raster
         _fr: Grille
       table:
-        _de: Tableau
+        _de: Tabelle
         _fr: Tableau
     logout:
-      _de: Déconnexion
+      _de: Logout
       _fr: Déconnexion
     main_content:
-      _de: Veuillez implémenter %{model}#main_content pour afficher le contenu.
+      _de: Bitte implementieren Sie %{model}#main_content um den Inhalt anzuzeigen.
       _fr: Veuillez implémenter %{model}#main_content pour afficher le contenu.
     menu:
       billing:
-        _de: Facturation
+        _de: Rechnungsstellung
         _fr: Facturation
       other:
-        _de: Autre
+        _de: Weiteres
         _fr: Autre
     new_model:
-      _de: Nouveau %{model}
+      _de: Neu %{model}
       _fr: Nouveau %{model}
     next:
-      _de: Suivant
+      _de: Folgende
       _fr: Suivant
     page:
       index:
         baskets_to_prepare:
-          _de: Paniers à préparer
+          _de: Taschen vorzubereiten
           _fr: Paniers à préparer
         billing:
-          _de: Facturation
+          _de: Rechnungsstellung
           _fr: Facturation
         billing_year:
-          _de: Facturation %{fiscal_year}
+          _de: Rechnungsstellung %{fiscal_year}
           _fr: Facturation %{fiscal_year}
         next_delivery:
-          _de: 'Prochaine livraison: %{date} (%{number})'
-          _fr: 'Prochaine livraison: %{date} (%{number})'
+          _de: "Nächste Lieferung: %{date} (%{number})"
+          _fr: "Prochaine livraison: %{date} (%{number})"
         no_basket_complements:
-          _de: Aucun complément pour cette livraison
+          _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
         revenue:
-          _de: Chiffre d'Affaire
+          _de: Umsatz
           _fr: Chiffre d'Affaire
         signature_sheets:
-          _de: Fiches Signature
+          _de: Unterschriftszettel
           _fr: Fiches Signature
         submit_delivery_note:
-          _de: Mettre à jour la note
+          _de: Notiz aktualisieren
           _fr: Mettre à jour la note
         total:
           _de: Total %{number}
           _fr: Total %{number}
         totals:
-          _de: Totaux %{numbers}
+          _de: Totale %{numbers}
           _fr: Totaux %{numbers}
     pagination:
       empty:
-        _de: Aucun %{model} trouvé
+        _de: Kein %{model} gefunden
         _fr: Aucun %{model} trouvé
       entry:
         one:
-          _de: entrée
+          _de: Eingabe
           _fr: entrée
         other:
-          _de: entrées
+          _de: Eingaben
           _fr: entrées
       multiple:
-        _de: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
+        _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> aus gesamt <b>%{total}</b>
         _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
       multiple_without_total:
-        _de: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
+        _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
         _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
       one:
-        _de: Affichage de <b>1</b> %{model}
+        _de: Anzeige von <b>1</b> %{model}
         _fr: Affichage de <b>1</b> %{model}
       one_page:
-        _de: Affichage des <b>%{n}</b> %{model}
+        _de: Anzeige von <b>%{n}</b> %{model}
         _fr: Affichage des <b>%{n}</b> %{model}
     powered_by:
-      _de: Propulsé par %{active_admin} %{version}
+      _de: Angetrieben von %{active_admin} %{version}
       _fr: Propulsé par %{active_admin} %{version}
     previous:
-      _de: Précédent
+      _de: Vorheriger
       _fr: Précédent
     resource:
       edit:
         basket_and_distribution:
-          _de: Panier et distribution
+          _de: Tasche und Depot
           _fr: Panier et distribution
         details:
-          _de: Détails
+          _de: Details
           _fr: Détails
         full_year:
+          _de: ganzes Jahr
           _fr: année complète
         membership_edit_warning:
-          _de: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
+          _de: Achtung, nach jeglicher Änderung werden alle künftige Taschen dieses Abonnements neu erstellt!
           _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
       new:
         basket_and_distribution:
-          _de: Panier et distribution
+          _de: Tasche und Depot
           _fr: Panier et distribution
         details:
-          _de: Détails
+          _de: Details
           _fr: Détails
         erase:
-          _de: Effacer
+          _de: Löschen
           _fr: Effacer
         refused_halfday_participation:
-          _de: Participation refusée du %{date}
+          _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
       show:
         billing:
-          _de: Facturation
+          _de: Rechnungsstellung
           _fr: Facturation
         cancel:
-          _de: Annuler
+          _de: Abbrechen
           _fr: Annuler
         create_membership:
-          _de: Créer abonnement
+          _de: Abonnement erstellen
           _fr: Créer abonnement
         direct_payments:
-          _de: Paiements directs
+          _de: Direkte Einzahlungen
           _fr: Paiements directs
         edit:
-          _de: Modifier
+          _de: Bearbeiten
           _fr: Modifier
         invoice_action:
-          _de: Facturer
+          _de: Rechnung stellen
           _fr: Facturer
         link_confirm:
-          _de: Êtes-vous sûr de sûr?
+          _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
         new_payment:
-          _de: Nouveau paiement
+          _de: Neue Einzahlung
           _fr: Nouveau paiement
         no_baskets:
-          _de: Pas de paniers
+          _de: Keine Tasche
           _fr: Pas de paniers
         no_halfdays/basket_preparation:
-          _de: Aucune ½ journée
+          _de: Kein ½ Tag
           _fr: Aucune ½ journée
         no_halfdays/halfday_work:
-          _de: Aucune ½ journée
+          _de: Kein ½ Tag
           _fr: Aucune ½ journée
         no_invoices:
-          _de: Aucune facture
+          _de: Keine Rechnung
           _fr: Aucune facture
         no_memberships:
-          _de: Aucun abonnement
+          _de: Kein Abonnement
           _fr: Aucun abonnement
         no_payments:
-          _de: Aucun paiement
+          _de: Keine Einzahlung
           _fr: Aucun paiement
         notes:
-          _de: Notes
+          _de: Notizen
           _fr: Notes
         put_back_to_waiting_list:
-          _de: Remettre en liste d'attente
+          _de: Nochmals auf die Warteliste setzen
           _fr: Remettre en liste d'attente
         remove_from_waiting_list:
-          _de: Retirer de la liste d'attente
+          _de: Von der Warteliste entfernen
           _fr: Retirer de la liste d'attente
         salary_basket:
-          _de: Gratuit, panier salaire
+          _de: Gratis, Lohn-Tasche
           _fr: Gratuit, panier salaire
         send_email:
-          _de: Envoyer
+          _de: Senden
           _fr: Envoyer
         trigger_recurring_billing:
-          _de: Forcer la facturation
+          _de: Rechnungsstellung zwingen
           _fr: Forcer la facturation
         trigger_recurring_billing_title:
-          _de: Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier
+          _de: Falls erforderlich wird jedes Abonnement wöchentlich automatisch in Rechnung gestellt, mit dieser Schaltfläche kann die Rechnungsstellung gezwungen werden, z.B. bei einer Abonnement-Umstellung
           _fr: Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier
         validate:
-          _de: Valider
+          _de: Bestätigen
           _fr: Valider
         waiting_membership:
-          _de: Abonnement (en attente)
+          _de: Abonnement (Warteliste)
           _fr: Abonnement (en attente)
     resources:
       absence:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
         scopes:
           all:
-            _de: toutes
+            _de: alle
             _fr: toutes
           past:
-            _de: passées
+            _de: vergangene
             _fr: passées
       acp:
         edit_model:
-          _de: Paramètres
+          _de: Einstellungen
           _fr: Paramètres
       basket_size:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
       delivery:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
       distribution:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neues %{model}
           _fr: Nouvelle %{model}
       gribouille:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
       halfday:
         scopes:
           past:
-            _de: passées
+            _de: vergangene
             _fr: passées
       halfday/basket_preparation:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neuer %{model}
           _fr: Nouvelle %{model}
       halfday/halfday_work:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neuer %{model}
           _fr: Nouvelle %{model}
       halfday_participation:
         scopes:
           all:
-            _de: toutes
+            _de: alle
             _fr: toutes
           rejected:
-            _de: refusées
+            _de: abgelehnte
             _fr: refusées
           validated:
-            _de: validées
+            _de: bestätigte
             _fr: validées
       halfday_participation/basket_preparation:
         delete_model:
-          _de: Supprimer
+          _de: Löschen
           _fr: Supprimer
         edit_model:
-          _de: Modifier
+          _de: Bearbeiten
           _fr: Modifier
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neuer %{model}
           _fr: Nouvelle %{model}
       halfday_participation/halfday_work:
         delete_model:
-          _de: Supprimer
+          _de: Löschen
           _fr: Supprimer
         edit_model:
-          _de: Modifier
+          _de: Bearbeiten
           _fr: Modifier
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neuer %{model}
           _fr: Nouvelle %{model}
         scopes:
           all:
-            _de: toutes
+            _de: alle
             _fr: toutes
       invoice:
         new_model:
-          _de: Nouvelle %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
         scopes:
           all:
-            _de: toutes
+            _de: alle
             _fr: toutes
           canceled:
-            _de: annulées
+            _de: stornierte
             _fr: annulées
           closed:
-            _de: fermées
+            _de: geschlossene
             _fr: fermées
           not_sent:
-            _de: non-envoyées
+            _de: nicht gesendete
             _fr: non-envoyées
           open:
-            _de: ouvertes
+            _de: offene
             _fr: ouvertes
       member:
         delete_model:
-          _de: Supprimer
+          _de: Löschen
           _fr: Supprimer
         edit_model:
-          _de: Modifier
+          _de: Bearbeiten
           _fr: Modifier
       membership:
         new_model:
-          _de: Nouvel %{model}
+          _de: Neues %{model}
           _fr: Nouvel %{model}
     scopes:
       active:
-        _de: actifs
+        _de: aktive
         _fr: actifs
       all:
-        _de: tous
+        _de: alle
         _fr: tous
       coming:
-        _de: à venir
+        _de: bevorsetehende
         _fr: à venir
       current:
-        _de: en cours
+        _de: laufende
         _fr: en cours
       current_year:
-        _de: année courante
+        _de: laufendes Jahr
         _fr: année courante
       future:
-        _de: futures
+        _de: künftiger
         _fr: futures
       future_year:
-        _de: années prochaines
+        _de: folgende Jahre
         _fr: années prochaines
       inactive:
-        _de: inactifs
+        _de: inaktive
         _fr: inactifs
       isr:
-        _de: BVR
+        _de: ESR
         _fr: BVR
       manual:
-        _de: manuels
+        _de: manuelle
         _fr: manuels
       next_year:
-        _de: année prochaine
+        _de: näschstes Jahr
         _fr: année prochaine
       past:
-        _de: passés
+        _de: vergangene
         _fr: passés
       past_year:
-        _de: années passées
+        _de: vergangene Jahre
         _fr: années passées
       pending:
-        _de: à valider
+        _de: zu bestätigen
         _fr: à valider
       support:
-        _de: soutien
+        _de: Support
         _fr: soutien
       trial:
-        _de: essai
+        _de: Probe
         _fr: essai
       waiting:
-        _de: attente
+        _de: Warteliste
         _fr: attente
       with_overdue_notice:
-        _de: avec rappels
+        _de: Mahnungen
         _fr: avec rappels
     search_status:
       current_filters:
-        _de: 'Filtre courant:'
+        _de: 'Aktuelles Filter:'
         _fr: 'Filtre courant:'
       headline:
-        _de: 'Scope:'
+        _de: 'Gültigkeitsbereich:'
         _fr: 'Scope:'
       no_current_filters:
-        _de: Auncun
+        _de: Kein
         _fr: Auncun
     sidebars:
       amount:
-        _de: 'Montant:'
+        _de: 'Betrag:'
         _fr: 'Montant:'
       filters:
-        _de: Filtres
+        _de: Filter
         _fr: Filtres
       search_status:
-        _de: Résultats de la recherche
+        _de: Resultate der Suche
         _fr: Résultats de la recherche
       total:
         _de: Total
         _fr: Total
     status_tag:
       active:
-        _de: actif
+        _de: activ
         _fr: actif
       canceled:
-        _de: annulée
+        _de: stornierte
         _fr: annulée
       closed:
-        _de: fermée
+        _de: geschlossene
         _fr: fermée
       coming:
-        _de: à venir
+        _de: bevorsetehende
         _fr: à venir
       'false':
-        _de: non
+        _de: nein
         _fr: non
       inactive:
-        _de: inactif
+        _de: inactiv
         _fr: inactif
       isr:
-        _de: BVR
+        _de: ESR
         _fr: BVR
       manual:
-        _de: manuel
+        _de: manuell
         _fr: manuel
       not_sent:
-        _de: non-envoyée
+        _de: nicht gesendete
         _fr: non-envoyée
       open:
-        _de: ouverte
+        _de: offene
         _fr: ouverte
       pending:
-        _de: à valider
+        _de: zu bestätigen
         _fr: à valider
       rejected:
-        _de: refusée
+        _de: abgelehnte
         _fr: refusée
       trial:
-        _de: essai
+        _de: Probe
         _fr: essai
       'true':
-        _de: oui
+        _de: ja
         _fr: oui
       validated:
-        _de: validée
+        _de: bestätigte
         _fr: validée
       waiting:
-        _de: attente
+        _de: Warteliste
         _fr: attente
     update_model:
-      _de: Modifier %{model}
+      _de: '%{model} bearbeiten'
       _fr: Modifier %{model}
     view:
-      _de: Voir
+      _de: Ansehen
       _fr: Voir

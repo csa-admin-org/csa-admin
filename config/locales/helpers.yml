@@ -2,25 +2,25 @@ _:
   helpers:
     halfdays_count_per_year/basket_preparation:
       one:
-        _de: "%{count} mise en panier"
+        _de: "%{count} Abpackung Taschen"
         _fr: "%{count} mise en panier"
       other:
-        _de: "%{count} mises en panier"
+        _de: "%{count} Abpackungen Taschen"
         _fr: "%{count} mises en panier"
     halfdays_count_per_year/halfday_work:
       one:
-        _de: "%{count} demi-journée"
+        _de: "%{count} Halbtag"
         _fr: "%{count} demi-journée"
       other:
-        _de: "%{count} demi-journées"
+        _de: "%{count} Halbtage"
         _fr: "%{count} demi-journées"
     none:
-      _de: Aucun
+      _de: Kein
       _fr: Aucun
     page_entries_info:
       more_pages:
         display_entries:
-          _de: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
+          _de: "%{entry_name}  <b>%{first} - %{last}</b> von insgesamt <b>%{total}</b>"
           _fr: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
       one_page:
         display_entries:
@@ -28,5 +28,5 @@ _:
             _de: "<b>%{count}</b> %{entry_name}"
             _fr: "<b>%{count}</b> %{entry_name}"
           other:
-            _de: "<b>tous les %{count}</b> %{entry_name}"
+            _de: "<b>jede %{count}</b> %{entry_name}"
             _fr: "<b>tous les %{count}</b> %{entry_name}"
