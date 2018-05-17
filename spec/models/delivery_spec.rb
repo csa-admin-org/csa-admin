@@ -101,4 +101,24 @@ describe Delivery do
     expect(basket3.complement_ids).to match_array [1, 2]
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
+
+  it 'updates all fiscal year delivery numbers' do
+    first = create(:delivery, date: '2018-02-01')
+    last = create(:delivery, date: '2018-11-01')
+
+    expect(first.number).to eq 1
+    expect(last.number).to eq 2
+
+    delivery = create(:delivery, date: '2018-06-01')
+
+    expect(first.reload.number).to eq 1
+    expect(delivery.reload.number).to eq 2
+    expect(last.reload.number).to eq 3
+
+    delivery.update!(date: '2018-01-01')
+
+    expect(delivery.reload.number).to eq 1
+    expect(first.reload.number).to eq 2
+    expect(last.reload.number).to eq 3
+  end
 end
