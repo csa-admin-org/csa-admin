@@ -556,7 +556,7 @@ _:
           _de: Fehlende Abpackungen der Taschen
           _fr: Mises en panier manquantes
         missing_halfday_works/halfday_work:
-          _de: "Fehlende ½ Tage"
+          _de: Fehlende ½ Tage
           _fr: "½ journées manquantes"
         period:
           _de: Periode

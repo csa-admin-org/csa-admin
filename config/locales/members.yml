@@ -12,7 +12,7 @@ _:
           _de: Künftige Abpackungen der Taschen
           _fr: Mises en panier à venir
         coming_halfday_participations/halfday_work:
-          _de: "Künftige ½ Tage"
+          _de: Künftige ½ Tage
           _fr: "½ journées à venir"
         no_coming_halfday_participations/basket_preparation:
           _de: Momentan gibt es keine freie Abpackungen der Taschen.
@@ -118,7 +118,7 @@ _:
           _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
           _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
         no_halfdays/basket_preparation:
-          _de: Sorry, momentan gibt es keine freie Abpackung der Taschen. 
+          _de: Sorry, momentan gibt es keine freie Abpackung der Taschen.
           _fr: Désolé, aucune mise en panier disponible pour le moment.
         no_halfdays/halfday_work:
           _de: Sorry, momentan gibt es keinen freien ½ Tag.
