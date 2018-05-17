@@ -61,8 +61,9 @@ class Invoice < ActiveRecord::Base
     on: :create,
     if: :membership_type?
 
-  after_create :update_member_invoices_balance!, :set_pdf, :send_email
+  after_create :set_pdf, :send_email
   after_commit :update_membership_recognized_halfday_works!
+  after_commit :update_member_invoices_balance!, on: :create
 
   def display_name
     "#{model_name.human} ##{id} (#{I18n.l date})"
@@ -91,9 +92,12 @@ class Invoice < ActiveRecord::Base
   def cancel!
     invalid_transition(:close!) unless can_cancel?
 
-    update!(
-      canceled_at: Time.current,
-      state: CANCELED_STATE)
+    transaction do
+      update!(
+        canceled_at: Time.current,
+        state: CANCELED_STATE)
+      update_member_invoices_balance!
+    end
   end
 
   def close_or_open!
