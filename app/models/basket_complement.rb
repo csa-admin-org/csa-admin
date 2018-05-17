@@ -3,6 +3,9 @@ class BasketComplement < ActiveRecord::Base
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
 
+  has_many :baskets_basket_complement, dependent: :destroy
+  has_many :memberships_basket_complements, dependent: :destroy
+
   default_scope { order(:name) }
 
   def annual_price

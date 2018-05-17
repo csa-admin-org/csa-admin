@@ -4,8 +4,8 @@ class Delivery < ActiveRecord::Base
   default_scope { order(:date) }
 
   has_one :gribouille
-  has_many :baskets
-  has_many :basket_contents
+  has_many :baskets, dependent: :destroy
+  has_many :basket_contents, dependent: :destroy
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
@@ -13,6 +13,8 @@ class Delivery < ActiveRecord::Base
   scope :past, -> { where('date < ?', Date.current) }
   scope :coming, -> { where('date >= ?', Date.current) }
   scope :between, ->(range) { where(date: range) }
+
+  validates :date, presence: true
 
   after_save :update_fiscal_year_numbers
 
