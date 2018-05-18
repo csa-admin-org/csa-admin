@@ -350,8 +350,8 @@ _:
           _de: Einzahlungsintervall
           _fr: Intervalle de paiement
         come_from:
-          _de: Woher kommen Sie aus?
-          _fr: D'où venez-vous?
+          _de: Wie hast du von uns gehört?
+          _fr: Comment avez-vous entendu parler de nous?
         current_membership:
           _de: Abonnement (laufend)
           _fr: Abonnement (en cours)
