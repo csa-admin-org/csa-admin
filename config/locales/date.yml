@@ -2,8 +2,8 @@ _:
   date:
     formats:
       default:
-        _de: "%-d %B %Y"
-        _fr: "%-d %B %Y"
+        _de: "%-d %b %Y"
+        _fr: "%-d %b %Y"
       long:
         _de: "%A %-d %B %Y"
         _fr: "%A %-d %B %Y"
