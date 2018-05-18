@@ -4,7 +4,7 @@ class Delivery < ActiveRecord::Base
   default_scope { order(:date) }
 
   has_one :gribouille
-  has_many :baskets, dependent: :destroy
+  has_many :baskets
   has_many :basket_contents, dependent: :destroy
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,
@@ -17,6 +17,7 @@ class Delivery < ActiveRecord::Base
   validates :date, presence: true
 
   after_save :update_fiscal_year_numbers
+  before_destroy :really_destroy_baskets!
 
   def self.create_all(count, first_date)
     date = first_date.next_weekday + 2.days # Wed
@@ -89,5 +90,9 @@ class Delivery < ActiveRecord::Base
     baskets
       .joins(membership: :memberships_basket_complements)
       .where(memberships_basket_complements: { basket_complement_id: complement.id })
+  end
+
+  def really_destroy_baskets!
+    baskets.with_deleted.find_each(&:really_destroy!)
   end
 end
