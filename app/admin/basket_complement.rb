@@ -16,7 +16,6 @@ ActiveAdmin.register BasketComplement do
       f.input :deliveries,
         as: :check_boxes,
         collection: Delivery.current_and_future_year,
-        disabled: Delivery.current_year.past.pluck(:id),
         hint: f.object.persisted?
       f.actions
     end
