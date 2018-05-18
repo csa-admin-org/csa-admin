@@ -247,9 +247,7 @@ class Membership < ActiveRecord::Base
           create_basket!(delivery)
         end
       end
-      if attribute_before_last_save(:started_on) < started_on
-        baskets.between(attribute_before_last_save(:started_on)...started_on).each(&:really_destroy!)
-      end
+      baskets.between(fiscal_year.range.min...started_on).each(&:really_destroy!)
     end
   end
 
@@ -260,9 +258,7 @@ class Membership < ActiveRecord::Base
           create_basket!(delivery)
         end
       end
-      if attribute_before_last_save(:ended_on) > ended_on
-        baskets.between((ended_on + 1.day)...attribute_before_last_save(:ended_on)).each(&:really_destroy!)
-      end
+      baskets.between((ended_on + 1.day)...fiscal_year.range.max).each(&:really_destroy!)
     end
   end
 
