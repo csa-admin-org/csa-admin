@@ -12,6 +12,7 @@ class Members::MembersController < Members::ApplicationController
   # POST
   def create
     @member = Member.new(member_params)
+    @member.language = I18n.locale
     @member.public_create = true
 
     if @member.save
@@ -31,7 +32,7 @@ class Members::MembersController < Members::ApplicationController
       .require(:member)
       .permit(
         :name, :address, :zip, :city,
-        :emails, :phones, :language,
+        :emails, :phones,
         :waiting_basket_size_id, :waiting_distribution_id,
         :billing_year_division,
         :profession, :come_from, :note,
