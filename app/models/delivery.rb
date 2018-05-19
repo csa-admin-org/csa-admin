@@ -35,8 +35,8 @@ class Delivery < ActiveRecord::Base
     date < Time.current
   end
 
-  def display_name
-    "#{I18n.l(date)} (#{number})"
+  def display_name(format: :default)
+    "#{I18n.l(date, format: format)} - ##{number}"
   end
 
   def add_subscribed_baskets_complement!(complement)

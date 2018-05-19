@@ -46,8 +46,8 @@ ActiveAdmin.register Membership do
       }
     end
     column(:distribution) { |m| m.distribution&.name }
-    column(halfday_scoped_attribute(:halfday_works)) { |m| m.halfday_works }
-    column(halfday_scoped_attribute(:missing_halfday_works)) { |m| m.missing_halfday_works }
+    column(halfday_scoped_attribute(:halfday_works), &:halfday_works)
+    column(halfday_scoped_attribute(:missing_halfday_works), &:missing_halfday_works)
     column(:started_on)
     column(:ended_on)
   end
@@ -67,7 +67,7 @@ ActiveAdmin.register Membership do
             row_class: ->(b) { 'next' if b == next_basket },
             class: 'table-baskets'
           ) do
-            column(:delivery)
+            column(:delivery) { |b| b.delivery.display_name(format: :number) }
             column(:description)
             column(:distribution)
             column(class: 'col-status') { |b|
