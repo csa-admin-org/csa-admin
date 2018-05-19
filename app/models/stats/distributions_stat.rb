@@ -8,9 +8,9 @@ class Stats::DistributionsStat < Stats::BaseStat
       memberships(includes: [baskets: :distribution])
         .flat_map { |m| m.baskets.map { |b| b.distribution.name } }
 
-    all_distributions = Distribution.order(:name).pluck(:name)
+    all_distributions = Distribution.order(:name)
     all_distributions.select!(&:visible?)
-    all_distributions.map { |name|
+    all_distributions.map(&:name).map { |name|
       [name, distributions.count { |n| n == name }]
     }.to_h
   end

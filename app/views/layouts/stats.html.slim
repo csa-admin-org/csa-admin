@@ -1,6 +1,6 @@
 html
   head
-    title = [Current.acp.name, t('.title')].join(' – ')
+    title = [Current.acp.name, t('stats.title')].join(' – ')
     = stylesheet_link_tag 'stats', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'stats', 'data-turbolinks-track' => true
     = csrf_meta_tags
@@ -13,6 +13,6 @@ html
         ul
           - Stats::TYPES.each do |stats_type|
             li.nav-link class=('active-nav-item' if stats_type.to_s == params[:id])
-              = link_to t(".navigation.#{stats_type}"), stat_path(stats_type)
+              = link_to t("stats.navigation.#{stats_type}"), stat_path(stats_type)
     main
       = yield
