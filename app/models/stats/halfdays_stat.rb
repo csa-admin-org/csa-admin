@@ -1,4 +1,4 @@
-class Stats::HalfdayWorksStat < Stats::BaseStat
+class Stats::HalfdaysStat < Stats::BaseStat
   def self.all
     [new(Current.fy_year - 1)]
   end

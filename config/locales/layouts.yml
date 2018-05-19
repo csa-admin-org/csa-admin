@@ -8,23 +8,3 @@ _:
       title:
         _de: Mitgliedseite
         _fr: Page de Membre
-    stats:
-      navigation:
-        baskets:
-          _de: Taschen
-          _fr: Paniers
-        deliveries:
-          _de: Depots
-          _fr: Distributions
-        halfday_works:
-          _de: Mitarbeit der Mitglieder
-          _fr: Participation des membres
-        map:
-          _de: Karte
-          _fr: Carte
-        members:
-          _de: Mitglieder
-          _fr: Membres
-      title:
-        _de: Stats
-        _fr: Stats

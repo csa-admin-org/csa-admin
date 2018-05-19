@@ -3,7 +3,7 @@ module Stats
     members
     baskets
     distributions
-    halfday_works
+    halfdays
   ].freeze
 
   def self.all(type)
