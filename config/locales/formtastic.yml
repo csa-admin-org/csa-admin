@@ -74,7 +74,7 @@ _:
         emails:
           _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule
-        gribouille:
+        newsletter:
           _de: Leer lassen für das Standardverhalten (je nach Statusfunktion)
           _fr: Laisser vide pour le comportement par défault (en fonction du statut)
         phones:

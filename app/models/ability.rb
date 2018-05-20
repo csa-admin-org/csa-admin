@@ -8,7 +8,7 @@ class Ability
       can :pdf, Invoice
     end
     if admin.right? 'standard'
-      can :manage, [Gribouille, Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent] & available_models
+      can :manage, [Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent] & available_models
       can :create, ActiveAdmin::Comment
       can :update, [Basket, BasketComplement, Delivery]
     end
@@ -51,9 +51,6 @@ class Ability
     if Current.acp.feature?('basket_content')
       default << BasketContent
       default << Vegetable
-    end
-    if Current.acp.feature?('gribouille')
-      default << Gribouille
     end
     default
   end

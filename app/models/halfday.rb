@@ -20,24 +20,6 @@ class Halfday < ActiveRecord::Base
 
   before_create :set_preset
 
-  def self.coming_dates_for_gribouille(member)
-    today = Date.current
-    coming_dates =
-      Halfday.coming.where('date < ?', 3.weeks.from_now.to_date).order(:date)
-    coming_dates.each_with_object([]) do |halfday, dates|
-      break dates if dates.size == 8
-      participation = member.halfday_participations.find_by(halfday: halfday)
-      next unless halfday.date > today + 3.days || participation
-
-      if participation
-        dates << { halfday: halfday, participation: participation }
-      elsif !halfday.full?
-        dates << { halfday: halfday }
-      end
-      dates
-    end
-  end
-
   def self.available_for(member)
     where('date >= ?', 3.days.from_now)
       .includes(:participations)

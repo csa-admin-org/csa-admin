@@ -14,19 +14,6 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        if feature?('gribouille')
-          panel 'Gribouille' do
-            if next_delivery
-              emails = Member.gribouille_emails
-              mail_link = mail_to('', 'mailto', bcc: emails.join(','), subject: "Gribouille du #{l next_delivery.date, format: :short}")
-              csv_link = link_to('liste', gribouille_emails_members_path(format: :csv))
-              "#{emails.size} emails amoureux de Gribouille: #{mail_link} / #{csv_link}".html_safe
-            else
-              em 'Aucune prochaine livraison agendée.'
-            end
-          end
-        end
-
         panel t('.billing_year', fiscal_year: Current.fy_year) do
           billing_totals = BillingTotal.all
           billing_totals_price = billing_totals.sum(&:price)

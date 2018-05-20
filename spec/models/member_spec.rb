@@ -1,29 +1,10 @@
 require 'rails_helper'
 
 describe Member do
-  describe '.gribouille_emails' do
-    let!(:pending_member) { create(:member, :pending) }
-    let!(:waiting_member) { create(:member, :waiting) }
-    let!(:trial_member) { create(:member, :trial) }
-    let!(:active_member) { create(:member, :active) }
-    let!(:non_gribouille_member) { create(:member, :active, gribouille: false) }
-    let!(:support_member) { create(:member, :support) }
-    let!(:inactive_member) { create(:member, :inactive) }
-    let!(:gribouille_member) { create(:member, :inactive, gribouille: true) }
-
-    it 'returns all gribouille emails' do
-      expect(Member.gribouille_emails).to match_array(
-        waiting_member.emails_array + trial_member.emails_array +
-        active_member.emails_array + support_member.emails_array +
-        gribouille_member.emails_array
-      )
-    end
-  end
-
   describe 'validations' do
-    it 'does not require address, city, zip when inactive && gribouille' do
+    it 'does not require address, city, zip when inactive && newsletter' do
       member = create(:member, :inactive,
-        gribouille: true,
+        newsletter: true,
         address: nil,
         city: nil,
         zip: nil
@@ -36,6 +17,31 @@ describe Member do
       member = Member.new(billing_year_division: 3)
 
       expect(member).not_to have_valid(:billing_year_division)
+    end
+  end
+
+  describe '#newsletter?' do
+    it 'is true for these members' do
+      [
+        create(:member, :waiting),
+        create(:member, :trial),
+        create(:member, :active),
+        create(:member, :support),
+        create(:member, :inactive, newsletter: true)
+      ].each { |member|
+        expect(member.newsletter?).to eq true
+      }
+    end
+
+    it 'is false for these members' do
+      [
+        create(:member, :pending),
+        create(:member, :inactive),
+        create(:member, :support, newsletter: false),
+        create(:member, :active, newsletter: false)
+      ].each { |member|
+        expect(member.newsletter?).to eq false
+      }
     end
   end
 

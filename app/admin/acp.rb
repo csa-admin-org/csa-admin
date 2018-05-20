@@ -3,7 +3,7 @@ ActiveAdmin.register ACP do
   actions :edit, :update
   permit_params \
     :name, :host, :logo,
-    :email_api_token, :email_default_host, :email_default_from,
+    :email_default_host, :email_default_from,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :invoice_info, :invoice_footer,
@@ -32,7 +32,6 @@ ActiveAdmin.register ACP do
         collection: ACP.features.map { |f| [t("activerecord.models.#{f}.one"), f] }
     end
     f.inputs 'Mailer (Postmark)' do
-      f.input :email_api_token, as: :string
       f.input :email_default_host, as: :string
       f.input :email_default_from, as: :string
     end

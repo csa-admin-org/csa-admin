@@ -43,7 +43,7 @@ class Newsletter::MailChimp
       MEMB_ID:   { name: 'ID', type: 'number', required: true },
       MEMB_NAME: { name: 'Nom', type: 'text', required: true },
       MEMB_LANG: { name: 'Langue', type: 'text', required: true },
-      MEMB_NEWS: { name: 'Newsletter envoyé?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
+      MEMB_NEWS: { name: 'Newsletter envoyée?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
       MEMB_PAGE: { name: 'Page de membre URL', type: 'text', required: true },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },

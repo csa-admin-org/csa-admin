@@ -3,7 +3,6 @@ class Delivery < ActiveRecord::Base
 
   default_scope { order(:date) }
 
-  has_one :gribouille
   has_many :baskets
   has_many :basket_contents, dependent: :destroy
   has_and_belongs_to_many :basket_complements,
