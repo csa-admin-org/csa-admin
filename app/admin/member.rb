@@ -173,9 +173,7 @@ ActiveAdmin.register Member do
         attributes_table title: Member.human_attribute_name(:contact) do
           row(:emails) { display_emails(member.emails_array) }
           row(:phones) { display_phones(member.phones_array) }
-          if feature?('gribouille')
-            row(:gribouille) { status_tag(member.gribouille? ? :yes : :no) }
-          end
+          row(:newsletter) { status_tag(member.newsletter? ? :yes : :no) }
         end
         attributes_table title: t('.billing') do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
@@ -233,10 +231,9 @@ ActiveAdmin.register Member do
     f.inputs Member.human_attribute_name(:delivery_address) do
       f.input :emails, as: :string
       f.input :phones, as: :string
-      if feature?('gribouille')
-        f.input :gribouille, as: :select,
-          collection: [[t('formtastic.yes'), true], [t('formtastic.no'), false]]
-      end
+      f.input :newsletter, as: :select,
+        collection: [[t('formtastic.yes'), true], [t('formtastic.no'), false]],
+        include_blank: true
     end
     f.inputs t('active_admin.resource.show.billing') do
       f.input :billing_year_division,
@@ -259,7 +256,7 @@ ActiveAdmin.register Member do
   end
 
   permit_params \
-    :name, :language, :address, :city, :zip, :emails, :phones, :gribouille,
+    :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
     :delivery_address, :delivery_city, :delivery_zip,
     :support_member, :support_price, :salary_basket, :billing_year_division,
     :waiting, :waiting_basket_size_id, :waiting_distribution_id,
@@ -284,10 +281,6 @@ ActiveAdmin.register Member do
         distribution_id: resource.waiting_distribution_id,
         subscribed_basket_complement_ids: resource.waiting_basket_complement_ids,
         started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max)
-  end
-
-  collection_action :gribouille_emails, method: :get do
-    render plain: Member.gribouille_emails.to_csv
   end
 
   member_action :validate, method: :post do

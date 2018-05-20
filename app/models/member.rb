@@ -38,11 +38,6 @@ class Member < ActiveRecord::Base
   scope :support, -> { inactive.where(support_member: true) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
-  scope :gribouille, -> {
-    where(state: [WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]).where(gribouille: [nil, true])
-      .or(Member.where(support_member: true).where(gribouille: [nil, true]))
-      .or(Member.where(gribouille: true))
-  }
 
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
@@ -61,18 +56,10 @@ class Member < ActiveRecord::Base
   before_save :set_state, :set_support_member
   after_save :update_membership_halfday_works
 
-  def gribouille?
-    Member.gribouille.where(id: id).exists?
-  end
-
-  def self.gribouille_emails
-    gribouille.select(:emails).map(&:emails_array).flatten.uniq.compact
-  end
-
   def newsletter?
-    (state.in?([WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]) && gribouille.in?([true, nil])) ||
-      (support_member? && gribouille.in?([true, nil])) ||
-      (gribouille?)
+    (state.in?([WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]) && newsletter.in?([true, nil])) ||
+      (support_member? && newsletter.in?([true, nil])) ||
+      newsletter == true
   end
 
   def billable?

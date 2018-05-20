@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_15_183450) do
+ActiveRecord::Schema.define(version: 2018_05_19_142231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 2018_05_15_183450) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "features", default: [], null: false, array: true
-    t.string "email_api_token"
     t.string "email_default_host"
     t.string "email_default_from"
     t.integer "fiscal_year_start_month", default: 1, null: false
@@ -320,7 +319,7 @@ ActiveRecord::Schema.define(version: 2018_05_15_183450) do
     t.text "note"
     t.integer "validator_id"
     t.datetime "validated_at"
-    t.boolean "gribouille"
+    t.boolean "newsletter"
     t.integer "waiting_basket_size_id"
     t.integer "waiting_distribution_id"
     t.boolean "salary_basket", default: false

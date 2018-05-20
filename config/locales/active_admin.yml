@@ -440,10 +440,6 @@ _:
         new_model:
           _de: Neues %{model}
           _fr: Nouvelle %{model}
-      gribouille:
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
       halfday:
         scopes:
           past:

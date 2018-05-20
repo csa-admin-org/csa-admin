@@ -21,9 +21,6 @@ _:
         email:
           _de: Email
           _fr: Email
-        email_api_token:
-          _de: API token
-          _fr: API token
         email_default_from:
           _de: Default from
           _fr: Default from
@@ -221,31 +218,6 @@ _:
         responsible_member:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
-      gribouille:
-        attachment_0:
-          _de: Anhang 1
-          _fr: Pièce jointe 1
-        attachment_1:
-          _de: Anhang 2
-          _fr: Pièce jointe 2
-        attachment_2:
-          _de: Anhang 3
-          _fr: Pièce jointe 3
-        basket_content:
-          _de: Inhalt der Tasche
-          _fr: Contenu du panier
-        events:
-          _de: Künftige Veranstaltungen
-          _fr: Événements à venir
-        fields_echo:
-          _de: Echo aus dem Feld
-          _fr: Écho des champs
-        footer:
-          _de: Schlusswort
-          _fr: Le mot de la faim
-        header:
-          _de: Kopfzeile
-          _fr: En-tête
       halfday_participation/basket_preparation:
         carpooling_phone:
           _de: Telefon Fahrgemeinschaften
@@ -391,6 +363,9 @@ _:
         support_member:
           _de: Unterstützungsmitglied
           _fr: Membre de soutien
+        newsletter:
+          _de: Newsletter (MailChimp)
+          _fr: Newsletter (MailChimp)
         support_price:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
@@ -657,13 +632,6 @@ _:
         other:
           _de: Depots
           _fr: Distributions
-      gribouille:
-        one:
-          _de: Newsletter
-          _fr: Gribouille
-        other:
-          _de: Newsletter
-          _fr: Gribouille
       halfday/basket_preparation:
         one:
           _de: Abpackung Taschen - Datum
