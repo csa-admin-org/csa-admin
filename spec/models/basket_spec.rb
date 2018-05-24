@@ -24,6 +24,16 @@ describe Basket do
     expect(bbc.errors[:basket_complement_id]).to be_present
   end
 
+  it 'validates delivery is in membership date range' do
+    membership = create(:membership, started_on: Current.fy_range.min + 6.months)
+    delivery = create(:delivery, date: Current.fy_range.min + 1.month)
+
+    basket = build(:basket, membership: membership, delivery: delivery)
+    basket.validate
+
+    expect(basket.errors[:delivery]).to be_present
+  end
+
   it 'updates basket complement_prices when created' do
     basket = create(:basket)
     create(:basket_complement, id: 42, price: 3.2)

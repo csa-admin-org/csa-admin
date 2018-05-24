@@ -269,7 +269,7 @@ class Membership < ActiveRecord::Base
       seasons
     ]
     if (saved_changes.keys & tracked_attributes).any? || memberships_basket_complements_changed?
-      deliveries = Delivery.between(Time.current..ended_on)
+      deliveries = baskets.between(Time.current..ended_on).includes(:delivery).map(&:delivery)
       baskets.where(delivery_id: deliveries.map(&:id)).each(&:really_destroy!)
       deliveries.each { |delivery| create_basket!(delivery) }
     end

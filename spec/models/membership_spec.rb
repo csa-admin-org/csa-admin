@@ -439,4 +439,23 @@ describe Membership do
      .and change { member.waiting_distribution_id }.to(nil)
      .and change { member.waiting_basket_complement_ids }.to([])
   end
+
+  it 'updates futures basket when subscription change' do
+    Timecop.freeze('2017-06-01') do
+      delivery_1 = create(:delivery, date: '2017-03-01')
+      delivery_2 = create(:delivery, date: '2017-06-15')
+      delivery_2 = create(:delivery, date: '2017-07-05')
+      delivery_3 = create(:delivery, date: '2017-08-01')
+      delivery_3 = create(:delivery, date: '2017-09-01')
+
+      membership = create(:membership,
+        started_on: '2017-07-01',
+        ended_on: '2017-12-01',
+        basket_price: 12)
+
+      expect { membership.update!(basket_price: 13) }
+        .to change { membership.reload.baskets.map(&:basket_price) }
+        .from([12, 12, 12]).to([13, 13, 13])
+    end
+  end
 end
