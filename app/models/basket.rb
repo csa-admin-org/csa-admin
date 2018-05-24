@@ -34,6 +34,7 @@ class Basket < ActiveRecord::Base
   validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :unique_basket_complement_id
+  validate :delivery_must_be_in_membership_date_range
 
   def description
     [
@@ -108,6 +109,12 @@ class Basket < ActiveRecord::Base
         errors.add(:base, :invalid)
       end
       used_basket_complement_ids << bbc.basket_complement_id
+    end
+  end
+
+  def delivery_must_be_in_membership_date_range
+    if delivery && membership && !delivery.date.in?(membership.date_range)
+      errors.add(:delivery, :invalid)
     end
   end
 end

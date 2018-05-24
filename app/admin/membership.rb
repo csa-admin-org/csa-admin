@@ -55,7 +55,7 @@ ActiveAdmin.register Membership do
   show do |m|
     columns do
       column do
-        next_basket = m.next_basket
+        next_delivery = Delivery.next
         panel "#{m.baskets_count} #{Basket.model_name.human(count: m.baskets_count)}" do
           table_for(m.baskets.includes(
             :delivery,
@@ -64,7 +64,7 @@ ActiveAdmin.register Membership do
             :complements,
             baskets_basket_complements: :basket_complement
           ),
-            row_class: ->(b) { 'next' if b == next_basket },
+            row_class: ->(b) { 'next' if b.delivery == next_delivery },
             class: 'table-baskets'
           ) do
             column(:delivery) { |b| b.delivery.display_name(format: :number) }
