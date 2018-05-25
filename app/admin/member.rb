@@ -28,7 +28,7 @@ ActiveAdmin.register Member do
       }, sortable: :waiting_started_at
     end
     column :name, ->(member) { auto_link member }
-    column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : nil }
+    column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
     column :state, ->(member) { status_tag(member.state) }
     if params[:scope] == 'trial'
       column Basket.model_name.human(count: 2), ->(member) { member.delivered_baskets.size }

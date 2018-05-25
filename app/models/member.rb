@@ -71,11 +71,15 @@ class Member < ActiveRecord::Base
   end
 
   def display_address
-    "#{address}, #{city} (#{zip})"
+    address.present? ? "#{address}, #{city} (#{zip})" : '–'
   end
 
   def display_delivery_address
-    "#{final_delivery_address}, #{final_delivery_city} (#{final_delivery_zip})"
+    if final_delivery_address.present?
+      "#{final_delivery_address}, #{final_delivery_city} (#{final_delivery_zip})"
+    else
+      '–'
+    end
   end
 
   def page_url
