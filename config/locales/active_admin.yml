@@ -319,7 +319,7 @@ _:
       edit:
         basket_and_distribution:
           _de: Tasche und Depot
-          _fr: Panier et distribution
+          _fr: Panier et dépôt
         details:
           _de: Details
           _fr: Détails
@@ -332,7 +332,7 @@ _:
       new:
         basket_and_distribution:
           _de: Tasche und Depot
-          _fr: Panier et distribution
+          _fr: Panier et dépôt
         details:
           _de: Details
           _fr: Détails
@@ -439,7 +439,7 @@ _:
       distribution:
         new_model:
           _de: Neues %{model}
-          _fr: Nouvelle %{model}
+          _fr: Nouveau %{model}
       halfday:
         scopes:
           past:

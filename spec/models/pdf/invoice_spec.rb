@@ -115,7 +115,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Eveil 40x 23.125', '925.00')
-        .and contain_sequence('Distribution: La Chaux-de-Fonds 40x 4.00', '160.00')
+        .and contain_sequence('Dépôt: La Chaux-de-Fonds 40x 4.00', '160.00')
         .and contain_sequence('Montant annuel', "1'085.00")
         .and contain_sequence('Montant trimestriel #1', '271.25')
         .and contain_sequence('Cotisation annuelle association', '30.00')

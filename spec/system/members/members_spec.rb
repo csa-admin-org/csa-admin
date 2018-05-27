@@ -120,7 +120,7 @@ describe 'members page' do
 
       expect(page).to have_content 'Panier: Petit'
       expect(page).to have_content 'Complément panier: Oeufs'
-      expect(page).to have_content 'Distribution: Jardin de la main'
+      expect(page).to have_content 'Dépôt: Jardin de la main'
       expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
     end
 
@@ -142,7 +142,7 @@ describe 'members page' do
 
       expect(page).to have_content 'Panier: 2x Grand'
       expect(page).to have_content 'Complément panier: Oeufs'
-      expect(page).to have_content 'Distribution: Vélo'
+      expect(page).to have_content 'Dépôt: Vélo'
       expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
     end
 
@@ -165,7 +165,7 @@ describe 'members page' do
 
       expect(page).to have_content 'Panier: Grand'
       expect(page).to have_content 'Complément panier: Fromage'
-      expect(page).to have_content 'Distribution: Vélo'
+      expect(page).to have_content 'Dépôt: Vélo'
       expect(page).to have_content "½ Journées (#{Date.current.year + 1}): 0/4"
     end
 
