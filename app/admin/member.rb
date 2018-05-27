@@ -250,7 +250,7 @@ ActiveAdmin.register Member do
       f.input :profession
       f.input :come_from
       f.input :food_note, input_html: { rows: 3 }
-      f.input :note, input_html: { rows: 3 }
+      f.input :note, input_html: { rows: 3 }, placeholder: false
     end
     f.actions
   end
