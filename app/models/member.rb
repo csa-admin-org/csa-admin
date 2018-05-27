@@ -43,12 +43,13 @@ class Member < ActiveRecord::Base
   validates :billing_year_division,
     presence: true,
     inclusion: { in: ->(_) { Current.acp.billing_year_divisions } }
+  validates :billing_year_division, inclusion: { in: [1] }, if: :support_member?
   validates :name, presence: true
   validates :emails, presence: true, on: :create
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validate :support_member_not_waiting
-  validates :waiting_basket_size_id, presence: true, if: :public_create
-  validates :waiting_distribution_id, presence: true, if: :public_create
+  validates :waiting_basket_size_id, presence: true, if: :public_create_and_not_support?
+  validates :waiting_distribution_id, presence: true, if: :public_create_and_not_support?
   validates :support_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   before_validation :set_initial_support_price, on: :create
@@ -68,6 +69,14 @@ class Member < ActiveRecord::Base
 
   def name=(name)
     super name.strip
+  end
+
+  def waiting_basket_size_id=(id)
+    if id.to_i.zero?
+      self.support_member = true
+    else
+      super
+    end
   end
 
   def display_address
@@ -188,6 +197,10 @@ class Member < ActiveRecord::Base
   alias_method :waiting, :waiting?
 
   private
+
+  def public_create_and_not_support?
+    public_create && !support_member?
+  end
 
   def set_initial_support_price
     self.support_price ||= Current.acp.support_price

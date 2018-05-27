@@ -21,7 +21,7 @@ ActiveAdmin.register Delivery do
     attributes_table do
       row('#') { delivery.number }
       row(:date) { l delivery.date }
-      row(:note) { simple_format delivery.note }
+      row(:note) { text_format(delivery.note) }
     end
   end
 

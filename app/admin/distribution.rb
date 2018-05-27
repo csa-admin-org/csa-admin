@@ -23,7 +23,7 @@ ActiveAdmin.register Distribution do
       end
       row(:price) { number_to_currency(distribution.price) }
       row(:visible)
-      row(:note) { simple_format distribution.note }
+      row(:note) { text_format(distribution.note) }
     end
 
     attributes_table title: Distribution.human_attribute_name(:address) do

@@ -187,8 +187,8 @@ ActiveAdmin.register Member do
         attributes_table title: t('.notes') do
           row :profession
           row :come_from
-          row(:food_note) { simple_format member.food_note }
-          row(:note) { simple_format member.note }
+          row(:food_note) { text_format(member.food_note) }
+          row(:note) { text_format(member.note) }
         end
 
         active_admin_comments
