@@ -35,7 +35,7 @@ describe 'members page' do
       choose 'Vélo'
 
       fill_in 'Profession', with: 'Pompier'
-      fill_in "D'où venez-vous?", with: 'Bouche à oreille'
+      fill_in "Comment avez-vous entendu parler de nous?", with: 'Bouche à oreille'
       fill_in "Remarque(s)", with: 'Vive Rage de Vert!'
 
       check "J'ai lu attentivement et accepte avec plaisir le règlement."
