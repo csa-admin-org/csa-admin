@@ -67,7 +67,7 @@
 .ui-datepicker-next:hover,
 .ui-datepicker-prev:hover:after,
 .ui-datepicker-next:hover:after {
-  border-color: $dark-green;
+  border-color: $medium-gray;
 }
 
 .ui-state-disabled,
@@ -119,16 +119,15 @@
 
 .ui-state-default {
   margin: 0 auto;
-  &:hover {
-    color: #000;
-    border: 3px solid #555;
-  }
 }
 
 td.available .ui-state-default {
   color: white;
   font-weight: 600;
-  background-color: $green;
+  background-color: $light-gray;
+  &:hover {
+    background-color: $medium-gray;
+  }
 }
 
 .ui-state-highlight {
@@ -136,9 +135,11 @@ td.available .ui-state-default {
 }
 
 .ui-datepicker-calendar a.ui-state-active {
-  background: $dark-green;
+  background-color: $green;
   margin: 0 auto;
-  border: 3px solid black;
+  &:hover {
+    background-color: $green;
+  }
 }
 
 .ui-datepicker-unselectable .ui-state-default {
