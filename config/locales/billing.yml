@@ -49,7 +49,7 @@ _:
         _fr: Panier %{name}
       distribution:
         _de: Depot
-        _fr: Distribution
+        _fr: Dépôt
       halfday/basket_preparation:
         _de: Anpassung Abpackungen Taschen
         _fr: Ajustement mises en panier

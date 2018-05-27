@@ -160,7 +160,7 @@ _:
           _fr: Panier
         distribution_price:
           _de: Preis Lieferung
-          _fr: Prix distribution
+          _fr: Prix dépôt
       basket_complement:
         deliveries:
           _de: Lieferungen
@@ -174,7 +174,7 @@ _:
           _fr: Contenu
         distributions:
           _de: Depots
-          _fr: Distributions
+          _fr: Dépôts
         loses:
           _de: Verluste
           _fr: Pertes
@@ -340,7 +340,7 @@ _:
           _fr: NPA (Livraison)
         distribution:
           _de: Depot
-          _fr: Distribution
+          _fr: Dépôt
         food_note:
           _de: Notiz Lebensmittel
           _fr: Note alimentaire
@@ -385,7 +385,7 @@ _:
           _fr: Taille panier en attente
         waiting_distribution:
           _de: Depot Warteliste
-          _fr: Distribution en attente
+          _fr: Dépôt en attente
         waiting_started_at:
           _de: Auf Warteliste seit
           _fr: Sur liste d'attente depuis
@@ -437,16 +437,16 @@ _:
           _fr: Paniers livrés
         distribution:
           _de: Depot
-          _fr: Distribution
+          _fr: Dépôt
         distribution_id:
           _de: Depot
-          _fr: Distribution
+          _fr: Dépôt
         distribution_price:
           _de: Preis Lieferung
-          _fr: Prix distribution
+          _fr: Prix dépôt
         distributions_price:
           _de: Preis Lieferungen
-          _fr: Prix distributions
+          _fr: Prix dépôts
         ended_on:
           _de: Ende
           _fr: Fin
@@ -627,10 +627,10 @@ _:
       distribution:
         one:
           _de: Depot
-          _fr: Distribution
+          _fr: Dépôt
         other:
           _de: Depots
-          _fr: Distributions
+          _fr: Dépôts
       halfday/basket_preparation:
         one:
           _de: Abpackung Taschen - Datum
