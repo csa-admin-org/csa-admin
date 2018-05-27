@@ -133,6 +133,10 @@ _:
         halfday_works_annual_price:
           _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
+    placeholders:
+      member:
+        note:
+          _fr: 'Besoins spécifiques, nombre de paniers, ...'
     'no':
       _de: Nein
       _fr: Non

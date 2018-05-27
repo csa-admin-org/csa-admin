@@ -35,7 +35,7 @@ section
     = f.inputs name: t('.more_info') do
       = f.input :profession
       = f.input :come_from, as: :text, input_html: { rows: 3 }
-      = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note')
+      = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note'), placeholder: true
 
     = f.inputs do
       = f.input :terms_of_service, as: :pretty_boolean, label: t('.terms_of_service', terms_url: Current.acp.url).html_safe
