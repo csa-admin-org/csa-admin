@@ -15,6 +15,30 @@ namespace :locales do
     end
   end
 
+  desc 'List not yet translated keys'
+  task missing: :environment do
+    translations = load_translations_from_config
+    all_keys = translations.flat_map { |_l, k| list_all_keys(k) }.uniq.compact
+    translations.each do |locale, keys|
+      missing_keys = all_keys - list_all_keys(keys)
+      next if missing_keys.empty?
+      puts "=== #{locale} ==="
+      missing_keys.each do |key|
+        puts "- #{key}"
+      end
+    end
+  end
+
+  def list_all_keys(value, key = nil)
+    if value.is_a?(Hash)
+      value.flat_map do |k, v|
+        list_all_keys(v, [key, k].compact.join('.')) if v
+      end
+    else
+      key
+    end
+  end
+
   def filter_additional_keys!(hash, reference)
     hash.each do |key, value|
       if reference[key]
