@@ -92,6 +92,7 @@ FactoryBot.define do
 
     trait :support do
       state Member::INACTIVE_STATE
+      billing_year_division 1
       support_member true
     end
 

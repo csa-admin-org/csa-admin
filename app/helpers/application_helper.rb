@@ -7,6 +7,10 @@ module ApplicationHelper
     string.html_safe
   end
 
+  def text_format(text)
+    simple_format(text) if text.present?
+  end
+
   def display_emails(emails)
     Array(emails).map { |email| mail_to(email) }.join(', ').html_safe
   end

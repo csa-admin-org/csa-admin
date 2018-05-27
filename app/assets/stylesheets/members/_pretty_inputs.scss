@@ -114,3 +114,13 @@
     }
   }
 }
+
+li.disabled label {
+  cursor: default;
+  span.checkmark {
+    background-color: #eee;
+  }
+  &:hover input:not(:checked) ~ span.checkmark {
+    background-color: #eee;
+  }
+}

@@ -29,7 +29,7 @@ ActiveAdmin.register Absence do
     attributes_table do
       row :id
       row :member
-      row(:note) { simple_format absence.note }
+      row(:note) { text_format(absence.note) }
       row(:started_on) { l absence.started_on }
       row(:ended_on) { l absence.ended_on }
     end

@@ -18,6 +18,7 @@ class Members::MembersController < Members::ApplicationController
     if @member.save
       redirect_to welcome_members_members_path
     else
+      @member[:waiting_basket_size_id] ||= 0
       render :new
     end
   end

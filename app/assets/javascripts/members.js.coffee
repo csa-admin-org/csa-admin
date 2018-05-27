@@ -7,6 +7,7 @@
 //= require jquery-ui
 //= require jquery-ui/i18n/datepicker-fr-CH
 //= require jquery-ui/i18n/datepicker-de
+//= require forms
 
 selectDate = (dateText) ->
   $('.no_halfdays').hide()
