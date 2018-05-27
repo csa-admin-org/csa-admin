@@ -65,6 +65,8 @@ _:
         submit:
           _de: Senden
           _fr: Envoyer
+        support_text:
+          _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         terms_of_service:
           _de: Ich habe die Statuten und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
@@ -72,7 +74,6 @@ _:
           _de: Bitte das Formular hier unten ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
         title:
-          _de: Anmeldeformular
           _fr: Formulaire d'inscription
       show:
         cancel_link:

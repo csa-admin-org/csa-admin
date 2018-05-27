@@ -14,6 +14,10 @@ _:
       other:
         _de: "%{count} Halbtage"
         _fr: "%{count} demi-journées"
+    no_basket_size:
+      _fr: Aucun, devenir membre de soutien
+    no_basket_size_details:
+      _fr: cotisation annuelle uniquement
     none:
       _de: Kein
       _fr: Aucun

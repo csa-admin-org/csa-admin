@@ -20,14 +20,16 @@ section
         - if Current.acp.trial_basket_count.positive?
           = ' '
           = t('.membership_trial_text', count: Current.acp.trial_basket_count)
+      p
+        == t('.support_text', price: number_to_currency(Current.acp.support_price, precision: 0))
 
-      = f.input :waiting_basket_size, as: :radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
+      = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
       - if BasketComplement.any?
-        = f.input :waiting_basket_complement_ids, as: :check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
-      = f.input :waiting_distribution, as: :radio, collection: distributions_collection, label: Distribution.model_name.human, required: true
+        = f.input :waiting_basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
+      = f.input :waiting_distribution, as: :pretty_radio, collection: distributions_collection, label: Distribution.model_name.human, required: true
 
     = f.inputs name: t('active_admin.resource.show.billing') do
-      = f.input :billing_year_division, as: :radio, collection: billing_year_divisions_collection
+      = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection
 
     = f.inputs name: t('.more_info') do
       = f.input :profession
@@ -35,7 +37,7 @@ section
       = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note')
 
     = f.inputs do
-      = f.input :terms_of_service, as: :boolean, label: "<span>#{t('.terms_of_service', terms_url: Current.acp.url)}</span>".html_safe
+      = f.input :terms_of_service, as: :pretty_boolean, label: t('.terms_of_service', terms_url: Current.acp.url).html_safe
 
     = f.actions do
       = f.action :submit, as: :button, label: t('.submit')

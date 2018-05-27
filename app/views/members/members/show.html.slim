@@ -52,9 +52,12 @@ section
             label.label-error= @halfday_participation.errors[:halfday].first
             .no_halfdays style='display: none;'
               p.empty = t_halfday('.no_halfdays_this_month')
-            .halfdays
+            .halfdays.pretty_radio
               = f.collection_radio_buttons(:halfday_id, @halfdays, :id, :period) do |b|
-                - b.label(class: "halfday-#{b.object.date}") { b.radio_button + halfday_label(b.object).html_safe }
+                = b.label(class: "halfday-#{b.object.date}") do
+                  = b.radio_button
+                  span.checkmark
+                  span.label = halfday_label(b.object).html_safe
           .input
             label Nbr. de participants
             - if @halfday_participation.errors[:participants_count].any?
@@ -67,13 +70,15 @@ section
               = t('.carpooling')
               span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
                 i.fa.fa-info-circle
-            label.carpooling
-              = f.check_box :carpooling
-              = t('.carpooling_checkbox')
+            div.pretty_check_boxes
+              label.carpooling
+                = f.check_box :carpooling
+                span.checkmark
+                span.label = t('.carpooling_checkbox')
             label.carpooling_phone
               = f.phone_field :carpooling_phone, { id: 'carpooling_phone', placeholder: current_member.phones_array.first || t('.carpooling_phone') }
-
-          = f.submit t('.halfday_form_submit'), id: 'subscribe-button'
+          .input
+            = f.submit t('.halfday_form_submit'), id: 'subscribe-button'
 
 section
   h2 = t_halfday('.past_halfday_participations')

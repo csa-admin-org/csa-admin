@@ -70,56 +70,6 @@ form.formtastic {
     margin: $small-spacing 0 0 0;
   }
 
-  li.choice,
-  li.boolean {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-
-    label {
-      line-height: $base-line-height - 0.1;
-      padding-left: 25px;
-      text-indent: -25px;
-      width: calc(100% - 25px);
-
-      margin: $small-spacing / 2 0 0;
-      font-size: $base-font-size * 0.9;
-      font-weight: normal;
-
-      input {
-        margin: 1px 0 0 0;
-        padding: 0;
-        height: auto;
-        width: auto;
-        vertical-align: middle;
-      }
-
-      span {
-        margin: 0 0 0 $small-spacing;
-        vertical-align: middle;
-
-        em {
-          margin-left: $small-spacing / 2;
-          color: $medium-gray;
-          font-weight: 300;
-          font-style: italic;
-
-          &.price {
-            white-space: nowrap;
-          }
-        }
-      }
-
-      a {
-        i {
-          display: inline;
-          vertical-align: middle;
-          margin-left: $small-spacing / 4;
-        }
-      }
-    }
-  }
-
   p.inline-errors {
     color: white;
     background-color: $red;

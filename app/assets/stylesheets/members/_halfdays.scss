@@ -48,7 +48,7 @@ ol.halfdays {
     }
 
     .input {
-      margin: $base-spacing 0;
+      margin: $base-spacing 0 0 0;
     }
 
     ul.error_explanation {
@@ -85,6 +85,7 @@ ol.halfdays {
   label.carpooling,
   label.carpooling_phone {
     font-weight: normal;
+    margin-top: $small-spacing;
   }
 
   label.disabled {
