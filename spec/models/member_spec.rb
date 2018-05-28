@@ -195,4 +195,31 @@ describe Member do
         .not_to change { email_adapter.deliveries.size }
     end
   end
+
+  describe 'notify_new_inscription_to_admins' do
+    it 'notifies admin with new_inscription notifications on when publicly created' do
+      admin1 = create(:admin, notifications: ['new_inscription'])
+      admin2 = create(:admin, notifications: [])
+
+      member = create(:member, :waiting, public_create: true)
+
+      expect(email_adapter.deliveries.size).to eq 1
+      expect(email_adapter.deliveries.first).to match(hash_including(
+        from: Current.acp.email_default_from,
+        to: admin1.email,
+        template: 'member-new-fr',
+        template_data: {
+          admin_name: admin1.name,
+          member_name: member.name,
+          action_url: "https://admin.ragedevert.ch/members/#{member.token}"
+        }))
+    end
+
+    it 'does not notify admin when not publicly created' do
+      create(:admin, notifications: ['new_inscription'])
+      create(:member, :waiting)
+
+      expect(email_adapter.deliveries).to be_empty
+    end
+  end
 end
