@@ -56,6 +56,7 @@ class Member < ActiveRecord::Base
   before_validation :set_initial_waiting_started_at, on: :create
   before_save :set_state, :set_support_member
   after_save :update_membership_halfday_works
+  after_create :notify_new_inscription_to_admins, if: :public_create
 
   def newsletter?
     (state.in?([WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]) && newsletter.in?([true, nil])) ||
@@ -247,6 +248,12 @@ class Member < ActiveRecord::Base
   def support_member_not_waiting
     if support_member? && waiting?
       errors.add(:support_member, :invalid)
+    end
+  end
+
+  def notify_new_inscription_to_admins
+    Admin.notification('new_inscription').find_each do |admin|
+      Email.deliver_later(:member_new, admin, self)
     end
   end
 end
