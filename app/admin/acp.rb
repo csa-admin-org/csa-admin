@@ -11,7 +11,7 @@ ActiveAdmin.register ACP do
     :fiscal_year_start_month, :support_price,
     :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
     :delivery_pdf_footer,
-    :url, :email, :phone,
+    :url, :email, :phone, :terms_of_service_url,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
     languages: [],
@@ -81,6 +81,7 @@ ActiveAdmin.register ACP do
       f.input :url
       f.input :email
       f.input :phone
+      f.input :terms_of_service_url
     end
 
     f.actions do

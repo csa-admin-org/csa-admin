@@ -62,7 +62,9 @@ describe 'members page' do
     end
 
     it 'creates a new support member' do
-      Current.acp.update!(languages: %w[fr de])
+      Current.acp.update!(
+        languages: %w[fr de],
+        terms_of_service_url: nil)
       DeliveriesHelper.create_deliveries(40)
       create(:basket_size, :small)
       create(:basket_size, :big)
@@ -80,8 +82,6 @@ describe 'members page' do
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
       choose 'Aucun, devenir membre de soutien'
-
-      check "J'ai lu attentivement et accepte avec plaisir le règlement."
 
       click_button 'Envoyer'
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_19_142231) do
+ActiveRecord::Schema.define(version: 2018_05_28_153004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_142231) do
     t.string "vat_number"
     t.decimal "vat_membership_rate", precision: 8, scale: 2
     t.string "languages", default: ["fr"], null: false, array: true
+    t.string "terms_of_service_url"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
