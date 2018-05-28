@@ -69,6 +69,8 @@ _:
         url:
           _de: Webseite URL
           _fr: Site URL
+        terms_of_service_url:
+          _fr: Réglement URL
         vat_membership_rate:
           _de: Mehrwertsteuersatz Abonnement (en %)
           _fr: Taux TVA abonnement (en %)
