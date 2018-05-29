@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_28_153004) do
+ActiveRecord::Schema.define(version: 2018_05_29_055532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -327,7 +327,6 @@ ActiveRecord::Schema.define(version: 2018_05_28_153004) do
     t.string "delivery_address", limit: 255
     t.string "delivery_zip", limit: 255
     t.string "delivery_city", limit: 255
-    t.datetime "inscription_submitted_at"
     t.datetime "deleted_at"
     t.datetime "welcome_email_sent_at"
     t.integer "old_old_invoice_identifier"
@@ -339,7 +338,6 @@ ActiveRecord::Schema.define(version: 2018_05_28_153004) do
     t.integer "billing_year_division", default: 1, null: false
     t.string "language", default: "fr", null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
-    t.index ["inscription_submitted_at"], name: "index_members_on_inscription_submitted_at"
     t.index ["old_old_invoice_identifier"], name: "index_members_on_old_old_invoice_identifier"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"

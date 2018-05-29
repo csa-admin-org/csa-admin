@@ -57,7 +57,6 @@ gem 'faraday-cookie_jar'
 
 gem 'postmark'
 gem 'gibbon'
-gem 'google_drive'
 gem 'icalendar'
 gem 'prawn'
 gem 'prawn-table'
@@ -74,7 +73,6 @@ end
 group :development do
   gem 'listen'
   gem 'web-console'
-  gem 'letter_opener'
   gem 'bullet'
   gem 'rack-dev-mark'
 end
