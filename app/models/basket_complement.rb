@@ -1,12 +1,15 @@
 class BasketComplement < ActiveRecord::Base
+  include TranslatedAttributes
+
+  translated_attributes :name
+
+  has_many :baskets_basket_complement, dependent: :destroy
+  has_many :memberships_basket_complements, dependent: :destroy
   has_and_belongs_to_many :deliveries,
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
 
-  has_many :baskets_basket_complement, dependent: :destroy
-  has_many :memberships_basket_complements, dependent: :destroy
-
-  default_scope { order(:name) }
+  default_scope { order_by_name }
 
   def annual_price
     (price * deliveries.size).round_to_five_cents

@@ -47,7 +47,7 @@ class Newsletter::MailChimp
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
       MEMB_PAGE: { name: 'Page de membre URL', type: 'text', required: true },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
-      BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.order(:name).pluck(:name) } },
+      BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
       BASK_DIST: { name: 'Distribution', type: 'dropdown', required: false, options: { choices: [nil] + Distribution.order(:name).pluck(:name) } },
       HALF_ASKE: { name: "#{halfdays_human_name} demandées", type: 'number', required: true },
       HALF_MISS: { name: "#{halfdays_human_name} manquantes", type: 'number', required: true }

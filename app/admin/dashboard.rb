@@ -50,7 +50,7 @@ ActiveAdmin.register_page 'Dashboard' do
               table_for counts do
                 column Distribution.model_name.human, :title
                 column Basket.model_name.human, :count, class: 'align-right'
-                column "#{BasketSize.pluck(:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+                column "#{BasketSize.all.map(&:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
               if Distribution.paid.any?

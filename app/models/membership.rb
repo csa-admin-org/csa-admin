@@ -10,9 +10,9 @@ class Membership < ActiveRecord::Base
   belongs_to :distribution
   has_many :baskets, dependent: :destroy
   has_one :next_basket, -> { coming }, class_name: 'Basket'
-  has_many :basket_sizes, -> { reorder(:name) }, through: :baskets
+  has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
   has_many :distributions, -> { reorder(:name) }, through: :baskets
-  has_many :basket_complements, -> { reorder(:name) }, source: :complements, through: :baskets
+  has_many :basket_complements, -> { reorder_by_name }, source: :complements, through: :baskets
   has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
   has_many :memberships_basket_complements, dependent: :destroy
   has_many :subscribed_basket_complements,

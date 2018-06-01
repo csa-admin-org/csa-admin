@@ -58,7 +58,7 @@ describe 'members page' do
         note: 'Vive Rage de Vert!')
       expect(member.waiting_basket_size.name).to eq 'Eveil'
       expect(member.waiting_distribution.name).to eq 'Vélo'
-      expect(member.waiting_basket_complements.pluck(:name)).to eq %w[Oeufs Pain]
+      expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
     end
 
     it 'creates a new support member' do
