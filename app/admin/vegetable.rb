@@ -13,8 +13,16 @@ ActiveAdmin.register Vegetable do
     end
   end
 
-  permit_params(:name)
+  form do |f|
+    f.inputs do
+      translated_input(f, :names)
+      f.actions
+    end
+  end
+
+  permit_params(names: I18n.available_locales)
 
   config.filters = false
   config.per_page = 50
+  config.sort_order = -> { "names->>'#{I18n.locale}'" }
 end

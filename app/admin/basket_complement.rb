@@ -11,7 +11,7 @@ ActiveAdmin.register BasketComplement do
 
   form do |f|
     f.inputs do
-      f.input :name
+      translated_input(f, :names)
       f.input :price
       f.input :deliveries,
         as: :check_boxes,
@@ -21,7 +21,8 @@ ActiveAdmin.register BasketComplement do
     end
   end
 
-  permit_params :name, :price, delivery_ids: []
+  permit_params :price, delivery_ids: [], names: I18n.available_locales
 
   config.filters = false
+  config.sort_order = -> { "names->>'#{I18n.locale}'" }
 end

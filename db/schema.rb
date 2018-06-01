@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_29_055532) do
+ActiveRecord::Schema.define(version: 2018_05_29_203202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -117,10 +117,10 @@ ActiveRecord::Schema.define(version: 2018_05_29_055532) do
   end
 
   create_table "basket_complements", force: :cascade do |t|
-    t.string "name", null: false
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "names", default: {}, null: false
   end
 
   create_table "basket_complements_deliveries", force: :cascade do |t|
@@ -161,12 +161,11 @@ ActiveRecord::Schema.define(version: 2018_05_29_055532) do
   end
 
   create_table "basket_sizes", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.integer "annual_halfday_works", default: 0, null: false
-    t.index ["name"], name: "index_basket_sizes_on_name", unique: true
+    t.jsonb "names", default: {}, null: false
   end
 
   create_table "baskets", force: :cascade do |t|
@@ -402,10 +401,9 @@ ActiveRecord::Schema.define(version: 2018_05_29_055532) do
   end
 
   create_table "vegetables", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_vegetables_on_name", unique: true
+    t.jsonb "names", default: {}, null: false
   end
 
   add_foreign_key "basket_contents", "deliveries"

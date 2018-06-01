@@ -35,11 +35,11 @@ class BasketContent < ApplicationRecord
   end
 
   def small_basket
-    @small_basket ||= BasketSize.first
+    @small_basket ||= BasketSize.reorder(:price).first
   end
 
   def big_basket
-    @big_basket ||= BasketSize.last
+    @big_basket ||= BasketSize.reorder(:price).last
   end
 
   def same_basket_quantities

@@ -191,12 +191,12 @@ module PDF
 
     def basket_sizes_for(baskets)
       basket_size_ids = baskets.pluck(:basket_size_id).uniq
-      BasketSize.where(id: basket_size_ids).order(:name)
+      BasketSize.where(id: basket_size_ids)
     end
 
     def basket_complements_for(baskets)
       complement_ids = baskets.joins(:baskets_basket_complements).pluck(:basket_complement_id).uniq
-      BasketComplement.where(id: complement_ids).order(:name)
+      BasketComplement.where(id: complement_ids)
     end
   end
 end

@@ -566,10 +566,6 @@ _:
         comment:
           _de: Kommentar
           _fr: Commentaire
-      vegetable:
-        name:
-          _de: Name
-          _fr: nom
     models:
       absence:
         one:
