@@ -31,10 +31,10 @@ module XLSX
       add_worksheet(name)
 
       cols = ['', 'Total']
-      cols += @basket_sizes.pluck(:name)
+      cols += @basket_sizes.map(&:name)
       if @basket_complements.any?
         cols << ''
-        cols += @basket_complements.pluck(:name)
+        cols += @basket_complements.map(&:name)
       end
       add_header(*cols)
 
