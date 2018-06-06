@@ -458,4 +458,27 @@ describe Membership do
         .from([12, 12, 12]).to([13, 13, 13])
     end
   end
+
+  it 'updates baskets counts after commit' do
+    Current.acp.update!(trial_basket_count: 3)
+
+    delivery_1 = create(:delivery, date: '2017-01-01')
+    delivery_1 = create(:delivery, date: '2017-02-01')
+    delivery_1 = create(:delivery, date: '2017-03-01')
+    delivery_1 = create(:delivery, date: '2017-04-01')
+    delivery_1 = create(:delivery, date: '2017-05-01')
+    delivery_2 = create(:delivery, date: '2017-06-01')
+    delivery_2 = create(:delivery, date: '2017-07-01')
+
+    Timecop.freeze('2017-02-15') do
+      membership = create(:membership,
+        started_on: '2017-01-01',
+        ended_on: '2017-12-01')
+
+      expect(membership.baskets_count).to eq 7
+      expect(membership.delivered_baskets_count).to eq 2
+      expect(membership.remaning_trial_baskets_count).to eq 1
+      expect(membership).to be_trial
+    end
+  end
 end

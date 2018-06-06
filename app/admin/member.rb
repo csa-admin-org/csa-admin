@@ -72,7 +72,7 @@ ActiveAdmin.register Member do
     columns do
       column do
         panel link_to(Membership.model_name.human(count: 2), memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
-          memberships = member.memberships.includes(:delivered_baskets).order(:started_on)
+          memberships = member.memberships.order(:started_on)
           if memberships.none?
             em t('.no_memberships')
           else
@@ -82,7 +82,7 @@ ActiveAdmin.register Member do
                 auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}"
               }
               column(:baskets) { |m|
-                auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}"
+                auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}"
               }
             end
           end
