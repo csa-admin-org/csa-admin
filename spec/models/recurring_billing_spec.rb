@@ -49,7 +49,7 @@ describe RecurringBilling do
     member = create(:member)
 
     membership = create(:membership, member: member,
-      started_on: 1.day.ago)
+      started_on: 1.week.ago)
 
     expect(membership.trial?).to eq true
 

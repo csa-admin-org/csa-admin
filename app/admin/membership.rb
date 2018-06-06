@@ -2,9 +2,10 @@ ActiveAdmin.register Membership do
   menu priority: 3
 
   scope :all
-  scope :past
-  scope :current, default: true
+  scope :trial, if: ->(_) { Current.acp.trial_basket_count.positive? }
+  scope :ongoing, default: true
   scope :future
+  scope :past
 
   filter :member,
     as: :select,
@@ -19,7 +20,7 @@ ActiveAdmin.register Membership do
   filter :started_on
   filter :ended_on
 
-  includes :member, :delivered_baskets
+  includes :member
 
   index do
     column :member, ->(m) { auto_link m.member }
@@ -29,7 +30,7 @@ ActiveAdmin.register Membership do
       ->(m) { auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}" },
       sortable: 'halfday_works', class: 'col-halfday_works'
     column :baskets_count,
-      ->(m) { auto_link m, "#{m.delivered_baskets.size} / #{m.baskets_count}" }
+      ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }
     actions
   end
 

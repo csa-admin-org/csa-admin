@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_02_125940) do
+ActiveRecord::Schema.define(version: 2018_06_05_164035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -364,6 +364,8 @@ ActiveRecord::Schema.define(version: 2018_06_02_125940) do
     t.string "seasons", default: ["summer", "winter"], null: false, array: true
     t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
+    t.integer "delivered_baskets_count", default: 0, null: false
+    t.integer "remaning_trial_baskets_count", default: 0, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["distribution_id"], name: "index_memberships_on_distribution_id"

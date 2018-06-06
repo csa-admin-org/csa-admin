@@ -519,6 +519,13 @@ _:
         new_model:
           _de: Neues %{model}
           _fr: Nouvel %{model}
+        scopes:
+          trial:
+            _de: probe
+            _fr: essais
+          ongoing:
+            _de: laufende
+            _fr: en cours
     scopes:
       active:
         _de: aktive

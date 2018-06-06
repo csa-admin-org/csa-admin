@@ -52,6 +52,8 @@ class Membership < ActiveRecord::Base
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
   scope :future, -> { where('started_on > ?', Time.current) }
+  scope :trial, -> { current.where('remaning_trial_baskets_count > 0') }
+  scope :ongoing, -> { current.where(remaning_trial_baskets_count: 0) }
   scope :current, -> { including_date(Date.current) }
   scope :current_or_future, -> { current.or(future) }
   scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
@@ -64,10 +66,6 @@ class Membership < ActiveRecord::Base
 
   def trial?
     remaning_trial_baskets_count.positive?
-  end
-
-  def remaning_trial_baskets_count
-    baskets.coming.trial.count
   end
 
   def trial_only?
@@ -171,10 +169,6 @@ class Membership < ActiveRecord::Base
     baskets.first&.delivery
   end
 
-  def delivered_baskets_count
-    baskets.delivered.count
-  end
-
   def date_range
     started_on..ended_on
   end
@@ -221,6 +215,12 @@ class Membership < ActiveRecord::Base
     update_column(
       :recognized_halfday_works,
       participations.sum(:participants_count) + invoices.sum(:paid_missing_halfday_works))
+  end
+
+  def update_baskets_counts!
+    update_columns(
+      remaning_trial_baskets_count: baskets.coming.trial.count,
+      delivered_baskets_count: baskets.delivered.count)
   end
 
   private
@@ -310,6 +310,7 @@ class Membership < ActiveRecord::Base
     member.update_trial_baskets!
     member.update_absent_baskets!
     member.update_state!
+    update_baskets_counts!
   end
 
   def season_quantity(delivery)
