@@ -36,4 +36,12 @@ module BasketContentsHelper
       distributions.map(&:name).join(', ')
     end
   end
+
+  def small_basket
+    BasketSize.reorder(:price).first
+  end
+
+  def big_basket
+    BasketSize.reorder(:price).last
+  end
 end

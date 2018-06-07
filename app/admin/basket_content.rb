@@ -7,8 +7,8 @@ ActiveAdmin.register BasketContent do
     column :date, ->(bc) { bc.delivery.date.to_s }
     column :vegetable, ->(bc) { bc.vegetable.name }
     column :quantity, ->(bc) { display_quantity(bc) }
-    column BasketSize.first.name, ->(bc) { display_basket_quantity(bc, :small) }
-    column BasketSize.last.name, ->(bc) { display_basket_quantity(bc, :big) }
+    column small_basket.name, ->(bc) { display_basket_quantity(bc, :small) }
+    column big_basket.name, ->(bc) { display_basket_quantity(bc, :big) }
     column :loses, ->(bc) { display_lost_quantity(bc) }
     column :distributions, ->(bc) { display_distributions(bc) }
     actions
@@ -18,8 +18,8 @@ ActiveAdmin.register BasketContent do
     column(:date) { |bc| bc.delivery.date.to_s }
     column(:vegetable) { |bc| bc.vegetable.name }
     column(:quantity) { |bc| display_quantity(bc) }
-    column(BasketSize.first.name) { |bc| display_basket_quantity(bc, :small) }
-    column(BasketSize.last.name) { |bc| display_basket_quantity(bc, :big) }
+    column(small_basket.name) { |bc| display_basket_quantity(bc, :small) }
+    column(big_basket.name) { |bc| display_basket_quantity(bc, :big) }
     column(:loses) { |bc| display_lost_quantity(bc) }
     column(:distributions) { |bc| display_distributions(bc) }
   end
@@ -44,7 +44,7 @@ ActiveAdmin.register BasketContent do
     end
     f.inputs Basket.model_name.human(count: 2) do
       f.input :basket_sizes,
-        collection: [[BasketSize.first.name, 'small'], [BasketSize.last.name, 'big']],
+        collection: [[small_basket.name, 'small'], [big_basket.name, 'big']],
         as: :check_boxes,
         label: false
       f.input :same_basket_quantities,
@@ -62,7 +62,7 @@ ActiveAdmin.register BasketContent do
 
   filter :delivery, as: :select
   filter :vegetable, as: :select
-  filter :basket_size, as: :select, collection: -> { [[BasketSize.first.name, 'small'], [BasketSize.last.name, 'big']] }
+  filter :basket_size, as: :select, collection: -> { [[small_basket.name, 'small'], [big_basket.name, 'big']] }
   filter :distributions, as: :select
 
   before_action only: :index do
@@ -80,20 +80,6 @@ ActiveAdmin.register BasketContent do
     end
     if basket_content.distributions.empty?
       basket_content.distributions = Distribution.all
-    end
-  end
-
-  controller do
-    def create
-      super do
-        redirect_to collection_url and return if resource.valid?
-      end
-    end
-
-    def update
-      super do
-        redirect_to collection_url and return if resource.valid?
-      end
     end
   end
 
