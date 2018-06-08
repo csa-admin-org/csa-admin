@@ -71,10 +71,10 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (9.0.0)
-    autoprefixer-rails (8.5.1)
+    autoprefixer-rails (8.6.1)
       execjs
     aws-eventstream (1.0.0)
-    aws-partitions (1.87.0)
+    aws-partitions (1.91.0)
     aws-sdk-core (3.21.2)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
@@ -97,13 +97,13 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11.0)
     cancancan (2.2.0)
-    capybara (3.1.1)
+    capybara (3.2.1)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      xpath (~> 3.0)
+      xpath (~> 3.1)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -146,7 +146,7 @@ GEM
     faraday-cookie_jar (0.0.6)
       faraday (>= 0.7.4)
       http-cookie (~> 1.0.0)
-    ffi (1.9.23)
+    ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
     formadmin (0.2.1)
@@ -244,7 +244,7 @@ GEM
       ruby-rc4
       ttfunk
     pg (1.0.0)
-    phony (2.16.3)
+    phony (2.16.4)
     phony_rails (0.14.7)
       activesupport (>= 3.0)
       phony (> 2.15)
@@ -345,9 +345,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    skylight (2.0.1)
-      skylight-core (= 2.0.1)
-    skylight-core (2.0.1)
+    skylight (2.0.2)
+      skylight-core (= 2.0.2)
+    skylight-core (2.0.2)
       activesupport (>= 4.2.0)
     slim (3.0.9)
       temple (>= 0.7.6, < 0.9)
@@ -376,7 +376,7 @@ GEM
     turbolinks-source (5.1.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.10)
+    uglifier (4.1.11)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -391,7 +391,7 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
-    webmock (3.4.1)
+    webmock (3.4.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -471,4 +471,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

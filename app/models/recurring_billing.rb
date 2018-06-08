@@ -34,7 +34,7 @@ class RecurringBilling
     attrs[:date] = date
     if support_billable?
       attrs[:object_type] = 'Support'
-      attrs[:support_amount] = member.support_price
+      attrs[:support_amount] = member.annual_fee
     end
     if membership_billable?
       attrs[:object] = membership
@@ -46,7 +46,7 @@ class RecurringBilling
   end
 
   def support_billable?
-    member.support_price &&
+    member.annual_fee &&
       (member.support? ||
         (membership_billable? && !membership.trial_only?)) &&
       !support_already_billed?

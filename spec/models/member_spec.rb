@@ -45,9 +45,9 @@ describe Member do
     end
   end
 
-  it 'initializes with support_price from ACP' do
-    Current.acp.update!(support_price: 42)
-    expect(Member.new.support_price).to eq 42
+  it 'initializes with annual_fee from ACP' do
+    Current.acp.update!(annual_fee: 42)
+    expect(Member.new.annual_fee).to eq 42
   end
 
   it 'updates waiting basket_size/distribution' do
@@ -83,22 +83,22 @@ describe Member do
       expect(member.validator).to eq admin
     end
 
-    it 'sets state to support if support_price is present' do
+    it 'sets state to support if annual_fee is present' do
       member = create(:member, :pending,
         waiting_basket_size: nil,
         waiting_distribution: nil,
-        support_price: 30)
+        annual_fee: 30)
 
       expect { member.validate!(admin) }.to change(member, :state).to('support')
       expect(member.validated_at).to be_present
       expect(member.validator).to eq admin
     end
 
-    it 'sets state to inactive if support_price is not present' do
+    it 'sets state to inactive if annual_fee is not present' do
       member = create(:member, :pending,
         waiting_basket_size: nil,
         waiting_distribution: nil,
-        support_price: nil)
+        annual_fee: nil)
 
       expect { member.validate!(admin) }.to change(member, :state).to('inactive')
       expect(member.validated_at).to be_present
@@ -113,23 +113,23 @@ describe Member do
 
   describe '#wait!' do
     it 'sets state to waiting and reset waiting_started_at' do
-      Current.acp.update!(support_price: 30)
+      Current.acp.update!(annual_fee: 30)
       member = create(:member, :support,
         waiting_started_at: 1.month.ago,
-        support_price: 42)
+        annual_fee: 42)
 
       expect { member.wait! }.to change(member, :state).to('waiting')
       expect(member.waiting_started_at).to be > 1.minute.ago
-      expect(member.support_price).to eq 42
+      expect(member.annual_fee).to eq 42
     end
 
-    it 'sets state to waiting and set default support_price' do
-      Current.acp.update!(support_price: 30)
+    it 'sets state to waiting and set default annual_fee' do
+      Current.acp.update!(annual_fee: 30)
       member = create(:member, :inactive)
 
       expect { member.wait! }.to change(member, :state).to('waiting')
       expect(member.waiting_started_at).to be > 1.minute.ago
-      expect(member.support_price).to eq 30
+      expect(member.annual_fee).to eq 30
     end
 
     it 'raise if not support or inactive' do
@@ -185,19 +185,19 @@ describe Member do
   end
 
   describe '#deactivate!' do
-    it 'sets state to inactive and clears waiting_started_at and support_price' do
-      member = create(:member, :waiting, support_price: 42)
+    it 'sets state to inactive and clears waiting_started_at and annual_fee' do
+      member = create(:member, :waiting, annual_fee: 42)
 
       expect { member.deactivate! }.to change(member, :state).to('inactive')
       expect(member.waiting_started_at).to be_nil
-      expect(member.support_price).to be_nil
+      expect(member.annual_fee).to be_nil
     end
 
-    it 'sets state to inactive and clears support_price' do
-      member = create(:member, :support, support_price: 42)
+    it 'sets state to inactive and clears annual_fee' do
+      member = create(:member, :support, annual_fee: 42)
 
       expect { member.deactivate! }.to change(member, :state).to('inactive')
-      expect(member.support_price).to be_nil
+      expect(member.annual_fee).to be_nil
     end
 
     it 'sets state to inactive when membership ended' do
@@ -206,7 +206,7 @@ describe Member do
       member.reload
 
       expect { member.deactivate! }.to change(member, :state).to('inactive')
-      expect(member.support_price).to be_nil
+      expect(member.annual_fee).to be_nil
     end
 
     it 'raise if current membership' do
@@ -285,16 +285,16 @@ describe Member do
     end
   end
 
-  describe '#handle_support_price_change' do
-    it 'changes inactive state to support when support_price is set' do
+  describe '#handle_annual_fee_change' do
+    it 'changes inactive state to support when annual_fee is set' do
       member = create(:member, :inactive)
-      expect { member.update!(support_price: 30) }
+      expect { member.update!(annual_fee: 30) }
         .to change(member, :state).to('support')
     end
 
-    it 'changes support state to inactive when support_price is cleared' do
+    it 'changes support state to inactive when annual_fee is cleared' do
       member = create(:member, :support)
-      expect { member.update!(support_price: nil) }
+      expect { member.update!(annual_fee: nil) }
         .to change(member, :state).to('inactive')
     end
   end

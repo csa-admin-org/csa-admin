@@ -10,7 +10,7 @@ FactoryBot.define do
     email_default_from 'Rage de Vert <info@ragedevert.ch>'
     trial_basket_count 4
     billing_year_divisions [1, 4]
-    support_price 30
+    annual_fee 30
     ccp '01-13734-6'
     isr_identity '00 11041 90802 41000'
     isr_payment_for "Banque Raiffeisen du Vignoble\n2023 Gorgier"
@@ -53,7 +53,7 @@ FactoryBot.define do
     city { Faker::Address.city }
     zip { Faker::Address.zip }
     billing_year_division 4
-    support_price { Current.acp.support_price }
+    annual_fee { Current.acp.annual_fee }
 
     validated_at { Time.current }
     validator { create(:admin) }
@@ -96,12 +96,12 @@ FactoryBot.define do
     trait :support do
       state 'support'
       billing_year_division 1
-      support_price { Current.acp.support_price }
+      annual_fee { Current.acp.annual_fee }
     end
 
     trait :inactive do
       state 'inactive'
-      support_price nil
+      annual_fee nil
     end
   end
 
@@ -187,7 +187,7 @@ FactoryBot.define do
 
     trait :support do
       object_type 'Support'
-      support_amount { member.support_price }
+      support_amount { member.annual_fee }
     end
 
     trait :not_sent do

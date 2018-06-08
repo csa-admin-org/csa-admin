@@ -10,7 +10,7 @@ class Member < ActiveRecord::Base
   uniquify :token, length: 10
 
   attr_accessor :public_create
-  attribute :support_price, :decimal, default: -> { Current.acp.support_price }
+  attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
 
   has_states :pending, :waiting, :active, :support, :inactive
 
@@ -49,9 +49,9 @@ class Member < ActiveRecord::Base
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_distribution, inclusion: { in: proc { Distribution.all } }, if: :waiting_basket_size, on: :create
-  validates :support_price, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validates :annual_fee, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
-  before_save :handle_support_price_change
+  before_save :handle_annual_fee_change
   after_save :update_membership_halfday_works
   after_create :notify_new_inscription_to_admins, if: :public_create
 
@@ -128,7 +128,7 @@ class Member < ActiveRecord::Base
     if waiting_basket_size_id? || waiting_distribution_id?
       self.waiting_started_at ||= Time.current
       self.state = WAITING_STATE
-    elsif support_price
+    elsif annual_fee
       self.state = SUPPORT_STATE
     else
       self.state = INACTIVE_STATE
@@ -143,7 +143,7 @@ class Member < ActiveRecord::Base
 
     self.state = WAITING_STATE
     self.waiting_started_at = Time.current
-    self.support_price ||= Current.acp.support_price
+    self.annual_fee ||= Current.acp.annual_fee
     save!
   end
 
@@ -160,7 +160,7 @@ class Member < ActiveRecord::Base
     return if active?
 
     self.state = ACTIVE_STATE
-    self.support_price ||= Current.acp.support_price
+    self.annual_fee ||= Current.acp.annual_fee
     save!
   end
 
@@ -170,7 +170,7 @@ class Member < ActiveRecord::Base
     update!(
       state: INACTIVE_STATE,
       waiting_started_at: nil,
-      support_price: nil)
+      annual_fee: nil)
   end
 
   def can_wait?
@@ -235,8 +235,8 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def handle_support_price_change
-    if support_price
+  def handle_annual_fee_change
+    if annual_fee
       self.state = SUPPORT_STATE if inactive?
     elsif support?
       self.state = INACTIVE_STATE

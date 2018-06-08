@@ -21,8 +21,9 @@ section
         - if Current.acp.trial_basket_count.positive?
           = ' '
           = t('.membership_trial_text', count: Current.acp.trial_basket_count)
-      p
-        == t('.support_text', price: number_to_currency(Current.acp.support_price, precision: 0))
+      - if Current.acp.annual_fee
+        p
+          == t('.support_text', price: number_to_currency(Current.acp.annual_fee, precision: 0))
 
       = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
       - if BasketComplement.any?

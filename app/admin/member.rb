@@ -52,6 +52,9 @@ ActiveAdmin.register Member do
     column(:delivery_city)
     column(:profession)
     column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
+    if Current.acp.annual_fee
+      column(:annual_fee) { |m| number_to_currency(m.annual_fee) }
+    end
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
@@ -176,7 +179,9 @@ ActiveAdmin.register Member do
         attributes_table title: t('.billing') do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
           row(:salary_basket) { status_tag(member.salary_basket) }
-          row(:support_price) { number_to_currency member.support_price }
+          if Current.acp.annual_fee
+            row(:annual_fee) { number_to_currency member.annual_fee }
+          end
           row(:invoices_amount) { number_to_currency member.invoices_amount }
           row(:payments_amount) { number_to_currency member.payments_amount }
           row(:difference) { number_to_currency(member.invoices_amount - member.payments_amount) }
@@ -239,7 +244,9 @@ ActiveAdmin.register Member do
         as: :select,
         collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] },
         prompt: true
-      f.input :support_price
+      if Current.acp.annual_fee
+        f.input :annual_fee
+      end
       f.input :salary_basket
     end
     f.inputs t('active_admin.resource.show.notes') do
@@ -254,7 +261,7 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
     :delivery_address, :delivery_city, :delivery_zip,
-    :support_price, :salary_basket, :billing_year_division,
+    :annual_fee, :salary_basket, :billing_year_division,
     :waiting, :waiting_basket_size_id, :waiting_distribution_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
@@ -292,10 +299,6 @@ ActiveAdmin.register Member do
   member_action :wait, method: :post do
     resource.wait!
     redirect_to member_path(resource)
-  end
-
-  before_build do |member|
-    member.support_price ||= Current.acp.support_price
   end
 
   controller do
