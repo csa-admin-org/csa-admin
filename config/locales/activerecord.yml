@@ -9,6 +9,9 @@ _:
           _de: Anfang
           _fr: Début
       acp:
+        annual_fee:
+          _de: Jährlicher Beitrag
+          _fr: Cotisation anuelle
         billing_year_divisions:
           _de: Zahlungsintervall
           _fr: Intervalle de paiement
@@ -60,9 +63,6 @@ _:
         summer_month_range_min:
           _de: Sommer fängt an Anfang
           _fr: Été commence début
-        support_price:
-          _de: Jährlicher Beitrag
-          _fr: Cotisation anuelle
         terms_of_service_url:
           _fr: Réglement URL
         trial_basket_count:
@@ -314,6 +314,9 @@ _:
           _de: Anzahl / Teilnehmer
           _fr: Nombre / Participants
       member:
+        annual_fee:
+          _de: Jährlicher Beitrag
+          _fr: Cotisation anuelle
         basket_complements:
           _de: Taschenzusätze
           _fr: Compléments panier
@@ -364,9 +367,6 @@ _:
         salary_basket:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire
-        support_price:
-          _de: Jährlicher Beitrag
-          _fr: Cotisation anuelle
         validated_at:
           _de: Bestätigt am
           _fr: Validé le

@@ -61,7 +61,7 @@ describe 'members page' do
       expect(member.waiting_basket_size.name).to eq 'Eveil'
       expect(member.waiting_distribution.name).to eq 'Vélo'
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
-      expect(member.support_price).to eq Current.acp.support_price
+      expect(member.annual_fee).to eq Current.acp.annual_fee
       expect(member.billing_year_division).to eq 4
     end
 
@@ -102,7 +102,7 @@ describe 'members page' do
         language: 'fr')
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_distribution).to be_nil
-      expect(member.support_price).to eq Current.acp.support_price
+      expect(member.annual_fee).to eq Current.acp.annual_fee
       expect(member.billing_year_division).to eq 1
     end
   end
