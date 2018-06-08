@@ -1,10 +1,11 @@
 class MemberCount
   include ActiveModel::Model
 
-  STATES = %i[pending waiting trial active support inactive]
+  MEMBER_STATES = %i[pending waiting active support inactive]
+  MEMBERSHIP_STATES = %i[trial current future]
 
   def self.all
-    states = STATES.dup
+    member_states = MEMBER_STATES.dup
     states.delete(:trial) if Current.acp.trial_basket_count.zero?
     states.map { |state| new(state) }
   end

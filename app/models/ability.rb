@@ -19,10 +19,10 @@ class Ability
       can :destroy, ActiveAdmin::Comment
       can :destroy, [Member, Membership, Payment], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
-      can :validate, Member, pending?: true
       can :trigger_recurring_billing, Membership
-      can :remove_from_waiting_list, Member, waiting?: true
-      can :put_back_to_waiting_list, Member, inactive?: true
+      can :validate, Member, pending?: true
+      can :deactivate, Member, can_deactivate?: true
+      can :wait, Member, can_wait?: true
       can :send_email, Invoice, can_send_email?: true
       can :cancel, Invoice, can_cancel?: true
     end

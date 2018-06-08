@@ -4,7 +4,6 @@ ActiveAdmin.register Member do
   scope :all
   scope :pending
   scope :waiting
-  scope :trial, if: ->(_) { Current.acp.trial_basket_count.positive? }
   scope :active, default: true
   scope :support
   scope :inactive
@@ -19,6 +18,9 @@ ActiveAdmin.register Member do
   filter :billing_year_division,
     as: :select,
     collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] } }
+  filter :salary_basket,
+    as: :boolean,
+    if: proc { params[:scope].in? ['active', nil] }
 
   index do
     if params[:scope] == 'waiting'
@@ -30,9 +32,6 @@ ActiveAdmin.register Member do
     column :name, ->(member) { auto_link member }
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
     column :state, ->(member) { status_tag(member.state) }
-    if params[:scope] == 'trial'
-      column Basket.model_name.human(count: 2), ->(member) { member.delivered_baskets.size }
-    end
     actions
   end
 
@@ -54,7 +53,6 @@ ActiveAdmin.register Member do
     column(:profession)
     column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     column(:salary_basket, &:salary_basket?)
-    column(:support_member, &:support_member?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
     if BasketComplement.any?
@@ -178,7 +176,6 @@ ActiveAdmin.register Member do
         attributes_table title: t('.billing') do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
           row(:salary_basket) { status_tag(member.salary_basket) }
-          row(:support_member) { status_tag(member.support_member) }
           row(:support_price) { number_to_currency member.support_price }
           row(:invoices_amount) { number_to_currency member.invoices_amount }
           row(:payments_amount) { number_to_currency member.payments_amount }
@@ -208,7 +205,9 @@ ActiveAdmin.register Member do
     end
     if member.pending? || member.waiting?
       f.inputs t('active_admin.resource.show.waiting_membership') do
-        f.input :waiting_basket_size, label: BasketSize.model_name.human
+        f.input :waiting_basket_size,
+          label: BasketSize.model_name.human,
+          required: false
         if BasketComplement.any?
           f.input :waiting_basket_complement_ids,
             label: BasketComplement.model_name.human(count: 2),
@@ -240,9 +239,6 @@ ActiveAdmin.register Member do
         as: :select,
         collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] },
         prompt: true
-      if member.inactive? && !member.future_membership
-        f.input :support_member, hint: true
-      end
       f.input :support_price
       f.input :salary_basket
     end
@@ -258,7 +254,7 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
     :delivery_address, :delivery_city, :delivery_zip,
-    :support_member, :support_price, :salary_basket, :billing_year_division,
+    :support_price, :salary_basket, :billing_year_division,
     :waiting, :waiting_basket_size_id, :waiting_distribution_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
@@ -266,11 +262,11 @@ ActiveAdmin.register Member do
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
     link_to t('.validate'), validate_member_path(resource), method: :post
   end
-  action_item :remove_from_waiting_list, only: :show, if: -> { authorized?(:remove_from_waiting_list, resource) } do
-    link_to t('.remove_from_waiting_list'), remove_from_waiting_list_member_path(resource), method: :post
+  action_item :wait, only: :show, if: -> { authorized?(:wait, resource) } do
+    link_to t('.wait'), wait_member_path(resource), method: :post
   end
-  action_item :put_back_to_waiting_list, only: :show, if: -> { authorized?(:put_back_to_waiting_list, resource) } do
-    link_to t('.put_back_to_waiting_list'), put_back_to_waiting_list_member_path(resource), method: :post
+  action_item :deactivate, only: :show, if: -> { authorized?(:deactivate, resource) } do
+    link_to t('.deactivate'), deactivate_member_path(resource), method: :post
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do
     next_delivery = Delivery.next
@@ -288,13 +284,13 @@ ActiveAdmin.register Member do
     redirect_to member_path(resource)
   end
 
-  member_action :remove_from_waiting_list, method: :post do
-    resource.remove_from_waiting_list!
+  member_action :deactivate, method: :post do
+    resource.deactivate!
     redirect_to member_path(resource)
   end
 
-  member_action :put_back_to_waiting_list, method: :post do
-    resource.put_back_to_waiting_list!
+  member_action :wait, method: :post do
+    resource.wait!
     redirect_to member_path(resource)
   end
 
@@ -310,7 +306,6 @@ ActiveAdmin.register Member do
 
     def scoped_collection
       collection = Member.all
-      collection = collection.includes(:delivered_baskets) if params[:scope] == 'trial'
       if request.format.csv?
         collection = collection.includes(
           :waiting_basket_size,
@@ -326,9 +321,8 @@ ActiveAdmin.register Member do
 
     def create_resource(object)
       run_create_callbacks object do
-        object.validated_at = Time.current
-        object.validator = current_admin
         save_resource(object)
+        object.validate!(current_admin) if object.valid?
       end
     end
   end

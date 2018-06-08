@@ -52,8 +52,8 @@ FactoryBot.define do
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
-    support_member false
     billing_year_division 4
+    support_price { Current.acp.support_price }
 
     validated_at { Time.current }
     validator { create(:admin) }
@@ -61,21 +61,22 @@ FactoryBot.define do
     created_at { Time.utc(2014) } # no trial by default
 
     trait :pending do
-      state Member::PENDING_STATE
-      validated_at { nil }
-      validator { nil }
+      state 'pending'
+      validated_at nil
+      validator nil
       waiting_basket_size { create(:basket_size) }
       waiting_distribution { create(:distribution) }
     end
 
     trait :waiting do
-      state Member::WAITING_STATE
+      state 'waiting'
       waiting_started_at { Time.current }
       waiting_basket_size { create(:basket_size) }
       waiting_distribution { create(:distribution) }
     end
 
     trait :trial do
+      state 'active'
       created_at { Time.current.beginning_of_year }
       after :create do |member|
         create(:membership,
@@ -85,6 +86,7 @@ FactoryBot.define do
     end
 
     trait :active do
+      state 'active'
       after :create do |member|
         create(:membership, :last_year, member: member)
         create(:membership, member: member)
@@ -92,13 +94,14 @@ FactoryBot.define do
     end
 
     trait :support do
-      state Member::INACTIVE_STATE
+      state 'support'
       billing_year_division 1
-      support_member true
+      support_price { Current.acp.support_price }
     end
 
     trait :inactive do
-      state Member::INACTIVE_STATE
+      state 'inactive'
+      support_price nil
     end
   end
 

@@ -14,6 +14,7 @@ section
       = f.input :emails, as: :string, required: true
       = f.input :phones, as: :string, required: true
 
+    - support_checked = @member.waiting_basket_size_id&.zero?
     = f.inputs name: Membership.model_name.human do
       p
         = t('.membership_text', fiscal_year_range: fiscal_year_range)
@@ -25,12 +26,12 @@ section
 
       = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
       - if BasketComplement.any?
-        = f.input :waiting_basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2), wrapper_html: { class: ('disabled' if @member.support_member?) },disabled: (basket_complements_collection.map(&:last) if @member.support_member?)
+        = f.input :waiting_basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2), wrapper_html: { class: ('disabled' if support_checked) }, disabled: (basket_complements_collection.map(&:last) if support_checked)
       = f.input :waiting_distribution, as: :pretty_radio, collection: distributions_collection, label: Distribution.model_name.human, required: true,
-      wrapper_html: { class: ('disabled' if @member.support_member?) }, input_html: { disabled: @member.support_member? }
+      wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
     = f.inputs name: t('active_admin.resource.show.billing') do
-      = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection, wrapper_html: { class: ('disabled' if @member.support_member?) }, input_html: { disabled: @member.support_member? }
+      = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection, wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
     = f.inputs name: t('.more_info') do
       = f.input :profession

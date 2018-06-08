@@ -47,7 +47,7 @@ class Membership < ActiveRecord::Base
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_subscription_change!
-  after_commit :update_trial_baskets_and_user_state!
+  after_commit :update_member_and_baskets!
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -305,11 +305,11 @@ class Membership < ActiveRecord::Base
       waiting_basket_complement_ids: nil)
   end
 
-  def update_trial_baskets_and_user_state!
+  def update_member_and_baskets!
     member.reload
     member.update_trial_baskets!
     member.update_absent_baskets!
-    member.update_state!
+    member.review_active_state!
     update_baskets_counts!
   end
 

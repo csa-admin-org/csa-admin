@@ -6,11 +6,9 @@ ActiveAdmin.register_page 'Dashboard' do
     columns do
       column do
         panel Member.model_name.human(count: 2) do
-          table_for MemberCount.all, i18n: MemberCount do |c|
-            column(:state) { |count| link_to count.title, members_path(scope: count.state) }
-            column class: 'align-right' do |count|
-              count.count.to_s.prepend(count.count_precision.to_s)
-            end
+          table_for members_count, i18n: Member do
+            column :status
+            column :count, class: 'align-right'
           end
         end
 

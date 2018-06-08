@@ -185,6 +185,7 @@ end
 module ActiveAdmin::ViewHelpers
   include ApplicationHelper
   include MembershipsHelper
+  include DashboardHelper
   include HalfdaysHelper
   include InvoicesHelper
   include AcpsHelper

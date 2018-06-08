@@ -9,11 +9,11 @@ namespace :members do
     puts "#{Current.acp.name}: Welcome emails send to new active members."
   end
 
-  desc 'Ensure that members state are up to date'
-  task update_state: :environment do
+  desc 'Ensure that members active/inactive state are up to date'
+  task review_active_state: :environment do
     ACP.enter_each! do
-      Member.all.each(&:update_state!)
-      puts "#{Current.acp.name}: Members state updated."
+      Member.includes(:current_or_future_membership).each(&:review_active_state!)
+      puts "#{Current.acp.name}: Members active/inactive state reviewed."
     end
   end
 end

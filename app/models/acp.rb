@@ -29,7 +29,7 @@ class ACP < ActiveRecord::Base
     presence: true,
     inclusion: { in: 1..12 }
   validates :trial_basket_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :support_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :support_price, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :summer_month_range_min,
     inclusion: { in: 1..12 },
     if: -> { @summer_month_range_max.present? }
