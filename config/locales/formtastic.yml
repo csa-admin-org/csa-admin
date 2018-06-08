@@ -80,9 +80,6 @@ _:
         phones:
           _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule
-        support_member:
-          _de: Zahlt den jährlichen Beitrag, auch wenn keine Abonnemente
-          _fr: Paye la cotisation annuelle même si aucun abonnement
       membership:
         annual_halfday_works:
           _de: Leer lassen für die Standaranzahl
@@ -133,13 +130,13 @@ _:
         halfday_works_annual_price:
           _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
-    placeholders:
-      member:
-        note:
-          _fr: 'Besoins spécifiques, nombre de paniers, ...'
     'no':
       _de: Nein
       _fr: Non
+    placeholders:
+      member:
+        note:
+          _fr: Besoins spécifiques, nombre de paniers, ...
     required:
       _de: obligatorisch
       _fr: obligatoire

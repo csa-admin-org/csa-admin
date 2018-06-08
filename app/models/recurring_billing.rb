@@ -46,8 +46,8 @@ class RecurringBilling
   end
 
   def support_billable?
-    member.support_price.positive? &&
-      (member.support_member? ||
+    member.support_price &&
+      (member.support? ||
         (membership_billable? && !membership.trial_only?)) &&
       !support_already_billed?
   end

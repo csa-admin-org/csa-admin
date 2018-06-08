@@ -77,8 +77,10 @@ describe RecurringBilling do
     expect(invoice.pdf_file).to be_attached
   end
 
-  it 'does not bill support when support_price is zero' do
-    member = create(:member, :support, support_price: 0)
+  it 'does not bill support when support_price is nil' do
+    member = create(:member, :support)
+    member.update_column(:support_price, nil)
+    member.reload
 
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end

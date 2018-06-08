@@ -352,6 +352,8 @@ _:
         create_membership:
           _de: Abonnement erstellen
           _fr: Créer abonnement
+        deactivate:
+          _fr: Rendre inactif
         direct_payments:
           _de: Direkte Einzahlungen
           _fr: Paiements directs
@@ -388,12 +390,6 @@ _:
         notes:
           _de: Notizen
           _fr: Notes
-        put_back_to_waiting_list:
-          _de: Nochmals auf die Warteliste setzen
-          _fr: Remettre en liste d'attente
-        remove_from_waiting_list:
-          _de: Von der Warteliste entfernen
-          _fr: Retirer de la liste d'attente
         salary_basket:
           _de: Gratis, Lohn-Tasche
           _fr: Gratuit, panier salaire
@@ -409,6 +405,9 @@ _:
         validate:
           _de: Bestätigen
           _fr: Valider
+        wait:
+          _de: Nochmals auf die Warteliste setzen
+          _fr: Mettre en liste d'attente
         waiting_membership:
           _de: Abonnement (Warteliste)
           _fr: Abonnement (en attente)
@@ -520,12 +519,12 @@ _:
           _de: Neues %{model}
           _fr: Nouvel %{model}
         scopes:
-          trial:
-            _de: probe
-            _fr: essais
           ongoing:
             _de: laufende
             _fr: en cours
+          trial:
+            _de: probe
+            _fr: essais
     scopes:
       active:
         _de: aktive
@@ -572,9 +571,6 @@ _:
       support:
         _de: Support
         _fr: soutien
-      trial:
-        _de: Probe
-        _fr: essai
       waiting:
         _de: Warteliste
         _fr: attente

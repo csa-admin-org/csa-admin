@@ -29,7 +29,7 @@ ActiveAdmin.register ACP do
     f.inputs do
       f.input :features,
         as: :check_boxes,
-        collection: ACP.features.map { |f| [t("activerecord.models.#{f}.one"), f] }
+        collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
     end
     f.inputs 'Mailer (Postmark)' do
       f.input :email_default_host, as: :string

@@ -27,6 +27,9 @@ _:
     contact:
       _de: Kontakt
       _fr: Contact
+    count:
+      _de: Anzahl
+      _fr: Nombre
     created_at:
       _de: Erstellt am
       _fr: Créé le

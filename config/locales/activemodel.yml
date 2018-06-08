@@ -4,4 +4,4 @@ _:
       halfday_participation_count:
         count:
           _de: Anzahl (am+pm * Teilnehmer)
-          _fr: Nombres (am+pm * participants)
+          _fr: Nombre (am+pm * participants)

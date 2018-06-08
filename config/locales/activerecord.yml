@@ -63,14 +63,14 @@ _:
         support_price:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
+        terms_of_service_url:
+          _fr: Réglement URL
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai
         url:
           _de: Webseite URL
           _fr: Site URL
-        terms_of_service_url:
-          _fr: Réglement URL
         vat_membership_rate:
           _de: Mehrwertsteuersatz Abonnement (en %)
           _fr: Taux TVA abonnement (en %)
@@ -364,9 +364,6 @@ _:
         salary_basket:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire
-        support_member:
-          _de: Unterstützungsmitglied
-          _fr: Membre de soutien
         support_price:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle

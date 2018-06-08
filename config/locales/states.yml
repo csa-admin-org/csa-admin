@@ -33,15 +33,19 @@ _:
       inactive:
         _de: inactiv
         _fr: inactif
+      memberships:
+        future:
+          _fr: Abonnement future
+        ongoing:
+          _fr: Abonnement en cours
+        trial:
+          _fr: Abonnement à l'essai
       pending:
         _de: zu bestätigen
         _fr: à valider
       support:
         _de: Unterstützung
         _fr: soutien
-      trial:
-        _de: Probe
-        _fr: essai
       waiting:
         _de: Warteliste
         _fr: attente

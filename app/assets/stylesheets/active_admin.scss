@@ -121,15 +121,15 @@ table .xlsx_link {
   &.rejected {
     background-color: #ff2600;
   }
-  &.pending {
-    background-color: #ff2600;
-  }
   &.active,
   &.closed,
   &.validated,
   &.isr,
   &.yes {
     background-color: #80a432;
+  }
+  &.support {
+    background-color: #80D232;
   }
   &.waiting {
     background-color: #91ba3a;

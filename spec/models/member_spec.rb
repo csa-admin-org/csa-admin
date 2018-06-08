@@ -45,21 +45,9 @@ describe Member do
     end
   end
 
-  it 'sets state and waiting_started_at if basket_size/distribution present on creation' do
-    member = create(:member,
-      waiting_started_at: nil,
-      waiting_basket_size: create(:basket_size),
-      waiting_distribution: create(:distribution))
-
-    expect(member.state).to eq 'waiting'
-    expect(member.waiting_started_at).to be_present
-  end
-
-  it 'sets support_price from ACP if not set on creation' do
+  it 'initializes with support_price from ACP' do
     Current.acp.update!(support_price: 42)
-    member = create(:member, support_price: nil)
-
-    expect(member.support_price).to eq 42
+    expect(Member.new.support_price).to eq 42
   end
 
   it 'updates waiting basket_size/distribution' do
@@ -84,22 +72,92 @@ describe Member do
   end
 
   describe '#validate!' do
-    let(:member) { create(:member, :pending) }
     let(:admin) { create(:admin) }
 
-    it 'sets validated_at' do
-      member.validate!(admin)
-      expect(member.validated_at).to be_present
-    end
+    it 'sets state to waiting if waiting basket/distribution' do
+      member = create(:member, :pending,
+        waiting_basket_size: create(:basket_size))
 
-    it 'sets validator with admin' do
-      member.validate!(admin)
+      expect { member.validate!(admin) }.to change(member, :state).to('waiting')
+      expect(member.validated_at).to be_present
       expect(member.validator).to eq admin
     end
 
-    it 'sets state to waiting' do
-      member.validate!(admin)
-      expect(member.state).to eq 'waiting'
+    it 'sets state to support if support_price is present' do
+      member = create(:member, :pending,
+        waiting_basket_size: nil,
+        waiting_distribution: nil,
+        support_price: 30)
+
+      expect { member.validate!(admin) }.to change(member, :state).to('support')
+      expect(member.validated_at).to be_present
+      expect(member.validator).to eq admin
+    end
+
+    it 'sets state to inactive if support_price is not present' do
+      member = create(:member, :pending,
+        waiting_basket_size: nil,
+        waiting_distribution: nil,
+        support_price: nil)
+
+      expect { member.validate!(admin) }.to change(member, :state).to('inactive')
+      expect(member.validated_at).to be_present
+      expect(member.validator).to eq admin
+    end
+
+    it 'raise if not pending' do
+      member = create(:member, :support)
+      expect { member.validate!(admin) }.to raise_error(RuntimeError)
+    end
+  end
+
+  describe '#wait!' do
+    it 'sets state to waiting and reset waiting_started_at' do
+      Current.acp.update!(support_price: 30)
+      member = create(:member, :support,
+        waiting_started_at: 1.month.ago,
+        support_price: 42)
+
+      expect { member.wait! }.to change(member, :state).to('waiting')
+      expect(member.waiting_started_at).to be > 1.minute.ago
+      expect(member.support_price).to eq 42
+    end
+
+    it 'sets state to waiting and set default support_price' do
+      Current.acp.update!(support_price: 30)
+      member = create(:member, :inactive)
+
+      expect { member.wait! }.to change(member, :state).to('waiting')
+      expect(member.waiting_started_at).to be > 1.minute.ago
+      expect(member.support_price).to eq 30
+    end
+
+    it 'raise if not support or inactive' do
+      member = create(:member, :pending)
+      expect { member.wait! }.to raise_error(RuntimeError)
+    end
+  end
+
+  describe '#review_active_state!' do
+    it 'activates new active member' do
+      member = create(:member, :inactive)
+      membership = create(:membership,
+        member: member,
+        ended_on: 1.day.ago)
+      membership.update_column(:ended_on, 1.day.from_now)
+      member.reload
+
+      expect { member.review_active_state! }
+        .to change(member, :state).from('inactive').to('active')
+    end
+
+    it 'deactivates old active member' do
+      member = create(:member, :active)
+      member.membership.update_column(:ended_on, 1.day.ago)
+      member.reload
+
+      expect { member.review_active_state! }
+        .to change(member, :state).from('active').to('inactive')
     end
   end
 
@@ -126,31 +184,35 @@ describe Member do
     specify { expect(member.absent?(Date.tomorrow)).to eq true }
   end
 
-  describe '#remove_from_waiting_list!' do
-    it 'changes state from waiting to inactive' do
-      member = create(:member, :waiting)
+  describe '#deactivate!' do
+    it 'sets state to inactive and clears waiting_started_at and support_price' do
+      member = create(:member, :waiting, support_price: 42)
 
-      expect { member.remove_from_waiting_list! }
-        .to change { member.state }.from('waiting').to('inactive')
-        .and change { member.waiting_started_at }.to(nil)
-    end
-  end
-
-  describe '#put_back_to_waiting_list!' do
-    it 'changes state from waiting to inactive' do
-      member = create(:member, :inactive)
-
-      expect { member.put_back_to_waiting_list! }
-        .to change { member.state }.from('inactive').to('waiting')
-        .and change { member.waiting_started_at }.from(nil)
+      expect { member.deactivate! }.to change(member, :state).to('inactive')
+      expect(member.waiting_started_at).to be_nil
+      expect(member.support_price).to be_nil
     end
 
-    it 'cleans support_member' do
-      member = create(:member, :support)
+    it 'sets state to inactive and clears support_price' do
+      member = create(:member, :support, support_price: 42)
 
-      expect { member.put_back_to_waiting_list! }
-        .to change { member.state }.from('inactive').to('waiting')
-        .and change { member.support_member }.to(false)
+      expect { member.deactivate! }.to change(member, :state).to('inactive')
+      expect(member.support_price).to be_nil
+    end
+
+    it 'sets state to inactive when membership ended' do
+      member = create(:member, :active)
+      member.membership.update_column(:ended_on, 1.day.ago)
+      member.reload
+
+      expect { member.deactivate! }.to change(member, :state).to('inactive')
+      expect(member.support_price).to be_nil
+    end
+
+    it 'raise if current membership' do
+      member = create(:member, :active)
+
+      expect { member.deactivate! }.to raise_error(RuntimeError)
     end
   end
 
@@ -220,6 +282,20 @@ describe Member do
       create(:member, :waiting)
 
       expect(email_adapter.deliveries).to be_empty
+    end
+  end
+
+  describe '#handle_support_price_change' do
+    it 'changes inactive state to support when support_price is set' do
+      member = create(:member, :inactive)
+      expect { member.update!(support_price: 30) }
+        .to change(member, :state).to('support')
+    end
+
+    it 'changes support state to inactive when support_price is cleared' do
+      member = create(:member, :support)
+      expect { member.update!(support_price: nil) }
+        .to change(member, :state).to('inactive')
     end
   end
 end

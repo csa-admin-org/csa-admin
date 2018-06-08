@@ -34,6 +34,8 @@ describe 'members page' do
       check 'Pain'
       choose 'Vélo'
 
+      choose 'Trimestriel'
+
       fill_in 'Profession', with: 'Pompier'
       fill_in "Comment avez-vous entendu parler de nous?", with: 'Bouche à oreille'
       fill_in "Remarque(s)", with: 'Vive Rage de Vert!'
@@ -59,6 +61,8 @@ describe 'members page' do
       expect(member.waiting_basket_size.name).to eq 'Eveil'
       expect(member.waiting_distribution.name).to eq 'Vélo'
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
+      expect(member.support_price).to eq Current.acp.support_price
+      expect(member.billing_year_division).to eq 4
     end
 
     it 'creates a new support member' do
@@ -88,7 +92,6 @@ describe 'members page' do
       expect(page).to have_content 'Merci pour votre inscription!'
 
       member = Member.last
-      expect(member).to be_support_member
       expect(member.attributes.symbolize_keys).to match hash_including(
         name: 'John et Jame Doe',
         address: 'Nowhere srteet 2',
@@ -99,6 +102,7 @@ describe 'members page' do
         language: 'fr')
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_distribution).to be_nil
+      expect(member.support_price).to eq Current.acp.support_price
       expect(member.billing_year_division).to eq 1
     end
   end

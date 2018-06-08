@@ -8,9 +8,11 @@ class Member < ActiveRecord::Base
 
   acts_as_paranoid
   uniquify :token, length: 10
-  attr_accessor :public_create
 
-  has_states :pending, :waiting, :trial, :active, :inactive
+  attr_accessor :public_create
+  attribute :support_price, :decimal, default: -> { Current.acp.support_price }
+
+  has_states :pending, :waiting, :active, :support, :inactive
 
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
@@ -34,50 +36,38 @@ class Member < ActiveRecord::Base
     source: :delivered_baskets,
     class_name: 'Basket'
 
-  scope :billable, -> { where(state: [ACTIVE_STATE, INACTIVE_STATE]) }
-  scope :support, -> { inactive.where(support_member: true) }
+  scope :billable, -> { where(state: [ACTIVE_STATE, SUPPORT_STATE]) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
 
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
     presence: true,
-    inclusion: { in: ->(_) { Current.acp.billing_year_divisions } }
-  validates :billing_year_division, inclusion: { in: [1] }, if: :support_member?
+    inclusion: { in: proc { Current.acp.billing_year_divisions } }
   validates :name, presence: true
   validates :emails, presence: true, on: :create
   validates :address, :city, :zip, presence: true, unless: :inactive?
-  validate :support_member_not_waiting
-  validates :waiting_basket_size_id, presence: true, if: :public_create_and_not_support?
-  validates :waiting_distribution_id, presence: true, if: :public_create_and_not_support?
-  validates :support_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
+  validates :waiting_distribution, inclusion: { in: proc { Distribution.all } }, if: :waiting_basket_size, on: :create
+  validates :support_price, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
-  before_validation :set_initial_support_price, on: :create
-  before_validation :set_initial_waiting_started_at, on: :create
-  before_save :set_state, :set_support_member
+  before_save :handle_support_price_change
   after_save :update_membership_halfday_works
   after_create :notify_new_inscription_to_admins, if: :public_create
 
   def newsletter?
-    (state.in?([WAITING_STATE, TRIAL_STATE, ACTIVE_STATE]) && newsletter.in?([true, nil])) ||
-      (support_member? && newsletter.in?([true, nil])) ||
-      newsletter == true
+    (
+      state.in?([WAITING_STATE, ACTIVE_STATE, SUPPORT_STATE]) &&
+        newsletter.in?([true, nil])
+    ) || newsletter == true
   end
 
   def billable?
-    active? || inactive?
+    active? || support? || current_year_membership
   end
 
   def name=(name)
     super name.strip
-  end
-
-  def waiting_basket_size_id=(id)
-    if id.to_i.zero?
-      self.support_member = true
-    else
-      super
-    end
   end
 
   def display_address
@@ -116,11 +106,6 @@ class Member < ActiveRecord::Base
     %i[with_name with_address with_email with_phone]
   end
 
-  def update_state!
-    set_state
-    save!
-  end
-
   def update_trial_baskets!
     transaction do
       baskets.update_all(trial: false)
@@ -139,23 +124,61 @@ class Member < ActiveRecord::Base
 
   def validate!(validator)
     invalid_transition(:validate!) unless pending?
-    update!(
-      validated_at: Time.current,
-      validator: validator)
+
+    if waiting_basket_size_id? || waiting_distribution_id?
+      self.waiting_started_at ||= Time.current
+      self.state = WAITING_STATE
+    elsif support_price
+      self.state = SUPPORT_STATE
+    else
+      self.state = INACTIVE_STATE
+    end
+    self.validated_at = Time.current
+    self.validator = validator
+    save!
   end
 
-  def remove_from_waiting_list!
-    invalid_transition(:remove_from_waiting_list) unless waiting?
-    update!(
-      support_member: false,
-      waiting_started_at: nil)
+  def wait!
+    invalid_transition(:wait!) unless can_wait?
+
+    self.state = WAITING_STATE
+    self.waiting_started_at = Time.current
+    self.support_price ||= Current.acp.support_price
+    save!
   end
 
-  def put_back_to_waiting_list!
-    invalid_transition(:wait!) unless inactive?
+  def review_active_state!
+    if current_or_future_membership
+      activate! unless active?
+    elsif active?
+      deactivate!
+    end
+  end
+
+  def activate!
+    invalid_transition(:activate!) unless current_or_future_membership
+    return if active?
+
+    self.state = ACTIVE_STATE
+    self.support_price ||= Current.acp.support_price
+    save!
+  end
+
+  def deactivate!
+    invalid_transition(:deactivate!) unless can_deactivate?
+
     update!(
-      support_member: false,
-      waiting_started_at: Time.current)
+      state: INACTIVE_STATE,
+      waiting_started_at: nil,
+      support_price: nil)
+  end
+
+  def can_wait?
+    support? || inactive?
+  end
+
+  def can_deactivate?
+    !inactive? && (waiting? || support? || !current_or_future_membership)
   end
 
   def send_welcome_email
@@ -180,7 +203,7 @@ class Member < ActiveRecord::Base
   end
 
   def can_destroy?
-    pending? || waiting?
+    pending?
   end
 
   def invoices_amount
@@ -195,43 +218,10 @@ class Member < ActiveRecord::Base
     [payments_amount - invoices_amount, 0].max
   end
 
-  alias_method :waiting, :waiting?
-
   private
 
   def public_create_and_not_support?
-    public_create && !support_member?
-  end
-
-  def set_initial_support_price
-    self.support_price ||= Current.acp.support_price
-  end
-
-  def set_initial_waiting_started_at
-    if waiting_basket_size_id? || waiting_distribution_id?
-      self.waiting_started_at ||= Time.current
-    end
-  end
-
-  def set_state
-    self.state =
-      if !validated_at?
-        PENDING_STATE
-      elsif current_membership
-        baskets_in_trial? ? TRIAL_STATE : ACTIVE_STATE
-      elsif future_membership
-        baskets_in_trial? ? TRIAL_STATE : INACTIVE_STATE
-      elsif waiting_started_at?
-        WAITING_STATE
-      else
-        INACTIVE_STATE
-      end
-  end
-
-  def set_support_member
-    if waiting? || trial? || active? || future_membership
-      self.support_member = false
-    end
+    public_create && !support?
   end
 
   def baskets_in_trial?
@@ -245,9 +235,11 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def support_member_not_waiting
-    if support_member? && waiting?
-      errors.add(:support_member, :invalid)
+  def handle_support_price_change
+    if support_price
+      self.state = SUPPORT_STATE if inactive?
+    elsif support?
+      self.state = INACTIVE_STATE
     end
   end
 

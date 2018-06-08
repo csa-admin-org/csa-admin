@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_05_164035) do
+ActiveRecord::Schema.define(version: 2018_06_08_123650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_06_05_164035) do
     t.string "email_default_from"
     t.integer "fiscal_year_start_month", default: 1, null: false
     t.integer "trial_basket_count", default: 0, null: false
-    t.decimal "support_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal "support_price", precision: 8, scale: 2
     t.int4range "summer_month_range"
     t.string "ccp"
     t.string "isr_identity"
@@ -313,7 +313,6 @@ ActiveRecord::Schema.define(version: 2018_06_05_164035) do
     t.string "token", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "support_member", default: false, null: false
     t.datetime "waiting_started_at"
     t.text "food_note"
     t.text "note"
@@ -332,7 +331,7 @@ ActiveRecord::Schema.define(version: 2018_06_05_164035) do
     t.string "name", null: false
     t.string "profession"
     t.string "come_from"
-    t.decimal "support_price", precision: 8, scale: 2, null: false
+    t.decimal "support_price", precision: 8, scale: 2
     t.integer "billing_year_division", default: 1, null: false
     t.string "language", default: "fr", null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
