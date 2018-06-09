@@ -30,16 +30,16 @@ describe RecurringBilling do
     invoice = create_invoice(member)
 
     expect(invoice.object).to be_nil
-    expect(invoice.object_type).to eq 'Support'
-    expect(invoice.support_amount).to be_present
+    expect(invoice.object_type).to eq 'AnnualFee'
+    expect(invoice.annual_fee).to be_present
     expect(invoice.memberships_amount).to be_nil
-    expect(invoice.amount).to eq invoice.support_amount
+    expect(invoice.amount).to eq invoice.annual_fee
     expect(invoice.pdf_file).to be_attached
   end
 
   it 'does not create an invoice for already billed support member' do
     member = create(:member, :support)
-    create(:invoice, :support, member: member)
+    create(:invoice, :annual_fee, member: member)
 
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
@@ -56,7 +56,7 @@ describe RecurringBilling do
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it 'does not bill support for canceled trial membership' do
+  it 'does not bill annual fee for canceled trial membership' do
     Current.acp.update!(
       billing_year_divisions: [12],
       trial_basket_count: 4)
@@ -72,12 +72,12 @@ describe RecurringBilling do
     invoice = create_invoice(member)
 
     expect(invoice.object).to eq membership
-    expect(invoice.support_amount).to be_nil
+    expect(invoice.annual_fee).to be_nil
     expect(invoice.memberships_amount).to eq membership.price
     expect(invoice.pdf_file).to be_attached
   end
 
-  it 'does not bill support when annual_fee is nil' do
+  it 'does not bill annual fee when member annual_fee is nil' do
     member = create(:member, :support)
     member.update_column(:annual_fee, nil)
     member.reload
@@ -87,13 +87,13 @@ describe RecurringBilling do
 
   it 'creates an invoice for already billed support member (last year)' do
     member = create(:member, :support)
-    create(:invoice, :support, member: member, date: 1.year.ago)
+    create(:invoice, :annual_fee, member: member, date: 1.year.ago)
     invoice = create_invoice(member)
 
     expect(invoice.object).to be_nil
-    expect(invoice.support_amount).to be_present
+    expect(invoice.annual_fee).to be_present
     expect(invoice.memberships_amount).to be_nil
-    expect(invoice.amount).to eq invoice.support_amount
+    expect(invoice.amount).to eq invoice.annual_fee
     expect(invoice.pdf_file).to be_attached
   end
 
@@ -105,7 +105,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_present
+      expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to eq 'Facturation annuelle'
@@ -130,7 +130,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_present
+      expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount)
         .to eq 40 * 2 * 32 + 40 * 2 * 3 + 40 * 3.4 + 40 * 2 * 5.6
@@ -144,7 +144,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to be_nil
-      expect(invoice.support_amount).to be_present
+      expect(invoice.annual_fee).to be_present
       expect(invoice.memberships_amount).to be_nil
       expect(invoice.pdf_file).to be_attached
     end
@@ -170,7 +170,7 @@ describe RecurringBilling do
 
       expect(invoice.object).to eq membership
       expect(invoice.object.baskets_count).to eq 40
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.memberships_amount_description).to be_present
       expect(invoice.memberships_amount).to eq 34 * 2
@@ -185,7 +185,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_present
+      expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq membership.price
       expect(invoice.memberships_amount).to eq membership.price / 4.0
@@ -204,7 +204,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
@@ -227,7 +227,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
@@ -241,7 +241,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 2.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
@@ -256,9 +256,9 @@ describe RecurringBilling do
       Timecop.travel(Date.new(Current.fy_year, 8))
 
       memberships_amount = membership.price / 4.0
-      support_amount = 30
+      annual_fee = 30
 
-      create(:payment, member: member, amount: memberships_amount + support_amount + 15)
+      create(:payment, member: member, amount: memberships_amount + annual_fee + 15)
       create(:payment, member: member, amount: memberships_amount + 50)
 
       expect(@first_invoice.reload.overbalance).to be_zero
@@ -302,7 +302,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
       expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price * 3 / 4.0
       expect(invoice.memberships_amount).to eq membership.price / 4.0
@@ -329,7 +329,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq 1200
       expect(invoice.remaining_memberships_amount).to eq 1 * 2
       expect(invoice.memberships_amount).to eq 1 * 2
@@ -346,7 +346,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_present
+      expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq membership.price
       expect(invoice.memberships_amount).to eq membership.price / 12.0
@@ -360,7 +360,7 @@ describe RecurringBilling do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
-      expect(invoice.support_amount).to be_nil
+      expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq (membership.price / 12.0) * 2
       expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
       expect(invoice.memberships_amount).to eq membership.price / 12.0

@@ -32,9 +32,9 @@ class RecurringBilling
 
   def build_invoice(**attrs)
     attrs[:date] = date
-    if support_billable?
-      attrs[:object_type] = 'Support'
-      attrs[:support_amount] = member.annual_fee
+    if annual_fee?
+      attrs[:object_type] = 'AnnualFee'
+      attrs[:annual_fee] = member.annual_fee
     end
     if membership_billable?
       attrs[:object] = membership
@@ -45,11 +45,10 @@ class RecurringBilling
     member.invoices.build(attrs)
   end
 
-  def support_billable?
+  def annual_fee?
     member.annual_fee &&
-      (member.support? ||
-        (membership_billable? && !membership.trial_only?)) &&
-      !support_already_billed?
+      (member.support? || (membership_billable? && !membership.trial_only?)) &&
+      invoices.annual_fee.none?
   end
 
   def membership_billable?
@@ -84,10 +83,6 @@ class RecurringBilling
 
   def fy_month
     Current.acp.fy_month_for(date)
-  end
-
-  def support_already_billed?
-    invoices.support.exists?
   end
 
   # We only want to bill each year division once, even when membership changes.

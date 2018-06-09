@@ -1,5 +1,5 @@
 class BillingTotal
-  SCOPES = %i[halfday support]
+  SCOPES = %i[halfday annual_fee]
 
   def self.all
     scopes = [BasketSize.all]
@@ -45,8 +45,8 @@ class BillingTotal
           .sum('baskets.quantity * baskets.distribution_price')
       when :halfday
         @memberships.sum(:halfday_works_annual_price)
-      when :support
-        Invoice.current_year.not_canceled.sum(:support_amount)
+      when :annual_fee
+        Invoice.current_year.not_canceled.sum(:annual_fee)
       end
   end
 end

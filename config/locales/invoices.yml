@@ -6,9 +6,9 @@ _:
           _de: Stornierte Rechnung
           _fr: Facture annulée
     object_type:
-      support:
-        _de: Beitrag
-        _fr: Cotisation
+      annual_fee:
+        _de: Jahresgebühr
+        _fr: Cotisation annuelle
     pdf:
       all_taxes_included:
         _de: inkl. MwSt.
@@ -16,7 +16,7 @@ _:
       annual_memberships_amount:
         _de: Jährlicher Betrag
         _fr: Montant annuel
-      annual_support_amount:
+      annual_fee:
         _de: Jährlicher Vereinsbeitrag
         _fr: Cotisation annuelle association
       basket_complements_annual_price_change:

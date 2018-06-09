@@ -185,9 +185,9 @@ FactoryBot.define do
       memberships_amount_description 'Montant'
     end
 
-    trait :support do
-      object_type 'Support'
-      support_amount { member.annual_fee }
+    trait :annual_fee do
+      object_type 'AnnualFee'
+      annual_fee { member.annual_fee }
     end
 
     trait :not_sent do
