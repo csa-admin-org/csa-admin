@@ -26,7 +26,7 @@ describe PDF::Invoice do
         address: 'unknown str. 42',
         zip: '0123',
         city: 'Nowhere')
-      invoice = create(:invoice, :support, id: 706, member: member)
+      invoice = create(:invoice, :annual_fee, id: 706, member: member)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -39,8 +39,8 @@ describe PDF::Invoice do
         .and include('01-13734-6')
     end
 
-    it 'generates invoice with only support amount' do
-      invoice = create(:invoice, :support, id: 807, support_amount: 42)
+    it 'generates invoice with only annual_fee amount' do
+      invoice = create(:invoice, :annual_fee, id: 807, annual_fee: 42)
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
@@ -49,14 +49,14 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include('Facturation anuelle')
     end
 
-    it 'generates invoice with support amount + annual membership' do
+    it 'generates invoice with annual_fee amount + annual membership' do
       membership = create(:membership,
         basket_size: create(:basket_size, :big),
         distribution: create(:distribution, price: 0))
       invoice = create(:invoice,
         id: 4,
         object: membership,
-        support_amount: 42,
+        annual_fee: 42,
         memberships_amount_description: 'Facturation anuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -80,7 +80,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 7,
         object: membership,
-        support_amount: 30,
+        annual_fee: 30,
         memberships_amount_description: 'Facturation anuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -106,7 +106,7 @@ describe PDF::Invoice do
         id: 8,
         member: member,
         object: membership,
-        support_amount: 30,
+        annual_fee: 30,
         membership_amount_fraction: 4,
         memberships_amount_description: 'Montant trimestriel #1')
 
@@ -257,7 +257,7 @@ describe PDF::Invoice do
         id: 122,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -290,7 +290,7 @@ describe PDF::Invoice do
         date: Current.fy_range.min,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         membership_amount_fraction: 3,
         memberships_amount_description: 'Facturation quadrimestrielle #1')
       invoice = create(:invoice,
@@ -338,7 +338,7 @@ describe PDF::Invoice do
         date: Current.fy_range.min,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         membership_amount_fraction: 12,
         memberships_amount_description: 'Facturation mensuelle #1')
       create(:invoice,
@@ -396,7 +396,7 @@ describe PDF::Invoice do
         id: 123,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -440,7 +440,7 @@ describe PDF::Invoice do
         id: 124,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -470,7 +470,7 @@ describe PDF::Invoice do
         id: 242,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -499,7 +499,7 @@ describe PDF::Invoice do
         date: Current.fy_range.min,
         member: member,
         object: membership,
-        support_amount: 75,
+        annual_fee: 75,
         membership_amount_fraction: 12,
         memberships_amount_description: 'Facturation mensuelle #1')
       invoice = create(:invoice,

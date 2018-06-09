@@ -20,16 +20,16 @@ describe Invoice do
   end
 
   it 'generates and sets pdf after creation' do
-    invoice = create(:invoice, :support)
+    invoice = create(:invoice, :annual_fee)
     expect(invoice.pdf_file).to be_attached
     expect(invoice.pdf_file.byte_size).to be_positive
   end
 
   it 'sends email when send_email is true on creation' do
-    expect { create(:invoice, :support) }
+    expect { create(:invoice, :annual_fee) }
       .not_to change { email_adapter.deliveries.size }
 
-    expect { create(:invoice, :support, send_email: true) }
+    expect { create(:invoice, :annual_fee, send_email: true) }
       .to change { email_adapter.deliveries.size }.by(1)
   end
 
@@ -46,20 +46,20 @@ describe Invoice do
     expect { invoice.cancel! }.to change { membership.reload.recognized_halfday_works }.by(-2)
   end
 
-  context 'when support only' do
-    let(:invoice) { create(:invoice, :support) }
+  context 'when annual fee only' do
+    let(:invoice) { create(:invoice, :annual_fee) }
 
-    specify { expect(invoice.support_amount).to be_present }
-    specify { expect(invoice.object_type).to eq 'Support' }
+    specify { expect(invoice.annual_fee).to be_present }
+    specify { expect(invoice.object_type).to eq 'AnnualFee' }
     specify { expect(invoice.memberships_amount).to be_nil }
-    specify { expect(invoice.amount).to eq invoice.support_amount }
+    specify { expect(invoice.amount).to eq invoice.annual_fee }
   end
 
   context 'when membership' do
     let(:invoice) { create(:invoice, :membership) }
     let(:amount) { invoice.member.memberships.first.price }
 
-    specify { expect(invoice.support_amount).to be_nil }
+    specify { expect(invoice.annual_fee).to be_nil }
     specify { expect(invoice.object_type).to eq 'Membership' }
     specify { expect(invoice.memberships_amount).to eq amount  }
     specify { expect(invoice.paid_memberships_amount).to be_zero }
@@ -88,21 +88,21 @@ describe Invoice do
       specify { expect(invoice.amount).to eq invoice.memberships_amount }
     end
 
-    context 'when support present as well' do
+    context 'when annual_fee present as well' do
       let(:invoice) do
-        create(:invoice, :support, :membership)
+        create(:invoice, :annual_fee, :membership)
       end
 
-      specify { expect(invoice.support_amount).to be_present }
+      specify { expect(invoice.annual_fee).to be_present }
       specify do
         expect(invoice.amount)
-          .to eq invoice.memberships_amount + invoice.support_amount
+          .to eq invoice.memberships_amount + invoice.annual_fee
       end
     end
   end
 
   describe '#send!' do
-    let(:invoice) { create(:invoice, :support, :not_sent) }
+    let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
     it 'delivers email' do
       expect { invoice.send! }
@@ -134,7 +134,7 @@ describe Invoice do
   end
 
   describe '#mark_as_sent!' do
-    let(:invoice) { create(:invoice, :support, :not_sent) }
+    let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
     it 'does not deliver email' do
       expect { invoice.mark_as_sent! }
@@ -152,7 +152,7 @@ describe Invoice do
 
   describe 'set_memberships_vat_amount' do
     it 'does not set it for non-membership invoices' do
-      invoice = create(:invoice, :support)
+      invoice = create(:invoice, :annual_fee)
       expect(invoice.memberships_vat_amount).to be_nil
     end
 

@@ -143,11 +143,8 @@ module PDF
         data << [invoice.memberships_amount_description, gross_amount]
       end
 
-      if invoice.support_amount?
-        data << [
-          t('annual_support_amount'),
-          cur(invoice.support_amount)
-        ]
+      if invoice.annual_fee?
+        data << [t('annual_fee'), cur(invoice.annual_fee)]
       end
 
       if @missing_amount != invoice.amount
@@ -156,7 +153,7 @@ module PDF
         credit_amount = "#{appendice_star} #{credit_amount}" if invoice.member.credit_amount.positive?
         data << [t('credit_amount'), credit_amount]
         data << [t('missing_amount'), cur(@missing_amount)]
-      elsif (invoice.memberships_amount? && invoice.support_amount?) || invoice.object_type != 'Membership'
+      elsif (invoice.memberships_amount? && invoice.annual_fee?) || invoice.object_type != 'Membership'
         data << [t('total'), cur(invoice.amount)]
       end
 
@@ -188,7 +185,7 @@ module PDF
         t.row(row).font_style = :bold
 
         if (@missing_amount != invoice.amount) || (invoice.memberships_amount? &&
-            (invoice.support_amount? || !invoice.memberships_amount_description?)) ||
+            (invoice.annual_fee? || !invoice.memberships_amount_description?)) ||
             invoice.object_type != 'Membership'
           t.columns(1).rows(row).borders = [:top]
           t.row(row).padding_top = 0
@@ -197,9 +194,9 @@ module PDF
         if invoice.memberships_amount_description?
           row -=
             if @missing_amount != invoice.amount
-              invoice.support_amount? ? 4 : 3
+              invoice.annual_fee? ? 4 : 3
             else
-              invoice.support_amount? ? 3 : 1
+              invoice.annual_fee? ? 3 : 1
             end
 
           t.columns(1).rows(row).borders = [:top]

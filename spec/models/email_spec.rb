@@ -166,7 +166,7 @@ describe Email do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
-    invoice = create(:invoice, :support, :open,
+    invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 31,
       date: '24.03.2018',
@@ -197,7 +197,7 @@ describe Email do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
-    invoice = create(:invoice, :support, :open,
+    invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 31,
       date: '24.03.2018',
@@ -230,7 +230,7 @@ describe Email do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
-    invoice = create(:invoice, :support,
+    invoice = create(:invoice, :annual_fee,
       member: member,
       id: 31,
       date: '24.03.2018',
@@ -263,7 +263,7 @@ describe Email do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
-    invoice = create(:invoice, :support,
+    invoice = create(:invoice, :annual_fee,
       member: member,
       id: 31,
       date: '24.03.2018',

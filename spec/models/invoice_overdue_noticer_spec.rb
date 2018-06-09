@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe InvoiceOverdueNoticer do
-  let(:invoice) { create(:invoice, :support, :open, sent_at: 40.days.ago) }
+  let(:invoice) { create(:invoice, :annual_fee, :open, sent_at: 40.days.ago) }
 
   def perform(invoice)
     InvoiceOverdueNoticer.perform(invoice)
@@ -24,7 +24,7 @@ describe InvoiceOverdueNoticer do
   end
 
   specify 'only send overdue notice when invoice is open' do
-    invoice = create(:invoice, :support, :open)
+    invoice = create(:invoice, :annual_fee, :open)
     create(:payment, invoice: invoice, amount: Current.acp.annual_fee)
     expect(invoice.reload.state).to eq 'closed'
     expect { perform(invoice) }
@@ -32,13 +32,13 @@ describe InvoiceOverdueNoticer do
   end
 
   specify 'only send first overdue notice after 35 days' do
-    invoice = create(:invoice, :support, sent_at: 10.days.ago)
+    invoice = create(:invoice, :annual_fee, sent_at: 10.days.ago)
     expect { perform(invoice) }
       .to change { ActionMailer::Base.deliveries.count }.by(0)
   end
 
   specify 'only send second overdue notice after 35 days first one' do
-    invoice = create(:invoice, :support, :open,
+    invoice = create(:invoice, :annual_fee, :open,
       overdue_notices_count: 1,
       overdue_notice_sent_at: 10.days.ago
     )
@@ -47,7 +47,7 @@ describe InvoiceOverdueNoticer do
   end
 
   it 'sends second overdue notice after 35 days first one' do
-    invoice = create(:invoice, :support, :open,
+    invoice = create(:invoice, :annual_fee, :open,
       overdue_notices_count: 1,
       overdue_notice_sent_at: 40.days.ago
     )

@@ -56,10 +56,10 @@ _:
       halfday/halfday_work:
         _de: Anpassung ½ Tage
         _fr: Ajustement ½ journées
-      support:
+      annual_fee:
         _de: Beitrag
         _fr: Cotisation
-    supports_amount:
+    annual_fees:
       _de: Beiträge
       _fr: Cotisations
     title:

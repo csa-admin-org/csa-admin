@@ -7,7 +7,7 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   NoPDFError = Class.new(StandardError)
 
-  OBJECT_TYPES = %w[Membership Support HalfdayParticipation]
+  OBJECT_TYPES = %w[Membership AnnualFee HalfdayParticipation]
 
   attr_writer :membership_amount_fraction, :send_email
   attr_accessor :comment
@@ -20,7 +20,7 @@ class Invoice < ActiveRecord::Base
 
   has_one_attached :pdf_file
 
-  scope :support, -> { where.not(support_amount: nil) }
+  scope :annual_fee, -> { where.not(annual_fee: nil) }
   scope :membership, -> { where(object_type: 'Membership') }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :cancelable, -> { where(state: [PENDING_STATE, OPEN_STATE]) }
@@ -192,7 +192,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def set_amount
-    self[:amount] ||= (memberships_amount || 0) + (support_amount || 0)
+    self[:amount] ||= (memberships_amount || 0) + (annual_fee || 0)
   end
 
   def set_memberships_vat_amount

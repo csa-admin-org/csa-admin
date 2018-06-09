@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_08_190305) do
+ActiveRecord::Schema.define(version: 2018_06_09_161340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -283,7 +283,7 @@ ActiveRecord::Schema.define(version: 2018_06_08_190305) do
     t.date "date", null: false
     t.decimal "balance", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "amount", precision: 8, scale: 2, null: false
-    t.decimal "support_amount", precision: 8, scale: 2
+    t.decimal "annual_fee", precision: 8, scale: 2
     t.string "memberships_amount_description"
     t.decimal "memberships_amount", precision: 8, scale: 2
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
