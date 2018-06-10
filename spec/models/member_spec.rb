@@ -26,7 +26,7 @@ describe Member do
         create(:member, :waiting),
         create(:member, :trial),
         create(:member, :active),
-        create(:member, :support),
+        create(:member, :support_annual_fee),
         create(:member, :inactive, newsletter: true)
       ].each { |member|
         expect(member.newsletter?).to eq true
@@ -37,7 +37,7 @@ describe Member do
       [
         create(:member, :pending),
         create(:member, :inactive),
-        create(:member, :support, newsletter: false),
+        create(:member, :support_annual_fee, newsletter: false),
         create(:member, :active, newsletter: false)
       ].each { |member|
         expect(member.newsletter?).to eq false
@@ -106,7 +106,7 @@ describe Member do
     end
 
     it 'raise if not pending' do
-      member = create(:member, :support)
+      member = create(:member, :support_annual_fee)
       expect { member.validate!(admin) }.to raise_error(RuntimeError)
     end
   end
@@ -114,7 +114,7 @@ describe Member do
   describe '#wait!' do
     it 'sets state to waiting and reset waiting_started_at' do
       Current.acp.update!(annual_fee: 30)
-      member = create(:member, :support,
+      member = create(:member, :support_annual_fee,
         waiting_started_at: 1.month.ago,
         annual_fee: 42)
 
@@ -194,7 +194,7 @@ describe Member do
     end
 
     it 'sets state to inactive and clears annual_fee' do
-      member = create(:member, :support, annual_fee: 42)
+      member = create(:member, :support_annual_fee, annual_fee: 42)
 
       expect { member.deactivate! }.to change(member, :state).to('inactive')
       expect(member.annual_fee).to be_nil
@@ -293,7 +293,7 @@ describe Member do
     end
 
     it 'changes support state to inactive when annual_fee is cleared' do
-      member = create(:member, :support)
+      member = create(:member, :support_annual_fee)
       expect { member.update!(annual_fee: nil) }
         .to change(member, :state).to('inactive')
     end

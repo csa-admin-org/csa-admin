@@ -119,6 +119,14 @@ module PDF
           str = t_halfday('missed_halfday_participations', count: invoice.paid_missing_halfday_works)
         end
         data << [str, cur(invoice.amount)]
+      when 'ACPShare'
+        str =
+          if invoice.acp_shares_number.positive?
+            t('acp_shares_number', count: invoice.acp_shares_number)
+          else
+            t('acp_shares_number_negative', count: invoice.acp_shares_number.abs)
+          end
+        data << [str, cur(invoice.amount)]
       end
 
       if invoice.paid_memberships_amount.to_f.positive?
@@ -147,7 +155,7 @@ module PDF
         data << [t('annual_fee'), cur(invoice.annual_fee)]
       end
 
-      if @missing_amount != invoice.amount
+      if invoice.amount.positive? && @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
         credit_amount = cur(-(already_paid + invoice.member.credit_amount))
         credit_amount = "#{appendice_star} #{credit_amount}" if invoice.member.credit_amount.positive?

@@ -146,8 +146,15 @@ ActiveAdmin.register Invoice do
               ).html_safe
             end
           end
-          f.input :paid_missing_halfday_works, as: :number, min: 0, max: 99999.95, step: 0.05
-          f.input :amount, as: :number, min: 0, max: 99999.95, step: 0.05
+          f.input :paid_missing_halfday_works, as: :number, step: 1
+          f.input :paid_missing_halfday_works_amount, as: :number, min: 0, max: 99999.95, step: 0.05
+        end
+      end
+      if Current.acp.share_price
+        tab t_invoice_object_type('ACPShare'), id: 'acp_share' do
+          f.inputs do
+            f.input :acp_shares_number, as: :number, step: 1
+          end
         end
       end
     end
@@ -159,9 +166,10 @@ ActiveAdmin.register Invoice do
     :object_id,
     :object_type,
     :date,
-    :amount,
     :comment,
-    :paid_missing_halfday_works
+    :paid_missing_halfday_works,
+    :paid_missing_halfday_works_amount,
+    :acp_shares_number
 
   before_build do |invoice|
     if params[:halfday_participation_id]
@@ -169,18 +177,15 @@ ActiveAdmin.register Invoice do
       invoice.member = hp.member
       invoice.object = hp
       invoice.paid_missing_halfday_works = hp.participants_count
-      invoice.amount = hp.participants_count * ACP::HALFDAY_PRICE
+      invoice.paid_missing_halfday_works_amount = hp.participants_count * ACP::HALFDAY_PRICE
     elsif params[:member_id]
       member = Member.find(params[:member_id])
       invoice.member = member
     end
-    invoice.member_id ||= referer_filter_member_id
-    invoice.object_type ||= 'HalfdayParticipation'
-    invoice.paid_missing_halfday_works ||= 1
-    invoice.amount ||= ACP::HALFDAY_PRICE
 
+    invoice.paid_missing_halfday_works_amount ||= ACP::HALFDAY_PRICE
+    invoice.member_id ||= referer_filter_member_id
     invoice.date ||= Date.current
-    invoice.amount ||= 0
   end
 
   after_create do |invoice|

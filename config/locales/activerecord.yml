@@ -21,6 +21,8 @@ _:
         delivery_pdf_footer:
           _de: Fusszeile
           _fr: Bas de page
+        share_price:
+          _fr: Montant part sociale
         email:
           _de: Email
           _fr: Email
@@ -298,6 +300,9 @@ _:
         missing_amount:
           _de: Fehlender Betrag
           _fr: Montant manquant
+        paid_missing_halfday_works_amount:
+          _de: Betrag
+          _fr: Montant
         object:
           _de: Objekt
           _fr: Objet

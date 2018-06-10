@@ -26,7 +26,7 @@ describe RecurringBilling do
   end
 
   it 'creates an invoice for not already billed support member' do
-    member = create(:member, :support)
+    member = create(:member, :support_annual_fee)
     invoice = create_invoice(member)
 
     expect(invoice.object).to be_nil
@@ -38,7 +38,7 @@ describe RecurringBilling do
   end
 
   it 'does not create an invoice for already billed support member' do
-    member = create(:member, :support)
+    member = create(:member, :support_annual_fee)
     create(:invoice, :annual_fee, member: member)
 
     expect { create_invoice(member) }.not_to change(Invoice, :count)
@@ -78,7 +78,7 @@ describe RecurringBilling do
   end
 
   it 'does not bill annual fee when member annual_fee is nil' do
-    member = create(:member, :support)
+    member = create(:member, :support_annual_fee)
     member.update_column(:annual_fee, nil)
     member.reload
 
@@ -86,7 +86,7 @@ describe RecurringBilling do
   end
 
   it 'creates an invoice for already billed support member (last year)' do
-    member = create(:member, :support)
+    member = create(:member, :support_annual_fee)
     create(:invoice, :annual_fee, member: member, date: 1.year.ago)
     invoice = create_invoice(member)
 
@@ -140,7 +140,7 @@ describe RecurringBilling do
     end
 
     specify 'when salary basket & support member' do
-      member = create(:member, :support, salary_basket: true)
+      member = create(:member, :support_annual_fee, salary_basket: true)
       invoice = create_invoice(member)
 
       expect(invoice.object).to be_nil

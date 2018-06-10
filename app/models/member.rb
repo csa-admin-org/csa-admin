@@ -218,6 +218,18 @@ class Member < ActiveRecord::Base
     [payments_amount - invoices_amount, 0].max
   end
 
+  def acp_shares_number
+    invoices.acp_share.sum(:acp_shares_number)
+  end
+
+  def handle_acp_shares_change!
+    if acp_shares_number.positive?
+      update_column(:state, SUPPORT_STATE) if inactive?
+    elsif support?
+      update_column(:state, INACTIVE_STATE)
+    end
+  end
+
   private
 
   def public_create_and_not_support?
@@ -236,6 +248,8 @@ class Member < ActiveRecord::Base
   end
 
   def handle_annual_fee_change
+    return unless Current.acp.annual_fee
+
     if annual_fee
       self.state = SUPPORT_STATE if inactive?
     elsif support?

@@ -38,9 +38,8 @@ describe Invoice do
     membership = create(:membership, member: member)
     invoice = build(:invoice,
       member: member,
-      object_type: 'HalfdayParticipation',
       paid_missing_halfday_works: 2,
-      amount: 120)
+      paid_missing_halfday_works_amount: 120)
 
     expect { invoice.save! }.to change { membership.reload.recognized_halfday_works }.by(2)
     expect { invoice.cancel! }.to change { membership.reload.recognized_halfday_works }.by(-2)
@@ -98,6 +97,34 @@ describe Invoice do
         expect(invoice.amount)
           .to eq invoice.memberships_amount + invoice.annual_fee
       end
+    end
+  end
+
+  context 'when halfday_participation' do
+    it 'validates paid_missing_halfday_works_amount presence when paid_missing_halfday_works is present' do
+      invoice = build(:invoice, paid_missing_halfday_works: 1)
+      expect(invoice).not_to have_valid(:paid_missing_halfday_works_amount)
+    end
+
+    it 'sets object_type to HalfdayParticipation with paid_missing_halfday_works' do
+      invoice = create(:invoice,
+        paid_missing_halfday_works: 1,
+        paid_missing_halfday_works_amount: 42)
+
+      expect(invoice.object_type).to eq 'HalfdayParticipation'
+      expect(invoice.paid_missing_halfday_works).to eq 1
+      expect(invoice.amount).to eq 42
+    end
+  end
+
+  context 'when acp_share' do
+    it 'sets object_type to ACPShare with acp_shares_number' do
+      Current.acp.update!(share_price: 250)
+      invoice = create(:invoice, acp_shares_number: -2)
+
+      expect(invoice.object_type).to eq 'ACPShare'
+      expect(invoice.acp_shares_number).to eq -2
+      expect(invoice.amount).to eq -500
     end
   end
 
@@ -170,6 +197,22 @@ describe Invoice do
       expect(invoice.memberships_gross_amount).to eq 1200
       expect(invoice.memberships_net_amount).to eq BigDecimal(1114.21, 6)
       expect(invoice.memberships_vat_amount).to eq BigDecimal(85.79, 4)
+    end
+  end
+
+  describe '#handle_acp_shares_change!' do
+    before { Current.acp.update!(share_price: 250) }
+
+    it 'changes inactive member state to support' do
+      member = create(:member, :inactive)
+      expect { create(:invoice, member: member, acp_shares_number: 1) }
+        .to change(member, :state).from('inactive').to('support')
+    end
+
+    it 'changes support member state to inactive' do
+      member = create(:member, :support_acp_share, acp_shares_number: 1)
+      expect { create(:invoice, member: member, acp_shares_number: -1) }
+        .to change(member, :state).from('support').to('inactive')
     end
   end
 end

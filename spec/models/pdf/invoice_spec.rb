@@ -169,8 +169,8 @@ describe PDF::Invoice do
         id: 2001,
         date: '2018-4-5',
         object: rejected_participation,
-        amount: 120,
-        paid_missing_halfday_works: 2)
+        paid_missing_halfday_works: 2,
+        paid_missing_halfday_works_amount: 120)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -183,9 +183,8 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 2002,
         date: '2018-4-5',
-        object_type: 'HalfdayParticipation',
-        amount: 60,
-        paid_missing_halfday_works: 1)
+        paid_missing_halfday_works: 1,
+        paid_missing_halfday_works_amount: 60)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -198,9 +197,8 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 2003,
         date: '2018-4-5',
-        object_type: 'HalfdayParticipation',
-        amount: 180,
-        paid_missing_halfday_works: 3)
+        paid_missing_halfday_works: 3,
+        paid_missing_halfday_works_amount: 180)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -526,6 +524,61 @@ describe PDF::Invoice do
         .and contain_sequence('XXXX', 'XX')
         .and include '0100000000005>800250000000000000000002433+ 0192520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
+    end
+  end
+
+  context 'TaPatate! settings' do
+    before {
+      set_acp_logo('tap_logo.jpg')
+      Current.acp.update!(
+        name: 'tap',
+        share_price: 250,
+        fiscal_year_start_month: 4,
+        ccp: 'XX-XXX-XXX',
+        isr_identity: '800350',
+        isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
+        isr_in_favor_of: "TaPatate! c/o Danielle Huser\nDunantstrasse 6\n3006 Bern",
+        invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
+        invoice_footer: '<b>TaPatate!<b>, c/o Danielle Huser, Dunantstrasse 6, 3006 Bern /// info@tapatate.ch')
+      create_deliveries(48)
+    }
+
+    it 'generates invoice with positive acp_shares_number' do
+      member = create(:member,
+        name: 'Manuel Rast',
+        address: 'Donnerbühlweg 31',
+        zip: '3012',
+        city: 'Bern')
+      invoice = create(:invoice,
+        id: 301,
+        member: member,
+        acp_shares_number: 2)
+      create(:payment, amount: 75, member: member)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('Acquisition de 2 parts sociales', "500.00")
+        .and contain_sequence('Avoir', "- 75.00")
+        .and contain_sequence("À payer", '425.00')
+    end
+
+    it 'generates invoice with negative acp_shares_number' do
+      member = create(:member,
+        name: 'Manuel Rast',
+        address: 'Donnerbühlweg 31',
+        zip: '3012',
+        city: 'Bern')
+      invoice = create(:invoice,
+        id: 302,
+        member: member,
+        acp_shares_number: -2)
+      create(:payment, amount: 75, member: member)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('Remboursement de 2 parts sociales', "- 500.00")
+        .and contain_sequence("Total", '- 500.00')
+      expect(pdf_strings).not_to include 'Avoir'
     end
   end
 end
