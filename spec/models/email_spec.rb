@@ -170,7 +170,7 @@ describe Email do
       member: member,
       id: 31,
       date: '24.03.2018',
-      amount: 62)
+      annual_fee: 62)
 
     Email.deliver_later(:invoice_new, invoice)
 
@@ -201,7 +201,7 @@ describe Email do
       member: member,
       id: 31,
       date: '24.03.2018',
-      amount: 62)
+      annual_fee: 62)
     create(:payment, member: member, amount: 20)
 
     Email.deliver_later(:invoice_new, invoice)
@@ -234,7 +234,7 @@ describe Email do
       member: member,
       id: 31,
       date: '24.03.2018',
-      amount: 42)
+      annual_fee: 42)
     create(:payment, member: member, amount: 42)
 
     Email.deliver_later(:invoice_new, invoice)
@@ -268,7 +268,7 @@ describe Email do
       id: 31,
       date: '24.03.2018',
       overdue_notices_count: 2,
-      amount: 42)
+      annual_fee: 42)
 
     Email.deliver_later(:invoice_new, invoice)
 

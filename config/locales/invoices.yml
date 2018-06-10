@@ -9,6 +9,8 @@ _:
       annual_fee:
         _de: Jahresgebühr
         _fr: Cotisation annuelle
+      acp_share:
+        _fr: Part sociale
     pdf:
       all_taxes_included:
         _de: inkl. MwSt.
@@ -67,6 +69,16 @@ _:
       without_taxes:
         _de: exkl. MwSt.
         _fr: HT
+      acp_shares_number:
+        one:
+          _fr: Acquisition d'une part sociale
+        other:
+          _fr: Acquisition de %{count} parts sociales
+      acp_shares_number_negative:
+        one:
+          _fr: Remboursement d'une part sociale
+        other:
+          _fr: Remboursement de %{count} parts sociales
     scope:
       amount:
         _de: In Rechnung gestellt

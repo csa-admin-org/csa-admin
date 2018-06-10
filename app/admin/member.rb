@@ -55,6 +55,9 @@ ActiveAdmin.register Member do
     if Current.acp.annual_fee
       column(:annual_fee) { |m| number_to_currency(m.annual_fee) }
     end
+    if Current.acp.share_price
+      column(:acp_shares_number)
+    end
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
@@ -181,6 +184,9 @@ ActiveAdmin.register Member do
           row(:salary_basket) { status_tag(member.salary_basket) }
           if Current.acp.annual_fee
             row(:annual_fee) { number_to_currency member.annual_fee }
+          end
+          if Current.acp.share_price
+            row(:acp_shares_number)
           end
           row(:invoices_amount) { number_to_currency member.invoices_amount }
           row(:payments_amount) { number_to_currency member.payments_amount }

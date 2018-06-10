@@ -13,8 +13,6 @@ module InvoicesHelper
     end
   end
 
-  private
-
   def t_invoice_object_type(type)
     case type
     when 'HalfdayParticipation' then halfday_human_name

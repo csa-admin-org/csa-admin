@@ -117,7 +117,8 @@ ActiveAdmin.register HalfdayParticipation do
   action_item :invoice, only: :show, if: -> {
     authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
   } do
-    link_to t('.invoice_action'), new_invoice_path(halfday_participation_id: resource.id)
+    link_to t('.invoice_action'),
+      new_invoice_path(halfday_participation_id: resource.id, anchor: 'halfday_participation')
   end
 
   controller do

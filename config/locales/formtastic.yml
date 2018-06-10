@@ -11,6 +11,10 @@ _:
         halfday_participation_deletion_deadline_in_days:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
+        annual_fee:
+          _fr: Laisser vide si aucune cotisation anuelle
+        share_price:
+          _fr: Laisser vide si pas de part sociale
       admin:
         password:
           _de: Leer lassen wenn unverändert

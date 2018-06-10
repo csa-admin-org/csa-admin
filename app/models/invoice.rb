@@ -7,10 +7,10 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   NoPDFError = Class.new(StandardError)
 
-  OBJECT_TYPES = %w[Membership AnnualFee HalfdayParticipation]
+  OBJECT_TYPES = %w[Membership AnnualFee ACPShare HalfdayParticipation]
 
   attr_writer :membership_amount_fraction, :send_email
-  attr_accessor :comment
+  attr_accessor :comment, :paid_missing_halfday_works_amount
 
   has_states :not_sent, :open, :closed, :canceled
 
@@ -22,6 +22,7 @@ class Invoice < ActiveRecord::Base
 
   scope :annual_fee, -> { where.not(annual_fee: nil) }
   scope :membership, -> { where(object_type: 'Membership') }
+  scope :acp_share, -> { where(object_type: 'ACPShare') }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :cancelable, -> { where(state: [PENDING_STATE, OPEN_STATE]) }
   scope :overbalance, -> { where('balance > amount') }
@@ -41,10 +42,15 @@ class Invoice < ActiveRecord::Base
   validates :date, presence: true
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
   validates :object_type, inclusion: { in: OBJECT_TYPES }
-  validates :amount, numericality: { greater_than: 0 }
+  validates :amount, numericality: { other_than: 0 }
   validates :paid_missing_halfday_works,
+    numericality: { greater_than_or_equal_to: 1, allow_blank: true }
+  validates :paid_missing_halfday_works_amount,
     numericality: { greater_than_or_equal_to: 1 },
-    allow_blank: true
+    if: :paid_missing_halfday_works,
+    on: :create
+  validates :acp_shares_number,
+    numericality: { other_than: 0, allow_blank: true }
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
     allow_nil: true
@@ -64,6 +70,7 @@ class Invoice < ActiveRecord::Base
   after_create :set_pdf, :send_email
   after_commit :update_membership_recognized_halfday_works!
   after_commit :update_member_invoices_balance!, on: :create
+  after_commit :handle_acp_shares_change!, on: :create
 
   def display_name
     "#{model_name.human} ##{id} (#{I18n.l date})"
@@ -129,11 +136,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def amount=(*args)
-    if membership_type?
-      raise NoMethodError, 'is set automaticaly.'
-    else
-      super
-    end
+    raise NoMethodError, 'is set automaticaly.'
   end
 
   def memberships_amount=(*_args)
@@ -148,6 +151,26 @@ class Invoice < ActiveRecord::Base
     raise NoMethodError, 'is set automaticaly.'
   end
 
+  def paid_missing_halfday_works=(number)
+    return if number.blank?
+    super
+    self[:object_type] = 'HalfdayParticipation'
+  end
+
+  def paid_missing_halfday_works_amount=(amount)
+    @paid_missing_halfday_works_amount = amount
+    if halfday_participation_type?
+      self[:amount] = amount
+    end
+  end
+
+  def acp_shares_number=(number)
+    return if number.blank?
+    super
+    self[:object_type] = 'ACPShare'
+    self[:amount] = number.to_i * Current.acp.share_price
+  end
+
   def can_cancel?
     !canceled? && (not_sent? || open? || current_year?)
   end
@@ -158,6 +181,14 @@ class Invoice < ActiveRecord::Base
 
   def membership_type?
     object_type == 'Membership'
+  end
+
+  def halfday_participation_type?
+    object_type == 'HalfdayParticipation'
+  end
+
+  def acp_share_type?
+    object_type == 'ACPShare'
   end
 
   def memberships_gross_amount
@@ -218,8 +249,14 @@ class Invoice < ActiveRecord::Base
   end
 
   def update_membership_recognized_halfday_works!
-    if object_type == 'HalfdayParticipation'
+    if halfday_participation_type?
       member.membership(fy_year)&.update_recognized_halfday_works!
+    end
+  end
+
+  def handle_acp_shares_change!
+    if acp_share_type?
+      member.handle_acp_shares_change!
     end
   end
 

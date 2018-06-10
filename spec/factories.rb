@@ -93,10 +93,24 @@ FactoryBot.define do
       end
     end
 
-    trait :support do
+    trait :support_annual_fee do
       state 'support'
       billing_year_division 1
       annual_fee { Current.acp.annual_fee }
+    end
+
+    trait :support_acp_share do
+      state 'support'
+      billing_year_division 1
+
+      transient do
+        acp_shares_number 1
+      end
+
+      after :create do |member, evaluator|
+        create(:invoice, member: member,
+          acp_shares_number: evaluator.acp_shares_number)
+      end
     end
 
     trait :inactive do
@@ -188,6 +202,11 @@ FactoryBot.define do
     trait :annual_fee do
       object_type 'AnnualFee'
       annual_fee { member.annual_fee }
+    end
+
+    trait :halfday_participation do
+      paid_missing_halfday_works 1
+      paid_missing_halfday_works_amount { ACP::HALFDAY_PRICE }
     end
 
     trait :not_sent do

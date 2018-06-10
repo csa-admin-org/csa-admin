@@ -8,7 +8,7 @@ ActiveAdmin.register ACP do
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :invoice_info, :invoice_footer,
     :summer_month_range_min, :summer_month_range_max,
-    :fiscal_year_start_month, :annual_fee,
+    :fiscal_year_start_month, :annual_fee, :share_price,
     :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
     :delivery_pdf_footer,
     :url, :email, :phone, :terms_of_service_url,
@@ -54,7 +54,8 @@ ActiveAdmin.register ACP do
       f.input :billing_year_divisions,
         as: :check_boxes,
         collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
-      f.input :annual_fee
+      f.input :annual_fee, as: :number
+      f.input :share_price, as: :number
       f.input :vat_number
       f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
     end
