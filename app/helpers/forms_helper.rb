@@ -1,10 +1,11 @@
 module FormsHelper
-  def translated_input(form, attr)
+  def translated_input(form, attr, **options)
     form.semantic_fields_for attr do |f|
       Current.acp.languages.each do |locale|
-        f.input locale,
+        f.input locale, {
           label: attribute_label(form.object.class, attr, locale),
           input_html: { value: form.object.send(attr)[locale] }
+        }.merge(options)
       end
     end
   end

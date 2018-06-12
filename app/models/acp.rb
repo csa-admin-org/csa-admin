@@ -1,4 +1,6 @@
 class ACP < ActiveRecord::Base
+  include TranslatedAttributes
+
   FEATURES = %w[
     basket_content
     recurring_billing
@@ -11,6 +13,9 @@ class ACP < ActiveRecord::Base
 
   attr_accessor :summer_month_range_min, :summer_month_range_max
 
+  translated_attributes :invoice_info, :invoice_footer
+  translated_attributes :delivery_pdf_footer, :terms_of_service_url
+
   has_one_attached :logo
 
   validates :name, presence: true
@@ -22,15 +27,13 @@ class ACP < ActiveRecord::Base
   validates :isr_identity, presence: true
   validates :isr_payment_for, presence: true
   validates :isr_in_favor_of, presence: true
-  validates :invoice_info, presence: true
-  validates :invoice_footer, presence: true
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
     inclusion: { in: 1..12 }
   validates :trial_basket_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :annual_fee, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
-  validates :share_price, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
+  validates :share_price, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
   validates :summer_month_range_min,
     inclusion: { in: 1..12 },
     if: -> { @summer_month_range_max.present? }

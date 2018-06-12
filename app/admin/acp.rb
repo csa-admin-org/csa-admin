@@ -6,16 +6,18 @@ ActiveAdmin.register ACP do
     :email_default_host, :email_default_from,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
-    :invoice_info, :invoice_footer,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
-    :delivery_pdf_footer,
-    :url, :email, :phone, :terms_of_service_url,
+    :url, :email, :phone,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
     languages: [],
-    features: []
+    features: [],
+    invoice_infos: I18n.available_locales,
+    invoice_footers: I18n.available_locales,
+    delivery_pdf_footers: I18n.available_locales,
+    terms_of_service_urls: I18n.available_locales
 
   form do |f|
     f.inputs 'Détails' do
@@ -64,8 +66,8 @@ ActiveAdmin.register ACP do
       f.input :isr_identity
       f.input :isr_payment_for
       f.input :isr_in_favor_of
-      f.input :invoice_info
-      f.input :invoice_footer
+      translated_input(f, :invoice_infos)
+      translated_input(f, :invoice_footers)
     end
     f.inputs 'Participation des membres' do
       f.input :halfday_i18n_scope,
@@ -76,13 +78,13 @@ ActiveAdmin.register ACP do
       f.input :halfday_participation_deletion_deadline_in_days
     end
     f.inputs 'Fiches signature livraison (PDF)' do
-      f.input :delivery_pdf_footer
+      translated_input(f, :delivery_pdf_footers, required: false)
     end
     f.inputs 'Page de membre' do
       f.input :url
       f.input :email
       f.input :phone
-      f.input :terms_of_service_url
+      translated_input(f, :terms_of_service_urls, required: false)
     end
 
     f.actions do
