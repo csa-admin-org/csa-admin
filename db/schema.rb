@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_09_170203) do
+ActiveRecord::Schema.define(version: 2018_06_10_190839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -43,20 +43,20 @@ ActiveRecord::Schema.define(version: 2018_06_09_170203) do
     t.string "isr_identity"
     t.text "isr_payment_for"
     t.text "isr_in_favor_of"
-    t.text "invoice_info"
-    t.text "invoice_footer"
     t.integer "billing_year_divisions", default: [], null: false, array: true
     t.string "halfday_i18n_scope", default: "halfday_work", null: false
     t.string "email"
     t.string "phone"
     t.string "url"
-    t.text "delivery_pdf_footer"
     t.integer "halfday_participation_deletion_deadline_in_days"
     t.string "vat_number"
     t.decimal "vat_membership_rate", precision: 8, scale: 2
     t.string "languages", default: ["fr"], null: false, array: true
-    t.string "terms_of_service_url"
     t.decimal "share_price", precision: 8, scale: 2
+    t.jsonb "invoice_infos", default: {}, null: false
+    t.jsonb "invoice_footers", default: {}, null: false
+    t.jsonb "delivery_pdf_footers", default: {}, null: false
+    t.jsonb "terms_of_service_urls", default: {}, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
