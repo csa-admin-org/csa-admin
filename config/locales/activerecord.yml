@@ -21,8 +21,6 @@ _:
         delivery_pdf_footer:
           _de: Fusszeile
           _fr: Bas de page
-        share_price:
-          _fr: Montant part sociale
         email:
           _de: Email
           _fr: Email
@@ -59,6 +57,8 @@ _:
         phone:
           _de: Telefon
           _fr: Téléphone
+        share_price:
+          _fr: Montant part sociale
         summer_month_range_max:
           _de: Sommer endet Ende
           _fr: Été finit fin
@@ -300,9 +300,6 @@ _:
         missing_amount:
           _de: Fehlender Betrag
           _fr: Montant manquant
-        paid_missing_halfday_works_amount:
-          _de: Betrag
-          _fr: Montant
         object:
           _de: Objekt
           _fr: Objet
@@ -318,6 +315,9 @@ _:
         paid_missing_halfday_works:
           _de: Anzahl / Teilnehmer
           _fr: Nombre / Participants
+        paid_missing_halfday_works_amount:
+          _de: Betrag
+          _fr: Montant
       member:
         annual_fee:
           _de: Jährlicher Beitrag

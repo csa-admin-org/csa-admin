@@ -65,10 +65,11 @@ describe 'members page' do
       expect(member.billing_year_division).to eq 4
     end
 
-    it 'creates a new support member' do
+    it 'creates a new support member (annual fee)' do
       Current.acp.update!(
         languages: %w[fr de],
-        terms_of_service_url: nil)
+        terms_of_service_url: nil,
+        annual_fee: 42)
       DeliveriesHelper.create_deliveries(40)
       create(:basket_size, :small)
       create(:basket_size, :big)
@@ -76,6 +77,8 @@ describe 'members page' do
       create(:distribution, name: 'Jardin de la main', price: 0)
 
       visit "/new"
+
+      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation anuelle de CHF 42 en plus de l'abonnement à son panier."
 
       fill_in "Nom(s) de famille et prénom(s)", with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
@@ -103,6 +106,51 @@ describe 'members page' do
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_distribution).to be_nil
       expect(member.annual_fee).to eq Current.acp.annual_fee
+      expect(member.billing_year_division).to eq 1
+    end
+
+    it 'creates a new support member (acp_share)' do
+      Current.acp.update!(
+        languages: %w[fr de],
+        terms_of_service_url: nil,
+        annual_fee: nil,
+        share_price: 250)
+      DeliveriesHelper.create_deliveries(40)
+      create(:basket_size, :small)
+      create(:basket_size, :big)
+
+      create(:distribution, name: 'Jardin de la main', price: 0)
+
+      visit "/new"
+
+      expect(page).to have_content "Chaque membre fait également partie de l'association et se doit d'acquérir des parts sociales (CHF 250/part) en fonction de la taille de son panier. Ces parts sociales sont intégralement remboursées si le membre décide de quitter l'association."
+
+      fill_in "Nom(s) de famille et prénom(s)", with: 'John et Jame Doe'
+      fill_in 'Adresse', with: 'Nowhere srteet 2'
+      fill_in 'NPA', with: '2042'
+      fill_in 'Ville', with: 'Moon City'
+
+      fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
+      fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
+
+      choose 'Aucun, devenir membre de soutien'
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      member = Member.last
+      expect(member.attributes.symbolize_keys).to match hash_including(
+        name: 'John et Jame Doe',
+        address: 'Nowhere srteet 2',
+        zip: '2042',
+        city: 'Moon City',
+        emails: 'john@doe.com, jane@doe.com',
+        phones: '+41771424242, +41771434444',
+        language: 'fr')
+      expect(member.waiting_basket_size).to be_nil
+      expect(member.waiting_distribution).to be_nil
+      expect(member.annual_fee).to be_nil
       expect(member.billing_year_division).to eq 1
     end
   end

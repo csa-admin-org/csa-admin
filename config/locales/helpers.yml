@@ -1,5 +1,10 @@
 _:
   helpers:
+    acp_shares_number:
+      one:
+        _fr: "%{count} part sociale"
+      other:
+        _fr: "%{count} parts sociales"
     halfdays_count_per_year/basket_preparation:
       one:
         _de: "%{count} Abpackung Taschen"
@@ -16,7 +21,9 @@ _:
         _fr: "%{count} demi-journées"
     no_basket_size:
       _fr: Aucun, devenir membre de soutien
-    no_basket_size_details:
+    no_basket_size_acp_share:
+      _fr: part sociale uniquement
+    no_basket_size_annual_fee:
       _fr: cotisation annuelle uniquement
     none:
       _de: Kein
