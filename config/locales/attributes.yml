@@ -1,10 +1,10 @@
 _:
   attributes:
+    acp_shares_number:
+      _fr: Nombre de parts sociales
     activity:
       _de: Arbeit
       _fr: Activité
-    acp_shares_number:
-      _fr: Nombre de parts sociales
     address:
       _de: Adresse
       _fr: Adresse

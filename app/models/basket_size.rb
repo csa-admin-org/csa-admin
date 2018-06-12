@@ -8,6 +8,10 @@ class BasketSize < ActiveRecord::Base
 
   default_scope { order_by_name }
 
+  validates :acp_shares_number,
+    numericality: { greater_than_or_equal_to: 1 },
+    allow_nil: true
+
   def annual_price
     (price * deliveries_count).round_to_five_cents
   end

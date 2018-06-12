@@ -19,7 +19,7 @@ class BillingTotal
   def title
     case scope
     when BasketSize
-      I18n.t("billing.scope.basket_size", name: scope.name)
+      I18n.t('billing.scope.basket_size', name: scope.name)
     when :halfday
       I18n.t("billing.scope.#{scope}/#{Current.acp.halfday_i18n_scope}")
     else

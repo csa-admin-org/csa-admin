@@ -16,13 +16,20 @@ module MembersHelper
           price: price_info(bs.annual_price),
           details: [
             deliveries_count(bs.deliveries_count),
-            halfdays_count(bs.annual_halfday_works)
-          ].join(', ')),
+            halfdays_count(bs.annual_halfday_works),
+            acp_shares_number(bs.acp_shares_number)
+          ].compact.join(', ')),
         bs.id
       ]
     } << [
       collection_text(t('helpers.no_basket_size'),
-        details: t('helpers.no_basket_size_details')),
+        details:
+          if Current.acp.annual_fee
+            t('helpers.no_basket_size_annual_fee')
+          elsif Current.acp.share_price
+            t('helpers.no_basket_size_acp_share')
+          end
+      ),
       0
     ]
   end
@@ -81,5 +88,10 @@ module MembersHelper
 
   def halfdays_count(count)
     t_halfday('helpers.halfdays_count_per_year', count: count).gsub(/\s/, '&nbsp;')
+  end
+
+  def acp_shares_number(number)
+    return unless number
+    t('helpers.acp_shares_number', count: number)
   end
 end

@@ -156,7 +156,9 @@ ActiveAdmin.register Member do
         end
         if member.pending? || member.waiting?
           attributes_table title: t('.waiting_membership') do
-            row :waiting_started_at
+            if member.waiting?
+              row :waiting_started_at
+            end
             row(:basket_size) { member.waiting_basket_size&.name }
             if BasketComplement.any?
               row(:basket_complements) {

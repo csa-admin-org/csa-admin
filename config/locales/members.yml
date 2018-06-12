@@ -47,6 +47,10 @@ _:
           _fr: Retrouver sa page de membre
     members:
       new:
+        acp_shares_text:
+          _fr: Chaque membre fait également partie de l'association et se doit d'acquérir des parts sociales (<b>%{price}</b>/part) en fonction de la taille de son panier. Ces parts sociales sont intégralement remboursées si le membre décide de quitter l'association.
+        annual_fee_text:
+          _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         membership_text:
           _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstieg im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
@@ -65,8 +69,6 @@ _:
         submit:
           _de: Senden
           _fr: Envoyer
-        support_text:
-          _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         terms_of_service:
           _de: Ich habe die Statuten und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
