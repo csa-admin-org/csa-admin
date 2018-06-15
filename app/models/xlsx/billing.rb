@@ -44,7 +44,13 @@ module XLSX
       add_empty_line
 
       add_line("#{t('adjustments')}: #{ApplicationController.helpers.halfdays_human_name}", @memberships.sum(&:halfday_works_annual_price))
-      add_line(t('annual_fees'), invoices_total(:annual_fee), Current.acp.annual_fee)
+
+      if Current.acp.annual_fee
+        add_line(t('annual_fees'), invoices_total(:annual_fee), Current.acp.annual_fee)
+      end
+      if Current.acp.share_price
+        add_line(t('acp_shares'), @invoices.acp_share.sum(:amount), Current.acp.share_price)
+      end
 
       add_empty_line
       add_empty_line
