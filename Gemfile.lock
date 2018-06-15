@@ -71,7 +71,7 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (9.0.0)
-    autoprefixer-rails (8.6.1)
+    autoprefixer-rails (8.6.2)
       execjs
     aws-eventstream (1.0.0)
     aws-partitions (1.91.0)
@@ -83,7 +83,7 @@ GEM
     aws-sdk-kms (1.5.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.13.0)
+    aws-sdk-s3 (1.14.0)
       aws-sdk-core (~> 3, >= 3.21.2)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
