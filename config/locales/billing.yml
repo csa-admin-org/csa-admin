@@ -1,5 +1,7 @@
 _:
   billing:
+    acp_shares:
+      _fr: Part Sociales
     adjustments:
       _de: Anpassungen
       _fr: Ajustements
@@ -44,6 +46,8 @@ _:
       _de: Zu viel bezahlt (für nächstes Jahr)
       _fr: Payé en trop (pour année suivante)
     scope:
+      acp_share:
+        _fr: Part Sociale
       annual_fee:
         _de: Beitrag
         _fr: Cotisation

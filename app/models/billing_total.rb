@@ -1,11 +1,11 @@
 class BillingTotal
-  SCOPES = %i[halfday annual_fee]
-
   def self.all
     scopes = [BasketSize.all]
     scopes << :basket_complement if BasketComplement.any?
     scopes << :distribution if Distribution.paid.any?
-    scopes += SCOPES
+    scopes << :halfday
+    scopes << :annual_fee if Current.acp.annual_fee
+    scopes << :acp_share if Current.acp.share_price
     scopes.flatten.map { |scope| new(scope) }
   end
 
@@ -47,6 +47,8 @@ class BillingTotal
         @memberships.sum(:halfday_works_annual_price)
       when :annual_fee
         Invoice.current_year.not_canceled.sum(:annual_fee)
+      when :acp_share
+        Invoice.current_year.not_canceled.acp_share.sum(:amount)
       end
   end
 end
