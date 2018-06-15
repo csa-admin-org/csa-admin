@@ -219,7 +219,7 @@ class Member < ActiveRecord::Base
   end
 
   def acp_shares_number
-    invoices.acp_share.sum(:acp_shares_number)
+    invoices.not_canceled.acp_share.sum(:acp_shares_number)
   end
 
   def handle_acp_shares_change!

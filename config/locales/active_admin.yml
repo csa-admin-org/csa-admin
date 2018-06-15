@@ -390,6 +390,9 @@ _:
         notes:
           _de: Notizen
           _fr: Notes
+        refund:
+          _de: Rückerstattung
+          _fr: Remboursement
         salary_basket:
           _de: Gratis, Lohn-Tasche
           _fr: Gratuit, panier salaire
