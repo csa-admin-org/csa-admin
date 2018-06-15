@@ -10,7 +10,8 @@ class Invoice < ActiveRecord::Base
   OBJECT_TYPES = %w[Membership AnnualFee ACPShare HalfdayParticipation]
 
   attr_writer :membership_amount_fraction, :send_email
-  attr_accessor :comment, :paid_missing_halfday_works_amount
+  attr_reader :paid_missing_halfday_works_amount
+  attr_accessor :comment
 
   has_states :not_sent, :open, :closed, :canceled
 
@@ -104,6 +105,7 @@ class Invoice < ActiveRecord::Base
         canceled_at: Time.current,
         state: CANCELED_STATE)
       update_member_invoices_balance!
+      handle_acp_shares_change!
     end
   end
 
@@ -135,7 +137,7 @@ class Invoice < ActiveRecord::Base
     @membership_amount_fraction || 1 # bill for everything by default
   end
 
-  def amount=(*args)
+  def amount=(*_args)
     raise NoMethodError, 'is set automaticaly.'
   end
 
@@ -177,6 +179,12 @@ class Invoice < ActiveRecord::Base
 
   def can_send_email?
     !sent_at? && member.emails?
+  end
+
+  def can_refund?
+    closed? &&
+      acp_shares_number.positive? &&
+      member.acp_shares_number.positive?
   end
 
   def membership_type?

@@ -72,6 +72,9 @@ ActiveAdmin.register Invoice do
           row :id
           row :member
           row(:object) { display_object(invoice) }
+          if invoice.acp_share_type?
+            row(:acp_shares_number)
+          end
           row(:date) { l invoice.date }
           row(:state) { status_tag invoice.state }
           row(:sent_at) { l invoice.sent_at if invoice.sent_at }
@@ -100,7 +103,13 @@ ActiveAdmin.register Invoice do
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
     link_to t('.new_payment'), new_payment_path(
-      invoice_id: invoice.id, amount: invoice.missing_amount)
+      invoice_id: invoice.id, amount: [invoice.amount, invoice.missing_amount].min)
+  end
+
+  action_item :refund, only: :show, if: -> { invoice.can_refund? } do
+    acp_shares_number = [invoice.acp_shares_number, invoice.member.acp_shares_number].min
+    link_to t('.refund'),
+      new_invoice_path(member_id: invoice.member_id, acp_shares_number: -acp_shares_number, anchor: 'acp_share')
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
@@ -181,6 +190,9 @@ ActiveAdmin.register Invoice do
     elsif params[:member_id]
       member = Member.find(params[:member_id])
       invoice.member = member
+    end
+    if params[:acp_shares_number]
+      invoice.acp_shares_number ||= params[:acp_shares_number]
     end
 
     invoice.paid_missing_halfday_works_amount ||= ACP::HALFDAY_PRICE
