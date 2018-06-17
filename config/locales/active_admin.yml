@@ -643,6 +643,9 @@ _:
       rejected:
         _de: abgelehnte
         _fr: refusée
+      support:
+        _de: Unterstützung
+        _fr: soutien
       trial:
         _de: Probe
         _fr: essai
