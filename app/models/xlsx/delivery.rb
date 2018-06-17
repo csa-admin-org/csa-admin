@@ -67,8 +67,8 @@ module XLSX
       end
     end
 
-    def add_baskets_line(descritption, baskets, bold: false)
-      @worksheet.add_cell(@line, 0, descritption)
+    def add_baskets_line(description, baskets, bold: false)
+      @worksheet.add_cell(@line, 0, description)
       @worksheet.add_cell(@line, 1, baskets.count).set_number_format('0')
       @basket_sizes.each_with_index do |basket_size, i|
         amount = baskets.where(basket_size_id: basket_size.id).sum(:quantity)

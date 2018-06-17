@@ -1,8 +1,11 @@
 class Halfday < ActiveRecord::Base
+  include TranslatedAttributes
   include HasFiscalYearScopes
   include HalfdayNaming
 
-  attr_accessor :preset_id
+  attr_reader :preset_id, :preset
+
+  translated_attributes :place, :place_url, :activity, :description
 
   has_many :participations, class_name: 'HalfdayParticipation'
 
@@ -13,12 +16,9 @@ class Halfday < ActiveRecord::Base
   }
 
   validates :date, :start_time, :end_time, presence: true
-  validates :place, :activity, presence: true
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :end_time_must_be_greather_than_start_time
-
-  before_create :set_preset
 
   def self.available_for(member)
     where('date >= ?', 3.days.from_now)
@@ -64,14 +64,19 @@ class Halfday < ActiveRecord::Base
     add_date_to_time(:end_time)
   end
 
-  %i[place place_url activity].each do |attr|
+  %i[places place_urls activities].each do |attr|
     define_method attr do
-      preset_id ? 'preset' : self[attr]
+      @preset ? Hash.new('preset') : self[attr]
     end
   end
 
-  def preset
-    @preset ||= HalfdayPreset.find_by(id: preset_id)
+  def preset_id=(preset_id)
+    @preset_id = preset_id
+    if @preset = HalfdayPreset.find_by(id: preset_id)
+      self.places = @preset.places
+      self.place_urls = @preset.place_urls
+      self.activities = @preset.activities
+    end
   end
 
   private
@@ -79,14 +84,6 @@ class Halfday < ActiveRecord::Base
   def end_time_must_be_greather_than_start_time
     if date && end_time <= start_time
       errors.add(:end_time, :invalid)
-    end
-  end
-
-  def set_preset
-    if preset
-      self.place = preset.place
-      self.place_url = preset.place_url
-      self.activity = preset.activity
     end
   end
 

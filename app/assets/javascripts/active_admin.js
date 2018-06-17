@@ -14,19 +14,11 @@ $(function() {
 
   $('#halfday_preset_id').on('change', function() {
     if (this.value === '0') {
-      $('#halfday_place').prop('disabled', false);
-      $('#halfday_place').prop('value', '');
-      $('#halfday_place_url').prop('disabled', false);
-      $('#halfday_place_url').prop('value', '');
-      $('#halfday_activity').prop('disabled', false);
-      return $('#halfday_activity').prop('value', '');
+      $('input.js-preset').prop('disabled', false);
+      $('input.js-preset').prop('value', '');
     } else {
-      $('#halfday_place').prop('disabled', true);
-      $('#halfday_place').prop('value', 'preset');
-      $('#halfday_place_url').prop('disabled', true);
-      $('#halfday_place_url').prop('value', 'preset');
-      $('#halfday_activity').prop('disabled', true);
-      return $('#halfday_activity').prop('value', 'preset');
+      $('input.js-preset').prop('disabled', true);
+      $('input.js-preset').prop('value', 'preset');
     }
   });
 

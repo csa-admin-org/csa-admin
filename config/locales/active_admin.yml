@@ -444,6 +444,9 @@ _:
           _fr: Nouveau %{model}
       halfday:
         scopes:
+          all:
+            _de: alle
+            _fr: toutes
           past:
             _de: vergangene
             _fr: passées

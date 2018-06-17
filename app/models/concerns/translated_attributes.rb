@@ -14,6 +14,13 @@ module TranslatedAttributes
         scope "reorder_by_#{attr}", -> {
           reorder(Arel.sql("#{table_name}.#{column}->>'#{I18n.locale}'"))
         }
+        scope "#{attr}_eq", ->(str) {
+          where("#{table_name}.#{column}->>'#{I18n.locale}' = ?", str)
+        }
+      end
+
+      define_singleton_method(:ransackable_scopes) do |_auth_object = nil|
+        attrs.map { |attr| "#{attr}_eq" }
       end
     end
   end

@@ -1,11 +1,13 @@
 class HalfdayPreset < ActiveRecord::Base
+  include TranslatedAttributes
   include HalfdayNaming
 
-  default_scope { order(:place) }
+  default_scope { order_by_place }
 
-  validates :place, presence: true, uniqueness: { scope: :activity }
-  validates :activity, presence: true
-  validates :place_url, format: { with: /\Ahttp.*/i, allow_blank: true }
+  translated_attributes :place, :place_url, :activity
+
+  validates :places, presence: true, uniqueness: { scope: :activities }
+  validates :activities, presence: true
 
   def name
     [place, activity].compact.join(', ')
