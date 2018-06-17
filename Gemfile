@@ -8,82 +8,82 @@ end
 ruby '2.5.1'
 
 gem 'rails', '~> 5.2.0'
+
 gem 'bootsnap', require: false
-
-gem 'rails-i18n'
-gem 'i18n-backend-side_by_side'
-
+gem 'pg'
 gem 'puma'
+
+gem 'i18n-backend-side_by_side'
+gem 'rails-i18n'
 
 gem 'rack-status'
 
-gem 'pg'
-gem 'uniquify'
-gem 'paranoia'
-gem 'phony_rails'
 gem 'apartment'
 gem 'apartment-activejob'
+gem 'paranoia'
+gem 'phony_rails'
+gem 'uniquify'
 
 gem 'activeadmin'
 gem 'activeadmin_medium_editor'
-gem 'formadmin'
-gem 'polyamorous'
-gem 'ransack'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
+gem 'formadmin'
+gem 'polyamorous'
+gem 'ransack'
 
-gem 'turbolinks'
+gem 'highcharts-rails'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
-gem 'highcharts-rails'
 gem 'momentjs-rails'
 gem 'slim'
+gem 'turbolinks'
 
-gem 'uglifier'
+gem 'autoprefixer-rails'
+gem 'font-awesome-rails'
 gem 'jbuilder'
 gem 'sass-rails'
-gem 'font-awesome-rails'
-gem 'autoprefixer-rails'
+gem 'uglifier'
 
 gem 'sucker_punch'
 
-gem 'skylight'
 gem 'exception_notification'
 gem 'exception_notification-rake'
+gem 'skylight'
 
 gem 'faraday'
 gem 'faraday-cookie_jar'
 
-gem 'postmark'
 gem 'gibbon'
 gem 'icalendar'
+gem 'mini_magick'
+gem 'postmark'
 gem 'prawn'
 gem 'prawn-table'
 gem 'rubyXL'
-gem 'mini_magick'
 
 group :production do
-  gem 'redis'
+  gem 'aws-sdk-s3', require: false
   gem 'hiredis', require: false
   gem 'postmark-rails'
-  gem 'aws-sdk-s3', require: false
+  gem 'redis'
 end
 
 group :development do
-  gem 'listen'
-  gem 'web-console'
   gem 'bullet'
+  gem 'listen'
   gem 'rack-dev-mark'
+  gem 'web-console'
 end
 
 group :development, :test do
-  gem 'rspec-rails'
   gem 'capybara'
-  gem 'spring-commands-rspec'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pdf-inspector', require: 'pdf/inspector'
+  gem 'rspec-rails'
+  gem 'spring-commands-rspec'
 end
 
 group :test do
