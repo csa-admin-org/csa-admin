@@ -17,9 +17,11 @@ describe Halfday do
       place: 'Thielle',
       place_url: 'https://goo.gl/maps/xSxmiYRhKWH2',
       activity: 'Aide aux champs',
-      participants_limit: 3)
+      participants_limit: 3,
+      description: 'Venez nombreux!')
 
-    expect(halfday.preset).to be_nil
+    expect(halfday.preset_id).to be_nil
+    expect(halfday.places['fr']).to eq 'Thielle'
 
     halfday.save!
 
@@ -38,7 +40,10 @@ describe Halfday do
       end_time: Time.zone.parse('12:00'),
       preset_id: preset.id)
 
-    expect(halfday.preset).to eq(preset)
+    expect(halfday.preset_id).to be_present
+    expect(halfday.places['fr']).to eq 'preset'
+    expect(halfday.place_urls['de']).to eq 'preset'
+    expect(halfday.activities['xx']).to eq 'preset'
 
     halfday.save!
 

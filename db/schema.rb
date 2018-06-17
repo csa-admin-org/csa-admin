@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_12_054808) do
+ActiveRecord::Schema.define(version: 2018_06_16_170432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -259,23 +259,23 @@ ActiveRecord::Schema.define(version: 2018_06_12_054808) do
   end
 
   create_table "halfday_presets", force: :cascade do |t|
-    t.string "place", null: false
-    t.string "place_url"
-    t.string "activity", null: false
-    t.index ["place", "activity"], name: "index_halfday_presets_on_place_and_activity", unique: true
+    t.jsonb "places", default: {}, null: false
+    t.jsonb "place_urls", default: {}, null: false
+    t.jsonb "activities", default: {}, null: false
+    t.index ["places", "activities"], name: "index_halfday_presets_on_places_and_activities", unique: true
   end
 
   create_table "halfdays", id: :serial, force: :cascade do |t|
     t.date "date", null: false
     t.time "start_time", null: false
     t.time "end_time", null: false
-    t.string "place", null: false
-    t.string "place_url"
-    t.string "activity", null: false
-    t.text "description"
     t.integer "participants_limit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "places", default: {}, null: false
+    t.jsonb "place_urls", default: {}, null: false
+    t.jsonb "activities", default: {}, null: false
+    t.jsonb "descriptions", default: {}, null: false
     t.index ["date"], name: "index_halfdays_on_date"
     t.index ["start_time"], name: "index_halfdays_on_start_time"
   end

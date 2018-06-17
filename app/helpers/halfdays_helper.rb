@@ -26,7 +26,7 @@ module HalfdaysHelper
   end
 
   def display_place(halfday)
-    if halfday.place_url?
+    if halfday.place_url
       link_to(halfday.place, halfday.place_url)
     else
       halfday.place
@@ -34,7 +34,7 @@ module HalfdaysHelper
   end
 
   def display_activity(halfday, description: true)
-    if description && halfday.description?
+    if description && halfday.description
       halfday.activity +
         content_tag(:span, class: 'tooltip-toggle', data: { tooltip: halfday.description }) {
           content_tag :i, nil, class: 'fa fa-info-circle'

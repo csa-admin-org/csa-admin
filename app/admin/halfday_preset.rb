@@ -4,12 +4,26 @@ ActiveAdmin.register HalfdayPreset do
 
   index download_links: false do
     column :place
-    column :place_url, ->(hp) { link_to hp.place_url, hp.place_url }
+    column :place_url, ->(hp) { link_to truncate(hp.place_url, length: 50), hp.place_url }
     column :activity
     actions
   end
 
-  permit_params *%i[place place_url activity]
+  form do |f|
+    f.inputs do
+      translated_input(f, :places)
+      translated_input(f, :place_urls)
+      translated_input(f, :activities)
+      f.actions
+    end
+  end
+
+  permit_params(
+    places: I18n.available_locales,
+    place_urls: I18n.available_locales,
+    activities: I18n.available_locales)
 
   config.filters = false
+  config.per_page = 50
+  config.sort_order = -> { "places->>'#{I18n.locale}'" }
 end

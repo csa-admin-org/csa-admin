@@ -20,7 +20,7 @@ module XLSX
     def build_worksheet(name)
       worksheet = add_worksheet(name)
       add_header(
-        Invoice.human_attribute_name(:descritption),
+        Invoice.human_attribute_name(:description),
         Invoice.human_attribute_name(:unit_price),
         Invoice.human_attribute_name(:total))
       BasketSize.all.each do |basket_size|
@@ -76,8 +76,8 @@ module XLSX
       worksheet.change_column_horizontal_alignment(2, 'right')
     end
 
-    def add_line(descritption, total, price = nil)
-      @worksheet.add_cell(@line, 0, descritption)
+    def add_line(description, total, price = nil)
+      @worksheet.add_cell(@line, 0, description)
       @worksheet.add_cell(@line, 1, price).set_number_format('0.000')
       @worksheet.add_cell(@line, 2, total).set_number_format('0.00')
       @line += 1

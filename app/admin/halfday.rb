@@ -2,6 +2,7 @@ ActiveAdmin.register Halfday do
   menu parent: :halfdays_human_name, priority: 2, label: Halfday.human_attribute_name(:dates)
   actions :all, except: [:show]
 
+  scope :all
   scope :past
   scope :coming, default: true
 
@@ -29,8 +30,8 @@ ActiveAdmin.register Halfday do
     column(:participants_limit)
   end
 
-  filter :place, as: :select, collection: -> { Halfday.distinct.pluck(:place).sort }
-  filter :activity, as: :select, collection: -> { Halfday.distinct.pluck(:activity).sort }
+  filter :place, as: :select, collection: -> { Halfday.select(:places).distinct.map(&:place).sort }
+  filter :activity, as: :select, collection: -> { Halfday.select(:activities).distinct.map(&:activity).sort }
   filter :date
 
   form do |f|
@@ -40,34 +41,30 @@ ActiveAdmin.register Halfday do
       f.input :end_time, as: :time_select, include_blank: false, minute_step: 30
     end
     f.inputs t('formtastic.inputs.place_and_activity') do
-      if HalfdayPreset.any?
+      if HalfdayPreset.any? && f.object.new_record?
         f.input :preset_id,
           collection: HalfdayPreset.all + [HalfdayPreset.new(id: 0, place: HalfdayPreset.human_attribute_name(:other))],
           include_blank: false
       end
-      preset_present = !!f.object.preset
-      f.input :place, input_html: { disabled: preset_present }
-      f.input :place_url, input_html: { disabled: preset_present }
-      f.input :activity, input_html: { disabled: preset_present }
+      preset_present = f.object.preset.present?
+      translated_input(f, :places, input_html: { disabled: preset_present, class: 'js-preset' })
+      translated_input(f, :place_urls, input_html: { disabled: preset_present, class: 'js-preset' })
+      translated_input(f, :activities, input_html: { disabled: preset_present, class: 'js-preset' })
     end
     f.inputs t('.details') do
-      f.input :description, input_html: { rows: 5 }
+      translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 5 })
       f.input :participants_limit, as: :number
     end
     f.actions
   end
 
-  permit_params(*%i[
-    date
-    start_time
-    end_time
-    preset_id
-    place
-    place_url
-    activity
-    description
-    participants_limit
-  ])
+  permit_params(
+    :date, :start_time, :end_time,
+    :preset_id, :participants_limit,
+    places: I18n.available_locales,
+    place_urls: I18n.available_locales,
+    activities: I18n.available_locales,
+    descriptions: I18n.available_locales)
 
   before_build do |halfday|
     halfday.preset_id ||= HalfdayPreset.first&.id
@@ -77,16 +74,12 @@ ActiveAdmin.register Halfday do
   controller do
     def create
       overwrite_date_of_time_params
-      super do
-        redirect_to collection_url and return if resource.valid?
-      end
+      super
     end
 
     def update
       overwrite_date_of_time_params
-      super do
-        redirect_to collection_url and return if resource.valid?
-      end
+      super
     end
 
     def overwrite_date_of_time_params
