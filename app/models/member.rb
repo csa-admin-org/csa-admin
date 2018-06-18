@@ -49,7 +49,8 @@ class Member < ActiveRecord::Base
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_distribution, inclusion: { in: proc { Distribution.all } }, if: :waiting_basket_size, on: :create
-  validates :annual_fee, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
+  validate :email_must_be_unique
 
   before_save :handle_annual_fee_change
   after_save :update_membership_halfday_works
@@ -231,6 +232,15 @@ class Member < ActiveRecord::Base
   end
 
   private
+
+  def email_must_be_unique
+    emails_array.each do |email|
+      if Member.where.not(id: id).with_email(email).exists?
+        errors.add(:emails, :taken)
+        break
+      end
+    end
+  end
 
   def public_create_and_not_support?
     public_create && !support?

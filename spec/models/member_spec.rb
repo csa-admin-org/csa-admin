@@ -7,8 +7,7 @@ describe Member do
         newsletter: true,
         address: nil,
         city: nil,
-        zip: nil
-      )
+        zip: nil)
       expect(member).to be_valid
     end
 
@@ -17,6 +16,25 @@ describe Member do
       member = Member.new(billing_year_division: 3)
 
       expect(member).not_to have_valid(:billing_year_division)
+    end
+
+    it 'validates email format' do
+      member = Member.new(emails: 'doe.com, JANE@doe.com')
+
+      expect(member).not_to have_valid(:emails)
+    end
+
+    it 'validates email uniqueness' do
+      create(:member, emails: 'john@DOE.com, jane@doe.com')
+      member = Member.new(emails: 'jen@doe.com, JANE@doe.com')
+
+      expect(member).not_to have_valid(:emails)
+    end
+
+    it 'validates email uniqueness even when emails includes other ones' do
+      create(:member, emails: 'super-john@DOE.com, mega-jane@doe.com')
+      expect(Member.new(emails: 'john@DOE.com')).to have_valid(:emails)
+      expect(Member.new(emails: 'JANE@doe.com')).to have_valid(:emails)
     end
   end
 
