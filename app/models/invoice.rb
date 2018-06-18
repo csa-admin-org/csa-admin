@@ -183,8 +183,8 @@ class Invoice < ActiveRecord::Base
 
   def can_refund?
     closed? &&
-      acp_shares_number.positive? &&
-      member.acp_shares_number.positive?
+      acp_shares_number.to_i.positive? &&
+      member.acp_shares_number.to_i.positive?
   end
 
   def membership_type?
