@@ -115,7 +115,7 @@ class Newsletter::MailChimp
         member.next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ').to_s
     end
     if Current.acp.trial_basket_count.positive?
-      fields[:BASK_TRIA] = member.current_year_membership&.remaning_trial_baskets_count
+      fields[:BASK_TRIA] = member.current_year_membership&.remaning_trial_baskets_count.to_i
     end
     fields
   end
