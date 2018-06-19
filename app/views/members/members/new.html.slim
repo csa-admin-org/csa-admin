@@ -44,7 +44,7 @@ section
 
     - if Current.acp.terms_of_service_url
       = f.inputs do
-        = f.input :terms_of_service, as: :pretty_boolean, label: t('.terms_of_service', terms_url: Current.acp.terms_of_service_url).html_safe
+        = f.input :terms_of_service, as: :pretty_boolean, label: terms_of_service_label
 
     = f.actions do
       = f.action :submit, as: :button, label: t('.submit')

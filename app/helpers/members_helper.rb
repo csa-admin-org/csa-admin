@@ -61,6 +61,17 @@ module MembersHelper
     }
   end
 
+  def terms_of_service_label
+    if Current.acp.statutes_url
+      t('.terms_of_service_with_statutes',
+        terms_url: Current.acp.terms_of_service_url,
+        statutes_url: Current.acp.statutes_url).html_safe
+    else
+      t('.terms_of_service',
+        terms_url: Current.acp.terms_of_service_url).html_safe
+    end
+  end
+
   private
 
   def price_info(price, *options)
