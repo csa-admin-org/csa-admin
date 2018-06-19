@@ -112,7 +112,8 @@ describe 'members page' do
     it 'creates a new support member (acp_share)' do
       Current.acp.update!(
         languages: %w[fr de],
-        terms_of_service_url: nil,
+        terms_of_service_url: 'https://terms_of_service.com',
+        statutes_url: 'https://statutes.com',
         annual_fee: nil,
         share_price: 250)
       DeliveriesHelper.create_deliveries(40)
@@ -134,6 +135,8 @@ describe 'members page' do
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
       choose 'Aucun, devenir membre de soutien'
+
+      check "J'ai lu attentivement et accepte avec plaisir les statuts et le règlement."
 
       click_button 'Envoyer'
 

@@ -17,7 +17,8 @@ ActiveAdmin.register ACP do
     invoice_infos: I18n.available_locales,
     invoice_footers: I18n.available_locales,
     delivery_pdf_footers: I18n.available_locales,
-    terms_of_service_urls: I18n.available_locales
+    terms_of_service_urls: I18n.available_locales,
+    statutes_urls: I18n.available_locales
 
   form do |f|
     f.inputs 'Détails' do
@@ -85,6 +86,7 @@ ActiveAdmin.register ACP do
       f.input :email
       f.input :phone
       translated_input(f, :terms_of_service_urls, required: false)
+      translated_input(f, :statutes_urls, required: false)
     end
 
     f.actions do

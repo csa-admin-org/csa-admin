@@ -67,6 +67,8 @@ _:
           _fr: Été commence début
         terms_of_service_url:
           _fr: Réglement URL
+        statutes_url:
+          _fr: Statuts URL
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai

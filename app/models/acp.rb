@@ -14,7 +14,8 @@ class ACP < ActiveRecord::Base
   attr_accessor :summer_month_range_min, :summer_month_range_max
 
   translated_attributes :invoice_info, :invoice_footer
-  translated_attributes :delivery_pdf_footer, :terms_of_service_url
+  translated_attributes :delivery_pdf_footer
+  translated_attributes :terms_of_service_url, :statutes_url
 
   has_one_attached :logo
 
