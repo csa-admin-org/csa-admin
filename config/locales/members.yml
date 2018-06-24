@@ -8,18 +8,20 @@ _:
             _fr: Merci pour votre inscription!
     halfdays:
       index:
-        coming_halfday_participations/basket_preparation:
+        coming_halfdays/basket_preparation:
           _de: Künftige Abpackungen der Taschen
           _fr: Mises en panier à venir
-        coming_halfday_participations/halfday_work:
+        coming_halfdays/halfday_work:
           _de: Künftige ½ Tage
           _fr: "½ journées à venir"
-        no_coming_halfday_participations/basket_preparation:
+        no_coming_halfdays/basket_preparation:
           _de: Momentan gibt es keine freie Abpackungen der Taschen.
           _fr: Aucune mises en panier disponible pour le moment.
-        no_coming_halfday_participations/halfday_work:
+        no_coming_halfdays/halfday_work:
           _de: Momentan gibt es keine freie ½ Tage.
           _fr: Aucune ½ journées disponible pour le moment.
+        extra_coming_halfdays:
+          _fr: ... et encore %{count} autres jusqu'au %{last_date}!
     member_tokens:
       create:
         flash:
