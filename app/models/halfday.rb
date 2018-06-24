@@ -27,12 +27,11 @@ class Halfday < ActiveRecord::Base
       .sort_by { |hd| "#{hd.date}#{hd.period}" }
   end
 
-  def self.available(limit: 10)
+  def self.available
     where('date >= ?', 3.days.from_now)
       .includes(:participations)
       .reject(&:full?)
       .sort_by { |hd| "#{hd.date}#{hd.period}" }
-      .first(limit)
   end
 
   def full?

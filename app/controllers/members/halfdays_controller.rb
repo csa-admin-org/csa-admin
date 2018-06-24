@@ -3,7 +3,8 @@ class Members::HalfdaysController < Members::ApplicationController
 
   # GET /halfdays.rss
   def index
-    @halfdays = Halfday.available(limit: 25)
+    @halfdays = Halfday.available
+    @limit = params[:limit]&.to_i || 8
     respond_to do |format|
       format.rss
     end
