@@ -50,8 +50,13 @@ class Members::SessionsController < Members::BaseController
 
   # GET /:token
   def old_token
-    Member.find_by!(token: params[:token])
-    redirect_to members_login_path, alert: t('members.flash.session_expired')
+    member = Member.find_by!(token: params[:token])
+
+    if current_member == member
+      redirect_to members_member_path
+    else
+      redirect_to members_login_path, alert: t('members.flash.session_expired')
+    end
   end
 
   private
