@@ -71,23 +71,23 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (9.0.0)
-    autoprefixer-rails (8.6.3)
+    autoprefixer-rails (8.6.4)
       execjs
     aws-eventstream (1.0.1)
-    aws-partitions (1.91.0)
-    aws-sdk-core (3.21.2)
+    aws-partitions (1.94.0)
+    aws-sdk-core (3.22.1)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.5.0)
+    aws-sdk-kms (1.6.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.14.0)
+    aws-sdk-s3 (1.16.0)
       aws-sdk-core (~> 3, >= 3.21.2)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
-    aws-sigv4 (1.0.2)
+    aws-sigv4 (1.0.3)
     bcrypt (3.1.12)
     bindex (0.5.0)
     bootsnap (1.3.0)
@@ -97,7 +97,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11.0)
     cancancan (2.2.0)
-    capybara (3.2.1)
+    capybara (3.3.1)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -147,8 +147,8 @@ GEM
       faraday (>= 0.7.4)
       http-cookie (~> 1.0.0)
     ffi (1.9.25)
-    font-awesome-rails (4.7.0.4)
-      railties (>= 3.2, < 6.0)
+    font-awesome-sass (5.0.13)
+      sassc (>= 1.11)
     formadmin (0.2.1)
       activeadmin
     formtastic (3.1.5)
@@ -345,6 +345,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (1.12.0)
+      ffi (~> 1.9.6)
+      sass (>= 3.3.0)
     skylight (2.0.2)
       skylight-core (= 2.0.2)
     skylight-core (2.0.2)
@@ -376,13 +379,12 @@ GEM
     turbolinks-source (5.1.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.11)
+    uglifier (4.1.14)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
     uniform_notifier (1.11.0)
-    uniquify (0.1.0)
     vcr (4.0.0)
     warden (1.2.7)
       rack (>= 1.0)
@@ -423,7 +425,7 @@ DEPENDENCIES
   faker
   faraday
   faraday-cookie_jar
-  font-awesome-rails
+  font-awesome-sass
   formadmin
   gibbon
   highcharts-rails
@@ -462,7 +464,6 @@ DEPENDENCIES
   timecop
   turbolinks
   uglifier
-  uniquify
   vcr
   web-console
   webmock

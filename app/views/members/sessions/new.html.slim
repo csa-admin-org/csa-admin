@@ -1,0 +1,10 @@
+section.new-session
+  h1 = t('.title')
+
+  p = t_halfday('.text')
+  p = t('.form_text')
+
+  = form_for [:members, @session] do |f|
+    = f.label :email, t('.email_input')
+    = f.email_field :email
+    = f.submit t('.submit')

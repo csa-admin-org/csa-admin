@@ -119,6 +119,12 @@ FactoryBot.define do
     end
   end
 
+  factory :session do
+    member
+    remote_addr '127.0.0.1'
+    user_agent 'a browser user agent'
+  end
+
   factory :membership do
     member
     basket_size { BasketSize.first || create(:basket_size) }

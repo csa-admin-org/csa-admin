@@ -77,7 +77,7 @@ describe Email do
           member_name: 'Elea Asah',
           carpooling_phone: '076 543 12 43'
         ],
-        action_url: "https://membres.ragedevert.ch/#{member.token}"
+        action_url: 'https://membres.ragedevert.ch'
       },
       attachments: [])
   end
@@ -117,7 +117,7 @@ describe Email do
           url: 'https://google.map/thielle'
         },
         halfday_participants_count: 1,
-        action_url: "https://membres.ragedevert.ch/#{member.token}"
+        action_url: 'https://membres.ragedevert.ch'
       },
       attachments: [])
   end
@@ -157,7 +157,7 @@ describe Email do
           url: 'https://google.map/thielle'
         },
         halfday_participants_count: 3,
-        action_url: "https://membres.ragedevert.ch/#{member.token}"
+        action_url: 'https://membres.ragedevert.ch'
       },
       attachments: [])
   end
@@ -306,7 +306,7 @@ describe Email do
       template_data: {
         admin_name: 'Thibaud',
         member_name: 'John Doew',
-        action_url: "https://admin.ragedevert.ch/members/#{member.token}"
+        action_url: "https://admin.ragedevert.ch/members/#{member.id}"
       },
       attachments: [])
   end

@@ -1,10 +1,15 @@
 header
   = link_to Current.acp.url, class: 'logo' do
     = image_tag(Current.acp.logo.variant(resize: "300x300"), size: '100', alt: "#{Current.acp.name} Logo")
-  .contact
+  .links
+    - if current_member
+      .logout
+        = link_to members_logout_path, method: :delete do
+          span= t('.logout')
+          = icon('far', 'sign-out-alt')
     = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}" do
       span= Current.acp.phone
-      i.fa.fa-phone
+      = icon('fas', 'phone')
     = mail_to Current.acp.email do
       span= t('.contact')
-      i.fa.fa-envelope-o
+      = icon('far', 'envelope')

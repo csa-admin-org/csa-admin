@@ -28,6 +28,7 @@ class Ability
     end
     if admin.right? 'superadmin'
       can :manage, [Basket, BasketSize, BasketComplement, Delivery, Distribution, Admin, ACP]
+      can :become, Member
     end
   end
 

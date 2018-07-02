@@ -24,15 +24,17 @@ Rails.application.routes.draw do
 
   scope module: 'members', as: 'members' do
     constraints subdomain: 'membres' do
-      get '/' => redirect('/token/recover')
+      resources :sessions, only: %i[show create]
+      get '/login' => 'sessions#new', as: :login
+      delete '/logout' => 'sessions#destroy', as: :logout
+
       resources :halfdays, only: :index
-      resources :members, only: %i[new show create], path: '' do
+      resources :halfday_participations
+      resource :member, only: %i[new show create], path: '' do
         get 'welcome', on: :collection
-        resources :halfday_participations
       end
-      resource :member_token,
-        path: 'token/recover',
-        only: %i[show create]
+
+      get '/:token' => 'sessions#old_token', constraints: { token: /\w{10}/ }
     end
   end
 end

@@ -30,7 +30,7 @@ section
             span title="#{participation.carpooling_phone.phony_formatted}"= ", #{t('.carpooling')}"
           - if participation.destroyable?
             = ' –'
-            == link_to "&nbsp;#{t('.cancel_link')}".html_safe, [:members, current_member, participation], method: :delete
+            == link_to "&nbsp;#{t('.cancel_link')}".html_safe, [:members, participation], method: :delete
 
     - if @coming_participations.any? { |p| !p.destroyable? }
       p.info == t_halfday('.coming_halfday_cannot_be_cancel_explanation', days_count: Current.acp.halfday_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
@@ -43,7 +43,7 @@ section
   - else
     .halfdays-form
       - @halfday_participation ||= HalfdayParticipation.new(halfday: @halfdays.first)
-      = form_for [:members, current_member, @halfday_participation] do |f|
+      = form_for [:members, @halfday_participation] do |f|
         .column-left
             #datepicker.calendar data={ dates: @halfdays.map(&:date).uniq.to_json, selected_date: @halfday_participation.halfday.date }
         .column-right
@@ -69,7 +69,7 @@ section
             label.title
               = t('.carpooling')
               span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
-                i.fa.fa-info-circle
+                = icon('fas', 'info-circle')
             div.pretty_check_boxes
               label.carpooling
                 = f.check_box :carpooling
