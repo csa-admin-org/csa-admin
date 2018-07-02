@@ -414,6 +414,8 @@ _:
         waiting_membership:
           _de: Abonnement (Warteliste)
           _fr: Abonnement (en attente)
+        become_member:
+          _fr: Accéder au compte
     resources:
       absence:
         new_model:

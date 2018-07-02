@@ -144,7 +144,13 @@ ActiveAdmin.register Member do
 
       column do
         attributes_table do
-          row :id
+          row(:id) {
+            txt = "#{member.id}"
+            if authorized?(:become, resource)
+              txt << " – #{link_to t('.become_member'), become_member_path(resource), method: :post}"
+            end
+            txt.html_safe
+          }
           row :name
           row(:status) { status_tag member.state }
           if Current.acp.languages.many?
@@ -309,6 +315,13 @@ ActiveAdmin.register Member do
     redirect_to member_path(resource)
   end
 
+  member_action :become, method: :post do
+    session = resource.sessions.create!(
+      remote_addr: request.remote_addr,
+      user_agent: "Admin ID: #{current_admin.id}")
+    redirect_to members_session_url(session.token)
+  end
+
   controller do
     def apply_sorting(chain)
       params[:order] ||= 'members.waiting_started_at_asc' if params[:scope] == 'waiting'
@@ -324,10 +337,6 @@ ActiveAdmin.register Member do
           :waiting_basket_complements)
       end
       collection
-    end
-
-    def find_resource
-      Member.find_by!(token: params[:id])
     end
 
     def create_resource(object)

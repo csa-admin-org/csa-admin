@@ -19,9 +19,9 @@ describe 'members page' do
       create(:distribution, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel')
       create(:distribution, name: 'Domicile', visible: false)
 
-      visit "/new"
+      visit '/new'
 
-      fill_in "Nom(s) de famille et prénom(s)", with: 'John et Jame Doe'
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
       fill_in 'NPA', with: '2042'
       fill_in 'Ville', with: 'Moon City'
@@ -76,11 +76,11 @@ describe 'members page' do
 
       create(:distribution, name: 'Jardin de la main', price: 0)
 
-      visit "/new"
+      visit '/new'
 
       expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation anuelle de CHF 42 en plus de l'abonnement à son panier."
 
-      fill_in "Nom(s) de famille et prénom(s)", with: 'John et Jame Doe'
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
       fill_in 'NPA', with: '2042'
       fill_in 'Ville', with: 'Moon City'
@@ -122,11 +122,11 @@ describe 'members page' do
 
       create(:distribution, name: 'Jardin de la main', price: 0)
 
-      visit "/new"
+      visit '/new'
 
       expect(page).to have_content "Chaque membre fait également partie de l'association et se doit d'acquérir des parts sociales (CHF 250/part) en fonction de la taille de son panier. Ces parts sociales sont intégralement remboursées si le membre décide de quitter l'association."
 
-      fill_in "Nom(s) de famille et prénom(s)", with: 'John et Jame Doe'
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
       fill_in 'NPA', with: '2042'
       fill_in 'Ville', with: 'Moon City'
@@ -159,7 +159,8 @@ describe 'members page' do
   end
 
   context 'existing member token' do
-    let!(:halfday) { create(:halfday, date: 4.days.from_now) }
+    # let!(:halfday) { create(:halfday, date: 4.days.from_now) }
+    before { login(member) }
 
     it 'shows current membership info and halfdays count' do
       create(:basket_complement, id: 1, name: 'Oeufs')
@@ -171,7 +172,7 @@ describe 'members page' do
           '0' => { basket_complement_id: 1 }
         })
 
-      visit "/#{member.token}"
+      visit '/'
 
       expect(page).to have_content 'Panier: Petit'
       expect(page).to have_content 'Complément panier: Oeufs'
@@ -193,7 +194,7 @@ describe 'members page' do
         quantity: 2,
         distribution: create(:distribution, name: 'Vélo'))
 
-      visit "/#{member.token}"
+      visit '/'
 
       expect(page).to have_content 'Panier: 2x Grand'
       expect(page).to have_content 'Complément panier: Oeufs'
@@ -216,7 +217,7 @@ describe 'members page' do
           '0' => { basket_complement_id: 1 }
         })
 
-      visit "/#{member.token}"
+      visit '/'
 
       expect(page).to have_content 'Panier: Grand'
       expect(page).to have_content 'Complément panier: Fromage'
@@ -227,85 +228,9 @@ describe 'members page' do
     it 'shows with no membership' do
       member.current_year_membership.delete
 
-      visit "/#{member.token}"
+      visit '/'
 
       expect(page).to have_content 'Aucun abonnement'
-    end
-
-    it 'adds new participation' do
-      visit "/#{member.token}"
-
-      choose "halfday_participation_halfday_id_#{halfday.id}"
-      fill_in 'halfday_participation_participants_count', with: 3
-      click_button 'Inscription'
-
-      expect(page).to have_content('Merci pour votre inscription!')
-      expect(page)
-        .to have_content "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
-      within('ol.halfdays') do
-        expect(page).not_to have_content 'covoiturage'
-      end
-    end
-
-    it 'adds new participation with carpooling' do
-      visit "/#{member.token}"
-
-      choose "halfday_participation_halfday_id_#{halfday.id}"
-      fill_in 'halfday_participation_participants_count', with: 3
-      check 'halfday_participation_carpooling'
-      fill_in 'carpooling_phone', with: '+41 77 447 58 31'
-      click_button 'Inscription'
-
-      expect(page).to have_content('Merci pour votre inscription!')
-      within('ol.halfdays') do
-        expect(page).to have_content 'covoiturage'
-      end
-    end
-
-    it 'adds new participation with carpooling (default phone)' do
-      visit "/#{member.token}"
-
-      choose "halfday_participation_halfday_id_#{halfday.id}"
-      fill_in 'halfday_participation_participants_count', with: 3
-      check 'halfday_participation_carpooling'
-      click_button 'Inscription'
-
-      expect(page).to have_content('Merci pour votre inscription!')
-      within('ol.halfdays') do
-        expect(page).to have_content 'covoiturage'
-      end
-    end
-
-    it 'deletes a participation' do
-      halfday = create(:halfday_participation, member: member).halfday
-
-      visit "/#{member.token}"
-
-      part_text = "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
-
-      expect(page).to have_content part_text
-      click_link 'annuler', match: :first
-      expect(page).not_to have_content part_text
-      expect(page).not_to have_content "Pour des raisons d'organisation,"
-    end
-
-    it 'cannot delete a participation when deadline is overdue' do
-      Current.acp.update!(
-        halfday_i18n_scope: 'basket_preparation',
-        halfday_participation_deletion_deadline_in_days: 30)
-      halfday = create(:halfday, date: 29.days.from_now)
-      create(:halfday_participation,
-        member: member,
-        halfday: halfday,
-        created_at: 25.hours.ago)
-
-      visit "/#{member.token}"
-
-      part_text = "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
-
-      expect(page).to have_content part_text
-      expect(page).not_to have_content 'annuler'
-      expect(page).to have_content "Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de 30 jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous contacter."
     end
   end
 end

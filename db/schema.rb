@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_19_190414) do
+ActiveRecord::Schema.define(version: 2018_06_29_123641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -314,7 +314,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_190414) do
     t.string "address", limit: 255
     t.string "zip", limit: 255
     t.string "city", limit: 255
-    t.string "token", limit: 255, null: false
+    t.string "token", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "waiting_started_at"
@@ -403,6 +403,17 @@ ActiveRecord::Schema.define(version: 2018_06_19_190414) do
     t.index ["member_id"], name: "index_payments_on_member_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "member_id"
+    t.string "token", null: false
+    t.text "user_agent", null: false
+    t.string "remote_addr", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_sessions_on_member_id"
+    t.index ["token"], name: "index_sessions_on_token", unique: true
+  end
+
   create_table "vegetables", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -423,4 +434,5 @@ ActiveRecord::Schema.define(version: 2018_06_19_190414) do
   add_foreign_key "halfday_participations", "members"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
+  add_foreign_key "sessions", "members"
 end

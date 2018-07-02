@@ -2,8 +2,7 @@ section
   h1 = t('.title')
   p = t('.text')
 
-  = semantic_form_for [:members, @member] do |f|
-
+  = semantic_form_for @member, url: members_member_path do |f|
     = f.inputs do
       = f.input :name, label: t('.name')
       = f.input :address

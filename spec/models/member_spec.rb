@@ -248,7 +248,7 @@ describe Member do
         to: 'thibaud@thibaud.gg, john@doe.com',
         template: 'member-welcome-fr',
         template_data: {
-          action_url: "https://membres.ragedevert.ch/#{member.token}"
+          action_url: 'https://membres.ragedevert.ch'
         }))
     end
 
@@ -291,7 +291,7 @@ describe Member do
         template_data: {
           admin_name: admin1.name,
           member_name: member.name,
-          action_url: "https://admin.ragedevert.ch/members/#{member.token}"
+          action_url: "https://admin.ragedevert.ch/members/#{member.id}"
         }))
     end
 

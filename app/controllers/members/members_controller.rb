@@ -1,4 +1,4 @@
-class Members::MembersController < Members::ApplicationController
+class Members::MembersController < Members::BaseController
   skip_before_action :authenticate_member!, only: %i[new create welcome]
 
   # GET /new
@@ -6,17 +6,17 @@ class Members::MembersController < Members::ApplicationController
     @member = Member.new
   end
 
-  # GET /:token
+  # GET /
   def show; end
 
-  # POST
+  # POST /
   def create
     @member = Member.new(member_params)
     @member.language = I18n.locale
     @member.public_create = true
 
     if @member.save
-      redirect_to welcome_members_members_path
+      redirect_to welcome_members_member_path
     else
       render :new
     end

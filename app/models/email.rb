@@ -70,7 +70,7 @@ module Email
           }
         }
       unless Current.acp.halfday_participation_deletion_deadline_in_days
-        data[:action_url] = url(:members_member_url, member)
+        data[:action_url] = url(:members_member_url)
       end
 
       {
@@ -86,7 +86,7 @@ module Email
     member = halfday_participation.member
     I18n.with_locale(member.language) do
       data = halfday_participation_data(halfday_participation)
-      data[:action_url] = url(:members_member_url, member)
+      data[:action_url] = url(:members_member_url)
 
       {
         from: from,
@@ -101,7 +101,7 @@ module Email
     member = halfday_participation.member
     I18n.with_locale(member.language) do
       data = halfday_participation_data(halfday_participation)
-      data[:action_url] = url(:members_member_url, member)
+      data[:action_url] = url(:members_member_url)
 
       {
         from: from,
@@ -200,13 +200,13 @@ module Email
     }
   end
 
-  def member_login(member, email)
+  def member_login(member, email, action_url)
     {
       from: from,
       to: email,
       template: template_alias(:member_login, member.language),
       template_data: {
-        action_url: url(:members_member_url, member)
+        action_url: action_url
       }
     }
   end
@@ -226,7 +226,7 @@ module Email
       to: member.emails,
       template: template_alias(:member_welcome, member.language),
       template_data: {
-        action_url: url(:members_member_url, member)
+        action_url: url(:members_member_url)
       }
     }
   end
@@ -252,6 +252,8 @@ module Email
     params = {
       host: Current.acp.email_default_host
     }.merge(args.extract_options!)
-    Rails.application.routes.url_helpers.send(route, *args, params)
+    Rails.application.routes.url_helpers
+      .send(route, *args, params)
+      .sub(/\/\z/, '')
   end
 end

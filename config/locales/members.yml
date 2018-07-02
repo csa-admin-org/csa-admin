@@ -1,5 +1,10 @@
 _:
   members:
+    flash:
+      session_expired:
+        _fr: Votre session a expirée, merci de vous authentifier à nouveau.
+      authentication_required:
+        _fr: Merci de vous authentifier pour accèder à votre compte.
     halfday_participations:
       create:
         flash:
@@ -22,31 +27,39 @@ _:
           _fr: Aucune ½ journées disponible pour le moment.
         extra_coming_halfdays:
           _fr: ... et encore %{count} autres jusqu'au %{last_date}!
-    member_tokens:
+    sessions:
       create:
         flash:
           notice:
             _de: Vielen Dank! Ein Email wurde Ihnen soeben gesendet.
             _fr: Merci! Un email vient de vous être envoyé.
       show:
+        flash:
+          logged_in:
+            _fr: Vous êtes maintenant connecté.
+          already_logged_in:
+            _fr: Vous êtes déjà connecté.
+          session_timeout:
+            _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.
+      destroy:
+        flash:
+          notice:
+            _fr: Vous êtes maintenant déconnecté.
+      new:
         email_input:
           _de: Ihres Email
           _fr: Votre email
         form_text:
-          _de: Wenn Sie den Link zu Ihrer Mitgliedseite nicht mehr finden, tragen Sie bitte Ihre Emailadresse im Formular hier unten. Der Link wird Ihnen erneut per Email gesendet.
-          _fr: Si vous ne retrouvez plus le lien vers votre page, merci d'entrer votre email dans le formulaire ci-dessous. Le lien vous sera à nouveau envoyé.
+          _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
         submit:
           _de: Senden
-          _fr: Retrouver
+          _fr: Envoyer
         text/basket_preparation:
-          _de: Jedes Mitglied hat Zugang zu einer persönlichen Seite, wo es sich für die Abpackungen der Taschen einschreiben kann.
-          _fr: Chaque membre a accès à une page privée lui permettant de s'inscrire aux mises en panier.
+          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
         text/halfday_work:
-          _de: Jedes Mitglied hat Zugang zu einer persönlichen Seite, wo es sich für die Halbtage einschreiben kann.
-          _fr: Chaque membre a accès à une page privée lui permettant de s'inscrire aux demi-journées.
+          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux demi-journées.
         title:
-          _de: Meine Mitgliedseite wieder finden
-          _fr: Retrouver sa page de membre
+          _fr: Connexion à votre compte
     members:
       new:
         acp_shares_text:

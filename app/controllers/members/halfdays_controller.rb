@@ -1,4 +1,4 @@
-class Members::HalfdaysController < Members::ApplicationController
+class Members::HalfdaysController < Members::BaseController
   skip_before_action :authenticate_member!
 
   # GET /halfdays.rss

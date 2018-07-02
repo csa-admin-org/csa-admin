@@ -11,7 +11,7 @@ header {
     }
   }
 
-  .contact {
+  .links {
     float: right;
     width: 150px;
 
@@ -29,6 +29,10 @@ header {
       &:hover {
         color: $dark-green;
       }
+    }
+
+    .logout a {
+      margin-bottom: $small-spacing;
     }
   }
 }

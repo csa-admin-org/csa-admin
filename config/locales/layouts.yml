@@ -5,6 +5,8 @@ _:
         contact:
           _de: Kontakt
           _fr: Contact
+        logout:
+          _fr: Déconnexion
       title:
         _de: Mitgliedseite
         _fr: Page de Membre
