@@ -83,10 +83,6 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def page_url
-    [Current.acp.email_default_host, token].join('/')
-  end
-
   def same_delivery_address?
     display_address == display_delivery_address
   end

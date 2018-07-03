@@ -362,9 +362,6 @@ _:
         newsletter:
           _de: Newsletter (MailChimp)
           _fr: Newsletter (MailChimp)
-        page_url:
-          _de: URL persönliche Webseite.
-          _fr: URL page perso.
         payments_amount:
           _de: Einzahlungen erfolgt
           _fr: Paiements versés
