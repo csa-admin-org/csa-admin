@@ -65,7 +65,6 @@ ActiveAdmin.register Member do
       column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
     end
     column(:waiting_distribution) { |m| m.waiting_distribution&.name }
-    column(:page_url)
     column(:food_note)
     column(:note)
     column(:validated_at)
