@@ -33,6 +33,18 @@ describe Invoice do
       .to change { email_adapter.deliveries.size }.by(1)
   end
 
+  it 'closes invoice before sending email' do
+    member = create(:member, annual_fee: 42)
+    create(:payment, amount: 100, member: member)
+
+    invoice = create(:invoice, :annual_fee, member: member, send_email: true)
+
+    expect(email_adapter.deliveries.last).to match(hash_including(
+      template: 'invoice-new-fr',
+      template_data: hash_including(invoice_paid: true)
+    ))
+  end
+
   it 'updates membership recognized_halfday_works' do
     member = create(:member)
     membership = create(:membership, member: member)
