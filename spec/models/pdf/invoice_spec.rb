@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe PDF::Invoice do
   def save_pdf_and_return_strings(invoice)
-    pdf = PDF::Invoice.new(invoice)
-    pdf_path = "tmp/invoice-#{Current.acp.name}-##{pdf.invoice.id}.pdf"
-    pdf.render_file(Rails.root.join(pdf_path))
-    PDF::Inspector::Text.analyze(pdf.render).strings
+    pdf = invoice.pdf_file.download
+    pdf_path = "tmp/invoice-#{Current.acp.name}-##{invoice.id}.pdf"
+    File.open(pdf_path, 'wb+') { |f| f.write(pdf) }
+    PDF::Inspector::Text.analyze(pdf).strings
   end
 
   context 'Rage de Vert settings' do
@@ -549,11 +549,11 @@ describe PDF::Invoice do
         address: 'Donnerbühlweg 31',
         zip: '3012',
         city: 'Bern')
+      create(:payment, amount: 75, member: member)
       invoice = create(:invoice,
         id: 301,
         member: member,
         acp_shares_number: 2)
-      create(:payment, amount: 75, member: member)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)

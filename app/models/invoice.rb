@@ -5,7 +5,7 @@ class Invoice < ActiveRecord::Base
   include HasFiscalYearScopes
   include HasState
   include ActionView::Helpers::NumberHelper
-  NoPDFError = Class.new(StandardError)
+  UnprocessedError = Class.new(StandardError)
 
   OBJECT_TYPES = %w[Membership AnnualFee ACPShare HalfdayParticipation]
 
@@ -68,10 +68,8 @@ class Invoice < ActiveRecord::Base
     on: :create,
     if: :membership_type?
 
-  after_create :set_pdf, :send_email
+  after_commit :process!, on: :create
   after_commit :update_membership_recognized_halfday_works!
-  after_commit :update_member_invoices_balance!, on: :create
-  after_commit :handle_acp_shares_change!, on: :create
 
   def display_name
     "#{model_name.human} ##{id} (#{I18n.l date})"
@@ -79,7 +77,7 @@ class Invoice < ActiveRecord::Base
 
   def send!
     return unless can_send_email?
-    raise NoPDFError unless pdf_file.attached?
+    raise UnprocessedError unless processed?
 
     Email.deliver_now(:invoice_new, self) if can_send_email?
     touch(:sent_at)
@@ -91,7 +89,7 @@ class Invoice < ActiveRecord::Base
 
   def mark_as_sent!
     return if sent_at?
-    raise NoPDFError unless pdf_file.attached?
+    raise UnprocessedError unless processed?
 
     touch(:sent_at)
     close_or_open!
@@ -178,7 +176,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def can_send_email?
-    !sent_at? && member.emails?
+    !sent_at? && !canceled? && member.emails?
   end
 
   def can_refund?
@@ -205,6 +203,10 @@ class Invoice < ActiveRecord::Base
 
   def memberships_net_amount
     (memberships_gross_amount - memberships_vat_amount) if memberships_gross_amount
+  end
+
+  def processed?
+    pdf_file.attached?
   end
 
   private
@@ -242,7 +244,28 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def set_pdf
+  def process!
+    return if processed?
+
+    update_member_invoices_balance!
+    handle_acp_shares_change!
+    reload # ensure that balance/state change are reflected.
+
+    set_pdf!
+    send! if @send_email
+  end
+
+  def update_member_invoices_balance!
+    Payment.update_invoices_balance!(member_id)
+  end
+
+  def handle_acp_shares_change!
+    if acp_share_type?
+      member.handle_acp_shares_change!
+    end
+  end
+
+  def set_pdf!
     I18n.with_locale(member.language) do
       invoice_pdf = PDF::Invoice.new(self)
       pdf_file.attach(
@@ -252,23 +275,9 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def update_member_invoices_balance!
-    Payment.update_invoices_balance!(member_id)
-  end
-
   def update_membership_recognized_halfday_works!
     if halfday_participation_type?
       member.membership(fy_year)&.update_recognized_halfday_works!
     end
-  end
-
-  def handle_acp_shares_change!
-    if acp_share_type?
-      member.handle_acp_shares_change!
-    end
-  end
-
-  def send_email
-    send! if @send_email
   end
 end
