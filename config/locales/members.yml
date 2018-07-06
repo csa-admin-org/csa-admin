@@ -1,10 +1,12 @@
 _:
   members:
     flash:
-      session_expired:
-        _fr: Votre session a expirée, merci de vous authentifier à nouveau.
       authentication_required:
+        _de: Bitte melden Sie sich an, um zu Ihrem Konto zu gelangen.
         _fr: Merci de vous authentifier pour accèder à votre compte.
+      session_expired:
+        _de: Ihre Sitzung ist abgelaufen, bitte melden Sie sich wieder an.
+        _fr: Votre session a expirée, merci de vous authentifier à nouveau.
     halfday_participations:
       create:
         flash:
@@ -19,52 +21,22 @@ _:
         coming_halfdays/halfday_work:
           _de: Künftige ½ Tage
           _fr: "½ journées à venir"
+        extra_coming_halfdays:
+          _de: "... und noch weitere %{count} bis zum %{last_date}!"
+          _fr: "... et encore %{count} autres jusqu'au %{last_date}!"
         no_coming_halfdays/basket_preparation:
           _de: Momentan gibt es keine freie Abpackungen der Taschen.
           _fr: Aucune mises en panier disponible pour le moment.
         no_coming_halfdays/halfday_work:
           _de: Momentan gibt es keine freie ½ Tage.
           _fr: Aucune ½ journées disponible pour le moment.
-        extra_coming_halfdays:
-          _fr: ... et encore %{count} autres jusqu'au %{last_date}!
-    sessions:
-      create:
-        flash:
-          notice:
-            _de: Vielen Dank! Ein Email wurde Ihnen soeben gesendet.
-            _fr: Merci! Un email vient de vous être envoyé.
-      show:
-        flash:
-          logged_in:
-            _fr: Vous êtes maintenant connecté.
-          already_logged_in:
-            _fr: Vous êtes déjà connecté.
-          session_timeout:
-            _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.
-      destroy:
-        flash:
-          notice:
-            _fr: Vous êtes maintenant déconnecté.
-      new:
-        email_input:
-          _de: Ihres Email
-          _fr: Votre email
-        form_text:
-          _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
-        submit:
-          _de: Senden
-          _fr: Envoyer
-        text/basket_preparation:
-          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
-        text/halfday_work:
-          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux demi-journées.
-        title:
-          _fr: Connexion à votre compte
     members:
       new:
         acp_shares_text:
+          _de: Jedes Mitglied tritt dem Verein bei und muss je nach Taschengrösse ein oder mehere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben. Diese Anteilscheine werden bei einem Austritt vollständig zurückgezahlt.
           _fr: Chaque membre fait également partie de l'association et se doit d'acquérir des parts sociales (<b>%{price}</b>/part) en fonction de la taille de son panier. Ces parts sociales sont intégralement remboursées si le membre décide de quitter l'association.
         annual_fee_text:
+          _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
           _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         membership_text:
           _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstieg im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
@@ -85,6 +57,7 @@ _:
           _de: Senden
           _fr: Envoyer
         terms_of_service:
+          _de: Ich habe die Statuten und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
         terms_of_service_with_statutes:
           _de: Ich habe <a href="%{statutes_url}">die Statuten</a> und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
@@ -93,6 +66,7 @@ _:
           _de: Bitte das Formular hier unten ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
         title:
+          _de: Anmeldeformular
           _fr: Formulaire d'inscription
       show:
         cancel_link:
@@ -171,3 +145,44 @@ _:
         title:
           _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!
+    sessions:
+      create:
+        flash:
+          notice:
+            _de: Vielen Dank! Ein Email wurde Ihnen soeben gesendet.
+            _fr: Merci! Un email vient de vous être envoyé.
+      destroy:
+        flash:
+          notice:
+            _de: Sie sind nun abgemeldet.
+            _fr: Vous êtes maintenant déconnecté.
+      new:
+        email_input:
+          _de: Ihres Email
+          _fr: Votre email
+        form_text:
+          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort mit einem Anmeldelink. Dieser Link wird Ihnen mithilfe des untenstehenden Formulars per Email zugestellt.
+          _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
+        submit:
+          _de: Senden
+          _fr: Envoyer
+        text/basket_preparation:
+          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Abpackungen der Taschen einschreiben können.
+          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
+        text/halfday_work:
+          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Halbtage einschreiben können.
+          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux demi-journées.
+        title:
+          _de: Anmeldung zu Ihrem Konto
+          _fr: Connexion à votre compte
+      show:
+        flash:
+          already_logged_in:
+            _de: Sie sind bereits angemeldet.
+            _fr: Vous êtes déjà connecté.
+          logged_in:
+            _de: Sie sind jetzt angemeldet.
+            _fr: Vous êtes maintenant connecté.
+          session_timeout:
+            _de: Ihr Anmeldelink ist nicht mehr gültig. Bitte verlangen Sie ein neuer.
+            _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.

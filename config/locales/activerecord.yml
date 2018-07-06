@@ -59,6 +59,10 @@ _:
           _fr: Téléphone
         share_price:
           _fr: Montant part sociale
+          _de: Betrag Anteilschein
+        statutes_url:
+          _de: Statuten URL
+          _fr: Statuts URL
         summer_month_range_max:
           _de: Sommer endet Ende
           _fr: Été finit fin
@@ -66,9 +70,8 @@ _:
           _de: Sommer fängt an Anfang
           _fr: Été commence début
         terms_of_service_url:
+          _de: Reglement URL
           _fr: Réglement URL
-        statutes_url:
-          _fr: Statuts URL
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai
@@ -334,6 +337,7 @@ _:
           _de: Einzahlungsintervall
           _fr: Intervalle de paiement
         come_from:
+          _de: Wie haben Sie von uns gehört?
           _fr: Comment avez-vous entendu parler de nous?
         current_membership:
           _de: Abonnement (laufend)

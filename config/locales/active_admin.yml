@@ -4,9 +4,6 @@ _:
       message:
         _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _fr: Vous n'êtes pas autorisé à executer cette action
-    flash:
-      invalid_foreign_key_alert:
-        _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
     any:
       _de: Irgendeins
       _fr: N'importe lequel
@@ -216,6 +213,9 @@ _:
         starts_with:
           _de: Beginnt mit
           _fr: Commence par
+    flash:
+      invalid_foreign_key_alert:
+        _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
     has_many_delete:
       _de: Löschen
       _fr: Supprimer
@@ -346,6 +346,9 @@ _:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
       show:
+        become_member:
+          _de: Zugang zum Konto
+          _fr: Accéder au compte
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
@@ -356,6 +359,7 @@ _:
           _de: Abonnement erstellen
           _fr: Créer abonnement
         deactivate:
+          _de: Inatkiv setzen
           _fr: Rendre inactif
         direct_payments:
           _de: Direkte Einzahlungen
@@ -417,8 +421,6 @@ _:
         waiting_membership:
           _de: Abonnement (Warteliste)
           _fr: Abonnement (en attente)
-        become_member:
-          _fr: Accéder au compte
     resources:
       absence:
         new_model:

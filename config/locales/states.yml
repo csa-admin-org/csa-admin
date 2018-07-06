@@ -35,10 +35,13 @@ _:
         _fr: inactif
       memberships:
         future:
-          _fr: Abonnement future
+          _de: künftiges Abonnement
+          _fr: Abonnement futur
         ongoing:
+          _de: laufendes Abonnement
           _fr: Abonnement en cours
         trial:
+          _de: Probeabonnement
           _fr: Abonnement à l'essai
       pending:
         _de: zu bestätigen
