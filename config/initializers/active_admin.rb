@@ -230,3 +230,12 @@ module ActiveAdmin
     end
   end
 end
+
+require 'active_admin/base_controller'
+ActiveAdmin::BaseController.class_eval do
+  rescue_from ActiveRecord::InvalidForeignKey do
+    redirect_back(
+      fallback_location: root_path,
+      alert: t('active_admin.flash.invalid_foreign_key_alert'))
+  end
+end
