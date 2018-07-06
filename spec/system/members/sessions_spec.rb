@@ -108,4 +108,29 @@ describe 'Member sessions' do
 
     expect(current_path).to eq '/'
   end
+
+  it 'update last usage column every hour when using the session' do
+    member = create(:member)
+
+    Timecop.freeze Time.new(2018, 7, 6, 1) do
+      login(member)
+
+      expect(member.sessions.last).to have_attributes(
+        last_used_at: Time.new(2018, 7, 6, 1),
+        last_remote_addr: '127.0.0.1',
+        last_user_agent: nil)
+    end
+
+    Timecop.freeze Time.new(2018, 7, 6, 1, 59) do
+      visit '/'
+      expect(member.sessions.last).to have_attributes(
+        last_used_at: Time.new(2018, 7, 6, 1))
+    end
+
+    Timecop.freeze Time.new(2018, 7, 6, 2, 0, 1) do
+      visit '/'
+      expect(member.sessions.last).to have_attributes(
+        last_used_at: Time.new(2018, 7, 6, 2, 0, 1))
+    end
+  end
 end
