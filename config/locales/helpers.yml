@@ -2,8 +2,10 @@ _:
   helpers:
     acp_shares_number:
       one:
+        _de: "%{count} Anteilschein"
         _fr: "%{count} part sociale"
       other:
+        _de: "%{count} Anteilscheine"
         _fr: "%{count} parts sociales"
     halfdays_count_per_year/basket_preparation:
       one:
@@ -20,10 +22,13 @@ _:
         _de: "%{count} Halbtage"
         _fr: "%{count} demi-journées"
     no_basket_size:
+      _de: Kein, Unterstützungsmitglied werden
       _fr: Aucun, devenir membre de soutien
     no_basket_size_acp_share:
+      _de: nur Anteilschein
       _fr: part sociale uniquement
     no_basket_size_annual_fee:
+      _de: nur jährlicher Beitrag
       _fr: cotisation annuelle uniquement
     none:
       _de: Kein

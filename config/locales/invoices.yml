@@ -7,6 +7,7 @@ _:
           _fr: Facture annulée
     object_type:
       acp_share:
+        _de: Anteilschein
         _fr: Part sociale
       annual_fee:
         _de: Jahresgebühr
@@ -14,13 +15,17 @@ _:
     pdf:
       acp_shares_number:
         one:
+          _de: Erwerb eines Anteilscheins
           _fr: Acquisition d'une part sociale
         other:
+          _de: Erwerb von %{count} Anteilscheinen
           _fr: Acquisition de %{count} parts sociales
       acp_shares_number_negative:
         one:
+          _de: Rückzahlung eines Anteilscheins
           _fr: Remboursement d'une part sociale
         other:
+          _de: Rückzahlung von %{count} Anteilscheinen
           _fr: Remboursement de %{count} parts sociales
       all_taxes_included:
         _de: inkl. MwSt.

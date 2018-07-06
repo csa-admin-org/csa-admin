@@ -1,6 +1,7 @@
 _:
   billing:
     acp_shares:
+      _de: Anteilscheine
       _fr: Part Sociales
     adjustments:
       _de: Anpassungen
@@ -47,6 +48,7 @@ _:
       _fr: Payé en trop (pour année suivante)
     scope:
       acp_share:
+        _de: Anteilschein
         _fr: Part Sociale
       annual_fee:
         _de: Beitrag

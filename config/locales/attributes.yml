@@ -1,6 +1,7 @@
 _:
   attributes:
     acp_shares_number:
+      _de: Anzahl Anteilscheine
       _fr: Nombre de parts sociales
     activity:
       _de: Arbeit
