@@ -4,6 +4,9 @@ _:
       message:
         _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _fr: Vous n'êtes pas autorisé à executer cette action
+    flash:
+      invalid_foreign_key_alert:
+        _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
     any:
       _de: Irgendeins
       _fr: N'importe lequel

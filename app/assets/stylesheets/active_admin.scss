@@ -14,6 +14,22 @@ $primary-color: #7e874e !default;
 @import 'activeadmin/medium_editor/themes/default'; // or another theme
 @import 'font-awesome';
 
+// Foradmin fix
+.flash_alert {
+  background-color: tint($negative-color, 95%);
+  background-image: linear-gradient(
+    to bottom,
+    tint($negative-color, 90%),
+    tint($negative-color, 85%)
+  );
+  border-color: rgba($negative-color, 0.5);
+  color: $negative-color;
+
+  &:hover {
+    border-color: $negative-color;
+  }
+}
+
 .align-right {
   text-align: right !important;
 }
@@ -129,7 +145,7 @@ table .xlsx_link {
     background-color: #80a432;
   }
   &.support {
-    background-color: #80D232;
+    background-color: #80d232;
   }
   &.waiting {
     background-color: #91ba3a;
