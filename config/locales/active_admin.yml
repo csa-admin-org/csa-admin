@@ -216,6 +216,7 @@ _:
     flash:
       invalid_foreign_key_alert:
         _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
+        _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
     has_many_delete:
       _de: Löschen
       _fr: Supprimer
