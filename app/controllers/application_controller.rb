@@ -12,9 +12,10 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-    I18n.locale = params[:locale] ||
+    I18n.locale =
+      params[:locale] ||
       current_admin&.language ||
-      I18n.default_locale
+      Current.acp.languages.first
   end
 
   def prepare_exception_notifier
@@ -22,5 +23,4 @@ class ApplicationController < ActionController::Base
       current_acp: Apartment::Tenant.current
     }
   end
-
 end

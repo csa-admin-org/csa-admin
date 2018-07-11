@@ -1,7 +1,7 @@
 class Members::BaseController < ApplicationController
   layout 'members'
-  before_action :authenticate_member!
   before_action :set_locale
+  before_action :authenticate_member!
 
   helper_method :current_member
 
@@ -28,9 +28,11 @@ class Members::BaseController < ApplicationController
   end
 
   def set_locale
-    I18n.locale = params[:locale] ||
+    cookies.permanent[:locale] = params[:locale] if params.key?(:locale)
+    I18n.locale =
+      cookies[:locale] ||
       current_member&.language ||
-      I18n.default_locale
+      Current.acp.languages.first
   end
 
   def update_last_usage(session)

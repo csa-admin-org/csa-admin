@@ -318,7 +318,7 @@ ActiveAdmin.register Member do
     session = resource.sessions.create!(
       remote_addr: request.remote_addr,
       user_agent: "Admin ID: #{current_admin.id}")
-    redirect_to members_session_url(session.token)
+    redirect_to members_session_url(session.token, locale: I18n.locale)
   end
 
   controller do

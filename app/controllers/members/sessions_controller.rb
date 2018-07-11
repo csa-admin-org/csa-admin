@@ -15,14 +15,13 @@ class Members::SessionsController < Members::BaseController
     @session = build_session(email)
 
     if @session.save
-      url = members_session_url(@session.token)
-      I18n.locale = @session.member.language
+      url = members_session_url(@session.token, locale: I18n.locale)
       Email.deliver_later(:member_login, @session.member, email, url)
     else
       Email.deliver_later(:member_login_help, email, I18n.locale.to_s)
     end
 
-    redirect_to members_login_path(locale: I18n.locale), notice: t('.flash.notice')
+    redirect_to members_login_path, notice: t('.flash.notice')
   end
 
   # GET /sessions/:id
