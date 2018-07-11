@@ -1,4 +1,15 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  #body-wrapper {
+    flex: 1 0 auto;
+  }
+}
+
 header {
+  flex: none;
   display: inline-block;
   width: 100%;
   margin-top: $base-spacing;
@@ -38,21 +49,24 @@ header {
 }
 
 footer {
-  width: 100%;
+  flex: none;
   text-align: center;
+  margin: $base-spacing * 4 auto 0 auto;
+  padding-bottom: $base-spacing;
 
-  position: sticky;
-  top: 100%;
+  a,
+  p,
+  li {
+    color: $light-gray;
+    margin: 0;
+  }
 
-  p {
-    display: inline-block;
-    margin-top: $base-spacing * 4;
-    padding: $small-spacing $small-spacing * 2;
-    border-top: 1px dotted $light-gray;
-
-    width: auto;
-    a {
-      color: $light-gray;
+  ul.locales li {
+    color: $light-gray;
+    list-style-type: none;
+    display: inline;
+    &:not(:first-child):before {
+      content: " / ";
     }
   }
 }

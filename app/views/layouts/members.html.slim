@@ -15,3 +15,7 @@ html
       = yield
     footer
       p = link_to_acp_website
+      - if Current.acp.languages.many?
+        ul.locales
+          - Current.acp.languages.each do |locale|
+            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}")
