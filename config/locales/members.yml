@@ -39,7 +39,7 @@ _:
           _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
           _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         membership_text:
-          _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstieg im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
+          _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
         membership_trial_text:
           _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
@@ -63,7 +63,7 @@ _:
           _de: Ich habe <a href="%{statutes_url}">die Statuten</a> und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}">les statuts</a> et <a href="%{terms_url}">le règlement</a>.
         text:
-          _de: Bitte das Formular hier unten ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
+          _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
         title:
           _de: Anmeldeformular
@@ -91,10 +91,10 @@ _:
           _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
         coming_halfday_participations/basket_preparation:
-          _de: Ihre künftige Abpackungen der Taschen
+          _de: Ihre künftigen Abpackungen der Taschen
           _fr: Vos mises en panier à venir
         coming_halfday_participations/halfday_work:
-          _de: Ihre künftige ½ Tage
+          _de: Ihre künftigen ½ Tage
           _fr: Vos ½ journées à venir
         contact_link:
           _de: Kontakt aufnehmen
@@ -130,10 +130,10 @@ _:
           _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
           _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
         past_halfday_participations/basket_preparation:
-          _de: Ihre geleistete Abpackungen der Taschen
+          _de: Ihre geleisteten Abpackungen der Taschen
           _fr: Vos mises en panier effectuées
         past_halfday_participations/halfday_work:
-          _de: Ihre geleistete ½ Tage
+          _de: Ihre geleisteten ½ Tage
           _fr: Vos ½ journées effectuées
       welcome:
         return_to_acp_website:
@@ -161,7 +161,7 @@ _:
           _de: Ihres Email
           _fr: Votre email
         form_text:
-          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort mit einem Anmeldelink. Dieser Link wird Ihnen mithilfe des untenstehenden Formulars per Email zugestellt.
+          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
           _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
         submit:
           _de: Senden
@@ -173,7 +173,7 @@ _:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Halbtage einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux demi-journées.
         title:
-          _de: Anmeldung zu Ihrem Konto
+          _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
       show:
         flash:

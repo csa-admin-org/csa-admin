@@ -28,10 +28,10 @@ _:
         _fr: ouverte
     member:
       active:
-        _de: activ
+        _de: aktiv
         _fr: actif
       inactive:
-        _de: inactiv
+        _de: inaktiv
         _fr: inactif
       memberships:
         future:
