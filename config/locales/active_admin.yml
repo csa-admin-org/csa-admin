@@ -460,7 +460,7 @@ _:
             _fr: passées
       halfday/basket_preparation:
         new_model:
-          _de: Neuer %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
       halfday/halfday_work:
         new_model:
@@ -485,7 +485,7 @@ _:
           _de: Bearbeiten
           _fr: Modifier
         new_model:
-          _de: Neuer %{model}
+          _de: Neue %{model}
           _fr: Nouvelle %{model}
       halfday_participation/halfday_work:
         delete_model:
@@ -522,6 +522,9 @@ _:
             _de: offene
             _fr: ouvertes
       member:
+        new_model:
+          _de: Neues %{model}
+          _fr: Nouveau %{model}
         delete_model:
           _de: Löschen
           _fr: Supprimer
@@ -539,6 +542,14 @@ _:
           trial:
             _de: probe
             _fr: essais
+      basket_content:
+        new_model:
+          _de: Neuer %{model}
+          _fr: Nouveau %{model}
+      vegetable:
+        new_model:
+          _de: Neues %{model}
+          _fr: Nouveau %{model}
     scopes:
       active:
         _de: aktive
@@ -556,7 +567,7 @@ _:
         _de: laufendes Jahr
         _fr: année courante
       future:
-        _de: künftiger
+        _de: künftige
         _fr: futures
       future_year:
         _de: folgende Jahre
@@ -616,7 +627,7 @@ _:
         _fr: Total
     status_tag:
       active:
-        _de: activ
+        _de: aktiv
         _fr: actif
       canceled:
         _de: stornierte
@@ -631,7 +642,7 @@ _:
         _de: nein
         _fr: non
       inactive:
-        _de: inactiv
+        _de: inaktiv
         _fr: inactif
       isr:
         _de: ESR
