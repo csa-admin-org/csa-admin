@@ -253,9 +253,6 @@ GEM
     postmark (1.13.0)
       json
       rake
-    postmark-rails (0.17.0)
-      actionmailer (>= 3.0.0)
-      postmark (~> 1.13.0)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
@@ -444,7 +441,6 @@ DEPENDENCIES
   phony_rails
   polyamorous
   postmark
-  postmark-rails
   prawn
   prawn-table
   puma
