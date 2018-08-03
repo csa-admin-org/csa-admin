@@ -65,7 +65,6 @@ gem 'rubyXL'
 group :production do
   gem 'aws-sdk-s3', require: false
   gem 'hiredis', require: false
-  gem 'postmark-rails'
   gem 'redis'
 end
 
