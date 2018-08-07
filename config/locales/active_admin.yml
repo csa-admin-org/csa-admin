@@ -438,6 +438,10 @@ _:
         edit_model:
           _de: Einstellungen
           _fr: Paramètres
+      basket_content:
+        new_model:
+          _de: Neuer %{model}
+          _fr: Nouveau %{model}
       basket_size:
         new_model:
           _de: Neue %{model}
@@ -522,15 +526,15 @@ _:
             _de: offene
             _fr: ouvertes
       member:
-        new_model:
-          _de: Neues %{model}
-          _fr: Nouveau %{model}
         delete_model:
           _de: Löschen
           _fr: Supprimer
         edit_model:
           _de: Bearbeiten
           _fr: Modifier
+        new_model:
+          _de: Neues %{model}
+          _fr: Nouveau %{model}
       membership:
         new_model:
           _de: Neues %{model}
@@ -542,17 +546,13 @@ _:
           trial:
             _de: probe
             _fr: essais
-      basket_content:
+      payment:
         new_model:
-          _de: Neuer %{model}
+          _de: Neue %{model}
           _fr: Nouveau %{model}
       vegetable:
         new_model:
           _de: Neues %{model}
-          _fr: Nouveau %{model}
-      payment:
-        new_model:
-          _de: Neue %{model}
           _fr: Nouveau %{model}
     scopes:
       active:
