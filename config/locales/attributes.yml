@@ -117,6 +117,9 @@ _:
     place_url:
       _de: Standort URL
       _fr: Lieu URL
+    presets:
+      _de: Voreinstellungen
+      _fr: Presets
     price:
       _de: Preis
       _fr: Prix

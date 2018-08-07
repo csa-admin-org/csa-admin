@@ -1,5 +1,7 @@
 ActiveAdmin.register HalfdayParticipation do
-  menu parent: :halfdays_human_name, priority: 1, label: -> { Halfday.human_attribute_name(:participations) }
+  menu parent: :halfdays_human_name,
+    priority: 1,
+    label: -> { Halfday.human_attribute_name(:participations) }
 
   scope :all
   scope :pending, default: true

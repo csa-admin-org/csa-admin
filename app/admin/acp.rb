@@ -1,5 +1,8 @@
 ActiveAdmin.register ACP do
-  menu parent: :other, priority: 100, label: 'Paramètres'
+  menu parent: :other,
+    priority: 100,
+    label: -> { I18n.t('active_admin.settings') }
+
   actions :edit, :update
   permit_params \
     :name, :host, :logo,

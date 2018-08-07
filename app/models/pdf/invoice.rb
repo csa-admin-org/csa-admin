@@ -61,8 +61,8 @@ module PDF
     def content
       font_size 10
       data = [[
-        ::Invoice.human_attribute_name(:description).downcase,
-        "#{::Invoice.human_attribute_name(:amount).downcase} (CHF)"
+        ::Invoice.human_attribute_name(:description),
+        "#{::Invoice.human_attribute_name(:amount)} (CHF)"
       ]]
 
       case invoice.object_type
