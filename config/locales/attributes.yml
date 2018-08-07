@@ -153,3 +153,7 @@ _:
     zip:
       _de: PLZ
       _fr: NPA
+    note:
+      _de: Notiz
+      _fr: Note
+
