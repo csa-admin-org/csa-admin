@@ -18,13 +18,15 @@ class Members::BaseController < ApplicationController
     return unless session_id
 
     session = Session.find_by(id: session_id)
-    if session.expired?
-      cookies.delete(:session_id)
-      redirect_to members_login_path, alert: t('members.flash.session_expired')
-    else
-      update_last_usage(session)
-      @current_member = session.member
-    end
+    @current_member =
+      if session.expired?
+        cookies.delete(:session_id)
+        redirect_to members_login_path, alert: t('members.flash.session_expired')
+        nil
+      else
+        update_last_usage(session)
+        session.member
+      end
   end
 
   def set_locale
