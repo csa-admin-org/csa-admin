@@ -58,8 +58,8 @@ _:
           _de: Telefon
           _fr: Téléphone
         share_price:
-          _fr: Montant part sociale
           _de: Betrag Anteilschein
+          _fr: Montant part sociale
         statutes_url:
           _de: Statuten URL
           _fr: Statuts URL
@@ -121,6 +121,9 @@ _:
         locked_at:
           _de: Gesperrt am
           _fr: Verrouillé à
+        notifications:
+          _de: Benachrichtigungen
+          _fr: Notifications
         password:
           _de: Passwort
           _fr: Mot de passe

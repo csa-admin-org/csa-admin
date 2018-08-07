@@ -1,5 +1,8 @@
 ActiveAdmin.register HalfdayPreset do
-  menu parent: :halfdays_human_name, priority: 3, label: 'Presets'
+  menu parent: :halfdays_human_name,
+    priority: 3,
+    label: -> { Halfday.human_attribute_name(:presets) }
+
   actions :all, except: [:show]
 
   index download_links: false do
