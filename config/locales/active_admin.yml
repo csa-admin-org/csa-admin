@@ -550,6 +550,10 @@ _:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
+      payment:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouveau %{model}
     scopes:
       active:
         _de: aktive
