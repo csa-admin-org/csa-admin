@@ -90,6 +90,9 @@ _:
     name:
       _de: Name
       _fr: Nom
+    note:
+      _de: Notiz
+      _fr: Note
     other:
       _de: Weiteres
       _fr: Autre
@@ -156,7 +159,3 @@ _:
     zip:
       _de: PLZ
       _fr: NPA
-    note:
-      _de: Notiz
-      _fr: Note
-
