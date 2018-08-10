@@ -1,5 +1,5 @@
 ActiveAdmin.register Halfday do
-  menu parent: :halfdays_human_name, priority: 2, label: Halfday.human_attribute_name(:dates)
+  menu parent: :halfdays_human_name, priority: 2, label: -> { Halfday.human_attribute_name(:dates) }
   actions :all, except: [:show]
 
   scope :all

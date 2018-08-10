@@ -201,6 +201,9 @@ _:
         equals:
           _de: Gleich
           _fr: Egal à
+        from:
+          _de: Von
+          _fr: De
         greater_than:
           _de: Grösser als
           _fr: Plus grand que
@@ -213,6 +216,9 @@ _:
         starts_with:
           _de: Beginnt mit
           _fr: Commence par
+        to:
+          _de: Bis
+          _fr: À
     flash:
       invalid_foreign_key_alert:
         _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
@@ -355,6 +361,9 @@ _:
           _fr: Facturation
         cancel:
           _de: Abbrechen
+          _fr: Annuler
+        cancel_invoice:
+          _de: Stornieren
           _fr: Annuler
         create_membership:
           _de: Abonnement erstellen
