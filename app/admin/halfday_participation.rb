@@ -40,7 +40,7 @@ ActiveAdmin.register HalfdayParticipation do
   filter :halfday,
     as: :select,
     collection: -> { Halfday.order(:date, :start_time) }
-  filter :halfday_date, label: Halfday.human_attribute_name(:date), as: :date_range
+  filter :halfday_date, label: -> { Halfday.human_attribute_name(:date) }, as: :date_range
 
   form do |f|
     f.inputs t('.details') do
