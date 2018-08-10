@@ -21,7 +21,6 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
-    Rails.cache.clear
     Apartment::Tenant.switch('ragedevert') do
       CurrentACP.set_acp_logo('rdv_logo.jpg')
       example.run
