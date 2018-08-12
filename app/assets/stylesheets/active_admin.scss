@@ -10,8 +10,6 @@
 // Active Admin's got SASS!
 $primary-color: #7e874e !default;
 @import 'formadmin/formadmin';
-@import 'activeadmin/medium_editor_input';
-@import 'activeadmin/medium_editor/themes/default'; // or another theme
 @import 'font-awesome';
 
 // Foradmin fix
@@ -283,18 +281,6 @@ table.table-memberships {
 
 #titlebar_right .action_item {
   margin-bottom: 3px !important;
-}
-
-.medium_editor li {
-  list-style: inherit;
-  border: none;
-}
-
-.medium-editor-element {
-  padding: 10px !important;
-  max-height: 500px !important;
-  width: 600px !important;
-  min-height: 100px;
 }
 
 .basket_complements {

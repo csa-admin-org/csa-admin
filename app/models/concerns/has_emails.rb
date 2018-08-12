@@ -9,9 +9,7 @@ module HasEmails
     validate :emails_must_be_valid
 
     scope :with_emails, -> { where.not(emails: ['', nil]) }
-    scope :with_email, ->(email) {
-      where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", email)
-    }
+    scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
   end
 
   def emails=(emails)
