@@ -227,7 +227,7 @@ class Member < ActiveRecord::Base
 
   def email_must_be_unique
     emails_array.each do |email|
-      if Member.where.not(id: id).with_email(email).exists?
+      if Member.where.not(id: id).including_email(email).exists?
         errors.add(:emails, :taken)
         break
       end

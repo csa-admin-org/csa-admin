@@ -10,6 +10,9 @@ module HasEmails
 
     scope :with_emails, -> { where.not(emails: ['', nil]) }
     scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
+    scope :including_email, ->(email) {
+       where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", email)
+     }
   end
 
   def emails=(emails)
