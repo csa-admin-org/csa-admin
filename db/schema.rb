@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_06_131812) do
+ActiveRecord::Schema.define(version: 2018_08_13_190459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2018_07_06_131812) do
     t.jsonb "delivery_pdf_footers", default: {}, null: false
     t.jsonb "terms_of_service_urls", default: {}, null: false
     t.jsonb "statutes_urls", default: {}, null: false
+    t.integer "halfday_availability_limit_in_days", default: 3, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

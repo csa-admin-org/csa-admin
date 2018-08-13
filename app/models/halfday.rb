@@ -21,14 +21,14 @@ class Halfday < ActiveRecord::Base
   validate :end_time_must_be_greather_than_start_time
 
   def self.available_for(member)
-    where('date >= ?', 3.days.from_now)
+    where('date >= ?', Current.acp.halfday_availability_limit_in_days.days.from_now)
       .includes(:participations)
       .reject { |hd| hd.participant?(member) || hd.full? }
       .sort_by { |hd| "#{hd.date}#{hd.period}" }
   end
 
   def self.available
-    where('date >= ?', 3.days.from_now)
+    where('date >= ?', Current.acp.halfday_availability_limit_in_days.days.from_now)
       .includes(:participations)
       .reject(&:full?)
       .sort_by { |hd| "#{hd.date}#{hd.period}" }
