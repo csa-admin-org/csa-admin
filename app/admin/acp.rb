@@ -12,6 +12,7 @@ ActiveAdmin.register ACP do
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
+    :halfday_availability_limit_in_days,
     :url, :email, :phone,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
@@ -80,6 +81,7 @@ ActiveAdmin.register ACP do
         collection: ACP.halfday_i18n_scopes.map { |s| [t("halfdays.#{s}", count: 2), s] },
         prompt: true
       f.input :halfday_participation_deletion_deadline_in_days
+      f.input :halfday_availability_limit_in_days
     end
     f.inputs 'Fiches signature livraison (PDF)' do
       translated_input(f, :delivery_pdf_footers, required: false)

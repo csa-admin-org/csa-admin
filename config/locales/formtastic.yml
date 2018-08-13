@@ -11,6 +11,8 @@ _:
         annual_fee:
           _de: Leer lassen, wenn kein jährlicher Beitrag
           _fr: Laisser vide si aucune cotisation anuelle
+        halfday_availability_limit_in_days:
+          _fr: Passé cette limite, il n'est plus possible de s'inscrire. Laisser à zéro aucune limite.
         halfday_participation_deletion_deadline_in_days:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
