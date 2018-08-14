@@ -24,7 +24,7 @@ class ACP < ActiveRecord::Base
   validates :url, presence: true
   validates :email, presence: true
   validates :phone, presence: true
-  validates :ccp, presence: true
+  validates :ccp, presence: true, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/ }
   validates :isr_identity, presence: true
   validates :isr_payment_for, presence: true
   validates :isr_in_favor_of, presence: true

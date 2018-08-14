@@ -45,7 +45,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to contain_sequence('Cotisation annuelle association', '42.00')
-        .and include('0100000042007>001104190802410000000008070+ 01137346>')
+        .and include('0100000042007>001104190802410000000008070+ 010137346>')
       expect(pdf_strings).not_to include('Facturation anuelle')
     end
 
@@ -67,7 +67,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant annuel', "1'330.00", 'Facturation anuelle', "1'330.00")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "1'372.00")
-        .and include '0100001372007>001104190802410000000000048+ 01137346>'
+        .and include '0100001372007>001104190802410000000000048+ 010137346>'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -92,7 +92,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant annuel', "999.50", 'Facturation anuelle', "999.50")
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', "1'029.50")
-        .and include '0100001029509>001104190802410000000000077+ 01137346>'
+        .and include '0100001029509>001104190802410000000000077+ 010137346>'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -120,7 +120,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant trimestriel #1', '271.25')
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', '301.25')
-        .and include '0100000301256>001104190802410000000000085+ 01137346>'
+        .and include '0100000301256>001104190802410000000000085+ 010137346>'
     end
 
     it 'generates invoice with quarter menbership and paid amount' do
@@ -157,7 +157,7 @@ describe PDF::Invoice do
         .and contain_sequence('Déjà facturé', '- 665.00')
         .and contain_sequence('Montant annuel restant', '665.00')
         .and contain_sequence('Facturation trimestrielle #3', '332.50')
-        .and include('0100000332508>001104190802410000000000112+ 01137346>')
+        .and include('0100000332508>001104190802410000000000112+ 010137346>')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -176,7 +176,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('½ ', 'journée du 4 mars 2018 non-effectuée (2 participants)', '120.00')
         .and contain_sequence('Total', '120.00')
-        .and include('0100000120000>001104190802410000000020015+ 01137346>')
+        .and include('0100000120000>001104190802410000000020015+ 010137346>')
     end
 
     it 'generates invoice with HalfdayParticipation type (one participant)' do
@@ -191,7 +191,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('½ ', 'journée non-effectuée', '60.00')
         .and contain_sequence('Total', '60.00')
-        .and include('0100000060004>001104190802410000000020020+ 01137346>')
+        .and include('0100000060004>001104190802410000000020020+ 010137346>')
     end
     it 'generates invoice with HalfdayParticipation type (many participants)' do
       invoice = create(:invoice,
@@ -205,7 +205,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('3 ', '½ ', 'journées non-effectuées', '180.00')
         .and contain_sequence('Total', '180.00')
-        .and include('0100000180005>001104190802410000000020031+ 01137346>')
+        .and include('0100000180005>001104190802410000000020031+ 010137346>')
     end
   end
 
@@ -269,7 +269,7 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "1'831.80")
         .and contain_sequence("* TTC, CHF 1'755.04 HT, CHF 1.76 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100001831806>800250000000000000000001221+ 0192520>'
+        .and include '0100001831806>800250000000000000000001221+ 010092520>'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -309,7 +309,7 @@ describe PDF::Invoice do
         .and contain_sequence('Facturation quadrimestrielle #2', "* 223.70")
         .and contain_sequence('* TTC, CHF 223.48 HT, CHF 0.22 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000223709>800250000000000000000001252+ 0192520>'
+        .and include '0100000223709>800250000000000000000001252+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -365,7 +365,7 @@ describe PDF::Invoice do
         .and contain_sequence('Facturation mensuelle #3', "* 93.60")
         .and contain_sequence('* TTC, CHF 93.51 HT, CHF 0.09 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000093604>800250000000000000000001273+ 0192520>'
+        .and include '0100000093604>800250000000000000000001273+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -409,7 +409,7 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "1'001.60")
         .and contain_sequence('* TTC, CHF 925.67 HT, CHF 0.93 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100001001604>800250000000000000000001236+ 0192520>'
+        .and include '0100001001604>800250000000000000000001236+ 010092520>'
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -453,7 +453,7 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "1'031.45")
         .and contain_sequence('* TTC, CHF 955.49 HT, CHF 0.96 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100001031458>800250000000000000000001244+ 0192520>'
+        .and include '0100001031458>800250000000000000000001244+ 010092520>'
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -482,7 +482,7 @@ describe PDF::Invoice do
         .and contain_sequence("À payer", "1'297.00")
         .and contain_sequence("* TTC, CHF 1'462.54 HT, CHF 1.46 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100001297005>800250000000000000000002428+ 0192520>'
+        .and include '0100001297005>800250000000000000000002428+ 010092520>'
         expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -522,7 +522,7 @@ describe PDF::Invoice do
         .and contain_sequence('N° TVA CHE-273.220.900')
         .and contain_sequence("** L'avoir restant sera reporté sur la facture suivante.")
         .and contain_sequence('XXXX', 'XX')
-        .and include '0100000000005>800250000000000000000002433+ 0192520>'
+        .and include '0100000000005>800250000000000000000002433+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
   end
@@ -534,7 +534,7 @@ describe PDF::Invoice do
         name: 'tap',
         share_price: 250,
         fiscal_year_start_month: 4,
-        ccp: 'XX-XXX-XXX',
+        ccp: '01-9252-0',
         isr_identity: '800350',
         isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
         isr_in_favor_of: "TaPatate! c/o Danielle Huser\nDunantstrasse 6\n3006 Bern",
