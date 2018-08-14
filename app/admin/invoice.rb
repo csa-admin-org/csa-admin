@@ -42,6 +42,7 @@ ActiveAdmin.register Invoice do
   filter :object_type,
     as: :select,
     collection: -> { object_type_collection }
+  filter :amount
   filter :date
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do

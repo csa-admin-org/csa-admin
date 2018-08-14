@@ -31,6 +31,7 @@ ActiveAdmin.register Payment do
     as: :select,
     collection: -> { Member.joins(:payments).order(:name).distinct }
   filter :invoice_id, as: :numeric
+  filter :amount
   filter :date
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
