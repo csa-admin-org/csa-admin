@@ -29,7 +29,7 @@ describe ISRReferenceNumber do
     isr = generate_isr(amount: 123.50)
 
     expect(isr.ref).to eq '00 11041 90802 41000 00000 07064'
-    expect(isr.full_ref).to eq '0100000123505>001104190802410000000007064+ 01137346>'
+    expect(isr.full_ref).to eq '0100000123505>001104190802410000000007064+ 010137346>'
   end
 
   it 'works with 6 digits isr_identity' do
@@ -37,6 +37,13 @@ describe ISRReferenceNumber do
     isr = generate_isr(amount: 123.45)
 
     expect(isr.ref).to eq '80 02500 00000 00000 00000 07068'
-    expect(isr.full_ref).to eq '0100000123458>800250000000000000000007068+ 01137346>'
+    expect(isr.full_ref).to eq '0100000123458>800250000000000000000007068+ 010137346>'
+  end
+
+  it 'adds zero to middle part of CCP' do
+    Current.acp.ccp = '01-9252-0'
+    isr = generate_isr(amount: 123.50)
+
+    expect(isr.full_ref).to eq '0100000123505>001104190802410000000007064+ 010092520>'
   end
 end

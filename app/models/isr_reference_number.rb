@@ -44,7 +44,7 @@ class ISRReferenceNumber
 
   def invoice_ref
     ref = invoice_id.to_s
-    ref.prepend('0') while ref.length != invoice_ref_length
+    ref.prepend('0') until ref.length == invoice_ref_length
     ref
   end
 
@@ -66,7 +66,9 @@ class ISRReferenceNumber
   end
 
   def ccp_ref
-    Current.acp.ccp.delete('-')
+    a, b, c = Current.acp.ccp.split('-')
+    b.prepend('0') until b.length == 6
+    [a, b, c].join
   end
 
   def amount_ref
