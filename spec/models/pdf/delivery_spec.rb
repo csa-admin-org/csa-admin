@@ -10,10 +10,10 @@ describe PDF::Delivery do
 
   context 'Lumiere des Champs' do
     before {
-      set_acp_logo('ldc_logo.jpg')
       Current.acp.update!(
         name: 'ldc',
         delivery_pdf_footer: "Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
+      set_acp_logo('lumieredeschamps_logo.jpg')
       create_deliveries(48)
     }
 

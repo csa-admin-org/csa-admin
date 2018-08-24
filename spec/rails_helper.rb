@@ -22,7 +22,7 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     Apartment::Tenant.switch('ragedevert') do
-      CurrentACP.set_acp_logo('rdv_logo.jpg')
+      CurrentACP.set_acp_logo('ragedevert_logo.jpg')
       example.run
     end
     Current.reset

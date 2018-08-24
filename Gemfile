@@ -75,7 +75,7 @@ end
 
 group :development, :test do
   gem 'capybara'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '4.10.0'
   gem 'faker'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rspec-rails'
