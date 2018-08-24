@@ -17,11 +17,13 @@ class RecurringBilling
   end
 
   def invoice(**attrs)
-    return unless member.billable?
+    I18n.with_locale(member.language) do
+      return unless member.billable?
 
-    invoice = build_invoice(**attrs)
-    invoice.save
-    invoice
+      invoice = build_invoice(**attrs)
+      invoice.save
+      invoice
+    end
   end
 
   private
