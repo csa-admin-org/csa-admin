@@ -211,7 +211,7 @@ describe PDF::Invoice do
 
   context 'Lumiere des Champs settings' do
     before {
-      set_acp_logo('ldc_logo.jpg')
+      set_acp_logo('lumieredeschamps_logo.jpg')
       Current.acp.update!(
         name: 'ldc',
         fiscal_year_start_month: 4,
@@ -529,7 +529,7 @@ describe PDF::Invoice do
 
   context 'TaPatate! settings' do
     before {
-      set_acp_logo('tap_logo.jpg')
+      set_acp_logo('tapatate_logo.jpg')
       Current.acp.update!(
         name: 'tap',
         share_price: 250,
