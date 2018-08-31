@@ -12,8 +12,8 @@ class MembershipsBasketComplement < ActiveRecord::Base
     self.price ||= basket_complement&.price
   end
 
-  def total_price
-    quantity * price
+  def delivery_price
+    basket_complement.annual_price_type? ? 0 : price
   end
 
   def season_quantity(delivery)

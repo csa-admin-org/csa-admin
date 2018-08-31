@@ -180,6 +180,15 @@ _:
         deliveries:
           _de: Lieferungen
           _fr: Livraisons
+        price_type:
+          _de: Preis pro
+          _fr: Prix par
+        price_type/annual:
+          _de: Jahr
+          _fr: Année
+        price_type/delivery:
+          _de: Lieferung
+          _fr: Livraison
       basket_content:
         basket_size:
           _de: Tasche

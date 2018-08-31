@@ -31,7 +31,7 @@ module XLSX
 
       if BasketComplement.any?
         BasketComplement.all.each do |basket_complement|
-          total = @memberships.sum { |m| m.basket_complement_total_price(basket_complement.id) }
+          total = @memberships.sum { |m| m.basket_complement_total_price(basket_complement) }
           add_line("#{BasketComplement.model_name.human}: #{basket_complement.name}", total, basket_complement.price)
         end
         add_empty_line

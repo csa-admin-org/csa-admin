@@ -328,7 +328,7 @@ module PDF
           .baskets
           .joins(:baskets_basket_complements)
           .where(baskets_basket_complements: { basket_complement: basket_complement })
-      "#{basket_complement.name} #{basket_complements_price_info(baskets)}"
+      "#{basket_complement.name} #{basket_complement_price_info(object, basket_complement)}"
     end
 
     def membership_distribution_description(distribution)
