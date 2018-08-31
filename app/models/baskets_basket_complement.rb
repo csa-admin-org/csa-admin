@@ -4,10 +4,15 @@ class BasketsBasketComplement < ActiveRecord::Base
 
   validates :basket_complement_id, uniqueness: { scope: :basket_id }
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :price, numericality: { equal_to: 0 }, if: :basket_complement_annual_price_type?
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   before_validation do
-    self.price ||= basket_complement&.price
+    self.price ||= basket_complement&.delivery_price
+  end
+
+  def basket_complement_annual_price_type?
+    basket_complement&.annual_price_type?
   end
 
   def description
@@ -16,9 +21,5 @@ class BasketsBasketComplement < ActiveRecord::Base
     when 1 then basket_complement.name
     else "#{quantity} x #{basket_complement.name}"
     end
-  end
-
-  def total_price
-    quantity * price
   end
 end

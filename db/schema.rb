@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_24_200109) do
+ActiveRecord::Schema.define(version: 2018_08_31_071210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 2018_08_24_200109) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "names", default: {}, null: false
+    t.string "price_type", default: "delivery", null: false
   end
 
   create_table "basket_complements_deliveries", force: :cascade do |t|
