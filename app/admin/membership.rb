@@ -51,6 +51,7 @@ ActiveAdmin.register Membership do
     column(halfday_scoped_attribute(:missing_halfday_works), &:missing_halfday_works)
     column(:started_on)
     column(:ended_on)
+    column(:renew)
   end
 
   show do |m|
@@ -203,7 +204,7 @@ ActiveAdmin.register Membership do
     f.inputs Membership.human_attribute_name(:dates) do
       f.input :started_on, as: :datepicker
       f.input :ended_on, as: :datepicker
-      f.input :renew unless resource.new_record? || resource.current_year?
+      f.input :renew unless resource.new_record? || resource.past? || !resource.current_year?
     end
 
     unless resource.new_record?
