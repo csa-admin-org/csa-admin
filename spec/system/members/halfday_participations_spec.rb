@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'members page' do
+describe 'Halfday Participation' do
   let(:member) { create(:member) }
 
   before do
@@ -20,7 +20,7 @@ describe 'members page' do
     expect(page).to have_content('Merci pour votre inscription!')
     expect(page)
       .to have_content "#{I18n.l(halfday.date, format: :long).capitalize}, #{halfday.period}"
-    within('ol.halfdays') do
+    within('ol.main') do
       expect(page).not_to have_content 'covoiturage'
     end
   end
@@ -37,7 +37,7 @@ describe 'members page' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ol.halfdays') do
+    within('ol.main') do
       expect(page).to have_content 'covoiturage'
     end
   end
@@ -53,7 +53,7 @@ describe 'members page' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ol.halfdays') do
+    within('ol.main') do
       expect(page).to have_content 'covoiturage'
     end
   end

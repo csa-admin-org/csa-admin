@@ -2,6 +2,7 @@
 .tooltip-toggle {
   cursor: pointer;
   position: relative;
+  margin-left: $small-spacing / 4;
 
   //Tooltip text container
   &::before {

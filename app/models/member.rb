@@ -187,7 +187,7 @@ class Member < ActiveRecord::Base
   end
 
   def absent?(date)
-    absences.any? { |absence| absence.period.include?(date) }
+    absences.any? { |absence| absence.period.include?(date.to_date) }
   end
 
   def membership(year = nil)

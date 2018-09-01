@@ -190,16 +190,13 @@ describe Member do
   end
 
   describe '#absent?' do
-    let(:member) { create(:member) }
-    before do
-      create(:absence,
-        member: member,
-        started_on: Date.current,
-        ended_on: 2.days.from_now
-      )
-    end
+    it 'returns true for a given date during the absence window' do
+      absence = create(:absence,
+        started_on: 2.weeks.from_now,
+        ended_on: 4.weeks.from_now)
 
-    specify { expect(member.absent?(Date.tomorrow)).to eq true }
+      expect(absence.member.absent?(3.weeks.from_now)).to eq true
+    end
   end
 
   describe '#deactivate!' do

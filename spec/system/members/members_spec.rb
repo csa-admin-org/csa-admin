@@ -159,7 +159,6 @@ describe 'members page' do
   end
 
   context 'existing member token' do
-    # let!(:halfday) { create(:halfday, date: 4.days.from_now) }
     before { login(member) }
 
     it 'shows current membership info and halfdays count' do
@@ -177,7 +176,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: Petit'
       expect(page).to have_content 'Complément panier: Oeufs'
       expect(page).to have_content 'Dépôt: Jardin de la main'
-      expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
+      expect(page).to have_content "0/3 effectuée(s)"
     end
 
     it 'shows current membership info with custom coming basket' do
@@ -199,7 +198,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: 2x Grand'
       expect(page).to have_content 'Complément panier: Oeufs'
       expect(page).to have_content 'Dépôt: Vélo'
-      expect(page).to have_content "½ Journées (#{Date.current.year}): 0/3"
+      expect(page).to have_content "0/3 effectuée(s)"
     end
 
     it 'shows next year membership info and halfdays count' do
@@ -222,7 +221,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: Grand'
       expect(page).to have_content 'Complément panier: Fromage'
       expect(page).to have_content 'Dépôt: Vélo'
-      expect(page).to have_content "½ Journées (#{Date.current.year + 1}): 0/4"
+      expect(page).to have_content "0/4 effectuée(s)"
     end
 
     it 'shows with no membership' do

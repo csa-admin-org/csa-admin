@@ -1,27 +1,11 @@
-section
-  h4 = current_member.name
-
-  - if next_basket = current_member.next_basket
-    ul
-      li == "#{Basket.model_name.human}: #{basket_size_description(next_basket)}"
-      - if BasketComplement.any?
-        li == "#{BasketComplement.model_name.human(count: next_basket.membership.memberships_basket_complements.count)}: #{basket_complements_description(next_basket.membership.memberships_basket_complements&.includes(:basket_complement))}"
-      li == "#{Distribution.model_name.human}: #{next_basket.distribution.name}"
-      - [current_member.current_year_membership, current_member.future_membership].compact.each do |membership|
-        li
-          = "#{halfdays_human_name} (#{membership.fiscal_year}): "
-          b = "#{membership.recognized_halfday_works}/#{membership.halfday_works}"
-  - else
-    p
-      em.empty = t('.no_membership')
-
+#halfday_participations
 section
   h2 = t_halfday('.coming_halfday_participations')
   - @coming_participations = current_member.halfday_participations.coming.includes(:halfday).order('halfdays.date')
   - if @coming_participations.empty?
     p.empty = t('.no_coming_halfday_participations')
   - else
-    ol.halfdays
+    ol.main
       - @coming_participations.each do |participation|
         li
           == halfday_label(participation.halfday, date: true, date_format: :long)
@@ -29,14 +13,13 @@ section
           - if participation.carpooling?
             span title="#{participation.carpooling_phone.phony_formatted}"= ", #{t('.carpooling')}"
           - if participation.destroyable?
-            = ' –'
-            == link_to "&nbsp;#{t('.cancel_link')}".html_safe, [:members, participation], method: :delete
+            == link_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
 
     - if @coming_participations.any? { |p| !p.destroyable? }
       p.info == t_halfday('.coming_halfday_cannot_be_cancel_explanation', days_count: Current.acp.halfday_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
 
 section
-  h2 = t_halfday('.halfday_form_title')
+  h2 = t_halfday('.halfday_participation_form_title')
   - @halfdays = Halfday.available_for(current_member)
   - if @halfdays.empty?
     p.empty = t_halfday('.no_halfdays')
@@ -48,7 +31,7 @@ section
             #datepicker.calendar data={ dates: @halfdays.map(&:date).uniq.to_json, selected_date: @halfday_participation.halfday.date }
         .column-right
           .input
-            label Horaire, lieu et activité
+            label = t('.halfday_label')
             label.label-error= @halfday_participation.errors[:halfday].first
             .no_halfdays style='display: none;'
               p.empty = t_halfday('.no_halfdays_this_month')
@@ -59,11 +42,11 @@ section
                   span.checkmark
                   span.label = halfday_label(b.object).html_safe
           .input
-            label Nbr. de participants
+            label = t('.participants_count_label')
             - if @halfday_participation.errors[:participants_count].any?
               ul.error_explanation
                 - @halfday_participation.errors[:participants_count].each do |msg|
-                  li= msg
+                  li = msg
             = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
           .input
             label.title
@@ -86,7 +69,7 @@ section
   - if @past_participations.empty?
     p.empty = t('.no_past_halfday_participations')
   - else
-    ol.halfdays
+    ol.main
       - @past_participations.each do |participation|
         li class="#{participation.rejected? ? 'rejected' : ''}"
           == halfday_label(participation.halfday, date: true, date_format: :long)

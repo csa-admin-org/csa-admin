@@ -13,6 +13,7 @@ gem 'bootsnap', require: false
 gem 'pg'
 gem 'puma'
 
+gem 'date_validator'
 gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
 
@@ -77,6 +78,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails', '4.10.0'
   gem 'faker'
+  gem 'launchy'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
