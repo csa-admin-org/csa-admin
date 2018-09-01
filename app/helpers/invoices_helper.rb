@@ -5,8 +5,8 @@ module InvoicesHelper
     }.sort_by { |a| a.first }
   end
 
-  def display_object(invoice)
-    if invoice.object
+  def display_object(invoice, link: true)
+    if link && invoice.object
       auto_link invoice.object
     else
       t_invoice_object_type(invoice.object_type)

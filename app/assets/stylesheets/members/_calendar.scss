@@ -10,6 +10,12 @@
   }
 }
 
+#ui-datepicker-div {
+  background: white;
+  padding: $small-spacing;
+  border-radius: $base-border-radius;
+}
+
 .ui-datepicker-header {
   height: 50px;
   line-height: 50px;
@@ -22,7 +28,6 @@
   height: 30px;
   text-indent: 9999px;
   border: 2px solid $green;
-  -webkit-border-radius: 100%;
   border-radius: 100%;
   cursor: pointer;
   overflow: hidden;
@@ -67,7 +72,7 @@
 .ui-datepicker-next:hover,
 .ui-datepicker-prev:hover:after,
 .ui-datepicker-next:hover:after {
-  border-color: $medium-gray;
+  border-color: $dark-green;
 }
 
 .ui-state-disabled,
@@ -121,12 +126,19 @@
   margin: 0 auto;
 }
 
-td.available .ui-state-default {
+td .ui-state-default {
   color: white;
   font-weight: 600;
   background-color: $light-gray;
   &:hover {
     background-color: $medium-gray;
+  }
+}
+
+td.ui-datepicker-unselectable,
+td.ui-state-disabled {
+  .ui-state-default:hover {
+    background-color: white;
   }
 }
 

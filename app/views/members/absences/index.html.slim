@@ -1,0 +1,41 @@
+#absences
+section
+  h2 = t('.present_or_future_absences')
+  - @present_or_future_absences = current_member.absences.present_or_future
+  - if @present_or_future_absences.empty?
+    p.empty = t('.no_present_or_future_absences')
+  - else
+    ol.main
+      - @present_or_future_absences.each do |absence|
+        li
+          = t('.absence_line', start: l(absence.started_on), end: l(absence.ended_on))
+          == link_to t('.cancel_link'), [:members, absence], method: :delete, class: 'cancel'
+
+section
+  h2 = t('.form_title')
+  p = t('.explanation')
+  = form_for [:members, @absence] do |f|
+
+    - if @absence.errors.any?
+      ul.errors
+        - @absence.errors.full_messages.each do |msg|
+          li = msg
+
+    .input
+      = f.label :started_on, 'À partir du'
+      = f.date_field :started_on, placeholder: 'dd.mm.yyyy', min: Absence.min_started_on, max: Absence.max_ended_on, class: 'date-input'
+    .input
+      = f.label :ended_on, "Jusqu'au"
+      = f.date_field :ended_on, placeholder: 'dd.mm.yyyy', min: Absence.min_started_on, max: Absence.max_ended_on, class: 'date-input'
+    .input.submit
+      = f.submit t('.submit')
+
+section
+  h2 = t('.past_absences')
+  - @past_absences = current_member.absences.past.order('ended_on DESC')
+  - if @past_absences.empty?
+    p.empty = t('.no_past_absences')
+  - else
+    ol.main
+      - @past_absences.each do |absence|
+        li = t('.absence_line', start: l(absence.started_on), end: l(absence.ended_on))
