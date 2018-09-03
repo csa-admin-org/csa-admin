@@ -4,6 +4,7 @@ class Vegetable < ApplicationRecord
   translated_attributes :name
 
   has_many :basket_contents
+  has_many :deliveries, through: :basket_contents
 
   default_scope { order_by_name }
 

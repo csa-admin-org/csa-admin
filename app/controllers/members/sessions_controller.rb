@@ -6,6 +6,7 @@ class Members::SessionsController < Members::BaseController
 
   # GET /login
   def new
+    redirect_to members_member_path if current_member
     @session = Session.new
   end
 

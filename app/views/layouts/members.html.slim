@@ -12,10 +12,45 @@ html
     #body-wrapper
       = render 'layouts/members/header'
       = render 'layouts/flashes'
-      = yield
+
+      section
+        - if current_member
+          h4 = current_member.name
+
+          - if next_basket = current_member.next_basket
+            ul
+              li == "#{Basket.model_name.human}: #{basket_size_description(next_basket)}"
+              - if BasketComplement.any?
+                li == "#{BasketComplement.model_name.human(count: next_basket.membership.memberships_basket_complements.count)}: #{basket_complements_description(next_basket.membership.memberships_basket_complements&.includes(:basket_complement))}"
+              li == "#{Distribution.model_name.human}: #{next_basket.distribution.name}"
+          - else
+            p
+              em.empty = t('.no_membership')
+
+          nav
+            =
+            = link_to members_halfday_participations_path(anchor: 'halfday_participations'), class: nav_class('halfday_participations') do
+              h2 = halfdays_human_name
+              - membership = current_member.current_year_membership || current_member.future_membership
+              p
+                - if membership
+                  = t('.halfdays_participation_recognized', recognized: membership.recognized_halfday_works, total: membership.halfday_works)
+                - else
+                  = t('.no_halfdays_participations_asked')
+            = link_to members_billing_path(anchor: 'billing'), class: nav_class('billing') do
+              h2 = t('.billing')
+              - open_invoice_count = current_member.invoices.open.count
+              - if open_invoice_count.positive?
+                p.alert = t('.open_invoices', count: open_invoice_count)
+              - else
+                p = t('.see_history')
+            = link_to members_absences_path(anchor: 'absences'), class: nav_class('absences') do
+              h2 = Absence.model_name.human(count: 2)
+              p = t('.absences_subtitle')
+        = yield
     footer
       p = link_to_acp_website
       - if Current.acp.languages.many?
         ul.locales
           - Current.acp.languages.each do |locale|
-            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}")
+            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: 'Turbolinks.clearCache()'

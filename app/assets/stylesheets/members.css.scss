@@ -1,15 +1,15 @@
-@import "normalize";
-@import "font-awesome-sprockets";
-@import "font-awesome";
-@import "members/variables";
+@import 'normalize';
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
+@import 'members/variables';
 
 body {
   width: 100%;
   margin: 0;
   padding: 0;
   // https://css-tricks.com/snippets/css/system-font-stack/
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 #body-wrapper {
@@ -33,6 +33,10 @@ a {
 p {
   line-height: $base-line-height;
   margin: 0 0 $base-spacing / 3 0;
+
+  &.alert {
+    color: $red;
+  }
 }
 
 label {
@@ -69,8 +73,15 @@ textarea {
   }
 }
 
-input[type="submit"],
-button[type="submit"] {
+input[type='date'] {
+  width: calc(100% - 22px);
+  @media screen and (min-width: 900px) {
+    width: 150px;
+  }
+}
+
+input[type='submit'],
+button[type='submit'] {
   color: white;
   border: solid 2px $green;
   padding: 9px;
@@ -99,7 +110,34 @@ ol {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  line-height: 1.5em;
+  line-height: $base-line-height;
+
+  a.cancel {
+    margin-left: $small-spacing;
+  }
+
+  li.rejected {
+    text-decoration: line-through;
+    font-style: italic;
+  }
+
+  &.main {
+    list-style-type: disc;
+    list-style-position: outside;
+
+    li {
+      margin: $small-spacing / 2 0 0 $base-spacing;
+    }
+  }
+}
+
+ul.errors {
+  margin-top: $small-spacing;
+  padding: $small-spacing;
+  border: 2px solid $red;
+  border-radius: $base-border-radius;
+  font-weight: 700;
+  color: $red;
 }
 
 section {
@@ -143,12 +181,61 @@ section.welcome {
   }
 }
 
-@import "members/header_and_footer";
-@import "members/flashes";
-@import "members/recover_token";
-@import "members/halfdays";
-@import "members/calendar";
-@import "members/tooltip";
-@import "members/labels";
-@import "members/formtastic";
-@import "members/pretty_inputs";
+nav {
+  margin: $base-spacing 0 (-$small-spacing) 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: baseline;
+
+  a {
+    display: inline-block;
+    color: $base-font-color;
+    border: 2px solid $green;
+    border-radius: $base-border-radius;
+
+    text-align: center;
+    flex: 1 1 auto;
+    padding: 0.5em;
+    width: 100%;
+    margin-bottom: $small-spacing;
+
+    @media screen and (min-width: 900px) {
+      max-width: 29%;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      font-style: italic;
+    }
+
+    &:hover {
+      border-color: $dark-green;
+      color: $dark-green;
+    }
+
+    &.active {
+      border-color: $dark-green;
+      color: $base-font-color;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+}
+
+@import 'members/header_and_footer';
+@import 'members/flashes';
+@import 'members/recover_token';
+@import 'members/halfdays';
+@import 'members/billing';
+@import 'members/absences';
+@import 'members/calendar';
+@import 'members/tooltip';
+@import 'members/labels';
+@import 'members/formtastic';
+@import 'members/pretty_inputs';

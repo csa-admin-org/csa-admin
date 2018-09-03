@@ -1,0 +1,58 @@
+#billing
+
+- if @open_invoices.any?
+  section
+    h2 = t('.open_invoices')
+    ul.billing
+      - @open_invoices.each do |invoice|
+        li
+          span.date = l(invoice.date, format: :number)
+          span.info = t('.open_invoice_info', id: invoice.id, type: display_object(invoice, link: false))
+          span.file
+            = link_to rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
+              = icon('far', 'file-pdf')
+          span.amount = number_to_currency(invoice.amount)
+
+section
+  h2 = t('.history')
+  - if @billing_history.empty?
+    p.empty = t('.no_billing_history')
+  - else
+    ul.billing
+      - @billing_history.each do |object|
+        li class=('canceled' if object.respond_to?(:canceled?) && object.canceled?)
+          span.date = l(object.date, format: :number)
+          - case object
+          - when Invoice
+            span.info
+              - if object.canceled?
+                = t('.canceled_invoice_info', id: object.id, type: display_object(object, link: false))
+              - else
+                = t('.invoice_info', id: object.id, type: display_object(object, link: false))
+            span.file
+              = link_to rails_blob_path(object.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
+                = icon('far', 'file-pdf')
+            span.amount = number_to_currency(object.amount)
+          - when Payment
+            - if object.amount.positive?
+              span.info
+                - if object.invoice_id
+                  = t('.payment_info', invoice_id: object.invoice_id)
+                - else
+                  = t('.manual_payment_info')
+            - else
+              span.info = t('.refund_info')
+            span.amount = number_to_currency(-object.amount)
+
+section
+  ul
+    li
+      = Member.human_attribute_name(:billing_year_division)
+      = ': '
+      = t("billing.year_division.x#{current_member.billing_year_division}")
+    - if Current.acp.share_price
+      = Member.human_attribute_name(:acp_shares_number)
+      = ': '
+      = current_member.acp_shares_number
+
+  p.info = t('.explanation')

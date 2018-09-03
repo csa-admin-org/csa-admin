@@ -1,5 +1,6 @@
 class Members::MembersController < Members::BaseController
   skip_before_action :authenticate_member!, only: %i[new create welcome]
+  before_action :redirect_current_member!, only: %i[new create welcome]
 
   # GET /new
   def new
@@ -7,7 +8,9 @@ class Members::MembersController < Members::BaseController
   end
 
   # GET /
-  def show; end
+  def show
+    redirect_to members_halfday_participations_path
+  end
 
   # POST /
   def create
@@ -26,6 +29,10 @@ class Members::MembersController < Members::BaseController
   def welcome; end
 
   private
+
+  def redirect_current_member!
+    redirect_to members_member_path if current_member
+  end
 
   def member_params
     params
