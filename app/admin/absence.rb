@@ -55,8 +55,8 @@ ActiveAdmin.register Absence do
   permit_params(*%i[member_id started_on ended_on note])
 
   before_build do |absence|
-    absence.started_on ||= Date.current
-    absence.ended_on ||= Date.current
+    absence.started_on ||= Date.current.next_week
+    absence.ended_on ||= Date.current.next_week.end_of_week
   end
 
   config.per_page = 25

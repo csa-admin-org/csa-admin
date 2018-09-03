@@ -1,13 +1,17 @@
 class Members::HalfdayParticipationsController < Members::BaseController
+  # GET /halfday_participations
+  def index
+  end
+
   # POST /halfday_participations
   def create
     @halfday_participation = current_member.halfday_participations.new(protected_params)
     respond_to do |format|
       if @halfday_participation.save
         flash[:notice] = t('.flash.notice')
-        format.html { redirect_to members_member_path }
+        format.html { redirect_to members_halfday_participations_path }
       else
-        format.html { render 'members/members/show' }
+        format.html { render :index }
       end
     end
   end
@@ -17,7 +21,7 @@ class Members::HalfdayParticipationsController < Members::BaseController
     participation = current_member.halfday_participations.find(params[:id])
     participation.destroy if participation.destroyable?
 
-    redirect_to members_member_path
+    redirect_to members_halfday_participations_path
   end
 
   private

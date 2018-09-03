@@ -1,0 +1,21 @@
+form.new_absence {
+  .field_with_errors input {
+    border: 2px solid $red;
+  }
+
+  .input {
+    margin: $small-spacing 0;
+
+    @media screen and (min-width: 900px) {
+      margin: $small-spacing $small-spacing $small-spacing 0;
+      display: inline-block;
+    }
+
+    &.submit {
+      margin: $base-spacing 0 0 0;
+      @media screen and (min-width: 900px) {
+        margin: $small-spacing $small-spacing $small-spacing $small-spacing;
+      }
+    }
+  }
+}

@@ -37,6 +37,7 @@ _:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
         halfday_availability_limit_in_days:
+          _de: Anmeldefrist (in Tagen)
           _fr: Limite d'inscription à l'avance (en jours)
         halfday_participation_deletion_deadline_in_days:
           _de: Abmeldungsfrist (in Tagen)

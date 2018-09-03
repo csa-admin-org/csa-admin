@@ -1,6 +1,15 @@
 _:
   layouts:
     members:
+      absences_subtitle:
+        _de: Informieren Sie uns!
+        _fr: Prévenez-nous!
+      billing:
+        _de: Rechnungsstellung
+        _fr: Facturation
+      halfdays_participation_recognized:
+        _de: "%{recognized}/%{total} geleistet"
+        _fr: "%{recognized}/%{total} effectuée(s)"
       header:
         contact:
           _de: Kontakt
@@ -8,6 +17,22 @@ _:
         logout:
           _de: Abmeldung
           _fr: Déconnexion
+      no_halfdays_participations_asked:
+        _de: Keine Verpflichtung
+        _fr: Aucun engagement
+      no_membership:
+        _de: Kein Abonnement
+        _fr: Aucun abonnement
+      open_invoices:
+        one:
+          _de: 1 offene Rechnung
+          _fr: 1 facture ouverte
+        other:
+          _de: "%{count} offene Rechnungen"
+          _fr: "%{count} factures ouvertes"
+      see_history:
+        _de: Verlauf anzeigen
+        _fr: Consulter l'historique
       title:
         _de: Mitgliederseite
         _fr: Page de Membre

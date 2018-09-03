@@ -8,6 +8,7 @@
 //= require jquery-ui/i18n/datepicker-fr-CH
 //= require jquery-ui/i18n/datepicker-de
 //= require forms
+//= require turbolinks
 
 selectDate = (dateText) ->
   $('.no_halfdays').hide()
@@ -19,13 +20,23 @@ selectDate = (dateText) ->
   unless $("label.halfday-#{dateText} input:enabled").length
     $('#subscribe-button').prop('disabled', true)
 
-$ ->
+datepickerFallback = ->
+  @dateFields = $('input.date-input')
+  return if @dateFields.length == 0 || @dateFields[0].type is 'date'
+  @dateFields.datepicker
+    dateFormat: 'yy-mm-dd',
+    minDate: @dateFields.attr('min'),
+    maxDate: @dateFields.attr('max')
+
+setDatepickerLocale = ->
   locale = $('body').data('locale')
   if locale == 'fr'
     $.datepicker.setDefaults $.datepicker.regional['fr-CH']
   else
     $.datepicker.setDefaults $.datepicker.regional[locale]
 
+setupDatepicker = ->
+  setDatepickerLocale()
   dateTexts = $('#datepicker').data('dates')
   if dateTexts
     [minDateText, ..., maxDateText] = dateTexts
@@ -59,4 +70,11 @@ $ ->
           $('.halfdays label').hide()
           $('#subscribe-button').prop('disabled', true)
           $('.halfdays input').prop('checked', false)
+
+
+$ ->
+  document.addEventListener "turbolinks:load", ->
+    setupDatepicker()
+    datepickerFallback()
+
 
