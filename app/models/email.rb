@@ -163,7 +163,8 @@ module Email
       invoice_number: invoice.id,
       invoice_date: I18n.l(invoice.date),
       invoice_amount: number_to_currency(invoice.amount),
-      overdue_notices_count: invoice.overdue_notices_count
+      overdue_notices_count: invoice.overdue_notices_count,
+      action_url: url(:members_billing_url)
     }
     if invoice.closed?
       data[:invoice_paid] = true
