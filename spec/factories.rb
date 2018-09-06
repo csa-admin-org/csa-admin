@@ -179,6 +179,11 @@ FactoryBot.define do
       deliveries_count 0
     end
 
+    trait :annual_price_type do
+      price_type 'annual'
+      price 200
+    end
+
     delivery_ids { Delivery.current_year.limit(deliveries_count).pluck(:id) }
   end
 

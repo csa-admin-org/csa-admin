@@ -176,7 +176,9 @@ ActiveAdmin.register Membership do
             }
             if m.basket_complements.any?
               row(:basket_complements_price) {
-                display_price_description(m.basket_complements_price, basket_complements_price_info(m.baskets))
+                display_price_description(
+                  m.basket_complements_price,
+                  membership_basket_complements_price_info(m))
               }
               row(:basket_complements_annual_price_change) {
                 number_to_currency(m.basket_complements_annual_price_change)

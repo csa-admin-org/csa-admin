@@ -134,15 +134,21 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_complements_price
-    BasketComplement.pluck(:id).sum { |id| basket_complement_total_price(id) }
+    BasketComplement.all.sum { |bc| basket_complement_total_price(bc) }
   end
 
-  def basket_complement_total_price(basket_complement_id)
-    rounded_price(
-      baskets
-        .joins(:baskets_basket_complements)
-        .where(baskets_basket_complements: { basket_complement_id: basket_complement_id })
-        .sum('baskets_basket_complements.quantity * baskets_basket_complements.price'))
+  def basket_complement_total_price(basket_complement)
+    if basket_complement.annual_price_type?
+      memberships_basket_complements
+        .where(basket_complement: basket_complement)
+        .sum('memberships_basket_complements.quantity * memberships_basket_complements.price')
+    else
+      rounded_price(
+        baskets
+          .joins(:baskets_basket_complements)
+          .where(baskets_basket_complements: { basket_complement: basket_complement })
+          .sum('baskets_basket_complements.quantity * baskets_basket_complements.price'))
+    end
   end
 
   def distributions_price

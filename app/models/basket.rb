@@ -92,7 +92,7 @@ class Basket < ActiveRecord::Base
         baskets_basket_complements.build(
           basket_complement_id: mbc.basket_complement_id,
           quantity: mbc.season_quantity(delivery),
-          price: mbc.price)
+          price: mbc.delivery_price)
       end
   end
 

@@ -1,6 +1,8 @@
 class BasketComplement < ActiveRecord::Base
   include TranslatedAttributes
 
+  PRICE_TYPES = %w[delivery annual]
+
   translated_attributes :name
 
   has_many :baskets_basket_complement, dependent: :destroy
@@ -11,12 +13,23 @@ class BasketComplement < ActiveRecord::Base
 
   default_scope { order_by_name }
 
-  def annual_price
-    (price * deliveries.size).round_to_five_cents
+  validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :price_type, inclusion: { in: PRICE_TYPES }
+
+  def annual_price_type?
+    price_type == 'annual'
   end
 
-  def annual_price=(annual_price)
-    self.price = annual_price / deliveries.size.to_f
+  def annual_price
+    if annual_price_type?
+      price
+    else
+      (price * deliveries.size).round_to_five_cents
+    end
+  end
+
+  def delivery_price
+    annual_price_type? ? 0 : price
   end
 
   def display_name; name end
