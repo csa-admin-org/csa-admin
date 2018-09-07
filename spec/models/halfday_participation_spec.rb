@@ -15,6 +15,16 @@ describe HalfdayParticipation do
       participation = build(:halfday_participation, halfday: halfday.reload, participants_count: 3)
       expect(participation).not_to have_valid(:participants_count)
     end
+
+    it 'does not validates halfday participants limit when update' do
+      halfday = create(:halfday, participants_limit: 3)
+      participation = create(:halfday_participation, halfday: halfday, participants_count: 3)
+      participation.reload
+
+      participation.update(participants_count: 2)
+
+      expect(participation).to have_valid(:participants_count)
+    end
   end
 
   describe '#validate!' do
