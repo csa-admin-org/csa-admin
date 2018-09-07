@@ -25,7 +25,8 @@ class HalfdayParticipation < ActiveRecord::Base
     presence: true,
     numericality: {
       less_than_or_equal_to: :missing_participants_count,
-      if: :validate_participants_count?
+      if: :validate_participants_count?,
+      on: :create
     },
     unless: :validated_at?
 
