@@ -60,6 +60,7 @@ ActiveAdmin.register HalfdayParticipation do
   show do |hp|
     attributes_table do
       row(:halfday) { link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all) }
+      row(:participants_count)
       row(:created_at) { l(hp.created_at) }
       row(:updated_at) { l(hp.updated_at) }
     end
