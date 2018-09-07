@@ -3,8 +3,8 @@ class Absence < ActiveRecord::Base
 
   validates :member, :started_on, :ended_on, presence: true
   validates :started_on, :ended_on, date: {
-    after: Proc.new { Absence.min_started_on },
-    before: Proc.new { Absence.max_ended_on }
+    after_or_equal_to: proc { Absence.min_started_on },
+    before: proc { Absence.max_ended_on }
   }, on: :create
   validate :good_period_range
 
