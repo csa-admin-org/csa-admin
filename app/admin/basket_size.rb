@@ -6,7 +6,7 @@ ActiveAdmin.register BasketSize do
     column :name
     column :price, ->(bs) { number_to_currency(bs.price, precision: 3) }
     column :annual_price, ->(bs) { number_to_currency(bs.annual_price) }
-    if Current.acp.share_price
+    if Current.acp.share?
       column :acp_shares_number
     end
     column halfday_scoped_attribute(:annual_halfday_works), ->(bs) { bs.annual_halfday_works }
@@ -17,7 +17,7 @@ ActiveAdmin.register BasketSize do
     f.inputs do
       translated_input(f, :names)
       f.input :price
-      if Current.acp.share_price
+      if Current.acp.share?
         f.input :acp_shares_number, as: :number, step: 1
       end
       f.input :annual_halfday_works,

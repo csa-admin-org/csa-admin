@@ -50,7 +50,7 @@ section
       = Member.human_attribute_name(:billing_year_division)
       = ': '
       = t("billing.year_division.x#{current_member.billing_year_division}")
-    - if Current.acp.share_price
+    - if Current.acp.share?
       = Member.human_attribute_name(:acp_shares_number)
       = ': '
       = current_member.acp_shares_number

@@ -250,7 +250,7 @@ class Member < ActiveRecord::Base
   end
 
   def handle_annual_fee_change
-    return unless Current.acp.annual_fee
+    return unless Current.acp.annual_fee?
 
     if annual_fee
       self.state = SUPPORT_STATE if inactive?

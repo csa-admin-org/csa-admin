@@ -48,7 +48,7 @@ module XLSX
       if Current.acp.annual_fee
         add_line(t('annual_fees'), invoices_total(:annual_fee), Current.acp.annual_fee)
       end
-      if Current.acp.share_price
+      if Current.acp.share?
         add_line(t('acp_shares'), @invoices.acp_share.sum(:amount), Current.acp.share_price)
       end
 

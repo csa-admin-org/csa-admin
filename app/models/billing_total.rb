@@ -4,8 +4,8 @@ class BillingTotal
     scopes << :basket_complement if BasketComplement.any?
     scopes << :distribution if Distribution.paid.any?
     scopes << :halfday
-    scopes << :annual_fee if Current.acp.annual_fee
-    scopes << :acp_share if Current.acp.share_price
+    scopes << :annual_fee if Current.acp.annual_fee?
+    scopes << :acp_share if Current.acp.share?
     scopes.flatten.map { |scope| new(scope) }
   end
 

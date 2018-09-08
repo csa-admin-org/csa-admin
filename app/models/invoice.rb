@@ -7,8 +7,6 @@ class Invoice < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   UnprocessedError = Class.new(StandardError)
 
-  OBJECT_TYPES = %w[Membership AnnualFee ACPShare HalfdayParticipation]
-
   attr_writer :membership_amount_fraction, :send_email
   attr_reader :paid_missing_halfday_works_amount
   attr_accessor :comment
@@ -43,7 +41,7 @@ class Invoice < ActiveRecord::Base
   validates :member, presence: true
   validates :date, presence: true
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
-  validates :object_type, inclusion: { in: OBJECT_TYPES }
+  validates :object_type, inclusion: { in: proc { Invoice.object_types } }
   validates :amount, numericality: { other_than: 0 }
   validates :paid_missing_halfday_works,
     numericality: { greater_than_or_equal_to: 1, allow_blank: true }
@@ -71,6 +69,13 @@ class Invoice < ActiveRecord::Base
 
   after_commit :process!, on: :create
   after_commit :update_membership_recognized_halfday_works!
+
+  def self.object_types
+    types = %w[Membership HalfdayParticipation]
+    types << 'AnnualFee' if Current.acp.annual_fee?
+    types << 'ACPShare' if Current.acp.share?
+    types
+  end
 
   def display_name
     "#{model_name.human} ##{id} (#{I18n.l date})"
