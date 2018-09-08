@@ -188,6 +188,23 @@ module Email
     }
   end
 
+  def absence_new(admin, absence)
+    I18n.with_locale(admin.language) do
+      {
+        from: from,
+        to: admin.email,
+        template: template_alias(:absence_new, admin.language),
+        template_data: {
+          admin_name: admin.name,
+          member_name: absence.member.name,
+          started_on: I18n.l(absence.started_on),
+          ended_on: I18n.l(absence.ended_on),
+          action_url: url(:absence_url, absence)
+        }
+      }
+    end
+  end
+
   def member_new(admin, member)
     {
       from: from,

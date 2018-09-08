@@ -1,6 +1,8 @@
 class Absence < ActiveRecord::Base
   belongs_to :member
 
+  attr_accessor :admin
+
   validates :member, :started_on, :ended_on, presence: true
   validates :started_on, :ended_on, date: {
     after_or_equal_to: proc { Absence.min_started_on },
@@ -9,6 +11,7 @@ class Absence < ActiveRecord::Base
   validate :good_period_range
 
   after_commit :update_absent_baskets!
+  after_create_commit :notify_new_absence_to_admins
 
   scope :past, -> { where('ended_on < ?', Time.current) }
   scope :future, -> { where('started_on > ?', Time.current) }
@@ -44,5 +47,11 @@ class Absence < ActiveRecord::Base
 
   def update_absent_baskets!
     member.update_absent_baskets!
+  end
+
+  def notify_new_absence_to_admins
+    Admin.notification('new_absence').where.not(id: admin&.id).find_each do |admin|
+      Email.deliver_later(:absence_new, admin, self)
+    end
   end
 end

@@ -57,6 +57,7 @@ ActiveAdmin.register Absence do
   before_build do |absence|
     absence.started_on ||= Date.current.next_week
     absence.ended_on ||= Date.current.next_week.end_of_week
+    absence.admin = current_admin
   end
 
   config.per_page = 25
