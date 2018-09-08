@@ -1,9 +1,9 @@
 _:
   admin:
     notifications:
-      new_inscription:
-        _de: Neue Anmeldung
-        _fr: Nouvelle inscription
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
+      new_inscription:
+        _de: Neue Anmeldung
+        _fr: Nouvelle inscription

@@ -25,7 +25,7 @@ ActiveAdmin.register ACP do
     statutes_urls: I18n.available_locales
 
   form do |f|
-    f.inputs 'Détails' do
+    f.inputs t('.details') do
       f.input :name
       f.input :host, hint: '*.host.*'
       f.input :logo, as: :file
@@ -38,14 +38,14 @@ ActiveAdmin.register ACP do
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
     end
-    f.inputs 'Mailer (Postmark)' do
+    f.inputs t('.mailer') do
       f.input :email_default_host, as: :string
       f.input :email_default_from, as: :string
     end
-    f.inputs 'Abonnement' do
+    f.inputs Membership.model_name.human(count: 2) do
       f.input :trial_basket_count
     end
-    f.inputs 'Saisons (été/hiver)' do
+    f.inputs t('.seasons') do
       f.input :summer_month_range_min,
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] }
@@ -53,7 +53,7 @@ ActiveAdmin.register ACP do
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] }
     end
-    f.inputs 'Facturation' do
+    f.inputs t('.billing') do
       f.input :fiscal_year_start_month,
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] },
@@ -66,7 +66,7 @@ ActiveAdmin.register ACP do
       f.input :vat_number
       f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
     end
-    f.inputs 'Facture (BVR)' do
+    f.inputs t('.invoice_isr') do
       f.input :ccp
       f.input :isr_identity
       f.input :isr_payment_for
@@ -74,19 +74,18 @@ ActiveAdmin.register ACP do
       translated_input(f, :invoice_infos)
       translated_input(f, :invoice_footers)
     end
-    f.inputs 'Participation des membres' do
+    f.inputs t('.members_participation') do
       f.input :halfday_i18n_scope,
-        label: 'Appellation',
         as: :select,
         collection: ACP.halfday_i18n_scopes.map { |s| [t("halfdays.#{s}", count: 2), s] },
         prompt: true
       f.input :halfday_participation_deletion_deadline_in_days
       f.input :halfday_availability_limit_in_days
     end
-    f.inputs 'Fiches signature livraison (PDF)' do
+    f.inputs t('.delivery_pdf') do
       translated_input(f, :delivery_pdf_footers, required: false)
     end
-    f.inputs 'Page de membre' do
+    f.inputs t('.member_section') do
       f.input :url
       f.input :email
       f.input :phone

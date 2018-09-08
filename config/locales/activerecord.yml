@@ -39,6 +39,9 @@ _:
         halfday_availability_limit_in_days:
           _de: Anmeldefrist (in Tagen)
           _fr: Limite d'inscription à l'avance (en jours)
+        halfday_i18n_scope:
+          _de: Mehrwertsteuernummer
+          _fr: Appellation
         halfday_participation_deletion_deadline_in_days:
           _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
@@ -57,6 +60,9 @@ _:
         isr_payment_for:
           _de: Einzahlung für (ESR)
           _fr: Versement pour (BVR)
+        languages:
+          _de: Sprachen
+          _fr: Languages
         phone:
           _de: Telefon
           _fr: Téléphone
@@ -82,7 +88,7 @@ _:
           _de: Webseite URL
           _fr: Site URL
         vat_membership_rate:
-          _de: Mehrwertsteuersatz Abonnement (en %)
+          _de: Mehrwertsteuersatz Abonnement (in %)
           _fr: Taux TVA abonnement (en %)
         vat_number:
           _de: Mehrwertsteuernummer
