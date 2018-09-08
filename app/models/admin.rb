@@ -1,7 +1,7 @@
 class Admin < ActiveRecord::Base
   include HasLanguage
 
-  NOTIFICATIONS = %w[new_inscription]
+  NOTIFICATIONS = %w[new_inscription new_absence]
   RIGHTS = %w[superadmin admin standard readonly none]
 
   # Include default devise modules. Others available are:

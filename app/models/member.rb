@@ -54,7 +54,7 @@ class Member < ActiveRecord::Base
 
   before_save :handle_annual_fee_change
   after_save :update_membership_halfday_works
-  after_create :notify_new_inscription_to_admins, if: :public_create
+  after_create_commit :notify_new_inscription_to_admins, if: :public_create
 
   def newsletter?
     (
