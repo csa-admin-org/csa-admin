@@ -55,7 +55,7 @@ ActiveAdmin.register Member do
     if Current.acp.annual_fee
       column(:annual_fee) { |m| number_to_currency(m.annual_fee) }
     end
-    if Current.acp.share_price
+    if Current.acp.share?
       column(:acp_shares_number)
     end
     column(:salary_basket, &:salary_basket?)
@@ -192,7 +192,7 @@ ActiveAdmin.register Member do
           if Current.acp.annual_fee
             row(:annual_fee) { number_to_currency member.annual_fee }
           end
-          if Current.acp.share_price
+          if Current.acp.share?
             row(:acp_shares_number)
           end
           row(:invoices_amount) { number_to_currency member.invoices_amount }

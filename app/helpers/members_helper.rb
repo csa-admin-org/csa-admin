@@ -26,7 +26,7 @@ module MembersHelper
         details:
           if Current.acp.annual_fee
             t('helpers.no_basket_size_annual_fee')
-          elsif Current.acp.share_price
+          elsif Current.acp.share?
             t('helpers.no_basket_size_acp_share')
           end
       ),

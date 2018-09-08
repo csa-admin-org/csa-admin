@@ -160,7 +160,7 @@ ActiveAdmin.register Invoice do
           f.input :paid_missing_halfday_works_amount, as: :number, min: 0, max: 99999.95, step: 0.05
         end
       end
-      if Current.acp.share_price
+      if Current.acp.share?
         tab t_invoice_object_type('ACPShare'), id: 'acp_share' do
           f.inputs do
             f.input :acp_shares_number, as: :number, step: 1

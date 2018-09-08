@@ -20,10 +20,10 @@ section
         - if Current.acp.trial_basket_count.positive?
           = ' '
           = t('.membership_trial_text', count: Current.acp.trial_basket_count)
-      - if Current.acp.annual_fee
+      - if Current.acp.annual_fee?
         p
           == t('.annual_fee_text', price: number_to_currency(Current.acp.annual_fee, precision: 0))
-      - if Current.acp.share_price
+      - if Current.acp.share?
         p
           == t('.acp_shares_text', price: number_to_currency(Current.acp.share_price, precision: 0))
 

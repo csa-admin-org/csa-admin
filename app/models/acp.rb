@@ -108,6 +108,14 @@ class ACP < ActiveRecord::Base
     @summer_month_range_max&.to_i || summer_month_range&.max
   end
 
+  def annual_fee?
+    annual_fee&.positive?
+  end
+
+  def share?
+    share_price&.positive?
+  end
+
   def seasons?
     summer_month_range?
   end

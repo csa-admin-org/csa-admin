@@ -6,7 +6,7 @@ namespace :invoices do
           Date.current.tuesday? &&
           Date.current > Delivery.current_year.first.date
         Member.billable.each do |member|
-          if Current.acp.share_price
+          if Current.acp.share?
             Billing::MembershipACPShare.invoice!(member, send_email: true)
           end
           RecurringBilling.invoice(member, send_email: true)
