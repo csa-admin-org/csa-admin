@@ -76,12 +76,15 @@ end
 
 group :development, :test do
   gem 'capybara'
-  gem 'factory_bot_rails', '4.10.0'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'launchy'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
+
+  gem 'rubocop'
+  gem 'rubocop-rspec'
 end
 
 group :test do
