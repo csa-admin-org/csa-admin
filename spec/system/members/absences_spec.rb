@@ -13,8 +13,8 @@ describe 'Absences' do
 
     click_on 'Absences'
 
-    fill_in 'À partir du', with: 2.weeks.from_now
-    fill_in "Jusqu'au", with: 3.weeks.from_now
+    fill_in 'Début', with: 2.weeks.from_now
+    fill_in 'Fin', with: 3.weeks.from_now
 
     click_button 'Envoyer'
 

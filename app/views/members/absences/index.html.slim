@@ -22,10 +22,10 @@ section
           li = msg
 
     .input
-      = f.label :started_on, 'À partir du'
+      = f.label :started_on
       = f.date_field :started_on, placeholder: 'dd.mm.yyyy', min: Absence.min_started_on, max: Absence.max_ended_on, class: 'date-input'
     .input
-      = f.label :ended_on, "Jusqu'au"
+      = f.label :ended_on
       = f.date_field :ended_on, placeholder: 'dd.mm.yyyy', min: Absence.min_started_on, max: Absence.max_ended_on, class: 'date-input'
     .input.submit
       = f.submit t('.submit')
