@@ -7,7 +7,7 @@ class Absence < ActiveRecord::Base
   validates :started_on, :ended_on, date: {
     after_or_equal_to: proc { Absence.min_started_on },
     before: proc { Absence.max_ended_on }
-  }, on: :create
+  }, unless: :admin
   validate :good_period_range
 
   after_commit :update_absent_baskets!

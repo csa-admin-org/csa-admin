@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 describe Absence do
+  describe 'validations' do
+    it 'validates started_on and ended_on dates when submited by member' do
+      absence = Absence.new(
+        started_on: Date.tomorrow,
+        ended_on: 2.years.from_now)
+
+      expect(absence).not_to have_valid(:started_on)
+      expect(absence).not_to have_valid(:ended_on)
+    end
+
+    it 'does not validate started_on and ended_on dates when submited by admin' do
+      absence = Absence.new(
+        admin: Admin.new,
+        started_on: Date.tomorrow,
+        ended_on: 2.years.from_now)
+
+      expect(absence).to have_valid(:started_on)
+      expect(absence).to have_valid(:ended_on)
+    end
+  end
+
   describe 'notify_new_absence_to_admins' do
     it 'notifies admin with new_absence notifications on when created' do
       admin1 = create(:admin, notifications: ['new_absence'])
