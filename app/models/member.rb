@@ -207,8 +207,12 @@ class Member < ActiveRecord::Base
     payments.sum(:amount)
   end
 
+  def balance_amount
+    payments_amount - invoices_amount
+  end
+
   def credit_amount
-    [payments_amount - invoices_amount, 0].max
+    [balance_amount, 0].max
   end
 
   def acp_shares_number

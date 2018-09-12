@@ -39,6 +39,9 @@ _:
         canceled_invoice_info:
           _de: 'Stornierte Rechnungen #%{id} (%{type})'
           _fr: 'Facture annulée #%{id} (%{type})'
+        credit_amount:
+          _de: Guthaben
+          _fr: Avoir
         explanation:
           _de: Die Einzahlungen mit Referenznummer (ESR) werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
           _fr: Les paiements avec numéro de référence (BVR) sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiments n'apparaîtrait pas.
@@ -51,6 +54,9 @@ _:
         manual_payment_info:
           _de: Einzahlung ohne Referenz
           _fr: Paiement sans référence
+        missing_amount:
+          _de: Noch zu zahlender Betrag
+          _fr: Montant restant à payer
         no_billing_history:
           _de: Im Moment keine Rechnung oder Einzahlung.
           _fr: Aucune facture ou paiment pour le moment.

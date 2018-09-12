@@ -19,19 +19,25 @@ describe 'Billing' do
     expect(page).to have_content('1 facture ouverte')
     expect(page).to have_content(
       ['01.02.2018', 'Facture ouverte #4242 (Cotisation annuelle)', 'CHF 42.00'].join)
+    expect(page).to have_content('Montant restant à payer: CHF 42.00')
+    expect(page).to have_content('Intervalle de paiement: Trimestriel')
   end
 
   it 'list invoices and payments history' do
+    member.update!(billing_year_division: 1)
     inovice = create(:invoice, :halfday_participation, id: 242,
       member: member, date: '2018-4-12', paid_missing_halfday_works_amount: 120)
-    create(:payment, invoice: inovice, member: member, date: '2018-5-1', amount: 120)
+    create(:payment, invoice: inovice, member: member, date: '2018-5-1', amount: 162)
 
     visit '/billing'
 
     expect(page).to have_content('Historique')
     expect(page).to have_content(
-      ['01.05.2018', 'Paiement de la facture #242', '-CHF 120.00'].join)
+      ['01.05.2018', 'Paiement de la facture #242', '-CHF 162.00'].join)
     expect(page).to have_content(
       ['12.04.2018', 'Facture #242 (½ Journée)', 'CHF 120.00'].join)
+
+    expect(page).to have_content('Avoir: CHF 42.00')
+    expect(page).to have_content('Intervalle de paiement: Annuel')
   end
 end
