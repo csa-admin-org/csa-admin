@@ -46,13 +46,28 @@ section
 
 section
   ul
+    - balance = current_member.balance_amount
+    - if balance >= 0
+      li
+        = t('.credit_amount')
+        = ': '
+        - if balance.zero?
+          = number_to_currency(balance)
+        - else
+          = number_to_currency(balance)
+    - else
+      li.error
+        = t('.missing_amount')
+        = ': '
+        = number_to_currency(-balance)
     li
       = Member.human_attribute_name(:billing_year_division)
       = ': '
       = t("billing.year_division.x#{current_member.billing_year_division}")
     - if Current.acp.share?
-      = Member.human_attribute_name(:acp_shares_number)
-      = ': '
-      = current_member.acp_shares_number
+      li
+        = Member.human_attribute_name(:acp_shares_number)
+        = ': '
+        = current_member.acp_shares_number
 
   p.info = t('.explanation')

@@ -197,7 +197,7 @@ ActiveAdmin.register Member do
           end
           row(:invoices_amount) { number_to_currency member.invoices_amount }
           row(:payments_amount) { number_to_currency member.payments_amount }
-          row(:difference) { number_to_currency(member.invoices_amount - member.payments_amount) }
+          row(:balance_amount) { number_to_currency(member.balance_amount) }
         end
         attributes_table title: t('.notes') do
           row :profession

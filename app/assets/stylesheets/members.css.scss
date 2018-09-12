@@ -121,6 +121,10 @@ ol {
     font-style: italic;
   }
 
+  li.error {
+    color: $red;
+  }
+
   &.main {
     list-style-type: disc;
     list-style-position: outside;

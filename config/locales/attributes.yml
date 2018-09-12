@@ -15,6 +15,9 @@ _:
     annual_price:
       _de: Jährlicher Preis
       _fr: Prix annuel
+    balance_amount:
+      _de: Kontostand
+      _fr: Balance
     basket_size:
       _de: Taschengrösse
       _fr: Taille panier
@@ -51,9 +54,6 @@ _:
     description:
       _de: Beschreibung
       _fr: Description
-    difference:
-      _de: Abweichung
-      _fr: Différence
     distribution:
       _de: Depot
       _fr: Dépôt
