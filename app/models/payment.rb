@@ -38,11 +38,14 @@ class Payment < ActiveRecord::Base
         end
       end
 
+      # Add negative (payback) invoice to remaining_amount
+      remaining_amount += -member.invoices.not_canceled.where('amount < 0').sum(:amount)
+
       # Split remaining amount on other invoices chronogically
       invoices = member.invoices.not_canceled.order(:date)
       last_invoice = invoices.last
       invoices.each do |invoice|
-        if remaining_amount.positive?
+        if invoice.missing_amount.positive? && remaining_amount.positive?
           balance = invoice == last_invoice ? remaining_amount : [remaining_amount, invoice.missing_amount].min
           invoice.increment!(:balance, balance)
           remaining_amount -= balance

@@ -108,7 +108,7 @@ ActiveAdmin.register Member do
         end
 
         panel link_to(Invoice.model_name.human(count: 2), invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
-          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(:date)
+          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(:date, :created_at)
           if invoices.none?
             em t('.no_invoices')
           else
@@ -127,7 +127,7 @@ ActiveAdmin.register Member do
         end
 
         panel link_to(Payment.model_name.human(count: 2), payments_path(q: { member_id_eq: member.id }, scope: :all)) do
-          payments = member.payments.includes(:invoice).order(:date)
+          payments = member.payments.includes(:invoice).order(:date, :created_at)
           if payments.none?
             em t('.no_payments')
           else
