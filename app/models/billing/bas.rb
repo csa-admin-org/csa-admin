@@ -57,7 +57,7 @@ module Billing
       if res.body.include?('<FILE>')
         res.body[/<FILE>(.*)<\/FILE>/m, 1].delete(' ').split("\r\n")
       else
-        ExceptionNotifier.notify_exception(ESRGETIssue.new, data: res.body)
+        ExceptionNotifier.notify_exception(ESRGETIssue.new, data: { body: res.body })
         []
       end
     end
