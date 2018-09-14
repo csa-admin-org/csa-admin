@@ -1,6 +1,7 @@
 module Billing
   class BAS
     LoginError = Class.new(StandardError)
+    ESRGETIssue = Class.new(StandardError)
     PaymentData = Class.new(OpenStruct)
     URL = 'https://wwwsec.abs.ch'.freeze
 
@@ -56,6 +57,7 @@ module Billing
       if res.body.include?('<FILE>')
         res.body[/<FILE>(.*)<\/FILE>/m, 1].delete(' ').split("\r\n")
       else
+        ExceptionNotifier.notify_exception(ESRGETIssue.new, data: res.body)
         []
       end
     end
