@@ -89,8 +89,10 @@ class Invoice < ActiveRecord::Base
     touch(:sent_at)
     close_or_open!
   rescue => ex
-    ExceptionNotifier.notify_exception(ex,
-      data: { invoice_id: id, emails: member.emails, member_id: member_id })
+    ExceptionNotifier.notify(ex,
+      invoice_id: id,
+      emails: member.emails,
+      member_id: member_id)
   end
 
   def mark_as_sent!

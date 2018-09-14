@@ -19,8 +19,10 @@ class InvoiceOverdueNoticer
 
     Email.deliver_now(:invoice_overdue_notice, invoice)
   rescue => ex
-    ExceptionNotifier.notify_exception(ex,
-      data: { emails: invoice.member.emails, member: invoice.member })
+    ExceptionNotifier.notify(ex,
+      invoice_id: invoice.id,
+      emails: invoice.member.emails,
+      member: invoice.member)
   end
 
   private

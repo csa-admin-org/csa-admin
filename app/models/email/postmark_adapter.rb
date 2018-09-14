@@ -26,7 +26,7 @@ module Email
     def request(action, *args)
       @client.send(action, *args)
     rescue Postmark::Error => ex
-      ExceptionNotifier.notify_exception(ex, data: args)
+      ExceptionNotifier.notify(ex, args)
     end
   end
 end

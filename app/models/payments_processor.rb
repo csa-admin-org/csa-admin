@@ -23,6 +23,6 @@ class PaymentsProcessor
       isr_data: data.isr_data)
 
   rescue => ex
-    ExceptionNotifier.notify_exception(ex, data: data)
+    ExceptionNotifier.notify(ex, data)
   end
 end
