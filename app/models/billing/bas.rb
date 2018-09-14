@@ -5,7 +5,7 @@ module Billing
     PaymentData = Class.new(OpenStruct)
     URL = 'https://wwwsec.abs.ch'.freeze
 
-    GET_PAYMENTS_FROM = 2.weeks.ago
+    GET_PAYMENTS_FROM = 1.month.ago
 
     attr_reader :session
 
