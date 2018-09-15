@@ -4,19 +4,19 @@
 //= require jquery-ui/i18n/datepicker-de
 //= require turbolinks
 
-const selectDate = function(dateText) {
+var selectDate = function selectDate(dateText) {
   $('.no_halfdays').hide();
   $('.halfdays label').hide();
   $('#subscribe-button').prop('disabled', false);
   $('.halfdays input').prop('checked', false);
-  $(`label.halfday-${dateText}`).show();
-  $(`label.halfday-${dateText} input:enabled:first`).prop('checked', true);
-  if (!$(`label.halfday-${dateText} input:enabled`).length) {
+  $('label.halfday-' + dateText).show();
+  $('label.halfday-' + dateText + ' input:enabled:first').prop('checked', true);
+  if (!$('label.halfday-' + dateText + ' input:enabled').length) {
     $('#subscribe-button').prop('disabled', true);
   }
 };
 
-const datepickerFallback = function() {
+var datepickerFallback = function datepickerFallback() {
   this.dateFields = $('input.date-input');
   if (this.dateFields.length === 0 || this.dateFields[0].type === 'date') {
     return;
@@ -28,8 +28,8 @@ const datepickerFallback = function() {
   });
 };
 
-const setDatepickerLocale = function() {
-  const locale = $('body').data('locale');
+var setDatepickerLocale = function setDatepickerLocale() {
+  var locale = $('body').data('locale');
   if (locale === 'fr') {
     $.datepicker.setDefaults($.datepicker.regional['fr-CH']);
   } else {
@@ -37,13 +37,13 @@ const setDatepickerLocale = function() {
   }
 };
 
-const setupDatepicker = function() {
+var setupDatepicker = function setupDatepicker() {
   setDatepickerLocale();
-  const dateTexts = $('#datepicker').data('dates');
+  var dateTexts = $('#datepicker').data('dates');
   if (dateTexts) {
-    const minDateText = dateTexts[0],
+    var minDateText = dateTexts[0],
       maxDateText = dateTexts[dateTexts.length - 1];
-    const selectedDateText =
+    var selectedDateText =
       $('#datepicker').data('selected-date') || minDateText;
     selectDate(selectedDateText);
 
@@ -53,20 +53,20 @@ const setupDatepicker = function() {
       minDate: minDateText,
       maxDate: maxDateText,
       defaultDate: selectedDateText,
-      onSelect(dateText, inst) {
+      onSelect: function onSelect(dateText, inst) {
         selectDate(dateText);
       },
-      beforeShowDay(date) {
-        const dateText = $.datepicker.formatDate('yy-mm-dd', date);
+      beforeShowDay: function beforeShowDay(date) {
+        var dateText = $.datepicker.formatDate('yy-mm-dd', date);
         if (dateTexts.includes(dateText)) {
           return [true, 'available', null];
         } else {
           return [false, null, null];
         }
       },
-      onChangeMonthYear(year, month) {
-        const dateText = dateTexts.filter(function(d) {
-          const dd = new Date(d);
+      onChangeMonthYear: function onChangeMonthYear(year, month) {
+        var dateText = dateTexts.filter(function(d) {
+          var dd = new Date(d);
           return dd.getFullYear() === year && dd.getMonth() + 1 === month;
         })[0];
         if (dateText) {
@@ -83,9 +83,9 @@ const setupDatepicker = function() {
   }
 };
 
-$(() =>
+$(function() {
   document.addEventListener('turbolinks:load', function() {
     setupDatepicker();
     datepickerFallback();
-  })
-);
+  });
+});
