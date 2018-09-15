@@ -2,8 +2,8 @@ doctype html
 html
   head
     title = [Current.acp.name, t('.title')].join(' – ')
-    = stylesheet_link_tag 'members', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'members', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'members', media: 'all', data: { turbolinks_track: 'reload' }
+    = javascript_include_tag 'members', data: { turbolinks_track: 'reload' }
     = csrf_meta_tags
     meta charset="UTF-8"
     meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
@@ -26,10 +26,10 @@ html
           - else
             p
               em.empty = t('.no_membership')
-
+          #nav
           nav
             =
-            = link_to members_halfday_participations_path(anchor: 'halfday_participations'), class: nav_class('halfday_participations') do
+            = link_to members_halfday_participations_path(anchor: 'nav'), class: nav_class('halfday_participations') do
               h2 = halfdays_human_name
               - membership = current_member.current_year_membership || current_member.future_membership
               p
@@ -37,14 +37,14 @@ html
                   = t('.halfdays_participation_recognized', recognized: membership.recognized_halfday_works, total: membership.halfday_works)
                 - else
                   = t('.no_halfdays_participations_asked')
-            = link_to members_billing_path(anchor: 'billing'), class: nav_class('billing') do
+            = link_to members_billing_path(anchor: 'nav'), class: nav_class('billing') do
               h2 = t('.billing')
               - open_invoice_count = current_member.invoices.open.count
               - if open_invoice_count.positive?
                 p.alert = t('.open_invoices', count: open_invoice_count)
               - else
                 p = t('.see_history')
-            = link_to members_absences_path(anchor: 'absences'), class: nav_class('absences') do
+            = link_to members_absences_path(anchor: 'nav'), class: nav_class('absences') do
               h2 = Absence.model_name.human(count: 2)
               p = t('.absences_subtitle')
         = yield

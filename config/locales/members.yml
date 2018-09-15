@@ -72,6 +72,9 @@ _:
         refund_info:
           _de: Rückerstattung
           _fr: Remboursement
+        show_all:
+          _de: Alle anzeigen
+          _fr: Tout afficher
     flash:
       authentication_required:
         _de: Bitte melden Sie sich an, um zu Ihrem Konto zu gelangen.
