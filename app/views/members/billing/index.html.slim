@@ -19,7 +19,8 @@ section
     p.empty = t('.no_billing_history')
   - else
     ul.billing
-      - @billing_history.each do |object|
+      - history_limit = params[:all] ? 10_000 : 15
+      - @billing_history.first(history_limit).each do |object|
         li class=('canceled' if object.respond_to?(:canceled?) && object.canceled?)
           span.date = l(object.date, format: :number)
           - case object
@@ -43,6 +44,9 @@ section
             - else
               span.info = t('.refund_info')
             span.amount = number_to_currency(-object.amount)
+      #billing_history
+      - if @billing_history.size > history_limit
+        li.show_all = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history')
 
 section
   ul

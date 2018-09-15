@@ -49,4 +49,13 @@ ul.billing {
       text-decoration: line-through;
     }
   }
+
+  li.show_all {
+    background-color: white;
+
+    a {
+      width: 100%;
+      text-align: center;
+    }
+  }
 }
