@@ -1,4 +1,5 @@
 {
+  "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
     "flatpickr": "^4.5.2",
