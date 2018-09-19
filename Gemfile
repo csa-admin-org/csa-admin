@@ -32,17 +32,16 @@ gem 'formadmin'
 gem 'ransack'
 
 gem 'highcharts-rails'
+gem 'inline_svg'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
-gem 'momentjs-rails'
 gem 'slim'
 gem 'turbolinks'
 
-gem 'autoprefixer-rails'
-gem 'font-awesome-sass'
 gem 'jbuilder'
 gem 'sass-rails'
 gem 'uglifier'
+gem 'webpacker', '~> 3.5'
 
 gem 'sucker_punch'
 

@@ -6,10 +6,10 @@ header
       .logout
         = link_to members_logout_path, method: :delete do
           span= t('.logout')
-          = icon('far', 'sign-out-alt')
+          = inline_svg 'sign_out.svg', size: '16px'
     = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}" do
       span= Current.acp.phone
-      = icon('fas', 'phone')
+      = inline_svg 'phone.svg', size: '16px'
     = mail_to Current.acp.email do
       span= t('.contact')
-      = icon('far', 'envelope')
+      = inline_svg 'envelope.svg', size: '16px'

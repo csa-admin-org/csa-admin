@@ -26,9 +26,7 @@ $(function() {
       var bigBasketChecked, sameBasketQuantityCheckbox, smallBasketChecked;
       sameBasketQuantityCheckbox = $('#basket_content_same_basket_quantities');
       sameBasketQuantityCheckbox.prop('checked', false);
-      smallBasketChecked = $('#basket_content_basket_sizes_small').prop(
-        'checked'
-      );
+      smallBasketChecked = $('#basket_content_basket_sizes_small').prop('checked');
       bigBasketChecked = $('#basket_content_basket_sizes_big').prop('checked');
       if (!smallBasketChecked || !bigBasketChecked) {
         sameBasketQuantityCheckbox.prop('disabled', true);

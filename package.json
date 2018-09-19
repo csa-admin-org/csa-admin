@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "flatpickr": "^4.5.2",
+    "normalize.css": "^8.0.0",
+    "rails-ujs": "^5.2.1",
+    "turbolinks": "^5.2.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
+}

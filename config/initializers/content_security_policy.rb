@@ -3,6 +3,8 @@
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
 Rails.application.config.content_security_policy do |p|
+  p.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035' if Rails.env.development?
+
   p.default_src :self, :https
   p.font_src    :self, :https, :data
   p.img_src     :self, :https, :data

@@ -28,7 +28,7 @@ section
       - @halfday_participation ||= HalfdayParticipation.new(halfday: @halfdays.first)
       = form_for [:members, @halfday_participation] do |f|
         .column-left
-            #datepicker.calendar data={ dates: @halfdays.map(&:date).uniq.to_json, selected_date: @halfday_participation.halfday.date }
+            #calendar.calendar data={ dates: @halfdays.map(&:date).uniq.join(','), selected_date: @halfday_participation.halfday.date }
         .column-right
           .input
             label = t('.halfday_label')
@@ -52,7 +52,7 @@ section
             label.title
               = t('.carpooling')
               span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
-                = icon('fas', 'info-circle')
+                = inline_svg 'info_circle.svg', size: '16px'
             div.pretty_check_boxes
               label.carpooling
                 = f.check_box :carpooling

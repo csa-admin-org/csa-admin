@@ -9,16 +9,19 @@
     float: left;
     padding: 0;
     width: 100%;
-
-    @media screen and (min-width: 760px) {
-      width: 50%;
-    }
   }
 
+  $column-left-width: 308px;
+
   .column-left {
-    margin: $base-spacing 0 0 0;
-    @media screen and (min-width: 760px) {
+    margin: $base-spacing 0 0 -$base-spacing;
+
+    @media screen and (min-width: 330px) {
       margin: 0;
+    }
+
+    @media screen and (min-width: 760px) {
+      width: $column-left-width;
     }
   }
 
@@ -26,8 +29,10 @@
     margin: $base-spacing 0 0 0;
 
     @media screen and (min-width: 760px) {
-      width: calc(50% - #{$base-spacing});
-      margin: -$base-spacing 0 0 $base-spacing;
+      width: calc(
+        #{$body-width} - #{$column-left-width} - #{2 * $base-spacing}
+      );
+      margin: -$base-spacing 0 0 2 * $base-spacing;
     }
 
     .input {
@@ -61,8 +66,8 @@
     width: 60px;
   }
 
-  label i {
-    margin-left: 5px;
+  label svg {
+    margin: 0 0 -2px 5px;
   }
 
   label.carpooling,
@@ -80,7 +85,7 @@
   }
 
   label.full::after {
-    content: ' Complet!';
+    content: " Complet!";
   }
 }
 

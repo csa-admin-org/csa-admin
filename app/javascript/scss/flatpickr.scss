@@ -1,0 +1,53 @@
+@import 'members/variables';
+
+.flatpickr-calendar.inline {
+  box-shadow: none !important;
+  &:before {
+    content: none;
+  }
+  &:after {
+    content: none;
+  }
+
+  left: -18px;
+  @media screen and (min-width: 330px) {
+    left: 0;
+    margin: 0 auto;
+  }
+
+  .flatpickr-days {
+    // width: 305.88px;
+    border: 0px !important;
+
+    .dayContainer {
+      border: 0px !important;
+      margin: $small-spacing 0;
+    }
+  }
+
+  .flatpickr-day {
+    margin: 2px 0;
+  }
+
+  .flatpickr-day:not(.disabled) {
+    background: $light-gray !important;
+    border-color: $light-gray !important;
+
+    &:not(.selected):hover {
+      background: $medium-gray !important;
+      border-color: $medium-gray !important;
+    }
+  }
+  .flatpickr-day.selected {
+    background: $green !important;
+    border-color: $green !important;
+  }
+}
+
+.flatpickr-month,
+.flatpickr-weekdays,
+.flatpickr-weekday,
+.flatpickr-day.selected {
+  background: $green !important;
+  border-color: $green !important;
+}
