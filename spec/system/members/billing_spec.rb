@@ -18,7 +18,7 @@ describe 'Billing' do
     expect(page).to have_content('Factures ouvertes')
     expect(page).to have_content('1 facture ouverte')
     expect(page).to have_content(
-      ['01.02.2018', 'Facture ouverte #4242 (Cotisation annuelle)', 'CHF 42.00'].join)
+      ['01.02.2018', 'Facture ouverte #4242 (Cotisation annuelle)', ' CHF 42.00'].join)
     expect(page).to have_content('Montant restant à payer: CHF 42.00')
     expect(page).to have_content('Intervalle de paiement: Trimestriel')
   end
@@ -35,7 +35,7 @@ describe 'Billing' do
     expect(page).to have_content(
       ['01.05.2018', 'Paiement de la facture #242', '-CHF 162.00'].join)
     expect(page).to have_content(
-      ['12.04.2018', 'Facture #242 (½ Journée)', 'CHF 120.00'].join)
+      ['12.04.2018', 'Facture #242 (½ Journée)', ' CHF 120.00'].join)
 
     expect(page).to have_content('Avoir: CHF 42.00')
     expect(page).to have_content('Intervalle de paiement: Annuel')

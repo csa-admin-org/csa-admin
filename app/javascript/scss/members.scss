@@ -1,6 +1,3 @@
-@import 'normalize';
-@import 'font-awesome-sprockets';
-@import 'font-awesome';
 @import 'members/variables';
 
 body {
@@ -8,8 +5,7 @@ body {
   margin: 0;
   padding: 0;
   // https://css-tricks.com/snippets/css/system-font-stack/
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 #body-wrapper {
@@ -18,7 +14,7 @@ body {
 
   @media screen and (min-width: 900px) {
     margin: 0 auto 0 auto;
-    width: 800px;
+    width: $body-width;
   }
 }
 
@@ -73,7 +69,7 @@ textarea {
   }
 }
 
-input[type='date'] {
+input.date-input {
   width: calc(100% - 22px);
   @media screen and (min-width: 900px) {
     width: 150px;
@@ -230,6 +226,10 @@ nav {
       cursor: default;
     }
   }
+}
+
+svg {
+  fill: currentColor;
 }
 
 @import 'members/header_and_footer';

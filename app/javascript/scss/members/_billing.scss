@@ -37,6 +37,10 @@ ul.billing {
     span.file {
       order: 3;
       margin-left: $small-spacing;
+
+      svg {
+        margin-bottom: -2px;
+      }
     }
 
     span.amount {

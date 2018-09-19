@@ -10,7 +10,7 @@
           span.info = t('.open_invoice_info', id: invoice.id, type: display_object(invoice, link: false))
           span.file
             = link_to rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-              = icon('far', 'file-pdf')
+              = inline_svg 'pdf_file.svg', size: '16px'
           span.amount = number_to_currency(invoice.amount)
 
 section
@@ -32,7 +32,7 @@ section
                 = t('.invoice_info', id: object.id, type: display_object(object, link: false))
             span.file
               = link_to rails_blob_path(object.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-                = icon('far', 'file-pdf')
+                = inline_svg 'pdf_file.svg', size: '16px'
             span.amount = number_to_currency(object.amount)
           - when Payment
             - if object.amount.positive?
