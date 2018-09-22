@@ -49,6 +49,9 @@ _:
       support:
         _de: Unterstützung
         _fr: soutien
+      trial:
+        _de: Probeabonnement
+        _fr: Abonnement à l'essai
       waiting:
         _de: Warteliste
         _fr: attente
