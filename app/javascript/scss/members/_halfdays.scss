@@ -29,9 +29,7 @@
     margin: $base-spacing 0 0 0;
 
     @media screen and (min-width: 760px) {
-      width: calc(
-        #{$body-width} - #{$column-left-width} - #{2 * $base-spacing}
-      );
+      width: calc(#{$body-width} - #{$column-left-width} - #{2 * $base-spacing});
       margin: -$base-spacing 0 0 2 * $base-spacing;
     }
 
@@ -64,20 +62,29 @@
 
   input.participants_count {
     width: 60px;
+
+    &:disabled {
+      color: $medium-gray;
+      cursor: not-allowed;
+    }
   }
 
   label svg {
     margin: 0 0 -2px 5px;
   }
 
-  label.carpooling,
-  label.carpooling_phone {
+  label.carpooling {
     font-weight: normal;
     margin-top: $small-spacing;
+
+    input:disabled {
+      color: $medium-gray;
+      cursor: not-allowed;
+    }
   }
 
   label.disabled {
-    color: #aaa;
+    color: $medium-gray;
   }
 
   label.full span {
@@ -85,7 +92,7 @@
   }
 
   label.full::after {
-    content: " Complet!";
+    content: ' Complet!';
   }
 }
 

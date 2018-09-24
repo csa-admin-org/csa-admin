@@ -99,11 +99,14 @@ _:
           _de: Ich komme mit dem Auto und habe freie Plätze!
           _fr: Je viens en voiture et j'ai de la place!
         carpooling_phone:
-          _de: Meine Telefonnummer
-          _fr: Mon téléphone
+          _de: Telefon Fahrgemeinschaften
+          _fr: Téléphone covoiturage
+        carpooling_city:
+          _de: Abfahrt Stadt
+          _fr: Ville de départ
         carpooling_tooltip:
           _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer bekommen.
-          _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone sera partagé avec les autres membres inscrits le même jour.
+          _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
         coming_halfday_cannot_be_cancel_explanation/basket_preparation:
           _de: Aus Organisationsgründe, die Anmeldungen zu den Abpackungen der Taschen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.

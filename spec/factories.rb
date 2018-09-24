@@ -50,7 +50,7 @@ FactoryBot.define do
   factory :member do
     name { [Faker::Name.last_name, Faker::Name.first_name].join(' ') }
     emails { [Faker::Internet.email, Faker::Internet.email].join(', ') }
-    phones { Faker::PhoneNumber.phone_number }
+    phones { Faker::Base.numerify('+41 ## ### ## ##') }
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
@@ -260,6 +260,8 @@ FactoryBot.define do
 
     trait :carpooling do
       carpooling { '1' }
+      carpooling_phone { Faker::Base.numerify('+41 ## ### ## ##') }
+      carpooling_city { Faker::Address.city }
     end
 
     trait :validated do

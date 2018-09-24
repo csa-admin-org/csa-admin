@@ -19,7 +19,13 @@ class HalfdayParticipation < ActiveRecord::Base
   scope :during_year, ->(year) { joins(:halfday).merge(Halfday.during_year(year)) }
   scope :carpooling, -> { where.not(carpooling_phone: nil) }
 
-  validates_plausible_phone :carpooling_phone, country_code: 'CH', on: :create
+  before_validation :reset_carpooling_data, on: :create, unless: :carpooling
+
+  with_options on: :create, if: :carpooling do
+    validates_plausible_phone :carpooling_phone, country_code: 'CH'
+    validates :carpooling_phone, presence: true
+    validates :carpooling_city, presence: true
+  end
   validates :halfday, presence: true, uniqueness: { scope: :member_id }
   validates :participants_count,
     presence: true,
@@ -30,7 +36,6 @@ class HalfdayParticipation < ActiveRecord::Base
     },
     unless: :validated_at?
 
-  before_create :set_carpooling_phone
   after_commit :update_membership_recognized_halfday_works!
 
   def coming?
@@ -101,18 +106,13 @@ class HalfdayParticipation < ActiveRecord::Base
 
   private
 
-  def validate_participants_count?
-    coming? && missing_participants_count
+  def reset_carpooling_data
+    self.carpooling_phone = nil
+    self.carpooling_city = nil
   end
 
-  def set_carpooling_phone
-    if @carpooling
-      if carpooling_phone.blank?
-        self.carpooling_phone = member.phones_array.first
-      end
-    else
-      self.carpooling_phone = nil
-    end
+  def validate_participants_count?
+    coming? && missing_participants_count
   end
 
   def update_membership_recognized_halfday_works!

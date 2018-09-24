@@ -56,7 +56,8 @@ describe Email do
     create(:halfday_participation, :carpooling,
       halfday: halfday,
       member: create(:member, name: 'Elea Asah'),
-      carpooling_phone: '+41765431243')
+      carpooling_phone: '+41765431243',
+      carpooling_city: 'La Chaux-de-Fonds')
 
     Email.deliver_later(:halfday_reminder, participation)
 
@@ -75,7 +76,8 @@ describe Email do
         halfday_participants_count: 2,
         halfday_participations_with_carpooling: [
           member_name: 'Elea Asah',
-          carpooling_phone: '076 543 12 43'
+          carpooling_phone: '076 543 12 43',
+          carpooling_city: 'La Chaux-de-Fonds'
         ],
         action_url: 'https://membres.ragedevert.ch'
       },

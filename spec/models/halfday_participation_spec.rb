@@ -25,6 +25,28 @@ describe HalfdayParticipation do
 
       expect(participation).to have_valid(:participants_count)
     end
+
+    it 'validates carpooling phone and city presence when carpooling is checked' do
+      halfday = create(:halfday, participants_limit: 3)
+      participation = build(:halfday_participation,
+        halfday: halfday,
+        participants_count: 1,
+        carpooling: '1')
+
+      expect(participation).not_to have_valid(:carpooling_phone)
+      expect(participation).not_to have_valid(:carpooling_city)
+    end
+
+    it 'validates carpooling phone format when carpooling is checked' do
+      halfday = create(:halfday, participants_limit: 3)
+      participation = build(:halfday_participation,
+        halfday: halfday,
+        participants_count: 1,
+        carpooling_phone: 'foo',
+        carpooling: '1')
+
+      expect(participation).not_to have_valid(:carpooling_phone)
+    end
   end
 
   describe '#validate!' do
@@ -71,27 +93,16 @@ describe HalfdayParticipation do
     end
   end
 
-  describe '#carpooling=' do
+  describe '#carpooling' do
     let(:participation) { build(:halfday_participation, member: member) }
 
-    it 'does not set carpooling_phone if carpooling = 0' do
+    it 'resets carpooling phone and city if carpooling = 0' do
       participation.carpooling = '0'
+      participation.carpooling_phone = '077 123 41 12'
+      participation.carpooling_city = 'La Chaux-de-Fonds'
       participation.save
       expect(participation.carpooling_phone).to be_nil
-    end
-
-    it 'sets first member phones if carpooling_phone is blank' do
-      participation.carpooling = '1'
-      participation.carpooling_phone = ''
-      participation.save
-      expect(participation.carpooling_phone).to eq member.phones_array.first
-    end
-
-    it 'uses carpooling_phone when present' do
-      participation.carpooling = '1'
-      participation.carpooling_phone = '077 123 41 12'
-      participation.save
-      expect(participation.carpooling_phone).to eq '+41771234112'
+      expect(participation.carpooling_city).to be_nil
     end
   end
 

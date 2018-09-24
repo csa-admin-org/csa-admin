@@ -29,6 +29,6 @@ class Members::HalfdayParticipationsController < Members::BaseController
   def protected_params
     params
       .require(:halfday_participation)
-      .permit(%i[halfday_id participants_count carpooling carpooling_phone])
+      .permit(%i[halfday_id participants_count carpooling carpooling_phone carpooling_city])
   end
 end

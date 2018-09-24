@@ -25,7 +25,7 @@ section
     p.empty = t_halfday('.no_halfdays')
   - else
     .halfdays-form
-      - @halfday_participation ||= HalfdayParticipation.new(halfday: @halfdays.first)
+      - @halfday_participation ||= HalfdayParticipation.new(halfday: @halfdays.first, carpooling_phone: current_member.phones_array.first, carpooling_city: current_member.city)
       = form_for [:members, @halfday_participation] do |f|
         .column-left
             #calendar.calendar data={ dates: @halfdays.map(&:date).uniq.join(','), selected_date: @halfday_participation.halfday.date }
@@ -58,8 +58,10 @@ section
                 = f.check_box :carpooling
                 span.checkmark
                 span.label = t('.carpooling_checkbox')
-            label.carpooling_phone
-              = f.phone_field :carpooling_phone, { id: 'carpooling_phone', placeholder: current_member.phones_array.first || t('.carpooling_phone') }
+            label.carpooling
+              = f.phone_field :carpooling_phone, placeholder: t('.carpooling_phone')
+            label.carpooling
+              = f.text_field :carpooling_city, placeholder: t('.carpooling_city')
           .input
             = f.submit t('.halfday_form_submit'), id: 'subscribe-button'
 

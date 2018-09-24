@@ -42,6 +42,14 @@
       }
     }
 
+    &.disabled {
+      cursor: not-allowed;
+
+      input ~ span.checkmark {
+        background-color: $light-gray;
+      }
+    }
+
     span.checkmark {
       position: absolute;
       top: 0;
