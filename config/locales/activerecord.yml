@@ -249,6 +249,9 @@ _:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
       halfday_participation/basket_preparation:
+        carpooling_city:
+          _de: Abfahrt Stadt
+          _fr: Ville de départ
         carpooling_phone:
           _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage
@@ -286,6 +289,9 @@ _:
           _de: Bestätigt durch
           _fr: Validateur
       halfday_participation/halfday_work:
+        carpooling_city:
+          _de: Abfahrt Stadt
+          _fr: Ville de départ
         carpooling_phone:
           _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage

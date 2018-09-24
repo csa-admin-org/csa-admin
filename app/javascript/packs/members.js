@@ -16,5 +16,5 @@ Rails.start();
 import 'normalize.css';
 import 'scss/members';
 
-import 'components/flatpickr';
+import 'components/calendar';
 import 'components/member_new_form';

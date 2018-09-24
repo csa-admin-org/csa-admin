@@ -33,13 +33,17 @@ describe 'Halfday Participation' do
     choose "halfday_participation_halfday_id_#{halfday.id}"
     fill_in 'halfday_participation_participants_count', with: 3
     check 'halfday_participation_carpooling'
-    fill_in 'carpooling_phone', with: '+41 77 447 58 31'
+    fill_in 'halfday_participation_carpooling_phone', with: '077 447 58 31'
+    fill_in 'halfday_participation_carpooling_city', with: 'La Chaux-de-Fonds'
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
     within('ol.main') do
       expect(page).to have_content 'covoiturage'
     end
+    expect(HalfdayParticipation.last).to have_attributes(
+      carpooling_phone: '+41774475831',
+      carpooling_city: 'La Chaux-de-Fonds')
   end
 
   it 'adds new participation with carpooling (default phone)' do
@@ -50,6 +54,7 @@ describe 'Halfday Participation' do
     choose "halfday_participation_halfday_id_#{halfday.id}"
     fill_in 'halfday_participation_participants_count', with: 3
     check 'halfday_participation_carpooling'
+
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')

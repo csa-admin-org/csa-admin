@@ -64,11 +64,12 @@ module Email
           .carpooling
           .includes(:member)
           .map { |p|
-          {
-            member_name: p.member.name,
-            carpooling_phone: p.carpooling_phone&.phony_formatted
+            {
+              member_name: p.member.name,
+              carpooling_phone: p.carpooling_phone&.phony_formatted,
+              carpooling_city: p.carpooling_city
+            }
           }
-        }
       unless Current.acp.halfday_participation_deletion_deadline_in_days
         data[:action_url] = url(:members_member_url)
       end

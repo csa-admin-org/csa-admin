@@ -28,6 +28,7 @@ ActiveAdmin.register HalfdayParticipation do
     column(:member_phones) { |hp| hp.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:participants_count)
     column(:carpooling_phone) { |hp| hp.carpooling_phone&.phony_formatted }
+    column(:carpooling_city) { |hp| hp.carpooling_city }
     column(:state, &:state_i18n_name)
     column(:created_at)
     column(:validated_at)
@@ -68,8 +69,9 @@ ActiveAdmin.register HalfdayParticipation do
     attributes_table title: HalfdayParticipation.human_attribute_name(:contact) do
       row :member
       row(:phones) { display_phones(hp.member.phones_array) }
-      if hp.carpooling_phone?
+      if hp.carpooling?
         row(:carpooling_phone) { display_phones(hp.carpooling_phone) }
+        row(:carpooling_city) { hp.carpooling_city }
       end
     end
 
