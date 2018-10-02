@@ -84,7 +84,7 @@ describe ACP do
 
   describe '#billing_year_divisions=' do
     it 'keeps only allowed divisions' do
-      acp = ACP.new(billing_year_divisions: ["", "1", "6", "12"])
+      acp = ACP.new(billing_year_divisions: ['', '1', '6', '12'])
       expect(acp.billing_year_divisions).to eq [1, 12]
     end
   end

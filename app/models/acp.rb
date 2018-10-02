@@ -11,7 +11,7 @@ class ACP < ActiveRecord::Base
   HALFDAY_I18N_SCOPES = %w[halfday_work basket_preparation]
   HALFDAY_PRICE = 60
 
-  attr_accessor :summer_month_range_min, :summer_month_range_max
+  attr_writer :summer_month_range_min, :summer_month_range_max
 
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
@@ -77,7 +77,7 @@ class ACP < ActiveRecord::Base
   def self.halfday_i18n_scopes; HALFDAY_I18N_SCOPES end
 
   def feature?(feature)
-    self.features.include?(feature.to_s)
+    features.include?(feature.to_s)
   end
 
   def billing_year_divisions=(divisions)
@@ -138,12 +138,12 @@ class ACP < ActiveRecord::Base
 
   def set_summer_month_range
     if @summer_month_range_min && @summer_month_range_max
-      if @summer_month_range_min.present? && @summer_month_range_max.present?
-        self.summer_month_range =
+      self.summer_month_range =
+        if @summer_month_range_min.present? && @summer_month_range_max.present?
           @summer_month_range_min..@summer_month_range_max
-      else
-        self.summer_month_range = nil
-      end
+        else
+          nil
+        end
     end
   end
 end

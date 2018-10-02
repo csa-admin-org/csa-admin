@@ -54,7 +54,6 @@ ActiveAdmin.register Admin do
     if current_admin.superadmin?
       f.inputs do
         f.input :rights, collection: Admin::RIGHTS, prompt: true
-
       end
     end
     f.actions
