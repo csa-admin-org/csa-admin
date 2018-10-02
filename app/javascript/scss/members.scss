@@ -9,11 +9,10 @@ body {
 }
 
 #body-wrapper {
-  margin: 0 $base-spacing 0 $base-spacing;
+  margin: 0 $base-spacing;
   max-width: 100%;
-
   @media screen and (min-width: 900px) {
-    margin: 0 auto 0 auto;
+    margin: 0 auto;
     width: $body-width;
   }
 }
@@ -21,6 +20,7 @@ body {
 a {
   color: $green;
   text-decoration: none;
+
   &:hover {
     color: $dark-green;
   }
@@ -45,8 +45,8 @@ label {
   }
 }
 
-input,
 button,
+input,
 select,
 textarea {
   display: inline-block;
@@ -60,8 +60,8 @@ textarea {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-input,
 button,
+input,
 textarea {
   width: calc(100% - 22px);
   @media screen and (min-width: 900px) {
@@ -85,12 +85,13 @@ button[type='submit'] {
   transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   font-weight: 600;
   cursor: pointer;
-
   width: 100%;
+
   &:hover {
     border-color: $dark-green;
     background-color: $dark-green;
   }
+
   &:disabled {
     cursor: not-allowed;
     border-color: $medium-gray;
@@ -101,8 +102,8 @@ button[type='submit'] {
   }
 }
 
-ul,
-ol {
+ol,
+ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -148,13 +149,13 @@ section {
 h2 {
   font-size: $base-font-size * 1.3;
   line-height: $heading-line-height;
-  margin: 0 0 $small-spacing 0;
+  margin: 0 0 $small-spacing;
 }
 
 h4 {
   font-size: $base-font-size * 1.1;
   line-height: $heading-line-height;
-  margin: 0 0 $small-spacing 0;
+  margin: 0 0 $small-spacing;
 }
 
 table {
@@ -172,9 +173,11 @@ section.welcome {
 
   p {
     margin: $base-spacing;
+
     &.link {
       font-style: italic;
     }
+
     a {
       white-space: nowrap;
     }
@@ -182,7 +185,7 @@ section.welcome {
 }
 
 nav {
-  margin: $base-spacing 0 (-$small-spacing) 0;
+  margin: $base-spacing 0 (-$small-spacing);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -194,13 +197,11 @@ nav {
     color: $base-font-color;
     border: 2px solid $green;
     border-radius: $base-border-radius;
-
     text-align: center;
     flex: 1 1 auto;
     padding: 0.5em;
     width: 100%;
     margin-bottom: $small-spacing;
-
     @media screen and (min-width: 900px) {
       max-width: 29%;
     }
@@ -232,6 +233,9 @@ svg {
   fill: currentColor;
 }
 
+.map_link svg {
+  margin: 0 -2px -2px $small-spacing / 2;
+}
 @import 'members/header_and_footer';
 @import 'members/flashes';
 @import 'members/recover_token';
