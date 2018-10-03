@@ -245,7 +245,7 @@ ActiveAdmin.register Member do
       f.input :delivery_city
       f.input :delivery_zip
     end
-    f.inputs Member.human_attribute_name(:delivery_address) do
+    f.inputs Member.human_attribute_name(:contact) do
       f.input :emails, as: :string
       f.input :phones, as: :string
       f.input :newsletter, as: :select,
