@@ -98,12 +98,12 @@ _:
         carpooling_checkbox:
           _de: Ich komme mit dem Auto und habe freie Plätze!
           _fr: Je viens en voiture et j'ai de la place!
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
         carpooling_city:
           _de: Abfahrtsort
           _fr: Ville de départ
+        carpooling_phone:
+          _de: Telefon Fahrgemeinschaften
+          _fr: Téléphone covoiturage
         carpooling_tooltip:
           _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
           _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
