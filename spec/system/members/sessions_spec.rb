@@ -15,6 +15,7 @@ describe 'Member sessions' do
 
     session = member.sessions.last
 
+    expect(session.email).to eq 'thibaud@thibaud.gg'
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       to: 'thibaud@thibaud.gg',
@@ -34,8 +35,9 @@ describe 'Member sessions' do
     delete_session(member)
     visit '/'
 
+    expect(session.reload.email).to eq 'thibaud@thibaud.gg'
     expect(current_path).to eq '/login'
-    expect(page).to have_content "Merci de vous authentifier pour accèder à votre compte."
+    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
   end
 
   it 'sends login help when email is not found' do
@@ -83,12 +85,12 @@ describe 'Member sessions' do
     visit '/'
 
     expect(current_path).to eq '/login'
-    expect(page).to have_content "Votre session a expirée, merci de vous authentifier à nouveau."
+    expect(page).to have_content 'Votre session a expirée, merci de vous authentifier à nouveau.'
 
     visit '/'
 
     expect(current_path).to eq '/login'
-    expect(page).to have_content "Merci de vous authentifier pour accèder à votre compte."
+    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
   end
 
   it 'redirects old member token to login when not already logged in' do
@@ -97,7 +99,7 @@ describe 'Member sessions' do
     visit "/#{member.reload.token}"
 
     expect(current_path).to eq '/login'
-    expect(page).to have_content "Votre session a expirée, merci de vous authentifier à nouveau."
+    expect(page).to have_content 'Votre session a expirée, merci de vous authentifier à nouveau.'
   end
 
   it 'redirects old member token to member page when already logged in' do
