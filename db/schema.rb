@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_23_150840) do
+ActiveRecord::Schema.define(version: 2018_10_05_115941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -416,6 +416,7 @@ ActiveRecord::Schema.define(version: 2018_09_23_150840) do
     t.datetime "last_used_at"
     t.string "last_remote_addr"
     t.string "last_user_agent"
+    t.string "email"
     t.index ["member_id"], name: "index_sessions_on_member_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true
   end

@@ -2,8 +2,6 @@ class Session < ApplicationRecord
   TIMEOUT = 1.hour
   EXPIRATION = 1.year
 
-  attr_reader :email
-
   belongs_to :member
 
   validates :remote_addr, :token, :user_agent, presence: true
@@ -13,7 +11,7 @@ class Session < ApplicationRecord
   scope :expired, -> { where('created_at > ?', EXPIRATION.ago) }
 
   def email=(email)
-    @email = email
+    super
     self.member = Member.with_email(email).first
   end
 
