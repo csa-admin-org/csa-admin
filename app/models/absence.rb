@@ -1,7 +1,8 @@
 class Absence < ActiveRecord::Base
-  belongs_to :member
-
   attr_accessor :admin
+
+  belongs_to :member
+  belongs_to :session, optional: true
 
   validates :member, :started_on, :ended_on, presence: true
   validates :started_on, :ended_on, date: {

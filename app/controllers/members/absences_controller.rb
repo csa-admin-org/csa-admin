@@ -9,6 +9,8 @@ class Members::AbsencesController < Members::BaseController
   # POST /absences
   def create
     @absence = current_member.absences.new(protected_params)
+    @absence.session_id = session_id
+
     respond_to do |format|
       if @absence.save
         flash[:notice] = t('.flash.notice')

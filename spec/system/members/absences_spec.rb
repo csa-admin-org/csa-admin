@@ -20,6 +20,7 @@ describe 'Absences' do
 
     expect(page).to have_content('Merci de nous avoir prévenus!')
     expect(page).to have_content "#{I18n.l(2.weeks.from_now.to_date)} – #{I18n.l(3.weeks.from_now.to_date)}"
+    expect(member.absences.last.session_id).to eq(member.sessions.last.id)
   end
 
   it 'lists previous absences' do

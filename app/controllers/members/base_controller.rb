@@ -14,7 +14,6 @@ class Members::BaseController < ApplicationController
 
   def current_member
     return @current_member if @current_member
-    session_id = cookies.encrypted[:session_id]
     return unless session_id
 
     session = Session.find_by(id: session_id)
@@ -27,6 +26,10 @@ class Members::BaseController < ApplicationController
         update_last_usage(session)
         session.member
       end
+  end
+
+  def session_id
+    cookies.encrypted[:session_id]
   end
 
   def set_locale
