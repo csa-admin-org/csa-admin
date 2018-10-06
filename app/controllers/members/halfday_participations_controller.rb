@@ -6,6 +6,8 @@ class Members::HalfdayParticipationsController < Members::BaseController
   # POST /halfday_participations
   def create
     @halfday_participation = current_member.halfday_participations.new(protected_params)
+    @halfday_participation.session_id = session_id
+
     respond_to do |format|
       if @halfday_participation.save
         flash[:notice] = t('.flash.notice')

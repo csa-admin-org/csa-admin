@@ -23,6 +23,7 @@ describe 'Halfday Participation' do
     within('ol.main') do
       expect(page).not_to have_content 'covoiturage'
     end
+    expect(member.halfday_participations.last.session_id).to eq(member.sessions.last.id)
   end
 
   it 'adds new participation with carpooling' do

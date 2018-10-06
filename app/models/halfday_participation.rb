@@ -7,6 +7,7 @@ class HalfdayParticipation < ActiveRecord::Base
 
   belongs_to :halfday
   belongs_to :member
+  belongs_to :session, optional: true
   belongs_to :validator, class_name: 'Admin', optional: true
   has_many :invoices, as: :object
 
