@@ -77,6 +77,22 @@ describe 'Member sessions' do
     expect(page).to have_content 'Vous êtes déjà connecté.'
   end
 
+  it 'logout session without email' do
+    member = create(:member)
+    login(member)
+    member.sessions.last.update!(email: nil)
+
+    visit '/'
+
+    expect(current_path).to eq '/login'
+    expect(page).to have_content 'Votre session a expirée, merci de vous authentifier à nouveau.'
+
+    visit '/'
+
+    expect(current_path).to eq '/login'
+    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
+  end
+
   it 'logout expired session' do
     member = create(:member)
     login(member)

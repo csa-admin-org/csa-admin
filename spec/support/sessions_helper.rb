@@ -1,6 +1,8 @@
 module SessionsHelper
-  def login(member)
-    session = create(:session, member: member)
+  def login(member, email: nil)
+    session = create(:session,
+      member: member,
+      email: email || member.emails_array.first)
     visit "/sessions/#{session.token}"
   end
 
