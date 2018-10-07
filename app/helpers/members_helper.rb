@@ -1,4 +1,10 @@
 module MembersHelper
+  def link_with_session(member, session)
+    link = auto_link(member)
+    link += " (#{session.email})" if session&.email
+    link
+  end
+
   def languages_collection
     Current.acp.languages.map { |l| [t("languages.#{l}"), l] }
   end

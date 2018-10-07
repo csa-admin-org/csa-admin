@@ -12,7 +12,9 @@ ActiveAdmin.register HalfdayParticipation do
   includes :member, :halfday
   index do
     selectable_column
-    column :member, sortable: 'members.name'
+    column :member, ->(hp) {
+      link_with_session hp.member, hp.session
+    }, sortable: 'members.name'
     column :halfday, ->(hp) {
       link_to hp.halfday.name, halfday_participations_path(q: { halfday_id_eq: hp.halfday_id }, scope: :all)
     }, sortable: 'halfdays.date'
@@ -25,10 +27,11 @@ ActiveAdmin.register HalfdayParticipation do
     column(:date) { |hp| hp.halfday.date.to_s }
     column(:member_id, &:member_id)
     column(:member_name) { |hp| hp.member.name }
+    column(:member_email) { |hp| hp.session&.email }
     column(:member_phones) { |hp| hp.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:participants_count)
     column(:carpooling_phone) { |hp| hp.carpooling_phone&.phony_formatted }
-    column(:carpooling_city) { |hp| hp.carpooling_city }
+    column(:carpooling_city, &:carpooling_city)
     column(:state, &:state_i18n_name)
     column(:created_at)
     column(:validated_at)
@@ -68,6 +71,7 @@ ActiveAdmin.register HalfdayParticipation do
 
     attributes_table title: HalfdayParticipation.human_attribute_name(:contact) do
       row :member
+      row(:email) { hp.session&.email }
       row(:phones) { display_phones(hp.member.phones_array) }
       if hp.carpooling?
         row(:carpooling_phone) { display_phones(hp.carpooling_phone) }
