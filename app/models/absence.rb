@@ -1,5 +1,5 @@
 class Absence < ActiveRecord::Base
-  attr_accessor :admin
+  attr_accessor :admin, :comment
 
   belongs_to :member
   belongs_to :session, optional: true

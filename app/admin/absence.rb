@@ -29,10 +29,11 @@ ActiveAdmin.register Absence do
       row :id
       row :member
       row(:email) { absence.session&.email }
-      row(:note) { text_format(absence.note) }
       row(:started_on) { l absence.started_on }
       row(:ended_on) { l absence.ended_on }
     end
+
+    active_admin_comments
   end
 
   form do |f|
@@ -41,23 +42,35 @@ ActiveAdmin.register Absence do
         collection: Member.joins(:memberships).distinct.order(:name).map { |d| [d.name, d.id] },
         prompt: true
     end
-    f.inputs Absence.human_attribute_name(:note) do
-      f.input :note, input_html: { rows: 5 }
-    end
     f.inputs Absence.human_attribute_name(:dates) do
       f.input :started_on, as: :datepicker
       f.input :ended_on, as: :datepicker
+    end
+    unless f.object.persisted?
+      f.inputs Absence.human_attribute_name(:comment) do
+        f.input :comment, as: :text
+      end
     end
 
     f.actions
   end
 
-  permit_params(*%i[member_id started_on ended_on note])
+  permit_params(*%i[member_id started_on ended_on comment])
 
   before_build do |absence|
     absence.started_on ||= Date.current.next_week
     absence.ended_on ||= Date.current.next_week.end_of_week
     absence.admin = current_admin
+  end
+
+  after_create do |absence|
+    if absence.persisted? && absence.comment.present?
+      ActiveAdmin::Comment.create!(
+        resource: absence,
+        body: absence.comment,
+        author: current_admin,
+        namespace: 'root')
+    end
   end
 
   config.per_page = 25
