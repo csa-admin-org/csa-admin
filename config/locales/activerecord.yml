@@ -606,6 +606,13 @@ _:
         other:
           _de: Abwesenheiten
           _fr: Absences
+      active_admin/comment:
+        one:
+          _de: Kommentar
+          _fr: Commentaire
+        other:
+          _de: Kommentare
+          _fr: Commentaires
       basket:
         one:
           _de: Tasche
