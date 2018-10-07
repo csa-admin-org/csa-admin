@@ -8,10 +8,9 @@ ActiveAdmin.register Absence do
 
   includes :member
   index do
-    column :member do |absence|
-      link_to absence.member.name, absence.member
-    end
-    column :note
+    column :member, ->(absence) {
+      link_with_session absence.member, absence.session
+    }, sortable: 'members.name'
     column :started_on, ->(absence) { l absence.started_on }
     column :ended_on, ->(absence) { l absence.ended_on }
     actions
@@ -29,6 +28,7 @@ ActiveAdmin.register Absence do
     attributes_table do
       row :id
       row :member
+      row(:email) { absence.session&.email }
       row(:note) { text_format(absence.note) }
       row(:started_on) { l absence.started_on }
       row(:ended_on) { l absence.ended_on }

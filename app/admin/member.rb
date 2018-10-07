@@ -316,6 +316,7 @@ ActiveAdmin.register Member do
 
   member_action :become, method: :post do
     session = resource.sessions.create!(
+      email: current_admin.email,
       remote_addr: request.remote_addr,
       user_agent: "Admin ID: #{current_admin.id}")
     redirect_to members_session_url(session.token, locale: I18n.locale)
