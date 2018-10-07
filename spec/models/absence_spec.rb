@@ -4,7 +4,7 @@ describe Absence do
   describe 'validations' do
     it 'validates started_on and ended_on dates when submited by member' do
       absence = Absence.new(
-        started_on: Date.tomorrow,
+        started_on: Date.today,
         ended_on: 2.years.from_now)
 
       expect(absence).not_to have_valid(:started_on)
@@ -14,7 +14,7 @@ describe Absence do
     it 'does not validate started_on and ended_on dates when submited by admin' do
       absence = Absence.new(
         admin: Admin.new,
-        started_on: Date.tomorrow,
+        started_on: Date.today,
         ended_on: 2.years.from_now)
 
       expect(absence).to have_valid(:started_on)
