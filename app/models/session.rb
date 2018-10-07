@@ -28,7 +28,7 @@ class Session < ApplicationRecord
   end
 
   def expired?
-    expires_at < Time.current
+    !email || expires_at < Time.current
   end
 
   private

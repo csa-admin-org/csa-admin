@@ -17,15 +17,15 @@ class Members::BaseController < ApplicationController
     return unless session_id
 
     session = Session.find_by(id: session_id)
-    @current_member =
-      if session.expired?
-        cookies.delete(:session_id)
-        redirect_to members_login_path, alert: t('members.flash.session_expired')
-        nil
-      else
-        update_last_usage(session)
-        session.member
-      end
+    if session.expired?
+      cookies.delete(:session_id)
+      @current_member = nil
+      redirect_to members_login_path, alert: t('members.flash.session_expired')
+      @current_member
+    else
+      update_last_usage(session)
+      @current_member = session.member
+    end
   end
 
   def session_id
