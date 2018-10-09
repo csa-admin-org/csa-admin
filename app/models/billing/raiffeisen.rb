@@ -10,13 +10,13 @@ module Billing
 
     def payments_data
       get_isr_lines(:all)
-        .group_by { |line| isr_date(line) }
-        .flat_map { |date, lines|
+        .group_by(&:itself)
+        .flat_map { |_line, lines|
           lines.map.with_index { |line, i|
-             PaymentData.new(
+            PaymentData.new(
               invoice_id: isr_invoice_id(line),
               amount: isr_amount(line),
-              date: date,
+              date: isr_date(line),
               isr_data: "#{i}-#{line}")
           }
         }
