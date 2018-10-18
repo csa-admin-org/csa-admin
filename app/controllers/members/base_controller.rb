@@ -8,24 +8,23 @@ class Members::BaseController < ApplicationController
   private
 
   def authenticate_member!
-    return if current_member
-    redirect_to members_login_path, alert: t('members.flash.authentication_required')
+    if !current_session
+      cookies.delete(:session_id)
+      redirect_to members_login_path, alert: t('members.flash.authentication_required')
+    elsif current_session&.expired?
+      cookies.delete(:session_id)
+      redirect_to members_login_path, alert: t('members.flash.session_expired')
+    else
+      update_last_usage(current_session)
+    end
   end
 
   def current_member
-    return @current_member if @current_member
-    return unless session_id
+    current_session&.member
+  end
 
-    session = Session.find_by(id: session_id)
-    if session.expired?
-      cookies.delete(:session_id)
-      @current_member = nil
-      redirect_to members_login_path, alert: t('members.flash.session_expired')
-      @current_member
-    else
-      update_last_usage(session)
-      @current_member = session.member
-    end
+  def current_session
+    @current_session ||= session_id && Session.find_by(id: session_id)
   end
 
   def session_id
