@@ -285,15 +285,16 @@ ActiveAdmin.register Membership do
   end
 
   before_build do |membership|
-    fy_range = Delivery.next.fy_range
     membership.member_id ||= params[:member_id]
     membership.basket_size_id ||= params[:basket_size_id]
     membership.distribution_id ||= params[:distribution_id]
     params[:subscribed_basket_complement_ids]&.each do |id|
       membership.memberships_basket_complements.build(basket_complement_id: id)
     end
-    membership.started_on ||= params[:started_on] || [Date.current, fy_range.min].max
-    membership.ended_on ||= fy_range.max
+    if fy_range = Delivery.next&.fy_range
+      membership.started_on ||= params[:started_on] || [Date.current, fy_range.min].max
+      membership.ended_on ||= fy_range.max
+    end
   end
 
   controller do
