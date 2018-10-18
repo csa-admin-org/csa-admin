@@ -15,7 +15,7 @@ describe Billing::Raiffeisen, :vcr do
         invoice_id: 272,
         amount: BigDecimal(955),
         date: Date.new(2016, 2, 29),
-        isr_data: '7-00201013734600110419080241000000000272600000955009999999916022916022916022999999999500000000000000')
+        isr_data: '0-00201013734600110419080241000000000272600000955009999999916022916022916022999999999500000000000000')
     )
     invoice_ids = payments_data.map { |i| i.invoice_id }
     expect(invoice_ids).not_to include(999999999999)

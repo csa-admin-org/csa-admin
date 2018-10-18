@@ -160,6 +160,8 @@ describe 'members page' do
 
   context 'existing member token' do
     before { login(member) }
+    before { Timecop.freeze(Date.today.beginning_of_year + 6.months) }
+    after { Timecop.return }
 
     it 'shows current membership info and halfdays count' do
       create(:basket_complement, id: 1, name: 'Oeufs')
