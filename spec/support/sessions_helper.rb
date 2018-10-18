@@ -7,7 +7,7 @@ module SessionsHelper
   end
 
   def delete_session(member)
-    member.sessions.delete_all
+    member.reload.sessions.each(&:delete)
   end
 end
 

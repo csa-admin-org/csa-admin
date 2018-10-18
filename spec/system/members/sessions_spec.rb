@@ -35,7 +35,6 @@ describe 'Member sessions' do
     delete_session(member)
     visit '/'
 
-    expect(session.reload.email).to eq 'thibaud@thibaud.gg'
     expect(current_path).to eq '/login'
     expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
   end
