@@ -23,10 +23,11 @@ module Email
       end
     end
 
-    def request(action, *args)
-      @client.send(action, *args)
+    def request(action, **args)
+      @client.send(action, **args)
     rescue Postmark::Error => ex
-      ExceptionNotifier.notify(ex, args)
+      ExceptionNotifier.notify(ex, args.except(:attachments).merge(
+        attachments: args[:attachments].map { |a| a.except(:content) }))
     end
   end
 end
