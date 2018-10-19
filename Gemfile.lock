@@ -461,6 +461,7 @@ DEPENDENCIES
   postmark
   prawn
   prawn-table
+  public_suffix
   puma
   rack-dev-mark
   rack-status

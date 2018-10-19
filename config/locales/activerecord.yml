@@ -84,6 +84,9 @@ _:
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai
+        logo_url:
+          _de: Logo URL
+          _fr: Logo URL
         url:
           _de: Webseite URL
           _fr: Site URL

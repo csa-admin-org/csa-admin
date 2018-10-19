@@ -5,7 +5,7 @@ ActiveAdmin.register ACP do
 
   actions :edit, :update
   permit_params \
-    :name, :host, :logo,
+    :name, :host, :logo_url,
     :email_default_host, :email_default_from,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
@@ -27,13 +27,15 @@ ActiveAdmin.register ACP do
   form do |f|
     f.inputs t('.details') do
       f.input :name
-      f.input :host, hint: '*.host.*'
-      f.input :logo, as: :file
+      f.input :url
+      f.input :logo_url, hint: '300x300px (CDN 🙏)'
+      f.input :email
+      f.input :phone
+    end
+    f.inputs do
       f.input :languages,
         as: :check_boxes,
         collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }
-    end
-    f.inputs do
       f.input :features,
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
@@ -86,9 +88,6 @@ ActiveAdmin.register ACP do
       translated_input(f, :delivery_pdf_footers, required: false)
     end
     f.inputs t('.member_section') do
-      f.input :url
-      f.input :email
-      f.input :phone
       translated_input(f, :terms_of_service_urls, required: false)
       translated_input(f, :statutes_urls, required: false)
     end
