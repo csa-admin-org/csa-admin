@@ -374,6 +374,9 @@ _:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
       show:
+        baskets_to_prepare:
+          _de: Taschen vorzubereiten
+          _fr: Paniers à préparer
         become_member:
           _de: Zugang zum Konto
           _fr: Accéder au compte
@@ -407,6 +410,9 @@ _:
         new_payment:
           _de: Neue Einzahlung
           _fr: Nouveau paiement
+        no_basket_complements:
+          _de: Kein Zusatz für diese Lieferung
+          _fr: Aucun complément pour cette livraison
         no_baskets:
           _de: Keine Tasche
           _fr: Pas de paniers
@@ -437,6 +443,12 @@ _:
         send_email:
           _de: Senden
           _fr: Envoyer
+        total:
+          _de: Total %{number}
+          _fr: Total %{number}
+        totals:
+          _de: Totale %{numbers}
+          _fr: Totaux %{numbers}
         trigger_recurring_billing:
           _de: Rechnungsstellung zwingen
           _fr: Forcer la facturation

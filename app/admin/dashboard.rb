@@ -42,10 +42,12 @@ ActiveAdmin.register_page 'Dashboard' do
 
       column do
         if next_delivery
-          panel t('.next_delivery', date: l(next_delivery.date, format: :long), number: next_delivery.number) do
-            counts = BasketCount.all(next_delivery)
+          panel t('.next_delivery',
+              date: link_to(l(next_delivery.date, format: :long), next_delivery),
+              number: link_to(next_delivery.number, next_delivery)).html_safe do
+            counts = next_delivery.basket_counts
             if counts.present?
-              table_for counts do
+              table_for counts.all do
                 column Distribution.model_name.human, :title
                 column Basket.model_name.human, :count, class: 'align-right'
                 column "#{BasketSize.all.map(&:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
@@ -54,17 +56,17 @@ ActiveAdmin.register_page 'Dashboard' do
               if Distribution.paid.any?
                 free_distributions = Distribution.free
                 paid_distributions = Distribution.paid
-                free_counts = counts.select { |c| c.distribution_id.in?(free_distributions.pluck(:id)) }
-                paid_counts = counts.select { |c| c.distribution_id.in?(paid_distributions.pluck(:id)) }
+                free_counts = BasketCounts.new(next_delivery, free_distributions.pluck(:id))
+                paid_counts = BasketCounts.new(next_delivery, paid_distributions.pluck(:id))
                 totals = [
                   OpenStruct.new(
                     title: "#{Basket.model_name.human(count: 2)}: #{free_distributions.pluck(:name).to_sentence}",
-                    count: t('.total', number: free_counts.sum(&:count)),
-                    baskets_count: t('.totals', numbers: [free_counts.sum { |c| c.basket_sizes_count[0] }, free_counts.sum { |c| c.basket_sizes_count[1] }].join(' / '))),
+                    count: t('.total', number: free_counts.sum),
+                    baskets_count: t('.totals', numbers: free_counts.sum_detail)),
                   OpenStruct.new(
                     title: t('.baskets_to_prepare'),
-                    count: t('.total', number: paid_counts.sum(&:count)),
-                    baskets_count: t('.totals', numbers: [paid_counts.sum { |c| c.basket_sizes_count[0] }, paid_counts.sum { |c| c.basket_sizes_count[1] }].join(' / '))),
+                    count: t('.total', number: paid_counts.sum),
+                    baskets_count: t('.totals', numbers: paid_counts.sum_detail))
                 ]
                 table_for totals do
                   column nil, :title
@@ -75,10 +77,8 @@ ActiveAdmin.register_page 'Dashboard' do
 
               table_for nil do
                 column nil, :title
-                column(class: 'align-right') { "Total: #{counts.sum(&:count)}" }
-                column(class: 'align-right') do
-                  t('.totals', numbers: [counts.sum { |c| c.basket_sizes_count[0] }, counts.sum { |c| c.basket_sizes_count[1] }].join(' / '))
-                end
+                column(class: 'align-right') { "Total: #{counts.sum}" }
+                column(class: 'align-right') { t('.totals', numbers: counts.sum_detail) }
               end
 
               if BasketComplement.any?
@@ -96,11 +96,11 @@ ActiveAdmin.register_page 'Dashboard' do
               end
 
               span do
-                link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(Delivery.next, format: :xlsx)
+                link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(next_delivery, format: :xlsx)
               end
               span { '&nbsp;/&nbsp;'.html_safe }
               span do
-                link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(Delivery.next, format: :pdf)
+                link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf)
               end
 
               absences_count = next_delivery.baskets.absent.count

@@ -59,6 +59,10 @@ class Delivery < ActiveRecord::Base
     Current.acp.season_for(date.month)
   end
 
+  def basket_counts
+    @basket_counts ||= BasketCounts.new(self)
+  end
+
   private
 
   def self.next_date(date)

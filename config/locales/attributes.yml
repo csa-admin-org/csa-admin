@@ -24,6 +24,9 @@ _:
     basket_size_id:
       _de: Taschengrösse
       _fr: Taille panier
+    baskets:
+      _de: Taschen
+      _fr: Paniers
     city:
       _de: Stadt
       _fr: Ville
