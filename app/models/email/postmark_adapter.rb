@@ -11,11 +11,22 @@ module Email
         from: from,
         to: ENV['POSTMARK_TO'] || to,
         template_alias: template,
-        template_model: template_data,
+        template_model: template_data.merge(acp: acp_data),
         attachments: prepare_attachments(attachments))
     end
 
     private
+
+    def acp_data
+      Current.acp.slice(*%i[
+        name
+        url
+        logo_url
+        email_footer
+        phone
+        halfday_phone
+      ])
+    end
 
     def prepare_attachments(attachments = [])
       attachments.each do |attachment|
