@@ -6,14 +6,14 @@ ActiveAdmin.register ACP do
   actions :edit, :update
   permit_params \
     :name, :host, :logo_url,
-    :email_default_host, :email_default_from,
+    :url, :email, :phone,
+    :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
-    :halfday_availability_limit_in_days,
-    :url, :email, :phone,
+    :halfday_availability_limit_in_days, :halfday_phone,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
     languages: [],
@@ -29,8 +29,8 @@ ActiveAdmin.register ACP do
       f.input :name
       f.input :url
       f.input :logo_url, hint: '300x300px (CDN 🙏)'
-      f.input :email
-      f.input :phone
+      f.input :email, as: :email
+      f.input :phone, as: :phone
     end
     f.inputs do
       f.input :languages,
@@ -39,10 +39,6 @@ ActiveAdmin.register ACP do
       f.input :features,
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
-    end
-    f.inputs t('.mailer') do
-      f.input :email_default_host, as: :string
-      f.input :email_default_from, as: :string
     end
     f.inputs Membership.model_name.human(count: 2) do
       f.input :trial_basket_count
@@ -83,6 +79,7 @@ ActiveAdmin.register ACP do
         prompt: true
       f.input :halfday_participation_deletion_deadline_in_days
       f.input :halfday_availability_limit_in_days
+      f.input :halfday_phone, as: :phone
     end
     f.inputs t('.delivery_pdf') do
       translated_input(f, :delivery_pdf_footers, required: false)
@@ -90,6 +87,11 @@ ActiveAdmin.register ACP do
     f.inputs t('.member_section') do
       translated_input(f, :terms_of_service_urls, required: false)
       translated_input(f, :statutes_urls, required: false)
+    end
+    f.inputs t('.mailer') do
+      f.input :email_default_host, as: :string
+      f.input :email_default_from, as: :string
+      f.input :email_footer, as: :string
     end
 
     f.actions do
