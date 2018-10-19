@@ -211,9 +211,9 @@ describe PDF::Invoice do
 
   context 'Lumiere des Champs settings' do
     before {
-      set_acp_logo('lumieredeschamps_logo.jpg')
       Current.acp.update!(
         name: 'ldc',
+        logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/lumieredeschamps/logo.jpg',
         fiscal_year_start_month: 4,
         summer_month_range: 4..9,
         vat_membership_rate: 0.1,
@@ -575,9 +575,9 @@ describe PDF::Invoice do
 
   context 'TaPatate! settings' do
     before {
-      set_acp_logo('tapatate_logo.jpg')
       Current.acp.update!(
         name: 'tap',
+        logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/tapatate/logo.jpg',
         share_price: 250,
         fiscal_year_start_month: 4,
         ccp: '01-9252-0',
