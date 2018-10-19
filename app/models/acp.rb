@@ -19,10 +19,14 @@ class ACP < ActiveRecord::Base
 
   validates :name, presence: true
   validates :host, presence: true
-  validates :url, presence: true, format: { with: /\Ahttps?:\/\/.*/ }
-  validates :logo_url, presence: true, format: { with: /\Ahttps:\/\/.*/ }
+  validates :url, presence: true, format: { with: %r{\Ahttps?://.*} }
+  validates :logo_url, presence: true, format: { with: %r{\Ahttps://.*} }
   validates :email, presence: true
+  validates :email_default_host, presence: true
+  validates :email_default_from, presence: true
+  validates :email_footer, presence: true
   validates :phone, presence: true
+  validates :halfday_phone, presence: true
   validates :ccp, presence: true, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/ }
   validates :isr_identity, presence: true
   validates :isr_payment_for, presence: true
@@ -90,6 +94,11 @@ class ACP < ActiveRecord::Base
   def url=(url)
     super
     self.host ||= PublicSuffix.parse(URI(url).host).sld
+  end
+
+  def phone=(phone)
+    super
+    self.halfday_phone ||= phone
   end
 
   def current_fiscal_year

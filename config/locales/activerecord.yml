@@ -19,7 +19,7 @@ _:
           _de: Postkonto
           _fr: Numéro CCP
         delivery_pdf_footer:
-          _de: Fusszeile
+          _de: Fußzeile
           _fr: Bas de page
         email:
           _de: Email
@@ -30,6 +30,9 @@ _:
         email_default_host:
           _de: Default host
           _fr: Default host
+        email_footer:
+          _de: Fußzeile
+          _fr: Bas de page
         features:
           _de: Funktionen
           _fr: Fonctionalités
@@ -45,6 +48,9 @@ _:
         halfday_participation_deletion_deadline_in_days:
           _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
+        halfday_phone:
+          _de: Telefon
+          _fr: Téléphone
         invoice_footer:
           _de: Fusszeile Rechnung
           _fr: Facture bas de page
@@ -63,6 +69,9 @@ _:
         languages:
           _de: Sprachen
           _fr: Languages
+        logo_url:
+          _de: Logo URL
+          _fr: Logo URL
         phone:
           _de: Telefon
           _fr: Téléphone
@@ -84,9 +93,6 @@ _:
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai
-        logo_url:
-          _de: Logo URL
-          _fr: Logo URL
         url:
           _de: Webseite URL
           _fr: Site URL
