@@ -88,4 +88,11 @@ describe ACP do
       expect(acp.billing_year_divisions).to eq [1, 12]
     end
   end
+
+  describe 'url=' do
+    it 'sets host at the same time' do
+      acp = ACP.new(url: 'https://www.ragedevert.ch')
+      expect(acp.host).to eq 'ragedevert'
+    end
+  end
 end

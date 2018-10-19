@@ -21,7 +21,8 @@ class ACP < ActiveRecord::Base
 
   validates :name, presence: true
   validates :host, presence: true
-  validates :url, presence: true
+  validates :url, presence: true, format: { with: /\Ahttps?:\/\/.*/ }
+  validates :logo_url, presence: true, format: { with: /\Ahttps:\/\/.*/ }
   validates :email, presence: true
   validates :phone, presence: true
   validates :ccp, presence: true, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/ }
@@ -86,6 +87,11 @@ class ACP < ActiveRecord::Base
 
   def languages=(languages)
     super languages & LANGUAGES
+  end
+
+  def url=(url)
+    super
+    self.host ||= PublicSuffix.parse(URI(url).host).sld
   end
 
   def current_fiscal_year

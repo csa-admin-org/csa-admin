@@ -58,6 +58,7 @@ gem 'mini_magick'
 gem 'postmark'
 gem 'prawn'
 gem 'prawn-table'
+gem 'public_suffix'
 gem 'rubyXL'
 
 group :production do
