@@ -8,7 +8,7 @@ html
   body
     header
       = link_to Current.acp.url, class: 'logo' do
-        = image_tag(Current.acp.logo.variant(resize: "180x180"), size: '60', alt: "#{Current.acp.name} Logo")
+        = image_tag(Current.acp.logo_url, size: '60', alt: "#{Current.acp.name} Logo")
       nav
         ul
           - Stats::TYPES.each do |stats_type|

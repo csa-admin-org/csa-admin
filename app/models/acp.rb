@@ -17,8 +17,6 @@ class ACP < ActiveRecord::Base
   translated_attributes :delivery_pdf_footer
   translated_attributes :terms_of_service_url, :statutes_url
 
-  has_one_attached :logo
-
   validates :name, presence: true
   validates :host, presence: true
   validates :url, presence: true, format: { with: /\Ahttps?:\/\/.*/ }
