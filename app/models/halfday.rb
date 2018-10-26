@@ -1,9 +1,13 @@
 class Halfday < ActiveRecord::Base
   include TranslatedAttributes
   include HasFiscalYearScopes
+  include BulkDatesInsert
   include HalfdayNaming
 
   attr_reader :preset_id, :preset
+
+  serialize :start_time, Tod::TimeOfDay
+  serialize :end_time, Tod::TimeOfDay
 
   translated_attributes :place, :place_url, :activity, :description
 
@@ -15,7 +19,7 @@ class Halfday < ActiveRecord::Base
     where('halfdays.date < ? AND halfdays.date >= ?', Date.current, Current.fy_range.min)
   }
 
-  validates :date, :start_time, :end_time, presence: true
+  validates :start_time, :end_time, presence: true
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :end_time_must_be_greather_than_start_time
@@ -55,14 +59,6 @@ class Halfday < ActiveRecord::Base
     [start_time, end_time].map { |t| t.strftime('%-k:%M') }.join('-')
   end
 
-  def start_time
-    add_date_to_time(:start_time)
-  end
-
-  def end_time
-    add_date_to_time(:end_time)
-  end
-
   %i[places place_urls activities].each do |attr|
     define_method attr do
       @preset ? Hash.new('preset') : self[attr]
@@ -81,17 +77,8 @@ class Halfday < ActiveRecord::Base
   private
 
   def end_time_must_be_greather_than_start_time
-    if date && end_time <= start_time
+    if end_time && start_time && end_time <= start_time
       errors.add(:end_time, :invalid)
     end
-  end
-
-  def add_date_to_time(attr)
-    return nil unless date && self[attr]
-    (
-      date.to_time(:utc) +
-      self[attr].utc.strftime('%k').to_i.hours +
-      self[attr].utc.strftime('%M').to_i.minutes
-    ).in_time_zone
   end
 end

@@ -26,7 +26,9 @@ module ACPAdmin
     config.i18n.default_locale = :fr
     config.i18n.fallbacks = { de: :fr }
 
-    config.active_record.time_zone_aware_types = [:datetime, :time]
+    # :time must not be included here because of the tod gem
+    # https://github.com/JackC/tod#activemodel-serializable-attribute-support
+    config.active_record.time_zone_aware_types = [:datetime]
 
     # The project specific .irbrc is automatically loaded on Heroku,
     # we want to load it locally as well.

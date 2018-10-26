@@ -1,6 +1,7 @@
 //= require active_admin/base
 //= require jquery-ui/i18n/datepicker-fr-CH
 //= require jquery-ui/i18n/datepicker-de
+//= require jquery.timepicker
 
 $(function() {
   var locale = $('body').data('locale');
@@ -40,5 +41,15 @@ $(function() {
   $('.js-reset_price').on('change', function() {
     var nextInput = $(':input:eq(' + ($(':input').index(this) + 1) + ')');
     nextInput.prop('value', '');
+  });
+
+  $('input[type="time"]').timepicker({
+    timeFormat: 'HH:mm',
+    interval: 30,
+    minTime: '6:00',
+    maxTime: '23:30',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
   });
 });

@@ -21,8 +21,10 @@ gem 'rack-status'
 
 gem 'apartment'
 gem 'apartment-activejob'
+gem 'bulk_insert'
 gem 'paranoia'
 gem 'phony_rails'
+gem 'tod'
 
 gem 'activeadmin'
 gem 'cancancan'

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Delivery do
+  it_behaves_like 'bulk_dates_insert'
+
   it 'returns delivery season' do
     Current.acp.update!(
       summer_month_range_min: 4,

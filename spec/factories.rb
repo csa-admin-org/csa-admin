@@ -247,8 +247,8 @@ FactoryBot.define do
 
   factory :halfday do
     date { Date.current.beginning_of_week + 8.days }
-    start_time { Time.zone.parse('8:30') }
-    end_time { Time.zone.parse('12:00') }
+    start_time { '8:30' }
+    end_time { '12:00' }
     place { 'Thielle' }
     activity { 'Aide aux champs' }
   end

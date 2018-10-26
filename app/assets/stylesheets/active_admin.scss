@@ -6,19 +6,14 @@
 //
 // For example, to change the sidebar width:
 // $sidebar-width: 242px;
-
 // Active Admin's got SASS!
 $primary-color: #7e874e !default;
 @import 'formadmin/formadmin';
+@import 'jquery.timepicker'; // Foradmin fix
 
-// Foradmin fix
 .flash_alert {
   background-color: tint($negative-color, 95%);
-  background-image: linear-gradient(
-    to bottom,
-    tint($negative-color, 90%),
-    tint($negative-color, 85%)
-  );
+  background-image: linear-gradient(to bottom, tint($negative-color, 90%), tint($negative-color, 85%));
   border-color: rgba($negative-color, 0.5);
   color: $negative-color;
 
@@ -77,12 +72,13 @@ form#edit_membership ol em {
   color: rgba(63, 63, 63, 0.5);
   transition: color 250ms;
   display: block;
-  padding: 10px 15px 20px 15px;
+  padding: 10px 15px 20px;
 }
 
 span.delivery_note {
   display: block;
   margin-top: 15px;
+
   textarea {
     width: 100%;
   }
@@ -100,9 +96,11 @@ span.delivery_absences {
 table a.edit_link {
   background-image: asset-url('formadmin/edit.svg');
 }
+
 table a.pdf_link {
   background-image: asset-url('pdf_file.svg');
 }
+
 table a.xlsx_link {
   background-image: asset-url('xlsx_file.svg');
 }
@@ -123,30 +121,35 @@ table .xlsx_link {
 }
 
 .status_tag {
-  &.trial,
   &.coming,
+  &.manual,
   &.not_sent,
-  &.manual {
+  &.trial {
     background-color: #1e83f6;
   }
-  &.open,
+
   &.no,
+  &.open,
   &.rejected {
     background-color: #ff2600;
   }
+
   &.active,
   &.closed,
-  &.validated,
   &.isr,
+  &.validated,
   &.yes {
     background-color: #80a432;
   }
+
   &.support {
     background-color: #80d232;
   }
+
   &.waiting {
     background-color: #91ba3a;
   }
+
   &.pending {
     background-color: #addf45;
   }
@@ -159,9 +162,11 @@ table#index_table_payments {
     text-align: right;
     width: 130px;
   }
+
   .col-rap {
     text-align: right;
   }
+
   .col-actions {
     padding: 0 5px;
     margin: 0;
@@ -169,8 +174,8 @@ table#index_table_payments {
   }
 }
 
-table#index_table_payments,
-table#index_table_distributions {
+table#index_table_distributions,
+table#index_table_payments {
   .col-actions {
     padding: 0 5px;
     margin: 0;
@@ -182,9 +187,11 @@ table#index_table_deliveries {
   .col- {
     width: 40px;
   }
+
   .col-date {
     width: 200px;
   }
+
   .col-actions {
     width: 165px;
   }
@@ -195,12 +202,15 @@ table.table-baskets {
     width: 80px;
     padding-left: 10px;
   }
+
   .col-actions {
     width: 30px;
   }
+
   .col-delivery {
     width: 180px;
   }
+
   .col-distribution {
     padding-left: 20px;
   }
@@ -214,19 +224,23 @@ table.table-invoices {
   .col-id {
     width: 80px;
   }
+
   .col-rap {
     text-align: right;
     width: 30px;
     padding-right: 10px;
   }
+
   .col-actions {
     padding-right: 10px;
     width: 30px;
   }
+
   .col-status {
     text-align: right;
     width: 100px;
   }
+
   .col-amount,
   .col-balance {
     text-align: right;
@@ -239,6 +253,7 @@ table.table-payments {
     text-align: right;
     width: 100px;
   }
+
   .col-amount {
     text-align: right;
     padding-right: 10px;
@@ -249,6 +264,7 @@ table#index_table_memberships {
   .col-halfday_works {
     width: 170px;
   }
+
   .col-actions {
     min-width: 110px;
   }
@@ -258,9 +274,11 @@ table.table-halfday_participations {
   .col-description {
     width: 300px;
   }
+
   .col-part {
     width: 40px;
   }
+
   .col-state {
     text-align: right;
     width: 80px;
@@ -271,6 +289,7 @@ table.table-memberships {
   .col-period {
     width: 200px;
   }
+
   .col-baskets,
   .col-journees {
     width: 90px;
@@ -286,9 +305,11 @@ table.table-memberships {
   li.check_boxes {
     margin-bottom: 25px;
   }
+
   ol.choices-group {
     max-width: 100%;
   }
+
   li.choice {
     float: left;
     width: 50%;
@@ -296,5 +317,29 @@ table.table-memberships {
 }
 
 #basket-complements-table {
-  margin: 15px 0 25px 0;
+  margin: 15px 0 25px;
+}
+
+form input[type='time'] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  border: 1px solid rgba(204, 204, 204, 0.75);
+  border-radius: 4px;
+  outline: 0;
+  padding: 10px 12px;
+  transition: border-color 250ms, box-shadow 250ms;
+  width: 100%;
+  float: left !important;
+  margin-left: 20px !important;
+  width: 188px !important;
+}
+
+form input[type='time']:focus {
+  border-color: rgba(126, 135, 78, 0.5);
+  box-shadow: 0 0 5px rgba(126, 135, 78, 0.25);
+}
+
+form input[type='time']:focus ~ .inline-hints {
+  color: #3f3f3f;
 }
