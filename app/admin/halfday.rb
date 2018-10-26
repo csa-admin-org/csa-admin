@@ -35,10 +35,17 @@ ActiveAdmin.register Halfday do
   filter :date
 
   form do |f|
+    render partial: 'bulk_dates', locals: { f: f, resource: resource }
+
     f.inputs t('formtastic.inputs.date_and_period') do
-      f.input :date, as: :datepicker
-      f.input :start_time, as: :time_select, include_blank: false, minute_step: 30
-      f.input :end_time, as: :time_select, include_blank: false, minute_step: 30
+      f.input :start_time, as: :time_picker, input_html: {
+        step: 1800,
+        value: resource&.start_time&.strftime('%H:%M')
+      }
+      f.input :end_time, as: :time_picker, input_html: {
+        step: 1800,
+        value: resource&.end_time&.strftime('%H:%M')
+      }
     end
     f.inputs t('formtastic.inputs.place_and_activity') do
       if HalfdayPreset.any? && f.object.new_record?
@@ -61,6 +68,9 @@ ActiveAdmin.register Halfday do
   permit_params(
     :date, :start_time, :end_time,
     :preset_id, :participants_limit,
+    :bulk_dates_starts_on, :bulk_dates_ends_on,
+    :bulk_dates_weeks_frequency,
+    bulk_dates_wdays: [],
     places: I18n.available_locales,
     place_urls: I18n.available_locales,
     activities: I18n.available_locales,
@@ -68,30 +78,6 @@ ActiveAdmin.register Halfday do
 
   before_build do |halfday|
     halfday.preset_id ||= HalfdayPreset.first&.id
-    halfday.date ||= Date.current
-  end
-
-  controller do
-    def create
-      overwrite_date_of_time_params
-      super
-    end
-
-    def update
-      overwrite_date_of_time_params
-      super
-    end
-
-    def overwrite_date_of_time_params
-      date = Date.parse(params['halfday']['date'])
-      params['halfday']['start_time(1i)'] = date.year.to_s
-      params['halfday']['start_time(2i)'] = date.month.to_s
-      params['halfday']['start_time(3i)'] = date.day.to_s
-      params['halfday']['end_time(1i)'] = date.year.to_s
-      params['halfday']['end_time(2i)'] = date.month.to_s
-      params['halfday']['end_time(3i)'] = date.day.to_s
-    rescue ArgumentError
-    end
   end
 
   config.per_page = 25

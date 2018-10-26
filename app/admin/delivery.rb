@@ -127,8 +127,8 @@ ActiveAdmin.register Delivery do
   end
 
   form do |f|
+    render partial: 'bulk_dates', locals: { f: f, resource: resource }
     f.inputs do
-      f.input :date, as: :datepicker
       f.input :note
       if BasketComplement.any?
         f.input :basket_complements,
@@ -166,7 +166,13 @@ ActiveAdmin.register Delivery do
     end
   end
 
-  permit_params :date, :note, basket_complement_ids: []
+  permit_params \
+    :note,
+    :date,
+    :bulk_dates_starts_on, :bulk_dates_ends_on,
+    :bulk_dates_weeks_frequency,
+    bulk_dates_wdays: [],
+    basket_complement_ids: []
 
   config.filters = false
   config.sort_order = 'date_asc'

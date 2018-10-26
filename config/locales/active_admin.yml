@@ -326,6 +326,25 @@ _:
       _de: Vorheriger
       _fr: Précédent
     resource:
+      bulk_dates:
+        date_hint:
+          _de: Leer lassen, wenn Mehrere Daten
+          _fr: Laisser vide si dates multiple
+        multiple_dates:
+          _de: Mehrere Daten
+          _fr: Dates multiple
+        unique_date:
+          _de: Einzeldatum
+          _fr: Date unique
+        weeks_frequency_1:
+          _de: Jede Woche
+          _fr: Toutes les semaines
+        weeks_frequency_2:
+          _de: Alle zwei Wochen
+          _fr: Toutes les deux semaines
+        weeks_frequency_4:
+          _de: Alle vier Wochen
+          _fr: Toutes les quatre semaines
       edit:
         basket_and_distribution:
           _de: Tasche und Depot

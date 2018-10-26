@@ -27,6 +27,18 @@ _:
     baskets:
       _de: Taschen
       _fr: Paniers
+    bulk_dates_ends_on:
+      _de: Ende
+      _fr: Fin
+    bulk_dates_starts_on:
+      _de: Anfang
+      _fr: Début
+    bulk_dates_wdays:
+      _de: Wochentage
+      _fr: Jours de la semaine
+    bulk_dates_weeks_frequency:
+      _de: Häufigkeit
+      _fr: Fréquence
     city:
       _de: Stadt
       _fr: Ville

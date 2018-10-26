@@ -1,0 +1,21 @@
+if resource.new_record?
+  f.inputs t('.multiple_dates') do
+    f.input :bulk_dates_starts_on, as: :datepicker, required: false
+    f.input :bulk_dates_ends_on, as: :datepicker, required: false
+    f.input :bulk_dates_weeks_frequency,
+      collection: [1, 2, 4].map { |i| [t(".weeks_frequency_#{i}"), i] },
+      required: false
+    f.input :bulk_dates_wdays,
+      as: :check_boxes,
+      collection: [1, 2, 3, 4, 5, 6, 0].map { |d| [I18n.t('date.day_names')[d].capitalize, d] },
+      required: false
+  end
+
+  f.inputs t('.unique_date') do
+    f.input :date, as: :datepicker, hint: t('.date_hint')
+  end
+else
+  f.inputs do
+    f.input :date, as: :datepicker
+  end
+end
