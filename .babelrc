@@ -1,13 +1,16 @@
 {
   "presets": [
-    ["env", {
-      "modules": false,
-      "targets": {
-        "browsers": "> 0.5%",
-        "uglify": true
-      },
-      "useBuiltIns": true
-    }]
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": ["> 0.5%", "ie >= 11", "safari >= 8"]
+        },
+        "uglify": true,
+        "useBuiltIns": true
+      }
+    ]
   ],
 
   "plugins": [
