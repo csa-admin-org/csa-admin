@@ -19,44 +19,44 @@ Admin.create!(
   password: '12345678',
   password_confirmation: '12345678')
 
-Distribution.delete_all
-Distribution.create!(name: 'Jardin de la main',
+Depot.delete_all
+Depot.create!(name: 'Jardin de la main',
   address: 'Rue de la Main 6-8',
   city: 'Neuchâtel',
   zip: 2000,
   price: 0
 )
-Distribution.create!(name: 'Vélo',
+Depot.create!(name: 'Vélo',
   address: '–',
   city: 'Neuchâtel',
   zip: 2000,
   price: 7
 )
-Distribution.create!(name: 'Vin libre',
+Depot.create!(name: 'Vin libre',
   address: 'Rue des Chavannes 15',
   city: 'Neuchâtel',
   zip: 2000,
   price: 2
 )
-Distribution.create!(name: "L'Entre-deux",
+Depot.create!(name: "L'Entre-deux",
   address: 'Rue Jaquet-Droz 27',
   city: 'La Chaux-de-Fonds',
   zip: 2300,
   price: 2
 )
-Distribution.create!(name: 'Particulier',
+Depot.create!(name: 'Particulier',
   address: 'Route de la Falaise 3',
   city: 'Marin-Epagnier',
   zip: 2074,
   price: 2
 )
-Distribution.create!(name: 'Ancienne laiterie',
+Depot.create!(name: 'Ancienne laiterie',
   address: '???',
   city: 'La Chaux-du-Milieu',
   zip: 2405,
   price: 2
 )
-Distribution.create!(name: 'Particulier',
+Depot.create!(name: 'Particulier',
   address: '???',
   city: 'Colombier',
   zip: 2013,

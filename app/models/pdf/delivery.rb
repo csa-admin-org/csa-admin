@@ -4,21 +4,21 @@ module PDF
 
     attr_reader :delivery, :current_time
 
-    def initialize(delivery, distribution = nil)
+    def initialize(delivery, depot = nil)
       @delivery = delivery
       super
       @current_time = Time.current
       basket_ids = delivery.baskets.not_empty.not_absent.pluck(:id)
       @baskets = Basket.where(id: basket_ids).includes(:member, :baskets_basket_complements).order('members.name')
-      @distributions =
-        if distribution
-          [distribution]
+      @depots =
+        if depot
+          [depot]
         else
-          Distribution.where(id: @baskets.pluck(:distribution_id).uniq).order(:name)
+          Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
 
-      @distributions.each do |dist|
-        baskets = @baskets.where(distribution: dist)
+      @depots.each do |dist|
+        baskets = @baskets.where(depot: dist)
         basket_sizes = basket_sizes_for(baskets)
         basket_complements = basket_complements_for(baskets)
         total_pages = (baskets.count / BASKETS_PER_PAGE.to_f).ceil
@@ -28,7 +28,7 @@ module PDF
           page(dist, slice, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
-        start_new_page unless @distributions.last == dist
+        start_new_page unless @depots.last == dist
       end
     end
 
@@ -47,16 +47,16 @@ module PDF
       super.merge(Title: "#{::Delivery.human_attribute_name(:signature_sheets)} #{delivery.date}")
     end
 
-    def page(distribution, baskets, basket_sizes, basket_complements, page:, total_pages:)
-      header(distribution, page: page, total_pages: total_pages)
-      content(distribution, baskets, basket_sizes, basket_complements)
+    def page(depot, baskets, basket_sizes, basket_complements, page:, total_pages:)
+      header(depot, page: page, total_pages: total_pages)
+      content(depot, baskets, basket_sizes, basket_complements)
       footer
     end
 
-    def header(distribution, page:, total_pages:)
+    def header(depot, page:, total_pages:)
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
       bounding_box [bounds.width - 320, bounds.height - 20], width: 300, height: 100 do
-        text distribution.name, size: 28, align: :right
+        text depot.name, size: 28, align: :right
         move_down 5
         text I18n.l(delivery.date), size: 28, align: :right
         if total_pages > 1
@@ -66,7 +66,7 @@ module PDF
       end
     end
 
-    def content(distribution, baskets, basket_sizes, basket_complements)
+    def content(depot, baskets, basket_sizes, basket_complements)
       font_size 11
       move_down 3.5.cm
 

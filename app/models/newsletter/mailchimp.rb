@@ -47,7 +47,7 @@ class Newsletter::MailChimp
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
-      BASK_DIST: { name: 'Distribution', type: 'dropdown', required: false, options: { choices: [nil] + Distribution.order(:name).pluck(:name) } },
+      BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } },
       HALF_ASKE: { name: "#{halfdays_human_name} demandées", type: 'number', required: true },
       HALF_MISS: { name: "#{halfdays_human_name} manquantes", type: 'number', required: true }
     }
@@ -104,7 +104,7 @@ class Newsletter::MailChimp
       MEMB_STAT: member.state,
       BASK_DATE: (member.next_basket && I18n.l(member.next_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_SIZE: member.next_basket&.basket_size&.name.to_s,
-      BASK_DIST: member.next_basket&.distribution&.name.to_s,
+      BASK_DIST: member.next_basket&.depot&.name.to_s,
       HALF_ASKE: member.current_year_membership&.halfday_works.to_i,
       HALF_MISS: member.current_year_membership&.missing_halfday_works.to_i
     }

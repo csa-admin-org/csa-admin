@@ -15,7 +15,7 @@ class Member < ActiveRecord::Base
 
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
-  belongs_to :waiting_distribution, class_name: 'Distribution', optional: true
+  belongs_to :waiting_depot, class_name: 'Depot', optional: true
   has_and_belongs_to_many :waiting_basket_complements, class_name: 'BasketComplement'
   has_many :sessions
   has_many :absences
@@ -49,7 +49,7 @@ class Member < ActiveRecord::Base
   validates :emails, presence: true, on: :create
   validates :address, :city, :zip, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
-  validates :waiting_distribution, inclusion: { in: proc { Distribution.all } }, if: :waiting_basket_size, on: :create
+  validates :waiting_depot, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
   validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
   validate :email_must_be_unique
 
@@ -123,7 +123,7 @@ class Member < ActiveRecord::Base
   def validate!(validator)
     invalid_transition(:validate!) unless pending?
 
-    if waiting_basket_size_id? || waiting_distribution_id?
+    if waiting_basket_size_id? || waiting_depot_id?
       self.waiting_started_at ||= Time.current
       self.state = WAITING_STATE
     elsif annual_fee

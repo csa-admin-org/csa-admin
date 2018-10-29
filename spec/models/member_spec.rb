@@ -68,19 +68,19 @@ describe Member do
     expect(Member.new.annual_fee).to eq 42
   end
 
-  it 'updates waiting basket_size/distribution' do
+  it 'updates waiting basket_size/depot' do
     member = create(:member, :waiting)
     new_basket_size = create(:basket_size)
-    new_distribution = create(:distribution)
+    new_depot = create(:depot)
 
     member.update!(
       waiting_basket_size: new_basket_size,
-      waiting_distribution: new_distribution)
+      waiting_depot: new_depot)
 
     expect(member.state).to eq 'waiting'
     expect(member.waiting_started_at).to be_present
     expect(member.waiting_basket_size).to eq new_basket_size
-    expect(member.waiting_distribution).to eq new_distribution
+    expect(member.waiting_depot).to eq new_depot
   end
 
   describe '#current_membership' do
@@ -92,7 +92,7 @@ describe Member do
   describe '#validate!' do
     let(:admin) { create(:admin) }
 
-    it 'sets state to waiting if waiting basket/distribution' do
+    it 'sets state to waiting if waiting basket/depot' do
       member = create(:member, :pending,
         waiting_basket_size: create(:basket_size))
 
@@ -104,7 +104,7 @@ describe Member do
     it 'sets state to support if annual_fee is present' do
       member = create(:member, :pending,
         waiting_basket_size: nil,
-        waiting_distribution: nil,
+        waiting_depot: nil,
         annual_fee: 30)
 
       expect { member.validate!(admin) }.to change(member, :state).to('support')
@@ -115,7 +115,7 @@ describe Member do
     it 'sets state to inactive if annual_fee is not present' do
       member = create(:member, :pending,
         waiting_basket_size: nil,
-        waiting_distribution: nil,
+        waiting_depot: nil,
         annual_fee: nil)
 
       expect { member.validate!(admin) }.to change(member, :state).to('inactive')

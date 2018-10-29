@@ -188,7 +188,7 @@ _:
         description:
           _de: Tasche
           _fr: Panier
-        distribution_price:
+        depot_price:
           _de: Preis Lieferung
           _fr: Prix dépôt
       basket_complement:
@@ -211,7 +211,7 @@ _:
         content:
           _de: Inhalt
           _fr: Contenu
-        distributions:
+        depots:
           _de: Depots
           _fr: Dépôts
         loses:
@@ -247,7 +247,7 @@ _:
         signature_sheets:
           _de: Unterschriftszettel
           _fr: Fiches Signature
-      distribution:
+      depot:
         address_name:
           _de: Name
           _fr: Nom
@@ -390,7 +390,7 @@ _:
         delivery_zip:
           _de: PLZ (Lieferung)
           _fr: NPA (Livraison)
-        distribution:
+        depot:
           _de: Depot
           _fr: Dépôt
         food_note:
@@ -426,7 +426,7 @@ _:
         waiting_basket_size:
           _de: Taschengrösse Warteliste
           _fr: Taille panier en attente
-        waiting_distribution:
+        waiting_depot:
           _de: Depot Warteliste
           _fr: Dépôt en attente
         waiting_started_at:
@@ -478,16 +478,16 @@ _:
         deliveries_received_count:
           _de: Gelieferte Taschen
           _fr: Paniers livrés
-        distribution:
+        depot:
           _de: Depot
           _fr: Dépôt
-        distribution_id:
+        depot_id:
           _de: Depot
           _fr: Dépôt
-        distribution_price:
+        depot_price:
           _de: Preis Lieferung
           _fr: Prix dépôt
-        distributions_price:
+        depots_price:
           _de: Preis Lieferungen
           _fr: Prix dépôts
         ended_on:
@@ -670,7 +670,7 @@ _:
         other:
           _de: Lieferungen
           _fr: Livraisons
-      distribution:
+      depot:
         one:
           _de: Depot
           _fr: Dépôt

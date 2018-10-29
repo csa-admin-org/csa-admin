@@ -66,15 +66,15 @@ describe Membership do
 
   it 'creates baskets on creation' do
     basket_size = create(:basket_size)
-    distribution = create(:distribution)
+    depot = create(:depot)
 
     membership = create(:membership,
       basket_size_id: basket_size.id,
-      distribution_id: distribution.id)
+      depot_id: depot.id)
 
     expect(membership.baskets.count).to eq(40)
     expect(membership.baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
-    expect(membership.baskets.pluck(:distribution_id).uniq).to eq [distribution.id]
+    expect(membership.baskets.pluck(:depot_id).uniq).to eq [depot.id]
   end
 
   it 'creates baskets with complements on creation' do
@@ -83,11 +83,11 @@ describe Membership do
     delivery = create(:delivery, basket_complement_ids: [1, 2])
 
     basket_size = create(:basket_size)
-    distribution = create(:distribution)
+    depot = create(:depot)
 
     membership = create(:membership,
       basket_size_id: basket_size.id,
-      distribution_id: distribution.id,
+      depot_id: depot.id,
       memberships_basket_complements_attributes: {
         '0' => { basket_complement_id: 1, price: '', quantity: 1 },
         '1' => { basket_complement_id: 2, price: '4.4', quantity: 2 }
@@ -136,18 +136,18 @@ describe Membership do
     expect(membership.reload.baskets_count).to eq(40)
     new_first_basket = membership.reload.baskets.first
     expect(new_first_basket.basket_size).to eq membership.basket_size
-    expect(new_first_basket.distribution).to eq membership.distribution
+    expect(new_first_basket.depot).to eq membership.depot
     new_last_basket = membership.reload.baskets.last
     expect(new_last_basket.basket_size).to eq membership.basket_size
-    expect(new_last_basket.distribution).to eq membership.distribution
+    expect(new_last_basket.depot).to eq membership.depot
   end
 
-  it 're-creates future baskets/distribution' do
+  it 're-creates future baskets/depot' do
     membership = create(:membership)
     basket_size = membership.basket_size
-    distribution = membership.distribution
+    depot = membership.depot
     new_basket_size = create(:basket_size)
-    new_distribution = create(:distribution)
+    new_depot = create(:depot)
 
     expect(membership.baskets_count).to eq(40)
     beginning_of_year = Time.current.beginning_of_year
@@ -157,7 +157,7 @@ describe Membership do
     Timecop.travel(middle_of_year) do
       membership.update!(
         basket_size_id: new_basket_size.id,
-        distribution_id: new_distribution.id)
+        depot_id: new_depot.id)
     end
 
     expect(membership.baskets_count).to eq(40)
@@ -165,10 +165,10 @@ describe Membership do
       .to eq [basket_size.id]
     expect(membership.baskets.between(middle_of_year..end_of_year).pluck(:basket_size_id).uniq)
       .to eq [new_basket_size.id]
-    expect(membership.baskets.between(beginning_of_year..middle_of_year).pluck(:distribution_id).uniq)
-      .to eq [distribution.id]
-    expect(membership.baskets.between(middle_of_year..end_of_year).pluck(:distribution_id).uniq)
-      .to eq [new_distribution.id]
+    expect(membership.baskets.between(beginning_of_year..middle_of_year).pluck(:depot_id).uniq)
+      .to eq [depot.id]
+    expect(membership.baskets.between(middle_of_year..end_of_year).pluck(:depot_id).uniq)
+      .to eq [new_depot.id]
   end
 
   specify 'with standard basket_size' do
@@ -176,63 +176,63 @@ describe Membership do
       basket_size_id: create(:basket_size, price: 23.125).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to be_zero
+    expect(membership.depots_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price).to eq membership.basket_sizes_price
   end
 
-  specify 'with paid distribution' do
+  specify 'with paid depot' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
-      distribution_id: create(:distribution, price: 2).id)
+      depot_id: create(:depot, price: 2).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.depots_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
-      .to eq membership.basket_sizes_price + membership.distributions_price
+      .to eq membership.basket_sizes_price + membership.depots_price
   end
 
-  specify 'with paid distribution' do
+  specify 'with paid depot' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
-      distribution_id: create(:distribution, price: 2).id)
+      depot_id: create(:depot, price: 2).id)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.depots_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
-      .to eq membership.basket_sizes_price + membership.distributions_price
+      .to eq membership.basket_sizes_price + membership.depots_price
   end
 
   specify 'with custom prices and quantity' do
     membership = create(:membership,
-      distribution_price: 3.2,
+      depot_price: 3.2,
       basket_price: 42,
       basket_quantity: 3)
 
     expect(membership.basket_sizes_price).to eq 40 * 3 * 42
-    expect(membership.distributions_price).to eq 40 * 3 * 3.2
+    expect(membership.depots_price).to eq 40 * 3 * 3.2
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
-      .to eq membership.basket_sizes_price + membership.distributions_price
+      .to eq membership.basket_sizes_price + membership.depots_price
   end
 
   specify 'with baskets_annual_price_change price' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
-      distribution_id: create(:distribution, price: 2).id,
+      depot_id: create(:depot, price: 2).id,
       baskets_annual_price_change: -111)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.depots_price).to eq 40 * 2
     expect(membership.baskets_annual_price_change).to eq(-111)
     expect(membership.price)
-      .to eq(membership.basket_sizes_price + membership.distributions_price - 111)
+      .to eq(membership.basket_sizes_price + membership.depots_price - 111)
   end
 
   specify 'with basket complements' do
@@ -248,7 +248,7 @@ describe Membership do
     membership.baskets.third.update!(complement_ids: [2])
 
     expect(membership.basket_sizes_price).to eq 40 * 31
-    expect(membership.distributions_price).to be_zero
+    expect(membership.depots_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
     expect(membership.price)
@@ -271,7 +271,7 @@ describe Membership do
     membership.baskets.third.update!(complement_ids: [2])
 
     expect(membership.basket_sizes_price).to eq 40 * 31
-    expect(membership.distributions_price).to be_zero
+    expect(membership.depots_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to eq 1 * 100 + 2 * 3.3 + 3 * 4
     expect(membership.price)
@@ -292,7 +292,7 @@ describe Membership do
     membership.baskets.third.update!(complement_ids: [2])
 
     expect(membership.basket_sizes_price).to eq 40 * 31
-    expect(membership.distributions_price).to be_zero
+    expect(membership.depots_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
     expect(membership.price)
@@ -302,14 +302,14 @@ describe Membership do
   specify 'with halfday_works_annual_price price' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
-      distribution_id: create(:distribution, price: 2).id,
+      depot_id: create(:depot, price: 2).id,
       halfday_works_annual_price: -200)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
-    expect(membership.distributions_price).to eq 40 * 2
+    expect(membership.depots_price).to eq 40 * 2
     expect(membership.halfday_works_annual_price).to eq(-200)
     expect(membership.price)
-      .to eq(membership.basket_sizes_price + membership.distributions_price - 200)
+      .to eq(membership.basket_sizes_price + membership.depots_price - 200)
   end
 
   specify 'with only one season' do
@@ -329,7 +329,7 @@ describe Membership do
     membership = create(:membership,
       member: create(:member, salary_basket: true))
     expect(membership.basket_sizes_price).to be_zero
-    expect(membership.distributions_price).to be_zero
+    expect(membership.depots_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.price).to be_zero
   end
@@ -500,7 +500,7 @@ describe Membership do
     expect { create(:membership, member: member) }
      .to change { member.waiting_started_at }.to(nil)
      .and change { member.waiting_basket_size_id }.to(nil)
-     .and change { member.waiting_distribution_id }.to(nil)
+     .and change { member.waiting_depot_id }.to(nil)
      .and change { member.waiting_basket_complement_ids }.to([])
   end
 

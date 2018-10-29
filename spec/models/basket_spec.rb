@@ -4,10 +4,10 @@ describe Basket do
   it 'sets prices on creation' do
     basket = create(:basket,
       basket_size: create(:basket_size, price: 30),
-      distribution: create(:distribution, price: 5))
+      depot: create(:depot, price: 5))
 
     expect(basket.basket_price).to eq 30
-    expect(basket.distribution_price).to eq 5
+    expect(basket.depot_price).to eq 5
   end
 
   it 'validates basket_complement_id uniqueness' do

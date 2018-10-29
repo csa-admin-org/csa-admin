@@ -59,7 +59,7 @@ _:
       basket_size:
         _de: Tasche %{name}
         _fr: Panier %{name}
-      distribution:
+      depot:
         _de: Depot
         _fr: Dépôt
       halfday/basket_preparation:

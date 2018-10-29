@@ -2,7 +2,7 @@ module Stats
   TYPES = %i[
     members
     baskets
-    distributions
+    depots
     halfdays
   ].freeze
 

@@ -346,7 +346,7 @@ _:
           _de: Alle vier Wochen
           _fr: Toutes les quatre semaines
       edit:
-        basket_and_distribution:
+        basket_and_depot:
           _de: Tasche und Depot
           _fr: Panier et dépôt
         billing:
@@ -380,7 +380,7 @@ _:
           _de: Jahreszeiten (Sommer / Winter)
           _fr: Saisons (été / hiver)
       new:
-        basket_and_distribution:
+        basket_and_depot:
           _de: Tasche und Depot
           _fr: Panier et dépôt
         details:
@@ -511,7 +511,7 @@ _:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
-      distribution:
+      depot:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}

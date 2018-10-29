@@ -4,7 +4,7 @@ class BasketContent < ApplicationRecord
 
   belongs_to :delivery
   belongs_to :vegetable
-  has_and_belongs_to_many :distributions
+  has_and_belongs_to_many :depots
 
   scope :basket_size_eq, ->(type) {
     case type
@@ -14,7 +14,7 @@ class BasketContent < ApplicationRecord
   }
 
   validates :quantity, presence: true
-  validates :basket_sizes, :distributions, presence: true
+  validates :basket_sizes, :depots, presence: true
   validates :unit, inclusion: { in: UNITS }
   validates :vegetable_id, uniqueness: { scope: :delivery_id }
 
@@ -62,7 +62,7 @@ class BasketContent < ApplicationRecord
 
     self.small_baskets_count = 0
     self.big_baskets_count = 0
-    baskets = delivery.baskets.not_absent.where(distribution_id: distribution_ids)
+    baskets = delivery.baskets.not_absent.where(depot_id: depot_ids)
     if basket_sizes.include?('small')
       self.small_baskets_count += baskets.where(basket_size_id: small_basket.id).count
     end

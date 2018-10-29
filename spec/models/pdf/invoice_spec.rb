@@ -52,7 +52,7 @@ describe PDF::Invoice do
     it 'generates invoice with annual_fee amount + annual membership' do
       membership = create(:membership,
         basket_size: create(:basket_size, :big),
-        distribution: create(:distribution, price: 0))
+        depot: create(:depot, price: 0))
       invoice = create(:invoice,
         id: 4,
         object: membership,
@@ -74,7 +74,7 @@ describe PDF::Invoice do
     it 'generates invoice with support ammount + annual membership + halfday_works reduc' do
       membership = create(:membership,
         basket_size: create(:basket_size, :big),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         annual_halfday_works: 8,
         halfday_works_annual_price: -330.50)
       invoice = create(:invoice,
@@ -101,7 +101,7 @@ describe PDF::Invoice do
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :small, price: '23.125'),
-        distribution: create(:distribution, name: 'La Chaux-de-Fonds', price: 4))
+        depot: create(:depot, name: 'La Chaux-de-Fonds', price: 4))
       invoice =  create(:invoice,
         id: 8,
         member: member,
@@ -128,7 +128,7 @@ describe PDF::Invoice do
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),
-        distribution: create(:distribution, price: 0))
+        depot: create(:depot, price: 0))
       create(:invoice,
         date: Time.current.beginning_of_year,
         member: member,
@@ -245,7 +245,7 @@ describe PDF::Invoice do
         delivery_ids: Delivery.current_year.pluck(:id)[24..48])
       membership = create(:membership,
         basket_size: create(:basket_size, name: 'Grand'),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         basket_price: 30.5,
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 },
@@ -291,7 +291,7 @@ describe PDF::Invoice do
         delivery_ids: Delivery.current_year.pluck(:id)[24..48])
       membership = create(:membership,
         basket_size: create(:basket_size, name: 'Grand'),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         basket_price: 30.5,
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1, quantity: 2 },
@@ -327,7 +327,7 @@ describe PDF::Invoice do
         city: 'Vevey')
       membership = create(:membership,
         basket_size: create(:basket_size, name: 'Grand'),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         basket_price: 30.5,
         seasons: %w[winter])
       create(:invoice,
@@ -372,7 +372,7 @@ describe PDF::Invoice do
         delivery_ids: Delivery.current_year.pluck(:id)[0..23])
       membership = create(:membership,
         basket_size: create(:basket_size, name: 'Petit'),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         basket_price: 21,
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 }
@@ -429,7 +429,7 @@ describe PDF::Invoice do
       membership = create(:membership,
         started_on: Current.fy_range.min + 5.months,
         basket_size: create(:basket_size, name: 'Grand'),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         basket_price: 30.5,
         baskets_annual_price_change: -44,
         memberships_basket_complements_attributes: {
@@ -473,7 +473,7 @@ describe PDF::Invoice do
       membership = create(:membership,
         started_on: Current.fy_range.min + 5.months,
         basket_size: create(:basket_size, name: 'Grand'),
-        distribution: create(:distribution, price: 0),
+        depot: create(:depot, price: 0),
         basket_price: 30.5,
         basket_complements_annual_price_change: -14.15,
         memberships_basket_complements_attributes: {

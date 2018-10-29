@@ -4,8 +4,8 @@ document.addEventListener('turbolinks:load', () => {
   live("#member_waiting_basket_size_input input[type='radio']", 'change', event => {
     const complements = '#member_waiting_basket_complement_ids_input';
     const complementsCheckboxes = `${complements} input[type='checkbox']`;
-    const distributions = '#member_waiting_distribution_input';
-    const distributionsRadios = `${distributions} input[type='radio']`;
+    const depots = '#member_waiting_depot_input';
+    const depotsRadios = `${depots} input[type='radio']`;
     const billingYearDivision = '#member_billing_year_division_input';
     const billingYearDivisionRadios = `${billingYearDivision} input[type='radio']`;
     const billingYearDivision1 = '#member_billing_year_division_1';
@@ -16,9 +16,9 @@ document.addEventListener('turbolinks:load', () => {
       checked(complementsCheckboxes, false);
       prop(complementsCheckboxes, 'disabled', true);
 
-      addClass(distributions, 'disabled');
-      checked(distributionsRadios, false);
-      prop(distributionsRadios, 'disabled', true);
+      addClass(depots, 'disabled');
+      checked(depotsRadios, false);
+      prop(depotsRadios, 'disabled', true);
 
       addClass(billingYearDivision, 'disabled');
       checked(billingYearDivisionRadios, false);
@@ -31,8 +31,8 @@ document.addEventListener('turbolinks:load', () => {
       removeClass(complements, 'disabled');
       prop(complementsCheckboxes, 'disabled', false);
 
-      removeClass(distributions, 'disabled');
-      prop(distributionsRadios, 'disabled', false);
+      removeClass(depots, 'disabled');
+      prop(depotsRadios, 'disabled', false);
 
       removeClass(billingYearDivision, 'disabled');
       prop(billingYearDivisionRadios, 'disabled', false);

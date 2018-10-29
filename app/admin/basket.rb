@@ -7,8 +7,8 @@ ActiveAdmin.register Basket do
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true, required: false
       f.input :quantity
-      f.input :distribution, prompt: true, input_html: { class: 'js-reset_price' }
-      f.input :distribution_price, hint: true, required: false
+      f.input :depot, prompt: true, input_html: { class: 'js-reset_price' }
+      f.input :depot_price, hint: true, required: false
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
           ff.input :basket_complement,
@@ -28,7 +28,7 @@ ActiveAdmin.register Basket do
 
   permit_params \
    :basket_size_id, :basket_price, :quantity,
-   :distribution_id, :distribution_price,
+   :depot_id, :depot_price,
    baskets_basket_complements_attributes: [
     :id, :basket_complement_id,
     :price, :quantity,

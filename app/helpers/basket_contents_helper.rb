@@ -24,16 +24,16 @@ module BasketContentsHelper
     end
   end
 
-  def display_distributions(basket_content)
-    all_distributions = Distribution.all
-    distributions = basket_content.distributions
-    if distributions.size == all_distributions.size
+  def display_depots(basket_content)
+    all_depots = Depot.all
+    depots = basket_content.depots
+    if depots.size == all_depots.size
       'Tous'
-    elsif all_distributions.size - distributions.size < 3
-      missing = all_distributions - distributions
+    elsif all_depots.size - depots.size < 3
+      missing = all_depots - depots
       "Tous, sauf #{missing.map(&:name).join(' et ')}"
     else
-      distributions.map(&:name).join(', ')
+      depots.map(&:name).join(', ')
     end
   end
 

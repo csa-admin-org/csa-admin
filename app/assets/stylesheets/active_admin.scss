@@ -174,7 +174,7 @@ table#index_table_payments {
   }
 }
 
-table#index_table_distributions,
+table#index_table_depots,
 table#index_table_payments {
   .col-actions {
     padding: 0 5px;
@@ -211,7 +211,7 @@ table.table-baskets {
     width: 180px;
   }
 
-  .col-distribution {
+  .col-depot {
     padding-left: 20px;
   }
 

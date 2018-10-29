@@ -10,7 +10,7 @@ Les ACP suivantes l'utilisent:
 Les fonctions prisent en charge sont, entre autres:
 
 * Gestion des membres
-* Gestion des abonnements (type de panier, lieu de distribution/dépôt, quantité, ...)
+* Gestion des abonnements (type de panier, lieu de dépôt, quantité, ...)
 * Gestion des compléments des paniers (fréquence de livraison, quantité, ...)
 * Gestion du contenu des paniers (calcul des quantités en fonction des récoltes)
 * Gestion de la facturation de manière automatique (création et envoi des factures avec numéro de référence (BVR), relevés des versements Raiffeisen et BAS, envoi des rappels, ...)
