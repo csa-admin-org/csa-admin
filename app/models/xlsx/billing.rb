@@ -37,9 +37,9 @@ module XLSX
         add_empty_line
       end
 
-      Distribution.paid.each do |distribution|
-        total = @memberships.sum { |m| m.distribution_total_price(distribution.id) }
-        add_line("#{Distribution.model_name.human}: #{distribution.name}", total, distribution.price)
+      Depot.paid.each do |depot|
+        total = @memberships.sum { |m| m.depot_total_price(depot.id) }
+        add_line("#{Depot.model_name.human}: #{depot.name}", total, depot.price)
       end
       add_empty_line
 

@@ -1,4 +1,4 @@
-class Distribution < ActiveRecord::Base
+class Depot < ActiveRecord::Base
   include HasEmails
   include HasPhones
   include HasLanguage

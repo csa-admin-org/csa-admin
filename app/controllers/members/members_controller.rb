@@ -40,7 +40,7 @@ class Members::MembersController < Members::BaseController
       .permit(
         :name, :address, :zip, :city,
         :emails, :phones,
-        :waiting_basket_size_id, :waiting_distribution_id,
+        :waiting_basket_size_id, :waiting_depot_id,
         :billing_year_division,
         :profession, :come_from, :note,
         :terms_of_service,

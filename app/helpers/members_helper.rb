@@ -51,8 +51,8 @@ module MembersHelper
     }
   end
 
-  def distributions_collection
-    Distribution.visible.reorder('price, name').map { |d|
+  def depots_collection
+    Depot.visible.reorder('price, name').map { |d|
       details = [d.address, "#{d.zip} #{d.city}".presence].compact.join(', ') if d.address?
       if details && details != d.address
         details += map_icon(details).html_safe

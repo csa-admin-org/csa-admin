@@ -27,7 +27,7 @@ FactoryBot.define do
     quantity { 10 }
     unit { 'kilogramme' }
     basket_sizes { BasketContent::SIZES }
-    distributions { [create(:distribution)] }
+    depots { [create(:depot)] }
   end
 
   factory :vegetable do
@@ -68,14 +68,14 @@ FactoryBot.define do
       validated_at { nil }
       validator { nil }
       waiting_basket_size { create(:basket_size) }
-      waiting_distribution { create(:distribution) }
+      waiting_depot { create(:depot) }
     end
 
     trait :waiting do
       state { 'waiting' }
       waiting_started_at { Time.current }
       waiting_basket_size { create(:basket_size) }
-      waiting_distribution { create(:distribution) }
+      waiting_depot { create(:depot) }
     end
 
     trait :trial do
@@ -131,7 +131,7 @@ FactoryBot.define do
   factory :membership do
     member
     basket_size { BasketSize.first || create(:basket_size) }
-    distribution { Distribution.first || create(:distribution) }
+    depot { Depot.first || create(:depot) }
     started_on { Current.fy_range.min }
     ended_on { Current.fy_range.max }
 
@@ -155,7 +155,7 @@ FactoryBot.define do
     membership
     delivery
     basket_size
-    distribution
+    depot
   end
 
   factory :basket_size do
@@ -190,7 +190,7 @@ FactoryBot.define do
     delivery_ids { Delivery.current_year.limit(deliveries_count).pluck(:id) }
   end
 
-  factory :distribution do
+  factory :depot do
     name { Faker::Name.name }
     address { Faker::Address.street_address }
     city { Faker::Address.city }

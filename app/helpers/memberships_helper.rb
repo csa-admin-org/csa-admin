@@ -93,9 +93,9 @@ module MembershipsHelper
     end
   end
 
-  def distributions_price_info(baskets)
+  def depots_price_info(baskets)
     baskets
-      .pluck(:quantity, :distribution_price)
+      .pluck(:quantity, :depot_price)
       .select { |_, p| p.positive? }
       .group_by { |_, p| p }
       .sort

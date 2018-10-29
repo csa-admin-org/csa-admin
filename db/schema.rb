@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_19_185941) do
+ActiveRecord::Schema.define(version: 2018_10_28_123926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -160,12 +160,12 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.index ["vegetable_id"], name: "index_basket_contents_on_vegetable_id"
   end
 
-  create_table "basket_contents_distributions", id: false, force: :cascade do |t|
+  create_table "basket_contents_depots", id: false, force: :cascade do |t|
     t.integer "basket_content_id", null: false
-    t.integer "distribution_id", null: false
-    t.index ["basket_content_id", "distribution_id"], name: "index_basket_contents_distributions_unique", unique: true
-    t.index ["basket_content_id"], name: "index_basket_contents_distributions_on_basket_content_id"
-    t.index ["distribution_id"], name: "index_basket_contents_distributions_on_distribution_id"
+    t.integer "depot_id", null: false
+    t.index ["basket_content_id", "depot_id"], name: "index_basket_contents_depots_unique", unique: true
+    t.index ["basket_content_id"], name: "index_basket_contents_depots_on_basket_content_id"
+    t.index ["depot_id"], name: "index_basket_contents_depots_on_depot_id"
   end
 
   create_table "basket_sizes", id: :serial, force: :cascade do |t|
@@ -181,9 +181,9 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.bigint "membership_id", null: false
     t.bigint "delivery_id", null: false
     t.bigint "basket_size_id", null: false
-    t.bigint "distribution_id", null: false
+    t.bigint "depot_id", null: false
     t.decimal "basket_price", precision: 8, scale: 3, null: false
-    t.decimal "distribution_price", precision: 8, scale: 2, null: false
+    t.decimal "depot_price", precision: 8, scale: 2, null: false
     t.boolean "trial", default: false, null: false
     t.boolean "absent", default: false, null: false
     t.datetime "created_at", null: false
@@ -192,7 +192,7 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.integer "quantity", default: 1, null: false
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
-    t.index ["distribution_id"], name: "index_baskets_on_distribution_id"
+    t.index ["depot_id"], name: "index_baskets_on_depot_id"
     t.index ["membership_id", "delivery_id"], name: "index_baskets_on_membership_id_and_delivery_id", unique: true
     t.index ["membership_id"], name: "index_baskets_on_membership_id"
   end
@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.index ["date"], name: "index_deliveries_on_date"
   end
 
-  create_table "distributions", id: :serial, force: :cascade do |t|
+  create_table "depots", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
     t.string "address", limit: 255
     t.string "zip", limit: 255
@@ -231,8 +231,8 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.text "note"
     t.string "language", default: "fr", null: false
     t.boolean "visible", default: true, null: false
-    t.index ["responsible_member_id"], name: "index_distributions_on_responsible_member_id"
-    t.index ["visible"], name: "index_distributions_on_visible"
+    t.index ["responsible_member_id"], name: "index_depots_on_responsible_member_id"
+    t.index ["visible"], name: "index_depots_on_visible"
   end
 
   create_table "gribouilles", id: :serial, force: :cascade do |t|
@@ -332,7 +332,7 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.datetime "validated_at"
     t.boolean "newsletter"
     t.integer "waiting_basket_size_id"
-    t.integer "waiting_distribution_id"
+    t.integer "waiting_depot_id"
     t.boolean "salary_basket", default: false
     t.string "delivery_address", limit: 255
     t.string "delivery_zip", limit: 255
@@ -349,7 +349,7 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
-    t.index ["waiting_distribution_id"], name: "index_members_on_waiting_distribution_id"
+    t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
     t.index ["welcome_email_sent_at"], name: "index_members_on_welcome_email_sent_at"
   end
@@ -368,10 +368,10 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.integer "recognized_halfday_works", default: 0, null: false
     t.boolean "renew", default: false, null: false
     t.bigint "basket_size_id", null: false
-    t.bigint "distribution_id", null: false
+    t.bigint "depot_id", null: false
     t.integer "basket_quantity", default: 1, null: false
     t.decimal "basket_price", precision: 8, scale: 3, null: false
-    t.decimal "distribution_price", precision: 8, scale: 3, null: false
+    t.decimal "depot_price", precision: 8, scale: 3, null: false
     t.string "seasons", default: ["summer", "winter"], null: false, array: true
     t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
@@ -379,7 +379,7 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
     t.integer "remaning_trial_baskets_count", default: 0, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
-    t.index ["distribution_id"], name: "index_memberships_on_distribution_id"
+    t.index ["depot_id"], name: "index_memberships_on_depot_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"
     t.index ["started_on"], name: "index_memberships_on_started_on"
@@ -434,16 +434,18 @@ ActiveRecord::Schema.define(version: 2018_10_19_185941) do
 
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents", "vegetables"
-  add_foreign_key "basket_contents_distributions", "basket_contents"
-  add_foreign_key "basket_contents_distributions", "distributions"
+  add_foreign_key "basket_contents_depots", "basket_contents"
+  add_foreign_key "basket_contents_depots", "depots"
   add_foreign_key "baskets", "basket_sizes"
   add_foreign_key "baskets", "deliveries"
-  add_foreign_key "baskets", "distributions"
+  add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
-  add_foreign_key "distributions", "members", column: "responsible_member_id"
+  add_foreign_key "depots", "members", column: "responsible_member_id"
   add_foreign_key "halfday_participations", "admins", column: "validator_id"
   add_foreign_key "halfday_participations", "halfdays"
   add_foreign_key "halfday_participations", "members"
+  add_foreign_key "members", "depots", column: "waiting_depot_id"
+  add_foreign_key "memberships", "depots"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
   add_foreign_key "sessions", "members"

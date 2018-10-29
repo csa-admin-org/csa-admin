@@ -7,11 +7,11 @@ class Membership < ActiveRecord::Base
 
   belongs_to :member, -> { with_deleted }
   belongs_to :basket_size
-  belongs_to :distribution
+  belongs_to :depot
   has_many :baskets, dependent: :destroy
   has_one :next_basket, -> { coming }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
-  has_many :distributions, -> { reorder(:name) }, through: :baskets
+  has_many :depots, -> { reorder(:name) }, through: :baskets
   has_many :basket_complements, -> { reorder_by_name }, source: :complements, through: :baskets
   has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
   has_many :memberships_basket_complements, dependent: :destroy
@@ -23,7 +23,7 @@ class Membership < ActiveRecord::Base
 
   before_validation do
     self.basket_price ||= basket_size&.price
-    self.distribution_price ||= distribution&.price
+    self.depot_price ||= depot&.price
     self.annual_halfday_works ||= basket_quantity * basket_size&.annual_halfday_works
   end
 
@@ -33,7 +33,7 @@ class Membership < ActiveRecord::Base
   validates :started_on, :ended_on, presence: true
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validate :good_period_range
@@ -151,15 +151,15 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def distributions_price
-    Distribution.pluck(:id).sum { |id| distribution_total_price(id) }
+  def depots_price
+    Depot.pluck(:id).sum { |id| depot_total_price(id) }
   end
 
-  def distribution_total_price(distribution_id)
+  def depot_total_price(depot_id)
     rounded_price(
       baskets
-        .where(distribution_id: distribution_id)
-        .sum('quantity * distribution_price'))
+        .where(depot_id: depot_id)
+        .sum('quantity * depot_price'))
   end
 
   def price
@@ -167,7 +167,7 @@ class Membership < ActiveRecord::Base
       baskets_annual_price_change +
       basket_complements_price +
       basket_complements_annual_price_change +
-      distributions_price +
+      depots_price +
       halfday_works_annual_price
   end
 
@@ -185,7 +185,7 @@ class Membership < ActiveRecord::Base
     Membership.create!(
       member: member,
       basket_size_id: last_basket.basket_size_id,
-      distribution_id: last_basket.distribution_id,
+      depot_id: last_basket.depot_id,
       started_on: next_fy.beginning_of_year,
       ended_on: next_fy.end_of_year)
   end
@@ -195,9 +195,9 @@ class Membership < ActiveRecord::Base
     @basket_size ||= BasketSize.find(basket_size_id)
   end
 
-  def distribution
-    return unless distribution_id
-    @distribution ||= Distribution.find(distribution_id)
+  def depot
+    return unless depot_id
+    @depot ||= Depot.find(depot_id)
   end
 
   def missing_halfday_works
@@ -271,7 +271,7 @@ class Membership < ActiveRecord::Base
   def handle_subscription_change!
     tracked_attributes = %w[
       basket_size_id basket_price basket_quantity
-      distribution_id distribution_price
+      depot_id depot_price
       seasons
     ]
     if (saved_changes.keys & tracked_attributes).any? || memberships_basket_complements_changed?
@@ -299,15 +299,15 @@ class Membership < ActiveRecord::Base
       basket_size_id: basket_size_id,
       basket_price: basket_price,
       quantity: season_quantity(delivery),
-      distribution_id: distribution_id,
-      distribution_price: distribution_price)
+      depot_id: depot_id,
+      depot_price: depot_price)
   end
 
   def clear_member_waiting_info!
     member.update!(
       waiting_started_at: nil,
       waiting_basket_size: nil,
-      waiting_distribution: nil,
+      waiting_depot: nil,
       waiting_basket_complement_ids: nil)
   end
 

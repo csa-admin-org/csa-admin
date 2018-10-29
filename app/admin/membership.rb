@@ -15,7 +15,7 @@ ActiveAdmin.register Membership do
     as: :select,
     collection: -> { BasketComplement.all },
     if: :any_basket_complements?
-  filter :distribution, as: :select, collection: -> { Distribution.all }
+  filter :depot, as: :select, collection: -> { Depot.all }
   filter :renew
   filter :started_on
   filter :ended_on
@@ -46,7 +46,7 @@ ActiveAdmin.register Membership do
           text_only: true)
       }
     end
-    column(:distribution) { |m| m.distribution&.name }
+    column(:depot) { |m| m.depot&.name }
     column(halfday_scoped_attribute(:halfday_works), &:halfday_works)
     column(halfday_scoped_attribute(:missing_halfday_works), &:missing_halfday_works)
     column(:started_on)
@@ -62,7 +62,7 @@ ActiveAdmin.register Membership do
           table_for(m.baskets.includes(
             :delivery,
             :basket_size,
-            :distribution,
+            :depot,
             :complements,
             baskets_basket_complements: :basket_complement
           ),
@@ -71,7 +71,7 @@ ActiveAdmin.register Membership do
           ) do
             column(:delivery) { |b| b.delivery.display_name(format: :number) }
             column(:description)
-            column(:distribution)
+            column(:depot)
             column(class: 'col-status') { |b|
               status_tag(:trial) if b.trial?
               status_tag(:absent) if b.absent?
@@ -94,7 +94,7 @@ ActiveAdmin.register Membership do
 
         attributes_table title: Membership.human_attribute_name(:description) do
           row(:basket_size) { basket_size_description(m) }
-          row :distribution
+          row :depot
           if BasketComplement.any?
             row(:memberships_basket_complements) {
               basket_complements_description(
@@ -184,8 +184,8 @@ ActiveAdmin.register Membership do
                 number_to_currency(m.basket_complements_annual_price_change)
               }
             end
-            row(:distributions_price) {
-              display_price_description(m.distributions_price, distributions_price_info(m.baskets))
+            row(:depots_price) {
+              display_price_description(m.depots_price, depots_price_info(m.baskets))
             }
             row(halfday_scoped_attribute(:halfday_works_annual_price)) { number_to_currency(m.halfday_works_annual_price) }
             row(:price) { number_to_currency(m.price) }
@@ -218,7 +218,7 @@ ActiveAdmin.register Membership do
       end
     end
 
-    f.inputs t('.basket_and_distribution') do
+    f.inputs t('.basket_and_depot') do
       unless resource.new_record?
         em t('.membership_edit_warning')
       end
@@ -226,8 +226,8 @@ ActiveAdmin.register Membership do
       f.input :basket_price, hint: true, required: false
       f.input :baskets_annual_price_change, hint: true
       f.input :basket_quantity
-      f.input :distribution, prompt: true, input_html: { class: 'js-reset_price' }
-      f.input :distribution_price, hint: true, required: false
+      f.input :depot, prompt: true, input_html: { class: 'js-reset_price' }
+      f.input :depot_price, hint: true, required: false
       if Current.acp.seasons?
         f.input :seasons,
           as: :check_boxes,
@@ -259,7 +259,7 @@ ActiveAdmin.register Membership do
   permit_params \
     :member_id,
     :basket_size_id, :basket_price, :basket_quantity, :baskets_annual_price_change,
-    :distribution_id, :distribution_price,
+    :depot_id, :depot_price,
     :started_on, :ended_on, :renew,
     :halfday_works_annual_price, :annual_halfday_works,
     :basket_complements_annual_price_change,
@@ -287,7 +287,7 @@ ActiveAdmin.register Membership do
   before_build do |membership|
     membership.member_id ||= params[:member_id]
     membership.basket_size_id ||= params[:basket_size_id]
-    membership.distribution_id ||= params[:distribution_id]
+    membership.depot_id ||= params[:depot_id]
     params[:subscribed_basket_complement_ids]&.each do |id|
       membership.memberships_basket_complements.build(basket_complement_id: id)
     end

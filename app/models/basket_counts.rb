@@ -1,13 +1,13 @@
 class BasketCounts
-  def initialize(delivery, distribution_ids = nil)
+  def initialize(delivery, depot_ids = nil)
     @delivery = delivery
     @basket_size_ids = BasketSize.pluck(:id)
-    @distribution_ids = distribution_ids || Distribution.pluck(:id)
+    @depot_ids = depot_ids || Depot.pluck(:id)
   end
 
   def all
-    @all ||= Distribution
-      .where(id: @distribution_ids)
+    @all ||= Depot
+      .where(id: @depot_ids)
       .select(:name, :id)
       .map { |dist| BasketCount.new(dist, @delivery.id, @basket_size_ids) }
       .select { |c| c.count.positive? }
@@ -31,18 +31,18 @@ class BasketCounts
   end
 
   class BasketCount
-    def initialize(distribution, delivery_id, basket_size_ids)
-      @distribution = distribution
+    def initialize(depot, delivery_id, basket_size_ids)
+      @depot = depot
       @basket_size_ids = basket_size_ids
-      @baskets = distribution.baskets.not_absent.where(delivery_id: delivery_id)
+      @baskets = depot.baskets.not_absent.where(delivery_id: delivery_id)
     end
 
     def title
-      @distribution.name
+      @depot.name
     end
 
-    def distribution_id
-      @distribution.id
+    def depot_id
+      @depot.id
     end
 
     def count

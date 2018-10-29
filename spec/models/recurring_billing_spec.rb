@@ -121,7 +121,7 @@ describe RecurringBilling do
         membership.update!(
           basket_quantity: 2,
           basket_price: 32,
-          distribution_price: 3,
+          depot_price: 3,
           memberships_basket_complements_attributes: {
             '0' => { basket_complement_id: 1, price: '', quantity: 1 },
             '1' => { basket_complement_id: 2, price: '', quantity: 2 }
@@ -164,7 +164,7 @@ describe RecurringBilling do
     specify 'when already billed, but with a membership change' do
       create_invoice(member)
       Timecop.travel(1.month.from_now) {
-        membership.update!(distribution_price: 2)
+        membership.update!(depot_price: 2)
       }
       invoice = create_invoice(member)
 
@@ -289,7 +289,7 @@ describe RecurringBilling do
       Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
       Timecop.travel(Date.new(Current.fy_year, 8))
       Timecop.travel(1.day.ago) { create_invoice(member) }
-      membership.update!(distribution_price: 2)
+      membership.update!(depot_price: 2)
 
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
@@ -325,7 +325,7 @@ describe RecurringBilling do
       Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice(member) }
       Timecop.travel(Date.new(Current.fy_year, 11))
       Timecop.travel(1.day.ago) { create_invoice(member) }
-      membership.baskets.last.update!(distribution_price: 2)
+      membership.baskets.last.update!(depot_price: 2)
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership

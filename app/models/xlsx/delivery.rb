@@ -2,18 +2,18 @@ module XLSX
   class Delivery < Base
     include ActionView::Helpers::TextHelper
 
-    def initialize(delivery, distribution = nil)
+    def initialize(delivery, depot = nil)
       @delivery = delivery
-      @distribution = distribution
+      @depot = depot
       @baskets = @delivery.baskets.not_absent
-      @distributions = Distribution.where id: @baskets.pluck(:distribution_id).uniq
+      @depots = Depot.where id: @baskets.pluck(:depot_id).uniq
       @basket_complements = BasketComplement.all
       @basket_sizes = BasketSize.all
 
-      build_recap_worksheet('Récapitulatif') unless @distribution
+      build_recap_worksheet('Récapitulatif') unless @depot
 
-      Array(@distribution || @distributions).each do |dist|
-        build_distribution_worksheet(dist)
+      Array(@depot || @depots).each do |dist|
+        build_depot_worksheet(dist)
       end
     end
 
@@ -38,17 +38,17 @@ module XLSX
       end
       add_header(*cols)
 
-      @distributions.each do |distribution|
-        add_baskets_line(distribution.name, @baskets.where(distribution_id: distribution.id))
+      @depots.each do |depot|
+        add_baskets_line(depot.name, @baskets.where(depot_id: depot.id))
       end
       add_empty_line
 
-      if free_distributions = @distributions.free
-        free_name = free_distributions.pluck(:name).to_sentence
-        free_ids = free_distributions.pluck(:id)
-        add_baskets_line("Paniers: #{free_name}", @baskets.where(distribution_id: free_ids))
-        paid_ids = @distributions.paid.pluck(:id)
-        add_baskets_line("Paniers à préparer", @baskets.where(distribution_id: paid_ids))
+      if free_depots = @depots.free
+        free_name = free_depots.pluck(:name).to_sentence
+        free_ids = free_depots.pluck(:id)
+        add_baskets_line("Paniers: #{free_name}", @baskets.where(depot_id: free_ids))
+        paid_ids = @depots.paid.pluck(:id)
+        add_baskets_line("Paniers à préparer", @baskets.where(depot_id: paid_ids))
         add_empty_line
       end
 
@@ -90,10 +90,10 @@ module XLSX
       @line += 1
     end
 
-    def build_distribution_worksheet(distribution)
-      baskets = @baskets.where(distribution_id: distribution.id)
+    def build_depot_worksheet(depot)
+      baskets = @baskets.where(depot_id: depot.id)
       basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).sum(:quantity) }
-      add_worksheet("#{distribution.name} (#{basket_counts.join('+')})")
+      add_worksheet("#{depot.name} (#{basket_counts.join('+')})")
 
       cols = %w[
         Nom

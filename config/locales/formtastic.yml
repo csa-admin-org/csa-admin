@@ -28,7 +28,7 @@ _:
         basket_price:
           _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
-        distribution_price:
+        depot_price:
           _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
       basket_complement:
@@ -43,7 +43,7 @@ _:
         basket_complements:
           _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert
           _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
-      distribution:
+      depot:
         emails:
           _de: Jede Emailadresse (durch ein Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
@@ -102,7 +102,7 @@ _:
         baskets_annual_price_change:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen
           _fr: Modifie le montant final, peu importe le nombre de paniers
-        distribution_price:
+        depot_price:
           _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
         halfday_works_annual_price:

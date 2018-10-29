@@ -64,7 +64,7 @@ ActiveAdmin.register Member do
     if BasketComplement.any?
       column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
     end
-    column(:waiting_distribution) { |m| m.waiting_distribution&.name }
+    column(:waiting_depot) { |m| m.waiting_depot&.name }
     column(:food_note)
     column(:note)
     column(:validated_at)
@@ -170,7 +170,7 @@ ActiveAdmin.register Member do
                 member.waiting_basket_complements.map(&:name).to_sentence
               }
             end
-            row(:distribution) { member.waiting_distribution&.name }
+            row(:depot) { member.waiting_depot&.name }
           end
         end
         attributes_table title: Member.human_attribute_name(:address) do
@@ -232,7 +232,7 @@ ActiveAdmin.register Member do
             as: :check_boxes,
             collection: BasketComplement.all
         end
-        f.input :waiting_distribution, label: Distribution.model_name.human
+        f.input :waiting_depot, label: Depot.model_name.human
       end
     end
     f.inputs Member.human_attribute_name(:address) do
@@ -275,7 +275,7 @@ ActiveAdmin.register Member do
     :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket, :billing_year_division,
-    :waiting, :waiting_basket_size_id, :waiting_distribution_id,
+    :waiting, :waiting_basket_size_id, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
 
@@ -294,7 +294,7 @@ ActiveAdmin.register Member do
       new_membership_path(
         member_id: resource.id,
         basket_size_id: resource.waiting_basket_size_id,
-        distribution_id: resource.waiting_distribution_id,
+        depot_id: resource.waiting_depot_id,
         subscribed_basket_complement_ids: resource.waiting_basket_complement_ids,
         started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max)
   end
@@ -333,7 +333,7 @@ ActiveAdmin.register Member do
       if request.format.csv?
         collection = collection.includes(
           :waiting_basket_size,
-          :waiting_distribution,
+          :waiting_depot,
           :waiting_basket_complements)
       end
       collection

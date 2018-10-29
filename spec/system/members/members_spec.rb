@@ -15,9 +15,9 @@ describe 'members page' do
       create(:basket_complement, name: 'Oeufs', price: 4.8, deliveries_count: 40)
       create(:basket_complement, name: 'Pain', price: 6.5, deliveries_count: 20)
 
-      create(:distribution, name: 'Jardin de la main', price: 0)
-      create(:distribution, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel')
-      create(:distribution, name: 'Domicile', visible: false)
+      create(:depot, name: 'Jardin de la main', price: 0)
+      create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel')
+      create(:depot, name: 'Domicile', visible: false)
 
       visit '/new'
 
@@ -59,7 +59,7 @@ describe 'members page' do
         come_from: 'Bouche à oreille',
         note: 'Vive Rage de Vert!')
       expect(member.waiting_basket_size.name).to eq 'Eveil'
-      expect(member.waiting_distribution.name).to eq 'Vélo'
+      expect(member.waiting_depot.name).to eq 'Vélo'
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
       expect(member.annual_fee).to eq Current.acp.annual_fee
       expect(member.billing_year_division).to eq 4
@@ -74,7 +74,7 @@ describe 'members page' do
       create(:basket_size, :small)
       create(:basket_size, :big)
 
-      create(:distribution, name: 'Jardin de la main', price: 0)
+      create(:depot, name: 'Jardin de la main', price: 0)
 
       visit '/new'
 
@@ -104,7 +104,7 @@ describe 'members page' do
         phones: '+41771424242, +41771434444',
         language: 'fr')
       expect(member.waiting_basket_size).to be_nil
-      expect(member.waiting_distribution).to be_nil
+      expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to eq Current.acp.annual_fee
       expect(member.billing_year_division).to eq 1
     end
@@ -120,7 +120,7 @@ describe 'members page' do
       create(:basket_size, :small)
       create(:basket_size, :big)
 
-      create(:distribution, name: 'Jardin de la main', price: 0)
+      create(:depot, name: 'Jardin de la main', price: 0)
 
       visit '/new'
 
@@ -152,7 +152,7 @@ describe 'members page' do
         phones: '+41771424242, +41771434444',
         language: 'fr')
       expect(member.waiting_basket_size).to be_nil
-      expect(member.waiting_distribution).to be_nil
+      expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to be_nil
       expect(member.billing_year_division).to eq 1
     end
@@ -168,7 +168,7 @@ describe 'members page' do
       member.current_year_membership.update!(
         annual_halfday_works: 3,
         basket_size: create(:basket_size, name: 'Petit'),
-        distribution: create(:distribution, name: 'Jardin de la main'),
+        depot: create(:depot, name: 'Jardin de la main'),
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 }
         })
@@ -186,14 +186,14 @@ describe 'members page' do
       member.current_year_membership.update!(
         annual_halfday_works: 3,
         basket_size: create(:basket_size, name: 'Petit'),
-        distribution: create(:distribution, name: 'Jardin de la main'),
+        depot: create(:depot, name: 'Jardin de la main'),
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 }
         })
       member.next_basket.update!(
         basket_size: create(:basket_size, name: 'Grand'),
         quantity: 2,
-        distribution: create(:distribution, name: 'Vélo'))
+        depot: create(:depot, name: 'Vélo'))
 
       visit '/'
 
@@ -213,7 +213,7 @@ describe 'members page' do
         ended_on: Date.current.end_of_year + 1.year,
         annual_halfday_works: 4,
         basket_size: create(:basket_size, name: 'Grand'),
-        distribution: create(:distribution, name: 'Vélo'),
+        depot: create(:depot, name: 'Vélo'),
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 }
         })

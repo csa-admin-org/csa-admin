@@ -48,19 +48,19 @@ ActiveAdmin.register_page 'Dashboard' do
             counts = next_delivery.basket_counts
             if counts.present?
               table_for counts.all do
-                column Distribution.model_name.human, :title
+                column Depot.model_name.human, :title
                 column Basket.model_name.human, :count, class: 'align-right'
                 column "#{BasketSize.all.map(&:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
-              if Distribution.paid.any?
-                free_distributions = Distribution.free
-                paid_distributions = Distribution.paid
-                free_counts = BasketCounts.new(next_delivery, free_distributions.pluck(:id))
-                paid_counts = BasketCounts.new(next_delivery, paid_distributions.pluck(:id))
+              if Depot.paid.any?
+                free_depots = Depot.free
+                paid_depots = Depot.paid
+                free_counts = BasketCounts.new(next_delivery, free_depots.pluck(:id))
+                paid_counts = BasketCounts.new(next_delivery, paid_depots.pluck(:id))
                 totals = [
                   OpenStruct.new(
-                    title: "#{Basket.model_name.human(count: 2)}: #{free_distributions.pluck(:name).to_sentence}",
+                    title: "#{Basket.model_name.human(count: 2)}: #{free_depots.pluck(:name).to_sentence}",
                     count: t('.total', number: free_counts.sum),
                     baskets_count: t('.totals', numbers: free_counts.sum_detail)),
                   OpenStruct.new(

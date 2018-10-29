@@ -15,8 +15,8 @@ class Ability
     if admin.right? 'admin'
       can :read, Admin
       can :manage, HalfdayPreset
-      can :create, [BasketComplement, Distribution, Member, Membership, Payment, Invoice] & available_models
-      can :update, [Distribution, Member] & available_models
+      can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
+      can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
       can :destroy, [Member, Membership, Payment], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
@@ -28,7 +28,7 @@ class Ability
       can :cancel, Invoice, can_cancel?: true
     end
     if admin.right? 'superadmin'
-      can :manage, [Basket, BasketSize, BasketComplement, Delivery, Distribution, Admin, ACP]
+      can :manage, [Basket, BasketSize, BasketComplement, Delivery, Depot, Admin, ACP]
       can :become, Member
     end
   end
@@ -42,7 +42,7 @@ class Ability
       ActiveAdmin::Page,
       ActiveAdmin::Comment,
       Delivery,
-      Distribution,
+      Depot,
       Halfday,
       HalfdayParticipation,
       Invoice,

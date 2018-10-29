@@ -95,11 +95,11 @@ module PDF
             cur(object.basket_complements_annual_price_change)
           ]
         end
-        object.distributions.uniq.each do |distribution|
-          price = object.distribution_total_price(distribution)
+        object.depots.uniq.each do |depot|
+          price = object.depot_total_price(depot)
           if price.positive?
             data << [
-              membership_distribution_description(distribution),
+              membership_depot_description(depot),
               cur(price)
             ]
           end
@@ -331,9 +331,9 @@ module PDF
       "#{basket_complement.name} #{basket_complement_price_info(object, basket_complement)}"
     end
 
-    def membership_distribution_description(distribution)
-      baskets = object.baskets.where(distribution: distribution)
-      "#{Distribution.model_name.human}: #{distribution.name} #{distributions_price_info(baskets)}"
+    def membership_depot_description(depot)
+      baskets = object.baskets.where(depot: depot)
+      "#{Depot.model_name.human}: #{depot.name} #{depots_price_info(baskets)}"
     end
 
     def halfday_works_annual_price_description

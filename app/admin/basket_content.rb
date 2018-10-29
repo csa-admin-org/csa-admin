@@ -2,7 +2,7 @@ ActiveAdmin.register BasketContent do
   menu priority: 5
   actions :all, except: [:show]
 
-  includes :delivery, :vegetable, :distributions
+  includes :delivery, :vegetable, :depots
   index do
     column :date, ->(bc) { bc.delivery.date.to_s }
     column :vegetable, ->(bc) { bc.vegetable.name }
@@ -10,7 +10,7 @@ ActiveAdmin.register BasketContent do
     column small_basket.name, ->(bc) { display_basket_quantity(bc, :small) }
     column big_basket.name, ->(bc) { display_basket_quantity(bc, :big) }
     column :loses, ->(bc) { display_lost_quantity(bc) }
-    column :distributions, ->(bc) { display_distributions(bc) }
+    column :depots, ->(bc) { display_depots(bc) }
     actions
   end
 
@@ -21,7 +21,7 @@ ActiveAdmin.register BasketContent do
     column(small_basket.name) { |bc| display_basket_quantity(bc, :small) }
     column(big_basket.name) { |bc| display_basket_quantity(bc, :big) }
     column(:loses) { |bc| display_lost_quantity(bc) }
-    column(:distributions) { |bc| display_distributions(bc) }
+    column(:depots) { |bc| display_depots(bc) }
   end
 
   form do |f|
@@ -51,9 +51,9 @@ ActiveAdmin.register BasketContent do
         as: :boolean,
         input_html: { disabled: !f.object.both_baskets? }
     end
-    f.inputs Distribution.model_name.human(count: 2) do
-      f.input :distributions,
-        collection: Distribution.all,
+    f.inputs Depot.model_name.human(count: 2) do
+      f.input :depots,
+        collection: Depot.all,
         as: :check_boxes,
         label: false
     end
@@ -63,7 +63,7 @@ ActiveAdmin.register BasketContent do
   filter :delivery, as: :select
   filter :vegetable, as: :select
   filter :basket_size, as: :select, collection: -> { [[small_basket.name, 'small'], [big_basket.name, 'big']] }
-  filter :distributions, as: :select
+  filter :depots, as: :select
 
   before_action only: :index do
     if params['commit'].blank? && request.format.html?
@@ -78,8 +78,8 @@ ActiveAdmin.register BasketContent do
     if basket_content.basket_sizes.empty?
       basket_content.basket_sizes = BasketContent::SIZES
     end
-    if basket_content.distributions.empty?
-      basket_content.distributions = Distribution.all
+    if basket_content.depots.empty?
+      basket_content.depots = Depot.all
     end
   end
 
@@ -90,6 +90,6 @@ ActiveAdmin.register BasketContent do
     same_basket_quantities
     unit
   ],
-    distribution_ids: [],
+    depot_ids: [],
     basket_sizes: [])
 end

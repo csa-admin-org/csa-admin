@@ -2,7 +2,7 @@ class BillingTotal
   def self.all
     scopes = [BasketSize.all]
     scopes << :basket_complement if BasketComplement.any?
-    scopes << :distribution if Distribution.paid.any?
+    scopes << :depot if Depot.paid.any?
     scopes << :halfday
     scopes << :annual_fee if Current.acp.annual_fee?
     scopes << :acp_share if Current.acp.share?
@@ -39,10 +39,10 @@ class BillingTotal
         @memberships
           .joins(baskets: :baskets_basket_complements)
           .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
-      when :distribution
+      when :depot
         @memberships
           .joins(:baskets)
-          .sum('baskets.quantity * baskets.distribution_price')
+          .sum('baskets.quantity * baskets.depot_price')
       when :halfday
         @memberships.sum(:halfday_works_annual_price)
       when :annual_fee

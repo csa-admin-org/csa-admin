@@ -69,10 +69,10 @@ _:
     description:
       _de: Beschreibung
       _fr: Description
-    distribution:
+    depot:
       _de: Depot
       _fr: Dépôt
-    distribution_id:
+    depot_id:
       _de: Depot
       _fr: Dépôt
     email:

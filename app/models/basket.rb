@@ -6,7 +6,7 @@ class Basket < ActiveRecord::Base
   belongs_to :membership, counter_cache: true, touch: true
   belongs_to :delivery
   belongs_to :basket_size
-  belongs_to :distribution
+  belongs_to :depot
   has_one :member, through: :membership
   has_many :baskets_basket_complements, dependent: :destroy
   has_many :complements,
@@ -31,7 +31,7 @@ class Basket < ActiveRecord::Base
   }
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :distribution_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :unique_basket_complement_id
   validate :delivery_must_be_in_membership_date_range
@@ -98,7 +98,7 @@ class Basket < ActiveRecord::Base
 
   def set_prices
     self.basket_price ||= basket_size&.price
-    self.distribution_price ||= distribution&.price
+    self.depot_price ||= depot&.price
   end
 
   def unique_basket_complement_id

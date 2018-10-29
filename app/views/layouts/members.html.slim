@@ -22,7 +22,7 @@ html
               li == "#{Basket.model_name.human}: #{basket_size_description(next_basket)}"
               - if BasketComplement.any?
                 li == "#{BasketComplement.model_name.human(count: next_basket.membership.memberships_basket_complements.count)}: #{basket_complements_description(next_basket.membership.memberships_basket_complements&.includes(:basket_complement))}"
-              li == "#{Distribution.model_name.human}: #{next_basket.distribution.name}"
+              li == "#{Depot.model_name.human}: #{next_basket.depot.name}"
           - else
             p
               em.empty = t('.no_membership')

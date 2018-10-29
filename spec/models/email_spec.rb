@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Email do
   it 'delivers delivery_list template' do
-    distribution = create(:distribution,
+    depot = create(:depot,
       name: 'Jardin de la Main',
       emails: 'john@doe.com, bob@dylan.com')
     delivery = create(:delivery, date: '24.03.2018')
@@ -11,7 +11,7 @@ describe Email do
     create(:member, :active, name: 'Alex Broz')
     create(:member, :active, name: 'Fred Asmo')
 
-    Email.deliver_now(:delivery_list, delivery, distribution)
+    Email.deliver_now(:delivery_list, delivery, depot)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
@@ -20,7 +20,7 @@ describe Email do
       template: 'delivery-list-fr',
       template_data: {
         delivery_date: '24 mars 2018',
-        distribution_name: 'Jardin de la Main',
+        depot_name: 'Jardin de la Main',
         baskets: [
           { member_name: 'Alex Broz', description: 'Eveil', size_name: 'Eveil' },
           { member_name: 'Fred Asmo', description: 'Eveil', size_name: 'Eveil' }

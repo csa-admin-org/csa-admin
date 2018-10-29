@@ -13,25 +13,25 @@ module Email
 
   private
 
-  def delivery_list(delivery, distribution)
-    I18n.with_locale(distribution.language) do
-      baskets = distribution.baskets
+  def delivery_list(delivery, depot)
+    I18n.with_locale(depot.language) do
+      baskets = depot.baskets
         .not_absent
         .not_empty
         .includes(:basket_size, :complements, :member, :baskets_basket_complements)
         .where(delivery_id: delivery.id)
         .order('members.name')
         .uniq
-      xlsx = XLSX::Delivery.new(delivery, distribution)
-      pdf = PDF::Delivery.new(delivery, distribution)
+      xlsx = XLSX::Delivery.new(delivery, depot)
+      pdf = PDF::Delivery.new(delivery, depot)
 
       {
         from: from,
-        to: distribution.emails,
-        template: template_alias(:delivery_list, distribution.language),
+        to: depot.emails,
+        template: template_alias(:delivery_list, depot.language),
         template_data: {
           delivery_date: I18n.l(delivery.date),
-          distribution_name: distribution.name,
+          depot_name: depot.name,
           baskets: baskets.map { |b|
             {
               member_name: b.member.name,
