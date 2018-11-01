@@ -326,9 +326,23 @@ describe Membership do
   end
 
   specify 'salary basket prices' do
-    membership = create(:membership,
-      member: create(:member, salary_basket: true))
+    create(:basket_complement, :annual_price_type, id: 1, price: 100)
+    create(:basket_complement, id: 2, price: 3.30)
+    membership = create(:membership, basket_price: 31,
+      member: create(:member, salary_basket: true),
+      memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, price: '', quantity: 1 }
+      })
+
+    membership.baskets.first.update!(complement_ids: [1, 2])
+    membership.baskets.second.update!(baskets_basket_complements_attributes: {
+      '0' => { basket_complement_id: 1, price: '', quantity: 2 },
+      '1' => { basket_complement_id: 2, price: 4, quantity: 3 }
+    })
+    membership.baskets.third.update!(complement_ids: [2])
+
     expect(membership.basket_sizes_price).to be_zero
+    expect(membership.basket_complements_price).to be_zero
     expect(membership.depots_price).to be_zero
     expect(membership.halfday_works_annual_price).to be_zero
     expect(membership.price).to be_zero

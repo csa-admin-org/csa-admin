@@ -163,7 +163,7 @@ ActiveAdmin.register Membership do
               date_lteq: resource.fiscal_year.end_of_year
             }))
           ) do
-          if m.member.try(:salary_basket?)
+          if m.member.salary_basket?
             em t('.salary_basket')
           elsif m.baskets_count.zero?
             em t('.no_baskets')
