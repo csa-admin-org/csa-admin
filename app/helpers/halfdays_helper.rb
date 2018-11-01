@@ -27,7 +27,7 @@ module HalfdaysHelper
 
   def display_place(halfday)
     if halfday.place_url
-      link_to(halfday.place, halfday.place_url)
+      link_to(halfday.place, halfday.place_url, target: :blank)
     else
       halfday.place
     end
