@@ -139,9 +139,10 @@ class Membership < ActiveRecord::Base
 
   def basket_complement_total_price(basket_complement)
     if basket_complement.annual_price_type?
-      memberships_basket_complements
-        .where(basket_complement: basket_complement)
-        .sum('memberships_basket_complements.quantity * memberships_basket_complements.price')
+      rounded_price(
+        memberships_basket_complements
+          .where(basket_complement: basket_complement)
+          .sum('memberships_basket_complements.quantity * memberships_basket_complements.price'))
     else
       rounded_price(
         baskets
