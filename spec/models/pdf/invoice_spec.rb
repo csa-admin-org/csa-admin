@@ -193,6 +193,7 @@ describe PDF::Invoice do
         .and contain_sequence('Total', '60.00')
         .and include('0100000060004>001104190802410000000020020+ 010137346>')
     end
+
     it 'generates invoice with HalfdayParticipation type (many participants)' do
       invoice = create(:invoice,
         id: 2003,
@@ -206,6 +207,24 @@ describe PDF::Invoice do
         .to contain_sequence('3 ', '½ ', 'journées non-effectuées', '180.00')
         .and contain_sequence('Total', '180.00')
         .and include('0100000180005>001104190802410000000020031+ 010137346>')
+    end
+
+    it 'generates an invoice with items' do
+      invoice = create(:invoice,
+        id: 2010,
+        date: '2018-11-01',
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: 10 },
+          '1' => { description: 'Un truc cool pluc cher', amount: 32 }
+        })
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to contain_sequence('Un truc cool pas cher', '10.00')
+        .and contain_sequence('Un truc cool pluc cher', '32.00')
+        .and contain_sequence('Total', '42.00')
+        .and include('0100000042007>001104190802410000000020106+ 010137346>')
     end
   end
 

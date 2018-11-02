@@ -389,6 +389,9 @@ _:
         erase:
           _de: Löschen
           _fr: Effacer
+        has_many_new_invoice_item:
+          _de: Einen Artikel hinzufügen
+          _fr: Ajouter un article
         refused_halfday_participation:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}

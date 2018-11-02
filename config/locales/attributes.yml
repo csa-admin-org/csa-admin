@@ -66,15 +66,15 @@ _:
     delivery_id:
       _de: Lieferung
       _fr: Livraison
-    description:
-      _de: Beschreibung
-      _fr: Description
     depot:
       _de: Depot
       _fr: Dépôt
     depot_id:
       _de: Depot
       _fr: Dépôt
+    description:
+      _de: Beschreibung
+      _fr: Description
     email:
       _de: Email
       _fr: Email

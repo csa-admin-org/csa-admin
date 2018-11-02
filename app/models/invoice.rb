@@ -15,7 +15,10 @@ class Invoice < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :object, polymorphic: true, optional: true
+  has_many :items, class_name: 'InvoiceItem'
   has_many :payments
+
+  accepts_nested_attributes_for :items
 
   has_one_attached :pdf_file
 
@@ -71,7 +74,7 @@ class Invoice < ActiveRecord::Base
   after_commit :update_membership_recognized_halfday_works!
 
   def self.object_types
-    types = %w[Membership HalfdayParticipation]
+    types = %w[Membership HalfdayParticipation Other]
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
     types
@@ -159,8 +162,17 @@ class Invoice < ActiveRecord::Base
     raise NoMethodError, 'is set automaticaly.'
   end
 
+  def items_attributes=(attrs)
+    return if attrs.empty?
+
+    super
+    self[:object_type] = 'Other'
+    self[:amount] = items.sum(&:amount)
+  end
+
   def paid_missing_halfday_works=(number)
     return if number.blank?
+
     super
     self[:object_type] = 'HalfdayParticipation'
   end
@@ -174,6 +186,7 @@ class Invoice < ActiveRecord::Base
 
   def acp_shares_number=(number)
     return if number.blank?
+
     super
     self[:object_type] = 'ACPShare'
     self[:amount] = number.to_i * Current.acp.share_price
