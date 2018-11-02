@@ -12,6 +12,9 @@ _:
       annual_fee:
         _de: Jahresgebühr
         _fr: Cotisation annuelle
+      other:
+        _de: Andere
+        _fr: Autre
     pdf:
       acp_shares_number:
         one:

@@ -185,12 +185,12 @@ _:
         complement_ids:
           _de: Zusätze
           _fr: Compléments
-        description:
-          _de: Tasche
-          _fr: Panier
         depot_price:
           _de: Preis Lieferung
           _fr: Prix dépôt
+        description:
+          _de: Tasche
+          _fr: Panier
       basket_complement:
         deliveries:
           _de: Lieferungen
@@ -726,6 +726,13 @@ _:
         other:
           _de: Rechnungen
           _fr: Factures
+      invoice_item:
+        one:
+          _de: Artikel
+          _fr: Article
+        other:
+          _de: Artikel
+          _fr: Articles
       member:
         one:
           _de: Mitglied
@@ -747,13 +754,6 @@ _:
         other:
           _de: Zusätze
           _fr: Compléments
-      old_invoice:
-        one:
-          _de: Rechnung (2015)
-          _fr: Facture (2015)
-        other:
-          _de: Rechnungen (2015)
-          _fr: Factures (2015)
       payment:
         one:
           _de: Einzahlung

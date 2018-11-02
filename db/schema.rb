@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_123926) do
+ActiveRecord::Schema.define(version: 2018_11_02_193835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -289,6 +289,15 @@ ActiveRecord::Schema.define(version: 2018_10_28_123926) do
     t.index ["start_time"], name: "index_halfdays_on_start_time"
   end
 
+  create_table "invoice_items", force: :cascade do |t|
+    t.bigint "invoice_id"
+    t.string "description", null: false
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+  end
+
   create_table "invoices", id: :serial, force: :cascade do |t|
     t.integer "member_id", null: false
     t.date "date", null: false
@@ -444,6 +453,7 @@ ActiveRecord::Schema.define(version: 2018_10_28_123926) do
   add_foreign_key "halfday_participations", "admins", column: "validator_id"
   add_foreign_key "halfday_participations", "halfdays"
   add_foreign_key "halfday_participations", "members"
+  add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "depots"
   add_foreign_key "payments", "invoices"

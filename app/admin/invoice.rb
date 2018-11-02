@@ -66,6 +66,14 @@ ActiveAdmin.register Invoice do
             end
           end
         end
+        if invoice.items.any?
+          panel InvoiceItem.model_name.human(count: 2) do
+            table_for(invoice.items, class: 'table-payments') do
+              column(:description) { |ii| ii.description }
+              column(:amount) { |ii| number_to_currency(ii.amount) }
+            end
+          end
+        end
       end
 
       column do
@@ -167,6 +175,14 @@ ActiveAdmin.register Invoice do
           end
         end
       end
+      tab t_invoice_object_type('Other'), id: 'other' do
+        f.inputs do
+          f.has_many :items, new_record: t('.has_many_new_invoice_item') do |ff|
+            ff.input :description
+            ff.input :amount
+          end
+        end
+      end
     end
     f.actions
   end
@@ -179,7 +195,8 @@ ActiveAdmin.register Invoice do
     :comment,
     :paid_missing_halfday_works,
     :paid_missing_halfday_works_amount,
-    :acp_shares_number
+    :acp_shares_number,
+    items_attributes: [:description, :amount]
 
   before_build do |invoice|
     if params[:halfday_participation_id]

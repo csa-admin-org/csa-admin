@@ -140,6 +140,21 @@ describe Invoice do
     end
   end
 
+  context 'when other' do
+    it 'sets items and round to five cents each item' do
+      invoice = create(:invoice,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '10.11' },
+          '1' => { description: 'Un truc cool pluc cher', amount: '32.33' }
+        })
+
+      expect(invoice.object_type).to eq 'Other'
+      expect(invoice.items.first.amount).to eq 10.1
+      expect(invoice.items.last.amount).to eq 32.35
+      expect(invoice.amount).to eq 42.45
+    end
+  end
+
   describe '#send!' do
     let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
