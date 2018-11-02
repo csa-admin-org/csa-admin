@@ -39,6 +39,7 @@ class Membership < ActiveRecord::Base
   validate :good_period_range
   validate :only_one_per_year
   validate :unique_subscribed_basket_complement_id
+  validate :at_least_one_basket
 
   before_save :set_renew
   after_save :update_halfday_works
@@ -180,24 +181,15 @@ class Membership < ActiveRecord::Base
     started_on..ended_on
   end
 
-  def renew!
-    next_fy = Current.acp.fiscal_year_for(fy_year + 1)
-    last_basket = baskets.last
-    Membership.create!(
-      member: member,
-      basket_size_id: last_basket.basket_size_id,
-      depot_id: last_basket.depot_id,
-      started_on: next_fy.beginning_of_year,
-      ended_on: next_fy.end_of_year)
-  end
-
   def basket_size
     return unless basket_size_id
+
     @basket_size ||= BasketSize.find(basket_size_id)
   end
 
   def depot
     return unless depot_id
+
     @depot ||= Depot.find(depot_id)
   end
 
@@ -328,6 +320,13 @@ class Membership < ActiveRecord::Base
     return unless member
     if member.memberships.during_year(fy_year).where.not(id: id).exists?
       errors.add(:member, :taken)
+    end
+  end
+
+  def at_least_one_basket
+    if date_range && Delivery.between(date_range).none?
+      errors.add(:started_on, :invalid)
+      errors.add(:ended_on, :invalid)
     end
   end
 

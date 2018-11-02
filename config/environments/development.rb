@@ -5,7 +5,7 @@ Rails.application.configure do
 
   # Store files locally.
   config.active_storage.service = :local
-  config.active_job.queue_adapter = :inline
+  config.active_job.queue_adapter = :sucker_punch
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
