@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_193835) do
+ActiveRecord::Schema.define(version: 2018_11_04_102444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -355,6 +355,7 @@ ActiveRecord::Schema.define(version: 2018_11_02_193835) do
     t.decimal "annual_fee", precision: 8, scale: 2
     t.integer "billing_year_division", default: 1, null: false
     t.string "language", default: "fr", null: false
+    t.string "acp_shares_info"
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
