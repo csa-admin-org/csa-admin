@@ -15,8 +15,8 @@ class Invoice < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :object, polymorphic: true, optional: true
-  has_many :items, class_name: 'InvoiceItem'
-  has_many :payments
+  has_many :items, class_name: 'InvoiceItem', dependent: :destroy
+  has_many :payments, dependent: :destroy
 
   accepts_nested_attributes_for :items
 
