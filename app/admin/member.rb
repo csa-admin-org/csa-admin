@@ -194,6 +194,7 @@ ActiveAdmin.register Member do
           end
           if Current.acp.share?
             row(:acp_shares_number)
+            row(:acp_shares_info) { member.acp_shares_info }
           end
           row(:invoices_amount) { number_to_currency member.invoices_amount }
           row(:payments_amount) { number_to_currency member.payments_amount }
@@ -260,6 +261,9 @@ ActiveAdmin.register Member do
       if Current.acp.annual_fee
         f.input :annual_fee
       end
+      if Current.acp.share?
+        f.input :acp_shares_info
+      end
       f.input :salary_basket
     end
     f.inputs t('active_admin.resource.show.notes') do
@@ -274,7 +278,7 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
     :delivery_address, :delivery_city, :delivery_zip,
-    :annual_fee, :salary_basket, :billing_year_division,
+    :annual_fee, :salary_basket, :billing_year_division, :acp_shares_info,
     :waiting, :waiting_basket_size_id, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []

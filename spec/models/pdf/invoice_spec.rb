@@ -613,7 +613,8 @@ describe PDF::Invoice do
         name: 'Manuel Rast',
         address: 'Donnerbühlweg 31',
         zip: '3012',
-        city: 'Bern')
+        city: 'Bern',
+        acp_shares_info: '345')
       create(:payment, amount: 75, member: member)
       invoice = create(:invoice,
         id: 301,
@@ -622,9 +623,10 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to contain_sequence('Acquisition de 2 parts sociales', "500.00")
-        .and contain_sequence('Avoir', "- 75.00")
-        .and contain_sequence("À payer", '425.00')
+        .to contain_sequence('N° part sociale: 345')
+        .and contain_sequence('Acquisition de 2 parts sociales', '500.00')
+        .and contain_sequence('Avoir', '- 75.00')
+        .and contain_sequence('À payer', '425.00')
     end
 
     it 'generates invoice with negative acp_shares_number' do

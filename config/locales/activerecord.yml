@@ -360,6 +360,9 @@ _:
           _de: Betrag
           _fr: Montant
       member:
+        acp_shares_info:
+          _de: N° Anteilschein
+          _fr: N° part sociale
         annual_fee:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
