@@ -18,6 +18,6 @@ module HasPhones
   private
 
   def string_to_a(str)
-    str.to_s.split(',').each(&:strip!)
+    str.to_s.split(',').map { |s| s.gsub(/[[:space:]]/, '') }
   end
 end

@@ -38,6 +38,12 @@ describe Member do
     end
   end
 
+  it 'strips whitespaces from emails' do
+    member = Member.new(emails: ' foo@gmail.com ')
+
+    expect(member.emails_array).to eq ['foo@gmail.com']
+  end
+
   describe '#newsletter?' do
     it 'is true for these members' do
       [
