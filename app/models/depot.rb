@@ -34,8 +34,4 @@ class Depot < ActiveRecord::Base
   def deliveries_count
     Delivery.current_year.count
   end
-
-  def emails_array
-    emails.to_s.split(',').each(&:strip!)
-  end
 end
