@@ -34,6 +34,55 @@ ActiveAdmin.register Membership do
     actions
   end
 
+  sidebar :renewal, only: :index do
+    renewal = MembershipsRenewal.new
+    to_renew_link = link_to(renewal.to_renew.count, collection_path(scope: :ongoing, q: { renew_eq: true }))
+    if renewal.renewable.count.positive?
+      if renewal.renewed.count.positive?
+        span do
+          t('.partially_renewed',
+            renewed_count: renewal.renewed.count,
+            count_link: to_renew_link,
+            year: Current.acp.current_fiscal_year).html_safe
+        end
+      else
+        span do
+          t('.none_renewed',
+            count: renewal.renewable.count,
+            count_link: to_renew_link,
+            year: Current.acp.current_fiscal_year).html_safe
+        end
+      end
+      div class: 'buttons custom_sidebar' do
+        if params[:renewing] || renewal.renewing?
+          span { t('.renewing') }
+        else
+          link_to t('.renew_action', count: renewal.renewable.count), renew_memberships_path,
+            data: { confirm: t('.renew_confirm'), disable_with: t('.renewing') },
+            class: 'clear_filters_btn',
+            method: :post
+        end
+      end
+    elsif renewal.renewed.any?
+      span do
+        t('.all_renewed',
+          count: renewal.renewed.count,
+          count_link: to_renew_link,
+          year: Current.acp.current_fiscal_year).html_safe
+      end
+    else
+      span { t('.no_renewals') }
+    end
+  end
+
+  collection_action :renew, method: :post do
+    MembershipsRenewal.new.renew
+    redirect_to collection_path(renewing: true), notice: t('active_admin.flash.renew_notice')
+  rescue MembershipsRenewal::MissingDeliveriesError
+    redirect_to collection_path,
+      alert: t('active_admin.flash.renew_missing_deliveries_alert', next_year: MembershipsRenewal.new.next_fy)
+  end
+
   csv do
     column(:id)
     column(:name) { |m| m.member.name }

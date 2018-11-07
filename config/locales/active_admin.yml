@@ -223,6 +223,12 @@ _:
       invalid_foreign_key_alert:
         _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
         _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
+      renew_missing_deliveries_alert:
+        _de: Abonnements können nicht verlängert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
+        _fr: Impossible de renouveler les abonnements si les livraisons %{next_year} n'existent pas!
+      renew_notice:
+        _de: Die Abonnements werden verlängert...
+        _fr: Les abonnements sont entrain d'être renouvelés...
     has_many_delete:
       _de: Löschen
       _fr: Supprimer
@@ -379,6 +385,40 @@ _:
         seasons:
           _de: Jahreszeiten (Sommer / Winter)
           _fr: Saisons (été / hiver)
+      index:
+        all_renewed:
+          one:
+            _de: "%{count_link} Abonnement %{year} wurde bereits verlängert."
+            _fr: "%{count_link} abonnement %{year} a déjà été renouvelé."
+          other:
+            _de: "%{count_link} Abonnements %{year} wurden bereits verlängert."
+            _fr: "%{count_link} abonnements %{year} ont déjà été renouvelés."
+        no_renewals:
+          _de: Kein Abonnement zu verlängern.
+          _fr: Aucun abonnement à renouveler.
+        none_renewed:
+          one:
+            _de: "%{count_link} Abonnement %{year} muss verlängert werden."
+            _fr: "%{count_link} abonnement %{year} doit être renouvelé."
+          other:
+            _de: "%{count_link} Abonnements %{year} müssen verlängert werden."
+            _fr: "%{count_link} abonnements %{year} doivent être renouvelés."
+        partially_renewed:
+          _de: "%{renewed_count} der %{count_link} Abonnements %{year} wurden bereits verlängert."
+          _fr: "%{renewed_count} des %{count_link} abonnements %{year} ont déjà été renouvelés."
+        renew_action:
+          one:
+            _de: "%{count} Abonnement verlängern"
+            _fr: Renouveler %{count} abonnement
+          other:
+            _de: "%{count} Abonnements verlängern"
+            _fr: Renouveler %{count} abonnements
+        renew_confirm:
+          _de: Sind Sie mehr als sicher?
+          _fr: Êtes-vous sûr de sûr?
+        renewing:
+          _de: Verlängerungen am laufen...
+          _fr: Renouvellements en cours...
       new:
         basket_and_depot:
           _de: Tasche und Depot
@@ -696,6 +736,9 @@ _:
       total:
         _de: Total
         _fr: Total
+      renewal:
+        _de: Verlängerungen
+        _fr: Renouvellements
     status_tag:
       active:
         _de: aktiv
