@@ -35,6 +35,7 @@ class BasketCounts
       @depot = depot
       @basket_size_ids = basket_size_ids
       @baskets = depot.baskets.not_absent.where(delivery_id: delivery_id)
+      @absent_baskets = depot.baskets.absent.where(delivery_id: delivery_id)
     end
 
     def title
@@ -47,6 +48,10 @@ class BasketCounts
 
     def count
       @count ||= @baskets.sum(:quantity)
+    end
+
+    def absent_count
+      @absent_count ||= @absent_baskets.sum(:quantity)
     end
 
     def baskets_count
