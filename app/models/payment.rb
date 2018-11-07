@@ -30,7 +30,7 @@ class Payment < ActiveRecord::Base
       # Use payment amount to targeted invoice first.
       member.payments.each do |payment|
         if payment.invoice && !payment.invoice.canceled?
-          balance = [payment.amount, payment.invoice.missing_amount].min
+          balance = [[payment.amount, payment.invoice.missing_amount].min, 0].max
           payment.invoice.increment!(:balance, balance)
           remaining_amount += payment.amount - balance
         else

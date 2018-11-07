@@ -115,5 +115,40 @@ describe Payment do
       expect(invoice3.reload.balance).to eq 200
       expect(invoice3.state).to eq 'open'
     end
+
+    it 'handles payback invoice with negative amount with direct negative payment' do
+      Current.acp.update!(share_price: 100)
+
+      member = create(:member, :active)
+      beginning_of_year = Time.current.beginning_of_year
+      invoice1 = create(:invoice, :open,
+        date: beginning_of_year,
+        member: member,
+        object: member.current_membership,
+        memberships_amount_description: 'Montant #1',
+        membership_amount_fraction: 3)
+      invoice2 = create(:invoice, :open,
+        date: beginning_of_year + 1.day,
+        member: member,
+        acp_shares_number: -2)
+      invoice3 = create(:invoice, :open,
+        date: beginning_of_year + 2.days,
+        member: member,
+        object: member.current_membership,
+        memberships_amount_description: 'Montant #3',
+        membership_amount_fraction: 2)
+
+      create(:payment, member: member, invoice: invoice1, amount: 400)
+      create(:payment, member: member, invoice: invoice2, amount: -250)
+
+      Payment.update_invoices_balance!(member.id)
+
+      expect(invoice1.reload.balance).to eq 400
+      expect(invoice1.state).to eq 'closed'
+      expect(invoice2.reload.balance).to be_zero
+      expect(invoice2.state).to eq 'closed'
+      expect(invoice3.reload.balance).to be_zero
+      expect(invoice3.state).to eq 'open'
+    end
   end
 end
