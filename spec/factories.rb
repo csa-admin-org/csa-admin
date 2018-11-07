@@ -84,6 +84,7 @@ FactoryBot.define do
       after :create do |member|
         create(:membership,
           member: member,
+          deliveries_count: 52,
           started_on: [Time.current.beginning_of_year, Date.current - 3.weeks].max)
       end
     end
