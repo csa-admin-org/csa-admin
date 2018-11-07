@@ -1,5 +1,8 @@
 _:
   attributes:
+    absent_baskets:
+      _de: Taschen (Abwesend)
+      _fr: Paniers (absents)
     acp_shares_number:
       _de: Anzahl Anteilscheine
       _fr: Nombre de parts sociales

@@ -20,7 +20,8 @@ ActiveAdmin.register Delivery do
   csv do
     column(:id)
     column(:date)
-    column(:baskets) { |d| d.basket_counts.sum(&:count) }
+    column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
+    column(:absent_baskets) { |d| d.basket_counts.all.sum(&:absent_count) }
 
     Depot.all.each do |depot|
       column(depot.name) { |d| BasketCounts.new(d, depot.id).sum }
