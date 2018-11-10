@@ -43,7 +43,7 @@ ActiveAdmin.register Admin do
       end
     end
     f.inputs Admin.human_attribute_name(:password) do
-      f.input :password, required: false
+      f.input :password, required: false, hint: t('formtastic.hints.admin_password')
       f.input :password_confirmation
     end
     f.inputs do
