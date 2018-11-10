@@ -20,10 +20,9 @@ _:
         share_price:
           _de: Leer lassen, wenn kein Anteilschein
           _fr: Laisser vide si pas de part sociale
-      admin:
-        password:
-          _de: Leer lassen wenn unverändert
-          _fr: Laisser vide si inchangé
+      admin_password:
+        _de: Leer lassen wenn unverändert
+        _fr: Laisser vide si inchangé
       basket:
         basket_price:
           _de: Leer lassen für den Standardpreis
