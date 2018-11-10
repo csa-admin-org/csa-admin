@@ -5,6 +5,9 @@ ActiveAdmin.register Delivery do
   scope :current_year, default: true
   scope :future_year
 
+  filter :date
+  filter :note, as: :string
+
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
@@ -175,7 +178,6 @@ ActiveAdmin.register Delivery do
     bulk_dates_wdays: [],
     basket_complement_ids: []
 
-  config.filters = false
   config.sort_order = 'date_asc'
   config.per_page = 52
 end
