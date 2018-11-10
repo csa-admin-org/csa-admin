@@ -200,7 +200,8 @@ module Email
           member_name: absence.member.name,
           started_on: I18n.l(absence.started_on),
           ended_on: I18n.l(absence.ended_on),
-          action_url: url(:absence_url, absence)
+          action_url: url(:absence_url, absence),
+          edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
         }
       }
     end
@@ -214,7 +215,8 @@ module Email
       template_data: {
         admin_name: admin.name,
         member_name: member.name,
-        action_url: url(:member_url, member)
+        action_url: url(:member_url, member),
+        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
       }
     }
   end

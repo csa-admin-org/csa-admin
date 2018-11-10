@@ -35,13 +35,12 @@ describe Absence do
         from: Current.acp.email_default_from,
         to: admin2.email,
         template: 'absence-new-fr',
-        template_data: {
+        template_data: hash_including(
           admin_name: admin1.name,
           member_name: absence.member.name,
           started_on: I18n.l(absence.started_on),
-          ended_on: I18n.l(absence.ended_on),
-          action_url: "https://admin.ragedevert.ch/absences/#{absence.id}"
-        }))
+          ended_on: I18n.l(absence.ended_on)
+        )))
     end
   end
 end

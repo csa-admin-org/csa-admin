@@ -299,10 +299,11 @@ describe Email do
   end
 
   it 'delivers member_new template' do
-    admin = create(:admin, name: 'Thibaud', email: 'thibaud@thibaud.gg')
-    member = create(:member, name: 'John Doew')
-
-    Email.deliver_later(:member_new, admin, member)
+    admin = create(:admin,
+      name: 'Thibaud',
+      email: 'thibaud@thibaud.gg',
+      notifications: %w[new_inscription])
+    member = create(:member, name: 'John Doew', public_create: true)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
@@ -312,7 +313,35 @@ describe Email do
       template_data: {
         admin_name: 'Thibaud',
         member_name: 'John Doew',
-        action_url: "https://admin.ragedevert.ch/members/#{member.id}"
+        action_url: "https://admin.ragedevert.ch/members/#{member.id}",
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+      },
+      attachments: [])
+  end
+
+  it 'delivers absence_new template' do
+    admin = create(:admin,
+      name: 'Thibaud',
+      email: 'thibaud@thibaud.gg',
+      notifications: %w[new_absence])
+
+    member = create(:member, name: 'John Doew')
+    absence = create(:absence, member: member,
+      started_on: '2018-11-12',
+      ended_on: '2018-11-19',)
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to eq(
+      from: Current.acp.email_default_from,
+      to: 'thibaud@thibaud.gg',
+      template: 'absence-new-fr',
+      template_data: {
+        admin_name: 'Thibaud',
+        member_name: 'John Doew',
+        started_on: '12 novembre 2018',
+        ended_on: '19 novembre 2018',
+        action_url: "https://admin.ragedevert.ch/absences/#{absence.id}",
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
       },
       attachments: [])
   end
