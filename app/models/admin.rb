@@ -1,4 +1,6 @@
 class Admin < ActiveRecord::Base
+  UnsupportedDeviceNotification = Class.new(StandardError)
+
   include HasLanguage
 
   NOTIFICATIONS = %w[new_inscription new_absence]
@@ -6,8 +8,7 @@ class Admin < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
 
@@ -24,5 +25,16 @@ class Admin < ActiveRecord::Base
 
   def right?(right)
     RIGHTS.index(self[:rights]) <= RIGHTS.index(right)
+  end
+
+  def send_devise_notification(notification, *args)
+    case notification
+    when :reset_password_instructions
+      Email.deliver_later(:admin_reset_password, self, args.first)
+    else
+      ExceptionNotifier.notify(UnsupportedDeviceNotification.new,
+        notifiation: notification,
+        args: args)
+    end
   end
 end

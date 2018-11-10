@@ -115,8 +115,8 @@ _:
           _de: Mein Passwort ändern
           _fr: Changer mon mot de passe
         title:
-          _de: Ändern Sie Ihr Passwort
-          _fr: Changez votre mot de passe
+          _de: – Ändern Sie Ihr Passwort
+          _fr: – Changez votre mot de passe
       email:
         title:
           _de: Email
@@ -139,8 +139,8 @@ _:
           _de: Sich anmelden
           _fr: Se connecter
         title:
-          _de: Anmeldung
-          _fr: Connexion
+          _de: – Anmeldung
+          _fr: – Connexion
       password:
         title:
           _de: Passwort
@@ -150,15 +150,15 @@ _:
           _de: Bestätitungsanleitung neu senden
           _fr: Renvoyer les instructions de confirmation
         title:
-          _de: Bestätitungsanleitung neu senden
-          _fr: Renvoyer les instructions de confirmation
+          _de: – Bestätitungsanleitung neu senden
+          _fr: – Renvoyer les instructions de confirmation
       reset_password:
         submit:
           _de: Mein Passwort zurücksetzen
           _fr: Réinitialiser mon mot de passe
         title:
-          _de: Haben Sie Ihr Passwort vergessen?
-          _fr: Vous avez oublié votre mot de passe ?
+          _de: – Haben Sie Ihr Passwort vergessen?
+          _fr: – Vous avez oublié votre mot de passe ?
       subdomain:
         title:
           _de: Unterdomäne

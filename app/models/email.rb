@@ -250,6 +250,18 @@ module Email
     }
   end
 
+  def admin_reset_password(admin, token)
+    {
+      from: from,
+      to: admin.email,
+      template: template_alias(:admin_reset_password, admin.language),
+      template_data: {
+        admin_name: admin.name,
+        action_url: url(:edit_admin_password_url, admin, reset_password_token: token)
+      }
+    }
+  end
+
   def adapter
     postmark_api_token = Current.acp.credentials(:postmark_api_token)
     if (Rails.env.production? || ENV['POSTMARK_TO']) && postmark_api_token
@@ -273,6 +285,6 @@ module Email
     }.merge(args.extract_options!)
     Rails.application.routes.url_helpers
       .send(route, *args, params)
-      .sub(/\/\z/, '')
+      .sub(%r{/\z}, '')
   end
 end
