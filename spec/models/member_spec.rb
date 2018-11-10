@@ -291,11 +291,10 @@ describe Member do
         from: Current.acp.email_default_from,
         to: admin1.email,
         template: 'member-new-fr',
-        template_data: {
+        template_data: hash_including(
           admin_name: admin1.name,
-          member_name: member.name,
-          action_url: "https://admin.ragedevert.ch/members/#{member.id}"
-        }))
+          member_name: member.name
+        )))
     end
 
     it 'does not notify admin when not publicly created' do
