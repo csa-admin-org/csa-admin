@@ -2,6 +2,7 @@ module Billing
   class Raiffeisen
     PaymentData = Class.new(OpenStruct)
     URL = 'https://ebanking.raiffeisen.ch'.freeze
+    GET_PAYMENTS_FROM = 1.month.ago
 
     def initialize(credentials)
       @credentials = credentials
@@ -9,7 +10,7 @@ module Billing
     end
 
     def payments_data
-      get_isr_lines(:all)
+      get_isr_lines
         .group_by(&:itself)
         .flat_map { |_line, lines|
           lines.map.with_index { |line, i|
@@ -39,11 +40,13 @@ module Billing
       line[40..48].to_i / BigDecimal(100)
     end
 
-    def get_isr_lines(type)
-      response = @session.get '/root/datatransfer/esrdownload',
+    def get_isr_lines
+      response = @session.get('/root/datatransfer/esrdownload',
         ESRAccountNumber: 'all',
-        ESRDataType: "#{type}ESR", # all, new or old
-        Download: 'Abholen'
+        ESRDataType: 'oldESR',
+        StartDate: GET_PAYMENTS_FROM.strftime('%d.%m.%Y'),
+        EndDate: Time.current.strftime('%d.%m.%Y'),
+        Download: 'Abholen')
       if response.body.start_with?('<html>')
         []
       else
