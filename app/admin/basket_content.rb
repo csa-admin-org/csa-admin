@@ -66,10 +66,8 @@ ActiveAdmin.register BasketContent do
   filter :depots, as: :select
 
   before_action only: :index do
-    if params['commit'].blank? && request.format.html?
-      params['q'] = {
-        delivery_id_eq: Delivery.next&.id
-      }
+    if params.except(:subdomain, :controller, :action).empty?
+      redirect_to q: { delivery_id_eq: Delivery.next&.id }, utf8: '✓'
     end
   end
 
