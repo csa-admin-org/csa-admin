@@ -326,23 +326,26 @@ describe Email do
       notifications: %w[new_absence])
 
     member = create(:member, name: 'John Doew')
-    absence = create(:absence, member: member,
-      started_on: '2018-11-12',
-      ended_on: '2018-11-19',)
 
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to eq(
-      from: Current.acp.email_default_from,
-      to: 'thibaud@thibaud.gg',
-      template: 'absence-new-fr',
-      template_data: {
-        admin_name: 'Thibaud',
-        member_name: 'John Doew',
-        started_on: '12 novembre 2018',
-        ended_on: '19 novembre 2018',
-        action_url: "https://admin.ragedevert.ch/absences/#{absence.id}",
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
-      },
-      attachments: [])
+    Timecop.freeze '2018-10-01' do
+      absence = create(:absence, member: member,
+        started_on: '2018-11-12',
+        ended_on: '2018-11-19',)
+
+      expect(email_adapter.deliveries.size).to eq 1
+      expect(email_adapter.deliveries.first).to eq(
+        from: Current.acp.email_default_from,
+        to: 'thibaud@thibaud.gg',
+        template: 'absence-new-fr',
+        template_data: {
+          admin_name: 'Thibaud',
+          member_name: 'John Doew',
+          started_on: '12 novembre 2018',
+          ended_on: '19 novembre 2018',
+          action_url: "https://admin.ragedevert.ch/absences/#{absence.id}",
+          edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+        },
+        attachments: [])
+    end
   end
 end
