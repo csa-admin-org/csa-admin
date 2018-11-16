@@ -297,6 +297,31 @@ table.table-memberships {
   }
 }
 
+table.totals tr:last-child {
+  td {
+    border: none;
+  }
+
+  td:last-child {
+    width: 30%;
+    border-top: 1px solid black;
+  }
+}
+
+table.totals_2 {
+  tr:last-child,
+  tr:nth-last-child(3) {
+    td {
+      border: none;
+    }
+
+    td:last-child {
+      width: 30%;
+      border-top: 1px solid black;
+    }
+  }
+}
+
 #titlebar_right .action_item {
   margin-bottom: 3px !important;
 }
@@ -346,4 +371,28 @@ form input[type='time']:focus {
 
 form input[type='time']:focus ~ .inline-hints {
   color: #3f3f3f;
+}
+
+form.filter_form .check_boxes {
+  fieldset.choices > label {
+    margin: 5px 0;
+    color: #3f3f3f;
+    font-weight: normal;
+    font-size: 14px;
+    text-transform: none;
+
+    input {
+      margin-right: 5px;
+    }
+  }
+}
+
+.sidebar_section .panel_contents {
+  .total {
+    margin-bottom: 8px;
+  }
+
+  .totals {
+    margin-top: 20px;
+  }
 }

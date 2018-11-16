@@ -11,6 +11,8 @@ class BasketComplement < ActiveRecord::Base
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
 
+  scope :annual_price_type, -> { where(price_type: 'annual') }
+
   default_scope { order_by_name }
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true

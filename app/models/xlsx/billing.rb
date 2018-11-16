@@ -2,6 +2,7 @@ module XLSX
   class Billing < Base
     def initialize(year)
       @invoices = Invoice.not_canceled.during_year(year)
+      @payments = Payment.during_year(year)
       @memberships = Membership.during_year(year)
 
       build_worksheet(t('title'))
@@ -37,36 +38,51 @@ module XLSX
         add_empty_line
       end
 
-      Depot.paid.each do |depot|
-        total = @memberships.sum { |m| m.depot_total_price(depot.id) }
-        add_line("#{Depot.model_name.human}: #{depot.name}", total, depot.price)
+      if Depot.paid.any?
+        Depot.paid.each do |depot|
+          total = @memberships.sum { |m| m.depot_total_price(depot.id) }
+          add_line("#{Depot.model_name.human}: #{depot.name}", total, depot.price)
+        end
+        add_empty_line
       end
-      add_empty_line
 
+      add_line("#{t('adjustments')}: #{Basket.model_name.human(count: 2)}", @memberships.sum(&:baskets_annual_price_change))
+      if BasketComplement.any?
+        add_line("#{t('adjustments')}: #{BasketComplement.model_name.human}", @memberships.sum(&:basket_complements_annual_price_change))
+      end
       add_line("#{t('adjustments')}: #{ApplicationController.helpers.halfdays_human_name}", @memberships.sum(&:halfday_works_annual_price))
 
+      add_empty_line
+      add_line((t('memberships_total')), @memberships.sum(&:price))
+
+      add_empty_line
+      add_empty_line
+
+      add_line("#{t('amount')}: #{Membership.model_name.human(count: 2)}", @invoices.sum(:memberships_amount))
       if Current.acp.annual_fee
-        add_line(t('annual_fees'), invoices_total(:annual_fee), Current.acp.annual_fee)
+        add_line("#{t('amount')}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.acp.annual_fee)
       end
       if Current.acp.share?
-        add_line(t('acp_shares'), @invoices.acp_share.sum(:amount), Current.acp.share_price)
+        add_line("#{t('amount')}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.acp.share_price)
       end
-
-      add_empty_line
-      add_empty_line
+      add_line("#{t('amount')}: #{ApplicationController.helpers.halfdays_human_name}", @invoices.halfday_participation_type.sum(:amount))
+      add_line("#{t('amount')}: #{t('other')}", @invoices.other_type.sum(:amount))
+      add_line(t('amount'), invoices_total(:amount))
 
       if Current.acp.vat_membership_rate?
+        add_empty_line
+        add_empty_line
+
         add_line(t('memberships_net_amount'), invoices_total(:memberships_net_amount))
         add_line(t('memberships_vat_amount'), invoices_total(:memberships_vat_amount))
         add_line(t('memberships_gross_amount'), invoices_total(:memberships_gross_amount))
-
-        add_empty_line
-        add_empty_line
       end
 
-      add_line(t('amount'), invoices_total(:amount))
-      add_line(t('balance_without_overbalance'), invoices_total(:balance_without_overbalance))
-      add_line(t('missing_amount'), invoices_total(:missing_amount))
+      add_empty_line
+      add_empty_line
+
+      add_line(Payment.model_name.human(count: 2), @payments.sum(:amount))
+      add_line(t('missing_amounts'), invoices_total(:missing_amount))
       add_line(t('overbalance'), invoices_total(:overbalance))
 
       worksheet.change_column_width(0, 35)

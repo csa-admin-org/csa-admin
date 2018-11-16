@@ -12,21 +12,14 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel t('.billing_year', fiscal_year: Current.fy_year) do
-          billing_totals = BillingTotal.all
-          billing_totals_price = billing_totals.sum(&:price)
-
-          table_for billing_totals do
-            column t('.revenue'), :title
+        panel t('.billing_year', fiscal_year: Current.fiscal_year) do
+          table_for InvoiceTotal.all, class: 'totals_2' do
+            column Invoice.model_name.human(count: 2), :title
             column(class: 'align-right') { |total| number_to_currency(total.price) }
           end
 
-          table_for nil do
-            column(class: 'align-right') { t('.total', number: number_to_currency(billing_totals_price)) }
-          end
-
-          table_for InvoiceTotal.all(billing_totals_price) do
-            column t('.billing'), :title
+          table_for PaymentTotal.all, class: 'totals' do
+            column Payment.model_name.human(count: 2), :title
             column(class: 'align-right') { |total| number_to_currency(total.price) }
           end
 

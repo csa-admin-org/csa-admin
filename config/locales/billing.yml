@@ -40,12 +40,21 @@ _:
     memberships_vat_amount:
       _de: Abonnements MwSt.
       _fr: Abonnements TVA
-    missing_amount:
-      _de: Unbezahlt (fehlend)
-      _fr: Non-payé (manquant)
+    memberships_total:
+      _de: Abonnements Total
+      _fr: Abonnements Total
+    missing_amounts:
+      _de: Fehlende Zahlungen
+      _fr: Paiements manquants
+    other:
+      _de: Weiteres
+      _fr: Autre
     overbalance:
       _de: Zu viel bezahlt (für nächstes Jahr)
-      _fr: Payé en trop (pour année suivante)
+      _fr: Paiements en trop (pour année suivante)
+    remaining_memberships:
+      _de: Noch zu fakturierende Abonnements
+      _fr: Abonnements restant à facturer
     scope:
       acp_share:
         _de: Anteilschein
@@ -68,6 +77,19 @@ _:
       halfday/halfday_work:
         _de: Anpassung ½ Tage
         _fr: Ajustement ½ journées
+      missing:
+        _de: Fehlende
+        _fr: Manquants
+      paid:
+        _de: Geleistete
+        _fr: Versés
+      overdue_notices:
+        one:
+          _de: 1 Mahnung
+          _fr: 1 rappel
+        other:
+          _de: "%{count} Mahnungen"
+          _fr: "%{count} rappels"
     title:
       _de: Rechnungsstellung
       _fr: Facturation

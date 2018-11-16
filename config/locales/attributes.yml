@@ -93,9 +93,15 @@ _:
     invoice:
       _de: Rechnung
       _fr: Facture
+    invoice_date:
+      _de: Rechnung Datum
+      _fr: Facture Date
     invoice_id:
       _de: Rechnung ID
       _fr: Facture ID
+    invoice_object:
+      _de: Rechnung Objekt
+      _fr: Facture Objet
     language:
       _de: Sprache
       _fr: Langue
