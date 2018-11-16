@@ -26,11 +26,13 @@ class Invoice < ActiveRecord::Base
   scope :membership, -> { where(object_type: 'Membership') }
   scope :acp_share, -> { where(object_type: 'ACPShare') }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
+  scope :all_without_canceled, -> { not_canceled }
   scope :not_open_or_sent, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
-  scope :cancelable, -> { where(state: [PENDING_STATE, OPEN_STATE]) }
+  scope :unpaid, -> { not_canceled.where('balance < amount') }
   scope :overbalance, -> { where('balance > amount') }
-  scope :with_overdue_notice, -> { open.where('overdue_notices_count > 0') }
+  scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
   scope :halfday_participation_type, -> { where(object_type: 'HalfdayParticipation') }
+  scope :other_type, -> { where(object_type: 'Other') }
 
   with_options if: :membership_type?, on: :create do
     before_validation \

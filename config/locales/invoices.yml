@@ -10,8 +10,8 @@ _:
         _de: Anteilschein
         _fr: Part sociale
       annual_fee:
-        _de: Jahresgebühr
-        _fr: Cotisation annuelle
+        _de: Beitrag
+        _fr: Cotisation
       other:
         _de: Andere
         _fr: Autre
@@ -87,16 +87,6 @@ _:
       without_taxes:
         _de: exkl. MwSt.
         _fr: HT
-    scope:
-      amount:
-        _de: In Rechnung gestellt
-        _fr: Facturé
-      balance:
-        _de: Eingezahlt
-        _fr: Payé
-      missing_amount:
-        _de: Noch in Rechnung zu stellen
-        _fr: Restant à facturer
     send_email:
       flash:
         notice:
