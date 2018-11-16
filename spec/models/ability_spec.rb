@@ -25,6 +25,7 @@ describe Ability do
     specify { expect(ability.can?(:update, Member)).to be true }
     specify { expect(ability.can?(:destroy, Member)).to be true }
     specify { expect(ability.can?(:validate, Member)).to be true }
+    specify { expect(ability.can?(:manage, Delivery)).to be true }
     specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be true }
@@ -36,6 +37,7 @@ describe Ability do
     specify { expect(ability.can?(:manage, admin)).to be true }
     specify { expect(ability.can?(:read, Admin.new)).to be false }
     specify { expect(ability.can?(:manage, Member)).to be false }
+    specify { expect(ability.can?(:create, Delivery)).to be false }
     specify { expect(ability.can?(:read, Member)).to be true }
     specify { expect(ability.can?(:destroy, Member)).to be false }
     specify { expect(ability.can?(:validate, Member)).to be false }

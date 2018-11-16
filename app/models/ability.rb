@@ -14,7 +14,7 @@ class Ability
     end
     if admin.right? 'admin'
       can :read, Admin
-      can :manage, HalfdayPreset
+      can :manage, [HalfdayPreset, Delivery]
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
@@ -28,7 +28,7 @@ class Ability
       can :cancel, Invoice, can_cancel?: true
     end
     if admin.right? 'superadmin'
-      can :manage, [Basket, BasketSize, BasketComplement, Delivery, Depot, Admin, ACP]
+      can :manage, [Basket, BasketSize, BasketComplement, Depot, Admin, ACP]
       can :become, Member
     end
   end
