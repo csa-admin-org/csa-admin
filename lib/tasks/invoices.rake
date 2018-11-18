@@ -11,7 +11,7 @@ namespace :invoices do
           end
           RecurringBilling.invoice(member, send_email: true)
         end
-        puts "#{Current.acp.name}: invoices created."
+        puts "#{Current.acp.name}: New invoices created."
       end
     end
   end
@@ -22,12 +22,12 @@ namespace :invoices do
       if raiffeisen_credentials = Current.acp.credentials(:raiffeisen)
         provider = Billing::Raiffeisen.new(raiffeisen_credentials)
         PaymentsProcessor.new(provider).process
-        puts 'All Raiffeisen payments processed.'
+        puts "#{Current.acp.name}: New Raiffeisen payments processed."
       end
       if bas_credentials = Current.acp.credentials(:bas)
         provider = Billing::BAS.new(bas_credentials)
         PaymentsProcessor.new(provider).process
-        puts 'All BAS payments processed.'
+        puts "#{Current.acp.name}: New BAS payments processed."
       end
     end
   end
@@ -36,7 +36,7 @@ namespace :invoices do
   task send_overdue_notices: :environment do
     ACP.enter_each! do
       Invoice.open.each { |invoice| InvoiceOverdueNoticer.perform(invoice) }
-      puts "#{Current.acp.name}: All invoice overdue notices sent."
+      puts "#{Current.acp.name}: Invoice overdue notices sent."
     end
   end
 end
