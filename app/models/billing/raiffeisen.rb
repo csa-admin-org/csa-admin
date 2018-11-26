@@ -10,7 +10,9 @@ module Billing
     end
 
     def payments_data
-      get_isr_lines
+      # Trigger new ESR reading so they show up with oldESR
+      get_isr_lines(type: 'newESR')
+      get_isr_lines(type: 'oldESR')
         .group_by(&:itself)
         .flat_map { |_line, lines|
           lines.map.with_index { |line, i|
@@ -40,10 +42,10 @@ module Billing
       line[40..48].to_i / BigDecimal(100)
     end
 
-    def get_isr_lines
+    def get_isr_lines(type:)
       response = @session.get('/root/datatransfer/esrdownload',
         ESRAccountNumber: 'all',
-        ESRDataType: 'oldESR',
+        ESRDataType: type,
         StartDate: GET_PAYMENTS_FROM.strftime('%d.%m.%Y'),
         EndDate: Time.current.strftime('%d.%m.%Y'),
         Download: 'Abholen')
