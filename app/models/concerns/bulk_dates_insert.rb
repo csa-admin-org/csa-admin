@@ -51,7 +51,6 @@ module BulkDatesInsert
     @dates = []
 
     while d <= bulk_dates_ends_on
-      Rails.logger.info d
       @dates << d if bulk_dates_wdays.include?(d.wday)
       if d.sunday?
         d = (d + bulk_dates_weeks_frequency.weeks).monday

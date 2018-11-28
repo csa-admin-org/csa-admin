@@ -3,10 +3,6 @@ require 'spec_helper'
 shared_examples_for 'bulk_dates_insert' do
   let(:model) { build(described_class.to_s.underscore, date: nil) }
 
-  describe 'validations' do
-
-  end
-
   describe '#bulk_dates' do
     it 'is nil with a date set' do
       model.date = Date.today
@@ -54,8 +50,8 @@ shared_examples_for 'bulk_dates_insert' do
 
   describe '#save' do
     it 'includes all the days between starts and ends dates following wdays' do
-      model.bulk_dates_starts_on = Date.today.monday
-      model.bulk_dates_ends_on = Date.today.sunday + 1.month
+      model.bulk_dates_starts_on = Date.parse('2018-11-05')
+      model.bulk_dates_ends_on = Date.parse('2018-11-11') + 1.month
       model.bulk_dates_weeks_frequency = 2
       model.bulk_dates_wdays = Array(0..6)
 
