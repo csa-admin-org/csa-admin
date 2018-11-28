@@ -38,7 +38,7 @@ module PDF
           text part, valign: :top, leading: 2
           move_down 2
         end
-        if invoice.member.acp_shares_info?
+        if invoice.acp_share_type? && invoice.member.acp_shares_info?
           move_down 6
           attr_name = Member.human_attribute_name(:acp_shares_info)
           text "#{attr_name}: #{invoice.member.acp_shares_info}", valign: :top, leading: 2, size: 10
