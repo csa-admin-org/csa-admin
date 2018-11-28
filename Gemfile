@@ -7,7 +7,7 @@ end
 
 ruby '2.5.3'
 
-gem 'rails', '5.2.1'
+gem 'rails', '5.2.1.1'
 
 gem 'bootsnap', require: false
 gem 'pg'
@@ -26,7 +26,7 @@ gem 'paranoia'
 gem 'phony_rails'
 gem 'tod'
 
-gem 'activeadmin'
+gem 'activeadmin', '~> 1.3.1'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
