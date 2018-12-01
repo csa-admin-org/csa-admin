@@ -25,7 +25,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activeadmin (1.3.1)
+    activeadmin (1.4.2)
       arbre (>= 1.1.1)
       coffee-rails
       formtastic (~> 3.1)
@@ -71,8 +71,8 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     aws-eventstream (1.0.1)
-    aws-partitions (1.118.0)
-    aws-sdk-core (3.41.0)
+    aws-partitions (1.121.0)
+    aws-sdk-core (3.42.0)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
@@ -80,7 +80,7 @@ GEM
     aws-sdk-kms (1.13.0)
       aws-sdk-core (~> 3, >= 3.39.0)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.27.0)
+    aws-sdk-s3 (1.29.0)
       aws-sdk-core (~> 3, >= 3.39.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
@@ -96,7 +96,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     cancancan (2.3.0)
-    capybara (3.11.1)
+    capybara (3.12.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -344,7 +344,7 @@ GEM
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.0)
     ruby-rc4 (0.1.5)
-    rubyXL (3.3.30)
+    rubyXL (3.3.31)
       nokogiri (>= 1.4.4)
       rubyzip (>= 1.1.6)
     ruby_dep (1.5.0)
@@ -360,9 +360,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    skylight (3.1.1)
-      skylight-core (= 3.1.1)
-    skylight-core (3.1.1)
+    skylight (3.1.2)
+      skylight-core (= 3.1.2)
+    skylight-core (3.1.2)
       activesupport (>= 4.2.0)
     slim (4.0.1)
       temple (>= 0.7.6, < 0.9)
@@ -420,7 +420,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin (~> 1.3.1)
+  activeadmin
   apartment
   apartment-activejob
   aws-sdk-s3
