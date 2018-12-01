@@ -2,7 +2,7 @@ ActiveAdmin.register Membership do
   menu priority: 3
 
   scope :all
-  scope :trial, if: ->(_) { Current.acp.trial_basket_count.positive? }
+  scope :trial, if: -> { Current.acp.trial_basket_count.positive? }
   scope :ongoing, default: true
   scope :future
   scope :past

@@ -1,10 +1,5 @@
 source 'https://rubygems.org'
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
-  "https://github.com/#{repo_name}.git"
-end
-
 ruby '2.5.3'
 
 gem 'rails', '5.2.1.1'
@@ -26,7 +21,7 @@ gem 'paranoia'
 gem 'phony_rails'
 gem 'tod'
 
-gem 'activeadmin', '~> 1.3.1'
+gem 'activeadmin'
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
