@@ -342,14 +342,14 @@ ActiveAdmin::BaseController.class_eval do
 end
 
 # Set locale data attribute on body HTML tag.
-SanePatch.patch('activeadmin', '1.4.2') do
+SanePatch.patch('activeadmin', '1.4.3') do
   module ActiveAdmin
     module Views
       module Pages
         class Base < Arbre::HTML::Document
           def build_page
             within body(class: body_classes, 'data-locale' => I18n.locale) do
-              div id: 'wrapper' do
+              div id: "wrapper" do
                 build_unsupported_browser
                 header active_admin_namespace, current_menu
                 title_bar title, action_items_for_action
