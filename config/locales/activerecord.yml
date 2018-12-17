@@ -195,6 +195,12 @@ _:
         deliveries:
           _de: Lieferungen
           _fr: Livraisons
+        current_deliveries:
+          _de: Lieferungen (laufendes Jahr)
+          _fr: Livraisons (année courante)
+        future_deliveries:
+          _de: Lieferungen (zukünftige)
+          _fr: Livraisons (future)
         price_type:
           _de: Preis pro
           _fr: Prix par

@@ -48,7 +48,7 @@ ActiveAdmin.register Halfday do
       }
     end
     f.inputs t('formtastic.inputs.place_and_activity') do
-      if HalfdayPreset.any? && f.object.new_record?
+      if f.object.new_record? && HalfdayPreset.any?
         f.input :preset_id,
           collection: HalfdayPreset.all + [HalfdayPreset.new(id: 0, place: HalfdayPreset.human_attribute_name(:other))],
           include_blank: false

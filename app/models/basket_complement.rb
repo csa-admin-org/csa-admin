@@ -7,7 +7,13 @@ class BasketComplement < ActiveRecord::Base
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
-  has_and_belongs_to_many :deliveries,
+  has_and_belongs_to_many :deliveries
+  has_and_belongs_to_many :current_deliveries, -> { current_year },
+    class_name: 'Delivery',
+    after_add: :add_subscribed_baskets_complement!,
+    after_remove: :remove_subscribed_baskets_complement!
+  has_and_belongs_to_many :future_deliveries, -> { future_year },
+    class_name: 'Delivery',
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
 
@@ -26,7 +32,7 @@ class BasketComplement < ActiveRecord::Base
     if annual_price_type?
       price
     else
-      (price * deliveries.size).round_to_five_cents
+      (price * deliveries_count).round_to_five_cents
     end
   end
 
@@ -35,6 +41,13 @@ class BasketComplement < ActiveRecord::Base
   end
 
   def display_name; name end
+
+  def deliveries_count
+    @deliveries_count ||= begin
+      future_count = future_deliveries.count
+      future_count.positive? ? future_count : current_deliveries.count
+    end
+  end
 
   private
 

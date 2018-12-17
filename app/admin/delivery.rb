@@ -134,7 +134,7 @@ ActiveAdmin.register Delivery do
     render partial: 'bulk_dates', locals: { f: f, resource: resource }
     f.inputs do
       f.input :note
-      if BasketComplement.any?
+      if !f.object.new_record? && BasketComplement.any?
         f.input :basket_complements,
           as: :check_boxes,
           collection: BasketComplement.all,
