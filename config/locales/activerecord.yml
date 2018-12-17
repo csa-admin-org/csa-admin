@@ -575,6 +575,9 @@ _:
         halfday_works_validated:
           _de: Bestätigte
           _fr: Validées
+        invoices_amount:
+          _de: Total (Rechnung)
+          _fr: Total (Facturé)
         memberships_basket_complements:
           _de: Zusätze
           _fr: Compléments
