@@ -18,6 +18,7 @@ class Membership < ActiveRecord::Base
   has_many :subscribed_basket_complements,
     source: :basket_complement,
     through: :memberships_basket_complements
+  has_many :invoices, as: :object
 
   accepts_nested_attributes_for :memberships_basket_complements, allow_destroy: true
 
@@ -171,6 +172,10 @@ class Membership < ActiveRecord::Base
       basket_complements_annual_price_change +
       depots_price +
       halfday_works_annual_price
+  end
+
+  def invoices_amount
+    invoices.not_canceled.sum(:memberships_amount)
   end
 
   def first_delivery

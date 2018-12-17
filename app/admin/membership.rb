@@ -101,6 +101,8 @@ ActiveAdmin.register Membership do
     column(:started_on)
     column(:ended_on)
     column(:renew)
+    column(:price) { |m| number_to_currency(m.price) }
+    column(:invoices_amount) { |m| number_to_currency(m.invoices_amount) }
   end
 
   show do |m|
@@ -238,6 +240,7 @@ ActiveAdmin.register Membership do
             }
             row(halfday_scoped_attribute(:halfday_works_annual_price)) { number_to_currency(m.halfday_works_annual_price) }
             row(:price) { number_to_currency(m.price) }
+            row(:invoices_amount) { number_to_currency(m.invoices_amount) }
           end
         end
 
