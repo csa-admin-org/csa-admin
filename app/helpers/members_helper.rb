@@ -45,7 +45,7 @@ module MembersHelper
       [
         collection_text(bc.name,
           price: price_info(bc.annual_price, precision: 2),
-          details: deliveries_count(bc.deliveries.size)),
+          details: deliveries_count(bc.deliveries_count)),
         bc.id
       ]
     }

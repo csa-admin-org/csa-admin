@@ -31,7 +31,10 @@ _:
           _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
       basket_complement:
-        deliveries:
+        current_deliveries:
+          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert
+          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
+        future_deliveries:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
       baskets_basket_complement:

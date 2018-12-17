@@ -21,7 +21,8 @@ class BasketSize < ActiveRecord::Base
   end
 
   def deliveries_count
-    Delivery.current_year.count
+    future_count = Delivery.future_year.count
+    future_count.positive? ? future_count : Delivery.current_year.count
   end
 
   def display_name; name end

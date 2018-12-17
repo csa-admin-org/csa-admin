@@ -27,15 +27,24 @@ ActiveAdmin.register BasketComplement do
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }
       f.input :price
-      f.input :deliveries,
+      f.input :current_deliveries,
         as: :check_boxes,
-        collection: Delivery.current_and_future_year,
+        collection: Delivery.current_year,
         hint: f.object.persisted?
+      if Delivery.future_year.any?
+        f.input :future_deliveries,
+          as: :check_boxes,
+          collection: Delivery.future_year,
+          hint: f.object.persisted?
+      end
       f.actions
     end
   end
 
-  permit_params :price, :price_type, delivery_ids: [], names: I18n.available_locales
+  permit_params :price, :price_type,
+    current_delivery_ids: [],
+    future_delivery_ids: [],
+    names: I18n.available_locales
 
   config.filters = false
   config.sort_order = -> { "names->>'#{I18n.locale}'" }
