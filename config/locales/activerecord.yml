@@ -192,12 +192,12 @@ _:
           _de: Tasche
           _fr: Panier
       basket_complement:
-        deliveries:
-          _de: Lieferungen
-          _fr: Livraisons
         current_deliveries:
           _de: Lieferungen (laufendes Jahr)
           _fr: Livraisons (année courante)
+        deliveries:
+          _de: Lieferungen
+          _fr: Livraisons
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)

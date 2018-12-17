@@ -37,12 +37,12 @@ _:
     memberships_net_amount:
       _de: Abonnements exkl. MwSt.
       _fr: Abonnements HT
-    memberships_vat_amount:
-      _de: Abonnements MwSt.
-      _fr: Abonnements TVA
     memberships_total:
       _de: Abonnements Total
       _fr: Abonnements Total
+    memberships_vat_amount:
+      _de: Abonnements MwSt.
+      _fr: Abonnements TVA
     missing_amounts:
       _de: Fehlende Zahlungen
       _fr: Paiements manquants
@@ -80,9 +80,6 @@ _:
       missing:
         _de: Fehlende
         _fr: Manquants
-      paid:
-        _de: Geleistete
-        _fr: Versés
       overdue_notices:
         one:
           _de: 1 Mahnung
@@ -90,6 +87,9 @@ _:
         other:
           _de: "%{count} Mahnungen"
           _fr: "%{count} rappels"
+      paid:
+        _de: Geleistete
+        _fr: Versés
     title:
       _de: Rechnungsstellung
       _fr: Facturation
