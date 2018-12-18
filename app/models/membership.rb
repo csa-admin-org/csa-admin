@@ -43,13 +43,14 @@ class Membership < ActiveRecord::Base
   validate :at_least_one_basket
 
   before_save :set_renew
-  after_save :update_halfday_works
+  after_save :update_halfday_works, :update_price_and_invoices_amount!
   after_create :create_baskets!
   after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_subscription_change!
   after_commit :update_member_and_baskets!
+  after_touch :update_price_and_invoices_amount!
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -163,19 +164,6 @@ class Membership < ActiveRecord::Base
       baskets
         .where(depot_id: depot_id)
         .sum('quantity * depot_price'))
-  end
-
-  def price
-    basket_sizes_price +
-      baskets_annual_price_change +
-      basket_complements_price +
-      basket_complements_annual_price_change +
-      depots_price +
-      halfday_works_annual_price
-  end
-
-  def invoices_amount
-    invoices.not_canceled.sum(:memberships_amount)
   end
 
   def first_delivery
@@ -317,12 +305,24 @@ class Membership < ActiveRecord::Base
     update_baskets_counts!
   end
 
+  def update_price_and_invoices_amount!
+    update_columns(
+      price: (basket_sizes_price +
+        baskets_annual_price_change +
+        basket_complements_price +
+        basket_complements_annual_price_change +
+        depots_price +
+        halfday_works_annual_price),
+      invoices_amount: invoices.not_canceled.sum(:memberships_amount))
+  end
+
   def season_quantity(delivery)
     out_of_season_quantity(delivery) || basket_quantity
   end
 
   def only_one_per_year
     return unless member
+
     if member.memberships.during_year(fy_year).where.not(id: id).exists?
       errors.add(:member, :taken)
     end
@@ -359,6 +359,7 @@ class Membership < ActiveRecord::Base
 
   def rounded_price(price)
     return 0 if member.salary_basket?
+
     price.round_to_five_cents
   end
 end
