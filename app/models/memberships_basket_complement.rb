@@ -1,7 +1,7 @@
 class MembershipsBasketComplement < ActiveRecord::Base
   include HasSeasons
 
-  belongs_to :membership
+  belongs_to :membership, touch: true
   belongs_to :basket_complement
 
   validates :basket_complement_id, uniqueness: { scope: :membership_id }

@@ -54,7 +54,7 @@ class Member < ActiveRecord::Base
   validate :email_must_be_unique
 
   before_save :handle_annual_fee_change
-  after_save :update_membership_halfday_works
+  after_save :update_membership_if_salary_basket_changed
   after_create_commit :notify_new_inscription_to_admins, if: :public_create
 
   def newsletter?
@@ -248,9 +248,12 @@ class Member < ActiveRecord::Base
       delivered_baskets.count <= Current.acp.trial_basket_count
   end
 
-  def update_membership_halfday_works
+  def update_membership_if_salary_basket_changed
     if saved_change_to_attribute?(:salary_basket?)
-      current_year_membership&.update_halfday_works!
+      [current_year_membership, future_membership].each do |m|
+        m&.update_halfday_works!
+        m&.touch
+      end
     end
   end
 

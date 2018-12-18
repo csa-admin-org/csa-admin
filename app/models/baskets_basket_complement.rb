@@ -1,5 +1,5 @@
 class BasketsBasketComplement < ActiveRecord::Base
-  belongs_to :basket
+  belongs_to :basket, touch: true
   belongs_to :basket_complement
 
   validates :basket_complement_id, uniqueness: { scope: :basket_id }

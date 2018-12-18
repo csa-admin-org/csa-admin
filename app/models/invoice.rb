@@ -14,7 +14,7 @@ class Invoice < ActiveRecord::Base
   has_states :not_sent, :open, :closed, :canceled
 
   belongs_to :member
-  belongs_to :object, polymorphic: true, optional: true
+  belongs_to :object, polymorphic: true, optional: true, touch: true
   has_many :items, class_name: 'InvoiceItem', dependent: :destroy
   has_many :payments, dependent: :destroy
 

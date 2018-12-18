@@ -8,6 +8,7 @@ describe RecurringBilling do
   after { Timecop.return }
 
   def create_invoice(member)
+    member.reload
     RecurringBilling.invoice(member)
   end
 
@@ -80,7 +81,6 @@ describe RecurringBilling do
   it 'does not bill annual fee when member annual_fee is nil' do
     member = create(:member, :support_annual_fee)
     member.update_column(:annual_fee, nil)
-    member.reload
 
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
