@@ -43,7 +43,7 @@ describe Delivery do
   end
 
 
-  it 'adds basket_complement on subscribed baskets (with season)' do
+  it 'adds basket_complement on subscribed baskets (with season)', freeze: '01-01-2018' do
     Current.acp.update!(
       summer_month_range_min: 4,
       summer_month_range_max: 9)

@@ -7,7 +7,7 @@ describe Billing::MembershipACPShare do
     Billing::MembershipACPShare.invoice!(member, attrs)
   end
 
-  it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already' do
+  it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already', freeze: '01-06-2018' do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
@@ -21,7 +21,7 @@ describe Billing::MembershipACPShare do
     expect(invoice.date).to eq Date.current
   end
 
-  it 'sends emails directly when the send_email attribute is set' do
+  it 'sends emails directly when the send_email attribute is set', freeze: '01-06-2018' do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
@@ -35,7 +35,7 @@ describe Billing::MembershipACPShare do
     ))
   end
 
-  it 'creates invoice when ACP shares already partially billed' do
+  it 'creates invoice when ACP shares already partially billed', freeze: '01-06-2018' do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member

@@ -71,7 +71,7 @@ describe Basket do
     expect(basket.complements_price).to eq 4.5
   end
 
-  it 'sets basket_complement on creation when its match membership subscriptions (with season)' do
+  it 'sets basket_complement on creation when its match membership subscriptions (with season)', freeze: '01-06-2018' do
     Current.acp.update!(
       summer_month_range_min: 4,
       summer_month_range_max: 9)

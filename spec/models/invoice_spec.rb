@@ -204,7 +204,7 @@ describe Invoice do
     end
   end
 
-  describe 'set_memberships_vat_amount' do
+  describe 'set_memberships_vat_amount', freeze: '01-06-2018' do
     it 'does not set it for non-membership invoices' do
       invoice = create(:invoice, :annual_fee)
       expect(invoice.memberships_vat_amount).to be_nil

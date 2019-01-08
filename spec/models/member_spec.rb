@@ -162,7 +162,7 @@ describe Member do
     end
   end
 
-  describe '#review_active_state!' do
+  describe '#review_active_state!', freeze: '01-06-2018' do
     it 'activates new active member' do
       member = create(:member, :inactive)
       membership = create(:membership,
