@@ -43,7 +43,7 @@ ActiveAdmin.register_page 'Dashboard' do
               table_for counts.all do
                 column Depot.model_name.human, :title
                 column Basket.model_name.human, :count, class: 'align-right'
-                column "#{BasketSize.all.map(&:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+                column "#{BasketSize.all.map { |bs| bs.name&.gsub(/\s/, '&nbsp;') }.join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
               if Depot.paid.any?
@@ -54,12 +54,12 @@ ActiveAdmin.register_page 'Dashboard' do
                 totals = [
                   OpenStruct.new(
                     title: "#{Basket.model_name.human(count: 2)}: #{free_depots.pluck(:name).to_sentence}",
-                    count: t('.total', number: free_counts.sum),
-                    baskets_count: t('.totals', numbers: free_counts.sum_detail)),
+                    count: free_counts.sum,
+                    baskets_count: free_counts.sum_detail),
                   OpenStruct.new(
                     title: t('.baskets_to_prepare'),
-                    count: t('.total', number: paid_counts.sum),
-                    baskets_count: t('.totals', numbers: paid_counts.sum_detail))
+                    count:  paid_counts.sum,
+                    baskets_count: paid_counts.sum_detail)
                 ]
                 table_for totals do
                   column nil, :title
@@ -69,9 +69,9 @@ ActiveAdmin.register_page 'Dashboard' do
               end
 
               table_for nil do
-                column nil, :title
-                column(class: 'align-right') { "Total: #{counts.sum}" }
-                column(class: 'align-right') { t('.totals', numbers: counts.sum_detail) }
+                column(nil, :title) { t('.totals', numbers: '') }
+                column(class: 'align-right') { counts.sum }
+                column(class: 'align-right') { counts.sum_detail }
               end
 
               if BasketComplement.any?
@@ -88,12 +88,16 @@ ActiveAdmin.register_page 'Dashboard' do
                 end
               end
 
-              span do
-                link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(next_delivery, format: :xlsx)
-              end
-              span { '&nbsp;/&nbsp;'.html_safe }
-              span do
-                link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf)
+              table_for nil do
+                column do
+                  span do
+                    link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(next_delivery, format: :xlsx)
+                  end
+                  span { '&nbsp;/&nbsp;'.html_safe }
+                  span do
+                    link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf)
+                  end
+                end
               end
 
               absences_count = next_delivery.baskets.absent.count
