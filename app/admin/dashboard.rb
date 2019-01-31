@@ -97,13 +97,12 @@ ActiveAdmin.register_page 'Dashboard' do
                   span do
                     link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf)
                   end
-                end
-              end
-
-              absences_count = next_delivery.baskets.absent.count
-              if absences_count.positive?
-                span class: 'delivery_absences' do
-                  link_to "#{Absence.model_name.human(count: absences_count)}: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+                  absences_count = next_delivery.baskets.absent.sum(:quantity)
+                  if absences_count.positive?
+                    span class: 'delivery_absences' do
+                      link_to "#{Absence.model_name.human(count: absences_count)}: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+                    end
+                  end
                 end
               end
             end
