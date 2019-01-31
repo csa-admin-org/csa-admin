@@ -58,7 +58,7 @@ module XLSX
       add_empty_line
 
       @worksheet.add_cell(@line, 0, 'Absences')
-      @worksheet.add_cell(@line, 1, @delivery.baskets.absent.count).set_number_format('0')
+      @worksheet.add_cell(@line, 1, @delivery.baskets.absent.sum(:quantity)).set_number_format('0')
 
       @worksheet.change_column_width(0, 35)
       (1..(2 + @basket_sizes.count + @basket_complements.count)).each do |i|
@@ -69,7 +69,7 @@ module XLSX
 
     def add_baskets_line(description, baskets, bold: false)
       @worksheet.add_cell(@line, 0, description)
-      @worksheet.add_cell(@line, 1, baskets.count).set_number_format('0')
+      @worksheet.add_cell(@line, 1, baskets.sum(:quantity)).set_number_format('0')
       @basket_sizes.each_with_index do |basket_size, i|
         amount = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
         @worksheet.add_cell(@line, 2 + i, amount).set_number_format('0')
