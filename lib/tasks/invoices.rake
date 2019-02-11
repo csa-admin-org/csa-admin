@@ -19,10 +19,15 @@ namespace :invoices do
   desc 'Process all new payments'
   task process_payments: :environment do
     ACP.enter_each! do
-      if raiffeisen_credentials = Current.acp.credentials(:raiffeisen)
-        provider = Billing::Raiffeisen.new(raiffeisen_credentials)
+      if raiffeisen_softcert_credentials = Current.acp.credentials(:raiffeisen_softcert)
+        provider = Billing::RaiffeisenSoftcert.new(raiffeisen_softcert_credentials)
         PaymentsProcessor.new(provider).process
-        puts "#{Current.acp.name}: New Raiffeisen payments processed."
+        puts "#{Current.acp.name}: New Raiffeisen SoftCert payments processed."
+      end
+      if raiffeisen_ebics_credentials = Current.acp.credentials(:raiffeisen_ebics)
+        provider = Billing::RaiffeisenEbics.new(raiffeisen_ebics_credentials)
+        PaymentsProcessor.new(provider).process
+        puts "#{Current.acp.name}: New Raiffeisen EBICS payments processed."
       end
       if bas_credentials = Current.acp.credentials(:bas)
         provider = Billing::BAS.new(bas_credentials)
