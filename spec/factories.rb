@@ -208,6 +208,7 @@ FactoryBot.define do
   factory :invoice do
     member
     date { Time.current }
+    sent_at { Time.current }
 
     trait :membership do
       object { create(:membership, member: member) }

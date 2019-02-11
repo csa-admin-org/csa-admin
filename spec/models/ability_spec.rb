@@ -14,6 +14,8 @@ describe Ability do
     specify { expect(ability.can?(:validate, Member)).to be true }
     specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
+    specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
+    specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
   end
 
   context 'admin rights' do
@@ -29,6 +31,8 @@ describe Ability do
     specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be true }
+    specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
+    specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
   end
 
   context 'standard rights' do
@@ -45,5 +49,6 @@ describe Ability do
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be false }
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be false }
     specify { expect(ability.can?(:create, ActiveAdmin::Comment)).to be true }
+    specify { expect(ability.can?(:destroy, Invoice)).to be false }
   end
 end

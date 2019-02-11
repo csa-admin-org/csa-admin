@@ -242,4 +242,22 @@ describe Invoice do
         .to change(member, :state).from('support').to('inactive')
     end
   end
+
+  describe '#can_destroy?' do
+    it 'can destroy not sent invoice' do
+      invoice = create(:invoice, :annual_fee, :not_sent)
+      expect(invoice.can_destroy?).to eq true
+    end
+
+    it 'can not destroy not sent invoice with payments' do
+      invoice = create(:invoice, :annual_fee, :not_sent)
+      create(:payment, invoice: invoice)
+      expect(invoice.can_destroy?).to eq false
+    end
+
+    it 'can not destroy open invoice' do
+      invoice = create(:invoice, :annual_fee, :open)
+      expect(invoice.can_destroy?).to eq false
+    end
+  end
 end
