@@ -27,7 +27,7 @@ class Invoice < ActiveRecord::Base
   scope :acp_share, -> { where(object_type: 'ACPShare') }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :all_without_canceled, -> { not_canceled }
-  scope :not_open_or_sent, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
+  scope :not_open_or_sent, -> { where.not(sent_at: nil).where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
   scope :unpaid, -> { not_canceled.where('balance < amount') }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
@@ -192,6 +192,10 @@ class Invoice < ActiveRecord::Base
     super
     self[:object_type] = 'ACPShare'
     self[:amount] = number.to_i * Current.acp.share_price
+  end
+
+  def can_destroy?
+    !sent_at? && payments.none?
   end
 
   def can_cancel?

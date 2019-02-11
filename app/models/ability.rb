@@ -18,7 +18,7 @@ class Ability
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
-      can :destroy, [Member, Membership, Payment], can_destroy?: true
+      can :destroy, [Member, Membership, Payment, Invoice], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
       can :trigger_recurring_billing, Membership
       can :validate, Member, pending?: true
