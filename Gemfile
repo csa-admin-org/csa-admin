@@ -58,6 +58,9 @@ gem 'prawn-table'
 gem 'public_suffix'
 gem 'rubyXL'
 
+gem 'camt_parser'
+gem 'epics'
+
 group :production do
   gem 'aws-sdk-s3', require: false
   gem 'hiredis', require: false

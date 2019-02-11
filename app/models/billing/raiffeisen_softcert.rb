@@ -1,5 +1,5 @@
 module Billing
-  class Raiffeisen
+  class RaiffeisenSoftcert
     PaymentData = Class.new(OpenStruct)
     URL = 'https://ebanking.raiffeisen.ch'.freeze
     GET_PAYMENTS_FROM = 1.month.ago
