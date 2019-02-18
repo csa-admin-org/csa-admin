@@ -43,12 +43,12 @@ module XLSX
       end
       add_empty_line
 
-      if free_depots = @depots.free && Depot.paid.any?
+      if Depot.paid.any? && free_depots = @depots.free
         free_name = free_depots.pluck(:name).to_sentence
         free_ids = free_depots.pluck(:id)
         add_baskets_line("Paniers: #{free_name}", @baskets.where(depot_id: free_ids))
         paid_ids = @depots.paid.pluck(:id)
-        add_baskets_line("Paniers à préparer", @baskets.where(depot_id: paid_ids))
+        add_baskets_line('Paniers à préparer', @baskets.where(depot_id: paid_ids))
         add_empty_line
       end
 
