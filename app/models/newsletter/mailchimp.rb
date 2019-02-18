@@ -46,6 +46,7 @@ class Newsletter::MailChimp
       MEMB_NEWS: { name: 'Newsletter envoyée?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
       CURR_MEMB: { name: "Abonnement en cours?", type: 'dropdown', required: true, options: { choices: %w[yes no] } },
+      MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: true, options: { choices: %w[yes no –] } },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
       BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } },
@@ -97,6 +98,8 @@ class Newsletter::MailChimp
   end
 
   def member_merge_fields(member)
+    current_year_membership = member.current_year_membership
+    next_basket = member.next_basket
     fields = {
       MEMB_ID: member.id,
       MEMB_NAME: member.name,
@@ -104,18 +107,19 @@ class Newsletter::MailChimp
       MEMB_NEWS: member.newsletter? ? 'yes' : 'no',
       MEMB_STAT: member.state,
       CURR_MEMB: member.current_membership ? 'yes' : 'no',
-      BASK_DATE: (member.next_basket && I18n.l(member.next_basket&.delivery&.date, locale: member.language)).to_s,
-      BASK_SIZE: member.next_basket&.basket_size&.name.to_s,
-      BASK_DIST: member.next_basket&.depot&.name.to_s,
-      HALF_ASKE: member.current_year_membership&.halfday_works.to_i,
-      HALF_MISS: member.current_year_membership&.missing_halfday_works.to_i
+      MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',
+      BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
+      BASK_SIZE: next_basket&.basket_size&.name.to_s,
+      BASK_DIST: next_basket&.depot&.name.to_s,
+      HALF_ASKE: current_year_membership&.halfday_works.to_i,
+      HALF_MISS: current_year_membership&.missing_halfday_works.to_i
     }
     if BasketComplement.any?
       fields[:BASK_COMP] =
-        member.next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ').to_s
+        next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ').to_s
     end
     if Current.acp.trial_basket_count.positive?
-      fields[:BASK_TRIA] = member.current_year_membership&.remaning_trial_baskets_count.to_i
+      fields[:BASK_TRIA] = current_year_membership&.remaning_trial_baskets_count.to_i
     end
     fields
   end
