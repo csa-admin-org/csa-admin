@@ -292,7 +292,7 @@ ActiveAdmin.register Member do
   action_item :deactivate, only: :show, if: -> { authorized?(:deactivate, resource) } do
     link_to t('.deactivate'), deactivate_member_path(resource), method: :post
   end
-  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) } do
+  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
     next_delivery = Delivery.next
     link_to t('.create_membership'),
       new_membership_path(
