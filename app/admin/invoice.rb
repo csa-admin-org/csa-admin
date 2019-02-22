@@ -1,6 +1,6 @@
 ActiveAdmin.register Invoice do
   menu parent: :billing, priority: 1
-  actions :all, except: %i[edit update destroy]
+  actions :all, except: %i[edit update]
 
   scope :all_without_canceled
   scope :unpaid, default: true
