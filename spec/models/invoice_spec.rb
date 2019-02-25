@@ -26,10 +26,10 @@ describe Invoice do
   end
 
   it 'sends email when send_email is true on creation' do
-    expect { create(:invoice, :annual_fee) }
+    expect { create(:invoice, :annual_fee, :unprocessed) }
       .not_to change { email_adapter.deliveries.size }
 
-    expect { create(:invoice, :annual_fee, send_email: true) }
+    expect { create(:invoice, :annual_fee, :unprocessed, send_email: true) }
       .to change { email_adapter.deliveries.size }.by(1)
   end
 
@@ -37,7 +37,7 @@ describe Invoice do
     member = create(:member, annual_fee: 42)
     create(:payment, amount: 100, member: member)
 
-    invoice = create(:invoice, :annual_fee, member: member, send_email: true)
+    invoice = create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
 
     expect(email_adapter.deliveries.last).to match(hash_including(
       template: 'invoice-new-fr',

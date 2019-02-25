@@ -225,6 +225,10 @@ FactoryBot.define do
       paid_missing_halfday_works_amount { ACP::HALFDAY_PRICE }
     end
 
+    trait :unprocessed do
+      sent_at { nil }
+    end
+
     trait :not_sent do
       state { 'not_sent' }
       sent_at { nil }
