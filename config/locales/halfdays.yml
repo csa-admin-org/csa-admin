@@ -2,10 +2,10 @@ _:
   halfdays:
     basket_preparation:
       one:
-        _de: Abpackung Taschen
+        _de: Taschen befüllung
         _fr: Mise en panier
       other:
-        _de: Abpackungen Taschen
+        _de: Taschen befüllung
         _fr: Mises en panier
     halfday_work:
       one:
@@ -14,6 +14,13 @@ _:
       other:
         _de: "½ Tage"
         _fr: "½ Journées"
+    hour_work:
+      one:
+        _de: Arbeitsstunde
+        _fr: Heure de travail
+      other:
+        _de: Arbeitsstunden
+        _fr: Heures de travail
     participant_count:
       one:
         _de: 1 Teilnehmer

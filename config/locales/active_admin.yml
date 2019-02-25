@@ -476,11 +476,14 @@ _:
           _de: Keine Tasche
           _fr: Pas de paniers
         no_halfdays/basket_preparation:
-          _de: Kein ½ Tag
-          _fr: Aucune ½ journée
+          _de: Keine taschen befüllung
+          _fr: Aucune mise en panier
         no_halfdays/halfday_work:
           _de: Kein ½ Tag
           _fr: Aucune ½ journée
+        no_halfdays/hour_work:
+          _de: Keine Arbeitsstunden
+          _fr: Aucune heure de travail
         no_invoices:
           _de: Keine Rechnung
           _fr: Aucune facture
@@ -571,6 +574,10 @@ _:
         new_model:
           _de: Neuer %{model}
           _fr: Nouvelle %{model}
+      halfday/hour_work:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
       halfday_participation:
         scopes:
           all:
@@ -602,10 +609,16 @@ _:
         new_model:
           _de: Neuer %{model}
           _fr: Nouvelle %{model}
-        scopes:
-          all:
-            _de: alle
-            _fr: toutes
+      halfday_participation/hour_work:
+        delete_model:
+          _de: Löschen
+          _fr: Supprimer
+        edit_model:
+          _de: Bearbeiten
+          _fr: Modifier
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
       invoice:
         new_model:
           _de: Neue %{model}
