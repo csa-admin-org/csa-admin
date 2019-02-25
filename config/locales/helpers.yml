@@ -9,10 +9,10 @@ _:
         _fr: "%{count} parts sociales"
     halfdays_count_per_year/basket_preparation:
       one:
-        _de: "%{count} Abpackung Taschen"
+        _de: "%{count} Taschen befüllung"
         _fr: "%{count} mise en panier"
       other:
-        _de: "%{count} Abpackungen Taschen"
+        _de: "%{count} Taschen befüllung"
         _fr: "%{count} mises en panier"
     halfdays_count_per_year/halfday_work:
       one:
@@ -21,6 +21,13 @@ _:
       other:
         _de: "%{count} Halbtage"
         _fr: "%{count} demi-journées"
+    halfdays_count_per_year/hour_work:
+      one:
+        _de: "%{count} Arbeitsstunde"
+        _fr: "%{count} heure de travail"
+      other:
+        _de: "%{count} Arbeitsstunden"
+        _fr: "%{count} heures de travail"
     no_basket_size:
       _de: Kein, Unterstützungsmitglied werden
       _fr: Aucun, devenir membre de soutien
