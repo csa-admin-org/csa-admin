@@ -1,5 +1,5 @@
 module Billing
-  class RaiffeisenEbics
+  class Raiffeisen
     PaymentData = Class.new(OpenStruct)
     URL = 'https://econnect.raiffeisen.ch/ebicsweb/ebicsweb'.freeze
     GET_PAYMENTS_FROM = 1.month.ago
@@ -10,33 +10,34 @@ module Billing
     end
 
     def payments_data
-      camt54 = get_camt54
-      camt54.notifications.flat_map do |notification|
-        notification.entries.flat_map do |entry|
-          date = entry.value_date
-          entry.transactions.each_with_index.map do |transaction, i|
-            ref = transaction.creditor_reference
-            if transaction.credit? && ref.present?
-              bank_ref = transaction.bank_reference
-              PaymentData.new(
-                invoice_id: ref.last(10).first(9).to_i,
-                amount: transaction.amount,
-                date: date,
-                isr_data: "#{date}-#{bank_ref}-#{ref}-#{i}")
-            end
-          end.compact
+      files = get_camt54_files
+      files.flat_map do |file|
+        camt54 = CamtParser::String.parse(file)
+        camt54.notifications.flat_map do |notification|
+          notification.entries.flat_map do |entry|
+            date = entry.value_date
+            entry.transactions.each_with_index.map do |transaction|
+              ref = transaction.creditor_reference
+              if transaction.credit? && ref.present?
+                bank_ref = transaction.bank_reference
+                PaymentData.new(
+                  invoice_id: ref.last(10).first(9).to_i,
+                  amount: transaction.amount,
+                  date: date,
+                  isr_data: "#{date}-#{bank_ref}-#{ref}")
+              end
+            end.compact
+          end
         end
       end
     end
 
     private
 
-    def get_camt54
-      res = client.Z54(
+    def get_camt54_files
+      client.Z54(
         GET_PAYMENTS_FROM.to_date.to_s,
-        Date.current.to_s
-      ).first
-      CamtParser::String.parse(res)
+        Date.current.to_s)
     end
 
     def client
