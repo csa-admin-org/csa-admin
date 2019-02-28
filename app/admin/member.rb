@@ -263,6 +263,7 @@ ActiveAdmin.register Member do
       end
       if Current.acp.share?
         f.input :acp_shares_info
+        f.input :existing_acp_shares_number
       end
       f.input :salary_basket
     end
@@ -278,7 +279,8 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
     :delivery_address, :delivery_city, :delivery_zip,
-    :annual_fee, :salary_basket, :billing_year_division, :acp_shares_info,
+    :annual_fee, :salary_basket, :billing_year_division,
+    :acp_shares_info, :existing_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []

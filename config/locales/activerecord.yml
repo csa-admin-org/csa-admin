@@ -442,6 +442,9 @@ _:
         depot:
           _de: Depot
           _fr: Dépôt
+        existing_acp_shares_number:
+          _de: Anzahl der bestehenden Anteilscheine
+          _fr: Nombre de parts sociale existantes
         food_note:
           _de: Notiz Lebensmittel
           _fr: Note alimentaire
