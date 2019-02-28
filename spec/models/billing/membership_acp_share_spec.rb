@@ -55,6 +55,15 @@ describe Billing::MembershipACPShare do
     expect { invoice!(member) }.not_to change { member.invoices.count }
   end
 
+  it 'does nothing when ACP shares already exists prior to system use' do
+    basket_size = create(:basket_size, acp_shares_number: 3)
+    membership = create(:membership, basket_size: basket_size)
+    member = membership.member
+    member.update!(existing_acp_shares_number: 3)
+
+    expect { invoice!(member) }.not_to change { member.invoices.count }
+  end
+
   it 'does nothing when no membership' do
     member = create(:member, :inactive)
     expect { invoice!(member) }.not_to change { member.invoices.count }
