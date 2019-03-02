@@ -12,6 +12,7 @@ FactoryBot.define do
     trial_basket_count { 4 }
     billing_year_divisions { [1, 4] }
     annual_fee { 30 }
+    activity_price { 60 }
     ccp { '01-13734-6' }
     isr_identity { '00 11041 90802 41000' }
     isr_payment_for { "Banque Raiffeisen du Vignoble\n2023 Gorgier" }
@@ -222,7 +223,7 @@ FactoryBot.define do
 
     trait :activity_participation do
       paid_missing_activity_participations { 1 }
-      paid_missing_activity_participations_amount { ACP::ACTIVITY_PRICE }
+      paid_missing_activity_participations_amount { Current.acp.activity_price }
     end
 
     trait :unprocessed do

@@ -1,15 +1,15 @@
 _:
   stats:
     navigation:
+      activities:
+        _de: Mitarbeit der Mitglieder
+        _fr: Participation des membres
       baskets:
         _de: Taschen
         _fr: Paniers
       depots:
         _de: Depots
         _fr: Dépôts
-      activities:
-        _de: Mitarbeit der Mitglieder
-        _fr: Participation des membres
       map:
         _de: Karte
         _fr: Carte

@@ -6,9 +6,6 @@ _:
     acp_shares_number:
       _de: Anzahl Anteilscheine
       _fr: Nombre de parts sociales
-    title:
-      _de: Arbeit
-      _fr: Activité
     address:
       _de: Adresse
       _fr: Adresse
@@ -165,6 +162,9 @@ _:
     status:
       _de: Status
       _fr: Statut
+    title:
+      _de: Arbeit
+      _fr: Activité
     total:
       _de: Total
       _fr: Total

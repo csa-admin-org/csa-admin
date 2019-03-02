@@ -8,18 +8,35 @@ _:
       _fr: Créer %{model}
     hints:
       acp:
-        annual_fee:
-          _de: Leer lassen, wenn kein jährlicher Beitrag
-          _fr: Laisser vide si aucune cotisation anuelle
         activity_availability_limit_in_days:
           _de: Nach dieser Frist ist keine Anmeldung mehr möglich. Leer lassen wenn keine Frist gewünscht ist.
           _fr: Passé cette limite, il n'est plus possible de s'inscrire. Laisser à zéro aucune limite.
         activity_participation_deletion_deadline_in_days:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
+        activity_price:
+          _de: Leer lassen, wenn die fehlende Teilnahme nicht berechnet wird
+          _fr: Laisser à zéro si le manque de participation n'est pas facturé
+        annual_fee:
+          _de: Leer lassen bei Null, wenn kein jährlicher Beitrag
+          _fr: Laisser vide si aucune cotisation anuelle
         share_price:
           _de: Leer lassen, wenn kein Anteilschein
           _fr: Laisser vide si pas de part sociale
+      activity:
+        description:
+          _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut'
+          _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
+        participants_limit:
+          _de: Leer lassen, wenn keine Grenze
+          _fr: Laisser vide si aucune limite
+        place_url:
+          _de: Google Maps oder anderes
+          _fr: Google Maps ou autre
+      activity_preset:
+        place_url:
+          _de: Google Maps oder anderes
+          _fr: Google Maps ou autre
       admin_password:
         _de: Leer lassen wenn unverändert
         _fr: Laisser vide si inchangé
@@ -58,20 +75,6 @@ _:
         visible:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung'
           _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription
-      activity:
-        description:
-          _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut'
-          _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
-        participants_limit:
-          _de: Leer lassen, wenn keine Grenze
-          _fr: Laisser vide si aucune limite
-        place_url:
-          _de: Google Maps oder anderes
-          _fr: Google Maps ou autre
-      activity_preset:
-        place_url:
-          _de: Google Maps oder anderes
-          _fr: Google Maps ou autre
       member:
         delivery_address:
           _de: Leer lassen, wenn gleich
@@ -95,6 +98,9 @@ _:
           _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule
       membership:
+        activity_participations_annual_price_change:
+          _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen
+          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
         activity_participations_demanded_annualy:
           _de: Leer lassen für die Standaranzahl
           _fr: Laisser blanc pour le nombre par défaut
@@ -110,9 +116,6 @@ _:
         depot_price:
           _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
-        activity_participations_annual_price_change:
-          _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen
-          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
         price:
           _de: Leer lassen für den Standardpreis
           _fr: Laisser blanc pour le prix par défaut
@@ -132,6 +135,9 @@ _:
           _de: Lohntasche(n) / Gratis-Abonnements
           _fr: Panier(s) salaire / Abonnement(s) gratuit(s)
       membership:
+        activity_participations_annual_price_change:
+          _de: Anpassung Preis des Abonnements
+          _fr: Ajustement du prix de l'abonnement
         activity_participations_demanded_annualy:
           _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
@@ -139,9 +145,6 @@ _:
           _de: Anpassung Preis der Zusätze
           _fr: Ajustement du prix des compléments
         baskets_annual_price_change:
-          _de: Anpassung Preis des Abonnements
-          _fr: Ajustement du prix de l'abonnement
-        activity_participations_annual_price_change:
           _de: Anpassung Preis des Abonnements
           _fr: Ajustement du prix de l'abonnement
     'no':

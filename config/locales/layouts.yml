@@ -4,12 +4,12 @@ _:
       absences_subtitle:
         _de: Informieren Sie uns!
         _fr: Prévenez-nous!
-      billing:
-        _de: Rechnungsstellung
-        _fr: Facturation
       activity_participations_accepted:
         _de: "%{accepted}/%{demanded} geleistet"
         _fr: "%{accepted}/%{demanded} effectuée(s)"
+      billing:
+        _de: Rechnungsstellung
+        _fr: Facturation
       header:
         contact:
           _de: Kontakt

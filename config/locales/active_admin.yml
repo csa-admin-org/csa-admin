@@ -469,12 +469,6 @@ _:
         new_payment:
           _de: Neue Einzahlung
           _fr: Nouveau paiement
-        no_basket_complements:
-          _de: Kein Zusatz für diese Lieferung
-          _fr: Aucun complément pour cette livraison
-        no_baskets:
-          _de: Keine Tasche
-          _fr: Pas de paniers
         no_activities/basket_preparation:
           _de: Keine taschen befüllung
           _fr: Aucune mise en panier
@@ -484,6 +478,12 @@ _:
         no_activities/hour_work:
           _de: Keine Arbeitsstunden
           _fr: Aucune heure de travail
+        no_basket_complements:
+          _de: Kein Zusatz für diese Lieferung
+          _fr: Aucun complément pour cette livraison
+        no_baskets:
+          _de: Keine Tasche
+          _fr: Pas de paniers
         no_invoices:
           _de: Keine Rechnung
           _fr: Aucune facture
@@ -542,22 +542,6 @@ _:
         edit_model:
           _de: Einstellungen
           _fr: Paramètres
-      basket_content:
-        new_model:
-          _de: Neuer %{model}
-          _fr: Nouveau %{model}
-      basket_size:
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
-      delivery:
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
-      depot:
-        new_model:
-          _de: Neues %{model}
-          _fr: Nouveau %{model}
       activity:
         scopes:
           all:
@@ -619,6 +603,22 @@ _:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+      basket_content:
+        new_model:
+          _de: Neuer %{model}
+          _fr: Nouveau %{model}
+      basket_size:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+      delivery:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+      depot:
+        new_model:
+          _de: Neues %{model}
+          _fr: Nouveau %{model}
       invoice:
         new_model:
           _de: Neue %{model}

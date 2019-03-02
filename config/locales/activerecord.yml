@@ -9,6 +9,21 @@ _:
           _de: Anfang
           _fr: Début
       acp:
+        activity_availability_limit_in_days:
+          _de: Anmeldefrist (in Tagen)
+          _fr: Limite d'inscription à l'avance (en jours)
+        activity_i18n_scope:
+          _de: Mehrwertsteuernummer
+          _fr: Appellation
+        activity_participation_deletion_deadline_in_days:
+          _de: Abmeldungsfrist (in Tagen)
+          _fr: Délai de désinscription (en jours)
+        activity_phone:
+          _de: Telefon
+          _fr: Téléphone
+        activity_price:
+          _de: Rechnungsbetrag
+          _fr: Montant facturé
         annual_fee:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
@@ -39,18 +54,6 @@ _:
         fiscal_year_start_month:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
-        activity_availability_limit_in_days:
-          _de: Anmeldefrist (in Tagen)
-          _fr: Limite d'inscription à l'avance (en jours)
-        activity_i18n_scope:
-          _de: Mehrwertsteuernummer
-          _fr: Appellation
-        activity_participation_deletion_deadline_in_days:
-          _de: Abmeldungsfrist (in Tagen)
-          _fr: Délai de désinscription (en jours)
-        activity_phone:
-          _de: Telefon
-          _fr: Téléphone
         invoice_footer:
           _de: Fusszeile Rechnung
           _fr: Facture bas de page
@@ -102,6 +105,120 @@ _:
         vat_number:
           _de: Mehrwertsteuernummer
           _fr: Numéro TVA
+      activity_participation/basket_preparation:
+        activity:
+          _de: Taschen befüllung
+          _fr: Mise en panier
+        carpooling_city:
+          _de: Abfahrt Stadt
+          _fr: Ville de départ
+        carpooling_phone:
+          _de: Telefon Fahrgemeinschaften
+          _fr: Téléphone covoiturage
+        created_at:
+          _de: Erstellt am
+          _fr: Enregistrée à
+        invoiced_at:
+          _de: In Rechnung gestellt am
+          _fr: Facturée le
+        member_id:
+          _de: Mitglied ID
+          _fr: Membre ID
+        member_name:
+          _de: Mitglied
+          _fr: Membre
+        member_phones:
+          _de: Telefone
+          _fr: Téléphones
+        participants_count:
+          _de: Teilnehmer
+          _fr: Participants
+        rejected_at:
+          _de: Abgelehnt am
+          _fr: Refusée à
+        updated_at:
+          _de: Aktualisiert am
+          _fr: Mise à jour à
+        validated_at:
+          _de: Bestätigt am
+          _fr: Validée à
+        validator:
+          _de: Bestätigt durch
+          _fr: Validateur
+      activity_participation/halfday_work:
+        activity:
+          _de: "½ Tag"
+          _fr: "½ Journée"
+        carpooling_city:
+          _de: Abfahrt Stadt
+          _fr: Ville de départ
+        carpooling_phone:
+          _de: Telefon Fahrgemeinschaften
+          _fr: Téléphone covoiturage
+        created_at:
+          _de: Erstellt am
+          _fr: Enregistrée à
+        invoiced_at:
+          _de: In Rechnung gestellt am
+          _fr: Facturée le
+        member_id:
+          _de: Mitglied ID
+          _fr: Membre ID
+        member_name:
+          _de: Mitglied
+          _fr: Membre
+        member_phones:
+          _de: Telefone
+          _fr: Téléphones
+        rejected_at:
+          _de: Abgelehnt am
+          _fr: Refusée à
+        updated_at:
+          _de: Aktualisiert am
+          _fr: Mise à jour à
+        validated_at:
+          _de: Bestätigt am
+          _fr: Validée à
+        validator:
+          _de: Bestätigt durch
+          _fr: Validateur
+      activity_participation/hour_work:
+        activity:
+          _de: Arbeitsstunde
+          _fr: Heure de travail
+        carpooling_city:
+          _de: Abfahrt Stadt
+          _fr: Ville de départ
+        carpooling_phone:
+          _de: Telefon Fahrgemeinschaften
+          _fr: Téléphone covoiturage
+        created_at:
+          _de: Erstellt am
+          _fr: Enregistrée à
+        invoiced_at:
+          _de: In Rechnung gestellt am
+          _fr: Facturée le
+        member_id:
+          _de: Mitglied ID
+          _fr: Membre ID
+        member_name:
+          _de: Mitglied
+          _fr: Membre
+        member_phones:
+          _de: Telefone
+          _fr: Téléphones
+        rejected_at:
+          _de: Abgelehnt am
+          _fr: Refusée à
+        updated_at:
+          _de: Aktualisiert am
+          _fr: Mise à jour à
+        validated_at:
+          _de: Bestätigt am
+          _fr: Validée à
+        validator:
+          _de: Bestätigt durch
+          _fr: Validateur
       admin:
         confirmation_sent_at:
           _de: Versanddatum der Bestätitgung
@@ -266,120 +383,6 @@ _:
         responsible_member:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
-      activity_participation/basket_preparation:
-        carpooling_city:
-          _de: Abfahrt Stadt
-          _fr: Ville de départ
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
-        created_at:
-          _de: Erstellt am
-          _fr: Enregistrée à
-        activity:
-          _de: Taschen befüllung
-          _fr: Mise en panier
-        invoiced_at:
-          _de: In Rechnung gestellt am
-          _fr: Facturée le
-        member_id:
-          _de: Mitglied ID
-          _fr: Membre ID
-        member_name:
-          _de: Mitglied
-          _fr: Membre
-        member_phones:
-          _de: Telefone
-          _fr: Téléphones
-        participants_count:
-          _de: Teilnehmer
-          _fr: Participants
-        rejected_at:
-          _de: Abgelehnt am
-          _fr: Refusée à
-        updated_at:
-          _de: Aktualisiert am
-          _fr: Mise à jour à
-        validated_at:
-          _de: Bestätigt am
-          _fr: Validée à
-        validator:
-          _de: Bestätigt durch
-          _fr: Validateur
-      activity_participation/halfday_work:
-        carpooling_city:
-          _de: Abfahrt Stadt
-          _fr: Ville de départ
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
-        created_at:
-          _de: Erstellt am
-          _fr: Enregistrée à
-        activity:
-          _de: "½ Tag"
-          _fr: "½ Journée"
-        invoiced_at:
-          _de: In Rechnung gestellt am
-          _fr: Facturée le
-        member_id:
-          _de: Mitglied ID
-          _fr: Membre ID
-        member_name:
-          _de: Mitglied
-          _fr: Membre
-        member_phones:
-          _de: Telefone
-          _fr: Téléphones
-        rejected_at:
-          _de: Abgelehnt am
-          _fr: Refusée à
-        updated_at:
-          _de: Aktualisiert am
-          _fr: Mise à jour à
-        validated_at:
-          _de: Bestätigt am
-          _fr: Validée à
-        validator:
-          _de: Bestätigt durch
-          _fr: Validateur
-      activity_participation/hour_work:
-        carpooling_city:
-          _de: Abfahrt Stadt
-          _fr: Ville de départ
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
-        created_at:
-          _de: Erstellt am
-          _fr: Enregistrée à
-        activity:
-          _de: Arbeitsstunde
-          _fr: Heure de travail
-        invoiced_at:
-          _de: In Rechnung gestellt am
-          _fr: Facturée le
-        member_id:
-          _de: Mitglied ID
-          _fr: Membre ID
-        member_name:
-          _de: Mitglied
-          _fr: Membre
-        member_phones:
-          _de: Telefone
-          _fr: Téléphones
-        rejected_at:
-          _de: Abgelehnt am
-          _fr: Refusée à
-        updated_at:
-          _de: Aktualisiert am
-          _fr: Mise à jour à
-        validated_at:
-          _de: Bestätigt am
-          _fr: Validée à
-        validator:
-          _de: Bestätigt durch
-          _fr: Validateur
       invoice:
         balance:
           _de: Eingezahlt
@@ -497,63 +500,6 @@ _:
           _de: Telefon
           _fr: Téléphone
       membership:
-        basket_complements:
-          _de: Taschenzusätze
-          _fr: Compléments panier
-        basket_complements_annual_price_change:
-          _de: Anpassung Preis Abonnement (Zusätze)
-          _fr: Ajustement du prix de l'abonnement (compléments)
-        basket_complements_price:
-          _de: Preis Zusätze
-          _fr: Prix compléments
-        basket_price:
-          _de: Preis Tasche
-          _fr: Prix panier
-        basket_quantity:
-          _de: Menge
-          _fr: Quantité
-        basket_sizes_price:
-          _de: Preis Taschen
-          _fr: Prix paniers
-        baskets:
-          _de: Taschen
-          _fr: Paniers
-        baskets_annual_price_change:
-          _de: Anpassung Preis Abonnement (Taschen)
-          _fr: Ajustement du prix de l'abonnement (paniers)
-        baskets_count:
-          _de: Taschen
-          _fr: Paniers
-        deliveries_count:
-          _de: Taschen
-          _fr: Paniers
-        deliveries_received_count:
-          _de: Gelieferte Taschen
-          _fr: Paniers livrés
-        depot:
-          _de: Depot
-          _fr: Dépôt
-        depot_id:
-          _de: Depot
-          _fr: Dépôt
-        depot_price:
-          _de: Preis Lieferung
-          _fr: Prix dépôt
-        depots_price:
-          _de: Preis Lieferungen
-          _fr: Prix dépôts
-        ended_on:
-          _de: Ende
-          _fr: Fin
-        activity_participations_demanded/basket_preparation:
-          _de: Verlangte Taschen befüllung
-          _fr: Mises en panier demandées
-        activity_participations_demanded/halfday_work:
-          _de: "½ Tage verlangt"
-          _fr: "½ journées demandées"
-        activity_participations_demanded/hour_work:
-          _de: Arbeitsstunden verlangt
-          _fr: Heures de travail demandées
         activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Preis Abonnement (Taschen befüllung)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
@@ -623,12 +569,21 @@ _:
           other:
             _de: Rabatt für %{count} zusätzliche Arbeitsstunden
             _fr: Réduction pour %{count} heures de travail supplémentaires
-        activity_participations_demanded:
-          _de: Zu leisten
-          _fr: Demandées
         activity_participations_coming:
           _de: Künftig
           _fr: À venir
+        activity_participations_demanded:
+          _de: Zu leisten
+          _fr: Demandées
+        activity_participations_demanded/basket_preparation:
+          _de: Verlangte Taschen befüllung
+          _fr: Mises en panier demandées
+        activity_participations_demanded/halfday_work:
+          _de: "½ Tage verlangt"
+          _fr: "½ journées demandées"
+        activity_participations_demanded/hour_work:
+          _de: Arbeitsstunden verlangt
+          _fr: Heures de travail demandées
         activity_participations_missing:
           _de: Fehlende
           _fr: Manquantes
@@ -644,6 +599,54 @@ _:
         activity_participations_validated:
           _de: Bestätigte
           _fr: Validées
+        basket_complements:
+          _de: Taschenzusätze
+          _fr: Compléments panier
+        basket_complements_annual_price_change:
+          _de: Anpassung Preis Abonnement (Zusätze)
+          _fr: Ajustement du prix de l'abonnement (compléments)
+        basket_complements_price:
+          _de: Preis Zusätze
+          _fr: Prix compléments
+        basket_price:
+          _de: Preis Tasche
+          _fr: Prix panier
+        basket_quantity:
+          _de: Menge
+          _fr: Quantité
+        basket_sizes_price:
+          _de: Preis Taschen
+          _fr: Prix paniers
+        baskets:
+          _de: Taschen
+          _fr: Paniers
+        baskets_annual_price_change:
+          _de: Anpassung Preis Abonnement (Taschen)
+          _fr: Ajustement du prix de l'abonnement (paniers)
+        baskets_count:
+          _de: Taschen
+          _fr: Paniers
+        deliveries_count:
+          _de: Taschen
+          _fr: Paniers
+        deliveries_received_count:
+          _de: Gelieferte Taschen
+          _fr: Paniers livrés
+        depot:
+          _de: Depot
+          _fr: Dépôt
+        depot_id:
+          _de: Depot
+          _fr: Dépôt
+        depot_price:
+          _de: Preis Lieferung
+          _fr: Prix dépôt
+        depots_price:
+          _de: Preis Lieferungen
+          _fr: Prix dépôts
+        ended_on:
+          _de: Ende
+          _fr: Fin
         invoices_amount:
           _de: Total (Rechnung)
           _fr: Total (Facturé)
@@ -706,61 +709,6 @@ _:
         other:
           _de: Kommentare
           _fr: Commentaires
-      basket:
-        one:
-          _de: Tasche
-          _fr: Panier
-        other:
-          _de: Taschen
-          _fr: Paniers
-      basket_complement:
-        none:
-          _de: Kein
-          _fr: Aucun
-        one:
-          _de: Taschenzusatz
-          _fr: Complément panier
-        other:
-          _de: Taschenzusätze
-          _fr: Compléments panier
-      basket_content:
-        one:
-          _de: Tascheninhalt
-          _fr: Contenu Panier
-        other:
-          _de: Tascheninhalt
-          _fr: Contenu Paniers
-      basket_size:
-        none:
-          _de: Kein
-          _fr: Aucun
-        one:
-          _de: Taschengrösse
-          _fr: Taille panier
-        other:
-          _de: Taschengrössen
-          _fr: Tailles panier
-      baskets_basket_complement:
-        one:
-          _de: Zusatz
-          _fr: Complément
-        other:
-          _de: Zusätze
-          _fr: Compléments
-      delivery:
-        one:
-          _de: Lieferung
-          _fr: Livraison
-        other:
-          _de: Lieferungen
-          _fr: Livraisons
-      depot:
-        one:
-          _de: Depot
-          _fr: Dépôt
-        other:
-          _de: Depots
-          _fr: Dépôts
       activity/basket_preparation:
         one:
           _de: Taschen befüllung - Datum
@@ -824,6 +772,61 @@ _:
         other:
           _de: Arbeitsstunde - Voreinstellungen
           _fr: Heure de travail - Presets
+      basket:
+        one:
+          _de: Tasche
+          _fr: Panier
+        other:
+          _de: Taschen
+          _fr: Paniers
+      basket_complement:
+        none:
+          _de: Kein
+          _fr: Aucun
+        one:
+          _de: Taschenzusatz
+          _fr: Complément panier
+        other:
+          _de: Taschenzusätze
+          _fr: Compléments panier
+      basket_content:
+        one:
+          _de: Tascheninhalt
+          _fr: Contenu Panier
+        other:
+          _de: Tascheninhalt
+          _fr: Contenu Paniers
+      basket_size:
+        none:
+          _de: Kein
+          _fr: Aucun
+        one:
+          _de: Taschengrösse
+          _fr: Taille panier
+        other:
+          _de: Taschengrössen
+          _fr: Tailles panier
+      baskets_basket_complement:
+        one:
+          _de: Zusatz
+          _fr: Complément
+        other:
+          _de: Zusätze
+          _fr: Compléments
+      delivery:
+        one:
+          _de: Lieferung
+          _fr: Livraison
+        other:
+          _de: Lieferungen
+          _fr: Livraisons
+      depot:
+        one:
+          _de: Depot
+          _fr: Dépôt
+        other:
+          _de: Depots
+          _fr: Dépôts
       invoice:
         one:
           _de: Rechnung
