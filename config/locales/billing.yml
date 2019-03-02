@@ -59,6 +59,15 @@ _:
       acp_share:
         _de: Anteilschein
         _fr: Part Sociale
+      activity/basket_preparation:
+        _de: Anpassung Taschen befüllung
+        _fr: Ajustement mises en panier
+      activity/halfday_work:
+        _de: Anpassung ½ Tage
+        _fr: Ajustement ½ journées
+      activity/hour_work:
+        _de: Anpassung Arbeitsstunden
+        _fr: Ajustement heures de travail
       annual_fee:
         _de: Beitrag
         _fr: Cotisation
@@ -71,15 +80,6 @@ _:
       depot:
         _de: Depot
         _fr: Dépôt
-      activity/basket_preparation:
-        _de: Anpassung Taschen befüllung
-        _fr: Ajustement mises en panier
-      activity/halfday_work:
-        _de: Anpassung ½ Tage
-        _fr: Ajustement ½ journées
-      activity/hour_work:
-        _de: Anpassung Arbeitsstunden
-        _fr: Ajustement heures de travail
       missing:
         _de: Fehlende
         _fr: Manquants

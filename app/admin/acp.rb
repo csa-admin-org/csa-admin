@@ -13,7 +13,7 @@ ActiveAdmin.register ACP do
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
-    :activity_availability_limit_in_days, :activity_phone,
+    :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
     languages: [],
@@ -79,6 +79,7 @@ ActiveAdmin.register ACP do
         prompt: true
       f.input :activity_participation_deletion_deadline_in_days
       f.input :activity_availability_limit_in_days
+      f.input :activity_price
       f.input :activity_phone, as: :phone
     end
     f.inputs t('.delivery_pdf') do

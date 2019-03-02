@@ -233,7 +233,8 @@ ActiveAdmin.register Invoice do
       invoice.member = ap.member
       invoice.object = ap
       invoice.paid_missing_activity_participations = ap.participants_count
-      invoice.paid_missing_activity_participations_amount = ap.participants_count * ACP::ACTIVITY_PRICE
+      invoice.paid_missing_activity_participations_amount =
+        ap.participants_count * Current.acp.activity_price
     elsif params[:member_id]
       member = Member.find(params[:member_id])
       invoice.member = member
@@ -242,7 +243,7 @@ ActiveAdmin.register Invoice do
       invoice.acp_shares_number ||= params[:acp_shares_number]
     end
 
-    invoice.paid_missing_activity_participations_amount ||= ACP::ACTIVITY_PRICE
+    invoice.paid_missing_activity_participations_amount ||= Current.acp.activity_price
     invoice.member_id ||= referer_filter_member_id
     invoice.date ||= Date.current
   end

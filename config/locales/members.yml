@@ -34,6 +34,115 @@ _:
         submit:
           _de: Senden
           _fr: Envoyer
+    activity_participations:
+      create:
+        flash:
+          notice:
+            _de: Vielen Dank für Ihre Anmeldung!
+            _fr: Merci pour votre inscription!
+      index:
+        activity_form_submit:
+          _de: Anmeldung
+          _fr: Inscription
+        activity_label:
+          _de: Zeitplan, Standort und Arbeit
+          _fr: Horaire, lieu et activité
+        activity_participation_form_title/basket_preparation:
+          _de: Anmeldung an eine Taschen befüllung
+          _fr: Inscription à une mise en panier
+        activity_participation_form_title/halfday_work:
+          _de: Anmeldung an einem ½ Tag
+          _fr: Inscription à une ½ journée
+        activity_participation_form_title/hour_work:
+          _de: Anmeldung an eine Arbeitsstunde
+          _fr: Inscription à une heure de travail
+        cancel_link:
+          _de: abbrechen
+          _fr: annuler
+        carpooling:
+          _de: Fahrgemeinschaften
+          _fr: covoiturage
+        carpooling_checkbox:
+          _de: Ich komme mit dem Auto und habe freie Plätze!
+          _fr: Je viens en voiture et j'ai de la place!
+        carpooling_city:
+          _de: Abfahrtsort
+          _fr: Ville de départ
+        carpooling_phone:
+          _de: Telefon Fahrgemeinschaften
+          _fr: Téléphone covoiturage
+        carpooling_tooltip:
+          _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
+          _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
+        coming_activity_participation_cannot_be_cancel_explanation/basket_preparation:
+          _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+        coming_activity_participation_cannot_be_cancel_explanation/halfday_work:
+          _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+        coming_activity_participation_cannot_be_cancel_explanation/hour_work:
+          _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _fr: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+        coming_activity_participations/basket_preparation:
+          _de: Ihre künftigen Taschen befüllung
+          _fr: Vos mises en panier à venir
+        coming_activity_participations/halfday_work:
+          _de: Ihre künftigen ½ Tage
+          _fr: Vos ½ journées à venir
+        coming_activity_participations/hour_work:
+          _de: Ihre künftigen ½ Tage
+          _fr: Vos heures de travail à venir
+        contact_link:
+          _de: Kontakt aufnehmen
+          _fr: contacter
+        extra_coming_activity_participations:
+          _de: "... und noch weitere %{count} bis zum %{last_date}!"
+          _fr: "... et encore %{count} autres jusqu'au %{last_date}!"
+        no_activities/basket_preparation:
+          _de: Sorry, momentan gibt es keine freie Taschen befüllung.
+          _fr: Désolé, aucune mise en panier disponible pour le moment.
+        no_activities/halfday_work:
+          _de: Sorry, momentan gibt es keinen freien ½ Tag.
+          _fr: Désolé, aucune ½ journée disponible pour le moment.
+        no_activities/hour_work:
+          _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
+          _fr: Désolé, aucune heure de travail disponible pour le moment.
+        no_activities_this_month/basket_preparation:
+          _de: In diesem Monat findet keine Taschen befüllung statt.
+          _fr: Aucune mise en panier ce mois.
+        no_activities_this_month/halfday_work:
+          _de: In diesem Monat findet keinen ½ Tag statt.
+          _fr: Aucune ½ journée ce mois.
+        no_activities_this_month/hour_work:
+          _de: In diesem Monat findet keine Arbeitsstunde statt.
+          _fr: Aucune heure de travail ce mois.
+        no_coming_activity_participations:
+          _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
+          _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
+        no_coming_activity_participations/basket_preparation:
+          _de: Momentan gibt es keine freie Taschen befüllung.
+          _fr: Aucune mises en panier disponible pour le moment.
+        no_coming_activity_participations/halfday_work:
+          _de: Momentan gibt es keine freie ½ Tage.
+          _fr: Aucune ½ journée disponible pour le moment.
+        no_coming_activity_participations/hour_work:
+          _de: Momentan gibt es keine freie Arbeitsstunde.
+          _fr: Aucune heure de travail disponible pour le moment.
+        no_past_activity_participations:
+          _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
+          _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
+        participants_count_label:
+          _de: Anzahl Teilnehmer
+          _fr: Nombre de participants
+        past_activity_participations/basket_preparation:
+          _de: Ihre geleisteten Taschen befüllung
+          _fr: Vos mises en panier effectuées
+        past_activity_participations/halfday_work:
+          _de: Ihre geleisteten ½ Tage
+          _fr: Vos ½ journées effectuées
+        past_activity_participations/hour_work:
+          _de: Ihre geleistete Arbeitsstunden
+          _fr: Vos heures de travail effectuées
     billing:
       index:
         canceled_invoice_info:
@@ -82,115 +191,6 @@ _:
       session_expired:
         _de: Ihre Sitzung ist abgelaufen, bitte melden Sie sich wieder an.
         _fr: Votre session a expirée, merci de vous authentifier à nouveau.
-    activity_participations:
-      create:
-        flash:
-          notice:
-            _de: Vielen Dank für Ihre Anmeldung!
-            _fr: Merci pour votre inscription!
-      index:
-        cancel_link:
-          _de: abbrechen
-          _fr: annuler
-        carpooling:
-          _de: Fahrgemeinschaften
-          _fr: covoiturage
-        carpooling_checkbox:
-          _de: Ich komme mit dem Auto und habe freie Plätze!
-          _fr: Je viens en voiture et j'ai de la place!
-        carpooling_city:
-          _de: Abfahrtsort
-          _fr: Ville de départ
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
-        carpooling_tooltip:
-          _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
-          _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
-        coming_activity_participation_cannot_be_cancel_explanation/basket_preparation:
-          _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
-          _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-        coming_activity_participation_cannot_be_cancel_explanation/halfday_work:
-          _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
-          _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-        coming_activity_participation_cannot_be_cancel_explanation/hour_work:
-          _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
-          _fr: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-        coming_activity_participations/basket_preparation:
-          _de: Ihre künftigen Taschen befüllung
-          _fr: Vos mises en panier à venir
-        coming_activity_participations/halfday_work:
-          _de: Ihre künftigen ½ Tage
-          _fr: Vos ½ journées à venir
-        coming_activity_participations/hour_work:
-          _de: Ihre künftigen ½ Tage
-          _fr: Vos heures de travail à venir
-        contact_link:
-          _de: Kontakt aufnehmen
-          _fr: contacter
-        extra_coming_activity_participations:
-          _de: "... und noch weitere %{count} bis zum %{last_date}!"
-          _fr: "... et encore %{count} autres jusqu'au %{last_date}!"
-        activity_form_submit:
-          _de: Anmeldung
-          _fr: Inscription
-        activity_label:
-          _de: Zeitplan, Standort und Arbeit
-          _fr: Horaire, lieu et activité
-        activity_participation_form_title/basket_preparation:
-          _de: Anmeldung an eine Taschen befüllung
-          _fr: Inscription à une mise en panier
-        activity_participation_form_title/halfday_work:
-          _de: Anmeldung an einem ½ Tag
-          _fr: Inscription à une ½ journée
-        activity_participation_form_title/hour_work:
-          _de: Anmeldung an eine Arbeitsstunde
-          _fr: Inscription à une heure de travail
-        no_coming_activity_participations:
-          _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
-          _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
-        no_coming_activity_participations/basket_preparation:
-          _de: Momentan gibt es keine freie Taschen befüllung.
-          _fr: Aucune mises en panier disponible pour le moment.
-        no_coming_activity_participations/halfday_work:
-          _de: Momentan gibt es keine freie ½ Tage.
-          _fr: Aucune ½ journée disponible pour le moment.
-        no_coming_activity_participations/hour_work:
-          _de: Momentan gibt es keine freie Arbeitsstunde.
-          _fr: Aucune heure de travail disponible pour le moment.
-        no_activities/basket_preparation:
-          _de: Sorry, momentan gibt es keine freie Taschen befüllung.
-          _fr: Désolé, aucune mise en panier disponible pour le moment.
-        no_activities/halfday_work:
-          _de: Sorry, momentan gibt es keinen freien ½ Tag.
-          _fr: Désolé, aucune ½ journée disponible pour le moment.
-        no_activities/hour_work:
-          _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
-          _fr: Désolé, aucune heure de travail disponible pour le moment.
-        no_activities_this_month/basket_preparation:
-          _de: In diesem Monat findet keine Taschen befüllung statt.
-          _fr: Aucune mise en panier ce mois.
-        no_activities_this_month/halfday_work:
-          _de: In diesem Monat findet keinen ½ Tag statt.
-          _fr: Aucune ½ journée ce mois.
-        no_activities_this_month/hour_work:
-          _de: In diesem Monat findet keine Arbeitsstunde statt.
-          _fr: Aucune heure de travail ce mois.
-        no_past_activity_participations:
-          _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
-          _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
-        participants_count_label:
-          _de: Anzahl Teilnehmer
-          _fr: Nombre de participants
-        past_activity_participations/basket_preparation:
-          _de: Ihre geleisteten Taschen befüllung
-          _fr: Vos mises en panier effectuées
-        past_activity_participations/halfday_work:
-          _de: Ihre geleisteten ½ Tage
-          _fr: Vos ½ journées effectuées
-        past_activity_participations/hour_work:
-          _de: Ihre geleistete Arbeitsstunden
-          _fr: Vos heures de travail effectuées
     members:
       new:
         acp_shares_text:

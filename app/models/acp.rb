@@ -9,7 +9,6 @@ class ACP < ActiveRecord::Base
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
-  ACTIVITY_PRICE = 60
 
   attr_writer :summer_month_range_min, :summer_month_range_max
 
@@ -50,6 +49,8 @@ class ACP < ActiveRecord::Base
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :activity_availability_limit_in_days,
     numericality: { greater_than_or_equal_to: 0 }
+  validates :activity_price,
+    numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
   validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
 
