@@ -25,8 +25,8 @@ describe 'Billing' do
 
   it 'list invoices and payments history' do
     member.update!(billing_year_division: 1)
-    inovice = create(:invoice, :halfday_participation, id: 242,
-      member: member, date: '2018-4-12', paid_missing_halfday_works_amount: 120)
+    inovice = create(:invoice, :activity_participation, id: 242,
+      member: member, date: '2018-4-12', paid_missing_activity_participations_amount: 120)
     create(:payment, invoice: inovice, member: member, date: '2018-5-1', amount: 162)
 
     visit '/billing'

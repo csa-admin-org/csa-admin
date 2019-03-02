@@ -17,8 +17,8 @@ describe RenewalJob do
       basket_price: 42,
       baskets_annual_price_change: 130,
       depot_price: 3,
-      annual_halfday_works: 5,
-      halfday_works_annual_price: -60)
+      activity_participations_demanded_annualy: 5,
+      activity_participations_annual_price_change: -60)
     Delivery.create_all(1, next_fy.beginning_of_year)
 
     membership.basket_size.update!(price: 41)
@@ -35,8 +35,8 @@ describe RenewalJob do
       baskets_annual_price_change: 130,
       depot_id: membership.depot_id,
       depot_price: 4,
-      annual_halfday_works: 5,
-      halfday_works_annual_price: -60,
+      activity_participations_demanded_annualy: 5,
+      activity_participations_annual_price_change: -60,
       started_on: next_fy.beginning_of_year,
       ended_on: next_fy.end_of_year)
   end

@@ -29,14 +29,14 @@ html
           #nav
           nav
             =
-            = link_to members_halfday_participations_path(anchor: 'nav'), class: nav_class('halfday_participations') do
-              h2 = halfdays_human_name
+            = link_to members_activity_participations_path(anchor: 'nav'), class: nav_class('activity_participations') do
+              h2 = activities_human_name
               - membership = current_member.current_year_membership || current_member.future_membership
               p
                 - if membership
-                  = t('.halfdays_participation_recognized', recognized: membership.recognized_halfday_works, total: membership.halfday_works)
+                  = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded)
                 - else
-                  = t('.no_halfdays_participations_asked')
+                  = t('.no_activity_participations_demanded')
             = link_to members_billing_path(anchor: 'nav'), class: nav_class('billing') do
               h2 = t('.billing')
               - open_invoice_count = current_member.invoices.open.count

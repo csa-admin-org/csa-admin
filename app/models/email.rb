@@ -54,13 +54,13 @@ module Email
     end
   end
 
-  def halfday_reminder(halfday_participation)
-    member = halfday_participation.member
+  def activity_participations_reminder(activity_participation)
+    member = activity_participation.member
     I18n.with_locale(member.language) do
-      data = halfday_participation_data(halfday_participation)
-      data[:halfday_participations_with_carpooling] =
-        HalfdayParticipation
-          .where(halfday_id: halfday_participation.halfday_id)
+      data = activity_participation_data(activity_participation)
+      data[:activity_participations_with_carpooling] =
+        ActivityParticipation
+          .where(activity_id: activity_participation.activity_id)
           .carpooling
           .includes(:member)
           .map { |p|
@@ -70,67 +70,67 @@ module Email
               carpooling_city: p.carpooling_city
             }
           }
-      unless Current.acp.halfday_participation_deletion_deadline_in_days
+      unless Current.acp.activity_participation_deletion_deadline_in_days
         data[:action_url] = url(:members_member_url)
       end
 
       {
         from: from,
         to: member.emails,
-        template: template_alias(:halfday_reminder, member.language),
+        template: template_alias(:activity_participations_reminder, member.language),
         template_data: data
       }
     end
   end
 
-  def halfday_validated(halfday_participation)
-    member = halfday_participation.member
+  def activity_participations_validated(activity_participation)
+    member = activity_participation.member
     I18n.with_locale(member.language) do
-      data = halfday_participation_data(halfday_participation)
+      data = activity_participation_data(activity_participation)
       data[:action_url] = url(:members_member_url)
 
       {
         from: from,
         to: member.emails,
-        template: template_alias(:halfday_validated, member.language),
+        template: template_alias(:activity_participations_validated, member.language),
         template_data: data
       }
     end
   end
 
-  def halfday_rejected(halfday_participation)
-    member = halfday_participation.member
+  def activity_participations_rejected(activity_participation)
+    member = activity_participation.member
     I18n.with_locale(member.language) do
-      data = halfday_participation_data(halfday_participation)
+      data = activity_participation_data(activity_participation)
       data[:action_url] = url(:members_member_url)
 
       {
         from: from,
         to: member.emails,
-        template: template_alias(:halfday_rejected, member.language),
+        template: template_alias(:activity_participations_rejected, member.language),
         template_data: data
       }
     end
   end
 
-  def halfday_participation_data(halfday_participation)
-    halfday = halfday_participation.halfday
+  def activity_participation_data(activity_participation)
+    activity = activity_participation.activity
 
     data = {
-      halfday_date: I18n.l(halfday.date),
-      halfday_date_long: I18n.l(halfday.date, format: :long),
-      halfday_period: halfday.period,
-      halfday_activity: halfday.activity,
-      halfday_description: halfday.description,
-      halfday_participants_count: halfday_participation.participants_count
+      activity_date: I18n.l(activity.date),
+      activity_date_long: I18n.l(activity.date, format: :long),
+      activity_period: activity.period,
+      activity_title: activity.title,
+      activity_description: activity.description,
+      activity_participants_count: activity_participation.participants_count
     }
-    if halfday.place_url
-      data[:halfday_place] = {
-        name: halfday.place,
-        url: halfday.place_url
+    if activity.place_url
+      data[:activity_place] = {
+        name: activity.place,
+        url: activity.place_url
       }
     else
-      data[:halfday_place_name] = halfday.place
+      data[:activity_place_name] = activity.place
     end
     data
   end

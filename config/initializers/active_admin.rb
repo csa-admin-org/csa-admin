@@ -233,7 +233,7 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu do |menu|
-      menu.add label: :halfdays_human_name, priority: 6
+      menu.add label: :activities_human_name, priority: 6
       menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 7, id: :billing
       menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 8, id: :other
     end
@@ -309,7 +309,7 @@ module ActiveAdmin::ViewHelpers
   include ApplicationHelper
   include MembershipsHelper
   include DashboardHelper
-  include HalfdaysHelper
+  include ActivitiesHelper
   include InvoicesHelper
   include AcpsHelper
 end
@@ -325,7 +325,7 @@ class ActiveAdmin::ResourceController
   end
 end
 
-# Ensure that the overwritten HalfdayNaming.i18n_key is used
+# Ensure that the overwritten ActivityNaming.i18n_key is used
 class ActiveAdmin::Resource::Name
   def i18n_key
     @klass&.model_name&.i18n_key || super

@@ -1,12 +1,12 @@
 class InvoiceTotal
-  include HalfdaysHelper
+  include ActivitiesHelper
   include ActionView::Helpers::UrlHelper
 
   def self.all
     scopes = %w[Membership]
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?
-    scopes << 'HalfdayParticipation'
+    scopes << 'ActivityParticipation'
     scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
     all = scopes.flatten.map { |scope| new(scope) }
     sum = all.sum(&:price)
@@ -35,8 +35,8 @@ class InvoiceTotal
       link_to_invoices(I18n.t('billing.annual_fees'), %w[Membership AnnualFee])
     when 'ACPShare'
       link_to_invoices I18n.t('billing.acp_shares')
-    when 'HalfdayParticipation'
-      link_to_invoices halfdays_human_name
+    when 'ActivityParticipation'
+      link_to_invoices activities_human_name
     when 'Other'
       link_to_invoices I18n.t('billing.other')
     end
@@ -61,7 +61,7 @@ class InvoiceTotal
             .joins(baskets: :baskets_basket_complements)
             .sum('baskets_basket_complements.quantity * baskets_basket_complements.price') +
           @memberships
-            .sum('halfday_works_annual_price + basket_complements_annual_price_change + baskets_annual_price_change')
+            .sum('activity_participations_annual_price_change + basket_complements_annual_price_change + baskets_annual_price_change')
         [memberships_total - invoices_total, 0].max
       when 'AnnualFee'
         @invoices.sum(:annual_fee)

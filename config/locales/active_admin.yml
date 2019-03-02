@@ -429,7 +429,7 @@ _:
         has_many_new_invoice_item:
           _de: Einen Artikel hinzufügen
           _fr: Ajouter un article
-        refused_halfday_participation:
+        refused_activity_participation:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
       show:
@@ -475,13 +475,13 @@ _:
         no_baskets:
           _de: Keine Tasche
           _fr: Pas de paniers
-        no_halfdays/basket_preparation:
+        no_activities/basket_preparation:
           _de: Keine taschen befüllung
           _fr: Aucune mise en panier
-        no_halfdays/halfday_work:
+        no_activities/halfday_work:
           _de: Kein ½ Tag
           _fr: Aucune ½ journée
-        no_halfdays/hour_work:
+        no_activities/hour_work:
           _de: Keine Arbeitsstunden
           _fr: Aucune heure de travail
         no_invoices:
@@ -558,7 +558,7 @@ _:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
-      halfday:
+      activity:
         scopes:
           all:
             _de: alle
@@ -566,19 +566,19 @@ _:
           past:
             _de: vergangene
             _fr: passées
-      halfday/basket_preparation:
+      activity/basket_preparation:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
-      halfday/halfday_work:
+      activity/halfday_work:
         new_model:
           _de: Neuer %{model}
           _fr: Nouvelle %{model}
-      halfday/hour_work:
+      activity/hour_work:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
-      halfday_participation:
+      activity_participation:
         scopes:
           all:
             _de: alle
@@ -589,7 +589,7 @@ _:
           validated:
             _de: bestätigte
             _fr: validées
-      halfday_participation/basket_preparation:
+      activity_participation/basket_preparation:
         delete_model:
           _de: Löschen
           _fr: Supprimer
@@ -599,7 +599,7 @@ _:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
-      halfday_participation/halfday_work:
+      activity_participation/halfday_work:
         delete_model:
           _de: Löschen
           _fr: Supprimer
@@ -609,7 +609,7 @@ _:
         new_model:
           _de: Neuer %{model}
           _fr: Nouvelle %{model}
-      halfday_participation/hour_work:
+      activity_participation/hour_work:
         delete_model:
           _de: Löschen
           _fr: Supprimer

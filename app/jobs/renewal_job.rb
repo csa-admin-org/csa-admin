@@ -16,8 +16,8 @@ class RenewalJob < ApplicationJob
       baskets_annual_price_change
       depot_id
       seasons
-      annual_halfday_works
-      halfday_works_annual_price
+      activity_participations_demanded_annualy
+      activity_participations_annual_price_change
       basket_complements_annual_price_change
     ]).merge(
       started_on: fiscal_year.beginning_of_year,

@@ -8,13 +8,13 @@ class Ability
       can :pdf, Invoice
     end
     if admin.right? 'standard'
-      can :manage, [Halfday, HalfdayParticipation, Absence, Vegetable, BasketContent] & available_models
+      can :manage, [Activity, ActivityParticipation, Absence, Vegetable, BasketContent] & available_models
       can :create, ActiveAdmin::Comment
       can :update, [Basket, BasketComplement, Delivery]
     end
     if admin.right? 'admin'
       can :read, Admin
-      can :manage, [HalfdayPreset, Delivery]
+      can :manage, [ActivityPreset, Delivery]
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
@@ -43,8 +43,8 @@ class Ability
       ActiveAdmin::Comment,
       Delivery,
       Depot,
-      Halfday,
-      HalfdayParticipation,
+      Activity,
+      ActivityParticipation,
       Invoice,
       Member,
       Membership,

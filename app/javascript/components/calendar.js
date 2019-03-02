@@ -5,11 +5,11 @@ import { German } from 'flatpickr/dist/l10n/de';
 import 'flatpickr/dist/themes/confetti';
 import 'scss/flatpickr';
 
-const participantCountInput = '#halfday_participation_participants_count';
+const participantCountInput = '#activity_participation_participants_count';
 const carpoolingCheckbox = ".carpooling input[type='checkbox']";
 const carpoolingCheckboxLabel = '.pretty_check_boxes label.carpooling';
-const carpoolingPhoneInput = '#halfday_participation_carpooling_phone';
-const carpoolingCityInput = '#halfday_participation_carpooling_city';
+const carpoolingPhoneInput = '#activity_participation_carpooling_phone';
+const carpoolingCityInput = '#activity_participation_carpooling_city';
 
 const handleDateInput = () => {
   const inputs = document.querySelectorAll('input.date-input');
@@ -28,10 +28,10 @@ const flatpickrLocale = () => {
 };
 
 const selectDate = dateText => {
-  hide('.halfdays label');
-  checked('.halfdays input', false);
-  show(`label.halfday-${dateText}`);
-  const firstEnabled = document.querySelector(`label.halfday-${dateText} input:enabled`);
+  hide('.activities label');
+  checked('.activities input', false);
+  show(`label.activity-${dateText}`);
+  const firstEnabled = document.querySelector(`label.activity-${dateText} input:enabled`);
   if (firstEnabled) {
     firstEnabled.checked = true;
     enableForm();
@@ -41,7 +41,7 @@ const selectDate = dateText => {
 };
 
 const enableForm = () => {
-  hide('.no_halfdays');
+  hide('.no_activities');
   prop(participantCountInput, 'disabled', false);
   prop(carpoolingCheckbox, 'disabled', false);
   removeClass(carpoolingCheckboxLabel, 'disabled');
@@ -50,7 +50,7 @@ const enableForm = () => {
 };
 
 const disableForm = () => {
-  show('.no_halfdays');
+  show('.no_activities');
   prop(participantCountInput, 'disabled', true);
   prop(carpoolingCheckbox, 'disabled', true);
   addClass(carpoolingCheckboxLabel, 'disabled');

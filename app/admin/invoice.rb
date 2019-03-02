@@ -182,19 +182,19 @@ ActiveAdmin.register Invoice do
       end
     end
     tabs do
-      tab halfdays_human_name, id: 'halfday_participation' do
+      tab activities_human_name, id: 'activity_participation' do
         f.inputs do
-          if f.object.object.is_a?(HalfdayParticipation)
-            li class: 'refused_halfday_participation' do
+          if f.object.object.is_a?(ActivityParticipation)
+            li class: 'refused_activity_participation' do
               (
-                link_to(t('.refused_halfday_participation', date: f.object.object.halfday.date), halfday_participation_path(f.object.object_id)) +
+                link_to(t('.refused_activity_participation', date: f.object.object.activity.date), activity_participation_path(f.object.object_id)) +
                 ' – ' +
                 link_to(t('.erase').downcase, new_invoice_path(member_id: f.object.member_id))
               ).html_safe
             end
           end
-          f.input :paid_missing_halfday_works, as: :number, step: 1
-          f.input :paid_missing_halfday_works_amount, as: :number, min: 0, max: 99999.95, step: 0.05
+          f.input :paid_missing_activity_participations, as: :number, step: 1
+          f.input :paid_missing_activity_participations_amount, as: :number, min: 0, max: 99999.95, step: 0.05
         end
       end
       if Current.acp.share?
@@ -222,18 +222,18 @@ ActiveAdmin.register Invoice do
     :object_type,
     :date,
     :comment,
-    :paid_missing_halfday_works,
-    :paid_missing_halfday_works_amount,
+    :paid_missing_activity_participations,
+    :paid_missing_activity_participations_amount,
     :acp_shares_number,
     items_attributes: %i[description amount]
 
   before_build do |invoice|
-    if params[:halfday_participation_id]
-      hp = HalfdayParticipation.find(params[:halfday_participation_id])
-      invoice.member = hp.member
-      invoice.object = hp
-      invoice.paid_missing_halfday_works = hp.participants_count
-      invoice.paid_missing_halfday_works_amount = hp.participants_count * ACP::HALFDAY_PRICE
+    if params[:activity_participation_id]
+      ap = ActivityParticipation.find(params[:activity_participation_id])
+      invoice.member = ap.member
+      invoice.object = ap
+      invoice.paid_missing_activity_participations = ap.participants_count
+      invoice.paid_missing_activity_participations_amount = ap.participants_count * ACP::ACTIVITY_PRICE
     elsif params[:member_id]
       member = Member.find(params[:member_id])
       invoice.member = member
@@ -242,7 +242,7 @@ ActiveAdmin.register Invoice do
       invoice.acp_shares_number ||= params[:acp_shares_number]
     end
 
-    invoice.paid_missing_halfday_works_amount ||= ACP::HALFDAY_PRICE
+    invoice.paid_missing_activity_participations_amount ||= ACP::ACTIVITY_PRICE
     invoice.member_id ||= referer_filter_member_id
     invoice.date ||= Date.current
   end

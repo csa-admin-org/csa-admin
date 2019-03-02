@@ -26,9 +26,9 @@ ActiveAdmin.register Membership do
     column :member, ->(m) { auto_link m.member }
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
-    column halfdays_human_name,
-      ->(m) { auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}" },
-      sortable: 'halfday_works', class: 'col-halfday_works'
+    column activities_human_name,
+      ->(m) { auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}" },
+      sortable: 'activity_participations_demanded', class: 'col-activity_participations_demanded'
     column :baskets_count,
       ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }
     actions
@@ -96,8 +96,8 @@ ActiveAdmin.register Membership do
       }
     end
     column(:depot) { |m| m.depot&.name }
-    column(halfday_scoped_attribute(:halfday_works), &:halfday_works)
-    column(halfday_scoped_attribute(:missing_halfday_works), &:missing_halfday_works)
+    column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
+    column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
     column(:started_on)
     column(:ended_on)
     column(:renew)
@@ -154,50 +154,50 @@ ActiveAdmin.register Membership do
           end
         end
 
-        attributes_table title: halfdays_human_name do
-          row(:halfday_works_asked) { m.halfday_works }
-          row(:halfday_works_coming) {
+        attributes_table title: activities_human_name do
+          row(:activity_participations_demanded) { m.activity_participations_demanded }
+          row(:activity_participations_coming) {
             link_to(
-              m.member.halfday_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
-              halfday_participations_path(scope: :coming, q: {
+              m.member.activity_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
+              activity_participations_path(scope: :coming, q: {
                 member_id_eq: resource.member_id,
-                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
               }))
           }
-          row(:halfday_works_pending) {
+          row(:activity_participations_pending) {
             link_to(
-              m.member.halfday_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
-              halfday_participations_path(scope: :pending, q: {
+              m.member.activity_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
+              activity_participations_path(scope: :pending, q: {
                 member_id_eq: resource.member_id,
-                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
               }))
           }
-          row(:halfday_works_validated) {
+          row(:activity_participations_validated) {
             link_to(
-              m.member.halfday_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
-              halfday_participations_path(scope: :validated, q: {
+              m.member.activity_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
+              activity_participations_path(scope: :validated, q: {
                 member_id_eq: resource.member_id,
-                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
               }))
           }
-          row(:halfday_works_rejected) {
+          row(:activity_participations_rejected) {
             link_to(
-              m.member.halfday_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
-              halfday_participations_path(scope: :rejected, q: {
+              m.member.activity_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
+              activity_participations_path(scope: :rejected, q: {
                 member_id_eq: resource.member_id,
-                halfday_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                halfday_date_lteq_datetime: resource.fiscal_year.end_of_year
+                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
               }))
           }
-          row(:halfday_works_paid) {
+          row(:activity_participations_paid) {
             link_to(
-              m.member.invoices.not_canceled.halfday_participation_type.during_year(m.fiscal_year).sum(:paid_missing_halfday_works),
+              m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations),
               invoices_path(scope: :all, q: {
                 member_id_eq: resource.member_id,
-                object_type_eq: 'HalfdayParticipation',
+                object_type_eq: 'ActivityParticipation',
                 date_gteq: resource.fiscal_year.beginning_of_year,
                 date_lteq: resource.fiscal_year.end_of_year
               }))
@@ -238,7 +238,7 @@ ActiveAdmin.register Membership do
             row(:depots_price) {
               display_price_description(m.depots_price, depots_price_info(m.baskets))
             }
-            row(halfday_scoped_attribute(:halfday_works_annual_price)) { number_to_currency(m.halfday_works_annual_price) }
+            row(activity_scoped_attribute(:activity_participations_annual_price_change)) { number_to_currency(m.activity_participations_annual_price_change) }
             row(:price) { number_to_currency(m.price) }
             row(:invoices_amount) { number_to_currency(m.invoices_amount) }
           end
@@ -262,11 +262,11 @@ ActiveAdmin.register Membership do
     end
 
     unless resource.new_record?
-      f.inputs halfdays_human_name do
-        f.input :annual_halfday_works,
-          label: "#{halfdays_human_name} (#{t('.full_year')})",
+      f.inputs activities_human_name do
+        f.input :activity_participations_demanded_annualy,
+          label: "#{activities_human_name} (#{t('.full_year')})",
           hint: true
-        f.input :halfday_works_annual_price, label: true, hint: true
+        f.input :activity_participations_annual_price_change, label: true, hint: true
       end
     end
 
@@ -313,7 +313,7 @@ ActiveAdmin.register Membership do
     :basket_size_id, :basket_price, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price,
     :started_on, :ended_on, :renew,
-    :halfday_works_annual_price, :annual_halfday_works,
+    :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,
     seasons: [],
     memberships_basket_complements_attributes: [

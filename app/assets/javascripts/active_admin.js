@@ -11,7 +11,7 @@ $(function() {
     $.datepicker.setDefaults($.datepicker.regional[locale]);
   }
 
-  $('#halfday_preset_id').on('change', function() {
+  $('#activity_preset_id').on('change', function() {
     if (this.value === '0') {
       $('input.js-preset').prop('disabled', false);
       $('input.js-preset').prop('value', '');

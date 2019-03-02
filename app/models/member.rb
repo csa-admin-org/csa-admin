@@ -22,7 +22,7 @@ class Member < ActiveRecord::Base
   has_many :invoices
   has_many :payments
   has_many :current_year_invoices, -> { current_year }, class_name: 'Invoice'
-  has_many :halfday_participations
+  has_many :activity_participations
   has_many :memberships
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
@@ -252,7 +252,7 @@ class Member < ActiveRecord::Base
   def update_membership_if_salary_basket_changed
     if saved_change_to_attribute?(:salary_basket?)
       [current_year_membership, future_membership].each do |m|
-        m&.update_halfday_works!
+        m&.update_activity_participations_demanded!
         m&.touch
       end
     end

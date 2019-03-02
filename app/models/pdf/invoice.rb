@@ -1,6 +1,6 @@
 module PDF
   class Invoice < Base
-    include HalfdaysHelper
+    include ActivitiesHelper
     include MembershipsHelper
 
     attr_reader :invoice, :object, :isr_ref
@@ -109,19 +109,19 @@ module PDF
             ]
           end
         end
-        unless object.halfday_works_annual_price.zero?
-          data << [halfday_works_annual_price_description, cur(object.halfday_works_annual_price)]
+        unless object.activity_participations_annual_price_change.zero?
+          data << [activity_participations_annual_price_change_description, cur(object.activity_participations_annual_price_change)]
         end
-      when 'HalfdayParticipation'
+      when 'ActivityParticipation'
         if object
-          str = t_halfday('missed_halfday_participation_with_date', date: I18n.l(object.halfday.date))
-          if invoice.paid_missing_halfday_works > 1
-            str += " (#{invoice.paid_missing_halfday_works} #{HalfdayParticipation.human_attribute_name(:participants).downcase})"
+          str = t_activity('missed_activity_participation_with_date', date: I18n.l(object.activity.date))
+          if invoice.paid_missing_activity_participations > 1
+            str += " (#{invoice.paid_missing_activity_participations} #{ActivityParticipation.human_attribute_name(:participants).downcase})"
           end
-        elsif invoice.paid_missing_halfday_works == 1
-          str = t_halfday('missed_halfday_participation')
+        elsif invoice.paid_missing_activity_participations == 1
+          str = t_activity('missed_activity_participation')
         else
-          str = t_halfday('missed_halfday_participations', count: invoice.paid_missing_halfday_works)
+          str = t_activity('missed_activity_participations', count: invoice.paid_missing_activity_participations)
         end
         data << [str, cur(invoice.amount)]
       when 'ACPShare'
@@ -345,17 +345,17 @@ module PDF
       "#{Depot.model_name.human}: #{depot.name} #{depots_price_info(baskets)}"
     end
 
-    def halfday_works_annual_price_description
-      i18n_scope = Current.acp.halfday_i18n_scope
-      diff = object.annual_halfday_works - object.basket_size.annual_halfday_works
+    def activity_participations_annual_price_change_description
+      i18n_scope = Current.acp.activity_i18n_scope
+      diff = object.activity_participations_demanded_annualy - object.basket_size.activity_participations_demanded_annualy
       if diff.positive?
-        Membership.human_attribute_name("halfday_works_annual_price_reduction/#{i18n_scope}", count: diff)
+        Membership.human_attribute_name("activity_participations_annual_price_change_reduction/#{i18n_scope}", count: diff)
       elsif diff.negative?
-        Membership.human_attribute_name("halfday_works_annual_price_negative/#{i18n_scope}", count: diff)
-      elsif object.halfday_works_annual_price.positive?
-        Membership.human_attribute_name("halfday_works_annual_price_positive/#{i18n_scope}")
+        Membership.human_attribute_name("activity_participations_annual_price_change_negative/#{i18n_scope}", count: diff)
+      elsif object.activity_participations_annual_price_change.positive?
+        Membership.human_attribute_name("activity_participations_annual_price_change_positive/#{i18n_scope}")
       else
-        Membership.human_attribute_name("halfday_works_annual_price_default/#{i18n_scope}")
+        Membership.human_attribute_name("activity_participations_annual_price_change_default/#{i18n_scope}")
       end
     end
 
@@ -363,7 +363,7 @@ module PDF
       I18n.t("invoices.pdf.#{key}", *args)
     end
 
-    def t_halfday(key, *args)
+    def t_activity(key, *args)
       super(key, *args)
     end
   end

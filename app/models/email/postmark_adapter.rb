@@ -24,7 +24,7 @@ module Email
         logo_url
         email_footer
         phone
-        halfday_phone
+        activity_phone
       ])
     end
 

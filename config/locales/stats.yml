@@ -7,7 +7,7 @@ _:
       depots:
         _de: Depots
         _fr: Dépôts
-      halfdays:
+      activities:
         _de: Mitarbeit der Mitglieder
         _fr: Participation des membres
       map:

@@ -15,7 +15,7 @@ module InvoicesHelper
 
   def t_invoice_object_type(type)
     case type
-    when 'HalfdayParticipation' then halfday_human_name
+    when 'ActivityParticipation' then activity_human_name
     else
       type.constantize.model_name.human
     end

@@ -12,8 +12,8 @@ ActiveAdmin.register ACP do
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
-    :halfday_i18n_scope, :halfday_participation_deletion_deadline_in_days,
-    :halfday_availability_limit_in_days, :halfday_phone,
+    :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
+    :activity_availability_limit_in_days, :activity_phone,
     :vat_number, :vat_membership_rate,
     billing_year_divisions: [],
     languages: [],
@@ -73,13 +73,13 @@ ActiveAdmin.register ACP do
       translated_input(f, :invoice_footers)
     end
     f.inputs t('.members_participation') do
-      f.input :halfday_i18n_scope,
+      f.input :activity_i18n_scope,
         as: :select,
-        collection: ACP.halfday_i18n_scopes.map { |s| [t("halfdays.#{s}", count: 2), s] },
+        collection: ACP.activity_i18n_scopes.map { |s| [t("activities.#{s}", count: 2), s] },
         prompt: true
-      f.input :halfday_participation_deletion_deadline_in_days
-      f.input :halfday_availability_limit_in_days
-      f.input :halfday_phone, as: :phone
+      f.input :activity_participation_deletion_deadline_in_days
+      f.input :activity_availability_limit_in_days
+      f.input :activity_phone, as: :phone
     end
     f.inputs t('.delivery_pdf') do
       translated_input(f, :delivery_pdf_footers, required: false)

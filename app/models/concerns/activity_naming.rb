@@ -1,10 +1,10 @@
-module HalfdayNaming
+module ActivityNaming
   extend ActiveSupport::Concern
 
   class Name < ActiveModel::Name
     def i18n_key
       if Apartment::Tenant.current != 'public'
-        "#{super}/#{Current.acp.halfday_i18n_scope}".to_sym
+        "#{super}/#{Current.acp.activity_i18n_scope}".to_sym
       else
         super
       end

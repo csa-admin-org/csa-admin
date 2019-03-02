@@ -1,14 +1,14 @@
-ActiveAdmin.register HalfdayPreset do
-  menu parent: :halfdays_human_name,
+ActiveAdmin.register ActivityPreset do
+  menu parent: :activities_human_name,
     priority: 3,
-    label: -> { Halfday.human_attribute_name(:presets) }
+    label: -> { Activity.human_attribute_name(:presets) }
 
   actions :all, except: [:show]
 
   index download_links: false do
     column :place
-    column :place_url, ->(hp) { link_to truncate(hp.place_url, length: 50), hp.place_url }
-    column :activity
+    column :place_url, ->(ap) { link_to truncate(ap.place_url, length: 50), ap.place_url }
+    column :title
     actions
   end
 
@@ -16,7 +16,7 @@ ActiveAdmin.register HalfdayPreset do
     f.inputs do
       translated_input(f, :places)
       translated_input(f, :place_urls)
-      translated_input(f, :activities)
+      translated_input(f, :titles)
       f.actions
     end
   end
@@ -24,7 +24,7 @@ ActiveAdmin.register HalfdayPreset do
   permit_params(
     places: I18n.available_locales,
     place_urls: I18n.available_locales,
-    activities: I18n.available_locales)
+    titles: I18n.available_locales)
 
   config.filters = false
   config.per_page = 50

@@ -3,7 +3,7 @@ module Stats
     members
     baskets
     depots
-    halfdays
+    activities
   ].freeze
 
   def self.all(type)

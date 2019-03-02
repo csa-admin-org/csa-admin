@@ -1,7 +1,7 @@
 section.new-session
   h1 = t('.title')
 
-  p = t_halfday('.text')
+  p = t_activity('.text')
   p = t('.form_text')
 
   = form_for [:members, @session] do |f|

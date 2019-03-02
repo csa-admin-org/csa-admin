@@ -1,9 +1,9 @@
-class Members::HalfdaysController < Members::BaseController
+class Members::ActivitiesController < Members::BaseController
   skip_before_action :authenticate_member!
 
-  # GET /halfdays.rss
+  # GET /activities.rss
   def index
-    @halfdays = Halfday.available
+    @activities = Activity.available
     @limit = params[:limit]&.to_i || 8
     respond_to do |format|
       format.rss

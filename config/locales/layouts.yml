@@ -7,9 +7,9 @@ _:
       billing:
         _de: Rechnungsstellung
         _fr: Facturation
-      halfdays_participation_recognized:
-        _de: "%{recognized}/%{total} geleistet"
-        _fr: "%{recognized}/%{total} effectuée(s)"
+      activity_participations_accepted:
+        _de: "%{accepted}/%{demanded} geleistet"
+        _fr: "%{accepted}/%{demanded} effectuée(s)"
       header:
         contact:
           _de: Kontakt
@@ -17,7 +17,7 @@ _:
         logout:
           _de: Abmeldung
           _fr: Déconnexion
-      no_halfdays_participations_asked:
+      no_activity_participations_demanded:
         _de: Keine Verpflichtung
         _fr: Aucun engagement
       no_membership:

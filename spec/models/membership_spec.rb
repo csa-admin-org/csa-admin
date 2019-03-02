@@ -1,20 +1,20 @@
 require 'rails_helper'
 
 describe Membership do
-  it 'sets annual_halfday_works default' do
-    basket_size = create(:basket_size, annual_halfday_works: 3)
+  it 'sets activity_participations_demanded_annualy default' do
+    basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
     membership = create(:membership, basket_size_id: basket_size.id)
 
-    expect(membership.annual_halfday_works).to eq 3
+    expect(membership.activity_participations_demanded_annualy).to eq 3
   end
 
-  it 'sets annual_halfday_works default using basket quantity' do
-    basket_size = create(:basket_size, annual_halfday_works: 3)
+  it 'sets activity_participations_demanded_annualy default using basket quantity' do
+    basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
     membership = create(:membership,
       basket_quantity: 2,
       basket_size_id: basket_size.id)
 
-    expect(membership.annual_halfday_works).to eq 2 * 3
+    expect(membership.activity_participations_demanded_annualy).to eq 2 * 3
   end
 
   describe 'validations' do
@@ -177,7 +177,7 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.depots_price).to be_zero
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price).to eq membership.basket_sizes_price
   end
@@ -189,7 +189,7 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.depots_price).to eq 40 * 2
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.depots_price
@@ -202,7 +202,7 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.depots_price).to eq 40 * 2
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.depots_price
@@ -216,7 +216,7 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 3 * 42
     expect(membership.depots_price).to eq 40 * 3 * 3.2
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.depots_price
@@ -249,7 +249,7 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 31
     expect(membership.depots_price).to be_zero
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.basket_complements_price
@@ -272,7 +272,7 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 31
     expect(membership.depots_price).to be_zero
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to eq 1 * 100 + 2 * 3.3 + 3 * 4
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.basket_complements_price
@@ -293,21 +293,21 @@ describe Membership do
 
     expect(membership.basket_sizes_price).to eq 40 * 31
     expect(membership.depots_price).to be_zero
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to eq 3 * 2.20 + 2 * 3.3 + 3 * 4
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.basket_complements_price - 12.35
   end
 
-  specify 'with halfday_works_annual_price price' do
+  specify 'with activity_participations_annual_price_change price' do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id,
-      halfday_works_annual_price: -200)
+      activity_participations_annual_price_change: -200)
 
     expect(membership.basket_sizes_price).to eq 40 * 23.125
     expect(membership.depots_price).to eq 40 * 2
-    expect(membership.halfday_works_annual_price).to eq(-200)
+    expect(membership.activity_participations_annual_price_change).to eq(-200)
     expect(membership.price)
       .to eq(membership.basket_sizes_price + membership.depots_price - 200)
   end
@@ -344,7 +344,7 @@ describe Membership do
     expect(membership.basket_sizes_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.depots_price).to be_zero
-    expect(membership.halfday_works_annual_price).to be_zero
+    expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.price).to be_zero
   end
 
