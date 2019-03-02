@@ -50,7 +50,7 @@ module XLSX
       if BasketComplement.any?
         add_line("#{t('adjustments')}: #{BasketComplement.model_name.human}", @memberships.sum(&:basket_complements_annual_price_change))
       end
-      add_line("#{t('adjustments')}: #{ApplicationController.helpers.halfdays_human_name}", @memberships.sum(&:halfday_works_annual_price))
+      add_line("#{t('adjustments')}: #{ApplicationController.helpers.activities_human_name}", @memberships.sum(&:activity_participations_annual_price_change))
 
       add_empty_line
       add_line((t('memberships_total')), @memberships.sum(&:price))
@@ -65,7 +65,7 @@ module XLSX
       if Current.acp.share?
         add_line("#{t('amount')}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.acp.share_price)
       end
-      add_line("#{t('amount')}: #{ApplicationController.helpers.halfdays_human_name}", @invoices.halfday_participation_type.sum(:amount))
+      add_line("#{t('amount')}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
       add_line("#{t('amount')}: #{t('other')}", @invoices.other_type.sum(:amount))
       add_line(t('amount'), invoices_total(:amount))
 

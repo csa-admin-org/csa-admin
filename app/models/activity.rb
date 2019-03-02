@@ -1,22 +1,22 @@
-class Halfday < ActiveRecord::Base
+class Activity < ActiveRecord::Base
   include TranslatedAttributes
   include HasFiscalYearScopes
   include BulkDatesInsert
-  include HalfdayNaming
+  include ActivityNaming
 
   attr_reader :preset_id, :preset
 
   serialize :start_time, Tod::TimeOfDay
   serialize :end_time, Tod::TimeOfDay
 
-  translated_attributes :place, :place_url, :activity, :description
+  translated_attributes :place, :place_url, :title, :description
 
-  has_many :participations, class_name: 'HalfdayParticipation'
+  has_many :participations, class_name: 'ActivityParticipation'
 
-  scope :coming, -> { where('halfdays.date > ?', Date.current) }
-  scope :past, -> { where('halfdays.date <= ?', Date.current) }
+  scope :coming, -> { where('activities.date > ?', Date.current) }
+  scope :past, -> { where('activities.date <= ?', Date.current) }
   scope :past_current_year, -> {
-    where('halfdays.date < ? AND halfdays.date >= ?', Date.current, Current.fy_range.min)
+    where('activities.date < ? AND activities.date >= ?', Date.current, Current.fy_range.min)
   }
 
   validates :start_time, :end_time, presence: true
@@ -25,14 +25,14 @@ class Halfday < ActiveRecord::Base
   validate :end_time_must_be_greather_than_start_time
 
   def self.available_for(member)
-    where('date >= ?', Current.acp.halfday_availability_limit_in_days.days.from_now)
+    where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
       .includes(:participations)
       .reject { |hd| hd.participant?(member) || hd.full? }
       .sort_by { |hd| "#{hd.date}#{hd.period}" }
   end
 
   def self.available
-    where('date >= ?', Current.acp.halfday_availability_limit_in_days.days.from_now)
+    where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
       .includes(:participations)
       .reject(&:full?)
       .sort_by { |hd| "#{hd.date}#{hd.period}" }
@@ -59,7 +59,7 @@ class Halfday < ActiveRecord::Base
     [start_time, end_time].map { |t| t.strftime('%-k:%M') }.join('-')
   end
 
-  %i[places place_urls activities].each do |attr|
+  %i[places place_urls titles].each do |attr|
     define_method attr do
       @preset ? Hash.new('preset') : self[attr]
     end
@@ -67,10 +67,10 @@ class Halfday < ActiveRecord::Base
 
   def preset_id=(preset_id)
     @preset_id = preset_id
-    if @preset = HalfdayPreset.find_by(id: preset_id)
+    if @preset = ActivityPreset.find_by(id: preset_id)
       self.places = @preset.places
       self.place_urls = @preset.place_urls
-      self.activities = @preset.activities
+      self.titles = @preset.titles
     end
   end
 

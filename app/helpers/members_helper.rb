@@ -22,7 +22,7 @@ module MembersHelper
           price: price_info(bs.annual_price),
           details: [
             deliveries_count(bs.deliveries_count),
-            halfdays_count(bs.annual_halfday_works),
+            activities_count(bs.activity_participations_demanded_annualy),
             acp_shares_number(bs.acp_shares_number)
           ].compact.join(', ')),
         bs.id
@@ -101,8 +101,8 @@ module MembersHelper
     "#{count}&nbsp;#{Delivery.model_name.human(count: count)}".downcase
   end
 
-  def halfdays_count(count)
-    t_halfday('helpers.halfdays_count_per_year', count: count).gsub(/\s/, '&nbsp;')
+  def activities_count(count)
+    t_activity('helpers.activities_count_per_year', count: count).gsub(/\s/, '&nbsp;')
   end
 
   def acp_shares_number(number)

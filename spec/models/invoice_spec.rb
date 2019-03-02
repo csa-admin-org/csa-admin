@@ -45,16 +45,16 @@ describe Invoice do
     ))
   end
 
-  it 'updates membership recognized_halfday_works' do
+  it 'updates membership activity_participations_accepted' do
     member = create(:member)
     membership = create(:membership, member: member)
     invoice = build(:invoice,
       member: member,
-      paid_missing_halfday_works: 2,
-      paid_missing_halfday_works_amount: 120)
+      paid_missing_activity_participations: 2,
+      paid_missing_activity_participations_amount: 120)
 
-    expect { invoice.save! }.to change { membership.reload.recognized_halfday_works }.by(2)
-    expect { invoice.cancel! }.to change { membership.reload.recognized_halfday_works }.by(-2)
+    expect { invoice.save! }.to change { membership.reload.activity_participations_accepted }.by(2)
+    expect { invoice.cancel! }.to change { membership.reload.activity_participations_accepted }.by(-2)
   end
 
   context 'when annual fee only' do
@@ -112,19 +112,19 @@ describe Invoice do
     end
   end
 
-  context 'when halfday_participation' do
-    it 'validates paid_missing_halfday_works_amount presence when paid_missing_halfday_works is present' do
-      invoice = build(:invoice, paid_missing_halfday_works: 1)
-      expect(invoice).not_to have_valid(:paid_missing_halfday_works_amount)
+  context 'when activity_participation' do
+    it 'validates paid_missing_activity_participations_amount presence when paid_missing_activity_participations is present' do
+      invoice = build(:invoice, paid_missing_activity_participations: 1)
+      expect(invoice).not_to have_valid(:paid_missing_activity_participations_amount)
     end
 
-    it 'sets object_type to HalfdayParticipation with paid_missing_halfday_works' do
+    it 'sets object_type to ActivityParticipation with paid_missing_activity_participations' do
       invoice = create(:invoice,
-        paid_missing_halfday_works: 1,
-        paid_missing_halfday_works_amount: 42)
+        paid_missing_activity_participations: 1,
+        paid_missing_activity_participations_amount: 42)
 
-      expect(invoice.object_type).to eq 'HalfdayParticipation'
-      expect(invoice.paid_missing_halfday_works).to eq 1
+      expect(invoice.object_type).to eq 'ActivityParticipation'
+      expect(invoice.paid_missing_activity_participations).to eq 1
       expect(invoice.amount).to eq 42
     end
   end

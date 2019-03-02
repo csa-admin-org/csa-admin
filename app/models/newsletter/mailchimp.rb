@@ -1,5 +1,5 @@
 class Newsletter::MailChimp
-  include HalfdaysHelper
+  include ActivitiesHelper
 
   BatchError = Class.new(StandardError)
 
@@ -50,8 +50,8 @@ class Newsletter::MailChimp
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
       BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } },
-      HALF_ASKE: { name: "#{halfdays_human_name} demandées", type: 'number', required: true },
-      HALF_MISS: { name: "#{halfdays_human_name} manquantes", type: 'number', required: true }
+      HALF_ASKE: { name: "#{activities_human_name} demandées", type: 'number', required: true },
+      HALF_MISS: { name: "#{activities_human_name} manquantes", type: 'number', required: true }
     }
     if BasketComplement.any?
       fields[:BASK_COMP] = { name: 'Compléments panier', type: 'text', required: false }
@@ -111,8 +111,8 @@ class Newsletter::MailChimp
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
       BASK_DIST: next_basket&.depot&.name.to_s,
-      HALF_ASKE: current_year_membership&.halfday_works.to_i,
-      HALF_MISS: current_year_membership&.missing_halfday_works.to_i
+      HALF_ASKE: current_year_membership&.activity_participations.to_i,
+      HALF_MISS: current_year_membership&.missing_activity_participations.to_i
     }
     if BasketComplement.any?
       fields[:BASK_COMP] =

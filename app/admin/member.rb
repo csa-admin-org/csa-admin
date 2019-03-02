@@ -81,8 +81,8 @@ ActiveAdmin.register Member do
           else
             table_for(memberships, class: 'table-memberships') do
               column(:period) { |m| auto_link m, membership_short_period(m) }
-              column(halfdays_human_name) { |m|
-                auto_link m, "#{m.recognized_halfday_works} / #{m.halfday_works}"
+              column(activities_human_name) { |m|
+                auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}"
               }
               column(:baskets) { |m|
                 auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}"
@@ -91,18 +91,18 @@ ActiveAdmin.register Member do
           end
         end
 
-        halfday_participations = member.halfday_participations.includes(:halfday).order('halfdays.date, halfdays.start_time')
-        count = halfday_participations.count
-        panel link_to("#{halfdays_human_name} (#{count})", halfday_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
-          if halfday_participations.none?
-            em t_halfday('.no_halfdays')
+        activity_participations = member.activity_participations.includes(:activity).order('activities.date, activities.start_time')
+        count = activity_participations.count
+        panel link_to("#{activities_human_name} (#{count})", activity_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
+          if activity_participations.none?
+            em t_activity('.no_activities')
           else
-            table_for(halfday_participations.offset([count - 5, 0].max), class: 'table-halfday_participations') do
-              column(HalfdayParticipation.human_attribute_name(:description)) { |hp|
-                auto_link hp, hp.halfday.name
+            table_for(activity_participations.offset([count - 5, 0].max), class: 'table-activity_participations') do
+              column(ActivityParticipation.human_attribute_name(:description)) { |ap|
+                auto_link ap, ap.activity.name
               }
-              column(HalfdayParticipation.human_attribute_name(:participants), &:participants_count)
-              column(:state) { |hp| status_tag(hp.state) }
+              column(ActivityParticipation.human_attribute_name(:participants), &:participants_count)
+              column(:state) { |ap| status_tag(ap.state) }
             end
           end
         end

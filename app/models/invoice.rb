@@ -8,7 +8,7 @@ class Invoice < ActiveRecord::Base
   UnprocessedError = Class.new(StandardError)
 
   attr_writer :membership_amount_fraction, :send_email
-  attr_reader :paid_missing_halfday_works_amount
+  attr_reader :paid_missing_activity_participations_amount
   attr_accessor :comment
 
   has_states :not_sent, :open, :closed, :canceled
@@ -31,7 +31,7 @@ class Invoice < ActiveRecord::Base
   scope :unpaid, -> { not_canceled.where('balance < amount') }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
-  scope :halfday_participation_type, -> { where(object_type: 'HalfdayParticipation') }
+  scope :activity_participation_type, -> { where(object_type: 'ActivityParticipation') }
   scope :other_type, -> { where(object_type: 'Other') }
 
   with_options if: :membership_type?, on: :create do
@@ -48,11 +48,11 @@ class Invoice < ActiveRecord::Base
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
   validates :object_type, inclusion: { in: proc { Invoice.object_types } }
   validates :amount, numericality: { other_than: 0 }
-  validates :paid_missing_halfday_works,
+  validates :paid_missing_activity_participations,
     numericality: { greater_than_or_equal_to: 1, allow_blank: true }
-  validates :paid_missing_halfday_works_amount,
+  validates :paid_missing_activity_participations_amount,
     numericality: { greater_than_or_equal_to: 1 },
-    if: :paid_missing_halfday_works,
+    if: :paid_missing_activity_participations,
     on: :create
   validates :acp_shares_number,
     numericality: { other_than: 0, allow_blank: true }
@@ -73,10 +73,10 @@ class Invoice < ActiveRecord::Base
     if: :membership_type?
 
   after_commit :process!, on: :create
-  after_commit :update_membership_recognized_halfday_works!
+  after_commit :update_membership_activity_participations_accepted!
 
   def self.object_types
-    types = %w[Membership HalfdayParticipation Other]
+    types = %w[Membership ActivityParticipation Other]
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
     types
@@ -172,16 +172,16 @@ class Invoice < ActiveRecord::Base
     self[:amount] = items.sum(&:amount)
   end
 
-  def paid_missing_halfday_works=(number)
+  def paid_missing_activity_participations=(number)
     return if number.blank?
 
     super
-    self[:object_type] = 'HalfdayParticipation'
+    self[:object_type] = 'ActivityParticipation'
   end
 
-  def paid_missing_halfday_works_amount=(amount)
-    @paid_missing_halfday_works_amount = amount
-    if halfday_participation_type?
+  def paid_missing_activity_participations_amount=(amount)
+    @paid_missing_activity_participations_amount = amount
+    if activity_participation_type?
       self[:amount] = amount
     end
   end
@@ -216,8 +216,8 @@ class Invoice < ActiveRecord::Base
     object_type == 'Membership'
   end
 
-  def halfday_participation_type?
-    object_type == 'HalfdayParticipation'
+  def activity_participation_type?
+    object_type == 'ActivityParticipation'
   end
 
   def acp_share_type?
@@ -302,9 +302,9 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def update_membership_recognized_halfday_works!
-    if halfday_participation_type?
-      member.membership(fy_year)&.update_recognized_halfday_works!
+  def update_membership_activity_participations_accepted!
+    if activity_participation_type?
+      member.membership(fy_year)&.update_activity_participations_accepted!
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_28_154318) do
+ActiveRecord::Schema.define(version: 2019_02_28_192419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -45,11 +45,11 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.text "isr_payment_for"
     t.text "isr_in_favor_of"
     t.integer "billing_year_divisions", default: [], null: false, array: true
-    t.string "halfday_i18n_scope", default: "halfday_work", null: false
+    t.string "activity_i18n_scope", default: "halfday_work", null: false
     t.string "email"
     t.string "phone"
     t.string "url"
-    t.integer "halfday_participation_deletion_deadline_in_days"
+    t.integer "activity_participation_deletion_deadline_in_days"
     t.string "vat_number"
     t.decimal "vat_membership_rate", precision: 8, scale: 2
     t.string "languages", default: ["fr"], null: false, array: true
@@ -59,10 +59,10 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.jsonb "delivery_pdf_footers", default: {}, null: false
     t.jsonb "terms_of_service_urls", default: {}, null: false
     t.jsonb "statutes_urls", default: {}, null: false
-    t.integer "halfday_availability_limit_in_days", default: 3, null: false
+    t.integer "activity_availability_limit_in_days", default: 3, null: false
     t.string "logo_url"
     t.string "email_footer"
-    t.string "halfday_phone"
+    t.string "activity_phone"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -100,6 +100,47 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "activities", id: :serial, force: :cascade do |t|
+    t.date "date", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.integer "participants_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "places", default: {}, null: false
+    t.jsonb "place_urls", default: {}, null: false
+    t.jsonb "titles", default: {}, null: false
+    t.jsonb "descriptions", default: {}, null: false
+    t.index ["date"], name: "index_activities_on_date"
+    t.index ["start_time"], name: "index_activities_on_start_time"
+  end
+
+  create_table "activity_participations", id: :serial, force: :cascade do |t|
+    t.integer "activity_id", null: false
+    t.integer "member_id", null: false
+    t.integer "validator_id"
+    t.string "state", default: "pending", null: false
+    t.datetime "validated_at"
+    t.datetime "rejected_at"
+    t.integer "participants_count", default: 1, null: false
+    t.string "carpooling_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "latest_reminder_sent_at"
+    t.string "carpooling_city"
+    t.bigint "session_id"
+    t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
+    t.index ["member_id"], name: "index_activity_participations_on_member_id"
+    t.index ["validator_id"], name: "index_activity_participations_on_validator_id"
+  end
+
+  create_table "activity_presets", force: :cascade do |t|
+    t.jsonb "places", default: {}, null: false
+    t.jsonb "place_urls", default: {}, null: false
+    t.jsonb "titles", default: {}, null: false
+    t.index ["places", "titles"], name: "index_activity_presets_on_places_and_titles", unique: true
   end
 
   create_table "admins", id: :serial, force: :cascade do |t|
@@ -172,7 +213,7 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
-    t.integer "annual_halfday_works", default: 0, null: false
+    t.integer "activity_participations_demanded_annualy", default: 0, null: false
     t.jsonb "names", default: {}, null: false
     t.integer "acp_shares_number"
   end
@@ -248,47 +289,6 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id"
   end
 
-  create_table "halfday_participations", id: :serial, force: :cascade do |t|
-    t.integer "halfday_id", null: false
-    t.integer "member_id", null: false
-    t.integer "validator_id"
-    t.string "state", default: "pending", null: false
-    t.datetime "validated_at"
-    t.datetime "rejected_at"
-    t.integer "participants_count", default: 1, null: false
-    t.string "carpooling_phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "latest_reminder_sent_at"
-    t.string "carpooling_city"
-    t.bigint "session_id"
-    t.index ["halfday_id"], name: "index_halfday_participations_on_halfday_id"
-    t.index ["member_id"], name: "index_halfday_participations_on_member_id"
-    t.index ["validator_id"], name: "index_halfday_participations_on_validator_id"
-  end
-
-  create_table "halfday_presets", force: :cascade do |t|
-    t.jsonb "places", default: {}, null: false
-    t.jsonb "place_urls", default: {}, null: false
-    t.jsonb "activities", default: {}, null: false
-    t.index ["places", "activities"], name: "index_halfday_presets_on_places_and_activities", unique: true
-  end
-
-  create_table "halfdays", id: :serial, force: :cascade do |t|
-    t.date "date", null: false
-    t.time "start_time", null: false
-    t.time "end_time", null: false
-    t.integer "participants_limit"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "places", default: {}, null: false
-    t.jsonb "place_urls", default: {}, null: false
-    t.jsonb "activities", default: {}, null: false
-    t.jsonb "descriptions", default: {}, null: false
-    t.index ["date"], name: "index_halfdays_on_date"
-    t.index ["start_time"], name: "index_halfdays_on_start_time"
-  end
-
   create_table "invoice_items", force: :cascade do |t|
     t.bigint "invoice_id"
     t.string "description", null: false
@@ -317,7 +317,7 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.string "state", default: "not_sent", null: false
     t.string "object_type", null: false
     t.bigint "object_id"
-    t.integer "paid_missing_halfday_works"
+    t.integer "paid_missing_activity_participations"
     t.decimal "memberships_vat_amount", precision: 8, scale: 2
     t.integer "acp_shares_number"
     t.index ["member_id"], name: "index_invoices_on_member_id"
@@ -367,16 +367,16 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
 
   create_table "memberships", id: :serial, force: :cascade do |t|
     t.integer "member_id", null: false
-    t.decimal "halfday_works_annual_price", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "annual_halfday_works", null: false
+    t.decimal "activity_participations_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
+    t.integer "activity_participations_demanded_annualy", null: false
     t.date "started_on", null: false
     t.date "ended_on", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.integer "baskets_count", default: 0, null: false
-    t.integer "halfday_works", default: 0, null: false
-    t.integer "recognized_halfday_works", default: 0, null: false
+    t.integer "activity_participations_demanded", default: 0, null: false
+    t.integer "activity_participations_accepted", default: 0, null: false
     t.boolean "renew", default: false, null: false
     t.bigint "basket_size_id", null: false
     t.bigint "depot_id", null: false
@@ -445,6 +445,9 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
     t.jsonb "names", default: {}, null: false
   end
 
+  add_foreign_key "activity_participations", "activities"
+  add_foreign_key "activity_participations", "admins", column: "validator_id"
+  add_foreign_key "activity_participations", "members"
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents", "vegetables"
   add_foreign_key "basket_contents_depots", "basket_contents"
@@ -454,9 +457,6 @@ ActiveRecord::Schema.define(version: 2019_02_28_154318) do
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
   add_foreign_key "depots", "members", column: "responsible_member_id"
-  add_foreign_key "halfday_participations", "admins", column: "validator_id"
-  add_foreign_key "halfday_participations", "halfdays"
-  add_foreign_key "halfday_participations", "members"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "depots"

@@ -29,7 +29,7 @@ describe 'Member sessions' do
 
     visit "/sessions/#{session.token}"
 
-    expect(current_path).to eq '/halfday_participations'
+    expect(current_path).to eq '/activity_participations'
     expect(page).to have_content 'Vous êtes maintenant connecté.'
 
     delete_session(member)
@@ -72,7 +72,7 @@ describe 'Member sessions' do
 
     visit "/sessions/#{old_session.token}"
 
-    expect(current_path).to eq '/halfday_participations'
+    expect(current_path).to eq '/activity_participations'
     expect(page).to have_content 'Vous êtes déjà connecté.'
   end
 
@@ -123,7 +123,7 @@ describe 'Member sessions' do
 
     visit "/#{member.reload.token}"
 
-    expect(current_path).to eq '/halfday_participations'
+    expect(current_path).to eq '/activity_participations'
   end
 
   it 'update last usage column every hour when using the session' do

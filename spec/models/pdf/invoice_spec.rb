@@ -71,12 +71,12 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
-    it 'generates invoice with support ammount + annual membership + halfday_works reduc' do
+    it 'generates invoice with support ammount + annual membership + activity_participations reduc' do
       membership = create(:membership,
         basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
-        annual_halfday_works: 8,
-        halfday_works_annual_price: -330.50)
+        activity_participations_demanded_annualy: 8,
+        activity_participations_annual_price_change: -330.50)
       invoice = create(:invoice,
         id: 7,
         object: membership,
@@ -161,16 +161,16 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
-    it 'generates invoice with HalfdayParticipation object' do
-      halfday = create(:halfday, date: '2018-3-4')
-      rejected_participation = create(:halfday_participation, :rejected,
-        halfday: halfday)
+    it 'generates invoice with ActivityParticipation object' do
+      activity = create(:activity, date: '2018-3-4')
+      rejected_participation = create(:activity_participation, :rejected,
+        activity: activity)
       invoice = create(:invoice,
         id: 2001,
         date: '2018-4-5',
         object: rejected_participation,
-        paid_missing_halfday_works: 2,
-        paid_missing_halfday_works_amount: 120)
+        paid_missing_activity_participations: 2,
+        paid_missing_activity_participations_amount: 120)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -179,12 +179,12 @@ describe PDF::Invoice do
         .and include('0100000120000>001104190802410000000020015+ 010137346>')
     end
 
-    it 'generates invoice with HalfdayParticipation type (one participant)' do
+    it 'generates invoice with ActivityParticipation type (one participant)' do
       invoice = create(:invoice,
         id: 2002,
         date: '2018-4-5',
-        paid_missing_halfday_works: 1,
-        paid_missing_halfday_works_amount: 60)
+        paid_missing_activity_participations: 1,
+        paid_missing_activity_participations_amount: 60)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -194,12 +194,12 @@ describe PDF::Invoice do
         .and include('0100000060004>001104190802410000000020020+ 010137346>')
     end
 
-    it 'generates invoice with HalfdayParticipation type (many participants)' do
+    it 'generates invoice with ActivityParticipation type (many participants)' do
       invoice = create(:invoice,
         id: 2003,
         date: '2018-4-5',
-        paid_missing_halfday_works: 3,
-        paid_missing_halfday_works_amount: 180)
+        paid_missing_activity_participations: 3,
+        paid_missing_activity_participations_amount: 180)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 

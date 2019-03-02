@@ -9,7 +9,7 @@ class Members::MembersController < Members::BaseController
 
   # GET /
   def show
-    redirect_to members_halfday_participations_path
+    redirect_to members_activity_participations_path
   end
 
   # POST /

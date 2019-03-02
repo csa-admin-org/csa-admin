@@ -71,13 +71,13 @@ _:
       depot:
         _de: Depot
         _fr: Dépôt
-      halfday/basket_preparation:
+      activity/basket_preparation:
         _de: Anpassung Taschen befüllung
         _fr: Ajustement mises en panier
-      halfday/halfday_work:
+      activity/halfday_work:
         _de: Anpassung ½ Tage
         _fr: Ajustement ½ journées
-      halfday/hour_work:
+      activity/hour_work:
         _de: Anpassung Arbeitsstunden
         _fr: Ajustement heures de travail
       missing:

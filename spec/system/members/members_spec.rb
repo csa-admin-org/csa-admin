@@ -163,10 +163,10 @@ describe 'members page' do
     before { Timecop.freeze(Date.today.beginning_of_year + 6.months) }
     after { Timecop.return }
 
-    it 'shows current membership info and halfdays count' do
+    it 'shows current membership info and activities count' do
       create(:basket_complement, id: 1, name: 'Oeufs')
       member.current_year_membership.update!(
-        annual_halfday_works: 3,
+        activity_participations_demanded_annualy: 3,
         basket_size: create(:basket_size, name: 'Petit'),
         depot: create(:depot, name: 'Jardin de la main'),
         memberships_basket_complements_attributes: {
@@ -184,7 +184,7 @@ describe 'members page' do
     it 'shows current membership info with custom coming basket' do
       create(:basket_complement, id: 1, name: 'Oeufs')
       member.current_year_membership.update!(
-        annual_halfday_works: 3,
+        activity_participations_demanded_annualy: 3,
         basket_size: create(:basket_size, name: 'Petit'),
         depot: create(:depot, name: 'Jardin de la main'),
         memberships_basket_complements_attributes: {
@@ -203,7 +203,7 @@ describe 'members page' do
       expect(page).to have_content "0/3 effectuée(s)"
     end
 
-    it 'shows next year membership info and halfdays count' do
+    it 'shows next year membership info and activities count' do
       Delivery.create_all(40, Current.fiscal_year.beginning_of_year + 1.year)
       create(:basket_complement, id: 1, name: 'Fromage')
       member.current_year_membership.delete
@@ -211,7 +211,7 @@ describe 'members page' do
         member: member,
         started_on: Date.current.beginning_of_year + 1.year,
         ended_on: Date.current.end_of_year + 1.year,
-        annual_halfday_works: 4,
+        activity_participations_demanded_annualy: 4,
         basket_size: create(:basket_size, name: 'Grand'),
         depot: create(:depot, name: 'Vélo'),
         memberships_basket_complements_attributes: {

@@ -25,12 +25,12 @@ class Membership < ActiveRecord::Base
   before_validation do
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
-    self.annual_halfday_works ||= basket_quantity * basket_size&.annual_halfday_works
+    self.activity_participations_demanded_annualy ||= basket_quantity * basket_size&.activity_participations_demanded_annualy
   end
 
   validates :member, presence: true
-  validates :annual_halfday_works, numericality: true
-  validates :halfday_works_annual_price, numericality: true
+  validates :activity_participations_demanded_annualy, numericality: true
+  validates :activity_participations_annual_price_change, numericality: true
   validates :started_on, :ended_on, presence: true
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -43,7 +43,7 @@ class Membership < ActiveRecord::Base
   validate :at_least_one_basket
 
   before_save :set_renew
-  after_save :update_halfday_works, :update_price_and_invoices_amount!
+  after_save :update_activity_participations, :update_price_and_invoices_amount!
   after_create :create_baskets!
   after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
@@ -121,7 +121,7 @@ class Membership < ActiveRecord::Base
     super rounded_price(price.to_f)
   end
 
-  def halfday_works_annual_price=(price)
+  def activity_participations_annual_price_change=(price)
     super rounded_price(price.to_f)
   end
 
@@ -186,11 +186,11 @@ class Membership < ActiveRecord::Base
     @depot ||= Depot.find(depot_id)
   end
 
-  def missing_halfday_works
-    [halfday_works - recognized_halfday_works, 0].max
+  def missing_activity_participations
+    [activity_participations_demanded - activity_participations_accepted, 0].max
   end
 
-  def update_halfday_works!
+  def update_activity_participations_demanded!
     deliveries_count = Delivery.during_year(fy_year).count
     percentage =
       if member.salary_basket? || deliveries_count.zero?
@@ -198,15 +198,15 @@ class Membership < ActiveRecord::Base
       else
         baskets_count / deliveries_count.to_f
       end
-    update_column(:halfday_works, (percentage * annual_halfday_works).round)
+    update_column(:activity_participations_demanded, (percentage * activity_participations_demanded_annualy).round)
   end
 
-  def update_recognized_halfday_works!
-    participations = member.halfday_participations.not_rejected.during_year(fiscal_year)
-    invoices = member.invoices.not_canceled.halfday_participation_type.during_year(fiscal_year)
+  def update_activity_participations_accepted!
+    participations = member.activity_participations.not_rejected.during_year(fiscal_year)
+    invoices = member.invoices.not_canceled.activity_participation_type.during_year(fiscal_year)
     update_column(
-      :recognized_halfday_works,
-      participations.sum(:participants_count) + invoices.sum(:paid_missing_halfday_works))
+      :activity_participations_accepted,
+      participations.sum(:participants_count) + invoices.sum(:paid_missing_activity_participations))
   end
 
   def update_baskets_counts!
@@ -223,12 +223,12 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def update_halfday_works
-    if saved_change_to_attribute?(:annual_halfday_works) ||
+  def update_activity_participations
+    if saved_change_to_attribute?(:activity_participations_demanded_annualy) ||
         saved_change_to_attribute?(:ended_on) ||
         saved_change_to_attribute?(:started_on)
 
-      update_halfday_works!
+      update_activity_participations_demanded!
     end
   end
 
@@ -312,7 +312,7 @@ class Membership < ActiveRecord::Base
         basket_complements_price +
         basket_complements_annual_price_change +
         depots_price +
-        halfday_works_annual_price),
+        activity_participations_annual_price_change),
       invoices_amount: invoices.not_canceled.sum(:memberships_amount))
   end
 

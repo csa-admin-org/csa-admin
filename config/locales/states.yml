@@ -1,6 +1,6 @@
 _:
   states:
-    halfday_participation:
+    activity_participation:
       coming:
         _de: künftig
         _fr: à venir

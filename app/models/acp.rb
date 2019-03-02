@@ -8,8 +8,8 @@ class ACP < ActiveRecord::Base
   LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
-  HALFDAY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
-  HALFDAY_PRICE = 60
+  ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
+  ACTIVITY_PRICE = 60
 
   attr_writer :summer_month_range_min, :summer_month_range_max
 
@@ -26,7 +26,7 @@ class ACP < ActiveRecord::Base
   validates :email_default_from, presence: true
   validates :email_footer, presence: true
   validates :phone, presence: true
-  validates :halfday_phone, presence: true
+  validates :activity_phone, presence: true
   validates :ccp, presence: true, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/ }
   validates :isr_identity, presence: true
   validates :isr_payment_for, presence: true
@@ -45,10 +45,10 @@ class ACP < ActiveRecord::Base
     inclusion: { in: 1..12 },
     numericality: { greater_than_or_equal_to: ->(acp) { acp.summer_month_range_min } },
     if: -> { @summer_month_range_min.present? }
-  validates :halfday_i18n_scope, inclusion: { in: HALFDAY_I18N_SCOPES }
-  validates :halfday_participation_deletion_deadline_in_days,
+  validates :activity_i18n_scope, inclusion: { in: ACTIVITY_I18N_SCOPES }
+  validates :activity_participation_deletion_deadline_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
-  validates :halfday_availability_limit_in_days,
+  validates :activity_availability_limit_in_days,
     numericality: { greater_than_or_equal_to: 0 }
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
   validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
@@ -77,7 +77,7 @@ class ACP < ActiveRecord::Base
   def self.languages; LANGUAGES end
   def self.features; FEATURES end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
-  def self.halfday_i18n_scopes; HALFDAY_I18N_SCOPES end
+  def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
 
   def feature?(feature)
     features.include?(feature.to_s)
@@ -98,7 +98,7 @@ class ACP < ActiveRecord::Base
 
   def phone=(phone)
     super
-    self.halfday_phone ||= phone
+    self.activity_phone ||= phone
   end
 
   def current_fiscal_year

@@ -39,16 +39,16 @@ _:
         fiscal_year_start_month:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
-        halfday_availability_limit_in_days:
+        activity_availability_limit_in_days:
           _de: Anmeldefrist (in Tagen)
           _fr: Limite d'inscription à l'avance (en jours)
-        halfday_i18n_scope:
+        activity_i18n_scope:
           _de: Mehrwertsteuernummer
           _fr: Appellation
-        halfday_participation_deletion_deadline_in_days:
+        activity_participation_deletion_deadline_in_days:
           _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
-        halfday_phone:
+        activity_phone:
           _de: Telefon
           _fr: Téléphone
         invoice_footer:
@@ -233,13 +233,13 @@ _:
           _de: Gemüse
           _fr: Légume
       basket_size:
-        annual_halfday_works/basket_preparation:
+        activity_participations_demanded_annualy/basket_preparation:
           _de: Taschen befüllung pro Jahr
           _fr: Mises en panier par année
-        annual_halfday_works/halfday_work:
+        activity_participations_demanded_annualy/halfday_work:
           _de: "½ Arbeitstage pro Jahr"
           _fr: "½ journées de travail par année"
-        annual_halfday_works/hour_work:
+        activity_participations_demanded_annualy/hour_work:
           _de: Arbeitsstunden pro Jahr
           _fr: Heures de travail par année
       baskets_basket_complement:
@@ -266,7 +266,7 @@ _:
         responsible_member:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
-      halfday_participation/basket_preparation:
+      activity_participation/basket_preparation:
         carpooling_city:
           _de: Abfahrt Stadt
           _fr: Ville de départ
@@ -276,7 +276,7 @@ _:
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
-        halfday:
+        activity:
           _de: Taschen befüllung
           _fr: Mise en panier
         invoiced_at:
@@ -306,7 +306,7 @@ _:
         validator:
           _de: Bestätigt durch
           _fr: Validateur
-      halfday_participation/halfday_work:
+      activity_participation/halfday_work:
         carpooling_city:
           _de: Abfahrt Stadt
           _fr: Ville de départ
@@ -316,7 +316,7 @@ _:
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
-        halfday:
+        activity:
           _de: "½ Tag"
           _fr: "½ Journée"
         invoiced_at:
@@ -343,7 +343,7 @@ _:
         validator:
           _de: Bestätigt durch
           _fr: Validateur
-      halfday_participation/hour_work:
+      activity_participation/hour_work:
         carpooling_city:
           _de: Abfahrt Stadt
           _fr: Ville de départ
@@ -353,7 +353,7 @@ _:
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
-        halfday:
+        activity:
           _de: Arbeitsstunde
           _fr: Heure de travail
         invoiced_at:
@@ -399,10 +399,10 @@ _:
         overdue_notices_count:
           _de: Mahnungen
           _fr: Rappels
-        paid_missing_halfday_works:
+        paid_missing_activity_participations:
           _de: Anzahl / Teilnehmer
           _fr: Nombre / Participants
-        paid_missing_halfday_works_amount:
+        paid_missing_activity_participations_amount:
           _de: Betrag
           _fr: Montant
       member:
@@ -545,103 +545,103 @@ _:
         ended_on:
           _de: Ende
           _fr: Fin
-        halfday_works/basket_preparation:
+        activity_participations_demanded/basket_preparation:
           _de: Verlangte Taschen befüllung
           _fr: Mises en panier demandées
-        halfday_works/halfday_work:
+        activity_participations_demanded/halfday_work:
           _de: "½ Tage verlangt"
           _fr: "½ journées demandées"
-        halfday_works/hour_work:
+        activity_participations_demanded/hour_work:
           _de: Arbeitsstunden verlangt
           _fr: Heures de travail demandées
-        halfday_works_annual_price/basket_preparation:
+        activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Preis Abonnement (Taschen befüllung)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
-        halfday_works_annual_price/halfday_work:
+        activity_participations_annual_price_change/halfday_work:
           _de: Anpassung Preis Abonnement (½ Tage)
           _fr: Ajustement du prix de l'abonnement (½ journées)
-        halfday_works_annual_price/hour_work:
+        activity_participations_annual_price_change/hour_work:
           _de: Anpassung Preis Abonnement (Arbeitsstunden)
           _fr: Ajustement du prix de l'abonnement (heures de travail)
-        halfday_works_annual_price_default/basket_preparation:
+        activity_participations_annual_price_change_default/basket_preparation:
           _de: Taschen befüllung
           _fr: Mises en panier
-        halfday_works_annual_price_default/halfday_work:
+        activity_participations_annual_price_change_default/halfday_work:
           _de: Halbtage
           _fr: Demi-journées
-        halfday_works_annual_price_default/hour_work:
+        activity_participations_annual_price_change_default/hour_work:
           _de: Arbeitsstunden
           _fr: Heures de travail
-        halfday_works_annual_price_negative/basket_preparation:
+        activity_participations_annual_price_change_negative/basket_preparation:
           one:
             _de: Eine nicht geleiste Taschen befüllung
             _fr: Une mise en panier non effectuée
           other:
             _de: "%{count} nicht geleistete Taschen befüllung"
             _fr: "%{count} mises en panier non effectuées"
-        halfday_works_annual_price_negative/halfday_work:
+        activity_participations_annual_price_change_negative/halfday_work:
           one:
             _de: Ein nicht geleisteter Halbtag
             _fr: Une demi-journée non effectuée
           other:
             _de: "%{count} nicht geleistete Halbtage"
             _fr: "%{count} demi-journées non effectuées"
-        halfday_works_annual_price_negative/hour_work:
+        activity_participations_annual_price_change_negative/hour_work:
           one:
             _de: Ein nicht geleistete Arbeitsstunde
             _fr: Une heure de travail non effectuée
           other:
             _de: "%{count} nicht geleistete Arbeitsstunden"
             _fr: "%{count} heures de travail non effectuées"
-        halfday_works_annual_price_positive/basket_preparation:
+        activity_participations_annual_price_change_positive/basket_preparation:
           _de: Nicht geleistete Taschen befüllung
           _fr: Mises en panier non effectuées
-        halfday_works_annual_price_positive/halfday_work:
+        activity_participations_annual_price_change_positive/halfday_work:
           _de: Nicht geleistete Halbtage
           _fr: Demi-journées de travail non effectuées
-        halfday_works_annual_price_positive/hour_work:
+        activity_participations_annual_price_change_positive/hour_work:
           _de: Nicht geleistete Arbeitsstunden
           _fr: Heures de travail non effectuées
-        halfday_works_annual_price_reduction/basket_preparation:
+        activity_participations_annual_price_change_reduction/basket_preparation:
           one:
             _de: Rabatt für eine zusätzliche Taschen befüllung
             _fr: Réduction pour une mise en panier supplémentaire
           other:
             _de: Rabatt für %{count} zusätzliche Taschen befüllung
             _fr: Réduction pour %{count} mises en panier supplémentaires
-        halfday_works_annual_price_reduction/halfday_work:
+        activity_participations_annual_price_change_reduction/halfday_work:
           one:
             _de: Rabatt für einen zusätzlichen Halbtag
             _fr: Réduction pour une demi-journée supplémentaire
           other:
             _de: Rabatt für %{count} zusätzliche Halbtage
             _fr: Réduction pour %{count} demi-journées supplémentaires
-        halfday_works_annual_price_reduction/hour_work:
+        activity_participations_annual_price_change_reduction/hour_work:
           one:
             _de: Rabatt für einen zusätzlichen Arbeitsstunde
             _fr: Réduction pour une heure de travail supplémentaire
           other:
             _de: Rabatt für %{count} zusätzliche Arbeitsstunden
             _fr: Réduction pour %{count} heures de travail supplémentaires
-        halfday_works_asked:
+        activity_participations_demanded:
           _de: Zu leisten
           _fr: Demandées
-        halfday_works_coming:
+        activity_participations_coming:
           _de: Künftig
           _fr: À venir
-        halfday_works_missing:
+        activity_participations_missing:
           _de: Fehlende
           _fr: Manquantes
-        halfday_works_paid:
+        activity_participations_paid:
           _de: In Rechnung gestellt
           _fr: Facturées
-        halfday_works_pending:
+        activity_participations_pending:
           _de: Wartet auf Bestätigung
           _fr: En attente de validation
-        halfday_works_rejected:
+        activity_participations_rejected:
           _de: Abgelehnte
           _fr: Refusées
-        halfday_works_validated:
+        activity_participations_validated:
           _de: Bestätigte
           _fr: Validées
         invoices_amount:
@@ -650,13 +650,13 @@ _:
         memberships_basket_complements:
           _de: Zusätze
           _fr: Compléments
-        missing_halfday_works/basket_preparation:
+        missing_activity_participations/basket_preparation:
           _de: Fehlende Taschen befüllung
           _fr: Mises en panier manquantes
-        missing_halfday_works/halfday_work:
+        missing_activity_participations/halfday_work:
           _de: Fehlende ½ Tage
           _fr: "½ journées manquantes"
-        missing_halfday_works/hour_work:
+        missing_activity_participations/hour_work:
           _de: Fehlende Arbeitsstunden
           _fr: Heures de travail manquantes
         period:
@@ -761,63 +761,63 @@ _:
         other:
           _de: Depots
           _fr: Dépôts
-      halfday/basket_preparation:
+      activity/basket_preparation:
         one:
           _de: Taschen befüllung - Datum
           _fr: Mise en panier - Date
         other:
           _de: Taschen befüllung - Daten
           _fr: Mise en panier - Dates
-      halfday/halfday_work:
+      activity/halfday_work:
         one:
           _de: "½ Tag - Datum"
           _fr: "½ Journée - Date"
         other:
           _de: "½ Tag - Daten"
           _fr: "½ Journée - Dates"
-      halfday/hour_work:
+      activity/hour_work:
         one:
           _de: Arbeitsstunde - Datum
           _fr: Heure de travail - Date
         other:
           _de: Arbeitsstunde - Daten
           _fr: Heure de travail - Dates
-      halfday_participation/basket_preparation:
+      activity_participation/basket_preparation:
         one:
           _de: Taschen befüllung - Teilnahme
           _fr: Mise en panier - Participation
         other:
           _de: Taschen befüllung - Teilnahmen
           _fr: Mise en panier - Participations
-      halfday_participation/halfday_work:
+      activity_participation/halfday_work:
         one:
           _de: "½ Tag - Teilnahme"
           _fr: "½ Journée - Participation"
         other:
           _de: "½ Tag - Teilnahmen"
           _fr: "½ Journée - Participations"
-      halfday_participation/hour_work:
+      activity_participation/hour_work:
         one:
           _de: Arbeitsstunde - Teilnahme
           _fr: Heure de travail - Participation
         other:
           _de: Arbeitsstunde - Teilnahmen
           _fr: Heure de travail - Participations
-      halfday_preset/basket_preparation:
+      activity_preset/basket_preparation:
         one:
           _de: Taschen befüllung - Voreinstellung
           _fr: Mise en panier - Preset
         other:
           _de: Taschen befüllung - Voreinstellungen
           _fr: Mise en panier - Presets
-      halfday_preset/halfday_work:
+      activity_preset/halfday_work:
         one:
           _de: "½ Tag - Voreinstellung"
           _fr: "½ Journée - Preset"
         other:
           _de: "½ Tag - Voreinstellungen"
           _fr: "½ Journée - Presets"
-      halfday_preset/hour_work:
+      activity_preset/hour_work:
         one:
           _de: Arbeitsstunde - Voreinstellung
           _fr: Heure de travail - Preset

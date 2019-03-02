@@ -9,7 +9,7 @@ ActiveAdmin.register BasketSize do
     if Current.acp.share?
       column :acp_shares_number
     end
-    column halfday_scoped_attribute(:annual_halfday_works), ->(bs) { bs.annual_halfday_works }
+    column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
     actions
   end
 
@@ -20,8 +20,8 @@ ActiveAdmin.register BasketSize do
       if Current.acp.share?
         f.input :acp_shares_number, as: :number, step: 1
       end
-      f.input :annual_halfday_works,
-        label: BasketSize.human_attribute_name(halfday_scoped_attribute(:annual_halfday_works))
+      f.input :activity_participations_demanded_annualy,
+        label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy))
       f.actions
     end
   end
@@ -29,7 +29,7 @@ ActiveAdmin.register BasketSize do
   permit_params(
     :price,
     :acp_shares_number,
-    :annual_halfday_works,
+    :activity_participations_demanded_annualy,
     names: I18n.available_locales)
 
   config.filters = false

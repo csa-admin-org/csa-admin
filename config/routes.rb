@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     devise_for :admins, ActiveAdmin::Devise.config
 
     get 'deliveries/next' => 'next_delivery#next'
-    get 'halfday_works/calendar' => 'halfday_works_calendar#show'
+    get 'activity_participations/calendar' => 'activity_participations_calendar#show'
     get 'settings' => 'acps#edit', as: :edit_acp
     get 'settings' => 'acps#edit', as: :acps
     get 'billing/:year' => 'billings#show', as: :billing
@@ -28,8 +28,8 @@ Rails.application.routes.draw do
       get '/login' => 'sessions#new', as: :login
       delete '/logout' => 'sessions#destroy', as: :logout
 
-      resources :halfdays, only: :index
-      resources :halfday_participations, only: %i[index create destroy]
+      resources :activities, only: :index
+      resources :activity_participations, only: %i[index create destroy]
       resources :absences, only: %i[index create destroy]
       get 'billing' => 'billing#index'
       resource :member, only: %i[new show create], path: '' do
