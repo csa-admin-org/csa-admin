@@ -16,6 +16,19 @@ describe ActivityParticipation do
       expect(participation).not_to have_valid(:participants_count)
     end
 
+    it 'validates activity participants limit when many participations' do
+      activity1 = create(:activity, participants_limit: 3)
+      activity2 = create(:activity, participants_limit: 10)
+      create(:activity_participation, activity: activity1, participants_count: 1)
+      participation = build(:activity_participation,
+        activity: nil,
+        activity_ids: [activity1.id, activity2.id],
+        participants_count: 3)
+      participation.save
+
+      expect(participation.errors[:participants_count]).to eq ['doit être inférieur ou égal à 2']
+    end
+
     it 'does not validates activity participants limit when update' do
       activity = create(:activity, participants_limit: 3)
       participation = create(:activity_participation, activity: activity, participants_count: 3)

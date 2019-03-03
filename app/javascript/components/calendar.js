@@ -27,6 +27,17 @@ const flatpickrLocale = () => {
   return locale === 'fr' ? French : German;
 };
 
+const initDate = dateText => {
+  hide('.activities label');
+  show(`label.activity-${dateText}`);
+  const checked = document.querySelector(`label.activity-${dateText} input:checked`);
+  if (!checked) {
+    const firstEnabled = document.querySelector(`label.activity-${dateText} input:enabled`);
+    firstEnabled.checked = true;
+  }
+  enableForm();
+};
+
 const selectDate = dateText => {
   hide('.activities label');
   checked('.activities input', false);
@@ -71,14 +82,26 @@ const changeMonthYear = (dates, calendar) => {
   }
 };
 
+const formatDate = date => {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  let year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+};
+
 const prepareInlineCalendar = () => {
   const calendar = document.getElementById('calendar');
   if (!calendar) return;
 
   const dates = calendar.getAttribute('data-dates').split(',');
-  const defaultDate = calendar.getAttribute('selected-date') || dates[0];
+  const defaultDate = calendar.getAttribute('data-selected_date') || dates[0];
 
-  selectDate(defaultDate);
+  initDate(defaultDate);
   flatpickr(calendar, {
     locale: flatpickrLocale(),
     defaultDate: defaultDate,
@@ -90,10 +113,12 @@ const prepareInlineCalendar = () => {
       selectDate(dateStr);
     },
     onMonthChange: (selectedDates, dateStr, instance) => {
-      changeMonthYear(dates, instance);
+      const ddates = [formatDate(selectedDates[0])].concat(dates)
+      changeMonthYear(ddates, instance);
     },
     onYearChange: (selectedDates, dateStr, instance) => {
-      changeMonthYear(dates, instance);
+      const ddates = [formatDate(selectedDates[0])].concat(dates)
+      changeMonthYear(ddates, instance);
     }
   });
 };

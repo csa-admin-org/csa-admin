@@ -178,7 +178,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: Petit'
       expect(page).to have_content 'Complément panier: Oeufs'
       expect(page).to have_content 'Dépôt: Jardin de la main'
-      expect(page).to have_content "0/3 effectuée(s)"
+      expect(page).to have_content "0/3 demandée(s)"
     end
 
     it 'shows current membership info with custom coming basket' do
@@ -200,7 +200,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: 2x Grand'
       expect(page).to have_content 'Complément panier: Oeufs'
       expect(page).to have_content 'Dépôt: Vélo'
-      expect(page).to have_content "0/3 effectuée(s)"
+      expect(page).to have_content '0/3 demandée(s)'
     end
 
     it 'shows next year membership info and activities count' do
@@ -223,7 +223,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: Grand'
       expect(page).to have_content 'Complément panier: Fromage'
       expect(page).to have_content 'Dépôt: Vélo'
-      expect(page).to have_content "0/4 effectuée(s)"
+      expect(page).to have_content '0/4 demandée(s)'
     end
 
     it 'shows with no membership' do
