@@ -8,12 +8,12 @@ describe 'Activity Participation' do
     login(member)
   end
 
-  it 'adds new participation' do
+  it 'adds one new participation' do
     activity = create(:activity, date: 4.days.from_now)
 
     visit '/'
 
-    choose "activity_participation_activity_id_#{activity.id}"
+    check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     click_button 'Inscription'
 
@@ -26,12 +26,34 @@ describe 'Activity Participation' do
     expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
   end
 
+  it 'adds many new participations' do
+    activity1 = create(:activity, date: 4.days.from_now, start_time: '8:00', end_time: '9:00')
+    activity2 = create(:activity, date: 4.days.from_now, start_time: '9:00', end_time: '10:00')
+
+    visit '/'
+
+    check "activity_participation_activity_ids_#{activity1.id}"
+    check "activity_participation_activity_ids_#{activity2.id}"
+    fill_in 'activity_participation_participants_count', with: 3
+    click_button 'Inscription'
+
+    expect(page).to have_content('Merci pour votre inscription!')
+    expect(page)
+      .to have_content "#{I18n.l(activity1.date, format: :long).capitalize}, #{activity1.period}"
+    expect(page)
+      .to have_content "#{I18n.l(activity2.date, format: :long).capitalize}, #{activity2.period}"
+    within('ol.main') do
+      expect(page).not_to have_content 'covoiturage'
+    end
+    expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
+  end
+
   it 'adds new participation with carpooling' do
     activity = create(:activity, date: 4.days.from_now)
 
     visit '/'
 
-    choose "activity_participation_activity_id_#{activity.id}"
+    check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     check 'activity_participation_carpooling'
     fill_in 'activity_participation_carpooling_phone', with: '077 447 58 31'
@@ -52,7 +74,7 @@ describe 'Activity Participation' do
 
     visit '/'
 
-    choose "activity_participation_activity_id_#{activity.id}"
+    check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     check 'activity_participation_carpooling'
 

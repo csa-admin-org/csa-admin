@@ -5,8 +5,8 @@ _:
         _de: Informieren Sie uns!
         _fr: Prévenez-nous!
       activity_participations_accepted:
-        _de: "%{accepted}/%{demanded} geleistet"
-        _fr: "%{accepted}/%{demanded} effectuée(s)"
+        _de: "%{accepted}/%{demanded} angefordert"
+        _fr: "%{accepted}/%{demanded} demandée(s)"
       billing:
         _de: Rechnungsstellung
         _fr: Facturation

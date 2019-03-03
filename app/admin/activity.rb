@@ -19,6 +19,10 @@ ActiveAdmin.register Activity do
     actions
   end
 
+  order_by(:date) do |order_clause|
+    [order_clause.to_sql, "activities.start_time #{order_clause.order}"].join(', ')
+  end
+
   csv do
     column(:date)
     column(:period)

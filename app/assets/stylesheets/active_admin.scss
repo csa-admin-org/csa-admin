@@ -256,10 +256,15 @@ table.table-invoices {
   }
 }
 
-table.table-payments {
+table#index_table_payments {
   .col-type {
     text-align: right;
     width: 100px;
+  }
+
+  .col-invoice_id {
+    text-align: right;
+    width: 130px;
   }
 
   .col-amount {
@@ -278,7 +283,7 @@ table#index_table_memberships {
   }
 }
 
-table.table-activity_participations {
+table#index_table_activity_participations {
   .col-description {
     width: 300px;
   }
@@ -293,7 +298,19 @@ table.table-activity_participations {
   }
 }
 
-table.table-memberships {
+table#index_table_activities {
+  .col-period {
+    width: 120px;
+    text-align: right;
+  }
+
+  .col-date {
+    width: 150px;
+    text-align: right;
+  }
+}
+
+table#index_table_memberships {
   .col-period {
     width: 200px;
   }

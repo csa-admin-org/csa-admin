@@ -13,6 +13,7 @@ class Activity < ActiveRecord::Base
 
   has_many :participations, class_name: 'ActivityParticipation'
 
+  scope :ordered, ->(order) { order(date: order, start_time: :asc) }
   scope :coming, -> { where('activities.date > ?', Date.current) }
   scope :past, -> { where('activities.date <= ?', Date.current) }
   scope :past_current_year, -> {
@@ -26,16 +27,16 @@ class Activity < ActiveRecord::Base
 
   def self.available_for(member)
     where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
+      .ordered(:asc)
       .includes(:participations)
       .reject { |hd| hd.participant?(member) || hd.full? }
-      .sort_by { |hd| "#{hd.date}#{hd.period}" }
   end
 
   def self.available
     where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
+      .ordered(:asc)
       .includes(:participations)
       .reject(&:full?)
-      .sort_by { |hd| "#{hd.date}#{hd.period}" }
   end
 
   def full?
@@ -52,7 +53,7 @@ class Activity < ActiveRecord::Base
   end
 
   def name
-    [I18n.l(date, format: :medium), place, period].join(', ')
+    [I18n.l(date, format: :medium), period, place].join(', ')
   end
 
   def period

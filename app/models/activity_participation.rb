@@ -1,6 +1,7 @@
 class ActivityParticipation < ActiveRecord::Base
   include ActivityNaming
   include HasState # only partially
+  include BulkActivityIdsInsert
 
   attr_reader :carpooling, :activity_ids
   delegate :missing_participants_count, to: :activity, allow_nil: true

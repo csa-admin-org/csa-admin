@@ -47,15 +47,9 @@ _:
         activity_label:
           _de: Zeitplan, Standort und Arbeit
           _fr: Horaire, lieu et activité
-        activity_participation_form_title/basket_preparation:
-          _de: Anmeldung an eine Taschen befüllung
-          _fr: Inscription à une mise en panier
-        activity_participation_form_title/halfday_work:
-          _de: Anmeldung an einem ½ Tag
-          _fr: Inscription à une ½ journée
-        activity_participation_form_title/hour_work:
-          _de: Anmeldung an eine Arbeitsstunde
-          _fr: Inscription à une heure de travail
+        activity_participation_form_title:
+          _de: Anmeldung
+          _fr: Inscription
         cancel_link:
           _de: abbrechen
           _fr: annuler
