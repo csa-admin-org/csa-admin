@@ -111,7 +111,7 @@ class Newsletter::MailChimp
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
       BASK_DIST: next_basket&.depot&.name.to_s,
-      HALF_ASKE: current_year_membership&.activity_participations.to_i,
+      HALF_ASKE: current_year_membership&.activity_participations_demanded.to_i,
       HALF_MISS: current_year_membership&.missing_activity_participations.to_i
     }
     if BasketComplement.any?
