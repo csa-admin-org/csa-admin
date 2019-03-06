@@ -88,6 +88,7 @@ ActiveAdmin.register Membership do
     column(:name) { |m| m.member.name }
     column(:emails) { |m| m.member.emails_array.join(', ') }
     column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }
+    column(:note) { |m| m.member.note }
     column(:basket_size) { |m| basket_size_description(m, text_only: true) }
     if BasketComplement.any?
       column(:basket_complements) { |m|
