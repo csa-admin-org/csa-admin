@@ -63,46 +63,54 @@ describe ActivityParticipation do
   end
 
   describe '#validate!' do
-    it 'sets states column and deliver activity_participations_validated email' do
+    it 'sets states column' do
       activity = create(:activity, date: 3.days.ago)
-      participation = create(:activity_participation, activity: activity)
-      expect { participation.validate!(admin) }
-        .to change { email_adapter.deliveries.size }.by(1)
-      expect(participation.state).to eq 'validated'
-      expect(participation.validated_at).to be_present
-      expect(participation.validator).to eq admin
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        template: 'activity-participations-validated-fr'))
+      participation = create(:activity_participation,
+        activity: activity,
+        review_sent_at: Time.current,
+        rejected_at: Time.current)
+
+      expect(participation.validate!(admin)).to eq true
+
+      expect(participation).to have_attributes(
+        state: 'validated',
+        validated_at: Time,
+        validator_id: admin.id,
+        rejected_at: nil,
+        review_sent_at: nil)
     end
 
-    it 'does not deliver activity_participations_validated email when timestamp was already set' do
+    it 'does not validate already validated activity participations' do
       activity = create(:activity, date: 3.days.ago)
       participation = create(:activity_participation, :validated, activity: activity)
-      expect { participation.validate!(admin) }
-        .to change { participation.validated_at }
-        .and change { email_adapter.deliveries.size }.by(0)
+
+      expect(participation.validate!(admin)).to be_nil
     end
   end
 
   describe '#reject!' do
-    it 'sets states column and deliver rejected email' do
+    it 'sets states column' do
       activity = create(:activity, date: 3.days.ago)
-      participation = create(:activity_participation, activity: activity)
-      expect { participation.reject!(admin) }
-        .to change { email_adapter.deliveries.size }.by(1)
-      expect(participation.state).to eq 'rejected'
-      expect(participation.rejected_at).to be_present
-      expect(participation.validator).to eq admin
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        template: 'activity-participations-rejected-fr'))
+      participation = create(:activity_participation,
+        activity: activity,
+        review_sent_at: Time.current,
+        validated_at: Time.current)
+
+      expect(participation.reject!(admin)).to eq true
+
+      expect(participation).to have_attributes(
+        state: 'rejected',
+        rejected_at: Time,
+        validator_id: admin.id,
+        validated_at: nil,
+        review_sent_at: nil)
     end
 
-    it 'does not deliver activity_participations_validated email when timestamp was already set' do
+    it 'does not reject already rejected activity participations' do
       activity = create(:activity, date: 3.days.ago)
       participation = create(:activity_participation, :rejected, activity: activity)
-      expect { participation.reject!(admin) }
-        .to change { participation.rejected_at }
-        .and change { email_adapter.deliveries.size }.by(0)
+
+      expect(participation.reject!(admin)).to be_nil
     end
   end
 
@@ -143,98 +151,86 @@ describe ActivityParticipation do
     end
   end
 
-  describe '#send_reminder_email' do
-    it 'sends an email when activity participations is in less than two weeks' do
+  describe '#reminderable?' do
+    it 'is reminderable when activity participations is in less than two weeks' do
       activity = create(:activity, date: 2.weeks.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: nil)
-      expect { participation.send_reminder_email }
-        .to change { email_adapter.deliveries.size }.by(1)
-        .and change { participation.latest_reminder_sent_at }.from(nil)
+      expect(participation).to be_reminderable
     end
 
-    it 'does not send an email when activity participations is in less than two weeks but already reminded' do
+    it 'is not reminderable when activity participations is in less than two weeks but already reminded' do
       activity = create(:activity, date: 2.weeks.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: Time.current)
-      expect { participation.send_reminder_email }
-        .not_to change { email_adapter.deliveries.size }
+      expect(participation).not_to be_reminderable
     end
 
-    it 'does not send an email when activity participations is in more than two weeks' do
+    it 'is not reminderable when activity participations is in more than two weeks' do
       activity = create(:activity, date: 15.days.from_now)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: nil)
-      expect { participation.send_reminder_email }
-        .not_to change { email_adapter.deliveries.size }
+      expect(participation).not_to be_reminderable
     end
 
-    it 'does not send an email when participation has been created less than a day ago' do
+    it 'is not reminderable when participation has been created less than a day ago' do
       activity = create(:activity, date: 2.weeks.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 23.hour.ago,
         latest_reminder_sent_at: nil)
-      expect { participation.send_reminder_email }
-        .not_to change { email_adapter.deliveries.size }
+      expect(participation).not_to be_reminderable
     end
 
-    it 'sends an email when activity participations is in less than three days' do
+    it 'is reminderable when activity participations is in less than three days' do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: 2.weeks.ago)
-      expect { participation.send_reminder_email }
-        .to change { email_adapter.deliveries.size }.by(1)
-        .and change { participation.latest_reminder_sent_at }
+      expect(participation).to be_reminderable
     end
 
-    it 'sends an email when activity participations is in less than three days and never reminded' do
+    it 'is reminderable when activity participations is in less than three days and never reminded' do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 1.day.ago,
         latest_reminder_sent_at: nil)
-      expect { participation.send_reminder_email }
-        .to change { email_adapter.deliveries.size }.by(1)
-        .and change { participation.latest_reminder_sent_at }
+      expect(participation).to be_reminderable
     end
 
-    it 'does not send an email when activity participations is in less than three days but already reminded' do
+    it 'is not reminderable when activity participations is in less than three days but already reminded' do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: 6.days.ago)
-      expect { participation.send_reminder_email }
-        .not_to change { email_adapter.deliveries.size }
+      expect(participation).not_to be_reminderable
     end
 
-    it 'does not send an email when activity participations is in less than three days but already reminded (now)' do
+    it 'is not reminderable when activity participations is in less than three days but already reminded (now)' do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: Time.current)
-      expect { participation.send_reminder_email }
-        .not_to change { email_adapter.deliveries.size }
+      expect(participation).not_to be_reminderable
     end
 
-    it 'does not send an email when activity participations have past' do
+    it 'is not reminderable when activity participations have past' do
       activity = create(:activity, date: 1.day.ago)
       participation = create(:activity_participation,
         activity: activity,
         created_at: 2.months.ago,
         latest_reminder_sent_at: nil)
-      expect { participation.send_reminder_email }
-        .not_to change { email_adapter.deliveries.size }
+      expect(participation).not_to be_reminderable
     end
   end
 

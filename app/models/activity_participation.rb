@@ -14,6 +14,7 @@ class ActivityParticipation < ActiveRecord::Base
 
   scope :validated, -> { where(state: 'validated') }
   scope :rejected, -> { where(state: 'rejected') }
+  scope :review_not_sent, -> { where(review_sent_at: nil) }
   scope :not_rejected, -> { where.not(state: 'rejected') }
   scope :pending, -> { joins(:activity).merge(Activity.past).where(state: 'pending') }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
@@ -76,34 +77,33 @@ class ActivityParticipation < ActiveRecord::Base
   end
 
   def validate!(validator)
-    return if coming?
+    return if coming? || validated?
+
     update!(
       state: 'validated',
       validated_at: Time.current,
       validator: validator,
-      rejected_at: nil)
-    unless validated_at_previous_change.first
-      Email.deliver_later(:activity_participations_validated, self)
-    end
+      rejected_at: nil,
+      review_sent_at: nil)
   end
 
   def reject!(validator)
-    return if coming?
+    return if coming? || rejected?
+
     update!(
       state: 'rejected',
       rejected_at: Time.current,
       validator: validator,
-      validated_at: nil)
-    unless rejected_at_previous_change.first
-      Email.deliver_later(:activity_participations_rejected, self)
-    end
+      validated_at: nil,
+      review_sent_at: nil)
   end
 
-  def send_reminder_email
-    return unless reminderable?
+  def reminderable?
+    return unless coming?
 
-    Email.deliver_now(:activity_participations_reminder, self)
-    touch(:latest_reminder_sent_at)
+    (activity.date < 2.weeks.from_now && !latest_reminder_sent_at && created_at < 1.day.ago) ||
+      (activity.date < 3.days.from_now &&
+        (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
   end
 
   private
@@ -119,12 +119,5 @@ class ActivityParticipation < ActiveRecord::Base
 
   def update_membership_activity_participations_accepted!
     member.membership(activity.fy_year)&.update_activity_participations_accepted!
-  end
-
-  def reminderable?
-    return unless coming?
-
-    (activity.date < 2.weeks.from_now && !latest_reminder_sent_at && created_at < 1.day.ago) ||
-      (activity.date < 3.days.from_now && (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
   end
 end
