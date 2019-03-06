@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_191019) do
+ActiveRecord::Schema.define(version: 2019_03_06_185335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2019_03_02_191019) do
     t.datetime "latest_reminder_sent_at"
     t.string "carpooling_city"
     t.bigint "session_id"
+    t.datetime "review_sent_at"
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
     t.index ["validator_id"], name: "index_activity_participations_on_validator_id"
