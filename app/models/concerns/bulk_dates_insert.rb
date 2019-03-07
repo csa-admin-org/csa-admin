@@ -46,6 +46,8 @@ module BulkDatesInsert
     return @dates if defined? @dates
     return if date?
     return unless bulk_dates_weeks_frequency
+    return unless bulk_dates_starts_on
+    return unless bulk_dates_ends_on
 
     d = bulk_dates_starts_on
     @dates = []

@@ -123,9 +123,9 @@ _:
           _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt
           _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro
     inputs:
-      date_and_period:
-        _de: Datum und Zeitplan
-        _fr: Date et horaire
+      period:
+        _de: Zeitplan
+        _fr: Horaire
       place_and_title:
         _de: Standort und Arbeit
         _fr: Lieu et activité
