@@ -11,6 +11,18 @@ describe Activity do
     expect(activity).to have_valid(:participants_limit)
   end
 
+  it 'validates that end_time is greather than start_time' do
+    activity = Activity.new(start_time: '11:00', end_time: '10:00')
+    expect(activity).not_to have_valid(:end_time)
+  end
+
+  it 'validates that period is one hour when activity_i18n_scope is hour_work' do
+    current_acp.update!(activity_i18n_scope: 'hour_work')
+
+    activity = Activity.new(start_time: '10:00', end_time: '11:01')
+    expect(activity).not_to have_valid(:end_time)
+  end
+
   it 'creates an activity without preset' do
     activity = Activity.new(
       date: '2018-03-24',

@@ -24,6 +24,7 @@ class Activity < ActiveRecord::Base
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :end_time_must_be_greather_than_start_time
+  validate :period_duration_must_one_hour
 
   def self.available_for(member)
     where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
@@ -80,6 +81,13 @@ class Activity < ActiveRecord::Base
   def end_time_must_be_greather_than_start_time
     if end_time && start_time && end_time <= start_time
       errors.add(:end_time, :invalid)
+    end
+  end
+
+  def period_duration_must_one_hour
+    if Current.acp.activity_i18n_scope == 'hour_work' &&
+        (end_time - start_time).to_i != 1.hour
+      errors.add(:end_time, :must_be_one_hour)
     end
   end
 end

@@ -49,6 +49,9 @@ _:
       less_than_or_equal_to:
         _de: muss kleiner oder gleich %{count} sein
         _fr: doit être inférieur ou égal à %{count}
+      must_be_one_hour:
+        _de: muss eine Stunde länger als der Anfang sein
+        _fr: doit être une heure de plus que le début
       not_a_number:
         _de: ist keine Zahl
         _fr: n'est pas un nombre

@@ -427,3 +427,11 @@ form.filter_form .check_boxes {
   margin: 0;
   padding: 0;
 }
+
+.field_with_errors {
+  input,
+  select,
+  textarea {
+    border: 2px solid $red !important;
+  }
+}
