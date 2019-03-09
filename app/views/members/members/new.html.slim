@@ -33,8 +33,9 @@ section
       = f.input :waiting_depot, as: :pretty_radio, collection: depots_collection, label: Depot.model_name.human, required: true,
       wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
-    = f.inputs name: t('active_admin.resource.show.billing') do
-      = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection, wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
+    - if Current.acp.billing_year_divisions.many?
+      = f.inputs name: t('active_admin.resource.show.billing') do
+        = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection, wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
     = f.inputs name: t('.more_info') do
       = f.input :profession
@@ -47,4 +48,3 @@ section
 
     = f.actions do
       = f.action :submit, as: :button, label: t('.submit')
-

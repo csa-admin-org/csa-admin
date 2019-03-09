@@ -41,6 +41,8 @@ class Member < ActiveRecord::Base
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
 
+  before_validation :set_default_billing_year_division
+
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
     presence: true,
@@ -230,6 +232,11 @@ class Member < ActiveRecord::Base
   end
 
   private
+
+  def set_default_billing_year_division
+    self[:billing_year_division] ||=
+      Current.acp.billing_year_divisions.first
+  end
 
   def email_must_be_unique
     emails_array.each do |email|

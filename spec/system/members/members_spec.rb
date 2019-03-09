@@ -37,8 +37,8 @@ describe 'members page' do
       choose 'Trimestriel'
 
       fill_in 'Profession', with: 'Pompier'
-      fill_in "Comment avez-vous entendu parler de nous?", with: 'Bouche à oreille'
-      fill_in "Remarque(s)", with: 'Vive Rage de Vert!'
+      fill_in 'Comment avez-vous entendu parler de nous?', with: 'Bouche à oreille'
+      fill_in 'Remarque(s)', with: 'Vive Rage de Vert!'
 
       check "J'ai lu attentivement et accepte avec plaisir le règlement."
 
@@ -156,6 +156,15 @@ describe 'members page' do
       expect(member.annual_fee).to be_nil
       expect(member.billing_year_division).to eq 1
     end
+
+    it 'hides billing_year_division when only one is configured' do
+      Current.acp.update!(billing_year_divisions: [12])
+
+      visit '/new'
+
+      expect(page).not_to have_content 'Facturation'
+      expect(page).not_to have_selector '#member_billing_year_division_input'
+    end
   end
 
   context 'existing member token' do
@@ -178,7 +187,7 @@ describe 'members page' do
       expect(page).to have_content 'Panier: Petit'
       expect(page).to have_content 'Complément panier: Oeufs'
       expect(page).to have_content 'Dépôt: Jardin de la main'
-      expect(page).to have_content "0/3 demandée(s)"
+      expect(page).to have_content '0/3 demandée(s)'
     end
 
     it 'shows current membership info with custom coming basket' do
