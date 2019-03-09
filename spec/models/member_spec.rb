@@ -11,6 +11,12 @@ describe Member do
       expect(member).to be_valid
     end
 
+    it 'sets first ACP billing_year_divisions by default' do
+      Current.acp.billing_year_divisions = [4, 12]
+      member = create(:member, billing_year_division: nil)
+      expect(member.billing_year_division).to eq 4
+    end
+
     it 'only accepts ACP billing_year_divisions' do
       Current.acp.billing_year_divisions = [1, 12]
       member = Member.new(billing_year_division: 3)
