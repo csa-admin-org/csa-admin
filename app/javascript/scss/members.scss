@@ -111,6 +111,13 @@ ul {
 
   a.cancel {
     margin-left: $small-spacing;
+    border-radius: $base-border-radius;
+    border: solid 1px $green;
+    padding: $small-spacing / 6 $small-spacing / 2;
+
+    &:hover {
+      border-color: $dark-green;
+    }
   }
 
   li.rejected {
@@ -120,15 +127,6 @@ ul {
 
   li.error {
     color: $red;
-  }
-
-  &.main {
-    list-style-type: disc;
-    list-style-position: outside;
-
-    li {
-      margin: $small-spacing / 2 0 0 $base-spacing;
-    }
   }
 }
 

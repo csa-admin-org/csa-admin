@@ -1,9 +1,9 @@
 //The good stuff
+
 .tooltip-toggle {
   cursor: pointer;
   position: relative;
   margin-left: $small-spacing / 4;
-
   //Tooltip text container
   &::before {
     position: absolute;
@@ -12,29 +12,29 @@
     background-color: #2b222a;
     border-radius: 5px;
     color: #fff;
-    content: attr(
-      data-tooltip
-    ); //This pulls in the text from the element with the tooltip
+    content: attr(data-tooltip); //This pulls in the text from the element with the tooltip
     padding: 1rem;
     text-transform: none;
     transition: all 0.5s ease;
     width: 250px;
   }
-
   //Setting up the transition
-  &::before,
-  &::after {
+  &::after,
+  &::before {
     color: #efefef;
     font-size: $base-font-size * 0.9;
     opacity: 0;
     pointer-events: none;
     text-align: center;
   }
-
   //Triggering the transition
-  &:hover::before,
-  &:hover::after {
+  &:hover::after,
+  &:hover::before {
     opacity: 1;
     transition: all 0.75s ease;
+  }
+
+  svg {
+    margin: 0 0 -1px;
   }
 }

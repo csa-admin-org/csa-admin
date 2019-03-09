@@ -10,31 +10,27 @@
     padding: 0;
     width: 100%;
   }
-
   $column-left-width: 308px;
 
   .column-left {
     margin: $base-spacing 0 0 -$base-spacing;
-
     @media screen and (min-width: 330px) {
       margin: 0;
     }
-
     @media screen and (min-width: 760px) {
       width: $column-left-width;
     }
   }
 
   .column-right {
-    margin: $base-spacing 0 0 0;
-
+    margin: $base-spacing 0 0;
     @media screen and (min-width: 760px) {
       width: calc(#{$body-width} - #{$column-left-width} - #{2 * $base-spacing});
       margin: -$base-spacing 0 0 2 * $base-spacing;
     }
 
     .input {
-      margin: $base-spacing 0 0 0;
+      margin: $base-spacing 0 0;
     }
 
     ul.error_explanation {
@@ -55,6 +51,7 @@
         text-decoration: line-through;
       }
     }
+
     input {
       margin-bottom: 0;
     }
@@ -67,10 +64,6 @@
       color: $medium-gray;
       cursor: not-allowed;
     }
-  }
-
-  label svg {
-    margin: 0 0 -2px 5px;
   }
 
   label.carpooling {
@@ -105,4 +98,147 @@ p.info {
 
 p.info {
   margin-top: $small-spacing;
+}
+
+ul.activities {
+  li {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: $small-spacing / 2;
+
+    &:nth-child(odd) {
+      background-color: #f6f6f6;
+    }
+    @media screen and (min-width: 900px) {
+      flex-wrap: nowrap;
+    }
+
+    span.date_and_period {
+      text-decoration: inherit;
+      order: 2;
+      flex-basis: fit;
+      margin-bottom: $small-spacing / 4;
+      @media screen and (min-width: 900px) {
+        order: 1;
+        flex-basis: 16em;
+        margin-bottom: 0;
+      }
+
+      span.date {
+        display: inline-block;
+        text-decoration: inherit;
+        width: 9em;
+      }
+    }
+
+    span.activity {
+      order: 1;
+      flex-basis: 100%;
+      margin-bottom: $small-spacing / 4;
+      @media screen and (min-width: 900px) {
+        order: 2;
+        flex-grow: 2;
+        flex-basis: 22em;
+        margin-bottom: 0;
+      }
+
+      span.rejected,
+      span.validated {
+        font-style: normal !important;
+        display: inline-block;
+        color: white;
+        text-transform: uppercase;
+        font-size: $base-font-size * 0.65;
+        border: solid 1px;
+        padding: 0 $small-spacing;
+        margin-left: $small-spacing;
+        border-radius: 5px;
+        position: relative;
+        top: -2px;
+      }
+
+      span.validated {
+        background-color: #80a432;
+        border-color: #80a432;
+      }
+
+      span.rejected {
+        background-color: #ff2600;
+        border: solid 1px #ff2600;
+      }
+    }
+
+    span.icons {
+      order: 3;
+      flex-basis: 40%;
+      margin-right: $small-spacing / 2;
+      @media screen and (min-width: 900px) {
+        order: 3;
+        flex-basis: 4em;
+        margin: 0 $small-spacing / 2;
+      }
+      display: flex;
+
+      &.one {
+        flex-basis: 3em;
+      }
+
+      span.participant_count {
+        flex-basis: 3em;
+        display: flex;
+
+        span.text {
+          order: 1;
+          text-align: right;
+          flex-basis: 1em;
+        }
+
+        span.icon {
+          order: 2;
+          flex-basis: 2em;
+          text-align: center;
+        }
+      }
+
+      span.carpooling {
+        display: inline-block;
+        margin-left: $small-spacing;
+        flex-basis: 1em;
+        text-align: center;
+
+        span {
+          display: inline-block;
+        }
+      }
+    }
+
+    span.action {
+      text-decoration: inherit;
+      order: 4;
+      text-align: right;
+      flex-basis: fit;
+      margin-left: $small-spacing / 2;
+
+      span.hidden_action {
+        visibility: hidden;
+      }
+    }
+
+    span.state {
+      text-decoration: inherit;
+      order: 4;
+      text-align: right;
+      flex-basis: 5.5em;
+    }
+  }
+
+  li.show_all {
+    background-color: white;
+
+    a {
+      width: 100%;
+      text-align: center;
+    }
+  }
 }

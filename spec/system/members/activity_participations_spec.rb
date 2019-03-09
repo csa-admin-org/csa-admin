@@ -18,10 +18,10 @@ describe 'Activity Participation' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    expect(page)
-      .to have_content "#{I18n.l(activity.date, format: :long).capitalize}, #{activity.period}"
-    within('ol.main') do
-      expect(page).not_to have_content 'covoiturage'
+    within('ul.activities') do
+      expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
+      expect(page).to have_content activity.period
+      expect(page).not_to have_selector('span.carpooling svg')
     end
     expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
   end
@@ -38,12 +38,12 @@ describe 'Activity Participation' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    expect(page)
-      .to have_content "#{I18n.l(activity1.date, format: :long).capitalize}, #{activity1.period}"
-    expect(page)
-      .to have_content "#{I18n.l(activity2.date, format: :long).capitalize}, #{activity2.period}"
-    within('ol.main') do
-      expect(page).not_to have_content 'covoiturage'
+    within('ul.activities') do
+      expect(page).to have_content I18n.l(activity1.date, format: :medium).capitalize
+      expect(page).to have_content activity1.period
+      expect(page).to have_content I18n.l(activity2.date, format: :medium).capitalize
+      expect(page).to have_content activity2.period
+      expect(page).not_to have_selector('span.carpooling svg')
     end
     expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
   end
@@ -61,8 +61,8 @@ describe 'Activity Participation' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ol.main') do
-      expect(page).to have_content 'covoiturage'
+    within('ul.activities') do
+      expect(page).to have_selector('span.carpooling svg')
     end
     expect(ActivityParticipation.last).to have_attributes(
       carpooling_phone: '+41774475831',
@@ -81,8 +81,8 @@ describe 'Activity Participation' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ol.main') do
-      expect(page).to have_content 'covoiturage'
+    within('ul.activities') do
+      expect(page).to have_selector('span.carpooling svg')
     end
   end
 
@@ -91,11 +91,14 @@ describe 'Activity Participation' do
 
     visit '/'
 
-    part_text = "#{I18n.l(activity.date, format: :long).capitalize}, #{activity.period}"
+    within('ul.activities') do
+      expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
+      expect(page).to have_content activity.period
+    end
 
-    expect(page).to have_content part_text
     click_link 'annuler', match: :first
-    expect(page).not_to have_content part_text
+
+    expect(page).to have_content("Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.")
     expect(page).not_to have_content "Pour des raisons d'organisation,"
   end
 
@@ -111,10 +114,11 @@ describe 'Activity Participation' do
 
     visit '/'
 
-    part_text = "#{I18n.l(activity.date, format: :long).capitalize}, #{activity.period}"
-
-    expect(page).to have_content part_text
-    expect(page).not_to have_content 'annuler'
+    within('ul.activities') do
+      expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
+      expect(page).to have_content activity.period
+      expect(page).to have_selector('span.action span.hidden_action')
+    end
     expect(page).to have_content "Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de 30 jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous contacter."
   end
 end

@@ -3,13 +3,11 @@ ul.billing {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-
-    padding: $small-spacing / 2 0;
+    padding: $small-spacing / 2;
 
     &:nth-child(odd) {
       background-color: #f6f6f6;
     }
-
     @media screen and (min-width: 900px) {
       flex-wrap: nowrap;
     }
@@ -17,7 +15,6 @@ ul.billing {
     span.date {
       flex-basis: auto;
       order: 2;
-
       @media screen and (min-width: 900px) {
         flex-basis: 6em;
         order: 1;
@@ -27,7 +24,6 @@ ul.billing {
     span.info {
       order: 1;
       flex-basis: 100%;
-
       @media screen and (min-width: 900px) {
         order: 2;
         flex-basis: auto;
