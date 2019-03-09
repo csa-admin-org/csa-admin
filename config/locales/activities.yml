@@ -27,4 +27,4 @@ _:
         _fr: 1 participant
       other:
         _de: "%{count} Teilnehmer"
-        _fr: "%{count} partipants"
+        _fr: "%{count} participants"

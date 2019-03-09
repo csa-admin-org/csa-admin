@@ -7,9 +7,6 @@ _:
             _de: Danke, dass du uns informiert hast!
             _fr: Merci de nous avoir prévenus!
       index:
-        absence_line:
-          _de: "%{start} – %{end}"
-          _fr: "%{start} – %{end}"
         cancel_link:
           _de: abbrechen
           _fr: annuler

@@ -5,11 +5,15 @@ section
   - if @present_or_future_absences.empty?
     p.empty = t('.no_present_or_future_absences')
   - else
-    ol.main
+    ul.absences
       - @present_or_future_absences.each do |absence|
         li
-          = t('.absence_line', start: l(absence.started_on), end: l(absence.ended_on))
-          == link_to t('.cancel_link'), [:members, absence], method: :delete, class: 'cancel'
+          span.text
+            span.date = l(absence.started_on)
+            = ' – '
+            span.date = l(absence.ended_on)
+          span.action
+            == link_to t('.cancel_link'), [:members, absence], method: :delete, class: 'cancel'
 
 section
   h2 = t('.form_title')
@@ -36,6 +40,10 @@ section
   - if @past_absences.empty?
     p.empty = t('.no_past_absences')
   - else
-    ol.main
+    ul.absences
       - @past_absences.each do |absence|
-        li = t('.absence_line', start: l(absence.started_on), end: l(absence.ended_on))
+        li
+          span.text
+            span.date = l(absence.started_on)
+            = ' – '
+            span.date = l(absence.ended_on)

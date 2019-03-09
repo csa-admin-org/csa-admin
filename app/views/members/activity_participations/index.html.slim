@@ -5,15 +5,33 @@ section
   - if @coming_participations.empty?
     p.empty = t('.no_coming_activity_participations')
   - else
-    ol.main
+    ul.activities
       - @coming_participations.each do |participation|
         li
-          == activity_label(participation.activity, date: true, date_format: :long)
-          = " (#{t('activities.participant_count', count: participation.participants_count)})"
-          - if participation.carpooling?
-            span title="#{participation.carpooling_phone.phony_formatted}"= ", #{t('.carpooling')}"
-          - if participation.destroyable?
-            == link_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
+          span.date_and_period
+            span.date = l(participation.activity.date, format: :medium).capitalize
+            span.period = participation.activity.period
+          span.activity
+            == display_activity(participation.activity, description: true)
+            = ', '
+            == display_place(participation.activity)
+          span.icons
+            span.participant_count title=t('activities.participant_count', count: participation.participants_count)
+              span.text
+                = participation.participants_count
+              span.icon
+                = inline_svg 'participant.svg', size: '16px'
+            - if participation.carpooling?
+              span.carpooling title="#{t('.carpooling')}: #{participation.carpooling_phone.phony_formatted}"
+                span = inline_svg 'carpooling.svg', size: '22px'
+            - else
+              span.carpooling
+          span.action
+            - if rand(2) == 1 && participation.destroyable?
+              == link_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
+            - else
+              span.hidden_action = link_to t('.cancel_link'), '#', class: 'cancel'
+
 
     - if @coming_participations.any? { |p| !p.destroyable? }
       p.info == t_activity('.coming_activity_participation_cannot_be_cancel_explanation', days_count: Current.acp.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
@@ -71,9 +89,22 @@ section
   - if @past_participations.empty?
     p.empty = t('.no_past_activity_participations')
   - else
-    ol.main
+    ul.activities
       - @past_participations.each do |participation|
         li class="#{participation.rejected? ? 'rejected' : ''}"
-          == activity_label(participation.activity, date: true, date_format: :long)
-          = " (#{t('activities.participant_count', count: participation.participants_count)})"
-          == " –&nbsp;#{participation.state_i18n_name}"
+          span.date_and_period
+            span.date = l(participation.activity.date, format: :medium).capitalize
+            span.period = participation.activity.period
+          span.activity
+            == display_activity(participation.activity, description: true)
+            = ', '
+            == display_place(participation.activity)
+            - if participation.state.in? %w[validated rejected]
+              span class=participation.state
+                == participation.state_i18n_name
+          span.icons.one
+            span.participant_count title=t('activities.participant_count', count: participation.participants_count)
+              span.text
+                = participation.participants_count
+              span.icon
+                = inline_svg 'participant.svg', size: '16px'

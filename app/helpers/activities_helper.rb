@@ -18,8 +18,8 @@ module ActivitiesHelper
   def activity_label(activity, date: false, date_format: :medium, description: true)
     labels = [
       activity.period,
-      display_place(activity),
-      display_activity(activity, description: description)
+      display_activity(activity, description: description),
+      display_place(activity)
     ]
     labels.insert(0, l(activity.date, format: date_format).capitalize) if date
     labels.join(', ')
@@ -37,7 +37,7 @@ module ActivitiesHelper
     if description && activity.description
       activity.title +
         content_tag(:span, class: 'tooltip-toggle', data: { tooltip: activity.description }) {
-          content_tag :i, nil, class: 'fa fa-info-circle'
+          inline_svg 'info_circle.svg', size: '16px'
         }
     else
       activity.title
