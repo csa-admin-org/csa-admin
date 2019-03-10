@@ -90,7 +90,7 @@ _:
           _fr: Séparés par une virgule
         existing_acp_shares_number:
           _de: Nützlich, wenn einige Anteilschein außerhalb des Systems fakturiert wurden
-          _fr: Utile si certaines parts sociale ont été facturées en dehors du système
+          _fr: Utile si certaines parts sociales ont été facturées en dehors du système
         newsletter:
           _de: Leer lassen für das Standardverhalten (je nach Statusfunktion)
           _fr: Laisser vide pour le comportement par défault (en fonction du statut)
