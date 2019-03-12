@@ -4,23 +4,21 @@ class Stats::MembersStat < Stats::BaseStat
   end
 
   def data
-    stats.map { |key, value|
-      [I18n.t("states.member.#{key}").capitalize, value]
-    }.to_h
+    {
+      t('member.waiting') => (
+        Member.pending.count +
+        Member.waiting.count
+      ),
+      t('member.memberships.trial') => Membership.trial.count,
+      t('member.memberships.ongoing') => Membership.ongoing.count,
+      t('member.memberships.future') => Membership.future.count,
+      t('member.support') => Member.support.count
+    }.sort_by { |_k, v| -1 * v }.to_h
   end
 
   private
 
-  def stats
-    @stats ||= {
-      waiting: (
-        Member.pending.count +
-        Member.waiting.count +
-        Member.inactive.joins(:memberships).merge(Membership.future).count
-      ),
-      trial: Member.trial.count,
-      active: Member.active.count,
-      support: Member.support.count
-    }.sort_by { |_k, v| -1 * v }.to_h
+  def t(key)
+    I18n.t("states.#{key}").capitalize
   end
 end
