@@ -4,14 +4,13 @@ class Stats::DepotsStat < Stats::BaseStat
   end
 
   def data
-    depots =
-      memberships(includes: [baskets: :depot])
-        .flat_map { |m| m.baskets.map { |b| b.depot.name } }
+    memberships = memberships(includes: [baskets: :depot])
+    depot_ids = memberships.flat_map { |m| m.baskets.map(&:depot_id) }
 
-    all_depots = Depot.order(:name).to_a
-    all_depots.select!(&:visible?)
-    all_depots.map(&:name).map { |name|
-      [name, depots.count { |n| n == name }]
+    all_depots = Depot.all.order(:name).to_a
+    all_depots.reject! { |d| d.name.in?(['Domicile', 'La Chaux-du-Milieu']) }
+    all_depots.map { |depot|
+      [depot.name, depot_ids.count { |id| id == depot.id }]
     }.to_h
   end
 end
