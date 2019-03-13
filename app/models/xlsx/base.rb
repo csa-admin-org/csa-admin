@@ -1,3 +1,5 @@
+require 'rubyXL/convenience_methods'
+
 module XLSX
   class Base
     include ActionView::Helpers::NumberHelper
