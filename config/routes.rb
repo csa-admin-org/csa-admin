@@ -3,7 +3,8 @@ Rails.application.routes.draw do
     devise_for :admins, ActiveAdmin::Devise.config
 
     get 'deliveries/next' => 'next_delivery#next'
-    get 'activity_participations/calendar' => 'activity_participations_calendar#show'
+    get 'activity_participations/calendar' => 'activity_participations_calendar#show',
+      defaults: { format: :ics }
     get 'settings' => 'acps#edit', as: :edit_acp
     get 'settings' => 'acps#edit', as: :acps
     get 'billing/:year' => 'billings#show', as: :billing
