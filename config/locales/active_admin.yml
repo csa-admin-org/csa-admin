@@ -416,6 +416,9 @@ _:
         renewing:
           _de: Verlängerungen am laufen...
           _fr: Renouvellements en cours...
+        subscribe_ical_link:
+          _de: Abonnieren Sie den iCal-Feed von Teilnahmen
+          _fr: S'abonner au flux iCal des participations
       new:
         basket_and_depot:
           _de: Tasche und Depot
@@ -749,6 +752,9 @@ _:
       total:
         _de: Total
         _fr: Total
+      icalendar:
+        _de: iCalendar
+        _fr: iCalendar
     status_tag:
       active:
         _de: aktiv

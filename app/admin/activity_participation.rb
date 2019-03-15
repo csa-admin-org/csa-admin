@@ -46,6 +46,12 @@ ActiveAdmin.register ActivityParticipation do
     collection: -> { Activity.order(:date, :start_time) }
   filter :activity_date, label: -> { Activity.human_attribute_name(:date) }, as: :date_range
 
+  sidebar :icalendar, if: -> { Current.acp.ical_feed? }, only: :index do
+    div do
+      span link_to t('.subscribe_ical_link'), activity_participations_calendar_url(auth_token: Current.acp.ical_feed_auth_token)
+    end
+  end
+
   form do |f|
     f.inputs t('.details') do
       f.input :activity,

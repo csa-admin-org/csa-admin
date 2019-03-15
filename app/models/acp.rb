@@ -134,9 +134,18 @@ class ACP < ActiveRecord::Base
     summer_month_range?
   end
 
+  def ical_feed?
+    ical_feed_auth_token.present?
+  end
+
+  def ical_feed_auth_token
+    Current.acp.credentials(:icalendar_auth_token)
+  end
+
   def season_for(month)
     raise 'winter/summer seasons not configured' unless seasons?
     raise ArgumentError, 'not a month (1..12)' unless month.in? 1..12
+
     summer_month_range.include?(month) ? 'summer' : 'winter'
   end
 
