@@ -27,7 +27,7 @@ section
             - else
               span.carpooling
           span.action
-            - if rand(2) == 1 && participation.destroyable?
+            - if participation.destroyable?
               == link_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
             - else
               span.hidden_action = link_to t('.cancel_link'), '#', class: 'cancel'
