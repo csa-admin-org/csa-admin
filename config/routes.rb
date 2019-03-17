@@ -1,15 +1,18 @@
 Rails.application.routes.draw do
   constraints subdomain: 'admin' do
-    devise_for :admins, ActiveAdmin::Devise.config
+    resources :sessions, only: %i[show create]
+    get '/login' => 'sessions#new', as: :login
+    delete '/logout' => 'sessions#destroy', as: :logout
 
-    get 'deliveries/next' => 'next_delivery#next'
     get 'activity_participations/calendar' => 'activity_participations_calendar#show',
       defaults: { format: :ics }
-    get 'settings' => 'acps#edit', as: :edit_acp
-    get 'settings' => 'acps#edit', as: :acps
     get 'billing/:year' => 'billings#show', as: :billing
 
+    get 'settings' => 'acps#edit', as: :edit_acp
+    get 'settings' => 'acps#edit', as: :acps
     resource :acp, path: 'settings', only: :update
+
+    get 'deliveries/next' => 'next_delivery#next'
 
     ActiveAdmin.routes(self)
   end

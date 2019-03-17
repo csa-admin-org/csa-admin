@@ -99,7 +99,7 @@ end
 # Rails.application.config.middleware.use Apartment::Elevators::FirstSubdomain
 # Rails.application.config.middleware.use Apartment::Elevators::Host
 
-Rails.application.config.middleware.insert_before Warden::Manager, ACPElevator
+Rails.application.config.middleware.use ACPElevator
 if Rails.env.test?
   require 'test_acp_elevator'
   Rails.application.config.middleware.unshift TestACPElevator

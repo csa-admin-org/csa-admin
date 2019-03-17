@@ -45,8 +45,6 @@ FactoryBot.define do
     name { 'Bob' }
     email { Faker::Internet.email }
     rights { 'superadmin' }
-    password { '12345678' }
-    password_confirmation { '12345678' }
   end
 
   factory :member do
@@ -125,7 +123,14 @@ FactoryBot.define do
   end
 
   factory :session do
-    member
+    trait :member do
+      member
+    end
+
+    trait :admin do
+      admin
+    end
+
     remote_addr { '127.0.0.1' }
     user_agent { 'a browser user agent' }
   end

@@ -221,23 +221,23 @@ module Email
     }
   end
 
-  def member_login(member, email, action_url)
+  def session_new(owner, email, action_url, data = {})
     {
       from: from,
       to: email,
-      template: template_alias(:member_login, member.language),
+      template: template_alias(:session_new, owner.language),
       template_data: {
         action_url: action_url
-      }
+      }.merge(data)
     }
   end
 
-  def member_login_help(email, locale)
+  def session_help(email, locale, data = {})
     {
       from: from,
       to: email,
-      template: template_alias(:member_login_help, locale),
-      template_data: {}
+      template: template_alias(:session_help, locale),
+      template_data: data
     }
   end
 
@@ -248,18 +248,6 @@ module Email
       template: template_alias(:member_welcome, member.language),
       template_data: {
         action_url: url(:members_member_url)
-      }
-    }
-  end
-
-  def admin_reset_password(admin, token)
-    {
-      from: from,
-      to: admin.email,
-      template: template_alias(:admin_reset_password, admin.language),
-      template_data: {
-        admin_name: admin.name,
-        action_url: url(:edit_admin_password_url, admin, reset_password_token: token)
       }
     }
   end

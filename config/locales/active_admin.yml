@@ -109,64 +109,6 @@ _:
     details:
       _de: Details
       _fr: Détails
-    devise:
-      change_password:
-        submit:
-          _de: Mein Passwort ändern
-          _fr: Changer mon mot de passe
-        title:
-          _de: "– Ändern Sie Ihr Passwort"
-          _fr: "– Changez votre mot de passe"
-      email:
-        title:
-          _de: Email
-          _fr: Email
-      links:
-        forgot_your_password:
-          _de: Haben Sie Ihr Passwort vergessen?
-          _fr: Vous avez oublié votre mot de passe ?
-        sign_in:
-          _de: Melden Sie sich an
-          _fr: Connectez-vous
-        sign_in_with_omniauth_provider:
-          _de: Melden Sie sich mit %{provider} an
-          _fr: Connectez-vous avec %{provider}
-      login:
-        remember_me:
-          _de: Angemeldet bleiben
-          _fr: Garder ma session ouverte
-        submit:
-          _de: Sich anmelden
-          _fr: Se connecter
-        title:
-          _de: "– Anmeldung"
-          _fr: "– Connexion"
-      password:
-        title:
-          _de: Passwort
-          _fr: Mot de passe
-      resend_confirmation_instructions:
-        submit:
-          _de: Bestätitungsanleitung neu senden
-          _fr: Renvoyer les instructions de confirmation
-        title:
-          _de: "– Bestätitungsanleitung neu senden"
-          _fr: "– Renvoyer les instructions de confirmation"
-      reset_password:
-        submit:
-          _de: Mein Passwort zurücksetzen
-          _fr: Réinitialiser mon mot de passe
-        title:
-          _de: "– Haben Sie Ihr Passwort vergessen?"
-          _fr: "– Vous avez oublié votre mot de passe ?"
-      subdomain:
-        title:
-          _de: Unterdomäne
-          _fr: Sous-domaine
-      username:
-        title:
-          _de: Benutzername
-          _fr: Nom d'utilisateur
     download:
       _de: 'Herunterladen :'
       _fr: 'Télécharger :'
@@ -606,6 +548,10 @@ _:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+      admin:
+        new_model:
+          _de: Neuer %{model}
+          _fr: Nouvel %{model}
       basket_content:
         new_model:
           _de: Neuer %{model}
@@ -743,6 +689,9 @@ _:
       filters:
         _de: Filter
         _fr: Filtres
+      icalendar:
+        _de: iCalendar
+        _fr: iCalendar
       renewal:
         _de: Verlängerungen
         _fr: Renouvellements
@@ -752,9 +701,6 @@ _:
       total:
         _de: Total
         _fr: Total
-      icalendar:
-        _de: iCalendar
-        _fr: iCalendar
     status_tag:
       active:
         _de: aktiv

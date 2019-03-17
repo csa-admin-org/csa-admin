@@ -220,75 +220,18 @@ _:
           _de: Bestätigt durch
           _fr: Validateur
       admin:
-        confirmation_sent_at:
-          _de: Versanddatum der Bestätitgung
-          _fr: Date d'envoi de la confirmation
-        confirmation_token:
-          _de: Bestätigungsschlüssel des Passworts
-          _fr: Clé de confirmation du mot de passe
-        confirmed_at:
-          _de: Bestätigt am
-          _fr: Confirmé à
         created_at:
           _de: Erstellt am
           _fr: Enregistré à
-        current_password:
-          _de: Aktuelles Passwort
-          _fr: Mot de passe actuel
-        current_sign_in_at:
-          _de: Datum der aktuellen Anmeldung
-          _fr: Date de la connexion actuelle
-        current_sign_in_ip:
-          _de: IP der aktuellen Anmeldung
-          _fr: IP de la connexion actuelle
-        encrypted_password:
-          _de: Verschlüsseltes Passwort
-          _fr: Mot de passe crypté
-        failed_attempts:
-          _de: Fehlversuche
-          _fr: Tentatives échouées
-        last_sign_in_at:
+        last_session_used_at:
           _de: Datum der letzten Anmeldung
-          _fr: Date de la dernière connexion
-        last_sign_in_ip:
-          _de: IP der letzten Anmeldung
-          _fr: IP de la dernière connexion
-        locked_at:
-          _de: Gesperrt am
-          _fr: Verrouillé à
+          _fr: Date de dernière connexion
         notifications:
           _de: Benachrichtigungen
           _fr: Notifications
-        password:
-          _de: Passwort
-          _fr: Mot de passe
-        password_confirmation:
-          _de: Passwortbestätitgung
-          _fr: Confirmation du mot de passe
-        remember_created_at:
-          _de: Gespeichert am
-          _fr: Mémorisé à
-        remember_me:
-          _de: Angemeldet bleiben?
-          _fr: Se souvenir de moi?
-        reset_password_sent_at:
-          _de: Rücksetzungsschlüssel erstellt am
-          _fr: Clé de réinitialisation créée à
-        reset_password_token:
-          _de: Rücksetzungschlüssel des Passworts
-          _fr: Clé de réinitialisation du mot de passe
         rights:
           _de: Zugangsrecht
           _fr: Droit d'accès
-        sign_in_count:
-          _de: Anzahl der Anmeldungen
-          _fr: Nombre des connexions
-        unconfirmed_email:
-          _de: Unbestätigtes Email
-          _fr: Courriel non confirmé
-        unlock_token:
-          _de: Freischaltungsschlüssel
-          _fr: Clé de déverrouillage
         updated_at:
           _de: Datum der Aktualisierung
           _fr: Date de mise à jour
