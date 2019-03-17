@@ -435,3 +435,23 @@ form.filter_form .check_boxes {
     border: 2px solid $red !important;
   }
 }
+
+body.logged_out {
+  background-color: white;
+
+  #logo_wrapper {
+    width: 100%;
+
+    img {
+      display: block;
+      margin: 20px auto;
+      @media screen and (min-width: 900px) {
+        margin: 70px auto 0;
+      }
+    }
+  }
+
+  #login p {
+    margin: 15px;
+  }
+}

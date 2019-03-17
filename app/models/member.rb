@@ -3,6 +3,7 @@ class Member < ActiveRecord::Base
   include HasEmails
   include HasPhones
   include HasLanguage
+  include HasSessions
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
@@ -17,7 +18,6 @@ class Member < ActiveRecord::Base
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
   belongs_to :waiting_depot, class_name: 'Depot', optional: true
   has_and_belongs_to_many :waiting_basket_complements, class_name: 'BasketComplement'
-  has_many :sessions
   has_many :absences
   has_many :invoices
   has_many :payments

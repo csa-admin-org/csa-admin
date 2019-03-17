@@ -19,7 +19,7 @@ describe 'Member sessions' do
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       to: 'thibaud@thibaud.gg',
-      template: 'member-login-fr',
+      template: 'session-new-fr',
       template_data: {
         action_url: %r{/sessions/#{session.token}}
       }))
@@ -49,7 +49,7 @@ describe 'Member sessions' do
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       to: 'unknown@member.com',
-      template: 'member-login-help-fr',
+      template: 'session-help-fr',
       template_data: {}))
 
     expect(current_path).to eq '/login'
@@ -57,7 +57,7 @@ describe 'Member sessions' do
   end
 
   it 'does not accept old session when not logged in' do
-    old_session = create(:session, created_at: 1.hour.ago)
+    old_session = create(:session, :member, created_at: 1.hour.ago)
 
     visit "/sessions/#{old_session.token}"
 

@@ -17,12 +17,12 @@ class Members::SessionsController < Members::BaseController
 
     if @session.save
       url = members_session_url(@session.token, locale: I18n.locale)
-      Email.deliver_later(:member_login, @session.member, email, url)
+      Email.deliver_later(:session_new, @session.member, email, url)
     else
-      Email.deliver_later(:member_login_help, email, I18n.locale.to_s)
+      Email.deliver_later(:session_help, email, I18n.locale.to_s)
     end
 
-    redirect_to members_login_path, notice: t('.flash.notice')
+    redirect_to members_login_path, notice: t('sessions.flash.initiated')
   end
 
   # GET /sessions/:id
@@ -34,18 +34,18 @@ class Members::SessionsController < Members::BaseController
 
     if !@session.timeout?
       cookies.encrypted.permanent[:session_id] = @session.id
-      redirect_to members_member_path, notice: t('.flash.logged_in')
+      redirect_to members_member_path, notice: t('sessions.flash.created')
     elsif current_member&.id == @session.member_id
-      redirect_to members_member_path, notice: t('.flash.already_logged_in')
+      redirect_to members_member_path, notice: t('sessions.flash.already_exists')
     else
-      redirect_to members_login_path, alert: t('.flash.session_timeout')
+      redirect_to members_login_path, alert: t('sessions.flash.timeout')
     end
   end
 
   # DELETE /logout
   def destroy
     cookies.delete(:session_id)
-    redirect_to members_login_path, notice: t('.flash.notice')
+    redirect_to members_login_path, notice: t('sessions.flash.deleted')
   end
 
   # GET /:token
@@ -55,7 +55,7 @@ class Members::SessionsController < Members::BaseController
     if current_member == member
       redirect_to members_member_path
     else
-      redirect_to members_login_path, alert: t('members.flash.session_expired')
+      redirect_to members_login_path, alert: t('sessions.flash.expired')
     end
   end
 
@@ -65,7 +65,7 @@ class Members::SessionsController < Members::BaseController
     session = Session.new
     session.remote_addr = request.remote_addr
     session.user_agent = request.env['HTTP_USER_AGENT'] || '-'
-    session.email = email
+    session.member_email = email
     session
   end
 end

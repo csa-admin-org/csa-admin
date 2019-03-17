@@ -2,17 +2,26 @@ class Session < ApplicationRecord
   TIMEOUT = 1.hour
   EXPIRATION = 1.year
 
-  belongs_to :member
+  belongs_to :member, optional: true
+  belongs_to :admin, optional: true
 
   validates :remote_addr, :token, :user_agent, presence: true
+  validate :owner_must_be_present
 
   before_validation :set_unique_token
 
   scope :expired, -> { where('created_at > ?', EXPIRATION.ago) }
+  scope :admin, -> { where.not(admin_id: nil) }
+  scope :member, -> { where.not(member_id: nil) }
 
-  def email=(email)
-    super
+  def member_email=(email)
+    self[:email] = email
     self.member = Member.with_email(email).first
+  end
+
+  def admin_email=(email)
+    self[:email] = email
+    self.admin = Admin.find_by(email: email)
   end
 
   def timeout?
@@ -38,5 +47,9 @@ class Session < ApplicationRecord
       token = SecureRandom.urlsafe_base64(32)
       break token unless Session.find_by(token: token)
     end
+  end
+
+  def owner_must_be_present
+    errors.add(:base, :invalid) unless [member_id, admin_id].one?(&:present?)
   end
 end

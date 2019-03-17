@@ -1,13 +1,15 @@
 module SessionsHelper
-  def login(member, email: nil)
-    session = create(:session,
-      member: member,
-      email: email || member.emails_array.first)
+  def login(owner)
+    session =
+      case owner
+      when Member then create(:session, member_email: owner.emails_array.first)
+      when Admin then create(:session, admin_email: owner.email)
+      end
     visit "/sessions/#{session.token}"
   end
 
-  def delete_session(member)
-    member.reload.sessions.each(&:delete)
+  def delete_session(owner)
+    owner.reload.sessions.each(&:delete)
   end
 end
 

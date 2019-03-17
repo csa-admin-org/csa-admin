@@ -9,7 +9,7 @@ describe 'Invoices' do
       member: member,
       participants_count: 2)
 
-    sign_in create(:admin, name: 'Sheriff')
+    login create(:admin, name: 'Sheriff')
 
     visit '/activity_participations/3'
     click_link 'Facturer'

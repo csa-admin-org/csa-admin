@@ -175,13 +175,6 @@ _:
         show_all:
           _de: Alle anzeigen
           _fr: Tout afficher
-    flash:
-      authentication_required:
-        _de: Bitte melden Sie sich an, um zu Ihrem Konto zu gelangen.
-        _fr: Merci de vous authentifier pour accèder à votre compte.
-      session_expired:
-        _de: Ihre Sitzung ist abgelaufen, bitte melden Sie sich wieder an.
-        _fr: Votre session a expirée, merci de vous authentifier à nouveau.
     members:
       new:
         acp_shares_text:
@@ -231,16 +224,6 @@ _:
           _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!
     sessions:
-      create:
-        flash:
-          notice:
-            _de: Vielen Dank! Ein Email wurde Ihnen soeben gesendet.
-            _fr: Merci! Un email vient de vous être envoyé.
-      destroy:
-        flash:
-          notice:
-            _de: Sie sind nun abgemeldet.
-            _fr: Vous êtes maintenant déconnecté.
       new:
         email_input:
           _de: Ihres Email
@@ -263,14 +246,3 @@ _:
         title:
           _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
-      show:
-        flash:
-          already_logged_in:
-            _de: Sie sind bereits angemeldet.
-            _fr: Vous êtes déjà connecté.
-          logged_in:
-            _de: Sie sind jetzt angemeldet.
-            _fr: Vous êtes maintenant connecté.
-          session_timeout:
-            _de: Ihr Anmeldelink ist nicht mehr gültig. Bitte verlangen Sie ein neuer.
-            _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.

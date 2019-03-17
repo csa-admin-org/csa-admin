@@ -8,6 +8,7 @@ gem 'bootsnap', require: false
 gem 'pg'
 gem 'puma'
 
+gem 'bcrypt'
 gem 'date_validator'
 gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
@@ -23,8 +24,6 @@ gem 'tod'
 
 gem 'activeadmin'
 gem 'cancancan'
-gem 'devise'
-gem 'devise-i18n'
 gem 'formadmin'
 gem 'ransack'
 

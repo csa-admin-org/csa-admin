@@ -5,22 +5,77 @@ class ApplicationController < ActionController::Base
   before_action :prepare_exception_notifier
   before_action :set_locale
 
+  helper_method :current_admin
+
   def access_denied(exception)
-    redirect_to root_path, alert: exception.message
+    redirect_back fallback_location: root_path, alert: exception.message
   end
 
   private
 
+  def authenticate_admin!
+    # TODO: Remove logic in two weeks!
+    if cookies.signed[:remember_admin_token]
+      session = create_session_from_devise_remember_token!
+      cookies.delete(:remember_admin_token)
+      cookies.encrypted.permanent[:session_id] = session.id
+      update_last_usage(session)
+    elsif !current_admin
+      cookies.delete(:session_id)
+      redirect_to login_path, alert: t('sessions.flash.required')
+    elsif current_session&.expired?
+      cookies.delete(:session_id)
+      redirect_to login_path, alert: t('sessions.flash.expired')
+    else
+      update_last_usage(current_session)
+    end
+  end
+
+  def current_admin
+    current_session&.admin
+  end
+
+  def current_member
+    current_session&.member
+  end
+
+  def current_session
+    @current_session ||= session_id && Session.find_by(id: session_id)
+  end
+
+  def session_id
+    cookies.encrypted[:session_id]
+  end
+
   def set_locale
+    cookies.permanent[:locale] = params[:locale] if params.key?(:locale)
     I18n.locale =
-      params[:locale] ||
+      cookies[:locale] ||
+      current_member&.language ||
       current_admin&.language ||
       Current.acp.languages.first
+  end
+
+  def update_last_usage(session)
+    return if session.last_used_at && session.last_used_at > 1.hour.ago
+
+    session.update_columns(
+      last_used_at: Time.current,
+      last_remote_addr: request.remote_addr,
+      last_user_agent: request.env['HTTP_USER_AGENT'])
   end
 
   def prepare_exception_notifier
     request.env['exception_notifier.exception_data'] = {
       current_acp: Apartment::Tenant.current
     }
+  end
+
+  def create_session_from_devise_remember_token!
+    admin = Admin.find(cookies.signed[:remember_admin_token].first.first)
+    Session.create!(
+      remote_addr: request.remote_addr,
+      user_agent: request.env['HTTP_USER_AGENT'] || '-',
+      admin_email: admin.email)
   end
 end

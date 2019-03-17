@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta charset="UTF-8"
+    title = t('.title', acp: Current.acp.name)
+    - ActiveAdmin.application.stylesheets.each do |style, options|
+      = stylesheet_link_tag style, options
+    - ActiveAdmin.application.javascripts.each do |path|
+      = javascript_include_tag path
+    - if ActiveAdmin.application.favicon
+      = favicon_link_tag ActiveAdmin.application.favicon
+    - ActiveAdmin.application.meta_tags_for_logged_out_pages.each do |name, content|
+      = tag(:meta, name: name, content: content)
+    = csrf_meta_tags
+
+body class="active_admin logged_out #{controller.action_name}"
+  #wrapper
+    #logo_wrapper
+      = image_tag(Current.acp.logo_url, size: '200', alt: "#{Current.acp.name} Logo")
+    #content_wrapper
+      - flash_messages.each do |type, message|
+        = content_tag :div, message, class: "flash flash_#{type}"
+      #active_admin_content
+        #login
+          h2 = t('.title', acp: Current.acp.name)
+          p = t('.form_text')
+          = semantic_form_for @session, as: :session do |f|
+            = f.inputs do
+              = f.input :email, label: t('.email_input'), required: true
+            = f.actions do
+              = f.action :submit, label: t('.submit'), button_html: { value: t('.submit') }
