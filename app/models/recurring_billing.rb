@@ -76,7 +76,7 @@ class RecurringBilling
 
   # Bill everything if membership has been canceled (ie. trial stopped)
   def year_division
-    if membership.past?
+    if membership.past? || Current.acp.fy_month_for(membership.ended_on) == fy_month
       1
     else
       member.billing_year_division
