@@ -2,7 +2,7 @@ ActiveAdmin.register Depot do
   menu parent: :other, priority: 10
 
   includes :responsible_member
-  index download_links: false do
+  index do
     column :name, ->(d) { auto_link d }
     column :address
     column :zip
@@ -13,6 +13,29 @@ ActiveAdmin.register Depot do
     end
     column :responsible_member
     actions
+  end
+
+  csv do
+    column(:id)
+    column(:name)
+    if Current.acp.languages.many?
+      row(:language) { |d| t("languages.#{d.language}") }
+    end
+    column(:price) { |d| number_to_currency(d.price) }
+    column(:note)
+    column(:address_name)
+    column(:address)
+    column(:zip)
+    column(:visible)
+    column(:emails) { |d| d.emails_array.join(', ') }
+    column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(', ') }
+    column(:responsible_member) { |d| d.responsible_member&.name }
+    column(:responsible_member_emails) { |d|
+      d.responsible_member&.emails_array&.join(', ')
+    }
+    column(:responsible_member_phones) { |d|
+      d.responsible_member&.phones_array&.map(&:phony_formatted)&.join(', ')
+    }
   end
 
   show do |depot|

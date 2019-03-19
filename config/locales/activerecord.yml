@@ -326,6 +326,12 @@ _:
         responsible_member:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
+        responsible_member_emails:
+          _de: Verantwortliches Mitglied, Email(s)
+          _fr: Membre responsable, Email(s)
+        responsible_member_phones:
+          _de: Verantwortliches Mitglied, Telefon(e)
+          _fr: Membre responsable, Téléphone(s)
       invoice:
         balance:
           _de: Eingezahlt
