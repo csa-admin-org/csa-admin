@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_session
-    @current_session ||= session_id && Session.find_by(id: session_id)
+    @current_session ||= session_id && ::Session.find_by(id: session_id)
   end
 
   def session_id
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def create_session_from_devise_remember_token!
-    admin = Admin.find(cookies.signed[:remember_admin_token].first.first)
+    admin = ::Admin.find(cookies.signed[:remember_admin_token].first.first)
     Session.create!(
       remote_addr: request.remote_addr,
       user_agent: request.env['HTTP_USER_AGENT'] || '-',
