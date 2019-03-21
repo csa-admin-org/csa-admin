@@ -16,13 +16,15 @@ class SessionsController < ApplicationController
     @session = build_session(email)
 
     if @session.save
-      url = session_url(@session.token, locale: I18n.locale)
+      url = session_url(@session.token)
       Email.deliver_later(:session_new, @session.admin, email, url, admin: true)
+      redirect_to login_path, notice: t('sessions.flash.initiated')
+    elsif @session.errors[:email].present?
+      render :new
     else
       Email.deliver_later(:session_help, email, I18n.locale.to_s, admin: true)
+      redirect_to login_path, notice: t('sessions.flash.initiated')
     end
-
-    redirect_to login_path, notice: t('sessions.flash.initiated')
   end
 
   # GET /sessions/:id

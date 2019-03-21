@@ -5,6 +5,7 @@ class Session < ApplicationRecord
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
 
+  validates :email, format: URI::MailTo::EMAIL_REGEXP, allow_nil: true
   validates :remote_addr, :token, :user_agent, presence: true
   validate :owner_must_be_present
 

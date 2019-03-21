@@ -6,5 +6,8 @@ section.new-session
 
   = form_for [:members, @session] do |f|
     = f.label :email, t('.email_input')
+    - if @session.errors[:email]
+      p.inline-errors = @session.errors[:email].first
     = f.email_field :email, required: true
+
     = f.submit t('.submit')

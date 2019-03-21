@@ -1,8 +1,6 @@
 module HasEmails
   extend ActiveSupport::Concern
 
-  EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\z/
-
   included do
     attr_accessor :email
 
@@ -11,8 +9,8 @@ module HasEmails
     scope :with_emails, -> { where.not(emails: ['', nil]) }
     scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
     scope :including_email, ->(email) {
-       where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", email)
-     }
+      where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", email)
+    }
   end
 
   def emails=(emails)
@@ -31,7 +29,7 @@ module HasEmails
 
   def emails_must_be_valid
     emails_array.each do |email|
-      unless email.match?(EMAIL_REGEXP)
+      unless email.match?(URI::MailTo::EMAIL_REGEXP)
         errors.add(:emails, :invalid)
         break
       end
