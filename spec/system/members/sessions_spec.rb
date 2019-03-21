@@ -39,6 +39,19 @@ describe 'Member sessions' do
     expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
   end
 
+  it 'does not accpet invalid email' do
+    visit '/'
+    expect(current_path).to eq '/login'
+
+    fill_in 'Votre email', with: '@foo'
+    click_button 'Envoyer'
+
+    expect(email_adapter.deliveries.size).to eq 0
+
+    expect(current_path).to eq '/sessions'
+    expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
+  end
+
   it 'sends login help when email is not found' do
     visit '/'
     expect(current_path).to eq '/login'

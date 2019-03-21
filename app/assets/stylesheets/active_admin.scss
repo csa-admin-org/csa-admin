@@ -428,7 +428,8 @@ form.filter_form .check_boxes {
   padding: 0;
 }
 
-.field_with_errors {
+.field_with_errors,
+li.input.error {
   input,
   select,
   textarea {
@@ -453,5 +454,12 @@ body.logged_out {
 
   #login p {
     margin: 15px;
+
+    &.inline-errors {
+      display: inline-block;
+      width: 100%;
+      margin: 5px 20px 0 0;
+      text-align: right;
+    }
   }
 }
