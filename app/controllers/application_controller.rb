@@ -35,10 +35,6 @@ class ApplicationController < ActionController::Base
     current_session&.admin
   end
 
-  def current_member
-    current_session&.member
-  end
-
   def current_session
     @current_session ||= session_id && ::Session.find_by(id: session_id)
   end
@@ -48,10 +44,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    cookies.permanent[:locale] = params[:locale] if params.key?(:locale)
     I18n.locale =
-      cookies[:locale] ||
-      current_member&.language ||
+      params[:locale] ||
       current_admin&.language ||
       Current.acp.languages.first
   end

@@ -17,4 +17,16 @@ class Members::BaseController < ApplicationController
       update_last_usage(current_session)
     end
   end
+
+  def current_member
+    current_session&.member
+  end
+
+  def set_locale
+    cookies.permanent[:locale] = params[:locale] if params.key?(:locale)
+    I18n.locale =
+      cookies[:locale] ||
+      current_member&.language ||
+      Current.acp.languages.first
+  end
 end

@@ -29,3 +29,9 @@ body class="active_admin logged_out #{controller.action_name}"
               = f.input :email, label: t('.email_input'), required: true
             = f.actions do
               = f.action :submit, label: t('.submit'), button_html: { value: t('.submit') }
+
+    footer
+      - if Current.acp.languages.many?
+        ul.locales
+          - Current.acp.languages.each do |locale|
+            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: 'Turbolinks.clearCache()'

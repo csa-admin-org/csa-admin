@@ -18,7 +18,8 @@ class SessionsController < ApplicationController
     if @session.save
       url = session_url(@session.token)
       Email.deliver_later(:session_new, @session.admin, email, url, admin: true)
-      redirect_to login_path, notice: t('sessions.flash.initiated')
+      I18n.locale = @session.admin.language
+      redirect_to login_path(locale: I18n.locale), notice: t('sessions.flash.initiated')
     elsif @session.errors[:email].present?
       render :new
     else

@@ -462,4 +462,29 @@ body.logged_out {
       text-align: right;
     }
   }
+
+  footer {
+    flex: none;
+    text-align: center;
+    margin: auto auto 0;
+
+    a {
+      text-decoration: none;
+    }
+
+    ul.locales {
+      margin: 60px 0 30px;
+      padding: 0;
+
+      li {
+        color: #ccc;
+        list-style-type: none;
+        display: inline;
+
+        &:not(:first-child):before {
+          content: ' / ';
+        }
+      }
+    }
+  }
 }
