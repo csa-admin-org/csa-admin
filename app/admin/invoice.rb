@@ -26,6 +26,7 @@ ActiveAdmin.register Invoice do
     column :id
     column :member_id
     column(:name) { |i| i.member.name }
+    column(:emails) { |i| i.member.emails_array.join(', ') }
     column :date
     column(:object) { |i| t_invoice_object_type(i.object_type) }
     column :amount
