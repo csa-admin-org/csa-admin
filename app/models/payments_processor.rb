@@ -2,7 +2,7 @@ class PaymentsProcessor
   InvoiceIsrBalanceUpdateError = Class.new(StandardError)
   NoRecentPaymentsError = Class.new(StandardError)
 
-  NO_RECENT_PAYMENTS_SINCE = 2.weeks
+  NO_RECENT_PAYMENTS_SINCE = 4.weeks
 
   def initialize(provider)
     @provider = provider
@@ -25,13 +25,13 @@ class PaymentsProcessor
       amount: data.amount,
       date: data.date,
       isr_data: data.isr_data)
-
   rescue => ex
     ExceptionNotifier.notify(ex, data)
   end
 
   def ensure_recent_payments!
-    if Payment.isr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
+    if Invoice.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
+        Payment.isr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
       last_payment = Payment.isr.reorder(:created_at).last
       ExceptionNotifier.notify(NoRecentPaymentsError.new,
         last_payment_id: last_payment.id,
