@@ -104,6 +104,7 @@ ActiveAdmin.register Membership do
     column(:renew)
     column(:price) { |m| number_to_currency(m.price) }
     column(:invoices_amount) { |m| number_to_currency(m.invoices_amount) }
+    column(:missing_invoices_amount) { |m| number_to_currency(m.missing_invoices_amount) }
   end
 
   show do |m|
@@ -242,6 +243,7 @@ ActiveAdmin.register Membership do
             row(activity_scoped_attribute(:activity_participations_annual_price_change)) { number_to_currency(m.activity_participations_annual_price_change) }
             row(:price) { number_to_currency(m.price) }
             row(:invoices_amount) { number_to_currency(m.invoices_amount) }
+            row(:missing_invoices_amount) { number_to_currency(m.missing_invoices_amount) }
           end
         end
 
