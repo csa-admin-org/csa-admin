@@ -611,6 +611,9 @@ _:
         missing_activity_participations/hour_work:
           _de: Fehlende Arbeitsstunden
           _fr: Heures de travail manquantes
+        missing_invoices_amount:
+          _de: Noch zu fakturierende Beträge
+          _fr: Restant à facturer
         period:
           _de: Periode
           _fr: Période

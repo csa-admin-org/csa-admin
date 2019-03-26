@@ -166,6 +166,10 @@ class Membership < ActiveRecord::Base
         .sum('quantity * depot_price'))
   end
 
+  def missing_invoices_amount
+    [price - invoices_amount, 0].max
+  end
+
   def first_delivery
     baskets.first&.delivery
   end
