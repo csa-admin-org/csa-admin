@@ -6,6 +6,7 @@ require 'sucker_punch/testing/inline'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
+InvisibleCaptcha.timestamp_enabled = false
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
