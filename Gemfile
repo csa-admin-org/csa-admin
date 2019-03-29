@@ -25,6 +25,7 @@ gem 'tod'
 gem 'activeadmin'
 gem 'cancancan'
 gem 'formadmin'
+gem 'invisible_captcha'
 gem 'ransack'
 
 gem 'highcharts-rails'

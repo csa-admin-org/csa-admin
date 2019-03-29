@@ -3,6 +3,8 @@ section
   p = t('.text')
 
   = semantic_form_for @member, url: members_member_path do |f|
+    = invisible_captcha
+
     = f.inputs do
       = f.input :name, label: t('.name')
       = f.input :address

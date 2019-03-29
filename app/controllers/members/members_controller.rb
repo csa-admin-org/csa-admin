@@ -1,6 +1,7 @@
 class Members::MembersController < Members::BaseController
   skip_before_action :authenticate_member!, only: %i[new create welcome]
   before_action :redirect_current_member!, only: %i[new create welcome]
+  invisible_captcha only: :create
 
   # GET /new
   def new
