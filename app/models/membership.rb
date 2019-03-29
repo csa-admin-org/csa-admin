@@ -58,7 +58,7 @@ class Membership < ActiveRecord::Base
   scope :trial, -> { current.where('remaning_trial_baskets_count > 0') }
   scope :ongoing, -> { current.where(remaning_trial_baskets_count: 0) }
   scope :current, -> { including_date(Date.current) }
-  scope :current_or_future, -> { current.or(future) }
+  scope :current_or_future, -> { current.or(future).order(:started_on) }
   scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
   scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
   scope :current_year, -> { during_year(Current.fy_year) }
