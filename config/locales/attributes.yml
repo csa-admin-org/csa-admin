@@ -102,6 +102,9 @@ _:
     language:
       _de: Sprache
       _fr: Langue
+    last_membership_ended_on:
+      _de: Enddatum des letzten Abonnements
+      _fr: Date de fin du dernier abonnement
     member:
       _de: Mitglied
       _fr: Membre

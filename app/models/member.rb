@@ -28,6 +28,7 @@ class Member < ActiveRecord::Base
   has_one :current_membership, -> { current }, class_name: 'Membership'
   has_one :future_membership, -> { future }, class_name: 'Membership'
   has_one :current_or_future_membership, -> { current_or_future }, class_name: 'Membership'
+  has_one :last_membership, -> { order(started_on: :desc) }, class_name: 'Membership'
   has_one :current_year_membership, -> { current_year }, class_name: 'Membership'
   has_many :baskets, through: :memberships
   has_one :next_basket, through: :current_or_future_membership
