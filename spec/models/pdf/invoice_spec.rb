@@ -368,13 +368,13 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.04.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 22x 30.50', '671.00')
-        .and contain_sequence('Déjà facturé', '- 223.65')
-        .and contain_sequence('Montant annuel restant', '447.35')
-        .and contain_sequence('Facturation quadrimestrielle #2', "* 223.70")
-        .and contain_sequence('* TTC, CHF 223.48 HT, CHF 0.22 TVA (0.1%)')
+        .and contain_sequence('Panier: Grand 23x 30.50', '701.50')
+        .and contain_sequence('Déjà facturé', '- 233.85')
+        .and contain_sequence('Montant annuel restant', '467.65')
+        .and contain_sequence('Facturation quadrimestrielle #2', '* 233.85')
+        .and contain_sequence('* TTC, CHF 233.62 HT, CHF 0.23 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000223709>800250000000000000000001252+ 010092520>'
+        .and include '0100000233858>800250000000000000000001252+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -466,15 +466,15 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.09.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
+        .and contain_sequence('Panier: Grand 27x 30.50', '823.50')
         .and contain_sequence('Ajustement du prix des paniers', '- 44.00')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
-        .and contain_sequence('Montant annuel', '926.60', 'Facturation annuelle', '* 926.60')
+        .and contain_sequence('Montant annuel', '957.10', 'Facturation annuelle', '* 957.10')
         .and contain_sequence('Cotisation annuelle association', '75.00')
-        .and contain_sequence('Total', "1'001.60")
-        .and contain_sequence('* TTC, CHF 925.67 HT, CHF 0.93 TVA (0.1%)')
+        .and contain_sequence('Total', "1'032.10")
+        .and contain_sequence('* TTC, CHF 956.14 HT, CHF 0.96 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100001001604>800250000000000000000001236+ 010092520>'
+        .and include '0100001032108>800250000000000000000001236+ 010092520>'
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -510,15 +510,15 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.09.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 26x 30.50', '793.00')
+        .and contain_sequence('Panier: Grand 27x 30.50', '823.50')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
         .and contain_sequence('Ajustement du prix des compléments', '- 14.15')
-        .and contain_sequence('Montant annuel', '956.45', 'Facturation annuelle', '* 956.45')
+        .and contain_sequence('Montant annuel', '986.95', 'Facturation annuelle', '* 986.95')
         .and contain_sequence('Cotisation annuelle association', '75.00')
-        .and contain_sequence('Total', "1'031.45")
-        .and contain_sequence('* TTC, CHF 955.49 HT, CHF 0.96 TVA (0.1%)')
+        .and contain_sequence('Total', "1'061.95")
+        .and contain_sequence('* TTC, CHF 985.96 HT, CHF 0.99 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100001031458>800250000000000000000001244+ 010092520>'
+        .and include '0100001061953>800250000000000000000001244+ 010092520>'
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
