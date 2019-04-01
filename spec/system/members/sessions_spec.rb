@@ -121,24 +121,6 @@ describe 'Member sessions' do
     expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
   end
 
-  it 'redirects old member token to login when not already logged in' do
-    member = create(:member, token: 'token12345')
-
-    visit "/#{member.reload.token}"
-
-    expect(current_path).to eq '/login'
-    expect(page).to have_content 'Votre session a expirée, merci de vous authentifier à nouveau.'
-  end
-
-  it 'redirects old member token to member page when already logged in' do
-    member = create(:member, token: 'token12345')
-    login(member)
-
-    visit "/#{member.reload.token}"
-
-    expect(current_path).to eq '/activity_participations'
-  end
-
   it 'update last usage column every hour when using the session' do
     member = create(:member)
 

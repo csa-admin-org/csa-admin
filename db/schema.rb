@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_17_094022) do
+ActiveRecord::Schema.define(version: 2019_04_01_151933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -323,7 +323,6 @@ ActiveRecord::Schema.define(version: 2019_03_17_094022) do
     t.string "address", limit: 255
     t.string "zip", limit: 255
     t.string "city", limit: 255
-    t.string "token", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "waiting_started_at"

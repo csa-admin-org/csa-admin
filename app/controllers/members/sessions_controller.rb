@@ -50,17 +50,6 @@ class Members::SessionsController < Members::BaseController
     redirect_to members_login_path, notice: t('sessions.flash.deleted')
   end
 
-  # GET /:token
-  def old_token
-    member = Member.find_by!(token: params[:token])
-
-    if current_member == member
-      redirect_to members_member_path
-    else
-      redirect_to members_login_path, alert: t('sessions.flash.expired')
-    end
-  end
-
   private
 
   def build_session(email)
