@@ -39,8 +39,6 @@ Rails.application.routes.draw do
       resource :member, only: %i[new show create], path: '' do
         get 'welcome', on: :collection
       end
-
-      get '/:token' => 'sessions#old_token', constraints: { token: /\w{10}/ }
     end
   end
 end

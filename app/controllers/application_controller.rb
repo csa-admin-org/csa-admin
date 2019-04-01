@@ -14,13 +14,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_admin!
-    # TODO: Remove logic in two weeks!
-    if cookies.signed[:remember_admin_token]
-      session = create_session_from_devise_remember_token!
-      cookies.delete(:remember_admin_token)
-      cookies.encrypted.permanent[:session_id] = session.id
-      update_last_usage(session)
-    elsif !current_admin
+    if !current_admin
       cookies.delete(:session_id)
       redirect_to login_path, alert: t('sessions.flash.required')
     elsif current_session&.expired?
