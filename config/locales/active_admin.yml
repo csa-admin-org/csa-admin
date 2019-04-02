@@ -550,8 +550,8 @@ _:
           _fr: Nouvelle %{model}
       admin:
         new_model:
-          _de: Neuer %{model}
-          _fr: Nouvel %{model}
+          _de: Einladen %{model}
+          _fr: Inviter %{model}
       basket_content:
         new_model:
           _de: Neuer %{model}
