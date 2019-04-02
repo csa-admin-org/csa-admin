@@ -58,7 +58,7 @@ FactoryBot.define do
     annual_fee { Current.acp.annual_fee }
 
     validated_at { Time.current }
-    validator { create(:admin) }
+    validator { Admin.first || create(:admin) }
 
     created_at { Time.utc(2014) } # no trial by default
 

@@ -57,5 +57,9 @@ ActiveAdmin.register Admin do
     pp
   end
 
+  after_create do |admin|
+    Email.deliver_later(:admin_new, admin)
+  end
+
   config.filters = false
 end

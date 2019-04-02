@@ -207,6 +207,20 @@ module Email
     end
   end
 
+  def admin_new(admin)
+    {
+      from: from,
+      to: admin.email,
+      template: template_alias(:admin_new, admin.language),
+      template_data: {
+        admin_name: admin.name,
+        admin_email: admin.email,
+        action_url: url(:root_url),
+        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
+      }
+    }
+  end
+
   def member_new(admin, member)
     {
       from: from,
