@@ -301,8 +301,7 @@ describe PDF::Invoice do
       create(:basket_complement, :annual_price_type,
         id: 1,
         name: "Les Voisins d'abord",
-        price: 200,
-        delivery_ids: Delivery.current_year.pluck(:id)[0..23])
+        price: 200)
       create(:basket_complement,
         id: 2,
         price: 7.4,

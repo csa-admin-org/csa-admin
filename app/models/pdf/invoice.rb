@@ -87,7 +87,10 @@ module PDF
           ]
         end
         if object.basket_complements_price.positive?
-          object.basket_complements.uniq.each do |basket_complement|
+          basket_complements = (
+            object.basket_complements + object.subscribed_basket_complements
+          ).uniq
+          basket_complements.each do |basket_complement|
             data << [
               membership_basket_complement_description(basket_complement),
               cur(object.basket_complement_total_price(basket_complement))
@@ -332,11 +335,6 @@ module PDF
     end
 
     def membership_basket_complement_description(basket_complement)
-      baskets =
-        object
-          .baskets
-          .joins(:baskets_basket_complements)
-          .where(baskets_basket_complements: { basket_complement: basket_complement })
       "#{basket_complement.name} #{basket_complement_price_info(object, basket_complement)}"
     end
 
