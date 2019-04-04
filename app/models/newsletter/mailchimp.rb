@@ -45,14 +45,16 @@ class Newsletter::MailChimp
       MEMB_LANG: { name: 'Langue', type: 'text', required: true },
       MEMB_NEWS: { name: 'Newsletter envoyée?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
-      CURR_MEMB: { name: "Abonnement en cours?", type: 'dropdown', required: true, options: { choices: %w[yes no] } },
+      CURR_MEMB: { name: 'Abonnement en cours?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: true, options: { choices: %w[yes no –] } },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
-      BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } },
-      HALF_ASKE: { name: "#{activities_human_name} demandées", type: 'number', required: true },
-      HALF_MISS: { name: "#{activities_human_name} manquantes", type: 'number', required: true }
+      BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } }
     }
+    if Current.acp.feature?(:activity)
+      fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: true }
+      fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: true }
+    end
     if BasketComplement.any?
       fields[:BASK_COMP] = { name: 'Compléments panier', type: 'text', required: false }
     end
@@ -110,10 +112,12 @@ class Newsletter::MailChimp
       MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
-      BASK_DIST: next_basket&.depot&.name.to_s,
-      HALF_ASKE: current_year_membership&.activity_participations_demanded.to_i,
-      HALF_MISS: current_year_membership&.missing_activity_participations.to_i
+      BASK_DIST: next_basket&.depot&.name.to_s
     }
+    if Current.acp.feature?(:activity)
+      fields[:HALF_ASKE] = current_year_membership&.activity_participations_demanded.to_i
+      fields[:HALF_MISS] = current_year_membership&.missing_activity_participations.to_i
+    end
     if BasketComplement.any?
       fields[:BASK_COMP] =
         next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ').to_s
