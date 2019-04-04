@@ -661,6 +661,10 @@ _:
         other:
           _de: Kommentare
           _fr: Commentaires
+      activity:
+        one:
+          _de: Beteiligung der Mitglieder
+          _fr: Participation des membres
       activity/basket_preparation:
         one:
           _de: Taschen befüllung - Datum
