@@ -72,15 +72,17 @@ ActiveAdmin.register ACP do
       translated_input(f, :invoice_infos)
       translated_input(f, :invoice_footers)
     end
-    f.inputs t('.members_participation') do
-      f.input :activity_i18n_scope,
-        as: :select,
-        collection: ACP.activity_i18n_scopes.map { |s| [t("activities.#{s}", count: 2), s] },
-        prompt: true
-      f.input :activity_participation_deletion_deadline_in_days
-      f.input :activity_availability_limit_in_days
-      f.input :activity_price
-      f.input :activity_phone, as: :phone
+    if Current.acp.feature?('activity')
+      f.inputs t('.members_participation') do
+        f.input :activity_i18n_scope,
+          as: :select,
+          collection: ACP.activity_i18n_scopes.map { |s| [t("activities.#{s}", count: 2), s] },
+          prompt: true
+        f.input :activity_participation_deletion_deadline_in_days
+        f.input :activity_availability_limit_in_days
+        f.input :activity_price
+        f.input :activity_phone, as: :phone
+      end
     end
     f.inputs t('.delivery_pdf') do
       translated_input(f, :delivery_pdf_footers, required: false)

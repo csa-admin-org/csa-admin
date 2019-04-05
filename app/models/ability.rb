@@ -14,7 +14,8 @@ class Ability
     end
     if admin.right? 'admin'
       can :read, Admin
-      can :manage, [ActivityPreset, Delivery]
+      can :manage, Delivery
+      can :manage, ActivityPreset if Current.acp.feature?('activity')
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
@@ -43,13 +44,15 @@ class Ability
       ActiveAdmin::Comment,
       Delivery,
       Depot,
-      Activity,
-      ActivityParticipation,
       Invoice,
       Member,
       Membership,
       Payment
     ]
+    if Current.acp.feature?('activity')
+      default << Activity
+      default << ActivityParticipation
+    end
     if Current.acp.feature?('basket_content')
       default << BasketContent
       default << Vegetable

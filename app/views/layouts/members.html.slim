@@ -28,15 +28,15 @@ html
               em.empty = t('.no_membership')
           #nav
           nav
-            =
-            = link_to members_activity_participations_path(anchor: 'nav'), class: nav_class('activity_participations') do
-              h2 = activities_human_name
-              - membership = current_member.current_year_membership || current_member.future_membership
-              p
-                - if membership
-                  = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded)
-                - else
-                  = t('.no_activity_participations_demanded')
+            - if Current.acp.feature?('activity')
+              = link_to members_activity_participations_path(anchor: 'nav'), class: nav_class('activity_participations') do
+                h2 = activities_human_name
+                - membership = current_member.current_year_membership || current_member.future_membership
+                p
+                  - if membership
+                    = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded)
+                  - else
+                    = t('.no_activity_participations_demanded')
             = link_to members_billing_path(anchor: 'nav'), class: nav_class('billing') do
               h2 = t('.billing')
               - open_invoice_count = current_member.invoices.open.count

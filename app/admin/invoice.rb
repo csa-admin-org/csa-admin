@@ -184,19 +184,21 @@ ActiveAdmin.register Invoice do
       end
     end
     tabs do
-      tab activities_human_name, id: 'activity_participation' do
-        f.inputs do
-          if f.object.object.is_a?(ActivityParticipation)
-            li class: 'refused_activity_participation' do
-              (
-                link_to(t('.refused_activity_participation', date: f.object.object.activity.date), activity_participation_path(f.object.object_id)) +
-                ' – ' +
-                link_to(t('.erase').downcase, new_invoice_path(member_id: f.object.member_id))
-              ).html_safe
+      if Current.acp.feature?('activity')
+        tab activities_human_name, id: 'activity_participation' do
+          f.inputs do
+            if f.object.object.is_a?(ActivityParticipation)
+              li class: 'refused_activity_participation' do
+                (
+                  link_to(t('.refused_activity_participation', date: f.object.object.activity.date), activity_participation_path(f.object.object_id)) +
+                  ' – ' +
+                  link_to(t('.erase').downcase, new_invoice_path(member_id: f.object.member_id))
+                ).html_safe
+              end
             end
+            f.input :paid_missing_activity_participations, as: :number, step: 1
+            f.input :paid_missing_activity_participations_amount, as: :number, min: 0, max: 99999.95, step: 0.05
           end
-          f.input :paid_missing_activity_participations, as: :number, step: 1
-          f.input :paid_missing_activity_participations_amount, as: :number, min: 0, max: 99999.95, step: 0.05
         end
       end
       if Current.acp.share?

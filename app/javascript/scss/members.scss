@@ -184,11 +184,18 @@ section.welcome {
 
 nav {
   margin: $base-spacing 0 (-$small-spacing);
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: center;
   align-items: baseline;
+
+  a:not(:last-child) {
+    @media screen and (min-width: 900px) {
+      margin-right: $small-spacing;
+    }
+  }
 
   a {
     display: inline-block;
@@ -198,10 +205,9 @@ nav {
     text-align: center;
     flex: 1 1 auto;
     padding: 0.5em;
-    width: 100%;
     margin-bottom: $small-spacing;
-    @media screen and (min-width: 900px) {
-      max-width: 29%;
+    @media screen and (max-width: 900px) {
+      width: 100%;
     }
 
     h2 {

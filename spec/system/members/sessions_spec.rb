@@ -39,6 +39,14 @@ describe 'Member sessions' do
     expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
   end
 
+  it 'redirects to billing when activity is not a feature' do
+    current_acp.update!(features: [])
+
+    login(create(:member))
+
+    expect(current_path).to eq '/billing'
+  end
+
   it 'does not accpet invalid email' do
     visit '/'
     expect(current_path).to eq '/login'

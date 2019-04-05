@@ -9,7 +9,9 @@ ActiveAdmin.register BasketSize do
     if Current.acp.share?
       column :acp_shares_number
     end
-    column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
+    if Current.acp.feature?('activity')
+      column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
+    end
     actions
   end
 
@@ -20,8 +22,10 @@ ActiveAdmin.register BasketSize do
       if Current.acp.share?
         f.input :acp_shares_number, as: :number, step: 1
       end
-      f.input :activity_participations_demanded_annualy,
-        label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy))
+      if Current.acp.feature?('activity')
+        f.input :activity_participations_demanded_annualy,
+          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy))
+      end
       f.actions
     end
   end
