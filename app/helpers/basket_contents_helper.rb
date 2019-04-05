@@ -38,10 +38,10 @@ module BasketContentsHelper
   end
 
   def small_basket
-    BasketSize.reorder(:price).first
+    BasketSize.paid.reorder(:price).first
   end
 
   def big_basket
-    BasketSize.reorder(:price).last
+    BasketSize.paid.reorder(:price).last
   end
 end

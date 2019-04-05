@@ -171,6 +171,9 @@ _:
       renew_notice:
         _de: Die Abonnements werden verlängert...
         _fr: Les abonnements sont en train d'être renouvelés...
+      two_paid_basket_required:
+        _de: Für die Verwaltung die Tascheninhalt sind zwei Tasche Größen erforderlich.
+        _fr: Deux tailles de paniers sont requises pour gérer le contenu des paniers.
     has_many_delete:
       _de: Löschen
       _fr: Supprimer

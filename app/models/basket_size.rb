@@ -7,6 +7,8 @@ class BasketSize < ActiveRecord::Base
   has_many :members, through: :memberships
 
   default_scope { order_by_name }
+  scope :free, -> { where('price = 0') }
+  scope :paid, -> { where('price > 0') }
 
   validates :acp_shares_number,
     numericality: { greater_than_or_equal_to: 1 },
