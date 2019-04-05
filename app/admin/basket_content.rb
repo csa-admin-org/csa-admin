@@ -81,6 +81,12 @@ ActiveAdmin.register BasketContent do
     end
   end
 
+  before_action do
+    unless BasketSize.paid.count == 2
+      redirect_to basket_sizes_path, notice: t('active_admin.flash.two_paid_basket_required')
+    end
+  end
+
   permit_params(*%i[
     delivery_id
     vegetable_id
