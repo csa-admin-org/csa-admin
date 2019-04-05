@@ -3,7 +3,7 @@ module HasSessions
 
   included do
     has_many :sessions
-    has_one :last_session, -> { order(last_used_at: :desc) }, class_name: 'Session'
+    has_one :last_session, -> { order('last_used_at DESC NULLS LAST') }, class_name: 'Session'
   end
 
   def last_session_used_at
