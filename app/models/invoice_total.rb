@@ -6,7 +6,7 @@ class InvoiceTotal
     scopes = %w[Membership]
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?
-    scopes << 'ActivityParticipation'
+    scopes << 'ActivityParticipation' if Current.acp.feature?('activity')
     scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
     all = scopes.flatten.map { |scope| new(scope) }
     sum = all.sum(&:price)

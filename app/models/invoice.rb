@@ -76,7 +76,8 @@ class Invoice < ActiveRecord::Base
   after_commit :update_membership_activity_participations_accepted!
 
   def self.object_types
-    types = %w[Membership ActivityParticipation Other]
+    types = %w[Membership Other]
+    types << 'ActivityParticipation' if Current.acp.feature?('activity')
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
     types

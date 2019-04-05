@@ -26,9 +26,11 @@ ActiveAdmin.register Membership do
     column :member, ->(m) { auto_link m.member }
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
-    column activities_human_name,
-      ->(m) { auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}" },
-      sortable: 'activity_participations_demanded', class: 'col-activity_participations_demanded'
+    if Current.acp.feature?('activity')
+      column activities_human_name,
+        ->(m) { auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}" },
+        sortable: 'activity_participations_demanded', class: 'col-activity_participations_demanded'
+    end
     column :baskets_count,
       ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }
     actions
@@ -97,8 +99,10 @@ ActiveAdmin.register Membership do
       }
     end
     column(:depot) { |m| m.depot&.name }
-    column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
-    column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
+    if Current.acp.feature?('activity')
+      column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
+      column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
+    end
     column(:started_on)
     column(:ended_on)
     column(:renew)
@@ -156,54 +160,56 @@ ActiveAdmin.register Membership do
           end
         end
 
-        attributes_table title: activities_human_name do
-          row(:activity_participations_demanded) { m.activity_participations_demanded }
-          row(:activity_participations_coming) {
-            link_to(
-              m.member.activity_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
-              activity_participations_path(scope: :coming, q: {
-                member_id_eq: resource.member_id,
-                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
-              }))
-          }
-          row(:activity_participations_pending) {
-            link_to(
-              m.member.activity_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
-              activity_participations_path(scope: :pending, q: {
-                member_id_eq: resource.member_id,
-                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
-              }))
-          }
-          row(:activity_participations_validated) {
-            link_to(
-              m.member.activity_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
-              activity_participations_path(scope: :validated, q: {
-                member_id_eq: resource.member_id,
-                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
-              }))
-          }
-          row(:activity_participations_rejected) {
-            link_to(
-              m.member.activity_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
-              activity_participations_path(scope: :rejected, q: {
-                member_id_eq: resource.member_id,
-                activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                activity_date_lteq_datetime: resource.fiscal_year.end_of_year
-              }))
-          }
-          row(:activity_participations_paid) {
-            link_to(
-              m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations),
-              invoices_path(scope: :all, q: {
-                member_id_eq: resource.member_id,
-                object_type_eq: 'ActivityParticipation',
-                date_gteq: resource.fiscal_year.beginning_of_year,
-                date_lteq: resource.fiscal_year.end_of_year
-              }))
-          }
+        if Current.acp.feature?('activity')
+          attributes_table title: activities_human_name do
+            row(:activity_participations_demanded) { m.activity_participations_demanded }
+            row(:activity_participations_coming) {
+              link_to(
+                m.member.activity_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
+                activity_participations_path(scope: :coming, q: {
+                  member_id_eq: resource.member_id,
+                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                }))
+            }
+            row(:activity_participations_pending) {
+              link_to(
+                m.member.activity_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
+                activity_participations_path(scope: :pending, q: {
+                  member_id_eq: resource.member_id,
+                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                }))
+            }
+            row(:activity_participations_validated) {
+              link_to(
+                m.member.activity_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
+                activity_participations_path(scope: :validated, q: {
+                  member_id_eq: resource.member_id,
+                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                }))
+            }
+            row(:activity_participations_rejected) {
+              link_to(
+                m.member.activity_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
+                activity_participations_path(scope: :rejected, q: {
+                  member_id_eq: resource.member_id,
+                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
+                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                }))
+            }
+            row(:activity_participations_paid) {
+              link_to(
+                m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations),
+                invoices_path(scope: :all, q: {
+                  member_id_eq: resource.member_id,
+                  object_type_eq: 'ActivityParticipation',
+                  date_gteq: resource.fiscal_year.beginning_of_year,
+                  date_lteq: resource.fiscal_year.end_of_year
+                }))
+            }
+          end
         end
 
         attributes_table(
@@ -240,7 +246,9 @@ ActiveAdmin.register Membership do
             row(:depots_price) {
               display_price_description(m.depots_price, depots_price_info(m.baskets))
             }
-            row(activity_scoped_attribute(:activity_participations_annual_price_change)) { number_to_currency(m.activity_participations_annual_price_change) }
+            if Current.acp.feature?('activity')
+              row(activity_scoped_attribute(:activity_participations_annual_price_change)) { number_to_currency(m.activity_participations_annual_price_change) }
+            end
             row(:price) { number_to_currency(m.price) }
             row(:invoices_amount) { number_to_currency(m.invoices_amount) }
             row(:missing_invoices_amount) { number_to_currency(m.missing_invoices_amount) }
@@ -264,7 +272,7 @@ ActiveAdmin.register Membership do
       f.input :renew unless resource.new_record? || resource.past? || !resource.current_year?
     end
 
-    unless resource.new_record?
+    if Current.acp.feature?('activity') && !resource.new_record?
       f.inputs activities_human_name do
         f.input :activity_participations_demanded_annualy,
           label: "#{activities_human_name} (#{t('.full_year')})",

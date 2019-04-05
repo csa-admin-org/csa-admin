@@ -1,4 +1,6 @@
 class Members::ActivityParticipationsController < Members::BaseController
+  before_action :ensure_activity_features
+
   # GET /activity_participations
   def index; end
 
@@ -31,5 +33,9 @@ class Members::ActivityParticipationsController < Members::BaseController
     params
       .require(:activity_participation)
       .permit(%i[participants_count carpooling carpooling_phone carpooling_city], activity_ids: [])
+  end
+
+  def ensure_activity_features
+    redirect_to members_member_path unless Current.acp.feature?('activity')
   end
 end

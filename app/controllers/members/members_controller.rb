@@ -10,7 +10,11 @@ class Members::MembersController < Members::BaseController
 
   # GET /
   def show
-    redirect_to members_activity_participations_path
+    if Current.acp.feature?('activity')
+      redirect_to members_activity_participations_path
+    else
+      redirect_to members_billing_path
+    end
   end
 
   # POST /

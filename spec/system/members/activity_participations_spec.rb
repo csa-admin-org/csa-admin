@@ -11,7 +11,7 @@ describe 'Activity Participation' do
   it 'adds one new participation' do
     activity = create(:activity, date: 4.days.from_now)
 
-    visit '/'
+    visit '/activity_participations'
 
     check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
@@ -30,7 +30,7 @@ describe 'Activity Participation' do
     activity1 = create(:activity, date: 4.days.from_now, start_time: '8:00', end_time: '9:00')
     activity2 = create(:activity, date: 4.days.from_now, start_time: '9:00', end_time: '10:00')
 
-    visit '/'
+    visit '/activity_participations'
 
     check "activity_participation_activity_ids_#{activity1.id}"
     check "activity_participation_activity_ids_#{activity2.id}"
@@ -51,7 +51,7 @@ describe 'Activity Participation' do
   it 'adds new participation with carpooling' do
     activity = create(:activity, date: 4.days.from_now)
 
-    visit '/'
+    visit '/activity_participations'
 
     check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
@@ -72,7 +72,7 @@ describe 'Activity Participation' do
   it 'adds new participation with carpooling (default phone)' do
     activity = create(:activity, date: 4.days.from_now)
 
-    visit '/'
+    visit '/activity_participations'
 
     check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
@@ -89,7 +89,7 @@ describe 'Activity Participation' do
   it 'deletes a participation' do
     activity = create(:activity_participation, member: member).activity
 
-    visit '/'
+    visit '/activity_participations'
 
     within('ul.activities') do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
@@ -112,7 +112,7 @@ describe 'Activity Participation' do
       activity: activity,
       created_at: 25.hours.ago)
 
-    visit '/'
+    visit '/activity_participations'
 
     within('ul.activities') do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
@@ -120,5 +120,13 @@ describe 'Activity Participation' do
       expect(page).to have_selector('span.action span.hidden_action')
     end
     expect(page).to have_content "Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de 30 jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous contacter."
+  end
+
+  it 'redirects to billing when activity is not a feature' do
+    current_acp.update!(features: [])
+
+    visit '/activity_participations'
+
+    expect(current_path).to eq '/billing'
   end
 end

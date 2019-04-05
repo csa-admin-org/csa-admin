@@ -26,7 +26,7 @@ class ACP < ActiveRecord::Base
   validates :email_default_from, presence: true
   validates :email_footer, presence: true
   validates :phone, presence: true
-  validates :activity_phone, presence: true
+  validates :activity_phone, presence: true, if: -> { feature?('activity') }
   validates :ccp, presence: true, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/ }
   validates :isr_identity, presence: true
   validates :isr_payment_for, presence: true

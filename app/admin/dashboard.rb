@@ -118,10 +118,12 @@ ActiveAdmin.register_page 'Dashboard' do
           end
         end
 
-        panel "#{activities_human_name} #{Current.fy_year}" do
-          table_for ActivityParticipationCount.all(Current.fy_year), i18n: ActivityParticipationCount do
-            column(:state) { |count| link_to_if(count.url, count.title, count.url) }
-            column :count, class: 'align-right'
+        if Current.acp.feature?('activity')
+          panel "#{activities_human_name} #{Current.fy_year}" do
+            table_for ActivityParticipationCount.all(Current.fy_year), i18n: ActivityParticipationCount do
+              column(:state) { |count| link_to_if(count.url, count.title, count.url) }
+              column :count, class: 'align-right'
+            end
           end
         end
       end
