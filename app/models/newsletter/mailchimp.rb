@@ -134,8 +134,10 @@ class Newsletter::MailChimp
     if res.body[:status] != 'finished'
       ensure_batch_succeed!(res.body[:id])
     elsif res.body[:errored_operations].positive?
-      raise BatchError,
-        "MailChimp Batch #{batch_id} failed with response: #{res.body[:response_body_url]}"
+      error = BatchError.new("MailChimp Batch #{batch_id} failed")
+      ExceptionNotifier.notify(error,
+        batch_id: batch_id,
+        response_body_url: res.body[:response_body_url])
     end
   end
 end
