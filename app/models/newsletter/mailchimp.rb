@@ -47,6 +47,7 @@ class Newsletter::MailChimp
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
       CURR_MEMB: { name: 'Abonnement en cours?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: true, options: { choices: %w[yes no –] } },
+      BASK_FIRS: { name: 'Date du premier panier', type: 'text', required: false },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
       BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } }
@@ -101,6 +102,7 @@ class Newsletter::MailChimp
 
   def member_merge_fields(member)
     current_year_membership = member.current_year_membership
+    first_basket = member.first_membership&.baskets&.first
     next_basket = member.next_basket
     fields = {
       MEMB_ID: member.id,
@@ -110,6 +112,7 @@ class Newsletter::MailChimp
       MEMB_STAT: member.state,
       CURR_MEMB: member.current_membership ? 'yes' : 'no',
       MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',
+      BASK_FIRS: (first_basket && I18n.l(first_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
       BASK_DIST: next_basket&.depot&.name.to_s
