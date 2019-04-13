@@ -10,6 +10,7 @@ class Depot < ActiveRecord::Base
   has_many :memberships
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
+  has_and_belongs_to_many :deliveries
 
   default_scope { order(:name) }
   scope :visible, -> { where(visible: true) }

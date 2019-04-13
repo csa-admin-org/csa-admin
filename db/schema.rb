@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_01_151933) do
+ActiveRecord::Schema.define(version: 2019_04_08_184436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -247,6 +247,12 @@ ActiveRecord::Schema.define(version: 2019_04_01_151933) do
     t.text "note"
     t.integer "number", default: 0, null: false
     t.index ["date"], name: "index_deliveries_on_date"
+  end
+
+  create_table "deliveries_depots", force: :cascade do |t|
+    t.bigint "depot_id", null: false
+    t.bigint "delivery_id", null: false
+    t.index ["depot_id", "delivery_id"], name: "deliveries_depots_unique_index", unique: true
   end
 
   create_table "depots", id: :serial, force: :cascade do |t|
