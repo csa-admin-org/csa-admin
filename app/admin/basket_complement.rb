@@ -15,6 +15,9 @@ ActiveAdmin.register BasketComplement do
         " (#{number_to_currency(bs.annual_price, precision: 2)})"
       end
     }
+    column :deliveries_count, ->(bs) {
+      link_to bs.deliveries_count, deliveries_path(q: { basket_complements_id_eq: bs.id })
+    }
     actions
   end
 
@@ -27,10 +30,12 @@ ActiveAdmin.register BasketComplement do
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }
       f.input :price
-      f.input :current_deliveries,
-        as: :check_boxes,
-        collection: Delivery.current_year,
-        hint: f.object.persisted?
+      if Delivery.current_year.any?
+        f.input :current_deliveries,
+          as: :check_boxes,
+          collection: Delivery.current_year,
+          hint: f.object.persisted?
+      end
       if Delivery.future_year.any?
         f.input :future_deliveries,
           as: :check_boxes,

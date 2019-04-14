@@ -32,7 +32,8 @@ module BulkDatesInsert
       super
     elsif valid?
       run_callbacks(:save) {
-        self.class.bulk_insert values: bulk_attributes
+        Rails.logger.debug bulk_attributes
+        self.class.create! bulk_attributes
         self.date = bulk_dates.first
       }
     end
@@ -71,7 +72,15 @@ module BulkDatesInsert
   end
 
   def bulk_attributes
-    attrs = attributes.except('created_at', 'updated_at').map { |k, v|
+    attrs = attributes.except(*%w[
+      id
+      created_at
+      updated_at
+      bulk_dates_starts_on
+      bulk_dates_ends_on
+      bulk_dates_weeks_frequency
+      bulk_dates_wdays
+    ]).map { |k, v|
       [
         k,
         v.is_a?(Tod::TimeOfDay) ? v.to_s : v

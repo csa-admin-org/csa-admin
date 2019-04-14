@@ -6,6 +6,11 @@ ActiveAdmin.register Delivery do
   scope :future_year
 
   filter :date
+  filter :depots, as: :select, collection: -> { Depot.all }
+  filter :basket_complements,
+    as: :select,
+    collection: -> { BasketComplement.all },
+    if: :any_basket_complements?
   filter :note, as: :string
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
@@ -134,7 +139,14 @@ ActiveAdmin.register Delivery do
     render partial: 'bulk_dates', locals: { f: f, resource: resource }
     f.inputs do
       f.input :note
-      if !f.object.new_record? && BasketComplement.any?
+    end
+    f.inputs do
+      f.input :depots,
+        as: :check_boxes,
+        collection: Depot.all,
+        hint: true,
+        input_html: f.object.persisted? ? {} : { checked: true }
+      if BasketComplement.any?
         f.input :basket_complements,
           as: :check_boxes,
           collection: BasketComplement.all,
@@ -176,7 +188,8 @@ ActiveAdmin.register Delivery do
     :bulk_dates_starts_on, :bulk_dates_ends_on,
     :bulk_dates_weeks_frequency,
     bulk_dates_wdays: [],
-    basket_complement_ids: []
+    basket_complement_ids: [],
+    depot_ids: []
 
   config.sort_order = 'date_asc'
   config.per_page = 52

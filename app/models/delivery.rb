@@ -9,6 +9,9 @@ class Delivery < ActiveRecord::Base
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
+  has_and_belongs_to_many :depots,
+    after_add: :add_baskets_at!,
+    after_remove: :remove_baskets_at!
 
   scope :past, -> { where('date < ?', Date.current) }
   scope :coming, -> { where('date >= ?', Date.current) }
@@ -55,6 +58,22 @@ class Delivery < ActiveRecord::Base
     end
   end
 
+  def add_baskets_at!(depot)
+    Membership
+      .including_date(date)
+      .where(memberships: { depot_id: depot.id })
+      .includes(:baskets)
+      .each { |membership|
+        if membership.baskets.map(&:delivery_id).exclude?(id)
+          membership.create_basket!(self)
+        end
+      }
+  end
+
+  def remove_baskets_at!(depot)
+    baskets.where(depot_id: depot).find_each(&:really_destroy!)
+  end
+
   def season
     Current.acp.season_for(date.month)
   end
@@ -95,5 +114,13 @@ class Delivery < ActiveRecord::Base
 
   def really_destroy_baskets!
     baskets.with_deleted.find_each(&:really_destroy!)
+  end
+
+  def bulk_attributes
+    super.map { |h|
+      h[:depot_ids] = depot_ids
+      h[:basket_complement_ids] = basket_complement_ids
+      h
+    }
   end
 end

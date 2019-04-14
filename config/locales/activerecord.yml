@@ -320,6 +320,15 @@ _:
         address_name:
           _de: Name
           _fr: Nom
+        current_deliveries:
+          _de: Lieferungen (laufendes Jahr)
+          _fr: Livraisons (année courante)
+        deliveries:
+          _de: Lieferungen
+          _fr: Livraisons
+        future_deliveries:
+          _de: Lieferungen (zukünftige)
+          _fr: Livraisons (future)
         price:
           _de: Preis/Tasche
           _fr: Prix/panier

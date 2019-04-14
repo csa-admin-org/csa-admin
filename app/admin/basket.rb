@@ -27,13 +27,13 @@ ActiveAdmin.register Basket do
   end
 
   permit_params \
-   :basket_size_id, :basket_price, :quantity,
-   :depot_id, :depot_price,
-   baskets_basket_complements_attributes: [
-    :id, :basket_complement_id,
-    :price, :quantity,
-    :_destroy
-  ]
+    :basket_size_id, :basket_price, :quantity,
+    :depot_id, :depot_price,
+    baskets_basket_complements_attributes: %i[
+      id basket_complement_id
+      price quantity
+      _destroy
+    ]
 
   controller do
     def update

@@ -60,6 +60,9 @@ _:
     dates:
       _de: Daten
       _fr: Dates
+    deliveries_count:
+      _de: Lieferungen
+      _fr: Livraisons
     delivery:
       _de: Lieferung
       _fr: Livraison
@@ -72,6 +75,9 @@ _:
     depot_id:
       _de: Depot
       _fr: Dépôt
+    depots:
+      _de: Depots
+      _fr: Dépôts
     description:
       _de: Beschreibung
       _fr: Description

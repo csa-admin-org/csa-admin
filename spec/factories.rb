@@ -1,4 +1,10 @@
 FactoryBot.define do
+  factory :absence do
+    member
+    started_on { Absence.min_started_on }
+    ended_on { Absence.min_started_on + 1.week }
+  end
+
   factory :acp do
     name { 'Rage de Vert' }
     url { 'https://www.ragedevert.ch' }
@@ -23,23 +29,39 @@ FactoryBot.define do
     features { %w[activity basket_content] }
   end
 
-  factory :basket_content do
-    vegetable
-    delivery
-    quantity { 10 }
-    unit { 'kilogramme' }
-    basket_sizes { BasketContent::SIZES }
-    depots { [create(:depot)] }
+  factory :activity do
+    date { Date.current.beginning_of_week + 8.days }
+    start_time { '8:30' }
+    end_time { '12:00' }
+    place { 'Thielle' }
+    title { 'Aide aux champs' }
   end
 
-  factory :vegetable do
-    name { 'Carotte' }
-  end
-
-  factory :absence do
+  factory :activity_participation do
     member
-    started_on { Absence.min_started_on }
-    ended_on { Absence.min_started_on + 1.week }
+    activity
+    participants_count { 1 }
+    state { 'pending' }
+
+    trait :carpooling do
+      carpooling { '1' }
+      carpooling_phone { Faker::Base.numerify('+41 ## ### ## ##') }
+      carpooling_city { Faker::Address.city }
+    end
+
+    trait :validated do
+      activity { create(:activity, date: 1.day.ago) }
+      state { 'validated' }
+      validated_at { Time.current }
+      validator { create(:admin) }
+    end
+
+    trait :rejected do
+      activity { create(:activity, date: 1.day.ago) }
+      state { 'rejected' }
+      rejected_at { Time.current }
+      validator { create(:admin) }
+    end
   end
 
   factory :admin do
@@ -48,122 +70,39 @@ FactoryBot.define do
     rights { 'superadmin' }
   end
 
-  factory :member do
-    name { [Faker::Name.last_name, Faker::Name.first_name].join(' ') }
-    emails { [Faker::Internet.email, Faker::Internet.email].join(', ') }
-    phones { Faker::Base.numerify('+41 ## ### ## ##') }
-    address { Faker::Address.street_address }
-    city { Faker::Address.city }
-    zip { Faker::Address.zip }
-    billing_year_division { 4 }
-    annual_fee { Current.acp.annual_fee }
-
-    validated_at { Time.current }
-    validator { Admin.first || create(:admin) }
-
-    created_at { Time.utc(2014) } # no trial by default
-
-    trait :pending do
-      state { 'pending' }
-      validated_at { nil }
-      validator { nil }
-      waiting_basket_size { create(:basket_size) }
-      waiting_depot { create(:depot) }
-    end
-
-    trait :waiting do
-      state { 'waiting' }
-      waiting_started_at { Time.current }
-      waiting_basket_size { create(:basket_size) }
-      waiting_depot { create(:depot) }
-    end
-
-    trait :trial do
-      state { 'active' }
-      created_at { Time.current.beginning_of_year }
-      after :create do |member|
-        create(:membership,
-          member: member,
-          deliveries_count: 52,
-          started_on: [Time.current.beginning_of_year, Date.current - 3.weeks].max)
-      end
-    end
-
-    trait :active do
-      state { 'active' }
-      after :create do |member|
-        create(:membership, :last_year, member: member)
-        create(:membership, member: member)
-      end
-    end
-
-    trait :support_annual_fee do
-      state { 'support' }
-      billing_year_division { 1 }
-      annual_fee { Current.acp.annual_fee }
-    end
-
-    trait :support_acp_share do
-      state { 'support' }
-      billing_year_division { 1 }
-
-      transient do
-        acp_shares_number { 1 }
-      end
-
-      after :create do |member, evaluator|
-        create(:invoice, member: member,
-          acp_shares_number: evaluator.acp_shares_number)
-      end
-    end
-
-    trait :inactive do
-      state { 'inactive' }
-      annual_fee { nil }
-    end
-  end
-
-  factory :session do
-    trait :member do
-      member
-    end
-
-    trait :admin do
-      admin
-    end
-
-    remote_addr { '127.0.0.1' }
-    user_agent { 'a browser user agent' }
-  end
-
-  factory :membership do
-    member
-    basket_size { BasketSize.first || create(:basket_size) }
-    depot { Depot.first || create(:depot) }
-    started_on { Current.fy_range.min }
-    ended_on { Current.fy_range.max }
-
-    transient do
-      deliveries_count { 40 }
-    end
-
-    trait :last_year do
-      started_on { Current.acp.fiscal_year_for(1.year.ago).range.min  }
-      ended_on { Current.acp.fiscal_year_for(1.year.ago).range.max  }
-    end
-
-    before :create do |membership, evaluator|
-      DeliveriesHelper.create_deliveries(
-        evaluator.deliveries_count,
-        membership.fiscal_year)
-    end
-  end
-
   factory :basket do
     membership
-    delivery
     basket_size
     depot
+    delivery
+  end
+
+  factory :basket_complement do
+    sequence(:name) { |n| "Basket Complement #{n}" }
+    price { 4.2 }
+    delivery_ids {
+      DeliveriesHelper.create_deliveries(deliveries_count, fiscal_year)
+      Delivery.pluck(:id)
+    }
+
+    transient do
+      deliveries_count { 0 }
+      fiscal_year { Current.fiscal_year }
+    end
+
+    trait :annual_price_type do
+      price_type { 'annual' }
+      price { 200 }
+    end
+  end
+
+  factory :basket_content do
+    vegetable
+    delivery
+    quantity { 10 }
+    unit { 'kilogramme' }
+    basket_sizes { BasketContent::SIZES }
+    depots { [create(:depot)] }
   end
 
   factory :basket_size do
@@ -182,20 +121,10 @@ FactoryBot.define do
     end
   end
 
-  factory :basket_complement do
-    sequence(:name) { |n| "Basket Complement #{n}" }
-    price { 4.2 }
+  factory :delivery do
+    date { Time.current }
 
-    transient do
-      deliveries_count { 0 }
-    end
-
-    trait :annual_price_type do
-      price_type { 'annual' }
-      price { 200 }
-    end
-
-    delivery_ids { Delivery.current_year.limit(deliveries_count).pluck(:id) }
+    after :create, &:reload
   end
 
   factory :depot do
@@ -204,12 +133,15 @@ FactoryBot.define do
     city { Faker::Address.city }
     zip { Faker::Address.zip }
     price { 0 }
-  end
+    delivery_ids {
+      DeliveriesHelper.create_deliveries(deliveries_count, fiscal_year)
+      Delivery.pluck(:id)
+    }
 
-  factory :delivery do
-    date { Time.current }
-
-    after :create, &:reload
+    transient do
+      deliveries_count { 40 }
+      fiscal_year { Current.fiscal_year }
+    end
   end
 
   factory :invoice do
@@ -252,44 +184,116 @@ FactoryBot.define do
     end
   end
 
+  factory :member do
+    name { [Faker::Name.last_name, Faker::Name.first_name].join(' ') }
+    emails { [Faker::Internet.email, Faker::Internet.email].join(', ') }
+    phones { Faker::Base.numerify('+41 ## ### ## ##') }
+    address { Faker::Address.street_address }
+    city { Faker::Address.city }
+    zip { Faker::Address.zip }
+    billing_year_division { 4 }
+    annual_fee { Current.acp.annual_fee }
+
+    validated_at { Time.current }
+    validator { Admin.first || create(:admin) }
+
+    created_at { Time.utc(2014) } # no trial by default
+
+    trait :pending do
+      state { 'pending' }
+      validated_at { nil }
+      validator { nil }
+      waiting_basket_size { create(:basket_size) }
+      waiting_depot { create(:depot) }
+    end
+
+    trait :waiting do
+      state { 'waiting' }
+      waiting_started_at { Time.current }
+      waiting_basket_size { create(:basket_size) }
+      waiting_depot { create(:depot) }
+    end
+
+    trait :trial do
+      state { 'active' }
+      created_at { Time.current.beginning_of_year }
+      after :create do |member|
+        create(:membership,
+          member: member,
+          started_on: [Time.current.beginning_of_year, Date.current - 3.weeks].max)
+      end
+    end
+
+    trait :active do
+      state { 'active' }
+      after :create do |member|
+        create(:membership, :last_year, member: member)
+        create(:membership, member: member)
+      end
+    end
+
+    trait :support_annual_fee do
+      state { 'support' }
+      billing_year_division { 1 }
+      annual_fee { Current.acp.annual_fee }
+    end
+
+    trait :support_acp_share do
+      state { 'support' }
+      billing_year_division { 1 }
+
+      transient do
+        acp_shares_number { 1 }
+      end
+
+      after :create do |member, evaluator|
+        create(:invoice, member: member,
+          acp_shares_number: evaluator.acp_shares_number)
+      end
+    end
+
+    trait :inactive do
+      state { 'inactive' }
+      annual_fee { nil }
+    end
+  end
+
+  factory :membership do
+    member
+    basket_size { BasketSize.first || create(:basket_size) }
+    depot { create(:depot, fiscal_year: fiscal_year) }
+    started_on { fiscal_year.range.min }
+    ended_on { fiscal_year.range.max }
+
+    transient do
+      fiscal_year { Current.fiscal_year }
+    end
+
+    trait :last_year do
+      fiscal_year { Current.acp.fiscal_year_for(1.year.ago) }
+    end
+  end
+
   factory :payment do
     member
     date { Time.current }
     amount { 1000 }
   end
 
-  factory :activity do
-    date { Date.current.beginning_of_week + 8.days }
-    start_time { '8:30' }
-    end_time { '12:00' }
-    place { 'Thielle' }
-    title { 'Aide aux champs' }
+  factory :session do
+    trait :member do
+      member
+    end
+
+    trait :admin do
+      admin
+    end
+
+    remote_addr { '127.0.0.1' }
+    user_agent { 'a browser user agent' }
   end
 
-  factory :activity_participation do
-    member
-    activity
-    participants_count { 1 }
-    state { 'pending' }
-
-    trait :carpooling do
-      carpooling { '1' }
-      carpooling_phone { Faker::Base.numerify('+41 ## ### ## ##') }
-      carpooling_city { Faker::Address.city }
-    end
-
-    trait :validated do
-      activity { create(:activity, date: 1.day.ago )}
-      state { 'validated' }
-      validated_at { Time.current }
-      validator { create(:admin) }
-    end
-
-    trait :rejected do
-      activity { create(:activity, date: 1.day.ago )}
-      state { 'rejected' }
-      rejected_at { Time.current }
-      validator { create(:admin) }
-    end
+  factory :vegetable do
+    name { 'Carotte' }
   end
 end

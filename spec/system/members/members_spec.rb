@@ -222,7 +222,7 @@ describe 'members page' do
         ended_on: Date.current.end_of_year + 1.year,
         activity_participations_demanded_annualy: 4,
         basket_size: create(:basket_size, name: 'Grand'),
-        depot: create(:depot, name: 'Vélo'),
+        depot: create(:depot, name: 'Vélo', delivery_ids: Delivery.pluck(:id)),
         memberships_basket_complements_attributes: {
           '0' => { basket_complement_id: 1 }
         })

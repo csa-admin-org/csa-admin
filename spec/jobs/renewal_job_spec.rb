@@ -12,6 +12,7 @@ describe RenewalJob do
   end
 
   it 'renews a membership without complements' do
+    Delivery.create_all(1, next_fy.beginning_of_year)
     membership = create(:membership,
       basket_quantity: 2,
       basket_price: 42,
@@ -19,7 +20,6 @@ describe RenewalJob do
       depot_price: 3,
       activity_participations_demanded_annualy: 5,
       activity_participations_annual_price_change: -60)
-    Delivery.create_all(1, next_fy.beginning_of_year)
 
     membership.basket_size.update!(price: 41)
     membership.depot.update!(price: 4)
@@ -42,6 +42,7 @@ describe RenewalJob do
   end
 
   it 'renews a membership with complements and seasons' do
+    Delivery.create_all(1, next_fy.beginning_of_year)
     Current.acp.update!(
       summer_month_range_min: 4,
       summer_month_range_max: 9)
@@ -53,8 +54,6 @@ describe RenewalJob do
         '0' => { basket_complement_id: 1, price: 3, seasons: %w[winter], quantity: 1 },
         '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
       })
-
-    Delivery.create_all(1, next_fy.beginning_of_year)
 
     expect { RenewalJob.perform_later(membership, next_fy.year) }
       .to change(Membership, :count).by(1)
