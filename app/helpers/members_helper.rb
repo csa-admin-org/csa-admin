@@ -19,9 +19,9 @@ module MembersHelper
     BasketSize.all.map { |bs|
       [
         collection_text(bs.name,
-          price: price_info(bs.annual_price),
+          price: basket_size_price_info(bs.price),
           details: [
-            deliveries_count(bs.deliveries_count),
+            deliveries_count(deliveries_counts),
             activities_count(bs.activity_participations_demanded_annualy),
             acp_shares_number(bs.acp_shares_number)
           ].compact.join(', ')),
@@ -52,16 +52,18 @@ module MembersHelper
   end
 
   def depots_collection
-    Depot.visible.reorder('price, name').map { |d|
-      details = [d.address, "#{d.zip} #{d.city}".presence].compact.join(', ') if d.address?
-      if details && details != d.address
-        details += map_icon(details).html_safe
+    visible_depots.map { |d|
+      address = [d.address, "#{d.zip} #{d.city}".presence].compact.join(', ') if d.address?
+      if address && address != d.address
+        address += map_icon(address).html_safe
       end
-
+      details = []
+      details << deliveries_count(d.deliveries_count) if deliveries_counts.many?
+      details << address
       [
         collection_text(d.name,
-          price: price_info(d.annual_price),
-          details: details),
+          price: price_info(d.annual_price, precision: 0),
+          details: details.compact.join(', ')),
         d.id
       ]
     }
@@ -80,8 +82,27 @@ module MembersHelper
 
   private
 
+  def visible_depots
+    @visible_depots ||= Depot.visible.reorder('price, name').to_a
+  end
+
+  def deliveries_counts
+    @deliveries_counts ||= visible_depots.map(&:deliveries_count).uniq.sort
+  end
+
   def price_info(price, *options)
-    number_to_currency(price, *options) if price.positive?
+    number_to_currency(price.round_to_five_cents, *options) if price.positive?
+  end
+
+  def basket_size_price_info(price)
+    if deliveries_counts.many?
+      [
+        price_info(deliveries_counts.min * price, precision: 0),
+        price_info(deliveries_counts.max * price, precision: 0, format: '%n')
+      ].join('-')
+    elsif
+      price_info(deliveries_counts.first.to_i * price, precision: 0)
+    end
   end
 
   def collection_text(text, price: nil, details: nil)
@@ -97,16 +118,29 @@ module MembersHelper
     end
   end
 
-  def deliveries_count(count)
-    "#{count}&nbsp;#{Delivery.model_name.human(count: count)}".downcase
+  def deliveries_count(counts)
+    case counts
+    when Array
+      if counts.many?
+        "#{counts.min}-#{counts.max}&nbsp;#{Delivery.model_name.human(count: counts.max)}".downcase
+      else
+        count = counts.first.to_i
+        "#{count}&nbsp;#{Delivery.model_name.human(count: count)}".downcase
+      end
+    when Integer
+      "#{counts}&nbsp;#{Delivery.model_name.human(count: counts)}".downcase
+    end
   end
 
   def activities_count(count)
+    return unless Current.acp.feature?('activity')
+
     t_activity('helpers.activities_count_per_year', count: count).gsub(/\s/, '&nbsp;')
   end
 
   def acp_shares_number(number)
     return unless number
+
     t('helpers.acp_shares_number', count: number)
   end
 end

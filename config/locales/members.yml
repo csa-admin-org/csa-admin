@@ -187,8 +187,12 @@ _:
           _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
         membership_trial_text:
-          _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
-          _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+          one:
+            _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
+            _fr: La première livraison est à l'essai et sans engagement.
+          other:
+            _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
+            _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
         more_info:
           _de: Zusatzinformationen
           _fr: Infos complémentaires
