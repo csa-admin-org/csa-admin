@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 describe Basket do
-  it 'sets prices on creation' do
-    basket = create(:basket,
+  it 'sets prices before validation' do
+    basket = build(:basket,
       basket_size: create(:basket_size, price: 30),
       depot: create(:depot, price: 5))
+    basket.validate
 
     expect(basket.basket_price).to eq 30
     expect(basket.depot_price).to eq 5
@@ -34,8 +35,19 @@ describe Basket do
     expect(basket.errors[:delivery]).to be_present
   end
 
+  it 'validates delivery is in membership date range' do
+    delivery1 = create(:delivery, date: Date.today)
+    delivery2 = create(:delivery, date: Date.yesterday)
+    depot = create(:depot, delivery_ids: [delivery1.id])
+
+    basket = build(:basket, depot: depot, delivery: delivery2)
+    basket.validate
+
+    expect(basket.errors[:depot]).to be_present
+  end
+
   it 'updates basket complement_prices when created' do
-    basket = create(:basket)
+    basket = create(:membership).baskets.first
     create(:basket_complement, id: 42, price: 3.2)
 
     expect {
@@ -44,7 +56,7 @@ describe Basket do
   end
 
   it 'removes basket complement_prices when destroyed' do
-    basket = create(:basket)
+    basket = create(:membership).baskets.first
     create(:basket_complement, id: 42, price: 3.2)
     create(:basket_complement, id: 47, price: 4.5)
     basket.update!(complement_ids: [47, 42])

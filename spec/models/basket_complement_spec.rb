@@ -1,25 +1,21 @@
 require 'rails_helper'
 
 describe BasketComplement do
-  require 'rails_helper'
+  describe '#deliveries_count' do
+    it 'counts future deliveries when exits' do
+      basket_complement = create(:basket_complement)
 
-  describe BasketSize do
-    describe '#deliveries_count' do
-      it 'counts future deliveries when exits' do
-        basket_complement = create(:basket_complement)
+      create(:delivery, basket_complement_ids: [basket_complement.id])
+      create(:delivery, basket_complement_ids: [basket_complement.id])
 
-        create(:delivery, basket_complement_ids: [basket_complement.id])
-        create(:delivery, basket_complement_ids: [basket_complement.id])
+      expect(basket_complement.deliveries_count).to eq 2
 
-        expect(basket_complement.deliveries_count).to eq 2
+      create(:delivery,
+        date: 1.year.from_now,
+        basket_complement_ids: [basket_complement.id])
 
-        create(:delivery,
-          date: 1.year.from_now,
-          basket_complement_ids: [basket_complement.id])
-
-        basket_complement = BasketComplement.find(basket_complement.id)
-        expect(basket_complement.deliveries_count).to eq 1
-      end
+      basket_complement = BasketComplement.find(basket_complement.id)
+      expect(basket_complement.deliveries_count).to eq 1
     end
   end
 

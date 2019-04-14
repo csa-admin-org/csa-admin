@@ -11,6 +11,14 @@ class Depot < ActiveRecord::Base
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
   has_and_belongs_to_many :deliveries
+  has_and_belongs_to_many :current_deliveries, -> { current_year },
+    class_name: 'Delivery',
+    after_add: :add_baskets_at!,
+    after_remove: :remove_baskets_at!
+  has_and_belongs_to_many :future_deliveries, -> { future_year },
+    class_name: 'Delivery',
+    after_add: :add_baskets_at!,
+    after_remove: :remove_baskets_at!
 
   default_scope { order(:name) }
   scope :visible, -> { where(visible: true) }
@@ -33,6 +41,19 @@ class Depot < ActiveRecord::Base
   end
 
   def deliveries_count
-    Delivery.current_year.count
+    @deliveries_count ||= begin
+      future_count = future_deliveries.count
+      future_count.positive? ? future_count : current_deliveries.count
+    end
+  end
+
+  private
+
+  def add_baskets_at!(delivery)
+    delivery.add_baskets_at!(self)
+  end
+
+  def remove_baskets_at!(delivery)
+    delivery.remove_baskets_at!(self)
   end
 end

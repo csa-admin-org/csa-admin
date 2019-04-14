@@ -12,6 +12,23 @@ describe Delivery do
     expect(delivery.season).to eq 'winter'
   end
 
+  it 'bulk inserts with depots and basket_complements' do
+    create(:basket_complement, id: 1)
+    create(:depot, id: 2, deliveries_count: 0)
+
+    Delivery.create(
+      bulk_dates_starts_on: Date.parse('2018-11-05'),
+      bulk_dates_ends_on: Date.parse('2018-11-11') + 1.month,
+      bulk_dates_weeks_frequency: 2,
+      bulk_dates_wdays: [1],
+      depot_ids: [2],
+      basket_complement_ids: [1])
+
+    expect(Delivery.count).to eq 3
+    expect(Delivery.all.map(&:basket_complement_ids)).to eq [[1], [1], [1]]
+    expect(Delivery.all.map(&:depot_ids)).to eq [[2], [2], [2]]
+  end
+
   it 'adds basket_complement on subscribed baskets' do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
@@ -102,6 +119,70 @@ describe Delivery do
     basket3.reload
     expect(basket3.complement_ids).to match_array [1, 2]
     expect(basket3.complements_price).to eq 3.2 + 4.5
+  end
+
+  it 'adds baskets when a depot is added' do
+    depot = create(:depot, deliveries_count: 3)
+    delivery1 = depot.deliveries[0]
+    delivery2 = depot.deliveries[1]
+    delivery3 = depot.deliveries[2]
+    depot.update!(delivery_ids: [delivery1.id, delivery3.id])
+
+    membership1 = create(:membership, depot: depot)
+    membership2 = create(:membership, depot: depot)
+
+    expect(membership1.deliveries).to eq [delivery1, delivery3]
+    expect(membership2.deliveries).to eq membership1.deliveries
+
+    expect {
+      delivery2.update!(depot_ids: [depot.id])
+    }.to change { Basket.count }.by(2)
+
+    expect(membership1.reload.deliveries).to eq [delivery1, delivery2, delivery3]
+    expect(membership2.reload.deliveries).to eq membership1.deliveries
+
+    expect(membership1.baskets[1].delivery).to eq delivery2
+    expect(membership2.baskets[1].delivery).to eq delivery2
+  end
+
+  it 'adds baskets when a depot is added with membership already with a basket to another depot' do
+    depot1 = create(:depot, deliveries_count: 3)
+    delivery1 = depot1.deliveries[0]
+    delivery2 = depot1.deliveries[1]
+    delivery3 = depot1.deliveries[2]
+    depot1.update!(delivery_ids: [delivery1.id, delivery3.id])
+    depot2 = create(:depot, delivery_ids: [delivery2.id])
+    membership = create(:membership, depot: depot1)
+    create(:basket, membership: membership, depot: depot2, delivery: delivery2)
+
+    expect(membership.deliveries).to eq [delivery1, delivery2, delivery3]
+    expect(membership.baskets.map(&:depot)).to eq [depot1, depot2, depot1]
+
+    expect {
+      delivery2.update!(depot_ids: [depot1.id, depot2.id])
+    }.to change { Basket.count }.by(0)
+
+    expect(membership.reload.deliveries).to eq [delivery1, delivery2, delivery3]
+    expect(membership.reload.baskets.map(&:depot)).to eq [depot1, depot2, depot1]
+  end
+
+  it 'removes baskets when a depot is removed' do
+    depot = create(:depot, deliveries_count: 3)
+    delivery1 = depot.deliveries[0]
+    delivery2 = depot.deliveries[1]
+    delivery3 = depot.deliveries[2]
+    membership1 = create(:membership, depot: depot)
+    membership2 = create(:membership, depot: depot)
+
+    expect(membership1.deliveries).to eq [delivery1, delivery2, delivery3]
+    expect(membership2.deliveries).to eq membership1.deliveries
+
+    expect {
+      delivery2.update!(depot_ids: [])
+    }.to change { Basket.with_deleted.count }.by(-2)
+
+    expect(membership1.reload.deliveries).to eq [delivery1, delivery3]
+    expect(membership2.reload.deliveries).to eq membership1.deliveries
   end
 
   it 'updates all fiscal year delivery numbers' do

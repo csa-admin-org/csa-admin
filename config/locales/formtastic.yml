@@ -62,10 +62,19 @@ _:
         basket_complements:
           _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert
           _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
+        depots:
+          _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt
+          _fr: Les paniers des dépots seront automatiquement effacés ou créés en cas de changement
       depot:
+        current_deliveries:
+          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt
+          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement
         emails:
           _de: Jede Emailadresse (durch ein Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
+        future_deliveries:
+          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt
+          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement
         phones:
           _de: Durch ein Komma getrennt
           _fr: Séparés par une virgule

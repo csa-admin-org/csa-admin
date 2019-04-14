@@ -12,6 +12,7 @@ class Membership < ActiveRecord::Base
   has_one :next_basket, -> { coming }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
   has_many :depots, -> { reorder(:name) }, through: :baskets
+  has_many :deliveries, through: :baskets
   has_many :basket_complements, -> { reorder_by_name }, source: :complements, through: :baskets
   has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
   has_many :memberships_basket_complements, dependent: :destroy
@@ -219,6 +220,16 @@ class Membership < ActiveRecord::Base
       delivered_baskets_count: baskets.delivered.count)
   end
 
+  def create_basket!(delivery)
+    baskets.create!(
+      delivery: delivery,
+      basket_size_id: basket_size_id,
+      basket_price: basket_price,
+      quantity: season_quantity(delivery),
+      depot_id: depot_id,
+      depot_price: depot_price)
+  end
+
   private
 
   def set_renew
@@ -238,23 +249,19 @@ class Membership < ActiveRecord::Base
 
   def handle_started_on_change!
     if saved_change_to_attribute?(:started_on) && attribute_before_last_save(:started_on)
+      destroy_baskets!(fiscal_year.range.min...started_on)
       if attribute_before_last_save(:started_on) > started_on
-        Delivery.between(started_on...attribute_before_last_save(:started_on)).each do |delivery|
-          create_basket!(delivery)
-        end
+        create_baskets!(started_on...attribute_before_last_save(:started_on))
       end
-      baskets.between(fiscal_year.range.min...started_on).each(&:really_destroy!)
     end
   end
 
   def handle_ended_on_change!
     if saved_change_to_attribute?(:ended_on) && attribute_before_last_save(:ended_on)
+      destroy_baskets!((ended_on + 1.day)...fiscal_year.range.max)
       if attribute_before_last_save(:ended_on) < ended_on
-        Delivery.between((attribute_before_last_save(:ended_on) + 1.day)..ended_on).each do |delivery|
-          create_basket!(delivery)
-        end
+        create_baskets!((attribute_before_last_save(:ended_on) + 1.day)..ended_on)
       end
-      baskets.between((ended_on + 1.day)...fiscal_year.range.max).each(&:really_destroy!)
     end
   end
 
@@ -265,9 +272,9 @@ class Membership < ActiveRecord::Base
       seasons
     ]
     if (saved_changes.keys & tracked_attributes).any? || memberships_basket_complements_changed?
-      deliveries = baskets.between(Time.current..ended_on).includes(:delivery).map(&:delivery)
-      baskets.where(delivery_id: deliveries.map(&:id)).each(&:really_destroy!)
-      deliveries.each { |delivery| create_basket!(delivery) }
+      range = [Time.current, started_on].max..ended_on
+      destroy_baskets!(range)
+      create_baskets!(range)
     end
   end
 
@@ -277,20 +284,14 @@ class Membership < ActiveRecord::Base
         memberships_basket_complements.map(&:attributes)
   end
 
-  def create_baskets!
-    Delivery.between(date_range).each do |delivery|
+  def create_baskets!(range = date_range)
+    reload_depot.deliveries.between(range).each do |delivery|
       create_basket!(delivery)
     end
   end
 
-  def create_basket!(delivery)
-    baskets.create!(
-      delivery: delivery,
-      basket_size_id: basket_size_id,
-      basket_price: basket_price,
-      quantity: season_quantity(delivery),
-      depot_id: depot_id,
-      depot_price: depot_price)
+  def destroy_baskets!(range)
+    baskets.between(range).find_each(&:really_destroy!)
   end
 
   def clear_member_waiting_info!
@@ -333,7 +334,7 @@ class Membership < ActiveRecord::Base
   end
 
   def at_least_one_basket
-    if date_range && Delivery.between(date_range).none?
+    if date_range && depot && depot.deliveries.between(date_range).none?
       errors.add(:started_on, :invalid)
       errors.add(:ended_on, :invalid)
     end

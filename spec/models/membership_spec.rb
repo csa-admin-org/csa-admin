@@ -66,13 +66,13 @@ describe Membership do
 
   it 'creates baskets on creation' do
     basket_size = create(:basket_size)
-    depot = create(:depot)
+    depot = create(:depot, deliveries_count: 42)
 
     membership = create(:membership,
       basket_size_id: basket_size.id,
       depot_id: depot.id)
 
-    expect(membership.baskets.count).to eq(40)
+    expect(membership.baskets.count).to eq(42)
     expect(membership.baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
     expect(membership.baskets.pluck(:depot_id).uniq).to eq [depot.id]
   end
@@ -160,15 +160,47 @@ describe Membership do
         depot_id: new_depot.id)
     end
 
+    first_half_baskets = membership.baskets.between(beginning_of_year..middle_of_year)
+    second_half_baskets = membership.baskets.between(middle_of_year..end_of_year)
+
     expect(membership.baskets_count).to eq(40)
-    expect(membership.baskets.between(beginning_of_year..middle_of_year).pluck(:basket_size_id).uniq)
-      .to eq [basket_size.id]
-    expect(membership.baskets.between(middle_of_year..end_of_year).pluck(:basket_size_id).uniq)
-      .to eq [new_basket_size.id]
-    expect(membership.baskets.between(beginning_of_year..middle_of_year).pluck(:depot_id).uniq)
-      .to eq [depot.id]
-    expect(membership.baskets.between(middle_of_year..end_of_year).pluck(:depot_id).uniq)
-      .to eq [new_depot.id]
+    expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
+    expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [new_basket_size.id]
+    expect(first_half_baskets.pluck(:depot_id).uniq).to eq [depot.id]
+    expect(second_half_baskets.pluck(:depot_id).uniq).to eq [new_depot.id]
+  end
+
+  it 're-creates future baskets/depot (with custom deliveries on depot)' do
+    membership = create(:membership)
+    basket_size = membership.basket_size
+    depot = membership.depot
+    new_basket_size = create(:basket_size)
+
+    expect(membership.baskets_count).to eq(40)
+    beginning_of_year = Time.current.beginning_of_year
+    middle_of_year = Time.current.beginning_of_year + 6.months
+    end_of_year = Time.current.end_of_year
+
+    coming_deliveries = depot.deliveries.coming.last(5)
+    new_depot = create(:depot, delivery_ids: coming_deliveries.map(&:id))
+
+    Timecop.travel(middle_of_year) do
+      membership.update!(
+        basket_size_id: new_basket_size.id,
+        depot_id: new_depot.id)
+    end
+
+    first_half_baskets = membership.baskets.between(beginning_of_year..middle_of_year)
+    second_half_baskets = membership.baskets.between(middle_of_year..end_of_year)
+
+    expect(membership.baskets_count).to eq(30)
+    expect(first_half_baskets.count).to eq(25)
+    expect(second_half_baskets.count).to eq(5)
+
+    expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
+    expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [new_basket_size.id]
+    expect(first_half_baskets.pluck(:depot_id).uniq).to eq [depot.id]
+    expect(second_half_baskets.pluck(:depot_id).uniq).to eq [new_depot.id]
   end
 
   specify 'with standard basket_size' do
@@ -382,16 +414,19 @@ describe Membership do
     Timecop.freeze('2017-06-01') do
       create(:basket_complement, id: 1, price: 3.2)
       create(:basket_complement, id: 2, price: 4.5)
-      membership = create(:membership)
-      delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
-      delivery_2 = create(:delivery, basket_complement_ids: [2], date: '2017-07-01')
-      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
-      delivery_4 = create(:delivery, basket_complement_ids: [1], date: '2017-08-02')
+      depot = create(:depot, id: 1, deliveries_count: 0)
 
-      basket1 = create(:basket, membership: membership, delivery: delivery_1)
-      basket2 = create(:basket, membership: membership, delivery: delivery_2)
-      basket3 = create(:basket, membership: membership, delivery: delivery_3)
-      basket4 = create(:basket, membership: membership, delivery: delivery_4)
+      delivery_1 = create(:delivery, depot_ids: [1], basket_complement_ids: [1], date: '2017-03-01')
+      delivery_2 = create(:delivery, depot_ids: [1], basket_complement_ids: [2], date: '2017-07-01')
+      delivery_3 = create(:delivery, depot_ids: [1], basket_complement_ids: [1, 2], date: '2017-08-01')
+      delivery_4 = create(:delivery, depot_ids: [1], basket_complement_ids: [1], date: '2017-08-02')
+
+      membership = create(:membership, depot: depot)
+
+      basket1 = membership.baskets.find_by(delivery: delivery_1)
+      basket2 = membership.baskets.find_by(delivery: delivery_2)
+      basket3 = membership.baskets.find_by(delivery: delivery_3)
+      basket4 = membership.baskets.find_by(delivery: delivery_4)
       basket4.update!(complement_ids: [1, 2])
 
       membership.reload # reset subscribed_basket_complements
@@ -423,16 +458,19 @@ describe Membership do
     Timecop.freeze('2017-06-01') do
       create(:basket_complement, :annual_price_type, id: 1)
       create(:basket_complement, id: 2, price: 4.5)
-      membership = create(:membership)
-      delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
-      delivery_2 = create(:delivery, basket_complement_ids: [2], date: '2017-07-01')
-      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
-      delivery_4 = create(:delivery, basket_complement_ids: [1], date: '2017-08-02')
+      depot = create(:depot, id: 1, deliveries_count: 0)
 
-      basket1 = create(:basket, membership: membership, delivery: delivery_1)
-      basket2 = create(:basket, membership: membership, delivery: delivery_2)
-      basket3 = create(:basket, membership: membership, delivery: delivery_3)
-      basket4 = create(:basket, membership: membership, delivery: delivery_4)
+      delivery_1 = create(:delivery, depot_ids: [1], basket_complement_ids: [1], date: '2017-03-01')
+      delivery_2 = create(:delivery, depot_ids: [1], basket_complement_ids: [2], date: '2017-07-01')
+      delivery_3 = create(:delivery, depot_ids: [1], basket_complement_ids: [1, 2], date: '2017-08-01')
+      delivery_4 = create(:delivery, depot_ids: [1], basket_complement_ids: [1], date: '2017-08-02')
+
+      membership = create(:membership, depot: depot)
+
+      basket1 = membership.baskets.find_by(delivery: delivery_1)
+      basket2 = membership.baskets.find_by(delivery: delivery_2)
+      basket3 = membership.baskets.find_by(delivery: delivery_3)
+      basket4 = membership.baskets.find_by(delivery: delivery_4)
       basket4.update!(complement_ids: [1, 2])
 
       membership.reload # reset subscribed_basket_complements
@@ -464,20 +502,25 @@ describe Membership do
     Timecop.freeze('2017-06-01') do
       create(:basket_complement, id: 1, price: 3.2)
       create(:basket_complement, id: 2, price: 4.5)
+      depot = create(:depot, id: 1, deliveries_count: 0)
 
-      membership = create(:membership, memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: '', quantity: 1 },
-        '1' => { basket_complement_id: 2, price: '', quantity: 1 }
-      })
-      delivery_1 = create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
-      delivery_2 = create(:delivery, basket_complement_ids: [1], date: '2017-07-01')
-      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
-      delivery_4 = create(:delivery, basket_complement_ids: [2], date: '2017-08-02')
+      delivery_1 = create(:delivery, depot_ids: [1], basket_complement_ids: [1], date: '2017-03-01')
+      delivery_2 = create(:delivery, depot_ids: [1], basket_complement_ids: [1], date: '2017-07-01')
+      delivery_3 = create(:delivery, depot_ids: [1], basket_complement_ids: [1, 2], date: '2017-08-01')
+      delivery_4 = create(:delivery, depot_ids: [1], basket_complement_ids: [2], date: '2017-08-02')
 
-      basket1 = create(:basket, membership: membership, delivery: delivery_1)
-      basket2 = create(:basket, membership: membership, delivery: delivery_2)
-      basket3 = create(:basket, membership: membership, delivery: delivery_3)
-      basket4 = create(:basket, membership: membership, delivery: delivery_4)
+      membership = create(:membership, depot: depot)
+      membership = create(:membership,
+        depot: depot,
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, price: '', quantity: 1 },
+          '1' => { basket_complement_id: 2, price: '', quantity: 1 }
+        })
+
+      basket1 = membership.baskets.find_by(delivery: delivery_1)
+      basket2 = membership.baskets.find_by(delivery: delivery_2)
+      basket3 = membership.baskets.find_by(delivery: delivery_3)
+      basket4 = membership.baskets.find_by(delivery: delivery_4)
       basket4.update!(complement_ids: [1, 2])
 
       membership.reload # reset subscribed_basket_complements
@@ -520,13 +563,15 @@ describe Membership do
 
   it 'updates futures basket when subscription change' do
     Timecop.freeze('2017-06-01') do
-      delivery_1 = create(:delivery, date: '2017-03-01')
-      delivery_2 = create(:delivery, date: '2017-06-15')
-      delivery_2 = create(:delivery, date: '2017-07-05')
-      delivery_3 = create(:delivery, date: '2017-08-01')
-      delivery_3 = create(:delivery, date: '2017-09-01')
+      create(:delivery, date: '2017-03-01')
+      create(:delivery, date: '2017-06-15')
+      create(:delivery, date: '2017-07-05')
+      create(:delivery, date: '2017-08-01')
+      create(:delivery, date: '2017-09-01')
+      depot = create(:depot, delivery_ids: Delivery.pluck(:id))
 
       membership = create(:membership,
+        depot: depot,
         started_on: '2017-07-01',
         ended_on: '2017-12-01',
         basket_price: 12)
@@ -540,16 +585,18 @@ describe Membership do
   it 'updates baskets counts after commit' do
     Current.acp.update!(trial_basket_count: 3)
 
-    delivery_1 = create(:delivery, date: '2017-01-01')
-    delivery_1 = create(:delivery, date: '2017-02-01')
-    delivery_1 = create(:delivery, date: '2017-03-01')
-    delivery_1 = create(:delivery, date: '2017-04-01')
-    delivery_1 = create(:delivery, date: '2017-05-01')
-    delivery_2 = create(:delivery, date: '2017-06-01')
-    delivery_2 = create(:delivery, date: '2017-07-01')
+    create(:delivery, date: '2017-01-01')
+    create(:delivery, date: '2017-02-01')
+    create(:delivery, date: '2017-03-01')
+    create(:delivery, date: '2017-04-01')
+    create(:delivery, date: '2017-05-01')
+    create(:delivery, date: '2017-06-01')
+    create(:delivery, date: '2017-07-01')
+    depot = create(:depot, delivery_ids: Delivery.pluck(:id))
 
     Timecop.freeze('2017-02-15') do
       membership = create(:membership,
+        depot: depot,
         started_on: '2017-01-01',
         ended_on: '2017-12-01')
 

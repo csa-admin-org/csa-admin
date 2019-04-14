@@ -91,8 +91,6 @@ GEM
     bootsnap (1.4.2)
       msgpack (~> 1.0)
     builder (3.2.3)
-    bulk_insert (1.7.0)
-      activerecord (>= 3.2.0)
     bullet (5.9.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
@@ -423,7 +421,6 @@ DEPENDENCIES
   aws-sdk-s3
   bcrypt
   bootsnap
-  bulk_insert
   bullet
   camt_parser
   cancancan
