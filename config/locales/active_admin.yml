@@ -606,6 +606,9 @@ _:
           _de: Neues %{model}
           _fr: Nouvel %{model}
         scopes:
+          future:
+            _de: künftige
+            _fr: futurs
           ongoing:
             _de: laufende
             _fr: en cours
