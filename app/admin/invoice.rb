@@ -47,7 +47,8 @@ ActiveAdmin.register Invoice do
   filter :date
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
-    all = collection.limit(nil)
+    all = collection.unscope(:includes).limit(nil)
+
     if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
       div class: 'total' do
         span Membership.model_name.human(count: 2)
