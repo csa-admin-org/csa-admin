@@ -46,9 +46,9 @@ ActiveAdmin.register_page 'Dashboard' do
                 column "#{BasketSize.all.map { |bs| bs.name&.gsub(/\s/, '&nbsp;') }.join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
-              if Depot.paid.any?
-                free_depots = Depot.free
-                paid_depots = Depot.paid
+              paid_depots = next_delivery.depots.paid
+              if paid_depots.any?
+                free_depots = next_delivery.depots.free
                 free_counts = BasketCounts.new(next_delivery, free_depots.pluck(:id))
                 paid_counts = BasketCounts.new(next_delivery, paid_depots.pluck(:id))
                 totals = [
