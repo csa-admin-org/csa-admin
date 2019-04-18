@@ -51,7 +51,7 @@ describe 'Member sessions' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Votre email', with: '@foo'
+    fill_in 'Votre email', with: 'foo@bar'
     click_button 'Envoyer'
 
     expect(email_adapter.deliveries.size).to eq 0
