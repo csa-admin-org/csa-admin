@@ -29,7 +29,7 @@ module HasEmails
 
   def emails_must_be_valid
     emails_array.each do |email|
-      unless email.match?(URI::MailTo::EMAIL_REGEXP)
+      unless email.match?(/.+\@.+\..+/)
         errors.add(:emails, :invalid)
         break
       end
