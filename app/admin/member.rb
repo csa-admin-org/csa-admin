@@ -143,12 +143,24 @@ ActiveAdmin.register Member do
             end
           end
         end
+
+        panel link_to(Absence.model_name.human(count: 2), absences_path(q: { member_id_eq: member.id }, scope: :all)) do
+          absences = member.absences.order(:started_on)
+          if absences.none?
+            em t('.no_absences')
+          else
+            table_for(absences, class: 'table-absences') do
+              column(:started_on) { |a| auto_link a, l(a.started_on) }
+              column(:ended_on) { |a| auto_link a, l(a.ended_on) }
+            end
+          end
+        end
       end
 
       column do
         attributes_table do
           row(:id) {
-            txt = "#{member.id}"
+            txt = member.id.to_s
             if authorized?(:become, resource)
               txt << " – #{link_to t('.become_member'), become_member_path(resource), method: :post}"
             end

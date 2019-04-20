@@ -14,7 +14,7 @@ ActiveAdmin.register ACP do
     :fiscal_year_start_month, :annual_fee, :share_price,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
-    :vat_number, :vat_membership_rate,
+    :vat_number, :vat_membership_rate, :absences_billed,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -63,6 +63,7 @@ ActiveAdmin.register ACP do
       f.input :share_price, as: :number
       f.input :vat_number
       f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
+      f.input :absences_billed
     end
     f.inputs t('.invoice_isr') do
       f.input :ccp

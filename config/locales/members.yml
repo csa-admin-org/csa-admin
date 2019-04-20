@@ -10,7 +10,7 @@ _:
         cancel_link:
           _de: abbrechen
           _fr: annuler
-        explanation:
+        explanation_billed:
           _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
         form_title:

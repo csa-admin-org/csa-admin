@@ -114,15 +114,6 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def update_absent_baskets!
-    transaction do
-      baskets.absent.update_all(absent: false)
-      absences.each do |absence|
-        baskets.between(absence.period).update_all(absent: true)
-      end
-    end
-  end
-
   def validate!(validator)
     invalid_transition(:validate!) unless pending?
 

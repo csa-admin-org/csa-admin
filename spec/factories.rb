@@ -272,6 +272,10 @@ FactoryBot.define do
     trait :last_year do
       fiscal_year { Current.acp.fiscal_year_for(1.year.ago) }
     end
+
+    trait :next_year do
+      fiscal_year { Current.acp.fiscal_year_for(1.year.from_now) }
+    end
   end
 
   factory :payment do
