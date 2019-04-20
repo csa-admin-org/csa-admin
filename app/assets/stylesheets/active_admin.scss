@@ -120,6 +120,10 @@ table .xlsx_link {
   width: 16px;
 }
 
+.col-status .status_tag:not(:first-child) {
+  margin-top: 5px;
+}
+
 .status_tag {
   &.coming,
   &.manual,

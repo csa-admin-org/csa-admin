@@ -9,6 +9,9 @@ _:
           _de: Anfang
           _fr: Début
       acp:
+        absences_billed:
+          _de: Fakturierung von Taschen bei Abwesenheiten
+          _fr: Facturation des paniers durant les absences
         activity_availability_limit_in_days:
           _de: Anmeldefrist (in Tagen)
           _fr: Limite d'inscription à l'avance (en jours)

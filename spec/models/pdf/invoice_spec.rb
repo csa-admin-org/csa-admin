@@ -337,6 +337,58 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
+    it 'generates invoice with support amount + complements with annual price type + annual membership (no absences billed)' do
+      Current.acp.update!(absences_billed: false)
+      member = create(:member,
+        name: 'Alain Reymond',
+        address: 'Bd Plumhof 6',
+        zip: '1800',
+        city: 'Vevey')
+      create(:basket_complement, :annual_price_type,
+        id: 1,
+        name: "Les Voisins d'abord",
+        price: 200)
+      create(:basket_complement,
+        id: 2,
+        price: 7.4,
+        name: 'Tomme de Lavaux',
+        delivery_ids: Delivery.current_year.pluck(:id)[24..48])
+      membership = create(:membership,
+        member: member,
+        basket_size: create(:basket_size, name: 'Grand'),
+        depot: create(:depot, price: 0),
+        basket_price: 30.5,
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, quantity: 2 },
+          '1' => { basket_complement_id: 2 }
+        })
+
+      create(:absence,
+        member: member.reload,
+        started_on: '01.10.2019',
+        ended_on: '01.11.2019')
+      invoice = create(:invoice,
+        id: 1220,
+        member: member,
+        object: membership.reload,
+        annual_fee: 75,
+        memberships_amount_description: 'Facturation annuelle')
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .and contain_sequence('Panier: Grand 43x 30.50', "1'311.50")
+        .and contain_sequence("Les Voisins d'abord 2x 200.00", '400.00')
+        .and contain_sequence('Tomme de Lavaux 19x 7.40', '140.60')
+        .and contain_sequence('Montant annuel', "1'852.10", 'Facturation annuelle', "* 1'852.10")
+        .and contain_sequence('Cotisation annuelle association', '75.00')
+        .and contain_sequence('Total', "1'927.10")
+        .and contain_sequence("* TTC, CHF 1'850.25 HT, CHF 1.85 TVA (0.1%)")
+        .and contain_sequence('N° TVA CHE-273.220.900')
+        .and include '0100001927102>800250000000000000000012205+ 010092520>'
+      expect(pdf_strings).not_to include 'Montant annuel restant'
+    end
+
     it 'generates invoice with support ammount + four month membership + winter basket' do
       member = create(:member,
         name: 'Alain Reymond',

@@ -49,19 +49,7 @@ class InvoiceTotal
         @invoices.sum(:memberships_amount)
       when 'RemainingMembership'
         invoices_total = @invoices.sum(:memberships_amount)
-        memberships_total =
-          @memberships
-            .joins(:baskets)
-            .sum('baskets.quantity * (baskets.basket_price + baskets.depot_price)') +
-          @memberships
-            .joins(memberships_basket_complements: :basket_complement)
-            .merge(BasketComplement.annual_price_type)
-            .sum('memberships_basket_complements.quantity * memberships_basket_complements.price') +
-          @memberships
-            .joins(baskets: :baskets_basket_complements)
-            .sum('baskets_basket_complements.quantity * baskets_basket_complements.price') +
-          @memberships
-            .sum('activity_participations_annual_price_change + basket_complements_annual_price_change + baskets_annual_price_change')
+        memberships_total = @memberships.sum(:price)
         [memberships_total - invoices_total, 0].max
       when 'AnnualFee'
         @invoices.sum(:annual_fee)

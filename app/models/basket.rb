@@ -29,6 +29,11 @@ class Basket < ActiveRecord::Base
     left_outer_joins(:baskets_basket_complements)
       .where('baskets.quantity > 0 OR baskets_basket_complements.quantity > 0')
   }
+  scope :billable, -> {
+    unless Current.acp.absences_billed?
+      not_absent
+    end
+  }
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true

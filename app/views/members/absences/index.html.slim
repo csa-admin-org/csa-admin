@@ -17,7 +17,9 @@ section
 
 section
   h2 = t('.form_title')
-  p = t('.explanation')
+  - if Current.acp.absences_billed?
+    p = t('.explanation_billed')
+
   = form_for [:members, @absence] do |f|
 
     - if @absence.errors.any?

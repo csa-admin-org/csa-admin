@@ -1,6 +1,6 @@
 module MembershipsHelper
   def membership_short_period(membership)
-    [:started_on, :ended_on].map { |d|
+    %i[started_on ended_on].map { |d|
       I18n.l(membership.send(d), format: :number)
     }.join(' – ')
   end
@@ -44,12 +44,13 @@ module MembershipsHelper
 
   def basket_sizes_price_info(baskets)
     baskets
+      .billable
       .pluck(:quantity, :basket_price)
       .select { |_, p| p.positive? }
       .group_by { |_, p| p }
       .sort
-      .map { |price, baskets|
-        "#{baskets.sum { |q,_| q }}x#{precise_cur(price)}"
+      .map { |price, bbs|
+        "#{bbs.sum { |q, _| q }}x#{precise_cur(price)}"
       }.join(' + ')
   end
 
@@ -63,13 +64,14 @@ module MembershipsHelper
           "#{mbc.quantity}x#{precise_cur(mbc.price)}"
         } +
       membership.baskets
+        .billable
         .joins(baskets_basket_complements: :basket_complement)
         .where(basket_complements: { price_type: 'delivery' })
         .pluck('baskets_basket_complements.quantity', 'baskets_basket_complements.price')
         .group_by { |_, price| price }
         .sort
         .map { |price, bbcs|
-          "#{bbcs.sum { |q,_| q }}x#{precise_cur(price)}"
+          "#{bbcs.sum { |q, _| q }}x#{precise_cur(price)}"
         }
     ).join(' + ')
   end
@@ -82,25 +84,27 @@ module MembershipsHelper
       "#{mbc.quantity}x#{precise_cur(mbc.price)}"
     else
       membership.baskets
+        .billable
         .joins(baskets_basket_complements: :basket_complement)
         .where(baskets_basket_complements: { basket_complement: basket_complement })
         .pluck('baskets_basket_complements.quantity', 'baskets_basket_complements.price')
         .group_by { |_, price| price }
         .sort
         .map { |price, bbcs|
-          "#{bbcs.sum { |q,_| q }}x#{precise_cur(price)}"
+          "#{bbcs.sum { |q, _| q }}x#{precise_cur(price)}"
         }.join(' + ')
     end
   end
 
   def depots_price_info(baskets)
     baskets
+      .billable
       .pluck(:quantity, :depot_price)
       .select { |_, p| p.positive? }
       .group_by { |_, p| p }
       .sort
-      .map { |price, baskets|
-        "#{baskets.sum { |q,_| q }}x#{precise_cur(price)}"
+      .map { |price, bbs|
+        "#{bbs.sum { |q, _| q }}x#{precise_cur(price)}"
       }.join(' + ')
   end
 

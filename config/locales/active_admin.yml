@@ -417,6 +417,9 @@ _:
         new_payment:
           _de: Neue Einzahlung
           _fr: Nouveau paiement
+        no_absences:
+          _de: Keine Abwesenheit
+          _fr: Aucune absence
         no_activities/basket_preparation:
           _de: Keine taschen befüllung
           _fr: Aucune mise en panier

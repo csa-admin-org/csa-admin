@@ -11,7 +11,7 @@ class Absence < ActiveRecord::Base
   }, unless: :admin
   validate :good_period_range
 
-  after_commit :update_absent_baskets!
+  after_commit :update_memberships!
   after_create_commit :notify_new_absence_to_admins
 
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -46,8 +46,15 @@ class Absence < ActiveRecord::Base
     end
   end
 
-  def update_absent_baskets!
-    member.update_absent_baskets!
+  def update_memberships!
+    member
+      .memberships
+      .where('(started_on <= ? AND ended_on >= ?) OR (started_on <= ? AND ended_on >= ?)',
+        started_on,
+        started_on,
+        ended_on,
+        ended_on)
+      .find_each(&:update_absent_baskets!)
   end
 
   def notify_new_absence_to_admins

@@ -19,8 +19,17 @@ describe 'Absences' do
     click_button 'Envoyer'
 
     expect(page).to have_content('Merci de nous avoir prévenus!')
+    expect(page).to have_content('Ces paniers ne sont pas remboursés')
     expect(page).to have_content "#{I18n.l(2.weeks.from_now.to_date)} – #{I18n.l(3.weeks.from_now.to_date)}"
     expect(member.absences.last.session_id).to eq(member.sessions.last.id)
+  end
+
+  it 'does not show explanation when absences are not billed' do
+    current_acp.update!(absences_billed: false)
+
+    visit '/absences'
+
+    expect(page).not_to have_content('Ces paniers ne sont pas remboursés')
   end
 
   it 'lists previous absences' do

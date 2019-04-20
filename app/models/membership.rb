@@ -133,6 +133,7 @@ class Membership < ActiveRecord::Base
   def basket_size_total_price(basket_size_id)
     rounded_price(
       baskets
+        .billable
         .where(basket_size_id: basket_size_id)
         .sum('quantity * basket_price'))
   end
@@ -150,6 +151,7 @@ class Membership < ActiveRecord::Base
     else
       rounded_price(
         baskets
+          .billable
           .joins(:baskets_basket_complements)
           .where(baskets_basket_complements: { basket_complement: basket_complement })
           .sum('baskets_basket_complements.quantity * baskets_basket_complements.price'))
@@ -163,6 +165,7 @@ class Membership < ActiveRecord::Base
   def depot_total_price(depot_id)
     rounded_price(
       baskets
+        .billable
         .where(depot_id: depot_id)
         .sum('quantity * depot_price'))
   end
@@ -228,6 +231,16 @@ class Membership < ActiveRecord::Base
       quantity: season_quantity(delivery),
       depot_id: depot_id,
       depot_price: depot_price)
+  end
+
+  def update_absent_baskets!
+    transaction do
+      baskets.absent.update_all(absent: false)
+      member.absences.each do |absence|
+        baskets.between(absence.period).update_all(absent: true)
+      end
+      update_price_and_invoices_amount!
+    end
   end
 
   private
@@ -305,7 +318,6 @@ class Membership < ActiveRecord::Base
   def update_member_and_baskets!
     member.reload
     member.update_trial_baskets!
-    member.update_absent_baskets!
     member.review_active_state!
     update_baskets_counts!
   end
