@@ -35,7 +35,7 @@ gem 'slim'
 gem 'turbolinks'
 
 gem 'jbuilder'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'uglifier'
 gem 'webpacker', '~> 3.5'
 
