@@ -45,7 +45,7 @@ $(function() {
 
   $('input[type="time"]').timepicker({
     timeFormat: 'HH:mm',
-    interval: 30,
+    interval: 15,
     minTime: '6:00',
     maxTime: '23:30',
     dynamic: false,
