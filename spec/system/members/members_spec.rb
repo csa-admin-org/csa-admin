@@ -165,6 +165,33 @@ describe 'members page' do
       expect(page).not_to have_content 'Facturation'
       expect(page).not_to have_selector '#member_billing_year_division_input'
     end
+
+    it 'notifies spam detection' do
+      Current.acp.update!(
+        languages: %w[fr de],
+        terms_of_service_url: nil,
+        annual_fee: 42)
+      DeliveriesHelper.create_deliveries(40)
+
+      visit '/new'
+
+      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation anuelle de CHF 42 en plus de l'abonnement à son panier."
+
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'Р РѕСЃСЃРёСЏ'
+      fill_in 'Adresse', with: 'Р РѕСЃСЃРёСЏ'
+      fill_in 'NPA', with: '999999'
+      fill_in 'Ville', with: 'Р РѕСЃСЃРёСЏ'
+
+      fill_in 'Email(s)', with: 'john@doe.com'
+
+      choose 'Aucun, devenir membre de soutien'
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      expect(Member.last).to be_nil
+    end
   end
 
   context 'existing member token' do

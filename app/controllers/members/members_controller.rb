@@ -23,7 +23,10 @@ class Members::MembersController < Members::BaseController
     @member.language = I18n.locale
     @member.public_create = true
 
-    if @member.save
+    if SpamDetector.spam?(@member)
+      SpamDetector.notify!(@member)
+      redirect_to welcome_members_member_path
+    elsif @member.save
       redirect_to welcome_members_member_path
     else
       render :new
