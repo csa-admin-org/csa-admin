@@ -23,7 +23,7 @@ const handleDateInput = () => {
 };
 
 const flatpickrLocale = () => {
-  const locale = document.getElementById('body').getAttribute('data-locale');
+  const locale = document.documentElement.lang;
   return locale === 'fr' ? French : German;
 };
 

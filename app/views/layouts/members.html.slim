@@ -1,5 +1,5 @@
 doctype html
-html
+html lang=I18n.locale
   head
     title = [Current.acp.name, t('.title')].join(' – ')
     = javascript_pack_tag 'members', data: { turbolinks_track: 'reload' }
@@ -8,7 +8,7 @@ html
     meta charset="UTF-8"
     meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
 
-  body#body data-locale=I18n.locale
+  body
     #body-wrapper
       = render 'layouts/members/header'
       = render 'layouts/flashes'
@@ -53,4 +53,4 @@ html
       - if Current.acp.languages.many?
         ul.locales
           - Current.acp.languages.each do |locale|
-            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: 'Turbolinks.clearCache()'
+            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }

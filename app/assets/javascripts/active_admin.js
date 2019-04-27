@@ -4,7 +4,7 @@
 //= require jquery.timepicker
 
 $(function() {
-  var locale = $('body').data('locale');
+  var locale = document.documentElement.lang
   if (locale === 'fr') {
     $.datepicker.setDefaults($.datepicker.regional['fr-CH']);
   } else {
