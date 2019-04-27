@@ -6,7 +6,7 @@ ActiveAdmin.register Absence do
   scope :current
   scope :future
 
-  includes :member
+  includes :member, :session
   index do
     column :member, ->(absence) {
       link_with_session absence.member, absence.session
