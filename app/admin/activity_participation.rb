@@ -9,7 +9,7 @@ ActiveAdmin.register ActivityParticipation do
   scope :validated
   scope :rejected
 
-  includes :member, :activity
+  includes :member, :activity, :session
   index do
     selectable_column
     column :member, ->(ap) {
