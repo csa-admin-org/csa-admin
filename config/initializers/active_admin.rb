@@ -290,6 +290,13 @@ ActiveAdmin.setup do |config|
   # config.include_default_association_filters = true
   config.current_filters = false
 
+  # == Head
+  #
+  # You can add your own content to the site head like analytics. Make sure
+  # you only pass content you trust.
+  #
+  # config.head = ''.html_safe
+
   # == Footer
   #
   # By default, the footer shows the current Active Admin version. You can
@@ -338,28 +345,5 @@ ActiveAdmin::BaseController.class_eval do
     redirect_back(
       fallback_location: root_path,
       alert: t('active_admin.flash.invalid_foreign_key_alert'))
-  end
-end
-
-# Set locale data attribute on body HTML tag.
-SanePatch.patch('activeadmin', '1.4.3') do
-  module ActiveAdmin
-    module Views
-      module Pages
-        class Base < Arbre::HTML::Document
-          def build_page
-            within body(class: body_classes, 'data-locale' => I18n.locale) do
-              div id: "wrapper" do
-                build_unsupported_browser
-                header active_admin_namespace, current_menu
-                title_bar title, action_items_for_action
-                build_page_content
-                footer active_admin_namespace
-              end
-            end
-          end
-        end
-      end
-    end
   end
 end
