@@ -213,7 +213,7 @@ ActiveAdmin.register Invoice do
         f.inputs do
           f.has_many :items, new_record: t('.has_many_new_invoice_item') do |ff|
             ff.input :description
-            ff.input :amount
+            ff.input :amount, as: :number, step: 0.05
           end
         end
       end
