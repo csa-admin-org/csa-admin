@@ -73,6 +73,7 @@ ActiveAdmin.register Payment do
       end
       f.input :date, as: :datepicker, prompt: true
       f.input :amount, as: :number,
+        step: 0.05,
         input_html: { value: number_with_precision(f.object.amount, precision: 2) }
       unless f.object.persisted?
         f.input :comment, as: :text
