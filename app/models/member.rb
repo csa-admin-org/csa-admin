@@ -195,11 +195,11 @@ class Member < ActiveRecord::Base
   end
 
   def invoices_amount
-    invoices.not_canceled.sum(:amount)
+    @invoices_amount ||= invoices.not_canceled.sum(:amount)
   end
 
   def payments_amount
-    payments.sum(:amount)
+    @payments_amount ||= payments.sum(:amount)
   end
 
   def balance_amount

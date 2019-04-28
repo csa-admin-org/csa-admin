@@ -69,6 +69,9 @@ ActiveAdmin.register Member do
     column(:note)
     column(:validated_at)
     column(:created_at)
+    column(:invoices_amount) { |m| number_to_currency m.invoices_amount }
+    column(:payments_amount) { |m| number_to_currency m.payments_amount }
+    column(:balance_amount) { |m| number_to_currency m.balance_amount }
   end
 
   show do |member|
@@ -214,7 +217,7 @@ ActiveAdmin.register Member do
           end
           row(:invoices_amount) { number_to_currency member.invoices_amount }
           row(:payments_amount) { number_to_currency member.payments_amount }
-          row(:balance_amount) { number_to_currency(member.balance_amount) }
+          row(:balance_amount) { number_to_currency member.balance_amount }
         end
         attributes_table title: t('.notes') do
           row :profession
