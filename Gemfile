@@ -83,6 +83,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+  gem 'rubocop-performance'
   gem 'rubocop-rspec'
 end
 
