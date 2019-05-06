@@ -72,9 +72,7 @@ ActiveAdmin.register Payment do
         f.input :invoice, collection: f.object.member.invoices, include_blank: true
       end
       f.input :date, as: :datepicker, prompt: true
-      f.input :amount, as: :number,
-        step: 0.05,
-        input_html: { value: number_with_precision(f.object.amount, precision: 2) }
+      f.input :amount, as: :number, step: 0.05, min: -99999.95, max: 99999.95
       unless f.object.persisted?
         f.input :comment, as: :text
       end
