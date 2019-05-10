@@ -30,11 +30,17 @@ class Newsletter::MailChimp
   end
 
   def remove_deleted_members(members)
-    member_hash_ids =
-      members.select(:emails).flat_map(&:emails_array).map { |e| hash_id(e) }
-    hash_ids_to_delete = get_hash_ids - member_hash_ids
+    hash_ids_and_emails = members.select(:emails).flat_map(&:emails_array).map { |e|
+      [hash_id(e), e]
+    }.to_h
+    mailchimp_hash_ids_and_emails = get_hash_ids_and_emails
+    hash_ids_to_delete = mailchimp_hash_ids_and_emails.keys - hash_ids_and_emails.keys
     hash_ids_to_delete.each do |hash_id|
       client.lists(@list_id).members(hash_id).delete
+    rescue Gibbon::MailChimpError => e
+      ExceptionNotifier.notify(e,
+        email: mailchimp_hash_ids_and_emails[hash_id],
+        hash_id: hash_id)
     end
   end
 
@@ -90,14 +96,15 @@ class Newsletter::MailChimp
   end
 
   def hash_ids
-    @hash_ids ||= get_hash_ids
+    @hash_ids ||= get_hash_ids_and_emails.keys
   end
 
-  def get_hash_ids(status: nil)
-    params = { fields: 'members.id', count: 2000 }
+  def get_hash_ids_and_emails(status: nil)
+    params = { fields: 'members.email_address,members.id', count: 2000 }
     params[:status] = status if status
-    client.lists(@list_id).members.retrieve(params: params)
-      .body[:members].map { |m| m[:id] }
+    client.lists(@list_id).members.retrieve(params: params).body[:members].map { |m|
+      [m[:id], m[:email_address]]
+    }.to_h
   end
 
   def member_merge_fields(member)

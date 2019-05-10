@@ -6,5 +6,7 @@ module Newsletter
     mailchimp.upsert_merge_fields
     mailchimp.upsert_members(Member.all)
     mailchimp.remove_deleted_members(Member.all)
+  rescue Gibbon::MailChimpError => e
+    ExceptionNotifier.notify(e)
   end
 end
