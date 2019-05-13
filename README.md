@@ -1,3 +1,5 @@
+![ACP Admin logo](https://acp-admin.ch/images/logo-ac7d72c5.png)
+
 # ACP Admin
 
 Cette application Ruby on Rails permet l'administration d'ACP (Agriculture Contractuelle de Proximité).
@@ -26,6 +28,6 @@ D'autres fonctionalités peuvent être ajoutées au besoin.
 
 ## Développement et support
 
-* Thibaud Guillaume-Gentil (thibaud@thibaud.gg)
+* Thibaud Guillaume-Gentil ([thibaud@thibaud.gg](mailto:thibaud@thibaud.gg))
 
 N'hésitez pas à me contacter pour une démo ou plus d'informations.
