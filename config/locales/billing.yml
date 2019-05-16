@@ -6,15 +6,18 @@ _:
     adjustments:
       _de: Anpassungen
       _fr: Ajustements
-    amount:
-      _de: In Rechnung gestellt
-      _fr: Facturé
     annual_fees:
       _de: Beiträge
       _fr: Cotisations
     balance_without_overbalance:
       _de: Eingezahlt
       _fr: Payé
+    isr:
+      _de: ESR
+      _fr: BVR
+    manual:
+      _de: Manuell
+      _fr: Manuel
     membership_amount_description:
       x1:
         _de: Jährliche Rechnungsstellung
@@ -52,6 +55,9 @@ _:
     overbalance:
       _de: Zu viel bezahlt (für nächstes Jahr)
       _fr: Paiements en trop (pour année suivante)
+    refund:
+      _de: Erstattung
+      _fr: Remboursement
     remaining_memberships:
       _de: Noch zu fakturierende Abonnements
       _fr: Abonnements restant à facturer
