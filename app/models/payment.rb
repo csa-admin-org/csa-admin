@@ -12,6 +12,7 @@ class Payment < ActiveRecord::Base
 
   scope :isr, -> { where.not(isr_data: nil) }
   scope :manual, -> { where(isr_data: nil) }
+  scope :refund, -> { where('amount < 0') }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true

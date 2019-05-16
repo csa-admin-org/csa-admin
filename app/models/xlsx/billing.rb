@@ -58,16 +58,17 @@ module XLSX
       add_empty_line
       add_empty_line
 
-      add_line("#{t('amount')}: #{Membership.model_name.human(count: 2)}", @invoices.sum(:memberships_amount))
+      t_invoice = Invoice.model_name.human(count: 2)
+      add_line("#{t_invoice}: #{Membership.model_name.human(count: 2)}", @invoices.sum(:memberships_amount))
       if Current.acp.annual_fee
-        add_line("#{t('amount')}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.acp.annual_fee)
+        add_line("#{t_invoice}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.acp.annual_fee)
       end
       if Current.acp.share?
-        add_line("#{t('amount')}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.acp.share_price)
+        add_line("#{t_invoice}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.acp.share_price)
       end
-      add_line("#{t('amount')}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
-      add_line("#{t('amount')}: #{t('other')}", @invoices.other_type.sum(:amount))
-      add_line(t('amount'), invoices_total(:amount))
+      add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
+      add_line("#{t_invoice}: #{t('other')}", @invoices.other_type.sum(:amount))
+      add_line(t_invoice, invoices_total(:amount))
 
       if Current.acp.vat_membership_rate?
         add_empty_line
@@ -81,9 +82,11 @@ module XLSX
       add_empty_line
       add_empty_line
 
-      add_line(Payment.model_name.human(count: 2), @payments.sum(:amount))
-      add_line(t('missing_amounts'), invoices_total(:missing_amount))
-      add_line(t('overbalance'), invoices_total(:overbalance))
+      t_payment = Payment.model_name.human(count: 2)
+      add_line("#{t_payment}: #{t('isr')}", @payments.isr.sum(:amount))
+      add_line("#{t_payment}: #{t('manual')}", @payments.manual.sum(:amount))
+      add_line("#{t_payment}: #{t('refund')}", @payments.refund.sum(:amount))
+      add_line(t_payment, @payments.sum(:amount))
 
       worksheet.change_column_width(0, 35)
       worksheet.change_column_width(1, 12)
