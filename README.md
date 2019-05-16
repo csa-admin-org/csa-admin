@@ -1,6 +1,6 @@
-![ACP Admin logo](https://acp-admin.ch/images/logo-ac7d72c5.png)
+[![ACP Admin logo](https://acp-admin.ch/images/logo-ac7d72c5.png)](https://acp-admin.ch)
 
-# ACP Admin
+# [ACP Admin](https://acp-admin.ch)
 
 Cette application Ruby on Rails permet l'administration d'ACP (Agriculture Contractuelle de Proximité).
 
