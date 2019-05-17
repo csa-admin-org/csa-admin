@@ -81,6 +81,9 @@ _:
     description:
       _de: Beschreibung
       _fr: Description
+    during_year:
+      _de: Geschäftsjahr
+      _fr: Année fiscale
     email:
       _de: Email
       _fr: Email

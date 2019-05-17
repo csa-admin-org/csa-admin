@@ -79,7 +79,7 @@ class Payment < ActiveRecord::Base
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[invoice_id_eq]
+    super + %i[invoice_id_eq]
   end
 
   def can_destroy?

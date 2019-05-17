@@ -22,4 +22,10 @@ module HasFiscalYearScopes
   def current_year?
     fy_year == Current.fy_year
   end
+
+  class_methods do
+    def ransackable_scopes(_auth_object = nil)
+      super + %i[during_year]
+    end
+  end
 end

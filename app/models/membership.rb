@@ -68,6 +68,10 @@ class Membership < ActiveRecord::Base
     where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
   }
 
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[during_year]
+  end
+
   def trial?
     remaning_trial_baskets_count.positive?
   end

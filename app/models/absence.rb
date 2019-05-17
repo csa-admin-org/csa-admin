@@ -21,6 +21,10 @@ class Absence < ActiveRecord::Base
   scope :including_date, ->(date) {
     where('started_on <= ? AND ended_on >= ?', date, date)
   }
+  scope :during_year, ->(year) {
+    fy = Current.acp.fiscal_year_for(year)
+    where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
+  }
 
   def self.min_started_on
     Date.today.next_week
@@ -35,7 +39,7 @@ class Absence < ActiveRecord::Base
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i(including_date)
+    super + %i[including_date during_year]
   end
 
   private

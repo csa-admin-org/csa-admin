@@ -7,8 +7,8 @@ class FiscalYear
     case date_or_year
     when Date, DateTime, ActiveSupport::TimeWithZone
       new(date_or_year, start_month: start_month)
-    when Integer
-      new(Date.new(date_or_year, start_month), start_month: start_month)
+    when String, Integer
+      new(Date.new(date_or_year.to_i, start_month), start_month: start_month)
     when FiscalYear then date_or_year
     else
       raise ArgumentError, 'invalid date or year'

@@ -39,6 +39,9 @@ ActiveAdmin.register Payment do
   filter :invoice_id, as: :numeric
   filter :amount
   filter :date
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).limit(nil)

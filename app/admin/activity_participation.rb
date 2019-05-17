@@ -45,6 +45,9 @@ ActiveAdmin.register ActivityParticipation do
     as: :select,
     collection: -> { Activity.order(:date, :start_time) }
   filter :activity_date, label: -> { Activity.human_attribute_name(:date) }, as: :date_range
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   sidebar :icalendar, if: -> { Current.acp.ical_feed? }, only: :index do
     div do
