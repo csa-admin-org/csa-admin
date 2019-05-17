@@ -8,7 +8,7 @@ ActiveAdmin.register Invoice do
   scope :closed
   scope :canceled
 
-  includes pdf_file_attachment: :blob, member: :last_membership
+  includes :payments, pdf_file_attachment: :blob, member: :last_membership
   index do
     column :id, ->(i) { auto_link i, i.id }
     column :date, ->(i) { l i.date, format: :number }
