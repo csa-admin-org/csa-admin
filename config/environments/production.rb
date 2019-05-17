@@ -5,7 +5,7 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     ignore_exceptions: %w[ActionController::InvalidAuthenticityToken] + ExceptionNotifier.ignored_exceptions,
     email: {
-      email_prefix: '[ACP-Admin ERROR] ',
+      email_prefix: '[ACP Admin ERROR] ',
       sender_address: %{"Error Notifier" <acp-admin@thibaud.gg>},
       exception_recipients: %w[thibaud@thibaud.gg],
       delivery_method: :smtp

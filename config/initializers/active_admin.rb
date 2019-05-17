@@ -302,7 +302,7 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-  # config.footer = 'my custom footer text'
+  config.footer = "<a href='https://acp-admin.ch'>ACP Admin</a>".html_safe
 
   # == Sorting
   #

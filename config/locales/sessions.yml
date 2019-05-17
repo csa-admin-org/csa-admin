@@ -33,5 +33,5 @@ _:
         _de: Senden
         _fr: Envoyer
       title:
-        _de: "%{acp} – ACP-Admin-Anmeldung"
-        _fr: "%{acp} – Connexion ACP-Admin"
+        _de: "%{acp} – Admin-Anmeldung"
+        _fr: "%{acp} – Connexion Admin"
