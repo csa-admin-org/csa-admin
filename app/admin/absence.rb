@@ -23,6 +23,9 @@ ActiveAdmin.register Absence do
     as: :select,
     collection: -> { Delivery.all.map { |d| [d.display_name, d.date] } },
     label: -> { Delivery.model_name.human }
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   show do |absence|
     attributes_table do

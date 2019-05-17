@@ -1,17 +1,20 @@
 ActiveAdmin.register Delivery do
   menu parent: :other, priority: 10
 
-  scope :past_year
-  scope :current_year, default: true
-  scope :future_year
+  scope :all
+  scope :coming, default: true
+  scope :past
 
-  filter :date
   filter :depots, as: :select, collection: -> { Depot.all }
   filter :basket_complements,
     as: :select,
     collection: -> { BasketComplement.all },
     if: :any_basket_complements?
   filter :note, as: :string
+  filter :date
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459

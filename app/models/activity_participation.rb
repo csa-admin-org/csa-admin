@@ -41,6 +41,10 @@ class ActivityParticipation < ActiveRecord::Base
 
   after_commit :update_membership_activity_participations_accepted!
 
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[during_year]
+  end
+
   def coming?
     pending? && activity.date > Date.current
   end

@@ -3,8 +3,8 @@ ActiveAdmin.register Activity do
   actions :all, except: [:show]
 
   scope :all
-  scope :past
   scope :coming, default: true
+  scope :past
 
   includes :participations
   index do
@@ -37,6 +37,9 @@ ActiveAdmin.register Activity do
   filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).sort }
   filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).sort }
   filter :date
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   form do |f|
     render partial: 'bulk_dates', locals: { f: f, resource: resource }

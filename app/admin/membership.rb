@@ -19,6 +19,9 @@ ActiveAdmin.register Membership do
   filter :renew
   filter :started_on
   filter :ended_on
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   includes :member
 

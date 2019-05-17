@@ -35,6 +35,15 @@ module ApplicationHelper
     ACP.seasons.map { |season| [I18n.t("season.#{season}"), season] }
   end
 
+  def fiscal_years_collection
+    current_year = Date.today.year
+    first_year = Membership.minimum(:started_on)&.year || current_year
+    (first_year..current_year).map { |year|
+      fy = Current.acp.fiscal_year_for(year)
+      [fy.to_s, fy.year]
+    }.reverse
+  end
+
   def referer_filter_member_id
     return unless request&.referer
     query = URI(request.referer).query
