@@ -47,7 +47,20 @@ describe 'Member sessions' do
     expect(current_path).to eq '/billing'
   end
 
-  it 'does not accpet invalid email' do
+  it 'does not accept blank email' do
+    visit '/'
+    expect(current_path).to eq '/login'
+
+    fill_in 'Votre email', with: ''
+    click_button 'Envoyer'
+
+    expect(email_adapter.deliveries.size).to eq 0
+
+    expect(current_path).to eq '/sessions'
+    expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
+  end
+
+  it 'does not accept invalid email' do
     visit '/'
     expect(current_path).to eq '/login'
 
