@@ -11,12 +11,12 @@ module Billing
 
     def payments_data
       files = get_camt54_files
-      files.flat_map do |file|
+      files.flat_map { |file|
         camt54 = CamtParser::String.parse(file)
-        camt54.notifications.flat_map do |notification|
-          notification.entries.flat_map do |entry|
+        camt54.notifications.flat_map { |notification|
+          notification.entries.flat_map { |entry|
             date = entry.value_date
-            entry.transactions.each_with_index.map do |transaction|
+            entry.transactions.map { |transaction|
               ref = transaction.creditor_reference
               if transaction.credit? && ref.present?
                 bank_ref = transaction.bank_reference
@@ -26,10 +26,16 @@ module Billing
                   date: date,
                   isr_data: "#{date}-#{bank_ref}-#{ref}")
               end
-            end.compact
-          end
-        end
-      end
+            }.compact
+          }
+        }
+      # Handle identical payment (same date, same ref, same amount)
+      }.group_by(&:isr_data).flat_map { |_, dd|
+        dd.each_with_index.map { |d, i|
+          d.isr_data += "-#{i}" if i > 0
+          d
+        }
+      }
     end
 
     private
