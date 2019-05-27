@@ -12,7 +12,7 @@ class Members::SessionsController < Members::BaseController
 
   # POST /sessions
   def create
-    email = params.require(:session).require(:email)
+    email = params.require(:session)[:email]
     @session = build_session(email)
 
     if @session.save
