@@ -78,6 +78,9 @@ _:
         logo_url:
           _de: Logo URL
           _fr: Logo URL
+        membership_extra_text:
+          _de: Zusätzlicher Text über Abonnements
+          _fr: Texte supplémentaire à propos des abonnements
         phone:
           _de: Telefon
           _fr: Téléphone
