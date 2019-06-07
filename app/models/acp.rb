@@ -16,6 +16,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
   translated_attributes :terms_of_service_url, :statutes_url
+  translated_attributes :membership_extra_text
 
   validates :name, presence: true
   validates :host, presence: true

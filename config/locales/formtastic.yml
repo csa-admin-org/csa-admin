@@ -20,6 +20,9 @@ _:
         annual_fee:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag
           _fr: Laisser vide si aucune cotisation anuelle
+        membership_extra_text:
+          _de: Dieser Text wird dem Registrierungsformular hinzugefügt (unterstütztes HTML)
+          _fr: Ce texte est rajouté au formulaire d'inscription (HTML supporté)
         share_price:
           _de: Leer lassen, wenn kein Anteilschein
           _fr: Laisser vide si pas de part sociale

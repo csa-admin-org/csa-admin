@@ -22,7 +22,8 @@ ActiveAdmin.register ACP do
     invoice_footers: I18n.available_locales,
     delivery_pdf_footers: I18n.available_locales,
     terms_of_service_urls: I18n.available_locales,
-    statutes_urls: I18n.available_locales
+    statutes_urls: I18n.available_locales,
+    membership_extra_texts: I18n.available_locales
 
   form do |f|
     f.inputs t('.details') do
@@ -91,6 +92,11 @@ ActiveAdmin.register ACP do
     f.inputs t('.member_section') do
       translated_input(f, :terms_of_service_urls, required: false)
       translated_input(f, :statutes_urls, required: false)
+      translated_input(f, :membership_extra_texts,
+        hint: t('formtastic.hints.acp.membership_extra_text'),
+        required: false,
+        as: :text,
+        input_html: { rows: 5 })
     end
     f.inputs t('.mailer') do
       f.input :email_default_host, as: :string
