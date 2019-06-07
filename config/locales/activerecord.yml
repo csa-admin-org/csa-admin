@@ -422,8 +422,8 @@ _:
           _de: Einzahlungen erfolgt
           _fr: Paiements versés
         profession:
-          _de: Beruf
-          _fr: Profession
+          _de: Beruf / Kompetenzen
+          _fr: Profession / Compétences
         salary_basket:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire
