@@ -37,6 +37,7 @@ header {
       float: right;
       text-align: right;
       margin-bottom: 5px;
+
       &:hover {
         color: $dark-green;
       }
@@ -55,16 +56,39 @@ footer {
   padding-bottom: $base-spacing;
 
   a,
-  p,
-  li {
+  li,
+  p {
     color: $light-gray;
     margin: 0;
   }
 
+  p.acp-admin {
+    margin-top: $base-spacing;
+    display: inline-block;
+
+    a {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: normal;
+
+      svg {
+        margin: 5px;
+        width: 20px;
+        fill: $light-gray;
+      }
+
+      &:hover svg {
+        fill: $dark-green;
+      }
+    }
+  }
+
   ul.locales li {
-    color: $light-gray;
     list-style-type: none;
     display: inline;
+
     &:not(:first-child):before {
       content: ' / ';
     }

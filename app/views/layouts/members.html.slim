@@ -54,3 +54,7 @@ html lang=I18n.locale
         ul.locales
           - Current.acp.languages.each do |locale|
             li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }
+      p.acp-admin
+        = link_to 'https://acp-admin.ch' do
+          = inline_svg 'logo.svg'
+          span= 'ACP Admin'
