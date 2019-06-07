@@ -485,7 +485,7 @@ body.logged_out {
     text-align: center;
     margin: auto auto 0;
     padding: 20px;
-    color: #ccc;
+    color: #ddd;
     font-size: 16px;
 
     a {
@@ -497,7 +497,7 @@ body.logged_out {
       padding: 0;
 
       li {
-        color: #ccc;
+        color: #ddd;
         list-style-type: none;
         display: inline;
 
@@ -521,7 +521,15 @@ body.logged_out {
         svg {
           margin: 5px;
           width: 20px;
-          fill: #ccc;
+          fill: #ddd;
+        }
+
+        &:hover {
+          color: $primary-color;
+
+          svg {
+            fill: $primary-color;
+          }
         }
       }
     }
