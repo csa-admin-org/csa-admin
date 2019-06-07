@@ -100,7 +100,7 @@ module MembersHelper
         price_info(deliveries_counts.min * price, precision: 0),
         price_info(deliveries_counts.max * price, precision: 0, format: '%n')
       ].join('-')
-    elsif
+    else
       price_info(deliveries_counts.first.to_i * price, precision: 0)
     end
   end
