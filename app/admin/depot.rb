@@ -54,6 +54,11 @@ ActiveAdmin.register Depot do
       row(:note) { text_format(depot.note) }
     end
 
+    attributes_table title: t('.member_new_form') do
+      row :form_name
+      row :form_priority
+    end
+
     attributes_table title: Depot.human_attribute_name(:address) do
       row :address_name
       row :address
@@ -82,6 +87,13 @@ ActiveAdmin.register Depot do
       f.input :price, hint: true
       f.input :visible, as: :select, hint: true, prompt: true, required: true
       f.input :note, input_html: { rows: 3 }
+    end
+
+    f.inputs t('active_admin.resource.show.member_new_form') do
+      translated_input(f, :form_names,
+        required: false,
+        hint: t('formtastic.hints.depot.form_name'))
+      f.input :form_priority, hint: true
     end
 
     f.inputs Depot.human_attribute_name(:address) do
@@ -122,7 +134,9 @@ ActiveAdmin.register Depot do
       name language price visible note
       address_name address zip city
       emails phones responsible_member_id
+      form_priority
     ],
+    form_names: I18n.available_locales,
     current_delivery_ids: [],
     future_delivery_ids: [])
 

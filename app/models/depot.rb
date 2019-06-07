@@ -2,8 +2,11 @@ class Depot < ActiveRecord::Base
   include HasEmails
   include HasPhones
   include HasLanguage
+  include TranslatedAttributes
 
   attr_accessor :delivery_memberships
+
+  translated_attributes :form_name
 
   belongs_to :responsible_member, class_name: 'Member', optional: true
   has_many :baskets

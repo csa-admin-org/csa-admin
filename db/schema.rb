@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_18_135605) do
+ActiveRecord::Schema.define(version: 2019_06_07_125906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -271,6 +271,8 @@ ActiveRecord::Schema.define(version: 2019_04_18_135605) do
     t.text "note"
     t.string "language", default: "fr", null: false
     t.boolean "visible", default: true, null: false
+    t.jsonb "form_names", default: {}, null: false
+    t.integer "form_priority", default: 0, null: false
     t.index ["responsible_member_id"], name: "index_depots_on_responsible_member_id"
     t.index ["visible"], name: "index_depots_on_visible"
   end

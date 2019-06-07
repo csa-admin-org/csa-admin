@@ -414,6 +414,9 @@ _:
         link_confirm:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
+        member_new_form:
+          _de: Registrierungsformular
+          _fr: Formulaire d'inscription
         new_payment:
           _de: Neue Einzahlung
           _fr: Nouveau paiement
