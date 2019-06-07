@@ -25,18 +25,19 @@ class PaymentsProcessor
       amount: data.amount,
       date: data.date,
       isr_data: data.isr_data)
-  rescue => ex
-    ExceptionNotifier.notify(ex, data)
+  rescue => e
+    ExceptionNotifier.notify(e, data)
   end
 
   def ensure_recent_payments!
     if Invoice.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
         Payment.isr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
-      last_payment = Payment.isr.reorder(:created_at).last
-      ExceptionNotifier.notify(NoRecentPaymentsError.new,
-        last_payment_id: last_payment.id,
-        last_payment_date: last_payment.date,
-        last_payment_created_at: last_payment.created_at)
+      if last_payment = Payment.isr.reorder(:created_at).last
+        ExceptionNotifier.notify(NoRecentPaymentsError.new,
+          last_payment_id: last_payment.id,
+          last_payment_date: last_payment.date,
+          last_payment_created_at: last_payment.created_at)
+      end
     end
   end
 end
