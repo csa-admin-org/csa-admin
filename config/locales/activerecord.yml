@@ -329,6 +329,12 @@ _:
         deliveries:
           _de: Lieferungen
           _fr: Livraisons
+        form_name:
+          _de: Name
+          _fr: Nom
+        form_priority:
+          _de: Priorität
+          _fr: Priorité
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)

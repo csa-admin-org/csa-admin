@@ -72,6 +72,12 @@ _:
         emails:
           _de: Jede Emailadresse (durch ein Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
+        form_name:
+          _de: Wenn vorhanden, ersetzt er den Namen des Repositories im Registrierungsformular
+          _fr: Si présent, remplace le nom du dépôt dans le formulaire d'inscription
+        form_priority:
+          _de: Ermöglicht es Ihnen, die Einlagen in einer bestimmten Reihenfolge zu sortieren
+          _fr: Permet de trier les dépôts dans un ordre spécifique
         future_deliveries:
           _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt
           _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement

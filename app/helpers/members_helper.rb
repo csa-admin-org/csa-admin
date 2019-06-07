@@ -61,7 +61,7 @@ module MembersHelper
       details << deliveries_count(d.deliveries_count) if deliveries_counts.many?
       details << address
       [
-        collection_text(d.name,
+        collection_text(d.form_name || d.name,
           price: price_info(d.annual_price, precision: 0),
           details: details.compact.join(', ')),
         d.id
@@ -83,7 +83,7 @@ module MembersHelper
   private
 
   def visible_depots
-    @visible_depots ||= Depot.visible.reorder('price, name').to_a
+    @visible_depots ||= Depot.visible.reorder('form_priority, price, name').to_a
   end
 
   def deliveries_counts
