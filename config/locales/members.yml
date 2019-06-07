@@ -184,8 +184,8 @@ _:
           _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
           _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         membership_text:
-          _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
-          _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+          _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
+          _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
         membership_trial_text:
           one:
             _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
