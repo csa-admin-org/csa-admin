@@ -18,7 +18,7 @@ section
     - support_checked = @member.waiting_basket_size_id&.zero?
     = f.inputs name: Membership.model_name.human do
       p
-        = t('.membership_text', fiscal_year_range: fiscal_year_range)
+        = t('.membership_text', fiscal_year_months_range: fiscal_year_months_range)
         - if Current.acp.trial_basket_count.positive?
           = ' '
           = t('.membership_trial_text', count: Current.acp.trial_basket_count)
