@@ -77,84 +77,111 @@ ActiveAdmin.register Member do
   show do |member|
     columns do
       column do
-        panel link_to(Membership.model_name.human(count: 2), memberships_path(q: { member_id_eq: member.id }, scope: :all)) do
-          memberships = member.memberships.order(:started_on)
-          if memberships.none?
+        all_memberships_path = memberships_path(q: { member_id_eq: member.id }, scope: :all)
+        panel link_to(Membership.model_name.human(count: 2), all_memberships_path) do
+          memberships = member.memberships.order(started_on: :desc)
+          memberships_count = memberships.count
+          if memberships_count.zero?
             em t('.no_memberships')
           else
-            table_for(memberships, class: 'table-memberships') do
+            table_for(memberships.limit(3), class: 'table-memberships') do
               column(:period) { |m| auto_link m, membership_short_period(m) }
               if Current.acp.feature?('activity')
-                column(activities_human_name) { |m|
+                column(activities_human_name, class: 'col-activity_participations_demanded') { |m|
                   auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}"
                 }
               end
-              column(:baskets) { |m|
+              column(:baskets_count) { |m|
                 auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}"
               }
+            end
+            if memberships_count > 3
+              em link_to(t('.show_more'), all_memberships_path), class: 'show_more'
             end
           end
         end
 
         if Current.acp.feature?('activity')
-          activity_participations = member.activity_participations.includes(:activity).order('activities.date, activities.start_time')
-          count = activity_participations.count
-          panel link_to("#{activities_human_name} (#{count})", activity_participations_path(q: { member_id_eq: member.id }, scope: :all)) do
-            if activity_participations.none?
+          all_activity_participations_path =
+            activity_participations_path(q: { member_id_eq: member.id }, scope: :all)
+          panel link_to(activities_human_name, all_activity_participations_path) do
+            activity_participations =
+              member.activity_participations.includes(:activity)
+                .order('activities.date DESC, activities.start_time DESC')
+            activity_participations_count = activity_participations.count
+            if activity_participations_count.zero?
               em t_activity('.no_activities')
             else
-              table_for(activity_participations.offset([count - 5, 0].max), class: 'table-activity_participations') do
+              table_for(activity_participations.limit(6), class: 'table-activity_participations') do
                 column(ActivityParticipation.human_attribute_name(:description)) { |ap|
                   auto_link ap, ap.activity.name
                 }
-                column(ActivityParticipation.human_attribute_name(:participants), &:participants_count)
+                column(:participants_count)
                 column(:state) { |ap| status_tag(ap.state) }
+              end
+              if activity_participations_count > 6
+                em link_to(t('.show_more'), all_activity_participations_path), class: 'show_more'
               end
             end
           end
         end
 
-        panel link_to(Invoice.model_name.human(count: 2), invoices_path(q: { member_id_eq: member.id }, scope: :all)) do
-          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(:date, :created_at)
-          if invoices.none?
+        all_invoices_path = invoices_path(q: { member_id_eq: member.id }, scope: :all)
+        panel link_to(Invoice.model_name.human(count: 2), all_invoices_path) do
+          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc)
+          invoices_count = invoices.count
+          if invoices_count.zero?
             em t('.no_invoices')
           else
-            table_for(invoices, class: 'table-invoices') do
+            table_for(invoices.limit(6), class: 'table-invoices') do
               column(:id) { |i| auto_link i, i.id }
               column(:date) { |i| l(i.date, format: :number) }
               column(:amount) { |i| number_to_currency(i.amount) }
               column(:balance) { |i| number_to_currency(i.balance) }
               column(:overdue_notices_count)
+              column(:status) { |i| status_tag i.state }
               column(class: 'col-actions') { |i|
                 link_to 'PDF', rails_blob_path(i.pdf_file, disposition: 'attachment'), class: 'pdf_link'
               }
-              column(:status) { |i| status_tag i.state }
+            end
+            if invoices_count > 6
+              em link_to(t('.show_more'), all_invoices_path), class: 'show_more'
             end
           end
         end
 
-        panel link_to(Payment.model_name.human(count: 2), payments_path(q: { member_id_eq: member.id }, scope: :all)) do
-          payments = member.payments.includes(:invoice).order(:date, :created_at)
-          if payments.none?
+        all_payments_path = payments_path(q: { member_id_eq: member.id }, scope: :all)
+        panel link_to(Payment.model_name.human(count: 2), all_payments_path) do
+          payments = member.payments.includes(:invoice).reorder(date: :desc)
+          payments_count = payments.count
+          if payments_count.zero?
             em t('.no_payments')
           else
-            table_for(payments, class: 'table-payments') do
+            table_for(payments.limit(6), class: 'table-payments') do
               column(:date) { |p| auto_link p, l(p.date, format: :number) }
               column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
               column(:amount) { |p| number_to_currency(p.amount) }
               column(:type) { |p| status_tag p.type }
             end
+            if payments_count > 6
+              em link_to(t('.show_more'), all_payments_path), class: 'show_more'
+            end
           end
         end
 
-        panel link_to(Absence.model_name.human(count: 2), absences_path(q: { member_id_eq: member.id }, scope: :all)) do
-          absences = member.absences.order(:started_on)
-          if absences.none?
+        all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
+        panel link_to(Absence.model_name.human(count: 2), all_absences_path) do
+          absences = member.absences.order(started_on: :desc)
+          absences_count = absences.count
+          if absences_count.zero?
             em t('.no_absences')
           else
-            table_for(absences, class: 'table-absences') do
+            table_for(absences.limit(3), class: 'table-absences') do
               column(:started_on) { |a| auto_link a, l(a.started_on) }
               column(:ended_on) { |a| auto_link a, l(a.ended_on) }
+            end
+            if absences_count > 3
+              em link_to(t('.show_more'), all_absences_path), class: 'show_more'
             end
           end
         end
