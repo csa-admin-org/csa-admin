@@ -267,5 +267,5 @@ ActiveAdmin.register Invoice do
   end
 
   config.per_page = 50
-  config.sort_order = 'date'
+  config.sort_order = 'date_desc'
 end

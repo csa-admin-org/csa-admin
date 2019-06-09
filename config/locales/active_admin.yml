@@ -459,6 +459,9 @@ _:
         send_email:
           _de: Senden
           _fr: Envoyer
+        show_more:
+          _de: mehr anzeigen
+          _fr: voir plus
         total:
           _de: Total %{number}
           _fr: Total %{number}

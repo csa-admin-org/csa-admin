@@ -19,7 +19,7 @@ module ApplicationHelper
     Array(phones).map { |phone|
       link_to(
         phone.phony_formatted,
-        "tel:" + phone.phony_formatted(spaces: '', format: :international))
+        'tel:' + phone.phony_formatted(spaces: '', format: :international))
     }.join(', ').html_safe
   end
 
