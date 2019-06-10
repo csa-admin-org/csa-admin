@@ -206,11 +206,11 @@ _:
           _de: Senden
           _fr: Envoyer
         terms_of_service:
-          _de: Ich habe die Statuten und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}">le règlement</a>.
+          _de: Ich habe die Statuten und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
+          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}" target="_blank">le règlement</a>.
         terms_of_service_with_statutes:
-          _de: Ich habe <a href="%{statutes_url}">die Statuten</a> und <a href="%{terms_url}">das Reglement</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}">les statuts</a> et <a href="%{terms_url}">le règlement</a>.
+          _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
+          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a> et <a href="%{terms_url}" target="_blank">le règlement</a>.
         text:
           _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
