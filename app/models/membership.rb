@@ -357,11 +357,11 @@ class Membership < ActiveRecord::Base
   end
 
   def good_period_range
-    if started_on >= ended_on
+    if started_on && ended_on && started_on >= ended_on
       errors.add(:started_on, :before_end)
       errors.add(:ended_on, :after_start)
     end
-    if fy_year != Current.acp.fiscal_year_for(ended_on).year
+    if ended_on && fy_year != Current.acp.fiscal_year_for(ended_on).year
       errors.add(:started_on, :same_fiscal_year)
       errors.add(:ended_on, :same_fiscal_year)
     end
