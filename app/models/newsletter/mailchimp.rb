@@ -60,6 +60,7 @@ class Newsletter::MailChimp
     }
     if Current.acp.feature?(:activity)
       fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: true }
+      fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: 'number', required: true }
       fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: true }
     end
     if BasketComplement.any?
@@ -126,6 +127,7 @@ class Newsletter::MailChimp
     }
     if Current.acp.feature?(:activity)
       fields[:HALF_ASKE] = current_year_membership&.activity_participations_demanded.to_i
+      fields[:HALF_ACPT] = current_year_membership&.activity_participations_accepted.to_i
       fields[:HALF_MISS] = current_year_membership&.missing_activity_participations.to_i
     end
     if BasketComplement.any?
