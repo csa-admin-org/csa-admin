@@ -13,7 +13,7 @@ class RecurringBilling
   end
 
   def needed?
-    invoice_valid?
+    member.billable? && membership_billable? && build_invoice.valid?
   end
 
   def invoice(**attrs)
@@ -27,10 +27,6 @@ class RecurringBilling
   end
 
   private
-
-  def invoice_valid?
-    member.billable? && membership_billable? && build_invoice.valid?
-  end
 
   def build_invoice(**attrs)
     attrs[:date] = date
