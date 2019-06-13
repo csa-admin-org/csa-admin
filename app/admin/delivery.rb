@@ -133,7 +133,7 @@ ActiveAdmin.register Delivery do
           row(:note) { text_format(delivery.note) }
         end
 
-        # active_admin_comments
+        active_admin_comments
       end
     end
   end
