@@ -4,6 +4,7 @@ namespace :invoices do
     ACP.enter_each! do
       if Current.acp.feature?('recurring_billing') &&
           Date.current.tuesday? &&
+          Delivery.current_year.any? &&
           Date.current > Delivery.current_year.first.date
         Member.find_each do |member|
           if Current.acp.share?
