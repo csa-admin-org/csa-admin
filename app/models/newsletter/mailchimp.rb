@@ -55,6 +55,7 @@ class Newsletter::MailChimp
       MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: true, options: { choices: %w[yes no –] } },
       BASK_FIRS: { name: 'Date du premier panier', type: 'text', required: false },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
+      BASK_DELI: { name: 'Prochain panier livré?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
       BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } }
     }
@@ -112,6 +113,7 @@ class Newsletter::MailChimp
     current_year_membership = member.current_year_membership
     first_basket = member.first_membership&.baskets&.first
     next_basket = member.next_basket
+    next_delivery = Delivery.next
     fields = {
       MEMB_ID: member.id,
       MEMB_NAME: member.name,
@@ -122,6 +124,7 @@ class Newsletter::MailChimp
       MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',
       BASK_FIRS: (first_basket && I18n.l(first_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
+      BASK_DELI: next_delivery && next_basket && !next_basket.absent? && next_basket.delivery == next_delivery ? 'yes' : 'no',
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
       BASK_DIST: next_basket&.depot&.name.to_s
     }
