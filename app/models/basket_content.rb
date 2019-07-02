@@ -64,10 +64,10 @@ class BasketContent < ApplicationRecord
     self.big_baskets_count = 0
     baskets = delivery.baskets.not_absent.where(depot_id: depot_ids)
     if basket_sizes.include?('small')
-      self.small_baskets_count += baskets.where(basket_size_id: small_basket.id).count
+      self.small_baskets_count += baskets.where(basket_size_id: small_basket.id).sum(:quantity)
     end
     if basket_sizes.include?('big')
-      self.big_baskets_count += baskets.where(basket_size_id: big_basket.id).count
+      self.big_baskets_count += baskets.where(basket_size_id: big_basket.id).sum(:quantity)
     end
   end
 
