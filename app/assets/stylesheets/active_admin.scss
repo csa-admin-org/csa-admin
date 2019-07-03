@@ -92,6 +92,7 @@ span.delivery_absences {
   float: right;
 }
 
+table .delete_link,
 table .edit_link,
 table .pdf_link,
 table .view_link,
@@ -104,6 +105,7 @@ table .xlsx_link {
   opacity: 0.75;
   position: relative;
   text-indent: -99999px;
+  overflow: hidden;
   transition: opacity 250ms;
   width: 16px;
 
@@ -113,6 +115,7 @@ table .xlsx_link {
   }
 }
 
+table a.delete_link,
 table a.edit_link,
 table a.view_link {
   opacity: 0.6 !important;
@@ -184,14 +187,13 @@ table#index_table_payments {
   .col-actions {
     padding: 0 5px;
     margin: 0;
-    width: 65px;
+    width: 90px;
   }
 }
 
 table#index_table_depots,
 table#index_table_payments {
   .col-actions {
-    padding: 0 5px;
     margin: 0;
     width: 90px;
   }
@@ -313,6 +315,7 @@ table.table-activity_participations {
   }
 
   .col-actions {
+    padding: 0 5;
     min-width: 110px;
   }
 }
