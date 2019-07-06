@@ -46,23 +46,23 @@ class Newsletter::MailChimp
 
   def upsert_merge_fields
     fields = {
-      MEMB_ID:   { name: 'ID', type: 'number', required: true },
-      MEMB_NAME: { name: 'Nom', type: 'text', required: true },
-      MEMB_LANG: { name: 'Langue', type: 'text', required: true },
-      MEMB_NEWS: { name: 'Newsletter envoyée?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
-      MEMB_STAT: { name: 'Status', type: 'dropdown', required: true, options: { choices: Member::STATES } },
-      CURR_MEMB: { name: 'Abonnement en cours?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
-      MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: true, options: { choices: %w[yes no –] } },
+      MEMB_ID:   { name: 'ID', type: 'number', required: false },
+      MEMB_NAME: { name: 'Nom', type: 'text', required: false },
+      MEMB_LANG: { name: 'Langue', type: 'text', required: false },
+      MEMB_NEWS: { name: 'Newsletter envoyée?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
+      MEMB_STAT: { name: 'Status', type: 'dropdown', required: false, options: { choices: Member::STATES } },
+      CURR_MEMB: { name: 'Abonnement en cours?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
+      MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: false, options: { choices: %w[yes no –] } },
       BASK_FIRS: { name: 'Date du premier panier', type: 'text', required: false },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
-      BASK_DELI: { name: 'Prochain panier livré?', type: 'dropdown', required: true, options: { choices: %w[yes no] } },
+      BASK_DELI: { name: 'Prochain panier livré?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
       BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
       BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } }
     }
     if Current.acp.feature?(:activity)
-      fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: true }
-      fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: 'number', required: true }
-      fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: true }
+      fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: false }
+      fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: 'number', required: false }
+      fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: false }
     end
     if BasketComplement.any?
       fields[:BASK_COMP] = { name: 'Compléments panier', type: 'text', required: false }
