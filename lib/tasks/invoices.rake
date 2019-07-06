@@ -30,6 +30,8 @@ namespace :invoices do
         PaymentsProcessor.new(provider).process
         puts "#{Current.acp.name}: New BAS payments processed."
       end
+    rescue => e
+      ExceptionNotifier.notify(e)
     end
   end
 
