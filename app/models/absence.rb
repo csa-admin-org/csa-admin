@@ -45,7 +45,7 @@ class Absence < ActiveRecord::Base
   private
 
   def good_period_range
-    if started_on >= ended_on
+    if started_on && ended_on && started_on >= ended_on
       errors.add(:ended_on, :after_start)
     end
   end
