@@ -24,7 +24,7 @@ module ACPAdmin
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.available_locales = %w[en fr de]
     config.i18n.default_locale = :fr
-    config.i18n.fallbacks = { de: :fr }
+    config.i18n.fallbacks = true
 
     # :time must not be included here because of the tod gem
     # https://github.com/JackC/tod#activemodel-serializable-attribute-support
