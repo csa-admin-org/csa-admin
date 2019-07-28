@@ -12,9 +12,11 @@ module XLSX
 
       build_recap_worksheet('Récapitulatif') unless @depot
 
-      Array(@depot || @depots).each do |dist|
-        build_depot_worksheet(dist)
+      Array(@depot || @depots).each do |d|
+        build_depot_worksheet(d)
       end
+
+      build_absences_worksheet if !@depot && @delivery.baskets.absent.any?
     end
 
     def filename
@@ -95,6 +97,18 @@ module XLSX
       basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).sum(:quantity) }
       add_worksheet("#{depot.name} (#{basket_counts.join('+')})")
 
+      add_basket_lines(baskets)
+    end
+
+    def build_absences_worksheet
+      baskets = @delivery.baskets.absent
+      basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).sum(:quantity) }
+      add_worksheet("#{Absence.model_name.human(count: basket_counts.sum)} (#{basket_counts.join('+')})")
+
+      add_basket_lines(baskets)
+    end
+
+    def add_basket_lines(baskets)
       cols = %w[
         Nom
         Emails
@@ -109,7 +123,7 @@ module XLSX
       add_header(*cols)
       baskets
         .joins(:member)
-        .includes(:member, :basket_size, :baskets_basket_complements, :complements).order('members.name')
+        .includes(:member, :basket_size, :complements, baskets_basket_complements: :basket_complement).order('members.name')
         .not_empty
         .each { |basket| add_basket_line(basket) }
 
