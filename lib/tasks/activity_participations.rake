@@ -3,7 +3,11 @@ namespace :activity_participations do
   task send_reminder_emails: :environment do
     ACP.enter_each! do
       participations =
-        ActivityParticipation.coming.includes(:activity).select(&:reminderable?)
+        ActivityParticipation
+          .coming
+          .includes(:activity, :member)
+          .select(&:reminderable?)
+          .select(&:notificable?)
       grouped_participations = ActivityParticipationGroup.group(participations)
 
       grouped_participations.each do |participation|
@@ -19,7 +23,11 @@ namespace :activity_participations do
   task send_review_emails: :environment do
     ACP.enter_each! do
       validated_participations =
-        ActivityParticipation.validated.review_not_sent.includes(:activity)
+        ActivityParticipation
+          .validated
+          .review_not_sent
+          .includes(:activity, :member)
+          .select(&:notificable?)
       ActivityParticipationGroup
         .group(validated_participations)
         .each { |participation|
@@ -28,7 +36,11 @@ namespace :activity_participations do
         }
 
       rejected_participations =
-        ActivityParticipation.rejected.review_not_sent.includes(:activity)
+        ActivityParticipation
+          .rejected
+          .review_not_sent
+          .includes(:activity, :member)
+          .select(&:notificable?)
       ActivityParticipationGroup
         .group(rejected_participations)
         .each { |participation|

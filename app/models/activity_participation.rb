@@ -102,6 +102,10 @@ class ActivityParticipation < ActiveRecord::Base
       review_sent_at: nil)
   end
 
+  def notificable?
+    member.emails?
+  end
+
   def reminderable?
     return unless coming?
 
