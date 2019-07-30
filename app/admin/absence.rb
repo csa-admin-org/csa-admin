@@ -21,7 +21,7 @@ ActiveAdmin.register Absence do
     collection: -> { Member.joins(:absences).order(:name).distinct }
   filter :including_date,
     as: :select,
-    collection: -> { Delivery.all.map { |d| [d.display_name, d.date] } },
+    collection: -> { Delivery.reorder(date: :desc).map { |d| [d.display_name, d.date] } },
     label: -> { Delivery.model_name.human }
   filter :during_year,
     as: :select,

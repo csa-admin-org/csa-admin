@@ -43,7 +43,7 @@ ActiveAdmin.register ActivityParticipation do
     collection: -> { Member.joins(:activity_participations).order(:name).distinct }
   filter :activity,
     as: :select,
-    collection: -> { Activity.order(:date, :start_time) }
+    collection: -> { Activity.order(date: :desc, start_time: :desc) }
   filter :activity_date, label: -> { Activity.human_attribute_name(:date) }, as: :date_range
   filter :during_year,
     as: :select,
