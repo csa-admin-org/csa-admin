@@ -53,13 +53,11 @@ module MembersHelper
 
   def depots_collection
     visible_depots.map { |d|
-      address = [d.address, "#{d.zip} #{d.city}".presence].compact.join(', ') if d.address?
-      if address && address != d.address
-        address += map_icon(address).html_safe
-      end
       details = []
       details << deliveries_count(d.deliveries_count) if deliveries_counts.many?
-      details << address
+      if address = d.full_address
+        details << address + map_icon(address).html_safe
+      end
       [
         collection_text(d.form_name || d.name,
           price: price_info(d.annual_price, precision: 0),

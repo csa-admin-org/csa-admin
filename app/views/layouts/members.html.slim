@@ -23,8 +23,12 @@ html lang=I18n.locale
               li == "#{Basket.model_name.human}: #{basket_size_description(next_basket)}"
               - complements = next_basket.baskets_basket_complements.includes(:basket_complement)
               - if complements.any?
-                li == "#{BasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
-              li == "#{Depot.model_name.human}: #{next_basket.depot.name}"
+                li == "#{BasketsBasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
+              li
+                - depot = next_basket.depot
+                == "#{Depot.model_name.human}: #{depot.name}"
+                - if depot.full_address
+                  == map_icon(depot.full_address)
           - else
             p
               em.empty = t('.no_membership')
