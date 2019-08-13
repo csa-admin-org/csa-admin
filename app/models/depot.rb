@@ -39,6 +39,12 @@ class Depot < ActiveRecord::Base
     address.blank?
   end
 
+  def full_address
+    return unless address && zip && city
+
+    [address, "#{zip} #{city}"].compact.join(', ')
+  end
+
   def annual_price
     (price * deliveries_count).round_to_five_cents
   end

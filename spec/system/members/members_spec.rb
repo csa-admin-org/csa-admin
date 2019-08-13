@@ -212,7 +212,7 @@ describe 'members page' do
       visit '/'
 
       expect(page).to have_content 'Panier: Petit'
-      expect(page).to have_content 'Complément panier: Oeufs'
+      expect(page).to have_content 'Complément: Oeufs'
       expect(page).to have_content 'Dépôt: Jardin de la main'
       expect(page).to have_content '0/3 demandée(s)'
     end
@@ -234,7 +234,7 @@ describe 'members page' do
       visit '/'
 
       expect(page).to have_content 'Panier: 2x Grand'
-      expect(page).to have_content 'Complément panier: Oeufs'
+      expect(page).to have_content 'Complément: Oeufs'
       expect(page).to have_content 'Dépôt: Vélo'
       expect(page).to have_content '0/3 demandée(s)'
     end
@@ -257,7 +257,7 @@ describe 'members page' do
       visit '/'
 
       expect(page).to have_content 'Panier: Grand'
-      expect(page).to have_content 'Complément panier: Fromage'
+      expect(page).to have_content 'Complément: Fromage'
       expect(page).to have_content 'Dépôt: Vélo'
       expect(page).to have_content '0/4 demandée(s)'
     end
