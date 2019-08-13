@@ -17,6 +17,9 @@ _:
         logout:
           _de: Abmeldung
           _fr: Déconnexion
+      next_delivery:
+        _de: 'Nächste Lieferung: %{date}'
+        _fr: 'Prochaine livraison: %{date}'
       no_activity_participations_demanded:
         _de: Keine Verpflichtung
         _fr: Aucun engagement

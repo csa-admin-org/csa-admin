@@ -15,17 +15,20 @@ html lang=I18n.locale
 
       section
         - if current_member
-          h4 = current_member.name
+          h3 = current_member.name
 
           - if next_basket = current_member.next_basket
+            h4 = t('.next_delivery', date: l(next_basket.delivery.date))
             ul
               li == "#{Basket.model_name.human}: #{basket_size_description(next_basket)}"
-              - if BasketComplement.any?
-                li == "#{BasketComplement.model_name.human(count: next_basket.membership.memberships_basket_complements.count)}: #{basket_complements_description(next_basket.membership.memberships_basket_complements&.includes(:basket_complement))}"
+              - complements = next_basket.baskets_basket_complements.includes(:basket_complement)
+              - if complements.any?
+                li == "#{BasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
               li == "#{Depot.model_name.human}: #{next_basket.depot.name}"
           - else
             p
               em.empty = t('.no_membership')
+
           #nav
           nav
             - if Current.acp.feature?('activity')
