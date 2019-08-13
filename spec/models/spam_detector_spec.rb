@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe SpamDetector do
-
   def spam?(member)
     SpamDetector.spam?(member)
   end
@@ -34,5 +33,25 @@ describe SpamDetector do
   it 'detects cyrillic come_from' do
     member = Member.new(come_from: 'Р РѕСЃСЃРёСЏ')
     expect(spam?(member)).to eq true
+  end
+
+  it 'detects non native language text' do
+    member = Member.new(note: 'Are you searching for a cloud accounting interface that makes operating your company easy, fast and safe?')
+    expect(spam?(member)).to eq true
+  end
+
+  it 'ignores blank text' do
+    member = Member.new(food_note: '')
+    expect(spam?(member)).to eq false
+  end
+
+  it 'ignores short text' do
+    member = Member.new(food_note: 'YEAH ROCK ON!')
+    expect(spam?(member)).to eq false
+  end
+
+  it 'accepts native language text' do
+    member = Member.new(note: 'Je me réjouis vraiment de recevoir mon panier!')
+    expect(spam?(member)).to eq false
   end
 end

@@ -23,6 +23,19 @@ class SpamDetector
       @member.zip&.match?(ZIP_REGEXP) ||
       @member.address&.match?(CYRILLIC_CHECK) ||
       @member.city&.match?(CYRILLIC_CHECK) ||
-      @member.come_from&.match?(CYRILLIC_CHECK)
+      @member.come_from&.match?(CYRILLIC_CHECK) ||
+      non_native_language?
+  end
+
+  def non_native_language?
+    languages = Current.acp.languages
+    languages << 'un' # Unknown CLD language
+    %w[note food_note come_from].any? { |attr|
+      text = @member.send(attr)
+      if text && text.size > 40
+        cld = CLD.detect_language(text)
+        cld[:reliable] && languages.exclude?(cld[:code])
+      end
+    }
   end
 end

@@ -56,6 +56,8 @@ gem 'prawn-table'
 gem 'public_suffix'
 gem 'rubyXL'
 
+gem 'cld'
+
 gem 'camt_parser'
 gem 'epics'
 
