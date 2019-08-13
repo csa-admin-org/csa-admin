@@ -32,7 +32,9 @@ module MembershipsHelper
         when 1 then complement.basket_complement.name
         else "#{complement.quantity} x #{complement.basket_complement.name}"
         end
-      desc += " (#{complement.season_name})" unless complement.all_seasons?
+      if complement.respond_to?(:seasons)
+        desc += " (#{complement.season_name})" unless complement.all_seasons?
+      end
       desc
     end
     if names.present?
