@@ -66,6 +66,10 @@ ActiveAdmin.register Absence do
     absence.admin = current_admin
   end
 
+  before_update do |absence|
+    absence.admin = current_admin
+  end
+
   after_create do |absence|
     if absence.persisted? && absence.comment.present?
       ActiveAdmin::Comment.create!(
