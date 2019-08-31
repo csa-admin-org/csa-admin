@@ -13,6 +13,12 @@ module HasEmails
     }
   end
 
+  class_methods do
+    def find_by_email(email)
+      including_email(email).first
+    end
+  end
+
   def emails=(emails)
     super string_to_a(emails).join(', ')
   end
