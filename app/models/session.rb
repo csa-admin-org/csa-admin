@@ -17,7 +17,7 @@ class Session < ApplicationRecord
 
   def member_email=(email)
     self[:email] = email
-    self.member = Member.with_email(email).first
+    self.member = Member.find_by_email(email)
   end
 
   def admin_email=(email)

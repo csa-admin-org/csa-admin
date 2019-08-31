@@ -73,6 +73,25 @@ describe 'Member sessions' do
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
   end
 
+  it 'does not accept partial email matching other' do
+    create(:member, emails: 'thibaud@thibaud.gg, john@doe.com')
+
+    visit '/'
+    expect(current_path).to eq '/login'
+
+    fill_in 'Votre email', with: 'hn@doe.com'
+    click_button 'Envoyer'
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to match(hash_including(
+      to: 'hn@doe.com',
+      template: 'session-help-fr',
+      template_data: {}))
+
+    expect(current_path).to eq '/login'
+    expect(page).to have_content 'Merci! Un email vient de vous être envoyé.'
+  end
+
   it 'sends login help when email is not found' do
     visit '/'
     expect(current_path).to eq '/login'
