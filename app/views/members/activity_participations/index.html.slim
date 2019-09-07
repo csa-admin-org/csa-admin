@@ -1,4 +1,5 @@
-#activity_participations
+h1 = activities_human_name
+
 section
   h2 = t_activity('.coming_activity_participations')
   - @coming_participations = current_member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc))
@@ -45,43 +46,41 @@ section
     .activities-form
       - @activity_participation ||= ActivityParticipation.new(activity: @activities.first, carpooling_phone: current_member.phones_array.first, carpooling_city: current_member.city)
       = form_for [:members, @activity_participation] do |f|
-        .column-left
-            #calendar.calendar data={ dates: @activities.map(&:date).uniq.join(','), selected_date: @activity_participation.date }
-        .column-right
-          .input
-            label = t('.activity_label')
-            label.label-error= @activity_participation.errors[:activity].first
-            .no_activities style='display: none;'
-              p.empty = t_activity('.no_activities_this_month')
-            .activities.pretty_check_boxes
-              = f.collection_check_boxes(:activity_ids, @activities, :id, :period) do |b|
-                = b.label(class: "activity-#{b.object.date}") do
-                  = b.check_box
-                  span.checkmark
-                  span.label = activity_label(b.object).html_safe
-          .input
-            label = t('.participants_count_label')
-            - if @activity_participation.errors[:participants_count].any?
-              ul.error_explanation
-                - @activity_participation.errors[:participants_count].each do |msg|
-                  li = msg
-            = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
-          .input
-            label.title
-              = t('.carpooling')
-              span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
-                = inline_svg 'info_circle.svg', size: '16px'
-            div.pretty_check_boxes
-              label.carpooling
-                = f.check_box :carpooling
+        #calendar.calendar data={ dates: @activities.map(&:date).uniq.join(','), selected_date: @activity_participation.date }
+        .input
+          label = t('.activity_label')
+          label.label-error= @activity_participation.errors[:activity].first
+          .no_activities style='display: none;'
+            p.empty = t_activity('.no_activities_this_month')
+          .activities.pretty_check_boxes
+            = f.collection_check_boxes(:activity_ids, @activities, :id, :period) do |b|
+              = b.label(class: "activity-#{b.object.date}") do
+                = b.check_box
                 span.checkmark
-                span.label = t('.carpooling_checkbox')
+                span.label = activity_label(b.object).html_safe
+        .input
+          label = t('.participants_count_label')
+          - if @activity_participation.errors[:participants_count].any?
+            ul.error_explanation
+              - @activity_participation.errors[:participants_count].each do |msg|
+                li = msg
+          = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
+        .input
+          label.title
+            = t('.carpooling')
+            span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
+              = inline_svg 'info_circle.svg', size: '16px'
+          div.pretty_check_boxes
             label.carpooling
-              = f.phone_field :carpooling_phone, placeholder: t('.carpooling_phone')
-            label.carpooling
-              = f.text_field :carpooling_city, placeholder: t('.carpooling_city')
-          .input
-            = f.submit t('.activity_form_submit'), id: 'subscribe-button'
+              = f.check_box :carpooling
+              span.checkmark
+              span.label = t('.carpooling_checkbox')
+          label.carpooling
+            = f.phone_field :carpooling_phone, placeholder: t('.carpooling_phone')
+          label.carpooling
+            = f.text_field :carpooling_city, placeholder: t('.carpooling_city')
+        .input
+          = f.submit t('.activity_form_submit'), id: 'subscribe-button'
 
 section
   h2 = t_activity('.past_activity_participations')

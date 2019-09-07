@@ -8,8 +8,11 @@ _:
         _de: "%A %-d. %B %Y"
         _fr: "%A %-d %B %Y"
       medium:
-        _de: "%a %-d. %b %Y"
-        _fr: "%a %-d %b %Y"
+        _de: "%a. %-d. %b %y"
+        _fr: "%a. %-d %b %y"
+      medium_long:
+        _de: "%a. %-d. %B %y"
+        _fr: "%a. %-d %B %y"
       number:
         _de: "%d.%m.%Y"
         _fr: "%d.%m.%Y"

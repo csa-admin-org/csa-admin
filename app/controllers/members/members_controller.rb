@@ -10,7 +10,9 @@ class Members::MembersController < Members::BaseController
 
   # GET /
   def show
-    if Current.acp.feature?('activity')
+    if current_member.next_basket
+      redirect_to members_deliveries_path
+    elsif Current.acp.feature?('activity')
       redirect_to members_activity_participations_path
     else
       redirect_to members_billing_path

@@ -1,15 +1,65 @@
 header
-  = link_to Current.acp.url, class: 'logo' do
-    = image_tag(Current.acp.logo_url, size: '100', alt: "#{Current.acp.name} Logo")
-  .links
-    - if current_member
-      .logout
-        = link_to members_logout_path, method: :delete do
-          span= t('.logout')
-          = inline_svg 'sign_out.svg', size: '16px'
-    = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}" do
-      span= Current.acp.phone
-      = inline_svg 'phone.svg', size: '16px'
-    = mail_to Current.acp.email do
-      span= t('.contact')
-      = inline_svg 'envelope.svg', size: '16px'
+  .logo
+    = link_to Current.acp.url, class: 'logo' do
+      = image_tag(Current.acp.logo_url, size: '100', alt: "#{Current.acp.name} Logo")
+
+  - if current_member
+    .show_menu
+      = link_to '#menu' do
+        = inline_svg 'menu.svg', size: '42px', title: 'Menu'
+
+  #menu
+    .menu_wrapper
+      - if current_member
+        .hide_menu
+          = link_to '#nomenu' do
+            = inline_svg 'close.svg', size: '42px', title: 'Menu'
+        nav
+          ul
+            - if next_basket = current_member.next_basket
+              li class=nav_class('deliveries')
+                = link_to members_deliveries_path do
+                  = Delivery.model_name.human(count: 2)
+                  span = t('.next_delivery', date: l(next_basket.delivery.date))
+
+            - if Current.acp.feature?('activity')
+              li class=nav_class('activity_participations')
+                = link_to members_activity_participations_path do
+                  = activities_human_name
+                  - membership = current_member.current_year_membership || current_member.future_membership
+                  span
+                    - if membership
+                      = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded)
+                    - else
+                      = t('.no_activity_participations_demanded')
+
+            li class=nav_class('billing')
+              = link_to members_billing_path  do
+                = t('.billing')
+                - open_invoice_count = current_member.invoices.open.count
+                - if open_invoice_count.positive?
+                  span.alert = t('.open_invoices', count: open_invoice_count)
+                - else
+                  span = t('.see_history')
+
+            li class=nav_class('absences')
+              = link_to members_absences_path do
+                = Absence.model_name.human(count: 2)
+                span = t('.absences_subtitle')
+
+          .logout
+            ul
+              li.member
+                span = current_member.name
+              li = link_to members_logout_path, method: :delete, class: 'svg' do
+                  span = t('.logout')
+                  = inline_svg 'sign_out.svg', size: '16px'
+
+      .links
+        ul
+          li = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'svg' do
+            span = Current.acp.phone
+            = inline_svg 'phone.svg', size: '16px'
+          li = mail_to Current.acp.email, class: 'svg' do
+            span = t('.contact')
+            = inline_svg 'envelope.svg', size: '16px'

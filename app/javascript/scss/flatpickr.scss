@@ -2,25 +2,25 @@
 
 .flatpickr-calendar.inline {
   box-shadow: none !important;
+  // Handle iPhone S3
+  margin: 0 0 $base-spacing $base-spacing * -0.85;
+  @media screen and (min-width: 350px) {
+    margin: 0 0 $base-spacing;
+  }
+
   &:before {
     content: none;
   }
+
   &:after {
     content: none;
   }
 
-  left: -18px;
-  @media screen and (min-width: 330px) {
-    left: 0;
-    margin: 0 auto;
-  }
-
   .flatpickr-days {
-    // width: 305.88px;
-    border: 0px !important;
+    border: 0 !important;
 
     .dayContainer {
-      border: 0px !important;
+      border: 0 !important;
       margin: $small-spacing 0;
     }
   }
@@ -38,16 +38,17 @@
       border-color: $medium-gray !important;
     }
   }
+
   .flatpickr-day.selected {
     background: $green !important;
     border-color: $green !important;
   }
 }
 
+.flatpickr-day.selected,
 .flatpickr-month,
-.flatpickr-weekdays,
 .flatpickr-weekday,
-.flatpickr-day.selected {
+.flatpickr-weekdays {
   background: $green !important;
   border-color: $green !important;
 }

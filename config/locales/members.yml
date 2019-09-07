@@ -17,8 +17,8 @@ _:
           _de: Abwesenheit melden
           _fr: Annoncer une absence
         no_past_absences:
-          _de: Keine, weiter so!
-          _fr: Aucune, continuez comme ça!
+          _de: Keine!
+          _fr: Aucune!
         no_present_or_future_absences:
           _de: Keine, teilen Sie uns bitte Ihre Abwesenheiten mit dem unten stehenden Formular mit.
           _fr: Aucune, merci d'annoncer votre absence à l'aide du formulaire ci-dessous.
@@ -136,6 +136,9 @@ _:
           _fr: Vos heures de travail effectuées
     billing:
       index:
+        billing:
+          _de: Rechnungsstellung
+          _fr: Facturation
         canceled_invoice_info:
           _de: 'Stornierte Rechnungen #%{id} (%{type})'
           _fr: 'Facture annulée #%{id} (%{type})'
@@ -175,6 +178,26 @@ _:
         show_all:
           _de: Alle anzeigen
           _fr: Tout afficher
+    deliveries:
+      index:
+        future_deliveries:
+          _de: Zukünftige Lieferungen (%{count})
+          _fr: Futures livraisons (%{count})
+        next_delivery:
+          _de: Nächste Lieferung
+          _fr: Prochaine livraison
+        no_future_deliveries:
+          _de: Keine, es ist fast fertig für dieses Jahr.
+          _fr: Aucune, c'est presque fini pour cette année!
+        no_membership:
+          _de: Kein Abonnement
+          _fr: Aucun abonnement
+        no_past_deliveries:
+          _de: Keine, es wird bald anfangen!
+          _fr: Aucune, cela va bientôt commencer!
+        past_deliveries:
+          _de: Alte Lieferungen (%{count})
+          _fr: Anciennes livraisons (%{count})
     members:
       new:
         acp_shares_text:

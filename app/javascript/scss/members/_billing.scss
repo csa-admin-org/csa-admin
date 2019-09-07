@@ -51,6 +51,7 @@ ul.billing {
   }
 
   li.show_all {
+    margin-top: $small-spacing;
     background-color: white;
 
     a {
@@ -58,4 +59,8 @@ ul.billing {
       text-align: center;
     }
   }
+}
+
+section.balance {
+  margin-top: $base-spacing;
 }

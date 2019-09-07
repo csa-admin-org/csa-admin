@@ -1,4 +1,4 @@
-#billing
+h1 = t('.billing')
 
 - if @open_invoices.any?
   section
@@ -48,7 +48,7 @@ section
       - if @billing_history.size > history_limit
         li.show_all = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history')
 
-section
+section.balance
   ul
     - balance = current_member.balance_amount
     - if balance >= 0

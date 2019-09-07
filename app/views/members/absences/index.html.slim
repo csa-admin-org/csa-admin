@@ -1,4 +1,5 @@
-#absences
+h1 = Absence.model_name.human(count: 2)
+
 section
   h2 = t('.present_or_future_absences')
   - @present_or_future_absences = current_member.absences.present_or_future

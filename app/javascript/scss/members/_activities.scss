@@ -3,43 +3,16 @@
   width: 100%;
   min-height: 390px;
 
-  .column-left,
-  .column-right {
-    display: block;
-    float: left;
-    padding: 0;
-    width: 100%;
-  }
-  $column-left-width: 308px;
-
-  .column-left {
-    margin: $base-spacing 0 0 -$base-spacing;
-    @media screen and (min-width: 330px) {
-      margin: 0;
-    }
-    @media screen and (min-width: 760px) {
-      width: $column-left-width;
-    }
-  }
-
-  .column-right {
+  .input {
     margin: $base-spacing 0 0;
-    @media screen and (min-width: 760px) {
-      width: calc(#{$body-width} - #{$column-left-width} - #{2 * $base-spacing});
-      margin: -$base-spacing 0 0 2 * $base-spacing;
-    }
+  }
 
-    .input {
-      margin: $base-spacing 0 0;
-    }
+  ul.error_explanation {
+    color: $red;
+  }
 
-    ul.error_explanation {
-      color: $red;
-    }
-
-    .field_with_errors input {
-      border: 2px solid $red;
-    }
+  .field_with_errors input {
+    border: 2px solid $red;
   }
 
   .activities {
@@ -53,7 +26,7 @@
     }
 
     input {
-      margin-bottom: 0;
+      margin-top: 0;
     }
   }
 
@@ -128,7 +101,7 @@ ul.activities {
       span.date {
         display: inline-block;
         text-decoration: inherit;
-        width: 9em;
+        width: 8em;
       }
     }
 
@@ -139,7 +112,7 @@ ul.activities {
       @media screen and (min-width: 900px) {
         order: 2;
         flex-grow: 2;
-        flex-basis: 22em;
+        flex-basis: 16em;
         margin-bottom: 0;
       }
 
