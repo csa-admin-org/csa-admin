@@ -242,6 +242,9 @@ _:
           _de: Datum der Aktualisierung
           _fr: Date de mise à jour
       basket:
+        absent:
+          _de: abwesend
+          _fr: absent
         basket_price:
           _de: Preis Tasche
           _fr: Prix panier
@@ -257,6 +260,9 @@ _:
         description:
           _de: Tasche
           _fr: Panier
+        trial:
+          _de: probe
+          _fr: essai
       basket_complement:
         current_deliveries:
           _de: Lieferungen (laufendes Jahr)

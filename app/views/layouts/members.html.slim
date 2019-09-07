@@ -9,59 +9,10 @@ html lang=I18n.locale
     meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
 
   body
-    #body-wrapper
+    #body-wrapper class="#{current_member ? 'logged-in' : 'logged-out'}"
       = render 'layouts/members/header'
-      = render 'layouts/flashes'
-
-      section
-        - if current_member
-          h3 = current_member.name
-
-          - if next_basket = current_member.next_basket
-            h4 = t('.next_delivery', date: l(next_basket.delivery.date))
-            ul
-              li == "#{Basket.model_name.human}: #{basket_size_description(next_basket)}"
-              - complements = next_basket.baskets_basket_complements.includes(:basket_complement)
-              - if complements.any?
-                li == "#{BasketsBasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
-              li
-                - depot = next_basket.depot
-                == "#{Depot.model_name.human}: #{depot.name}"
-                - if depot.full_address
-                  == map_icon(depot.full_address)
-          - else
-            p
-              em.empty = t('.no_membership')
-
-          #nav
-          nav
-            - if Current.acp.feature?('activity')
-              = link_to members_activity_participations_path(anchor: 'nav'), class: nav_class('activity_participations') do
-                h2 = activities_human_name
-                - membership = current_member.current_year_membership || current_member.future_membership
-                p
-                  - if membership
-                    = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded)
-                  - else
-                    = t('.no_activity_participations_demanded')
-            = link_to members_billing_path(anchor: 'nav'), class: nav_class('billing') do
-              h2 = t('.billing')
-              - open_invoice_count = current_member.invoices.open.count
-              - if open_invoice_count.positive?
-                p.alert = t('.open_invoices', count: open_invoice_count)
-              - else
-                p = t('.see_history')
-            = link_to members_absences_path(anchor: 'nav'), class: nav_class('absences') do
-              h2 = Absence.model_name.human(count: 2)
-              p = t('.absences_subtitle')
-        = yield
-    footer
-      p = link_to_acp_website
-      - if Current.acp.languages.many?
-        ul.locales
-          - Current.acp.languages.each do |locale|
-            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }
-      p.acp-admin
-        = link_to 'https://acp-admin.ch' do
-          = inline_svg 'logo.svg'
-          span= 'ACP Admin'
+      main
+        section.main
+          = render 'layouts/flashes'
+          = yield
+        = render 'layouts/members/footer'

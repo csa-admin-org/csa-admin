@@ -33,6 +33,7 @@ describe Absence do
 
       end_of_year = Date.today.end_of_year
       create(:absence,
+        admin: Admin.new,
         member: member,
         started_on: end_of_year - 4.months,
         ended_on: end_of_year + 1.month)
@@ -50,6 +51,7 @@ describe Absence do
 
       expect {
         create(:absence,
+          admin: Admin.new,
           member: member,
           started_on: end_of_year - 4.months,
           ended_on: end_of_year)

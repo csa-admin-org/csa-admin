@@ -622,7 +622,7 @@ _:
             _de: laufende
             _fr: en cours
           trial:
-            _de: probe
+            _de: proben
             _fr: essais
       payment:
         new_model:

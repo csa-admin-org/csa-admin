@@ -195,79 +195,36 @@ describe 'members page' do
   end
 
   context 'existing member token' do
-    before { login(member) }
     before { Timecop.freeze(Date.today.beginning_of_year + 6.months) }
     after { Timecop.return }
 
-    it 'shows current membership info and activities count' do
-      create(:basket_complement, id: 1, name: 'Oeufs')
-      member.current_year_membership.update!(
-        activity_participations_demanded_annualy: 3,
-        basket_size: create(:basket_size, name: 'Petit'),
-        depot: create(:depot, name: 'Jardin de la main'),
-        memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1 }
-        })
+    it 'redirects to deliveries with next basket' do
+      login(member)
 
       visit '/'
 
-      expect(page).to have_content 'Panier: Petit'
-      expect(page).to have_content 'Complément: Oeufs'
-      expect(page).to have_content 'Dépôt: Jardin de la main'
-      expect(page).to have_content '0/3 demandée(s)'
+      expect(current_path).to eq '/deliveries'
+      expect(page).to have_selector('h1', text: 'Livraisons')
     end
 
-    it 'shows current membership info with custom coming basket' do
-      create(:basket_complement, id: 1, name: 'Oeufs')
-      member.current_year_membership.update!(
-        activity_participations_demanded_annualy: 3,
-        basket_size: create(:basket_size, name: 'Petit'),
-        depot: create(:depot, name: 'Jardin de la main'),
-        memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1 }
-        })
-      member.next_basket.update!(
-        basket_size: create(:basket_size, name: 'Grand'),
-        quantity: 2,
-        depot: create(:depot, name: 'Vélo'))
+    it 'redirects to activity_participations without next basket' do
+      login(create(:member))
 
       visit '/'
 
-      expect(page).to have_content 'Panier: 2x Grand'
-      expect(page).to have_content 'Complément: Oeufs'
-      expect(page).to have_content 'Dépôt: Vélo'
-      expect(page).to have_content '0/3 demandée(s)'
+      expect(current_path).to eq '/activity_participations'
+      expect(page).to have_selector('h1', text: '½ Journées')
     end
 
-    it 'shows next year membership info and activities count' do
-      Delivery.create_all(40, Current.fiscal_year.beginning_of_year + 1.year)
-      create(:basket_complement, id: 1, name: 'Fromage')
-      member.current_year_membership.delete
-      create(:membership,
-        member: member,
-        started_on: Date.current.beginning_of_year + 1.year,
-        ended_on: Date.current.end_of_year + 1.year,
-        activity_participations_demanded_annualy: 4,
-        basket_size: create(:basket_size, name: 'Grand'),
-        depot: create(:depot, name: 'Vélo', delivery_ids: Delivery.pluck(:id)),
-        memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1 }
-        })
+    it 'redirects to billing without activity feature' do
+      current_acp.update!(features: [])
+
+      login(create(:member))
 
       visit '/'
 
-      expect(page).to have_content 'Panier: Grand'
-      expect(page).to have_content 'Complément: Fromage'
-      expect(page).to have_content 'Dépôt: Vélo'
-      expect(page).to have_content '0/4 demandée(s)'
-    end
-
-    it 'shows with no membership' do
-      member.current_year_membership.delete
-
-      visit '/'
-
-      expect(page).to have_content 'Aucun abonnement'
+      expect(current_path).to eq '/billing'
+      expect(page).to have_selector('h1', text: 'Facturation')
     end
   end
 end

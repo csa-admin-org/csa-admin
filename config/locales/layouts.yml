@@ -1,41 +1,38 @@
 _:
   layouts:
     members:
-      absences_subtitle:
-        _de: Informieren Sie uns!
-        _fr: Prévenez-nous!
-      activity_participations_accepted:
-        _de: "%{accepted}/%{demanded} angefordert"
-        _fr: "%{accepted}/%{demanded} demandée(s)"
-      billing:
-        _de: Rechnungsstellung
-        _fr: Facturation
       header:
+        absences_subtitle:
+          _de: "⤷ Informieren Sie uns!"
+          _fr: "⤷ Prévenez-nous!"
+        activity_participations_accepted:
+          _de: "⤷ %{accepted} von %{demanded} angefordert"
+          _fr: "⤷ %{accepted} sur %{demanded} demandée(s)"
+        billing:
+          _de: Rechnungsstellung
+          _fr: Facturation
         contact:
           _de: Kontakt
           _fr: Contact
         logout:
           _de: Abmeldung
           _fr: Déconnexion
-      next_delivery:
-        _de: 'Nächste Lieferung: %{date}'
-        _fr: 'Prochaine livraison: %{date}'
-      no_activity_participations_demanded:
-        _de: Keine Verpflichtung
-        _fr: Aucun engagement
-      no_membership:
-        _de: Kein Abonnement
-        _fr: Aucun abonnement
-      open_invoices:
-        one:
-          _de: 1 offene Rechnung
-          _fr: 1 facture ouverte
-        other:
-          _de: "%{count} offene Rechnungen"
-          _fr: "%{count} factures ouvertes"
-      see_history:
-        _de: Verlauf anzeigen
-        _fr: Consulter l'historique
+        next_delivery:
+          _de: "⤷ %{date}"
+          _fr: "⤷ %{date}"
+        no_activity_participations_demanded:
+          _de: Keine Verpflichtung
+          _fr: Aucun engagement
+        open_invoices:
+          one:
+            _de: "⤷ 1 offene Rechnung"
+            _fr: "⤷ 1 facture ouverte"
+          other:
+            _de: "⤷ %{count} offene Rechnungen"
+            _fr: "⤷ %{count} factures ouvertes"
+        see_history:
+          _de: "⤷ Verlauf anzeigen"
+          _fr: "⤷ Consulter l'historique"
       title:
         _de: Mitgliederseite
         _fr: Page de Membre

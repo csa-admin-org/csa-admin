@@ -1,0 +1,66 @@
+ul.deliveries {
+  // columns: 2;
+  width: 100%;
+  display: inline-block;
+  margin-bottom: -$base-spacing;
+
+  li {
+    margin: 0 0 $base-spacing;
+    display: inline-block;
+    float: left;
+    width: 100%;
+    @media screen and (min-width: 900px) {
+      width: calc(50% - 1.5em); // - $base-spacing
+      margin: 0 $base-spacing $base-spacing 0;
+    }
+  }
+
+  ul.basket {
+    position: relative;
+
+    &.absent {
+      color: $medium-gray;
+    }
+
+    li {
+      margin: 0;
+      display: block;
+      float: none;
+      width: 100%;
+
+      &.date {
+        font-weight: 600;
+      }
+    }
+  }
+
+  span.trial {
+    color: white;
+    background-color: $blue;
+    font-style: normal !important;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: $base-font-size * 0.75;
+    border: solid 1px;
+    padding: 0 $small-spacing;
+    margin-left: $small-spacing;
+    border-radius: 5px;
+    position: relative;
+    top: -2px;
+  }
+
+  span.absent {
+    background-color: rgba(256, 256, 256, 0.75);
+    position: absolute;
+    display: inline-block;
+    text-transform: uppercase;
+    top: $small-spacing;
+    right: $small-spacing;
+    z-index: 10;
+    padding: 0 $small-spacing / 2;
+    transform: rotate(45deg);
+    font-size: $base-font-size * 0.9;
+    border: solid 1px;
+    border-radius: 5px;
+  }
+}

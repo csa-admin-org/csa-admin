@@ -1,13 +1,5 @@
 .calendar {
-  display: block;
-  padding: 0;
   background: #fff;
-
-  // Handle iPhone S3
-  margin: 0 -$base-spacing;
-  @media screen and (min-width: 350px) {
-    margin: 0 auto;
-  }
 }
 
 #ui-datepicker-div {
@@ -22,8 +14,8 @@
   font-size: $base-font-size;
 }
 
-.ui-datepicker-prev,
-.ui-datepicker-next {
+.ui-datepicker-next,
+.ui-datepicker-prev {
   width: 30px;
   height: 30px;
   text-indent: 9999px;
@@ -33,6 +25,7 @@
   overflow: hidden;
   margin-top: 8px;
 }
+
 .ui-datepicker-prev {
   float: left;
   margin-left: 12px;
@@ -40,7 +33,7 @@
 
 .ui-datepicker-prev:after {
   transform: rotate(45deg) scale(2);
-  margin: 12px 0px 0px 13px;
+  margin: 12px 0 0 13px;
 }
 
 .ui-datepicker-next {
@@ -50,11 +43,11 @@
 
 .ui-datepicker-next:after {
   transform: rotate(-135deg) scale(2);
-  margin: -38px 0px 0px 10px;
+  margin: -38px 0 0 10px;
 }
 
-.ui-datepicker-prev:after,
-.ui-datepicker-next:after {
+.ui-datepicker-next:after,
+.ui-datepicker-prev:after {
   content: '';
   position: absolute;
   display: block;
@@ -68,10 +61,10 @@
   margin-top: -38px;
 }
 
-.ui-datepicker-prev:hover,
 .ui-datepicker-next:hover,
-.ui-datepicker-prev:hover:after,
-.ui-datepicker-next:hover:after {
+.ui-datepicker-next:hover:after,
+.ui-datepicker-prev:hover,
+.ui-datepicker-prev:hover:after {
   border-color: $dark-green;
 }
 
@@ -117,8 +110,8 @@
   border: 3px solid transparent;
 }
 
-.ui-state-default,
-.ui-datepicker-unselectable {
+.ui-datepicker-unselectable,
+.ui-state-default {
   color: #000;
 }
 
@@ -130,6 +123,7 @@ td .ui-state-default {
   color: white;
   font-weight: 600;
   background-color: $light-gray;
+
   &:hover {
     background-color: $medium-gray;
   }
@@ -149,6 +143,7 @@ td.ui-state-disabled {
 .ui-datepicker-calendar a.ui-state-active {
   background-color: $green;
   margin: 0 auto;
+
   &:hover {
     background-color: $green;
   }

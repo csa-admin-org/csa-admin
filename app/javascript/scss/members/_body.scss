@@ -1,0 +1,357 @@
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  // https://css-tricks.com/snippets/css/system-font-stack/
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  height: 100vh;
+}
+
+#body-wrapper {
+  margin: 0 $base-spacing;
+  max-width: 100%;
+  display: flex;
+  height: 100vh;
+  @media screen and (min-width: 900px) {
+    margin: 0 auto;
+    max-width: $body-width;
+  }
+
+  &.logged-out {
+    flex-direction: column;
+    @media screen and (min-width: 900px) {
+      max-width: $body-width - $nav-width;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      margin: $base-spacing 0;
+
+      .logo {
+        height: 100px;
+        width: 100px;
+
+        a {
+          display: inline-block;
+        }
+
+        img {
+          height: 100px;
+          width: 100px;
+        }
+      }
+
+      a.svg {
+        display: flex;
+        justify-content: flex-end;
+
+        svg {
+          order: 2;
+          margin: 5px 0 0 10px;
+        }
+
+        span {
+          text-align: right;
+          order: 1;
+        }
+      }
+    }
+
+    h1 {
+      margin: $base-spacing 0 $base-spacing / 2 0;
+    }
+  }
+
+  &.logged-in {
+    flex-direction: column;
+
+    header {
+      display: flex;
+      margin: $base-spacing 0;
+
+      .show_menu {
+        flex: 1;
+        text-align: right;
+        @media screen and (min-width: 900px) {
+          display: none;
+        }
+
+        a {
+          color: $dark-gray;
+        }
+      }
+
+      .hide_menu {
+        flex: 1;
+        text-align: right;
+        // margin: 0.75em 2.25em 0 0;
+        @media screen and (min-width: 900px) {
+          display: none;
+        }
+
+        a {
+          color: $dark-gray;
+        }
+      }
+
+      #menu {
+        flex: 0;
+        position: relative;
+        @media screen and (max-width: 900px) {
+          position: absolute;
+          display: none;
+          left: -200px;
+          top: 0;
+          height: 100%;
+          overflow-y: scroll;
+          overflow-x: visible;
+        }
+
+        &.shown,
+        &:target,
+        &[aria-expanded="true"] {
+          background: #fff;
+          display: block;
+          width: 100%;
+          height: 100%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 1000;
+          overflow-x: hidden;
+          outline: none;
+
+          .menu_wrapper {
+            padding: $base-spacing;
+            height: 100%;
+          }
+
+          nav {
+            margin-top: $base-spacing * 2;
+          }
+        }
+      }
+      @media screen and (min-width: 900px) {
+        flex-direction: column;
+        position: fixed;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 100vh;
+        width: $nav-width;
+
+        .menu {
+          display: block;
+        }
+
+        .logo {
+          margin: $base-spacing * 2 0;
+
+          a {
+            height: 150px;
+            width: 150px;
+          }
+
+          img {
+            height: 150px;
+            width: 150px;
+          }
+        }
+      }
+
+      nav {
+        flex: 1;
+        min-width: 100%;
+      }
+
+      .links,
+      .logout {
+        a span {
+          font-weight: 300 !important;
+        }
+      }
+
+      .logout {
+        flex: 2;
+        margin-top: $base-spacing * 3;
+      }
+
+      .links {
+        flex: 3;
+        margin-top: $base-spacing;
+      }
+
+      a.svg {
+        display: flex;
+        justify-content: flex-start;
+
+        svg {
+          order: 1;
+          margin: 5px 10px 0 0;
+        }
+
+        span {
+          font-size: 1em;
+          text-align: left;
+          order: 2;
+          font-weight: 500;
+        }
+      }
+    }
+
+    main {
+      flex-basis: 100%;
+      flex: 2;
+      @media screen and (min-width: 900px) {
+        margin-top: $base-spacing * 2;
+        padding-top: $base-spacing * 2;
+        margin-left: $nav-width;
+      }
+    }
+
+    .flash-notice {
+      // keep h2 aligned with top menu
+      margin-top: -12px 0 -30px 0;
+    }
+
+    footer {
+      @media screen and (min-width: 900px) {
+        margin-left: $nav-width * -1;
+      }
+    }
+
+    h1 {
+      margin: 2.75em 0 0;
+      @media screen and (max-width: 900px) {
+        margin: 0 0 $base-spacing / 2 0;
+      }
+    }
+  }
+}
+
+main {
+  // background-color: $light-gray;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  section {
+    flex: 1 0 auto;
+  }
+}
+
+nav {
+  ul li {
+    margin-bottom: $base-spacing;
+
+    a {
+      display: inline-block;
+      color: $base-font-color;
+      line-height: 1.2;
+      font-weight: 600;
+
+      span {
+        margin-top: $small-spacing / 2;
+        line-height: 1;
+        display: inline-block;
+        width: 100%;
+        font-weight: 300;
+
+        &.alert {
+          font-weight: 400;
+          color: $red;
+        }
+      }
+
+      p {
+        margin: 0;
+        font-style: italic;
+      }
+
+      &:hover {
+        border-color: $dark-green;
+        color: $dark-green;
+      }
+    }
+
+    &.active a {
+      color: $dark-green;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+}
+
+footer {
+  flex: none;
+  text-align: center;
+  // background-color: $dark-gray;
+  margin-top: $base-spacing * 6;
+  padding-bottom: $base-spacing;
+
+  a,
+  li,
+  p {
+    color: $light-gray;
+    margin: 0;
+  }
+
+  p.acp-admin {
+    margin-top: $base-spacing;
+    display: inline-block;
+
+    a {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: normal;
+
+      svg {
+        margin: 5px;
+        width: 20px;
+        fill: $light-gray;
+      }
+
+      &:hover svg {
+        fill: $dark-green;
+      }
+    }
+  }
+
+  ul.locales li {
+    list-style-type: none;
+    display: inline;
+
+    &:not(:first-child):before {
+      content: ' / ';
+    }
+  }
+}
+
+.logout {
+  li.member {
+    margin: 0;
+
+    span {
+      display: block;
+      font-weight: normal;
+      margin-right: $base-spacing * 1.5;
+    }
+  }
+}
+
+.links,
+.logout {
+  a {
+    color: $base-font-color;
+
+    &:hover {
+      color: $dark-green;
+    }
+  }
+}
+
+section.placeholder {
+  margin-top: $base-spacing * 2;
+}
