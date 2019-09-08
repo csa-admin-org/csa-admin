@@ -93,6 +93,7 @@ ul {
     border-radius: $base-border-radius;
     border: solid 1px $green;
     padding: $small-spacing / 6 $small-spacing / 2;
+    background-color: white;
 
     &:hover {
       border-color: $dark-green;
