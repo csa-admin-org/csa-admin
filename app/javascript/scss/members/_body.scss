@@ -200,6 +200,7 @@ body {
     }
 
     main {
+      position: relative;
       flex-basis: 100%;
       flex: 2;
       @media screen and (min-width: 900px) {
@@ -210,8 +211,8 @@ body {
     }
 
     .flash-notice {
-      // keep h2 aligned with top menu
-      margin-top: -12px 0 -30px 0;
+      position: absolute;
+      top: $base-spacing;
     }
 
     footer {
