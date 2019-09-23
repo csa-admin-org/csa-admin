@@ -650,6 +650,9 @@ _:
         renew:
           _de: Verlängerung
           _fr: Renouvellement
+        season:
+          _de: Saisons
+          _fr: Saisons
         seasons:
           _de: Saisons
           _fr: Saisons
