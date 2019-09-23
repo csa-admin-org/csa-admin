@@ -11,6 +11,10 @@ ActiveAdmin.register Membership do
     as: :select,
     collection: -> { Member.joins(:memberships).order(:name).distinct }
   filter :basket_size, as: :select, collection: -> { BasketSize.all }
+  filter :season,
+    as: :check_boxes,
+    collection: -> { seasons_collection },
+    if: proc { Current.acp.seasons? }
   filter :basket_complements,
     as: :select,
     collection: -> { BasketComplement.all },
@@ -95,6 +99,9 @@ ActiveAdmin.register Membership do
     column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:note) { |m| m.member.note }
     column(:basket_size) { |m| basket_size_description(m, text_only: true) }
+    if Current.acp.seasons?
+      column(:seasons) { |m| m.seasons.map { |s| I18n.t "season.#{s}" }.join(', ') }
+    end
     if BasketComplement.any?
       column(:basket_complements) { |m|
         basket_complements_description(m.memberships_basket_complements.includes(:basket_complement),
