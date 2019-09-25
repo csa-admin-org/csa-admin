@@ -67,17 +67,16 @@ class Membership < ActiveRecord::Base
     fy = Current.acp.fiscal_year_for(year)
     where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
   }
-  scope :season_in, ->(*seasons) {
-    case seasons.size
-    when 1
-      where('? = ANY(seasons)', seasons.first)
-    when 2
-      where("seasons = '{\"summer\", \"winter\"}'")
+  scope :season_eq, ->(season) {
+    if season.end_with?('_only')
+      where('seasons = ?', season.sub(/(.*)_only/, '{"\1"}'))
+    else
+      where('? = ANY(seasons)', season)
     end
   }
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year season_in]
+    super + %i[during_year season_eq]
   end
 
   def trial?

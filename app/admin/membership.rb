@@ -12,8 +12,8 @@ ActiveAdmin.register Membership do
     collection: -> { Member.joins(:memberships).order(:name).distinct }
   filter :basket_size, as: :select, collection: -> { BasketSize.all }
   filter :season,
-    as: :check_boxes,
-    collection: -> { seasons_collection },
+    as: :select,
+    collection: -> { seasons_filter_collection },
     if: proc { Current.acp.seasons? }
   filter :basket_complements,
     as: :select,
