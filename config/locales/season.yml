@@ -3,6 +3,12 @@ _:
     summer:
       _de: Sommer
       _fr: Été
+    summer_only:
+      _de: Nur Sommer
+      _fr: Été uniquement
     winter:
       _de: Winter
       _fr: Hiver
+    winter_only:
+      _de: Nur Winter
+      _fr: Hiver uniquement

@@ -35,6 +35,11 @@ module ApplicationHelper
     ACP.seasons.map { |season| [I18n.t("season.#{season}"), season] }
   end
 
+  def seasons_filter_collection
+    filters = ACP.seasons + ACP.seasons.map { |s| s + '_only' }
+    filters.map { |season| [I18n.t("season.#{season}"), season] }
+  end
+
   def fiscal_years_collection
     current_year = Date.today.year
     first_year = Membership.minimum(:started_on)&.year || current_year
