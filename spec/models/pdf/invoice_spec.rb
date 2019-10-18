@@ -364,6 +364,7 @@ describe PDF::Invoice do
         })
 
       create(:absence,
+        admin: create(:admin),
         member: member.reload,
         started_on: '01.10.2019',
         ended_on: '01.11.2019')

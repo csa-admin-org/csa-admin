@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe 'members page' do
-  before { Capybara.app_host = 'http://membres.ragedevert.test' }
+  before {
+    Capybara.app_host = 'http://membres.ragedevert.test'
+    create_deliveries(50)
+  }
 
   it 'shows current membership info and activities count' do
     member = create(:member, :active)
