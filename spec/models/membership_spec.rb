@@ -181,7 +181,7 @@ describe Membership do
     middle_of_year = Time.current.beginning_of_year + 6.months
     end_of_year = Time.current.end_of_year
 
-    coming_deliveries = depot.deliveries.coming.last(5)
+    coming_deliveries = depot.deliveries.last(5)
     new_depot = create(:depot, delivery_ids: coming_deliveries.map(&:id))
 
     Timecop.travel(middle_of_year) do
