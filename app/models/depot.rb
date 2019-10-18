@@ -56,6 +56,14 @@ class Depot < ActiveRecord::Base
     end
   end
 
+  def xlsx_worksheet_style
+    if Current.acp.ragedevert? && id == 2 # Neuchatel Velo
+      :bike_delivery
+    else
+      :default
+    end
+  end
+
   private
 
   def add_baskets_at!(delivery)

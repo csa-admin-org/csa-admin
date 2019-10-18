@@ -155,6 +155,10 @@ class ACP < ActiveRecord::Base
     Rails.application.credentials.dig(tenant_name.to_sym, key)
   end
 
+  def ragedevert?
+    tenant_name == 'ragedevert'
+  end
+
   private
 
   def create_tenant

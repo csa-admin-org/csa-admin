@@ -10,7 +10,7 @@ module XLSX
       @basket_complements = BasketComplement.all
       @basket_sizes = BasketSize.all
 
-      build_recap_worksheet('Récapitulatif') unless @depot
+      build_recap_worksheet(t('recap')) unless @depot
 
       Array(@depot || @depots).each do |d|
         build_depot_worksheet(d)
@@ -21,7 +21,7 @@ module XLSX
 
     def filename
       [
-        'livraison',
+        t('delivery'),
         "##{@delivery.number}",
         @delivery.date.strftime('%Y%m%d')
       ].join('-') + '.xlsx'
@@ -32,13 +32,13 @@ module XLSX
     def build_recap_worksheet(name)
       add_worksheet(name)
 
-      cols = ['', 'Total']
+      cols = ['', t('total')]
       cols += @basket_sizes.map(&:name)
       if @basket_complements.any?
         cols << ''
         cols += @basket_complements.map(&:name)
       end
-      add_header(*cols)
+      add_headers(*cols)
 
       @depots.each do |depot|
         add_baskets_line(depot.name, @baskets.where(depot_id: depot.id))
@@ -48,18 +48,18 @@ module XLSX
       if Depot.paid.any? && free_depots = @depots.free
         free_name = free_depots.pluck(:name).to_sentence
         free_ids = free_depots.pluck(:id)
-        add_baskets_line("Paniers: #{free_name}", @baskets.where(depot_id: free_ids))
+        add_baskets_line("#{Basket.model_name.human(count: 2)}: #{free_name}", @baskets.where(depot_id: free_ids))
         paid_ids = @depots.paid.pluck(:id)
-        add_baskets_line('Paniers à préparer', @baskets.where(depot_id: paid_ids))
+        add_baskets_line(t('baskets_to_prepare'), @baskets.where(depot_id: paid_ids))
         add_empty_line
       end
 
-      add_baskets_line('Total', @baskets, bold: true)
+      add_baskets_line(t('total'), @baskets, bold: true)
 
       add_empty_line
       add_empty_line
 
-      @worksheet.add_cell(@line, 0, 'Absences')
+      @worksheet.add_cell(@line, 0, Absence.model_name.human(count: 2))
       @worksheet.add_cell(@line, 1, @delivery.baskets.absent.sum(:quantity)).set_number_format('0')
 
       @worksheet.change_column_width(0, 35)
@@ -95,66 +95,87 @@ module XLSX
     def build_depot_worksheet(depot)
       baskets = @baskets.where(depot_id: depot.id)
       basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).sum(:quantity) }
-      add_worksheet("#{depot.name} (#{basket_counts.join('+')})")
+      worksheet_name = "#{depot.name} (#{basket_counts.join('+')})"
 
-      add_basket_lines(baskets)
+      add_baskets_worksheet(worksheet_name, baskets, style: depot.xlsx_worksheet_style)
     end
 
     def build_absences_worksheet
       baskets = @delivery.baskets.absent
       basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size_id: bs.id).sum(:quantity) }
-      add_worksheet("#{Absence.model_name.human(count: basket_counts.sum)} (#{basket_counts.join('+')})")
+      worksheet_name =
+        "#{Absence.model_name.human(count: basket_counts.sum)} (#{basket_counts.join('+')})"
 
-      add_basket_lines(baskets)
+      add_baskets_worksheet(worksheet_name, baskets)
     end
 
-    def add_basket_lines(baskets)
-      cols = %w[
-        Nom
-        Emails
-        Téléphones
-        Adresse
-        Zip
-        Ville
-        Panier
-      ]
-      cols << 'Compléments' if @basket_complements.any?
-      cols << 'Note alimentaire'
-      add_header(*cols)
-      baskets
+    def add_baskets_worksheet(name, baskets, style: :default)
+      baskets = baskets
         .joins(:member)
-        .includes(:member, :basket_size, :complements, baskets_basket_complements: :basket_complement).order('members.name')
+        .includes(:member, :basket_size, :complements, baskets_basket_complements: :basket_complement)
         .not_empty
-        .each { |basket| add_basket_line(basket) }
 
-      @worksheet.change_column_width(0, 35)
-      @worksheet.change_column_width(1, 30)
-      @worksheet.change_column_width(2, 15)
-      @worksheet.change_column_width(3, 30)
-      @worksheet.change_column_width(4, 6)
-      @worksheet.change_column_width(5, 20)
-      @worksheet.change_column_width(6, 10)
-      @worksheet.change_column_width(7, 30)
-      @worksheet.change_column_width(8, 50)
+      if style == :bike_delivery
+        baskets = baskets.sort_by(&:basket_description)
+      else
+        baskets = baskets.order('members.name')
+      end
+
+      border = style == :bike_delivery ? 'thin' : 'none'
+
+      add_worksheet(name)
+
+      add_column(
+        Member.human_attribute_name(:name),
+        baskets.map { |b| b.member.name },
+        border: border)
+      unless style == :bike_delivery
+        add_column(
+          Member.human_attribute_name(:emails),
+          baskets.map { |b| b.member.emails_array.join(', ') },
+          border: border)
+        add_column(
+          Member.human_attribute_name(:emails),
+          baskets.map { |b| b.member.phones_array.map(&:phony_formatted).join(', ') },
+          border: border)
+      end
+      add_column(
+        Member.human_attribute_name(:address),
+        baskets.map { |b| b.member.final_delivery_address },
+        border: border)
+      unless style == :bike_delivery
+        add_column(
+          Member.human_attribute_name(:zip),
+          baskets.map { |b| b.member.final_delivery_zip },
+          border: border)
+      end
+      add_column(
+        Member.human_attribute_name(:city),
+        baskets.map { |b| b.member.final_delivery_city },
+        border: border)
+      add_column(
+        Basket.model_name.human(count: 1),
+        baskets.map { |b| b.basket_description || '-' },
+        border: border)
+      if @basket_complements.any?
+        add_column(
+          Basket.human_attribute_name(:complement_ids),
+          baskets.map(&:complements_description),
+          border: border)
+      end
+      unless style == :bike_delivery
+        add_column(
+          Member.human_attribute_name(:food_note),
+          baskets.map { |b| truncate(b.member.food_note, length: 80) },
+          border: border)
+      end
+      if style == :bike_delivery
+        add_column(t('delivered_by'), baskets.map { |b| ' ' * 25 }, border: border)
+      end
     end
 
-    def add_basket_line(basket)
-      member = basket.member
-      cols = [
-        member.name,
-        member.emails_array.join(', '),
-        member.phones_array.map(&:phony_formatted).join(', '),
-        member.final_delivery_address,
-        member.final_delivery_zip,
-        member.final_delivery_city,
-        basket.basket_description || '-'
-      ]
-      cols << basket.complements_description if @basket_complements.any?
-      cols << truncate(member.food_note, length: 80)
-      cols.each_with_index do |col, i|
-        @worksheet.add_cell(@line, i, col)
-      end
-      @line += 1
+    def t(key, *args)
+      I18n.t("delivery.#{key}", *args)
     end
   end
 end

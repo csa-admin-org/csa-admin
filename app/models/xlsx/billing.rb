@@ -20,7 +20,7 @@ module XLSX
 
     def build_worksheet(name)
       worksheet = add_worksheet(name)
-      add_header(
+      add_headers(
         Invoice.human_attribute_name(:description),
         Invoice.human_attribute_name(:unit_price),
         Invoice.human_attribute_name(:total))
