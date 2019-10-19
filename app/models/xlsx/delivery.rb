@@ -115,11 +115,12 @@ module XLSX
         .includes(:member, :basket_size, :complements, baskets_basket_complements: :basket_complement)
         .not_empty
 
-      if style == :bike_delivery
-        baskets = baskets.sort_by(&:basket_description)
-      else
-        baskets = baskets.order('members.name')
-      end
+      baskets =
+        if style == :bike_delivery
+          baskets.order('members.address')
+        else
+          baskets.order('members.name')
+        end
 
       border = style == :bike_delivery ? 'thin' : 'none'
 
