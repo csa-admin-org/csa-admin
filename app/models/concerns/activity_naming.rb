@@ -14,7 +14,7 @@ module ActivityNaming
   class_methods do
     def model_name
       @_model_name ||= begin
-        namespace = parents.find do |n|
+        namespace = module_parents.find do |n|
           n.respond_to?(:use_relative_model_naming?) &&
             n.use_relative_model_naming?
         end

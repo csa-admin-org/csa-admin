@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.6.3'
+ruby '2.6.5'
 
-gem 'rails', '5.2.3'
+gem 'rails', '6.0.0'
 
 gem 'bootsnap', require: false
 gem 'pg'
@@ -15,7 +15,7 @@ gem 'rails-i18n'
 
 gem 'rack-status'
 
-gem 'apartment'
+gem 'apartment', github: 'influitive/apartment', branch: 'development'
 gem 'apartment-activejob'
 gem 'paranoia'
 gem 'phony_rails'
@@ -36,7 +36,7 @@ gem 'turbolinks'
 
 gem 'jbuilder'
 gem 'uglifier'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker'
 
 gem 'sucker_punch'
 
@@ -71,11 +71,14 @@ group :development do
   gem 'bullet'
   gem 'listen'
   gem 'rack-dev-mark'
+  gem 'spring'
+  gem 'spring-watcher-listen'
   gem 'web-console'
 end
 
 group :development, :test do
   gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'launchy'

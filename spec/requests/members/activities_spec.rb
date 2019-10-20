@@ -12,7 +12,7 @@ describe 'Activitys RSS feed' do
     get '/activities.rss'
 
     expect(response.status).to eq 200
-    expect(response.content_type).to eq 'application/rss+xml'
+    expect(response.media_type).to eq 'application/rss+xml'
     expect(response.body).to include('Just Good')
     expect(response.body).not_to include('Too Soon')
     expect(response.body).not_to include('Full')
@@ -27,7 +27,7 @@ describe 'Activitys RSS feed' do
     get '/activities.rss?limit=2'
 
     expect(response.status).to eq 200
-    expect(response.content_type).to eq 'application/rss+xml'
+    expect(response.media_type).to eq 'application/rss+xml'
     expect(response.body).to include('Good One')
     expect(response.body).to include('Good Two')
     expect(response.body).not_to include('Good Three')
@@ -40,7 +40,7 @@ describe 'Activitys RSS feed' do
     get '/activities.rss'
 
     expect(response.status).to eq 200
-    expect(response.content_type).to eq 'application/rss+xml'
+    expect(response.media_type).to eq 'application/rss+xml'
 
     expect(response.body).to include('Aucune')
   end
