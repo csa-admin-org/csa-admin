@@ -1,5 +1,6 @@
 module EmailHelper
   def email_adapter
+    perform_enqueued_jobs
     Email::MockAdapter.instance
   end
 end

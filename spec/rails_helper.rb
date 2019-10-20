@@ -2,6 +2,8 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.dirname(__FILE__) + '/../config/environment'
 require 'rspec/rails'
+require 'capybara/rails'
+require 'capybara/rspec'
 require 'sucker_punch/testing/inline'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -12,6 +14,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.include FactoryBot::Syntax::Methods
+  config.include ActiveJob::TestHelper
+
 
   config.before(:suite) do
     FactoryBot.reload
