@@ -48,7 +48,7 @@ module XLSX
         @worksheet.add_cell(i + 1, @column, val)
       end
 
-      max_width = Array(values).map { |v| v.to_s.length }.max
+      max_width = Array(values).map { |v| v.to_s.length }.max.to_i
       @worksheet.change_column_width(@column, max_width + 1)
 
       if border != 'none'
