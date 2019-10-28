@@ -136,7 +136,7 @@ module XLSX
           baskets.map { |b| b.member.emails_array.join(', ') },
           border: border)
         add_column(
-          Member.human_attribute_name(:emails),
+          Member.human_attribute_name(:phones),
           baskets.map { |b| b.member.phones_array.map(&:phony_formatted).join(', ') },
           border: border)
       end
