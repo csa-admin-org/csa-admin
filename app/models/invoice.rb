@@ -137,6 +137,10 @@ class Invoice < ActiveRecord::Base
     [balance, amount].min
   end
 
+  def overpaid?
+    overbalance > 0
+  end
+
   def overbalance
     balance > amount ? (balance - amount).round_to_five_cents : 0
   end
