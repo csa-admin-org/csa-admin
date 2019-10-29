@@ -77,14 +77,17 @@ group :development do
 end
 
 group :development, :test do
-  gem 'capybara'
-  gem 'selenium-webdriver'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'launchy'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
+
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  # Easy installation and use of web drivers to run system tests with browsers
+  gem 'webdrivers'
 
   gem 'rubocop'
   gem 'rubocop-performance'

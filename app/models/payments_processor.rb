@@ -20,13 +20,25 @@ class PaymentsProcessor
   def create_payment!(data)
     return if Payment.with_deleted.where(isr_data: data.isr_data).exists?
 
+    invoice = Invoice.find(data.invoice_id)
+
     Payment.create!(
-      invoice: Invoice.find(data.invoice_id),
+      invoice: invoice,
       amount: data.amount,
       date: data.date,
       isr_data: data.isr_data)
+
+    if invoice.reload.overpaid?
+      notify_admins_about_overpaid_invoice(invoice)
+    end
   rescue => e
     ExceptionNotifier.notify(e, data)
+  end
+
+  def notify_admins_about_overpaid_invoice(invoice)
+    Admin.notification('invoice_overpaid').find_each do |admin|
+      Email.deliver_now(:invoice_overpaid, admin, invoice)
+    end
   end
 
   def ensure_recent_payments!

@@ -7,3 +7,6 @@ _:
       new_inscription:
         _de: Neue Anmeldung
         _fr: Nouvelle inscription
+      invoice_overpaid:
+        _de: Überzahlte Rechnung
+        _fr: Facture payée en trop

@@ -204,6 +204,32 @@ describe Email do
       ]))
   end
 
+  it 'delivers invoice_overpaid template' do
+    admin = create(:admin,
+      name: 'Thibaud',
+      email: 'thibaud@thibaud.gg',
+      notifications: %w[invoice_overpaid])
+    member = create(:member,
+      name: 'John Doew',
+      emails: 'john@doew.com')
+    invoice = create(:invoice, :annual_fee, member: member)
+
+    Email.deliver_later(:invoice_overpaid, admin, invoice)
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to match(hash_including(
+      from: Current.acp.email_default_from,
+      to: 'thibaud@thibaud.gg',
+      template: 'invoice-overpaid-fr',
+      template_data: {
+        admin_name: 'Thibaud',
+        invoice_number: invoice.id,
+        member_name: 'John Doew',
+        action_url: "https://admin.ragedevert.ch/members/#{member.id}",
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+      }))
+  end
+
   it 'delivers invoice_new template (partially paid)' do
     member = create(:member,
       name: 'John Doew',

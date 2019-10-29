@@ -4,7 +4,7 @@ class Admin < ActiveRecord::Base
   include HasLanguage
   include HasSessions
 
-  NOTIFICATIONS = %w[new_inscription new_absence]
+  NOTIFICATIONS = %w[new_inscription new_absence invoice_overpaid]
   RIGHTS = %w[superadmin admin standard readonly none]
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }

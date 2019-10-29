@@ -147,6 +147,23 @@ module Email
     end
   end
 
+  def invoice_overpaid(admin, invoice)
+    I18n.with_locale(admin.language) do
+      {
+        from: from,
+        to: admin.email,
+        template: template_alias(:invoice_overpaid, admin.language),
+        template_data: {
+          admin_name: admin.name,
+          invoice_number: invoice.id,
+          member_name: invoice.member.name,
+          action_url: url(:member_url, invoice.member),
+          edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
+        }
+      }
+    end
+  end
+
   def invoice_overdue_notice(invoice)
     I18n.with_locale(invoice.member.language) do
       {
