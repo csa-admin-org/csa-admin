@@ -220,7 +220,7 @@ FactoryBot.define do
       after :create do |member|
         create(:membership,
           member: member,
-          started_on: [Time.current.beginning_of_year, Date.current - 3.weeks].max)
+          started_on: [Time.current.beginning_of_year, Delivery.last.date - 3.weeks].max)
       end
     end
 
