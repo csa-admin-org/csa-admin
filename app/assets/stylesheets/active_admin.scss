@@ -580,3 +580,21 @@ body.logged_out {
     }
   }
 }
+
+ul#utility_nav {
+  li#logout {
+    padding: 0;
+    margin: 0;
+
+    a {
+      margin: 0;
+      padding: 5px;
+
+      img {
+        height: 20px;
+        width: 20px;
+        margin: 0 0 -5px;
+      }
+    }
+  }
+}
