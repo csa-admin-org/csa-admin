@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_18_145550) do
+ActiveRecord::Schema.define(version: 2019_11_03_151541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -68,6 +68,16 @@ ActiveRecord::Schema.define(version: 2019_10_18_145550) do
     t.jsonb "membership_extra_texts", default: {}, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
+  end
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_admin_comments", id: :serial, force: :cascade do |t|
@@ -291,6 +301,25 @@ ActiveRecord::Schema.define(version: 2019_10_18_145550) do
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id"
   end
 
+  create_table "group_buying_deliveries", force: :cascade do |t|
+    t.date "date", null: false
+    t.date "orderable_until", null: false
+  end
+
+  create_table "group_buying_producers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "website_url"
+  end
+
+  create_table "group_buying_products", force: :cascade do |t|
+    t.bigint "producer_id", null: false
+    t.jsonb "names", default: {}, null: false
+    t.jsonb "jsonb", default: {}, null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
+    t.boolean "available", default: true, null: false
+    t.index ["producer_id"], name: "index_group_buying_products_on_producer_id"
+  end
+
   create_table "invoice_items", force: :cascade do |t|
     t.bigint "invoice_id"
     t.string "description", null: false
@@ -461,6 +490,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_145550) do
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
   add_foreign_key "depots", "members", column: "responsible_member_id"
+  add_foreign_key "group_buying_products", "group_buying_producers", column: "producer_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "depots"

@@ -206,6 +206,9 @@ _:
       billing:
         _de: Rechnungsstellung
         _fr: Facturation
+      group_buying:
+        _de: Gruppeneinkauf
+        _fr: Achats Groupés
       other:
         _de: Weiteres
         _fr: Autre
@@ -580,6 +583,10 @@ _:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
+      group_buying/delivery:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
       invoice:
         new_model:
           _de: Neue %{model}

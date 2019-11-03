@@ -10,6 +10,7 @@
 $primary-color: #0c9024 !default; // #22952f
 @import 'formadmin/formadmin';
 @import 'jquery.timepicker'; // Foradmin fix
+@import 'actiontext';
 
 .flash_alert {
   background-color: tint($negative-color, 95%);
@@ -336,6 +337,43 @@ table#index_table_activities {
   .col-date {
     width: 170px;
     text-align: right;
+  }
+}
+
+table#index_table_group_buying_deliveries {
+  .col- {
+    width: 50px;
+  }
+
+  .col-actions {
+    width: 110px;
+  }
+}
+
+table#index_table_group_buying_producers {
+  .col-actions {
+    width: 110px;
+  }
+
+  .col-products {
+    width: 80px;
+    text-align: right;
+  }
+}
+
+table#index_table_group_buying_products {
+  .col-available {
+    width: 100px;
+    text-align: right;
+  }
+
+  .col-price {
+    width: 140px;
+    text-align: right;
+  }
+
+  .col-actions {
+    width: 110px;
   }
 }
 

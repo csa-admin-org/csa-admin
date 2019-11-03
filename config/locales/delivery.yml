@@ -3,12 +3,12 @@ _:
     baskets_to_prepare:
       _de: Taschen vorzubereiten
       _fr: Paniers à préparer
-    delivery:
-      _de: lieferung
-      _fr: livraison
     delivered_by:
       _de: Liefert von
       _fr: Livré par
+    delivery:
+      _de: lieferung
+      _fr: livraison
     recap:
       _de: Zusammenfassung
       _fr: Récapitulatif

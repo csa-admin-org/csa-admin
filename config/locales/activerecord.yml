@@ -359,6 +359,10 @@ _:
         responsible_member_phones:
           _de: Verantwortliches Mitglied, Telefon(e)
           _fr: Membre responsable, Téléphone(s)
+      group_buying/delivery:
+        orderable_until:
+          _de: Kommandofähig bis
+          _fr: Commandable jusqu'au
       invoice:
         balance:
           _de: Eingezahlt
@@ -813,6 +817,31 @@ _:
         other:
           _de: Depots
           _fr: Dépôts
+      group_buying:
+        one:
+          _de: Gruppeneinkauf
+          _fr: Achats Groupés
+      group_buying/delivery:
+        one:
+          _de: Lieferung
+          _fr: Livraison
+        other:
+          _de: Lieferungen
+          _fr: Livraisons
+      group_buying/producer:
+        one:
+          _de: Produzent
+          _fr: Producteur
+        other:
+          _de: Produzenten
+          _fr: Producteurs
+      group_buying/product:
+        one:
+          _de: Produkt
+          _fr: Produit
+        other:
+          _de: Produkte
+          _fr: Produits
       invoice:
         one:
           _de: Rechnung
