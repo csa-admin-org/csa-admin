@@ -15,6 +15,9 @@ _:
     annual_price:
       _de: Jährlicher Preis
       _fr: Prix annuel
+    available:
+      _de: Verfügbar
+      _fr: Disponible
     balance_amount:
       _de: Kontostand
       _fr: Balance
@@ -159,6 +162,12 @@ _:
     price:
       _de: Preis
       _fr: Prix
+    producer:
+      _de: Produzent
+      _fr: Producteur
+    products:
+      _de: Produkte
+      _fr: Produits
     quantity:
       _de: Menge
       _fr: Quantité
@@ -189,6 +198,9 @@ _:
     visible:
       _de: Sichtbar
       _fr: Visible
+    website_url:
+      _de: Website
+      _fr: Site Web
     xlsx_recap:
       _de: Zusammenfassung Excel
       _fr: Récapitulatif Excel

@@ -234,8 +234,9 @@ ActiveAdmin.setup do |config|
   config.namespace false do |admin|
     admin.build_menu do |menu|
       menu.add label: :activities_human_name, priority: 6
-      menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 7, id: :billing
-      menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 8, id: :other
+      menu.add label: -> { I18n.t('active_admin.menu.group_buying') }, priority: 7, id: :group_buying
+      menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 8, id: :billing
+      menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 9, id: :other
     end
   end
 
@@ -347,3 +348,15 @@ ActiveAdmin::BaseController.class_eval do
       alert: t('active_admin.flash.invalid_foreign_key_alert'))
   end
 end
+
+module AdminPageLayoutOverride
+  def build_active_admin_head(*args)
+    within head do
+      text_node javascript_pack_tag 'admin'
+    end
+
+    super
+  end
+end
+
+ActiveAdmin::Views::Pages::Base.send :prepend, AdminPageLayoutOverride

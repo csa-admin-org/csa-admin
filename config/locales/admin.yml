@@ -1,12 +1,12 @@
 _:
   admin:
     notifications:
+      invoice_overpaid:
+        _de: Überzahlte Rechnung
+        _fr: Facture payée en trop
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
       new_inscription:
         _de: Neue Anmeldung
         _fr: Nouvelle inscription
-      invoice_overpaid:
-        _de: Überzahlte Rechnung
-        _fr: Facture payée en trop

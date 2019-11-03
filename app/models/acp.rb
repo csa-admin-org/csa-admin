@@ -5,6 +5,7 @@ class ACP < ActiveRecord::Base
     activity
     basket_content
     recurring_billing
+    group_buying
   ]
   LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
