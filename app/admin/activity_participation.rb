@@ -9,6 +9,17 @@ ActiveAdmin.register ActivityParticipation do
   scope :validated
   scope :rejected
 
+  filter :member,
+    as: :select,
+    collection: -> { Member.joins(:activity_participations).order(:name).distinct }
+  filter :activity,
+    as: :select,
+    collection: -> { Activity.order(date: :desc, start_time: :desc) }
+  filter :activity_date, label: -> { Activity.human_attribute_name(:date) }, as: :date_range
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+
   includes :member, :activity, :session
   index do
     selectable_column
@@ -37,17 +48,6 @@ ActiveAdmin.register ActivityParticipation do
     column(:validated_at)
     column(:rejected_at)
   end
-
-  filter :member,
-    as: :select,
-    collection: -> { Member.joins(:activity_participations).order(:name).distinct }
-  filter :activity,
-    as: :select,
-    collection: -> { Activity.order(date: :desc, start_time: :desc) }
-  filter :activity_date, label: -> { Activity.human_attribute_name(:date) }, as: :date_range
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
 
   sidebar :icalendar, if: -> { Current.acp.ical_feed? }, only: :index do
     div do
@@ -140,6 +140,8 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   controller do
+    include TranslatedCSVFilename
+
     before_create do |participation|
       if participation.activity.date.past?
         participation.validated_at = Time.current

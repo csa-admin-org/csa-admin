@@ -10,7 +10,6 @@ Rails.application.configure do
     }
   ExceptionNotifier::Rake.configure(ignore_exceptions: [])
 
-
   # Code is not reloaded between requests.
   config.cache_classes = true
 

@@ -266,6 +266,10 @@ ActiveAdmin.register Invoice do
     end
   end
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.per_page = 50
   config.sort_order = 'date_desc'
 end

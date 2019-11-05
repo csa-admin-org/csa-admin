@@ -159,7 +159,18 @@ ActiveAdmin.register Delivery do
     end
   end
 
+  permit_params \
+    :note,
+    :date,
+    :bulk_dates_starts_on, :bulk_dates_ends_on,
+    :bulk_dates_weeks_frequency,
+    bulk_dates_wdays: [],
+    basket_complement_ids: [],
+    depot_ids: []
+
   controller do
+    include TranslatedCSVFilename
+
     def show
       respond_to do |format|
         format.html
@@ -184,15 +195,6 @@ ActiveAdmin.register Delivery do
       end
     end
   end
-
-  permit_params \
-    :note,
-    :date,
-    :bulk_dates_starts_on, :bulk_dates_ends_on,
-    :bulk_dates_weeks_frequency,
-    bulk_dates_wdays: [],
-    basket_complement_ids: [],
-    depot_ids: []
 
   config.sort_order = 'date_asc'
   config.per_page = 52

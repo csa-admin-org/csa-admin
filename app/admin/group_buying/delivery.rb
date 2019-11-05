@@ -43,5 +43,9 @@ ActiveAdmin.register GroupBuying::Delivery do
     :orderable_until,
     descriptions: I18n.available_locales)
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.sort_order = 'date_asc'
 end

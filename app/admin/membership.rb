@@ -371,6 +371,8 @@ ActiveAdmin.register Membership do
   end
 
   controller do
+    include TranslatedCSVFilename
+
     def apply_filtering(chain)
       super(chain).distinct
     end

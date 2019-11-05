@@ -21,5 +21,6 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'PDF'
   inflect.acronym 'XLSX'
   inflect.acronym 'ISR'
+  inflect.acronym 'CSV'
   inflect.acronym 'MailChimp'
 end

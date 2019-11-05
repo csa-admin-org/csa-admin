@@ -36,5 +36,10 @@ ActiveAdmin.register GroupBuying::Producer do
     :website_url,
     descriptions: I18n.available_locales)
 
+
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.sort_order = 'name_asc'
 end

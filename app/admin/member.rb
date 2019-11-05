@@ -375,6 +375,8 @@ ActiveAdmin.register Member do
   end
 
   controller do
+    include TranslatedCSVFilename
+
     def apply_sorting(chain)
       params[:order] ||= 'members.waiting_started_at_asc' if params[:scope] == 'waiting'
       super

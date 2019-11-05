@@ -46,10 +46,14 @@ ActiveAdmin.register BasketComplement do
     end
   end
 
-  permit_params :price, :price_type,
+  permit_params(:price, :price_type,
     current_delivery_ids: [],
     future_delivery_ids: [],
-    names: I18n.available_locales
+    names: I18n.available_locales)
+
+  controller do
+    include TranslatedCSVFilename
+  end
 
   config.filters = false
   config.sort_order = -> { "names->>'#{I18n.locale}'" }
