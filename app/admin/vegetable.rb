@@ -22,6 +22,10 @@ ActiveAdmin.register Vegetable do
 
   permit_params(names: I18n.available_locales)
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.filters = false
   config.per_page = 50
   config.sort_order = -> { "names->>'#{I18n.locale}'" }

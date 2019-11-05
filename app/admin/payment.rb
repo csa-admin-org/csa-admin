@@ -106,6 +106,10 @@ ActiveAdmin.register Payment do
     end
   end
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.sort_order = 'date_desc'
   config.per_page = 50
 end

@@ -2,6 +2,11 @@ ActiveAdmin.register BasketContent do
   menu priority: 5
   actions :all, except: [:show]
 
+  filter :delivery, as: :select
+  filter :vegetable, as: :select
+  filter :basket_size, as: :select, collection: -> { [[small_basket.name, 'small'], [big_basket.name, 'big']] }
+  filter :depots, as: :select
+
   includes :delivery, :vegetable, :depots
   index do
     column :date, ->(bc) { bc.delivery.date.to_s }
@@ -60,10 +65,15 @@ ActiveAdmin.register BasketContent do
     f.actions
   end
 
-  filter :delivery, as: :select
-  filter :vegetable, as: :select
-  filter :basket_size, as: :select, collection: -> { [[small_basket.name, 'small'], [big_basket.name, 'big']] }
-  filter :depots, as: :select
+  permit_params(*%i[
+    delivery_id
+    vegetable_id
+    quantity
+    same_basket_quantities
+    unit
+  ],
+    depot_ids: [],
+    basket_sizes: [])
 
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty?
@@ -87,13 +97,7 @@ ActiveAdmin.register BasketContent do
     end
   end
 
-  permit_params(*%i[
-    delivery_id
-    vegetable_id
-    quantity
-    same_basket_quantities
-    unit
-  ],
-    depot_ids: [],
-    basket_sizes: [])
+  controller do
+    include TranslatedCSVFilename
+  end
 end

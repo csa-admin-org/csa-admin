@@ -36,6 +36,10 @@ ActiveAdmin.register BasketSize do
     :activity_participations_demanded_annualy,
     names: I18n.available_locales)
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.filters = false
   config.sort_order = -> { "names->>'#{I18n.locale}'" }
 end

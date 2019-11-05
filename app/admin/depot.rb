@@ -144,6 +144,10 @@ ActiveAdmin.register Depot do
     depot.price ||= 0.0
   end
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.filters = false
   config.per_page = 25
   config.sort_order = 'name_asc'

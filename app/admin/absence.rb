@@ -80,5 +80,9 @@ ActiveAdmin.register Absence do
     end
   end
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.per_page = 25
 end

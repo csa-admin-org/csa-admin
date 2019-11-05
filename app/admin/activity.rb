@@ -6,6 +6,13 @@ ActiveAdmin.register Activity do
   scope :coming, default: true
   scope :past
 
+  filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).sort }
+  filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).sort }
+  filter :date
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+
   includes :participations
   index do
     column :date, ->(a) { l a.date, format: :medium }, sortable: :date
@@ -33,13 +40,6 @@ ActiveAdmin.register Activity do
     column(:participants) { |a| a.participations.sum(&:participants_count) }
     column(:participants_limit)
   end
-
-  filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).sort }
-  filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).sort }
-  filter :date
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
 
   form do |f|
     render partial: 'bulk_dates', locals: { f: f, resource: resource }
@@ -85,6 +85,10 @@ ActiveAdmin.register Activity do
 
   before_build do |activity|
     activity.preset_id ||= ActivityPreset.first&.id
+  end
+
+  controller do
+    include TranslatedCSVFilename
   end
 
   config.per_page = 25

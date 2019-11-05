@@ -29,5 +29,10 @@ ActiveAdmin.register GroupBuying::Product do
     :price,
     names: I18n.available_locales)
 
+
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.sort_order = "names_desc"
 end

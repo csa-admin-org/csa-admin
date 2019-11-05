@@ -110,6 +110,8 @@ ActiveAdmin.register ACP do
   end
 
   controller do
+    include TranslatedCSVFilename
+
     defaults singleton: true
 
     def resource

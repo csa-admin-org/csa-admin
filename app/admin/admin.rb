@@ -61,5 +61,9 @@ ActiveAdmin.register Admin do
     Email.deliver_later(:admin_new, admin)
   end
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.filters = false
 end

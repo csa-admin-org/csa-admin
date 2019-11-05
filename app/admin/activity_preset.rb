@@ -26,6 +26,10 @@ ActiveAdmin.register ActivityPreset do
     place_urls: I18n.available_locales,
     titles: I18n.available_locales)
 
+  controller do
+    include TranslatedCSVFilename
+  end
+
   config.filters = false
   config.per_page = 50
   config.sort_order = -> { "places->>'#{I18n.locale}'" }
