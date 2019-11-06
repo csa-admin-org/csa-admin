@@ -39,6 +39,9 @@ _:
         delivery_pdf_footer:
           _de: Fußzeile
           _fr: Bas de page
+        delivery_pdf_show_phones:
+          _de: Telefonnummern einbeziehen
+          _fr: Inclure les numéros de téléphone
         email:
           _de: Email
           _fr: Email

@@ -15,6 +15,7 @@ ActiveAdmin.register ACP do
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :vat_number, :vat_membership_rate, :absences_billed,
+    :delivery_pdf_show_phones,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -88,6 +89,7 @@ ActiveAdmin.register ACP do
     end
     f.inputs t('.delivery_pdf') do
       translated_input(f, :delivery_pdf_footers, required: false)
+      f.input :delivery_pdf_show_phones, as: :boolean
     end
     f.inputs t('.member_section') do
       translated_input(f, :terms_of_service_urls, required: false)

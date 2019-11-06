@@ -1,7 +1,5 @@
 module PDF
   class Delivery < Base
-    BASKETS_PER_PAGE = 20
-
     attr_reader :delivery, :current_time
 
     def initialize(delivery, depot = nil)
@@ -16,14 +14,15 @@ module PDF
         else
           Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
+      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 20
 
       @depots.each do |dist|
         baskets = @baskets.where(depot: dist)
         basket_sizes = basket_sizes_for(baskets)
         basket_complements = basket_complements_for(baskets)
-        total_pages = (baskets.count / BASKETS_PER_PAGE.to_f).ceil
+        total_pages = (baskets.count / basket_per_page.to_f).ceil
 
-        baskets.each_slice(BASKETS_PER_PAGE).with_index do |slice, i|
+        baskets.each_slice(basket_per_page).with_index do |slice, i|
           page_n = i + 1
           page(dist, slice, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
@@ -55,7 +54,7 @@ module PDF
 
     def header(depot, page:, total_pages:)
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
-      bounding_box [bounds.width - 320, bounds.height - 20], width: 300, height: 100 do
+      bounding_box [bounds.width - 320, bounds.height - 20], width: 300, height: 120 do
         text depot.name, size: 28, align: :right
         move_down 5
         text I18n.l(delivery.date), size: 28, align: :right
@@ -103,10 +102,21 @@ module PDF
       font_size 12
       data = []
       baskets.each do |basket|
+        column_content = basket.member.name
+
+        if Current.acp.delivery_pdf_show_phones?
+          phones = basket.member.phones_array
+          if phones.any?
+            txt = phones.map(&:phony_formatted).join(', ')
+            column_content += "<font size='3'>\n\n</font>"
+            column_content += "<font size='10'><i><color rgb='666666'>#{txt}</color></i></font>"
+          end
+        end
+
         line = [
-          content: basket.member.name,
+          content: column_content,
           width: member_name_width,
-          height: 25,
+          # height: 25,
           align: :right,
           padding_right: 15
         ]
@@ -114,7 +124,7 @@ module PDF
           line << {
             content: (basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''),
             width: 25,
-            height: 25,
+            # height: 25,
             align: :center
           }
         end
@@ -122,7 +132,7 @@ module PDF
           line << {
             content: (basket.baskets_basket_complements.map(&:basket_complement_id).include?(c.id) ? display_quantity(basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }.quantity) : ''),
             width: 25,
-            height: 25,
+            # height: 25,
             align: :center
           }
         end
@@ -157,7 +167,7 @@ module PDF
       table(
         data,
         row_colors: %w[DDDDDD FFFFFF],
-        cell_style: { border_width: 0.5, border_color: 'AAAAAA' },
+        cell_style: { border_width: 0.5, border_color: 'AAAAAA', inline_format: true },
         position: :center) do |t|
         t.cells.borders = []
         (bs_size + bc_size).times do |i|
