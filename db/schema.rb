@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_192755) do
+ActiveRecord::Schema.define(version: 2019_11_07_193723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -305,15 +305,15 @@ ActiveRecord::Schema.define(version: 2019_11_07_192755) do
   create_table "group_buying_deliveries", force: :cascade do |t|
     t.date "date", null: false
     t.date "orderable_until", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "group_buying_producers", force: :cascade do |t|
     t.string "name", null: false
     t.string "website_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "group_buying_products", force: :cascade do |t|
@@ -322,8 +322,8 @@ ActiveRecord::Schema.define(version: 2019_11_07_192755) do
     t.jsonb "jsonb", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2, null: false
     t.boolean "available", default: true, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["producer_id"], name: "index_group_buying_products_on_producer_id"
   end
 
