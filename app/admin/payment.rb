@@ -108,6 +108,7 @@ ActiveAdmin.register Payment do
 
   controller do
     include TranslatedCSVFilename
+    include ApplicationHelper
   end
 
   config.sort_order = 'date_desc'
