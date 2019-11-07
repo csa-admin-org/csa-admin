@@ -51,6 +51,7 @@ module ApplicationHelper
 
   def referer_filter_member_id
     return unless request&.referer
+
     query = URI(request.referer).query
     Rack::Utils.parse_nested_query(query).dig('q', 'member_id_eq')
   end

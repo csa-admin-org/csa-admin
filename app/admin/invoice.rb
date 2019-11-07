@@ -268,6 +268,7 @@ ActiveAdmin.register Invoice do
 
   controller do
     include TranslatedCSVFilename
+    include ApplicationHelper
   end
 
   config.per_page = 50
