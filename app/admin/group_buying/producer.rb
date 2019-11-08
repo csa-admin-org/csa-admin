@@ -6,7 +6,7 @@ ActiveAdmin.register GroupBuying::Producer do
 
   includes :products
 
-  index do
+  index download_links: false do
     column :name, ->(producer) { auto_link producer }
     column :products, ->(producer) {
       link_to(
@@ -25,7 +25,6 @@ ActiveAdmin.register GroupBuying::Producer do
     f.inputs do
       translated_input(f, :descriptions,
         as: :action_text,
-        input_html: { rows: 10 },
         required: false)
     end
     f.actions

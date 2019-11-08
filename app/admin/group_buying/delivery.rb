@@ -10,7 +10,7 @@ ActiveAdmin.register GroupBuying::Delivery do
     as: :select,
     collection: -> { fiscal_years_collection }
 
-  index do
+  index download_links: false do
     column '#', ->(delivery) { auto_link delivery, delivery.id }
     column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
     column :orderable_until, ->(delivery) { auto_link delivery, l(delivery.orderable_until) }
@@ -31,9 +31,7 @@ ActiveAdmin.register GroupBuying::Delivery do
       f.input :orderable_until, as: :datepicker, required: true
     end
     f.inputs do
-      translated_input(f, :descriptions,
-        as: :action_text,
-        input_html: { rows: 10 })
+      translated_input(f, :descriptions, as: :action_text)
     end
     f.actions
   end

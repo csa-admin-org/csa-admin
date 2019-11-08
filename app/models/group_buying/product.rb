@@ -3,6 +3,7 @@ module GroupBuying
     self.table_name = 'group_buying_products'
 
     include TranslatedAttributes
+    include HasTranslatedDescription
 
     translated_attributes :name
 
