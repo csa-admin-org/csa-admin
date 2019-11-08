@@ -6,11 +6,22 @@ ActiveAdmin.register GroupBuying::Product do
   filter :available
   filter :price
 
+  includes :producer
+
   index do
     column :name, ->(product) { auto_link product }, sortable: :names
     column :available, ->(product) { status_tag(product.available? ? :yes : :no) }
     column :price, ->(product) { number_to_currency(product.price) }
     actions
+  end
+
+  csv do
+    column(:name)
+    column(:producer) { |p| p.producer.name }
+    column(:price) { |p| number_to_currency(p.price) }
+    column(:available)
+    column(:created_at)
+    column(:updated_at)
   end
 
   form do |f|
@@ -20,6 +31,11 @@ ActiveAdmin.register GroupBuying::Product do
       f.input :price, as: :number, step: 0.05, min: -99999.95, max: 99999.95
       f.input :available, as: :boolean
     end
+    f.inputs do
+      translated_input(f, :descriptions,
+        as: :action_text,
+        required: false)
+    end
     f.actions
   end
 
@@ -27,12 +43,12 @@ ActiveAdmin.register GroupBuying::Product do
     :producer_id,
     :available,
     :price,
-    names: I18n.available_locales)
-
+    names: I18n.available_locales,
+    descriptions: I18n.available_locales)
 
   controller do
     include TranslatedCSVFilename
   end
 
-  config.sort_order = "names_desc"
+  config.sort_order = 'names_desc'
 end
