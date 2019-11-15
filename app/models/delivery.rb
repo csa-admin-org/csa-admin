@@ -30,7 +30,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def self.next
-    coming.first
+    coming.order(:date).first
   end
 
   def delivered?

@@ -129,6 +129,9 @@ _:
     note:
       _de: Notiz
       _fr: Note
+    orders_count:
+      _de: Anzahl der Bestellungen
+      _fr: Nombre de commandes
     other:
       _de: Weiteres
       _fr: Autre
@@ -165,6 +168,9 @@ _:
     producer:
       _de: Produzent
       _fr: Producteur
+    product:
+      _de: Produkt
+      _fr: Produit
     products:
       _de: Produkte
       _fr: Produits

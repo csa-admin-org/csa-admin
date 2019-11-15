@@ -1,5 +1,5 @@
 ActiveAdmin.register GroupBuying::Producer do
-  menu parent: :group_buying, priority: 2
+  menu parent: :group_buying, priority: 3
   actions :all, except: [:show]
 
   filter :name
@@ -34,11 +34,6 @@ ActiveAdmin.register GroupBuying::Producer do
     :name,
     :website_url,
     descriptions: I18n.available_locales)
-
-
-  controller do
-    include TranslatedCSVFilename
-  end
 
   config.sort_order = 'name_asc'
 end

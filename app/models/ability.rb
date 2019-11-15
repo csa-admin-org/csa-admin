@@ -16,9 +16,9 @@ class Ability
       can :read, Admin
       can :manage, Delivery
       can :manage, ActivityPreset if Current.acp.feature?('activity')
-      can :create, [GroupBuying::Delivery, GroupBuying::Producer, GroupBuying::Product] & available_models
-      can :update, [GroupBuying::Delivery, GroupBuying::Producer, GroupBuying::Product] & available_models
-      can :destroy, [GroupBuying::Delivery, GroupBuying::Producer, GroupBuying::Product] & available_models, can_destroy?: true
+      can :create, group_buying_models & available_models
+      can :update, group_buying_models & available_models
+      can :destroy, group_buying_models & available_models, can_destroy?: true
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
@@ -61,10 +61,17 @@ class Ability
       default << Vegetable
     end
     if Current.acp.feature?('group_buying')
-      default << GroupBuying::Delivery
-      default << GroupBuying::Producer
-      default << GroupBuying::Product
+      default += group_buying_models
     end
     default
+  end
+
+  def group_buying_models
+    [
+      GroupBuying::Delivery,
+      GroupBuying::Producer,
+      GroupBuying::Product,
+      GroupBuying::Order
+    ]
   end
 end

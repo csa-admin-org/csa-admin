@@ -1,5 +1,5 @@
 ActiveAdmin.register GroupBuying::Delivery do
-  menu parent: :group_buying, priority: 1
+  menu parent: :group_buying, priority: 2
 
   scope :all
   scope :coming, default: true
@@ -10,6 +10,8 @@ ActiveAdmin.register GroupBuying::Delivery do
     as: :select,
     collection: -> { fiscal_years_collection }
 
+  includes :orders
+
   index download_links: false do
     column '#', ->(delivery) { auto_link delivery, delivery.id }
     column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
@@ -19,10 +21,17 @@ ActiveAdmin.register GroupBuying::Delivery do
 
   show do |delivery|
     attributes_table do
-      row(:date) { l(delivery.orderable_until, date_format: :long) }
+      row :id
+      row(:date) { l(delivery.date, date_format: :long) }
       row(:orderable_until) { l(delivery.orderable_until, date_format: :long) }
-      row :description
+      row(:orders_count) {
+        link_to(delivery.orders.count, group_buying_orders_path(q: { delivery_id_eq: delivery.id }))
+      }
     end
+    panel GroupBuying::Delivery.human_attribute_name(:description) do
+      delivery.description
+    end
+    active_admin_comments
   end
 
   form do |f|
@@ -40,10 +49,6 @@ ActiveAdmin.register GroupBuying::Delivery do
     :date,
     :orderable_until,
     descriptions: I18n.available_locales)
-
-  controller do
-    include TranslatedCSVFilename
-  end
 
   config.sort_order = 'date_asc'
 end

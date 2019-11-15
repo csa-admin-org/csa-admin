@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_193723) do
+ActiveRecord::Schema.define(version: 2019_11_08_112252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -309,6 +309,29 @@ ActiveRecord::Schema.define(version: 2019_11_07_193723) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "group_buying_order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id", "product_id"], name: "index_group_buying_order_items_on_order_id_and_product_id", unique: true
+    t.index ["order_id"], name: "index_group_buying_order_items_on_order_id"
+    t.index ["product_id"], name: "index_group_buying_order_items_on_product_id"
+  end
+
+  create_table "group_buying_orders", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "delivery_id", null: false
+    t.integer "items_count", default: 0, null: false
+    t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["delivery_id"], name: "index_group_buying_orders_on_delivery_id"
+    t.index ["member_id"], name: "index_group_buying_orders_on_member_id"
+  end
+
   create_table "group_buying_producers", force: :cascade do |t|
     t.string "name", null: false
     t.string "website_url"
@@ -497,6 +520,9 @@ ActiveRecord::Schema.define(version: 2019_11_07_193723) do
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
   add_foreign_key "depots", "members", column: "responsible_member_id"
+  add_foreign_key "group_buying_order_items", "group_buying_orders", column: "order_id"
+  add_foreign_key "group_buying_order_items", "group_buying_products", column: "product_id"
+  add_foreign_key "group_buying_orders", "group_buying_deliveries", column: "delivery_id"
   add_foreign_key "group_buying_products", "group_buying_producers", column: "producer_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "waiting_depot_id"

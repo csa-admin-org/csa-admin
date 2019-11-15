@@ -1,7 +1,3 @@
-- if notice
-  .flash-notice
-    span = notice
-
-- if alert
-  .flash-alert
-    span = alert
+- flash.each do |type, msg|
+  div class="flash #{type}"
+    span = msg

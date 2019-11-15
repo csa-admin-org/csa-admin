@@ -8,17 +8,16 @@ $flash-green: #e6efc2;
   margin: $base-spacing / 2 0;
   padding: $base-spacing / 2;
   border-radius: 5px;
+  width: calc(100% - 1.5em);
 }
-
 $flashes: (
   alert: $flash-yellow,
   error: $flash-red,
   notice: $flash-green,
   success: $flash-green
 );
-
 @each $flash, $color in $flashes {
-  .flash-#{$flash} {
+  .flash.#{$flash} {
     @extend %flash-base;
     background: $color;
     color: darken($color, 60);

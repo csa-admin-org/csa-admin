@@ -1,0 +1,67 @@
+h1 = t('activerecord.models.group_buying.one')
+
+section
+  - if @delivery
+    h2 = t('.delivery', date: l(@delivery.date))
+    - if @delivery.orderable?
+      h3 == t('.orderable_until', date: l(@delivery.orderable_until)).html_safe
+    - else
+      h3 = t('.not_orderable')
+
+    = @delivery.description
+
+- past_orders = @delivery.orders.where(member: current_member).order(created_at: :desc)
+- if past_orders.any?
+  section.past_orders
+    h2 = t('.past_orders')
+    ul.billing
+      - past_orders.each do |order|
+        li
+          span.date = l(order.date, format: :number)
+          span.info = t('.past_order_info', number: order.id, products_count: t('.products_count', count: order.items_count))
+          span.amount = number_to_currency(order.amount)
+
+    p.info = t('.past_orders_explanation', contact_link: mail_to(Current.acp.email, t('.contact'))).html_safe
+
+- if @delivery.orderable?
+  section
+    h2 = t('.new_order')
+
+    #group-buying-order-form
+      = form_for [:members, @order] do |f|
+        - if @order.errors.any?
+          ul.errors
+            - @order.errors.full_messages.each do |msg|
+              li = msg
+
+        - @order.items_grouped_by_producer.each do |producer, items|
+
+          h3 = producer.name
+          = producer.description
+
+          h4 = t('.products')
+          ul.products
+            = f.fields_for :items, items do |ff|
+              li
+                = ff.hidden_field :product_id
+
+                .product
+                  = ff.label :quantity do
+                    span.title = ff.object.product.name
+                    span.price = number_to_currency ff.object.product.price
+                    = ff.object.product.description
+
+                  .input.quantity
+                    = ff.number_field :quantity, min: 0, step: 1, data: { price: ff.object.product.price }
+
+        #amount-wrapper style='display:none;'
+          p#amount= t('.order_amount', amount: number_to_currency(@order.amount))
+
+        .pretty_check_boxes
+          label
+            = f.check_box :terms_of_service, required: true
+            span.checkmark
+            span.label = t('.terms_of_service')
+
+        .input.submit
+          = f.submit t('.form_submit'), id: 'order-button'
