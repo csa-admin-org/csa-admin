@@ -36,6 +36,7 @@ class Member < ActiveRecord::Base
     through: :memberships,
     source: :delivered_baskets,
     class_name: 'Basket'
+  has_many :group_buying_orders, class_name: 'GroupBuying::Order'
 
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }

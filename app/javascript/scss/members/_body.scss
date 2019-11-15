@@ -210,9 +210,13 @@ body {
       }
     }
 
-    .flash-notice {
-      position: absolute;
-      top: $base-spacing;
+    .flash {
+      margin-bottom: $base-spacing;
+      @media screen and (min-width: 900px) {
+        margin-bottom: 0;
+        position: absolute;
+        top: $base-spacing;
+      }
     }
 
     footer {

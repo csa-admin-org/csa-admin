@@ -5,6 +5,8 @@ module GroupBuying
     include HasFiscalYearScopes
     include HasTranslatedDescription
 
+    has_many :orders, class_name: 'GroupBuying::Order'
+
     scope :past, -> { where('date < ?', Date.current) }
     scope :coming, -> { where('date >= ?', Date.current) }
     scope :between, ->(range) { where(date: range) }
@@ -16,8 +18,20 @@ module GroupBuying
       presence: true,
       date: { before_or_equal_to: :date }
 
+    def self.next
+      coming.order(:date).first
+    end
+
+    def display_name
+      "##{id} – #{I18n.l date}"
+    end
+
+    def orderable?
+      orderable_until >= Date.today
+    end
+
     def can_destroy?
-      true
+      orders.none?
     end
   end
 end

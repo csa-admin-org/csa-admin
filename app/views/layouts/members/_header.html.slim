@@ -33,6 +33,13 @@ header
                     - else
                       = t('.no_activity_participations_demanded')
 
+            - if display_group_buying?
+              li class=nav_class('group_buying')
+                = link_to members_group_buying_path do
+                  = t('activerecord.models.group_buying.one')
+                  span
+                    = t('.next_delivery', date: l(next_group_buying_delivery.date))
+
             li class=nav_class('billing')
               = link_to members_billing_path  do
                 = t('.billing')

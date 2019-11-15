@@ -683,6 +683,17 @@ _:
         comment:
           _de: Kommentar
           _fr: Commentaire
+    errors:
+      models:
+        group_buying/order:
+          attributes:
+            base:
+              no_items:
+                _de: Kein Produkt ausgewählt
+                _fr: Aucun produit sélectionné
+              terms_of_service_unchecked:
+                _de: Die Allgemeinen Verkaufsbedingungen müssen akzeptiert werden
+                _fr: Les conditions générales de vente doivent être acceptées
     models:
       absence:
         one:
@@ -831,6 +842,13 @@ _:
         other:
           _de: Lieferungen
           _fr: Livraisons
+      group_buying/order:
+        one:
+          _de: Bestellung
+          _fr: Commande
+        other:
+          _de: Bestellungen
+          _fr: Commandes
       group_buying/producer:
         one:
           _de: Produzent

@@ -35,6 +35,10 @@ Rails.application.routes.draw do
       resources :deliveries, only: :index
       resources :activities, only: :index
       resources :activity_participations, only: %i[index create destroy]
+      namespace :group_buying do
+        get '/' => 'base#show'
+        resources :orders, only: :create
+      end
       resources :absences, only: %i[index create destroy]
       get 'billing' => 'billing#index'
       resource :member, only: %i[new show create], path: '' do

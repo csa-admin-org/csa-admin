@@ -379,5 +379,4 @@ ActiveAdmin.register Membership do
   end
 
   config.per_page = 30
-  config.comments = true
 end

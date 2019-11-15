@@ -237,6 +237,20 @@ table.table-baskets {
   }
 }
 
+table.table-group_buying_orders {
+  .col-amount,
+  .col-price,
+  .col-quantity {
+    text-align: right;
+    width: 80px;
+    padding-left: 10px;
+  }
+
+  .col-quantity {
+    width: 50px;
+  }
+}
+
 table#index_table_invoices,
 table.table-invoices {
   .col-id {
@@ -358,6 +372,17 @@ table#index_table_group_buying_producers {
   .col-products {
     width: 80px;
     text-align: right;
+  }
+}
+
+table#index_table_group_buying_orders {
+  .col-amount {
+    width: 130px;
+    text-align: right;
+  }
+
+  .col-actions {
+    width: 60px;
   }
 }
 

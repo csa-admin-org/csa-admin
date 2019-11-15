@@ -300,4 +300,20 @@ FactoryBot.define do
   factory :vegetable do
     name { 'Carotte' }
   end
+
+  factory :group_buying_delivery, class: GroupBuying::Delivery do
+    date { 1.month.from_now }
+    orderable_until { 2.weeks.from_now }
+  end
+
+  factory :group_buying_producer, class: GroupBuying::Producer do
+    name { 'la ferme à mathurin' }
+    website_url { 'https://lafermeamathurin.com' }
+  end
+
+  factory :group_buying_product, class: GroupBuying::Product do
+    association :producer, factory: :group_buying_producer
+    name { 'Farine de Seigle 5 kg (3.15/kg)' }
+    price { 15.75 }
+  end
 end

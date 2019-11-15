@@ -16,3 +16,4 @@ import 'scss/members.scss';
 import 'components/menu';
 import 'components/calendar';
 import 'components/member_new_form';
+import 'components/group_buying';

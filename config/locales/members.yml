@@ -198,6 +198,60 @@ _:
         past_deliveries:
           _de: Alte Lieferungen (%{count})
           _fr: Anciennes livraisons (%{count})
+    group_buying:
+      base:
+        show:
+          contact:
+            _de: kontaktieren
+            _fr: contacter
+          delivery:
+            _de: Lieferung von %{date}
+            _fr: Livraison du %{date}
+          form_submit:
+            _de: Bestellen
+            _fr: Commander
+          new_order:
+            _de: Neuer Bestellung
+            _fr: Nouvelle commande
+          not_orderable:
+            _de: Bestellungen sind leider nicht mehr möglich.
+            _fr: Désolé, les commandes ne sont plus possible.
+          order_amount:
+            _de: 'Total: %{amount}'
+            _fr: 'Total: %{amount}'
+          orderable_until:
+            _de: Bestellungen sind geöffnet bis <u>%{date}</u>.
+            _fr: Commandes ouvertes jusqu'au <u>%{date}</u>.
+          past_order_info:
+            _de: 'Bestellung #%{number} (%{products_count})'
+            _fr: 'Commande #%{number} (%{products_count})'
+          past_orders:
+            _de: Bestellungseingang
+            _fr: Commandes passées
+          past_orders_explanation:
+            _de: Bei Fragen zu einer erteilten Bestellung %{contact_link} Sie uns bitte.
+            _fr: Pour toute question concernant une commande passée, merci de nous %{contact_link}.
+          products:
+            _de: Produkte
+            _fr: Produits
+          products_count:
+            one:
+              _de: 1 Produkt
+              _fr: 1 produit
+            other:
+              _de: "%{count} Produkte"
+              _fr: "%{count} produits"
+          terms_of_service:
+            _fr: J'ai lu et j'accepte les conditions générales de vente
+      orders:
+        create:
+          flash:
+            error:
+              _de: Ungültige Bestellung, bitte überprüfen Sie die folgenden Fehler!
+              _fr: Commande invalide, merci de regarder les erreurs ci-dessous!
+            notice:
+              _de: Vielen Dank für Ihre Bestellung!
+              _fr: Merci pour votre commande!
     members:
       new:
         acp_shares_text:
