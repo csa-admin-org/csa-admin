@@ -18,6 +18,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :delivery_pdf_footer
   translated_attributes :terms_of_service_url, :statutes_url
   translated_attributes :membership_extra_text
+  translated_attributes :group_buying_terms_of_service_url
 
   validates :name, presence: true
   validates :host, presence: true
@@ -158,6 +159,10 @@ class ACP < ActiveRecord::Base
 
   def ragedevert?
     tenant_name == 'ragedevert'
+  end
+
+  def group_buying_email
+    self[:group_buying_email] || email
   end
 
   private

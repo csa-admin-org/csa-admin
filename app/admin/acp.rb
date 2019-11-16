@@ -16,6 +16,7 @@ ActiveAdmin.register ACP do
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :vat_number, :vat_membership_rate, :absences_billed,
     :delivery_pdf_show_phones,
+    :group_buying_email,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -24,7 +25,8 @@ ActiveAdmin.register ACP do
     delivery_pdf_footers: I18n.available_locales,
     terms_of_service_urls: I18n.available_locales,
     statutes_urls: I18n.available_locales,
-    membership_extra_texts: I18n.available_locales
+    membership_extra_texts: I18n.available_locales,
+    group_buying_terms_of_service_urls: I18n.available_locales
 
   form do |f|
     f.inputs t('.details') do
@@ -85,6 +87,12 @@ ActiveAdmin.register ACP do
         f.input :activity_availability_limit_in_days
         f.input :activity_price
         f.input :activity_phone, as: :phone
+      end
+    end
+    if Current.acp.feature?('group_buying')
+      f.inputs t('.group_buying') do
+        f.input :group_buying_email, as: :email
+        translated_input(f, :group_buying_terms_of_service_urls, required: false)
       end
     end
     f.inputs t('.delivery_pdf') do

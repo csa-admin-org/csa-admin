@@ -44,6 +44,8 @@ module GroupBuying
     # Avoid to have the error on terms_of_service as it breaks
     # the pretty_check_boxes with the field_with_errors wrapper
     def terms_of_service_must_be_accepted
+      return unless Current.acp.group_buying_terms_of_service_url
+
       errors.add(:base, :terms_of_service_unchecked) unless @terms_of_service == '1'
     end
 
