@@ -312,6 +312,9 @@ _:
         full_year:
           _de: ganzes Jahr
           _fr: année complète
+        group_buying:
+          _de: Gruppeneinkauf
+          _fr: Achats Groupés
         invoice_isr:
           _de: Rechnungsstellung (ESR)
           _fr: Facture (BVR)

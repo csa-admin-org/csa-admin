@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_08_112252) do
+ActiveRecord::Schema.define(version: 2019_11_16_140451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 2019_11_08_112252) do
     t.boolean "absences_billed", default: true, null: false
     t.jsonb "membership_extra_texts", default: {}, null: false
     t.boolean "delivery_pdf_show_phones", default: false, null: false
+    t.string "group_buying_email"
+    t.jsonb "group_buying_terms_of_service_urls", default: {}, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

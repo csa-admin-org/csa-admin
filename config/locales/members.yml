@@ -242,7 +242,8 @@ _:
               _de: "%{count} Produkte"
               _fr: "%{count} produits"
           terms_of_service:
-            _fr: J'ai lu et j'accepte les conditions générales de vente
+            _de: Ich habe <a href="%{terms_url}" target="_blank">die Allgemeinen Verkaufsbedingungen</a> gelesen und akzeptiere sie.
+            _fr: J'ai lu et j'accepte <a href="%{terms_url}" target="_blank">les conditions générales de vente</a>.
       orders:
         create:
           flash:

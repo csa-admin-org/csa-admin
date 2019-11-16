@@ -18,10 +18,19 @@ describe GroupBuying::Order do
   end
 
   it 'validates terms_of_service acceptance' do
+    current_acp.update!(group_buying_terms_of_service_url: 'https://foo.pdf')
     order = described_class.new(items: [])
     expect(order).not_to have_valid(:base)
     expect(order.errors[:base])
       .to include('Les conditions générales de vente doivent être acceptées')
+  end
+
+  it 'does not validate terms_of_service acceptance without them defined' do
+    current_acp.update!(group_buying_terms_of_service_url: nil)
+    order = described_class.new(items: [])
+    order.validate
+    expect(order.errors[:base])
+      .not_to include('Les conditions générales de vente doivent être acceptées')
   end
 
   it 'creates a valid order and copies items prices' do

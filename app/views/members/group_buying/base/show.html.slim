@@ -21,7 +21,7 @@ section
           span.info = t('.past_order_info', number: order.id, products_count: t('.products_count', count: order.items_count))
           span.amount = number_to_currency(order.amount)
 
-    p.info = t('.past_orders_explanation', contact_link: mail_to(Current.acp.email, t('.contact'))).html_safe
+    p.info = t('.past_orders_explanation', contact_link: mail_to(Current.acp.group_buying_email, t('.contact'))).html_safe
 
 - if @delivery.orderable?
   section
@@ -57,11 +57,12 @@ section
         #amount-wrapper style='display:none;'
           p#amount= t('.order_amount', amount: number_to_currency(@order.amount))
 
-        .pretty_check_boxes
-          label
-            = f.check_box :terms_of_service, required: true
-            span.checkmark
-            span.label = t('.terms_of_service')
+        - if Current.acp.group_buying_terms_of_service_url
+          .pretty_check_boxes
+            label
+              = f.check_box :terms_of_service, required: true
+              span.checkmark
+              span.label = t('.terms_of_service', terms_url: Current.acp.group_buying_terms_of_service_url).html_safe
 
         .input.submit
           = f.submit t('.form_submit'), id: 'order-button'

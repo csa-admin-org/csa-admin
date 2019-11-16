@@ -60,6 +60,12 @@ _:
         fiscal_year_start_month:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
+        group_buying_email:
+          _de: Email
+          _fr: Email
+        group_buying_terms_of_service_url:
+          _de: Allgemeine Verkaufsbedingungen URL
+          _fr: Conditions générales de vente URL
         invoice_footer:
           _de: Fusszeile Rechnung
           _fr: Facture bas de page
