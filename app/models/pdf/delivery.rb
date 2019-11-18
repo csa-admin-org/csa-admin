@@ -14,7 +14,7 @@ module PDF
         else
           Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
-      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 20
+      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 16 : 25
 
       @depots.each do |dist|
         baskets = @baskets.where(depot: dist)
@@ -67,7 +67,7 @@ module PDF
 
     def content(depot, baskets, basket_sizes, basket_complements)
       font_size 11
-      move_down 3.5.cm
+      move_down 2.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
