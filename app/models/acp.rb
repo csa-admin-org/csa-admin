@@ -19,6 +19,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :terms_of_service_url, :statutes_url
   translated_attributes :membership_extra_text
   translated_attributes :group_buying_terms_of_service_url
+  translated_attributes :group_buying_invoice_info
 
   validates :name, presence: true
   validates :host, presence: true

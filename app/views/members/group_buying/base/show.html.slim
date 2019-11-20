@@ -10,15 +10,20 @@ section
 
     = @delivery.description
 
-- past_orders = @delivery.orders.where(member: current_member).order(created_at: :desc)
+- past_orders = @delivery.orders.where(member: current_member).includes(invoice: { pdf_file_attachment: :blob }).order(created_at: :desc)
 - if past_orders.any?
   section.past_orders
     h2 = t('.past_orders')
-    ul.billing
+    ul.group_buying
       - past_orders.each do |order|
-        li
+        li class=('canceled' if order.canceled?)
           span.date = l(order.date, format: :number)
-          span.info = t('.past_order_info', number: order.id, products_count: t('.products_count', count: order.items_count))
+          span.info = t('.past_order_info', number: order.id)
+          span.file
+            = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
+              = inline_svg 'pdf_file.svg', size: '16px'
+          span.state class=order.state
+            == order.state_i18n_name
           span.amount = number_to_currency(order.amount)
 
     p.info = t('.past_orders_explanation', contact_link: mail_to(Current.acp.group_buying_email, t('.contact'))).html_safe

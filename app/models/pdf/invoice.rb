@@ -135,7 +135,7 @@ module PDF
             t('acp_shares_number_negative', count: invoice.acp_shares_number.abs)
           end
         data << [str, cur(invoice.amount)]
-      when 'Other'
+      when 'Other', 'GroupBuying::Order'
         invoice.items.each do |item|
           data << [item.description, cur(item.amount)]
         end
@@ -253,7 +253,14 @@ module PDF
       end
 
       bounding_box [0, y - yy], width: bounds.width - 24 do
-        text Current.acp.invoice_info, width: 200, align: :right, style: :italic, size: 9
+        invoice_info =
+          if invoice.object_type == 'GroupBuying::Order' && Current.acp.group_buying_invoice_info
+            Current.acp.group_buying_invoice_info % {
+              date: I18n.l(invoice.object.delivery.orderable_until)
+            }
+          else Current.acp.invoice_info
+          end
+        text invoice_info, width: 200, align: :right, style: :italic, size: 9
       end
     end
 

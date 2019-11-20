@@ -194,7 +194,8 @@ describe Email do
         invoice_date: '24 mars 2018',
         invoice_amount: 'CHF 62.00',
         overdue_notices_count: 0,
-        action_url: 'https://membres.ragedevert.ch/billing'
+        action_url: 'https://membres.ragedevert.ch/billing',
+        annual_fee: true
       },
       attachments: [
         hash_including(
@@ -254,7 +255,8 @@ describe Email do
         invoice_amount: 'CHF 62.00',
         invoice_missing_amount: 'CHF 42.00',
         overdue_notices_count: 0,
-        action_url: 'https://membres.ragedevert.ch/billing'
+        action_url: 'https://membres.ragedevert.ch/billing',
+        annual_fee: true
       },
       attachments: [
         hash_including(
@@ -288,7 +290,8 @@ describe Email do
         invoice_amount: 'CHF 42.00',
         invoice_paid: true,
         overdue_notices_count: 0,
-        action_url: 'https://membres.ragedevert.ch/billing'
+        action_url: 'https://membres.ragedevert.ch/billing',
+        annual_fee: true
       },
       attachments: [
         hash_including(
@@ -322,7 +325,8 @@ describe Email do
         invoice_amount: 'CHF 42.00',
         invoice_missing_amount: 'CHF 42.00',
         overdue_notices_count: 2,
-        action_url: 'https://membres.ragedevert.ch/billing'
+        action_url: 'https://membres.ragedevert.ch/billing',
+        annual_fee: true
       },
       attachments: [
         hash_including(

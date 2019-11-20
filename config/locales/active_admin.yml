@@ -590,6 +590,20 @@ _:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+      group_buying/order:
+        scopes:
+          all_without_canceled:
+            _de: alle
+            _fr: toutes
+          canceled:
+            _de: stornierte
+            _fr: annulées
+          closed:
+            _de: bezahlte
+            _fr: payées
+          open:
+            _de: zu zahlen
+            _fr: à payer
       invoice:
         new_model:
           _de: Neue %{model}

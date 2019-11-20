@@ -78,6 +78,7 @@ class Invoice < ActiveRecord::Base
   def self.object_types
     types = %w[Membership Other]
     types << 'ActivityParticipation' if Current.acp.feature?('activity')
+    types << 'GroupBuying::Order' if Current.acp.feature?('group_buying')
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
     types
@@ -173,7 +174,7 @@ class Invoice < ActiveRecord::Base
     return if attrs.empty?
 
     super
-    self[:object_type] = 'Other'
+    self[:object_type] ||= 'Other'
     self[:amount] = items.sum(&:amount)
   end
 
@@ -195,7 +196,7 @@ class Invoice < ActiveRecord::Base
     return if number.blank?
 
     super
-    self[:object_type] = 'ACPShare'
+    self[:object_type] ||= 'ACPShare'
     self[:amount] = number.to_i * Current.acp.share_price
   end
 

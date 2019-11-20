@@ -1,13 +1,6 @@
 require 'rails_helper'
 
 describe PDF::Invoice do
-  def save_pdf_and_return_strings(invoice)
-    pdf = invoice.pdf_file.download
-    pdf_path = "tmp/invoice-#{Current.acp.name}-##{invoice.id}.pdf"
-    File.open(pdf_path, 'wb+') { |f| f.write(pdf) }
-    PDF::Inspector::Text.analyze(pdf).strings
-  end
-
   context 'Rage de Vert settings' do
     before {
       Current.acp.update!(
@@ -142,7 +135,7 @@ describe PDF::Invoice do
         membership_amount_fraction: 3,
         memberships_amount_description: 'Facturation trimestrielle #2')
       invoice = create(:invoice,
-        id: 11,
+        id: 1001,
         date: Time.current.beginning_of_year + 8.months,
         member: member,
         object: membership,
@@ -157,7 +150,7 @@ describe PDF::Invoice do
         .and contain_sequence('Déjà facturé', '- 665.00')
         .and contain_sequence('Montant annuel restant', '665.00')
         .and contain_sequence('Facturation trimestrielle #3', '332.50')
-        .and include('0100000332508>001104190802410000000000112+ 010137346>')
+        .and include('0100000332508>001104190802410000000010019+ 010137346>')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -242,7 +235,9 @@ describe PDF::Invoice do
         isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
         isr_in_favor_of: "Association Lumière des Champs\nBd Paderewski 28\n1800 Vevey",
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
-        invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch')
+        invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch',
+        features: ['group_buying'],
+        group_buying_invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.")
       create_deliveries(48)
     }
 
@@ -640,6 +635,36 @@ describe PDF::Invoice do
         .and contain_sequence("** L'avoir restant sera reporté sur la facture suivante.")
         .and contain_sequence('XXXX', 'XX')
         .and include '0100000000005>800250000000000000000002433+ 010092520>'
+      expect(pdf_strings).not_to include 'Cotisation annuelle association'
+    end
+
+    it 'generates an invoice for a group buying order' do
+      member = create(:member)
+
+      invoice = nil
+      Timecop.freeze '2019-11-20' do
+        delivery = create(:group_buying_delivery,
+          orderable_until: '2019-12-02')
+        product = create(:group_buying_product,
+          name: "Caisse d'orange (1KG)",
+          price: 120.45)
+        order = create(:group_buying_order,
+          delivery: delivery,
+          items_attributes: {
+            '0' => {
+              product_id: product.id,
+              quantity: 2
+            }
+          })
+        invoice = order.invoice
+      end
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to contain_sequence("Caisse d'orange (1KG) 2x 120.45", '240.90')
+        .and contain_sequence("Total", '240.90')
+        .and contain_sequence("Payable jusqu'au 2 décembre 2019, avec nos remerciements.")
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
   end

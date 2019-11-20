@@ -20,6 +20,9 @@ _:
         annual_fee:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag
           _fr: Laisser vide si aucune cotisation anuelle
+        group_buying_invoice_info:
+          _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann
+          _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable
         membership_extra_text:
           _de: Dieser Text wird dem Registrierungsformular hinzugefügt (unterstütztes HTML)
           _fr: Ce texte est rajouté au formulaire d'inscription (HTML supporté)
