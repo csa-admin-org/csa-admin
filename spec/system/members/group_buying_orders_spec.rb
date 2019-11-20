@@ -9,7 +9,9 @@ describe 'GroupBuying::Order' do
   end
 
   it 'creates a new order' do
-    current_acp.update!(features: ['group_buying'])
+    current_acp.update!(
+      features: ['group_buying'],
+      group_buying_terms_of_service_url: 'https://terms.pdf')
     create(:group_buying_delivery)
     create(:group_buying_product,
       name: 'Farine de Seigle 5kg',
@@ -19,14 +21,14 @@ describe 'GroupBuying::Order' do
     click_on 'Achats Groupés'
 
     fill_in 'Farine de Seigle 5kg', with: 2
-    check "J'ai lu et j'accepte les conditions générales de vente"
+    check "J'ai lu et j'accepte les conditions générales de vente."
 
     click_button 'Commander'
 
     expect(page).to have_content('Merci pour votre commande!')
 
-    within('section.past_orders ul.billing') do
-      expect(page).to have_content(/Commande #\d+ \(1 produit\)CHF 6.30/)
+    within('section.past_orders ul.group_buying') do
+      expect(page).to have_content(/Commande #\d+ à payerCHF 6.30/)
     end
   end
 

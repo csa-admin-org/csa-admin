@@ -69,6 +69,9 @@ _:
     delivery:
       _de: Lieferung
       _fr: Livraison
+    delivery_date:
+      _de: Lieferdatum
+      _fr: Date de livraison
     delivery_id:
       _de: Lieferung
       _fr: Livraison

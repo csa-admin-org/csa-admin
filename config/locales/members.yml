@@ -223,8 +223,8 @@ _:
             _de: Bestellungen sind geöffnet bis <u>%{date}</u>.
             _fr: Commandes ouvertes jusqu'au <u>%{date}</u>.
           past_order_info:
-            _de: 'Bestellung #%{number} (%{products_count})'
-            _fr: 'Commande #%{number} (%{products_count})'
+            _de: 'Bestellung #%{number}'
+            _fr: 'Commande #%{number}'
           past_orders:
             _de: Bestellungseingang
             _fr: Commandes passées

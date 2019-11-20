@@ -316,4 +316,16 @@ FactoryBot.define do
     name { 'Farine de Seigle 5 kg (3.15/kg)' }
     price { 15.75 }
   end
+
+  factory :group_buying_order, class: GroupBuying::Order do
+    member
+    association :delivery, factory: :group_buying_delivery
+    terms_of_service { '1' }
+    items_attributes { {
+      '0' => {
+        product_id: create(:group_buying_product).id,
+        quantity: 1
+      }
+    } }
+  end
 end

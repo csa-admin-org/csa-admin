@@ -26,7 +26,8 @@ ActiveAdmin.register ACP do
     terms_of_service_urls: I18n.available_locales,
     statutes_urls: I18n.available_locales,
     membership_extra_texts: I18n.available_locales,
-    group_buying_terms_of_service_urls: I18n.available_locales
+    group_buying_terms_of_service_urls: I18n.available_locales,
+    group_buying_invoice_infos: I18n.available_locales
 
   form do |f|
     f.inputs t('.details') do
@@ -93,6 +94,9 @@ ActiveAdmin.register ACP do
       f.inputs t('.group_buying') do
         f.input :group_buying_email, as: :email
         translated_input(f, :group_buying_terms_of_service_urls, required: false)
+        translated_input(f, :group_buying_invoice_infos,
+          hint: t('formtastic.hints.acp.group_buying_invoice_info'),
+          required: false)
       end
     end
     f.inputs t('.delivery_pdf') do

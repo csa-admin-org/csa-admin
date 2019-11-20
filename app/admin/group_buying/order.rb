@@ -2,6 +2,11 @@ ActiveAdmin.register GroupBuying::Order do
   menu parent: :group_buying, priority: 1
   actions :index, :show
 
+  scope :all_without_canceled, default: true
+  scope :open
+  scope :closed
+  scope :canceled
+
   filter :id, as: :numeric
   filter :delivery,
     as: :select,
@@ -11,15 +16,30 @@ ActiveAdmin.register GroupBuying::Order do
     collection: -> { Member.joins(:group_buying_orders).order(:name).distinct }
   filter :created_at
 
-  includes :member, :delivery
+  includes :member, :delivery, invoice: { pdf_file_attachment: :blob }
 
-  index download_links: false do
+  index do
     column :id, ->(order) { auto_link order, order.id }
-    column :created_at, ->(order) { auto_link order, l(order.date) }
+    column :created_at, ->(order) { l(order.date, format: :number) }
     column :delivery, ->(order) { auto_link order.delivery }, sortable: 'delivery_id'
     column :member, ->(order) { auto_link order.member }
     column :amount, ->(order) { number_to_currency(order.amount) }
-    actions
+    column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
+    actions defaults: true do |order|
+      link_to 'PDF', rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+    end
+  end
+
+  csv do
+    column :id
+    column :member_id
+    column(:name) { |o| o.member.name }
+    column(:emails) { |o| o.member.emails_array.join(', ') }
+    column :delivery_id
+    column(:delivery_date) { |o| o.delivery.date }
+    column :created_at
+    column :amount
+    column :state, &:state_i18n_name
   end
 
   show do |order|
@@ -37,14 +57,29 @@ ActiveAdmin.register GroupBuying::Order do
       column do
         attributes_table do
           row :id
-          row(:created_at) { l(order.created_at, date_format: :long) }
           row(:delivery) { auto_link order.delivery }
           row(:member) { auto_link order.member }
+          row(:invoice) { auto_link order.invoice }
+          row(:state) { status_tag order.state_i18n_name, class: order.state }
+          row(:created_at) { l(order.created_at, date_format: :long) }
           row(:amount) { number_to_currency(order.amount) }
         end
         active_admin_comments
       end
     end
+  end
+
+  action_item :pdf, only: :show do
+    link_to 'PDF', rails_blob_path(resource.invoice.pdf_file, disposition: 'attachment')
+  end
+
+  action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
+    link_to t('.new_payment'), new_payment_path(
+      invoice_id: resource.invoice.id, amount: [resource.invoice.amount, resource.invoice.missing_amount].min)
+  end
+
+  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
+    link_to t('.cancel_invoice'), cancel_invoice_path(resource.invoice), method: :post, data: { confirm: t('.link_confirm') }
   end
 
   controller do

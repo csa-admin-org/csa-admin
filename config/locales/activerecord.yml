@@ -63,6 +63,9 @@ _:
         group_buying_email:
           _de: Email
           _fr: Email
+        group_buying_invoice_info:
+          _de: Informationszeile Rechnung
+          _fr: Facture ligne info
         group_buying_terms_of_service_url:
           _de: Allgemeine Verkaufsbedingungen URL
           _fr: Conditions générales de vente URL

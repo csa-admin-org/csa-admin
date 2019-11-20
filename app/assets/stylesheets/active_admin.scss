@@ -139,6 +139,12 @@ table a.xlsx_link {
 }
 
 .status_tag {
+  white-space: nowrap;
+
+  &.canceled {
+    background-color: #cccccc;
+  }
+
   &.coming,
   &.manual,
   &.not_sent,
@@ -381,8 +387,13 @@ table#index_table_group_buying_orders {
     text-align: right;
   }
 
+  .col-state {
+    text-align: right;
+    // width: 110px;
+  }
+
   .col-actions {
-    width: 60px;
+    width: 82px;
   }
 }
 

@@ -184,6 +184,7 @@ module Email
       overdue_notices_count: invoice.overdue_notices_count,
       action_url: url(:members_billing_url)
     }
+    data[invoice.object_type.underscore.tr('/', '_').to_sym] = true
     if invoice.closed?
       data[:invoice_paid] = true
     elsif invoice.missing_amount < invoice.amount || invoice.overdue_notices_count.positive?
