@@ -64,6 +64,10 @@ class Newsletter::MailChimp
       fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: 'number', required: false }
       fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: false }
     end
+    if Current.acp.feature?(:group_buying)
+      fields[:GRBY_NEXT] = { name: 'Achats Groupés, une commande existe pour la prochaine livraison', type: 'dropdown', required: false, options: { choices: %w[yes no –] } }
+      fields[:GRBY_DATE] = { name: 'Achats Groupés, date de la dernière commande', type: 'text', required: false }
+    end
     if BasketComplement.any?
       fields[:BASK_COMP] = { name: 'Compléments panier', type: 'text', required: false }
     end
@@ -113,7 +117,7 @@ class Newsletter::MailChimp
     current_year_membership = member.current_year_membership
     first_basket = member.first_membership&.baskets&.first
     next_basket = member.next_basket
-    next_delivery = Delivery.next
+    @next_delivery ||= Delivery.next
     fields = {
       MEMB_ID: member.id,
       MEMB_NAME: member.name,
@@ -124,7 +128,7 @@ class Newsletter::MailChimp
       MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',
       BASK_FIRS: (first_basket && I18n.l(first_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
-      BASK_DELI: next_delivery && next_basket && !next_basket.absent? && next_basket.delivery == next_delivery ? 'yes' : 'no',
+      BASK_DELI: @next_delivery && next_basket && !next_basket.absent? && next_basket.delivery == @next_delivery ? 'yes' : 'no',
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
       BASK_DIST: next_basket&.depot&.name.to_s
     }
@@ -132,6 +136,18 @@ class Newsletter::MailChimp
       fields[:HALF_ASKE] = current_year_membership&.activity_participations_demanded.to_i
       fields[:HALF_ACPT] = current_year_membership&.activity_participations_accepted.to_i
       fields[:HALF_MISS] = current_year_membership&.missing_activity_participations.to_i
+    end
+    if Current.acp.feature?(:group_buying)
+      @next_group_buying_delivery ||= GroupBuying::Delivery.next
+      fields[:GRBY_NEXT] =
+        if @next_group_buying_delivery
+          @next_group_buying_delivery.orders.exists?(member_id: member.id) ? 'yes' : 'no'
+        else
+          '–'
+        end
+      last_order_date =
+        member.group_buying_orders.joins(:delivery).maximum('group_buying_deliveries.date')
+      fields[:GRBY_DATE] = (last_order_date && I18n.l(last_order_date, locale: member.language).to_s)
     end
     if BasketComplement.any?
       fields[:BASK_COMP] =
