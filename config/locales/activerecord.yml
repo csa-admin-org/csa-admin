@@ -376,12 +376,6 @@ _:
           _de: Kommandofähig bis
           _fr: Commandable jusqu'au
       invoice:
-        balance:
-          _de: Eingezahlt
-          _fr: Payé
-        missing_amount:
-          _de: Fehlender Betrag
-          _fr: Montant manquant
         object:
           _de: Objekt
           _fr: Objet

@@ -6,6 +6,9 @@ module GroupBuying
     include HasTranslatedDescription
 
     has_many :orders, class_name: 'GroupBuying::Order'
+    has_many :orders_without_canceled,
+      -> { all_without_canceled },
+      class_name: 'GroupBuying::Order'
 
     scope :past, -> { where('date < ?', Date.current) }
     scope :coming, -> { where('date >= ?', Date.current) }
@@ -23,6 +26,10 @@ module GroupBuying
     end
 
     def display_name
+      "#{model_name.human} #{title}"
+    end
+
+    def title
       "##{id} – #{I18n.l date}"
     end
 

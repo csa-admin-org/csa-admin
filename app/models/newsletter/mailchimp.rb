@@ -65,7 +65,7 @@ class Newsletter::MailChimp
       fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: false }
     end
     if Current.acp.feature?(:group_buying)
-      fields[:GRBY_NEXT] = { name: 'Achats Groupés, une commande existe pour la prochaine livraison', type: 'dropdown', required: false, options: { choices: %w[yes no –] } }
+      fields[:GRBY_NEXT] = { name: 'Achats Groupés, prochaine livraison commandée', type: 'dropdown', required: false, options: { choices: %w[yes no –] } }
       fields[:GRBY_DATE] = { name: 'Achats Groupés, date de la dernière commande', type: 'text', required: false }
     end
     if BasketComplement.any?

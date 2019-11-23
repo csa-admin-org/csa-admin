@@ -402,6 +402,9 @@ _:
         cancel_invoice:
           _de: Stornieren
           _fr: Annuler
+        closed_orders:
+          _de: bezahlte
+          _fr: payées
         create_membership:
           _de: Abonnement erstellen
           _fr: Créer abonnement
@@ -442,20 +445,33 @@ _:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
         no_baskets:
-          _de: Keine Tasche
+          _de: Keine Taschen
           _fr: Pas de paniers
         no_invoices:
-          _de: Keine Rechnung
+          _de: Keine Rechnungen
           _fr: Aucune facture
         no_memberships:
-          _de: Kein Abonnement
+          _de: Keine Abonnements
           _fr: Aucun abonnement
+        no_orders:
+          _de: Keine Bestellungen
+          _fr: Aucune commande
         no_payments:
           _de: Keine Einzahlung
           _fr: Aucun paiement
         notes:
           _de: Notizen
           _fr: Notes
+        open_orders:
+          _de: Zu zahlen
+          _fr: À payer
+        orders_canceled:
+          one:
+            _de: 1 stornierte
+            _fr: 1 annulée
+          other:
+            _de: "%{count} stornierte"
+            _fr: "%{count} annulées"
         refund:
           _de: Rückerstattung
           _fr: Remboursement
@@ -471,6 +487,9 @@ _:
         total:
           _de: Total %{number}
           _fr: Total %{number}
+        total_row:
+          _de: Total
+          _fr: Total
         totals:
           _de: Totale %{numbers}
           _fr: Totaux %{numbers}

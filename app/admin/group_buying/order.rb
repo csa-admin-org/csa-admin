@@ -21,7 +21,7 @@ ActiveAdmin.register GroupBuying::Order do
   index do
     column :id, ->(order) { auto_link order, order.id }
     column :created_at, ->(order) { l(order.date, format: :number) }
-    column :delivery, ->(order) { auto_link order.delivery }, sortable: 'delivery_id'
+    column :delivery, ->(order) { auto_link order.delivery, order.delivery.title  }, sortable: 'delivery_id'
     column :member, ->(order) { auto_link order.member }
     column :amount, ->(order) { number_to_currency(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
@@ -39,7 +39,33 @@ ActiveAdmin.register GroupBuying::Order do
     column(:delivery_date) { |o| o.delivery.date }
     column :created_at
     column :amount
+    column(:balance) { |o| o.invoice.balance }
+    column(:missing_amount) { |o| o.invoice.missing_amount }
     column :state, &:state_i18n_name
+  end
+
+  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
+    all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
+
+    if params[:scope].in? ['all_without_canceled', 'open', nil]
+      div class: 'total' do
+        span t('billing.scope.missing')
+        span number_to_currency(all.sum('invoices.amount - invoices.balance')), style: 'float: right'
+      end
+      div class: 'total' do
+        span t('billing.scope.paid')
+        span number_to_currency(all.sum('invoices.balance')), style: 'float: right;'
+      end
+      div class: 'totals' do
+        span t('active_admin.sidebars.amount')
+        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+      end
+    else
+      div do
+        span t('active_admin.sidebars.amount')
+        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+      end
+    end
   end
 
   show do |order|
@@ -57,13 +83,19 @@ ActiveAdmin.register GroupBuying::Order do
       column do
         attributes_table do
           row :id
-          row(:delivery) { auto_link order.delivery }
+          row(:delivery) { auto_link order.delivery, order.delivery.title }
           row(:member) { auto_link order.member }
           row(:invoice) { auto_link order.invoice }
           row(:state) { status_tag order.state_i18n_name, class: order.state }
           row(:created_at) { l(order.created_at, date_format: :long) }
-          row(:amount) { number_to_currency(order.amount) }
         end
+
+        attributes_table title: Invoice.human_attribute_name(:amount) do
+          row(:amount) { number_to_currency(order.amount) }
+          row(:balance) { number_to_currency(order.invoice.balance) }
+          row(:missing_amount) { number_to_currency(order.invoice.missing_amount) }
+        end
+
         active_admin_comments
       end
     end
@@ -79,7 +111,12 @@ ActiveAdmin.register GroupBuying::Order do
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
-    link_to t('.cancel_invoice'), cancel_invoice_path(resource.invoice), method: :post, data: { confirm: t('.link_confirm') }
+    link_to t('.cancel_invoice'), cancel_group_buying_order_path(resource), method: :post, data: { confirm: t('.link_confirm') }
+  end
+
+  member_action :cancel, method: :post do
+    resource.invoice.cancel!
+    redirect_to resource_path, notice: t('.flash.notice')
   end
 
   controller do
