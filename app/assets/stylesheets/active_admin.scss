@@ -248,12 +248,19 @@ table.table-group_buying_orders {
   .col-price,
   .col-quantity {
     text-align: right;
-    width: 80px;
-    padding-left: 10px;
+  }
+
+  .col-price {
+    width: 90px !important;
   }
 
   .col-quantity {
-    width: 50px;
+    width: 50px !important;
+    padding: 0 12px;
+  }
+
+  .col-amount {
+    width: 85px !important;
   }
 }
 
@@ -368,6 +375,11 @@ table#index_table_group_buying_deliveries {
   .col-actions {
     width: 110px;
   }
+
+  .col-orders {
+    text-align: right;
+    width: 120px;
+  }
 }
 
 table#index_table_group_buying_producers {
@@ -441,6 +453,7 @@ table.totals tr:last-child {
   td:last-child {
     width: 30%;
     border-top: 1px solid black;
+    font-weight: bold;
   }
 }
 
@@ -455,6 +468,10 @@ table.totals_2 {
       width: 30%;
       border-top: 1px solid black;
     }
+  }
+
+  tr:last-child {
+    font-weight: bold;
   }
 }
 

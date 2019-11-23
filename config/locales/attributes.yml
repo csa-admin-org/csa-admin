@@ -18,6 +18,9 @@ _:
     available:
       _de: Verfügbar
       _fr: Disponible
+    balance:
+      _de: Eingezahlt
+      _fr: Payé
     balance_amount:
       _de: Kontostand
       _fr: Balance
@@ -126,15 +129,18 @@ _:
     member_id:
       _de: Mitglied
       _fr: Membre
+    missing_amount:
+      _de: Fehlender Betrag
+      _fr: Montant manquant
     name:
       _de: Name
       _fr: Nom
     note:
       _de: Notiz
       _fr: Note
-    orders_count:
-      _de: Anzahl der Bestellungen
-      _fr: Nombre de commandes
+    orders:
+      _de: Bestellungen
+      _fr: Commandes
     other:
       _de: Weiteres
       _fr: Autre

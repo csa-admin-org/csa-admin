@@ -8,6 +8,19 @@ ActiveAdmin.register Invoice do
   scope :closed
   scope :canceled
 
+  filter :id, as: :numeric
+  filter :member,
+    as: :select,
+    collection: -> { Member.order(:name) }
+  filter :object_type,
+    as: :check_boxes,
+    collection: -> { object_type_collection }
+  filter :amount
+  filter :date
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+
   includes :payments, pdf_file_attachment: :blob, member: :last_membership
   index do
     column :id, ->(i) { auto_link i, i.id }
@@ -32,22 +45,10 @@ ActiveAdmin.register Invoice do
     column(:object) { |i| t_invoice_object_type(i.object_type) }
     column :amount
     column :balance
+    column :missing_amount
     column :overdue_notices_count
     column :state, &:state_i18n_name
   end
-
-  filter :id, as: :numeric
-  filter :member,
-    as: :select,
-    collection: -> { Member.order(:name) }
-  filter :object_type,
-    as: :check_boxes,
-    collection: -> { object_type_collection }
-  filter :amount
-  filter :date
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).limit(nil)
