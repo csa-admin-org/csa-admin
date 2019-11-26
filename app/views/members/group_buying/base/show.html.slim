@@ -41,7 +41,14 @@ section
 
         - @order.items_grouped_by_producer.each do |producer, items|
 
-          h3 = producer.name
+          h3
+            - if producer.website_url?
+              = link_to producer.name, producer.website_url, target: :blank
+              span.web
+                = link_to producer.website_url, target: :blank do
+                  = inline_svg 'web.svg', size: '18px'
+            - else
+              = producer.name
           = producer.description
 
           h4 = t('.products')
