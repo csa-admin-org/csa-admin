@@ -42,6 +42,8 @@ class Delivery < ActiveRecord::Base
   end
 
   def add_subscribed_baskets_complement!(complement)
+    return unless valid?
+
     baskets_with_membership_subscribed_to(complement)
       .includes(membership: :memberships_basket_complements)
       .each do |basket|
@@ -59,6 +61,8 @@ class Delivery < ActiveRecord::Base
   end
 
   def add_baskets_at!(depot)
+    return unless valid?
+
     Membership
       .including_date(date)
       .where(memberships: { depot_id: depot.id })

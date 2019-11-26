@@ -12,6 +12,20 @@ describe Delivery do
     expect(delivery.season).to eq 'winter'
   end
 
+  it 'validates bulk inserts with depots' do
+    depot = create(:depot, id: 2)
+    create(:membership, depot: depot)
+
+    delivery = Delivery.create(
+      bulk_dates_starts_on: Date.today,
+      bulk_dates_wdays: [1],
+      date: Date.today,
+      depot_ids: [2])
+
+    expect(delivery).not_to have_valid(:bulk_dates_starts_on)
+    expect(delivery).not_to have_valid(:bulk_dates_wdays)
+  end
+
   it 'bulk inserts with depots and basket_complements' do
     create(:basket_complement, id: 1)
     create(:depot, id: 2, deliveries_count: 0)
