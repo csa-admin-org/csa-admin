@@ -66,7 +66,7 @@ class Newsletter::MailChimp
     end
     if Current.acp.feature?(:group_buying)
       fields[:GRBY_NEXT] = { name: 'Achats Groupés, prochaine livraison commandée', type: 'dropdown', required: false, options: { choices: %w[yes no –] } }
-      fields[:GRBY_DATE] = { name: 'Achats Groupés, date de la dernière commande', type: 'text', required: false }
+      fields[:GRBY_DATE] = { name: 'Achats Groupés, date dernière livraison commandée', type: 'text', required: false }
     end
     if BasketComplement.any?
       fields[:BASK_COMP] = { name: 'Compléments panier', type: 'text', required: false }
