@@ -1,6 +1,24 @@
 #group-buying-order-form {
   h3 {
     margin: $base-spacing 0 $small-spacing;
+
+    > a {
+      color: black;
+
+      &:hover {
+        color: $dark-green;
+      }
+    }
+
+    span.web {
+      position: absolute;
+
+      svg {
+        position: absolute;
+        top: 1px;
+        left: $small-spacing / 2;
+      }
+    }
   }
 
   h4 {
