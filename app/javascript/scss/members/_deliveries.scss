@@ -1,10 +1,9 @@
 ul.deliveries {
-  // columns: 2;
   width: 100%;
   display: inline-block;
   margin-bottom: -$base-spacing;
 
-  li {
+  > li {
     margin: 0 0 $base-spacing;
     display: inline-block;
     float: left;
@@ -12,6 +11,7 @@ ul.deliveries {
     @media screen and (min-width: 900px) {
       width: calc(50% - 1.5em); // - $base-spacing
       margin: 0 $base-spacing $base-spacing 0;
+      min-height: 120px;
     }
   }
 
