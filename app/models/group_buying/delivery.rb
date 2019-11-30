@@ -9,6 +9,10 @@ module GroupBuying
     has_many :orders_without_canceled,
       -> { all_without_canceled },
       class_name: 'GroupBuying::Order'
+    has_many :order_items,
+      class_name: 'GroupBuying::OrderItem',
+      through: :orders_without_canceled,
+      source: :items
 
     scope :past, -> { where('date < ?', Date.current) }
     scope :coming, -> { where('date >= ?', Date.current) }

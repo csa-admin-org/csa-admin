@@ -9,6 +9,9 @@ _:
     delivery:
       _de: lieferung
       _fr: livraison
+    group_buying/delivery:
+      _de: gruppeneinkauf-lieferung
+      _fr: achats-groupés-livraison
     recap:
       _de: Zusammenfassung
       _fr: Récapitulatif
