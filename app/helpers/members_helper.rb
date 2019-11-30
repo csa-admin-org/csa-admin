@@ -112,7 +112,7 @@ module MembersHelper
 
   def map_icon(location)
     link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: 'map_link' do
-      inline_svg 'map_signs.svg', size: '16px'
+      inline_svg_tag 'map_signs.svg', size: '16px'
     end
   end
 

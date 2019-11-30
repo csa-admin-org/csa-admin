@@ -21,10 +21,10 @@ section
               span.text
                 = participation.participants_count
               span.icon
-                = inline_svg 'participant.svg', size: '16px'
+                = inline_svg_tag 'participant.svg', size: '16px'
             - if participation.carpooling?
               span.carpooling title="#{t('.carpooling')}: #{participation.carpooling_phone.phony_formatted}"
-                span = inline_svg 'carpooling.svg', size: '22px'
+                span = inline_svg_tag 'carpooling.svg', size: '22px'
             - else
               span.carpooling
           span.action
@@ -69,7 +69,7 @@ section
           label.title
             = t('.carpooling')
             span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
-              = inline_svg 'info_circle.svg', size: '16px'
+              = inline_svg_tag 'info_circle.svg', size: '16px'
           div.pretty_check_boxes
             label.carpooling
               = f.check_box :carpooling
@@ -106,4 +106,4 @@ section
               span.text
                 = participation.participants_count
               span.icon
-                = inline_svg 'participant.svg', size: '16px'
+                = inline_svg_tag 'participant.svg', size: '16px'

@@ -37,7 +37,7 @@ module ActivitiesHelper
     if description && activity.description
       activity.title +
         content_tag(:span, class: 'tooltip-toggle', data: { tooltip: activity.description }) {
-          inline_svg 'info_circle.svg', size: '16px'
+          inline_svg_tag 'info_circle.svg', size: '16px'
         }
     else
       activity.title

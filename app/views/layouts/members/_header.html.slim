@@ -6,14 +6,14 @@ header
   - if current_member
     .show_menu
       = link_to '#menu' do
-        = inline_svg 'menu.svg', size: '42px', title: 'Menu'
+        = inline_svg_tag 'menu.svg', size: '42px', title: 'Menu'
 
   #menu
     .menu_wrapper
       - if current_member
         .hide_menu
           = link_to '#nomenu' do
-            = inline_svg 'close.svg', size: '42px', title: 'Menu'
+            = inline_svg_tag 'close.svg', size: '42px', title: 'Menu'
         nav
           ul
             - if next_basket = current_member.next_basket
@@ -60,13 +60,13 @@ header
                 span = current_member.name
               li = link_to members_logout_path, method: :delete, class: 'svg' do
                   span = t('.logout')
-                  = inline_svg 'sign_out.svg', size: '16px'
+                  = inline_svg_tag 'sign_out.svg', size: '16px'
 
       .links
         ul
           li = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'svg' do
             span = Current.acp.phone
-            = inline_svg 'phone.svg', size: '16px'
+            = inline_svg_tag 'phone.svg', size: '16px'
           li = mail_to Current.acp.email, class: 'svg' do
             span = t('.contact')
-            = inline_svg 'envelope.svg', size: '16px'
+            = inline_svg_tag 'envelope.svg', size: '16px'
