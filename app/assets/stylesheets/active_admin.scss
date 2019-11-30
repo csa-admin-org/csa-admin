@@ -93,6 +93,12 @@ span.delivery_absences {
   float: right;
 }
 
+h3 span.link {
+  float: right;
+  margin: 2px -5px 0 0;
+}
+
+h3 .xlsx_link,
 table .delete_link,
 table .edit_link,
 table .pdf_link,
@@ -130,6 +136,7 @@ table a.pdf_link {
   background-image: asset-url('pdf_file.svg');
 }
 
+h3 a.xlsx_link,
 table a.xlsx_link {
   background-image: asset-url('xlsx_file.svg');
 }
@@ -373,7 +380,7 @@ table#index_table_group_buying_deliveries {
   }
 
   .col-actions {
-    width: 110px;
+    width: 134px;
   }
 
   .col-orders {

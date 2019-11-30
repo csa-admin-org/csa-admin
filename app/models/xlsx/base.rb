@@ -40,7 +40,7 @@ module XLSX
       @worksheet.change_row_bold(0, true)
     end
 
-    def add_column(header, values, border: 'none')
+    def add_column(header, values, border: 'none', align: 'left', max_width: nil, min_width: 5)
       @worksheet.add_cell(0, @column, header)
       @worksheet.sheet_data[0][@column].change_font_bold(true)
 
@@ -48,8 +48,8 @@ module XLSX
         @worksheet.add_cell(i + 1, @column, val)
       end
 
-      max_width = Array(values).map { |v| v.to_s.length }.max.to_i
-      @worksheet.change_column_width(@column, max_width + 1)
+      max_width ||= ([header] + Array(values)).map { |v| v.to_s.length }.max.to_i + 2
+      @worksheet.change_column_width(@column, [min_width, max_width].max)
 
       if border != 'none'
         @worksheet.change_column_border(@column, :top, border)
@@ -57,6 +57,7 @@ module XLSX
         @worksheet.change_column_border(@column, :left, border)
         @worksheet.change_column_border(@column, :right, border)
       end
+      @worksheet.change_column_horizontal_alignment(@column, align)
 
       @column += 1
     end
