@@ -5,6 +5,6 @@ module GroupBuyingHelper
 
   def display_group_buying?
     Current.acp.feature?('group_buying') && next_group_buying_delivery &&
-      current_member.id.in?([110128, 110019])
+      current_member.id.in?([110128, 110019, 110241])
   end
 end
