@@ -143,6 +143,7 @@ describe Invoice do
   context 'when other' do
     it 'sets items and round to five cents each item' do
       invoice = create(:invoice,
+        object_type: '',
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: '10.11' },
           '1' => { description: 'Un truc cool pluc cher', amount: '32.33' }

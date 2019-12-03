@@ -174,7 +174,7 @@ class Invoice < ActiveRecord::Base
     return if attrs.empty?
 
     super
-    self[:object_type] ||= 'Other'
+    self[:object_type] = 'Other' unless object_type?
     self[:amount] = items.sum(&:amount)
   end
 
