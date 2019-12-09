@@ -108,5 +108,11 @@ end
 class Epics::Client
   def Z54(from, to)
     download_and_unzip(Epics::Z54, from, to)
+  rescue Epics::Error::BusinessError => e
+    if e.message.include?('EBICS_NO_DOWNLOAD_DATA_AVAILABLE')
+      []
+    else
+      raise e
+    end
   end
 end
