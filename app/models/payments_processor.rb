@@ -42,7 +42,7 @@ class PaymentsProcessor
   end
 
   def ensure_recent_payments!
-    if Invoice.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
+    if Invoice.not_canceled.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
         Payment.isr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
       if last_payment = Payment.isr.reorder(:created_at).last
         ExceptionNotifier.notify(NoRecentPaymentsError.new,
