@@ -147,7 +147,7 @@ class Newsletter::MailChimp
         end
       last_order_date =
         member.group_buying_orders.joins(:delivery).maximum('group_buying_deliveries.date')
-      fields[:GRBY_DATE] = (last_order_date && I18n.l(last_order_date, locale: member.language).to_s)
+      fields[:GRBY_DATE] = (last_order_date && I18n.l(last_order_date, locale: member.language)).to_s
     end
     if BasketComplement.any?
       fields[:BASK_COMP] =
