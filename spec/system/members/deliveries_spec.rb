@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'members page' do
   before {
     Capybara.app_host = 'http://membres.ragedevert.test'
-    create_deliveries(50)
+    create_deliveries(52)
   }
 
   it 'shows current membership info and activities count' do
