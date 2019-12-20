@@ -2,6 +2,8 @@ import { live } from 'components/utils';
 
 const updateOrderAmount = () => {
   const items = document.querySelectorAll("#group-buying-order-form input[type='number']")
+  if(items.length == 0) return;
+
   const amountWrapper = document.getElementById("amount-wrapper")
   const amountElement = document.getElementById("amount")
   let amount = 0.0;
