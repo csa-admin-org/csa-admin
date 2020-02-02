@@ -193,8 +193,8 @@ describe Membership do
     first_half_baskets = membership.baskets.between(beginning_of_year..middle_of_year)
     second_half_baskets = membership.baskets.between(middle_of_year..end_of_year)
 
-    expect(membership.baskets_count).to eq(30)
-    expect(first_half_baskets.count).to eq(25)
+    expect(membership.baskets_count).to eq(31)
+    expect(first_half_baskets.count).to eq(26)
     expect(second_half_baskets.count).to eq(5)
 
     expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
