@@ -28,6 +28,14 @@
     input {
       margin-top: 0;
     }
+
+    span.tooltip-toggle svg {
+      margin: 0 0 -3px 2px;
+    }
+
+    span.icon svg {
+      margin: 0 0 -2px 3px;
+    }
   }
 
   input.participants_count {
@@ -76,80 +84,56 @@ p.info {
 ul.activities {
   li {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
     padding: $small-spacing / 2;
 
     &:nth-child(odd) {
       background-color: #f6f6f6;
     }
-    @media screen and (min-width: 900px) {
-      flex-wrap: nowrap;
-    }
 
     span.date_and_period {
       text-decoration: inherit;
-      order: 2;
+      order: 1;
       flex-basis: fit;
-      margin-bottom: $small-spacing / 4;
-      @media screen and (min-width: 900px) {
-        order: 1;
-        flex-basis: 16em;
-        margin-bottom: 0;
-      }
-
+      // width: 100%;
+      // margin-bottom: $small-spacing / 4;
+      // @media screen and (min-width: 900px) {
+      //   order: 1;
+      //   flex-basis: 16em;
+      //   margin-bottom: 0;
+      // }
       span.date {
         display: inline-block;
         text-decoration: inherit;
+        margin-right: 10px;
         width: 8em;
+      }
+
+      span.period {
+        display: inline-block;
+        text-decoration: inherit;
+        margin-right: 10px;
+        width: 7em;
       }
     }
 
     span.activity {
-      order: 1;
+      order: 2;
       flex-basis: 100%;
-      margin-bottom: $small-spacing / 4;
       @media screen and (min-width: 900px) {
-        order: 2;
-        flex-grow: 2;
-        flex-basis: 16em;
-        margin-bottom: 0;
-      }
-
-      span.rejected,
-      span.validated {
-        font-style: normal !important;
-        display: inline-block;
-        color: white;
-        text-transform: uppercase;
-        font-size: $base-font-size * 0.65;
-        border: solid 1px;
-        padding: 0 $small-spacing;
-        margin-left: $small-spacing;
-        border-radius: 5px;
-        position: relative;
-        top: -2px;
-      }
-
-      span.validated {
-        background-color: #80a432;
-        border-color: #80a432;
-      }
-
-      span.rejected {
-        background-color: #ff2600;
-        border: solid 1px #ff2600;
+        order: 4;
       }
     }
 
     span.icons {
       order: 3;
-      flex-basis: 40%;
-      margin-right: $small-spacing / 2;
+      // flex-basis: 8em;
+      // margin-left: $small-spacing / 2;
       @media screen and (min-width: 900px) {
-        order: 3;
-        flex-basis: 4em;
-        margin: 0 $small-spacing / 2;
+        order: 2;
+        // flex-basis: 4em;
+        // margin: 0 $small-spacing / 2;
       }
       display: flex;
 
@@ -158,7 +142,8 @@ ul.activities {
       }
 
       span.participant_count {
-        flex-basis: 3em;
+        flex-basis: 2.5em;
+        min-width: 2.5em;
         display: flex;
 
         span.text {
@@ -171,6 +156,11 @@ ul.activities {
           order: 2;
           flex-basis: 2em;
           text-align: center;
+          margin-left: 3px;
+
+          svg {
+            margin-bottom: -2px;
+          }
         }
       }
 
@@ -180,17 +170,48 @@ ul.activities {
         flex-basis: 1em;
         text-align: center;
 
-        span {
-          display: inline-block;
+        span.icon {
+          flex-basis: 2em;
+          text-align: center;
+
+          svg {
+            margin-bottom: -6px;
+          }
         }
       }
     }
 
+    span.rejected,
+    span.validated {
+      font-style: normal !important;
+      display: inline-block;
+      color: white;
+      text-transform: uppercase;
+      font-size: $base-font-size * 0.7;
+      border: solid 1px;
+      padding: $small-spacing / 3 $small-spacing;
+      margin-left: $small-spacing;
+      border-radius: 5px;
+      position: relative;
+      top: -2px;
+    }
+
+    span.validated {
+      background-color: #80a432;
+      border-color: #80a432;
+    }
+
+    span.rejected {
+      background-color: #ff2600;
+      border: solid 1px #ff2600;
+    }
+
     span.action {
       text-decoration: inherit;
-      order: 4;
+      order: 3;
       text-align: right;
-      flex-basis: fit;
+      // flex-basis: fit;
+      flex-grow: 2;
       margin-left: $small-spacing / 2;
 
       span.hidden_action {
