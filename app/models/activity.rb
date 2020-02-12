@@ -14,7 +14,7 @@ class Activity < ActiveRecord::Base
   has_many :participations, class_name: 'ActivityParticipation'
 
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
-  scope :coming, -> { where('activities.date > ?', Date.current) }
+  scope :coming, -> { where('activities.date >= ?', Date.current) }
   scope :past, -> { where('activities.date <= ?', Date.current) }
   scope :past_current_year, -> {
     where('activities.date < ? AND activities.date >= ?', Date.current, Current.fy_range.min)
@@ -48,9 +48,12 @@ class Activity < ActiveRecord::Base
     participations.map(&:member_id).include?(member.id)
   end
 
+  def participants_count
+    @participants_count ||= participations.map(&:participants_count).sum
+  end
+
   def missing_participants_count
-    participants_limit &&
-      participants_limit - participations.map(&:participants_count).sum
+    participants_limit && participants_limit - participants_count
   end
 
   def name
