@@ -49,7 +49,7 @@ class Activity < ActiveRecord::Base
   end
 
   def participants_count
-    @participants_count ||= participations.map(&:participants_count).sum
+    participations.map(&:participants_count).sum
   end
 
   def missing_participants_count
