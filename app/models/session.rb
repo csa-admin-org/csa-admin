@@ -51,6 +51,6 @@ class Session < ApplicationRecord
   end
 
   def owner_must_be_present
-    errors.add(:base, :invalid) unless [member_id, admin_id].one?(&:present?)
+    errors.add(:email, :unkown) unless [member_id, admin_id].one?(&:present?)
   end
 end

@@ -697,6 +697,12 @@ _:
               terms_of_service_unchecked:
                 _de: Die Allgemeinen Verkaufsbedingungen müssen akzeptiert werden
                 _fr: Les conditions générales de vente doivent être acceptées
+        session:
+          attributes:
+            email:
+              unkown:
+                _de: Email unbekannt
+                _fr: Email inconnu
     models:
       absence:
         one:
