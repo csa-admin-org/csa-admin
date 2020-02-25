@@ -264,15 +264,6 @@ module Email
     }
   end
 
-  def session_help(email, locale, data = {})
-    {
-      from: from,
-      to: email,
-      template: template_alias(:session_help, locale),
-      template_data: data
-    }
-  end
-
   def member_welcome(member)
     {
       from: from,

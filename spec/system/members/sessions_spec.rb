@@ -82,31 +82,23 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: 'hn@doe.com'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'hn@doe.com',
-      template: 'session-help-fr',
-      template_data: {}))
+    expect(email_adapter.deliveries.size).to eq 0
 
-    expect(current_path).to eq '/login'
-    expect(page).to have_content 'Merci! Un email vient de vous être envoyé.'
+    expect(current_path).to eq '/sessions'
+    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
   end
 
-  it 'sends login help when email is not found' do
+  it 'does not accept unknown email' do
     visit '/'
     expect(current_path).to eq '/login'
 
     fill_in 'Votre email', with: 'unknown@member.com'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'unknown@member.com',
-      template: 'session-help-fr',
-      template_data: {}))
+    expect(email_adapter.deliveries.size).to eq 0
 
-    expect(current_path).to eq '/login'
-    expect(page).to have_content 'Merci! Un email vient de vous être envoyé.'
+    expect(current_path).to eq '/sessions'
+    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
   end
 
   it 'does not accept old session when not logged in' do

@@ -20,11 +20,8 @@ class SessionsController < ApplicationController
       Email.deliver_later(:session_new, @session.admin, email, url, admin: true)
       I18n.locale = @session.admin.language
       redirect_to login_path(locale: I18n.locale), notice: t('sessions.flash.initiated')
-    elsif @session.errors[:email].present?
-      render :new
     else
-      Email.deliver_later(:session_help, email, I18n.locale.to_s, admin: true)
-      redirect_to login_path, notice: t('sessions.flash.initiated')
+      render :new
     end
   end
 

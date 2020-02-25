@@ -68,22 +68,18 @@ describe 'Admin sessions' do
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
   end
 
-  it 'sends session help when email is not found' do
+
+  it 'does not accept unknown email' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Email', with: 'unknown@member.com'
+    fill_in 'Email', with: 'unknown@admin.com'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'unknown@member.com',
-      template: 'session-help-fr',
-      template_data: { admin: true }))
+    expect(email_adapter.deliveries.size).to eq 0
 
-    expect(current_path).to eq '/login'
-    expect(page).to have_selector('.flash_notice',
-      text: 'Merci! Un email vient de vous être envoyé.')
+    expect(current_path).to eq '/sessions'
+    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
   end
 
   it 'does not accept old session when not logged in' do
