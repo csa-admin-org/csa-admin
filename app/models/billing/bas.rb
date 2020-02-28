@@ -6,6 +6,7 @@ module Billing
     URL = 'https://wwwsec.abs.ch'.freeze
 
     GET_PAYMENTS_FROM = 1.month.ago
+    NO_DATA_INFO_MSG = "<INFO_MSG>Aucune donn\xE9e BVR n'a \xE9t\xE9 trouv\xE9e</INFO_MSG>".force_encoding('ASCII-8BIT')
 
     attr_reader :session
 
@@ -56,6 +57,8 @@ module Billing
         WITH_OLD: 1)
       if res.body.include?('<FILE>')
         res.body[/<FILE>(.*)<\/FILE>/m, 1].delete(' ').split("\r\n")
+      elsif res.body.include?(NO_DATA_INFO_MSG)
+        []
       else
         ExceptionNotifier.notify(ESRGETIssue.new, body: res.body)
         []
