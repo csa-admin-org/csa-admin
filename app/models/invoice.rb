@@ -26,8 +26,9 @@ class Invoice < ActiveRecord::Base
   scope :membership, -> { where(object_type: 'Membership') }
   scope :acp_share, -> { where(object_type: 'ACPShare') }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
+  scope :sent, -> { where.not(sent_at: nil) }
   scope :all_without_canceled, -> { not_canceled }
-  scope :not_open_or_sent, -> { where.not(sent_at: nil).where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
+  scope :not_open_or_sent, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]).sent }
   scope :unpaid, -> { not_canceled.where('balance < amount') }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
