@@ -89,7 +89,7 @@ GEM
       activesupport (>= 3.0.0)
     ast (2.4.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.279.0)
+    aws-partitions (1.281.0)
     aws-sdk-core (3.90.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -112,7 +112,7 @@ GEM
     bullet (6.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    camt_parser (2.9.0)
+    camt_parser (2.10.0)
       nokogiri
     cancancan (3.0.2)
     capybara (3.31.0)
