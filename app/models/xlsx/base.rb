@@ -14,6 +14,14 @@ module XLSX
       raise NotImplementedError
     end
 
+    def file
+      {
+        io: workbook.stream,
+        filename: filename,
+        content_type: content_type
+      }
+    end
+
     private
 
     def workbook
