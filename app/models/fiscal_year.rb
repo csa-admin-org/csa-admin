@@ -49,6 +49,13 @@ class FiscalYear
     (date.year * 12 + date.month) - (beginning_of_year.year * 12 + beginning_of_year.month) + 1
   end
 
+  def current_quarter_range
+    quarter = ((month(Date.current) - 1) / 3) + 1
+    min = beginning_of_year + ((quarter - 1) * 3).months
+    max = (min + 2.months).end_of_month
+    min..max
+  end
+
   private
 
   def months_diff

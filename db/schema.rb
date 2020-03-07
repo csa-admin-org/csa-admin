@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_180652) do
+ActiveRecord::Schema.define(version: 2020_03_07_184654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -254,6 +254,11 @@ ActiveRecord::Schema.define(version: 2019_11_19_180652) do
     t.datetime "updated_at", null: false
     t.integer "quantity", default: 1, null: false
     t.index ["basket_complement_id", "basket_id"], name: "baskets_basket_complements_unique_index", unique: true
+  end
+
+  create_table "billing_snapshots", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "deliveries", id: :serial, force: :cascade do |t|

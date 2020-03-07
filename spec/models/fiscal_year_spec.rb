@@ -97,4 +97,28 @@ describe FiscalYear do
       expect(fy.month(Date.new(2018, 3, 1))).to eq 12
     end
   end
+
+  describe '#current_quarter_range' do
+    it 'returns Q3 range', freeze: '12-08-2020' do
+      fy = FiscalYear.for(2020)
+      expect(fy.current_quarter_range).to eq Date.new(2020, 7)..Date.new(2020, 9, 30)
+    end
+
+    it 'returns Q2 range', freeze: '31-08-2020' do
+      fy = FiscalYear.for(2020, start_month: 4)
+      expect(fy.current_quarter_range).to eq Date.new(2020, 7)..Date.new(2020, 9, 30)
+    end
+
+    it 'returns Q4 range', freeze: '01-01-2020' do
+      fy = FiscalYear.for(2020, start_month: 2)
+      Timecop.freeze(fy.end_of_year)
+      expect(fy.current_quarter_range).to eq Date.new(2020, 11)..Date.new(2021, 1, 31)
+    end
+
+    it 'returns Q1 range', freeze: '01-01-2020' do
+      fy = FiscalYear.for(2020, start_month: 3)
+      Timecop.freeze('01-03-2020')
+      expect(fy.current_quarter_range).to eq Date.new(2020, 3)..Date.new(2020, 5, 31)
+    end
+  end
 end
