@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get 'activity_participations/calendar' => 'activity_participations_calendar#show',
       defaults: { format: :ics }
     get 'billing/:year' => 'billings#show', as: :billing
+    get 'billing/snapshots/:id' => 'billing_snapshots#show', as: :billing_snapshot
 
     get 'settings' => 'acps#edit', as: :edit_acp
     get 'settings' => 'acps#edit', as: :acps
