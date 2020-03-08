@@ -28,6 +28,18 @@ ActiveAdmin.register_page 'Dashboard' do
               span do
                 link_to Invoice.human_attribute_name(:xlsx_recap), billing_path(Current.fy_year, format: :xlsx)
               end
+              latest_snapshots = Billing::Snapshot.order(updated_at: :desc).last(4)
+              if latest_snapshots.any?
+                span "<br/><br/>".html_safe
+                span do
+                  txt = t('.quarterly_snapshots')
+                  txt += ': '
+                  txt += latest_snapshots.map { |s|
+                      link_to l(s.updated_at.to_date, format: :number), billing_snapshot_path(s)
+                    }.join(' / ')
+                  txt.html_safe
+                end
+              end
             end
           end
         end

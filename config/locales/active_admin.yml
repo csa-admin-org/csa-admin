@@ -235,6 +235,9 @@ _:
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
+        quarterly_snapshots:
+          _de: Quartalsschnappschüsse
+          _fr: Instantanés trimestriels
         signature_sheets:
           _de: Unterschriftszettel
           _fr: Fiches Signature
