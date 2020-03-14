@@ -93,7 +93,3 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rspec'
 end
-
-group :test do
-  gem 'timecop'
-end

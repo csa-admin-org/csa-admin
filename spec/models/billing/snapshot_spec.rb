@@ -18,7 +18,7 @@ describe Billing::Snapshot do
     it 'updates an existing quarter snapshot', freeze: '01-03-2020' do
       snapshot = described_class.create_or_update_current_quarter!
 
-      Timecop.freeze '2020-03-31 23:59:59+200'
+      travel_to '2020-03-31 23:59:59+200'
 
       expect {
         snapshot = described_class.create_or_update_current_quarter!
@@ -34,7 +34,7 @@ describe Billing::Snapshot do
     it 'creates a new snapshot for next quarter', freeze: '01-03-2020' do
       snapshot = described_class.create_or_update_current_quarter!
 
-      Timecop.freeze '01-04-2020'
+      travel_to '01-04-2020'
 
       expect {
         snapshot = described_class.create_or_update_current_quarter!

@@ -642,7 +642,7 @@ describe PDF::Invoice do
       member = create(:member)
 
       invoice = nil
-      Timecop.freeze '2019-11-20' do
+      travel_to '2019-11-20' do
         delivery = create(:group_buying_delivery,
           orderable_until: '2019-12-02')
         product = create(:group_buying_product,

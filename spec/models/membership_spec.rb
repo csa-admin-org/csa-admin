@@ -154,7 +154,7 @@ describe Membership do
     middle_of_year = Time.current.beginning_of_year + 6.months
     end_of_year = Time.current.end_of_year
 
-    Timecop.travel(middle_of_year) do
+    travel_to(middle_of_year) do
       membership.update!(
         basket_size_id: new_basket_size.id,
         depot_id: new_depot.id)
@@ -184,7 +184,7 @@ describe Membership do
     coming_deliveries = depot.deliveries.last(5)
     new_depot = create(:depot, delivery_ids: coming_deliveries.map(&:id))
 
-    Timecop.travel(middle_of_year) do
+    travel_to(middle_of_year) do
       membership.update!(
         basket_size_id: new_basket_size.id,
         depot_id: new_depot.id)
@@ -411,7 +411,7 @@ describe Membership do
   end
 
   it 'adds basket_complement to coming baskets when subscription is added' do
-    Timecop.freeze('2017-06-01') do
+    travel_to('2017-06-01') do
       create(:basket_complement, id: 1, price: 3.2)
       create(:basket_complement, id: 2, price: 4.5)
       depot = create(:depot, id: 1, deliveries_count: 0)
@@ -455,7 +455,7 @@ describe Membership do
   end
 
   it 'adds basket_complement with annual price type to coming baskets when subscription is added' do
-    Timecop.freeze('2017-06-01') do
+    travel_to('2017-06-01') do
       create(:basket_complement, :annual_price_type, id: 1)
       create(:basket_complement, id: 2, price: 4.5)
       depot = create(:depot, id: 1, deliveries_count: 0)
@@ -499,7 +499,7 @@ describe Membership do
   end
 
   it 'removes basket_complement to coming baskets when subscription is removed' do
-    Timecop.freeze('2017-06-01') do
+    travel_to('2017-06-01') do
       create(:basket_complement, id: 1, price: 3.2)
       create(:basket_complement, id: 2, price: 4.5)
       depot = create(:depot, id: 1, deliveries_count: 0)
@@ -562,7 +562,7 @@ describe Membership do
   end
 
   it 'updates futures basket when subscription change' do
-    Timecop.freeze('2017-06-01') do
+    travel_to('2017-06-01') do
       create(:delivery, date: '2017-03-01')
       create(:delivery, date: '2017-06-15')
       create(:delivery, date: '2017-07-05')
@@ -594,7 +594,7 @@ describe Membership do
     create(:delivery, date: '2017-07-01')
     depot = create(:depot, delivery_ids: Delivery.pluck(:id))
 
-    Timecop.freeze('2017-02-15') do
+    travel_to('2017-02-15') do
       membership = create(:membership,
         depot: depot,
         started_on: '2017-01-01',

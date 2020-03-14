@@ -2,10 +2,11 @@ require 'rails_helper'
 
 describe RecurringBilling do
   before {
-    Timecop.travel(Date.new(Current.fy_year, 1, 15))
-    create_deliveries(40)
+    travel_to(Date.new(Current.fy_year, 1, 15)) {
+      create_deliveries(40)
+    }
   }
-  after { Timecop.return }
+  after { travel_back }
 
   def create_invoice(member)
     member.reload
@@ -63,7 +64,7 @@ describe RecurringBilling do
       trial_basket_count: 4)
     member = create(:member, :inactive, billing_year_division: 12)
 
-    Timecop.travel(Date.new(Current.fy_year, 8, 15))
+    travel_to(Date.new(Current.fy_year, 8, 15))
     membership = create(:membership, member: member,
       started_on: 4.weeks.ago,
       ended_on: 1.day.ago)
@@ -117,7 +118,7 @@ describe RecurringBilling do
       create(:basket_complement, id: 1, price: 3.4, delivery_ids: Delivery.pluck(:id))
       create(:basket_complement, id: 2, price: 5.6, delivery_ids: Delivery.pluck(:id))
 
-      Timecop.travel(Current.fy_range.min) {
+      travel_to(Current.fy_range.min) {
         membership.update!(
           basket_quantity: 2,
           basket_price: 32,
@@ -150,7 +151,7 @@ describe RecurringBilling do
     end
 
     specify 'when already billed' do
-      Timecop.travel(1.day.ago) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 1, 14)) { create_invoice(member) }
 
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
@@ -162,10 +163,12 @@ describe RecurringBilling do
     end
 
     specify 'when already billed, but with a membership change' do
-      create_invoice(member)
-      Timecop.travel(1.month.from_now) {
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 2, 15)) {
         membership.update!(depot_price: 2)
       }
+      travel_to(Date.new(Current.fy_year, 1, 15))
+
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -182,6 +185,7 @@ describe RecurringBilling do
     let(:membership) { member.current_membership }
 
     specify 'when quarter #1' do
+      travel_to(Date.new(Current.fy_year, 1))
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -193,14 +197,16 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #1 (already billed)' do
-      Timecop.travel(1.day.ago) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 1, 14)) {
+        create_invoice(member)
+      }
 
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
     specify 'when quarter #2' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5))
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5))
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -212,8 +218,8 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #2 (already billed)' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) {
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) {
         create_invoice(member)
       }
 
@@ -221,8 +227,8 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #2 (already billed but canceled)' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5))
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5))
       create_invoice(member).cancel!
       invoice = create_invoice(member)
 
@@ -235,9 +241,9 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #3' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 8))
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 8))
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -249,11 +255,13 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #3 (with overbalance on previous invoices)' do
-      @first_invoice = create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) {
+      @first_invoice = travel_to(Date.new(Current.fy_year, 1)) {
+        create_invoice(member)
+      }
+      travel_to(Date.new(Current.fy_year, 5)) {
         @second_invoice = create_invoice(member)
       }
-      Timecop.travel(Date.new(Current.fy_year, 8))
+      travel_to(Date.new(Current.fy_year, 8))
 
       memberships_amount = membership.price / 4.0
       annual_fee = 30
@@ -276,29 +284,32 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #3 (already billed)' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 8))
-      Timecop.travel(1.day.ago) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 7).end_of_month) {
+        create_invoice(member)
+      }
 
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
     specify 'when quarter #3 (already billed), but with a membership change' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 8))
-      Timecop.travel(1.day.ago) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 7).end_of_month) {
+        create_invoice(member)
+      }
+      travel_to(Date.new(Current.fy_year, 8))
       membership.update!(depot_price: 2)
 
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
     specify 'when quarter #4' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 11))
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 8)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 11))
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -310,30 +321,35 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #4 (already billed)' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 11))
-      Timecop.travel(1.day.ago) { create_invoice(member) }
-
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 8)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 10).end_of_month) {
+        create_invoice(member)
+      }
+      travel_to(Date.new(Current.fy_year, 11)) {
+        expect { create_invoice(member) }.not_to change(Invoice, :count)
+      }
     end
 
     specify 'when quarter #4 (already billed), but with a membership change' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 8)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 11))
-      Timecop.travel(1.day.ago) { create_invoice(member) }
-      membership.baskets.last.update!(depot_price: 2)
-      invoice = create_invoice(member)
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 8)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 10).end_of_month) {
+        create_invoice(member)
+      }
+      travel_to(Date.new(Current.fy_year, 11)) {
+        membership.baskets.last.update!(depot_price: 2)
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq 1200
-      expect(invoice.remaining_memberships_amount).to eq 1 * 2
-      expect(invoice.memberships_amount).to eq 1 * 2
-      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq 1200
+        expect(invoice.remaining_memberships_amount).to eq 1 * 2
+        expect(invoice.memberships_amount).to eq 1 * 2
+        expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
+      }
     end
   end
 
@@ -343,6 +359,7 @@ describe RecurringBilling do
     let(:membership) { member.current_membership }
 
     specify 'when month #1' do
+      travel_to(Date.new(Current.fy_year, 1))
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -354,9 +371,9 @@ describe RecurringBilling do
     end
 
     specify 'when month #3' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 3))
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 3))
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -368,9 +385,9 @@ describe RecurringBilling do
     end
 
     specify 'when month #3 but membership at the end the month' do
-      create_invoice(member)
-      Timecop.travel(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      Timecop.travel(Date.new(Current.fy_year, 3, 15))
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 3, 15))
 
       old_price = membership.price
       membership.update!(ended_on: Time.current.end_of_month)

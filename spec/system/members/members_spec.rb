@@ -195,8 +195,7 @@ describe 'members page' do
   end
 
   context 'existing member token' do
-    before { Timecop.freeze(Date.today.beginning_of_year + 6.months) }
-    after { Timecop.return }
+    around { |e| travel_to(Date.today.beginning_of_year + 6.months) { e.run } }
 
     it 'redirects to deliveries with next basket' do
       login(member)
