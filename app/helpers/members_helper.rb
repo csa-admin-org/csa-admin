@@ -57,6 +57,8 @@ module MembersHelper
       details << deliveries_count(d.deliveries_count) if deliveries_counts.many?
       if address = d.full_address
         details << address + map_icon(address).html_safe
+      elsif d.address.present?
+        details << d.address
       end
       [
         collection_text(d.form_name || d.name,
