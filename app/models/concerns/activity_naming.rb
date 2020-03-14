@@ -3,7 +3,7 @@ module ActivityNaming
 
   class Name < ActiveModel::Name
     def i18n_key
-      if Apartment::Tenant.current != 'public'
+      if Current.attributes[:acp]
         "#{super}/#{Current.acp.activity_i18n_scope}".to_sym
       else
         super
