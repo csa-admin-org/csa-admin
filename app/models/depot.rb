@@ -40,7 +40,7 @@ class Depot < ActiveRecord::Base
   end
 
   def full_address
-    return unless address && zip && city
+    return unless [address, zip, city].all?(&:present?)
 
     [address, "#{zip} #{city}"].compact.join(', ')
   end
