@@ -7,13 +7,13 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "^4.2.2",
-    "flatpickr": "^4.5.2",
-    "normalize.css": "^8.0.0",
-    "prettier": "^1.14.3",
-    "trix": "^1.0.0",
+    "flatpickr": "^4.6.3",
+    "normalize.css": "^8.0.1",
+    "prettier": "^1.19.0",
+    "trix": "^1.2.3",
     "turbolinks": "^5.2.0"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3.8.2"
+    "webpack-dev-server": "^3.10.3"
   }
 }
