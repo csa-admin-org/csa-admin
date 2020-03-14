@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe Billing::Snapshot do
+describe Billing::Snapshot, freeze: '2020-03-01 00:00 +01' do
   describe '#create_or_update_current_quarter!' do
-    it 'creates a new snapshot', freeze: '01-03-2020' do
+    it 'creates a new snapshot' do
       snapshot = nil
       expect {
         snapshot = described_class.create_or_update_current_quarter!
@@ -15,10 +15,10 @@ describe Billing::Snapshot do
         .to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
-    it 'updates an existing quarter snapshot', freeze: '01-03-2020' do
+    it 'updates an existing quarter snapshot' do
       snapshot = described_class.create_or_update_current_quarter!
 
-      travel_to '2020-03-31 23:59:59+200'
+      travel_to '2020-03-31 23:59:59 +02'
 
       expect {
         snapshot = described_class.create_or_update_current_quarter!
@@ -31,7 +31,7 @@ describe Billing::Snapshot do
         .to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
-    it 'creates a new snapshot for next quarter', freeze: '01-03-2020' do
+    it 'creates a new snapshot for next quarter' do
       snapshot = described_class.create_or_update_current_quarter!
 
       travel_to '01-04-2020'
