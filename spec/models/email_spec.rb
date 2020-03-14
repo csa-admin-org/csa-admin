@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Email do
   it 'delivers delivery_list template' do
-    Timecop.freeze '2018-03-01' do
+    travel_to '2018-03-01' do
       delivery = create(:delivery, date: '24.03.2018')
       depot = create(:depot,
         name: 'Jardin de la Main',
@@ -365,7 +365,7 @@ describe Email do
 
     member = create(:member, name: 'John Doew')
 
-    Timecop.freeze '2018-10-01' do
+    travel_to '2018-10-01' do
       absence = create(:absence, member: member,
         started_on: '2018-11-12',
         ended_on: '2018-11-19',)

@@ -118,7 +118,7 @@ describe BasketComplement do
     basket1 = nil
     basket2 = nil
     basket3 = nil
-    Timecop.travel(1.year.ago) do
+    travel_to 1.year.ago do
       membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
       membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
       membership_3 = create(:membership, subscribed_basket_complement_ids: [1])

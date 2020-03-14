@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe BasketsBasketComplement do
-  before { Timecop.freeze(Date.today.beginning_of_year + 6.months) }
-  after { Timecop.return }
+  around { |e| travel_to(Date.today.beginning_of_year + 6.months) { e.run } }
 
   it 'validates that price is zero when basket complement has an annual price type' do
     membership = create(:membership)

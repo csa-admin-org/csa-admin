@@ -156,7 +156,7 @@ describe 'Member sessions' do
   it 'update last usage column every hour when using the session' do
     member = create(:member)
 
-    Timecop.freeze Time.new(2018, 7, 6, 1) do
+    travel_to Time.new(2018, 7, 6, 1) do
       login(member)
 
       expect(member.sessions.last).to have_attributes(
@@ -165,13 +165,13 @@ describe 'Member sessions' do
         last_user_agent: nil)
     end
 
-    Timecop.freeze Time.new(2018, 7, 6, 1, 59) do
+    travel_to Time.new(2018, 7, 6, 1, 59) do
       visit '/'
       expect(member.sessions.last).to have_attributes(
         last_used_at: Time.new(2018, 7, 6, 1))
     end
 
-    Timecop.freeze Time.new(2018, 7, 6, 2, 0, 1) do
+    travel_to Time.new(2018, 7, 6, 2, 0, 1) do
       visit '/'
       expect(member.sessions.last).to have_attributes(
         last_used_at: Time.new(2018, 7, 6, 2, 0, 1))

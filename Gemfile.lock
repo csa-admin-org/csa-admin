@@ -401,7 +401,6 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    timecop (0.9.1)
     tod (2.2.0)
     ttfunk (1.6.2.1)
     turbolinks (5.2.1)
@@ -500,7 +499,6 @@ DEPENDENCIES
   spring-commands-rspec
   spring-watcher-listen
   sucker_punch
-  timecop
   tod
   turbolinks
   uglifier
