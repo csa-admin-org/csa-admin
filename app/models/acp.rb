@@ -23,8 +23,8 @@ class ACP < ActiveRecord::Base
 
   validates :name, presence: true
   validates :host, presence: true
-  validates :url, presence: true, format: { with: %r{\Ahttps?://.*} }
-  validates :logo_url, presence: true, format: { with: %r{\Ahttps://.*} }
+  validates :url, presence: true, format: { with: %r{\Ahttps?://.*\z} }
+  validates :logo_url, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email, presence: true
   validates :email_default_host, presence: true
   validates :email_default_from, presence: true

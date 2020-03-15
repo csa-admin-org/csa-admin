@@ -8,7 +8,7 @@ module GroupBuying
 
     validates :name, presence: true
     validates :website_url, format: {
-      with: %r{\Ahttps?://.*},
+      with: %r{\Ahttps?://.*\z},
       allow_blank: true
     }
 
