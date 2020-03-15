@@ -3,14 +3,14 @@ ul.basket class="#{'absent' if basket.absent?}"
     span.absent = Basket.human_attribute_name(:absent)
   li.date = l(basket.delivery.date, format: :medium_long).titleize
   li
-    == "#{Basket.model_name.human}: #{basket_size_description(basket)}"
+    = h "#{Basket.model_name.human}: #{basket_size_description(basket)}"
     - if basket.trial?
       span.trial = Basket.human_attribute_name(:trial)
   - complements = basket.baskets_basket_complements.includes(:basket_complement)
   - if complements.any?
-    li == "#{BasketsBasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
+    li = h "#{BasketsBasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
   li
     - depot = basket.depot
-    == "#{Depot.model_name.human}: #{depot.name}"
+    = h "#{Depot.model_name.human}: #{depot.name}"
     - if depot.full_address
       == map_icon(depot.full_address)
