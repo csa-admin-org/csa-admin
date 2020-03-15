@@ -11,7 +11,7 @@ class Admin < ActiveRecord::Base
 
   validates :name, presence: true
   validates :rights, inclusion: { in: RIGHTS }
-  validates :email, presence: true, uniqueness: true, format: /.+\@.+\..+/
+  validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
 
   def notifications=(notifications)
     super(notifications.select(&:presence).compact)

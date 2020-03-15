@@ -2,7 +2,7 @@
 
 # [ACP Admin](https://acp-admin.ch)
 
-[![Tests Actions Status](https://github.com/acp-admin/acp-admin/workflows/Tests/badge.svg)](https://github.com/acp-admin/acp-admin/actions?query=workflow%3ATests)
+[![Tests Action Status](https://github.com/acp-admin/acp-admin/workflows/Tests/badge.svg)](https://github.com/acp-admin/acp-admin/actions?query=workflow%3ATests) [![Brakeman Action Status](https://github.com/acp-admin/acp-admin/workflows/Brakeman/badge.svg)](https://github.com/acp-admin/acp-admin/actions?query=workflow%3ABrakeman)
 
 Cette application Ruby on Rails permet l'administration d'ACP (Agriculture Contractuelle de Proximité).
 
