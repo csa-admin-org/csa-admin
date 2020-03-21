@@ -56,8 +56,8 @@ class Newsletter::MailChimp
       BASK_FIRS: { name: 'Date du premier panier', type: 'text', required: false },
       BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
       BASK_DELI: { name: 'Prochain panier livré?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
-      BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: [nil] + BasketSize.all.map(&:name) } },
-      BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: [nil] + Depot.order(:name).pluck(:name) } }
+      BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: BasketSize.all.map(&:name) } },
+      BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: Depot.order(:name).pluck(:name) } }
     }
     if Current.acp.feature?(:activity)
       fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: false }
