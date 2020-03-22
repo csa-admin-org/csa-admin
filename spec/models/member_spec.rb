@@ -2,13 +2,34 @@ require 'rails_helper'
 
 describe Member do
   describe 'validations' do
-    it 'does not require address, city, zip when inactive && newsletter' do
+    it 'requires address, city, zip on creation' do
+      member = Member.new(
+        address: nil,
+        city: nil,
+        zip: nil)
+      expect(member).not_to have_valid(:address)
+      expect(member).not_to have_valid(:city)
+      expect(member).not_to have_valid(:zip)
+    end
+
+    it 'does not require address, city, zip when inactive' do
       member = create(:member, :inactive,
-        newsletter: true,
         address: nil,
         city: nil,
         zip: nil)
       expect(member).to be_valid
+    end
+
+    it 'does not require address, city, zip on update' do
+      member = create(:member)
+      member.attributes = {
+        address: nil,
+        city: nil,
+        zip: nil
+      }
+      expect(member).to have_valid(:zip)
+      expect(member).to have_valid(:city)
+      expect(member).to have_valid(:address)
     end
 
     it 'sets first ACP billing_year_divisions by default' do

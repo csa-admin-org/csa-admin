@@ -50,7 +50,7 @@ class Member < ActiveRecord::Base
     inclusion: { in: proc { Current.acp.billing_year_divisions } }
   validates :name, presence: true
   validates :emails, presence: true, on: :create
-  validates :address, :city, :zip, presence: true, unless: :inactive?
+  validates :address, :city, :zip, presence: true, on: :create, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_depot, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
   validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
