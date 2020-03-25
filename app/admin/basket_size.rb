@@ -26,8 +26,8 @@ ActiveAdmin.register BasketSize do
         f.input :activity_participations_demanded_annualy,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy))
       end
-      f.actions
     end
+    f.actions
   end
 
   permit_params(

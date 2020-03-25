@@ -54,7 +54,6 @@ ActiveAdmin.register Absence do
         f.input :comment, as: :text
       end
     end
-
     f.actions
   end
 

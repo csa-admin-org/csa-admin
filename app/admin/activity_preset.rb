@@ -17,8 +17,8 @@ ActiveAdmin.register ActivityPreset do
       translated_input(f, :places)
       translated_input(f, :place_urls)
       translated_input(f, :titles)
-      f.actions
     end
+    f.actions
   end
 
   permit_params(
