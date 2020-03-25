@@ -96,6 +96,10 @@ _:
         visible:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung'
           _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription
+      group_buying/delivery:
+        depot_ids:
+          _de: Lassen Sie alles ungeprüft, wenn alle Mitglieder Zugang zur Lieferung haben
+          _fr: Laisser tout décoché si tous les membres ont accès à la livraison
       member:
         delivery_address:
           _de: Leer lassen, wenn gleich

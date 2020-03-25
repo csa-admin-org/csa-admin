@@ -6,6 +6,9 @@ ActiveAdmin.register GroupBuying::Delivery do
   scope :past
 
   filter :date
+  filter :depot,
+    as: :select,
+    collection: -> { Depot.pluck(:name, :id) }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
@@ -52,6 +55,7 @@ ActiveAdmin.register GroupBuying::Delivery do
           row :id
           row(:date) { l(delivery.date, date_format: :long) }
           row(:orderable_until) { l(delivery.orderable_until, date_format: :long) }
+          row(:depots) { Depot.where(id: delivery.depot_ids).pluck(:name).join(', ')}
         end
         attributes_table title: GroupBuying::Order.model_name.human(count: 2) do
           row(t('.open_orders')) {
@@ -90,12 +94,20 @@ ActiveAdmin.register GroupBuying::Delivery do
     f.inputs do
       translated_input(f, :descriptions, as: :action_text)
     end
+    f.inputs Depot.model_name.human(count: 2) do
+      f.input :depot_ids,
+        collection: Depot.all,
+        as: :check_boxes,
+        label: false,
+        hint: t('formtastic.hints.group_buying/delivery.depot_ids')
+    end
     f.actions
   end
 
   permit_params(
     :date,
     :orderable_until,
+    depot_ids: [],
     descriptions: I18n.available_locales)
 
   controller do
@@ -113,12 +125,6 @@ ActiveAdmin.register GroupBuying::Delivery do
             content_type: xlsx.content_type,
             filename: xlsx.filename
         end
-      end
-    end
-
-    def update
-      super do |success, _failure|
-        success.html { redirect_to root_path }
       end
     end
   end
