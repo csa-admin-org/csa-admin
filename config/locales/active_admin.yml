@@ -24,6 +24,12 @@ _:
         destroy:
           _de: Löschen
           _fr: Supprimer
+        make_available:
+          _de: Verfügbar machen
+          _fr: Rendre disponible
+        make_unavailable:
+          _de: Unverfügbar machen
+          _fr: Rendre indisponible
         reject:
           _de: Verweigern
           _fr: Refuser
