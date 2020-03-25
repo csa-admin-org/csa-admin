@@ -16,8 +16,8 @@ ActiveAdmin.register Vegetable do
   form do |f|
     f.inputs do
       translated_input(f, :names)
-      f.actions
     end
+    f.actions
   end
 
   permit_params(names: I18n.available_locales)

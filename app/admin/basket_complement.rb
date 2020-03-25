@@ -42,8 +42,8 @@ ActiveAdmin.register BasketComplement do
           collection: Delivery.future_year,
           hint: f.object.persisted?
       end
-      f.actions
     end
+    f.actions
   end
 
   permit_params(:price, :price_type,
