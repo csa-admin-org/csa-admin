@@ -15,6 +15,34 @@ describe SpamDetector do
     expect(spam?(member)).to eq true
   end
 
+  it 'detects duplicated long texts' do
+    member = Member.new(
+      note:
+        "Bonjour,\r\n" \
+        "\r\n" \
+        "Avez-vous un problème d'E-Réputation ? Avis/liens négatifs.\r\n" \
+        "\r\n" \
+        "Un expert me contacte : http://foo.bar\r\n" \
+        "\r\n" \
+        "Cordialement,\r\n" \
+        "\r\n" \
+        "L'équipe E-Réputation",
+      come_from:
+        "Bonjour," \
+        "Avez-vous un problème d'E-Réputation ? Avis/liens négatifs." \
+        "Un expert me contacte : http://foo.bar" \
+        "Cordialement," \
+        "L'équipe E-Réputation")
+    expect(spam?(member)).to eq true
+  end
+
+  it 'skips duplicated short texts' do
+    member = Member.new(
+      note: "Merci  ",
+      come_from: "Merci")
+    expect(spam?(member)).to eq false
+  end
+
   it 'detects wrong zip' do
     member = Member.new(zip: '153535')
     expect(spam?(member)).to eq true
