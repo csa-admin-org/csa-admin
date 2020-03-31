@@ -249,11 +249,11 @@ class Member < ActiveRecord::Base
   end
 
   def update_membership_if_salary_basket_changed
-    if saved_change_to_attribute?(:salary_basket?)
-      [current_year_membership, future_membership].each do |m|
-        m&.update_activity_participations_demanded!
-        m&.touch
-      end
+    return unless saved_change_to_attribute?(:salary_basket)
+
+    [current_year_membership, future_membership].compact.each do |m|
+      m.update_activity_participations_demanded!
+      m.touch
     end
   end
 

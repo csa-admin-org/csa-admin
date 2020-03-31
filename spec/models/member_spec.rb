@@ -338,6 +338,24 @@ describe Member do
     end
   end
 
+  describe '#update_membership_if_salary_basket_changed' do
+    it 'updates current year membership price' do
+      membership = create(:membership)
+      member = membership.member
+
+      expect { member.reload.update!(salary_basket: true) }
+        .to change { membership.reload.price }.to(0)
+    end
+
+    it 'updates future membership price' do
+      membership = create(:membership, :next_year)
+      member = membership.member
+
+      expect { member.reload.update!(salary_basket: true) }
+        .to change { membership.reload.price }.to(0)
+    end
+  end
+
   describe '#handle_annual_fee_change' do
     it 'changes inactive state to support when annual_fee is set' do
       member = create(:member, :inactive)
