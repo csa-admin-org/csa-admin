@@ -4,6 +4,7 @@ class SpamDetector
   MAX_SIZE = 5000
   ZIP_REGEXP = /\A\d{6}\z/
   CYRILLIC_CHECK = /\p{Cyrillic}+/ui
+  TEXTS_COLUMNS = %w[note food_note come_from].freeze
 
   def self.spam?(member)
     new(member).spam?
@@ -24,18 +25,29 @@ class SpamDetector
       @member.address&.match?(CYRILLIC_CHECK) ||
       @member.city&.match?(CYRILLIC_CHECK) ||
       @member.come_from&.match?(CYRILLIC_CHECK) ||
-      non_native_language?
+      non_native_language? ||
+      long_duplicated_texts?
   end
 
   def non_native_language?
     languages = Current.acp.languages
     languages << 'un' # Unknown CLD language
-    %w[note food_note come_from].any? { |attr|
+    TEXTS_COLUMNS.any? { |attr|
       text = @member.send(attr)
       if text && text.size > 40
         cld = CLD.detect_language(text)
         cld[:reliable] && languages.exclude?(cld[:code])
       end
     }
+  end
+
+  def long_duplicated_texts?
+    texts = TEXTS_COLUMNS.map { |attr|
+      text = @member.send(attr)
+      if text.present? && text.size > 40
+        text.gsub!(/\s/, '')
+      end
+    }.compact
+    texts.any? { |t| texts.count(t) > 1 }
   end
 end
