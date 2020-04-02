@@ -45,6 +45,14 @@ describe Member do
       expect(member).not_to have_valid(:billing_year_division)
     end
 
+    it 'validates email presence, but only on public creation' do
+      member =  Member.new(emails: '')
+      expect(member).to have_valid(:emails)
+
+      member.public_create = true
+      expect(member).not_to have_valid(:emails)
+    end
+
     it 'validates email format' do
       member = Member.new(emails: 'doe.com, JANE@doe.com')
 
