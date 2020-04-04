@@ -4,6 +4,8 @@ class Admin < ActiveRecord::Base
   include HasLanguage
   include HasSessions
 
+  acts_as_paranoid
+
   NOTIFICATIONS = %w[new_inscription new_absence invoice_overpaid]
   RIGHTS = %w[superadmin admin standard readonly none]
 
