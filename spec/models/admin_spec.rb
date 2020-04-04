@@ -32,4 +32,14 @@ describe Admin do
       expect(admin.right?('superadmin')).to eq false
     end
   end
+
+  it 'deletes sessions when destroyed' do
+    admin = create(:admin)
+    session = create(:session, admin: admin)
+
+    admin.destroy!
+
+    expect(admin.reload).to be_deleted
+    expect(admin.sessions).to be_empty
+  end
 end

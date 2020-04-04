@@ -2,6 +2,8 @@ class Session < ApplicationRecord
   TIMEOUT = 1.hour
   EXPIRATION = 1.year
 
+  acts_as_paranoid
+
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
 
