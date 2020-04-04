@@ -197,7 +197,7 @@ describe RecurringBilling do
     end
 
     specify 'when quarter #1 (already billed)' do
-      travel_to(Date.new(Current.fy_year, 1, 14)) {
+      travel_to(Date.new(2019, 1, 14)) {
         create_invoice(member)
       }
 

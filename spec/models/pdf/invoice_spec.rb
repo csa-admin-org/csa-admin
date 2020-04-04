@@ -332,7 +332,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
-    it 'generates invoice with support amount + complements with annual price type + annual membership (no absences billed)' do
+    it 'generates invoice with support amount + complements with annual price type + annual membership (no absences billed)', freeze: '2019-04-01' do
       Current.acp.update!(absences_billed: false)
       member = create(:member,
         name: 'Alain Reymond',
@@ -372,7 +372,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .to contain_sequence('01.04.2019 – 31.03.2020')
         .and contain_sequence('Panier: Grand 43x 30.50', "1'311.50")
         .and contain_sequence("Les Voisins d'abord 2x 200.00", '400.00')
         .and contain_sequence('Tomme de Lavaux 19x 7.40', '140.60')
@@ -385,7 +385,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
-    it 'generates invoice with support ammount + four month membership + winter basket' do
+    it 'generates invoice with support ammount + four month membership + winter basket', freeze: '2019-04-01' do
       member = create(:member,
         name: 'Alain Reymond',
         address: 'Bd Plumhof 6',
@@ -414,7 +414,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .to contain_sequence('01.04.2019 – 31.03.2020')
         .and contain_sequence('Panier: Grand 23x 30.50', '701.50')
         .and contain_sequence('Déjà facturé', '- 233.85')
         .and contain_sequence('Montant annuel restant', '467.65')
