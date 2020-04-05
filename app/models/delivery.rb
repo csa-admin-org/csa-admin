@@ -4,7 +4,7 @@ class Delivery < ActiveRecord::Base
 
   default_scope { order(:date) }
 
-  has_many :baskets
+  has_many :baskets, dependent: :destroy
   has_many :basket_contents, dependent: :destroy
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,

@@ -180,6 +180,16 @@ describe Delivery do
     expect(membership.reload.baskets.map(&:depot)).to eq [depot1, depot2, depot1]
   end
 
+  it 'updated membership price when destroy' do
+    basket_size = create(:basket_size, price: 42)
+    membership = create(:membership, basket_size: basket_size)
+    delivery = membership.deliveries.last
+
+    expect { delivery.destroy! }
+      .to change { membership.baskets.with_deleted.count }.by(-1)
+      .and change { membership.reload.price }.by(-42)
+  end
+
   it 'removes baskets when a depot is removed' do
     depot = create(:depot, deliveries_count: 3)
     delivery1 = depot.deliveries[0]
