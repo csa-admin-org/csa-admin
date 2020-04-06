@@ -80,7 +80,7 @@ class Basket < ActiveRecord::Base
   end
 
   def remove_complement!(complement)
-    complements.delete(complement)
+    complements.destroy(complement)
   end
 
   def empty?
