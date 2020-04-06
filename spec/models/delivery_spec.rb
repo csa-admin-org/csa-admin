@@ -90,7 +90,8 @@ describe Delivery do
     basket1 = create(:basket, membership: membership, delivery: delivery1)
     basket2 = create(:basket, membership: membership, delivery: delivery2)
 
-    delivery1.update!(basket_complement_ids: [1])
+    expect { delivery1.update!(basket_complement_ids: [1]) }
+      .to change { membership.reload.price }.by(4.5)
 
     basket1.reload
     expect(basket1.complement_ids).to match_array [1]
@@ -120,7 +121,9 @@ describe Delivery do
     basket3 = create(:basket, membership: membership_3, delivery: delivery)
     basket3.update!(complement_ids: [1, 2])
 
-    delivery.update!(basket_complement_ids: [1])
+    expect { delivery.update!(basket_complement_ids: [1]) }
+      .to change { membership_1.reload.price }.by(-4.5)
+      .and change { membership_2.reload.price }.by(-4.5)
 
     basket1.reload
     expect(basket1.complement_ids).to match_array [1]
