@@ -25,7 +25,7 @@ ActiveAdmin.register Invoice do
   index do
     column :id, ->(i) { auto_link i, i.id }
     column :date, ->(i) { l i.date, format: :number }
-    column :member
+    column :member, sortable: 'members.name'
     column :amount, ->(invoice) { number_to_currency(invoice.amount) }
     column :balance, ->(invoice) { number_to_currency(invoice.balance) }
     column :overdue_notices_count
@@ -270,6 +270,10 @@ ActiveAdmin.register Invoice do
   controller do
     include TranslatedCSVFilename
     include ApplicationHelper
+
+    def apply_sorting(chain)
+      super(chain).joins(:member).order('members.name')
+    end
   end
 
   config.per_page = 50

@@ -142,6 +142,10 @@ ActiveAdmin.register ActivityParticipation do
   controller do
     include TranslatedCSVFilename
 
+    def apply_sorting(chain)
+      super(chain).joins(:member).order('members.name')
+    end
+
     before_create do |participation|
       if participation.activity.date.past?
         participation.validated_at = Time.current
