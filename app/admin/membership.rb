@@ -28,9 +28,8 @@ ActiveAdmin.register Membership do
     collection: -> { fiscal_years_collection }
 
   includes :member
-
   index do
-    column :member, ->(m) { auto_link m.member }
+    column :member, sortable: 'members.name'
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
     if Current.acp.feature?('activity')
@@ -376,7 +375,12 @@ ActiveAdmin.register Membership do
     def apply_filtering(chain)
       super(chain).distinct
     end
+
+    def apply_sorting(chain)
+      super(chain).joins(:member).order('members.name')
+    end
   end
 
   config.per_page = 30
+  config.sort_order = 'started_on_desc'
 end

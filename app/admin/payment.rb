@@ -109,6 +109,10 @@ ActiveAdmin.register Payment do
   controller do
     include TranslatedCSVFilename
     include ApplicationHelper
+
+    def apply_sorting(chain)
+      super(chain).joins(:member).order('members.name')
+    end
   end
 
   config.sort_order = 'date_desc'

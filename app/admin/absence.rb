@@ -81,7 +81,12 @@ ActiveAdmin.register Absence do
 
   controller do
     include TranslatedCSVFilename
+
+    def apply_sorting(chain)
+      super(chain).joins(:member).order('members.name')
+    end
   end
 
   config.per_page = 25
+  config.sort_order = 'started_on_desc'
 end
