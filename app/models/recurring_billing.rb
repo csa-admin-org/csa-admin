@@ -35,6 +35,7 @@ class RecurringBilling
       attrs[:annual_fee] = member.annual_fee
     end
     if membership_billable?
+      attrs.delete(:annual_fee) if membership.annual_fee == 0
       attrs[:object] = membership
       attrs[:membership_amount_fraction] = membership_amount_fraction
       attrs[:memberships_amount_description] = membership_amount_description
@@ -87,6 +88,7 @@ class RecurringBilling
   # At the exception of the last year division (fraction == 1) that can be billed multiple time.
   def year_division_already_billed?
     return if membership_amount_fraction == 1
+
     invoices.membership.any? { |i|
       calculate_amount_fraction(i.fy_month) == membership_amount_fraction
     }
