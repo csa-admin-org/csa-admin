@@ -118,7 +118,7 @@ class Invoice < ActiveRecord::Base
       update!(
         canceled_at: Time.current,
         state: CANCELED_STATE)
-      update_member_invoices_balance!
+      Payment.update_invoices_balance!(member_id)
       handle_acp_shares_change!
     end
   end
@@ -281,22 +281,19 @@ class Invoice < ActiveRecord::Base
   def process!
     return if processed?
 
-    update_member_invoices_balance!
+    Payment.update_invoices_balance!(member_id)
     handle_acp_shares_change!
     reload # ensure that balance/state change are reflected.
 
     set_pdf!
+
+    Payment.update_invoices_balance!(member_id)
+
     send! if @send_email
   end
 
-  def update_member_invoices_balance!
-    Payment.update_invoices_balance!(member_id)
-  end
-
   def handle_acp_shares_change!
-    if acp_share_type?
-      member.handle_acp_shares_change!
-    end
+    member.handle_acp_shares_change! if acp_share_type?
   end
 
   def set_pdf!
