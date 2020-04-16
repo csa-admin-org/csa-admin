@@ -114,6 +114,15 @@ describe RecurringBilling do
       expect(invoice.pdf_file).to be_attached
     end
 
+    specify 'skip annual_fee when memberhsip one is set to 0' do
+      membership.update!(annual_fee: 0)
+
+      invoice = create_invoice(member)
+
+      expect(invoice.object).to eq membership
+      expect(invoice.annual_fee).to be_nil
+    end
+
     specify 'when not already billed with complements and many baskets' do
       create(:basket_complement, id: 1, price: 3.4, delivery_ids: Delivery.pluck(:id))
       create(:basket_complement, id: 2, price: 5.6, delivery_ids: Delivery.pluck(:id))
