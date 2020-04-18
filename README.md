@@ -12,6 +12,8 @@ Elle est actuellement utilisée par les ACP suivantes:
 * [Lumière des Champs](http://lumiere-des-champs.ch)
 * [TaPatate!](https://www.tapatate.ch)
 * [La Clef des Champs](http://www.clef-des-champs.ch)
+* [croQu'terre](https://croquterre.ch)
+* [À la Belle Courgette](https://www.alabellecourgette.ch)
 
 Les fonctions prises en charge sont, entre autres:
 
