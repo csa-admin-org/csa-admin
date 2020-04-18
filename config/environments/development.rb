@@ -4,6 +4,8 @@ Rails.application.configure do
   # Whitelist a test domain
   config.hosts << /.*\..*\.test/
 
+  config.log_level = :debug
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 

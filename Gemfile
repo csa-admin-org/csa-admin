@@ -8,6 +8,8 @@ gem 'bootsnap', require: false
 gem 'pg'
 gem 'puma'
 
+gem 'lograge'
+
 gem 'bcrypt'
 gem 'date_validator'
 gem 'i18n-backend-side_by_side'
