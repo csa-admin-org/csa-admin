@@ -204,9 +204,9 @@ describe Delivery do
     expect(membership1.deliveries).to eq [delivery1, delivery2, delivery3]
     expect(membership2.deliveries).to eq membership1.deliveries
 
-    expect {
-      delivery2.update!(depot_ids: [])
-    }.to change { Basket.with_deleted.count }.by(-2)
+    expect { delivery2.update!(depot_ids: []) }
+      .to change { Basket.count }.by(-2)
+      .and change { membership1.reload.price }.from(90).to(60)
 
     expect(membership1.reload.deliveries).to eq [delivery1, delivery3]
     expect(membership2.reload.deliveries).to eq membership1.deliveries
@@ -230,5 +230,19 @@ describe Delivery do
     expect(delivery.reload.number).to eq 1
     expect(first.reload.number).to eq 2
     expect(last.reload.number).to eq 3
+  end
+
+  it 'handles date change', freeze: '2020-01-01' do
+    delivery_1 = create(:delivery, date: '2020-02-01')
+    delivery_2 = create(:delivery, date: '2020-04-01')
+
+    membership1 = create(:membership, started_on: '2020-01-01', ended_on: '2020-05-01')
+    membership2 = create(:membership, started_on: '2020-03-01', ended_on: '2020-08-01')
+
+    expect { delivery_1.update!(date: '2020-06-01') }
+      .to change { membership1.reload.baskets.size }.from(2).to(1)
+      .and change { membership2.reload.baskets.size }.from(1).to(2)
+      .and change { membership1.reload.price }.from(60).to(30)
+      .and change { membership2.reload.price }.from(30).to(60)
   end
 end

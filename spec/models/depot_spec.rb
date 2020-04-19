@@ -47,9 +47,9 @@ describe Depot do
     expect(membership1.deliveries).to eq [delivery1, delivery2, delivery3]
     expect(membership2.deliveries).to eq membership1.deliveries
 
-    expect {
-      depot.update!(current_delivery_ids: [delivery1.id, delivery3.id])
-    }.to change { Basket.with_deleted.count }.by(-2)
+    expect { depot.update!(current_delivery_ids: [delivery1.id, delivery3.id]) }
+      .to change { Basket.count }.by(-2)
+      .and change { membership1.reload.price }.from(90).to(60)
 
     expect(membership1.reload.deliveries).to eq [delivery1, delivery3]
     expect(membership2.reload.deliveries).to eq membership1.deliveries
