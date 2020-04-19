@@ -18,6 +18,7 @@ class Delivery < ActiveRecord::Base
   scope :between, ->(range) { where(date: range) }
 
   after_save :update_fiscal_year_numbers
+  after_update :handle_date_change!
   after_destroy :update_fiscal_year_numbers
   before_destroy :really_destroy_baskets!
 
@@ -67,7 +68,7 @@ class Delivery < ActiveRecord::Base
       .including_date(date)
       .where(memberships: { depot_id: depot.id })
       .includes(:baskets)
-      .each { |membership|
+      .find_each { |membership|
         if membership.baskets.map(&:delivery_id).exclude?(id)
           membership.create_basket!(self)
         end
@@ -75,7 +76,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def remove_baskets_at!(depot)
-    baskets.where(depot_id: depot).find_each(&:really_destroy!)
+    baskets.where(depot_id: depot).destroy_all
   end
 
   def season
@@ -101,6 +102,13 @@ class Delivery < ActiveRecord::Base
     self.class.during_year(fiscal_year).each_with_index do |d, i|
       d.update_column(:number, i + 1)
     end
+  end
+
+  def handle_date_change!
+    return unless saved_change_to_attribute?(:date)
+
+    baskets.destroy_all
+    Membership.including_date(date).find_each { |m| m.create_basket!(self) }
   end
 
   def membership_basket_complement_for(basket, complement)
