@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_121215) do
+ActiveRecord::Schema.define(version: 2020_04_20_182635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -243,7 +243,7 @@ ActiveRecord::Schema.define(version: 2020_04_05_121215) do
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
     t.index ["depot_id"], name: "index_baskets_on_depot_id"
-    t.index ["membership_id", "delivery_id"], name: "index_baskets_on_membership_id_and_delivery_id", unique: true
+    t.index ["membership_id", "delivery_id"], name: "index_baskets_on_membership_id_and_delivery_id", unique: true, where: "(deleted_at IS NULL)"
     t.index ["membership_id"], name: "index_baskets_on_membership_id"
   end
 

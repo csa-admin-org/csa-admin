@@ -315,7 +315,7 @@ class Membership < ActiveRecord::Base
   end
 
   def destroy_baskets!(range)
-    baskets.between(range).find_each(&:really_destroy!)
+    baskets.between(range).destroy_all
   end
 
   def clear_member_waiting_info!

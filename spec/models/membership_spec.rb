@@ -107,13 +107,15 @@ describe Membership do
 
     expect(membership.baskets_count).to eq(40)
 
-    membership.update!(
-      started_on: first_basket.delivery.date + 1.days,
-      ended_on: last_basket.delivery.date - 1.days)
+    expect {
+      membership.update!(
+        started_on: first_basket.delivery.date + 1.days,
+        ended_on: last_basket.delivery.date - 1.days)
+    }.to change { membership.reload.price }.by(-60)
 
     expect(membership.baskets_count).to eq(38)
-    expect { first_basket.reload }.to raise_error ActiveRecord::RecordNotFound
-    expect { last_basket.reload }.to raise_error ActiveRecord::RecordNotFound
+    expect(first_basket.reload).to be_deleted
+    expect(last_basket.reload).to be_deleted
   end
 
   it 'creates new baskets when started_on and ended_on changes' do
