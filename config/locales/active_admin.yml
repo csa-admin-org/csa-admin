@@ -5,7 +5,7 @@ _:
         _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _fr: Vous n'êtes pas autorisé à executer cette action
     any:
-      _de: Irgendeins
+      _de: Alle
       _fr: N'importe lequel
     batch_actions:
       action_label:
