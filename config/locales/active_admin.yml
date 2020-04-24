@@ -60,7 +60,7 @@ _:
         _de: Es gibt noch keine %{resource_name}.
         _fr: Il n'y a pas encore de %{resource_name}.
       link:
-        _de: Erstellen Sie eins
+        _de: Anlegen
         _fr: Créez en un
     cancel:
       _de: Abbrechen
