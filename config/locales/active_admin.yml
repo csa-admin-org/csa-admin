@@ -57,7 +57,7 @@ _:
           _fr: "%{count} %{plural_model} supprimés"
     blank_slate:
       content:
-        _de: Es hat noch keine %{resource_name}.
+        _de: Es gibt noch keine %{resource_name}.
         _fr: Il n'y a pas encore de %{resource_name}.
       link:
         _de: Erstellen Sie eins
