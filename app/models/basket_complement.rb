@@ -18,6 +18,7 @@ class BasketComplement < ActiveRecord::Base
     after_remove: :remove_subscribed_baskets_complement!
 
   scope :annual_price_type, -> { where(price_type: 'annual') }
+  scope :visible, -> { where(visible: true) }
 
   default_scope { order_by_name }
 

@@ -41,14 +41,17 @@ module MembersHelper
   end
 
   def basket_complements_collection
-    BasketComplement.includes(:deliveries).map { |bc|
-      [
-        collection_text(bc.name,
-          price: price_info(bc.annual_price, precision: 2),
-          details: deliveries_count(bc.deliveries_count)),
-        bc.id
-      ]
-    }
+    BasketComplement
+      .visible
+      .select { |bc| bc.deliveries_count.positive? }
+      .map { |bc|
+        [
+          collection_text(bc.name,
+            price: price_info(bc.annual_price, precision: 2),
+            details: deliveries_count(bc.deliveries_count)),
+          bc.id
+        ]
+      }
   end
 
   def depots_collection
