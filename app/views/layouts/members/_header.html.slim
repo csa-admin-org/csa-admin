@@ -64,9 +64,10 @@ header
 
       .links
         ul
-          li = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'svg' do
-            span = Current.acp.phone
-            = inline_svg_tag 'phone.svg', size: '16px'
+          - if Current.acp.phone?
+            li = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'svg' do
+              span = Current.acp.phone
+              = inline_svg_tag 'phone.svg', size: '16px'
           li = mail_to Current.acp.email, class: 'svg' do
             span = t('.contact')
             = inline_svg_tag 'envelope.svg', size: '16px'
