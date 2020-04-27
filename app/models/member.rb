@@ -160,8 +160,15 @@ class Member < ActiveRecord::Base
   def deactivate!
     invalid_transition(:deactivate!) unless can_deactivate?
 
+    state =
+      if acp_shares_number.positive?
+        SUPPORT_STATE
+      else
+        INACTIVE_STATE
+      end
+
     update!(
-      state: INACTIVE_STATE,
+      state: state,
       waiting_started_at: nil,
       annual_fee: nil)
   end
