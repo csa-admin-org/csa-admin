@@ -18,7 +18,7 @@ _:
         _de: Wollen Sie wirklich das machen?
         _fr: Êtes-vous sûr de vouloir faire cela ?
       delete_confirmation:
-        _de: Wollen Sie wirklich diese %{plural_model} löschen?
+        _de: Wollen Sie diese %{plural_model} wirklich löschen?
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
       labels:
         destroy:
@@ -107,10 +107,10 @@ _:
       _de: Löschen
       _fr: Supprimer
     delete_confirmation:
-      _de: Wollen das wirklich löschen?
+      _de: Wirklich löschen?
       _fr: Êtes-vous certain de vouloir supprimer ceci ?
     delete_model:
-      _de: Löschen %{model}
+      _de: '%{model} löschen'
       _fr: Supprimer %{model}
     details:
       _de: Details
