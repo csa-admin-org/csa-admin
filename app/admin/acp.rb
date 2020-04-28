@@ -68,7 +68,9 @@ ActiveAdmin.register ACP do
       f.input :share_price, as: :number
       f.input :vat_number
       f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
-      f.input :absences_billed
+      if Current.acp.feature?('absence')
+        f.input :absences_billed
+      end
     end
     f.inputs t('.invoice_isr') do
       f.input :ccp

@@ -41,4 +41,12 @@ describe 'Absences' do
 
     expect(page).to have_content "#{I18n.l(3.weeks.ago.to_date)} – #{I18n.l(2.weeks.ago.to_date)}"
   end
+
+  it 'redirects to billing when absence is not a feature' do
+    current_acp.update!(features: [])
+
+    visit '/absences'
+
+    expect(current_path).to eq '/billing'
+  end
 end

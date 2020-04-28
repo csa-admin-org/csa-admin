@@ -120,12 +120,14 @@ ActiveAdmin.register Delivery do
           row(:date) { l delivery.date }
         end
 
-        panel link_to(Absence.model_name.human(count: 2), absences_path(q: { including_date: delivery.date }, scope: :all)) do
-          absences = Absence.including_date(delivery.date).includes(:member)
-          if absences.any?
-            absences.map { |a| auto_link a.member }.join(', ').html_safe
-          else
-            content_tag :span, t('active_admin.empty'), class: 'empty'
+        if Current.acp.feature?('absence')
+          panel link_to(Absence.model_name.human(count: 2), absences_path(q: { including_date: delivery.date }, scope: :all)) do
+            absences = Absence.including_date(delivery.date).includes(:member)
+            if absences.any?
+              absences.map { |a| auto_link a.member }.join(', ').html_safe
+            else
+              content_tag :span, t('active_admin.empty'), class: 'empty'
+            end
           end
         end
 

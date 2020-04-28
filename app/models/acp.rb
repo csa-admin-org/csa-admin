@@ -2,6 +2,7 @@ class ACP < ActiveRecord::Base
   include TranslatedAttributes
 
   FEATURES = %w[
+    absence
     activity
     basket_content
     recurring_billing
