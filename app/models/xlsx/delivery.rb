@@ -16,7 +16,9 @@ module XLSX
         build_depot_worksheet(d)
       end
 
-      build_absences_worksheet if !@depot && @delivery.baskets.absent.any?
+      if Current.acp.feature?('absence')
+        build_absences_worksheet if !@depot && @delivery.baskets.absent.any?
+      end
     end
 
     def filename
@@ -56,11 +58,13 @@ module XLSX
 
       add_baskets_line(t('total'), @baskets, bold: true)
 
-      add_empty_line
-      add_empty_line
+      if Current.acp.feature?('absence')
+        add_empty_line
+        add_empty_line
 
-      @worksheet.add_cell(@line, 0, Absence.model_name.human(count: 2))
-      @worksheet.add_cell(@line, 1, @delivery.baskets.absent.sum(:quantity)).set_number_format('0')
+        @worksheet.add_cell(@line, 0, Absence.model_name.human(count: 2))
+        @worksheet.add_cell(@line, 1, @delivery.baskets.absent.sum(:quantity)).set_number_format('0')
+      end
 
       @worksheet.change_column_width(0, 35)
       (1..(2 + @basket_sizes.count + @basket_complements.count)).each do |i|

@@ -169,19 +169,21 @@ ActiveAdmin.register Member do
           end
         end
 
-        all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
-        panel link_to(Absence.model_name.human(count: 2), all_absences_path) do
-          absences = member.absences.order(started_on: :desc)
-          absences_count = absences.count
-          if absences_count.zero?
-            em t('.no_absences')
-          else
-            table_for(absences.limit(3), class: 'table-absences') do
-              column(:started_on) { |a| auto_link a, l(a.started_on) }
-              column(:ended_on) { |a| auto_link a, l(a.ended_on) }
-            end
-            if absences_count > 3
-              em link_to(t('.show_more'), all_absences_path), class: 'show_more'
+        if Current.acp.feature?('absence')
+          all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
+          panel link_to(Absence.model_name.human(count: 2), all_absences_path) do
+            absences = member.absences.order(started_on: :desc)
+            absences_count = absences.count
+            if absences_count.zero?
+              em t('.no_absences')
+            else
+              table_for(absences.limit(3), class: 'table-absences') do
+                column(:started_on) { |a| auto_link a, l(a.started_on) }
+                column(:ended_on) { |a| auto_link a, l(a.ended_on) }
+              end
+              if absences_count > 3
+                em link_to(t('.show_more'), all_absences_path), class: 'show_more'
+              end
             end
           end
         end

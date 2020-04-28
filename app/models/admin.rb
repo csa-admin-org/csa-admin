@@ -6,7 +6,6 @@ class Admin < ActiveRecord::Base
 
   acts_as_paranoid
 
-  NOTIFICATIONS = %w[new_inscription new_absence invoice_overpaid]
   RIGHTS = %w[superadmin admin standard readonly none]
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
@@ -14,6 +13,12 @@ class Admin < ActiveRecord::Base
   validates :name, presence: true
   validates :rights, inclusion: { in: RIGHTS }
   validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
+
+  def self.notifications
+    all = %w[new_inscription invoice_overpaid]
+    all << 'new_absence' if Current.acp.feature?('absence')
+    all
+  end
 
   def notifications=(notifications)
     super(notifications.select(&:presence).compact)

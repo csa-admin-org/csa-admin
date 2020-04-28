@@ -41,7 +41,6 @@ class Ability
 
   def available_models
     default = [
-      Absence,
       Basket,
       BasketSize,
       BasketComplement,
@@ -54,6 +53,9 @@ class Ability
       Membership,
       Payment
     ]
+    if Current.acp.feature?('absence')
+      default << Absence
+    end
     if Current.acp.feature?('activity')
       default << Activity
       default << ActivityParticipation

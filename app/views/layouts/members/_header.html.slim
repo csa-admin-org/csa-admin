@@ -49,10 +49,11 @@ header
                 - else
                   span = t('.see_history')
 
-            li class=nav_class('absences')
-              = link_to members_absences_path do
-                = Absence.model_name.human(count: 2)
-                span = t('.absences_subtitle')
+            - if Current.acp.feature?('absence')
+              li class=nav_class('absences')
+                = link_to members_absences_path do
+                  = Absence.model_name.human(count: 2)
+                  span = t('.absences_subtitle')
 
           .logout
             ul

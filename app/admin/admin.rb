@@ -40,7 +40,7 @@ ActiveAdmin.register Admin do
     f.inputs do
       f.input :notifications,
         as: :check_boxes,
-        collection: Admin::NOTIFICATIONS.map { |n| [t("admin.notifications.#{n}"), n] }
+        collection: Admin.notifications.map { |n| [t("admin.notifications.#{n}"), n] }
     end
     if current_admin.superadmin?
       f.inputs do

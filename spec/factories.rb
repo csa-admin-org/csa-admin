@@ -26,7 +26,7 @@ FactoryBot.define do
     invoice_info { 'Payable dans les 30 jours, avec nos remerciements.' }
     invoice_footer { '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84' }
     terms_of_service_url { 'https://www.ragedevert.ch/s/RageDeVert-Reglement-2015.pdf' }
-    features { %w[activity basket_content] }
+    features { %w[absence activity basket_content] }
   end
 
   factory :activity do
