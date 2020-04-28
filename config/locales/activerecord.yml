@@ -634,7 +634,7 @@ _:
           _de: Ende
           _fr: Fin
         invoices_amount:
-          _de: Total (Rechnung)
+          _de: Gesamt (Rechnung)
           _fr: Total (Facturé)
         memberships_basket_complements:
           _de: Zusätze
@@ -655,7 +655,7 @@ _:
           _de: Periode
           _fr: Période
         price:
-          _de: Total
+          _de: Gesamt
           _fr: Total
         renew:
           _de: Verlängerung

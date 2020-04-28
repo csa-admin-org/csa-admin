@@ -217,7 +217,7 @@ _:
             _de: Bestellungen sind leider nicht mehr möglich.
             _fr: Désolé, les commandes ne sont plus possible.
           order_amount:
-            _de: 'Total: %{amount}'
+            _de: 'Gesamt: %{amount}'
             _fr: 'Total: %{amount}'
           orderable_until:
             _de: Bestellungen sind geöffnet bis <u>%{date}</u>.

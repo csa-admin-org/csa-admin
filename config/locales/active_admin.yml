@@ -251,10 +251,10 @@ _:
           _de: Notiz aktualisieren
           _fr: Mettre à jour la note
         total:
-          _de: Total %{number}
+          _de: Gesamt %{number}
           _fr: Total %{number}
         totals:
-          _de: Totale %{numbers}
+          _de: Gesamt %{numbers}
           _fr: Totaux %{numbers}
     pagination:
       empty:
@@ -494,13 +494,13 @@ _:
           _de: mehr anzeigen
           _fr: voir plus
         total:
-          _de: Total %{number}
+          _de: Gesamt %{number}
           _fr: Total %{number}
         total_row:
-          _de: Total
+          _de: Gesamt
           _fr: Total
         totals:
-          _de: Totale %{numbers}
+          _de: Gesamt %{numbers}
           _fr: Totaux %{numbers}
         trigger_recurring_billing:
           _de: Rechnungsstellung zwingen
@@ -766,7 +766,7 @@ _:
         _de: Resultate der Suche
         _fr: Résultats de la recherche
       total:
-        _de: Total
+        _de: Gesamt
         _fr: Total
     status_tag:
       active:
