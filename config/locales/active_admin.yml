@@ -110,7 +110,7 @@ _:
       _de: Wirklich löschen?
       _fr: Êtes-vous certain de vouloir supprimer ceci ?
     delete_model:
-      _de: '%{model} löschen'
+      _de: "%{model} löschen"
       _fr: Supprimer %{model}
     details:
       _de: Details

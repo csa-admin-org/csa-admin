@@ -1,7 +1,10 @@
 .new-session
   h1 = t('.title')
 
-  p = t_activity('.text')
+  - if Current.acp.feature?('activity')
+    p = t_activity('.activity_text')
+  - else
+    p = t('.text')
   p = t('.form_text')
 
   = form_for [:members, @session] do |f|
