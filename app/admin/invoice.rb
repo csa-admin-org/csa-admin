@@ -2,6 +2,20 @@ ActiveAdmin.register Invoice do
   menu parent: :billing, priority: 1
   actions :all, except: %i[edit update]
 
+  breadcrumb do
+    if params[:action] == 'new'
+      [link_to(Invoice.model_name.human(count: 2), invoices_path)]
+    elsif params['action'] != 'index'
+      [
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(invoice.member),
+        link_to(
+          Invoice.model_name.human(count: 2),
+          invoices_path(q: { member_id_eq: invoice.member_id }, scope: :all))
+      ]
+    end
+  end
+
   scope :all_without_canceled
   scope :unpaid, default: true
   scope :with_overdue_notice

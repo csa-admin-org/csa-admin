@@ -3,6 +3,24 @@ ActiveAdmin.register ActivityParticipation do
     priority: 1,
     label: -> { Activity.human_attribute_name(:participations) }
 
+  breadcrumb do
+    if params[:action] == 'new'
+      [link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path)]
+    elsif params['action'] != 'index'
+      links = [
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(activity_participation.member),
+        link_to(
+          ActivityParticipation.model_name.human(count: 2),
+          activity_participations_path(q: { member_id_eq: activity_participation.member_id }, scope: :all))
+      ]
+      if params['action'].in? %W[edit]
+        links << auto_link(activity_participation)
+      end
+      links
+    end
+  end
+
   scope :all
   scope :pending, default: true
   scope :coming

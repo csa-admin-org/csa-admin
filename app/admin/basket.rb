@@ -2,6 +2,21 @@ ActiveAdmin.register Basket do
   menu false
   actions :edit, :update
 
+  breadcrumb do
+    links = [
+      link_to(Member.model_name.human(count: 2), members_path),
+      auto_link(basket.membership.member),
+      link_to(
+        Membership.model_name.human(count: 2),
+        memberships_path(q: { member_id_eq: basket.membership.member_id }, scope: :all)),
+      auto_link(basket.membership)
+    ]
+    if params['action'].in? %W[edit]
+      links << [Basket.model_name.human, basket.delivery.display_name(format: :number)].join(' ')
+    end
+    links
+  end
+
   form do |f|
     f.inputs do
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }

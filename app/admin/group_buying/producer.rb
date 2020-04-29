@@ -2,6 +2,19 @@ ActiveAdmin.register GroupBuying::Producer do
   menu parent: :group_buying, priority: 3
   actions :all, except: [:show]
 
+  breadcrumb do
+    unless params['action'] == 'index'
+      links = [
+        t('active_admin.menu.group_buying'),
+        link_to(GroupBuying::Producer.model_name.human(count: 2), group_buying_producers_path)
+      ]
+      if params['action'].in? %W[edit]
+        links << group_buying_producer.name
+      end
+      links
+    end
+  end
+
   filter :name
 
   includes :products

@@ -1,6 +1,19 @@
 ActiveAdmin.register GroupBuying::Delivery do
   menu parent: :group_buying, priority: 2
 
+  breadcrumb do
+    unless params['action'] == 'index'
+      links = [
+        t('active_admin.menu.group_buying'),
+        link_to(GroupBuying::Delivery.model_name.human(count: 2), group_buying_deliveries_path)
+      ]
+      if params['action'].in? %W[edit]
+        links << auto_link(group_buying_delivery)
+      end
+      links
+    end
+  end
+
   scope :all
   scope :coming, default: true
   scope :past

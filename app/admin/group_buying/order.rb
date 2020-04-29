@@ -2,6 +2,36 @@ ActiveAdmin.register GroupBuying::Order do
   menu parent: :group_buying, priority: 1
   actions :index, :show
 
+  breadcrumb do
+    unless params['action'] == 'index'
+      links = [
+        t('active_admin.menu.group_buying'),
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(absence.member),
+        link_to(
+          Absence.model_name.human(count: 2),
+          absences_path(q: { member_id_eq: absence.member_id }, scope: :all))
+      ]
+      if params['action'].in? %W[edit]
+        links << auto_link(absence)
+      end
+      links
+    end
+  end
+
+  breadcrumb do
+    unless params['action'] == 'index'
+      [
+        t('active_admin.menu.group_buying'),
+        link_to(GroupBuying::Delivery.model_name.human(count: 2), group_buying_deliveries_path),
+        auto_link(group_buying_order.delivery),
+        link_to(
+          GroupBuying::Order.model_name.human(count: 2),
+          group_buying_orders_path(q: { delivery_id_eq: group_buying_order.delivery_id }, scope: :all))
+      ]
+    end
+  end
+
   scope :all_without_canceled, default: true
   scope :open
   scope :closed

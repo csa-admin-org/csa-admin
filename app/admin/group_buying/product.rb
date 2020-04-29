@@ -2,6 +2,28 @@ ActiveAdmin.register GroupBuying::Product do
   menu parent: :group_buying, priority: 4
   actions :all, except: [:show]
 
+  breadcrumb do
+    if params[:action] == 'new'
+      [
+        t('active_admin.menu.group_buying'),
+        link_to(GroupBuying::Product.model_name.human(count: 2), group_buying_products_path)
+      ]
+    elsif params['action'] != 'index'
+      links = [
+        t('active_admin.menu.group_buying'),
+        link_to(GroupBuying::Producer.model_name.human(count: 2), group_buying_producers_path),
+        group_buying_product.producer.name,
+        link_to(
+          GroupBuying::Product.model_name.human(count: 2),
+          group_buying_products_path(q: { producer_id_eq: group_buying_product.producer_id }, scope: :all))
+      ]
+      if params['action'].in? %W[edit]
+        links << group_buying_product.name
+      end
+      links
+    end
+  end
+
   filter :producer,
     as: :select,
     collection: -> { GroupBuying::Producer.order(:name) }
