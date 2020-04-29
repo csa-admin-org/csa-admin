@@ -39,40 +39,62 @@ ActiveAdmin.register Depot do
   end
 
   show do |depot|
-    attributes_table do
-      row :name
-      if Current.acp.languages.many?
-        row(:language) { t("languages.#{depot.language}") }
+    columns do
+      column do
+        if depot.deliveries.current_year.any?
+          panel Depot.human_attribute_name(:current_deliveries) do
+            table_for depot.deliveries.current_year, class: 'deliveries' do
+              column '#', ->(d) { auto_link d, d.number }
+              column :date, ->(d) { auto_link d, l(d.date) }
+            end
+          end
+        end
+        if depot.deliveries.future_year.any?
+          panel Depot.human_attribute_name(:future_deliveries) do
+            table_for depot.deliveries.future_year, class: 'deliveries' do
+              column '#', ->(d) { auto_link d, d.number }
+              column :date, ->(d) { auto_link d, l(d.date) }
+            end
+          end
+        end
       end
-      row(:price) { number_to_currency(depot.price) }
-      row(:deliveries_count) {
-        link_to(
-          depot.deliveries_count,
-          deliveries_path(q: { depots_id_eq: depot.id }))
-      }
-      row(:visible)
-      row(:note) { text_format(depot.note) }
-    end
+      column do
+        attributes_table do
+          row :name
+          if Current.acp.languages.many?
+            row(:language) { t("languages.#{depot.language}") }
+          end
+          row(:price) { number_to_currency(depot.price) }
+          row(:deliveries_count) {
+            link_to(
+              depot.deliveries_count,
+              deliveries_path(q: { depots_id_eq: depot.id }))
+          }
+          row(:visible)
+          row(:note) { text_format(depot.note) }
+        end
 
-    attributes_table title: t('.member_new_form') do
-      row :form_name
-      row :form_priority
-    end
+        attributes_table title: t('.member_new_form') do
+          row :form_name
+          row :form_priority
+        end
 
-    attributes_table title: Depot.human_attribute_name(:address) do
-      row :address_name
-      row :address
-      row :zip
-      row :city
-    end
+        attributes_table title: Depot.human_attribute_name(:address) do
+          row :address_name
+          row :address
+          row :zip
+          row :city
+        end
 
-    attributes_table title: Depot.human_attribute_name(:contact) do
-      row(:emails) { display_emails(depot.emails_array) }
-      row(:phones) { display_phones(depot.phones_array) }
-      row :responsible_member
-    end
+        attributes_table title: Depot.human_attribute_name(:contact) do
+          row(:emails) { display_emails(depot.emails_array) }
+          row(:phones) { display_phones(depot.phones_array) }
+          row :responsible_member
+        end
 
-    active_admin_comments
+        active_admin_comments
+      end
+    end
   end
 
   form do |f|

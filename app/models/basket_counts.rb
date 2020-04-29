@@ -31,6 +31,8 @@ class BasketCounts
   end
 
   class BasketCount
+    attr_reader :depot
+
     def initialize(depot, delivery_id, basket_size_ids)
       @depot = depot
       @basket_size_ids = basket_size_ids
