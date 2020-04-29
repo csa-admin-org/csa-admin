@@ -72,7 +72,7 @@ module PDF
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
 
-      member_name_width = 280
+      member_name_width = 270
       signature_width = 100
       width = member_name_width + (bs_size + bc_size) * 25 + signature_width
 
