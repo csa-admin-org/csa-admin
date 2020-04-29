@@ -158,7 +158,8 @@ ActiveAdmin.register Member do
             em t('.no_payments')
           else
             table_for(payments.limit(6), class: 'table-payments') do
-              column(:date) { |p| auto_link p, l(p.date, format: :number) }
+              column(:id) { |p| auto_link p, p.id }
+              column(:date) { |p| l(p.date, format: :number) }
               column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
               column(:amount) { |p| number_to_currency(p.amount) }
               column(:type) { |p| status_tag p.type }
