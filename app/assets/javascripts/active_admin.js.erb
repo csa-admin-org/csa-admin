@@ -25,15 +25,19 @@ $(function() {
     'change',
     function() {
       var bigBasketChecked, sameBasketQuantityCheckbox, smallBasketChecked;
+      sameBasketQuantityLabel = $('label[for="basket_content_same_basket_quantities"]');
       sameBasketQuantityCheckbox = $('#basket_content_same_basket_quantities');
       sameBasketQuantityCheckbox.prop('checked', false);
       smallBasketChecked = $('#basket_content_basket_sizes_small').prop('checked');
       bigBasketChecked = $('#basket_content_basket_sizes_big').prop('checked');
       if (!smallBasketChecked || !bigBasketChecked) {
         sameBasketQuantityCheckbox.prop('disabled', true);
+        sameBasketQuantityLabel.addClass('disabled');
       }
       if (smallBasketChecked && bigBasketChecked) {
-        return sameBasketQuantityCheckbox.prop('disabled', false);
+        sameBasketQuantityCheckbox.prop('disabled', false);
+        sameBasketQuantityLabel.removeClass('disabled');
+        return;
       }
     }
   );
