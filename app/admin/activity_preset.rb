@@ -5,6 +5,18 @@ ActiveAdmin.register ActivityPreset do
 
   actions :all, except: [:show]
 
+  breadcrumb do
+    unless params['action'] == 'index'
+      links = [
+        link_to(ActivityPreset.model_name.human(count: 2), activity_presets_path)
+      ]
+      if params['action'].in? %W[edit]
+        links << activity_preset.name
+      end
+      links
+    end
+  end
+
   index download_links: false do
     column :place
     column :place_url, ->(ap) { link_to truncate(ap.place_url, length: 50), ap.place_url }

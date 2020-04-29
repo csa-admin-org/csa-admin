@@ -1,6 +1,24 @@
 ActiveAdmin.register Absence do
   menu parent: :other, priority: 1
 
+  breadcrumb do
+    if params[:action] == 'new'
+      [link_to(Absence.model_name.human(count: 2), absences_path)]
+    elsif params['action'] != 'index'
+      links = [
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(absence.member),
+        link_to(
+          Absence.model_name.human(count: 2),
+          absences_path(q: { member_id_eq: absence.member_id }, scope: :all))
+      ]
+      if params['action'].in? %W[edit]
+        links << auto_link(absence)
+      end
+      links
+    end
+  end
+
   scope :all, default: true
   scope :past
   scope :current

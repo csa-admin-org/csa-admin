@@ -1,6 +1,24 @@
 ActiveAdmin.register Membership do
   menu priority: 3
 
+  breadcrumb do
+    if params[:action] == 'new'
+      [link_to(Membership.model_name.human(count: 2), memberships_path)]
+    elsif params['action'] != 'index'
+      links = [
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(membership.member),
+        link_to(
+          Membership.model_name.human(count: 2),
+          memberships_path(q: { member_id_eq: membership.member_id }, scope: :all))
+      ]
+      if params['action'].in? %W[edit]
+        links << auto_link(membership)
+      end
+      links
+    end
+  end
+
   scope :all
   scope :trial, if: -> { Current.acp.trial_basket_count.positive? }
   scope :ongoing, default: true

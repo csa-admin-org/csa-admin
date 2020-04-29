@@ -2,13 +2,31 @@ ActiveAdmin.register Payment do
   menu parent: :billing, priority: 2
   actions :all
 
+  breadcrumb do
+    if params[:action] == 'new'
+      [link_to(Payment.model_name.human(count: 2), payments_path)]
+    elsif params['action'] != 'index'
+      links = [
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(payment.member),
+        link_to(
+          Payment.model_name.human(count: 2),
+          payments_path(q: { member_id_eq: payment.member_id }, scope: :all))
+      ]
+      if params['action'].in? %W[edit]
+        links << auto_link(payment)
+      end
+      links
+    end
+  end
+
   scope :all, default: true
   scope :isr
   scope :manual
 
   includes :member, :invoice
   index do
-    column :id
+    column :id, ->(p) { auto_link p, p.id }
     column :date, ->(p) { l p.date, format: :number }
     column :member, sortable: 'members.name'
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
