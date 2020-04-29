@@ -315,6 +315,10 @@ table.table-invoices {
 
 table#index_table_payments,
 table.table-payments {
+  .col-id {
+    width: 80px;
+  }
+
   .col-type {
     text-align: right;
     width: 100px;
