@@ -435,6 +435,12 @@ table#index_table_group_buying_products {
   }
 }
 
+table.deliveries {
+  .col- {
+    width: 25px;
+  }
+}
+
 table#index_table_memberships,
 table.table-memberships {
   .col-baskets_count {
@@ -442,11 +448,12 @@ table.table-memberships {
   }
 
   .col-activity_participations_demanded {
+    min-width: 140px;
     text-align: right;
   }
 
   .col-actions {
-    min-width: 110px;
+    min-width: 109px;
   }
 
   .col-ended_on,
