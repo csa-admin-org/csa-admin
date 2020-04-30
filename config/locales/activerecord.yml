@@ -136,9 +136,15 @@ _:
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
+        email_session:
+          _de: Email-Session
+          _fr: Email Session
         invoiced_at:
           _de: In Rechnung gestellt am
           _fr: Facturée le
+        member_emails:
+          _de: Email(s)
+          _fr: Email(s)
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
@@ -146,8 +152,8 @@ _:
           _de: Mitglied
           _fr: Membre
         member_phones:
-          _de: Telefone
-          _fr: Téléphones
+          _de: Telefon(e)
+          _fr: Téléphone(s)
         participants_count:
           _de: Teilnehmer
           _fr: Participants
@@ -176,9 +182,15 @@ _:
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
+        email_session:
+          _de: Email-Session
+          _fr: Email Session
         invoiced_at:
           _de: In Rechnung gestellt am
           _fr: Facturée le
+        member_emails:
+          _de: Email(s)
+          _fr: Email(s)
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
@@ -186,8 +198,8 @@ _:
           _de: Mitglied
           _fr: Membre
         member_phones:
-          _de: Telefone
-          _fr: Téléphones
+          _de: Telefon(e)
+          _fr: Téléphone(s)
         rejected_at:
           _de: Abgelehnt am
           _fr: Refusée à
@@ -213,9 +225,15 @@ _:
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
+        email_session:
+          _de: Email-Session
+          _fr: Email Session
         invoiced_at:
           _de: In Rechnung gestellt am
           _fr: Facturée le
+        member_emails:
+          _de: Email(s)
+          _fr: Email(s)
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
@@ -223,8 +241,8 @@ _:
           _de: Mitglied
           _fr: Membre
         member_phones:
-          _de: Telefone
-          _fr: Téléphones
+          _de: Telefon(e)
+          _fr: Téléphone(s)
         rejected_at:
           _de: Abgelehnt am
           _fr: Refusée à
