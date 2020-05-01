@@ -393,7 +393,7 @@ describe RecurringBilling do
       expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
     end
 
-    specify 'when month #3 but membership at the end the month' do
+    specify 'when month #3 but membership ends at the end the month' do
       travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
       travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
       travel_to(Date.new(Current.fy_year, 3, 15))
@@ -410,6 +410,25 @@ describe RecurringBilling do
       expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
       expect(invoice.memberships_amount).to eq new_price - (old_price / 12.0) * 2
       expect(invoice.memberships_amount_description).to eq 'Facturation annuelle'
+    end
+
+    specify 'when month #3 but membership ends in 3 months' do
+      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 3, 15))
+
+      old_price = membership.price
+      membership.update!(ended_on: 3.months.from_now.end_of_month)
+      new_price = membership.price.to_f
+
+      invoice = create_invoice(member)
+
+      expect(invoice.object).to eq membership
+      expect(invoice.annual_fee).to be_nil
+      expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
+      expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
+      expect(invoice.memberships_amount).to eq (new_price - (old_price / 12.0) * 2.0) / 4.0
+      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
     end
   end
 end
