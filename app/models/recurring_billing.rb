@@ -94,7 +94,12 @@ class RecurringBilling
     }
   end
 
-  def calculate_amount_fraction(month)
-    ((13 - month) / (12 / year_division.to_f)).ceil
+  def calculate_amount_fraction(fy_month)
+    remaining_months = membership_end_fy_month - fy_month + 1
+    (remaining_months / (12 / year_division.to_f)).ceil
+  end
+
+  def membership_end_fy_month
+    Current.acp.fy_month_for(membership.ended_on)
   end
 end
