@@ -25,8 +25,10 @@ describe 'Billing' do
 
   it 'list invoices and payments history' do
     member.update!(billing_year_division: 1)
+    create(:invoice, :annual_fee, id: 103,
+      member: member, date: '2017-03-19', state: 'closed', sent_at: nil)
     inovice = create(:invoice, :activity_participation, id: 242,
-      member: member, date: '2018-4-12', paid_missing_activity_participations_amount: 120)
+      member: member, date: '2018-04-12', paid_missing_activity_participations_amount: 120)
     create(:payment, invoice: inovice, member: member, date: '2018-5-1', amount: 162)
 
     visit '/billing'
@@ -36,8 +38,10 @@ describe 'Billing' do
       ['01.05.2018', 'Paiement de la facture #242', '-CHF 162.00'].join)
     expect(page).to have_content(
       ['12.04.2018', 'Facture #242 (½ Journée)', ' CHF 120.00'].join)
+    expect(page).to have_content(
+      ['19.03.2017', 'Facture #103 (Cotisation)', ' CHF 30.00'].join)
 
-    expect(page).to have_content('Avoir: CHF 42.00')
+    expect(page).to have_content('Avoir: CHF 12.00')
     expect(page).to have_content('Intervalle de paiement: Annuel')
   end
 end
