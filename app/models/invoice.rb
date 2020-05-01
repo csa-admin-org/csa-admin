@@ -28,7 +28,7 @@ class Invoice < ActiveRecord::Base
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :all_without_canceled, -> { not_canceled }
-  scope :not_open_or_sent, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]).sent }
+  scope :history, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
   scope :unpaid, -> { not_canceled.where('balance < amount') }
   scope :overbalance, -> { where('balance > amount') }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
