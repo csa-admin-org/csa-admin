@@ -1,5 +1,5 @@
 class RecurringBilling
-  attr_reader :member, :membership, :invoices, :date
+  attr_reader :member, :membership, :invoices, :date, :fy_month
 
   def self.invoice(member, **attrs)
     new(member).invoice(attrs)
@@ -10,6 +10,7 @@ class RecurringBilling
     @membership = member.current_year_membership
     @invoices = member.invoices.not_canceled.current_year
     @date = Date.current
+    @fy_month = Current.acp.fy_month_for(date)
   end
 
   def needed?
@@ -63,25 +64,8 @@ class RecurringBilling
   end
 
   def membership_amount_description
-    if year_division == 1
-      I18n.t('billing.membership_amount_description.x1')
-    else
-      fraction_number = (fy_month / (12 / year_division.to_f)).ceil
-      I18n.t("billing.membership_amount_description.x#{year_division}", number: fraction_number)
-    end
-  end
-
-  # Bill everything if membership has been canceled (ie. trial stopped)
-  def year_division
-    if membership.past? || Current.acp.fy_month_for(membership.ended_on) == fy_month
-      1
-    else
-      member.billing_year_division
-    end
-  end
-
-  def fy_month
-    Current.acp.fy_month_for(date)
+    fraction_number = (fy_month / (12 / member.billing_year_division.to_f)).ceil
+    I18n.t("billing.membership_amount_description.x#{member.billing_year_division}", number: fraction_number)
   end
 
   # We only want to bill each year division once, even when membership changes.
@@ -95,11 +79,11 @@ class RecurringBilling
   end
 
   def calculate_amount_fraction(fy_month)
-    remaining_months = membership_end_fy_month - fy_month + 1
-    (remaining_months / (12 / year_division.to_f)).ceil
+    remaining_months = [membership_end_fy_month, fy_month].max - fy_month + 1
+    (remaining_months / (12 / member.billing_year_division.to_f)).ceil
   end
 
   def membership_end_fy_month
-    Current.acp.fy_month_for(membership.ended_on)
+    @membership_end_fy_month ||= Current.acp.fy_month_for(membership.ended_on)
   end
 end
