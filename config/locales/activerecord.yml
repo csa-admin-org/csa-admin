@@ -706,6 +706,12 @@ _:
           _fr: Commentaire
     errors:
       models:
+        basket_content:
+          attributes:
+            quantity:
+              insufficient:
+                _de: Ungenügende
+                _fr: Insuffisante
         group_buying/order:
           attributes:
             base:

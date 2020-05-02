@@ -13,14 +13,17 @@ class BasketContent < ApplicationRecord
     end
   }
 
+  before_validation :set_basket_counts, :set_basket_quantities
+
+  validates :delivery, presence: true
   validates :quantity, presence: true
-  validates :basket_sizes, :depots, presence: true
+  validates :depots, presence: true
   validates :unit, inclusion: { in: UNITS }
   validates :vegetable_id, uniqueness: { scope: :delivery_id }
+  validate :basket_sizes_presence
+  validate :enough_quantity
 
   attr_writer :same_basket_quantities, :basket_sizes
-
-  before_save :set_basket_counts_and_quantities
 
   def basket_sizes
     @basket_sizes ||
@@ -52,26 +55,36 @@ class BasketContent < ApplicationRecord
 
   private
 
-  def set_basket_counts_and_quantities
-    set_basket_counts
-    set_basket_quantities
+  def basket_sizes_presence
+    if (basket_sizes & SIZES).empty?
+      errors.add(:basket_sizes, :blank)
+    end
+  end
+
+  def enough_quantity
+    if small_baskets_count > 0 && small_basket_quantity == 0 ||
+      big_baskets_count > 0 && big_basket_quantity == 0
+      errors.add(:quantity, :insufficient)
+    end
   end
 
   def set_basket_counts
-    return if Rails.env.test?
+    return unless delivery
 
-    self.small_baskets_count = 0
-    self.big_baskets_count = 0
+    self[:small_baskets_count] = 0
+    self[:big_baskets_count] = 0
     baskets = delivery.baskets.not_absent.where(depot_id: depot_ids)
     if basket_sizes.include?('small')
-      self.small_baskets_count += baskets.where(basket_size_id: small_basket.id).sum(:quantity)
+      self[:small_baskets_count] = baskets.where(basket_size_id: small_basket.id).sum(:quantity)
     end
     if basket_sizes.include?('big')
-      self.big_baskets_count += baskets.where(basket_size_id: big_basket.id).sum(:quantity)
+      self[:big_baskets_count] = baskets.where(basket_size_id: big_basket.id).sum(:quantity)
     end
   end
 
   def set_basket_quantities
+    return unless quantity
+
     s_qt = quantity * small_basket_ratio
     b_qt = quantity * big_basket_ratio
     possibilites = [
@@ -117,7 +130,9 @@ class BasketContent < ApplicationRecord
   end
 
   def total_baskets_price
-    small_baskets_count * small_basket.price + big_baskets_count * big_basket.price
+    @total_baskets_price ||=
+      small_baskets_count * small_basket.price +
+        big_baskets_count * big_basket.price
   end
 
   def possibility(small_quantity, small_round_direction, big_quantity, big_round_direction)
@@ -129,7 +144,6 @@ class BasketContent < ApplicationRecord
     end
     b_qt = round(big_quantity, big_round_direction)
     lost = quantity - s_qt * small_baskets_count - b_qt * big_baskets_count
-    # p "#{s_qt} (#{small_round_direction}) // #{b_qt} (#{big_round_direction}) // #{lost}"
 
     OpenStruct.new(
       small_quantity: s_qt,

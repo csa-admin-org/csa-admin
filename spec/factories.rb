@@ -98,11 +98,11 @@ FactoryBot.define do
 
   factory :basket_content do
     vegetable
-    delivery
+    delivery { Delivery.first || create(:delivery) }
     quantity { 10 }
     unit { 'kilogramme' }
     basket_sizes { BasketContent::SIZES }
-    depots { [create(:depot)] }
+    depots { [Depot.first || create(:depot)] }
   end
 
   factory :basket_size do
