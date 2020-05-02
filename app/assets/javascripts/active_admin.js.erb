@@ -24,7 +24,7 @@ $(function() {
   $('#basket_content_basket_sizes_small, #basket_content_basket_sizes_big').on(
     'change',
     function() {
-      var bigBasketChecked, sameBasketQuantityCheckbox, smallBasketChecked;
+      var bigBasketChecked, sameBasketQuantityLabel, sameBasketQuantityCheckbox, smallBasketChecked;
       sameBasketQuantityLabel = $('label[for="basket_content_same_basket_quantities"]');
       sameBasketQuantityCheckbox = $('#basket_content_same_basket_quantities');
       sameBasketQuantityCheckbox.prop('checked', false);
@@ -41,6 +41,24 @@ $(function() {
       }
     }
   );
+
+  $('#basket_content_basket_sizes_small').on('change', function() {
+    var smallBasketCheckbox, bigBasketCheckbox;
+    smallBasketCheckbox = $('#basket_content_basket_sizes_small');
+    bigBasketCheckbox = $('#basket_content_basket_sizes_big');
+    if (!smallBasketCheckbox.prop('checked') && !bigBasketCheckbox.prop('checked')) {
+      bigBasketCheckbox.prop('checked', true);
+    }
+  });
+
+  $('#basket_content_basket_sizes_big').on('change', function() {
+    var smallBasketCheckbox, bigBasketCheckbox;
+    smallBasketCheckbox = $('#basket_content_basket_sizes_small');
+    bigBasketCheckbox = $('#basket_content_basket_sizes_big');
+    if (!smallBasketCheckbox.prop('checked') && !bigBasketCheckbox.prop('checked')) {
+      smallBasketCheckbox.prop('checked', true);
+    }
+  });
 
   $('.js-reset_price').on('change', function() {
     var nextInput = $(':input:eq(' + ($(':input').index(this) + 1) + ')');
