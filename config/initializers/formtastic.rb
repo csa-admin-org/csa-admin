@@ -111,3 +111,12 @@ Formtastic::FormBuilder.action_class_finder = Formtastic::ActionClassFinder
 
 # Which columns to skip when automatically rendering a form without any fields specified.
 # Formtastic::FormBuilder.skipped_columns = [:created_at, :updated_at, :created_on, :updated_on, :lock_version, :version]
+
+Formtastic::Inputs::Base::Labelling.module_eval do
+  def label_html_options
+    {
+      for: input_html_options[:id],
+      class: Array(options[:label_class])
+    }
+  end
+end
