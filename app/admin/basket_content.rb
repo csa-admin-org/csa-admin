@@ -54,7 +54,8 @@ ActiveAdmin.register BasketContent do
         label: false
       f.input :same_basket_quantities,
         as: :boolean,
-        input_html: { disabled: !f.object.both_baskets? }
+        input_html: { disabled: !f.object.both_baskets? },
+        label_class: f.object.both_baskets? ? '' : 'disabled'
     end
     f.inputs Depot.model_name.human(count: 2) do
       f.input :depots,
