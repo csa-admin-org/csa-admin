@@ -66,6 +66,7 @@ form input[type='checkbox']:checked:after {
 form input[type='checkbox']:disabled {
   border-color: #aaa !important;
   box-shadow: inset 0 0 0 13px #aaa !important;
+  cursor:not-allowed;
 }
 
 label.disabled {
