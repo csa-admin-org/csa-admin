@@ -322,12 +322,12 @@ _:
         depots:
           _de: Depots
           _fr: Dépôts
-        loses:
-          _de: Verluste
-          _fr: Pertes
         same_basket_quantities:
           _de: Wenn möglich, gleiche Menge für alle Taschen
           _fr: Si possible, même quantité pour tous les paniers
+        surplus:
+          _de: Überschuss
+          _fr: Surplus
         unit:
           _de: Einheit
           _fr: Unité

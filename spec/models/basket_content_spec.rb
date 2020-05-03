@@ -50,7 +50,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity).to eq 1
       expect(basket_content.big_basket_quantity).to eq 1
-      expect(basket_content.lost_quantity).to be_zero
+      expect(basket_content.surplus_quantity).to be_zero
     end
 
     it 'splits pieces with more to big baskets' do
@@ -60,7 +60,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity).to eq 1
       expect(basket_content.big_basket_quantity).to eq 2
-      expect(basket_content.lost_quantity).to be_zero
+      expect(basket_content.surplus_quantity).to be_zero
     end
 
     it 'gives all pieces to small baskets' do
@@ -71,7 +71,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity).to eq 2
       expect(basket_content.big_basket_quantity).to be_zero
-      expect(basket_content.lost_quantity).to be_zero
+      expect(basket_content.surplus_quantity).to be_zero
     end
 
     it 'splits kilogramme to both baskets' do
@@ -83,7 +83,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity.to_f).to eq 0.48
       expect(basket_content.big_basket_quantity.to_f).to eq 0.69
-      expect(basket_content.lost_quantity.to_f).to eq 0.11
+      expect(basket_content.surplus_quantity.to_f).to eq 0.11
     end
 
     it 'splits kilogramme to both baskets and splits remaining to big baskets' do
@@ -95,7 +95,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity.to_f).to eq 0.170
       expect(basket_content.big_basket_quantity.to_f).to eq 0.280
-      expect(basket_content.lost_quantity.to_f).to eq 0.21
+      expect(basket_content.surplus_quantity.to_f).to eq 0.21
     end
 
     it 'splits kilogramme to both baskets (2)' do
@@ -107,7 +107,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity.to_f).to eq 0.57
       expect(basket_content.big_basket_quantity.to_f).to eq 0.87
-      expect(basket_content.lost_quantity.to_f).to eq 0.1
+      expect(basket_content.surplus_quantity.to_f).to eq 0.1
     end
 
     it 'splits kilogramme equaly between both baskets' do
@@ -120,7 +120,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity.to_f).to eq 2
       expect(basket_content.big_basket_quantity.to_f).to eq 2
-      expect(basket_content.lost_quantity.to_f).to be_zero
+      expect(basket_content.surplus_quantity.to_f).to be_zero
     end
 
     it 'gives all kilogramme to big baskets' do
@@ -132,7 +132,7 @@ describe BasketContent do
 
       expect(basket_content.small_basket_quantity.to_f).to be_zero
       expect(basket_content.big_basket_quantity.to_f).to eq 2.86
-      expect(basket_content.lost_quantity.to_f).to eq 0.06
+      expect(basket_content.surplus_quantity.to_f).to eq 0.06
     end
   end
 end

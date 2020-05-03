@@ -90,11 +90,11 @@ class BasketContent < ApplicationRecord
       possibility(s_qt, :double_down, b_qt, :down),
       possibility(s_qt, :up, b_qt, :double_down),
       possibility(s_qt, :down, b_qt, :double_down)
-    ].reject { |p| p.lost_quantity.negative? }
-    best_possibility = possibilites.sort_by!(&:lost_quantity).first
+    ].reject { |p| p.surplus_quantity.negative? }
+    best_possibility = possibilites.sort_by!(&:surplus_quantity).first
     self.small_basket_quantity = best_possibility.small_quantity
     self.big_basket_quantity = best_possibility.big_quantity
-    self.lost_quantity = best_possibility.lost_quantity
+    self.surplus_quantity = best_possibility.surplus_quantity
   end
 
   def small_basket_ratio
@@ -131,19 +131,18 @@ class BasketContent < ApplicationRecord
 
   def possibility(small_quantity, small_round_direction, big_quantity, big_round_direction)
     s_qt = round(small_quantity, small_round_direction)
-    # Splits small lost to big baskets
+    # Splits small surplus to big baskets
     if s_qt.positive? && big_baskets_count.positive? && small_round_direction == :down
-      lost_s_qt = small_baskets_count * (small_quantity - s_qt)
-      big_quantity += lost_s_qt / big_baskets_count.to_f
+      surplus_s_qt = small_baskets_count * (small_quantity - s_qt)
+      big_quantity += surplus_s_qt / big_baskets_count.to_f
     end
     b_qt = round(big_quantity, big_round_direction)
-    lost = quantity - s_qt * small_baskets_count - b_qt * big_baskets_count
+    surplus = quantity - s_qt * small_baskets_count - b_qt * big_baskets_count
 
     OpenStruct.new(
       small_quantity: s_qt,
       big_quantity: b_qt,
-      lost_quantity: lost
-    )
+      surplus_quantity: surplus)
   end
 
   def round(quantity, direction)
