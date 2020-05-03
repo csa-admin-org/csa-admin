@@ -3,24 +3,9 @@ ActiveAdmin.register GroupBuying::Order do
   actions :index, :show
 
   breadcrumb do
-    unless params['action'] == 'index'
-      links = [
-        t('active_admin.menu.group_buying'),
-        link_to(Member.model_name.human(count: 2), members_path),
-        auto_link(absence.member),
-        link_to(
-          Absence.model_name.human(count: 2),
-          absences_path(q: { member_id_eq: absence.member_id }, scope: :all))
-      ]
-      if params['action'].in? %W[edit]
-        links << auto_link(absence)
-      end
-      links
-    end
-  end
-
-  breadcrumb do
-    unless params['action'] == 'index'
+    if params['action'] == 'index'
+      [t('active_admin.menu.group_buying')]
+    else
       [
         t('active_admin.menu.group_buying'),
         link_to(GroupBuying::Delivery.model_name.human(count: 2), group_buying_deliveries_path),
