@@ -100,5 +100,17 @@ ActiveAdmin.register BasketContent do
 
   controller do
     include TranslatedCSVFilename
+
+    def update
+      super do
+        redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) and return if resource.valid?
+      end
+    end
+
+    def create
+      super do
+        redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) and return if resource.valid?
+      end
+    end
   end
 end
