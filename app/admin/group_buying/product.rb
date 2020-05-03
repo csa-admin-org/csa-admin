@@ -8,7 +8,9 @@ ActiveAdmin.register GroupBuying::Product do
         t('active_admin.menu.group_buying'),
         link_to(GroupBuying::Product.model_name.human(count: 2), group_buying_products_path)
       ]
-    elsif params['action'] != 'index'
+    elsif params['action'] == 'index'
+        [t('active_admin.menu.group_buying')]
+    else
       links = [
         t('active_admin.menu.group_buying'),
         link_to(GroupBuying::Producer.model_name.human(count: 2), group_buying_producers_path),
