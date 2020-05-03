@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_183451) do
+ActiveRecord::Schema.define(version: 2020_05_03_075335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -207,6 +207,8 @@ ActiveRecord::Schema.define(version: 2020_04_24_183451) do
     t.integer "big_baskets_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "basket_sizes", default: ["small", "big"], array: true
+    t.boolean "same_basket_quantities", default: false, null: false
     t.index ["delivery_id"], name: "index_basket_contents_on_delivery_id"
     t.index ["vegetable_id", "delivery_id"], name: "index_basket_contents_on_vegetable_id_and_delivery_id", unique: true
     t.index ["vegetable_id"], name: "index_basket_contents_on_vegetable_id"
