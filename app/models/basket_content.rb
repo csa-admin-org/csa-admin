@@ -23,16 +23,6 @@ class BasketContent < ApplicationRecord
   validate :basket_sizes_presence
   validate :enough_quantity
 
-  attr_writer :same_basket_quantities, :basket_sizes
-
-  def basket_sizes
-    @basket_sizes ||
-      [].tap { |types|
-        types << 'small' unless small_baskets_count.zero?
-        types << 'big' unless big_baskets_count.zero?
-      }
-  end
-
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
   end
@@ -45,18 +35,22 @@ class BasketContent < ApplicationRecord
     @big_basket ||= BasketSize.reorder(:price).last
   end
 
+  def basket_sizes
+    self[:basket_sizes] & SIZES
+  end
+
   def same_basket_quantities
-    both_baskets? && @same_basket_quantities == '1'
+    both_baskets? && self[:same_basket_quantities]
   end
 
   def both_baskets?
-    (basket_sizes & SIZES) == SIZES
+    basket_sizes == SIZES
   end
 
   private
 
   def basket_sizes_presence
-    if (basket_sizes & SIZES).empty?
+    if basket_sizes.empty?
       errors.add(:basket_sizes, :blank)
     end
   end
