@@ -14,7 +14,7 @@ ActiveAdmin.register BasketContent do
     column :quantity, ->(bc) { display_quantity(bc) }
     column small_basket.name, ->(bc) { display_basket_quantity(bc, :small) }
     column big_basket.name, ->(bc) { display_basket_quantity(bc, :big) }
-    column :loses, ->(bc) { display_lost_quantity(bc) }
+    column :surplus, ->(bc) { display_surplus_quantity(bc) }
     column :depots, ->(bc) { display_depots(bc) }
     actions
   end
@@ -25,7 +25,7 @@ ActiveAdmin.register BasketContent do
     column(:quantity) { |bc| display_quantity(bc) }
     column(small_basket.name) { |bc| display_basket_quantity(bc, :small) }
     column(big_basket.name) { |bc| display_basket_quantity(bc, :big) }
-    column(:loses) { |bc| display_lost_quantity(bc) }
+    column(:surplus) { |bc| display_surplus_quantity(bc) }
     column(:depots) { |bc| display_depots(bc) }
   end
 

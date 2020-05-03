@@ -16,8 +16,8 @@ module BasketContentsHelper
     end
   end
 
-  def display_lost_quantity(basket_content)
-    quantity = basket_content.lost_quantity
+  def display_surplus_quantity(basket_content)
+    quantity = basket_content.surplus_quantity
     case basket_content.unit
     when 'kilogramme' then "#{(quantity * 1000).to_i}g"
     when 'pièce' then  "#{quantity.to_i}p"
