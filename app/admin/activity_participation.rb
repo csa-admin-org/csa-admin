@@ -1,24 +1,21 @@
 ActiveAdmin.register ActivityParticipation do
-  menu parent: :activities_human_name,
-    priority: 1,
-    label: -> { Activity.human_attribute_name(:participations) }
+  menu parent: :activities_human_name, priority: 1
 
   breadcrumb do
+    links = [activities_human_name]
     if params[:action] == 'new'
-      [link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path)]
+      links << link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path)
     elsif params['action'] != 'index'
-      links = [
-        link_to(Member.model_name.human(count: 2), members_path),
-        auto_link(activity_participation.member),
-        link_to(
-          ActivityParticipation.model_name.human(count: 2),
-          activity_participations_path(q: { member_id_eq: activity_participation.member_id }, scope: :all))
-      ]
+      links << link_to(Activity.model_name.human(count: 2), activities_path)
+      links << auto_link(activity_participation.activity)
+      links << link_to(
+        ActivityParticipation.model_name.human(count: 2),
+        activity_participations_path(q: { activity_id_eq: activity_participation.activity_id }, scope: :all))
       if params['action'].in? %W[edit]
         links << auto_link(activity_participation)
       end
-      links
     end
+    links
   end
 
   scope :all
@@ -53,7 +50,7 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   csv do
-    column(:date) { |ap| ap.activity.date.to_s }
+    column(:activity) { |ap| ap.activity.name }
     column(:member_id, &:member_id)
     column(:member_name) { |ap| ap.member.name }
     column(:member_phones) { |ap| ap.member.phones_array.map(&:phony_formatted).join(', ') }

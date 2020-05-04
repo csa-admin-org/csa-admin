@@ -81,7 +81,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
-        .and contain_sequence('Réduction pour 6 demi-journées supplémentaires', '- 330.50')
+        .and contain_sequence('Réduction pour 6 ', '½ ', 'journées supplémentaires', '- 330.50')
         .and contain_sequence('Montant annuel', "999.50", 'Facturation anuelle', "999.50")
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', "1'029.50")

@@ -113,7 +113,7 @@ ActiveAdmin.register Member do
               em t_activity('.no_activities')
             else
               table_for(activity_participations.limit(6), class: 'table-activity_participations') do
-                column(ActivityParticipation.human_attribute_name(:description)) { |ap|
+                column(Activity.model_name.human) { |ap|
                   auto_link ap, ap.activity.name
                 }
                 column(:participants_count)

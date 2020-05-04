@@ -1,6 +1,5 @@
 class ActivityPreset < ActiveRecord::Base
   include TranslatedAttributes
-  include ActivityNaming
 
   default_scope { order_by_place }
 
