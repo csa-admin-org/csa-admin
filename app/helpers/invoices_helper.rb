@@ -7,7 +7,7 @@ module InvoicesHelper
 
   def display_object(invoice, link: true)
     if link && invoice.object
-      auto_link invoice.object
+      auto_link invoice.object, t_invoice_object_type(invoice.object_type)
     else
       t_invoice_object_type(invoice.object_type)
     end

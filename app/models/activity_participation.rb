@@ -1,5 +1,4 @@
 class ActivityParticipation < ActiveRecord::Base
-  include ActivityNaming
   include HasState # only partially
   include BulkActivityIdsInsert
 

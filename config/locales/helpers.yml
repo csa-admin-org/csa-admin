@@ -17,10 +17,10 @@ _:
     activities_count_per_year/halfday_work:
       one:
         _de: "%{count} Halbtag"
-        _fr: "%{count} demi-journée"
+        _fr: "%{count} ½ journée"
       other:
         _de: "%{count} Halbtage"
-        _fr: "%{count} demi-journées"
+        _fr: "%{count} ½ journées"
     activities_count_per_year/hour_work:
       one:
         _de: "%{count} Arbeitsstunde"

@@ -2,7 +2,6 @@ class Activity < ActiveRecord::Base
   include TranslatedAttributes
   include HasFiscalYearScopes
   include BulkDatesInsert
-  include ActivityNaming
 
   attr_reader :preset_id, :preset
 

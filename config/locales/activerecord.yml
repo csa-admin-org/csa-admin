@@ -123,10 +123,10 @@ _:
         vat_number:
           _de: Mehrwertsteuernummer
           _fr: Numéro TVA
-      activity_participation/basket_preparation:
+      activity_participation:
         activity:
-          _de: Taschen befüllung
-          _fr: Mise en panier
+          _de: Aktivität
+          _fr: Activité
         carpooling_city:
           _de: Abfahrt Stadt
           _fr: Ville de départ
@@ -157,92 +157,6 @@ _:
         participants_count:
           _de: Teilnehmer
           _fr: Participants
-        rejected_at:
-          _de: Abgelehnt am
-          _fr: Refusée à
-        updated_at:
-          _de: Aktualisiert am
-          _fr: Mise à jour à
-        validated_at:
-          _de: Bestätigt am
-          _fr: Validée à
-        validator:
-          _de: Bestätigt durch
-          _fr: Validateur
-      activity_participation/halfday_work:
-        activity:
-          _de: "½ Tag"
-          _fr: "½ Journée"
-        carpooling_city:
-          _de: Abfahrt Stadt
-          _fr: Ville de départ
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
-        created_at:
-          _de: Erstellt am
-          _fr: Enregistrée à
-        email_session:
-          _de: Email-Session
-          _fr: Email Session
-        invoiced_at:
-          _de: In Rechnung gestellt am
-          _fr: Facturée le
-        member_emails:
-          _de: Email(s)
-          _fr: Email(s)
-        member_id:
-          _de: Mitglied ID
-          _fr: Membre ID
-        member_name:
-          _de: Mitglied
-          _fr: Membre
-        member_phones:
-          _de: Telefon(e)
-          _fr: Téléphone(s)
-        rejected_at:
-          _de: Abgelehnt am
-          _fr: Refusée à
-        updated_at:
-          _de: Aktualisiert am
-          _fr: Mise à jour à
-        validated_at:
-          _de: Bestätigt am
-          _fr: Validée à
-        validator:
-          _de: Bestätigt durch
-          _fr: Validateur
-      activity_participation/hour_work:
-        activity:
-          _de: Arbeitsstunde
-          _fr: Heure de travail
-        carpooling_city:
-          _de: Abfahrt Stadt
-          _fr: Ville de départ
-        carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
-          _fr: Téléphone covoiturage
-        created_at:
-          _de: Erstellt am
-          _fr: Enregistrée à
-        email_session:
-          _de: Email-Session
-          _fr: Email Session
-        invoiced_at:
-          _de: In Rechnung gestellt am
-          _fr: Facturée le
-        member_emails:
-          _de: Email(s)
-          _fr: Email(s)
-        member_id:
-          _de: Mitglied ID
-          _fr: Membre ID
-        member_name:
-          _de: Mitglied
-          _fr: Membre
-        member_phones:
-          _de: Telefon(e)
-          _fr: Téléphone(s)
         rejected_at:
           _de: Abgelehnt am
           _fr: Refusée à
@@ -518,7 +432,7 @@ _:
           _fr: Mises en panier
         activity_participations_annual_price_change_default/halfday_work:
           _de: Halbtage
-          _fr: Demi-journées
+          _fr: "½ journées"
         activity_participations_annual_price_change_default/hour_work:
           _de: Arbeitsstunden
           _fr: Heures de travail
@@ -532,10 +446,10 @@ _:
         activity_participations_annual_price_change_negative/halfday_work:
           one:
             _de: Ein nicht geleisteter Halbtag
-            _fr: Une demi-journée non effectuée
+            _fr: Une ½ journée non effectuée
           other:
             _de: "%{count} nicht geleistete Halbtage"
-            _fr: "%{count} demi-journées non effectuées"
+            _fr: "%{count} ½ journées non effectuées"
         activity_participations_annual_price_change_negative/hour_work:
           one:
             _de: Ein nicht geleistete Arbeitsstunde
@@ -548,7 +462,7 @@ _:
           _fr: Mises en panier non effectuées
         activity_participations_annual_price_change_positive/halfday_work:
           _de: Nicht geleistete Halbtage
-          _fr: Demi-journées de travail non effectuées
+          _fr: "½ journées de travail non effectuées"
         activity_participations_annual_price_change_positive/hour_work:
           _de: Nicht geleistete Arbeitsstunden
           _fr: Heures de travail non effectuées
@@ -562,10 +476,10 @@ _:
         activity_participations_annual_price_change_reduction/halfday_work:
           one:
             _de: Rabatt für einen zusätzlichen Halbtag
-            _fr: Réduction pour une demi-journée supplémentaire
+            _fr: Réduction pour une ½ journée supplémentaire
           other:
             _de: Rabatt für %{count} zusätzliche Halbtage
-            _fr: Réduction pour %{count} demi-journées supplémentaires
+            _fr: Réduction pour %{count} ½ journées supplémentaires
         activity_participations_annual_price_change_reduction/hour_work:
           one:
             _de: Rabatt für einen zusätzlichen Arbeitsstunde
@@ -744,71 +658,25 @@ _:
           _fr: Commentaires
       activity:
         one:
-          _de: Beteiligung der Mitglieder
-          _fr: Participation des membres
-      activity/basket_preparation:
-        one:
-          _de: Taschen befüllung - Datum
-          _fr: Mise en panier - Date
+          _de: Aktivität
+          _fr: Activité
         other:
-          _de: Taschen befüllung - Daten
-          _fr: Mise en panier - Dates
-      activity/halfday_work:
+          _de: Aktivitäten
+          _fr: Activités
+      activity_participation:
         one:
-          _de: "½ Tag - Datum"
-          _fr: "½ Journée - Date"
+          _de: Teilnahme
+          _fr: Participation
         other:
-          _de: "½ Tag - Daten"
-          _fr: "½ Journée - Dates"
-      activity/hour_work:
+          _de: Teilnahmen
+          _fr: Participations
+      activity_preset:
         one:
-          _de: Arbeitsstunde - Datum
-          _fr: Heure de travail - Date
+          _de: Voreinstellung
+          _fr: Preset
         other:
-          _de: Arbeitsstunde - Daten
-          _fr: Heure de travail - Dates
-      activity_participation/basket_preparation:
-        one:
-          _de: Taschen befüllung - Teilnahme
-          _fr: Mise en panier - Participation
-        other:
-          _de: Taschen befüllung - Teilnahmen
-          _fr: Mise en panier - Participations
-      activity_participation/halfday_work:
-        one:
-          _de: "½ Tag - Teilnahme"
-          _fr: "½ Journée - Participation"
-        other:
-          _de: "½ Tag - Teilnahmen"
-          _fr: "½ Journée - Participations"
-      activity_participation/hour_work:
-        one:
-          _de: Arbeitsstunde - Teilnahme
-          _fr: Heure de travail - Participation
-        other:
-          _de: Arbeitsstunde - Teilnahmen
-          _fr: Heure de travail - Participations
-      activity_preset/basket_preparation:
-        one:
-          _de: Taschen befüllung - Voreinstellung
-          _fr: Mise en panier - Preset
-        other:
-          _de: Taschen befüllung - Voreinstellungen
-          _fr: Mise en panier - Presets
-      activity_preset/halfday_work:
-        one:
-          _de: "½ Tag - Voreinstellung"
-          _fr: "½ Journée - Preset"
-        other:
-          _de: "½ Tag - Voreinstellungen"
-          _fr: "½ Journée - Presets"
-      activity_preset/hour_work:
-        one:
-          _de: Arbeitsstunde - Voreinstellung
-          _fr: Heure de travail - Preset
-        other:
-          _de: Arbeitsstunde - Voreinstellungen
-          _fr: Heure de travail - Presets
+          _de: Voreinstellungen
+          _fr: Presets
       basket:
         one:
           _de: Tasche

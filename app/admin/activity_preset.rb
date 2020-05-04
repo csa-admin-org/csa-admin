@@ -1,20 +1,16 @@
 ActiveAdmin.register ActivityPreset do
-  menu parent: :activities_human_name,
-    priority: 3,
-    label: -> { Activity.human_attribute_name(:presets) }
-
+  menu parent: :activities_human_name, priority: 3
   actions :all, except: [:show]
 
   breadcrumb do
+    links = [activities_human_name]
     unless params['action'] == 'index'
-      links = [
-        link_to(ActivityPreset.model_name.human(count: 2), activity_presets_path)
-      ]
+      links << link_to(ActivityPreset.model_name.human(count: 2), activity_presets_path)
       if params['action'].in? %W[edit]
         links << activity_preset.name
       end
-      links
     end
+    links
   end
 
   index download_links: false do

@@ -1,17 +1,16 @@
 ActiveAdmin.register Activity do
-  menu parent: :activities_human_name, priority: 2, label: -> { Activity.human_attribute_name(:dates) }
+  menu parent: :activities_human_name, priority: 2
   actions :all, except: [:show]
 
   breadcrumb do
+    links = [activities_human_name]
     unless params['action'] == 'index'
-      links = [
-        link_to(Activity.model_name.human(count: 2), activities_path)
-      ]
+      links << link_to(Activity.model_name.human(count: 2), activities_path)
       if params['action'].in? %W[edit]
-        links << auto_link(activity)
+        links << activity.name
       end
-      links
     end
+    links
   end
 
   scope :all

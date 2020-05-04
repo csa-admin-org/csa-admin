@@ -314,13 +314,6 @@ ActiveAdmin.setup do |config|
   # config.order_clause = MyOrderClause
 end
 
-# Ensure that the overwritten ActivityNaming.i18n_key is used
-class ActiveAdmin::Resource::Name
-  def i18n_key
-    @klass&.model_name&.i18n_key || super
-  end
-end
-
 module AdminPageLayoutOverride
   def build_active_admin_head(*args)
     within head do

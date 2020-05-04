@@ -20,7 +20,7 @@ describe 'Invoices' do
     expect(page)
       .to have_content('Détails')
       .and have_content('Membre Jean Paul')
-      .and have_content('Objet ½ Journée - Participation #3')
+      .and have_content('Objet ½ Journée')
       .and have_content('Statut non-envoyée')
       .and have_content('Montant CHF 120.00')
       .and have_content('Commentaires (1)')

@@ -534,6 +534,9 @@ _:
           _de: Einstellungen
           _fr: Paramètres
       activity:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
         scopes:
           all:
             _de: alle
@@ -541,19 +544,10 @@ _:
           past:
             _de: vergangene
             _fr: passées
-      activity/basket_preparation:
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
-      activity/halfday_work:
-        new_model:
-          _de: Neuer %{model}
-          _fr: Nouvelle %{model}
-      activity/hour_work:
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
       activity_participation:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
         scopes:
           all:
             _de: alle
@@ -564,36 +558,6 @@ _:
           validated:
             _de: bestätigte
             _fr: validées
-      activity_participation/basket_preparation:
-        delete_model:
-          _de: Löschen
-          _fr: Supprimer
-        edit_model:
-          _de: Bearbeiten
-          _fr: Modifier
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
-      activity_participation/halfday_work:
-        delete_model:
-          _de: Löschen
-          _fr: Supprimer
-        edit_model:
-          _de: Bearbeiten
-          _fr: Modifier
-        new_model:
-          _de: Neuer %{model}
-          _fr: Nouvelle %{model}
-      activity_participation/hour_work:
-        delete_model:
-          _de: Löschen
-          _fr: Supprimer
-        edit_model:
-          _de: Bearbeiten
-          _fr: Modifier
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
       admin:
         new_model:
           _de: Einladen %{model}

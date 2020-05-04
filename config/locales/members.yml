@@ -312,7 +312,7 @@ _:
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
         activity_text/halfday_work:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Halbtage einschreiben können.
-          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux demi-journées.
+          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux ½ journées.
         activity_text/hour_work:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Arbeitsstunden einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux heures de travail.
