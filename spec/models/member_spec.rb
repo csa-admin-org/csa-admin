@@ -71,6 +71,13 @@ describe Member do
       expect(Member.new(emails: 'john@DOE.com')).to have_valid(:emails)
       expect(Member.new(emails: 'JANE@doe.com')).to have_valid(:emails)
     end
+
+    it 'validates annual_fee to be greater or equal to zero' do
+      expect(Member.new(annual_fee: nil)).to have_valid(:annual_fee)
+      expect(Member.new(annual_fee: 0)).to have_valid(:annual_fee)
+      expect(Member.new(annual_fee: 1)).to have_valid(:annual_fee)
+      expect(Member.new(annual_fee: -1)).not_to have_valid(:annual_fee)
+    end
   end
 
   it 'strips whitespaces from emails' do

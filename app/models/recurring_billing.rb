@@ -36,7 +36,6 @@ class RecurringBilling
       attrs[:annual_fee] = member.annual_fee
     end
     if membership_billable?
-      attrs.delete(:annual_fee) if membership.annual_fee == 0
       attrs[:object] = membership
       attrs[:membership_amount_fraction] = membership_amount_fraction
       attrs[:memberships_amount_description] = membership_amount_description
@@ -46,7 +45,7 @@ class RecurringBilling
   end
 
   def annual_fee?
-    member.annual_fee &&
+    member.annual_fee&.positive? &&
       (member.support? || (membership_billable? && !membership.trial_only?)) &&
       invoices.annual_fee.none?
   end

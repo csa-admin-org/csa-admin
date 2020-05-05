@@ -53,7 +53,7 @@ class Member < ActiveRecord::Base
   validates :address, :city, :zip, presence: true, on: :create, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_depot, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
-  validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
+  validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :existing_acp_shares_number, numericality: { greater_than_or_equal_to: 0 }
   validate :email_must_be_unique
 
