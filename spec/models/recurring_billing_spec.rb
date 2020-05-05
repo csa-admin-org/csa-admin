@@ -86,6 +86,13 @@ describe RecurringBilling do
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
+  it 'does not bill annual fee when member annual_fee is zero' do
+    member = create(:member, :support_annual_fee)
+    member.update_column(:annual_fee, 0)
+
+    expect { create_invoice(member) }.not_to change(Invoice, :count)
+  end
+
   it 'creates an invoice for already billed support member (last year)' do
     member = create(:member, :support_annual_fee)
     create(:invoice, :annual_fee, member: member, date: 1.year.ago)
@@ -114,8 +121,8 @@ describe RecurringBilling do
       expect(invoice.pdf_file).to be_attached
     end
 
-    specify 'skip annual_fee when memberhsip one is set to 0' do
-      membership.update!(annual_fee: 0)
+    specify 'skip annual_fee when member one is set to 0' do
+      member.update!(annual_fee: 0)
 
       invoice = create_invoice(member)
 
