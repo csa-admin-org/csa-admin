@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :prepare_exception_notifier
   before_action :set_locale
 
-  helper_method :current_admin
+  helper_method :current_admin, :current_session
 
   rescue_from ActiveRecord::InvalidForeignKey do
     redirect_back(

@@ -24,6 +24,7 @@ label {
   }
 }
 
+a.button,
 button,
 input,
 select,
@@ -39,12 +40,13 @@ textarea {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
+a.button,
 button,
 input,
 textarea {
   width: calc(100% - 22px);
   @media screen and (min-width: 900px) {
-    width: 60%;
+    width: 80%;
   }
 }
 
@@ -55,6 +57,7 @@ input.date-input {
   }
 }
 
+a.button,
 input[type='submit'],
 button[type='submit'] {
   color: white;
@@ -80,6 +83,15 @@ button[type='submit'] {
     width: 150px;
   }
 }
+
+a.button {
+  width: calc(100% - 22px);
+  text-align: center;
+  @media screen and (min-width: 900px) {
+    width: auto;
+  }
+}
+
 
 ol,
 ul {
@@ -176,6 +188,7 @@ svg {
 .map_link svg {
   margin: 0 -2px -2px $small-spacing / 2;
 }
+
 @import 'members/body';
 @import 'members/flashes';
 @import 'members/sessions';
@@ -183,10 +196,11 @@ svg {
 @import 'members/activities';
 @import 'members/billing';
 @import 'members/absences';
+@import 'members/accounts';
 @import 'members/calendar';
 @import 'members/tooltip';
 @import 'members/labels';
-@import 'members/formtastic';
+@import 'members/form';
 @import 'members/pretty_inputs';
 @import 'members/trix';
 @import 'members/group_buying';

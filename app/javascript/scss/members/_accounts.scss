@@ -1,0 +1,38 @@
+section.account {
+  margin-top: 3.2em;
+
+  h2 {
+    margin-top: $base-spacing;
+    font-size: $base-font-size;
+    font-weight: 600;
+  }
+
+  .input {
+    margin-bottom: $base-spacing;
+  }
+
+  label.zip, label.city {
+    display: none;
+  }
+
+  input.zip {
+    margin: 5px 5px 0 0;
+    display: inline-block;
+    width: 50px;
+  }
+
+  .zip-city {
+    .field_with_errors {
+      display: inline;
+    }
+  }
+
+  input.city {
+    margin-top: 5px;
+    display: inline-block;
+    width: calc(100% - 99px);
+    @media screen and (min-width: 900px) {
+      width: calc(80% - 77px);
+    }
+  }
+}

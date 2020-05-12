@@ -29,7 +29,7 @@ module PDF
       member = invoice.member
       parts = [
         member.name,
-        member.address.capitalize,
+        member.address,
         "#{member.zip} #{member.city}"
       ]
 

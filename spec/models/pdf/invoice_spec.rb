@@ -16,7 +16,7 @@ describe PDF::Invoice do
     it 'generates invoice with all settings and member name and address' do
       member = create(:member,
         name: 'John Doe',
-        address: 'unknown str. 42',
+        address: 'Unknown Str. 42',
         zip: '0123',
         city: 'Nowhere')
       invoice = create(:invoice, :annual_fee, id: 706, member: member)
@@ -25,7 +25,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include('Facture N° 706')
-        .and contain_sequence('John Doe', 'Unknown str. 42', '0123 Nowhere')
+        .and contain_sequence('John Doe', 'Unknown Str. 42', '0123 Nowhere')
         .and contain_sequence('Banque Raiffeisen du Vignoble', '2023 Gorgier')
         .and contain_sequence('Association Rage de Vert', 'Closel-Bourbon 3', '2075 Thielle')
         .and include('N° Facture: 706')

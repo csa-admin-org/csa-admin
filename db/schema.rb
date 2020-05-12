@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_03_082341) do
+ActiveRecord::Schema.define(version: 2020_05_12_153439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -171,6 +171,18 @@ ActiveRecord::Schema.define(version: 2020_05_03_082341) do
     t.string "language", default: "fr", null: false
     t.datetime "deleted_at"
     t.index ["email"], name: "index_admins_on_email", unique: true
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.bigint "session_id"
+    t.string "auditable_type"
+    t.bigint "auditable_id"
+    t.jsonb "audited_changes", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["auditable_type", "auditable_id"], name: "index_audits_on_auditable_type_and_auditable_id"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["session_id"], name: "index_audits_on_session_id"
   end
 
   create_table "basket_complements", force: :cascade do |t|

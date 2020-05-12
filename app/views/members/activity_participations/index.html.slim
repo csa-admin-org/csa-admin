@@ -73,7 +73,7 @@ section
               - @activity_participation.errors[:participants_count].each do |msg|
                 li = msg
           = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
-        .input
+        .input.carpooling
           label.title
             = t('.carpooling')
             span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')

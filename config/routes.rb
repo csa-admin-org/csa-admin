@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       resource :member, only: %i[new show create], path: '' do
         get 'welcome', on: :collection
       end
+      resource :account, only: %i[show edit update]
     end
   end
 end

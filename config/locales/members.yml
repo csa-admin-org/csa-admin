@@ -31,6 +31,30 @@ _:
         submit:
           _de: Senden
           _fr: Envoyer
+    accounts:
+      edit:
+        emails_hint:
+          _de: Die für diese Session verwendete E-Mail (%{session_email}) kann nicht geändert werden.
+          _fr: L'email utilisé pour cette session (%{session_email}) ne peut pas être modifié.
+        name_hint:
+          _de: Bitte geben Sie Ihren Nachnamen zuerst an.
+          _fr: Merci de mettre votre nom de famille en premier.
+        submit:
+          _de: Einreichen
+          _fr: Soumettre
+        title:
+          _de: Konto Bearbeiten
+          _fr: Modifier compte
+      show:
+        edit_link:
+          _de: Kontoinformationen bearbeiten
+          _fr: Modifier les données du compte
+        no_phones:
+          _de: Kein
+          _fr: Aucun
+        title:
+          _de: Konto
+          _fr: Compte
     activity_participations:
       create:
         flash:
