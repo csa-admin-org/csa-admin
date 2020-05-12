@@ -97,9 +97,9 @@ ActiveAdmin.register ActivityParticipation do
     attributes_table title: ActivityParticipation.human_attribute_name(:contact) do
       row :member
       row(:email) { ap.session&.email }
-      row(:phones) { display_phones(ap.member.phones_array) }
+      row(:phones) { display_phones_with_link(ap.member.phones_array) }
       if ap.carpooling?
-        row(:carpooling_phone) { display_phones(ap.carpooling_phone) }
+        row(:carpooling_phone) { display_phones_with_link(ap.carpooling_phone) }
         row(:carpooling_city) { ap.carpooling_city }
       end
     end

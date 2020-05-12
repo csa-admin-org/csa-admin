@@ -231,8 +231,8 @@ ActiveAdmin.register Member do
           end
         end
         attributes_table title: Member.human_attribute_name(:contact) do
-          row(:emails) { display_emails(member.emails_array) }
-          row(:phones) { display_phones(member.phones_array) }
+          row(:emails) { display_emails_with_link(member.emails_array) }
+          row(:phones) { display_phones_with_link(member.phones_array) }
           row(:newsletter) { status_tag(member.newsletter? ? :yes : :no) }
         end
         attributes_table title: t('.billing') do
@@ -375,6 +375,10 @@ ActiveAdmin.register Member do
       remote_addr: request.remote_addr,
       user_agent: "Admin ID: #{current_admin.id}")
     redirect_to members_session_url(session.token, locale: I18n.locale)
+  end
+
+  before_save do |member|
+    member.audit_session = current_session
   end
 
   controller do

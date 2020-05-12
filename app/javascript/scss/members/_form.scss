@@ -1,0 +1,25 @@
+form {
+  .field_with_errors input {
+    border: 2px solid $red;
+    padding: 9px;
+  }
+
+  ul.errors {
+    width: calc(80% - 4px);
+    margin-bottom: $base-spacing;
+  }
+
+  .input {
+    p.hint {
+      margin-top: $small-spacing  / 2;
+      color: $medium-gray;
+      font-weight: 300;
+      font-size: $base-font-size * 0.8;
+      font-style: italic;
+      width: 100%;
+      @media screen and (min-width: 900px) {
+        width: 80%;
+      }
+    }
+  }
+}

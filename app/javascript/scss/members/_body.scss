@@ -165,13 +165,21 @@ body {
       }
 
       .links,
-      .logout {
+      .account {
         a span {
           font-weight: 300 !important;
         }
+
+        a.account span {
+          font-weight: 500 !important;
+        }
+
+        a.logout span{
+          font-weight: 200 !important;
+        }
       }
 
-      .logout {
+      .account {
         flex: 2;
         margin-top: $base-spacing * 3;
       }
@@ -334,20 +342,9 @@ footer {
   }
 }
 
-.logout {
-  li.member {
-    margin: 0;
-
-    span {
-      display: block;
-      font-weight: normal;
-      margin-right: $base-spacing * 1.5;
-    }
-  }
-}
 
 .links,
-.logout {
+.account {
   a {
     color: $base-font-color;
 
@@ -359,4 +356,8 @@ footer {
 
 section.placeholder {
   margin-top: $base-spacing * 2;
+}
+
+section .button {
+  margin-top: $base-spacing;
 }

@@ -11,10 +11,6 @@
     color: $red;
   }
 
-  .field_with_errors input {
-    border: 2px solid $red;
-  }
-
   .activities {
     label {
       font-weight: normal;
@@ -67,6 +63,13 @@
 
   label.full::after {
     content: ' Complet!';
+  }
+
+  .input.carpooling input {
+    width: calc(100% - 22px);
+    @media screen and (min-width: 900px) {
+      width: 50%;
+    }
   }
 }
 

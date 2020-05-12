@@ -83,6 +83,24 @@ module MembersHelper
     end
   end
 
+  def diplay_address(member)
+    parts = [
+      member.address,
+      "#{member.zip} #{member.city}"
+    ].join("</br>").html_safe
+  end
+
+  def display_emails(member)
+    emails = member.emails_array - [current_session.email]
+    parts = [content_tag(:i, current_session.email)]
+    parts += emails
+    parts.join(', ').html_safe
+  end
+
+  def display_phones(member)
+    member.phones_array.map(&:phony_formatted).join(', ')
+  end
+
   private
 
   def visible_depots

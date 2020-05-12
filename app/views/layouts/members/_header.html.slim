@@ -55,13 +55,16 @@ header
                   = Absence.model_name.human(count: 2)
                   span = t('.absences_subtitle')
 
-          .logout
-            ul
-              li.member
-                span = current_member.name
-              li = link_to members_logout_path, method: :delete, class: 'svg' do
-                  span = t('.logout')
-                  = inline_svg_tag 'sign_out.svg', size: '16px'
+      - if current_member
+        .account
+          ul
+            li = link_to members_account_path, class: 'svg account' do
+              - # handle invalid name edit form
+              span = current_member.name_was
+              = inline_svg_tag 'participant.svg', size: '16px'
+            li = link_to members_logout_path, method: :delete, class: 'svg logout' do
+              span = t('.logout')
+              = inline_svg_tag 'sign_out.svg', size: '16px'
 
       .links
         ul

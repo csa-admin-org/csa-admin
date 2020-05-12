@@ -1,0 +1,35 @@
+h1 = t('.title')
+
+section.account
+  = form_for current_member, url: members_account_path do |f|
+
+    - if current_member.errors.any?
+      ul.errors
+        - current_member.errors.full_messages.each do |msg|
+          li = msg
+
+    .input
+      = f.label :name
+      = f.text_field :name
+      p.hint = t('.name_hint')
+
+    .input
+      = f.label :address
+      = f.text_field :address
+      .zip-city
+        = f.label :zip, class: 'zip'
+        = f.text_field :zip, class: 'zip'
+        = f.label :city, class: 'city'
+        = f.text_field :city, class: 'city'
+
+    .input
+      = f.label :emails
+      = f.text_field :emails
+      p.hint = t('.emails_hint', session_email: current_session.email)
+
+    .input
+      = f.label :phones
+      = f.text_field :phones
+
+    .input.submit
+      = f.submit t('.submit')

@@ -17,6 +17,10 @@ class Session < ApplicationRecord
   scope :admin, -> { where.not(admin_id: nil) }
   scope :member, -> { where.not(member_id: nil) }
 
+  def owner
+    admin || member
+  end
+
   def member_email=(email)
     self[:email] = email
     self.member = Member.find_by_email(email)

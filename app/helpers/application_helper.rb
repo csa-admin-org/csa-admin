@@ -11,11 +11,11 @@ module ApplicationHelper
     simple_format(text) if text.present?
   end
 
-  def display_emails(emails)
+  def display_emails_with_link(emails)
     Array(emails).map { |email| mail_to(email) }.join(', ').html_safe
   end
 
-  def display_phones(phones)
+  def display_phones_with_link(phones)
     Array(phones).map { |phone|
       link_to(
         phone.phony_formatted,
