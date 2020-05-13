@@ -140,7 +140,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def overpaid?
-    overbalance > 0
+    payments.sum(:amount) > amount
   end
 
   def overbalance

@@ -261,4 +261,22 @@ describe Invoice do
       expect(invoice.can_destroy?).to eq false
     end
   end
+
+  specify '#overpaid?' do
+    invoice = create(:invoice, :manual,
+      items_attributes: {
+        '0' => { description: 'Un truc cool pas cher', amount: '100' }
+      })
+    create(:invoice, :manual,
+      member: invoice.member,
+      items_attributes: {
+        '0' => { description: 'Un truc cool pas cher', amount: '400' }
+      })
+
+    create(:payment, invoice: invoice, amount: 100)
+
+    expect {
+      create(:payment, invoice: invoice, amount: 100)
+    }.to change { invoice.reload.overpaid? }.to(true)
+  end
 end
