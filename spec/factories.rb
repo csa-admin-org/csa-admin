@@ -164,6 +164,10 @@ FactoryBot.define do
       paid_missing_activity_participations_amount { Current.acp.activity_price }
     end
 
+    trait :manual do
+      object_type { '' }
+    end
+
     trait :unprocessed do
       sent_at { nil }
     end
