@@ -4,7 +4,7 @@ module Auditable
   included do
     attr_accessor :audit_session
     has_many :audits, as: :auditable
-    before_save :save_audit!
+    before_update :save_audited_changes!
   end
 
   class_methods do
@@ -15,7 +15,7 @@ module Auditable
 
   private
 
-  def save_audit!
+  def save_audited_changes!
     return unless audit_session
 
     audited_changes = changes.slice(*self.class::AUDITED_ATTRIBUTES)
