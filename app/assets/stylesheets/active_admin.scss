@@ -12,6 +12,10 @@ $primary-color: #0c9024 !default; // #22952f
 @import 'jquery.timepicker'; // Foradmin fix
 @import 'actiontext';
 
+body.logged_out h2, .tabs .nav-tabs, table.index_table thead th, .panel h3, .sidebar_section h3, .ui-dialog .ui-dialog-titlebar, .index_as_blog .banner h3, form legend span {
+  box-shadow: none !important;
+}
+
 .flash_alert {
   background-color: tint($negative-color, 95%);
   background-image: linear-gradient(to bottom, tint($negative-color, 90%), tint($negative-color, 85%));
@@ -578,6 +582,15 @@ form.filter_form .check_boxes {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+.table_tools .scopes li a {
+  margin: -1px 0 0 0;
+}
+
+.table_tools .scope.selected, .table_tools .scope.selected a {
+  background-image: linear-gradient(to bottom, #e6e6e6, #fff);
+  color: black !important;
 }
 
 .field_with_errors,
