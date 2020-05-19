@@ -17,6 +17,7 @@ ActiveAdmin.register ACP do
     :vat_number, :vat_membership_rate, :absences_billed,
     :delivery_pdf_show_phones,
     :group_buying_email,
+    :recurring_billing_wday,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -64,6 +65,10 @@ ActiveAdmin.register ACP do
       f.input :billing_year_divisions,
         as: :check_boxes,
         collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
+      f.input :recurring_billing_wday,
+        as: :select,
+        collection: wdays_collection,
+        required: false
       f.input :annual_fee, as: :number
       f.input :share_price, as: :number
       f.input :vat_number

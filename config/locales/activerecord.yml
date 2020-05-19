@@ -806,10 +806,6 @@ _:
         other:
           _de: Einzahlungen
           _fr: Paiements
-      recurring_billing:
-        one:
-          _de: Automatische Rechnungsstellung
-          _fr: Facturation automatique
       vegetable:
         one:
           _de: Gemüse
