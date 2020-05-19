@@ -17,8 +17,8 @@ ActiveAdmin.register Invoice do
   end
 
   scope :all_without_canceled
-  scope :unpaid, default: true
-  scope :with_overdue_notice
+  scope :not_sent
+  scope :open, default: true
   scope :closed
   scope :canceled
 
@@ -30,6 +30,7 @@ ActiveAdmin.register Invoice do
     as: :check_boxes,
     collection: -> { object_type_collection }
   filter :amount
+  filter :overdue_notices_count
   filter :date
   filter :during_year,
     as: :select,
@@ -80,7 +81,7 @@ ActiveAdmin.register Invoice do
         span t('active_admin.sidebars.amount')
         span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
-    elsif params[:scope].in? ['unpaid', nil]
+    elsif params[:scope].in? ['open', nil]
       div class: 'total' do
         span t('billing.scope.missing')
         span number_to_currency(all.sum('amount - balance')), style: 'float: right'

@@ -613,7 +613,7 @@ _:
           not_sent:
             _de: nicht gesendete
             _fr: non-envoyées
-          unpaid:
+          open:
             _de: offene
             _fr: ouvertes
       member:
