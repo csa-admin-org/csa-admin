@@ -49,6 +49,10 @@ module ApplicationHelper
     }.reverse
   end
 
+  def wdays_collection
+    Array(0..6).rotate.map { |d| [I18n.t('date.day_names')[d].capitalize, d] }
+  end
+
   def referer_filter_member_id
     return unless request&.referer
 

@@ -26,6 +26,9 @@ _:
         membership_extra_text:
           _de: Dieser Text wird dem Registrierungsformular hinzugefügt (unterstütztes HTML)
           _fr: Ce texte est rajouté au formulaire d'inscription (HTML supporté)
+        recurring_billing_wday:
+          _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
+          _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
         share_price:
           _de: Leer lassen, wenn kein Anteilschein
           _fr: Laisser vide si pas de part sociale

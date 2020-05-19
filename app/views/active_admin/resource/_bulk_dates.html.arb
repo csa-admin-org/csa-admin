@@ -7,7 +7,7 @@ if resource.new_record?
       required: false
     f.input :bulk_dates_wdays,
       as: :check_boxes,
-      collection: [1, 2, 3, 4, 5, 6, 0].map { |d| [I18n.t('date.day_names')[d].capitalize, d] },
+      collection: wdays_collection,
       required: false
   end
 

@@ -186,6 +186,9 @@ _:
     quantity:
       _de: Menge
       _fr: Quantité
+    recurring_billing_wday:
+      _de: Automatische Rechnungsstellung
+      _fr: Facturation automatique
     sent_at:
       _de: Gesendet am
       _fr: Envoyé le
