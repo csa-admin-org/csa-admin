@@ -151,6 +151,10 @@ table a.xlsx_link {
   background-image: asset-url('xlsx_file.svg');
 }
 
+.col-selectable {
+  width: 68px;
+}
+
 .col-status .status_tag:not(:first-child) {
   margin-top: 5px;
 }
