@@ -310,7 +310,8 @@ describe Member do
         to: 'thibaud@thibaud.gg, john@doe.com',
         template: 'member-welcome-fr',
         template_data: {
-          action_url: 'https://membres.ragedevert.ch'
+          action_url: 'https://membres.ragedevert.ch',
+          fr: true
         }))
     end
 

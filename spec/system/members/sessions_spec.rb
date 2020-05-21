@@ -21,7 +21,8 @@ describe 'Member sessions' do
       to: 'thibaud@thibaud.gg',
       template: 'session-new-fr',
       template_data: {
-        action_url: %r{/sessions/#{session.token}}
+        action_url: %r{/sessions/#{session.token}},
+        fr: true
       }))
 
     expect(current_path).to eq '/login'

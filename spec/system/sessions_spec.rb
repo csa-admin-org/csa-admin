@@ -21,7 +21,8 @@ describe 'Admin sessions' do
       template: 'session-new-fr',
       template_data: {
         action_url: %r{/sessions/#{session.token}},
-        admin: true
+        admin: true,
+        fr: true
       }))
 
     expect(current_path).to eq '/login'

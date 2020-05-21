@@ -31,7 +31,8 @@ describe Email do
           baskets: [
             { member_name: 'Alex Broz', description: 'Eveil', size_name: 'Eveil' },
             { member_name: 'Fred Asmo', description: 'Eveil', size_name: 'Eveil' }
-          ]
+          ],
+          fr: true
         },
         attachments: [
           hash_including(
@@ -87,7 +88,8 @@ describe Email do
           carpooling_phone: '076 543 12 43',
           carpooling_city: 'La Chaux-de-Fonds'
         ],
-        action_url: 'https://membres.ragedevert.ch'
+        action_url: 'https://membres.ragedevert.ch',
+        fr: true
       },
       attachments: [])
   end
@@ -127,7 +129,8 @@ describe Email do
           url: 'https://google.map/thielle'
         },
         activity_participants_count: 1,
-        action_url: 'https://membres.ragedevert.ch'
+        action_url: 'https://membres.ragedevert.ch',
+        fr: true
       },
       attachments: [])
   end
@@ -167,7 +170,8 @@ describe Email do
           url: 'https://google.map/thielle'
         },
         activity_participants_count: 3,
-        action_url: 'https://membres.ragedevert.ch'
+        action_url: 'https://membres.ragedevert.ch',
+        fr: true
       },
       attachments: [])
   end
@@ -195,7 +199,8 @@ describe Email do
         invoice_amount: 'CHF 62.00',
         overdue_notices_count: 0,
         action_url: 'https://membres.ragedevert.ch/billing',
-        annual_fee: true
+        annual_fee: true,
+        fr: true
       },
       attachments: [
         hash_including(
@@ -227,7 +232,8 @@ describe Email do
         invoice_number: invoice.id,
         member_name: 'John Doew',
         action_url: "https://admin.ragedevert.ch/members/#{member.id}",
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        fr: true
       }))
   end
 
@@ -256,7 +262,8 @@ describe Email do
         invoice_missing_amount: 'CHF 42.00',
         overdue_notices_count: 0,
         action_url: 'https://membres.ragedevert.ch/billing',
-        annual_fee: true
+        annual_fee: true,
+        fr: true
       },
       attachments: [
         hash_including(
@@ -291,7 +298,8 @@ describe Email do
         invoice_paid: true,
         overdue_notices_count: 0,
         action_url: 'https://membres.ragedevert.ch/billing',
-        annual_fee: true
+        annual_fee: true,
+        fr: true
       },
       attachments: [
         hash_including(
@@ -326,7 +334,8 @@ describe Email do
         invoice_missing_amount: 'CHF 42.00',
         overdue_notices_count: 2,
         action_url: 'https://membres.ragedevert.ch/billing',
-        annual_fee: true
+        annual_fee: true,
+        fr: true
       },
       attachments: [
         hash_including(
@@ -352,7 +361,8 @@ describe Email do
         admin_name: 'Thibaud',
         member_name: 'John Doew',
         action_url: "https://admin.ragedevert.ch/members/#{member.id}",
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        fr: true
       },
       attachments: [])
   end
@@ -381,7 +391,8 @@ describe Email do
           started_on: '12 novembre 2018',
           ended_on: '19 novembre 2018',
           action_url: "https://admin.ragedevert.ch/absences/#{absence.id}",
-          edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+          edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+          fr: true
         },
         attachments: [])
     end
@@ -403,7 +414,8 @@ describe Email do
         admin_name: 'John Doe',
         admin_email: 'john@doe.com',
         action_url: 'https://admin.ragedevert.ch',
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input"
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        fr: true
       }))
   end
 end
