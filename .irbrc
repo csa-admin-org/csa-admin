@@ -1,7 +1,7 @@
 # Helper available in IRB, which helps choosing a ACP to enter.
 def enter
-  acps = ACP.order(:id)
-  options = acps.map { |acp| "  #{acp.id}: #{acp.name}" }
+  acps = ACP.where('id < 100').order(:id)
+  options = acps.map { |acp| "#{acp.id.to_s.rjust(2)}: #{acp.name}" }
 
   puts "Select ACP context: (empty for no ACP)"
   puts options
