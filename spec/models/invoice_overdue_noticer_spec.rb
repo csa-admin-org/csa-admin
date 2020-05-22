@@ -20,7 +20,7 @@ describe InvoiceOverdueNoticer do
     expect { perform(invoice) }
       .to change { email_adapter.deliveries.size }.by(1)
     expect(email_adapter.deliveries.first).to match(hash_including(
-      template: 'invoice-overdue-notice-fr'))
+      template: 'member-invoice-overdue-notice'))
   end
 
   specify 'only send overdue notice when invoice is open' do

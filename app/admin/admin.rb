@@ -58,7 +58,7 @@ ActiveAdmin.register Admin do
   end
 
   after_create do |admin|
-    Email.deliver_later(:admin_new, admin)
+    Email.deliver_later(:admin_invitation, admin)
   end
 
   controller do

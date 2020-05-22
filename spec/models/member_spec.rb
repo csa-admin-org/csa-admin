@@ -308,7 +308,7 @@ describe Member do
 
       expect(email_adapter.deliveries.first).to match(hash_including(
         to: 'thibaud@thibaud.gg, john@doe.com',
-        template: 'member-welcome-fr',
+        template: 'member-welcome',
         template_data: {
           action_url: 'https://membres.ragedevert.ch',
           fr: true
@@ -350,7 +350,7 @@ describe Member do
       expect(email_adapter.deliveries.first).to match(hash_including(
         from: Current.acp.email_default_from,
         to: admin1.email,
-        template: 'member-new-fr',
+        template: 'admin-member-new',
         template_data: hash_including(
           admin_name: admin1.name,
           member_name: member.name

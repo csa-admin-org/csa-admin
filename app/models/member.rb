@@ -279,7 +279,7 @@ class Member < ActiveRecord::Base
 
   def notify_new_inscription_to_admins
     Admin.notification('new_inscription').find_each do |admin|
-      Email.deliver_later(:member_new, admin, self)
+      Email.deliver_later(:admin_member_new, admin, self)
     end
   end
 end

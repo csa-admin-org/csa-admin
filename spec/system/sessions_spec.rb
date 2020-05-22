@@ -18,7 +18,7 @@ describe 'Admin sessions' do
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       to: 'thibaud@thibaud.gg',
-      template: 'session-new-fr',
+      template: 'session-new',
       template_data: {
         action_url: %r{/sessions/#{session.token}},
         admin: true,

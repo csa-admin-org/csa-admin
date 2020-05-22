@@ -63,7 +63,7 @@ class Absence < ActiveRecord::Base
 
   def notify_new_absence_to_admins
     Admin.notification('new_absence').where.not(id: admin&.id).find_each do |admin|
-      Email.deliver_later(:absence_new, admin, self)
+      Email.deliver_later(:admin_absence_new, admin, self)
     end
   end
 end

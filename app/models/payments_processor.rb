@@ -37,7 +37,7 @@ class PaymentsProcessor
 
   def notify_admins_about_overpaid_invoice(invoice)
     Admin.notification('invoice_overpaid').find_each do |admin|
-      Email.deliver_now(:invoice_overpaid, admin, invoice)
+      Email.deliver_now(:admin_invoice_overpaid, admin, invoice)
     end
   end
 

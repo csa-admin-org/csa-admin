@@ -93,7 +93,7 @@ class Invoice < ActiveRecord::Base
     return unless can_send_email?
     raise UnprocessedError unless processed?
 
-    Email.deliver_now(:invoice_new, self) if can_send_email?
+    Email.deliver_now(:member_invoice_new, self) if can_send_email?
     touch(:sent_at)
     close_or_open!
   rescue => ex

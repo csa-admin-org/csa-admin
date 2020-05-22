@@ -80,7 +80,7 @@ describe GroupBuying::Order do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: hash_including(
         invoice_number: invoice.id,
         invoice_amount: 'CHF 240.90',
