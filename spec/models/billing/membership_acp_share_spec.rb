@@ -30,7 +30,7 @@ describe Billing::MembershipACPShare do
 
     expect(email_adapter.deliveries.first).to match(hash_including(
       to: member.emails,
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: hash_including(invoice_amount: 'CHF 750.00')
     ))
   end

@@ -40,7 +40,7 @@ describe Invoice do
     invoice = create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
 
     expect(email_adapter.deliveries.last).to match(hash_including(
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: hash_including(invoice_paid: true)
     ))
   end
@@ -163,7 +163,7 @@ describe Invoice do
       expect { invoice.send! }
         .to change { email_adapter.deliveries.size }.by(1)
       expect(email_adapter.deliveries.first).to match(hash_including(
-        template: 'invoice-new-fr'))
+        template: 'member-invoice-new'))
     end
 
     it 'touches sent_at' do

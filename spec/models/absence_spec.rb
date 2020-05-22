@@ -71,7 +71,7 @@ describe Absence do
       expect(email_adapter.deliveries.first).to match(hash_including(
         from: Current.acp.email_default_from,
         to: admin2.email,
-        template: 'absence-new-fr',
+        template: 'admin-absence-new',
         template_data: hash_including(
           admin_name: admin1.name,
           member_name: absence.member.name,

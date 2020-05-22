@@ -13,7 +13,27 @@ module Email
 
   private
 
-  def delivery_list(delivery, depot)
+  def admin_absence_new(admin, absence)
+    data = template_data(admin.language) do
+      {
+        admin_name: admin.name,
+        member_name: absence.member.name,
+        started_on: I18n.l(absence.started_on),
+        ended_on: I18n.l(absence.ended_on),
+        action_url: url(:absence_url, absence),
+        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
+      }
+    end
+
+    {
+      from: from,
+      to: admin.email,
+      template: 'admin-absence-new',
+      template_data: data
+    }
+  end
+
+  def admin_delivery_list(delivery, depot)
     baskets = depot.baskets
       .not_absent
       .not_empty
@@ -42,7 +62,7 @@ module Email
     {
       from: from,
       to: depot.emails,
-      template: template_alias(:delivery_list, depot.language),
+      template: 'admin-delivery-list',
       template_data: data,
       attachments: [{
         name: xlsx.filename,
@@ -56,9 +76,64 @@ module Email
     }
   end
 
-  def activity_participations_reminder(activity_participation)
+  def admin_invitation(admin)
+    data = template_data(admin.language) do
+      {
+        admin_name: admin.name,
+        admin_email: admin.email,
+        action_url: url(:root_url),
+        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
+      }
+    end
+
+    {
+      from: from,
+      to: admin.email,
+      template: 'admin-invitation',
+      template_data: data
+    }
+  end
+
+  def admin_invoice_overpaid(admin, invoice)
+    data = template_data(admin.language) do
+      {
+        admin_name: admin.name,
+        invoice_number: invoice.id,
+        member_name: invoice.member.name,
+        action_url: url(:member_url, invoice.member),
+        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
+      }
+    end
+
+    {
+      from: from,
+      to: admin.email,
+      template: 'admin-invoice-overpaid',
+      template_data: data
+    }
+  end
+
+  def admin_member_new(admin, member)
+    data = template_data(admin.language) do
+      {
+        admin_name: admin.name,
+        member_name: member.name,
+        action_url: url(:member_url, member),
+        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
+      }
+    end
+
+    {
+      from: from,
+      to: admin.email,
+      template: 'admin-member-new',
+      template_data: data
+    }
+  end
+
+  def member_activity_reminder(activity_participation)
     member = activity_participation.member
-    data = activity_participation_data(activity_participation)
+    data = activity_data(activity_participation)
     data[:activity_participations_with_carpooling] =
       ActivityParticipation
         .where(activity_id: activity_participation.activity_id)
@@ -78,38 +153,38 @@ module Email
     {
       from: from,
       to: member.emails,
-      template: template_alias(:activity_participations_reminder, member.language),
+      template: 'member-activity-reminder',
       template_data: data
     }
   end
 
-  def activity_participations_validated(activity_participation)
+  def member_activity_validated(activity_participation)
     member = activity_participation.member
-    data = activity_participation_data(activity_participation)
+    data = activity_data(activity_participation)
     data[:action_url] = url(:members_member_url)
 
     {
       from: from,
       to: member.emails,
-      template: template_alias(:activity_participations_validated, member.language),
+      template: 'member-activity-validated',
       template_data: data
     }
   end
 
-  def activity_participations_rejected(activity_participation)
+  def member_activity_rejected(activity_participation)
     member = activity_participation.member
-    data = activity_participation_data(activity_participation)
+    data = activity_data(activity_participation)
     data[:action_url] = url(:members_member_url)
 
     {
       from: from,
       to: member.emails,
-      template: template_alias(:activity_participations_rejected, member.language),
+      template: 'member-activity-rejected',
       template_data: data
     }
   end
 
-  def activity_participation_data(activity_participation)
+  def activity_data(activity_participation)
     activity = activity_participation.activity
     member = activity_participation.member
     template_data(member.language) do
@@ -133,40 +208,21 @@ module Email
     end
   end
 
-  def invoice_new(invoice)
+  def member_invoice_new(invoice)
     {
       from: from,
       to: invoice.member.emails,
-      template: template_alias(:invoice_new, invoice.member.language),
+      template: 'member-invoice-new',
       template_data: invoice_data(invoice),
       attachments: [invoice_attachment(invoice)]
     }
   end
 
-  def invoice_overpaid(admin, invoice)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        invoice_number: invoice.id,
-        member_name: invoice.member.name,
-        action_url: url(:member_url, invoice.member),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: template_alias(:invoice_overpaid, admin.language),
-      template_data: data
-    }
-  end
-
-  def invoice_overdue_notice(invoice)
+  def member_invoice_overdue_notice(invoice)
     {
       from: from,
       to: invoice.member.emails,
-      template: template_alias(:invoice_overdue_notice, invoice.member.language),
+      template: 'member-invoice-overdue-notice',
       template_data: invoice_data(invoice),
       attachments: [invoice_attachment(invoice)]
     }
@@ -206,58 +262,15 @@ module Email
     }
   end
 
-  def absence_new(admin, absence)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        member_name: absence.member.name,
-        started_on: I18n.l(absence.started_on),
-        ended_on: I18n.l(absence.ended_on),
-        action_url: url(:absence_url, absence),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
+  def member_welcome(member)
+    data = template_data(member.language) do
+      { action_url: url(:members_member_url) }
     end
 
     {
       from: from,
-      to: admin.email,
-      template: template_alias(:absence_new, admin.language),
-      template_data: data
-    }
-  end
-
-  def admin_new(admin)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        admin_email: admin.email,
-        action_url: url(:root_url),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: template_alias(:admin_new, admin.language),
-      template_data: data
-    }
-  end
-
-  def member_new(admin, member)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        member_name: member.name,
-        action_url: url(:member_url, member),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: template_alias(:member_new, admin.language),
+      to: member.emails,
+      template: 'member-welcome',
       template_data: data
     }
   end
@@ -270,21 +283,8 @@ module Email
     {
       from: from,
       to: email,
-      template: template_alias(:session_new, owner.language),
+      template: 'session-new',
       template_data: data.merge(data)
-    }
-  end
-
-  def member_welcome(member)
-    data = template_data(member.language) do
-      { action_url: url(:members_member_url) }
-    end
-
-    {
-      from: from,
-      to: member.emails,
-      template: template_alias(:member_welcome, member.language),
-      template_data: data
     }
   end
 
@@ -295,10 +295,6 @@ module Email
     else
       MockAdapter.instance
     end
-  end
-
-  def template_alias(template, locale)
-    [template, locale].join('-').dasherize
   end
 
   def template_data(locale)

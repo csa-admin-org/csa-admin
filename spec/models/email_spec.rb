@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Email do
-  it 'delivers delivery_list template' do
+  it 'delivers admin-delivery-list template' do
     travel_to '2018-03-01' do
       delivery = create(:delivery, date: '24.03.2018')
       depot = create(:depot,
@@ -18,13 +18,13 @@ describe Email do
         depot: depot,
         member: create(:member, name: 'Fred Asmo'))
 
-      Email.deliver_now(:delivery_list, delivery, depot)
+      Email.deliver_now(:admin_delivery_list, delivery, depot)
 
       expect(email_adapter.deliveries.size).to eq 1
       expect(email_adapter.deliveries.first).to match(hash_including(
         from: Current.acp.email_default_from,
         to: 'john@doe.com, bob@dylan.com',
-        template: 'delivery-list-fr',
+        template: 'admin-delivery-list',
         template_data: {
           delivery_date: '24 mars 2018',
           depot_name: 'Jardin de la Main',
@@ -47,7 +47,7 @@ describe Email do
     end
   end
 
-  it 'delivers activity_participations_reminder template' do
+  it 'delivers member-activity-reminder template' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -68,13 +68,13 @@ describe Email do
       carpooling_phone: '+41765431243',
       carpooling_city: 'La Chaux-de-Fonds')
 
-    Email.deliver_later(:activity_participations_reminder, participation)
+    Email.deliver_later(:member_activity_reminder, participation)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'activity-participations-reminder-fr',
+      template: 'member-activity-reminder',
       template_data: {
         activity_date: '24 mars 2018',
         activity_date_long: 'samedi 24 mars 2018',
@@ -94,7 +94,7 @@ describe Email do
       attachments: [])
   end
 
-  it 'delivers activity_participations_validated template' do
+  it 'delivers member-activity-validated template' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -111,13 +111,13 @@ describe Email do
       activity: activity,
       participants_count: 1)
 
-    Email.deliver_later(:activity_participations_validated, participation)
+    Email.deliver_later(:member_activity_validated, participation)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'activity-participations-validated-fr',
+      template: 'member-activity-validated',
       template_data: {
         activity_date: '24 mars 2018',
         activity_date_long: 'samedi 24 mars 2018',
@@ -135,7 +135,7 @@ describe Email do
       attachments: [])
   end
 
-  it 'delivers activity_participations_rejected template' do
+  it 'delivers member-activity-rejected template' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -152,13 +152,13 @@ describe Email do
       activity: activity,
       participants_count: 3)
 
-    Email.deliver_later(:activity_participations_rejected, participation)
+    Email.deliver_later(:member_activity_rejected, participation)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'activity-participations-rejected-fr',
+      template: 'member-activity-rejected',
       template_data: {
         activity_date: '24 mars 2018',
         activity_date_long: 'samedi 24 mars 2018',
@@ -176,7 +176,7 @@ describe Email do
       attachments: [])
   end
 
-  it 'delivers invoice_new template' do
+  it 'delivers member-invoice-new template' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -186,13 +186,13 @@ describe Email do
       date: '24.03.2018',
       annual_fee: 62)
 
-    Email.deliver_later(:invoice_new, invoice)
+    Email.deliver_later(:member_invoice_new, invoice)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: {
         invoice_number: invoice.id,
         invoice_date: '24 mars 2018',
@@ -210,7 +210,7 @@ describe Email do
       ]))
   end
 
-  it 'delivers invoice_overpaid template' do
+  it 'delivers admin-invoice-overpaid template' do
     admin = create(:admin,
       name: 'Thibaud',
       email: 'thibaud@thibaud.gg',
@@ -220,13 +220,13 @@ describe Email do
       emails: 'john@doew.com')
     invoice = create(:invoice, :annual_fee, member: member)
 
-    Email.deliver_later(:invoice_overpaid, admin, invoice)
+    Email.deliver_later(:admin_invoice_overpaid, admin, invoice)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       from: Current.acp.email_default_from,
       to: 'thibaud@thibaud.gg',
-      template: 'invoice-overpaid-fr',
+      template: 'admin-invoice-overpaid',
       template_data: {
         admin_name: 'Thibaud',
         invoice_number: invoice.id,
@@ -237,7 +237,7 @@ describe Email do
       }))
   end
 
-  it 'delivers invoice_new template (partially paid)' do
+  it 'delivers member-invoice-new template (partially paid)' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -248,13 +248,13 @@ describe Email do
       annual_fee: 62)
     create(:payment, member: member, amount: 20)
 
-    Email.deliver_later(:invoice_new, invoice)
+    Email.deliver_later(:member_invoice_new, invoice)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: {
         invoice_number: invoice.id,
         invoice_date: '24 mars 2018',
@@ -273,7 +273,7 @@ describe Email do
       ]))
   end
 
-  it 'delivers invoice_new template (paid)' do
+  it 'delivers member-invoice-new template (paid)' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -284,13 +284,13 @@ describe Email do
       annual_fee: 42)
     create(:payment, member: member, amount: 42)
 
-    Email.deliver_later(:invoice_new, invoice)
+    Email.deliver_later(:member_invoice_new, invoice)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: {
         invoice_number: invoice.id,
         invoice_date: '24 mars 2018',
@@ -309,7 +309,7 @@ describe Email do
       ]))
   end
 
-  it 'delivers invoice_overdue_notice template' do
+  it 'delivers member-invoice-new template' do
     member = create(:member,
       name: 'John Doew',
       emails: 'john@doew.com')
@@ -320,13 +320,13 @@ describe Email do
       overdue_notices_count: 2,
       annual_fee: 42)
 
-    Email.deliver_later(:invoice_new, invoice)
+    Email.deliver_later(:member_invoice_new, invoice)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       from: Current.acp.email_default_from,
       to: 'john@doew.com',
-      template: 'invoice-new-fr',
+      template: 'member-invoice-new',
       template_data: {
         invoice_number: invoice.id,
         invoice_date: '24 mars 2018',
@@ -345,7 +345,7 @@ describe Email do
       ]))
   end
 
-  it 'delivers member_new template' do
+  it 'delivers admin-member-new template' do
     admin = create(:admin,
       name: 'Thibaud',
       email: 'thibaud@thibaud.gg',
@@ -356,7 +356,7 @@ describe Email do
     expect(email_adapter.deliveries.first).to eq(
       from: Current.acp.email_default_from,
       to: 'thibaud@thibaud.gg',
-      template: 'member-new-fr',
+      template: 'admin-member-new',
       template_data: {
         admin_name: 'Thibaud',
         member_name: 'John Doew',
@@ -367,7 +367,7 @@ describe Email do
       attachments: [])
   end
 
-  it 'delivers absence_new template' do
+  it 'delivers admin-absence-new template' do
     admin = create(:admin,
       name: 'Thibaud',
       email: 'thibaud@thibaud.gg',
@@ -384,7 +384,7 @@ describe Email do
       expect(email_adapter.deliveries.first).to eq(
         from: Current.acp.email_default_from,
         to: 'thibaud@thibaud.gg',
-        template: 'absence-new-fr',
+        template: 'admin-absence-new',
         template_data: {
           admin_name: 'Thibaud',
           member_name: 'John Doew',
@@ -398,18 +398,18 @@ describe Email do
     end
   end
 
-  it 'delivers admin_new template' do
+  it 'delivers admin-invitation template' do
     admin = create(:admin,
       name: 'John Doe',
       email: 'john@doe.com',
       language: 'fr')
 
-    Email.deliver_later(:admin_new, admin)
+    Email.deliver_later(:admin_invitation, admin)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
       to: 'john@doe.com',
-      template: 'admin-new-fr',
+      template: 'admin-invitation',
       template_data: {
         admin_name: 'John Doe',
         admin_email: 'john@doe.com',
