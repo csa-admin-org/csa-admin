@@ -37,6 +37,7 @@ class Ability
       can :manage, [Membership, Payment]
       can :become, Member
     end
+    cannot :destroy, [BasketSize, BasketComplement, Depot]
   end
 
   def available_models
