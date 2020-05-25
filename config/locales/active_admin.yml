@@ -331,8 +331,8 @@ _:
           _de: Emails
           _fr: Emails
         mailer_email_notifications:
-          _de: Die folgenden E-Mails sind standardmäßig nicht aktiviert. <strong>Stellen Sie sicher, dass <a href="%{postmark_templates_url}">Sie ihre Vorlage ändern</a>, bevor Sie sie aktivieren</strong>.
-          _fr: Les emails suivant ne sont pas activés par défaut, <strong>soyez sur d'avoir <a href="%{postmark_templates_url}">modifiés leur template</a> avant de les activer</strong>.
+          _de: Die folgenden E-Mails sind standardmäßig nicht aktiviert. <strong>Stellen Sie sicher, dass <a href="%{postmark_templates_url}">Sie ihre Vorlagen (HTML und Text) geändert haben</a>, bevor Sie sie aktivieren</strong>.
+          _fr: Les emails suivant ne sont pas activés par défaut, <strong>soyez sur d'avoir <a href="%{postmark_templates_url}">modifiés leurs templates (HTML et texte)</a> avant de les activer</strong>.
         mailer_text:
           _de: ACP Admin verwendet <a href="%{postmark_url}">Postmark</a> zum Versenden von Transaktions-E-Mails. Die Vorlage jeder E-Mail kann leicht von Ihrem <a href="%{postmark_templates_url}">Postmark-Server</a> aus geändert werden.<br/>Bitte <a href="mailto:support@acp-admin.ch?subject=Postmark">kontaktieren Sie mich</a>, wenn Sie nicht über den notwendigen Zugang verfügen oder für andere Fragen.
           _fr: ACP Admin utilise <a href="%{postmark_url}">Postmark</a> pour l'envoie des emails transactionels, le template de chaque email peut facilement être modifié depuis votre <a href="%{postmark_templates_url}">serveur Postmark</a>.<br/>Merci de <a href="mailto:support@acp-admin.ch?subject=Postmark">me contacter</a> si vous n'avez pas les accès nécessaires ou pour toutes autres questions.
