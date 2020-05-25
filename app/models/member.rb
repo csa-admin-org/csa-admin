@@ -62,7 +62,7 @@ class Member < ActiveRecord::Base
 
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
-  after_create_commit :notify_new_inscription_to_admins, if: :public_create
+  after_create_commit :notify_admins!, if: :public_create
 
   def newsletter?
     (
@@ -118,7 +118,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def validate!(validator)
+  def validate!(validator, skip_email: false)
     invalid_transition(:validate!) unless pending?
 
     if waiting_basket_size_id? || waiting_depot_id?
@@ -132,6 +132,7 @@ class Member < ActiveRecord::Base
     self.validated_at = Time.current
     self.validator = validator
     save!
+    Email.deliver_later(:member_validated, self) unless skip_email
   end
 
   def wait!
@@ -277,9 +278,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def notify_new_inscription_to_admins
-    Admin.notification('new_inscription').find_each do |admin|
-      Email.deliver_later(:admin_member_new, admin, self)
-    end
+  def notify_admins!
+    Admin.notify!(:new_inscription, self)
   end
 end

@@ -95,4 +95,14 @@ describe ACP do
       expect(acp.host).to eq 'ragedevert'
     end
   end
+
+  specify 'enable email notifications' do
+    acp = Current.acp
+    expect(acp.email_notifications).to be_empty
+    acp.update!(notification_member_validated: '1')
+    expect(acp.email_notifications).to eq ['member_validated']
+    expect(acp.notification_member_validated).to eq true
+    acp.update!(notification_member_validated: '0')
+    expect(acp.email_notifications).to be_empty
+  end
 end

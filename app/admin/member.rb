@@ -403,7 +403,7 @@ ActiveAdmin.register Member do
     def create_resource(object)
       run_create_callbacks object do
         save_resource(object)
-        object.validate!(current_admin) if object.valid?
+        object.validate!(current_admin, skip_email: true) if object.valid?
       end
     end
   end

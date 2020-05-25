@@ -66,8 +66,8 @@ class ActivityParticipation < ActiveRecord::Base
     super PhonyRails.normalize_number(phone, default_country_code: 'CH')
   end
 
-  def carpooling=(carpooling)
-    @carpooling = carpooling == '1'
+  def carpooling=(boolean)
+    @carpooling = ActiveRecord::Type::Boolean.new.cast(boolean)
   end
 
   def carpooling?

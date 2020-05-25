@@ -11,6 +11,7 @@ class ACP < ActiveRecord::Base
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
+  OPTIONAL_EMAIL_NOTIFICATIONS = %w[member_validated]
 
   attr_writer :summer_month_range_min, :summer_month_range_max
 
@@ -26,7 +27,7 @@ class ACP < ActiveRecord::Base
   validates :url, presence: true, format: { with: %r{\Ahttps?://.*\z} }
   validates :logo_url, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email, presence: true
-  validates :email_default_host, presence: true
+  validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email_default_from, presence: true
   validates :email_footer, presence: true
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
@@ -154,8 +155,8 @@ class ACP < ActiveRecord::Base
     summer_month_range.include?(month) ? 'summer' : 'winter'
   end
 
-  def credentials(key)
-    Rails.application.credentials.dig(tenant_name.to_sym, key)
+  def credentials(*keys)
+    Rails.application.credentials.dig(tenant_name.to_sym, *keys)
   end
 
   def ragedevert?
@@ -166,7 +167,20 @@ class ACP < ActiveRecord::Base
     self[:group_buying_email] || email
   end
 
-  private
+  OPTIONAL_EMAIL_NOTIFICATIONS.each do |notification|
+    define_method "notification_#{notification}" do
+      notification.in? email_notifications
+    end
+
+    define_method "notification_#{notification}=" do |boolean|
+      if ActiveRecord::Type::Boolean.new.cast(boolean)
+        self.email_notifications << notification
+        self.email_notifications.uniq!
+      else
+        self.email_notifications.delete(notification)
+      end
+    end
+  end
 
   def create_tenant
     Apartment::Tenant.create(tenant_name)

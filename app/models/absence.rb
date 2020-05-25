@@ -12,7 +12,7 @@ class Absence < ActiveRecord::Base
   validate :good_period_range
 
   after_commit :update_memberships!
-  after_create_commit :notify_new_absence_to_admins
+  after_create_commit :notify_admins!
 
   scope :past, -> { where('ended_on < ?', Time.current) }
   scope :future, -> { where('started_on > ?', Time.current) }
@@ -61,9 +61,7 @@ class Absence < ActiveRecord::Base
       .find_each(&:update_absent_baskets!)
   end
 
-  def notify_new_absence_to_admins
-    Admin.notification('new_absence').where.not(id: admin&.id).find_each do |admin|
-      Email.deliver_later(:admin_absence_new, admin, self)
-    end
+  def notify_admins!
+    Admin.notify!(:new_absence, self, skip: admin)
   end
 end

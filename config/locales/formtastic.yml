@@ -20,12 +20,21 @@ _:
         annual_fee:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag
           _fr: Laisser vide si aucune cotisation anuelle
+        email_default_from:
+          _de: Der Name des ACP kann als "Mein ACP info@mein-acp.ch" angegeben werden
+          _fr: Le nom de l'ACP peut être inclus sous la forme "Mon ACP info@mon-acp.ch"
+        email_footer:
+          _de: Erscheint in der Fußzeile jeder E-Mail, die im Postmark-Layout definiert ist
+          _fr: Apparait dans le bas de page de chaque email définis dans le layout de Postmark
         group_buying_invoice_info:
           _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann
           _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable
         membership_extra_text:
           _de: Dieser Text wird dem Registrierungsformular hinzugefügt (unterstütztes HTML)
           _fr: Ce texte est rajouté au formulaire d'inscription (HTML supporté)
+        notification_member_validated:
+          _de: 'E-Mail, die an das Mitglied gesendet wird, wenn sie von einem Admin validiert wird. (Postmark template alias: ''member-validated'')'
+          _fr: 'Email envoyé au membre quand il est validé par un admin. (Postmark template alias: ''member-validated'')'
         recurring_billing_wday:
           _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
           _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
