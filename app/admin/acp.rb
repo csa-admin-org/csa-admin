@@ -18,6 +18,7 @@ ActiveAdmin.register ACP do
     :delivery_pdf_show_phones,
     :group_buying_email,
     :recurring_billing_wday,
+    *ACP::OPTIONAL_EMAIL_NOTIFICATIONS.map { |n| "notification_#{n}".to_sym },
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -120,9 +121,16 @@ ActiveAdmin.register ACP do
         input_html: { rows: 5 })
     end
     f.inputs t('.mailer') do
-      f.input :email_default_host, as: :string
+      para t('.mailer_text',
+        postmark_templates_url: postmark_url('templates'),
+        postmark_url: postmark_url).html_safe, class: 'description'
       f.input :email_default_from, as: :string
       f.input :email_footer, as: :string
+
+      para t('.mailer_email_notifications', postmark_templates_url: postmark_url('templates')).html_safe, class: 'description email_notifications'
+      ACP::OPTIONAL_EMAIL_NOTIFICATIONS.each do |notification|
+        f.input "notification_#{notification}", as: :boolean, hint: true
+      end
     end
 
     f.actions do

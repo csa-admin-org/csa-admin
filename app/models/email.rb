@@ -3,6 +3,8 @@ module Email
   extend self
 
   def deliver_now(template, *args)
+    return unless enabled?(template)
+
     params = send(template, *args)
     adapter.deliver(params)
   end
@@ -262,6 +264,22 @@ module Email
     }
   end
 
+  def member_validated(member)
+    data = template_data(member.language) do
+      {
+        action_url: url(:members_member_url),
+        members_waiting_count: Member.waiting.count
+      }
+    end
+
+    {
+      from: from,
+      to: member.emails,
+      template: 'member-validated',
+      template_data: data
+    }
+  end
+
   def member_welcome(member)
     data = template_data(member.language) do
       { action_url: url(:members_member_url) }
@@ -288,8 +306,31 @@ module Email
     }
   end
 
+  def templates
+    default = %w[
+      admin_absence_new
+      admin_delivery_list
+      admin_invitation
+      admin_invoice_overpaid
+      admin_member_new
+      member_activity_reminder
+      member_activity_validated
+      member_activity_rejected
+      member_invoice_new
+      member_invoice_overdue_notice
+      member_welcome
+      session_new
+    ]
+    default += Current.acp.email_notifications
+    default
+  end
+
+  def enabled?(template)
+    template.to_s.in?(templates)
+  end
+
   def adapter
-    postmark_api_token = Current.acp.credentials(:postmark_api_token)
+    postmark_api_token = Current.acp.credentials(:postmark, :api_token)
     if (Rails.env.production? || ENV['POSTMARK_TO']) && postmark_api_token
       PostmarkAdapter.new(postmark_api_token)
     else

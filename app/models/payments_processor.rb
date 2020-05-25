@@ -29,16 +29,10 @@ class PaymentsProcessor
       isr_data: data.isr_data)
 
     if invoice.reload.overpaid?
-      notify_admins_about_overpaid_invoice(invoice)
+      Admin.notify!(:invoice_overpaid, invoice)
     end
   rescue => e
     ExceptionNotifier.notify(e, data)
-  end
-
-  def notify_admins_about_overpaid_invoice(invoice)
-    Admin.notification('invoice_overpaid').find_each do |admin|
-      Email.deliver_now(:admin_invoice_overpaid, admin, invoice)
-    end
   end
 
   def ensure_recent_payments!

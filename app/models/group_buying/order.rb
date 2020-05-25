@@ -72,8 +72,9 @@ module GroupBuying
     # the pretty_check_boxes with the field_with_errors wrapper
     def terms_of_service_must_be_accepted
       return unless Current.acp.group_buying_terms_of_service_url
+      return if ActiveRecord::Type::Boolean.new.cast(@terms_of_service)
 
-      errors.add(:base, :terms_of_service_unchecked) unless @terms_of_service == '1'
+      errors.add(:base, :terms_of_service_unchecked)
     end
 
     def set_amount

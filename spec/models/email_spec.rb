@@ -1,6 +1,37 @@
 require 'rails_helper'
 
 describe Email do
+  it 'delivers admin-absence-new template' do
+    admin = create(:admin,
+      name: 'Thibaud',
+      email: 'thibaud@thibaud.gg',
+      notifications: %w[new_absence])
+
+    member = create(:member, name: 'John Doew')
+
+    travel_to '2018-10-01' do
+      absence = create(:absence, member: member,
+        started_on: '2018-11-12',
+        ended_on: '2018-11-19',)
+
+      expect(email_adapter.deliveries.size).to eq 1
+      expect(email_adapter.deliveries.first).to eq(
+        from: Current.acp.email_default_from,
+        to: 'thibaud@thibaud.gg',
+        template: 'admin-absence-new',
+        template_data: {
+          admin_name: 'Thibaud',
+          member_name: 'John Doew',
+          started_on: '12 novembre 2018',
+          ended_on: '19 novembre 2018',
+          action_url: "https://admin.ragedevert.ch/absences/#{absence.id}",
+          edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+          fr: true
+        },
+        attachments: [])
+    end
+  end
+
   it 'delivers admin-delivery-list template' do
     travel_to '2018-03-01' do
       delivery = create(:delivery, date: '24.03.2018')
@@ -46,6 +77,77 @@ describe Email do
         ]))
     end
   end
+
+  it 'delivers admin-invitation template' do
+    admin = create(:admin,
+      name: 'John Doe',
+      email: 'john@doe.com',
+      language: 'fr')
+
+    Email.deliver_later(:admin_invitation, admin)
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to match(hash_including(
+      to: 'john@doe.com',
+      template: 'admin-invitation',
+      template_data: {
+        admin_name: 'John Doe',
+        admin_email: 'john@doe.com',
+        action_url: 'https://admin.ragedevert.ch',
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        fr: true
+      }))
+  end
+
+  it 'delivers admin-invoice-overpaid template' do
+    admin = create(:admin,
+      name: 'Thibaud',
+      email: 'thibaud@thibaud.gg',
+      notifications: %w[invoice_overpaid])
+    member = create(:member,
+      name: 'John Doew',
+      emails: 'john@doew.com')
+    invoice = create(:invoice, :annual_fee, member: member)
+
+    Email.deliver_later(:admin_invoice_overpaid, admin, invoice)
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to match(hash_including(
+      from: Current.acp.email_default_from,
+      to: 'thibaud@thibaud.gg',
+      template: 'admin-invoice-overpaid',
+      template_data: {
+        admin_name: 'Thibaud',
+        invoice_number: invoice.id,
+        member_name: 'John Doew',
+        action_url: "https://admin.ragedevert.ch/members/#{member.id}",
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        fr: true
+      }))
+  end
+
+  it 'delivers admin-member-new template' do
+    admin = create(:admin,
+      name: 'Thibaud',
+      email: 'thibaud@thibaud.gg',
+      notifications: %w[new_inscription])
+    member = create(:member, name: 'John Doew', public_create: true)
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to eq(
+      from: Current.acp.email_default_from,
+      to: 'thibaud@thibaud.gg',
+      template: 'admin-member-new',
+      template_data: {
+        admin_name: 'Thibaud',
+        member_name: 'John Doew',
+        action_url: "https://admin.ragedevert.ch/members/#{member.id}",
+        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        fr: true
+      },
+      attachments: [])
+  end
+
 
   it 'delivers member-activity-reminder template' do
     member = create(:member,
@@ -210,33 +312,6 @@ describe Email do
       ]))
   end
 
-  it 'delivers admin-invoice-overpaid template' do
-    admin = create(:admin,
-      name: 'Thibaud',
-      email: 'thibaud@thibaud.gg',
-      notifications: %w[invoice_overpaid])
-    member = create(:member,
-      name: 'John Doew',
-      emails: 'john@doew.com')
-    invoice = create(:invoice, :annual_fee, member: member)
-
-    Email.deliver_later(:admin_invoice_overpaid, admin, invoice)
-
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      from: Current.acp.email_default_from,
-      to: 'thibaud@thibaud.gg',
-      template: 'admin-invoice-overpaid',
-      template_data: {
-        admin_name: 'Thibaud',
-        invoice_number: invoice.id,
-        member_name: 'John Doew',
-        action_url: "https://admin.ragedevert.ch/members/#{member.id}",
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
-        fr: true
-      }))
-  end
-
   it 'delivers member-invoice-new template (partially paid)' do
     member = create(:member,
       name: 'John Doew',
@@ -345,76 +420,21 @@ describe Email do
       ]))
   end
 
-  it 'delivers admin-member-new template' do
-    admin = create(:admin,
-      name: 'Thibaud',
-      email: 'thibaud@thibaud.gg',
-      notifications: %w[new_inscription])
-    member = create(:member, name: 'John Doew', public_create: true)
+  it 'delivers member-validated template' do
+    member = create(:member, :pending, emails: 'john@doew.com')
+    admin = create(:admin)
+    Current.acp.update!(notification_member_validated: '1')
 
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to eq(
-      from: Current.acp.email_default_from,
-      to: 'thibaud@thibaud.gg',
-      template: 'admin-member-new',
-      template_data: {
-        admin_name: 'Thibaud',
-        member_name: 'John Doew',
-        action_url: "https://admin.ragedevert.ch/members/#{member.id}",
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
-        fr: true
-      },
-      attachments: [])
-  end
-
-  it 'delivers admin-absence-new template' do
-    admin = create(:admin,
-      name: 'Thibaud',
-      email: 'thibaud@thibaud.gg',
-      notifications: %w[new_absence])
-
-    member = create(:member, name: 'John Doew')
-
-    travel_to '2018-10-01' do
-      absence = create(:absence, member: member,
-        started_on: '2018-11-12',
-        ended_on: '2018-11-19',)
-
-      expect(email_adapter.deliveries.size).to eq 1
-      expect(email_adapter.deliveries.first).to eq(
-        from: Current.acp.email_default_from,
-        to: 'thibaud@thibaud.gg',
-        template: 'admin-absence-new',
-        template_data: {
-          admin_name: 'Thibaud',
-          member_name: 'John Doew',
-          started_on: '12 novembre 2018',
-          ended_on: '19 novembre 2018',
-          action_url: "https://admin.ragedevert.ch/absences/#{absence.id}",
-          edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
-          fr: true
-        },
-        attachments: [])
-    end
-  end
-
-  it 'delivers admin-invitation template' do
-    admin = create(:admin,
-      name: 'John Doe',
-      email: 'john@doe.com',
-      language: 'fr')
-
-    Email.deliver_later(:admin_invitation, admin)
+    member.validate!(admin)
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'john@doe.com',
-      template: 'admin-invitation',
+      from: Current.acp.email_default_from,
+      to: 'john@doew.com',
+      template: 'member-validated',
       template_data: {
-        admin_name: 'John Doe',
-        admin_email: 'john@doe.com',
-        action_url: 'https://admin.ragedevert.ch',
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
+        action_url: 'https://membres.ragedevert.ch',
+        members_waiting_count: 1,
         fr: true
       }))
   end

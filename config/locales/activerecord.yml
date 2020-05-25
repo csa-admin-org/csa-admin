@@ -46,11 +46,8 @@ _:
           _de: Email
           _fr: Email
         email_default_from:
-          _de: Default from
-          _fr: Default from
-        email_default_host:
-          _de: Default host
-          _fr: Default host
+          _de: Absender-Adresse
+          _fr: Adresse d'envoie
         email_footer:
           _de: Fußzeile
           _fr: Bas de page
@@ -93,6 +90,9 @@ _:
         membership_extra_text:
           _de: Zusätzlicher Text über Abonnements
           _fr: Texte supplémentaire à propos des abonnements
+        notification_member_validated:
+          _de: Validiertes Mitglied
+          _fr: Membre validé
         phone:
           _de: Telefon
           _fr: Téléphone
