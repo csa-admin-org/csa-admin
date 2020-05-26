@@ -12,6 +12,9 @@ class BasketContent < ApplicationRecord
     when 'big' then where('big_basket_quantity > 0')
     end
   }
+  scope :for_depot, ->(depot) {
+    joins(:depots).where('basket_contents_depots.depot_id = ?', depot)
+  }
 
   before_validation :set_basket_counts, :set_basket_quantities
 
@@ -25,14 +28,6 @@ class BasketContent < ApplicationRecord
 
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
-  end
-
-  def small_basket
-    @small_basket ||= BasketSize.reorder(:price).first
-  end
-
-  def big_basket
-    @big_basket ||= BasketSize.reorder(:price).last
   end
 
   def basket_sizes
@@ -69,10 +64,10 @@ class BasketContent < ApplicationRecord
     self[:big_baskets_count] = 0
     baskets = delivery.baskets.not_absent.where(depot_id: depot_ids)
     if basket_sizes.include?('small')
-      self[:small_baskets_count] = baskets.where(basket_size_id: small_basket.id).sum(:quantity)
+      self[:small_baskets_count] = baskets.where(basket_size_id: BasketSize.small).sum(:quantity)
     end
     if basket_sizes.include?('big')
-      self[:big_baskets_count] = baskets.where(basket_size_id: big_basket.id).sum(:quantity)
+      self[:big_baskets_count] = baskets.where(basket_size_id: BasketSize.big).sum(:quantity)
     end
   end
 
@@ -106,7 +101,7 @@ class BasketContent < ApplicationRecord
       elsif same_basket_quantities
         1 / (small_baskets_count + big_baskets_count).to_f
       else
-        small_basket.price / total_baskets_price.to_f
+        BasketSize.small.price / total_baskets_price.to_f
       end
   end
 
@@ -119,14 +114,14 @@ class BasketContent < ApplicationRecord
       elsif same_basket_quantities
         1 / (small_baskets_count + big_baskets_count).to_f
       else
-        big_basket.price / total_baskets_price.to_f
+        BasketSize.big.price / total_baskets_price.to_f
       end
   end
 
   def total_baskets_price
     @total_baskets_price ||=
-      small_baskets_count * small_basket.price +
-        big_baskets_count * big_basket.price
+      small_baskets_count * BasketSize.small.price +
+        big_baskets_count * BasketSize.big.price
   end
 
   def possibility(small_quantity, small_round_direction, big_quantity, big_round_direction)

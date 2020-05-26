@@ -74,5 +74,9 @@ module XLSX
       @worksheet.add_cell(@line, 0)
       @line += 1
     end
+
+    def t(key, *args)
+      I18n.t("billing.#{key}", *args)
+    end
   end
 end

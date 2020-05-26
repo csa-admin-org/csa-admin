@@ -8,7 +8,9 @@ ActiveAdmin.register BasketContent do
   filter :depots, as: :select
 
   includes :delivery, :vegetable, :depots
-  index do
+  index download_links: -> {
+    params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
+  } do
     column :date, ->(bc) { bc.delivery.date.to_s }
     column :vegetable, ->(bc) { bc.vegetable.name }
     column :quantity, ->(bc) { display_quantity(bc) }
@@ -100,6 +102,18 @@ ActiveAdmin.register BasketContent do
 
   controller do
     include TranslatedCSVFilename
+
+    def index
+      super do |format|
+        format.xlsx do
+          delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+          xlsx = XLSX::BasketContent.new(delivery)
+          send_data xlsx.data,
+            content_type: xlsx.content_type,
+            filename: xlsx.filename
+        end
+      end
+    end
 
     def update
       super do
