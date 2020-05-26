@@ -253,6 +253,33 @@ describe Member do
     end
   end
 
+  describe '#activate!' do
+    it 'activates new active member' do
+      member = create(:member, :inactive)
+      membership = create(:membership,
+        member: member,
+        ended_on: 1.day.ago)
+      membership.update_column(:ended_on, 1.day.from_now)
+      member.reload
+
+      expect { member.activate! }
+        .to change(member, :state).from('inactive').to('active')
+        .and change(member, :activated_at).from(nil)
+    end
+
+    it 'activates previously active member' do
+      member = create(:member, :inactive, activated_at: 1.year.ago)
+      membership = create(:membership,
+        member: member,
+        ended_on: 1.day.ago)
+      membership.update_column(:ended_on, 1.day.from_now)
+      member.reload
+
+      expect { member.activate! }
+        .not_to change(member, :activated_at)
+    end
+  end
+
   describe '#deactivate!' do
     it 'sets state to inactive and clears waiting_started_at and annual_fee' do
       member = create(:member, :waiting, annual_fee: 42)

@@ -230,6 +230,7 @@ FactoryBot.define do
 
     trait :active do
       state { 'active' }
+      activated_at { Time.current }
       after :create do |member|
         create(:membership, :last_year, member: member)
         create(:membership, member: member)
