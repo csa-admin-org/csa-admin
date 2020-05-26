@@ -6,11 +6,11 @@ module XLSX
       @delivery = delivery
       @depot = depot
       @baskets = @delivery.baskets.not_absent
-      @depots = Depot.where id: @baskets.pluck(:depot_id).uniq
+      @depots = Depot.where(id: @baskets.pluck(:depot_id).uniq)
       @basket_complements = BasketComplement.all
       @basket_sizes = BasketSize.all
 
-      build_recap_worksheet(t('recap')) unless @depot
+      build_recap_worksheet unless @depot
 
       Array(@depot || @depots).each do |d|
         build_depot_worksheet(d)
@@ -31,8 +31,8 @@ module XLSX
 
     private
 
-    def build_recap_worksheet(name)
-      add_worksheet(name)
+    def build_recap_worksheet
+      add_worksheet(t('recap'))
 
       cols = ['', t('total')]
       cols += @basket_sizes.map(&:name)

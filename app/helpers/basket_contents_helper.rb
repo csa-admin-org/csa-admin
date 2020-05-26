@@ -1,15 +1,17 @@
 module BasketContentsHelper
-  def display_quantity(basket_content)
+  def display_quantity(basket_content, quantity: nil)
+    quantity ||= basket_content.quantity
     case basket_content.unit
-    when 'kilogramme' then "#{basket_content.quantity}kg"
-    when 'pièce' then  "#{basket_content.quantity.to_i}p"
+    when 'kilogramme' then "#{quantity}kg"
+    when 'pièce' then  "#{quantity.to_i}p"
     end
   end
 
-  def display_basket_quantity(basket_content, size)
-    count = basket_content.send("#{size}_baskets_count")
-    return '–' if count.zero?
+  def display_basket_quantity(basket_content, size, count: nil)
+    count ||= basket_content.send("#{size}_baskets_count")
     quantity = basket_content.send("#{size}_basket_quantity")
+    return '–' if count.zero? || quantity.zero?
+
     case basket_content.unit
     when 'kilogramme' then "#{count}x #{(quantity * 1000).to_i}g"
     when 'pièce' then  "#{count}x #{quantity.to_i}p"
@@ -38,10 +40,10 @@ module BasketContentsHelper
   end
 
   def small_basket
-    BasketSize.paid.reorder(:price).first
+    BasketSize.small
   end
 
   def big_basket
-    BasketSize.paid.reorder(:price).last
+    BasketSize.big
   end
 end
