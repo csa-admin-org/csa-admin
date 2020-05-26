@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_24_151017) do
+ActiveRecord::Schema.define(version: 2020_05_26_145927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -445,6 +445,7 @@ ActiveRecord::Schema.define(version: 2020_05_24_151017) do
     t.string "language", default: "fr", null: false
     t.string "acp_shares_info"
     t.integer "existing_acp_shares_number", default: 0, null: false
+    t.datetime "activated_at"
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"

@@ -158,6 +158,7 @@ class Member < ActiveRecord::Base
 
     self.state = ACTIVE_STATE
     self.annual_fee ||= Current.acp.annual_fee
+    self.activated_at ||= Time.current
     save!
   end
 
