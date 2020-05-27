@@ -329,8 +329,8 @@ class Membership < ActiveRecord::Base
   def update_member_and_baskets!
     member.reload
     member.update_trial_baskets!
-    member.review_active_state!
     update_baskets_counts!
+    member.review_active_state!
   end
 
   def update_price_and_invoices_amount!

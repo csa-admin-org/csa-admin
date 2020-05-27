@@ -11,7 +11,7 @@ class ACP < ActiveRecord::Base
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
-  OPTIONAL_EMAIL_NOTIFICATIONS = %w[member_validated]
+  OPTIONAL_EMAIL_NOTIFICATIONS = %w[member_validated member_activated]
 
   attr_writer :summer_month_range_min, :summer_month_range_max
 

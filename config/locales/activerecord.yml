@@ -90,9 +90,12 @@ _:
         membership_extra_text:
           _de: Zusätzlicher Text über Abonnements
           _fr: Texte supplémentaire à propos des abonnements
+        notification_member_activated:
+          _de: Mitglied wird aktiv
+          _fr: Membre devient actif
         notification_member_validated:
-          _de: Validiertes Mitglied
-          _fr: Membre validé
+          _de: Mitglied ist validiert
+          _fr: Membre est validé
         phone:
           _de: Telefon
           _fr: Téléphone

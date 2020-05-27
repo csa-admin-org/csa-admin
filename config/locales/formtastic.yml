@@ -32,9 +32,12 @@ _:
         membership_extra_text:
           _de: Dieser Text wird dem Registrierungsformular hinzugefügt (unterstütztes HTML)
           _fr: Ce texte est rajouté au formulaire d'inscription (HTML supporté)
+        notification_member_activated:
+          _de: 'Email, die dem Mitglied zugeschickt wird, sobald es aktiv wird, d.h. sobald sein erstes Abonnement (aktuell oder zukünftig) erstellt wird. Alias der Postmark-Vorlage: "member-activated"'
+          _fr: 'Email envoyé au membre quand il devient actif, soit dès que son premier abonnement (en cours ou futur) est créé. Alias du template Postmark: "member-activated"'
         notification_member_validated:
-          _de: 'E-Mail, die an das Mitglied gesendet wird, wenn sie von einem Admin validiert wird. (Postmark template alias: ''member-validated'')'
-          _fr: 'Email envoyé au membre quand il est validé par un admin. (Postmark template alias: ''member-validated'')'
+          _de: 'Email, die an das Mitglied gesendet wird, wenn sie von einem Admin validiert wird. Alias der Postmark-Vorlage: "member-validated"'
+          _fr: 'Email envoyé au membre quand il est validé par un admin. Alias du template Postmark: "member-validated"'
         recurring_billing_wday:
           _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
           _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.

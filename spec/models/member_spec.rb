@@ -254,8 +254,10 @@ describe Member do
   end
 
   describe '#activate!' do
-    it 'activates new active member' do
-      member = create(:member, :inactive)
+    before { Current.acp.update!(notification_member_activated: '1') }
+
+    it 'activates new active member and sent member-activated email' do
+      member = create(:member, :inactive, activated_at: nil)
       membership = create(:membership,
         member: member,
         ended_on: 1.day.ago)
@@ -265,6 +267,10 @@ describe Member do
       expect { member.activate! }
         .to change(member, :state).from('inactive').to('active')
         .and change(member, :activated_at).from(nil)
+        .and change { email_adapter.deliveries.size }.by(1)
+
+      expect(email_adapter.deliveries.first).to match(
+        hash_including(template: 'member-activated'))
     end
 
     it 'activates previously active member' do
@@ -277,6 +283,8 @@ describe Member do
 
       expect { member.activate! }
         .not_to change(member, :activated_at)
+
+      expect(email_adapter.deliveries).to be_empty
     end
   end
 
@@ -320,49 +328,6 @@ describe Member do
       member = create(:member, :active)
 
       expect { member.deactivate! }.to raise_error(RuntimeError)
-    end
-  end
-
-  describe '#send_welcome_email' do
-    it 'sents a welcome email when member becomes active' do
-      member = create(:member, :active,
-        emails: 'thibaud@thibaud.gg, john@doe.com',
-        welcome_email_sent_at: nil)
-
-      expect { member.send_welcome_email }
-        .to change { email_adapter.deliveries.size }.by(1)
-        .and change { member.welcome_email_sent_at }.from(nil)
-
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        to: 'thibaud@thibaud.gg, john@doe.com',
-        template: 'member-welcome',
-        template_data: {
-          action_url: 'https://membres.ragedevert.ch',
-          fr: true
-        }))
-    end
-
-    it 'does nothing when user is not active' do
-      member = create(:member, :pending,
-        emails: 'thibaud@thibaud.gg, john@doe.com',
-        welcome_email_sent_at: nil)
-      expect { member.send_welcome_email }
-        .not_to change { email_adapter.deliveries.size }
-    end
-
-    it 'does nothing when user has no emails' do
-      member = create(:member, :pending, welcome_email_sent_at: nil)
-      member.emails = ''
-      expect { member.send_welcome_email }
-        .not_to change { email_adapter.deliveries.size }
-    end
-
-    it 'does nothing when user has welcome_email_sent_at set' do
-      member = create(:member, :active,
-        emails: 'thibaud@thibaud.gg, john@doe.com',
-        welcome_email_sent_at: Time.current)
-      expect { member.send_welcome_email }
-        .not_to change { email_adapter.deliveries.size }
     end
   end
 

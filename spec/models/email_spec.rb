@@ -148,11 +148,39 @@ describe Email do
       attachments: [])
   end
 
+  it 'delivers member-activated template', freeze: '2020-01-01' do
+    member = create(:member, :inactive, emails: 'john@doe.com')
+    basket_size = create(:basket_size,
+      activity_participations_demanded_annualy: 3)
+    Current.acp.update!(
+      notification_member_activated: '1',
+      trial_basket_count: 4)
+
+    # activate the member
+    create(:membership,
+      member: member,
+      basket_size: basket_size,
+      started_on: '2020-02-01',
+      ended_on: '2020-12-31')
+
+    expect(email_adapter.deliveries.size).to eq 1
+    expect(email_adapter.deliveries.first).to eq(
+      from: Current.acp.email_default_from,
+      to: 'john@doe.com',
+      template: 'member-activated',
+      template_data: {
+        action_url: 'https://membres.ragedevert.ch',
+        fr: true,
+        membership_start_date: '1 février 2020',
+        membership_end_date: '31 décembre 2020',
+        trial_baskets: 4,
+        activity_participations_demanded: 3
+      },
+      attachments: [])
+  end
 
   it 'delivers member-activity-reminder template' do
-    member = create(:member,
-      name: 'John Doew',
-      emails: 'john@doew.com')
+    member = create(:member, emails: 'john@doew.com')
     activity = create(:activity,
       date: '24.03.2018',
       start_time: Time.zone.parse('8:30'),

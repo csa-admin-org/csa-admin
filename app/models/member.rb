@@ -132,7 +132,10 @@ class Member < ActiveRecord::Base
     self.validated_at = Time.current
     self.validator = validator
     save!
-    Email.deliver_later(:member_validated, self) unless skip_email
+
+    if !skip_email && emails?
+      Email.deliver_later(:member_validated, self)
+    end
   end
 
   def wait!
@@ -160,6 +163,10 @@ class Member < ActiveRecord::Base
     self.annual_fee ||= Current.acp.annual_fee
     self.activated_at ||= Time.current
     save!
+
+    if activated_at_previously_changed? && emails?
+      Email.deliver_later(:member_activated, self)
+    end
   end
 
   def deactivate!
@@ -184,14 +191,6 @@ class Member < ActiveRecord::Base
 
   def can_deactivate?
     !inactive? && (waiting? || support? || !current_or_future_membership)
-  end
-
-  def send_welcome_email
-    return unless active? && emails?
-    return if welcome_email_sent_at?
-
-    Email.deliver_now(:member_welcome, self)
-    touch(:welcome_email_sent_at)
   end
 
   def absent?(date)
