@@ -133,6 +133,27 @@ module Email
     }
   end
 
+  def member_activated(member)
+    membership = member.current_or_future_membership
+
+    data = template_data(member.language) do
+      {
+        action_url: url(:members_member_url),
+        membership_start_date: I18n.l(membership.started_on),
+        membership_end_date: I18n.l(membership.ended_on),
+        trial_baskets: membership.remaning_trial_baskets_count,
+        activity_participations_demanded: membership.activity_participations_demanded
+      }
+    end
+
+    {
+      from: from,
+      to: member.emails,
+      template: 'member-activated',
+      template_data: data
+    }
+  end
+
   def member_activity_reminder(activity_participation)
     member = activity_participation.member
     data = activity_data(activity_participation)
@@ -280,19 +301,6 @@ module Email
     }
   end
 
-  def member_welcome(member)
-    data = template_data(member.language) do
-      { action_url: url(:members_member_url) }
-    end
-
-    {
-      from: from,
-      to: member.emails,
-      template: 'member-welcome',
-      template_data: data
-    }
-  end
-
   def session_new(owner, email, action_url, data = {})
     data = template_data(owner.language) do
       { action_url: action_url }.merge(data)
@@ -318,7 +326,6 @@ module Email
       member_activity_rejected
       member_invoice_new
       member_invoice_overdue_notice
-      member_welcome
       session_new
     ]
     default += Current.acp.email_notifications

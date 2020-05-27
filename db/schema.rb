@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_145927) do
+ActiveRecord::Schema.define(version: 2020_05_27_063823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -435,7 +435,6 @@ ActiveRecord::Schema.define(version: 2020_05_26_145927) do
     t.string "delivery_zip", limit: 255
     t.string "delivery_city", limit: 255
     t.datetime "deleted_at"
-    t.datetime "welcome_email_sent_at"
     t.string "state", default: "pending", null: false
     t.string "name", null: false
     t.string "profession"
@@ -451,7 +450,6 @@ ActiveRecord::Schema.define(version: 2020_05_26_145927) do
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
-    t.index ["welcome_email_sent_at"], name: "index_members_on_welcome_email_sent_at"
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|
