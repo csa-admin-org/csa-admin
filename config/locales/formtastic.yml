@@ -9,8 +9,8 @@ _:
     hints:
       acp:
         activity_availability_limit_in_days:
-          _de: Nach dieser Frist ist keine Anmeldung mehr möglich. Leer lassen wenn keine Frist gewünscht ist.
-          _fr: Passé cette limite, il n'est plus possible de s'inscrire. Laisser à zéro aucune limite.
+          _de: Nach dieser Grenze ist eine Registrierung nicht mehr möglich. Belassen bei Null, wenn keine Begrenzung.
+          _fr: Passé cette limite, il n'est plus possible de s'inscrire. Laisser à zéro si aucune limite.
         activity_participation_deletion_deadline_in_days:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
