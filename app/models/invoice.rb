@@ -143,6 +143,14 @@ class Invoice < ActiveRecord::Base
     payments.sum(:amount) > amount
   end
 
+  def send_overpaid_notification_to_admins!
+    return if overpaid_notification_sent_at?
+    return unless overpaid?
+
+    Admin.notify!(:invoice_overpaid, self)
+    touch(:overpaid_notification_sent_at)
+  end
+
   def overbalance
     balance > amount ? (balance - amount).round_to_five_cents : 0
   end

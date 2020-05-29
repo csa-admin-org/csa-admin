@@ -279,4 +279,50 @@ describe Invoice do
       create(:payment, invoice: invoice, amount: 100)
     }.to change { invoice.reload.overpaid? }.to(true)
   end
+
+  describe '#send_overpaid_notification_to_admins!' do
+    let(:invoice) {
+      create(:invoice, :manual,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '100' }
+        })
+    }
+
+    specify 'send notification and touch overpaid_notification_sent_at' do
+      create(:payment, invoice: invoice, amount: 110)
+      admin = create(:admin, notifications: %w[invoice_overpaid])
+
+      expect { invoice.send_overpaid_notification_to_admins! }
+        .to change { invoice.reload.overpaid_notification_sent_at }.from(nil)
+        .and change { email_adapter.deliveries.size }.by(1)
+
+      expect(email_adapter.deliveries.first).to match(hash_including(
+        to: admin.email,
+        template: 'admin-invoice-overpaid',
+        template_data: hash_including(
+          invoice_number: invoice.id)))
+    end
+
+    specify 'when not overpaid' do
+      create(:payment, invoice: invoice, amount: 100)
+
+      expect { invoice.send_overpaid_notification_to_admins! }
+        .not_to change { invoice.reload.overpaid_notification_sent_at }
+      expect(email_adapter.deliveries.size).to be_zero
+    end
+
+    specify 'when already notified' do
+      create(:payment, invoice: invoice, amount: 110)
+      admin = create(:admin, notifications: %w[invoice_overpaid])
+
+      invoice.send_overpaid_notification_to_admins!
+      expect(email_adapter.deliveries.size).to eq 1
+
+      expect {
+        expect {
+          invoice.reload.send_overpaid_notification_to_admins!
+        }.not_to change { invoice.reload.overpaid_notification_sent_at }
+      }.not_to change { email_adapter.deliveries.size }
+    end
+  end
 end

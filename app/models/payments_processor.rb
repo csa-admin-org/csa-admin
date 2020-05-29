@@ -29,7 +29,7 @@ class PaymentsProcessor
       isr_data: data.isr_data)
 
     if invoice.reload.overpaid?
-      Admin.notify!(:invoice_overpaid, invoice)
+      invoice.send_overpaid_notification_to_admins!
     end
   rescue => e
     ExceptionNotifier.notify(e, data)
