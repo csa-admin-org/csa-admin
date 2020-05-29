@@ -4,10 +4,14 @@ module Email
   class MockAdapter
     include Singleton
 
-    class_attribute :deliveries
+    attr_reader :deliveries
+
+    def initialize
+      reset!
+    end
 
     def deliver(from:, to:, template:, template_data:, attachments: [])
-      deliveries << {
+      @deliveries << {
         from: from,
         to: to,
         template: template,
@@ -18,9 +22,8 @@ module Email
       true
     end
 
-    def self.reset!
-      self.deliveries = []
+    def reset!
+      @deliveries = []
     end
-    reset!
   end
 end

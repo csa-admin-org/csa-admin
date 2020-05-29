@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_063823) do
+ActiveRecord::Schema.define(version: 2020_05_28_183815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_063823) do
     t.integer "paid_missing_activity_participations"
     t.decimal "memberships_vat_amount", precision: 8, scale: 2
     t.integer "acp_shares_number"
+    t.datetime "overpaid_notification_sent_at"
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
