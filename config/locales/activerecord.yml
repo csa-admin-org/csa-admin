@@ -47,7 +47,7 @@ _:
           _fr: Email
         email_default_from:
           _de: Absender-Adresse
-          _fr: Adresse d'envoie
+          _fr: Adresse d'envoi
         email_footer:
           _de: Fußzeile
           _fr: Bas de page
