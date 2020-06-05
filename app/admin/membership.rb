@@ -62,7 +62,9 @@ ActiveAdmin.register Membership do
 
   sidebar :renewal, only: :index do
     renewal = MembershipsRenewal.new
-    to_renew_link = link_to(renewal.to_renew.count, collection_path(scope: :ongoing, q: { renew_eq: true }))
+    to_renew_link = link_to(
+      renewal.to_renew.count,
+      collection_path(scope: :ongoing, q: { renew_eq: true, during_year: Current.acp.current_fiscal_year.year }))
     if renewal.renewable.count.positive?
       if renewal.renewed.count.positive?
         span do
@@ -80,7 +82,13 @@ ActiveAdmin.register Membership do
         end
       end
       div class: 'buttons custom_sidebar' do
-        if params[:renewing] || renewal.renewing?
+        if !renewal.next_year_deliveries?
+          span do
+            t('.no_next_year_deliveries',
+              fiscal_year: renewal.next_fy,
+              new_delivery_path: new_delivery_path).html_safe
+          end
+        elsif params[:renewing] || renewal.renewing?
           span { t('.renewing') }
         else
           link_to t('.renew_action', count: renewal.renewable.count), renew_memberships_path,
