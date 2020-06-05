@@ -356,6 +356,9 @@ _:
           other:
             _de: "%{count_link} Abonnements %{year} wurden bereits verlängert."
             _fr: "%{count_link} abonnements %{year} ont déjà été renouvelés."
+        no_next_year_deliveries:
+          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
+          _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
         no_renewals:
           _de: Kein Abonnement zu verlängern.
           _fr: Aucun abonnement à renouveler.

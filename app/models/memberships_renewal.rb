@@ -34,8 +34,6 @@ class MembershipsRenewal
     end
   end
 
-  private
-
   def next_year_deliveries?
     Delivery.between(@next_fy.range).any?
   end
