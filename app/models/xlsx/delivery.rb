@@ -7,8 +7,14 @@ module XLSX
       @depot = depot
       @baskets = @delivery.baskets.not_absent
       @depots = Depot.where(id: @baskets.pluck(:depot_id).uniq)
-      @basket_complements = BasketComplement.all
-      @basket_sizes = BasketSize.all
+      basket_complement_ids =
+        @baskets
+          .joins(:baskets_basket_complements)
+          .pluck('baskets_basket_complements.basket_complement_id')
+          .uniq
+      @basket_complements = BasketComplement.find(basket_complement_ids)
+      basket_size_ids = @baskets.pluck(:basket_size_id).uniq
+      @basket_sizes = BasketSize.find(basket_size_ids)
 
       build_recap_worksheet unless @depot
 
