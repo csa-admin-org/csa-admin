@@ -1,5 +1,6 @@
-require("trix")
-require("@rails/actiontext")
-require("@rails/ujs").start()
+require('trix')
+require('@rails/actiontext')
+require('@rails/ujs').start()
 
-import 'core-js';
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
