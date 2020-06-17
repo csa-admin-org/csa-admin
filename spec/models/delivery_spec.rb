@@ -73,7 +73,6 @@ describe Delivery do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-
   it 'adds basket_complement on subscribed baskets (with season)', freeze: '01-01-2018' do
     Current.acp.update!(
       summer_month_range_min: 4,
@@ -244,5 +243,27 @@ describe Delivery do
       .and change { membership2.reload.baskets.size }.from(1).to(2)
       .and change { membership1.reload.price }.from(60).to(30)
       .and change { membership2.reload.price }.from(30).to(60)
+  end
+
+  it 'flags abscent basket when creating them', freeze: '2020-01-01' do
+    create(:delivery, date: '2020-02-01')
+    membership = create(:membership, started_on: '2020-01-01', ended_on: '2020-06-01')
+    create(:absence,
+      member: membership.member,
+      started_on: '2020-01-15',
+      ended_on: '2020-02-15')
+
+    expect(membership.baskets_count).to eq 1
+    expect(membership.baskets.first).to be_absent
+
+    delivery = create(:delivery,
+      date: '2020-02-15',
+      depot_ids: [membership.depot_id])
+    membership.reload
+
+    expect(membership.baskets_count).to eq 2
+    expect(membership.baskets.last).to have_attributes(
+      delivery_id: delivery.id,
+      absent: true)
   end
 end
