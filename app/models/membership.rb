@@ -235,13 +235,16 @@ class Membership < ActiveRecord::Base
   end
 
   def create_basket!(delivery)
-    baskets.create!(
-      delivery: delivery,
-      basket_size_id: basket_size_id,
-      basket_price: basket_price,
-      quantity: season_quantity(delivery),
-      depot_id: depot_id,
-      depot_price: depot_price)
+    transaction do
+      baskets.create!(
+        delivery: delivery,
+        basket_size_id: basket_size_id,
+        basket_price: basket_price,
+        quantity: season_quantity(delivery),
+        depot_id: depot_id,
+        depot_price: depot_price)
+      update_absent_baskets!
+    end
   end
 
   def update_absent_baskets!
