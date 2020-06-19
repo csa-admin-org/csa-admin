@@ -112,6 +112,8 @@ class Member < ActiveRecord::Base
   end
 
   def update_trial_baskets!
+    return if Current.acp.trial_basket_count.zero?
+
     transaction do
       baskets.update_all(trial: false)
       baskets.limit(Current.acp.trial_basket_count).update_all(trial: true)

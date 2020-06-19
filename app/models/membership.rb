@@ -4,6 +4,7 @@ class Membership < ActiveRecord::Base
   include HasSeasons
 
   acts_as_paranoid
+  attr_accessor :skip_touch
 
   belongs_to :member, -> { with_deleted }
   belongs_to :basket_size
@@ -51,7 +52,7 @@ class Membership < ActiveRecord::Base
   after_update :handle_ended_on_change!
   after_update :handle_subscription_change!
   after_commit :update_member_and_baskets!
-  after_touch :update_price_and_invoices_amount!
+  after_touch :update_price_and_invoices_amount!, unless: :skip_touch
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -138,7 +139,7 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_sizes_price
-    BasketSize.pluck(:id).sum { |id| basket_size_total_price(id) }
+    baskets.pluck(:basket_size_id).uniq.sum { |id| basket_size_total_price(id) }
   end
 
   def basket_size_total_price(basket_size_id)
@@ -150,7 +151,8 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_complements_price
-    BasketComplement.all.sum { |bc| basket_complement_total_price(bc) }
+    ids = baskets.joins(:baskets_basket_complements).pluck(:basket_complement_id).uniq
+    BasketComplement.find(ids).sum { |bc| basket_complement_total_price(bc) }
   end
 
   def basket_complement_total_price(basket_complement)
@@ -170,7 +172,7 @@ class Membership < ActiveRecord::Base
   end
 
   def depots_price
-    Depot.pluck(:id).sum { |id| depot_total_price(id) }
+    baskets.pluck(:depot_id).uniq.sum { |id| depot_total_price(id) }
   end
 
   def depot_total_price(depot_id)
@@ -229,22 +231,22 @@ class Membership < ActiveRecord::Base
   end
 
   def update_baskets_counts!
-    update_columns(
-      remaning_trial_baskets_count: baskets.coming.trial.count,
-      delivered_baskets_count: baskets.delivered.count)
+    cols = { delivered_baskets_count: baskets.delivered.count }
+    if Current.acp.trial_basket_count.positive?
+      cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
+    end
+    update_columns(cols)
   end
 
   def create_basket!(delivery)
-    transaction do
-      baskets.create!(
-        delivery: delivery,
-        basket_size_id: basket_size_id,
-        basket_price: basket_price,
-        quantity: season_quantity(delivery),
-        depot_id: depot_id,
-        depot_price: depot_price)
-      update_absent_baskets!
-    end
+    baskets.create!(
+      delivery: delivery,
+      basket_size_id: basket_size_id,
+      basket_price: basket_price,
+      quantity: season_quantity(delivery),
+      depot_id: depot_id,
+      depot_price: depot_price,
+      absent: member.absences.including_date(delivery.date).any?)
   end
 
   def update_absent_baskets!

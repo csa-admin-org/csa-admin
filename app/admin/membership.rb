@@ -334,9 +334,10 @@ ActiveAdmin.register Membership do
       end
 
       if BasketComplement.any?
+        complements = BasketComplement.all
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
           ff.input :basket_complement,
-            collection: BasketComplement.all,
+            collection: complements,
             prompt: true,
             input_html: { class: 'js-reset_price' }
           ff.input :price, hint: true, required: false
@@ -393,6 +394,10 @@ ActiveAdmin.register Membership do
       membership.started_on ||= params[:started_on] || [Date.current, fy_range.min].max
       membership.ended_on ||= fy_range.max
     end
+  end
+
+  before_save do |membership|
+    membership.skip_touch = true
   end
 
   controller do
