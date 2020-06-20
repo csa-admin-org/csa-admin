@@ -64,13 +64,6 @@ class Member < ActiveRecord::Base
   after_save :update_membership_if_salary_basket_changed
   after_create_commit :notify_admins!, if: :public_create
 
-  def newsletter?
-    (
-      state.in?([WAITING_STATE, ACTIVE_STATE, SUPPORT_STATE]) &&
-        newsletter.in?([true, nil])
-    ) || newsletter == true
-  end
-
   def billable?
     active? || support? || current_year_membership
   end

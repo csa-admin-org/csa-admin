@@ -233,7 +233,6 @@ ActiveAdmin.register Member do
         attributes_table title: Member.human_attribute_name(:contact) do
           row(:emails) { display_emails_with_link(member.emails_array) }
           row(:phones) { display_phones_with_link(member.phones_array) }
-          row(:newsletter) { status_tag(member.newsletter? ? :yes : :no) }
         end
         attributes_table title: t('.billing') do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
@@ -298,9 +297,6 @@ ActiveAdmin.register Member do
     f.inputs Member.human_attribute_name(:contact) do
       f.input :emails, as: :string
       f.input :phones, as: :string
-      f.input :newsletter, as: :select,
-        collection: [[t('formtastic.yes'), true], [t('formtastic.no'), false]],
-        include_blank: true
     end
     f.inputs t('active_admin.resource.show.billing') do
       f.input :billing_year_division,
@@ -326,7 +322,7 @@ ActiveAdmin.register Member do
   end
 
   permit_params \
-    :name, :language, :address, :city, :zip, :emails, :phones, :newsletter,
+    :name, :language, :address, :city, :zip, :emails, :phones,
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket, :billing_year_division,
     :acp_shares_info, :existing_acp_shares_number,

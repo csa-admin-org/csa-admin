@@ -375,9 +375,6 @@ _:
         invoices_amount:
           _de: In Rechnung gestellter Betrag
           _fr: Montant facturé
-        newsletter:
-          _de: Newsletter (MailChimp)
-          _fr: Newsletter (MailChimp)
         payments_amount:
           _de: Einzahlungen erfolgt
           _fr: Paiements versés
