@@ -29,14 +29,14 @@ class Newsletter::MailChimp
     ensure_batch_succeed!(res.body[:id])
   end
 
-  def remove_deleted_members(members)
+  def unsubscribe_deleted_members(members)
     hash_ids_and_emails = members.select(:emails).flat_map(&:emails_array).map { |e|
       [hash_id(e), e]
     }.to_h
     mailchimp_hash_ids_and_emails = get_hash_ids_and_emails
     hash_ids_to_delete = mailchimp_hash_ids_and_emails.keys - hash_ids_and_emails.keys
     hash_ids_to_delete.each do |hash_id|
-      client.lists(@list_id).members(hash_id).delete
+      client.lists(@list_id).members(hash_id).update(body: { status: 'unsubscribed' })
     rescue Gibbon::MailChimpError => e
       ExceptionNotifier.notify(e,
         email: mailchimp_hash_ids_and_emails[hash_id],
@@ -49,7 +49,6 @@ class Newsletter::MailChimp
       MEMB_ID:   { name: 'ID', type: 'number', required: false },
       MEMB_NAME: { name: 'Nom', type: 'text', required: false },
       MEMB_LANG: { name: 'Langue', type: 'text', required: false },
-      MEMB_NEWS: { name: 'Newsletter envoyée?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
       MEMB_STAT: { name: 'Status', type: 'dropdown', required: false, options: { choices: Member::STATES } },
       CURR_MEMB: { name: 'Abonnement en cours?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
       MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: false, options: { choices: %w[yes no –] } },
@@ -122,7 +121,6 @@ class Newsletter::MailChimp
       MEMB_ID: member.id,
       MEMB_NAME: member.name,
       MEMB_LANG: member.language,
-      MEMB_NEWS: member.newsletter? ? 'yes' : 'no',
       MEMB_STAT: member.state,
       CURR_MEMB: member.current_membership ? 'yes' : 'no',
       MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',

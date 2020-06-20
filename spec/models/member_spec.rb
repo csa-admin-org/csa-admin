@@ -86,31 +86,6 @@ describe Member do
     expect(member.emails_array).to eq ['foo@gmail.com']
   end
 
-  describe '#newsletter?' do
-    it 'is true for these members' do
-      [
-        create(:member, :waiting),
-        create(:member, :trial),
-        create(:member, :active),
-        create(:member, :support_annual_fee),
-        create(:member, :inactive, newsletter: true)
-      ].each { |member|
-        expect(member.newsletter?).to eq true
-      }
-    end
-
-    it 'is false for these members' do
-      [
-        create(:member, :pending),
-        create(:member, :inactive),
-        create(:member, :support_annual_fee, newsletter: false),
-        create(:member, :active, newsletter: false)
-      ].each { |member|
-        expect(member.newsletter?).to eq false
-      }
-    end
-  end
-
   it 'initializes with annual_fee from ACP' do
     Current.acp.update!(annual_fee: 42)
     expect(Member.new.annual_fee).to eq 42
