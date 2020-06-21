@@ -55,7 +55,9 @@ describe Member do
 
     it 'validates email format' do
       member = Member.new(emails: 'doe.com, JANE@doe.com')
+      expect(member).not_to have_valid(:emails)
 
+      member = Member.new(emails: 'foo@bar.com;JANE@doe.com')
       expect(member).not_to have_valid(:emails)
     end
 
