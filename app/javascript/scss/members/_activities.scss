@@ -239,3 +239,20 @@ ul.activities {
     }
   }
 }
+
+.flatpickr-months {
+  select.flatpickr-monthDropdown-months {
+    background: #55B946 !important;
+    margin: 0 !important;
+    line-height: 24px !important;
+    padding: 0 5px !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+  }
+
+  input.numInput {
+    margin: 0 !important;
+    line-height: 24px !important;
+    padding: 0 5px !important;
+  }
+}
