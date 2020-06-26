@@ -6,8 +6,12 @@ _:
           _de: "⤷ Informieren Sie uns!"
           _fr: "⤷ Prévenez-nous!"
         activity_participations_accepted:
-          _de: "⤷ %{accepted} von %{demanded} angefordert"
-          _fr: "⤷ %{accepted} sur %{demanded} demandée(s)"
+          one:
+            _de: "⤷ %{accepted} von %{demanded} angefordert"
+            _fr: "⤷ %{accepted} sur %{demanded} demandée"
+          other:
+            _de: "⤷ %{accepted} von %{demanded} angefordert"
+            _fr: "⤷ %{accepted} sur %{demanded} demandées"
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
@@ -17,12 +21,24 @@ _:
         logout:
           _de: Abmeldung
           _fr: Déconnexion
+        membership_current:
+          _de: "⤷ Aktuelles"
+          _fr: "⤷ En cours"
+        membership_future:
+          _de: "⤷ Zukünftiges"
+          _fr: "⤷ À venir"
+        membership_past:
+          _de: "⤷ Abgeschlossenes"
+          _fr: "⤷ Terminé"
+        membership_trial:
+          _de: "⤷ Probezeit"
+          _fr: "⤷ Période d'essai"
         next_delivery:
           _de: "⤷ %{date}"
           _fr: "⤷ %{date}"
         no_activity_participations_demanded:
-          _de: Keine Verpflichtung
-          _fr: Aucun engagement
+          _de: "⤷ Keine Verpflichtung"
+          _fr: "⤷ Aucun engagement"
         open_invoices:
           one:
             _de: "⤷ 1 offene Rechnung"

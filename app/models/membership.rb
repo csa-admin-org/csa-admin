@@ -96,6 +96,10 @@ class Membership < ActiveRecord::Base
     fiscal_year.year
   end
 
+  def future?
+    started_on > Date.current
+  end
+
   def started?
     started_on <= Date.current
   end

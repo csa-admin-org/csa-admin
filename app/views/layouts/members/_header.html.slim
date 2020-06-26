@@ -15,6 +15,7 @@ header
           = link_to '#nomenu' do
             = inline_svg_tag 'close.svg', size: '42px', title: 'Menu'
         nav
+          - membership = current_member.current_or_future_membership
           ul
             - if next_basket = current_member.next_basket
               li class=nav_class('deliveries')
@@ -22,14 +23,28 @@ header
                   = Delivery.model_name.human(count: 2)
                   span = t('.next_delivery', date: l(next_basket.delivery.date))
 
+            - if membership
+              li class=nav_class('membership')
+                = link_to members_membership_path do
+                  = Membership.model_name.human
+                  span
+                    - if membership.trial?
+                      = t('.membership_trial')
+                    - elsif membership.current?
+                      = t('.membership_current')
+                    - elsif membership.future?
+                      = t('.membership_future')
+                    - else
+                      = t('.membership_past')
+
+
             - if Current.acp.feature?('activity')
               li class=nav_class('activity_participations')
                 = link_to members_activity_participations_path do
                   = activities_human_name
-                  - membership = current_member.current_year_membership || current_member.future_membership
                   span
                     - if membership
-                      = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded)
+                      = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded, count: membership.activity_participations_demanded)
                     - else
                       = t('.no_activity_participations_demanded')
 

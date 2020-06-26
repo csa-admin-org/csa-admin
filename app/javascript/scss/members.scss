@@ -120,6 +120,17 @@ ul {
   li.error {
     color: $red;
   }
+
+  &.details {
+    h4 {
+      font-weight: 600;
+      margin: 0;
+    }
+
+    li {
+      margin: 0 0 1em 0;
+    }
+  }
 }
 
 ul.errors {
@@ -137,9 +148,10 @@ h1 {
 }
 
 h2 {
-  font-size: $base-font-size * 1.3;
+  // fix weird Safari rendering clitch (font slightly cut at the top)
+  font-size: $base-font-size * 1.301;
   line-height: $heading-line-height;
-  margin: $base-spacing * 1.5 0 $small-spacing;
+  margin: $base-spacing * 1.475 0 $small-spacing;
 }
 
 h3 {
