@@ -60,6 +60,7 @@ ActiveAdmin.register Depot do
       end
       column do
         attributes_table do
+          row :id
           row :name
           if Current.acp.languages.many?
             row(:language) { t("languages.#{depot.language}") }
