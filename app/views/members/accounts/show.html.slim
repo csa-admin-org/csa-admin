@@ -1,17 +1,26 @@
 h1 = t('.title')
 
 section.account
-  h2 = Member.human_attribute_name(:name)
-  p = current_member.name
-  h2 = Member.human_attribute_name(:adresse)
-  p = diplay_address(current_member)
-  h2 = Member.human_attribute_name(:emails)
-  p = display_emails(current_member)
-  h2 = Member.human_attribute_name(:phones)
-  - if current_member.phones_array.any?
-    p = display_phones(current_member)
-  - else
-    p.empty = t('.no_phones')
+
+  ul.details
+    li
+      h4 = Member.human_attribute_name(:name)
+      p = current_member.name
+
+    li
+      h4 = Member.human_attribute_name(:adresse)
+      p = diplay_address(current_member)
+
+    li
+      h4 = Member.human_attribute_name(:emails)
+      p = display_emails(current_member)
+
+    li
+      h4 = Member.human_attribute_name(:phones)
+      - if current_member.phones_array.any?
+        p = display_phones(current_member)
+      - else
+        p.empty = t('.no_phones')
 
 .button
   = link_to edit_members_account_path, class: 'button' do

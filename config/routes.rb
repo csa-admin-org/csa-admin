@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       get '/login' => 'sessions#new', as: :login
       delete '/logout' => 'sessions#destroy', as: :logout
 
+      resource :membership, only: :show
       resources :deliveries, only: :index
       resources :activities, only: :index
       resources :activity_participations, only: %i[index create destroy]

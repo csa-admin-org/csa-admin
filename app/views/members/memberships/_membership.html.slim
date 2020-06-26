@@ -1,0 +1,50 @@
+h2 = membership.fiscal_year
+
+ul.details
+  li
+    h4 = Membership.human_attribute_name(:période)
+    p = [membership.started_on, membership.ended_on].map { |d| l(d) }.join(' – ')
+  li
+    h4 = Basket.model_name.human
+    p = basket_size_description(membership)
+
+  - complements = membership.memberships_basket_complements.includes(:basket_complement)
+  - if complements.any?
+    li
+      h4 = BasketsBasketComplement.model_name.human(count: complements.size)
+      p = basket_complements_description(complements)
+
+  li
+    - depot = membership.depot
+    h4 = Depot.model_name.human
+    p
+      = depot.name
+      - if depot.full_address
+        == map_icon(depot.full_address)
+
+  li
+    h4 = Delivery.model_name.human(count: 2)
+    p
+      = link_to members_deliveries_path do
+        = membership.baskets_count
+        - if membership.trial?
+          = ", #{t('.remaning_trial_baskets_count', count: membership.remaning_trial_baskets_count)}"
+      - if Current.acp.feature?('absence') && membership.baskets.absent.any?
+        = ', '
+        = link_to members_absences_path do
+          = t('.absent_baskets_count', count: membership.baskets.absent.count)
+
+  - if Current.acp.feature?('activity')
+    li
+      h4 = activities_human_name
+      p = link_to members_activity_participations_path do
+        = t('.activity_participations_demanded', count: membership.activity_participations_demanded)
+
+  li
+    h4 = Member.human_attribute_name(:price)
+    p
+      - if current_member.salary_basket?
+        = t('.price_salary_basket')
+      - else
+        = link_to members_billing_path do
+          = number_to_currency(membership.price, precision: 2)

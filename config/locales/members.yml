@@ -329,6 +329,35 @@ _:
         title:
           _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!
+    memberships:
+      membership:
+        absent_baskets_count:
+          one:
+            _de: eine Abwesenheit
+            _fr: une absence
+          other:
+            _de: "%{count} Abwesenheiten"
+            _fr: "%{count} absences"
+        activity_participations_demanded:
+          one:
+            _de: 1 angefordert
+            _fr: 1 demandée
+          other:
+            _de: "%{count} angefordert"
+            _fr: "%{count} demandées"
+          zero:
+            _de: Keine Verpflichtung
+            _fr: Aucun engagement
+        price_salary_basket:
+          _de: Lohntaschen
+          _fr: Paniers salaire
+        remaning_trial_baskets_count:
+          one:
+            _de: mehr als eine auf Probe und unverbindlich
+            _fr: plus que une à l'essai et sans engagement
+          other:
+            _de: "%{count} weitere auf Probe und unverbindlich"
+            _fr: encore %{count} à l'essai et sans engagement
     sessions:
       new:
         activity_text/basket_preparation:
