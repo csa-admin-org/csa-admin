@@ -147,6 +147,9 @@ module Email
         activity_participations_demanded: membership.activity_participations_demanded
       }
     end
+    membership.memberships_basket_complements.pluck(:basket_complement_id).each do |bc_id|
+      data[:"basket_complement_id_#{bc_id}"] = true
+    end
 
     {
       from: from,

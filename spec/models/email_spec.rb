@@ -152,6 +152,8 @@ describe Email do
     member = create(:member, :inactive, emails: 'john@doe.com')
     basket_size = create(:basket_size,
       activity_participations_demanded_annualy: 3)
+    create(:basket_complement, id: 1)
+    create(:basket_complement, id: 2)
     Current.acp.update!(
       notification_member_activated: '1',
       trial_basket_count: 4)
@@ -160,6 +162,10 @@ describe Email do
     create(:membership,
       member: member,
       basket_size: basket_size,
+      memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, quantity: 1 },
+        '1' => { basket_complement_id: 2, quantity: 1 }
+      },
       started_on: '2020-02-01',
       ended_on: '2020-12-31')
 
@@ -175,6 +181,8 @@ describe Email do
         membership_end_date: '31 décembre 2020',
         "basket_size_id_#{basket_size.id}": true,
         "depot_id_#{Depot.first.id}": true,
+        "basket_complement_id_1": true,
+        "basket_complement_id_2": true,
         trial_baskets: 4,
         activity_participations_demanded: 3
       },
