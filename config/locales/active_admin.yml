@@ -818,22 +818,22 @@ _:
         _de: abgelehnte
         _fr: refusée
       renewal_canceled:
-        _de: Résilié
-        _fr: Gekündigt
+        _de: gekündigt
+        _fr: résilié
       renewal_open:
-        _de: Offen
-        _fr: Ouvert
+        _de: offen
+        _fr: ouvert
       renewal_pending:
-        _de: Warten
-        _fr: En attente
+        _de: warten
+        _fr: en attente
       renewed:
-        _de: Erneuert
-        _fr: Renouvelé
+        _de: erneuert
+        _fr: renouvelé
       support:
-        _de: Unterstützung
+        _de: unterstützung
         _fr: soutien
       trial:
-        _de: Probe
+        _de: probe
         _fr: essai
       'true':
         _de: ja
@@ -842,7 +842,7 @@ _:
         _de: bestätigte
         _fr: validée
       waiting:
-        _de: Warteliste
+        _de: warteliste
         _fr: attente
     update_model:
       _de: "%{model} bearbeiten"
