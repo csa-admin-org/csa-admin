@@ -110,6 +110,10 @@ module MembershipsHelper
       }.join(' + ')
   end
 
+  def renewal_decisions_collection
+    %i[renew cancel].map { |d| [t(".renewal.options.#{d}"), d] }
+  end
+
   private
 
   def precise_cur(number)

@@ -235,10 +235,10 @@ describe RecurringBilling do
 
     specify 'when quarter #2 (already billed)' do
       travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5))
-      create_invoice(member)
-
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
+      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
+      travel_to(Date.new(Current.fy_year, 6)) {
+        expect { create_invoice(member) }.not_to change(Invoice, :count)
+      }
     end
 
     specify 'when quarter #2 (already billed but canceled)' do

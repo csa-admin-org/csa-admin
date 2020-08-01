@@ -1,6 +1,4 @@
 class MembershipsRenewal
-  MissingDeliveriesError = Class.new(StandardError)
-
   attr_reader :next_fy
 
   def initialize
@@ -12,11 +10,19 @@ class MembershipsRenewal
   end
 
   def renewed
-    Membership.during_year(@next_fy).where(member_id: to_renew.pluck(:member_id))
+    to_renew.renewed
   end
 
   def renewable
-    to_renew.where.not(member_id: renewed.pluck(:member_id))
+    to_renew.not_renewed
+  end
+
+  def opened
+    renewable.where.not(renewal_opened_at: nil)
+  end
+
+  def openable
+    renewable.where(renewal_opened_at: nil)
   end
 
   def renewing?
@@ -24,17 +30,28 @@ class MembershipsRenewal
     latest_renewed_at && latest_renewed_at > 5.seconds.ago
   end
 
-  def renew
-    unless next_year_deliveries?
-      raise MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
+  def opening?
+    latest_renewal_opened_at = renewable.maximum(:renewal_opened_at)
+    latest_renewal_opened_at && latest_renewal_opened_at > 5.seconds.ago
+  end
+
+  def renew_all!
+    unless Delivery.any_next_year?
+      raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
     end
 
     renewable.find_each do |membership|
-      RenewalJob.perform_later(membership, @next_fy.year)
+      MembershipRenewalJob.perform_later(membership)
     end
   end
 
-  def next_year_deliveries?
-    Delivery.between(@next_fy.range).any?
+  def open_all!
+    unless Delivery.any_next_year?
+      raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
+    end
+
+    openable.find_each do |membership|
+      MembershipOpenRenewalJob.perform_later(membership)
+    end
   end
 end

@@ -62,6 +62,17 @@ describe Membership do
 
       expect(mbc.errors[:basket_complement_id]).to be_present
     end
+
+    it 'prevents date modification when renewed' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+      membership.renew!
+      membership.reload
+
+      membership.ended_on = Current.fiscal_year.end_of_year - 4.days
+      expect(membership).not_to have_valid(:ended_on)
+    end
   end
 
   it 'creates baskets on creation' do
@@ -606,6 +617,110 @@ describe Membership do
       expect(membership.delivered_baskets_count).to eq 2
       expect(membership.remaning_trial_baskets_count).to eq 1
       expect(membership).to be_trial
+    end
+  end
+
+  describe '#enable_renewal!' do
+    it 'sets renew to true when previously canceled' do
+      membership = create(:membership)
+      membership.cancel!
+
+      expect {
+        membership.enable_renewal!
+      }.to change { membership.reload.renew }.from(false).to(true)
+    end
+  end
+
+  describe '#open_renewal!' do
+    it 'requires future deliveries to be present' do
+      membership = create(:membership)
+
+      expect {
+        membership.open_renewal!
+      }.to raise_error(MembershipRenewal::MissingDeliveriesError)
+    end
+
+    it 'sets renewal_opened_at' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+
+      expect {
+        membership.open_renewal!
+      }.to change { membership.reload.renewal_opened_at }.from(nil)
+
+      expect(membership).to be_renewal_open
+    end
+  end
+
+  describe '#renew' do
+    it 'sets renewal_note attrs' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+
+      expect {
+        membership.renew!(renewal_note: 'Je suis super content')
+      }.to change(Membership, :count)
+
+      membership.reload
+      expect(membership).to be_renewed
+      expect(membership.renewal_note).to eq 'Je suis super content'
+    end
+  end
+
+  describe '#cancel' do
+    it 'sets the membership renew to false' do
+      membership = create(:membership)
+      membership.update_column(:renewal_opened_at, Time.current)
+
+      expect {
+        membership.cancel!
+      }.not_to change(Membership, :count)
+
+      membership.reload
+      expect(membership).to be_canceled
+      expect(membership.renew).to eq false
+      expect(membership.renewal_opened_at).to be_nil
+      expect(membership.renewed_at).to be_nil
+    end
+
+    it 'cancels the membership with a renewal_note' do
+      membership = create(:membership)
+
+      expect {
+        membership.cancel!(renewal_note: 'Je suis pas content')
+      }.not_to change(Membership, :count)
+
+      membership.reload
+      expect(membership).to be_canceled
+      expect(membership.renewal_note).to eq 'Je suis pas content'
+    end
+
+    it 'cancels the membership with a renewal_annual_fee' do
+      membership = create(:membership)
+
+      expect {
+        membership.cancel!(renewal_annual_fee: '1')
+      }.not_to change(Membership, :count)
+
+      membership.reload
+      expect(membership).to be_canceled
+      expect(membership.renewal_annual_fee).to eq Current.acp.annual_fee
+    end
+  end
+
+  describe '#open_renewal_of_previous_membership' do
+    it 'clears renewed_at when renewed membership is destroyed' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+      membership.renew!
+      renewed_membership = membership.renewed_membership
+
+      expect {
+        renewed_membership.destroy!
+      }.to change { membership.reload.renewed_at }.to(nil)
     end
   end
 end

@@ -41,9 +41,9 @@ module ApplicationHelper
   end
 
   def fiscal_years_collection
-    current_year = Date.today.year
-    first_year = Membership.minimum(:started_on)&.year || current_year
-    (first_year..current_year).map { |year|
+    min_year = Delivery.minimum(:date)&.year || current_year
+    max_year = Delivery.maximum(:date)&.year || Date.today.year
+    (min_year..max_year).map { |year|
       fy = Current.acp.fiscal_year_for(year)
       [fy.to_s, fy.year]
     }.reverse

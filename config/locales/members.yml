@@ -329,6 +329,44 @@ _:
         title:
           _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!
+    membership_renewals:
+      create:
+        flash:
+          canceled:
+            _de: Ihr Abonnement wurde gekündigt.
+            _fr: Votre abonnement a été résilié.
+          renewed:
+            _de: Ihr Abonnement wurde erneuert. Vielen Dank!
+            _fr: Votre abonnement a été renouvelé. Merci!
+      new:
+        renewal_annual_fee_label:
+          _de: Um die Vereinigung zu unterstützen, zahle ich weiterhin den jährlichen Mitgliedsbeitrag. <em>%{annual_fee}</em>
+          _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle. <em>%{annual_fee}</em>
+        renewal_note:
+          placeholder:
+            cancel:
+              _de: Danke, dass Sie uns mitgeteilt haben, was Ihre Entscheidung motiviert...
+              _fr: Merci de partager avec nous ce qui motive votre décison...
+            renew:
+              _de: Vielen Dank, dass Sie uns alle nützlichen Anmerkungen mitgeteilt haben, was Ihnen in diesem Jahr gefallen oder missfallen hat...
+              _fr: Merci de partager avec nous toutes remarques utiles, ce qui vous a plu ou déplu cette année...
+        submit:
+          _de: Bestätigen
+          _fr: Confirmer
+        text:
+          cancel:
+            _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung des <u>%{last_delivery_date}</u>.
+            _fr: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
+          renew:
+            _de: Sie haben die Möglichkeit, unten die Zusammensetzung Ihres zukünftigen Abonnements zu ändern, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
+            _fr: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
+        title:
+          cancel:
+            _de: Kündigung
+            _fr: Résiliation
+          renew:
+            _de: Erneuerung
+            _fr: Renouvellement
     memberships:
       membership:
         absent_baskets_count:
@@ -358,6 +396,27 @@ _:
           other:
             _de: "%{count} weitere auf Probe und unverbindlich"
             _fr: encore %{count} à l'essai et sans engagement
+      show:
+        renewal:
+          canceled:
+            _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
+            _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
+          options:
+            cancel:
+              _de: Mein Abonnement kündigen
+              _fr: Résilier mon abonnement
+            renew:
+              _de: Mein Abonnement erneuern
+              _fr: Renouveler mon abonnement
+          options_label:
+            _de: 'Ich wünsche:'
+            _fr: 'Je désire:'
+          submit:
+            _de: Nächster
+            _fr: Suivant
+          title:
+            _de: Erneuerung
+            _fr: Renouvellement
     sessions:
       new:
         activity_text/basket_preparation:

@@ -15,8 +15,8 @@ module MembersHelper
     }
   end
 
-  def basket_sizes_collection
-    BasketSize.all.map { |bs|
+  def basket_sizes_collection(no_basket_option: true)
+    col = BasketSize.all.map { |bs|
       [
         collection_text(bs.name,
           price: basket_size_price_info(bs.price),
@@ -27,17 +27,21 @@ module MembersHelper
           ].compact.join(', ')),
         bs.id
       ]
-    } << [
-      collection_text(t('helpers.no_basket_size'),
-        details:
-          if Current.acp.annual_fee
-            t('helpers.no_basket_size_annual_fee')
-          elsif Current.acp.share?
-            t('helpers.no_basket_size_acp_share')
-          end
-      ),
-      0
-    ]
+    }
+    if no_basket_option
+      col << [
+        collection_text(t('helpers.no_basket_size'),
+          details:
+            if Current.acp.annual_fee
+              t('helpers.no_basket_size_annual_fee')
+            elsif Current.acp.share?
+              t('helpers.no_basket_size_acp_share')
+            end
+        ),
+        0
+      ]
+    end
+    col
   end
 
   def basket_complements_collection

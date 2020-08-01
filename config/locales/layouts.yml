@@ -30,6 +30,9 @@ _:
         membership_past:
           _de: "⤷ Abgeschlossenes"
           _fr: "⤷ Terminé"
+        membership_renewal:
+          _de: "⤷ Erneuerung?"
+          _fr: "⤷ Renouvellement ?"
         membership_trial:
           _de: "⤷ Probezeit"
           _fr: "⤷ Période d'essai"

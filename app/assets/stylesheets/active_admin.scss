@@ -197,12 +197,14 @@ table a.xlsx_link {
     background-color: #1e83f6;
   }
 
+  &.renewal_canceled,
   &.no,
   &.open,
   &.rejected {
     background-color: #ff2600;
   }
 
+  &.renewed,
   &.active,
   &.closed,
   &.isr,
@@ -215,10 +217,12 @@ table a.xlsx_link {
     background-color: #80d232;
   }
 
+  &.renewal_open,
   &.waiting {
     background-color: #91ba3a;
   }
 
+  &.renewal_pending,
   &.pending {
     background-color: #addf45;
   }
@@ -554,8 +558,30 @@ table.totals_2 {
   margin: 15px 0 25px;
 }
 
-.buttons.custom_sidebar {
+.top-spacing {
   margin: 20px 0 0;
+}
+
+.top-small-spacing {
+  margin: 10px 0 0;
+}
+
+.buttons-inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button-inline {
+  margin: 15px 15px 0 0;
+  // display: inline;
+  a {
+    width: 160px;
+  }
+}
+
+.full-width {
+  width: 100%;
 }
 
 form input[type='time'] {

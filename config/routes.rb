@@ -33,7 +33,11 @@ Rails.application.routes.draw do
       get '/login' => 'sessions#new', as: :login
       delete '/logout' => 'sessions#destroy', as: :logout
 
-      resource :membership, only: :show
+      resource :membership, only: %i[show] do
+        resource :renewal, only: %i[new create], controller: 'membership_renewals'
+        get ':decision' => 'membership_renewals#new'
+      end
+
       resources :deliveries, only: :index
       resources :activities, only: :index
       resources :activity_participations, only: %i[index create destroy]

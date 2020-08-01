@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_183815) do
+ActiveRecord::Schema.define(version: 2020_07_01_182822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -478,7 +478,10 @@ ActiveRecord::Schema.define(version: 2020_05_28_183815) do
     t.integer "remaning_trial_baskets_count", default: 0, null: false
     t.decimal "price", precision: 8, scale: 2
     t.decimal "invoices_amount", precision: 8, scale: 2
-    t.decimal "annual_fee", precision: 8, scale: 2
+    t.decimal "renewal_annual_fee", precision: 8, scale: 2
+    t.datetime "renewed_at"
+    t.datetime "renewal_opened_at"
+    t.text "renewal_note"
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

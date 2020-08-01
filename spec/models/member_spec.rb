@@ -290,6 +290,18 @@ describe Member do
       expect(member.annual_fee).to be_nil
     end
 
+    it 'sets state to support when membership.renewal_annual_fee is present' do
+      membership = create(:membership)
+      member = membership.member
+      membership.cancel!(renewal_annual_fee: '1')
+
+      travel 1.year do
+        member.reload
+        expect { member.deactivate! }.to change(member, :state).to('support')
+        expect(member.annual_fee).to eq 30
+      end
+    end
+
     it 'sets state to support when user still has acp_shares' do
       Current.acp.update!(share_price: 100, annual_fee: nil)
       member = create(:member, :active)

@@ -25,17 +25,18 @@ header
 
             - if membership
               li class=nav_class('membership')
-                = link_to members_membership_path do
+                = link_to members_membership_path(anchor: membership.renewal_open? ? 'renewal' : '') do
                   = Membership.model_name.human
-                  span
-                    - if membership.trial?
-                      = t('.membership_trial')
-                    - elsif membership.current?
-                      = t('.membership_current')
-                    - elsif membership.future?
-                      = t('.membership_future')
-                    - else
-                      = t('.membership_past')
+                  - if membership.renewal_open?
+                    span.alert = t('.membership_renewal')
+                  - elsif membership.trial?
+                    span = t('.membership_trial')
+                  - elsif membership.current?
+                    span = t('.membership_current')
+                  - elsif membership.future?
+                    span = t('.membership_future')
+                  - else
+                    span = t('.membership_past')
 
 
             - if Current.acp.feature?('activity')

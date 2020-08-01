@@ -12,6 +12,10 @@ a {
 p {
   line-height: $base-line-height;
   margin: 0 0 $base-spacing / 3 0;
+
+  &.justify {
+    text-align: justify;
+  }
 }
 
 label {
@@ -37,7 +41,6 @@ textarea {
   padding: 10px;
   background-color: white;
   border: 1px solid $light-gray;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 a.button,
@@ -68,6 +71,7 @@ button[type='submit'] {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
+  line-height: 1.15;
 
   &:hover {
     border-color: $dark-green;
@@ -89,6 +93,26 @@ a.button {
   text-align: center;
   @media screen and (min-width: 900px) {
     width: auto;
+  }
+
+  &.cancel {
+    margin: $small-spacing 0 0 0;
+    float: right;
+    border: solid 2px $light-gray;
+    padding: 9px;
+    background-color: $light-gray;
+    border-color: $light-gray;
+    font-weight: 600;
+    cursor: pointer;
+    @media screen and (min-width: 900px) {
+      margin-top: 0;
+      width: 128px;
+    }
+
+    &:hover {
+      border-color: $medium-gray;
+      background-color: $medium-gray;
+    }
   }
 }
 
@@ -216,3 +240,4 @@ svg {
 @import 'members/pretty_inputs';
 @import 'members/trix';
 @import 'members/group_buying';
+@import 'members/memberships';

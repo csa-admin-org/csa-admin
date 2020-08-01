@@ -1,6 +1,7 @@
 h2 = membership.fiscal_year
 
-ul.details
+
+ul.details id=membership.fiscal_year
   li
     h4 = Membership.human_attribute_name(:période)
     p = [membership.started_on, membership.ended_on].map { |d| l(d) }.join(' – ')

@@ -39,6 +39,7 @@ ActiveAdmin.register Membership do
     if: :any_basket_complements?
   filter :depot, as: :select, collection: -> { Depot.all }
   filter :renew
+  filter :renewed, as: :boolean
   filter :started_on
   filter :ended_on
   filter :during_year,
@@ -65,36 +66,59 @@ ActiveAdmin.register Membership do
     to_renew_link = link_to(
       renewal.to_renew.count,
       collection_path(scope: :ongoing, q: { renew_eq: true, during_year: Current.acp.current_fiscal_year.year }))
-    if renewal.renewable.count.positive?
-      if renewal.renewed.count.positive?
+    renewable_count = renewal.renewable.count
+    if renewable_count.positive?
+      renewed_count = renewal.renewed.count
+      if renewed_count.positive?
         span do
           t('.partially_renewed',
-            renewed_count: renewal.renewed.count,
+            count: renewed_count,
             count_link: to_renew_link,
             year: Current.acp.current_fiscal_year).html_safe
         end
       else
         span do
           t('.none_renewed',
-            count: renewal.renewable.count,
+            count: renewable_count,
             count_link: to_renew_link,
             year: Current.acp.current_fiscal_year).html_safe
         end
       end
-      div class: 'buttons custom_sidebar' do
-        if !renewal.next_year_deliveries?
+      opened_count = renewal.opened.count
+      if opened_count.positive?
+        div class: 'top-spacing' do
+          t('.opened', count: opened_count)
+        end
+      end
+      div class: 'top-spacing' do
+        if !Delivery.any_next_year?
           span do
             t('.no_next_year_deliveries',
               fiscal_year: renewal.next_fy,
               new_delivery_path: new_delivery_path).html_safe
           end
-        elsif params[:renewing] || renewal.renewing?
+        elsif renewal.renewing?
           span { t('.renewing') }
+        elsif renewal.opening?
+          span { t('.opening') }
         else
-          link_to t('.renew_action', count: renewal.renewable.count), renew_memberships_path,
-            data: { confirm: t('.renew_confirm'), disable_with: t('.renewing') },
-            class: 'clear_filters_btn',
-            method: :post
+          if Current.acp.feature_flag?(:open_renewal)
+            openable_count = renewal.openable.count
+            if openable_count.positive?
+              div do
+                link_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
+                  data: { confirm: t('.confirm'), disable_with: t('.opening') },
+                  class: 'clear_filters_btn full-width',
+                  method: :post
+              end
+            end
+          end
+          div class: 'top-small-spacing' do
+            link_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
+              data: { confirm: t('.confirm'), disable_with: t('.renewing') },
+              class: 'clear_filters_btn full-width',
+              method: :post
+          end
         end
       end
     elsif renewal.renewed.any?
@@ -109,9 +133,17 @@ ActiveAdmin.register Membership do
     end
   end
 
-  collection_action :renew, method: :post do
-    MembershipsRenewal.new.renew
-    redirect_to collection_path(renewing: true), notice: t('active_admin.flash.renew_notice')
+  collection_action :renew_all, method: :post do
+    MembershipsRenewal.new.renew_all!
+    redirect_to collection_path, notice: t('active_admin.flash.renew_notice')
+  rescue MembershipsRenewal::MissingDeliveriesError
+    redirect_to collection_path,
+      alert: t('active_admin.flash.renew_missing_deliveries_alert', next_year: MembershipsRenewal.new.next_fy)
+  end
+
+  collection_action :open_renewal_all, method: :post do
+    MembershipsRenewal.new.open_all!
+    redirect_to collection_path, notice: t('active_admin.flash.open_renewals_notice')
   rescue MembershipsRenewal::MissingDeliveriesError
     redirect_to collection_path,
       alert: t('active_admin.flash.renew_missing_deliveries_alert', next_year: MembershipsRenewal.new.next_fy)
@@ -141,6 +173,8 @@ ActiveAdmin.register Membership do
     column(:started_on)
     column(:ended_on)
     column(:renew)
+    column(:renewed_at)
+    column(:renewal_note)
     column(:price) { |m| number_to_currency(m.price) }
     column(:invoices_amount) { |m| number_to_currency(m.invoices_amount) }
     column(:missing_invoices_amount) { |m| number_to_currency(m.missing_invoices_amount) }
@@ -181,7 +215,69 @@ ActiveAdmin.register Membership do
           row :member
           row(:started_on) { l m.started_on }
           row(:ended_on) { l m.ended_on }
-          row :renew
+        end
+
+        attributes_table title: Membership.human_attribute_name(:renew) do
+          if m.renewed?
+            row(:status) { status_tag(:renewed) }
+            row(:renewed_at) { l m.renewed_at.to_date }
+            row(:renewed_membership)
+            row :renewal_note
+          elsif m.canceled?
+            row(:status) { status_tag(:renewal_canceled) }
+            row :renewal_note
+            if m.ended_on == Current.fiscal_year.end_of_year
+              div class: 'buttons-inline' do
+                div class: 'button-inline' do
+                  link_to t('.enable_renewal'), enable_renewal_membership_path(m),
+                    data: { confirm: t('.confirm') },
+                    class: 'clear_filters_btn',
+                    method: :post
+                end
+              end
+            end
+          elsif m.renewal_open?
+            row(:status) { status_tag(:renewal_pending) }
+            row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
+            div class: 'buttons-inline' do
+              div class: 'button-inline' do
+                link_to t('.renew'), renew_membership_path(m),
+                  data: { confirm: t('.confirm') },
+                  class: 'clear_filters_btn',
+                  method: :post
+              end
+              div class: 'button-inline' do
+                link_to t('.cancel_renewal'), cancel_membership_path(m),
+                  data: { confirm: t('.confirm') },
+                  class: 'clear_filters_btn',
+                  method: :post
+              end
+            end
+          else
+            row(:status) { status_tag(:renewal_open) }
+            div class: 'buttons-inline' do
+              if Current.acp.feature_flag?(:open_renewal)
+                div class: 'button-inline' do
+                  link_to t('.open_renewal'), open_renewal_membership_path(m),
+                    data: { confirm: t('.confirm') },
+                    class: 'clear_filters_btn',
+                    method: :post
+                end
+              end
+              div class: 'button-inline' do
+                link_to t('.renew'), renew_membership_path(m),
+                  data: { confirm: t('.confirm') },
+                  class: 'clear_filters_btn',
+                  method: :post
+              end
+              div class: 'button-inline' do
+                link_to t('.cancel_renewal'), cancel_membership_path(m),
+                  data: { confirm: t('.confirm') },
+                  class: 'clear_filters_btn',
+                  method: :post
+              end
+            end
+          end
         end
 
         attributes_table title: Membership.human_attribute_name(:description) do
@@ -304,7 +400,6 @@ ActiveAdmin.register Membership do
     f.inputs Membership.human_attribute_name(:dates) do
       f.input :started_on, as: :datepicker
       f.input :ended_on, as: :datepicker
-      f.input :renew unless resource.new_record? || resource.past? || !resource.current_year?
     end
 
     if Current.acp.feature?('activity') && !resource.new_record?
@@ -381,6 +476,26 @@ ActiveAdmin.register Membership do
   member_action :trigger_recurring_billing, method: :post do
     RecurringBilling.invoice(resource.member)
     redirect_to invoices_path(q: { member_id_eq: resource.member_id, date_gteq: resource.fiscal_year.beginning_of_year, date_lteq: resource.fiscal_year.end_of_year }, scope: :all, order: :date_asc)
+  end
+
+  member_action :open_renewal, method: :post do
+    resource.open_renewal!
+    redirect_to resource
+  end
+
+  member_action :enable_renewal, method: :post do
+    resource.enable_renewal!
+    redirect_to resource
+  end
+
+  member_action :renew, method: :post do
+    resource.renew!
+    redirect_to resource
+  end
+
+  member_action :cancel, method: :post do
+    resource.cancel!
+    redirect_to resource
   end
 
   before_build do |membership|
