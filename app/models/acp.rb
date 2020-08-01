@@ -1,5 +1,6 @@
 class ACP < ActiveRecord::Base
   include TranslatedAttributes
+  include TranslatedRichTexts
 
   FEATURES = %w[
     absence
@@ -21,6 +22,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :membership_extra_text
   translated_attributes :group_buying_terms_of_service_url
   translated_attributes :group_buying_invoice_info
+  translated_rich_texts :renewal_text
 
   validates :name, presence: true
   validates :host, presence: true
@@ -90,6 +92,10 @@ class ACP < ActiveRecord::Base
     features.include?(feature.to_s)
   end
 
+  def feature_flag?(feature)
+    credentials(:feature_flags)&.include?(feature.to_s)
+  end
+
   def billing_year_divisions=(divisions)
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end
@@ -145,7 +151,7 @@ class ACP < ActiveRecord::Base
   end
 
   def ical_feed_auth_token
-    Current.acp.credentials(:icalendar_auth_token)
+    credentials(:icalendar_auth_token)
   end
 
   def season_for(month)

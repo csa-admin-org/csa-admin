@@ -1,0 +1,27 @@
+h1 = Membership.model_name.human
+
+h2 = t(".title.#{params[:decision]}")
+
+= semantic_form_for @membership, url: members_membership_renewal_path, method: :post do |f|
+  ul
+    li
+      p.justify = t(".text.#{params[:decision]}", last_delivery_date: l(Delivery.current_year.last.date), first_delivery_date: l(Delivery.future_year.first.date)).html_safe
+    = f.hidden_field :renewal_decision
+
+    - case params[:decision]
+    - when 'cancel'
+      = f.input :renewal_note, as: :text, input_html: { rows: 5 }, placeholder: t('.renewal_note.placeholder.cancel').html_safe
+      = f.input :renewal_annual_fee, as: :pretty_boolean, label: t('.renewal_annual_fee_label', annual_fee: number_to_currency(Current.acp.annual_fee, precision: 0)).html_safe
+    - when 'renew'
+      = f.input :basket_size, as: :pretty_radio, collection: basket_sizes_collection(no_basket_option: false), label: BasketSize.model_name.human
+      - if BasketComplement.any?
+        = f.input :basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
+      = f.input :depot, as: :pretty_radio, collection: depots_collection, label: Depot.model_name.human
+
+      = f.input :renewal_note, as: :text, input_html: { rows: 5 }, placeholder: t('.renewal_note.placeholder.renew').html_safe
+
+    li.input.next
+      = f.submit t('.submit')
+
+      = link_to members_membership_path, class: 'button cancel' do
+        span = 'Annuler'

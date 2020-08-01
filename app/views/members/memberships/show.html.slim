@@ -1,3 +1,20 @@
 h1 = Membership.model_name.human
 
 = render @membership
+
+- if @membership.renewal_open?
+  #renewal
+    h2 = t('.renewal.title')
+    = semantic_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f|
+      ul
+        li
+          p.justify = Current.acp.renewal_text
+
+        = f.input :renewal_decision, as: :pretty_radio, collection: renewal_decisions_collection, required: false, label: t('.renewal.options_label')
+
+        li.input.next
+          = f.submit t('.renewal.submit')
+- elsif @membership.renewed?
+  = render @membership.renewed_membership
+- elsif @membership.canceled? && @membership.current?
+  p.justify.canceled = t('.renewal.canceled', last_delivery_date: l(@membership.deliveries.last.date)).html_safe

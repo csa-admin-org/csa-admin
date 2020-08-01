@@ -2,7 +2,9 @@ module GroupBuying
   class Producer < ActiveRecord::Base
     self.table_name = 'group_buying_producers'
 
-    include HasTranslatedDescription
+    include TranslatedRichTexts
+
+    translated_rich_texts :description
 
     has_many :products, class_name: 'GroupBuying::Product'
 

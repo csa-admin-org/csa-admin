@@ -29,7 +29,8 @@ ActiveAdmin.register ACP do
     statutes_urls: I18n.available_locales,
     membership_extra_texts: I18n.available_locales,
     group_buying_terms_of_service_urls: I18n.available_locales,
-    group_buying_invoice_infos: I18n.available_locales
+    group_buying_invoice_infos: I18n.available_locales,
+    renewal_texts: I18n.available_locales
 
   form do |f|
     f.inputs t('.details') do
@@ -49,6 +50,14 @@ ActiveAdmin.register ACP do
     end
     f.inputs Membership.model_name.human(count: 2) do
       f.input :trial_basket_count
+      if Current.acp.feature_flag?(:open_renewal)
+        translated_input(f, :renewal_texts,
+          as: :action_text,
+          required: false,
+          hint: t('formtastic.hints.acp.renewal_text'))
+
+        # TODO Renewal: Send reminder notification email, after X weeks/days
+      end
     end
     f.inputs t('.seasons') do
       f.input :summer_month_range_min,

@@ -3,9 +3,10 @@ module GroupBuying
     self.table_name = 'group_buying_products'
 
     include TranslatedAttributes
-    include HasTranslatedDescription
+    include TranslatedRichTexts
 
     translated_attributes :name
+    translated_rich_texts :description
 
     belongs_to :producer, class_name: 'GroupBuying::Producer', optional: false
     has_many :order_items, class_name: 'GroupBuying::OrderItem', inverse_of: :product

@@ -171,11 +171,14 @@ _:
       invalid_foreign_key_alert:
         _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
         _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
+      open_renewals_notice:
+        _de: Verlängerungsanträge werden gesendet...
+        _fr: Les demandes de renouvellement sont en train d'être envoyées...
       renew_missing_deliveries_alert:
-        _de: Abonnements können nicht verlängert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
+        _de: Abonnements können nicht erneuert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
         _fr: Impossible de renouveler les abonnements si les livraisons %{next_year} n'existent pas!
       renew_notice:
-        _de: Die Abonnements werden verlängert...
+        _de: Die Abonnements werden erneuert...
         _fr: Les abonnements sont en train d'être renouvelés...
       two_paid_basket_required:
         _de: Für die Verwaltung die Tascheninhalt sind zwei Tasche Größen erforderlich.
@@ -351,11 +354,14 @@ _:
       index:
         all_renewed:
           one:
-            _de: "%{count_link} Abonnement %{year} wurde bereits verlängert."
+            _de: "%{count_link} Abonnement %{year} wurde bereits erneuert."
             _fr: "%{count_link} abonnement %{year} a déjà été renouvelé."
           other:
-            _de: "%{count_link} Abonnements %{year} wurden bereits verlängert."
+            _de: "%{count_link} Abonnements %{year} wurden bereits erneuert."
             _fr: "%{count_link} abonnements %{year} ont déjà été renouvelés."
+        confirm:
+          _de: Sind Sie mehr als sicher?
+          _fr: Êtes-vous sûr de sûr?
         no_next_year_deliveries:
           _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
@@ -364,24 +370,42 @@ _:
           _fr: Aucun abonnement à renouveler.
         none_renewed:
           one:
-            _de: "%{count_link} Abonnement %{year} muss verlängert werden."
+            _de: "%{count_link} Abonnement aus %{year} muss erneuert werden."
             _fr: "%{count_link} abonnement %{year} doit être renouvelé."
           other:
-            _de: "%{count_link} Abonnements %{year} müssen verlängert werden."
+            _de: "%{count_link} Abonnements aus %{year} müssen erneuert werden."
             _fr: "%{count_link} abonnements %{year} doivent être renouvelés."
+        open_renewal_all_action:
+          one:
+            _de: 1 Anfrage senden
+            _fr: Envoyer 1 demande
+          other:
+            _de: "{count} Anfragen senden"
+            _fr: Envoyer %{count} demandes
+        opened:
+          one:
+            _de: 1 Anfrage wurde gesendet.
+            _fr: 1 demande a été envoyée.
+          other:
+            _de: "%{count} Anfragen wurden gesendet."
+            _fr: "%{count} demandes ont été envoyées."
+        opening:
+          _de: Anfragen werden gesendet ...
+          _fr: Demandes en cours d'envoi...
         partially_renewed:
-          _de: "%{renewed_count} der %{count_link} Abonnements %{year} wurden bereits verlängert."
-          _fr: "%{renewed_count} des %{count_link} abonnements %{year} ont déjà été renouvelés."
-        renew_action:
+          one:
+            _de: "%{count_link} Abonnement aus %{year} ist bereits erneuert worden."
+            _fr: 1 des %{count_link} abonnements %{year} a déjà été renouvelé.
+          other:
+            _de: "%{count} der %{count_link} Abonnements aus %{year} sind bereits erneuert worden."
+            _fr: "%{count} des %{count_link} abonnements %{year} ont déjà été renouvelés."
+        renew_all_action:
           one:
             _de: "%{count} Abonnement verlängern"
             _fr: Renouveler %{count} abonnement
           other:
             _de: "%{count} Abonnements verlängern"
             _fr: Renouveler %{count} abonnements
-        renew_confirm:
-          _de: Sind Sie mehr als sicher?
-          _fr: Êtes-vous sûr de sûr?
         renewing:
           _de: Verlängerungen am laufen...
           _fr: Renouvellements en cours...
@@ -420,9 +444,15 @@ _:
         cancel_invoice:
           _de: Stornieren
           _fr: Annuler
+        cancel_renewal:
+          _de: Kündigen
+          _fr: Résilier
         closed_orders:
           _de: bezahlte
           _fr: payées
+        confirm:
+          _de: Sind Sie sicher?
+          _fr: Êtes-vous sûr?
         create_membership:
           _de: Abonnement erstellen
           _fr: Créer abonnement
@@ -435,6 +465,9 @@ _:
         edit:
           _de: Bearbeiten
           _fr: Modifier
+        enable_renewal:
+          _de: Kündigung abbrechen
+          _fr: Annuler résiliation
         invoice_action:
           _de: Rechnung stellen
           _fr: Facturer
@@ -483,6 +516,9 @@ _:
         open_orders:
           _de: Zu zahlen
           _fr: À payer
+        open_renewal:
+          _de: Anfrage senden
+          _fr: Envoyer la demande
         orders_canceled:
           one:
             _de: 1 stornierte
@@ -493,6 +529,9 @@ _:
         refund:
           _de: Rückerstattung
           _fr: Remboursement
+        renew:
+          _de: Erneuern
+          _fr: Renouveler
         salary_basket:
           _de: Gratis, Lohn-Tasche
           _fr: Gratuit, panier salaire
@@ -778,6 +817,18 @@ _:
       rejected:
         _de: abgelehnte
         _fr: refusée
+      renewal_canceled:
+        _de: Résilié
+        _fr: Gekündigt
+      renewal_open:
+        _de: Offen
+        _fr: Ouvert
+      renewal_pending:
+        _de: Warten
+        _fr: En attente
+      renewed:
+        _de: Erneuert
+        _fr: Renouvelé
       support:
         _de: Unterstützung
         _fr: soutien

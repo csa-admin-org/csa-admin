@@ -64,6 +64,9 @@ _:
       record_invalid:
         _de: 'Die Bestätigung ist fehlgeschlagen: %{errors}'
         _fr: 'La validation a échoué : %{errors}'
+      renewed:
+        _de: Abonnement bereits erneuert
+        _fr: abonnement déjà renouvelé
       same_fiscal_year:
         _de: muss im gleichen Geschäftsjahr sein
         _fr: doit être dans la même année fiscale

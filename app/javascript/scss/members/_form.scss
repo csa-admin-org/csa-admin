@@ -85,7 +85,7 @@ form.formtastic {
     font-size: $base-font-size * 1.2;
     line-height: $heading-line-height;
     font-weight: 600;
-    margin: $small-spacing * 2 0 0 0;
+    margin: $base-spacing 0 0 0;
   }
 
   label,
@@ -106,12 +106,16 @@ form.formtastic {
   }
 
   #member_terms_of_service_input {
-    margin-top: $small-spacing * 2;
+    margin-top: $base-spacing;
   }
 
   li.disabled,
   li.disabled a,
   li.disabled em {
     color: $light-gray !important;
+  }
+
+  li.next {
+    margin-top: $base-spacing;
   }
 }

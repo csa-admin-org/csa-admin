@@ -167,17 +167,21 @@ class Member < ActiveRecord::Base
   def deactivate!
     invalid_transition(:deactivate!) unless can_deactivate?
 
-    state =
-      if acp_shares_number.positive?
-        SUPPORT_STATE
-      else
-        INACTIVE_STATE
-      end
+    if acp_shares_number.positive?
+      state = SUPPORT_STATE
+      annual_fee = nil
+    elsif last_membership&.renewal_annual_fee&.positive?
+      state = SUPPORT_STATE
+      annual_fee = last_membership.renewal_annual_fee
+    else
+      state = INACTIVE_STATE
+      annual_fee = nil
+    end
 
     update!(
       state: state,
       waiting_started_at: nil,
-      annual_fee: nil)
+      annual_fee: annual_fee)
   end
 
   def can_wait?

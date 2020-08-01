@@ -99,6 +99,9 @@ _:
         phone:
           _de: Telefon
           _fr: Téléphone
+        renewal_text:
+          _de: Antrag auf Erneuerung
+          _fr: Demande de renouvellement
         share_price:
           _de: Betrag Anteilschein
           _fr: Montant part sociale
@@ -592,6 +595,21 @@ _:
         renew:
           _de: Verlängerung
           _fr: Renouvellement
+        renewal_note:
+          _de: Anmerkung(en)
+          _fr: Remarque(s)
+        renewal_opened_at:
+          _de: Anfrage gesendet am
+          _fr: Demande envoyée le
+        renewed:
+          _de: Erneuert
+          _fr: Renouvellé
+        renewed_at:
+          _de: Erneuert am
+          _fr: Renouvellé le
+        renewed_membership:
+          _de: Neues Abonnement
+          _fr: Nouvel abonnement
         season:
           _de: Saisons
           _fr: Saisons

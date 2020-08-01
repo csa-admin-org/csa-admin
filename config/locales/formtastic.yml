@@ -41,6 +41,9 @@ _:
         recurring_billing_wday:
           _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
           _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
+        renewal_text:
+          _de: Text, der beim Antrag auf Erneuerung auf der Mitgliederseite angezeigt wird
+          _fr: Texte affiché sur la page de membre lors de la demande de renouvellement
         share_price:
           _de: Leer lassen, wenn kein Anteilschein
           _fr: Laisser vide si pas de part sociale

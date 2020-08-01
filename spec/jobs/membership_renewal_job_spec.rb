@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-describe RenewalJob do
+describe MembershipRenewalJob do
   let(:next_fy) { Current.acp.fiscal_year_for(Date.today.year + 1) }
 
   it 'raises when no next year deliveries' do
     membership = create(:membership)
 
     expect(Delivery.between(next_fy.range).count).to be_zero
-    expect { RenewalJob.perform_now(membership, next_fy.year) }
-      .to raise_error(ActiveRecord::RecordInvalid)
+    expect { MembershipRenewalJob.perform_now(membership) }
+      .to raise_error(MembershipRenewal::MissingDeliveriesError)
   end
 
   it 'renews a membership without complements' do
@@ -24,7 +24,7 @@ describe RenewalJob do
     membership.basket_size.update!(price: 41)
     membership.depot.update!(price: 4)
 
-    expect { RenewalJob.perform_now(membership, next_fy.year) }
+    expect { MembershipRenewalJob.perform_now(membership) }
       .to change(Membership, :count).by(1)
 
     expect(Membership.last).to have_attributes(
@@ -55,7 +55,7 @@ describe RenewalJob do
         '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
       })
 
-    expect { RenewalJob.perform_now(membership, next_fy.year) }
+    expect { MembershipRenewalJob.perform_now(membership) }
       .to change(Membership, :count).by(1)
 
     renewal = Membership.last

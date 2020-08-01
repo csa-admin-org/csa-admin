@@ -3,5 +3,7 @@ class Members::MembershipsController < Members::BaseController
   def show
     @membership = current_member.current_or_future_membership
     redirect_to members_member_path unless @membership
+
+    @membership.renewal_decision = :renew
   end
 end

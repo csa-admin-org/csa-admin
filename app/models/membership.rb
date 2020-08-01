@@ -4,7 +4,7 @@ class Membership < ActiveRecord::Base
   include HasSeasons
 
   acts_as_paranoid
-  attr_accessor :skip_touch
+  attr_accessor :skip_touch, :renewal_decision
 
   belongs_to :member, -> { with_deleted }
   belongs_to :basket_size
@@ -40,6 +40,7 @@ class Membership < ActiveRecord::Base
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validate :good_period_range
+  validate :cannot_update_dates_when_renewed
   validate :only_one_per_year
   validate :unique_subscribed_basket_complement_id
   validate :at_least_one_basket
@@ -53,6 +54,7 @@ class Membership < ActiveRecord::Base
   after_update :handle_subscription_change!
   after_commit :update_member_and_baskets!
   after_touch :update_price_and_invoices_amount!, unless: :skip_touch
+  after_destroy :open_renewal_of_previous_membership
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -75,9 +77,12 @@ class Membership < ActiveRecord::Base
       where('? = ANY(seasons)', season)
     end
   }
+  scope :renewed, -> { where.not(renewed_at: nil) }
+  scope :not_renewed, -> { where(renewed_at: nil) }
+  scope :renewed_eq, ->(bool) { bool == 'true' ? renewed : not_renewed }
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year season_eq]
+    super + %i[during_year season_eq renewed_eq]
   end
 
   def trial?
@@ -122,6 +127,67 @@ class Membership < ActiveRecord::Base
 
   def can_update?
     fy_year >= Current.fy_year
+  end
+
+  def enable_renewal!
+    raise 'cannot enable renewal on an already renewed membership' if renewed?
+    raise 'renewal already enabled' if renew?
+
+    self[:renew] = true
+    save!
+  end
+
+  def open_renewal!
+    raise 'already renewed' if renewed?
+    raise '`renew` must be true before opening renewal' unless renew?
+    unless Delivery.any_next_year?
+      raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
+    end
+
+    # TODO Renewal: Send notification email
+    touch(:renewal_opened_at)
+  end
+
+  def renewal_open?
+    renew? && !renewed? && renewal_opened_at?
+  end
+
+  def renew!(attrs = {})
+    raise 'already renewed' if renewed?
+    raise '`renew` must be true for renewing' unless renew?
+
+    renewal = MembershipRenewal.new(self)
+    transaction do
+      renewal.renew!(attrs)
+      self[:renewal_note] = attrs[:renewal_note]
+      self[:renewed_at] = Time.current
+      save!
+    end
+  end
+
+  def renewed?
+    renewed_at?
+  end
+
+  def renewed_membership
+    member.memberships.during_year(fy_year + 1).first
+  end
+
+  def cancel!(attrs = {})
+    raise 'cannot cancel an already renewed membership' if renewed?
+
+    if ActiveRecord::Type::Boolean.new.cast(attrs[:renewal_annual_fee])
+      self[:renewal_annual_fee] = Current.acp.annual_fee
+    end
+    self[:renewal_note] = attrs[:renewal_note]
+    self[:renewal_opened_at] = nil
+    self[:renewed_at] = nil
+    self[:renew] = false
+    save!
+  end
+
+  def canceled?
+    !renew?
   end
 
   def memberships_basket_complements_attributes=(*args)
@@ -353,6 +419,15 @@ class Membership < ActiveRecord::Base
       invoices_amount: invoices.not_canceled.sum(:memberships_amount))
   end
 
+  def open_renewal_of_previous_membership
+    if started_on == Current.fiscal_year.end_of_year + 1.day
+      member.current_membership.update!(
+        renewal_opened_at: nil,
+        renewed_at: nil,
+        renew: true)
+    end
+  end
+
   def season_quantity(delivery)
     out_of_season_quantity(delivery) || basket_quantity
   end
@@ -380,6 +455,15 @@ class Membership < ActiveRecord::Base
     if ended_on && fy_year != Current.acp.fiscal_year_for(ended_on).year
       errors.add(:started_on, :same_fiscal_year)
       errors.add(:ended_on, :same_fiscal_year)
+    end
+  end
+
+  def cannot_update_dates_when_renewed
+    if renewed? && started_on_changed?
+      errors.add(:started_on, :renewed)
+    end
+    if renewed? && ended_on_changed?
+      errors.add(:ended_on, :renewed)
     end
   end
 

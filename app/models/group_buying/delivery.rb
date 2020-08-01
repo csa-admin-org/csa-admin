@@ -3,7 +3,9 @@ module GroupBuying
     self.table_name = 'group_buying_deliveries'
 
     include HasFiscalYearScopes
-    include HasTranslatedDescription
+    include TranslatedRichTexts
+
+    translated_rich_texts :description
 
     has_many :orders, class_name: 'GroupBuying::Order'
     has_many :orders_without_canceled,
