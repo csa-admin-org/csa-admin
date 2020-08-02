@@ -96,12 +96,12 @@ _:
         notification_member_validated:
           _de: Mitglied ist validiert
           _fr: Membre est validé
+        open_renewal_text:
+          _de: Antrag auf Erneuerung
+          _fr: Demande de renouvellement
         phone:
           _de: Telefon
           _fr: Téléphone
-        renewal_text:
-          _de: Antrag auf Erneuerung
-          _fr: Demande de renouvellement
         share_price:
           _de: Betrag Anteilschein
           _fr: Montant part sociale

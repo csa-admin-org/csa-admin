@@ -8,7 +8,7 @@ h1 = Membership.model_name.human
     = semantic_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f|
       ul
         li
-          p.justify = Current.acp.renewal_text
+          p.justify = Current.acp.open_renewal_text
 
         = f.input :renewal_decision, as: :pretty_radio, collection: renewal_decisions_collection, required: false, label: t('.renewal.options_label')
 

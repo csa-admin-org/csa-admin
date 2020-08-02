@@ -50,3 +50,7 @@
 trix-editor {
   background-color: white;
 }
+
+trix-editor + p.inline-hints {
+  margin-left: 0;
+}
