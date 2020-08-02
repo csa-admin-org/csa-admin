@@ -138,13 +138,16 @@ class Membership < ActiveRecord::Base
   end
 
   def open_renewal!
+    unless Current.acp.feature_flag?(:open_renewal)
+      raise 'open_renewal feature flag not enabled'
+    end
     raise 'already renewed' if renewed?
     raise '`renew` must be true before opening renewal' unless renew?
     unless Delivery.any_next_year?
       raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
     end
 
-    # TODO Renewal: Send notification email
+    Email.deliver_later(:member_renewal, self)
     touch(:renewal_opened_at)
   end
 

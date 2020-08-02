@@ -632,6 +632,7 @@ describe Membership do
   end
 
   describe '#open_renewal!' do
+    before { Current.acp.update!(feature_flags: %w[open_renewal]) }
     it 'requires future deliveries to be present' do
       membership = create(:membership)
 
@@ -650,6 +651,18 @@ describe Membership do
       }.to change { membership.reload.renewal_opened_at }.from(nil)
 
       expect(membership).to be_renewal_open
+    end
+
+    it 'sends member-renewal email template' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+
+      expect {
+        membership.open_renewal!
+      }.to change { email_adapter.deliveries.size }.by(1)
+      expect(email_adapter.deliveries.last).to match(
+        hash_including(template: 'member-renewal'))
     end
   end
 

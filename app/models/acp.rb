@@ -8,6 +8,7 @@ class ACP < ActiveRecord::Base
     basket_content
     group_buying
   ]
+  FEATURE_FLAGS = %w[open_renewal]
   LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
@@ -85,6 +86,7 @@ class ACP < ActiveRecord::Base
   def self.seasons; SEASONS end
   def self.languages; LANGUAGES end
   def self.features; FEATURES end
+  def self.feature_flags; FEATURE_FLAGS end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
 
@@ -93,7 +95,7 @@ class ACP < ActiveRecord::Base
   end
 
   def feature_flag?(feature)
-    credentials(:feature_flags)&.include?(feature.to_s)
+    feature_flags.include?(feature.to_s)
   end
 
   def billing_year_divisions=(divisions)
