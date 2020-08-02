@@ -6,6 +6,7 @@ describe 'Memberships Renewal' do
   let(:member) { create(:member) }
 
   before do
+    Current.acp.update!(feature_flags: %w[open_renewal])
     Capybara.app_host = 'http://membres.ragedevert.test'
   end
 

@@ -290,6 +290,24 @@ module Email
     }
   end
 
+  def member_renewal(membership)
+    member = membership.member
+    data = template_data(member.language) do
+      {
+        action_url: url(:members_membership_url, hanchor: 'renewal'),
+        membership_start_date: I18n.l(membership.started_on),
+        membership_end_date: I18n.l(membership.ended_on)
+      }
+    end
+
+    {
+      from: from,
+      to: member.emails,
+      template: 'member-renewal',
+      template_data: data
+    }
+  end
+
   def member_validated(member)
     data = template_data(member.language) do
       {
@@ -331,6 +349,7 @@ module Email
       member_activity_rejected
       member_invoice_new
       member_invoice_overdue_notice
+      member_renewal
       session_new
     ]
     default += Current.acp.email_notifications
