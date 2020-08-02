@@ -574,11 +574,18 @@ table.totals_2 {
 
 .button-inline {
   margin: 15px 15px 0 0;
-  // display: inline;
   a {
     width: 160px;
   }
 }
+
+a.clear_filters_btn[disabled="disabled"] {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: #aaa;
+  border-color: #ddd;
+}
+
 
 .full-width {
   width: 100%;

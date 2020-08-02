@@ -256,10 +256,11 @@ ActiveAdmin.register Membership do
           else
             row(:status) { status_tag(:renewal_open) }
             div class: 'buttons-inline' do
-              if Current.acp.feature_flag?(:open_renewal) && Delivery.any_next_year?
+              if Current.acp.feature_flag?(:open_renewal)
                 div class: 'button-inline' do
                   link_to t('.open_renewal'), open_renewal_membership_path(m),
                     data: { confirm: t('.confirm') },
+                    disabled: !Delivery.any_next_year?,
                     class: 'clear_filters_btn',
                     method: :post
                 end
@@ -267,6 +268,7 @@ ActiveAdmin.register Membership do
               div class: 'button-inline' do
                 link_to t('.renew'), renew_membership_path(m),
                   data: { confirm: t('.confirm') },
+                  disabled: !Delivery.any_next_year?,
                   class: 'clear_filters_btn',
                   method: :post
               end
