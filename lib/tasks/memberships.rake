@@ -6,4 +6,11 @@ namespace :memberships do
       puts "#{Current.acp.name}: Memberships basket counts updated."
     end
   end
+
+  desc 'Send open renewal reminders'
+  task send_renewal_reminders: :environment do
+    ACP.enter_each! do
+      Membership.send_renewal_reminders!
+    end
+  end
 end

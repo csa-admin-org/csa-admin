@@ -666,6 +666,77 @@ describe Membership do
     end
   end
 
+  specify '#send_renewal_reminders!' do
+    Current.acp.update!(
+      feature_flags: %w[open_renewal],
+      open_renewal_reminder_sent_after_in_days: 10)
+    next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+    Delivery.create_all(1, next_fy.beginning_of_year)
+    member = create(:member, emails: 'john@doe.com')
+
+    create(:membership, renewal_opened_at: nil)
+    create(:membership, renewal_opened_at: 10.days.ago).update_column(:renewed_at, 10.days.ago)
+    create(:membership, renewal_opened_at: 10.days.ago, member: member)
+    create(:membership, renewal_opened_at: 10.days.ago, renewal_reminder_sent_at: 1.minute.ago)
+    create(:membership, :last_year, renewal_opened_at: 10.days.ago)
+
+    expect { Membership.send_renewal_reminders! }
+      .to change { email_adapter.deliveries.size }.by(1)
+
+    expect(email_adapter.deliveries.last).to match(hash_including(
+      to: 'john@doe.com',
+      template: 'member-renewal-reminder'))
+  end
+
+  describe '#send_renewal_reminder!' do
+    before { Current.acp.update!(
+      feature_flags: %w[open_renewal],
+      open_renewal_reminder_sent_after_in_days: 1) }
+
+    it 'requires acp.open_renewal_reminder_sent_after_in_days to be set' do
+      Current.acp.update!(open_renewal_reminder_sent_after_in_days: nil)
+      membership = create(:membership)
+
+      expect {
+        membership.send_renewal_reminder!
+      }.to raise_error('reminder not configured')
+    end
+
+    it 'requires renewal_opened_at to be set' do
+      membership = create(:membership)
+
+      expect {
+        membership.send_renewal_reminder!
+      }.to raise_error('renewal not opened yet')
+    end
+
+    it 'raises when already sent' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+      membership.open_renewal!
+      membership.send_renewal_reminder!
+
+      expect {
+        membership.send_renewal_reminder!
+      }.to raise_error('reminder already sent')
+    end
+
+    it 'sends member-renewal-reminder email template' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+      membership.open_renewal!
+      email_adapter.reset!
+
+      expect { membership.send_renewal_reminder! }
+        .to change { email_adapter.deliveries.size }.by(1)
+        .and change { membership.reload.renewal_reminder_sent_at }.from(nil)
+      expect(email_adapter.deliveries.last).to match(
+        hash_including(template: 'member-renewal-reminder'))
+    end
+  end
+
   describe '#renew' do
     it 'sets renewal_note attrs' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)

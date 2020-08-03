@@ -151,6 +151,30 @@ class Membership < ActiveRecord::Base
     touch(:renewal_opened_at)
   end
 
+  def self.send_renewal_reminders!
+    in_days = Current.acp.open_renewal_reminder_sent_after_in_days
+    return unless in_days
+
+    self
+      .current
+      .not_renewed
+      .where(renew: true)
+      .where(renewal_reminder_sent_at: nil)
+      .where('renewal_opened_at <= ?', in_days.days.ago)
+      .find_each(&:send_renewal_reminder!)
+  end
+
+  def send_renewal_reminder!
+    unless Current.acp.open_renewal_reminder_sent_after_in_days?
+      raise 'reminder not configured'
+    end
+    raise 'renewal not opened yet' unless renewal_opened_at?
+    raise 'reminder already sent' if renewal_reminder_sent_at?
+
+    Email.deliver_now(:member_renewal_reminder, self)
+    touch(:renewal_reminder_sent_at)
+  end
+
   def renewal_open?
     renew? && !renewed? && renewal_opened_at?
   end

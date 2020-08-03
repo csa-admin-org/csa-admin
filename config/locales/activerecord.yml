@@ -96,6 +96,9 @@ _:
         notification_member_validated:
           _de: Mitglied ist validiert
           _fr: Membre est validé
+        open_renewal_reminder_sent_after_in_days:
+          _de: Senden Sie eine Mahnung nach (in Tagen)
+          _fr: Envoyer un rappel après (en jours)
         open_renewal_text:
           _de: Antrag auf Erneuerung
           _fr: Demande de renouvellement
@@ -601,6 +604,9 @@ _:
         renewal_opened_at:
           _de: Anfrage gesendet am
           _fr: Demande envoyée le
+        renewal_reminder_sent_at:
+          _de: Mahnung gesendet am
+          _fr: Rappel envoyé le
         renewed:
           _de: Erneuert
           _fr: Renouvellé

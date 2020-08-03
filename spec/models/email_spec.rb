@@ -482,6 +482,35 @@ describe Email do
     end
   end
 
+  it 'delivers member-renewal-reminder template' do
+    Current.acp.update!(
+      feature_flags: %w[open_renewal],
+      open_renewal_reminder_sent_after_in_days: 1)
+    travel_to '2020-06-01' do
+      member = create(:member, :active, emails: 'john@doew.com')
+      membership = member.membership
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+
+      membership.open_renewal!
+      email_adapter.reset!
+
+      membership.send_renewal_reminder!
+
+      expect(email_adapter.deliveries.size).to eq 1
+      expect(email_adapter.deliveries.first).to match(hash_including(
+        from: Current.acp.email_default_from,
+        to: 'john@doew.com',
+        template: 'member-renewal-reminder',
+        template_data: {
+          action_url: 'https://membres.ragedevert.ch/membership?hanchor=renewal',
+          membership_start_date: '1 janvier 2020',
+          membership_end_date: '31 décembre 2020',
+          fr: true
+        }))
+    end
+  end
+
   it 'delivers member-validated template' do
     member = create(:member, :pending, emails: 'john@doew.com')
     admin = create(:admin)

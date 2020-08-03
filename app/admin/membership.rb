@@ -239,6 +239,9 @@ ActiveAdmin.register Membership do
           elsif m.renewal_open?
             row(:status) { status_tag(:renewal_pending) }
             row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
+            if Current.acp.open_renewal_reminder_sent_after_in_days?
+              row(:renewal_reminder_sent_at) { l m.renewal_reminder_sent_at&.to_date }
+            end
             div class: 'buttons-inline' do
               div class: 'button-inline' do
                 link_to t('.renew'), renew_membership_path(m),

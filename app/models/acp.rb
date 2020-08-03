@@ -59,6 +59,8 @@ class ACP < ActiveRecord::Base
     numericality: { greater_than_or_equal_to: 0 }
   validates :activity_price,
     numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :open_renewal_reminder_sent_after_in_days,
+    numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
   validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
   validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true

@@ -38,6 +38,9 @@ _:
         notification_member_validated:
           _de: 'Email, die an das Mitglied gesendet wird, wenn sie von einem Admin validiert wird. Alias der Postmark-Vorlage: "member-validated"'
           _fr: 'Email envoyé au membre quand il est validé par un admin. Alias du template Postmark: "member-validated"'
+        open_renewal_reminder_sent_after_in_days:
+          _de: Die Mahnung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Lassen Sie das Feld leer, wenn keine Mahnung erfolgt.
+          _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.
         open_renewal_text:
           _de: Text, der beim Antrag auf Erneuerung auf der Mitgliederseite angezeigt wird
           _fr: Texte affiché sur la page de membre lors de la demande de renouvellement
