@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_093028) do
+ActiveRecord::Schema.define(version: 2020_08_02_192614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_093028) do
     t.integer "recurring_billing_wday"
     t.string "email_notifications", default: [], null: false, array: true
     t.string "feature_flags", default: [], null: false, array: true
+    t.integer "open_renewal_reminder_sent_after_in_days"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -483,6 +484,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_093028) do
     t.datetime "renewed_at"
     t.datetime "renewal_opened_at"
     t.text "renewal_note"
+    t.datetime "renewal_reminder_sent_at"
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

@@ -18,6 +18,7 @@ ActiveAdmin.register ACP do
     :delivery_pdf_show_phones,
     :group_buying_email,
     :recurring_billing_wday,
+    :open_renewal_reminder_sent_after_in_days,
     *ACP::OPTIONAL_EMAIL_NOTIFICATIONS.map { |n| "notification_#{n}".to_sym },
     billing_year_divisions: [],
     languages: [],
@@ -55,7 +56,7 @@ ActiveAdmin.register ACP do
           as: :action_text,
           required: false,
           hint: t('formtastic.hints.acp.open_renewal_text'))
-        # TODO Renewal: Send reminder notification email, after X weeks/days
+        f.input :open_renewal_reminder_sent_after_in_days
       end
     end
     f.inputs t('.seasons') do
