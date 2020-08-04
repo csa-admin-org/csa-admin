@@ -84,6 +84,9 @@ module Billing
 
     def signed_challenge(stepone_response)
       challenge = stepone_response.body[/<CHALLENGE>(.*)<\/CHALLENGE>/, 1]
+      unless challenge
+        raise LoginError, "Login Step Two issue, missing challenge (#{stepone_response.status}):\n#{stepone_response.body}"
+      end
       pkey = OpenSSL::PKey::RSA.new(@credentials.fetch(:private_key))
       Base64.strict_encode64 pkey.sign('MD5', challenge)
     end
