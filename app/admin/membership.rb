@@ -240,7 +240,11 @@ ActiveAdmin.register Membership do
             row(:status) { status_tag(:renewal_pending) }
             row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
             if Current.acp.open_renewal_reminder_sent_after_in_days?
-              row(:renewal_reminder_sent_at) { l m.renewal_reminder_sent_at&.to_date }
+              row(:renewal_reminder_sent_at) {
+                if m.renewal_reminder_sent_at
+                  l m.renewal_reminder_sent_at.to_date
+                end
+              }
             end
             div class: 'buttons-inline' do
               div class: 'button-inline' do
