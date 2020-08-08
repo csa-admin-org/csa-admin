@@ -128,6 +128,11 @@ ActiveAdmin.register GroupBuying::Delivery do
   controller do
     include TranslatedCSVFilename
 
+    def apply_sorting(chain)
+      params[:order] ||= 'date_asc' if params[:scope] == 'coming'
+      super
+    end
+
     def show
       respond_to do |format|
         format.html
@@ -144,5 +149,5 @@ ActiveAdmin.register GroupBuying::Delivery do
     end
   end
 
-  config.sort_order = 'date_asc'
+  config.sort_order = 'date_desc'
 end
