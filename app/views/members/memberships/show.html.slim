@@ -13,7 +13,7 @@ h1 = Membership.model_name.human
         = f.input :renewal_decision, as: :pretty_radio, collection: renewal_decisions_collection, required: false, label: t('.renewal.options_label')
 
         li.input.next
-          = f.submit t('.renewal.submit')
+          = f.submit t('.renewal.submit'), data: { disable_with: false }
 - elsif @membership.renewed?
   = render @membership.renewed_membership
 - elsif @membership.canceled? && @membership.current?
