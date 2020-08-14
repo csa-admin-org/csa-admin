@@ -340,8 +340,8 @@ _:
             _fr: Votre abonnement a été renouvelé. Merci!
       new:
         renewal_annual_fee_label:
-          _de: Um die Vereinigung zu unterstützen, zahle ich weiterhin den jährlichen Mitgliedsbeitrag. <em>%{annual_fee}</em>
-          _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle. <em>%{annual_fee}</em>
+          _de: Um die Vereinigung zu unterstützen, zahle ich ab dem nächsten Jahr weiterhin den jährlichen Mitgliedsbeitrag. <em>%{annual_fee}</em>
+          _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain. <em>%{annual_fee}</em>
         renewal_note:
           placeholder:
             cancel:
