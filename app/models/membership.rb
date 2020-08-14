@@ -79,10 +79,21 @@ class Membership < ActiveRecord::Base
   }
   scope :renewed, -> { where.not(renewed_at: nil) }
   scope :not_renewed, -> { where(renewed_at: nil) }
-  scope :renewed_eq, ->(bool) { bool == 'true' ? renewed : not_renewed }
+  scope :renewal_state_eq, ->(state) {
+    case state
+    when 'renewal_open'
+      not_renewed.where(renew: true, renewal_opened_at: nil)
+    when 'renewal_pending'
+      not_renewed.where(renew: true).where.not(renewal_opened_at: nil)
+    when 'renewal_canceled'
+      where(renew: false)
+    when 'renewed'
+      renewed
+    end
+  }
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year season_eq renewed_eq]
+    super + %i[during_year season_eq renewal_state_eq]
   end
 
   def trial?

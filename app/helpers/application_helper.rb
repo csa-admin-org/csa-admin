@@ -49,6 +49,17 @@ module ApplicationHelper
     }.reverse
   end
 
+  def renewal_states_collection
+    %i[
+      renewal_open
+      renewal_pending
+      renewal_canceled
+      renewed
+    ].map { |state|
+      [I18n.t("active_admin.status_tag.#{state}").capitalize, state]
+    }
+  end
+
   def wdays_collection
     Array(0..6).rotate.map { |d| [I18n.t('date.day_names')[d].capitalize, d] }
   end
