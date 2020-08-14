@@ -38,8 +38,9 @@ ActiveAdmin.register Membership do
     collection: -> { BasketComplement.all },
     if: :any_basket_complements?
   filter :depot, as: :select, collection: -> { Depot.all }
-  filter :renew
-  filter :renewed, as: :boolean
+  filter :renewal_state,
+    as: :select,
+    collection: -> { renewal_states_collection }
   filter :started_on
   filter :ended_on
   filter :during_year,

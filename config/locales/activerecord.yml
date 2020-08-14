@@ -607,6 +607,9 @@ _:
         renewal_reminder_sent_at:
           _de: Mahnung gesendet am
           _fr: Rappel envoyé le
+        renewal_state:
+          _de: Verlängerung
+          _fr: Renouvellement
         renewed:
           _de: Erneuert
           _fr: Renouvellé
