@@ -94,7 +94,7 @@ describe 'Memberships Renewal' do
     click_on 'Suivant'
 
     fill_in 'Remarque(s)', with: "Pas assez d'épinards!"
-    check "Pour soutenir l'association, je continue à payer la cotisation annuelle."
+    check "Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain."
 
     click_on 'Confirmer'
 
