@@ -7,7 +7,7 @@ class Members::MembershipRenewalsController < Members::BaseController
     @membership = current_member.current_year_membership
     @membership.renewal_decision = params[:decision]
 
-    redirect_to members_member_path unless @membership&.renewal_open?
+    redirect_to members_member_path unless @membership&.renewal_opened?
   end
 
   # POST /membership/renewal

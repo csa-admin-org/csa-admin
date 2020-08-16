@@ -51,8 +51,8 @@ module ApplicationHelper
 
   def renewal_states_collection
     %i[
-      renewal_open
-      renewal_pending
+      renewal_enabled
+      renewal_opened
       renewal_canceled
       renewed
     ].map { |state|

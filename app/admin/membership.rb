@@ -173,7 +173,7 @@ ActiveAdmin.register Membership do
     end
     column(:started_on)
     column(:ended_on)
-    column(:renew)
+    column(:renewal_state) { |m| I18n.t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
     column(:price) { |m| number_to_currency(m.price) }
@@ -219,13 +219,12 @@ ActiveAdmin.register Membership do
         end
 
         attributes_table title: Membership.human_attribute_name(:renew) do
+          row(:status) { status_tag(m.renewal_state) }
           if m.renewed?
-            row(:status) { status_tag(:renewed) }
             row(:renewed_at) { l m.renewed_at.to_date }
             row(:renewed_membership)
             row :renewal_note
           elsif m.canceled?
-            row(:status) { status_tag(:renewal_canceled) }
             row :renewal_note
             if m.ended_on == Current.fiscal_year.end_of_year
               div class: 'buttons-inline' do
@@ -237,8 +236,7 @@ ActiveAdmin.register Membership do
                 end
               end
             end
-          elsif m.renewal_open?
-            row(:status) { status_tag(:renewal_pending) }
+          elsif m.renewal_opened?
             row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
             if Current.acp.open_renewal_reminder_sent_after_in_days?
               row(:renewal_reminder_sent_at) {
@@ -262,7 +260,6 @@ ActiveAdmin.register Membership do
               end
             end
           else
-            row(:status) { status_tag(:renewal_open) }
             div class: 'buttons-inline' do
               if Current.acp.feature_flag?(:open_renewal)
                 div class: 'button-inline' do

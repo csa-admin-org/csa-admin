@@ -2,7 +2,7 @@ h1 = Membership.model_name.human
 
 = render @membership
 
-- if @membership.renewal_open?
+- if @membership.renewal_opened?
   #renewal
     h2 = t('.renewal.title')
     = semantic_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f|
