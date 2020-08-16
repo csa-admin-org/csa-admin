@@ -25,9 +25,9 @@ header
 
             - if membership
               li class=nav_class('membership')
-                = link_to members_membership_path(anchor: membership.renewal_open? ? 'renewal' : '') do
+                = link_to members_membership_path(anchor: membership.renewal_opened? ? 'renewal' : '') do
                   = Membership.model_name.human
-                  - if membership.renewal_open?
+                  - if membership.renewal_opened?
                     span.alert = t('.membership_renewal')
                   - elsif membership.trial?
                     span = t('.membership_trial')

@@ -820,12 +820,12 @@ _:
       renewal_canceled:
         _de: gekündigt
         _fr: résilié
-      renewal_open:
-        _de: offen
-        _fr: ouvert
-      renewal_pending:
+      renewal_enabled:
         _de: warten
         _fr: en attente
+      renewal_opened:
+        _de: offen
+        _fr: ouvert
       renewed:
         _de: erneuert
         _fr: renouvelé

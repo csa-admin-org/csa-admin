@@ -81,9 +81,9 @@ class Membership < ActiveRecord::Base
   scope :not_renewed, -> { where(renewed_at: nil) }
   scope :renewal_state_eq, ->(state) {
     case state
-    when 'renewal_open'
+    when 'renewal_enabled'
       not_renewed.where(renew: true, renewal_opened_at: nil)
-    when 'renewal_pending'
+    when 'renewal_opened'
       not_renewed.where(renew: true).where.not(renewal_opened_at: nil)
     when 'renewal_canceled'
       where(renew: false)
@@ -140,6 +140,18 @@ class Membership < ActiveRecord::Base
     fy_year >= Current.fy_year
   end
 
+  def renewal_state
+    if renewed?
+      :renewed
+    elsif canceled?
+      :renewal_canceled
+    elsif renewal_opened?
+      :renewal_opened
+    else
+      :renewal_enabled
+    end
+  end
+
   def enable_renewal!
     raise 'cannot enable renewal on an already renewed membership' if renewed?
     raise 'renewal already enabled' if renew?
@@ -186,7 +198,11 @@ class Membership < ActiveRecord::Base
     touch(:renewal_reminder_sent_at)
   end
 
-  def renewal_open?
+  def renewal_enabled?
+    renew? && !renewed? && !renewal_opened_at?
+  end
+
+  def renewal_opened?
     renew? && !renewed? && renewal_opened_at?
   end
 

@@ -628,6 +628,8 @@ describe Membership do
       expect {
         membership.enable_renewal!
       }.to change { membership.reload.renew }.from(false).to(true)
+
+      expect(membership).to be_renewal_enabled
     end
   end
 
@@ -650,7 +652,7 @@ describe Membership do
         membership.open_renewal!
       }.to change { membership.reload.renewal_opened_at }.from(nil)
 
-      expect(membership).to be_renewal_open
+      expect(membership).to be_renewal_opened
     end
 
     it 'sends member-renewal email template' do
