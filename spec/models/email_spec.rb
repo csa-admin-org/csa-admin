@@ -179,6 +179,7 @@ describe Email do
         fr: true,
         membership_start_date: '1 février 2020',
         membership_end_date: '31 décembre 2020',
+        first_delivery_data: '4 février 2020',
         "basket_size_id_#{basket_size.id}": true,
         "depot_id_#{Depot.first.id}": true,
         "basket_complement_id_1": true,

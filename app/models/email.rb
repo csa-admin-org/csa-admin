@@ -141,6 +141,7 @@ module Email
         action_url: url(:members_member_url),
         membership_start_date: I18n.l(membership.started_on),
         membership_end_date: I18n.l(membership.ended_on),
+        first_delivery_data: I18n.l(membership.deliveries.first.date),
         "basket_size_id_#{membership.basket_size_id}": true,
         "depot_id_#{membership.depot_id}": true,
         trial_baskets: membership.remaning_trial_baskets_count,
