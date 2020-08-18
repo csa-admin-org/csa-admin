@@ -47,7 +47,7 @@ describe 'members page' do
       expect(page).to have_content 'Merci pour votre inscription!'
 
       member = Member.last
-      expect(member.attributes.symbolize_keys).to match hash_including(
+      expect(member).to have_attributes(
         name: 'John et Jame Doe',
         address: 'Nowhere srteet 2',
         zip: '2042',
@@ -95,7 +95,7 @@ describe 'members page' do
       expect(page).to have_content 'Merci pour votre inscription!'
 
       member = Member.last
-      expect(member.attributes.symbolize_keys).to match hash_including(
+      expect(member).to have_attributes(
         name: 'John et Jame Doe',
         address: 'Nowhere srteet 2',
         zip: '2042',
@@ -143,7 +143,7 @@ describe 'members page' do
       expect(page).to have_content 'Merci pour votre inscription!'
 
       member = Member.last
-      expect(member.attributes.symbolize_keys).to match hash_including(
+      expect(member).to have_attributes(
         name: 'John et Jame Doe',
         address: 'Nowhere srteet 2',
         zip: '2042',

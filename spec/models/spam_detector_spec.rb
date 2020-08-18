@@ -34,6 +34,9 @@ describe SpamDetector do
         "Cordialement," \
         "L'équipe E-Réputation")
     expect(spam?(member)).to eq true
+
+    expect(member.note).to include ' '
+    expect(member.come_from).to include ' '
   end
 
   it 'skips duplicated short texts' do
