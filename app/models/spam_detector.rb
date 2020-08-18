@@ -33,7 +33,7 @@ class SpamDetector
     languages = Current.acp.languages
     languages << 'un' # Unknown CLD language
     TEXTS_COLUMNS.any? { |attr|
-      text = @member.send(attr)
+      text = @member.send(attr).dup
       if text && text.size > 40
         cld = CLD.detect_language(text)
         cld[:reliable] && languages.exclude?(cld[:code])
@@ -43,7 +43,7 @@ class SpamDetector
 
   def long_duplicated_texts?
     texts = TEXTS_COLUMNS.map { |attr|
-      text = @member.send(attr)
+      text = @member.send(attr).dup
       if text.present? && text.size > 40
         text.gsub!(/\s/, '')
       end

@@ -250,7 +250,7 @@ ActiveAdmin.register Member do
         end
         attributes_table title: t('.notes') do
           row :profession
-          row :come_from
+          row(:come_from) { text_format(member.come_from) }
           row(:food_note) { text_format(member.food_note) }
           row(:note) { text_format(member.note) }
         end

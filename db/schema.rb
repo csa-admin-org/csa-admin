@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_192614) do
+ActiveRecord::Schema.define(version: 2020_08_18_182016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -441,7 +441,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_192614) do
     t.string "state", default: "pending", null: false
     t.string "name", null: false
     t.string "profession"
-    t.string "come_from"
+    t.text "come_from"
     t.decimal "annual_fee", precision: 8, scale: 2
     t.integer "billing_year_division", default: 1, null: false
     t.string "language", default: "fr", null: false
