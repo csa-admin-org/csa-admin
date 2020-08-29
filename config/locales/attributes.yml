@@ -24,6 +24,9 @@ _:
     balance_amount:
       _de: Kontostand
       _fr: Balance
+    basket_price_extra:
+      _de: Preis Taschen (zusätzliche Gärtner)
+      _fr: Prix panier (extra jardiniers)
     basket_size:
       _de: Taschengrösse
       _fr: Taille panier

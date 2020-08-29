@@ -40,6 +40,7 @@ class Members::MembershipRenewalsController < Members::BaseController
         renewal_annual_fee
         renewal_note
         basket_size_id
+        basket_price_extra
         depot_id
       ], basket_complement_ids: [])
   end

@@ -29,6 +29,14 @@ p = t('.text')
       p = h Current.acp.membership_extra_text.html_safe
 
     = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
+
+    - if Current.acp.ragedevert?
+      = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
+        label: "Prix de votre panier - Il détermine le salaire des jardiniers", \
+        text: "Rage de Vert a mené d'intenses discussions tout au long de l'année 2020 concernant les modestes salaires des jardiniers. Ce qui a inauguré une nouvelle pratique respectant les situations financières très disparates des abonnés, qui rendait une simple augmentation des prix des paniers guère envisageable. Cette pratique consiste à offrir des choix de suppléments au tarif de base, de façon à ce que chacun connaisse de façon transparente le lien entre le prix de son abonnement, et le salaire des jardiniers. Les options ci-dessous vous permettent de sélectionner le prix de votre panier, en sachant ce que cela implique pour les revenus des jardiniers si tous les abonnés font le même choix que vous.", \
+        hint: false,
+        wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
+
     - if BasketComplement.any?
       = f.input :waiting_basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2), wrapper_html: { class: ('disabled' if support_checked) }, disabled: (basket_complements_collection.map(&:last) if support_checked)
     = f.input :waiting_depot, as: :pretty_radio, collection: depots_collection, label: Depot.model_name.human, required: true,

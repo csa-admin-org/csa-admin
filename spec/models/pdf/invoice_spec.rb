@@ -116,6 +116,26 @@ describe PDF::Invoice do
         .and include '0100000301256>001104190802410000000000085+ 010137346>'
     end
 
+    it 'generates invoice with membership basket_price_extra' do
+      membership = create(:membership,
+        basket_price_extra: 4,
+        basket_size: create(:basket_size, :big),
+        depot: create(:depot, price: 0))
+      invoice = create(:invoice,
+        id: 4,
+        object: membership,
+        annual_fee: 42,
+        memberships_amount_description: 'Facturation anuelle')
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .and contain_sequence('Panier: Abondance 40x (33.25+4.00)', "1'490.00")
+        .and contain_sequence('Cotisation annuelle association', '42.00')
+        .and contain_sequence('Total', "1'532.00")
+    end
+
     it 'generates invoice with quarter menbership and paid amount' do
       member = create(:member, billing_year_division: 4)
       membership = create(:membership,

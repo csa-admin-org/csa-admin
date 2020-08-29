@@ -2,6 +2,8 @@ import { live, checked, prop, addClass, removeClass } from 'components/utils';
 
 document.addEventListener('turbolinks:load', () => {
   live("#member_waiting_basket_size_input input[type='radio']", 'change', event => {
+    const extraPrice = '#member_waiting_basket_price_extra_input';
+    const extraPriceRadios = `${extraPrice} input[type='radio']`;
     const complements = '#member_waiting_basket_complement_ids_input';
     const complementsCheckboxes = `${complements} input[type='checkbox']`;
     const depots = '#member_waiting_depot_input';
@@ -12,6 +14,10 @@ document.addEventListener('turbolinks:load', () => {
     const billingYearDivision1Label = 'label[for=member_billing_year_division_1]';
 
     if (event.target.value === '0') {
+      addClass(extraPrice, 'disabled');
+      checked(extraPriceRadios, false);
+      prop(extraPriceRadios, 'disabled', true);
+
       addClass(complements, 'disabled');
       checked(complementsCheckboxes, false);
       prop(complementsCheckboxes, 'disabled', true);
@@ -28,6 +34,9 @@ document.addEventListener('turbolinks:load', () => {
       checked(billingYearDivision1, true);
       prop(billingYearDivision1, 'disabled', false);
     } else {
+      removeClass(extraPrice, 'disabled');
+      prop(extraPriceRadios, 'disabled', false);
+
       removeClass(complements, 'disabled');
       prop(complementsCheckboxes, 'disabled', false);
 

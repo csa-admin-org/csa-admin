@@ -338,7 +338,7 @@ module PDF
 
     def membership_basket_size_description(basket_size)
       baskets = object.baskets.where(basket_size: basket_size)
-      "#{Basket.model_name.human}: #{basket_size.name} #{basket_sizes_price_info(baskets)}"
+      "#{Basket.model_name.human}: #{basket_size.name} #{basket_sizes_price_info(object, baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)

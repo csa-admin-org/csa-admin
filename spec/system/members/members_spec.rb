@@ -30,6 +30,7 @@ describe 'members page' do
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
       choose 'Eveil'
+      choose "+ 4.-/panier"
       check 'Oeufs'
       check 'Pain'
       choose 'Vélo'
@@ -59,6 +60,7 @@ describe 'members page' do
         come_from: 'Bouche à oreille',
         note: 'Vive Rage de Vert!')
       expect(member.waiting_basket_size.name).to eq 'Eveil'
+      expect(member.waiting_basket_price_extra).to eq 4
       expect(member.waiting_depot.name).to eq 'Vélo'
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
       expect(member.annual_fee).to eq Current.acp.annual_fee

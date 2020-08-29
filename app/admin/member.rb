@@ -61,6 +61,9 @@ ActiveAdmin.register Member do
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
+    if Current.acp.ragedevert?
+      column(:waiting_basket_price_extra) { |m| number_to_currency(m.waiting_basket_price_extra) }
+    end
     if BasketComplement.any?
       column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
     end
@@ -214,6 +217,9 @@ ActiveAdmin.register Member do
               row :waiting_started_at
             end
             row(:basket_size) { member.waiting_basket_size&.name }
+            if Current.acp.ragedevert?
+              row(:basket_price_extra) { number_to_currency(member.waiting_basket_price_extra) }
+            end
             if BasketComplement.any?
               row(:basket_complements) {
                 member.waiting_basket_complements.map(&:name).to_sentence
@@ -275,6 +281,11 @@ ActiveAdmin.register Member do
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
           required: false
+        if Current.acp.ragedevert?
+          f.input :waiting_basket_price_extra,
+            label: Member.human_attribute_name(:basket_price_extra),
+            required: false
+        end
         if BasketComplement.any?
           f.input :waiting_basket_complement_ids,
             label: BasketComplement.model_name.human(count: 2),
@@ -326,7 +337,7 @@ ActiveAdmin.register Member do
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket, :billing_year_division,
     :acp_shares_info, :existing_acp_shares_number,
-    :waiting, :waiting_basket_size_id, :waiting_depot_id,
+    :waiting, :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
     waiting_basket_complement_ids: []
 
@@ -341,13 +352,15 @@ ActiveAdmin.register Member do
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
     next_delivery = Delivery.next
-    link_to t('.create_membership'),
-      new_membership_path(
-        member_id: resource.id,
-        basket_size_id: resource.waiting_basket_size_id,
-        depot_id: resource.waiting_depot_id,
-        subscribed_basket_complement_ids: resource.waiting_basket_complement_ids,
-        started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max)
+    params = {
+      member_id: resource.id,
+      started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max
+    }
+    params[:basket_size_id] = resource.waiting_basket_size_id if resource.waiting_basket_size_id&.positive?
+    params[:basket_price_extra] = resource.waiting_basket_price_extra if resource.waiting_basket_price_extra&.positive?
+    params[:depot_id] = resource.waiting_depot_id if resource.waiting_depot_id&.positive?
+    params[:subscribed_basket_complement_ids] = resource.waiting_basket_complement_ids if resource.waiting_basket_complement_ids&.any?
+    link_to t('.create_membership'), new_membership_path(params)
   end
 
   member_action :validate, method: :post do

@@ -32,6 +32,10 @@ class FiscalYear
     beginning_of_year..end_of_year
   end
 
+  def include?(date)
+    range.include?(date)
+  end
+
   def to_s
     if range.min.year == range.max.year
       range.min.year.to_s
