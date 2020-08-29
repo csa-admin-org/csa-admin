@@ -105,6 +105,11 @@ form.formtastic {
     border-radius: $base-border-radius;
   }
 
+  p.legend-text {
+    margin-top: $small-spacing / 2;
+    font-size: $base-font-size * 0.9;
+  }
+
   #member_terms_of_service_input {
     margin-top: $base-spacing;
   }

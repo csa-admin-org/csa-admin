@@ -44,6 +44,28 @@ module MembersHelper
     col
   end
 
+  def basket_prices_extra_collection
+    [
+      [0.0, 20],
+      [1.0, 21],
+      [2.0, 22],
+      [4.0, 24],
+      [8.0, 28]
+    ].map { |(extra, hours)|
+      details = "salaire jardinier ~#{hours}.- net/h, ~#{hours * 100}.- net/m à 50%"
+      [
+        if extra.zero?
+          collection_text('Tarif de base', details: details)
+        else
+          collection_text("+ #{extra.to_i}.-/panier",
+            price: basket_size_price_info(extra),
+            details: details)
+        end,
+        extra
+      ]
+    }
+  end
+
   def basket_complements_collection
     BasketComplement
       .visible

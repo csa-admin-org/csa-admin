@@ -43,7 +43,7 @@ class MembershipRenewal
       .merge(
         attrs
           .stringify_keys
-          .slice(*%w[basket_size_id depot_id]))
+          .slice(*%w[basket_size_id basket_price_extra depot_id]))
   end
 
   def renew_complements(new_membership, attrs)

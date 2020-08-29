@@ -108,6 +108,10 @@ class ACP < ActiveRecord::Base
     super languages & LANGUAGES
   end
 
+  def languages
+    super & LANGUAGES
+  end
+
   def url=(url)
     super
     self.host ||= PublicSuffix.parse(URI(url).host).sld

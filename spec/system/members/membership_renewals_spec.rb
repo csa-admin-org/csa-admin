@@ -75,6 +75,70 @@ describe 'Memberships Renewal' do
       basket_complement_ids: [complement.id])
   end
 
+  specify 'renew membership (with basket_price_extra)', freeze: '2020-09-30' do
+    membership = create(:membership,
+      member: member,
+      basket_size: basket_size,
+      depot: depot)
+    DeliveriesHelper.create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    big_basket = create(:basket_size, name: 'Grand')
+    membership.open_renewal!
+
+    login(member)
+
+    within '#menu' do
+      expect(page).to have_content 'Abonnement⤷ Renouvellement ?'
+    end
+    click_on 'Abonnement'
+
+    choose 'Renouveler mon abonnement'
+    click_on 'Suivant'
+
+    choose "Grand"
+    choose "+ 8.-/panier"
+
+    fill_in 'Remarque(s)', with: "Plus d'épinards!"
+
+    save_and_open_page
+
+    click_on 'Confirmer'
+
+    expect(page).to have_selector('.flash.notice',
+      text: 'Votre abonnement a été renouvelé. Merci!')
+
+    within '#menu' do
+      expect(page).to have_content 'Abonnement⤷ En cours'
+    end
+    within 'main ul.details#2021' do
+      expect(page).to have_content 'Période'
+      expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
+      expect(page).to have_content 'Panier'
+      expect(page).to have_content 'Grand'
+      expect(page).to have_content 'Joli Lieu'
+      expect(page).to have_content 'Livraisons'
+      expect(page).to have_content '1'
+      expect(page).to have_content '½ Journées'
+      expect(page).to have_content '2 demandées'
+      expect(page).to have_content 'Prix'
+      expect(page).to have_content "CHF 38.00"
+    end
+    expect(membership.reload).to have_attributes(
+      renew: true,
+      renewal_annual_fee: nil,
+      renewal_opened_at: Time.current,
+      renewed_at: Time.current,
+      renewal_note: "Plus d'épinards!",
+      basket_price_extra: 0)
+    expect(membership).to be_renewed
+    expect(membership.renewed_membership).to have_attributes(
+      renew: true,
+      started_on: Date.parse('2021-01-01'),
+      ended_on: Date.parse('2021-12-31'),
+      basket_size: big_basket,
+      basket_price_extra: 8)
+  end
+
+
   specify 'cancel membership', freeze: '2020-09-30' do
     membership = create(:membership,
       member: member,

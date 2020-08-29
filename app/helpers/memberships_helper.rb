@@ -44,7 +44,7 @@ module MembershipsHelper
     end
   end
 
-  def basket_sizes_price_info(baskets)
+  def basket_sizes_price_info(membership, baskets)
     baskets
       .billable
       .pluck(:quantity, :basket_price)
@@ -52,7 +52,13 @@ module MembershipsHelper
       .group_by { |_, p| p }
       .sort
       .map { |price, bbs|
-        "#{bbs.sum { |q, _| q }}x#{precise_cur(price)}"
+        txt = "#{bbs.sum { |q, _| q }}x"
+        if membership.basket_price_extra.positive?
+          txt +=" (#{precise_cur(price).strip}+#{precise_cur(membership.basket_price_extra).strip})"
+        else
+          txt += precise_cur(price)
+        end
+        txt
       }.join(' + ')
   end
 

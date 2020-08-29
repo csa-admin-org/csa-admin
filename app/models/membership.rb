@@ -37,6 +37,7 @@ class Membership < ActiveRecord::Base
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :basket_price_extra, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validate :good_period_range
@@ -91,6 +92,10 @@ class Membership < ActiveRecord::Base
       renewed
     end
   }
+
+  def basket_price_extra=(price)
+    super([price.to_f, 0].max)
+  end
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[during_year season_eq renewal_state_eq]
@@ -267,11 +272,18 @@ class Membership < ActiveRecord::Base
   end
 
   def basket_size_total_price(basket_size_id)
-    rounded_price(
+    price =
       baskets
         .billable
         .where(basket_size_id: basket_size_id)
-        .sum('quantity * basket_price'))
+        .sum('quantity * basket_price')
+    if basket_price_extra.positive?
+      price += baskets
+        .billable
+        .where(basket_size_id: basket_size_id)
+        .sum(:quantity) * basket_price_extra
+    end
+    rounded_price(price)
   end
 
   def basket_complements_price

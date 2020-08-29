@@ -176,6 +176,9 @@ ActiveAdmin.register Membership do
     column(:renewal_state) { |m| I18n.t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
+    if Current.acp.ragedevert?
+      column(:basket_price_extra) { |m| number_to_currency(m.basket_price_extra) }
+    end
     column(:price) { |m| number_to_currency(m.price) }
     column(:invoices_amount) { |m| number_to_currency(m.invoices_amount) }
     column(:missing_invoices_amount) { |m| number_to_currency(m.missing_invoices_amount) }
@@ -218,70 +221,74 @@ ActiveAdmin.register Membership do
           row(:ended_on) { l m.ended_on }
         end
 
-        attributes_table title: Membership.human_attribute_name(:renew) do
-          row(:status) { status_tag(m.renewal_state) }
-          if m.renewed?
-            row(:renewed_at) { l m.renewed_at.to_date }
-            row(:renewed_membership)
-            row :renewal_note
-          elsif m.canceled?
-            row :renewal_note
-            if m.ended_on == Current.fiscal_year.end_of_year
+        if Date.current > m.started_on
+          attributes_table title: Membership.human_attribute_name(:renew) do
+            row(:status) { status_tag(m.renewal_state) }
+            if m.renewed?
+              row(:renewed_at) { l m.renewed_at.to_date }
+              row(:renewed_membership)
+              row :renewal_note
+            elsif m.canceled?
+              row :renewal_note
+              if m.ended_on == Current.fiscal_year.end_of_year
+                div class: 'buttons-inline' do
+                  div class: 'button-inline' do
+                    link_to t('.enable_renewal'), enable_renewal_membership_path(m),
+                      data: { confirm: t('.confirm') },
+                      class: 'clear_filters_btn',
+                      method: :post
+                  end
+                end
+              end
+            elsif m.renewal_opened?
+              row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
+              if Current.acp.open_renewal_reminder_sent_after_in_days?
+                row(:renewal_reminder_sent_at) {
+                  if m.renewal_reminder_sent_at
+                    l m.renewal_reminder_sent_at.to_date
+                  end
+                }
+              end
               div class: 'buttons-inline' do
                 div class: 'button-inline' do
-                  link_to t('.enable_renewal'), enable_renewal_membership_path(m),
+                  link_to t('.renew'), renew_membership_path(m),
                     data: { confirm: t('.confirm') },
                     class: 'clear_filters_btn',
                     method: :post
                 end
-              end
-            end
-          elsif m.renewal_opened?
-            row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
-            if Current.acp.open_renewal_reminder_sent_after_in_days?
-              row(:renewal_reminder_sent_at) {
-                if m.renewal_reminder_sent_at
-                  l m.renewal_reminder_sent_at.to_date
-                end
-              }
-            end
-            div class: 'buttons-inline' do
-              div class: 'button-inline' do
-                link_to t('.renew'), renew_membership_path(m),
-                  data: { confirm: t('.confirm') },
-                  class: 'clear_filters_btn',
-                  method: :post
-              end
-              div class: 'button-inline' do
-                link_to t('.cancel_renewal'), cancel_membership_path(m),
-                  data: { confirm: t('.confirm') },
-                  class: 'clear_filters_btn',
-                  method: :post
-              end
-            end
-          else
-            div class: 'buttons-inline' do
-              if Current.acp.feature_flag?(:open_renewal)
                 div class: 'button-inline' do
-                  link_to t('.open_renewal'), open_renewal_membership_path(m),
+                  link_to t('.cancel_renewal'), cancel_membership_path(m),
                     data: { confirm: t('.confirm') },
-                    disabled: !Delivery.any_next_year?,
                     class: 'clear_filters_btn',
                     method: :post
                 end
               end
-              div class: 'button-inline' do
-                link_to t('.renew'), renew_membership_path(m),
-                  data: { confirm: t('.confirm') },
-                  disabled: !Delivery.any_next_year?,
-                  class: 'clear_filters_btn',
-                  method: :post
-              end
-              div class: 'button-inline' do
-                link_to t('.cancel_renewal'), cancel_membership_path(m),
-                  data: { confirm: t('.confirm') },
-                  class: 'clear_filters_btn',
-                  method: :post
+            else
+              div class: 'buttons-inline' do
+                if Delivery.any_next_year?
+                  if Current.acp.feature_flag?(:open_renewal)
+                    div class: 'button-inline' do
+                      link_to t('.open_renewal'), open_renewal_membership_path(m),
+                        data: { confirm: t('.confirm') },
+                        disabled: !Delivery.any_next_year?,
+                        class: 'clear_filters_btn',
+                        method: :post
+                    end
+                  end
+                  div class: 'button-inline' do
+                    link_to t('.renew'), renew_membership_path(m),
+                      data: { confirm: t('.confirm') },
+                      disabled: !Delivery.any_next_year?,
+                      class: 'clear_filters_btn',
+                      method: :post
+                  end
+                end
+                div class: 'button-inline' do
+                  link_to t('.cancel_renewal'), cancel_membership_path(m),
+                    data: { confirm: t('.confirm') },
+                    class: 'clear_filters_btn',
+                    method: :post
+                end
               end
             end
           end
@@ -366,7 +373,7 @@ ActiveAdmin.register Membership do
             em t('.no_baskets')
           else
             row(:basket_sizes_price) {
-              display_price_description(m.basket_sizes_price, basket_sizes_price_info(m.baskets))
+              display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
             }
             row(:baskets_annual_price_change) {
               number_to_currency(m.baskets_annual_price_change)
@@ -424,6 +431,9 @@ ActiveAdmin.register Membership do
       end
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true, required: false
+      if Current.acp.ragedevert?
+        f.input :basket_price_extra, required: true
+      end
       f.input :baskets_annual_price_change, hint: true
       f.input :basket_quantity
       f.input :depot, prompt: true, input_html: { class: 'js-reset_price' }
@@ -459,7 +469,7 @@ ActiveAdmin.register Membership do
 
   permit_params \
     :member_id,
-    :basket_size_id, :basket_price, :basket_quantity, :baskets_annual_price_change,
+    :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price,
     :started_on, :ended_on, :renew,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
@@ -508,6 +518,9 @@ ActiveAdmin.register Membership do
   before_build do |membership|
     membership.member_id ||= params[:member_id]
     membership.basket_size_id ||= params[:basket_size_id]
+    if params[:basket_price_extra]
+      membership.basket_price_extra = params[:basket_price_extra]
+    end
     membership.depot_id ||= params[:depot_id]
     params[:subscribed_basket_complement_ids]&.each do |id|
       membership.memberships_basket_complements.build(basket_complement_id: id)

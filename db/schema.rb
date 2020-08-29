@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_182016) do
+ActiveRecord::Schema.define(version: 2020_08_28_120958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -448,6 +448,7 @@ ActiveRecord::Schema.define(version: 2020_08_18_182016) do
     t.string "acp_shares_info"
     t.integer "existing_acp_shares_number", default: 0, null: false
     t.datetime "activated_at"
+    t.decimal "waiting_basket_price_extra", precision: 8, scale: 2
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
@@ -485,6 +486,7 @@ ActiveRecord::Schema.define(version: 2020_08_18_182016) do
     t.datetime "renewal_opened_at"
     t.text "renewal_note"
     t.datetime "renewal_reminder_sent_at"
+    t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

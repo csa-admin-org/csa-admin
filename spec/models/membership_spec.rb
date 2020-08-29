@@ -73,6 +73,20 @@ describe Membership do
       membership.ended_on = Current.fiscal_year.end_of_year - 4.days
       expect(membership).not_to have_valid(:ended_on)
     end
+
+    it 'prevents negative basket_price_extra' do
+      membership = build(:membership, basket_price_extra: '3')
+      expect(membership.basket_price_extra).to eq 3
+      expect(membership).to have_valid(:basket_price_extra)
+
+      membership = build(:membership, basket_price_extra: 0)
+      expect(membership.basket_price_extra).to eq 0
+      expect(membership).to have_valid(:basket_price_extra)
+
+      membership = build(:membership, basket_price_extra: nil)
+      expect(membership.basket_price_extra).to eq 0
+      expect(membership).to have_valid(:basket_price_extra)
+    end
   end
 
   it 'creates baskets on creation' do
