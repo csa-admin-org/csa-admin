@@ -352,29 +352,19 @@ _:
           _de: Jahreszeiten (Sommer / Winter)
           _fr: Saisons (été / hiver)
       index:
-        all_renewed:
+        canceled_renewals:
           one:
-            _de: "%{count_link} Abonnement %{year} wurde bereits erneuert."
-            _fr: "%{count_link} abonnement %{year} a déjà été renouvelé."
+            _de: "%{count_link} Kündigung"
+            _fr: "%{count_link} résiliation"
           other:
-            _de: "%{count_link} Abonnements %{year} wurden bereits erneuert."
-            _fr: "%{count_link} abonnements %{year} ont déjà été renouvelés."
+            _de: "%{count_link} Kündigungen"
+            _fr: "%{count_link} résiliations"
         confirm:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
         no_next_year_deliveries:
           _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
-        no_renewals:
-          _de: Kein Abonnement zu verlängern.
-          _fr: Aucun abonnement à renouveler.
-        none_renewed:
-          one:
-            _de: "%{count_link} Abonnement aus %{year} muss erneuert werden."
-            _fr: "%{count_link} abonnement %{year} doit être renouvelé."
-          other:
-            _de: "%{count_link} Abonnements aus %{year} müssen erneuert werden."
-            _fr: "%{count_link} abonnements %{year} doivent être renouvelés."
         open_renewal_all_action:
           one:
             _de: 1 Anfrage senden
@@ -382,23 +372,16 @@ _:
           other:
             _de: "{count} Anfragen senden"
             _fr: Envoyer %{count} demandes
-        opened:
+        opened_renewals:
           one:
-            _de: 1 Anfrage wurde gesendet.
-            _fr: 1 demande a été envoyée.
+            _de: "%{count_link} offener Antrag"
+            _fr: "%{count_link} demande ouverte"
           other:
-            _de: "%{count} Anfragen wurden gesendet."
-            _fr: "%{count} demandes ont été envoyées."
+            _de: "%{count_link} offene Anträge"
+            _fr: "%{count_link} demandes ouvertes"
         opening:
           _de: Anfragen werden gesendet ...
           _fr: Demandes en cours d'envoi...
-        partially_renewed:
-          one:
-            _de: "%{count_link} Abonnement aus %{year} ist bereits erneuert worden."
-            _fr: 1 des %{count_link} abonnements %{year} a déjà été renouvelé.
-          other:
-            _de: "%{count} der %{count_link} Abonnements aus %{year} sind bereits erneuert worden."
-            _fr: "%{count} des %{count_link} abonnements %{year} ont déjà été renouvelés."
         renew_all_action:
           one:
             _de: "%{count} Abonnement verlängern"
@@ -406,6 +389,13 @@ _:
           other:
             _de: "%{count} Abonnements verlängern"
             _fr: Renouveler %{count} abonnements
+        renewed_renewals:
+          one:
+            _de: "%{count_link} Erneuerung"
+            _fr: "%{count_link} rénouvellement"
+          other:
+            _de: "%{count_link} Erneuerungen"
+            _fr: "%{count_link} rénouvellements"
         renewing:
           _de: Verlängerungen am laufen...
           _fr: Renouvellements en cours...
