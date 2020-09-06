@@ -64,73 +64,75 @@ ActiveAdmin.register Membership do
 
   sidebar :renewal, only: :index do
     renewal = MembershipsRenewal.new
-    to_renew_link = link_to(
-      renewal.to_renew.count,
-      collection_path(scope: :ongoing, q: { renew_eq: true, during_year: Current.acp.current_fiscal_year.year }))
-    renewable_count = renewal.renewable.count
-    if renewable_count.positive?
-      renewed_count = renewal.renewed.count
-      if renewed_count.positive?
-        span do
-          t('.partially_renewed',
-            count: renewed_count,
-            count_link: to_renew_link,
-            year: Current.acp.current_fiscal_year).html_safe
-        end
-      else
-        span do
-          t('.none_renewed',
-            count: renewable_count,
-            count_link: to_renew_link,
-            year: Current.acp.current_fiscal_year).html_safe
-        end
-      end
-      opened_count = renewal.opened.count
-      if opened_count.positive?
-        div class: 'top-spacing' do
-          t('.opened', count: opened_count)
-        end
-      end
-      div class: 'top-spacing' do
-        if !Delivery.any_next_year?
-          span do
-            t('.no_next_year_deliveries',
-              fiscal_year: renewal.next_fy,
-              new_delivery_path: new_delivery_path).html_safe
-          end
-        elsif renewal.renewing?
-          span { t('.renewing') }
-        elsif renewal.opening?
-          span { t('.opening') }
-        else
-          if Current.acp.feature_flag?(:open_renewal)
-            openable_count = renewal.openable.count
-            if openable_count.positive?
-              div do
-                link_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
-                  data: { confirm: t('.confirm'), disable_with: t('.opening') },
-                  class: 'clear_filters_btn full-width',
-                  method: :post
-              end
-            end
-          end
-          div class: 'top-small-spacing' do
-            link_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
-              data: { confirm: t('.confirm'), disable_with: t('.renewing') },
-              class: 'clear_filters_btn full-width',
-              method: :post
-          end
-        end
-      end
-    elsif renewal.renewed.any?
+    if !Delivery.any_next_year?
       span do
-        t('.all_renewed',
-          count: renewal.renewed.count,
-          count_link: to_renew_link,
-          year: Current.acp.current_fiscal_year).html_safe
+        t('.no_next_year_deliveries',
+          fiscal_year: renewal.next_fy,
+          new_delivery_path: new_delivery_path).html_safe
       end
     else
-      span { t('.no_renewals') }
+      span do
+        ul do
+          if Current.acp.feature_flag?(:open_renewal)
+            li do
+              renewal_opened_count = renewal.opened.count
+              t('.opened_renewals',
+                count: renewal_opened_count,
+                count_link: link_to(
+                  renewal_opened_count,
+                  collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.acp.current_fiscal_year.year }))
+              ).html_safe
+            end
+          end
+          li do
+            renewed_count = renewal.renewed.count
+            t('.renewed_renewals',
+              count: renewed_count,
+              count_link: link_to(
+                renewed_count,
+                collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.acp.current_fiscal_year.year }))
+            ).html_safe
+          end
+          li do
+            end_of_year = Current.acp.current_fiscal_year.end_of_year
+            renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
+            t('.canceled_renewals',
+              count: renewal_canceled_count,
+              count_link: link_to(
+                renewal_canceled_count,
+                collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.acp.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }))
+            ).html_safe
+          end
+        end
+      end
+      renewable_count = renewal.renewable.count
+      if renewable_count.positive?
+        div class: 'top-spacing' do
+          if renewal.renewing?
+            span { t('.renewing') }
+          elsif renewal.opening?
+            span { t('.opening') }
+          else
+            if Current.acp.feature_flag?(:open_renewal)
+              openable_count = renewal.openable.count
+              if openable_count.positive?
+                div do
+                  link_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
+                    data: { confirm: t('.confirm'), disable_with: t('.opening') },
+                    class: 'clear_filters_btn full-width',
+                    method: :post
+                end
+              end
+            end
+            div class: 'top-small-spacing' do
+              link_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
+                data: { confirm: t('.confirm'), disable_with: t('.renewing') },
+                class: 'clear_filters_btn full-width',
+                method: :post
+            end
+          end
+        end
+      end
     end
   end
 

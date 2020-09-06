@@ -81,14 +81,14 @@ class Membership < ActiveRecord::Base
   scope :renewed, -> { where.not(renewed_at: nil) }
   scope :not_renewed, -> { where(renewed_at: nil) }
   scope :renewal_state_eq, ->(state) {
-    case state
-    when 'renewal_enabled'
+    case state.to_sym
+    when :renewal_enabled
       not_renewed.where(renew: true, renewal_opened_at: nil)
-    when 'renewal_opened'
+    when :renewal_opened
       not_renewed.where(renew: true).where.not(renewal_opened_at: nil)
-    when 'renewal_canceled'
+    when :renewal_canceled
       where(renew: false)
-    when 'renewed'
+    when :renewed
       renewed
     end
   }
