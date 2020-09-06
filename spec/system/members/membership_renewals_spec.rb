@@ -99,8 +99,6 @@ describe 'Memberships Renewal' do
 
     fill_in 'Remarque(s)', with: "Plus d'épinards!"
 
-    save_and_open_page
-
     click_on 'Confirmer'
 
     expect(page).to have_selector('.flash.notice',
