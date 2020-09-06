@@ -80,8 +80,8 @@ module MembersHelper
       }
   end
 
-  def depots_collection
-    visible_depots.map { |d|
+  def depots_collection(membership = nil)
+    visible_depots(membership).map { |d|
       details = []
       details << deliveries_count(d.deliveries_count) if deliveries_counts.many?
       if address = d.full_address
@@ -129,8 +129,10 @@ module MembersHelper
 
   private
 
-  def visible_depots
-    @visible_depots ||= Depot.visible.reorder('form_priority, price, name').to_a
+  def visible_depots(membership = nil)
+    depot_ids = Depot.visible.pluck(:id)
+    depot_ids << membership.depot_id if membership
+    Depot.where(id: depot_ids.uniq).order('form_priority, price, name').to_a
   end
 
   def deliveries_counts
