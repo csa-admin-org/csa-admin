@@ -26,6 +26,12 @@ class Ability
       can :destroy, [Member, Membership, Payment, Invoice], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
       can :trigger_recurring_billing, Membership
+      can :renew_all, Membership
+      can :open_renewal_all, Membership
+      can :open_renewal, Membership
+      can :enable_renewal, Membership
+      can :renew, Membership
+      can :cancel, Membership
       can :validate, Member, pending?: true
       can :deactivate, Member, can_deactivate?: true
       can :wait, Member, can_wait?: true
