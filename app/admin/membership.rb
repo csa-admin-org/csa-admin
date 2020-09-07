@@ -113,7 +113,7 @@ ActiveAdmin.register Membership do
           elsif renewal.opening?
             span { t('.opening') }
           else
-            if Current.acp.feature_flag?(:open_renewal)
+            if Current.acp.feature_flag?(:open_renewal) && authorized?(:open_renewal_all, Membership)
               openable_count = renewal.openable.count
               if openable_count.positive?
                 div do
@@ -124,11 +124,13 @@ ActiveAdmin.register Membership do
                 end
               end
             end
-            div class: 'top-small-spacing' do
-              link_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
-                data: { confirm: t('.confirm'), disable_with: t('.renewing') },
-                class: 'clear_filters_btn full-width',
-                method: :post
+            if authorized?(:renew_all, Membership)
+              div class: 'top-small-spacing' do
+                link_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
+                  data: { confirm: t('.confirm'), disable_with: t('.renewing') },
+                  class: 'clear_filters_btn full-width',
+                  method: :post
+              end
             end
           end
         end
@@ -137,6 +139,7 @@ ActiveAdmin.register Membership do
   end
 
   collection_action :renew_all, method: :post do
+    authorize!(:renew_all, Membership)
     MembershipsRenewal.new.renew_all!
     redirect_to collection_path, notice: t('active_admin.flash.renew_notice')
   rescue MembershipsRenewal::MissingDeliveriesError
@@ -145,6 +148,7 @@ ActiveAdmin.register Membership do
   end
 
   collection_action :open_renewal_all, method: :post do
+    authorize!(:open_renewal_all, Membership)
     MembershipsRenewal.new.open_all!
     redirect_to collection_path, notice: t('active_admin.flash.open_renewals_notice')
   rescue MembershipsRenewal::MissingDeliveriesError
@@ -232,7 +236,7 @@ ActiveAdmin.register Membership do
               row :renewal_note
             elsif m.canceled?
               row :renewal_note
-              if m.ended_on == Current.fiscal_year.end_of_year
+              if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:enable_renewal, m)
                 div class: 'buttons-inline' do
                   div class: 'button-inline' do
                     link_to t('.enable_renewal'), enable_renewal_membership_path(m),
@@ -252,44 +256,50 @@ ActiveAdmin.register Membership do
                 }
               end
               div class: 'buttons-inline' do
-                div class: 'button-inline' do
-                  link_to t('.renew'), renew_membership_path(m),
-                    data: { confirm: t('.confirm') },
-                    class: 'clear_filters_btn',
-                    method: :post
+                if authorized?(:renew, m)
+                  div class: 'button-inline' do
+                    link_to t('.renew'), renew_membership_path(m),
+                      data: { confirm: t('.confirm') },
+                      class: 'clear_filters_btn',
+                      method: :post
+                  end
                 end
-                div class: 'button-inline' do
-                  link_to t('.cancel_renewal'), cancel_membership_path(m),
-                    data: { confirm: t('.confirm') },
-                    class: 'clear_filters_btn',
-                    method: :post
+                if authorized?(:cancel, m)
+                  div class: 'button-inline' do
+                    link_to t('.cancel_renewal'), cancel_membership_path(m),
+                      data: { confirm: t('.confirm') },
+                      class: 'clear_filters_btn',
+                      method: :post
+                  end
                 end
               end
             else
               div class: 'buttons-inline' do
                 if Delivery.any_next_year?
-                  if Current.acp.feature_flag?(:open_renewal)
+                  if Current.acp.feature_flag?(:open_renewal) && authorized?(:open_renewal, m)
                     div class: 'button-inline' do
                       link_to t('.open_renewal'), open_renewal_membership_path(m),
                         data: { confirm: t('.confirm') },
-                        disabled: !Delivery.any_next_year?,
                         class: 'clear_filters_btn',
                         method: :post
                     end
                   end
+                  if authorized?(:renew, m)
+                    div class: 'button-inline' do
+                      link_to t('.renew'), renew_membership_path(m),
+                        data: { confirm: t('.confirm') },
+                        class: 'clear_filters_btn',
+                        method: :post
+                    end
+                  end
+                end
+                if authorized?(:cancel, m)
                   div class: 'button-inline' do
-                    link_to t('.renew'), renew_membership_path(m),
+                    link_to t('.cancel_renewal'), cancel_membership_path(m),
                       data: { confirm: t('.confirm') },
-                      disabled: !Delivery.any_next_year?,
                       class: 'clear_filters_btn',
                       method: :post
                   end
-                end
-                div class: 'button-inline' do
-                  link_to t('.cancel_renewal'), cancel_membership_path(m),
-                    data: { confirm: t('.confirm') },
-                    class: 'clear_filters_btn',
-                    method: :post
                 end
               end
             end
