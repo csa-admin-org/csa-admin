@@ -12,7 +12,7 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
 import 'normalize.css';
-import 'scss/members.scss';
+import 'stylesheets/members.scss';
 
 import 'components/menu';
 import 'components/calendar';
