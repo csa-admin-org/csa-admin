@@ -3,7 +3,7 @@ import flatpickr from 'flatpickr';
 import { French } from 'flatpickr/dist/l10n/fr';
 import { German } from 'flatpickr/dist/l10n/de';
 import 'flatpickr/dist/themes/confetti';
-import 'scss/flatpickr';
+import 'stylesheets/flatpickr';
 
 const participantCountInput = '#activity_participation_participants_count';
 const carpoolingCheckbox = ".carpooling input[type='checkbox']";
