@@ -1,0 +1,800 @@
+// Sass variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+// @import "~@activeadmin/activeadmin/src/scss/mixins";
+// @import "~@activeadmin/activeadmin/src/scss/base";
+
+// Overriding any non-variable Sass must be done after the fact.
+// For example, to change the default status-tag color:
+//
+//   .status_tag { background: #6090DB; }
+
+
+
+$primary-color: #0c9024 !default; // #22952f
+
+@import 'vendor/assets/stylesheets/formadmin/formadmin';
+@import 'jquery-timepicker/jquery.timepicker';
+@import 'actiontext';
+
+body.logged_out h2, .tabs .nav-tabs, table.index_table thead th, .panel h3, .sidebar_section h3, .ui-dialog .ui-dialog-titlebar, .index_as_blog .banner h3, form legend span {
+  box-shadow: none !important;
+}
+
+.flash_alert {
+  background-color: tint($negative-color, 95%);
+  background-image: linear-gradient(to bottom, tint($negative-color, 90%), tint($negative-color, 85%));
+  border-color: rgba($negative-color, 0.5);
+  color: $negative-color;
+
+  &:hover {
+    border-color: $negative-color;
+  }
+}
+
+.align-right {
+  text-align: right !important;
+}
+
+a {
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+li.choice input {
+  margin-right: 10px !important;
+}
+
+li.input.numeric input {
+  float: left;
+  text-align: right;
+  margin-left: 20px;
+  width: 100px;
+}
+
+li.datepicker input.datepicker {
+  float: left !important;
+  margin-left: 20px !important;
+  width: 188px !important;
+}
+
+li.boolean label {
+  padding-left: 18px;
+}
+
+form input[type='checkbox']:checked {
+  border-color: #80a432 !important;
+  box-shadow: inset 0 0 0 13px #80a432 !important;
+}
+
+form input[type='checkbox']:checked:after {
+  border-color: #80a432 !important;
+}
+
+form input[type='checkbox']:disabled {
+  border-color: #aaa !important;
+  box-shadow: inset 0 0 0 13px #aaa !important;
+  cursor:not-allowed;
+}
+
+form fieldset ol p.description {
+  padding: 10px 15px 20px 15px;
+
+  &.email_notifications {
+    padding: 20px 15px 0px 15px
+  }
+}
+
+form li.boolean {
+  label {
+    padding: 0;
+    margin-top: 10px;
+  }
+
+  input {
+    margin-right: 10px !important;
+  }
+
+  p.inline-hints {
+    margin: 0;
+    padding-top: 5px;
+  }
+}
+
+label.disabled {
+  color: #aaa;
+}
+
+
+form#edit_membership ol em {
+  color: rgba(63, 63, 63, 0.5);
+  transition: color 250ms;
+  display: block;
+  padding: 10px 15px 20px;
+}
+
+span.delivery_note {
+  display: block;
+  margin-top: 15px;
+
+  textarea {
+    width: 100%;
+  }
+
+  input {
+    margin-top: 5px;
+  }
+}
+
+span.delivery_absences {
+  display: block;
+  float: right;
+}
+
+h3 span.link {
+  float: right;
+  margin: 2px -5px 0 0;
+}
+
+h3 .xlsx_link,
+table .delete_link,
+table .edit_link,
+table .pdf_link,
+table .view_link,
+table .xlsx_link {
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  height: 16px;
+  margin: 0 5px;
+  opacity: 0.75;
+  position: relative;
+  text-indent: -99999px;
+  overflow: hidden;
+  transition: opacity 250ms;
+  width: 16px;
+
+  &:hover {
+    opacity: 1 !important;
+    color: transparent;
+  }
+}
+
+table a.delete_link,
+table a.edit_link,
+table a.view_link {
+  opacity: 0.6 !important;
+}
+
+table a.edit_link {
+  background-image: url('~active_admin/edit.svg');
+}
+
+table a.pdf_link {
+  background-image: url('~active_admin/pdf_file.svg');
+}
+
+h3 a.xlsx_link,
+table a.xlsx_link {
+  background-image: url('~active_admin/xlsx_file.svg');
+}
+
+.col-selectable {
+  width: 68px;
+}
+
+.col-status .status_tag:not(:first-child) {
+  margin-top: 5px;
+}
+
+.status_tag {
+  white-space: nowrap;
+
+  &.canceled {
+    background-color: #cccccc;
+  }
+
+  &.coming,
+  &.manual,
+  &.not_sent,
+  &.trial {
+    background-color: #1e83f6;
+  }
+
+  &.renewal_canceled,
+  &.no,
+  &.open,
+  &.rejected {
+    background-color: #ff2600;
+  }
+
+  &.renewed,
+  &.active,
+  &.closed,
+  &.isr,
+  &.validated,
+  &.yes {
+    background-color: #80a432;
+  }
+
+  &.support {
+    background-color: #80d232;
+  }
+
+  &.renewal_enabled,
+  &.waiting {
+    background-color: #91ba3a;
+  }
+
+  &.renewal_opened,
+  &.pending {
+    background-color: #addf45;
+  }
+}
+
+table#index_table_invoices,
+table#index_table_payments {
+  .col-amount,
+  .col-balance {
+    text-align: right;
+    width: 130px;
+  }
+
+  .col-rap {
+    text-align: right;
+  }
+
+  .col-actions {
+    padding: 0 5px;
+    margin: 0;
+    width: 90px;
+  }
+}
+
+table#index_table_depots {
+  .col-actions {
+    margin: 0;
+    width: 108px;
+  }
+}
+
+table#index_table_deliveries {
+  .col- {
+    width: 40px;
+  }
+
+  .col-date {
+    width: 200px;
+  }
+
+  .col-actions {
+    width: 160px;
+  }
+}
+
+table.table-baskets {
+  .col-status {
+    width: 80px;
+    padding-left: 10px;
+  }
+
+  .col-actions {
+    width: 30px;
+  }
+
+  .col-delivery {
+    width: 180px;
+  }
+
+  .col-depot {
+    padding-left: 20px;
+  }
+
+  tr.next {
+    background-color: #ddd;
+  }
+}
+
+table.table-group_buying_orders {
+  .col-amount,
+  .col-price,
+  .col-quantity {
+    text-align: right;
+  }
+
+  .col-price {
+    width: 90px !important;
+  }
+
+  .col-quantity {
+    width: 50px !important;
+    padding: 0 12px;
+  }
+
+  .col-amount {
+    width: 85px !important;
+  }
+}
+
+table#index_table_invoices,
+table.table-invoices {
+  .col-id {
+    width: 80px;
+  }
+
+  .col-rap {
+    text-align: right;
+    width: 30px;
+    padding-right: 10px;
+  }
+
+  .col-status {
+    text-align: right;
+    width: 100px;
+  }
+
+  .col-overdue_notices_count {
+    text-align: right;
+  }
+
+  .col-amount,
+  .col-balance {
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  .col-actions {
+    text-align: right;
+    color: transparent;
+  }
+}
+
+table.table-invoices {
+  .col-overdue_notices_count {
+    padding-right: 10px;
+  }
+
+  .col-actions {
+    width: 50px;
+  }
+}
+
+table#index_table_payments,
+table.table-payments {
+  .col-id {
+    width: 80px;
+  }
+
+  .col-type {
+    text-align: right;
+    width: 100px;
+  }
+
+  .col-invoice_id {
+    text-align: right;
+    width: 130px;
+  }
+
+  .col-amount {
+    text-align: right;
+    padding-right: 10px;
+  }
+}
+
+table#index_table_activity_participations,
+table.table-activity_participations {
+  .col-description {
+    width: 300px;
+  }
+
+  .col-participants,
+  .col-participants_count {
+    width: 40px;
+    text-align: right;
+  }
+
+  .col-state {
+    text-align: right;
+    width: 80px;
+  }
+
+  .col-actions {
+    padding: 0 5;
+    min-width: 110px;
+  }
+}
+
+table#index_table_members {
+  .col-state {
+    text-align: right;
+    width: 80px;
+  }
+}
+
+table#index_table_activities {
+  .col-period {
+    width: 130px;
+    text-align: right;
+  }
+
+  .col-date {
+    width: 170px;
+    text-align: right;
+  }
+}
+
+table#index_table_group_buying_deliveries {
+  .col- {
+    width: 50px;
+  }
+
+  .col-actions {
+    width: 134px;
+  }
+
+  .col-orders {
+    text-align: right;
+    width: 120px;
+  }
+}
+
+table#index_table_group_buying_producers {
+  .col-actions {
+    width: 110px;
+  }
+
+  .col-products {
+    width: 80px;
+    text-align: right;
+  }
+}
+
+table#index_table_group_buying_orders {
+  .col-amount {
+    width: 135px;
+    text-align: right;
+  }
+
+  .col-state {
+    text-align: right;
+    // width: 110px;
+  }
+
+  .col-actions {
+    width: 82px;
+  }
+}
+
+table#index_table_group_buying_products {
+  .col-available {
+    width: 100px;
+    text-align: right;
+  }
+
+  .col-price {
+    width: 140px;
+    text-align: right;
+  }
+
+  .col-actions {
+    width: 110px;
+  }
+}
+
+table.deliveries {
+  .col- {
+    width: 25px;
+  }
+}
+
+table#index_table_memberships,
+table.table-memberships {
+  .col-baskets_count {
+    text-align: right;
+  }
+
+  .col-activity_participations_demanded {
+    min-width: 140px;
+    text-align: right;
+  }
+
+  .col-actions {
+    min-width: 109px;
+  }
+
+  .col-ended_on,
+  .col-started_on {
+    text-align: right;
+  }
+}
+
+table.totals tr:last-child {
+  td {
+    border: none;
+  }
+
+  td:last-child {
+    width: 30%;
+    border-top: 1px solid black;
+    font-weight: bold;
+  }
+}
+
+table.totals_2 {
+  tr:last-child,
+  tr:nth-last-child(3) {
+    td {
+      border: none;
+    }
+
+    td:last-child {
+      width: 30%;
+      border-top: 1px solid black;
+    }
+  }
+
+  tr:last-child {
+    font-weight: bold;
+  }
+}
+
+#titlebar_right .action_item {
+  margin-bottom: 3px !important;
+}
+
+.basket_complements,
+.depots {
+  li.check_boxes {
+    margin-bottom: 25px;
+  }
+
+  ol.choices-group {
+    max-width: 100%;
+  }
+
+  li.choice {
+    float: left;
+    width: 50%;
+  }
+}
+
+#basket-complements-table {
+  margin: 15px 0 25px;
+}
+
+.top-spacing {
+  margin: 20px 0 0;
+}
+
+.top-small-spacing {
+  margin: 10px 0 0;
+}
+
+.buttons-inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button-inline {
+  margin: 15px 15px 0 0;
+  a {
+    width: 160px;
+  }
+}
+
+a.clear_filters_btn[disabled="disabled"] {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: #aaa;
+  border-color: #ddd;
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+form input[type='time'] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  border: 1px solid rgba(204, 204, 204, 0.75);
+  border-radius: 4px;
+  outline: 0;
+  padding: 10px 12px;
+  transition: border-color 250ms, box-shadow 250ms;
+  width: 100%;
+  float: left !important;
+  margin-left: 20px !important;
+  width: 188px !important;
+}
+
+form input[type='time']:focus {
+  border-color: rgba(126, 135, 78, 0.5);
+  box-shadow: 0 0 5px rgba(126, 135, 78, 0.25);
+}
+
+form input[type='time']:focus ~ .inline-hints {
+  color: #3f3f3f;
+}
+
+form.filter_form .check_boxes {
+  fieldset.choices > label {
+    margin: 5px 0;
+    color: #3f3f3f;
+    font-weight: normal;
+    font-size: 14px;
+    text-transform: none;
+
+    input {
+      margin-right: 5px;
+    }
+  }
+}
+
+.sidebar_section .panel_contents {
+  .total {
+    margin-bottom: 8px;
+  }
+
+  .totals {
+    margin-top: 20px;
+  }
+}
+
+.table_tools .scopes ul.table_tools_segmented_control {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.table_tools .scopes li a {
+  margin: -1px 0 0 0;
+}
+
+.table_tools .scope.selected, .table_tools .scope.selected a {
+  background-image: linear-gradient(to bottom, #e6e6e6, #fff);
+  color: black !important;
+}
+
+.field_with_errors,
+li.input.error {
+  input,
+  select,
+  textarea {
+    border: 2px solid $red !important;
+  }
+}
+
+.panel em.show_more {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+}
+
+#footer {
+  margin-top: 30px !important;
+  box-shadow: none !important;
+  border: none !important;
+  background-color: transparent !important;
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+
+  a {
+    text-decoration: none;
+    color: #bbb;
+    background-image: url('~active_admin/logo-grey.svg');
+    background-size: 18px;
+    background-repeat: no-repeat;
+    padding-left: 23px;
+    display: inline-block;
+  }
+}
+
+body.logged_out {
+  background-color: white;
+
+  #logo_wrapper {
+    width: 100%;
+
+    img {
+      display: block;
+      margin: 20px auto;
+      @media screen and (min-width: 900px) {
+        margin: 70px auto 0;
+      }
+    }
+  }
+
+  #login p {
+    margin: 15px;
+
+    &.inline-errors {
+      display: inline-block;
+      width: 100%;
+      margin: 5px 20px 0 0;
+      text-align: right;
+    }
+  }
+
+  footer {
+    flex: none;
+    text-align: center;
+    margin: auto auto 0;
+    padding: 20px;
+    color: #ddd;
+    font-size: 16px;
+
+    a {
+      text-decoration: none;
+    }
+
+    ul.locales {
+      margin: 60px 0 10px;
+      padding: 0;
+
+      li {
+        color: #ddd;
+        list-style-type: none;
+        display: inline;
+
+        &:not(:first-child):before {
+          content: ' / ';
+        }
+      }
+    }
+
+    p {
+      margin: 0;
+
+      a {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: normal;
+
+        svg {
+          margin: 5px;
+          width: 20px;
+          fill: #ddd;
+        }
+
+        &:hover {
+          svg {
+            fill: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+ul#utility_nav {
+  li#logout {
+    padding: 0;
+    margin: 0;
+
+    a {
+      margin: 0;
+      padding: 5px;
+
+      img {
+        height: 20px;
+        width: 20px;
+        margin: 0 0 -5px;
+      }
+    }
+  }
+}

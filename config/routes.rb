@@ -18,15 +18,6 @@ Rails.application.routes.draw do
     ActiveAdmin.routes(self)
   end
 
-  scope module: 'stats', as: nil do
-    constraints subdomain: 'stats' do
-      get '/' => redirect('/members')
-      resources :stats, only: [:show], path: '', constraints: {
-        id: /(#{Stats::TYPES.join('|')})/
-      }
-    end
-  end
-
   scope module: 'members', as: 'members' do
     constraints subdomain: 'membres' do
       resources :sessions, only: %i[show create]

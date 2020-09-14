@@ -6,5 +6,5 @@ footer
         li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }
   p.acp-admin
     = link_to 'https://acp-admin.ch' do
-      = inline_svg_tag 'logo.svg'
+      = inline_svg_pack_tag 'media/images/logo.svg'
       span= 'ACP Admin'

@@ -6,14 +6,14 @@ header
   - if current_member
     .show_menu
       = link_to '#menu' do
-        = inline_svg_tag 'menu.svg', size: '42px', title: 'Menu'
+        = inline_svg_pack_tag 'media/images/members/menu.svg', size: '42px', title: 'Menu'
 
   #menu
     .menu_wrapper
       - if current_member
         .hide_menu
           = link_to '#nomenu' do
-            = inline_svg_tag 'close.svg', size: '42px', title: 'Menu'
+            = inline_svg_pack_tag 'media/images/members/close.svg', size: '42px', title: 'Menu'
         nav
           - membership = current_member.current_or_future_membership
           ul
@@ -77,17 +77,17 @@ header
             li = link_to members_account_path, class: 'svg account' do
               - # handle invalid name edit form
               span = current_member.name_was
-              = inline_svg_tag 'participant.svg', size: '16px'
+              = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
             li = link_to members_logout_path, method: :delete, class: 'svg logout' do
               span = t('.logout')
-              = inline_svg_tag 'sign_out.svg', size: '16px'
+              = inline_svg_pack_tag 'media/images/members/sign_out.svg', size: '16px'
 
       .links
         ul
           - if Current.acp.phone?
             li = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'svg' do
               span = Current.acp.phone
-              = inline_svg_tag 'phone.svg', size: '16px'
+              = inline_svg_pack_tag 'media/images/members/phone.svg', size: '16px'
           li = mail_to Current.acp.email, class: 'svg' do
             span = t('.contact')
-            = inline_svg_tag 'envelope.svg', size: '16px'
+            = inline_svg_pack_tag 'media/images/members/envelope.svg', size: '16px'

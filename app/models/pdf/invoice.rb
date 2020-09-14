@@ -275,7 +275,7 @@ module PDF
       y = 273
       font_size 8
       bounding_box [0, y], width: bounds.width, height: y do
-        image "#{Rails.root}/app/assets/images/isr.jpg",
+        image "#{Rails.root}/lib/assets/images/isr.jpg",
           at: [0, y],
           width: bounds.width
         [10, 185].each do |x|

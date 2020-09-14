@@ -21,7 +21,7 @@ section
           span.info = t('.past_order_info', number: order.id)
           span.file
             = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-              = inline_svg_tag 'pdf_file.svg', size: '16px'
+              = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
           span.state class=order.state
             == order.state_i18n_name
           span.amount = number_to_currency(order.amount)
@@ -46,7 +46,7 @@ section
               = link_to producer.name, producer.website_url, target: :blank
               span.web
                 = link_to producer.website_url, target: :blank do
-                  = inline_svg_tag 'web.svg', size: '18px'
+                  = inline_svg_pack_tag 'media/images/members/web.svg', size: '18px'
             - else
               = producer.name
           = producer.description

@@ -312,15 +312,50 @@ ActiveAdmin.setup do |config|
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
+
+  # == Webpacker
+  #
+  # By default, Active Admin uses Sprocket's asset pipeline.
+  # You can switch to using Webpacker here.
+  #
+  config.use_webpacker = true
 end
 
-module AdminPageLayoutOverride
-  def build_active_admin_head(*args)
-    within head do
-      text_node javascript_pack_tag 'admin'
-    end
+# Imported from https://github.com/formaweb/formadmin
+module ActiveAdmin
+  responsive_viewport = { viewport: 'width=device-width, initial-scale=1' }
 
-    super
+  ActiveAdmin.application.meta_tags.merge! responsive_viewport
+  ActiveAdmin.application.meta_tags_for_logged_out_pages.merge! responsive_viewport
+
+  module Views
+    class Header < Component
+      alias_method :_build, :build
+
+      def build namespace, menu
+        _build namespace, menu
+        build_responsive_menu
+      end
+
+      def build_responsive_menu
+        button '<i></i>'.html_safe, type: 'button', class: 'menu-button', onclick: 'document.body.classList.toggle("opened-menu")'
+      end
+    end
   end
 end
-ActiveAdmin::Views::Pages::Base.prepend(AdminPageLayoutOverride)
+
+# Overwrite logout link with image
+module ActiveAdmin
+  class Namespace
+    def add_logout_button_to_menu(menu, priority = 20, html_options = {})
+      if logout_link_path
+        html_options = html_options.reverse_merge(method: logout_link_method || :get)
+        menu.add id: 'logout', priority: priority, html_options: html_options,
+                 label: -> { image_tag(asset_pack_path('media/images/active_admin/sign_out-grey.svg'), size: '20') },
+                 url: -> { render_or_call_method_or_proc_on self, active_admin_namespace.logout_link_path },
+                 if: :current_active_admin_user?
+      end
+    end
+  end
+end
+
