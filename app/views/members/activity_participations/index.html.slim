@@ -17,10 +17,10 @@ section
               span.text
                 = participation.participants_count
               span.icon
-                = inline_svg_tag 'participant.svg', size: '16px'
+                = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
             - if participation.carpooling?
               span.carpooling title="#{t('.carpooling')}: #{participation.carpooling_phone.phony_formatted}"
-                span.icon = inline_svg_tag 'carpooling.svg', size: '22px'
+                span.icon = inline_svg_pack_tag 'media/images/members/carpooling.svg', size: '22px'
             - else
               span.carpooling
           span.action
@@ -65,7 +65,7 @@ section
                       = '/'
                       = b.object.participants_limit || '∞'
                     span.icon
-                      = inline_svg_tag 'participant.svg', size: '16px'
+                      = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
         .input
           label = t('.participants_count_label')
           - if @activity_participation.errors[:participants_count].any?
@@ -77,7 +77,7 @@ section
           label.title
             = t('.carpooling')
             span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
-              = inline_svg_tag 'info_circle.svg', size: '16px'
+              = inline_svg_pack_tag 'media/images/members/info_circle.svg', size: '16px'
           div.pretty_check_boxes
             label.carpooling
               = f.check_box :carpooling
@@ -107,7 +107,7 @@ section
               span.text
                 = participation.participants_count
               span.icon
-                = inline_svg_tag 'participant.svg', size: '16px'
+                = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
           - if participation.state.in? %w[validated rejected]
             span.action
               span class=participation.state

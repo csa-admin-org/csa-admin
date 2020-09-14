@@ -3,6 +3,9 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+const images = require.context('../images', true)
+const imagePath = (name) => images(name, true)
+
 require('@rails/ujs').start()
 require('turbolinks').start()
 // require("@rails/activestorage").start()
@@ -11,10 +14,10 @@ require('turbolinks').start()
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
-import 'normalize.css';
-import 'stylesheets/members.scss';
-
 import 'components/menu';
 import 'components/calendar';
 import 'components/member_new_form';
 import 'components/group_buying';
+
+import 'normalize.css';
+import 'stylesheets/members.scss';

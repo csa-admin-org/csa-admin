@@ -25,19 +25,14 @@ gem 'tod'
 
 gem 'activeadmin'
 gem 'cancancan'
-gem 'formadmin'
 gem 'invisible_captcha'
 gem 'ransack'
+gem 'sprockets', '<4'
 
-gem 'highcharts-rails'
 gem 'inline_svg'
-gem 'jquery-turbolinks'
-gem 'jquery-ui-rails'
 gem 'slim'
 gem 'turbolinks'
 
-gem 'jbuilder'
-gem 'uglifier'
 gem 'webpacker'
 
 gem 'sucker_punch'
