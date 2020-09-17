@@ -3,6 +3,7 @@ const imagePath = (name) => images(name, true)
 
 require('trix')
 require('@rails/actiontext')
+require('turbolinks').start()
 
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
