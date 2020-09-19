@@ -244,6 +244,12 @@ _:
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
+        no_next_deliveries:
+          _de: Nächste Lieferung
+          _fr: Aucune livraison à venir
+        no_next_delivery:
+          _de: Nächste Lieferung
+          _fr: Prochaine livraison
         quarterly_snapshots:
           _de: Quartalsschnappschüsse
           _fr: Instantanés trimestriels
@@ -292,10 +298,10 @@ _:
       bulk_dates:
         date_hint:
           _de: Leer lassen, wenn Mehrere Daten
-          _fr: Laisser vide si dates multiple
+          _fr: Laisser vide si dates multiples
         multiple_dates:
           _de: Mehrere Daten
-          _fr: Dates multiple
+          _fr: Dates multiples
         unique_date:
           _de: Einzeldatum
           _fr: Date unique
