@@ -131,6 +131,14 @@ ActiveAdmin.register_page 'Dashboard' do
               end
             end
           end
+        else
+          panel t('.no_next_delivery') do
+            div class: 'blank_slate_container' do
+              i do
+                link_to t('.no_next_deliveries'), deliveries_path
+              end
+            end
+          end
         end
 
         if Current.acp.feature?('activity')
