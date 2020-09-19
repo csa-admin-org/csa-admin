@@ -1,4 +1,4 @@
-$(function() {
+$(document).on('turbolinks:load', function() {
   $('#basket_content_basket_sizes_small, #basket_content_basket_sizes_big').on(
     'change',
     function() {
