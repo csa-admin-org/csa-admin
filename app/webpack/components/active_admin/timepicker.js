@@ -1,6 +1,6 @@
 import 'jquery-timepicker/jquery.timepicker';
 
-$(function() {
+$(document).on('turbolinks:load', function() {
   $('input[type="time"]').timepicker({
     timeFormat: 'HH:mm',
     interval: 15,

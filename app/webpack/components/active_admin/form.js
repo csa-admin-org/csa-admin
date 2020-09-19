@@ -1,4 +1,4 @@
-$(function() {
+$(document).on('turbolinks:load', function() {
   $('#activity_preset_id').on('change', function() {
     if (this.value === '0') {
       $('input.js-preset').prop('disabled', false);
