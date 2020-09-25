@@ -2,6 +2,7 @@ class Depot < ActiveRecord::Base
   include HasEmails
   include HasPhones
   include HasLanguage
+  include HasDeliveries
   include TranslatedAttributes
 
   attr_accessor :delivery_memberships
@@ -13,15 +14,6 @@ class Depot < ActiveRecord::Base
   has_many :memberships
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
-  has_and_belongs_to_many :deliveries
-  has_and_belongs_to_many :current_deliveries, -> { current_year },
-    class_name: 'Delivery',
-    after_add: :add_baskets_at!,
-    after_remove: :remove_baskets_at!
-  has_and_belongs_to_many :future_deliveries, -> { future_year },
-    class_name: 'Delivery',
-    after_add: :add_baskets_at!,
-    after_remove: :remove_baskets_at!
 
   default_scope { order(:name) }
   scope :visible, -> { where(visible: true) }
@@ -49,13 +41,6 @@ class Depot < ActiveRecord::Base
     (price * deliveries_count).round_to_five_cents
   end
 
-  def deliveries_count
-    @deliveries_count ||= begin
-      future_count = future_deliveries.count
-      future_count.positive? ? future_count : current_deliveries.count
-    end
-  end
-
   def xlsx_worksheet_style
     if Current.acp.ragedevert? && id == 2 # Neuchatel Velo
       :bike_delivery
@@ -66,11 +51,11 @@ class Depot < ActiveRecord::Base
 
   private
 
-  def add_baskets_at!(delivery)
+  def after_add_delivery!(delivery)
     delivery.add_baskets_at!(self)
   end
 
-  def remove_baskets_at!(delivery)
+  def after_remove_delivery!(delivery)
     delivery.remove_baskets_at!(self)
   end
 end

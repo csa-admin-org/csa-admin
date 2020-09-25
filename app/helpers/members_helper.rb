@@ -17,14 +17,18 @@ module MembersHelper
 
   def basket_sizes_collection(no_basket_option: true)
     col = BasketSize.all.map { |bs|
+      details = []
+      if bs.price.positive?
+        details << "#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)}"
+      else
+        details << deliveries_count(deliveries_counts)
+      end
+      details << activities_count(bs.activity_participations_demanded_annualy)
+      details << acp_shares_number(bs.acp_shares_number)
       [
         collection_text(bs.name,
-          price: basket_size_price_info(bs.price),
-          details: [
-            deliveries_count(deliveries_counts),
-            activities_count(bs.activity_participations_demanded_annualy),
-            acp_shares_number(bs.acp_shares_number)
-          ].compact.join(', ')),
+          price: deliveries_based_price_info(bs.price, deliveries_counts),
+          details: details.compact.join(', ')),
         bs.id
       ]
     }
@@ -58,7 +62,7 @@ module MembersHelper
           collection_text('Tarif de base', details: details)
         else
           collection_text("+ #{extra.to_i}.-/panier",
-            price: basket_size_price_info(extra),
+            price: deliveries_based_price_info(extra, deliveries_counts),
             details: details)
         end,
         extra
@@ -71,19 +75,39 @@ module MembersHelper
       .visible
       .select { |bc| bc.deliveries_count.positive? }
       .map { |bc|
-        [
-          collection_text(bc.name,
-            price: price_info(bc.annual_price, precision: 2),
-            details: deliveries_count(bc.deliveries_count)),
-          bc.id
-        ]
+        if bc.annual_price_type?
+          [
+            collection_text(bc.name,
+              price: price_info(bc.price),
+              details: deliveries_count(bc.deliveries_count)),
+            bc.id
+          ]
+        else
+          d_counts = depots_delivery_ids.map { |d_ids|
+            (d_ids & bc.delivery_ids).size
+          }.uniq
+          [
+            collection_text(bc.name,
+              price: deliveries_based_price_info(bc.price, d_counts),
+              details: "#{short_price(bc.price)} x #{deliveries_count(d_counts)}"),
+            bc.id
+          ]
+        end
       }
   end
 
   def depots_collection(membership = nil)
     visible_depots(membership).map { |d|
       details = []
-      details << deliveries_count(d.deliveries_count) if deliveries_counts.many?
+      if deliveries_counts.many?
+        if d.price.positive?
+          details << "#{short_price(d.price)} x #{deliveries_count(d.deliveries_count)}"
+        else
+          details << deliveries_count(d.deliveries_count)
+        end
+      elsif d.price.positive?
+        details << "#{short_price(d.price)}/#{Delivery.model_name.human(count: 1).downcase}"
+      end
       if address = d.full_address
         details << address + map_icon(address).html_safe
       elsif d.address.present?
@@ -91,7 +115,7 @@ module MembersHelper
       end
       [
         collection_text(d.form_name || d.name,
-          price: price_info(d.annual_price, precision: 0),
+          price: price_info(d.annual_price),
           details: details.compact.join(', ')),
         d.id
       ]
@@ -139,18 +163,38 @@ module MembersHelper
     @deliveries_counts ||= visible_depots.map(&:deliveries_count).uniq.sort
   end
 
-  def price_info(price, *options)
-    number_to_currency(price.round_to_five_cents, *options) if price.positive?
+  def depots_delivery_ids
+    @depots_delivery_ids ||= visible_depots.map(&:delivery_ids)
   end
 
-  def basket_size_price_info(price)
+  def short_price(price)
+    precision = price_precision(price)
+    precision == 0 ? "#{price.to_i}.-" : "%.#{precision}f" % price
+  end
+
+  def price_info(price, options = {})
+    options[:precision] ||= price_precision(price.round_to_five_cents)
+    number_to_currency(price.round_to_five_cents, options) if price.positive?
+  end
+
+  def price_precision(price)
+    splitted = price.to_s.split('.')
+    if splitted.many?
+      decimals = splitted.last
+      decimals.to_i == 0 ? 0 : [decimals.length, 2].max
+    else
+      0
+    end
+  end
+
+  def deliveries_based_price_info(price, deliveries_counts)
     if deliveries_counts.many?
       [
-        price_info(deliveries_counts.min * price, precision: 0),
-        price_info(deliveries_counts.max * price, precision: 0, format: '%n')
+        price_info(deliveries_counts.min * price),
+        price_info(deliveries_counts.max * price, format: '%n')
       ].join('-')
     else
-      price_info(deliveries_counts.first.to_i * price, precision: 0)
+      price_info(deliveries_counts.first.to_i * price)
     end
   end
 

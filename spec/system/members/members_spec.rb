@@ -15,11 +15,28 @@ describe 'members page' do
       create(:basket_complement, name: 'Oeufs', price: 4.8, deliveries_count: 40)
       create(:basket_complement, name: 'Pain', price: 6.5, deliveries_count: 20)
 
-      create(:depot, name: 'Jardin de la main', price: 0)
+      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7')
       create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel')
       create(:depot, name: 'Domicile', visible: false)
 
       visit '/new'
+
+      expect(page).to have_selector('span.label',
+        text: "AbondanceCHF 1'330(33.25 x 40 livraisons, 2 ½ journées)")
+      expect(page).to have_selector('span.label',
+        text: "EveilCHF 925(23.125 x 40 livraisons, 2 ½ journées)")
+      expect(page).to have_selector('span.label',
+        text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
+
+      expect(page).to have_selector('span.label',
+        text: "OeufsCHF 192(4.80 x 40 livraisons)")
+      expect(page).to have_selector('span.label',
+        text: "PainCHF 260(6.50 x 40 livraisons)")
+
+      expect(page).to have_selector('span.label',
+        text: "Jardin de la main(Rue de la main 6-7,")
+      expect(page).to have_selector('span.label',
+        text: "VéloCHF 320(8.-/livraison")
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'

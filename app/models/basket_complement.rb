@@ -1,4 +1,5 @@
 class BasketComplement < ActiveRecord::Base
+  include HasDeliveries
   include TranslatedAttributes
 
   PRICE_TYPES = %w[delivery annual]
@@ -7,15 +8,6 @@ class BasketComplement < ActiveRecord::Base
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
-  has_and_belongs_to_many :deliveries
-  has_and_belongs_to_many :current_deliveries, -> { current_year },
-    class_name: 'Delivery',
-    after_add: :add_subscribed_baskets_complement!,
-    after_remove: :remove_subscribed_baskets_complement!
-  has_and_belongs_to_many :future_deliveries, -> { future_year },
-    class_name: 'Delivery',
-    after_add: :add_subscribed_baskets_complement!,
-    after_remove: :remove_subscribed_baskets_complement!
 
   scope :annual_price_type, -> { where(price_type: 'annual') }
   scope :visible, -> { where(visible: true) }
@@ -43,20 +35,13 @@ class BasketComplement < ActiveRecord::Base
 
   def display_name; name end
 
-  def deliveries_count
-    @deliveries_count ||= begin
-      future_count = future_deliveries.count
-      future_count.positive? ? future_count : current_deliveries.count
-    end
-  end
-
   private
 
-  def add_subscribed_baskets_complement!(delivery)
+  def after_add_delivery!(delivery)
     delivery.add_subscribed_baskets_complement!(self)
   end
 
-  def remove_subscribed_baskets_complement!(delivery)
+  def after_remove_delivery!(delivery)
     delivery.remove_subscribed_baskets_complement!(self)
   end
 end
