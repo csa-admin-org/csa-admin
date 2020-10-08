@@ -19,7 +19,6 @@ jobs:
         ports: ["5432:5432"]
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
@@ -27,40 +26,27 @@ jobs:
     - name: Install required apt packages
       run: sudo apt-get -yqq install libpq-dev
 
-    - name: Install Ruby
+    - name: Install Ruby and run Bundler install with cache
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: .ruby-version
-    - name: Setup cache key and directory for gems cache
-      uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+        bundler-cache: true
 
     - name: Install required Node.js version
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2-beta
       with:
-        node-version: "12.x"
+        node-version: '12'
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
-    - uses: actions/cache@v1
+    - name: Cache yarn
+      uses: actions/cache@v2
       id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-
-    - name: Bundle install
-      run: |
-        gem install bundler
-        bundle config path vendor/bundle
-        bundle config force_ruby_platform true
-        bundle install --jobs 4 --retry 3
-
     - name: Yarn install
       run: yarn --frozen-lockfile
 
