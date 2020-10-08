@@ -20,11 +20,13 @@ describe RecurringBilling do
   end
 
   it 'does not create an invoice for member with future membership' do
-    Current.acp.update!(trial_basket_count: 0)
-    member = create(:member)
-    create(:membership, member: member, started_on: 1.day.from_now)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      Current.acp.update!(trial_basket_count: 0)
+      member = create(:member)
+      create(:membership, member: member, started_on: 1.day.from_now)
 
-    expect { create_invoice(member) }.not_to change(Invoice, :count)
+      expect { create_invoice(member) }.not_to change(Invoice, :count)
+    end
   end
 
   it 'creates an invoice for not already billed support member' do
@@ -47,15 +49,17 @@ describe RecurringBilling do
   end
 
   it 'does not create an invoice for trial membership' do
-    Current.acp.update!(trial_basket_count: 4)
-    member = create(:member)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      Current.acp.update!(trial_basket_count: 4)
+      member = create(:member)
 
-    membership = create(:membership, member: member,
-      started_on: 1.week.ago)
+      membership = create(:membership, member: member,
+        started_on: 1.week.ago)
 
-    expect(membership.trial?).to eq true
+      expect(membership.trial?).to eq true
 
-    expect { create_invoice(member) }.not_to change(Invoice, :count)
+      expect { create_invoice(member) }.not_to change(Invoice, :count)
+    end
   end
 
   it 'does not bill annual fee for canceled trial membership' do
@@ -304,6 +308,7 @@ describe RecurringBilling do
       travel_to(Date.new(Current.fy_year, 7).end_of_month) {
         create_invoice(member)
       }
+      travel_to(Date.new(Current.fy_year, 8))
 
       expect(RecurringBilling.new(member.reload)).not_to be_needed
       expect { create_invoice(member) }.not_to change(Invoice, :count)
