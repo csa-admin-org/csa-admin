@@ -42,7 +42,7 @@ module PDF
     end
 
     def acp_logo_io
-      StringIO.new(open(Current.acp.logo_url).read)
+      StringIO.new(URI.open(Current.acp.logo_url).read)
     end
   end
 end
