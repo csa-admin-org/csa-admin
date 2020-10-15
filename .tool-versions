@@ -1,4 +1,4 @@
 ruby 2.7.2
-postgres-app 11
+postgres-app 12
 nodejs 12.13.0
 yarn 1.22.4
