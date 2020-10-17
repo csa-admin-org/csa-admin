@@ -17,8 +17,7 @@ gem 'rails-i18n'
 
 gem 'rack-status'
 
-gem 'apartment', github: 'influitive/apartment', branch: 'development'
-gem 'apartment-activejob'
+gem 'ros-apartment', require: 'apartment'
 gem 'paranoia'
 gem 'phony_rails'
 gem 'tod'
