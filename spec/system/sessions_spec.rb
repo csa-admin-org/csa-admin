@@ -69,7 +69,6 @@ describe 'Admin sessions' do
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
   end
 
-
   it 'does not accept unknown email' do
     visit '/'
     expect(current_path).to eq '/login'

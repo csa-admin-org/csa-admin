@@ -74,6 +74,19 @@ describe 'Member sessions' do
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
   end
 
+  it 'does not accept email with invalid character' do
+    visit '/'
+    expect(current_path).to eq '/login'
+
+    fill_in 'Votre email', with: 'foo@bar.com)'
+    click_button 'Envoyer'
+
+    expect(email_adapter.deliveries.size).to eq 0
+
+    expect(current_path).to eq '/sessions'
+    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
+  end
+
   it 'does not accept partial email matching other' do
     create(:member, emails: 'thibaud@thibaud.gg, john@doe.com')
 
