@@ -235,8 +235,10 @@ class Membership < ActiveRecord::Base
   def cancel!(attrs = {})
     raise 'cannot cancel an already renewed membership' if renewed?
 
-    if ActiveRecord::Type::Boolean.new.cast(attrs[:renewal_annual_fee])
-      self[:renewal_annual_fee] = Current.acp.annual_fee
+    if Current.acp.annual_fee?
+      if ActiveRecord::Type::Boolean.new.cast(attrs[:renewal_annual_fee])
+        self[:renewal_annual_fee] = Current.acp.annual_fee
+      end
     end
     self[:renewal_note] = attrs[:renewal_note]
     self[:renewal_opened_at] = nil
