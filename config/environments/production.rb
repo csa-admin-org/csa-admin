@@ -4,9 +4,12 @@ Rails.application.configure do
     ignore_exceptions: %w[ActionController::InvalidAuthenticityToken] + ExceptionNotifier.ignored_exceptions,
     email: {
       email_prefix: '[ACP Admin ERROR] ',
-      sender_address: %{"Error Notifier" <acp-admin@thibaud.gg>},
-      exception_recipients: %w[thibaud@thibaud.gg],
-      delivery_method: :smtp
+      sender_address: %{"Error Notifier" <error@acp-admin.ch>},
+      exception_recipients: %w[thibaud@acp-admin.ch],
+      delivery_method: :postmark,
+      postmark_settings: {
+        api_key: ENV['POSTMARK_API_KEY']
+      }
     }
   ExceptionNotifier::Rake.configure(ignore_exceptions: [])
 
@@ -73,16 +76,7 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    user_name: ENV['SMTP_USERNAME'],
-    password: ENV['SMTP_PASSWORD'],
-    domain: 'thibaud.gg',
-    address: ENV['SMTP_ADDRESS'],
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+  config.action_mailer.delivery_method = :postmark
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
