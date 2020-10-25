@@ -27,7 +27,7 @@ module BulkDatesInsert
     end
   end
 
-  def save(*args)
+  def save(*args, **options, &block)
     if date?
       super
     elsif valid?

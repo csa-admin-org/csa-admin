@@ -4,7 +4,7 @@ html
     meta charset="UTF-8"
     title = t('.title', acp: Current.acp.name)
     - ActiveAdmin.application.stylesheets.each do |style, options|
-      = stylesheet_pack_tag style, options
+      = stylesheet_pack_tag style, **options
     - ActiveAdmin.application.javascripts.each do |path|
       = javascript_pack_tag path
     - if ActiveAdmin.application.favicon

@@ -6,7 +6,7 @@ module Email
     return unless enabled?(template)
 
     params = send(template, *args)
-    adapter.deliver(params)
+    adapter.deliver(**params)
   end
 
   def deliver_later(template, *args)

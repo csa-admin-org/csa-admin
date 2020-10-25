@@ -5,7 +5,7 @@ module FormsHelper
         f.input locale, {
           label: attribute_label(form.object.class, attr, locale),
           input_html: { value: form.object.send(attr)[locale] }
-        }.deep_merge(options)
+        }.deep_merge(**options)
       end
     end
   end

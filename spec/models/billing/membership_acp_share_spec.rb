@@ -4,7 +4,7 @@ describe Billing::MembershipACPShare do
   before { current_acp.update!(share_price: 250) }
 
   def invoice!(member, **attrs)
-    Billing::MembershipACPShare.invoice!(member, attrs)
+    Billing::MembershipACPShare.invoice!(member, **attrs)
   end
 
   it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already', freeze: '01-06-2018' do

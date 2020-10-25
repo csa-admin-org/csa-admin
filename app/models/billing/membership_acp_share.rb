@@ -3,7 +3,7 @@ module Billing
     attr_reader :member
 
     def self.invoice!(member, **attrs)
-      new(member).invoice!(attrs)
+      new(member).invoice!(**attrs)
     end
 
     def initialize(member)
