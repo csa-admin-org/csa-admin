@@ -364,12 +364,12 @@ module PDF
       end
     end
 
-    def t(key, *args)
-      I18n.t("invoices.pdf.#{key}", *args)
+    def t(key, **args)
+      I18n.t("invoices.pdf.#{key}", **args)
     end
 
-    def t_activity(key, *args)
-      super(key, *args)
+    def t_activity(key, **args)
+      super(key, **args)
     end
   end
 end

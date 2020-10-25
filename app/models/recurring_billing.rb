@@ -2,7 +2,7 @@ class RecurringBilling
   attr_reader :member, :membership, :invoices, :date, :fy_month
 
   def self.invoice(member, **attrs)
-    new(member).invoice(attrs)
+    new(member).invoice(**attrs)
   end
 
   def initialize(member)

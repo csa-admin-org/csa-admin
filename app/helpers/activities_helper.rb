@@ -7,8 +7,8 @@ module ActivitiesHelper
     I18n.t("activities.#{Current.acp.activity_i18n_scope}.other")
   end
 
-  def t_activity(key, *options)
-    t(activity_scoped_attribute(key), *options)
+  def t_activity(key, **options)
+    t(activity_scoped_attribute(key), **options)
   end
 
   def activity_scoped_attribute(attr)
