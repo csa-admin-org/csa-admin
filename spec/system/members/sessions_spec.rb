@@ -16,19 +16,13 @@ describe 'Member sessions' do
     session = member.sessions.last
 
     expect(session.email).to eq 'thibaud@thibaud.gg'
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'thibaud@thibaud.gg',
-      template: 'session-new',
-      template_data: {
-        action_url: %r{/sessions/#{session.token}},
-        fr: true
-      }))
+    expect(SessionMailer.deliveries.size).to eq 1
 
     expect(current_path).to eq '/login'
     expect(page).to have_content 'Merci! Un email vient de vous être envoyé.'
 
-    visit "/sessions/#{session.token}"
+    open_email('thibaud@thibaud.gg')
+    current_email.click_link 'Accéder à mon compte'
 
     expect(current_path).to eq '/activity_participations'
     expect(page).to have_content 'Vous êtes maintenant connecté.'
@@ -55,7 +49,7 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: ''
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
@@ -68,7 +62,7 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: 'foo@bar'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
@@ -81,7 +75,7 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: 'foo@bar.com)'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
@@ -96,7 +90,7 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: 'hn@doe.com'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "Email inconnu")

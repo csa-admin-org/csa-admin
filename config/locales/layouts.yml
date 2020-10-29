@@ -1,5 +1,12 @@
 _:
   layouts:
+    mailer:
+      footer_reply:
+        _de: Bei Fragen oder Bemerkungen antworten Sie einfach auf dieses Email.
+        _fr: En cas de questions ou remarques, répondez simplement à cet email.
+      greeting:
+        _de: Bis bald,
+        _fr: Au plaisir,
     members:
       header:
         absences_subtitle:

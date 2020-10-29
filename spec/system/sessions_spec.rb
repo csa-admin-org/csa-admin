@@ -15,21 +15,14 @@ describe 'Admin sessions' do
     session = admin.sessions.last
 
     expect(session.email).to eq 'thibaud@thibaud.gg'
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'thibaud@thibaud.gg',
-      template: 'session-new',
-      template_data: {
-        action_url: %r{/sessions/#{session.token}},
-        admin: true,
-        fr: true
-      }))
+    expect(SessionMailer.deliveries.size).to eq 1
 
     expect(current_path).to eq '/login'
     expect(page).to have_selector('.flash_notice',
       text: 'Merci! Un email vient de vous être envoyé.')
 
-    visit "/sessions/#{session.token}"
+    open_email('thibaud@thibaud.gg')
+    current_email.click_link 'Accéder à mon compte admin'
 
     expect(current_path).to eq '/'
     expect(page).to have_selector('.flash_notice',
@@ -50,7 +43,7 @@ describe 'Admin sessions' do
     fill_in 'Email', with: ''
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
@@ -63,7 +56,7 @@ describe 'Admin sessions' do
     fill_in 'Email', with: '@foo'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
@@ -76,7 +69,7 @@ describe 'Admin sessions' do
     fill_in 'Email', with: 'unknown@admin.com'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
