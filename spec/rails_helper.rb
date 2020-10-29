@@ -4,6 +4,7 @@ require File.dirname(__FILE__) + '/../config/environment'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'capybara/email/rspec'
 require 'sucker_punch/testing/inline'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

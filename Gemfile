@@ -46,11 +46,14 @@ gem 'faraday-cookie_jar'
 gem 'gibbon'
 gem 'icalendar'
 gem 'mini_magick'
-gem 'postmark-rails'
 gem 'prawn'
 gem 'prawn-table'
 gem 'public_suffix'
 gem 'rubyXL'
+
+gem 'postmark-rails'
+gem 'premailer-rails'
+gem 'liquid'
 
 gem 'cld'
 
@@ -70,6 +73,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'web-console'
+  gem 'letter_opener'
 end
 
 group :development, :test do
@@ -81,6 +85,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
 
   gem 'capybara'
+  gem 'capybara-email'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'

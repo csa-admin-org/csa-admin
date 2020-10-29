@@ -343,19 +343,6 @@ module Email
     }
   end
 
-  def session_new(owner, email, action_url, data = {})
-    data = template_data(owner.language) do
-      { action_url: action_url }.merge(data)
-    end
-
-    {
-      from: from,
-      to: email,
-      template: 'session-new',
-      template_data: data.merge(data)
-    }
-  end
-
   def templates
     default = %w[
       admin_absence_new
@@ -370,7 +357,6 @@ module Email
       member_invoice_overdue_notice
       member_renewal
       member_renewal_reminder
-      session_new
     ]
     default += Current.acp.email_notifications
     default

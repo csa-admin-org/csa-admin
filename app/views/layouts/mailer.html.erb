@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <%= stylesheet_pack_tag 'mailer', media: 'all' %>
+    <!--[if mso]>
+      <style type="text/css">
+        .f-fallback  {
+          font-family: Arial, sans-serif;
+        }
+      </style>
+    <![endif]-->
+  </head>
+  <body>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td align="center">
+          <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+            <!-- start text/html -->
+            <tr>
+              <td class="email-masthead">
+                <a href="<%= Current.acp.url %>" class="f-fallback email-masthead_name" title="<%= Current.acp.name %>">
+                  <img src="<%= Current.acp.logo_url %>" width="100" height="100" alt="<%= Current.acp.name %>" align="center">
+                </a>
+              </td>
+            </tr>
+            <!-- end text/html -->
+
+            <!-- Email Body -->
+            <tr>
+              <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+                <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <!-- Body content -->
+                  <tr>
+                    <td class="content-cell">
+                      <div class="f-fallback">
+                        <%= yield %>
+                        <p class="closing">
+                          <%= t('.greeting') %><br/><%= Current.acp.name %>
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <tr>
+                    <td class="content-cell" align="center">
+                      <p class="f-fallback sub align-center">
+                        <%= Current.acp.email_footer %><br/>
+                        <%= t('.footer_reply') %>
+                      </p>
+                      <p class="f-fallback sub align-center">
+                        <%= link_to Current.acp.name, Current.acp.url %>
+                      </p>
+                      <p class="f-fallback sub align-center">
+                        <a href="https://acp-admin.ch" target="_blank">
+                          <img src="https://d2ibcm5tv7rtdh.cloudfront.net/logo-text.png" width="90" height="18" alt="ACP Admin" align="center"/>
+                        </a>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

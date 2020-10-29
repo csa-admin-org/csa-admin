@@ -16,9 +16,12 @@ class Members::SessionsController < Members::BaseController
     @session = build_session(email)
 
     if @session.save
-      url = members_session_url(@session.token, locale: @session.member.language)
-      Email.deliver_later(:session_new, @session.member, email, url)
-      redirect_to members_login_path, notice: t('sessions.flash.initiated')
+      SessionMailer.with(
+        session: @session,
+        session_url: members_session_url(@session.token, locale: @session.member.language)
+      ).new_member_session_email.deliver_later
+      I18n.locale = @session.member.language
+      redirect_to members_login_path(locale: I18n.locale), notice: t('sessions.flash.initiated')
     else
       render :new
     end

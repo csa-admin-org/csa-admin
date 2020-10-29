@@ -1,0 +1,10 @@
+_:
+  session_mailer:
+    new_admin_session_email:
+      subject:
+        _de: Anmeldung mit Ihrem Admin-Konto
+        _fr: Connexion à votre compte admin
+    new_member_session_email:
+      subject:
+        _de: Anmeldung mit Ihrem Konto
+        _fr: Connexion à votre compte
