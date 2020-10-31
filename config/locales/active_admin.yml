@@ -334,8 +334,11 @@ _:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
         invoice_isr:
-          _de: Rechnungsstellung (ESR)
-          _fr: Facture (BVR)
+          _de: ESR-Rechnung
+          _fr: Facture BVR
+        invoice_qr:
+          _de: QR-Rechnung
+          _fr: Facture QR
         mailer:
           _de: Emails
           _fr: Emails

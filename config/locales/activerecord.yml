@@ -76,11 +76,11 @@ _:
           _de: Kennzeichnung ESR
           _fr: Identité BVR
         isr_in_favor_of:
-          _de: Zugunsten von (ESR)
-          _fr: En faveur de (BVR)
+          _de: Zugunsten von
+          _fr: En faveur de
         isr_payment_for:
-          _de: Einzahlung für (ESR)
-          _fr: Versement pour (BVR)
+          _de: Einzahlung für
+          _fr: Versement pour
         languages:
           _de: Sprachen
           _fr: Languages
@@ -105,6 +105,24 @@ _:
         phone:
           _de: Telefon
           _fr: Téléphone
+        qr_creditor_address:
+          _de: Adresse
+          _fr: Adresse
+        qr_creditor_city:
+          _de: Stadt
+          _fr: Ville
+        qr_creditor_country_code:
+          _de: Land
+          _fr: Pays
+        qr_creditor_name:
+          _de: Name
+          _fr: Nom
+        qr_creditor_zip:
+          _de: PLZ
+          _fr: NPA
+        qr_iban:
+          _de: QR-IBAN
+          _fr: QR-IBAN
         share_price:
           _de: Betrag Anteilschein
           _fr: Montant part sociale

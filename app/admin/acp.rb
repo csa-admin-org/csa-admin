@@ -10,6 +10,8 @@ ActiveAdmin.register ACP do
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
+    :qr_iban, :qr_creditor_name,
+    :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip, :qr_creditor_country_code,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
@@ -87,13 +89,26 @@ ActiveAdmin.register ACP do
         f.input :absences_billed
       end
     end
-    f.inputs t('.invoice_isr') do
-      f.input :ccp
-      f.input :isr_identity
-      f.input :isr_payment_for
-      f.input :isr_in_favor_of
+    f.inputs Invoice.model_name.human do
       translated_input(f, :invoice_infos)
       translated_input(f, :invoice_footers)
+    end
+    f.inputs t('.invoice_qr') do
+      f.input :qr_iban, required: false, input_html: { maxlength: 21 }
+      f.input :qr_creditor_name, required: false, input_html: { maxlength: 70 }
+      f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
+      f.input :qr_creditor_city, required: false, input_html: { maxlength: 35 }
+      f.input :qr_creditor_zip, required: false, input_html: { maxlength: 16 }
+      f.input :qr_creditor_country_code,
+        as: :select,
+        collection: countries_collection,
+        required: false
+    end
+    f.inputs t('.invoice_isr') do
+      f.input :ccp, required: false
+      f.input :isr_identity, required: false
+      f.input :isr_payment_for, required: false
+      f.input :isr_in_favor_of, required: false
     end
     if Current.acp.feature?('activity')
       f.inputs t('.members_participation') do

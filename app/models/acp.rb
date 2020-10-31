@@ -34,10 +34,17 @@ class ACP < ActiveRecord::Base
   validates :email_default_from, presence: true
   validates :email_footer, presence: true
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
-  validates :ccp, presence: true, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/ }
-  validates :isr_identity, presence: true
-  validates :isr_payment_for, presence: true
-  validates :isr_in_favor_of, presence: true
+  validates :ccp, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/, allow_blank: true }
+  validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
+    presence: true, if: :isr_invoice?
+  validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
+    absence: true, unless: :isr_invoice?
+  validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
+    :qr_creditor_city, :qr_creditor_zip, :qr_creditor_country_code,
+    presence: true, if: :qr_invoice?
+  validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
+    :qr_creditor_city, :qr_creditor_zip, :qr_creditor_country_code,
+    absence: true, unless: :qr_invoice?
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
@@ -102,6 +109,18 @@ class ACP < ActiveRecord::Base
 
   def billing_year_divisions=(divisions)
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
+  end
+
+  def invoice_type
+    ccp? ? 'ISR' : 'QR'
+  end
+
+  def isr_invoice?
+    invoice_type == 'ISR'
+  end
+
+  def qr_invoice?
+    invoice_type == 'QR'
   end
 
   def languages=(languages)
