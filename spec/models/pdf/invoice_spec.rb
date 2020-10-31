@@ -745,4 +745,63 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Avoir'
     end
   end
+
+  context 'QR-Code settings' do
+    before {
+      Current.acp.update!(
+        name: 'qrcode',
+        ccp: nil,
+        isr_identity: nil,
+        isr_payment_for: nil,
+        isr_in_favor_of: nil,
+        qr_iban: 'CH4431999123000889012',
+        qr_creditor_name: 'Robert Schneider AG',
+        qr_creditor_address: 'Rue du Lac 1268',
+        qr_creditor_city: 'Biel',
+        qr_creditor_zip: '2501',
+        qr_creditor_country_code: 'CH',
+        invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
+        invoice_footer: '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84',
+        share_price: 250,
+        fiscal_year_start_month: 4)
+    }
+    let(:member) {
+      create(:member,
+        name: 'Pia-Maria Rutschmann-Schnyder',
+        address: 'Grosse Marktgasse 28',
+        zip: '9400',
+        city: 'Rorschach',
+        country_code: 'CH')
+    }
+
+    it 'generates invoice with QR Code' do
+      invoice = create(:invoice,
+        id: 1001,
+        member: member,
+        acp_shares_number: 5)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('Récépissé')
+        .and contain_sequence('Compte / Payable à')
+        .and contain_sequence('CH44 3199 9123 0008 8901 2')
+        .and contain_sequence('Robert Schneider AG', 'Rue du Lac 1268', '2501 Biel')
+        .and contain_sequence('Référence', '00 00000 00000 00000 00000 10014')
+        .and contain_sequence('Payable par')
+        .and contain_sequence('Pia-Maria Rutschmann-Schnyder', 'Grosse Marktgasse 28', '9400 Rorschach')
+        .and contain_sequence('Monnaie', 'CHF')
+        .and contain_sequence('Montant', '1 250.00')
+        .and contain_sequence('Point de dépôt')
+        .and contain_sequence('Section paiement')
+        .and contain_sequence('Monnaie', 'CHF')
+        .and contain_sequence('Montant', '1 250.00')
+        .and contain_sequence('Compte / Payable à')
+        .and contain_sequence('CH44 3199 9123 0008 8901 2')
+        .and contain_sequence('Robert Schneider AG', 'Rue du Lac 1268', '2501 Biel')
+        .and contain_sequence('Référence', '00 00000 00000 00000 00000 10014')
+        .and contain_sequence('Informations supplémentaires', 'Facture 1001')
+        .and contain_sequence('Payable par')
+        .and contain_sequence('Pia-Maria Rutschmann-Schnyder', 'Grosse Marktgasse 28', '9400 Rorschach')
+    end
+  end
 end

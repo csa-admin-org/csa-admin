@@ -84,6 +84,34 @@ _:
       paid_memberships_amount:
         _de: Bereits in Rechnung gestellt
         _fr: Déjà facturé
+      qr_bill:
+        acceptance_point:
+          _de: Annahmestelle
+          _fr: Point de dépôt
+        amount:
+          _de: Betrag
+          _fr: Montant
+        currency:
+          _de: Währung
+          _fr: Monnaie
+        further_information:
+          _de: Zusätzliche Informationen
+          _fr: Informations supplémentaires
+        payable_by:
+          _de: Zahlbar durch
+          _fr: Payable par
+        payable_to:
+          _de: Konto / Zahlbar an
+          _fr: Compte / Payable à
+        payment_part:
+          _de: Zahlteil
+          _fr: Section paiement
+        receipt:
+          _de: Empfangsschein
+          _fr: Récépissé
+        reference:
+          _de: Referenz
+          _fr: Référence
       remaining_annual_memberships_amount:
         _de: Jährlicher Betrag noch offen
         _fr: Montant annuel restant

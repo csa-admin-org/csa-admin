@@ -10,6 +10,12 @@ module FormsHelper
     end
   end
 
+  def countries_collection
+    ISO3166::Country.all.map { |country|
+      [country.translations[I18n.locale.to_s], country.alpha2]
+    }.sort_by { |(name, code)| ActiveSupport::Inflector.transliterate name }
+  end
+
   private
 
   def attribute_label(model_class, attr, locale)

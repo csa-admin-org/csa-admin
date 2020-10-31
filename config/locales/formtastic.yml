@@ -20,6 +20,9 @@ _:
         annual_fee:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag
           _fr: Laisser vide si aucune cotisation anuelle
+        ccp:
+          _de: Leer lassen, wenn QR-Rechnungen verwendet werden
+          _fr: Laisser vide si les factures QR sont utilisées
         email_default_from:
           _de: Der Name des ACP kann als "Mein ACP info@mein-acp.ch" angegeben werden
           _fr: Le nom de l'ACP peut être inclus sous la forme "Mon ACP info@mon-acp.ch"
@@ -44,6 +47,9 @@ _:
         open_renewal_text:
           _de: Text, der beim Antrag auf Erneuerung auf der Mitgliederseite angezeigt wird
           _fr: Texte affiché sur la page de membre lors de la demande de renouvellement
+        qr_iban:
+          _de: Leer lassen, wenn ESR-Rechnungen verwendet werden
+          _fr: Laisser vide si les factures BVR sont utilisées
         recurring_billing_wday:
           _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
           _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.

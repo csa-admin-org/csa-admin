@@ -16,7 +16,7 @@ module PDF
       member_address
       content
       footer
-      isr
+      bill
     end
 
     private
@@ -28,8 +28,8 @@ module PDF
     def member_address
       member = invoice.member
       parts = [
-        member.name,
-        member.address,
+        member.name.truncate(70),
+        member.address.truncate(70),
         "#{member.zip} #{member.city}"
       ]
 
@@ -59,8 +59,8 @@ module PDF
       end
     end
 
-    def cur(amount, unit: '')
-      number_to_currency(amount, unit: unit)
+    def cur(amount, unit: '', **options)
+      number_to_currency(amount, **options.merge(unit: unit))
     end
 
     def content
@@ -266,8 +266,16 @@ module PDF
 
     def footer
       font_size 10
-      bounding_box [0, 300], width: bounds.width, height: 50 do
+      y = Current.acp.invoice_type == 'ISR' ? 300 : 320
+      bounding_box [0, y], width: bounds.width, height: 50 do
         text Current.acp.invoice_footer, inline_format: true, align: :center
+      end
+    end
+
+    def bill
+      case Current.acp.invoice_type
+      when 'QR'; qr
+      when 'ISR'; isr
       end
     end
 
@@ -326,10 +334,154 @@ module PDF
       end
     end
 
+    def qr
+      y = 320
+      border = 13
+      font_size 8
+      bounding_box [0, y], width: bounds.width - border, height: y do
+        qr_borders
+        qr_receipt(border)
+        qr_payment_part(border)
+      end
+    end
+
+    def qr_borders
+      stroke do
+        move_down 22
+        dash(1, space: 2.6, phase: 0)
+        line_width 0.5
+        horizontal_line(-2.1, 600)
+      end
+      rotate 180, origin: [300, 300] do
+        image "#{Rails.root}/lib/assets/images/scissor.png",
+          at: [27, 305.65],
+          width: 12
+      end
+      stroke do
+        dash(1, space: 2.6, phase: 0)
+        line_width 0.5
+        stroke_vertical_line([176.66, 0], nil, at: [176.66, 296.5])
+      end
+      rotate 90, origin: [100, 100] do
+        image "#{Rails.root}/lib/assets/images/scissor.png",
+          at: [22.9, 26.92],
+          width: 12
+      end
+    end
+
+    def qr_receipt(border)
+      bounding_box [border, 298 - border], width: 145, height: 298 - 2 * border do
+        qr_text_main_title t('qr_bill.receipt')
+        move_down border
+
+        qr_text_title t('qr_bill.payable_to'), size: 6
+        qr_text format_iban(Current.acp.qr_iban), size: 8
+        qr_text Current.acp.qr_creditor_name, size: 8
+        qr_text Current.acp.qr_creditor_address, size: 8
+        qr_text Current.acp.qr_creditor_zip + ' ' + Current.acp.qr_creditor_city, size: 8
+        move_down border
+
+        qr_text_title t('qr_bill.reference'), size: 6
+        qr_text QRReferenceNumber.new(invoice.id).formatted_ref, size: 8
+        move_down border
+
+        qr_text_title t('qr_bill.payable_by'), size: 6
+        qr_text invoice.member.name.truncate(70), size: 8
+        qr_text invoice.member.address.truncate(70), size: 8
+        qr_text invoice.member.zip + ' ' + invoice.member.city, size: 8
+
+        bounding_box [0, 98], width: 200 do
+          qr_text_title t('qr_bill.currency'), size: 6
+          qr_text Current.acp.currency_code, size: 8
+        end
+        bounding_box [65, 98], width: 200 do
+          qr_text_title t('qr_bill.amount'), size: 6
+          qr_text cur(invoice.amount, delimiter: ' '), size: 8
+        end
+
+        bounding_box [105, 48], width: 200 do
+          qr_text_title t('qr_bill.acceptance_point'), size: 6
+        end
+      end
+    end
+
+    def qr_payment_part(border)
+      bounding_box [176.66 + border, 298 - border], width: 390, height: 298 - 2 * border do
+        qr_text_main_title t('qr_bill.payment_part')
+
+        image InvoiceQRCode.new(invoice).generate_qr_image.path,
+          at: [-2.5, 252],
+          width: 137
+
+        bounding_box [0, 100], width: 200 do
+          qr_text_title t('qr_bill.currency')
+          qr_text Current.acp.currency_code
+        end
+        bounding_box [65, 100], width: 200 do
+          qr_text_title t('qr_bill.amount')
+          qr_text cur(invoice.amount, delimiter: ' ')
+        end
+
+        bounding_box [146, 270], width: 230 do
+          qr_text_title t('qr_bill.payable_to')
+          qr_text format_iban(Current.acp.qr_iban)
+          qr_text Current.acp.qr_creditor_name
+          qr_text Current.acp.qr_creditor_address
+          qr_text Current.acp.qr_creditor_zip + ' ' + Current.acp.qr_creditor_city
+          move_down border
+
+          qr_text_title t('qr_bill.reference')
+          qr_text QRReferenceNumber.new(invoice.id).formatted_ref
+          move_down border
+
+          qr_text_title t('qr_bill.further_information')
+          qr_text "#{::Invoice.model_name.human} #{invoice.id}"
+          move_down border
+
+          qr_text_title t('qr_bill.payable_by')
+          qr_text invoice.member.name.truncate(70)
+          qr_text invoice.member.address.truncate(70)
+          qr_text invoice.member.zip + ' ' + invoice.member.city
+        end
+      end
+    end
+
+    def qr_text_main_title(txt, **options)
+      text txt, {
+        size: 11,
+        character_spacing: 0.4,
+        style: :bold
+      }.merge(options)
+    end
+
+    def qr_text_title(txt, **options)
+      text txt, {
+        size: 8,
+        character_spacing: 0.4,
+        style: :bold
+      }.merge(options)
+      move_down 3
+    end
+
+    def qr_text(txt, **options)
+      text txt, {
+        size: 10,
+        character_spacing: 0.4,
+        style: :normal
+      }.merge(options)
+      move_down 1.5
+    end
+
     def appendice_star
       @stars_count ||= 0
       @stars_count += 1
       '*' * @stars_count
+    end
+
+    def format_iban(iban)
+      iban
+        .delete(' ')
+        .gsub(/(.{4})(?=.)/, '\1 \2')
     end
 
     def reset_appendice_star

@@ -59,6 +59,8 @@ gem 'cld'
 
 gem 'camt_parser'
 gem 'epics'
+gem 'rqrcode'
+gem 'countries'
 
 group :production do
   gem 'aws-sdk-s3', require: false
