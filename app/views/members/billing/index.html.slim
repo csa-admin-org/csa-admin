@@ -11,7 +11,7 @@ h1 = t('.billing')
           span.file
             = link_to rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
               = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
-          span.amount = number_to_currency(invoice.amount)
+          span.amount = cur(invoice.amount)
 
 section
   h2 = t('.history')
@@ -33,7 +33,7 @@ section
             span.file
               = link_to rails_blob_path(object.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
                 = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
-            span.amount = number_to_currency(object.amount)
+            span.amount = cur(object.amount)
           - when Payment
             - if object.amount.positive?
               span.info
@@ -43,7 +43,7 @@ section
                   = t('.manual_payment_info')
             - else
               span.info = t('.refund_info')
-            span.amount = number_to_currency(-object.amount)
+            span.amount = cur(-object.amount)
       #billing_history
       - if @billing_history.size > history_limit
         li.show_all = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history')
@@ -56,14 +56,14 @@ section.balance
         = t('.credit_amount')
         = ': '
         - if balance.zero?
-          = number_to_currency(balance)
+          = cur(balance)
         - else
-          = number_to_currency(balance)
+          = cur(balance)
     - else
       li.error
         = t('.missing_amount')
         = ': '
-        = number_to_currency(-balance)
+        = cur(-balance)
     li
       = Member.human_attribute_name(:billing_year_division)
       = ': '

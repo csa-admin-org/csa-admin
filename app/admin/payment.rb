@@ -30,7 +30,7 @@ ActiveAdmin.register Payment do
     column :date, ->(p) { l p.date, format: :number }
     column :member, sortable: 'members.name'
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
-    column :amount, ->(p) { number_to_currency(p.amount) }
+    column :amount, ->(p) { cur(p.amount) }
     column :type, ->(p) { status_tag p.type }
     actions
   end
@@ -65,7 +65,7 @@ ActiveAdmin.register Payment do
     all = collection.unscope(:includes).limit(nil)
 
     span t('active_admin.sidebars.amount')
-    span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+    span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
   end
 
   show do |payement|
@@ -74,7 +74,7 @@ ActiveAdmin.register Payment do
       row :member
       row :invoice
       row(:date) { l payement.date }
-      row(:amount) { number_to_currency(payement.amount) }
+      row(:amount) { cur(payement.amount) }
       row(:created_at) { l payement.created_at }
       row(:updated_at) { l payement.updated_at }
     end

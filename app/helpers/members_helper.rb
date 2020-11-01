@@ -172,9 +172,9 @@ module MembersHelper
     precision == 0 ? "#{price.to_i}.-" : "%.#{precision}f" % price
   end
 
-  def price_info(price, options = {})
+  def price_info(price, **options)
     options[:precision] ||= price_precision(price.round_to_five_cents)
-    number_to_currency(price.round_to_five_cents, options) if price.positive?
+    cur(price.round_to_five_cents, **options) if price.positive?
   end
 
   def price_precision(price)

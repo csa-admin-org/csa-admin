@@ -12,7 +12,7 @@ h2 = t(".title.#{params[:decision]}")
     - when 'cancel'
       = f.input :renewal_note, as: :text, input_html: { rows: 5 }, placeholder: t('.renewal_note.placeholder.cancel').html_safe
       - if Current.acp.annual_fee?
-        = f.input :renewal_annual_fee, as: :pretty_boolean, label: t('.renewal_annual_fee_label', annual_fee: number_to_currency(Current.acp.annual_fee, precision: 0)).html_safe
+        = f.input :renewal_annual_fee, as: :pretty_boolean, label: t('.renewal_annual_fee_label', annual_fee: cur(Current.acp.annual_fee, precision: 0)).html_safe
     - when 'renew'
       = f.input :basket_size, as: :pretty_radio, collection: basket_sizes_collection(no_basket_option: false), label: BasketSize.model_name.human
 

@@ -19,7 +19,7 @@ ActiveAdmin.register ACP do
     :vat_number, :vat_membership_rate, :absences_billed,
     :delivery_pdf_show_phones,
     :group_buying_email,
-    :recurring_billing_wday,
+    :recurring_billing_wday, :currency_code,
     :open_renewal_reminder_sent_after_in_days,
     *ACP::OPTIONAL_EMAIL_NOTIFICATIONS.map { |n| "notification_#{n}".to_sym },
     billing_year_divisions: [],
@@ -77,6 +77,10 @@ ActiveAdmin.register ACP do
       f.input :billing_year_divisions,
         as: :check_boxes,
         collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
+      f.input :currency_code,
+        as: :select,
+        collection: ACP::CURRENCIES,
+        prompt: true
       f.input :recurring_billing_wday,
         as: :select,
         collection: wdays_collection,

@@ -38,14 +38,14 @@ ActiveAdmin.register GroupBuying::Product do
     selectable_column
     column :name, ->(product) { auto_link product }, sortable: :names
     column :available, ->(product) { status_tag(product.available? ? :yes : :no) }
-    column :price, ->(product) { number_to_currency(product.price) }
+    column :price, ->(product) { cur(product.price) }
     actions
   end
 
   csv do
     column(:name)
     column(:producer) { |p| p.producer.name }
-    column(:price) { |p| number_to_currency(p.price) }
+    column(:price) { |p| cur(p.price) }
     column(:available)
     column(:created_at)
     column(:updated_at)

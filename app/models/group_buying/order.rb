@@ -1,6 +1,6 @@
 module GroupBuying
   class Order < ActiveRecord::Base
-    include ActiveSupport::NumberHelper
+    include NumbersHelper
     include HasState
 
     self.table_name = 'group_buying_orders'
@@ -87,7 +87,7 @@ module GroupBuying
         date: date,
         object_type: 'GroupBuying::Order',
         items_attributes: items.map.with_index { |item, index|
-          price = number_to_currency(item.price, unit: '')
+          price = cur(item.price, unit: false)
           [index.to_s, {
             description: "#{item.product.name} #{item.quantity}x#{price}",
             amount: item.amount

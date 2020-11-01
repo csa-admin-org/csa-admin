@@ -4,8 +4,8 @@ ActiveAdmin.register BasketSize do
 
   index download_links: false do
     column :name
-    column :price, ->(bs) { number_to_currency(bs.price, precision: 3) }
-    column :annual_price, ->(bs) { number_to_currency(bs.annual_price) }
+    column :price, ->(bs) { cur(bs.price, precision: 3) }
+    column :annual_price, ->(bs) { cur(bs.annual_price) }
     if Current.acp.share?
       column :acp_shares_number
     end

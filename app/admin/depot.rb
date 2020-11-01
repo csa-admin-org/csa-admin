@@ -9,7 +9,7 @@ ActiveAdmin.register Depot do
     column :city
     column :visible
     if Depot.pluck(:price).any?(&:positive?)
-      column :price, ->(d) { number_to_currency(d.price) }
+      column :price, ->(d) { cur(d.price) }
     end
     column :responsible_member
     actions
@@ -21,7 +21,7 @@ ActiveAdmin.register Depot do
     if Current.acp.languages.many?
       row(:language) { |d| t("languages.#{d.language}") }
     end
-    column(:price) { |d| number_to_currency(d.price) }
+    column(:price) { |d| cur(d.price) }
     column(:note)
     column(:address_name)
     column(:address)
@@ -65,7 +65,7 @@ ActiveAdmin.register Depot do
           if Current.acp.languages.many?
             row(:language) { t("languages.#{depot.language}") }
           end
-          row(:price) { number_to_currency(depot.price) }
+          row(:price) { cur(depot.price) }
           row(:deliveries_count) {
             link_to(
               depot.deliveries_count,

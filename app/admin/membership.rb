@@ -183,11 +183,11 @@ ActiveAdmin.register Membership do
     column(:renewed_at)
     column(:renewal_note)
     if Current.acp.ragedevert?
-      column(:basket_price_extra) { |m| number_to_currency(m.basket_price_extra) }
+      column(:basket_price_extra) { |m| cur(m.basket_price_extra) }
     end
-    column(:price) { |m| number_to_currency(m.price) }
-    column(:invoices_amount) { |m| number_to_currency(m.invoices_amount) }
-    column(:missing_invoices_amount) { |m| number_to_currency(m.missing_invoices_amount) }
+    column(:price) { |m| cur(m.price) }
+    column(:invoices_amount) { |m| cur(m.invoices_amount) }
+    column(:missing_invoices_amount) { |m| cur(m.missing_invoices_amount) }
   end
 
   show do |m|
@@ -388,7 +388,7 @@ ActiveAdmin.register Membership do
               display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
             }
             row(:baskets_annual_price_change) {
-              number_to_currency(m.baskets_annual_price_change)
+              cur(m.baskets_annual_price_change)
             }
             if m.basket_complements.any?
               row(:basket_complements_price) {
@@ -397,18 +397,18 @@ ActiveAdmin.register Membership do
                   membership_basket_complements_price_info(m))
               }
               row(:basket_complements_annual_price_change) {
-                number_to_currency(m.basket_complements_annual_price_change)
+                cur(m.basket_complements_annual_price_change)
               }
             end
             row(:depots_price) {
               display_price_description(m.depots_price, depots_price_info(m.baskets))
             }
             if Current.acp.feature?('activity')
-              row(activity_scoped_attribute(:activity_participations_annual_price_change)) { number_to_currency(m.activity_participations_annual_price_change) }
+              row(activity_scoped_attribute(:activity_participations_annual_price_change)) { cur(m.activity_participations_annual_price_change) }
             end
-            row(:price) { number_to_currency(m.price) }
-            row(:invoices_amount) { number_to_currency(m.invoices_amount) }
-            row(:missing_invoices_amount) { number_to_currency(m.missing_invoices_amount) }
+            row(:price) { cur(m.price) }
+            row(:invoices_amount) { cur(m.invoices_amount) }
+            row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
           end
         end
 

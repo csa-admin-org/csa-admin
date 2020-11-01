@@ -59,7 +59,7 @@ ActiveAdmin.register GroupBuying::Delivery do
               table_for items, class: 'totals table-group_buying_orders', i18n: GroupBuying::OrderItem do
                 column(:product) { |i| auto_link i.product }
                 column(:quantity)
-                column(:amount) { |i| number_to_currency(i.amount) }
+                column(:amount) { |i| cur(i.amount) }
               end
             end
           end

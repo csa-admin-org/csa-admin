@@ -36,6 +36,9 @@ _:
         ccp:
           _de: Postkonto
           _fr: Numéro CCP
+        currency_code:
+          _de: Währung
+          _fr: Monnaie
         delivery_pdf_footer:
           _de: Fußzeile
           _fr: Bas de page

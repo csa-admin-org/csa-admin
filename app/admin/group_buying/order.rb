@@ -37,7 +37,7 @@ ActiveAdmin.register GroupBuying::Order do
     column :created_at, ->(order) { l(order.date, format: :number) }
     column :delivery, ->(order) { auto_link order.delivery, order.delivery.title  }, sortable: 'delivery_id'
     column :member, sortable: 'members.name'
-    column :amount, ->(order) { number_to_currency(order.amount) }
+    column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
     actions defaults: true do |order|
       link_to 'PDF', rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
@@ -64,20 +64,20 @@ ActiveAdmin.register GroupBuying::Order do
     if params[:scope].in? ['all_without_canceled', 'open', nil]
       div class: 'total' do
         span t('billing.scope.missing')
-        span number_to_currency(all.sum('invoices.amount - invoices.balance')), style: 'float: right'
+        span cur(all.sum('invoices.amount - invoices.balance')), style: 'float: right'
       end
       div class: 'total' do
         span t('billing.scope.paid')
-        span number_to_currency(all.sum('invoices.balance')), style: 'float: right;'
+        span cur(all.sum('invoices.balance')), style: 'float: right;'
       end
       div class: 'totals' do
         span t('active_admin.sidebars.amount')
-        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
     else
       div do
         span t('active_admin.sidebars.amount')
-        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
     end
   end
@@ -88,9 +88,9 @@ ActiveAdmin.register GroupBuying::Order do
         panel "#{order.items_count} #{GroupBuying::Product.model_name.human(count: order.items_count)}" do
           table_for order.items.includes(:product), class: 'table-group_buying_orders' do
             column(:product) { |i| auto_link i.product }
-            column(:price) { |i| number_to_currency(i.price) }
+            column(:price) { |i| cur(i.price) }
             column(:quantity)
-            column(:amount) { |i| number_to_currency(i.amount) }
+            column(:amount) { |i| cur(i.amount) }
           end
         end
       end
@@ -105,9 +105,9 @@ ActiveAdmin.register GroupBuying::Order do
         end
 
         attributes_table title: Invoice.human_attribute_name(:amount) do
-          row(:amount) { number_to_currency(order.amount) }
-          row(:balance) { number_to_currency(order.invoice.balance) }
-          row(:missing_amount) { number_to_currency(order.invoice.missing_amount) }
+          row(:amount) { cur(order.amount) }
+          row(:balance) { cur(order.invoice.balance) }
+          row(:missing_amount) { cur(order.invoice.missing_amount) }
         end
 
         active_admin_comments

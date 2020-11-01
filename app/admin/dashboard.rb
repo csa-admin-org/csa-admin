@@ -15,12 +15,12 @@ ActiveAdmin.register_page 'Dashboard' do
         panel t('.billing_year', fiscal_year: Current.fiscal_year) do
           table_for InvoiceTotal.all, class: 'totals_2' do
             column Invoice.model_name.human(count: 2), :title
-            column(class: 'align-right') { |total| number_to_currency(total.price) }
+            column(class: 'align-right') { |total| cur(total.price) }
           end
 
           table_for PaymentTotal.all, class: 'totals' do
             column Payment.model_name.human(count: 2), :title
-            column(class: 'align-right') { |total| number_to_currency(total.price) }
+            column(class: 'align-right') { |total| cur(total.price) }
           end
 
           table_for nil do
