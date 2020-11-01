@@ -11,7 +11,7 @@ section.account {
     margin-bottom: $base-spacing;
   }
 
-  label.zip, label.city {
+  label.zip, label.city, label.country {
     display: none;
   }
 
@@ -34,5 +34,9 @@ section.account {
     @media screen and (min-width: 900px) {
       width: calc(80% - 77px);
     }
+  }
+
+  select.country {
+    margin-top: 5px;
   }
 }

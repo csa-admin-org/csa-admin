@@ -136,7 +136,8 @@ module MembersHelper
   def diplay_address(member)
     parts = [
       member.address,
-      "#{member.zip} #{member.city}"
+      "#{member.zip} #{member.city}",
+      member.country.translations[I18n.locale.to_s]
     ].join("</br>").html_safe
   end
 

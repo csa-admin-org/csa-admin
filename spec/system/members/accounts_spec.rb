@@ -7,6 +7,7 @@ describe 'Account' do
       address: 'Nowhere 1',
       zip: '1234',
       city: 'Town',
+      country_code: 'CH',
       emails: 'john@doe.com, jame@doe.com',
       phones: '076 123 45 67, 079 765 43 21')
   }
@@ -22,7 +23,7 @@ describe 'Account' do
     click_on 'Doe Jame and John'
 
     expect(page).to have_content("Nom\nDoe Jame and John")
-    expect(page).to have_content("Adresse\nNowhere 11234 Town")
+    expect(page).to have_content("Adresse\nNowhere 11234 TownSuisse")
     expect(page).to have_content("Email(s)\njohn@doe.com, jame@doe.com")
     expect(page).to have_content("Téléphone(s)\n076 123 45 67, 079 765 43 21")
   end
@@ -36,17 +37,19 @@ describe 'Account' do
     fill_in 'Nom', with: 'Doe Jame & John'
     fill_in 'member_zip', with: '12345'
     fill_in 'member_city', with: 'Villar'
+    select 'Allemagne', from: 'member_country_code'
 
     click_button 'Soumettre'
 
     expect(page).to have_content("Nom\nDoe Jame & John")
-    expect(page).to have_content("Adresse\nNowhere 112345 Villar")
+    expect(page).to have_content("Adresse\nNowhere 112345 VillarAllemagne")
 
     expect(member.audits.first).to have_attributes(
       session: member.last_session,
       audited_changes: {
         'zip' => ['1234', '12345'],
         'city' => ['Town', 'Villar'],
+        'country_code' => ['CH', 'DE'],
         'name' => ['Doe Jame and John', 'Doe Jame & John']
       })
   end

@@ -114,9 +114,6 @@ _:
         qr_creditor_city:
           _de: Stadt
           _fr: Ville
-        qr_creditor_country_code:
-          _de: Land
-          _fr: Pays
         qr_creditor_name:
           _de: Name
           _fr: Nom

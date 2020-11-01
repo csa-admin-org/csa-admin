@@ -7,12 +7,12 @@ describe InvoiceQRCode do
       isr_identity: nil,
       isr_payment_for: nil,
       isr_in_favor_of: nil,
+      country_code: 'CH',
       qr_iban: 'CH4431999123000889012',
       qr_creditor_name: 'Robert Schneider AG',
       qr_creditor_address: 'Rue du Lac 1268',
       qr_creditor_city: 'Biel',
       qr_creditor_zip: '2501',
-      qr_creditor_country_code: 'CH',
       invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
       invoice_footer: '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84')
   }

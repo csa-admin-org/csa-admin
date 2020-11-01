@@ -6,12 +6,12 @@ ActiveAdmin.register ACP do
   actions :edit, :update
   permit_params \
     :name, :host, :logo_url,
-    :url, :email, :phone,
+    :url, :email, :phone, :country_code,
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :qr_iban, :qr_creditor_name,
-    :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip, :qr_creditor_country_code,
+    :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
@@ -47,6 +47,9 @@ ActiveAdmin.register ACP do
       f.input :languages,
         as: :check_boxes,
         collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }
+      f.input :country_code,
+        as: :select,
+        collection: countries_collection
       f.input :features,
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
@@ -103,10 +106,6 @@ ActiveAdmin.register ACP do
       f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
       f.input :qr_creditor_city, required: false, input_html: { maxlength: 35 }
       f.input :qr_creditor_zip, required: false, input_html: { maxlength: 16 }
-      f.input :qr_creditor_country_code,
-        as: :select,
-        collection: countries_collection,
-        required: false
     end
     f.inputs t('.invoice_isr') do
       f.input :ccp, required: false

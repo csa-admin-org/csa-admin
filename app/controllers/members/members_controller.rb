@@ -48,7 +48,7 @@ class Members::MembersController < Members::BaseController
     params
       .require(:member)
       .permit(
-        :name, :address, :zip, :city,
+        :name, :address, :zip, :city, :country_code,
         :emails, :phones,
         :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
         :billing_year_division,

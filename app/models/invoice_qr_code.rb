@@ -61,7 +61,7 @@ class InvoiceQRCode
       '',
       @acp.qr_creditor_zip,
       @acp.qr_creditor_city,
-      @acp.qr_creditor_country_code,
+      @acp.country_code,
       '',
       '',
       '',

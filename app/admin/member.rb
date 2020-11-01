@@ -15,6 +15,10 @@ ActiveAdmin.register Member do
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
+  filter :country_code, as: :select, collection: -> {
+    country_codes = Member.pluck(:country_code).uniq.map(&:presence).compact.sort
+    countries_collection(country_codes)
+  }
   filter :billing_year_division,
     as: :select,
     collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] } }
@@ -47,6 +51,7 @@ ActiveAdmin.register Member do
     column(:address)
     column(:zip)
     column(:city)
+    column(:country_code)
     column(:delivery_address)
     column(:delivery_zip)
     column(:delivery_city)
@@ -299,6 +304,9 @@ ActiveAdmin.register Member do
       f.input :address
       f.input :city
       f.input :zip
+      f.input :country_code,
+        as: :select,
+        collection: countries_collection
     end
     f.inputs Member.human_attribute_name(:delivery_address) do
       f.input :delivery_address
@@ -333,7 +341,8 @@ ActiveAdmin.register Member do
   end
 
   permit_params \
-    :name, :language, :address, :city, :zip, :emails, :phones,
+    :name, :language, :emails, :phones,
+    :address, :city, :zip, :country_code,
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket, :billing_year_division,
     :acp_shares_info, :existing_acp_shares_number,

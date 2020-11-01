@@ -25,7 +25,7 @@ class Members::AccountsController < Members::BaseController
       .require(:member)
       .permit(
         :name,
-        :address, :zip, :city,
+        :address, :zip, :city, :country_code,
         :emails, :phones)
   end
 end
