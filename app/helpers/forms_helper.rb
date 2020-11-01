@@ -10,8 +10,10 @@ module FormsHelper
     end
   end
 
-  def countries_collection
-    ISO3166::Country.all.map { |country|
+  def countries_collection(codes = [])
+    countries = ISO3166::Country.all
+    countries.select! { |c| c.alpha2.in? codes } if codes.any?
+    countries.map { |country|
       [country.translations[I18n.locale.to_s], country.alpha2]
     }.sort_by { |(name, code)| ActiveSupport::Inflector.transliterate name }
   end

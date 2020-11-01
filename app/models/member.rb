@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
 
-  audited_attributes :name, :address, :zip, :city, :emails, :phones
+  audited_attributes :name, :address, :zip, :city, :country_code, :emails, :phones
 
   has_states :pending, :waiting, :active, :support, :inactive
 
@@ -45,15 +45,18 @@ class Member < ActiveRecord::Base
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
 
+  after_initialize :set_defaults, unless: :persisted?
   before_validation :set_default_billing_year_division
 
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
     presence: true,
     inclusion: { in: proc { Current.acp.billing_year_divisions } }
+  validates :country_code,
+    inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :name, presence: true
   validates :emails, presence: true, if: :public_create
-  validates :address, :city, :zip, presence: true, unless: :inactive?
+  validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_price_extra, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :waiting_depot, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
@@ -74,7 +77,11 @@ class Member < ActiveRecord::Base
   end
 
   def display_address
-    address.present? ? "#{address}, #{city} (#{zip})" : '–'
+    address.present? ? "#{address}, #{city} (#{zip}), #{country.translations[I18n.locale.to_s]}" : '–'
+  end
+
+  def country
+    ISO3166::Country.new(country_code)
   end
 
   def display_delivery_address
@@ -235,6 +242,10 @@ class Member < ActiveRecord::Base
   end
 
   private
+
+  def set_defaults
+    self[:country_code] ||= Current.acp.country_code
+  end
 
   def set_default_billing_year_division
     self[:billing_year_division] ||=

@@ -21,6 +21,8 @@ section.account
         = f.text_field :zip, class: 'zip'
         = f.label :city, class: 'city'
         = f.text_field :city, class: 'city'
+      = f.label :country_code, class: 'country'
+      = f.select :country_code, countries_collection, {}, class: 'country'
 
     .input
       = f.label :emails

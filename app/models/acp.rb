@@ -41,10 +41,10 @@ class ACP < ActiveRecord::Base
   validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     absence: true, unless: :isr_invoice?
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
-    :qr_creditor_city, :qr_creditor_zip, :qr_creditor_country_code,
+    :qr_creditor_city, :qr_creditor_zip,
     presence: true, if: :qr_invoice?
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
-    :qr_creditor_city, :qr_creditor_zip, :qr_creditor_country_code,
+    :qr_creditor_city, :qr_creditor_zip,
     absence: true, unless: :qr_invoice?
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
@@ -72,6 +72,9 @@ class ACP < ActiveRecord::Base
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
   validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
   validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true
+  validates :country_code,
+    presence: true,
+    inclusion: { in: ISO3166::Country.all.map(&:alpha2) }
   validates :currency_code, presence: true, inclusion: { in: CURRENCIES }
 
   before_save :set_summer_month_range

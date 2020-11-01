@@ -9,6 +9,7 @@ p = t('.text')
     = f.input :address
     = f.input :zip, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: 'fl' }
     = f.input :city, wrapper_html: { class: 'fl' }
+    = f.input :country_code, as: :select, collection: countries_collection
 
   = f.inputs name: Member.human_attribute_name(:contact) do
     = f.input :emails, as: :string, required: true
