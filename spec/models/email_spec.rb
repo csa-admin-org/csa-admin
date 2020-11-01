@@ -78,27 +78,6 @@ describe Email do
     end
   end
 
-  it 'delivers admin-invitation template' do
-    admin = create(:admin,
-      name: 'John Doe',
-      email: 'john@doe.com',
-      language: 'fr')
-
-    Email.deliver_later(:admin_invitation, admin)
-
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: 'john@doe.com',
-      template: 'admin-invitation',
-      template_data: {
-        admin_name: 'John Doe',
-        admin_email: 'john@doe.com',
-        action_url: 'https://admin.ragedevert.ch',
-        edit_admin_url: "https://admin.ragedevert.ch/admins/#{admin.id}/edit#admin_notifications_input",
-        fr: true
-      }))
-  end
-
   it 'delivers admin-invoice-overpaid template' do
     admin = create(:admin,
       name: 'Thibaud',

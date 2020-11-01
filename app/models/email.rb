@@ -78,24 +78,6 @@ module Email
     }
   end
 
-  def admin_invitation(admin)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        admin_email: admin.email,
-        action_url: url(:root_url),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: 'admin-invitation',
-      template_data: data
-    }
-  end
-
   def admin_invoice_overpaid(admin, invoice)
     data = template_data(admin.language) do
       {
@@ -347,7 +329,6 @@ module Email
     default = %w[
       admin_absence_new
       admin_delivery_list
-      admin_invitation
       admin_invoice_overpaid
       admin_member_new
       member_activity_reminder
