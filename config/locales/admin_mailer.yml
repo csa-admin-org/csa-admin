@@ -1,0 +1,6 @@
+_:
+  admin_mailer:
+    invitation_email:
+      subject:
+        _de: Einladung an den %{acp} Admin
+        _fr: Invitation à l'admin de %{acp}
