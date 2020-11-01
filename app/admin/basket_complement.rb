@@ -9,10 +9,9 @@ ActiveAdmin.register BasketComplement do
     }
     column :price, ->(bs) {
       if bs.annual_price_type?
-        number_to_currency(bs.annual_price, precision: 2)
+        cur(bs.annual_price)
       else
-        number_to_currency(bs.delivery_price, precision: 2) +
-        " (#{number_to_currency(bs.annual_price, precision: 2)})"
+        "#{cur(bs.delivery_price)} (#{cur(bs.annual_price)})"
       end
     }
     column :visible

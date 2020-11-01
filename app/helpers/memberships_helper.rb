@@ -124,6 +124,6 @@ module MembershipsHelper
 
   def precise_cur(number)
     precision = number.to_s.split('.').last.size > 2 ? 3 : 2
-    number_to_currency(number, unit: '', precision: precision)
+    cur(number, unit: false, precision: precision)
   end
 end

@@ -11,6 +11,7 @@ class ACP < ActiveRecord::Base
   FEATURE_FLAGS = %w[open_renewal]
   LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
+  CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
   OPTIONAL_EMAIL_NOTIFICATIONS = %w[member_validated member_activated]
@@ -71,6 +72,7 @@ class ACP < ActiveRecord::Base
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
   validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
   validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true
+  validates :currency_code, presence: true, inclusion: { in: CURRENCIES }
 
   before_save :set_summer_month_range
   after_create :create_tenant

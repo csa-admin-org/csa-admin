@@ -1,5 +1,5 @@
 module Email
-  include ActiveSupport::NumberHelper
+  include NumbersHelper
   extend self
 
   def deliver_now(template, *args)
@@ -263,7 +263,7 @@ module Email
       data = {
         invoice_number: invoice.id,
         invoice_date: I18n.l(invoice.date),
-        invoice_amount: number_to_currency(invoice.amount),
+        invoice_amount: cur(invoice.amount),
         overdue_notices_count: invoice.overdue_notices_count,
         action_url: url(:members_billing_url)
       }
@@ -271,7 +271,7 @@ module Email
       if invoice.closed?
         data[:invoice_paid] = true
       elsif invoice.missing_amount < invoice.amount || invoice.overdue_notices_count.positive?
-        data[:invoice_missing_amount] = number_to_currency(invoice.missing_amount)
+        data[:invoice_missing_amount] = cur(invoice.missing_amount)
       end
       data
     end

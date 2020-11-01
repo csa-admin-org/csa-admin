@@ -2,6 +2,7 @@ module PDF
   class Invoice < Base
     include ActivitiesHelper
     include MembershipsHelper
+    include NumbersHelper
 
     attr_reader :invoice, :object, :isr_ref
 
@@ -59,15 +60,11 @@ module PDF
       end
     end
 
-    def cur(amount, unit: '', **options)
-      number_to_currency(amount, **options.merge(unit: unit))
-    end
-
     def content
       font_size 10
       data = [[
         ::Invoice.human_attribute_name(:description),
-        "#{::Invoice.human_attribute_name(:amount)} (CHF)"
+        "#{::Invoice.human_attribute_name(:amount)} (#{currency_symbol})"
       ]]
 
       case invoice.object_type
@@ -76,14 +73,14 @@ module PDF
           object.basket_sizes.uniq.each do |basket_size|
             data << [
               membership_basket_size_description(basket_size),
-              cur(object.basket_size_total_price(basket_size))
+              _cur(object.basket_size_total_price(basket_size))
             ]
           end
         end
         unless object.baskets_annual_price_change.zero?
           data << [
             t('baskets_annual_price_change'),
-            cur(object.baskets_annual_price_change)
+            _cur(object.baskets_annual_price_change)
           ]
         end
         if object.basket_complements_price.positive?
@@ -93,14 +90,14 @@ module PDF
           basket_complements.each do |basket_complement|
             data << [
               membership_basket_complement_description(basket_complement),
-              cur(object.basket_complement_total_price(basket_complement))
+              _cur(object.basket_complement_total_price(basket_complement))
             ]
           end
         end
         unless object.basket_complements_annual_price_change.zero?
           data << [
             t('basket_complements_annual_price_change'),
-            cur(object.basket_complements_annual_price_change)
+            _cur(object.basket_complements_annual_price_change)
           ]
         end
         object.depots.uniq.each do |depot|
@@ -108,12 +105,12 @@ module PDF
           if price.positive?
             data << [
               membership_depot_description(depot),
-              cur(price)
+              _cur(price)
             ]
           end
         end
         unless object.activity_participations_annual_price_change.zero?
-          data << [activity_participations_annual_price_change_description, cur(object.activity_participations_annual_price_change)]
+          data << [activity_participations_annual_price_change_description, _cur(object.activity_participations_annual_price_change)]
         end
       when 'ActivityParticipation'
         if object
@@ -126,7 +123,7 @@ module PDF
         else
           str = t_activity('missed_activity_participations', count: invoice.paid_missing_activity_participations)
         end
-        data << [str, cur(invoice.amount)]
+        data << [str, _cur(invoice.amount)]
       when 'ACPShare'
         str =
           if invoice.acp_shares_number.positive?
@@ -134,47 +131,47 @@ module PDF
           else
             t('acp_shares_number_negative', count: invoice.acp_shares_number.abs)
           end
-        data << [str, cur(invoice.amount)]
+        data << [str, _cur(invoice.amount)]
       when 'Other', 'GroupBuying::Order'
         invoice.items.each do |item|
-          data << [item.description, cur(item.amount)]
+          data << [item.description, _cur(item.amount)]
         end
       end
 
       if invoice.paid_memberships_amount.to_f.positive?
         data << [
           t('paid_memberships_amount'),
-          cur(-invoice.paid_memberships_amount)
+          _cur(-invoice.paid_memberships_amount)
         ]
         data << [
           t('remaining_annual_memberships_amount'),
-          cur(invoice.remaining_memberships_amount)
+          _cur(invoice.remaining_memberships_amount)
         ]
       elsif invoice.remaining_memberships_amount?
         data << [
           t('annual_memberships_amount'),
-          cur(invoice.remaining_memberships_amount)
+          _cur(invoice.remaining_memberships_amount)
         ]
       end
 
       if invoice.memberships_amount?
-        gross_amount = cur(invoice.memberships_amount).to_s
+        gross_amount = _cur(invoice.memberships_amount).to_s
         gross_amount = "#{appendice_star}#{gross_amount}" if invoice.memberships_vat_amount&.positive?
         data << [invoice.memberships_amount_description, gross_amount]
       end
 
       if invoice.annual_fee?
-        data << [t('annual_fee'), cur(invoice.annual_fee)]
+        data << [t('annual_fee'), _cur(invoice.annual_fee)]
       end
 
       if invoice.amount.positive? && @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
-        credit_amount = cur(-(already_paid + invoice.member.credit_amount))
+        credit_amount = _cur(-(already_paid + invoice.member.credit_amount))
         credit_amount = "#{appendice_star} #{credit_amount}" if invoice.member.credit_amount.positive?
         data << [t('credit_amount'), credit_amount]
-        data << [t('missing_amount'), cur(@missing_amount)]
+        data << [t('missing_amount'), _cur(@missing_amount)]
       elsif (invoice.memberships_amount? && invoice.annual_fee?) || invoice.object_type != 'Membership'
-        data << [t('total'), cur(invoice.amount)]
+        data << [t('total'), _cur(invoice.amount)]
       end
 
       move_down 30
@@ -232,8 +229,8 @@ module PDF
       if invoice.memberships_vat_amount&.positive?
         membership_vat_text = [
           "#{appendice_star} #{t('all_taxes_included')}",
-          "#{cur(invoice.memberships_net_amount, unit: 'CHF')} #{t('without_taxes')}",
-          "#{cur(invoice.memberships_vat_amount, unit: 'CHF')} #{t('vat')} (#{Current.acp.vat_membership_rate}%)"
+          "#{_cur(invoice.memberships_net_amount, unit: true)} #{t('without_taxes')}",
+          "#{_cur(invoice.memberships_vat_amount, unit: true)} #{t('vat')} (#{Current.acp.vat_membership_rate}%)"
         ].join(', ')
         bounding_box [0, y - 25], width: bounds.width - 24 do
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
@@ -396,7 +393,7 @@ module PDF
         end
         bounding_box [65, 98], width: 200 do
           qr_text_title t('qr_bill.amount'), size: 6
-          qr_text cur(invoice.amount, delimiter: ' '), size: 8
+          qr_text _cur(invoice.amount, delimiter: ' '), size: 8
         end
 
         bounding_box [105, 48], width: 200 do
@@ -419,7 +416,7 @@ module PDF
         end
         bounding_box [65, 100], width: 200 do
           qr_text_title t('qr_bill.amount')
-          qr_text cur(invoice.amount, delimiter: ' ')
+          qr_text _cur(invoice.amount, delimiter: ' ')
         end
 
         bounding_box [146, 270], width: 230 do
@@ -514,6 +511,10 @@ module PDF
       else
         Membership.human_attribute_name("activity_participations_annual_price_change_default/#{i18n_scope}")
       end
+    end
+
+    def _cur(amount, unit: false, **options)
+      cur(amount, unit: unit, **options)
     end
 
     def t(key, **args)

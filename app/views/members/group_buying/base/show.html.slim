@@ -24,7 +24,7 @@ section
               = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
           span.state class=order.state
             == order.state_i18n_name
-          span.amount = number_to_currency(order.amount)
+          span.amount = cur(order.amount)
 
     p.info = t('.past_orders_explanation', contact_link: mail_to(Current.acp.group_buying_email, t('.contact'))).html_safe
 
@@ -60,14 +60,14 @@ section
                 .product
                   = ff.label :quantity do
                     span.title = ff.object.product.name
-                    span.price = number_to_currency ff.object.product.price
+                    span.price = cur ff.object.product.price
                     = ff.object.product.description
 
                   .input.quantity
                     = ff.number_field :quantity, min: 0, step: 1, data: { price: ff.object.product.price }
 
         #amount-wrapper style='display:none;'
-          p#amount= t('.order_amount', amount: number_to_currency(@order.amount))
+          p#amount= t('.order_amount', amount: cur(@order.amount))
 
         - if Current.acp.group_buying_terms_of_service_url
           .pretty_check_boxes

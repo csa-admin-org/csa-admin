@@ -48,4 +48,4 @@ ul.details id=membership.fiscal_year
         = t('.price_salary_basket')
       - else
         = link_to members_billing_path do
-          = number_to_currency(membership.price, precision: 2)
+          = cur(membership.price)

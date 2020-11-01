@@ -53,7 +53,7 @@ ActiveAdmin.register Member do
     column(:profession)
     column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     if Current.acp.annual_fee
-      column(:annual_fee) { |m| number_to_currency(m.annual_fee) }
+      column(:annual_fee) { |m| cur(m.annual_fee) }
     end
     if Current.acp.share?
       column(:acp_shares_number)
@@ -62,7 +62,7 @@ ActiveAdmin.register Member do
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
     if Current.acp.ragedevert?
-      column(:waiting_basket_price_extra) { |m| number_to_currency(m.waiting_basket_price_extra) }
+      column(:waiting_basket_price_extra) { |m| cur(m.waiting_basket_price_extra) }
     end
     if BasketComplement.any?
       column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
@@ -72,9 +72,9 @@ ActiveAdmin.register Member do
     column(:note)
     column(:validated_at)
     column(:created_at)
-    column(:invoices_amount) { |m| number_to_currency m.invoices_amount }
-    column(:payments_amount) { |m| number_to_currency m.payments_amount }
-    column(:balance_amount) { |m| number_to_currency m.balance_amount }
+    column(:invoices_amount) { |m| cur m.invoices_amount }
+    column(:payments_amount) { |m| cur m.payments_amount }
+    column(:balance_amount) { |m| cur m.balance_amount }
   end
 
   show do |member|
@@ -139,8 +139,8 @@ ActiveAdmin.register Member do
             table_for(invoices.limit(6), class: 'table-invoices') do
               column(:id) { |i| auto_link i, i.id }
               column(:date) { |i| l(i.date, format: :number) }
-              column(:amount) { |i| number_to_currency(i.amount) }
-              column(:balance) { |i| number_to_currency(i.balance) }
+              column(:amount) { |i| cur(i.amount) }
+              column(:balance) { |i| cur(i.balance) }
               column(:overdue_notices_count)
               column(:status) { |i| status_tag i.state }
               column(class: 'col-actions') { |i|
@@ -164,7 +164,7 @@ ActiveAdmin.register Member do
               column(:id) { |p| auto_link p, p.id }
               column(:date) { |p| l(p.date, format: :number) }
               column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
-              column(:amount) { |p| number_to_currency(p.amount) }
+              column(:amount) { |p| cur(p.amount) }
               column(:type) { |p| status_tag p.type }
             end
             if payments_count > 6
@@ -218,7 +218,7 @@ ActiveAdmin.register Member do
             end
             row(:basket_size) { member.waiting_basket_size&.name }
             if Current.acp.ragedevert?
-              row(:basket_price_extra) { number_to_currency(member.waiting_basket_price_extra) }
+              row(:basket_price_extra) { cur(member.waiting_basket_price_extra) }
             end
             if BasketComplement.any?
               row(:basket_complements) {
@@ -244,15 +244,15 @@ ActiveAdmin.register Member do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
           row(:salary_basket) { status_tag(member.salary_basket) }
           if Current.acp.annual_fee
-            row(:annual_fee) { number_to_currency member.annual_fee }
+            row(:annual_fee) { cur member.annual_fee }
           end
           if Current.acp.share?
             row(:acp_shares_number)
             row(:acp_shares_info) { member.acp_shares_info }
           end
-          row(:invoices_amount) { number_to_currency member.invoices_amount }
-          row(:payments_amount) { number_to_currency member.payments_amount }
-          row(:balance_amount) { number_to_currency member.balance_amount }
+          row(:invoices_amount) { cur member.invoices_amount }
+          row(:payments_amount) { cur member.payments_amount }
+          row(:balance_amount) { cur member.balance_amount }
         end
         attributes_table title: t('.notes') do
           row :profession

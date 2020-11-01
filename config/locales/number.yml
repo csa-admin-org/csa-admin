@@ -5,18 +5,12 @@ _:
         delimiter:
           _de: "'"
           _fr: "'"
-        format:
-          _de: "%u %n"
-          _fr: "%u %n"
         precision:
           _de: 2
           _fr: 2
         separator:
           _de: "."
           _fr: "."
-        unit:
-          _de: CHF
-          _fr: CHF
     format:
       delimiter:
         _de: "'"

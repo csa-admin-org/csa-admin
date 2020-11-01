@@ -41,8 +41,8 @@ ActiveAdmin.register Invoice do
     column :id, ->(i) { auto_link i, i.id }
     column :date, ->(i) { l i.date, format: :number }
     column :member, sortable: 'members.name'
-    column :amount, ->(invoice) { number_to_currency(invoice.amount) }
-    column :balance, ->(invoice) { number_to_currency(invoice.balance) }
+    column :amount, ->(invoice) { cur(invoice.amount) }
+    column :balance, ->(invoice) { cur(invoice.balance) }
     column :overdue_notices_count
     column :state, ->(invoice) { status_tag invoice.state }
     actions defaults: true do |invoice|
@@ -71,33 +71,33 @@ ActiveAdmin.register Invoice do
     if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
       div class: 'total' do
         span Membership.model_name.human(count: 2)
-        span number_to_currency(all.sum(:memberships_amount)), style: 'float: right'
+        span cur(all.sum(:memberships_amount)), style: 'float: right'
       end
       div class: 'total' do
         span t('billing.annual_fees')
-        span number_to_currency(all.sum(:annual_fee)), style: 'float: right;'
+        span cur(all.sum(:annual_fee)), style: 'float: right;'
       end
       div class: 'totals' do
         span t('active_admin.sidebars.amount')
-        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
     elsif params[:scope].in? ['open', nil]
       div class: 'total' do
         span t('billing.scope.missing')
-        span number_to_currency(all.sum('amount - balance')), style: 'float: right'
+        span cur(all.sum('amount - balance')), style: 'float: right'
       end
       div class: 'total' do
         span t('billing.scope.paid')
-        span number_to_currency(all.sum(:balance)), style: 'float: right;'
+        span cur(all.sum(:balance)), style: 'float: right;'
       end
       div class: 'totals' do
         span t('active_admin.sidebars.amount')
-        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
     else
       div do
         span t('active_admin.sidebars.amount')
-        span number_to_currency(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
     end
   end
@@ -112,7 +112,7 @@ ActiveAdmin.register Invoice do
           else
             table_for(payments, class: 'table-payments') do
               column(:date) { |p| auto_link p, l(p.date, format: :number) }
-              column(:amount) { |p| number_to_currency(p.amount) }
+              column(:amount) { |p| cur(p.amount) }
               column(:type) { |p| status_tag p.type }
             end
           end
@@ -121,7 +121,7 @@ ActiveAdmin.register Invoice do
           panel InvoiceItem.model_name.human(count: 2) do
             table_for(invoice.items, class: 'table-payments') do
               column(:description) { |ii| ii.description }
-              column(:amount) { |ii| number_to_currency(ii.amount) }
+              column(:amount) { |ii| cur(ii.amount) }
             end
           end
         end
@@ -142,9 +142,9 @@ ActiveAdmin.register Invoice do
         end
 
         attributes_table title: Invoice.human_attribute_name(:amount) do
-          row(:amount) { number_to_currency(invoice.amount) }
-          row(:balance) { number_to_currency(invoice.balance) }
-          row(:missing_amount) { number_to_currency(invoice.missing_amount) }
+          row(:amount) { cur(invoice.amount) }
+          row(:balance) { cur(invoice.balance) }
+          row(:missing_amount) { cur(invoice.missing_amount) }
         end
 
         attributes_table title: Invoice.human_attribute_name(:overdue_notices_count) do

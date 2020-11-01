@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def display_price_description(price, description)
-    "#{number_to_currency(price)} #{"(#{description})" if price.positive?}"
+    "#{cur(price)} #{"(#{description})" if price.positive?}"
   end
 
   def any_basket_complements?
