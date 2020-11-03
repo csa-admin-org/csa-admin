@@ -290,6 +290,6 @@ class Member < ActiveRecord::Base
   end
 
   def notify_admins!
-    Admin.notify!(:new_inscription, self)
+    Admin.notify!(:new_inscription, member: self)
   end
 end

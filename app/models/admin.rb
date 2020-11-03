@@ -7,11 +7,6 @@ class Admin < ActiveRecord::Base
   acts_as_paranoid
 
   RIGHTS = %w[superadmin admin standard readonly none]
-  NOTIFICATION_TEMPLATES = {
-    new_inscription: :admin_member_new,
-    invoice_overpaid: :admin_invoice_overpaid,
-    new_absence: :admin_absence_new
-  }
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
 
@@ -19,10 +14,13 @@ class Admin < ActiveRecord::Base
   validates :rights, inclusion: { in: RIGHTS }
   validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
 
-  def self.notify!(notification, object, skip: [])
-    template = NOTIFICATION_TEMPLATES[notification.to_sym]
+  def self.notify!(notification, skip: [], **attrs)
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
-      Email.deliver_later(template, admin, object)
+      attrs[:admin] = admin
+      AdminMailer
+        .with(**attrs)
+        .send("#{notification}_email")
+        .deliver_later
     end
   end
 

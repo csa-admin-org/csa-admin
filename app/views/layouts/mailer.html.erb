@@ -56,6 +56,13 @@
                         <%= Current.acp.email_footer %><br/>
                         <%= t('.footer_reply') %>
                       </p>
+
+                      <% if @admin %>
+                      <p class="f-fallback sub align-center">
+                        <%= link_to t('.manage_admin_notifications'), edit_admin_url(@admin, anchor: 'admin_notifications_input') %>
+                      </p>
+                      <% end %>
+
                       <p class="f-fallback sub align-center">
                         <%= link_to Current.acp.name, Current.acp.url %>
                       </p>

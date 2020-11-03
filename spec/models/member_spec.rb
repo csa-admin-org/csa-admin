@@ -336,24 +336,23 @@ describe Member do
       admin1 = create(:admin, notifications: ['new_inscription'])
       admin2 = create(:admin, notifications: [])
 
-      member = create(:member, :waiting, public_create: true)
+      member = create(:member, :waiting,
+        name: 'John Doe',
+        public_create: true)
 
-      expect(email_adapter.deliveries.size).to eq 1
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        from: Current.acp.email_default_from,
-        to: admin1.email,
-        template: 'admin-member-new',
-        template_data: hash_including(
-          admin_name: admin1.name,
-          member_name: member.name
-        )))
+      expect(AdminMailer.deliveries.size).to eq 1
+      mail = AdminMailer.deliveries.last
+      expect(mail.subject).to eq 'Nouvelle inscription'
+      expect(mail.to).to eq [admin1.email]
+      expect(mail.body.encoded).to include admin1.name
+      expect(mail.body.encoded).to include 'John Doe'
     end
 
     it 'does not notify admin when not publicly created' do
       create(:admin, notifications: ['new_inscription'])
       create(:member, :waiting)
 
-      expect(email_adapter.deliveries).to be_empty
+      expect(AdminMailer.deliveries).to be_empty
     end
   end
 

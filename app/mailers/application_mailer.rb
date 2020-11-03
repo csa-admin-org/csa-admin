@@ -6,6 +6,10 @@ class ApplicationMailer < ActionMailer::Base
 
   private
 
+  def default_url_options
+    { host: Current.acp.email_default_host }
+  end
+
   def content_mail(content, **args)
     args[:template_name] = 'content'
     args[:template_path] = 'mailers'
