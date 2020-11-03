@@ -69,4 +69,5 @@ ActiveAdmin.register Admin do
   end
 
   config.filters = false
+  config.sort_order = 'name_asc'
 end
