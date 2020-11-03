@@ -7,6 +7,9 @@ _:
       greeting:
         _de: Bis bald,
         _fr: Au plaisir,
+      manage_admin_notifications:
+        _de: Meine Benachrichtigungen verwalten
+        _fr: Gérer mes notifications
     members:
       header:
         absences_subtitle:

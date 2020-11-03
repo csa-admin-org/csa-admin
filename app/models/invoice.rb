@@ -147,7 +147,9 @@ class Invoice < ActiveRecord::Base
     return if overpaid_notification_sent_at?
     return unless overpaid?
 
-    Admin.notify!(:invoice_overpaid, self)
+    Admin.notify!(:invoice_overpaid,
+      member: member,
+      invoice: self)
     touch(:overpaid_notification_sent_at)
   end
 

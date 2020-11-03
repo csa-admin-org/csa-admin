@@ -67,17 +67,14 @@ describe Absence do
 
       absence = create(:absence, admin: admin1)
 
-      expect(email_adapter.deliveries.size).to eq 1
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        from: Current.acp.email_default_from,
-        to: admin2.email,
-        template: 'admin-absence-new',
-        template_data: hash_including(
-          admin_name: admin1.name,
-          member_name: absence.member.name,
-          started_on: I18n.l(absence.started_on),
-          ended_on: I18n.l(absence.ended_on)
-        )))
+      expect(AdminMailer.deliveries.size).to eq 1
+      mail = AdminMailer.deliveries.last
+      expect(mail.subject).to eq 'Nouvelle absence'
+      expect(mail.to).to eq [admin2.email]
+      expect(mail.body.encoded).to include admin2.name
+      expect(mail.body.encoded).to include absence.member.name
+      expect(mail.body.encoded).to include I18n.l(absence.started_on)
+      expect(mail.body.encoded).to include I18n.l(absence.ended_on)
     end
   end
 end

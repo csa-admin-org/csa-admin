@@ -1,0 +1,7 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Un nouveau membre, <strong>{{ member.name }}</strong>, vient de s'inscrire!</p>
+
+{% button member.admin_url %}
+  Accèder à la page du membre
+{% endbutton %}

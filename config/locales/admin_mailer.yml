@@ -4,3 +4,15 @@ _:
       subject:
         _de: Einladung an den %{acp} Admin
         _fr: Invitation à l'admin de %{acp}
+    invoice_overpaid_email:
+      subject:
+        _de: 'Überzahlte Rechnung #%{number}'
+        _fr: 'Facture #%{number} payée en trop'
+    new_absence_email:
+      subject:
+        _de: Neue Abwesenheit
+        _fr: Nouvelle absence
+    new_inscription_email:
+      subject:
+        _de: Neue Einschreibung
+        _fr: Nouvelle inscription

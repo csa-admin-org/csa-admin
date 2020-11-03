@@ -15,26 +15,6 @@ module Email
 
   private
 
-  def admin_absence_new(admin, absence)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        member_name: absence.member.name,
-        started_on: I18n.l(absence.started_on),
-        ended_on: I18n.l(absence.ended_on),
-        action_url: url(:absence_url, absence),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: 'admin-absence-new',
-      template_data: data
-    }
-  end
-
   def admin_delivery_list(delivery, depot)
     baskets = depot.baskets
       .not_absent
@@ -93,24 +73,6 @@ module Email
       from: from,
       to: admin.email,
       template: 'admin-invoice-overpaid',
-      template_data: data
-    }
-  end
-
-  def admin_member_new(admin, member)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        member_name: member.name,
-        action_url: url(:member_url, member),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: 'admin-member-new',
       template_data: data
     }
   end
@@ -327,10 +289,8 @@ module Email
 
   def templates
     default = %w[
-      admin_absence_new
       admin_delivery_list
       admin_invoice_overpaid
-      admin_member_new
       member_activity_reminder
       member_activity_validated
       member_activity_rejected

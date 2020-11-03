@@ -281,8 +281,11 @@ describe Invoice do
   end
 
   describe '#send_overpaid_notification_to_admins!' do
+    let(:member) { create(:member, name: 'Martha') }
     let(:invoice) {
       create(:invoice, :manual,
+        id: 42,
+        member: member,
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: '100' }
         })
@@ -290,17 +293,17 @@ describe Invoice do
 
     specify 'send notification and touch overpaid_notification_sent_at' do
       create(:payment, invoice: invoice, amount: 110)
-      admin = create(:admin, notifications: %w[invoice_overpaid])
+      admin = create(:admin, name: 'John', notifications: %w[invoice_overpaid])
 
       expect { invoice.send_overpaid_notification_to_admins! }
         .to change { invoice.reload.overpaid_notification_sent_at }.from(nil)
-        .and change { email_adapter.deliveries.size }.by(1)
+        .and change { AdminMailer.deliveries.size }.by(1)
 
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        to: admin.email,
-        template: 'admin-invoice-overpaid',
-        template_data: hash_including(
-          invoice_number: invoice.id)))
+      mail = AdminMailer.deliveries.last
+      expect(mail.subject).to eq 'Facture #42 payée en trop'
+      expect(mail.to).to eq [admin.email]
+      expect(mail.body.encoded).to include 'Salut John,'
+      expect(mail.body.encoded).to include 'Martha'
     end
 
     specify 'when not overpaid' do
@@ -316,13 +319,13 @@ describe Invoice do
       admin = create(:admin, notifications: %w[invoice_overpaid])
 
       invoice.send_overpaid_notification_to_admins!
-      expect(email_adapter.deliveries.size).to eq 1
+      expect(AdminMailer.deliveries.size).to eq 1
 
       expect {
         expect {
           invoice.reload.send_overpaid_notification_to_admins!
         }.not_to change { invoice.reload.overpaid_notification_sent_at }
-      }.not_to change { email_adapter.deliveries.size }
+      }.not_to change { AdminMailer.deliveries.size }
     end
   end
 end

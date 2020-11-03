@@ -1,8 +1,5 @@
 _:
   attributes:
-    country_code:
-      _de: Land
-      _fr: Pays
     absent_baskets:
       _de: Taschen (Abwesend)
       _fr: Paniers (absents)
@@ -63,6 +60,9 @@ _:
     count:
       _de: Anzahl
       _fr: Nombre
+    country_code:
+      _de: Land
+      _fr: Pays
     created_at:
       _de: Erstellt am
       _fr: Créé le

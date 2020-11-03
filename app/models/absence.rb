@@ -62,6 +62,9 @@ class Absence < ActiveRecord::Base
   end
 
   def notify_admins!
-    Admin.notify!(:new_absence, self, skip: admin)
+    Admin.notify!(:new_absence,
+      absence: self,
+      member: member,
+      skip: admin)
   end
 end
