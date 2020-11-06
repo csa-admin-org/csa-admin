@@ -1,0 +1,11 @@
+<p>Nachfolgend die Mitgliederliste:</p>
+
+{% highlight %}
+  <ol>
+    {% for basket in baskets %}
+      <li><strong>{{ basket.member.name }}</strong>, {{ basket.description }}</li>
+    {% endfor %}
+  </ol>
+{% endhighlight %}
+
+<p>Siehe Anhänge für mehr Details, vielen Dank.</p>

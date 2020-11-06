@@ -1,54 +1,6 @@
 require 'rails_helper'
 
 describe Email do
-  it 'delivers admin-delivery-list template' do
-    travel_to '2018-03-01' do
-      delivery = create(:delivery, date: '24.03.2018')
-      depot = create(:depot,
-        name: 'Jardin de la Main',
-        emails: 'john@doe.com, bob@dylan.com',
-        delivery_ids: [delivery.id])
-      basket_size = create(:basket_size, name: 'Eveil')
-      create(:membership,
-        basket_size: basket_size,
-        depot: depot,
-        member: create(:member, name: 'Alex Broz'))
-      create(:membership,
-        basket_size: basket_size,
-        depot: depot,
-        member: create(:member, name: 'Fred Asmo'))
-
-      Email.deliver_now(:admin_delivery_list, delivery, depot)
-
-      expect(email_adapter.deliveries.size).to eq 1
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        from: Current.acp.email_default_from,
-        to: 'john@doe.com, bob@dylan.com',
-        template: 'admin-delivery-list',
-        template_data: {
-          delivery_date: '24 mars 2018',
-          depot_name: 'Jardin de la Main',
-          baskets: [
-            { member_name: 'Alex Broz', description: 'Eveil', size_name: 'Eveil' },
-            { member_name: 'Fred Asmo', description: 'Eveil', size_name: 'Eveil' }
-          ],
-          fr: true
-        },
-        attachments: [
-          hash_including(
-            name: 'livraison-#1-20180324.xlsx',
-            content: String,
-            content_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'),
-          hash_including(
-            name: 'fiches-signature-livraison-#1-20180324.pdf',
-            content: String,
-            content_type: 'application/pdf'),
-        ]))
-    end
-  end
-
-
-
   it 'delivers member-activated template', freeze: '2020-01-01' do
     member = create(:member, :inactive, emails: 'john@doe.com')
     basket_size = create(:basket_size,
