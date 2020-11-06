@@ -1,5 +1,9 @@
 _:
   admin_mailer:
+    depot_delivery_list:
+      subject:
+        _de: Lieferungsliste vom %{date} (%{depot})
+        _fr: Liste Livraison du %{date} (%{depot})
     invitation_email:
       subject:
         _de: Einladung an den %{acp} Admin

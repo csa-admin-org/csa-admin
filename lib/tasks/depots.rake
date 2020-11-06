@@ -5,7 +5,19 @@ namespace :depots do
       next_delivery = Delivery.next
       if next_delivery && Date.current == (next_delivery.date - 1.day)
         next_delivery.depots.with_emails.each do |depot|
-          Email.deliver_now(:admin_delivery_list, next_delivery, depot)
+          baskets =
+            depot.baskets
+              .not_absent
+              .not_empty
+              .includes(:basket_size, :complements, :member, :baskets_basket_complements)
+              .where(delivery_id: next_delivery.id)
+              .order('members.name')
+              .uniq
+          AdminMailer.with(
+            depot: depot,
+            baskets: baskets,
+            delivery: next_delivery
+          ).depot_delivery_list.deliver_now
         end
         puts "#{Current.acp.name}: Depots next_delivery sent."
       end

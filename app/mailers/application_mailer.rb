@@ -32,3 +32,4 @@ class ApplicationMailer < ActionMailer::Base
 end
 
 Liquid::Template.register_tag('button', Liquid::ButtonBlock)
+Liquid::Template.register_tag('highlight', Liquid::HighlightBlock)

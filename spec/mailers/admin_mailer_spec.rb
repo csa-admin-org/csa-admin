@@ -1,6 +1,44 @@
 require 'rails_helper'
 
 describe AdminMailer do
+  specify '#depot_delivery_list' do
+    delivery = create(:delivery,
+      date: Date.new(2020, 11, 6))
+    depot = create(:depot,
+      name: 'Jardin de la Main',
+      language: I18n.locale,
+      emails: 'respondent1@acp-admin.ch, respondent2@acp-admin.ch')
+    create(:membership,
+      member: create(:member, name: 'Martha'),
+      basket_size: create(:basket_size, :small))
+    create(:membership,
+      member: create(:member, name: 'Charle'),
+      basket_size: create(:basket_size, :big))
+    mail = AdminMailer.with(
+      depot: depot,
+      baskets: Basket.all,
+      delivery: delivery
+    ).depot_delivery_list
+
+    expect(mail.subject).to eq('Liste Livraison du 6 novembre 2020 (Jardin de la Main)')
+    expect(mail.to).to eq(['respondent1@acp-admin.ch', 'respondent2@acp-admin.ch'])
+    expect(mail.from).to eq(['info@ragedevert.ch'])
+
+    body = mail.html_part.body
+    expect(body).to include('Voici la liste des membres:')
+    expect(body).to include('<strong>Charle</strong>, Abondance')
+    expect(body).to include('<strong>Martha</strong>, Eveil')
+    expect(body).to include('Voir les pièces jointes pour plus de détails, merci.')
+
+    expect(mail.attachments.size).to eq 2
+    attachment1 = mail.attachments.first
+    expect(attachment1.filename).to eq 'livraison-#1-20201106.xlsx'
+    expect(attachment1.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    attachment2 = mail.attachments.second
+    expect(attachment2.filename).to eq 'fiches-signature-livraison-#1-20201106.pdf'
+    expect(attachment2.content_type).to eq 'application/pdf'
+  end
+
   specify '#invitation_email' do
     admin = Admin.new(
       name: 'John',

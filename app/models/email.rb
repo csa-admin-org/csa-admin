@@ -15,68 +15,6 @@ module Email
 
   private
 
-  def admin_delivery_list(delivery, depot)
-    baskets = depot.baskets
-      .not_absent
-      .not_empty
-      .includes(:basket_size, :complements, :member, :baskets_basket_complements)
-      .where(delivery_id: delivery.id)
-      .order('members.name')
-      .uniq
-    xlsx = XLSX::Delivery.new(delivery, depot)
-    pdf = PDF::Delivery.new(delivery, depot)
-
-    data = template_data(depot.language) do
-      {
-        delivery_date: I18n.l(delivery.date),
-        depot_name: depot.name,
-        baskets: baskets.map { |b|
-          {
-            member_name: b.member.name,
-            description: b.description,
-            size_name: b.basket_size&.name,
-            complement_names: b.complements_description
-          }.compact
-        }
-      }
-    end
-
-    {
-      from: from,
-      to: depot.emails,
-      template: 'admin-delivery-list',
-      template_data: data,
-      attachments: [{
-        name: xlsx.filename,
-        content: xlsx.data,
-        content_type: xlsx.content_type
-      }, {
-        name: pdf.filename,
-        content: pdf.render,
-        content_type: pdf.content_type
-      }]
-    }
-  end
-
-  def admin_invoice_overpaid(admin, invoice)
-    data = template_data(admin.language) do
-      {
-        admin_name: admin.name,
-        invoice_number: invoice.id,
-        member_name: invoice.member.name,
-        action_url: url(:member_url, invoice.member),
-        edit_admin_url: url(:edit_admin_url, admin, anchor: 'admin_notifications_input')
-      }
-    end
-
-    {
-      from: from,
-      to: admin.email,
-      template: 'admin-invoice-overpaid',
-      template_data: data
-    }
-  end
-
   def member_activated(member)
     membership = member.current_or_future_membership
 
@@ -289,8 +227,6 @@ module Email
 
   def templates
     default = %w[
-      admin_delivery_list
-      admin_invoice_overpaid
       member_activity_reminder
       member_activity_validated
       member_activity_rejected

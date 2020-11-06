@@ -1,4 +1,28 @@
 class AdminMailerPreview < ActionMailer::Preview
+  def depot_delivery_list
+    depot = Depot.new(
+      name: 'Jardin de la Main',
+      language: I18n.locale,
+      emails: 'respondent1@acp-admin.ch, respondent2@acp-admin.ch')
+    delivery = Delivery.new(date: Date.new(2020, 11, 10))
+    baskets = [
+      OpenStruct.new(
+        member: Member.new(name: 'Martha'),
+        description: 'Petit Panier'),
+      OpenStruct.new(
+        member: Member.new(name: 'Bob'),
+        description: 'Grand Panier'),
+      OpenStruct.new(
+        member: Member.new(name: 'Josh'),
+        description: 'Petit Panier')
+    ]
+    AdminMailer.with(
+      depot: depot,
+      baskets: baskets,
+      delivery: delivery
+    ).depot_delivery_list
+  end
+
   def invitation_email
     admin = Admin.new(
       name: 'John',

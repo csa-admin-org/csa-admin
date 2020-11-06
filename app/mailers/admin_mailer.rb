@@ -1,4 +1,31 @@
 class AdminMailer < ApplicationMailer
+  def depot_delivery_list
+    depot = params[:depot]
+    baskets = params[:baskets]
+    delivery = params[:delivery]
+    I18n.with_locale(depot.language) do
+      xlsx = XLSX::Delivery.new(delivery, depot)
+      attachments[xlsx.filename] = {
+        mime_type: xlsx.content_type,
+        content: xlsx.data
+      }
+      pdf = PDF::Delivery.new(delivery, depot)
+      attachments[pdf.filename] = {
+        mime_type: pdf.content_type,
+        content: pdf.render
+      }
+      content = liquid_template.render(
+        'depot' => Liquid::DepotDrop.new(depot),
+        'baskets' => baskets.map { |b| Liquid::BasketDrop.new(b) },
+        'delivery' => Liquid::DeliveryDrop.new(delivery))
+      content_mail(content,
+        to: depot.emails_array,
+        subject: t('.subject',
+          date: I18n.l(delivery.date),
+          depot: depot.name))
+    end
+  end
+
   def invitation_email
     admin = params[:admin]
     I18n.with_locale(admin.language) do

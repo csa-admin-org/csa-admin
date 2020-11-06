@@ -114,6 +114,10 @@ blockquote {
   line-height: 1.4;
 }
 
+ol {
+  margin: .4em 0;
+}
+
 p.sub {
   font-size: 13px;
 }
