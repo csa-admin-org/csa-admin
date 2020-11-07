@@ -17,7 +17,7 @@ namespace :depots do
             depot: depot,
             baskets: baskets,
             delivery: next_delivery
-          ).depot_delivery_list.deliver_now
+          ).depot_delivery_list_email.deliver_now
         end
         puts "#{Current.acp.name}: Depots next_delivery sent."
       end

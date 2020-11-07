@@ -1,6 +1,6 @@
 _:
   admin_mailer:
-    depot_delivery_list:
+    depot_delivery_list_email:
       subject:
         _de: Lieferungsliste vom %{date} (%{depot})
         _fr: Liste Livraison du %{date} (%{depot})

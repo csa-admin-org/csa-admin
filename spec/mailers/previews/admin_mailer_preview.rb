@@ -1,5 +1,5 @@
 class AdminMailerPreview < ActionMailer::Preview
-  def depot_delivery_list
+  def depot_delivery_list_email
     depot = Depot.new(
       name: 'Jardin de la Main',
       language: I18n.locale,
@@ -20,7 +20,7 @@ class AdminMailerPreview < ActionMailer::Preview
       depot: depot,
       baskets: baskets,
       delivery: delivery
-    ).depot_delivery_list
+    ).depot_delivery_list_email
   end
 
   def invitation_email

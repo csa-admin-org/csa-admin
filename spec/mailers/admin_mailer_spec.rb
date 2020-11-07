@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AdminMailer do
-  specify '#depot_delivery_list' do
+  specify '#depot_delivery_list_email' do
     delivery = create(:delivery,
       date: Date.new(2020, 11, 6))
     depot = create(:depot,
@@ -18,7 +18,7 @@ describe AdminMailer do
       depot: depot,
       baskets: Basket.all,
       delivery: delivery
-    ).depot_delivery_list
+    ).depot_delivery_list_email
 
     expect(mail.subject).to eq('Liste Livraison du 6 novembre 2020 (Jardin de la Main)')
     expect(mail.to).to eq(['respondent1@acp-admin.ch', 'respondent2@acp-admin.ch'])
