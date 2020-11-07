@@ -1,5 +1,5 @@
 class AdminMailer < ApplicationMailer
-  def depot_delivery_list
+  def depot_delivery_list_email
     depot = params[:depot]
     baskets = params[:baskets]
     delivery = params[:delivery]
