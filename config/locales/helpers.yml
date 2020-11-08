@@ -28,6 +28,11 @@ _:
       other:
         _de: "%{count} Arbeitsstunden"
         _fr: "%{count} heures de travail"
+    basket_prices_extra_collection:
+      tapatate:
+        no_basket_price_extra:
+          _de: Kein Solidaritätsbeitrag
+          _fr: Aucune cotisation solidaire
     no_basket_size:
       _de: Kein, Unterstützungsmitglied werden
       _fr: Aucun, devenir membre de soutien
