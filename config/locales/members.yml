@@ -339,26 +339,29 @@ _:
             _de: Ihr Abonnement wurde erneuert. Vielen Dank!
             _fr: Votre abonnement a été renouvelé. Merci!
       new:
+        cancel:
+          _de: Abbrechen
+          _fr: Annuler
         renewal_annual_fee_label:
           _de: Um die Vereinigung zu unterstützen, zahle ich ab dem nächsten Jahr weiterhin den jährlichen Mitgliedsbeitrag. <em>%{annual_fee}</em>
           _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain. <em>%{annual_fee}</em>
         renewal_note:
           placeholder:
             cancel:
-              _de: Danke, dass Sie uns mitgeteilt haben, was Ihre Entscheidung motiviert...
+              _de: Danke, dass Sie uns Ihren Kündigungsgrund mitteilen!
               _fr: Merci de partager avec nous ce qui motive votre décison...
             renew:
-              _de: Vielen Dank, dass Sie uns alle nützlichen Anmerkungen mitgeteilt haben, was Ihnen in diesem Jahr gefallen oder missfallen hat...
+              _de: Vielen Dank, dass Sie uns mitteilen, was Ihnen in diesem Jahr gut oder weniger gut gefallen hat!
               _fr: Merci de partager avec nous toutes remarques utiles, ce qui vous a plu ou déplu cette année...
         submit:
           _de: Bestätigen
           _fr: Confirmer
         text:
           cancel:
-            _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung des <u>%{last_delivery_date}</u>.
+            _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
             _fr: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
           renew:
-            _de: Sie haben die Möglichkeit, unten die Zusammensetzung Ihres zukünftigen Abonnements zu ändern, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
+            _de: Unten haben Sie die Möglichkeit, die Zusammensetzung Ihres zukünftigen Abonnements anzupassen, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
             _fr: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
         title:
           cancel:
