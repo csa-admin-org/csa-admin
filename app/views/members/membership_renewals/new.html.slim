@@ -22,6 +22,12 @@ h2 = t(".title.#{params[:decision]}")
           text: "Rage de Vert a mené d'intenses discussions tout au long de l'année 2020 concernant les modestes salaires des jardiniers. Ce qui a inauguré une nouvelle pratique respectant les situations financières très disparates des abonnés, qui rendait une simple augmentation des prix des paniers guère envisageable. Cette pratique consiste à offrir des choix de suppléments au tarif de base, de façon à ce que chacun connaisse de façon transparente le lien entre le prix de son abonnement, et le salaire des jardiniers. Les options ci-dessous vous permettent de sélectionner le prix de votre panier, en sachant ce que cela implique pour les revenus des jardiniers si tous les abonnés font le même choix que vous.", \
           hint: false
 
+      - if Current.acp.tapatate?
+        = f.input :basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
+          label: t('.tapatate.basket_price_extra.label'), \
+          text: t('.tapatate.basket_price_extra.text'), \
+          hint: false
+
       - if BasketComplement.any?
         = f.input :basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
 
