@@ -24,7 +24,9 @@ h2 = t(".title.#{params[:decision]}")
 
       - if BasketComplement.any?
         = f.input :basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
-      = f.input :depot, as: :pretty_radio, collection: depots_collection(@membership), label: Depot.model_name.human
+
+      - unless Current.acp.tapatate?
+        = f.input :depot, as: :pretty_radio, collection: depots_collection(@membership), label: Depot.model_name.human
 
       = f.input :renewal_note, as: :text, input_html: { rows: 5 }, placeholder: t('.renewal_note.placeholder.renew').html_safe
 
@@ -32,4 +34,4 @@ h2 = t(".title.#{params[:decision]}")
       = f.submit t('.submit')
 
       = link_to members_membership_path, class: 'button cancel' do
-        span = 'Annuler'
+        span = t('.cancel')
