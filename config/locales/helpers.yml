@@ -33,6 +33,16 @@ _:
         no_basket_price_extra:
           _de: Kein Solidaritätsbeitrag
           _fr: Aucune cotisation solidaire
+    deliveries_count:
+      one:
+        _de: 1 Lieferung
+        _fr: 1 livraison
+      other:
+        _de: "%{count} Lieferungen"
+        _fr: "%{count} livraisons"
+    deliveries_counts_range:
+      _de: "%{range} Lieferungen"
+      _fr: "%{range} livraisons"
     no_basket_size:
       _de: Kein, Unterstützungsmitglied werden
       _fr: Aucun, devenir membre de soutien
@@ -58,3 +68,6 @@ _:
           other:
             _de: "<b>jede %{count}</b> %{entry_name}"
             _fr: "<b>tous les %{count}</b> %{entry_name}"
+    price_per_delivery:
+      _de: "%{price}/Lieferung"
+      _fr: "%{price}/livraison"

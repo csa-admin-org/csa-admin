@@ -379,7 +379,7 @@ _:
             _de: 1 Anfrage senden
             _fr: Envoyer 1 demande
           other:
-            _de: "{count} Anfragen senden"
+            _de: "%{count} Anfragen senden"
             _fr: Envoyer %{count} demandes
         opened_renewals:
           one:
