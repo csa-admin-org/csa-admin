@@ -125,7 +125,7 @@ module MembersHelper
           details << deliveries_count(d.deliveries_count)
         end
       elsif d.price.positive?
-        details << "#{short_price(d.price)}/#{Delivery.model_name.human(count: 1).downcase}"
+        details << t('helpers.price_per_delivery', price: short_price(d.price))
       end
       if address = d.full_address
         details << address + map_icon(address).html_safe
@@ -235,13 +235,12 @@ module MembersHelper
     case counts
     when Array
       if counts.many?
-        "#{counts.min}-#{counts.max}&nbsp;#{Delivery.model_name.human(count: counts.max)}".downcase
+        t('helpers.deliveries_counts_range', range: "#{counts.min}-#{counts.max}")
       else
-        count = counts.first.to_i
-        "#{count}&nbsp;#{Delivery.model_name.human(count: count)}".downcase
+        t('helpers.deliveries_count', count: counts.first.to_i)
       end
     when Integer
-      "#{counts}&nbsp;#{Delivery.model_name.human(count: counts)}".downcase
+      t('helpers.deliveries_count', count: counts)
     end
   end
 
