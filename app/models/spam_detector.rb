@@ -34,7 +34,7 @@ class SpamDetector
     languages << 'un' # Unknown CLD language
     TEXTS_COLUMNS.any? { |attr|
       text = @member.send(attr).dup
-      if text && text.size > 40
+      if text && text.size > 100
         cld = CLD.detect_language(text)
         cld[:reliable] && languages.exclude?(cld[:code])
       end
