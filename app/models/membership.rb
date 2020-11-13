@@ -212,7 +212,7 @@ class Membership < ActiveRecord::Base
   end
 
   def renew!(attrs = {})
-    raise 'already renewed' if renewed?
+    return if renewed?
     raise '`renew` must be true for renewing' unless renew?
 
     renewal = MembershipRenewal.new(self)
@@ -233,6 +233,7 @@ class Membership < ActiveRecord::Base
   end
 
   def cancel!(attrs = {})
+    return if canceled?
     raise 'cannot cancel an already renewed membership' if renewed?
 
     if Current.acp.annual_fee?
