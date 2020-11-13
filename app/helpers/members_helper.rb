@@ -16,7 +16,7 @@ module MembersHelper
   end
 
   def basket_sizes_collection(no_basket_option: true)
-    col = BasketSize.all.map { |bs|
+    col = BasketSize.reorder(price: :desc).map { |bs|
       details = []
       if bs.price.positive?
         details << "#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)}"

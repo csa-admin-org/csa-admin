@@ -41,5 +41,5 @@ ActiveAdmin.register BasketSize do
   end
 
   config.filters = false
-  config.sort_order = -> { "names->>'#{I18n.locale}'" }
+  config.sort_order = 'price_desc'
 end
