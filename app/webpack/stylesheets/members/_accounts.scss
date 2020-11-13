@@ -37,6 +37,10 @@ section.account {
   }
 
   select.country {
-    margin-top: 5px;
+    width: 100%;
+    @media screen and (min-width: 900px) {
+      width: 510px;
+    }
+    margin-top: 10px;
   }
 }
