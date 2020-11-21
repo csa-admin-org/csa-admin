@@ -7,6 +7,13 @@ class MemberMailer < ApplicationMailer
       'membership' => Liquid::MembershipDrop.new(membership))
   end
 
+  def validated_email
+    member = params[:member]
+    template_mail(member,
+      'member' => Liquid::MemberDrop.new(member),
+      'waiting_list_position' => Member.waiting.count + 1)
+  end
+
   private
 
   def template_mail(member, **data)

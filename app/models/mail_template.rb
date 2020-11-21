@@ -4,6 +4,7 @@ class MailTemplate < ApplicationRecord
 
   TITLES = %w[
     member_activated
+    member_validated
   ].freeze
 
   audited_attributes :subjects, :contents

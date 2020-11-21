@@ -2,9 +2,8 @@ require 'rails_helper'
 
 describe Liquid::DataPreview do
   specify 'recursively render drop data' do
-    create(:membership,
-      depot: create(:depot, id: 12, name: 'Jardin de la main'),
-      basket_size: create(:basket_size, id: 33, name: 'Eveil'))
+    create(:depot, id: 12, name: 'Jardin de la main')
+    create(:basket_size, id: 33, name: 'Eveil')
 
     data = travel_to('2020-03-24') do
       mail_template = MailTemplate.create!(title: 'member_activated')
@@ -33,6 +32,22 @@ describe Liquid::DataPreview do
         'start_date' => '24 mars 2020',
         'trial_baskets_count' => 4
       }
+    })
+  end
+
+  specify 'render non-drop data' do
+    data = travel_to('2020-03-24') do
+      mail_template = MailTemplate.create!(title: 'member_validated')
+      described_class.for(mail_template)
+    end
+
+    expect(data).to eq({
+      'member' =>  {
+        'admin_url' => "https://admin.ragedevert.ch/members/1",
+        'member_url' => "https://membres.ragedevert.ch/",
+        'name' => "John Doe"
+      },
+      'waiting_list_position' => 1
     })
   end
 end

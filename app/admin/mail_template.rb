@@ -114,4 +114,5 @@ ActiveAdmin.register MailTemplate do
   end
 
   config.filters = false
+  config.sort_order = 'title_asc'
 end

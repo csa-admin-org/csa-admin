@@ -15,8 +15,13 @@ class Liquid::DataPreview
   def data
     params = @mailer_preview.send("#{@email_method}_params")
     params.map { |key, object|
-      drop = "liquid/#{key}_drop".classify.constantize.new(object)
-      [key, drop_hash(drop)]
+      drop_class = "liquid/#{key}_drop".classify
+      if Object.const_defined?(drop_class)
+        drop = "liquid/#{key}_drop".classify.constantize.new(object)
+        [key, drop_hash(drop)]
+      else
+        [key, object]
+      end
     }.sort.to_h.deep_stringify_keys!
   end
 
