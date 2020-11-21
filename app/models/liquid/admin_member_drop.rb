@@ -1,4 +1,4 @@
-class Liquid::MemberDrop < Liquid::Drop
+class Liquid::AdminMemberDrop < Liquid::Drop
   def initialize(member)
     @member = member
   end
@@ -7,12 +7,11 @@ class Liquid::MemberDrop < Liquid::Drop
     @member.name
   end
 
-  def page_url
+  def admin_url
     Rails
       .application
       .routes
       .url_helpers
-      .members_member_url(host: Current.acp.email_default_host)
-      .gsub(/\/\z/, '')
+      .member_url(@member.id, {}, host: Current.acp.email_default_host)
   end
 end
