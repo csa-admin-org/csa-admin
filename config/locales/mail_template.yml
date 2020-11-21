@@ -4,11 +4,20 @@ _:
       member_activated:
         _de: Herzlich willkommen!
         _fr: Bienvenue!
+      member_validated:
+        _de: Registrierung validiert!
+        _fr: Inscription validée!
     description:
       member_activated:
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
+      member_validated:
+        _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde..
+        _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
     title:
       member_activated:
         _de: Mitglied aktiviert
         _fr: Membre activé
+      member_validated:
+        _de: Mitglied validiert
+        _fr: Membre validé
