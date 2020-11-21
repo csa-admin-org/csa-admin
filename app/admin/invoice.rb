@@ -200,7 +200,7 @@ ActiveAdmin.register Invoice do
       f.hidden_field :object_type
       f.input :date, as: :datepicker
       unless f.object.persisted?
-        f.input :comment, as: :text
+        f.input :comment, as: :text, input_html: { rows: 4 }
       end
     end
     tabs do

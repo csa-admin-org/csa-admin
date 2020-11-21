@@ -54,6 +54,9 @@ _:
         email_footer:
           _de: Fußzeile
           _fr: Bas de page
+        email_signature:
+          _de: Signatur
+          _fr: Signature
         features:
           _de: Funktionen
           _fr: Fonctionalités
@@ -353,6 +356,22 @@ _:
         paid_missing_activity_participations_amount:
           _de: Betrag
           _fr: Montant
+      mail_template:
+        active:
+          _de: Aktive
+          _fr: Actif
+        content:
+          _de: Inhalt
+          _fr: Contenu
+        liquid_data_preview_yaml:
+          _de: Vorschau der Daten
+          _fr: Données de prévisualisation
+        subject:
+          _de: Betreff
+          _fr: Sujet
+        title:
+          _de: Vorlage
+          _fr: Template
       member:
         acp_shares_info:
           _de: N° Anteilschein
@@ -823,6 +842,13 @@ _:
         other:
           _de: Artikel
           _fr: Articles
+      mail_template:
+        one:
+          _de: Email-Vorlage
+          _fr: Template Email
+        other:
+          _de: Email-Vorlagen
+          _fr: Templates Email
       member:
         one:
           _de: Mitglied

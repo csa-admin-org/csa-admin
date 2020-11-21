@@ -182,8 +182,8 @@ ul.group_buying {
       }
 
       &.open {
-        background-color: #ff2600;
-        border-color: #ff2600;
+        background-color: $red;
+        border-color: $red;
       }
 
       &.canceled {

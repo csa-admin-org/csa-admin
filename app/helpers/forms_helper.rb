@@ -1,12 +1,13 @@
 module FormsHelper
   def translated_input(form, attr, **options)
-    form.semantic_fields_for attr do |f|
-      Current.acp.languages.each do |locale|
-        f.input locale, {
-          label: attribute_label(form.object.class, attr, locale),
-          input_html: { value: form.object.send(attr)[locale] }
-        }.deep_merge(**options)
-      end
+    Current.acp.languages.each do |locale|
+      form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
+        label: attribute_label(form.object.class, attr, locale),
+        input_html: {
+          value: form.object.send(attr)[locale],
+          name: "#{form.object.class.name.underscore}[#{attr}][#{locale}]"
+        }
+      }.deep_merge(**options)
     end
   end
 

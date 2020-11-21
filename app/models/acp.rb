@@ -24,6 +24,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :membership_extra_text
   translated_attributes :group_buying_terms_of_service_url
   translated_attributes :group_buying_invoice_info
+  translated_attributes :email_signature #, :email_footer
   translated_rich_texts :open_renewal_text
 
   validates :name, presence: true
@@ -32,7 +33,7 @@ class ACP < ActiveRecord::Base
   validates :logo_url, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email, presence: true
   validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
-  validates :email_default_from, presence: true
+  validates :email_default_from, presence: true, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
   validates :email_footer, presence: true
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
   validates :ccp, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/, allow_blank: true }
@@ -134,6 +135,10 @@ class ACP < ActiveRecord::Base
 
   def languages
     super & LANGUAGES
+  end
+
+  def email_from
+    "#{name} #{email_default_from}"
   end
 
   def url=(url)

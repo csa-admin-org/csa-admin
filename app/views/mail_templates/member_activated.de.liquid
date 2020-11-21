@@ -1,0 +1,20 @@
+<p>MICH BEARBEITEN!</p>
+
+<p>Ihr Abonnement hat oder wird bald beginnen, hier finden Sie weitere Informationen...</p>
+
+{% highlight_list %}
+  <strong>Anfang:</strong> {{ membership.start_date }}
+  <strong>Ende:</strong> {{ membership.end_date }}
+  <strong>Taschengrösse:</strong> {{ membership.basket_size.name }}
+  {% if membership.basket_complement_names %}
+  <strong>Zusätze:</strong> {{ membership.basket_complement_names }}
+  {% endif %}
+  <strong>Depot:</strong> {{ membership.depot.name }}
+  <strong>Anzahl der Probenkörbe:</strong> {{ membership.trial_baskets_count }}
+  <strong>Teilnahmen an beantragten Aktivitäten:</strong> {{ membership.activity_participations_demanded_count }}
+{% endhighlight_list %}
+
+
+{% button member.member_url %}
+  Zugang zu meiner Mitgliederseite
+{% endbutton %}

@@ -110,8 +110,8 @@ _:
       _de: Wirklich löschen?
       _fr: Êtes-vous certain de vouloir supprimer ceci ?
     delete_model:
-      _de: "%{model} löschen"
-      _fr: Supprimer %{model}
+      _de: Löschen
+      _fr: Supprimer
     details:
       _de: Details
       _fr: Détails
@@ -126,8 +126,8 @@ _:
       _de: Bearbeiten
       _fr: Modifier
     edit_model:
-      _de: "%{model} bearbeiten"
-      _fr: Modifier %{model}
+      _de: Bearbeiten
+      _fr: Modifier
     empty:
       _de: Leer
       _fr: Vide
@@ -357,9 +357,25 @@ _:
         membership_edit_warning:
           _de: Achtung, nach jeglicher Änderung werden alle künftige Taschen dieses Abonnements neu erstellt!
           _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
+        preview:
+          _de: Vorschau
+          _fr: Prévisualisation
         seasons:
           _de: Jahreszeiten (Sommer / Winter)
           _fr: Saisons (été / hiver)
+        settings:
+          _de: Einstellungen
+          _fr: Paramètres
+        submit:
+          preview:
+            _de: Vorschau der Änderungen
+            _fr: Prévisualiser les modifications
+          preview_edit:
+            _de: Korrigieren
+            _fr: Corriger
+          preview_save:
+            _de: Änderungen speichern
+            _fr: Sauvegarder les modifications
       index:
         canceled_renewals:
           one:
@@ -408,6 +424,9 @@ _:
         renewing:
           _de: Verlängerungen am laufen...
           _fr: Renouvellements en cours...
+        settings:
+          _de: Einstellungen
+          _fr: Paramètres
         subscribe_ical_link:
           _de: Abonnieren Sie den iCal-Feed von Teilnahmen
           _fr: S'abonner au flux iCal des participations
@@ -525,6 +544,9 @@ _:
           other:
             _de: "%{count} stornierte"
             _fr: "%{count} annulées"
+        preview:
+          _de: Vorschau
+          _fr: Prévisualisation
         refund:
           _de: Rückerstattung
           _fr: Remboursement
@@ -664,12 +686,6 @@ _:
             _de: offene
             _fr: ouvertes
       member:
-        delete_model:
-          _de: Löschen
-          _fr: Supprimer
-        edit_model:
-          _de: Bearbeiten
-          _fr: Modifier
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
@@ -760,6 +776,9 @@ _:
     settings:
       _de: Einstellungen
       _fr: Paramètres
+    settings_emails:
+      _de: E-Mail-Einstellungen
+      _fr: Paramètres E-Mails
     sidebars:
       amount:
         _de: 'Betrag:'

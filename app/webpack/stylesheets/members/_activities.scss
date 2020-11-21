@@ -205,8 +205,8 @@ ul.activities {
     }
 
     span.rejected {
-      background-color: #ff2600;
-      border: solid 1px #ff2600;
+      background-color: $red;
+      border: solid 1px $red;
     }
 
     span.action {

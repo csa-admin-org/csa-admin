@@ -75,8 +75,8 @@ GEM
       activesupport (>= 3.0.0, < 6.1)
       ruby2_keywords (>= 0.0.2, < 1.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.388.0)
-    aws-sdk-core (3.109.1)
+    aws-partitions (1.392.0)
+    aws-sdk-core (3.109.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -84,7 +84,7 @@ GEM
     aws-sdk-kms (1.39.0)
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.83.1)
+    aws-sdk-s3 (1.84.1)
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -92,7 +92,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
-    bootsnap (1.4.9)
+    bootsnap (1.5.1)
       msgpack (~> 1.0)
     builder (3.2.4)
     bullet (6.1.0)
@@ -212,7 +212,7 @@ GEM
     letter_opener (1.7.0)
       launchy (~> 2.2)
     liquid (4.0.3)
-    listen (3.2.1)
+    listen (3.3.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     lograge (0.11.2)
@@ -229,7 +229,7 @@ GEM
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
     mimemagic (0.3.5)
-    mini_magick (4.10.1)
+    mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
@@ -239,7 +239,9 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
-    parallel (1.19.2)
+    nokogumbo (2.0.2)
+      nokogiri (~> 1.8, >= 1.8.4)
+    parallel (1.20.0)
     paranoia (2.4.2)
       activerecord (>= 4.0, < 6.1)
     pdf-core (0.8.1)
@@ -407,14 +409,14 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (1.2.7)
+    tzinfo (1.2.8)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
     unicode_utils (1.4.0)
     uniform_notifier (1.13.0)
-    web-console (4.0.4)
+    web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
@@ -470,6 +472,7 @@ DEPENDENCIES
   listen
   lograge
   mini_magick
+  nokogumbo
   paranoia
   pdf-inspector
   pg

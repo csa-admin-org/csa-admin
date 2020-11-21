@@ -69,7 +69,7 @@ ActiveAdmin.register Absence do
     end
     unless f.object.persisted?
       f.inputs Absence.human_attribute_name(:comment) do
-        f.input :comment, as: :text
+        f.input :comment, as: :text, input_html: { rows: 4 }
       end
     end
     f.actions

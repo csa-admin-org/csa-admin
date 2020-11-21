@@ -22,7 +22,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq('Liste Livraison du 6 novembre 2020 (Jardin de la Main)')
     expect(mail.to).to eq(['respondent1@acp-admin.ch', 'respondent2@acp-admin.ch'])
-    expect(mail.from).to eq(['info@ragedevert.ch'])
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
 
     body = mail.html_part.body
     expect(body).to include('Voici la liste des membres:')
@@ -55,7 +55,7 @@ describe AdminMailer do
     expect(mail.body).to include('admin@acp-admin.ch')
     expect(mail.body).to include("Accèder à l'admin de Rage de Vert")
     expect(mail.body).to include('https://admin.ragedevert.ch')
-    expect(mail.from).to eq(['info@ragedevert.ch'])
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
   end
 
   specify '#invoice_overpaid_email' do
@@ -82,7 +82,7 @@ describe AdminMailer do
     expect(mail.body).to include('Accèder à la page du membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
-    expect(mail.from).to eq(['info@ragedevert.ch'])
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
   end
 
   specify '#new_absence_email' do
@@ -110,7 +110,7 @@ describe AdminMailer do
     expect(mail.body).to include("Accèder à la page de l'absence")
     expect(mail.body).to include('https://admin.ragedevert.ch/absences/1')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
-    expect(mail.from).to eq(['info@ragedevert.ch'])
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
   end
 
   specify '#new_inscription_email' do
@@ -134,6 +134,6 @@ describe AdminMailer do
     expect(mail.body).to include("cèder à la page du membr")
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
-    expect(mail.from).to eq(['info@ragedevert.ch'])
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
   end
 end

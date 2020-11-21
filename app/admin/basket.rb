@@ -37,7 +37,7 @@ ActiveAdmin.register Basket do
     end
     f.actions do
       f.action :submit, as: :input
-      f.action :cancel, as: :link
+      cancel_link membership_path(f.object.membership)
     end
   end
 

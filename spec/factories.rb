@@ -13,8 +13,9 @@ FactoryBot.define do
     phone { '077 447 26 16' }
     sequence(:tenant_name) { |n| "acp#{n}" }
     email_default_host { 'https://membres.ragedevert.ch' }
-    email_default_from { 'Rage de Vert <info@ragedevert.ch>' }
-    email_footer { 'Association Rage de Vert, Closel-Bourbon 3, 2075 Thielle' }
+    email_default_from { 'info@ragedevert.ch' }
+    email_signature { "Au plaisir,\nRage de Vert" }
+    email_footer { "Association Rage de Vert, Closel-Bourbon 3, 2075 Thielle" }
     trial_basket_count { 4 }
     billing_year_divisions { [1, 4] }
     annual_fee { 30 }

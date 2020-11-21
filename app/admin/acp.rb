@@ -27,6 +27,8 @@ ActiveAdmin.register ACP do
     features: [],
     invoice_infos: I18n.available_locales,
     invoice_footers: I18n.available_locales,
+    email_signatures: I18n.available_locales,
+    email_footers: I18n.available_locales,
     delivery_pdf_footers: I18n.available_locales,
     terms_of_service_urls: I18n.available_locales,
     statutes_urls: I18n.available_locales,
@@ -110,8 +112,8 @@ ActiveAdmin.register ACP do
     f.inputs t('.invoice_isr') do
       f.input :ccp, required: false
       f.input :isr_identity, required: false
-      f.input :isr_payment_for, required: false
-      f.input :isr_in_favor_of, required: false
+      f.input :isr_payment_for, required: false, input_html: { rows: 3 }
+      f.input :isr_in_favor_of, required: false, input_html: { rows: 3 }
     end
     if Current.acp.feature?('activity')
       f.inputs t('.members_participation') do
@@ -147,11 +149,22 @@ ActiveAdmin.register ACP do
         as: :text,
         input_html: { rows: 5 })
     end
-    f.inputs t('.mailer') do
+    f.inputs t('.mailer'), id: 'mail' do
       para t('.mailer_text',
         postmark_templates_url: postmark_url('templates'),
         postmark_url: postmark_url).html_safe, class: 'description'
       f.input :email_default_from, as: :string
+      if current_admin.email == 'thibaud@thibaud.gg'
+        translated_input(f, :email_signatures,
+          as: :text,
+          required: true,
+          input_html: { rows: 2 })
+        # translated_input(f, :email_footers,
+        #   as: :text,
+        #   required: true,
+        #   input_html: { rows: 2 })
+      end
+      # TODO: Replace by email_footers
       f.input :email_footer, as: :string
 
       para t('.mailer_email_notifications', postmark_templates_url: postmark_url('templates')).html_safe, class: 'description email_notifications'
