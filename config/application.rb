@@ -47,5 +47,7 @@ module ACPAdmin
     end
 
     config.active_job.queue_adapter = :sucker_punch
+
+    config.action_mailer.preview_path = "#{Rails.root}/app/mailer_previews"
   end
 end

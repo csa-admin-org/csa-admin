@@ -43,6 +43,9 @@ class Ability
       can :manage, [Membership, Payment]
       can :become, Member
     end
+    if admin.email == 'thibaud@thibaud.gg'
+      can :manage, MailTemplate
+    end
     cannot :destroy, [BasketSize, BasketComplement, Depot]
   end
 

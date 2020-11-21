@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_01_115324) do
+ActiveRecord::Schema.define(version: 2020_11_17_200425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 2020_11_01_115324) do
     t.string "qr_creditor_zip", limit: 16
     t.string "country_code", limit: 2, default: "CH", null: false
     t.string "currency_code", limit: 3, default: "CHF"
+    t.jsonb "email_signatures", default: {}, null: false
+    t.jsonb "email_footers", default: {}, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -422,6 +424,16 @@ ActiveRecord::Schema.define(version: 2020_11_01_115324) do
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
+  end
+
+  create_table "mail_templates", force: :cascade do |t|
+    t.string "title", null: false
+    t.boolean "active", default: false, null: false
+    t.jsonb "subjects", default: {}, null: false
+    t.jsonb "contents", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_mail_templates_on_title", unique: true
   end
 
   create_table "members", id: :serial, force: :cascade do |t|

@@ -35,7 +35,7 @@ module HasEmails
 
   def emails_must_be_valid
     emails_array.each do |email|
-      unless email.match?(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+      unless email.match?(/\A[^@\s]+@[^@\s]+\.[^@\s]+\z/)
         errors.add(:emails, :invalid)
         break
       end

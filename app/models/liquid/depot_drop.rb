@@ -3,6 +3,10 @@ class Liquid::DepotDrop < Liquid::Drop
     @depot = depot
   end
 
+  def id
+    @depot.id
+  end
+
   def name
     @depot.name
   end

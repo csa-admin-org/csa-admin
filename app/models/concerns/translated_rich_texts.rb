@@ -22,6 +22,9 @@ module TranslatedRichTexts
         define_method(text) {
           send("#{text}_#{I18n.locale}").to_s
         }
+        define_method("#{text}=") { |str|
+          send("#{text}_#{I18n.locale}=", str)
+        }
       end
     end
   end

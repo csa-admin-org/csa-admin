@@ -77,7 +77,7 @@ ActiveAdmin.register Activity do
       translated_input(f, :titles, input_html: { disabled: preset_present, class: 'js-preset' })
     end
     f.inputs t('.details') do
-      translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 5 })
+      translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 4 })
       f.input :participants_limit, as: :number
     end
     f.actions

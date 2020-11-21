@@ -23,9 +23,6 @@ _:
         ccp:
           _de: Leer lassen, wenn QR-Rechnungen verwendet werden
           _fr: Laisser vide si les factures QR sont utilisées
-        email_default_from:
-          _de: Der Name des ACP kann als "Mein ACP info@mein-acp.ch" angegeben werden
-          _fr: Le nom de l'ACP peut être inclus sous la forme "Mon ACP info@mon-acp.ch"
         email_footer:
           _de: Erscheint in der Fußzeile jeder E-Mail, die im Postmark-Layout definiert ist
           _fr: Apparait dans le bas de page de chaque email définis dans le layout de Postmark
@@ -130,6 +127,16 @@ _:
         depot_ids:
           _de: Lassen Sie alles ungeprüft, wenn alle Mitglieder Zugang zur Lieferung haben
           _fr: Laisser tout décoché si tous les membres ont accès à la livraison
+      liquid:
+        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.O
+        _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
+      liquid_data_preview:
+        _de: Diese Datenstruktur wird als Beispiel gezeigt und wird halbzufällig generiert, Sie können ihre Werte nach Bedarf ändern.
+        _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté.
+      mail_template:
+        active:
+          _de: Diese Email wird nicht standardmäßig gesendet, bitte ändern Sie ihren Inhalt vor der Aktivierung.
+          _fr: Cet email n'est pas envoyé par défaut, veuillez modifier son contenu avant de l'activer.
       member:
         delivery_address:
           _de: Leer lassen, wenn gleich

@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: -> { Current.acp.email_default_from }
+  default from: -> { Current.acp.email_from }
   layout 'mailer'
 
   after_action :set_postmark_api_token
@@ -33,3 +33,4 @@ end
 
 Liquid::Template.register_tag('button', Liquid::ButtonBlock)
 Liquid::Template.register_tag('highlight', Liquid::HighlightBlock)
+Liquid::Template.register_tag('highlight_list', Liquid::HighlightListBlock)

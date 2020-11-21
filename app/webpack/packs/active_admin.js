@@ -14,5 +14,7 @@ import 'components/active_admin/datepicker';
 import 'components/active_admin/timepicker';
 import 'components/active_admin/basket_content';
 import 'components/active_admin/form';
+import 'components/active_admin/ace_editor';
+import 'components/active_admin/mail_preview';
 
 import '../stylesheets/active_admin';

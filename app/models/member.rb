@@ -168,6 +168,9 @@ class Member < ActiveRecord::Base
     save!
 
     if activated_at_previously_changed? && emails?
+      # MailTemplate.deliver_later(:member_activated,
+      #   member: self,
+      #   memberhip: current_or_future_membership)
       Email.deliver_later(:member_activated, self)
     end
   end

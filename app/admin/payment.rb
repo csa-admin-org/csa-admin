@@ -95,7 +95,7 @@ ActiveAdmin.register Payment do
       f.input :date, as: :datepicker, prompt: true
       f.input :amount, as: :number, step: 0.05, min: -99999.95, max: 99999.95
       unless f.object.persisted?
-        f.input :comment, as: :text
+        f.input :comment, as: :text, input_html: { rows: 4 }
       end
     end
     f.actions

@@ -1,0 +1,14 @@
+_:
+  mail_template:
+    default_subjects:
+      member_activated:
+        _de: Herzlich willkommen!
+        _fr: Bienvenue!
+    description:
+      member_activated:
+        _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
+        _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
+    title:
+      member_activated:
+        _de: Mitglied aktiviert
+        _fr: Membre activé

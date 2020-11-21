@@ -333,9 +333,9 @@ ActiveAdmin.register Member do
     end
     f.inputs t('active_admin.resource.show.notes') do
       f.input :profession
-      f.input :come_from
-      f.input :food_note, input_html: { rows: 3 }
-      f.input :note, input_html: { rows: 3 }, placeholder: false
+      f.input :come_from, input_html: { rows: 4 }
+      f.input :food_note, input_html: { rows: 4 }
+      f.input :note, input_html: { rows: 4 }, placeholder: false
     end
     f.actions
   end

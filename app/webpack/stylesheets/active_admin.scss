@@ -204,14 +204,14 @@ table a.xlsx_link {
   &.manual,
   &.not_sent,
   &.trial {
-    background-color: #1e83f6;
+    background-color: $blue;
   }
 
   &.renewal_canceled,
   &.no,
   &.open,
   &.rejected {
-    background-color: #ff2600;
+    background-color: $red;
   }
 
   &.renewed,
@@ -275,6 +275,19 @@ table#index_table_deliveries {
 
   .col-actions {
     width: 160px;
+  }
+}
+
+table#index_table_mail_templates {
+  .col-title {
+    min-width: 200px;
+  }
+  .col-active {
+    width: 100px;
+    text-align: center;
+  }
+  .col-actions {
+    width: 82px;
   }
 }
 
@@ -794,5 +807,43 @@ ul#utility_nav {
         margin: 0 0 -5px;
       }
     }
+  }
+}
+
+div.ace_editor {
+  margin-top: 30px;
+  border: 1px solid rgba(204, 204, 204, 0.75);
+  border-radius: 4px;
+  position: relative;
+  width: 100%;
+
+  .ace_scroller {
+    margin: 10px;
+  }
+}
+
+.field_with_errors div.ace_editor {
+  border: 2px solid $red;
+}
+
+li.ace-editor {
+  label {
+    width: 100%;
+  }
+  p.inline-hints, p.inline-errors {
+    margin: 5px 0 0;
+  }
+}
+
+
+iframe.mail_preview {
+  width: 100%;
+  max-width: 650px;
+  display: block;
+  margin: 0 auto;
+  border: 2px dashed lightgrey;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

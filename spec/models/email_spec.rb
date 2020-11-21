@@ -24,7 +24,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doe.com',
       template: 'member-activated',
       template_data: {
@@ -66,7 +66,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-activity-reminder',
       template_data: {
@@ -109,7 +109,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-activity-validated',
       template_data: {
@@ -150,7 +150,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to eq(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-activity-rejected',
       template_data: {
@@ -184,7 +184,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-invoice-new',
       template_data: {
@@ -219,7 +219,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-invoice-new',
       template_data: {
@@ -255,7 +255,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-invoice-new',
       template_data: {
@@ -291,7 +291,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-invoice-new',
       template_data: {
@@ -324,7 +324,7 @@ describe Email do
 
       expect(email_adapter.deliveries.size).to eq 1
       expect(email_adapter.deliveries.first).to match(hash_including(
-        from: Current.acp.email_default_from,
+        from: Current.acp.email_from,
         to: 'john@doew.com',
         template: 'member-renewal',
         template_data: {
@@ -353,7 +353,7 @@ describe Email do
 
       expect(email_adapter.deliveries.size).to eq 1
       expect(email_adapter.deliveries.first).to match(hash_including(
-        from: Current.acp.email_default_from,
+        from: Current.acp.email_from,
         to: 'john@doew.com',
         template: 'member-renewal-reminder',
         template_data: {
@@ -374,7 +374,7 @@ describe Email do
 
     expect(email_adapter.deliveries.size).to eq 1
     expect(email_adapter.deliveries.first).to match(hash_including(
-      from: Current.acp.email_default_from,
+      from: Current.acp.email_from,
       to: 'john@doew.com',
       template: 'member-validated',
       template_data: {

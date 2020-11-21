@@ -18,7 +18,7 @@ button {
   vertical-align: middle;
 }
 
-input[type='submit'] {
+input[type='submit']:not(.cancel) {
   @extend %primary-button;
 }
 

@@ -261,7 +261,7 @@ module Email
   end
 
   def from
-    Current.acp.email_default_from
+    Current.acp.email_from
   end
 
   def url(route, *args)
