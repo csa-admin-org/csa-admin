@@ -45,7 +45,7 @@ class AdminMailer < ApplicationMailer
       invoice = Liquid::InvoiceDrop.new(params[:invoice])
       content = liquid_template.render(
         'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::MemberDrop.new(params[:member]),
+        'member' => Liquid::AdminMemberDrop.new(params[:member]),
         'invoice' => invoice)
       content_mail(content,
         to: @admin.email,
@@ -58,7 +58,7 @@ class AdminMailer < ApplicationMailer
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
         'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::MemberDrop.new(params[:member]),
+        'member' => Liquid::AdminMemberDrop.new(params[:member]),
         'absence' => Liquid::AbsenceDrop.new(params[:absence]))
       content_mail(content,
         to: @admin.email,
@@ -71,7 +71,7 @@ class AdminMailer < ApplicationMailer
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
         'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::MemberDrop.new(params[:member]))
+        'member' => Liquid::AdminMemberDrop.new(params[:member]))
       content_mail(content,
         to: @admin.email,
         subject: t('.subject'))
