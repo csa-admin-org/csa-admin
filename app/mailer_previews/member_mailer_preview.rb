@@ -1,4 +1,6 @@
 class MemberMailerPreview < ActionMailer::Preview
+  include SharedDataPreview
+
   def activated_email
     params.merge!(activated_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :member_activated)
@@ -13,10 +15,6 @@ class MemberMailerPreview < ActionMailer::Preview
 
   private
 
-  def random
-    @random ||= Random.new(params[:random] || rand)
-  end
-
   def activated_email_params
     {
       member: member,
@@ -29,13 +27,6 @@ class MemberMailerPreview < ActionMailer::Preview
       member: member,
       waiting_list_position: Member.waiting.count + 1
     }
-  end
-
-  def member
-    OpenStruct.new(
-      id: 1,
-      name: ['Jane Doe', 'John Doe'].sample(random: random),
-      language: params[:locale] || I18n.locale)
   end
 
   def membership

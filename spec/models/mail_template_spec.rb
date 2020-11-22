@@ -28,6 +28,14 @@ describe MailTemplate do
     expect(template.contents['de']).to include('<p>MICH BEARBEITEN!</p>')
   end
 
+  specify 'set and validate always active template' do
+    template = MailTemplate.create!(title: 'invoice_created')
+    expect(template).to be_active
+
+    template.active = false
+    expect(template).not_to have_valid(:active)
+  end
+
   specify 'validate liquid syntax' do
     template.subject = 'Bienvenue! {{'
     expect(template).not_to have_valid(:subject_fr)
@@ -45,5 +53,13 @@ describe MailTemplate do
   specify 'validate content HTML syntax' do
     template.content = '<p>Hello<//p>'
     expect(template).not_to have_valid(:content_fr)
+  end
+
+  specify 'all defaults templates are valid' do
+    Current.acp.update! languages: ACP.languages
+    MailTemplate.create_all!
+    MailTemplate.find_each do |template|
+      expect(template).to be_valid
+    end
   end
 end

@@ -137,6 +137,9 @@ _:
         active:
           _de: Diese Email wird nicht standardmäßig gesendet, bitte ändern Sie ihren Inhalt vor der Aktivierung.
           _fr: Cet email n'est pas envoyé par défaut, veuillez modifier son contenu avant de l'activer.
+        always_active:
+          _de: Diese E-Mail ist obligatorisch und kann nicht deaktiviert werden.
+          _fr: Cet email est obligatoire et ne peut pas être désactivé.
       member:
         delivery_address:
           _de: Leer lassen, wenn gleich
