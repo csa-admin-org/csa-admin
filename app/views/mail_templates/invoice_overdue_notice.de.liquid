@@ -1,0 +1,15 @@
+<p>Irrtum vorbehalten wurde die Rechnung #{{ invoice.number }} vom {{ invoice.date }} nicht vollständig bezahlt.</p>
+
+{% highlight %}
+  <strong>Der restliche Betrag von {{ invoice.missing_amount }} muss beglichen werden.</strong>
+{% endhighlight %}
+
+<p>Begleichen Sie bitte diesen Betrag so schnell wie möglich. Sie finden im Anhang noch eine Kopie dieser Rechnung.</p>
+<p>Wenn Sie die Rechnung in der Zwischenzeit eingezahlt haben, können Sie diese Mahnung ignorieren.</p>
+<p>Vielen Dank im Voraus für Ihre Einzahlung. Bei Fragen stehen wir Ihnen gerne zur Verfügung.</p>
+
+<p>Schauen Sie Ihre Rechnungen und Einzahlungen auf Ihrer Mitgliederseite nach.</p>
+
+{% button member.billing_url %}
+  Zugang zu meiner Mitgliederseite
+{% endbutton %}

@@ -2,10 +2,15 @@ class MailTemplate < ApplicationRecord
   include TranslatedAttributes
   include Auditable
 
-  TITLES = %w[
+  MEMBER_TITLES = %w[
     member_activated
     member_validated
   ].freeze
+  INVOICE_TITLES = %w[
+    invoice_created
+    invoice_overdue_notice
+  ].freeze
+  TITLES = MEMBER_TITLES + INVOICE_TITLES
 
   audited_attributes :subjects, :contents
 
@@ -16,11 +21,14 @@ class MailTemplate < ApplicationRecord
     uniqueness: true
   validate :subjects_must_be_present, :contents_must_be_present
   validate :subjects_must_be_valid, :contents_must_be_valid
+  validates :active, inclusion: [true], if: :always_active?
 
   after_initialize :set_defaults
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :member, -> { where(title: MEMBER_TITLES) }
+  scope :invoice, -> { where(title: INVOICE_TITLES) }
 
   def self.deliver_now(title, **args)
     active_template(title)&.mail(**args)&.deliver_now
@@ -103,6 +111,10 @@ class MailTemplate < ApplicationRecord
     super hash.transform_values { |v| v.strip + "\n" }
   end
 
+  def always_active?
+    title.in?(INVOICE_TITLES)
+  end
+
   private
 
   def subjects_must_be_present
@@ -146,6 +158,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def set_defaults
+    self.active = always_active? if new_record?
     self.subjects = default_subjects
     self.contents = default_contents
   end

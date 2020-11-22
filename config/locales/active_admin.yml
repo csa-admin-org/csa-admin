@@ -685,6 +685,14 @@ _:
           open:
             _de: offene
             _fr: ouvertes
+      mail_template:
+        scopes:
+          invoice:
+            _de: rechnungsstellung
+            _fr: facturation
+          member:
+            _de: mitglied
+            _fr: membre
       member:
         new_model:
           _de: Neues %{model}

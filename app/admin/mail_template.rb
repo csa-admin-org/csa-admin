@@ -15,8 +15,8 @@ ActiveAdmin.register MailTemplate do
   end
 
   scope :all
-  scope :active
-  scope :inactive
+  scope :member
+  scope :invoice
 
   action_item :view, only: :index do
     link_to t('.settings'), edit_acp_path(anchor: 'mail')
@@ -63,9 +63,13 @@ ActiveAdmin.register MailTemplate do
       end
     else
       f.inputs t('.settings') do
-        # TODO: Some templates cannot be desactivated?
-        # f.input :active, input_html: { disabled: true }, hint: 'Cet email ne peut pas être désactivé'
-        f.input :active, hint: true
+        if mail_template.always_active?
+          f.input :active,
+            input_html: { disabled: true },
+            hint: t('formtastic.hints.mail_template.always_active')
+        else
+          f.input :active, hint: true
+        end
       end
       f.inputs do
         translated_input(f, :subjects,

@@ -1,6 +1,12 @@
 _:
   mail_template:
     default_subjects:
+      invoice_created:
+        _de: 'Neue Rechnung #{{ invoice.number }}'
+        _fr: 'Nouvelle facture #{{ invoice.number }}'
+      invoice_overdue_notice:
+        _de: "Mahnung #{{ invoice.overdue_notices_count }} der Rechnung #{{ invoice.number }} \U0001F62C"
+        _fr: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
       member_activated:
         _de: Herzlich willkommen!
         _fr: Bienvenue!
@@ -8,6 +14,12 @@ _:
         _de: Registrierung validiert!
         _fr: Inscription validée!
     description:
+      invoice_created:
+        _de: Wird gesendet, wenn eine Rechnung automatisch erstellt wird oder wenn die Schaltfläche "Senden" einer manuell erstellten Rechnung gedrückt wird.
+        _fr: Envoyé lors de la création automatique d'une facture ou quand le bouton "Envoyer" d'une facture créée manuellement est pressé.
+      invoice_overdue_notice:
+        _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.
+        _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.
       member_activated:
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
@@ -15,6 +27,12 @@ _:
         _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde..
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
     title:
+      invoice_created:
+        _de: Neue Rechnung
+        _fr: Nouvelle facture
+      invoice_overdue_notice:
+        _de: Mahnung der Rechnung
+        _fr: Rappel facture
       member_activated:
         _de: Mitglied aktiviert
         _fr: Membre activé

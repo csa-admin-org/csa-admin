@@ -13,7 +13,8 @@ describe Liquid::DataPreview do
     expect(data).to eq({
       'member' =>  {
         'name' => 'John Doe',
-        'page_url' => 'https://membres.ragedevert.ch'
+        'page_url' => 'https://membres.ragedevert.ch',
+        'billing_url' => 'https://membres.ragedevert.ch/billing'
       },
       'membership' => {
         'activity_participations_demanded_count' => 2,
@@ -43,7 +44,8 @@ describe Liquid::DataPreview do
     expect(data).to eq({
       'member' =>  {
         'name' => 'John Doe',
-        'page_url' => 'https://membres.ragedevert.ch'
+        'page_url' => 'https://membres.ragedevert.ch',
+        'billing_url' => 'https://membres.ragedevert.ch/billing'
       },
       'waiting_list_position' => 1
     })

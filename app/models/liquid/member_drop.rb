@@ -15,4 +15,13 @@ class Liquid::MemberDrop < Liquid::Drop
       .members_member_url(host: Current.acp.email_default_host)
       .gsub(/\/\z/, '')
   end
+
+  def billing_url
+    Rails
+      .application
+      .routes
+      .url_helpers
+      .members_billing_url(host: Current.acp.email_default_host)
+      .gsub(/\/\z/, '')
+  end
 end
