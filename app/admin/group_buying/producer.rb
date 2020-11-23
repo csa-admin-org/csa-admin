@@ -36,8 +36,6 @@ ActiveAdmin.register GroupBuying::Producer do
     f.inputs t('.details') do
       f.input :name
       f.input :website_url
-    end
-    f.inputs do
       translated_input(f, :descriptions,
         as: :action_text,
         required: false)

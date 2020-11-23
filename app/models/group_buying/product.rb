@@ -17,7 +17,7 @@ module GroupBuying
     validates :price,
       presence: true,
       numericality: { greater_than_or_equal_to: 0 }
-    validates :available, presence: true
+    validates :available, inclusion: [true, false]
 
     def can_destroy?
       order_items.none?
