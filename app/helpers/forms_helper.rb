@@ -5,7 +5,7 @@ module FormsHelper
         label: attribute_label(form.object.class, attr, locale),
         input_html: {
           value: form.object.send(attr)[locale],
-          name: "#{form.object.class.name.underscore}[#{attr}][#{locale}]"
+          name: "#{form.object.class.name.underscore.gsub('/', '_')}[#{attr}][#{locale}]"
         }
       }.deep_merge(**options)
     end
