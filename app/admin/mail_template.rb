@@ -16,8 +16,9 @@ ActiveAdmin.register MailTemplate do
 
   scope :all
   scope :member
+  scope :membership
   scope :invoice
-  scope -> { Activity.model_name.human.downcase }, :activity,
+  scope -> { Activity.model_name.human }, :activity,
     if: -> { Current.acp.feature?('activity') }
 
   action_item :view, only: :index do

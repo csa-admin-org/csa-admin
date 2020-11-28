@@ -177,7 +177,7 @@ module Email
     member = membership.member
     data = template_data(member.language) do
       {
-        action_url: url(:members_membership_url, hanchor: 'renewal'),
+        action_url: url(:members_membership_url, anchor: 'renewal'),
         membership_start_date: I18n.l(membership.started_on),
         membership_end_date: I18n.l(membership.ended_on)
       }
@@ -195,7 +195,7 @@ module Email
     member = membership.member
     data = template_data(member.language) do
       {
-        action_url: url(:members_membership_url, hanchor: 'renewal'),
+        action_url: url(:members_membership_url, anchor: 'renewal'),
         membership_start_date: I18n.l(membership.started_on),
         membership_end_date: I18n.l(membership.ended_on)
       }

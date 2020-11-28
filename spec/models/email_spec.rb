@@ -328,7 +328,7 @@ describe Email do
         to: 'john@doew.com',
         template: 'member-renewal',
         template_data: {
-          action_url: 'https://membres.ragedevert.ch/membership?hanchor=renewal',
+          action_url: 'https://membres.ragedevert.ch/membership#renewal',
           membership_start_date: '1 janvier 2020',
           membership_end_date: '31 décembre 2020',
           fr: true
@@ -357,7 +357,7 @@ describe Email do
         to: 'john@doew.com',
         template: 'member-renewal-reminder',
         template_data: {
-          action_url: 'https://membres.ragedevert.ch/membership?hanchor=renewal',
+          action_url: 'https://membres.ragedevert.ch/membership#renewal',
           membership_start_date: '1 janvier 2020',
           membership_end_date: '31 décembre 2020',
           fr: true

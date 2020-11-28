@@ -56,7 +56,7 @@ ActiveAdmin.register ACP do
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
     end
-    f.inputs Membership.model_name.human(count: 2) do
+    f.inputs Membership.model_name.human(count: 2), id: 'membership' do
       f.input :trial_basket_count
       if Current.acp.feature_flag?(:open_renewal)
         translated_input(f, :open_renewal_texts,

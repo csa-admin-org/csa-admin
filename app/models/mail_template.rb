@@ -6,6 +6,10 @@ class MailTemplate < ApplicationRecord
     member_validated
     member_activated
   ].freeze
+  MEMBERSHIP_TITLES = %w[
+    membership_renewal
+    membership_renewal_reminder
+  ].freeze
   INVOICE_TITLES = %w[
     invoice_created
     invoice_overdue_notice
@@ -15,7 +19,7 @@ class MailTemplate < ApplicationRecord
     activity_participation_validated
     activity_participation_rejected
   ].freeze
-  TITLES = MEMBER_TITLES + INVOICE_TITLES + ACTIVITY_TITLES
+  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + INVOICE_TITLES + ACTIVITY_TITLES
 
   audited_attributes :subjects, :contents
 
@@ -33,6 +37,7 @@ class MailTemplate < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
   scope :member, -> { where(title: MEMBER_TITLES) }
+  scope :membership, -> { where(title: MEMBERSHIP_TITLES) }
   scope :invoice, -> { where(title: INVOICE_TITLES) }
   scope :activity, -> { where(title: ACTIVITY_TITLES) }
 
@@ -98,7 +103,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def description
-    I18n.t("mail_template.description.#{title}")
+    I18n.t("mail_template.description.#{title}").html_safe
   end
 
   def mailer

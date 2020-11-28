@@ -29,8 +29,7 @@ class Liquid::DataPreview
   private
 
   def drop_hash(drop)
-    methods = drop.class.invokable_methods - %w[to_liquid]
-    methods.map { |method|
+    invokable_methods(drop).map { |method|
       value = drop.send(method)
       [method, handle_value(value)]
     }.sort.to_h
@@ -44,5 +43,18 @@ class Liquid::DataPreview
     else
       value
     end
+  end
+
+  def invokable_methods(drop)
+    methods = drop.class.invokable_methods
+    methods -= %w[to_liquid]
+    unless Current.acp.feature?(:activity)
+      methods -= %w[
+        activity_phone
+        activities_url
+        activity_participations_demanded_count
+      ]
+    end
+    methods
   end
 end
