@@ -8,29 +8,27 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def page_url
-    Rails
-      .application
-      .routes
-      .url_helpers
-      .members_member_url(host: Current.acp.email_default_host)
-      .gsub(/\/\z/, '')
+    url(:members_member)
   end
 
   def billing_url
-    Rails
-      .application
-      .routes
-      .url_helpers
-      .members_billing_url(host: Current.acp.email_default_host)
-      .gsub(/\/\z/, '')
+    url(:members_billing)
   end
 
   def activities_url
-    Rails
-      .application
-      .routes
-      .url_helpers
-      .members_activities_url(host: Current.acp.email_default_host)
-      .gsub(/\/\z/, '')
+    url(:members_activities)
+  end
+
+  def membership_renewal_url
+    url(:members_membership, anchor: 'renewal')
+  end
+
+  private
+
+  def url(name, **options)
+    helper = Rails.application.routes.url_helpers
+    helper.send("#{name}_url",
+      { host: Current.acp.email_default_host }.merge(**options)
+    ).gsub(/\/+\z/, '')
   end
 end

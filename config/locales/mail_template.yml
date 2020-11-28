@@ -22,6 +22,12 @@ _:
       member_validated:
         _de: Registrierung validiert!
         _fr: Inscription validée!
+      membership_renewal:
+        _de: Ihr Abonnement verlängern
+        _fr: Renouvellement de votre abonnement
+      membership_renewal_reminder:
+        _de: Ihr Abonnement verlängern (Mahnung)
+        _fr: Renouvellement de votre abonnement (Rappel)
     description:
       activity_participation_rejected:
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität abgelehnt wird.
@@ -42,8 +48,14 @@ _:
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
       member_validated:
-        _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde..
+        _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde.
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
+      membership_renewal:
+        _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
+        _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
+      membership_renewal_reminder:
+        _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='https://admin.ragedevert.test/settings#membership'>die Einstellungen</a> für die Frist).
+        _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='https://admin.ragedevert.test/settings#membership'>les paramètres</a> pour le délai).
     title:
       activity_participation_rejected:
         _de: Abgelehnte Aktivität
@@ -66,3 +78,9 @@ _:
       member_validated:
         _de: Mitglied validiert
         _fr: Membre validé
+      membership_renewal:
+        _de: Abonnement verlängern
+        _fr: Renouvellement abonnement
+      membership_renewal_reminder:
+        _de: Abonnement verlängern (Mahnung)
+        _fr: Renouvellement abonnement (Rappel)

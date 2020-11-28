@@ -593,11 +593,11 @@ _:
           _fr: Nouvelle %{model}
         scopes:
           all:
-            _de: alle
-            _fr: toutes
+            _de: Alle
+            _fr: Toutes
           past:
-            _de: vergangene
-            _fr: passées
+            _de: Vergangene
+            _fr: Passées
       acp:
         edit_model:
           _de: Einstellungen
@@ -608,25 +608,25 @@ _:
           _fr: Nouvelle %{model}
         scopes:
           all:
-            _de: alle
-            _fr: toutes
+            _de: Alle
+            _fr: Toutes
           past:
-            _de: vergangene
-            _fr: passées
+            _de: Vergangene
+            _fr: Passées
       activity_participation:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
         scopes:
           all:
-            _de: alle
-            _fr: toutes
+            _de: Alle
+            _fr: Toutes
           rejected:
-            _de: abgelehnte
-            _fr: refusées
+            _de: Abgelehnte
+            _fr: Refusées
           validated:
-            _de: bestätigte
-            _fr: validées
+            _de: Bestätigte
+            _fr: Validées
       admin:
         new_model:
           _de: Einladen %{model}
@@ -654,45 +654,48 @@ _:
       group_buying/order:
         scopes:
           all_without_canceled:
-            _de: alle
-            _fr: toutes
+            _de: Alle
+            _fr: Toutes
           canceled:
-            _de: stornierte
-            _fr: annulées
+            _de: Stornierte
+            _fr: Annulées
           closed:
-            _de: bezahlte
-            _fr: payées
+            _de: Bezahlte
+            _fr: Payées
           open:
-            _de: zu zahlen
-            _fr: à payer
+            _de: Zu zahlen
+            _fr: À payer
       invoice:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
         scopes:
           all_without_canceled:
-            _de: alle
-            _fr: toutes
+            _de: Alle
+            _fr: Toutes
           canceled:
-            _de: stornierte
-            _fr: annulées
+            _de: Stornierte
+            _fr: Annulées
           closed:
-            _de: geschlossene
-            _fr: fermées
+            _de: Geschlossene
+            _fr: Fermées
           not_sent:
-            _de: nicht gesendete
-            _fr: non-envoyées
+            _de: Nicht Gesendete
+            _fr: Non-envoyées
           open:
-            _de: offene
-            _fr: ouvertes
+            _de: Offene
+            _fr: Ouvertes
       mail_template:
         scopes:
           invoice:
-            _de: rechnungsstellung
-            _fr: facturation
+            _de: Rechnungsstellung
+            _fr: Facturation
           member:
-            _de: mitglied
-            _fr: membre
+            _de: Mitglied
+            _fr: Membre
+          membership:
+            _de: Abonnement
+            _fr: Abonnement
       member:
         new_model:
           _de: Neues %{model}
@@ -703,14 +706,14 @@ _:
           _fr: Nouvel %{model}
         scopes:
           future:
-            _de: künftige
-            _fr: futurs
+            _de: Künftige
+            _fr: Futurs
           ongoing:
-            _de: laufende
-            _fr: en cours
+            _de: Laufende
+            _fr: En cours
           trial:
-            _de: proben
-            _fr: essais
+            _de: Proben
+            _fr: Essais
       payment:
         new_model:
           _de: Neue %{model}
@@ -721,56 +724,56 @@ _:
           _fr: Nouveau %{model}
     scopes:
       active:
-        _de: aktive
-        _fr: actifs
+        _de: Aktive
+        _fr: Actifs
       all:
-        _de: alle
-        _fr: tous
+        _de: Alle
+        _fr: Tous
       coming:
-        _de: bevorsetehende
-        _fr: à venir
+        _de: Bevorsetehende
+        _fr: À venir
       current:
-        _de: laufende
-        _fr: en cours
+        _de: Laufende
+        _fr: En cours
       current_year:
-        _de: laufendes Jahr
-        _fr: année courante
+        _de: Laufendes Jahr
+        _fr: Année courante
       future:
-        _de: künftige
-        _fr: futures
+        _de: Künftige
+        _fr: Futures
       future_year:
-        _de: folgende Jahre
-        _fr: années prochaines
+        _de: Folgende Jahre
+        _fr: Années prochaines
       inactive:
-        _de: inaktive
-        _fr: inactifs
+        _de: Inaktive
+        _fr: Inactifs
       isr:
         _de: ESR
         _fr: BVR
       manual:
-        _de: manuelle
-        _fr: manuels
+        _de: Manuelle
+        _fr: Manuels
       next_year:
-        _de: näschstes Jahr
-        _fr: année prochaine
+        _de: Näschstes Jahr
+        _fr: Année prochaine
       past:
-        _de: vergangene
-        _fr: passés
+        _de: Vergangene
+        _fr: Passés
       past_year:
-        _de: vergangene Jahre
-        _fr: années passées
+        _de: Vergangene Jahre
+        _fr: Années passées
       pending:
-        _de: zu bestätigen
-        _fr: à valider
+        _de: Zu bestätigen
+        _fr: À valider
       support:
         _de: Support
-        _fr: soutien
+        _fr: Soutien
       waiting:
         _de: Warteliste
-        _fr: attente
+        _fr: Attente
       with_overdue_notice:
         _de: Mahnungen
-        _fr: rappels
+        _fr: Rappels
     search_status:
       current_filters:
         _de: 'Aktuelles Filter:'
