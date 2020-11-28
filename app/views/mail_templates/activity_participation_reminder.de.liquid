@@ -1,0 +1,41 @@
+<p>Ein kleines E-mail, um Sie an Ihre Anmeldung an folgende Aktivität zu erinnern:</p>
+
+{% highlight_list %}
+  <strong>Datum:</strong> {{ activity.date_long }}
+  <strong>Zeiten:</strong> {{ activity.period }}
+  <strong>Arbeit:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Beschreibung:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Ort:</strong><a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Ort:</strong>{{ activity.place }}
+  {% endif %}
+  <strong>Teilnehmer:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+<p>Eine Frage? Sie können uns gerne anrufen <strong>{{ acp.activity_phone }}</strong> oder einfach auf diese Email antworten.</p>
+
+{% if activity_participation.carpooling.size > 0 %}
+  <p>Fahrgemeinschaften: folgende Mitglieder fahren mit dem Auto. Nehmen Sie ungeniert Kontakt mit Ihnen auf:</p>
+  {% highlight %}
+    <ul>
+      {% for carpooling in activity_participation.carpooling %}
+        <li>
+          <strong>{{ carpooling.member_name }}</strong>:
+          {{ carpooling.member_phone }}
+          {% if carpooling.leaving_from_city %}
+            ({{ carpooling.leaving_from_city }})
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
+<p>Sie können Ihre Anmeldungen auf Ihrer Mitgliederseite jederzeit bearbeiten.</p>
+
+{% button member.activities_url %}
+  Zugang zu meiner Mitgliederseite
+{% endbutton %}

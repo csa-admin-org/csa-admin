@@ -3,7 +3,7 @@ class MemberMailer < ApplicationMailer
 
   def activated_email
     member = params[:member]
-    membership = params[:membership]
+    membership = member.current_or_future_membership
     template_mail(member,
       'member' => Liquid::MemberDrop.new(member),
       'membership' => Liquid::MembershipDrop.new(membership))

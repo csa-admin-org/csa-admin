@@ -1,0 +1,86 @@
+require 'rails_helper'
+
+describe ActivityMailer do
+  let(:member) { create(:member, emails: 'example@acp-admin.ch') }
+  let(:activity) {
+    create(:activity,
+      date: '24.03.2020',
+      start_time: Time.zone.parse('8:30'),
+      end_time: Time.zone.parse('12:00'),
+      place: 'Thielle',
+      title: 'Aide aux champs',
+      description: 'Que du bonheur')
+   }
+  let(:participation) {
+    create(:activity_participation,
+      member: member,
+      activity: activity,
+      participants_count: 2)
+  }
+
+  specify '#participation_reminder_email' do
+    template = MailTemplate.create!(title: 'activity_participation_reminder')
+    create(:activity_participation, :carpooling,
+      activity: activity,
+      member: create(:member, name: 'Elea Asah'),
+      carpooling_phone: '+41765431243',
+      carpooling_city: 'La Chaux-de-Fonds')
+
+    mail = ActivityMailer.with(
+      template: template,
+      activity_participation: participation,
+    ).participation_reminder_email
+
+    expect(mail.subject).to eq('Activité à venir (24 mars 2020)')
+    expect(mail.to).to eq(['example@acp-admin.ch'])
+    expect(mail.body).to include('<strong>Date:</strong> mardi 24 mars 2020')
+    expect(mail.body).to include('<strong>Horaire:</strong> 8:30-12:00')
+    expect(mail.body).to include('<strong>Lieu:</strong> Thielle')
+    expect(mail.body).to include('<strong>Activité:</strong> Aide aux champs')
+    expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
+    expect(mail.body).to include('<strong>Participants:</strong> 2')
+    expect(mail.body).to include('<strong>Elea Asah</strong>: +41 76 543 12 43 (La Chaux-de-Fonds)')
+    expect(mail.body).to include('https://membres.ragedevert.ch/activities')
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+  end
+
+  specify '#participation_validated_email' do
+    template = MailTemplate.create!(title: 'activity_participation_validated')
+
+    mail = ActivityMailer.with(
+      template: template,
+      activity_participation: participation,
+    ).participation_validated_email
+
+    expect(mail.subject).to eq('Activité validée 🎉')
+    expect(mail.to).to eq(['example@acp-admin.ch'])
+    expect(mail.body).to include('<strong>Date:</strong> mardi 24 mars 2020')
+    expect(mail.body).to include('<strong>Horaire:</strong> 8:30-12:00')
+    expect(mail.body).to include('<strong>Lieu:</strong> Thielle')
+    expect(mail.body).to include('<strong>Activité:</strong> Aide aux champs')
+    expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
+    expect(mail.body).to include('<strong>Participants:</strong> 2')
+    expect(mail.body).to include('https://membres.ragedevert.ch/activities')
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+  end
+
+  specify '#participation_rejected_email' do
+    template = MailTemplate.create!(title: 'activity_participation_rejected')
+
+    mail = ActivityMailer.with(
+      template: template,
+      activity_participation: participation,
+    ).participation_rejected_email
+
+    expect(mail.subject).to eq('Activité refusée 😬')
+    expect(mail.to).to eq(['example@acp-admin.ch'])
+    expect(mail.body).to include('<strong>Date:</strong> mardi 24 mars 2020')
+    expect(mail.body).to include('<strong>Horaire:</strong> 8:30-12:00')
+    expect(mail.body).to include('<strong>Lieu:</strong> Thielle')
+    expect(mail.body).to include('<strong>Activité:</strong> Aide aux champs')
+    expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
+    expect(mail.body).to include('<strong>Participants:</strong> 2')
+    expect(mail.body).to include('https://membres.ragedevert.ch/activities')
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+  end
+end

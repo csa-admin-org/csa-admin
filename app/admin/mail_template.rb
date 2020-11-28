@@ -17,13 +17,15 @@ ActiveAdmin.register MailTemplate do
   scope :all
   scope :member
   scope :invoice
+  scope -> { Activity.model_name.human.downcase }, :activity,
+    if: -> { Current.acp.feature?('activity') }
 
   action_item :view, only: :index do
     link_to t('.settings'), edit_acp_path(anchor: 'mail')
   end
 
   index download_links: false do
-    column :title, ->(mt) { link_to mt.display_name, mt }
+    column :title, ->(mt) { link_to mt.display_name, mt }, sortable: false
     column :description
     column :active
     actions
@@ -101,6 +103,18 @@ ActiveAdmin.register MailTemplate do
   end
 
   controller do
+    def scoped_collection
+      scoped = end_of_association_chain
+      unless Current.acp.feature?('activity')
+        scoped = scoped.where.not(title: MailTemplate::ACTIVITY_TITLES)
+      end
+      scoped.joins(<<-SQL).order('t.ord')
+        JOIN unnest(string_to_array('#{MailTemplate::TITLES.join(',')}', ','))
+        WITH ORDINALITY t(title, ord)
+        USING (title)
+      SQL
+    end
+
     def find_resource
       scoped_collection.where(title: params[:id]).first!
     end
@@ -118,5 +132,5 @@ ActiveAdmin.register MailTemplate do
   end
 
   config.filters = false
-  config.sort_order = 'title_asc'
+  config.sort_order = '' # use custom order defined in scoped_collection
 end

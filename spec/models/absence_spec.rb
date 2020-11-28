@@ -71,10 +71,10 @@ describe Absence do
       mail = AdminMailer.deliveries.last
       expect(mail.subject).to eq 'Nouvelle absence'
       expect(mail.to).to eq [admin2.email]
-      expect(mail.body.encoded).to include admin2.name
-      expect(mail.body.encoded).to include absence.member.name
-      expect(mail.body.encoded).to include I18n.l(absence.started_on)
-      expect(mail.body.encoded).to include I18n.l(absence.ended_on)
+      expect(mail.html_part.body).to include admin2.name
+      expect(mail.html_part.body).to include absence.member.name
+      expect(mail.html_part.body).to include I18n.l(absence.started_on)
+      expect(mail.html_part.body).to include I18n.l(absence.ended_on)
     end
   end
 end

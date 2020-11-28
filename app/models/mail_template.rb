@@ -3,14 +3,19 @@ class MailTemplate < ApplicationRecord
   include Auditable
 
   MEMBER_TITLES = %w[
-    member_activated
     member_validated
+    member_activated
   ].freeze
   INVOICE_TITLES = %w[
     invoice_created
     invoice_overdue_notice
   ].freeze
-  TITLES = MEMBER_TITLES + INVOICE_TITLES
+  ACTIVITY_TITLES = %w[
+    activity_participation_reminder
+    activity_participation_validated
+    activity_participation_rejected
+  ].freeze
+  TITLES = MEMBER_TITLES + INVOICE_TITLES + ACTIVITY_TITLES
 
   audited_attributes :subjects, :contents
 
@@ -29,6 +34,7 @@ class MailTemplate < ApplicationRecord
   scope :inactive, -> { where(active: false) }
   scope :member, -> { where(title: MEMBER_TITLES) }
   scope :invoice, -> { where(title: INVOICE_TITLES) }
+  scope :activity, -> { where(title: ACTIVITY_TITLES) }
 
   def self.deliver_now(title, **args)
     active_template(title)&.mail(**args)&.deliver_now
@@ -112,7 +118,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def always_active?
-    title.in?(INVOICE_TITLES)
+    title.in?(INVOICE_TITLES + ACTIVITY_TITLES)
   end
 
   private

@@ -1,0 +1,24 @@
+<p>Besten Dank für Ihre Teilnahme an der folgenden Aktivität, sie wurde soeben bestätigt!</p>
+
+{% highlight_list %}
+  <strong>Datum:</strong> {{ activity.date_long }}
+  <strong>Zeiten:</strong> {{ activity.period }}
+  <strong>Arbeit:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Beschreibung:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Ort:</strong><a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Ort:</strong>{{ activity.place }}
+  {% endif %}
+  <strong>Teilnehmer:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+<p>Eine Frage? Sie können uns gerne anrufen <strong>{{ acp.activity_phone }}</strong> oder einfach auf diese Email antworten.</p>
+
+<p>Melden Sie sich auf Ihrer Mitgliederseite für andere Aktivitäten an.</p>
+
+{% button member.activities_url %}
+  Zugang zu meiner Mitgliederseite
+{% endbutton %}

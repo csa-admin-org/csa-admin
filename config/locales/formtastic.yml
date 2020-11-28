@@ -131,8 +131,8 @@ _:
         _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.O
         _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
       liquid_data_preview:
-        _de: Diese Datenstruktur wird als Beispiel gezeigt und wird halbzufällig generiert, Sie können ihre Werte nach Bedarf ändern.
-        _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté.
+        _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
+        _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
       mail_template:
         active:
           _de: Diese Email wird nicht standardmäßig gesendet, bitte ändern Sie ihren Inhalt vor der Aktivierung.

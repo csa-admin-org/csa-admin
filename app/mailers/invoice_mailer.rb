@@ -2,8 +2,8 @@ class InvoiceMailer < ApplicationMailer
   include Templatable
 
   def created_email
-    member = params[:member]
     invoice = params[:invoice]
+    member = invoice.member
     attach_invoice_pdf!
     template_mail(member,
       'member' => Liquid::MemberDrop.new(member),
@@ -11,8 +11,8 @@ class InvoiceMailer < ApplicationMailer
   end
 
   def overdue_notice_email
-    member = params[:member]
     invoice = params[:invoice]
+    member = invoice.member
     attach_invoice_pdf!
     template_mail(member,
       'member' => Liquid::MemberDrop.new(member),
