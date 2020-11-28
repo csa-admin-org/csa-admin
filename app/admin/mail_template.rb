@@ -28,7 +28,7 @@ ActiveAdmin.register MailTemplate do
   index download_links: false do
     column :title, ->(mt) { link_to mt.display_name, mt }, sortable: false
     column :description
-    column :active
+    column :active, sortable: false
     actions
   end
 

@@ -11,6 +11,14 @@ class Liquid::MembershipDrop < Liquid::Drop
     I18n.l(@membership.ended_on)
   end
 
+  def first_delivery
+    Liquid::DeliveryDrop.new(@membership.deliveries.first)
+  end
+
+  def last_delivery
+    Liquid::DeliveryDrop.new(@membership.deliveries.last)
+  end
+
   def trial_baskets_count
     @membership.remaning_trial_baskets_count
   end

@@ -15,6 +15,7 @@ class ActivityMailer < ApplicationMailer
     activity_participation = params[:activity_participation]
     activity = activity_participation.activity
     member = activity_participation.member
+    @subject_class = 'notice'
     template_mail(member,
       'member' => Liquid::MemberDrop.new(member),
       'activity' => Liquid::ActivityDrop.new(activity),
@@ -25,6 +26,7 @@ class ActivityMailer < ApplicationMailer
     activity_participation = params[:activity_participation]
     activity = activity_participation.activity
     member = activity_participation.member
+    @subject_class = 'alert'
     template_mail(member,
       'member' => Liquid::MemberDrop.new(member),
       'activity' => Liquid::ActivityDrop.new(activity),

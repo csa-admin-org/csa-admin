@@ -39,6 +39,12 @@ describe Liquid::DataPreview do
         },
         'end_date' => '31 décembre 2020',
         'start_date' => '24 mars 2020',
+        'first_delivery' => {
+          'date' => '24 mars 2020'
+        },
+        'last_delivery' => {
+          'date' => '6 octobre 2020'
+        },
         'trial_baskets_count' => 4
       }
     })
@@ -105,6 +111,12 @@ describe Liquid::DataPreview do
         },
         'end_date' => '31 décembre 2020',
         'start_date' => '24 mars 2020',
+        'first_delivery' => {
+          'date' => '24 mars 2020'
+        },
+        'last_delivery' => {
+          'date' => '6 octobre 2020'
+        },
         'trial_baskets_count' => 4
       }
     })
