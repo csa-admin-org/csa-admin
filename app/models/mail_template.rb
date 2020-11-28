@@ -169,7 +169,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def set_defaults
-    self.active = always_active? if new_record?
+    self.active = always_active? if new_record? && !active
     self.subjects = default_subjects
     self.contents = default_contents
   end
