@@ -183,7 +183,7 @@ describe ActivityParticipation do
       activity = create(:activity, date: 2.weeks.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 23.hour.ago,
+        created_at: 5.days.ago,
         latest_reminder_sent_at: nil)
       expect(participation).not_to be_reminderable
     end
@@ -201,7 +201,7 @@ describe ActivityParticipation do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 1.day.ago,
+        created_at: 6.days.ago,
         latest_reminder_sent_at: nil)
       expect(participation).to be_reminderable
     end

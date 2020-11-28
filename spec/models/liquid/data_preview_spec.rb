@@ -11,10 +11,18 @@ describe Liquid::DataPreview do
     end
 
     expect(data).to eq({
+      'acp' => {
+        'activity_phone' => '+41 77 447 26 16',
+        'email' => 'info@ragedevert.ch',
+        'name'=> 'Rage de Vert',
+        'phone'=> '+41 77 447 26 16',
+        'url' => 'https://www.ragedevert.ch'
+      },
       'member' =>  {
         'name' => 'John Doe',
         'page_url' => 'https://membres.ragedevert.ch',
-        'billing_url' => 'https://membres.ragedevert.ch/billing'
+        'billing_url' => 'https://membres.ragedevert.ch/billing',
+        'activities_url' => 'https://membres.ragedevert.ch/activities'
       },
       'membership' => {
         'activity_participations_demanded_count' => 2,
@@ -42,10 +50,18 @@ describe Liquid::DataPreview do
     end
 
     expect(data).to eq({
+      'acp' => {
+        'activity_phone' => '+41 77 447 26 16',
+        'email' => 'info@ragedevert.ch',
+        'name'=> 'Rage de Vert',
+        'phone'=> '+41 77 447 26 16',
+        'url' => 'https://www.ragedevert.ch'
+      },
       'member' =>  {
         'name' => 'John Doe',
         'page_url' => 'https://membres.ragedevert.ch',
-        'billing_url' => 'https://membres.ragedevert.ch/billing'
+        'billing_url' => 'https://membres.ragedevert.ch/billing',
+        'activities_url' => 'https://membres.ragedevert.ch/activities'
       },
       'waiting_list_position' => 1
     })

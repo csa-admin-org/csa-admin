@@ -33,6 +33,7 @@ class InvoiceMailerPreview < ActionMailer::Preview
 
   def invoice(**extra)
     OpenStruct.new({
+      member: member,
       id: 42,
       date: Date.today,
       state: 'open',

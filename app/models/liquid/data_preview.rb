@@ -14,6 +14,7 @@ class Liquid::DataPreview
 
   def data
     params = @mailer_preview.send("#{@email_method}_params")
+    params[:acp] = Current.acp
     params.map { |key, object|
       drop_class = "liquid/#{key}_drop".classify
       if Object.const_defined?(drop_class)

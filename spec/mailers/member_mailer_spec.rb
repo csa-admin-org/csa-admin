@@ -11,7 +11,6 @@ describe MemberMailer do
     mail = MemberMailer.with(
       template: template,
       member: member,
-      membership: membership,
     ).activated_email
 
     expect(mail.subject).to eq('Bienvenue!')

@@ -12,7 +12,6 @@ describe InvoiceMailer do
 
     mail = InvoiceMailer.with(
       template: template,
-      member: member,
       invoice: invoice,
     ).created_email
 
@@ -42,7 +41,6 @@ describe InvoiceMailer do
 
     mail = InvoiceMailer.with(
       template: template,
-      member: member,
       invoice: invoice,
     ).overdue_notice_email
 
