@@ -15,120 +15,111 @@ _:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
         activity_price:
-          _de: Leer lassen, wenn die fehlende Teilnahme nicht berechnet wird
-          _fr: Laisser à zéro si le manque de participation n'est pas facturé
+          _de: Leer lassen, wenn die fehlende Teilnahme nicht berechnet wird.
+          _fr: Laisser à zéro si le manque de participation n'est pas facturé.
         annual_fee:
-          _de: Leer lassen bei Null, wenn kein jährlicher Beitrag
-          _fr: Laisser vide si aucune cotisation anuelle
+          _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
+          _fr: Laisser vide si aucune cotisation anuelle.
         ccp:
-          _de: Leer lassen, wenn QR-Rechnungen verwendet werden
-          _fr: Laisser vide si les factures QR sont utilisées
-        email_footer:
-          _de: Erscheint in der Fußzeile jeder E-Mail, die im Postmark-Layout definiert ist
-          _fr: Apparait dans le bas de page de chaque email définis dans le layout de Postmark
+          _de: Leer lassen, wenn QR-Rechnungen verwendet werden.
+          _fr: Laisser vide si les factures QR sont utilisées.
         group_buying_invoice_info:
-          _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann
-          _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable
+          _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann.
+          _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable.
         membership_extra_text:
-          _de: Dieser Text wird dem Registrierungsformular hinzugefügt (unterstütztes HTML)
-          _fr: Ce texte est rajouté au formulaire d'inscription (HTML supporté)
-        notification_member_activated:
-          _de: 'Email, die dem Mitglied zugeschickt wird, sobald es aktiv wird, d.h. sobald sein erstes Abonnement (aktuell oder zukünftig) erstellt wird. Alias der Postmark-Vorlage: "member-activated"'
-          _fr: 'Email envoyé au membre quand il devient actif, soit dès que son premier abonnement (en cours ou futur) est créé. Alias du template Postmark: "member-activated"'
-        notification_member_validated:
-          _de: 'Email, die an das Mitglied gesendet wird, wenn sie von einem Admin validiert wird. Alias der Postmark-Vorlage: "member-validated"'
-          _fr: 'Email envoyé au membre quand il est validé par un admin. Alias du template Postmark: "member-validated"'
+          _de: Dieser Text wird dem Registrierungsformular hinzugefügt.
+          _fr: Ce texte est rajouté au formulaire d'inscription.
         open_renewal_reminder_sent_after_in_days:
           _de: Die Mahnung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Lassen Sie das Feld leer, wenn keine Mahnung erfolgt.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.
         open_renewal_text:
-          _de: Text, der beim Antrag auf Erneuerung auf der Mitgliederseite angezeigt wird
-          _fr: Texte affiché sur la page de membre lors de la demande de renouvellement
+          _de: Text, der auf der Mitgliederseite oberhalb des Verlängerungsantragsformulars angezeigt wird.
+          _fr: Texte affiché sur la page de membre au-dessus du formulaire de demande du renouvellement.
         qr_iban:
-          _de: Leer lassen, wenn ESR-Rechnungen verwendet werden
-          _fr: Laisser vide si les factures BVR sont utilisées
+          _de: Leer lassen, wenn ESR-Rechnungen verwendet werden.
+          _fr: Laisser vide si les factures BVR sont utilisées.
         recurring_billing_wday:
           _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
           _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
         share_price:
-          _de: Leer lassen, wenn kein Anteilschein
-          _fr: Laisser vide si pas de part sociale
+          _de: Leer lassen, wenn kein Anteilschein.
+          _fr: Laisser vide si pas de part sociale.
       activity:
         description:
-          _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut'
-          _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien'
+          _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut.'
+          _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien.'
         participants_limit:
-          _de: Leer lassen, wenn keine Grenze
-          _fr: Laisser vide si aucune limite
+          _de: Leer lassen, wenn keine Grenze.
+          _fr: Laisser vide si aucune limite.
         place_url:
-          _de: Google Maps oder anderes
-          _fr: Google Maps ou autre
+          _de: Google Maps oder anderes.
+          _fr: Google Maps ou autre.
       activity_preset:
         place_url:
-          _de: Google Maps oder anderes
-          _fr: Google Maps ou autre
+          _de: Google Maps oder anderes.
+          _fr: Google Maps ou autre.
       admin_password:
-        _de: Leer lassen wenn unverändert
-        _fr: Laisser vide si inchangé
+        _de: Leer lassen wenn unverändert.
+        _fr: Laisser vide si inchangé.
       basket:
         basket_price:
-          _de: Leer lassen für den Standardpreis
-          _fr: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
         depot_price:
-          _de: Leer lassen für den Standardpreis
-          _fr: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
       basket_complement:
         current_deliveries:
-          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert
-          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
+          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
+          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
         future_deliveries:
-          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert
-          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement
+          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
+          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
         visible:
-          _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung'
-          _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription
+          _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
+          _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
       baskets_basket_complement:
         price:
-          _de: Leer lassen für den Standardpreis
-          _fr: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
       delivery:
         basket_complements:
-          _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert
-          _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement
+          _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert.
+          _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement.
         depots:
-          _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt
-          _fr: Les paniers des dépots seront automatiquement effacés ou créés en cas de changement
+          _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
+          _fr: Les paniers des dépots seront automatiquement effacés ou créés en cas de changement.
       depot:
         current_deliveries:
-          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt
-          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement
+          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
+          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement.
         emails:
-          _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier
+          _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
+          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
         form_name:
-          _de: Wenn vorhanden, ersetzt er den Namen des Repositories im Registrierungsformular
-          _fr: Si présent, remplace le nom du dépôt dans le formulaire d'inscription
+          _de: Wenn vorhanden, ersetzt er den Namen des Repositories im Registrierungsformular.
+          _fr: Si présent, remplace le nom du dépôt dans le formulaire d'inscription.
         form_priority:
-          _de: Ermöglicht es Ihnen, die Einlagen in einer bestimmten Reihenfolge zu sortieren
-          _fr: Permet de trier les dépôts dans un ordre spécifique
+          _de: Ermöglicht es Ihnen, die Einlagen in einer bestimmten Reihenfolge zu sortieren.
+          _fr: Permet de trier les dépôts dans un ordre spécifique.
         future_deliveries:
-          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt
-          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement
+          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
+          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement.
         phones:
-          _de: Durch Komma getrennt
-          _fr: Séparés par une virgule
+          _de: Durch Komma getrennt.
+          _fr: Séparés par une virgule.
         price:
-          _de: Preis für die Abpackung und/oder Lieferung einer Tasche
-          _fr: Prix pour la préparation et/ou livraison d'un panier
+          _de: Preis für die Abpackung und/oder Lieferung einer Tasche.
+          _fr: Prix pour la préparation et/ou livraison d'un panier.
         visible:
-          _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung'
-          _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription
+          _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung.'
+          _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
       group_buying/delivery:
         depot_ids:
-          _de: Lassen Sie alles ungeprüft, wenn alle Mitglieder Zugang zur Lieferung haben
-          _fr: Laisser tout décoché si tous les membres ont accès à la livraison
+          _de: Lassen Sie alles ungeprüft, wenn alle Mitglieder Zugang zur Lieferung haben.
+          _fr: Laisser tout décoché si tous les membres ont accès à la livraison.
       liquid:
-        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.O
+        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
         _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
       liquid_data_preview:
         _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
@@ -142,48 +133,48 @@ _:
           _fr: Cet email est obligatoire et ne peut pas être désactivé.
       member:
         delivery_address:
-          _de: Leer lassen, wenn gleich
-          _fr: Laisser vide si identique
+          _de: Leer lassen, wenn gleich.
+          _fr: Laisser vide si identique.
         delivery_city:
-          _de: Leer lassen, wenn gleich
-          _fr: Laisser vide si identique
+          _de: Leer lassen, wenn gleich.
+          _fr: Laisser vide si identique.
         delivery_zip:
-          _de: Leer lassen, wenn gleich
-          _fr: Laisser vide si identique
+          _de: Leer lassen, wenn gleich.
+          _fr: Laisser vide si identique.
         emails:
-          _de: Durch Komma getrennt
-          _fr: Séparés par une virgule
+          _de: Durch Komma getrennt.
+          _fr: Séparés par une virgule.
         existing_acp_shares_number:
-          _de: Nützlich, wenn einige Anteilschein außerhalb des Systems fakturiert wurden
-          _fr: Utile si certaines parts sociales ont été facturées en dehors du système
+          _de: Nützlich, wenn einige Anteilschein außerhalb des Systems fakturiert wurden.
+          _fr: Utile si certaines parts sociales ont été facturées en dehors du système.
         phones:
-          _de: Durch Komma getrennt
-          _fr: Séparés par une virgule
+          _de: Durch Komma getrennt.
+          _fr: Séparés par une virgule.
       membership:
         activity_participations_annual_price_change:
-          _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen
-          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non
+          _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
+          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
         activity_participations_demanded_annualy:
-          _de: Leer lassen für die Standaranzahl
-          _fr: Laisser blanc pour le nombre par défaut
+          _de: Leer lassen für die Standaranzahl.
+          _fr: Laisser blanc pour le nombre par défaut.
         basket_complements_annual_price_change:
-          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen/Zusätze
-          _fr: Modifie le montant final, peu importe le nombre de paniers/compléments
+          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen/Zusätze.
+          _fr: Modifie le montant final, peu importe le nombre de paniers/compléments.
         basket_price:
-          _de: Leer lassen für den Standardpreis
-          _fr: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
         baskets_annual_price_change:
-          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen
-          _fr: Modifie le montant final, peu importe le nombre de paniers
+          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen.
+          _fr: Modifie le montant final, peu importe le nombre de paniers.
         depot_price:
-          _de: Leer lassen für den Standardpreis
-          _fr: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
         price:
-          _de: Leer lassen für den Standardpreis
-          _fr: Laisser blanc pour le prix par défaut
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
         seasons:
-          _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt
-          _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro
+          _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt.
+          _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.
     inputs:
       period:
         _de: Zeitplan

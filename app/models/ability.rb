@@ -5,6 +5,7 @@ class Ability
     if admin.right? 'readonly'
       can :manage, Admin, id: admin.id
       can :read, available_models
+      can :read, MailTemplate
       can :pdf, Invoice
     end
     if admin.right? 'standard'
@@ -39,12 +40,9 @@ class Ability
       can :cancel, Invoice, can_cancel?: true
     end
     if admin.right? 'superadmin'
-      can :manage, [Basket, BasketSize, BasketComplement, Depot, Admin, ACP]
-      can :manage, [Membership, Payment]
+      can :manage, [Basket, BasketSize, BasketComplement,
+                    Depot, Admin, ACP, Membership, Payment, MailTemplate]
       can :become, Member
-    end
-    if admin.email == 'thibaud@thibaud.gg'
-      can :manage, MailTemplate
     end
     cannot :destroy, [BasketSize, BasketComplement, Depot]
   end

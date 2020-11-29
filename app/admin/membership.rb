@@ -73,7 +73,7 @@ ActiveAdmin.register Membership do
     else
       span do
         ul do
-          if Current.acp.feature_flag?(:open_renewal)
+          if MailTemplate.active_template(:membership_renewal)
             li do
               renewal_opened_count = renewal.opened.count
               t('.opened_renewals',
@@ -113,7 +113,7 @@ ActiveAdmin.register Membership do
           elsif renewal.opening?
             span { t('.opening') }
           else
-            if Current.acp.feature_flag?(:open_renewal) && authorized?(:open_renewal_all, Membership)
+            if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
               openable_count = renewal.openable.count
               if openable_count.positive?
                 div do
@@ -276,7 +276,7 @@ ActiveAdmin.register Membership do
             else
               div class: 'buttons-inline' do
                 if Delivery.any_next_year?
-                  if Current.acp.feature_flag?(:open_renewal) && authorized?(:open_renewal, m)
+                  if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                     div class: 'button-inline' do
                       link_to t('.open_renewal'), open_renewal_membership_path(m),
                         data: { confirm: t('.confirm') },

@@ -25,24 +25,26 @@ describe Invoice do
     expect(invoice.pdf_file.byte_size).to be_positive
   end
 
-  it 'sends email when send_email is true on creation' do
-    expect { create(:invoice, :annual_fee, :unprocessed) }
-      .not_to change { email_adapter.deliveries.size }
+  context 'with mail template' do
+    before { MailTemplate.create! title: :invoice_created }
 
-    expect { create(:invoice, :annual_fee, :unprocessed, send_email: true) }
-      .to change { email_adapter.deliveries.size }.by(1)
-  end
+    it 'sends email when send_email is true on creation' do
+      expect { create(:invoice, :annual_fee, :unprocessed) }
+        .not_to change { InvoiceMailer.deliveries.size }
 
-  it 'closes invoice before sending email' do
-    member = create(:member, annual_fee: 42)
-    create(:payment, amount: 100, member: member)
+      expect { create(:invoice, :annual_fee, :unprocessed, send_email: true) }
+        .to change { InvoiceMailer.deliveries.size }.by(1)
+    end
 
-    invoice = create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
+    it 'closes invoice before sending email' do
+      member = create(:member, annual_fee: 42)
+      create(:payment, amount: 100, member: member)
+      invoice = create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
 
-    expect(email_adapter.deliveries.last).to match(hash_including(
-      template: 'member-invoice-new',
-      template_data: hash_including(invoice_paid: true)
-    ))
+      mail = InvoiceMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
+      expect(mail.html_part.body).to include 'cette facture est considérée comme payée'
+    end
   end
 
   it 'updates membership activity_participations_accepted' do
@@ -157,13 +159,14 @@ describe Invoice do
   end
 
   describe '#send!' do
+    before { MailTemplate.create! title: :invoice_created }
     let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
     it 'delivers email' do
       expect { invoice.send! }
-        .to change { email_adapter.deliveries.size }.by(1)
-      expect(email_adapter.deliveries.first).to match(hash_including(
-        template: 'member-invoice-new'))
+        .to change { InvoiceMailer.deliveries.size }.by(1)
+      mail = InvoiceMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
     end
 
     it 'touches sent_at' do
@@ -177,23 +180,24 @@ describe Invoice do
     it 'does nothing when already sent' do
       invoice.touch(:sent_at)
       expect { invoice.send! }
-        .not_to change { email_adapter.deliveries.size }
+        .not_to change { InvoiceMailer.deliveries.size }
     end
 
     it 'does nothing when member has no email' do
       invoice.member.update(emails: '')
       expect { invoice.send! }
-        .not_to change { email_adapter.deliveries.size }
+        .not_to change { InvoiceMailer.deliveries.size }
       expect(invoice.reload.sent_at).to be_nil
     end
   end
 
   describe '#mark_as_sent!' do
+    before { MailTemplate.create! title: :invoice_created }
     let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
     it 'does not deliver email' do
       expect { invoice.mark_as_sent! }
-        .not_to change { email_adapter.deliveries.size }
+        .not_to change { InvoiceMailer.deliveries.size }
     end
 
     it 'touches sent_at' do
@@ -311,7 +315,7 @@ describe Invoice do
 
       expect { invoice.send_overpaid_notification_to_admins! }
         .not_to change { invoice.reload.overpaid_notification_sent_at }
-      expect(email_adapter.deliveries.size).to be_zero
+      expect(AdminMailer.deliveries.size).to be_zero
     end
 
     specify 'when already notified' do

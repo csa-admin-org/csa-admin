@@ -22,17 +22,18 @@ describe Billing::MembershipACPShare do
   end
 
   it 'sends emails directly when the send_email attribute is set', freeze: '01-06-2018' do
+    MailTemplate.create!(title: :invoice_created)
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
+    invoice = nil
 
-    invoice!(member, send_email: true)
+    expect {
+      invoice = invoice!(member, send_email: true)
+    }.to change { InvoiceMailer.deliveries.size }.by(1)
 
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      to: member.emails,
-      template: 'member-invoice-new',
-      template_data: hash_including(invoice_amount: 'CHF 750.00')
-    ))
+    mail = InvoiceMailer.deliveries.last
+    expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
   end
 
   it 'creates invoice when ACP shares already partially billed', freeze: '01-06-2018' do

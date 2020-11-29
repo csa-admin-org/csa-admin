@@ -7,10 +7,9 @@ describe 'Mail Templates' do
   end
 
   specify 'modify and preview' do
-    create(:membership,
-      basket_size: create(:basket_size, id: 33, name: 'Eveil'))
-
     mail_template = travel_to('2020-03-24') do
+      create(:membership,
+        basket_size: create(:basket_size, id: 33, name: 'Eveil'))
       MailTemplate.create!(title: 'member_activated')
     end
 
@@ -19,7 +18,7 @@ describe 'Mail Templates' do
     visit mail_template_path(mail_template)
     click_link 'Modifier'
 
-    check 'Actif'
+    check 'Envoyé'
     fill_in 'Sujet', with: 'Bienvenue {{ member.name }}!'
     fill_in 'Contenu', with: '<p>Panier: {{ membership.basket_size.name }}</p>'
     click_button 'Prévisualiser les modifications'
@@ -36,7 +35,7 @@ describe 'Mail Templates' do
     click_link 'Membre activé'
 
     expect(page).to have_selector 'h2#page_title', text: 'Membre activé'
-    expect(page).to have_content('Actif Oui')
+    expect(page).to have_content('Envoyé Oui')
     expect(iframe).to have_selector 'h1', text: 'Bienvenue Jane Doe!'
     expect(iframe).to have_selector 'p', text: 'Panier: Eveil'
   end

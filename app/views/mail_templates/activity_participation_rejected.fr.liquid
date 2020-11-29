@@ -8,7 +8,7 @@
   <strong>Description:</strong> {{ activity.description }}
   {% endif %}
   {% if activity.place_url %}
-  <strong>Lieu:</strong><a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  <strong>Lieu:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
   {% elsif activity.place %}
   <strong>Lieu:</strong> {{ activity.place }}
   {% endif %}

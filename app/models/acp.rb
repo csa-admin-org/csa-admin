@@ -8,13 +8,12 @@ class ACP < ActiveRecord::Base
     basket_content
     group_buying
   ]
-  FEATURE_FLAGS = %w[open_renewal]
+  FEATURE_FLAGS = %w[]
   LANGUAGES = %w[fr de]
   SEASONS = %w[summer winter]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
-  OPTIONAL_EMAIL_NOTIFICATIONS = %w[member_validated member_activated]
 
   attr_writer :summer_month_range_min, :summer_month_range_max
 
@@ -24,7 +23,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :membership_extra_text
   translated_attributes :group_buying_terms_of_service_url
   translated_attributes :group_buying_invoice_info
-  translated_attributes :email_signature #, :email_footer
+  translated_attributes :email_signature, :email_footer
   translated_rich_texts :open_renewal_text
 
   validates :name, presence: true
@@ -34,7 +33,6 @@ class ACP < ActiveRecord::Base
   validates :email, presence: true
   validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email_default_from, presence: true, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
-  validates :email_footer, presence: true
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
   validates :ccp, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/, allow_blank: true }
   validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
@@ -212,21 +210,6 @@ class ACP < ActiveRecord::Base
 
   def group_buying_email
     self[:group_buying_email] || email
-  end
-
-  OPTIONAL_EMAIL_NOTIFICATIONS.each do |notification|
-    define_method "notification_#{notification}" do
-      notification.in? email_notifications
-    end
-
-    define_method "notification_#{notification}=" do |boolean|
-      if ActiveRecord::Type::Boolean.new.cast(boolean)
-        self.email_notifications << notification
-        self.email_notifications.uniq!
-      else
-        self.email_notifications.delete(notification)
-      end
-    end
   end
 
   def create_tenant

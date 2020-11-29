@@ -96,18 +96,12 @@ _:
         membership_extra_text:
           _de: Zusätzlicher Text über Abonnements
           _fr: Texte supplémentaire à propos des abonnements
-        notification_member_activated:
-          _de: Mitglied wird aktiv
-          _fr: Membre devient actif
-        notification_member_validated:
-          _de: Mitglied ist validiert
-          _fr: Membre est validé
         open_renewal_reminder_sent_after_in_days:
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _fr: Envoyer un rappel après (en jours)
         open_renewal_text:
-          _de: Antrag auf Erneuerung
-          _fr: Demande de renouvellement
+          _de: Erläuterung
+          _fr: Explication
         phone:
           _de: Telefon
           _fr: Téléphone
@@ -358,8 +352,8 @@ _:
           _fr: Montant
       mail_template:
         active:
-          _de: Aktive
-          _fr: Actif
+          _de: Gesendet
+          _fr: Envoyé
         content:
           _de: Inhalt
           _fr: Contenu

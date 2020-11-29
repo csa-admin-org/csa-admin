@@ -59,6 +59,7 @@ describe GroupBuying::Order do
   end
 
   it 'creates an invoice and send it' do
+    MailTemplate.create!(title: :invoice_created)
     product = create(:group_buying_product,
       name: "Caisse d'orange (1KG)",
       price: 120.45)
@@ -78,14 +79,8 @@ describe GroupBuying::Order do
     expect(invoice.state).to eq 'open'
     expect(order.state).to eq 'open'
 
-    expect(email_adapter.deliveries.size).to eq 1
-    expect(email_adapter.deliveries.first).to match(hash_including(
-      template: 'member-invoice-new',
-      template_data: hash_including(
-        invoice_number: invoice.id,
-        invoice_amount: 'CHF 240.90',
-        overdue_notices_count: 0,
-        group_buying_order: true
-      )))
+    expect(InvoiceMailer.deliveries.size).to eq 1
+    mail = InvoiceMailer.deliveries.last
+    expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
   end
 end

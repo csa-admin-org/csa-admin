@@ -21,7 +21,6 @@ ActiveAdmin.register ACP do
     :group_buying_email,
     :recurring_billing_wday, :currency_code,
     :open_renewal_reminder_sent_after_in_days,
-    *ACP::OPTIONAL_EMAIL_NOTIFICATIONS.map { |n| "notification_#{n}".to_sym },
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -41,7 +40,6 @@ ActiveAdmin.register ACP do
     f.inputs t('.details') do
       f.input :name
       f.input :url
-      f.input :logo_url, hint: '300x300px (CDN 🙏)'
       f.input :email, as: :email
       f.input :phone, as: :phone
     end
@@ -58,13 +56,14 @@ ActiveAdmin.register ACP do
     end
     f.inputs Membership.model_name.human(count: 2), id: 'membership' do
       f.input :trial_basket_count
-      if Current.acp.feature_flag?(:open_renewal)
-        translated_input(f, :open_renewal_texts,
-          as: :action_text,
-          required: false,
-          hint: t('formtastic.hints.acp.open_renewal_text'))
-        f.input :open_renewal_reminder_sent_after_in_days
-      end
+    end
+    f.inputs t('.membership_renewal'), id: 'membership_renewal' do
+      para t('.membership_renewal_text_html'), class: 'description'
+      translated_input(f, :open_renewal_texts,
+        as: :action_text,
+        required: false,
+        hint: t('formtastic.hints.acp.open_renewal_text'))
+      f.input :open_renewal_reminder_sent_after_in_days
     end
     f.inputs t('.seasons') do
       f.input :summer_month_range_min,
@@ -146,31 +145,20 @@ ActiveAdmin.register ACP do
       translated_input(f, :membership_extra_texts,
         hint: t('formtastic.hints.acp.membership_extra_text'),
         required: false,
-        as: :text,
+        as: :action_text,
         input_html: { rows: 5 })
     end
     f.inputs t('.mailer'), id: 'mail' do
-      para t('.mailer_text',
-        postmark_templates_url: postmark_url('templates'),
-        postmark_url: postmark_url).html_safe, class: 'description'
+      para t('.mailer_text_html'), class: 'description'
       f.input :email_default_from, as: :string
-      if current_admin.email == 'thibaud@thibaud.gg'
-        translated_input(f, :email_signatures,
-          as: :text,
-          required: true,
-          input_html: { rows: 2 })
-        # translated_input(f, :email_footers,
-        #   as: :text,
-        #   required: true,
-        #   input_html: { rows: 2 })
-      end
-      # TODO: Replace by email_footers
-      f.input :email_footer, as: :string
-
-      para t('.mailer_email_notifications', postmark_templates_url: postmark_url('templates')).html_safe, class: 'description email_notifications'
-      ACP::OPTIONAL_EMAIL_NOTIFICATIONS.each do |notification|
-        f.input "notification_#{notification}", as: :boolean, hint: true
-      end
+      translated_input(f, :email_signatures,
+        as: :text,
+        required: true,
+        input_html: { rows: 2 })
+      translated_input(f, :email_footers,
+        as: :text,
+        required: true,
+        input_html: { rows: 2 })
     end
 
     f.actions do
