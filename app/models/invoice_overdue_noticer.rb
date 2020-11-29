@@ -17,7 +17,7 @@ class InvoiceOverdueNoticer
     invoice.overdue_notice_sent_at = Time.current
     invoice.save!
 
-    Email.deliver_now(:member_invoice_overdue_notice, invoice)
+    MailTemplate.deliver_now(:invoice_overdue_notice, invoice: invoice)
   rescue => ex
     ExceptionNotifier.notify(ex,
       invoice_id: invoice.id,

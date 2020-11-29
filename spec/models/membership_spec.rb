@@ -648,7 +648,8 @@ describe Membership do
   end
 
   describe '#open_renewal!' do
-    before { Current.acp.update!(feature_flags: %w[open_renewal]) }
+    before { MailTemplate.create! title: :membership_renewal, active: true }
+
     it 'requires future deliveries to be present' do
       membership = create(:membership)
 
@@ -676,16 +677,15 @@ describe Membership do
 
       expect {
         membership.open_renewal!
-      }.to change { email_adapter.deliveries.size }.by(1)
-      expect(email_adapter.deliveries.last).to match(
-        hash_including(template: 'member-renewal'))
+      }.to change { MembershipMailer.deliveries.size }.by(1)
+      mail = MembershipMailer.deliveries.last
+      expect(mail.subject).to eq 'Renouvellement de votre abonnement'
     end
   end
 
   specify '#send_renewal_reminders!' do
-    Current.acp.update!(
-      feature_flags: %w[open_renewal],
-      open_renewal_reminder_sent_after_in_days: 10)
+    Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
+    MailTemplate.create! title: :membership_renewal_reminder, active: true
     next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
     Delivery.create_all(1, next_fy.beginning_of_year)
     member = create(:member, emails: 'john@doe.com')
@@ -697,17 +697,19 @@ describe Membership do
     create(:membership, :last_year, renewal_opened_at: 10.days.ago)
 
     expect { Membership.send_renewal_reminders! }
-      .to change { email_adapter.deliveries.size }.by(1)
+      .to change { MembershipMailer.deliveries.size }.by(1)
 
-    expect(email_adapter.deliveries.last).to match(hash_including(
-      to: 'john@doe.com',
-      template: 'member-renewal-reminder'))
+    mail = MembershipMailer.deliveries.last
+    expect(mail.subject).to eq 'Renouvellement de votre abonnement (Rappel)'
+    expect(mail.to).to eq ['john@doe.com']
   end
 
   describe '#send_renewal_reminder!' do
-    before { Current.acp.update!(
-      feature_flags: %w[open_renewal],
-      open_renewal_reminder_sent_after_in_days: 1) }
+    before {
+      Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
+      MailTemplate.create! title: :membership_renewal, active: true
+      MailTemplate.create! title: :membership_renewal_reminder, active: true
+    }
 
     it 'requires acp.open_renewal_reminder_sent_after_in_days to be set' do
       Current.acp.update!(open_renewal_reminder_sent_after_in_days: nil)
@@ -743,13 +745,12 @@ describe Membership do
       Delivery.create_all(1, next_fy.beginning_of_year)
       membership = create(:membership)
       membership.open_renewal!
-      email_adapter.reset!
 
       expect { membership.send_renewal_reminder! }
-        .to change { email_adapter.deliveries.size }.by(1)
+        .to change { MembershipMailer.deliveries.size }.by(1)
         .and change { membership.reload.renewal_reminder_sent_at }.from(nil)
-      expect(email_adapter.deliveries.last).to match(
-        hash_including(template: 'member-renewal-reminder'))
+      mail = MembershipMailer.deliveries.last
+      expect(mail.subject).to eq 'Renouvellement de votre abonnement (Rappel)'
     end
   end
 

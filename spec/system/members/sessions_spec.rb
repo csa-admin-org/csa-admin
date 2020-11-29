@@ -90,7 +90,7 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: 'hn@doe.com'
     click_button 'Envoyer'
 
-    expect(SessionMailer.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries).to be_empty
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
@@ -103,7 +103,7 @@ describe 'Member sessions' do
     fill_in 'Votre email', with: 'unknown@member.com'
     click_button 'Envoyer'
 
-    expect(email_adapter.deliveries.size).to eq 0
+    expect(SessionMailer.deliveries).to be_empty
 
     expect(current_path).to eq '/sessions'
     expect(page).to have_selector('p.inline-errors', text: "Email inconnu")

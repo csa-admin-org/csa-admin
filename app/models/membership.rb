@@ -166,8 +166,8 @@ class Membership < ActiveRecord::Base
   end
 
   def open_renewal!
-    unless Current.acp.feature_flag?(:open_renewal)
-      raise 'open_renewal feature flag not enabled'
+    unless MailTemplate.active_template(:membership_renewal)
+      raise 'membership_renewal mail template not active'
     end
     raise 'already renewed' if renewed?
     raise '`renew` must be true before opening renewal' unless renew?
@@ -175,7 +175,8 @@ class Membership < ActiveRecord::Base
       raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
     end
 
-    Email.deliver_later(:member_renewal, self)
+    MailTemplate.deliver_later(:membership_renewal,
+      membership: self)
     touch(:renewal_opened_at)
   end
 
@@ -196,10 +197,15 @@ class Membership < ActiveRecord::Base
     unless Current.acp.open_renewal_reminder_sent_after_in_days?
       raise 'reminder not configured'
     end
+    unless MailTemplate.active_template(:membership_renewal_reminder)
+      raise 'membership_renewal_reminder mail template not active'
+    end
     raise 'renewal not opened yet' unless renewal_opened_at?
     raise 'reminder already sent' if renewal_reminder_sent_at?
 
-    Email.deliver_now(:member_renewal_reminder, self)
+
+    MailTemplate.deliver_later(:membership_renewal_reminder,
+      membership: self)
     touch(:renewal_reminder_sent_at)
   end
 

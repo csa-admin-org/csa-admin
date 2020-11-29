@@ -342,12 +342,9 @@ _:
         mailer:
           _de: Emails
           _fr: Emails
-        mailer_email_notifications:
-          _de: Die folgenden E-Mails sind standardmäßig nicht aktiviert. <strong>Stellen Sie sicher, dass <a href="%{postmark_templates_url}">Sie ihre Vorlagen (HTML und Text) geändert haben</a>, bevor Sie sie aktivieren</strong>.
-          _fr: Les emails suivant ne sont pas activés par défaut, <strong>soyez sur d'avoir <a href="%{postmark_templates_url}">modifié leurs templates (HTML et texte)</a> avant de les activer</strong>.
-        mailer_text:
-          _de: ACP Admin verwendet <a href="%{postmark_url}">Postmark</a> zum Versenden von Transaktions-E-Mails. Die Vorlage jeder E-Mail kann leicht von Ihrem <a href="%{postmark_templates_url}">Postmark-Server</a> aus geändert werden.<br/>Bitte <a href="mailto:support@acp-admin.ch?subject=Postmark">kontaktieren Sie mich</a>, wenn Sie nicht über den notwendigen Zugang verfügen oder für andere Fragen.
-          _fr: ACP Admin utilise <a href="%{postmark_url}">Postmark</a> pour l'envoi des emails transactionels, le template de chaque email peut facilement être modifié depuis votre <a href="%{postmark_templates_url}">serveur Postmark</a>.<br/>Merci de <a href="mailto:support@acp-admin.ch?subject=Postmark">me contacter</a> si vous n'avez pas les accès nécessaires ou pour toutes autres questions.
+        mailer_text_html:
+          _de: Diese Einstellungen werden von <a href="/mail_templates">Email-Vorlagen</a> verwendet.
+          _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a>.
         member_section:
           _de: Abschnitt membres.*
           _fr: Section membres.*
@@ -357,6 +354,12 @@ _:
         membership_edit_warning:
           _de: Achtung, nach jeglicher Änderung werden alle künftige Taschen dieses Abonnements neu erstellt!
           _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
+        membership_renewal:
+          _de: Abonnement-Erneuerung
+          _fr: Renouvellement abonnements
+        membership_renewal_text_html:
+          _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
+          _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
         preview:
           _de: Vorschau
           _fr: Prévisualisation

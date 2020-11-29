@@ -8,9 +8,9 @@
   <strong>Beschreibung:</strong> {{ activity.description }}
   {% endif %}
   {% if activity.place_url %}
-  <strong>Ort:</strong><a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  <strong>Ort:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
   {% elsif activity.place %}
-  <strong>Ort:</strong>{{ activity.place }}
+  <strong>Ort:</strong> {{ activity.place }}
   {% endif %}
   <strong>Teilnehmer:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}

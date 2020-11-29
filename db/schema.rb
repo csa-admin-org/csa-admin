@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_200425) do
+ActiveRecord::Schema.define(version: 2020_11_28_115848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 2020_11_17_200425) do
     t.jsonb "statutes_urls", default: {}, null: false
     t.integer "activity_availability_limit_in_days", default: 3, null: false
     t.string "logo_url"
-    t.string "email_footer"
     t.string "activity_phone"
     t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
     t.boolean "absences_billed", default: true, null: false

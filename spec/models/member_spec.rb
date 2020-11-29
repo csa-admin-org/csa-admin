@@ -242,7 +242,7 @@ describe Member do
   end
 
   describe '#activate!' do
-    before { Current.acp.update!(notification_member_activated: '1') }
+    before { MailTemplate.create! title: :member_activated, active: true }
 
     it 'activates new active member and sent member-activated email' do
       member = create(:member, :inactive, activated_at: nil)
@@ -255,10 +255,10 @@ describe Member do
       expect { member.activate! }
         .to change(member, :state).from('inactive').to('active')
         .and change(member, :activated_at).from(nil)
-        .and change { email_adapter.deliveries.size }.by(1)
+        .and change { MemberMailer.deliveries.size }.by(1)
 
-      expect(email_adapter.deliveries.first).to match(
-        hash_including(template: 'member-activated'))
+      mail = MemberMailer.deliveries.last
+      expect(mail.subject).to eq 'Bienvenue!'
     end
 
     it 'activates previously active member' do
@@ -272,7 +272,7 @@ describe Member do
       expect { member.activate! }
         .not_to change(member, :activated_at)
 
-      expect(email_adapter.deliveries).to be_empty
+      expect(MemberMailer.deliveries).to be_empty
     end
   end
 

@@ -54,8 +54,8 @@ _:
         _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
       membership_renewal_reminder:
-        _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='https://admin.ragedevert.test/settings#membership'>die Einstellungen</a> für die Frist).
-        _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='https://admin.ragedevert.test/settings#membership'>les paramètres</a> pour le délai).
+        _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='https://admin.ragedevert.test/settings#membership_renewal'>die Einstellungen</a> für die Frist).
+        _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='https://admin.ragedevert.test/settings#membership_renewal'>les paramètres</a> pour le délai).
     title:
       activity_participation_rejected:
         _de: Abgelehnte Aktivität

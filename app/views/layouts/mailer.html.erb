@@ -50,11 +50,7 @@
                 <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <tr>
                     <td class="content-cell" align="center">
-                      <p class="f-fallback sub align-center">
-                        <%= Current.acp.email_footer %><br/>
-                        <%= t('.footer_reply') %>
-                      </p>
-                      <% # simple_format Current.acp.email_footers[I18n.locale.to_s], class: 'f-fallback sub align-center' %>
+                      <%= simple_format Current.acp.email_footer, class: 'f-fallback sub align-center' %>
 
                       <% if @admin %>
                       <p class="f-fallback sub align-center">

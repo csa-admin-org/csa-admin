@@ -11,7 +11,8 @@ namespace :activity_participations do
       grouped_participations = ActivityParticipationGroup.group(participations)
 
       grouped_participations.each do |participation|
-        Email.deliver_now(:member_activity_reminder, participation)
+        MailTemplate.deliver_now(:activity_participation_reminder,
+          activity_participation: participation)
         participation.touch(:latest_reminder_sent_at)
       end
 
@@ -31,7 +32,8 @@ namespace :activity_participations do
       ActivityParticipationGroup
         .group(validated_participations)
         .each { |participation|
-          Email.deliver_now(:member_activity_validated, participation)
+          MailTemplate.deliver_now(:activity_participation_validated,
+            activity_participation: participation)
           participation.touch(:review_sent_at)
         }
 
@@ -44,7 +46,8 @@ namespace :activity_participations do
       ActivityParticipationGroup
         .group(rejected_participations)
         .each { |participation|
-          Email.deliver_now(:member_activity_rejected, participation)
+          MailTemplate.deliver_now(:activity_participation_rejected,
+            activity_participation: participation)
           participation.touch(:review_sent_at)
         }
 

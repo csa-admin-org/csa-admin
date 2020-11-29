@@ -10,16 +10,16 @@ class MailTemplate < ApplicationRecord
     membership_renewal
     membership_renewal_reminder
   ].freeze
-  INVOICE_TITLES = %w[
-    invoice_created
-    invoice_overdue_notice
-  ].freeze
   ACTIVITY_TITLES = %w[
     activity_participation_reminder
     activity_participation_validated
     activity_participation_rejected
   ].freeze
-  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + INVOICE_TITLES + ACTIVITY_TITLES
+  INVOICE_TITLES = %w[
+    invoice_created
+    invoice_overdue_notice
+  ].freeze
+  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ACTIVITY_TITLES + INVOICE_TITLES
 
   audited_attributes :subjects, :contents
 
@@ -38,8 +38,8 @@ class MailTemplate < ApplicationRecord
   scope :inactive, -> { where(active: false) }
   scope :member, -> { where(title: MEMBER_TITLES) }
   scope :membership, -> { where(title: MEMBERSHIP_TITLES) }
-  scope :invoice, -> { where(title: INVOICE_TITLES) }
   scope :activity, -> { where(title: ACTIVITY_TITLES) }
+  scope :invoice, -> { where(title: INVOICE_TITLES) }
 
   def self.deliver_now(title, **args)
     active_template(title)&.mail(**args)&.deliver_now
@@ -175,7 +175,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def default_subjects
-    ACP.languages.reduce({}) do |h, locale|
+    Current.acp.languages.reduce({}) do |h, locale|
       h[locale] = subjects[locale] || I18n.with_locale(locale) {
         I18n.t("mail_template.default_subjects.#{title}")
       }
@@ -184,9 +184,9 @@ class MailTemplate < ApplicationRecord
   end
 
   def default_contents
-    ACP.languages.reduce({}) do |h, locale|
+    Current.acp.languages.reduce({}) do |h, locale|
       path = Rails.root.join("app/views/mail_templates/#{title}.#{locale}.liquid")
-      h[locale] ||= contents[locale] || File.read(path)
+      h[locale] = contents[locale] || File.read(path)
       h
     end
   end

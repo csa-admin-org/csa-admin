@@ -12,11 +12,15 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def first_delivery
-    Liquid::DeliveryDrop.new(@membership.deliveries.first)
+    if delivery = @membership.deliveries.first
+      Liquid::DeliveryDrop.new(delivery)
+    end
   end
 
   def last_delivery
-    Liquid::DeliveryDrop.new(@membership.deliveries.last)
+    if delivery = @membership.deliveries.last
+      Liquid::DeliveryDrop.new(delivery)
+    end
   end
 
   def trial_baskets_count
