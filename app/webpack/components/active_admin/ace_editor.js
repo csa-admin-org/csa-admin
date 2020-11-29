@@ -23,6 +23,7 @@ $(document).on('turbolinks:load', function() {
       fontSize: 14
     });
 
+    editor.renderer.setPadding(12);
     editor.getSession().setValue(textarea.val());
     textarea.closest('form').submit(function() {
       textarea.val(editor.getSession().getValue());
