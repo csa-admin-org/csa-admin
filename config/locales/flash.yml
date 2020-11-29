@@ -1,0 +1,18 @@
+_:
+  flash:
+    actions:
+      create:
+        notice:
+          _de: Erfolgreich erstellt.
+          _fr: Création effectuée avec succès.
+      destroy:
+        alert:
+          _de: Die Löschung konnte nicht abgeschlossen werden.
+          _fr: La suppression n'a pas pu effectuée.
+        notice:
+          _de: Löschung erfolgreich abgeschlossen.
+          _fr: Suppression effectuée avec succès.
+      update:
+        notice:
+          _de: Bearbeitung erfolgreich abgeschlossen.
+          _fr: Modification effectuée avec succès.
