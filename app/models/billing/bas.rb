@@ -60,9 +60,19 @@ module Billing
       elsif res.body.include?(NO_DATA_INFO_MSG)
         []
       else
-        ExceptionNotifier.notify(ESRGETIssue.new, body: res.body)
+        ExceptionNotifier.notify(ESRGETIssue.new,
+          version: get_version,
+          body: res.body)
         []
       end
+    end
+
+    def get_version
+      res = @session.post('/authen/autologin.eval',
+        FUNCTION: 'GETVERSION',
+        BANK: 'ABS',
+        LANGUAGE: 'french')
+      res.body[/<VERSION>(.*)<\/VERSION>/m, 1]
     end
 
     def init_session
