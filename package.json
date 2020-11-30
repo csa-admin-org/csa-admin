@@ -17,6 +17,7 @@
     "normalize.css": "^8.0.1",
     "prettier": "^1.19.0",
     "regenerator-runtime": "^0.13.5",
+    "throttle-debounce": "^3.0.1",
     "trix": "^1.2.3",
     "turbolinks": "^5.2.0"
   },

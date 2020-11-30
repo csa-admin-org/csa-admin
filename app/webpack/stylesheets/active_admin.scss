@@ -831,8 +831,18 @@ li.ace-editor {
   }
 }
 
+#mail_preview {
+  display: none;
+}
+
+.iframe-wrapper {
+  display: block;
+  margin: 15px;
+}
 
 iframe.mail_preview {
+  overflow:hidden;
+  min-height: 750px;
   width: 100%;
   max-width: 650px;
   display: block;

@@ -1,0 +1,7 @@
+<% Current.acp.languages.each do |locale| %>
+  var iframe = document.getElementById("mail_preview_<%= locale %>");
+  var mail_preview = `
+    <%= resource.mail_preview(locale).html_safe %>
+  `;
+  iframe.setAttribute('srcdoc', mail_preview);
+<% end %>
