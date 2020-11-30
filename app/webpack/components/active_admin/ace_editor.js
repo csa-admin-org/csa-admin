@@ -2,8 +2,20 @@ import 'ace-builds';
 import 'ace-builds/src-noconflict/mode-liquid'
 import 'ace-builds/src-noconflict/mode-yaml'
 import 'ace-builds/src-noconflict/theme-dreamweaver'
+import { debounce } from 'throttle-debounce';
+
+const updatePreview = () => {
+  var form = $('#edit_mail_template');
+  var url = form.attr('action') + '/preview.js';
+  $.ajax({
+    type: 'GET',
+    url: form.attr('action') + '/preview',
+    data: form.serialize()
+  });
+};
 
 $(document).on('turbolinks:load', function() {
+  $('#mail_preview').show();
   $('textarea.ace-editor').each(function() {
     var textarea = $(this);
     var editDiv = $('<div>').insertBefore(textarea);
@@ -25,8 +37,12 @@ $(document).on('turbolinks:load', function() {
 
     editor.renderer.setPadding(12);
     editor.getSession().setValue(textarea.val());
-    textarea.closest('form').submit(function() {
+    editor.getSession().on('change', debounce(1000, function() {
       textarea.val(editor.getSession().getValue());
-    })
+      updatePreview();
+    }));
   });
+  $('input.mail_template_subject').on('input', debounce(1000, function() {
+    updatePreview();
+  }));
 });

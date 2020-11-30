@@ -41,7 +41,21 @@ ActiveAdmin.register MailTemplate do
         end
       end
     end
-    mails_previews(self, mail_template)
+    columns do
+      Current.acp.languages.each do |locale|
+        column do
+          title = t('.preview')
+          title += " (#{I18n.t("languages.#{locale}")})" if Current.acp.languages.many?
+          panel title do
+            iframe(
+              srcdoc: mail_template.mail_preview(locale),
+              scrolling: 'no',
+              class: 'mail_preview',
+              id: "mail_preview_#{locale}")
+          end
+        end
+      end
+    end
   end
 
   permit_params \
@@ -52,55 +66,58 @@ ActiveAdmin.register MailTemplate do
 
   form do |f|
     mail_template = f.object
-    if mail_template.errors.none? && params.key?(:preview)
-      mails_previews(self, mail_template)
-      f.input :active, as: :hidden
-      translated_input(f, :subjects, as: :hidden)
-      translated_input(f, :contents, as: :hidden)
-      translated_input(f, :liquid_data_preview_yamls, as: :hidden)
-      f.actions do
-        f.action :submit, label: t('.submit.preview_save')
-        f.action :submit,
-          label: t('.submit.preview_edit'),
-          button_html: { class: 'cancel', name: 'edit' }
-      end
-    else
-      f.inputs t('.settings') do
-        if mail_template.always_active?
-          f.input :active,
-            input_html: { disabled: true },
-            hint: t('formtastic.hints.mail_template.always_active')
-        else
-          f.input :active, hint: true
-        end
-      end
-      f.inputs do
-        translated_input(f, :subjects,
-          hint: t('formtastic.hints.liquid').html_safe)
-        translated_input(f, :contents,
-          as: :text,
-          hint: t('formtastic.hints.liquid').html_safe,
-          wrapper_html: { class: 'ace-editor' },
-          input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
-      end
-      f.inputs do
-        translated_input(f, :liquid_data_preview_yamls,
-          as: :text,
-          hint: t('formtastic.hints.liquid_data_preview'),
-          wrapper_html: { class: 'ace-editor' },
-          input_html: { class: 'ace-editor', data: { mode: 'yaml' } })
-      end
-      f.actions do
-        f.action :submit,
-          label: t('.submit.preview'),
-          button_html: { name: 'preview' }
-        cancel_link
+    f.inputs t('.settings') do
+      if mail_template.always_active?
+        f.input :active,
+          input_html: { disabled: true },
+          hint: t('formtastic.hints.mail_template.always_active')
+      else
+        f.input :active, hint: true
       end
     end
+    f.inputs do
+      translated_input(f, :subjects,
+        hint: t('formtastic.hints.liquid').html_safe)
+      translated_input(f, :contents,
+        as: :text,
+        hint: t('formtastic.hints.liquid').html_safe,
+        wrapper_html: { class: 'ace-editor' },
+        input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+    end
+    columns id: 'mail_preview' do
+      Current.acp.languages.each do |locale|
+        column do
+          title = t('.preview')
+          title += " (#{I18n.t("languages.#{locale}")})" if Current.acp.languages.many?
+          f.inputs title do
+            div class: 'iframe-wrapper' do
+              iframe(
+                srcdoc: mail_template.mail_preview(locale),
+                scrolling: 'no',
+                class: 'mail_preview',
+                id: "mail_preview_#{locale}")
+            end
+            translated_input(f, :liquid_data_preview_yamls,
+              locale: locale,
+              as: :text,
+              hint: t('formtastic.hints.liquid_data_preview'),
+              wrapper_html: { class: 'ace-editor' },
+              input_html: { class: 'ace-editor', data: { mode: 'yaml' } })
+          end
+        end
+      end
+    end
+    f.actions
   end
 
   before_save do |mail_template|
     mail_template.audit_session = current_session
+  end
+
+  member_action :preview, method: :get do
+    logger.debug permitted_params[:mail_template]
+    resource.assign_attributes(permitted_params[:mail_template])
+    render :preview
   end
 
   controller do

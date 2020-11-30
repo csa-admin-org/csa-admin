@@ -19,16 +19,12 @@ describe 'Mail Templates' do
     click_link 'Modifier'
 
     check 'Envoyé'
-    fill_in 'Sujet', with: 'Bienvenue {{ member.name }}!'
-    fill_in 'Contenu', with: '<p>Panier: {{ membership.basket_size.name }}</p>'
-    click_button 'Prévisualiser les modifications'
-
-    expect(iframe).to have_selector 'h1', text: 'Bienvenue John Doe!'
-    expect(iframe).to have_selector 'p', text: 'Panier: Eveil'
+    fill_in 'Sujet', with: 'Bienvenue {{ member.name }}!!'
+    fill_in 'Contenu', with: '<p>Panier:: {{ membership.basket_size.name }}</p>'
 
     expect {
       travel_to('2020-03-25') do
-        click_button 'Sauvegarder les modifications'
+        click_button 'Mettre à jour Template Email'
       end
     }.to change(Audit, :count).by(1)
 
@@ -36,7 +32,7 @@ describe 'Mail Templates' do
 
     expect(page).to have_selector 'h2#page_title', text: 'Membre activé'
     expect(page).to have_content('Envoyé Oui')
-    expect(iframe).to have_selector 'h1', text: 'Bienvenue Jane Doe!'
-    expect(iframe).to have_selector 'p', text: 'Panier: Eveil'
+    expect(iframe).to have_selector 'h1', text: 'Bienvenue Jane Doe!!'
+    expect(iframe).to have_selector 'p', text: 'Panier:: Eveil'
   end
 end

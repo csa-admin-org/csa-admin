@@ -69,6 +69,8 @@ class MailTemplate < ApplicationRecord
       template: self,
       locale: locale
     ).html_part.body.encoded
+  rescue => e
+    e.message
   end
 
   def liquid_data_preview_yamls=(hash)
