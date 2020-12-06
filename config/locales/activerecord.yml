@@ -433,6 +433,9 @@ _:
         waiting_basket_complements:
           _de: Taschenzusätze Warteliste
           _fr: Compléments panier en attente
+        waiting_basket_price_extra:
+          _de: Preis Taschen (zusätzlich) Warteliste
+          _fr: Prix panier (extra) en attente
         waiting_basket_size:
           _de: Taschengrösse Warteliste
           _fr: Taille panier en attente

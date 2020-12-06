@@ -182,7 +182,7 @@ ActiveAdmin.register Membership do
     column(:renewal_state) { |m| I18n.t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
-    if Current.acp.ragedevert?
+    if Current.acp.feature_flag?(:basket_price_extra)
       column(:basket_price_extra) { |m| cur(m.basket_price_extra) }
     end
     column(:price) { |m| cur(m.price) }
@@ -443,7 +443,7 @@ ActiveAdmin.register Membership do
       end
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true, required: false
-      if Current.acp.ragedevert?
+      if Current.acp.feature_flag?(:basket_price_extra)
         f.input :basket_price_extra, required: true
       end
       f.input :baskets_annual_price_change, hint: true
