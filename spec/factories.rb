@@ -28,6 +28,7 @@ FactoryBot.define do
     invoice_footer { '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84' }
     terms_of_service_url { 'https://www.ragedevert.ch/s/RageDeVert-Reglement-2015.pdf' }
     features { %w[absence activity basket_content] }
+    feature_flags { %w[basket_price_extra] }
   end
 
   factory :activity do

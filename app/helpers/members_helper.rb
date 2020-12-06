@@ -49,6 +49,8 @@ module MembersHelper
   end
 
   def basket_prices_extra_collection
+    return unless Current.acp.feature_flag?(:basket_price_extra)
+
     if Current.acp.ragedevert?
       [
         [0.0, 20],
