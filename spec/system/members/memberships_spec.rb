@@ -15,6 +15,9 @@ describe 'Membership' do
     within '#menu' do
       expect(page).not_to have_content 'Abonnement'
     end
+
+    visit 'http://membres.ragedevert.test/membership'
+    expect(current_path).to eq '/activity_participations'
   end
 
   specify 'active member with absence', freeze: '2020-02-01' do
