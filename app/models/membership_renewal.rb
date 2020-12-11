@@ -18,6 +18,14 @@ class MembershipRenewal
     if BasketComplement.any?
       renew_complements(new_membership, attrs)
     end
+    if membership.basket_size_id != new_membership.basket_size_id
+      new_membership.baskets_annual_price_change = nil
+      new_membership.activity_participations_demanded_annualy = nil
+      new_membership.activity_participations_annual_price_change = nil
+    end
+    if basket_complements_changed?(new_membership)
+      new_membership.basket_complements_annual_price_change = nil
+    end
     new_membership.save!
   end
 
@@ -69,5 +77,10 @@ class MembershipRenewal
         quantity
         basket_complement_id
       ])
+  end
+
+  def basket_complements_changed?(new_membership)
+    membership.memberships_basket_complements.pluck(:basket_complement_id).sort !=
+      new_membership.memberships_basket_complements.map(&:basket_complement_id).sort
   end
 end
