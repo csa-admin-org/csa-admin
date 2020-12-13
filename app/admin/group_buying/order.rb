@@ -53,8 +53,8 @@ ActiveAdmin.register GroupBuying::Order do
     column(:delivery_date) { |o| o.delivery.date }
     column :created_at
     column :amount
+    column(:paid_amount) { |o| o.invoice.paid_amount }
     column(:balance) { |o| o.invoice.balance }
-    column(:missing_amount) { |o| o.invoice.missing_amount }
     column :state, &:state_i18n_name
   end
 
@@ -63,12 +63,12 @@ ActiveAdmin.register GroupBuying::Order do
 
     if params[:scope].in? ['all_without_canceled', 'open', nil]
       div class: 'total' do
-        span t('billing.scope.missing')
-        span cur(all.sum('invoices.amount - invoices.balance')), style: 'float: right'
+        span t('billing.scope.paid')
+        span cur(all.sum('invoices.paid_amount')), style: 'float: right;'
       end
       div class: 'total' do
-        span t('billing.scope.paid')
-        span cur(all.sum('invoices.balance')), style: 'float: right;'
+        span t('billing.scope.missing')
+        span cur(all.sum('invoices.amount - invoices.paid_amount')), style: 'float: right'
       end
       div class: 'totals' do
         span t('active_admin.sidebars.amount')
@@ -106,8 +106,8 @@ ActiveAdmin.register GroupBuying::Order do
 
         attributes_table title: Invoice.human_attribute_name(:amount) do
           row(:amount) { cur(order.amount) }
+          row(:paid_amount) { cur(order.invoice.paid_amount) }
           row(:balance) { cur(order.invoice.balance) }
-          row(:missing_amount) { cur(order.invoice.missing_amount) }
         end
 
         active_admin_comments

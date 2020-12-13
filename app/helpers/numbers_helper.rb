@@ -11,7 +11,7 @@ module NumbersHelper
 
   def cur(amount, unit: true, **options)
     options[:unit] = unit ? currency_symbol : ''
-    options[:format] =
+    options[:format] ||=
       case Current.acp.currency_code
       when 'EUR'; "%n %u"
       when 'CHF'; "%u %n"

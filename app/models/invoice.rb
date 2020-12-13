@@ -29,9 +29,13 @@ class Invoice < ActiveRecord::Base
   scope :sent, -> { where.not(sent_at: nil) }
   scope :all_without_canceled, -> { not_canceled }
   scope :history, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
-  scope :unpaid, -> { not_canceled.where('balance < amount') }
-  scope :overbalance, -> { where('balance > amount') }
+  scope :unpaid, -> { not_canceled.where('paid_amount < amount') }
+  scope :overpaid, -> { not_canceled.where('amount > 0 AND paid_amount > amount') }
+  scope :balance_equals, ->(amount) { where('(paid_amount - amount) = ?', amount) }
+  scope :balance_greater_than, ->(amount) { where('(paid_amount - amount) > ?', amount) }
+  scope :balance_less_than, ->(amount) { where('(paid_amount - amount) < ?', amount) }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
+  scope :group_buying_order_type, -> { where(object_type: 'GroupBuying::Order') }
   scope :activity_participation_type, -> { where(object_type: 'ActivityParticipation') }
   scope :other_type, -> { where(object_type: 'Other') }
 
@@ -85,6 +89,10 @@ class Invoice < ActiveRecord::Base
     types
   end
 
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[balance_equals balance_greater_than balance_less_than]
+  end
+
   def display_name
     "#{model_name.human} ##{id} (#{I18n.l date})"
   end
@@ -120,7 +128,7 @@ class Invoice < ActiveRecord::Base
       update!(
         canceled_at: Time.current,
         state: CANCELED_STATE)
-      Payment.update_invoices_balance!(member_id)
+      Payment.redistribute!(member_id)
       handle_acp_shares_change!
     end
   end
@@ -137,10 +145,6 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def balance_without_overbalance
-    [balance, amount].min
-  end
-
   def overpaid?
     payments.sum(:amount) > amount
   end
@@ -155,12 +159,16 @@ class Invoice < ActiveRecord::Base
     touch(:overpaid_notification_sent_at)
   end
 
-  def overbalance
-    balance > amount ? (balance - amount).round_to_five_cents : 0
+  def balance
+    paid_amount - amount
+  end
+
+  def overpaid
+    balance.positive? ? (paid_amount - amount) : 0
   end
 
   def missing_amount
-    balance < amount ? (amount - balance).round_to_five_cents : 0
+    balance.negative? ? (amount - paid_amount) : 0
   end
 
   def membership_amount_fraction
@@ -171,15 +179,15 @@ class Invoice < ActiveRecord::Base
     raise NoMethodError, 'is set automaticaly.'
   end
 
+  def paid_amount=(*_args)
+    raise NoMethodError, 'is set automaticaly.'
+  end
+
   def memberships_amount=(*_args)
     raise NoMethodError, 'is set automaticaly.'
   end
 
   def remaining_memberships_amount=(*_args)
-    raise NoMethodError, 'is set automaticaly.'
-  end
-
-  def balance=(*_args)
     raise NoMethodError, 'is set automaticaly.'
   end
 
@@ -293,13 +301,13 @@ class Invoice < ActiveRecord::Base
   def process!
     return if processed?
 
-    Payment.update_invoices_balance!(member_id)
+    Payment.redistribute!(member_id)
     handle_acp_shares_change!
-    reload # ensure that balance/state change are reflected.
+    reload # ensure that paid_amount/state change are reflected.
 
     set_pdf!
 
-    Payment.update_invoices_balance!(member_id)
+    Payment.redistribute!(member_id)
 
     send! if @send_email
   end

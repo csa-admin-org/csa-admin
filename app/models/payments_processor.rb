@@ -1,5 +1,4 @@
 class PaymentsProcessor
-  InvoiceIsrBalanceUpdateError = Class.new(StandardError)
   NoRecentPaymentsError = Class.new(StandardError)
 
   NO_RECENT_PAYMENTS_SINCE = 4.weeks

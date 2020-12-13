@@ -803,6 +803,9 @@ _:
       icalendar:
         _de: iCalendar
         _fr: iCalendar
+      overpaid:
+        _de: 'Überbezahlt:'
+        _fr: 'Payé en trop:'
       renewal:
         _de: Verlängerungen
         _fr: Renouvellements

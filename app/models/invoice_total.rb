@@ -6,6 +6,7 @@ class InvoiceTotal
     scopes = %w[Membership]
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?
+    scopes << 'GroupBuying::Order' if Current.acp.feature?('group_buying')
     scopes << 'ActivityParticipation' if Current.acp.feature?('activity')
     scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
     all = scopes.flatten.map { |scope| new(scope) }
@@ -35,6 +36,8 @@ class InvoiceTotal
       link_to_invoices(I18n.t('billing.annual_fees'), %w[Membership AnnualFee])
     when 'ACPShare'
       link_to_invoices I18n.t('billing.acp_shares')
+    when 'GroupBuying::Order'
+      link_to_invoices GroupBuying::Order.model_name.human(count: 2)
     when 'ActivityParticipation'
       link_to_invoices activities_human_name
     when 'Other'
@@ -67,8 +70,7 @@ class InvoiceTotal
       scope: :all_without_canceled,
       q: {
         object_type_in: object_types,
-        date_gteq: fy.beginning_of_year,
-        date_lteq: fy.end_of_year
+        during_year: fy.year
       })
   end
 end

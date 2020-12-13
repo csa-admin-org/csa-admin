@@ -9,9 +9,6 @@ _:
     annual_fees:
       _de: Beiträge
       _fr: Cotisations
-    balance_without_overbalance:
-      _de: Eingezahlt
-      _fr: Payé
     isr:
       _de: ESR
       _fr: BVR
@@ -52,9 +49,6 @@ _:
     other:
       _de: Weiteres
       _fr: Autre
-    overbalance:
-      _de: Zu viel bezahlt (für nächstes Jahr)
-      _fr: Paiements en trop (pour année suivante)
     refund:
       _de: Erstattung
       _fr: Remboursement
@@ -88,7 +82,7 @@ _:
         _fr: Dépôt
       missing:
         _de: Fehlende
-        _fr: Manquants
+        _fr: Manquant
       overdue_notices:
         one:
           _de: 1 Mahnung
@@ -96,9 +90,12 @@ _:
         other:
           _de: "%{count} Mahnungen"
           _fr: "%{count} rappels"
+      overpaid_amount:
+        _de: "%{amount} Überschuss"
+        _fr: "%{amount} en trop"
       paid:
         _de: Geleistete
-        _fr: Versés
+        _fr: Payé
     title:
       _de: Rechnungsstellung
       _fr: Facturation

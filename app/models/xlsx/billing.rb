@@ -66,7 +66,12 @@ module XLSX
       if Current.acp.share?
         add_line("#{t_invoice}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.acp.share_price)
       end
-      add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
+      if Current.acp.feature?('group_buying')
+        add_line("#{t_invoice}: #{::GroupBuying::Order.model_name.human(count: 2)}", @invoices.group_buying_order_type.sum(:amount))
+      end
+      if Current.acp.feature?('activity')
+        add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
+      end
       add_line("#{t_invoice}: #{t('other')}", @invoices.other_type.sum(:amount))
       add_line(t_invoice, invoices_total(:amount))
 

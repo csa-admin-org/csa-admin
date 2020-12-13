@@ -30,6 +30,7 @@ ActiveAdmin.register Invoice do
     as: :check_boxes,
     collection: -> { object_type_collection }
   filter :amount
+  filter :balance, as: :numeric
   filter :overdue_notices_count
   filter :date
   filter :during_year,
@@ -42,7 +43,7 @@ ActiveAdmin.register Invoice do
     column :date, ->(i) { l i.date, format: :number }
     column :member, sortable: 'members.name'
     column :amount, ->(invoice) { cur(invoice.amount) }
-    column :balance, ->(invoice) { cur(invoice.balance) }
+    column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }
     column :overdue_notices_count
     column :state, ->(invoice) { status_tag invoice.state }
     actions defaults: true do |invoice|
@@ -59,8 +60,8 @@ ActiveAdmin.register Invoice do
     column :date
     column(:object) { |i| t_invoice_object_type(i.object_type) }
     column :amount
+    column :paid_amount
     column :balance
-    column :missing_amount
     column :overdue_notices_count
     column :state, &:state_i18n_name
   end
@@ -83,16 +84,29 @@ ActiveAdmin.register Invoice do
       end
     elsif params[:scope].in? ['open', nil]
       div class: 'total' do
-        span t('billing.scope.missing')
-        span cur(all.sum('amount - balance')), style: 'float: right'
+        span t('billing.scope.paid') + ':'
+        span cur(all.sum(:paid_amount)), style: 'float: right;'
       end
       div class: 'total' do
-        span t('billing.scope.paid')
-        span cur(all.sum(:balance)), style: 'float: right;'
+        span t('billing.scope.missing') + ':'
+        span cur(all.sum('amount - paid_amount')), style: 'float: right;'
       end
       div class: 'totals' do
         span t('active_admin.sidebars.amount')
         span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+      end
+    elsif params.dig 'q', 'balance_greater_than'
+      div class: 'total' do
+        span t('billing.scope.paid') + ':'
+        span cur(all.sum(:paid_amount)), style: 'float: right;'
+      end
+      div class: 'total' do
+        span t('active_admin.sidebars.overpaid')
+        span cur(all.sum('paid_amount - amount') * -1), style: 'float: right;'
+      end
+      div class: 'totals' do
+        span t('active_admin.sidebars.amount')
+        span cur(all.sum(:amount)), style: 'float: right;  font-weight: bold;'
       end
     else
       div do
@@ -143,8 +157,8 @@ ActiveAdmin.register Invoice do
 
         attributes_table title: Invoice.human_attribute_name(:amount) do
           row(:amount) { cur(invoice.amount) }
+          row(:paid_amount) { cur(invoice.paid_amount) }
           row(:balance) { cur(invoice.balance) }
-          row(:missing_amount) { cur(invoice.missing_amount) }
         end
 
         attributes_table title: Invoice.human_attribute_name(:overdue_notices_count) do

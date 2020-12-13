@@ -325,8 +325,7 @@ ActiveAdmin.register Membership do
                 m.member.activity_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
                 activity_participations_path(scope: :coming, q: {
                   member_id_eq: resource.member_id,
-                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                  during_year: resource.fiscal_year.year
                 }))
             }
             row(:activity_participations_pending) {
@@ -334,8 +333,7 @@ ActiveAdmin.register Membership do
                 m.member.activity_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
                 activity_participations_path(scope: :pending, q: {
                   member_id_eq: resource.member_id,
-                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                  during_year: resource.fiscal_year.year
                 }))
             }
             row(:activity_participations_validated) {
@@ -343,8 +341,7 @@ ActiveAdmin.register Membership do
                 m.member.activity_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
                 activity_participations_path(scope: :validated, q: {
                   member_id_eq: resource.member_id,
-                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                  during_year: resource.fiscal_year.year
                 }))
             }
             row(:activity_participations_rejected) {
@@ -352,8 +349,7 @@ ActiveAdmin.register Membership do
                 m.member.activity_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
                 activity_participations_path(scope: :rejected, q: {
                   member_id_eq: resource.member_id,
-                  activity_date_gteq_datetime: resource.fiscal_year.beginning_of_year,
-                  activity_date_lteq_datetime: resource.fiscal_year.end_of_year
+                  during_year: resource.fiscal_year.year
                 }))
             }
             row(:activity_participations_paid) {
@@ -362,8 +358,7 @@ ActiveAdmin.register Membership do
                 invoices_path(scope: :all, q: {
                   member_id_eq: resource.member_id,
                   object_type_eq: 'ActivityParticipation',
-                  date_gteq: resource.fiscal_year.beginning_of_year,
-                  date_lteq: resource.fiscal_year.end_of_year
+                  during_year: resource.fiscal_year.year
                 }))
             }
           end

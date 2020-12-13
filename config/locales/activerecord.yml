@@ -332,6 +332,9 @@ _:
           _de: Kommandofähig bis
           _fr: Commandable jusqu'au
       invoice:
+        balance:
+          _de: Saldo
+          _fr: Balance
         object:
           _de: Objekt
           _fr: Objet
@@ -410,11 +413,11 @@ _:
           _de: Notiz Lebensmittel
           _fr: Note alimentaire
         invoices_amount:
-          _de: In Rechnung gestellter Betrag
-          _fr: Montant facturé
+          _de: Rechnungen
+          _fr: Factures
         payments_amount:
-          _de: Einzahlungen erfolgt
-          _fr: Paiements versés
+          _de: Einzahlungen
+          _fr: Paiements
         profession:
           _de: Beruf / Kompetenzen
           _fr: Profession / Compétences
