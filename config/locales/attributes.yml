@@ -18,9 +18,6 @@ _:
     available:
       _de: Verfügbar
       _fr: Disponible
-    balance:
-      _de: Eingezahlt
-      _fr: Payé
     balance_amount:
       _de: Kontostand
       _fr: Balance
@@ -150,6 +147,9 @@ _:
     other:
       _de: Weiteres
       _fr: Autre
+    paid_amount:
+      _de: Eingezahlt
+      _fr: Payé
     participants:
       _de: Teilnehmer
       _fr: Participants

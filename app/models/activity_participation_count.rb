@@ -25,13 +25,11 @@ class ActivityParticipationCount
     when :paid
       routes_helper.invoices_path(scope: :all, q: {
         object_type_eq: 'ActivityParticipation',
-        date_gteq: @year.beginning_of_year,
-        date_lteq: @year.end_of_year
+        during_year: @year
       })
     else
       routes_helper.activity_participations_path(scope: @scope, q: {
-        activity_date_gteq_datetime: @year.beginning_of_year,
-        activity_date_lteq_datetime: @year.end_of_year
+        during_year: @year
       })
     end
   end

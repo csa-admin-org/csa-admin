@@ -19,21 +19,21 @@ class Payment < ActiveRecord::Base
   validates :amount, numericality: { other_than: 0 }, presence: true
   validates :isr_data, uniqueness: true, allow_nil: true
 
-  after_commit :update_invoices_balance
+  after_commit :redistribute!
 
-  def self.update_invoices_balance!(member_id)
+  def self.redistribute!(member_id)
     member = Member.find(member_id)
     remaining_amount = 0
 
     transaction do
-      member.invoices.update_all(balance: 0)
+      member.invoices.update_all(paid_amount: 0)
 
       # Use payment amount to targeted invoice first.
       member.payments.each do |payment|
         if payment.invoice && !payment.invoice.canceled?
-          balance = [[payment.amount, payment.invoice.missing_amount].min, 0].max
-          payment.invoice.increment!(:balance, balance)
-          remaining_amount += payment.amount - balance
+          paid_amount = [[payment.amount, payment.invoice.missing_amount].min, 0].max
+          payment.invoice.increment!(:paid_amount, paid_amount)
+          remaining_amount += payment.amount - paid_amount
         else
           remaining_amount += payment.amount
         end
@@ -47,9 +47,9 @@ class Payment < ActiveRecord::Base
       last_invoice = invoices.last
       invoices.each do |invoice|
         if invoice.missing_amount.positive? && remaining_amount.positive?
-          balance = invoice == last_invoice ? remaining_amount : [remaining_amount, invoice.missing_amount].min
-          invoice.increment!(:balance, balance)
-          remaining_amount -= balance
+          paid_amount = invoice == last_invoice ? remaining_amount : [remaining_amount, invoice.missing_amount].min
+          invoice.increment!(:paid_amount, paid_amount)
+          remaining_amount -= paid_amount
         end
         invoice.reload.close_or_open!
       end
@@ -92,7 +92,7 @@ class Payment < ActiveRecord::Base
 
   private
 
-  def update_invoices_balance
-    self.class.update_invoices_balance!(member_id)
+  def redistribute!
+    self.class.redistribute!(member_id)
   end
 end

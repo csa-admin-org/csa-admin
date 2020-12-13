@@ -237,7 +237,7 @@ table a.xlsx_link {
 table#index_table_invoices,
 table#index_table_payments {
   .col-amount,
-  .col-balance {
+  .col-paid_amount {
     text-align: right;
     width: 130px;
   }
@@ -353,8 +353,9 @@ table.table-invoices {
   }
 
   .col-amount,
-  .col-balance {
+  .col-paid_amount {
     text-align: right;
+    min-width: 100px;
     padding-right: 10px;
   }
 
@@ -455,7 +456,7 @@ table#index_table_group_buying_deliveries {
 
 table#index_table_group_buying_producers {
   .col-actions {
-    width: 110px;
+    width: 82px;
   }
 
   .col-products {
@@ -492,7 +493,7 @@ table#index_table_group_buying_products {
   }
 
   .col-actions {
-    width: 110px;
+    width: 82px;
   }
 }
 
@@ -514,7 +515,7 @@ table.table-memberships {
   }
 
   .col-actions {
-    min-width: 109px;
+    width: 108px;
   }
 
   .col-ended_on,

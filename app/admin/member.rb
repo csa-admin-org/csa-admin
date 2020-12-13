@@ -145,7 +145,7 @@ ActiveAdmin.register Member do
               column(:id) { |i| auto_link i, i.id }
               column(:date) { |i| l(i.date, format: :number) }
               column(:amount) { |i| cur(i.amount) }
-              column(:balance) { |i| cur(i.balance) }
+              column(:paid_amount) { |i| cur(i.paid_amount) }
               column(:overdue_notices_count)
               column(:status) { |i| status_tag i.state }
               column(class: 'col-actions') { |i|

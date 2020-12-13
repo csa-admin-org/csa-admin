@@ -273,7 +273,7 @@ describe RecurringBilling do
       expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
     end
 
-    specify 'when quarter #3 (with overbalance on previous invoices)' do
+    specify 'when quarter #3 (with overpaid on previous invoices)' do
       @first_invoice = travel_to(Date.new(Current.fy_year, 1)) {
         create_invoice(member)
       }
@@ -288,8 +288,8 @@ describe RecurringBilling do
       create(:payment, member: member, amount: memberships_amount + annual_fee + 15)
       create(:payment, member: member, amount: memberships_amount + 50)
 
-      expect(@first_invoice.reload.overbalance).to be_zero
-      expect(@second_invoice.reload.overbalance).to eq(65)
+      expect(@first_invoice.reload.overpaid).to be_zero
+      expect(@second_invoice.reload.overpaid).to eq(65)
       invoice = create_invoice(member)
 
       expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
@@ -297,8 +297,8 @@ describe RecurringBilling do
       expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
 
       invoice.reload
-      expect(@first_invoice.reload.overbalance).to be_zero
-      expect(@second_invoice.reload.overbalance).to be_zero
+      expect(@first_invoice.reload.overpaid).to be_zero
+      expect(@second_invoice.reload.overpaid).to be_zero
       expect(invoice.missing_amount).to eq(invoice.amount - 65)
     end
 

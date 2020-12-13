@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Payment do
-  describe '.update_invoices_balance!' do
+  describe '.redistribute!' do
     it 'splits payments amount on not canceled invoices' do
       member = create(:member, :active)
       beginning_of_year = Time.current.beginning_of_year
@@ -33,15 +33,15 @@ describe Payment do
       create(:payment, member: member, invoice: invoice3, amount: 400)
       create(:payment, member: member, amount: 700)
 
-      Payment.update_invoices_balance!(member.id)
+      Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.balance).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 400
       expect(invoice1.state).to eq 'closed'
-      expect(invoice2.reload.balance).to eq 400
+      expect(invoice2.reload.paid_amount).to eq 400
       expect(invoice2.state).to eq 'closed'
-      expect(invoice3.reload.balance).to be_zero
+      expect(invoice3.reload.paid_amount).to be_zero
       expect(invoice3.state).to eq 'canceled'
-      expect(invoice3_bis.reload.balance).to eq 300
+      expect(invoice3_bis.reload.paid_amount).to eq 300
       expect(invoice3_bis.state).to eq 'open'
     end
 
@@ -72,13 +72,13 @@ describe Payment do
       create(:payment, member: member, invoice: invoice3, amount: 100)
       create(:payment, member: member, amount: -50)
 
-      Payment.update_invoices_balance!(member.id)
+      Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.balance).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 400
       expect(invoice1.state).to eq 'closed'
-      expect(invoice2.reload.balance).to eq 50
+      expect(invoice2.reload.paid_amount).to eq 50
       expect(invoice2.state).to eq 'open'
-      expect(invoice3.reload.balance).to eq 400
+      expect(invoice3.reload.paid_amount).to eq 400
       expect(invoice3.state).to eq 'closed'
     end
 
@@ -106,13 +106,13 @@ describe Payment do
 
       create(:payment, member: member, invoice: invoice1, amount: 400)
 
-      Payment.update_invoices_balance!(member.id)
+      Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.balance).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 400
       expect(invoice1.state).to eq 'closed'
-      expect(invoice2.reload.balance).to be_zero
+      expect(invoice2.reload.paid_amount).to be_zero
       expect(invoice2.state).to eq 'closed'
-      expect(invoice3.reload.balance).to eq 200
+      expect(invoice3.reload.paid_amount).to eq 200
       expect(invoice3.state).to eq 'open'
     end
 
@@ -141,13 +141,13 @@ describe Payment do
       create(:payment, member: member, invoice: invoice1, amount: 400)
       create(:payment, member: member, invoice: invoice2, amount: -250)
 
-      Payment.update_invoices_balance!(member.id)
+      Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.balance).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 400
       expect(invoice1.state).to eq 'closed'
-      expect(invoice2.reload.balance).to be_zero
+      expect(invoice2.reload.paid_amount).to be_zero
       expect(invoice2.state).to eq 'closed'
-      expect(invoice3.reload.balance).to be_zero
+      expect(invoice3.reload.paid_amount).to be_zero
       expect(invoice3.state).to eq 'open'
     end
   end
