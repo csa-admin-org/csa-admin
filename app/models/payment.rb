@@ -43,7 +43,7 @@ class Payment < ActiveRecord::Base
       remaining_amount += -member.invoices.not_canceled.where('amount < 0').sum(:amount)
 
       # Split remaining amount on other invoices chronogically
-      invoices = member.invoices.not_canceled.order(:date)
+      invoices = member.invoices.not_canceled.order(:date, :id)
       last_invoice = invoices.last
       invoices.each do |invoice|
         if invoice.missing_amount.positive? && remaining_amount.positive?
