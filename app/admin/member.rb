@@ -255,8 +255,16 @@ ActiveAdmin.register Member do
             row(:acp_shares_number)
             row(:acp_shares_info) { member.acp_shares_info }
           end
-          row(:invoices_amount) { cur member.invoices_amount }
-          row(:payments_amount) { cur member.payments_amount }
+          row(:invoices_amount) {
+            link_to(
+              cur(member.invoices_amount),
+              invoices_path(q: { member_id_eq: member.id }, scope: :all))
+          }
+          row(:payments_amount) {
+            link_to(
+              cur(member.payments_amount),
+              payments_path(q: { member_id_eq: member.id }, scope: :all))
+          }
           row(:balance_amount) { cur member.balance_amount }
         end
         attributes_table title: t('.notes') do

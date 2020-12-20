@@ -355,25 +355,16 @@ ActiveAdmin.register Membership do
             row(:activity_participations_paid) {
               link_to(
                 m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations),
-                invoices_path(scope: :all, q: {
+                invoices_path(scope: :all_without_canceled, q: {
                   member_id_eq: resource.member_id,
-                  object_type_eq: 'ActivityParticipation',
+                  object_type_in: 'ActivityParticipation',
                   during_year: resource.fiscal_year.year
                 }))
             }
           end
         end
 
-        attributes_table(
-          title: link_to(
-            t('.billing'),
-            invoices_path(scope: :all, q: {
-              member_id_eq: resource.member_id,
-              object_type_eq: 'Membership',
-              date_gteq: resource.fiscal_year.beginning_of_year,
-              date_lteq: resource.fiscal_year.end_of_year
-            }))
-          ) do
+        attributes_table title: t('.billing') do
           if m.member.salary_basket?
             em t('.salary_basket')
           elsif m.baskets_count.zero?
@@ -402,7 +393,15 @@ ActiveAdmin.register Membership do
               row(activity_scoped_attribute(:activity_participations_annual_price_change)) { cur(m.activity_participations_annual_price_change) }
             end
             row(:price) { cur(m.price) }
-            row(:invoices_amount) { cur(m.invoices_amount) }
+            row(:invoices_amount) {
+              link_to(
+                cur(m.invoices_amount),
+                invoices_path(scope: :all_without_canceled, q: {
+                  member_id_eq: resource.member_id,
+                  object_type_in: 'Membership',
+                  during_year: resource.fiscal_year.year
+                }))
+            }
             row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
           end
         end
@@ -499,7 +498,7 @@ ActiveAdmin.register Membership do
 
   member_action :trigger_recurring_billing, method: :post do
     RecurringBilling.invoice(resource.member)
-    redirect_to invoices_path(q: { member_id_eq: resource.member_id, date_gteq: resource.fiscal_year.beginning_of_year, date_lteq: resource.fiscal_year.end_of_year }, scope: :all, order: :date_asc)
+    redirect_to invoices_path(q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }, scope: :all, order: :date_asc)
   end
 
   member_action :open_renewal, method: :post do

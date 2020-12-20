@@ -82,31 +82,23 @@ ActiveAdmin.register Invoice do
         span t('active_admin.sidebars.amount')
         span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
-    elsif params[:scope].in? ['open', nil]
+    elsif params[:scope].in? ['open', 'all_without_canceled', 'all', 'closed', nil]
       div class: 'total' do
         span t('billing.scope.paid') + ':'
-        span cur(all.sum(:paid_amount)), style: 'float: right;'
+        span cur(all.not_canceled.sum(:paid_amount)), style: 'float: right;'
       end
       div class: 'total' do
-        span t('billing.scope.missing') + ':'
-        span cur(all.sum('amount - paid_amount')), style: 'float: right;'
+        amount = all.not_canceled.sum('amount - paid_amount')
+        if amount >= 0
+          span t('billing.scope.missing') + ':'
+        else
+          span t('active_admin.sidebars.overpaid')
+        end
+        span cur(amount), style: 'float: right;'
       end
       div class: 'totals' do
         span t('active_admin.sidebars.amount')
-        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
-      end
-    elsif params.dig 'q', 'balance_greater_than'
-      div class: 'total' do
-        span t('billing.scope.paid') + ':'
-        span cur(all.sum(:paid_amount)), style: 'float: right;'
-      end
-      div class: 'total' do
-        span t('active_admin.sidebars.overpaid')
-        span cur(all.sum('paid_amount - amount') * -1), style: 'float: right;'
-      end
-      div class: 'totals' do
-        span t('active_admin.sidebars.amount')
-        span cur(all.sum(:amount)), style: 'float: right;  font-weight: bold;'
+        span cur(all.not_canceled.sum(:amount)), style: 'float: right; font-weight: bold;'
       end
     else
       div do

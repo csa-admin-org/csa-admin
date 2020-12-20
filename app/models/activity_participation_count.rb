@@ -23,8 +23,8 @@ class ActivityParticipationCount
     case @scope
     when :missing then nil
     when :paid
-      routes_helper.invoices_path(scope: :all, q: {
-        object_type_eq: 'ActivityParticipation',
+      routes_helper.invoices_path(scope: :all_without_canceled, q: {
+        object_type_in: 'ActivityParticipation',
         during_year: @year
       })
     else
