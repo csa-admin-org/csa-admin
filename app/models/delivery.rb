@@ -44,7 +44,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def display_name(format: :default)
-    "#{I18n.l(date, format: format)} - ##{number}"
+    "#{I18n.l(date, format: format)} ##{number}"
   end
 
   def add_subscribed_baskets_complement!(complement)
