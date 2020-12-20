@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.2'
 
-gem 'rails', '6.0.3.4'
+gem 'rails', '6.1.0'
 
 gem 'bootsnap', require: false
 gem 'pg'
@@ -23,10 +23,11 @@ gem 'phony_rails'
 gem 'tod'
 
 gem 'activeadmin'
-gem 'cancancan'
+# Waiting for 3.2.1
+# https://github.com/CanCanCommunity/cancancan/issues/676
+gem 'cancancan', github: 'CanCanCommunity/cancancan', branch: :develop
 gem 'invisible_captcha'
 gem 'ransack'
-gem 'sprockets', '<4'
 
 gem 'inline_svg'
 gem 'slim'
@@ -45,6 +46,7 @@ gem 'faraday-cookie_jar'
 
 gem 'gibbon'
 gem 'icalendar'
+gem 'image_processing', '~> 1.2'
 gem 'mini_magick'
 gem 'prawn'
 gem 'prawn-table'
@@ -69,24 +71,31 @@ group :production do
   gem 'redis'
 end
 
-group :development do
-  gem 'bullet'
-  gem 'listen'
-  gem 'rack-dev-mark'
-  gem 'spring'
-  gem 'spring-watcher-listen'
-  gem 'web-console'
-  gem 'letter_opener'
-end
-
 group :development, :test do
-  gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'launchy'
+  gem 'byebug'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rspec-rails'
-  gem 'spring-commands-rspec'
+end
 
+group :development do
+  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'web-console', '>= 4.1.0'
+  # Display performance information such as SQL time and flame graphs for each request in your browser.
+  # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
+  gem 'rack-mini-profiler', '~> 2.0'
+  gem 'listen', '~> 3.3'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'bullet'
+  gem 'rack-dev-mark'
+  gem 'letter_opener'
+  gem 'spring-commands-rspec'
+end
+
+group :test do
+  gem 'launchy'
+  gem 'factory_bot_rails'
+  gem 'faker'
   gem 'capybara'
   gem 'capybara-email'
   gem 'selenium-webdriver'
