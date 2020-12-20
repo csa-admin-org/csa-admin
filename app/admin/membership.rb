@@ -205,7 +205,7 @@ ActiveAdmin.register Membership do
             row_class: ->(b) { 'next' if b.delivery == next_delivery },
             class: 'table-baskets'
           ) do
-            column(:delivery) { |b| b.delivery.display_name(format: :number) }
+            column(:delivery) { |b| link_to b.delivery.display_name(format: :number), b.delivery }
             column(:description)
             column(:depot)
             column(class: 'col-status') { |b|
