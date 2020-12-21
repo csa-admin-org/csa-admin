@@ -7,7 +7,7 @@ module GroupBuying
       order_items = delivery
         .orders_without_canceled
         .eager_load(items: { product: :producer })
-        .order("group_buying_producers.name, group_buying_products.names->>'#{I18n.locale}'")
+        .order(Arel.sql("group_buying_producers.name, group_buying_products.names->>'#{I18n.locale}'"))
         .flat_map(&:items)
         .group_by { |i| i.product.producer }
 
