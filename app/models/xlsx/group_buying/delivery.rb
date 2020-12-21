@@ -9,7 +9,7 @@ module XLSX
           @delivery
             .order_items
             .eager_load(order: [:invoice, :member], product: :producer)
-            .order("members.name, group_buying_products.names->>'#{I18n.locale}'")
+            .order(Arel.sql("members.name, group_buying_products.names->>'#{I18n.locale}'"))
         @producers = @order_items.map { |i| i.product.producer }.uniq
 
         Array(producer || @producers).each do |p|
