@@ -34,7 +34,7 @@ ActiveAdmin.register Delivery do
     column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
     column(:absent_baskets) { |d| d.basket_counts.all.sum(&:absent_count) }
 
-    Depot.all.each do |depot|
+    collection.preload(:depots).flat_map(&:depots).uniq.sort_by(&:name).each do |depot|
       column(depot.name) { |d| BasketCounts.new(d, depot.id).sum }
     end
 
@@ -62,13 +62,11 @@ ActiveAdmin.register Delivery do
             end
 
             if Depot.paid.any?
-              free_depots = Depot.free
-              paid_depots = Depot.paid
-              free_counts = BasketCounts.new(delivery, free_depots.pluck(:id))
-              paid_counts = BasketCounts.new(delivery, paid_depots.pluck(:id))
+              free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id))
+              paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id))
               totals = [
                 OpenStruct.new(
-                  title: "#{Basket.model_name.human(count: 2)}: #{free_depots.pluck(:name).to_sentence}",
+                  title: "#{Basket.model_name.human(count: 2)}: #{free_counts.depots.pluck(:name).to_sentence}",
                   count: t('.total', number: free_counts.sum),
                   baskets_count: t('.totals', numbers: free_counts.sum_detail)),
                 OpenStruct.new(

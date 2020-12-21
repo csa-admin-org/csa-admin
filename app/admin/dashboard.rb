@@ -60,12 +60,11 @@ ActiveAdmin.register_page 'Dashboard' do
 
               paid_depots = next_delivery.depots.paid
               if paid_depots.any?
-                free_depots = next_delivery.depots.free
-                free_counts = BasketCounts.new(next_delivery, free_depots.pluck(:id))
-                paid_counts = BasketCounts.new(next_delivery, paid_depots.pluck(:id))
+                free_counts = BasketCounts.new(next_delivery, Depot.free.pluck(:id))
+                paid_counts = BasketCounts.new(next_delivery, Depot.paid.pluck(:id))
                 totals = [
                   OpenStruct.new(
-                    title: "#{Basket.model_name.human(count: 2)}: #{free_depots.pluck(:name).to_sentence}",
+                    title: "#{Basket.model_name.human(count: 2)}: #{free_counts.depots.pluck(:name).to_sentence}",
                     count: free_counts.sum,
                     baskets_count: free_counts.sum_detail),
                   OpenStruct.new(

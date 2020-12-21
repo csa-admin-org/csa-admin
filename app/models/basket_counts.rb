@@ -1,13 +1,14 @@
 class BasketCounts
-  def initialize(delivery, depot_ids = nil)
+  attr_reader :depots
+
+  def initialize(delivery, depot_ids)
     @delivery = delivery
     @basket_size_ids = BasketSize.pluck(:id)
-    @depot_ids = depot_ids || Depot.pluck(:id)
+    @depots = Depot.where(id: (Array(depot_ids) & delivery.baskets.pluck(:depot_id).uniq))
   end
 
   def all
-    @all ||= Depot
-      .where(id: @depot_ids)
+    @all ||= @depots
       .select(:name, :id)
       .map { |dist| BasketCount.new(dist, @delivery.id, @basket_size_ids) }
       .select { |c| c.count.positive? }

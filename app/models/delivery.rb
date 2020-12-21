@@ -89,7 +89,7 @@ class Delivery < ActiveRecord::Base
   end
 
   def basket_counts
-    @basket_counts ||= BasketCounts.new(self)
+    @basket_counts ||= BasketCounts.new(self, Depot.pluck(:id))
   end
 
   private
