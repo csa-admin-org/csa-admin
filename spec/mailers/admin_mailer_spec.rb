@@ -53,7 +53,7 @@ describe AdminMailer do
     expect(mail.to).to eq(['admin@acp-admin.ch'])
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include('admin@acp-admin.ch')
-    expect(mail.body).to include("Accèder à l'admin de Rage de Vert")
+    expect(mail.body).to include("Accéder à l'admin de Rage de Vert")
     expect(mail.body).to include('https://admin.ragedevert.ch')
     expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
   end
@@ -79,7 +79,7 @@ describe AdminMailer do
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include('Facture #42')
     expect(mail.body).to include('Martha')
-    expect(mail.body).to include('Accèder à la page du membre')
+    expect(mail.body).to include('Accéder à la page du membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
     expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
@@ -107,7 +107,7 @@ describe AdminMailer do
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include('Martha')
     expect(mail.body).to include('10 novembre 2020 au 20 novembre 2020')
-    expect(mail.body).to include("Accèder à la page de l'absence")
+    expect(mail.body).to include("Accéder à la page de l'absence")
     expect(mail.body).to include('https://admin.ragedevert.ch/absences/1')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
     expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
@@ -131,8 +131,35 @@ describe AdminMailer do
     expect(mail.to).to eq(['admin@acp-admin.ch'])
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include('Martha')
-    expect(mail.body).to include("cèder à la page du membr")
+    expect(mail.body).to include("Accéder à la page du membre")
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+  end
+
+  specify '#new_group_buying_order_email' do
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    delivery = GroupBuying::Delivery.new(
+      id: 2,
+      date: Date.new(2020, 12, 23))
+    order = GroupBuying::Order.new(
+      id: 42,
+      delivery: delivery)
+    mail = AdminMailer.with(
+      admin: admin,
+      order: order
+    ).new_group_buying_order_email
+
+    expect(mail.subject).to eq('Nouvelle commande (#42)')
+    expect(mail.to).to eq(['admin@acp-admin.ch'])
+    expect(mail.body).to include('Salut John,')
+    expect(mail.body).to include('la livraison #2 du 23 décembre 2020')
+    expect(mail.body).to include("Accéder à la page de la commande")
+    expect(mail.body).to include('https://admin.ragedevert.ch/group_buying_orders/42')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
     expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
   end

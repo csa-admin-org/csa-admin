@@ -83,4 +83,22 @@ class AdminMailerPreview < ActionMailer::Preview
       member: member
     ).new_inscription_email
   end
+
+  def new_group_buying_order_email
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    delivery = GroupBuying::Delivery.new(
+      id: 2,
+      date: Date.new(2020, 12, 23))
+    order = GroupBuying::Order.new(
+      id: 42,
+      delivery: delivery)
+    AdminMailer.with(
+      admin: admin,
+      order: order
+    ).new_group_buying_order_email
+  end
 end

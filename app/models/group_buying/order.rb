@@ -23,6 +23,7 @@ module GroupBuying
     before_create :set_amount
     before_create :create_invoice
     after_commit :set_object_id_and_send_invoice, on: :create
+    after_create_commit :notify_admins!
 
     accepts_nested_attributes_for :items,
       reject_if: ->(attrs) { attrs[:quantity].to_i.zero? }
@@ -99,6 +100,10 @@ module GroupBuying
     def set_object_id_and_send_invoice
       @invoice.update!(object_id: id)
       @invoice.send!
+    end
+
+    def notify_admins!
+      Admin.notify!(:new_group_buying_order, order: self)
     end
   end
 end

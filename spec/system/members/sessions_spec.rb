@@ -8,7 +8,7 @@ describe 'Member sessions' do
 
     visit '/'
     expect(current_path).to eq '/login'
-    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
+    expect(page).to have_content 'Merci de vous authentifier pour accéder à votre compte.'
 
     fill_in 'Votre email', with: 'thibaud@thibaud.gg'
     click_button 'Envoyer'
@@ -31,7 +31,7 @@ describe 'Member sessions' do
     visit '/'
 
     expect(current_path).to eq '/login'
-    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
+    expect(page).to have_content 'Merci de vous authentifier pour accéder à votre compte.'
   end
 
   it 'redirects to billing when activity is not a feature' do
@@ -142,7 +142,7 @@ describe 'Member sessions' do
     visit '/'
 
     expect(current_path).to eq '/login'
-    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
+    expect(page).to have_content 'Merci de vous authentifier pour accéder à votre compte.'
   end
 
   it 'logout expired session' do
@@ -158,7 +158,7 @@ describe 'Member sessions' do
     visit '/'
 
     expect(current_path).to eq '/login'
-    expect(page).to have_content 'Merci de vous authentifier pour accèder à votre compte.'
+    expect(page).to have_content 'Merci de vous authentifier pour accéder à votre compte.'
   end
 
   it 'update last usage column every hour when using the session' do
