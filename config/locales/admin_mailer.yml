@@ -16,6 +16,10 @@ _:
       subject:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
+    new_group_buying_order_email:
+      subject:
+        _de: Neue Bestellung (#%{order_id})
+        _fr: Nouvelle commande (#%{order_id})
     new_inscription_email:
       subject:
         _de: Neue Einschreibung

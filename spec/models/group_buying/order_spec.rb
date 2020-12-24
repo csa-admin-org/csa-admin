@@ -83,4 +83,17 @@ describe GroupBuying::Order do
     mail = InvoiceMailer.deliveries.last
     expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
   end
+
+  specify 'notifies admins when created' do
+    admin = create(:admin, notifications: ['new_group_buying_order'])
+    create(:admin, notifications: [])
+
+    order = create(:group_buying_order)
+
+    expect(AdminMailer.deliveries.size).to eq 1
+    mail = AdminMailer.deliveries.last
+    expect(mail.subject).to eq "Nouvelle commande (##{order.id})"
+    expect(mail.to).to eq [admin.email]
+    expect(mail.html_part.body).to include admin.name
+  end
 end

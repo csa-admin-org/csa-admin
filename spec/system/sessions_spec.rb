@@ -7,7 +7,7 @@ describe 'Admin sessions' do
     visit '/'
     expect(current_path).to eq '/login'
     expect(page).to have_selector('.flash_alert',
-      text: 'Merci de vous authentifier pour accèder à votre compte.')
+      text: 'Merci de vous authentifier pour accéder à votre compte.')
 
     fill_in 'Email', with: 'thibaud@thibaud.gg'
     click_button 'Envoyer'
@@ -33,7 +33,7 @@ describe 'Admin sessions' do
 
     expect(current_path).to eq '/login'
     expect(page).to have_selector('.flash_alert',
-      text: 'Merci de vous authentifier pour accèder à votre compte.')
+      text: 'Merci de vous authentifier pour accéder à votre compte.')
   end
 
   it 'does not accept blank email' do
@@ -111,7 +111,7 @@ describe 'Admin sessions' do
 
     expect(current_path).to eq '/login'
     expect(page).to have_selector('.flash_alert',
-      text: 'Merci de vous authentifier pour accèder à votre compte.')
+      text: 'Merci de vous authentifier pour accéder à votre compte.')
   end
 
   it 'logout expired session' do
@@ -129,7 +129,7 @@ describe 'Admin sessions' do
 
     expect(current_path).to eq '/login'
     expect(page).to have_selector('.flash_alert',
-      text: 'Merci de vous authentifier pour accèder à votre compte.')
+      text: 'Merci de vous authentifier pour accéder à votre compte.')
   end
 
   it 'update last usage column every hour when using the session' do
