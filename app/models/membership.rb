@@ -101,6 +101,10 @@ class Membership < ActiveRecord::Base
     super + %i[during_year season_eq renewal_state_eq]
   end
 
+  def billable?
+    missing_invoices_amount.positive?
+  end
+
   def trial?
     remaning_trial_baskets_count.positive?
   end

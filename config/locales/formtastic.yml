@@ -39,8 +39,8 @@ _:
           _de: Leer lassen, wenn ESR-Rechnungen verwendet werden.
           _fr: Laisser vide si les factures BVR sont utilisées.
         recurring_billing_wday:
-          _de: Nach der ersten Lieferung des Geschäftsjahres erfolgt die automatische Rechnungsstellung wöchentlich zu Beginn des gewählten Tages. Die auf diese Weise erstellten Rechnungen werden ebenfalls automatisch versandt.
-          _fr: Après la première livraison de l'année fiscale, la facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
+          _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet.
+          _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
         share_price:
           _de: Leer lassen, wenn kein Anteilschein.
           _fr: Laisser vide si pas de part sociale.

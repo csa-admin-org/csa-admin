@@ -403,6 +403,28 @@ ActiveAdmin.register Membership do
                 }))
             }
             row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
+            row(:next_invoice_on) {
+              if resource.billable?
+                if Current.acp.recurring_billing?
+                  recurring = RecurringBilling.new(resource.member, resource)
+                  if recurring.next_date
+                    span class: 'next_date' do
+                      l(recurring.next_date, format: :long)
+                    end
+                    if authorized?(:force_recurring_billing, resource.member) && recurring.billable?
+                      link_to t('.force_recurring_billing'), force_recurring_billing_member_path(resource.member),
+                        method: :post,
+                        class: 'button',
+                        data: { confirm: t('.force_recurring_billing_confirm') }
+                    end
+                  end
+                else
+                  span class: 'empty' do
+                    t('.recurring_billing_disabled')
+                  end
+                end
+              end
+            }
           end
         end
 
@@ -487,19 +509,6 @@ ActiveAdmin.register Membership do
       :_destroy,
       seasons: []
     ]
-
-  action_item :trigger_recurring_billing, only: :show, if: -> {
-    authorized?(:trigger_recurring_billing, resource) && RecurringBilling.new(resource.member).needed?
-  } do
-    link_to t('.trigger_recurring_billing'), trigger_recurring_billing_membership_path(resource),
-      method: :post,
-      title: t('.trigger_recurring_billing_title')
-  end
-
-  member_action :trigger_recurring_billing, method: :post do
-    RecurringBilling.invoice(resource.member)
-    redirect_to invoices_path(q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }, scope: :all, order: :date_asc)
-  end
 
   member_action :open_renewal, method: :post do
     resource.open_renewal!

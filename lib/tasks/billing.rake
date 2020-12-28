@@ -2,15 +2,16 @@ namespace :billing do
   desc 'Automatically Create and send new invoices'
   task recurring: :environment do
     ACP.enter_each! do
-      if Current.acp.recurring_billing_wday &&
-          Current.acp.recurring_billing_wday == Date.current.wday &&
-          Delivery.current_year.any? &&
-          Date.current > Delivery.current_year.first.date
+      today = Date.current
+      if Current.acp.recurring_billing_wday == today.wday
         Member.find_each do |member|
           if Current.acp.share?
             Billing::MembershipACPShare.invoice!(member, send_email: true)
           end
-          RecurringBilling.invoice(member, send_email: true)
+          recurring = RecurringBilling.new(member)
+          if recurring.next_date == today
+            recurring.invoice(send_email: true)
+          end
         end
         puts "#{Current.acp.name}: New invoices created."
       end

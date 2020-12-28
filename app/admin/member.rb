@@ -266,6 +266,28 @@ ActiveAdmin.register Member do
               payments_path(q: { member_id_eq: member.id }, scope: :all))
           }
           row(:balance_amount) { cur member.balance_amount }
+          row(:next_invoice_on) {
+            if member.billable?
+              if Current.acp.recurring_billing?
+                recurring = RecurringBilling.new(member)
+                if recurring.next_date
+                  span class: 'next_date' do
+                    l(recurring.next_date, format: :long)
+                  end
+                  if authorized?(:force_recurring_billing, member) && recurring.billable?
+                    link_to t('.force_recurring_billing'), force_recurring_billing_member_path(member),
+                      method: :post,
+                      class: 'button',
+                      data: { confirm: t('.force_recurring_billing_confirm') }
+                  end
+                end
+              else
+                span class: 'empty' do
+                  t('.recurring_billing_disabled')
+                end
+              end
+            end
+          }
         end
         attributes_table title: t('.notes') do
           row :profession
@@ -401,6 +423,11 @@ ActiveAdmin.register Member do
       remote_addr: request.remote_addr,
       user_agent: "Admin ID: #{current_admin.id}")
     redirect_to members_session_url(session.token, locale: I18n.locale)
+  end
+
+  member_action :force_recurring_billing, method: :post do
+    invoice = RecurringBilling.invoice(resource)
+    redirect_to invoice
   end
 
   before_save do |member|

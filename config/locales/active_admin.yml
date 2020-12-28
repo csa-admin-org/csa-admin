@@ -363,6 +363,9 @@ _:
         preview:
           _de: Vorschau
           _fr: Prévisualisation
+        recurring_billing_disabled:
+          _de: deaktiviert
+          _fr: désactivée
         seasons:
           _de: Jahreszeiten (Sommer / Winter)
           _fr: Saisons (été / hiver)
@@ -489,6 +492,12 @@ _:
         enable_renewal:
           _de: Kündigung abbrechen
           _fr: Annuler résiliation
+        force_recurring_billing:
+          _de: Rechnung sofort
+          _fr: Facturer maintenant
+        force_recurring_billing_confirm:
+          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
+          _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
         invoice_action:
           _de: Rechnung stellen
           _fr: Facturer
@@ -550,6 +559,8 @@ _:
         preview:
           _de: Vorschau
           _fr: Prévisualisation
+        recurring_billing_disabled:
+          _fr: Facturation automatique désactivée
         refund:
           _de: Rückerstattung
           _fr: Remboursement
@@ -574,12 +585,6 @@ _:
         totals:
           _de: Gesamt %{numbers}
           _fr: Totaux %{numbers}
-        trigger_recurring_billing:
-          _de: Rechnungsstellung zwingen
-          _fr: Forcer la facturation
-        trigger_recurring_billing_title:
-          _de: Falls erforderlich wird jedes Abonnement wöchentlich automatisch in Rechnung gestellt, mit dieser Schaltfläche kann die Rechnungsstellung gezwungen werden, z.B. bei einer Abonnement-Umstellung
-          _fr: Chaque abonnement est automatiquement facturé de manière hebdomaire si nécessaire, ce bouton permet de forcer le processus de facturation, par exemple en cas de changement de taille de panier
         validate:
           _de: Bestätigen
           _fr: Valider

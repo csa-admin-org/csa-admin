@@ -69,7 +69,7 @@ class Member < ActiveRecord::Base
   after_create_commit :notify_admins!, if: :public_create
 
   def billable?
-    active? || support? || current_year_membership
+    support? || current_year_membership&.billable? || future_membership&.billable?
   end
 
   def name=(name)
@@ -282,9 +282,10 @@ class Member < ActiveRecord::Base
   def handle_annual_fee_change
     return unless Current.acp.annual_fee?
 
-    if annual_fee
+    if annual_fee&.positive?
       self.state = SUPPORT_STATE if inactive?
     elsif support?
+      self.annual_fee = nil
       self.state = INACTIVE_STATE
     end
   end
