@@ -138,6 +138,9 @@ _:
     name:
       _de: Name
       _fr: Nom
+    next_invoice_on:
+      _de: Nächste Rechnung am
+      _fr: Prochaine facture le
     note:
       _de: Notiz
       _fr: Note

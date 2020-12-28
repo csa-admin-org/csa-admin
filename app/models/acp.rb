@@ -111,6 +111,10 @@ class ACP < ActiveRecord::Base
     feature_flags.include?(feature.to_s)
   end
 
+  def recurring_billing?
+    !!recurring_billing_wday
+  end
+
   def billing_year_divisions=(divisions)
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end

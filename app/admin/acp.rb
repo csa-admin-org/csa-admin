@@ -88,6 +88,7 @@ ActiveAdmin.register ACP do
       f.input :recurring_billing_wday,
         as: :select,
         collection: wdays_collection,
+        prompt: t('.recurring_billing_disabled'),
         required: false
       f.input :annual_fee, as: :number
       f.input :share_price, as: :number

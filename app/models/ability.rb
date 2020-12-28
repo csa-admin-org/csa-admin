@@ -26,7 +26,7 @@ class Ability
       can :destroy, ActiveAdmin::Comment
       can :destroy, [Member, Membership, Payment, Invoice], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
-      can :trigger_recurring_billing, Membership
+      can :force_recurring_billing, Member
       can :renew_all, Membership
       can :open_renewal_all, Membership
       can :open_renewal, Membership
