@@ -7,3 +7,14 @@
 @import 'layouts/**/*.scss';
 @import 'components/**/*.scss';
 @import 'pages/**/*.scss';
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #171717 !important;
+    filter: invert(0.91) hue-rotate(180deg) !important;
+
+    iframe {
+      filter: invert(1) contrast(1.2) saturate(1.2) hue-rotate(180deg) !important;
+    }
+  }
+}
