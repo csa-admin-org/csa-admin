@@ -49,29 +49,30 @@ ActiveAdmin.register Membership do
 
   includes :member
   index do
+    column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: 'members.name'
     column :started_on, ->(m) { l m.started_on, format: :number }
     column :ended_on, ->(m) { l m.ended_on, format: :number }
     if Current.acp.feature?('activity')
       column activities_human_name,
-        ->(m) { auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}" },
+        ->(m) { "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}" },
         sortable: 'activity_participations_demanded', class: 'col-activity_participations_demanded'
     end
     column :baskets_count,
       ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }
-    actions
+    actions class: 'col-actions-3'
   end
 
   sidebar :renewal, only: :index do
     renewal = MembershipsRenewal.new
     if !Delivery.any_next_year?
-      span do
+      div class: 'content' do
         t('.no_next_year_deliveries',
           fiscal_year: renewal.next_fy,
           new_delivery_path: new_delivery_path).html_safe
       end
     else
-      span do
+      div class: 'content' do
         ul do
           if MailTemplate.active_template(:membership_renewal)
             li do
@@ -107,7 +108,7 @@ ActiveAdmin.register Membership do
       end
       renewable_count = renewal.renewable.count
       if renewable_count.positive?
-        div class: 'top-spacing' do
+        div class: 'content top-spacing' do
           if renewal.renewing?
             span { t('.renewing') }
           elsif renewal.opening?
@@ -212,7 +213,7 @@ ActiveAdmin.register Membership do
               status_tag(:trial) if b.trial?
               status_tag(:absent) if b.absent?
             }
-            column(class: 'col-actions') { |b|
+            column(class: 'col-actions-1') { |b|
               link_to t('.edit'), edit_basket_path(b), class: 'edit_link'
             }
           end
@@ -409,7 +410,7 @@ ActiveAdmin.register Membership do
                   recurring = RecurringBilling.new(resource.member, resource)
                   if recurring.next_date
                     span class: 'next_date' do
-                      l(recurring.next_date, format: :long)
+                      l(recurring.next_date, format: :long_medium)
                     end
                     if authorized?(:force_recurring_billing, resource.member) && recurring.billable?
                       link_to t('.force_recurring_billing'), force_recurring_billing_member_path(resource.member),

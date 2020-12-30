@@ -20,7 +20,7 @@ form {
 
   fieldset {
     border: 0;
-    margin-bottom: 20px;
+    margin-bottom: $spacing;
     position: relative;
 
     &.inputs {
@@ -56,20 +56,20 @@ form {
 
     span {
       @extend %header;
-      border: 1px solid $silver;
-      border-radius: $radius $radius 0 0;
-      font-weight: bold;
       display: block;
+      border: 1px solid $silver;
+      border-bottom: none;
+      border-radius: $radius $radius 0 0;
     }
   }
 
   ol {
-    margin: 10px 0;
+    margin: $spacing-small 0;
   }
 
   ol > li {
-    border-bottom: 1px solid rgba($silver, 0.25);
-    padding: 10px 15px;
+    border-bottom: 1px solid lighten($silver, 6%);
+    padding: $spacing-small $spacing;
     @include clearfix;
 
     label {
@@ -94,8 +94,7 @@ form {
 
   // Line
   hr {
-    background-color: rgba($silver, 0.25);
-    background-image: linear-gradient(to right, transparent, transparentize($primary-color, 0.5), transparent);
+    background-color: lighten($silver, 10);
     border: 0;
     clear: both;
     float: left;
@@ -339,8 +338,10 @@ form {
 
 // Filter
 form.filter_form {
+  margin: $spacing;
+
   .filter_form_field {
-    padding: 10px 15px;
+    margin-bottom: 15px;
     @include clearfix;
 
     &.select_and_search {
@@ -373,16 +374,16 @@ form.filter_form {
         width: calc(50% - 9px);
       }
     }
-
-    + .filter_form_field {
-      border-top: 1px solid tint($silver, 35%);
-    }
+    // + .filter_form_field {
+    //   border-top: 1px solid tint($silver, 35%);
+    // }
   }
 
   .buttons {
-    border-top: 1px solid $silver;
-    text-align: center;
-    padding: 12px 15px;
+    // border-top: 1px solid $silver;
+    // text-align: center;
+    // padding: $spacing-small 0px;
+    margin: $spacing 0;
 
     a.clear_filters_btn {
       margin-left: 5px;
@@ -391,6 +392,7 @@ form.filter_form {
     input[type='submit'],
     a.clear_filters_btn {
       padding: 5px 10px;
+      box-shadow: rgba(27, 31, 35, 0.1) 0px 1px 0px 0px, rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
     }
   }
 }

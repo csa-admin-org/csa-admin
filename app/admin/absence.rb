@@ -31,7 +31,7 @@ ActiveAdmin.register Absence do
     }, sortable: 'members.name'
     column :started_on, ->(absence) { l absence.started_on }
     column :ended_on, ->(absence) { l absence.ended_on }
-    actions
+    actions class: 'col-actions-3'
   end
 
   filter :member,

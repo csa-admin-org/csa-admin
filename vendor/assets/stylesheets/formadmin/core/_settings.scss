@@ -64,7 +64,7 @@ $yellow: #ffb75d !default;
 
 //--- Gray Scale ---//
 $white:  #ffffff !default;
-$silver: #cccccc !default;
+$silver: #E2E4E8 !default;
 $gray:   #3f3f3f !default;
 $black:  #000000 !default;
 
@@ -79,7 +79,7 @@ $primary-color:   #4d5256 !default;
 $secondary-color: $silver !default;
 
 //--- Page ---//
-$background-color: #eeeeee !default;
+$background-color: $white !default;
 $text-color:       $gray !default;
 
 //--- Highlighting ---//
@@ -90,5 +90,12 @@ $highlight-color:      $white !default;
 //-------------//
 //   Borders   //
 //-------------//
-$radius:          4px !default;
+$radius:          6px !default;
 $circular-radius: 500rem !default;
+
+
+//-------------//
+//   Spacing   //
+//-------------//
+$spacing: 20px !default;
+$spacing-small: 10px !default;

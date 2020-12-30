@@ -36,7 +36,7 @@ ActiveAdmin.register Member do
     column :name, ->(member) { auto_link member }
     column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
     column :state, ->(member) { status_tag(member.state) }
-    actions
+    actions class: 'col-actions-3'
   end
 
   csv do
@@ -207,7 +207,6 @@ ActiveAdmin.register Member do
             end
             txt.html_safe
           }
-          row :name
           row(:status) { status_tag member.state }
           if Current.acp.languages.many?
             row(:language) { t("languages.#{member.language}") }
@@ -233,15 +232,12 @@ ActiveAdmin.register Member do
             row(:depot) { member.waiting_depot&.name }
           end
         end
-        attributes_table title: Member.human_attribute_name(:address) do
-          span member.display_address
-        end
-        unless member.same_delivery_address?
-          attributes_table title: Member.human_attribute_name(:delivery_address) do
-            span member.display_delivery_address
-          end
-        end
         attributes_table title: Member.human_attribute_name(:contact) do
+          row :name
+          row(Member.human_attribute_name(:address)) { member.display_address }
+          unless member.same_delivery_address?
+            row(Member.human_attribute_name(:delivery_address)) { member.display_delivery_address }
+          end
           row(:emails) { display_emails_with_link(member.emails_array) }
           row(:phones) { display_phones_with_link(member.phones_array) }
         end
@@ -272,7 +268,7 @@ ActiveAdmin.register Member do
                 recurring = RecurringBilling.new(member)
                 if recurring.next_date
                   span class: 'next_date' do
-                    l(recurring.next_date, format: :long)
+                    l(recurring.next_date, format: :long_medium)
                   end
                   if authorized?(:force_recurring_billing, member) && recurring.billable?
                     link_to t('.force_recurring_billing'), force_recurring_billing_member_path(member),

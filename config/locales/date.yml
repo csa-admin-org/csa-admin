@@ -13,6 +13,9 @@ _:
       medium_long:
         _de: "%a. %-d. %B %y"
         _fr: "%a. %-d %B %y"
+      long_medium:
+        _de: "%A %-d. %b %Y"
+        _fr: "%A %-d %b %Y"
       number:
         _de: "%d.%m.%Y"
         _fr: "%d.%m.%Y"

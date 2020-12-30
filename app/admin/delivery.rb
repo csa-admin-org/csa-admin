@@ -22,7 +22,7 @@ ActiveAdmin.register Delivery do
     column '#', ->(delivery) { auto_link delivery, delivery.number }
     column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
     column :note, ->(delivery) { truncate delivery.note, length: 175 }
-    actions defaults: true do |delivery|
+    actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
         link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link')
     end

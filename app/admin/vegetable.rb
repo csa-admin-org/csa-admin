@@ -4,7 +4,7 @@ ActiveAdmin.register Vegetable do
 
   index do
     column :name
-    actions
+    actions class: 'col-actions-2'
   end
 
   show do

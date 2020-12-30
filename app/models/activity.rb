@@ -55,8 +55,10 @@ class Activity < ActiveRecord::Base
     participants_limit && participants_limit - participants_count
   end
 
-  def name
-    [I18n.l(date, format: :medium), period, place].join(', ')
+  def name(show_place: true)
+    parts = [I18n.l(date, format: :medium), period]
+    parts << place if show_place
+    parts.join(', ')
   end
 
   def period

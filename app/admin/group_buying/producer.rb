@@ -29,7 +29,7 @@ ActiveAdmin.register GroupBuying::Producer do
         group_buying_products_path(
           q: { producer_id_eq: producer.id }))
     }
-    actions
+    actions class: 'col-actions-2'
   end
 
   form do |f|

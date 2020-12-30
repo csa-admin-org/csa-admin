@@ -239,8 +239,8 @@ _:
           _de: Rechnungsstellung %{fiscal_year}
           _fr: Facturation %{fiscal_year}
         next_delivery:
-          _de: 'Nächste Lieferung: %{date} - #%{number}'
-          _fr: 'Prochaine livraison: %{date} - #%{number}'
+          _de: 'Nächste Lieferung: %{delivery}'
+          _fr: 'Prochaine livraison: %{delivery}'
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison

@@ -12,7 +12,7 @@ ActiveAdmin.register BasketSize do
     if Current.acp.feature?('activity')
       column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
     end
-    actions
+    actions class: 'col-actions-2'
   end
 
   form do |f|

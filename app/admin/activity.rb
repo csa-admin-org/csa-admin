@@ -34,7 +34,7 @@ ActiveAdmin.register Activity do
       text = [a.participations.sum(&:participants_count), a.participants_limit || '∞'].join(' / ')
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
     }
-    actions
+    actions class: 'col-actions-2'
   end
 
   order_by(:date) do |order_clause|

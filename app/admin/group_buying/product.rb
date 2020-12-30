@@ -39,7 +39,7 @@ ActiveAdmin.register GroupBuying::Product do
     column :name, ->(product) { auto_link product }, sortable: :names
     column :available, ->(product) { status_tag(product.available? ? :yes : :no) }
     column :price, ->(product) { cur(product.price) }
-    actions
+    actions class: 'col-actions-2'
   end
 
   csv do

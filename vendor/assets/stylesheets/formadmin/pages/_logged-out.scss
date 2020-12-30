@@ -1,7 +1,7 @@
 body.logged_out {
   #active_admin_content {
     @extend %box;
-    padding: 0 0 20px;
+    padding: 0 0 $spacing;
     overflow: hidden;
   }
 
@@ -12,10 +12,14 @@ body.logged_out {
     width: 100%;
   }
 
+  .flash {
+    margin: 0;
+  }
+
   h2 {
     @extend %header;
     margin: 0;
-    padding: 15px;
+    padding: $spacing-small $spacing;
   }
 
   fieldset {
@@ -23,31 +27,27 @@ body.logged_out {
     margin: 0;
   }
 
-  .inputs {
-    margin-bottom: 20px;
-  }
-
   .actions {
     float: left;
-    margin-left: 20px;
+    margin-left: $spacing;
   }
 
   #login a {
     font-size: 80%;
     float: right;
-    margin-right: 20px;
+    margin-right: $spacing;
   }
 
   .flash {
     border-radius: $radius;
     border-width: 1px;
-    margin-bottom: 20px;
+    margin-bottom: $spacing;
   }
 
   // Medias
   @media #{$largest-phone-screen} {
     #wrapper {
-      padding: 15px;
+      padding: $spacing-small 0px;
     }
 
     #content_wrapper {

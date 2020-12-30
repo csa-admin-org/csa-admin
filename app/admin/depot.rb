@@ -12,7 +12,7 @@ ActiveAdmin.register Depot do
       column :price, ->(d) { cur(d.price) }
     end
     column :responsible_member
-    actions
+    actions class: 'col-actions-3'
   end
 
   csv do

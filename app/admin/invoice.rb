@@ -46,7 +46,7 @@ ActiveAdmin.register Invoice do
     column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }
     column :overdue_notices_count
     column :state, ->(invoice) { status_tag invoice.state }
-    actions defaults: true do |invoice|
+    actions defaults: true, class: 'col-actions-3' do |invoice|
       link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
     end
   end
@@ -68,42 +68,43 @@ ActiveAdmin.register Invoice do
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).limit(nil)
-
-    if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
-      div class: 'total' do
-        span Membership.model_name.human(count: 2)
-        span cur(all.sum(:memberships_amount)), style: 'float: right'
-      end
-      div class: 'total' do
-        span t('billing.annual_fees')
-        span cur(all.sum(:annual_fee)), style: 'float: right;'
-      end
-      div class: 'totals' do
-        span t('active_admin.sidebars.amount')
-        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
-      end
-    elsif params[:scope].in? ['open', 'all_without_canceled', 'all', 'closed', nil]
-      div class: 'total' do
-        span t('billing.scope.paid') + ':'
-        span cur(all.not_canceled.sum(:paid_amount)), style: 'float: right;'
-      end
-      div class: 'total' do
-        amount = all.not_canceled.sum('amount - paid_amount')
-        if amount >= 0
-          span t('billing.scope.missing') + ':'
-        else
-          span t('active_admin.sidebars.overpaid')
+    div class: 'content' do
+      if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
+        div class: 'total' do
+          span Membership.model_name.human(count: 2)
+          span cur(all.sum(:memberships_amount)), style: 'float: right'
         end
-        span cur(amount), style: 'float: right;'
-      end
-      div class: 'totals' do
-        span t('active_admin.sidebars.amount')
-        span cur(all.not_canceled.sum(:amount)), style: 'float: right; font-weight: bold;'
-      end
-    else
-      div do
-        span t('active_admin.sidebars.amount')
-        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        div class: 'total' do
+          span t('billing.annual_fees')
+          span cur(all.sum(:annual_fee)), style: 'float: right;'
+        end
+        div class: 'totals' do
+          span t('active_admin.sidebars.amount')
+          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
+      elsif params[:scope].in? ['open', 'all_without_canceled', 'all', 'closed', nil]
+        div class: 'total' do
+          span t('billing.scope.paid') + ':'
+          span cur(all.not_canceled.sum(:paid_amount)), style: 'float: right;'
+        end
+        div class: 'total' do
+          amount = all.not_canceled.sum('amount - paid_amount')
+          if amount >= 0
+            span t('billing.scope.missing') + ':'
+          else
+            span t('active_admin.sidebars.overpaid')
+          end
+          span cur(amount), style: 'float: right;'
+        end
+        div class: 'totals' do
+          span t('active_admin.sidebars.amount')
+          span cur(all.not_canceled.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
+      else
+        div do
+          span t('active_admin.sidebars.amount')
+          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
       end
     end
   end

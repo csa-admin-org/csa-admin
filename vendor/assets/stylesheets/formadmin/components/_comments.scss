@@ -23,6 +23,10 @@ form.active_admin_comment {
     box-shadow: none;
   }
 
+  .actions ol {
+    text-align: left;
+  }
+
   .hidden {
     display: none;
   }
@@ -31,17 +35,22 @@ form.active_admin_comment {
     border-color: $silver;
     display: block;
     float: none;
+    height: 100px;
     max-width: 700px;
     margin: 0 auto;
     width: 100%;
+  }
+
+  input[type='submit'] {
+    padding: 5px 10px;
   }
 }
 
 .active_admin_comment_meta {
   background-color: shade($white, 5%);
   border-right: 1px solid $silver;
-  padding: 15px;
-  width: 200px;
+  padding: $spacing-small;
+  width: 220px;
 
   .active_admin_comment_author {
     margin: 0;
@@ -71,7 +80,7 @@ form.active_admin_comment {
 }
 
 .active_admin_comment_body {
-  padding: 15px;
+  padding: $spacing-small;
 
   p {
     margin: 0;
