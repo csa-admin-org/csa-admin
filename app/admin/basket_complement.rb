@@ -18,7 +18,7 @@ ActiveAdmin.register BasketComplement do
     column :deliveries_count, ->(bs) {
       link_to bs.deliveries_count, deliveries_path(q: { basket_complements_id_eq: bs.id })
     }
-    actions
+    actions class: 'col-actions-2'
   end
 
   form do |f|

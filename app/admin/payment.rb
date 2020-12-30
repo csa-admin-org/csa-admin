@@ -32,7 +32,7 @@ ActiveAdmin.register Payment do
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
     column :amount, ->(p) { cur(p.amount) }
     column :type, ->(p) { status_tag p.type }
-    actions
+    actions class: 'col-actions-3'
   end
 
   csv do
@@ -63,9 +63,10 @@ ActiveAdmin.register Payment do
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).limit(nil)
-
-    span t('active_admin.sidebars.amount')
-    span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+    div class: 'content' do
+      span t('active_admin.sidebars.amount')
+      span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+    end
   end
 
   show do |payement|

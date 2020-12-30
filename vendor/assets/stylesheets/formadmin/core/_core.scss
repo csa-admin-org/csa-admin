@@ -18,6 +18,7 @@ body {
 
 a {
   color: inherit;
+  text-decoration-color: lighten($text-color, 50);
 }
 
 h1,

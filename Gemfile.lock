@@ -291,8 +291,6 @@ GEM
     puma (5.1.1)
       nio4r (~> 2.0)
     rack (2.2.3)
-    rack-dev-mark (0.7.9)
-      rack (>= 1.1, < 2.3)
     rack-mini-profiler (2.2.0)
       rack (>= 1.2.0)
     rack-proxy (0.6.5)
@@ -487,7 +485,6 @@ DEPENDENCIES
   premailer-rails
   public_suffix
   puma
-  rack-dev-mark
   rack-mini-profiler (~> 2.0)
   rack-status
   rails (= 6.1.0)

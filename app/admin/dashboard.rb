@@ -1,7 +1,9 @@
 ActiveAdmin.register_page 'Dashboard' do
-  menu priority: 1, label: -> { I18n.t('active_admin.dashboard') }
+  menu priority: 1, label: -> {
+    image_tag(asset_pack_path('media/images/active_admin/home.svg'), size: '20', title: I18n.t('active_admin.dashboard'))
+  }
 
-  content title: proc { I18n.t('active_admin.dashboard') } do
+  content title: proc { I18n.t('active_admin.dashboard').html_safe } do
     next_delivery = Delivery.next
     columns do
       column do
@@ -47,9 +49,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
       column do
         if next_delivery
-          panel t('.next_delivery',
-              date: link_to(l(next_delivery.date, format: :long), next_delivery),
-              number: link_to(next_delivery.number, next_delivery)).html_safe do
+          panel t('.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
             counts = next_delivery.basket_counts
             if counts.present?
               table_for counts.all do

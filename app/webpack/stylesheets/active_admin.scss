@@ -28,7 +28,6 @@ body.logged_out h2, .tabs .nav-tabs, table.index_table thead th, .panel h3, .sid
 
 .flash_alert {
   background-color: tint($negative-color, 95%);
-  background-image: linear-gradient(to bottom, tint($negative-color, 90%), tint($negative-color, 85%));
   border-color: rgba($negative-color, 0.5);
   color: $negative-color;
 
@@ -107,7 +106,6 @@ label.disabled {
   color: #aaa;
 }
 
-
 form#edit_membership ol em {
   color: rgba(63, 63, 63, 0.5);
   transition: color 250ms;
@@ -123,8 +121,9 @@ span.delivery_note {
     width: 100%;
   }
 
-  input {
-    margin-top: 5px;
+  input[type='submit'] {
+    padding: 5px 10px;
+    margin: 5px 0 10px 0;
   }
 }
 
@@ -192,8 +191,8 @@ table a.xlsx_link {
 .status_tag {
   white-space: nowrap;
 
-  &.canceled {
-    background-color: #cccccc;
+  &.canceled, &.inactive {
+    background-color: lighten($text-color, 50);
   }
 
   &.coming,
@@ -234,6 +233,28 @@ table a.xlsx_link {
   }
 }
 
+table.index_table {
+  .col-activity, .col-period, .col-date, .col-delivery, .col-amount, .col-paid_amount, .col-started_on, .col-ended_on {
+    white-space: nowrap;
+  }
+  .col-actions-2 {
+    width: 72px;
+    padding: $spacing-small;
+  }
+  .col-actions-3 {
+    width: 98px;
+    padding: $spacing-small;
+  }
+  .col-actions-4 {
+    width: 124px;
+    padding: $spacing-small;
+  }
+  .col-actions-5 {
+    width: 150px;
+    padding: $spacing-small;
+  }
+}
+
 table#index_table_invoices,
 table#index_table_payments {
   .col-amount,
@@ -245,19 +266,6 @@ table#index_table_payments {
   .col-rap {
     text-align: right;
   }
-
-  .col-actions {
-    padding: 0 5px;
-    margin: 0;
-    width: 90px;
-  }
-}
-
-table#index_table_depots {
-  .col-actions {
-    margin: 0;
-    width: 108px;
-  }
 }
 
 table#index_table_deliveries {
@@ -267,10 +275,6 @@ table#index_table_deliveries {
 
   .col-date {
     width: 200px;
-  }
-
-  .col-actions {
-    width: 160px;
   }
 }
 
@@ -282,27 +286,25 @@ table#index_table_mail_templates {
     width: 100px;
     text-align: center;
   }
-  .col-actions {
-    width: 82px;
-  }
 }
 
 table.table-baskets {
-  .col-status {
-    width: 80px;
-    padding-left: 10px;
+  .col-delivery, .col-status, .col-depot {
+    white-space: nowrap;
+    padding: 5px $spacing-small;
   }
 
-  .col-actions {
-    width: 30px;
+  .col-description {
+    min-width: 120px;
+    padding: 5px $spacing-small;
   }
-
   .col-delivery {
-    width: 180px;
+    padding-left: 0;
   }
 
-  .col-depot {
-    padding-left: 20px;
+  .col-actions-1 {
+    width: 36px;
+    padding: 5px 0 5px 5px;
   }
 
   tr.next {
@@ -358,20 +360,11 @@ table.table-invoices {
     min-width: 100px;
     padding-right: 10px;
   }
-
-  .col-actions {
-    text-align: right;
-    color: transparent;
-  }
 }
 
 table.table-invoices {
   .col-overdue_notices_count {
     padding-right: 10px;
-  }
-
-  .col-actions {
-    width: 50px;
   }
 }
 
@@ -413,11 +406,6 @@ table.table-activity_participations {
     text-align: right;
     width: 80px;
   }
-
-  .col-actions {
-    padding: 0 5;
-    min-width: 110px;
-  }
 }
 
 table#index_table_members {
@@ -444,10 +432,6 @@ table#index_table_group_buying_deliveries {
     width: 50px;
   }
 
-  .col-actions {
-    width: 134px;
-  }
-
   .col-orders {
     text-align: right;
     width: 120px;
@@ -455,10 +439,6 @@ table#index_table_group_buying_deliveries {
 }
 
 table#index_table_group_buying_producers {
-  .col-actions {
-    width: 82px;
-  }
-
   .col-products {
     width: 80px;
     text-align: right;
@@ -473,11 +453,6 @@ table#index_table_group_buying_orders {
 
   .col-state {
     text-align: right;
-    // width: 110px;
-  }
-
-  .col-actions {
-    width: 82px;
   }
 }
 
@@ -490,10 +465,6 @@ table#index_table_group_buying_products {
   .col-price {
     width: 140px;
     text-align: right;
-  }
-
-  .col-actions {
-    width: 82px;
   }
 }
 
@@ -510,12 +481,7 @@ table.table-memberships {
   }
 
   .col-activity_participations_demanded {
-    min-width: 140px;
     text-align: right;
-  }
-
-  .col-actions {
-    width: 108px;
   }
 
   .col-ended_on,
@@ -552,10 +518,6 @@ table.totals_2 {
   tr:last-child {
     font-weight: bold;
   }
-}
-
-#titlebar_right .action_item {
-  margin-bottom: 3px !important;
 }
 
 .basket_complements,
@@ -596,6 +558,8 @@ table.totals_2 {
   margin: 15px 15px 0 0;
   a {
     width: 160px;
+    padding: 5px 10px;
+    box-shadow: rgba(27, 31, 35, 0.1) 0px 1px 0px 0px, rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
   }
 }
 
@@ -657,21 +621,6 @@ form.filter_form .check_boxes {
   .totals {
     margin-top: 20px;
   }
-}
-
-.table_tools .scopes ul.table_tools_segmented_control {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.table_tools .scopes li a {
-  margin: -1px 0 0 0;
-}
-
-.table_tools .scope.selected, .table_tools .scope.selected a {
-  background-image: linear-gradient(to bottom, #e6e6e6, #fff);
-  color: black !important;
 }
 
 .field_with_errors,
@@ -849,6 +798,7 @@ iframe.mail_preview {
   display: block;
   margin: 0 auto;
   border: 2px dashed lightgrey;
+  border-radius: $radius;
 
   &::-webkit-scrollbar {
     display: none;

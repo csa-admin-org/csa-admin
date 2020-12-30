@@ -42,11 +42,11 @@ ActiveAdmin.register ActivityParticipation do
       link_with_session ap.member, ap.session
     }, sortable: 'members.name'
     column :activity, ->(ap) {
-      link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
+      link_to ap.activity.name(show_place: false), activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
     }, sortable: 'activities.date'
     column :participants_count
     column :state, ->(ap) { status_tag ap.state }
-    actions
+    actions class: 'col-actions-3'
   end
 
   csv do
@@ -66,8 +66,8 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   sidebar :icalendar, if: -> { Current.acp.ical_feed? }, only: :index do
-    div do
-      span link_to t('.subscribe_ical_link'), activity_participations_calendar_url(auth_token: Current.acp.ical_feed_auth_token)
+    div class: 'content' do
+      link_to t('.subscribe_ical_link'), activity_participations_calendar_url(auth_token: Current.acp.ical_feed_auth_token), class: 'button'
     end
   end
 

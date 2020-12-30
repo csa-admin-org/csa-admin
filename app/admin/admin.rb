@@ -7,7 +7,7 @@ ActiveAdmin.register Admin do
     column :email
     column :last_session_used_at, sortable: 'sessions.last_used_at'
     column :rights
-    actions
+    actions class: 'col-actions-3'
   end
 
   show do |admin|

@@ -39,7 +39,7 @@ ActiveAdmin.register GroupBuying::Order do
     column :member, sortable: 'members.name'
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
-    actions defaults: true do |order|
+    actions defaults: true, class: 'col-actions-2' do |order|
       link_to 'PDF', rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
     end
   end
@@ -60,24 +60,25 @@ ActiveAdmin.register GroupBuying::Order do
 
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
-
-    if params[:scope].in? ['all_without_canceled', 'open', nil]
-      div class: 'total' do
-        span t('billing.scope.paid')
-        span cur(all.sum('invoices.paid_amount')), style: 'float: right;'
-      end
-      div class: 'total' do
-        span t('billing.scope.missing')
-        span cur(all.sum('invoices.amount - invoices.paid_amount')), style: 'float: right'
-      end
-      div class: 'totals' do
-        span t('active_admin.sidebars.amount')
-        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
-      end
-    else
-      div do
-        span t('active_admin.sidebars.amount')
-        span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+    div class: 'content' do
+      if params[:scope].in? ['all_without_canceled', 'open', nil]
+        div class: 'total' do
+          span t('billing.scope.paid')
+          span cur(all.sum('invoices.paid_amount')), style: 'float: right;'
+        end
+        div class: 'total' do
+          span t('billing.scope.missing')
+          span cur(all.sum('invoices.amount - invoices.paid_amount')), style: 'float: right'
+        end
+        div class: 'totals' do
+          span t('active_admin.sidebars.amount')
+          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
+      else
+        div do
+          span t('active_admin.sidebars.amount')
+          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
       end
     end
   end

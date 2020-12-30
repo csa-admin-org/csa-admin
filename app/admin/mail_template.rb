@@ -29,7 +29,7 @@ ActiveAdmin.register MailTemplate do
     column :title, ->(mt) { link_to mt.display_name, mt }, sortable: false
     column :description
     column :active, sortable: false
-    actions
+    actions class: 'col-actions-2'
   end
 
   show do |mail_template|

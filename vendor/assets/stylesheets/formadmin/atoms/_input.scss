@@ -2,10 +2,10 @@
   appearance: none;
   -webkit-appearance: none;
   background-color: $white;
-  border: 1px solid rgba($silver, 0.75);
+  border: 1px solid lighten($text-color, 55);
   border-radius: $radius;
   outline: 0;
-  padding: 10px 12px;
+  padding: $spacing-small;
   transition: border-color 250ms, box-shadow 250ms;
   width: 100%;
 

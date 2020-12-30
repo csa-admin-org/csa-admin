@@ -11,14 +11,14 @@ ActiveAdmin.register BasketContent do
   index download_links: -> {
     params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
   } do
-    column :date, ->(bc) { bc.delivery.date.to_s }
+    column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
     column :vegetable, ->(bc) { bc.vegetable.name }
     column :quantity, ->(bc) { display_quantity(bc) }
-    column small_basket.name, ->(bc) { display_basket_quantity(bc, :small) }
-    column big_basket.name, ->(bc) { display_basket_quantity(bc, :big) }
+    column small_basket.name, ->(bc) { display_basket_quantity(bc, :small) }, class: 'nowrap'
+    column big_basket.name, ->(bc) { display_basket_quantity(bc, :big) }, class: 'nowrap'
     column :surplus, ->(bc) { display_surplus_quantity(bc) }
     column :depots, ->(bc) { display_depots(bc) }
-    actions
+    actions class: 'col-actions-2'
   end
 
   csv do

@@ -1,12 +1,12 @@
 .panel,
 .sidebar_section {
   @extend %box;
-  margin-bottom: 20px;
+  margin-bottom: $spacing;
   overflow: hidden;
+  padding: 0;
 
   h3 {
     @extend %header;
-    margin: 0;
   }
 
   hr {
@@ -15,6 +15,6 @@
   }
 
   > div {
-    padding: 15px;
+    padding: $spacing-small 0px;
   }
 }

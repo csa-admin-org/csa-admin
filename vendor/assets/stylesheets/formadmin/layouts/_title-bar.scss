@@ -1,14 +1,12 @@
 .title_bar {
   background-color: $white;
-  border-bottom: 1px solid $silver;
-  box-shadow: 0 0 10px rgba($black, 0.1);
   display: table;
-  margin-top: 50px;
-  padding: 20px 30px;
+  margin-top: 50px ;
+  padding: $spacing;
   width: 100%;
 
   #page_title {
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 100;
     line-height: 1;
     margin: 0;
@@ -27,19 +25,22 @@
       display: inline-block;
 
       a {
-        border: 2px solid rgba($primary-color, 0.25);
+        border: 1px solid tint($primary-color, 50%);
         border-radius: $radius;
-        color: rgba($primary-color, 0.75);
+        color: tint($primary-color, 25%);
+        box-shadow: rgba(27, 31, 35, 0.1) 0px 1px 0px 0px, rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
         display: block;
-        font-weight: bold;
-        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 5px 10px;
         text-decoration: none;
         text-transform: uppercase;
         transition: all 250ms;
+        margin-left: 5px;
 
         &:hover {
-          border-color: $primary-color;
-          color: $primary-color;
+          border-color: shade($primary-color, 20%);
+          color: shade($primary-color, 20%);
         }
       }
     }

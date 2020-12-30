@@ -93,7 +93,7 @@ class Member < ActiveRecord::Base
   end
 
   def same_delivery_address?
-    display_address == display_delivery_address
+    [final_delivery_address, final_delivery_city, final_delivery_zip] == [address, city, zip]
   end
 
   def final_delivery_address

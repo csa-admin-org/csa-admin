@@ -23,7 +23,7 @@ table.index_table {
 
   th,
   td {
-    padding: 12px 15px;
+    padding: $spacing-small $spacing;
     text-align: left;
     vertical-align: middle;
 
@@ -36,7 +36,9 @@ table.index_table {
     @extend %header;
     border: 1px solid $silver;
     border-width: 0 1px 1px 0;
+    border-bottom: 0;
     vertical-align: bottom;
+    white-space: nowrap;
 
     &:first-child {
       border-top-left-radius: $radius;
@@ -58,8 +60,9 @@ table.index_table {
 
     &.sorted-asc,
     &.sorted-desc {
-      background-color: shade($white, 10%);
-      background-image: linear-gradient(to bottom, shade($white, 10%), shade($white, 15%));
+      background-color: lighten($silver, 3%);
+      color: $black;
+      font-weight: 400;
     }
 
     &.sorted-asc a {
@@ -99,6 +102,10 @@ table.index_table {
       border: 1px solid tint($silver, 35%);
       border-width: 0 1px 1px 0;
       transition: background 250ms;
+
+      &.nowrap {
+        white-space: nowrap;
+      }
     }
   }
 
@@ -174,6 +181,7 @@ table.index_table {
 .attributes_table,
 .panel_contents {
   overflow: hidden;
+  margin: 0 $spacing;
 
   table {
     width: 100%;
@@ -221,4 +229,8 @@ table.index_table {
       }
     }
   }
+}
+
+.attributes_table {
+  margin: 0;
 }

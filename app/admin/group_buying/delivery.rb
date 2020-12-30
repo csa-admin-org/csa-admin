@@ -39,7 +39,7 @@ ActiveAdmin.register GroupBuying::Delivery do
     column :orders, ->(delivery) {
       link_to(delivery.orders_without_canceled.size, group_buying_orders_path(q: { delivery_id_eq: delivery.id }))
     }
-    actions defaults: true do |delivery|
+    actions defaults: true, class: 'col-actions-4' do |delivery|
       link_to('XLSX', group_buying_delivery_path(delivery, format: :xlsx), class: 'xlsx_link')
     end
   end
