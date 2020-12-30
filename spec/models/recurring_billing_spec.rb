@@ -35,22 +35,26 @@ describe RecurringBilling do
   end
 
   it 'creates an invoice for not already billed support member' do
-    member = create(:member, :support_annual_fee)
-    invoice = create_invoice(member)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      member = create(:member, :support_annual_fee)
+      invoice = create_invoice(member)
 
-    expect(invoice.object).to be_nil
-    expect(invoice.object_type).to eq 'AnnualFee'
-    expect(invoice.annual_fee).to be_present
-    expect(invoice.memberships_amount).to be_nil
-    expect(invoice.amount).to eq invoice.annual_fee
-    expect(invoice.pdf_file).to be_attached
+      expect(invoice.object).to be_nil
+      expect(invoice.object_type).to eq 'AnnualFee'
+      expect(invoice.annual_fee).to be_present
+      expect(invoice.memberships_amount).to be_nil
+      expect(invoice.amount).to eq invoice.annual_fee
+      expect(invoice.pdf_file).to be_attached
+    end
   end
 
   it 'does not create an invoice for already billed support member' do
-    member = create(:member, :support_annual_fee)
-    create(:invoice, :annual_fee, member: member)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      member = create(:member, :support_annual_fee)
+      create(:invoice, :annual_fee, member: member)
 
-    expect { create_invoice(member) }.not_to change(Invoice, :count)
+      expect { create_invoice(member) }.not_to change(Invoice, :count)
+    end
   end
 
   it 'creates an invoice for trial membership when forced' do
@@ -89,29 +93,35 @@ describe RecurringBilling do
   end
 
   it 'does not bill annual fee when member annual_fee is nil' do
-    member = create(:member, :support_annual_fee)
-    member.update_column(:annual_fee, nil)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      member = create(:member, :support_annual_fee)
+      member.update_column(:annual_fee, nil)
 
-    expect { create_invoice(member) }.not_to change(Invoice, :count)
+      expect { create_invoice(member) }.not_to change(Invoice, :count)
+    end
   end
 
   it 'does not bill annual fee when member annual_fee is zero' do
-    member = create(:member, :support_annual_fee)
-    member.update_column(:annual_fee, 0)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      member = create(:member, :support_annual_fee)
+      member.update_column(:annual_fee, 0)
 
-    expect { create_invoice(member) }.not_to change(Invoice, :count)
+      expect { create_invoice(member) }.not_to change(Invoice, :count)
+    end
   end
 
   it 'creates an invoice for already billed support member (last year)' do
-    member = create(:member, :support_annual_fee)
-    create(:invoice, :annual_fee, member: member, date: 1.year.ago)
-    invoice = create_invoice(member)
+    travel_to(Date.new(Current.fy_year, 1, 15)) do
+      member = create(:member, :support_annual_fee)
+      create(:invoice, :annual_fee, member: member, date: 1.year.ago)
+      invoice = create_invoice(member)
 
-    expect(invoice.object).to be_nil
-    expect(invoice.annual_fee).to be_present
-    expect(invoice.memberships_amount).to be_nil
-    expect(invoice.amount).to eq invoice.annual_fee
-    expect(invoice.pdf_file).to be_attached
+      expect(invoice.object).to be_nil
+      expect(invoice.annual_fee).to be_present
+      expect(invoice.memberships_amount).to be_nil
+      expect(invoice.amount).to eq invoice.annual_fee
+      expect(invoice.pdf_file).to be_attached
+    end
   end
 
   context 'when billed yearly' do
@@ -166,13 +176,15 @@ describe RecurringBilling do
     end
 
     specify 'when salary basket & support member' do
-      member = create(:member, :support_annual_fee, salary_basket: true)
-      invoice = create_invoice(member)
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        member = create(:member, :support_annual_fee, salary_basket: true)
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to be_nil
-      expect(invoice.annual_fee).to be_present
-      expect(invoice.memberships_amount).to be_nil
-      expect(invoice.pdf_file).to be_attached
+        expect(invoice.object).to be_nil
+        expect(invoice.annual_fee).to be_present
+        expect(invoice.memberships_amount).to be_nil
+        expect(invoice.pdf_file).to be_attached
+      end
     end
 
     specify 'when already billed' do

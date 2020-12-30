@@ -7,22 +7,24 @@ describe 'members page' do
   }
 
   it 'shows current membership info and activities count' do
-    member = create(:member, :active)
-    create(:basket_complement, id: 1, name: 'Oeufs')
-    member.current_year_membership.update!(
-      activity_participations_demanded_annualy: 3,
-      basket_size: create(:basket_size, name: 'Petit'),
-      depot: create(:depot, name: 'Jardin de la main'),
-      memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1 }
-      })
+    travel_to '2020-06-01' do
+      member = create(:member, :active)
+      create(:basket_complement, id: 1, name: 'Oeufs')
+      member.current_year_membership.update!(
+        activity_participations_demanded_annualy: 3,
+        basket_size: create(:basket_size, name: 'Petit'),
+        depot: create(:depot, name: 'Jardin de la main'),
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1 }
+        })
 
-    login(member)
-    visit '/deliveries'
+      login(member)
+      visit '/deliveries'
 
-    expect(page).to have_content 'Panier: Petit'
-    expect(page).to have_content 'Complément: Oeufs'
-    expect(page).to have_content 'Dépôt: Jardin de la main'
+      expect(page).to have_content 'Panier: Petit'
+      expect(page).to have_content 'Complément: Oeufs'
+      expect(page).to have_content 'Dépôt: Jardin de la main'
+    end
   end
 
   it 'shows no membership text' do
