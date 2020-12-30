@@ -225,6 +225,14 @@ svg {
   margin: 0 -2px -2px $small-spacing / 2;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #171717 !important;
+    filter: invert(0.91) hue-rotate(180deg) !important;
+  }
+}
+
+
 @import 'members/body';
 @import 'members/flashes';
 @import 'members/sessions';
