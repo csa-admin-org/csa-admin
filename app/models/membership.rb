@@ -500,7 +500,7 @@ class Membership < ActiveRecord::Base
 
   def open_renewal_of_previous_membership
     if started_on == Current.fiscal_year.end_of_year + 1.day
-      member.current_membership.update!(
+      member.current_membership&.update!(
         renewal_opened_at: nil,
         renewed_at: nil,
         renew: true)
