@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '3.0.0'
 
 gem 'rails', '6.1.0'
 
@@ -11,7 +11,8 @@ gem 'puma'
 gem 'lograge'
 
 gem 'bcrypt'
-gem 'date_validator'
+# Waiting on https://github.com/codegram/date_validator/pull/85
+gem 'date_validator', github: 'PlayerData/date_validator', branch: 'ruby-3'
 gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
 
@@ -23,11 +24,11 @@ gem 'phony_rails'
 gem 'tod'
 
 gem 'activeadmin'
-# Waiting for 3.2.1
-# https://github.com/CanCanCommunity/cancancan/issues/676
-gem 'cancancan', github: 'CanCanCommunity/cancancan', branch: :develop
+gem 'cancancan'
 gem 'invisible_captcha'
 gem 'ransack'
+# Waiting for 4.0.0
+gem 'formtastic', github: 'formtastic'
 
 gem 'inline_svg'
 gem 'slim'
@@ -52,6 +53,7 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'public_suffix'
 gem 'rubyXL'
+gem 'rexml'
 
 gem 'postmark-rails'
 gem 'premailer-rails'

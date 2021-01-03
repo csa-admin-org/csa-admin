@@ -288,9 +288,6 @@ _:
       one_page:
         _de: Anzeige von <b>%{n}</b> %{model}
         _fr: Affichage des <b>%{n}</b> %{model}
-    powered_by:
-      _de: Angetrieben von %{active_admin} %{version}
-      _fr: Propulsé par %{active_admin} %{version}
     previous:
       _de: Vorheriger
       _fr: Précédent

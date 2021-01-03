@@ -194,9 +194,11 @@ describe RecurringBilling do
     end
 
     specify 'when membership did not started yet' do
-      membership.update_column(:started_on, Date.tomorrow)
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        membership.update_column(:started_on, Date.tomorrow)
 
-      expect { create_invoice(member) }.to change(Invoice, :count).by(1)
+        expect { create_invoice(member) }.to change(Invoice, :count).by(1)
+      end
     end
 
     specify 'when already billed, but with a membership change' do

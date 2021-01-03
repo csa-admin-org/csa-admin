@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe Liquid::DataPreview do
   specify 'recursively render drop data' do
-    create(:depot, id: 12, name: 'Jardin de la main')
-    create(:basket_size, id: 33, name: 'Eveil')
-
     data = travel_to('2020-03-24') do
+      create(:depot, id: 12, name: 'Jardin de la main')
+      create(:basket_size, id: 33, name: 'Eveil')
+
       mail_template = MailTemplate.create!(title: 'member_activated')
       described_class.for(mail_template)
     end
@@ -77,10 +77,10 @@ describe Liquid::DataPreview do
 
   specify 'without activity feature' do
     Current.acp.update!(features: [])
-    create(:depot, id: 12, name: 'Jardin de la main')
-    create(:basket_size, id: 33, name: 'Eveil')
-
     data = travel_to('2020-03-24') do
+      create(:depot, id: 12, name: 'Jardin de la main')
+      create(:basket_size, id: 33, name: 'Eveil')
+
       mail_template = MailTemplate.create!(title: 'member_activated')
       described_class.for(mail_template)
     end

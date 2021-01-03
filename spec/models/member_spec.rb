@@ -245,34 +245,38 @@ describe Member do
     before { MailTemplate.create! title: :member_activated, active: true }
 
     it 'activates new active member and sent member-activated email' do
-      member = create(:member, :inactive, activated_at: nil)
-      membership = create(:membership,
-        member: member,
-        ended_on: 1.day.ago)
-      membership.update_column(:ended_on, 1.day.from_now)
-      member.reload
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        member = create(:member, :inactive, activated_at: nil)
+        membership = create(:membership,
+          member: member,
+          ended_on: 1.day.ago)
+        membership.update_column(:ended_on, 1.day.from_now)
+        member.reload
 
-      expect { member.activate! }
-        .to change(member, :state).from('inactive').to('active')
-        .and change(member, :activated_at).from(nil)
-        .and change { MemberMailer.deliveries.size }.by(1)
+        expect { member.activate! }
+          .to change(member, :state).from('inactive').to('active')
+          .and change(member, :activated_at).from(nil)
+          .and change { MemberMailer.deliveries.size }.by(1)
 
-      mail = MemberMailer.deliveries.last
-      expect(mail.subject).to eq 'Bienvenue!'
+        mail = MemberMailer.deliveries.last
+        expect(mail.subject).to eq 'Bienvenue!'
+      end
     end
 
     it 'activates previously active member' do
-      member = create(:member, :inactive, activated_at: 1.year.ago)
-      membership = create(:membership,
-        member: member,
-        ended_on: 1.day.ago)
-      membership.update_column(:ended_on, 1.day.from_now)
-      member.reload
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        member = create(:member, :inactive, activated_at: 1.year.ago)
+        membership = create(:membership,
+          member: member,
+          ended_on: 1.day.ago)
+        membership.update_column(:ended_on, 1.day.from_now)
+        member.reload
 
-      expect { member.activate! }
-        .not_to change(member, :activated_at)
+        expect { member.activate! }
+          .not_to change(member, :activated_at)
 
-      expect(MemberMailer.deliveries).to be_empty
+        expect(MemberMailer.deliveries).to be_empty
+      end
     end
   end
 
