@@ -126,7 +126,7 @@ FactoryBot.define do
   factory :delivery do
     date { Time.current }
 
-    after :create, &:reload
+    after(:create) { |d| d.reload }
   end
 
   factory :depot do

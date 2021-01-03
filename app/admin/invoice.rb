@@ -215,12 +215,16 @@ ActiveAdmin.register Invoice do
         tab activities_human_name, id: 'activity_participation' do
           f.inputs do
             if f.object.object.is_a?(ActivityParticipation)
-              li class: 'refused_activity_participation' do
-                (
-                  link_to(t('.refused_activity_participation', date: f.object.object.activity.date), activity_participation_path(f.object.object_id)) +
-                  ' – ' +
-                  link_to(t('.erase').downcase, new_invoice_path(member_id: f.object.member_id))
-                ).html_safe
+              li(class: 'refused_activity_participation') do
+                parts = []
+                parts << link_to(
+                  I18n.t('active_admin.resource.new.refused_activity_participation', date: f.object.object.activity.date),
+                  activity_participation_path(f.object.object_id))
+                parts << ' – '
+                parts << link_to(
+                  t('.erase').downcase,
+                  new_invoice_path(member_id: f.object.member_id))
+                parts.join.html_safe
               end
             end
             f.input :paid_missing_activity_participations, as: :number, step: 1
