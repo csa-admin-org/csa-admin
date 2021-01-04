@@ -4,6 +4,7 @@ if resource.new_record?
     f.input :bulk_dates_ends_on, as: :datepicker, required: false
     f.input :bulk_dates_weeks_frequency,
       collection: [1, 2, 4].map { |i| [t(".weeks_frequency_#{i}"), i] },
+      as: :select,
       required: false
     f.input :bulk_dates_wdays,
       as: :check_boxes,
