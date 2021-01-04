@@ -119,7 +119,7 @@ ActiveAdmin.register ACP do
       f.inputs t('.members_participation') do
         f.input :activity_i18n_scope,
           as: :select,
-          collection: ACP.activity_i18n_scopes.map { |s| [t("activities.#{s}", count: 2), s] },
+          collection: ACP.activity_i18n_scopes.map { |s| [I18n.t("activities.#{s}", count: 2), s] },
           prompt: true
         f.input :activity_participation_deletion_deadline_in_days
         f.input :activity_availability_limit_in_days
@@ -163,7 +163,7 @@ ActiveAdmin.register ACP do
     end
 
     f.actions do
-      f.submit t('active_admin.edit_model', model: resource.name)
+      f.submit I18n.t('active_admin.edit_model', model: resource.name)
     end
   end
 
