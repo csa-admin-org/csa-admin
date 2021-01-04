@@ -4,7 +4,7 @@ module Billing
     URL = 'https://econnect.raiffeisen.ch/ebicsweb/ebicsweb'.freeze
     GET_PAYMENTS_FROM = 1.month.ago
 
-    def initialize(**credentials)
+    def initialize(credentials = {})
       @credentials = credentials
       @client = client
     end
