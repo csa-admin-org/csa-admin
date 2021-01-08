@@ -43,6 +43,13 @@ _:
     deliveries_counts_range:
       _de: "%{range} Lieferungen"
       _fr: "%{range} livraisons"
+    email_suppressions:
+      destroy:
+        _de: Reaktivieren
+        _fr: Réactiver
+      destroy_confirm:
+        _de: Sind Sie sicher? Bitte überprüfen Sie, ob diese E-Mail (noch) gültig ist, bevor Sie sie reaktivieren?
+        _fr: Êtes-vous sûr? Merci de vérifier que cet email soit bien (encore) valide avant de le réactiver?
     no_basket_size:
       _de: Kein, Unterstützungsmitglied werden
       _fr: Aucun, devenir membre de soutien

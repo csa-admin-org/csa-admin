@@ -24,7 +24,7 @@ describe 'Account' do
 
     expect(page).to have_content("Nom\nDoe Jame and John")
     expect(page).to have_content("Adresse\nNowhere 11234 TownSuisse")
-    expect(page).to have_content("Email(s)\njohn@doe.com, jame@doe.com")
+    expect(page).to have_content("Email(s)\njame@doe.com, john@doe.com")
     expect(page).to have_content("Téléphone(s)\n076 123 45 67, 079 765 43 21")
   end
 

@@ -149,6 +149,10 @@ class Membership < ActiveRecord::Base
     fy_year >= Current.fy_year
   end
 
+  def can_send_email?
+    member.emails?
+  end
+
   def renewal_state
     if renewed?
       :renewed
@@ -178,6 +182,7 @@ class Membership < ActiveRecord::Base
     unless Delivery.any_next_year?
       raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
     end
+    return unless can_send_email?
 
     MailTemplate.deliver_later(:membership_renewal,
       membership: self)
@@ -194,7 +199,9 @@ class Membership < ActiveRecord::Base
       .where(renew: true)
       .where(renewal_reminder_sent_at: nil)
       .where('renewal_opened_at <= ?', in_days.days.ago)
-      .find_each(&:send_renewal_reminder!)
+      .includes(:member)
+      .select(&:can_send_email?)
+      .each(&:send_renewal_reminder!)
   end
 
   def send_renewal_reminder!
@@ -206,7 +213,7 @@ class Membership < ActiveRecord::Base
     end
     raise 'renewal not opened yet' unless renewal_opened_at?
     raise 'reminder already sent' if renewal_reminder_sent_at?
-
+    return unless can_send_email?
 
     MailTemplate.deliver_later(:membership_renewal_reminder,
       membership: self)

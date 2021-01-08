@@ -4,7 +4,7 @@ namespace :depots do
     ACP.enter_each! do
       next_delivery = Delivery.next
       if next_delivery && Date.current == (next_delivery.date - 1.day)
-        next_delivery.depots.with_emails.each do |depot|
+        next_delivery.depots.select(&:emails?).each do |depot|
           baskets =
             depot.baskets
               .not_absent

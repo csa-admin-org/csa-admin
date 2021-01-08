@@ -77,7 +77,13 @@ class Member < ActiveRecord::Base
   end
 
   def display_address
-    address.present? ? "#{address}, #{city} (#{zip}), #{country.translations[I18n.locale.to_s]}" : '–'
+    return if address.blank?
+
+    parts = []
+    parts << address
+    parts << "#{zip} #{city}"
+    parts << country.translations[I18n.locale.to_s]
+    parts.join("<br/>").html_safe
   end
 
   def country
@@ -85,11 +91,12 @@ class Member < ActiveRecord::Base
   end
 
   def display_delivery_address
-    if final_delivery_address.present?
-      "#{final_delivery_address}, #{final_delivery_city} (#{final_delivery_zip})"
-    else
-      '–'
-    end
+    return if final_delivery_address.blank?
+
+    parts = []
+    parts << final_delivery_address
+    parts << "#{final_delivery_zip} #{final_delivery_city}"
+    parts.join("<br/>").html_safe
   end
 
   def same_delivery_address?

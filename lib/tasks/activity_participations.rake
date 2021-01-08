@@ -7,7 +7,7 @@ namespace :activity_participations do
           .coming
           .includes(:activity, :member)
           .select(&:reminderable?)
-          .select(&:notificable?)
+          .select(&:can_send_email?)
       grouped_participations = ActivityParticipationGroup.group(participations)
 
       grouped_participations.each do |participation|
@@ -28,7 +28,7 @@ namespace :activity_participations do
           .validated
           .review_not_sent
           .includes(:activity, :member)
-          .select(&:notificable?)
+          .select(&:can_send_email?)
       ActivityParticipationGroup
         .group(validated_participations)
         .each { |participation|
@@ -42,7 +42,7 @@ namespace :activity_participations do
           .rejected
           .review_not_sent
           .includes(:activity, :member)
-          .select(&:notificable?)
+          .select(&:can_send_email?)
       ActivityParticipationGroup
         .group(rejected_participations)
         .each { |participation|

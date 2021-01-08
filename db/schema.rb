@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_195509) do
+ActiveRecord::Schema.define(version: 2021_01_04_175046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -333,6 +333,16 @@ ActiveRecord::Schema.define(version: 2020_12_19_195509) do
     t.index ["visible"], name: "index_depots_on_visible"
   end
 
+  create_table "email_suppressions", force: :cascade do |t|
+    t.string "email"
+    t.string "reason"
+    t.string "origin"
+    t.string "stream_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.index ["stream_id", "email", "reason", "origin", "created_at"], name: "email_suppressions_unique_index", unique: true
+  end
+
   create_table "gribouilles", id: :serial, force: :cascade do |t|
     t.integer "delivery_id", null: false
     t.text "header"
@@ -563,6 +573,7 @@ ActiveRecord::Schema.define(version: 2020_12_19_195509) do
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true
+    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
   end
 
   create_table "vegetables", id: :serial, force: :cascade do |t|

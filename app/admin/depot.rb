@@ -88,8 +88,8 @@ ActiveAdmin.register Depot do
         end
 
         attributes_table title: Depot.human_attribute_name(:contact) do
-          row(:emails) { display_emails_with_link(depot.emails_array) }
-          row(:phones) { display_phones_with_link(depot.phones_array) }
+          row(:emails) { display_emails_with_link(self, depot.emails_array) }
+          row(:phones) { display_phones_with_link(self, depot.phones_array) }
           row :responsible_member
         end
 

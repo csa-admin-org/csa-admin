@@ -238,8 +238,8 @@ ActiveAdmin.register Member do
           unless member.same_delivery_address?
             row(Member.human_attribute_name(:delivery_address)) { member.display_delivery_address }
           end
-          row(:emails) { display_emails_with_link(member.emails_array) }
-          row(:phones) { display_phones_with_link(member.phones_array) }
+          row(:emails) { display_emails_with_link(self, member.emails_array) }
+          row(:phones) { display_phones_with_link(self, member.phones_array) }
         end
         attributes_table title: t('.billing') do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
