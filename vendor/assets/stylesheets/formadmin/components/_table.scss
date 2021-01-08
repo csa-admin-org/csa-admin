@@ -234,3 +234,16 @@ table.index_table {
 .attributes_table {
   margin: 0;
 }
+
+.attributes_table ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin-top: 5px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}

@@ -11,16 +11,46 @@ module ApplicationHelper
     simple_format(text) if text.present?
   end
 
-  def display_emails_with_link(emails)
-    Array(emails).map { |email| mail_to(email) }.join(', ').html_safe
+  def display_emails_with_link(arbre, emails)
+    return unless emails.present?
+
+    arbre.ul do
+      Array(emails).map do |email|
+        arbre.li do
+          suppressions = EmailSuppression.outbound.where(email: email)
+          if suppressions.any?
+            arbre.s(email)
+            suppressions.each do |suppression|
+              arbre.status_tag suppression.reason.underscore
+            end
+            if suppressions.deletable.any?
+              arbre.span do
+                link_to(t('helpers.email_suppressions.destroy'), suppressions.first,
+                  method: :delete,
+                  class: 'button',
+                  data: { confirm: t('helpers.email_suppressions.destroy_confirm') })
+              end
+            end
+          else
+            mail_to(email)
+          end
+        end
+      end
+    end
   end
 
-  def display_phones_with_link(phones)
-    Array(phones).map { |phone|
-      link_to(
-        phone.phony_formatted,
-        'tel:' + phone.phony_formatted(spaces: '', format: :international))
-    }.join(', ').html_safe
+  def display_phones_with_link(arbre, phones)
+    return unless phones.present?
+
+    arbre.ul do
+      Array(phones).map do |phone|
+        arbre.li do
+          link_to(
+            phone.phony_formatted,
+            'tel:' + phone.phony_formatted(spaces: '', format: :international))
+        end
+      end
+    end
   end
 
   def display_price_description(price, description)

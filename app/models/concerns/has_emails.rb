@@ -6,7 +6,6 @@ module HasEmails
 
     validate :emails_must_be_valid
 
-    scope :with_emails, -> { where.not(emails: ['', nil]) }
     scope :with_email, ->(email) { where('members.emails ILIKE ?', "%#{email}%") }
     scope :including_email, ->(email) {
       where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", Regexp.escape(email))
@@ -24,11 +23,15 @@ module HasEmails
   end
 
   def emails_array
-    string_to_a(emails)
+    string_to_a(emails).sort
+  end
+
+  def active_emails
+    emails_array.reject { |email| EmailSuppression.exists?(email: email) }
   end
 
   def emails?
-    emails_array.present?
+    active_emails.any?
   end
 
   private

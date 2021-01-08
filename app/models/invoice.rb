@@ -101,9 +101,7 @@ class Invoice < ActiveRecord::Base
     return unless can_send_email?
     raise UnprocessedError unless processed?
 
-    if can_send_email?
-      MailTemplate.deliver_now(:invoice_created, invoice: self)
-    end
+    MailTemplate.deliver_now(:invoice_created, invoice: self)
     touch(:sent_at)
     close_or_open!
   rescue => ex

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     get '/login' => 'sessions#new', as: :login
     delete '/logout' => 'sessions#destroy', as: :logout
 
+    resources :email_suppressions, only: :destroy
+
     get 'activity_participations/calendar' => 'activity_participations_calendar#show',
       defaults: { format: :ics }
     get 'billing/:year' => 'billings#show', as: :billing

@@ -29,7 +29,7 @@ class Ability
       can :force_recurring_billing, Member
       can :renew_all, Membership
       can :open_renewal_all, Membership
-      can :open_renewal, Membership
+      can :open_renewal, Membership, can_send_email?: true
       can :enable_renewal, Membership
       can :renew, Membership
       can :cancel, Membership

@@ -101,7 +101,7 @@ class ActivityParticipation < ActiveRecord::Base
       review_sent_at: nil)
   end
 
-  def notificable?
+  def can_send_email?
     member.emails?
   end
 
