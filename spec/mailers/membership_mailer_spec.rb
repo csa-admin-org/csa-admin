@@ -14,7 +14,7 @@ describe MembershipMailer do
     expect(mail.to).to eq(['example@acp-admin.ch'])
     expect(mail.body).to include('Accéder au formulaire de renouvellement')
     expect(mail.body).to include('https://membres.ragedevert.ch/membership#renewal')
-    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
   specify '#renewal_reminder_email' do
@@ -30,6 +30,6 @@ describe MembershipMailer do
     expect(mail.to).to eq(['example@acp-admin.ch'])
     expect(mail.body).to include('Accéder au formulaire de renouvellement')
     expect(mail.body).to include('https://membres.ragedevert.ch/membership#renewal')
-    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 end
