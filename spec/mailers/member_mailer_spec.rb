@@ -19,7 +19,7 @@ describe MemberMailer do
     expect(mail.body).to include('<strong>Taille panier:</strong> Eveil')
     expect(mail.body).to include('Accéder à ma page de membre')
     expect(mail.body).to include('https://membres.ragedevert.ch')
-    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
   specify '#validated_email' do
@@ -35,6 +35,6 @@ describe MemberMailer do
     expect(mail.body).to include("Position sur la liste d'attente: <strong>1</strong>")
     expect(mail.body).to include('Accéder à ma page de membre')
     expect(mail.body).to include('https://membres.ragedevert.ch')
-    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 end

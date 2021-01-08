@@ -140,7 +140,10 @@ class ACP < ActiveRecord::Base
   end
 
   def email_from
-    "#{name} #{email_default_from}"
+    Mail::Address.new.tap { |builder|
+      builder.address = email_default_from
+      builder.display_name = name
+    }.to_s
   end
 
   def url=(url)

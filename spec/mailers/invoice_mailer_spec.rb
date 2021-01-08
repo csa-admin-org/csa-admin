@@ -21,7 +21,7 @@ describe InvoiceMailer do
     expect(body).to include('Voici votre nouvelle facture')
     expect(body).to include('Accéder à ma page de membre')
     expect(body).to include('https://membres.ragedevert.ch/billing')
-    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
@@ -50,7 +50,7 @@ describe InvoiceMailer do
     expect(body).to include('Le montant restant à payer est de: CHF 62')
     expect(body).to include('Accéder à ma page de membre')
     expect(body).to include('https://membres.ragedevert.ch/billing')
-    expect(mail.from).to eq 'Rage de Vert info@ragedevert.ch'
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
