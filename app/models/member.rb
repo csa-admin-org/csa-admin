@@ -44,6 +44,7 @@ class Member < ActiveRecord::Base
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
+  scope :no_salary_basket, -> { where(salary_basket: false) }
 
   after_initialize :set_defaults, unless: :persisted?
   before_validation :set_default_billing_year_division

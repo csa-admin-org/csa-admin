@@ -19,6 +19,7 @@ class Basket < ActiveRecord::Base
   before_validation :set_prices
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
+  scope :during_year, ->(year) { joins(:delivery).merge(Delivery.during_year(year)) }
   scope :delivered, -> { joins(:delivery).merge(Delivery.past) }
   scope :coming, -> { joins(:delivery).merge(Delivery.coming) }
   scope :between, ->(range) { joins(:delivery).merge(Delivery.between(range)) }
