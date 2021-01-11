@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe ACP do
+  specify 'validates that activity_price cannot be 0' do
+    acp = ACP.new(activity_price: nil)
+    expect(acp).not_to have_valid(:activity_price)
+  end
+
   describe '#summer_month_range' do
     it 'saves summer_month_range from min/max' do
       acp = create(:acp,
