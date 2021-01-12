@@ -32,8 +32,10 @@ class RecurringBilling
             else
               next_billing_day(beginning_of_next_period)
             end
-          else
+          elsif Current.acp.billing_starts_after_first_delivery?
             next_billing_day_after_first_billable_delivery
+          else
+            next_billing_day(membership.started_on)
           end
         date >= membership.fiscal_year.end_of_year ? today : date
       elsif member.support?

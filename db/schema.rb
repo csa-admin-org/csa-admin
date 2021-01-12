@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_04_175046) do
+ActiveRecord::Schema.define(version: 2021_01_12_163312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2021_01_04_175046) do
     t.string "currency_code", limit: 3, default: "CHF"
     t.jsonb "email_signatures", default: {}, null: false
     t.jsonb "email_footers", default: {}, null: false
+    t.boolean "billing_starts_after_first_delivery", default: true, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
