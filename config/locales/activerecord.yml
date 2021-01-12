@@ -30,6 +30,9 @@ _:
         annual_fee:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
+        billing_starts_after_first_delivery:
+          _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
+          _fr: Facturer les abonnements uniquement après leur première livraison
         billing_year_divisions:
           _de: Zahlungsintervall
           _fr: Intervalle de paiement

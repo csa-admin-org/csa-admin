@@ -21,6 +21,7 @@ ActiveAdmin.register ACP do
     :group_buying_email,
     :recurring_billing_wday, :currency_code,
     :open_renewal_reminder_sent_after_in_days,
+    :billing_starts_after_first_delivery,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -90,6 +91,7 @@ ActiveAdmin.register ACP do
         collection: wdays_collection,
         prompt: t('.recurring_billing_disabled'),
         required: false
+      f.input :billing_starts_after_first_delivery, as: :boolean
       f.input :annual_fee, as: :number
       f.input :share_price, as: :number
       f.input :vat_number

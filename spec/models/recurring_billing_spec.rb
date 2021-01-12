@@ -541,6 +541,23 @@ describe RecurringBilling do
       end
     end
 
+    specify 'membership beginning of the year, with ACP.billing_starts_after_first_delivery to false' do
+      Current.acp.update!(billing_starts_after_first_delivery: false)
+      create(:delivery, date: '2021-01-12') # Tuesday
+      member = travel_to '2021-01-01' do # Friday
+        create(:member, :active)
+      end
+      travel_to '2021-01-01' do # Friday
+        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+      end
+      travel_to '2021-01-11' do # Monday
+        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+      end
+      travel_to '2021-01-12' do # Tuesday
+        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
+      end
+    end
+
     specify 'membership just before end of year' do
       member = travel_to '2021-01-01' do # Friday
         create(:member, :active)
