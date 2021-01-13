@@ -90,8 +90,10 @@ module ApplicationHelper
     }
   end
 
-  def wdays_collection
-    Array(0..6).rotate.map { |d| [I18n.t('date.day_names')[d].capitalize, d] }
+  def wdays_collection(novalue = nil)
+    col = Array(0..6).rotate.map { |d| [I18n.t('date.day_names')[d].capitalize, d] }
+    col = [[novalue, nil]] + col if novalue
+    col
   end
 
   def referer_filter_member_id

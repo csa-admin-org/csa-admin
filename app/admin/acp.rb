@@ -88,8 +88,9 @@ ActiveAdmin.register ACP do
         prompt: true
       f.input :recurring_billing_wday,
         as: :select,
-        collection: wdays_collection,
-        prompt: t('.recurring_billing_disabled'),
+        collection: wdays_collection(t('.recurring_billing_disabled')),
+        include_blank: false,
+        prompt: false,
         required: false
       f.input :billing_starts_after_first_delivery, as: :boolean
       f.input :annual_fee, as: :number
