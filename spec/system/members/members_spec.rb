@@ -213,6 +213,17 @@ describe 'members page' do
 
       expect(Member.last).to be_nil
     end
+
+    specify 'without annual fee or ACP shares' do
+      Current.acp.update!(annual_fee: nil, share_price: nil)
+
+      visit '/new'
+
+      expect(page).not_to have_selector('span.label',
+        text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
+      expect(page).not_to have_selector('span.label',
+        text: "Aucun, devenir membre de soutien")
+    end
   end
 
   context 'existing member token' do
