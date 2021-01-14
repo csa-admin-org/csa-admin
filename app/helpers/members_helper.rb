@@ -32,7 +32,7 @@ module MembersHelper
         bs.id
       ]
     }
-    if no_basket_option
+    if no_basket_option && (Current.acp.annual_fee? || Current.acp.share?)
       col << [
         collection_text(t('helpers.no_basket_size'),
           details:
