@@ -113,6 +113,35 @@ describe AdminMailer do
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
+  specify '#new_email_suppression_email' do
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    email_suppression = OpenStruct.new(
+      reason: 'HardBounce',
+      email: 'john@doe.com',
+      owners: [
+        Member.new(
+          id: 2,
+          name: 'Martha')
+      ])
+    mail = AdminMailer.with(
+      admin: admin,
+      email_suppression: email_suppression
+    ).new_email_suppression_email
+
+    expect(mail.subject).to eq('Email rejeté (HardBounce)')
+    expect(mail.to).to eq(['admin@acp-admin.ch'])
+    expect(mail.body).to include('Salut John,')
+    expect(mail.body).to include("L'email <strong>john@doe.com</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>HardBounce</strong>.")
+    expect(mail.body).to include('Membre: Martha')
+    expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+  end
+
   specify '#new_inscription_email' do
     admin = Admin.new(
       id: 1,

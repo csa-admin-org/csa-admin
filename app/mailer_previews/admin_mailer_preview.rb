@@ -69,6 +69,26 @@ class AdminMailerPreview < ActionMailer::Preview
     ).new_absence_email
   end
 
+  def new_email_suppression_email
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    email_suppression = OpenStruct.new(
+      reason: 'HardBounce',
+      email: 'john@doe.com',
+      owners: [
+        Member.new(
+          id: 2,
+          name: 'Martha')
+      ])
+    AdminMailer.with(
+      admin: admin,
+      email_suppression: email_suppression
+    ).new_email_suppression_email
+  end
+
   def new_inscription_email
     admin = Admin.new(
       id: 1,

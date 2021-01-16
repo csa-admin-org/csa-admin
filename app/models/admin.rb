@@ -25,7 +25,7 @@ class Admin < ActiveRecord::Base
   end
 
   def self.notifications
-    all = %w[new_inscription invoice_overpaid]
+    all = %w[new_email_suppression new_inscription invoice_overpaid]
     all << 'new_absence' if Current.acp.feature?('absence')
     all << 'new_group_buying_order' if Current.acp.feature?('group_buying')
     all

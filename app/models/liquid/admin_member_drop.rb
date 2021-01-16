@@ -7,6 +7,10 @@ class Liquid::AdminMemberDrop < Liquid::Drop
     @member.name
   end
 
+  def type
+    Member.model_name.human
+  end
+
   def admin_url
     Rails
       .application

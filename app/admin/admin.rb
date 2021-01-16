@@ -13,7 +13,7 @@ ActiveAdmin.register Admin do
   show do |admin|
     attributes_table do
       row :name
-      row :email
+      row(:email) { display_emails_with_link(self, admin.email) }
       if Current.acp.languages.many?
         row(:language) { t("languages.#{admin.language}") }
       end

@@ -66,6 +66,19 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def new_email_suppression_email
+    @admin = params[:admin]
+    @email_suppression = params[:email_suppression]
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        'admin' => Liquid::AdminDrop.new(@admin),
+        'email_suppression' => Liquid::EmailSuppressionDrop.new(@email_suppression))
+      content_mail(content,
+        to: @admin.email,
+        subject: t('.subject', reason: @email_suppression.reason))
+    end
+  end
+
   def new_inscription_email
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do

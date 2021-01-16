@@ -61,4 +61,17 @@ describe EmailSuppression do
       expect(postmark_client.calls).to be_empty
     end
   end
+
+  specify 'notifies admins when created' do
+    admin = create(:admin, notifications: ['new_email_suppression'])
+    create(:admin, notifications: [])
+
+    suppress!('outbound', 'a@b.com', 'HardBounce', 'Recipient')
+
+    expect(AdminMailer.deliveries.size).to eq 1
+    mail = AdminMailer.deliveries.last
+    expect(mail.subject).to eq 'Email rejeté (HardBounce)'
+    expect(mail.to).to eq [admin.email]
+    expect(mail.html_part.body).to include admin.name
+  end
 end

@@ -7,6 +7,9 @@ _:
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
+      new_email_suppression:
+        _de: Email abgelehnt
+        _fr: Email rejeté
       new_group_buying_order:
         _de: Neue Bestellung (Gruppeneinkauf)
         _fr: Nouvelle commande (Achats Groupés)
