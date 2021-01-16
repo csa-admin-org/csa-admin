@@ -97,8 +97,8 @@ _:
           _de: Logo URL
           _fr: Logo URL
         membership_extra_text:
-          _de: Zusätzlicher Text über Abonnements
-          _fr: Texte supplémentaire à propos des abonnements
+          _de: Zusätzliche Erklärung
+          _fr: Explication supplémentaire
         open_renewal_reminder_sent_after_in_days:
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _fr: Envoyer un rappel après (en jours)
