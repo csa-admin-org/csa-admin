@@ -60,7 +60,7 @@ p = t('.text')
     = f.input :come_from, as: :text, input_html: { rows: 3 }
     = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note'), placeholder: true
 
-  - if Current.acp.terms_of_service_url
+  - if Current.acp.terms_of_service_url || Current.acp.statutes_url
     = f.inputs do
       = f.input :terms_of_service, as: :pretty_boolean, label: terms_of_service_label
 
