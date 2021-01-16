@@ -14,6 +14,8 @@ class EmailSuppression < ApplicationRecord
   validates :reason, inclusion: { in: REASONS }
   validates :origin, inclusion: { in: ORIGINS }
 
+  after_create_commit :notify_admins!
+
   def self.sync(options = {})
     STREAM_IDS.each do |stream_id|
       PostmarkWrapper.dump_suppressions(stream_id, options).each do |suppression|
@@ -33,5 +35,18 @@ class EmailSuppression < ApplicationRecord
       PostmarkWrapper.delete_suppressions('outbound', email)
       suppressions.each(&:destroy)
     end
+  end
+
+  def owners
+    owners = []
+    owners += Member.with_email(email)
+    owners += Depot.with_email(email)
+    owners
+  end
+
+  private
+
+  def notify_admins!
+    Admin.notify!(:new_email_suppression, email_suppression: self)
   end
 end

@@ -1,0 +1,14 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>L'email <strong>{{ email_suppression.email }}</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>{{ email_suppression.reason }}</strong>.</p>
+
+{% highlight %}
+  <p>Cet email est relié à:</p>
+  <ul>
+    {% for owner in email_suppression.owners %}
+      <li><a href='{{ owner.admin_url }}'>{{ owner.type }}: {{ owner.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Plus aucun message ne peut être envoyé à cet email, merci de vérifier.</p>

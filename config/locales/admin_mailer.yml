@@ -16,6 +16,10 @@ _:
       subject:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
+    new_email_suppression_email:
+      subject:
+        _de: Email abgelehnt (%{reason})
+        _fr: Email rejeté (%{reason})
     new_group_buying_order_email:
       subject:
         _de: Neue Bestellung (#%{order_id})

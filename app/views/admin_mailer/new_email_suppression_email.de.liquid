@@ -1,0 +1,14 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Die Email <strong>{{ email_suppression.email }}</strong> wurde beim Versenden der letzten Nachricht aus folgendem Grund abgelehnt: <strong>{{ email_suppression.reason }}</strong>.</p>
+
+{% highlight %}
+  <p>Diese Email ist verlinkt mit:</p>
+  <ul>
+    {% for owner in email_suppression.owners %}
+      <li><a href='{{ owner.admin_url }}'>{{ owner.type }}: {{ owner.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Es können keine weiteren Nachrichten an diese Email gesendet werden, bitte überprüfen Sie dies.</p>
