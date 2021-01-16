@@ -343,8 +343,8 @@ _:
           _de: Diese Einstellungen werden von <a href="/mail_templates">Email-Vorlagen</a> verwendet.
           _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a>.
         member_section:
-          _de: Abschnitt membres.*
-          _fr: Section membres.*
+          _de: Registrierungsformular
+          _fr: Formulaire d'inscription
         members_participation:
           _de: Beteiligung der Mitglieder
           _fr: Participation des membres
