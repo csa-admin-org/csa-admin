@@ -492,13 +492,18 @@ table.table-memberships {
   }
 }
 
+table.totals, table.totals_2 {
+  th:nth-last-child(2), td:nth-last-child(2) {
+    padding-right: 20px;
+  }
+}
 table.totals tr:last-child {
   td {
     border: none;
   }
 
   td:last-child {
-    width: 30%;
+    width: 25%;
     border-top: 1px solid black;
     font-weight: bold;
   }
@@ -512,7 +517,7 @@ table.totals_2 {
     }
 
     td:last-child {
-      width: 30%;
+      width: 25%;
       border-top: 1px solid black;
     }
   }
