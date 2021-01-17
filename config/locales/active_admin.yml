@@ -241,6 +241,9 @@ _:
         next_delivery:
           _de: 'Nächste Lieferung: %{delivery}'
           _fr: 'Prochaine livraison: %{delivery}'
+        next_group_buying_delivery:
+          _de: 'Gruppeneinkauf: %{delivery}'
+          _fr: 'Achats Groupés: %{delivery}'
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
@@ -250,6 +253,9 @@ _:
         no_next_delivery:
           _de: Nächste Lieferung
           _fr: Prochaine livraison
+        no_next_group_buying_delivery:
+          _de: Gruppeneinkauf
+          _fr: Achats Groupés
         quarterly_snapshots:
           _de: Quartalsschnappschüsse
           _fr: Instantanés trimestriels
