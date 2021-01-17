@@ -11,12 +11,12 @@ describe 'Memberships Renewal' do
   end
 
   specify 'renew membership', freeze: '2020-09-30' do
+    big_basket = create(:basket_size, name: 'Grand')
     membership = create(:membership,
       member: member,
       basket_size: basket_size,
       depot: depot)
     DeliveriesHelper.create_deliveries(1, Current.acp.fiscal_year_for(2021))
-    big_basket = create(:basket_size, name: 'Grand')
     membership.open_renewal!
     complement = create(:basket_complement,
       name: 'Oeufs',
