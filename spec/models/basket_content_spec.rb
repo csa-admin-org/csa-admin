@@ -34,7 +34,7 @@ describe BasketContent do
     it 'validates enough quantity' do
       basket_content = build(:basket_content,
         quantity: 99,
-        unit: 'pièce',
+        unit: 'pc',
         small_baskets_count: 100,
         big_baskets_count: 50)
 
@@ -46,7 +46,7 @@ describe BasketContent do
     it 'splits pieces to both baskets' do
       basket_content = create(:basket_content,
         quantity: 150,
-        unit: 'pièce')
+        unit: 'pc')
 
       expect(basket_content.small_basket_quantity).to eq 1
       expect(basket_content.big_basket_quantity).to eq 1
@@ -56,7 +56,7 @@ describe BasketContent do
     it 'splits pieces with more to big baskets' do
       basket_content = create(:basket_content,
         quantity: 200,
-        unit: 'pièce')
+        unit: 'pc')
 
       expect(basket_content.small_basket_quantity).to eq 1
       expect(basket_content.big_basket_quantity).to eq 2
@@ -67,7 +67,7 @@ describe BasketContent do
       basket_content = create(:basket_content,
         basket_sizes: %w[small],
         quantity: 200,
-        unit: 'pièce')
+        unit: 'pc')
 
       expect(basket_content.small_basket_quantity).to eq 2
       expect(basket_content.big_basket_quantity).to be_zero
@@ -79,7 +79,7 @@ describe BasketContent do
       set_big_quantity(29)
       basket_content = create(:basket_content,
         quantity: 83,
-        unit: 'kilogramme')
+        unit: 'kg')
 
       expect(basket_content.small_basket_quantity.to_f).to eq 0.48
       expect(basket_content.big_basket_quantity.to_f).to eq 0.69
@@ -91,7 +91,7 @@ describe BasketContent do
       set_big_quantity(29)
       basket_content = create(:basket_content,
         quantity: 34,
-        unit: 'kilogramme')
+        unit: 'kg')
 
       expect(basket_content.small_basket_quantity.to_f).to eq 0.170
       expect(basket_content.big_basket_quantity.to_f).to eq 0.280
@@ -103,7 +103,7 @@ describe BasketContent do
       set_big_quantity(29)
       basket_content = create(:basket_content,
         quantity: 100,
-        unit: 'kilogramme')
+        unit: 'kg')
 
       expect(basket_content.small_basket_quantity.to_f).to eq 0.57
       expect(basket_content.big_basket_quantity.to_f).to eq 0.87
@@ -115,7 +115,7 @@ describe BasketContent do
       set_big_quantity(29)
       basket_content = create(:basket_content,
         quantity: 320,
-        unit: 'kilogramme',
+        unit: 'kg',
         same_basket_quantities: '1')
 
       expect(basket_content.small_basket_quantity.to_f).to eq 2
@@ -128,7 +128,7 @@ describe BasketContent do
       basket_content = create(:basket_content,
         basket_sizes: %w[big],
         quantity: 83,
-        unit: 'kilogramme')
+        unit: 'kg')
 
       expect(basket_content.small_basket_quantity.to_f).to be_zero
       expect(basket_content.big_basket_quantity.to_f).to eq 2.86
