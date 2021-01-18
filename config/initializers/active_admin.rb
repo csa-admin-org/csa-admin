@@ -359,3 +359,9 @@ module ActiveAdmin
   end
 end
 
+# https://github.com/activeadmin/activeadmin/issues/5712#issuecomment-508184641
+ActiveAdmin.after_load do |app|
+  app.namespaces.each do |namespace|
+    namespace.fetch_menu(ActiveAdmin::DEFAULT_MENU)
+  end
+end
