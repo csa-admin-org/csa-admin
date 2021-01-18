@@ -1,10 +1,7 @@
 module BasketContentsHelper
   def display_quantity(basket_content, quantity: nil)
     quantity ||= basket_content.quantity
-    case basket_content.unit
-    when 'kilogramme' then "#{quantity}kg"
-    when 'pièce' then  "#{quantity.to_i}p"
-    end
+    t("units.#{basket_content.unit}_quantity", quantity: quantity)
   end
 
   def display_basket_quantity(basket_content, size, count: nil)
@@ -13,16 +10,20 @@ module BasketContentsHelper
     return '–' if count.zero? || quantity.zero?
 
     case basket_content.unit
-    when 'kilogramme' then "#{count}x #{(quantity * 1000).to_i}g"
-    when 'pièce' then  "#{count}x #{quantity.to_i}p"
+    when 'kg'
+      t('units.g_count_quantity', count: count, quantity: (quantity * 1000).to_i)
+    else
+      t("units.#{basket_content.unit}_count_quantity", count: count, quantity: quantity.to_i)
     end
   end
 
   def display_surplus_quantity(basket_content)
     quantity = basket_content.surplus_quantity
     case basket_content.unit
-    when 'kilogramme' then "#{(quantity * 1000).to_i}g"
-    when 'pièce' then  "#{quantity.to_i}p"
+    when 'kg'
+      t('units.g_quantity', quantity: (quantity * 1000).to_i)
+    else
+      t("units.#{basket_content.unit}_quantity", quantity: quantity.to_i)
     end
   end
 
@@ -36,6 +37,12 @@ module BasketContentsHelper
       "Tous, sauf #{missing.map(&:name).join(' et ')}"
     else
       depots.map(&:name).join(', ')
+    end
+  end
+
+  def units_collection
+    BasketContent::UNITS.map do |unit|
+      [t("units.#{unit}"), unit]
     end
   end
 

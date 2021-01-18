@@ -102,7 +102,7 @@ FactoryBot.define do
     vegetable
     delivery { Delivery.first || create(:delivery) }
     quantity { 10 }
-    unit { 'kilogramme' }
+    unit { 'kg' }
     basket_sizes { BasketContent::SIZES }
     depots { [Depot.first || create(:depot)] }
   end

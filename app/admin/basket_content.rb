@@ -45,7 +45,7 @@ ActiveAdmin.register BasketContent do
         prompt: true
       f.input :quantity
       f.input :unit,
-        collection: BasketContent::UNITS,
+        collection: units_collection,
         required: true,
         prompt: true
     end

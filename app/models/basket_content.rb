@@ -1,5 +1,5 @@
 class BasketContent < ApplicationRecord
-  UNITS = %w[kilogramme pièce]
+  UNITS = %w[kg pc]
   SIZES = %w[small big]
 
   belongs_to :delivery
@@ -144,18 +144,18 @@ class BasketContent < ApplicationRecord
     case direction
     when :up
       case unit
-      when 'kilogramme' then (quantity * 100).ceil / 100.0
-      when 'pièce' then quantity.ceil
+      when 'kg' then (quantity * 100).ceil / 100.0
+      when 'pc' then quantity.ceil
       end
     when :down
       case unit
-      when 'kilogramme' then (quantity * 100).floor / 100.0
-      when 'pièce' then quantity.floor
+      when 'kg' then (quantity * 100).floor / 100.0
+      when 'pc' then quantity.floor
       end
     when :double_down
       case unit
-      when 'kilogramme' then ((quantity * 100).floor - 1) / 100.0
-      when 'pièce' then quantity.floor - 1
+      when 'kg' then ((quantity * 100).floor - 1) / 100.0
+      when 'pc' then quantity.floor - 1
       end
     end
   end
