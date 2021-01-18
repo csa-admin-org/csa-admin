@@ -5,7 +5,7 @@ ActiveAdmin.register Admin do
   index download_links: false do
     column :name
     column :email
-    column :last_session_used_at, sortable: 'sessions.last_used_at'
+    column :last_session_used_at
     column :rights
     actions class: 'col-actions-3'
   end
