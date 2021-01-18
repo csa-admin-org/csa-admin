@@ -31,12 +31,13 @@ module BasketContentsHelper
     all_depots = Depot.all
     depots = basket_content.depots
     if depots.size == all_depots.size
-      'Tous'
+      t('basket_content.depots.all')
     elsif all_depots.size - depots.size < 3
       missing = all_depots - depots
-      "Tous, sauf #{missing.map(&:name).join(' et ')}"
+      t('basket_content.depots.all_but',
+        missing: missing.map(&:name).to_sentence)
     else
-      depots.map(&:name).join(', ')
+      depots.map(&:name).to_sentence
     end
   end
 

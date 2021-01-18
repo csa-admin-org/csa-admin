@@ -1,0 +1,9 @@
+_:
+  basket_content:
+    depots:
+      all:
+        _de: Alle
+        _fr: Tous
+      all_but:
+        _de: Alle, außer %{missing}
+        _fr: Tous, sauf %{missing}
