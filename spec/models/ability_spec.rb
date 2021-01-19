@@ -35,10 +35,18 @@ describe Ability do
     specify { expect(ability.can?(:validate, Member)).to be true }
     specify { expect(ability.can?(:manage, Delivery)).to be true }
     specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
+    specify { expect(ability.can?(:deactivate, Member.new(state: 'support'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be true }
     specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
     specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
+
+    context 'share price' do
+      before { Current.acp.update!(share_price: 420) }
+
+      specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
+      specify { expect(ability.can?(:deactivate, Member.new(state: 'support'))).to be false }
+    end
   end
 
   context 'superadmin rights' do

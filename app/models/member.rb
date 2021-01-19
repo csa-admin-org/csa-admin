@@ -205,7 +205,10 @@ class Member < ActiveRecord::Base
   end
 
   def can_deactivate?
-    !inactive? && (waiting? || support? || !current_or_future_membership)
+    !inactive? && (
+      waiting? ||
+      (support? && !Current.acp.share?) ||
+      (!support? && !current_or_future_membership))
   end
 
   def absent?(date)
