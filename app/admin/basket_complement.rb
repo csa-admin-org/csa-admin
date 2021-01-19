@@ -23,13 +23,13 @@ ActiveAdmin.register BasketComplement do
 
   form do |f|
     f.inputs do
-      translated_input(f, :names)
+      translated_input(f, :names, required: true)
       f.input :price_type,
         as: :select,
         collection: BasketComplement::PRICE_TYPES.map { |type|
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }
-      f.input :price
+      f.input :price, as: :number, min: 0
       f.input :visible, as: :select, hint: true, prompt: true, required: true
     end
     f.inputs do
