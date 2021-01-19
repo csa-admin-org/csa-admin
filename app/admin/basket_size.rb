@@ -6,25 +6,28 @@ ActiveAdmin.register BasketSize do
     column :name
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) { cur(bs.annual_price) }
-    if Current.acp.share?
-      column :acp_shares_number
-    end
     if Current.acp.feature?('activity')
       column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
+    end
+    if Current.acp.share?
+      column :acp_shares_number
     end
     actions class: 'col-actions-2'
   end
 
   form do |f|
     f.inputs do
-      translated_input(f, :names)
-      f.input :price
-      if Current.acp.share?
-        f.input :acp_shares_number, as: :number, step: 1
-      end
+      translated_input(f, :names, required: true)
+      f.input :price, as: :number, min: 0
       if Current.acp.feature?('activity')
         f.input :activity_participations_demanded_annualy,
-          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy))
+          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy)),
+          as: :number,
+          step: 1,
+          min: 0
+      end
+      if Current.acp.share?
+        f.input :acp_shares_number, as: :number, step: 1
       end
     end
     f.actions
