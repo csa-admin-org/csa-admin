@@ -1,7 +1,7 @@
 module BasketContentsHelper
   def display_quantity(basket_content, quantity: nil)
     quantity ||= basket_content.quantity
-    t("units.#{basket_content.unit}_quantity", quantity: quantity)
+    I18n.t("units.#{basket_content.unit}_quantity", quantity: quantity)
   end
 
   def display_basket_quantity(basket_content, size, count: nil)
@@ -11,9 +11,9 @@ module BasketContentsHelper
 
     case basket_content.unit
     when 'kg'
-      t('units.g_count_quantity', count: count, quantity: (quantity * 1000).to_i)
+      I18n.t('units.g_count_quantity', count: count, quantity: (quantity * 1000).to_i)
     else
-      t("units.#{basket_content.unit}_count_quantity", count: count, quantity: quantity.to_i)
+      I18n.t("units.#{basket_content.unit}_count_quantity", count: count, quantity: quantity.to_i)
     end
   end
 
@@ -21,9 +21,9 @@ module BasketContentsHelper
     quantity = basket_content.surplus_quantity
     case basket_content.unit
     when 'kg'
-      t('units.g_quantity', quantity: (quantity * 1000).to_i)
+      I18n.t('units.g_quantity', quantity: (quantity * 1000).to_i)
     else
-      t("units.#{basket_content.unit}_quantity", quantity: quantity.to_i)
+      I18n.t("units.#{basket_content.unit}_quantity", quantity: quantity.to_i)
     end
   end
 
@@ -31,10 +31,10 @@ module BasketContentsHelper
     all_depots = Depot.all
     depots = basket_content.depots
     if depots.size == all_depots.size
-      t('basket_content.depots.all')
+      I18n.t('basket_content.depots.all')
     elsif all_depots.size - depots.size < 3
       missing = all_depots - depots
-      t('basket_content.depots.all_but',
+      I18n.t('basket_content.depots.all_but',
         missing: missing.map(&:name).to_sentence)
     else
       depots.map(&:name).to_sentence
@@ -43,7 +43,7 @@ module BasketContentsHelper
 
   def units_collection
     BasketContent::UNITS.map do |unit|
-      [t("units.#{unit}"), unit]
+      [I18n.t("units.#{unit}"), unit]
     end
   end
 
