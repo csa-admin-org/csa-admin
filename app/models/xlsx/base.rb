@@ -75,8 +75,8 @@ module XLSX
       @line += 1
     end
 
-    def t(key, *args)
-      I18n.t("billing.#{key}", *args)
+    def t(key, **args)
+      I18n.t("billing.#{key}", **args)
     end
   end
 end
