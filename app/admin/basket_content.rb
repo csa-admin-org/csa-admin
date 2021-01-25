@@ -4,31 +4,41 @@ ActiveAdmin.register BasketContent do
 
   filter :delivery, as: :select
   filter :vegetable, as: :select
-  filter :basket_size, as: :select, collection: -> { [[small_basket.name, 'small'], [big_basket.name, 'big']] }
+  filter :basket_size, as: :select, collection: -> { BasketSize.paid.reorder(:price) }
   filter :depots, as: :select
 
-  includes :delivery, :vegetable, :depots
+  includes :depots, :delivery, :vegetable
   index download_links: -> {
     params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
   } do
     column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
     column :vegetable, ->(bc) { bc.vegetable.name }
-    column :quantity, ->(bc) { display_quantity(bc) }
-    column small_basket.name, ->(bc) { display_basket_quantity(bc, :small) }, class: 'nowrap'
-    column big_basket.name, ->(bc) { display_basket_quantity(bc, :big) }, class: 'nowrap'
+    column :qt, ->(bc) { display_quantity(bc.quantity, bc.unit) }
+    BasketSize.paid.reorder(:price).each do |basket_size|
+      column basket_size.name, ->(bc) { display_basket_quantity(bc, basket_size) }, class: 'nowrap'
+    end
     column :surplus, ->(bc) { display_surplus_quantity(bc) }
-    column :depots, ->(bc) { display_depots(bc) }
+    all_depots = Depot.all.to_a
+    column :depots, ->(bc) { display_depots(bc, all_depots) }
     actions class: 'col-actions-2'
   end
 
   csv do
     column(:date) { |bc| bc.delivery.date.to_s }
     column(:vegetable) { |bc| bc.vegetable.name }
-    column(:quantity) { |bc| display_quantity(bc) }
-    column(small_basket.name) { |bc| display_basket_quantity(bc, :small) }
-    column(big_basket.name) { |bc| display_basket_quantity(bc, :big) }
-    column(:surplus) { |bc| display_surplus_quantity(bc) }
-    column(:depots) { |bc| display_depots(bc) }
+    column(:unit) { |bc| t("units.#{bc.unit}") }
+    column(:quantity) { |bc| bc.quantity }
+    BasketSize.paid.reorder(:price).each do |basket_size|
+      column("#{basket_size.name} - #{Basket.model_name.human(count: 2)}") { |bc|
+        bc.baskets_count(basket_size)
+      }
+      column("#{basket_size.name} - #{BasketContent.human_attribute_name(:quantity)}") { |bc|
+        bc.basket_quantity(basket_size)
+      }
+    end
+    column(:surplus) { |bc| bc.surplus_quantity }
+    all_depots = Depot.all.to_a
+    column(:depots) { |bc| display_depots(bc, all_depots) }
   end
 
   form do |f|
@@ -50,14 +60,14 @@ ActiveAdmin.register BasketContent do
         prompt: true
     end
     f.inputs Basket.model_name.human(count: 2) do
-      f.input :basket_sizes,
-        collection: [[small_basket.name, 'small'], [big_basket.name, 'big']],
+      f.input :basket_size_ids,
+        collection: BasketSize.paid.reorder(:price),
         as: :check_boxes,
         label: false
       f.input :same_basket_quantities,
         as: :boolean,
-        input_html: { disabled: !f.object.both_baskets? },
-        label_class: f.object.both_baskets? ? '' : 'disabled'
+        input_html: { disabled: !f.object.basket_size_ids.many? },
+        label_class: f.object.basket_size_ids.many? ? '' : 'disabled'
     end
     f.inputs Depot.model_name.human(count: 2) do
       f.input :depots,
@@ -76,7 +86,7 @@ ActiveAdmin.register BasketContent do
     unit
   ],
     depot_ids: [],
-    basket_sizes: [])
+    basket_size_ids: [])
 
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty?
@@ -86,17 +96,11 @@ ActiveAdmin.register BasketContent do
 
   before_build do |basket_content|
     basket_content.delivery ||= Delivery.next
-    if basket_content.basket_sizes.empty?
-      basket_content.basket_sizes = BasketContent::SIZES
+    if basket_content.basket_size_ids.empty?
+      basket_content.basket_size_ids = BasketSize.paid.pluck(:id)
     end
     if basket_content.depots.empty?
       basket_content.depots = Depot.all
-    end
-  end
-
-  before_action do
-    unless BasketSize.paid.count == 2
-      redirect_to basket_sizes_path, notice: t('active_admin.flash.two_paid_basket_required')
     end
   end
 
@@ -113,6 +117,13 @@ ActiveAdmin.register BasketContent do
             filename: xlsx.filename
         end
       end
+    end
+
+    def collection
+      super
+        .joins(:delivery, :vegetable)
+        .merge(Delivery.reorder(date: :desc))
+        .merge(Vegetable.order_by_name)
     end
 
     def update
