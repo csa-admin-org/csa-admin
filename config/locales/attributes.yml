@@ -192,6 +192,9 @@ _:
     products:
       _de: Produkte
       _fr: Produits
+    qt:
+      _de: Mg.
+      _fr: Qté.
     quantity:
       _de: Menge
       _fr: Quantité

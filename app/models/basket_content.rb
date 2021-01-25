@@ -1,162 +1,135 @@
 class BasketContent < ApplicationRecord
   UNITS = %w[kg pc]
-  SIZES = %w[small big]
 
   belongs_to :delivery
   belongs_to :vegetable
   has_and_belongs_to_many :depots
 
-  scope :basket_size_eq, ->(type) {
-    case type
-    when 'small' then where('small_basket_quantity > 0')
-    when 'big' then where('big_basket_quantity > 0')
-    end
-  }
+  scope :basket_size_eq, ->(id) { where('basket_size_ids @> ?', "{#{id}}") }
   scope :for_depot, ->(depot) {
     joins(:depots).where('basket_contents_depots.depot_id = ?', depot)
   }
 
-  before_validation :set_basket_counts, :set_basket_quantities
+  before_validation :set_baskets_counts, :set_basket_quantities
 
   validates :delivery, presence: true
   validates :quantity, presence: true
   validates :depots, presence: true
   validates :unit, inclusion: { in: UNITS }
   validates :vegetable_id, uniqueness: { scope: :delivery_id }
-  validate :basket_sizes_presence
+  validate :basket_size_ids_presence
   validate :enough_quantity
 
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
   end
 
+  def basket_size_ids=(ids)
+    super ids.map(&:presence).compact.sort
+  end
+
   def basket_sizes
-    self[:basket_sizes] & SIZES
+    @basket_sizes ||= BasketSize.where(id: basket_size_ids).reorder(:id)
   end
 
   def same_basket_quantities
-    both_baskets? && self[:same_basket_quantities]
+    basket_size_ids.many? && self[:same_basket_quantities]
   end
 
-  def both_baskets?
-    basket_sizes == SIZES
+  def basket_quantity(basket_size)
+    if i = basket_size_index(basket_size)
+      basket_quantities[i]
+    end
+  end
+
+  def baskets_count(basket_size)
+    if i = basket_size_index(basket_size)
+      baskets_counts[i]
+    end
   end
 
   private
 
-  def basket_sizes_presence
-    if basket_sizes.empty?
-      errors.add(:basket_sizes, :blank)
+  def basket_size_index(basket_size)
+    id = basket_size.respond_to?(:id) ? basket_size.id : basket_size
+    basket_size_ids.index(id)
+  end
+
+  def basket_size_ids_presence
+    if basket_size_ids.empty?
+      errors.add(:basket_size_ids, :blank)
     end
   end
 
   def enough_quantity
-    if small_baskets_count > 0 && small_basket_quantity == 0 ||
-      big_baskets_count > 0 && big_basket_quantity == 0
+    if basket_quantities.empty?
       errors.add(:quantity, :insufficient)
     end
   end
 
-  def set_basket_counts
+  def set_baskets_counts
     return unless delivery
 
-    self[:small_baskets_count] = 0
-    self[:big_baskets_count] = 0
+    self[:baskets_counts] = []
     baskets = delivery.baskets.not_absent.where(depot_id: depot_ids)
-    if basket_sizes.include?('small')
-      self[:small_baskets_count] = baskets.where(basket_size_id: BasketSize.small).sum(:quantity)
-    end
-    if basket_sizes.include?('big')
-      self[:big_baskets_count] = baskets.where(basket_size_id: BasketSize.big).sum(:quantity)
+    basket_size_ids.each do |id|
+      self[:baskets_counts] << baskets.where(basket_size_id: id).sum(:quantity)
     end
   end
 
   def set_basket_quantities
     return unless quantity
 
-    s_qt = quantity * small_basket_ratio
-    b_qt = quantity * big_basket_ratio
-    possibilites = [
-      possibility(s_qt, :up, b_qt, :up),
-      possibility(s_qt, :down, b_qt, :up),
-      possibility(s_qt, :up, b_qt, :down),
-      possibility(s_qt, :down, b_qt, :down),
-      possibility(s_qt, :double_down, b_qt, :up),
-      possibility(s_qt, :double_down, b_qt, :down),
-      possibility(s_qt, :up, b_qt, :double_down),
-      possibility(s_qt, :down, b_qt, :double_down)
-    ].reject { |p| p.surplus_quantity.negative? }
-    best_possibility = possibilites.sort_by!(&:surplus_quantity).first
-    self.small_basket_quantity = best_possibility.small_quantity
-    self.big_basket_quantity = best_possibility.big_quantity
-    self.surplus_quantity = best_possibility.surplus_quantity
-  end
-
-  def small_basket_ratio
-    @small_basket_ratio ||=
-      if small_baskets_count.zero?
-        0
-      elsif big_baskets_count.zero?
-        1 / small_baskets_count.to_f
-      elsif same_basket_quantities
-        1 / (small_baskets_count + big_baskets_count).to_f
-      else
-        BasketSize.small.price / total_baskets_price.to_f
-      end
-  end
-
-  def big_basket_ratio
-    @big_basket_ratio ||=
-      if big_baskets_count.zero?
-        0
-      elsif small_baskets_count.zero?
-        1 / big_baskets_count.to_f
-      elsif same_basket_quantities
-        1 / (small_baskets_count + big_baskets_count).to_f
-      else
-        BasketSize.big.price / total_baskets_price.to_f
-      end
-  end
-
-  def total_baskets_price
-    @total_baskets_price ||=
-      small_baskets_count * BasketSize.small.price +
-        big_baskets_count * BasketSize.big.price
-  end
-
-  def possibility(small_quantity, small_round_direction, big_quantity, big_round_direction)
-    s_qt = round(small_quantity, small_round_direction)
-    # Splits small surplus to big baskets
-    if s_qt.positive? && big_baskets_count.positive? && small_round_direction == :down
-      surplus_s_qt = small_baskets_count * (small_quantity - s_qt)
-      big_quantity += surplus_s_qt / big_baskets_count.to_f
+    roundings = %i[up upup down downdown]
+    permutations = roundings.repeated_permutation(basket_size_ids.size)
+    possibilites = permutations.map { |r| possibility(r) }
+    possibilites.reject! { |p| p.any? { |q| q <= 0 } || total_quantities(p) > quantity }
+    if best_possibility = possibilites.sort_by { |p| total_quantities(p) }.last
+      self[:basket_quantities] = best_possibility
+      self[:surplus_quantity] = quantity - total_quantities(best_possibility)
     end
-    b_qt = round(big_quantity, big_round_direction)
-    surplus = quantity - s_qt * small_baskets_count - b_qt * big_baskets_count
+  end
 
-    OpenStruct.new(
-      small_quantity: s_qt,
-      big_quantity: b_qt,
-      surplus_quantity: surplus)
+  def possibility(roundings)
+    basket_sizes.map.with_index do |basket_size, i|
+      round(quantity * ratio(basket_size), roundings[i])
+    end
+  end
+
+  def total_quantities(quantities)
+    quantities.map.with_index { |qt, i| qt * baskets_counts[i] }.sum
   end
 
   def round(quantity, direction)
     case direction
-    when :up
-      case unit
-      when 'kg' then (quantity * 100).ceil / 100.0
-      when 'pc' then quantity.ceil
-      end
-    when :down
-      case unit
-      when 'kg' then (quantity * 100).floor / 100.0
-      when 'pc' then quantity.floor
-      end
-    when :double_down
-      case unit
-      when 'kg' then ((quantity * 100).floor - 1) / 100.0
-      when 'pc' then quantity.floor - 1
-      end
+    when :up; round_unit(quantity, :ceil, 0)
+    when :upup; round_unit(quantity, :ceil, 1)
+    when :down; round_unit(quantity, :floor, 0)
+    when :downdown; round_unit(quantity, :floor, -1)
     end
+  end
+
+  def round_unit(quantity, method, diff)
+    case unit
+    when 'kg'; ((quantity * 100).send(method) + diff) / 100.0
+    when 'pc'; quantity.send(method) + diff
+    end
+  end
+
+  def ratio(basket_size)
+    baskets_count = baskets_count(basket_size)
+    if baskets_count.zero?
+      0
+    elsif basket_size_ids.one?
+      1 / baskets_count.to_f
+    elsif same_basket_quantities
+      1 / baskets_counts.sum.to_f
+    else
+      basket_size.price / total_prices.to_f
+    end
+  end
+
+  def total_prices
+    @total_prices ||= basket_sizes.sum { |bs| baskets_count(bs) * bs.price }
   end
 end

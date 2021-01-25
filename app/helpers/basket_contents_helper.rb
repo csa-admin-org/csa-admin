@@ -1,13 +1,16 @@
 module BasketContentsHelper
-  def display_quantity(basket_content, quantity: nil)
-    quantity ||= basket_content.quantity
-    I18n.t("units.#{basket_content.unit}_quantity", quantity: quantity)
+  def display_quantity(quantity, unit)
+    case unit
+    when 'g'; I18n.t("units.g_quantity", quantity: quantity)
+    when 'kg'; I18n.t("units.kg_quantity", quantity: quantity)
+    when 'pc'; I18n.t("units.pc_quantity", quantity: quantity.to_i)
+    end
   end
 
-  def display_basket_quantity(basket_content, size, count: nil)
-    count ||= basket_content.send("#{size}_baskets_count")
-    quantity = basket_content.send("#{size}_basket_quantity")
-    return '–' if count.zero? || quantity.zero?
+  def display_basket_quantity(basket_content, basket_size)
+    count = basket_content.baskets_count(basket_size)
+    quantity = basket_content.basket_quantity(basket_size)
+    return '–' if count.nil? || quantity.nil? || count.zero? || quantity.zero?
 
     case basket_content.unit
     when 'kg'
@@ -20,15 +23,12 @@ module BasketContentsHelper
   def display_surplus_quantity(basket_content)
     quantity = basket_content.surplus_quantity
     case basket_content.unit
-    when 'kg'
-      I18n.t('units.g_quantity', quantity: (quantity * 1000).to_i)
-    else
-      I18n.t("units.#{basket_content.unit}_quantity", quantity: quantity.to_i)
+    when 'kg'; display_quantity((quantity * 1000).to_i, 'g')
+    when 'pc'; display_quantity(quantity.to_i, 'pc')
     end
   end
 
-  def display_depots(basket_content)
-    all_depots = Depot.all
+  def display_depots(basket_content, all_depots)
     depots = basket_content.depots
     if depots.size == all_depots.size
       I18n.t('basket_content.depots.all')
@@ -45,13 +45,5 @@ module BasketContentsHelper
     BasketContent::UNITS.map do |unit|
       [I18n.t("units.#{unit}"), unit]
     end
-  end
-
-  def small_basket
-    BasketSize.small
-  end
-
-  def big_basket
-    BasketSize.big
   end
 end

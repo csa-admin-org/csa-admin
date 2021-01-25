@@ -20,14 +20,6 @@ class BasketSize < ActiveRecord::Base
     numericality: { greater_than_or_equal_to: 1 },
     allow_nil: true
 
-  def self.small
-    paid.reorder(:price).first
-  end
-
-  def self.big
-    paid.reorder(:price).last
-  end
-
   def annual_price
     (price * deliveries_count).round_to_five_cents
   end
