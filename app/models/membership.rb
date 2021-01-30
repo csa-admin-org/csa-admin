@@ -190,6 +190,8 @@ class Membership < ActiveRecord::Base
   end
 
   def self.send_renewal_reminders!
+    return unless MailTemplate.active_template(:membership_renewal_reminder)
+
     in_days = Current.acp.open_renewal_reminder_sent_after_in_days
     return unless in_days
 
