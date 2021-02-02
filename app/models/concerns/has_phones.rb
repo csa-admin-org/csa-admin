@@ -7,7 +7,8 @@ module HasPhones
 
   def phones=(phones)
     super string_to_a(phones).map { |phone|
-      PhonyRails.normalize_number(phone, default_country_code: 'CH')
+      PhonyRails.normalize_number(phone,
+        default_country_code: Current.acp.country_code)
     }.join(', ')
   end
 
