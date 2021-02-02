@@ -34,14 +34,14 @@ describe GroupBuying::Delivery do
 
     specify 'not allowed when next basket depot is not in the list', freeze: '01-01-2020' do
       membership = create(:membership)
-      delivery = described_class.new(depot_ids: [1])
+      delivery = described_class.new(depot_ids: [1001])
 
       expect(delivery.can_access?(membership.member)).to be_falsey
     end
 
     specify 'not allowed when user has no next basket' do
       member = create(:member)
-      delivery = described_class.new(depot_ids: [1])
+      delivery = described_class.new(depot_ids: [1002])
 
       expect(delivery.can_access?(member)).to be_falsey
     end
