@@ -141,7 +141,7 @@ module PDF
       end
 
       total_line = [
-        content: 'Totaux',
+        content: I18n.t('delivery.totals'),
         width: member_name_width,
         align: :right,
         padding_right: 15

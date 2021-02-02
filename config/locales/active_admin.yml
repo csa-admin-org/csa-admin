@@ -267,7 +267,7 @@ _:
           _fr: Total %{number}
         totals:
           _de: Gesamt %{numbers}
-          _fr: Totaux %{numbers}
+          _fr: Gesamtsummen %{numbers}
     pagination:
       empty:
         _de: Kein %{model} gefunden
@@ -583,7 +583,7 @@ _:
           _de: Gesamt
           _fr: Total
         totals:
-          _de: Gesamt %{numbers}
+          _de: Gesamtsummen %{numbers}
           _fr: Totaux %{numbers}
         validate:
           _de: Bestätigen
