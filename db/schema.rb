@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_192547) do
+ActiveRecord::Schema.define(version: 2021_01_25_195049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -232,14 +232,9 @@ ActiveRecord::Schema.define(version: 2021_01_19_192547) do
     t.integer "vegetable_id", null: false
     t.decimal "quantity", precision: 8, scale: 2, null: false
     t.string "unit", null: false
-    t.decimal "small_basket_quantity", precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal "big_basket_quantity", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "surplus_quantity", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "small_baskets_count", default: 0, null: false
-    t.integer "big_baskets_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "basket_sizes", default: ["small", "big"], array: true
     t.boolean "same_basket_quantities", default: false, null: false
     t.decimal "basket_quantities", precision: 8, scale: 2, default: [], null: false, array: true
     t.integer "baskets_counts", default: [], null: false, array: true
