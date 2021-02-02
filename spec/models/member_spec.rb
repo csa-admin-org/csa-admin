@@ -221,13 +221,18 @@ describe Member do
   end
 
   describe '#phones= / #phones' do
-    describe "two phones" do
+    describe 'two phones' do
       subject { Member.new(phones: '123456789, 987654321, ').phones }
       it { is_expected.to eq '+41123456789, +41987654321' }
     end
-    describe "two phones with spaces and dots" do
+    describe 'two phones with spaces and dots' do
       subject { Member.new(phones: '+41.12.345/67 89, 987/6543 21, ').phones }
       it { is_expected.to eq '+41123456789, +41987654321' }
+    end
+    describe 'use ACP country code' do
+      before { Current.acp.update!(country_code: 'DE') }
+      subject { Member.new(phones: '987 6543 21, ').phones }
+      it { is_expected.to eq '+49987654321' }
     end
   end
 
