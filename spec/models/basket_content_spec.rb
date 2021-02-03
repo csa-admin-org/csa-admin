@@ -159,7 +159,7 @@ describe BasketContent do
         quantity: 100,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.48, 0.68, 0.9]
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.47, 0.7, 0.9]
       expect(basket_content.surplus_quantity.to_f).to be_zero
     end
   end
