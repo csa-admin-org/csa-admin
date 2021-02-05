@@ -31,6 +31,16 @@ module Billing
         .reject { |pd| pd.invoice_id > 9999999 || !pd.date }
     end
 
+    def version
+      @version ||= begin
+        res = @session.post('/authen/autologin.eval',
+          FUNCTION: 'GETVERSION',
+          BANK: 'ABS',
+          LANGUAGE: 'french')
+        res.body[/<VERSION>(.*)<\/VERSION>/m, 1]
+      end
+    end
+
     private
 
     def isr_date(line)
@@ -61,18 +71,10 @@ module Billing
         []
       else
         ExceptionNotifier.notify(ESRGETIssue.new,
-          version: get_version,
+          version: version,
           body: res.body)
         []
       end
-    end
-
-    def get_version
-      res = @session.post('/authen/autologin.eval',
-        FUNCTION: 'GETVERSION',
-        BANK: 'ABS',
-        LANGUAGE: 'french')
-      res.body[/<VERSION>(.*)<\/VERSION>/m, 1]
     end
 
     def init_session

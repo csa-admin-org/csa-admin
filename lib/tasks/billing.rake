@@ -36,8 +36,14 @@ namespace :billing do
       end
       if bas_credentials = Current.acp.credentials(:bas)
         provider = Billing::BAS.new(bas_credentials)
-        PaymentsProcessor.new(provider).process
-        puts "#{Current.acp.name}: New BAS payments processed."
+        if Current.acp.invoice_type == 'ISR'
+          PaymentsProcessor.new(provider).process
+          puts "#{Current.acp.name}: New BAS payments processed."
+        elsif provider.version != '2.10'
+          ExceptionNotifier.notify(
+            StandardError.new("NEW BAS VERSION!"),
+            version: provider.version)
+        end
       end
     rescue => e
       ExceptionNotifier.notify(e)
