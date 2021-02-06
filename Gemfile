@@ -68,6 +68,7 @@ gem 'countries'
 group :production do
   gem 'aws-sdk-s3', require: false
   gem 'redis'
+  gem 'barnes' # Heroku metrics
 end
 
 group :development, :test do

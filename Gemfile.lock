@@ -100,6 +100,9 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
+    barnes (0.0.8)
+      multi_json (~> 1)
+      statsd-ruby (~> 1.1)
     bcrypt (3.1.16)
     bindex (0.8.1)
     bootsnap (1.7.1)
@@ -403,6 +406,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    statsd-ruby (1.5.0)
     sucker_punch (2.1.2)
       concurrent-ruby (~> 1.0)
     temple (0.8.2)
@@ -448,6 +452,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin
   aws-sdk-s3
+  barnes
   bcrypt
   bootsnap
   bullet
