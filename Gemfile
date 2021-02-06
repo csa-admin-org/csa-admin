@@ -67,7 +67,6 @@ gem 'countries'
 
 group :production do
   gem 'aws-sdk-s3', require: false
-  gem 'hiredis', require: false
   gem 'redis'
 end
 

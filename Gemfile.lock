@@ -177,7 +177,6 @@ GEM
       actionpack (>= 4.1)
       activesupport (>= 4.1)
     hashery (2.1.2)
-    hiredis (0.6.3)
     htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -469,7 +468,6 @@ DEPENDENCIES
   faraday-cookie_jar
   formtastic (~> 4.0)
   gibbon
-  hiredis
   i18n-backend-side_by_side
   icalendar
   image_processing (~> 1.2)
