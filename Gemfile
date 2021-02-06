@@ -11,8 +11,7 @@ gem 'puma'
 gem 'lograge'
 
 gem 'bcrypt'
-# Waiting on https://github.com/codegram/date_validator/pull/85
-gem 'date_validator', github: 'PlayerData/date_validator', branch: 'ruby-3'
+gem 'date_validator', github: 'codegram/date_validator'
 gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
 
@@ -27,8 +26,7 @@ gem 'activeadmin'
 gem 'cancancan'
 gem 'invisible_captcha'
 gem 'ransack'
-# Waiting for 4.0.0
-gem 'formtastic', github: 'formtastic'
+gem 'formtastic', '~> 4.0'
 
 gem 'inline_svg'
 gem 'slim'
