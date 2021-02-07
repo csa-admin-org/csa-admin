@@ -42,7 +42,7 @@ describe 'members page' do
       fill_in 'Adresse', with: 'Nowhere srteet 2'
       fill_in 'NPA', with: '2042'
       fill_in 'Ville', with: 'Moon City'
-      select 'Allemagne', from: 'Pays'
+      select 'Suisse', from: 'Pays'
 
       fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
@@ -69,7 +69,7 @@ describe 'members page' do
       expect(member).to have_attributes(
         name: 'John et Jame Doe',
         address: 'Nowhere srteet 2',
-        country_code: 'DE',
+        country_code: 'CH',
         zip: '2042',
         city: 'Moon City',
         emails: 'john@doe.com, jane@doe.com',
