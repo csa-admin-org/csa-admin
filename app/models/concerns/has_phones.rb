@@ -3,13 +3,11 @@ module HasPhones
 
   included do
     scope :with_phone, ->(phone) { where('phones ILIKE ?', "%#{phone}%") }
+    before_validation :normalize_phones
   end
 
   def phones=(phones)
-    super string_to_a(phones).map { |phone|
-      PhonyRails.normalize_number(phone,
-        default_country_code: Current.acp.country_code)
-    }.join(', ')
+    super string_to_a(phones)
   end
 
   def phones_array
@@ -17,6 +15,20 @@ module HasPhones
   end
 
   private
+
+  def normalize_phones
+    return unless phones_changed?
+
+    self[:phones] = phones_array.map { |phone|
+      PhonyRails.normalize_number(phone,
+        default_country_code: phone_country_code)
+    }.join(', ')
+  end
+
+  def phone_country_code
+    (respond_to?(:country_code) && country_code) ||
+      Current.acp.country_code
+  end
 
   def string_to_a(str)
     str
