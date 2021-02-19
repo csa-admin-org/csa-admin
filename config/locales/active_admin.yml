@@ -266,8 +266,8 @@ _:
           _de: Gesamt %{number}
           _fr: Total %{number}
         totals:
-          _de: Gesamt %{numbers}
-          _fr: Gesamtsummen %{numbers}
+          _de: Gesamtsummen %{numbers}
+          _fr: Totaux %{numbers}
     pagination:
       empty:
         _de: Kein %{model} gefunden
