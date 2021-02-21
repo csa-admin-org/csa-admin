@@ -15,9 +15,7 @@ class MembershipRenewal
       raise MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
     end
     new_membership = Membership.new(renewed_attrs(attrs))
-    if BasketComplement.any?
-      renew_complements(new_membership, attrs)
-    end
+    renew_complements(new_membership, attrs)
     if membership.basket_size_id != new_membership.basket_size_id
       new_membership.baskets_annual_price_change = nil
       new_membership.activity_participations_demanded_annualy = nil
@@ -45,31 +43,34 @@ class MembershipRenewal
         activity_participations_annual_price_change
         basket_complements_annual_price_change
       ])
+      .symbolize_keys
       .merge(
         started_on: fiscal_year.beginning_of_year,
         ended_on: fiscal_year.end_of_year)
       .merge(
-        attrs
-          .stringify_keys
-          .slice(*%w[basket_size_id basket_price_extra depot_id]))
+        attrs.slice(*%i[basket_size_id basket_price_extra depot_id]))
   end
 
   def renew_complements(new_membership, attrs)
-    bc_ids =
-      attrs[:basket_complement_ids]&.map(&:presence)&.compact ||
-        membership.memberships_basket_complements.pluck(:basket_complement_id)
-    bc_ids.each do |bc_id|
-      bc_attrs =
-        membership_basket_complement_attrs(bc_id) ||
-          { basket_complement_id: bc_id }
-      new_membership.memberships_basket_complements.build(bc_attrs)
+    bc_attrs = []
+    if attrs.key?(:memberships_basket_complements_attributes)
+      attrs[:memberships_basket_complements_attributes].each { |i, attrs|
+        bc_attrs << (membership_basket_complement_attrs(attrs) || attrs)
+      }
+    else
+      membership.memberships_basket_complements.each do |mbc|
+        bc_attrs << mbc.slice(*%w[seasons quantity basket_complement_id])
+      end
+    end
+    bc_attrs.each do |attrs|
+      new_membership.memberships_basket_complements.build(attrs)
     end
   end
 
-  def membership_basket_complement_attrs(bc_id)
+  def membership_basket_complement_attrs(attrs)
     membership
       .memberships_basket_complements
-      .where(basket_complement_id: bc_id)
+      .where(basket_complement_id: attrs[:basket_complement_id])
       .first
       &.attributes
       &.slice(*%w[
@@ -77,6 +78,8 @@ class MembershipRenewal
         quantity
         basket_complement_id
       ])
+      &.symbolize_keys
+      &.merge(attrs)
   end
 
   def basket_complements_changed?(new_membership)

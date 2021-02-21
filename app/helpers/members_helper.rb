@@ -91,30 +91,19 @@ module MembersHelper
     end
   end
 
-  def basket_complements_collection
-    BasketComplement
-      .visible
-      .select { |bc| bc.deliveries_count.positive? }
-      .map { |bc|
-        if bc.annual_price_type?
-          [
-            collection_text(bc.name,
-              price: price_info(bc.price),
-              details: deliveries_count(bc.deliveries_count)),
-            bc.id
-          ]
-        else
-          d_counts = depots_delivery_ids.map { |d_ids|
-            (d_ids & bc.delivery_ids).size
-          }.uniq
-          [
-            collection_text(bc.name,
-              price: deliveries_based_price_info(bc.price, d_counts),
-              details: "#{short_price(bc.price)} x #{deliveries_count(d_counts)}"),
-            bc.id
-          ]
-        end
-      }
+  def basket_complement_label(bc)
+    if bc.annual_price_type?
+      collection_text(bc.name,
+        price: price_info(bc.price),
+        details: deliveries_count(bc.deliveries_count))
+    else
+      d_counts = depots_delivery_ids.map { |d_ids|
+        (d_ids & bc.delivery_ids).size
+      }.uniq
+      collection_text(bc.name,
+        price: deliveries_based_price_info(bc.price, d_counts),
+        details: "#{short_price(bc.price)} x #{deliveries_count(d_counts)}")
+    end
   end
 
   def depots_collection(membership = nil)

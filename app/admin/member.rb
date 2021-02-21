@@ -70,7 +70,11 @@ ActiveAdmin.register Member do
       column(:waiting_basket_price_extra) { |m| cur(m.waiting_basket_price_extra) }
     end
     if BasketComplement.any?
-      column(:waiting_basket_complements) { |m| m.waiting_basket_complements.map(&:name).join(', ') }
+      column(:waiting_basket_complements) { |m|
+        basket_complements_description(
+          m.members_basket_complements.includes(:basket_complement),
+          text_only: true)
+      }
     end
     column(:waiting_depot) { |m| m.waiting_depot&.name }
     column(:food_note)
@@ -226,7 +230,8 @@ ActiveAdmin.register Member do
             end
             if BasketComplement.any?
               row(:basket_complements) {
-                member.waiting_basket_complements.map(&:name).to_sentence
+                basket_complements_description(
+                  member.members_basket_complements.includes(:basket_complement))
               }
             end
             row(:depot) { member.waiting_depot&.name }
@@ -317,13 +322,16 @@ ActiveAdmin.register Member do
             label: Member.human_attribute_name(:basket_price_extra),
             required: false
         end
-        if BasketComplement.any?
-          f.input :waiting_basket_complement_ids,
-            label: BasketComplement.model_name.human(count: 2),
-            as: :check_boxes,
-            collection: BasketComplement.all
-        end
         f.input :waiting_depot, label: Depot.model_name.human
+        if BasketComplement.any?
+          complements = BasketComplement.all
+          f.has_many :members_basket_complements, allow_destroy: true do |ff|
+            ff.input :basket_complement,
+              collection: complements,
+              prompt: true
+            ff.input :quantity
+          end
+        end
       end
     end
     f.inputs Member.human_attribute_name(:address) do
@@ -374,7 +382,9 @@ ActiveAdmin.register Member do
     :acp_shares_info, :existing_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
-    waiting_basket_complement_ids: []
+    members_basket_complements_attributes: [
+      :id, :basket_complement_id, :quantity, :_destroy
+    ]
 
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
     link_to t('.validate'), validate_member_path(resource), method: :post

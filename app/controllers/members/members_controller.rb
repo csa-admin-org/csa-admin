@@ -6,6 +6,7 @@ class Members::MembersController < Members::BaseController
   # GET /new
   def new
     @member = Member.new
+    set_basket_complements
   end
 
   # GET /
@@ -31,6 +32,7 @@ class Members::MembersController < Members::BaseController
     elsif @member.save
       redirect_to welcome_members_member_path
     else
+      set_basket_complements
       render :new
     end
   end
@@ -44,8 +46,24 @@ class Members::MembersController < Members::BaseController
     redirect_to members_member_path if current_member
   end
 
+  def set_basket_complements
+    complement_ids =
+      BasketComplement
+        .visible
+        .select { |bc| bc.deliveries_count.positive? }
+        .map(&:id)
+    mbcs = @member.members_basket_complements.to_a
+    @member.members_basket_complements.clear
+    complement_ids.each do |id|
+      quantity = mbcs.find { |mbc| mbc.basket_complement_id == id }&.quantity
+      @member.members_basket_complements.build(
+        quantity: quantity || 0,
+        basket_complement_id: id)
+    end
+  end
+
   def member_params
-    params
+    permitted = params
       .require(:member)
       .permit(
         :name, :address, :zip, :city, :country_code,
@@ -54,6 +72,13 @@ class Members::MembersController < Members::BaseController
         :billing_year_division,
         :profession, :come_from, :note,
         :terms_of_service,
-        waiting_basket_complement_ids: [])
+        members_basket_complements_attributes: [
+          :basket_complement_id, :quantity
+        ]
+    )
+    permitted[:members_basket_complements_attributes]&.select! { |i, attrs|
+      attrs['quantity'].to_i > 0
+    }
+    permitted
   end
 end

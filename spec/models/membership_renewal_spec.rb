@@ -114,8 +114,13 @@ describe MembershipRenewal do
         '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
       })
 
-    expect { MembershipRenewal.new(membership).renew!(basket_complement_ids: ['', '1']) }
-      .to change(Membership, :count).by(1)
+    expect {
+      MembershipRenewal.new(membership).renew!(
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, quantity: 2 },
+        }
+      )
+    }.to change(Membership, :count).by(1)
 
     renewed = membership.renewed_membership
     expect(renewed).to have_attributes(
@@ -125,7 +130,7 @@ describe MembershipRenewal do
       seasons: %w[winter],
       basket_complement_id: 1,
       price: 3.2,
-      quantity: 1)
+      quantity: 2)
   end
 
   it 'resets basket_complements_annual_price_change when complements changes' do
@@ -139,8 +144,13 @@ describe MembershipRenewal do
         '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
       })
 
-    expect { MembershipRenewal.new(membership).renew!(basket_complement_ids: ['1']) }
-      .to change(Membership, :count).by(1)
+    expect {
+      MembershipRenewal.new(membership).renew!(
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, quantity: 1 },
+        }
+      )
+    }.to change(Membership, :count).by(1)
 
     renewed = membership.renewed_membership
     expect(renewed).to have_attributes(

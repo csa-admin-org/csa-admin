@@ -31,6 +31,21 @@ export const checked = (selector, value) => {
   }
 };
 
+export const removeValues = (selector) => {
+  const els = document.querySelectorAll(selector);
+  for (const el of els) {
+    el.value = null;
+  }
+};
+
+export const resetValues = (selector, value) => {
+  const els = document.querySelectorAll(selector);
+  for (const el of els) {
+    console.log(el.value);
+    if (el.value == '') el.value = value;
+  }
+};
+
 export const addClass = (selector, className) => {
   const els = document.querySelectorAll(selector);
   for (const el of els) {

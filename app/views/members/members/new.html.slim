@@ -45,8 +45,11 @@ p = t('.text')
           hint: false, \
           wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
-    - if BasketComplement.visible.any?
-      = f.input :waiting_basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2), wrapper_html: { class: ('disabled' if support_checked) }, disabled: (basket_complements_collection.map(&:last) if support_checked)
+    - if @member.members_basket_complements.any?
+      = f.inputs BasketComplement.model_name.human(count: 2), class: 'basket_complements' do
+        = f.semantic_fields_for :members_basket_complements do |ff|
+          = ff.input :basket_complement_id, as: :hidden
+          = ff.input :quantity, as: :number, min: 0, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ('disabled' if support_checked) }
 
     = f.input :waiting_depot, as: :pretty_radio, collection: depots_collection, label: Depot.model_name.human, required: true,
     wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }

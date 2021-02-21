@@ -33,7 +33,7 @@ describe 'Memberships Renewal' do
     click_on 'Suivant'
 
     choose "Grand"
-    check "Oeufs"
+    fill_in 'Oeufs', with: '2'
     fill_in 'Remarque(s)', with: "Plus d'épinards!"
 
     click_on 'Confirmer'
@@ -50,7 +50,7 @@ describe 'Memberships Renewal' do
       expect(page).to have_content 'Panier'
       expect(page).to have_content 'Grand'
       expect(page).to have_content 'Complément'
-      expect(page).to have_content 'Oeufs'
+      expect(page).to have_content '2 x Oeufs'
       expect(page).to have_content 'Dépôt'
       expect(page).to have_content 'Joli Lieu'
       expect(page).to have_content 'Livraisons'
@@ -58,7 +58,7 @@ describe 'Memberships Renewal' do
       expect(page).to have_content '½ Journées'
       expect(page).to have_content '2 demandées'
       expect(page).to have_content 'Prix'
-      expect(page).to have_content "CHF 34.20"
+      expect(page).to have_content "CHF 38.40"
     end
     expect(membership.reload).to have_attributes(
       renew: true,
@@ -71,8 +71,10 @@ describe 'Memberships Renewal' do
       renew: true,
       started_on: Date.parse('2021-01-01'),
       ended_on: Date.parse('2021-12-31'),
-      basket_size: big_basket,
-      basket_complement_ids: [complement.id])
+      basket_size: big_basket)
+    expect(membership.renewed_membership.memberships_basket_complements.first).to have_attributes(
+      basket_complement_id: complement.id,
+      quantity: 2)
   end
 
   specify 'renew membership (with basket_price_extra)', freeze: '2020-09-30' do

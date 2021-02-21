@@ -28,8 +28,11 @@ h2 = t(".title.#{params[:decision]}")
             text: t('.tapatate.basket_price_extra.text'), \
             hint: false
 
-      - if BasketComplement.any?
-        = f.input :basket_complement_ids, as: :pretty_check_boxes, collection: basket_complements_collection, label: BasketComplement.model_name.human(count: 2)
+      - if @membership.memberships_basket_complements.any?
+        = f.inputs BasketComplement.model_name.human(count: 2), class: 'basket_complements' do
+          = f.semantic_fields_for :memberships_basket_complements do |ff|
+            = ff.input :basket_complement_id, as: :hidden
+            = ff.input :quantity, as: :number, min: 0, label: basket_complement_label(ff.object.basket_complement), required: false
 
       - unless Current.acp.tapatate?
         = f.input :depot, as: :pretty_radio, collection: depots_collection(@membership), label: Depot.model_name.human
