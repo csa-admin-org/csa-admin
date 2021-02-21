@@ -463,6 +463,10 @@ _:
         with_phone:
           _de: Telefon
           _fr: Téléphone
+      members_basket_complement:
+        basket_complement:
+          _de: Zusatz
+          _fr: Complément
       membership:
         activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Preis Abonnement (Taschen befüllung)
@@ -614,6 +618,9 @@ _:
         invoices_amount:
           _de: Gesamt (Rechnung)
           _fr: Total (Facturé)
+        members_basket_complements:
+          _de: Zusätze
+          _fr: Compléments
         memberships_basket_complements:
           _de: Zusätze
           _fr: Compléments
@@ -859,6 +866,13 @@ _:
         other:
           _de: Mitglieder
           _fr: Membres
+      members_basket_complement:
+        one:
+          _de: Zusatz
+          _fr: Complément
+        other:
+          _de: Zusätze
+          _fr: Compléments
       membership:
         one:
           _de: Abonnement

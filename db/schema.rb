@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_195049) do
+ActiveRecord::Schema.define(version: 2021_02_20_113725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -219,12 +219,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_195049) do
     t.bigint "basket_complement_id", null: false
     t.bigint "delivery_id", null: false
     t.index ["basket_complement_id", "delivery_id"], name: "basket_complements_deliveries_unique_index", unique: true
-  end
-
-  create_table "basket_complements_members", force: :cascade do |t|
-    t.bigint "basket_complement_id", null: false
-    t.bigint "member_id", null: false
-    t.index ["basket_complement_id", "member_id"], name: "basket_complements_members_unique_index", unique: true
   end
 
   create_table "basket_contents", id: :serial, force: :cascade do |t|
@@ -489,6 +483,15 @@ ActiveRecord::Schema.define(version: 2021_01_25_195049) do
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
+  end
+
+  create_table "members_basket_complements", force: :cascade do |t|
+    t.bigint "basket_complement_id", null: false
+    t.bigint "member_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["basket_complement_id", "member_id"], name: "members_basket_complements_unique_index", unique: true
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|

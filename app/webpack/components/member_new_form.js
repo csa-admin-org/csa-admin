@@ -1,11 +1,11 @@
-import { live, checked, prop, addClass, removeClass } from 'components/utils';
+import { live, checked, removeValues, resetValues, prop, addClass, removeClass } from 'components/utils';
 
 document.addEventListener('turbolinks:load', () => {
   live("#member_waiting_basket_size_input input[type='radio']", 'change', event => {
     const extraPrice = '#member_waiting_basket_price_extra_input';
     const extraPriceRadios = `${extraPrice} input[type='radio']`;
-    const complements = '#member_waiting_basket_complement_ids_input';
-    const complementsCheckboxes = `${complements} input[type='checkbox']`;
+    const complements = 'fieldset.members_basket_complements';
+    const complementsInputs = `${complements} input[type='number']`;
     const depots = '#member_waiting_depot_input';
     const depotsRadios = `${depots} input[type='radio']`;
     const billingYearDivision = '#member_billing_year_division_input';
@@ -19,8 +19,8 @@ document.addEventListener('turbolinks:load', () => {
       prop(extraPriceRadios, 'disabled', true);
 
       addClass(complements, 'disabled');
-      checked(complementsCheckboxes, false);
-      prop(complementsCheckboxes, 'disabled', true);
+      removeValues(complementsInputs);
+      prop(complementsInputs, 'disabled', true);
 
       addClass(depots, 'disabled');
       checked(depotsRadios, false);
@@ -38,7 +38,8 @@ document.addEventListener('turbolinks:load', () => {
       prop(extraPriceRadios, 'disabled', false);
 
       removeClass(complements, 'disabled');
-      prop(complementsCheckboxes, 'disabled', false);
+      resetValues(complementsInputs, 0);
+      prop(complementsInputs, 'disabled', false);
 
       removeClass(depots, 'disabled');
       prop(depotsRadios, 'disabled', false);

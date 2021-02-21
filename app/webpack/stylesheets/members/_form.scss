@@ -75,6 +75,38 @@ form.formtastic {
     }
   }
 
+  fieldset.basket_complements {
+    margin-bottom: 0.75em;
+    li.number {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      margin-top: 0.5em;
+    }
+    label {
+      order: 2;
+      margin: auto 0 auto 7px;
+      font-weight: 400;
+      em {
+        margin-left: $small-spacing / 2;
+        color: $medium-gray;
+        font-weight: 300;
+        font-style: italic;
+
+        &.price {
+          white-space: nowrap;
+        }
+      }
+    }
+    input[type='number'] {
+      order: 1;
+      height: 5px;
+      font-size: 0.9em;
+      padding: 10px 5px 10px 8px;
+      width: 30px;
+    }
+  }
+
   p.inline-hints {
     font-size: $base-font-size * 0.75;
     color: $medium-gray;
@@ -92,11 +124,12 @@ form.formtastic {
   }
 
   label,
-  legend label {
+  legend label, legend span {
     display: inline-block;
     width: 100%;
     font-size: $base-font-size * 0.9;
     font-weight: 500;
+    padding: 0px;
     margin: $small-spacing 0 0 0;
   }
 
@@ -119,7 +152,10 @@ form.formtastic {
 
   li.disabled,
   li.disabled a,
-  li.disabled em {
+  li.disabled em,
+  li fieldset.disabled,
+  li fieldset.disabled a,
+  li fieldset.disabled em {
     color: $light-gray !important;
   }
 

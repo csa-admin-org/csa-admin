@@ -72,6 +72,10 @@ form {
     padding: $spacing-small $spacing;
     @include clearfix;
 
+    h3 {
+      color: tint($text-color, 15%);
+    }
+
     label {
       color: tint($text-color, 15%);
       float: left;

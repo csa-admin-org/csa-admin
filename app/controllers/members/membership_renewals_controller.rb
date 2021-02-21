@@ -4,8 +4,9 @@ class Members::MembershipRenewalsController < Members::BaseController
   # GET /membership/renewal/new
   # GET /membership/:decision
   def new
-    @membership = current_member.current_year_membership
+    @membership = current_member.current_year_membership.dup
     @membership.renewal_decision = params[:decision]
+    set_basket_complements
 
     redirect_to members_member_path unless @membership&.renewal_opened?
   end
@@ -27,6 +28,25 @@ class Members::MembershipRenewalsController < Members::BaseController
 
   private
 
+  def set_basket_complements
+    complement_ids =
+      BasketComplement
+        .visible
+        .select { |bc| bc.deliveries_count.positive? }
+        .map(&:id)
+    complement_ids.each do |id|
+      quantity =
+        current_member
+          .current_year_membership
+          .memberships_basket_complements
+          .find { |mbc| mbc.basket_complement_id == id }
+          &.quantity
+      @membership.memberships_basket_complements.build(
+        quantity: quantity || 0,
+        basket_complement_id: id)
+    end
+  end
+
   def redirect_renewal_decision_params!
     if decision = params.dig(:membership, :renewal_decision)
       redirect_to url_for(decision: decision)
@@ -34,7 +54,7 @@ class Members::MembershipRenewalsController < Members::BaseController
   end
 
   def renewal_params
-    params
+    permitted = params
       .require(:membership)
       .permit(*%i[
         renewal_annual_fee
@@ -42,6 +62,12 @@ class Members::MembershipRenewalsController < Members::BaseController
         basket_size_id
         basket_price_extra
         depot_id
-      ], basket_complement_ids: [])
+      ], memberships_basket_complements_attributes: [
+        :basket_complement_id, :quantity
+      ])
+      permitted[:memberships_basket_complements_attributes]&.select! { |i, attrs|
+        attrs['quantity'].to_i > 0
+      }
+      permitted
   end
 end

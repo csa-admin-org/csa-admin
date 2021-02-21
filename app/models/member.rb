@@ -20,7 +20,6 @@ class Member < ActiveRecord::Base
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
   belongs_to :waiting_depot, class_name: 'Depot', optional: true
-  has_and_belongs_to_many :waiting_basket_complements, class_name: 'BasketComplement'
   has_many :absences
   has_many :invoices
   has_many :payments
@@ -40,6 +39,12 @@ class Member < ActiveRecord::Base
     source: :delivered_baskets,
     class_name: 'Basket'
   has_many :group_buying_orders, class_name: 'GroupBuying::Order'
+  has_many :members_basket_complements, dependent: :destroy
+  has_many :waiting_basket_complements,
+    source: :basket_complement,
+    through: :members_basket_complements
+
+  accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
@@ -64,6 +69,7 @@ class Member < ActiveRecord::Base
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :existing_acp_shares_number, numericality: { greater_than_or_equal_to: 0 }
   validate :email_must_be_unique
+  validate :unique_waiting_basket_complement_id
 
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
@@ -269,6 +275,17 @@ class Member < ActiveRecord::Base
         errors.add(:emails, :taken)
         break
       end
+    end
+  end
+
+  def unique_waiting_basket_complement_id
+    used_basket_complement_ids = []
+    members_basket_complements.each do |mbc|
+      if mbc.basket_complement_id.in?(used_basket_complement_ids)
+        mbc.errors.add(:basket_complement_id, :taken)
+        errors.add(:base, :invalid)
+      end
+      used_basket_complement_ids << mbc.basket_complement_id
     end
   end
 

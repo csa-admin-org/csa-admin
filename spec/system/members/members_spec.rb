@@ -28,9 +28,9 @@ describe 'members page' do
       expect(page).to have_selector('span.label',
         text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
 
-      expect(page).to have_selector('span.label',
+      expect(page).to have_selector('label',
         text: "OeufsCHF 192(4.80 x 40 livraisons)")
-      expect(page).to have_selector('span.label',
+      expect(page).to have_selector('label',
         text: "PainCHF 260(6.50 x 40 livraisons)")
 
       expect(page).to have_selector('span.label',
@@ -49,8 +49,8 @@ describe 'members page' do
 
       choose 'Eveil'
       choose "+ 4.-/panier"
-      check 'Oeufs'
-      check 'Pain'
+      fill_in 'Oeufs', with: '1'
+      fill_in 'Pain', with: '2'
       choose 'Vélo'
 
       choose 'Trimestriel'
@@ -82,6 +82,7 @@ describe 'members page' do
       expect(member.waiting_basket_price_extra).to eq 4
       expect(member.waiting_depot.name).to eq 'Vélo'
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
+      expect(member.members_basket_complements.map(&:quantity)).to eq [1, 2]
       expect(member.annual_fee).to eq Current.acp.annual_fee
       expect(member.billing_year_division).to eq 4
     end
