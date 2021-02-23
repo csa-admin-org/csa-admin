@@ -17,8 +17,8 @@ ActiveAdmin.register Activity do
   scope :coming, default: true
   scope :past
 
-  filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).sort }
-  filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).sort }
+  filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).compact.sort }
+  filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).compact.sort }
   filter :date
   filter :during_year,
     as: :select,
