@@ -12,6 +12,11 @@ ActiveAdmin.register Member do
   filter :with_address, as: :string
   filter :with_phone, as: :string
   filter :with_email, as: :string
+  filter :with_waiting_depots,
+    label: -> { Member.human_attribute_name(:waiting_depot) },
+    as: :select,
+    collection: -> { Depot.visible },
+    if: proc { params[:scope].in? ['waiting', nil] }
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
@@ -34,7 +39,14 @@ ActiveAdmin.register Member do
       }, sortable: :waiting_started_at
     end
     column :name, ->(member) { auto_link member }
-    column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
+    if params[:scope] == 'waiting'
+      column Depot.model_name.human(count: Current.acp.allow_alternative_depots? ? 2 : 1), ->(member) {
+        ([member.waiting_depot] + member.waiting_alternative_depots)
+          .compact.map(&:name).to_sentence.truncate(50)
+      }
+    else
+      column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
+    end
     column :state, ->(member) { status_tag(member.state) }
     actions class: 'col-actions-3'
   end
@@ -77,6 +89,11 @@ ActiveAdmin.register Member do
       }
     end
     column(:waiting_depot) { |m| m.waiting_depot&.name }
+    if Current.acp.allow_alternative_depots?
+      column(:waiting_alternative_depot_ids) { |m|
+        m.waiting_alternative_depots.map(&:name).to_sentence
+      }
+    end
     column(:food_note)
     column(:note)
     column(:validated_at)
@@ -235,6 +252,11 @@ ActiveAdmin.register Member do
               }
             end
             row(:depot) { member.waiting_depot&.name }
+            if Current.acp.allow_alternative_depots?
+              row(:waiting_alternative_depot_ids) {
+                member.waiting_alternative_depots.map(&:name).to_sentence
+              }
+            end
           end
         end
         attributes_table title: Member.human_attribute_name(:contact) do
@@ -323,6 +345,10 @@ ActiveAdmin.register Member do
             required: false
         end
         f.input :waiting_depot, label: Depot.model_name.human
+        f.input :waiting_alternative_depot_ids,
+          collection: Depot.all,
+          as: :check_boxes,
+          hint: false
         if BasketComplement.any?
           complements = BasketComplement.all
           f.has_many :members_basket_complements, allow_destroy: true do |ff|
@@ -382,6 +408,7 @@ ActiveAdmin.register Member do
     :acp_shares_info, :existing_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
+    waiting_alternative_depot_ids: [],
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy
     ]

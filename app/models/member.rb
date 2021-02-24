@@ -20,6 +20,10 @@ class Member < ActiveRecord::Base
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
   belongs_to :waiting_depot, class_name: 'Depot', optional: true
+  has_and_belongs_to_many :waiting_alternative_depots,
+    class_name: 'Depot',
+    join_table: 'members_waiting_alternative_depots',
+    optional: true
   has_many :absences
   has_many :invoices
   has_many :payments
@@ -50,6 +54,12 @@ class Member < ActiveRecord::Base
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :no_salary_basket, -> { where(salary_basket: false) }
+  scope :with_waiting_depots_eq, ->(depot_id) {
+    left_joins(:members_waiting_alternative_depots).where(<<-SQL, depot_id: depot_id).distinct
+      members.waiting_depot_id = :depot_id OR
+      members_waiting_alternative_depots.depot_id = :depot_id
+    SQL
+  }
 
   after_initialize :set_defaults, unless: :persisted?
   before_validation :set_default_billing_year_division
@@ -123,7 +133,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[with_name with_address with_email with_phone]
+    %i[with_name with_address with_email with_phone with_waiting_depots_eq]
   end
 
   def update_trial_baskets!

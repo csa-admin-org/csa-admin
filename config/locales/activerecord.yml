@@ -27,6 +27,9 @@ _:
         activity_price:
           _de: Rechnungsbetrag
           _fr: Montant facturé
+        allow_alternative_depots:
+          _de: Auswahl an alternativen Depots
+          _fr: Choix de dépôts alternatifs
         annual_fee:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
@@ -436,6 +439,9 @@ _:
         waiting:
           _de: Auf Warteliste
           _fr: Sur liste d'attente
+        waiting_alternative_depot_ids:
+          _de: Alternative Depot(s)
+          _fr: Dépôt(s) alternatifs(s)
         waiting_basket_complements:
           _de: Taschenzusätze Warteliste
           _fr: Compléments panier en attente

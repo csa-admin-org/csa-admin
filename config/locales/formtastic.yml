@@ -17,6 +17,9 @@ _:
         activity_price:
           _de: Belassen Sie es bei 0, wenn die fehlende Teilnahme nicht berechnet wird.
           _fr: Laisser à zéro si le manque de participation n'est pas facturé.
+        allow_alternative_depots:
+          _de: Ermöglicht es Ihnen, bei der Registrierung eine oder mehrere alternative Depots zu wählen. Nützlich, wenn die erste Auswahl bereits voll ist.
+          _fr: Permet de choisir un ou plusieurs dépôts alternatifs lors de l'inscription. Utile si le premier choix est déjà complet.
         annual_fee:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
           _fr: Laisser vide si aucune cotisation anuelle.
@@ -91,11 +94,11 @@ _:
           _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement.
         depots:
           _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
-          _fr: Les paniers des dépots seront automatiquement effacés ou créés en cas de changement.
+          _fr: Les paniers des dépôts seront automatiquement effacés ou créés en cas de changement.
       depot:
         current_deliveries:
           _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
-          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement.
+          _fr: Les paniers de ce dépôt seront automatiquement effacés ou créés en cas de changement.
         emails:
           _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
@@ -107,7 +110,7 @@ _:
           _fr: Permet de trier les dépôts dans un ordre spécifique.
         future_deliveries:
           _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
-          _fr: Les paniers de ce dépot seront automatiquement effacés ou créés en cas de changement.
+          _fr: Les paniers de ce dépôt seront automatiquement effacés ou créés en cas de changement.
         phones:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
@@ -153,6 +156,9 @@ _:
         phones:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
+        waiting_alternative_depot_ids:
+          _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Taschen vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
+          _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos paniers dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
       membership:
         activity_participations_annual_price_change:
           _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.

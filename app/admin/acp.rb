@@ -22,6 +22,7 @@ ActiveAdmin.register ACP do
     :recurring_billing_wday, :currency_code,
     :open_renewal_reminder_sent_after_in_days,
     :billing_starts_after_first_delivery,
+    :allow_alternative_depots,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -151,6 +152,7 @@ ActiveAdmin.register ACP do
         required: false,
         as: :action_text,
         input_html: { rows: 5 })
+      f.input :allow_alternative_depots, as: :boolean
     end
     f.inputs t('.mailer'), id: 'mail' do
       para t('.mailer_text_html'), class: 'description'

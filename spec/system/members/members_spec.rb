@@ -87,6 +87,70 @@ describe 'members page' do
       expect(member.billing_year_division).to eq 4
     end
 
+    it 'creates a new member with membership and alternative depots' do
+      Current.acp.update!(allow_alternative_depots: true)
+
+      DeliveriesHelper.create_deliveries(40)
+      create(:basket_size, :small)
+      create(:basket_size, :big)
+
+      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7')
+      create(:depot, name: 'Vélo', price: 8)
+      create(:depot, name: 'La Chaux-de-Fonds', price: 4)
+      create(:depot, name: 'Neuchâtel', price: 4)
+
+      visit '/new'
+
+      expect(page).to have_selector('legend label',
+        text: "Dépôt*")
+      expect(page).to have_selector('span.label',
+        text: "Jardin de la main(Rue de la main 6-7,")
+      expect(page).to have_selector('span.label',
+        text: "VéloCHF 320(8.-/livraison")
+      expect(page).to have_selector('span.label',
+        text: "NeuchâtelCHF 160(4.-/livraison")
+      expect(page).to have_selector('span.label',
+        text: "La Chaux-de-FondsCHF 160(4.-/livraison")
+      expect(page).to have_selector('legend label',
+        text: "Dépôt(s) alternatifs(s)")
+
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
+      fill_in 'Adresse', with: 'Nowhere srteet 2'
+      fill_in 'NPA', with: '2042'
+      fill_in 'Ville', with: 'Moon City'
+      select 'Suisse', from: 'Pays'
+
+      fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
+      fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
+
+      choose 'Eveil'
+
+      within '#member_waiting_depot_input' do
+        choose 'Neuchâtel'
+      end
+
+      within '#member_waiting_alternative_depot_ids_input' do
+        check 'Jardin de la main'
+        check 'Vélo'
+      end
+
+      choose 'Trimestriel'
+
+      fill_in 'Profession', with: 'Pompier'
+      fill_in 'Comment avez-vous entendu parler de nous?', with: 'Bouche à oreille'
+      fill_in 'Remarque(s)', with: 'Vive Rage de Vert!'
+
+      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      member = Member.last
+      expect(member.waiting_depot.name).to eq 'Neuchâtel'
+      expect(member.waiting_alternative_depots.map(&:name)).to eq ['Jardin de la main', 'Vélo']
+    end
+
     it 'creates a new support member (annual fee)' do
       Current.acp.update!(
         languages: %w[fr de],

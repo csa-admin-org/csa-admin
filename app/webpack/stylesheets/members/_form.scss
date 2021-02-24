@@ -153,9 +153,13 @@ form.formtastic {
   li.disabled,
   li.disabled a,
   li.disabled em,
+  li.disabled p.inline-hints,
   li fieldset.disabled,
   li fieldset.disabled a,
-  li fieldset.disabled em {
+  li fieldset.disabled em,
+  label.disabled,
+  label.disabled a,
+  label.disabled em {
     color: $light-gray !important;
   }
 
