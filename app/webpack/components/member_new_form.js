@@ -8,6 +8,8 @@ document.addEventListener('turbolinks:load', () => {
     const complementsInputs = `${complements} input[type='number']`;
     const depots = '#member_waiting_depot_input';
     const depotsRadios = `${depots} input[type='radio']`;
+    const alternativeDepots = '#member_waiting_alternative_depot_ids_input';
+    const alternativeDepotsCheckBoxes = `${alternativeDepots} input[type='checkbox']`;
     const billingYearDivision = '#member_billing_year_division_input';
     const billingYearDivisionRadios = `${billingYearDivision} input[type='radio']`;
     const billingYearDivision1 = '#member_billing_year_division_1';
@@ -25,6 +27,10 @@ document.addEventListener('turbolinks:load', () => {
       addClass(depots, 'disabled');
       checked(depotsRadios, false);
       prop(depotsRadios, 'disabled', true);
+
+      addClass(alternativeDepots, 'disabled');
+      checked(alternativeDepotsCheckBoxes, false);
+      prop(alternativeDepotsCheckBoxes, 'disabled', true);
 
       addClass(billingYearDivision, 'disabled');
       checked(billingYearDivisionRadios, false);
@@ -44,8 +50,25 @@ document.addEventListener('turbolinks:load', () => {
       removeClass(depots, 'disabled');
       prop(depotsRadios, 'disabled', false);
 
+      removeClass(alternativeDepots, 'disabled');
+      prop(alternativeDepotsCheckBoxes, 'disabled', false);
+
       removeClass(billingYearDivision, 'disabled');
       prop(billingYearDivisionRadios, 'disabled', false);
     }
+  });
+
+  live("#member_waiting_depot_input input[type='radio']", 'change', event => {
+    const alternativeDepotsLabels = "#member_waiting_alternative_depot_ids_input label";
+    const alternativeDepotsCheckBoxes = "#member_waiting_alternative_depot_ids_input input[type='checkbox']";
+    const alternativeDepotsLabel = `label[for='member_waiting_alternative_depot_ids_${event.target.value}']`;
+    const alternativeDepotsCheckBox = `#member_waiting_alternative_depot_ids_${event.target.value}`;
+
+    removeClass(alternativeDepotsLabels, 'disabled');
+    prop(alternativeDepotsCheckBoxes, 'disabled', false);
+
+    addClass(alternativeDepotsLabel, 'disabled');
+    checked(alternativeDepotsCheckBox, false);
+    prop(alternativeDepotsCheckBox, 'disabled', true);
   });
 });

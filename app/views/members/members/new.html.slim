@@ -54,6 +54,10 @@ p = t('.text')
     = f.input :waiting_depot, as: :pretty_radio, collection: depots_collection, label: Depot.model_name.human, required: true,
     wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
+    - if Current.acp.allow_alternative_depots?
+      = f.input :waiting_alternative_depot_ids, as: :pretty_check_boxes, collection: depots_collection, required: false, hint: true,
+    wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }
+
   - if Current.acp.billing_year_divisions.many?
     = f.inputs name: t('active_admin.resource.show.billing') do
       = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection, wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_20_113725) do
+ActiveRecord::Schema.define(version: 2021_02_21_154428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2021_02_20_113725) do
     t.jsonb "email_signatures", default: {}, null: false
     t.jsonb "email_footers", default: {}, null: false
     t.boolean "billing_starts_after_first_delivery", default: true, null: false
+    t.boolean "allow_alternative_depots", default: false, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -492,6 +493,11 @@ ActiveRecord::Schema.define(version: 2021_02_20_113725) do
     t.datetime "created_at", precision: 6
     t.datetime "updated_at", precision: 6
     t.index ["basket_complement_id", "member_id"], name: "members_basket_complements_unique_index", unique: true
+  end
+
+  create_table "members_waiting_alternative_depots", id: false, force: :cascade do |t|
+    t.bigint "depot_id", null: false
+    t.bigint "member_id", null: false
   end
 
   create_table "memberships", id: :serial, force: :cascade do |t|

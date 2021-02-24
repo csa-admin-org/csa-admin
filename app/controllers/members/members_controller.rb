@@ -72,13 +72,14 @@ class Members::MembersController < Members::BaseController
         :billing_year_division,
         :profession, :come_from, :note,
         :terms_of_service,
+        waiting_alternative_depot_ids: [],
         members_basket_complements_attributes: [
           :basket_complement_id, :quantity
-        ]
-    )
+        ])
     permitted[:members_basket_complements_attributes]&.select! { |i, attrs|
       attrs['quantity'].to_i > 0
     }
+    permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
     permitted
   end
 end
