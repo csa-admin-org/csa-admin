@@ -186,6 +186,8 @@ ActiveAdmin.register Membership do
     if Current.acp.feature_flag?(:basket_price_extra)
       column(:basket_price_extra) { |m| cur(m.basket_price_extra) }
     end
+    column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }
+    column(:baskets_annual_price_change) { |m| cur(m.baskets_annual_price_change) }
     column(:price) { |m| cur(m.price) }
     column(:invoices_amount) { |m| cur(m.invoices_amount) }
     column(:missing_invoices_amount) { |m| cur(m.missing_invoices_amount) }
