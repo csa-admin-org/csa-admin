@@ -198,16 +198,7 @@ _:
           _fr: Panier(s) salaire / Abonnement(s) gratuit(s)
       membership:
         activity_participations_annual_price_change:
-          _de: Anpassung Preis des Abonnements
-          _fr: Ajustement du prix de l'abonnement
-        activity_participations_demanded_annualy:
-          _de: Anpassung Preis des Abonnements
-          _fr: Ajustement du prix de l'abonnement
-        basket_complements_annual_price_change:
-          _de: Anpassung Preis der Zusätze
-          _fr: Ajustement du prix des compléments
-        baskets_annual_price_change:
-          _de: Anpassung Preis des Abonnements
+          _de: Anpassung Preis Abonnement
           _fr: Ajustement du prix de l'abonnement
     'no':
       _de: Nein
