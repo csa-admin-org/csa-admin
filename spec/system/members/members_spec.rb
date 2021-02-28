@@ -210,7 +210,7 @@ describe 'members page' do
 
       visit '/new'
 
-      expect(page).to have_content "Chaque membre fait également partie de l'association et se doit d'acquérir des parts sociales (CHF 250/part) en fonction de la taille de son panier. Ces parts sociales sont intégralement remboursées si le membre décide de quitter l'association."
+      expect(page).to have_content "Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (CHF 250/part)."
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
