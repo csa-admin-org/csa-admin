@@ -5,3 +5,4 @@ _:
         count:
           _de: Anzahl (am+pm * Teilnehmer)
           _fr: Nombre (am+pm * participants)
+          _it: Nombre (am+pm * participants)

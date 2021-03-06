@@ -1,0 +1,24 @@
+<p>Nous vous remercions pour votre participation à l'activité suivante, elle vient d'être validée!</p>
+
+{% highlight_list %}
+  <strong>Date:</strong> {{ activity.date_long }}
+  <strong>Horaire:</strong> {{ activity.period }}
+  <strong>Activité:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Description:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Lieu:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Lieu:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+<p>Une question? Vous pouvez nous contacter au <strong>{{ acp.activity_phone }}</strong> ou en répondant simplement à cet email.</p>
+
+<p>Inscrivez-vous à d'autres activités depuis votre page de membre.</p>
+
+{% button member.activities_url %}
+  Accéder à ma page de membre
+{% endbutton %}

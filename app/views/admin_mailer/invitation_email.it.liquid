@@ -1,0 +1,7 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Un compte admin pour {{ acp.name }} vient de vous être créé, merci d'utiliser votre e-mail (<strong>{{ admin.email }}</strong>) pour vous connecter.</p>
+
+{% button action_url %}
+  Accéder à l'admin de {{ acp.name }}
+{% endbutton %}

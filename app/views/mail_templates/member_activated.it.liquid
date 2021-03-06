@@ -1,0 +1,19 @@
+<p>EDITEZ-MOI!</p>
+
+<p>Votre abonnement a ou va bientôt commencer, voici plus d'information...</p>
+
+{% highlight_list %}
+  <strong>Début:</strong> {{ membership.start_date }}
+  <strong>Fin:</strong> {{ membership.end_date }}
+  <strong>Taille panier:</strong> {{ membership.basket_size.name }}
+  {% if membership.basket_complement_names %}
+  <strong>Compléments:</strong> {{ membership.basket_complement_names }}
+  {% endif %}
+  <strong>Dépôt:</strong> {{ membership.depot.name }}
+  <strong>Nombre de panier à l'essai:</strong> {{ membership.trial_baskets_count }}
+  <strong>Participations aux activités demandées:</strong> {{ membership.activity_participations_demanded_count }}
+{% endhighlight_list %}
+
+{% button member.page_url %}
+  Accéder à ma page de membre
+{% endbutton %}

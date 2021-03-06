@@ -3,21 +3,28 @@ _:
     baskets_to_prepare:
       _de: Taschen vorzubereiten
       _fr: Paniers à préparer
+      _it: Paniers à préparer
     delivered_by:
       _de: Liefert von
       _fr: Livré par
+      _it: Livré par
     delivery:
       _de: lieferung
       _fr: livraison
+      _it: livraison
     group_buying/delivery:
       _de: gruppeneinkauf-lieferung
       _fr: achats-groupés-livraison
+      _it: achats-groupés-livraison
     recap:
       _de: Zusammenfassung
       _fr: Récapitulatif
+      _it: Récapitulatif
     total:
       _de: Gesamt
       _fr: Total
+      _it: Total
     totals:
       _de: Gesamtsummen
       _fr: Totaux
+      _it: Totaux

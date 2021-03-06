@@ -3,237 +3,316 @@ _:
     absent_baskets:
       _de: Taschen (Abwesend)
       _fr: Paniers (absents)
+      _it: Paniers (absents)
     acp_shares_number:
       _de: Anzahl Anteilscheine
       _fr: Nombre de parts sociales
+      _it: Nombre de parts sociales
     address:
       _de: Adresse
       _fr: Adresse
+      _it: Adresse
     amount:
       _de: Betrag
       _fr: Montant
+      _it: Montant
     annual_price:
       _de: Jährlicher Preis
       _fr: Prix annuel
+      _it: Prix annuel
     available:
       _de: Verfügbar
       _fr: Disponible
+      _it: Disponible
     balance_amount:
       _de: Kontostand
       _fr: Balance
+      _it: Balance
     basket_price_extra:
       _de: Preis Taschen (zusätzlich)
       _fr: Prix panier (extra)
+      _it: Prix panier (extra)
     basket_size:
       _de: Taschengrösse
       _fr: Taille panier
+      _it: Taille panier
     basket_size_id:
       _de: Taschengrösse
       _fr: Taille panier
+      _it: Taille panier
     baskets:
       _de: Taschen
       _fr: Paniers
+      _it: Paniers
     bulk_dates_ends_on:
       _de: Ende
       _fr: Fin
+      _it: Fin
     bulk_dates_starts_on:
       _de: Anfang
       _fr: Début
+      _it: Début
     bulk_dates_wdays:
       _de: Wochentage
       _fr: Jours de la semaine
+      _it: Jours de la semaine
     bulk_dates_weeks_frequency:
       _de: Häufigkeit
       _fr: Fréquence
+      _it: Fréquence
     city:
       _de: Stadt
       _fr: Ville
+      _it: Ville
     comment:
       _de: Kommentar
       _fr: Commentaire
+      _it: Commentaire
     contact:
       _de: Kontakt
       _fr: Contact
+      _it: Contact
     count:
       _de: Anzahl
       _fr: Nombre
+      _it: Nombre
     country_code:
       _de: Land
       _fr: Pays
+      _it: Pays
     created_at:
       _de: Erstellt am
       _fr: Créé le
+      _it: Créé le
     date:
       _de: Datum
       _fr: Date
+      _it: Date
     dates:
       _de: Daten
       _fr: Dates
+      _it: Dates
     deliveries_count:
       _de: Lieferungen
       _fr: Livraisons
+      _it: Livraisons
     delivery:
       _de: Lieferung
       _fr: Livraison
+      _it: Livraison
     delivery_date:
       _de: Lieferdatum
       _fr: Date de livraison
+      _it: Date de livraison
     delivery_id:
       _de: Lieferung
       _fr: Livraison
+      _it: Livraison
     depot:
       _de: Depot
       _fr: Dépôt
+      _it: Dépôt
     depot_id:
       _de: Depot
       _fr: Dépôt
+      _it: Dépôt
     depots:
       _de: Depots
       _fr: Dépôts
+      _it: Dépôts
     description:
       _de: Beschreibung
       _fr: Description
+      _it: Description
     during_year:
       _de: Geschäftsjahr
       _fr: Année fiscale
+      _it: Année fiscale
     email:
       _de: Email
       _fr: Email
+      _it: Email
     emails:
       _de: Email(s)
       _fr: Email(s)
+      _it: Email(s)
     end_time:
       _de: Endzeit
       _fr: Heure de fin
+      _it: Heure de fin
     id:
       _de: ID
       _fr: ID
+      _it: ID
     invoice:
       _de: Rechnung
       _fr: Facture
+      _it: Facture
     invoice_date:
       _de: Rechnung Datum
       _fr: Facture Date
+      _it: Facture Date
     invoice_id:
       _de: Rechnung ID
       _fr: Facture ID
+      _it: Facture ID
     invoice_object:
       _de: Rechnung Objekt
       _fr: Facture Objet
+      _it: Facture Objet
     language:
       _de: Sprache
       _fr: Langue
+      _it: Langue
     last_membership_ended_on:
       _de: Enddatum des letzten Abonnements
       _fr: Date de fin du dernier abonnement
+      _it: Date de fin du dernier abonnement
     member:
       _de: Mitglied
       _fr: Membre
+      _it: Membre
     member_id:
       _de: Mitglied
       _fr: Membre
+      _it: Membre
     missing_amount:
       _de: Fehlender Betrag
       _fr: Montant manquant
+      _it: Montant manquant
     name:
       _de: Name
       _fr: Nom
+      _it: Nom
     next_invoice_on:
       _de: Nächste Rechnung am
       _fr: Prochaine facture le
+      _it: Prochaine facture le
     note:
       _de: Notiz
       _fr: Note
+      _it: Note
     orders:
       _de: Bestellungen
       _fr: Commandes
+      _it: Commandes
     other:
       _de: Weiteres
       _fr: Autre
+      _it: Autre
     paid_amount:
       _de: Eingezahlt
       _fr: Payé
+      _it: Payé
     participants:
       _de: Teilnehmer
       _fr: Participants
+      _it: Participants
     participants_count:
       _de: Teilnehmer
       _fr: Participants
+      _it: Participants
     participants_limit:
       _de: Begrenzung Anzahl Teilnehmer
       _fr: Limite de participants
+      _it: Limite de participants
     participations:
       _de: Teilnahmen
       _fr: Participations
+      _it: Participations
     period:
       _de: Zeiten
       _fr: Horaire
+      _it: Horaire
     phones:
       _de: Telefon(e)
       _fr: Téléphone(s)
+      _it: Téléphone(s)
     place:
       _de: Standort
       _fr: Lieu
+      _it: Lieu
     place_url:
       _de: Standort URL
       _fr: Lieu URL
+      _it: Lieu URL
     presets:
       _de: Voreinstellungen
       _fr: Presets
+      _it: Presets
     price:
       _de: Preis
       _fr: Prix
+      _it: Prix
     producer:
       _de: Produzent
       _fr: Producteur
+      _it: Producteur
     product:
       _de: Produkt
       _fr: Produit
+      _it: Produit
     products:
       _de: Produkte
       _fr: Produits
+      _it: Produits
     qt:
       _de: Mg.
       _fr: Qté.
+      _it: Qté.
     quantity:
       _de: Menge
       _fr: Quantité
+      _it: Quantité
     recurring_billing_wday:
       _de: Automatische Rechnungsstellung
       _fr: Facturation automatique
+      _it: Facturation automatique
     sent_at:
       _de: Gesendet am
       _fr: Envoyé le
+      _it: Envoyé le
     start_time:
       _de: Anfangszeit
       _fr: Heure de début
+      _it: Heure de début
     state:
       _de: Status
       _fr: Statut
+      _it: Statut
     status:
       _de: Status
       _fr: Statut
+      _it: Statut
     title:
       _de: Titel
       _fr: Intitulé
+      _it: Intitulé
     total:
       _de: Gesamt
       _fr: Total
+      _it: Total
     unit_price:
       _de: Einheitspreis
       _fr: Prix unité
+      _it: Prix unité
     updated_at:
       _de: Aktualisiert am
       _fr: Mis à jour le
+      _it: Mis à jour le
     visible:
       _de: Sichtbar
       _fr: Visible
+      _it: Visible
     website_url:
       _de: Website
       _fr: Site Web
+      _it: Site Web
     xlsx_recap:
       _de: Zusammenfassung Excel
       _fr: Récapitulatif Excel
+      _it: Récapitulatif Excel
     zip:
       _de: PLZ
       _fr: NPA
+      _it: NPA

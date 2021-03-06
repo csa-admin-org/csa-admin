@@ -1,0 +1,7 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Une nouvelle commande (#{{ order.id }}), vient d'être effectuée pour la livraison #{{ order.delivery.id }} du {{ order.delivery.date }}.</p>
+
+{% button order.admin_url %}
+  Accéder à la page de la commande
+{% endbutton %}

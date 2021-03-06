@@ -4,27 +4,35 @@ _:
       one:
         _de: Taschen befüllung
         _fr: Mise en panier
+        _it: Mise en panier
       other:
         _de: Taschen befüllung
         _fr: Mises en panier
+        _it: Mises en panier
     halfday_work:
       one:
         _de: "½ Tag"
         _fr: "½ Journée"
+        _it: "½ Journée"
       other:
         _de: "½ Tage"
         _fr: "½ Journées"
+        _it: "½ Journées"
     hour_work:
       one:
         _de: Arbeitsstunde
         _fr: Heure de travail
+        _it: Heure de travail
       other:
         _de: Arbeitsstunden
         _fr: Heures de travail
+        _it: Heures de travail
     participant_count:
       one:
         _de: 1 Teilnehmer
         _fr: 1 participant
+        _it: 1 participant
       other:
         _de: "%{count} Teilnehmer"
         _fr: "%{count} participants"
+        _it: "%{count} participants"

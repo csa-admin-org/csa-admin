@@ -4,34 +4,45 @@ _:
       already_exists:
         _de: Sie sind bereits angemeldet.
         _fr: Vous êtes déjà connecté.
+        _it: Vous êtes déjà connecté.
       created:
         _de: Sie sind jetzt angemeldet.
         _fr: Vous êtes maintenant connecté.
+        _it: Vous êtes maintenant connecté.
       deleted:
         _de: Sie sind nun abgemeldet.
         _fr: Vous êtes maintenant déconnecté.
+        _it: Vous êtes maintenant déconnecté.
       expired:
         _de: Ihre Sitzung ist abgelaufen, bitte melden Sie sich wieder an.
         _fr: Votre session a expirée, merci de vous authentifier à nouveau.
+        _it: Votre session a expirée, merci de vous authentifier à nouveau.
       initiated:
         _de: Vielen Dank! Eine Email wurde soeben an Sie gesendet.
         _fr: Merci! Un email vient de vous être envoyé.
+        _it: Merci! Un email vient de vous être envoyé.
       required:
         _de: Bitte melden Sie sich an, um zu Ihrem Konto zu gelangen.
         _fr: Merci de vous authentifier pour accéder à votre compte.
+        _it: Merci de vous authentifier pour accéder à votre compte.
       timeout:
         _de: Ihr Anmeldelink ist nicht mehr gültig. Bitte fordern Sie einen neuen an.
         _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.
+        _it: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.
     new:
       email_input:
         _de: Email
         _fr: Email
+        _it: Email
       form_text:
         _de: Der Zugang zu Ihrem Admin-Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
         _fr: La connexion à votre compte admin ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
+        _it: La connexion à votre compte admin ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
       submit:
         _de: Senden
         _fr: Envoyer
+        _it: Envoyer
       title:
         _de: "%{acp} – Admin-Anmeldung"
         _fr: "%{acp} – Connexion Admin"
+        _it: "%{acp} – Connexion Admin"

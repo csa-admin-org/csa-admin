@@ -5,55 +5,70 @@ _:
         delimiter:
           _de: "'"
           _fr: "'"
+          _it: "'"
         precision:
           _de: 2
           _fr: 2
+          _it: 2
         separator:
           _de: "."
           _fr: "."
+          _it: "."
     format:
       delimiter:
         _de: "'"
         _fr: "'"
+        _it: "'"
       precision:
         _de: 3
         _fr: 3
+        _it: 3
       separator:
         _de: "."
         _fr: "."
+        _it: "."
     human:
       decimal_units:
         format:
           _de: "%n %u"
           _fr: "%n %u"
+          _it: "%n %u"
         units:
           unit:
             _de: ''
             _fr: ''
+            _it: ''
       format:
         delimiter:
           _de: ''
           _fr: ''
+          _it: ''
         precision:
           _de: 2
           _fr: 2
+          _it: 2
         significant:
           _de: true
           _fr: true
+          _it: true
         strip_insignificant_zeros:
           _de: true
           _fr: true
+          _it: true
       storage_units:
         format:
           _de: "%n %u"
           _fr: "%n %u"
+          _it: "%n %u"
     percentage:
       format:
         delimiter:
           _de: ''
           _fr: ''
+          _it: ''
     precision:
       format:
         delimiter:
           _de: ''
           _fr: ''
+          _it: ''
