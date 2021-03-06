@@ -4,15 +4,20 @@ _:
       first:
         _de: "&laquo;"
         _fr: "&laquo;"
+        _it: "&laquo;"
       last:
         _de: "&raquo;"
         _fr: "&raquo;"
+        _it: "&raquo;"
       next:
         _de: "&rsaquo;"
         _fr: "&rsaquo;"
+        _it: "&rsaquo;"
       previous:
         _de: "&lsaquo;"
         _fr: "&lsaquo;"
+        _it: "&lsaquo;"
       truncate:
         _de: "&hellip;"
         _fr: "&hellip;"
+        _it: "&hellip;"

@@ -3,115 +3,152 @@ _:
     acp_shares:
       _de: Anteilscheine
       _fr: Part Sociales
+      _it: Part Sociales
     adjustments:
       _de: Anpassungen
       _fr: Ajustements
+      _it: Ajustements
     annual_fees:
       _de: Beiträge
       _fr: Cotisations
+      _it: Cotisations
     isr:
       _de: ESR
       _fr: BVR
+      _it: BVR
     manual:
       _de: Manuell
       _fr: Manuel
+      _it: Manuel
     membership_amount_description:
       x1:
         _de: Jährliche Rechnungsstellung
         _fr: Facturation annuelle
+        _it: Facturation annuelle
       x12:
         _de: 'Monatliche Rechnungsstellung #%{number}'
         _fr: 'Facturation mensuelle #%{number}'
+        _it: 'Facturation mensuelle #%{number}'
       x2:
         _de: 'Halbjährliche Rechnungsstellung #%{number}'
         _fr: 'Facturation semestrielle #%{number}'
+        _it: 'Facturation semestrielle #%{number}'
       x3:
         _de: 'Dritteljährliche Rechnungsstellung #%{number}'
         _fr: 'Facturation quadrimestrielle #%{number}'
+        _it: 'Facturation quadrimestrielle #%{number}'
       x4:
         _de: 'Quartalweise Rechnungsstellung #%{number}'
         _fr: 'Facturation trimestrielle #%{number}'
+        _it: 'Facturation trimestrielle #%{number}'
     memberships_gross_amount:
       _de: Abonnements inkl. MwSt.
       _fr: Abonnements TTC
+      _it: Abonnements TTC
     memberships_net_amount:
       _de: Abonnements exkl. MwSt.
       _fr: Abonnements HT
+      _it: Abonnements HT
     memberships_total:
       _de: Abonnements gesamt
       _fr: Abonnements Total
+      _it: Abonnements Total
     memberships_vat_amount:
       _de: Abonnements MwSt.
       _fr: Abonnements TVA
+      _it: Abonnements TVA
     missing_amounts:
       _de: Fehlende Zahlungen
       _fr: Paiements manquants
+      _it: Paiements manquants
     other:
       _de: Weiteres
       _fr: Autre
+      _it: Autre
     refund:
       _de: Erstattung
       _fr: Remboursement
+      _it: Remboursement
     remaining_memberships:
       _de: Noch zu fakturierende Abonnements
       _fr: Abonnements restant à facturer
+      _it: Abonnements restant à facturer
     scope:
       acp_share:
         _de: Anteilschein
         _fr: Part Sociale
+        _it: Part Sociale
       activity/basket_preparation:
         _de: Anpassung Taschen befüllung
         _fr: Ajustement mises en panier
+        _it: Ajustement mises en panier
       activity/halfday_work:
         _de: Anpassung ½ Tage
         _fr: Ajustement ½ journées
+        _it: Ajustement ½ journées
       activity/hour_work:
         _de: Anpassung Arbeitsstunden
         _fr: Ajustement heures de travail
+        _it: Ajustement heures de travail
       annual_fee:
         _de: Beitrag
         _fr: Cotisation
+        _it: Cotisation
       basket_complement:
         _de: Zusatz
         _fr: Complément
+        _it: Complément
       basket_size:
         _de: Tasche %{name}
         _fr: Panier %{name}
+        _it: Panier %{name}
       depot:
         _de: Depot
         _fr: Dépôt
+        _it: Dépôt
       missing:
         _de: Fehlende
         _fr: Manquant
+        _it: Manquant
       overdue_notices:
         one:
           _de: 1 Mahnung
           _fr: 1 rappel
+          _it: 1 rappel
         other:
           _de: "%{count} Mahnungen"
           _fr: "%{count} rappels"
+          _it: "%{count} rappels"
       overpaid_amount:
         _de: "%{amount} Überschuss"
         _fr: "%{amount} en trop"
+        _it: "%{amount} en trop"
       paid:
         _de: Geleistete
         _fr: Payé
+        _it: Payé
     title:
       _de: Rechnungsstellung
       _fr: Facturation
+      _it: Facturation
     year_division:
       x1:
         _de: Jährlich
         _fr: Annuel
+        _it: Annuel
       x12:
         _de: Monatlich
         _fr: Mensuel
+        _it: Mensuel
       x2:
         _de: Halbjährlich
         _fr: Semestriel
+        _it: Semestriel
       x3:
         _de: Dritteljährlich
         _fr: Quadrimestriel
+        _it: Quadrimestriel
       x4:
         _de: Quartalweise
         _fr: Trimestriel
+        _it: Trimestriel

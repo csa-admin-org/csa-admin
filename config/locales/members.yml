@@ -6,454 +6,591 @@ _:
           notice:
             _de: Danke, dass du uns informiert hast!
             _fr: Merci de nous avoir prévenus!
+            _it: Merci de nous avoir prévenus!
       index:
         cancel_link:
           _de: abbrechen
           _fr: annuler
+          _it: annuler
         explanation_billed:
           _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
+          _it: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
         form_title:
           _de: Abwesenheit melden
           _fr: Annoncer une absence
+          _it: Annoncer une absence
         no_past_absences:
           _de: Keine!
           _fr: Aucune!
+          _it: Aucune!
         no_present_or_future_absences:
           _de: Keine, teilen Sie uns bitte Ihre Abwesenheiten mit dem unten stehenden Formular mit.
           _fr: Aucune, merci d'annoncer votre absence à l'aide du formulaire ci-dessous.
+          _it: Aucune, merci d'annoncer votre absence à l'aide du formulaire ci-dessous.
         past_absences:
           _de: Ihre vergangene Abwesenheiten
           _fr: Vos absences passées
+          _it: Vos absences passées
         present_or_future_absences:
           _de: Ihre künftige oder aktuelle Abwesenheiten
           _fr: Vos absences à venir ou en cours
+          _it: Vos absences à venir ou en cours
         submit:
           _de: Senden
           _fr: Envoyer
+          _it: Envoyer
     accounts:
       edit:
         emails_hint:
           _de: Die für diese Session verwendete E-Mail (%{session_email}) kann nicht geändert werden.
           _fr: L'email utilisé pour cette session (%{session_email}) ne peut pas être modifié.
+          _it: L'email utilisé pour cette session (%{session_email}) ne peut pas être modifié.
         name_hint:
           _de: Bitte geben Sie Ihren Nachnamen zuerst an.
           _fr: Merci de mettre votre nom de famille en premier.
+          _it: Merci de mettre votre nom de famille en premier.
         submit:
           _de: Einreichen
           _fr: Soumettre
+          _it: Soumettre
         title:
           _de: Konto Bearbeiten
           _fr: Modifier compte
+          _it: Modifier compte
       show:
         edit_link:
           _de: Kontoinformationen bearbeiten
           _fr: Modifier les données du compte
+          _it: Modifier les données du compte
         no_phones:
           _de: Kein
           _fr: Aucun
+          _it: Aucun
         title:
           _de: Konto
           _fr: Compte
+          _it: Compte
     activity_participations:
       create:
         flash:
           notice:
             _de: Vielen Dank für Ihre Anmeldung!
             _fr: Merci pour votre inscription!
+            _it: Merci pour votre inscription!
       index:
         activity_form_submit:
           _de: Anmeldung
           _fr: Inscription
+          _it: Inscription
         activity_label:
           _de: Zeitplan, Standort und Arbeit
           _fr: Horaire, lieu et activité
+          _it: Horaire, lieu et activité
         activity_participation_form_title:
           _de: Anmeldung
           _fr: Inscription
+          _it: Inscription
         cancel_link:
           _de: abbrechen
           _fr: annuler
+          _it: annuler
         carpooling:
           _de: Fahrgemeinschaften
           _fr: covoiturage
+          _it: covoiturage
         carpooling_checkbox:
           _de: Ich komme mit dem Auto und habe freie Plätze!
           _fr: Je viens en voiture et j'ai de la place!
+          _it: Je viens en voiture et j'ai de la place!
         carpooling_city:
           _de: Abfahrtsort
           _fr: Ville de départ
+          _it: Ville de départ
         carpooling_phone:
           _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage
+          _it: Téléphone covoiturage
         carpooling_tooltip:
           _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
           _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
+          _it: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
         coming_activity_participation_cannot_be_cancel_explanation/basket_preparation:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _it: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/halfday_work:
           _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _it: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/hour_work:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _it: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
         coming_activity_participations/basket_preparation:
           _de: Ihre künftigen Taschen befüllung
           _fr: Vos mises en panier à venir
+          _it: Vos mises en panier à venir
         coming_activity_participations/halfday_work:
           _de: Ihre künftigen ½ Tage
           _fr: Vos ½ journées à venir
+          _it: Vos ½ journées à venir
         coming_activity_participations/hour_work:
           _de: Ihre künftigen ½ Tage
           _fr: Vos heures de travail à venir
+          _it: Vos heures de travail à venir
         contact_link:
           _de: Kontakt aufnehmen
           _fr: contacter
+          _it: contacter
         extra_coming_activity_participations:
           _de: "... und noch weitere %{count} bis zum %{last_date}!"
           _fr: "... et encore %{count} autres jusqu'au %{last_date}!"
+          _it: "... et encore %{count} autres jusqu'au %{last_date}!"
         no_activities/basket_preparation:
           _de: Sorry, momentan gibt es keine freie Taschen befüllung.
           _fr: Désolé, aucune mise en panier disponible pour le moment.
+          _it: Désolé, aucune mise en panier disponible pour le moment.
         no_activities/halfday_work:
           _de: Sorry, momentan gibt es keinen freien ½ Tag.
           _fr: Désolé, aucune ½ journée disponible pour le moment.
+          _it: Désolé, aucune ½ journée disponible pour le moment.
         no_activities/hour_work:
           _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
           _fr: Désolé, aucune heure de travail disponible pour le moment.
+          _it: Désolé, aucune heure de travail disponible pour le moment.
         no_activities_this_month/basket_preparation:
           _de: In diesem Monat findet keine Taschen befüllung statt.
           _fr: Aucune mise en panier ce mois.
+          _it: Aucune mise en panier ce mois.
         no_activities_this_month/halfday_work:
           _de: In diesem Monat findet keinen ½ Tag statt.
           _fr: Aucune ½ journée ce mois.
+          _it: Aucune ½ journée ce mois.
         no_activities_this_month/hour_work:
           _de: In diesem Monat findet keine Arbeitsstunde statt.
           _fr: Aucune heure de travail ce mois.
+          _it: Aucune heure de travail ce mois.
         no_coming_activity_participations:
           _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
           _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
+          _it: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
         no_coming_activity_participations/basket_preparation:
           _de: Momentan gibt es keine freie Taschen befüllung.
           _fr: Aucune mises en panier disponible pour le moment.
+          _it: Aucune mises en panier disponible pour le moment.
         no_coming_activity_participations/halfday_work:
           _de: Momentan gibt es keine freie ½ Tage.
           _fr: Aucune ½ journée disponible pour le moment.
+          _it: Aucune ½ journée disponible pour le moment.
         no_coming_activity_participations/hour_work:
           _de: Momentan gibt es keine freie Arbeitsstunde.
           _fr: Aucune heure de travail disponible pour le moment.
+          _it: Aucune heure de travail disponible pour le moment.
         no_past_activity_participations:
           _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
           _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
+          _it: Rien à signaler pour le moment, on se réjouit de vous voir!
         participants_count_label:
           _de: Anzahl Teilnehmer
           _fr: Nombre de participants
+          _it: Nombre de participants
         past_activity_participations/basket_preparation:
           _de: Ihre geleisteten Taschen befüllung
           _fr: Vos mises en panier effectuées
+          _it: Vos mises en panier effectuées
         past_activity_participations/halfday_work:
           _de: Ihre geleisteten ½ Tage
           _fr: Vos ½ journées effectuées
+          _it: Vos ½ journées effectuées
         past_activity_participations/hour_work:
           _de: Ihre geleistete Arbeitsstunden
           _fr: Vos heures de travail effectuées
+          _it: Vos heures de travail effectuées
     billing:
       index:
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
+          _it: Facturation
         canceled_invoice_info:
           _de: 'Stornierte Rechnungen #%{id} (%{type})'
           _fr: 'Facture annulée #%{id} (%{type})'
+          _it: 'Facture annulée #%{id} (%{type})'
         credit_amount:
           _de: Guthaben
           _fr: Avoir
+          _it: Avoir
         explanation:
           _de: Die Einzahlungen mit Referenznummer (ESR) werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
           _fr: Les paiements avec numéro de référence (BVR) sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiments n'apparaîtrait pas.
+          _it: Les paiements avec numéro de référence (BVR) sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiments n'apparaîtrait pas.
         history:
           _de: Verlauf
           _fr: Historique
+          _it: Historique
         invoice_info:
           _de: 'Rechnung #%{id} (%{type})'
           _fr: 'Facture #%{id} (%{type})'
+          _it: 'Facture #%{id} (%{type})'
         manual_payment_info:
           _de: Einzahlung ohne Referenz
           _fr: Paiement sans référence
+          _it: Paiement sans référence
         missing_amount:
           _de: Noch zu zahlender Betrag
           _fr: Montant restant à payer
+          _it: Montant restant à payer
         no_billing_history:
           _de: Im Moment keine Rechnung oder Einzahlung.
           _fr: Aucune facture ou paiment pour le moment.
+          _it: Aucune facture ou paiment pour le moment.
         open_invoice_info:
           _de: 'Offene Rechnung #%{id} (%{type})'
           _fr: 'Facture ouverte #%{id} (%{type})'
+          _it: 'Facture ouverte #%{id} (%{type})'
         open_invoices:
           _de: Offene Rechnungen
           _fr: Factures ouvertes
+          _it: Factures ouvertes
         payment_info:
           _de: 'Einzahlung der Rechnung #%{invoice_id}'
           _fr: 'Paiement de la facture #%{invoice_id}'
+          _it: 'Paiement de la facture #%{invoice_id}'
         refund_info:
           _de: Rückerstattung
           _fr: Remboursement
+          _it: Remboursement
         show_all:
           _de: Alle anzeigen
           _fr: Tout afficher
+          _it: Tout afficher
     deliveries:
       index:
         future_deliveries:
           _de: Zukünftige Lieferungen (%{count})
           _fr: Futures livraisons (%{count})
+          _it: Futures livraisons (%{count})
         next_delivery:
           _de: Nächste Lieferung
           _fr: Prochaine livraison
+          _it: Prochaine livraison
         no_future_deliveries:
           _de: Keine, es ist fast fertig für dieses Jahr.
           _fr: Aucune, c'est presque fini pour cette année!
+          _it: Aucune, c'est presque fini pour cette année!
         no_membership:
           _de: Kein Abonnement
           _fr: Aucun abonnement
+          _it: Aucun abonnement
         no_past_deliveries:
           _de: Keine, es wird bald anfangen!
           _fr: Aucune, cela va bientôt commencer!
+          _it: Aucune, cela va bientôt commencer!
         past_deliveries:
           _de: Alte Lieferungen (%{count})
           _fr: Anciennes livraisons (%{count})
+          _it: Anciennes livraisons (%{count})
     group_buying:
       base:
         show:
           contact:
             _de: kontaktieren
             _fr: contacter
+            _it: contacter
           delivery:
             _de: Lieferung von %{date}
             _fr: Livraison du %{date}
+            _it: Livraison du %{date}
           form_submit:
             _de: Bestellen
             _fr: Commander
+            _it: Commander
           new_order:
             _de: Neuer Bestellung
             _fr: Nouvelle commande
+            _it: Nouvelle commande
           not_orderable:
             _de: Bestellungen sind leider nicht mehr möglich.
             _fr: Désolé, les commandes ne sont plus possible.
+            _it: Désolé, les commandes ne sont plus possible.
           order_amount:
             _de: 'Gesamt: %{amount}'
             _fr: 'Total: %{amount}'
+            _it: 'Total: %{amount}'
           orderable_until:
             _de: Bestellungen sind geöffnet bis <u>%{date}</u>.
             _fr: Commandes ouvertes jusqu'au <u>%{date}</u>.
+            _it: Commandes ouvertes jusqu'au <u>%{date}</u>.
           past_order_info:
             _de: 'Bestellung #%{number}'
             _fr: 'Commande #%{number}'
+            _it: 'Commande #%{number}'
           past_orders:
             _de: Bestellungseingang
             _fr: Commandes passées
+            _it: Commandes passées
           past_orders_explanation:
             _de: Bei Fragen zu einer erteilten Bestellung %{contact_link} Sie uns bitte.
             _fr: Pour toute question concernant une commande passée, merci de nous %{contact_link}.
+            _it: Pour toute question concernant une commande passée, merci de nous %{contact_link}.
           products:
             _de: Produkte
             _fr: Produits
+            _it: Produits
           products_count:
             one:
               _de: 1 Produkt
               _fr: 1 produit
+              _it: 1 produit
             other:
               _de: "%{count} Produkte"
               _fr: "%{count} produits"
+              _it: "%{count} produits"
           terms_of_service:
             _de: Ich habe <a href="%{terms_url}" target="_blank">die Allgemeinen Verkaufsbedingungen</a> gelesen und akzeptiere sie.
             _fr: J'ai lu et j'accepte <a href="%{terms_url}" target="_blank">les conditions générales de vente</a>.
+            _it: J'ai lu et j'accepte <a href="%{terms_url}" target="_blank">les conditions générales de vente</a>.
       orders:
         create:
           flash:
             error:
               _de: Ungültige Bestellung, bitte überprüfen Sie die folgenden Fehler!
               _fr: Commande invalide, merci de regarder les erreurs ci-dessous!
+              _it: Commande invalide, merci de regarder les erreurs ci-dessous!
             notice:
               _de: Vielen Dank für Ihre Bestellung!
               _fr: Merci pour votre commande!
+              _it: Merci pour votre commande!
     members:
       new:
         acp_shares_text:
           _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben.
           _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
+          _it: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
         annual_fee_text:
           _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
           _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
+          _it: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
         membership_text:
           _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+          _it: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
         membership_trial_text:
           one:
             _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
             _fr: La première livraison est à l'essai et sans engagement.
+            _it: La première livraison est à l'essai et sans engagement.
           other:
             _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
             _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+            _it: Les %{count} premières livraisons sont à l'essai et sans engagement.
         more_info:
           _de: Zusatzinformationen
           _fr: Infos complémentaires
+          _it: Infos complémentaires
         name:
           _de: Name(n) und Vorname(n)
           _fr: Nom(s) de famille et prénom(s)
+          _it: Nom(s) de famille et prénom(s)
         note:
           _de: Bemerkung(en)
           _fr: Remarque(s)
+          _it: Remarque(s)
         submit:
           _de: Senden
           _fr: Envoyer
+          _it: Envoyer
         terms_of_service:
           _de: Ich habe die Statuten und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}" target="_blank">le règlement</a>.
+          _it: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}" target="_blank">le règlement</a>.
         terms_of_service_with_only_statutes:
           _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a>.
+          _it: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a>.
         terms_of_service_with_statutes:
           _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a> et <a href="%{terms_url}" target="_blank">le règlement</a>.
+          _it: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a> et <a href="%{terms_url}" target="_blank">le règlement</a>.
         text:
           _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
+          _it: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
         title:
           _de: Anmeldeformular
           _fr: Formulaire d'inscription
+          _it: Formulaire d'inscription
       welcome:
         return_to_acp_website:
           _de: Zurück zu %{link}
           _fr: Retourner sur %{link}
+          _it: Retourner sur %{link}
         text:
           _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
           _fr: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
+          _it: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
         title:
           _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!
+          _it: Merci pour votre inscription!
     membership_renewals:
       create:
         flash:
           canceled:
             _de: Ihr Abonnement wurde gekündigt.
             _fr: Votre abonnement a été résilié.
+            _it: Votre abonnement a été résilié.
           renewed:
             _de: Ihr Abonnement wurde erneuert. Vielen Dank!
             _fr: Votre abonnement a été renouvelé. Merci!
+            _it: Votre abonnement a été renouvelé. Merci!
       new:
         cancel:
           _de: Abbrechen
           _fr: Annuler
+          _it: Annuler
         renewal_annual_fee_label:
           _de: Um die Vereinigung zu unterstützen, zahle ich ab dem nächsten Jahr weiterhin den jährlichen Mitgliedsbeitrag. <em>%{annual_fee}</em>
           _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain. <em>%{annual_fee}</em>
+          _it: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain. <em>%{annual_fee}</em>
         renewal_note:
           placeholder:
             cancel:
               _de: Danke, dass Sie uns Ihren Kündigungsgrund mitteilen!
               _fr: Merci de partager avec nous ce qui motive votre décison...
+              _it: Merci de partager avec nous ce qui motive votre décison...
             renew:
               _de: Vielen Dank, dass Sie uns mitteilen, was Ihnen in diesem Jahr gut oder weniger gut gefallen hat!
               _fr: Merci de partager avec nous toutes remarques utiles, ce qui vous a plu ou déplu cette année...
+              _it: Merci de partager avec nous toutes remarques utiles, ce qui vous a plu ou déplu cette année...
         submit:
           _de: Bestätigen
           _fr: Confirmer
+          _it: Confirmer
         tapatate:
           basket_price_extra:
             label:
               _de: Solidaritätsbeitrag
               _fr: Cotisation solidaire
+              _it: Cotisation solidaire
             text:
               _de: Die Lohnkosten unseres Gartenteams sind unser grösster Budgetposten. Mit einem Solidaritätsbeitrag unterstützt du uns, damit wir faire Löhne bezahlen und faire Arbeitszeiten ermöglichen können. Mit dem Soli-Beitrag hilfst du, unsere effektiven Kosten des Betriebsjahres decken. Mit dem Super-Soli-Beitrag bist du solidarisch mit dem Verein und mit den Mitgliedern, die sich den Beitrag nicht leisten können. Wenn das zu viel ist, du uns aber trotzdem unterstützten möchtest, kannst du den Mini-Soli-Beitrag wählen.
               _fr: Les coûts salariaux de notre équipe de jardinage constituent notre plus gros poste budgétaire. Grâce à une contribution de solidarité, vous nous soutenez afin que nous puissions payer des salaires équitables et rendre possible un horaire de travail équitable. Avec la contribution de solidarité, vous contribuez à couvrir nos coûts effectifs de l'année de fonctionnement. Avec la contribution Super-Soli, vous êtes en solidarité avec l'association et avec les membres qui n'ont pas les moyens de payer la contribution. Si c'est trop, mais que vous voulez quand même nous soutenir, vous pouvez choisir la contribution Mini-Soli.
+              _it: Les coûts salariaux de notre équipe de jardinage constituent notre plus gros poste budgétaire. Grâce à une contribution de solidarité, vous nous soutenez afin que nous puissions payer des salaires équitables et rendre possible un horaire de travail équitable. Avec la contribution de solidarité, vous contribuez à couvrir nos coûts effectifs de l'année de fonctionnement. Avec la contribution Super-Soli, vous êtes en solidarité avec l'association et avec les membres qui n'ont pas les moyens de payer la contribution. Si c'est trop, mais que vous voulez quand même nous soutenir, vous pouvez choisir la contribution Mini-Soli.
         text:
           cancel:
             _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
             _fr: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
+            _it: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
           renew:
             _de: Unten haben Sie die Möglichkeit, die Zusammensetzung Ihres zukünftigen Abonnements anzupassen, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
             _fr: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
+            _it: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
         title:
           cancel:
             _de: Kündigung
             _fr: Résiliation
+            _it: Résiliation
           renew:
             _de: Erneuerung
             _fr: Renouvellement
+            _it: Renouvellement
     memberships:
       membership:
         absent_baskets_count:
           one:
             _de: eine Abwesenheit
             _fr: une absence
+            _it: une absence
           other:
             _de: "%{count} Abwesenheiten"
             _fr: "%{count} absences"
+            _it: "%{count} absences"
         activity_participations_demanded:
           one:
             _de: 1 angefordert
             _fr: 1 demandée
+            _it: 1 demandée
           other:
             _de: "%{count} angefordert"
             _fr: "%{count} demandées"
+            _it: "%{count} demandées"
           zero:
             _de: Keine Verpflichtung
             _fr: Aucun engagement
+            _it: Aucun engagement
         price_salary_basket:
           _de: Lohntaschen
           _fr: Paniers salaire
+          _it: Paniers salaire
         remaning_trial_baskets_count:
           one:
             _de: mehr als eine auf Probe und unverbindlich
             _fr: plus que une à l'essai et sans engagement
+            _it: plus que une à l'essai et sans engagement
           other:
             _de: "%{count} weitere auf Probe und unverbindlich"
             _fr: encore %{count} à l'essai et sans engagement
+            _it: encore %{count} à l'essai et sans engagement
       show:
         renewal:
           canceled:
             _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
             _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
+            _it: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
           options:
             cancel:
               _de: Mein Abonnement kündigen
               _fr: Résilier mon abonnement
+              _it: Résilier mon abonnement
             renew:
               _de: Mein Abonnement erneuern
               _fr: Renouveler mon abonnement
+              _it: Renouveler mon abonnement
           options_label:
             _de: 'Ich wünsche:'
             _fr: 'Je désire:'
+            _it: 'Je désire:'
           submit:
             _de: Nächster
             _fr: Suivant
+            _it: Suivant
           title:
             _de: Erneuerung
             _fr: Renouvellement
+            _it: Renouvellement
     sessions:
       new:
         activity_text/basket_preparation:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Taschen befüllung einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
+          _it: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
         activity_text/halfday_work:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Halbtage einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux ½ journées.
+          _it: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux ½ journées.
         activity_text/hour_work:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Arbeitsstunden einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux heures de travail.
+          _it: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux heures de travail.
         email_input:
           _de: Ihres Email
           _fr: Votre email
+          _it: Votre email
         form_text:
           _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
           _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
+          _it: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
         submit:
           _de: Senden
           _fr: Envoyer
+          _it: Envoyer
         text:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, über das es seine nächsten Lieferungen sowie den Status seiner Rechnungen einsehen kann.
           _fr: Chaque membre a accès à un compte privé lui permettant de voir ses prochaines livraisons ainsi que l'état de ses factures.
+          _it: Chaque membre a accès à un compte privé lui permettant de voir ses prochaines livraisons ainsi que l'état de ses factures.
         title:
           _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
+          _it: Connexion à votre compte

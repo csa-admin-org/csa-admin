@@ -3,105 +3,138 @@ _:
     format:
       _de: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
+      _it: "%{attribute} %{message}"
     messages:
       accepted:
         _de: muss angenommen werden
         _fr: doit être accepté(e)
+        _it: doit être accepté(e)
       after_start:
         _de: muss nach dem Anfang sein
         _fr: doit être après le début
+        _it: doit être après le début
       before_end:
         _de: muss vor dem Ende sein
         _fr: doit être avant la fin
+        _it: doit être avant la fin
       blank:
         _de: muss ausgefüllt werden
         _fr: doit être rempli(e)
+        _it: doit être rempli(e)
       confirmation:
         _de: stimmt mit der Bestätigung nicht überein
         _fr: ne concorde pas avec la confirmation
+        _it: ne concorde pas avec la confirmation
       empty:
         _de: muss ausgefüllt werden
         _fr: doit être rempli(e)
+        _it: doit être rempli(e)
       equal_to:
         _de: muss gleich %{count} sein
         _fr: doit être égal à %{count}
+        _it: doit être égal à %{count}
       even:
         _de: muss gerade sein
         _fr: doit être pair
+        _it: doit être pair
       exclusion:
         _de: ist nicht verfügbar
         _fr: n'est pas disponible
+        _it: n'est pas disponible
       greater_than:
         _de: muss grösser als %{count} sein
         _fr: doit être supérieur à %{count}
+        _it: doit être supérieur à %{count}
       greater_than_or_equal_to:
         _de: muss grösser oder gleich %{count} sein
         _fr: doit être supérieur ou égal à %{count}
+        _it: doit être supérieur ou égal à %{count}
       inclusion:
         _de: ist in der Liste nicht enthalten
         _fr: n'est pas inclus(e) dans la liste
+        _it: n'est pas inclus(e) dans la liste
       invalid:
         _de: ist nicht gültig
         _fr: n'est pas valide
+        _it: n'est pas valide
       less_than:
         _de: muss kleiner als %{count} sein
         _fr: doit être inférieur à %{count}
+        _it: doit être inférieur à %{count}
       less_than_or_equal_to:
         _de: muss kleiner oder gleich %{count} sein
         _fr: doit être inférieur ou égal à %{count}
+        _it: doit être inférieur ou égal à %{count}
       must_be_one_hour:
         _de: muss eine Stunde länger als der Anfang sein
         _fr: doit être une heure de plus que le début
+        _it: doit être une heure de plus que le début
       not_a_number:
         _de: ist keine Zahl
         _fr: n'est pas un nombre
+        _it: n'est pas un nombre
       not_an_integer:
         _de: muss eine ganze Zahl sein
         _fr: doit être un nombre entier
+        _it: doit être un nombre entier
       odd:
         _de: muss ungerade sein
         _fr: doit être impair
+        _it: doit être impair
       record_invalid:
         _de: 'Die Bestätigung ist fehlgeschlagen: %{errors}'
         _fr: 'La validation a échoué : %{errors}'
+        _it: 'La validation a échoué : %{errors}'
       renewed:
         _de: Abonnement bereits erneuert
         _fr: abonnement déjà renouvelé
+        _it: abonnement déjà renouvelé
       same_fiscal_year:
         _de: muss im gleichen Geschäftsjahr sein
         _fr: doit être dans la même année fiscale
+        _it: doit être dans la même année fiscale
       taken:
         _de: ist nicht verfügbar
         _fr: n'est pas disponible
+        _it: n'est pas disponible
       too_long:
         one:
           _de: ist zu lang (nicht mehr als ein Zeichen)
           _fr: est trop long (pas plus d'un caractère)
+          _it: est trop long (pas plus d'un caractère)
         other:
           _de: ist zu lang (nicht mehr als %{count} Zeichen)
           _fr: est trop long (pas plus de %{count} caractères)
+          _it: est trop long (pas plus de %{count} caractères)
       too_short:
         one:
           _de: ist zu kurz (mindestens ein Zeichen)
           _fr: est trop court (au moins un caractère)
+          _it: est trop court (au moins un caractère)
         other:
           _de: ist zu kurz (mindestens %{count} Zeichen)
           _fr: est trop court (au moins %{count} caractères)
+          _it: est trop court (au moins %{count} caractères)
       wrong_length:
         one:
           _de: hat nicht die richtige Länge (muss ein einziges Zeichen enthalten)
           _fr: ne fait pas la bonne longueur (doit comporter un seul caractère)
+          _it: ne fait pas la bonne longueur (doit comporter un seul caractère)
         other:
           _de: hat nicht die richtige Länge (muss %{count} Zeichen enthalten)
           _fr: ne fait pas la bonne longueur (doit comporter %{count} caractères)
+          _it: ne fait pas la bonne longueur (doit comporter %{count} caractères)
     template:
       body:
         _de: 'Bitte folgende Felder überprüfen: '
         _fr: 'Veuillez vérifier les champs suivants : '
+        _it: 'Veuillez vérifier les champs suivants : '
       header:
         one:
           _de: 'Dieses %{model} kann nicht gespeichert werden: 1 Fehlermeldung'
           _fr: 'Impossible d''enregistrer ce %{model} : 1 erreur'
+          _it: 'Impossible d''enregistrer ce %{model} : 1 erreur'
         other:
           _de: 'Dieses %{model} kann nicht gespeichert werden: %{count} Fehlermeldungen'
           _fr: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
+          _it: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'

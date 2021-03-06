@@ -4,6 +4,8 @@ _:
       all:
         _de: Alle
         _fr: Tous
+        _it: Tous
       all_but:
         _de: Alle, außer %{missing}
         _fr: Tous, sauf %{missing}
+        _it: Tous, sauf %{missing}

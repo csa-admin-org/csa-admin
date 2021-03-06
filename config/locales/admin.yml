@@ -4,15 +4,20 @@ _:
       invoice_overpaid:
         _de: Überzahlte Rechnung
         _fr: Facture payée en trop
+        _it: Facture payée en trop
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
+        _it: Nouvelle absence
       new_email_suppression:
         _de: Email abgelehnt
         _fr: Email rejeté
+        _it: Email rejeté
       new_group_buying_order:
         _de: Neue Bestellung (Gruppeneinkauf)
         _fr: Nouvelle commande (Achats Groupés)
+        _it: Nouvelle commande (Achats Groupés)
       new_inscription:
         _de: Neue Anmeldung
         _fr: Nouvelle inscription
+        _it: Nouvelle inscription

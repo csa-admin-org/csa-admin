@@ -4,77 +4,99 @@ _:
       one:
         _de: "%{count} Anteilschein"
         _fr: "%{count} part sociale"
+        _it: "%{count} part sociale"
       other:
         _de: "%{count} Anteilscheine"
         _fr: "%{count} parts sociales"
+        _it: "%{count} parts sociales"
     activities_count_per_year/basket_preparation:
       one:
         _de: "%{count} Taschen befüllung"
         _fr: "%{count} mise en panier"
+        _it: "%{count} mise en panier"
       other:
         _de: "%{count} Taschen befüllung"
         _fr: "%{count} mises en panier"
+        _it: "%{count} mises en panier"
     activities_count_per_year/halfday_work:
       one:
         _de: "%{count} Halbtag"
         _fr: "%{count} ½ journée"
+        _it: "%{count} ½ journée"
       other:
         _de: "%{count} Halbtage"
         _fr: "%{count} ½ journées"
+        _it: "%{count} ½ journées"
     activities_count_per_year/hour_work:
       one:
         _de: "%{count} Arbeitsstunde"
         _fr: "%{count} heure de travail"
+        _it: "%{count} heure de travail"
       other:
         _de: "%{count} Arbeitsstunden"
         _fr: "%{count} heures de travail"
+        _it: "%{count} heures de travail"
     basket_prices_extra_collection:
       tapatate:
         no_basket_price_extra:
           _de: Kein Solidaritätsbeitrag
           _fr: Aucune cotisation solidaire
+          _it: Aucune cotisation solidaire
     deliveries_count:
       one:
         _de: 1 Lieferung
         _fr: 1 livraison
+        _it: 1 livraison
       other:
         _de: "%{count} Lieferungen"
         _fr: "%{count} livraisons"
+        _it: "%{count} livraisons"
     deliveries_counts_range:
       _de: "%{range} Lieferungen"
       _fr: "%{range} livraisons"
+      _it: "%{range} livraisons"
     email_suppressions:
       destroy:
         _de: Reaktivieren
         _fr: Réactiver
+        _it: Réactiver
       destroy_confirm:
         _de: Sind Sie sicher? Bitte überprüfen Sie, ob diese E-Mail (noch) gültig ist, bevor Sie sie reaktivieren?
         _fr: Êtes-vous sûr? Merci de vérifier que cet email soit bien (encore) valide avant de le réactiver?
+        _it: Êtes-vous sûr? Merci de vérifier que cet email soit bien (encore) valide avant de le réactiver?
     no_basket_size:
       _de: Kein, Unterstützungsmitglied werden
       _fr: Aucun, devenir membre de soutien
+      _it: Aucun, devenir membre de soutien
     no_basket_size_acp_share:
       _de: nur Anteilschein
       _fr: part sociale uniquement
+      _it: part sociale uniquement
     no_basket_size_annual_fee:
       _de: nur jährlicher Beitrag
       _fr: cotisation annuelle uniquement
+      _it: cotisation annuelle uniquement
     none:
       _de: Kein
       _fr: Aucun
+      _it: Aucun
     page_entries_info:
       more_pages:
         display_entries:
           _de: "%{entry_name}  <b>%{first} - %{last}</b> von insgesamt <b>%{total}</b>"
           _fr: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
+          _it: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
       one_page:
         display_entries:
           one:
             _de: "<b>%{count}</b> %{entry_name}"
             _fr: "<b>%{count}</b> %{entry_name}"
+            _it: "<b>%{count}</b> %{entry_name}"
           other:
             _de: "<b>jede %{count}</b> %{entry_name}"
             _fr: "<b>tous les %{count}</b> %{entry_name}"
+            _it: "<b>tous les %{count}</b> %{entry_name}"
     price_per_delivery:
       _de: "%{price}/Lieferung"
       _fr: "%{price}/livraison"
+      _it: "%{price}/livraison"

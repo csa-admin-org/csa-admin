@@ -4,21 +4,28 @@ _:
       default:
         _de: "%-d. %B %Y"
         _fr: "%-d %B %Y"
+        _it: "%-d %B %Y"
       long:
         _de: "%A %-d. %B %Y"
         _fr: "%A %-d %B %Y"
+        _it: "%A %-d %B %Y"
       long_medium:
         _de: "%A %-d. %b %Y"
         _fr: "%A %-d %b %Y"
+        _it: "%A %-d %b %Y"
       medium:
         _de: "%a. %-d. %b %y"
         _fr: "%a. %-d %b %y"
+        _it: "%a. %-d %b %y"
       medium_long:
         _de: "%a. %-d. %B %y"
         _fr: "%a. %-d %B %y"
+        _it: "%a. %-d %B %y"
       number:
         _de: "%d.%m.%Y"
         _fr: "%d.%m.%Y"
+        _it: "%d.%m.%Y"
       short:
         _de: "%e %B"
         _fr: "%e %B"
+        _it: "%e %B"

@@ -4,890 +4,1167 @@ _:
       message:
         _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _fr: Vous n'êtes pas autorisé à executer cette action
+        _it: Vous n'êtes pas autorisé à executer cette action
     any:
       _de: Alle
       _fr: N'importe lequel
+      _it: N'importe lequel
     batch_actions:
       action_label:
         _de: "%{title} die ausgewählte Elemente"
         _fr: "%{title} les éléments sélectionnés"
+        _it: "%{title} les éléments sélectionnés"
       button_label:
         _de: Gruppierte Aktionen
         _fr: Actions groupées
+        _it: Actions groupées
       default_confirmation:
         _de: Wollen Sie wirklich das machen?
         _fr: Êtes-vous sûr de vouloir faire cela ?
+        _it: Êtes-vous sûr de vouloir faire cela ?
       delete_confirmation:
         _de: Wollen Sie diese %{plural_model} wirklich löschen?
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
+        _it: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
       labels:
         destroy:
           _de: Löschen
           _fr: Supprimer
+          _it: Supprimer
         make_available:
           _de: Verfügbar machen
           _fr: Rendre disponible
+          _it: Rendre disponible
         make_unavailable:
           _de: Unverfügbar machen
           _fr: Rendre indisponible
+          _it: Rendre indisponible
         reject:
           _de: Verweigern
           _fr: Refuser
+          _it: Refuser
         renew:
           _de: Verlängern
           _fr: Renouveler
+          _it: Renouveler
         validate:
           _de: Bestätigen
           _fr: Valider
+          _it: Valider
         wait:
           _de: Auf Warteliste setzen
           _fr: Mettre en attente
+          _it: Mettre en attente
       link:
         _de: Erstellen eines
         _fr: Créer un
+        _it: Créer un
       selection_toggle_explanation:
         _de: "(Auswahl invertieren)"
         _fr: "(Inverser la sélection)"
+        _it: "(Inverser la sélection)"
       succesfully_destroyed:
         one:
           _de: 1 %{model} gelöscht
           _fr: 1 %{model} supprimé
+          _it: 1 %{model} supprimé
         other:
           _de: "%{count} %{plural_model} gelöscht"
           _fr: "%{count} %{plural_model} supprimés"
+          _it: "%{count} %{plural_model} supprimés"
     blank_slate:
       content:
         _de: Es gibt noch keine %{resource_name}.
         _fr: Il n'y a pas encore de %{resource_name}.
+        _it: Il n'y a pas encore de %{resource_name}.
       link:
         _de: Anlegen
         _fr: Créez en un
+        _it: Créez en un
     cancel:
       _de: Abbrechen
       _fr: Annuler
+      _it: Annuler
     comments:
       add:
         _de: Kommentar hinzufügen
         _fr: Ajouter un commentaire
+        _it: Ajouter un commentaire
       author:
         _de: Autor
         _fr: Auteur
+        _it: Auteur
       author_type:
         _de: Profil des Autors
         _fr: Profil de l'auteur
+        _it: Profil de l'auteur
       body:
         _de: Inhalt
         _fr: Corps
+        _it: Corps
       errors:
         empty_text:
           _de: Der Kommentar wurde nicht gespeichert, da der Text leer war.
           _fr: Le commentaire n'a pas été enregistré puisque le texte était vide.
+          _it: Le commentaire n'a pas été enregistré puisque le texte était vide.
       no_comments_yet:
         _de: Zurzeit keine Kommentare
         _fr: Aucun commentaire actuellement
+        _it: Aucun commentaire actuellement
       resource:
         _de: Ressource
         _fr: Ressource
+        _it: Ressource
       resource_type:
         _de: Ressourcentyp
         _fr: Type de ressource
+        _it: Type de ressource
       title:
         _de: Kommentar
         _fr: Commentaire
+        _it: Commentaire
       title_content:
         _de: Kommentare (%{count})
         _fr: Commentaires (%{count})
+        _it: Commentaires (%{count})
     create_model:
       _de: Neu %{model}
       _fr: Nouveau %{model}
+      _it: Nouveau %{model}
     dashboard:
       _de: Übersicht
       _fr: Tableau de bord
+      _it: Tableau de bord
     delete:
       _de: Löschen
       _fr: Supprimer
+      _it: Supprimer
     delete_confirmation:
       _de: Wirklich löschen?
       _fr: Êtes-vous certain de vouloir supprimer ceci ?
+      _it: Êtes-vous certain de vouloir supprimer ceci ?
     delete_model:
       _de: Löschen
       _fr: Supprimer
+      _it: Supprimer
     details:
       _de: Details
       _fr: Détails
+      _it: Détails
     download:
       _de: 'Herunterladen :'
       _fr: 'Télécharger :'
+      _it: 'Télécharger :'
     dropdown_actions:
       button_label:
         _de: Aktionen
         _fr: Actions
+        _it: Actions
     edit:
       _de: Bearbeiten
       _fr: Modifier
+      _it: Modifier
     edit_model:
       _de: Bearbeiten
       _fr: Modifier
+      _it: Modifier
     empty:
       _de: Leer
       _fr: Vide
+      _it: Vide
     filters:
       buttons:
         clear:
           _de: Filter löschen
           _fr: Supprimer les filtres
+          _it: Supprimer les filtres
         filter:
           _de: Filtern
           _fr: Filtrer
+          _it: Filtrer
       predicates:
         contains:
           _de: Enthält
           _fr: Contient
+          _it: Contient
         ends_with:
           _de: Endet mit
           _fr: Se termine par
+          _it: Se termine par
         equals:
           _de: Gleich
           _fr: Egal à
+          _it: Egal à
         from:
           _de: Von
           _fr: De
+          _it: De
         greater_than:
           _de: Grösser als
           _fr: Plus grand que
+          _it: Plus grand que
         less_than:
           _de: Kleiner als
           _fr: Plus petit que
+          _it: Plus petit que
         q_including_date:
           _de: Enthält
           _fr: Incluant
+          _it: Incluant
         starts_with:
           _de: Beginnt mit
           _fr: Commence par
+          _it: Commence par
         to:
           _de: Bis
           _fr: À
+          _it: À
     flash:
       invalid_foreign_key_alert:
         _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
         _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
+        _it: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
       open_renewals_notice:
         _de: Verlängerungsanträge werden gesendet...
         _fr: Les demandes de renouvellement sont en train d'être envoyées...
+        _it: Les demandes de renouvellement sont en train d'être envoyées...
       renew_missing_deliveries_alert:
         _de: Abonnements können nicht erneuert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
         _fr: Impossible de renouveler les abonnements si les livraisons %{next_year} n'existent pas!
+        _it: Impossible de renouveler les abonnements si les livraisons %{next_year} n'existent pas!
       renew_notice:
         _de: Die Abonnements werden erneuert...
         _fr: Les abonnements sont en train d'être renouvelés...
+        _it: Les abonnements sont en train d'être renouvelés...
     has_many_delete:
       _de: Löschen
       _fr: Supprimer
+      _it: Supprimer
     has_many_new:
       _de: Ein neues %{model} hinzufügen
       _fr: Ajouter un nouveau %{model}
+      _it: Ajouter un nouveau %{model}
     has_many_remove:
       _de: Entfernen
       _fr: Enlever
+      _it: Enlever
     index_list:
       block:
         _de: Liste
         _fr: Liste
+        _it: Liste
       blog:
         _de: Blog
         _fr: Blog
+        _it: Blog
       grid:
         _de: Raster
         _fr: Grille
+        _it: Grille
       table:
         _de: Tabelle
         _fr: Tableau
+        _it: Tableau
     logout:
       _de: Logout
       _fr: Déconnexion
+      _it: Déconnexion
     main_content:
       _de: Bitte implementieren Sie %{model}#main_content um den Inhalt anzuzeigen.
       _fr: Veuillez implémenter %{model}#main_content pour afficher le contenu.
+      _it: Veuillez implémenter %{model}#main_content pour afficher le contenu.
     menu:
       billing:
         _de: Rechnungsstellung
         _fr: Facturation
+        _it: Facturation
       group_buying:
         _de: Gruppeneinkauf
         _fr: Achats Groupés
+        _it: Achats Groupés
       other:
         _de: Weiteres
         _fr: Autre
+        _it: Autre
     new_model:
       _de: Neu %{model}
       _fr: Nouveau %{model}
+      _it: Nouveau %{model}
     next:
       _de: Folgende
       _fr: Suivant
+      _it: Suivant
     page:
       index:
         baskets_to_prepare:
           _de: Taschen vorzubereiten
           _fr: Paniers à préparer
+          _it: Paniers à préparer
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
+          _it: Facturation
         billing_year:
           _de: Rechnungsstellung %{fiscal_year}
           _fr: Facturation %{fiscal_year}
+          _it: Facturation %{fiscal_year}
         next_delivery:
           _de: 'Nächste Lieferung: %{delivery}'
           _fr: 'Prochaine livraison: %{delivery}'
+          _it: 'Prochaine livraison: %{delivery}'
         next_group_buying_delivery:
           _de: 'Gruppeneinkauf: %{delivery}'
           _fr: 'Achats Groupés: %{delivery}'
+          _it: 'Achats Groupés: %{delivery}'
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
+          _it: Aucun complément pour cette livraison
         no_next_deliveries:
           _de: Nächste Lieferung
           _fr: Aucune livraison à venir
+          _it: Aucune livraison à venir
         no_next_delivery:
           _de: Nächste Lieferung
           _fr: Prochaine livraison
+          _it: Prochaine livraison
         no_next_group_buying_delivery:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
+          _it: Achats Groupés
         quarterly_snapshots:
           _de: Quartalsschnappschüsse
           _fr: Instantanés trimestriels
+          _it: Instantanés trimestriels
         signature_sheets:
           _de: Unterschriftszettel
           _fr: Fiches Signature
+          _it: Fiches Signature
         submit_delivery_note:
           _de: Notiz aktualisieren
           _fr: Mettre à jour la note
+          _it: Mettre à jour la note
         total:
           _de: Gesamt %{number}
           _fr: Total %{number}
+          _it: Total %{number}
         totals:
           _de: Gesamtsummen %{numbers}
           _fr: Totaux %{numbers}
+          _it: Totaux %{numbers}
     pagination:
       empty:
         _de: Kein %{model} gefunden
         _fr: Aucun %{model} trouvé
+        _it: Aucun %{model} trouvé
       entry:
         one:
           _de: Eingabe
           _fr: entrée
+          _it: entrée
         other:
           _de: Eingaben
           _fr: entrées
+          _it: entrées
       multiple:
         _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> aus gesamt <b>%{total}</b>
         _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
+        _it: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
       multiple_without_total:
         _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
         _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
+        _it: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
       one:
         _de: Anzeige von <b>1</b> %{model}
         _fr: Affichage de <b>1</b> %{model}
+        _it: Affichage de <b>1</b> %{model}
       one_page:
         _de: Anzeige von <b>%{n}</b> %{model}
         _fr: Affichage des <b>%{n}</b> %{model}
+        _it: Affichage des <b>%{n}</b> %{model}
     previous:
       _de: Vorheriger
       _fr: Précédent
+      _it: Précédent
     resource:
       bulk_dates:
         date_hint:
           _de: Leer lassen, wenn Mehrere Daten
           _fr: Laisser vide si dates multiples
+          _it: Laisser vide si dates multiples
         multiple_dates:
           _de: Mehrere Daten
           _fr: Dates multiples
+          _it: Dates multiples
         unique_date:
           _de: Einzeldatum
           _fr: Date unique
+          _it: Date unique
         weeks_frequency_1:
           _de: Jede Woche
           _fr: Toutes les semaines
+          _it: Toutes les semaines
         weeks_frequency_2:
           _de: Alle zwei Wochen
           _fr: Toutes les deux semaines
+          _it: Toutes les deux semaines
         weeks_frequency_4:
           _de: Alle vier Wochen
           _fr: Toutes les quatre semaines
+          _it: Toutes les quatre semaines
       edit:
         basket_and_depot:
           _de: Tasche und Depot
           _fr: Panier et dépôt
+          _it: Panier et dépôt
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
+          _it: Facturation
         delivery_pdf:
           _de: Lieferung Signaturblätter (PDF)
           _fr: Fiches signature livraison (PDF)
+          _it: Fiches signature livraison (PDF)
         details:
           _de: Details
           _fr: Détails
+          _it: Détails
         full_year:
           _de: ganzes Jahr
           _fr: année complète
+          _it: année complète
         group_buying:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
+          _it: Achats Groupés
         invoice_isr:
           _de: ESR-Rechnung
           _fr: Facture BVR
+          _it: Facture BVR
         invoice_qr:
           _de: QR-Rechnung
           _fr: Facture QR
+          _it: Facture QR
         mailer:
           _de: Emails
           _fr: Emails
+          _it: Emails
         mailer_text_html:
           _de: Diese Einstellungen werden von <a href="/mail_templates">Email-Vorlagen</a> verwendet.
           _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a>.
+          _it: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a>.
         member_section:
           _de: Registrierungsformular
           _fr: Formulaire d'inscription
+          _it: Formulaire d'inscription
         members_participation:
           _de: Beteiligung der Mitglieder
           _fr: Participation des membres
+          _it: Participation des membres
         membership_edit_warning:
           _de: Achtung, nach jeglicher Änderung werden alle künftige Taschen dieses Abonnements neu erstellt!
           _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
+          _it: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
         membership_renewal:
           _de: Abonnement-Erneuerung
           _fr: Renouvellement abonnements
+          _it: Renouvellement abonnements
         membership_renewal_text_html:
           _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
+          _it: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
         preview:
           _de: Vorschau
           _fr: Prévisualisation
+          _it: Prévisualisation
         recurring_billing_disabled:
           _de: deaktiviert
           _fr: désactivée
+          _it: désactivée
         seasons:
           _de: Jahreszeiten (Sommer / Winter)
           _fr: Saisons (été / hiver)
+          _it: Saisons (été / hiver)
         settings:
           _de: Einstellungen
           _fr: Paramètres
+          _it: Paramètres
         submit:
           preview:
             _de: Vorschau der Änderungen
             _fr: Prévisualiser les modifications
+            _it: Prévisualiser les modifications
           preview_edit:
             _de: Korrigieren
             _fr: Corriger
+            _it: Corriger
           preview_save:
             _de: Änderungen speichern
             _fr: Sauvegarder les modifications
+            _it: Sauvegarder les modifications
       index:
         canceled_renewals:
           one:
             _de: "%{count_link} Kündigung"
             _fr: "%{count_link} résiliation"
+            _it: "%{count_link} résiliation"
           other:
             _de: "%{count_link} Kündigungen"
             _fr: "%{count_link} résiliations"
+            _it: "%{count_link} résiliations"
         confirm:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
+          _it: Êtes-vous sûr de sûr?
         no_next_year_deliveries:
           _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
+          _it: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
         open_renewal_all_action:
           one:
             _de: 1 Anfrage senden
             _fr: Envoyer 1 demande
+            _it: Envoyer 1 demande
           other:
             _de: "%{count} Anfragen senden"
             _fr: Envoyer %{count} demandes
+            _it: Envoyer %{count} demandes
         opened_renewals:
           one:
             _de: "%{count_link} offener Antrag"
             _fr: "%{count_link} demande ouverte"
+            _it: "%{count_link} demande ouverte"
           other:
             _de: "%{count_link} offene Anträge"
             _fr: "%{count_link} demandes ouvertes"
+            _it: "%{count_link} demandes ouvertes"
         opening:
           _de: Anfragen werden gesendet ...
           _fr: Demandes en cours d'envoi...
+          _it: Demandes en cours d'envoi...
         renew_all_action:
           one:
             _de: "%{count} Abonnement verlängern"
             _fr: Renouveler %{count} abonnement
+            _it: Renouveler %{count} abonnement
           other:
             _de: "%{count} Abonnements verlängern"
             _fr: Renouveler %{count} abonnements
+            _it: Renouveler %{count} abonnements
         renewed_renewals:
           one:
             _de: "%{count_link} Erneuerung"
             _fr: "%{count_link} rénouvellement"
+            _it: "%{count_link} rénouvellement"
           other:
             _de: "%{count_link} Erneuerungen"
             _fr: "%{count_link} rénouvellements"
+            _it: "%{count_link} rénouvellements"
         renewing:
           _de: Verlängerungen am laufen...
           _fr: Renouvellements en cours...
+          _it: Renouvellements en cours...
         settings:
           _de: Einstellungen
           _fr: Paramètres
+          _it: Paramètres
         subscribe_ical_link:
           _de: Abonnieren Sie den iCal-Feed von Teilnahmen
           _fr: S'abonner au flux iCal des participations
+          _it: S'abonner au flux iCal des participations
       new:
         basket_and_depot:
           _de: Tasche und Depot
           _fr: Panier et dépôt
+          _it: Panier et dépôt
         details:
           _de: Details
           _fr: Détails
+          _it: Détails
         erase:
           _de: Löschen
           _fr: Effacer
+          _it: Effacer
         has_many_new_invoice_item:
           _de: Einen Artikel hinzufügen
           _fr: Ajouter un article
+          _it: Ajouter un article
         refused_activity_participation:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
+          _it: Participation refusée du %{date}
       show:
         baskets_to_prepare:
           _de: Taschen vorzubereiten
           _fr: Paniers à préparer
+          _it: Paniers à préparer
         become_member:
           _de: Zugang zum Konto
           _fr: Accéder au compte
+          _it: Accéder au compte
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
+          _it: Facturation
         cancel:
           _de: Abbrechen
           _fr: Annuler
+          _it: Annuler
         cancel_invoice:
           _de: Stornieren
           _fr: Annuler
+          _it: Annuler
         cancel_renewal:
           _de: Kündigen
           _fr: Résilier
+          _it: Résilier
         closed_orders:
           _de: bezahlte
           _fr: payées
+          _it: payées
         confirm:
           _de: Sind Sie sicher?
           _fr: Êtes-vous sûr?
+          _it: Êtes-vous sûr?
         create_membership:
           _de: Abonnement erstellen
           _fr: Créer abonnement
+          _it: Créer abonnement
         deactivate:
           _de: Inatkiv setzen
           _fr: Rendre inactif
+          _it: Rendre inactif
         direct_payments:
           _de: Direkte Einzahlungen
           _fr: Paiements directs
+          _it: Paiements directs
         edit:
           _de: Bearbeiten
           _fr: Modifier
+          _it: Modifier
         enable_renewal:
           _de: Kündigung abbrechen
           _fr: Annuler résiliation
+          _it: Annuler résiliation
         force_recurring_billing:
           _de: Rechnung sofort
           _fr: Facturer maintenant
+          _it: Facturer maintenant
         force_recurring_billing_confirm:
           _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _it: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
         invoice_action:
           _de: Rechnung stellen
           _fr: Facturer
+          _it: Facturer
         link_confirm:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
+          _it: Êtes-vous sûr de sûr?
         member_new_form:
           _de: Registrierungsformular
           _fr: Formulaire d'inscription
+          _it: Formulaire d'inscription
         new_payment:
           _de: Neue Einzahlung
           _fr: Nouveau paiement
+          _it: Nouveau paiement
         no_absences:
           _de: Keine Abwesenheit
           _fr: Aucune absence
+          _it: Aucune absence
         no_activities/basket_preparation:
           _de: Keine taschen befüllung
           _fr: Aucune mise en panier
+          _it: Aucune mise en panier
         no_activities/halfday_work:
           _de: Kein ½ Tag
           _fr: Aucune ½ journée
+          _it: Aucune ½ journée
         no_activities/hour_work:
           _de: Keine Arbeitsstunden
           _fr: Aucune heure de travail
+          _it: Aucune heure de travail
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
+          _it: Aucun complément pour cette livraison
         no_baskets:
           _de: Keine Taschen
           _fr: Pas de paniers
+          _it: Pas de paniers
         no_invoices:
           _de: Keine Rechnungen
           _fr: Aucune facture
+          _it: Aucune facture
         no_memberships:
           _de: Keine Abonnements
           _fr: Aucun abonnement
+          _it: Aucun abonnement
         no_orders:
           _de: Keine Bestellungen
           _fr: Aucune commande
+          _it: Aucune commande
         no_payments:
           _de: Keine Einzahlung
           _fr: Aucun paiement
+          _it: Aucun paiement
         notes:
           _de: Notizen
           _fr: Notes
+          _it: Notes
         open_orders:
           _de: Zu zahlen
           _fr: À payer
+          _it: À payer
         open_renewal:
           _de: Anfrage senden
           _fr: Envoyer la demande
+          _it: Envoyer la demande
         orders_canceled:
           one:
             _de: 1 stornierte
             _fr: 1 annulée
+            _it: 1 annulée
           other:
             _de: "%{count} stornierte"
             _fr: "%{count} annulées"
+            _it: "%{count} annulées"
         preview:
           _de: Vorschau
           _fr: Prévisualisation
+          _it: Prévisualisation
         recurring_billing_disabled:
           _de: Automatische Rechnungsstellung Deaktiviert
           _fr: Facturation automatique désactivée
+          _it: Facturation automatique désactivée
         refund:
           _de: Rückerstattung
           _fr: Remboursement
+          _it: Remboursement
         renew:
           _de: Erneuern
           _fr: Renouveler
+          _it: Renouveler
         salary_basket:
           _de: Gratis, Lohn-Tasche
           _fr: Gratuit, panier salaire
+          _it: Gratuit, panier salaire
         send_email:
           _de: Senden
           _fr: Envoyer
+          _it: Envoyer
         show_more:
           _de: mehr anzeigen
           _fr: voir plus
+          _it: voir plus
         total:
           _de: Gesamt %{number}
           _fr: Total %{number}
+          _it: Total %{number}
         total_row:
           _de: Gesamt
           _fr: Total
+          _it: Total
         totals:
           _de: Gesamtsummen %{numbers}
           _fr: Totaux %{numbers}
+          _it: Totaux %{numbers}
         validate:
           _de: Bestätigen
           _fr: Valider
+          _it: Valider
         wait:
           _de: Nochmals auf die Warteliste setzen
           _fr: Mettre en liste d'attente
+          _it: Mettre en liste d'attente
         waiting_membership:
           _de: Abonnement (Warteliste)
           _fr: Abonnement (en attente)
+          _it: Abonnement (en attente)
     resources:
       absence:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
         scopes:
           all:
             _de: Alle
             _fr: Toutes
+            _it: Toutes
           past:
             _de: Vergangene
             _fr: Passées
+            _it: Passées
       acp:
         edit_model:
           _de: Einstellungen
           _fr: Paramètres
+          _it: Paramètres
       activity:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
         scopes:
           all:
             _de: Alle
             _fr: Toutes
+            _it: Toutes
           past:
             _de: Vergangene
             _fr: Passées
+            _it: Passées
       activity_participation:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
         scopes:
           all:
             _de: Alle
             _fr: Toutes
+            _it: Toutes
           rejected:
             _de: Abgelehnte
             _fr: Refusées
+            _it: Refusées
           validated:
             _de: Bestätigte
             _fr: Validées
+            _it: Validées
       admin:
         new_model:
           _de: Einladen %{model}
           _fr: Inviter %{model}
+          _it: Inviter %{model}
       basket_content:
         new_model:
           _de: Neuer %{model}
           _fr: Nouveau %{model}
+          _it: Nouveau %{model}
       basket_size:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
       delivery:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
       depot:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
+          _it: Nouveau %{model}
       group_buying/delivery:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
       group_buying/order:
         scopes:
           all_without_canceled:
             _de: Alle
             _fr: Toutes
+            _it: Toutes
           canceled:
             _de: Stornierte
             _fr: Annulées
+            _it: Annulées
           closed:
             _de: Bezahlte
             _fr: Payées
+            _it: Payées
           open:
             _de: Zu zahlen
             _fr: À payer
+            _it: À payer
       invoice:
         new_model:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
+          _it: Nouvelle %{model}
         scopes:
           all_without_canceled:
             _de: Alle
             _fr: Toutes
+            _it: Toutes
           canceled:
             _de: Stornierte
             _fr: Annulées
+            _it: Annulées
           closed:
             _de: Geschlossene
             _fr: Fermées
+            _it: Fermées
           not_sent:
             _de: Nicht Gesendete
             _fr: Non-envoyées
+            _it: Non-envoyées
           open:
             _de: Offene
             _fr: Ouvertes
+            _it: Ouvertes
       mail_template:
         scopes:
           invoice:
             _de: Rechnungsstellung
             _fr: Facturation
+            _it: Facturation
           member:
             _de: Mitglied
             _fr: Membre
+            _it: Membre
           membership:
             _de: Abonnement
             _fr: Abonnement
+            _it: Abonnement
       member:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
+          _it: Nouveau %{model}
       membership:
         new_model:
           _de: Neues %{model}
           _fr: Nouvel %{model}
+          _it: Nouvel %{model}
         scopes:
           future:
             _de: Künftige
             _fr: Futurs
+            _it: Futurs
           ongoing:
             _de: Laufende
             _fr: En cours
+            _it: En cours
           trial:
             _de: Proben
             _fr: Essais
+            _it: Essais
       payment:
         new_model:
           _de: Neue %{model}
           _fr: Nouveau %{model}
+          _it: Nouveau %{model}
       vegetable:
         new_model:
           _de: Neues %{model}
           _fr: Nouveau %{model}
+          _it: Nouveau %{model}
     scopes:
       active:
         _de: Aktive
         _fr: Actifs
+        _it: Actifs
       all:
         _de: Alle
         _fr: Tous
+        _it: Tous
       coming:
         _de: Bevorsetehende
         _fr: À venir
+        _it: À venir
       current:
         _de: Laufende
         _fr: En cours
+        _it: En cours
       current_year:
         _de: Laufendes Jahr
         _fr: Année courante
+        _it: Année courante
       future:
         _de: Künftige
         _fr: Futures
+        _it: Futures
       future_year:
         _de: Folgende Jahre
         _fr: Années prochaines
+        _it: Années prochaines
       inactive:
         _de: Inaktive
         _fr: Inactifs
+        _it: Inactifs
       isr:
         _de: ESR
         _fr: BVR
+        _it: BVR
       manual:
         _de: Manuelle
         _fr: Manuels
+        _it: Manuels
       next_year:
         _de: Näschstes Jahr
         _fr: Année prochaine
+        _it: Année prochaine
       past:
         _de: Vergangene
         _fr: Passés
+        _it: Passés
       past_year:
         _de: Vergangene Jahre
         _fr: Années passées
+        _it: Années passées
       pending:
         _de: Zu bestätigen
         _fr: À valider
+        _it: À valider
       support:
         _de: Support
         _fr: Soutien
+        _it: Soutien
       waiting:
         _de: Warteliste
         _fr: Attente
+        _it: Attente
       with_overdue_notice:
         _de: Mahnungen
         _fr: Rappels
+        _it: Rappels
     search_status:
       current_filters:
         _de: 'Aktuelles Filter:'
         _fr: 'Filtre courant:'
+        _it: 'Filtre courant:'
       headline:
         _de: 'Gültigkeitsbereich:'
         _fr: 'Scope:'
+        _it: 'Scope:'
       no_current_filters:
         _de: Kein
         _fr: Auncun
+        _it: Auncun
     settings:
       _de: Einstellungen
       _fr: Paramètres
+      _it: Paramètres
     settings_emails:
       _de: E-Mail-Einstellungen
       _fr: Paramètres E-Mails
+      _it: Paramètres E-Mails
     sidebars:
       amount:
         _de: 'Betrag:'
         _fr: 'Montant:'
+        _it: 'Montant:'
       filters:
         _de: Filter
         _fr: Filtres
+        _it: Filtres
       icalendar:
         _de: iCalendar
         _fr: iCalendar
+        _it: iCalendar
       overpaid:
         _de: 'Überbezahlt:'
         _fr: 'Payé en trop:'
+        _it: 'Payé en trop:'
       renewal:
         _de: Verlängerungen
         _fr: Renouvellements
+        _it: Renouvellements
       search_status:
         _de: Resultate der Suche
         _fr: Résultats de la recherche
+        _it: Résultats de la recherche
       total:
         _de: Gesamt
         _fr: Total
+        _it: Total
     status_tag:
       active:
         _de: aktiv
         _fr: actif
+        _it: actif
       canceled:
         _de: stornierte
         _fr: annulée
+        _it: annulée
       closed:
         _de: geschlossene
         _fr: fermée
+        _it: fermée
       coming:
         _de: bevorsetehende
         _fr: à venir
+        _it: à venir
       'false':
         _de: nein
         _fr: non
+        _it: non
       inactive:
         _de: inaktiv
         _fr: inactif
+        _it: inactif
       isr:
         _de: ESR
         _fr: BVR
+        _it: BVR
       manual:
         _de: manuell
         _fr: manuel
+        _it: manuel
       not_sent:
         _de: nicht gesendete
         _fr: non-envoyée
+        _it: non-envoyée
       open:
         _de: offene
         _fr: ouverte
+        _it: ouverte
       pending:
         _de: zu bestätigen
         _fr: à valider
+        _it: à valider
       rejected:
         _de: abgelehnte
         _fr: refusée
+        _it: refusée
       renewal_canceled:
         _de: gekündigt
         _fr: résilié
+        _it: résilié
       renewal_enabled:
         _de: warten
         _fr: en attente
+        _it: en attente
       renewal_opened:
         _de: offen
         _fr: ouvert
+        _it: ouvert
       renewed:
         _de: erneuert
         _fr: renouvelé
+        _it: renouvelé
       support:
         _de: unterstützung
         _fr: soutien
+        _it: soutien
       trial:
         _de: probe
         _fr: essai
+        _it: essai
       'true':
         _de: ja
         _fr: oui
+        _it: oui
       validated:
         _de: bestätigte
         _fr: validée
+        _it: validée
       waiting:
         _de: warteliste
         _fr: attente
+        _it: attente
     update_model:
       _de: "%{model} bearbeiten"
       _fr: Modifier %{model}
+      _it: Modifier %{model}
     view:
       _de: Ansehen
       _fr: Voir
+      _it: Voir

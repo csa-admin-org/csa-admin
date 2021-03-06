@@ -4,27 +4,34 @@ _:
       subject:
         _de: Lieferungsliste vom %{date} (%{depot})
         _fr: Liste Livraison du %{date} (%{depot})
+        _it: Liste Livraison du %{date} (%{depot})
     invitation_email:
       subject:
         _de: Einladung an den %{acp} Admin
         _fr: Invitation à l'admin de %{acp}
+        _it: Invitation à l'admin de %{acp}
     invoice_overpaid_email:
       subject:
         _de: 'Überzahlte Rechnung #%{number}'
         _fr: 'Facture #%{number} payée en trop'
+        _it: 'Facture #%{number} payée en trop'
     new_absence_email:
       subject:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
+        _it: Nouvelle absence
     new_email_suppression_email:
       subject:
         _de: Email abgelehnt (%{reason})
         _fr: Email rejeté (%{reason})
+        _it: Email rejeté (%{reason})
     new_group_buying_order_email:
       subject:
         _de: Neue Bestellung (#%{order_id})
         _fr: Nouvelle commande (#%{order_id})
+        _it: Nouvelle commande (#%{order_id})
     new_inscription_email:
       subject:
         _de: Neue Einschreibung
         _fr: Nouvelle inscription
+        _it: Nouvelle inscription

@@ -5,104 +5,135 @@ _:
         one:
           _de: ca. eine Stunde
           _fr: environ une heure
+          _it: environ une heure
         other:
           _de: ca. %{count} Stunden
           _fr: environ %{count} heures
+          _it: environ %{count} heures
       about_x_months:
         one:
           _de: ca. ein Monat
           _fr: environ un mois
+          _it: environ un mois
         other:
           _de: ca. %{count} Monate
           _fr: environ %{count} mois
+          _it: environ %{count} mois
       about_x_years:
         one:
           _de: ca. ein Jahr
           _fr: environ un an
+          _it: environ un an
         other:
           _de: ca. %{count} Jahre
           _fr: environ %{count} ans
+          _it: environ %{count} ans
       almost_x_years:
         one:
           _de: nahezu ein Jahr
           _fr: presqu'un an
+          _it: presqu'un an
         other:
           _de: nahezu %{count} Jahre
           _fr: presque %{count} ans
+          _it: presque %{count} ans
       half_a_minute:
         _de: eine halbe Minute
         _fr: une demi-minute
+        _it: une demi-minute
       less_than_x_minutes:
         one:
           _de: weniger als eine Minute
           _fr: moins d'une minute
+          _it: moins d'une minute
         other:
           _de: wenige als %{count} Minuten
           _fr: moins de %{count} minutes
+          _it: moins de %{count} minutes
         zero:
           _de: weniger als eine Minute
           _fr: moins d'une minute
+          _it: moins d'une minute
       less_than_x_seconds:
         one:
           _de: weniger als eine Sekunde
           _fr: moins d'une seconde
+          _it: moins d'une seconde
         other:
           _de: weniger als %{count} Sekunden
           _fr: moins de %{count} secondes
+          _it: moins de %{count} secondes
         zero:
           _de: weniger als eine Sekunde
           _fr: moins d'une seconde
+          _it: moins d'une seconde
       over_x_years:
         one:
           _de: länger als ein Jahr
           _fr: plus d'un an
+          _it: plus d'un an
         other:
           _de: länger als %{count} Jahre
           _fr: plus de %{count} ans
+          _it: plus de %{count} ans
       x_days:
         one:
           _de: 1 Tag
           _fr: 1 jour
+          _it: 1 jour
         other:
           _de: "%{count} Tage"
           _fr: "%{count} jours"
+          _it: "%{count} jours"
       x_minutes:
         one:
           _de: 1 Minute
           _fr: 1 minute
+          _it: 1 minute
         other:
           _de: "%{count} Minuten"
           _fr: "%{count} minutes"
+          _it: "%{count} minutes"
       x_months:
         one:
           _de: 1 Monat
           _fr: 1 mois
+          _it: 1 mois
         other:
           _de: "%{count} Monate"
           _fr: "%{count} mois"
+          _it: "%{count} mois"
       x_seconds:
         one:
           _de: 1 Sekunde
           _fr: 1 seconde
+          _it: 1 seconde
         other:
           _de: "%{count} Sekunden"
           _fr: "%{count} secondes"
+          _it: "%{count} secondes"
     prompts:
       day:
         _de: Tag
         _fr: Jour
+        _it: Jour
       hour:
         _de: Stunde
         _fr: Heure
+        _it: Heure
       minute:
         _de: Minute
         _fr: Minute
+        _it: Minute
       month:
         _de: Monat
         _fr: Mois
+        _it: Mois
       second:
         _de: Sekunde
         _fr: Seconde
+        _it: Seconde
       year:
         _de: Jahr
         _fr: Année
+        _it: Année

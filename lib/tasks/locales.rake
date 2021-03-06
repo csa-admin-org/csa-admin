@@ -17,17 +17,19 @@ namespace :locales do
 
   desc 'List not yet translated keys'
   task missing: :environment do
-    locales = %w[fr de]
+    locales = %w[de fr it]
     translations = load_translations_from_config
-    all_keys = translations.flat_map { |_l, k| list_all_keys(k) }.uniq.compact
+    all_keys = translations.flat_map { |l, k| list_all_keys(k) }.uniq.compact
     missing_keys = []
     translations.each do |locale, keys|
-      missing_keys << all_keys - list_all_keys(keys)
+      missing_keys << [locale, (all_keys - list_all_keys(keys)).uniq]
     end
-    missing_keys.flatten.uniq.each do |key|
-      puts "#{key}:"
-      puts "  _fr: #{I18n.t(key)}"
-      puts "  _de: ???"
+    missing_keys.each do |locale, keys|
+      keys.each do |key|
+        puts "#{key}:"
+        puts "  _fr: #{I18n.t(key)}"
+        puts "  _#{locale}: ???"
+      end
     end
   end
 

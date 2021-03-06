@@ -97,7 +97,14 @@ class ACP < ActiveRecord::Base
   end
 
   def self.seasons; SEASONS end
-  def self.languages; LANGUAGES end
+  # Temporarily only enable Italian for Seminterra until fully translated
+  def self.languages
+    if Current.acp.tenant_name == 'seminterra'
+      LANGUAGES + ['it']
+    else
+      LANGUAGES
+    end
+  end
   def self.features; FEATURES end
   def self.feature_flags; FEATURE_FLAGS end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
@@ -132,11 +139,11 @@ class ACP < ActiveRecord::Base
   end
 
   def languages=(languages)
-    super languages & LANGUAGES
+    super languages & self.class.languages
   end
 
   def languages
-    super & LANGUAGES
+    super & self.class.languages
   end
 
   def email_from

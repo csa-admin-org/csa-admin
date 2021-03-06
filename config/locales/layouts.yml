@@ -4,58 +4,76 @@ _:
       manage_admin_notifications:
         _de: Meine Benachrichtigungen verwalten
         _fr: Gérer mes notifications
+        _it: Gérer mes notifications
     members:
       header:
         absences_subtitle:
           _de: "⤷ Informieren Sie uns!"
           _fr: "⤷ Prévenez-nous!"
+          _it: "⤷ Prévenez-nous!"
         activity_participations_accepted:
           one:
             _de: "⤷ %{accepted} von %{demanded} angefordert"
             _fr: "⤷ %{accepted} sur %{demanded} demandée"
+            _it: "⤷ %{accepted} sur %{demanded} demandée"
           other:
             _de: "⤷ %{accepted} von %{demanded} angefordert"
             _fr: "⤷ %{accepted} sur %{demanded} demandées"
+            _it: "⤷ %{accepted} sur %{demanded} demandées"
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
+          _it: Facturation
         contact:
           _de: Kontakt
           _fr: Contact
+          _it: Contact
         logout:
           _de: Abmeldung
           _fr: Déconnexion
+          _it: Déconnexion
         membership_current:
           _de: "⤷ Aktuelles"
           _fr: "⤷ En cours"
+          _it: "⤷ En cours"
         membership_future:
           _de: "⤷ Zukünftiges"
           _fr: "⤷ À venir"
+          _it: "⤷ À venir"
         membership_past:
           _de: "⤷ Abgeschlossenes"
           _fr: "⤷ Terminé"
+          _it: "⤷ Terminé"
         membership_renewal:
           _de: "⤷ Erneuerung?"
           _fr: "⤷ Renouvellement ?"
+          _it: "⤷ Renouvellement ?"
         membership_trial:
           _de: "⤷ Probezeit"
           _fr: "⤷ Période d'essai"
+          _it: "⤷ Période d'essai"
         next_delivery:
           _de: "⤷ %{date}"
           _fr: "⤷ %{date}"
+          _it: "⤷ %{date}"
         no_activity_participations_demanded:
           _de: "⤷ Keine Verpflichtung"
           _fr: "⤷ Aucun engagement"
+          _it: "⤷ Aucun engagement"
         open_invoices:
           one:
             _de: "⤷ 1 offene Rechnung"
             _fr: "⤷ 1 facture ouverte"
+            _it: "⤷ 1 facture ouverte"
           other:
             _de: "⤷ %{count} offene Rechnungen"
             _fr: "⤷ %{count} factures ouvertes"
+            _it: "⤷ %{count} factures ouvertes"
         see_history:
           _de: "⤷ Verlauf anzeigen"
           _fr: "⤷ Consulter l'historique"
+          _it: "⤷ Consulter l'historique"
       title:
         _de: Mitgliederseite
         _fr: Page de Membre
+        _it: Page de Membre

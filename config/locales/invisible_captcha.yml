@@ -3,6 +3,8 @@ _:
     sentence_for_humans:
       _de: Wenn du ein Mensch bist, ignoriere dieses Feld.
       _fr: Si vous êtes humain, ignorez ce champ.
+      _it: Si vous êtes humain, ignorez ce champ.
     timestamp_error_message:
       _de: Sorry, es war zu schnell! Bitte senden Sie das Formular erneut ab.
       _fr: Désolé, c'était trop rapide! Veuillez soumettre à nouveau le formulaire.
+      _it: Désolé, c'était trop rapide! Veuillez soumettre à nouveau le formulaire.

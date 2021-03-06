@@ -3,6 +3,12 @@ _:
     de:
       _de: Deutsch
       _fr: Allemand
+      _it: Tedesco
     fr:
       _de: Französisch
       _fr: Français
+      _it: Francese
+    it:
+      _de: Italienisch
+      _fr: Italien
+      _it: Italiano

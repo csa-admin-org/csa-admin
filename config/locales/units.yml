@@ -3,21 +3,28 @@ _:
     g_count_quantity:
       _de: "%{count}x %{quantity}g"
       _fr: "%{count}x %{quantity}g"
+      _it: "%{count}x %{quantity}g"
     g_quantity:
       _de: "%{quantity}g"
       _fr: "%{quantity}g"
+      _it: "%{quantity}g"
     kg:
       _de: Kilogramm
       _fr: Kilogramme
+      _it: Kilogramme
     kg_quantity:
       _de: "%{quantity}kg"
       _fr: "%{quantity}kg"
+      _it: "%{quantity}kg"
     pc:
       _de: Stück
       _fr: Pièce
+      _it: Pièce
     pc_count_quantity:
       _de: "%{count}x %{quantity}st"
       _fr: "%{count}x %{quantity}p"
+      _it: "%{count}x %{quantity}p"
     pc_quantity:
       _de: "%{quantity}st"
       _fr: "%{quantity}p"
+      _it: "%{quantity}p"
