@@ -107,17 +107,19 @@ ActiveAdmin.register ACP do
       translated_input(f, :invoice_footers)
     end
     f.inputs t('.invoice_qr') do
-      f.input :qr_iban, required: false, input_html: { maxlength: 21 }
+      f.input :qr_iban, required: false, input_html: { maxlength: 21 }, hint: Current.acp.isr_invoice?
       f.input :qr_creditor_name, required: false, input_html: { maxlength: 70 }
       f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
       f.input :qr_creditor_city, required: false, input_html: { maxlength: 35 }
       f.input :qr_creditor_zip, required: false, input_html: { maxlength: 16 }
     end
-    f.inputs t('.invoice_isr') do
-      f.input :ccp, required: false
-      f.input :isr_identity, required: false
-      f.input :isr_payment_for, required: false, input_html: { rows: 3 }
-      f.input :isr_in_favor_of, required: false, input_html: { rows: 3 }
+    if Current.acp.isr_invoice?
+      f.inputs t('.invoice_isr') do
+        f.input :ccp, required: false
+        f.input :isr_identity, required: false
+        f.input :isr_payment_for, required: false, input_html: { rows: 3 }
+        f.input :isr_in_favor_of, required: false, input_html: { rows: 3 }
+      end
     end
     if Current.acp.feature?('activity')
       f.inputs t('.members_participation') do

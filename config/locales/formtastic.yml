@@ -34,10 +34,6 @@ _:
           _de: Bei Deaktivierung erfolgt die Rechnungsstellung zu Beginn des Abonnements.
           _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
           _it: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
-        ccp:
-          _de: Leer lassen, wenn QR-Rechnungen verwendet werden.
-          _fr: Laisser vide si les factures QR sont utilisées.
-          _it: Laisser vide si les factures QR sont utilisées.
         group_buying_invoice_info:
           _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann.
           _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable.
