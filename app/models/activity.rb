@@ -5,8 +5,8 @@ class Activity < ActiveRecord::Base
 
   attr_reader :preset_id, :preset
 
-  serialize :start_time, Tod::TimeOfDay
-  serialize :end_time, Tod::TimeOfDay
+  attribute :start_time, :time_only
+  attribute :end_time, :time_only
 
   translated_attributes :place, :place_url, :title, :description
 
