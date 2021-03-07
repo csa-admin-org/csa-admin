@@ -222,11 +222,10 @@ ActiveAdmin.register Member do
       column do
         attributes_table do
           row(:id) {
-            txt = member.id.to_s
+            span { member.id.to_s }
             if authorized?(:become, resource)
-              txt << " – #{link_to t('.become_member'), become_member_path(resource), method: :post}"
+              link_to(t('.become_member'), become_member_path(resource), class: 'button')
             end
-            txt.html_safe
           }
           row(:status) { status_tag member.state }
           if Current.acp.languages.many?
@@ -450,12 +449,15 @@ ActiveAdmin.register Member do
     redirect_to member_path(resource)
   end
 
-  member_action :become, method: :post do
+  member_action :become do
     session = resource.sessions.create!(
       email: current_admin.email,
       remote_addr: request.remote_addr,
       user_agent: "Admin ID: #{current_admin.id}")
-    redirect_to members_session_url(session.token, locale: I18n.locale)
+    redirect_to members_session_url(
+      session.token,
+      subdomain: Current.acp.members_subdomain,
+      locale: I18n.locale)
   end
 
   member_action :force_recurring_billing, method: :post do
