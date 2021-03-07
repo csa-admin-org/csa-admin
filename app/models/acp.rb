@@ -153,6 +153,10 @@ class ACP < ActiveRecord::Base
     }.to_s
   end
 
+  def members_subdomain
+    URI.parse(email_default_host).host.split('.').first
+  end
+
   def url=(url)
     super
     self.host ||= PublicSuffix.parse(URI(url).host).sld
