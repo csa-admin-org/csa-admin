@@ -146,7 +146,7 @@ ActiveAdmin.register ACP do
       translated_input(f, :delivery_pdf_footers, required: false)
       f.input :delivery_pdf_show_phones, as: :boolean
     end
-    f.inputs link_to(t('.member_section'), new_members_member_url) do
+    f.inputs link_to(t('.member_section'), new_members_member_url(subdomain: Current.acp.members_subdomain)) do
       translated_input(f, :terms_of_service_urls, required: false)
       translated_input(f, :statutes_urls, required: false)
       translated_input(f, :membership_extra_texts,
