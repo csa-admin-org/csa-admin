@@ -170,7 +170,7 @@ module MembersHelper
   def visible_depots(membership = nil)
     depot_ids = Depot.visible.pluck(:id)
     depot_ids << membership.depot_id if membership
-    Depot.where(id: depot_ids.uniq).order('form_priority, price, name').to_a
+    Depot.where(id: depot_ids.uniq).reorder('form_priority, price, name').to_a
   end
 
   def deliveries_counts
