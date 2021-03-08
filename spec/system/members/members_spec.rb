@@ -252,6 +252,21 @@ describe 'members page' do
       expect(page).not_to have_selector '#member_billing_year_division_input'
     end
 
+    it 'orders depots by form priority' do
+      create(:depot, name: 'Jardin de la main', form_priority: 0)
+      create(:depot, name: 'Vélo', form_priority: 1)
+      create(:depot, name: 'Domicile', form_priority: 2)
+
+      visit '/new'
+
+      depots = all('#member_waiting_depot_input span.label').map(&:text)
+      expect(depots).to match([
+        a_string_matching('Jardin de la main'),
+        a_string_matching('Vélo'),
+        a_string_matching('Domicile')
+      ])
+    end
+
     it 'notifies spam detection' do
       Current.acp.update!(
         languages: %w[fr de],
