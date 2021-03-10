@@ -4,7 +4,7 @@ document.addEventListener('turbolinks:load', () => {
   live("#member_waiting_basket_size_input input[type='radio']", 'change', event => {
     const extraPrice = '#member_waiting_basket_price_extra_input';
     const extraPriceRadios = `${extraPrice} input[type='radio']`;
-    const complements = 'fieldset.members_basket_complements';
+    const complements = 'fieldset.basket_complements';
     const complementsInputs = `${complements} input[type='number']`;
     const depots = '#member_waiting_depot_input';
     const depotsRadios = `${depots} input[type='radio']`;
