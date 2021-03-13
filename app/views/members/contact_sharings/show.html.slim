@@ -1,0 +1,31 @@
+h1 = Member.human_attribute_name(:contact_sharing)
+
+h2
+  = Depot.model_name.human
+  = ': '
+  = @depot.name
+
+section.contact_sharing
+  - if current_member.errors.none? && current_member.contact_sharing?
+    p = t('.description')
+    - if @members.empty?
+      p.empty = t('.nobody_sharing_contact')
+    - else
+      ul.contacts
+        - @members.each do |member|
+          li
+            ul.member
+              li.name = member.name
+              li = display_phones(member)
+              li = display_address(member, country: false)
+
+    p.info = t('.cancel_sharing_html', email: Current.acp.email)
+  - else
+    p = t('.explanation')
+
+    = semantic_form_for current_member, url: members_contact_sharing_path, method: :post do |f|
+      = f.inputs do
+        = f.input :contact_sharing, as: :hidden, input_html: { value: true }
+        = f.input :terms_of_service, as: :pretty_boolean, label: t('.terms_of_service')
+      .input.submit
+        = f.submit t('.submit')

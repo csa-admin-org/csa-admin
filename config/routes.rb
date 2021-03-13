@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         get 'welcome', on: :collection
       end
       resource :account, only: %i[show edit update]
+      resource :contact_sharing, only: %i[show create]
     end
   end
 end

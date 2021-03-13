@@ -176,6 +176,10 @@ _:
           _fr: Cet email est obligatoire et ne peut pas être désactivé.
           _it: Cet email est obligatoire et ne peut pas être désactivé.
       member:
+        contact_sharing:
+          _de: Gemeinsame Nutzung von Kontakten zwischen Mitgliedern desselben Depots
+          _fr: Partage de contact entre membres d'un même dépôt
+          _it: Partage de contact entre membres d'un même dépôt
         delivery_address:
           _de: Leer lassen, wenn gleich.
           _fr: Laisser vide si identique.
