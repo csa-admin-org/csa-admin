@@ -110,7 +110,7 @@ class ACP < ActiveRecord::Base
     if Current.acp.tenant_name == 'p2r'
       FEATURES + ['contact_sharing']
     else
-      LANGUAGES
+      FEATURES
     end
   end
   def self.feature_flags; FEATURE_FLAGS end
