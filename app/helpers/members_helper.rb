@@ -146,12 +146,13 @@ module MembersHelper
     end
   end
 
-  def diplay_address(member)
+  def display_address(member, country: true)
     parts = [
       member.address,
       "#{member.zip} #{member.city}",
-      member.country.translations[I18n.locale.to_s]
-    ].join("</br>").html_safe
+    ]
+    parts << member.country.translations[I18n.locale.to_s] if country
+    parts.join("</br>").html_safe
   end
 
   def display_emails(member)
@@ -162,7 +163,11 @@ module MembersHelper
   end
 
   def display_phones(member)
-    member.phones_array.map(&:phony_formatted).join(', ')
+    parts = []
+    member.phones_array.each do |phone|
+      parts << link_to(phone.phony_formatted, 'tel:' + phone.phony_formatted(spaces: '', format: :international))
+    end
+    parts.join(', ').html_safe
   end
 
   private

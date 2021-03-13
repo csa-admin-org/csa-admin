@@ -38,6 +38,11 @@ header
                   - else
                     span = t('.membership_past')
 
+              - if Current.acp.feature?('contact_sharing')
+                li class=nav_class('contact_sharing')
+                  = link_to members_contact_sharing_path do
+                    = Member.human_attribute_name(:contact_sharing)
+                    span = '⤷ ' + next_basket.depot.name
 
             - if Current.acp.feature?('activity')
               li class=nav_class('activity_participations')

@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
 
-  audited_attributes :name, :address, :zip, :city, :country_code, :emails, :phones
+  audited_attributes :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing
 
   has_states :pending, :waiting, :active, :support, :inactive
 
@@ -51,6 +51,7 @@ class Member < ActiveRecord::Base
   accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
+  scope :sharing_contact, -> { where(contact_sharing: true) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
   scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
   scope :no_salary_basket, -> { where(salary_basket: false) }

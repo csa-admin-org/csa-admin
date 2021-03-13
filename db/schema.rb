@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_21_154428) do
+ActiveRecord::Schema.define(version: 2021_03_07_150849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -479,6 +479,7 @@ ActiveRecord::Schema.define(version: 2021_02_21_154428) do
     t.datetime "activated_at"
     t.decimal "waiting_basket_price_extra", precision: 8, scale: 2
     t.string "country_code", limit: 2
+    t.boolean "contact_sharing", default: false, null: false
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"

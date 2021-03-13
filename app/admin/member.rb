@@ -266,6 +266,9 @@ ActiveAdmin.register Member do
           end
           row(:emails) { display_emails_with_link(self, member.emails_array) }
           row(:phones) { display_phones_with_link(self, member.phones_array) }
+          if Current.acp.feature?('contact_sharing')
+            row(:contact_sharing) { status_tag(member.contact_sharing) }
+          end
         end
         attributes_table title: t('.billing') do
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
@@ -375,6 +378,9 @@ ActiveAdmin.register Member do
     f.inputs Member.human_attribute_name(:contact) do
       f.input :emails, as: :string
       f.input :phones, as: :string
+      if Current.acp.feature?('contact_sharing')
+        f.input :contact_sharing
+      end
     end
     f.inputs t('active_admin.resource.show.billing') do
       f.input :billing_year_division,
@@ -407,6 +413,7 @@ ActiveAdmin.register Member do
     :acp_shares_info, :existing_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
+    :contact_sharing,
     waiting_alternative_depot_ids: [],
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy

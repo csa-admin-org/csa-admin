@@ -520,6 +520,10 @@ _:
           _de: Wie haben Sie von uns gehört?
           _fr: Comment avez-vous entendu parler de nous?
           _it: Comment avez-vous entendu parler de nous?
+        contact_sharing:
+          _de: Kontakt Teilen
+          _fr: Copaniérage
+          _it: Copaniérage
         current_membership:
           _de: Abonnement (laufend)
           _fr: Abonnement (en cours)
@@ -1048,6 +1052,11 @@ _:
           _de: Zusätze
           _fr: Compléments
           _it: Compléments
+      contact_sharing:
+        one:
+          _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
+          _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
+          _it: Condivisione di informazioni di contatto (tra membri di un deposito)
       delivery:
         one:
           _de: Lieferung
