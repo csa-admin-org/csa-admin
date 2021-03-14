@@ -523,7 +523,7 @@ _:
         contact_sharing:
           _de: Kontakt Teilen
           _fr: Copaniérage
-          _it: Copaniérage
+          _it: Ritiro collaborativo
         current_membership:
           _de: Abonnement (laufend)
           _fr: Abonnement (en cours)
@@ -1056,7 +1056,7 @@ _:
         one:
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
           _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
-          _it: Condivisione di informazioni di contatto (tra membri di un deposito)
+          _it: Condivisione di informazioni di contatto (tra membri di un luogo di consegna)
       delivery:
         one:
           _de: Lieferung
