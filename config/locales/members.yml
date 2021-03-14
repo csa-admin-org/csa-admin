@@ -270,7 +270,7 @@ _:
         joined:
           _de: Ihre Kontaktinformationen sind nun für andere Mitglieder Ihres Depots freigegeben!
           _fr: Vos coordonnées sont maintenant partagées avec les autres membres de votre dépôt!
-          _it: Le tue informazioni di contatto sono ora condivise con gli altri membri del tuo deposito!
+          _it: Le tue informazioni di contatto sono ora condivise con gli altri membri del tuo luogo di consegna!
       show:
         cancel_sharing_html:
           _de: Bitte <a href='mailto:%{email}'>kontaktieren Sie uns per E-Mail</a>, wenn Sie die Weitergabe Ihrer Kontaktdaten beenden möchten.
@@ -279,11 +279,11 @@ _:
         description:
           _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihres Korbes zu vereinbaren, wenn Sie gelegentlich verhindert sind.
           _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre panier en cas d’empêchement occasionnel.
-          _it: Ecco la lista dei membri del tuo deposito che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro del vostro cestino nel caso in cui non possiate partecipare occasionalmente.
+          _it: Ecco la lista dei membri del tuo luogo di consegna che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra cesta nel caso in cui non possiate partecipare occasionalmente.
         explanation:
           _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Körbe zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
           _fr: Le copaniérage (covoiturage pour panier) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs paniers en cas d’empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
-          _it: La condivisione delle informazioni di contatto permette ai membri di un deposito di contattarsi a vicenda per organizzare il ritiro dei loro cesti nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei membri che hanno deciso di fare lo stesso.
+          _it: La condivisione delle informazioni di contatto permette ai membri di un luogo di consegna di contattarsi a vicenda per organizzare il ritiro delle loro ceste nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei membri che hanno deciso di fare lo stesso.
         nobody_sharing_contact:
           _de: Keine anderen Mitglieder geben zu diesem Zeitpunkt ihre Kontaktinformationen weiter!
           _fr: Aucun autre membre ne partage ses coordonées pour le moment!
@@ -295,7 +295,7 @@ _:
         terms_of_service:
           _de: Ich bin damit einverstanden, dass meine Kontaktinformationen an andere Mitglieder meines Depots weitergegeben werden.
           _fr: J'accepte de partager mes coordonnées avec les autres membres de mon dépôt.
-          _it: Accetto di condividere le mie informazioni di contatto con altri membri del mio deposito.
+          _it: Accetto di condividere le mie informazioni di contatto con altri membri del mio luogo di consegna
     deliveries:
       index:
         future_deliveries:
