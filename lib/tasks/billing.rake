@@ -29,10 +29,10 @@ namespace :billing do
   desc 'Process all new payments'
   task process_payments: :environment do
     ACP.enter_each! do
-      if raiffeisen_credentials = Current.acp.credentials(:raiffeisen)
-        provider = Billing::Raiffeisen.new(raiffeisen_credentials)
+      if ebics_credentials = Current.acp.credentials(:ebics)
+        provider = Billing::EBICS.new(ebics_credentials)
         PaymentsProcessor.new(provider).process
-        puts "#{Current.acp.name}: New Raiffeisen payments processed."
+        puts "#{Current.acp.name}: New EBICS payments processed."
       end
       if bas_credentials = Current.acp.credentials(:bas)
         provider = Billing::BAS.new(bas_credentials)
