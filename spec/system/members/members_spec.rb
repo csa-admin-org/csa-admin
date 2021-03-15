@@ -221,6 +221,7 @@ describe 'members page' do
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
       choose 'Aucun, devenir membre de soutien'
+      fill_in 'Nombre de parts sociales désiré', with: '3'
 
       check "J'ai lu attentivement et accepte avec plaisir les statuts et le règlement."
 
@@ -240,6 +241,7 @@ describe 'members page' do
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to be_nil
+      expect(member.desired_acp_shares_number).to eq 3
       expect(member.billing_year_division).to eq 1
     end
 

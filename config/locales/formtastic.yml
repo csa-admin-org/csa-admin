@@ -192,6 +192,10 @@ _:
           _de: Leer lassen, wenn gleich.
           _fr: Laisser vide si identique.
           _it: Lascia vuoto se identico.
+        desired_acp_shares_number:
+          _de: Sie werden automatisch in Rechnung gestellt.
+          _fr: Elles seront facturées automatiquement.
+          _it: Saranno fatturati automaticamente.
         emails:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.

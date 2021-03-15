@@ -31,6 +31,11 @@ p = t('.text')
 
     = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
 
+    - if Current.acp.share?
+      = f.input :desired_acp_shares_number, as: :number, min: 1, max: 20, required: true, \
+        input_html: { value: [@member.desired_acp_shares_number, 1].max },
+        hint: t('.desired_acp_shares_number_hint')
+
     - if Current.acp.feature_flag?(:basket_price_extra)
       - if Current.acp.ragedevert?
         = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \

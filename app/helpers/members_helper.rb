@@ -16,7 +16,9 @@ module MembersHelper
   end
 
   def basket_sizes_collection(no_basket_option: true)
-    col = BasketSize.reorder(price: :desc).map { |bs|
+    basket_sizes = BasketSize.reorder(price: :desc)
+    acp_shares_numbers = basket_sizes.pluck(:acp_shares_number).uniq
+    col = basket_sizes.map { |bs|
       details = []
       if bs.price.positive?
         details << "#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)}"
@@ -24,12 +26,15 @@ module MembersHelper
         details << deliveries_count(deliveries_counts)
       end
       details << activities_count(bs.activity_participations_demanded_annualy)
-      details << acp_shares_number(bs.acp_shares_number)
+      if acp_shares_numbers.size > 1
+        details << acp_shares_number(bs.acp_shares_number)
+      end
       [
         collection_text(bs.name,
           price: deliveries_based_price_info(bs.price, deliveries_counts),
           details: details.compact.join(', ')),
-        bs.id
+        bs.id,
+        data: { acp_shares_number: bs.acp_shares_number }
       ]
     }
     if no_basket_option && (Current.acp.annual_fee? || Current.acp.share?)
@@ -42,7 +47,8 @@ module MembersHelper
               t('helpers.no_basket_size_acp_share')
             end
         ),
-        0
+        0,
+        data: { acp_shares_number: 1 }
       ]
     end
     col
@@ -168,6 +174,23 @@ module MembersHelper
       parts << link_to(phone.phony_formatted, 'tel:' + phone.phony_formatted(spaces: '', format: :international))
     end
     parts.join(', ').html_safe
+  end
+
+  def display_acp_shares_number(member)
+    parts = []
+    if member.existing_acp_shares_number&.positive?
+      parts << t('.acp_shares_number.existing', count: member.existing_acp_shares_number)
+    end
+    invoiced_number = member.invoices.not_canceled.acp_share.sum(:acp_shares_number)
+    if invoiced_number.positive?
+      parts << link_to(
+        t('.acp_shares_number.invoiced', count: invoiced_number),
+        invoices_path(q: { member_id_eq: member.id, object_type_in: 'ACPShare' }, scope: :all))
+    end
+    if member.missing_acp_shares_number.positive?
+      parts << t('.acp_shares_number.missing', count: member.missing_acp_shares_number)
+    end
+    parts.to_sentence.html_safe
   end
 
   private

@@ -548,6 +548,10 @@ _:
           _de: Depot
           _fr: Dépôt
           _it: Punto di ritiro
+        desired_acp_shares_number:
+          _de: Anzahl der gewünschten Anteilscheine
+          _fr: Nombre de parts sociales désiré
+          _it: Numero di azioni desiderate
         existing_acp_shares_number:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes

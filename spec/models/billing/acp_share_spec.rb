@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe Billing::MembershipACPShare do
+describe Billing::ACPShare do
   before { current_acp.update!(share_price: 250) }
 
   def invoice!(member, **attrs)
-    Billing::MembershipACPShare.invoice!(member, **attrs)
+    Billing::ACPShare.invoice!(member, **attrs)
   end
 
   it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already', freeze: '01-06-2018' do
@@ -47,6 +47,14 @@ describe Billing::MembershipACPShare do
       .and change { member.acp_shares_number }.from(2).to(3)
   end
 
+  it 'creates invoice when ACP shares desired and on support ' do
+    member = create(:member, state: 'support', desired_acp_shares_number: 2)
+
+    expect { invoice!(member) }
+      .to change { member.invoices.count }.by(1)
+      .and change { member.acp_shares_number }.from(0).to(2)
+  end
+
   it 'does nothing when ACP shares already billed' do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
@@ -65,7 +73,7 @@ describe Billing::MembershipACPShare do
     expect { invoice!(member) }.not_to change { member.invoices.count }
   end
 
-  it 'does nothing when no membership' do
+  it 'does nothing when inactive' do
     member = create(:member, :inactive)
     expect { invoice!(member) }.not_to change { member.invoices.count }
   end

@@ -159,6 +159,19 @@ describe Member do
       expect(member.validator).to eq admin
     end
 
+    it 'sets state to suppot if desired_acp_shares_number is present' do
+      Current.acp.update!(annual_fee: nil, share_price: 100)
+      member = create(:member, :pending,
+        desired_acp_shares_number: 10,
+        waiting_basket_size: nil,
+        waiting_depot: nil,
+        annual_fee: nil)
+
+      expect { member.validate!(admin) }.to change(member, :state).to('support')
+      expect(member.validated_at).to be_present
+      expect(member.validator).to eq admin
+    end
+
     it 'raise if not pending' do
       member = create(:member, :support_annual_fee)
       expect { member.validate!(admin) }.to raise_error(RuntimeError)
@@ -399,6 +412,45 @@ describe Member do
       member = create(:member, :support_annual_fee)
       expect { member.update!(annual_fee: nil) }
         .to change(member, :state).to('inactive')
+    end
+  end
+
+  describe '#missing_acp_shares_number' do
+    specify 'when desired_acp_shares_number only' do
+      member = Member.new(
+        desired_acp_shares_number: 10,
+        existing_acp_shares_number: 0)
+      expect(member.missing_acp_shares_number).to eq 10
+    end
+
+    specify 'when matching existing_acp_shares_number' do
+      member = Member.new(
+        desired_acp_shares_number: 5,
+        existing_acp_shares_number: 5)
+      expect(member.missing_acp_shares_number).to eq 0
+    end
+
+    specify 'when more existing_acp_shares_number' do
+      member = Member.new(
+        desired_acp_shares_number: 5,
+        existing_acp_shares_number: 6)
+      expect(member.missing_acp_shares_number).to eq 0
+    end
+
+    specify 'when less existing_acp_shares_number' do
+      member = Member.new(
+        desired_acp_shares_number: 6,
+        existing_acp_shares_number: 4)
+      expect(member.missing_acp_shares_number).to eq 2
+    end
+
+    specify 'when requiring more membership shares' do
+      basket_size = create(:basket_size, acp_shares_number: 2)
+      member = create(:member,
+        desired_acp_shares_number: 1,
+        existing_acp_shares_number: 0)
+      create(:membership, member: member, basket_size: basket_size)
+      expect(member.missing_acp_shares_number).to eq 2
     end
   end
 end

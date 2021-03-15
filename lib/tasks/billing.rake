@@ -6,7 +6,7 @@ namespace :billing do
       if Current.acp.recurring_billing_wday == today.wday
         Member.find_each do |member|
           if Current.acp.share?
-            Billing::MembershipACPShare.invoice!(member, send_email: true)
+            Billing::ACPShare.invoice!(member, send_email: true)
           end
           recurring = RecurringBilling.new(member)
           if recurring.next_date == today

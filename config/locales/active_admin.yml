@@ -594,6 +594,34 @@ _:
           _fr: Participation refusée du %{date}
           _it: Collaborazione rifiutata da %{date}
       show:
+        acp_shares_number:
+          existing:
+            one:
+              _de: 1 bestehenden
+              _fr: 1 existante
+              _it: 1 esistente
+            other:
+              _de: "%{count} bestehende"
+              _fr: "%{count} existantes"
+              _it: "%{count} esistenti"
+          invoiced:
+            one:
+              _de: 1 abgerechneten
+              _fr: 1 facturée
+              _it: 1 che sarà fatturato
+            other:
+              _de: "%{count} abgerechnete"
+              _fr: "%{count} facturées"
+              _it: "%{count} fatturate"
+          missing:
+            one:
+              _de: 1 der in Rechnung gestellt wird
+              _fr: 1 qui sera facturée
+              _it: 1 che sarà fatturato
+            other:
+              _de: "%{count} die in Rechnung gestellt werden"
+              _fr: "%{count} qui seront facturées"
+              _it: "%{count} che saranno fatturati"
         baskets_to_prepare:
           _de: Taschen vorzubereiten
           _fr: Paniers à préparer

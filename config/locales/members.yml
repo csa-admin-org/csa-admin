@@ -403,6 +403,10 @@ _:
           _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
           _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
           _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
+        desired_acp_shares_number_hint:
+          _de: Sie können sich entscheiden, mehr zu kaufen, um die Genossenschaft zu unterstützen.
+          _fr: Vous pouvez décider d'en acquérir plus pour soutenir la coopérative.
+          _it: Puoi decidere di comprarne di più per sostenere la cooperativa.
         membership_text:
           _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
