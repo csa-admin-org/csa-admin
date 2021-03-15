@@ -1,22 +1,22 @@
-<p>Voici votre nouvelle facture, tous les détails se trouvent dans le PDF ci-joint.</p>
+<p>Ecco la vostra nuova fattura, tutti i dettagli si trovano nel PDF allegato.</p>
 
 {% case invoice.state %}
 {% when 'closed' %}
   {% highlight %}
-    <strong>En tenant compte des paiements précédents, cette facture est considérée comme payée et est envoyée uniquement à titre d'information.</strong>
+    <strong>Tenendo conto dei pagamenti precedenti, questa fattura è considerata pagata e viene inviata solo a titolo informativo.</strong>
   {% endhighlight %}
 {% when 'open' %}
   {% if invoice.overdue_notices_count > 0 %}
     {% highlight %}
-      <strong>En tenant compte des paiements précédents, le montant restant à payer est de: {{ invoice.missing_amount }}</strong>
+      <strong>Tenendo conto dei pagamenti precedenti, il montante che deve essere ancora pagato è di: {{ invoice.missing_amount }}</strong>
     {% endhighlight %}
   {% endif %}
 {% endcase %}
 
-<p>Merci!</p>
+<p>Grazie!</p>
 
-<p>Vous pouvez consultez à tout moment vos factures et paiements depuis votre page de membre.</p>
+<p>In qualsiasi momento, dalla pagina di socio, potete consultare le vostre fatture e i vostri pagamenti.</p>
 
 {% button member.billing_url %}
-  Accéder à ma page de membre
+  Accedere alla mia pagina di socio
 {% endbutton %}

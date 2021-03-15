@@ -1,24 +1,24 @@
-<p>Malheureusement votre participation à l'activité suivante n'a pas pu être validée. Un oubli peut-être!?!</p>
+<p>Sfortunatamente non è stato possibile convalidare la vostra partecipazione alla seguente attività. Si tratta forse di una svista!?!</p>
 
 {% highlight_list %}
-  <strong>Date:</strong> {{ activity.date_long }}
-  <strong>Horaire:</strong> {{ activity.period }}
-  <strong>Activité:</strong> {{ activity.title }}
+  <strong>Data:</strong> {{ activity.date_long }}
+  <strong>Orario:</strong> {{ activity.period }}
+  <strong>Attività:</strong> {{ activity.title }}
   {% if activity.description %}
-  <strong>Description:</strong> {{ activity.description }}
+  <strong>Descrizione:</strong> {{ activity.description }}
   {% endif %}
   {% if activity.place_url %}
-  <strong>Lieu:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  <strong>Luogo:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
   {% elsif activity.place %}
-  <strong>Lieu:</strong> {{ activity.place }}
+  <strong>Luogo:</strong> {{ activity.place }}
   {% endif %}
-  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+  <strong>Partecipanti:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
+cela évite de vous faire attendre inutilement
+<p>In caso di rinuncia all'ultimo minuto, si prega di contattateci al <strong>{{ acp.activity_phone }}</strong>, questo ci evita attese inutili.</p>
 
-<p>En cas d'empêchement de dernière minute, merci de nous contacter au <strong>{{ acp.activity_phone }}</strong>, cela évite de vous faire attendre inutilement.</p>
-
-<p>Inscrivez-vous à d'autres activités depuis votre page de membre.</p>
+<p>Iscrivetevi ad altre attività dalla vostra pagina di socio.</p>
 
 {% button member.activities_url %}
-  Accéder à ma page de membre
+  Accedere alla mia pagina di socio
 {% endbutton %}

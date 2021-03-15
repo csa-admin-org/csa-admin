@@ -6,10 +6,10 @@ _:
           alert:
             _de: Die künftige Teilnahmen können noch nicht abgelehnt werden
             _fr: Les participations à venir ne peuvent pas encore être refusées
-            _it: Les participations à venir ne peuvent pas encore être refusées
+            _it: Le partecipazioni future non possono ancora essere rifiutate
       validate:
         flash:
           alert:
             _de: Die künftige Teilnahmen können noch nicht bestätigt werden
             _fr: Les participations à venir ne peuvent pas encore être validées
-            _it: Les participations à venir ne peuvent pas encore être validées
+            _it: Le partecipazioni future non possono ancora essere confermate

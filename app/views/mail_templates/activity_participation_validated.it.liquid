@@ -1,24 +1,24 @@
-<p>Nous vous remercions pour votre participation à l'activité suivante, elle vient d'être validée!</p>
+<p>Vi ringraziamo per la partecipazione alla seguente attività che è stata confermata!</p>
 
 {% highlight_list %}
-  <strong>Date:</strong> {{ activity.date_long }}
-  <strong>Horaire:</strong> {{ activity.period }}
-  <strong>Activité:</strong> {{ activity.title }}
+  <strong>Data:</strong> {{ activity.date_long }}
+  <strong>Orario:</strong> {{ activity.period }}
+  <strong>Attività:</strong> {{ activity.title }}
   {% if activity.description %}
-  <strong>Description:</strong> {{ activity.description }}
+  <strong>Descrizione:</strong> {{ activity.description }}
   {% endif %}
   {% if activity.place_url %}
-  <strong>Lieu:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  <strong>Luogo:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
   {% elsif activity.place %}
-  <strong>Lieu:</strong> {{ activity.place }}
+  <strong>Luogo:</strong> {{ activity.place }}
   {% endif %}
-  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+  <strong>Partecipanti:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>Une question? Vous pouvez nous contacter au <strong>{{ acp.activity_phone }}</strong> ou en répondant simplement à cet email.</p>
+<p>Avete una domanda? Potete contattarci al <strong>{{ acp.activity_phone }}</strong> o rispondere semplicemente a questa e-mail.</p>
 
-<p>Inscrivez-vous à d'autres activités depuis votre page de membre.</p>
+<p>Iscrivetevi ad altre attività dalla vosrta pagina di socio.</p>
 
 {% button member.activities_url %}
-  Accéder à ma page de membre
+  Accedere alla mia pagina di socio
 {% endbutton %}

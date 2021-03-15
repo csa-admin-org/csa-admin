@@ -1,9 +1,9 @@
-<p>Salut {{ admin.name }},</p>
+<p>Ciao {{ admin.name }},</p>
 
-<p>L'email <strong>{{ email_suppression.email }}</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>{{ email_suppression.reason }}</strong>.</p>
+<p>L'email <strong>{{ email_suppression.email }}</strong> dell'ultimo invio è stata respinta per il seguente motivo: <strong>{{ email_suppression.reason }}</strong>.</p>
 
 {% highlight %}
-  <p>Cet email est relié à:</p>
+  <p>Questa email è collegata a:</p>
   <ul>
     {% for owner in email_suppression.owners %}
       <li><a href='{{ owner.admin_url }}'>{{ owner.type }}: {{ owner.name }}</a></li>
@@ -11,4 +11,4 @@
   </ul>
 {% endhighlight %}
 
-<p>Plus aucun message ne peut être envoyé à cet email, merci de vérifier.</p>
+<p>Non è possibile inviare altri messaggi a questa email, si prega di verificare.</p>

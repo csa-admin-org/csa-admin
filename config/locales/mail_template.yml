@@ -4,110 +4,110 @@ _:
       activity_participation_rejected:
         _de: "Abgelehnte Aktivität \U0001F62C"
         _fr: "Activité refusée \U0001F62C"
-        _it: "Activité refusée \U0001F62C"
+        _it: "Attività rifiutata \U0001F62C"
       activity_participation_reminder:
         _de: Bevorstehende Aktivität ({{ activity.date }})
         _fr: Activité à venir ({{ activity.date }})
-        _it: Activité à venir ({{ activity.date }})
+        _it: Attività futura ({{ activity.date }})
       activity_participation_validated:
         _de: "Bestätigte Aktivität \U0001F389"
         _fr: "Activité validée \U0001F389"
-        _it: "Activité validée \U0001F389"
+        _it: "Attività confermata \U0001F389"
       invoice_created:
         _de: 'Neue Rechnung #{{ invoice.number }}'
         _fr: 'Nouvelle facture #{{ invoice.number }}'
-        _it: 'Nouvelle facture #{{ invoice.number }}'
+        _it: 'Nuova fattura #{{ invoice.number }}'
       invoice_overdue_notice:
         _de: "Mahnung #{{ invoice.overdue_notices_count }} der Rechnung #{{ invoice.number }} \U0001F62C"
         _fr: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
-        _it: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
+        _it: "Promemoria #{{ invoice.overdue_notices_count }} della fattura #{{ invoice.number }} \U0001F62C"
       member_activated:
         _de: Herzlich willkommen!
         _fr: Bienvenue!
-        _it: Bienvenue!
+        _it: Benvenuto/a!
       member_validated:
         _de: Registrierung validiert!
         _fr: Inscription validée!
-        _it: Inscription validée!
+        _it: Iscrizione confermata!
       membership_renewal:
         _de: Ihr Abonnement verlängern
         _fr: Renouvellement de votre abonnement
-        _it: Renouvellement de votre abonnement
+        _it: Rinnovo del vostro abbonamento
       membership_renewal_reminder:
         _de: Ihr Abonnement verlängern (Mahnung)
         _fr: Renouvellement de votre abonnement (Rappel)
-        _it: Renouvellement de votre abonnement (Rappel)
+        _it: Rinnovo del vostro abbonamento (promemoria)
     description:
       activity_participation_rejected:
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität abgelehnt wird.
         _fr: Envoyé quand une participation à une activité est refusée.
-        _it: Envoyé quand une participation à une activité est refusée.
+        _it: Inviato quando la partecipazione a un'attività viene rifiutata.
       activity_participation_reminder:
         _de: Wird gesendet, um das Mitglied daran zu erinnern, sich 2 Wochen und/oder 3 Tage vorher für eine Aktivität anzumelden.
         _fr: Envoyé pour rappeler au membre son inscription à une activité, 2 semaines et/ou 3 jours avant.
-        _it: Envoyé pour rappeler au membre son inscription à une activité, 2 semaines et/ou 3 jours avant.
+        _it: Inviato per ricordare al socio / alla socia della registrazione per un'attività, 2 settimane e / o 3 giorni prima.
       activity_participation_validated:
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität bestätigt wird.
         _fr: Envoyé quand une participation à une activité est validée.
-        _it: Envoyé quand une participation à une activité est validée.
+        _it: Inviato quando viene convalidata una partecipazione a un'attività.
       invoice_created:
         _de: Wird gesendet, wenn eine Rechnung automatisch erstellt wird oder wenn die Schaltfläche "Senden" einer manuell erstellten Rechnung gedrückt wird.
         _fr: Envoyé lors de la création automatique d'une facture ou quand le bouton "Envoyer" d'une facture créée manuellement est pressé.
-        _it: Envoyé lors de la création automatique d'une facture ou quand le bouton "Envoyer" d'une facture créée manuellement est pressé.
+        _it: Inviato durante la creazione automatica di una fattura o quando si preme il pulsante "Invia" di una fattura creata manualmente.
       invoice_overdue_notice:
         _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.
         _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.
-        _it: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.
+        _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.
       member_activated:
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
-        _it: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
+        _it: Inviato quando un socio diventa attivo, per la prima volta, non appena viene creato il suo primo abbonamento (attuale o futuro).
       member_validated:
         _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde.
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
-        _it: Envoyé quand l'inscription d'un nouveau membre est validée.
+        _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
       membership_renewal:
         _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
-        _it: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
+        _it: Inviato per chiedere al socio se desidera o meno rinnovare il suo abbonamento tramite il modulo nella sua pagina membro.
       membership_renewal_reminder:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='/settings#membership_renewal'>les paramètres</a> pour le délai).
-        _it: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='/settings#membership_renewal'>les paramètres</a> pour le délai).
+        _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
     title:
       activity_participation_rejected:
         _de: Abgelehnte Aktivität
         _fr: Activité refusée
-        _it: Activité refusée
+        _it: Attività rifiutata
       activity_participation_reminder:
         _de: Bevorstehende Aktivität
         _fr: Activité à venir
-        _it: Activité à venir
+        _it: Attività futura
       activity_participation_validated:
         _de: Bestätigte Aktivität
         _fr: Activité validée
-        _it: Activité validée
+        _it: Attività confermata
       invoice_created:
         _de: Neue Rechnung
         _fr: Nouvelle facture
-        _it: Nouvelle facture
+        _it: Nuova fattura
       invoice_overdue_notice:
         _de: Mahnung der Rechnung
         _fr: Rappel facture
-        _it: Rappel facture
+        _it: Promemorai fattura
       member_activated:
         _de: Mitglied aktiviert
         _fr: Membre activé
-        _it: Membre activé
+        _it: Socio attivato
       member_validated:
         _de: Mitglied validiert
         _fr: Membre validé
-        _it: Membre validé
+        _it: Socio confermato
       membership_renewal:
         _de: Abonnement verlängern
         _fr: Renouvellement abonnement
-        _it: Renouvellement abonnement
+        _it: Rinnovo abbonamento
       membership_renewal_reminder:
         _de: Abonnement verlängern (Mahnung)
         _fr: Renouvellement abonnement (Rappel)
-        _it: Renouvellement abonnement (Rappel)
+        _it: Rinnovo abbonamento (promemoria)

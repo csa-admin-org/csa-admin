@@ -4,9 +4,9 @@ _:
       subject:
         _de: Anmeldung mit Ihrem Admin-Konto
         _fr: Connexion à votre compte admin
-        _it: Connexion à votre compte admin
+        _it: Connessione al vostro conto admin
     new_member_session_email:
       subject:
         _de: Anmeldung mit Ihrem Konto
         _fr: Connexion à votre compte
-        _it: Connexion à votre compte
+        _it: Connessione al vostro conto

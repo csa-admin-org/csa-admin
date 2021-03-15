@@ -5,20 +5,20 @@ _:
         ended_on:
           _de: Ende
           _fr: Fin
-          _it: Fin
+          _it: Fine
         started_on:
           _de: Anfang
           _fr: Début
-          _it: Début
+          _it: Inizio
       acp:
         absences_billed:
           _de: Fakturierung von Taschen bei Abwesenheiten
           _fr: Facturation des paniers durant les absences
-          _it: Facturation des paniers durant les absences
+          _it: Fatturazione delle ceste durante le assenze
         activity_availability_limit_in_days:
           _de: Anmeldefrist (in Tagen)
           _fr: Limite d'inscription à l'avance (en jours)
-          _it: Limite d'inscription à l'avance (en jours)
+          _it: Limite d'iscrizione in anticipo (in giorni)
         activity_i18n_scope:
           _de: Mehrwertsteuernummer
           _fr: Appellation
@@ -26,107 +26,107 @@ _:
         activity_participation_deletion_deadline_in_days:
           _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
-          _it: Délai de désinscription (en jours)
+          _it: Scdenza della disiscrizione (in giorni)
         activity_phone:
           _de: Telefon
           _fr: Téléphone
-          _it: Téléphone
+          _it: Telefono
         activity_price:
           _de: Rechnungsbetrag
           _fr: Montant facturé
-          _it: Montant facturé
+          _it: Importo della fattura
         allow_alternative_depots:
           _de: Auswahl an alternativen Depots
           _fr: Choix de dépôts alternatifs
-          _it: Choix de dépôts alternatifs
+          _it: Scelta di un punto di ritiro alternativo
         annual_fee:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
-          _it: Cotisation anuelle
+          _it: Quota associativa annuale
         billing_starts_after_first_delivery:
           _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
           _fr: Facturer les abonnements uniquement après leur première livraison
-          _it: Facturer les abonnements uniquement après leur première livraison
+          _it: Fatturare gli abbonamenti solo dopo la prima consegna
         billing_year_divisions:
           _de: Zahlungsintervall
           _fr: Intervalle de paiement
-          _it: Intervalle de paiement
+          _it: Intervallo di pagamento
         ccp:
           _de: Postkonto
           _fr: Numéro CCP
-          _it: Numéro CCP
+          _it: Numero di Conto Corrente Postale
         currency_code:
           _de: Währung
           _fr: Monnaie
-          _it: Monnaie
+          _it: Valuta
         delivery_pdf_footer:
           _de: Fußzeile
           _fr: Bas de page
-          _it: Bas de page
+          _it: Piè di pagina
         delivery_pdf_show_phones:
           _de: Telefonnummern einbeziehen
           _fr: Inclure les numéros de téléphone
-          _it: Inclure les numéros de téléphone
+          _it: Includere il numero di telefono
         email:
           _de: Email
           _fr: Email
-          _it: Email
+          _it: E-mail
         email_default_from:
           _de: Absender-Adresse
           _fr: Adresse d'envoi
-          _it: Adresse d'envoi
+          _it: Indirizzo di spedizione
         email_footer:
           _de: Fußzeile
           _fr: Bas de page
-          _it: Bas de page
+          _it: Piè di pagina
         email_signature:
           _de: Signatur
           _fr: Signature
-          _it: Signature
+          _it: Firma
         features:
           _de: Funktionen
           _fr: Fonctionalités
-          _it: Fonctionalités
+          _it: Funzionalità
         fiscal_year_start_month:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
-          _it: 1er mois de l'année fiscale
+          _it: 1° mese dell'anno fiscale
         group_buying_email:
           _de: Email
           _fr: Email
-          _it: Email
+          _it: E-mail
         group_buying_invoice_info:
           _de: Informationszeile Rechnung
           _fr: Facture ligne info
-          _it: Facture ligne info
+          _it: Riga d'informazione della fattura
         group_buying_terms_of_service_url:
           _de: Allgemeine Verkaufsbedingungen URL
           _fr: Conditions générales de vente URL
-          _it: Conditions générales de vente URL
+          _it: Condizioni generali di vendita URL
         invoice_footer:
           _de: Fusszeile Rechnung
           _fr: Facture bas de page
-          _it: Facture bas de page
+          _it: Piè di pagina della fattura
         invoice_info:
           _de: Informationszeile Rechnung
           _fr: Facture ligne info
-          _it: Facture ligne info
+          _it: Riga d'informazione della fattura
         isr_identity:
           _de: Kennzeichnung ESR
           _fr: Identité BVR
-          _it: Identité BVR
+          _it: ID BVR/ESR
         isr_in_favor_of:
           _de: Zugunsten von
           _fr: En faveur de
-          _it: En faveur de
+          _it: In favore di
         isr_payment_for:
           _de: Einzahlung für
           _fr: Versement pour
-          _it: Versement pour
+          _it: Versamento per
         languages:
           _de: Sprachen
           _fr: Languages
-          _it: Languages
+          _it: Lingue
         logo_url:
           _de: Logo URL
           _fr: Logo URL
@@ -134,35 +134,35 @@ _:
         membership_extra_text:
           _de: Zusätzliche Erklärung
           _fr: Explication supplémentaire
-          _it: Explication supplémentaire
+          _it: Spiegazioni supplementari
         open_renewal_reminder_sent_after_in_days:
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _fr: Envoyer un rappel après (en jours)
-          _it: Envoyer un rappel après (en jours)
+          _it: Inviare un promemoria dopo (in giorni)
         open_renewal_text:
           _de: Erläuterung
           _fr: Explication
-          _it: Explication
+          _it: Spiegazione
         phone:
           _de: Telefon
           _fr: Téléphone
-          _it: Téléphone
+          _it: Telefono
         qr_creditor_address:
           _de: Adresse
           _fr: Adresse
-          _it: Adresse
+          _it: Indirizzo
         qr_creditor_city:
           _de: Stadt
           _fr: Ville
-          _it: Ville
+          _it: Citta
         qr_creditor_name:
           _de: Name
           _fr: Nom
-          _it: Nom
+          _it: Cognome
         qr_creditor_zip:
           _de: PLZ
           _fr: NPA
-          _it: NPA
+          _it: CAP
         qr_iban:
           _de: QR-IBAN
           _fr: QR-IBAN
@@ -170,7 +170,7 @@ _:
         share_price:
           _de: Betrag Anteilschein
           _fr: Montant part sociale
-          _it: Montant part sociale
+          _it: Importo quota sociale cooperativa
         statutes_url:
           _de: Statuten URL
           _fr: Statuts URL
@@ -178,184 +178,184 @@ _:
         summer_month_range_max:
           _de: Sommer endet Ende
           _fr: Été finit fin
-          _it: Été finit fin
+          _it: L'estate finisce a fine
         summer_month_range_min:
           _de: Sommer fängt an Anfang
           _fr: Été commence début
-          _it: Été commence début
+          _it: L'estate inizia ad inizio
         terms_of_service_url:
           _de: URL-Regeln
           _fr: Règlement URL
-          _it: Règlement URL
+          _it: Regolamento URL
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai
-          _it: Paniers à l'essai
+          _it: Ceste di prova
         url:
           _de: Webseite URL
           _fr: Site URL
-          _it: Site URL
+          _it: URL del sito
         vat_membership_rate:
           _de: Mehrwertsteuersatz Abonnement (in %)
           _fr: Taux TVA abonnement (en %)
-          _it: Taux TVA abonnement (en %)
+          _it: Tasso IVA dell'abbonamento (en %)
         vat_number:
           _de: Mehrwertsteuernummer
           _fr: Numéro TVA
-          _it: Numéro TVA
+          _it: Numero IVA
       activity_participation:
         activity:
           _de: Aktivität
           _fr: Activité
-          _it: Activité
+          _it: Attività
         carpooling_city:
           _de: Abfahrt Stadt
           _fr: Ville de départ
-          _it: Ville de départ
+          _it: Luogo di partenza
         carpooling_phone:
           _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage
-          _it: Téléphone covoiturage
+          _it: Telefono per condivisione auto
         created_at:
           _de: Erstellt am
           _fr: Enregistrée à
-          _it: Enregistrée à
+          _it: Registrato a
         email_session:
           _de: Email-Session
           _fr: Email Session
-          _it: Email Session
+          _it: Sessione e-mail
         invoiced_at:
           _de: In Rechnung gestellt am
           _fr: Facturée le
-          _it: Facturée le
+          _it: Fatturato il
         member_emails:
           _de: Email(s)
           _fr: Email(s)
-          _it: Email(s)
+          _it: E-mail
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
-          _it: Membre ID
+          _it: Socio ID
         member_name:
           _de: Mitglied
           _fr: Membre
-          _it: Membre
+          _it: Socio
         member_phones:
           _de: Telefon(e)
           _fr: Téléphone(s)
-          _it: Téléphone(s)
+          _it: Telefono(i)
         participants_count:
           _de: Teilnehmer
           _fr: Participants
-          _it: Participants
+          _it: Partecipanti
         rejected_at:
           _de: Abgelehnt am
           _fr: Refusée à
-          _it: Refusée à
+          _it: Rifiutato in data
         updated_at:
           _de: Aktualisiert am
           _fr: Mise à jour à
-          _it: Mise à jour à
+          _it: Aggiornato il
         validated_at:
           _de: Bestätigt am
           _fr: Validée à
-          _it: Validée à
+          _it: Confermato il
         validator:
           _de: Bestätigt durch
           _fr: Validateur
-          _it: Validateur
+          _it: Confermato da
       admin:
         created_at:
           _de: Erstellt am
           _fr: Enregistré à
-          _it: Enregistré à
+          _it: Registrato a
         last_session_used_at:
           _de: Datum der letzten Anmeldung
           _fr: Date de dernière connexion
-          _it: Date de dernière connexion
+          _it: Data dell'ultima connessione
         notifications:
           _de: Benachrichtigungen
           _fr: Notifications
-          _it: Notifications
+          _it: Notifiche
         rights:
           _de: Zugangsrecht
           _fr: Droit d'accès
-          _it: Droit d'accès
+          _it: Diritto d'accesso
         updated_at:
           _de: Datum der Aktualisierung
           _fr: Date de mise à jour
-          _it: Date de mise à jour
+          _it: Data dell'aggiornamento
       basket:
         absent:
           _de: abwesend
           _fr: absent
-          _it: absent
+          _it: assente
         basket_price:
           _de: Preis Tasche
           _fr: Prix panier
-          _it: Prix panier
+          _it: Prezzo della cesta
         basket_size:
           _de: Grösse
           _fr: Taille
-          _it: Taille
+          _it: Dimensione
         complement_ids:
           _de: Zusätze
           _fr: Compléments
-          _it: Compléments
+          _it: Complementi
         depot_price:
           _de: Preis Lieferung
           _fr: Prix dépôt
-          _it: Prix dépôt
+          _it: Prezzo del punto di ritiro
         description:
           _de: Tasche
           _fr: Panier
-          _it: Panier
+          _it: Cesta
         trial:
           _de: probe
           _fr: essai
-          _it: essai
+          _it: prova
       basket_complement:
         current_deliveries:
           _de: Lieferungen (laufendes Jahr)
           _fr: Livraisons (année courante)
-          _it: Livraisons (année courante)
+          _it: Consegne (anno corrente)
         deliveries:
           _de: Lieferungen
           _fr: Livraisons
-          _it: Livraisons
+          _it: Consegne
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)
-          _it: Livraisons (future)
+          _it: Consegne (futuro)
         price_type:
           _de: Preis pro
           _fr: Prix par
-          _it: Prix par
+          _it: Prezzo per
         price_type/annual:
           _de: Jahr
           _fr: Année
-          _it: Année
+          _it: Anno
         price_type/delivery:
           _de: Lieferung
           _fr: Livraison
-          _it: Livraison
+          _it: Consegna
       basket_content:
         basket_size:
           _de: Tasche
           _fr: Panier
-          _it: Panier
+          _it: Cesta
         content:
           _de: Inhalt
           _fr: Contenu
-          _it: Contenu
+          _it: Contenuto
         depots:
           _de: Depots
           _fr: Dépôts
-          _it: Dépôts
+          _it: Punto di ritiro
         same_basket_quantities:
           _de: Wenn möglich, gleiche Menge für alle Taschen
           _fr: Si possible, même quantité pour tous les paniers
-          _it: Si possible, même quantité pour tous les paniers
+          _it: Se possibile la stessa quantità per ogni cesta
         surplus:
           _de: Überschuss
           _fr: Surplus
@@ -363,134 +363,134 @@ _:
         unit:
           _de: Einheit
           _fr: Unité
-          _it: Unité
+          _it: Unità
         vegetable:
           _de: Gemüse
           _fr: Légume
-          _it: Légume
+          _it: Verdura
       basket_size:
         activity_participations_demanded_annualy/basket_preparation:
           _de: Taschen befüllung pro Jahr
           _fr: Mises en panier par année
-          _it: Mises en panier par année
+          _it: Ceste riempite all'anno
         activity_participations_demanded_annualy/halfday_work:
           _de: "½ Arbeitstage pro Jahr"
           _fr: "½ journées de travail par année"
-          _it: "½ journées de travail par année"
+          _it: "½ giornate di lavoro all'anno"
         activity_participations_demanded_annualy/hour_work:
           _de: Arbeitsstunden pro Jahr
           _fr: Heures de travail par année
-          _it: Heures de travail par année
+          _it: Ore di lavoro all'anno
       baskets_basket_complement:
         basket_complement:
           _de: Zusatz
           _fr: Complément
-          _it: Complément
+          _it: Aggiunte
       delivery:
         basket_complements:
           _de: Taschenzusätze
           _fr: Compléments paniers
-          _it: Compléments paniers
+          _it: Aggiunte nella cesta
         signature:
           _de: Unterschrift
           _fr: Signature
-          _it: Signature
+          _it: Firma
         signature_sheets:
           _de: Unterschriftszettel
           _fr: Fiches Signature
-          _it: Fiches Signature
+          _it: Scheda Firme
       depot:
         address_name:
           _de: Name
           _fr: Nom
-          _it: Nom
+          _it: Cognome
         current_deliveries:
           _de: Lieferungen (laufendes Jahr)
           _fr: Livraisons (année courante)
-          _it: Livraisons (année courante)
+          _it: Consegne (anno in corso)
         deliveries:
           _de: Lieferungen
           _fr: Livraisons
-          _it: Livraisons
+          _it: Consegne
         form_name:
           _de: Name
           _fr: Nom
-          _it: Nom
+          _it: Cognome
         form_priority:
           _de: Priorität
           _fr: Priorité
-          _it: Priorité
+          _it: Priorità
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)
-          _it: Livraisons (future)
+          _it: Consegne (future)
         price:
           _de: Preis/Tasche
           _fr: Prix/panier
-          _it: Prix/panier
+          _it: Prezzo/cesta
         responsible_member:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
-          _it: Membre responsable
+          _it: Socio responsabile
         responsible_member_emails:
           _de: Verantwortliches Mitglied, Email(s)
           _fr: Membre responsable, Email(s)
-          _it: Membre responsable, Email(s)
+          _it: Socio responsabile, Email
         responsible_member_phones:
           _de: Verantwortliches Mitglied, Telefon(e)
           _fr: Membre responsable, Téléphone(s)
-          _it: Membre responsable, Téléphone(s)
+          _it: Socio responsabile, Telefono/i
       group_buying/delivery:
         orderable_until:
           _de: Kommandofähig bis
           _fr: Commandable jusqu'au
-          _it: Commandable jusqu'au
+          _it: Ordinabile fino a
       invoice:
         balance:
           _de: Saldo
           _fr: Balance
-          _it: Balance
+          _it: Saldo
         object:
           _de: Objekt
           _fr: Objet
-          _it: Objet
+          _it: Oggetto
         object_type:
           _de: Objekt
           _fr: Objet
-          _it: Objet
+          _it: Oggetto
         overdue_notice_sent_at:
           _de: Letzte Mahnung gesendet am
           _fr: Dernier rappel envoyé le
-          _it: Dernier rappel envoyé le
+          _it: Ultimo promemoria inviato il
         overdue_notices_count:
           _de: Mahnungen
           _fr: Rappels
-          _it: Rappels
+          _it: Promemoria
         paid_missing_activity_participations:
           _de: Anzahl / Teilnehmer
           _fr: Nombre / Participants
-          _it: Nombre / Participants
+          _it: Numero / Partecipanti
         paid_missing_activity_participations_amount:
           _de: Betrag
           _fr: Montant
-          _it: Montant
+          _it: Quantità
       mail_template:
         active:
           _de: Gesendet
           _fr: Envoyé
-          _it: Envoyé
+          _it: Inviato
         content:
           _de: Inhalt
           _fr: Contenu
-          _it: Contenu
+          _it: Contenuto
         liquid_data_preview_yaml:
           _de: Vorschau der Daten
           _fr: Données de prévisualisation
-          _it: Données de prévisualisation
+          _it: Anteprima dei dati
         subject:
           _de: Betreff
           _fr: Sujet
-          _it: Sujet
+          _it: Soggeto
         title:
           _de: Vorlage
           _fr: Template
@@ -499,27 +499,27 @@ _:
         acp_shares_info:
           _de: N° Anteilschein
           _fr: N° part sociale
-          _it: N° part sociale
+          _it: N° quote sociali cooperative
         annual_fee:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
-          _it: Cotisation anuelle
+          _it: Quota associativa annuale
         basket_complements:
           _de: Taschenzusätze
           _fr: Compléments panier
-          _it: Compléments panier
+          _it: Aggiunte nella cesta
         basket_size:
           _de: Taschengrösse
           _fr: Taille panier
-          _it: Taille panier
+          _it: Dimensione della cesta
         billing_year_division:
           _de: Einzahlungsintervall
           _fr: Intervalle de paiement
-          _it: Intervalle de paiement
+          _it: Intervallo di pagamento
         come_from:
           _de: Wie haben Sie von uns gehört?
           _fr: Comment avez-vous entendu parler de nous?
-          _it: Comment avez-vous entendu parler de nous?
+          _it: Dove avete sentito parlare di noi?
         contact_sharing:
           _de: Kontakt Teilen
           _fr: Copaniérage
@@ -527,271 +527,271 @@ _:
         current_membership:
           _de: Abonnement (laufend)
           _fr: Abonnement (en cours)
-          _it: Abonnement (en cours)
+          _it: Abbonamento (in corso)
         deliveries_received_count_since_first_membership:
           _de: Erhaltene Taschen
           _fr: Paniers reçus
-          _it: Paniers reçus
+          _it: Ceste ricevute
         delivery_address:
           _de: Adresse (Lieferung)
           _fr: Adresse (Livraison)
-          _it: Adresse (Livraison)
+          _it: Indirizzo (Consegna)
         delivery_city:
           _de: Stadt (Lieferung)
           _fr: Ville (Livraison)
-          _it: Ville (Livraison)
+          _it: Città (Consegna)
         delivery_zip:
           _de: PLZ (Lieferung)
           _fr: NPA (Livraison)
-          _it: NPA (Livraison)
+          _it: CAP (Consegna)
         depot:
           _de: Depot
           _fr: Dépôt
-          _it: Dépôt
+          _it: Punto di ritiro
         existing_acp_shares_number:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes
-          _it: Nombre de parts sociales existantes
+          _it: Numero di quote sociali coperative esistenti
         food_note:
           _de: Notiz Lebensmittel
           _fr: Note alimentaire
-          _it: Note alimentaire
+          _it: Note alimentari
         invoices_amount:
           _de: Rechnungen
           _fr: Factures
-          _it: Factures
+          _it: Fatture
         payments_amount:
           _de: Einzahlungen
           _fr: Paiements
-          _it: Paiements
+          _it: Pagamenti
         profession:
           _de: Beruf / Kompetenzen
           _fr: Profession / Compétences
-          _it: Profession / Compétences
+          _it: Professione / Competenze
         salary_basket:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire
-          _it: Panier(s) salaire
+          _it: Ceste-compenso
         validated_at:
           _de: Bestätigt am
           _fr: Validé le
-          _it: Validé le
+          _it: Confermato il
         validator:
           _de: Bestätigt durch
           _fr: Validé par
-          _it: Validé par
+          _it: Confermato da
         waiting:
           _de: Auf Warteliste
           _fr: Sur liste d'attente
-          _it: Sur liste d'attente
+          _it: Sulla lista d'attesa
         waiting_alternative_depot_ids:
           _de: Alternative Depot(s)
           _fr: Dépôt(s) alternatifs(s)
-          _it: Dépôt(s) alternatifs(s)
+          _it: Punto/ di ritiro alternativo
         waiting_basket_complements:
           _de: Taschenzusätze Warteliste
           _fr: Compléments panier en attente
-          _it: Compléments panier en attente
+          _it: Aggiunta alla cesta in lista d'attesa
         waiting_basket_price_extra:
           _de: Preis Taschen (zusätzlich) Warteliste
           _fr: Prix panier (extra) en attente
-          _it: Prix panier (extra) en attente
+          _it: Prezzo cesta (extra) in lista d'attesa
         waiting_basket_size:
           _de: Taschengrösse Warteliste
           _fr: Taille panier en attente
-          _it: Taille panier en attente
+          _it: Dimensione cesta in lista d'attesa
         waiting_depot:
           _de: Depot Warteliste
           _fr: Dépôt en attente
-          _it: Dépôt en attente
+          _it: Punto di ritiro in lista d'attesa
         waiting_started_at:
           _de: Auf Warteliste seit
           _fr: Sur liste d'attente depuis
-          _it: Sur liste d'attente depuis
+          _it: In lista d'attesa da
         with_address:
           _de: Adresse
           _fr: Adresse
-          _it: Adresse
+          _it: Indirizzo
         with_email:
           _de: Email
           _fr: Email
-          _it: Email
+          _it: E-mail
         with_name:
           _de: Name
           _fr: Nom
-          _it: Nom
+          _it: Cognome
         with_phone:
           _de: Telefon
           _fr: Téléphone
-          _it: Téléphone
+          _it: Telefono
       members_basket_complement:
         basket_complement:
           _de: Zusatz
           _fr: Complément
-          _it: Complément
+          _it: Aggiunte
       membership:
         activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Preis Abonnement (Taschen befüllung)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
-          _it: Ajustement du prix de l'abonnement (mises en panier)
+          _it: Adeguamento del prezzo dell'abbonamento (riempimento della cesta)
         activity_participations_annual_price_change/halfday_work:
           _de: Anpassung Preis Abonnement (½ Tage)
           _fr: Ajustement du prix de l'abonnement (½ journées)
-          _it: Ajustement du prix de l'abonnement (½ journées)
+          _it: Adeguamento del prezzo dell'abbonamento (½ giornate)
         activity_participations_annual_price_change/hour_work:
           _de: Anpassung Preis Abonnement (Arbeitsstunden)
           _fr: Ajustement du prix de l'abonnement (heures de travail)
-          _it: Ajustement du prix de l'abonnement (heures de travail)
+          _it: Adeguamento del prezzo dell'abbonamento (ore di lavoro)
         activity_participations_annual_price_change_default/basket_preparation:
           _de: Taschen befüllung
           _fr: Mises en panier
-          _it: Mises en panier
+          _it: Riempimento della cesta
         activity_participations_annual_price_change_default/halfday_work:
           _de: Halbtage
           _fr: "½ journées"
-          _it: "½ journées"
+          _it: "½ giornate"
         activity_participations_annual_price_change_default/hour_work:
           _de: Arbeitsstunden
           _fr: Heures de travail
-          _it: Heures de travail
+          _it: Ore di lavoro
         activity_participations_annual_price_change_negative/basket_preparation:
           one:
             _de: Eine nicht geleiste Taschen befüllung
             _fr: Une mise en panier non effectuée
-            _it: Une mise en panier non effectuée
+            _it: Riempimento della cesta non effetuato
           other:
             _de: "%{count} nicht geleistete Taschen befüllung"
             _fr: "%{count} mises en panier non effectuées"
-            _it: "%{count} mises en panier non effectuées"
+            _it: "%{count} riempimento della cesta non effettuato"
         activity_participations_annual_price_change_negative/halfday_work:
           one:
             _de: Ein nicht geleisteter Halbtag
             _fr: Une ½ journée non effectuée
-            _it: Une ½ journée non effectuée
+            _it: Una ½ giornata non effettuata
           other:
             _de: "%{count} nicht geleistete Halbtage"
             _fr: "%{count} ½ journées non effectuées"
-            _it: "%{count} ½ journées non effectuées"
+            _it: "%{count} ½ giornate non effettuate"
         activity_participations_annual_price_change_negative/hour_work:
           one:
             _de: Ein nicht geleistete Arbeitsstunde
             _fr: Une heure de travail non effectuée
-            _it: Une heure de travail non effectuée
+            _it: Un'ora di lavoro non effetuata
           other:
             _de: "%{count} nicht geleistete Arbeitsstunden"
             _fr: "%{count} heures de travail non effectuées"
-            _it: "%{count} heures de travail non effectuées"
+            _it: "%{count} ore di lavoro non effettuate"
         activity_participations_annual_price_change_positive/basket_preparation:
           _de: Nicht geleistete Taschen befüllung
           _fr: Mises en panier non effectuées
-          _it: Mises en panier non effectuées
+          _it: Riempimento delle ceste non effetuate
         activity_participations_annual_price_change_positive/halfday_work:
           _de: Nicht geleistete Halbtage
           _fr: "½ journées de travail non effectuées"
-          _it: "½ journées de travail non effectuées"
+          _it: "½ jgiornate di lavoro non effetuate"
         activity_participations_annual_price_change_positive/hour_work:
           _de: Nicht geleistete Arbeitsstunden
           _fr: Heures de travail non effectuées
-          _it: Heures de travail non effectuées
+          _it: Ore di lavoro non effettuate
         activity_participations_annual_price_change_reduction/basket_preparation:
           one:
             _de: Rabatt für eine zusätzliche Taschen befüllung
             _fr: Réduction pour une mise en panier supplémentaire
-            _it: Réduction pour une mise en panier supplémentaire
+            _it: Riduzione per una preparazione cesta supplementare
           other:
             _de: Rabatt für %{count} zusätzliche Taschen befüllung
             _fr: Réduction pour %{count} mises en panier supplémentaires
-            _it: Réduction pour %{count} mises en panier supplémentaires
+            _it: Riduzione per %{count} preparazioni ceste supplementari
         activity_participations_annual_price_change_reduction/halfday_work:
           one:
             _de: Rabatt für einen zusätzlichen Halbtag
             _fr: Réduction pour une ½ journée supplémentaire
-            _it: Réduction pour une ½ journée supplémentaire
+            _it: Riduzione per una ½ giornata supplementare
           other:
             _de: Rabatt für %{count} zusätzliche Halbtage
             _fr: Réduction pour %{count} ½ journées supplémentaires
-            _it: Réduction pour %{count} ½ journées supplémentaires
+            _it: Riduzione per %{count} ½ giornate supplementari
         activity_participations_annual_price_change_reduction/hour_work:
           one:
             _de: Rabatt für einen zusätzlichen Arbeitsstunde
             _fr: Réduction pour une heure de travail supplémentaire
-            _it: Réduction pour une heure de travail supplémentaire
+            _it: Riduzione per un'ora di lavoro supplementare
           other:
             _de: Rabatt für %{count} zusätzliche Arbeitsstunden
             _fr: Réduction pour %{count} heures de travail supplémentaires
-            _it: Réduction pour %{count} heures de travail supplémentaires
+            _it: Riduzione per %{count} ore di lavoro supplementari
         activity_participations_coming:
           _de: Künftig
           _fr: À venir
-          _it: À venir
+          _it: Futuro
         activity_participations_demanded:
           _de: Zu leisten
           _fr: Demandées
-          _it: Demandées
+          _it: Richieste
         activity_participations_demanded/basket_preparation:
           _de: Verlangte Taschen befüllung
           _fr: Mises en panier demandées
-          _it: Mises en panier demandées
+          _it: Preparazioni ceste richieste
         activity_participations_demanded/halfday_work:
           _de: "½ Tage verlangt"
           _fr: "½ journées demandées"
-          _it: "½ journées demandées"
+          _it: "½ giornate richieste"
         activity_participations_demanded/hour_work:
           _de: Arbeitsstunden verlangt
           _fr: Heures de travail demandées
-          _it: Heures de travail demandées
+          _it: Ore di lavoro richieste
         activity_participations_missing:
           _de: Fehlende
           _fr: Manquantes
-          _it: Manquantes
+          _it: Mancanti
         activity_participations_paid:
           _de: In Rechnung gestellt
           _fr: Facturées
-          _it: Facturées
+          _it: Fatturate
         activity_participations_pending:
           _de: Wartet auf Bestätigung
           _fr: En attente de validation
-          _it: En attente de validation
+          _it: In attesa di conferma
         activity_participations_rejected:
           _de: Abgelehnte
           _fr: Refusées
-          _it: Refusées
+          _it: Rifiutato
         activity_participations_validated:
           _de: Bestätigte
           _fr: Validées
-          _it: Validées
+          _it: Confermato
         basket_complements:
           _de: Taschenzusätze
           _fr: Compléments panier
-          _it: Compléments panier
+          _it: Aggiunta ceste
         basket_complements_annual_price_change:
           _de: Anpassung Preis Abonnement (Zusätze)
           _fr: Ajustement du prix de l'abonnement (compléments)
-          _it: Ajustement du prix de l'abonnement (compléments)
+          _it: Correzione del prezzo dell'abbonamento (aggiunte)
         basket_complements_price:
           _de: Preis Zusätze
           _fr: Prix compléments
-          _it: Prix compléments
+          _it: Prezzo aggiunte
         basket_price:
           _de: Preis Tasche
           _fr: Prix panier
-          _it: Prix panier
+          _it: Prezzo cesta
         basket_quantity:
           _de: Menge
           _fr: Quantité
-          _it: Quantité
+          _it: Quantità
         basket_sizes_price:
           _de: Preis Taschen
           _fr: Prix paniers
-          _it: Prix paniers
+          _it: Prezzo ceste
         baskets:
           _de: Taschen
           _fr: Paniers
-          _it: Paniers
+          _it: Ceste
         baskets_annual_price_change:
           _de: Anpassung Preis Abonnement (Taschen)
           _fr: Ajustement du prix de l'abonnement (paniers)
-          _it: Ajustement du prix de l'abonnement (paniers)
+          _it: Correzione del prezzo dell'abbonamento (ceste)
         baskets_count:
           _de: Taschen
           _fr: Paniers
@@ -799,83 +799,83 @@ _:
         deliveries_count:
           _de: Taschen
           _fr: Paniers
-          _it: Paniers
+          _it: Ceste
         deliveries_received_count:
           _de: Gelieferte Taschen
           _fr: Paniers livrés
-          _it: Paniers livrés
+          _it: Ceste consegnate
         depot:
           _de: Depot
           _fr: Dépôt
-          _it: Dépôt
+          _it: Punto di ritiro
         depot_id:
           _de: Depot
           _fr: Dépôt
-          _it: Dépôt
+          _it: Punto di ritiro
         depot_price:
           _de: Preis Lieferung
           _fr: Prix dépôt
-          _it: Prix dépôt
+          _it: Prezzo punto di ritiro
         depots_price:
           _de: Preis Lieferungen
           _fr: Prix dépôts
-          _it: Prix dépôts
+          _it: Prezzo punto di ritiro
         ended_on:
           _de: Ende
           _fr: Fin
-          _it: Fin
+          _it: Fine
         invoices_amount:
           _de: Gesamt (Rechnung)
           _fr: Total (Facturé)
-          _it: Total (Facturé)
+          _it: Totale (Fattura)
         members_basket_complements:
           _de: Zusätze
           _fr: Compléments
-          _it: Compléments
+          _it: Aggiunte
         memberships_basket_complements:
           _de: Zusätze
           _fr: Compléments
-          _it: Compléments
+          _it: Aggiunte
         missing_activity_participations/basket_preparation:
           _de: Fehlende Taschen befüllung
           _fr: Mises en panier manquantes
-          _it: Mises en panier manquantes
+          _it: Preparazioni ceste mancanti
         missing_activity_participations/halfday_work:
           _de: Fehlende ½ Tage
           _fr: "½ journées manquantes"
-          _it: "½ journées manquantes"
+          _it: "½ giornate mancanti"
         missing_activity_participations/hour_work:
           _de: Fehlende Arbeitsstunden
           _fr: Heures de travail manquantes
-          _it: Heures de travail manquantes
+          _it: Ore di lavoro mancanti
         missing_invoices_amount:
           _de: Noch zu fakturierende Beträge
           _fr: Restant à facturer
-          _it: Restant à facturer
+          _it: Importi ancora da fatturare
         period:
           _de: Periode
           _fr: Période
-          _it: Période
+          _it: Periodo
         price:
           _de: Gesamt
           _fr: Total
-          _it: Total
+          _it: Totale
         renew:
           _de: Verlängerung
           _fr: Renouvellement
-          _it: Renouvellement
+          _it: Rinnovo
         renewal_note:
           _de: Anmerkung(en)
           _fr: Remarque(s)
-          _it: Remarque(s)
+          _it: Note
         renewal_opened_at:
           _de: Anfrage gesendet am
           _fr: Demande envoyée le
-          _it: Demande envoyée le
+          _it: Richiesta inviata il
         renewal_reminder_sent_at:
           _de: Mahnung gesendet am
           _fr: Rappel envoyé le
-          _it: Rappel envoyé le
+          _it: Promemoria inviato il
         renewal_state:
           _de: Verlängerung
           _fr: Renouvellement
@@ -883,49 +883,49 @@ _:
         renewed:
           _de: Erneuert
           _fr: Renouvellé
-          _it: Renouvellé
+          _it: Rinnovo
         renewed_at:
           _de: Erneuert am
           _fr: Renouvellé le
-          _it: Renouvellé le
+          _it: Rinnovato il
         renewed_membership:
           _de: Neues Abonnement
           _fr: Nouvel abonnement
-          _it: Nouvel abonnement
+          _it: Nuovo abbonamento
         season:
           _de: Saisons
           _fr: Saisons
-          _it: Saisons
+          _it: Stagioni
         seasons:
           _de: Saisons
           _fr: Saisons
-          _it: Saisons
+          _it: Stagioni
         started_on:
           _de: Anfang
           _fr: Début
-          _it: Début
+          _it: Inizio
         subscribed_basket_complement_ids:
           _de: Taschenzusätze
           _fr: Compléments paniers
-          _it: Compléments paniers
+          _it: Aggiunte cesta
         will_be_changed_at:
           _de: Änderung gültig ab
           _fr: Changement effectif depuis le
-          _it: Changement effectif depuis le
+          _it: Cambiamento effettuato il
       memberships_basket_complement:
         basket_complement:
           _de: Zusatz
           _fr: Complément
-          _it: Complément
+          _it: Aggiunte
         seasons:
           _de: Saisons
           _fr: Saisons
-          _it: Saisons
+          _it: Stagioni
       payment:
         comment:
           _de: Kommentar
           _fr: Commentaire
-          _it: Commentaire
+          _it: Commenti
     errors:
       models:
         basket_content:
@@ -934,62 +934,62 @@ _:
               insufficient:
                 _de: Ungenügende
                 _fr: Insuffisante
-                _it: Insuffisante
+                _it: Insufficiente
         group_buying/order:
           attributes:
             base:
               no_items:
                 _de: Kein Produkt ausgewählt
                 _fr: Aucun produit sélectionné
-                _it: Aucun produit sélectionné
+                _it: Nessun prodoto selezionato
               terms_of_service_unchecked:
                 _de: Die Allgemeinen Verkaufsbedingungen müssen akzeptiert werden
                 _fr: Les conditions générales de vente doivent être acceptées
-                _it: Les conditions générales de vente doivent être acceptées
+                _it: Le condizioni generali devono essere accettate
         session:
           attributes:
             email:
               unkown:
                 _de: Email unbekannt
                 _fr: Email inconnu
-                _it: Email inconnu
+                _it: E-mail sconosciuta
     models:
       absence:
         one:
           _de: Abwesenheit
           _fr: Absence
-          _it: Absence
+          _it: Assenza
         other:
           _de: Abwesenheiten
           _fr: Absences
-          _it: Absences
+          _it: Assenze
       active_admin/comment:
         one:
           _de: Kommentar
           _fr: Commentaire
-          _it: Commentaire
+          _it: Commento
         other:
           _de: Kommentare
           _fr: Commentaires
-          _it: Commentaires
+          _it: Commenti
       activity:
         one:
           _de: Aktivität
           _fr: Activité
-          _it: Activité
+          _it: Attività
         other:
           _de: Aktivitäten
           _fr: Activités
-          _it: Activités
+          _it: Attività
       activity_participation:
         one:
           _de: Teilnahme
           _fr: Participation
-          _it: Participation
+          _it: Partecipazione
         other:
           _de: Teilnahmen
           _fr: Participations
-          _it: Participations
+          _it: Partecipazioni
       activity_preset:
         one:
           _de: Voreinstellung
@@ -1003,55 +1003,55 @@ _:
         one:
           _de: Tasche
           _fr: Panier
-          _it: Panier
+          _it: Cesta
         other:
           _de: Taschen
           _fr: Paniers
-          _it: Paniers
+          _it: Ceste
       basket_complement:
         none:
           _de: Kein
           _fr: Aucun
-          _it: Aucun
+          _it: Nessuna
         one:
           _de: Taschenzusatz
           _fr: Complément panier
-          _it: Complément panier
+          _it: Aggiunta cesta
         other:
           _de: Taschenzusätze
           _fr: Compléments panier
-          _it: Compléments panier
+          _it: Aggiunte ceste
       basket_content:
         one:
           _de: Tascheninhalt
           _fr: Contenu Panier
-          _it: Contenu Panier
+          _it: Contenuto cesta
         other:
           _de: Tascheninhalt
           _fr: Contenu Paniers
-          _it: Contenu Paniers
+          _it: Contenuto ceste
       basket_size:
         none:
           _de: Kein
           _fr: Aucun
-          _it: Aucun
+          _it: Nessuna
         one:
           _de: Taschengrösse
           _fr: Taille panier
-          _it: Taille panier
+          _it: Dimensione cesta
         other:
           _de: Taschengrössen
           _fr: Tailles panier
-          _it: Tailles panier
+          _it: Dimensione cesta
       baskets_basket_complement:
         one:
           _de: Zusatz
           _fr: Complément
-          _it: Complément
+          _it: Aggiunta
         other:
           _de: Zusätze
           _fr: Compléments
-          _it: Compléments
+          _it: Aggiunte
       contact_sharing:
         one:
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
@@ -1061,139 +1061,139 @@ _:
         one:
           _de: Lieferung
           _fr: Livraison
-          _it: Livraison
+          _it: Consegna
         other:
           _de: Lieferungen
           _fr: Livraisons
-          _it: Livraisons
+          _it: Consegne
       depot:
         one:
           _de: Depot
           _fr: Dépôt
-          _it: Dépôt
+          _it: Punto di ritiro
         other:
           _de: Depots
           _fr: Dépôts
-          _it: Dépôts
+          _it: Punti di ritiro
       group_buying:
         one:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
-          _it: Achats Groupés
+          _it: Acquisti di gruppo
       group_buying/delivery:
         one:
           _de: Lieferung
           _fr: Livraison
-          _it: Livraison
+          _it: Consegna
         other:
           _de: Lieferungen
           _fr: Livraisons
-          _it: Livraisons
+          _it: Consegne
       group_buying/order:
         one:
           _de: Bestellung
           _fr: Commande
-          _it: Commande
+          _it: Comanda
         other:
           _de: Bestellungen
           _fr: Commandes
-          _it: Commandes
+          _it: Comande
       group_buying/producer:
         one:
           _de: Produzent
           _fr: Producteur
-          _it: Producteur
+          _it: Produttore
         other:
           _de: Produzenten
           _fr: Producteurs
-          _it: Producteurs
+          _it: Produttori
       group_buying/product:
         one:
           _de: Produkt
           _fr: Produit
-          _it: Produit
+          _it: Prodotto
         other:
           _de: Produkte
           _fr: Produits
-          _it: Produits
+          _it: Prodotti
       invoice:
         one:
           _de: Rechnung
           _fr: Facture
-          _it: Facture
+          _it: Fattura
         other:
           _de: Rechnungen
           _fr: Factures
-          _it: Factures
+          _it: Fatture
       invoice_item:
         one:
           _de: Artikel
           _fr: Article
-          _it: Article
+          _it: Articolo
         other:
           _de: Artikel
           _fr: Articles
-          _it: Articles
+          _it: Articoli
       mail_template:
         one:
           _de: Email-Vorlage
           _fr: Template Email
-          _it: Template Email
+          _it: Template E-mail
         other:
           _de: Email-Vorlagen
           _fr: Templates Email
-          _it: Templates Email
+          _it: Templates E-mail
       member:
         one:
           _de: Mitglied
           _fr: Membre
-          _it: Membre
+          _it: Socio
         other:
           _de: Mitglieder
           _fr: Membres
-          _it: Membres
+          _it: Soci
       members_basket_complement:
         one:
           _de: Zusatz
           _fr: Complément
-          _it: Complément
+          _it: Aggiunta
         other:
           _de: Zusätze
           _fr: Compléments
-          _it: Compléments
+          _it: Aggiunte
       membership:
         one:
           _de: Abonnement
           _fr: Abonnement
-          _it: Abonnement
+          _it: Abbonamento
         other:
           _de: Abonnements
           _fr: Abonnements
-          _it: Abonnements
+          _it: Abbonamenti
       memberships_basket_complement:
         one:
           _de: Zusatz
           _fr: Complément
-          _it: Complément
+          _it: Aggiunta
         other:
           _de: Zusätze
           _fr: Compléments
-          _it: Compléments
+          _it: Aggiunte
       payment:
         one:
           _de: Einzahlung
           _fr: Paiement
-          _it: Paiement
+          _it: Pagamento
         other:
           _de: Einzahlungen
           _fr: Paiements
-          _it: Paiements
+          _it: Pagamenti
       vegetable:
         one:
           _de: Gemüse
           _fr: Légume
-          _it: Légume
+          _it: Verdura
         other:
           _de: Gemüse
           _fr: Légumes
-          _it: Légumes
+          _it: Verdure

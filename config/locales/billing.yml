@@ -3,15 +3,15 @@ _:
     acp_shares:
       _de: Anteilscheine
       _fr: Part Sociales
-      _it: Part Sociales
+      _it: Quota sociale cooperativa
     adjustments:
       _de: Anpassungen
       _fr: Ajustements
-      _it: Ajustements
+      _it: Correzione
     annual_fees:
       _de: Beiträge
       _fr: Cotisations
-      _it: Cotisations
+      _it: Contributi
     isr:
       _de: ESR
       _fr: BVR
@@ -19,81 +19,81 @@ _:
     manual:
       _de: Manuell
       _fr: Manuel
-      _it: Manuel
+      _it: Manuale
     membership_amount_description:
       x1:
         _de: Jährliche Rechnungsstellung
         _fr: Facturation annuelle
-        _it: Facturation annuelle
+        _it: Fatturazione annuale
       x12:
         _de: 'Monatliche Rechnungsstellung #%{number}'
         _fr: 'Facturation mensuelle #%{number}'
-        _it: 'Facturation mensuelle #%{number}'
+        _it: 'Fatturazione mensile #%{number}'
       x2:
         _de: 'Halbjährliche Rechnungsstellung #%{number}'
         _fr: 'Facturation semestrielle #%{number}'
-        _it: 'Facturation semestrielle #%{number}'
+        _it: 'Fatturazione semestrale #%{number}'
       x3:
         _de: 'Dritteljährliche Rechnungsstellung #%{number}'
         _fr: 'Facturation quadrimestrielle #%{number}'
-        _it: 'Facturation quadrimestrielle #%{number}'
+        _it: 'Fatturazione quadrimestrale #%{number}'
       x4:
         _de: 'Quartalweise Rechnungsstellung #%{number}'
         _fr: 'Facturation trimestrielle #%{number}'
-        _it: 'Facturation trimestrielle #%{number}'
+        _it: 'Fatturazione trimestrale #%{number}'
     memberships_gross_amount:
       _de: Abonnements inkl. MwSt.
       _fr: Abonnements TTC
-      _it: Abonnements TTC
+      _it: Abbonamento inclusa IVA
     memberships_net_amount:
       _de: Abonnements exkl. MwSt.
       _fr: Abonnements HT
-      _it: Abonnements HT
+      _it: Abbonamenti esclusa IVA
     memberships_total:
       _de: Abonnements gesamt
       _fr: Abonnements Total
-      _it: Abonnements Total
+      _it: Abbonamenti totali
     memberships_vat_amount:
       _de: Abonnements MwSt.
       _fr: Abonnements TVA
-      _it: Abonnements TVA
+      _it: Abbonamenti IVA
     missing_amounts:
       _de: Fehlende Zahlungen
       _fr: Paiements manquants
-      _it: Paiements manquants
+      _it: Pagamenti mancanti
     other:
       _de: Weiteres
       _fr: Autre
-      _it: Autre
+      _it: Altro
     refund:
       _de: Erstattung
       _fr: Remboursement
-      _it: Remboursement
+      _it: Rimborsi
     remaining_memberships:
       _de: Noch zu fakturierende Abonnements
       _fr: Abonnements restant à facturer
-      _it: Abonnements restant à facturer
+      _it: Abbonamenti restanti da fatturare
     scope:
       acp_share:
         _de: Anteilschein
         _fr: Part Sociale
-        _it: Part Sociale
+        _it: Quota sociale cooperativa
       activity/basket_preparation:
         _de: Anpassung Taschen befüllung
         _fr: Ajustement mises en panier
-        _it: Ajustement mises en panier
+        _it: Correzioni preparazioni cesta
       activity/halfday_work:
         _de: Anpassung ½ Tage
         _fr: Ajustement ½ journées
-        _it: Ajustement ½ journées
+        _it: Correzioni ½ giornate
       activity/hour_work:
         _de: Anpassung Arbeitsstunden
         _fr: Ajustement heures de travail
-        _it: Ajustement heures de travail
+        _it: Correzioni ore di lavoro
       annual_fee:
         _de: Beitrag
         _fr: Cotisation
-        _it: Cotisation
+        _it: Partecipazione
       basket_complement:
         _de: Zusatz
         _fr: Complément
@@ -101,54 +101,54 @@ _:
       basket_size:
         _de: Tasche %{name}
         _fr: Panier %{name}
-        _it: Panier %{name}
+        _it: Cesta %{name}
       depot:
         _de: Depot
         _fr: Dépôt
-        _it: Dépôt
+        _it: Punto di ritiro
       missing:
         _de: Fehlende
         _fr: Manquant
-        _it: Manquant
+        _it: Mancante
       overdue_notices:
         one:
           _de: 1 Mahnung
           _fr: 1 rappel
-          _it: 1 rappel
+          _it: 1 richiamo
         other:
           _de: "%{count} Mahnungen"
           _fr: "%{count} rappels"
-          _it: "%{count} rappels"
+          _it: "%{count} richiami"
       overpaid_amount:
         _de: "%{amount} Überschuss"
         _fr: "%{amount} en trop"
-        _it: "%{amount} en trop"
+        _it: "%{amount} in eccesso"
       paid:
         _de: Geleistete
         _fr: Payé
-        _it: Payé
+        _it: Pagato
     title:
       _de: Rechnungsstellung
       _fr: Facturation
-      _it: Facturation
+      _it: Fatturazione
     year_division:
       x1:
         _de: Jährlich
         _fr: Annuel
-        _it: Annuel
+        _it: Annuale
       x12:
         _de: Monatlich
         _fr: Mensuel
-        _it: Mensuel
+        _it: Mensile
       x2:
         _de: Halbjährlich
         _fr: Semestriel
-        _it: Semestriel
+        _it: Semestrale
       x3:
         _de: Dritteljährlich
         _fr: Quadrimestriel
-        _it: Quadrimestriel
+        _it: Quadrimestrale
       x4:
         _de: Quartalweise
         _fr: Trimestriel
-        _it: Trimestriel
+        _it: Trimestrale

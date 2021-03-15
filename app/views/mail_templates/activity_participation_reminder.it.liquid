@@ -1,24 +1,24 @@
-<p>Un petit email pour vous rappeler votre inscription à une activité:</p>
+<p>Un breve messaggio per ricordarvi la vostra iscrizione ad un'attività:</p>
 
 {% highlight_list %}
-  <strong>Date:</strong> {{ activity.date_long }}
-  <strong>Horaire:</strong> {{ activity.period }}
-  <strong>Activité:</strong> {{ activity.title }}
+  <strong>Data:</strong> {{ activity.date_long }}
+  <strong>Orario:</strong> {{ activity.period }}
+  <strong>Attività:</strong> {{ activity.title }}
   {% if activity.description %}
-  <strong>Description:</strong> {{ activity.description }}
+  <strong>Descrizione:</strong> {{ activity.description }}
   {% endif %}
   {% if activity.place_url %}
-  <strong>Lieu:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  <strong>Luogo:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
   {% elsif activity.place %}
-  <strong>Lieu:</strong> {{ activity.place }}
+  <strong>Luogo:</strong> {{ activity.place }}
   {% endif %}
-  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+  <strong>Partecipanti:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>Une question? Vous pouvez nous contacter au <strong>{{ acp.activity_phone }}</strong> ou en répondant simplement à cet email.</p>
+<p>Avete una domanda? Potete contattarci al <strong>{{ acp.activity_phone }}</strong> o rispondere semplicemente a questo e-mail.</p>
 
 {% if activity_participation.carpooling.size > 0 %}
-  <p>Covoiturage, les membres suivants se déplacent en voiture, n'hésitez pas à prendre contact avec eux:</p>
+  <p>Condivisione auto: i soci seguenti si spostano in automobile, non esitate a contattarli per un passaggio:</p>
   {% highlight %}
     <ul>
       {% for carpooling in activity_participation.carpooling %}
@@ -28,8 +28,8 @@
   {% endhighlight %}
 {% endif %}
 
-<p>Vous pouvez modifier vos inscriptions à tout moment depuis votre page de membre.</p>
+<p>In qualsiasi momento dalla vostra pagina di socio potete modificare l'iscrizione all'attività.</p>
 
 {% button member.activities_url %}
-  Accéder à ma page de membre
+  Accedere alla mia pagina di socio
 {% endbutton %}
