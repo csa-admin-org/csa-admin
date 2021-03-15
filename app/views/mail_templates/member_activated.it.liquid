@@ -1,19 +1,19 @@
-<p>EDITEZ-MOI!</p>
+<p>COMPILAMI!</p>
 
-<p>Votre abonnement a ou va bientôt commencer, voici plus d'information...</p>
+<p>Il vostro abbonamento è incomiciato o presto incomincerà, eccco alcune informazioni in più...</p>
 
 {% highlight_list %}
-  <strong>Début:</strong> {{ membership.start_date }}
-  <strong>Fin:</strong> {{ membership.end_date }}
-  <strong>Taille panier:</strong> {{ membership.basket_size.name }}
+  <strong>Inizio:</strong> {{ membership.start_date }}
+  <strong>Fine:</strong> {{ membership.end_date }}
+  <strong>Dimensione cesta:</strong> {{ membership.basket_size.name }}
   {% if membership.basket_complement_names %}
-  <strong>Compléments:</strong> {{ membership.basket_complement_names }}
+  <strong>Aggiunte:</strong> {{ membership.basket_complement_names }}
   {% endif %}
-  <strong>Dépôt:</strong> {{ membership.depot.name }}
-  <strong>Nombre de panier à l'essai:</strong> {{ membership.trial_baskets_count }}
-  <strong>Participations aux activités demandées:</strong> {{ membership.activity_participations_demanded_count }}
+  <strong>Punto di ritiro:</strong> {{ membership.depot.name }}
+  <strong>Numero di ceste in prova:</strong> {{ membership.trial_baskets_count }}
+  <strong>Partecipazione alle attività domandate:</strong> {{ membership.activity_participations_demanded_count }}
 {% endhighlight_list %}
 
 {% button member.page_url %}
-  Accéder à ma page de membre
+  Accedere alla mia pagina di socio
 {% endbutton %}

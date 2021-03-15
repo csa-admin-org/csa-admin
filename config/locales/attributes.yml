@@ -3,143 +3,143 @@ _:
     absent_baskets:
       _de: Taschen (Abwesend)
       _fr: Paniers (absents)
-      _it: Paniers (absents)
+      _it: Ceste (assenti)
     acp_shares_number:
       _de: Anzahl Anteilscheine
       _fr: Nombre de parts sociales
-      _it: Nombre de parts sociales
+      _it: Numero di quote sociali cooperative
     address:
       _de: Adresse
       _fr: Adresse
-      _it: Adresse
+      _it: Indirizzo
     amount:
       _de: Betrag
       _fr: Montant
-      _it: Montant
+      _it: Quantità
     annual_price:
       _de: Jährlicher Preis
       _fr: Prix annuel
-      _it: Prix annuel
+      _it: Prezzo annuale
     available:
       _de: Verfügbar
       _fr: Disponible
-      _it: Disponible
+      _it: Disponibile
     balance_amount:
       _de: Kontostand
       _fr: Balance
-      _it: Balance
+      _it: Bilancio
     basket_price_extra:
       _de: Preis Taschen (zusätzlich)
       _fr: Prix panier (extra)
-      _it: Prix panier (extra)
+      _it: Prezzo della cesta (extra)
     basket_size:
       _de: Taschengrösse
       _fr: Taille panier
-      _it: Taille panier
+      _it: Dimensione cesta
     basket_size_id:
       _de: Taschengrösse
       _fr: Taille panier
-      _it: Taille panier
+      _it: Dimensione cesta
     baskets:
       _de: Taschen
       _fr: Paniers
-      _it: Paniers
+      _it: Ceste
     bulk_dates_ends_on:
       _de: Ende
       _fr: Fin
-      _it: Fin
+      _it: Fine
     bulk_dates_starts_on:
       _de: Anfang
       _fr: Début
-      _it: Début
+      _it: Inizio
     bulk_dates_wdays:
       _de: Wochentage
       _fr: Jours de la semaine
-      _it: Jours de la semaine
+      _it: Giorni della settimana
     bulk_dates_weeks_frequency:
       _de: Häufigkeit
       _fr: Fréquence
-      _it: Fréquence
+      _it: Frequenza
     city:
       _de: Stadt
       _fr: Ville
-      _it: Ville
+      _it: Città
     comment:
       _de: Kommentar
       _fr: Commentaire
-      _it: Commentaire
+      _it: Commento
     contact:
       _de: Kontakt
       _fr: Contact
-      _it: Contact
+      _it: Contatto
     count:
       _de: Anzahl
       _fr: Nombre
-      _it: Nombre
+      _it: Numero
     country_code:
       _de: Land
       _fr: Pays
-      _it: Pays
+      _it: Paese
     created_at:
       _de: Erstellt am
       _fr: Créé le
-      _it: Créé le
+      _it: Creato il
     date:
       _de: Datum
       _fr: Date
-      _it: Date
+      _it: Data
     dates:
       _de: Daten
       _fr: Dates
-      _it: Dates
+      _it: Date
     deliveries_count:
       _de: Lieferungen
       _fr: Livraisons
-      _it: Livraisons
+      _it: Consegne
     delivery:
       _de: Lieferung
       _fr: Livraison
-      _it: Livraison
+      _it: Consegna
     delivery_date:
       _de: Lieferdatum
       _fr: Date de livraison
-      _it: Date de livraison
+      _it: Data di consegna
     delivery_id:
       _de: Lieferung
       _fr: Livraison
-      _it: Livraison
+      _it: Consegna
     depot:
       _de: Depot
       _fr: Dépôt
-      _it: Dépôt
+      _it: Punto di ritiro
     depot_id:
       _de: Depot
       _fr: Dépôt
-      _it: Dépôt
+      _it: Punto di ritiro
     depots:
       _de: Depots
       _fr: Dépôts
-      _it: Dépôts
+      _it: Punto di ritiro
     description:
       _de: Beschreibung
       _fr: Description
-      _it: Description
+      _it: Descrizione
     during_year:
       _de: Geschäftsjahr
       _fr: Année fiscale
-      _it: Année fiscale
+      _it: Anno fiscale
     email:
       _de: Email
       _fr: Email
-      _it: Email
+      _it: E-mail
     emails:
       _de: Email(s)
       _fr: Email(s)
-      _it: Email(s)
+      _it: E-mail
     end_time:
       _de: Endzeit
       _fr: Heure de fin
-      _it: Heure de fin
+      _it: Ora di fine
     id:
       _de: ID
       _fr: ID
@@ -147,7 +147,7 @@ _:
     invoice:
       _de: Rechnung
       _fr: Facture
-      _it: Facture
+      _it: Fattura
     invoice_date:
       _de: Rechnung Datum
       _fr: Facture Date
@@ -155,39 +155,39 @@ _:
     invoice_id:
       _de: Rechnung ID
       _fr: Facture ID
-      _it: Facture ID
+      _it: ID Fattura
     invoice_object:
       _de: Rechnung Objekt
       _fr: Facture Objet
-      _it: Facture Objet
+      _it: Oggetto Fattura
     language:
       _de: Sprache
       _fr: Langue
-      _it: Langue
+      _it: Lingua
     last_membership_ended_on:
       _de: Enddatum des letzten Abonnements
       _fr: Date de fin du dernier abonnement
-      _it: Date de fin du dernier abonnement
+      _it: Date di fine dell'ultimo abbonamento
     member:
       _de: Mitglied
       _fr: Membre
-      _it: Membre
+      _it: Socio
     member_id:
       _de: Mitglied
       _fr: Membre
-      _it: Membre
+      _it: Socio
     missing_amount:
       _de: Fehlender Betrag
       _fr: Montant manquant
-      _it: Montant manquant
+      _it: Quantità mancante
     name:
       _de: Name
       _fr: Nom
-      _it: Nom
+      _it: Cognome
     next_invoice_on:
       _de: Nächste Rechnung am
       _fr: Prochaine facture le
-      _it: Prochaine facture le
+      _it: Prossima fattura il
     note:
       _de: Notiz
       _fr: Note
@@ -195,47 +195,47 @@ _:
     orders:
       _de: Bestellungen
       _fr: Commandes
-      _it: Commandes
+      _it: Ordine
     other:
       _de: Weiteres
       _fr: Autre
-      _it: Autre
+      _it: Altro
     paid_amount:
       _de: Eingezahlt
       _fr: Payé
-      _it: Payé
+      _it: Pagato
     participants:
       _de: Teilnehmer
       _fr: Participants
-      _it: Participants
+      _it: Partecipanti
     participants_count:
       _de: Teilnehmer
       _fr: Participants
-      _it: Participants
+      _it: Partecipanti
     participants_limit:
       _de: Begrenzung Anzahl Teilnehmer
       _fr: Limite de participants
-      _it: Limite de participants
+      _it: Limite di partecipanti
     participations:
       _de: Teilnahmen
       _fr: Participations
-      _it: Participations
+      _it: Partecipazioni
     period:
       _de: Zeiten
       _fr: Horaire
-      _it: Horaire
+      _it: Orario
     phones:
       _de: Telefon(e)
       _fr: Téléphone(s)
-      _it: Téléphone(s)
+      _it: Telefono
     place:
       _de: Standort
       _fr: Lieu
-      _it: Lieu
+      _it: Luogo
     place_url:
       _de: Standort URL
       _fr: Lieu URL
-      _it: Lieu URL
+      _it: URL Luogo
     presets:
       _de: Voreinstellungen
       _fr: Presets
@@ -243,39 +243,39 @@ _:
     price:
       _de: Preis
       _fr: Prix
-      _it: Prix
+      _it: Presso
     producer:
       _de: Produzent
       _fr: Producteur
-      _it: Producteur
+      _it: Produttore
     product:
       _de: Produkt
       _fr: Produit
-      _it: Produit
+      _it: Prodotto
     products:
       _de: Produkte
       _fr: Produits
-      _it: Produits
+      _it: Prodotti
     qt:
       _de: Mg.
       _fr: Qté.
-      _it: Qté.
+      _it: Qta.
     quantity:
       _de: Menge
       _fr: Quantité
-      _it: Quantité
+      _it: Quantità
     recurring_billing_wday:
       _de: Automatische Rechnungsstellung
       _fr: Facturation automatique
-      _it: Facturation automatique
+      _it: Fatturazione automatica
     sent_at:
       _de: Gesendet am
       _fr: Envoyé le
-      _it: Envoyé le
+      _it: Inviato il
     start_time:
       _de: Anfangszeit
       _fr: Heure de début
-      _it: Heure de début
+      _it: Ora di inizio
     state:
       _de: Status
       _fr: Statut
@@ -287,32 +287,32 @@ _:
     title:
       _de: Titel
       _fr: Intitulé
-      _it: Intitulé
+      _it: Titolo
     total:
       _de: Gesamt
       _fr: Total
-      _it: Total
+      _it: Totale
     unit_price:
       _de: Einheitspreis
       _fr: Prix unité
-      _it: Prix unité
+      _it: Presso unitario
     updated_at:
       _de: Aktualisiert am
       _fr: Mis à jour le
-      _it: Mis à jour le
+      _it: Aggiornato il
     visible:
       _de: Sichtbar
       _fr: Visible
-      _it: Visible
+      _it: Visibile
     website_url:
       _de: Website
       _fr: Site Web
-      _it: Site Web
+      _it: Sito Web
     xlsx_recap:
       _de: Zusammenfassung Excel
       _fr: Récapitulatif Excel
-      _it: Récapitulatif Excel
+      _it: Riassunto Excel
     zip:
       _de: PLZ
       _fr: NPA
-      _it: NPA
+      _it: CAP

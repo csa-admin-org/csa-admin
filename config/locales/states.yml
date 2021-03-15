@@ -4,84 +4,84 @@ _:
       coming:
         _de: künftig
         _fr: à venir
-        _it: à venir
+        _it: futuro
       pending:
         _de: wartet auf Bestätigung
         _fr: en attente de validation
-        _it: en attente de validation
+        _it: in attesa di conferma
       rejected:
         _de: abgelehnt
         _fr: refusée
-        _it: refusée
+        _it: rifiutato
       validated:
         _de: bestätigt
         _fr: validée
-        _it: validée
+        _it: confermato
     group_buying/order:
       canceled:
         _de: stornierte
         _fr: annulée
-        _it: annulée
+        _it: annullato
       closed:
         _de: bezahlte
         _fr: payée
-        _it: payée
+        _it: pagato
       open:
         _de: zu zahlen
         _fr: à payer
-        _it: à payer
+        _it: da pagare
     invoice:
       canceled:
         _de: stornierte
         _fr: annulée
-        _it: annulée
+        _it: annullato
       closed:
         _de: geschlossen
         _fr: fermée
-        _it: fermée
+        _it: chiuso
       not_sent:
         _de: nicht gesendet
         _fr: non-envoyée
-        _it: non-envoyée
+        _it: non inviato
       open:
         _de: offen
         _fr: ouverte
-        _it: ouverte
+        _it: aperto
     member:
       active:
         _de: aktiv
         _fr: actif
-        _it: actif
+        _it: attivo
       inactive:
         _de: inaktiv
         _fr: inactif
-        _it: inactif
+        _it: inattivo
       memberships:
         future:
           _de: künftiges Abonnement
           _fr: Abonnement futur
-          _it: Abonnement futur
+          _it: Abonnemento futuro
         ongoing:
           _de: laufendes Abonnement
           _fr: Abonnement en cours
-          _it: Abonnement en cours
+          _it: Abonnemento in corso
         trial:
           _de: Probeabonnement
           _fr: Abonnement à l'essai
-          _it: Abonnement à l'essai
+          _it: Abonnemento di prova
       pending:
         _de: zu bestätigen
         _fr: à valider
-        _it: à valider
+        _it: da confermare
       support:
         _de: Unterstützung
         _fr: soutien
-        _it: soutien
+        _it: sostegno
       trial:
         _de: Probeabonnement
         _fr: Abonnement à l'essai
-        _it: Abonnement à l'essai
+        _it: Abonnemento di prova
       waiting:
         _de: Warteliste
         _fr: attente
-        _it: attente
+        _it: lista di attesa
