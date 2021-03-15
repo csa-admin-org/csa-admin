@@ -22,11 +22,11 @@ Les fonctions prises en charge sont, entre autres:
 * Gestion des abonnements (type de panier, lieu de dépôt, quantité, ...)
 * Gestion des compléments des paniers (fréquence de livraison, quantité, ...)
 * Gestion du contenu des paniers (calcul des quantités en fonction des récoltes)
-* Facturation automatique des abonnements, création et envoi des factures avec numéro de référence (BVR), relevés des versements BVR automatique (Raiffeisen et BAS), envoi des rappels, ...
+* Facturation automatique des abonnements, création et envoi des factures avec numéro de référence (QR-Code/BVR), relevé des versements automatique (EBICS et BAS), envoi des rappels, ...
 * Facturation automatique des parts sociales ou cotisations annuelles
 * Gestion de la participation des membres, avec formulaire d'inscription
 * Mailing-list pour l’envoi d'emails hebdomadaires (synchronisation avec liste MailChimp)
-* Multi-langues (français/allemand)
+* Multi-langues (français/allemand/italien)
 * ...
 
 D'autres fonctionalités peuvent être ajoutées au besoin.
