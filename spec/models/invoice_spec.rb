@@ -121,7 +121,7 @@ describe Invoice do
     end
 
     it 'sets object_type to ActivityParticipation with paid_missing_activity_participations' do
-      invoice = create(:invoice,
+      invoice = create(:invoice, :manual,
         paid_missing_activity_participations: 1,
         paid_missing_activity_participations_amount: 42)
 
@@ -134,7 +134,7 @@ describe Invoice do
   context 'when acp_share' do
     it 'sets object_type to ACPShare with acp_shares_number' do
       Current.acp.update!(share_price: 250)
-      invoice = create(:invoice, acp_shares_number: -2)
+      invoice = create(:invoice, :manual, acp_shares_number: -2)
 
       expect(invoice.object_type).to eq 'ACPShare'
       expect(invoice.acp_shares_number).to eq -2
@@ -144,8 +144,7 @@ describe Invoice do
 
   context 'when other' do
     it 'sets items and round to five cents each item' do
-      invoice = create(:invoice,
-        object_type: '',
+      invoice = create(:invoice, :manual,
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: '10.11' },
           '1' => { description: 'Un truc cool pluc cher', amount: '32.33' }

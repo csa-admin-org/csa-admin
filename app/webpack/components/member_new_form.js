@@ -58,6 +58,18 @@ document.addEventListener('turbolinks:load', () => {
     }
   });
 
+  live("#member_waiting_basket_size_input input[type='radio']", 'change', event => {
+    const acpSharesNumber = event.target.dataset.acpSharesNumber;
+    const input = document.getElementById('member_desired_acp_shares_number');
+
+    if (input) {
+      if (input.getAttribute('min') != acpSharesNumber) {
+        input.setAttribute('min', acpSharesNumber);
+        input.value = acpSharesNumber;
+      }
+    }
+  });
+
   live("#member_waiting_depot_input input[type='radio']", 'change', event => {
     const alternativeDepotsLabels = "#member_waiting_alternative_depot_ids_input label";
     const alternativeDepotsCheckBoxes = "#member_waiting_alternative_depot_ids_input input[type='checkbox']";

@@ -277,7 +277,7 @@ ActiveAdmin.register Member do
             row(:annual_fee) { cur member.annual_fee }
           end
           if Current.acp.share?
-            row(:acp_shares_number)
+            row(:acp_shares_number) { display_acp_shares_number(member) }
             row(:acp_shares_info) { member.acp_shares_info }
           end
           row(:invoices_amount) {
@@ -393,6 +393,9 @@ ActiveAdmin.register Member do
       if Current.acp.share?
         f.input :acp_shares_info
         f.input :existing_acp_shares_number
+        if member.acp_shares_number.zero?
+          f.input :desired_acp_shares_number
+        end
       end
       f.input :salary_basket
     end
@@ -410,7 +413,7 @@ ActiveAdmin.register Member do
     :address, :city, :zip, :country_code,
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket, :billing_year_division,
-    :acp_shares_info, :existing_acp_shares_number,
+    :acp_shares_info, :existing_acp_shares_number, :desired_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
     :profession, :come_from, :food_note, :note,
     :contact_sharing,

@@ -150,6 +150,10 @@ form.formtastic {
     margin-top: $base-spacing;
   }
 
+  input#member_desired_acp_shares_number {
+    width: 2.5em;
+  }
+
   li.disabled,
   li.disabled a,
   li.disabled em,

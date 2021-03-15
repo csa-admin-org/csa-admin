@@ -201,7 +201,7 @@ class Invoice < ActiveRecord::Base
     return if number.blank?
 
     super
-    self[:object_type] = 'ActivityParticipation'
+    self[:object_type] = 'ActivityParticipation' unless object_type?
   end
 
   def paid_missing_activity_participations_amount=(amount)
@@ -212,10 +212,10 @@ class Invoice < ActiveRecord::Base
   end
 
   def acp_shares_number=(number)
-    return if number.blank?
+    return if number.to_i == 0
 
     super
-    self[:object_type] ||= 'ACPShare'
+    self[:object_type] = 'ACPShare' unless object_type?
     self[:amount] = number.to_i * Current.acp.share_price
   end
 

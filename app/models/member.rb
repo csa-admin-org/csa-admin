@@ -152,7 +152,7 @@ class Member < ActiveRecord::Base
     if waiting_basket_size_id? || waiting_depot_id?
       self.waiting_started_at ||= Time.current
       self.state = WAITING_STATE
-    elsif annual_fee
+    elsif annual_fee&.positive? || desired_acp_shares_number.positive?
       self.state = SUPPORT_STATE
     else
       self.state = INACTIVE_STATE
@@ -259,6 +259,11 @@ class Member < ActiveRecord::Base
 
   def acp_shares_number
     existing_acp_shares_number + invoices.not_canceled.acp_share.sum(:acp_shares_number)
+  end
+
+  def missing_acp_shares_number
+    required = current_or_future_membership&.basket_size&.acp_shares_number.to_i
+    [[required, desired_acp_shares_number].max - acp_shares_number, 0].max
   end
 
   def handle_acp_shares_change!
