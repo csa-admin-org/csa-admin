@@ -1,7 +1,6 @@
 module Billing
-  class Raiffeisen
+  class EBICS
     PaymentData = Class.new(OpenStruct)
-    URL = 'https://econnect.raiffeisen.ch/ebicsweb/ebicsweb'.freeze
     GET_PAYMENTS_FROM = 1.month.ago
 
     def initialize(credentials = {})
@@ -50,7 +49,7 @@ module Billing
       Epics::Client.new(
         @credentials.fetch(:keys),
         @credentials.fetch(:secret),
-        URL,
+        @credentials.fetch(:url),
         @credentials.fetch(:host_id),
         @credentials.fetch(:participant_id),
         @credentials.fetch(:client_id))
