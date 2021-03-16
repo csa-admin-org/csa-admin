@@ -195,7 +195,7 @@ _:
         desired_acp_shares_number:
           _de: Sie werden automatisch in Rechnung gestellt.
           _fr: Elles seront facturées automatiquement.
-          _it: Saranno fatturati automaticamente.
+          _it: Saranno fatturate automaticamente.
         emails:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
