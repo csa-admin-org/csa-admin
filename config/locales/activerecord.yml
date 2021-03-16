@@ -551,7 +551,7 @@ _:
         desired_acp_shares_number:
           _de: Anzahl der gewünschten Anteilscheine
           _fr: Nombre de parts sociales désiré
-          _it: Numero di azioni desiderate
+          _it: Numero di quote della cooperativa desiderate
         existing_acp_shares_number:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes
