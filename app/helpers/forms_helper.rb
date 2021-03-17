@@ -14,6 +14,17 @@ module FormsHelper
     end
   end
 
+  def language_input(form)
+    if Current.acp.languages.many?
+      form.input :language,
+        as: :select,
+        collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
+        prompt: true
+    else
+      form.input :language, as: :hidden, input_html: { value: Current.acp.languages.first }
+    end
+  end
+
   def unwrap(text, tag)
     text.gsub(/\A<#{tag}>/, '').gsub(/<\/#{tag}>\z/, '').html_safe
   end

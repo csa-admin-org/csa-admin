@@ -30,12 +30,10 @@ ActiveAdmin.register Admin do
     f.inputs Admin.model_name.human do
       f.input :name
       f.input :email
-      if Current.acp.languages.many?
-        f.input :language,
-          as: :select,
-          collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
-          prompt: true
-      end
+      f.input :language,
+        as: :select,
+        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] },
+        prompt: true
     end
     f.inputs do
       f.input :notifications,

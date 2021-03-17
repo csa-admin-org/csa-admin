@@ -329,12 +329,7 @@ ActiveAdmin.register Member do
   form do |f|
     f.inputs t('.details') do
       f.input :name
-      if Current.acp.languages.many?
-        f.input :language,
-          as: :select,
-          collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
-          prompt: true
-      end
+      language_input(f)
     end
     if member.pending? || member.waiting?
       f.inputs t('active_admin.resource.show.waiting_membership') do

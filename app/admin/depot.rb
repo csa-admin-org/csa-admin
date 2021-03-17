@@ -101,12 +101,7 @@ ActiveAdmin.register Depot do
   form do |f|
     f.inputs do
       f.input :name
-      if Current.acp.languages.many?
-        f.input :language,
-          as: :select,
-          collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
-          prompt: true
-      end
+      language_input(f)
       f.input :price, hint: true
       f.input :visible, as: :select, hint: true, prompt: true, required: true
       f.input :note, input_html: { rows: 3 }
