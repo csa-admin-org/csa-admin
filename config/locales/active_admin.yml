@@ -950,7 +950,7 @@ _:
           membership:
             _de: Abonnement
             _fr: Abonnement
-            _it: Abonnemento
+            _it: Abbonamento
       member:
         new_model:
           _de: Neues %{model}
