@@ -279,11 +279,11 @@ _:
     state:
       _de: Status
       _fr: Statut
-      _it: Statut
+      _it: Status
     status:
       _de: Status
       _fr: Statut
-      _it: Statut
+      _it: Status
     title:
       _de: Titel
       _fr: Intitulé

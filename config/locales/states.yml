@@ -60,11 +60,11 @@ _:
         future:
           _de: künftiges Abonnement
           _fr: Abonnement futur
-          _it: Abonnemento futuro
+          _it: Abbonamento futuro
         ongoing:
           _de: laufendes Abonnement
           _fr: Abonnement en cours
-          _it: Abonnemento in corso
+          _it: Abbonamento in corso
         trial:
           _de: Probeabonnement
           _fr: Abonnement à l'essai
