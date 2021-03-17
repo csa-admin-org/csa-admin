@@ -1,18 +1,19 @@
 class Admin < ActiveRecord::Base
   UnsupportedDeviceNotification = Class.new(StandardError)
 
-  include HasLanguage
   include HasSessions
 
   acts_as_paranoid
 
   RIGHTS = %w[superadmin admin standard readonly none]
+  attribute :language, :string, default: -> { Current.acp.languages.first }
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
 
   validates :name, presence: true
   validates :rights, inclusion: { in: RIGHTS }
   validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
+  validates :language, presence: true, inclusion: { in: proc { ACP.languages } }
 
   def self.notify!(notification, skip: [], **attrs)
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
