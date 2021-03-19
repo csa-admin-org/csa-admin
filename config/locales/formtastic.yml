@@ -273,12 +273,6 @@ _:
       _de: Nein
       _fr: Non
       _it: 'No'
-    placeholders:
-      member:
-        note:
-          _de: Spezielle Bedürfnisse, Anzahl Taschen, ...
-          _fr: Besoins spécifiques, nombre de paniers, ...
-          _it: Bisogni specifici, numero di ceste, ...
     required:
       _de: obligatorisch
       _fr: obligatoire
