@@ -212,6 +212,10 @@ _:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
+        profession:
+          _de: Was sich möglicherweise als nützlich erweisen könnte.
+          _fr: Qui pourrait éventuellement s'avérer utile.
+          _it: Che potrebbe forse rivelarsi utile.
         waiting_alternative_depot_ids:
           _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Taschen vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos paniers dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
