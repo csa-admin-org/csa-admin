@@ -23,6 +23,7 @@ ActiveAdmin.register ACP do
     :open_renewal_reminder_sent_after_in_days,
     :billing_starts_after_first_delivery,
     :allow_alternative_depots,
+    :membership_extra_text_only,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -154,6 +155,7 @@ ActiveAdmin.register ACP do
         required: false,
         as: :action_text,
         input_html: { rows: 5 })
+      f.input :membership_extra_text_only, as: :boolean
       f.input :allow_alternative_depots, as: :boolean
     end
     f.inputs t('.mailer'), id: 'mail' do

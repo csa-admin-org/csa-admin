@@ -42,6 +42,10 @@ _:
           _de: Dieser optionale Text wird vor der Auswahl der Größe der Tasche eingefügt.
           _fr: Ce texte optionnel est inséré avant le choix de la taille du panier.
           _it: Questo testo opzionale è inserito prima della scelta della dimensione della cesta.
+        membership_extra_text_only:
+          _de: Entfernt den standardmäßig generierten Erklärungstext und zeigt nur die zusätzlichen Erklärungen an.
+          _fr: Enlève le texte d'explication généré par défaut et affiche uniquement les explications supplémentaires.
+          _it: Rimuove il testo di spiegazione generato di default e visualizza solo le spiegazioni supplementari.
         open_renewal_reminder_sent_after_in_days:
           _de: Die Mahnung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Lassen Sie das Feld leer, wenn keine Mahnung erfolgt.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.

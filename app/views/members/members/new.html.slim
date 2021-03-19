@@ -17,15 +17,16 @@ p = t('.text')
 
   - support_checked = @member.waiting_basket_size_id&.zero?
   = f.inputs name: Membership.model_name.human do
-    p
-      = t('.membership_text', fiscal_year_months_range: fiscal_year_months_range)
-      - if Current.acp.trial_basket_count.positive?
-        = ' '
-        = t('.membership_trial_text', count: Current.acp.trial_basket_count)
-    - if Current.acp.annual_fee?
-      p == t('.annual_fee_text', price: cur(Current.acp.annual_fee, precision: 0))
-    - if Current.acp.share?
-      p == t('.acp_shares_text', price: cur(Current.acp.share_price, precision: 0))
+    - unless Current.acp.membership_extra_text_only?
+      p
+        = t('.membership_text', fiscal_year_months_range: fiscal_year_months_range)
+        - if Current.acp.trial_basket_count.positive?
+          = ' '
+          = t('.membership_trial_text', count: Current.acp.trial_basket_count)
+      - if Current.acp.annual_fee?
+        p == t('.annual_fee_text', price: cur(Current.acp.annual_fee, precision: 0))
+      - if Current.acp.share?
+        p == t('.acp_shares_text', price: cur(Current.acp.share_price, precision: 0))
     - if Current.acp.membership_extra_text
       p = unwrap(Current.acp.membership_extra_text, :div)
 

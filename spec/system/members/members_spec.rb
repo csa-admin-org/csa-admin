@@ -254,6 +254,22 @@ describe 'members page' do
       expect(page).not_to have_selector '#member_billing_year_division_input'
     end
 
+    it 'shows only membership extra text' do
+      default_text = "Chaque membre s'engage pour un abonnement d'une année"
+      extra_text = 'Règles spéciales'
+      Current.acp.update!(membership_extra_text: extra_text)
+
+      visit '/new'
+      expect(page).to have_content default_text
+      expect(page).to have_content extra_text
+
+      Current.acp.update!(membership_extra_text_only: true)
+      visit '/new'
+
+      expect(page).not_to have_content default_text
+      expect(page).to have_content extra_text
+    end
+
     it 'orders depots by form priority' do
       create(:depot, name: 'Jardin de la main', form_priority: 0)
       create(:depot, name: 'Vélo', form_priority: 1)
