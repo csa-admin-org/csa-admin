@@ -135,6 +135,10 @@ _:
           _de: Zusätzliche Erklärung
           _fr: Explication supplémentaire
           _it: Spiegazioni supplementari
+        membership_extra_text_only:
+          _de: Nur zusätzliche Erklärungen anzeigen
+          _fr: Afficher uniquement les explications supplémentaires
+          _it: Mostra solo spiegazioni supplementari
         open_renewal_reminder_sent_after_in_days:
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _fr: Envoyer un rappel après (en jours)
