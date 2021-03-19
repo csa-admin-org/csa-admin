@@ -211,7 +211,12 @@ module MembersHelper
 
   def short_price(price)
     precision = price_precision(price)
-    precision == 0 ? "#{price.to_i}.-" : "%.#{precision}f" % price
+    case precision
+    when 0; "#{price.to_i}.-"
+    when 3; "~%.2f" % price.round_to_five_cents
+    else
+      "%.#{precision}f" % price
+    end
   end
 
   def price_info(price, **options)
