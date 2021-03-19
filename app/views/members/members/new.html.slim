@@ -69,7 +69,7 @@ p = t('.text')
       = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection, wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
   = f.inputs name: t('.more_info') do
-    = f.input :profession
+    = f.input :profession, hint: true
     = f.input :come_from, as: :text, input_html: { rows: 3 }
     = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note')
 
