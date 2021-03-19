@@ -24,7 +24,7 @@ describe 'members page' do
       expect(page).to have_selector('span.label',
         text: "AbondanceCHF 1'330(33.25 x 40 livraisons, 2 ½ journées)")
       expect(page).to have_selector('span.label',
-        text: "EveilCHF 925(23.125 x 40 livraisons, 2 ½ journées)")
+        text: "EveilCHF 925(~23.15 x 40 livraisons, 2 ½ journées)")
       expect(page).to have_selector('span.label',
         text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
 
