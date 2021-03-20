@@ -20,6 +20,9 @@ describe Ability do
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be false }
     specify { expect(ability.can?(:create, ActiveAdmin::Comment)).to be true }
     specify { expect(ability.can?(:destroy, Invoice)).to be false }
+    specify { expect(ability.can?(:destroy, Depot)).to be false }
+    specify { expect(ability.can?(:destroy, BasketSize)).to be false }
+    specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
   end
 
   context 'admin rights' do
@@ -40,6 +43,9 @@ describe Ability do
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be true }
     specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
     specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
+    specify { expect(ability.can?(:destroy, Depot)).to be false }
+    specify { expect(ability.can?(:destroy, BasketSize)).to be false }
+    specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
 
     context 'share price' do
       before { Current.acp.update!(share_price: 420) }
@@ -63,7 +69,22 @@ describe Ability do
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
     specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
     specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
-    specify { expect(ability.can?(:destroy, BasketSize)).to be false }
-    specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
+    specify { expect(ability.can?(:destroy, Depot)).to be true }
+    specify { expect(ability.can?(:destroy, BasketSize)).to be true }
+    specify { expect(ability.can?(:destroy, BasketComplement)).to be true }
+
+    specify 'when used' do
+      depot = create(:depot)
+      basket_size = create(:basket_size)
+      basket_complement = create(:basket_complement)
+      create(:membership,
+        depot: depot,
+        basket_size: basket_size,
+        subscribed_basket_complement_ids: [basket_complement.id])
+
+      expect(ability.can?(:destroy, depot)).to be false
+      expect(ability.can?(:destroy, basket_size)).to be false
+      expect(ability.can?(:destroy, basket_complement)).to be false
+    end
   end
 end

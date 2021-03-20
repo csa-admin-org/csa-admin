@@ -49,6 +49,10 @@ class Depot < ActiveRecord::Base
     end
   end
 
+  def can_destroy?
+    memberships.none? && baskets.none?
+  end
+
   private
 
   def after_add_delivery!(delivery)

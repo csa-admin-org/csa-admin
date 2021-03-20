@@ -1,7 +1,7 @@
 ActiveAdmin.register Depot do
   menu parent: :other, priority: 10
 
-  includes :responsible_member
+  includes :memberships, :responsible_member
   index do
     column :name, ->(d) { auto_link d }
     column :address

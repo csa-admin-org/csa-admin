@@ -40,11 +40,13 @@ class Ability
       can :cancel, Invoice, can_cancel?: true
     end
     if admin.right? 'superadmin'
-      can :manage, [Basket, BasketSize, BasketComplement,
-                    Depot, Admin, ACP, Membership, Payment, MailTemplate]
+      can :manage, [Basket, Admin, ACP, Membership, Payment, MailTemplate]
+      sensible_models = [BasketSize, BasketComplement, Depot]
+      can :create, sensible_models
+      can :update, sensible_models
+      can :destroy, sensible_models, can_destroy?: true
       can :become, Member
     end
-    cannot :destroy, [BasketSize, BasketComplement, Depot]
   end
 
   def available_models

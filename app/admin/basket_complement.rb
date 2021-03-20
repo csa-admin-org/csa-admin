@@ -2,6 +2,7 @@ ActiveAdmin.register BasketComplement do
   menu parent: :other, priority: 11
   actions :all, except: [:show]
 
+  includes :memberships_basket_complements
   index download_links: false do
     column :name
     column :price_type, -> (bs) {
