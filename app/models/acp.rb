@@ -94,6 +94,7 @@ class ACP < ActiveRecord::Base
     Apartment::Tenant.switch!(acp.tenant_name)
     Current.reset
     Current.acp = acp
+    Sentry.set_tags(acp: tenant_name)
   end
 
   def self.seasons; SEASONS end
