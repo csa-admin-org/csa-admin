@@ -18,11 +18,16 @@ class InvoiceOverdueNoticer
     invoice.save!
 
     MailTemplate.deliver_now(:invoice_overdue_notice, invoice: invoice)
-  rescue => ex
-    ExceptionNotifier.notify(ex,
+  rescue => e
+    ExceptionNotifier.notify(e,
       invoice_id: invoice.id,
       emails: invoice.member.emails,
-      member: invoice.member)
+      member_id: invoice.member_id)
+    Sentry.capture_exception(e, extra: {
+      invoice_id: invoice.id,
+      emails: invoice.member.emails,
+      member_id: invoice.member_id
+    })
   end
 
   private

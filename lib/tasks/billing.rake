@@ -43,10 +43,14 @@ namespace :billing do
           ExceptionNotifier.notify(
             StandardError.new("NEW BAS VERSION!"),
             version: provider.version)
+          Sentry.capture_message('NEW BAS VERSION!', extra: {
+            version: provider.version
+          })
         end
       end
     rescue => e
       ExceptionNotifier.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

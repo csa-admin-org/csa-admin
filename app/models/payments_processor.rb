@@ -32,6 +32,7 @@ class PaymentsProcessor
     end
   rescue => e
     ExceptionNotifier.notify(e, data)
+    Sentry.capture_exception(e, extra: { data: data })
   end
 
   def ensure_recent_payments!
@@ -42,6 +43,11 @@ class PaymentsProcessor
           last_payment_id: last_payment.id,
           last_payment_date: last_payment.date,
           last_payment_created_at: last_payment.created_at)
+        Sentry.capture_message('No recent payment error', extra: {
+          last_payment_id: last_payment.id,
+          last_payment_date: last_payment.date,
+          last_payment_created_at: last_payment.created_at
+        })
       end
     end
   end

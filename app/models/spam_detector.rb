@@ -12,6 +12,7 @@ class SpamDetector
 
   def self.notify!(member)
     ExceptionNotifier.notify(SpamDetectedError.new, member.attributes)
+    Sentry.capture_message('Spam detected', extra: member.attributes)
   end
 
   def initialize(member)

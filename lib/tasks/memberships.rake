@@ -38,6 +38,17 @@ namespace :memberships do
             basket_complements_annual_price_change: m.basket_complements_annual_price_change,
             depots_price: m.depots_price,
             activity_participations_annual_price_change: m.activity_participations_annual_price_change)
+          Sentry.capture_message('Membership price cache error', extra: {
+            membership_id: m.id,
+            price: m.price,
+            expected_price: expected_price,
+            baskets_annual_price_change: m.baskets_annual_price_change,
+            basket_sizes_price: m.basket_sizes_price,
+            basket_complements_price: m.basket_complements_price,
+            basket_complements_annual_price_change: m.basket_complements_annual_price_change,
+            depots_price: m.depots_price,
+            activity_participations_annual_price_change: m.activity_participations_annual_price_change
+          })
           m.send(:update_price_and_invoices_amount!)
         end
       end

@@ -104,3 +104,14 @@ if Rails.env.test?
   require 'test_acp_elevator'
   Rails.application.config.middleware.unshift TestACPElevator
 end
+
+require 'apartment/adapters/abstract_adapter'
+module Apartment
+  module Adapters
+    class AbstractAdapter
+      set_callback :switch, :after do |object|
+        Sentry.set_tags(acp: Apartment::Tenant.current)
+      end
+    end
+  end
+end
