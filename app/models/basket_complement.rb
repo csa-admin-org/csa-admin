@@ -35,6 +35,10 @@ class BasketComplement < ActiveRecord::Base
 
   def display_name; name end
 
+  def can_destroy?
+    memberships_basket_complements.none? && baskets_basket_complement.none?
+  end
+
   private
 
   def after_add_delivery!(delivery)

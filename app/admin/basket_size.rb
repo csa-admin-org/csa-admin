@@ -2,6 +2,7 @@ ActiveAdmin.register BasketSize do
   menu parent: :other, priority: 10
   actions :all, except: [:show]
 
+  includes :memberships
   index download_links: false do
     column :name
     column :price, ->(bs) { cur(bs.price, precision: 3) }

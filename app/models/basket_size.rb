@@ -5,6 +5,7 @@ class BasketSize < ActiveRecord::Base
 
   has_many :memberships
   has_many :members, through: :memberships
+  has_many :baskets, through: :memberships
 
   default_scope { order_by_name }
   scope :free, -> { where('price = 0') }
@@ -34,4 +35,8 @@ class BasketSize < ActiveRecord::Base
   end
 
   def display_name; name end
+
+  def can_destroy?
+    memberships.none? && baskets.none?
+  end
 end
