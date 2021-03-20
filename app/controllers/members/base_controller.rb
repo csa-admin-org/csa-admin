@@ -14,6 +14,7 @@ class Members::BaseController < ApplicationController
       cookies.delete(:session_id)
       redirect_to members_login_path, alert: t('sessions.flash.expired')
     else
+      set_sentry_user
       update_last_usage(current_session)
     end
   end
@@ -33,5 +34,11 @@ class Members::BaseController < ApplicationController
       cookies[:locale] ||
       current_member&.language ||
       Current.acp.languages.first
+  end
+
+  def set_sentry_user
+    Sentry.set_user(
+      id: "member_#{current_member.id}",
+      session_id: current_session.id)
   end
 end

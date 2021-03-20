@@ -73,6 +73,10 @@ module Billing
         ExceptionNotifier.notify(ESRGETIssue.new,
           version: version,
           body: res.body)
+        Sentry.capture_message('BAS ESR GET issue', extra: {
+          version: version,
+          body: res.body
+        })
         []
       end
     end

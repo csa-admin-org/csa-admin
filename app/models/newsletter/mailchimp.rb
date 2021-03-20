@@ -41,6 +41,10 @@ class Newsletter::MailChimp
       ExceptionNotifier.notify(e,
         email: mailchimp_hash_ids_and_emails[hash_id],
         hash_id: hash_id)
+      Sentry.capture_exception(e, extra: {
+        email: mailchimp_hash_ids_and_emails[hash_id],
+        hash_id: hash_id
+      })
     end
   end
 
@@ -167,6 +171,10 @@ class Newsletter::MailChimp
       ExceptionNotifier.notify(error,
         batch_id: batch_id,
         response_body_url: res.body[:response_body_url])
+      Sentry.capture_exception(e, extra: {
+        batch_id: batch_id,
+        response_body_url: res.body[:response_body_url]
+      })
     end
   end
 end

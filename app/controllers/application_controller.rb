@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
       cookies.delete(:session_id)
       redirect_to login_path, alert: t('sessions.flash.expired')
     else
+      set_sentry_user
       update_last_usage(current_session)
     end
   end
@@ -57,6 +58,12 @@ class ApplicationController < ActionController::Base
       last_used_at: Time.current,
       last_remote_addr: request.remote_addr,
       last_user_agent: request.env['HTTP_USER_AGENT'])
+  end
+
+  def set_sentry_user
+    Sentry.set_user(
+      id: "admin_#{current_admin.id}",
+      session_id: current_session.id)
   end
 
   def prepare_exception_notifier

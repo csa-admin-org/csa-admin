@@ -65,6 +65,9 @@ gem 'epics'
 gem 'rqrcode'
 gem 'countries'
 
+gem 'sentry-ruby'
+gem 'sentry-rails'
+
 group :production do
   gem 'aws-sdk-s3', require: false
   gem 'redis'

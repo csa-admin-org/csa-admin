@@ -104,11 +104,16 @@ class Invoice < ActiveRecord::Base
     MailTemplate.deliver_now(:invoice_created, invoice: self)
     touch(:sent_at)
     close_or_open!
-  rescue => ex
-    ExceptionNotifier.notify(ex,
+  rescue => e
+    ExceptionNotifier.notify(e,
       invoice_id: id,
       emails: member.emails,
       member_id: member_id)
+    Sentry.capture_exception(e, extra: {
+      invoice_id: id,
+      emails: member.emails,
+      member_id: member_id
+    })
   end
 
   def mark_as_sent!
