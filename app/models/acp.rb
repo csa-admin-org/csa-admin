@@ -7,6 +7,7 @@ class ACP < ActiveRecord::Base
     activity
     basket_content
     group_buying
+    contact_sharing
   ]
   FEATURE_FLAGS = %w[basket_price_extra]
   LANGUAGES = %w[fr de]
@@ -106,14 +107,7 @@ class ACP < ActiveRecord::Base
       LANGUAGES
     end
   end
-  # Temporarily only enable contact_sharing for P2R until fully approved
-  def self.features
-    if Current.acp.tenant_name == 'p2r'
-      FEATURES + ['contact_sharing']
-    else
-      FEATURES
-    end
-  end
+  def self.features; FEATURES end
   def self.feature_flags; FEATURE_FLAGS end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
