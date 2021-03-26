@@ -161,17 +161,24 @@ class Newsletter::MailChimp
     fields
   end
 
-  def ensure_batch_succeed!(batch_id)
+  def ensure_batch_succeed!(batch_id, retry_count: 5)
+    error = nil
     sleep 2
     res = client.batches(batch_id).retrieve
     if res.body[:status] != 'finished'
-      ensure_batch_succeed!(res.body[:id])
+      if retry_count > 0
+        ensure_batch_succeed!(res.body[:id], retry_count: retry_count - 1)
+      else
+        error = BatchError.new("MailChimp Batch #{batch_id} didn't finished")
+      end
     elsif res.body[:errored_operations].positive?
       error = BatchError.new("MailChimp Batch #{batch_id} failed")
+    end
+    if error
       ExceptionNotifier.notify(error,
         batch_id: batch_id,
         response_body_url: res.body[:response_body_url])
-      Sentry.capture_exception(e, extra: {
+      Sentry.capture_exception(error, extra: {
         batch_id: batch_id,
         response_body_url: res.body[:response_body_url]
       })
