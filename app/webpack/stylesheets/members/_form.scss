@@ -47,6 +47,10 @@ form.formtastic {
     p {
       font-size: $base-font-size * 0.9;
       margin-top: $small-spacing;
+
+      b {
+        font-weight: 550;
+      }
     }
 
     ol {
@@ -169,5 +173,28 @@ form.formtastic {
 
   li.next {
     margin-top: $base-spacing;
+  }
+}
+
+.extra_text {
+  font-size: 0.9em;
+  line-height: 1.5;
+  margin: $small-spacing 0;
+  font-weight: 400;
+
+  ul {
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+  ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+  li {
+    line-height: 1.5;
+    display: list-item !important;
+  }
+  strong {
+    font-weight: 550;
   }
 }
