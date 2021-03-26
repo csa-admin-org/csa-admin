@@ -161,9 +161,9 @@ class Newsletter::MailChimp
     fields
   end
 
-  def ensure_batch_succeed!(batch_id, retry_count: 5)
+  def ensure_batch_succeed!(batch_id, retry_count: 10)
     error = nil
-    sleep 2
+    sleep 5
     res = client.batches(batch_id).retrieve
     if res.body[:status] != 'finished'
       if retry_count > 0
