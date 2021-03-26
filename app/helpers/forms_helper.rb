@@ -25,10 +25,6 @@ module FormsHelper
     end
   end
 
-  def unwrap(text, tag)
-    text.gsub(/\A<#{tag}>/, '').gsub(/<\/#{tag}>\z/, '').html_safe
-  end
-
   def countries_collection(codes = [])
     countries = ISO3166::Country.all
     countries.select! { |c| c.alpha2.in? codes } if codes.any?

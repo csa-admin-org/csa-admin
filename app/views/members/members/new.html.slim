@@ -28,7 +28,7 @@ p = t('.text')
       - if Current.acp.share?
         p == t('.acp_shares_text', price: cur(Current.acp.share_price, precision: 0))
     - if Current.acp.membership_extra_text
-      p = unwrap(Current.acp.membership_extra_text, :div)
+      div.extra_text == Current.acp.membership_extra_text
 
     = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection, required: true, label: BasketSize.model_name.human
 
