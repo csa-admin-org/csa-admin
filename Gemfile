@@ -35,6 +35,7 @@ gem 'turbolinks'
 gem 'webpacker'
 
 gem 'sucker_punch'
+gem 'parallel'
 
 gem 'exception_notification'
 gem 'exception_notification-rake'
