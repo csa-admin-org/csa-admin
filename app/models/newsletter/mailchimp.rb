@@ -161,7 +161,7 @@ class Newsletter::MailChimp
     fields
   end
 
-  def ensure_batch_succeed!(batch_id, retry_count: 10)
+  def ensure_batch_succeed!(batch_id, retry_count: 20)
     error = nil
     sleep 5
     res = client.batches(batch_id).retrieve

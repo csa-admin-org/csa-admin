@@ -90,6 +90,19 @@ class ACP < ActiveRecord::Base
     Current.reset
   end
 
+  def self.enter_each_in_parallel!(in_threads: 4)
+    tenant_names = ACP.pluck(:tenant_name)
+    Parallel.each(tenant_names, in_threads: in_threads) do |tenant_name|
+      enter!(tenant_name)
+      ActiveRecord::Base.connection_pool.with_connection do
+        yield
+      end
+    end
+  ensure
+    Apartment::Tenant.reset
+    Current.reset
+  end
+
   def self.enter!(tenant_name)
     acp = ACP.find_by!(tenant_name: tenant_name)
     Apartment::Tenant.switch!(acp.tenant_name)
