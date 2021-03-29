@@ -3,6 +3,11 @@ require 'rails_helper'
 describe Activity do
   it_behaves_like 'bulk_dates_insert'
 
+  it 'validates title presence' do
+    activity = Activity.new(title: '')
+    expect(activity).not_to have_valid(:title)
+  end
+
   it 'validates participants_limit to be at least 1' do
     activity = Activity.new(participants_limit: 0)
     expect(activity).not_to have_valid(:participants_limit)

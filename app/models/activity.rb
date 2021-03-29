@@ -19,7 +19,7 @@ class Activity < ActiveRecord::Base
     where('activities.date < ? AND activities.date >= ?', Date.current, Current.fy_range.min)
   }
 
-  validates :start_time, :end_time, presence: true
+  validates :start_time, :end_time, :title, presence: true
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :end_time_must_be_greather_than_start_time
