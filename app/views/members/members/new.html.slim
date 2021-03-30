@@ -50,6 +50,12 @@ p = t('.text')
           text: t('members.membership_renewals.new.tapatate.basket_price_extra.text'), \
           hint: false, \
           wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
+      - if Current.acp.seminterra?
+        = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
+          label: "Il costo della vostra cesta determina il salario degli orticoltori della cooperativa", \
+          text: "Il progetto Seminterra è potuto cominciare grazie ai forti ideali e alla motivazione di diverse persone che hanno messo a disposizione molto tempo ed energie in maniera volontaria. Per garantire una continuità sul più lungo termine, fin dall’inizio è però stato chiaro che prima o poi sarebbe stato necessario stipendiare una parte del lavoro svolto. Affinché il progetto Seminterra sia sostenibile a tutti gli effetti, bisogna poter garantire dei salari dignitosi. Il seguente sistema offre la possibilità di versare un supplemento al costo di base per ogni cesta. Le diverse opzioni vi permettono di selezionare il costo della vostra cesta e di conoscere le implicazioni sul salario “teorico” degli orticoltori se tutti gli abbonati facessero la vostra stessa scelta e se venisse raggiunto un numero minimo di iscritti.", \
+          hint: false, \
+          wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
     - if @member.members_basket_complements.any?
       = f.inputs BasketComplement.model_name.human(count: 2), class: 'basket_complements' do

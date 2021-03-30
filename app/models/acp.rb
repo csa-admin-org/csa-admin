@@ -241,6 +241,10 @@ class ACP < ActiveRecord::Base
     tenant_name == 'tapatate'
   end
 
+  def seminterra?
+    tenant_name == 'seminterra'
+  end
+
   def group_buying_email
     self[:group_buying_email] || email
   end

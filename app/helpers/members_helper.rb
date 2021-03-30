@@ -94,6 +94,26 @@ module MembersHelper
           extra
         ]
       }
+    elsif Current.acp.seminterra?
+      [
+        [0.0, 20],
+        [1.0, 21],
+        [2.0, 22],
+        [4.0, 24],
+        [6.0, 26]
+      ].map { |(extra, hours)|
+        details = "salario agricoltore ~#{hours}.- netto/ora, ~#{hours * 100}.- netto/mese al 50%"
+        [
+          if extra.zero?
+            collection_text('Costo di base', details: details)
+          else
+            collection_text("+ #{extra.to_i}.-/cesta",
+              price: deliveries_based_price_info(extra, deliveries_counts),
+              details: details)
+          end,
+          extra
+        ]
+      }
     end
   end
 
