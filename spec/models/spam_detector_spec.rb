@@ -67,7 +67,7 @@ describe SpamDetector do
   end
 
   it 'detects non native language text' do
-    member = Member.new(note: 'Are you searching for a cloud accounting interface that makes operating your company easy, fast and safe?')
+    member = Member.new(note: '¿Está buscando una interfaz de contabilidad en la nube que haga que el funcionamiento de su empresa sea fácil, rápido y seguro?')
     expect(spam?(member)).to eq true
   end
 
@@ -82,7 +82,7 @@ describe SpamDetector do
   end
 
   it 'accepts native language text' do
-    member = Member.new(note: 'Je me réjouis vraiment de recevoir mon panier!')
+    member = Member.new(note: 'Je me réjouis vraiment de recevoir mon panier!' * 3)
     expect(spam?(member)).to eq false
   end
 end
