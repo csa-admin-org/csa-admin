@@ -31,7 +31,7 @@ class SpamDetector
   end
 
   def non_native_language?
-    languages = Current.acp.languages
+    languages = I18n.available_locales.map(&:to_s)
     languages << 'un' # Unknown CLD language
     TEXTS_COLUMNS.any? { |attr|
       text = @member.send(attr).dup
