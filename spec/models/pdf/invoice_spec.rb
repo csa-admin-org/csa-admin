@@ -501,7 +501,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
-    it 'generates invoice with support ammount + baskets_annual_price_change reduc + complements' do
+    it 'generates invoice with support ammount + baskets_annual_price_change reduc + complements', freeze: '2020-04-01' do
       member = create(:member,
         name: 'Alain Reymond',
         address: 'Bd Plumhof 6',
@@ -530,7 +530,6 @@ describe PDF::Invoice do
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
-
       expect(pdf_strings)
         .to include(/01.09.20\d\d – 31.03.20\d\d/)
         .and contain_sequence('Panier: Grand 27x 30.50', '823.50')
@@ -545,7 +544,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
-    it 'generates invoice with support ammount + basket_complements_annual_price_change reduc + complements' do
+    it 'generates invoice with support ammount + basket_complements_annual_price_change reduc + complements', freeze: '2020-04-01' do
       member = create(:member,
         name: 'Alain Reymond',
         address: 'Bd Plumhof 6',
