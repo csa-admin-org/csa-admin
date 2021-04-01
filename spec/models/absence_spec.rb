@@ -4,7 +4,7 @@ describe Absence do
   describe 'validations' do
     it 'validates started_on and ended_on dates when submited by member' do
       absence = Absence.new(
-        started_on: Date.today,
+        started_on: 6.days.from_now,
         ended_on: 2.years.from_now)
 
       expect(absence).not_to have_valid(:started_on)
