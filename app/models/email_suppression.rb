@@ -3,7 +3,7 @@ require 'postmark_wrapper'
 class EmailSuppression < ApplicationRecord
   acts_as_paranoid
 
-  STREAM_IDS = %w[outbound mailchimp]
+  STREAM_IDS = %w[outbound]
   REASONS = %w[HardBounce SpamComplaint ManualSuppression Forgotten]
   ORIGINS = %w[Recipient Customer Admin Sync]
 
@@ -17,7 +17,7 @@ class EmailSuppression < ApplicationRecord
 
   after_create_commit :notify_admins!
 
-  def self.sync(options = {})
+  def self.sync_postmark!(options = {})
     STREAM_IDS.each do |stream_id|
       PostmarkWrapper.dump_suppressions(stream_id, options).each do |suppression|
         with_deleted.find_or_create_by!(
