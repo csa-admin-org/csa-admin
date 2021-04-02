@@ -1,3 +1,5 @@
+require 'rubygems/package'
+
 class Newsletter::MailChimp
   include ActivitiesHelper
 
@@ -207,8 +209,9 @@ class Newsletter::MailChimp
             json: json
           })
         end
-      elsif r['status_code'] != 400
+      elsif r['status_code'] != 200
         Sentry.capture_message('Unknown Mailchimp batch status_code', extra: {
+          status_code: r['status_code'],
           result: r
         })
       end
