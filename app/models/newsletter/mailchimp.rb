@@ -12,6 +12,8 @@ class Newsletter::MailChimp
     operations = []
     members.find_each do |member|
       member.emails_array.each do |email|
+        next if email_suppressed?(email)
+
         hash_id = hash_id(email)
         body = {
           email_address: email,
@@ -100,6 +102,11 @@ class Newsletter::MailChimp
       symbolize_keys: true)
   end
 
+  def email_suppressed?(email)
+    @suppressed_emails ||= EmailSuppression.mailchimp.pluck(:email)
+    @suppressed_emails.include?(email)
+  end
+
   def hash_id(email)
     Digest::MD5.hexdigest(email.downcase)
   end
@@ -169,19 +176,54 @@ class Newsletter::MailChimp
       if retry_count > 0
         ensure_batch_succeed!(res.body[:id], retry_count: retry_count - 1)
       else
-        error = BatchError.new("MailChimp Batch #{batch_id} didn't finished")
+        Sentry.capture_message("MailChimp Batch didn't finished", extra: {
+          batch_id: batch_id,
+          response_body_url: res.body[:response_body_url]
+        })
+        ExceptionNotifier.notify(error,
+          batch_id: batch_id,
+          response_body_url: res.body[:response_body_url])
       end
     elsif res.body[:errored_operations].positive?
-      error = BatchError.new("MailChimp Batch #{batch_id} failed")
+      suppress_emails(res)
     end
-    if error
-      ExceptionNotifier.notify(error,
-        batch_id: batch_id,
-        response_body_url: res.body[:response_body_url])
-      Sentry.capture_exception(error, extra: {
-        batch_id: batch_id,
-        response_body_url: res.body[:response_body_url]
-      })
+  end
+
+  def suppress_emails(res)
+    results = get_batch_results(res)
+    results.each do |r|
+      if r['status_code'] == 400
+        json = JSON.load(r['response'])
+        if json['title'] == 'Forgotten Email Not Subscribed'
+          email = json['detail'].split(' ').first
+          EmailSuppression.create!(
+            stream_id: 'mailchimp',
+            email: email,
+            reason: 'Forgotten',
+            origin: 'Sync')
+        else
+          Sentry.capture_message('Unknown Mailchimp batch error (400) title', extra: {
+            title: json['title'],
+            json: json
+          })
+        end
+      elsif r['status_code'] != 400
+        Sentry.capture_message('Unknown Mailchimp batch status_code', extra: {
+          result: r
+        })
+      end
     end
+  end
+
+  def get_batch_results(res)
+    error_url = res.body[:response_body_url]
+    results = nil
+    targz = Gem::Package::TarReader.new(Zlib::GzipReader.new(URI.open(error_url)))
+    targz.each do |entry|
+      if entry.file?
+        results = JSON.load(entry.read)
+      end
+    end
+    results
   end
 end

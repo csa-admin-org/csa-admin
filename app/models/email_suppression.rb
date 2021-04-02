@@ -3,11 +3,12 @@ require 'postmark_wrapper'
 class EmailSuppression < ApplicationRecord
   acts_as_paranoid
 
-  STREAM_IDS = %w[outbound]
-  REASONS = %w[HardBounce SpamComplaint ManualSuppression]
-  ORIGINS = %w[Recipient Customer Admin]
+  STREAM_IDS = %w[outbound mailchimp]
+  REASONS = %w[HardBounce SpamComplaint ManualSuppression Forgotten]
+  ORIGINS = %w[Recipient Customer Admin Sync]
 
   scope :outbound, -> { where(stream_id: 'outbound') }
+  scope :mailchimp, -> { where(stream_id: 'mailchimp') }
   scope :deletable, -> { where(reason: 'HardBounce', origin: 'Recipient') }
 
   validates :email, presence: true
@@ -44,9 +45,15 @@ class EmailSuppression < ApplicationRecord
     owners
   end
 
+  def mailchimp?
+    stream_id == 'mailchimp'
+  end
+
   private
 
   def notify_admins!
+    return if mailchimp?
+
     Admin.notify!(:new_email_suppression, email_suppression: self)
   end
 end
