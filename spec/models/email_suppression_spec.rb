@@ -10,7 +10,7 @@ describe EmailSuppression do
       created_at: created_at)
   end
 
-  specify '.sync' do
+  specify '.sync_postmark!' do
     travel_to '2020-01-08 10:00:00 +0100' do
       suppress!('outbound', 'a@b.com', 'HardBounce', 'Recipient')
       postmark_client.dump_suppressions_response = [
@@ -29,7 +29,7 @@ describe EmailSuppression do
     end
     EmailSuppression.first.destroy
 
-    expect { EmailSuppression.sync }
+    expect { EmailSuppression.sync_postmark! }
       .to change { EmailSuppression.count }.by(1)
     expect(EmailSuppression.first).to have_attributes(
       email: 'd@f.com',
