@@ -1,6 +1,10 @@
 ActiveAdmin.register Depot do
   menu parent: :other, priority: 10
 
+  scope :all
+  scope :visible, default: true
+  scope :hidden
+
   includes :memberships, :responsible_member
   index do
     column :name, ->(d) { auto_link d }
@@ -11,6 +15,14 @@ ActiveAdmin.register Depot do
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
+    column :deliveries_count, ->(d) {
+      link_to d.deliveries_count, deliveries_path(
+        q: {
+          depots_id_eq: d.id,
+          during_year: Current.acp.current_fiscal_year.year
+        },
+        scope: :all)
+    }
     column :responsible_member
     actions class: 'col-actions-3'
   end

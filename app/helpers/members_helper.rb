@@ -31,7 +31,7 @@ module MembersHelper
       end
       [
         collection_text(bs.name,
-          price: deliveries_based_price_info(bs.price, deliveries_counts),
+          price: deliveries_based_price_info(bs.price),
           details: details.compact.join(', ')),
         bs.id,
         data: { acp_shares_number: bs.acp_shares_number }
@@ -71,7 +71,7 @@ module MembersHelper
             collection_text('Tarif de base', details: details)
           else
             collection_text("+ #{extra.to_i}.-/panier",
-              price: deliveries_based_price_info(extra, deliveries_counts),
+              price: deliveries_based_price_info(extra),
               details: details)
           end,
           extra
@@ -89,7 +89,7 @@ module MembersHelper
             collection_text(t('helpers.basket_prices_extra_collection.tapatate.no_basket_price_extra'))
           else
             collection_text("#{txt}, +#{cur(extra, unit: false)}/#{Basket.model_name.human}",
-              price: deliveries_based_price_info(extra, deliveries_counts))
+              price: deliveries_based_price_info(extra))
           end,
           extra
         ]
@@ -108,7 +108,7 @@ module MembersHelper
             collection_text('Costo di base', details: details)
           else
             collection_text("+ #{extra.to_i}.-/cesta",
-              price: deliveries_based_price_info(extra, deliveries_counts),
+              price: deliveries_based_price_info(extra),
               details: details)
           end,
           extra
@@ -213,6 +213,30 @@ module MembersHelper
     parts.to_sentence.html_safe
   end
 
+  def deliveries_based_price_info(price, d_counts = deliveries_counts)
+    if d_counts.many?
+      [
+        price_info(d_counts.min * price),
+        price_info(d_counts.max * price, format: '%n')
+      ].join('-')
+    else
+      price_info(d_counts.first.to_i * price)
+    end
+  end
+
+  def deliveries_count(counts = deliveries_counts)
+    case counts
+    when Array
+      if counts.many?
+        t('helpers.deliveries_counts_range', range: "#{counts.min}-#{counts.max}")
+      else
+        t('helpers.deliveries_count', count: counts.first.to_i)
+      end
+    when Integer
+      t('helpers.deliveries_count', count: counts)
+    end
+  end
+
   private
 
   def visible_depots(membership = nil)
@@ -254,17 +278,6 @@ module MembersHelper
     end
   end
 
-  def deliveries_based_price_info(price, deliveries_counts)
-    if deliveries_counts.many?
-      [
-        price_info(deliveries_counts.min * price),
-        price_info(deliveries_counts.max * price, format: '%n')
-      ].join('-')
-    else
-      price_info(deliveries_counts.first.to_i * price)
-    end
-  end
-
   def collection_text(text, price: nil, details: nil)
     txts = [text]
     txts << "<em class='price'>#{price}</em>" if price
@@ -275,19 +288,6 @@ module MembersHelper
   def map_icon(location)
     link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: 'map_link' do
       inline_svg_pack_tag 'media/images/members/map_signs.svg', size: '16px'
-    end
-  end
-
-  def deliveries_count(counts)
-    case counts
-    when Array
-      if counts.many?
-        t('helpers.deliveries_counts_range', range: "#{counts.min}-#{counts.max}")
-      else
-        t('helpers.deliveries_count', count: counts.first.to_i)
-      end
-    when Integer
-      t('helpers.deliveries_count', count: counts)
     end
   end
 

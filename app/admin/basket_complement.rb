@@ -2,22 +2,36 @@ ActiveAdmin.register BasketComplement do
   menu parent: :other, priority: 11
   actions :all, except: [:show]
 
+  scope :all
+  scope :visible, default: true
+  scope :hidden
+
   includes :memberships_basket_complements
   index download_links: false do
     column :name
-    column :price_type, -> (bs) {
-      BasketComplement.human_attribute_name("price_type/#{bs.price_type}")
+    column :price_type, -> (bc) {
+      BasketComplement.human_attribute_name("price_type/#{bc.price_type}")
     }
-    column :price, ->(bs) {
-      if bs.annual_price_type?
-        cur(bs.annual_price)
+    column :price, ->(bc) {
+      if bc.annual_price_type?
+        cur(bc.annual_price)
       else
-        "#{cur(bs.delivery_price)} (#{cur(bs.annual_price)})"
+        cur(bc.delivery_price)
+      end
+    }
+    column :annual_price, ->(bc) {
+      if bc.deliveries_count.positive?
+        cur(bc.annual_price)
       end
     }
     column :visible
-    column :deliveries_count, ->(bs) {
-      link_to bs.deliveries_count, deliveries_path(q: { basket_complements_id_eq: bs.id })
+    column :deliveries_count, ->(bc) {
+      link_to bc.deliveries_count, deliveries_path(
+        q: {
+          basket_complements_id_eq: bc.id,
+          during_year: Current.acp.current_fiscal_year.year
+        },
+        scope: :all)
     }
     actions class: 'col-actions-2'
   end

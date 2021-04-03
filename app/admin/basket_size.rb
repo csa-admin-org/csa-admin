@@ -6,7 +6,11 @@ ActiveAdmin.register BasketSize do
   index download_links: false do
     column :name
     column :price, ->(bs) { cur(bs.price, precision: 3) }
-    column :annual_price, ->(bs) { cur(bs.annual_price) }
+    column :annual_price, ->(bs) {
+      if bs.price.positive?
+        deliveries_based_price_info(bs.price) + " (#{deliveries_count})"
+      end
+    }
     if Current.acp.feature?('activity')
       column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
     end

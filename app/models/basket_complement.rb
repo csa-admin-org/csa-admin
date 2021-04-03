@@ -1,6 +1,7 @@
 class BasketComplement < ActiveRecord::Base
   include HasDeliveries
   include TranslatedAttributes
+  include HasVisibility
 
   PRICE_TYPES = %w[delivery annual]
 
@@ -10,7 +11,6 @@ class BasketComplement < ActiveRecord::Base
   has_many :memberships_basket_complements, dependent: :destroy
 
   scope :annual_price_type, -> { where(price_type: 'annual') }
-  scope :visible, -> { where(visible: true) }
 
   default_scope { order_by_name }
 
