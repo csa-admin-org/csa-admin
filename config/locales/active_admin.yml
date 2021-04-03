@@ -1013,6 +1013,10 @@ _:
         _de: Folgende Jahre
         _fr: Années prochaines
         _it: Anni prossimi
+      hidden:
+        _de: Versteckt
+        _fr: Caché
+        _it: Nascosto
       inactive:
         _de: Inaktive
         _fr: Inactifs
@@ -1045,6 +1049,10 @@ _:
         _de: Support
         _fr: Soutien
         _it: Sostegno
+      visible:
+        _de: Sichtbar
+        _fr: Visible
+        _it: Visibile
       waiting:
         _de: Warteliste
         _fr: Attente
