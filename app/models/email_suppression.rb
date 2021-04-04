@@ -40,6 +40,7 @@ class EmailSuppression < ApplicationRecord
 
   def owners
     owners = []
+    owners += Admin.with_email(email)
     owners += Member.with_email(email)
     owners += Depot.with_email(email)
     owners

@@ -125,7 +125,11 @@ describe AdminMailer do
       owners: [
         Member.new(
           id: 2,
-          name: 'Martha')
+          name: 'Martha'),
+        Admin.new(
+          id: 4,
+          name: 'Martha'
+        )
       ])
     mail = AdminMailer.with(
       admin: admin,
@@ -136,6 +140,8 @@ describe AdminMailer do
     expect(mail.to).to eq(['admin@acp-admin.ch'])
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include("L'email <strong>john@doe.com</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>HardBounce</strong>.")
+    expect(mail.body).to include('Admin: Martha')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/4')
     expect(mail.body).to include('Membre: Martha')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
