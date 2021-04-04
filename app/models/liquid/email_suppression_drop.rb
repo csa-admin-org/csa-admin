@@ -16,6 +16,7 @@ class Liquid::EmailSuppressionDrop < Liquid::Drop
       case owner
       when Member; Liquid::AdminMemberDrop.new(owner)
       when Depot; Liquid::AdminDepotDrop.new(owner)
+      when Admin; Liquid::AdminDrop.new(owner)
       end
     end
   end

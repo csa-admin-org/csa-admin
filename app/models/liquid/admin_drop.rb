@@ -10,4 +10,16 @@ class Liquid::AdminDrop < Liquid::Drop
   def email
     @admin.email
   end
+
+  def type
+    Admin.model_name.human
+  end
+
+  def admin_url
+    Rails
+      .application
+      .routes
+      .url_helpers
+      .admin_url(@admin.id, {}, host: Current.acp.email_default_host)
+  end
 end

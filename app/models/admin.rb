@@ -9,6 +9,7 @@ class Admin < ActiveRecord::Base
   attribute :language, :string, default: -> { Current.acp.languages.first }
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
+  scope :with_email, ->(email) { where('lower(email) = ?', email.downcase) }
 
   validates :name, presence: true
   validates :rights, inclusion: { in: RIGHTS }
