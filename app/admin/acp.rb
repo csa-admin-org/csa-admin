@@ -50,7 +50,8 @@ ActiveAdmin.register ACP do
         collection: countries_collection
       f.input :languages,
         as: :check_boxes,
-        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }
+        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] },
+        required: true
       f.input :features,
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
@@ -62,7 +63,8 @@ ActiveAdmin.register ACP do
         prompt: true
       f.input :billing_year_divisions,
         as: :check_boxes,
-        collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
+        collection: ACP.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] },
+        required: true
       f.input :currency_code,
         as: :select,
         collection: ACP::CURRENCIES,
