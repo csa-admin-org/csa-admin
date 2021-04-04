@@ -473,6 +473,10 @@ _:
           _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
           _it: <a href="/mail_templates?scope=membership">I templates delle email</a> per il rinnovo degli abbonamenti devono essere editati e attivati prima di poter inviare le domande attraverso alla pagina degli abbonamenti.
+        membership_seasons_text:
+          _de: Ermöglicht die Erstellung von Abonnements mit nur Taschen im Sommer oder Winter..
+          _fr: Permet de créer des abonnements avec uniquement des paniers durant l'été ou l'hiver.
+          _it: Permette di creare abbonamenti con solo cesti durante l'estate o l'inverno.
         preview:
           _de: Vorschau
           _fr: Prévisualisation
