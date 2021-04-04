@@ -45,36 +45,15 @@ ActiveAdmin.register ACP do
       f.input :url
       f.input :email, as: :email
       f.input :phone, as: :phone
-    end
-    f.inputs do
-      f.input :languages,
-        as: :check_boxes,
-        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }
       f.input :country_code,
         as: :select,
         collection: countries_collection
+      f.input :languages,
+        as: :check_boxes,
+        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }
       f.input :features,
         as: :check_boxes,
         collection: ACP.features.map { |ff| [t("activerecord.models.#{ff}.one"), ff] }
-    end
-    f.inputs Membership.model_name.human(count: 2), id: 'membership' do
-      f.input :trial_basket_count
-    end
-    f.inputs t('.membership_renewal'), id: 'membership_renewal' do
-      para t('.membership_renewal_text_html'), class: 'description'
-      translated_input(f, :open_renewal_texts,
-        as: :action_text,
-        required: false,
-        hint: t('formtastic.hints.acp.open_renewal_text'))
-      f.input :open_renewal_reminder_sent_after_in_days
-    end
-    f.inputs t('.seasons') do
-      f.input :summer_month_range_min,
-        as: :select,
-        collection: (1..12).map { |m| [t('date.month_names')[m], m] }
-      f.input :summer_month_range_max,
-        as: :select,
-        collection: (1..12).map { |m| [t('date.month_names')[m], m] }
     end
     f.inputs t('.billing') do
       f.input :fiscal_year_start_month,
@@ -94,16 +73,15 @@ ActiveAdmin.register ACP do
         include_blank: false,
         prompt: false,
         required: false
+      f.input :trial_basket_count
       f.input :billing_starts_after_first_delivery, as: :boolean
+      if Current.acp.feature?('absence')
+        f.input :absences_billed
+      end
       f.input :annual_fee, as: :number
       f.input :share_price, as: :number
       f.input :vat_number
       f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
-      if Current.acp.feature?('absence')
-        f.input :absences_billed
-      end
-    end
-    f.inputs Invoice.model_name.human do
       translated_input(f, :invoice_infos)
       translated_input(f, :invoice_footers)
     end
@@ -121,6 +99,23 @@ ActiveAdmin.register ACP do
         f.input :isr_payment_for, required: false, input_html: { rows: 3 }
         f.input :isr_in_favor_of, required: false, input_html: { rows: 3 }
       end
+    end
+    f.inputs t('.membership_renewal'), id: 'membership_renewal' do
+      para t('.membership_renewal_text_html'), class: 'description'
+      translated_input(f, :open_renewal_texts,
+        as: :action_text,
+        required: false,
+        hint: t('formtastic.hints.acp.open_renewal_text'))
+      f.input :open_renewal_reminder_sent_after_in_days
+    end
+    f.inputs t('.seasons') do
+      para t('.membership_seasons_text'), class: 'description'
+      f.input :summer_month_range_min,
+        as: :select,
+        collection: (1..12).map { |m| [t('date.month_names')[m], m] }
+      f.input :summer_month_range_max,
+        as: :select,
+        collection: (1..12).map { |m| [t('date.month_names')[m], m] }
     end
     if Current.acp.feature?('activity')
       f.inputs t('.members_participation') do

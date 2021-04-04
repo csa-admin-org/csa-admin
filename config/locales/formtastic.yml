@@ -66,6 +66,10 @@ _:
           _de: Leer lassen, wenn kein Anteilschein.
           _fr: Laisser vide si pas de part sociale.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
+        trial_basket_count:
+          _de: Das Abonnement wird in Rechnung gestellt, nachdem alle Probetaschen geliefert wurden. Wird das Abonnement während des Testzeitraums beendet, werden nur die gelieferten Taschen in Rechnung gestellt.
+          _fr: L'abonnement est facturé après que tous les paniers à l'essai sont livrés. Si l'abonnement est arrêté durant la période d'essai seuls les paniers livrés sont facturés.
+          _it: L'abbonamento viene fatturato dopo che tutti i cesti di prova sono stati consegnati. Se l'abbonamento viene interrotto durante il periodo di prova, verranno fatturati solo i cesti consegnati.
       activity:
         description:
           _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut.'
