@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_164752) do
+ActiveRecord::Schema.define(version: 2021_04_04_191911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -85,6 +85,11 @@ ActiveRecord::Schema.define(version: 2021_03_19_164752) do
     t.boolean "billing_starts_after_first_delivery", default: true, null: false
     t.boolean "allow_alternative_depots", default: false, null: false
     t.boolean "membership_extra_text_only", default: false, null: false
+    t.decimal "basket_price_extras", precision: 8, scale: 2, default: [], null: false, array: true
+    t.jsonb "basket_price_extra_titles", default: {}, null: false
+    t.jsonb "basket_price_extra_texts", default: {}, null: false
+    t.jsonb "basket_price_extra_labels", default: {}, null: false
+    t.jsonb "basket_price_extra_label_details", default: {}, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
