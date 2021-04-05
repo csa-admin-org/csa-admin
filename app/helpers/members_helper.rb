@@ -55,65 +55,15 @@ module MembersHelper
   end
 
   def basket_prices_extra_collection
-    return unless Current.acp.feature_flag?(:basket_price_extra)
+    return unless Current.acp.basket_price_extras?
 
-    if Current.acp.ragedevert?
-      [
-        [0.0, 20],
-        [1.0, 21],
-        [2.0, 22],
-        [4.0, 24],
-        [8.0, 28]
-      ].map { |(extra, hours)|
-        details = "salaire jardinier ~#{hours}.- net/h, ~#{hours * 100}.- net/m à 50%"
-        [
-          if extra.zero?
-            collection_text('Tarif de base', details: details)
-          else
-            collection_text("+ #{extra.to_i}.-/panier",
-              price: deliveries_based_price_info(extra),
-              details: details)
-          end,
-          extra
-        ]
-      }
-    elsif Current.acp.tapatate?
-      [
-       [0, ''],
-       [2.5, 'Mini-Soli'],
-       [3.5, 'Soli'],
-       [7, 'Super-Soli']
-      ].map { |(extra, txt)|
-        [
-          if extra.zero?
-            collection_text(t('helpers.basket_prices_extra_collection.tapatate.no_basket_price_extra'))
-          else
-            collection_text("#{txt}, +#{cur(extra, unit: false)}/#{Basket.model_name.human}",
-              price: deliveries_based_price_info(extra))
-          end,
-          extra
-        ]
-      }
-    elsif Current.acp.seminterra?
-      [
-        [0.0, 20],
-        [1.0, 21],
-        [2.0, 22],
-        [4.0, 24],
-        [6.0, 26]
-      ].map { |(extra, hours)|
-        details = "salario agricoltore ~#{hours}.- netto/ora, ~#{hours * 100}.- netto/mese al 50%"
-        [
-          if extra.zero?
-            collection_text('Costo di base', details: details)
-          else
-            collection_text("+ #{extra.to_i}.-/cesta",
-              price: deliveries_based_price_info(extra),
-              details: details)
-          end,
-          extra
-        ]
-      }
+    label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
+    details_template = Liquid::Template.parse(Current.acp.basket_price_extra_label_detail)
+    Current.acp[:basket_price_extras].map do |extra|
+      text = collection_text(label_template.render('extra' => extra),
+        price: extra.positive? ? deliveries_based_price_info(extra) : nil,
+        details: details_template.render('extra' => extra))
+      [text, extra]
     end
   end
 
