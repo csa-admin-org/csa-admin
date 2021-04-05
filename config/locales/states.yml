@@ -68,7 +68,7 @@ _:
         trial:
           _de: Probeabonnement
           _fr: Abonnement à l'essai
-          _it: Abonnemento di prova
+          _it: Abbonamento di prova
       pending:
         _de: zu bestätigen
         _fr: à valider
@@ -80,7 +80,7 @@ _:
       trial:
         _de: Probeabonnement
         _fr: Abonnement à l'essai
-        _it: Abonnemento di prova
+        _it: Abbonamento di prova
       waiting:
         _de: Warteliste
         _fr: attente
