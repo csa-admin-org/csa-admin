@@ -7,7 +7,10 @@ describe 'members page' do
 
   context 'new inscription' do
     it 'creates a new member with membership' do
-      Current.acp.update!(languages: %w[fr de])
+      Current.acp.update!(
+        languages: %w[fr de],
+        basket_price_extras: '0, 1, 2, 4, 8',
+        basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
       DeliveriesHelper.create_deliveries(40)
       create(:basket_size, :small)
       create(:basket_size, :big)

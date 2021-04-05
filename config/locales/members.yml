@@ -503,16 +503,6 @@ _:
           _de: Bestätigen
           _fr: Confirmer
           _it: Confermare
-        tapatate:
-          basket_price_extra:
-            label:
-              _de: Solidaritätsbeitrag
-              _fr: Cotisation solidaire
-              _it: Contributo di solidarietà
-            text:
-              _de: Die Lohnkosten unseres Gartenteams sind unser grösster Budgetposten. Mit einem Solidaritätsbeitrag unterstützt du uns, damit wir faire Löhne bezahlen und faire Arbeitszeiten ermöglichen können. Mit dem Soli-Beitrag hilfst du, unsere effektiven Kosten des Betriebsjahres decken. Mit dem Super-Soli-Beitrag bist du solidarisch mit dem Verein und mit den Mitgliedern, die sich den Beitrag nicht leisten können. Wenn das zu viel ist, du uns aber trotzdem unterstützten möchtest, kannst du den Mini-Soli-Beitrag wählen.
-              _fr: Les coûts salariaux de notre équipe de jardinage constituent notre plus gros poste budgétaire. Grâce à une contribution de solidarité, vous nous soutenez afin que nous puissions payer des salaires équitables et rendre possible un horaire de travail équitable. Avec la contribution de solidarité, vous contribuez à couvrir nos coûts effectifs de l'année de fonctionnement. Avec la contribution Super-Soli, vous êtes en solidarité avec l'association et avec les membres qui n'ont pas les moyens de payer la contribution. Si c'est trop, mais que vous voulez quand même nous soutenir, vous pouvez choisir la contribution Mini-Soli.
-              _it: I salari delle persone che si occupano del campo sono la nostra più grande spesa annuale. Grazie al contributo di solidarietà, permetti di pagare salari equi e rendere possibile un orario di lavoro migliore. Con il contributo di solidarietà aiutate a coprire i nostri costi effettivi per l'anno di esercizio. Con il contributo Super-Soli sei solidale con l'associazione e con i soci che non hanno i mezzi per versare il contributo. Se è troppo, ma vuoi comunque sostenerci, puoi scegliere il contributo Mini-Soli.
         text:
           cancel:
             _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
