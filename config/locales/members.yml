@@ -6,7 +6,7 @@ _:
           notice:
             _de: Danke, dass du uns informiert hast!
             _fr: Merci de nous avoir prévenus!
-            _it: Grazie per averci avvertito!
+            _it: Grazie per averci informato!
       index:
         cancel_link:
           _de: abbrechen
@@ -15,7 +15,7 @@ _:
         explanation_billed:
           _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
-          _it: Durante la tua assenza, la soluzione più semplice è offrire la tua cesta ad amici, vicini, familiari, ... Se purtroppo ciò non è possibile, grazie per annunciare la tua assenza con il modulo sottostante. La tua cesta non verra sprecata. Queste ceste non saranno rimborsate.
+          _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua cesta ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua cesta non verra sprecata. Queste ceste non saranno rimborsate.
         form_title:
           _de: Abwesenheit melden
           _fr: Annoncer une absence
@@ -27,7 +27,7 @@ _:
         no_present_or_future_absences:
           _de: Keine, teilen Sie uns bitte Ihre Abwesenheiten mit dem unten stehenden Formular mit.
           _fr: Aucune, merci d'annoncer votre absence à l'aide du formulaire ci-dessous.
-          _it: Nessuno, grazie per aver annunciato la tua assenza utilizzando il modulo sottostante.
+          _it: Nessuno, grazie per annunciare la tua assenza utilizzando il modulo sottostante.
         past_absences:
           _de: Ihre vergangene Abwesenheiten
           _fr: Vos absences passées
@@ -57,7 +57,7 @@ _:
         title:
           _de: Konto Bearbeiten
           _fr: Modifier compte
-          _it: Modifica il contro
+          _it: Modifica il conto
       show:
         edit_link:
           _de: Kontoinformationen bearbeiten
@@ -110,11 +110,11 @@ _:
         carpooling_phone:
           _de: Telefon Fahrgemeinschaften
           _fr: Téléphone covoiturage
-          _it: Téléphone per condivisione auto
+          _it: Numero di telefono per condivisione auto
         carpooling_tooltip:
           _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
           _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
-          _it: Seleziona la casella sottostante se ti sposti in auto e desideri condividere il viaggio. Il tuo numero di telefono e il luogo di partenza saranno condivisi con altri soci registrati lo stesso giorno.
+          _it: Seleziona la casella sottostante se ti sposti in auto e desideri condividere il viaggio. Il tuo numero di telefono e il luogo di partenza saranno condivisi con altri soci registrati per lo stesso giorno.
         coming_activity_participation_cannot_be_cancel_explanation/basket_preparation:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
@@ -130,15 +130,15 @@ _:
         coming_activity_participations/basket_preparation:
           _de: Ihre künftigen Taschen befüllung
           _fr: Vos mises en panier à venir
-          _it: Vostre prossime preparazioni ceste
+          _it: Le vostre prossime preparazioni ceste
         coming_activity_participations/halfday_work:
           _de: Ihre künftigen ½ Tage
           _fr: Vos ½ journées à venir
-          _it: Vostre prossime ½ giornate
+          _it: Le vostre prossime ½ giornate di lavoro
         coming_activity_participations/hour_work:
           _de: Ihre künftigen ½ Tage
           _fr: Vos heures de travail à venir
-          _it: Vostre prossime ore di lavoro
+          _it: Le vostre prossime ore di lavoro
         contact_link:
           _de: Kontakt aufnehmen
           _fr: contacter
@@ -154,7 +154,7 @@ _:
         no_activities/halfday_work:
           _de: Sorry, momentan gibt es keinen freien ½ Tag.
           _fr: Désolé, aucune ½ journée disponible pour le moment.
-          _it: Spiacenti, nessuna ½ giornata è disponibile al momento.
+          _it: Spiacenti, nessuna ½ giornata di lavoro è disponibile al momento.
         no_activities/hour_work:
           _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
           _fr: Désolé, aucune heure de travail disponible pour le moment.
@@ -166,15 +166,15 @@ _:
         no_activities_this_month/halfday_work:
           _de: In diesem Monat findet keinen ½ Tag statt.
           _fr: Aucune ½ journée ce mois.
-          _it: Nessuna ½ giornata questo mese
+          _it: Nessuna ½ giornata di lavoro pianificata questo mese
         no_activities_this_month/hour_work:
           _de: In diesem Monat findet keine Arbeitsstunde statt.
           _fr: Aucune heure de travail ce mois.
-          _it: Nessuna ora di lavoro questo mese
+          _it: Nessuna ora di lavoro pianificata questo mese
         no_coming_activity_participations:
           _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
           _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
-          _it: Nessuna, grazie per iscriverti con l'aiuto del formulario seguente.
+          _it: Nessuna attività, grazie per volerti iscriverti.
         no_coming_activity_participations/basket_preparation:
           _de: Momentan gibt es keine freie Taschen befüllung.
           _fr: Aucune mises en panier disponible pour le moment.
@@ -182,7 +182,7 @@ _:
         no_coming_activity_participations/halfday_work:
           _de: Momentan gibt es keine freie ½ Tage.
           _fr: Aucune ½ journée disponible pour le moment.
-          _it: Nessuna ½ giornata è disponibile al momento.
+          _it: Nessuna ½ giornata di lavoro è disponibile al momento.
         no_coming_activity_participations/hour_work:
           _de: Momentan gibt es keine freie Arbeitsstunde.
           _fr: Aucune heure de travail disponible pour le moment.
@@ -202,7 +202,7 @@ _:
         past_activity_participations/halfday_work:
           _de: Ihre geleisteten ½ Tage
           _fr: Vos ½ journées effectuées
-          _it: Vostre ½ giornate effettuate
+          _it: Le vostre ½ giornate di lavoro già effettuate
         past_activity_participations/hour_work:
           _de: Ihre geleistete Arbeitsstunden
           _fr: Vos heures de travail effectuées
@@ -270,20 +270,20 @@ _:
         joined:
           _de: Ihre Kontaktinformationen sind nun für andere Mitglieder Ihres Depots freigegeben!
           _fr: Vos coordonnées sont maintenant partagées avec les autres membres de votre dépôt!
-          _it: Le tue informazioni di contatto sono ora condivise con gli altri membri del tuo luogo di consegna!
+          _it: Le tue informazioni di contatto sono ora condivise con gli altri membri del tuo punto di ritiro!
       show:
         cancel_sharing_html:
           _de: Bitte <a href='mailto:%{email}'>kontaktieren Sie uns per E-Mail</a>, wenn Sie die Weitergabe Ihrer Kontaktdaten beenden möchten.
           _fr: Merci de nous <a href='mailto:%{email}'>contacter par email</a> si vous désirez arrêter de partager vos coordonnées.
-          _it: Per favore <a href='mailto:%{email}'>contattaci via email</a> se vuoi smettere di condividere le tue informazioni di contatto.
+          _it: Per favore <a href='mailto:%{email}'>contattaci via email</a> se vuoi smettere di condividere le tue informazioni.
         description:
           _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihres Korbes zu vereinbaren, wenn Sie gelegentlich verhindert sind.
           _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre panier en cas d’empêchement occasionnel.
-          _it: Ecco la lista dei membri del tuo luogo di consegna che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra cesta nel caso in cui non possiate partecipare occasionalmente.
+          _it: Ecco la lista dei membri del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra cesta nel caso in cui non possiate partecipare occasionalmente.
         explanation:
           _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Körbe zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
           _fr: Le copaniérage (covoiturage pour panier) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs paniers en cas d’empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
-          _it: La condivisione delle informazioni di contatto permette ai membri di un luogo di consegna di contattarsi a vicenda per organizzare il ritiro delle loro ceste nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei membri che hanno deciso di fare lo stesso.
+          _it: La condivisione delle informazioni di contatto permette ai membri di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro ceste nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei membri che hanno deciso di fare lo stesso.
         nobody_sharing_contact:
           _de: Keine anderen Mitglieder geben zu diesem Zeitpunkt ihre Kontaktinformationen weiter!
           _fr: Aucun autre membre ne partage ses coordonées pour le moment!
@@ -295,7 +295,7 @@ _:
         terms_of_service:
           _de: Ich bin damit einverstanden, dass meine Kontaktinformationen an andere Mitglieder meines Depots weitergegeben werden.
           _fr: J'accepte de partager mes coordonnées avec les autres membres de mon dépôt.
-          _it: Accetto di condividere le mie informazioni di contatto con altri membri del mio luogo di consegna
+          _it: Accetto di condividere le mie informazioni di contatto con altri membri del mio punto di ritiro.
     deliveries:
       index:
         future_deliveries:
@@ -388,7 +388,7 @@ _:
             error:
               _de: Ungültige Bestellung, bitte überprüfen Sie die folgenden Fehler!
               _fr: Commande invalide, merci de regarder les erreurs ci-dessous!
-              _it: Ordine non valido, grazie per correggere gli errori segnalati di seguito!
+              _it: Ordine non valido, grazie per correggere gli errori segnalati!
             notice:
               _de: Vielen Dank für Ihre Bestellung!
               _fr: Merci pour votre commande!
@@ -406,7 +406,7 @@ _:
         desired_acp_shares_number_hint:
           _de: Sie können sich entscheiden, mehr zu kaufen, um die Genossenschaft zu unterstützen.
           _fr: Vous pouvez décider d'en acquérir plus pour soutenir la coopérative.
-          _it: Comperandone più di una sostieni la cooperativa.
+          _it: Comperandone più di una quota sostieni la cooperativa.
         membership_text:
           _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
           _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
@@ -439,15 +439,15 @@ _:
         terms_of_service:
           _de: Ich habe die Statuten und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}" target="_blank">le règlement</a>.
-          _it: Ho letto attentamente e con piacere accetto <a href="%{terms_url}" target="_blank">il regolamento</a>.
+          _it: Ho letto attentamente e accetto <a href="%{terms_url}" target="_blank">il regolamento</a>.
         terms_of_service_with_only_statutes:
           _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a>.
-          _it: Ho letto attentamente e con piacere accetto <a href="%{statutes_url}" target="_blank">gli statuti</a>.
+          _it: Ho letto attentamente e accetto <a href="%{statutes_url}" target="_blank">gli statuti</a>.
         terms_of_service_with_statutes:
           _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
           _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a> et <a href="%{terms_url}" target="_blank">le règlement</a>.
-          _it: Ho letto attentamente e con piacere accetto <a href="%{statutes_url}" target="_blank">gli statuti</a> e <a href="%{terms_url}" target="_blank">il regolamento</a>.
+          _it: Ho letto attentamente e accetto <a href="%{statutes_url}" target="_blank">gli statuti</a> e <a href="%{terms_url}" target="_blank">il regolamento</a>.
         text:
           _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
@@ -464,7 +464,7 @@ _:
         text:
           _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
           _fr: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
-          _it: L'scrizione sarà confermata nei prossimi giorni. Restiamo a disposizione per qualsiasi necessità.
+          _it: L'iscrizione sarà confermata nei prossimi giorni. Restiamo a disposizione per qualsiasi necessità.
         title:
           _de: Vielen Dank für Ihre Anmeldung!
           _fr: Merci pour votre inscription!
@@ -512,7 +512,7 @@ _:
             text:
               _de: Die Lohnkosten unseres Gartenteams sind unser grösster Budgetposten. Mit einem Solidaritätsbeitrag unterstützt du uns, damit wir faire Löhne bezahlen und faire Arbeitszeiten ermöglichen können. Mit dem Soli-Beitrag hilfst du, unsere effektiven Kosten des Betriebsjahres decken. Mit dem Super-Soli-Beitrag bist du solidarisch mit dem Verein und mit den Mitgliedern, die sich den Beitrag nicht leisten können. Wenn das zu viel ist, du uns aber trotzdem unterstützten möchtest, kannst du den Mini-Soli-Beitrag wählen.
               _fr: Les coûts salariaux de notre équipe de jardinage constituent notre plus gros poste budgétaire. Grâce à une contribution de solidarité, vous nous soutenez afin que nous puissions payer des salaires équitables et rendre possible un horaire de travail équitable. Avec la contribution de solidarité, vous contribuez à couvrir nos coûts effectifs de l'année de fonctionnement. Avec la contribution Super-Soli, vous êtes en solidarité avec l'association et avec les membres qui n'ont pas les moyens de payer la contribution. Si c'est trop, mais que vous voulez quand même nous soutenir, vous pouvez choisir la contribution Mini-Soli.
-              _it: I salari delle persone che si occupano del campo sono la nostra più grande spesa annuale. Grazie al contributo di solidarietà, permetti di pagare salari equi e rendere possibile un orario di lavoro migliore. Con il contributo di solidarietà aiutate a coprire i nostri costi effettivi per l'anno di esercizio. Con il contributo Super-Soli sei solidale con l'associazione e con i soci che non hanno i mezzi per versare il contributo. Se è troppo, ma vuoi comunque sostenerci, puoi scegliere il contributo Mini-Soli.
+              _it: I salari delle persone che lavorano sul campo sono la nostra più grande voce di spesa. Grazie al contributo di solidarietà, permetti di pagare salari equi e rendere possibile un orario di lavoro migliore. Con il contributo di solidarietà aiutate a coprire i nostri costi effettivi per l'anno di esercizio. Con il contributo Super-Soli sei solidale con l'associazione e con i soci che non hanno i mezzi per versare il contributo. Se è troppo, ma vuoi comunque sostenerci, puoi scegliere il contributo Mini-Soli.
         text:
           cancel:
             _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
@@ -525,7 +525,7 @@ _:
         title:
           cancel:
             _de: Kündigung
-            _fr: Résiliation
+            _fr: Résiliation
             _it: Annullamento
           renew:
             _de: Erneuerung
@@ -577,7 +577,7 @@ _:
           options:
             cancel:
               _de: Mein Abonnement kündigen
-              _fr: Résilier mon abonnement
+              _fr: Résilier mon abonnement
               _it: Annullare il mio abbonamento
             renew:
               _de: Mein Abonnement erneuern
@@ -600,15 +600,15 @@ _:
         activity_text/basket_preparation:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Taschen befüllung einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
-          _it: Ogni socio/a ha accesso a un account privato che gli consente di registrarsi per la preparazione ceste.
+          _it: Ogni socio/a ha accesso a un conto online che gli consente di registrarsi per la preparazione ceste.
         activity_text/halfday_work:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Halbtage einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux ½ journées.
-          _it: Ogni socio/a ha accesso a un account privato che gli consente di registrarsi per le ½ giornate di lavoro.
+          _it: Ogni socio/a ha accesso a un conto online che gli consente di registrarsi per le ½ giornate di lavoro.
         activity_text/hour_work:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Arbeitsstunden einschreiben können.
           _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux heures de travail.
-          _it: Ogni socio/a ha accesso a un account privato che gli consente di registrarsi per le ore di lavoro.
+          _it: Ogni socio/a ha accesso a un conto online che gli consente di registrarsi per le ore di lavoro.
         email_input:
           _de: Ihres Email
           _fr: Votre email
@@ -616,7 +616,7 @@ _:
         form_text:
           _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
           _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
-          _it: La connessione al tuo account non richiede una password e viene eseguita ricevendo un link di connessione tramite e-mail utilizzando il modulo sottostante.
+          _it: La connessione non richiede una password. Puoi connetterti richiedendo il link di connessione con il modulo sottostante (che verrà inviato al tuo indirizzo email).
         submit:
           _de: Senden
           _fr: Envoyer
@@ -624,8 +624,8 @@ _:
         text:
           _de: Jedes Mitglied hat Zugang zu einem privaten Konto, über das es seine nächsten Lieferungen sowie den Status seiner Rechnungen einsehen kann.
           _fr: Chaque membre a accès à un compte privé lui permettant de voir ses prochaines livraisons ainsi que l'état de ses factures.
-          _it: Ogni socio/a ha accesso a un account privato che gli consente di vedere le prossime consegne e tenere sotto controllo lo stato delle proprie fatture.
+          _it: Ogni socio/a ha accesso a un conto online che gli consente di gestire le prossime consegne e controllare lo stato delle proprie fatture.
         title:
           _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
-          _it: Connesione al vostro account privato.
+          _it: Connesione al vostro account.
