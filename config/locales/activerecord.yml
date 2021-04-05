@@ -43,6 +43,26 @@ _:
           _de: Jährlicher Beitrag
           _fr: Cotisation anuelle
           _it: Quota associativa annuale
+        basket_price_extra_label:
+          _de: Label
+          _fr: Label
+          _it: Etichetta
+        basket_price_extra_label_detail:
+          _de: Label-Details
+          _fr: Détails label
+          _it: Dettagli dell'etichetta
+        basket_price_extra_text:
+          _de: Erläuterung
+          _fr: Explication
+          _it: Spiegazione
+        basket_price_extra_title:
+          _de: Titolo
+          _fr: Titre
+          _it: Titel
+        basket_price_extras:
+          _de: Preisen Taschen (zusätzlich)
+          _fr: Prix panier (extras)
+          _it: Prezzo della cesta (extras)
         billing_starts_after_first_delivery:
           _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
           _fr: Facturer les abonnements uniquement après leur première livraison

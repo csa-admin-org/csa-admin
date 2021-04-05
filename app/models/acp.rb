@@ -26,6 +26,8 @@ class ACP < ActiveRecord::Base
   translated_attributes :group_buying_invoice_info
   translated_attributes :email_signature, :email_footer
   translated_rich_texts :open_renewal_text
+  translated_attributes :basket_price_extra_title, :basket_price_extra_text
+  translated_attributes :basket_price_extra_label, :basket_price_extra_label_detail
 
   validates :name, presence: true
   validates :host, presence: true
@@ -182,6 +184,18 @@ class ACP < ActiveRecord::Base
     self.activity_phone ||= phone
   end
 
+  def basket_price_extras?
+    self[:basket_price_extras].any?
+  end
+
+  def basket_price_extras
+    self[:basket_price_extras].join(', ')
+  end
+
+  def basket_price_extras=(string)
+    self[:basket_price_extras] = string.split(',').map(&:presence).compact
+  end
+
   def current_fiscal_year
     FiscalYear.current(start_month: fiscal_year_start_month)
   end
@@ -239,10 +253,6 @@ class ACP < ActiveRecord::Base
 
   def tapatate?
     tenant_name == 'tapatate'
-  end
-
-  def seminterra?
-    tenant_name == 'seminterra'
   end
 
   def group_buying_email

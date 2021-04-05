@@ -24,6 +24,7 @@ ActiveAdmin.register ACP do
     :billing_starts_after_first_delivery,
     :allow_alternative_depots,
     :membership_extra_text_only,
+    :basket_price_extras,
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -37,7 +38,11 @@ ActiveAdmin.register ACP do
     membership_extra_texts: I18n.available_locales,
     group_buying_terms_of_service_urls: I18n.available_locales,
     group_buying_invoice_infos: I18n.available_locales,
-    open_renewal_texts: I18n.available_locales
+    open_renewal_texts: I18n.available_locales,
+    basket_price_extra_titles: I18n.available_locales,
+    basket_price_extra_texts: I18n.available_locales,
+    basket_price_extra_labels: I18n.available_locales,
+    basket_price_extra_label_details: I18n.available_locales
 
   form do |f|
     f.inputs t('.details') do
@@ -154,6 +159,26 @@ ActiveAdmin.register ACP do
         input_html: { rows: 5 })
       f.input :membership_extra_text_only, as: :boolean
       f.input :allow_alternative_depots, as: :boolean
+    end
+    if Current.acp.feature_flag?(:basket_price_extra)
+      f.inputs ACP.human_attribute_name(:basket_price_extra) do
+        translated_input(f, :basket_price_extra_titles, required: false)
+        translated_input(f, :basket_price_extra_texts,
+          required: false,
+          as: :action_text,
+          input_html: { rows: 5 })
+        f.input :basket_price_extras, as: :string
+        translated_input(f, :basket_price_extra_labels,
+          as: :text,
+          hint: t('formtastic.hints.liquid_extra_html'),
+          wrapper_html: { class: 'ace-editor' },
+          input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+        translated_input(f, :basket_price_extra_label_details,
+          as: :text,
+          hint: t('formtastic.hints.liquid_extra_html'),
+          wrapper_html: { class: 'ace-editor' },
+          input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+      end
     end
     f.inputs t('.mailer'), id: 'mail' do
       para t('.mailer_text_html'), class: 'description'
