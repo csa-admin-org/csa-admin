@@ -37,25 +37,12 @@ p = t('.text')
         input_html: { value: [@member.desired_acp_shares_number, 1].max },
         hint: t('.desired_acp_shares_number_hint')
 
-    - if Current.acp.feature_flag?(:basket_price_extra)
-      - if Current.acp.ragedevert?
-        = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
-          label: "Prix de votre panier - Il détermine le salaire des jardiniers", \
-          text: "Rage de Vert a mené d'intenses discussions tout au long de l'année 2020 concernant les modestes salaires des jardiniers. Ce qui a inauguré une nouvelle pratique respectant les situations financières très disparates des abonnés, qui rendait une simple augmentation des prix des paniers guère envisageable. Cette pratique consiste à offrir des choix de suppléments au tarif de base, de façon à ce que chacun connaisse de façon transparente le lien entre le prix de son abonnement, et le salaire des jardiniers. Les options ci-dessous vous permettent de sélectionner le prix de votre panier, en sachant ce que cela implique pour les revenus des jardiniers si tous les abonnés font le même choix que vous.", \
-          hint: false, \
-          wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
-      - if Current.acp.tapatate?
-        = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
-          label: t('members.membership_renewals.new.tapatate.basket_price_extra.label'), \
-          text: t('members.membership_renewals.new.tapatate.basket_price_extra.text'), \
-          hint: false, \
-          wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
-      - if Current.acp.seminterra?
-        = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
-          label: "Il costo della vostra cesta determina il salario degli orticoltori della cooperativa", \
-          text: "Il progetto Seminterra è potuto cominciare grazie ai forti ideali e alla motivazione di diverse persone che hanno messo a disposizione molto tempo ed energie in maniera volontaria. Per garantire una continuità sul più lungo termine, fin dall’inizio è però stato chiaro che prima o poi sarebbe stato necessario stipendiare una parte del lavoro svolto. Affinché il progetto Seminterra sia sostenibile a tutti gli effetti, bisogna poter garantire dei salari dignitosi. Il seguente sistema offre la possibilità di versare un supplemento al costo di base per ogni cesta. Le diverse opzioni vi permettono di selezionare il costo della vostra cesta e di conoscere le implicazioni sul salario “teorico” degli orticoltori se tutti gli abbonati facessero la vostra stessa scelta e se venisse raggiunto un numero minimo di iscritti.", \
-          hint: false, \
-          wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
+    - if Current.acp.basket_price_extras?
+      = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection, \
+        label: Current.acp.basket_price_extra_title, \
+        text: Current.acp.basket_price_extra_text&.html_safe, \
+        hint: false, \
+        wrapper_html: { class: ('disabled' if support_checked) }, input_html: { disabled: support_checked }
 
     - if @member.members_basket_complements.any?
       = f.inputs BasketComplement.model_name.human(count: 2), class: 'basket_complements' do

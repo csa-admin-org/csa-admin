@@ -36,12 +36,6 @@ _:
         _de: "%{count} Arbeitsstunden"
         _fr: "%{count} heures de travail"
         _it: "%{count} ore di lavoro"
-    basket_prices_extra_collection:
-      tapatate:
-        no_basket_price_extra:
-          _de: Kein Solidaritätsbeitrag
-          _fr: Aucune cotisation solidaire
-          _it: Nessun contributo di solidarietà
     deliveries_count:
       one:
         _de: 1 Lieferung

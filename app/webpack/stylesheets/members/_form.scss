@@ -145,7 +145,7 @@ form.formtastic {
     border-radius: $base-border-radius;
   }
 
-  p.legend-text {
+  p.legend-text, p.legend-text + div {
     margin-top: $small-spacing / 2;
     font-size: $base-font-size * 0.9;
   }
