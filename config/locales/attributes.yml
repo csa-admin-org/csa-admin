@@ -7,7 +7,7 @@ _:
     acp_shares_number:
       _de: Anzahl Anteilscheine
       _fr: Nombre de parts sociales
-      _it: Numero di quote sociali cooperative
+      _it: Numero di quote sociali della cooperativa
     address:
       _de: Adresse
       _fr: Adresse
@@ -151,7 +151,7 @@ _:
     invoice_date:
       _de: Rechnung Datum
       _fr: Facture Date
-      _it: Facture Date
+      _it: Data della fattura
     invoice_id:
       _de: Rechnung ID
       _fr: Facture ID
@@ -239,11 +239,11 @@ _:
     presets:
       _de: Voreinstellungen
       _fr: Presets
-      _it: Presets
+      _it: Impostazioni
     price:
       _de: Preis
       _fr: Prix
-      _it: Presso
+      _it: Prezzo
     producer:
       _de: Produzent
       _fr: Producteur
@@ -295,7 +295,7 @@ _:
     unit_price:
       _de: Einheitspreis
       _fr: Prix unité
-      _it: Presso unitario
+      _it: Prezzo unitario
     updated_at:
       _de: Aktualisiert am
       _fr: Mis à jour le
