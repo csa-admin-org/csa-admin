@@ -157,7 +157,7 @@ describe 'Memberships Renewal' do
     end
     click_on 'Abonnement'
 
-    choose 'Résilier mon abonnement'
+    choose 'Résilier mon abonnement'
     click_on 'Suivant'
 
     fill_in 'Remarque(s)', with: "Pas assez d'épinards!"
