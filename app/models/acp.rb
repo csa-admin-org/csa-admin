@@ -163,6 +163,14 @@ class ACP < ActiveRecord::Base
     super & self.class.languages
   end
 
+  def default_locale
+    if languages.include?(I18n.default_locale.to_s)
+      I18n.default_locale.to_s
+    else
+      languages.first
+    end
+  end
+
   def email_from
     Mail::Address.new.tap { |builder|
       builder.address = email_default_from
