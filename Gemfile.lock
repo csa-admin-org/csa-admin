@@ -417,8 +417,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     statsd-ruby (1.5.0)
-    sucker_punch (3.0.1)
-      concurrent-ruby (~> 1.0)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
@@ -524,7 +522,6 @@ DEPENDENCIES
   slim
   spring
   spring-commands-rspec
-  sucker_punch
   tod
   turbolinks
   web-console (>= 4.1.0)
