@@ -30,6 +30,10 @@ _:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
           _fr: Laisser vide si aucune cotisation anuelle.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa.
+        basket_price_extras:
+          _de: Durch Komma getrennt.
+          _fr: Séparés par une virgule.
+          _it: Separate da una virgola.
         billing_starts_after_first_delivery:
           _de: Bei Deaktivierung erfolgt die Rechnungsstellung zu Beginn des Abonnements.
           _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
@@ -174,6 +178,10 @@ _:
         _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
         _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
         _it: Questa struttura dati è presentata come un esempio e viene generata in modo semi-casuale, potete modificarne i valori a piacimento per visualizzare in anteprima il tuo template.
+      liquid_extra_html:
+        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit Objekt "{{ extra }}".
+        _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec l'object "{{ extra }}".
+        _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> con l'oggetto "{{ extra }}".
       mail_template:
         active:
           _de: Diese Email wird nicht standardmäßig gesendet, bitte ändern Sie ihren Inhalt vor der Aktivierung.
