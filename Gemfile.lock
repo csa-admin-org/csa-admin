@@ -247,7 +247,7 @@ GEM
       nokogiri (~> 1)
       rake
     mini_magick (4.11.0)
-    mini_mime (1.0.3)
+    mini_mime (1.1.0)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
     msgpack (1.4.2)
@@ -274,7 +274,7 @@ GEM
       ruby-rc4
       ttfunk
     pg (1.2.3)
-    phony (2.18.21)
+    phony (2.18.22)
     phony_rails (0.14.13)
       activesupport (>= 3.0)
       phony (> 2.15)
@@ -351,7 +351,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    rexml (3.2.4)
+    rexml (3.2.5)
     ros-apartment (2.9.0)
       activerecord (>= 5.0.0, < 6.2)
       parallel (< 2.0)
@@ -390,14 +390,14 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
-    sentry-rails (4.3.3)
+    sentry-rails (4.3.4)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.3.0)
-    sentry-ruby (4.3.1)
+    sentry-ruby (4.3.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
-      sentry-ruby-core (= 4.3.1)
-    sentry-ruby-core (4.3.1)
+      sentry-ruby-core (= 4.3.2)
+    sentry-ruby-core (4.3.2)
       concurrent-ruby
       faraday
     sixarm_ruby_unaccent (1.2.0)
