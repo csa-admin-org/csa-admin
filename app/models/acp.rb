@@ -95,8 +95,8 @@ class ACP < ActiveRecord::Base
   def self.enter_each_in_parallel!(in_threads: 4)
     tenant_names = ACP.pluck(:tenant_name)
     Parallel.each(tenant_names, in_threads: in_threads) do |tenant_name|
-      enter!(tenant_name)
       ActiveRecord::Base.connection_pool.with_connection do
+        enter!(tenant_name)
         yield
       end
     end
