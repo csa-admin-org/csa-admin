@@ -40,7 +40,13 @@ class Session < ApplicationRecord
   end
 
   def expires_at
-    created_at + EXPIRATION
+    created_at +
+      case user_agent
+      when /\AAdmin ID: \d+/
+        1.hour
+      else
+        EXPIRATION
+      end
   end
 
   def expired?
@@ -57,6 +63,6 @@ class Session < ApplicationRecord
   end
 
   def owner_must_be_present
-    errors.add(:email, :unkown) unless [member_id, admin_id].one?(&:present?)
+    errors.add(:email, :unknown) unless [member_id, admin_id].one?(&:present?)
   end
 end
