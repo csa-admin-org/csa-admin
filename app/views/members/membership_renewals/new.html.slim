@@ -28,7 +28,7 @@ h2 = t(".title.#{params[:decision]}")
             = ff.input :basket_complement_id, as: :hidden
             = ff.input :quantity, as: :number, min: 0, label: basket_complement_label(ff.object.basket_complement), required: false
 
-      - unless Current.acp.tapatate?
+      - if Current.acp.membership_renewal_depot_update?
         = f.input :depot, as: :pretty_radio, collection: depots_collection(@membership), label: Depot.model_name.human
 
       = f.input :renewal_note, as: :text, input_html: { rows: 5 }, placeholder: t('.renewal_note.placeholder.renew').html_safe

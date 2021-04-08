@@ -21,6 +21,7 @@ ActiveAdmin.register ACP do
     :group_buying_email,
     :recurring_billing_wday, :currency_code,
     :open_renewal_reminder_sent_after_in_days,
+    :membership_renewal_depot_update,
     :billing_starts_after_first_delivery,
     :allow_alternative_depots,
     :membership_extra_text_only,
@@ -114,6 +115,7 @@ ActiveAdmin.register ACP do
         required: false,
         hint: t('formtastic.hints.acp.open_renewal_text'))
       f.input :open_renewal_reminder_sent_after_in_days
+      f.input :membership_renewal_depot_update
     end
     f.inputs t('.seasons') do
       para t('.membership_seasons_text'), class: 'description'

@@ -159,6 +159,10 @@ _:
           _de: Nur zusätzliche Erklärungen anzeigen
           _fr: Afficher uniquement les explications supplémentaires
           _it: Mostra solo spiegazioni supplementari
+        membership_renewal_depot_update:
+          _de: Erlauben Sie die Änderung das Depot
+          _fr: Permettre le changement du dépôt
+          _it: Permettere il cambiamento del punto di ritiro
         open_renewal_reminder_sent_after_in_days:
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _fr: Envoyer un rappel après (en jours)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_04_191911) do
+ActiveRecord::Schema.define(version: 2021_04_08_160338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2021_04_04_191911) do
     t.jsonb "basket_price_extra_texts", default: {}, null: false
     t.jsonb "basket_price_extra_labels", default: {}, null: false
     t.jsonb "basket_price_extra_label_details", default: {}, null: false
+    t.boolean "membership_renewal_depot_update", default: true, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
