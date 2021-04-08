@@ -141,7 +141,6 @@ describe 'Memberships Renewal' do
       basket_price_extra: 8)
   end
 
-
   specify 'cancel membership', freeze: '2020-09-30' do
     membership = create(:membership,
       member: member,
