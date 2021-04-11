@@ -33,7 +33,7 @@ class FiscalYear
   end
 
   def include?(date)
-    range.include?(date)
+    range.cover?(date)
   end
 
   def to_s
@@ -49,7 +49,7 @@ class FiscalYear
   end
 
   def month(date)
-    raise ArgumentError, 'date outside fiscal year' unless range.include?(date)
+    raise ArgumentError, 'date outside fiscal year' unless range.cover?(date)
     (date.year * 12 + date.month) - (beginning_of_year.year * 12 + beginning_of_year.month) + 1
   end
 

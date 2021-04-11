@@ -1,23 +1,23 @@
 class RecurringBilling
-  attr_reader :member, :membership, :invoices, :today, :fy_month
+  attr_reader :member, :membership, :invoices, :date, :fy_month
 
   def self.invoice(member, **attrs)
     new(member).invoice(**attrs)
   end
 
-  def initialize(member, membership = nil)
+  def initialize(member, membership = nil, date = nil)
     @member = member
     @membership = membership || [
       member.current_year_membership,
       member.future_membership
     ].compact.select(&:billable?).first
     @invoices = member.invoices.not_canceled.current_year
-    @today = Date.current
-    @fy_month = Current.acp.fy_month_for(today)
+    @date = date || Date.current
+    @fy_month = Current.acp.fy_month_for(@date)
   end
 
   def billable?
-    next_date&.in?(current_period)
+    next_date && current_period.cover?(next_date)
   end
 
   def next_date
@@ -25,7 +25,7 @@ class RecurringBilling
 
     @next_date ||=
       if membership&.billable?
-        date =
+        n_date =
           if current_period_billed?
             if current_period == periods.last
               next_billing_day
@@ -37,7 +37,7 @@ class RecurringBilling
           else
             next_billing_day(membership.started_on)
           end
-        date >= membership.fiscal_year.end_of_year ? today : date
+        n_date >= membership.fiscal_year.end_of_year ? date : n_date
       elsif member.support?
         if annual_fee_billable?
           next_billing_day
@@ -60,7 +60,7 @@ class RecurringBilling
   private
 
   def build_invoice(**attrs)
-    attrs[:date] = today
+    attrs[:date] = date
     if annual_fee_billable?
       attrs[:object_type] = 'AnnualFee'
       attrs[:annual_fee] = member.annual_fee
@@ -96,12 +96,12 @@ class RecurringBilling
   end
 
   def current_period
-    @current_period ||= periods.find { |d| d.include?(today) }
+    @current_period ||= periods.find { |d| d.cover?(date) }
   end
 
   def current_period_billed?
     invoices.where(object: membership).any? { |i|
-      current_period.include?(i.date)
+      current_period.cover?(i.date)
     }
   end
 
@@ -111,7 +111,7 @@ class RecurringBilling
 
   def periods
     @periods ||= begin
-      min = Current.fiscal_year.beginning_of_year
+      min = Current.acp.fiscal_year_for(date).beginning_of_year
       member.billing_year_division.times.map do |i|
         old_min = min
         max = min + period_length_in_months.months
@@ -127,8 +127,8 @@ class RecurringBilling
     next_billing_day(basket.delivery.date)
   end
 
-  def next_billing_day(date = today)
-    date = [date, today].compact.max.to_date
-    date + ((Current.acp.recurring_billing_wday - date.wday) % 7).days
+  def next_billing_day(day = date)
+    day = [day, date].compact.max.to_date
+    day + ((Current.acp.recurring_billing_wday - day.wday) % 7).days
   end
 end
