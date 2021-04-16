@@ -11,7 +11,7 @@ class Invoice < ActiveRecord::Base
   attr_reader :paid_missing_activity_participations_amount
   attr_accessor :comment
 
-  has_states :not_sent, :open, :closed, :canceled
+  has_states :processing, :not_sent, :open, :closed, :canceled
 
   belongs_to :member
   belongs_to :object, polymorphic: true, optional: true, touch: true
@@ -25,10 +25,11 @@ class Invoice < ActiveRecord::Base
   scope :annual_fee, -> { where.not(annual_fee: nil) }
   scope :membership, -> { where(object_type: 'Membership') }
   scope :acp_share, -> { where(object_type: 'ACPShare') }
+  scope :not_processing, -> { where.not(state: PROCESSING_STATE) }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
-  scope :all_without_canceled, -> { not_canceled }
-  scope :history, -> { where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
+  scope :all_without_canceled, -> { not_processing.not_canceled }
+  scope :history, -> { not_processing.where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
   scope :unpaid, -> { not_canceled.where('paid_amount < amount') }
   scope :overpaid, -> { not_canceled.where('amount > 0 AND paid_amount > amount') }
   scope :balance_equals, ->(amount) { where('(paid_amount - amount) = ?', amount) }
@@ -99,7 +100,7 @@ class Invoice < ActiveRecord::Base
 
   def send!
     return unless can_send_email?
-    raise UnprocessedError unless processed?
+    raise UnprocessedError if processing?
 
     MailTemplate.deliver_now(:invoice_created, invoice: self)
     touch(:sent_at)
@@ -118,7 +119,7 @@ class Invoice < ActiveRecord::Base
 
   def mark_as_sent!
     return if sent_at?
-    raise UnprocessedError unless processed?
+    invalid_transition(:mark_as_sent!) if processing?
 
     touch(:sent_at)
     close_or_open!
@@ -137,6 +138,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def close_or_open!
+    return if processing?
     invalid_transition(:update_state!) if canceled?
 
     if missing_amount.zero?
@@ -262,10 +264,6 @@ class Invoice < ActiveRecord::Base
     (memberships_gross_amount - memberships_vat_amount) if memberships_gross_amount
   end
 
-  def processed?
-    pdf_file.attached?
-  end
-
   private
 
   def validate_memberships_amount_for_current_year
@@ -302,15 +300,15 @@ class Invoice < ActiveRecord::Base
   end
 
   def process!
-    return if processed?
+    return unless processing?
 
     Payment.redistribute!(member_id)
     handle_acp_shares_change!
     reload # ensure that paid_amount/state change are reflected.
-
     set_pdf!
-
     Payment.redistribute!(member_id)
+    update!(state: NOT_SENT_STATE)
+    close_or_open!
 
     send! if @send_email
   end
