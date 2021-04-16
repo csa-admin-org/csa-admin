@@ -447,12 +447,14 @@ ActiveAdmin.register Membership do
       f.input :ended_on, as: :datepicker
     end
 
-    if Current.acp.feature?('activity') && !resource.new_record?
+    if Current.acp.feature?('activity')
       f.inputs activities_human_name do
         f.input :activity_participations_demanded_annualy,
           label: "#{activities_human_name} (#{t('.full_year')})",
           hint: true
-        f.input :activity_participations_annual_price_change, label: true, hint: true
+        f.input :activity_participations_annual_price_change,
+          label: true,
+          hint: true
       end
     end
 
