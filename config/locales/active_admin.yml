@@ -589,6 +589,10 @@ _:
           _de: Löschen
           _fr: Effacer
           _it: Cancellare
+        full_year:
+          _de: ganzes Jahr
+          _fr: année complète
+          _it: anno completo
         has_many_new_invoice_item:
           _de: Einen Artikel hinzufügen
           _fr: Ajouter un article
