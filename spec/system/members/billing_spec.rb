@@ -9,7 +9,7 @@ describe 'Billing' do
   end
 
   it 'list open invoices' do
-    create(:invoice, :open, :annual_fee, id: 4242,
+    create(:invoice, :annual_fee, id: 4242,
       member: member, date: '2018-2-1', annual_fee: 42)
 
     visit '/'
@@ -25,8 +25,9 @@ describe 'Billing' do
 
   it 'list invoices and payments history' do
     member.update!(billing_year_division: 1)
-    create(:invoice, :annual_fee, id: 103,
-      member: member, date: '2017-03-19', state: 'closed', sent_at: nil)
+    closed_invoice = create(:invoice, :annual_fee, id: 103,
+      member: member, date: '2017-03-19', sent_at: nil)
+    closed_invoice.update_column(:state, 'closed')
     inovice = create(:invoice, :activity_participation, id: 242,
       member: member, date: '2018-04-12', paid_missing_activity_participations_amount: 120)
     create(:payment, invoice: inovice, member: member, date: '2018-5-1', amount: 162)
