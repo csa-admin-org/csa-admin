@@ -69,6 +69,18 @@ ActiveAdmin.register Payment do
     end
   end
 
+  sidebar :import, only: :index, if: -> { authorized?(:import, Payment) } do
+    render('active_admin/payments/import')
+  end
+
+  collection_action :import, method: :post do
+    authorize!(:import, Payment)
+    Billing::CamtFile.process!(params.require(:file))
+    redirect_to collection_path, notice: t('.flash.notice')
+  rescue Billing::CamtFile::UnsupportedFileError
+    redirect_to collection_path, alert: t('.flash.alert')
+  end
+
   show do |payement|
     attributes_table do
       row :id
