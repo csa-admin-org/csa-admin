@@ -64,7 +64,7 @@ describe InvoiceQRCode do
   end
 
   specify '#generate_qr_image' do
-    expected = MiniMagick::Image.open("#{Rails.root}/spec/support/fixtures/qrcode-706.png")
+    expected = MiniMagick::Image.open file_fixture('qrcode-706.png')
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
     result = InvoiceQRCode.new(invoice).generate_qr_image
     # result.write("#{Rails.root}/tmp/qrcode-#{invoice.id}.png")

@@ -1,0 +1,5 @@
+= form_tag import_payments_path, multipart: true, class: 'import' do
+  = label_tag :file, t('.file_label')
+  = file_field_tag :file, accept: 'text/xml', required: true
+  .buttons
+    = submit_tag t('.submit')

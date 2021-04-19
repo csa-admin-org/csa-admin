@@ -33,13 +33,13 @@ namespace :billing do
     ACP.enter_each! do
       if ebics_credentials = Current.acp.credentials(:ebics)
         provider = Billing::EBICS.new(ebics_credentials)
-        PaymentsProcessor.new(provider).process
+        Billing::PaymentsProcessor.process!(provider.payments_data)
         puts "#{Current.acp.name}: New EBICS payments processed."
       end
       if bas_credentials = Current.acp.credentials(:bas)
         provider = Billing::BAS.new(bas_credentials)
-        if Current.acp.invoice_type == 'ISR'
-          PaymentsProcessor.new(provider).process
+        if Current.acp.isr_invoice?
+          Billing::PaymentsProcessor.process!(provider.payments_data)
           puts "#{Current.acp.name}: New BAS payments processed."
         elsif provider.version != '2.10'
           ExceptionNotifier.notify(

@@ -382,6 +382,16 @@ _:
         _de: Anzeige von <b>%{n}</b> %{model}
         _fr: Affichage des <b>%{n}</b> %{model}
         _it: Visualizzazione di <b>%{n}</b> %{model}
+    payments:
+      import:
+        file_label:
+          _de: camt.054 XML-Datei
+          _fr: Fichier XML camt.054
+          _it: File XML camt.054
+        submit:
+          _de: Importieren
+          _fr: Importer
+          _it: Importa
     previous:
       _de: Vorheriger
       _fr: Précédent
@@ -1103,6 +1113,10 @@ _:
         _de: iCalendar
         _fr: iCalendar
         _it: iCalendar
+      import:
+        _de: Import
+        _fr: Importation
+        _it: Importazione
       overpaid:
         _de: 'Überbezahlt:'
         _fr: 'Payé en trop:'

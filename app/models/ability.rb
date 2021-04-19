@@ -38,6 +38,9 @@ class Ability
       can :wait, Member, can_wait?: true
       can :send_email, Invoice, can_send_email?: true
       can :cancel, Invoice, can_cancel?: true
+      if Current.acp.can_import_payment?
+        can :import, Payment
+      end
     end
     if admin.right? 'superadmin'
       can :manage, [Basket, Admin, ACP, Membership, Payment, MailTemplate]

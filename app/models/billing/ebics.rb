@@ -1,6 +1,5 @@
 module Billing
   class EBICS
-    PaymentData = Class.new(OpenStruct)
     GET_PAYMENTS_FROM = 1.month.ago
 
     def initialize(credentials = {})
@@ -10,31 +9,7 @@ module Billing
 
     def payments_data
       files = get_camt54_files
-      files.flat_map { |file|
-        camt54 = CamtParser::String.parse(file)
-        camt54.notifications.flat_map { |notification|
-          notification.entries.flat_map { |entry|
-            date = entry.value_date
-            entry.transactions.map { |transaction|
-              ref = transaction.creditor_reference
-              if transaction.credit? && ref.present?
-                bank_ref = transaction.bank_reference
-                PaymentData.new(
-                  invoice_id: ref.last(10).first(9).to_i,
-                  amount: transaction.amount,
-                  date: date,
-                  isr_data: "#{date}-#{bank_ref}-#{ref}")
-              end
-            }.compact
-          }
-        }
-      # Handle identical payment (same date, same ref, same amount)
-      }.group_by(&:isr_data).flat_map { |_, dd|
-        dd.each_with_index.map { |d, i|
-          d.isr_data += "-#{i}" if i > 0
-          d
-        }
-      }
+      CamtFile.new(files).payments_data
     end
 
     private

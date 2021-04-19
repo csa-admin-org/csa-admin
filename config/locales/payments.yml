@@ -1,0 +1,12 @@
+_:
+  payments:
+    import:
+      flash:
+        alert:
+          _de: Die Datei ist nicht gültig.
+          _fr: Le fichier n'est pas valide.
+          _it: Il file non è valido.
+        notice:
+          _de: Die Zahlungen wurden erfolgreich importiert.
+          _fr: Les paiements ont été importés avec succès.
+          _it: I pagamenti sono stati importati con successo.

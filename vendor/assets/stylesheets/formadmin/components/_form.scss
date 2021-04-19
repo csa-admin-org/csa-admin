@@ -342,8 +342,6 @@ form {
 
 // Filter
 form.filter_form {
-  margin: $spacing;
-
   .filter_form_field {
     margin-bottom: 15px;
     @include clearfix;
@@ -382,6 +380,10 @@ form.filter_form {
     //   border-top: 1px solid tint($silver, 35%);
     // }
   }
+}
+
+form.import, form.filter_form {
+  margin: $spacing;
 
   .buttons {
     // border-top: 1px solid $silver;
@@ -398,5 +400,12 @@ form.filter_form {
       padding: 5px 10px;
       box-shadow: rgba(27, 31, 35, 0.1) 0px 1px 0px 0px, rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
     }
+  }
+}
+
+form.import {
+  input[type='file'] {
+    margin: 0;
+    font-size: 0.9em;
   }
 }
