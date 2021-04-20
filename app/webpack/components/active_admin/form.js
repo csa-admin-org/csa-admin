@@ -13,4 +13,18 @@ $(document).on('turbolinks:load', function() {
     var nextInput = $(':input:eq(' + ($(':input').index(this) + 1) + ')');
     nextInput.prop('value', '');
   });
+
+  $('.js-update_basket_depot_options').on('change', function() {
+    var selectedDeliveryID = this.value;
+    Array.from(document.querySelector("#basket_depot_id").options).forEach(option => {
+      var deliveryIds = option.getAttribute('data-delivery-ids').split(',');
+      if (deliveryIds.some(id => id === selectedDeliveryID)) {
+        option.disabled = false;
+        option.selected = false;
+      } else {
+        option.disabled = true;
+        option.selected = false;
+      }
+    })
+  });
 });
