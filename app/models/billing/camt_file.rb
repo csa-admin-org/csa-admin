@@ -9,7 +9,7 @@ module Billing
     end
 
     def initialize(*files)
-      @files = Array(files)
+      @files = Array(*files)
     end
 
     def payments_data

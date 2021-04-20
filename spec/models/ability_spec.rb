@@ -46,12 +46,19 @@ describe Ability do
     specify { expect(ability.can?(:destroy, Depot)).to be false }
     specify { expect(ability.can?(:destroy, BasketSize)).to be false }
     specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
+    specify { expect(ability.can?(:import, Payment)).to be false }
 
     context 'share price' do
       before { Current.acp.update!(share_price: 420) }
 
       specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
       specify { expect(ability.can?(:deactivate, Member.new(state: 'support'))).to be false }
+    end
+
+    context 'can import payments' do
+      before { Current.acp.update_columns(tenant_name: 'tapatate', ccp: nil) }
+
+      specify { expect(ability.can?(:import, Payment)).to be true }
     end
   end
 
@@ -72,6 +79,7 @@ describe Ability do
     specify { expect(ability.can?(:destroy, Depot)).to be true }
     specify { expect(ability.can?(:destroy, BasketSize)).to be true }
     specify { expect(ability.can?(:destroy, BasketComplement)).to be true }
+    specify { expect(ability.can?(:import, Payment)).to be false }
 
     specify 'when used' do
       depot = create(:depot)
@@ -85,6 +93,12 @@ describe Ability do
       expect(ability.can?(:destroy, depot)).to be false
       expect(ability.can?(:destroy, basket_size)).to be false
       expect(ability.can?(:destroy, basket_complement)).to be false
+    end
+
+    context 'can import payments' do
+      before { Current.acp.update_columns(tenant_name: 'tapatate', ccp: nil) }
+
+      specify { expect(ability.can?(:import, Payment)).to be true }
     end
   end
 end
