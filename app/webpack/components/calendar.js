@@ -2,6 +2,7 @@ import { live, checked, prop, hide, show, addClass, removeClass } from 'componen
 import flatpickr from 'flatpickr';
 import { French } from 'flatpickr/dist/l10n/fr';
 import { German } from 'flatpickr/dist/l10n/de';
+import { Italian } from 'flatpickr/dist/l10n/it';
 import 'flatpickr/dist/themes/confetti';
 import 'stylesheets/flatpickr';
 
@@ -24,7 +25,13 @@ const handleDateInput = () => {
 
 const flatpickrLocale = () => {
   const locale = document.documentElement.lang;
-  return locale === 'fr' ? French : German;
+  if (locale === 'de') {
+    return German;
+  } else if (locale === 'it') {
+    return Italian;
+  } else {
+    return French;
+  }
 };
 
 const initDate = dateText => {

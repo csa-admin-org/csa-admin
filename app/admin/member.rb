@@ -94,6 +94,9 @@ ActiveAdmin.register Member do
         m.waiting_alternative_depots.map(&:name).to_sentence
       }
     end
+    if Current.acp.feature?('contact_sharing')
+      column(:contact_sharing)
+    end
     column(:food_note)
     column(:note)
     column(:validated_at)

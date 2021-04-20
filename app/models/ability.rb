@@ -43,7 +43,7 @@ class Ability
       end
     end
     if admin.right? 'superadmin'
-      can :manage, [Basket, Admin, ACP, Membership, Payment, MailTemplate]
+      can :manage, [Basket, Admin, ACP, Membership, MailTemplate]
       sensible_models = [BasketSize, BasketComplement, Depot]
       can :create, sensible_models
       can :update, sensible_models
