@@ -22,7 +22,17 @@ ActiveAdmin.register Basket do
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true, required: false
       f.input :quantity
-      f.input :depot, prompt: true, input_html: { class: 'js-reset_price' }
+      delivery_collection = basket_deliveries_collection(f.object)
+      if delivery_collection.many?
+        f.input :delivery,
+          collection: delivery_collection,
+          prompt: true,
+          input_html: { class: 'js-update_basket_depot_options' }
+      end
+      f.input :depot,
+        collection: basket_depots_collection(f.object),
+        prompt: true,
+        input_html: { class: 'js-reset_price' }
       f.input :depot_price, hint: true, required: false
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
@@ -43,6 +53,7 @@ ActiveAdmin.register Basket do
 
   permit_params \
     :basket_size_id, :basket_price, :quantity,
+    :delivery_id,
     :depot_id, :depot_price,
     baskets_basket_complements_attributes: %i[
       id basket_complement_id
