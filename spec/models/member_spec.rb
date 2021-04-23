@@ -453,4 +453,31 @@ describe Member do
       expect(member.missing_acp_shares_number).to eq 2
     end
   end
+
+  describe '#can_destroy?' do
+    specify 'can destroy pending user' do
+      member = Member.new(state: 'pending')
+      expect(member.can_destroy?).to eq true
+    end
+
+    specify 'can destory inactive member with no memberships and no invoices' do
+      member = create(:member, :inactive)
+      create(:invoice, :annual_fee, :canceled, member: member, annual_fee: 10)
+      expect(member.can_destroy?).to eq true
+    end
+
+    specify 'cannot destory inactive member with membership' do
+      member = create(:member, :inactive)
+      create(:membership, :last_year, member: member)
+      expect(member.reload).to be_inactive
+      expect(member.can_destroy?).to eq false
+    end
+
+    specify 'cannot destory inactive member with invoices' do
+      member = create(:member, :inactive)
+      create(:invoice, :annual_fee, member: member, annual_fee: 10)
+      expect(member.reload).to be_inactive
+      expect(member.can_destroy?).to eq false
+    end
+  end
 end

@@ -238,7 +238,8 @@ class Member < ActiveRecord::Base
   end
 
   def can_destroy?
-    pending?
+    pending? ||
+      (inactive? && memberships.none? && invoices.not_canceled.none?)
   end
 
   def invoices_amount
