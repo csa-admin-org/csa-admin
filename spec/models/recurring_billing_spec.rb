@@ -525,6 +525,25 @@ describe RecurringBilling do
       end
     end
 
+    specify 'support_annual_fee member' do
+      member = create(:member, state: 'support', desired_acp_shares_number: 2)
+      travel_to '2021-01-01' do # Friday
+        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+      end
+      travel_to '2021-01-04' do # Monday
+        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+      end
+    end
+
+    specify 'support_annual_fee member already invoiced' do
+      Current.acp.update!(annual_fee: nil, share_price: 100)
+      member = create(:member, :support_acp_share)
+      travel_to '2021-01-01' do # Friday
+        expect(RecurringBilling.new(member.reload).next_date).to be_nil
+      end
+    end
+
+
     specify 'membership beginning of the year, wait after first delivery' do
       create(:delivery, date: '2021-01-05') # Tuesday
       member = travel_to '2021-01-01' do # Friday
