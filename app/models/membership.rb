@@ -370,7 +370,7 @@ class Membership < ActiveRecord::Base
   end
 
   def update_activity_participations_demanded!
-    deliveries_count = Delivery.during_year(fy_year).count
+    deliveries_count = depot.deliveries.during_year(fy_year).count
     percentage =
       if member.salary_basket? || deliveries_count.zero?
         0
