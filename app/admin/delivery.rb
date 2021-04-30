@@ -172,15 +172,15 @@ ActiveAdmin.register Delivery do
     include TranslatedCSVFilename
 
     def show
-      respond_to do |format|
-        format.html
-        format.xlsx do
+      super do |success, _failure|
+        success.html
+        success.xlsx do
           xlsx = XLSX::Delivery.new(resource)
           send_data xlsx.data,
             content_type: xlsx.content_type,
             filename: xlsx.filename
         end
-        format.pdf do
+        success.pdf do
           pdf = PDF::Delivery.new(resource)
           send_data pdf.render,
             content_type: pdf.content_type,
