@@ -20,7 +20,7 @@ class ActivityParticipationGroup
       activity.descriptions.to_s
   end
 
-  delegate :member, :participants_count, to: :participation
+  delegate :member, :member_id, :participants_count, to: :participation
 
   def initialize(participations)
     @participations = participations
