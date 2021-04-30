@@ -25,10 +25,11 @@ describe ActivityMailer do
       member: create(:member, name: 'Elea Asah'),
       carpooling_phone: '+41765431243',
       carpooling_city: 'La Chaux-de-Fonds')
+    group = ActivityParticipationGroup.group([participation])
 
     mail = ActivityMailer.with(
       template: template,
-      activity_participation: participation,
+      activity_participation: group.first,
     ).participation_reminder_email
 
     expect(mail.subject).to eq('Activité à venir (24 mars 2020)')
