@@ -42,12 +42,6 @@ module.exports = function(api) {
       isTestEnv && require('babel-plugin-dynamic-import-node'),
       require('@babel/plugin-transform-destructuring').default,
       [
-        require('@babel/plugin-proposal-class-properties').default,
-        {
-          loose: true
-        }
-      ],
-      [
         require('@babel/plugin-proposal-object-rest-spread').default,
         {
           useBuiltIns: true
