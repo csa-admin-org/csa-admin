@@ -587,22 +587,35 @@ _:
             _it: Rinnovamento
     sessions:
       new:
-        activity_text/basket_preparation:
-          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Taschen befüllung einschreiben können.
-          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux mises en panier.
-          _it: Ogni socio/a ha accesso a un conto online che gli consente di registrarsi per la preparazione ceste.
-        activity_text/halfday_work:
-          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Halbtage einschreiben können.
-          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux ½ journées.
-          _it: Ogni socio/a ha accesso a un conto online che gli consente di registrarsi per le ½ giornate di lavoro.
-        activity_text/hour_work:
-          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, wo die Mitglieder sich für die Arbeitsstunden einschreiben können.
-          _fr: Chaque membre a accès à un compte privé lui permettant de s'inscrire aux heures de travail.
-          _it: Ogni socio/a ha accesso a un conto online che gli consente di registrarsi per le ore di lavoro.
         email_input:
           _de: Ihres Email
           _fr: Votre email
           _it: Vostra email
+        features:
+          absence_text:
+            _de: eine Abwesenheit zu melden
+            _fr: d'annoncer une absence
+            _it: annunciare un'assenza
+          activity_text/basket_preparation:
+            _de: sich für die Taschen befüllung einschreiben können
+            _fr: de s'inscrire aux mises en panier
+            _it: registrarsi per la preparazione ceste
+          activity_text/halfday_work:
+            _de: sich für die Halbtage einschreiben können
+            _fr: de s'inscrire aux ½ journées
+            _it: registrarsi per le ½ giornate di lavoro
+          activity_text/hour_work:
+            _de: sich für die Arbeitsstunden einschreiben können
+            _fr: de s'inscrire aux heures de travail
+            _it: registrarsi per le ore di lavoro
+          billing_text:
+            _de: den Status Ihrer Rechnungen abfragen
+            _fr: consulter l'état de ses factures
+            _it: controllare lo stato delle proprie fatture
+          deliveries_text:
+            _de: siehe seine nächsten Lieferungen
+            _fr: voir ses prochaines livraisons
+            _it: vedere le prossime consegne
         form_text:
           _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
           _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
@@ -612,9 +625,9 @@ _:
           _fr: Envoyer
           _it: Inviare
         text:
-          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, über das es seine nächsten Lieferungen sowie den Status seiner Rechnungen einsehen kann.
-          _fr: Chaque membre a accès à un compte privé lui permettant de voir ses prochaines livraisons ainsi que l'état de ses factures.
-          _it: Ogni socio/a ha accesso a un conto online che gli consente di gestire le prossime consegne e controllare lo stato delle proprie fatture.
+          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, das ihm u.a. erlaubt, %{features}.
+          _fr: Chaque membre a accès à un compte privé lui permettant, entre autres, %{features}.
+          _it: Ogni socio/a ha accesso a un conto online che gli consente, tra l'altro, %{features}.
         title:
           _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
