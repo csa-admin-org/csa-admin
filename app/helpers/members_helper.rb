@@ -252,4 +252,13 @@ module MembersHelper
 
     t('helpers.acp_shares_number', count: number)
   end
+
+  def member_features_sentence
+    features = []
+    features << t_activity('.features.activity_text') if Current.acp.feature?('activity')
+    features << t('.features.absence_text') if Current.acp.feature?('absence')
+    features << t('.features.deliveries_text')
+    features << t('.features.billing_text')
+    features.to_sentence
+  end
 end
