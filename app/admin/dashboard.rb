@@ -30,7 +30,7 @@ ActiveAdmin.register_page 'Dashboard' do
               span do
                 link_to Invoice.human_attribute_name(:xlsx_recap), billing_path(Current.fy_year, format: :xlsx)
               end
-              latest_snapshots = Billing::Snapshot.order(updated_at: :desc).last(4)
+              latest_snapshots = Billing::Snapshot.order(updated_at: :desc).first(4)
               if latest_snapshots.any?
                 span "<br/><br/>".html_safe
                 span do
