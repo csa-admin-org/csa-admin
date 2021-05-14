@@ -9,9 +9,10 @@ class Ability
       can :pdf, Invoice
     end
     if admin.right? 'standard'
-      can :manage, [Activity, ActivityParticipation, Absence, Vegetable, BasketContent] & available_models
-      can :create, ActiveAdmin::Comment
-      can :update, [Basket, BasketComplement, Delivery]
+      can :manage, [ActivityParticipation, Absence, Vegetable, BasketContent] & available_models
+      can :create, [Activity, ActiveAdmin::Comment]
+      can :update, [Activity, Basket, BasketComplement, Delivery]
+      can :destroy, Activity, can_destroy?: true
     end
     if admin.right? 'admin'
       can :read, Admin

@@ -18,6 +18,9 @@ class Activity < ActiveRecord::Base
   scope :past_current_year, -> {
     where('activities.date < ? AND activities.date >= ?', Date.current, Current.fy_range.min)
   }
+  scope :without_participations, -> {
+    includes(:participations).where(participations: { id: nil })
+  }
 
   validates :start_time, :end_time, :title, presence: true
   validates :participants_limit,
@@ -78,6 +81,10 @@ class Activity < ActiveRecord::Base
       self.place_urls = @preset.place_urls
       self.titles = @preset.titles
     end
+  end
+
+  def can_destroy?
+    participations.none?
   end
 
   private
