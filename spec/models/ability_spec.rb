@@ -23,6 +23,12 @@ describe Ability do
     specify { expect(ability.can?(:destroy, Depot)).to be false }
     specify { expect(ability.can?(:destroy, BasketSize)).to be false }
     specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
+
+    specify { expect(ability.can?(:destroy, Activity)).to be true }
+    specify 'activity with participation' do
+      activity = create(:activity_participation).activity
+      expect(ability.can?(:destroy, activity)).to be false
+    end
   end
 
   context 'admin rights' do

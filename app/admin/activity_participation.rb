@@ -182,7 +182,7 @@ ActiveAdmin.register ActivityParticipation do
     end
   end
 
-  config.per_page = 25
+  config.per_page = 50
   config.sort_order = 'activities.date_asc'
   config.batch_actions = true
 end

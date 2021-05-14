@@ -26,6 +26,9 @@ ActiveAdmin.register Activity do
 
   includes :participations
   index do
+    column resource_selection_toggle_cell, class: "col-selectable", sortable: false do |a|
+      resource_selection_cell(a) if a.can_destroy?
+    end
     column :date, ->(a) { l a.date, format: :medium }, sortable: :date
     column :period, ->(a) { a.period }
     column :place, ->(a) { display_place(a) }
@@ -35,6 +38,19 @@ ActiveAdmin.register Activity do
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
     }
     actions class: 'col-actions-2'
+  end
+
+  batch_action(:destroy,
+    confirm: proc { I18n.t('active_admin.batch_actions.delete_confirmation', plural_model: active_admin_config.plural_resource_label.downcase) },
+    if: proc { controller.action_methods.include?('destroy') && authorized?(ActiveAdmin::Auth::DESTROY, active_admin_config.resource_class) }
+  ) do |ids|
+    Activity.without_participations.delete(ids)
+    redirect_to active_admin_config.route_collection_path(params),
+      notice: I18n.t(
+        'active_admin.batch_actions.succesfully_destroyed',
+        count: ids.count,
+        model: active_admin_config.resource_label.downcase,
+        plural_model: active_admin_config.plural_resource_label(count: ids.count).downcase)
   end
 
   order_by(:date) do |order_clause|
@@ -102,6 +118,7 @@ ActiveAdmin.register Activity do
     include TranslatedCSVFilename
   end
 
-  config.per_page = 25
+  config.per_page = 100
   config.sort_order = 'date_asc'
+  config.batch_actions = true
 end
