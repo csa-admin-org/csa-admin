@@ -6,7 +6,7 @@ module PDF
       @delivery = delivery
       super
       @current_time = Time.current
-      basket_ids = delivery.baskets.not_empty.not_absent.pluck(:id)
+      basket_ids = delivery.baskets.not_empty.pluck(:id)
       @baskets = Basket.where(id: basket_ids).includes(:member, :baskets_basket_complements).order('members.name')
       @depots =
         if depot
@@ -118,11 +118,13 @@ module PDF
           width: member_name_width,
           # height: 25,
           align: :right,
-          padding_right: 15
+          padding_right: 15,
+          font_style: basket.absent? ? :italic : nil,
+          text_color: basket.absent? ? '999999' : nil
         ]
         basket_sizes.each do |bs|
           line << {
-            content: (basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''),
+            content: (!basket.absent? && basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''),
             width: 25,
             # height: 25,
             align: :center
@@ -130,13 +132,17 @@ module PDF
         end
         basket_complements.each do |c|
           line << {
-            content: (basket.baskets_basket_complements.map(&:basket_complement_id).include?(c.id) ? display_quantity(basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }.quantity) : ''),
+            content: (!basket.absent? && basket.baskets_basket_complements.map(&:basket_complement_id).include?(c.id) ? display_quantity(basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }.quantity) : ''),
             width: 25,
             # height: 25,
             align: :center
           }
         end
-        line << { content: '', width: signature_width }
+        line << {
+          content: basket.absent? ? Basket.human_attribute_name(:absent).upcase : '',
+          width: signature_width,
+          align: :center
+        }
         data << line
       end
 
@@ -147,7 +153,7 @@ module PDF
         padding_right: 15
       ]
       basket_sizes.each do |bs|
-        baskets_with_size = baskets.select { |b| b.basket_size_id == bs.id }
+        baskets_with_size = baskets.reject(&:absent?).select { |b| b.basket_size_id == bs.id }
         total_line << {
           content: baskets_with_size.sum(&:quantity).to_s,
           width: 25,
@@ -155,7 +161,7 @@ module PDF
         }
       end
       basket_complements.each do |c|
-        baskets_basket_complements = baskets.flat_map(&:baskets_basket_complements).select { |bbc| bbc.basket_complement_id == c.id }
+        baskets_basket_complements = baskets.reject(&:absent?).flat_map(&:baskets_basket_complements).select { |bbc| bbc.basket_complement_id == c.id }
         total_line << {
           content: baskets_basket_complements.sum(&:quantity).to_s,
           width: 25,
