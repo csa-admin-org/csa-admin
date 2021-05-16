@@ -24,7 +24,7 @@ module PDF
 
         baskets.each_slice(basket_per_page).with_index do |slice, i|
           page_n = i + 1
-          page(dist, slice, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
+          page(dist, slice, baskets, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
         start_new_page unless @depots.last == dist
@@ -46,9 +46,9 @@ module PDF
       super.merge(Title: "#{::Delivery.human_attribute_name(:signature_sheets)} #{delivery.date}")
     end
 
-    def page(depot, baskets, basket_sizes, basket_complements, page:, total_pages:)
+    def page(depot, page_baskets, baskets, basket_sizes, basket_complements, page:, total_pages:)
       header(depot, page: page, total_pages: total_pages)
-      content(depot, baskets, basket_sizes, basket_complements)
+      content(depot, page_baskets, baskets, basket_sizes, basket_complements)
       footer
     end
 
@@ -65,43 +65,73 @@ module PDF
       end
     end
 
-    def content(depot, baskets, basket_sizes, basket_complements)
+    def content(depot, page_baskets, baskets, basket_sizes, basket_complements)
       font_size 11
       move_down 2.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
 
-      member_name_width = 270
-      signature_width = 100
-      width = member_name_width + (bs_size + bc_size) * 25 + signature_width
+      page_border = 20
+      width = bounds.width - 2 * page_border
+      number_width = 25
+      signature_width = 125
+      member_name_width = width - (bs_size + bc_size) * number_width - signature_width
 
-      # Headers
-      bounding_box [(bounds.width - width) / 2, cursor], width: width, height: 25, position: :center do
+      # Headers Basket Sizes and Complements
+      bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
         text_box '', width: member_name_width, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
           text_box bs.name,
             rotate: 45,
-            at: [member_name_width + i * 25 + 5, cursor],
+            at: [member_name_width + i * 25 + 10, cursor],
             valign: :center
         end
         basket_complements.each_with_index do |c, i|
           text_box c.name,
             rotate: 45,
-            at: [member_name_width + bs_size * 25 + i * 25 + 5, cursor],
+            at: [member_name_width + bs_size * 25 + i * 25 + 10, cursor],
             valign: :center
         end
-        text_box ::Delivery.human_attribute_name(:signature),
-          width: signature_width,
-          at: [member_name_width + (bs_size + bc_size) * 25, cursor],
-          align: :right,
-          height: 20,
-          valign: :center
       end
 
+      move_up 0.4.cm
       font_size 12
       data = []
-      baskets.each do |basket|
+
+      # Depot Totals
+      total_line = [
+        content: I18n.t('delivery.totals'),
+        width: member_name_width,
+        align: :right,
+        padding_right: 15
+      ]
+      all_baskets = baskets.reject(&:absent?)
+      basket_sizes.each do |bs|
+        baskets_with_size = all_baskets.select { |b| b.basket_size_id == bs.id }
+        total_line << {
+          content: baskets_with_size.sum(&:quantity).to_s,
+          width: 25,
+          align: :center
+        }
+      end
+      basket_complements.each do |c|
+        baskets_basket_complements = all_baskets.flat_map(&:baskets_basket_complements).select { |bbc| bbc.basket_complement_id == c.id }
+        total_line << {
+          content: baskets_basket_complements.sum(&:quantity).to_s,
+          width: 25,
+          align: :center
+        }
+      end
+      total_line << {
+        content: ::Delivery.human_attribute_name(:signature),
+        align: :right,
+        width: signature_width
+      }
+      data << total_line
+
+      # Baskets
+      page_baskets.each do |basket|
         column_content = basket.member.name
 
         if Current.acp.delivery_pdf_show_phones?
@@ -116,27 +146,16 @@ module PDF
         line = [
           content: column_content,
           width: member_name_width,
-          # height: 25,
           align: :right,
           padding_right: 15,
           font_style: basket.absent? ? :italic : nil,
           text_color: basket.absent? ? '999999' : nil
         ]
         basket_sizes.each do |bs|
-          line << {
-            content: (!basket.absent? && basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''),
-            width: 25,
-            # height: 25,
-            align: :center
-          }
+          line << (basket.absent? ? '–' : (basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''))
         end
         basket_complements.each do |c|
-          line << {
-            content: (!basket.absent? && basket.baskets_basket_complements.map(&:basket_complement_id).include?(c.id) ? display_quantity(basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }.quantity) : ''),
-            width: 25,
-            # height: 25,
-            align: :center
-          }
+          line << (basket.absent? ? '–' : (basket.baskets_basket_complements.map(&:basket_complement_id).include?(c.id) ? display_quantity(basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }.quantity) : ''))
         end
         line << {
           content: basket.absent? ? Basket.human_attribute_name(:absent).upcase : '',
@@ -146,57 +165,35 @@ module PDF
         data << line
       end
 
-      total_line = [
-        content: I18n.t('delivery.totals'),
-        width: member_name_width,
-        align: :right,
-        padding_right: 15
-      ]
-      basket_sizes.each do |bs|
-        baskets_with_size = baskets.reject(&:absent?).select { |b| b.basket_size_id == bs.id }
-        total_line << {
-          content: baskets_with_size.sum(&:quantity).to_s,
-          width: 25,
-          align: :center
-        }
-      end
-      basket_complements.each do |c|
-        baskets_basket_complements = baskets.reject(&:absent?).flat_map(&:baskets_basket_complements).select { |bbc| bbc.basket_complement_id == c.id }
-        total_line << {
-          content: baskets_basket_complements.sum(&:quantity).to_s,
-          width: 25,
-          align: :center
-        }
-      end
-      data << (total_line << { content: '', width: signature_width })
-
       table(
         data,
-        row_colors: %w[DDDDDD FFFFFF],
+        row_colors: %w[FFFFFF DDDDDD],
         cell_style: { border_width: 0.5, border_color: 'AAAAAA', inline_format: true },
         position: :center) do |t|
         t.cells.borders = []
+        t.cells.valign = :center if Current.acp.delivery_pdf_show_phones?
         (bs_size + bc_size).times do |i|
+          t.columns(1 + i).width = number_width
+          t.columns(1 + i).align = :center
           t.columns(1 + i).borders = %i[left right]
-
-          t.row(-1).size = 11
-          t.row(-1).height = 30
-          t.row(-1).valign = :center
-          t.row(-1).borders = [:top]
-          t.row(-1).border_color = 'DDDDDD'
-          t.row(-1).background_color = 'FFFFFF'
         end
+        t.row(0).size = 11
+        t.row(0).font_style = :bold
+        t.row(0).height = 30
+        t.row(0).valign = :center
+        t.row(0).borders = []
       end
     end
 
     def footer
-      font_size 8
+      font_size 10
       bounding_box [0, 40], width: bounds.width do
         footer_text = Current.acp.delivery_pdf_footer
         if footer_text.present?
           text footer_text, align: :center
         end
         move_down 5
+        font_size 8
         text "– #{I18n.l(current_time, format: :short)} –", inline_format: true, align: :center
       end
     end
