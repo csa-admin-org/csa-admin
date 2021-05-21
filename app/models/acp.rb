@@ -62,6 +62,8 @@ class ACP < ActiveRecord::Base
     inclusion: { in: 1..12 },
     numericality: { greater_than_or_equal_to: ->(acp) { acp.summer_month_range_min } },
     if: -> { @summer_month_range_min.present? }
+  validates :absence_notice_period_in_days,
+    numericality: { greater_than_or_equal_to: 1 }
   validates :activity_i18n_scope, inclusion: { in: ACTIVITY_I18N_SCOPES }
   validates :activity_participation_deletion_deadline_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
