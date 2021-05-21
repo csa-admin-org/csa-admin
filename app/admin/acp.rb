@@ -14,6 +14,7 @@ ActiveAdmin.register ACP do
     :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
     :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
+    :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :vat_number, :vat_membership_rate, :absences_billed,
@@ -126,6 +127,11 @@ ActiveAdmin.register ACP do
         as: :select,
         collection: (1..12).map { |m| [t('date.month_names')[m], m] }
     end
+    if Current.acp.feature?('absence')
+      f.inputs Absence.model_name.human(count: 2) do
+        f.input :absence_notice_period_in_days, min: 1, required: true
+      end
+    end
     if Current.acp.feature?('activity')
       f.inputs t('.members_participation') do
         f.input :activity_i18n_scope,
@@ -133,7 +139,7 @@ ActiveAdmin.register ACP do
           collection: ACP.activity_i18n_scopes.map { |s| [I18n.t("activities.#{s}", count: 2), s] },
           prompt: true
         f.input :activity_participation_deletion_deadline_in_days
-        f.input :activity_availability_limit_in_days
+        f.input :activity_availability_limit_in_days, required: true
         f.input :activity_price
         f.input :activity_phone, as: :phone
       end

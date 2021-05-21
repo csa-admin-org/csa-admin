@@ -27,7 +27,7 @@ class Absence < ActiveRecord::Base
   }
 
   def self.min_started_on
-    1.week.from_now
+    Current.acp.absence_notice_period_in_days.days.from_now
   end
 
   def self.max_ended_on
