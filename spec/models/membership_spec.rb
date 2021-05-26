@@ -125,6 +125,8 @@ describe Membership do
   end
 
   it 'deletes baskets when started_on and ended_on changes' do
+    DeliveriesHelper.create_deliveries(39)
+    create(:delivery, date: Current.fiscal_year.end_of_year)
     membership = create(:membership)
     baskets = membership.baskets
     first_basket = baskets.first
@@ -134,11 +136,12 @@ describe Membership do
 
     expect {
       membership.update!(
-        started_on: first_basket.delivery.date + 1.days,
-        ended_on: last_basket.delivery.date - 1.days)
-    }.to change { membership.reload.price }.by(-60)
+        started_on: first_basket.delivery.date + 1.day,
+        ended_on: last_basket.delivery.date - 1.day)
+    }
+      .to change { membership.reload.baskets_count }.by(-2)
+      .and change { membership.reload.price }.by(-60)
 
-    expect(membership.baskets_count).to eq(38)
     expect(first_basket.reload).to be_deleted
     expect(last_basket.reload).to be_deleted
   end
@@ -152,13 +155,13 @@ describe Membership do
     expect(membership.baskets_count).to eq(40)
 
     membership.update!(
-      started_on: first_basket.delivery.date + 1.days,
-      ended_on: last_basket.delivery.date - 1.days)
+      started_on: first_basket.delivery.date + 1.day,
+      ended_on: last_basket.delivery.date - 1.day)
     expect(membership.baskets_count).to eq(38)
 
     membership.update!(
-      started_on: first_basket.delivery.date - 1.days,
-      ended_on: last_basket.delivery.date + 1.days)
+      started_on: first_basket.delivery.date - 1.day,
+      ended_on: last_basket.delivery.date + 1.day)
 
     expect(membership.reload.baskets_count).to eq(40)
     new_first_basket = membership.reload.baskets.first
