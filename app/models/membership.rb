@@ -445,7 +445,7 @@ class Membership < ActiveRecord::Base
 
   def handle_ended_on_change!
     if saved_change_to_attribute?(:ended_on) && attribute_before_last_save(:ended_on)
-      destroy_baskets!((ended_on + 1.day)...fiscal_year.range.max)
+      destroy_baskets!((ended_on + 1.day)..fiscal_year.range.max)
       if attribute_before_last_save(:ended_on) < ended_on
         create_baskets!((attribute_before_last_save(:ended_on) + 1.day)..ended_on)
       end
