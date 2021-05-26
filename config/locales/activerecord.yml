@@ -347,18 +347,6 @@ _:
           _fr: essai
           _it: prova
       basket_complement:
-        current_deliveries:
-          _de: Lieferungen (laufendes Jahr)
-          _fr: Livraisons (année courante)
-          _it: Consegne (anno corrente)
-        deliveries:
-          _de: Lieferungen
-          _fr: Livraisons
-          _it: Consegne
-        future_deliveries:
-          _de: Lieferungen (zukünftige)
-          _fr: Livraisons (future)
-          _it: Consegne (futuro)
         price_type:
           _de: Preis pro
           _fr: Prix par
@@ -380,10 +368,6 @@ _:
           _de: Inhalt
           _fr: Contenu
           _it: Contenuto
-        depots:
-          _de: Depots
-          _fr: Dépôts
-          _it: Punto di ritiro
         same_basket_quantities:
           _de: Wenn möglich, gleiche Menge für alle Taschen
           _fr: Si possible, même quantité pour tous les paniers
@@ -1035,6 +1019,15 @@ _:
           _de: Voreinstellungen
           _fr: Presets
           _it: Presets
+      announcement:
+        one:
+          _de: Annuncio
+          _fr: Annonce
+          _it: Assenza
+        other:
+          _de: Ankündigungen
+          _fr: Annonces
+          _it: Annunci
       basket:
         one:
           _de: Tasche

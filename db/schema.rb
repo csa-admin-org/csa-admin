@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_194611) do
+ActiveRecord::Schema.define(version: 2021_05_24_092616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -200,6 +200,14 @@ ActiveRecord::Schema.define(version: 2021_05_21_194611) do
     t.string "language", default: "fr", null: false
     t.datetime "deleted_at"
     t.index ["email"], name: "index_admins_on_email", unique: true
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.jsonb "texts", default: {}, null: false
+    t.integer "delivery_ids", default: [], null: false, array: true
+    t.integer "depot_ids", default: [], null: false, array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "audits", force: :cascade do |t|
@@ -591,16 +599,6 @@ ActiveRecord::Schema.define(version: 2021_05_21_194611) do
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
     t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
   end
 

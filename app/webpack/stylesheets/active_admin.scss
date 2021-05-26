@@ -102,6 +102,18 @@ form li.boolean {
   }
 }
 
+form ul.errors {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: 2px solid $red;
+  border-radius: $radius;
+  font-weight: 500;
+  color: $red;
+  li {
+    list-style: disc inside;
+  }
+}
+
 label.disabled {
   color: #aaa;
 }
@@ -527,6 +539,7 @@ table.totals_2 {
   }
 }
 
+.announcements,
 .basket_complements,
 .members,
 .depots {

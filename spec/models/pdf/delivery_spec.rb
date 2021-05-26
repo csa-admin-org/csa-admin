@@ -81,5 +81,22 @@ describe PDF::Delivery do
       expect(pdf_strings).not_to include 'Jame Dane'
       expect(pdf_strings).not_to include 'Moyen'
     end
+
+    specify 'includes annoucement' do
+      depot = create(:depot, name: 'Fleurs Kissling')
+      delivery = Delivery.current_year.first
+      create(:membership, depot: depot)
+
+      Announcement.create!(
+        text: 'Ramenez les sacs!',
+        depot_ids: [depot.id],
+        delivery_ids: [delivery.id])
+
+      pdf_strings = save_pdf_and_return_strings(delivery, depot)
+
+      expect(pdf_strings)
+        .to include('Fleurs Kissling')
+        .and include('Ramenez les sacs!')
+    end
   end
 end

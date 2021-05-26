@@ -84,6 +84,10 @@ _:
       _de: Erstellt am
       _fr: Créé le
       _it: Creato il
+    current_deliveries:
+      _de: Lieferungen (laufendes Jahr)
+      _fr: Livraisons (année courante)
+      _it: Consegne (anno corrente)
     date:
       _de: Datum
       _fr: Date
@@ -92,6 +96,10 @@ _:
       _de: Daten
       _fr: Dates
       _it: Date
+    deliveries:
+      _de: Lieferungen
+      _fr: Livraisons
+      _it: Consegne
     deliveries_count:
       _de: Lieferungen
       _fr: Livraisons
@@ -140,6 +148,10 @@ _:
       _de: Endzeit
       _fr: Heure de fin
       _it: Ora di fine
+    future_deliveries:
+      _de: Lieferungen (zukünftige)
+      _fr: Livraisons (future)
+      _it: Consegne (futuro)
     id:
       _de: ID
       _fr: ID
@@ -284,6 +296,10 @@ _:
       _de: Status
       _fr: Statut
       _it: Status
+    text:
+      _de: Text
+      _fr: Texte
+      _it: Testo
     title:
       _de: Titel
       _fr: Intitulé
