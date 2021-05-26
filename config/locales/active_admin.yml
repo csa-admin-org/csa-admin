@@ -73,6 +73,11 @@ _:
           _fr: "%{count} %{plural_model} supprimés"
           _it: "%{count} %{plural_model} cancellati"
     blank_slate:
+      announcement:
+        content:
+          _de: Es gibt noch keine %{resource_name}.
+          _fr: Il n'y a pas encore!!! de %{resource_name}.
+          _it: Non ci sono ancora %{resource_name}.
       content:
         _de: Es gibt noch keine %{resource_name}.
         _fr: Il n'y a pas encore de %{resource_name}.
@@ -886,6 +891,11 @@ _:
           _de: Einladen %{model}
           _fr: Inviter %{model}
           _it: Invitare %{model}
+      announcement:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+          _it: Nuovo %{model}
       basket_content:
         new_model:
           _de: Neuer %{model}

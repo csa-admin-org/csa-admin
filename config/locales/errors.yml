@@ -13,6 +13,10 @@ _:
         _de: muss nach dem Anfang sein
         _fr: doit être après le début
         _it: deve essere successivo all'inizio
+      announcement_not_unique:
+        _de: Es gibt bereits eine Ankündigung für die Lieferung der %{delivery} und die Depot %{depot} (%{other_text})
+        _fr: Il y'a déjà une annonce pour la livraison du %{delivery} et le dépôt %{depot} (%{other_text})
+        _it: C'è già un annuncio per la consegna della %{delivery} e il punto di ritiro %{depot} (%{other_text})
       before_end:
         _de: muss vor dem Ende sein
         _fr: doit être avant la fin
