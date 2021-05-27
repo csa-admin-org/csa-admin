@@ -10,7 +10,7 @@ class ACP < ActiveRecord::Base
     contact_sharing
   ]
   FEATURE_FLAGS = %w[basket_price_extra]
-  LANGUAGES = %w[fr de]
+  LANGUAGES = %w[fr de it]
   SEASONS = %w[summer winter]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
@@ -116,14 +116,7 @@ class ACP < ActiveRecord::Base
   end
 
   def self.seasons; SEASONS end
-  # Temporarily only enable Italian for Seminterra until fully translated
-  def self.languages
-    if Current.acp.tenant_name == 'seminterra'
-      LANGUAGES + ['it']
-    else
-      LANGUAGES
-    end
-  end
+  def self.languages; LANGUAGES end
   def self.features; FEATURES end
   def self.feature_flags; FEATURE_FLAGS end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
