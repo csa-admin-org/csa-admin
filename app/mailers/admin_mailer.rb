@@ -16,7 +16,7 @@ class AdminMailer < ApplicationMailer
       }
       content = liquid_template.render(
         'depot' => Liquid::DepotDrop.new(depot),
-        'baskets' => baskets.map { |b| Liquid::BasketDrop.new(b) },
+        'baskets' => baskets.map { |b| Liquid::AdminBasketDrop.new(b) },
         'delivery' => Liquid::DeliveryDrop.new(delivery))
       content_mail(content,
         to: depot.emails_array,

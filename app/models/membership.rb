@@ -189,7 +189,36 @@ class Membership < ActiveRecord::Base
     touch(:renewal_opened_at)
   end
 
-  def self.send_renewal_reminders!
+  def self.send_last_trial_basket_emails!
+    return unless MailTemplate.active_template(:membership_last_trial_basket)
+
+    self
+      .trial
+      .where(last_trial_basket_sent_at: nil)
+      .includes(baskets: :delivery)
+      .select(&:can_send_email?)
+      .reject(&:trial_only?)
+      .select { |m| m.baskets.trial.last.delivery.date.today? }
+      .each(&:send_last_trial_basket_email!)
+  end
+
+  def send_last_trial_basket_email!
+    unless MailTemplate.active_template(:membership_last_trial_basket)
+      raise 'membership_last_trial_basket mail template not active'
+    end
+    raise 'only trial baskets' if trial_only?
+    last_trial_basket = baskets.trial.last
+    raise 'no trial baskets' unless last_trial_basket
+    raise 'last trial basket is not today' unless last_trial_basket.delivery.date.today?
+    raise 'email already sent' if last_trial_basket_sent_at?
+    return unless can_send_email?
+
+    MailTemplate.deliver_now(:membership_last_trial_basket,
+      basket: last_trial_basket)
+    touch(:last_trial_basket_sent_at)
+  end
+
+  def self.send_renewal_reminder_emails!
     return unless MailTemplate.active_template(:membership_renewal_reminder)
 
     in_days = Current.acp.open_renewal_reminder_sent_after_in_days
@@ -203,10 +232,10 @@ class Membership < ActiveRecord::Base
       .where('renewal_opened_at <= ?', in_days.days.ago)
       .includes(:member)
       .select(&:can_send_email?)
-      .each(&:send_renewal_reminder!)
+      .each(&:send_renewal_reminder_email!)
   end
 
-  def send_renewal_reminder!
+  def send_renewal_reminder_email!
     unless Current.acp.open_renewal_reminder_sent_after_in_days?
       raise 'reminder not configured'
     end
@@ -217,7 +246,7 @@ class Membership < ActiveRecord::Base
     raise 'reminder already sent' if renewal_reminder_sent_at?
     return unless can_send_email?
 
-    MailTemplate.deliver_later(:membership_renewal_reminder,
+    MailTemplate.deliver_now(:membership_renewal_reminder,
       membership: self)
     touch(:renewal_reminder_sent_at)
   end

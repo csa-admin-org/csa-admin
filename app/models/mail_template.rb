@@ -7,6 +7,7 @@ class MailTemplate < ApplicationRecord
     member_activated
   ].freeze
   MEMBERSHIP_TITLES = %w[
+    membership_last_trial_basket
     membership_renewal
     membership_renewal_reminder
   ].freeze

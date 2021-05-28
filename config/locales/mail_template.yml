@@ -29,6 +29,10 @@ _:
         _de: Registrierung validiert!
         _fr: Inscription validée!
         _it: Iscrizione confermata!
+      membership_last_trial_basket:
+        _de: Letzte Probe Tasche!
+        _fr: Dernier panier à l'essai!
+        _it: Ultimo cestino da provare!
       membership_renewal:
         _de: Ihr Abonnement verlängern
         _fr: Renouvellement de votre abonnement
@@ -66,6 +70,10 @@ _:
         _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde.
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
         _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
+      membership_last_trial_basket:
+        _de: Wird gesendet am Tag der Auslieferung des letzten Probetasche das Mitglied zu fragen, ob er wünscht, sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen.
+        _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al membro se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
       membership_renewal:
         _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
@@ -103,6 +111,10 @@ _:
         _de: Mitglied validiert
         _fr: Membre validé
         _it: Socio confermato
+      membership_last_trial_basket:
+        _de: Letzte Probe Tasche
+        _fr: Dernier panier à l'essai
+        _it: Ultimo cestino da provare
       membership_renewal:
         _de: Abonnement verlängern
         _fr: Renouvellement abonnement
