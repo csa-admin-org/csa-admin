@@ -15,7 +15,9 @@ Elle est actuellement utilisée par les ACP suivantes:
 * [croQu'terre](https://croquterre.ch)
 * [À la Belle Courgette](https://www.alabellecourgette.ch)
 * [Les Jardins d'Ouchy](https://www.lesjardinsdouchy.ch)
+* [Les paniers de la mule](https://lamule.ch)
 * [La Ferme du Goupil](https://lafermedugoupil.ch)
+* [La Ferme des Savanes](http://lafermedessavanes.ch)
 
 Les fonctions prises en charge sont, entre autres:
 
