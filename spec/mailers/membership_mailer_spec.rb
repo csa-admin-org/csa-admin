@@ -14,7 +14,7 @@ describe MembershipMailer do
     expect(mail.subject).to eq("Dernier panier à l'essai!")
     expect(mail.to).to eq(['example@acp-admin.ch'])
     expect(mail.body).to include("C'est le jour de votre dernier panier à l'essai...")
-    expect(mail.body).to include('https://membres.ragedevert.ch/membership#renewal')
+    expect(mail.body).to include('https://membres.ragedevert.ch')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
