@@ -9,7 +9,6 @@ describe Liquid::DataPreview do
       mail_template = MailTemplate.create!(title: 'member_activated')
       described_class.for(mail_template)
     end
-
     expect(data).to eq({
       'acp' => {
         'activity_phone' => '+41 77 447 26 16',
@@ -38,9 +37,9 @@ describe Liquid::DataPreview do
           'name' => 'Jardin de la main'
         },
         'end_date' => '31 décembre 2020',
-        'start_date' => '24 mars 2020',
+        'start_date' => '1 janvier 2020',
         'first_delivery' => {
-          'date' => '24 mars 2020'
+          'date' => '7 janvier 2020'
         },
         'last_delivery' => {
           'date' => '6 octobre 2020'
@@ -110,9 +109,9 @@ describe Liquid::DataPreview do
           'name' => 'Jardin de la main'
         },
         'end_date' => '31 décembre 2020',
-        'start_date' => '24 mars 2020',
+        'start_date' => '1 janvier 2020',
         'first_delivery' => {
-          'date' => '24 mars 2020'
+          'date' => '7 janvier 2020'
         },
         'last_delivery' => {
           'date' => '6 octobre 2020'

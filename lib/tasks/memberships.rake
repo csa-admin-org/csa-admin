@@ -7,10 +7,17 @@ namespace :memberships do
     end
   end
 
-  desc 'Send open renewal reminders'
-  task send_renewal_reminders: :environment do
+  desc 'Send open renewal reminder emails'
+  task send_renewal_reminder_emails: :environment do
     ACP.enter_each! do
-      Membership.send_renewal_reminders!
+      Membership.send_renewal_reminder_emails!
+    end
+  end
+
+  desc 'Send last trial basket emails'
+  task send_last_trial_basket_emails: :environment do
+    ACP.enter_each! do
+      Membership.send_last_trial_basket_emails!
     end
   end
 

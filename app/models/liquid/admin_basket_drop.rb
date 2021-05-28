@@ -1,10 +1,10 @@
-class Liquid::BasketDrop < Liquid::Drop
+class Liquid::AdminBasketDrop < Liquid::Drop
   def initialize(basket)
     @basket = basket
   end
 
-  def delivery
-    Liquid::DeliveryDrop.new(@basket.delivery)
+  def member
+    Liquid::MemberDrop.new(@basket.member)
   end
 
   def description

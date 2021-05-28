@@ -17,7 +17,7 @@ module SharedDataPreview
 
   def membership
     basket_size = BasketSize.all.sample(random: random)
-    started_on = Date.today
+    started_on = Current.fiscal_year.beginning_of_year
     ended_on = Current.fiscal_year.end_of_year
     OpenStruct.new(
       started_on: started_on,
