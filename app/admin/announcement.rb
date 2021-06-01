@@ -7,7 +7,7 @@ ActiveAdmin.register Announcement do
 
   index(
     download_links: false,
-    title: "#{Announcement.model_name.human(count: 2)} (#{Delivery.human_attribute_name(:signature_sheets)})") do
+    title: -> { "#{Announcement.model_name.human(count: 2)} (#{Delivery.human_attribute_name(:signature_sheets)})" })do
     column :text, ->(a) { a.text }
     column :depots, ->(a) {
       truncate(
