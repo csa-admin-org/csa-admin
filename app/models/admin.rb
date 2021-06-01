@@ -16,6 +16,8 @@ class Admin < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
   validates :language, presence: true, inclusion: { in: proc { ACP.languages } }
 
+  after_create -> { Update.mark_as_read!(self) }
+
   def self.notify!(notification, skip: [], **attrs)
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
       attrs[:admin] = admin
