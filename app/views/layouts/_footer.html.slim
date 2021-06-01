@@ -1,0 +1,9 @@
+ul
+  li.latest-updates
+    = link_to latestupdates_path do
+      span = t('.latest_updates')
+      - count = Update.unread_count(current_admin)
+      - if count&.positive?
+        span.badge = count
+  li.acp-admin
+    = link_to 'ACP Admin', 'https://acp-admin.ch'

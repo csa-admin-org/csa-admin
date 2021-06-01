@@ -42,4 +42,9 @@ describe Admin do
     expect(admin.reload).to be_deleted
     expect(admin.sessions).to be_empty
   end
+
+  it 'sets latest_update_read on create' do
+    admin = create(:admin, latest_update_read: nil)
+    expect(admin.latest_update_read).to eq Update.all.first.name
+  end
 end

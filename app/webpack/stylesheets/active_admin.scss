@@ -667,11 +667,53 @@ li.input.error {
   a {
     text-decoration: none;
     color: #bbb;
-    background-image: url('~active_admin/logo-grey.svg');
-    background-size: 18px;
-    background-repeat: no-repeat;
-    padding-left: 23px;
     display: inline-block;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  li {
+    list-style-type: none;
+    margin: 10px 0;
+  }
+
+  .latest-updates {
+    background-color: #fff;
+    text-decoration: none;
+    padding: 4px 6px;
+    position: relative;
+    display: inline-block;
+    border: 1px solid $silver;
+    border-radius: $radius;
+
+    &:hover {
+      a {
+        color: $primary-color;
+      }
+    }
+
+    .badge {
+      font-size: 12px !important;
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      padding: 3px 7px;
+      min-width: 21px;
+      border-radius: 50%;
+      background: $red;
+      color: white;
+    }
+  }
+
+  .acp-admin {
+    a {
+      background-image: url('~active_admin/logo-grey.svg');
+      background-size: 18px;
+      background-repeat: no-repeat;
+      padding-left: 23px;
+    }
   }
 }
 
@@ -826,5 +868,19 @@ tr.row-next_invoice_on {
   span.next_date {
     margin-right: 10px;
     line-height: 28px;
+  }
+}
+
+.index.latestupdates {
+  p.notice {
+    margin: 0 0 20px 0;
+  }
+  .panel.unread {
+    border-color: $primary-color !important;
+  }
+  p img {
+    width: 80%;
+    display: block;
+    margin: 10px auto;
   }
 }

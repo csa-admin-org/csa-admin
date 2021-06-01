@@ -313,6 +313,10 @@ _:
           _de: Rechnungsstellung %{fiscal_year}
           _fr: Facturation %{fiscal_year}
           _it: Fatturazione %{fiscal_year}
+        latest_updates_explanation_html:
+          _de: Hier finden Sie eine Liste der neuesten Ergänzungen zu ACP Admin (leider nur auf Französisch). Sie können mich gerne <a href="mailto:info@acp-admin.ch">kontaktieren</a>, wenn Sie Fragen oder Kommentare haben, danke!
+          _fr: Voici une liste des derniers ajouts apportés à ACP Admin. N'hésitez pas à <a href="mailto:info@acp-admin.ch">me contacter</a> si vous avez des questions ou remarques, merci!
+          _it: Ecco una lista delle ultime aggiunte a ACP Admin (solo in francese, mi dispiace). Sentitevi liberi di <a href="mailto:info@acp-admin.ch">contattarmi</a> se avete domande o osservazioni, grazie!
         next_delivery:
           _de: 'Nächste Lieferung: %{delivery}'
           _fr: 'Prochaine livraison: %{delivery}'

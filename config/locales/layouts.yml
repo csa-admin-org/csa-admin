@@ -1,5 +1,10 @@
 _:
   layouts:
+    footer:
+      latest_updates:
+        _de: Letzte Neuigkeiten
+        _fr: dernières nouveautés
+        _it: ultime notizie
     mailer:
       manage_admin_notifications:
         _de: Meine Benachrichtigungen verwalten
