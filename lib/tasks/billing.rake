@@ -1,7 +1,7 @@
 namespace :billing do
   desc 'Automatically Create and send new invoices'
   task recurring: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       today = Date.current
       if Current.acp.recurring_billing_wday == today.wday
         Member.find_each do |member|
@@ -20,7 +20,7 @@ namespace :billing do
 
   desc 'Send invoice overdue notices'
   task send_invoice_overdue_notices: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       unless Current.acp.tenant_name == 'lafermedessavanes'
         if Current.acp.credentials(:ebics) || Current.acp.credentials(:bas)
           Invoice.open.each { |invoice| InvoiceOverdueNoticer.perform(invoice) }
@@ -32,7 +32,7 @@ namespace :billing do
 
   desc 'Process all new payments'
   task process_payments: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       if ebics_credentials = Current.acp.credentials(:ebics)
         provider = Billing::EBICS.new(ebics_credentials)
         Billing::PaymentsProcessor.process!(provider.payments_data)
@@ -60,7 +60,7 @@ namespace :billing do
 
   desc 'Create or update quarter snapshot'
   task snapshot: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       max = Current.fiscal_year.current_quarter_range.max
       range = (max - 1.hour)..max
       if 30.seconds.from_now.in?(range)

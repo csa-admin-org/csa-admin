@@ -1,7 +1,7 @@
 namespace :depots do
   desc 'Send next_delivery emails for every depot'
   task deliver_next_delivery: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       next_delivery = Delivery.next
       if next_delivery && Date.current == (next_delivery.date - 1.day)
         next_delivery.depots.select(&:emails?).each do |depot|
@@ -17,7 +17,7 @@ namespace :depots do
             depot: depot,
             baskets: baskets,
             delivery: next_delivery
-          ).depot_delivery_list_email.deliver_now
+          ).depot_delivery_list_email.deliver_later
         end
         puts "#{Current.acp.name}: Depots next_delivery sent."
       end

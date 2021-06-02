@@ -36,6 +36,8 @@ gem 'webpacker'
 
 gem 'parallel'
 
+gem 'sidekiq'
+
 gem 'exception_notification'
 gem 'exception_notification-rake'
 gem 'skylight'
@@ -67,6 +69,7 @@ gem 'countries'
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem 'sentry-sidekiq'
 
 gem 'kramdown'
 

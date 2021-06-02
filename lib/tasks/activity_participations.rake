@@ -1,7 +1,7 @@
 namespace :activity_participations do
   desc 'Send activity participations reminder emails'
   task send_reminder_emails: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       participations =
         ActivityParticipation
           .coming
@@ -11,7 +11,7 @@ namespace :activity_participations do
       grouped_participations = ActivityParticipationGroup.group(participations)
 
       grouped_participations.each do |participation|
-        MailTemplate.deliver_now(:activity_participation_reminder,
+        MailTemplate.deliver_later(:activity_participation_reminder,
           activity_participation: participation)
         participation.touch(:latest_reminder_sent_at)
       end
@@ -22,7 +22,7 @@ namespace :activity_participations do
 
   desc 'Send activity participations review emails'
   task send_review_emails: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       validated_participations =
         ActivityParticipation
           .validated
@@ -32,7 +32,7 @@ namespace :activity_participations do
       ActivityParticipationGroup
         .group(validated_participations)
         .each { |participation|
-          MailTemplate.deliver_now(:activity_participation_validated,
+          MailTemplate.deliver_later(:activity_participation_validated,
             activity_participation: participation)
           participation.touch(:review_sent_at)
         }
@@ -46,7 +46,7 @@ namespace :activity_participations do
       ActivityParticipationGroup
         .group(rejected_participations)
         .each { |participation|
-          MailTemplate.deliver_now(:activity_participation_rejected,
+          MailTemplate.deliver_later(:activity_participation_rejected,
             activity_participation: participation)
           participation.touch(:review_sent_at)
         }

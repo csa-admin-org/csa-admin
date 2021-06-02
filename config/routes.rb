@@ -1,4 +1,14 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  constraints subdomain: 'sidekiq' do
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest('sidekiq')) &&
+        ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV["SIDEKIQ_WEB_PASSWORD"]))
+    end if Rails.env.production?
+    mount Sidekiq::Web, at: '/'
+  end
+
   constraints subdomain: 'admin' do
     resources :sessions, only: %i[show create]
     get '/login' => 'sessions#new', as: :login
