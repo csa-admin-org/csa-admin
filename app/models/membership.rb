@@ -213,7 +213,7 @@ class Membership < ActiveRecord::Base
     raise 'email already sent' if last_trial_basket_sent_at?
     return unless can_send_email?
 
-    MailTemplate.deliver_now(:membership_last_trial_basket,
+    MailTemplate.deliver_later(:membership_last_trial_basket,
       basket: last_trial_basket)
     touch(:last_trial_basket_sent_at)
   end
@@ -246,7 +246,7 @@ class Membership < ActiveRecord::Base
     raise 'reminder already sent' if renewal_reminder_sent_at?
     return unless can_send_email?
 
-    MailTemplate.deliver_now(:membership_renewal_reminder,
+    MailTemplate.deliver_later(:membership_renewal_reminder,
       membership: self)
     touch(:renewal_reminder_sent_at)
   end

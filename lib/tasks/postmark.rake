@@ -1,7 +1,7 @@
 namespace :postmark do
   desc 'Sync Postmark Suppressions'
   task sync_suppressions: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       EmailSuppression.sync_postmark!(fromdate: 1.week.ago)
       puts "#{Current.acp.name}: Email Suppressions list synced."
     end
@@ -9,7 +9,7 @@ namespace :postmark do
 
   desc 'Create/update message streams'
   task message_streams_setup: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       if api_token = Current.acp.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
 

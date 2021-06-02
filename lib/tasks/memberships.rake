@@ -1,7 +1,7 @@
 namespace :memberships do
   desc 'Update all current memberships cached basket counts'
   task update_baskets_counts: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       Membership.current_year.find_each(&:update_baskets_counts!)
       puts "#{Current.acp.name}: Memberships basket counts updated."
     end
@@ -9,14 +9,14 @@ namespace :memberships do
 
   desc 'Send open renewal reminder emails'
   task send_renewal_reminder_emails: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       Membership.send_renewal_reminder_emails!
     end
   end
 
   desc 'Send last trial basket emails'
   task send_last_trial_basket_emails: :environment do
-    ACP.enter_each! do
+    ACP.perform_each do
       Membership.send_last_trial_basket_emails!
     end
   end
@@ -24,7 +24,7 @@ namespace :memberships do
   desc 'Ensure that membership.price cache is not out-of-sync'
   task check_price_cache: :environment do
     MembershipPriceCacheError = Class.new(StandardError)
-    ACP.enter_each! do
+    ACP.perform_each do
       Membership.current_year.find_each do |m|
         expected_price =
           m.basket_sizes_price +

@@ -84,7 +84,15 @@ class ACP < ActiveRecord::Base
   before_save :set_summer_month_range
   after_create :create_tenant
 
-  def self.enter_each!
+  def self.perform(tenant_name)
+    enter!(tenant_name)
+    yield
+  ensure
+    Apartment::Tenant.reset
+    Current.reset
+  end
+
+  def self.perform_each
     ACP.pluck(:tenant_name).each do |tenant_name|
       enter!(tenant_name)
       yield
@@ -94,7 +102,7 @@ class ACP < ActiveRecord::Base
     Current.reset
   end
 
-  def self.enter_each_in_parallel!(in_threads: 4)
+  def self.perform_each_in_parallel(in_threads: 4)
     tenant_names = ACP.pluck(:tenant_name)
     Parallel.each(tenant_names, in_threads: in_threads) do |tenant_name|
       ActiveRecord::Base.connection_pool.with_connection do
