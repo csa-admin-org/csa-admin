@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_125245) do
+ActiveRecord::Schema.define(version: 2021_06_03_185728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 2021_05_30_125245) do
     t.datetime "review_sent_at"
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
+    t.index ["state"], name: "index_activity_participations_on_state"
     t.index ["validator_id"], name: "index_activity_participations_on_validator_id"
   end
 
