@@ -3,6 +3,8 @@ module Sidekiq::Middleware::Apartement
     def call(_worker_class, msg, _queue, _redis_pool)
       unless Apartment::Tenant.current == 'public'
         msg['acp_tenant_name'] ||= Apartment::Tenant.current
+        msg['tags'] ||= []
+        msg['tags'] << Apartment::Tenant.current
       end
       yield
     end
