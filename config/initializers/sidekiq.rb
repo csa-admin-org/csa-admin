@@ -1,7 +1,9 @@
 module Sidekiq::Middleware::Apartement
   class Client
     def call(_worker_class, msg, _queue, _redis_pool)
-      msg['acp_tenant_name'] ||= Apartment::Tenant.current
+      unless Apartment::Tenant.current == 'public'
+        msg['acp_tenant_name'] ||= Apartment::Tenant.current
+      end
       yield
     end
   end

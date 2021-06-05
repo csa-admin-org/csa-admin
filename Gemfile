@@ -34,9 +34,8 @@ gem 'turbolinks'
 
 gem 'webpacker'
 
-gem 'parallel'
-
 gem 'sidekiq'
+gem 'sidekiq-scheduler'
 
 gem 'exception_notification'
 gem 'exception_notification-rake'
@@ -80,6 +79,7 @@ group :production do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'byebug'
   gem 'pdf-inspector', require: 'pdf/inspector'
   gem 'rspec-rails'

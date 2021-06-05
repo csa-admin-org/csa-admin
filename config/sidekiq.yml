@@ -1,0 +1,9 @@
+:queues:
+  - [critical, 5]
+  - [default, 2]
+  - low
+:schedule:
+  newsletter_sync_list:
+    cron: '0 0 3 * * *'
+    queue: low
+    class: Scheduled::NewsletterSyncListBatchJob
