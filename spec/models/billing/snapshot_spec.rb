@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Billing::Snapshot, freeze: '2020-03-01 00:00 +01' do
+describe Billing::Snapshot, freeze: '2020-03-31 23:59:55 +02' do
   describe '#create_or_update_current_quarter!' do
     it 'creates a new snapshot' do
       snapshot = nil
@@ -10,7 +10,7 @@ describe Billing::Snapshot, freeze: '2020-03-01 00:00 +01' do
 
       expect(snapshot.file).to be_present
       expect(snapshot.file.filename)
-        .to eq 'rage-de-vert-facturation-20200301-00h00.xlsx'
+        .to eq 'rage-de-vert-facturation-20200331-23h59.xlsx'
       expect(snapshot.file.content_type)
         .to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
@@ -31,18 +31,12 @@ describe Billing::Snapshot, freeze: '2020-03-01 00:00 +01' do
         .to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     end
 
-    it 'creates a new snapshot for next quarter' do
-      snapshot = described_class.create_or_update_current_quarter!
-
-      travel_to '01-04-2020'
+    it 'does not create a new snapshot when it is too late' do
+      travel_to '2020-04-01 00:10:00 +02'
 
       expect {
-        snapshot = described_class.create_or_update_current_quarter!
-      }.to change { described_class.count }.from(1).to(2)
-
-      expect(snapshot.file).to be_present
-      expect(snapshot.file.filename)
-        .to eq 'rage-de-vert-facturation-20200401-00h00.xlsx'
+        described_class.create_or_update_current_quarter!
+      }.not_to change { described_class.count }
     end
   end
 end

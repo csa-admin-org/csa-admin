@@ -3,7 +3,13 @@
   - [default, 2]
   - low
 :schedule:
+  billing_snapshot:
+    cron: '0 45-59/1 23 28-31 * *'
+    queue: low
+    class: Scheduled::BillingSnapshotBatchJob
+    description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
   newsletter_sync_list:
     cron: '0 0 3 * * *'
     queue: low
     class: Scheduled::NewsletterSyncListBatchJob
+    description: "Sync members with Mailchimp audience list"
