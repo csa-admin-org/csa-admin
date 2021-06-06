@@ -1,5 +1,5 @@
-module Billing
-  class MembershipPriceCacheChecker < SimpleDelegator
+module Checker
+  class MembershipPrice < SimpleDelegator
     def self.check_all!
       Membership.current_year.find_each do |m|
         new(m).check!

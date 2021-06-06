@@ -3,16 +3,21 @@
   - [default, 2]
   - low
 :schedule:
-  billing_membership_price:
-    cron: '0 1 0 * * *'
-    queue: low
-    class: Scheduled::BillingCheckMembershipPriceCacheBatchJob
-    description: "Check that all membership.price caches aren't out-of-sync"
   billing_snapshot:
     cron: '0 45-59/1 23 28-31 * *'
     queue: low
     class: Scheduled::BillingSnapshotBatchJob
     description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
+  checker_membership_price:
+    cron: '0 2 0 * * *'
+    queue: low
+    class: Scheduled::CheckerMembershipPriceBatchJob
+    description: "Check that all membership.price caches aren't out-of-sync"
+  membership_baskets_count:
+    cron: '0 1 0 * * *'
+    queue: low
+    class: Scheduled::MembershipBasketsCountBatchJob
+    description: "Update all memberships delivered_baskets_count and remaning_trial_baskets_count cached columns"
   newsletter_sync_list:
     cron: '0 0 3 * * *'
     queue: low
