@@ -13,3 +13,8 @@
     queue: low
     class: Scheduled::NewsletterSyncListBatchJob
     description: "Sync members with Mailchimp audience list"
+  postmark_sync_suppressions:
+    every: '1h'
+    queue: low
+    class: Scheduled::PostmarkSyncSuppressionsBatchJob
+    description: "Sync Postmark suppressions"
