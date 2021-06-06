@@ -3,6 +3,11 @@
   - [default, 2]
   - low
 :schedule:
+  billing_membership_price:
+    cron: '0 1 0 * * *'
+    queue: low
+    class: Scheduled::BillingCheckMembershipPriceCacheBatchJob
+    description: "Check that all membership.price caches aren't out-of-sync"
   billing_snapshot:
     cron: '0 45-59/1 23 28-31 * *'
     queue: low
