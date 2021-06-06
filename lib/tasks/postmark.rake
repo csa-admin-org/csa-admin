@@ -1,12 +1,4 @@
 namespace :postmark do
-  desc 'Sync Postmark Suppressions'
-  task sync_suppressions: :environment do
-    ACP.perform_each do
-      EmailSuppression.sync_postmark!(fromdate: 1.week.ago)
-      puts "#{Current.acp.name}: Email Suppressions list synced."
-    end
-  end
-
   desc 'Create/update message streams'
   task message_streams_setup: :environment do
     ACP.perform_each do
