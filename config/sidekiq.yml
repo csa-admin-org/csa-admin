@@ -8,18 +8,13 @@
     queue: low
     class: Scheduled::BillingSnapshotBatchJob
     description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
-  checker_membership_price:
-    cron: '0 2 0 * * *'
+  daily:
+    cron: '5 0 0 * * *'
     queue: low
-    class: Scheduled::CheckerMembershipPriceBatchJob
-    description: "Check that all membership.price caches aren't out-of-sync"
-  membership_baskets_count:
-    cron: '0 1 0 * * *'
-    queue: low
-    class: Scheduled::MembershipBasketsCountBatchJob
-    description: "Update all memberships delivered_baskets_count and remaning_trial_baskets_count cached columns"
+    class: Scheduled::DailyBatchJob
+    description: "Daily checks and updates"
   newsletter_sync_list:
-    cron: '0 0 3 * * *'
+    cron: '0 0 1 * * *'
     queue: low
     class: Scheduled::NewsletterSyncListBatchJob
     description: "Sync members with Mailchimp audience list"
