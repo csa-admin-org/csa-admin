@@ -1,5 +1,6 @@
 module Newsletter
   def self.sync_list
+    return if Rails.env.development?
     return unless mailchimp_credentials = Current.acp.credentials(:mailchimp)
 
     mailchimp = Newsletter::MailChimp.new(mailchimp_credentials)
