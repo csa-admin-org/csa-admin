@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RecurringBilling do
+describe Billing::Invoicer do
   before {
     travel_to(Date.new(Current.fy_year, 1, 15)) {
       create_deliveries(40)
@@ -15,7 +15,7 @@ describe RecurringBilling do
 
   def create_invoice(member)
     member.reload
-    RecurringBilling.invoice(member)
+    described_class.force_invoice!(member)
   end
 
   it 'does not create an invoice for inactive member (non-support)' do
@@ -329,7 +329,7 @@ describe RecurringBilling do
       }
       travel_to(Date.new(Current.fy_year, 8))
 
-      expect(RecurringBilling.new(member.reload)).not_to be_billable
+      expect(described_class.new(member.reload)).not_to be_billable
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
@@ -342,7 +342,7 @@ describe RecurringBilling do
       travel_to(Date.new(Current.fy_year, 8))
       membership.update!(depot_price: 2)
 
-      expect(RecurringBilling.new(member.reload)).not_to be_billable
+      expect(described_class.new(member.reload)).not_to be_billable
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
@@ -369,7 +369,7 @@ describe RecurringBilling do
         create_invoice(member)
       }
       travel_to(Date.new(Current.fy_year, 11)) {
-        expect(RecurringBilling.new(member.reload)).not_to be_billable
+        expect(described_class.new(member.reload)).not_to be_billable
         expect { create_invoice(member) }.not_to change(Invoice, :count)
       }
     end
@@ -486,7 +486,7 @@ describe RecurringBilling do
 
       membership.update!(ended_on: 1.month.ago)
 
-      expect(RecurringBilling.new(member.reload)).not_to be_billable
+      expect(described_class.new(member.reload)).not_to be_billable
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
   end
@@ -494,26 +494,26 @@ describe RecurringBilling do
   describe '#next_date' do
     specify 'pending member' do
       member = create(:member, :pending)
-      expect(RecurringBilling.new(member).next_date).to be_nil
+      expect(described_class.new(member).next_date).to be_nil
     end
 
     specify 'waiting member' do
       member = create(:member, :waiting)
-      expect(RecurringBilling.new(member).next_date).to be_nil
+      expect(described_class.new(member).next_date).to be_nil
     end
 
     specify 'inactive member' do
       member = create(:member, :inactive)
-      expect(RecurringBilling.new(member).next_date).to be_nil
+      expect(described_class.new(member).next_date).to be_nil
     end
 
     specify 'support_annual_fee member' do
       member = create(:member, :support_annual_fee)
       travel_to '2021-01-01' do # Friday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
       end
       travel_to '2021-01-04' do # Monday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
       end
     end
 
@@ -521,17 +521,17 @@ describe RecurringBilling do
       member = create(:member, :support_annual_fee)
       travel_to '2021-01-01' do # Friday
         create(:invoice, :annual_fee, member: member)
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2022-01-03') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2022-01-03') # Monday
       end
     end
 
     specify 'support_annual_fee member' do
       member = create(:member, state: 'support', desired_acp_shares_number: 2)
       travel_to '2021-01-01' do # Friday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
       end
       travel_to '2021-01-04' do # Monday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
       end
     end
 
@@ -539,7 +539,7 @@ describe RecurringBilling do
       Current.acp.update!(annual_fee: nil, share_price: 100)
       member = create(:member, :support_acp_share)
       travel_to '2021-01-01' do # Friday
-        expect(RecurringBilling.new(member.reload).next_date).to be_nil
+        expect(described_class.new(member.reload).next_date).to be_nil
       end
     end
 
@@ -550,13 +550,13 @@ describe RecurringBilling do
         create(:member, :active)
       end
       travel_to '2021-01-01' do # Friday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
       end
       travel_to '2021-01-11' do # Monday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
       end
       travel_to '2021-01-12' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
       end
     end
 
@@ -567,13 +567,13 @@ describe RecurringBilling do
         create(:member, :active)
       end
       travel_to '2021-01-01' do # Friday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
       end
       travel_to '2021-01-11' do # Monday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
       end
       travel_to '2021-01-12' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
       end
     end
 
@@ -582,7 +582,7 @@ describe RecurringBilling do
         create(:member, :active)
       end
       travel_to '2021-12-28' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
       end
     end
 
@@ -591,14 +591,14 @@ describe RecurringBilling do
         create(:member, :active, billing_year_division: 1)
       end
       travel_to '2021-05-03' do # Monday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-05-03') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-05-03') # Monday
         create(:invoice, :membership,
           member: member,
           object: member.current_membership)
-        expect(RecurringBilling.new(member.reload).next_date).to be_nil
+        expect(described_class.new(member.reload).next_date).to be_nil
       end
       travel_to '2021-12-01' do
-        expect(RecurringBilling.new(member.reload).next_date).to be_nil
+        expect(described_class.new(member.reload).next_date).to be_nil
       end
     end
 
@@ -607,21 +607,21 @@ describe RecurringBilling do
         create(:member, :active, billing_year_division: 4)
       end
       travel_to '2021-02-02' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-02-08') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-02-08') # Monday
         create(:invoice, :membership,
           member: member,
           object: member.current_membership,
           membership_amount_fraction: 3)
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-04-05') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-04-05') # Monday
       end
       travel_to '2021-03-01' do # Monday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-04-05') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-04-05') # Monday
       end
       travel_to '2021-05-01' do # Saturday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-05-03') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-05-03') # Monday
       end
       travel_to '2021-12-28' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
       end
     end
 
@@ -630,21 +630,21 @@ describe RecurringBilling do
         create(:member, :active, billing_year_division: 12)
       end
       travel_to '2021-02-02' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-02-08') # Monday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-02-08') # Monday
         create(:invoice, :membership,
           member: member,
           object: member.current_membership,
           membership_amount_fraction: 10)
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-03-01') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-03-01') # Monday
       end
       travel_to '2021-03-01' do # Monday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-03-01') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-03-01') # Monday
       end
       travel_to '2021-09-01' do # Wednesday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-09-06') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-09-06') # Monday
       end
       travel_to '2021-12-28' do # Tuesday
-        expect(RecurringBilling.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
+        expect(described_class.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
       end
     end
 
@@ -658,10 +658,10 @@ describe RecurringBilling do
       expect(membership.deliveries.first.date).to eq Date.parse('2021-09-07') # Tuesday
 
       travel_to '2021-03-01' do # Monday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-09-13') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-09-13') # Monday
       end
       travel_to '2021-11-01' do # Monday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2021-11-01') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-11-01') # Monday
       end
     end
 
@@ -673,10 +673,10 @@ describe RecurringBilling do
       expect(membership.deliveries.first.date).to eq Date.parse('2022-01-04') # Tuesday
 
       travel_to '2021-03-01' do # Monday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2022-01-10') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2022-01-10') # Monday
       end
       travel_to '2021-11-01' do # Monday
-        expect(RecurringBilling.new(member.reload).next_date).to eq Date.parse('2022-01-10') # Monday
+        expect(described_class.new(member.reload).next_date).to eq Date.parse('2022-01-10') # Monday
       end
     end
 
@@ -691,13 +691,13 @@ describe RecurringBilling do
         expect(membership.baskets.not_trial.first.delivery.date).to eq Date.parse('2021-02-02') # Tuesday
 
         travel_to '2021-01-01' do # Monday
-          expect(RecurringBilling.new(membership.member.reload).next_date).to eq Date.parse('2021-02-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-02-08') # Monday
         end
         travel_to '2021-02-09' do # Tuesday
-          expect(RecurringBilling.new(membership.member.reload).next_date).to eq Date.parse('2021-02-15') # Monday
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-02-15') # Monday
         end
         travel_to '2021-11-02' do # Tuesday
-          expect(RecurringBilling.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
         end
       end
 
@@ -711,13 +711,13 @@ describe RecurringBilling do
         expect(membership.deliveries.last.date).to eq Date.parse('2021-10-05') # Tuesday
 
         travel_to '2021-03-01' do # Monday
-          expect(RecurringBilling.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
         end
         travel_to '2021-09-21' do # Tuesday
-          expect(RecurringBilling.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
         end
         travel_to '2021-11-02' do # Tuesday
-          expect(RecurringBilling.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
         end
       end
     end

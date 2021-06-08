@@ -3,6 +3,16 @@
   - [default, 2]
   - low
 :schedule:
+  billing_invoices:
+    cron: '0 0 3 * * *'
+    queue: low
+    class: Scheduled::BillingInvoicerBatchJob
+    description: "Automatically create and send new invoices"
+  billing_payments:
+    cron: '0 30 2 * * *'
+    queue: low
+    class: Scheduled::BillingPaymentsBatchJob
+    description: "Process all new payments from the bank"
   billing_snapshot:
     cron: '0 45-59/1 23 28-31 * *'
     queue: low

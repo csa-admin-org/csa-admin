@@ -297,12 +297,12 @@ ActiveAdmin.register Member do
           row(:next_invoice_on) {
             if member.billable?
               if Current.acp.recurring_billing?
-                recurring = RecurringBilling.new(member)
-                if recurring.next_date
+                invoicer = Billing::Invoicer.new(member)
+                if invoicer.next_date
                   span class: 'next_date' do
-                    l(recurring.next_date, format: :long_medium)
+                    l(invoicer.next_date, format: :long_medium)
                   end
-                  if authorized?(:force_recurring_billing, member) && recurring.billable?
+                  if authorized?(:force_recurring_billing, member) && invoicer.billable?
                     link_to t('.force_recurring_billing'), force_recurring_billing_member_path(member),
                       method: :post,
                       class: 'button',
@@ -469,7 +469,7 @@ ActiveAdmin.register Member do
   end
 
   member_action :force_recurring_billing, method: :post do
-    invoice = RecurringBilling.invoice(resource)
+    invoice = Billing::Invoicer.force_invoice!(resource)
     redirect_to invoice
   end
 
