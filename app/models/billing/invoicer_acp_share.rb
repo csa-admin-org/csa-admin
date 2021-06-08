@@ -1,16 +1,16 @@
 module Billing
-  class ACPShare
+  class InvoicerACPShare
     attr_reader :member
 
-    def self.invoice!(member, **attrs)
-      new(member).invoice!(**attrs)
+    def self.invoice(member, **attrs)
+      new(member).invoice(**attrs)
     end
 
     def initialize(member)
       @member = member
     end
 
-    def invoice!(**attrs)
+    def invoice(**attrs)
       return unless billable?
 
       attrs[:date] = Date.current

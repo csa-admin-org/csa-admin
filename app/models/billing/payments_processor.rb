@@ -4,8 +4,20 @@ module Billing
 
     NO_RECENT_PAYMENTS_SINCE = 4.weeks
 
-    def self.process!(payments_data)
-      new(payments_data).process!
+    def self.process!
+      return if Rails.env.development?
+
+      if payments_data = provider&.payments_data
+        new(payments_data).process!
+      end
+    end
+
+    def self.provider
+      if ebics_credentials = Current.acp.credentials(:ebics)
+        EBICS.new(ebics_credentials)
+      elsif bas_credentials = Current.acp.credentials(:bas)
+        BAS.new(bas_credentials)
+      end
     end
 
     def initialize(payments_data)

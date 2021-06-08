@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe Billing::ACPShare do
+describe Billing::InvoicerACPShare do
   before { current_acp.update!(share_price: 250) }
 
-  def invoice!(member, **attrs)
-    Billing::ACPShare.invoice!(member, **attrs)
+  def invoice(member, **attrs)
+    described_class.invoice(member, **attrs)
   end
 
   it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already', freeze: '01-06-2018' do
@@ -12,7 +12,7 @@ describe Billing::ACPShare do
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
 
-    expect { invoice!(member) }
+    expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
       .and change { member.acp_shares_number }.from(0).to(3)
     invoice = member.invoices.last
@@ -29,7 +29,7 @@ describe Billing::ACPShare do
     invoice = nil
 
     expect {
-      invoice = invoice!(member, send_email: true)
+      invoice = invoice(member, send_email: true)
     }.to change { InvoiceMailer.deliveries.size }.by(1)
 
     mail = InvoiceMailer.deliveries.last
@@ -42,7 +42,7 @@ describe Billing::ACPShare do
     member = membership.member
     create(:invoice, member: member, acp_shares_number: 2)
 
-    expect { invoice!(member) }
+    expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
       .and change { member.acp_shares_number }.from(2).to(3)
   end
@@ -50,7 +50,7 @@ describe Billing::ACPShare do
   it 'creates invoice when ACP shares desired and on support ' do
     member = create(:member, state: 'support', desired_acp_shares_number: 2)
 
-    expect { invoice!(member) }
+    expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
       .and change { member.acp_shares_number }.from(0).to(2)
   end
@@ -61,7 +61,7 @@ describe Billing::ACPShare do
     member = membership.member
     create(:invoice, member: member, acp_shares_number: 3)
 
-    expect { invoice!(member) }.not_to change { member.invoices.count }
+    expect { invoice(member) }.not_to change { member.invoices.count }
   end
 
   it 'does nothing when ACP shares already exists prior to system use' do
@@ -70,11 +70,11 @@ describe Billing::ACPShare do
     member = membership.member
     member.update!(existing_acp_shares_number: 3)
 
-    expect { invoice!(member) }.not_to change { member.invoices.count }
+    expect { invoice(member) }.not_to change { member.invoices.count }
   end
 
   it 'does nothing when inactive' do
     member = create(:member, :inactive)
-    expect { invoice!(member) }.not_to change { member.invoices.count }
+    expect { invoice(member) }.not_to change { member.invoices.count }
   end
 end

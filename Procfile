@@ -1,2 +1,2 @@
 web: bundle exec puma -C config/puma.rb
-worker: env DB_POOL=10 bin/sidekiq -c 5
+worker: env DB_POOL=8 bin/sidekiq -c 4
