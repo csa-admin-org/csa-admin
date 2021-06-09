@@ -5,7 +5,7 @@ module Billing
 
     def self.process!(file)
       data = new(file).payments_data
-      PaymentsProcessor.process!(data)
+      PaymentsProcessor.new(data).process!
     end
 
     def initialize(*files)
