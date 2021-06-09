@@ -1,5 +1,5 @@
 module Scheduled
-  class BillingPaymentsJob < BaseJob
+  class BillingPaymentsProcessorJob < BaseJob
     def perform
       Billing::PaymentsProcessor.process!
     end

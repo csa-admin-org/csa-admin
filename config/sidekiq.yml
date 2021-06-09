@@ -6,30 +6,36 @@
   billing_invoices:
     cron: '0 0 3 * * *'
     queue: low
-    class: Scheduled::BillingInvoicerBatchJob
+    class: ACPJob
+    args: Scheduled::BillingInvoicerJob
     description: "Automatically create and send new invoices"
   billing_payments:
     cron: '0 30 2 * * *'
     queue: low
-    class: Scheduled::BillingPaymentsBatchJob
+    class: ACPJob
+    args: Scheduled::BillingPaymentsProcessorJob
     description: "Process all new payments from the bank"
   billing_snapshot:
     cron: '0 45-59/1 23 28-31 * *'
     queue: low
-    class: Scheduled::BillingSnapshotBatchJob
+    class: ACPJob
+    args: Scheduled::BillingSnapshotJob
     description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
   daily:
     cron: '5 0 0 * * *'
     queue: low
-    class: Scheduled::DailyBatchJob
+    class: ACPJob
+    args: Scheduled::DailyJob
     description: "Daily checks and updates"
   newsletter_sync_list:
     cron: '0 0 1 * * *'
     queue: low
-    class: Scheduled::NewsletterSyncListBatchJob
+    class: ACPJob
+    args: Scheduled::NewsletterSyncListJob
     description: "Sync members with Mailchimp audience list"
   postmark_sync_suppressions:
     every: '1h'
     queue: low
-    class: Scheduled::PostmarkSyncSuppressionsBatchJob
+    class: ACPJob
+    args: Scheduled::PostmarkSyncSuppressionsJob
     description: "Sync Postmark suppressions"
