@@ -245,10 +245,6 @@ class ACP < ActiveRecord::Base
     Rails.application.credentials.dig(tenant_name.to_sym, *keys)
   end
 
-  def can_import_payment?
-    Current.acp.credentials(:ebics).blank? && qr_invoice?
-  end
-
   def ragedevert?
     tenant_name == 'ragedevert'
   end
