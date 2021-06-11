@@ -129,6 +129,10 @@ class ACP < ActiveRecord::Base
     !!recurring_billing_wday
   end
 
+  def payments_processing?
+    credentials(:ebics) || credentials(:bas)
+  end
+
   def billing_year_divisions=(divisions)
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end

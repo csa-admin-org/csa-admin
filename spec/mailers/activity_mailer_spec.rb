@@ -25,11 +25,11 @@ describe ActivityMailer do
       member: create(:member, name: 'Elea Asah'),
       carpooling_phone: '+41765431243',
       carpooling_city: 'La Chaux-de-Fonds')
-    group = ActivityParticipationGroup.group([participation])
+    group = ActivityParticipationGroup.group([participation]).first
 
     mail = ActivityMailer.with(
       template: template,
-      activity_participation: group.first,
+      activity_participation_ids: group.map(&:id),
     ).participation_reminder_email
 
     expect(mail.subject).to eq('Activité à venir (24 mars 2020)')
@@ -50,7 +50,7 @@ describe ActivityMailer do
 
     mail = ActivityMailer.with(
       template: template,
-      activity_participation: participation,
+      activity_participation_ids: participation.id
     ).participation_validated_email
 
     expect(mail.subject).to eq('Activité validée 🎉')
@@ -70,7 +70,7 @@ describe ActivityMailer do
 
     mail = ActivityMailer.with(
       template: template,
-      activity_participation: participation,
+      activity_participation_ids: participation.id
     ).participation_rejected_email
 
     expect(mail.subject).to eq('Activité refusée 😬')

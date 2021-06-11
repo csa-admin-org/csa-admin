@@ -1,8 +1,8 @@
 class AdminMailer < ApplicationMailer
   def depot_delivery_list_email
     depot = params[:depot]
-    baskets = params[:baskets]
     delivery = params[:delivery]
+    baskets = params[:baskets] || depot.baskets_for(delivery)
     I18n.with_locale(depot.language) do
       xlsx = XLSX::Delivery.new(delivery, depot)
       attachments[xlsx.filename] = {

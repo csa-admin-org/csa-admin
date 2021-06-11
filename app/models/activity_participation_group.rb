@@ -5,8 +5,8 @@ class ActivityParticipationGroup
 
   def self.group(participations)
     participations
-      .group_by { |ap| signature(ap) }
-      .map { |_sign, parts| new(parts) }
+      .group_by { |p| signature(p) }
+      .map { |_sign, parts| parts }
   end
 
   def self.signature(participation)
@@ -35,10 +35,6 @@ class ActivityParticipationGroup
     @activity = ActivityGroup.new(activities.first)
     @activity.period = period
     @activity
-  end
-
-  def touch(attr)
-    @participations.each { |p| p.touch(attr) }
   end
 
   private
