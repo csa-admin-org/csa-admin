@@ -23,6 +23,16 @@ class Depot < ActiveRecord::Base
   validates :name, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
+  def baskets_for(delivery)
+    baskets
+      .not_absent
+      .not_empty
+      .includes(:basket_size, :complements, :member, :baskets_basket_complements)
+      .where(delivery_id: delivery.id)
+      .order('members.name')
+      .uniq
+  end
+
   def free?
     price.zero?
   end

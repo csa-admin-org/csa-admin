@@ -15,12 +15,12 @@ describe ActivityParticipationGroup do
     part4 = create(:activity_participation, member: member, activity: activity4, created_at: 2.months.ago)
 
     participations = ActivityParticipationGroup.group([part1, part2, part3, part4])
+    group = ActivityParticipationGroup.new(participations.first)
 
-    participation = participations.first
-    expect(participation.activity.period).to eq '8:00-10:00, 11:00-13:00'
-    expect(participation.activity.date).to eq date
-    expect(participation.participants_count).to eq 1
-    expect(participation.member).to eq member
-    expect(participation.activity_id).to eq [activity1.id, activity4.id]
+    expect(group.activity.period).to eq '8:00-10:00, 11:00-13:00'
+    expect(group.activity.date).to eq date
+    expect(group.participants_count).to eq 1
+    expect(group.member).to eq member
+    expect(group.activity_id).to eq [activity1.id, activity4.id]
   end
 end
