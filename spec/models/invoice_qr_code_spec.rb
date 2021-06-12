@@ -27,7 +27,8 @@ describe InvoiceQRCode do
 
   specify '#payload' do
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
-    payload = InvoiceQRCode.new(invoice).payload
+    invoice.payments.create!(amount: 10, date: Date.today)
+    payload = InvoiceQRCode.new(invoice.reload).payload
     expect(payload).to eq(
       "SPC\r\n" +
       "0200\r\n" +
@@ -47,7 +48,7 @@ describe InvoiceQRCode do
       "\r\n" +
       "\r\n" +
       "\r\n" +
-      "30.00\r\n" +
+      "20.00\r\n" +
       "CHF\r\n" +
       "S\r\n" +
       "Pia-Maria Rutschmann-Schnyder\r\n" +
