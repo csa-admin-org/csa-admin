@@ -80,6 +80,7 @@ ActiveAdmin.register Absence do
   before_build do |absence|
     absence.started_on ||= Date.current.next_week
     absence.ended_on ||= Date.current.next_week.end_of_week
+    absence.member_id ||= referer_filter_member_id
     absence.admin = current_admin
   end
 
@@ -99,6 +100,7 @@ ActiveAdmin.register Absence do
 
   controller do
     include TranslatedCSVFilename
+    include ApplicationHelper
 
     def apply_sorting(chain)
       super(chain).joins(:member).order('members.name')
