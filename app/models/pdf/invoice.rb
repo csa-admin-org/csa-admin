@@ -4,14 +4,13 @@ module PDF
     include MembershipsHelper
     include NumbersHelper
 
-    attr_reader :invoice, :object, :isr_ref
+    attr_reader :invoice, :object
 
     def initialize(invoice)
       @invoice = invoice
       @object = invoice.object
       # Reload object to be sure that the balance is up-to-date
       @missing_amount = ::Invoice.find(invoice.id).missing_amount
-      @isr_ref = ISRReferenceNumber.new(invoice.id, @missing_amount)
       super
       header
       member_address
@@ -279,6 +278,7 @@ module PDF
     def isr
       y = 273
       font_size 8
+      isr_ref = ISRReferenceNumber.new(invoice.id, @missing_amount)
       bounding_box [0, y], width: bounds.width, height: y do
         image "#{Rails.root}/lib/assets/images/isr.jpg",
           at: [0, y],
@@ -393,7 +393,7 @@ module PDF
         end
         bounding_box [65, 98], width: 200 do
           qr_text_title t('qr_bill.amount'), size: 6
-          qr_text _cur(invoice.amount, delimiter: ' '), size: 8
+          qr_text _cur(@missing_amount, delimiter: ' '), size: 8
         end
 
         bounding_box [105, 48], width: 200 do
@@ -416,7 +416,7 @@ module PDF
         end
         bounding_box [65, 100], width: 200 do
           qr_text_title t('qr_bill.amount')
-          qr_text _cur(invoice.amount, delimiter: ' ')
+          qr_text _cur(@missing_amount, delimiter: ' ')
         end
 
         bounding_box [146, 270], width: 230 do

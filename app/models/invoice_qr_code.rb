@@ -69,7 +69,7 @@ class InvoiceQRCode
       '',
       '',
       '',
-      sprintf('%.2f', @invoice.amount),
+      sprintf('%.2f', @invoice.missing_amount),
       @acp.currency_code,
       'S',
       @member.name.truncate(70),
