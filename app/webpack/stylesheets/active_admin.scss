@@ -303,17 +303,29 @@ table#index_table_mail_templates {
 }
 
 table.table-baskets {
-  .col-delivery, .col-status, .col-depot {
+  .col-delivery, .col-status {
     white-space: nowrap;
     padding: 5px $spacing-small;
   }
 
-  .col-description {
-    min-width: 120px;
-    padding: 5px $spacing-small;
-  }
   .col-delivery {
+    width: 135px;
     padding-left: 0;
+  }
+
+  .col-status {
+    width: 80px;
+  }
+
+  .col-description {
+    width: auto;
+    max-width: 180px;
+    padding: 5px $spacing-small 5px 0;
+  }
+
+  .col-depot {
+    width: auto;
+    padding: 5px $spacing-small;
   }
 
   .col-actions-1 {
