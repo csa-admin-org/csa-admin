@@ -211,10 +211,12 @@ ActiveAdmin.register Membership do
             column(:delivery) { |b| link_to b.delivery.display_name(format: :number), b.delivery }
             column(:description)
             column(:depot)
-            column(class: 'col-status') { |b|
-              status_tag(:trial) if b.trial?
-              status_tag(:absent) if b.absent?
-            }
+            if m.baskets.trial.any? || m.baskets.absent.any?
+              column(class: 'col-status') { |b|
+                status_tag(:trial) if b.trial?
+                status_tag(:absent) if b.absent?
+              }
+            end
             column(class: 'col-actions-1') { |b|
               link_to t('.edit'), edit_basket_path(b), class: 'edit_link'
             }
