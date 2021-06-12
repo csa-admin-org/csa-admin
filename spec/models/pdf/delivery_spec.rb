@@ -76,7 +76,7 @@ describe PDF::Delivery do
         .and contain_sequence('Totaux (dépôt)', '1', '2', '3', '1', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '1', '1')
         .and contain_sequence('John Doe', '2', '2')
-        .and contain_sequence('Missing Joe', '–', '–', '–', '–', 'ABSENT')
+        .and contain_sequence('Missing Joe', '–', '–', '–', '–', 'ABSENT(E)')
         .and include("Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
       expect(pdf_strings).not_to include 'Jame Dane'
       expect(pdf_strings).not_to include 'Moyen'

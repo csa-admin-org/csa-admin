@@ -320,7 +320,7 @@ _:
       basket:
         absent:
           _de: abwesend
-          _fr: absent
+          _fr: absent(e)
           _it: assente
         basket_price:
           _de: Preis Tasche
