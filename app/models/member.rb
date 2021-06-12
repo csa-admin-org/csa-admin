@@ -239,11 +239,15 @@ class Member < ActiveRecord::Base
 
   def can_destroy?
     pending? ||
-      (inactive? && memberships.none? && invoices.not_canceled.none?)
+      (inactive? && memberships.none? && invoices.sent.not_canceled.none?)
   end
 
   def invoices_amount
     @invoices_amount ||= invoices.not_canceled.sum(:amount)
+  end
+
+  def sent_invoices_amount
+    @sent_invoices_amount ||= invoices.sent.not_canceled.sum(:amount)
   end
 
   def payments_amount
@@ -252,6 +256,10 @@ class Member < ActiveRecord::Base
 
   def balance_amount
     payments_amount - invoices_amount
+  end
+
+  def member_balance_amount
+    payments_amount - sent_invoices_amount
   end
 
   def credit_amount

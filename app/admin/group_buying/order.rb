@@ -40,7 +40,7 @@ ActiveAdmin.register GroupBuying::Order do
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
     actions defaults: true, class: 'col-actions-2' do |order|
-      link_to 'PDF', rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+      link_to_invoice_pdf(order.invoice)
     end
   end
 
@@ -116,8 +116,8 @@ ActiveAdmin.register GroupBuying::Order do
     end
   end
 
-  action_item :pdf, only: :show do
-    link_to 'PDF', rails_blob_path(resource.invoice.pdf_file, disposition: 'attachment')
+  action_item :pdf, only: :show, if: -> { !resource.invoice.processing? } do
+    link_to_invoice_pdf(resource.invoice)
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do

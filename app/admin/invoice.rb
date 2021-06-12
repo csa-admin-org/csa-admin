@@ -47,7 +47,7 @@ ActiveAdmin.register Invoice do
     column :overdue_notices_count
     column :state, ->(invoice) { status_tag invoice.state }
     actions defaults: true, class: 'col-actions-3' do |invoice|
-      link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+      link_to_invoice_pdf(invoice)
     end
   end
 
@@ -164,8 +164,8 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  action_item :pdf, only: :show do
-    link_to 'PDF', rails_blob_path(resource.pdf_file, disposition: 'attachment')
+  action_item :pdf, only: :show, if: -> { !invoice.processing? } do
+    link_to_invoice_pdf(resource)
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
@@ -183,7 +183,7 @@ ActiveAdmin.register Invoice do
     link_to t('.send_email'), send_email_invoice_path(resource), method: :post
   end
 
-  action_item :cancel, only: :show, if: -> { !resource.can_destroy? && authorized?(:cancel, resource) } do
+  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
     link_to t('.cancel_invoice'), cancel_invoice_path(resource), method: :post, data: { confirm: t('.link_confirm') }
   end
 

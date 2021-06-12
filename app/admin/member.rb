@@ -172,9 +172,7 @@ ActiveAdmin.register Member do
               column(:paid_amount) { |i| cur(i.paid_amount) }
               column(:overdue_notices_count)
               column(:status) { |i| status_tag i.state }
-              column(class: 'col-actions') { |i|
-                link_to 'PDF', rails_blob_path(i.pdf_file, disposition: 'attachment'), class: 'pdf_link'
-              }
+              column(class: 'col-actions') { |i| link_to_invoice_pdf(i) }
             end
             if invoices_count > 6
               em link_to(t('.show_more'), all_invoices_path), class: 'show_more'

@@ -19,7 +19,7 @@ describe Ability do
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be false }
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be false }
     specify { expect(ability.can?(:create, ActiveAdmin::Comment)).to be true }
-    specify { expect(ability.can?(:destroy, Invoice)).to be false }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'open'))).to be false }
     specify { expect(ability.can?(:destroy, Depot)).to be false }
     specify { expect(ability.can?(:destroy, BasketSize)).to be false }
     specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
@@ -48,8 +48,9 @@ describe Ability do
     specify { expect(ability.can?(:deactivate, Member.new(state: 'support'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
     specify { expect(ability.can?(:destroy, ActiveAdmin::Comment)).to be true }
-    specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
-    specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'processing'))).to be false }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'open'))).to be true }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'open', sent_at: Time.current))).to be false }
     specify { expect(ability.can?(:destroy, Depot)).to be false }
     specify { expect(ability.can?(:destroy, BasketSize)).to be false }
     specify { expect(ability.can?(:destroy, BasketComplement)).to be false }
@@ -75,8 +76,9 @@ describe Ability do
     specify { expect(ability.can?(:validate, Member)).to be true }
     specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }
-    specify { expect(ability.can?(:destroy, Invoice.new)).to be true }
-    specify { expect(ability.can?(:destroy, Invoice.new(sent_at: Time.current))).to be false }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'processing'))).to be false }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'open'))).to be true }
+    specify { expect(ability.can?(:destroy, Invoice.new(state: 'open', sent_at: Time.current))).to be false }
     specify { expect(ability.can?(:destroy, Depot)).to be true }
     specify { expect(ability.can?(:destroy, BasketSize)).to be true }
     specify { expect(ability.can?(:destroy, BasketComplement)).to be true }

@@ -19,9 +19,10 @@ section
         li class=('canceled' if order.canceled?)
           span.date = l(order.date, format: :number)
           span.info = t('.past_order_info', number: order.id)
-          span.file
-            = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-              = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
+          - unless order.invoice.processing?
+            span.file
+              = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
+                = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
           span.state class=order.state
             == order.state_i18n_name
           span.amount = cur(order.amount)
