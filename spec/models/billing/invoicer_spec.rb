@@ -13,9 +13,9 @@ describe Billing::Invoicer do
   }
   after { travel_back }
 
-  def create_invoice(member)
+  def create_invoice(member, **attrs)
     member.reload
-    described_class.force_invoice!(member)
+    described_class.force_invoice!(member, **attrs)
   end
 
   it 'does not create an invoice for inactive member (non-support)' do
@@ -267,7 +267,7 @@ describe Billing::Invoicer do
     specify 'when quarter #2 (already billed but canceled)' do
       travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
       travel_to(Date.new(Current.fy_year, 5))
-      create_invoice(member).cancel!
+      create_invoice(member, send_email: true).reload.cancel!
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership

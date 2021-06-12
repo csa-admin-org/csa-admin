@@ -1192,6 +1192,10 @@ _:
         _de: zu bestätigen
         _fr: à valider
         _it: da confermare
+      processing:
+        _de: in Bearbeitung
+        _fr: en traitement
+        _it: elaborazione
       rejected:
         _de: abgelehnte
         _fr: refusée

@@ -78,7 +78,7 @@ class Invoice < ActiveRecord::Base
     on: :create,
     if: :membership_type?
 
-  after_commit :process!, on: :create
+  after_commit :enqueue_processing, on: :create
   after_commit :update_membership_activity_participations_accepted!
 
   def self.object_types
@@ -96,6 +96,21 @@ class Invoice < ActiveRecord::Base
 
   def display_name
     "#{model_name.human} ##{id} (#{I18n.l date})"
+  end
+
+  def process!(send_email: false)
+    return unless processing?
+
+    Payment.redistribute!(member_id)
+    handle_acp_shares_change!
+    reload # ensure that paid_amount/state change are reflected.
+    set_pdf!
+    Payment.redistribute!(member_id)
+    transaction do
+      update!(state: NOT_SENT_STATE)
+      close_or_open!
+      send! if send_email
+    end
   end
 
   def send!
@@ -227,15 +242,18 @@ class Invoice < ActiveRecord::Base
   end
 
   def can_destroy?
-    !sent_at? && payments.none?
+    !processing? && !sent_at? && payments.none?
   end
 
   def can_cancel?
-    !canceled? && (not_sent? || open? || current_year?)
+    !can_destroy? &&
+      !processing? &&
+      !canceled? &&
+      (not_sent? || open? || current_year?)
   end
 
   def can_send_email?
-    !sent_at? && !canceled? && member.emails?
+    !processing? && !sent_at? && !canceled? && member.emails?
   end
 
   def can_refund?
@@ -299,18 +317,8 @@ class Invoice < ActiveRecord::Base
     end
   end
 
-  def process!
-    return unless processing?
-
-    Payment.redistribute!(member_id)
-    handle_acp_shares_change!
-    reload # ensure that paid_amount/state change are reflected.
-    set_pdf!
-    Payment.redistribute!(member_id)
-    update!(state: NOT_SENT_STATE)
-    close_or_open!
-
-    send! if @send_email
+  def enqueue_processing
+    Billing::InvoiceProcessorJob.perform_later(self, send_email: @send_email)
   end
 
   def handle_acp_shares_change!

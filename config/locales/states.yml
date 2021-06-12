@@ -30,6 +30,10 @@ _:
         _de: zu zahlen
         _fr: à payer
         _it: da pagare
+      processing:
+        _de: in Bearbeitung
+        _fr: en traitement
+        _it: elaborazione
     invoice:
       canceled:
         _de: stornierte
@@ -47,6 +51,10 @@ _:
         _de: offen
         _fr: ouverte
         _it: aperto
+      processing:
+        _de: in Bearbeitung
+        _fr: en traitement
+        _it: elaborazione
     member:
       active:
         _de: aktiv

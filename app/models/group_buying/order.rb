@@ -22,7 +22,7 @@ module GroupBuying
 
     before_create :set_amount
     before_create :create_invoice
-    after_commit :set_object_id_and_send_invoice, on: :create
+    after_commit :set_invoice_object_id, on: :create
     after_create_commit :notify_admins!
 
     accepts_nested_attributes_for :items,
@@ -84,6 +84,7 @@ module GroupBuying
 
     def create_invoice
       @invoice = Invoice.create!(
+        send_email: true,
         member: member,
         date: date,
         object_type: 'GroupBuying::Order',
@@ -97,9 +98,8 @@ module GroupBuying
       self[:id] = @invoice.id
     end
 
-    def set_object_id_and_send_invoice
+    def set_invoice_object_id
       @invoice.update!(object_id: id)
-      @invoice.send!
     end
 
     def notify_admins!

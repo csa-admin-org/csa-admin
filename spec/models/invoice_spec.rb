@@ -56,7 +56,7 @@ describe Invoice do
       paid_missing_activity_participations_amount: 120)
 
     expect { invoice.save! }.to change { membership.reload.activity_participations_accepted }.by(2)
-    expect { invoice.cancel! }.to change { membership.reload.activity_participations_accepted }.by(-2)
+    expect { invoice.reload.cancel! }.to change { membership.reload.activity_participations_accepted }.by(-2)
   end
 
   context 'when annual fee only' do
@@ -237,13 +237,13 @@ describe Invoice do
     it 'changes inactive member state to support' do
       member = create(:member, :inactive)
       expect { create(:invoice, member: member, acp_shares_number: 1) }
-        .to change(member, :state).from('inactive').to('support')
+        .to change { member.reload.state }.from('inactive').to('support')
     end
 
     it 'changes support member state to inactive' do
       member = create(:member, :support_acp_share, acp_shares_number: 1)
       expect { create(:invoice, member: member, acp_shares_number: -1) }
-        .to change(member, :state).from('support').to('inactive')
+        .to change { member.reload.state }.from('support').to('inactive')
     end
   end
 

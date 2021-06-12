@@ -22,4 +22,10 @@ module InvoicesHelper
   rescue NameError
     I18n.t("invoices.object_type.#{type.underscore}")
   end
+
+  def link_to_invoice_pdf(invoice)
+    return if invoice.processing?
+
+    link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+  end
 end

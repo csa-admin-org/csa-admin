@@ -50,15 +50,12 @@ section
 
 section.balance
   ul
-    - balance = current_member.balance_amount
+    - balance = current_member.member_balance_amount
     - if balance >= 0
       li
         = t('.credit_amount')
         = ': '
-        - if balance.zero?
-          = cur(balance)
-        - else
-          = cur(balance)
+        = cur(balance)
     - else
       li.error
         = t('.missing_amount')
