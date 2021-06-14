@@ -84,7 +84,6 @@ module GroupBuying
     def create_invoice
       @invoice = Invoice.create!(
         send_email: true,
-        skip_process: true,
         member: member,
         date: date,
         object_type: 'GroupBuying::Order',
