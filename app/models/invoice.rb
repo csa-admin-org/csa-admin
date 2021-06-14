@@ -117,7 +117,8 @@ class Invoice < ActiveRecord::Base
     return unless can_send_email?
     raise UnprocessedError if processing?
 
-    MailTemplate.deliver_later(:invoice_created, invoice: self)
+    # Leave some time for the invoice PDF to be uploaded
+    MailTemplate.deliver_later(:invoice_created, invoice: self, wait: 5.seconds)
     touch(:sent_at)
     close_or_open!
   rescue => e
