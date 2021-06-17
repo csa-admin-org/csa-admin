@@ -77,13 +77,13 @@ GEM
       activesupport (>= 3.0.0, < 6.2)
       ruby2_keywords (>= 0.0.2, < 1.0)
     aws-eventstream (1.1.1)
-    aws-partitions (1.467.0)
-    aws-sdk-core (3.114.2)
+    aws-partitions (1.468.0)
+    aws-sdk-core (3.114.3)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.43.0)
+    aws-sdk-kms (1.44.0)
       aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.96.1)
@@ -177,7 +177,7 @@ GEM
     faraday-excon (1.1.0)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
-    ffi (1.15.1)
+    ffi (1.15.3)
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
     formtastic_i18n (0.7.0)
@@ -289,7 +289,7 @@ GEM
     phony_rails (0.15.0)
       activesupport (>= 3.0)
       phony (>= 2.18.12)
-    postmark (1.21.3)
+    postmark (1.21.4)
       json
     postmark-rails (0.21.0)
       actionmailer (>= 3.0.0)
@@ -428,8 +428,6 @@ GEM
       thwait
       tilt (>= 1.4.0)
     sixarm_ruby_unaccent (1.2.0)
-    skylight (5.1.1)
-      activesupport (>= 5.2.0)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -550,7 +548,6 @@ DEPENDENCIES
   sentry-sidekiq
   sidekiq
   sidekiq-scheduler
-  skylight
   slim
   spring
   spring-commands-rspec

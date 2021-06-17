@@ -39,7 +39,6 @@ gem 'sidekiq-scheduler'
 
 gem 'exception_notification'
 gem 'exception_notification-rake'
-gem 'skylight'
 
 gem 'faraday'
 gem 'faraday-cookie_jar'
