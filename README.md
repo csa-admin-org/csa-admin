@@ -18,6 +18,7 @@ Elle est actuellement utilisée par les ACP suivantes:
 * [Les paniers de la mule](https://lamule.ch)
 * [La Ferme du Goupil](https://lafermedugoupil.ch)
 * [La Ferme des Savanes](http://lafermedessavanes.ch)
+* [Seminterra](https://seminterra.ch)
 
 Les fonctions prises en charge sont, entre autres:
 
