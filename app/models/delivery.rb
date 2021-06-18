@@ -34,6 +34,10 @@ class Delivery < ActiveRecord::Base
     coming.order(:date).first
   end
 
+  def self.current
+    where('date <= ?', Date.current).order(:date).last
+  end
+
   def self.any_next_year?
     next_year = Current.fiscal_year.year + 1
     Delivery.during_year(next_year).any?

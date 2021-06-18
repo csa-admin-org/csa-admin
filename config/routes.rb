@@ -29,6 +29,13 @@ Rails.application.routes.draw do
     get 'deliveries/next' => 'next_delivery#next'
 
     ActiveAdmin.routes(self)
+
+    namespace :api do
+      namespace :v1 do
+        resource :configuration, only: :show
+        get 'basket_contents/current' => 'basket_contents#index'
+      end
+    end
   end
 
   scope module: 'members', as: 'members' do
