@@ -37,6 +37,12 @@ class Depot < ActiveRecord::Base
     price.zero?
   end
 
+  def names
+    Current.acp.languages.map { |l|
+      [l, self[:form_names][l] || name]
+    }.to_h
+  end
+
   def require_delivery_address?
     address.blank?
   end

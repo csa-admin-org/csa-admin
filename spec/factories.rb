@@ -304,7 +304,7 @@ FactoryBot.define do
   end
 
   factory :vegetable do
-    name { 'Carotte' }
+    name { Faker::Food.vegetables }
   end
 
   factory :group_buying_delivery, class: GroupBuying::Delivery do
