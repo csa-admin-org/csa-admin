@@ -39,7 +39,7 @@ class Depot < ActiveRecord::Base
 
   def names
     Current.acp.languages.map { |l|
-      [l, self[:form_names][l] || name]
+      [l, self[:form_names][l].presence || name]
     }.to_h
   end
 

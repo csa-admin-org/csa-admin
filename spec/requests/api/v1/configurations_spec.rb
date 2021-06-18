@@ -22,7 +22,7 @@ describe 'Configurations V1 API' do
 
     it 'returns basket sizes, depots, and vegetables' do
       travel_to '2021-06-17' do
-        create(:depot, id: 1324124, name: 'Dépôt A')
+        create(:depot, id: 1324124, name: 'Dépôt A', form_name: '')
         create(:basket_size, id: 435132, name: 'Grand')
         create(:vegetable, id: 5234123, name: 'Carotte')
       end
