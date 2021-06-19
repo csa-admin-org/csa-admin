@@ -223,6 +223,7 @@ FactoryBot.define do
       state { 'active' }
       created_at { Time.current.beginning_of_year }
       after :create do |member|
+        DeliveriesHelper.create_deliveries(10)
         create(:membership,
           member: member,
           started_on: [Time.current.beginning_of_year, Delivery.last.date - 3.weeks].max)
