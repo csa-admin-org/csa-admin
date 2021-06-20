@@ -17,10 +17,7 @@ module Billing
     end
 
     def payments_data
-      unless Current.acp.isr_invoice?
-        check_interface_version
-        return
-      end
+      return unless Current.acp.isr_invoice?
 
       get_isr_lines
         .group_by(&:itself)
@@ -34,16 +31,6 @@ module Billing
           }
         }
         .reject { |pd| pd.invoice_id > 9999999 || !pd.date }
-    end
-
-    def check_interface_version
-      return if version == '2.10'
-
-      ExceptionNotifier.notify(
-        StandardError.new("NEW BAS VERSION!"), version: version)
-      Sentry.capture_message('NEW BAS VERSION!', extra: {
-        version: version
-      })
     end
 
     def version
