@@ -467,8 +467,11 @@ ActiveAdmin.register Member do
   end
 
   member_action :force_recurring_billing, method: :post do
-    invoice = Billing::Invoicer.force_invoice!(resource)
-    redirect_to invoice
+    if invoice = Billing::Invoicer.force_invoice!(resource)
+      redirect_to invoice
+    else
+      redirect_back fallback_location: resource
+    end
   end
 
   before_save do |member|
