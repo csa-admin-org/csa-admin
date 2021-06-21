@@ -19,6 +19,12 @@ class Depot < ActiveRecord::Base
   default_scope { order(:name) }
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
+  scope :used, -> {
+    joins(:memberships)
+      .merge(Membership.current_year)
+      .reorder(:id)
+      .distinct
+    }
 
   validates :name, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
