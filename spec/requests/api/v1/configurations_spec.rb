@@ -22,8 +22,10 @@ describe 'Configurations V1 API' do
 
     it 'returns basket sizes, depots, and vegetables' do
       travel_to '2021-06-17' do
-        create(:depot, id: 1324124, name: 'Dépôt A', form_name: '')
-        create(:basket_size, id: 435132, name: 'Grand')
+        create(:depot, name: 'Vieux Dépôt')
+        depot = create(:depot, id: 1324124, name: 'Dépôt A', form_name: '')
+        basket_size = create(:basket_size, id: 435132, name: 'Grand')
+        create(:membership, depot: depot, basket_size: basket_size)
         create(:vegetable, id: 5234123, name: 'Carotte')
       end
       travel_to '2021-06-18 04:12:00' do
@@ -47,6 +49,7 @@ describe 'Configurations V1 API' do
         'depots' => [
           {
             'id' => 1324124,
+            'visible' => true,
             'names' => { 'fr' => 'Dépôt A' }
           }
         ],
