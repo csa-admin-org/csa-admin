@@ -21,7 +21,7 @@ describe Liquid::DataPreview do
         'name' => 'John Doe',
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
-        'activities_url' => 'https://membres.ragedevert.ch/activities',
+        'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
         'membership_renewal_url' => 'https://membres.ragedevert.ch/membership#renewal'
       },
       'membership' => {
@@ -67,7 +67,7 @@ describe Liquid::DataPreview do
         'name' => 'John Doe',
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
-        'activities_url' => 'https://membres.ragedevert.ch/activities',
+        'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
         'membership_renewal_url' => 'https://membres.ragedevert.ch/membership#renewal'
       },
       'waiting_list_position' => 1

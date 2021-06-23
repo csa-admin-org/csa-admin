@@ -16,7 +16,7 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def activities_url
-    url(:members_activities)
+    url(:members_activity_participations)
   end
 
   def membership_renewal_url
