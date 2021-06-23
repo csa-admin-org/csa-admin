@@ -7,6 +7,7 @@ class Members::ActivitiesController < Members::BaseController
     @limit = params[:limit]&.to_i || 8
     respond_to do |format|
       format.rss
+      format.html { redirect_to members_activity_participations_path }
     end
   end
 end

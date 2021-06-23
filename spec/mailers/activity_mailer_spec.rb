@@ -41,7 +41,7 @@ describe ActivityMailer do
     expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
     expect(mail.body).to include('<strong>Participants:</strong> 2')
     expect(mail.body).to include('<strong>Elea Asah</strong>: +41 76 543 12 43 (La Chaux-de-Fonds)')
-    expect(mail.body).to include('https://membres.ragedevert.ch/activities')
+    expect(mail.body).to include('https://membres.ragedevert.ch/activity_participations')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -61,7 +61,7 @@ describe ActivityMailer do
     expect(mail.body).to include('<strong>Activité:</strong> Aide aux champs')
     expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
     expect(mail.body).to include('<strong>Participants:</strong> 2')
-    expect(mail.body).to include('https://membres.ragedevert.ch/activities')
+    expect(mail.body).to include('https://membres.ragedevert.ch/activity_participations')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -81,7 +81,7 @@ describe ActivityMailer do
     expect(mail.body).to include('<strong>Activité:</strong> Aide aux champs')
     expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
     expect(mail.body).to include('<strong>Participants:</strong> 2')
-    expect(mail.body).to include('https://membres.ragedevert.ch/activities')
+    expect(mail.body).to include('https://membres.ragedevert.ch/activity_participations')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 end
