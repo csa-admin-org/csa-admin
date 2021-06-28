@@ -73,7 +73,7 @@ ActiveAdmin.register Shop::Product do
       f.has_many :variants, allow_destroy: true do |ff|
         translated_input(ff, :names, required: true)
         ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95
-        ff.input :weight_in_kg, as: :number, step: 0.01, min: 0, required: false
+        ff.input :weight_in_kg, as: :number, step: 0.005, min: 0, required: false
         ff.input :stock, as: :number, step: 1, min: 0, required: false
       end
     end
@@ -98,6 +98,7 @@ ActiveAdmin.register Shop::Product do
 
   before_build do |product|
     if params[:action] == 'new'
+      product.available ||= true
       product.variants << Shop::ProductVariant.new if product.variants.none?
     end
   end
