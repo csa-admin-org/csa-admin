@@ -30,9 +30,9 @@ ActiveAdmin.register ActivityPreset do
   end
 
   permit_params(
-    places: I18n.available_locales,
-    place_urls: I18n.available_locales,
-    titles: I18n.available_locales)
+    *I18n.available_locales.map { |l| "place_#{l}" },
+    *I18n.available_locales.map { |l| "place_url_#{l}" },
+    *I18n.available_locales.map { |l| "title_#{l}" })
 
   controller do
     include TranslatedCSVFilename

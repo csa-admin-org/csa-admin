@@ -946,6 +946,15 @@ _:
           _de: Kommentar
           _fr: Commentaire
           _it: Commenti
+      shop/product_variant:
+        stock:
+          _de: Teile auf Lager
+          _fr: Pièces en stock
+          _it: Parti in stock
+        weight_in_kg:
+          _de: Gewicht (in kg)
+          _fr: Poids (en kg)
+          _it: Peso (in kg)
     errors:
       models:
         basket_content:
@@ -1217,6 +1226,47 @@ _:
           _de: Einzahlungen
           _fr: Paiements
           _it: Pagamenti
+      shop:
+        one:
+          _de: Lebensmittel
+          _fr: Épicerie
+          _it: Drogheria
+      shop/producer:
+        one:
+          _de: Produzent
+          _fr: Producteur
+          _it: Produttore
+        other:
+          _de: Produzenten
+          _fr: Producteurs
+          _it: Produttori
+      shop/product:
+        one:
+          _de: Produkt
+          _fr: Produit
+          _it: Prodotto
+        other:
+          _de: Produkte
+          _fr: Produits
+          _it: Prodotti
+      shop/product_variant:
+        one:
+          _de: Variante
+          _fr: Variante
+          _it: Variante
+        other:
+          _de: Varianten
+          _fr: Variantes
+          _it: Varianti
+      shop/tag:
+        one:
+          _de: Tag
+          _fr: Tag
+          _it: Tag
+        other:
+          _de: Tags
+          _fr: Tags
+          _it: Tags
       vegetable:
         one:
           _de: Gemüse

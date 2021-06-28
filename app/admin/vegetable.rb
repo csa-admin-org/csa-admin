@@ -20,7 +20,7 @@ ActiveAdmin.register Vegetable do
     f.actions
   end
 
-  permit_params(names: I18n.available_locales)
+  permit_params(*I18n.available_locales.map { |l| "name_#{l}" })
 
   controller do
     include TranslatedCSVFilename

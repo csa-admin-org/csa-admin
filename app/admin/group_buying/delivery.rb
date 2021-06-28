@@ -122,8 +122,8 @@ ActiveAdmin.register GroupBuying::Delivery do
   permit_params(
     :date,
     :orderable_until,
-    depot_ids: [],
-    descriptions: I18n.available_locales)
+    *I18n.available_locales.map { |l| "description_#{l}" },
+    depot_ids: [])
 
   controller do
     include TranslatedCSVFilename

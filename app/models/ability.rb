@@ -22,6 +22,9 @@ class Ability
       can :update, group_buying_models & available_models
       can :destroy, group_buying_models & available_models, can_destroy?: true
       can :cancel, [GroupBuying::Order] & available_models, can_cancel?: true
+      can :create, shop_models & available_models
+      can :update, shop_models & available_models
+      can :destroy, shop_models & available_models, can_destroy?: true
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
@@ -80,6 +83,9 @@ class Ability
     if Current.acp.feature?('group_buying')
       default += group_buying_models
     end
+    if Current.acp.feature_flag?(:shop)
+      default += shop_models
+    end
     default
   end
 
@@ -89,6 +95,14 @@ class Ability
       GroupBuying::Producer,
       GroupBuying::Product,
       GroupBuying::Order
+    ]
+  end
+
+  def shop_models
+    [
+      Shop::Producer,
+      Shop::Product,
+      Shop::Tag
     ]
   end
 end

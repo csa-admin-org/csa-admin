@@ -55,10 +55,10 @@ ActiveAdmin.register Announcement do
     f.actions
   end
 
-  permit_params \
-    texts: I18n.available_locales,
+  permit_params(
+    *I18n.available_locales.map { |l| "text_#{l}" },
     depot_ids: [],
-    delivery_ids: []
+    delivery_ids: [])
 
   config.per_page = 50
 end

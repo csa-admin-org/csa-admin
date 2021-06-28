@@ -21,6 +21,8 @@ $primary-color: #0c9024 !default; // #22952f
 @import 'vendor/assets/stylesheets/formadmin/formadmin';
 @import 'jquery-timepicker/jquery.timepicker';
 @import 'actiontext';
+@import 'active_admin/tags';
+@import 'active_admin/emoji';
 
 body.logged_out h2, .tabs .nav-tabs, table.index_table thead th, .panel h3, .sidebar_section h3, .ui-dialog .ui-dialog-titlebar, .index_as_blog .banner h3, form legend span {
   box-shadow: none !important;

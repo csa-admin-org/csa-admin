@@ -16,5 +16,7 @@ import 'components/active_admin/basket_content';
 import 'components/active_admin/form';
 import 'components/active_admin/ace_editor';
 import 'components/active_admin/mail_preview';
+import 'components/active_admin/tags';
+import 'components/active_admin/emoji';
 
 import '../stylesheets/active_admin';

@@ -58,11 +58,11 @@ ActiveAdmin.register MailTemplate do
     end
   end
 
-  permit_params \
+  permit_params(
     :active,
-    subjects: I18n.available_locales,
-    contents: I18n.available_locales,
-    liquid_data_preview_yamls: I18n.available_locales
+    *I18n.available_locales.map { |l| "subject_#{l}" },
+    *I18n.available_locales.map { |l| "content_#{l}" },
+    liquid_data_preview_yamls: I18n.available_locales)
 
   form do |f|
     mail_template = f.object
@@ -102,7 +102,11 @@ ActiveAdmin.register MailTemplate do
               as: :text,
               hint: t('formtastic.hints.liquid_data_preview'),
               wrapper_html: { class: 'ace-editor' },
-              input_html: { class: 'ace-editor', data: { mode: 'yaml' } })
+              input_html: {
+                class: 'ace-editor',
+                data: { mode: 'yaml' },
+                name: "mail_template[liquid_data_preview_yamls][#{locale}]"
+              })
           end
         end
       end

@@ -11,6 +11,9 @@ module TranslatedAttributes
           define_method("#{attr}_#{locale}") do
             self[column][locale].presence
           end
+          define_method("#{attr}_#{locale}=") do |str|
+            self[column][locale] = str
+          end
         end
 
         scope "order_by_#{attr}", -> {
@@ -21,6 +24,9 @@ module TranslatedAttributes
         }
         scope "#{attr}_eq", ->(str) {
           where("#{table_name}.#{column}->>'#{I18n.locale}' = ?", str)
+        }
+        scope "#{attr}_contains", ->(str) {
+          where("#{table_name}.#{column}->>'#{I18n.locale}' ILIKE ?", "%#{str}%")
         }
       end
 

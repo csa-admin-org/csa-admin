@@ -42,7 +42,7 @@ ActiveAdmin.register BasketSize do
     :price,
     :acp_shares_number,
     :activity_participations_demanded_annualy,
-    names: I18n.available_locales)
+    *I18n.available_locales.map { |l| "name_#{l}" })
 
   controller do
     include TranslatedCSVFilename
