@@ -64,10 +64,13 @@ ActiveAdmin.register BasketComplement do
     f.actions
   end
 
-  permit_params(:price, :price_type, :visible,
+  permit_params(
+    :price,
+    :price_type,
+    :visible,
+    *I18n.available_locales.map { |l| "name_#{l}" },
     current_delivery_ids: [],
-    future_delivery_ids: [],
-    names: I18n.available_locales)
+    future_delivery_ids: [])
 
   controller do
     include TranslatedCSVFilename

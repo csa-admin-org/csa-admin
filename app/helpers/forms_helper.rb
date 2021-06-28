@@ -7,8 +7,7 @@ module FormsHelper
         label: attribute_label(form.object.class, attr, locale),
         input_html: {
           class: "#{klass}_#{attr.to_s.singularize}",
-          value: form.object.send(attr)[locale],
-          name: "#{klass}[#{attr}][#{locale}]"
+          value: form.object.send(attr)[locale]
         }
       }.deep_merge(options)
     end

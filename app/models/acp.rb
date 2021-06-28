@@ -9,7 +9,7 @@ class ACP < ActiveRecord::Base
     group_buying
     contact_sharing
   ]
-  FEATURE_FLAGS = %w[basket_price_extra]
+  FEATURE_FLAGS = %w[basket_price_extra shop]
   LANGUAGES = %w[fr de it]
   SEASONS = %w[summer winter]
   CURRENCIES = %w[CHF EUR]

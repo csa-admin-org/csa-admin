@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_185728) do
+ActiveRecord::Schema.define(version: 2021_06_26_093355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -605,6 +605,39 @@ ActiveRecord::Schema.define(version: 2021_06_03_185728) do
     t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
   end
 
+  create_table "shop_producers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "website_url"
+  end
+
+  create_table "shop_product_variants", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.jsonb "names", default: {}, null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
+    t.decimal "weight_in_kg", precision: 8, scale: 2
+    t.integer "stock"
+    t.index ["product_id"], name: "index_shop_product_variants_on_product_id"
+  end
+
+  create_table "shop_products", force: :cascade do |t|
+    t.bigint "producer_id"
+    t.jsonb "names", default: {}, null: false
+    t.boolean "available", default: true, null: false
+    t.index ["available"], name: "index_shop_products_on_available"
+    t.index ["producer_id"], name: "index_shop_products_on_producer_id"
+  end
+
+  create_table "shop_products_tags", id: false, force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["product_id", "tag_id"], name: "index_shop_products_tags_unique", unique: true
+  end
+
+  create_table "shop_tags", force: :cascade do |t|
+    t.jsonb "names", default: {}, null: false
+    t.string "emoji"
+  end
+
   create_table "vegetables", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -636,4 +669,8 @@ ActiveRecord::Schema.define(version: 2021_06_03_185728) do
   add_foreign_key "payments", "members"
   add_foreign_key "sessions", "admins"
   add_foreign_key "sessions", "members"
+  add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
+  add_foreign_key "shop_products", "shop_producers", column: "producer_id"
+  add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
+  add_foreign_key "shop_products_tags", "shop_tags", column: "tag_id"
 end

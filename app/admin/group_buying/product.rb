@@ -68,8 +68,8 @@ ActiveAdmin.register GroupBuying::Product do
     :producer_id,
     :available,
     :price,
-    names: I18n.available_locales,
-    descriptions: I18n.available_locales)
+    *I18n.available_locales.map { |l| "name_#{l}" },
+    *I18n.available_locales.map { |l| "description_#{l}" })
 
   batch_action :make_available do |selection|
     GroupBuying::Product.where(id: selection).update_all(available: true)

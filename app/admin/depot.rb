@@ -166,7 +166,7 @@ ActiveAdmin.register Depot do
       emails phones responsible_member_id
       form_priority
     ],
-    form_names: I18n.available_locales,
+    *I18n.available_locales.map { |l| "form_name_#{l}" },
     current_delivery_ids: [],
     future_delivery_ids: [])
 

@@ -104,11 +104,11 @@ ActiveAdmin.register Activity do
     :preset_id, :participants_limit,
     :bulk_dates_starts_on, :bulk_dates_ends_on,
     :bulk_dates_weeks_frequency,
-    bulk_dates_wdays: [],
-    places: I18n.available_locales,
-    place_urls: I18n.available_locales,
-    titles: I18n.available_locales,
-    descriptions: I18n.available_locales)
+    *I18n.available_locales.map { |l| "place_#{l}" },
+    *I18n.available_locales.map { |l| "place_url_#{l}" },
+    *I18n.available_locales.map { |l| "title_#{l}" },
+    *I18n.available_locales.map { |l| "description_#{l}" },
+    bulk_dates_wdays: [])
 
   before_build do |activity|
     activity.preset_id ||= ActivityPreset.first&.id

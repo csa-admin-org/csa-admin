@@ -1,17 +1,17 @@
-ActiveAdmin.register GroupBuying::Producer do
-  menu parent: :group_buying, priority: 3
+ActiveAdmin.register Shop::Producer do
+  menu parent: :shop, priority: 9
   actions :all, except: [:show]
 
   breadcrumb do
     if params['action'] == 'index'
-      [t('active_admin.menu.group_buying')]
+      [t('active_admin.menu.shop')]
     else
       links = [
-        t('active_admin.menu.group_buying'),
-        link_to(GroupBuying::Producer.model_name.human(count: 2), group_buying_producers_path)
+        t('active_admin.menu.shop'),
+        link_to(Shop::Producer.model_name.human(count: 2), shop_producers_path)
       ]
       if params['action'].in? %W[edit]
-        links << group_buying_producer.name
+        links << shop_producer.name
       end
       links
     end
@@ -26,7 +26,7 @@ ActiveAdmin.register GroupBuying::Producer do
     column :products, ->(producer) {
       link_to(
         producer.products.size,
-        group_buying_products_path(
+        shop_products_path(
           q: { producer_id_eq: producer.id }))
     }
     actions class: 'col-actions-2'

@@ -274,6 +274,15 @@ _:
           _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt.
           _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.
           _it: La quantità delle ceste con una data di consegna fuori stagione verrà ridotta a zero.
+      shop/product_variant:
+        stock:
+          _de: Leer lassen, wenn der Lagerbestand nicht verwaltet wird.
+          _fr: Laisser vide si le stock n'est pas géré.
+          _it: Lasciare vuoto se lo stock non è gestito.
+        weight_in_kg:
+          _de: Leer lassen, wenn nicht im Gesamtgewicht der Bestellung enthalten.
+          _fr: Laisser vide si ne compte pas dans le poids total de la commande.
+          _it: Lasciare vuoto se non è incluso nel peso totale dell'ordine.
     inputs:
       period:
         _de: Zeitplan
