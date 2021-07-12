@@ -63,13 +63,13 @@ module PDF
             valign: :center
         end
       end
-      bounding_box [bounds.width - 320, bounds.height - 20], width: 300, height: 120 do
-        text depot.name, size: 28, align: :right
+      bounding_box [bounds.width - 370, bounds.height - 20], width: 350, height: 120 do
+        text depot.name, size: 24, align: :right
         move_down 5
-        text I18n.l(delivery.date), size: 28, align: :right
+        text I18n.l(delivery.date), size: 24, align: :right
         if total_pages > 1
           move_down 5
-          text "#{page} / #{total_pages}", size: 28, align: :right
+          text "#{page} / #{total_pages}", size: 24, align: :right
         end
       end
     end
