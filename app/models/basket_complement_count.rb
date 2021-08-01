@@ -19,6 +19,7 @@ class BasketComplementCount
     @count ||=
       @delivery
         .baskets
+        .not_absent
         .joins(:baskets_basket_complements)
         .where(baskets_basket_complements: { basket_complement_id: @complement.id })
         .sum('baskets_basket_complements.quantity')
