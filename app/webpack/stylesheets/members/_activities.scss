@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .activities-form {
   display: inline-block;
   width: 100%;
@@ -89,7 +91,7 @@ ul.activities {
     display: flex;
     // justify-content: space-between;
     flex-wrap: wrap;
-    padding: $small-spacing / 2;
+    padding: $small-spacing * 0.5;
 
     &:nth-child(odd) {
       background-color: #f6f6f6;
@@ -192,7 +194,7 @@ ul.activities {
       text-transform: uppercase;
       font-size: $base-font-size * 0.7;
       border: solid 1px;
-      padding: $small-spacing / 3 $small-spacing;
+      padding: math.div($small-spacing, 3) $small-spacing;
       margin-left: $small-spacing;
       border-radius: 5px;
       position: relative;
@@ -215,7 +217,7 @@ ul.activities {
       text-align: right;
       // flex-basis: fit;
       flex-grow: 2;
-      margin-left: $small-spacing / 2;
+      margin-left: $small-spacing * 0.5;
 
       span.hidden_action {
         visibility: hidden;

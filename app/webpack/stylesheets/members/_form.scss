@@ -11,7 +11,7 @@ form {
 
   .input {
     p.hint {
-      margin-top: $small-spacing  / 2;
+      margin-top: $small-spacing  * 0.5;
       color: $medium-gray;
       font-weight: 300;
       font-size: $base-font-size * 0.8;
@@ -92,7 +92,7 @@ form.formtastic {
       margin: auto 0 auto 7px;
       font-weight: 400;
       em {
-        margin-left: $small-spacing / 2;
+        margin-left: $small-spacing * 0.5;
         color: $medium-gray;
         font-weight: 300;
         font-style: italic;
@@ -116,7 +116,7 @@ form.formtastic {
     color: $medium-gray;
     font-weight: 300;
     font-style: italic;
-    margin: $small-spacing / 2 0 0 0;
+    margin: $small-spacing * 0.5 0 0 0;
   }
 
   legend span {
@@ -140,13 +140,13 @@ form.formtastic {
   p.inline-errors {
     color: white;
     background-color: $red;
-    padding: $small-spacing / 2;
+    padding: $small-spacing * 0.5;
     border: 3px solid $red;
     border-radius: $base-border-radius;
   }
 
   p.legend-text, p.legend-text + div {
-    margin-top: $small-spacing / 2;
+    margin-top: $small-spacing * 0.5;
     font-size: $base-font-size * 0.9;
   }
 

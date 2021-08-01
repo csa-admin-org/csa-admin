@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import 'members/variables';
 
 a {
@@ -11,7 +13,7 @@ a {
 
 p {
   line-height: $base-line-height;
-  margin: 0 0 $base-spacing / 3 0;
+  margin: 0 0 math.div($base-spacing, 3) 0;
 
   &.justify {
     text-align: justify;
@@ -21,7 +23,7 @@ p {
 label {
   display: block;
   font-weight: 600;
-  margin-bottom: $small-spacing / 2;
+  margin-bottom: $small-spacing * 0.5;
 
   &.title {
     text-transform: capitalize;
@@ -128,7 +130,7 @@ ul {
     margin-left: $small-spacing;
     border-radius: $base-border-radius;
     border: solid 1px $green;
-    padding: $small-spacing / 6 $small-spacing / 2;
+    padding: math.div($small-spacing, 6) $small-spacing * 0.5;
     background-color: white;
 
     &:hover {
@@ -187,7 +189,7 @@ h3 {
 h4 {
   font-size: $base-font-size * 1;
   line-height: $heading-line-height;
-  margin: 0 0 $small-spacing / 2;
+  margin: 0 0 $small-spacing * 0.5;
 }
 
 table {
@@ -222,7 +224,7 @@ svg {
 }
 
 .map_link svg {
-  margin: 0 -2px -2px $small-spacing / 2;
+  margin: 0 -2px -2px $small-spacing * 0.5;
 }
 
 @media (prefers-color-scheme: dark) {

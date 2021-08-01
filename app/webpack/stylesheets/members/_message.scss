@@ -1,3 +1,4 @@
+@use "sass:color";
 $flash-red: #fbe3e4;
 $flash-yellow: #fff6bf;
 $flash-green: #e6efc2;
@@ -5,8 +6,8 @@ $flash-green: #e6efc2;
 %flash-base {
   display: block;
   font-weight: 600;
-  margin: $base-spacing / 2 0;
-  padding: $base-spacing / 2;
+  margin: $base-spacing * 0.5 0;
+  padding: $base-spacing * 0.5;
   border-radius: $base-border-radius;
 }
 
@@ -21,14 +22,14 @@ $flashes: (
   .flash-#{$flash} {
     @extend %flash-base;
     background: $color;
-    color: darken($color, 60);
+    color: color.adjust($color, $lightness: -60);
 
     a {
-      color: darken($color, 70);
-      border-bottom: 1px solid transparentize(darken($color, 70), 0.7);
+      color: color.adjust($color, $lightness: -70);
+      border-bottom: 1px solid color.adjust(color.adjust($color, $lightness: -70), $alpha: -0.7);
 
       &:hover {
-        color: darken($color, 90);
+        color: color.adjust($color, $lightness: -90);
       }
     }
   }

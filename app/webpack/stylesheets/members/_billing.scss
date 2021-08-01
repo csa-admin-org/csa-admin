@@ -3,7 +3,7 @@ ul.billing {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: $small-spacing / 2;
+    padding: $small-spacing * 0.5;
 
     &:nth-child(odd) {
       background-color: #f6f6f6;
