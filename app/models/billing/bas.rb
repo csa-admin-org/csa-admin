@@ -1,7 +1,8 @@
+require 'tempfile'
+
 module Billing
   class BAS
     LoginError = Class.new(StandardError)
-    ESRGETIssue = Class.new(StandardError)
     PaymentData = Class.new(OpenStruct)
     URL = 'https://wwwsec.abs.ch'.freeze
 
@@ -17,20 +18,14 @@ module Billing
     end
 
     def payments_data
-      return unless Current.acp.isr_invoice?
+      body = get_camt54_body
+      return unless body
 
-      get_isr_lines
-        .group_by(&:itself)
-        .flat_map { |_line, lines|
-          lines.map.with_index { |line, i|
-            PaymentData.new(
-              invoice_id: isr_invoice_id(line),
-              amount: isr_amount(line),
-              date: isr_date(line),
-              isr_data: "#{i}-#{line}")
-          }
-        }
-        .reject { |pd| pd.invoice_id > 9999999 || !pd.date }
+      Tempfile.create { |f|
+        f << body
+        f.rewind
+        Billing::CamtFile.new([f]).payments_data
+      }
     end
 
     def version
@@ -45,42 +40,32 @@ module Billing
 
     private
 
-    def isr_date(line)
-      Date.new("20#{line[71..72]}".to_i, line[73..74].to_i, line[75..76].to_i)
-    rescue ArgumentError
-      nil
-    end
-
-    def isr_invoice_id(line)
-      line[26..37].to_i
-    end
-
-    def isr_amount(line)
-      line[40..48].to_i / BigDecimal(100)
-    end
-
-    def get_isr_lines
+    def get_camt54_body
       res = @session.post('/ebanking/extInterface.file',
-        FUNCTION: 'ESRGET',
+        FUNCTION: 'CAMT054DATA',
         BANK: 'ABS',
         LANGUAGE: 'french',
-        VON_DAT: GET_PAYMENTS_FROM.strftime('%e.%-m.%Y'),
-        BIS_DAT: Time.current.strftime('%e.%-m.%Y'),
+        VON_DAT: GET_PAYMENTS_FROM.strftime('%-e.%-m.%Y'),
+        KONTO: @credentials.fetch(:account_number),
         WITH_OLD: 1)
       if res.body.include?('<FILE>')
-        res.body[/<FILE>(.*)<\/FILE>/m, 1].delete(' ').split("\r\n")
+        res.body[/<FILE>(.*)<\/FILE>/m, 1].force_encoding('UTF-8')
       elsif res.body.include?(NO_DATA_INFO_MSG)
-        []
+        nil
       else
-        ExceptionNotifier.notify(ESRGETIssue.new,
-          version: version,
-          body: res.body)
-        Sentry.capture_message('BAS ESR GET issue', extra: {
+        Sentry.capture_message('BAS CAMT054 GET issue', extra: {
           version: version,
           body: res.body
         })
-        []
+        nil
       end
+    end
+
+    def get_account_numbers
+      res = @session.post('/ebanking/extInterface.file',
+        FUNCTION: 'KTOUEBERSICHT',
+        BANK: 'ABS',
+        LANGUAGE: 'french')
     end
 
     def init_session
