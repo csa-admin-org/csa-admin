@@ -119,20 +119,22 @@ module XLSX
       add_baskets_worksheet(worksheet_name, baskets)
     end
 
-    def add_baskets_worksheet(name, baskets, style: :default)
+    def add_baskets_worksheet(name, baskets, style: 'default')
       baskets = baskets
         .joins(:member)
         .includes(:member, :basket_size, :complements, baskets_basket_complements: :basket_complement)
         .not_empty
 
       baskets =
-        if style == :bike_delivery
-          baskets.order('members.address')
+        if style == 'bike_delivery'
+          baskets.sort_by { |b|
+            [b.member.final_delivery_zip, b.member.final_delivery_city, b.member.final_delivery_address]
+          }
         else
           baskets.order('members.name')
         end
 
-      border = style == :bike_delivery ? 'thin' : 'none'
+      border = style == 'bike_delivery' ? 'thin' : 'none'
 
       add_worksheet(name)
 
@@ -140,21 +142,21 @@ module XLSX
         Member.human_attribute_name(:name),
         baskets.map { |b| b.member.name },
         border: border)
-      unless style == :bike_delivery
+      add_column(
+        Member.human_attribute_name(:phones),
+        baskets.map { |b| b.member.phones_array.map(&:phony_formatted).join(', ') },
+        border: border)
+      unless style == 'bike_delivery'
         add_column(
           Member.human_attribute_name(:emails),
           baskets.map { |b| b.member.emails_array.join(', ') },
-          border: border)
-        add_column(
-          Member.human_attribute_name(:phones),
-          baskets.map { |b| b.member.phones_array.map(&:phony_formatted).join(', ') },
           border: border)
       end
       add_column(
         Member.human_attribute_name(:address),
         baskets.map { |b| b.member.final_delivery_address },
         border: border)
-      unless style == :bike_delivery
+      unless style == 'bike_delivery'
         add_column(
           Member.human_attribute_name(:zip),
           baskets.map { |b| b.member.final_delivery_zip },
@@ -174,13 +176,13 @@ module XLSX
           baskets.map(&:complements_description),
           border: border)
       end
-      unless style == :bike_delivery
+      unless style == 'bike_delivery'
         add_column(
           Member.human_attribute_name(:food_note),
           baskets.map { |b| truncate(b.member.food_note, length: 80) },
           border: border)
       end
-      if style == :bike_delivery
+      if style == 'bike_delivery'
         add_column(t('delivered_by'), baskets.map { |b| ' ' * 25 }, border: border)
       end
     end
