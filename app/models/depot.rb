@@ -63,14 +63,6 @@ class Depot < ActiveRecord::Base
     (price * deliveries_count).round_to_five_cents
   end
 
-  def xlsx_worksheet_style
-    if Current.acp.ragedevert? && id == 2 # Neuchatel Velo
-      :bike_delivery
-    else
-      :default
-    end
-  end
-
   def can_destroy?
     memberships.none? && baskets.none?
   end

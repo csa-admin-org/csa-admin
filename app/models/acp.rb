@@ -249,10 +249,6 @@ class ACP < ActiveRecord::Base
     Rails.application.credentials.dig(tenant_name.to_sym, *keys)
   end
 
-  def ragedevert?
-    tenant_name == 'ragedevert'
-  end
-
   def group_buying_email
     self[:group_buying_email] || email
   end
