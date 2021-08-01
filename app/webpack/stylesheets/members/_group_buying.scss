@@ -1,3 +1,5 @@
+@use "sass:math";
+
 #group-buying-order-form {
   h3 {
     margin: $base-spacing 0 $small-spacing;
@@ -16,7 +18,7 @@
       svg {
         position: absolute;
         top: 1px;
-        left: $small-spacing / 2;
+        left: $small-spacing * 0.5;
       }
     }
   }
@@ -30,7 +32,7 @@
 
     li {
       margin: 0;
-      padding: 0 $small-spacing / 2;
+      padding: 0 $small-spacing * 0.5;
 
       &:nth-child(odd) {
         background-color: #f6f6f6;
@@ -40,7 +42,7 @@
 
   .product {
     display: flex;
-    padding: $small-spacing / 2 0;
+    padding: $small-spacing * 0.5 0;
 
     label {
       flex-grow: 3;
@@ -122,7 +124,7 @@ ul.group_buying {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: $small-spacing / 2;
+    padding: $small-spacing * 0.5;
 
     &:nth-child(odd) {
       background-color: #f6f6f6;
@@ -168,12 +170,12 @@ ul.group_buying {
       font-size: $base-font-size * 0.7;
       border: solid 1px;
       font-weight: 700;
-      padding: 0 $small-spacing / 2;
-      margin: $small-spacing / 3 0 0 $small-spacing;
+      padding: 0 $small-spacing * 0.5;
+      margin: math.div($small-spacing, 3) 0 0 $small-spacing;
       border-radius: 5px;
       position: relative;
       @media screen and (min-width: 900px) {
-        margin: $small-spacing / 3 $small-spacing 0;
+        margin: math.div($small-spacing, 3) $small-spacing 0;
       }
 
       &.closed {

@@ -10,7 +10,7 @@
   label {
     position: relative;
     display: block;
-    margin: $small-spacing / 2 0;
+    margin: $small-spacing * 0.5 0;
     cursor: pointer;
     font-size: 22px;
     user-select: none;
@@ -66,7 +66,7 @@
       font-weight: 400;
 
       em {
-        margin-left: $small-spacing / 2;
+        margin-left: $small-spacing * 0.5;
         color: $medium-gray;
         font-weight: 300;
         font-style: italic;

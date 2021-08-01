@@ -21,7 +21,7 @@ ul.absences {
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
-    padding: $small-spacing / 2;
+    padding: $small-spacing * 0.5;
 
     &:nth-child(odd) {
       background-color: #f6f6f6;
@@ -38,7 +38,7 @@ ul.absences {
     span.action {
       order: 2;
       text-align: right;
-      margin-left: $small-spacing / 2;
+      margin-left: $small-spacing * 0.5;
     }
   }
 }
