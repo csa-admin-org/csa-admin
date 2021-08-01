@@ -56,10 +56,6 @@ module Billing
       if Invoice.not_canceled.sent.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
           Payment.isr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
         if last_payment = Payment.isr.reorder(:created_at).last
-          ExceptionNotifier.notify(NoRecentPaymentsError.new,
-            last_payment_id: last_payment.id,
-            last_payment_date: last_payment.date,
-            last_payment_created_at: last_payment.created_at)
           Sentry.capture_message('No recent payment error', extra: {
             last_payment_id: last_payment.id,
             last_payment_date: last_payment.date,
