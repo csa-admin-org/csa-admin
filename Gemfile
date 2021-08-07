@@ -56,7 +56,6 @@ gem 'rexml'
 gem 'postmark-rails'
 gem 'premailer-rails'
 gem 'liquid'
-gem 'nokogumbo'
 
 gem 'cld'
 
