@@ -179,13 +179,13 @@ describe ActivityParticipation do
       expect(participation).not_to be_reminderable
     end
 
-    it 'is not reminderable when participation has been created less than a day ago' do
+    it 'is reminderable when participation has been created less than a day ago' do
       activity = create(:activity, date: 2.weeks.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 5.days.ago,
+        created_at: 1.day.ago,
         latest_reminder_sent_at: nil)
-      expect(participation).not_to be_reminderable
+      expect(participation).to be_reminderable
     end
 
     it 'is reminderable when activity participations is in less than three days' do

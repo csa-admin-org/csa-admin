@@ -108,11 +108,9 @@ class ActivityParticipation < ActiveRecord::Base
   def reminderable?
     return unless coming?
 
-    (
-      (activity.date < 2.weeks.from_now && !latest_reminder_sent_at) ||
-        (activity.date < 3.days.from_now &&
-          (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
-    ) && created_at < 6.days.ago
+    (activity.date < 2.weeks.from_now && !latest_reminder_sent_at) ||
+      (activity.date < 3.days.from_now &&
+        (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
   end
 
   private
