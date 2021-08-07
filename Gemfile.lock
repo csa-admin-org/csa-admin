@@ -276,8 +276,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.12.2-x86_64-darwin)
       racc (~> 1.4)
-    nokogumbo (2.0.5)
-      nokogiri (~> 1.8, >= 1.8.4)
     parallel (1.20.1)
     paranoia (2.4.3)
       activerecord (>= 4.0, < 6.2)
@@ -527,7 +525,6 @@ DEPENDENCIES
   listen (~> 3.3)
   lograge
   mini_magick
-  nokogumbo
   paranoia
   pdf-inspector
   pg
