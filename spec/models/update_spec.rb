@@ -7,7 +7,7 @@ describe Update do
     admin = build(:admin, latest_update_read: nil)
     expect(Update.unread_count(admin)).to eq updates.size
 
-    admin = build(:admin, latest_update_read: updates[-1].name)
+    admin = build(:admin, latest_update_read: updates.first(2).last.name)
     expect(Update.unread_count(admin)).to eq 1
   end
 
