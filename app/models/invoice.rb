@@ -153,6 +153,16 @@ class Invoice < ActiveRecord::Base
     end
   end
 
+  def destroy_or_cancel!
+    if can_destroy?
+      destroy!
+    elsif can_cancel?
+      cancel!
+    else
+      invalid_transition(:destroy_or_cancel!)
+    end
+  end
+
   def close_or_open!
     return if processing?
     invalid_transition(:update_state!) if canceled?

@@ -17,6 +17,7 @@ class Basket < ActiveRecord::Base
 
   before_create :add_complements
   before_validation :set_prices
+  after_update { membership.cancel_outdated_invoice! }
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
   scope :during_year, ->(year) { joins(:delivery).merge(Delivery.during_year(year)) }

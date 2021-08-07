@@ -206,7 +206,7 @@ describe Billing::Invoicer do
       travel_to(Date.new(Current.fy_year, 2, 15)) {
         membership.update!(depot_price: 2)
       }
-      travel_to(Date.new(Current.fy_year, 1, 15))
+      travel_to(Date.new(Current.fy_year, 2, 20))
 
       invoice = create_invoice(member)
 
@@ -484,10 +484,11 @@ describe Billing::Invoicer do
       travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
       travel_to(Date.new(Current.fy_year, 3, 15))
 
+      # last invoice automatically canceled
       membership.update!(ended_on: 1.month.ago)
 
+      expect { create_invoice(member) }.to change(Invoice, :count).by(1)
       expect(described_class.new(member.reload)).not_to be_billable
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
   end
 

@@ -756,4 +756,56 @@ describe Membership do
       }.to change { membership.reload.renewed_at }.to(nil)
     end
   end
+
+  describe '#cancel_outdated_invoice!' do
+    before do
+      Current.acp.update!(
+        trial_basket_count: 0,
+        fiscal_year_start_month: 1,
+        recurring_billing_wday: 1)
+    end
+
+    specify 'membership period is reduced' do
+      member = create(:member, billing_year_division: 1)
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        membership = create(:membership, member: member, started_on: 10.days.ago)
+        invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+
+        expect { membership.update!(ended_on: 6.months.from_now) }
+          .to change { invoice.reload.state }.from('open').to('canceled')
+          .and change { membership.reload.invoices_amount }.to(0)
+      end
+    end
+
+    specify 'membership basket price is reduced' do
+      member = create(:member, billing_year_division: 1)
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        membership = create(:membership, member: member, started_on: 10.days.ago)
+        invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+
+        expect { membership.baskets.first.update!(basket_price: 5) }
+          .to change { invoice.reload.state }.from('open').to('canceled')
+          .and change { membership.reload.invoices_amount }.to(0)
+      end
+    end
+
+    specify 'new absent basket not billed are updated' do
+      Current.acp.update!(absences_billed: false)
+
+      member = create(:member, billing_year_division: 1)
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        membership = create(:membership, member: member, started_on: 10.days.ago)
+        invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+
+        expect {
+          create(:absence,
+            member: member,
+            started_on: 4.months.from_now,
+            ended_on: 5.months.from_now)
+        }
+          .to change { invoice.reload.state }.from('open').to('canceled')
+          .and change { membership.reload.invoices_amount }.to(0)
+      end
+    end
+  end
 end
