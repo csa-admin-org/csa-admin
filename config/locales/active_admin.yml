@@ -1015,6 +1015,28 @@ _:
           _de: Neue %{model}
           _fr: Nouveau %{model}
           _it: Nuovo %{model}
+      shop/order:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+          _it: Nuovo %{model}
+        scopes:
+          all:
+            _de: Alle
+            _fr: Toutes
+            _it: Tutto
+          cart:
+            _de: Warenkorb
+            _fr: Panier
+            _it: Carrello
+          invoiced:
+            _de: Abgerechnet
+            _fr: Facturée
+            _it: Fatturato
+          pending:
+            _de: In Vorbereitung
+            _fr: En préparation
+            _it: In preparazione
       shop/product:
         scopes:
           available:

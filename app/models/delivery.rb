@@ -6,6 +6,7 @@ class Delivery < ActiveRecord::Base
 
   has_many :baskets, dependent: :destroy
   has_many :basket_contents, dependent: :destroy
+  has_many :shop_orders, class_name: 'Shop::Order', dependent: :destroy
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!

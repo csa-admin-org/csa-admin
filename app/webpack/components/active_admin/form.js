@@ -1,3 +1,30 @@
+import { prop, hide, show } from 'components/utils';
+
+const resetPrice = (el) => {
+  var nextInput = $(el).closest('li.select').nextAll('.number').first().find('input[type="number"]');
+  nextInput.prop('value', '');
+}
+
+const updateProductVariantOptions = (el) => {
+  var selectedProductID = el.value;
+  const selectID = el.id.replace('_id', "_variant_id");
+  const variantsSelect = document.getElementById(selectID)
+
+  variantsSelect.removeAttribute('disabled');
+  Array.from(variantsSelect.options).forEach(option => {
+    if (selectedProductID === option.getAttribute('data-product-id')) {
+      option.disabled = false;
+      option.hidden = false;
+      option.selected = false;
+    } else {
+      option.disabled = true;
+      option.hidden = true;
+      option.selected = false;
+    }
+  })
+  Array.from(variantsSelect.options).find((o) => (!o.disabled)).selected = true;
+}
+
 $(document).on('turbolinks:load', function() {
   $('#activity_preset_id').on('change', function() {
     if (this.value === '0') {
@@ -10,8 +37,19 @@ $(document).on('turbolinks:load', function() {
   });
 
   $('.js-reset_price').on('change', function() {
-    var nextInput = $(':input:eq(' + ($(':input').index(this) + 1) + ')');
-    nextInput.prop('value', '');
+    resetPrice(this);
+  });
+  $('.js-update_product_variant_options').on('change', function() {
+    updateProductVariantOptions(this);
+  });
+
+  $(document).on('has_many_add:after', '.has_many_container', function(e, fieldset, container) {
+    $('.js-reset_price').on('change', function() {
+      resetPrice(this);
+    });
+    $('.js-update_product_variant_options').on('change', function() {
+      updateProductVariantOptions(this);
+    });
   });
 
   $('.js-update_basket_depot_options').on('change', function() {

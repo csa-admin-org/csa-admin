@@ -93,3 +93,16 @@ _:
         _de: Warteliste
         _fr: attente
         _it: lista di attesa
+    shop/order:
+      cart:
+        _de: Warenkorb
+        _fr: panier
+        _it: carrello
+      invoiced:
+        _de: abgerechnet
+        _fr: facturée
+        _it: fatturato
+      pending:
+        _de: in Vorbereitung
+        _fr: en préparation
+        _it: in preparazione

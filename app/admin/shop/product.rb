@@ -95,7 +95,6 @@ ActiveAdmin.register Shop::Product do
       *I18n.available_locales.map { |l| "name_#{l}" }
     ])
 
-
   before_build do |product|
     if params[:action] == 'new'
       product.available ||= true

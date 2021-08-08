@@ -114,6 +114,11 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
+      shop/order_item:
+        item_price:
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
+          _it: Lasciare vuoto per il prezzo standard.
       basket_complement:
         current_deliveries:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.

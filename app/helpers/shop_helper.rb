@@ -13,4 +13,12 @@ module ShopHelper
       end
     end
   end
+
+  def product_variants_collection(products)
+    products.includes(:variants).flat_map do |product|
+      product.variants.map do |variant|
+        [variant.name, variant.id, data: { product_id: variant.product_id }]
+      end
+    end
+  end
 end

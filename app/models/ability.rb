@@ -100,6 +100,7 @@ class Ability
 
   def shop_models
     [
+      Shop::Order,
       Shop::Producer,
       Shop::Product,
       Shop::Tag

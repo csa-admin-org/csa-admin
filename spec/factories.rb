@@ -335,4 +335,39 @@ FactoryBot.define do
       }
     } }
   end
+
+  factory :shop_producer, class: Shop::Producer do
+    name { 'la ferme à mathurin' }
+    website_url { 'https://lafermeamathurin.com' }
+  end
+
+  factory :shop_product, class: Shop::Product do
+    association :producer, factory: :shop_producer
+    name { 'Farine de Seigle' }
+    variants_attributes { {
+      '0' => {
+        name: '5 kg',
+        price: 16.75
+      },
+      '1' => {
+        name: '10 kg',
+        price: 30.5
+      }
+    } }
+  end
+
+  factory :shop_order, class: Shop::Order do
+    member
+    delivery
+    items_attributes {
+      product = create(:shop_product)
+      {
+        '0' => {
+          product_id: product.id,
+          variant_id: product.variants.first.id,
+          quantity: 1
+        }
+      }
+    }
+  end
 end
