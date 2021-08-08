@@ -346,6 +346,15 @@ _:
           _de: probe
           _fr: essai
           _it: prova
+      shop/order_item:
+        product_variant:
+          _de: Variante
+          _fr: Variante
+          _it: Variante
+        item_price:
+          _de: Stückpreis
+          _fr: Prix unitaire
+          _it: Prezzo unitario
       basket_complement:
         price_type:
           _de: Preis pro
@@ -1231,6 +1240,24 @@ _:
           _de: Lebensmittel
           _fr: Épicerie
           _it: Drogheria
+      shop/order:
+        one:
+          _de: Bestellung
+          _fr: Commande
+          _it: Comanda
+        other:
+          _de: Bestellungen
+          _fr: Commandes
+          _it: Comande
+      shop/order_item:
+        one:
+          _de: Produkt
+          _fr: Produit
+          _it: Prodotto
+        other:
+          _de: Produkte
+          _fr: Produits
+          _it: Prodotti
       shop/producer:
         one:
           _de: Produzent

@@ -898,3 +898,10 @@ tr.row-next_invoice_on {
     margin: 10px auto;
   }
 }
+
+select option[hidden] {
+  display: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

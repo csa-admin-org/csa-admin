@@ -129,6 +129,17 @@ ActiveAdmin.register Delivery do
           end
         end
 
+        if Current.acp.feature_flag?('shop')
+          panel link_to(Shop::Order.model_name.human(count: 2), shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all)) do
+            orders_count = delivery.shop_orders.count
+            if orders_count.positive?
+              link_to(orders_count, shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all))
+            else
+              content_tag :span, t('active_admin.empty'), class: 'empty'
+            end
+          end
+        end
+
         attributes_table title: t('.notes') do
           row(:note) { text_format(delivery.note) }
         end

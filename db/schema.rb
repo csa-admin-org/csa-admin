@@ -606,6 +606,29 @@ ActiveRecord::Schema.define(version: 2021_08_01_083401) do
     t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
   end
 
+  create_table "shop_order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.bigint "product_variant_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "item_price", precision: 8, scale: 2, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id", "product_id", "product_variant_id"], name: "shop_order_items_unique_index", unique: true
+  end
+
+  create_table "shop_orders", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "delivery_id", null: false
+    t.string "state", default: "cart", null: false
+    t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
+    t.index ["member_id", "delivery_id"], name: "index_shop_orders_on_member_id_and_delivery_id", unique: true
+    t.index ["state"], name: "index_shop_orders_on_state"
+  end
+
   create_table "shop_producers", force: :cascade do |t|
     t.string "name", null: false
     t.string "website_url"
@@ -670,6 +693,11 @@ ActiveRecord::Schema.define(version: 2021_08_01_083401) do
   add_foreign_key "payments", "members"
   add_foreign_key "sessions", "admins"
   add_foreign_key "sessions", "members"
+  add_foreign_key "shop_order_items", "shop_orders", column: "order_id"
+  add_foreign_key "shop_order_items", "shop_product_variants", column: "product_variant_id"
+  add_foreign_key "shop_order_items", "shop_products", column: "product_id"
+  add_foreign_key "shop_orders", "deliveries"
+  add_foreign_key "shop_orders", "members"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
   add_foreign_key "shop_products", "shop_producers", column: "producer_id"
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
