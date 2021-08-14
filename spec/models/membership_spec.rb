@@ -807,5 +807,18 @@ describe Membership do
           .and change { membership.reload.invoices_amount }.to(0)
       end
     end
+
+
+    specify 'past membership period is not reduced' do
+      member = create(:member, billing_year_division: 1)
+      membership = create(:membership, member: member)
+      invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+
+      travel_to(Date.new(Current.fy_year + 1, 12, 15)) do
+        expect { membership.baskets.first.update!(basket_price: 5) }
+          .not_to change { membership.reload.invoices_amount }
+        expect(invoice.reload.state).to eq('open')
+      end
+    end
   end
 end
