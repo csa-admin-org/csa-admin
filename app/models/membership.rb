@@ -387,6 +387,8 @@ class Membership < ActiveRecord::Base
   end
 
   def cancel_outdated_invoice!
+    return unless current_year?
+
     update_price_and_invoices_amount!
     if invoices_amount > price && invoices.not_canceled.any?
       invoices.not_canceled.order(:date).last.destroy_or_cancel!
