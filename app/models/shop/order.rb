@@ -28,7 +28,7 @@ module Shop
     end
 
     def can_destroy?
-      false
+      cart? || pending?
     end
 
     private
@@ -43,7 +43,7 @@ module Shop
         item_sign = [item.product_id, item.product_variant_id]
         if item_sign.in?(used_items)
           item.errors.add(:product_variant_id, :taken)
-          errors.add(:base, :invalid)
+          # errors.add(:base, :invalid)
         end
         used_items << item_sign
       end

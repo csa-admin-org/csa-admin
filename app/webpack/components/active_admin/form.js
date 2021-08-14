@@ -13,9 +13,9 @@ const updateProductVariantOptions = (el) => {
   variantsSelect.removeAttribute('disabled');
   Array.from(variantsSelect.options).forEach(option => {
     if (selectedProductID === option.getAttribute('data-product-id')) {
-      option.disabled = false;
-      option.hidden = false;
-      option.selected = false;
+      option.disabled = option.getAttribute('data-disabled') == 'true';
+      option.hidden = option.getAttribute('data-disabled') == 'true';
+      option.selected = option.getAttribute('data-disabled') == 'true';
     } else {
       option.disabled = true;
       option.hidden = true;
