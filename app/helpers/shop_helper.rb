@@ -14,10 +14,21 @@ module ShopHelper
     end
   end
 
-  def product_variants_collection(products)
+  def products_collection(products)
+    products.includes(:variants).map do |product|
+      [product.name, product.id, disabled: product.variants.all?(&:out_of_stock?)]
+    end
+  end
+
+  def product_variants_collection(products, product_id)
     products.includes(:variants).flat_map do |product|
       product.variants.map do |variant|
-        [variant.name, variant.id, data: { product_id: variant.product_id }]
+        [
+          variant.name,
+          variant.id,
+          data: { product_id: variant.product_id, disabled: !!variant.out_of_stock? },
+          disabled: (variant.out_of_stock? || product.id != product_id)
+        ]
       end
     end
   end

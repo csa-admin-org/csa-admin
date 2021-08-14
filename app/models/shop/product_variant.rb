@@ -12,5 +12,29 @@ module Shop
     validates :price,
       presence: true,
       numericality: { greater_than_or_equal_to: 0 }
+    validates :stock,
+      numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+
+    def out_of_stock?
+      stock&.zero?
+    end
+
+    def available_stock?(quantity = 1)
+      return true if stock.nil?
+
+      stock >= quantity
+    end
+
+    def decrement_stock!(by)
+      return if stock.nil?
+
+      decrement! :stock, by
+    end
+
+    def increment_stock!(by)
+      return if stock.nil?
+
+      increment! :stock, by
+    end
   end
 end

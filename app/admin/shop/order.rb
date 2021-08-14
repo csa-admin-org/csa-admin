@@ -22,8 +22,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   scope :all
-  scope :cart, default: true
-  # scope :pending, default: true
+  scope :pending, default: true
   # scope :invoiced
 
   filter :id, as: :numeric
@@ -150,10 +149,10 @@ ActiveAdmin.register Shop::Order do
       f.input :member, collection: Member.reorder(:name), prompt: true
       f.input :delivery, prompt: true
       f.has_many :items, allow_destroy: true do |ff|
-        ff.input :product, collection: products, prompt: true,
+        ff.input :product, collection: products_collection(products), prompt: true,
           input_html: { class: 'js-reset_price js-update_product_variant_options' }
         ff.input :product_variant,
-          collection: product_variants_collection(products),
+          collection: product_variants_collection(products, ff.object.product_id),
           input_html: { class: 'js-reset_price hide-disabled-options', disabled: ff.object.product_variant_id.blank? }
         ff.input :item_price, hint: true, required: false
         ff.input :quantity, as: :number, step: 1, min: 1
@@ -188,6 +187,10 @@ ActiveAdmin.register Shop::Order do
       if params[:q].blank? && next_delivery = Delivery.next
         params[:q] = { delivery_id_eq: next_delivery.id }
       end
+    end
+
+    before_create do |order|
+      order.state = Shop::Order::PENDING_STATE
     end
   end
 

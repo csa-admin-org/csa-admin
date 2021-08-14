@@ -369,5 +369,9 @@ FactoryBot.define do
         }
       }
     }
+
+    trait :pending do
+      state { Shop::Order::PENDING_STATE }
+    end
   end
 end

@@ -38,4 +38,90 @@ describe Shop::OrderItem do
       quantity: 3,
       amount: 3 * 28)
   end
+
+  specify 'validate available stock on creation (pending)' do
+    product = create(:shop_product, variants_attributes: {
+      '0' => {
+        name: '5 kg',
+        price: 16,
+        stock: 2
+      },
+    })
+    order = build(:shop_order, :pending, items_attributes: {
+      '0' => {
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 3
+      }
+    })
+
+    order.validate
+    expect(order.items.first.errors[:quantity])
+      .to eq(['doit être inférieur ou égal à 2'])
+  end
+
+  specify 'validate and update stock on update (pending)' do
+    product = create(:shop_product, variants_attributes: {
+      '0' => {
+        name: '5 kg',
+        price: 16,
+        stock: 2
+      },
+    })
+    order = create(:shop_order, :pending, items_attributes: {
+      '0' => {
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 1
+      }
+    })
+
+    expect(product.variants.first.reload.stock).to eq(1)
+
+    order.update(items_attributes: {
+      '0' => {
+        id: order.items.first.id,
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 3
+      }
+    })
+
+    expect(order.items.first.errors[:quantity])
+      .to eq(['doit être inférieur ou égal à 2'])
+
+    order.update!(items_attributes: {
+      '0' => {
+        id: order.items.first.id,
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 2
+      }
+    })
+
+    expect(product.variants.first.reload.stock).to eq(0)
+  end
+
+
+  specify 'releases stock when deleting order (pending' do
+    product = create(:shop_product, variants_attributes: {
+      '0' => {
+        name: '5 kg',
+        price: 16,
+        stock: 3
+      },
+    })
+    order = create(:shop_order, :pending, items_attributes: {
+      '0' => {
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 2
+      }
+    })
+
+    expect(product.variants.first.reload.stock).to eq(1)
+
+    expect { order.destroy! }
+      .to change { product.variants.first.reload.stock }.by(2)
+  end
 end
