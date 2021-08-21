@@ -23,8 +23,10 @@ class Ability
       can :destroy, group_buying_models & available_models, can_destroy?: true
       can :cancel, [GroupBuying::Order] & available_models, can_cancel?: true
       can :create, shop_models & available_models
-      can :update, shop_models & available_models
+      can :update, shop_models & available_models, can_update?: true
       can :destroy, shop_models & available_models, can_destroy?: true
+      can :invoice, [Shop::Order] & available_models, can_invoice?: true
+      can :cancel, [Shop::Order] & available_models, can_cancel?: true
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment

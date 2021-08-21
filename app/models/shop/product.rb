@@ -12,6 +12,7 @@ module Shop
     has_many :variants,
       -> { order("price").merge(ProductVariant.order_by_name) },
       class_name: 'Shop::ProductVariant'
+    has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product
     has_and_belongs_to_many :tags, class_name: 'Shop::Tag'
 
     accepts_nested_attributes_for :variants, allow_destroy: true
@@ -38,6 +39,10 @@ module Shop
         %i[stock_equals stock_greater_than stock_less_than]
     end
 
-    def can_destroy?; true end
+    def can_update?; true end
+
+    def can_destroy?
+      order_items.none?
+    end
   end
 end

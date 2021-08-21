@@ -48,13 +48,19 @@ module PDF
 
     def header
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
-      bounding_box [155, bounds.height - 55], width: 200, height: 2.5.cm do
+      bounding_box [155, bounds.height - 55], width: 200, height: 2.6.cm do
         text "#{::Invoice.model_name.human} N° #{invoice.id}", style: :bold, size: 16
         move_down 5
         text I18n.l(invoice.date)
-        if invoice.object_type == 'Membership'
+        case invoice.object_type
+        when 'Membership'
           move_down 5
           text membership_short_period(object), size: 10
+        when 'Shop::Order'
+          move_down 12
+          text "#{::Shop::Order.model_name.human} N° #{object.id}"
+          move_down 5
+          text "#{::Delivery.model_name.human}: #{I18n.l(object.delivery.date)}"
         end
       end
     end
@@ -131,7 +137,7 @@ module PDF
             t('acp_shares_number_negative', count: invoice.acp_shares_number.abs)
           end
         data << [str, _cur(invoice.amount)]
-      when 'Other', 'GroupBuying::Order'
+      when 'Other', 'GroupBuying::Order', 'Shop::Order'
         invoice.items.each do |item|
           data << [item.description, _cur(item.amount)]
         end
@@ -253,6 +259,10 @@ module PDF
           if invoice.object_type == 'GroupBuying::Order' && Current.acp.group_buying_invoice_info
             Current.acp.group_buying_invoice_info % {
               date: I18n.l(invoice.object.delivery.orderable_until)
+            }
+          elsif invoice.object_type == 'Shop::Order' && Current.acp.shop_invoice_info
+            Current.acp.shop_invoice_info % {
+              date: I18n.l(invoice.object.delivery.date)
             }
           else Current.acp.invoice_info
           end

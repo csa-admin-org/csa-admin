@@ -1,4 +1,9 @@
-<p>Hier finden Sie Ihre neue Rechnung, Details finden Sie im angehängten PDF.</p>
+{% case invoice.object_type %}
+{% when 'Shop::Order' %}
+  <p>Hier finden Sie Ihre neue Rechnung, für Ihre Bestellnummer {{ invoice.object_number }}, Details finden Sie im angehängten PDF.</p>
+{% else %}
+  <p>Hier finden Sie Ihre neue Rechnung, Details finden Sie im angehängten PDF.</p>
+{% endcase %}
 
 {% case invoice.state %}
 {% when 'closed' %}

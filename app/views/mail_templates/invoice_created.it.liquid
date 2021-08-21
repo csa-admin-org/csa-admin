@@ -1,4 +1,9 @@
-<p>Ecco la vostra nuova fattura, tutti i dettagli si trovano nel PDF allegato.</p>
+{% case invoice.object_type %}
+{% when 'Shop::Order' %}
+  <p>Ecco la vostra nuova fattura, per il suo ordine N° {{ invoice.object_number }}, tutti i dettagli si trovano nel PDF allegato.</p>
+{% else %}
+  <p>Ecco la vostra nuova fattura, tutti i dettagli si trovano nel PDF allegato.</p>
+{% endcase %}
 
 {% case invoice.state %}
 {% when 'closed' %}

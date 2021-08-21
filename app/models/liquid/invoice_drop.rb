@@ -24,6 +24,10 @@ class Liquid::InvoiceDrop < Liquid::Drop
     @invoice.object_type
   end
 
+  def object_number
+    @invoice.object_id
+  end
+
   def amount
     cur(@invoice.amount)
   end

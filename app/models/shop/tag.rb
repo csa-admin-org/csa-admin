@@ -15,6 +15,7 @@ module Shop
       [emoji, name].compact.join(' ')
     end
 
+    def can_update?; true end
     def can_destroy?; true end
   end
 end

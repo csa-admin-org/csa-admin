@@ -203,6 +203,10 @@ _:
           _de: Betrag Anteilschein
           _fr: Montant part sociale
           _it: Importo quota sociale cooperativa
+        shop_invoice_info:
+          _de: Informationszeile Rechnung
+          _fr: Facture ligne info
+          _it: Riga d'informazione della fattura
         statutes_url:
           _de: Statuten URL
           _fr: Statuts URL
@@ -346,15 +350,6 @@ _:
           _de: probe
           _fr: essai
           _it: prova
-      shop/order_item:
-        product_variant:
-          _de: Variante
-          _fr: Variante
-          _it: Variante
-        item_price:
-          _de: Stückpreis
-          _fr: Prix unitaire
-          _it: Prezzo unitario
       basket_complement:
         price_type:
           _de: Preis pro
@@ -955,6 +950,15 @@ _:
           _de: Kommentar
           _fr: Commentaire
           _it: Commenti
+      shop/order_item:
+        item_price:
+          _de: Stückpreis
+          _fr: Prix unitaire
+          _it: Prezzo unitario
+        product_variant:
+          _de: Variante
+          _fr: Variante
+          _it: Variante
       shop/product_variant:
         stock:
           _de: Teile auf Lager
@@ -1140,11 +1144,11 @@ _:
         one:
           _de: Bestellung
           _fr: Commande
-          _it: Comanda
+          _it: Ordine
         other:
           _de: Bestellungen
           _fr: Commandes
-          _it: Comande
+          _it: Ordini
       group_buying/producer:
         one:
           _de: Produzent
@@ -1244,11 +1248,11 @@ _:
         one:
           _de: Bestellung
           _fr: Commande
-          _it: Comanda
+          _it: Ordine
         other:
           _de: Bestellungen
           _fr: Commandes
-          _it: Comande
+          _it: Ordini
       shop/order_item:
         one:
           _de: Produkt

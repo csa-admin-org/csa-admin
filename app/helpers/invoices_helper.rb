@@ -24,6 +24,7 @@ module InvoicesHelper
   end
 
   def link_to_invoice_pdf(invoice)
+    return unless invoice
     return if invoice.processing?
 
     link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'

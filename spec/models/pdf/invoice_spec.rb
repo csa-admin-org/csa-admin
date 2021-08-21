@@ -803,4 +803,79 @@ describe PDF::Invoice do
         .and contain_sequence('Pia-Maria Rutschmann-Schnyder', 'Grosse Marktgasse 28', '9400 Rorschach')
     end
   end
+
+  context 'P2R settings' do
+    before {
+      Current.acp.update!(
+        name: 'p2r',
+        logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/p2r/logo.jpg',
+        fiscal_year_start_month: 1,
+        ccp: nil,
+        isr_identity: nil,
+        isr_payment_for: nil,
+        isr_in_favor_of: nil,
+        qr_iban: 'CH1830123031135810006',
+        qr_creditor_name: 'Le Panier Bio à 2 Roues',
+        qr_creditor_address: 'Route de Cery 33',
+        qr_creditor_city: 'Prilly',
+        qr_creditor_zip: '1008',
+        country_code: 'CH',
+        currency_code: 'CHF',
+        invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.",
+        invoice_footer: '<b>Le Panier Bio à 2 Roues</b>, Route de Cery 33, 1008 Prilly /// coordination@p2r.ch, 079 844 43 07',
+        feature_flags: ['shop'],
+        shop_invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.")
+    }
+
+    it 'generates an invoice for a shop order' do
+      member = create(:member)
+      product = create(:shop_product,
+        name: 'Courge',
+        variants_attributes: {
+          '0' => {
+            name: '5 kg',
+            price: 16
+          },
+          '1' => {
+            name: '10 kg',
+            price: 30
+          }
+        })
+
+      invoice = nil
+      order = nil
+      travel_to '2021-08-21' do
+        delivery = create(:delivery, date: '2021-08-26')
+        order = create(:shop_order, :pending,
+          member: member,
+          delivery: delivery,
+          items_attributes: {
+            '0' => {
+              product_id: product.id,
+              product_variant_id: product.variants.first.id,
+              quantity: 1
+            },
+            '1' => {
+              product_id: product.id,
+              product_variant_id: product.variants.last.id,
+              item_price: 29.55,
+              quantity: 2
+            }
+          })
+        invoice = order.invoice!
+      end
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to contain_sequence("Facture N° #{invoice.id}")
+        .and contain_sequence("Commande N° #{order.id}")
+        .and contain_sequence("Livraison: 26 août 2021")
+        .and contain_sequence("Courge, 5 kg, 1x16.00")
+        .and contain_sequence("Courge, 10 kg, 2x29.55")
+        .and contain_sequence("Total", '75.10')
+        .and contain_sequence("Payable jusqu'au 26 août 2021, avec nos remerciements.")
+      expect(pdf_strings).not_to include 'Cotisation annuelle association'
+    end
+  end
 end

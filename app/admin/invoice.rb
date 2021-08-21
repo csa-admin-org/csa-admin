@@ -183,7 +183,7 @@ ActiveAdmin.register Invoice do
     link_to t('.send_email'), send_email_invoice_path(resource), method: :post
   end
 
-  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
+  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.object_type != 'Shop::Order' } do
     link_to t('.cancel_invoice'), cancel_invoice_path(resource), method: :post, data: { confirm: t('.link_confirm') }
   end
 

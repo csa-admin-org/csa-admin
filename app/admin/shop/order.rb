@@ -23,7 +23,7 @@ ActiveAdmin.register Shop::Order do
 
   scope :all
   scope :pending, default: true
-  # scope :invoiced
+  scope :invoiced
 
   filter :id, as: :numeric
   filter :delivery,
@@ -35,7 +35,7 @@ ActiveAdmin.register Shop::Order do
   filter :amount
   filter :created_at
 
-  includes :member, :delivery #, invoice: { pdf_file_attachment: :blob }
+  includes :member, :delivery, invoice: { pdf_file_attachment: :blob }
   index do
     column :id, ->(order) { auto_link order, order.id }
     column :created_at, ->(order) { l(order.date, format: :number) }
@@ -43,7 +43,9 @@ ActiveAdmin.register Shop::Order do
     column :member, sortable: 'members.name'
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
-    actions defaults: true, class: 'col-actions-2'
+    actions defaults: true, class: 'col-actions-3'do |order|
+      link_to_invoice_pdf(order.invoice)
+    end
   end
 
   csv do
@@ -54,36 +56,37 @@ ActiveAdmin.register Shop::Order do
     column :delivery_id
     column(:delivery_date) { |o| o.delivery.date }
     column :created_at
-    column :amount
-    # column(:paid_amount) { |o| o.invoice.paid_amount }
-    # column(:balance) { |o| o.invoice.balance }
     column :state, &:state_i18n_name
+    column :amount
+    column(:invoice_id) { |o| o.invoice&.id }
+    column(:paid_amount) { |o| o.invoice&.paid_amount }
+    column(:balance) { |o| o.invoice&.balance }
   end
 
-  # sidebar I18n.t('active_admin.sidebars.total'), only: :index do
-  #   all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
-  #   div class: 'content' do
-  #     if params[:scope].in? ['all_without_canceled', 'open', nil]
-  #       div class: 'total' do
-  #         span t('billing.scope.paid')
-  #         span cur(all.sum('invoices.paid_amount')), style: 'float: right;'
-  #       end
-  #       div class: 'total' do
-  #         span t('billing.scope.missing')
-  #         span cur(all.sum('invoices.amount - invoices.paid_amount')), style: 'float: right'
-  #       end
-  #       div class: 'totals' do
-  #         span t('active_admin.sidebars.amount')
-  #         span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
-  #       end
-  #     else
-  #       div do
-  #         span t('active_admin.sidebars.amount')
-  #         span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
-  #       end
-  #     end
-  #   end
-  # end
+  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
+    all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
+    div class: 'content' do
+      if params[:scope].in? ['invoiced', nil]
+        div class: 'total' do
+          span t('billing.scope.paid')
+          span cur(all.sum('invoices.paid_amount')), style: 'float: right;'
+        end
+        div class: 'total' do
+          span t('billing.scope.missing')
+          span cur(all.sum('invoices.amount - invoices.paid_amount')), style: 'float: right'
+        end
+        div class: 'totals' do
+          span t('active_admin.sidebars.amount')
+          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
+      else
+        div do
+          span t('active_admin.sidebars.amount')
+          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        end
+      end
+    end
+  end
 
   show do |order|
     columns do
@@ -107,34 +110,20 @@ ActiveAdmin.register Shop::Order do
           row(:updated_at) { l(order.updated_at, date_format: :long) }
         end
 
-        attributes_table title: Invoice.human_attribute_name(:amount) do
+        attributes_table title: t('billing.title') do
           row(:amount) { cur(order.amount) }
-          # row(:paid_amount) { cur(order.invoice.paid_amount) }
-          # row(:balance) { cur(order.invoice.balance) }
+          if order.invoice
+            row(:invoice) { auto_link order.invoice, order.invoice.id }
+            row(:state) { status_tag order.invoice.state_i18n_name, class: order.invoice.state }
+            row(:paid_amount) { cur(order.invoice.paid_amount) }
+            row(:balance) { cur(order.invoice.balance) }
+          end
         end
 
         active_admin_comments
       end
     end
   end
-
-  # action_item :pdf, only: :show, if: -> { !resource.invoice.processing? } do
-  #   link_to_invoice_pdf(resource.invoice)
-  # end
-
-  # action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
-  #   link_to t('.new_payment'), new_payment_path(
-  #     invoice_id: resource.invoice.id, amount: [resource.invoice.amount, resource.invoice.missing_amount].min)
-  # end
-
-  # action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
-  #   link_to t('.cancel_invoice'), cancel_group_buying_order_path(resource), method: :post, data: { confirm: t('.link_confirm') }
-  # end
-
-  # member_action :cancel, method: :post do
-  #   resource.invoice.cancel!
-  #   redirect_to resource_path, notice: t('.flash.notice')
-  # end
 
   form do |f|
     if f.object.errors[:items].present?
@@ -172,6 +161,35 @@ ActiveAdmin.register Shop::Order do
       :quantity,
       :_destroy
     ])
+
+  action_item :invoice, only: :show, if: -> { resource.can_invoice? } do
+    link_to t('.invoice_action'), invoice_shop_order_path(resource), method: :post
+  end
+
+  member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
+    resource.invoice!
+    redirect_to resource_path, notice: t('.flash.notice')
+  end
+
+  action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
+    link_to t('.cancel_action'), cancel_shop_order_path(resource),
+      method: :post,
+      data: { confirm: t('.cancel_action_confirm') }
+  end
+
+  member_action :cancel, method: :post, only: :show, if: -> { resource.can_cancel? } do
+    resource.cancel!
+    redirect_to edit_shop_order_path(resource), notice: t('.flash.notice')
+  end
+
+  action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
+    link_to_invoice_pdf(resource.invoice)
+  end
+
+  action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) && resource.invoice } do
+    link_to t('.new_payment'), new_payment_path(
+      invoice_id: resource.invoice.id, amount: [resource.invoice.amount, resource.invoice.missing_amount].min)
+  end
 
   before_build do |order|
     order.member_id ||= referer_filter_member_id
