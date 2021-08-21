@@ -1,0 +1,14 @@
+_:
+  shop_orders:
+    cancel:
+      flash:
+        notice:
+          _de: Erneute Bestellung in Vorbereitung. Die Rechnung wurde storniert.
+          _fr: Commande à nouveau en préparation. La facture a été annulée.
+          _it: Ordine in preparazione di nuovo. La fattura è stata annullata.
+    invoice:
+      flash:
+        notice:
+          _de: Bestellung erfolgreich fakturiert. Die Rechnung wurde bereits versandt.
+          _fr: Commande facturée avec succés. La facture a été envoyée.
+          _it: Ordine fatturato con successo. La fattura è stata inviata.

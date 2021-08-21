@@ -74,6 +74,10 @@ _:
           _de: Leer lassen, wenn kein Anteilschein.
           _fr: Laisser vide si pas de part sociale.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
+        shop_invoice_info:
+          _de: Die Variable "%{date}" wird durch das Datum der Lieferung ersetzt.
+          _fr: La variable "%{date}" est remplacée par la date de la livraison.
+          _it: La variabile "%{date}" è sostituita dalla data di consegna.
         trial_basket_count:
           _de: Das Abonnement wird in Rechnung gestellt, nachdem alle Probetaschen geliefert wurden. Wird das Abonnement während des Testzeitraums beendet, werden nur die gelieferten Taschen in Rechnung gestellt.
           _fr: L'abonnement est facturé après que tous les paniers à l'essai sont livrés. Si l'abonnement est arrêté durant la période d'essai seuls les paniers livrés sont facturés.
@@ -111,11 +115,6 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
         depot_price:
-          _de: Leer lassen für den Standardpreis.
-          _fr: Laisser blanc pour le prix par défaut.
-          _it: Lasciare vuoto per il prezzo standard.
-      shop/order_item:
-        item_price:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
@@ -279,6 +278,11 @@ _:
           _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt.
           _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.
           _it: La quantità delle ceste con una data di consegna fuori stagione verrà ridotta a zero.
+      shop/order_item:
+        item_price:
+          _de: Leer lassen für den Standardpreis.
+          _fr: Laisser blanc pour le prix par défaut.
+          _it: Lasciare vuoto per il prezzo standard.
       shop/product_variant:
         stock:
           _de: Leer lassen, wenn der Lagerbestand nicht verwaltet wird.

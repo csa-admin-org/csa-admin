@@ -85,6 +85,7 @@ class Invoice < ActiveRecord::Base
     types = %w[Membership Other]
     types << 'ActivityParticipation' if Current.acp.feature?('activity')
     types << 'GroupBuying::Order' if Current.acp.feature?('group_buying')
+    types << 'Shop::Order' if Current.acp.feature_flag?('shop')
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
     types
@@ -142,7 +143,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def cancel!
-    invalid_transition(:close!) unless can_cancel?
+    invalid_transition(:cancel!) unless can_cancel?
 
     transaction do
       update!(
@@ -250,6 +251,10 @@ class Invoice < ActiveRecord::Base
     super
     self[:object_type] = 'ACPShare' unless object_type?
     self[:amount] = number.to_i * Current.acp.share_price
+  end
+
+  def processed?
+    !processing?
   end
 
   def can_destroy?

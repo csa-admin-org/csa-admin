@@ -1,5 +1,7 @@
 module Shop
   class OrderItem < ActiveRecord::Base
+    include NumbersHelper
+
     self.table_name = 'shop_order_items'
 
     belongs_to :order, class_name: 'Shop::Order', optional: false
@@ -25,6 +27,14 @@ module Shop
     def product_variant_id=(product_variant_id)
       super
       self.item_price = product_variant.price
+    end
+
+    def description
+      [
+        product.name,
+        product_variant.name,
+        "#{quantity}x#{cur(item_price, format: '%n')}"
+      ].join(', ')
     end
 
     private

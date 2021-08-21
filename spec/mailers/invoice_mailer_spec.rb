@@ -29,6 +29,25 @@ describe InvoiceMailer do
     expect(attachment.content_type).to eq 'application/pdf'
   end
 
+  specify '#created_email (Shop::Order)' do
+    template = MailTemplate.create!(title: 'invoice_created')
+    member = create(:member, emails: 'example@acp-admin.ch')
+    order = create(:shop_order, :pending, id: 51235, member: member)
+    invoice = order.invoice!
+
+    mail = InvoiceMailer.with(
+      template: template,
+      invoice: invoice,
+    ).created_email
+
+    body = mail.html_part.body
+    expect(body).to include(
+      'Voici votre nouvelle facture, pour votre commande N° 51235, ')
+
+    expect(mail.attachments.size).to eq 1
+    expect(mail.attachments.first.content_type).to eq 'application/pdf'
+  end
+
   specify '#overdue_notice_email' do
     template = MailTemplate.create!(title: 'invoice_overdue_notice')
     member = create(:member, emails: 'example@acp-admin.ch')

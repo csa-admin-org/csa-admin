@@ -37,6 +37,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "membership_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "group_buying_terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "group_buying_invoice_info_#{l}" },
+    *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "open_renewal_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_title_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_text_#{l}" },
@@ -150,6 +151,13 @@ ActiveAdmin.register ACP do
         translated_input(f, :group_buying_terms_of_service_urls, required: false)
         translated_input(f, :group_buying_invoice_infos,
           hint: t('formtastic.hints.acp.group_buying_invoice_info'),
+          required: false)
+      end
+    end
+    if Current.acp.feature_flag?('shop')
+      f.inputs t('.shop') do
+        translated_input(f, :shop_invoice_infos,
+          hint: t('formtastic.hints.acp.shop_invoice_info'),
           required: false)
       end
     end

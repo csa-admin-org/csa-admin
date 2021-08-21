@@ -516,6 +516,10 @@ _:
           _de: Einstellungen
           _fr: Paramètres
           _it: Parametri
+        shop:
+          _de: Lebensmittel
+          _fr: Épicerie
+          _it: Drogheria
         submit:
           preview:
             _de: Vorschau der Änderungen
@@ -669,6 +673,14 @@ _:
           _de: Abbrechen
           _fr: Annuler
           _it: Annullare
+        cancel_action:
+          _de: Bearbeiten
+          _fr: Modifier
+          _it: Modificare
+        cancel_action_confirm:
+          _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
+          _fr: Modifier une commande déjà facturée aura pour action d'annuler la facture existante. Êtes-vous sûr?
+          _it: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
         cancel_invoice:
           _de: Stornieren
           _fr: Annuler
@@ -764,7 +776,7 @@ _:
         no_orders:
           _de: Keine Bestellungen
           _fr: Aucune commande
-          _it: Nessuna ordinazione
+          _it: Nessun ordine
         no_payments:
           _de: Keine Einzahlung
           _fr: Aucun paiement

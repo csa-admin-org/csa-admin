@@ -15,6 +15,7 @@
   &.published,
   &.complete,
   &.completed,
+  &.invoiced,
   &.green {
     background: $positive-color;
   }
@@ -31,7 +32,8 @@
     background: $warning-color;
   }
 
-  &.yes {
+  &.yes,
+  &.pending {
     background-color: $info-color;
   }
 

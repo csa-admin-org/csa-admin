@@ -14,6 +14,8 @@ module Shop
       allow_blank: true
     }
 
+    def can_update?; true end
+
     def can_destroy?
       products.none?
     end
