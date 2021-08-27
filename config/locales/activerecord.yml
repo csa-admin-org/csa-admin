@@ -411,6 +411,10 @@ _:
           _de: Taschenzusätze
           _fr: Compléments paniers
           _it: Aggiunte nella cesta
+        shop_open:
+          _de: Lebensmittelladen eröffnen
+          _fr: Épicerie ouverte
+          _it: Drogheria aperta
         signature:
           _de: Unterschrift
           _fr: Signature

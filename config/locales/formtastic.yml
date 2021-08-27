@@ -145,6 +145,10 @@ _:
           _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
           _fr: Les paniers des dépôts seront automatiquement effacés ou créés en cas de changement.
           _it: Le ceste in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
+        shop_open:
+          _de: Steuert, ob Mitglieder für diese Lieferung Lebensmittel bestellen können oder nicht.
+          _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
+          _it: Controlla se i membri possono fare ordini di alimentari per questa consegna o no.
       depot:
         current_deliveries:
           _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.

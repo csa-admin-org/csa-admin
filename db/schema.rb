@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_083527) do
+ActiveRecord::Schema.define(version: 2021_08_27_125610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -316,7 +316,9 @@ ActiveRecord::Schema.define(version: 2021_08_21_083527) do
     t.datetime "updated_at"
     t.text "note"
     t.integer "number", default: 0, null: false
+    t.boolean "shop_open", default: true
     t.index ["date"], name: "index_deliveries_on_date"
+    t.index ["shop_open"], name: "index_deliveries_on_shop_open"
   end
 
   create_table "deliveries_depots", force: :cascade do |t|
