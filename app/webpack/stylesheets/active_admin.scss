@@ -290,7 +290,15 @@ table#index_table_deliveries {
   }
 
   .col-date {
-    width: 200px;
+    min-width: 160px;
+  }
+
+  .col-shop_open {
+    min-width: 160px;
+  }
+
+  .col-note {
+    min-width: 250px;
   }
 }
 

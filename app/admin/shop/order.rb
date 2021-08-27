@@ -136,7 +136,7 @@ ActiveAdmin.register Shop::Order do
     products = Shop::Product.available
     f.inputs t('.details') do
       f.input :member, collection: Member.reorder(:name), prompt: true
-      f.input :delivery, prompt: true
+      f.input :delivery, prompt: true, collection: Delivery.shop_open
       f.has_many :items, allow_destroy: true do |ff|
         ff.input :product, collection: products_collection(products), prompt: true,
           input_html: { class: 'js-reset_price js-update_product_variant_options' }
@@ -202,7 +202,7 @@ ActiveAdmin.register Shop::Order do
     include ShopHelper
 
     before_action delivery: :index do
-      if params[:q].blank? && next_delivery = Delivery.next
+      if params[:q].blank? && next_delivery = Delivery.shop_open.next
         params[:q] = { delivery_id_eq: next_delivery.id }
       end
     end

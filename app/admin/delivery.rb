@@ -11,6 +11,9 @@ ActiveAdmin.register Delivery do
     collection: -> { BasketComplement.all },
     if: :any_basket_complements?
   filter :note, as: :string
+  filter :shop_open,
+    as: :boolean,
+    if: -> proc { Current.acp.feature_flag?('shop') }
   filter :date
   filter :during_year,
     as: :select,
@@ -21,6 +24,9 @@ ActiveAdmin.register Delivery do
   index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
     column '#', ->(delivery) { auto_link delivery, delivery.number }
     column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
+    if Current.acp.feature_flag?('shop')
+      column(:shop_open)
+    end
     column :note, ->(delivery) { truncate delivery.note, length: 175 }
     actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
@@ -46,6 +52,10 @@ ActiveAdmin.register Delivery do
       BasketComplement.all.each do |basket_complement|
         column(basket_complement.name) { |d| BasketComplementCount.new(basket_complement, d).count }
       end
+    end
+
+    if Current.acp.feature_flag?('shop')
+      column(:shop_open)
     end
   end
 
@@ -116,6 +126,9 @@ ActiveAdmin.register Delivery do
         attributes_table do
           row('#') { delivery.number }
           row(:date) { l delivery.date }
+          if Current.acp.feature_flag?('shop')
+            row(:shop_open)
+          end
         end
 
         if Current.acp.feature?('absence')
@@ -153,6 +166,9 @@ ActiveAdmin.register Delivery do
     render partial: 'bulk_dates', locals: { f: f, resource: resource }
     f.inputs do
       f.input :note
+      if Current.acp.feature_flag?('shop')
+        f.input :shop_open, as: :boolean
+      end
     end
     f.inputs do
       f.input :depots,
@@ -175,6 +191,7 @@ ActiveAdmin.register Delivery do
     :date,
     :bulk_dates_starts_on, :bulk_dates_ends_on,
     :bulk_dates_weeks_frequency,
+    :shop_open,
     bulk_dates_wdays: [],
     basket_complement_ids: [],
     depot_ids: []

@@ -17,6 +17,7 @@ class Delivery < ActiveRecord::Base
   scope :past, -> { where('date < ?', Date.current) }
   scope :coming, -> { where('date >= ?', Date.current) }
   scope :between, ->(range) { where(date: range) }
+  scope :shop_open, -> { where(shop_open: true) }
 
   after_save :update_fiscal_year_numbers
   after_update :handle_date_change!
