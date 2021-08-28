@@ -203,10 +203,26 @@ _:
           _de: Betrag Anteilschein
           _fr: Montant part sociale
           _it: Importo quota sociale cooperativa
+        shop_delivery_open_delay_in_days:
+          _de: Dauer der Bestellung bis zur Lieferung (in Tagen)
+          _fr: Délai de commande avant la livraison (en jours)
+          _it: Tempo di consegna dell'ordine (in giorni)
+        shop_delivery_open_last_day_end_time:
+          _de: Annahmeschluss am letzten Tag der Bestellung
+          _fr: Heure de fermeture le dernier jour de commande
+          _it: Orario di chiusura dell'ultimo giorno d'ordine
         shop_invoice_info:
           _de: Informationszeile Rechnung
           _fr: Facture ligne info
           _it: Riga d'informazione della fattura
+        shop_order_maximum_weight_in_kg:
+          _de: Maximales Gewicht einer Bestellung (in kg)
+          _fr: Poids maximal d'une commande (en kg)
+          _it: Peso massimo di un ordine (in kg)
+        shop_order_minimal_amount:
+          _de: Mindestbestellwert
+          _fr: Montant minimal d'une commande
+          _it: Valore minimo dell'ordine
         statutes_url:
           _de: Statuten URL
           _fr: Statuts URL
@@ -999,6 +1015,17 @@ _:
                 _de: Email unbekannt
                 _fr: Email inconnu
                 _it: E-mail sconosciuta
+        shop/order:
+          attributes:
+            base:
+              maximum_weight_limit:
+                _de: Das Gesamtgewicht der Bestellung darf %{max} nicht überschreiten
+                _fr: Le poids total de la commande ne peut pas dépasser %{max}
+                _it: Il peso totale dell'ordine non può superare i  %{max}
+              minimal_amount:
+                _de: Der Mindestbestellwert beträgt %{min}
+                _fr: Le montant minimal d'une commande est de %{min}
+                _it: Il valore minimo dell'ordine è di %{min}
     models:
       absence:
         one:

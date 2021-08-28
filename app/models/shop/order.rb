@@ -13,11 +13,13 @@ module Shop
     has_many :invoices, as: :object
     has_one :invoice, -> { not_canceled }, as: :object
 
+    before_validation :set_amount
+
     validates :items, presence: true
     validates :member_id, uniqueness: { scope: :delivery_id }
     validate :unique_items
-
-    before_save :set_amount
+    validate :ensure_maximum_weight_limit
+    validate :ensure_minimal_amount
 
     accepts_nested_attributes_for :items,
       reject_if: ->(attrs) { attrs[:quantity].to_i.zero? },
@@ -25,6 +27,10 @@ module Shop
 
     def date
       created_at.to_date
+    end
+
+    def weight_in_kg
+      items.sum(&:weight_in_kg)
     end
 
     def can_update?
@@ -76,6 +82,24 @@ module Shop
           item.errors.add(:product_variant_id, :taken)
         end
         used_items << item_sign
+      end
+    end
+
+    def ensure_maximum_weight_limit
+      max = Current.acp.shop_order_maximum_weight_in_kg
+      return unless max
+
+      if weight_in_kg > max
+        errors.add(:base, :maximum_weight_limit, max: kg(max))
+      end
+    end
+
+    def ensure_minimal_amount
+      min = Current.acp.shop_order_minimal_amount
+      return unless min
+
+      if amount < min
+        errors.add(:base, :minimal_amount, min: cur(min))
       end
     end
 

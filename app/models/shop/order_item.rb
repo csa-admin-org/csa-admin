@@ -20,6 +20,12 @@ module Shop
       item_price * quantity
     end
 
+    def weight_in_kg
+      return 0 unless product_variant.weight_in_kg
+
+      product_variant.weight_in_kg * quantity
+    end
+
     def item_price=(price)
       super if price.present?
     end

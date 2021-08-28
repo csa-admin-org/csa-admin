@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_125610) do
+ActiveRecord::Schema.define(version: 2021_08_28_081625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -93,6 +93,10 @@ ActiveRecord::Schema.define(version: 2021_08_27_125610) do
     t.boolean "membership_renewal_depot_update", default: true, null: false
     t.integer "absence_notice_period_in_days", default: 7, null: false
     t.jsonb "shop_invoice_infos", default: {}, null: false
+    t.decimal "shop_order_maximum_weight_in_kg", precision: 8, scale: 3
+    t.decimal "shop_order_minimal_amount", precision: 8, scale: 2
+    t.integer "shop_delivery_open_delay_in_days"
+    t.time "shop_delivery_open_last_day_end_time"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

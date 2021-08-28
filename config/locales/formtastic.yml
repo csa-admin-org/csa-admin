@@ -74,10 +74,26 @@ _:
           _de: Leer lassen, wenn kein Anteilschein.
           _fr: Laisser vide si pas de part sociale.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
+        shop_delivery_open_delay_in_days:
+          _de: Leer lassen, wenn am Tag der Lieferung noch bestellt werden kann.
+          _fr: Laisser vide si les commandes peuvent encore être faites le jour de livraison.
+          _it: Lasciare vuoto se gli ordini possono ancora essere fatti il giorno della consegna
+        shop_delivery_open_last_day_end_time:
+          _de: Leer lassen, wenn bis Mitternacht bestellt werden kann.
+          _fr: Laisser vide si les commandes peuvent être faites jusqu'à minuit.
+          _it: Lasciare vuoto se gli ordini possono essere fatti fino a mezzanotte.
         shop_invoice_info:
           _de: Die Variable "%{date}" wird durch das Datum der Lieferung ersetzt.
           _fr: La variable "%{date}" est remplacée par la date de la livraison.
           _it: La variabile "%{date}" è sostituita dalla data di consegna.
+        shop_order_maximum_weight_in_kg:
+          _de: Leer lassen, wenn keine Begrenzung.
+          _fr: Laisser vide si aucune limite.
+          _it: Lasciare vuoto se non ci sono limiti.
+        shop_order_minimal_amount:
+          _de: Leer lassen, wenn keine Begrenzung.
+          _fr: Laisser vide si aucune limite.
+          _it: Lasciare vuoto se non ci sono limiti.
         trial_basket_count:
           _de: Das Abonnement wird in Rechnung gestellt, nachdem alle Probetaschen geliefert wurden. Wird das Abonnement während des Testzeitraums beendet, werden nur die gelieferten Taschen in Rechnung gestellt.
           _fr: L'abonnement est facturé après que tous les paniers à l'essai sont livrés. Si l'abonnement est arrêté durant la période d'essai seuls les paniers livrés sont facturés.

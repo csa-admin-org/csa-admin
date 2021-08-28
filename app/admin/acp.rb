@@ -20,6 +20,8 @@ ActiveAdmin.register ACP do
     :vat_number, :vat_membership_rate, :absences_billed,
     :delivery_pdf_show_phones,
     :group_buying_email,
+    :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
+    :shop_delivery_open_delay_in_days, :shop_delivery_open_last_day_end_time,
     :recurring_billing_wday, :currency_code,
     :open_renewal_reminder_sent_after_in_days,
     :membership_renewal_depot_update,
@@ -156,6 +158,13 @@ ActiveAdmin.register ACP do
     end
     if Current.acp.feature_flag?('shop')
       f.inputs t('.shop') do
+        f.input :shop_order_maximum_weight_in_kg
+        f.input :shop_order_minimal_amount
+        f.input :shop_delivery_open_delay_in_days
+        f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
+          step: 900,
+          value: resource&.shop_delivery_open_last_day_end_time&.strftime('%H:%M'),
+        }
         translated_input(f, :shop_invoice_infos,
           hint: t('formtastic.hints.acp.shop_invoice_info'),
           required: false)

@@ -18,4 +18,11 @@ module NumbersHelper
       end
     number_to_currency(amount, **options)
   end
+
+  def kg(amount)
+    number = number_to_rounded(amount,
+      precision: 2,
+      strip_insignificant_zeros: true)
+    "#{number} kg"
+  end
 end
