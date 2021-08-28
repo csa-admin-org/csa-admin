@@ -17,6 +17,7 @@ class ACP < ActiveRecord::Base
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
 
   attr_writer :summer_month_range_min, :summer_month_range_max
+  attribute :shop_delivery_open_last_day_end_time, :time_only
 
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
@@ -81,6 +82,10 @@ class ACP < ActiveRecord::Base
     presence: true,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2) }
   validates :currency_code, presence: true, inclusion: { in: CURRENCIES }
+  validates :shop_order_maximum_weight_in_kg,
+    numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validates :shop_order_minimal_amount,
+    numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
   before_save :set_summer_month_range
   after_create :create_tenant

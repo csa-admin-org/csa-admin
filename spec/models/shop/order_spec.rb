@@ -1,6 +1,142 @@
 require 'rails_helper'
 
 describe Shop::Order do
+  describe 'ensure_maximum_weight_limit' do
+    let(:product1) {
+      create(:shop_product,
+        variants_attributes: {
+          '0' => {
+            name: 'bon',
+            weight_in_kg: nil,
+            price: 80
+          }
+        })
+    }
+    let(:product2) {
+      create(:shop_product,
+        variants_attributes: {
+          '0' => {
+            name: '5 kg',
+            weight_in_kg: 5,
+            price: 16
+          }
+        })
+    }
+
+    specify 'validate maximum weight when defined' do
+      Current.acp.update!(shop_order_maximum_weight_in_kg: 10)
+      order = build(:shop_order, :pending, items_attributes: {
+        '0' => {
+          product_id: product1.id,
+          product_variant_id: product1.variants.first.id,
+          quantity: 100
+        },
+        '1' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 3
+        }
+      })
+
+      expect(order).not_to have_valid(:base)
+      expect(order.errors.messages[:base])
+        .to include('Le poids total de la commande ne peut pas dépasser 10 kg')
+    end
+
+    specify 'is valid when equal to the maximum weight limit' do
+      Current.acp.update!(shop_order_maximum_weight_in_kg: 10)
+      order = build(:shop_order, :pending, items_attributes: {
+        '1' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 2
+        }
+      })
+
+      expect(order).to have_valid(:base)
+    end
+
+    specify 'skip validation when maximum weight is not defined' do
+      Current.acp.update!(shop_order_maximum_weight_in_kg: nil)
+      order = build(:shop_order, :pending, items_attributes: {
+        '1' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 100
+        }
+      })
+
+      expect(order).to have_valid(:base)
+    end
+  end
+
+  describe 'ensure_minimal_amount' do
+    let(:product1) {
+      create(:shop_product,
+        variants_attributes: {
+          '0' => {
+            name: '1 kg',
+            price: 10
+          }
+        })
+    }
+    let(:product2) {
+      create(:shop_product,
+        variants_attributes: {
+          '0' => {
+            name: '1 kg',
+            price: 5
+          }
+        })
+    }
+
+    specify 'validate minimum order amount when defined' do
+      Current.acp.update!(shop_order_minimal_amount: 20)
+      order = build(:shop_order, :pending, items_attributes: {
+        '0' => {
+          product_id: product1.id,
+          product_variant_id: product1.variants.first.id,
+          quantity: 1
+        },
+        '1' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 1
+        }
+      })
+
+      expect(order).not_to have_valid(:base)
+      expect(order.amount).to eq(15)
+      expect(order.errors.messages[:base])
+        .to include("Le montant minimal d'une commande est de CHF 20.00")
+    end
+
+    specify 'is valid when equal to the minimal amount' do
+      Current.acp.update!(shop_order_minimal_amount: 20)
+      order = build(:shop_order, :pending, items_attributes: {
+        '0' => {
+          product_id: product1.id,
+          product_variant_id: product1.variants.first.id,
+          quantity: 2
+        }
+      })
+
+      expect(order).to have_valid(:base)
+    end
+
+    specify 'skip validation when maximum weight is not defined' do
+      Current.acp.update!(shop_order_minimal_amount: nil)
+      order = build(:shop_order, :pending, items_attributes: {
+        '1' => {
+          product_id: product1.id,
+          product_variant_id: product1.variants.first.id,
+          quantity: 1
+        }
+      })
+
+      expect(order).to have_valid(:base)
+    end
+  end
   specify 'update amount when removing item' do
     product = create(:shop_product, variants_attributes: {
       '0' => {

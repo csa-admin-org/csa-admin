@@ -266,4 +266,65 @@ describe Delivery do
       delivery_id: delivery.id,
       absent: true)
   end
+
+  describe '#shop_open?' do
+    specify 'when shop_open is false' do
+      delivery = create(:delivery, shop_open: false)
+
+      expect(delivery.shop_open?).to eq false
+    end
+
+    specify 'when shop_open is true and no other restriction' do
+      delivery = create(:delivery, shop_open: true)
+
+      expect(delivery.shop_open?).to eq true
+    end
+
+    specify 'when ACP#shop_delivery_open_delay_in_days is set' do
+      Current.acp.update!(shop_delivery_open_delay_in_days: 2)
+
+      delivery = create(:delivery,
+        date: '2021-08-10',
+        shop_open: true)
+
+      travel_to '2021-08-08 23:59:59 +02' do
+        expect(delivery.shop_open?).to eq true
+      end
+      travel_to '2021-08-09 00:00:00 +02' do
+        expect(delivery.shop_open?).to eq false
+      end
+    end
+
+    specify 'when ACP#shop_delivery_open_last_day_end_time is set' do
+      Current.acp.update!(shop_delivery_open_last_day_end_time: '12:00')
+
+      delivery = create(:delivery,
+        date: '2021-08-10',
+        shop_open: true)
+
+      travel_to '2021-08-10 12:00:00 +02' do
+        expect(delivery.shop_open?).to eq true
+      end
+      travel_to '2021-08-10 12:00:01 +02' do
+        expect(delivery.shop_open?).to eq false
+      end
+    end
+
+    specify 'when both ACP#shop_delivery_open_delay_in_days and ACP#shop_delivery_open_last_day_end_time are set' do
+      Current.acp.update!(
+        shop_delivery_open_delay_in_days: 1,
+        shop_delivery_open_last_day_end_time: '12:30')
+
+      delivery = create(:delivery,
+        date: '2021-08-10',
+        shop_open: true)
+
+      travel_to '2021-08-09 12:30:00 +02' do
+        expect(delivery.shop_open?).to eq true
+      end
+      travel_to '2021-08-09 12:30:01 +02' do
+        expect(delivery.shop_open?).to eq false
+      end
+    end
+  end
 end

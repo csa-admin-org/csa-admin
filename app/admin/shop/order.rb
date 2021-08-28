@@ -106,6 +106,7 @@ ActiveAdmin.register Shop::Order do
           row(:delivery) { auto_link order.delivery, order.delivery.display_name }
           row(:member) { auto_link order.member }
           row(:state) { status_tag order.state_i18n_name, class: order.state }
+          row(:weight) { kg(order.weight_in_kg) }
           row(:created_at) { l(order.created_at, date_format: :long) }
           row(:updated_at) { l(order.updated_at, date_format: :long) }
         end
@@ -127,6 +128,13 @@ ActiveAdmin.register Shop::Order do
 
   form do |f|
     if f.object.errors[:items].present?
+      ul class: 'errors' do
+        f.object.errors.full_messages.each do |msg|
+          li msg
+        end
+      end
+    end
+    if f.object.errors[:base].present?
       ul class: 'errors' do
         f.object.errors.full_messages.each do |msg|
           li msg

@@ -98,6 +98,16 @@ class Delivery < ActiveRecord::Base
     @basket_counts ||= BasketCounts.new(self, Depot.pluck(:id))
   end
 
+  def shop_open?
+    return false unless shop_open
+
+    delay_in_days = Current.acp.shop_delivery_open_delay_in_days.to_i.days
+    end_time = Current.acp.shop_delivery_open_last_day_end_time || Tod::TimeOfDay.parse('23:59:59')
+    limit = end_time.on(date - delay_in_days)
+
+    !limit.past?
+  end
+
   private
 
   def self.next_date(date)

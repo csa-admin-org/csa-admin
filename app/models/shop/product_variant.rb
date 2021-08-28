@@ -14,6 +14,8 @@ module Shop
       numericality: { greater_than_or_equal_to: 0 }
     validates :stock,
       numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+    validates :weight_in_kg,
+      numericality: { greater_than: 0, allow_nil: true }
 
     def out_of_stock?
       stock&.zero?
