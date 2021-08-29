@@ -34,7 +34,7 @@ ActiveAdmin.register Shop::Product do
 
   includes :variants
 
-  index download_links: false do
+  index do
     selectable_column
     column :name, ->(product) { auto_link product }, sortable: :names
     column Shop::ProductVariant.model_name.human(count: 2), ->(product) {
@@ -44,11 +44,14 @@ ActiveAdmin.register Shop::Product do
   end
 
   csv do
-    column(:name)
+    column(:id)
     column(:producer) { |p| p.producer&.name }
+    column(:name)
+    column(:product_variant)  { |p| p[:variant_name] }
+    column(:price) { |p| p['variant_price'] }
+    column(:weight_in_kg) { |p| p['variant_weight_in_kg'] }
+    column(:stock) { |p| p['variant_stock'] }
     column(:available)
-    column(:created_at)
-    column(:updated_at)
   end
 
   form do |f|
@@ -115,6 +118,20 @@ ActiveAdmin.register Shop::Product do
   controller do
     include TranslatedCSVFilename
     include ShopHelper
+
+    def find_collection(options = {})
+      collection = super
+      if params[:format] == 'csv'
+        collection = collection.left_joins(:variants).select(<<-SQL)
+          shop_products.*,
+          shop_product_variants.names->>'#{I18n.locale}' as variant_name,
+          shop_product_variants.price as variant_price,
+          shop_product_variants.weight_in_kg as variant_weight_in_kg,
+          shop_product_variants.stock as variant_stock
+        SQL
+      end
+      collection
+    end
   end
 
   config.sort_order = 'names_desc'
