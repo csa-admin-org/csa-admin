@@ -264,6 +264,10 @@ _:
       _de: Produkt
       _fr: Produit
       _it: Prodotto
+    product_variant:
+      _de: Variante
+      _fr: Variante
+      _it: Variante
     products:
       _de: Produkte
       _fr: Produits
@@ -296,6 +300,10 @@ _:
       _de: Status
       _fr: Statut
       _it: Status
+    stock:
+      _de: Teile auf Lager
+      _fr: Pièces en stock
+      _it: Parti in stock
     text:
       _de: Text
       _fr: Texte
@@ -324,6 +332,10 @@ _:
       _de: Website
       _fr: Site Web
       _it: Sito Web
+    weight_in_kg:
+      _de: Gewicht (in kg)
+      _fr: Poids (en kg)
+      _it: Peso (in kg)
     xlsx_recap:
       _de: Zusammenfassung Excel
       _fr: Récapitulatif Excel

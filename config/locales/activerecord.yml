@@ -975,19 +975,6 @@ _:
           _de: Stückpreis
           _fr: Prix unitaire
           _it: Prezzo unitario
-        product_variant:
-          _de: Variante
-          _fr: Variante
-          _it: Variante
-      shop/product_variant:
-        stock:
-          _de: Teile auf Lager
-          _fr: Pièces en stock
-          _it: Parti in stock
-        weight_in_kg:
-          _de: Gewicht (in kg)
-          _fr: Poids (en kg)
-          _it: Peso (in kg)
     errors:
       models:
         basket_content:
