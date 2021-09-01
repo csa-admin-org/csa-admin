@@ -722,5 +722,31 @@ describe Billing::Invoicer do
         end
       end
     end
+
+    context 'with empty baskets' do
+      before do
+        Current.acp.update!(
+          fiscal_year_start_month: 4,
+          summer_month_range: 4..9)
+      end
+
+      specify 'membership, four trial baskets' do
+        membership = travel_to '2021-04-01' do
+          create(:membership, seasons: %w[winter])
+        end
+        expect(membership.deliveries.first.date).to eq Date.parse('2021-04-06') # Tuesday
+        expect(membership.baskets.not_empty.first.delivery.date).to eq Date.parse('2021-10-05') # Tuesday
+
+        travel_to '2021-04-01' do
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+        end
+        travel_to '2021-09-09' do
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+        end
+        travel_to '2021-11-02' do
+          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
+        end
+      end
+    end
   end
 end
