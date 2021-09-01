@@ -730,7 +730,7 @@ describe Billing::Invoicer do
           summer_month_range: 4..9)
       end
 
-      specify 'membership, four trial baskets' do
+      specify 'membership, with only winter baskets' do
         membership = travel_to '2021-04-01' do
           create(:membership, seasons: %w[winter])
         end
