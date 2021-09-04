@@ -25,6 +25,10 @@ module Shop
       reject_if: ->(attrs) { attrs[:quantity].to_i.zero? },
       allow_destroy: true
 
+    def depot
+      delivery.baskets.joins(:membership).where(memberships: { member: member }).first.depot
+    end
+
     def date
       created_at.to_date
     end
