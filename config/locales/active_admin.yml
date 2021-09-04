@@ -547,6 +547,10 @@ _:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
           _it: Siete davvero sicuri?
+        delivery_orders_pdf:
+          _de: Lieferscheine (PDF)
+          _fr: Bulletins de livraison (PDF)
+          _it: Bolle di consegna (PDF)
         no_next_year_deliveries:
           _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
@@ -705,6 +709,10 @@ _:
           _de: Inatkiv setzen
           _fr: Rendre inactif
           _it: Disattivare
+        delivery_order_pdf:
+          _de: Lieferschein (PDF)
+          _fr: Bulletin de livraison (PDF)
+          _it: Bolla di consegna (PDF)
         direct_payments:
           _de: Direkte Einzahlungen
           _fr: Paiements directs

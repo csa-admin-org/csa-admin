@@ -1,0 +1,11 @@
+_:
+  shop:
+    title:
+      _de: Lebensmittel
+      _fr: Épicerie
+      _it: Drogheria
+    delivery:
+      title:
+        _de: Lieferschein
+        _fr: Bulletin de livraison
+        _it: Bolla di consegna

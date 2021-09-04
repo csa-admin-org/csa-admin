@@ -211,6 +211,10 @@ _:
           _de: Annahmeschluss am letzten Tag der Bestellung
           _fr: Heure de fermeture le dernier jour de commande
           _it: Orario di chiusura dell'ultimo giorno d'ordine
+        shop_delivery_pdf_footer:
+          _de: Fußzeile des Lieferscheins (PDF)
+          _fr: Bas de page du bulletin de livraison (PDF)
+          _it: Piè di pagina della bolla di consegna (PDF)
         shop_invoice_info:
           _de: Informationszeile Rechnung
           _fr: Facture ligne info

@@ -26,6 +26,7 @@ class ACP < ActiveRecord::Base
   translated_attributes :group_buying_terms_of_service_url
   translated_attributes :group_buying_invoice_info
   translated_attributes :shop_invoice_info
+  translated_attributes :shop_delivery_pdf_footer
   translated_attributes :email_signature, :email_footer
   translated_rich_texts :open_renewal_text
   translated_attributes :basket_price_extra_title, :basket_price_extra_text

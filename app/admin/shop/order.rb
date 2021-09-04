@@ -143,7 +143,7 @@ ActiveAdmin.register Shop::Order do
     end
     products = Shop::Product.available
     f.inputs t('.details') do
-      f.input :member, collection: Member.reorder(:name), prompt: true
+      f.input :member, collection: Member.active.reorder(:name), prompt: true
       f.input :delivery, prompt: true, collection: Delivery.shop_open
       f.has_many :items, allow_destroy: true do |ff|
         ff.input :product, collection: products_collection(products), prompt: true,
@@ -151,8 +151,8 @@ ActiveAdmin.register Shop::Order do
         ff.input :product_variant,
           collection: product_variants_collection(products, ff.object.product_id),
           input_html: { class: 'js-reset_price hide-disabled-options', disabled: ff.object.product_variant_id.blank? }
+          ff.input :quantity, as: :number, step: 1, min: 1
         ff.input :item_price, hint: true, required: false
-        ff.input :quantity, as: :number, step: 1, min: 1
       end
     end
     f.actions
@@ -197,6 +197,24 @@ ActiveAdmin.register Shop::Order do
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) && resource.invoice } do
     link_to t('.new_payment'), new_payment_path(
       invoice_id: resource.invoice.id, amount: [resource.invoice.amount, resource.invoice.missing_amount].min)
+  end
+
+  action_item :delivery_pdf, only: :show do
+    link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_id: resource.delivery_id, shop_order_id: resource.id, format: :pdf)
+  end
+
+  action_item :delivery_pdf, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
+    delivery_id = params.dig(:q, :delivery_id_eq)
+    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_id: delivery_id, format: :pdf)
+  end
+
+  collection_action :delivery, method: :get, if: -> { params[:delivery_id] } do
+    delivery = Delivery.find(params[:delivery_id])
+    order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id]
+    pdf = PDF::Shop::Delivery.new(delivery, order: order)
+    send_data pdf.render,
+      content_type: pdf.content_type,
+      filename: pdf.filename
   end
 
   before_build do |order|

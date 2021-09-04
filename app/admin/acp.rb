@@ -40,6 +40,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "group_buying_terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "group_buying_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
+    *I18n.available_locales.map { |l| "shop_delivery_pdf_footer_#{l}" },
     *I18n.available_locales.map { |l| "open_renewal_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_title_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_text_#{l}" },
@@ -168,6 +169,7 @@ ActiveAdmin.register ACP do
         translated_input(f, :shop_invoice_infos,
           hint: t('formtastic.hints.acp.shop_invoice_info'),
           required: false)
+        translated_input(f, :shop_delivery_pdf_footers, required: false)
       end
     end
     f.inputs t('.delivery_pdf') do
