@@ -72,6 +72,11 @@ ActiveAdmin.register Shop::Product do
         collection: Shop::Tag.all.map { |t| [t.display_name, t.id] },
         input_html: { multiple: true, id: 'select-tags' }
       f.input :producer
+      f.input :basket_complement,
+        collection: BasketComplement.includes(:shop_product).map { |bc|
+          [bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object]
+        },
+        hint: t('formtastic.hints.shop/product.basket_complement')
       f.input :available, as: :boolean, required: false
       f.has_many :variants, allow_destroy: true do |ff|
         translated_input(ff, :names, required: true)
@@ -85,6 +90,7 @@ ActiveAdmin.register Shop::Product do
 
   permit_params(
     :producer_id,
+    :basket_complement_id,
     :available,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "description_#{l}" },

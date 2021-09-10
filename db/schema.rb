@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_04_072440) do
+ActiveRecord::Schema.define(version: 2021_09_10_123736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -655,7 +655,9 @@ ActiveRecord::Schema.define(version: 2021_09_04_072440) do
     t.bigint "producer_id"
     t.jsonb "names", default: {}, null: false
     t.boolean "available", default: true, null: false
+    t.bigint "basket_complement_id"
     t.index ["available"], name: "index_shop_products_on_available"
+    t.index ["basket_complement_id"], name: "index_shop_products_on_basket_complement_id", unique: true
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
   end
 
@@ -707,6 +709,7 @@ ActiveRecord::Schema.define(version: 2021_09_04_072440) do
   add_foreign_key "shop_orders", "deliveries"
   add_foreign_key "shop_orders", "members"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
+  add_foreign_key "shop_products", "basket_complements"
   add_foreign_key "shop_products", "shop_producers", column: "producer_id"
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
   add_foreign_key "shop_products_tags", "shop_tags", column: "tag_id"

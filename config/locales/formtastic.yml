@@ -303,6 +303,11 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
+      shop/product:
+        basket_complement:
+          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in der Excel-Zusammenfassung und den Unterschriftenblättern der Taschenlieferung gezählt.
+          _fr: Gère le produit comme un complément panier, les commandes de ce produit seront alors comptées dans le récapitulatif Excel et les fiches signature de la livraison des paniers.
+          _it: Gestisci il prodotto come un aggiunta cesta, gli ordini per questo prodotto saranno allora contati nei fogli Excel di riepilogo e di firma di consegna del cesto
       shop/product_variant:
         stock:
           _de: Leer lassen, wenn der Lagerbestand nicht verwaltet wird.

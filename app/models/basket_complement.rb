@@ -9,6 +9,7 @@ class BasketComplement < ActiveRecord::Base
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
+  has_one :shop_product, class_name: 'Shop::Product'
 
   scope :annual_price_type, -> { where(price_type: 'annual') }
 

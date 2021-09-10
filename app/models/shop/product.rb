@@ -9,6 +9,7 @@ module Shop
     translated_rich_texts :description
 
     belongs_to :producer, class_name: 'Shop::Producer', optional: true
+    belongs_to :basket_complement, optional: true
     has_many :variants,
       -> { order("price").merge(ProductVariant.order_by_name) },
       class_name: 'Shop::ProductVariant'
@@ -32,11 +33,18 @@ module Shop
     validates :name, presence: true
     validates :available, inclusion: [true, false]
     validates :variants, presence: true
+    validates :variants, length: { is: 1, message: :single_variant }, if: :basket_complement_id?
 
     def self.ransackable_scopes(_auth_object = nil)
       super + %i[name_contains variant_name_contains] +
         %i[price_equals price_greater_than price_less_than] +
         %i[stock_equals stock_greater_than stock_less_than]
+    end
+
+    def display_name
+      txt = name
+      txt += "*" if basket_complement_id?
+      txt
     end
 
     def can_update?; true end
