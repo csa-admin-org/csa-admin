@@ -32,7 +32,7 @@ ActiveAdmin.register Shop::Product do
     label: -> { Shop::ProductVariant.human_attribute_name(:stock) },
     as: :numeric
 
-  includes :variants
+  includes :variants, :basket_complement
 
   index do
     selectable_column
@@ -47,6 +47,7 @@ ActiveAdmin.register Shop::Product do
     column(:id)
     column(:producer) { |p| p.producer&.name }
     column(:name)
+    column(:basket_complement) { |p| p.basket_complement&.name }
     column(:product_variant)  { |p| p[:variant_name] }
     column(:price) { |p| p['variant_price'] }
     column(:weight_in_kg) { |p| p['variant_weight_in_kg'] }
