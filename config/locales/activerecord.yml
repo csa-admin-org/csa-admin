@@ -979,6 +979,15 @@ _:
           _de: Stückpreis
           _fr: Prix unitaire
           _it: Prezzo unitario
+      shop/product:
+        basket_complement:
+          _de: Taschenzusatz
+          _fr: Complément panier
+          _it: Aggiunta cesta
+        variants:
+          _de: Varianten
+          _fr: Variantes
+          _it: Varianti
     errors:
       models:
         basket_content:
@@ -1017,6 +1026,13 @@ _:
                 _de: Der Mindestbestellwert beträgt %{min}
                 _fr: Le montant minimal d'une commande est de %{min}
                 _it: Il valore minimo dell'ordine è di %{min}
+        shop/product:
+          attributes:
+            variants:
+              single_variant:
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"
+                _fr: ": une seule variante est autorisée quand le produit est lié à un complément panier"
+                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cesta"
     models:
       absence:
         one:
