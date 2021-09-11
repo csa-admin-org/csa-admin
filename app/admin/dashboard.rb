@@ -91,6 +91,10 @@ ActiveAdmin.register_page 'Dashboard' do
                   if counts.any?
                     table_for counts do
                       column BasketComplement.model_name.human, :title
+                      if Current.acp.feature_flag?('shop')
+                        column Membership.model_name.human(count: 2), :memberships_count, class: 'align-right'
+                        column Shop::Order.model_name.human(count: 2), :shop_orders_count, class: 'align-right'
+                      end
                       column t('.total', number: ''), :count, class: 'align-right'
                     end
                   else

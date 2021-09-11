@@ -577,6 +577,10 @@ table.totals_2 {
 
 #basket-complements-table {
   margin: 15px 0 25px;
+
+  th.col-complement_panier {
+    min-width: 225px;
+  }
 }
 
 .top-spacing {
