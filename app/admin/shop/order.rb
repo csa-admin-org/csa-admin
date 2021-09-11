@@ -127,16 +127,9 @@ ActiveAdmin.register Shop::Order do
   end
 
   form do |f|
-    if f.object.errors[:items].present?
-      ul class: 'errors' do
-        f.object.errors.full_messages.each do |msg|
-          li msg
-        end
-      end
-    end
     if f.object.errors[:base].present?
       ul class: 'errors' do
-        f.object.errors.full_messages.each do |msg|
+        f.object.errors[:base].each do |msg|
           li msg
         end
       end

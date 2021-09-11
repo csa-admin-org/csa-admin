@@ -12,6 +12,7 @@ module Shop
     validates :quantity, presence: true, numericality: { greater_than: 0 }
     validates :order_id, uniqueness: { scope: %i[product_id product_variant_id] }
     validate :ensure_available_product_variant_stock
+    validate :ensure_product_available_for_delivery
 
     before_save :update_product_variant_stock!
     after_destroy :release_product_variant_stock!
@@ -52,6 +53,15 @@ module Shop
       unless product_variant.available_stock?(change)
         self.errors.add(:quantity, :less_than_or_equal_to,
           count: quantity_was.to_i + product_variant.stock)
+      end
+    end
+
+    def ensure_product_available_for_delivery
+      return unless order&.delivery
+
+      @available_products ||= Product.available_for(order.delivery)
+      unless @available_products.include?(product)
+        self.errors.add(:product, :not_available_for_delivery)
       end
     end
 

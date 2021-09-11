@@ -102,6 +102,33 @@ describe Shop::OrderItem do
     expect(product.variants.first.reload.stock).to eq(0)
   end
 
+  specify 'validate product is available for delivery' do
+    complement = create(:basket_complement)
+    delivery = create(:delivery, basket_complement_ids: [])
+    product = create(:shop_product,
+      available: true,
+      basket_complement: complement,
+      variants_attributes: {
+        '0' => {
+          name: '100g',
+          price: 5
+        }
+      })
+
+      order = build(:shop_order, :pending,
+        delivery: delivery,
+        items_attributes: {
+          '0' => {
+            product_id: product.id,
+            product_variant_id: product.variants.first.id,
+            quantity: 1
+          }
+        })
+
+      order.validate
+      expect(order.items.first.errors[:product])
+        .to eq(["N'est pas disponible pour cette livraison"])
+  end
 
   specify 'releases stock when deleting order (pending' do
     product = create(:shop_product, variants_attributes: {
