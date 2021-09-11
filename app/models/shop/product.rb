@@ -41,6 +41,12 @@ module Shop
         %i[stock_equals stock_greater_than stock_less_than]
     end
 
+    def self.available_for(delivery)
+      available
+        .left_joins(basket_complement: :deliveries)
+        .where('shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?', delivery.id)
+    end
+
     def display_name
       txt = name
       txt += "*" if basket_complement_id?

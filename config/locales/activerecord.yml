@@ -1026,6 +1026,13 @@ _:
                 _de: Der Mindestbestellwert beträgt %{min}
                 _fr: Le montant minimal d'une commande est de %{min}
                 _it: Il valore minimo dell'ordine è di %{min}
+        shop/order_item:
+          attributes:
+            product:
+              not_available_for_delivery:
+                _de: Für diese Lieferung nicht verfügbar
+                _fr: N'est pas disponible pour cette livraison
+                _it: Non disponibile per questa consegna
         shop/product:
           attributes:
             variants:
