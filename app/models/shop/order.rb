@@ -72,6 +72,17 @@ module Shop
       end
     end
 
+    def complements_description
+      items.map { |item|
+        next unless item.product.basket_complement
+
+        case item.quantity
+        when 1 then item.product.basket_complement.name
+        else "#{item.quantity} x #{item.product.basket_complement.name}"
+        end
+      }.compact.to_sentence.presence
+    end
+
     private
 
     def set_amount

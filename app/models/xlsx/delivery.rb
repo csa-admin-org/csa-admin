@@ -94,6 +94,14 @@ module XLSX
               .joins(:baskets_basket_complements)
               .where(baskets_basket_complements: { basket_complement_id: complement.id })
               .sum('baskets_basket_complements.quantity')
+          if Current.acp.feature_flag?('shop')
+            amount +=
+              @delivery
+                .shop_orders
+                .joins(items: :product)
+                .where(shop_products: { basket_complement_id: complement.id })
+                .sum('shop_order_items.quantity')
+          end
           @worksheet.add_cell(@line, cols_count + i, amount).set_number_format('0')
         end
       end
@@ -122,7 +130,7 @@ module XLSX
     def add_baskets_worksheet(name, baskets, style: 'default')
       baskets = baskets
         .joins(:member)
-        .includes(:member, :basket_size, :complements, baskets_basket_complements: :basket_complement)
+        .includes(:member, :membership, :basket_size, :complements, baskets_basket_complements: :basket_complement, membership: :member)
         .not_empty
 
       baskets =
@@ -175,6 +183,19 @@ module XLSX
           Basket.human_attribute_name(:complement_ids),
           baskets.map(&:complements_description),
           border: border)
+        if Current.acp.feature_flag?('shop')
+          shop_orders =
+            @delivery
+              .shop_orders
+              .joins(items: { product: :basket_complement })
+              .includes(items: { product: :basket_complement })
+          add_column(
+            "#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})",
+            baskets.map { |b|
+              shop_orders.find { |o| o.member_id == b.member.id }&.complements_description
+            },
+            border: border)
+        end
       end
       unless style == 'bike_delivery'
         add_column(
