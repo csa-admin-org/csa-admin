@@ -284,6 +284,10 @@ _:
           _de: In Rechnung gestellt am
           _fr: Facturée le
           _it: Fatturato il
+        latest_reminder_sent_at:
+          _de: Letzte Erinnerung gesendet an
+          _fr: Dernière rappel envoyé à
+          _it: Ultimo promemoria inviato a
         member_emails:
           _de: Email(s)
           _fr: Email(s)

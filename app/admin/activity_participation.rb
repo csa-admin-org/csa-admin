@@ -60,6 +60,7 @@ ActiveAdmin.register ActivityParticipation do
     column(:carpooling_phone) { |ap| ap.carpooling_phone&.phony_formatted }
     column(:carpooling_city, &:carpooling_city)
     column(:state, &:state_i18n_name)
+    column(:latest_reminder_sent_at)
     column(:created_at)
     column(:validated_at)
     column(:rejected_at)
@@ -90,7 +91,8 @@ ActiveAdmin.register ActivityParticipation do
     attributes_table do
       row(:activity) { link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all) }
       row(:participants_count)
-      row(:created_at) { l(ap.created_at) }
+      row(:latest_reminder_sent_at) { l(ap.latest_reminder_sent_at) if ap.latest_reminder_sent_at }
+      row(:created_at)  { l(ap.created_at) }
       row(:updated_at) { l(ap.updated_at) }
     end
 
