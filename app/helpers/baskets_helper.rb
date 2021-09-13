@@ -13,9 +13,9 @@ module BasketsHelper
   def basket_depots_collection(basket)
     Depot.all.map do |depot|
       [depot.name, depot.id,
-        disabled: depot.delivery_ids.exclude?(basket.delivery_id),
+        disabled: depot.current_and_future_delivery_ids.exclude?(basket.delivery_id),
         data: {
-          delivery_ids: depot.delivery_ids.join(',')
+          delivery_ids: depot.current_and_future_delivery_ids.join(',')
         }]
     end
   end
