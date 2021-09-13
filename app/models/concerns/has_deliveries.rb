@@ -27,6 +27,10 @@ module HasDeliveries
     end
   end
 
+  def current_and_future_delivery_ids
+    @current_and_future_delivery_ids ||= deliveries.current_and_future_year.pluck(:id)
+  end
+
   private
 
   def after_add_delivery!(_delivery)
