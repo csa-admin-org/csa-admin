@@ -20,6 +20,10 @@ _:
       _de: Zusammenfassung
       _fr: Récapitulatif
       _it: Sommario
+    shop_order:
+      _de: Lebensmittelbestellung
+      _fr: Commande d'épicerie
+      _it: Ordinare la drogheria
     total:
       _de: Gesamt
       _fr: Total
