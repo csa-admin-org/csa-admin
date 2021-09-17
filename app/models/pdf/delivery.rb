@@ -7,14 +7,22 @@ module PDF
       super
       @current_time = Time.current
       basket_ids = delivery.baskets.not_empty.pluck(:id)
-      @baskets = Basket.where(id: basket_ids).includes(:member, :baskets_basket_complements).order('members.name')
+      @baskets = Basket.where(id: basket_ids).includes(:member, :baskets_basket_complements, membership: :member).order('members.name')
       @depots =
         if depot
           [depot]
         else
           Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
-      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 16 : 25
+      if Current.acp.feature_flag?('shop')
+        @shop_orders =
+          @delivery
+            .shop_orders
+            .joins(items: { product: :basket_complement })
+            .includes(items: { product: :basket_complement })
+      end
+
+      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 24
 
       @depots.each do |dist|
         baskets = @baskets.where(depot: dist)
@@ -75,6 +83,8 @@ module PDF
     end
 
     def content(depot, page_baskets, baskets, basket_sizes, basket_complements)
+      shop_orders = @shop_orders&.where(member_id: baskets.pluck(:member_id))
+
       font_size 11
       move_down 2.cm
 
@@ -125,9 +135,20 @@ module PDF
         }
       end
       basket_complements.each do |c|
-        baskets_basket_complements = all_baskets.flat_map(&:baskets_basket_complements).select { |bbc| bbc.basket_complement_id == c.id }
+        basket_complement_total =
+          all_baskets
+            .flat_map(&:baskets_basket_complements)
+            .select { |bbc| bbc.basket_complement_id == c.id }
+            .sum(&:quantity)
+        if shop_orders
+          basket_complement_total +=
+            shop_orders
+              .where(shop_products: { basket_complement_id: c.id })
+              .sum('shop_order_items.quantity')
+              .to_i
+        end
         total_line << {
-          content: baskets_basket_complements.sum(&:quantity).to_s,
+          content: basket_complement_total.to_s,
           width: 25,
           align: :center
         }
@@ -163,8 +184,19 @@ module PDF
         basket_sizes.each do |bs|
           line << (basket.absent? ? '–' : (basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''))
         end
+        shop_order = shop_orders&.find { |so| so.member_id == basket.membership.member_id }
         basket_complements.each do |c|
-          line << (basket.absent? ? '–' : (basket.baskets_basket_complements.map(&:basket_complement_id).include?(c.id) ? display_quantity(basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }.quantity) : ''))
+          line <<
+            if basket.absent?
+              '–'
+            else
+              quantity = basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
+              if shop_order
+                shop_order_item = shop_order.items.find { |i| i.product.basket_complement_id == c.id }
+                quantity += shop_order_item&.quantity || 0
+              end
+              display_quantity(quantity) + (shop_order_item ? '*' : '')
+            end
         end
         line << {
           content: basket.absent? ? Basket.human_attribute_name(:absent).upcase : '',
@@ -191,13 +223,21 @@ module PDF
         t.row(0).height = 30
         t.row(0).valign = :center
         t.row(0).borders = []
+        t.row(-1).borders = %i[left right bottom]
+        t.row(-1).columns(0).borders = %i[right bottom]
+        t.row(-1).columns(-1).borders = %i[left bottom]
+        t.row(-1).border_bottom_width = 0.5
+        t.row(-1).border_bottom_color = 'DDDDDD'
+      end
+      if shop_orders && (shop_orders.map(&:member_id) & page_baskets.map { |b| b.membership.member_id }).any?
+        text_box "* #{I18n.t('delivery.shop_order')}", align: :right, size: 10, at: [0, cursor - 7], width: width + page_border
       end
     end
 
     def footer
       font_size 11
       bounding_box [0, 60], width: bounds.width do
-      footer_text = Current.acp.delivery_pdf_footer
+        footer_text = Current.acp.delivery_pdf_footer
         if footer_text.present?
           text footer_text, align: :center
         end

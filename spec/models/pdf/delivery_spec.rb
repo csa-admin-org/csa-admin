@@ -98,5 +98,67 @@ describe PDF::Delivery do
         .to include('Fleurs Kissling')
         .and include('Ramenez les sacs!')
     end
+
+    specify 'includes shop orders' do
+      depot = create(:depot, name: 'Fleurs Kissling')
+      delivery = Delivery.current_year.first
+      member = create(:member, name: 'Alain Reymond')
+      member2 = create(:member, name: 'John Doe')
+      basket_complement = create(:basket_complement,
+        id: 1,
+        name: 'Oeufs',
+        delivery_ids: Delivery.current_year.pluck(:id))
+      create(:basket_complement,
+        id: 2,
+        name: 'Tomme de Lavaux',
+        delivery_ids: Delivery.current_year.pluck(:id))
+      small_basket = create(:basket_size, name: 'Petit')
+      membership = create(:membership,
+        member: member,
+        depot: depot,
+        basket_size: create(:basket_size, name: 'Grand'),
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1 },
+          '1' => { basket_complement_id: 2 }
+        })
+      membership = create(:membership,
+        member: member2,
+        depot: depot,
+        basket_size: small_basket,
+        basket_quantity: 2,
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, quantity: 2 },
+        })
+
+      product = create(:shop_product,
+        name: 'Oeufs',
+        basket_complement: basket_complement,
+        variants_attributes: {
+          '0' => {
+            name: '6x',
+            price: 3.8
+          },
+        })
+      order = create(:shop_order, :pending,
+        delivery: delivery,
+        member: member,
+        items_attributes: {
+        '0' => {
+          product_id: product.id,
+          product_variant_id: product.variants.first.id,
+          quantity: 2
+        },
+      })
+
+      pdf_strings = save_pdf_and_return_strings(delivery, depot)
+      expect(pdf_strings)
+        .to include('Fleurs Kissling')
+        .and include(I18n.l delivery.date)
+        .and contain_sequence('Grand', 'Petit', 'Oeufs', 'Tomme de Lavaux')
+        .and contain_sequence('Totaux (dépôt)', '1', '2', '5', '1', 'Signature')
+        .and contain_sequence('Alain Reymond', '1', '3*', '1')
+        .and contain_sequence('John Doe', '2', '2')
+        .and include("* Commande d'épicerie")
+    end
   end
 end
