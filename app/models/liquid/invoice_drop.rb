@@ -1,7 +1,7 @@
 class Liquid::InvoiceDrop < Liquid::Drop
   include NumbersHelper
 
-  private :currency_symbol, :cur
+  private *NumbersHelper.public_instance_methods
   private *ActiveSupport::NumberHelper.instance_methods
 
   def initialize(invoice)
