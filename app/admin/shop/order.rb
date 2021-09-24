@@ -21,7 +21,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  scope :all
+  scope :all_without_cart
   scope :pending, default: true
   scope :invoiced
 

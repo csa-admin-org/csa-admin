@@ -10,6 +10,7 @@ module PDF
             [order]
           else
             delivery.shop_orders
+              .all_without_cart
               .includes(:member, items: [:product_variant, product: :producer])
               .sort_by { |order| [order.depot.name, order.member] }
           end
