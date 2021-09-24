@@ -1041,22 +1041,18 @@ _:
           _fr: Nouvelle %{model}
           _it: Nuovo %{model}
         scopes:
-          all:
+          all_without_cart:
             _de: Alle
             _fr: Toutes
             _it: Tutto
-          cart:
-            _de: Warenkorb
-            _fr: Panier
-            _it: Carrello
           invoiced:
             _de: Abgerechnet
             _fr: Facturée
             _it: Fatturato
           pending:
-            _de: In Vorbereitung
-            _fr: En préparation
-            _it: In preparazione
+            _de: Vorbereitet sein
+            _fr: À préparer
+            _it: Essere preparati
       shop/product:
         scopes:
           available:

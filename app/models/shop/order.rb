@@ -13,6 +13,8 @@ module Shop
     has_many :invoices, as: :object
     has_one :invoice, -> { not_canceled }, as: :object
 
+    scope :all_without_cart, -> { where.not(state: 'cart') }
+
     before_validation :set_amount
 
     validates :items, presence: true
