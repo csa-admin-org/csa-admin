@@ -20,6 +20,7 @@ describe PDF::Delivery do
     it 'generates invoice with support amount + complements + annual membership' do
       depot = create(:depot, name: 'Fleurs Kissling')
       delivery = Delivery.current_year.first
+      delivery.update!(shop_open: false)
       member = create(:member, name: 'Alain Reymond')
       member2 = create(:member, name: 'John Doe')
       member3 = create(:member, name: 'Jame Dane')
@@ -77,7 +78,7 @@ describe PDF::Delivery do
         .and contain_sequence('Alain Reymond', '1', '1', '1')
         .and contain_sequence('John Doe', '2', '2')
         .and contain_sequence('Missing Joe', '–', '–', '–', '–', 'ABSENT(E)')
-        .and include("Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
+        .and include("Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi", "midi.")
       expect(pdf_strings).not_to include 'Jame Dane'
       expect(pdf_strings).not_to include 'Moyen'
     end
@@ -154,11 +155,10 @@ describe PDF::Delivery do
       expect(pdf_strings)
         .to include('Fleurs Kissling')
         .and include(I18n.l delivery.date)
-        .and contain_sequence('Grand', 'Petit', 'Oeufs', 'Tomme de Lavaux')
-        .and contain_sequence('Totaux (dépôt)', '1', '2', '5', '1', 'Signature')
-        .and contain_sequence('Alain Reymond', '1', '3*', '1')
+        .and contain_sequence('Grand', 'Petit', 'Oeufs', 'Tomme de Lavaux', "Commande d'épicerie")
+        .and contain_sequence('Totaux (dépôt)', '1', '2', '5', '1', '1', 'Signature')
+        .and contain_sequence('Alain Reymond', '1', '3', '1', 'X')
         .and contain_sequence('John Doe', '2', '2')
-        .and include("* Commande d'épicerie")
     end
   end
 end

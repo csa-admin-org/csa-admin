@@ -15,6 +15,7 @@ module PDF
           Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
       if Current.acp.feature_flag?('shop')
+        @shop_open = @delivery.shop_open
         @shop_orders =
           @delivery
             .shop_orders
@@ -90,6 +91,7 @@ module PDF
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
+      bc_size += 1 if @shop_open
 
       page_border = 20
       width = bounds.width - 2 * page_border
@@ -109,7 +111,13 @@ module PDF
         basket_complements.each_with_index do |c, i|
           text_box c.name,
             rotate: 45,
-            at: [member_name_width + bs_size * 25 + i * 25 + 10, cursor],
+            at: [member_name_width + (bs_size + i) * 25 + 10, cursor],
+            valign: :center
+        end
+        if @shop_open
+          text_box I18n.t('delivery.shop_order'),
+            rotate: 45,
+            at: [member_name_width + (bs_size + bc_size - 1) * 25 + 10, cursor],
             valign: :center
         end
       end
@@ -149,6 +157,13 @@ module PDF
         end
         total_line << {
           content: basket_complement_total.to_s,
+          width: 25,
+          align: :center
+        }
+      end
+      if @shop_open
+        total_line << {
+          content: shop_orders.count.to_s,
           width: 25,
           align: :center
         }
@@ -195,8 +210,11 @@ module PDF
                 shop_order_item = shop_order.items.find { |i| i.product.basket_complement_id == c.id }
                 quantity += shop_order_item&.quantity || 0
               end
-              display_quantity(quantity) + (shop_order_item ? '*' : '')
+              display_quantity(quantity)
             end
+        end
+        if @shop_open
+          line << (shop_order ? 'X' : '')
         end
         line << {
           content: basket.absent? ? Basket.human_attribute_name(:absent).upcase : '',
@@ -229,21 +247,26 @@ module PDF
         t.row(-1).border_bottom_width = 0.5
         t.row(-1).border_bottom_color = 'DDDDDD'
       end
-      if shop_orders && (shop_orders.map(&:member_id) & page_baskets.map { |b| b.membership.member_id }).any?
-        text_box "* #{I18n.t('delivery.shop_order')}", align: :right, size: 10, at: [0, cursor - 7], width: width + page_border
-      end
     end
 
     def footer
-      font_size 11
-      bounding_box [0, 60], width: bounds.width do
+      bounding_box [20, 80], width: (bounds.width - 40) do
         footer_text = Current.acp.delivery_pdf_footer
         if footer_text.present?
-          text footer_text, align: :center
+          text_box footer_text,
+            at: [0, 0],
+            height: 50,
+            width: bounds.width,
+            valign: :center,
+            align: :center,
+            size: 11
         end
-        move_down 5
-        font_size 8
-        text "– #{I18n.l(current_time, format: :short)} –", inline_format: true, align: :center
+        text_box "– #{I18n.l(current_time, format: :short)} –",
+          at: [0, -60],
+          width: bounds.width,
+          inline_format: true,
+          align: :center,
+          size: 8
       end
     end
 
