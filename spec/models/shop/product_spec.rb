@@ -23,11 +23,10 @@ describe Shop::Product do
   describe '.available_for' do
     specify 'returns products that are available' do
       delivery = create(:delivery)
-      depot = create(:depot)
       product1 = create(:shop_product, available: true)
       product2 = create(:shop_product, available: false)
 
-      expect(Shop::Product.available_for(delivery, depot))
+      expect(Shop::Product.available_for(delivery))
         .to contain_exactly(product1)
     end
 
@@ -35,7 +34,6 @@ describe Shop::Product do
       complement = create(:basket_complement)
       delivery1 = create(:delivery, basket_complement_ids: [complement.id])
       delivery2 = create(:delivery)
-      depot = create(:depot)
       product1 = create(:shop_product, available: true)
       product2 = create(:shop_product, available: false)
       product3 = create(:shop_product,
@@ -48,8 +46,8 @@ describe Shop::Product do
           }
         })
 
-      expect(Shop::Product.available_for(delivery1, depot)).to contain_exactly(product1, product3)
-      expect(Shop::Product.available_for(delivery2, depot)).to contain_exactly(product1)
+      expect(Shop::Product.available_for(delivery1)).to contain_exactly(product1, product3)
+      expect(Shop::Product.available_for(delivery2)).to contain_exactly(product1)
     end
 
     specify 'returns products that are available for the given depot' do
