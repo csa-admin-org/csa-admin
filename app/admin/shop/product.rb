@@ -3,11 +3,18 @@ ActiveAdmin.register Shop::Product do
   actions :all, except: [:show]
 
   breadcrumb do
-    links = [t('active_admin.menu.shop')]
-    unless params['action'] == 'index'
-      links << link_to(Shop::Product.model_name.human(count: 2), shop_products_path)
+    if params['action'] == 'index'
+      [t('active_admin.menu.shop')]
+    else
+      links = [
+        t('active_admin.menu.shop'),
+        link_to(Shop::Product.model_name.human(count: 2), shop_products_path)
+      ]
+      if params['action'].in? %W[edit]
+        links << shop_product.name
+      end
+      links
     end
-    links
   end
 
   scope :available, default: true
@@ -63,27 +70,43 @@ ActiveAdmin.register Shop::Product do
         end
       end
     end
-    f.inputs t('.details') do
-      translated_input(f, :names, required: true)
-      translated_input(f, :descriptions,
-        as: :action_text,
-        required: false)
-      f.input :tags,
-        as: :select,
-        collection: Shop::Tag.all.map { |t| [t.display_name, t.id] },
-        input_html: { multiple: true, id: 'select-tags' }
-      f.input :producer
-      f.input :basket_complement,
-        collection: BasketComplement.includes(:shop_product).map { |bc|
-          [bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object]
-        },
-        hint: t('formtastic.hints.shop/product.basket_complement')
-      f.input :available, as: :boolean, required: false
-      f.has_many :variants, allow_destroy: true do |ff|
-        translated_input(ff, :names, required: true)
-        ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95
-        ff.input :weight_in_kg, as: :number, step: 0.005, min: 0, required: false
-        ff.input :stock, as: :number, step: 1, min: 0, required: false
+    tabs do
+      tab t('.details') do
+        f.inputs nil do
+          translated_input(f, :names, required: true)
+          translated_input(f, :descriptions,
+            as: :action_text,
+            required: false)
+          f.input :tags,
+            as: :select,
+            collection: Shop::Tag.all.map { |t| [t.display_name, t.id] },
+            input_html: { multiple: true, id: 'select-tags' }
+          f.input :producer
+          f.input :basket_complement,
+            collection: BasketComplement.includes(:shop_product).map { |bc|
+              [bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object]
+            },
+            hint: t('formtastic.hints.shop/product.basket_complement')
+        end
+      end
+      tab t('.availability'), id: :availability do
+        f.inputs nil do
+          f.input :available, as: :boolean, required: false
+          f.input :available_for_depot_ids,
+            label: Depot.model_name.human(count: 2),
+            as: :check_boxes,
+            collection: Depot.all
+        end
+      end
+      tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
+        f.inputs nil do
+          f.has_many :variants, allow_destroy: true, heading: nil do |ff|
+            translated_input(ff, :names, required: true)
+            ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95
+            ff.input :weight_in_kg, as: :number, step: 0.005, min: 0, required: false
+            ff.input :stock, as: :number, step: 1, min: 0, required: false
+          end
+        end
       end
     end
     f.actions
@@ -96,6 +119,7 @@ ActiveAdmin.register Shop::Product do
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "description_#{l}" },
     tag_ids: [],
+    available_for_depot_ids: [],
     variants_attributes: [
       :id,
       :price,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_123736) do
+ActiveRecord::Schema.define(version: 2021_09_25_082824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -656,6 +656,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_123736) do
     t.jsonb "names", default: {}, null: false
     t.boolean "available", default: true, null: false
     t.bigint "basket_complement_id"
+    t.integer "unavailable_for_depot_ids", default: [], array: true
     t.index ["available"], name: "index_shop_products_on_available"
     t.index ["basket_complement_id"], name: "index_shop_products_on_basket_complement_id", unique: true
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
