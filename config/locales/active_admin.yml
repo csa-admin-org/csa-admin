@@ -436,6 +436,10 @@ _:
           _fr: Toutes les quatre semaines
           _it: Ogni quattro settimane
       edit:
+        availability:
+          _de: Verfügbarkeit
+          _fr: Disponibilité
+          _it: Disponibilità
         basket_and_depot:
           _de: Tasche und Depot
           _fr: Panier et dépôt

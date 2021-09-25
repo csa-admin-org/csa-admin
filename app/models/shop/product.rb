@@ -41,10 +41,19 @@ module Shop
         %i[stock_equals stock_greater_than stock_less_than]
     end
 
-    def self.available_for(delivery)
+    def self.available_for(delivery, depot)
       available
         .left_joins(basket_complement: :deliveries)
-        .where('shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?', delivery.id)
+        .where('shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?', delivery)
+        .where.not('? = ANY (unavailable_for_depot_ids)', depot)
+    end
+
+    def available_for_depot_ids
+      Depot.where.not(id: unavailable_for_depot_ids).pluck(:id)
+    end
+
+    def available_for_depot_ids=(ids)
+      self[:unavailable_for_depot_ids] = Depot.pluck(:id) - ids.map(&:to_i)
     end
 
     def display_name
