@@ -16,6 +16,7 @@ gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
 
 gem 'rack-status'
+gem 'rack-cors'
 
 gem 'ros-apartment', require: 'apartment'
 gem 'paranoia'
