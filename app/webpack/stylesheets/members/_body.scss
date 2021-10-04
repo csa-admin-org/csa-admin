@@ -42,7 +42,7 @@ body {
         }
       }
 
-      a.svg {
+      a.svg, input.svg {
         display: flex;
         justify-content: flex-end;
 
@@ -174,10 +174,6 @@ body {
         a.account span {
           font-weight: 500 !important;
         }
-
-        a.logout span{
-          font-weight: 200 !important;
-        }
       }
 
       .account {
@@ -190,7 +186,7 @@ body {
         margin-top: $base-spacing;
       }
 
-      a.svg {
+      a.svg, button.svg {
         display: flex;
         justify-content: flex-start;
 
@@ -361,4 +357,24 @@ section.placeholder {
 
 section .button {
   margin-top: $base-spacing;
+}
+
+button.logout {
+  padding: 0;
+  margin-top: $small-spacing / 2;
+  color: $base-font-color;
+  span {
+    font-size: 1em !important;
+    font-weight: 300 !important;
+    line-height: 1.6 !important;
+  }
+
+  background-color: #fff;
+  border: 0;
+
+  &:hover {
+    background-color: #fff ;
+    color: $dark-green;
+    border: 0;
+  }
 }
