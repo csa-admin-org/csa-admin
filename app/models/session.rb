@@ -43,7 +43,7 @@ class Session < ApplicationRecord
     created_at +
       case user_agent
       when /\AAdmin ID: \d+/
-        1.hour
+        6.hours
       else
         EXPIRATION
       end

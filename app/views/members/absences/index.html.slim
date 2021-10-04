@@ -14,7 +14,7 @@ section
             = ' – '
             span.date = l(absence.ended_on)
           span.action
-            == link_to t('.cancel_link'), [:members, absence], method: :delete, class: 'cancel'
+            == button_to t('.cancel_link'), [:members, absence], method: :delete, class: 'cancel'
 
 section
   h2 = t('.form_title')

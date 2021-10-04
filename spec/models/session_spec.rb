@@ -18,7 +18,7 @@ describe Session do
         created_at: Time.current,
         user_agent: 'Admin ID: 1234')
       expect(session).not_to be_expired
-      travel 1.hour + 1.second do
+      travel 6.hours + 1.second do
         expect(session).to be_expired
       end
     end

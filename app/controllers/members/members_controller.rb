@@ -33,7 +33,7 @@ class Members::MembersController < Members::BaseController
       redirect_to welcome_members_member_path
     else
       set_basket_complements
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

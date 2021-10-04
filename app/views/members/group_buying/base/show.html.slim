@@ -33,7 +33,7 @@ section
   section
     h2 = t('.new_order')
 
-    #group-buying-order-form
+    #group-buying-order-form data-controller="amount-updater"
       = form_for [:members, @order] do |f|
         - if @order.errors.any?
           ul.errors
@@ -65,10 +65,10 @@ section
                     = ff.object.product.description
 
                   .input.quantity
-                    = ff.number_field :quantity, min: 0, step: 1, data: { price: ff.object.product.price }
+                    = ff.number_field :quantity, min: 0, step: 1, data: { price: ff.object.product.price, amount_updater_target: 'item', action: 'amount-updater#updateAmount' }
 
-        #amount-wrapper style='display:none;'
-          p#amount= t('.order_amount', amount: cur(@order.amount))
+        #amount-wrapper style='display:none;' data-amount-updater-target='amountWrapper'
+          p#amount data-amount-updater-target='amount' = t('.order_amount', amount: cur(@order.amount))
 
         - if Current.acp.group_buying_terms_of_service_url
           .pretty_check_boxes

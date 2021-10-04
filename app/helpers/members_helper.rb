@@ -9,13 +9,17 @@ module MembersHelper
     Current.acp.languages.map { |l| [t("languages.#{l}"), l] }
   end
 
-  def billing_year_divisions_collection
+  def billing_year_divisions_collection(data: {})
     Current.acp.billing_year_divisions.map { |i|
-      [I18n.t("billing.year_division.x#{i}"), i]
+      [
+        I18n.t("billing.year_division.x#{i}"),
+        i,
+        data: data
+      ]
     }
   end
 
-  def basket_sizes_collection(no_basket_option: true)
+  def basket_sizes_collection(no_basket_option: true, data: {}, no_basket_data: {})
     basket_sizes = BasketSize.reorder(price: :desc)
     acp_shares_numbers = basket_sizes.pluck(:acp_shares_number).uniq
     col = basket_sizes.map { |bs|
@@ -34,7 +38,9 @@ module MembersHelper
           price: deliveries_based_price_info(bs.price),
           details: details.compact.join(', ')),
         bs.id,
-        data: { acp_shares_number: bs.acp_shares_number }
+        data: {
+          form_min_value_enforcer_min_value_param: bs.acp_shares_number
+        }.merge(data)
       ]
     }
     if no_basket_option && (Current.acp.annual_fee? || Current.acp.share?)
@@ -48,13 +54,15 @@ module MembersHelper
             end
         ),
         0,
-        data: { acp_shares_number: 1 }
+        data: {
+          form_min_value_enforcer_min_value_param: 1
+        }.merge(no_basket_data)
       ]
     end
     col
   end
 
-  def basket_prices_extra_collection
+  def basket_prices_extra_collection(data: {})
     return unless Current.acp.basket_price_extras?
 
     label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
@@ -63,7 +71,7 @@ module MembersHelper
       text = collection_text(label_template.render('extra' => extra),
         price: extra.positive? ? deliveries_based_price_info(extra) : nil,
         details: details_template.render('extra' => extra))
-      [text, extra]
+      [text, extra, data: data]
     end
   end
 
@@ -82,7 +90,7 @@ module MembersHelper
     end
   end
 
-  def depots_collection(membership = nil)
+  def depots_collection(membership: nil, data: {})
     visible_depots(membership).map { |d|
       details = []
       if deliveries_counts.many?
@@ -103,7 +111,8 @@ module MembersHelper
         collection_text(d.form_name || d.name,
           price: price_info(d.annual_price),
           details: details.compact.join(', ')),
-        d.id
+        d.id,
+        data: data
       ]
     }
   end

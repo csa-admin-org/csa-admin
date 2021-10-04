@@ -96,7 +96,7 @@ describe 'Activity Participation' do
       expect(page).to have_content activity.period
     end
 
-    click_link 'annuler', match: :first
+    click_button 'annuler', match: :first
 
     expect(page).to have_content("Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.")
     expect(page).not_to have_content "Pour des raisons d'organisation,"

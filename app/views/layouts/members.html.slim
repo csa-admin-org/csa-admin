@@ -2,8 +2,10 @@ doctype html
 html lang=I18n.locale
   head
     title = [Current.acp.name, t('.title')].join(' – ')
-    = javascript_pack_tag 'members', data: { turbolinks_track: 'reload' }
-    = stylesheet_pack_tag 'members', data: { turbolinks_track: 'reload' }
+    = javascript_importmap_tags 'members'
+    = stylesheet_link_tag 'https://npmcdn.com/flatpickr/dist/themes/confetti.css'
+    = stylesheet_pack_tag 'members', data: { turbo_track: 'reload' }
+    = stylesheet_link_tag 'members', data: { turbo_track: 'reload' }
     = csrf_meta_tags
     meta charset="UTF-8"
     meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"
