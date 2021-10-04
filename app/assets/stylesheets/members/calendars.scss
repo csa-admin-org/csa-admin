@@ -1,4 +1,9 @@
-@import 'members/variables';
+$base-line-height: 1.5;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing * 0.5;
+$green: #55b946;
+$light-gray: #ddd;
+$medium-gray: #999;
 
 .flatpickr-calendar.inline {
   box-shadow: none !important;

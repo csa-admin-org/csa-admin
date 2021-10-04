@@ -23,7 +23,7 @@ class Members::SessionsController < Members::BaseController
       I18n.locale = @session.member.language
       redirect_to members_login_path(locale: I18n.locale), notice: t('sessions.flash.initiated')
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

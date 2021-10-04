@@ -9,13 +9,11 @@ class Members::ActivityParticipationsController < Members::BaseController
     @activity_participation = current_member.activity_participations.new(protected_params)
     @activity_participation.session_id = session_id
 
-    respond_to do |format|
-      if @activity_participation.save
-        flash[:notice] = t('.flash.notice')
-        format.html { redirect_to members_activity_participations_path }
-      else
-        format.html { render :index }
-      end
+    if @activity_participation.save
+      flash[:notice] = t('.flash.notice')
+      redirect_to members_activity_participations_path
+    else
+      render :index, status: :unprocessable_entity
     end
   end
 

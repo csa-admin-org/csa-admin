@@ -26,7 +26,7 @@ class Members::ContactSharingsController < Members::BaseController
       redirect_to members_contact_sharing_path, notice: t('members.contact_sharings.flash.joined')
     else
       @depot = current_member.next_basket.depot
-      render :show
+      render :show, status: :unprocessable_entity
     end
   end
 

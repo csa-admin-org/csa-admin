@@ -25,7 +25,7 @@ section
               span.carpooling
           span.action
             - if participation.destroyable?
-              == link_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
+              == button_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
             - else
               span.hidden_action = link_to t('.cancel_link'), '#', class: 'cancel'
           span.activity
@@ -42,19 +42,17 @@ section
   - if @activities.empty?
     p.empty = t_activity('.no_activities')
   - else
-    .activities-form
-      - @activity_participation ||= ActivityParticipation.new(activity: @activities.first, carpooling_phone: current_member.phones_array.first, carpooling_city: current_member.city)
+    - @activity_participation ||= ActivityParticipation.new(activity: @activities.first, carpooling_phone: current_member.phones_array.first, carpooling_city: current_member.city)
+    .activities-form data-controller="calendar" data-calendar-dates-value="#{@activities.map(&:date).uniq.as_json}" data-calendar-default-date-value="#{@activity_participation.date}"
       = form_for [:members, @activity_participation] do |f|
-        #calendar.calendar data={ dates: @activities.map(&:date).uniq.join(','), selected_date: @activity_participation.date }
+        #calendar.calendar data-calendar-target="calendar"
         .input
           label = t('.activity_label')
           label.label-error= @activity_participation.errors[:activity].first
-          .no_activities style='display: none;'
-            p.empty = t_activity('.no_activities_this_month')
           .activities.pretty_check_boxes
             = f.collection_check_boxes(:activity_ids, @activities, :id, :period) do |b|
-              = b.label(class: "activity-#{b.object.date}") do
-                = b.check_box
+              = b.label do
+                = b.check_box data: { calendar_target: 'input', date: b.object.date.to_s }
                 span.checkmark
                 span.label
                   = activity_label(b.object).html_safe
@@ -73,20 +71,20 @@ section
               - @activity_participation.errors[:participants_count].each do |msg|
                 li = msg
           = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
-        .input.carpooling
+        .input.carpooling data-controller="form-checkbox-toggler"
           label.title
             = t('.carpooling')
             span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
               = inline_svg_pack_tag 'media/images/members/info_circle.svg', size: '16px'
           div.pretty_check_boxes
             label.carpooling
-              = f.check_box :carpooling
+              = f.check_box :carpooling, data: { action: "form-checkbox-toggler#toggleInput" }
               span.checkmark
               span.label = t('.carpooling_checkbox')
           label.carpooling
-            = f.phone_field :carpooling_phone, placeholder: t('.carpooling_phone')
+            = f.phone_field :carpooling_phone, placeholder: t('.carpooling_phone'), data: { form_checkbox_toggler_target: 'input' }
           label.carpooling
-            = f.text_field :carpooling_city, placeholder: t('.carpooling_city')
+            = f.text_field :carpooling_city, placeholder: t('.carpooling_city'), data: { form_checkbox_toggler_target: 'input' }
         .input
           = f.submit t('.activity_form_submit'), id: 'subscribe-button'
 

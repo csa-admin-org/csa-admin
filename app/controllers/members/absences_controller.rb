@@ -3,9 +3,10 @@ class Members::AbsencesController < Members::BaseController
 
   # GET /absences
   def index
+    min = Absence.min_started_on + 1.day
     @absence = Absence.new(
-      started_on: Absence.min_started_on,
-      ended_on: Absence.min_started_on.end_of_week)
+      started_on: min,
+      ended_on: (min + 1.day).end_of_week)
   end
 
   # POST /absences
@@ -13,13 +14,11 @@ class Members::AbsencesController < Members::BaseController
     @absence = current_member.absences.new(protected_params)
     @absence.session_id = session_id
 
-    respond_to do |format|
-      if @absence.save
-        flash[:notice] = t('.flash.notice')
-        format.html { redirect_to members_absences_path }
-      else
-        format.html { render :index }
-      end
+    if @absence.save
+      flash[:notice] = t('.flash.notice')
+      redirect_to members_absences_path
+    else
+      render :index, status: :unprocessable_entity
     end
   end
 

@@ -14,7 +14,7 @@ class Members::AccountsController < Members::BaseController
     if current_member.update(member_params)
       redirect_to members_account_path
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

@@ -118,6 +118,24 @@ a.button {
   }
 }
 
+input.cancel {
+  width: auto;
+  text-align: center;
+
+  padding: 1px 5px;
+  margin: auto 0;
+  float: right;
+  border: solid 2px $light-gray;
+  background-color: $light-gray;
+  border-color: $light-gray;
+  font-weight: 600;
+
+  &:hover {
+    border-color: $medium-gray;
+    background-color: $medium-gray;
+  }
+}
+
 
 ol,
 ul {

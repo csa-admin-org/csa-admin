@@ -30,9 +30,12 @@ gem 'formtastic', '~> 4.0'
 
 gem 'inline_svg'
 gem 'slim'
-gem 'turbolinks'
 
 gem 'webpacker'
+
+gem 'importmap-rails'
+gem 'hotwire-rails'
+gem 'sassc-rails'
 
 gem 'sidekiq'
 gem 'sidekiq-scheduler'

@@ -86,6 +86,12 @@ p.info {
   margin-top: $base-spacing;
 }
 
+.activities.pretty_check_boxes {
+  span.label {
+    width: 100%;
+  }
+}
+
 ul.activities {
   li {
     display: flex;

@@ -9,7 +9,7 @@ class Members::GroupBuying::OrdersController < Members::GroupBuying::BaseControl
       redirect_to members_group_buying_path, notice: t('.flash.notice')
     else
       flash.now[:error] = t('.flash.error')
-      render 'members/group_buying/base/show'
+      render 'members/group_buying/base/show', status: :unprocessable_entity
     end
   end
 
