@@ -1,0 +1,28 @@
+span class="order-2 md:order-1 flex-none w-24 mr-2"
+  = l(object.date, format: :number)
+- case object
+- when Invoice
+  span class="order-1 md:order-2 w-full flex flex-grow justify-between items-center"
+    span
+      - if object.canceled?
+        == t('.canceled_invoice_info', id: object.id, type: display_object(object, link: false))
+      - elsif object.open?
+        == t('.open_invoice_info', id: object.id, type: display_object(object, link: false))
+      - else
+        == t('.invoice_info', id: object.id, type: display_object(object, link: false))
+    span
+      = link_to rails_blob_path(object.pdf_file, disposition: 'attachment') do
+        = inline_svg_tag 'members/document_download.svg'
+  span class="order-3 flex-none text-right w-28"
+    = cur(object.amount)
+- when Payment
+  span class="order-1 w-full flex-grow"
+    - if object.amount.positive?
+      - if object.invoice_id
+        == t('.payment_info', invoice_id: object.invoice_id)
+      - else
+        == t('.manual_payment_info')
+    - else
+      = t('.refund_info')
+  span class="order-3 flex-none text-right w-28"
+    = cur(-object.amount)

@@ -1,25 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
+import { addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["menu"]
-
-  connect() {
-    this._hideMenu()
-  }
+  static targets = ["menu", "body"]
 
   show(event) {
-    this.menuTarget.setAttribute("aria-expanded", "true")
+    removeClass(this.menuTargets, "hidden")
+    addClass(this.bodyTargets, "hidden")
     event.preventDefault()
   }
 
   hide(event) {
-    this._hideMenu()
+    addClass(this.menuTargets, "hidden")
+    removeClass(this.bodyTargets, "hidden")
     event.preventDefault()
-  }
-
-  _hideMenu() {
-    if (this.menuTarget.getAttribute("aria-expanded") == "true") {
-      this.menuTarget.setAttribute("aria-expanded", "false")
-    }
   }
 }

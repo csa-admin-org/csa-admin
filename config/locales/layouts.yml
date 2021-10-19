@@ -11,6 +11,11 @@ _:
         _fr: Gérer mes notifications
         _it: Gestisci le notiche
     members:
+      footer:
+        contact:
+          _de: Kontakt
+          _fr: Contact
+          _it: Contatti
       header:
         absences_subtitle:
           _de: "⤷ Informieren Sie uns!"

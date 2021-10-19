@@ -1,33 +1,35 @@
-h2 = membership.fiscal_year
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = membership.fiscal_year
 
+ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year
+  li class='flex flex-row items-center'
+    = inline_svg_tag 'members/calendar.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2'
+      = [membership.started_on, membership.ended_on].map { |d| l(d) }.join(' – ')
 
-ul.details id=membership.fiscal_year
-  li
-    h4 = Membership.human_attribute_name(:période)
-    p = [membership.started_on, membership.ended_on].map { |d| l(d) }.join(' – ')
-  li
-    h4 = Basket.model_name.human
-    p = basket_size_description(membership)
+  li class='mt-1 flex flex-row items-center'
+    = inline_svg_tag 'members/basket.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2 flex flex-col'
+      span = basket_size_description(membership)
+      - complements = membership.memberships_basket_complements.includes(:basket_complement)
+      - if complements.any?
+        span = basket_complements_description(complements)
 
-  - complements = membership.memberships_basket_complements.includes(:basket_complement)
-  - if complements.any?
-    li
-      h4 = BasketsBasketComplement.model_name.human(count: complements.size)
-      p = basket_complements_description(complements)
-
-  li
-    - depot = membership.depot
-    h4 = Depot.model_name.human
-    p
-      = depot.name
+  li class='mt-1 flex flex-row items-center'
+    = inline_svg_tag 'members/map.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2'
+      - depot = membership.depot
       - if depot.full_address
-        == map_icon(depot.full_address)
+        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
+          = h depot.name
+      - else
+        = h depot.name
 
-  li
-    h4 = Delivery.model_name.human(count: 2)
-    p
+  li class='mt-1 flex flex-row items-center'
+    = inline_svg_tag 'members/truck.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2'
       = link_to members_deliveries_path do
-        = membership.baskets_count
+        = "#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}"
         - if membership.trial?
           = ", #{t('.remaning_trial_baskets_count', count: membership.remaning_trial_baskets_count)}"
       - if Current.acp.feature?('absence') && membership.baskets.absent.any?
@@ -36,16 +38,20 @@ ul.details id=membership.fiscal_year
           = t('.absent_baskets_count', count: membership.baskets.absent.count)
 
   - if Current.acp.feature?('activity')
-    li
-      h4 = activities_human_name
-      p = link_to members_activity_participations_path do
-        = t('.activity_participations_demanded', count: membership.activity_participations_demanded)
+    li class='mt-1 flex flex-row items-center'
+      = inline_svg_tag 'members/hand.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+      span class='ml-2'
+        = "#{activities_human_name}: "
+        = link_to members_activity_participations_path do
+          = t('.activity_participations_demanded', count: membership.activity_participations_demanded)
 
   li
-    h4 = Member.human_attribute_name(:price)
-    p
-      - if current_member.salary_basket?
-        = t('.price_salary_basket')
-      - else
-        = link_to members_billing_path do
-          = cur(membership.price)
+    li class='mt-1 flex flex-row items-center'
+      = inline_svg_tag 'members/cash.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+      span class='ml-2'
+        - if current_member.salary_basket?
+          span class="italic text-gray-400 dark:text-gray-600"
+            = t('.price_salary_basket')
+        - else
+          = link_to members_billing_path do
+            = cur(membership.price)

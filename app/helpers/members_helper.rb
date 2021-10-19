@@ -25,7 +25,7 @@ module MembersHelper
     col = basket_sizes.map { |bs|
       details = []
       if bs.price.positive?
-        details << "#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)}"
+        details << "#{deliveries_based_price_info(bs.price)} (#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)})"
       else
         details << deliveries_count(deliveries_counts)
       end
@@ -34,9 +34,7 @@ module MembersHelper
         details << acp_shares_number(bs.acp_shares_number)
       end
       [
-        collection_text(bs.name,
-          price: deliveries_based_price_info(bs.price),
-          details: details.compact.join(', ')),
+        collection_text(bs.name, details: details.compact.join(', ')),
         bs.id,
         data: {
           form_min_value_enforcer_min_value_param: bs.acp_shares_number
@@ -68,9 +66,12 @@ module MembersHelper
     label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
     details_template = Liquid::Template.parse(Current.acp.basket_price_extra_label_detail)
     Current.acp[:basket_price_extras].map do |extra|
-      text = collection_text(label_template.render('extra' => extra),
-        price: extra.positive? ? deliveries_based_price_info(extra) : nil,
-        details: details_template.render('extra' => extra))
+      details = []
+      details << deliveries_based_price_info(extra) if extra.positive?
+      details << details_template.render('extra' => extra)
+      details.map!(&:presence).compact!
+
+      text = collection_text(label_template.render('extra' => extra), details: details.join(', '))
       [text, extra, data: data]
     end
   end
@@ -78,15 +79,13 @@ module MembersHelper
   def basket_complement_label(bc)
     if bc.annual_price_type?
       collection_text(bc.name,
-        price: price_info(bc.price),
-        details: deliveries_count(bc.deliveries_count))
+        details: "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})")
     else
       d_counts = depots_delivery_ids.map { |d_ids|
         (d_ids & bc.delivery_ids).size
       }.uniq
       collection_text(bc.name,
-        price: deliveries_based_price_info(bc.price, d_counts),
-        details: "#{short_price(bc.price)} x #{deliveries_count(d_counts)}")
+        details: "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})")
     end
   end
 
@@ -95,22 +94,23 @@ module MembersHelper
       details = []
       if deliveries_counts.many?
         if d.price.positive?
-          details << "#{short_price(d.price)} x #{deliveries_count(d.deliveries_count)}"
+          details << "#{price_info(d.annual_price)} (#{short_price(d.price)} x #{deliveries_count(d.deliveries_count)})"
         else
           details << deliveries_count(d.deliveries_count)
         end
       elsif d.price.positive?
-        details << t('helpers.price_per_delivery', price: short_price(d.price))
+        details << "#{price_info(d.annual_price)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
       end
       if address = d.full_address
-        details << address + map_icon(address).html_safe
+        details << address
+        icon = map_icon(address).html_safe
       elsif d.address.present?
         details << d.address
       end
       [
         collection_text(d.form_name || d.name,
-          price: price_info(d.annual_price),
-          details: details.compact.join(', ')),
+          details: details.compact.join(', '),
+          icon: icon),
         d.id,
         data: data
       ]
@@ -118,17 +118,19 @@ module MembersHelper
   end
 
   def terms_of_service_label
-    if Current.acp.terms_of_service_url && Current.acp.statutes_url
-      t('.terms_of_service_with_statutes',
-        terms_url: Current.acp.terms_of_service_url,
-        statutes_url: Current.acp.statutes_url).html_safe
-    elsif Current.acp.terms_of_service_url
-      t('.terms_of_service',
-        terms_url: Current.acp.terms_of_service_url).html_safe
-    elsif Current.acp.statutes_url
-      t('.terms_of_service_with_only_statutes',
-        statutes_url: Current.acp.statutes_url).html_safe
-    end
+    text =
+      if Current.acp.terms_of_service_url && Current.acp.statutes_url
+        t('.terms_of_service_with_statutes',
+          terms_url: Current.acp.terms_of_service_url,
+          statutes_url: Current.acp.statutes_url).html_safe
+      elsif Current.acp.terms_of_service_url
+        t('.terms_of_service',
+          terms_url: Current.acp.terms_of_service_url).html_safe
+      elsif Current.acp.statutes_url
+        t('.terms_of_service_with_only_statutes',
+          statutes_url: Current.acp.statutes_url).html_safe
+      end
+    "<span class='flex-grow font-normal'>#{text}</span>".html_safe
   end
 
   def display_address(member, country: true)
@@ -142,7 +144,8 @@ module MembersHelper
 
   def display_emails(member)
     emails = member.emails_array - [current_session.email]
-    parts = [content_tag(:i, current_session.email)]
+    parts = []
+    parts << content_tag(:i, current_session.email) unless current_session.admin_originated?
     parts += emails
     parts.join(', ').html_safe
   end
@@ -177,7 +180,7 @@ module MembersHelper
       [
         price_info(d_counts.min * price),
         price_info(d_counts.max * price, format: '%n')
-      ].join('-')
+      ].compact.join('-')
     else
       price_info(d_counts.first.to_i * price)
     end
@@ -237,16 +240,22 @@ module MembersHelper
     end
   end
 
-  def collection_text(text, price: nil, details: nil)
-    txts = [text]
-    txts << "<em class='price'>#{price}</em>" if price
-    txts << "<em>(#{details})</em>" if details.present?
+  def collection_text(text, details: nil, icon: nil)
+    txts = ["<div class='flex-grow flex flex-col'>"]
+    txts << "<span class='text-sm font-medium text-gray-700 dark:text-gray-300'>#{text}</span>"
+    if details.present?
+      txts << "<span class='text-sm'>#{details}</span>"
+    end
+    txts << "</div>"
+    if icon
+      txts << "<div class='flex-none ml-2'>#{icon}</div>"
+    end
     txts.join.html_safe
   end
 
   def map_icon(location)
-    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: 'map_link' do
-      inline_svg_pack_tag 'media/images/members/map_signs.svg', size: '16px'
+    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: 'text-gray-300 dark:text-gray-700 hover:text-green-500' do
+      inline_svg_tag 'members/map.svg', class: 'inline-block'
     end
   end
 

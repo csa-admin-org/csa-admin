@@ -20,14 +20,6 @@ _:
           _de: Abwesenheit melden
           _fr: Annoncer une absence
           _it: Annunciare un'assenza
-        no_past_absences:
-          _de: Keine!
-          _fr: Aucune!
-          _it: Nessuno!
-        no_present_or_future_absences:
-          _de: Keine, teilen Sie uns bitte Ihre Abwesenheiten mit dem unten stehenden Formular mit.
-          _fr: Aucune, merci d'annoncer votre absence à l'aide du formulaire ci-dessous.
-          _it: Nessuno, grazie per annunciare la tua assenza utilizzando il modulo sottostante.
         past_absences:
           _de: Ihre vergangene Abwesenheiten
           _fr: Vos absences passées
@@ -42,6 +34,10 @@ _:
           _it: Inviare
     accounts:
       edit:
+        cancel_link:
+          _de: Abbrechen
+          _fr: Annuler
+          _it: Annullare
         emails_hint:
           _de: Die für diese Session verwendete E-Mail (%{session_email}) kann nicht geändert werden.
           _fr: L'email utilisé pour cette session (%{session_email}) ne peut pas être modifié.
@@ -72,6 +68,15 @@ _:
           _fr: Compte
           _it: Conto
     activity_participations:
+      activity_participation:
+        cancel_link:
+          _de: abbrechen
+          _fr: annuler
+          _it: annullare
+        carpooling:
+          _de: Fahrgemeinschaften
+          _fr: Covoiturage
+          _it: Condivisione veicoli
       create:
         flash:
           notice:
@@ -91,14 +96,10 @@ _:
           _de: Anmeldung
           _fr: Inscription
           _it: Iscrizione
-        cancel_link:
-          _de: abbrechen
-          _fr: annuler
-          _it: annullare
         carpooling:
           _de: Fahrgemeinschaften
-          _fr: covoiturage
-          _it: condivisione veicoli
+          _fr: Covoiturage
+          _it: Condivisione veicoli
         carpooling_checkbox:
           _de: Ich komme mit dem Auto und habe freie Plätze!
           _fr: Je viens en voiture et j'ai de la place!
@@ -171,10 +172,6 @@ _:
           _de: In diesem Monat findet keine Arbeitsstunde statt.
           _fr: Aucune heure de travail ce mois.
           _it: Nessuna ora di lavoro pianificata questo mese
-        no_coming_activity_participations:
-          _de: Kein, bitte schreiben Sie sich mit dem Formular hier unten ein.
-          _fr: Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.
-          _it: Nessuna attività, grazie per volerti iscriverti.
         no_coming_activity_participations/basket_preparation:
           _de: Momentan gibt es keine freie Taschen befüllung.
           _fr: Aucune mises en panier disponible pour le moment.
@@ -209,34 +206,26 @@ _:
           _it: Vostre ore di lavoro effettuate
     billing:
       index:
+        acp_shares:
+          _de: Anteilscheine
+          _fr: Parts sociales
+          _it: Quote sociali della cooperativa
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
           _it: Fatturazione
-        canceled_invoice_info:
-          _de: 'Stornierte Rechnungen #%{id} (%{type})'
-          _fr: 'Facture annulée #%{id} (%{type})'
-          _it: 'Fattura annuale #%{id} (%{type})'
         credit_amount:
           _de: Guthaben
           _fr: Avoir
           _it: Credito
         explanation:
-          _de: Die Einzahlungen mit Referenznummer (ESR) werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
-          _fr: Les paiements avec numéro de référence (BVR) sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiments n'apparaîtrait pas.
-          _it: I pagamenti con numero di riferimento (PVR) vengono elaborati automaticamente durante la notte, contattaci se uno dei tuoi pagamenti non viene visualizzato.
+          _de: Die Einzahlungen mit Referenznummer werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
+          _fr: Les paiements avec numéro de référence sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiments n'apparaîtrait pas.
+          _it: I pagamenti con numero di riferimento vengono elaborati automaticamente durante la notte, contattaci se uno dei tuoi pagamenti non viene visualizzato.
         history:
           _de: Verlauf
           _fr: Historique
           _it: Cronologia
-        invoice_info:
-          _de: 'Rechnung #%{id} (%{type})'
-          _fr: 'Facture #%{id} (%{type})'
-          _it: 'Fattura #%{id} (%{type})'
-        manual_payment_info:
-          _de: Einzahlung ohne Referenz
-          _fr: Paiement sans référence
-          _it: Pagamento senza numero di riferimento
         missing_amount:
           _de: Noch zu zahlender Betrag
           _fr: Montant restant à payer
@@ -245,26 +234,39 @@ _:
           _de: Im Moment keine Rechnung oder Einzahlung.
           _fr: Aucune facture ou paiment pour le moment.
           _it: Nessuna fattura o pagamento per il momento
-        open_invoice_info:
-          _de: 'Offene Rechnung #%{id} (%{type})'
-          _fr: 'Facture ouverte #%{id} (%{type})'
-          _it: 'Fattura aperta #%{id} (%{type})'
         open_invoices:
           _de: Offene Rechnungen
           _fr: Factures ouvertes
           _it: Fatture aperte
-        payment_info:
-          _de: 'Einzahlung der Rechnung #%{invoice_id}'
-          _fr: 'Paiement de la facture #%{invoice_id}'
-          _it: 'Pagamento della fattura #%{invoice_id}'
-        refund_info:
-          _de: Rückerstattung
-          _fr: Remboursement
-          _it: Rimborso
         show_all:
           _de: Alle anzeigen
           _fr: Tout afficher
           _it: Mostra tutto
+      line:
+        canceled_invoice_info:
+          _de: Stornierte Rechnungen <em>#%{id}</em> (%{type})
+          _fr: Facture annulée <em>#%{id}</em> (%{type})
+          _it: Fattura annuale <em>#%{id}</em> (%{type})
+        invoice_info:
+          _de: Rechnung <em>#%{id}</em> (%{type})
+          _fr: Facture <em>#%{id}</em> (%{type})
+          _it: Fattura <em>#%{id}</em> (%{type})
+        manual_payment_info:
+          _de: Einzahlung ohne Referenz
+          _fr: Paiement sans référence
+          _it: Pagamento senza numero di riferimento
+        open_invoice_info:
+          _de: Offene Rechnung <em>#%{id}</em> (%{type})
+          _fr: Facture ouverte <em>#%{id}</em> (%{type})
+          _it: Fattura aperta <em>#%{id}</em> (%{type})
+        payment_info:
+          _de: Einzahlung der Rechnung <em>#%{invoice_id}</em>
+          _fr: Paiement de la facture <em>#%{invoice_id}</em>
+          _it: Pagamento della fattura <em>#%{invoice_id}</em>
+        refund_info:
+          _de: Rückerstattung
+          _fr: Remboursement
+          _it: Rimborso
     contact_sharings:
       flash:
         joined:
@@ -310,10 +312,6 @@ _:
           _de: Keine, es ist fast fertig für dieses Jahr.
           _fr: Aucune, c'est presque fini pour cette année!
           _it: Nessuno, è quasi finita per quest'anno!
-        no_membership:
-          _de: Kein Abonnement
-          _fr: Aucun abonnement
-          _it: Nessun abbonamento
         no_past_deliveries:
           _de: Keine, es wird bald anfangen!
           _fr: Aucune, cela va bientôt commencer!
@@ -354,9 +352,9 @@ _:
             _fr: Commandes ouvertes jusqu'au <u>%{date}</u>.
             _it: Ordini aperti fino a <u>%{date}</u>.
           past_order_info:
-            _de: 'Bestellung #%{number}'
-            _fr: 'Commande #%{number}'
-            _it: 'Ordine #%{number}'
+            _de: Bestellung <em>#%{number}</em>
+            _fr: Commande <em>#%{number}</em>
+            _it: Ordine <em>#%{number}</em>
           past_orders:
             _de: Bestellungseingang
             _fr: Commandes passées
@@ -379,9 +377,9 @@ _:
               _fr: "%{count} produits"
               _it: "%{count} prodotti"
           terms_of_service:
-            _de: Ich habe <a href="%{terms_url}" target="_blank">die Allgemeinen Verkaufsbedingungen</a> gelesen und akzeptiere sie.
-            _fr: J'ai lu et j'accepte <a href="%{terms_url}" target="_blank">les conditions générales de vente</a>.
-            _it: Ho letto e accettato <a href="%{terms_url}" target="_blank">le condizioni generali di vendita</a>.
+            _de: Ich habe <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">die Allgemeinen Verkaufsbedingungen</a> gelesen und akzeptiere sie.
+            _fr: J'ai lu et j'accepte <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">les conditions générales de vente</a>.
+            _it: Ho letto e accettato <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">le condizioni generali di vendita</a>.
       orders:
         create:
           flash:
@@ -437,17 +435,17 @@ _:
           _fr: Envoyer
           _it: Inviare
         terms_of_service:
-          _de: Ich habe die Statuten und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{terms_url}" target="_blank">le règlement</a>.
-          _it: Ho letto attentamente e accetto <a href="%{terms_url}" target="_blank">il regolamento</a>.
+          _de: Ich habe die Statuten und <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
+          _fr: J'ai lu attentivement et accepte avec plaisir <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">le règlement</a>.
+          _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">il regolamento</a>.
         terms_of_service_with_only_statutes:
-          _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a>.
-          _it: Ho letto attentamente e accetto <a href="%{statutes_url}" target="_blank">gli statuti</a>.
+          _de: Ich habe <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">die Statuten</a> gelesen und bin mit diesen einverstanden.
+          _fr: J'ai lu attentivement et accepte avec plaisir <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">les statuts</a>.
+          _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">gli statuti</a>.
         terms_of_service_with_statutes:
-          _de: Ich habe <a href="%{statutes_url}" target="_blank">die Statuten</a> und <a href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a href="%{statutes_url}" target="_blank">les statuts</a> et <a href="%{terms_url}" target="_blank">le règlement</a>.
-          _it: Ho letto attentamente e accetto <a href="%{statutes_url}" target="_blank">gli statuti</a> e <a href="%{terms_url}" target="_blank">il regolamento</a>.
+          _de: Ich habe <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">die Statuten</a> und <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
+          _fr: J'ai lu attentivement et accepte avec plaisir <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">les statuts</a> et <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">le règlement</a>.
+          _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">gli statuti</a> e <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">il regolamento</a>.
         text:
           _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
@@ -486,9 +484,9 @@ _:
           _fr: Annuler
           _it: Annullare
         renewal_annual_fee_label:
-          _de: Um die Vereinigung zu unterstützen, zahle ich ab dem nächsten Jahr weiterhin den jährlichen Mitgliedsbeitrag. <em>%{annual_fee}</em>
-          _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain. <em>%{annual_fee}</em>
-          _it: Per sostenere l'associazione continuerò a pagare la quota associativa annuale anche nel prossimo anno.  <em>%{annual_fee}</em>
+          _de: Um die Vereinigung zu unterstützen, zahle ich ab dem nächsten Jahr weiterhin den jährlichen Mitgliedsbeitrag.
+          _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain.
+          _it: Per sostenere l'associazione continuerò a pagare la quota associativa annuale anche nel prossimo anno.
         renewal_note:
           placeholder:
             cancel:
@@ -591,6 +589,10 @@ _:
           _de: Ihres Email
           _fr: Votre email
           _it: Vostra email
+        email_placeholder:
+          _de: ihres@email.com
+          _fr: votre@email.com
+          _it: vostra@email.com
         features:
           absence_text:
             _de: eine Abwesenheit zu melden
@@ -631,4 +633,4 @@ _:
         title:
           _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
-          _it: Connesione al vostro account.
+          _it: Connesione al vostro account

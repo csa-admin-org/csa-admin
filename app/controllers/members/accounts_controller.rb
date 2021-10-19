@@ -26,6 +26,6 @@ class Members::AccountsController < Members::BaseController
       .permit(
         :name,
         :address, :zip, :city, :country_code,
-        :emails, :phones)
+        :emails, :phones, :language)
   end
 end

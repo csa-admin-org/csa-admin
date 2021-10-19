@@ -6,7 +6,7 @@ ActiveAdmin.register_page 'LatestUpdates' do
     columns do
       column do
         Update.all.each_with_index do |update, i|
-          panel l(update.date), class: unread_count > i ? 'unread' : '' do
+          panel l(update.date), class: unread_count > i ? 'unread' : '', id: update.name do
             update.content
           end
         end

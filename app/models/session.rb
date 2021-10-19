@@ -53,6 +53,10 @@ class Session < ApplicationRecord
     !email || expires_at < Time.current
   end
 
+  def admin_originated?
+    member && user_agent.start_with?('Admin ID: ')
+  end
+
   private
 
   def set_unique_token

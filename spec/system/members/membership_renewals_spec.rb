@@ -24,9 +24,10 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ Renouvellement ?'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
     end
+
     click_on 'Abonnement'
 
     choose 'Renouveler mon abonnement'
@@ -38,26 +39,19 @@ describe 'Memberships Renewal' do
 
     click_on 'Confirmer'
 
-    expect(page).to have_selector('.flash.notice',
+    expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été renouvelé. Merci!')
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ En cours'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ En cours"
     end
-    within 'main ul.details#2021' do
-      expect(page).to have_content 'Période'
+    within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
-      expect(page).to have_content 'Panier'
       expect(page).to have_content 'Grand'
-      expect(page).to have_content 'Complément'
       expect(page).to have_content '2 x Oeufs'
-      expect(page).to have_content 'Dépôt'
       expect(page).to have_content 'Joli Lieu'
-      expect(page).to have_content 'Livraisons'
-      expect(page).to have_content '1'
-      expect(page).to have_content '½ Journées'
-      expect(page).to have_content '2 demandées'
-      expect(page).to have_content 'Prix'
+      expect(page).to have_content '1 Livraison'
+      expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 38.40"
     end
     expect(membership.reload).to have_attributes(
@@ -91,8 +85,8 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ Renouvellement ?'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
     end
     click_on 'Abonnement'
 
@@ -106,23 +100,18 @@ describe 'Memberships Renewal' do
 
     click_on 'Confirmer'
 
-    expect(page).to have_selector('.flash.notice',
+    expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été renouvelé. Merci!')
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ En cours'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ En cours"
     end
-    within 'main ul.details#2021' do
-      expect(page).to have_content 'Période'
+    within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
-      expect(page).to have_content 'Panier'
       expect(page).to have_content 'Grand'
       expect(page).to have_content 'Joli Lieu'
-      expect(page).to have_content 'Livraisons'
-      expect(page).to have_content '1'
-      expect(page).to have_content '½ Journées'
-      expect(page).to have_content '2 demandées'
-      expect(page).to have_content 'Prix'
+      expect(page).to have_content '1 Livraison'
+      expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 38.00"
     end
     expect(membership.reload).to have_attributes(
@@ -151,8 +140,8 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ Renouvellement ?'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
     end
     click_on 'Abonnement'
 
@@ -164,11 +153,11 @@ describe 'Memberships Renewal' do
 
     click_on 'Confirmer'
 
-    expect(page).to have_selector('.flash.notice',
+    expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été résilié.')
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ En cours'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ En cours"
     end
     expect(page).to have_content 'Votre abonnement a été résilié et se terminera après la livraison du 6 octobre 2020.'
     expect(membership.reload).to have_attributes(

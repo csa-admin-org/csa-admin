@@ -9,7 +9,6 @@ class Members::DeliveriesController < Members::BaseController
       @future_baskets =
         Basket
           .where(membership_id: membership_ids)
-          .where.not(id: @next_basket.id)
           .coming
           .includes(:delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement)
       @past_baskets =
@@ -17,6 +16,8 @@ class Members::DeliveriesController < Members::BaseController
           .membership.baskets
           .delivered
           .includes(:delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement)
+    else
+      redirect_to members_login_path
     end
   end
 end

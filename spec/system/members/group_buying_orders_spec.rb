@@ -27,7 +27,7 @@ describe 'GroupBuying::Order' do
 
     expect(page).to have_content('Merci pour votre commande!')
 
-    within('section.past_orders ul.group_buying') do
+    within('ul#past_orders') do
       expect(page).to have_content(/Commande #\d+ à payerCHF 6.30/)
     end
   end
@@ -38,7 +38,7 @@ describe 'GroupBuying::Order' do
 
     visit '/group_buying'
 
-    expect(current_path).to eq('/billing')
+    expect(current_path).not_to eq('/group_buying')
     expect(page).not_to have_content('Achats Groupés')
   end
 
@@ -47,7 +47,7 @@ describe 'GroupBuying::Order' do
 
     visit '/group_buying'
 
-    expect(current_path).to eq('/billing')
+    expect(current_path).not_to eq('/group_buying')
     expect(page).not_to have_content('Achats Groupés')
   end
 end

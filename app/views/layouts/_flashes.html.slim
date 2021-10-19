@@ -1,3 +1,7 @@
 - flash.each do |type, msg|
-  div class="flash #{type}"
-    span = msg
+  - color = type == 'alert' ? 'red' : 'green'
+  - logo = type == 'alert' ? 'warning' : 'notice'
+  div class="flash mb-8 bg-#{color}-100 border border-#{color}-400 text-#{color}-700 p-2 rounded flex items-center"
+    = inline_svg_tag "members/#{logo}.svg", class: 'flex-shrink-0 w-5 h-5 fill-stroke'
+    span class='ml-2'
+      = msg

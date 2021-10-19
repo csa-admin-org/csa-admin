@@ -1,69 +1,95 @@
-h1 = t('.title')
-p = t('.text')
+h1 class="text-center text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('.title')
 
-= semantic_form_for @member, url: members_member_path, data: { controller: 'form-disabler form-min-value-enforcer'} do |f|
-  = invisible_captcha
+div class="mt-4 text-justify"
+  p = t('.text')
 
-  = f.inputs do
-    = f.input :name, label: t('.name')
-    = f.input :address
-    = f.input :zip, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: 'fl' }
-    = f.input :city, wrapper_html: { class: 'fl' }
-    = f.input :country_code, as: :select, collection: countries_collection
+div class="mt-8"
+  = simple_form_for @member, url: members_member_path, data: { controller: 'form-disabler form-min-value-enforcer'} do |f|
+    = invisible_captcha
 
-  = f.inputs name: Member.human_attribute_name(:contact) do
-    = f.input :emails, as: :string, required: true
-    = f.input :phones, as: :string, required: true
+    div class="space-y-8"
+      div
+        legend class="text-lg font-medium text-gray-700 dark:text-gray-300"
+          = Member.human_attribute_name(:contact)
+        div class="mt-2 space-y-6"
+          = f.input :name, label: t('.name'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
 
-  - support_checked = @member.waiting_basket_size_id&.zero?
-  = f.inputs name: Membership.model_name.human do
-    - unless Current.acp.membership_extra_text_only?
-      p
-        = t('.membership_text', fiscal_year_months_range: fiscal_year_months_range)
-        - if Current.acp.trial_basket_count.positive?
-          = ' '
-          = t('.membership_trial_text', count: Current.acp.trial_basket_count)
-      - if Current.acp.annual_fee?
-        p == t('.annual_fee_text', price: cur(Current.acp.annual_fee, precision: 0))
-      - if Current.acp.share?
-        p == t('.acp_shares_text', price: cur(Current.acp.share_price, precision: 0))
-    - if Current.acp.membership_extra_text
-      div.extra_text == Current.acp.membership_extra_text
+          = f.input :address, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
 
-    = f.input :waiting_basket_size, as: :pretty_radio, collection: basket_sizes_collection(data: { action: 'form-disabler#enableInputs form-min-value-enforcer#enforceMinValue'}, no_basket_data: { action: 'form-disabler#disableInputs form-min-value-enforcer#enforceMinValue' }), required: true, label: BasketSize.model_name.human
+          div class='flex flex-row w-full'
+            = f.input :zip, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10', size: 6, maxlength: 6 }, wrapper_html: { class: 'w-24' }
+            = f.input :city, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, wrapper_html: { class: 'w-full pl-2' }
 
-    - if Current.acp.share?
-      = f.input :desired_acp_shares_number, as: :number, min: 1, max: 20, required: true, input_html: { value: [@member.desired_acp_shares_number, 1].max, data: { form_min_value_enforcer_target: 'input '} }, hint: t('.desired_acp_shares_number_hint')
+          = f.input :country_code, required: true, as: :select, collection: countries_collection, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
 
-    - if Current.acp.basket_price_extras?
-      = f.input :waiting_basket_price_extra, as: :pretty_radio, collection: basket_prices_extra_collection(data: { form_disabler_target: 'input' }), label: Current.acp.basket_price_extra_title, text: Current.acp.basket_price_extra_text&.html_safe, hint: false, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked }
+          = f.input :emails, as: :string, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'text-sm' }
 
-    - if @member.members_basket_complements.any?
-      = f.inputs BasketComplement.model_name.human(count: 2), class: 'basket_complements', data: { form_disabler_target: 'label' } do
-        = f.semantic_fields_for :members_basket_complements do |ff|
-          = ff.input :basket_complement_id, as: :hidden
-          = ff.input :quantity, as: :number, min: 0, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ('disabled' if support_checked) }, input_html: { data: { form_disabler_target: 'input', default_value: '0' } }
+          = f.input :phones, as: :string, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'text-sm' }
 
-    div data-controller="form-choice-excluder"
-      = f.input :waiting_depot, as: :pretty_radio, collection: depots_collection(data: { form_disabler_target: 'input', action: 'form-choice-excluder#excludeChoice' }), label: Depot.model_name.human, required: true,
-      wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked }
+      - support_checked = @member.waiting_basket_size_id&.zero?
+      div
+        legend class="text-lg font-medium text-gray-700 dark:text-gray-300"
+          = Membership.model_name.human
+        div class='space-y-6'
+          div class='font-normal text-gray-500 mt-2 text-justify space-y-2'
+            - unless Current.acp.membership_extra_text_only?
+              p
+                = t('.membership_text', fiscal_year_months_range: fiscal_year_months_range)
+                - if Current.acp.trial_basket_count.positive?
+                  = ' '
+                  = t('.membership_trial_text', count: Current.acp.trial_basket_count)
+              - if Current.acp.annual_fee?
+                p == t('.annual_fee_text', price: cur(Current.acp.annual_fee, precision: 0))
+              - if Current.acp.share?
+                p == t('.acp_shares_text', price: cur(Current.acp.share_price, precision: 0))
+            - if Current.acp.membership_extra_text
+              div.trix
+                == Current.acp.membership_extra_text
 
-      - if Current.acp.allow_alternative_depots?
-        = f.input :waiting_alternative_depot_ids, as: :pretty_check_boxes, collection: depots_collection(data: { form_disabler_target: 'input', form_choice_excluder_target: 'input' }), required: false, hint: true,
-      wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }
+          = f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: 'form-disabler#enableInputs form-min-value-enforcer#enforceMinValue'}, no_basket_data: { action: 'form-disabler#disableInputs form-min-value-enforcer#enforceMinValue' }), required: true, label: BasketSize.model_name.human, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2'
 
-    - if Current.acp.billing_year_divisions.many?
-      = f.inputs name: t('active_admin.resource.show.billing') do
-        = f.input :billing_year_division, as: :pretty_radio, collection: billing_year_divisions_collection(data: { form_disabler_target: 'input', disabled_value: 1 }), wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked }
+          - if Current.acp.share?
+            = f.input :desired_acp_shares_number, as: :numeric, required: true, input_html: { min: 1, max: 20, value: [@member.desired_acp_shares_number, 1].max, data: { form_min_value_enforcer_target: 'input ' }, class: 'mt-1 dark:bg-black w-20 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint: t('.desired_acp_shares_number_hint'), label_html: { class: 'inline-block w-full text-sm font-medium text-gray-700 dark:text-gray-300' }, hint_html: { class: 'inline-block w-full text-sm'}
 
-  = f.inputs name: t('.more_info') do
-    = f.input :profession, hint: true
-    = f.input :come_from, as: :text, input_html: { rows: 3 }
-    = f.input :note, as: :text, input_html: { rows: 3 }, label: t('.note')
+          - if Current.acp.basket_price_extras?
+            div data-form-disabler-target='label'
+              label class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                = Current.acp.basket_price_extra_title
+              div class="my-1 text-sm text-justify"
+                = Current.acp.basket_price_extra_text&.html_safe
+              = f.input :waiting_basket_price_extra, as: :radio_buttons, collection: basket_prices_extra_collection(data: { form_disabler_target: 'input' }), label: false, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked, class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2'
 
-  - if Current.acp.terms_of_service_url || Current.acp.statutes_url
-    = f.inputs do
-      = f.input :terms_of_service, as: :pretty_boolean, label: terms_of_service_label
+          - if @member.members_basket_complements.any?
+            = f.input BasketComplement.model_name.human(count: 2), label_html: { class: 'inline-block w-full text-sm font-medium text-gray-700 dark:text-gray-300' }, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } } do
+              = f.simple_fields_for :members_basket_complements, data: { form_disabler_target: 'label' } do |ff|
+                = ff.input :basket_complement_id, as: :hidden
+                = ff.input :quantity, as: :numeric, min: 0, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { data: { form_disabler_target: 'input', default_value: '0' }, class: 'order-1 dark:bg-black w-16 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, label_html: { class: 'order-2 ml-4' }, wrapper_class: 'mt-2 flex items-center'
 
-  = f.actions do
-    = f.action :submit, as: :button, label: t('.submit')
+          div data-controller="form-choice-excluder"
+            div class='space-y-6'
+              = f.input :waiting_depot_id, as: :radio_buttons, collection: depots_collection(data: { form_disabler_target: 'input', action: 'form-choice-excluder#excludeChoice' }), label: Depot.model_name.human, required: true,
+              wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked, class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }
+
+              - if Current.acp.allow_alternative_depots?
+                = f.input :waiting_alternative_depot_ids, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: 'input', form_choice_excluder_target: 'input' }), required: false, hint: true, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked), class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }
+
+          - if Current.acp.billing_year_divisions.many?
+            div
+              label class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                = t('active_admin.resource.show.billing')
+              = f.input :billing_year_division, as: :radio_buttons, collection: billing_year_divisions_collection(data: { form_disabler_target: 'input', disabled_value: 1 }), wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked, class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'text-sm font-medium text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label: false
+
+      div
+        legend class="text-lg font-medium text-gray-700 dark:text-gray-300"
+          = t('.more_info')
+        div class="mt-2 space-y-6"
+          = f.input :profession, hint: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'inline-block w-full text-sm'}
+          = f.input :come_from, as: :text, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 3, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+          = f.input :note, as: :text, label: t('.note'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 3, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+
+      - if Current.acp.terms_of_service_url || Current.acp.statutes_url
+        = f.input :terms_of_service, as: :boolean, label: terms_of_service_label, input_html: { class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, label_html: { class: 'text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer' }, wrapper_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-4'
+
+      div class='text-right'
+        = f.button :submit, t('.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'

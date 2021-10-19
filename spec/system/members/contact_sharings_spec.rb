@@ -10,13 +10,14 @@ describe 'Contact sharing' do
   end
 
   it 'accepts to share contact' do
+    create(:delivery, date: Date.tomorrow)
     depot = create(:depot, name: 'Vin Libre')
-    create(:membership, member: member, depot: depot)
+    membership = create(:membership, member: member, depot: depot)
 
     visit '/'
 
-    within '#menu' do
-      expect(page).to have_content 'Copaniérage⤷ Vin Libre'
+    within 'nav' do
+      expect(page).to have_content "Copaniérage\n⤷ Vin Libre"
     end
 
     click_on 'Copaniérage'
@@ -25,12 +26,13 @@ describe 'Contact sharing' do
 
     click_button 'Partager'
 
-    expect(page).to have_selector('.flash.notice',
+    expect(page).to have_selector('.flash',
       text: 'Vos coordonnées sont maintenant partagées avec les autres membres de votre dépôt!')
     expect(page).to have_content 'Aucun autre membre ne partage ses coordonées pour le moment!'
   end
 
   it 'lists other members contact' do
+    create(:delivery, date: Date.tomorrow)
     depot = create(:depot, name: 'Vin Libre')
     create(:membership, member: member, depot: depot)
     member.update!(name: 'John Doe', contact_sharing: true)
@@ -45,7 +47,7 @@ describe 'Contact sharing' do
 
     visit '/contact_sharing'
 
-    within 'ul.contacts' do
+    within 'ul#members' do
       expect(page).not_to have_content 'John Doe'
       expect(page).to have_content '076 123 45 678'
       expect(page).to have_content 'Nowhere 42'
@@ -58,7 +60,7 @@ describe 'Contact sharing' do
   it 'redirects when member is not active' do
     visit '/contact_sharing'
 
-    expect(current_path).to eq '/activity_participations'
+    expect(current_path).not_to eq '/contact_sharing'
   end
 
   it 'redirects when contact_sharing is not a feature' do
@@ -67,6 +69,6 @@ describe 'Contact sharing' do
 
     visit '/contact_sharing'
 
-    expect(current_path).to eq '/deliveries'
+    expect(current_path).not_to eq '/contact_sharing'
   end
 end

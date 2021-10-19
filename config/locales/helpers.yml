@@ -63,13 +63,13 @@ _:
       _fr: Aucun, devenir membre de soutien
       _it: Nessuno, diventa un socio sostenitore
     no_basket_size_acp_share:
-      _de: nur Anteilschein
-      _fr: part sociale uniquement
-      _it: solamente quota sociale cooperativa
+      _de: Nur Anteilschein
+      _fr: Part sociale uniquement
+      _it: Solamente quota sociale cooperativa
     no_basket_size_annual_fee:
-      _de: nur jährlicher Beitrag
-      _fr: cotisation annuelle uniquement
-      _it: solamente quota associativa annuale
+      _de: Nur jährlicher Beitrag
+      _fr: Cotisation annuelle uniquement
+      _it: Solamente quota associativa annuale
     none:
       _de: Kein
       _fr: Aucun

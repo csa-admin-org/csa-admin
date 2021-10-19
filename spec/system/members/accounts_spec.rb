@@ -22,10 +22,10 @@ describe 'Account' do
 
     click_on 'Doe Jame and John'
 
-    expect(page).to have_content("Nom\nDoe Jame and John")
-    expect(page).to have_content("Adresse\nNowhere 11234 TownSuisse")
-    expect(page).to have_content("Email(s)\njame@doe.com, john@doe.com")
-    expect(page).to have_content("Téléphone(s)\n076 123 45 67, 079 765 43 21")
+    expect(page).to have_content("Doe Jame and John")
+    expect(page).to have_content("Nowhere 11234 TownSuisse")
+    expect(page).to have_content("jame@doe.com, john@doe.com")
+    expect(page).to have_content("076 123 45 67, 079 765 43 21")
   end
 
   it 'edits current member data' do
@@ -41,8 +41,8 @@ describe 'Account' do
 
     click_button 'Soumettre'
 
-    expect(page).to have_content("Nom\nDoe Jame & John")
-    expect(page).to have_content("Adresse\nNowhere 112345 VillarAllemagne")
+    expect(page).to have_content("Doe Jame & John")
+    expect(page).to have_content("Nowhere 112345 VillarAllemagne")
 
     expect(member.audits.first).to have_attributes(
       session: member.last_session,

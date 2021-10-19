@@ -1,0 +1,26 @@
+_:
+  simple_form:
+    error_notification:
+      default_message:
+        _fr: 'Please review the problems below:'
+    hints:
+      member:
+        emails:
+          _de: Durch Komma getrennt.
+          _fr: Séparés par une virgule.
+          _it: Separate da una virgola.
+        phones:
+          _de: Durch Komma getrennt.
+          _fr: Séparés par une virgule.
+          _it: Separate da una virgola.
+        profession:
+          _de: Was sich möglicherweise als nützlich erweisen könnte.
+          _fr: Qui pourrait éventuellement s'avérer utile.
+          _it: Che potrebbe forse rivelarsi utile.
+    required:
+      mark:
+        _fr: "*"
+      text:
+        _de: requirieren
+        _fr: requis
+        _it: requisito

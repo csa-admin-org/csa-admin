@@ -15,14 +15,41 @@ module ActivitiesHelper
     "#{attr}/#{Current.acp.activity_i18n_scope}".to_sym
   end
 
+  def activities_collection(activities, data: {})
+    activities.map do |activity|
+      text = content_tag(:span, class: 'inline-block flex-grow') {
+        content_tag(:span, class: 'flex flex-col md:flex-row flex-wrap justify-start mr-2') do
+          activity_label(activity).html_safe
+        end
+      }.concat(
+        content_tag(:span, class: 'flex-none ml-2 flex flex-row flex-nowrap text-gray-400 dark:text-gray-800', title: t('activities.participant_count', count:activity.participants_count)) {
+          content_tag(:span, class: 'mr-1') {
+            "#{activity.participants_count}/#{activity.participants_limit || '∞'}"
+          }.concat(
+            inline_svg_tag 'members/participant.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke')
+        })
+      [
+        text,
+        activity.id,
+        data: {
+          date: activity.date.to_s
+        }.merge(data)
+      ]
+    end
+  end
+
   def activity_label(activity, date: false, date_format: :medium, description: true)
     labels = [
-      activity.period,
-      display_activity(activity, description: description),
-      display_place(activity)
+      content_tag(:span, activity.period, class: 'whitespace-nowrap'),
+      content_tag(:span) {
+        [
+          display_activity(activity, description: description),
+          display_place(activity)
+        ].join(', ').html_safe
+      }
     ]
     labels.insert(0, l(activity.date, format: date_format).capitalize) if date
-    labels.join(', ')
+    labels.join(content_tag(:span, ",&nbsp;".html_safe, class: 'hidden md:inline whitespace-nowrap'))
   end
 
   def display_place(activity)
@@ -35,10 +62,14 @@ module ActivitiesHelper
 
   def display_activity(activity, description: true)
     if description && activity.description
-      activity.title +
-        content_tag(:span, class: 'tooltip-toggle', data: { tooltip: activity.description }) {
-          inline_svg_pack_tag 'media/images/members/info_circle.svg', size: '16px'
+      content_tag(:span, class: 'inline-block') {
+        content_tag(:span, class: 'flex flex-row items-center') {
+          (content_tag(:span, activity.title, class: 'inline-block') +
+            content_tag(:span, class: 'inline-block tooltip-toggle', data: { tooltip: activity.description }) {
+              inline_svg_tag 'members/info_circle.svg', size: '16px'
+            }).html_safe
         }
+      }
     else
       activity.title
     end

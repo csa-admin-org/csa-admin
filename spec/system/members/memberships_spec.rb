@@ -12,7 +12,7 @@ describe 'Membership' do
   specify 'inactive member' do
     login(member)
 
-    within '#menu' do
+    within 'nav' do
       expect(page).not_to have_content 'Abonnement'
     end
 
@@ -32,24 +32,18 @@ describe 'Membership' do
 
     login(member)
 
-    within '#menu' do
-      expect(page).to have_content 'Abonnement⤷ En cours'
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ En cours"
     end
 
     click_on 'Abonnement'
 
-    within 'main ul.details' do
-      expect(page).to have_content 'Période'
+    within 'ul#2020' do
       expect(page).to have_content '1 janvier 2020 – 31 décembre 2020'
-      expect(page).to have_content 'Panier'
       expect(page).to have_content 'Petit'
-      expect(page).to have_content 'Dépôt'
       expect(page).to have_content 'Joli Lieu'
-      expect(page).to have_content 'Livraisons'
-      expect(page).to have_content '40, 5 absences'
-      expect(page).to have_content '½ Journées'
-      expect(page).to have_content '2 demandées'
-      expect(page).to have_content 'Prix'
+      expect(page).to have_content '40 Livraisons, 5 absences'
+      expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 1'200.00"
     end
   end
@@ -64,24 +58,18 @@ describe 'Membership' do
 
     login(member)
 
-    within '#menu' do
-      expect(page).to have_content "Abonnement⤷ Période d'essai"
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ Période d'essai"
     end
 
     click_on 'Abonnement'
 
-    within 'main ul.details' do
-      expect(page).to have_content 'Période'
+    within 'ul#2020' do
       expect(page).to have_content '1 février 2020 – 31 décembre 2020'
-      expect(page).to have_content 'Panier'
       expect(page).to have_content 'Petit'
-      expect(page).to have_content 'Dépôt'
       expect(page).to have_content 'Joli Lieu'
-      expect(page).to have_content 'Livraisons'
-      expect(page).to have_content "36, encore 4 à l'essai et sans engagement"
-      expect(page).to have_content '½ Journées'
-      expect(page).to have_content '2 demandées'
-      expect(page).to have_content 'Prix'
+      expect(page).to have_content "36 Livraisons, encore 4 à l'essai et sans engagement"
+      expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 1'080.00"
     end
   end
@@ -97,24 +85,18 @@ describe 'Membership' do
 
     login(member)
 
-    within '#menu' do
-      expect(page).to have_content "Abonnement⤷ À venir"
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ À venir"
     end
 
     click_on 'Abonnement'
 
-    within 'main ul.details' do
-      expect(page).to have_content 'Période'
+    within 'ul#2020' do
       expect(page).to have_content '1 juin 2020 – 31 décembre 2020'
-      expect(page).to have_content 'Panier'
       expect(page).to have_content 'Petit'
-      expect(page).to have_content 'Dépôt'
       expect(page).to have_content 'Joli Lieu'
-      expect(page).to have_content 'Livraisons'
-      expect(page).to have_content "19"
-      expect(page).to have_content '½ Journées'
-      expect(page).to have_content '1 demandée'
-      expect(page).to have_content 'Prix'
+      expect(page).to have_content '19 Livraisons'
+      expect(page).to have_content '½ Journées: 1 demandée'
       expect(page).to have_content "CHF 570"
     end
   end

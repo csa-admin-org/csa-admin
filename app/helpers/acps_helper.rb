@@ -10,7 +10,7 @@ module AcpsHelper
       .join(' – ')
   end
 
-  def link_to_acp_website
-    link_to Current.acp.url.sub(/https?:\/\//, ''), Current.acp.url
+  def link_to_acp_website(options = {})
+    link_to Current.acp.url.sub(/https?:\/\//, ''), Current.acp.url, options
   end
 end
