@@ -36,3 +36,7 @@ _:
         _de: "%{count} Teilnehmer"
         _fr: "%{count} participants"
         _it: "%{count} partecipanti"
+      zero:
+        _de: keine Teilnehmer
+        _fr: aucun participant
+        _it: nessun partecipante

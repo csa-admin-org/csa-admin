@@ -1,4 +1,7 @@
-.welcome
-  h1 = t('.title')
-  p = t('.text')
-  p.link= t('.return_to_acp_website', link: link_to_acp_website).html_safe
+h1 class="text-center text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('.title')
+
+p class="mt-4 text-justify"
+  = t('.text')
+p class='mt-4 text-center'
+  = t('.return_to_acp_website', link: link_to_acp_website).html_safe

@@ -1,74 +1,60 @@
-h1 = t('.billing')
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('.billing')
 
 - if @open_invoices.any?
-  section
-    h2 = t('.open_invoices')
-    ul.billing
-      - @open_invoices.each do |invoice|
-        li
-          span.date = l(invoice.date, format: :number)
-          span.info = t('.open_invoice_info', id: invoice.id, type: display_object(invoice, link: false))
-          span.file
-            = link_to rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-              = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
-          span.amount = cur(invoice.amount)
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.open_invoices')
+  ul class='mt-2'
+    - @open_invoices.each do |invoice|
+      li class="flex flex-row justify-between items-center flex-wrap md:flex-nowrap rounded bg-red-100 dark:bg-red-900 py-1 my-2 px-2 -mx-2"
+        = render 'line', object: invoice
 
-section
-  h2 = t('.history')
-  - if @billing_history.empty?
-    p.empty = t('.no_billing_history')
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.history')
+- if @billing_history.empty?
+  p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+    = t('.no_billing_history')
+- else
+  ul class='mt-2'
+    - history_limit = params[:all] ? 10_000 : 15
+    - @billing_history.first(history_limit).each do |object|
+      li class="flex flex-row justify-between items-center flex-wrap md:flex-nowrap rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-2 px-2 -mx-2 #{'line-through text-gray-300 dark:text-gray-700' if object.respond_to?(:canceled?) && object.canceled?}"
+        = render 'line', object: object
+
+  - if @billing_history.size > history_limit
+    div class='mt-4 text-center w-full md:w-none'
+      = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history'), class: 'button md:min-w-min min-w-full text-center py-1 px-2 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer'
+
+section class="mt-12"
+ul class="flex flex-row -m-2 flex-wrap justify-center"
+  - balance = current_member.member_balance_amount
+  - if balance >= 0
+    li class="flex-1 flex text-center items-center p-2 m-2 flex-col rounded border dark:border-gray-700"
+      span class='flex flex-col my-auto'
+        span class='text-sm text-gray-400'
+          = t('.credit_amount')
+        span class='text-xl whitespace-nowrap font-medium'
+          = cur(balance)
   - else
-    ul.billing
-      - history_limit = params[:all] ? 10_000 : 15
-      - @billing_history.first(history_limit).each do |object|
-        li class=('canceled' if object.respond_to?(:canceled?) && object.canceled?)
-          span.date = l(object.date, format: :number)
-          - case object
-          - when Invoice
-            span.info
-              - if object.canceled?
-                = t('.canceled_invoice_info', id: object.id, type: display_object(object, link: false))
-              - else
-                = t('.invoice_info', id: object.id, type: display_object(object, link: false))
-            span.file
-              = link_to rails_blob_path(object.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-                = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
-            span.amount = cur(object.amount)
-          - when Payment
-            - if object.amount.positive?
-              span.info
-                - if object.invoice_id
-                  = t('.payment_info', invoice_id: object.invoice_id)
-                - else
-                  = t('.manual_payment_info')
-            - else
-              span.info = t('.refund_info')
-            span.amount = cur(-object.amount)
-      #billing_history
-      - if @billing_history.size > history_limit
-        li.show_all = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history')
+    li class="flex-1 flex text-center align-center p-2 m-2 flex-col rounded border dark:border-gray-700"
+      span class='flex flex-col my-auto'
+        span class='text-sm text-gray-400'
+          = t('.missing_amount')
+        span class='text-xl whitespace-nowrap font-medium text-red-500'
+          = cur(-balance)
+  - if Current.acp.share?
+    li class="flex-1 flex text-center p-2 m-2 flex-col rounded border dark:border-gray-700"
+      span class='flex flex-col my-auto'
+        span class='text-sm text-gray-400'
+          = t('.acp_shares')
+        span class='text-xl font-medium'
+          = current_member.acp_shares_number
+  li class="flex-1 flex text-center p-2 m-2 flex-col rounded border dark:border-gray-700"
+      span class='flex flex-col my-auto'
+        span class='text-sm text-gray-400'
+          = Member.human_attribute_name(:billing_year_division)
+        span class='text-xl whitespace-nowrap font-medium'
+          = t("billing.year_division.x#{current_member.billing_year_division}")
 
-section.balance
-  ul
-    - balance = current_member.member_balance_amount
-    - if balance >= 0
-      li
-        = t('.credit_amount')
-        = ': '
-        = cur(balance)
-    - else
-      li.error
-        = t('.missing_amount')
-        = ': '
-        = cur(-balance)
-    li
-      = Member.human_attribute_name(:billing_year_division)
-      = ': '
-      = t("billing.year_division.x#{current_member.billing_year_division}")
-    - if Current.acp.share?
-      li
-        = Member.human_attribute_name(:acp_shares_number)
-        = ': '
-        = current_member.acp_shares_number
-
-  p.info = t('.explanation')
+p class='mt-8 text-sm text-justify text-gray-400 dark:text-gray-600'
+  = t('.explanation')

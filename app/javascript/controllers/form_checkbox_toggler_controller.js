@@ -2,10 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 import { prop } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["input"]
+  static targets = ["checkbox", "input"]
 
   connect() {
-    this.toggleInput()
+    if (!this.checkboxTarget.checked) {
+      this.toggleInput()
+    }
   }
 
   toggleInput() {

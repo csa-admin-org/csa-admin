@@ -21,17 +21,18 @@ describe 'members page' do
       login(member)
       visit '/deliveries'
 
-      expect(page).to have_content 'Panier: Petit'
-      expect(page).to have_content 'Complément: Oeufs'
-      expect(page).to have_content 'Dépôt: Jardin de la main'
+      expect(current_path).to eq '/deliveries'
+      expect(page).to have_content 'Petit'
+      expect(page).to have_content 'Oeufs'
+      expect(page).to have_content 'Jardin de la main'
     end
   end
 
-  it 'shows no membership text' do
+  it 'redirects when no membership' do
     login(create(:member))
 
     visit '/deliveries'
 
-    expect(page).to have_content 'Aucun abonnement'
+    expect(current_path).not_to eq '/deliveries'
   end
 end

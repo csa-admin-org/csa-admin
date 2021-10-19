@@ -1,32 +1,22 @@
-- if @next_basket
-  h1
-    = Delivery.model_name.human(count: 2)
-    = ' '
-    = @next_basket.delivery.fiscal_year
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = Delivery.model_name.human(count: 2)
 
-  h2 = t('.next_delivery')
-  ul.deliveries
-    li = render @next_basket
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.future_deliveries', count: @future_baskets.count)
+ul class='w-full flex flex-row flex-wrap'
+  - if @future_baskets.empty?
+    p.empty = t('.no_future_deliveries')
+  - else
+    - @future_baskets.each do |basket|
+      li class='w-full md:w-1/2'
+        = render basket
 
-  h2 = t('.future_deliveries', count: @future_baskets.count)
-  ul.deliveries
-    - if @future_baskets.empty?
-      p.empty = t('.no_future_deliveries')
-    - else
-      - @future_baskets.each do |basket|
-        li = render basket
-
-  h2 = t('.past_deliveries', count: @past_baskets.count)
-  ul.deliveries
-    - if @past_baskets.empty?
-      p.empty = t('.no_past_deliveries')
-    - else
-      - @past_baskets.each do |basket|
-        li = render basket
-
-- else
-  h1 = Delivery.model_name.human(count: 2)
-
-  section.placeholder
-    p
-      em.empty = t('.no_membership')
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.past_deliveries', count: @past_baskets.count)
+ul class='w-full flex flex-row flex-wrap'
+  - if @past_baskets.empty?
+    p.empty = t('.no_past_deliveries')
+  - else
+    - @past_baskets.each do |basket|
+      li class='w-full md:w-1/2'
+        = render basket

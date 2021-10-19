@@ -18,7 +18,7 @@ module GroupBuying
     scope :canceled, -> { joins(:invoice).merge(Invoice.canceled) }
 
     validate :items_must_be_present
-    validate :terms_of_service_must_be_accepted
+    validates_acceptance_of :terms_of_service, if: :terms_of_service_must_be_accepted?
 
     before_create :set_amount
     before_create :create_invoice
@@ -70,11 +70,11 @@ module GroupBuying
 
     # Avoid to have the error on terms_of_service as it breaks
     # the pretty_check_boxes with the field_with_errors wrapper
-    def terms_of_service_must_be_accepted
+    def terms_of_service_must_be_accepted?
       return unless Current.acp.group_buying_terms_of_service_url
       return if ActiveRecord::Type::Boolean.new.cast(@terms_of_service)
 
-      errors.add(:base, :terms_of_service_unchecked)
+      true
     end
 
     def set_amount

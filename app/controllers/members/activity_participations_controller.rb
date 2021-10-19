@@ -2,7 +2,12 @@ class Members::ActivityParticipationsController < Members::BaseController
   before_action :ensure_activity_feature
 
   # GET /activity_participations
-  def index; end
+  def index
+    @activities = Activity.available_for(current_member)
+    @activity_participation = ActivityParticipation.new(activity: @activities.first)
+    @activity_participation.carpooling_phone ||= current_member.phones_array.first
+    @activity_participation.carpooling_city ||= current_member.city
+  end
 
   # POST /activity_participations
   def create
@@ -13,6 +18,11 @@ class Members::ActivityParticipationsController < Members::BaseController
       flash[:notice] = t('.flash.notice')
       redirect_to members_activity_participations_path
     else
+      @activities = Activity.available_for(current_member)
+      unless @activity_participation.carpooling
+        @activity_participation.carpooling_phone ||= current_member.phones_array.first
+        @activity_participation.carpooling_city ||= current_member.city
+      end
       render :index, status: :unprocessable_entity
     end
   end
@@ -30,7 +40,7 @@ class Members::ActivityParticipationsController < Members::BaseController
   def protected_params
     params
       .require(:activity_participation)
-      .permit(%i[participants_count carpooling carpooling_phone carpooling_city], activity_ids: [])
+      .permit(%i[activity_id participants_count carpooling carpooling_phone carpooling_city])
   end
 
   def ensure_activity_feature

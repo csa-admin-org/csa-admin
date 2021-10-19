@@ -1,98 +1,97 @@
-header data-controller='menu'
-  .logo
-    = link_to Current.acp.url, class: 'logo' do
-      = image_tag(Current.acp.logo_url, size: '100', alt: "#{Current.acp.name} Logo")
-
-  - if current_member
-    .show_menu
+header class='flex-grow flex flex-col flex-nowrap justify-between'
+  div class='m-4 flex-none flex justify-between md:justify-center items-center' data-menu-target='body'
+    div class='md:my-8'
+      = link_to Current.acp.url do
+        = image_tag(Current.acp.logo_url, alt: "#{Current.acp.name} Logo", class: 'h-20 w-20 md:h-40 md:w-40')
+    div class='m-4 text-gray-900 dark:text-gray-100 md:hidden'
       = link_to '#menu', data: { action: "click->menu#show" } do
-        = inline_svg_pack_tag 'media/images/members/menu.svg', size: '42px', title: 'Menu'
+        = inline_svg_tag 'members/menu.svg', title: 'Show Menu', class: 'h-12 w-12'
 
-  #menu data-menu-target="menu"
-    .menu_wrapper
-      - if current_member
-        .hide_menu
-          = link_to '#nomenu', data: { action: "click->menu#hide" } do
-            = inline_svg_pack_tag 'media/images/members/close.svg', size: '42px', title: 'Menu'
-        nav
-          - membership = current_member.current_or_future_membership
-          ul
-            - if next_basket = current_member.next_basket
-              li class=nav_class('deliveries')
-                = link_to members_deliveries_path do
-                  = Delivery.model_name.human(count: 2)
-                  span = t('.next_delivery', date: l(next_basket.delivery.date))
+  nav data-menu-target='menu' class='flex-grow flex flex-col w-full hidden md:block '
+    div class='text-right mt-8 mr-8 text-gray-900 dark:text-gray-100 flex-none md:hidden'
+      = link_to '#nomenu', data: { action: "click->menu#hide" }, class: 'inline-block' do
+        = inline_svg_tag 'members/close.svg', title: 'Hide Menu', class: 'h-12 w-12'
 
-            - if membership
-              li class=nav_class('membership')
-                = link_to members_membership_path(anchor: membership.renewal_opened? ? 'renewal' : '') do
-                  = Membership.model_name.human
-                  - if membership.renewal_opened?
-                    span.alert = t('.membership_renewal')
-                  - elsif membership.trial?
-                    span = t('.membership_trial')
-                  - elsif membership.current?
-                    span = t('.membership_current')
-                  - elsif membership.future?
-                    span = t('.membership_future')
-                  - else
-                    span = t('.membership_past')
+    div class='flex-grow h-full flex flex-col justify-between'
+      - membership = current_member.current_or_future_membership
+      ul class='flex-grow'
 
-              - if Current.acp.feature?('contact_sharing')
-                li class=nav_class('contact_sharing')
-                  = link_to members_contact_sharing_path do
-                    = Member.human_attribute_name(:contact_sharing)
-                    span = '⤷ ' + next_basket.depot.name
+        - if next_basket = current_member.next_basket
+          li class="#{nav_class('deliveries')}"
+            = link_to members_deliveries_path, class: 'block py-2 px-8' do
+              h2 class='font-medium text-gray-700 dark:text-gray-400'
+                = Delivery.model_name.human(count: 2)
+              span = t('.next_delivery', date: l(next_basket.delivery.date))
 
-            - if Current.acp.feature?('activity')
-              li class=nav_class('activity_participations')
-                = link_to members_activity_participations_path do
-                  = activities_human_name
-                  span
-                    - if membership
-                      = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded, count: membership.activity_participations_demanded)
-                    - else
-                      = t('.no_activity_participations_demanded')
+        - if membership
+          li class=nav_class('membership')
+            = link_to members_membership_path(anchor: membership.renewal_opened? ? 'renewal' : ''), class: 'block py-2 px-8' do
+              h2 class='font-medium text-gray-700 dark:text-gray-400'
+                = Membership.model_name.human
+              - if membership.renewal_opened?
+                span class='text-red-500'
+                  = t('.membership_renewal')
+              - elsif membership.trial?
+                span = t('.membership_trial')
+              - elsif membership.current?
+                span = t('.membership_current')
+              - elsif membership.future?
+                span = t('.membership_future')
+              - else
+                span = t('.membership_past')
 
-            - if display_group_buying?
-              li class=nav_class('group_buying')
-                = link_to members_group_buying_path do
-                  = t('activerecord.models.group_buying.one')
-                  span
-                    = t('.next_delivery', date: l(next_group_buying_delivery.date))
+          - if next_basket && Current.acp.feature?('contact_sharing')
+            li class=nav_class('contact_sharing')
+              = link_to members_contact_sharing_path, class: 'block py-2 px-8' do
+                h2 class='font-medium text-gray-700 dark:text-gray-400'
+                  = Member.human_attribute_name(:contact_sharing)
+                span = '⤷ ' + next_basket.depot.name
 
-            li class=nav_class('billing')
-              = link_to members_billing_path  do
-                = t('.billing')
-                - open_invoice_count = current_member.invoices.open.count
-                - if open_invoice_count.positive?
-                  span.alert = t('.open_invoices', count: open_invoice_count)
+        - if Current.acp.feature?('activity')
+          li class=nav_class('activity_participations')
+            = link_to members_activity_participations_path, class: 'block py-2 px-8' do
+              h2 class='font-medium text-gray-700 dark:text-gray-400'
+                = activities_human_name
+              span
+                - if membership
+                  = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded, count: membership.activity_participations_demanded)
                 - else
-                  span = t('.see_history')
+                  = t('.no_activity_participations_demanded')
 
-            - if Current.acp.feature?('absence')
-              li class=nav_class('absences')
-                = link_to members_absences_path do
-                  = Absence.model_name.human(count: 2)
-                  span = t('.absences_subtitle')
+        - if display_group_buying?
+          li class=nav_class('group_buying')
+            = link_to members_group_buying_path, class: 'block py-2 px-8' do
+              h2 class='font-medium text-gray-700 dark:text-gray-400'
+                = t('activerecord.models.group_buying.one')
+              span
+                = t('.next_delivery', date: l(next_group_buying_delivery.date))
 
-      - if current_member
-        .account
-          ul
-            li = link_to members_account_path, class: 'svg account' do
-              - # handle invalid name edit form
-              span = current_member.name_was
-              = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
-            li = button_to members_logout_path, method: :delete, class: 'svg logout' do
-              span = t('.logout')
-              = inline_svg_pack_tag 'media/images/members/sign_out.svg', size: '16px'
+        li class=nav_class('billing')
+          = link_to members_billing_path, class: 'block py-2 px-8' do
+            h2 class='font-medium text-gray-700 dark:text-gray-400'
+              = t('.billing')
+            - open_invoice_count = current_member.invoices.open.count
+            - if open_invoice_count.positive?
+              span class='text-red-500'
+                 = t('.open_invoices', count: open_invoice_count)
+            - else
+              span = t('.see_history')
 
-      .links
-        ul
-          - if Current.acp.phone?
-            li = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'svg' do
-              span = Current.acp.phone
-              = inline_svg_pack_tag 'media/images/members/phone.svg', size: '16px'
-          li = mail_to Current.acp.email, class: 'svg' do
-            span = t('.contact')
-            = inline_svg_pack_tag 'media/images/members/envelope.svg', size: '16px'
+        - if Current.acp.feature?('absence')
+          li class=nav_class('absences')
+            = link_to members_absences_path, class: 'block py-2 px-8' do
+              h2 class='font-medium text-gray-700 dark:text-gray-400'
+                = Absence.model_name.human(count: 2)
+              span = t('.absences_subtitle')
+
+        li class='mt-12'
+          = link_to members_account_path, class: 'block py-2 px-8 flex items-center' do
+            - # handle invalid name edit form
+            = inline_svg_tag 'members/user_circle.svg', class: 'h-8 w-8 flex-shrink-0 fill-stroke'
+            span class='ml-2'
+              = current_member.name_was
+        li class='text-gray-300 dark:text-gray-700'
+          = button_to members_logout_path, method: :delete, class: 'px-8 flex items-center ' do
+            = inline_svg_tag 'members/sign_out.svg', class: 'ml-2 h-6 w-6 flex-shrink-0 fill-stroke'
+            span class='ml-2'
+              = t('.logout')

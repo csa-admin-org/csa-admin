@@ -31,8 +31,8 @@ class Members::BaseController < ApplicationController
       cookies.delete(:locale)
     end
     I18n.locale =
-      cookies[:locale] ||
       current_member&.language ||
+      cookies[:locale] ||
       Current.acp.languages.first
   end
 

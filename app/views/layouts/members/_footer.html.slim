@@ -1,10 +1,25 @@
-footer
-  p = link_to_acp_website
-  - if Current.acp.languages.many?
-    ul.locales
-      - Current.acp.languages.each do |locale|
-        li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }
-  p.acp-admin
-    = link_to 'https://acp-admin.ch' do
-      = inline_svg_pack_tag 'media/images/logo.svg'
-      span= 'ACP Admin'
+footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-600"
+  div class="mx-auto #{'md:mx-0' if current_member}"
+    ul class="flex flex-row flex-wrap #{'md:flex-col' if current_member} "
+      - if Current.acp.phone?
+        li class="mx-auto px-4 #{'md:mx-0 md:px-0' if current_member}"
+          = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do
+            = inline_svg_tag 'members/phone.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+            span class='ml-2'
+              = Current.acp.phone
+      li class="mx-auto px-4 #{'md:mx-0 md:px-0' if current_member}"
+        = mail_to Current.acp.email, class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do
+          = inline_svg_tag 'members/mail.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+          span class='ml-2'
+            = t('.contact')
+  - if Current.acp.languages.many? && !current_member
+    div class="mx-auto p-4 "
+      ul class="divide-x divide-gray-200 dark:divide-gray-800 border border-gray-200 dark:border-gray-800 rounded text-center flex flex-row"
+        - Current.acp.languages.each do |locale|
+          li class='hover:bg-gray-100 dark:hover:bg-gray-900'
+            = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }, class: 'block w-12 leading-8 hover:text-green-500 uppercase'
+  div class="mx-auto #{'md:mx-0' if current_member} mb-4 mt-8 text-gray-300 dark:text-gray-700"
+    = link_to 'https://acp-admin.ch', class: 'flex items-center hover:text-green-500' do
+      = inline_svg_tag 'logo.svg', class: 'flex-shrink-0 w-5 h-5 fill-current'
+      span class='ml-2'
+        = 'ACP Admin'

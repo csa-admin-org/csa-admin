@@ -1,0 +1,159 @@
+:root {
+  --base-line-height: 1.5;
+  --base-spacing: var(--base-line-height) * 1em;
+  --small-spacing: var(--base-spacing) * 0.5;
+  --gray-100: rgba(243, 244, 246, 1);
+  --gray-300: rgba(209, 213, 219, 1);
+  --gray-500: rgba(107, 114, 128, 1);
+  --gray-700: rgba(55, 65, 81, 1);
+  --gray-900: rgba(17, 24, 39, 1);
+  --green-500: rgba(16, 185, 129, 1);
+}
+
+.calendar-wrapper {
+  margin-left: -10px;
+}
+
+@media (min-width: 350px) {
+  .calendar-wrapper {
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .calendar-wrapper {
+    margin: 0;
+  }
+}
+
+.flatpickr-calendar.inline {
+  margin: 0 auto;
+  box-shadow: none !important;
+}
+
+@media (min-width: 640px) {
+  .flatpickr-calendar.inline {
+    margin: 0;
+  }
+}
+
+.flatpickr-calendar.inline:before,
+.flatpickr-calendar.inline:after {
+  content: none;
+}
+
+.flatpickr-calendar.inline select {
+  color: white;
+  padding: 2px 2.5rem 2px 0;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: var(--green-500);
+  width: auto;
+}
+
+.flatpickr-calendar.inline select:hover {
+  color: white !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.1rem center;
+  background-repeat: no-repeat;
+}
+.flatpickr-calendar.inline select:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.flatpickr-calendar .numInputWrapper input {
+  color: white !important;
+}
+
+.flatpickr-calendar.inline .flatpickr-days {
+  border: 0 !important;
+}
+
+.flatpickr-calendar.inline .flatpickr-days .dayContainer {
+  border: 0 !important;
+  margin: var(--small-spacing) 0;
+  justify-content: flex-start !important;
+  padding: 2px;
+}
+
+.flatpickr-calendar.inline .flatpickr-day {
+  margin: 2px;
+  line-height: 37px;
+}
+
+.flatpickr-calendar.inline .flatpickr-day.flatpickr-disabled {
+  color: var(--gray-300);
+  border-color: var(--gray-100);
+}
+
+.flatpickr-calendar.inline .flatpickr-day:hover {
+  background: white !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .flatpickr-calendar.inline .flatpickr-day.flatpickr-disabled {
+    color: var(--gray-700) !important;
+    border-color: var(--gray-900) !important;
+  }
+  .flatpickr-calendar.inline .flatpickr-day:hover {
+    background: black !important;
+  }
+}
+
+.flatpickr-calendar.inline .flatpickr-day:not(.flatpickr-disabled) {
+  border-width: 2px;
+  line-height: 35px;
+  color: var(--gray-900);
+  border-color: var(--gray-300);
+}
+
+@media (prefers-color-scheme: dark) {
+  .flatpickr-calendar.inline .flatpickr-day:not(.flatpickr-disabled) {
+    color: var(--gray-100);
+    border-color: var(--gray-700);
+  }
+}
+
+.flatpickr-calendar.inline .flatpickr-day.selected {
+  color: white;
+  background: var(--green-500) !important;
+  border-color: var(--green-500) !important;
+}
+
+.flatpickr-weekdaycontainer span {
+  color: white !important;
+  font-weight: normal;
+}
+
+.flatpickr-day.selected,
+.flatpickr-month,
+.flatpickr-weekday,
+.flatpickr-weekdays {
+  background: var(--green-500) !important;
+  border-color: var(--green-500) !important;
+}
+
+.flatpickr-day.nextMonthDay {
+  display: none;
+}
+
+.flatpickr-calendar .flatpickr-innerContainer {
+  border: 1px solid var(--green-500) !important;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .flatpickr-calendar.inline .flatpickr-rContainer {
+    background: black;
+  }
+  .flatpickr-calendar.inline .flatpickr-day {
+    background: black;
+    color: var(--gray-100) !important;
+  }
+}

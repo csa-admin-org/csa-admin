@@ -1,81 +1,92 @@
-h1 = t('activerecord.models.group_buying.one')
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('activerecord.models.group_buying.one')
 
-section
-  - if @delivery
-    h2 = t('.delivery', date: l(@delivery.date))
+- if @delivery
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.delivery', date: l(@delivery.date))
+  p class="mt-2"
     - if @delivery.orderable?
-      h3 == t('.orderable_until', date: l(@delivery.orderable_until)).html_safe
+      == t('.orderable_until', date: l(@delivery.orderable_until)).html_safe
     - else
-      h3 = t('.not_orderable')
+      = t('.not_orderable')
 
-    = @delivery.description
+  div class="mt-4 trix"
+    == @delivery.description
 
 - past_orders = @delivery.orders.where(member: current_member).includes(invoice: { pdf_file_attachment: :blob }).order(created_at: :desc)
 - if past_orders.any?
-  section.past_orders
-    h2 = t('.past_orders')
-    ul.group_buying
-      - past_orders.each do |order|
-        li class=('canceled' if order.canceled?)
-          span.date = l(order.date, format: :number)
-          span.info = t('.past_order_info', number: order.id)
-          - unless order.invoice.processing?
-            span.file
-              = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link' do
-                = inline_svg_pack_tag 'media/images/members/pdf_file.svg', size: '16px'
-          span.state class=order.state
-            == order.state_i18n_name
-          span.amount = cur(order.amount)
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.past_orders')
+  ul#past_orders class="mt-2"
+    - past_orders.each do |order|
+      li class="flex flex-col sm:flex-row justify-between flex-wrap md:flex-nowrap rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-1 px-2 -mx-2 #{('line-strough' if order.canceled?)}"
+        span class="flex-grow flex flex-row justify-between items-center sm:mr-2"
+          span class="flex-none mr-2"
+            = l(order.date, format: :number)
+          span class="flex-grow sm:flex-grow flex flex-row justify-between items-center"
+            span
+              == t('.past_order_info', number: order.id)
+            - unless order.invoice.processing?
+              = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'ml-1' do
+                = inline_svg_tag 'members/document_download.svg', size: '16px'
+        span class="flex-none flex-row flex flex-row flex-nowrap justify-between sm:justify-end"
+          - color = state_color(order)
+          span class="px-2 border border-#{color}-300 dark:border-#{color}-700 bg-#{color}-300 dark:bg-#{color}-700 text-#{color}-600 dark:text-#{color}-400 font-medium rounded-full text-sm"
+            = order.state_i18n_name
+          span class="sm:w-24 text-right"
+            = cur(order.amount)
 
-    p.info = t('.past_orders_explanation', contact_link: mail_to(Current.acp.group_buying_email, t('.contact'))).html_safe
+  p class='mt-4 text-sm text-justify text-gray-400 dark:text-gray-600'
+    = t('.past_orders_explanation', contact_link: mail_to(Current.acp.group_buying_email, t('.contact'), class: 'underline')).html_safe
 
 - if @delivery.orderable?
-  section
-    h2 = t('.new_order')
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.new_order')
 
-    #group-buying-order-form data-controller="amount-updater"
-      = form_for [:members, @order] do |f|
-        - if @order.errors.any?
-          ul.errors
-            - @order.errors.full_messages.each do |msg|
-              li = msg
+  #group-buying-order-form data-controller="amount-updater"
+    = simple_form_for @order, url: [:members, @order] do |f|
 
+      - if f.object.errors[:base].any?
+        div class="mt-2 w-full py-2 px-4 text-red-500 bg-red-100 dard:bg-red-900 rounded"
+          = f.error_notification message: f.object.errors[:base].to_sentence
+
+      div class="mt-4 space-y-6"
         - @order.items_grouped_by_producer.each do |producer, items|
+          div
+            h3 class="font-medium text-gray-900 dark:text-gray-100"
+              - if producer.website_url?
+                = link_to producer.website_url, target: :blank, class: "flex flex-row items-center" do
+                  = producer.name
+                  span class='ml-1'
+                    = inline_svg_tag 'members/link.svg'
+              - else
+                = producer.name
+            div class="mt-2 text-sm text-justify trix"
+              == producer.description
 
-          h3
-            - if producer.website_url?
-              = link_to producer.name, producer.website_url, target: :blank
-              span.web
-                = link_to producer.website_url, target: :blank do
-                  = inline_svg_pack_tag 'media/images/members/web.svg', size: '18px'
-            - else
-              = producer.name
-          = producer.description
+            h4 class="mt-4 font-normal text-gray-900 dark:text-gray-100"
+              = t('.products')
+            ul class=""
+              = f.fields_for :items, items do |ff|
+                li class="rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 px-2 -mx-2"
+                  = ff.hidden_field :product_id
+                  div class="flex flex-row items-center"
+                    = ff.label :quantity, class: 'flex-grow flex flex-row justify-between' do
+                      span class="flex-grow flex flex-col"
+                        span = ff.object.product.name
+                        span class="text-sm"
+                          = ff.object.product.description
+                      span class="ml-2 flex-none flex flex-col justify-center"
+                        span = cur ff.object.product.price
 
-          h4 = t('.products')
-          ul.products
-            = f.fields_for :items, items do |ff|
-              li
-                = ff.hidden_field :product_id
+                    = ff.input :quantity, as: :numeric, input_html: { min: 0, step: 1, data: { price: ff.object.product.price, amount_updater_target: 'item', action: 'amount-updater#updateAmount' }, class: "ml-2 w-20 dark:bg-black px-4 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }, label: false
 
-                .product
-                  = ff.label :quantity do
-                    span.title = ff.object.product.name
-                    span.price = cur ff.object.product.price
-                    = ff.object.product.description
+      div class="mb-6 mt-1 pr-2 border-t border-gray-900" style='display:none;' data-amount-updater-target='amountWrapper'
+        p class="w-full mt-1 mr-20 text-right font-medium text-gray-900 dark:text-gray-100" data-amount-updater-target='amount'
+          = t('.order_amount', amount: cur(@order.amount))
 
-                  .input.quantity
-                    = ff.number_field :quantity, min: 0, step: 1, data: { price: ff.object.product.price, amount_updater_target: 'item', action: 'amount-updater#updateAmount' }
+      - if Current.acp.group_buying_terms_of_service_url
+        = f.input :terms_of_service, as: :boolean, label: "<span class='flex-grow font-normal'>#{t('.terms_of_service', terms_url: Current.acp.group_buying_terms_of_service_url)}</span>".html_safe, input_html: { class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, label_html: { class: 'text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer' }, wrapper_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-4'
 
-        #amount-wrapper style='display:none;' data-amount-updater-target='amountWrapper'
-          p#amount data-amount-updater-target='amount' = t('.order_amount', amount: cur(@order.amount))
-
-        - if Current.acp.group_buying_terms_of_service_url
-          .pretty_check_boxes
-            label
-              = f.check_box :terms_of_service, required: true
-              span.checkmark
-              span.label = t('.terms_of_service', terms_url: Current.acp.group_buying_terms_of_service_url).html_safe
-
-        .input.submit
-          = f.submit t('.form_submit'), id: 'order-button'
+      div class='mt-4 text-right'
+        = f.button :submit, t('.form_submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'

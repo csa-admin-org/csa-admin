@@ -1,0 +1,46 @@
+/* The good stuff */
+:root {
+  --gray-100: rgba(243, 244, 246, 1);
+  --gray-300: rgba(209, 213, 219, 1);
+  --gray-500: rgba(107, 114, 128, 1);
+  --gray-900: rgba(17, 24, 39, 1);
+}
+
+.tooltip-toggle {
+  cursor: pointer;
+  position: relative;
+  margin-left: 2px;
+}
+/* Tooltip text container */
+.tooltip-toggle::before {
+  position: absolute;
+  bottom: 20px;
+  left: -100px;
+  background-color: var(--gray-900);
+  border-radius: 5px;
+  color: white;
+  /* This pulls in the text from the element with the tooltip */
+  content: attr(data-tooltip);
+  padding: 8px 16px;
+  text-transform: none;
+  transition: all 0.5s ease;
+  width: 250px;
+}
+
+/* Setting up the transition */
+.tooltip-toggle::after,
+.tooltip-toggle::before {
+  color: white;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Triggering the transition */
+.tooltip-toggle:hover::after,
+.tooltip-toggle:hover::before {
+  opacity: 1;
+  transition: all 0.75s ease;
+}

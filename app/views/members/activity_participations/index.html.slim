@@ -1,116 +1,60 @@
-h1 = activities_human_name
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = activities_human_name
 
-section
-  h2 = t_activity('.coming_activity_participations')
-  - @coming_participations = current_member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc))
-  - if @coming_participations.empty?
-    p.empty = t('.no_coming_activity_participations')
-  - else
-    ul.activities
-      - @coming_participations.each do |participation|
-        li
-          span.date_and_period
-            span.date = l(participation.activity.date, format: :medium).capitalize
-            span.period = participation.activity.period
-          span.icons
-            span.participant_count title=t('activities.participant_count', count: participation.participants_count)
-              span.text
-                = participation.participants_count
-              span.icon
-                = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
-            - if participation.carpooling?
-              span.carpooling title="#{t('.carpooling')}: #{participation.carpooling_phone.phony_formatted}"
-                span.icon = inline_svg_pack_tag 'media/images/members/carpooling.svg', size: '22px'
-            - else
-              span.carpooling
-          span.action
-            - if participation.destroyable?
-              == button_to t('.cancel_link'), [:members, participation], method: :delete, class: 'cancel'
-            - else
-              span.hidden_action = link_to t('.cancel_link'), '#', class: 'cancel'
-          span.activity
-            == display_activity(participation.activity, description: true)
-            = ', '
-            == display_place(participation.activity)
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.activity_participation_form_title')
+-
+- if @activities.empty?
+  p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+    = t_activity('.no_activities')
+- else
+  .activities-form data-controller="calendar" data-calendar-dates-value="#{@activities.map(&:date).uniq.as_json}" data-calendar-default-date-value="#{@activity_participation.date}"
+    = simple_form_for @activity_participation, url: [:members, @activity_participation] do |f|
+      div class='mt-2 mb-6'
+        div.calendar-wrapper class=''
+          #calendar.calendar data-calendar-target="calendar"
+
+      div class='space-y-6'
+        = f.input :activity_id, as: :radio_buttons, collection: activities_collection(@activities, data: { calendar_target: 'input' }), required: true, label: t('.activity_label'), wrapper_html: { data: { form_disabler_target: 'label' } }, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', item_wrapper_class: 'hidden', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }
+
+        = f.input :participants_count, as: :numeric, required: true, label:  t('.participants_count_label'), input_html: { step: 1, min: 1, class: 'mt-1 dark:bg-black w-16 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, label_html: { class: 'inline-block w-full text-sm font-medium text-gray-700 dark:text-gray-300' }
+
+        div data-controller="form-checkbox-toggler"
+          legend class="text-sm font-medium text-gray-700 dark:text-gray-300 "
+            div class="flex flex-row flex-nowrap"
+              span = t('.carpooling')
+              span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
+                = inline_svg_tag 'members/info_circle.svg'
+
+          = f.input :carpooling, as: :boolean, label: t('.carpooling_checkbox'), input_html: { data: { form_checkbox_toggler_target: 'checkbox', action: "form-checkbox-toggler#toggleInput" },class: 'mr-2 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, label_html: { class: 'text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer' }, wrapper_class: 'mt-4 mb-2'
+
+          = f.input :carpooling_phone, label: false, input_html: { placeholder: t('.carpooling_phone'), data: { form_checkbox_toggler_target: 'input' }, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+          = f.input :carpooling_city, label: false, input_html: { placeholder: t('.carpooling_city'), data: { form_checkbox_toggler_target: 'input' }, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+
+        div class='text-right'
+          = f.button :submit, t('.activity_form_submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
+
+- @coming_participations = current_member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc))
+- if @coming_participations.any?
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t_activity('.coming_activity_participations')
+  ul#coming_participations class="mt-2 space-y-4"
+    - @coming_participations.each do |participation|
+      li class="flex flex-col md:flex-row md:justify-between md:items-center flex-wrap md:flex-nowrap rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-2 px-2 -mx-2"
+        = render participation
 
     - if @coming_participations.any? { |p| !p.destroyable? }
-      p.info == t_activity('.coming_activity_participation_cannot_be_cancel_explanation', days_count: Current.acp.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
+      p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+        == t_activity('.coming_activity_participation_cannot_be_cancel_explanation', days_count: Current.acp.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
 
-section
-  h2 = t('.activity_participation_form_title')
-  - @activities = Activity.available_for(current_member)
-  - if @activities.empty?
-    p.empty = t_activity('.no_activities')
-  - else
-    - @activity_participation ||= ActivityParticipation.new(activity: @activities.first, carpooling_phone: current_member.phones_array.first, carpooling_city: current_member.city)
-    .activities-form data-controller="calendar" data-calendar-dates-value="#{@activities.map(&:date).uniq.as_json}" data-calendar-default-date-value="#{@activity_participation.date}"
-      = form_for [:members, @activity_participation] do |f|
-        #calendar.calendar data-calendar-target="calendar"
-        .input
-          label = t('.activity_label')
-          label.label-error= @activity_participation.errors[:activity].first
-          .activities.pretty_check_boxes
-            = f.collection_check_boxes(:activity_ids, @activities, :id, :period) do |b|
-              = b.label do
-                = b.check_box data: { calendar_target: 'input', date: b.object.date.to_s }
-                span.checkmark
-                span.label
-                  = activity_label(b.object).html_safe
-                  span.participant_count title=t('activities.participant_count', count: b.object.participants_count)
-                    span.text
-                      = ', '
-                      = b.object.participants_count
-                      = '/'
-                      = b.object.participants_limit || '∞'
-                    span.icon
-                      = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
-        .input
-          label = t('.participants_count_label')
-          - if @activity_participation.errors[:participants_count].any?
-            ul.error_explanation
-              - @activity_participation.errors[:participants_count].each do |msg|
-                li = msg
-          = f.number_field :participants_count, step: 1, min: 1, class: 'participants_count', required: true
-        .input.carpooling data-controller="form-checkbox-toggler"
-          label.title
-            = t('.carpooling')
-            span.tooltip-toggle onclick="" data-tooltip=t('.carpooling_tooltip')
-              = inline_svg_pack_tag 'media/images/members/info_circle.svg', size: '16px'
-          div.pretty_check_boxes
-            label.carpooling
-              = f.check_box :carpooling, data: { action: "form-checkbox-toggler#toggleInput" }
-              span.checkmark
-              span.label = t('.carpooling_checkbox')
-          label.carpooling
-            = f.phone_field :carpooling_phone, placeholder: t('.carpooling_phone'), data: { form_checkbox_toggler_target: 'input' }
-          label.carpooling
-            = f.text_field :carpooling_city, placeholder: t('.carpooling_city'), data: { form_checkbox_toggler_target: 'input' }
-        .input
-          = f.submit t('.activity_form_submit'), id: 'subscribe-button'
-
-section
-  h2 = t_activity('.past_activity_participations')
-  - @past_participations = current_member.activity_participations.past_current_year.includes(:activity).merge(Activity.ordered(:desc))
-  - if @past_participations.empty?
-    p.empty = t('.no_past_activity_participations')
-  - else
-    ul.activities
-      - @past_participations.each do |participation|
-        li class="#{participation.rejected? ? 'rejected' : ''}"
-          span.date_and_period
-            span.date = l(participation.activity.date, format: :medium).capitalize
-            span.period = participation.activity.period
-          span.icons.one
-            span.participant_count title=t('activities.participant_count', count: participation.participants_count)
-              span.text
-                = participation.participants_count
-              span.icon
-                = inline_svg_pack_tag 'media/images/members/participant.svg', size: '16px'
-          - if participation.state.in? %w[validated rejected]
-            span.action
-              span class=participation.state
-                == participation.state_i18n_name
-          span.activity
-            == display_activity(participation.activity, description: true)
-            = ', '
-            == display_place(participation.activity)
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t_activity('.past_activity_participations')
+- @past_participations = current_member.activity_participations.past_current_year.includes(:activity).merge(Activity.ordered(:desc))
+- if @past_participations.empty?
+  p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+    = t('.no_past_activity_participations')
+- else
+  ul class="mt-2 space-y-4"
+    - @past_participations.each do |participation|
+      li class="flex flex-col md:flex-row md:justify-between md:items-center flex-wrap md:flex-nowrap rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-2 px-2 -mx-2 #{'text-gray-300 dark:text-gray-700' if participation.rejected?}"
+        = render participation

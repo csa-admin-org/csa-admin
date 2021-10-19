@@ -13,36 +13,14 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    check "activity_participation_activity_ids_#{activity.id}"
+    choose "activity_participation_activity_id_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ul.activities') do
+    within('ul#coming_participations') do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
       expect(page).to have_content activity.period
-      expect(page).not_to have_selector('span.carpooling svg')
-    end
-    expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
-  end
-
-  it 'adds many new participations' do
-    activity1 = create(:activity, date: 4.days.from_now, start_time: '8:00', end_time: '9:00')
-    activity2 = create(:activity, date: 4.days.from_now, start_time: '9:00', end_time: '10:00')
-
-    visit '/activity_participations'
-
-    check "activity_participation_activity_ids_#{activity1.id}"
-    check "activity_participation_activity_ids_#{activity2.id}"
-    fill_in 'activity_participation_participants_count', with: 3
-    click_button 'Inscription'
-
-    expect(page).to have_content('Merci pour votre inscription!')
-    within('ul.activities') do
-      expect(page).to have_content I18n.l(activity1.date, format: :medium).capitalize
-      expect(page).to have_content activity1.period
-      expect(page).to have_content I18n.l(activity2.date, format: :medium).capitalize
-      expect(page).to have_content activity2.period
       expect(page).not_to have_selector('span.carpooling svg')
     end
     expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
@@ -53,7 +31,7 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    check "activity_participation_activity_ids_#{activity.id}"
+    choose "activity_participation_activity_id_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     check 'activity_participation_carpooling'
     fill_in 'activity_participation_carpooling_phone', with: '077 447 58 31'
@@ -61,8 +39,8 @@ describe 'Activity Participation' do
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ul.activities') do
-      expect(page).to have_selector('span.carpooling svg')
+    within('ul#coming_participations') do
+      expect(page).to have_selector('span[title="Covoiturage: 077 447 58 31"] svg')
     end
     expect(ActivityParticipation.last).to have_attributes(
       carpooling_phone: '+41774475831',
@@ -70,19 +48,20 @@ describe 'Activity Participation' do
   end
 
   it 'adds new participation with carpooling (default phone)' do
+    member.update(phones: '+41771234567')
     activity = create(:activity, date: 4.days.from_now)
 
     visit '/activity_participations'
 
-    check "activity_participation_activity_ids_#{activity.id}"
+    choose "activity_participation_activity_id_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     check 'activity_participation_carpooling'
 
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
-    within('ul.activities') do
-      expect(page).to have_selector('span.carpooling svg')
+    within('ul#coming_participations') do
+      expect(page).to have_selector('span[title="Covoiturage: 077 123 45 67"] svg')
     end
   end
 
@@ -91,14 +70,13 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    within('ul.activities') do
+    within('ul#coming_participations') do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
       expect(page).to have_content activity.period
     end
 
     click_button 'annuler', match: :first
 
-    expect(page).to have_content("Aucune, merci de vous inscrire à l'aide du formulaire ci-dessous.")
     expect(page).not_to have_content "Pour des raisons d'organisation,"
   end
 
@@ -114,10 +92,10 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    within('ul.activities') do
+    within('ul#coming_participations') do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
       expect(page).to have_content activity.period
-      expect(page).to have_selector('span.action span.hidden_action')
+      expect(page).not_to have_content 'annuler'
     end
     expect(page).to have_content "Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de 30 jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous contacter."
   end

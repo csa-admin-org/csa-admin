@@ -374,6 +374,12 @@ ActiveAdmin.register Member do
     f.inputs Member.human_attribute_name(:contact) do
       f.input :emails, as: :string
       f.input :phones, as: :string
+      if Current.acp.languages.many?
+        f.input :language,
+          as: :select,
+          collection: ACP.languages.map { |l| [t("languages.#{l}"), l] },
+          prompt: true
+      end
       if Current.acp.feature?('contact_sharing')
         f.input :contact_sharing
       end

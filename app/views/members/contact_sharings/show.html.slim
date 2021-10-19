@@ -1,31 +1,46 @@
-h1 = Member.human_attribute_name(:contact_sharing)
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = Member.human_attribute_name(:contact_sharing)
 
-h2
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = Depot.model_name.human
   = ': '
   = @depot.name
 
-section.contact_sharing
+section
   - if current_member.errors.none? && current_member.contact_sharing?
-    p = t('.description')
+    p class="mt-2"
+      p = t('.description')
     - if @members.empty?
-      p.empty = t('.nobody_sharing_contact')
+      p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+        = t('.nobody_sharing_contact')
     - else
-      ul.contacts
+      ul#members class='mt-2 w-full flex flex-row flex-wrap'
         - @members.each do |member|
-          li
-            ul.member
-              li.name = member.name
-              li = display_phones(member)
-              li = display_address(member, country: false)
+          li class='w-full md:w-1/2 my-2'
+            ul class="md:mr-4 -mx-2 relative p-2 space-y-1"
+              li class='flex flex-row items-center'
+                = inline_svg_tag 'members/user_circle.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+                span class='ml-2'
+                  = member.name
+              li class='flex flex-row items-center'
+                = inline_svg_tag 'members/phone.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+                span class='ml-2'
+                  = display_phones(member)
+              li class='flex flex-row items-center'
+                = inline_svg_tag 'members/map.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+                span class='ml-2'
+                  = display_address(member, country: false)
 
-    p.info = t('.cancel_sharing_html', email: Current.acp.email)
+    p class='mt-4 text-sm text-justify text-gray-400 dark:text-gray-600'
+      = t('.cancel_sharing_html', email: Current.acp.email)
   - else
-    p = t('.explanation')
+    p class="mt-2"
+      = t('.explanation')
 
-    = semantic_form_for current_member, url: members_contact_sharing_path, method: :post do |f|
-      = f.inputs do
+    = simple_form_for current_member, url: members_contact_sharing_path, method: :post do |f|
+      div class="mt-4"
         = f.input :contact_sharing, as: :hidden, input_html: { value: true }
-        = f.input :terms_of_service, as: :pretty_boolean, label: t('.terms_of_service')
-      .input.submit
-        = f.submit t('.submit')
+        = f.input :terms_of_service, as: :boolean, label: t('.terms_of_service'), input_html: { class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, label_html: { class: 'text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer' }, wrapper_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-4'
+
+      div class='mt-2 text-right'
+        = f.submit t('.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'

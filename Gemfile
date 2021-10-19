@@ -29,6 +29,7 @@ gem 'invisible_captcha'
 gem 'ransack'
 gem 'formtastic', '~> 4.0'
 
+gem 'simple_form'
 gem 'inline_svg'
 gem 'slim'
 
@@ -36,7 +37,7 @@ gem 'webpacker'
 
 gem 'importmap-rails'
 gem 'hotwire-rails'
-gem 'sassc-rails'
+gem 'tailwindcss-rails'
 
 gem 'sidekiq'
 gem 'sidekiq-scheduler'

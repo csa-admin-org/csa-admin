@@ -1,16 +1,28 @@
-ul.basket class="#{'absent' if basket.absent?}"
-  - if basket.absent?
-    span.absent = Basket.human_attribute_name(:absent)
-  li.date = l(basket.delivery.date, format: :medium_long).titleize
-  li
-    = h "#{Basket.model_name.human}: #{basket_size_description(basket)}"
-    - if basket.trial?
-      span.trial = Basket.human_attribute_name(:trial)
-  - complements = basket.baskets_basket_complements
-  - if complements.any?
-    li = h "#{BasketsBasketComplement.model_name.human(count: complements.size)}: #{basket_complements_description(complements)}"
-  li
-    - depot = basket.depot
-    = h "#{Depot.model_name.human}: #{depot.name}"
-    - if depot.full_address
-      == map_icon(depot.full_address)
+ul class="my-2 md:mr-4 -mx-2 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{'text-gray-300 dark:text-gray-700' if basket.absent?} #{'bg-gray-200 dark:bg-gray-800' if basket == @next_basket}"
+  li class='flex flex-row items-center'
+    = inline_svg_tag 'members/calendar.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2'
+      = l(basket.delivery.date, format: :medium_long).titleize
+
+  li class='mt-1 flex flex-row items-center'
+    = inline_svg_tag 'members/basket.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2'
+      p
+        = h basket_description(basket)
+        - if basket.trial?
+          span class='ml-2 px-2 border border-blue-300 dark:border-blue-700 bg-blue-300 dark:bg-blue-700 text-blue-600 dark:text-blue-400 font-medium rounded-full text-sm'
+            = Basket.human_attribute_name(:trial)
+        - if basket.absent?
+          span class='ml-2 px-2 border border-gray-300 dark:border-gray-700 bg-gray-300 dark:bg-gray-700 text-gray-500 font-medium rounded-full text-sm'
+            = Basket.human_attribute_name(:absent)
+
+  li class='mt-1 flex flex-row items-center'
+    = inline_svg_tag 'members/map.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+    span class='ml-2'
+      - depot = basket.depot
+      - if depot.full_address
+        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
+          = h depot.name
+      - else
+        = h depot.name
+

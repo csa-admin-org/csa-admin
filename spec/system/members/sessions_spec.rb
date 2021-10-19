@@ -10,7 +10,7 @@ describe 'Member sessions' do
     expect(current_path).to eq '/login'
     expect(page).to have_content 'Merci de vous authentifier pour accéder à votre compte.'
 
-    fill_in 'Votre email', with: 'thibaud@thibaud.gg'
+    fill_in 'session_email', with: 'thibaud@thibaud.gg'
     click_button 'Envoyer'
 
     session = member.sessions.last
@@ -46,39 +46,39 @@ describe 'Member sessions' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Votre email', with: ''
+    fill_in 'session_email', with: ''
     click_button 'Envoyer'
 
     expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
-    expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
+    expect(page).to have_selector('span.error', text: "n'est pas valide")
   end
 
   it 'does not accept invalid email' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Votre email', with: 'foo@bar'
+    fill_in 'session_email', with: 'foo@bar'
     click_button 'Envoyer'
 
     expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
-    expect(page).to have_selector('p.inline-errors', text: "n'est pas valide")
+    expect(page).to have_selector('span.error', text: "n'est pas valide")
   end
 
   it 'does not accept email with invalid character' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Votre email', with: 'foo@bar.com)'
+    fill_in 'session_email', with: 'foo@bar.com)'
     click_button 'Envoyer'
 
     expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq '/sessions'
-    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
+    expect(page).to have_selector('span.error', text: "Email inconnu")
   end
 
   it 'does not accept partial email matching other' do
@@ -87,26 +87,26 @@ describe 'Member sessions' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Votre email', with: 'hn@doe.com'
+    fill_in 'session_email', with: 'hn@doe.com'
     click_button 'Envoyer'
 
     expect(SessionMailer.deliveries).to be_empty
 
     expect(current_path).to eq '/sessions'
-    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
+    expect(page).to have_selector('span.error', text: "Email inconnu")
   end
 
   it 'does not accept unknown email' do
     visit '/'
     expect(current_path).to eq '/login'
 
-    fill_in 'Votre email', with: 'unknown@member.com'
+    fill_in 'session_email', with: 'unknown@member.com'
     click_button 'Envoyer'
 
     expect(SessionMailer.deliveries).to be_empty
 
     expect(current_path).to eq '/sessions'
-    expect(page).to have_selector('p.inline-errors', text: "Email inconnu")
+    expect(page).to have_selector('span.error', text: "Email inconnu")
   end
 
   it 'does not accept old session when not logged in' do

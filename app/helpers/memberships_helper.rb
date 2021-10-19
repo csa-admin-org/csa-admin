@@ -1,4 +1,12 @@
 module MembershipsHelper
+  def basket_description(basket, text_only: false)
+    parts = [basket_size_description(basket, text_only: text_only)]
+    if basket.baskets_basket_complements.any?
+      parts << basket_complements_description(basket.baskets_basket_complements, text_only: text_only)
+    end
+    parts.join(', ')
+  end
+
   def membership_short_period(membership)
     %i[started_on ended_on].map { |d|
       I18n.l(membership.send(d), format: :number)

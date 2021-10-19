@@ -1,20 +1,25 @@
-h1 = Membership.model_name.human
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = Membership.model_name.human
 
 = render @membership
 
 - if @membership.renewal_opened?
-  #renewal
-    h2 = t('.renewal.title')
-    = semantic_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f|
-      ul
-        li
-          p.justify = Current.acp.open_renewal_text
+  #renewal class='focus:outline-none'
+    h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+      = t('.renewal.title')
 
-        = f.input :renewal_decision, as: :pretty_radio, collection: renewal_decisions_collection, required: false, label: t('.renewal.options_label')
+    p class='mt-2 justify'
+      = Current.acp.open_renewal_text
+    = simple_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f|
+      div class='mt-6'
+        = f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t('.renewal.options_label'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2'
 
-        li.input.next
-          = f.submit t('.renewal.submit'), data: { disable_with: false }
+      div class='mt-2 text-right'
+        = f.submit t('.renewal.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
+
 - elsif @membership.renewed?
   = render @membership.renewed_membership
+
 - elsif @membership.canceled? && @membership.current?
-  p.justify.canceled = t('.renewal.canceled', last_delivery_date: l(@membership.deliveries.last.date)).html_safe
+  p class='mt-8 justify italic'
+    = t('.renewal.canceled', last_delivery_date: l(@membership.deliveries.last.date)).html_safe

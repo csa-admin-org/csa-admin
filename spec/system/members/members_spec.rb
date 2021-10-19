@@ -18,28 +18,28 @@ describe 'members page' do
       create(:basket_complement, name: 'Oeufs', price: 4.8, deliveries_count: 40)
       create(:basket_complement, name: 'Pain', price: 6.5, deliveries_count: 20)
 
-      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7')
-      create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel')
+      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil)
+      create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil)
       create(:depot, name: 'Domicile', visible: false)
 
       visit '/new'
 
-      expect(page).to have_selector('span.label',
-        text: "AbondanceCHF 1'330(33.25 x 40 livraisons, 2 ½ journées)")
-      expect(page).to have_selector('span.label',
-        text: "EveilCHF 925(~23.15 x 40 livraisons, 2 ½ journées)")
-      expect(page).to have_selector('span.label',
-        text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
+      expect(page).to have_selector('span',
+        text: "AbondanceCHF 1'330 (33.25 x 40 livraisons), 2 ½ journées")
+      expect(page).to have_selector('span',
+        text: "EveilCHF 925 (~23.15 x 40 livraisons), 2 ½ journées")
+      expect(page).to have_selector('span',
+        text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector('label',
-        text: "OeufsCHF 192(4.80 x 40 livraisons)")
+        text: "OeufsCHF 192 (4.80 x 40 livraisons)")
       expect(page).to have_selector('label',
-        text: "PainCHF 260(6.50 x 40 livraisons)")
+        text: "PainCHF 260 (6.50 x 40 livraisons)")
 
-      expect(page).to have_selector('span.label',
-        text: "Jardin de la main(Rue de la main 6-7,")
-      expect(page).to have_selector('span.label',
-        text: "VéloCHF 320(8.-/livraison")
+      expect(page).to have_selector('span',
+        text: "Jardin de la mainRue de la main 6-7")
+      expect(page).to have_selector('span',
+        text: "VéloCHF 320 (8.-/livraison), Uniquement à Neuchâtel")
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
@@ -97,24 +97,24 @@ describe 'members page' do
       create(:basket_size, :small)
       create(:basket_size, :big)
 
-      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7')
-      create(:depot, name: 'Vélo', price: 8)
-      create(:depot, name: 'La Chaux-de-Fonds', price: 4)
-      create(:depot, name: 'Neuchâtel', price: 4)
+      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil)
+      create(:depot, name: 'Vélo', price: 8, zip: nil)
+      create(:depot, name: 'La Chaux-de-Fonds', price: 4, zip: nil)
+      create(:depot, name: 'Neuchâtel', price: 4, zip: nil)
 
       visit '/new'
 
-      expect(page).to have_selector('legend label',
-        text: "Dépôt*")
-      expect(page).to have_selector('span.label',
-        text: "Jardin de la main(Rue de la main 6-7,")
-      expect(page).to have_selector('span.label',
-        text: "VéloCHF 320(8.-/livraison")
-      expect(page).to have_selector('span.label',
-        text: "NeuchâtelCHF 160(4.-/livraison")
-      expect(page).to have_selector('span.label',
-        text: "La Chaux-de-FondsCHF 160(4.-/livraison")
-      expect(page).to have_selector('legend label',
+      expect(page).to have_selector('label',
+          text: "Dépôt *")
+      expect(page).to have_selector('span',
+        text: "Jardin de la mainRue de la main 6-7")
+      expect(page).to have_selector('span',
+        text: "VéloCHF 320 (8.-/livraison)")
+      expect(page).to have_selector('span',
+        text: "NeuchâtelCHF 160 (4.-/livraison)")
+      expect(page).to have_selector('span',
+        text: "La Chaux-de-FondsCHF 160 (4.-/livraison)")
+      expect(page).to have_selector('label',
         text: "Dépôt(s) alternatifs(s)")
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
@@ -128,11 +128,11 @@ describe 'members page' do
 
       choose 'Eveil'
 
-      within '#member_waiting_depot_input' do
+      within '.member_waiting_depot_id' do
         choose 'Neuchâtel'
       end
 
-      within '#member_waiting_alternative_depot_ids_input' do
+      within '.member_waiting_alternative_depot_ids' do
         check 'Jardin de la main'
         check 'Vélo'
       end
@@ -280,7 +280,7 @@ describe 'members page' do
 
       visit '/new'
 
-      depots = all('#member_waiting_depot_input span.label').map(&:text)
+      depots = all('.member_waiting_depot_id span label').map(&:text)
       expect(depots).to match([
         a_string_matching('Jardin de la main'),
         a_string_matching('Vélo'),
@@ -320,9 +320,9 @@ describe 'members page' do
 
       visit '/new'
 
-      expect(page).not_to have_selector('span.label',
+      expect(page).not_to have_selector('span',
         text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
-      expect(page).not_to have_selector('span.label',
+      expect(page).not_to have_selector('span',
         text: "Aucun, devenir membre de soutien")
     end
   end
