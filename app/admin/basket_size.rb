@@ -8,7 +8,7 @@ ActiveAdmin.register BasketSize do
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) {
       if bs.price.positive?
-        deliveries_based_price_info(bs.price) + " (#{deliveries_count})"
+        deliveries_based_price_info(bs.price).to_s + " (#{deliveries_count})"
       end
     }
     if Current.acp.feature?('activity')
