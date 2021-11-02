@@ -24,7 +24,7 @@ module DashboardHelper
   def memberships_link_and_count(state, prefix: '&nbsp;&nbsp;- ')
     {
       status: prefix.html_safe + link_to(
-        I18n.t("states.member.memberships.#{state}").capitalize,
+        I18n.t("states.member.memberships.#{state}"),
         memberships_path(scope: state)),
       count: Membership.send(state).count
     }

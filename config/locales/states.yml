@@ -66,11 +66,11 @@ _:
         _it: inattivo
       memberships:
         future:
-          _de: künftiges Abonnement
+          _de: Künftiges Abonnement
           _fr: Abonnement futur
           _it: Abbonamento futuro
         ongoing:
-          _de: laufendes Abonnement
+          _de: Laufendes Abonnement
           _fr: Abonnement en cours
           _it: Abbonamento in corso
         trial:
