@@ -246,8 +246,8 @@ class Member < ActiveRecord::Base
     @invoices_amount ||= invoices.not_canceled.sum(:amount)
   end
 
-  def sent_invoices_amount
-    @sent_invoices_amount ||= invoices.sent.not_canceled.sum(:amount)
+  def visible_invoices_amount
+    @public_invoices_amount ||= invoices.visible.not_canceled.sum(:amount)
   end
 
   def payments_amount
@@ -259,7 +259,7 @@ class Member < ActiveRecord::Base
   end
 
   def member_balance_amount
-    payments_amount - sent_invoices_amount
+    payments_amount - visible_invoices_amount
   end
 
   def credit_amount
