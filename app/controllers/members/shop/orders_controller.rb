@@ -15,7 +15,8 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
     respond_to do |format|
       if order.update(order_params)
         if order.items.empty?
-          redirect_to members_shop_path
+          format.html { redirect_to members_shop_path }
+          format.turbo_stream { redirect_to members_shop_path }
         else
           format.html { redirect_to members_shop_order_path }
           format.turbo_stream
