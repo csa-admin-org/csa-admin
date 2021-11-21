@@ -1,0 +1,1 @@
+InvalidTransitionError = Class.new(StandardError)

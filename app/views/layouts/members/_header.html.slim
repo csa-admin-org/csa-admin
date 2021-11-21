@@ -12,7 +12,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
       = link_to '#nomenu', data: { action: "click->menu#hide" }, class: 'inline-block' do
         = inline_svg_tag 'members/close.svg', title: 'Hide Menu', class: 'h-12 w-12'
 
-    div class='flex-grow h-full flex flex-col justify-between'
+    div class='mr-8 flex-grow h-full flex flex-col justify-between'
       - membership = current_member.current_or_future_membership
       ul class='flex-grow'
 
@@ -22,6 +22,14 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
               h2 class='font-medium text-gray-700 dark:text-gray-400'
                 = Delivery.model_name.human(count: 2)
               span = t('.next_delivery', date: l(next_basket.delivery.date))
+
+          - if Current.acp.feature_flag?('shop') && next_shop_delivery
+            li class=nav_class('shop')
+              = link_to members_shop_path, class: 'block py-2 px-8' do
+                h2 class='font-medium text-gray-700 dark:text-gray-400'
+                  = t('activerecord.models.shop.one')
+                span
+                  = t('.next_delivery', date: l(next_shop_delivery.date))
 
         - if membership
           li class=nav_class('membership')

@@ -1,0 +1,5 @@
+= turbo_stream.update 'cart' do
+  = render partial: 'members/shop/orders/cart'
+
+= turbo_stream.update "product_variant_#{@item.product_variant_id}" do
+  = render partial: 'members/shop/products/variant', object: @item.product_variant

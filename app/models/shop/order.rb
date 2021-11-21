@@ -9,7 +9,10 @@ module Shop
 
     belongs_to :member, optional: false
     belongs_to :delivery, optional: false
-    has_many :items, class_name: 'Shop::OrderItem', inverse_of: :order, dependent: :destroy
+    has_many :items,
+      class_name: 'Shop::OrderItem',
+      inverse_of: :order,
+      dependent: :destroy
     has_many :invoices, as: :object
     has_one :invoice, -> { not_canceled }, as: :object
 
@@ -17,11 +20,11 @@ module Shop
 
     before_validation :set_amount
 
-    validates :items, presence: true
+    validates :items, presence: true, unless: :cart?
     validates :member_id, uniqueness: { scope: :delivery_id }
     validate :unique_items
-    validate :ensure_maximum_weight_limit
-    validate :ensure_minimal_amount
+    validate :ensure_maximum_weight_limit, unless: :cart?
+    validate :ensure_minimal_amount, unless: :cart?
 
     accepts_nested_attributes_for :items,
       reject_if: ->(attrs) { attrs[:quantity].to_i.zero? },
@@ -39,6 +42,10 @@ module Shop
       items.sum(&:weight_in_kg)
     end
 
+    def can_member_update?
+      delivery.shop_open?
+    end
+
     def can_update?
       cart? || pending?
     end
@@ -53,6 +60,25 @@ module Shop
 
     def can_cancel?
       invoiced?
+    end
+
+    def confirm!
+      invalid_transition(:confirm!) unless cart?
+
+      transaction do
+        items.each(&:validate!)
+        update!(state: PENDING_STATE)
+        items.each(&:save!) # update stocks
+      end
+    end
+
+    def unconfirm!
+      invalid_transition(:confirm!) unless pending?
+
+      transaction do
+        update!(state: CART_STATE)
+        items.each { |i| i.save!(validate: false) } # update stocks
+      end
     end
 
     def invoice!

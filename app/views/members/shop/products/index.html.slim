@@ -1,0 +1,54 @@
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('activerecord.models.shop.one')
+
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.delivery', date: l(delivery.date, format: :long))
+
+- if delivery.shop_open?
+  p class="mt-2"
+    = t('.closing_at_html', date: l(delivery.shop_closing_at, format: :long))
+
+  div class="mt-6 h-12 w-full"
+    div data-controller='sticky' data-sticky-target='container' data-sticky-offset-value="114" data-sticky-desktop-offset-value="178" data-sticky-sticky-class="fixed top-4 md:-ml-10 inset-x-4 md:inset-x-1/2" data-action='scroll@window->sticky#update resize@window->sticky#update'
+      div class="-mx-4 md:-mx-0 px-4 md:px-0 bg-white md:bg-transparent"
+        div class="shadow-md mx-0 md:mx-auto w-full md:w-96 flex flex-col border dark:border-gray-700 rounded bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-600"
+          = turbo_frame_tag 'cart' do
+            = render partial: 'members/shop/orders/cart'
+
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.available_product')
+
+  - if available_producers.any?
+    div class='mt-2' data-controller='form-submitter'
+      = form_tag members_shop_path, method: :get, data: { form_submitter_target: 'form' } do
+        - if params[:tag_id].present?
+          = hidden_field_tag :tag_id, params[:tag_id]
+        = select_tag :producer_id, options_from_collection_for_select(available_producers, :id, :name, params[:producer_id]), include_blank: t('.all_producers'), class: "mt-1 dark:bg-black w-full md:w-auto text-sm px-3 md:pl-3 md:pr-16 py-1 border rounded-full focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 #{params[:producer_id].present? ? 'text-gray-600 bg-green-400 dark:bg-green-600 dark:text-gray-300 border-green-400 dark:border-green-600' : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'}", data: { action: "form-submitter#submit" }
+
+  - if available_tags.any?
+    ul class='mt-2 flex items-center space-x-2'
+      - available_tags.each do |tag|
+        li = render partial: 'members/shop/products/tag', object: tag
+
+  - if params[:producer_id].present?
+    - producer = Shop::Producer.find(params[:producer_id])
+    div class='mt-2 text-sm border dark:border-gray-700 rounded p-4 space-y-2'
+      - if producer.description?
+        div
+          == producer.description
+      - if producer.website_url?
+        = link_to producer.website_url, producer.website_url, target: :blank, class: "text-sm flex flex-row items-center"
+
+  div class='mt-8 space-y-8'
+    = render partial: 'members/shop/products/product', collection: available_products
+
+- else
+  p class="mt-2"
+    = t('.closed_at_html', date: l(delivery.shop_closing_at, format: :long))
+
+  - if next_delivery
+    p class="mt-4"
+      = t('members.shop.products.index.next_delivery_html',
+        date: l(next_delivery.date, format: :long),
+        start_date: l(delivery.date + 1.day, format: :long),
+        end_date: l(next_delivery.shop_closing_at, format: :long))

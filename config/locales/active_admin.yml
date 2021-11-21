@@ -292,7 +292,7 @@ _:
         _fr: Autre
         _it: Altro
       shop:
-        _de: Lebensmittel
+        _de: Lebensmittelgeschäft
         _fr: Épicerie
         _it: Drogheria
     new_model:
@@ -521,7 +521,7 @@ _:
           _fr: Paramètres
           _it: Parametri
         shop:
-          _de: Lebensmittel
+          _de: Lebensmittelgeschäft
           _fr: Épicerie
           _it: Drogheria
         submit:
@@ -1199,6 +1199,22 @@ _:
         _de: Resultate der Suche
         _fr: Résultats de la recherche
         _it: Risultati della ricerca
+      shop_closed_html:
+        _de: Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
+        _fr: Les commandes pour la livraison du <u>%{date}</u> sont terminées.
+        _it: Gli ordini per la consegna il <u>%{date}</u> sono completi.
+      shop_not_open_yet_html:
+        _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind abgeschlossen.
+        _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possible.
+        _it: Gli ordini con consegna il <u>%{date}</u> non sono ancora possibili.
+      shop_open_until_html:
+        _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
+        _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
+        _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai membri fino al <u>%{end_date}</u>.
+      shop_status:
+        _de: Status Lebensmittelgeschäft
+        _fr: Statut épicerie
+        _it: Stato della drogheria
       total:
         _de: Gesamt
         _fr: Total

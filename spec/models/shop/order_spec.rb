@@ -40,7 +40,7 @@ describe Shop::Order do
 
       expect(order).not_to have_valid(:base)
       expect(order.errors.messages[:base])
-        .to include('Le poids total de la commande ne peut pas dépasser 10 kg')
+        .to include('Le poids total de la commande ne peut pas dépasser 10.0 kg')
     end
 
     specify 'is valid when equal to the maximum weight limit' do
@@ -137,6 +137,7 @@ describe Shop::Order do
       expect(order).to have_valid(:base)
     end
   end
+
   specify 'update amount when removing item' do
     product = create(:shop_product, variants_attributes: {
       '0' => {
@@ -178,6 +179,29 @@ describe Shop::Order do
         }
       })
     }.to change { order.reload.amount }.from(46).to(16)
+  end
+
+  describe '#confirm!' do
+    specify 'change state to pending and update product stock' do
+      product = create(:shop_product, variants_attributes: {
+        '0' => {
+          name: '5 kg',
+          price: 16,
+          stock: 2
+        },
+      })
+      order = create(:shop_order, :cart, items_attributes: {
+        '0' => {
+          product_id: product.id,
+          product_variant_id: product.variants.first.id,
+          quantity: 1
+        }
+      })
+
+      expect { order.confirm! }
+        .to change { product.variants.first.reload.stock }.from(2).to(1)
+        .and change { order.reload.state }.from('cart').to('pending')
+    end
   end
 
   describe '#invoice!' do

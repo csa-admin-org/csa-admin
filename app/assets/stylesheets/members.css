@@ -67,6 +67,7 @@ li.active a h2 {
 .disabled span,
 .disabled input,
 .disabled div.text-sm,
+button:disabled,
 input.string:disabled {
   color: var(--gray-300) !important;
   cursor: not-allowed !important;
@@ -79,8 +80,43 @@ input.string:disabled {
   .disabled span,
   .disabled input,
   .disabled div.text-sm,
+  button:disabled,
   input.string:disabled {
     color: var(--gray-700) !important;
     border-color: var(--gray-800) !important;
   }
+}
+
+input.controls-none::-webkit-outer-spin-button,
+input.controls-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"].controls-none {
+  -moz-appearance: textfield;
+}
+
+.shop_order_items_quantity.field_with_errors input,
+.shop_order_items_quantity.field_with_errors button {
+  color: var(--gray-500);
+  background-color: var(--red-100);
+}
+
+@media (prefers-color-scheme: dark) {
+  .shop_order_items_quantity.field_with_errors input,
+  .shop_order_items_quantity.field_with_errors button {
+    background-color: var(--red-900);
+  }
+}
+
+.shop_order_items_quantity.field_with_errors {
+  width: auto !important;
+}
+
+.shop_order_items_quantity.field_with_errors span.error {
+  display: none;
+  width: 0;
+  padding: 0;
+  margin-top: 0;
 }

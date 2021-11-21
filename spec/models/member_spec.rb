@@ -174,7 +174,7 @@ describe Member do
 
     it 'raise if not pending' do
       member = create(:member, :support_annual_fee)
-      expect { member.validate!(admin) }.to raise_error(RuntimeError)
+      expect { member.validate!(admin) }.to raise_error(InvalidTransitionError)
     end
   end
 
@@ -201,7 +201,7 @@ describe Member do
 
     it 'raise if not support or inactive' do
       member = create(:member, :pending)
-      expect { member.wait! }.to raise_error(RuntimeError)
+      expect { member.wait! }.to raise_error(InvalidTransitionError)
     end
   end
 
@@ -367,7 +367,7 @@ describe Member do
     it 'raise if current membership' do
       member = create(:member, :active)
 
-      expect { member.deactivate! }.to raise_error(RuntimeError)
+      expect { member.deactivate! }.to raise_error(InvalidTransitionError)
     end
   end
 

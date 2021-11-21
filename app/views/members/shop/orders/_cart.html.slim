@@ -1,0 +1,20 @@
+- if order.items.none?
+  div class="p-2 w-full flex flex-row items-center justify-center text-gray-400  dark:text-gray-600"
+    div class="flex flex-row items-center"
+      = inline_svg_tag 'members/shopping_cart.svg', class: 'h-8 w-8 flex-shrink-0 fill-stroke text-gray-400 dark:text-gray-600'
+      div class='ml-4'
+        = t('.no_order_items')
+- else
+  div class="w-full"
+    = link_to members_shop_order_path, target: '_top', title: t('.show_basket'), class: 'flex flex-row items-center justify-between p-2' do
+      = inline_svg_tag 'members/shopping_cart.svg', class: 'flex-none h-8 w-8 flex-shrink-0 text-gray-400 fill-stroke'
+      div class='ml-2 flex-grow text-gray-400'
+        - count = order.items.sum(:quantity)
+        = "#{count} #{Shop::Product.model_name.human(count: count)}"
+
+      div class="ml-2 flex-none text-gray-400"
+        = cur order.items.sum(&:amount)
+
+      div class="ml-2 flex-none"
+        div class='text-gray-500 bg-gray-200 dark:bg-gray-600 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:z-10 text-sm cursor-pointer flex items-center'
+          = inline_svg_tag 'members/chevron_right.svg', class: 'py-1 h-8 w-10 fill-stroke hover:text-white'

@@ -23,6 +23,6 @@ module NumbersHelper
     number = number_to_rounded(amount,
       precision: 2,
       strip_insignificant_zeros: true)
-    "#{number} kg"
+    "#{sprintf("%.1f", number)} kg"
   end
 end

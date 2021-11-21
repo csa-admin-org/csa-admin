@@ -370,6 +370,9 @@ FactoryBot.define do
       }
     }
 
+    trait :cart do
+      state { Shop::Order::CART_STATE }
+    end
     trait :pending do
       state { Shop::Order::PENDING_STATE }
     end

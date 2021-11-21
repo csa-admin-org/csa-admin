@@ -436,7 +436,7 @@ _:
           _fr: Compléments paniers
           _it: Aggiunte nella cesta
         shop_open:
-          _de: Lebensmittelladen eröffnen
+          _de: Offenes Lebensmittelgeschäft
           _fr: Épicerie ouverte
           _it: Drogheria aperta
         signature:
@@ -1290,7 +1290,7 @@ _:
           _it: Pagamenti
       shop:
         one:
-          _de: Lebensmittel
+          _de: Lebensmittelgeschäfts
           _fr: Épicerie
           _it: Drogheria
       shop/order:
