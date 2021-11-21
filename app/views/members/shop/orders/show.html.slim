@@ -1,0 +1,52 @@
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('activerecord.models.shop.one')
+
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('members.shop.products.index.delivery', date: l(delivery.date, format: :long))
+
+- case order.state
+- when Shop::Order::CART_STATE
+  p class="mt-2"
+    = t('members.shop.products.index.closing_at_html', date: l(delivery.shop_closing_at, format: :long))
+    = ' '
+    = t('.finalize_order')
+
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.cart')
+
+  = turbo_frame_tag 'order' do
+    = render partial: 'members/shop/orders/order'
+- when Shop::Order::PENDING_STATE
+  p class="mt-2"
+    - if order.can_member_update?
+      = t('.received_order_html', date: l(delivery.shop_closing_at, format: :long))
+    - else
+      = t('.pending_order_html')
+
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100 flex flex-row"
+    = Shop::Order.model_name.human
+    - if order.can_member_update?
+      span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700"
+        = t('.order_received_state')
+    - else
+      span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-yellow-700 dark:text-yellow-300 rounded-full bg-yellow-300 dark:bg-yellow-700"
+        = t('.order_pending_state')
+
+  = render partial: 'members/shop/orders/finalized_order'
+- when Shop::Order::INVOICED_STATE
+  p class="mt-2"
+    = t('.invoiced_order_html')
+
+  div class="mt-4 mb-6"
+    = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment') do
+      div class="mx-auto w-max px-4 py-1 flex flex-row items-center text-gray-500 rounded-full border border-gray-300 hover:border-green-300 hover:text-green-500 "
+        = inline_svg_tag 'members/document_download.svg', class: 'w-5 h-5'
+        span class='ml-1'
+          = t('.download_invoice_html', number: order.invoice.id)
+
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100 flex flex-row"
+    = Shop::Order.model_name.human
+    span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700"
+      = t('.order_invoiced_state')
+
+  = render partial: 'members/shop/orders/finalized_order'

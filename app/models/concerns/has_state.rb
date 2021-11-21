@@ -19,6 +19,6 @@ module HasState
   end
 
   def invalid_transition(action)
-    raise "invalid transition '#{action}' on #{self.class.name}(#{id}) in state '#{state}'"
+    raise InvalidTransitionError, "invalid transition '#{action}' on #{self.class.name}(#{id}) in state '#{state}'"
   end
 end

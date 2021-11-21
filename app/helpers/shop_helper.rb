@@ -1,4 +1,22 @@
 module ShopHelper
+  def next_shop_delivery
+    @next_shop_delivery ||=
+      Delivery
+        .shop_open
+        .where(id: current_member.baskets.coming.pluck(:delivery_id))
+        .next
+  end
+
+  def live_stock(variant, order)
+    return unless variant.stock
+
+    variant_order = order.items.find { |i| i.product_variant_id == variant.id }
+
+    stock = variant.stock
+    stock -= variant_order.quantity if variant_order
+    stock
+  end
+
   def display_variants(arbre, product)
     arbre.ul do
       product.variants.each do |variant|

@@ -28,7 +28,7 @@ ActiveAdmin.register Shop::Order do
   filter :id, as: :numeric
   filter :delivery,
     as: :select,
-    collection: -> { Delivery.joins(:shop_orders).distinct }
+    collection: -> { Delivery.shop_open }
   filter :member,
     as: :select,
     collection: -> { Member.joins(:shop_orders).order(:name).distinct }
@@ -88,11 +88,28 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
+  sidebar I18n.t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :delivery_id_eq) }, only: :index do
+    div class: 'content' do
+      delivery = Delivery.find(params[:q][:delivery_id_eq])
+      if delivery == Delivery.shop_open.next
+        if delivery.shop_open?
+          span t('active_admin.sidebars.shop_open_until_html', date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :long))
+        else
+          span t('active_admin.sidebars.shop_closed_html', date: l(delivery.date, format: :long))
+        end
+      elsif delivery.date.past?
+        span t('active_admin.sidebars.shop_closed_html', date: l(delivery.date, format: :long))
+      else
+        span t('active_admin.sidebars.shop_not_open_yet_html', date: l(delivery.date, format: :long))
+      end
+    end
+  end
+
   show do |order|
     columns do
       column do
         panel "#{order.items.size} #{GroupBuying::Product.model_name.human(count: order.items.size)}" do
-          table_for order.items.includes(:product), class: 'table-shop_orders' do
+          table_for order.items.includes(:product, :product_variant), class: 'table-shop_orders' do
             column(:product) { |i| auto_link i.product }
             column(:item_price) { |i| cur(i.item_price) }
             column(:quantity)

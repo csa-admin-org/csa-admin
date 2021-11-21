@@ -634,3 +634,153 @@ _:
           _de: Anmeldung mit Ihrem Konto
           _fr: Connexion à votre compte
           _it: Connesione al vostro account
+    shop:
+      orders:
+        cart:
+          no_order_items:
+            _de: Leere Warenkörbe
+            _fr: Panier d'achat vide
+            _it: Carrello vuoto
+          show_basket:
+            _de: Warenkorb ansehen
+            _fr: Voir panier d'achat
+            _it: Vedere il carrello
+        confirm:
+          notice:
+            _de: Vielen Dank für Ihre Bestellung!
+            _fr: Merci pour votre commande!
+            _it: Grazie per il vostro ordine!
+        finalized_order:
+          cancel_order:
+            _de: Bestellung abbrechen
+            _fr: Annuler la commande
+            _it: Cancellare l'ordine
+          cancel_order_confirm:
+            _de: Sind Sie sicher, dass Sie die Bestellung abbrechen möchten?
+            _fr: Êtes-vous sûr de vouloir annuler la commande?
+            _it: Sei sicuro di voler cancellare l'ordine?
+          contact_us_html:
+            _de: Haben Sie eine Frage? Zögern Sie nicht, <a href='mailto:%{email}'>uns zu kontaktieren</a>.
+            _fr: Une question? N'hésitez pas à <a href='mailto:%{email}'>nous contacter</a>.
+            _it: Ha una domanda? Sentitevi liberi di <a href='mailto:%{email}'>contattarci</a>.
+          order_total_weight:
+            _de: Gesamtgewicht der Bestellung
+            _fr: Poids total de la commande
+            _it: Peso totale dell'ordine
+          total:
+            _de: Total
+            _fr: Total
+            _it: Totale
+          unconfirm_order:
+            _de: Bearbeiten
+            _fr: Modifier
+            _it: Modificare
+        order:
+          continue_shopping:
+            _de: Weiter einkaufen
+            _fr: Continuer les achats
+            _it: Continua lo shopping
+          destroy_cart:
+            _de: Warenkorb löschen
+            _fr: Vider le panier d'achats
+            _it: Svuota il carrello
+          destroy_cart_confirm:
+            _de: Sind Sie sicher, dass Sie den Warenkorb löschen möchten?
+            _fr: Êtes-vous sûr de vouloir vider le panier d'achats?
+            _it: Sei sicuro di voler svuotare il carrello?
+          order_total_weight:
+            _de: Totalgewicht der Bestellung
+            _fr: Poids total de la commande
+            _it: Peso totale dell'ordine
+          stock:
+            _de: "%{count} auf Lager"
+            _fr: "%{count} in stock"
+          submit_order:
+            _de: Bestellen
+            _fr: Commander
+            _it: Ordina
+          total:
+            _de: Total
+            _fr: Total
+            _it: Totale
+        show:
+          cart:
+            _de: Warenkorb
+            _fr: Panier d'achat
+            _it: Carrello
+          download_invoice_html:
+            _de: Rechnung <i>#%{number}</i>
+            _fr: Facture <i>#%{number}</i>
+            _it: Fattura <i>#%{numero}</i>
+          finalize_order:
+            _de: Bitte schließen Sie Ihre Bestellung ab.
+            _fr: Merci de finaliser votre commande.
+            _it: Per favore, completate il vostro ordine.
+          invoiced_order_html:
+            _de: Ihre Bestellung ist fertig, die Rechnung wurde Ihnen per E-Mail zugeschickt. Bitte begleichen Sie diese schnell.
+            _fr: Votre commande est prête, la facture vous a été envoyée par email. Merci de la régler rapidement.
+            _it: Il tuo ordine è pronto, la fattura ti è stata inviata per e-mail. Per favore, pagate in fretta.
+          order_invoiced_state:
+            _de: abgerechnet
+            _fr: facturée
+            _it: fatturato
+          order_pending_state:
+            _de: in Vorbereitung
+            _fr: en préparation
+            _it: in preparazione
+          order_received_state:
+            _de: eingegangene
+            _fr: reçue
+            _it: ricevuto
+          pending_order_html:
+            _de: Ihre Bestellung wird gerade vorbereitet. Eine Rechnung wird Ihnen in Kürze per E-Mail zugesandt. Bitte begleichen Sie diese schnell.
+            _fr: Votre commande est entrain d'être préparée, une facture vous sera bientôt envoyée par email. Merci de la régler rapidement.
+            _it: Il suo ordine è in fase di preparazione e una fattura le sarà inviata a breve via e-mail. Grazie per aver pagato rapidamente.
+          received_order_html:
+            _de: Ihre Bestellung ist eingegangen, kann aber noch bis zum <u>%{date}</u> storniert oder geändert werden. Eine Rechnung wird Ihnen später, vor der Lieferung, per E-Mail zugesandt. Bitte begleichen Sie diese schnell.
+            _fr: Votre commande a bien été reçue mais peut encore être annulée ou modifiée jusqu'au <u>%{date}</u>. Une facture vous sera envoyée ultérieurement, avant la livraison, par email. Merci de la régler rapidement.
+            _it: Il tuo ordine è stato ricevuto ma può ancora essere cancellato o modificato fino al <u>%{date}</u>. Una fattura vi sarà inviata più tardi, prima della consegna, via e-mail. Grazie per aver pagato rapidamente.
+      products:
+        index:
+          all_producers:
+            _de: Alle Produzenten
+            _fr: Tous les producteurs
+            _it: Tutti i produttori
+          available_product:
+            _de: Verfügbare Produkte
+            _fr: Produits disponibles
+            _it: Prodotti disponibili
+          closed_at_html:
+            _de: Es ist nicht mehr möglich, eine Bestellung für diese Lieferung aufzugeben.
+            _fr: Il n'est plus possible de passer commande pour cette livraison.
+            _it: Non è più possibile effettuare un ordine per questa consegna.
+          closing_at_html:
+            _de: Ihre Bestellung kann bis zum <u>%{date}</u> aufgegeben oder geändert werden.
+            _fr: Votre commande peut-être passée ou modifié jusqu'au <u>%{date}</u>.
+            _it: Il tuo ordine può essere effettuato o modificato fino al <u>%{date}</u>.
+          delivery:
+            _de: Lieferung von %{date}
+            _fr: Livraison du %{date}
+            _it: Consegna del %{date}
+          next_delivery_html:
+            _de: Die Bestellung für Ihre nächste Lieferung am <u>%{date}</u> kann vom <u>%{start_date}</u> bis zum <u>%{end_date}</u> aufgegeben werden.
+            _fr: La commande pour votre prochaine livraison du <u>%{date}</u> pourra être passée à partir du <u>%{start_date}</u> jusqu'au <u>%{end_date}</u>.
+            _it: L'ordine per la sua prossima consegna di <u>%{date}</u> può essere effettuato da <u>%{start_date}</u> a <u>%{end_date}</u>.
+        variant:
+          add_to_basket:
+            _de: In den Warenkorb legen
+            _fr: Ajouter au panier
+            _it: Aggiungi al carrello
+          live_stock:
+            one:
+              _de: "%{count} verfügbare"
+              _fr: "%{count} disponible"
+              _it: "%{count} disponibile"
+            other:
+              _de: "%{count} verfügbares"
+              _fr: "%{count} disponibles"
+              _it: "%{count} disponibili"
+            zero:
+              _de: "%{count} verfügbar"
+              _fr: "%{count} disponible"
+              _it: "%{count} disponibili"

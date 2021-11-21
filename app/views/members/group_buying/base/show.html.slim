@@ -28,7 +28,7 @@ h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-g
               == t('.past_order_info', number: order.id)
             - unless order.invoice.processing?
               = link_to rails_blob_path(order.invoice.pdf_file, disposition: 'attachment'), class: 'ml-1' do
-                = inline_svg_tag 'members/document_download.svg', size: '16px'
+                = inline_svg_tag 'members/document_download.svg', class: 'h-6 w-6'
         span class="flex-none flex-row flex flex-row flex-nowrap justify-between sm:justify-end"
           - color = state_color(order)
           span class="px-2 border border-#{color}-300 dark:border-#{color}-700 bg-#{color}-300 dark:bg-#{color}-700 text-#{color}-600 dark:text-#{color}-400 font-medium rounded-full text-sm"

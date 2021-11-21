@@ -349,24 +349,21 @@ table.table-baskets {
   }
 }
 
-table.table-group_buying_orders {
+table.table-group_buying_orders, table.table-shop_orders {
   .col-amount,
   .col-price,
+  .col-item_price,
   .col-quantity {
     text-align: right;
   }
 
-  .col-price {
+  .col-price, .col-item_price, .col-amount {
     width: 90px !important;
   }
 
   .col-quantity {
     width: 50px !important;
     padding: 0 12px;
-  }
-
-  .col-amount {
-    width: 85px !important;
   }
 }
 

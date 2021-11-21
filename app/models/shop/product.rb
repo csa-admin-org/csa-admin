@@ -49,7 +49,7 @@ module Shop
       if depot
         products = products.where.not('? = ANY (unavailable_for_depot_ids)', depot)
       end
-      products
+      products.order_by_name
     end
 
     def available_for_depot_ids

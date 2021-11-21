@@ -22,6 +22,9 @@ module TranslatedRichTexts
         define_method(text) {
           send("#{text}_#{I18n.locale}").to_s
         }
+        define_method("#{text}?") {
+          send("#{text}_as_plain_text").present?
+        }
         define_method("#{text}_as_plain_text") {
           send("#{text}_#{I18n.locale}").to_plain_text
         }

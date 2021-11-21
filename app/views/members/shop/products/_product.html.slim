@@ -1,0 +1,27 @@
+div class=''
+  h3 class="font-medium flex flex-row items-center text-gray-800 dark:text-gray-200"
+    span
+      = product.name
+    - if product.tags.any?
+      ul class='ml-2 flex items-center space-x-2'
+        - product.tags.each do |tag|
+          li = render partial: 'members/shop/products/tag', object: tag
+
+  - if params[:producer_id].blank? && product.producer
+    div class='mt-1 text-sm font-medium'
+      span class='flex flex-row items-center'
+        = link_to params.merge(producer_id: product.producer_id) do
+          = product.producer.name
+        - if product.producer.website_url?
+          = link_to product.producer.website_url, target: :blank, class: "ml-1 flex flex-row items-center" do
+            = inline_svg_tag 'members/link.svg'
+
+  - if product.description?
+    div class='mt-2 text-sm'
+      == product.description
+
+  ul class="mt-2 divide-y dark:divide-gray-700"
+    - product.variants.each do |variant|
+      li class="-ml-1 p-1 w-full hover:bg-gray-100 dark:hover:bg-gray-900"
+        = turbo_frame_tag "product_variant_#{variant.id}" do
+          = render partial: 'members/shop/products/variant', object: variant

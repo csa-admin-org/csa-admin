@@ -1,0 +1,52 @@
+
+div class="mt-2 space-y-4 md:space-y-2"
+  - order.items.sort_by { |i| [i.product.name, i.product_variant.name] }.each do |item|
+    div class='-mx-1 my-1 px-1 py-1 flex rounded flex-col md:flex-row items-center hover:bg-gray-100 dark:hover:bg-gray-900'
+      div class='w-full flex-1 text-left'
+        span class=''
+          b = item.quantity
+          = ' x '
+          = item.product.name
+          = ', '
+          = item.product_variant.name
+        span class='ml-2 text-left text-xs text-gray-400 whitespace-nowrap'
+          = cur(item.item_price)
+
+      div class='w-full md:w-24 mt-1 md:mt-0 flex-none text-right flex flex-row items-center justify-end'
+        span class="ml-2" title="#{item.quantity} x #{cur(item.item_price)}"
+          = cur(item.amount)
+
+div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
+  div class='text-sm text-gray-400 dark:text-gray-600 flex flex-row items-center justify-end' title=t('.order_total_weight')
+    = inline_svg_tag('members/scale.svg', class: 'w-4 h-4 stroke-current')
+    span class='ml-1'
+      = kg(order.weight_in_kg)
+
+  div class="ml-6 text-right"
+    span class='border-t border-gray-500 pl-1  font-medium'
+      span
+        = t('.total')
+      span class='ml-4'
+        = cur(order.amount)
+
+- if order.pending? && order.can_member_update?
+  div class='w-full mt-8 flex flex-col md:flex-row md:justify-end'
+    div class='w-full md:w-auto order-1 md:order-2 md:ml-2 w-full flex items-center'
+      = button_to t('.unconfirm_order'), unconfirm_members_shop_order_path, class: "md:min-w-min min-w-full py-2 px-4 border text-white border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer font-medium rounded-md ocus:z-10 text-base", form: { data: { turbo: false }, class: 'w-full' }
+
+  div class='mt-12 flex flex-row justify-center md:justify-end'
+    = button_to members_shop_order_path, method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t('.cancel_order_confirm'), action: "submit->confirmation#confirm" } }, class: 'focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer' do
+        div class='flex flex-row items-center'
+          = inline_svg_tag('members/trash.svg', class: 'w-4 h-4 stroke-current')
+          span class='ml-1 text-sm font-normal'
+            = t('.cancel_order')
+- else
+  p class='mt-12 text-center italic text-gray-400 dark:text-gray-600'
+    = t('.contact_us_html', email: Current.acp.email)
+
+- if next_delivery
+  p class="mt-16 text-gray-400 dark:text-gray-600"
+    = t('members.shop.products.index.next_delivery_html',
+      date: l(next_delivery.date, format: :long),
+      start_date: l(delivery.date + 1.day, format: :long),
+      end_date: l(next_delivery.shop_closing_at, format: :long))

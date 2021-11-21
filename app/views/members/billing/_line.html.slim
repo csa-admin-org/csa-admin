@@ -12,7 +12,7 @@ span class="order-2 md:order-1 flex-none w-24 mr-2"
         == t('.invoice_info', id: object.id, type: display_object(object, link: false))
     span
       = link_to rails_blob_path(object.pdf_file, disposition: 'attachment') do
-        = inline_svg_tag 'members/document_download.svg'
+        = inline_svg_tag 'members/document_download.svg', class: 'h-6 w-6'
   span class="order-3 flex-none text-right w-28"
     = cur(object.amount)
 - when Payment

@@ -78,6 +78,7 @@ describe Shop::OrderItem do
 
     expect(product.variants.first.reload.stock).to eq(1)
 
+    order.reload
     order.update(items_attributes: {
       '0' => {
         id: order.items.first.id,
