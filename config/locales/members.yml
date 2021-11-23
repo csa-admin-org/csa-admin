@@ -694,7 +694,8 @@ _:
             _it: Peso totale dell'ordine
           stock:
             _de: "%{count} auf Lager"
-            _fr: "%{count} in stock"
+            _fr: "%{count} en stock"
+            _it: "%{count} in stock"
           submit_order:
             _de: Bestellen
             _fr: Commander
