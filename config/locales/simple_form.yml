@@ -1,8 +1,5 @@
 _:
   simple_form:
-    error_notification:
-      default_message:
-        _fr: 'Please review the problems below:'
     hints:
       member:
         emails:
@@ -19,7 +16,9 @@ _:
           _it: Che potrebbe forse rivelarsi utile.
     required:
       mark:
+        _de: "*"
         _fr: "*"
+        _it: "*"
       text:
         _de: requirieren
         _fr: requis
