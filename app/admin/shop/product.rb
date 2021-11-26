@@ -165,7 +165,7 @@ ActiveAdmin.register Shop::Product do
     end
   end
 
-  config.sort_order = 'names_desc'
   config.per_page = 100
   config.batch_actions = true
+  config.sort_order = "names_asc"
 end

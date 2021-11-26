@@ -36,5 +36,5 @@ ActiveAdmin.register Shop::Tag do
     *I18n.available_locales.map { |l| "name_#{l}" })
 
   config.filters = false
-  config.sort_order = -> { "shop_tags.names->>'#{I18n.locale}'" }
+  config.sort_order = "names_asc"
 end
