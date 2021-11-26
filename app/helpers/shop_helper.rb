@@ -35,13 +35,13 @@ module ShopHelper
   end
 
   def products_collection(products)
-    products.includes(:variants).map do |product|
+    products.includes(:variants).order_by_name.map do |product|
       [product.name, product.id, disabled: product.variants.all?(&:out_of_stock?)]
     end
   end
 
   def product_variants_collection(products, product_id)
-    products.includes(:variants).flat_map do |product|
+    products.includes(:variants).order_by_name.flat_map do |product|
       product.variants.map do |variant|
         [
           variant.name,
