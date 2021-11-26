@@ -448,7 +448,7 @@ _:
           _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">gli statuti</a> e <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">il regolamento</a>.
         text:
           _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
-          _fr: Merci de remplir le formulaire ci-dessous. N'hésitez à nous contacter pour tout renseignement complémentaire.
+          _fr: Merci de remplir le formulaire ci-dessous. N'hésitez pas à nous contacter pour tout renseignement complémentaire.
           _it: Si prega di compilare il modulo sottostante. Non esitate a contattarci per ulteriori informazioni.
         title:
           _de: Anmeldeformular
