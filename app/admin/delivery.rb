@@ -27,7 +27,9 @@ ActiveAdmin.register Delivery do
     if Current.acp.feature_flag?('shop')
       column(:shop_open)
     end
-    column :note, ->(delivery) { truncate delivery.note, length: 175 }
+    if BasketComplement.any?
+      column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
+    end
     actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
         link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link')
