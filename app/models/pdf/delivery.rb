@@ -23,7 +23,7 @@ module PDF
             .includes(items: { product: :basket_complement })
       end
 
-      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 24
+      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 22
 
       @depots.each do |dist|
         baskets = @baskets.where(depot: dist)
@@ -234,6 +234,7 @@ module PDF
         (bs_size + bc_size).times do |i|
           t.columns(1 + i).width = number_width
           t.columns(1 + i).align = :center
+          t.columns(1 + i).font_style = :light # Ensure number is well centered in the cell!
           t.columns(1 + i).borders = %i[left right]
         end
         t.row(0).size = 11
