@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_23_124046) do
+ActiveRecord::Schema.define(version: 2021_11_27_093106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -278,6 +278,8 @@ ActiveRecord::Schema.define(version: 2021_10_23_124046) do
     t.integer "activity_participations_demanded_annualy", default: 0, null: false
     t.jsonb "names", default: {}, null: false
     t.integer "acp_shares_number"
+    t.boolean "visible", default: true, null: false
+    t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 
   create_table "baskets", force: :cascade do |t|

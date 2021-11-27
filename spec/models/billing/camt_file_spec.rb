@@ -26,7 +26,7 @@ describe Billing::CamtFile do
     end
 
     it 'raise for invalid CAMT file' do
-      file = described_class.new(file_fixture('camt_wrong.xml'))
+      file = described_class.new(file_fixture('camt_invalid.xml'))
       expect { file.payments_data }
         .to raise_error(Billing::CamtFile::UnsupportedFileError)
     end

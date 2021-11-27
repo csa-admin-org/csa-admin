@@ -12,11 +12,12 @@ ActiveAdmin.register BasketSize do
       end
     }
     if Current.acp.feature?('activity')
-      column activity_scoped_attribute(:activity_participations_demanded_annualy), ->(bs) { bs.activity_participations_demanded_annualy }
+      column activities_human_name, ->(bs) { bs.activity_participations_demanded_annualy }
     end
     if Current.acp.share?
-      column :acp_shares_number
+      column t('billing.acp_shares'), ->(bs) { bs.acp_shares_number }
     end
+    column :visible
     actions class: 'col-actions-2'
   end
 
@@ -34,12 +35,14 @@ ActiveAdmin.register BasketSize do
       if Current.acp.share?
         f.input :acp_shares_number, as: :number, step: 1
       end
+      f.input :visible, as: :select, include_blank: false
     end
     f.actions
   end
 
   permit_params(
     :price,
+    :visible,
     :acp_shares_number,
     :activity_participations_demanded_annualy,
     *I18n.available_locales.map { |l| "name_#{l}" })
@@ -49,5 +52,5 @@ ActiveAdmin.register BasketSize do
   end
 
   config.filters = false
-  config.sort_order = 'price_desc'
+  config.sort_order = 'price_asc'
 end

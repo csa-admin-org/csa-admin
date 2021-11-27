@@ -3,7 +3,7 @@ class BasketCounts
 
   def initialize(delivery, depot_ids)
     @delivery = delivery
-    @basket_size_ids = BasketSize.pluck(:id)
+    @basket_size_ids = @delivery.basket_sizes.pluck(:id)
     @depots = Depot.where(id: (Array(depot_ids) & delivery.baskets.pluck(:depot_id).uniq))
   end
 

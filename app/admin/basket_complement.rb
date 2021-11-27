@@ -45,7 +45,7 @@ ActiveAdmin.register BasketComplement do
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }
       f.input :price, as: :number, min: 0
-      f.input :visible, as: :select, hint: true, prompt: true, required: true
+      f.input :visible, as: :select, include_blank: false
     end
     f.inputs do
       if Delivery.current_year.any?

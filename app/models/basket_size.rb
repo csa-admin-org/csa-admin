@@ -1,5 +1,6 @@
 class BasketSize < ActiveRecord::Base
   include TranslatedAttributes
+  include HasVisibility
 
   translated_attributes :name
 
@@ -7,7 +8,7 @@ class BasketSize < ActiveRecord::Base
   has_many :members, through: :memberships
   has_many :baskets, through: :memberships
 
-  default_scope { order_by_name }
+  default_scope { order(:price) }
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
 

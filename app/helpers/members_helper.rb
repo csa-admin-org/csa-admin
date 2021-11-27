@@ -20,7 +20,7 @@ module MembersHelper
   end
 
   def basket_sizes_collection(no_basket_option: true, data: {}, no_basket_data: {})
-    basket_sizes = BasketSize.reorder(price: :desc)
+    basket_sizes = BasketSize.visible.reorder(price: :desc)
     acp_shares_numbers = basket_sizes.pluck(:acp_shares_number).uniq
     col = basket_sizes.map { |bs|
       details = []

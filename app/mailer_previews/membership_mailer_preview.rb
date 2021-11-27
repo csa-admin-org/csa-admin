@@ -47,7 +47,7 @@ class MembershipMailerPreview < ActionMailer::Preview
     OpenStruct.new(
       delivery: OpenStruct.new(date: Date.today),
       member: member,
-      description: BasketSize.last&.name || 'Petit')
+      description: BasketSize.first&.name || 'Petit')
   end
 end
 

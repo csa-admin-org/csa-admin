@@ -55,7 +55,7 @@ ActiveAdmin.register_page 'Dashboard' do
               table_for counts.all do
                 column Depot.model_name.human, :title
                 column Basket.model_name.human, :count, class: 'align-right'
-                column "#{BasketSize.all.map { |bs| bs.name&.gsub(/\s/, '&nbsp;') }.join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+                column "#{next_delivery.basket_sizes.map { |bs| bs.name&.gsub(/\s/, '&nbsp;') }.join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
               end
 
               paid_depots = next_delivery.depots.paid

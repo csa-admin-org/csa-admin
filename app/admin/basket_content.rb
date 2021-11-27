@@ -4,7 +4,7 @@ ActiveAdmin.register BasketContent do
 
   filter :delivery, as: :select
   filter :vegetable, as: :select
-  filter :basket_size, as: :select, collection: -> { BasketSize.paid.reorder(:price) }
+  filter :basket_size, as: :select, collection: -> { BasketSize.paid }
   filter :depots, as: :select
 
   includes :depots, :delivery, :vegetable
@@ -14,7 +14,7 @@ ActiveAdmin.register BasketContent do
     column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
     column :vegetable, ->(bc) { bc.vegetable.name }
     column :qt, ->(bc) { display_quantity(bc.quantity, bc.unit) }
-    BasketSize.paid.reorder(:price).each do |basket_size|
+    BasketSize.paid.each do |basket_size|
       column basket_size.name, ->(bc) { display_basket_quantity(bc, basket_size) }, class: 'nowrap'
     end
     column :surplus, ->(bc) { display_surplus_quantity(bc) }
@@ -28,7 +28,7 @@ ActiveAdmin.register BasketContent do
     column(:vegetable) { |bc| bc.vegetable.name }
     column(:unit) { |bc| t("units.#{bc.unit}") }
     column(:quantity) { |bc| bc.quantity }
-    BasketSize.paid.reorder(:price).each do |basket_size|
+    BasketSize.paid.each do |basket_size|
       column("#{basket_size.name} - #{Basket.model_name.human(count: 2)}") { |bc|
         bc.baskets_count(basket_size)
       }
@@ -61,7 +61,7 @@ ActiveAdmin.register BasketContent do
     end
     f.inputs Basket.model_name.human(count: 2) do
       f.input :basket_size_ids,
-        collection: BasketSize.paid.reorder(:price),
+        collection: BasketSize.paid,
         as: :check_boxes,
         label: false
       f.input :same_basket_quantities,

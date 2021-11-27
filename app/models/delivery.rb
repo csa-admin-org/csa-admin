@@ -45,6 +45,10 @@ class Delivery < ActiveRecord::Base
     Delivery.during_year(next_year).any?
   end
 
+  def basket_sizes
+    @basket_sizes ||= BasketSize.find(baskets.not_absent.pluck(:basket_size_id))
+  end
+
   def delivered?
     date < Time.current
   end

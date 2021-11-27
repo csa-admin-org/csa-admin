@@ -29,7 +29,7 @@ class BasketContent < ApplicationRecord
   end
 
   def basket_sizes
-    @basket_sizes ||= BasketSize.where(id: basket_size_ids).reorder(:id)
+    @basket_sizes ||= BasketSize.find(basket_size_ids)
   end
 
   def same_basket_quantities

@@ -147,6 +147,11 @@ _:
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
+      basket_size:
+        visible:
+          _de: '"Nein" auswählen, wenn die Taschengröße nicht vorhanden ist bei der Anmeldung.'
+          _fr: Séléctionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
+          _it: Seleziona "No" se la dimensione del cestino non è disponibile durante la registrazione.
       baskets_basket_complement:
         price:
           _de: Leer lassen für den Standardpreis.
