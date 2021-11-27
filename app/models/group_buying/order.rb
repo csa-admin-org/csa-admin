@@ -68,8 +68,6 @@ module GroupBuying
       errors.add(:base, :no_items) if items.none?
     end
 
-    # Avoid to have the error on terms_of_service as it breaks
-    # the pretty_check_boxes with the field_with_errors wrapper
     def terms_of_service_must_be_accepted?
       return unless Current.acp.group_buying_terms_of_service_url
       return if ActiveRecord::Type::Boolean.new.cast(@terms_of_service)
