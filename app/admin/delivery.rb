@@ -70,7 +70,7 @@ ActiveAdmin.register Delivery do
             table_for counts.all do
               column Depot.model_name.human, ->(d) { auto_link(d.depot) }
               column Basket.model_name.human, :count, class: 'align-right'
-              column "#{BasketSize.all.map(&:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+              column "#{delivery.basket_sizes.map(&:name).join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
             end
 
             if Depot.paid.any?

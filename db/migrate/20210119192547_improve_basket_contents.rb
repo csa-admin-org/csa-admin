@@ -4,8 +4,8 @@ class ImproveBasketContents < ActiveRecord::Migration[6.1]
     add_column :basket_contents, :baskets_counts, :integer, array: true, null: false, default: []
     add_column :basket_contents, :basket_size_ids, :integer, array: true, null: false, default: []
 
-    small = BasketSize.paid.reorder(:price).first
-    big = BasketSize.paid.reorder(:price).last
+    small = BasketSize.paid.first
+    big = BasketSize.paid.last
     BasketContent.find_each do |bc|
       ids = []
       ids << small.id if bc[:basket_sizes].include?('small')
