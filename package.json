@@ -4,7 +4,7 @@
   "dependencies": {
     "@activeadmin/activeadmin": "^2.9.0",
     "@babel/plugin-proposal-private-methods": "^7.14.5",
-    "@joeattardi/emoji-button": "^4.6.0",
+    "@joeattardi/emoji-button": "^4.6.2",
     "@rails/actioncable": "^6.1.4-1",
     "@rails/actiontext": "^6.1.4-1",
     "@rails/activestorage": "^6.1.4-1",
