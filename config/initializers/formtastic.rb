@@ -120,3 +120,41 @@ Formtastic::Inputs::Base::Labelling.module_eval do
     }
   end
 end
+
+# Add toggle-all checkbox to checkboxes collections
+module Formtastic
+  module Inputs
+    class CheckBoxesInput
+      def choices_wrapping_html_options
+        {
+          class: 'choices',
+          data: { controller: 'check-boxes-toggle-all' }
+        }
+      end
+
+      def extra_html_options(choice)
+        input_html_options
+          .merge(custom_choice_html_options(choice))
+          .merge(data: {
+            check_boxes_toggle_all_target: 'input',
+            action: "check-boxes-toggle-all#updateToggle"
+         })
+      end
+
+      def legend_html
+        if render_label?
+          legend = template.content_tag(:label, label_text)
+          legend += template.content_tag(:input, nil, type: 'checkbox', data: {
+            check_boxes_toggle_all_target: 'toggle',
+            action: "check-boxes-toggle-all#toggleAll"
+          })
+          template.content_tag(:legend,
+            template.content_tag(:div, legend, class: 'checkbox-legend'),
+            label_html_options.merge(:class => "label"))
+        else
+          "".html_safe
+        end
+      end
+    end
+  end
+end

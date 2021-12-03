@@ -113,7 +113,7 @@ ActiveAdmin.register GroupBuying::Delivery do
       f.input :depot_ids,
         collection: Depot.all,
         as: :check_boxes,
-        label: false,
+        label: Depot.model_name.human(count: 2),
         hint: t('formtastic.hints.group_buying/delivery.depot_ids')
     end
     f.actions

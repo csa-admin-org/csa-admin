@@ -63,7 +63,8 @@ ActiveAdmin.register BasketContent do
       f.input :basket_size_ids,
         collection: BasketSize.paid,
         as: :check_boxes,
-        label: false
+        label: BasketSize.model_name.human(count: 2),
+        required: true
       f.input :same_basket_quantities,
         as: :boolean,
         input_html: { disabled: !f.object.basket_size_ids.many? },
@@ -72,8 +73,7 @@ ActiveAdmin.register BasketContent do
     f.inputs Depot.model_name.human(count: 2) do
       f.input :depots,
         collection: Depot.all,
-        as: :check_boxes,
-        label: false
+        as: :check_boxes
     end
     f.actions
   end
