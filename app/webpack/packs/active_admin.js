@@ -5,6 +5,12 @@ require("trix")
 require("@rails/actiontext")
 require("turbolinks").start()
 
+import { Application } from "@hotwired/stimulus"
+import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
+window.Stimulus = Application.start()
+const context = require.context("../controllers", true, /\.js$/)
+Stimulus.load(definitionsFromContext(context))
+
 import "core-js/stable"
 import "regenerator-runtime/runtime"
 

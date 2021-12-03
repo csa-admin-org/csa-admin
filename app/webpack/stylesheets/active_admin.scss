@@ -559,12 +559,26 @@ table.totals_2 {
   }
 }
 
-.announcements,
-.basket_complements,
-.deliveries,
-.depots,
-.members,
-.shop_products {
+li.check_boxes {
+  legend.label {
+    width: 100%;
+
+    .checkbox-legend {
+      float: left;
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+
+      label {
+        width: 100%;
+      }
+
+      input {
+        margin-top: 8px;
+      }
+    }
+  }
+
   ol.choices-group {
     max-width: 100%;
   }
