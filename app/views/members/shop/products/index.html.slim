@@ -35,7 +35,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
     div class='mt-2 text-sm border dark:border-gray-700 rounded p-4 space-y-2'
       - if producer.description?
         div
-          == producer.description
+          == h producer.description
       - if producer.website_url?
         = link_to producer.website_url, producer.website_url, target: :blank, class: "text-sm flex flex-row items-center"
 
