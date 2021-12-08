@@ -1092,9 +1092,9 @@ _:
           _it: Presets
       announcement:
         one:
-          _de: Annuncio
+          _de: Ankündigung
           _fr: Annonce
-          _it: Assenza
+          _it: Annuncio
         other:
           _de: Ankündigungen
           _fr: Annonces
