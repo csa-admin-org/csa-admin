@@ -8,10 +8,8 @@ ActiveAdmin.register Depot do
   includes :memberships, :responsible_member
   index do
     column :name, ->(d) { auto_link d }
-    column :address
     column :zip
     column :city
-    column :visible
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
@@ -23,7 +21,7 @@ ActiveAdmin.register Depot do
         },
         scope: :all)
     }
-    column :responsible_member
+    column :visible
     actions class: 'col-actions-3'
   end
 
