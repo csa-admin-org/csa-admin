@@ -450,9 +450,6 @@ GEM
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
-    spring (3.1.1)
-    spring-commands-rspec (1.0.4)
-      spring (>= 0.9.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -574,8 +571,6 @@ DEPENDENCIES
   sidekiq-scheduler
   simple_form
   slim
-  spring
-  spring-commands-rspec
   tailwindcss-rails
   tod
   web-console (>= 4.1.0)
