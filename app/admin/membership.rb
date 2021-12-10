@@ -180,6 +180,7 @@ ActiveAdmin.register Membership do
     end
     column(:started_on)
     column(:ended_on)
+    column(:baskets_count)
     column(:renewal_state) { |m| I18n.t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
