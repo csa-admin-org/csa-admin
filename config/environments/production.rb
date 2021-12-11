@@ -2,18 +2,6 @@ require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.middleware.use ExceptionNotification::Rack,
-    ignore_exceptions: %w[ActionController::InvalidAuthenticityToken] + ExceptionNotifier.ignored_exceptions,
-    email: {
-      email_prefix: '[ACP Admin ERROR] ',
-      sender_address: %{"Error Notifier" <error@acp-admin.ch>},
-      exception_recipients: %w[thibaud@acp-admin.ch],
-      delivery_method: :postmark,
-      postmark_settings: {
-        api_key: ENV['POSTMARK_API_KEY']
-      }
-    }
-  ExceptionNotifier::Rake.configure(ignore_exceptions: [])
 
   # Code is not reloaded between requests.
   config.cache_classes = true

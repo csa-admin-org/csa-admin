@@ -42,9 +42,6 @@ gem 'tailwindcss-rails'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
 
-gem 'exception_notification'
-gem 'exception_notification-rake'
-
 gem 'faraday'
 gem 'faraday-cookie_jar'
 

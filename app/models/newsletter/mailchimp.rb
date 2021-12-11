@@ -42,9 +42,6 @@ class Newsletter::MailChimp
     hash_ids_to_delete.each do |hash_id|
       client.lists(@list_id).members(hash_id).update(body: { status: 'unsubscribed' })
     rescue Gibbon::MailChimpError => e
-      ExceptionNotifier.notify(e,
-        email: mailchimp_hash_ids_and_emails[hash_id],
-        hash_id: hash_id)
       Sentry.capture_exception(e, extra: {
         email: mailchimp_hash_ids_and_emails[hash_id],
         hash_id: hash_id
@@ -182,9 +179,6 @@ class Newsletter::MailChimp
           batch_id: batch_id,
           response_body_url: res.body[:response_body_url]
         })
-        ExceptionNotifier.notify(error,
-          batch_id: batch_id,
-          response_body_url: res.body[:response_body_url])
       end
     elsif res.body[:errored_operations].positive?
       suppress_emails(res)

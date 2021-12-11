@@ -1,6 +1,4 @@
 class SpamDetector
-  SpamDetectedError = Class.new(StandardError)
-
   MAX_SIZE = 5000
   ZIP_REGEXP = /\A\d{6}\z/
   CYRILLIC_CHECK = /\p{Cyrillic}+/ui
@@ -11,7 +9,6 @@ class SpamDetector
   end
 
   def self.notify!(member)
-    ExceptionNotifier.notify(SpamDetectedError.new, member.attributes)
     Sentry.capture_message('Spam detected', extra: member.attributes)
   end
 
