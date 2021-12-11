@@ -51,7 +51,6 @@ ActiveAdmin.register Announcement do
           label: Announcement.human_attribute_name(:future_deliveries)
       end
     end
-
     f.actions
   end
 

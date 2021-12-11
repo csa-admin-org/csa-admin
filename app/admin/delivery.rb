@@ -167,12 +167,6 @@ ActiveAdmin.register Delivery do
   form do |f|
     render partial: 'bulk_dates', locals: { f: f, resource: resource }
     f.inputs do
-      f.input :note
-      if Current.acp.feature_flag?('shop')
-        f.input :shop_open, as: :boolean
-      end
-    end
-    f.inputs do
       f.input :depots,
         as: :check_boxes,
         collection: Depot.all,
@@ -184,8 +178,14 @@ ActiveAdmin.register Delivery do
           collection: BasketComplement.all,
           hint: true
       end
-      f.actions
     end
+    f.inputs do
+      if Current.acp.feature_flag?('shop')
+        f.input :shop_open, as: :boolean
+      end
+      f.input :note
+    end
+    f.actions
   end
 
   permit_params \
