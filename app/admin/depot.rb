@@ -57,7 +57,7 @@ ActiveAdmin.register Depot do
           panel Depot.human_attribute_name(:current_deliveries) do
             table_for depot.deliveries.current_year, class: 'deliveries' do
               column '#', ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date) }
+              column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
             end
           end
         end
@@ -65,7 +65,7 @@ ActiveAdmin.register Depot do
           panel Depot.human_attribute_name(:future_deliveries) do
             table_for depot.deliveries.future_year, class: 'deliveries' do
               column '#', ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date) }
+              column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
             end
           end
         end

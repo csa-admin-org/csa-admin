@@ -53,7 +53,7 @@ class Delivery < ActiveRecord::Base
     date < Time.current
   end
 
-  def display_name(format: :default)
+  def display_name(format: :medium_long)
     "#{I18n.l(date, format: format)} ##{number}"
   end
 
