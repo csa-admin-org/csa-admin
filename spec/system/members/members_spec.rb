@@ -25,9 +25,9 @@ describe 'members page' do
       visit '/new'
 
       expect(page).to have_selector('span',
-        text: "AbondanceCHF 1'330 (33.25 x 40 livraisons), 2 ½ journées")
+        text: "Abondance PUBLICCHF 1'330 (33.25 x 40 livraisons), 2 ½ journées")
       expect(page).to have_selector('span',
-        text: "EveilCHF 925 (~23.15 x 40 livraisons), 2 ½ journées")
+        text: "Eveil PUBLICCHF 925 (~23.15 x 40 livraisons), 2 ½ journées")
       expect(page).to have_selector('span',
         text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
 
@@ -37,9 +37,9 @@ describe 'members page' do
         text: "PainCHF 260 (6.50 x 40 livraisons)")
 
       expect(page).to have_selector('span',
-        text: "Jardin de la mainRue de la main 6-7")
+        text: "Jardin de la main PUBLICRue de la main 6-7")
       expect(page).to have_selector('span',
-        text: "VéloCHF 320 (8.-/livraison), Uniquement à Neuchâtel")
+        text: "Vélo PUBLICCHF 320 (8.-/livraison), Uniquement à Neuchâtel")
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
@@ -50,11 +50,11 @@ describe 'members page' do
       fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
-      choose 'Eveil'
+      choose 'Eveil PUBLIC'
       choose "+ 4.-/panier"
       fill_in 'Oeufs', with: '1'
       fill_in 'Pain', with: '2'
-      choose 'Vélo'
+      choose 'Vélo PUBLIC'
 
       choose 'Trimestriel'
 
@@ -107,13 +107,13 @@ describe 'members page' do
       expect(page).to have_selector('label',
           text: "Dépôt *")
       expect(page).to have_selector('span',
-        text: "Jardin de la mainRue de la main 6-7")
+        text: "Jardin de la main PUBLICRue de la main 6-7")
       expect(page).to have_selector('span',
-        text: "VéloCHF 320 (8.-/livraison)")
+        text: "Vélo PUBLICCHF 320 (8.-/livraison)")
       expect(page).to have_selector('span',
-        text: "NeuchâtelCHF 160 (4.-/livraison)")
+        text: "Neuchâtel PUBLICCHF 160 (4.-/livraison)")
       expect(page).to have_selector('span',
-        text: "La Chaux-de-FondsCHF 160 (4.-/livraison)")
+        text: "La Chaux-de-Fonds PUBLICCHF 160 (4.-/livraison)")
       expect(page).to have_selector('label',
         text: "Dépôt(s) alternatifs(s)")
 
@@ -126,15 +126,15 @@ describe 'members page' do
       fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
-      choose 'Eveil'
+      choose 'Eveil PUBLIC'
 
       within '.member_waiting_depot_id' do
-        choose 'Neuchâtel'
+        choose 'Neuchâtel PUBLIC'
       end
 
       within '.member_waiting_alternative_depot_ids' do
-        check 'Jardin de la main'
-        check 'Vélo'
+        check 'Jardin de la main PUBLIC'
+        check 'Vélo PUBLIC'
       end
 
       choose 'Trimestriel'

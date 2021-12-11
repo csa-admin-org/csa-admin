@@ -497,7 +497,7 @@ module PDF
 
     def membership_basket_size_description(basket_size)
       baskets = object.baskets.where(basket_size: basket_size)
-      "#{Basket.model_name.human}: #{basket_size.name} #{basket_sizes_price_info(object, baskets)}"
+      "#{Basket.model_name.human}: #{basket_size.public_name} #{basket_sizes_price_info(object, baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)
@@ -506,7 +506,7 @@ module PDF
 
     def membership_depot_description(depot)
       baskets = object.baskets.where(depot: depot)
-      "#{Depot.model_name.human}: #{depot.name} #{depots_price_info(baskets)}"
+      "#{Depot.model_name.human}: #{depot.public_name} #{depots_price_info(baskets)}"
     end
 
     def activity_participations_annual_price_change_description

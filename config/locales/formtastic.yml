@@ -148,8 +148,16 @@ _:
           _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
       basket_size:
+        form_priority:
+          _de: Ermöglicht das Sortieren von Taschengrößen in einer bestimmten Reihenfolge
+          _fr: Permet de trier les tailles de panier dans un ordre spécifique.
+          _it: Permette di ordinare le dimensioni del cestino in un ordine specifico.
+        public_name:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione, fattura, scheda firme, ...).
         visible:
-          _de: '"Nein" auswählen, wenn die Taschengröße nicht vorhanden ist bei der Anmeldung.'
+          _de: Nein" auswählen, wenn die Taschengröße bei der Registrierung nicht verfügbar ist.
           _fr: Séléctionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se la dimensione del cestino non è disponibile durante la registrazione.
       baskets_basket_complement:
@@ -179,10 +187,6 @@ _:
           _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
           _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cesta.
-        form_name:
-          _de: Wenn vorhanden, ersetzt er den Namen des Repositories im Registrierungsformular.
-          _fr: Si présent, remplace le nom du dépôt dans le formulaire d'inscription.
-          _it: Se presente, sostituisce il nome del luogo di consegna nel formulario d'iscrizione.
         form_priority:
           _de: Ermöglicht es Ihnen, die Einlagen in einer bestimmten Reihenfolge zu sortieren.
           _fr: Permet de trier les dépôts dans un ordre spécifique.
@@ -199,6 +203,10 @@ _:
           _de: Preis für die Abpackung und/oder Lieferung einer Tasche.
           _fr: Prix pour la préparation et/ou livraison d'un panier.
           _it: Prezzo per la preparazione e/o consegna di una cesta.
+        public_name:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription.

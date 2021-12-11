@@ -71,16 +71,16 @@ describe PDF::Delivery do
 
       pdf_strings = save_pdf_and_return_strings(delivery, depot)
       expect(pdf_strings)
-        .to include('Fleurs Kissling')
+        .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
-        .and contain_sequence('Petit', 'Grand','Oeufs', 'Tomme de Lavaux')
+        .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs', 'Tomme de Lavaux')
         .and contain_sequence('Totaux (dépôt)', '2', '1', '3', '1', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '1', '1')
         .and contain_sequence('John Doe', '2', '2')
         .and contain_sequence('Missing Joe', '–', '–', '–', '–', 'ABSENT(E)')
-        .and include("Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi", "midi.")
+        .and contain_sequence("Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
       expect(pdf_strings).not_to include 'Jame Dane'
-      expect(pdf_strings).not_to include 'Moyen'
+      expect(pdf_strings).not_to include 'Moyen PUBLIC'
     end
 
     specify 'includes annoucement' do
@@ -96,7 +96,7 @@ describe PDF::Delivery do
       pdf_strings = save_pdf_and_return_strings(delivery, depot)
 
       expect(pdf_strings)
-        .to include('Fleurs Kissling')
+        .to include('Fleurs Kissling PUBLIC')
         .and include('Ramenez les sacs!')
     end
 
@@ -153,9 +153,9 @@ describe PDF::Delivery do
 
       pdf_strings = save_pdf_and_return_strings(delivery, depot)
       expect(pdf_strings)
-        .to include('Fleurs Kissling')
+        .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
-        .and contain_sequence('Petit', 'Grand', 'Oeufs', 'Tomme de Lavaux', "Commande d'épicerie")
+        .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs', 'Tomme de Lavaux', "Commande d'épicerie")
         .and contain_sequence('Totaux (dépôt)', '2', '1', '5', '1', '1', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '3', '1', 'X')
         .and contain_sequence('John Doe', '2', '2')

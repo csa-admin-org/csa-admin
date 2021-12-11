@@ -8,6 +8,6 @@ class Liquid::DepotDrop < Liquid::Drop
   end
 
   def name
-    @depot.name
+    @depot.public_name
   end
 end

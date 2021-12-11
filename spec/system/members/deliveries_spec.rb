@@ -22,9 +22,9 @@ describe 'members page' do
       visit '/deliveries'
 
       expect(current_path).to eq '/deliveries'
-      expect(page).to have_content 'Petit'
+      expect(page).to have_content 'Petit PUBLIC'
       expect(page).to have_content 'Oeufs'
-      expect(page).to have_content 'Jardin de la main'
+      expect(page).to have_content 'Jardin de la main PUBLIC'
     end
   end
 

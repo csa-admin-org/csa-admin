@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_27_093106) do
+ActiveRecord::Schema.define(version: 2021_12_11_105616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -279,6 +279,8 @@ ActiveRecord::Schema.define(version: 2021_11_27_093106) do
     t.jsonb "names", default: {}, null: false
     t.integer "acp_shares_number"
     t.boolean "visible", default: true, null: false
+    t.jsonb "public_names", default: {}, null: false
+    t.integer "form_priority", default: 0, null: false
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 
@@ -349,7 +351,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_093106) do
     t.text "note"
     t.string "language", default: "fr", null: false
     t.boolean "visible", default: true, null: false
-    t.jsonb "form_names", default: {}, null: false
+    t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
     t.string "xlsx_worksheet_style", default: "default", null: false
     t.index ["responsible_member_id"], name: "index_depots_on_responsible_member_id"

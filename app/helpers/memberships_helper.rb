@@ -17,14 +17,14 @@ module MembershipsHelper
     case object
     when Basket
       case object.quantity
-      when 1 then object.basket_size.name
-      else "#{object.quantity}x #{object.basket_size.name}"
+      when 1 then object.basket_size.public_name
+      else "#{object.quantity}x #{object.basket_size.public_name}"
       end
     when Membership
       desc =
         case object.basket_quantity
-        when 1 then object.basket_size.name
-        else "#{object.basket_quantity}x #{object.basket_size.name}"
+        when 1 then object.basket_size.public_name
+        else "#{object.basket_quantity}x #{object.basket_size.public_name}"
         end
       desc += " (#{object.season_name})" unless object.all_seasons?
       desc

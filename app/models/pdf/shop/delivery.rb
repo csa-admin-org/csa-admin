@@ -45,7 +45,7 @@ module PDF
         bounding_box [bounds.width - 450, bounds.height - 20], width: 430, height: 120 do
           text member.name, size: 22, align: :right
           move_down 10
-          text depot.name, size: 20, align: :right
+          text depot.public_name, size: 20, align: :right
           move_down 5
           text I18n.l(delivery.date), size: 20, align: :right
         end

@@ -24,6 +24,9 @@ ActiveAdmin.register BasketSize do
   form do |f|
     f.inputs do
       translated_input(f, :names, required: true)
+      translated_input(f, :public_names,
+        required: false,
+        hint: t('formtastic.hints.basket_size.public_name'))
       f.input :price, as: :number, min: 0
       if Current.acp.feature?('activity')
         f.input :activity_participations_demanded_annualy,
@@ -35,8 +38,13 @@ ActiveAdmin.register BasketSize do
       if Current.acp.share?
         f.input :acp_shares_number, as: :number, step: 1
       end
+    end
+
+    f.inputs t('active_admin.resource.show.member_new_form') do
+      f.input :form_priority, hint: true
       f.input :visible, as: :select, include_blank: false
     end
+
     f.actions
   end
 
@@ -45,7 +53,9 @@ ActiveAdmin.register BasketSize do
     :visible,
     :acp_shares_number,
     :activity_participations_demanded_annualy,
-    *I18n.available_locales.map { |l| "name_#{l}" })
+    :form_priority,
+    *I18n.available_locales.map { |l| "name_#{l}" },
+    *I18n.available_locales.map { |l| "public_name_#{l}" })
 
   controller do
     include TranslatedCSVFilename

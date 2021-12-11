@@ -30,11 +30,11 @@ describe Liquid::DataPreview do
         'basket_complements' => [],
         'basket_size' => {
           'id' => 33,
-          'name' => 'Eveil'
+          'name' => 'Eveil PUBLIC'
         },
         'depot' => {
           'id' => 12,
-          'name' => 'Jardin de la main'
+          'name' => 'Jardin de la main PUBLIC'
         },
         'end_date' => '31 décembre 2020',
         'start_date' => '1 janvier 2020',
@@ -102,11 +102,11 @@ describe Liquid::DataPreview do
         'basket_complements' => [],
         'basket_size' => {
           'id' => 33,
-          'name' => 'Eveil'
+          'name' => 'Eveil PUBLIC'
         },
         'depot' => {
           'id' => 12,
-          'name' => 'Jardin de la main'
+          'name' => 'Jardin de la main PUBLIC'
         },
         'end_date' => '31 décembre 2020',
         'start_date' => '1 janvier 2020',

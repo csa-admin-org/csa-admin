@@ -108,6 +108,7 @@ FactoryBot.define do
 
   factory :basket_size do
     sequence(:name) { |n| "Basket Size #{n}" }
+    public_name { "#{name} PUBLIC" }
     price { 30 }
     activity_participations_demanded_annualy { 2 }
 
@@ -130,6 +131,7 @@ FactoryBot.define do
 
   factory :depot do
     name { Faker::Name.name }
+    public_name { "#{name} PUBLIC" }
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }

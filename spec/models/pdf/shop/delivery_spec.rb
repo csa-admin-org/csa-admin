@@ -59,7 +59,7 @@ describe PDF::Shop::Delivery do
 
       pdf_strings = save_pdf_and_return_strings(delivery)
       expect(pdf_strings)
-        .to include('Cery')
+        .to include('Cery PUBLIC')
         .and include('James Doe')
         .and include(I18n.l delivery.date)
         .and include('Bulletin de livraison')

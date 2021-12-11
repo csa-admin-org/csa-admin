@@ -8,7 +8,7 @@ class Depot < ActiveRecord::Base
 
   attr_accessor :delivery_memberships
 
-  translated_attributes :form_name
+  translated_attributes :public_name
 
   belongs_to :responsible_member, class_name: 'Member', optional: true
   has_many :baskets
@@ -29,6 +29,10 @@ class Depot < ActiveRecord::Base
   validates :name, :form_priority, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
+  def public_name
+    self[:public_names][I18n.locale.to_s].presence || name
+  end
+
   def baskets_for(delivery)
     baskets
       .not_absent
@@ -41,12 +45,6 @@ class Depot < ActiveRecord::Base
 
   def free?
     price.zero?
-  end
-
-  def names
-    Current.acp.languages.map { |l|
-      [l, self[:form_names][l].presence || name]
-    }.to_h
   end
 
   def require_delivery_address?
