@@ -23,12 +23,12 @@ ActiveAdmin.register Delivery do
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
     column '#', ->(delivery) { auto_link delivery, delivery.number }
-    column :date, ->(delivery) { auto_link delivery, l(delivery.date) }
-    if Current.acp.feature_flag?('shop')
-      column(:shop_open)
-    end
+    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium_long) }
     if BasketComplement.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
+    end
+    if Current.acp.feature_flag?('shop')
+      column(:shop_open)
     end
     actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
@@ -127,7 +127,7 @@ ActiveAdmin.register Delivery do
       column do
         attributes_table do
           row('#') { delivery.number }
-          row(:date) { l delivery.date }
+          row(:date) { l(delivery.date, format: :long) }
           if Current.acp.feature_flag?('shop')
             row(:shop_open)
           end
