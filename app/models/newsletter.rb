@@ -10,7 +10,6 @@ module Newsletter
       mailchimp.unsubscribe_deleted_members(Member.all)
     end
   rescue Gibbon::MailChimpError => e
-    ExceptionNotifier.notify(e)
     Sentry.capture_exception(e)
   end
 end

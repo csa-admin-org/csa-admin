@@ -124,10 +124,6 @@ class Invoice < ActiveRecord::Base
     touch(:sent_at)
     close_or_open!
   rescue => e
-    ExceptionNotifier.notify(e,
-      invoice_id: id,
-      emails: member.emails,
-      member_id: member_id)
     Sentry.capture_exception(e, extra: {
       invoice_id: id,
       emails: member.emails,

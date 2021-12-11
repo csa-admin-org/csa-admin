@@ -48,7 +48,6 @@ module Billing
         invoice.send_overpaid_notification_to_admins!
       end
     rescue => e
-      ExceptionNotifier.notify(e, data)
       Sentry.capture_exception(e, extra: { data: data })
     end
 

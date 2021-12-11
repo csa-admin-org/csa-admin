@@ -19,10 +19,6 @@ class InvoiceOverdueNoticer
 
     MailTemplate.deliver_later(:invoice_overdue_notice, invoice: invoice)
   rescue => e
-    ExceptionNotifier.notify(e,
-      invoice_id: invoice.id,
-      emails: invoice.member.emails,
-      member_id: invoice.member_id)
     Sentry.capture_exception(e, extra: {
       invoice_id: invoice.id,
       emails: invoice.member.emails,
