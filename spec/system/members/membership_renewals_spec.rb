@@ -33,7 +33,7 @@ describe 'Memberships Renewal' do
     choose 'Renouveler mon abonnement'
     click_on 'Suivant'
 
-    choose "Grand"
+    choose "Grand PUBLIC"
     fill_in 'Oeufs', with: '2'
     fill_in 'Remarque(s)', with: "Plus d'épinards!"
 
@@ -47,7 +47,7 @@ describe 'Memberships Renewal' do
     end
     within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
-      expect(page).to have_content 'Grand'
+      expect(page).to have_content 'Grand PUBLIC'
       expect(page).to have_content '2 x Oeufs'
       expect(page).to have_content 'Joli Lieu'
       expect(page).to have_content '1 Livraison'
@@ -93,7 +93,7 @@ describe 'Memberships Renewal' do
     choose 'Renouveler mon abonnement'
     click_on 'Suivant'
 
-    choose "Grand"
+    choose "Grand PUBLIC"
     choose "+ 8.-/panier"
 
     fill_in 'Remarque(s)', with: "Plus d'épinards!"
@@ -108,7 +108,7 @@ describe 'Memberships Renewal' do
     end
     within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
-      expect(page).to have_content 'Grand'
+      expect(page).to have_content 'Grand PUBLIC'
       expect(page).to have_content 'Joli Lieu'
       expect(page).to have_content '1 Livraison'
       expect(page).to have_content '½ Journées: 2 demandées'

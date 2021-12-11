@@ -40,8 +40,8 @@ describe 'Membership' do
 
     within 'ul#2020' do
       expect(page).to have_content '1 janvier 2020 – 31 décembre 2020'
-      expect(page).to have_content 'Petit'
-      expect(page).to have_content 'Joli Lieu'
+      expect(page).to have_content 'Petit PUBLIC'
+      expect(page).to have_content 'Joli Lieu PUBLIC'
       expect(page).to have_content '40 Livraisons, 5 absences'
       expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 1'200.00"
@@ -66,8 +66,8 @@ describe 'Membership' do
 
     within 'ul#2020' do
       expect(page).to have_content '1 février 2020 – 31 décembre 2020'
-      expect(page).to have_content 'Petit'
-      expect(page).to have_content 'Joli Lieu'
+      expect(page).to have_content 'Petit PUBLIC'
+      expect(page).to have_content 'Joli Lieu PUBLIC'
       expect(page).to have_content "36 Livraisons, encore 4 à l'essai et sans engagement"
       expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 1'080.00"
@@ -93,8 +93,8 @@ describe 'Membership' do
 
     within 'ul#2020' do
       expect(page).to have_content '1 juin 2020 – 31 décembre 2020'
-      expect(page).to have_content 'Petit'
-      expect(page).to have_content 'Joli Lieu'
+      expect(page).to have_content 'Petit PUBLIC'
+      expect(page).to have_content 'Joli Lieu PUBLIC'
       expect(page).to have_content '19 Livraisons'
       expect(page).to have_content '½ Journées: 1 demandée'
       expect(page).to have_content "CHF 570"

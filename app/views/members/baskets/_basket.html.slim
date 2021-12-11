@@ -22,7 +22,7 @@ ul class="my-2 md:mr-4 -mx-2 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-90
       - depot = basket.depot
       - if depot.full_address
         = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
-          = h depot.name
+          = h depot.public_name
       - else
-        = h depot.name
+        = h depot.public_name
 

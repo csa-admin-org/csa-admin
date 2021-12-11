@@ -8,6 +8,6 @@ class Liquid::BasketSizeDrop < Liquid::Drop
   end
 
   def name
-    @basket_size.name
+    @basket_size.public_name
   end
 end

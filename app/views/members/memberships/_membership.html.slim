@@ -21,9 +21,9 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year
       - depot = membership.depot
       - if depot.full_address
         = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
-          = h depot.name
+          = h depot.public_name
       - else
-        = h depot.name
+        = h depot.public_name
 
   li class='mt-1 flex flex-row items-center'
     = inline_svg_tag 'members/truck.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'

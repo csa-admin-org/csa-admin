@@ -53,7 +53,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
               = link_to members_contact_sharing_path, class: 'block py-2 px-8' do
                 h2 class='font-medium text-gray-700 dark:text-gray-400'
                   = Member.human_attribute_name(:contact_sharing)
-                span = '⤷ ' + next_basket.depot.name
+                span = '⤷ ' + next_basket.depot.public_name
 
         - if Current.acp.feature?('activity')
           li class=nav_class('activity_participations')

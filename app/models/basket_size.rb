@@ -2,7 +2,7 @@ class BasketSize < ActiveRecord::Base
   include TranslatedAttributes
   include HasVisibility
 
-  translated_attributes :name
+  translated_attributes :name, :public_name
 
   has_many :memberships
   has_many :members, through: :memberships
@@ -12,6 +12,7 @@ class BasketSize < ActiveRecord::Base
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
 
+  validates :name, :form_priority, presence: true
   validates :price,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
@@ -22,8 +23,11 @@ class BasketSize < ActiveRecord::Base
     numericality: { greater_than_or_equal_to: 1 },
     allow_nil: true
 
-
   def display_name; name end
+
+  def public_name
+    self[:public_names][I18n.locale.to_s].presence || name
+  end
 
   def can_destroy?
     memberships.none? && baskets.none?

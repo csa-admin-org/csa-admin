@@ -20,7 +20,7 @@ module MembersHelper
   end
 
   def basket_sizes_collection(no_basket_option: true, data: {}, no_basket_data: {})
-    basket_sizes = BasketSize.visible.reorder(price: :desc)
+    basket_sizes = BasketSize.visible.reorder(:form_priority, price: :desc)
     acp_shares_numbers = basket_sizes.pluck(:acp_shares_number).uniq
     col = basket_sizes.map { |bs|
       details = []
@@ -34,7 +34,7 @@ module MembersHelper
         details << acp_shares_number(bs.acp_shares_number)
       end
       [
-        collection_text(bs.name, details: details.compact.join(', ')),
+        collection_text(bs.public_name, details: details.compact.join(', ')),
         bs.id,
         data: {
           form_min_value_enforcer_min_value_param: bs.acp_shares_number
@@ -108,7 +108,7 @@ module MembersHelper
         details << d.address
       end
       [
-        collection_text(d.form_name || d.name,
+        collection_text(d.public_name,
           details: details.compact.join(', '),
           icon: icon),
         d.id,

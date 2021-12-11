@@ -24,16 +24,31 @@ module API
 
       def payload
         {
-          basket_sizes: @basket_sizes.select(:id, :names),
+          basket_sizes: basket_sizes_json,
           depots: depots_json,
           vegetables: @vegetable.select(:id, :names)
         }
       end
 
+      def basket_sizes_json
+        @basket_sizes
+          .select(:id, :public_names, :names, :visible)
+          .map { |basket_size|
+            basket_size
+              .as_json(only: %i[id visible])
+              .merge(names: Current.acp.languages.map { |l| [l, basket_size.public_name] }.to_h)
+          }
+
+      end
+
       def depots_json
         @depots
-          .select(:id, :form_names, :name, :visible)
-          .as_json(only: %i[id visible], methods: :names)
+          .select(:id, :public_names, :name, :visible)
+          .map { |depot|
+            depot
+              .as_json(only: %i[id visible])
+              .merge(names: Current.acp.languages.map { |l| [l, depot.public_name] }.to_h)
+          }
       end
     end
   end

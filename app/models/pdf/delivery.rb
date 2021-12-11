@@ -73,7 +73,7 @@ module PDF
         end
       end
       bounding_box [bounds.width - 370, bounds.height - 20], width: 350, height: 120 do
-        text depot.name, size: 24, align: :right
+        text depot.public_name, size: 24, align: :right
         move_down 5
         text I18n.l(delivery.date), size: 24, align: :right
         if total_pages > 1
@@ -103,7 +103,7 @@ module PDF
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
         text_box '', width: member_name_width, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
-          text_box bs.name,
+          text_box bs.public_name,
             rotate: 45,
             at: [member_name_width + i * 25 + 10, cursor],
             valign: :center

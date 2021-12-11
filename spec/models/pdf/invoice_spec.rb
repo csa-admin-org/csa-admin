@@ -56,7 +56,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
-        .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
+        .and contain_sequence('Panier: Abondance PUBLIC 40x 33.25', "1'330.00")
         .and contain_sequence('Montant annuel', "1'330.00", 'Facturation anuelle', "1'330.00")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "1'372.00")
@@ -80,7 +80,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
-        .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00")
+        .and contain_sequence('Panier: Abondance PUBLIC 40x 33.25', "1'330.00")
         .and contain_sequence('Réduction pour 6 ', '½ ', 'journées supplémentaires', '- 330.50')
         .and contain_sequence('Montant annuel', "999.50", 'Facturation anuelle', "999.50")
         .and contain_sequence('Cotisation annuelle association', '30.00')
@@ -107,8 +107,8 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
-        .and contain_sequence('Panier: Eveil 40x 23.125', '925.00')
-        .and contain_sequence('Dépôt: La Chaux-de-Fonds 40x 4.00', '160.00')
+        .and contain_sequence('Panier: Eveil PUBLIC 40x 23.125', '925.00')
+        .and contain_sequence('Dépôt: La Chaux-de-Fonds PUBLIC 40x 4.00', '160.00')
         .and contain_sequence('Montant annuel', "1'085.00")
         .and contain_sequence('Montant trimestriel #1', '271.25')
         .and contain_sequence('Cotisation annuelle association', '30.00')
@@ -131,7 +131,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
-        .and contain_sequence('Panier: Abondance 40x (33.25+4.00)', "1'490.00")
+        .and contain_sequence('Panier: Abondance PUBLIC 40x (33.25+4.00)', "1'490.00")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "1'532.00")
     end
@@ -166,7 +166,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
-        .and contain_sequence('Panier: Abondance 40x 33.25', "1'330.00",)
+        .and contain_sequence('Panier: Abondance PUBLIC 40x 33.25', "1'330.00",)
         .and contain_sequence('Déjà facturé', '- 665.00')
         .and contain_sequence('Montant annuel restant', '665.00')
         .and contain_sequence('Facturation trimestrielle #3', '332.50')
@@ -295,7 +295,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01.04.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Panier: Grand PUBLIC 48x 30.50', "1'464.00")
         .and contain_sequence('Oeufs 24x 4.80', "115.20")
         .and contain_sequence('Tomme de Lavaux 24x 7.40', "177.60")
         .and contain_sequence('Montant annuel', "1'756.80", 'Facturation annuelle', "* 1'756.80")
@@ -340,7 +340,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01.04.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Panier: Grand PUBLIC 48x 30.50', "1'464.00")
         .and contain_sequence("Les Voisins d'abord 2x 200.00", "400.00")
         .and contain_sequence('Tomme de Lavaux 24x 7.40', "177.60")
         .and contain_sequence('Montant annuel', "2'041.60", 'Facturation annuelle', "* 2'041.60")
@@ -393,7 +393,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to contain_sequence('01.04.2019 – 31.03.2020')
-        .and contain_sequence('Panier: Grand 43x 30.50', "1'311.50")
+        .and contain_sequence('Panier: Grand PUBLIC 43x 30.50', "1'311.50")
         .and contain_sequence("Les Voisins d'abord 2x 200.00", '400.00')
         .and contain_sequence('Tomme de Lavaux 19x 7.40', '140.60')
         .and contain_sequence('Montant annuel', "1'852.10", 'Facturation annuelle', "* 1'852.10")
@@ -435,7 +435,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to contain_sequence('01.04.2019 – 31.03.2020')
-        .and contain_sequence('Panier: Grand 23x 30.50', '701.50')
+        .and contain_sequence('Panier: Grand PUBLIC 23x 30.50', '701.50')
         .and contain_sequence('Déjà facturé', '- 233.85')
         .and contain_sequence('Montant annuel restant', '467.65')
         .and contain_sequence('Facturation quadrimestrielle #2', '* 233.85')
@@ -490,7 +490,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.04.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Petit 48x 21.00', "1'008.00")
+        .and contain_sequence('Panier: Petit PUBLIC 48x 21.00', "1'008.00")
         .and contain_sequence('Oeufs 24x 4.80', "115.20")
         .and contain_sequence('Déjà facturé', '- 187.20')
         .and contain_sequence('Montant annuel restant', '936.00')
@@ -532,7 +532,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01.09.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 27x 30.50', '823.50')
+        .and contain_sequence('Panier: Grand PUBLIC 27x 30.50', '823.50')
         .and contain_sequence('Ajustement du prix des paniers', '- 44.00')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
         .and contain_sequence('Montant annuel', '957.10', 'Facturation annuelle', '* 957.10')
@@ -576,7 +576,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.09.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 27x 30.50', '823.50')
+        .and contain_sequence('Panier: Grand PUBLIC 27x 30.50', '823.50')
         .and contain_sequence('Tomme de Lavaux 24x 7.40', '177.60')
         .and contain_sequence('Ajustement du prix des compléments', '- 14.15')
         .and contain_sequence('Montant annuel', '986.95', 'Facturation annuelle', '* 986.95')
@@ -606,7 +606,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.04.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Panier: Grand PUBLIC 48x 30.50', "1'464.00")
         .and contain_sequence('Montant annuel', "1'464.00", 'Facturation annuelle', "* 1'464.00")
         .and contain_sequence('Cotisation annuelle association', '75.00')
         .and contain_sequence('Avoir', "- 242.00")
@@ -643,7 +643,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to include(/01.04.20\d\d – 31.03.20\d\d/)
-        .and contain_sequence('Panier: Grand 48x 30.50', "1'464.00")
+        .and contain_sequence('Panier: Grand PUBLIC 48x 30.50', "1'464.00")
         .and contain_sequence('Déjà facturé', '- 122.00')
         .and contain_sequence('Montant annuel restant', "1'342.00")
         .and contain_sequence('Facturation mensuelle #2', '* 122.00')

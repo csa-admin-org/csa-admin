@@ -4,7 +4,7 @@ h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-g
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = Depot.model_name.human
   = ': '
-  = @depot.name
+  = @depot.public_name
 
 section
   - if current_member.errors.none? && current_member.contact_sharing?

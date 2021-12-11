@@ -28,6 +28,7 @@ ActiveAdmin.register Depot do
   csv do
     column(:id)
     column(:name)
+    column(:public_name)
     if Current.acp.languages.many?
       row(:language) { |d| t("languages.#{d.language}") }
     end
@@ -36,6 +37,7 @@ ActiveAdmin.register Depot do
     column(:address_name)
     column(:address)
     column(:zip)
+    column(:form_priority)
     column(:visible)
     column(:emails) { |d| d.emails_array.join(', ') }
     column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(', ') }
@@ -72,6 +74,7 @@ ActiveAdmin.register Depot do
         attributes_table do
           row :id
           row :name
+          row :public_name
           if Current.acp.languages.many?
             row(:language) { t("languages.#{depot.language}") }
           end
@@ -81,13 +84,12 @@ ActiveAdmin.register Depot do
               depot.deliveries_count,
               deliveries_path(q: { depots_id_eq: depot.id }))
           }
-          row(:visible)
           row(:note) { text_format(depot.note) }
         end
 
         attributes_table title: t('.member_new_form') do
-          row :form_name
           row :form_priority
+          row :visible
         end
 
         attributes_table title: Depot.human_attribute_name(:address) do
@@ -111,17 +113,17 @@ ActiveAdmin.register Depot do
   form do |f|
     f.inputs do
       f.input :name
+      translated_input(f, :public_names,
+        required: false,
+        hint: t('formtastic.hints.depot.public_name'))
       language_input(f)
       f.input :price, hint: true
-      f.input :visible, as: :select, include_blank: false
       f.input :note, input_html: { rows: 3 }
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
-      translated_input(f, :form_names,
-        required: false,
-        hint: t('formtastic.hints.depot.form_name'))
       f.input :form_priority, hint: true
+      f.input :visible, as: :select, include_blank: false
     end
 
     f.inputs Depot.human_attribute_name(:address) do
@@ -164,7 +166,7 @@ ActiveAdmin.register Depot do
       emails phones responsible_member_id
       form_priority
     ],
-    *I18n.available_locales.map { |l| "form_name_#{l}" },
+    *I18n.available_locales.map { |l| "public_name_#{l}" },
     current_delivery_ids: [],
     future_delivery_ids: [])
 
