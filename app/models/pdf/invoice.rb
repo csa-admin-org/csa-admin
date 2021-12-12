@@ -501,7 +501,7 @@ module PDF
     end
 
     def membership_basket_complement_description(basket_complement)
-      "#{basket_complement.name} #{basket_complement_price_info(object, basket_complement)}"
+      "#{basket_complement.public_name} #{basket_complement_price_info(object, basket_complement)}"
     end
 
     def membership_depot_description(depot)

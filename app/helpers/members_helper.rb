@@ -78,13 +78,13 @@ module MembersHelper
 
   def basket_complement_label(bc)
     if bc.annual_price_type?
-      collection_text(bc.name,
+      collection_text(bc.public_name,
         details: "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})")
     else
       d_counts = depots_delivery_ids.map { |d_ids|
         (d_ids & bc.delivery_ids).size
       }.uniq
-      collection_text(bc.name,
+      collection_text(bc.public_name,
         details: "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})")
     end
   end

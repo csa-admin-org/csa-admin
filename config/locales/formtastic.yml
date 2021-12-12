@@ -139,10 +139,18 @@ _:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
+        form_priority:
+          _de: Ermöglicht es Ihnen, die Zusätze in einer bestimmten Reihenfolge zu sortieren.
+          _fr: Permet de trier les compléments dans un ordre spécifique.
+          _it: Permette di ordinare le aggiunte in un ordine specifico.
         future_deliveries:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
+        public_name:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.

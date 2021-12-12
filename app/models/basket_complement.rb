@@ -5,7 +5,7 @@ class BasketComplement < ActiveRecord::Base
 
   PRICE_TYPES = %w[delivery annual]
 
-  translated_attributes :name
+  translated_attributes :name, :public_name
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
@@ -35,6 +35,10 @@ class BasketComplement < ActiveRecord::Base
   end
 
   def display_name; name end
+
+  def public_name
+    self[:public_names][I18n.locale.to_s].presence || name
+  end
 
   def can_destroy?
     memberships_basket_complements.none? && baskets_basket_complement.none?

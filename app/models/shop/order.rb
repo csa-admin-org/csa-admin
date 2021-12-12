@@ -105,8 +105,8 @@ module Shop
         next unless item.product.basket_complement
 
         case item.quantity
-        when 1 then item.product.basket_complement.name
-        else "#{item.quantity} x #{item.product.basket_complement.name}"
+        when 1 then item.product.basket_complement.public_name
+        else "#{item.quantity} x #{item.product.basket_complement.public_name}"
         end
       }.compact.to_sentence.presence
     end

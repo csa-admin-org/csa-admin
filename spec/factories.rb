@@ -81,6 +81,7 @@ FactoryBot.define do
 
   factory :basket_complement do
     sequence(:name) { |n| "Basket Complement #{n}" }
+    public_name { "#{name} PUBLIC" }
     price { 4.2 }
     delivery_ids {
       DeliveriesHelper.create_deliveries(deliveries_count, fiscal_year)

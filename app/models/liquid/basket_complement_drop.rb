@@ -8,6 +8,6 @@ class Liquid::BasketComplementDrop < Liquid::Drop
   end
 
   def name
-    @basket_complement.name
+    @basket_complement.public_name
   end
 end
