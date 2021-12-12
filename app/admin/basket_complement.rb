@@ -77,6 +77,7 @@ ActiveAdmin.register BasketComplement do
     :price,
     :price_type,
     :visible,
+    :form_priority,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     current_delivery_ids: [],
