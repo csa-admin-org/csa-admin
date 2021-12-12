@@ -32,9 +32,9 @@ describe 'members page' do
         text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector('label',
-        text: "OeufsCHF 192 (4.80 x 40 livraisons)")
+        text: "Oeufs PUBLICCHF 192 (4.80 x 40 livraisons)")
       expect(page).to have_selector('label',
-        text: "PainCHF 260 (6.50 x 40 livraisons)")
+        text: "Pain PUBLICCHF 260 (6.50 x 40 livraisons)")
 
       expect(page).to have_selector('span',
         text: "Jardin de la main PUBLICRue de la main 6-7")
@@ -52,8 +52,8 @@ describe 'members page' do
 
       choose 'Eveil PUBLIC'
       choose "+ 4.-/panier"
-      fill_in 'Oeufs', with: '1'
-      fill_in 'Pain', with: '2'
+      fill_in 'Oeufs PUBLIC', with: '1'
+      fill_in 'Pain PUBLIC', with: '2'
       choose 'Vélo PUBLIC'
 
       choose 'Trimestriel'

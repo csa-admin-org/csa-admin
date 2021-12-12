@@ -37,8 +37,8 @@ module MembershipsHelper
     names = Array(complements).compact.map do |complement|
       desc =
         case complement.quantity
-        when 1 then complement.basket_complement.name
-        else "#{complement.quantity} x #{complement.basket_complement.name}"
+        when 1 then complement.basket_complement.public_name
+        else "#{complement.quantity} x #{complement.basket_complement.public_name}"
         end
       if complement.respond_to?(:seasons)
         desc += " (#{complement.season_name})" unless complement.all_seasons?

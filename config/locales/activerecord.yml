@@ -375,6 +375,10 @@ _:
           _fr: essai
           _it: prova
       basket_complement:
+        form_priority:
+          _de: Priorität
+          _fr: Priorité
+          _it: Priorità
         price_type:
           _de: Preis pro
           _fr: Prix par
@@ -387,6 +391,10 @@ _:
           _de: Lieferung
           _fr: Livraison
           _it: Consegna
+        public_name:
+          _de: Name (Mitglied)
+          _fr: Nom (Membre)
+          _it: Cognome (Socio)
       basket_content:
         basket_size:
           _de: Tasche

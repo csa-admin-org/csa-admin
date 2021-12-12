@@ -108,8 +108,8 @@ module PDF
             at: [member_name_width + i * 25 + 10, cursor],
             valign: :center
         end
-        basket_complements.each_with_index do |c, i|
-          text_box c.name,
+        basket_complements.each_with_index do |bc, i|
+          text_box bc.public_name,
             rotate: 45,
             at: [member_name_width + (bs_size + i) * 25 + 10, cursor],
             valign: :center

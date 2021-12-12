@@ -39,14 +39,22 @@ ActiveAdmin.register BasketComplement do
   form do |f|
     f.inputs do
       translated_input(f, :names, required: true)
+      translated_input(f, :public_names,
+        required: false,
+        hint: t('formtastic.hints.basket_complement.public_name'))
       f.input :price_type,
         as: :select,
         collection: BasketComplement::PRICE_TYPES.map { |type|
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }
       f.input :price, as: :number, min: 0
+    end
+
+    f.inputs t('active_admin.resource.show.member_new_form') do
+      f.input :form_priority, hint: true
       f.input :visible, as: :select, include_blank: false
     end
+
     f.inputs do
       if Delivery.current_year.any?
         f.input :current_deliveries,
@@ -61,6 +69,7 @@ ActiveAdmin.register BasketComplement do
           hint: f.object.persisted?
       end
     end
+
     f.actions
   end
 
@@ -69,6 +78,7 @@ ActiveAdmin.register BasketComplement do
     :price_type,
     :visible,
     *I18n.available_locales.map { |l| "name_#{l}" },
+    *I18n.available_locales.map { |l| "public_name_#{l}" },
     current_delivery_ids: [],
     future_delivery_ids: [])
 
