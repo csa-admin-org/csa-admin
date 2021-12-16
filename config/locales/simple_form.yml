@@ -11,9 +11,9 @@ _:
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
         profession:
-          _de: Was sich möglicherweise als nützlich erweisen könnte.
-          _fr: Qui pourrait éventuellement s'avérer utile.
-          _it: Che potrebbe forse rivelarsi utile.
+          _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
+          _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
+          _it: Che potrebbe essere potenzialmente utile per le nostre attività.
     required:
       mark:
         _de: "*"
