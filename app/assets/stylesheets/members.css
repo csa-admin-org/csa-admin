@@ -63,6 +63,16 @@ li.active a h2 {
   color: var(--green-500) !important;
 }
 
+.trix ul li {
+  list-style: disc;
+  list-style-position: inside;
+}
+
+.trix ol li {
+  list-style: decimal;
+  list-style-position: inside;
+}
+
 .disabled label,
 .disabled span,
 .disabled input,
