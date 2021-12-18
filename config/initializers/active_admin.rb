@@ -322,6 +322,10 @@ ActiveAdmin.setup do |config|
   config.use_webpacker = true
 end
 
+class ActiveAdmin::ResourceDSL
+  include ActivitiesHelper
+end
+
 # Imported from https://github.com/formaweb/formadmin
 module ActiveAdmin
   responsive_viewport = { viewport: 'width=device-width, initial-scale=1' }

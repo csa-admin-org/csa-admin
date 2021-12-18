@@ -46,6 +46,12 @@ ActiveAdmin.register Membership do
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :activity_participations_accepted,
+    label: proc { t_activity('active_admin.resource.index.activity_participations_accepted') },
+    if: proc { Current.acp.feature?('activity') }
+  filter :activity_participations_demanded,
+    label: proc { t_activity('active_admin.resource.index.activity_participations_demanded') },
+    if: proc { Current.acp.feature?('activity') }
 
   includes :member
   index do
@@ -570,6 +576,6 @@ ActiveAdmin.register Membership do
     end
   end
 
-  config.per_page = 30
+  config.per_page = 50
   config.sort_order = 'started_on_desc'
 end
