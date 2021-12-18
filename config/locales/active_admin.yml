@@ -538,6 +538,30 @@ _:
             _fr: Sauvegarder les modifications
             _it: Salvare le modifiche
       index:
+        activity_participations_accepted/basket_preparation:
+          _de: Geleistete Taschen befüllung
+          _fr: Mises en panier effectuées
+          _it: Preparazione dei cestini effettuate
+        activity_participations_accepted/halfday_work:
+          _de: Geleistete ½ Tage
+          _fr: "½ journées effectuées"
+          _it: "½ giornate di lavoro effettuate"
+        activity_participations_accepted/hour_work:
+          _de: Geleistete Arbeitsstunden
+          _fr: Heures de travail demandées
+          _it: Ore di lavoro effettuate
+        activity_participations_demanded/basket_preparation:
+          _de: Verlangte Taschen befüllung
+          _fr: Mises en panier demandées
+          _it: Preparazione dei cestini richieste
+        activity_participations_demanded/halfday_work:
+          _de: Verlangte ½ Tage
+          _fr: "½ journées demandées"
+          _it: "½ giornate di lavoro richieste"
+        activity_participations_demanded/hour_work:
+          _de: Verlangte Arbeitsstunden
+          _fr: Heures de travail demandées
+          _it: Ore di lavoro richieste
         canceled_renewals:
           one:
             _de: "%{count_link} Kündigung"
