@@ -8,7 +8,7 @@ module ActivitiesHelper
   end
 
   def t_activity(key, **options)
-    I18n.t(activity_scoped_attribute(key), **options)
+    t(activity_scoped_attribute(key), **options)
   end
 
   def activity_scoped_attribute(attr)
