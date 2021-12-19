@@ -324,6 +324,7 @@ end
 
 Rails.application.reloader.to_prepare do
   class ActiveAdmin::ResourceDSL
+    include ActionView::Helpers::TranslationHelper
     include ActivitiesHelper
   end
 end
