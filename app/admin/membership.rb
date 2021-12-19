@@ -169,14 +169,15 @@ ActiveAdmin.register Membership do
     column(:emails) { |m| m.member.emails_array.join(', ') }
     column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:note) { |m| m.member.note }
-    column(:basket_size) { |m| basket_size_description(m, text_only: true) }
+    column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     if Current.acp.seasons?
       column(:seasons) { |m| m.seasons.map { |s| I18n.t "season.#{s}" }.join(', ') }
     end
     if BasketComplement.any?
       column(:basket_complements) { |m|
         basket_complements_description(m.memberships_basket_complements.includes(:basket_complement),
-          text_only: true)
+          text_only: true,
+          public_name: false)
       }
     end
     column(:depot) { |m| m.depot&.name }
@@ -203,7 +204,7 @@ ActiveAdmin.register Membership do
   show do |m|
     columns do
       column do
-        next_delivery = Delivery.next
+        next_basket = m.next_basket
         panel "#{m.baskets_count} #{Basket.model_name.human(count: m.baskets_count)}" do
           table_for(m.baskets.includes(
             :delivery,
@@ -212,7 +213,7 @@ ActiveAdmin.register Membership do
             :complements,
             baskets_basket_complements: :basket_complement
           ),
-            row_class: ->(b) { 'next' if b.delivery == next_delivery },
+            row_class: ->(b) { 'next' if b == next_basket },
             class: 'table-baskets'
           ) do
             column(:delivery) { |b| link_to b.delivery.display_name(format: :number), b.delivery }
@@ -319,14 +320,14 @@ ActiveAdmin.register Membership do
         end
 
         attributes_table title: Membership.human_attribute_name(:description) do
-          row(:basket_size) { basket_size_description(m) }
-          row :depot
+          row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
           if BasketComplement.any?
             row(:memberships_basket_complements) {
               basket_complements_description(
-                m.memberships_basket_complements.includes(:basket_complement))
-            }
-          end
+                m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
+              }
+            end
+          row :depot
         end
 
         if Current.acp.feature?('activity')

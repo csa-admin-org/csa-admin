@@ -31,6 +31,7 @@ ActiveAdmin.register Member do
     as: :boolean,
     if: proc { params[:scope].in? ['active', nil] }
 
+  includes next_basket: [:basket_size, :baskets_basket_complements, :depot, :membership]
   index do
     if params[:scope] == 'waiting'
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
@@ -39,10 +40,23 @@ ActiveAdmin.register Member do
       }, sortable: :waiting_started_at
     end
     column :name, ->(member) { auto_link member }
-    if params[:scope] == 'waiting'
+    case params[:scope]
+    when 'pending', 'waiting'
       column Depot.model_name.human(count: Current.acp.allow_alternative_depots? ? 2 : 1), ->(member) {
         ([member.waiting_depot] + member.waiting_alternative_depots)
           .compact.map(&:name).to_sentence.truncate(50)
+      }
+    when nil, 'all', 'active'
+      column :next_basket, ->(member) {
+        if next_basket = member.next_basket
+          a href: url_for(member.next_basket.membership) do
+            content_tag(:span, [
+              next_basket.description,
+              next_basket.depot.name
+            ].join(' / '))
+          end
+          status_tag(:trial) if next_basket.trial?
+        end
       }
     else
       column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
@@ -85,7 +99,8 @@ ActiveAdmin.register Member do
       column(:waiting_basket_complements) { |m|
         basket_complements_description(
           m.members_basket_complements.includes(:basket_complement),
-          text_only: true)
+          text_only: true,
+          public_name: false)
       }
     end
     column(:waiting_depot) { |m| m.waiting_depot&.name }
@@ -109,6 +124,51 @@ ActiveAdmin.register Member do
   show do |member|
     columns do
       column do
+        if next_basket = member.next_basket
+          attributes_table title: link_to(Member.human_attribute_name(:next_basket), next_basket.membership) do
+            if next_basket.trial?
+              row(:state) { status_tag(:trial) }
+            end
+            row(:basket_size) { basket_size_description(member.next_basket, text_only: true, public_name: false) }
+            if BasketComplement.any?
+              row(Membership.human_attribute_name(:memberships_basket_complements)) {
+                basket_complements_description(member.next_basket.baskets_basket_complements, text_only: true, public_name: false)
+              }
+            end
+            row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
+            row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
+            if Current.acp.feature_flag?('shop')
+              shop_order = next_basket.delivery.shop_orders.find_by(member_id: member.id)
+              row(I18n.t('shop.title')) { auto_link shop_order }
+            end
+            row(Membership.model_name.human) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
+          end
+        end
+
+        if member.pending? || member.waiting?
+          attributes_table title: t('.waiting_membership') do
+            row(:basket_size) { member.waiting_basket_size&.name }
+            if Current.acp.feature_flag?(:basket_price_extra)
+              row(:basket_price_extra) { cur(member.waiting_basket_price_extra) }
+            end
+            if BasketComplement.any?
+              row(Membership.human_attribute_name(:memberships_basket_complements)) {
+                basket_complements_description(
+                  member.members_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
+              }
+            end
+            row(:depot) { member.waiting_depot&.name }
+            if Current.acp.allow_alternative_depots?
+              row(:waiting_alternative_depot_ids) {
+                member.waiting_alternative_depots.map(&:name).to_sentence
+              }
+            end
+            if member.waiting?
+              row :waiting_started_at
+            end
+          end
+        end
+
         all_memberships_path = memberships_path(q: { member_id_eq: member.id }, scope: :all)
         panel link_to(Membership.model_name.human(count: 2), all_memberships_path) do
           memberships = member.memberships.order(started_on: :desc)
@@ -235,29 +295,6 @@ ActiveAdmin.register Member do
           row(:created_at) { l member.created_at }
           row(:validated_at) { member.validated_at ? l(member.validated_at) : nil }
           row :validator
-        end
-        if member.pending? || member.waiting?
-          attributes_table title: t('.waiting_membership') do
-            if member.waiting?
-              row :waiting_started_at
-            end
-            row(:basket_size) { member.waiting_basket_size&.name }
-            if Current.acp.feature_flag?(:basket_price_extra)
-              row(:basket_price_extra) { cur(member.waiting_basket_price_extra) }
-            end
-            if BasketComplement.any?
-              row(:basket_complements) {
-                basket_complements_description(
-                  member.members_basket_complements.includes(:basket_complement))
-              }
-            end
-            row(:depot) { member.waiting_depot&.name }
-            if Current.acp.allow_alternative_depots?
-              row(:waiting_alternative_depot_ids) {
-                member.waiting_alternative_depots.map(&:name).to_sentence
-              }
-            end
-          end
         end
         attributes_table title: Member.human_attribute_name(:contact) do
           row :name

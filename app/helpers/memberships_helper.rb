@@ -13,18 +13,19 @@ module MembershipsHelper
     }.join(' – ')
   end
 
-  def basket_size_description(object, text_only: false)
+  def basket_size_description(object, text_only: false, public_name: true)
+    name = public_name ? object.basket_size.public_name : object.basket_size.name
     case object
     when Basket
       case object.quantity
-      when 1 then object.basket_size.public_name
-      else "#{object.quantity}x #{object.basket_size.public_name}"
+      when 1 then name
+      else "#{object.quantity}x #{name}"
       end
     when Membership
       desc =
         case object.basket_quantity
-        when 1 then object.basket_size.public_name
-        else "#{object.basket_quantity}x #{object.basket_size.public_name}"
+        when 1 then name
+        else "#{object.basket_quantity}x #{name}"
         end
       desc += " (#{object.season_name})" unless object.all_seasons?
       desc
@@ -33,12 +34,13 @@ module MembershipsHelper
     end
   end
 
-  def basket_complements_description(complements, text_only: false)
+  def basket_complements_description(complements, text_only: false, public_name: true)
     names = Array(complements).compact.map do |complement|
+      name = public_name ? complement.basket_complement.public_name : complement.basket_complement.name
       desc =
         case complement.quantity
-        when 1 then complement.basket_complement.public_name
-        else "#{complement.quantity} x #{complement.basket_complement.public_name}"
+        when 1 then name
+        else "#{complement.quantity} x #{name}"
         end
       if complement.respond_to?(:seasons)
         desc += " (#{complement.season_name})" unless complement.all_seasons?

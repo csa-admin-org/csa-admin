@@ -14,8 +14,8 @@ class Delivery < ActiveRecord::Base
     after_add: :add_baskets_at!,
     after_remove: :remove_baskets_at!
 
-  scope :past, -> { where('date < ?', Date.current) }
-  scope :coming, -> { where('date >= ?', Date.current) }
+  scope :past, -> { where('deliveries.date < ?', Date.current) }
+  scope :coming, -> { where('deliveries.date >= ?', Date.current) }
   scope :between, ->(range) { where(date: range) }
   scope :shop_open, -> { where(shop_open: true) }
 
