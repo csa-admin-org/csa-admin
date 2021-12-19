@@ -170,7 +170,7 @@ describe 'Member sessions' do
       expect(member.sessions.last).to have_attributes(
         last_used_at: Time.new(2018, 7, 6, 1),
         last_remote_addr: '127.0.0.1',
-        last_user_agent: nil)
+        last_user_agent: '-')
     end
 
     travel_to Time.new(2018, 7, 6, 1, 59) do

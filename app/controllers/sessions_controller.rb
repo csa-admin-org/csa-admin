@@ -55,7 +55,7 @@ class SessionsController < ApplicationController
   def build_session(email)
     session = Session.new
     session.remote_addr = request.remote_addr
-    session.user_agent = request.env['HTTP_USER_AGENT'] || '-'
+    session.user_agent = request.env.fetch('HTTP_USER_AGENT', '-')
     session.admin_email = email
     session
   end

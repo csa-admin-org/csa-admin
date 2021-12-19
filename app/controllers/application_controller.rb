@@ -33,7 +33,17 @@ class ApplicationController < ActionController::Base
   end
 
   def current_admin
-    current_session&.admin
+    current_session&.admin || auto_sign_in_admin_in_dev
+  end
+
+  def auto_sign_in_admin_in_dev
+    return unless Rails.env.development?
+    return unless ENV['AUTO_SIGN_IN_ADMIN_EMAIL']
+
+    admin = Admin.find_by!(email: ENV['AUTO_SIGN_IN_ADMIN_EMAIL'])
+    session = create_session!(admin)
+    cookies.encrypted.permanent[:session_id] = session.id
+    session.admin
   end
 
   def current_session
@@ -57,7 +67,7 @@ class ApplicationController < ActionController::Base
     session.update_columns(
       last_used_at: Time.current,
       last_remote_addr: request.remote_addr,
-      last_user_agent: request.env['HTTP_USER_AGENT'])
+      last_user_agent: request.env.fetch('HTTP_USER_AGENT', '-'))
   end
 
   def set_sentry_user
@@ -74,9 +84,13 @@ class ApplicationController < ActionController::Base
 
   def create_session_from_devise_remember_token!
     admin = ::Admin.find(cookies.signed[:remember_admin_token].first.first)
+    create_session!(admin)
+  end
+
+  def create_session!(admin)
     Session.create!(
       remote_addr: request.remote_addr,
-      user_agent: request.env['HTTP_USER_AGENT'] || '-',
+      user_agent: request.env.fetch('HTTP_USER_AGENT', '-'),
       admin_email: admin.email)
   end
 end
