@@ -10,7 +10,7 @@ class Membership < ActiveRecord::Base
   belongs_to :basket_size
   belongs_to :depot
   has_many :baskets, dependent: :destroy
-  has_one :next_basket, -> { coming }, class_name: 'Basket'
+  has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
   has_many :depots, -> { reorder(:name) }, through: :baskets
   has_many :deliveries, through: :baskets

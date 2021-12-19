@@ -628,6 +628,10 @@ _:
           _de: Rechnungen
           _fr: Factures
           _it: Fatture
+        next_basket:
+          _de: Nächste Tasche
+          _fr: Prochain panier
+          _it: Prossimo cestino
         payments_amount:
           _de: Einzahlungen
           _fr: Paiements
