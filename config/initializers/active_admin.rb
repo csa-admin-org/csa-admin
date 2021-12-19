@@ -322,8 +322,10 @@ ActiveAdmin.setup do |config|
   config.use_webpacker = true
 end
 
-class ActiveAdmin::ResourceDSL
-  include ActivitiesHelper
+Rails.application.reloader.to_prepare do
+  class ActiveAdmin::ResourceDSL
+    include ActivitiesHelper
+  end
 end
 
 # Imported from https://github.com/formaweb/formadmin
