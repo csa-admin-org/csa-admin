@@ -57,12 +57,17 @@ ActiveAdmin.register Membership do
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: 'members.name'
-    column :started_on, ->(m) { l m.started_on, format: :number }
-    column :ended_on, ->(m) { l m.ended_on, format: :number }
+    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number) }
+    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number) }
     if Current.acp.feature?('activity')
-      column activities_human_name,
-        ->(m) { "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}" },
-        sortable: 'activity_participations_demanded', class: 'col-activity_participations_demanded'
+      column activities_human_name, ->(m) {
+        link_to(
+          "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}",
+          activity_participations_path(q: {
+            member_id_eq: m.member_id,
+            during_year: m.fiscal_year,
+          }, scope: 'all'))
+      }, sortable: 'activity_participations_demanded', class: 'col-activity_participations_demanded'
     end
     column :baskets_count,
       ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }

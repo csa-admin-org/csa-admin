@@ -33,6 +33,7 @@ ActiveAdmin.register Member do
 
   includes next_basket: [:basket_size, :baskets_basket_complements, :depot, :membership]
   index do
+    column :id, ->(member) { auto_link member, member.id }
     if params[:scope] == 'waiting'
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
       column '#', ->(member) {
