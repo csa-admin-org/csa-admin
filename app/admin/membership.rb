@@ -170,6 +170,7 @@ ActiveAdmin.register Membership do
 
   csv do
     column(:id)
+    column(:member_id)
     column(:name) { |m| m.member.name }
     column(:emails) { |m| m.member.emails_array.join(', ') }
     column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }

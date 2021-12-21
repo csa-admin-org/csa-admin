@@ -900,6 +900,10 @@ _:
           _de: Gesamt (Rechnung)
           _fr: Total (Facturé)
           _it: Totale (Fattura)
+        member_id:
+          _de: Mitglied ID
+          _fr: Membre ID
+          _it: Socio ID
         members_basket_complements:
           _de: Zusätze
           _fr: Compléments
