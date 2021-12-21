@@ -12,7 +12,8 @@ module Shop
     belongs_to :basket_complement, optional: true
     has_many :variants,
       -> { order("price").merge(ProductVariant.order_by_name) },
-      class_name: 'Shop::ProductVariant'
+      class_name: 'Shop::ProductVariant',
+      dependent: :delete_all
     has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product
     has_and_belongs_to_many :tags, class_name: 'Shop::Tag'
 
