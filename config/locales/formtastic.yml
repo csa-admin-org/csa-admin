@@ -315,6 +315,10 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto il campo per il numero predefinito.
+        renewal_annual_fee:
+          _de: Leer lassen, wenn das Mitglied nicht als unterstützendes Mitglied fortfahren möchte.
+          _fr: Laisser blanc si le membre ne désire pas continuer en tant que membre de soutien.
+          _it: Lasciare vuoto se il membro non desidera continuare come membro sostenitore.
         seasons:
           _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt.
           _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.

@@ -940,6 +940,10 @@ _:
           _de: Verlängerung
           _fr: Renouvellement
           _it: Rinnovo
+        renewal_annual_fee:
+          _de: Zahlt weiterhin den jährlichen Mitgliedsbeitrag
+          _fr: Continue à payer la cotisation annuelle
+          _it: Continuare a pagare la quota associativa annuale
         renewal_note:
           _de: Anmerkung(en)
           _fr: Remarque(s)
