@@ -103,6 +103,13 @@ module ApplicationHelper
     Rack::Utils.parse_nested_query(query).dig('q', 'member_id_eq')
   end
 
+  def referer_filter_activity_id
+    return unless request&.referer
+
+    query = URI(request.referer).query
+    Rack::Utils.parse_nested_query(query).dig('q', 'activity_id_eq')
+  end
+
   def postmark_url(path = 'streams')
     server_id = Current.acp.credentials(:postmark, :server_id)
     "https://account.postmarkapp.com/servers/#{server_id}/#{path}"

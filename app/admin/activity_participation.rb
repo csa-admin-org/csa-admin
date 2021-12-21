@@ -157,8 +157,14 @@ ActiveAdmin.register ActivityParticipation do
       new_invoice_path(activity_participation_id: resource.id, anchor: 'activity_participation')
   end
 
+  before_build do |ap|
+    ap.member_id ||= referer_filter_member_id
+    ap.activity_id ||= referer_filter_activity_id
+  end
+
   controller do
     include TranslatedCSVFilename
+    include ApplicationHelper
 
     def apply_sorting(chain)
       super(chain).joins(:member).order('members.name')
