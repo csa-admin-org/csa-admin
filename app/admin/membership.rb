@@ -254,6 +254,12 @@ ActiveAdmin.register Membership do
               row(:renewed_membership)
               row :renewal_note
             elsif m.canceled?
+              if Current.acp.annual_fee?
+                row(:renewal_annual_fee) {
+                  status_tag(!!m.renewal_annual_fee)
+                  span { cur(m.renewal_annual_fee) }
+                }
+              end
               row :renewal_note
               if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:enable_renewal, m)
                 div class: 'buttons-inline' do
@@ -463,6 +469,12 @@ ActiveAdmin.register Membership do
       f.input :ended_on, as: :datepicker
     end
 
+    if Current.acp.annual_fee? && f.object.canceled?
+      f.inputs Membership.human_attribute_name(:renew) do
+        f.input :renewal_annual_fee
+      end
+    end
+
     if Current.acp.feature?('activity')
       f.inputs activities_human_name do
         f.input :activity_participations_demanded_annualy,
@@ -520,7 +532,7 @@ ActiveAdmin.register Membership do
     :member_id,
     :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price,
-    :started_on, :ended_on, :renew,
+    :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,
     seasons: [],
