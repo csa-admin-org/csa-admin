@@ -17,6 +17,9 @@
   header img {
     filter: invert(1) hue-rotate(180deg);
   }
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 }
 
 .field_with_errors {
