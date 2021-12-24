@@ -202,13 +202,13 @@ ActiveAdmin.register Shop::Order do
     redirect_to edit_shop_order_path(resource), notice: t('.flash.notice')
   end
 
-  action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
-    link_to_invoice_pdf(resource.invoice)
-  end
-
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) && resource.invoice } do
     link_to t('.new_payment'), new_payment_path(
       invoice_id: resource.invoice.id, amount: [resource.invoice.amount, resource.invoice.missing_amount].min)
+  end
+
+  action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
+    link_to_invoice_pdf(resource.invoice, title: t('.invoice_pdf'))
   end
 
   action_item :delivery_pdf, only: :show do

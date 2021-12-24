@@ -23,10 +23,10 @@ module InvoicesHelper
     I18n.t("invoices.object_type.#{type.underscore}")
   end
 
-  def link_to_invoice_pdf(invoice)
+  def link_to_invoice_pdf(invoice, title: 'PDF')
     return unless invoice
     return if invoice.processing?
 
-    link_to 'PDF', rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+    link_to title, rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
   end
 end
