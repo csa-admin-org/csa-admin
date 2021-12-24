@@ -185,6 +185,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
+    resource.admin = current_admin
     resource.invoice!
     redirect_to resource_path, notice: t('.flash.notice')
   end
@@ -196,6 +197,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   member_action :cancel, method: :post, only: :show, if: -> { resource.can_cancel? } do
+    resource.admin = current_admin
     resource.cancel!
     redirect_to edit_shop_order_path(resource), notice: t('.flash.notice')
   end
@@ -230,6 +232,11 @@ ActiveAdmin.register Shop::Order do
   before_build do |order|
     order.member_id ||= referer_filter_member_id
     order.delivery ||= Delivery.next
+    order.admin = current_admin
+  end
+
+  before_update do |order|
+    order.admin = current_admin
   end
 
   controller do

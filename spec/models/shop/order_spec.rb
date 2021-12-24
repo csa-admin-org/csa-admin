@@ -39,6 +39,7 @@ describe Shop::Order do
       })
 
       expect(order).not_to have_valid(:base)
+      expect(order.weight_in_kg).to eq(15)
       expect(order.errors.messages[:base])
         .to include('Le poids total de la commande ne peut pas dépasser 10.0 kg')
     end
@@ -67,6 +68,26 @@ describe Shop::Order do
       })
 
       expect(order).to have_valid(:base)
+    end
+
+    specify 'skip validation when edited by admin' do
+      Current.acp.update!(shop_order_maximum_weight_in_kg: 10)
+      order = build(:shop_order, :pending, items_attributes: {
+        '0' => {
+          product_id: product1.id,
+          product_variant_id: product1.variants.first.id,
+          quantity: 100
+        },
+        '1' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 3
+        }
+      })
+      order.admin = create(:admin)
+
+      expect(order).to have_valid(:base)
+      expect(order.weight_in_kg).to eq(15)
     end
   end
 
@@ -135,6 +156,26 @@ describe Shop::Order do
       })
 
       expect(order).to have_valid(:base)
+    end
+
+    specify 'skip validation when edited by admin' do
+      Current.acp.update!(shop_order_minimal_amount: 20)
+      order = build(:shop_order, :pending, items_attributes: {
+        '0' => {
+          product_id: product1.id,
+          product_variant_id: product1.variants.first.id,
+          quantity: 1
+        },
+        '1' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 1
+        }
+      })
+      order.admin = create(:admin)
+
+      expect(order).to have_valid(:base)
+      expect(order.amount).to eq(15)
     end
   end
 
