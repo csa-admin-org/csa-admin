@@ -31,7 +31,12 @@ ActiveAdmin.register Shop::Order do
     collection: -> { Delivery.shop_open }
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:shop_orders).order(:name).distinct }
+    collection: -> {
+      Member
+        .joins(:shop_orders).where.not(shop_orders: { state: :cart })
+        .order(:name)
+        .distinct
+    }
   filter :amount
   filter :created_at
 
@@ -213,6 +218,11 @@ ActiveAdmin.register Shop::Order do
 
   action_item :delivery_pdf, only: :show do
     link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_id: resource.delivery_id, shop_order_id: resource.id, format: :pdf)
+  end
+
+  action_item :order_items_csv, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
+    delivery_id = params.dig(:q, :delivery_id_eq)
+    link_to t('.order_items_csv'), shop_order_items_path(q: { delivery_id_eq: delivery_id }, format: :csv)
   end
 
   action_item :delivery_pdf, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
