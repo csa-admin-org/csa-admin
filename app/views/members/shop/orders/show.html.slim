@@ -4,6 +4,10 @@ h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-g
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t('members.shop.products.index.delivery', date: l(delivery.date, format: :long))
 
+- if Current.acp.shop_text?
+  div class='trix mt-2'
+    == Current.acp.shop_text
+
 - case order.state
 - when Shop::Order::CART_STATE
   p class="mt-2"
@@ -50,3 +54,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
       = t('.order_invoiced_state')
 
   = render partial: 'members/shop/orders/finalized_order'
+
+- if Current.acp.shop_terms_of_sale_url
+  div class='mt-24 text-sm text-gray-400 dark:text-gray-600 text-center underline'
+    = link_to t('members.shop.terms_of_sale'), Current.acp.shop_terms_of_sale_url, target: '_blank'

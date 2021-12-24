@@ -227,6 +227,14 @@ _:
           _de: Mindestbestellwert
           _fr: Montant minimal d'une commande
           _it: Valore minimo dell'ordine
+        shop_terms_of_sale_url:
+          _de: Verkaufsbedingungen URL
+          _fr: Conditions de vente URL
+          _it: Condizioni di vendita URL
+        shop_text:
+          _de: Erläuterung
+          _fr: Explication
+          _it: Spiegazione
         statutes_url:
           _de: Statuten URL
           _fr: Statuts URL

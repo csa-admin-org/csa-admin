@@ -41,6 +41,8 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "group_buying_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_delivery_pdf_footer_#{l}" },
+    *I18n.available_locales.map { |l| "shop_terms_of_sale_url_#{l}" },
+    *I18n.available_locales.map { |l| "shop_text_#{l}" },
     *I18n.available_locales.map { |l| "open_renewal_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_title_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_text_#{l}" },
@@ -159,6 +161,13 @@ ActiveAdmin.register ACP do
     end
     if Current.acp.feature_flag?('shop')
       f.inputs t('.shop') do
+        translated_input(f, :shop_texts,
+          as: :action_text,
+          required: false,
+          hint: t('formtastic.hints.acp.shop_text'))
+        translated_input(f, :shop_terms_of_sale_urls,
+          required: false,
+          hint: t('formtastic.hints.acp.shop_terms_of_sale_url'))
         f.input :shop_order_maximum_weight_in_kg
         f.input :shop_order_minimal_amount
         f.input :shop_delivery_open_delay_in_days

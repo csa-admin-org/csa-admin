@@ -4,6 +4,10 @@ h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-g
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t('.delivery', date: l(delivery.date, format: :long))
 
+- if Current.acp.shop_text?
+  div class='trix mt-2'
+    == Current.acp.shop_text
+
 - if delivery.shop_open?
   p class="mt-2"
     = t('.closing_at_html', date: l(delivery.shop_closing_at, format: :long))
@@ -52,3 +56,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
         date: l(next_delivery.date, format: :long),
         start_date: l(delivery.date + 1.day, format: :long),
         end_date: l(next_delivery.shop_closing_at, format: :long))
+
+- if Current.acp.shop_terms_of_sale_url
+  div class='mt-24 text-sm text-gray-400 dark:text-gray-600 text-center underline'
+    = link_to t('members.shop.terms_of_sale'), Current.acp.shop_terms_of_sale_url, target: '_blank'

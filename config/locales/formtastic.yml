@@ -94,6 +94,14 @@ _:
           _de: Leer lassen, wenn keine Begrenzung.
           _fr: Laisser vide si aucune limite.
           _it: Lasciare vuoto se non ci sono limiti.
+        shop_terms_of_sale_url:
+          _de: Link zu den Geschäftsbedingungen, der unten auf der Mitgliederseite des Lebensmittelgeschäfts angezeigt wird.
+          _fr: Lien sur les conditions de vente affiché en bas de la page de membre de l'épicerie.
+          _it: Link alle condizioni di vendita pubblicate in fondo alla pagina dei soci del drogheria.
+        shop_text:
+          _de: Text, der oben auf der Mitgliederseite des Lebensmittelgeschäfts angezeigt wird.
+          _fr: Texte affiché en haut de la page de membre de l'épicerie.
+          _it: Testo visibile nella parte superiore della pagina di socio del droghiere.
         trial_basket_count:
           _de: Das Abonnement wird in Rechnung gestellt, nachdem alle Probetaschen geliefert wurden. Wird das Abonnement während des Testzeitraums beendet, werden nur die gelieferten Taschen in Rechnung gestellt.
           _fr: L'abonnement est facturé après que tous les paniers à l'essai sont livrés. Si l'abonnement est arrêté durant la période d'essai seuls les paniers livrés sont facturés.
