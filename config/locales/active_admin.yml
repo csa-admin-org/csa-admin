@@ -605,6 +605,10 @@ _:
           _de: Anfragen werden gesendet ...
           _fr: Demandes en cours d'envoi...
           _it: Domanda in corso d'invio...
+        order_items_csv:
+          _de: Geleistete Taschen befüllung
+          _fr: Produits commandés (CSV)
+          _it: Preparazione dei cestini effettuate
         renew_all_action:
           one:
             _de: "%{count} Abonnement verlängern"

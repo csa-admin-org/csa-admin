@@ -1015,10 +1015,30 @@ _:
           _fr: Commentaire
           _it: Commenti
       shop/order_item:
+        delivery:
+          _de: Lieferung vom
+          _fr: Livraison du
+          _it: Consegna del
         item_price:
           _de: Stückpreis
           _fr: Prix unitaire
           _it: Prezzo unitario
+        member_id:
+          _de: Mitglied ID
+          _fr: Membre ID
+          _it: Socio ID
+        order_date:
+          _de: Bestellt am
+          _fr: Commandé le
+          _it: Ordinato il
+        order_id:
+          _de: Bestellung ID
+          _fr: Commande ID
+          _it: Ordine ID
+        order_state:
+          _de: Status der Bestellung
+          _fr: Êtat de la commande
+          _it: Stato dell'ordine
       shop/product:
         basket_complement:
           _de: Taschenzusatz
