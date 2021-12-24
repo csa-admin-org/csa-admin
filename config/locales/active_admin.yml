@@ -765,6 +765,10 @@ _:
           _de: Rechnung stellen
           _fr: Facturer
           _it: Fatturare
+        invoice_pdf:
+          _de: Rechnung (PDF)
+          _fr: Facture (PDF)
+          _it: Fattura (PDF)
         link_confirm:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?

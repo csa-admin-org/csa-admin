@@ -332,6 +332,10 @@ _:
       _de: Website
       _fr: Site Web
       _it: Sito Web
+    weight:
+      _de: Gewicht
+      _fr: Poids
+      _it: Peso
     weight_in_kg:
       _de: Gewicht (in kg)
       _fr: Poids (en kg)
