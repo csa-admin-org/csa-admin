@@ -785,3 +785,7 @@ _:
               _de: "%{count} verfügbar"
               _fr: "%{count} disponible"
               _it: "%{count} disponibili"
+      terms_of_sale:
+        _de: Verkaufsbedingungen
+        _fr: Conditions de vente
+        _it: Condizioni di vendita
