@@ -5,6 +5,8 @@ module Shop
 
     self.table_name = 'shop_orders'
 
+    attr_accessor :admin
+
     has_states :cart, :pending, :invoiced
 
     belongs_to :member, optional: false
@@ -23,8 +25,8 @@ module Shop
     validates :items, presence: true, unless: :cart?
     validates :member_id, uniqueness: { scope: :delivery_id }
     validate :unique_items
-    validate :ensure_maximum_weight_limit, unless: :cart?
-    validate :ensure_minimal_amount, unless: :cart?
+    validate :ensure_maximum_weight_limit
+    validate :ensure_minimal_amount
 
     accepts_nested_attributes_for :items,
       reject_if: ->(attrs) { attrs[:quantity].to_i.zero? },
@@ -129,6 +131,9 @@ module Shop
     end
 
     def ensure_maximum_weight_limit
+      return if cart?
+      return if admin
+
       max = Current.acp.shop_order_maximum_weight_in_kg
       return unless max
 
@@ -138,6 +143,9 @@ module Shop
     end
 
     def ensure_minimal_amount
+      return if cart?
+      return if admin
+
       min = Current.acp.shop_order_minimal_amount
       return unless min
 
