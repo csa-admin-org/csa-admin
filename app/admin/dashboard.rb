@@ -1,6 +1,6 @@
 ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: -> {
-    image_tag(asset_pack_path('media/images/active_admin/home.svg'), size: '20', title: I18n.t('active_admin.dashboard'))
+    inline_svg_tag('admin/home.svg', size: '20', title: I18n.t('active_admin.dashboard'))
   }
 
   content title: proc { I18n.t('active_admin.dashboard').html_safe } do

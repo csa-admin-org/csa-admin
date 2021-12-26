@@ -319,13 +319,54 @@ ActiveAdmin.setup do |config|
   # By default, Active Admin uses Sprocket's asset pipeline.
   # You can switch to using Webpacker here.
   #
-  config.use_webpacker = true
+  config.use_webpacker = false
 end
 
 Rails.application.reloader.to_prepare do
   class ActiveAdmin::ResourceDSL
     include ActionView::Helpers::TranslationHelper
     include ActivitiesHelper
+  end
+
+  # Inject admin importmap tag to admin header
+  module ActiveAdmin
+    module Views
+      module Pages
+        class Base < Arbre::HTML::Document
+          private
+          def build_active_admin_head
+            within head do
+              html_title [title, helpers.active_admin_namespace.site_title(self)].compact.join(" | ")
+
+              text_node(active_admin_namespace.head)
+
+              active_admin_namespace.meta_tags.each do |name, content|
+                text_node(meta(name: name, content: content))
+              end
+
+              active_admin_application.stylesheets.each do |style, options|
+                stylesheet_tag = active_admin_namespace.use_webpacker ? stylesheet_pack_tag(style, **options) : stylesheet_link_tag(style, **options)
+                text_node(stylesheet_tag.html_safe) if stylesheet_tag
+              end
+
+              active_admin_application.javascripts.each do |path|
+                javascript_tag = active_admin_namespace.use_webpacker ? javascript_pack_tag(path) : javascript_include_tag(path)
+                text_node(javascript_tag)
+              end
+
+              # Inject Importmap
+              text_node(javascript_importmap_tags 'admin')
+
+              if active_admin_namespace.favicon
+                text_node(favicon_link_tag(active_admin_namespace.favicon))
+              end
+
+              text_node csrf_meta_tag
+            end
+          end
+        end
+      end
+    end
   end
 end
 
@@ -359,7 +400,7 @@ module ActiveAdmin
       if logout_link_path
         html_options = html_options.reverse_merge(method: logout_link_method || :get)
         menu.add id: 'logout', priority: priority, html_options: html_options,
-                 label: -> { image_tag(asset_pack_path('media/images/active_admin/sign_out-grey.svg'), size: '20') },
+                 label: -> { inline_svg_tag('admin/sign_out-grey.svg', size: '20') },
                  url: -> { render_or_call_method_or_proc_on self, active_admin_namespace.logout_link_path },
                  if: :current_active_admin_user?
       end
