@@ -640,6 +640,10 @@ _:
           _fr: S'abonner au flux iCal des participations
           _it: Iscriversi al feed iCal delle presenze
       new:
+        availability:
+          _de: Verfügbarkeit
+          _fr: Disponibilité
+          _it: Disponibilità
         basket_and_depot:
           _de: Tasche und Depot
           _fr: Panier et dépôt
