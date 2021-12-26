@@ -1,0 +1,11 @@
+/* Sprockets requires
+*= require tom-select/dist/css/tom-select
+*/
+
+label#select-tags-ts-label {
+  margin-bottom: 8px;
+}
+
+.ts-control {
+  padding-bottom: 5px;
+}

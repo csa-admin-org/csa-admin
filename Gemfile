@@ -33,11 +33,12 @@ gem 'simple_form'
 gem 'inline_svg'
 gem 'slim'
 
-gem 'webpacker'
-
+# Admin section
+gem 'turbolinks'
+# Members section
 gem 'importmap-rails'
 gem 'hotwire-rails'
-gem 'tailwindcss-rails'
+gem 'tailwindcss-rails', '~> 1.0'
 
 gem 'sidekiq'
 gem 'sidekiq-scheduler'

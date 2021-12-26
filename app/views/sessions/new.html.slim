@@ -4,9 +4,9 @@ html
     meta charset="UTF-8"
     title = t('.title', acp: Current.acp.name)
     - ActiveAdmin.application.stylesheets.each do |style, options|
-      = stylesheet_pack_tag style, **options
+      = stylesheet_link_tag style, **options
     - ActiveAdmin.application.javascripts.each do |path|
-      = javascript_pack_tag path
+      = javascript_include_tag path
     - if ActiveAdmin.application.favicon
       = favicon_link_tag ActiveAdmin.application.favicon
     - ActiveAdmin.application.meta_tags_for_logged_out_pages.each do |name, content|
@@ -37,5 +37,5 @@ body class="active_admin logged_out #{controller.action_name}"
             li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: 'Turbolinks.clearCache()'
       p
         = link_to 'https://acp-admin.ch' do
-          = inline_svg_pack_tag 'media/images/logo.svg'
+          = inline_svg_tag 'logo.svg'
           span= 'ACP Admin'

@@ -40,24 +40,6 @@ jobs:
         ruby-version: .ruby-version
         bundler-cache: true
 
-    - name: Install required Node.js version
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-    - name: Cache yarn
-      uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-    - name: Yarn install
-      run: yarn --frozen-lockfile
-
     - name: Setup timezone
       uses: zcong1993/setup-timezone@master
       with:
