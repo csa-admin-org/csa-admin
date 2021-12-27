@@ -4,9 +4,7 @@ html lang=I18n.locale
     title = [Current.acp.name, t('.title')].join(' – ')
     = javascript_importmap_tags 'members'
     = stylesheet_link_tag 'https://npmcdn.com/flatpickr/dist/themes/confetti.css'
-    = stylesheet_link_tag 'inter-font', data: { turbo_track: 'reload' }
-    = stylesheet_link_tag 'tailwind', data: { turbo_track: 'reload' }
-    = stylesheet_link_tag 'members', data: { turbo_track: 'reload' }
+    = stylesheet_link_tag "tailwind", "inter-font", data: { turbo_track: 'reload' }
     = csrf_meta_tags
     meta charset="UTF-8"
     meta name="viewport" content="width=device-width, initial-scale=1.0"

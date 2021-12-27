@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * This injects Tailwind's base styles and any base styles registered by
+ * plugins.
+ */
+@layer base {
+  header img {
+    @apply dark:invert dark:hue-rotate-180;
+  }
+
+  ::-webkit-calendar-picker-indicator {
+    @apply dark:invert;
+  }
+
+  a:hover,
+  a:hover h2,
+  button:hover {
+    @apply text-green-500;
+  }
+
+  a.button {
+    @apply hover:text-white;
+  }
+
+  p a,
+  .trix-content a,
+  .trix a {
+    @apply underline;
+  }
+
+  .trix ul li {
+    @apply list-disc list-inside;
+  }
+
+  .trix ol li {
+    @apply list-decimal list-inside;
+  }
+}
+
+/**
+ * This injects Tailwind's component classes and any component classes
+ * registered by plugins.
+ */
+@layer components {
+  /* .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  } */
+}
+
+/**
+ * This injects Tailwind's utility classes and any utility classes registered
+ * by plugins.
+ */
+@layer utilities {
+  .field_with_errors input {
+    @apply border-2 border-red-500;
+  }
+
+  .field_with_errors {
+    @apply w-full;
+  }
+
+  .field_with_errors span.error {
+    @apply block mt-1 px-4 py-2 bg-red-100 dark:bg-red-900 text-red-500 rounded-md;
+  }
+
+  .shop_order_items_quantity.field_with_errors {
+    @apply w-auto;
+  }
+
+  .shop_order_items_quantity.field_with_errors input,
+  .shop_order_items_quantity.field_with_errors button {
+    @apply text-gray-500 bg-red-100 dark:bg-red-900;
+  }
+
+  .shop_order_items_quantity.field_with_errors span.error {
+    @apply hidden w-0 p-0 mt-0;
+  }
+
+  li.active a,
+  li.active a h2 {
+    @apply text-green-500;
+  }
+
+  .disabled label,
+  .disabled span,
+  .disabled input,
+  .disabled div.text-sm,
+  button:disabled,
+  input.string:disabled {
+    @apply text-gray-300 dark:text-gray-700 border-gray-300 dark:border-gray-800 cursor-not-allowed pointer-events-auto;
+  }
+
+  input.controls-none::-webkit-outer-spin-button,
+  input.controls-none::-webkit-inner-spin-button {
+    @apply appearance-none m-0;
+  }
+
+  input[type="number"].controls-none {
+    -moz-appearance: textfield;
+  }
+}
+
+/* Flatpickr */
+.calendar-wrapper {
+  @apply -ml-2.5;
+}
+
+@media (min-width: 350px) {
+  .calendar-wrapper {
+    @apply ml-0;
+  }
+}
+
+.flatpickr-calendar.inline {
+  @apply mx-auto md:m-0 shadow-none;
+}
+
+.flatpickr-calendar.inline:before,
+.flatpickr-calendar.inline:after {
+  @apply content-none;
+}
+
+.flatpickr-calendar.inline select {
+  @apply py-1 pr-10 bg-green-500 text-white w-auto appearance-none;
+}
+
+.flatpickr-calendar.inline select:hover {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.1rem center;
+  background-repeat: no-repeat;
+  @apply text-white;
+}
+.flatpickr-calendar.inline select:focus {
+  @apply border-inherit shadow-none;
+}
+
+.flatpickr-calendar .numInputWrapper input {
+  @apply text-white;
+}
+
+.flatpickr-calendar.inline .flatpickr-days {
+  @apply border-0;
+}
+
+.flatpickr-calendar.inline .flatpickr-days .dayContainer {
+  @apply border-0 m-1 justify-start;
+}
+
+.flatpickr-calendar.inline .flatpickr-day {
+  line-height: 37px;
+  @apply m-0.5;
+}
+
+.flatpickr-calendar.inline .flatpickr-day.flatpickr-disabled {
+  @apply text-gray-300 dark:text-gray-700 border-gray-100 dark:border-gray-900;
+}
+
+.flatpickr-calendar.inline .flatpickr-day:hover {
+  @apply bg-white dark:bg-black;
+}
+
+.flatpickr-calendar.inline .flatpickr-day:not(.flatpickr-disabled) {
+  @apply border text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700;
+}
+
+.flatpickr-calendar.inline .flatpickr-day.selected {
+  @apply text-white bg-green-500 border-green-500;
+}
+
+.flatpickr-months .flatpickr-month {
+  @apply bg-green-500;
+}
+
+.flatpickr-weekdaycontainer span {
+  @apply text-white bg-green-500 font-normal;
+}
+
+.flatpickr-day.selected,
+.flatpickr-month,
+.flatpickr-weekday,
+.flatpickr-weekdays {
+  @apply bg-green-500 border-green-500;
+}
+
+.flatpickr-day.nextMonthDay {
+  @apply hidden;
+}
+
+.flatpickr-calendar .flatpickr-innerContainer {
+  @apply border rounded-b border-green-500;
+}
+
+.flatpickr-calendar.inline .flatpickr-rContainer {
+  @apply dark:bg-black;
+}
+.flatpickr-calendar.inline .flatpickr-day {
+  @apply dark:text-gray-100 dark:bg-black;
+}
+
+/* Tooltip */
+.tooltip-toggle {
+  @apply relative cursor-pointer ml-2;
+}
+/* Tooltip text container */
+.tooltip-toggle::before {
+  /* This pulls in the text from the element with the tooltip */
+  content: attr(data-tooltip);
+  text-transform: none;
+  transition: all 0.5s ease;
+  @apply absolute bottom-8 -left-24 w-96 p-2 rounded cursor-pointer bg-gray-900 dark:bg-gray-600;
+}
+
+/* Setting up the transition */
+.tooltip-toggle::after,
+.tooltip-toggle::before {
+  opacity: 0;
+  @apply text-white dark:text-gray-300 text-sm text-center pointer-events-none;
+}
+
+/* Triggering the transition */
+.tooltip-toggle:hover::after,
+.tooltip-toggle:hover::before {
+  opacity: 1;
+  transition: all 0.75s ease;
+}
