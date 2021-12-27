@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { EmojiButton } from "emoji-button"
+import { EmojiButton } from "@joeattardi/emoji-button"
 import deEmojiData from '@roderickhsiao/emoji-button-locale-data/dist/de'
 import frEmojiData from '@roderickhsiao/emoji-button-locale-data/dist/fr'
 import itEmojiData from '@roderickhsiao/emoji-button-locale-data/dist/it'

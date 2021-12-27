@@ -1,11 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
-import debounce  from 'lodash/debounce'
+import { debounce } from 'throttle-debounce'
 
 export default class extends Controller {
   static targets = ["input"]
 
   initialize() {
-    this.inputChanged = debounce(this.inputChanged, 250).bind(this)
+    this.inputChanged = debounce(250, this.inputChanged)
   }
 
   increment(event) {
@@ -29,7 +29,6 @@ export default class extends Controller {
   }
 
   inputChanged() {
-    console.log('changed')
     var event = new Event('change', {
       bubbles: true,
       cancelable: true,

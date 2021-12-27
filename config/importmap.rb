@@ -14,15 +14,15 @@ pin_all_from "app/javascript/components", under: "components"
 pin "members"
 pin "@hotwired/turbo-rails", to: "turbo.js"
 pin_all_from "app/javascript/controllers/members", under: "controllers/members"
-pin "lodash/debounce", to: "https://ga.jspm.io/npm:lodash@4.17.21/debounce.js"
-pin "flatpickr", to: "https://ga.jspm.io/npm:flatpickr@4.6.9/dist/flatpickr.js"
-pin "flatpickr/dist/l10n/fr", to: "https://ga.jspm.io/npm:flatpickr@4.6.9/dist/l10n/fr.js"
-pin "flatpickr/dist/l10n/it", to: "https://ga.jspm.io/npm:flatpickr@4.6.9/dist/l10n/it.js"
-pin "flatpickr/dist/l10n/de", to: "https://ga.jspm.io/npm:flatpickr@4.6.9/dist/l10n/de.js"
+pin "throttle-debounce" # @3.0.1
+pin "flatpickr" # @4.6.9
+pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js" # @4.6.9
+pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js" # @4.6.9
+pin "flatpickr/dist/l10n/de", to: "flatpickr--dist--l10n--de.js" # @4.6.9
 
 pin "admin"
 pin_all_from "app/javascript/controllers/admin", under: "controllers/admin"
-pin "emoji-button", to: "https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js"
-pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "https://cdn.jsdelivr.net/npm/@roderickhsiao/emoji-button-locale-data@0.1.2/dist/de.js"
-pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "https://cdn.jsdelivr.net/npm/@roderickhsiao/emoji-button-locale-data@0.1.2/dist/fr.js"
-pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "https://cdn.jsdelivr.net/npm/@roderickhsiao/emoji-button-locale-data@0.1.2/dist/it.js"
+pin "@joeattardi/emoji-button", to: '@joeattardi--emoji-button.js' # @4.6.2/
+pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js" # @0.1.2
+pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js" # @0.1.2
+pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js" # @0.1.2
