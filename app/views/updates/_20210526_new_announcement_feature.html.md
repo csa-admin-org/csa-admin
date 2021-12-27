@@ -1,0 +1,6 @@
+# Nouvelle fonctionalité: Annonces
+
+Depuis le menu ["Autre > Annonces"](<%= announcements_path %>), vous pouvez maintenant créer des annonces qui seront automatiquement affichées dans les fiches signature (PDF) des dépôts/livraisons sélectionnés. Ces annonces vous permettent de facilement communiquer un message aux membres d'un dépôt de manière ponctuelle. Cette fonctionalité a été demandée et financée par [le P2R](http://p2r.ch).
+
+Un exemple d'annonce:
+![Fiche Signature Annonce](<%= image_url('updates/20210526_new_announcement_feature/delivery-pdf.png') %>)
