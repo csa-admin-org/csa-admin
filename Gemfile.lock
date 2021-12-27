@@ -280,6 +280,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
+      racc (~> 1.4)
     parallel (1.21.0)
     paranoia (2.5.0)
       activerecord (>= 5.1, < 7.1)
@@ -454,7 +456,11 @@ GEM
     statsd-ruby (1.5.0)
     stimulus-rails (1.0.2)
       railties (>= 6.0.0)
-    tailwindcss-rails (1.0.0)
+    tailwindcss-rails (2.0.2)
+      railties (>= 6.0.0)
+    tailwindcss-rails (2.0.2-x86_64-darwin)
+      railties (>= 6.0.0)
+    tailwindcss-rails (2.0.2-x86_64-linux)
       railties (>= 6.0.0)
     temple (0.8.2)
     thor (1.1.0)
@@ -494,6 +500,7 @@ GEM
 PLATFORMS
   ruby
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   activeadmin
@@ -562,7 +569,7 @@ DEPENDENCIES
   sidekiq-scheduler
   simple_form
   slim
-  tailwindcss-rails (~> 1.0)
+  tailwindcss-rails
   tod
   turbolinks
   web-console (>= 4.1.0)

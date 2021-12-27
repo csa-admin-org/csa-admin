@@ -38,7 +38,7 @@ gem 'turbolinks'
 # Members section
 gem 'importmap-rails'
 gem 'hotwire-rails'
-gem 'tailwindcss-rails', '~> 1.0'
+gem 'tailwindcss-rails'
 
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
