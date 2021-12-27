@@ -5,10 +5,10 @@ div class="flex flex-row items-center #{'text-gray-300' if live_stock&.zero? }"
       = variant.name
     - case live_stock
     - when 1..5
-      span class="ml-2 px-2 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800"
+      span class="ml-2 px-2 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800 whitespace-nowrap"
         = t('.live_stock', count: live_stock)
     - when ..0
-      span class="ml-2 px-2 text-xs text-gray-400 dark:text-gray-500 rounded-full bg-gray-200 dark:bg-gray-800"
+      span class="ml-2 px-2 text-xs text-gray-400 dark:text-gray-500 rounded-full bg-gray-200 dark:bg-gray-800 whitespace-nowrap"
         = t('.live_stock', count: 0)
 
   div class="ml-2 flex-none"
