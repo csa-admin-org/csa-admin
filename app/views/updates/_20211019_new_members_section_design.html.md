@@ -11,4 +11,4 @@ Voici l'avant/après du [formulaire d'inscription de Rage de Vert](https://membr
 
 |                               Avant                               |                              Après                               |
 | :---------------------------------------------------------------: | :--------------------------------------------------------------: |
-| ![avant](/updates/20211019_new_members_section_design/before.png) | ![après](/updates/20211019_new_members_section_design/after.png) |
+| ![avant](<%= image_url('updates/20211019_new_members_section_design/before.png') %>) | ![après](<%= image_url('updates/20211019_new_members_section_design/after.png') %>) |

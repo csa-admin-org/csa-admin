@@ -3,7 +3,7 @@ class Update
 
   def self.all
     @all ||= begin
-      path = Rails.root.join('updates', '*.md')
+      path = Rails.root.join('app/views/updates', '*.html.md')
       Dir.glob(path).map { |path|
         new(path)
       }.sort.reverse
@@ -24,13 +24,12 @@ class Update
     @filepath = filepath
   end
 
-  def content
-    markdown = File.read(@filepath)
-    Kramdown::Document.new(markdown).to_html.html_safe
+  def partial
+    "updates/#{filename.sub(/\A_/, '')}"
   end
 
   def name
-    @name ||= filename.sub(/\d{8}_/, '')
+    @name ||= filename.sub(/\A_\d{8}_/, '')
   end
 
   def date
@@ -44,6 +43,6 @@ class Update
   private
 
   def filename
-    @filename ||= File.basename(@filepath, '.md')
+    @filename ||= File.basename(@filepath, '.html.md')
   end
 end
