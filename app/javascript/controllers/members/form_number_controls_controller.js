@@ -9,8 +9,9 @@ export default class extends Controller {
   }
 
   increment(event) {
-    var i = this.inputTarget.value;
-    if (!this.inputTarget.max || i < this.inputTarget.max) {
+    var i = parseInt(this.inputTarget.value)
+    var max = parseInt(this.inputTarget.max)
+    if (!max || i < max) {
       this.inputTarget.value = ++i;
       this.inputChanged()
     }
@@ -18,8 +19,9 @@ export default class extends Controller {
   }
 
   decrement(event) {
-    var i = this.inputTarget.value;
-    if (i > this.inputTarget.min) {
+    var i = parseInt(this.inputTarget.value)
+    var min = parseInt(this.inputTarget.min)
+    if (i > min) {
       this.inputTarget.value = --i;
       this.inputChanged()
     }
@@ -27,11 +29,11 @@ export default class extends Controller {
   }
 
   inputChanged() {
+    console.log('changed')
     var event = new Event('change', {
       bubbles: true,
       cancelable: true,
     });
-    console.log('changed!')
     this.inputTarget.dispatchEvent(event);
   }
 }
