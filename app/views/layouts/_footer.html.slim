@@ -1,9 +1,15 @@
-ul
-  li.latest-updates
-    = link_to latestupdates_path do
-      span = t('.latest_updates')
-      - count = Update.unread_count(current_admin)
-      - if count&.positive?
-        span.badge = count
-  li.acp-admin
-    = link_to 'ACP Admin', 'https://acp-admin.ch'
+.links
+  ul
+    li
+      = link_to updates_path do
+        span = inline_svg_tag('admin/gift.svg', size: '20')
+        span = t('.updates')
+        - count = Update.unread_count(current_admin)
+        - if count&.positive?
+          span.badge = count
+
+.acp-admin
+  = link_to 'https://acp-admin.ch' do
+    span = inline_svg_tag('admin/logo.svg', size: '16')
+    span = 'ACP Admin'
+

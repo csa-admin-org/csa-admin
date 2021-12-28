@@ -1,8 +1,8 @@
-ActiveAdmin.register_page 'LatestUpdates' do
+ActiveAdmin.register_page 'Updates' do
   menu false
 
-  content title: ->(_) { I18n.t('layouts.footer.latest_updates').capitalize } do
-    para t('.latest_updates_explanation_html'), class: 'notice'
+  content title: ->(_) { I18n.t('layouts.footer.updates').capitalize } do
+    para t('.updates_explanation_html'), class: 'notice'
     columns do
       column do
         Update.all.each_with_index do |update, i|
@@ -16,7 +16,7 @@ ActiveAdmin.register_page 'LatestUpdates' do
 
   controller do
     before_action :set_unread_count
-    before_action :set_latest_update_read
+    before_action :mark_as_read
     helper_method :unread_count
 
     private
@@ -29,7 +29,7 @@ ActiveAdmin.register_page 'LatestUpdates' do
       @unread_count ||= Update.unread_count(current_admin)
     end
 
-    def set_latest_update_read
+    def mark_as_read
       Update.mark_as_read!(current_admin)
     end
   end

@@ -1,7 +1,7 @@
 _:
   layouts:
     footer:
-      latest_updates:
+      updates:
         _de: Letzte Neuigkeiten
         _fr: dernières nouveautés
         _it: ultime notizie
