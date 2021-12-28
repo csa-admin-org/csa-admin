@@ -8,6 +8,7 @@ ActiveAdmin.register Member do
   scope :support
   scope :inactive
 
+  filter :id
   filter :with_name, as: :string
   filter :with_address, as: :string
   filter :with_phone, as: :string

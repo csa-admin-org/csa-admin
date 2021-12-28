@@ -25,6 +25,7 @@ ActiveAdmin.register Membership do
   scope :future
   scope :past
 
+  filter :id
   filter :member,
     as: :select,
     collection: -> { Member.joins(:memberships).order(:name).distinct }
