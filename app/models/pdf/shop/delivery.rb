@@ -77,9 +77,9 @@ module PDF
         # Order Items
         items = order.items.map { |item|
           item_description = [
-            item.product.producer&.name,
             item.product.name,
-            "<b>#{item.product_variant.name}</b>",
+            item.product_variant.name,
+            item.product.producer&.name,
           ].compact.join(', ')
           [item_description, item.quantity]
         }.sort_by { |(desc, q)| desc }
