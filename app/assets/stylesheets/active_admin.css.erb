@@ -144,6 +144,124 @@ span.delivery_absences {
   float: right;
 }
 
+#page_title {
+  display: flex;
+  align-items: center;
+}
+
+.panel h3 {
+  display: flex;
+  align-items: center;
+}
+
+.panel h3 svg {
+  color: #555;
+  margin-left: -5px;
+  margin-right: 10px;
+}
+
+.handbook #sidebar {
+  margin-left: -300px !important;
+  width: 300px !important;
+}
+
+.handbook #title_bar h2 {
+  font-size: 28px;
+  font-weight: 100;
+}
+
+.handbook #main_content h1 {
+  font-size: 38px;
+  font-weight: 100;
+  margin: 10px 0 0 0;
+}
+
+.handbook #main_content h2 {
+  font-size: 24px;
+  font-weight: 200;
+  margin: 40px 0 0 0;
+  scroll-margin-top: 60px;
+}
+
+.handbook #main_content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 30px 0 0 0;
+}
+
+.handbook #main_content p {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.handbook #main_content blockquote {
+  border-left: 2px solid #84cc15;
+  background-color: #ecfccb;
+  padding: 0;
+  margin: 0;
+}
+
+.handbook #main_content blockquote p {
+  padding: 16px;
+  font-weight: 300;
+}
+
+.handbook #main_content .columns {
+  margin-right: 15px;
+}
+
+.handbook #main_content img {
+  display: block;
+  margin: 0 auto;
+}
+
+ul.handbook-toc li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  list-style-position: inside;
+}
+
+ul.handbook-toc a {
+  text-decoration: none;
+}
+ul.handbook-toc a:hover {
+  text-decoration: underline;
+}
+
+ul.handbook-toc li a,
+ul.handbook-toc li .active {
+  display: flex;
+  align-items: center;
+}
+
+ul.handbook-toc li.active {
+  background-color: #f6f6f6;
+}
+
+ul.handbook-toc li .active {
+  font-weight: 600;
+}
+
+ul.handbook-toc li a span svg,
+ul.handbook-toc li .active span svg {
+  margin-left: -16px;
+}
+
+ul.handbook-toc li span svg {
+  margin: 0;
+  padding: 0;
+}
+
+ul.handbook-toc ul {
+  padding-top: 10px;
+}
+
+ul.handbook-toc li li {
+  padding: 5px 0;
+  border-bottom: 0px;
+  font-weight: 300;
+}
+
 h3 span.link {
   float: right;
   margin: 2px -5px 0 0;
@@ -185,12 +303,12 @@ table a.view_link {
 }
 
 table a.pdf_link {
-  background-image: url(<%= asset_data_uri 'admin/pdf_file.svg' %>);
+  background-image: url(<%=asset_data_uri"admin/pdf_file.svg"%>);
 }
 
 h3 a.xlsx_link,
 table a.xlsx_link {
-  background-image: url(<%= asset_data_uri 'admin/xlsx_file.svg' %>);
+  background-image: url(<%=asset_data_uri"admin/xlsx_file.svg"%>);
 }
 
 .col-selectable {
@@ -586,6 +704,35 @@ li.check_boxes li.choice {
   width: 50%;
 }
 
+fieldset.inputs p.actions {
+  display: block;
+  text-align: center;
+}
+
+fieldset.inputs a.action {
+  font-size: 15px;
+  color: #999;
+  display: inline-block;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 5px 8px;
+  text-decoration: none;
+}
+
+fieldset.inputs a.action:hover {
+  color: #0c9024;
+  border-color: #0c9024;
+}
+
+fieldset.inputs a.action span {
+  display: flex;
+  align-items: center;
+}
+
+fieldset.inputs a.action svg {
+  margin-right: 5px;
+}
+
 #basket-complements-table {
   margin: 15px 0 25px;
 }
@@ -700,27 +847,28 @@ li.input.error textarea {
 }
 
 #footer .links ul {
-  display: inline-block;
+  list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
 #footer .links li {
-  list-style-type: none;
   background-color: #fff;
   text-decoration: none;
   padding: 4px 6px;
   position: relative;
   border: 1px solid #e2e4e8;
   border-radius: 6px;
+  display: inline-block;
+  margin: 5px 10px;
 }
 
 #footer .links .badge {
   font-size: 12px !important;
   position: absolute;
   top: -10px;
-  right: -15px;
-  padding: 3px 7px;
+  right: -14px;
+  padding: 3px 8px;
   min-width: 21px;
   border-radius: 50%;
   background: #ff2600;
@@ -732,7 +880,9 @@ li.input.error textarea {
   margin: 40px auto 10px auto;
 }
 
-#footer li:hover, #footer li:hover a, #footer a:hover {
+#footer li:hover,
+#footer li:hover a,
+#footer a:hover {
   color: #0c9024;
   fill: #0c9024;
   border-color: #0c9024;
@@ -751,6 +901,7 @@ li.input.error textarea {
   display: flex;
   align-items: center;
   margin: 0 3px;
+  flex-wrap: nowrap;
 }
 
 body.logged_out {
@@ -913,7 +1064,6 @@ tr.row-next_invoice_on span.next_date {
 }
 
 .index.updates p img {
-  width: 80%;
   display: block;
   margin: 10px auto;
 }

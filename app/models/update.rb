@@ -2,12 +2,10 @@ class Update
   include Comparable
 
   def self.all
-    @all ||= begin
-      path = Rails.root.join('app/views/updates', '*.html.md')
-      Dir.glob(path).map { |path|
-        new(path)
-      }.sort.reverse
-    end
+    path = Rails.root.join('app/views/updates', '*.md.erb')
+    Dir.glob(path).map { |path|
+      new(path)
+    }.sort.reverse
   end
 
   def self.unread_count(admin)
@@ -24,8 +22,12 @@ class Update
     @filepath = filepath
   end
 
-  def partial
-    "updates/#{filename.sub(/\A_/, '')}"
+  def body(context)
+    @body ||= begin
+      body = File.read(@filepath)
+      result = ERB.new(body).result(context)
+      Kramdown::Document.new(result).to_html.html_safe
+    end
   end
 
   def name
@@ -33,7 +35,7 @@ class Update
   end
 
   def date
-    @date ||= Date.parse(filename)
+    @date ||= Date.parse(filename[/\d+/])
   end
 
   def <=>(other)
@@ -43,6 +45,6 @@ class Update
   private
 
   def filename
-    @filename ||= File.basename(@filepath, '.html.md')
+    @filename ||= File.basename(@filepath, '.md.erb')
   end
 end

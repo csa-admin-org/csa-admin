@@ -71,7 +71,8 @@ gem 'sentry-ruby'
 gem 'sentry-rails'
 gem 'sentry-sidekiq'
 
-gem 'markdown_views'
+gem 'kramdown'
+gem 'nokogiri'
 
 group :production do
   gem 'aws-sdk-s3', require: false

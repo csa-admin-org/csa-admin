@@ -66,6 +66,7 @@ class Ability
       ActiveAdmin::Comment,
       Delivery,
       Depot,
+      Handbook,
       Invoice,
       Member,
       Membership,

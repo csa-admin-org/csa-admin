@@ -33,7 +33,7 @@ Les fonctions prises en charge sont, entre autres:
 * Multi-langues (français/allemand/italien)
 * ...
 
-D'autres fonctionalités peuvent être ajoutées au besoin.
+D'autres fonctionnalités peuvent être ajoutées au besoin.
 
 ## Développement et support
 

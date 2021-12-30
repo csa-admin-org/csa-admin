@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resource :acp, path: 'settings', only: :update
 
     get 'deliveries/next' => 'next_delivery#next'
+    get 'handbook/:id' => 'handbook#index', as: :handbook_page
 
     ActiveAdmin.routes(self)
 
