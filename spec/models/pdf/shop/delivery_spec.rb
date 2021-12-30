@@ -64,8 +64,8 @@ describe PDF::Shop::Delivery do
         .and include(I18n.l delivery.date)
         .and include('Bulletin de livraison')
         .and include('Quantité', 'Produit')
-        .and include('2', 'La ferme du Village, Courge, ', '10 kg')
-        .and include('1', 'La ferme du Village, Courge, ', '5 kg')
+        .and include('2', 'Courge, 10 kg, La ferme du Village')
+        .and include('1', 'Courge, 5 kg, La ferme du Village')
         .and include('Facture envoyée séparément par email.')
 
       expect(pdf_strings).not_to include 'Chailly'
