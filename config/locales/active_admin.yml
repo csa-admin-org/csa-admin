@@ -456,8 +456,6 @@ _:
           _fr: Toutes les quatre semaines
           _it: Ogni quattro settimane
       edit:
-        check_handbook:
-          _fr: Consulter le manuel
         availability:
           _de: Verfügbarkeit
           _fr: Disponibilité
@@ -470,6 +468,10 @@ _:
           _de: Rechnungsstellung
           _fr: Facturation
           _it: Fatturazione
+        check_handbook:
+          _de: Handbuch konsultieren
+          _fr: Consulter le manuel
+          _it: Consultare il manuale
         delivery_pdf:
           _de: Lieferung Signaturblätter (PDF)
           _fr: Fiches signature livraison (PDF)
