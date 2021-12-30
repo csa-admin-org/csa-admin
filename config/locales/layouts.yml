@@ -1,10 +1,14 @@
 _:
   layouts:
     footer:
+      handbook:
+        _de: Handbuch
+        _fr: Manuel
+        _it: Manuale
       updates:
         _de: Letzte Neuigkeiten
-        _fr: dernières nouveautés
-        _it: ultime notizie
+        _fr: Dernières nouveautés
+        _it: Ultime notizie
     mailer:
       manage_admin_notifications:
         _de: Meine Benachrichtigungen verwalten

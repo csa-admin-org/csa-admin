@@ -1,0 +1,51 @@
+# Renouvellement abonnements
+
+Chaque abonnement s'arrête obligatoirement à la fin de son année fiscale; il est donc nécessaire de renouveler les abonnements pour l'année fiscale suivante.
+
+Tous les abonnements peuvent être renouvelés manuellement par un administrateur; soit depuis la page d'un abonnement, soit depuis [la page des abonnements](/memberships) (section "Renouvellements" en dessous des filtres). Il est également possible d'envoyer une demande de renouvellement par email à tous les membres qui pourront ensuite renouveler ou résilier leur abonnement depuis un formulaire sur leur page de membre.
+
+## Prérequis
+
+Afin de pouvoir renouveler les abonnements, il est nécessaire de créer dans un premier temps toutes [les livraisons](/deliveries/new) pour la nouvelle année fiscale. Effectivement, renouveler un abonnement consiste à créer un nouvel abonnement avec les mêmes informations que le courant, mais pour l'année fiscale suivante.
+
+Une fois les livraisons créées, les admnistrateurs peuvent renouveler les abonnements manuellement, au moment de leur choix, mais impérativement avant la fin de l'année fiscale.
+
+## Envoi des demandes
+
+Section "Renouvellements" en dessous des filtres de [la page des abonnements](/memberships) une fois les prérequis ci-dessous remplis:
+![abonnements section](<%= image_url('handbook/membership_renewal/section.png') %>){:width="300px"}
+
+> Il est important de noter que le système n'envoie pas automatiquement les demandes de renouvellement aux membres; c'est donc à vous de choisir le moment opportun pour les envoyer en fonction de vos statuts ou règlements. <br/><br/>
+> Si des membres ne répondent pas, c'est également à vous de tacitement renouveler (ou pas) ces abonnements au moment de votre choix à l'aide du bouton "Renouveler X abonnements" se trouvant dans [la page des abonnements](/memberships).
+
+### Prérequis
+
+Afin de pouvoir envoyer des demandes de renouvellement, il faut d'abord mettre en place les éléments suivants:
+
+- Créer toutes [les livraisons](/deliveries/new) pour la nouvelle année fiscale.
+- Éditer et activer [le templates email "Renouvellement abonnement"](/mail_templates/membership_renewal).
+- Éditer et activer [le templates email "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) (optionel).
+- Éditer [les paramètres](/settings#membership_renewal), comme le texte d'explication affiché sur la page de membre (droit d'accès "superadmin" requis).
+
+### Test d'envoi d'une demande
+
+Une fois les prérequis remplis, il est possible d'envoyer une demande de renouvellement par email pour un seul membre (par exemple vous) depuis la page de son abonnement. Cela vous permet de vous assurer que tout fonctionne correctement.
+
+
+## Formulaire de renouvellement
+
+Une fois la demande de renouvellement envoyée, le membre aura accès à un formulaire sur la page de son abonnement, qui lui proposera de renouveler ou résilier son abonnement:
+
+![abonnements section](<%= image_url('handbook/membership_renewal/form.png') %>){:width="500px"}
+
+### Renouvellement
+
+Si le membre choisit de renouveler son abonnement, il sera renvoyé vers la page de renouvellement qui lui permettra de changer sa taille de panier, ses compléments (si disponibles), son dépôt (si activé dans [les paramètres](/settings#membership_renewal)), ainsi que de laisser une remarque libre.
+
+Une fois confirmé, son abonnement pour l'année fiscale suivante est automatiquement créé et peut-être consulté et modifié depuis l'interface d'administration comme n'importe quel autre abonnement. En cas d'erreur, l'abonnement peut-être sans autre effacé ce qui aura pour effet d'annuler le renouvellement.
+
+### Résiliation
+
+Si le membre choisit de résilier son abonnement, il sera alors renvoyé vers la page de résiliation qui lui permettra de laisser une remarque libre ainsi que de choisir de continuer de soutenir l'association en tant que membre de soutien en payant la cotisation annuelle (si applicable).
+
+Si nécessaire, la résilition de l'abonnement peut être annulée par un administrateur depuis la page de l'abonnement.

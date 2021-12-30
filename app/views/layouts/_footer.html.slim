@@ -7,6 +7,11 @@
         - count = Update.unread_count(current_admin)
         - if count&.positive?
           span.badge = count
+    li
+      = link_to handbook_path do
+        span = inline_svg_tag('admin/book-open.svg', size: '20')
+        span = t('.handbook')
+
 
 .acp-admin
   = link_to 'https://acp-admin.ch' do
