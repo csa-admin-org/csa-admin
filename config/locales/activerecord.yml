@@ -967,14 +967,14 @@ _:
         renewal_state:
           _de: Verlängerung
           _fr: Renouvellement
-          _it: Renouvellement
+          _it: Rinnovo
         renewed:
           _de: Erneuert
-          _fr: Renouvellé
-          _it: Rinnovo
+          _fr: Renouvelé
+          _it: Rinnovato
         renewed_at:
           _de: Erneuert am
-          _fr: Renouvellé le
+          _fr: Renouvelé le
           _it: Rinnovato il
         renewed_membership:
           _de: Neues Abonnement

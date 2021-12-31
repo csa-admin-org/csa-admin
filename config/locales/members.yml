@@ -518,7 +518,7 @@ _:
           renew:
             _de: Erneuerung
             _fr: Renouvellement
-            _it: Rinnovamento
+            _it: Rinnovo
     memberships:
       membership:
         absent_baskets_count:
@@ -582,7 +582,7 @@ _:
           title:
             _de: Erneuerung
             _fr: Renouvellement
-            _it: Rinnovamento
+            _it: Rinnovo
     sessions:
       new:
         email_input:
