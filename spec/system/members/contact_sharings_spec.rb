@@ -9,6 +9,10 @@ describe 'Contact sharing' do
     login(member)
   end
 
+  around do |example|
+    travel_to('2021-06-15') { example.run }
+  end
+
   it 'accepts to share contact' do
     create(:delivery, date: Date.tomorrow)
     depot = create(:depot, name: 'Vin Libre')
