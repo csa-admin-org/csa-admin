@@ -1,5 +1,5 @@
 ActiveAdmin.register Depot do
-  menu parent: :other, priority: 10
+  menu parent: :other, priority: 5
 
   scope :all
   scope :visible, default: true

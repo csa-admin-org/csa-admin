@@ -473,9 +473,13 @@ _:
           _fr: Consulter le manuel
           _it: Consultare il manuale
         delivery_pdf:
-          _de: Lieferung Signaturblätter (PDF)
-          _fr: Fiches signature livraison (PDF)
-          _it: Fogli per le firme alla consegna (PDF)
+          _de: Signaturblätter
+          _fr: Fiches signature
+          _it: Fogli firma
+        delivery_pdf_text_html:
+          _de: Signaturblätter (PDF) werden für jede Depot und Lieferung on-the-fly erstellt.
+          _fr: Les fiches de signature (PDF) sont générées à la volée pour chaque dépôt et livraison.
+          _it: I fogli firma (PDF) sono generati al volo per ogni deposito e consegna.
         details:
           _de: Details
           _fr: Détails
@@ -484,6 +488,10 @@ _:
           _de: ganzes Jahr
           _fr: année complète
           _it: anno completo
+        general:
+          _de: Allgemeine
+          _fr: Généraux
+          _it: Generali
         group_buying:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
@@ -517,9 +525,9 @@ _:
           _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
           _it: Attenzione, dopo ogni modifica tutte le ceste future di questo abbonamento saranno ricreate!
         membership_renewal:
-          _de: Abonnement-Erneuerung
-          _fr: Renouvellement abonnements
-          _it: Rinnovo dell'abbonamento
+          _de: Erneuerung
+          _fr: Renouvellement
+          _it: Rinnovo
         membership_renewal_text_html:
           _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
@@ -537,9 +545,9 @@ _:
           _fr: désactivée
           _it: disabilitato
         seasons:
-          _de: Jahreszeiten (Sommer / Winter)
-          _fr: Saisons (été / hiver)
-          _it: Stagione (estate / inverno)
+          _de: Jahreszeiten
+          _fr: Saisons
+          _it: Stagione
         settings:
           _de: Einstellungen
           _fr: Paramètres

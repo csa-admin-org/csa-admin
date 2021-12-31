@@ -1,0 +1,42 @@
+_:
+  features:
+    absence:
+      _de: Abwesenheit
+      _fr: Absence
+      _it: Assenza
+    absence_hint:
+      _de: Ermöglicht es, die Abwesenheiten von Mitgliedern zu verwalten. Mitglieder können ihre Abwesenheiten auch von ihrem Konto aus ankündigen.
+      _fr: Permet de gérer les absences des membres. Les membres peuvent également annoncer leurs absences depuis leur compte.
+      _it: Permette di gestire le assenze dei soci. I soci possono anche annunciare le loro assenze dal loro account.
+    activity:
+      _de: Beteiligung der Mitglieder
+      _fr: Participation des membres
+      _it: Partecipazione dei soci
+    activity_hint:
+      _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.
+      _fr: Permet de gérer des activités effectuées par les membres.
+      _it: Permette di gestire le attività svolte dai membri
+    basket_content:
+      _de: Tascheninhalt
+      _fr: Contenu Panier
+      _it: Contenuto cesta
+    basket_content_hint:
+      _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.
+      _fr: Fournit un outil pour calculer le contenu des paniers d'une livraison au prorata du prix de la taille des paniers.
+      _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto.
+    contact_sharing:
+      _de: Freigeben von Kontaktinformationen
+      _fr: Copaniérage
+      _it: Condivisione di informazioni di contatto
+    contact_sharing_hint:
+      _de: Ermöglicht das Teilen von Kontaktdaten zwischen Mitgliedern desselben Depots.
+      _fr: Rends possible le partage des coordonnées entre membres d'un même dépôt.
+      _it: Rende possibile la condivisione dei dati di contatto tra i soci dello stesso punto di ritiro.
+    group_buying:
+      _de: Gruppeneinkauf
+      _fr: Achats Groupés
+      _it: Acquisti di gruppo
+    group_buying_hint:
+      _de: Ermöglicht die Organisation von Sammelkäufen von Produkten getrennt von Taschenlieferungen.
+      _fr: Permet d'organiser des achats groupés de produits séparément des livraisons de paniers.
+      _it: Permette di organizzare acquisti di gruppo di prodotti separatamente dalle consegne del cestino.

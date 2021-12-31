@@ -11,9 +11,9 @@ _:
     hints:
       acp:
         absence_notice_period_in_days:
-          _de: Nach diesem Zeitraum ist es nicht mehr möglich, Ihre Abwesenheit zu melden.
-          _fr: Passé ce délai, il n'est plus possible d'annoncer son absence.
-          _it: Dopo questo periodo, non è più possibile annunciare la sua assenza.
+          _de: Nach diesem Zeitraum ist es für ein Mitglied nicht mehr möglich, ihre Abwesenheit zu melden.
+          _fr: Passé ce délai, il n'est plus possible pour un membre d'annoncer son absence.
+          _it: Dopo questo periodo, non è più possibile per un socio annunciare la sua assenza.
         activity_availability_limit_in_days:
           _de: Nach dieser Grenze ist eine Registrierung nicht mehr möglich. Auf 0 belassen, wenn kein Grenzwert.
           _fr: Passé cette limite, il n'est plus possible de s'inscrire. Laisser à zéro si aucune limite.
