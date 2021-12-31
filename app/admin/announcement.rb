@@ -1,5 +1,5 @@
 ActiveAdmin.register Announcement do
-  menu parent: :other, priority: 2
+  menu parent: :other, priority: 3
   actions :all, except: [:show]
 
   filter :depots, as: :select, collection: -> { Depot.all }

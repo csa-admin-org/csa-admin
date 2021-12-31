@@ -1,5 +1,5 @@
 ActiveAdmin.register BasketComplement do
-  menu parent: :other, priority: 11
+  menu parent: :other, priority: 4
   actions :all, except: [:show]
 
   scope :all

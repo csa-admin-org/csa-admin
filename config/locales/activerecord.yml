@@ -108,9 +108,9 @@ _:
           _fr: Signature
           _it: Firma
         features:
-          _de: Funktionen
-          _fr: Fonctionnalités
-          _it: Funzionalità
+          _de: Zusätzliche Funktionen
+          _fr: Fonctionnalités supplémentaires
+          _it: Funzionalità aggiuntive
         fiscal_year_start_month:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale

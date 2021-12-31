@@ -400,7 +400,7 @@ module ActiveAdmin
       if logout_link_path
         html_options = html_options.reverse_merge(method: logout_link_method || :get)
         menu.add id: 'logout', priority: priority, html_options: html_options,
-                 label: -> { inline_svg_tag('admin/sign_out-grey.svg', size: '20') },
+                 label: -> { inline_svg_tag('admin/sign-out.svg', size: '20') },
                  url: -> { render_or_call_method_or_proc_on self, active_admin_namespace.logout_link_path },
                  if: :current_active_admin_user?
       end

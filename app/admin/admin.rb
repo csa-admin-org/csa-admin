@@ -1,5 +1,5 @@
 ActiveAdmin.register Admin do
-  menu parent: :other, priority: 99
+  menu parent: :other, priority: 2
 
   includes :last_session
   index download_links: false do

@@ -1,5 +1,5 @@
 ActiveAdmin.register Vegetable do
-  menu parent: :other, priority: 10
+  menu parent: :other, priority: 6
   actions :all, except: [:show]
 
   index do
