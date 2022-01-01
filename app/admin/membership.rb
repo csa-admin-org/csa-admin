@@ -76,6 +76,10 @@ ActiveAdmin.register Membership do
   end
 
   sidebar :renewal, only: :index do
+    div class: 'actions' do
+      handbook_icon_link('membership_renewal')
+    end
+
     renewal = MembershipsRenewal.new
     if !Delivery.any_next_year?
       div class: 'content' do
@@ -249,6 +253,10 @@ ActiveAdmin.register Membership do
 
         if Date.current > m.started_on
           attributes_table title: Membership.human_attribute_name(:renew) do
+            div class: 'actions' do
+              handbook_icon_link('membership_renewal')
+            end
+
             row(:status) { status_tag(m.renewal_state) }
             if m.renewed?
               row(:renewed_at) { l m.renewed_at.to_date }
@@ -585,6 +593,7 @@ ActiveAdmin.register Membership do
   end
 
   controller do
+    include ApplicationHelper
     include TranslatedCSVFilename
 
     def apply_filtering(chain)
