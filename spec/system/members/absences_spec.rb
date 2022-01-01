@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'Absences' do
+  around { |e| travel_to('2021-06-15') { e.run } }
+
   let(:member) { create(:member) }
 
   before do

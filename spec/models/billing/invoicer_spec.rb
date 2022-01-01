@@ -732,6 +732,7 @@ describe Billing::Invoicer do
 
       specify 'membership, with only winter baskets' do
         membership = travel_to '2021-04-01' do
+          Delivery.delete_all
           create(:membership, seasons: %w[winter])
         end
         expect(membership.deliveries.first.date).to eq Date.parse('2021-04-06') # Tuesday
