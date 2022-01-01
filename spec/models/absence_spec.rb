@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Absence do
+  around { |e| travel_to('2021-06-15') { e.run } }
+
   describe 'validations' do
     it 'validates started_on and ended_on dates when submited by member' do
       absence = Absence.new(

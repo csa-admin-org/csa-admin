@@ -341,6 +341,7 @@ describe Member do
     end
 
     it 'sets state to support when user still has acp_shares' do
+      travel_to('2021-06-15')
       Current.acp.update!(share_price: 100, annual_fee: nil)
       member = create(:member, :active)
       member.membership.update_column(:ended_on, 1.day.ago)
@@ -352,6 +353,7 @@ describe Member do
     end
 
     it 'sets state to inactive and desired_acp_shares_number to 0 when membership ended' do
+      travel_to('2021-06-15')
       Current.acp.update!(share_price: 100, annual_fee: nil)
       member = create(:member, :trial, desired_acp_shares_number: 1)
       member.membership.update_column(:ended_on, 1.day.ago)

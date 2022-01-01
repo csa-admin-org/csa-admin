@@ -32,7 +32,9 @@ describe 'Configurations V1 API' do
         create(:vegetable, id: 4354234, name: 'Chou')
       end
 
-      request
+      travel_to '2021-06-19' do
+        request
+      end
 
       expect(response.status).to eq 200
       expect(response.headers).to match(hash_including(
