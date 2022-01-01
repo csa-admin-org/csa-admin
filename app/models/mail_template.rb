@@ -43,14 +43,10 @@ class MailTemplate < ApplicationRecord
   scope :invoice, -> { where(title: INVOICE_TITLES) }
 
   def self.deliver_now(title, **args)
-    return if Current.acp.host == 'p2r'
-
     active_template(title)&.mail(**args)&.deliver_now
   end
 
   def self.deliver_later(title, wait: nil, **args)
-    return if Current.acp.host == 'p2r'
-
     later_args = {}
     later_args[:wait] = wait if wait
     active_template(title)&.mail(**args)&.deliver_later(**later_args)
