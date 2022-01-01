@@ -114,4 +114,10 @@ module ApplicationHelper
     server_id = Current.acp.credentials(:postmark, :server_id)
     "https://account.postmarkapp.com/servers/#{server_id}/#{path}"
   end
+
+  def handbook_icon_link(page)
+    link_to(handbook_page_path(page), title: I18n.t('layouts.footer.handbook')) do
+      inline_svg_tag('admin/book-open.svg', size: '24')
+    end
+  end
 end
