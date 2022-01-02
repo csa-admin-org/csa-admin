@@ -387,7 +387,7 @@ _:
       _fr: Soumettre %{model}
       _it: Invia %{model}
     update:
-      _de: "%{model} aktualiseren"
+      _de: "%{model} aktualisieren"
       _fr: Mettre à jour %{model}
       _it: Aggiorna %{model}
     'yes':
