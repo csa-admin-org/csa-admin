@@ -82,32 +82,4 @@ describe Basket do
     expect(basket.complement_ids).to match_array [2]
     expect(basket.complements_price).to eq 4.5
   end
-
-  it 'sets basket_complement on creation when its match membership subscriptions (with season)', freeze: '01-06-2018' do
-    Current.acp.update!(
-      summer_month_range_min: 4,
-      summer_month_range_max: 9)
-    create(:basket_complement, id: 1, price: 3.2, name: 'Pain')
-    create(:basket_complement, id: 2, price: 4.5, name: 'Oeuf')
-
-    membership_1 = create(:membership, memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: nil, quantity: 1, seasons: ['summer']  },
-        '1' => { basket_complement_id: 2, price: '4', quantity: 2 }
-      })
-    membership_2 = create(:membership, memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 2, price: '', quantity: 1, seasons: ['winter'] }
-      })
-
-    delivery = create(:delivery, date: '06-06-2018', basket_complement_ids: [1, 2])
-
-    basket = create(:basket, membership: membership_1, delivery: delivery)
-    expect(basket.complement_ids).to match_array [1, 2]
-    expect(basket.complements_description).to eq 'Pain et 2 x Oeuf'
-    expect(basket.complements_price).to eq 3.2 + 2 * 4
-
-    basket = create(:basket, membership: membership_2, delivery: delivery)
-    expect(basket.complement_ids).to match_array [2]
-    expect(basket.complements_description).to be_nil
-    expect(basket.complements_price).to be_zero
-  end
 end

@@ -37,15 +37,10 @@ module MembershipsHelper
   def basket_complements_description(complements, text_only: false, public_name: true)
     names = Array(complements).compact.map do |complement|
       name = public_name ? complement.basket_complement.public_name : complement.basket_complement.name
-      desc =
-        case complement.quantity
-        when 1 then name
-        else "#{complement.quantity} x #{name}"
-        end
-      if complement.respond_to?(:seasons)
-        desc += " (#{complement.season_name})" unless complement.all_seasons?
+      case complement.quantity
+      when 1 then name
+      else "#{complement.quantity} x #{name}"
       end
-      desc
     end
     if names.present?
       names.to_sentence

@@ -524,12 +524,6 @@ ActiveAdmin.register Membership do
             input_html: { class: 'js-reset_price' }
           ff.input :price, hint: true, required: false
           ff.input :quantity
-          if Current.acp.seasons?
-            ff.input :seasons,
-              as: :check_boxes,
-              collection: seasons_collection,
-              hint: true
-          end
         end
         f.input :basket_complements_annual_price_change, hint: true
       end
@@ -548,8 +542,7 @@ ActiveAdmin.register Membership do
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,
-      :_destroy,
-      seasons: []
+      :_destroy
     ]
 
   member_action :open_renewal, method: :post do

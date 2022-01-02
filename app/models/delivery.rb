@@ -65,7 +65,7 @@ class Delivery < ActiveRecord::Base
       .each do |basket|
         mbc = membership_basket_complement_for(basket, complement)
         basket.add_complement!(complement,
-          quantity: mbc.season_quantity(self),
+          quantity: mbc.quantity,
           price: mbc.delivery_price)
       end
   end
