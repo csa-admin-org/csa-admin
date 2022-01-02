@@ -1005,10 +1005,6 @@ _:
           _de: Zusatz
           _fr: Complément
           _it: Aggiunte
-        seasons:
-          _de: Saisons
-          _fr: Saisons
-          _it: Stagioni
       payment:
         comment:
           _de: Kommentar

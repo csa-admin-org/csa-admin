@@ -73,38 +73,6 @@ describe Delivery do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-  it 'adds basket_complement on subscribed baskets (with season)', freeze: '01-01-2018' do
-    Current.acp.update!(
-      summer_month_range_min: 4,
-      summer_month_range_max: 9)
-
-    create(:basket_complement, id: 1, price: 4.5, name: 'Oeuf')
-    membership = create(:membership, memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: nil, quantity: 1, seasons: ['summer']  },
-      })
-
-    delivery1 = create(:delivery, date: '06-06-2018')
-    delivery2 = create(:delivery, date: '06-12-2018')
-
-    basket1 = create(:basket, membership: membership, delivery: delivery1)
-    basket2 = create(:basket, membership: membership, delivery: delivery2)
-
-    expect { delivery1.update!(basket_complement_ids: [1]) }
-      .to change { membership.reload.price }.by(4.5)
-
-    basket1.reload
-    expect(basket1.complement_ids).to match_array [1]
-    expect(basket1.complements_description).to eq 'Oeuf'
-    expect(basket1.complements_price).to eq 4.5
-
-    delivery2.update!(basket_complement_ids: [1])
-
-    basket2.reload
-    expect(basket2.complement_ids).to match_array [1]
-    expect(basket2.complements_description).to be_nil
-    expect(basket2.complements_price).to be_zero
-  end
-
   it 'removes basket_complement on subscribed baskets' do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)

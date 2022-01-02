@@ -1,6 +1,4 @@
 class MembershipsBasketComplement < ActiveRecord::Base
-  include HasSeasons
-
   belongs_to :membership, touch: true
   belongs_to :basket_complement
 
@@ -14,9 +12,5 @@ class MembershipsBasketComplement < ActiveRecord::Base
 
   def delivery_price
     basket_complement.annual_price_type? ? 0 : price
-  end
-
-  def season_quantity(delivery)
-    out_of_season_quantity(delivery) || quantity
   end
 end

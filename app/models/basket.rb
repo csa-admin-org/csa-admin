@@ -100,7 +100,7 @@ class Basket < ActiveRecord::Base
       .where(basket_complement_id: complement_ids).each do |mbc|
         baskets_basket_complements.build(
           basket_complement_id: mbc.basket_complement_id,
-          quantity: mbc.season_quantity(delivery),
+          quantity: mbc.quantity,
           price: mbc.delivery_price)
       end
   end

@@ -59,7 +59,7 @@ class MembershipRenewal
       }
     else
       membership.memberships_basket_complements.each do |mbc|
-        bc_attrs << mbc.slice(*%w[seasons quantity basket_complement_id])
+        bc_attrs << mbc.slice(*%w[quantity basket_complement_id])
       end
     end
     bc_attrs.each do |attrs|
@@ -74,7 +74,6 @@ class MembershipRenewal
       .first
       &.attributes
       &.slice(*%w[
-        seasons
         quantity
         basket_complement_id
       ])

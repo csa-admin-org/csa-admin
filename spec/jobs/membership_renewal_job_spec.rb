@@ -51,7 +51,7 @@ describe MembershipRenewalJob do
     membership = create(:membership,
       seasons: %w[summer],
       memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: 3, seasons: %w[winter], quantity: 1 },
+        '0' => { basket_complement_id: 1, price: 3, quantity: 1 },
         '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
       })
 
@@ -62,12 +62,10 @@ describe MembershipRenewalJob do
     expect(renewal).to have_attributes(
       seasons: %w[summer])
     expect(renewal.memberships_basket_complements.first).to have_attributes(
-      seasons: %w[winter],
       basket_complement_id: 1,
       price: 3.2,
       quantity: 1)
     expect(renewal.memberships_basket_complements.last).to have_attributes(
-      seasons: %w[summer winter],
       basket_complement_id: 2,
       price: 4.5,
       quantity: 2)
