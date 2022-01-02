@@ -954,6 +954,10 @@ _:
           _de: Einstellungen
           _fr: Paramètres
           _it: Parametri
+        submit:
+          _de: Speichern
+          _fr: Sauvegarder
+          _it: Salva
       activity:
         new_model:
           _de: Neue %{model}

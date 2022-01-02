@@ -611,11 +611,11 @@ _:
             _fr: de s'inscrire aux heures de travail
             _it: registrarsi per le ore di lavoro
           billing_text:
-            _de: den Status Ihrer Rechnungen abfragen
+            _de: den Status von Rechnungen abzufragen
             _fr: consulter l'état de ses factures
             _it: controllare lo stato delle proprie fatture
           deliveries_text:
-            _de: siehe seine nächsten Lieferungen
+            _de: die nächsten Lieferungsdaten einzusehen
             _fr: voir ses prochaines livraisons
             _it: vedere le prossime consegne
         form_text:

@@ -283,7 +283,7 @@ ActiveAdmin.register ACP do
     end
 
     f.actions do
-      f.submit I18n.t('active_admin.edit_model', model: resource.name)
+      f.submit I18n.t('active_admin.resources.acp.submit')
     end
   end
 
