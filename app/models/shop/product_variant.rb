@@ -1,5 +1,5 @@
 module Shop
-  class ProductVariant < ActiveRecord::Base
+  class ProductVariant < ApplicationRecord
     self.table_name = 'shop_product_variants'
 
     include TranslatedAttributes

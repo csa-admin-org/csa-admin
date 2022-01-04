@@ -1,4 +1,4 @@
-class ACP < ActiveRecord::Base
+class ACP < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
 

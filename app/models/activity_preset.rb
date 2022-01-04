@@ -1,4 +1,4 @@
-class ActivityPreset < ActiveRecord::Base
+class ActivityPreset < ApplicationRecord
   include TranslatedAttributes
 
   default_scope { order_by_place }

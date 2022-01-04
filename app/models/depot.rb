@@ -1,4 +1,4 @@
-class Depot < ActiveRecord::Base
+class Depot < ApplicationRecord
   include HasEmails
   include HasPhones
   include HasLanguage

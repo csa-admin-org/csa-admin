@@ -1,5 +1,5 @@
 module GroupBuying
-  class Product < ActiveRecord::Base
+  class Product < ApplicationRecord
     self.table_name = 'group_buying_products'
 
     include TranslatedAttributes

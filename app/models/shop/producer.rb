@@ -1,5 +1,5 @@
 module Shop
-  class Producer < ActiveRecord::Base
+  class Producer < ApplicationRecord
     self.table_name = 'shop_producers'
 
     include TranslatedRichTexts

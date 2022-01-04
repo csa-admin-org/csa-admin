@@ -1,5 +1,5 @@
 module Shop
-  class OrderItem < ActiveRecord::Base
+  class OrderItem < ApplicationRecord
     include NumbersHelper
 
     self.table_name = 'shop_order_items'

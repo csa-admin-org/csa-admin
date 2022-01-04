@@ -1,4 +1,4 @@
-class Basket < ActiveRecord::Base
+class Basket < ApplicationRecord
   acts_as_paranoid
 
   default_scope { joins(:delivery).order('deliveries.date') }

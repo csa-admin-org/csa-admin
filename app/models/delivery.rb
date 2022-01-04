@@ -1,4 +1,4 @@
-class Delivery < ActiveRecord::Base
+class Delivery < ApplicationRecord
   include HasFiscalYearScopes
   include BulkDatesInsert
 

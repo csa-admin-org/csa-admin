@@ -1,4 +1,4 @@
-class BasketSize < ActiveRecord::Base
+class BasketSize < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 

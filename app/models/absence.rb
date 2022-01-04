@@ -1,4 +1,4 @@
-class Absence < ActiveRecord::Base
+class Absence < ApplicationRecord
   attr_accessor :admin, :comment
 
   belongs_to :member

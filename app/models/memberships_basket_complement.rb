@@ -1,4 +1,4 @@
-class MembershipsBasketComplement < ActiveRecord::Base
+class MembershipsBasketComplement < ApplicationRecord
   belongs_to :membership, touch: true
   belongs_to :basket_complement
 

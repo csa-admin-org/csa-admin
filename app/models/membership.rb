@@ -1,6 +1,6 @@
 require 'rounding'
 
-class Membership < ActiveRecord::Base
+class Membership < ApplicationRecord
   include HasSeasons
 
   acts_as_paranoid

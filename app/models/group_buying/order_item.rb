@@ -1,5 +1,5 @@
 module GroupBuying
-  class OrderItem < ActiveRecord::Base
+  class OrderItem < ApplicationRecord
     self.table_name = 'group_buying_order_items'
 
     belongs_to :order,
