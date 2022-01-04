@@ -150,16 +150,16 @@ describe BasketContent do
 
     specify 'with 3 basket sizes' do
       setup [
-        { id: 1001, quantity: 100, price: 23 },
         { id: 1002, quantity: 50, price: 33 },
+        { id: 1005, quantity: 100, price: 23 },
         { id: 1003, quantity: 20, price: 43 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002, 1003],
+        basket_size_ids: ["1005", 1002, 1003],
         quantity: 100,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.47, 0.7, 0.9]
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.68, 0.9, 0.48]
       expect(basket_content.surplus_quantity.to_f).to be_zero
     end
   end

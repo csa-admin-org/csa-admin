@@ -25,11 +25,11 @@ class BasketContent < ApplicationRecord
   end
 
   def basket_size_ids=(ids)
-    super ids.map(&:presence).compact.sort
+    super ids.map(&:presence).compact.map(&:to_i).sort
   end
 
   def basket_sizes
-    @basket_sizes ||= BasketSize.find(basket_size_ids)
+    @basket_sizes ||= BasketSize.reorder(:id).find(basket_size_ids)
   end
 
   def same_basket_quantities
