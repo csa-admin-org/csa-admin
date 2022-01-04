@@ -175,15 +175,17 @@ ActiveAdmin.register ACP do
             input_html: { rows: 2 })
         end
       end
-      tab t('.seasons') do
-        f.inputs do
-          para t('.membership_seasons_text'), class: 'description'
-          f.input :summer_month_range_min,
-            as: :select,
-            collection: (1..12).map { |m| [t('date.month_names')[m], m] }
-          f.input :summer_month_range_max,
-            as: :select,
-            collection: (1..12).map { |m| [t('date.month_names')[m], m] }
+      if Current.acp.seasons?
+        tab t('.seasons') do
+          f.inputs do
+            para t('.membership_seasons_text'), class: 'description'
+            f.input :summer_month_range_min,
+              as: :select,
+              collection: (1..12).map { |m| [t('date.month_names')[m], m] }
+            f.input :summer_month_range_max,
+              as: :select,
+              collection: (1..12).map { |m| [t('date.month_names')[m], m] }
+          end
         end
       end
     end
