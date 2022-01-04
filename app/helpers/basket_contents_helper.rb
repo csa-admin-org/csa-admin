@@ -1,9 +1,9 @@
 module BasketContentsHelper
   def display_quantity(quantity, unit)
     case unit
-    when 'g'; I18n.t("units.g_quantity", quantity: quantity)
-    when 'kg'; I18n.t("units.kg_quantity", quantity: quantity)
-    when 'pc'; I18n.t("units.pc_quantity", quantity: quantity.to_i)
+    when 'g'; I18n.t("units.g_quantity", quantity: number_with_delimiter(quantity))
+    when 'kg'; I18n.t("units.kg_quantity", quantity: number_with_delimiter(quantity))
+    when 'pc'; I18n.t("units.pc_quantity", quantity: number_with_delimiter(quantity.to_i))
     end
   end
 
@@ -14,9 +14,9 @@ module BasketContentsHelper
 
     case basket_content.unit
     when 'kg'
-      I18n.t('units.g_count_quantity', count: count, quantity: (quantity * 1000).to_i)
+      I18n.t('units.g_count_quantity', count: count, quantity: number_with_delimiter((quantity * 1000).to_i))
     else
-      I18n.t("units.#{basket_content.unit}_count_quantity", count: count, quantity: quantity.to_i)
+      I18n.t("units.#{basket_content.unit}_count_quantity", count: count, quantity: number_with_delimiter(quantity.to_i))
     end
   end
 
