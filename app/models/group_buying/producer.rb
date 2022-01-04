@@ -1,5 +1,5 @@
 module GroupBuying
-  class Producer < ActiveRecord::Base
+  class Producer < ApplicationRecord
     self.table_name = 'group_buying_producers'
 
     include TranslatedRichTexts

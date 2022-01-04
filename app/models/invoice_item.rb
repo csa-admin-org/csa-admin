@@ -1,6 +1,6 @@
 require 'rounding'
 
-class InvoiceItem < ActiveRecord::Base
+class InvoiceItem < ApplicationRecord
   belongs_to :invoice
 
   validates :description, presence: true

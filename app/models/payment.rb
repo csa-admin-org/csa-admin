@@ -1,4 +1,4 @@
-class Payment < ActiveRecord::Base
+class Payment < ApplicationRecord
   include HasFiscalYearScopes
 
   attr_accessor :comment

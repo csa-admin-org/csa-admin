@@ -1,5 +1,5 @@
 module GroupBuying
-  class Order < ActiveRecord::Base
+  class Order < ApplicationRecord
     include NumbersHelper
     include HasState
 

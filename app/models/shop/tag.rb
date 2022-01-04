@@ -1,5 +1,5 @@
 module Shop
-  class Tag < ActiveRecord::Base
+  class Tag < ApplicationRecord
     self.table_name = 'shop_tags'
 
     include TranslatedAttributes

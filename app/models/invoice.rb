@@ -1,7 +1,7 @@
 require 'rounding'
 require 'bigdecimal'
 
-class Invoice < ActiveRecord::Base
+class Invoice < ApplicationRecord
   include HasFiscalYearScopes
   include HasState
   include ActionView::Helpers::NumberHelper

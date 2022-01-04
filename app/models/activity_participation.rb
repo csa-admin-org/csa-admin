@@ -1,4 +1,4 @@
-class ActivityParticipation < ActiveRecord::Base
+class ActivityParticipation < ApplicationRecord
   include HasState # only partially
   include BulkActivityIdsInsert
 

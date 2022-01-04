@@ -1,4 +1,4 @@
-class Admin < ActiveRecord::Base
+class Admin < ApplicationRecord
   UnsupportedDeviceNotification = Class.new(StandardError)
 
   include HasSessions

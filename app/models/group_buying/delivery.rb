@@ -1,5 +1,5 @@
 module GroupBuying
-  class Delivery < ActiveRecord::Base
+  class Delivery < ApplicationRecord
     self.table_name = 'group_buying_deliveries'
 
     include HasFiscalYearScopes

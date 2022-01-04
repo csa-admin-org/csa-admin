@@ -1,4 +1,4 @@
-class BasketComplement < ActiveRecord::Base
+class BasketComplement < ApplicationRecord
   include HasDeliveries
   include TranslatedAttributes
   include HasVisibility

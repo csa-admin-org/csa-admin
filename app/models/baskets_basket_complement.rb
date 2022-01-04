@@ -1,4 +1,4 @@
-class BasketsBasketComplement < ActiveRecord::Base
+class BasketsBasketComplement < ApplicationRecord
   belongs_to :basket, touch: true
   belongs_to :basket_complement
 

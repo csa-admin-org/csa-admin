@@ -1,4 +1,4 @@
-class Activity < ActiveRecord::Base
+class Activity < ApplicationRecord
   include TranslatedAttributes
   include HasFiscalYearScopes
   include BulkDatesInsert
