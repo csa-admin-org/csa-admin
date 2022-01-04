@@ -1,0 +1,31 @@
+# Facturation des <%= activities_human_name.downcase %> non-effectuées
+
+Chaque ACP a une politique de facturation des <%= activities_human_name.downcase %> non-effectuées différente, certaines les facturent d'autres non.
+ACP Admin n'offre actuellement aucune automatisation de facturation des <%= activities_human_name.downcase %> non-effectuées; il faut donc procéder manuellement.
+
+
+## Définir les membres à facturer
+
+Le moyen le plus simple pour déterminer le nombre de <%= activities_human_name.downcase %> non-effectuées à facturer par membre est d'exporter le CSV [des abonnements](/memberships) de l'année fiscale concernée. La colonne "<%= activities_human_name %> manquantes" est disponible spécifiquement pour cela.
+En ouvrant le CSV avec Excel, il est facile de déterminer les membres à facturer en les triant à l'aide de cette colonne.
+
+
+## Facturation
+
+Depuis [la page de création d'une nouvelle facture](/invoices/new), il suffit de sélectionner le membre à facturer ainsi que de rentrer le nombre de <%= activities_human_name.downcase %> à facturer et de cliquer sur le bouton "Créer Facture".
+
+> Les <%= activities_human_name.downcase %> facturées sont automatiquement comptées comme des <%= activities_human_name.downcase %> effectuées; il est donc important que la date de la facture soit comprise dans l'année fiscale de l'abonnement concerné.
+
+Si le nombre de factures à créer est trop important, il est également possible [de m'envoyer](mailto:info@acp-admin.ch) une liste avec les ID des membres et le nombre de <%= activities_human_name.downcase %> à facturer. Je créerai alors les factures à l'aide d'un script ✨.
+
+
+## Contenu de l'email "Nouvelle facture"
+
+Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle facture"](/mail_templates/invoice_created) pour les factures des <%= activities_human_name.downcase %> à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
+
+~~~ liquid
+{% case invoice.object_type %}
+{% when 'ActivityParticipation' %}
+  <p>Mon texte spécial!</p>
+{% endcase %}
+~~~
