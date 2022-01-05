@@ -19,7 +19,7 @@ module PDF
         @shop_orders =
           @delivery
             .shop_orders
-            .joins(items: { product: :basket_complement })
+            .all_without_cart
             .includes(items: { product: :basket_complement })
       end
 
@@ -151,6 +151,7 @@ module PDF
         if shop_orders
           basket_complement_total +=
             shop_orders
+              .joins(items: { product: :basket_complement })
               .where(shop_products: { basket_complement_id: c.id })
               .sum('shop_order_items.quantity')
               .to_i
