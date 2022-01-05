@@ -2134,9 +2134,9 @@ table.index_table tbody td.nowrap {
   white-space: nowrap;
 }
 
-table.index_table .view_link,
-table.index_table .edit_link,
-table.index_table .delete_link {
+.view_link,
+.edit_link,
+.delete_link {
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
@@ -2149,21 +2149,20 @@ table.index_table .delete_link {
   width: 16px;
 }
 
-table.index_table .view_link:hover,
-table.index_table .edit_link:hover,
-table.index_table .delete_link:hover {
+.view_link:hover,
+.edit_link:hover,
+.delete_link:hover {
   opacity: 1;
 }
 
-table.index_table .delete_link {
+.delete_link {
   background-image: url(<%= asset_data_uri 'admin/trash.svg' %>);
 }
 
-table.index_table .edit_link {
+.edit_link {
   background-image: url(<%= asset_data_uri 'admin/edit.svg' %>);
 }
-
-table.index_table .view_link {
+.view_link {
   background-image: url(<%= asset_data_uri 'admin/view.svg' %>);
 }
 
