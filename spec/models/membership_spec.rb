@@ -743,7 +743,7 @@ describe Membership do
     end
   end
 
-  describe '#open_renewal_of_previous_membership' do
+  describe '#update_renewal_of_previous_membership!' do
     it 'clears renewed_at when renewed membership is destroyed' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       Delivery.create_all(1, next_fy.beginning_of_year)
@@ -754,6 +754,22 @@ describe Membership do
       expect {
         renewed_membership.destroy!
       }.to change { membership.reload.renewed_at }.to(nil)
+    end
+
+    it 'cancels previous membershipd when renewed membership is destroyed and in new fiscal' do
+      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      Delivery.create_all(1, next_fy.beginning_of_year)
+      membership = create(:membership)
+      membership.renew!
+      renewed_membership = membership.renewed_membership
+
+      expect {
+        travel_to renewed_membership.started_on do
+          renewed_membership.destroy!
+        end
+      }
+        .to change { membership.reload.renewed_at }.to(nil)
+        .and change { membership.reload.renew }.to(false)
     end
   end
 
