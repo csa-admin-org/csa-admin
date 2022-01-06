@@ -140,6 +140,14 @@ describe PDF::Delivery do
             price: 3.8
           },
         })
+      product2 = create(:shop_product,
+        name: 'Farine',
+        variants_attributes: {
+          '0' => {
+            name: '500g',
+            price: '4'
+          },
+        })
       order = create(:shop_order, :pending,
         delivery: delivery,
         member: member,
@@ -150,15 +158,25 @@ describe PDF::Delivery do
           quantity: 2
         },
       })
+      order = create(:shop_order, :pending,
+        delivery: delivery,
+        member: member2,
+        items_attributes: {
+        '0' => {
+          product_id: product2.id,
+          product_variant_id: product2.variants.first.id,
+          quantity: 2
+        },
+      })
 
       pdf_strings = save_pdf_and_return_strings(delivery, depot)
       expect(pdf_strings)
         .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
         .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs PUBLIC', 'Tomme de Lavaux PUBLIC', "Commande d'épicerie")
-        .and contain_sequence('Totaux (dépôt)', '2', '1', '5', '1', '1', 'Signature')
+        .and contain_sequence('Totaux (dépôt)', '2', '1', '5', '1', '2', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '3', '1', 'X')
-        .and contain_sequence('John Doe', '2', '2')
+        .and contain_sequence('John Doe', '2', '2', 'X')
     end
   end
 end
