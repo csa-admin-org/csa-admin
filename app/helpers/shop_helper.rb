@@ -1,12 +1,4 @@
 module ShopHelper
-  def next_shop_delivery
-    @next_shop_delivery ||=
-      Delivery
-        .shop_open
-        .where(id: current_member.baskets.coming.pluck(:delivery_id))
-        .next
-  end
-
   def live_stock(variant, order)
     return unless variant.stock
 
