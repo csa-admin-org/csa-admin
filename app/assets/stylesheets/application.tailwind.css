@@ -11,8 +11,11 @@
     @apply dark:invert dark:hue-rotate-180;
   }
 
-  ::-webkit-calendar-picker-indicator {
-    @apply dark:invert;
+  /* "@apply dark:invert" doesn't work with the :: selector */
+  @media (prefers-color-scheme: dark) {
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
   }
 
   a:hover,
