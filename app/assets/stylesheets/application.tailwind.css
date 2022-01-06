@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* "@apply dark:invert" doesn't work with the :: selector */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}
+
 /**
  * This injects Tailwind's base styles and any base styles registered by
  * plugins.
@@ -9,13 +17,6 @@
 @layer base {
   header img {
     @apply dark:invert dark:hue-rotate-180;
-  }
-
-  /* "@apply dark:invert" doesn't work with the :: selector */
-  @media (prefers-color-scheme: dark) {
-    ::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-    }
   }
 
   a:hover,
