@@ -10,11 +10,11 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
 div class='mb-12'
   = simple_form_for [:members, @absence] do |f|
     div class='flex flex-col md:flex-row items-end'
-      div class='mt-8 flex-none flex flex-row w-full md:w-0 md:min-w-min md:mr-0 justify-between space-x-4 md:justify-start md:w-96'
-        = f.input :started_on, as: :date, html5: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { min: Absence.min_started_on, max: Absence.max_ended_on, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10'}, wrapper_html: { class: 'w-1/2 md:w-40' }
-        = f.input :ended_on, as: :date, html5: true, label_html: { min: Absence.min_started_on, max: Absence.max_ended_on, class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, wrapper_html: { class: 'w-1/2 md:w-40' }
+      div class='mt-8 flex-none flex flex-col md:flex-row w-full md:w-0 md:min-w-min md:mr-0 justify-between space-y-4 md:space-y-0 md:space-x-4 md:justify-start md:w-96'
+        = f.input :started_on, as: :date, html5: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { min: Absence.min_started_on, max: Absence.max_ended_on, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10'}, wrapper_html: { class: 'w-full md:w-42' }
+        = f.input :ended_on, as: :date, html5: true, label_html: { min: Absence.min_started_on, max: Absence.max_ended_on, class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, wrapper_html: { class: 'w-full md:w-42' }
 
-      div class='mt-4 flex-none'
+      div class='mt-8 md:mt-0 md:ml-4 flex-none w-full'
         = f.button :submit, t('.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
 
 - @present_or_future_absences = current_member.absences.present_or_future
