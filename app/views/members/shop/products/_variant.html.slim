@@ -1,4 +1,4 @@
-- live_stock = live_stock(variant, order)
+- live_stock = live_stock(variant, @order)
 div class="flex flex-row items-center #{'text-gray-300' if live_stock&.zero? }"
   div class="flex-grow flex items-center"
     span
@@ -16,7 +16,7 @@ div class="flex flex-row items-center #{'text-gray-300' if live_stock&.zero? }"
 
   div class="ml-2 flex-none"
     - if !live_stock || live_stock.positive?
-      = button_to members_shop_order_items_path, method: :post, title: t('.add_to_basket'), class: 'bg-gray-200 dark:bg-gray-800 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:z-10 text-sm cursor-pointer flex items-center', disabled: live_stock&.zero?, params: { variant_id: variant.id } do
+      = button_to members_shop_order_order_items_path(@order), method: :post, title: t('.add_to_basket'), class: 'bg-gray-200 dark:bg-gray-800 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:z-10 text-sm cursor-pointer flex items-center', disabled: live_stock&.zero?, params: { variant_id: variant.id } do
         = inline_svg_tag 'members/shopping_cart.svg', class: 'px-2 py-1 h-6 w-10 fill-stroke hover:text-white'
     - else
       span class='text-gray-300 dark:text-gray-700 bg-gray-200 dark:bg-gray-800 rounded-md cursor-not-allowed flex items-center'

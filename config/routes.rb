@@ -55,11 +55,12 @@ Rails.application.routes.draw do
       resources :activity_participations, only: %i[index create destroy]
       namespace :shop do
         get '/' => 'products#index'
-        resource :order, only: %i[show update destroy] do
+        get '/next' => 'products#index', as: :next, next: true
+        resources :orders, only: %i[show update destroy] do
           post 'confirm', on: :member
           post 'unconfirm', on: :member
+          resources :order_items, only: %i[create]
         end
-        resources :order_items, only: %i[create]
       end
       namespace :group_buying do
         get '/' => 'base#show'

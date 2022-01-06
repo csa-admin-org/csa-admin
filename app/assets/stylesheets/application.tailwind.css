@@ -84,8 +84,10 @@
   }
 
   li.active a,
-  li.active a h2 {
-    @apply text-green-500;
+  li.active a h2,
+  h2.active,
+  span.active {
+    @apply text-green-500 cursor-default;
   }
 
   .disabled label,

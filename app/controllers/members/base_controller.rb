@@ -41,4 +41,25 @@ class Members::BaseController < ApplicationController
       id: "member_#{current_member.id}",
       session_id: current_session.id)
   end
+
+  def current_shop_delivery
+    @current_shop_delivery ||=
+      Delivery
+        .shop_open
+        .where(id: current_member.baskets.coming.pluck(:delivery_id))
+        .next
+  end
+  helper_method :current_shop_delivery
+
+  def next_shop_delivery
+    return unless current_shop_delivery
+
+    @next_shop_delivery ||=
+      Delivery
+        .shop_open
+        .where.not(id: current_shop_delivery.id)
+        .where(id: current_member.baskets.coming.pluck(:delivery_id))
+        .next
+  end
+  helper_method :next_shop_delivery
 end

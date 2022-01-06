@@ -23,13 +23,18 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
                 = Delivery.model_name.human(count: 2)
               span = t('.next_delivery', date: l(next_basket.delivery.date))
 
-          - if Current.acp.feature_flag?('shop') && next_shop_delivery
-            li class=nav_class('shop')
-              = link_to members_shop_path, class: 'block py-2 px-8' do
-                h2 class='font-medium text-gray-700 dark:text-gray-400'
-                  = t('activerecord.models.shop.one')
-                span
-                  = t('.next_delivery', date: l(next_shop_delivery.date))
+          - if Current.acp.feature_flag?('shop')
+            - if current_shop_delivery
+              li class="py-2"
+                = link_to members_shop_path, class: "block px-8" do
+                  h2 class="font-medium text-gray-700 dark:text-gray-400 #{nav_class('shop')}"
+                    = t('activerecord.models.shop.one')
+                  span class="#{nav_class('shop') if @order&.delivery == current_shop_delivery}"
+                    = t('.next_delivery', date: l(current_shop_delivery.date))
+                - if current_shop_delivery.shop_closing_at&.past? && next_shop_delivery
+                  = link_to members_shop_next_path, class: 'block px-8' do
+                    span class="#{nav_class('shop') if @order&.delivery == next_shop_delivery}"
+                      = t('.next_delivery', date: l(next_shop_delivery.date))
 
         - if membership
           li class=nav_class('membership')

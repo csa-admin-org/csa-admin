@@ -48,8 +48,8 @@ describe 'Shop::Order' do
           }
         })
 
-      visit '/shop/order'
-      expect(current_path).to eq '/shop/order'
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
 
       fill_in "shop_order_items_attributes_0_quantity", with: 4
       find('input[aria-label="update_order"]', visible: false).click
@@ -83,8 +83,8 @@ describe 'Shop::Order' do
           }
         })
 
-      visit '/shop/order'
-      expect(current_path).to eq '/shop/order'
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
 
       fill_in "shop_order_items_attributes_0_quantity", with: 3
       fill_in "shop_order_items_attributes_1_quantity", with: 0
@@ -96,6 +96,7 @@ describe 'Shop::Order' do
   end
 
   specify 'cart can be finalize depending date' do
+    order = nil
     travel_to '2021-11-08 11:59 +01' do
       Current.acp.update!(
         shop_delivery_open_delay_in_days: 2,
@@ -113,19 +114,20 @@ describe 'Shop::Order' do
           }
         })
 
-      visit '/shop/order'
-      expect(current_path).to eq '/shop/order'
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
       expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 08 novembre 2021 12h00."
       expect(page).to have_button('Commander')
     end
     travel_to '2021-11-08 12:01 +01' do
-      visit '/shop/order'
+      visit "/shop/orders/#{order.id}"
       expect(current_path).to eq '/shop'
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
     end
   end
 
   specify 'pending order can be modified/deleted depending date' do
+    order = nil
     travel_to '2021-11-08 11:59 +01' do
       Current.acp.update!(
         shop_delivery_open_delay_in_days: 2,
@@ -143,15 +145,15 @@ describe 'Shop::Order' do
           }
         })
 
-      visit '/shop/order'
-      expect(current_path).to eq '/shop/order'
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
       expect(page).to have_content "Votre commande a bien été reçue mais peut encore être annulée ou modifiée jusqu'au lundi 08 novembre 2021 12h00. Une facture vous sera envoyée ultérieurement, avant la livraison, par email. Merci de la régler rapidement."
       expect(page).to have_button('Modifier')
       expect(page).to have_button('Annuler la commande')
     end
     travel_to '2021-11-08 12:01 +01' do
-      visit '/shop/order'
-      expect(current_path).to eq '/shop/order'
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
       expect(page).to have_content "Votre commande est entrain d'être préparée, une facture vous sera bientôt envoyée par email. Merci de la régler rapidement."
       expect(page).not_to have_button('Modifier')
       expect(page).not_to have_button('Annuler la commande')
@@ -177,8 +179,8 @@ describe 'Shop::Order' do
         })
       order.invoice!
 
-      visit '/shop/order'
-      expect(current_path).to eq '/shop/order'
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
       expect(page).to have_content "Votre commande est prête, la facture vous a été envoyée par email. Merci de la régler rapidement."
       expect(page).to have_link("Facture ##{order.invoice.id}")
       expect(page).to have_content "Une question? N'hésitez pas à nous contacter."

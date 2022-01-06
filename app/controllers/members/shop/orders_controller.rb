@@ -1,24 +1,25 @@
 class Members::Shop::OrdersController < Members::Shop::BaseController
+  before_action :find_order
   before_action :ensure_order_not_empty
   before_action :ensure_order_state
 
-  # GET /shop/order
+  # GET /shop/orders/:id
   def show
     respond_to do |format|
-      format.html {  render :show }
+      format.html { render :show }
       format.turbo_stream
     end
   end
 
-  # PUT/PATCH /shop/order
+  # PUT/PATCH /shop/orders/:id
   def update
     respond_to do |format|
-      if order.update(order_params)
-        if order.items.empty?
-          format.html { redirect_to members_shop_path }
-          format.turbo_stream { redirect_to members_shop_path }
+      if @order.update(order_params)
+        if @order.items.empty?
+          format.html { redirect_to shop_path }
+          format.turbo_stream { redirect_to shop_path }
         else
-          format.html { redirect_to members_shop_order_path }
+          format.html { redirect_to members_shop_order_path(@order) }
           format.turbo_stream
         end
       else
@@ -28,40 +29,48 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
     end
   end
 
-  # POST /shop/order/confirm
+  # POST /shop/orders/:id/confirm
   def confirm
-    order.confirm!
-    redirect_to members_shop_order_path, notice: t('.notice')
+    @order.confirm!
+    redirect_to members_shop_order_path(@order), notice: t('.notice')
   rescue InvalidTransitionError, ActiveRecord::RecordInvalid
     render :show, status: :unprocessable_entity
   end
 
-  # POST /shop/order/unconfirm
+  # POST /shop/orders/:id/unconfirm
   def unconfirm
-    order.unconfirm!
-    redirect_to members_shop_order_path
+    @order.unconfirm!
+    redirect_to members_shop_order_path(@order)
   rescue InvalidTransitionError
     render :show, status: :unprocessable_entity
   end
 
-
-  # DELETE /shop/order
+  # DELETE /shop/orders/:id
   def destroy
-    order.destroy
-    redirect_to members_shop_path
+    @order.destroy
+    redirect_to shop_path
   end
 
   private
 
+  def find_order
+    @order =
+      Shop::Order
+        .where(delivery: [current_shop_delivery, next_shop_delivery].compact)
+        .where(member_id:current_member.id)
+        .includes(items: [:product, :product_variant])
+        .find(params[:id])
+  end
+
   def ensure_order_not_empty
-    if order.items.empty?
-      redirect_to members_shop_path, status: :see_other
+    if @order.items.empty?
+      redirect_to shop_path, status: :see_other
     end
   end
 
   def ensure_order_state
-    if order.cart? && !delivery.shop_open?
-      redirect_to members_shop_path, status: :see_other
+    if @order.cart? && !@order.delivery.shop_open?
+      redirect_to shop_path, status: :see_other
     end
   end
 

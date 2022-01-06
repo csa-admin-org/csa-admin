@@ -1,12 +1,12 @@
-- order.state = Shop::Order::PENDING_STATE
-- order.validate
-- order.state = Shop::Order::CART_STATE
-- order.items.each(&:validate)
-- submit_disabled = order.items.any? { |i| i.errors.any? } || order.errors.any?
+- @order.state = Shop::Order::PENDING_STATE
+- @order.validate
+- @order.state = Shop::Order::CART_STATE
+- @order.items.each(&:validate)
+- submit_disabled = @order.items.any? { |i| i.errors.any? } || @order.errors.any?
 
-= simple_form_for order, url: members_shop_order_path, method: :patch, data: { controller: 'form-submitter', form_submitter_target: 'form' } do |f|
+= simple_form_for @order, url: members_shop_order_path(@order), method: :patch, data: { controller: 'form-submitter', form_submitter_target: 'form' } do |f|
   div class="mt-2 space-y-4 md:space-y-2"
-    = f.simple_fields_for :items, order.items.sort_by { |i| [i.product.name, i.product_variant.name] } do |ff|
+    = f.simple_fields_for :items, @order.items.sort_by { |i| [i.product.name, i.product_variant.name] } do |ff|
       div class='-mx-1 my-1 px-1 py-1 flex rounded flex-row items-center hover:bg-gray-100 dark:hover:bg-gray-900'
         = ff.label :quantity, class: 'flex-1 flex flex-col justify-start md:flex-row' do
           div class='mt-1 w-full flex-1 text-left flex-row items-center'
@@ -54,20 +54,20 @@
 
   = f.button :submit, t('.submit_order'), class: 'hidden', aria: { label: 'update_order' }
 
-- if order.errors[:base].any?
+- if @order.errors[:base].any?
   div class='flex flex-row items-center justify-end'
     span class="mt-2 -mb-2 py-1 px-2 text-red-500 bg-red-100 dard:bg-red-900 rounded"
-      = order.errors[:base].join(', ')
+      = @order.errors[:base].join(', ')
 
 div class='w-full mt-8 flex flex-col md:flex-row md:justify-end'
   div class='mt-2 md:mt-0 order-2 md:order-1 flex items-center'
-    = link_to t('.continue_shopping'), members_shop_path, class: 'button md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer', target: '_top'
+    = link_to t('.continue_shopping'), shop_path, class: 'button md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer', target: '_top'
   div class='w-full md:w-auto order-1 md:order-2 md:ml-2 w-full flex items-center'
-    = button_to t('.submit_order'), confirm_members_shop_order_path, disabled: submit_disabled, class: "md:min-w-min min-w-full py-2 px-4 border #{!submit_disabled ? 'text-white border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' : 'text-gray-400 dark:text-gray-600 dark:border-gray-800 bg-gray-200 dark:bg-gray-800 cursor-not-allowed'} font-medium rounded-md ocus:z-10 text-base", form: { data: { turbo: false }, class: 'w-full' }
+    = button_to t('.submit_order'), confirm_members_shop_order_path(@order), disabled: submit_disabled, class: "md:min-w-min min-w-full py-2 px-4 border #{!submit_disabled ? 'text-white border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' : 'text-gray-400 dark:text-gray-600 dark:border-gray-800 bg-gray-200 dark:bg-gray-800 cursor-not-allowed'} font-medium rounded-md ocus:z-10 text-base", form: { data: { turbo: false }, class: 'w-full' }
 
 
 div class='mt-12 flex flex-row justify-center md:justify-end'
-  = button_to members_shop_order_path, method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t('.destroy_cart_confirm'), action: "submit->confirmation#confirm" } }, class: 'focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer' do
+  = button_to members_shop_order_path(@order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t('.destroy_cart_confirm'), action: "submit->confirmation#confirm" } }, class: 'focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer' do
       div class='flex flex-row items-center'
         = inline_svg_tag('members/trash.svg', class: 'w-4 h-4 stroke-current')
         span class='ml-1 text-sm font-normal'
