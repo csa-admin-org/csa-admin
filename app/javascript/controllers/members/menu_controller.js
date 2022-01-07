@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["menu", "body"]
+  static get targets() {
+    return ["menu", "body"]
+  }
 
   show(event) {
     removeClass(this.menuTargets, "hidden")

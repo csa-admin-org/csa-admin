@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["item", "amount", "amountWrapper"]
+  static get targets() {
+    return ["item", "amount", "amountWrapper"]
+  }
 
   connect() {
     this.updateAmount()
