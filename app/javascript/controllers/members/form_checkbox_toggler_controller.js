@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { prop } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["checkbox", "input"]
+  static get targets() {
+    return ["checkbox", "input"]
+  }
 
   connect() {
     if (!this.checkboxTarget.checked) {

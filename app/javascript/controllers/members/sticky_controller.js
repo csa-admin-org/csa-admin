@@ -1,12 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["container"]
-  static values = {
-    offset: Number,
-    desktopOffset: Number
+  static get targets() {
+    return ["container"]
   }
-  static classes = ["sticky"]
+  static get values() {
+    return {
+      offset: Number,
+      desktopOffset: Number
+    }
+  }
+  static get classes() {
+    return ["sticky"]
+  }
 
   connect() {
     var offset = (window.innerWidth <= 768) ? this.offsetValue : this.desktopOffsetValue

@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { checked, prop, addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["input"]
+  static get targets() {
+    return ["input"]
+  }
 
   excludeChoice(event) {
     for (const input of this.inputTargets) {

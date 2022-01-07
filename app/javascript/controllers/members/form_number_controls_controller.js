@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { debounce } from 'throttle-debounce'
 
 export default class extends Controller {
-  static targets = ["input"]
+  static get targets() {
+    return ["input"]
+  }
 
   initialize() {
     this.inputChanged = debounce(250, this.inputChanged)

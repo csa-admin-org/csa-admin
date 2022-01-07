@@ -6,10 +6,14 @@ import { German } from "flatpickr/dist/l10n/de"
 import { Italian } from "flatpickr/dist/l10n/it"
 
 export default class extends Controller {
-  static targets = ["calendar", "input"]
-  static values = {
-    dates: Array,
-    defaultDate: String,
+  static get targets() {
+    return ["calendar", "input"]
+  }
+  static get values() {
+    return {
+      dates: Array,
+      defaultDate: String,
+    }
   }
 
   connect() {

@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { prop, addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["label", "input"]
+  static get targets() {
+    return ["label", "input"]
+  }
 
   enableInputs() {
     removeClass(this.labelTargets, "disabled")

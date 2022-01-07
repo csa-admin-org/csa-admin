@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input"]
+  static get targets() {
+    return ["input"]
+  }
 
   enforceMinValue({ params: { minValue } }) {
     if (!this.hasInputTarget) return

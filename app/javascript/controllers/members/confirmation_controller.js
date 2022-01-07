@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = {
-    message: String
+  static get values() {
+    return { message: String }
   }
 
   confirm(event) {
