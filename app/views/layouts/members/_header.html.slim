@@ -31,7 +31,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
                     = t('activerecord.models.shop.one')
                   span class="#{nav_class('shop') if @order&.delivery == current_shop_delivery}"
                     = t('.next_delivery', date: l(current_shop_delivery.date))
-                - if current_shop_delivery.shop_closing_at&.past? && next_shop_delivery
+                - if !current_shop_delivery.shop_open? && next_shop_delivery
                   = link_to members_shop_next_path, class: 'block px-8' do
                     span class="#{nav_class('shop') if @order&.delivery == next_shop_delivery}"
                       = t('.next_delivery', date: l(next_shop_delivery.date))
