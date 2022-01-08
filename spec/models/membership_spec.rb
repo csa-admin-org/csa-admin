@@ -65,7 +65,7 @@ describe Membership do
 
     it 'prevents date modification when renewed' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-      Delivery.create_all(1, next_fy.beginning_of_year)
+      create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
       membership.renew!
       membership.reload
@@ -663,7 +663,7 @@ describe Membership do
 
     it 'sets renewal_opened_at' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-      Delivery.create_all(1, next_fy.beginning_of_year)
+      create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
       expect {
@@ -675,7 +675,7 @@ describe Membership do
 
     it 'sends member-renewal email template' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-      Delivery.create_all(1, next_fy.beginning_of_year)
+      create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
       expect {
@@ -689,7 +689,7 @@ describe Membership do
   describe '#renew' do
     it 'sets renewal_note attrs' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-      Delivery.create_all(1, next_fy.beginning_of_year)
+      create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
       expect {
@@ -746,7 +746,7 @@ describe Membership do
   describe '#update_renewal_of_previous_membership!' do
     it 'clears renewed_at when renewed membership is destroyed' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-      Delivery.create_all(1, next_fy.beginning_of_year)
+      create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
       membership.renew!
       renewed_membership = membership.renewed_membership
@@ -758,7 +758,7 @@ describe Membership do
 
     it 'cancels previous membershipd when renewed membership is destroyed and in new fiscal' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-      Delivery.create_all(1, next_fy.beginning_of_year)
+      create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
       membership.renew!
       renewed_membership = membership.renewed_membership

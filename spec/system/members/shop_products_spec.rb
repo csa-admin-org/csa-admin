@@ -68,7 +68,6 @@ describe 'Shop::Order' do
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
     end
     travel_to '2021-11-08 12:01 +01' do
-      delivery = create(:delivery, shop_open: true, date: '2021-11-17')
       visit '/shop'
       expect(current_path).to eq '/shop'
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
