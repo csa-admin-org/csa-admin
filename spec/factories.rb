@@ -125,7 +125,7 @@ FactoryBot.define do
   end
 
   factory :delivery do
-    date { Time.current }
+    sequence(:date) { |n| Date.today + n.days }
 
     after(:create) { |d| d.reload }
   end

@@ -12,7 +12,7 @@ describe MembershipRenewal do
   end
 
   it 'renews a membership without complements' do
-    Delivery.create_all(1, next_fy.beginning_of_year)
+    create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership,
       basket_quantity: 2,
       basket_price: 42,
@@ -44,7 +44,7 @@ describe MembershipRenewal do
   end
 
   it 'resets annual settings if basket size change' do
-    Delivery.create_all(1, next_fy.beginning_of_year)
+    create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership,
       basket_quantity: 2,
       basket_price: 22,
@@ -73,7 +73,7 @@ describe MembershipRenewal do
   end
 
   it 'renews a membership with basket_price_extra' do
-    Delivery.create_all(1, next_fy.beginning_of_year)
+    create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership,
       basket_quantity: 2,
       basket_price: 42,
@@ -101,7 +101,7 @@ describe MembershipRenewal do
   end
 
   it 'renews a membership with complements and seasons' do
-    Delivery.create_all(1, next_fy.beginning_of_year)
+    create(:delivery, date: next_fy.beginning_of_year)
     Current.acp.update!(
       summer_month_range_min: 4,
       summer_month_range_max: 9)
@@ -133,7 +133,7 @@ describe MembershipRenewal do
   end
 
   it 'resets basket_complements_annual_price_change when complements changes' do
-    Delivery.create_all(1, next_fy.beginning_of_year)
+    create(:delivery, date: next_fy.beginning_of_year)
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
     membership = create(:membership,

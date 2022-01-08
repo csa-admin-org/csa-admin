@@ -26,8 +26,9 @@ describe Basket do
   end
 
   it 'validates delivery is in membership date range' do
-    membership = create(:membership, started_on: Current.fy_range.min + 6.months)
     delivery = create(:delivery, date: Current.fy_range.min + 1.month)
+    create(:delivery, date: Current.fy_range.min + 7.month)
+    membership = create(:membership, started_on: Current.fy_range.min + 6.months)
 
     basket = build(:basket, membership: membership, delivery: delivery)
     basket.validate

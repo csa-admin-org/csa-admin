@@ -5,7 +5,7 @@ describe Notifier do
     Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
     MailTemplate.create! title: :membership_renewal_reminder, active: true
     next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
-    Delivery.create_all(1, next_fy.beginning_of_year)
+    create(:delivery, date: next_fy.beginning_of_year)
     member = create(:member, emails: 'john@doe.com')
 
     create(:membership, renewal_opened_at: nil)

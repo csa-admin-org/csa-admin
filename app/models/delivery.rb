@@ -26,15 +26,6 @@ class Delivery < ApplicationRecord
   after_destroy :update_fiscal_year_numbers
   before_destroy :really_destroy_baskets!
 
-  # TODO: move this method to test helper only
-  def self.create_all(count, first_date)
-    date = first_date.next_weekday + 2.days # Wed
-    count.times do
-      create(date: date)
-      date = next_date(date)
-    end
-  end
-
   def self.next
     coming.order(:date).first
   end
