@@ -23,6 +23,7 @@ describe BasketComplement do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
+    create(:delivery)
     membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
     membership_3 = create(:membership, subscribed_basket_complement_ids: [1])
@@ -54,6 +55,7 @@ describe BasketComplement do
     basket_complement1 = create(:basket_complement, :annual_price_type, id: 1)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
+    create(:delivery)
     membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
     membership_3 = create(:membership, subscribed_basket_complement_ids: [1])
@@ -85,6 +87,7 @@ describe BasketComplement do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
+    create(:delivery)
     membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
     membership_3 = create(:membership, subscribed_basket_complement_ids: [1])
@@ -119,6 +122,7 @@ describe BasketComplement do
     basket2 = nil
     basket3 = nil
     travel_to 1.year.ago do
+      create(:delivery)
       membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
       membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
       membership_3 = create(:membership, subscribed_basket_complement_ids: [1])
