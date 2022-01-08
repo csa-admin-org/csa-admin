@@ -32,7 +32,7 @@ module BulkDatesInsert
       super
     elsif valid?
       run_callbacks(:save) {
-        self.class.create! bulk_attributes
+        self.class.create bulk_attributes
         self.date = bulk_dates.first
       }
     end
