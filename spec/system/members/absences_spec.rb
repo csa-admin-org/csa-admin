@@ -34,6 +34,22 @@ describe 'Absences' do
     expect(page).not_to have_content('Ces paniers ne sont pas remboursés')
   end
 
+  it 'shows only extra text' do
+    default_text = "Ces paniers ne sont pas remboursés"
+    extra_text = 'Règles spéciales'
+    Current.acp.update!(absence_extra_text: extra_text)
+
+    visit '/absences'
+    expect(page).to have_content default_text
+    expect(page).to have_content extra_text
+
+    Current.acp.update!(absence_extra_text_only: true)
+    visit '/absences'
+
+    expect(page).not_to have_content default_text
+    expect(page).to have_content extra_text
+  end
+
   it 'lists previous absences' do
     member.absences.build(
       started_on: 3.weeks.ago,

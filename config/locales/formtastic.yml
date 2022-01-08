@@ -10,6 +10,14 @@ _:
       _it: Creare %{model}
     hints:
       acp:
+        absence_extra_text:
+          _de: Dieser optionale Text wird vor dem Erklärungstext eingefügt, der standardmäßig auf dem Konto des Mitglieds generiert wird.
+          _fr: Ce texte optionnel est inséré avant le texte d'explication généré par défaut sur le compte du membre.
+          _it: Questo testo opzionale è inserito prima del testo di spiegazione generato di default sull'account del socio.
+        absence_extra_text_only:
+          _de: Entfernt den standardmäßig im Mitgliedskonto generierten Erklärungstext und zeigt nur die zusätzlichen Erklärungen an.
+          _fr: Enlève le texte d'explication généré par défaut sur le compte du membre et affiche uniquement les explications supplémentaires.
+          _it: Rimuove il testo di spiegazione generato di default sull'account del socio e visualizza solo le spiegazioni supplementari.
         absence_notice_period_in_days:
           _de: Nach diesem Zeitraum ist es für ein Mitglied nicht mehr möglich, ihre Abwesenheit zu melden.
           _fr: Passé ce délai, il n'est plus possible pour un membre d'annoncer son absence.
