@@ -77,6 +77,7 @@ describe Delivery do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
+    create(:delivery)
     membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
     membership_3 = create(:membership, subscribed_basket_complement_ids: [1])

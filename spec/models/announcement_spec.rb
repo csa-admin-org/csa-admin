@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Announcement do
   specify '#must_be_unique_per_depot_and_delivery' do
-    depot = create(:depot)
     delivery = create(:delivery)
+    depot = create(:depot)
     Announcement.create!(
       text: 'Ramenez les sacs!',
       depot_ids: [depot.id],
