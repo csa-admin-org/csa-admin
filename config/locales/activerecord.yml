@@ -11,6 +11,14 @@ _:
           _fr: Début
           _it: Inizio
       acp:
+        absence_extra_text:
+          _de: Zusätzliche Erklärung
+          _fr: Explication supplémentaire
+          _it: Spiegazioni supplementari
+        absence_extra_text_only:
+          _de: Nur zusätzliche Erklärungen anzeigen
+          _fr: Afficher uniquement les explications supplémentaires
+          _it: Mostra solo spiegazioni supplementari
         absence_notice_period_in_days:
           _de: Kündigungsfrist (in Tagen)
           _fr: Délai de préavis (en jours)

@@ -29,6 +29,7 @@ ActiveAdmin.register ACP do
     :allow_alternative_depots,
     :membership_extra_text_only,
     :basket_price_extras,
+    :absence_extra_text_only,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
@@ -44,6 +45,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "shop_terms_of_sale_url_#{l}" },
     *I18n.available_locales.map { |l| "shop_text_#{l}" },
     *I18n.available_locales.map { |l| "open_renewal_text_#{l}" },
+    *I18n.available_locales.map { |l| "absence_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_title_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_#{l}" },
@@ -204,8 +206,15 @@ ActiveAdmin.register ACP do
 
     tabs do
       if Current.acp.feature?('absence')
-        tab Absence.model_name.human(count: 2) do
+        tab Absence.model_name.human(count: 2), id: 'absence' do
           f.inputs do
+            translated_input(f, :absence_extra_texts,
+              hint: t('formtastic.hints.acp.absence_extra_text'),
+              required: false,
+              as: :action_text,
+              input_html: { rows: 5 })
+            f.input :absence_extra_text_only, as: :boolean
+
             f.input :absences_billed
             f.input :absence_notice_period_in_days, min: 1, required: true
           end

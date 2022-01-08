@@ -33,6 +33,7 @@ class ACP < ApplicationRecord
   translated_rich_texts :open_renewal_text
   translated_attributes :basket_price_extra_title, :basket_price_extra_text
   translated_attributes :basket_price_extra_label, :basket_price_extra_label_detail
+  translated_rich_texts :absence_extra_text
 
   validates :name, presence: true
   validates :host, presence: true
