@@ -165,7 +165,7 @@ ActiveAdmin.register Delivery do
   end
 
   form do |f|
-    render partial: 'bulk_dates', locals: { f: f, resource: resource }
+    render partial: 'bulk_dates', locals: { f: f, resource: resource, context: self }
     f.inputs do
       f.input :depots,
         as: :check_boxes,

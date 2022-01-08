@@ -69,7 +69,7 @@ ActiveAdmin.register Activity do
   end
 
   form do |f|
-    render partial: 'bulk_dates', locals: { f: f, resource: resource }
+    render partial: 'bulk_dates', locals: { f: f, resource: resource, context: self }
 
     f.inputs t('formtastic.inputs.period') do
       f.input :start_time, as: :time_picker, input_html: {
