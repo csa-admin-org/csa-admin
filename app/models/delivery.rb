@@ -19,11 +19,14 @@ class Delivery < ApplicationRecord
   scope :between, ->(range) { where(date: range) }
   scope :shop_open, -> { where(shop_open: true) }
 
+  validates :date, uniqueness: true
+
   after_save :update_fiscal_year_numbers
   after_update :handle_date_change!
   after_destroy :update_fiscal_year_numbers
   before_destroy :really_destroy_baskets!
 
+  # TODO: move this method to test helper only
   def self.create_all(count, first_date)
     date = first_date.next_weekday + 2.days # Wed
     count.times do
