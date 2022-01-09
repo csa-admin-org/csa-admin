@@ -597,12 +597,8 @@ form textarea:focus ~ .inline-hints {
   top: 0;
 }
 
-#header.header .header-item li#dashboard, #header.header .header-item li#acps {
-  position: relative;
-}
-
 #header.header .header-item li#dashboard a, #header.header .header-item li#acps a {
-  padding: 5px 16px;
+  padding: 5px 16px
 }
 
 #header.header .header-item li#dashboard svg, #header.header .header-item li#acps svg {
@@ -726,7 +722,13 @@ form textarea:focus ~ .inline-hints {
     background-color: rgba(12, 144, 36, 0.95);
     max-height: calc(100vh - 85px);
     overflow: auto;
-    top: 90px;
+    top: 74px;
+  }
+
+  #header.header .header-item svg {
+    position: relative !important;
+    top: 0 !important;
+    left: -10px !important;
   }
 
   #header.header #tabs li {
@@ -745,18 +747,13 @@ form textarea:focus ~ .inline-hints {
     display: block;
   }
 
-  #header.header #tabs li#dashboard a {
-    padding: 5px;
-  }
-
-  #header.header #tabs li#dashboard svg {
-    padding: 0;
-    margin: 2px 0 -2px 2px;
-    position: static;
-  }
-
   #header.header .site_title {
+    display: block !important;
     padding: 0 15px;
+  }
+
+  #header.header .header-item {
+    margin-left: 0 !important;
   }
 
   #header.header .header-item ul {
