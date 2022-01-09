@@ -2,9 +2,11 @@ ActiveAdmin.register_page 'Updates' do
   menu false
 
   content title: I18n.t('layouts.footer.updates').capitalize do
-    para t('.updates_explanation_html'), class: 'notice'
     columns do
       column do
+        div class: 'content' do
+          para t('.updates_explanation_html'), class: 'notice'
+        end
         Update.all.each_with_index do |update, i|
           panel l(update.date), class: unread_count > i ? 'unread' : '', id: update.name do
             update.body(binding)

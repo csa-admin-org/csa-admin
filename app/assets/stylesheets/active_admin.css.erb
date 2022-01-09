@@ -160,11 +160,6 @@ span.delivery_absences {
   margin-right: 10px;
 }
 
-.handbook #sidebar {
-  margin-left: -300px !important;
-  width: 300px !important;
-}
-
 .handbook #title_bar h2 {
   font-size: 28px;
   font-weight: 100;
@@ -1153,3 +1148,13 @@ select option[hidden] {
   color: #aaa;
 }
 
+@media only screen and (max-width: 767px) {
+  #main_content .column > .content {
+    margin: 0 20px;
+    padding: 0;
+  }
+
+  .index.updates #main_content img {
+    width: 100%;
+  }
+}

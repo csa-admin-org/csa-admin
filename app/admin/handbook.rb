@@ -4,13 +4,21 @@ ActiveAdmin.register_page 'Handbook' do
   content title: I18n.t('layouts.footer.handbook') do
     if params[:id]
       columns do
-        handbook = Handbook.new(params[:id],binding)
-        handbook.body
+        column do
+          div class: 'content' do
+            handbook = Handbook.new(params[:id],binding)
+            handbook.body
+          end
+        end
       end
     else
       columns do
-        h1 t('.handbook_intro_title')
-        para t('.handbook_intro_html'), class: 'notice'
+        column do
+          div class: 'content' do
+            h1 t('.handbook_intro_title')
+            para t('.handbook_intro_html'), class: 'notice'
+          end
+        end
       end
     end
   end
