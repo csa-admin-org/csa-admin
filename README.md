@@ -19,6 +19,7 @@ Elle est actuellement utilisée par les ACP suivantes:
 * [La Ferme du Goupil](https://lafermedugoupil.ch)
 * [La Ferme des Savanes](http://lafermedessavanes.ch)
 * [Seminterra](https://seminterra.ch)
+* [Le panier bio à 2 roues (P2R)](https://p2r.ch)
 
 Les fonctions prises en charge sont, entre autres:
 
