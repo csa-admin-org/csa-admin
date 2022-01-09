@@ -43,7 +43,7 @@ gem 'tailwindcss-rails'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
 
-gem 'faraday'
+gem 'faraday', '~> 1.9' # Gibbon depends on 1.9
 gem 'faraday-cookie_jar'
 
 gem 'gibbon'
