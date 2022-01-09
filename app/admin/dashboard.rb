@@ -103,6 +103,18 @@ ActiveAdmin.register_page 'Dashboard' do
                 end
               end
 
+              if Current.acp.feature_flag?('shop')
+                count = Shop::Order.all_without_cart.where(delivery: next_delivery).count
+                div id: 'shop-orders' do
+                  span do
+                    span(class: 'bold') { t('shop.title') + ": " }
+                    span do
+                      link_to t('shop.orders', count: count), shop_orders_path(q: { delivery_id_eq: next_delivery.id }, scope: :all_without_cart)
+                    end
+                  end
+                end
+              end
+
               table_for nil do
                 column do
                   span do

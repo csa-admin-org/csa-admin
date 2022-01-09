@@ -5,6 +5,19 @@ _:
         _de: Lieferschein
         _fr: Bulletin de livraison
         _it: Bolla di consegna
+    orders:
+      one:
+        _de: 1 Bestellung
+        _fr: 1 commande
+        _it: 1 ordine
+      other:
+        _de: "%{count} Bestellungen"
+        _fr: "%{count} commandes"
+        _it: "%{count} ordini"
+      zero:
+        _de: keine Bestellung
+        _fr: aucune commande
+        _it: nessun ordine
     title:
       _de: Lebensmittelgeschäft
       _fr: Épicerie
