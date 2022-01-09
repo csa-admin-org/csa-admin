@@ -115,6 +115,12 @@ ActiveAdmin.register_page 'Dashboard' do
                 end
               end
 
+              if next_delivery.note?
+                div class: 'delivery-note' do
+                  para next_delivery.note
+                end
+              end
+
               table_for nil do
                 column do
                   span do
@@ -133,15 +139,6 @@ ActiveAdmin.register_page 'Dashboard' do
                       end
                     end
                   end
-                end
-              end
-            end
-
-            if authorized?(:update, Delivery)
-              span class: 'delivery_note' do
-                form_for next_delivery do |f|
-                  f.text_area :note
-                  f.submit t('.submit_delivery_note')
                 end
               end
             end
