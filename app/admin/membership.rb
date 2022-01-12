@@ -184,6 +184,8 @@ ActiveAdmin.register Membership do
     if Current.acp.seasons?
       column(:seasons) { |m| m.seasons.map { |s| I18n.t "season.#{s}" }.join(', ') }
     end
+    column(:basket_price) { |m| cur(m.basket_price) }
+    column(:basket_quantity)
     if BasketComplement.any?
       column(:basket_complements) { |m|
         basket_complements_description(m.memberships_basket_complements.includes(:basket_complement),
@@ -192,6 +194,7 @@ ActiveAdmin.register Membership do
       }
     end
     column(:depot) { |m| m.depot&.name }
+    column(:depot_price) { |m| cur(m.depot_price) }
     if Current.acp.feature?('activity')
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
