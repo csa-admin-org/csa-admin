@@ -27,11 +27,11 @@ class Absence < ApplicationRecord
   }
 
   def self.min_started_on
-    Current.acp.absence_notice_period_in_days.days.from_now
+    Current.acp.absence_notice_period_in_days.days.from_now.beginning_of_day.to_date
   end
 
   def self.max_ended_on
-    1.year.from_now.end_of_week
+    1.year.from_now.end_of_week.to_date
   end
 
   def period
