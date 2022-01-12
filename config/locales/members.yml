@@ -768,9 +768,9 @@ _:
             _fr: La commande pour votre prochaine livraison du <u>%{date}</u> pourra être passée à partir du <u>%{start_date}</u> jusqu'au <u>%{end_date}</u>.
             _it: L'ordine per la sua prossima consegna di <u>%{date}</u> può essere effettuato da <u>%{start_date}</u> a <u>%{end_date}</u>.
           next_shop_delivery_link:
-            _de: Bestellen Sie für die Lieferung am %{date}
-            _fr: Passer commande pour la livraison du %{date}
-            _it: Effettuare l'ordine per la consegna il %{date}
+            _de: Lieferung am %{date}
+            _fr: Livraison du %{date}
+            _it: Consegna il %{date}
         variant:
           add_to_basket:
             _de: In den Warenkorb legen
