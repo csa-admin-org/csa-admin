@@ -51,8 +51,12 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
     = t('.closed_at_html', date: l(@order.delivery.shop_closing_at, format: :long))
 
   - if next_shop_delivery
-    p class='flex mt-8 w-full md:max-w-max'
-      = link_to t('.next_shop_delivery_link', date: l(next_shop_delivery.date)), members_shop_next_path, class: 'text-base cursor-pointer'
+    div class='mt-12 flex flex-row justify-center'
+      = link_to members_shop_next_path, class: 'cursor-pointer underline' do
+        div class='flex flex-row items-center'
+          = inline_svg_tag('members/shopping_cart.svg', class: 'w-5 h-5 stroke-current')
+          span class='ml-1 text-base font-normal'
+            = t('.next_shop_delivery_link', date: l(next_shop_delivery.date))
 
 - if Current.acp.shop_terms_of_sale_url
   div class='mt-24 text-sm text-gray-400 dark:text-gray-600 text-center underline'

@@ -71,7 +71,7 @@ describe 'Shop::Order' do
       visit '/shop'
       expect(current_path).to eq '/shop'
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
-      expect(page).to have_link "Passer commande pour la livraison du 17 novembre 2021", href: '/shop/next'
+      expect(page).to have_link "Livraison du 17 novembre 2021", href: '/shop/next'
     end
   end
 
