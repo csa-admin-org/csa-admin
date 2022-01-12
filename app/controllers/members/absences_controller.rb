@@ -3,7 +3,7 @@ class Members::AbsencesController < Members::BaseController
 
   # GET /absences
   def index
-    min = Absence.min_started_on + 1.day
+    min = Absence.min_started_on
     @absence = Absence.new(
       started_on: min,
       ended_on: (min + 1.day).end_of_week)
