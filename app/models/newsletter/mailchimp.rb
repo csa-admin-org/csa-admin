@@ -13,6 +13,8 @@ class Newsletter::MailChimp
   def upsert_members(members)
     operations = []
     members.find_each do |member|
+      next if !member.active? && member.updated_at < 3.days.ago
+
       member.emails_array.each do |email|
         next if email_suppressed?(email)
 
@@ -167,7 +169,7 @@ class Newsletter::MailChimp
     fields
   end
 
-  def ensure_batch_succeed!(batch_id, retry_count: 20)
+  def ensure_batch_succeed!(batch_id, retry_count: 30)
     error = nil
     sleep 30
     res = client.batches(batch_id).retrieve
