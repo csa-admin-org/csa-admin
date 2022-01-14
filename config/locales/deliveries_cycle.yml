@@ -1,0 +1,36 @@
+_:
+  deliveries_cycle:
+    menu_title:
+      _de: Lieferungen - Zyklen
+      _fr: Livraisons - Cycles
+      _it: Consegna - Cicli
+    results:
+      all:
+        _de: Alle
+        _fr: Tous
+        _it: Tutti
+      even:
+        _de: Geraden
+        _fr: Pairs
+        _it: Pari
+      odd:
+        _de: Ungeraden
+        _fr: Impairs
+        _it: Dispari
+    settings:
+      _de: Konfiguration
+      _fr: Configuration
+      _it: Configurazione
+    week_numbers:
+      all:
+        _de: Alle
+        _fr: Toutes
+        _it: Ogni
+      even:
+        _de: Geraden
+        _fr: Paires
+        _it: Pari
+      odd:
+        _de: Ungeraden
+        _fr: Impaires
+        _it: Dispari

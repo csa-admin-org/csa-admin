@@ -130,6 +130,11 @@ FactoryBot.define do
     after(:create) { |d| d.reload }
   end
 
+  factory :deliveries_cycle do
+    name { Faker::Name.name }
+    public_name { "#{name} PUBLIC" }
+  end
+
   factory :depot do
     name { Faker::Name.name }
     public_name { "#{name} PUBLIC" }

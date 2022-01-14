@@ -148,6 +148,10 @@ _:
       _de: Endzeit
       _fr: Heure de fin
       _it: Ora di fine
+    form_priority:
+      _de: Priorität
+      _fr: Priorité
+      _it: Priorità
     future_deliveries:
       _de: Lieferungen (zukünftige)
       _fr: Livraisons (future)
@@ -272,6 +276,10 @@ _:
       _de: Produkte
       _fr: Produits
       _it: Prodotti
+    public_name:
+      _de: Name (Mitglied)
+      _fr: Nom (Membre)
+      _it: Cognome (Socio)
     qt:
       _de: Mg.
       _fr: Qté.

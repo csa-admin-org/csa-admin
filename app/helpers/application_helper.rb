@@ -96,6 +96,12 @@ module ApplicationHelper
     col
   end
 
+  def months_collection
+    Array(1..12).rotate(Current.fiscal_year.range.min.month - 1).map { |d|
+      [I18n.t('date.month_names')[d].capitalize, d]
+    }
+  end
+
   def referer_filter_member_id
     return unless request&.referer
 

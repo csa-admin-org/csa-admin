@@ -189,6 +189,19 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
+      deliveries_cycle:
+        form_priority:
+          _de: Ermöglicht es Ihnen, die Lieferzyklen in einer bestimmten Reihenfolge zu sortieren.
+          _fr: Permet de trier les cycles de livraisons dans un ordre spécifique.
+          _it: Permette di ordinare i cicli di consegna in un ordine specifico.
+        public_name:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
+          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione).
+        results:
+          _de: Nachdem Sie die Konfiguration für Tage, Wochen und Monate angewendet haben, behalten Sie nur die resultierenden Lieferungen nach dem letztgenannten Kriterium.
+          _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
+          _it: Una volta che la configurazione di giorni, settimane e mesi è stata applicata, conserva solo le consegne risultanti secondo quest'ultimo criterio.
       delivery:
         basket_complements:
           _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert.
