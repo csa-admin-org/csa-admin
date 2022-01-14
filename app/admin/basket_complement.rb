@@ -88,5 +88,5 @@ ActiveAdmin.register BasketComplement do
   end
 
   config.filters = false
-  config.sort_order = -> { "names->>'#{I18n.locale}'" }
+  config.sort_order = :default_scope
 end

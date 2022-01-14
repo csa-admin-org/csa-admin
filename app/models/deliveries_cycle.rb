@@ -7,6 +7,8 @@ class DeliveriesCycle < ApplicationRecord
 
   translated_attributes :name, :public_name
 
+  default_scope { order_by_name }
+
   validates :name, :form_priority, presence: true
 
   def display_name; name end
