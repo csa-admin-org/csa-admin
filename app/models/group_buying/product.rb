@@ -8,6 +8,8 @@ module GroupBuying
     translated_attributes :name
     translated_rich_texts :description
 
+    default_scope { order_by_name }
+
     belongs_to :producer, class_name: 'GroupBuying::Producer', optional: false
     has_many :order_items, class_name: 'GroupBuying::OrderItem', inverse_of: :product
 

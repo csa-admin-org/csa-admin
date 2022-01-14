@@ -40,5 +40,5 @@ ActiveAdmin.register ActivityPreset do
 
   config.filters = false
   config.per_page = 50
-  config.sort_order = -> { "places->>'#{I18n.locale}'" }
+  config.sort_order = :default_scope
 end

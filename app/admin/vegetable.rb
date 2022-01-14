@@ -28,5 +28,5 @@ ActiveAdmin.register Vegetable do
 
   config.filters = false
   config.per_page = 50
-  config.sort_order = -> { "names->>'#{I18n.locale}'" }
+  config.sort_order = :default_scope
 end

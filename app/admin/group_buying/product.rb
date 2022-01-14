@@ -85,7 +85,7 @@ ActiveAdmin.register GroupBuying::Product do
     include TranslatedCSVFilename
   end
 
-  config.sort_order = 'names_desc'
   config.per_page = 100
   config.batch_actions = true
+  config.sort_order = :default_scope
 end
