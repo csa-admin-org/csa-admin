@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { show } from "components/utils"
 
 export default class extends Controller {
   static targets = ["toggle", "input"]
@@ -8,7 +9,10 @@ export default class extends Controller {
   }
 
   updateToggle() {
-    this.toggleTarget.checked = this.inputTargets.every((i) => i.checked)
+    if(this.inputTargets.length > 2) {
+      show(this.toggleTarget)
+      this.toggleTarget.checked = this.inputTargets.every((i) => i.checked)
+    }
   }
 
   toggleAll() {
