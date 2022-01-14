@@ -53,6 +53,16 @@ ActiveAdmin.register Depot do
   show do |depot|
     columns do
       column do
+        if authorized?(:manage, DeliveriesCycle)
+          panel DeliveriesCycle.model_name.human(count: 2) do
+            table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
+              column :name, ->(dc) { auto_link dc }
+              column Depot.human_attribute_name(:current_deliveries), ->(dc) { auto_link dc, dc.current_deliveries.count }
+              column :visible
+            end
+          end
+        end
+
         if depot.deliveries.current_year.any?
           panel Depot.human_attribute_name(:current_deliveries) do
             table_for depot.deliveries.current_year, class: 'deliveries' do
@@ -142,6 +152,7 @@ ActiveAdmin.register Depot do
       f.inputs do
         f.input :deliveries_cycles,
           collection: deliveries_cycles_collection,
+          input_html: f.object.persisted? ? {} : { checked: true },
           as: :check_boxes,
           required: true
       end
