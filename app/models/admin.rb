@@ -43,6 +43,10 @@ class Admin < ApplicationRecord
     rights == 'superadmin'
   end
 
+  def master?
+    email == ENV['MASTER_ADMIN_EMAIL']
+  end
+
   def right?(right)
     RIGHTS.index(self[:rights]) <= RIGHTS.index(right)
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_08_104644) do
+ActiveRecord::Schema.define(version: 2022_01_14_075951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -332,6 +332,20 @@ ActiveRecord::Schema.define(version: 2022_01_08_104644) do
     t.boolean "shop_open", default: true
     t.index ["date"], name: "index_deliveries_on_date", unique: true
     t.index ["shop_open"], name: "index_deliveries_on_shop_open"
+  end
+
+  create_table "deliveries_cycles", force: :cascade do |t|
+    t.jsonb "names", default: {}, null: false
+    t.jsonb "public_names", default: {}, null: false
+    t.integer "form_priority", default: 0, null: false
+    t.boolean "visible", default: false, null: false
+    t.integer "wdays", default: [0, 1, 2, 3, 4, 5, 6], null: false, array: true
+    t.integer "months", default: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false, array: true
+    t.integer "week_numbers", default: 0, null: false
+    t.integer "results", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["visible"], name: "index_deliveries_cycles_on_visible"
   end
 
   create_table "deliveries_depots", force: :cascade do |t|

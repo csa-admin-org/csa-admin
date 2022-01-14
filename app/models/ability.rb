@@ -54,6 +54,9 @@ class Ability
       can :destroy, sensible_models, can_destroy?: true
       can :become, Member
     end
+    if admin.master?
+      can :manage, DeliveriesCycle
+    end
   end
 
   def available_models

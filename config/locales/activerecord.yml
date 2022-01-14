@@ -391,10 +391,6 @@ _:
           _fr: essai
           _it: prova
       basket_complement:
-        form_priority:
-          _de: Priorität
-          _fr: Priorité
-          _it: Priorità
         price_type:
           _de: Preis pro
           _fr: Prix par
@@ -407,10 +403,6 @@ _:
           _de: Lieferung
           _fr: Livraison
           _it: Consegna
-        public_name:
-          _de: Name (Mitglied)
-          _fr: Nom (Membre)
-          _it: Cognome (Socio)
       basket_content:
         basket_size:
           _de: Tasche
@@ -449,19 +441,32 @@ _:
           _de: Arbeitsstunden pro Jahr
           _fr: Heures de travail par année
           _it: Ore di lavoro all'anno
-        form_priority:
-          _de: Priorität
-          _fr: Priorité
-          _it: Priorità
-        public_name:
-          _de: Name (Mitglied)
-          _fr: Nom (Membre)
-          _it: Cognome (Socio)
       baskets_basket_complement:
         basket_complement:
           _de: Zusatz
           _fr: Complément
           _it: Aggiunte
+      deliveries_cycle:
+        months:
+          _de: Monate
+          _fr: Mois
+          _it: Mesi
+        next_delivery:
+          _de: Nächste Lieferung
+          _fr: Prochaine livraison
+          _it: Prossime consegne
+        results:
+          _de: Resultate
+          _fr: Résultats
+          _it: Risultati
+        wdays:
+          _de: Tage
+          _fr: Jours
+          _it: Giorni
+        week_numbers:
+          _de: Wochen
+          _fr: Semaines
+          _it: Settimane
       delivery:
         basket_complements:
           _de: Taschenzusätze
@@ -492,10 +497,6 @@ _:
           _de: Lieferungen
           _fr: Livraisons
           _it: Consegne
-        form_priority:
-          _de: Priorität
-          _fr: Priorité
-          _it: Priorità
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)
@@ -504,10 +505,6 @@ _:
           _de: Preis/Tasche
           _fr: Prix/panier
           _it: Prezzo/cesta
-        public_name:
-          _de: Name (Mitglied)
-          _fr: Nom (Membre)
-          _it: Cognome (Socio)
         responsible_member:
           _de: Verantwortliches Mitglied
           _fr: Membre responsable
@@ -1217,6 +1214,15 @@ _:
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
           _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
           _it: Condivisione di informazioni di contatto (tra membri di un luogo di consegna)
+      deliveries_cycle:
+        one:
+          _de: Zyklus von Lieferungen
+          _fr: Cycle de livraisons
+          _it: Ciclo di consegna
+        other:
+          _de: Zyklen von Lieferungen
+          _fr: Cycles de livraisons
+          _it: Cicli di consegna
       delivery:
         one:
           _de: Lieferung
