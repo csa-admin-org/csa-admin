@@ -119,7 +119,6 @@ ActiveAdmin.register MailTemplate do
   end
 
   member_action :preview, method: :get do
-    logger.debug permitted_params[:mail_template]
     resource.assign_attributes(permitted_params[:mail_template])
     render :preview
   end
