@@ -138,7 +138,14 @@ ActiveAdmin.register Depot do
       f.input :phones, as: :string
       f.input :responsible_member, collection: Member.order(:name)
     end
-
+    if authorized?(:manage, DeliveriesCycle)
+      f.inputs do
+        f.input :deliveries_cycles,
+          collection: deliveries_cycles_collection,
+          as: :check_boxes,
+          required: true
+      end
+    end
     f.inputs do
       if Delivery.current_year.any?
         f.input :current_deliveries,
@@ -167,6 +174,7 @@ ActiveAdmin.register Depot do
       form_priority
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    deliveries_cycle_ids: [],
     current_delivery_ids: [],
     future_delivery_ids: [])
 

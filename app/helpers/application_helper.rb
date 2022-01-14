@@ -90,6 +90,15 @@ module ApplicationHelper
     }
   end
 
+  def deliveries_cycles_collection
+    DeliveriesCycle.all.map { |cycle|
+      [
+        "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
+        cycle.id
+      ]
+    }
+  end
+
   def wdays_collection(novalue = nil)
     col = Array(0..6).rotate.map { |d| [I18n.t('date.day_names')[d].capitalize, d] }
     col = [[novalue, nil]] + col if novalue

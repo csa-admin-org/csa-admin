@@ -106,6 +106,12 @@ ActiveAdmin.register DeliveriesCycle do
         include_blank: false
     end
 
+    f.inputs do
+      f.input :depots,
+        as: :check_boxes,
+        disabled: depot_ids_with_only(f.object)
+    end
+
     f.actions
   end
 
@@ -117,7 +123,22 @@ ActiveAdmin.register DeliveriesCycle do
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     wdays: [],
-    months: [])
+    months: [],
+    depot_ids: [])
+
+  controller do
+    include DeliveriesCyclesHelper
+
+    private
+
+    def assign_attributes(resource, attributes)
+      if attributes.first[:depot_ids]
+        attributes.first[:depot_ids] += depot_ids_with_only(resource).map(&:to_s)
+        attributes.first[:depot_ids].uniq!
+      end
+      super(resource, attributes)
+    end
+  end
 
   config.filters = false
   config.sort_order = :default_scope

@@ -485,6 +485,10 @@ _:
           _fr: Fiches Signature
           _it: Scheda Firme
       depot:
+        deliveries_cycles:
+          _de: Zyklen von Lieferungen
+          _fr: Cycles de livraisons
+          _it: Cicli di consegne
         address_name:
           _de: Name
           _fr: Nom

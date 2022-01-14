@@ -15,6 +15,7 @@ class Depot < ApplicationRecord
   has_many :memberships
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
+  has_and_belongs_to_many :deliveries_cycles
 
   default_scope { order(:name) }
   scope :free, -> { where('price = 0') }
@@ -28,6 +29,7 @@ class Depot < ApplicationRecord
 
   validates :name, :form_priority, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :deliveries_cycles, presence: true
 
   def public_name
     self[:public_names][I18n.locale.to_s].presence || name

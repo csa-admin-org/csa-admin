@@ -5,6 +5,8 @@ class DeliveriesCycle < ApplicationRecord
   enum week_numbers: %i[all odd even], _suffix: true
   enum results: %i[all odd even], _suffix: true
 
+  has_and_belongs_to_many :depots
+
   translated_attributes :name, :public_name
 
   default_scope { order_by_name }
@@ -19,6 +21,12 @@ class DeliveriesCycle < ApplicationRecord
 
   def next_delivery
     (current_deliveries + future_deliveries).select { |d| d.date >= Date.current }.min_by(&:date)
+  end
+
+  def deliveries_count
+    @deliveries_count ||= begin
+      future_deliveries.any? ? future_deliveries.size : current_deliveries.size
+    end
   end
 
   def current_deliveries
