@@ -1,8 +1,8 @@
 ActiveAdmin.register DeliveriesCycle do
   menu parent: :other, priority: 11, label: -> { t('deliveries_cycle.menu_title') }
 
-  scope :all
-  scope :visible, default: true
+  scope :all, default: true
+  scope :visible
   scope :hidden
 
   index download_links: false do
