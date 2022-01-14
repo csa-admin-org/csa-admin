@@ -32,6 +32,7 @@ class Newsletter::MailChimp
       end
     end
     res = client.batches.create(body: { operations: operations })
+    Rails.logger.info "MailChimp batch #{batch_id} created"
     ensure_batch_succeed!(res.body[:id])
   end
 
@@ -169,18 +170,16 @@ class Newsletter::MailChimp
     fields
   end
 
-  def ensure_batch_succeed!(batch_id, retry_count: 30)
+  def ensure_batch_succeed!(batch_id, retry_count: 10)
     error = nil
-    sleep 30
+    sleep 10
     res = client.batches(batch_id).retrieve
     if res.body[:status] != 'finished'
       if retry_count > 0
         ensure_batch_succeed!(res.body[:id], retry_count: retry_count - 1)
+        Rails.logger.info "MailChimp batch #{batch_id} finished"
       else
-        Sentry.capture_message("MailChimp Batch didn't finished", extra: {
-          batch_id: batch_id,
-          response_body_url: res.body[:response_body_url]
-        })
+        Rails.logger.info "MailChimp batch #{batch_id} is not finished yet"
       end
     elsif res.body[:errored_operations].positive?
       suppress_emails(res)
