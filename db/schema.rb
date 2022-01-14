@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_14_075951) do
+ActiveRecord::Schema.define(version: 2022_01_14_131904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -346,6 +346,12 @@ ActiveRecord::Schema.define(version: 2022_01_14_075951) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["visible"], name: "index_deliveries_cycles_on_visible"
+  end
+
+  create_table "deliveries_cycles_depots", force: :cascade do |t|
+    t.bigint "depot_id", null: false
+    t.bigint "deliveries_cycle_id", null: false
+    t.index ["depot_id", "deliveries_cycle_id"], name: "deliveries_cycles_depots_unique_index", unique: true
   end
 
   create_table "deliveries_depots", force: :cascade do |t|

@@ -8,10 +8,14 @@ export default class extends Controller {
   }
 
   updateToggle() {
-    this.toggleTarget.checked = this.inputTargets.every(i => i.checked)
+    this.toggleTarget.checked = this.inputTargets.every((i) => i.checked)
   }
 
   toggleAll() {
-    this.inputTargets.forEach(i => i.checked = this.toggleTarget.checked)
+    this.inputTargets.forEach((i) => {
+      if (!i.disabled) {
+        i.checked = this.toggleTarget.checked
+      }
+    })
   }
 }
