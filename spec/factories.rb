@@ -146,6 +146,7 @@ FactoryBot.define do
       DeliveriesHelper.create_deliveries(deliveries_count, fiscal_year)
       Delivery.pluck(:id)
     }
+    deliveries_cycle_ids { create(:deliveries_cycle).id}
 
     transient do
       deliveries_count { 40 }
