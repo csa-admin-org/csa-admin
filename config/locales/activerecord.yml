@@ -1218,11 +1218,11 @@ _:
         one:
           _de: Zyklus von Lieferungen
           _fr: Cycle de livraisons
-          _it: Ciclo di consegna
+          _it: Ciclo di consegne
         other:
           _de: Zyklen von Lieferungen
           _fr: Cycles de livraisons
-          _it: Cicli di consegna
+          _it: Cicli di consegne
       delivery:
         one:
           _de: Lieferung
