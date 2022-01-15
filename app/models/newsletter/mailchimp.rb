@@ -32,7 +32,7 @@ class Newsletter::MailChimp
       end
     end
     res = client.batches.create(body: { operations: operations })
-    Rails.logger.info "MailChimp batch #{batch_id} created"
+    Rails.logger.info "MailChimp batch #{res.body[:id]} created"
     ensure_batch_succeed!(res.body[:id])
   end
 
