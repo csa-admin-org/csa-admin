@@ -3,5 +3,4 @@ $(document).on('turbolinks:load', function() {
   Array.from(ul.getElementsByTagName("LI"))
     .sort((a, b) => a.textContent.localeCompare(b.textContent))
     .forEach(li => ul.appendChild(li));
-  console.log(ul);
 });
