@@ -6,6 +6,7 @@ class Depot < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 
+  # TODO: DeliveriesCycle, remove after ?
   attr_accessor :delivery_memberships
 
   translated_attributes :public_name
@@ -26,6 +27,13 @@ class Depot < ApplicationRecord
       .reorder(:id)
       .distinct
     }
+
+  # TODO: DeliveriesCycle, remove after
+  before_validation do
+    if deliveries_cycle_ids.empty?
+      self.deliveries_cycle_ids = [DeliveriesCycle.all.max_by(&:deliveries_count).id]
+    end
+  end
 
   validates :name, :form_priority, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true

@@ -9,6 +9,7 @@ class Membership < ApplicationRecord
   belongs_to :member, -> { with_deleted }
   belongs_to :basket_size
   belongs_to :depot
+  belongs_to :deliveries_cycle
   has_many :baskets, dependent: :destroy
   has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
@@ -93,6 +94,11 @@ class Membership < ApplicationRecord
       renewed
     end
   }
+
+  # TODO: DeliveriesCycle, remove after
+  before_validation do
+    self.deliveries_cycle_id = depot.deliveries_cycle_ids.first
+  end
 
   def basket_price_extra=(price)
     super([price.to_f, 0].max)

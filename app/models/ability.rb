@@ -55,7 +55,10 @@ class Ability
       can :become, Member
     end
     if admin.master?
-      can :manage, DeliveriesCycle
+      can :read, DeliveriesCycle
+      can :create, DeliveriesCycle
+      can :update, DeliveriesCycle
+      can :destroy, DeliveriesCycle, can_destroy?: true
     end
   end
 

@@ -22,6 +22,7 @@ ActiveAdmin.register Basket do
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true, required: false
       f.input :quantity
+      # TODO: DeliveriesCycle, remove basket delivery edition?
       delivery_collection = basket_deliveries_collection(f.object)
       if delivery_collection.many?
         f.input :delivery,
@@ -37,6 +38,7 @@ ActiveAdmin.register Basket do
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
           ff.input :basket_complement,
+            # TODO: DeliveriesCycle, only allow available basket complements for current delivery?
             collection: BasketComplement.all,
             prompt: true,
             input_html: { class: 'js-reset_price' }

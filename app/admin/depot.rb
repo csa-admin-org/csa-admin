@@ -13,6 +13,7 @@ ActiveAdmin.register Depot do
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
+    # TODO DeliveriesCycle: Show all cycles deliveries counts
     column :deliveries_count, ->(d) {
       link_to d.deliveries_count, deliveries_path(
         q: {
@@ -57,7 +58,7 @@ ActiveAdmin.register Depot do
           panel DeliveriesCycle.model_name.human(count: 2) do
             table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
               column :name, ->(dc) { auto_link dc }
-              column Depot.human_attribute_name(:current_deliveries), ->(dc) { auto_link dc, dc.current_deliveries.count }
+              column Delivery.model_name.human(count: 2), ->(dc) { auto_link dc, dc.current_deliveries.count }
               column :visible
             end
           end

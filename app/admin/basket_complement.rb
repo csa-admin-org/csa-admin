@@ -6,7 +6,7 @@ ActiveAdmin.register BasketComplement do
   scope :visible, default: true
   scope :hidden
 
-  includes :memberships_basket_complements
+  includes :memberships_basket_complements, :current_deliveries
   index download_links: false do
     column :name
     column :price_type, -> (bc) {
@@ -24,15 +24,16 @@ ActiveAdmin.register BasketComplement do
         cur(bc.annual_price)
       end
     }
-    column :visible
     column :deliveries_count, ->(bc) {
-      link_to bc.deliveries_count, deliveries_path(
+      link_to bc.current_deliveries.size, deliveries_path(
         q: {
           basket_complements_id_eq: bc.id,
           during_year: Current.acp.current_fiscal_year.year
         },
         scope: :all)
     }
+    # TODO: DeliveriesCycle, show future deliveries count?
+    column :visible
     actions class: 'col-actions-2'
   end
 
