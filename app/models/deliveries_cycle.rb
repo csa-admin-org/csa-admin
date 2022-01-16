@@ -5,6 +5,7 @@ class DeliveriesCycle < ApplicationRecord
   enum week_numbers: %i[all odd even], _suffix: true
   enum results: %i[all odd even], _suffix: true
 
+  has_many :memberships
   has_and_belongs_to_many :depots
 
   translated_attributes :name, :public_name
@@ -43,6 +44,10 @@ class DeliveriesCycle < ApplicationRecord
 
   def months=(months)
     super months.map(&:to_s) & Array(1..12).map(&:to_s)
+  end
+
+  def can_destroy?
+    depots.empty? && DeliveriesCycle.where.not(id: id).exists?
   end
 
   private

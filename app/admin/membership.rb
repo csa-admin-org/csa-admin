@@ -39,6 +39,9 @@ ActiveAdmin.register Membership do
     collection: -> { BasketComplement.all },
     if: :any_basket_complements?
   filter :depot, as: :select, collection: -> { Depot.all }
+  filter :deliveries_cycle,
+    as: :select,
+    if: proc { authorized?(:manage, DeliveriesCycle) }
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
@@ -250,8 +253,18 @@ ActiveAdmin.register Membership do
         attributes_table do
           row :id
           row :member
-          row(:started_on) { l m.started_on }
-          row(:ended_on) { l m.ended_on }
+          row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
+          if BasketComplement.any?
+            row(:memberships_basket_complements) {
+              basket_complements_description(
+                m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
+              }
+            end
+          row :depot
+          if authorized?(:manage, DeliveriesCycle)
+            row :deliveries_cycle
+          end
+          row(:period) { [l(m.started_on),l(m.ended_on)].join(' - ') }
         end
 
         if Date.current > m.started_on
@@ -341,17 +354,6 @@ ActiveAdmin.register Membership do
               end
             end
           end
-        end
-
-        attributes_table title: Membership.human_attribute_name(:description) do
-          row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
-          if BasketComplement.any?
-            row(:memberships_basket_complements) {
-              basket_complements_description(
-                m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
-              }
-            end
-          row :depot
         end
 
         if Current.acp.feature?('activity')
@@ -500,7 +502,7 @@ ActiveAdmin.register Membership do
 
     f.inputs t('.basket_and_depot') do
       unless resource.new_record?
-        em t('.membership_edit_warning')
+        para t('.membership_edit_warning'), class: 'warning'
       end
       f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
       f.input :basket_price, hint: true, required: false
@@ -509,15 +511,39 @@ ActiveAdmin.register Membership do
       end
       f.input :baskets_annual_price_change, hint: true
       f.input :basket_quantity
-      f.input :depot, prompt: true, input_html: { class: 'js-reset_price' }
+      f.input :depot,
+        prompt: true,
+        input_html: {
+          class: 'js-reset_price',
+          data: {
+            controller: 'form-select-options',
+            action: 'form-select-options#update',
+            form_select_options_target_param: 'membership_deliveries_cycle_id'
+          }
+        },
+        collection: Depot.all.map { |d|
+          [
+            d.name, d.id,
+            data: {
+              form_select_options_values_param: d.deliveries_cycle_ids.join(',')
+            }
+          ]
+        }
       f.input :depot_price, hint: true, required: false
+      # TODO DeliveriesCycle, drop seasons
       if Current.acp.seasons?
         f.input :seasons,
           as: :check_boxes,
           collection: seasons_collection,
           hint: true
       end
-
+      if authorized?(:manage, DeliveriesCycle)
+        f.input :deliveries_cycle,
+          as: :select,
+          collection: deliveries_cycles_collection,
+          disabled: f.object.depot ? (DeliveriesCycle.pluck(:id) - f.object.depot.deliveries_cycle_ids) : [],
+          prompt: true
+      end
       if BasketComplement.any?
         complements = BasketComplement.all
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
@@ -537,7 +563,7 @@ ActiveAdmin.register Membership do
   permit_params \
     :member_id,
     :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
-    :depot_id, :depot_price,
+    :depot_id, :depot_price, :deliveries_cycle_id,
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,

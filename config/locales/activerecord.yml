@@ -485,10 +485,6 @@ _:
           _fr: Fiches Signature
           _it: Scheda Firme
       depot:
-        deliveries_cycles:
-          _de: Zyklen von Lieferungen
-          _fr: Cycles de livraisons
-          _it: Cicli di consegne
         address_name:
           _de: Name
           _fr: Nom
@@ -501,6 +497,10 @@ _:
           _de: Lieferungen
           _fr: Livraisons
           _it: Consegne
+        deliveries_cycles:
+          _de: Zyklen von Lieferungen
+          _fr: Cycles de livraisons
+          _it: Cicli di consegne
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)
@@ -889,6 +889,10 @@ _:
           _de: Taschen
           _fr: Paniers
           _it: Ceste
+        deliveries_cycle:
+          _de: Zyklus von Lieferungen
+          _fr: Cycle de livraisons
+          _it: Ciclo di consegne
         deliveries_received_count:
           _de: Gelieferte Taschen
           _fr: Paniers livrés

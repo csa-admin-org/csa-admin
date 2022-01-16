@@ -5,11 +5,16 @@ ActiveAdmin.register DeliveriesCycle do
   scope :visible
   scope :hidden
 
+  includes :depots
   index download_links: false do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
-    column Depot.human_attribute_name(:current_deliveries), ->(dc) { auto_link dc, dc.current_deliveries.count }
-    column Depot.human_attribute_name(:future_deliveries), ->(dc) { auto_link dc, dc.future_deliveries.count }
+    column Depot.human_attribute_name(:current_deliveries), ->(dc) {
+      auto_link dc, dc.current_deliveries.count
+    }
+    column Depot.human_attribute_name(:future_deliveries), ->(dc) {
+      auto_link dc, dc.future_deliveries.count
+    }
     column :visible
     actions class: 'col-actions-3'
   end
@@ -67,6 +72,13 @@ ActiveAdmin.register DeliveriesCycle do
             end
           }
           row(:results) { I18n.t("deliveries_cycle.results.#{dc.results}") }
+        end
+
+        panel Depot.model_name.human(count: 2) do
+          table_for dc.depots, class: 'depots' do
+            column :name, ->(d) { auto_link d }
+            column :visible
+          end
         end
 
         active_admin_comments

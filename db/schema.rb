@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_14_131904) do
+ActiveRecord::Schema.define(version: 2022_01_14_170357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -589,8 +589,10 @@ ActiveRecord::Schema.define(version: 2022_01_14_131904) do
     t.datetime "renewal_reminder_sent_at"
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "last_trial_basket_sent_at"
+    t.bigint "deliveries_cycle_id", null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
+    t.index ["deliveries_cycle_id"], name: "index_memberships_on_deliveries_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"
@@ -727,6 +729,7 @@ ActiveRecord::Schema.define(version: 2022_01_14_131904) do
   add_foreign_key "group_buying_products", "group_buying_producers", column: "producer_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
+  add_foreign_key "memberships", "deliveries_cycles"
   add_foreign_key "memberships", "depots"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
