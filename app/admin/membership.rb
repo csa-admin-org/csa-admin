@@ -41,7 +41,7 @@ ActiveAdmin.register Membership do
   filter :depot, as: :select, collection: -> { Depot.all }
   filter :deliveries_cycle,
     as: :select,
-    if: proc { authorized?(:manage, DeliveriesCycle) }
+    if: proc { authorized?(:update, DeliveriesCycle) }
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
@@ -261,7 +261,7 @@ ActiveAdmin.register Membership do
               }
             end
           row :depot
-          if authorized?(:manage, DeliveriesCycle)
+          if authorized?(:update, DeliveriesCycle)
             row :deliveries_cycle
           end
           row(:period) { [l(m.started_on),l(m.ended_on)].join(' - ') }
@@ -537,7 +537,7 @@ ActiveAdmin.register Membership do
           collection: seasons_collection,
           hint: true
       end
-      if authorized?(:manage, DeliveriesCycle)
+      if authorized?(:update, DeliveriesCycle)
         f.input :deliveries_cycle,
           as: :select,
           collection: deliveries_cycles_collection,
