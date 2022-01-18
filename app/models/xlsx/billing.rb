@@ -94,6 +94,9 @@ module XLSX
       if Current.acp.feature?('group_buying')
         add_line("#{t_invoice}: #{::GroupBuying::Order.model_name.human(count: 2)}", @invoices.group_buying_order_type.sum(:amount))
       end
+      if Current.acp.feature_flag?('shop')
+        add_line("#{t_invoice}: #{I18n.t('shop.title')}", @invoices.shop_order_type.sum(:amount))
+      end
       if Current.acp.feature?('activity')
         add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
       end
