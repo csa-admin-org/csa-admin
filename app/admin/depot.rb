@@ -54,7 +54,7 @@ ActiveAdmin.register Depot do
   show do |depot|
     columns do
       column do
-        if authorized?(:manage, DeliveriesCycle)
+        if authorized?(:update, DeliveriesCycle)
           panel DeliveriesCycle.model_name.human(count: 2) do
             table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
               column :name, ->(dc) { auto_link dc }
@@ -149,7 +149,7 @@ ActiveAdmin.register Depot do
       f.input :phones, as: :string
       f.input :responsible_member, collection: Member.order(:name)
     end
-    if authorized?(:manage, DeliveriesCycle)
+    if authorized?(:update, DeliveriesCycle)
       f.inputs do
         f.input :deliveries_cycles,
           collection: deliveries_cycles_collection,
