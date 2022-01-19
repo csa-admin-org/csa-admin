@@ -11,7 +11,7 @@ ActiveAdmin.register Shop::OrderItem do
     column(:order_date) { |oi| oi.order.date }
     column(:order_state) { |oi| oi.order.state_i18n_name    }
     column(:order_id)
-    column(:producer) { |oi| oi.product.producer.name }
+    column(:producer) { |oi| oi.product.producer&.name }
     column(:product) { |oi| oi.product.name }
     column(:product_variant) { |o| o.product_variant.name }
     column(:quantity)
