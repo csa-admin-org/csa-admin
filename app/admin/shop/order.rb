@@ -239,6 +239,12 @@ ActiveAdmin.register Shop::Order do
       filename: pdf.filename
   end
 
+  before_action only: :index do
+    if params.except(:subdomain, :controller, :action).empty? && next_delivery = Delivery.shop_open.next
+      redirect_to q: { delivery_id_eq: next_delivery.id }, utf8: '✓'
+    end
+  end
+
   before_build do |order|
     order.member_id ||= referer_filter_member_id
     order.delivery ||= Delivery.next
@@ -253,12 +259,6 @@ ActiveAdmin.register Shop::Order do
     include TranslatedCSVFilename
     include ApplicationHelper
     include ShopHelper
-
-    before_action delivery: :index do
-      if params[:q].blank? && next_delivery = Delivery.shop_open.next
-        params[:q] = { delivery_id_eq: next_delivery.id }
-      end
-    end
 
     before_create do |order|
       order.state = Shop::Order::PENDING_STATE
