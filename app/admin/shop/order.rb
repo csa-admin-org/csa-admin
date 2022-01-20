@@ -42,6 +42,7 @@ ActiveAdmin.register Shop::Order do
 
   includes :member, :delivery, invoice: { pdf_file_attachment: :blob }
   index do
+    selectable_column if params[:scope].in?([nil, 'pending'])
     column :id, ->(order) { auto_link order, order.id }
     column :created_at, ->(order) { l(order.date, format: :number) }
     column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: 'delivery_id'
@@ -230,6 +231,14 @@ ActiveAdmin.register Shop::Order do
     link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_id: delivery_id, format: :pdf)
   end
 
+  batch_action :invoice, if: ->(attr) { params[:scope] == 'pending' } do |selection|
+    Shop::Order.where(id: selection).find_each do |order|
+      order.admin = current_admin
+      order.invoice!
+    end
+    redirect_back fallback_location: collection_path
+  end
+
   collection_action :delivery, method: :get, if: -> { params[:delivery_id] } do
     delivery = Delivery.find(params[:delivery_id])
     order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id]
@@ -266,4 +275,5 @@ ActiveAdmin.register Shop::Order do
   end
 
   config.sort_order = 'created_at_desc'
+  config.batch_actions = true
 end

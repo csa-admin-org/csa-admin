@@ -31,6 +31,10 @@ _:
           _de: Löschen
           _fr: Supprimer
           _it: Cancellare
+        invoice:
+          _de: Rechnung stellen
+          _fr: Facturer
+          _it: Fatturare
         make_available:
           _de: Verfügbar machen
           _fr: Rendre disponible
