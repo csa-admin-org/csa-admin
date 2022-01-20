@@ -115,7 +115,7 @@ module PDF
             valign: :center
         end
         if @shop_open
-          text_box I18n.t('delivery.shop_order'),
+          text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
             at: [member_name_width + (bs_size + bc_size - 1) * 25 + 10, cursor],
             valign: :center

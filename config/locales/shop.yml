@@ -22,3 +22,12 @@ _:
       _de: Lebensmittelgeschäft
       _fr: Épicerie
       _it: Drogheria
+    title_orders:
+      one:
+        _de: Bestellung des Lebensmittelgeschäft
+        _fr: Commande d'épicerie
+        _it: Ordine di drogheria
+      other:
+        _de: Bestellung des Lebensmittelgeschäfts
+        _fr: Commandes d'épicerie
+        _it: Ordini di drogheria
