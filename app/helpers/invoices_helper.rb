@@ -16,6 +16,7 @@ module InvoicesHelper
   def t_invoice_object_type(type)
     case type
     when 'ActivityParticipation' then activity_human_name
+    when 'Shop::Order' then I18n.t('shop.title_orders', count: 1)
     else
       type.constantize.model_name.human
     end
