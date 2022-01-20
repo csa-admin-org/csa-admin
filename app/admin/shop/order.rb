@@ -231,7 +231,7 @@ ActiveAdmin.register Shop::Order do
     link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_id: delivery_id, format: :pdf)
   end
 
-  batch_action :invoice, if: ->(attr) { params[:scope] == 'pending' } do |selection|
+  batch_action :invoice, if: ->(attr) { params[:scope].in?([nil, 'pending']) } do |selection|
     Shop::Order.where(id: selection).find_each do |order|
       order.admin = current_admin
       order.invoice!
