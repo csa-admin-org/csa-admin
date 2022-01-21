@@ -9,7 +9,11 @@ export default class extends Controller {
   }
 
   updateToggle() {
-    if(this.inputTargets.length > 2 && !this.toggleTarget.closest('form.filter_form') && !this.toggleTarget.closest('li#acp_features_input')) {
+    if (
+      this.inputTargets.length > 2 &&
+      !this.toggleTarget.closest("form.filter_form") &&
+      !this.toggleTarget.closest("li.no-check-boxes-toggle-all")
+    ) {
       show(this.toggleTarget)
       this.toggleTarget.checked = this.inputTargets.every((i) => i.checked)
     }
