@@ -12,7 +12,7 @@ module ShopHelper
   def display_variants(arbre, product)
     arbre.ul do
       product.variants.each do |variant|
-        arbre.li do
+        arbre.li class: ('unavailable' unless variant.available?) do
           arbre.span do
             link_to edit_shop_product_path(product, anchor: :variants) do
               parts = [variant.name]

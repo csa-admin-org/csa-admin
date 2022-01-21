@@ -20,6 +20,31 @@ describe Shop::Product do
       .to include(': une seule variante est autorisée quand le produit est lié à un complément panier')
   end
 
+  specify 'validate at least one available variant' do
+    product = create(:shop_product,
+      variants_attributes: {
+        '0' => {
+          name: '100g',
+          price: 5
+        }
+     })
+
+    product.update(variants_attributes: {
+      '0' => {
+        id: product.variants.first.id,
+        name: '100g',
+        price: 5,
+        available: false
+      }
+    })
+
+    expect(product).not_to have_valid(:base)
+    expect(product.errors.messages[:base])
+      .to include('Au moins une variante doit être disponible')
+
+    expect(product.variants.available).to be_present
+  end
+
   describe '.available_for' do
     specify 'returns products that are available' do
       delivery = create(:delivery)

@@ -1104,6 +1104,11 @@ _:
                 _it: Non disponibile per questa consegna
         shop/product:
           attributes:
+            base:
+              at_least_one_available_variant:
+                _de: Mindestens eine Variante muss verfügbar sein
+                _fr: Au moins une variante doit être disponible
+                _it: Almeno una variante deve essere disponibile
             variants:
               single_variant:
                 _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"

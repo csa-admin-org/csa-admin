@@ -37,6 +37,7 @@ module Shop
     validates :available, inclusion: [true, false]
     validates :variants, presence: true
     validates :variants, length: { is: 1, message: :single_variant }, if: :basket_complement_id?
+    validate :ensure_at_least_one_available_variant
 
     def self.ransackable_scopes(_auth_object = nil)
       super + %i[name_contains variant_name_contains] +
@@ -73,6 +74,14 @@ module Shop
 
     def can_destroy?
       order_items.none?
+    end
+
+    private
+
+    def ensure_at_least_one_available_variant
+      if variants.none?(&:available?)
+        self.errors.add(:base, :at_least_one_available_variant)
+      end
     end
   end
 end
