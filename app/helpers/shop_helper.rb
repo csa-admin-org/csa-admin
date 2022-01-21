@@ -26,14 +26,14 @@ module ShopHelper
     end
   end
 
-  def products_collection(products)
-    products.includes(:variants).order_by_name.map do |product|
+  def products_collection
+    Shop::Product.all.includes(:variants).order_by_name.map do |product|
       [product.name, product.id, disabled: product.variants.all?(&:out_of_stock?)]
     end
   end
 
-  def product_variants_collection(products, product_id)
-    products.includes(:variants).order_by_name.flat_map do |product|
+  def product_variants_collection(product_id)
+    Shop::Product.all.includes(:variants).order_by_name.flat_map do |product|
       product.variants.map do |variant|
         [
           variant.name,

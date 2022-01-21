@@ -157,15 +157,14 @@ ActiveAdmin.register Shop::Order do
         end
       end
     end
-    products = Shop::Product.available
     f.inputs t('.details') do
       f.input :member, collection: Member.active.reorder(:name), prompt: true
       f.input :delivery, prompt: true, collection: Delivery.shop_open
       f.has_many :items, allow_destroy: true do |ff|
-        ff.input :product, collection: products_collection(products), prompt: true,
+        ff.input :product, collection: products_collection, prompt: true,
           input_html: { class: 'js-reset_price js-update_product_variant_options' }
         ff.input :product_variant,
-          collection: product_variants_collection(products, ff.object.product_id),
+          collection: product_variants_collection(ff.object.product_id),
           input_html: { class: 'js-reset_price hide-disabled-options', disabled: ff.object.product_variant_id.blank? }
           ff.input :quantity, as: :number, step: 1, min: 1
         ff.input :item_price, hint: true, required: false
