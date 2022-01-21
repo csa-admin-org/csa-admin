@@ -193,16 +193,17 @@ ActiveAdmin.register ACP do
     end
 
     f.input :features,
-    as: :check_boxes,
-    collection: ACP.features.map { |ff|
-      [
-        content_tag(:span) {
-          content_tag(:span, t("features.#{ff}")) +
-          content_tag(:span, t("features.#{ff}_hint"), class: 'hint')
-        },
-        ff
-      ]
-    }
+      as: :check_boxes,
+      wrapper_html: { class: 'no-check-boxes-toggle-all' },
+      collection: ACP.features.map { |ff|
+        [
+          content_tag(:span) {
+            content_tag(:span, t("features.#{ff}")) +
+            content_tag(:span, t("features.#{ff}_hint"), class: 'hint')
+          },
+          ff
+        ]
+      }
 
     tabs do
       if Current.acp.feature?('absence')
