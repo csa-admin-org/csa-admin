@@ -6,9 +6,16 @@ module Shop
 
     translated_attributes :name
 
+    default_scope { order_by_name.order(:price) }
+
     belongs_to :product, class_name: 'Shop::Product', optional: true
+    has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product_variant
+
+    scope :available, -> { where(available: true) }
+    scope :unavailable, -> { where(available: false) }
 
     validates :name, presence: true
+    validates :available, inclusion: [true, false]
     validates :price,
       presence: true,
       numericality: { greater_than_or_equal_to: 0 }
@@ -37,6 +44,10 @@ module Shop
       return if stock.nil?
 
       increment! :stock, by
+    end
+
+    def can_destroy?
+      order_items.none?
     end
   end
 end

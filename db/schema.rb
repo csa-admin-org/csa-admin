@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_14_170357) do
+ActiveRecord::Schema.define(version: 2022_01_21_072722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -678,6 +678,8 @@ ActiveRecord::Schema.define(version: 2022_01_14_170357) do
     t.decimal "price", precision: 8, scale: 2, null: false
     t.decimal "weight_in_kg", precision: 8, scale: 3
     t.integer "stock"
+    t.boolean "available", default: true, null: false
+    t.index ["available"], name: "index_shop_product_variants_on_available"
     t.index ["product_id"], name: "index_shop_product_variants_on_product_id"
   end
 

@@ -63,6 +63,7 @@ ActiveAdmin.register Shop::Product do
   end
 
   form do |f|
+    f.semantic_errors :base
     if f.object.errors[:variants].present?
       ul class: 'errors' do
         f.object.errors.full_messages.each do |msg|
@@ -100,11 +101,12 @@ ActiveAdmin.register Shop::Product do
       end
       tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
         f.inputs nil do
-          f.has_many :variants, allow_destroy: true, heading: nil do |ff|
+          f.has_many :variants, allow_destroy: -> (pv) { pv.can_destroy? }, heading: nil do |ff|
             translated_input(ff, :names, required: true)
             ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95
             ff.input :weight_in_kg, as: :number, step: 0.005, min: 0, required: false
             ff.input :stock, as: :number, step: 1, min: 0, required: false
+            ff.input :available, as: :boolean, required: false
           end
         end
       end
@@ -125,6 +127,7 @@ ActiveAdmin.register Shop::Product do
       :price,
       :weight_in_kg,
       :stock,
+      :available,
       :_destroy,
       *I18n.available_locales.map { |l| "name_#{l}" }
     ])

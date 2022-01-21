@@ -8,26 +8,6 @@ describe 'Shop::Order' do
     login(member)
   end
 
-  let(:product1) {
-    create(:shop_product,
-      variants_attributes: {
-        '0' => {
-          name: '1 kg',
-          price: 10,
-          stock: 3
-        }
-      })
-  }
-  let(:product2) {
-    create(:shop_product,
-      variants_attributes: {
-        '0' => {
-          name: '1 kg',
-          price: 5
-        }
-      })
-  }
-
   specify 'no shop delivery' do
     visit '/shop'
     expect(current_path).not_to eq '/shop'
@@ -76,13 +56,57 @@ describe 'Shop::Order' do
   end
 
   specify 'add product to cart' do
-    product1
-    product2
+    product1 =
+      create(:shop_product,
+        name: 'Farine de sarrasin',
+        variants_attributes: {
+          '0' => {
+            name: '1 kg',
+            price: 10,
+            stock: 3
+          },
+          '1' => {
+            name: '2 kg',
+            price: 10,
+            stock: 0,
+            available: false
+          }
+        })
+    product2 =
+      create(:shop_product,
+        name: 'Farine de seigle',
+        variants_attributes: {
+          '0' => {
+            name: '1 kg',
+            price: 5
+          },
+          '1' => {
+            name: '2 kg',
+            price: 10,
+            stock: 0
+          }
+        })
+    product3 =
+      create(:shop_product,
+        name: 'Indisponible',
+        available: false,
+        variants_attributes: {
+          '0' => {
+            name: '1 kg',
+            price: 5
+          }
+        })
+
     delivery = create(:delivery, shop_open: true, date: '2021-11-10')
     create(:membership, member: member, started_on: '2021-11-01', ended_on: '2021-11-30')
 
     travel_to '2021-11-08 08:00 +01' do
       visit '/shop'
+
+      expect(page).not_to have_selector "#product_variant_#{product1.variants.second.id}"
+      expect(page).to have_selector "#product_variant_#{product2.variants.second.id}"
+      expect(page).not_to have_selector "#product_variant_#{product3.variants.first.id}"
+      expect(page).to have_content 'Farine de sarrasin'
       within("#product_variant_#{product1.variants.first.id}") do
         expect(page).to have_content "3 disponibles"
         click_button 'Ajouter au panier'
