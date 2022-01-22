@@ -16,6 +16,7 @@ describe MembershipRenewal do
     membership = create(:membership,
       basket_quantity: 2,
       basket_price: 42,
+      basket_price_extra: 1,
       baskets_annual_price_change: 130,
       depot_price: 3,
       activity_participations_demanded_annualy: 5,
@@ -32,8 +33,9 @@ describe MembershipRenewal do
     expect(membership.renewed_membership).to have_attributes(
       member_id: membership.member_id,
       basket_size_id: membership.basket_size_id,
-      basket_price: 41,
       basket_quantity: 2,
+      basket_price: 41,
+      basket_price_extra: 1,
       baskets_annual_price_change: 130,
       depot_id: membership.depot_id,
       depot_price: 4,
@@ -48,6 +50,7 @@ describe MembershipRenewal do
     membership = create(:membership,
       basket_quantity: 2,
       basket_price: 22,
+      basket_price_extra: 1,
       baskets_annual_price_change: 130,
       activity_participations_demanded_annualy: 5,
       activity_participations_annual_price_change: -60)
@@ -63,8 +66,9 @@ describe MembershipRenewal do
     expect(membership.renewed_membership).to have_attributes(
       member_id: membership.member_id,
       basket_size_id: big.id,
-      basket_price: 33,
       basket_quantity: 2,
+      basket_price: 33,
+      basket_price_extra: 1,
       baskets_annual_price_change: 0,
       activity_participations_demanded_annualy: 12,
       activity_participations_annual_price_change: 0,

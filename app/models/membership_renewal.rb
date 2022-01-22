@@ -36,6 +36,7 @@ class MembershipRenewal
         member_id
         basket_size_id
         basket_quantity
+        basket_price_extra
         baskets_annual_price_change
         depot_id
         seasons
