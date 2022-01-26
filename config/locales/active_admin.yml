@@ -338,13 +338,13 @@ _:
           _fr: Aide
           _it: Aiuto
         next_delivery:
-          _de: 'Nächste Lieferung: %{delivery}'
-          _fr: 'Prochaine livraison: %{delivery}'
-          _it: 'Prossima consegna: %{delivery}'
+          _de: Nächste Lieferung: %{delivery}
+          _fr: Prochaine livraison: %{delivery}
+          _it: Prossima consegna: %{delivery}
         next_group_buying_delivery:
-          _de: 'Gruppeneinkauf: %{delivery}'
-          _fr: 'Achats Groupés: %{delivery}'
-          _it: 'Acquisti di gruppo: %{delivery}'
+          _de: Gruppeneinkauf: %{delivery}
+          _fr: Achats Groupés: %{delivery}
+          _it: Acquisti di gruppo: %{delivery}
         no_basket_complements:
           _de: Kein Zusatz für diese Lieferung
           _fr: Aucun complément pour cette livraison
