@@ -12,6 +12,7 @@ gem 'lograge'
 
 gem 'bcrypt'
 gem 'date_validator'
+gem 'i18n', '~> 1.8.0'
 gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
 
