@@ -28,6 +28,8 @@ class BasketCounts
 
   def sum_basket_size(basket_size_id)
     i = @basket_size_ids.index(basket_size_id)
+    return 0 unless i
+
     all.sum { |c| c.basket_sizes_count[i] }
   end
 
