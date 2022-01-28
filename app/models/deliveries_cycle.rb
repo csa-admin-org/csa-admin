@@ -30,6 +30,10 @@ class DeliveriesCycle < ApplicationRecord
     end
   end
 
+  def include_delivery?(delivery)
+    deliveries(delivery.date).include?(delivery)
+  end
+
   def current_deliveries
     @current_deliveries ||= deliveries(Current.fy_year)
   end
