@@ -56,6 +56,12 @@ ActiveAdmin.register Delivery do
       end
     end
 
+    if authorized?(:read, DeliveriesCycle)
+      DeliveriesCycle.all.each do |deliveries_cycle|
+        column(deliveries_cycle.name) { |d| deliveries_cycle.include_delivery?(d) }
+      end
+    end
+
     if Current.acp.feature_flag?('shop')
       column(:shop_open)
     end
