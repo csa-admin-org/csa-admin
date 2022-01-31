@@ -6,10 +6,6 @@ module HasPhones
     before_validation :normalize_phones
   end
 
-  def phones=(phones)
-    super string_to_a(phones)
-  end
-
   def phones_array
     string_to_a(phones)
   end
@@ -35,6 +31,9 @@ module HasPhones
       .presence
       .to_s
       .gsub(/[[:space:]]/, '')
+      .gsub(/\[/, '')
+      .gsub(/\]/, '')
+      .gsub(/\"/, '')
       .split(',')
       .map { |s| s.gsub(/[[:space:]]/, '').presence }
       .compact
