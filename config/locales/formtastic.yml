@@ -190,6 +190,10 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
       deliveries_cycle:
+        depots:
+          _de: Wenn ein Depot von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Depots, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
+          _fr: Si un dépôt est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Les dépôts qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
+          _it: Se un punto di ritiro viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). I punti di ritiro che hanno solo questa corsa di consegna non possono essere rimossi dalla lista.
         form_priority:
           _de: Ermöglicht es Ihnen, die Lieferzyklen in einer bestimmten Reihenfolge zu sortieren.
           _fr: Permet de trier les cycles de livraisons dans un ordre spécifique.
@@ -220,6 +224,10 @@ _:
           _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
           _fr: Les paniers de ce dépôt seront automatiquement effacés ou créés en cas de changement.
           _it: Le ceste in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
+        deliveries_cycles:
+          _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
+          _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
+          _it: Se un ciclo di consegna viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). È richiesto un minimo di un ciclo di consegna.
         emails:
           _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
@@ -348,10 +356,6 @@ _:
           _de: Leer lassen, wenn das Mitglied nicht als unterstützendes Mitglied fortfahren möchte.
           _fr: Laisser blanc si le membre ne désire pas continuer en tant que membre de soutien.
           _it: Lasciare vuoto se il membro non desidera continuare come membro sostenitore.
-        seasons:
-          _de: Bei Taschen mit einem Lieferdatum ausserhalb der Saison werden ihre Anzahl auf Null gesetzt.
-          _fr: Les paniers avec une date de livraion hors saison auront leur quantité réduite à zéro.
-          _it: La quantità delle ceste con una data di consegna fuori stagione verrà ridotta a zero.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.

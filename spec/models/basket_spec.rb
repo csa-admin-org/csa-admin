@@ -25,10 +25,10 @@ describe Basket do
     expect(bbc.errors[:basket_complement_id]).to be_present
   end
 
-  it 'validates delivery is in membership date range' do
-    delivery = create(:delivery, date: Current.fy_range.min + 1.month)
-    create(:delivery, date: Current.fy_range.min + 7.month)
-    membership = create(:membership, started_on: Current.fy_range.min + 6.months)
+  it 'validates delivery is in membership date range', freeze: '2022-01-01' do
+    delivery = create(:delivery, date: '2022-01-01')
+    create(:delivery, date: '2022-03-01')
+    membership = build(:membership, started_on: '2022-02-01')
 
     basket = build(:basket, membership: membership, delivery: delivery)
     basket.validate
@@ -36,10 +36,12 @@ describe Basket do
     expect(basket.errors[:delivery]).to be_present
   end
 
-  it 'validates delivery is in membership date range' do
-    delivery1 = create(:delivery, date: Date.today)
-    delivery2 = create(:delivery, date: Date.yesterday)
-    depot = create(:depot, delivery_ids: [delivery1.id])
+  it 'validates delivery is in membership date range', freeze: '2022-01-01' do
+    delivery1 = create(:delivery, date: '2022-01-03') # Monday
+    delivery2 = create(:delivery, date: '2022-01-04')
+    depot = create(:depot, deliveries_cycles: [
+      create(:deliveries_cycle, wdays: [1])
+    ])
 
     basket = build(:basket, depot: depot, delivery: delivery2)
     basket.validate
@@ -76,12 +78,12 @@ describe Basket do
     membership_2 = create(:membership, subscribed_basket_complement_ids: [2])
     delivery = create(:delivery, basket_complement_ids: [1, 2])
 
-    basket = create(:basket, membership: membership_1, delivery: delivery)
-    expect(basket.complement_ids).to match_array [1, 2]
-    expect(basket.complements_price).to eq 3.2 + 4.5
+    basket1 = delivery.baskets.find_by(membership: membership_1)
+    expect(basket1.complement_ids).to match_array [1, 2]
+    expect(basket1.complements_price).to eq 3.2 + 4.5
 
-    basket = create(:basket, membership: membership_2, delivery: delivery)
-    expect(basket.complement_ids).to match_array [2]
-    expect(basket.complements_price).to eq 4.5
+    basket2 = delivery.baskets.find_by(membership: membership_2)
+    expect(basket2.complement_ids).to match_array [2]
+    expect(basket2.complements_price).to eq 4.5
   end
 end

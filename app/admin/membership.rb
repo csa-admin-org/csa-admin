@@ -30,18 +30,12 @@ ActiveAdmin.register Membership do
     as: :select,
     collection: -> { Member.joins(:memberships).order(:name).distinct }
   filter :basket_size, as: :select, collection: -> { BasketSize.all }
-  filter :season,
-    as: :select,
-    collection: -> { seasons_filter_collection },
-    if: proc { Current.acp.seasons? }
   filter :basket_complements,
     as: :select,
     collection: -> { BasketComplement.all },
     if: :any_basket_complements?
   filter :depot, as: :select, collection: -> { Depot.all }
-  filter :deliveries_cycle,
-    as: :select,
-    if: proc { authorized?(:update, DeliveriesCycle) }
+  filter :deliveries_cycle, as: :select
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
@@ -184,9 +178,6 @@ ActiveAdmin.register Membership do
     column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:note) { |m| m.member.note }
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
-    if Current.acp.seasons?
-      column(:seasons) { |m| m.seasons.map { |s| I18n.t "season.#{s}" }.join(', ') }
-    end
     column(:basket_price) { |m| cur(m.basket_price) }
     column(:basket_quantity)
     if BasketComplement.any?
@@ -243,7 +234,9 @@ ActiveAdmin.register Membership do
               }
             end
             column(class: 'col-actions-1') { |b|
-              link_to t('.edit'), edit_basket_path(b), class: 'edit_link'
+              if authorized?(:update, b)
+                link_to t('.edit'), edit_basket_path(b), class: 'edit_link'
+              end
             }
           end
         end
@@ -261,9 +254,7 @@ ActiveAdmin.register Membership do
               }
             end
           row :depot
-          if authorized?(:update, DeliveriesCycle)
-            row :deliveries_cycle
-          end
+          row :deliveries_cycle
           row(:period) { [l(m.started_on),l(m.ended_on)].join(' - ') }
         end
 
@@ -530,20 +521,11 @@ ActiveAdmin.register Membership do
           ]
         }
       f.input :depot_price, hint: true, required: false
-      # TODO DeliveriesCycle, drop seasons
-      if Current.acp.seasons?
-        f.input :seasons,
-          as: :check_boxes,
-          collection: seasons_collection,
-          hint: true
-      end
-      if authorized?(:update, DeliveriesCycle)
-        f.input :deliveries_cycle,
-          as: :select,
-          collection: deliveries_cycles_collection,
-          disabled: f.object.depot ? (DeliveriesCycle.pluck(:id) - f.object.depot.deliveries_cycle_ids) : [],
-          prompt: true
-      end
+      f.input :deliveries_cycle,
+        as: :select,
+        collection: deliveries_cycles_collection,
+        disabled: f.object.depot ? (DeliveriesCycle.pluck(:id) - f.object.depot.deliveries_cycle_ids) : [],
+        prompt: true
       if BasketComplement.any?
         complements = BasketComplement.all
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
@@ -567,7 +549,6 @@ ActiveAdmin.register Membership do
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,
-    seasons: [],
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,
@@ -601,6 +582,7 @@ ActiveAdmin.register Membership do
       membership.basket_price_extra = params[:basket_price_extra]
     end
     membership.depot_id ||= params[:depot_id]
+    membership.deliveries_cycle_id ||= params[:deliveries_cycle_id]
     params[:subscribed_basket_complement_ids]&.each do |id|
       membership.memberships_basket_complements.build(basket_complement_id: id)
     end

@@ -12,7 +12,6 @@ ActiveAdmin.register ACP do
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :qr_iban, :qr_creditor_name,
     :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
-    :summer_month_range_min, :summer_month_range_max,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
@@ -175,19 +174,6 @@ ActiveAdmin.register ACP do
             as: :text,
             required: true,
             input_html: { rows: 2 })
-        end
-      end
-      if Current.acp.seasons?
-        tab t('.seasons') do
-          f.inputs do
-            para t('.membership_seasons_text'), class: 'description'
-            f.input :summer_month_range_min,
-              as: :select,
-              collection: (1..12).map { |m| [t('date.month_names')[m], m] }
-            f.input :summer_month_range_max,
-              as: :select,
-              collection: (1..12).map { |m| [t('date.month_names')[m], m] }
-          end
         end
       end
     end

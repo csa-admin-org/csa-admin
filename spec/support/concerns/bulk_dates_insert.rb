@@ -49,7 +49,7 @@ shared_examples_for 'bulk_dates_insert' do
   end
 
   describe '#save' do
-    it 'includes all the days between starts and ends dates following wdays' do
+    it 'includes all the days between starts and ends dates following wdays', freeze: '2018-01-01' do
       model.bulk_dates_starts_on = Date.parse('2018-11-05')
       model.bulk_dates_ends_on = Date.parse('2018-11-11') + 1.month
       model.bulk_dates_weeks_frequency = 2

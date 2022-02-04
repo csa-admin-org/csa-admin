@@ -11,12 +11,13 @@ class Ability
     if admin.right? 'standard'
       can :manage, [ActivityParticipation, Absence, Announcement, Vegetable, BasketContent] & available_models
       can :create, [Activity, ActiveAdmin::Comment]
-      can :update, [Activity, Basket, BasketComplement, Delivery]
+      can :update, [Activity, BasketComplement]
+      can :update, [Delivery, Basket], can_update?: true
       can :destroy, Activity, can_destroy?: true
     end
     if admin.right? 'admin'
       can :read, Admin
-      can :manage, Delivery
+      can :create, Delivery
       can :manage, ActivityPreset if Current.acp.feature?('activity')
       can :create, group_buying_models & available_models
       can :update, group_buying_models & available_models
@@ -30,7 +31,7 @@ class Ability
       can :create, [BasketComplement, Depot, Member, Membership, Payment, Invoice] & available_models
       can :update, [Depot, Member] & available_models
       can :destroy, ActiveAdmin::Comment
-      can :destroy, [Member, Membership, Payment, Invoice], can_destroy?: true
+      can :destroy, [Member, Membership, Payment, Invoice, Delivery], can_destroy?: true
       can :update, [Membership, Payment], can_update?: true
       can :force_recurring_billing, Member
       can :renew_all, Membership
@@ -47,19 +48,15 @@ class Ability
       can :import, Payment
     end
     if admin.right? 'superadmin'
-      can :manage, [Basket, Admin, ACP, Membership, MailTemplate]
-      sensible_models = [BasketSize, BasketComplement, Depot]
+      can :manage, [Admin, ACP, MailTemplate]
+      sensible_models = [BasketSize, BasketComplement, Depot, DeliveriesCycle]
       can :create, sensible_models
       can :update, sensible_models
       can :destroy, sensible_models, can_destroy?: true
       can :become, Member
     end
-    if admin.master?
-      can :read, DeliveriesCycle
-      can :create, DeliveriesCycle
-      can :update, DeliveriesCycle
-      can :destroy, DeliveriesCycle, can_destroy?: true
-    end
+    # if admin.master?
+    # end
   end
 
   def available_models
@@ -71,6 +68,7 @@ class Ability
       ActiveAdmin::Page,
       ActiveAdmin::Comment,
       Delivery,
+      DeliveriesCycle,
       Depot,
       Handbook,
       Invoice,

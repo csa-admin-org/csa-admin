@@ -23,10 +23,12 @@ describe 'BasketContents V1 API' do
     it 'returns current delivery and its basket contents' do
       small_basket = create(:basket_size, :small, id: 125123)
       big_basket = create(:basket_size, :big, id: 623411)
-      delivery = create(:delivery, id: 526123, date: '2021-06-18')
       depot1 = create(:depot, id: 161412)
       depot2 = create(:depot, id: 645231)
 
+      delivery = travel_to '2021-06-01' do
+        create(:delivery, id: 526123, date: '2021-06-18')
+      end
       travel_to '2021-06-01' do
         create(:membership, depot: depot1, basket_size: small_basket)
         create(:membership, depot: depot1, basket_size: big_basket)

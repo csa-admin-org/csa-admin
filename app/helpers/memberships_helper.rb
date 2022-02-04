@@ -22,13 +22,10 @@ module MembershipsHelper
       else "#{object.quantity}x #{name}"
       end
     when Membership
-      desc =
-        case object.basket_quantity
-        when 1 then name
-        else "#{object.basket_quantity}x #{name}"
-        end
-      desc += " (#{object.season_name})" unless object.all_seasons?
-      desc
+      case object.basket_quantity
+      when 1 then name
+      else "#{object.basket_quantity}x #{name}"
+      end
     else
       content_tag(:em, t('activerecord.models.basket_size.none'), class: 'empty') unless text_only
     end

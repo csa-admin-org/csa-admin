@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-describe DeliveriesCycle do
-  around { |e| travel_to('2022-01-01') { e.run } }
-
+describe DeliveriesCycle, freeze: '2022-01-01' do
   specify 'only mondays' do
     Array(0..6).each do |i|
       create(:delivery, date: Date.today + i.days)

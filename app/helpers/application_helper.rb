@@ -61,15 +61,6 @@ module ApplicationHelper
     BasketComplement.any?
   end
 
-  def seasons_collection
-    ACP.seasons.map { |season| [I18n.t("season.#{season}"), season] }
-  end
-
-  def seasons_filter_collection
-    filters = ACP.seasons + ACP.seasons.map { |s| s + '_only' }
-    filters.map { |season| [I18n.t("season.#{season}"), season] }
-  end
-
   def fiscal_years_collection
     min_year = Delivery.minimum(:date)&.year || Date.today.year
     max_year = Delivery.maximum(:date)&.year || Date.today.year
@@ -130,8 +121,8 @@ module ApplicationHelper
     "https://account.postmarkapp.com/servers/#{server_id}/#{path}"
   end
 
-  def handbook_icon_link(page)
-    link_to(handbook_page_path(page), title: I18n.t('layouts.footer.handbook')) do
+  def handbook_icon_link(*args)
+    link_to(handbook_page_path(*args), title: I18n.t('layouts.footer.handbook')) do
       inline_svg_tag('admin/book-open.svg', size: '24')
     end
   end

@@ -6,6 +6,15 @@ export default class extends Controller {
     return ["input"]
   }
 
+  connect() {
+    for (const input of this.inputTargets) {
+      if (input.disabled) {
+        const label = `label[for='${input.id}']`
+        addClass(label, "disabled")
+      }
+    }
+  }
+
   excludeChoice(event) {
     for (const input of this.inputTargets) {
       const label = `label[for='${input.id}']`

@@ -5,22 +5,25 @@ ActiveAdmin.register Depot do
   scope :visible, default: true
   scope :hidden
 
-  includes :memberships, :responsible_member
+  filter :name_contains,
+    label: -> { Depot.human_attribute_name(:name) },
+    as: :string
+  filter :city_contains,
+    label: -> { Depot.human_attribute_name(:city) },
+    as: :string
+  filter :deliveries_cycles, as: :select
+
+  includes :memberships, :responsible_member, :deliveries_cycles
   index do
     column :name, ->(d) { auto_link d }
-    column :zip
     column :city
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
-    # TODO DeliveriesCycle: Show all cycles deliveries counts
-    column :deliveries_count, ->(d) {
-      link_to d.deliveries_count, deliveries_path(
-        q: {
-          depots_id_eq: d.id,
-          during_year: Current.acp.current_fiscal_year.year
-        },
-        scope: :all)
+    column :deliveries_cycles, ->(d) {
+      d.deliveries_cycles.map { |cycle|
+        auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
+      }.join(', ').html_safe
     }
     column :visible
     actions class: 'col-actions-3'
@@ -54,55 +57,22 @@ ActiveAdmin.register Depot do
   show do |depot|
     columns do
       column do
-        if authorized?(:update, DeliveriesCycle)
-          panel DeliveriesCycle.model_name.human(count: 2) do
-            table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
-              column :name, ->(dc) { auto_link dc }
-              column Delivery.model_name.human(count: 2), ->(dc) { auto_link dc, dc.current_deliveries.count }
-              column :visible
-            end
+        all_deliveries_cycles_path = deliveries_cycles_path(q: { depots_id_eq: depot.id }, scope: :all)
+        panel link_to(DeliveriesCycle.model_name.human(count: 2), all_deliveries_cycles_path) do
+          div class: 'actions' do
+            handbook_icon_link('deliveries', anchor: 'cycles-de-livraisons')
+          end
+          table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
+            column :name, ->(dc) { auto_link dc }
+            column Current.acp.current_fiscal_year, ->(dc) {
+              auto_link dc, dc.current_deliveries.count
+            }
+            column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
+              auto_link dc, dc.future_deliveries.count
+            }
+            column :visible
           end
         end
-
-        if depot.deliveries.current_year.any?
-          panel Depot.human_attribute_name(:current_deliveries) do
-            table_for depot.deliveries.current_year, class: 'deliveries' do
-              column '#', ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
-            end
-          end
-        end
-        if depot.deliveries.future_year.any?
-          panel Depot.human_attribute_name(:future_deliveries) do
-            table_for depot.deliveries.future_year, class: 'deliveries' do
-              column '#', ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
-            end
-          end
-        end
-      end
-      column do
-        attributes_table do
-          row :id
-          row :name
-          row :public_name
-          if Current.acp.languages.many?
-            row(:language) { t("languages.#{depot.language}") }
-          end
-          row(:price) { cur(depot.price) }
-          row(:deliveries_count) {
-            link_to(
-              depot.deliveries_count,
-              deliveries_path(q: { depots_id_eq: depot.id }))
-          }
-          row(:note) { text_format(depot.note) }
-        end
-
-        attributes_table title: t('.member_new_form') do
-          row :form_priority
-          row :visible
-        end
-
         attributes_table title: Depot.human_attribute_name(:address) do
           row :address_name
           row :address
@@ -114,6 +84,23 @@ ActiveAdmin.register Depot do
           row(:emails) { display_emails_with_link(self, depot.emails_array) }
           row(:phones) { display_phones_with_link(self, depot.phones_array) }
           row :responsible_member
+        end
+      end
+      column do
+        attributes_table do
+          row :id
+          row :name
+          row :public_name
+          if Current.acp.languages.many?
+            row(:language) { t("languages.#{depot.language}") }
+          end
+          row(:price) { cur(depot.price) }
+          row(:note) { text_format(depot.note) }
+        end
+
+        attributes_table title: t('.member_new_form') do
+          row :form_priority
+          row :visible
         end
 
         active_admin_comments
@@ -137,6 +124,23 @@ ActiveAdmin.register Depot do
       f.input :visible, as: :select, include_blank: false
     end
 
+    f.inputs do
+      f.input :deliveries_cycles,
+        collection: deliveries_cycles_collection,
+        input_html: f.object.persisted? ? {} : { checked: true },
+        as: :check_boxes,
+        required: true
+
+      para class: 'actions' do
+        a href: handbook_page_path('deliveries', anchor: 'cycles-de-livraisons'), class: 'action' do
+          span do
+            span inline_svg_tag('admin/book-open.svg', size: '20', title: I18n.t('layouts.footer.handbook'))
+            span t('.check_handbook')
+          end
+        end.html_safe
+      end
+    end
+
     f.inputs Depot.human_attribute_name(:address) do
       f.input :address_name
       f.input :address
@@ -148,31 +152,6 @@ ActiveAdmin.register Depot do
       f.input :emails, as: :string
       f.input :phones, as: :string
       f.input :responsible_member, collection: Member.order(:name)
-    end
-    if authorized?(:update, DeliveriesCycle)
-      f.inputs do
-        f.input :deliveries_cycles,
-          collection: deliveries_cycles_collection,
-          input_html: f.object.persisted? ? {} : { checked: true },
-          as: :check_boxes,
-          required: true
-      end
-    end
-    f.inputs do
-      if Delivery.current_year.any?
-        f.input :current_deliveries,
-          as: :check_boxes,
-          collection: Delivery.current_year,
-          hint: f.object.persisted?,
-          input_html: f.object.persisted? ? {} : { checked: true }
-      end
-      if Delivery.future_year.any?
-        f.input :future_deliveries,
-          as: :check_boxes,
-          collection: Delivery.future_year,
-          hint: f.object.persisted?,
-          input_html: f.object.persisted? ? {} : { checked: true }
-      end
     end
 
     f.actions
@@ -186,9 +165,7 @@ ActiveAdmin.register Depot do
       form_priority
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },
-    deliveries_cycle_ids: [],
-    current_delivery_ids: [],
-    future_delivery_ids: [])
+    deliveries_cycle_ids: [])
 
   before_build do |depot|
     depot.price ||= 0.0
@@ -196,9 +173,9 @@ ActiveAdmin.register Depot do
 
   controller do
     include TranslatedCSVFilename
+    include DeliveriesCyclesHelper
   end
 
-  config.filters = false
   config.per_page = 25
   config.sort_order = 'name_asc'
 end

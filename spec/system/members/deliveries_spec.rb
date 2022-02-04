@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 describe 'members page' do
-  before {
-    Capybara.app_host = 'http://membres.ragedevert.test'
-    create_deliveries(52)
-  }
+  before { Capybara.app_host = 'http://membres.ragedevert.test' }
 
   it 'shows current membership info and activities count' do
     travel_to '2020-06-01' do
+      create(:delivery, date: '2020-06-01')
       member = create(:member, :active)
       create(:basket_complement, id: 1, name: 'Oeufs')
       member.current_year_membership.update!(

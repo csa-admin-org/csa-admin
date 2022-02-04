@@ -43,7 +43,9 @@ describe Ability do
     specify { expect(ability.can?(:update, Member)).to be true }
     specify { expect(ability.can?(:destroy, Member)).to be true }
     specify { expect(ability.can?(:validate, Member)).to be true }
-    specify { expect(ability.can?(:manage, Delivery)).to be true }
+    specify { expect(ability.can?(:create, Delivery)).to be true }
+    specify { expect(ability.can?(:update, Delivery)).to be true }
+    specify { expect(ability.can?(:destroy, Delivery)).to be true }
     specify { expect(ability.can?(:deactivate, Member.new(state: 'waiting'))).to be true }
     specify { expect(ability.can?(:deactivate, Member.new(state: 'support'))).to be true }
     specify { expect(ability.can?(:wait, Member.new(state: 'inactive'))).to be true }

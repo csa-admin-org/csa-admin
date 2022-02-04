@@ -24,7 +24,7 @@ ActiveAdmin.register BasketComplement do
         cur(bc.annual_price)
       end
     }
-    column :deliveries_count, ->(bc) {
+    column deliveries_current_year_title, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {
           basket_complements_id_eq: bc.id,
@@ -32,7 +32,14 @@ ActiveAdmin.register BasketComplement do
         },
         scope: :all)
     }
-    # TODO: DeliveriesCycle, show future deliveries count?
+    column deliveries_next_year_title, ->(bc) {
+      link_to bc.future_deliveries.size, deliveries_path(
+        q: {
+          basket_complements_id_eq: bc.id,
+          during_year: Current.acp.current_fiscal_year.year + 1
+        },
+        scope: :all)
+    }
     column :visible
     actions class: 'col-actions-2'
   end
@@ -59,15 +66,26 @@ ActiveAdmin.register BasketComplement do
     f.inputs do
       if Delivery.current_year.any?
         f.input :current_deliveries,
+          label: deliveries_current_year_title,
           as: :check_boxes,
           collection: Delivery.current_year,
           hint: f.object.persisted?
       end
       if Delivery.future_year.any?
         f.input :future_deliveries,
+          label: deliveries_next_year_title,
           as: :check_boxes,
           collection: Delivery.future_year,
           hint: f.object.persisted?
+      end
+
+      para class: 'actions' do
+        a href: handbook_page_path('deliveries', anchor: 'complments-de-panier'), class: 'action' do
+          span do
+            span inline_svg_tag('admin/book-open.svg', size: '20', title: I18n.t('layouts.footer.handbook'))
+            span t('.check_handbook')
+          end
+        end.html_safe
       end
     end
 

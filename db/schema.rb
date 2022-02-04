@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_072722) do
+ActiveRecord::Schema.define(version: 2022_01_28_080505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -536,6 +536,7 @@ ActiveRecord::Schema.define(version: 2022_01_21_072722) do
     t.string "country_code", limit: 2
     t.boolean "contact_sharing", default: false, null: false
     t.integer "desired_acp_shares_number", default: 0, null: false
+    t.bigint "waiting_deliveries_cycle_id"
     t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"

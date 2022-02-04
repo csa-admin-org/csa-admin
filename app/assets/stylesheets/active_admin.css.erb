@@ -629,10 +629,13 @@ table#index_table_group_buying_products .col-price {
   text-align: right;
 }
 
-table.deliveries_cycles .col-visible,
-table.depots .col-visible {
+table .col-visible, table .col-shop {
   width: 30px;
   text-align: right;
+}
+
+table .col-visible span, table .col-shop span {
+  float: right;
 }
 
 table.deliveries .col- {
@@ -712,6 +715,7 @@ li.check_boxes li.choice {
 }
 
 fieldset.inputs p.actions {
+  margin-top: 10px;
   display: block;
   text-align: center;
 }
@@ -897,6 +901,19 @@ form.filter_form .check_boxes fieldset.choices > label input {
   margin-top: 20px;
 }
 
+#hanbook_sidebar_section {
+  margin: 30px auto;
+  width: 50%
+}
+#hanbook_sidebar_section h3 {
+  display: none;
+}
+#hanbook_sidebar_section a {
+  padding: 5px;
+}
+
+
+
 .field_with_errors input,
 .field_with_errors select,
 .field_with_errors textarea,
@@ -958,22 +975,25 @@ li.input.error textarea {
 
 #footer li:hover,
 #footer li:hover a,
-#footer a:hover {
+#footer a:hover,
+#hanbook_sidebar_section:hover,
+#hanbook_sidebar_section a:hover {
   color: #0c9024;
   fill: #0c9024;
   border-color: #0c9024;
 }
 
-#footer a {
+#footer a, #hanbook_sidebar_section a {
   text-decoration: none;
   color: #bbb;
   fill: #bbb;
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+  justify-content: center;
 }
 
-#footer a span {
+#footer a span, #hanbook_sidebar_section a span {
   display: flex;
   align-items: center;
   margin: 0 3px;
@@ -1155,7 +1175,7 @@ select option[hidden] {
   position: relative;
 }
 
-.panel .actions {
+.panel div.actions {
   position: absolute;
   top: 9px;
   right: 12px;

@@ -63,6 +63,7 @@ class Members::MembershipRenewalsController < Members::BaseController
         basket_size_id
         basket_price_extra
         depot_id
+        deliveries_cycle_id
       ], memberships_basket_complements_attributes: [
         :basket_complement_id, :quantity
       ])

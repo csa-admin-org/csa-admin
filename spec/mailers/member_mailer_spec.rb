@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe MemberMailer do
-  specify '#activated_email' do
+  specify '#activated_email', freeze: '2021-01-01' do
     template = MailTemplate.create!(title: 'member_activated')
     member = create(:member, emails: 'example@acp-admin.ch')
     membership = create(:membership,

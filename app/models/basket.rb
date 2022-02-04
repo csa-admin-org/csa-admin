@@ -82,12 +82,12 @@ class Basket < ApplicationRecord
     end
   end
 
-  def remove_complement!(complement)
-    complements.destroy(complement)
-  end
-
   def empty?
     (quantity + baskets_basket_complements.sum(:quantity)).zero?
+  end
+
+  def can_update?
+    membership.can_update?
   end
 
   private
@@ -128,7 +128,7 @@ class Basket < ApplicationRecord
   end
 
   def delivery_must_be_in_depot_deliveries
-    if delivery_id && depot && !delivery_id.in?(depot.deliveries.pluck(:id))
+    if delivery && depot && !depot.include_delivery?(delivery)
       errors.add(:depot, :exclusion)
     end
   end

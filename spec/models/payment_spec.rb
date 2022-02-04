@@ -30,18 +30,18 @@ describe Payment do
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 1)
 
-      create(:payment, member: member, invoice: invoice3, amount: 400)
-      create(:payment, member: member, amount: 700)
+      create(:payment, member: member, invoice: invoice3, amount: 10)
+      create(:payment, member: member, amount: 15)
 
       Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.paid_amount).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 10
       expect(invoice1.state).to eq 'closed'
-      expect(invoice2.reload.paid_amount).to eq 400
+      expect(invoice2.reload.paid_amount).to eq 10
       expect(invoice2.state).to eq 'closed'
       expect(invoice3.reload.paid_amount).to be_zero
       expect(invoice3.state).to eq 'canceled'
-      expect(invoice3_bis.reload.paid_amount).to eq 300
+      expect(invoice3_bis.reload.paid_amount).to eq 5
       expect(invoice3_bis.state).to eq 'open'
     end
 
@@ -67,23 +67,23 @@ describe Payment do
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 1)
 
-      create(:payment, member: member, invoice: invoice1, amount: 400)
-      create(:payment, member: member, invoice: invoice3, amount: 400)
-      create(:payment, member: member, invoice: invoice3, amount: 100)
-      create(:payment, member: member, amount: -50)
+      create(:payment, member: member, invoice: invoice1, amount: 10)
+      create(:payment, member: member, invoice: invoice3, amount: 10)
+      create(:payment, member: member, invoice: invoice3, amount: 3)
+      create(:payment, member: member, amount: -2)
 
       Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.paid_amount).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 10
       expect(invoice1.state).to eq 'closed'
-      expect(invoice2.reload.paid_amount).to eq 50
+      expect(invoice2.reload.paid_amount).to eq 1
       expect(invoice2.state).to eq 'open'
-      expect(invoice3.reload.paid_amount).to eq 400
+      expect(invoice3.reload.paid_amount).to eq 10
       expect(invoice3.state).to eq 'closed'
     end
 
     it 'handles payback invoice with negative amount' do
-      Current.acp.update!(share_price: 100)
+      Current.acp.update!(share_price: 2)
 
       member = create(:member, :active)
       beginning_of_year = Time.current.beginning_of_year
@@ -104,20 +104,20 @@ describe Payment do
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 2)
 
-      create(:payment, member: member, invoice: invoice1, amount: 400)
+      create(:payment, member: member, invoice: invoice1, amount: 10)
 
       Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.paid_amount).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 10
       expect(invoice1.state).to eq 'closed'
       expect(invoice2.reload.paid_amount).to be_zero
       expect(invoice2.state).to eq 'closed'
-      expect(invoice3.reload.paid_amount).to eq 200
+      expect(invoice3.reload.paid_amount).to eq 4
       expect(invoice3.state).to eq 'open'
     end
 
     it 'handles payback invoice with negative amount with direct negative payment' do
-      Current.acp.update!(share_price: 100)
+      Current.acp.update!(share_price: 2)
 
       member = create(:member, :active)
       beginning_of_year = Time.current.beginning_of_year
@@ -138,12 +138,12 @@ describe Payment do
         memberships_amount_description: 'Montant #3',
         membership_amount_fraction: 2)
 
-      create(:payment, member: member, invoice: invoice1, amount: 400)
-      create(:payment, member: member, invoice: invoice2, amount: -250)
+      create(:payment, member: member, invoice: invoice1, amount: 10)
+      create(:payment, member: member, invoice: invoice2, amount: -4)
 
       Payment.redistribute!(member.id)
 
-      expect(invoice1.reload.paid_amount).to eq 400
+      expect(invoice1.reload.paid_amount).to eq 10
       expect(invoice1.state).to eq 'closed'
       expect(invoice2.reload.paid_amount).to be_zero
       expect(invoice2.state).to eq 'closed'

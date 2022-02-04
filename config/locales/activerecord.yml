@@ -14,7 +14,7 @@ _:
         absence_extra_text:
           _de: Zusätzliche Erklärung
           _fr: Explication supplémentaire
-          _it: Spiegazioni supplementari
+          _it: Spiegazione di consegne
         absence_extra_text_only:
           _de: Nur zusätzliche Erklärungen anzeigen
           _fr: Afficher uniquement les explications supplémentaires
@@ -247,14 +247,6 @@ _:
           _de: Statuten URL
           _fr: Statuts URL
           _it: Statuts URL
-        summer_month_range_max:
-          _de: Sommer endet Ende
-          _fr: Été finit fin
-          _it: L'estate finisce a fine
-        summer_month_range_min:
-          _de: Sommer fängt an Anfang
-          _fr: Été commence début
-          _it: L'estate inizia ad inizio
         terms_of_service_url:
           _de: URL-Regeln
           _fr: Règlement URL
@@ -889,10 +881,6 @@ _:
           _de: Taschen
           _fr: Paniers
           _it: Ceste
-        deliveries_cycle:
-          _de: Zyklus von Lieferungen
-          _fr: Cycle de livraisons
-          _it: Ciclo di consegne
         deliveries_received_count:
           _de: Gelieferte Taschen
           _fr: Paniers livrés
@@ -993,14 +981,6 @@ _:
           _de: Neues Abonnement
           _fr: Nouvel abonnement
           _it: Nuovo abbonamento
-        season:
-          _de: Saisons
-          _fr: Saisons
-          _it: Stagioni
-        seasons:
-          _de: Saisons
-          _fr: Saisons
-          _it: Stagioni
         started_on:
           _de: Anfang
           _fr: Début

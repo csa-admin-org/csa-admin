@@ -6,6 +6,7 @@ class BasketsBasketComplement < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price, numericality: { equal_to: 0 }, if: :basket_complement_annual_price_type?
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validate :basket_delivery_must_be_in_complement_deliveries
 
   before_validation do
     self.price ||= basket_complement&.delivery_price
@@ -20,6 +21,14 @@ class BasketsBasketComplement < ApplicationRecord
     when 0 then nil
     when 1 then basket_complement.name
     else "#{quantity} x #{basket_complement.name}"
+    end
+  end
+
+  private
+
+  def basket_delivery_must_be_in_complement_deliveries
+    unless basket.delivery_id.in?(basket_complement.current_and_future_delivery_ids)
+      errors.add(:basket_complement, :exclusion)
     end
   end
 end

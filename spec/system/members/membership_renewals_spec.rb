@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Memberships Renewal' do
   let(:basket_size) { create(:basket_size, name: 'Petit') }
-  let(:depot) { create(:depot, name: 'Joli Lieu', fiscal_year: Current.fiscal_year) }
+  let(:depot) { create(:depot, name: 'Joli Lieu') }
   let(:member) { create(:member) }
 
   before do
@@ -16,7 +16,7 @@ describe 'Memberships Renewal' do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    DeliveriesHelper.create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.acp.fiscal_year_for(2021))
     membership.open_renewal!
     complement = create(:basket_complement,
       name: 'Oeufs',
@@ -65,10 +65,70 @@ describe 'Memberships Renewal' do
       renew: true,
       started_on: Date.parse('2021-01-01'),
       ended_on: Date.parse('2021-12-31'),
-      basket_size: big_basket)
+      basket_size: big_basket,
+      depot: depot,
+      deliveries_cycle: depot.main_deliveries_cycle)
     expect(membership.renewed_membership.memberships_basket_complements.first).to have_attributes(
       basket_complement_id: complement.id,
       quantity: 2)
+  end
+
+  specify 'renew membership with a new deliveries cycle', freeze: '2020-09-30' do
+    big_basket = create(:basket_size, name: 'Grand')
+    membership = create(:membership,
+      member: member,
+      basket_size: basket_size,
+      depot: depot)
+    depot.deliveries_cycles.update_all(visible: true)
+    new_cycle = create(:deliveries_cycle,
+      visible: true,
+      public_name: 'Nouveau cycle',
+      results: :odd,
+      depots: [depot])
+    create_deliveries(2, Current.acp.fiscal_year_for(2021))
+    membership.open_renewal!
+
+    login(member)
+
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
+    end
+
+    click_on 'Abonnement'
+
+    choose 'Renouveler mon abonnement'
+    click_on 'Suivant'
+
+    choose "Nouveau cycle"
+
+    click_on 'Confirmer'
+
+    expect(page).to have_selector('.flash',
+      text: 'Votre abonnement a été renouvelé. Merci!')
+
+    within 'nav' do
+      expect(page).to have_content "Abonnement\n⤷ En cours"
+    end
+    within 'ul#2021' do
+      expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
+      expect(page).to have_content 'Petit PUBLIC'
+      expect(page).to have_content 'Joli Lieu'
+      expect(page).to have_content '1 Livraison'
+      expect(page).to have_content '½ Journées: 2 demandées'
+      expect(page).to have_content "CHF 30.00"
+    end
+    expect(membership.reload).to have_attributes(
+      renew: true,
+      renewal_annual_fee: nil,
+      renewal_opened_at: Time.current,
+      renewed_at: Time.current)
+    expect(membership).to be_renewed
+    expect(membership.renewed_membership).to have_attributes(
+      renew: true,
+      started_on: Date.parse('2021-01-01'),
+      ended_on: Date.parse('2021-12-31'),
+      depot: depot,
+      deliveries_cycle: new_cycle)
   end
 
   specify 'renew membership (with basket_price_extra)', freeze: '2020-09-30' do
@@ -79,7 +139,7 @@ describe 'Memberships Renewal' do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    DeliveriesHelper.create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.acp.fiscal_year_for(2021))
     big_basket = create(:basket_size, name: 'Grand')
     membership.open_renewal!
 
@@ -135,7 +195,7 @@ describe 'Memberships Renewal' do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    DeliveriesHelper.create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.acp.fiscal_year_for(2021))
     membership.open_renewal!
 
     login(member)
@@ -159,7 +219,7 @@ describe 'Memberships Renewal' do
     within 'nav' do
       expect(page).to have_content "Abonnement\n⤷ En cours"
     end
-    expect(page).to have_content 'Votre abonnement a été résilié et se terminera après la livraison du 6 octobre 2020.'
+    expect(page).to have_content 'Votre abonnement a été résilié et se terminera après la livraison du 7 janvier 2020.'
     expect(membership.reload).to have_attributes(
       renew: false,
       renewal_opened_at: nil,

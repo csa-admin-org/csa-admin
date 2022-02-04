@@ -2,12 +2,8 @@ class Depot < ApplicationRecord
   include HasEmails
   include HasPhones
   include HasLanguage
-  include HasDeliveries
   include TranslatedAttributes
   include HasVisibility
-
-  # TODO: DeliveriesCycle, remove after ?
-  attr_accessor :delivery_memberships
 
   translated_attributes :public_name
 
@@ -16,7 +12,9 @@ class Depot < ApplicationRecord
   has_many :memberships
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
-  has_and_belongs_to_many :deliveries_cycles
+  has_and_belongs_to_many :deliveries_cycles,
+    after_add: :deliveries_cycles_changed!,
+    after_remove: :deliveries_cycles_changed!
 
   default_scope { order(:name) }
   scope :free, -> { where('price = 0') }
@@ -28,16 +26,11 @@ class Depot < ApplicationRecord
       .distinct
     }
 
-  # TODO: DeliveriesCycle, remove after
-  before_validation do
-    if deliveries_cycle_ids.empty?
-      self.deliveries_cycle_ids = [DeliveriesCycle.all.max_by(&:deliveries_count).id]
-    end
-  end
-
   validates :name, :form_priority, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :deliveries_cycles, presence: true
+
+  after_commit :update_baskets_async, on: :update
 
   def public_name
     self[:public_names][I18n.locale.to_s].presence || name
@@ -67,8 +60,33 @@ class Depot < ApplicationRecord
     [address, "#{zip} #{city}"].compact.join(', ')
   end
 
-  def annual_price
-    (price * deliveries_count).round_to_five_cents
+  def include_delivery?(delivery)
+    deliveries_cycles.any? { |dc| dc.include_delivery?(delivery) }
+  end
+
+  def current_and_future_delivery_ids
+    @current_and_future_delivery_ids ||=
+      deliveries_cycles.map(&:current_and_future_delivery_ids).flatten.uniq
+  end
+
+  def visible_deliveries_cycle_ids
+    if deliveries_cycles.visible.none?
+      [main_deliveries_cycle.id]
+    else
+      deliveries_cycles.visible.pluck(:id)
+    end
+  end
+
+  def deliveries_counts
+    if deliveries_cycles.visible.none?
+      [main_deliveries_cycle.deliveries_count]
+    else
+      deliveries_cycles.visible.map(&:deliveries_count).uniq
+    end
+  end
+
+  def main_deliveries_cycle
+    deliveries_cycles.max_by(&:deliveries_count)
   end
 
   def can_destroy?
@@ -77,11 +95,16 @@ class Depot < ApplicationRecord
 
   private
 
-  def after_add_delivery!(delivery)
-    delivery.add_baskets_at!(self)
+  def deliveries_cycles_changed!(deliveries_cycle)
+    @deliveries_cycles_changes ||= []
+    @deliveries_cycles_changes << deliveries_cycle
   end
 
-  def after_remove_delivery!(delivery)
-    delivery.remove_baskets_at!(self)
+  def update_baskets_async
+    return unless @deliveries_cycles_changes
+
+    @deliveries_cycles_changes.uniq.each do |deliveries_cycle|
+      DeliveriesCycleBasketsUpdaterJob.perform_later(deliveries_cycle)
+    end
   end
 end

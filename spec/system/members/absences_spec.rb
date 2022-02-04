@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-describe 'Absences' do
-  around { |e| travel_to('2021-06-15') { e.run } }
-
+describe 'Absences', freeze: '2021-06-15' do
   let(:member) { create(:member) }
 
   before do

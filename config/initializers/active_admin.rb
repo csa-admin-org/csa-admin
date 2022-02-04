@@ -328,42 +328,42 @@ Rails.application.reloader.to_prepare do
     include ApplicationHelper
     include ActivitiesHelper
   end
+end
 
-  # Inject admin importmap tag to admin header
-  module ActiveAdmin
-    module Views
-      module Pages
-        class Base < Arbre::HTML::Document
-          private
-          def build_active_admin_head
-            within head do
-              html_title [title, helpers.active_admin_namespace.site_title(self)].compact.join(" | ")
+# Inject admin importmap tag to admin header
+module ActiveAdmin
+  module Views
+    module Pages
+      class Base < Arbre::HTML::Document
+        private
+        def build_active_admin_head
+          within head do
+            html_title [title, helpers.active_admin_namespace.site_title(self)].compact.join(" | ")
 
-              text_node(active_admin_namespace.head)
+            text_node(active_admin_namespace.head)
 
-              active_admin_namespace.meta_tags.each do |name, content|
-                text_node(meta(name: name, content: content))
-              end
-
-              active_admin_application.stylesheets.each do |style, options|
-                stylesheet_tag = active_admin_namespace.use_webpacker ? stylesheet_pack_tag(style, **options) : stylesheet_link_tag(style, **options)
-                text_node(stylesheet_tag.html_safe) if stylesheet_tag
-              end
-
-              active_admin_application.javascripts.each do |path|
-                javascript_tag = active_admin_namespace.use_webpacker ? javascript_pack_tag(path) : javascript_include_tag(path)
-                text_node(javascript_tag)
-              end
-
-              # Inject Importmap
-              text_node(javascript_importmap_tags 'admin')
-
-              if active_admin_namespace.favicon
-                text_node(favicon_link_tag(active_admin_namespace.favicon))
-              end
-
-              text_node csrf_meta_tag
+            active_admin_namespace.meta_tags.each do |name, content|
+              text_node(meta(name: name, content: content))
             end
+
+            active_admin_application.stylesheets.each do |style, options|
+              stylesheet_tag = active_admin_namespace.use_webpacker ? stylesheet_pack_tag(style, **options) : stylesheet_link_tag(style, **options)
+              text_node(stylesheet_tag.html_safe) if stylesheet_tag
+            end
+
+            active_admin_application.javascripts.each do |path|
+              javascript_tag = active_admin_namespace.use_webpacker ? javascript_pack_tag(path) : javascript_include_tag(path)
+              text_node(javascript_tag)
+            end
+
+            # Inject Importmap
+            text_node(javascript_importmap_tags 'admin')
+
+            if active_admin_namespace.favicon
+              text_node(favicon_link_tag(active_admin_namespace.favicon))
+            end
+
+            text_node csrf_meta_tag
           end
         end
       end
@@ -405,6 +405,20 @@ module ActiveAdmin
                  url: -> { render_or_call_method_or_proc_on self, active_admin_namespace.logout_link_path },
                  if: :current_active_admin_user?
       end
+    end
+  end
+end
+
+module ActiveAdmin
+  class DSL
+    def sidebar_handbook_link(page)
+      section = ActiveAdmin::SidebarSection.new(:hanbook, only: :index) do
+        a href: "/handbook/#{page}" do
+          span inline_svg_tag('admin/book-open.svg', size: '20')
+          span t('layouts.footer.handbook')
+        end
+      end
+      config.sidebar_sections << section
     end
   end
 end

@@ -2,16 +2,12 @@ require 'rails_helper'
 
 describe Billing::Invoicer do
   before {
-    travel_to(Date.new(Current.fy_year, 1, 15)) {
-      create_deliveries(40)
-    }
     Current.acp.update!(
       trial_basket_count: 0,
       billing_year_divisions: [1, 2, 3, 4, 12],
       fiscal_year_start_month: 1,
       recurring_billing_wday: 1) # Monday
   }
-  after { travel_back }
 
   def create_invoice(member, **attrs)
     member.reload
@@ -24,51 +20,41 @@ describe Billing::Invoicer do
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it 'does not create an invoice for member with future membership' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      Current.acp.update!(trial_basket_count: 0)
-      member = create(:member, billing_year_division: 12)
-      create(:membership, member: member, started_on: 1.month.from_now)
+  it 'does not create an invoice for member with future membership', freeze: '2022-01-01' do
+    Current.acp.update!(trial_basket_count: 0)
+    member = create(:member, billing_year_division: 12)
+    create(:delivery, date: '2022-02-01')
+    create(:membership, member: member)
 
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
-    end
+    expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it 'creates an invoice for not already billed support member' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      member = create(:member, :support_annual_fee)
-      invoice = create_invoice(member)
+  it 'creates an invoice for not already billed support member', freeze: '2022-01-01' do
+    member = create(:member, :support_annual_fee)
+    invoice = create_invoice(member)
 
-      expect(invoice.object).to be_nil
-      expect(invoice.object_type).to eq 'AnnualFee'
-      expect(invoice.annual_fee).to be_present
-      expect(invoice.memberships_amount).to be_nil
-      expect(invoice.amount).to eq invoice.annual_fee
-      expect(invoice.pdf_file).to be_attached
-    end
+    expect(invoice.object).to be_nil
+    expect(invoice.object_type).to eq 'AnnualFee'
+    expect(invoice.annual_fee).to be_present
+    expect(invoice.memberships_amount).to be_nil
+    expect(invoice.amount).to eq invoice.annual_fee
+    expect(invoice.pdf_file).to be_attached
   end
 
-  it 'does not create an invoice for already billed support member' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      member = create(:member, :support_annual_fee)
-      create(:invoice, :annual_fee, member: member)
+  it 'does not create an invoice for already billed support member', freeze: '2022-01-01' do
+    member = create(:member, :support_annual_fee)
+    create(:invoice, :annual_fee, member: member)
 
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
-    end
+    expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it 'creates an invoice for trial membership when forced' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      Current.acp.update!(trial_basket_count: 4)
-      member = create(:member)
+  it 'creates an invoice for trial membership when forced', freeze: '2022-01-01' do
+    Current.acp.update!(trial_basket_count: 4)
+    member = create(:member)
+    membership = create(:membership, member: member)
 
-      membership = create(:membership, member: member,
-        started_on: 1.week.ago)
-
-      expect(membership.trial?).to eq true
-
-      expect { create_invoice(member) }.to change(Invoice, :count).by(1)
-    end
+    expect(membership.trial?).to eq true
+    expect { create_invoice(member) }.to change(Invoice, :count).by(1)
   end
 
   it 'does not bill annual fee for canceled trial membership' do
@@ -77,14 +63,17 @@ describe Billing::Invoicer do
       trial_basket_count: 4)
     member = create(:member, :inactive, billing_year_division: 12)
 
-    travel_to(Date.new(Current.fy_year, 8, 15))
-    membership = create(:membership, member: member,
-      started_on: 4.weeks.ago,
-      ended_on: 1.day.ago)
-
-    expect(membership.baskets_count).to eq 4
-
-    invoice = create_invoice(member)
+    travel_to '2021-01-01' do
+      create(:delivery, date: '2021-01-01')
+      create(:delivery, date: '2021-01-02')
+    end
+    membership =  travel_to '2021-03-01' do
+      create(:membership, member: member, ended_on: '2021-02-01')
+    end
+    expect(membership.baskets_count).to eq 2
+    invoice = travel_to '2021-04-01' do
+      create_invoice(member)
+    end
 
     expect(invoice.object).to eq membership
     expect(invoice.annual_fee).to be_nil
@@ -92,36 +81,30 @@ describe Billing::Invoicer do
     expect(invoice.pdf_file).to be_attached
   end
 
-  it 'does not bill annual fee when member annual_fee is nil' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      member = create(:member, :support_annual_fee)
-      member.update_column(:annual_fee, nil)
+  it 'does not bill annual fee when member annual_fee is nil', freeze: '2022-01-01' do
+    member = create(:member, :support_annual_fee)
+    member.update_column(:annual_fee, nil)
 
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
-    end
+    expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it 'does not bill annual fee when member annual_fee is zero' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      member = create(:member, :support_annual_fee)
-      member.update_column(:annual_fee, 0)
+  it 'does not bill annual fee when member annual_fee is zero', freeze: '2022-01-01' do
+    member = create(:member, :support_annual_fee)
+    member.update_column(:annual_fee, 0)
 
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
-    end
+    expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it 'creates an invoice for already billed support member (last year)' do
-    travel_to(Date.new(Current.fy_year, 1, 15)) do
-      member = create(:member, :support_annual_fee)
-      create(:invoice, :annual_fee, member: member, date: 1.year.ago)
-      invoice = create_invoice(member)
+  it 'creates an invoice for already billed support member (last year)', freeze: '2022-01-01' do
+    member = create(:member, :support_annual_fee)
+    create(:invoice, :annual_fee, member: member, date: 1.year.ago)
+    invoice = create_invoice(member)
 
-      expect(invoice.object).to be_nil
-      expect(invoice.annual_fee).to be_present
-      expect(invoice.memberships_amount).to be_nil
-      expect(invoice.amount).to eq invoice.annual_fee
-      expect(invoice.pdf_file).to be_attached
-    end
+    expect(invoice.object).to be_nil
+    expect(invoice.annual_fee).to be_present
+    expect(invoice.memberships_amount).to be_nil
+    expect(invoice.amount).to eq invoice.annual_fee
+    expect(invoice.pdf_file).to be_attached
   end
 
   context 'when billed yearly' do
@@ -134,7 +117,7 @@ describe Billing::Invoicer do
       expect(invoice.object).to eq membership
       expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
-      expect(invoice.remaining_memberships_amount).to eq 1200
+      expect(invoice.remaining_memberships_amount).to eq 30
       expect(invoice.memberships_amount_description).to eq 'Facturation annuelle'
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.pdf_file).to be_attached
@@ -150,8 +133,9 @@ describe Billing::Invoicer do
     end
 
     specify 'when not already billed with complements and many baskets' do
-      create(:basket_complement, id: 1, price: 3.4, delivery_ids: Delivery.pluck(:id))
-      create(:basket_complement, id: 2, price: 5.6, delivery_ids: Delivery.pluck(:id))
+      create_deliveries(2)
+      create(:basket_complement, id: 1, price: 3.4)
+      create(:basket_complement, id: 2, price: 5.6)
 
       travel_to(Current.fy_range.min) {
         membership.update!(
@@ -169,53 +153,46 @@ describe Billing::Invoicer do
       expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount)
-        .to eq 40 * 2 * 32 + 40 * 2 * 3 + 40 * 3.4 + 40 * 2 * 5.6
+        .to eq 2 * 2 * 32 + 2 * 2 * 3 + 2 * 3.4 + 2 * 2 * 5.6
       expect(invoice.memberships_amount_description).to eq 'Facturation annuelle'
       expect(invoice.memberships_amount).to eq membership.price
       expect(invoice.pdf_file).to be_attached
     end
 
     specify 'when salary basket & support member' do
-      travel_to(Date.new(Current.fy_year, 1, 15)) do
-        member = create(:member, :support_annual_fee, salary_basket: true)
-        invoice = create_invoice(member)
+      member = create(:member, :support_annual_fee, salary_basket: true)
+      invoice = create_invoice(member)
 
-        expect(invoice.object).to be_nil
-        expect(invoice.annual_fee).to be_present
-        expect(invoice.memberships_amount).to be_nil
-        expect(invoice.pdf_file).to be_attached
-      end
+      expect(invoice.object).to be_nil
+      expect(invoice.annual_fee).to be_present
+      expect(invoice.memberships_amount).to be_nil
+      expect(invoice.pdf_file).to be_attached
     end
 
     specify 'when already billed' do
-      travel_to(Date.new(Current.fy_year, 1, 14)) { create_invoice(member) }
-
+      create_invoice(member)
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
-    specify 'when membership did not started yet' do
-      travel_to(Date.new(Current.fy_year, 1, 15)) do
-        membership.update_column(:started_on, Date.tomorrow)
-
-        expect { create_invoice(member) }.to change(Invoice, :count).by(1)
-      end
+    specify 'when membership did not started yet', freeze: '2022-01-01' do
+      membership.update_column(:started_on, Date.tomorrow)
+      expect { create_invoice(member) }.to change(Invoice, :count).by(1)
     end
 
     specify 'when already billed, but with a membership change' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 2, 15)) {
+      travel_to('2022-01-01') {
+        create_deliveries(2)
+        create_invoice(member)
         membership.update!(depot_price: 2)
       }
-      travel_to(Date.new(Current.fy_year, 2, 20))
-
-      invoice = create_invoice(member)
+      invoice = travel_to('2022-01-02') { create_invoice(member) }
 
       expect(invoice.object).to eq membership
-      expect(invoice.object.baskets_count).to eq 40
+      expect(invoice.object.baskets_count).to eq 2
       expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq 1200
+      expect(invoice.paid_memberships_amount).to eq 60
       expect(invoice.memberships_amount_description).to be_present
-      expect(invoice.memberships_amount).to eq 34 * 2
+      expect(invoice.memberships_amount).to eq 2 * 2
     end
   end
 
@@ -223,8 +200,7 @@ describe Billing::Invoicer do
     let(:member) { create(:member, :active, billing_year_division: 4) }
     let(:membership) { member.current_membership }
 
-    specify 'when quarter #1' do
-      travel_to(Date.new(Current.fy_year, 1))
+    specify 'when quarter #1', freeze: '2022-01-01' do
       invoice = create_invoice(member)
 
       expect(invoice.object).to eq membership
@@ -235,18 +211,14 @@ describe Billing::Invoicer do
       expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #1'
     end
 
-    specify 'when quarter #1 (already billed)' do
-      travel_to(Date.new(2019, 1, 14)) {
-        create_invoice(member)
-      }
-
+    specify 'when quarter #1 (already billed)', freeze: '2022-01-01' do
+      create_invoice(member)
       expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
     specify 'when quarter #2' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5))
-      invoice = create_invoice(member)
+      travel_to('2022-01-01') { create_invoice(member) }
+      invoice = travel_to('2022-04-01') { create_invoice(member) }
 
       expect(invoice.object).to eq membership
       expect(invoice.annual_fee).to be_nil
@@ -257,137 +229,132 @@ describe Billing::Invoicer do
     end
 
     specify 'when quarter #2 (already billed)' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 6)) {
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') {
+        create_invoice(member)
         expect { create_invoice(member) }.not_to change(Invoice, :count)
       }
     end
 
     specify 'when quarter #2 (already billed but canceled)' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5))
-      create_invoice(member, send_email: true).reload.cancel!
-      invoice = create_invoice(member)
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') {
+        create_invoice(member, send_email: true).reload.cancel!
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
-      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
-      expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #2'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
+        expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
+        expect(invoice.memberships_amount).to eq membership.price / 4.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #2'
+      }
     end
 
     specify 'when quarter #3' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 8))
-      invoice = create_invoice(member)
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') {
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
-      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 2.0
-      expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
+        expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 2.0
+        expect(invoice.memberships_amount).to eq membership.price / 4.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
+      }
     end
 
     specify 'when quarter #3 (with overpaid on previous invoices)' do
-      @first_invoice = travel_to(Date.new(Current.fy_year, 1)) {
+      first_invoice = travel_to('2022-01-01') {
+        create_deliveries(2)
         create_invoice(member)
       }
-      travel_to(Date.new(Current.fy_year, 5)) {
-        @second_invoice = create_invoice(member)
+      second_invoice = travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') {
+        memberships_amount = membership.price / 4.0
+        annual_fee = 30
+
+        create(:payment, member: member, amount: memberships_amount + annual_fee + 1)
+        create(:payment, member: member, amount: memberships_amount + 5)
+
+        expect(first_invoice.reload.overpaid).to be_zero
+        expect(second_invoice.reload.overpaid).to eq(6)
+        invoice = create_invoice(member)
+
+        expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
+        expect(invoice.memberships_amount).to eq membership.price / 4.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
+
+        invoice.reload
+        expect(first_invoice.reload.overpaid).to be_zero
+        expect(second_invoice.reload.overpaid).to be_zero
+        expect(invoice.missing_amount).to eq(invoice.amount - 6)
       }
-      travel_to(Date.new(Current.fy_year, 8))
-
-      memberships_amount = membership.price / 4.0
-      annual_fee = 30
-
-      create(:payment, member: member, amount: memberships_amount + annual_fee + 15)
-      create(:payment, member: member, amount: memberships_amount + 50)
-
-      expect(@first_invoice.reload.overpaid).to be_zero
-      expect(@second_invoice.reload.overpaid).to eq(65)
-      invoice = create_invoice(member)
-
-      expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
-      expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #3'
-
-      invoice.reload
-      expect(@first_invoice.reload.overpaid).to be_zero
-      expect(@second_invoice.reload.overpaid).to be_zero
-      expect(invoice.missing_amount).to eq(invoice.amount - 65)
     end
 
     specify 'when quarter #3 (already billed)' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 7).end_of_month) {
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') {
         create_invoice(member)
+        expect(described_class.new(member.reload)).not_to be_billable
+        expect { create_invoice(member) }.not_to change(Invoice, :count)
       }
-      travel_to(Date.new(Current.fy_year, 8))
-
-      expect(described_class.new(member.reload)).not_to be_billable
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
     end
 
     specify 'when quarter #3 (already billed), but with a membership change' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 7).end_of_month) {
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') {
         create_invoice(member)
-      }
-      travel_to(Date.new(Current.fy_year, 8))
-      membership.update!(depot_price: 2)
+        membership.update!(depot_price: 2)
 
-      expect(described_class.new(member.reload)).not_to be_billable
-      expect { create_invoice(member) }.not_to change(Invoice, :count)
+        expect(described_class.new(member.reload)).not_to be_billable
+        expect { create_invoice(member) }.not_to change(Invoice, :count)
+      }
     end
 
     specify 'when quarter #4' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 8)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 11))
-      invoice = create_invoice(member)
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') { create_invoice(member) }
+      travel_to('2022-10-01') {
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
-      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price * 3 / 4.0
-      expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
+        expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price * 3 / 4.0
+        expect(invoice.memberships_amount).to eq membership.price / 4.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
+      }
     end
 
     specify 'when quarter #4 (already billed)' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 8)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 10).end_of_month) {
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') { create_invoice(member) }
+      travel_to('2022-10-01') {
         create_invoice(member)
-      }
-      travel_to(Date.new(Current.fy_year, 11)) {
         expect(described_class.new(member.reload)).not_to be_billable
         expect { create_invoice(member) }.not_to change(Invoice, :count)
       }
     end
 
     specify 'when quarter #4 (already billed), but with a membership change' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 5)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 8)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 10).end_of_month) {
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-07-01') { create_invoice(member) }
+      travel_to('2022-10-01') {
         create_invoice(member)
-      }
-      travel_to(Date.new(Current.fy_year, 11)) {
         membership.baskets.last.update!(depot_price: 2)
         invoice = create_invoice(member)
 
         expect(invoice.object).to eq membership
         expect(invoice.annual_fee).to be_nil
-        expect(invoice.paid_memberships_amount).to eq 1200
+        expect(invoice.paid_memberships_amount).to eq 30
         expect(invoice.remaining_memberships_amount).to eq 1 * 2
         expect(invoice.memberships_amount).to eq 1 * 2
         expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #4'
@@ -401,94 +368,96 @@ describe Billing::Invoicer do
     let(:membership) { member.current_membership }
 
     specify 'when month #1' do
-      travel_to(Date.new(Current.fy_year, 1))
-      invoice = create_invoice(member)
+      travel_to('2022-01-01') {
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_present
-      expect(invoice.paid_memberships_amount).to be_zero
-      expect(invoice.remaining_memberships_amount).to eq membership.price
-      expect(invoice.memberships_amount).to eq membership.price / 12.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #1'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_present
+        expect(invoice.paid_memberships_amount).to be_zero
+        expect(invoice.remaining_memberships_amount).to eq membership.price
+        expect(invoice.memberships_amount).to eq membership.price / 12.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #1'
+      }
     end
 
     specify 'when month #3' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 3))
-      invoice = create_invoice(member)
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-02-01') { create_invoice(member) }
+      travel_to('2022-03-01') {
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq (membership.price / 12.0) * 2
-      expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
-      expect(invoice.memberships_amount).to eq membership.price / 12.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq (membership.price / 12.0) * 2
+        expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
+        expect(invoice.memberships_amount).to eq membership.price / 12.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
+      }
     end
 
     specify 'when month #3 but membership ends at the end the month' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 3, 15))
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-02-01') { create_invoice(member) }
+      travel_to('2022-03-01') {
+        old_price = membership.price
+        membership.update!(ended_on: Time.current.end_of_month)
+        new_price = membership.price.to_f
 
-      old_price = membership.price
-      membership.update!(ended_on: Time.current.end_of_month)
-      new_price = membership.price.to_f
+        invoice = create_invoice(member)
 
-      invoice = create_invoice(member)
-
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
-      expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
-      expect(invoice.memberships_amount).to eq new_price - (old_price / 12.0) * 2
-      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
+        expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
+        expect(invoice.memberships_amount).to eq new_price - (old_price / 12.0) * 2
+        expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
+      }
     end
 
     specify 'when month #3 but membership ends in 3 months' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 3, 15))
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-02-01') { create_invoice(member) }
+      travel_to('2022-03-01') {
+        old_price = membership.price
+        membership.update!(ended_on: 3.months.from_now.end_of_month)
+        new_price = membership.price.to_f
 
-      old_price = membership.price
-      membership.update!(ended_on: 3.months.from_now.end_of_month)
-      new_price = membership.price.to_f
+        invoice = create_invoice(member)
 
-      invoice = create_invoice(member)
-
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
-      expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
-      expect(invoice.memberships_amount).to eq (new_price - (old_price / 12.0) * 2.0) / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
+        expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
+        expect(invoice.memberships_amount).to eq (new_price - (old_price / 12.0) * 2.0) / 4.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #3'
+      }
     end
 
     specify 'when month #12' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 12, 15))
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-02-01') { create_invoice(member) }
+      travel_to('2022-12-01') {
+        invoice = create_invoice(member)
 
-      invoice = create_invoice(member)
-
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq((membership.price / 12.0) * 2)
-      expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
-      expect(invoice.memberships_amount).to eq invoice.remaining_memberships_amount
-      expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #12'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq((membership.price / 12.0) * 2)
+        expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
+        expect(invoice.memberships_amount).to eq invoice.remaining_memberships_amount
+        expect(invoice.memberships_amount_description).to eq 'Facturation mensuelle #12'
+      }
     end
 
     specify 'when month #3 but membership ended last month' do
-      travel_to(Date.new(Current.fy_year, 1)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 2)) { create_invoice(member) }
-      travel_to(Date.new(Current.fy_year, 3, 15))
+      travel_to('2022-01-01') { create_invoice(member) }
+      travel_to('2022-02-01') { create_invoice(member) }
+      travel_to('2022-03-01') {
+        # last invoice automatically canceled
+        membership.update!(ended_on: 1.month.ago)
 
-      # last invoice automatically canceled
-      membership.update!(ended_on: 1.month.ago)
-
-      expect { create_invoice(member) }.to change(Invoice, :count).by(1)
-      expect(described_class.new(member.reload)).not_to be_billable
+        expect { create_invoice(member) }.to change(Invoice, :count).by(1)
+        expect(described_class.new(member.reload)).not_to be_billable
+      }
     end
   end
 
@@ -546,8 +515,8 @@ describe Billing::Invoicer do
 
 
     specify 'membership beginning of the year, wait after first delivery' do
-      create(:delivery, date: '2021-01-05') # Tuesday
       member = travel_to '2021-01-01' do # Friday
+        create(:delivery, date: '2021-01-05') # Tuesday
         create(:member, :active)
       end
       travel_to '2021-01-01' do # Friday
@@ -563,8 +532,8 @@ describe Billing::Invoicer do
 
     specify 'membership beginning of the year, with ACP.billing_starts_after_first_delivery to false' do
       Current.acp.update!(billing_starts_after_first_delivery: false)
-      create(:delivery, date: '2021-01-12') # Tuesday
       member = travel_to '2021-01-01' do # Friday
+        create(:delivery, date: '2021-01-12') # Tuesday
         create(:member, :active)
       end
       travel_to '2021-01-01' do # Friday
@@ -652,6 +621,7 @@ describe Billing::Invoicer do
     specify 'future membership, current year' do
       member = create(:member, billing_year_division: 3)
       membership = travel_to '2021-01-01' do
+        create(:delivery, date: '2021-09-07')
         create(:membership,
           member: member,
           started_on: '2021-09-01') # Wednesday
@@ -669,6 +639,7 @@ describe Billing::Invoicer do
     specify 'future membership, next year' do
       member = create(:member, billing_year_division: 3)
       membership = travel_to '2022-01-01' do
+        create(:delivery, date: '2022-01-04')
         create(:membership, member: member) # Wednesday
       end
       expect(membership.deliveries.first.date).to eq Date.parse('2022-01-04') # Tuesday
@@ -686,6 +657,11 @@ describe Billing::Invoicer do
 
       specify 'membership, four trial baskets' do
         membership = travel_to '2021-01-01' do
+          create(:delivery, date: '2021-01-05')
+          create(:delivery, date: '2021-01-06')
+          create(:delivery, date: '2021-01-07')
+          create(:delivery, date: '2021-01-08')
+          create(:delivery, date: '2021-02-02')
           create(:membership) # Monday
         end
         expect(membership.deliveries.first.date).to eq Date.parse('2021-01-05') # Tuesday
@@ -704,8 +680,10 @@ describe Billing::Invoicer do
 
       specify 'membership, three trial baskets' do
         membership = travel_to '2021-01-01' do
-          create(:membership,
-            started_on: '2021-09-20') # Monday
+          create(:delivery, date: '2021-09-21')
+          create(:delivery, date: '2021-09-28')
+          create(:delivery, date: '2021-10-05')
+          create(:membership, started_on: '2021-09-20') # Monday
         end
         expect(membership.deliveries.count).to eq 3
         expect(membership.deliveries.first.date).to eq Date.parse('2021-09-21') # Tuesday
@@ -723,20 +701,17 @@ describe Billing::Invoicer do
       end
     end
 
-    context 'with empty baskets' do
-      before do
-        Current.acp.update!(
-          fiscal_year_start_month: 4,
-          summer_month_range: 4..9)
-      end
+    context 'with winter deliveries cycle' do
+      before { Current.acp.update!(fiscal_year_start_month: 4) }
 
       specify 'membership, with only winter baskets' do
+        dc = create(:deliveries_cycle, months: [1,2,3,10,11,12])
         membership = travel_to '2021-04-01' do
-          Delivery.delete_all
-          create(:membership, seasons: %w[winter])
+          create(:delivery, date: '2021-04-01')
+          create(:delivery, date: '2021-10-05')
+          create(:membership, deliveries_cycle: dc)
         end
-        expect(membership.deliveries.first.date).to eq Date.parse('2021-04-06') # Tuesday
-        expect(membership.baskets.not_empty.first.delivery.date).to eq Date.parse('2021-10-05') # Tuesday
+        expect(membership.deliveries.first.date).to eq Date.parse('2021-10-05') # Tuesday
 
         travel_to '2021-04-01' do
           expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday

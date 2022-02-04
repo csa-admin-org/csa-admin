@@ -39,7 +39,7 @@ class MembershipRenewal
         basket_price_extra
         baskets_annual_price_change
         depot_id
-        seasons
+        deliveries_cycle_id
         activity_participations_demanded_annualy
         activity_participations_annual_price_change
         basket_complements_annual_price_change
@@ -49,7 +49,12 @@ class MembershipRenewal
         started_on: fiscal_year.beginning_of_year,
         ended_on: fiscal_year.end_of_year)
       .merge(
-        attrs.slice(*%i[basket_size_id basket_price_extra depot_id]))
+        attrs.slice(*%i[
+          basket_size_id
+          basket_price_extra
+          depot_id
+          deliveries_cycle_id
+        ]))
   end
 
   def renew_complements(new_membership, attrs)
