@@ -10,7 +10,7 @@ class MembershipBasketsUpdater
   def perform!
     @membership.transaction do
       ensure_valid_deliveries_cycle!
-      baskets.with_deleted.where.not(delivery_id: future_deliveries).find_each(&:really_destroy!)
+      baskets.where.not(delivery_id: future_deliveries).find_each(&:destroy!)
       future_deliveries.each do |delivery|
         unless baskets.exists?(delivery_id: delivery.id)
           @membership.create_basket!(delivery)

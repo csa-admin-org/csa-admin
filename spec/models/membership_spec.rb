@@ -143,8 +143,8 @@ describe Membership do
       .to change { membership.reload.baskets_count }.by(-2)
       .and change { membership.reload.price }.by(-60)
 
-    expect(first_basket.reload).to be_deleted
-    expect(last_basket.reload).to be_deleted
+    expect { first_basket.reload }.to raise_error ActiveRecord::RecordNotFound
+    expect { last_basket.reload }.to raise_error ActiveRecord::RecordNotFound
   end
 
   it 'creates new baskets when started_on and ended_on changes' do
@@ -467,9 +467,6 @@ describe Membership do
 
       membership = create(:membership)
 
-      basket1 = membership.baskets.find_by(delivery: delivery_1)
-      basket2 = membership.baskets.find_by(delivery: delivery_2)
-      basket3 = membership.baskets.find_by(delivery: delivery_3)
       basket4 = membership.baskets.find_by(delivery: delivery_4)
       basket4.update!(complement_ids: [1])
 
@@ -478,19 +475,19 @@ describe Membership do
         '0' => { basket_complement_id: 1, price: 100, quantity: 2 }
       })
 
-      basket1.reload
-      expect(basket1.complement_ids).to be_empty
+      basket1 = membership.baskets.find_by(delivery: delivery_1)
+      expect(basket1.complement_ids).to match_array [1]
       expect(basket1.complements_price).to be_zero
 
-      basket2 = membership.baskets.where(delivery: delivery_2).first
+      basket2 = membership.baskets.find_by(delivery: delivery_2)
       expect(basket2.complement_ids).to be_empty
       expect(basket2.complements_price).to be_zero
 
-      basket3 = membership.baskets.where(delivery: delivery_3).first
+      basket3 = membership.baskets.find_by(delivery: delivery_3)
       expect(basket3.complement_ids).to match_array [1]
       expect(basket3.complements_price).to be_zero
 
-      basket4 = membership.baskets.where(delivery: delivery_4).first
+      basket4 = membership.baskets.find_by(delivery: delivery_4)
       expect(basket4.complement_ids).to match_array [1]
       expect(basket4.complements_price).to be_zero
 
@@ -516,9 +513,6 @@ describe Membership do
           '1' => { basket_complement_id: 2, price: '', quantity: 1 }
         })
 
-      basket1 = membership.baskets.find_by(delivery: delivery_1)
-      basket2 = membership.baskets.find_by(delivery: delivery_2)
-      basket3 = membership.baskets.find_by(delivery: delivery_3)
       basket4 = membership.baskets.find_by(delivery: delivery_4)
       basket4.update!(complement_ids: [2])
 
@@ -529,19 +523,18 @@ describe Membership do
         '1' => { basket_complement_id: 2, price: '', quantity: 2, id: complements.last.id }
       })
 
-      basket1.reload
+      basket1 = membership.baskets.find_by(delivery: delivery_1)
       expect(basket1.complement_ids).to match_array [1]
       expect(basket1.complements_price).to eq 3.2
 
-      basket2 = membership.baskets.where(delivery: delivery_2).first
+      basket2 = membership.baskets.find_by(delivery: delivery_2)
       expect(basket2.complement_ids).to be_empty
       expect(basket2.complements_price).to be_zero
 
-      basket3 = membership.baskets.where(delivery: delivery_3).first
-      expect(basket3.complement_ids).to match_array [2]
+      basket3 = membership.baskets.find_by(delivery: delivery_3)
       expect(basket3.complements_price).to eq 2 * 4.5
 
-      basket4 = membership.baskets.where(delivery: delivery_4).first
+      basket4 = membership.baskets.find_by(delivery: delivery_4)
       expect(basket4.complement_ids).to match_array [2]
       expect(basket4.complements_price).to eq 2 * 4.5
 

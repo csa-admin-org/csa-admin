@@ -1,6 +1,4 @@
 class Basket < ApplicationRecord
-  acts_as_paranoid
-
   default_scope { joins(:delivery).order('deliveries.date') }
 
   belongs_to :membership, counter_cache: true, touch: true

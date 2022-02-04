@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_28_080505) do
+ActiveRecord::Schema.define(version: 2022_02_04_131637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -299,12 +299,10 @@ ActiveRecord::Schema.define(version: 2022_01_28_080505) do
     t.boolean "absent", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
     t.integer "quantity", default: 1, null: false
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
     t.index ["depot_id"], name: "index_baskets_on_depot_id"
-    t.index ["membership_id", "delivery_id"], name: "index_baskets_on_membership_id_and_delivery_id", unique: true, where: "(deleted_at IS NULL)"
     t.index ["membership_id"], name: "index_baskets_on_membership_id"
   end
 
@@ -566,7 +564,6 @@ ActiveRecord::Schema.define(version: 2022_01_28_080505) do
     t.date "ended_on", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "deleted_at"
     t.integer "baskets_count", default: 0, null: false
     t.integer "activity_participations_demanded", default: 0, null: false
     t.integer "activity_participations_accepted", default: 0, null: false
@@ -592,7 +589,6 @@ ActiveRecord::Schema.define(version: 2022_01_28_080505) do
     t.datetime "last_trial_basket_sent_at"
     t.bigint "deliveries_cycle_id", null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
-    t.index ["deleted_at"], name: "index_memberships_on_deleted_at"
     t.index ["deliveries_cycle_id"], name: "index_memberships_on_deliveries_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"

@@ -89,7 +89,7 @@ describe Delivery do
     delivery = membership.deliveries.last
 
     expect { delivery.destroy! }
-      .to change { membership.baskets.with_deleted.count }.by(-1)
+      .to change { membership.baskets.count }.by(-1)
       .and change { membership.reload.price }.by(-42)
   end
 

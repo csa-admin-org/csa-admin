@@ -4,7 +4,7 @@ class Delivery < ApplicationRecord
 
   default_scope { order(:date) }
 
-  has_many :baskets
+  has_many :baskets, dependent: :destroy
   has_many :depots, through: :baskets
   has_many :basket_contents, dependent: :destroy
   has_many :shop_orders, class_name: 'Shop::Order', dependent: :destroy
@@ -33,7 +33,6 @@ class Delivery < ApplicationRecord
     unless: :date?,
     on: :create
 
-  before_destroy :really_destroy_baskets!
   after_commit -> { self.class.update_numbers(fiscal_year) }
   after_commit :update_baskets_async
 
@@ -132,10 +131,6 @@ class Delivery < ApplicationRecord
       .membership
       .memberships_basket_complements
       .find_by(basket_complement_id: complement.id)
-  end
-
-  def really_destroy_baskets!
-    baskets.with_deleted.find_each(&:really_destroy!)
   end
 
   def bulk_attributes

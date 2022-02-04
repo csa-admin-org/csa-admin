@@ -22,8 +22,8 @@ class CreateBaskets < ActiveRecord::Migration[5.1]
 
     change_column_default :memberships, :halfday_works_annual_price, 0
     change_column_default :memberships, :annual_halfday_works, 0
-    Membership.with_deleted.where(halfday_works_annual_price: nil).update_all(halfday_works_annual_price: 0)
-    Membership.with_deleted.where(annual_halfday_works: nil).update_all(annual_halfday_works: 0)
+    Membership.where(halfday_works_annual_price: nil).update_all(halfday_works_annual_price: 0)
+    Membership.where(annual_halfday_works: nil).update_all(annual_halfday_works: 0)
     change_column_null :memberships, :halfday_works_annual_price, false
     change_column_null :memberships, :annual_halfday_works, false
     change_column_null :memberships, :basket_size_id, true
