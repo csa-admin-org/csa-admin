@@ -67,19 +67,6 @@ class Basket < ApplicationRecord
       .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
   end
 
-  def complement?(complement)
-    complements.exists?(complement.id)
-  end
-
-  def add_complement!(complement, price:, quantity:)
-    unless complement?(complement)
-      baskets_basket_complements.create!(
-        basket_complement: complement,
-        quantity: quantity,
-        price: price)
-    end
-  end
-
   def empty?
     (quantity + baskets_basket_complements.sum(:quantity)).zero?
   end
