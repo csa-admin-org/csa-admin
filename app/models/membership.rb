@@ -1,7 +1,6 @@
 require 'rounding'
 
 class Membership < ApplicationRecord
-  acts_as_paranoid
   attr_accessor :skip_touch, :renewal_decision
 
   belongs_to :member, -> { with_deleted }
@@ -354,6 +353,8 @@ class Membership < ApplicationRecord
   end
 
   def update_baskets_counts!
+    return if destroyed?
+
     cols = { delivered_baskets_count: baskets.delivered.count }
     if Current.acp.trial_basket_count.positive?
       cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
