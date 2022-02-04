@@ -90,7 +90,7 @@ class Depot < ApplicationRecord
   end
 
   def can_destroy?
-    memberships.none? && baskets.none?
+    memberships.none? && baskets.none? && basket_contents.none?
   end
 
   private
