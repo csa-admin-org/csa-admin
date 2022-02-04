@@ -14,7 +14,6 @@ describe PDF::Shop::Delivery do
         name: 'P2R',
         logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/p2r/logo.jpg',
         shop_delivery_pdf_footer: "Facture envoyée séparément par email.")
-      create_deliveries(48)
     }
 
     it 'generates delivery notes for all orders' do
