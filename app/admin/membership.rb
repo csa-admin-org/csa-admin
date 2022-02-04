@@ -69,7 +69,15 @@ ActiveAdmin.register Membership do
     end
     column :baskets_count,
       ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }
-    actions class: 'col-actions-3'
+    actions defaults: false, class: 'col-actions-2' do |resource|
+      localizer = ActiveAdmin::Localizers.resource(active_admin_config)
+      if authorized?(ActiveAdmin::Auth::READ, resource)
+        item localizer.t(:view), resource_path(resource), class: "view_link member_link", title: localizer.t(:view)
+      end
+      if authorized?(ActiveAdmin::Auth::UPDATE, resource)
+        item localizer.t(:edit), edit_resource_path(resource), class: "edit_link member_link", title: localizer.t(:edit)
+      end
+    end
   end
 
   sidebar :renewal, only: :index do

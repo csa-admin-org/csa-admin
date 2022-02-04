@@ -3,7 +3,7 @@ require 'rounding'
 class Membership < ApplicationRecord
   attr_accessor :skip_touch, :renewal_decision
 
-  belongs_to :member, -> { with_deleted }
+  belongs_to :member
   belongs_to :basket_size
   belongs_to :depot
   belongs_to :deliveries_cycle
