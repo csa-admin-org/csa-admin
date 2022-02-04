@@ -27,7 +27,7 @@ module HasEmails
   end
 
   def active_emails
-    emails_array.reject { |email| EmailSuppression.exists?(email: email) }
+    emails_array.reject { |email| EmailSuppression.active.exists?(email: email) }
   end
 
   def emails?

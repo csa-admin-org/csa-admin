@@ -17,13 +17,13 @@ module ApplicationHelper
     arbre.ul do
       Array(emails).map do |email|
         arbre.li do
-          suppressions = EmailSuppression.outbound.where(email: email)
+          suppressions = EmailSuppression.active.outbound.where(email: email)
           if suppressions.any?
             arbre.s(email)
             suppressions.each do |suppression|
               arbre.status_tag suppression.reason.underscore
             end
-            if suppressions.deletable.any?
+            if suppressions.unsuppressable.any?
               arbre.span do
                 link_to(t('helpers.email_suppressions.destroy'), suppressions.first,
                   method: :delete,

@@ -27,11 +27,11 @@ describe EmailSuppression do
         }
       ]
     end
-    EmailSuppression.first.destroy
+    EmailSuppression.first.unsuppress!
 
     expect { EmailSuppression.sync_postmark! }
       .to change { EmailSuppression.count }.by(1)
-    expect(EmailSuppression.first).to have_attributes(
+    expect(EmailSuppression.active.first).to have_attributes(
       email: 'd@f.com',
       reason: 'SpamComplaint',
       origin: 'Customer',
@@ -46,10 +46,10 @@ describe EmailSuppression do
       suppress!('broadcast', 'a@b.com', 'HardBounce', 'Recipient')
     end
 
-    specify 'destroy all deletable suppression with give email' do
+    specify 'unsuppress all suppressable suppression with give email' do
       expect { EmailSuppression.unsuppress!('a@b.com') }
-        .to change { EmailSuppression.count }.by(-1)
-      expect(EmailSuppression.outbound.where(email: 'a@b.com')).to be_empty
+        .to change { EmailSuppression.active.count }.by(-1)
+      expect(EmailSuppression.active.outbound.where(email: 'a@b.com')).to be_empty
       expect(postmark_client.calls).to eq [
         [:delete_suppressions, 'outbound', 'a@b.com']
       ]
@@ -57,7 +57,7 @@ describe EmailSuppression do
 
     specify 'skips undeletable emails' do
       expect { EmailSuppression.unsuppress!('z@y.com') }
-        .not_to change { EmailSuppression.count }
+        .not_to change { EmailSuppression.active.count }
       expect(postmark_client.calls).to be_empty
     end
   end
