@@ -20,7 +20,6 @@ gem 'rack-status'
 gem 'rack-cors'
 
 gem 'ros-apartment', require: 'apartment'
-gem 'paranoia'
 gem 'phony_rails'
 gem 'tod'
 
