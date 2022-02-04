@@ -39,6 +39,8 @@ class MembershipBasketsUpdater
   end
 
   def future_deliveries
+    return [] unless range.min
+
     @future_deliveries ||= @membership.deliveries_cycle.deliveries_in(range)
   end
 end
