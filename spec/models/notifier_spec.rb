@@ -24,12 +24,14 @@ describe Notifier do
 
   specify '.send_membership_last_trial_basket_emails' do
     Current.acp.update!(trial_basket_count: 2)
-    travel_to '2021-05-03' do
-      MailTemplate.create! title: :membership_last_trial_basket, active: true
+    MailTemplate.create! title: :membership_last_trial_basket, active: true
+    travel_to '2021-05-01' do
       create(:delivery, date: '2021-05-01')
       create(:delivery, date: '2021-05-02')
       create(:delivery, date: '2021-05-03')
       create(:delivery, date: '2021-05-04')
+    end
+    travel_to '2021-05-03' do
       member = create(:member, emails: 'john@doe.com')
 
       create(:membership, started_on: '2021-05-01')

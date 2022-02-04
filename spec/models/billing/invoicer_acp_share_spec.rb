@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe Billing::InvoicerACPShare do
-  before { current_acp.update!(share_price: 250) }
+describe Billing::InvoicerACPShare, freeze: '2022-01-01' do
+  before { current_acp.update!(share_price: 250, trial_basket_count: 0) }
 
   def invoice(member, **attrs)
     described_class.invoice(member, **attrs)
   end
 
-  it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already', freeze: '01-06-2018' do
+  it 'creates invoice for member with ongoing memberships that does not have ACP shares billed already' do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
@@ -21,7 +21,7 @@ describe Billing::InvoicerACPShare do
     expect(invoice.date).to eq Date.current
   end
 
-  it 'sends emails directly when the send_email attribute is set', freeze: '01-06-2018' do
+  it 'sends emails directly when the send_email attribute is set' do
     MailTemplate.create!(title: :invoice_created)
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
@@ -36,7 +36,7 @@ describe Billing::InvoicerACPShare do
     expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
   end
 
-  it 'creates invoice when ACP shares already partially billed', freeze: '01-06-2018' do
+  it 'creates invoice when ACP shares already partially billed' do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MembershipMailer do
+describe MembershipMailer, freeze: '2022-01-01' do
   specify '#last_trial_basket_email' do
     template = MailTemplate.create!(title: 'membership_last_trial_basket')
     member = create(:member, emails: 'example@acp-admin.ch')

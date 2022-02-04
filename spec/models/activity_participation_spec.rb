@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-describe ActivityParticipation do
-  around { |e| travel_to('2021-06-15') { e.run } }
-
+describe ActivityParticipation, freeze: '2021-06-15' do
   let(:member) { create(:member) }
   let(:admin) { create(:admin) }
 

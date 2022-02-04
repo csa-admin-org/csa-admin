@@ -5,24 +5,31 @@ ActiveAdmin.register DeliveriesCycle do
   scope :visible
   scope :hidden
 
+  filter :name_contains,
+    label: -> { DeliveriesCycle.human_attribute_name(:name) },
+    as: :string
+  filter :depots, as: :select
+
   includes :depots
   index download_links: false do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
-    column Depot.human_attribute_name(:current_deliveries), ->(dc) {
+    column Current.acp.current_fiscal_year, ->(dc) {
       auto_link dc, dc.current_deliveries.count
     }
-    column Depot.human_attribute_name(:future_deliveries), ->(dc) {
+    column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
       auto_link dc, dc.future_deliveries.count
     }
     column :visible
     actions class: 'col-actions-3'
   end
 
+  sidebar_handbook_link('deliveries#cycles-de-livraisons')
+
   show do |dc|
     columns do
       column do
-        panel  "#{Depot.human_attribute_name(:current_deliveries)}: #{dc.current_deliveries.count}" do
+        panel  "#{deliveries_current_year_title}: #{dc.current_deliveries.count}" do
           if dc.current_deliveries.any?
             table_for dc.current_deliveries, class: 'deliveries' do
               column '#', ->(d) { auto_link d, d.number }
@@ -32,7 +39,7 @@ ActiveAdmin.register DeliveriesCycle do
             span I18n.t("active_admin.empty"), class: "empty"
           end
         end
-        panel "#{Depot.human_attribute_name(:future_deliveries)}: #{dc.future_deliveries.count}"  do
+        panel "#{deliveries_next_year_title}: #{dc.future_deliveries.count}"  do
           if dc.future_deliveries.any?
             table_for dc.future_deliveries, class: 'deliveries' do
               column '#', ->(d) { auto_link d, d.number }
@@ -152,6 +159,5 @@ ActiveAdmin.register DeliveriesCycle do
     end
   end
 
-  config.filters = false
   config.sort_order = :default_scope
 end

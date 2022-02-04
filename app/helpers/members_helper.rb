@@ -94,12 +94,12 @@ module MembersHelper
       details = []
       if deliveries_counts.many?
         if d.price.positive?
-          details << "#{price_info(d.annual_price)} (#{short_price(d.price)} x #{deliveries_count(d.deliveries_count)})"
+          details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.deliveries_counts)})"
         else
-          details << deliveries_count(d.deliveries_count)
+          details << deliveries_count(d.deliveries_counts)
         end
       elsif d.price.positive?
-        details << "#{price_info(d.annual_price)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
+        details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
       end
       if address = d.full_address
         details << address
@@ -112,9 +112,28 @@ module MembersHelper
           details: details.compact.join(', '),
           icon: icon),
         d.id,
-        data: data
+        data: {
+          form_choices_limiter_values_param: d.visible_deliveries_cycle_ids.join(',')
+        }.merge(data)
       ]
     }
+  end
+
+  def visible_deliveries_cycles_collection(membership: nil, data: {})
+    ids = visible_depots(membership).flat_map(&:visible_deliveries_cycle_ids)
+    ids << membership.deliveries_cycle_id if membership
+    DeliveriesCycle
+      .where(id: ids.uniq)
+      .to_a
+      .sort_by { |dc| [dc.form_priority, -1 * dc.deliveries_count, dc.public_name] }
+      .map { |dc|
+        [
+          collection_text(dc.public_name,
+            details: deliveries_count(dc.deliveries_count)),
+          dc.id,
+          data: data
+        ]
+      }
   end
 
   def terms_of_service_label
@@ -202,17 +221,21 @@ module MembersHelper
   private
 
   def visible_depots(membership = nil)
-    depot_ids = Depot.visible.pluck(:id)
-    depot_ids << membership.depot_id if membership
-    Depot.where(id: depot_ids.uniq).reorder('form_priority, price, name').to_a
+    ids = Depot.visible.pluck(:id)
+    ids << membership.depot_id if membership
+    Depot
+      .where(id: ids.uniq)
+      .includes(:deliveries_cycles)
+      .reorder('form_priority, price, name')
+      .to_a
   end
 
   def deliveries_counts
-    @deliveries_counts ||= visible_depots.map(&:deliveries_count).uniq.sort
+    @deliveries_counts ||= visible_depots.map(&:deliveries_counts).flatten.uniq.sort
   end
 
   def depots_delivery_ids
-    @depots_delivery_ids ||= visible_depots.map(&:delivery_ids)
+    @depots_delivery_ids ||= visible_depots.map(&:current_and_future_delivery_ids)
   end
 
   def short_price(price)

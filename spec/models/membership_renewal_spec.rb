@@ -104,36 +104,22 @@ describe MembershipRenewal do
       ended_on: next_fy.end_of_year)
   end
 
-  it 'renews a membership with complements and seasons' do
+  it 'renews a membership with a new depot and deliveries cycle' do
     create(:delivery, date: next_fy.beginning_of_year)
-    Current.acp.update!(
-      summer_month_range_min: 4,
-      summer_month_range_max: 9)
-    create(:basket_complement, id: 1, price: 3.2)
-    create(:basket_complement, id: 2, price: 4.5)
-    membership = create(:membership,
-      seasons: %w[summer],
-      memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: 3, quantity: 1 },
-        '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
-      })
+    membership = create(:membership)
+    new_deliveries_cycle = create(:deliveries_cycle)
+    new_depot = create(:depot, deliveries_cycles: [new_deliveries_cycle])
 
     expect {
       MembershipRenewal.new(membership).renew!(
-        memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1, quantity: 2 },
-        }
-      )
+        depot_id: new_depot.id,
+        deliveries_cycle_id: new_deliveries_cycle.id,
+        renewal_note: 'Je suis super content')
     }.to change(Membership, :count).by(1)
 
-    renewed = membership.renewed_membership
-    expect(renewed).to have_attributes(
-      seasons: %w[summer])
-    expect(renewed.memberships_basket_complements.count).to eq 1
-    expect(renewed.memberships_basket_complements.first).to have_attributes(
-      basket_complement_id: 1,
-      price: 3.2,
-      quantity: 2)
+    expect(membership.renewed_membership).to have_attributes(
+      depot_id: new_depot.id,
+      deliveries_cycle_id: new_deliveries_cycle.id)
   end
 
   it 'resets basket_complements_annual_price_change when complements changes' do
@@ -143,7 +129,7 @@ describe MembershipRenewal do
     membership = create(:membership,
       basket_complements_annual_price_change: -32,
       memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: 3, seasons: %w[winter], quantity: 1 },
+        '0' => { basket_complement_id: 1, price: 3, quantity: 1 },
         '1' => { basket_complement_id: 2, price: 5, quantity: 2 }
       })
 

@@ -17,9 +17,11 @@ describe 'Shop::Order' do
     Current.acp.update!(
       shop_delivery_open_delay_in_days: 2,
       shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse('12:00:00'))
-    create(:delivery, shop_open: true, date: '2021-11-10')
-    create(:delivery, shop_open: true, date: '2021-11-17')
-    create(:membership, member: member, started_on: '2021-11-12', ended_on: '2021-11-30')
+    travel_to '2021-11-01' do
+      create(:delivery, shop_open: true, date: '2021-11-10')
+      create(:delivery, shop_open: true, date: '2021-11-17')
+      create(:membership, member: member, started_on: '2021-11-12', ended_on: '2021-11-30')
+    end
 
     travel_to '2021-11-08 11:59 +01' do
       visit '/shop'
@@ -33,9 +35,12 @@ describe 'Shop::Order' do
     Current.acp.update!(
       shop_delivery_open_delay_in_days: 2,
       shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse('12:00:00'))
-    delivery = create(:delivery, shop_open: true, date: '2021-11-10')
-    create(:delivery, shop_open: true, date: '2021-11-17')
-    create(:membership, member: member, started_on: '2021-11-01', ended_on: '2021-11-30')
+
+    travel_to '2021-01-01' do
+      create(:delivery, shop_open: true, date: '2021-11-10')
+      create(:delivery, shop_open: true, date: '2021-11-17')
+      create(:membership, member: member, started_on: '2021-11-01', ended_on: '2021-11-30')
+    end
 
     travel_to '2021-11-08 11:59 +01' do
       visit '/shop'
@@ -97,10 +102,11 @@ describe 'Shop::Order' do
           }
         })
 
-    delivery = create(:delivery, shop_open: true, date: '2021-11-10')
-    create(:membership, member: member, started_on: '2021-11-01', ended_on: '2021-11-30')
 
     travel_to '2021-11-08 08:00 +01' do
+      delivery = create(:delivery, shop_open: true, date: '2021-11-10')
+      create(:membership, member: member, started_on: '2021-11-01', ended_on: '2021-11-30')
+
       visit '/shop'
 
       expect(page).not_to have_selector "#product_variant_#{product1.variants.second.id}"

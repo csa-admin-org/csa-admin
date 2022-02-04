@@ -83,15 +83,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Basket Complement #{n}" }
     public_name { "#{name} PUBLIC" }
     price { 4.2 }
-    delivery_ids {
-      DeliveriesHelper.create_deliveries(deliveries_count, fiscal_year)
-      Delivery.pluck(:id)
-    }
-
-    transient do
-      deliveries_count { 0 }
-      fiscal_year { Current.fiscal_year }
-    end
+    delivery_ids { Delivery.pluck(:id) }
 
     trait :annual_price_type do
       price_type { 'annual' }
@@ -142,16 +134,8 @@ FactoryBot.define do
     city { Faker::Address.city }
     zip { Faker::Address.zip }
     price { 0 }
-    delivery_ids {
-      DeliveriesHelper.create_deliveries(deliveries_count, fiscal_year)
-      Delivery.pluck(:id)
-    }
-    deliveries_cycle_ids { create(:deliveries_cycle).id}
 
-    transient do
-      deliveries_count { 40 }
-      fiscal_year { Current.fiscal_year }
-    end
+    deliveries_cycles { [DeliveriesCycle.first || create(:deliveries_cycle)] }
   end
 
   factory :invoice do
@@ -160,7 +144,7 @@ FactoryBot.define do
     sent_at { Time.current }
 
     trait :membership do
-      object { create(:membership, member: member) }
+      object { create(:membership, member: member, deliveries_count: 4) }
       memberships_amount_description { 'Montant' }
     end
 
@@ -277,12 +261,15 @@ FactoryBot.define do
   factory :membership do
     member
     basket_size { BasketSize.first || create(:basket_size) }
-    depot { create(:depot, fiscal_year: fiscal_year) }
+    depot { create(:depot) }
+    deliveries_cycle { depot.deliveries_cycles.first }
+
     started_on { fiscal_year.range.min }
     ended_on { fiscal_year.range.max }
 
     transient do
       fiscal_year { Current.fiscal_year }
+      deliveries_count { 1 }
     end
 
     trait :last_year do
@@ -291,6 +278,12 @@ FactoryBot.define do
 
     trait :next_year do
       fiscal_year { Current.acp.fiscal_year_for(1.year.from_now) }
+    end
+
+    before :create do |_, evaluator|
+      DeliveriesHelper.create_deliveries(
+        evaluator.deliveries_count,
+        evaluator.fiscal_year)
     end
   end
 

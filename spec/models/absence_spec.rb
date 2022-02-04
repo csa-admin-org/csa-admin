@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-describe Absence do
-  around { |e| travel_to('2021-06-15') { e.run } }
-
+describe Absence, freeze: '2021-06-15' do
   describe 'validations' do
     it 'validates started_on and ended_on dates when submited by member' do
       absence = Absence.new(
@@ -27,8 +25,10 @@ describe Absence do
   describe 'update_memberships!' do
     it 'updates absent baskets state' do
       member = create(:member)
-      current_membership = create(:membership, member: member)
-      future_membership = create(:membership, :next_year, member: member)
+      current_membership =
+        create(:membership, member: member, deliveries_count: 40)
+      future_membership =
+        create(:membership, :next_year, member: member, deliveries_count: 40)
 
       expect(current_membership.baskets.absent.count).to eq 0
       expect(future_membership.baskets.absent.count).to eq 0
@@ -48,7 +48,8 @@ describe Absence do
       current_acp.update!(absences_billed: false)
 
       member = create(:member)
-      membership = create(:membership, member: member, basket_price: 10)
+      membership =
+        create(:membership, member: member, basket_price: 10, deliveries_count: 40)
       end_of_year = Date.today.end_of_year
 
       expect {

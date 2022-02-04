@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AdminMailer do
-  specify '#depot_delivery_list_email' do
+  specify '#depot_delivery_list_email', freeze: '2020-01-01' do
     delivery = create(:delivery,
       date: Date.new(2020, 11, 6))
     depot = create(:depot,

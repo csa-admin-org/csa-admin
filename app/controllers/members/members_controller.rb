@@ -63,13 +63,14 @@ class Members::MembersController < Members::BaseController
     end
   end
 
-  def member_params
+   def member_params
     permitted = params
       .require(:member)
       .permit(
         :name, :address, :zip, :city, :country_code,
         :emails, :phones,
-        :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
+        :waiting_basket_size_id, :waiting_basket_price_extra,
+        :waiting_depot_id, :waiting_deliveries_cycle_id,
         :desired_acp_shares_number,
         :billing_year_division,
         :profession, :come_from, :note,

@@ -5,7 +5,6 @@ ActiveAdmin.register Delivery do
   scope :coming, default: true
   scope :past
 
-  filter :depots, as: :select, collection: -> { Depot.all }
   filter :basket_complements,
     as: :select,
     collection: -> { BasketComplement.all },
@@ -19,6 +18,8 @@ ActiveAdmin.register Delivery do
     as: :select,
     collection: -> { fiscal_years_collection }
 
+  includes :basket_complements, :basket_complements_deliveries
+
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
@@ -28,7 +29,7 @@ ActiveAdmin.register Delivery do
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
     if Current.acp.feature_flag?('shop')
-      column(:shop_open)
+      column :shop, ->(delivery) { status_tag(delivery.shop_open?) }
     end
     actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
@@ -42,7 +43,7 @@ ActiveAdmin.register Delivery do
     column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
     column(:absent_baskets) { |d| d.basket_counts.all.sum(&:absent_count) }
 
-    collection.preload(:depots).flat_map(&:depots).uniq.sort_by(&:name).each do |depot|
+    Depot.all.each do |depot|
       column(depot.name) { |d| BasketCounts.new(d, depot.id).sum }
     end
 
@@ -56,16 +57,16 @@ ActiveAdmin.register Delivery do
       end
     end
 
-    if authorized?(:read, DeliveriesCycle)
-      DeliveriesCycle.all.each do |deliveries_cycle|
-        column(deliveries_cycle.name) { |d| deliveries_cycle.include_delivery?(d) }
-      end
+    DeliveriesCycle.all.each do |deliveries_cycle|
+      column(deliveries_cycle.name) { |d| deliveries_cycle.include_delivery?(d) }
     end
 
     if Current.acp.feature_flag?('shop')
       column(:shop_open)
     end
   end
+
+  sidebar_handbook_link('deliveries')
 
   show do |delivery|
     columns do
@@ -172,17 +173,21 @@ ActiveAdmin.register Delivery do
 
   form do |f|
     render partial: 'bulk_dates', locals: { f: f, resource: resource, context: self }
-    f.inputs do
-      f.input :depots,
-        as: :check_boxes,
-        collection: Depot.all,
-        hint: true,
-        input_html: f.object.persisted? ? {} : { checked: true }
-      if BasketComplement.any?
+    if BasketComplement.any?
+      f.inputs do
         f.input :basket_complements,
           as: :check_boxes,
           collection: BasketComplement.all,
           hint: true
+
+        para class: 'actions' do
+          a href: handbook_page_path('deliveries', anchor: 'complments-de-panier'), class: 'action' do
+            span do
+              span inline_svg_tag('admin/book-open.svg', size: '20', title: I18n.t('layouts.footer.handbook'))
+              span t('.check_handbook')
+            end
+          end.html_safe
+        end
       end
     end
     f.inputs do
@@ -201,8 +206,7 @@ ActiveAdmin.register Delivery do
     :bulk_dates_weeks_frequency,
     :shop_open,
     bulk_dates_wdays: [],
-    basket_complement_ids: [],
-    depot_ids: []
+    basket_complement_ids: []
 
   controller do
     include TranslatedCSVFilename
@@ -222,12 +226,6 @@ ActiveAdmin.register Delivery do
             content_type: pdf.content_type,
             filename: pdf.filename
         end
-      end
-    end
-
-    def update
-      super do |success, _failure|
-        success.html { redirect_to root_path }
       end
     end
   end

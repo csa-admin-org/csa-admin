@@ -106,6 +106,7 @@ ActiveAdmin.register Member do
       }
     end
     column(:waiting_depot) { |m| m.waiting_depot&.name }
+    column(:waiting_deliveries_cycle) { |m| m.waiting_deliveries_cycle&.name }
     if Current.acp.allow_alternative_depots?
       column(:waiting_alternative_depot_ids) { |m|
         m.waiting_alternative_depots.map(&:name).to_sentence
@@ -160,6 +161,7 @@ ActiveAdmin.register Member do
               }
             end
             row(:depot) { member.waiting_depot&.name }
+            row(:deliveries_cycle) { member.waiting_deliveries_cycle&.name }
             if Current.acp.allow_alternative_depots?
               row(:waiting_alternative_depot_ids) {
                 member.waiting_alternative_depots.map(&:name).to_sentence
@@ -381,7 +383,28 @@ ActiveAdmin.register Member do
             label: Member.human_attribute_name(:basket_price_extra),
             required: false
         end
-        f.input :waiting_depot, label: Depot.model_name.human
+        f.input :waiting_depot,
+          label: Depot.model_name.human,
+          input_html: {
+            data: {
+              controller: 'form-select-options',
+              action: 'form-select-options#update',
+              form_select_options_target_param: 'member_waiting_deliveries_cycle_id'
+            }
+          },
+          collection: Depot.all.map { |d|
+            [
+              d.name, d.id,
+              data: {
+                form_select_options_values_param: d.deliveries_cycle_ids.join(',')
+              }
+            ]
+          }
+        f.input :waiting_deliveries_cycle,
+          label: DeliveriesCycle.model_name.human,
+          as: :select,
+          collection: deliveries_cycles_collection,
+          disabled: f.object.waiting_depot ? (DeliveriesCycle.pluck(:id) - f.object.waiting_depot.deliveries_cycle_ids) : []
         f.input :waiting_alternative_depot_ids,
           collection: Depot.all,
           as: :check_boxes,
@@ -455,7 +478,8 @@ ActiveAdmin.register Member do
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket, :billing_year_division,
     :acp_shares_info, :existing_acp_shares_number, :desired_acp_shares_number,
-    :waiting, :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_depot_id,
+    :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
+    :waiting_depot_id, :waiting_deliveries_cycle_id,
     :profession, :come_from, :food_note, :note,
     :contact_sharing,
     waiting_alternative_depot_ids: [],
@@ -478,9 +502,10 @@ ActiveAdmin.register Member do
       member_id: resource.id,
       started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max
     }
-    params[:basket_size_id] = resource.waiting_basket_size_id if resource.waiting_basket_size_id&.positive?
+    params[:basket_size_id] = resource&.waiting_basket_size_id
     params[:basket_price_extra] = resource.waiting_basket_price_extra if resource.waiting_basket_price_extra&.positive?
-    params[:depot_id] = resource.waiting_depot_id if resource.waiting_depot_id&.positive?
+    params[:depot_id] = resource&.waiting_depot_id
+    params[:deliveries_cycle_id] = resource&.waiting_deliveries_cycle_id
     params[:subscribed_basket_complement_ids] = resource.waiting_basket_complement_ids if resource.waiting_basket_complement_ids&.any?
     link_to t('.create_membership'), new_membership_path(params)
   end
@@ -537,6 +562,7 @@ ActiveAdmin.register Member do
         collection = collection.includes(
           :waiting_basket_size,
           :waiting_depot,
+          :waiting_deliveries_cycle,
           :waiting_basket_complements)
       end
       collection

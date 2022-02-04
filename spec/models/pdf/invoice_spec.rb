@@ -45,7 +45,8 @@ describe PDF::Invoice do
     it 'generates invoice with annual_fee amount + annual membership' do
       membership = create(:membership,
         basket_size: create(:basket_size, :big),
-        depot: create(:depot, price: 0))
+        depot: create(:depot, price: 0),
+        deliveries_count: 40)
       invoice = create(:invoice,
         id: 4,
         object: membership,
@@ -53,7 +54,6 @@ describe PDF::Invoice do
         memberships_amount_description: 'Facturation anuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
-
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance PUBLIC 40x 33.25', "1'330.00")
@@ -69,7 +69,8 @@ describe PDF::Invoice do
         basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         activity_participations_demanded_annualy: 8,
-        activity_participations_annual_price_change: -330.50)
+        activity_participations_annual_price_change: -330.50,
+        deliveries_count: 40)
       invoice = create(:invoice,
         id: 7,
         object: membership,
@@ -94,7 +95,8 @@ describe PDF::Invoice do
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :small, price: '23.125'),
-        depot: create(:depot, name: 'La Chaux-de-Fonds', price: 4))
+        depot: create(:depot, name: 'La Chaux-de-Fonds', price: 4),
+        deliveries_count: 40)
       invoice =  create(:invoice,
         id: 8,
         member: member,
@@ -120,7 +122,8 @@ describe PDF::Invoice do
       membership = create(:membership,
         basket_price_extra: 4,
         basket_size: create(:basket_size, :big),
-        depot: create(:depot, price: 0))
+        depot: create(:depot, price: 0),
+        deliveries_count: 40)
       invoice = create(:invoice,
         id: 4,
         object: membership,
@@ -141,7 +144,8 @@ describe PDF::Invoice do
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),
-        depot: create(:depot, price: 0))
+        depot: create(:depot, price: 0),
+        deliveries_count: 40)
       create(:invoice,
         date: Time.current.beginning_of_year,
         member: member,
@@ -247,7 +251,6 @@ describe PDF::Invoice do
         name: 'ldc',
         logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/lumieredeschamps/logo.jpg',
         fiscal_year_start_month: 4,
-        summer_month_range: 4..9,
         vat_membership_rate: 0.1,
         vat_number: 'CHE-273.220.900',
         ccp: '01-9252-0',
@@ -406,6 +409,7 @@ describe PDF::Invoice do
     end
 
     it 'generates invoice with support ammount + four month membership + winter basket', freeze: '2019-04-01' do
+      winter_dc = create(:deliveries_cycle, months: [1,2,3,10,11,12])
       member = create(:member,
         name: 'Alain Reymond',
         address: 'Bd Plumhof 6',
@@ -413,9 +417,8 @@ describe PDF::Invoice do
         city: 'Vevey')
       membership = create(:membership,
         basket_size: create(:basket_size, name: 'Grand'),
-        depot: create(:depot, price: 0),
-        basket_price: 30.5,
-        seasons: %w[winter])
+        depot: create(:depot, price: 0, deliveries_cycles: [winter_dc]),
+        basket_price: 30.5)
       create(:invoice,
         date: Current.fy_range.min,
         member: member,

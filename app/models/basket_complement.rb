@@ -1,5 +1,4 @@
 class BasketComplement < ApplicationRecord
-  include HasDeliveries
   include TranslatedAttributes
   include HasVisibility
 
@@ -10,6 +9,17 @@ class BasketComplement < ApplicationRecord
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
   has_one :shop_product, class_name: 'Shop::Product'
+  has_and_belongs_to_many :deliveries, validate: false
+  has_and_belongs_to_many :current_deliveries, -> { current_year },
+    class_name: 'Delivery',
+    validate: false,
+    after_add: :after_add_delivery!,
+    after_remove: :after_remove_delivery!
+  has_and_belongs_to_many :future_deliveries, -> { future_year },
+    class_name: 'Delivery',
+    validate: false,
+    after_add: :after_add_delivery!,
+    after_remove: :after_remove_delivery!
 
   scope :annual_price_type, -> { where(price_type: 'annual') }
 
@@ -17,6 +27,24 @@ class BasketComplement < ApplicationRecord
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_type, inclusion: { in: PRICE_TYPES }
+
+  def deliveries_count
+    @deliveries_count ||= begin
+      future_count = future_deliveries.count
+      future_count.positive? ? future_count : current_deliveries.count
+    end
+  end
+
+  def delivery_ids
+    @delivery_ids ||= begin
+      future_count = future_deliveries.count
+      future_count.positive? ? future_deliveries.pluck(:id) : current_deliveries.pluck(:id)
+    end
+  end
+
+  def current_and_future_delivery_ids
+    @current_and_future_delivery_ids ||= deliveries.current_and_future_year.pluck(:id)
+  end
 
   def annual_price_type?
     price_type == 'annual'

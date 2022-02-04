@@ -225,9 +225,9 @@ describe Invoice do
       Current.acp.update!(vat_membership_rate: 7.7, vat_number: 'XXX')
       invoice = create(:invoice, :membership)
 
-      expect(invoice.memberships_gross_amount).to eq 1200
-      expect(invoice.memberships_net_amount).to eq BigDecimal(1114.21, 6)
-      expect(invoice.memberships_vat_amount).to eq BigDecimal(85.79, 4)
+      expect(invoice.memberships_gross_amount).to eq 120
+      expect(invoice.memberships_net_amount).to eq BigDecimal(111.42, 6)
+      expect(invoice.memberships_vat_amount).to eq BigDecimal(8.58, 4)
     end
   end
 

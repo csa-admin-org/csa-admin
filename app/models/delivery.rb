@@ -4,15 +4,13 @@ class Delivery < ApplicationRecord
 
   default_scope { order(:date) }
 
-  has_many :baskets, dependent: :destroy
+  has_many :baskets
+  has_many :depots, through: :baskets
   has_many :basket_contents, dependent: :destroy
   has_many :shop_orders, class_name: 'Shop::Order', dependent: :destroy
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
-  has_and_belongs_to_many :depots,
-    after_add: :add_baskets_at!,
-    after_remove: :remove_baskets_at!
 
   scope :past, -> { where('deliveries.date < ?', Date.current) }
   scope :coming, -> { where('deliveries.date >= ?', Date.current) }
@@ -20,11 +18,24 @@ class Delivery < ApplicationRecord
   scope :shop_open, -> { where(shop_open: true) }
 
   validates :date, uniqueness: true
+  validates :date,
+    date: { after_or_equal_to: proc { Date.today } },
+    if: :date?
+  validates :date,
+    date: {
+      before_or_equal_to: proc { |d|
+        Current.acp.fiscal_year_for(d.date_was).end_of_year
+      }
+    },
+    if: :date_was
+  validates :bulk_dates_starts_on,
+    date: { after_or_equal_to: proc { Date.today } },
+    unless: :date?,
+    on: :create
 
-  after_save :update_fiscal_year_numbers
-  after_update :handle_date_change!
-  after_destroy :update_fiscal_year_numbers
   before_destroy :really_destroy_baskets!
+  after_commit -> { self.class.update_numbers(fiscal_year) }
+  after_commit :update_baskets_async
 
   def self.next
     coming.order(:date).first
@@ -39,12 +50,18 @@ class Delivery < ApplicationRecord
     Delivery.during_year(next_year).any?
   end
 
+  def self.update_numbers(fiscal_year)
+    during_year(fiscal_year).each_with_index do |d, i|
+      d.update_column(:number, i + 1)
+    end
+  end
+
   def basket_sizes
     @basket_sizes ||= BasketSize.find(baskets.not_absent.pluck(:basket_size_id))
   end
 
   def delivered?
-    date < Time.current
+    date.past?
   end
 
   def display_name(format: :medium_long)
@@ -54,42 +71,25 @@ class Delivery < ApplicationRecord
   def add_subscribed_baskets_complement!(complement)
     return unless valid?
 
-    baskets_with_membership_subscribed_to(complement)
-      .includes(membership: :memberships_basket_complements)
-      .each do |basket|
-        mbc = membership_basket_complement_for(basket, complement)
-        basket.add_complement!(complement,
-          quantity: mbc.quantity,
-          price: mbc.delivery_price)
-      end
-  end
+    baskets_with_membership_subscribed_to =
+      baskets
+        .joins(membership: :memberships_basket_complements)
+        .where(memberships_basket_complements: { basket_complement_id: complement.id })
+        .includes(membership: :memberships_basket_complements)
 
-  def remove_subscribed_baskets_complement!(complement)
-    baskets_with_membership_subscribed_to(complement).each do |basket|
-      basket.remove_complement!(complement)
+    baskets_with_membership_subscribed_to.each do |basket|
+      mbc = membership_basket_complement_for(basket, complement)
+      basket.add_complement!(complement,
+        quantity: mbc.quantity,
+        price: mbc.delivery_price)
     end
   end
 
-  def add_baskets_at!(depot)
-    return unless valid?
-
-    Membership
-      .including_date(date)
-      .where(memberships: { depot_id: depot.id })
-      .includes(:baskets)
-      .find_each { |membership|
-        if membership.baskets.map(&:delivery_id).exclude?(id)
-          membership.create_basket!(self)
-        end
-      }
-  end
-
-  def remove_baskets_at!(depot)
-    baskets.where(depot_id: depot).destroy_all
-  end
-
-  def season
-    Current.acp.season_for(date.month)
+  def remove_subscribed_baskets_complement!(complement)
+    BasketsBasketComplement
+      .joins(:basket)
+      .where(baskets: { delivery_id: id }, basket_complement_id: complement.id)
+      .destroy_all
   end
 
   def basket_counts
@@ -110,22 +110,15 @@ class Delivery < ApplicationRecord
     !shop_closing_at.past?
   end
 
+  def can_destroy?
+    date >= Date.today
+  end
+
+  def can_update?
+    date >= Date.today
+  end
+
   private
-
-  def self.next_date(date)
-    fy_year = Current.acp.fiscal_year_for(date).year
-    if date >= Date.new(fy_year, 5, 18) && date <= Date.new(fy_year, 12, 21)
-      date + 1.week
-    else
-      date + 2.weeks
-    end
-  end
-
-  def update_fiscal_year_numbers
-    self.class.during_year(fiscal_year).each_with_index do |d, i|
-      d.update_column(:number, i + 1)
-    end
-  end
 
   def handle_date_change!
     return unless saved_change_to_attribute?(:date)
@@ -138,13 +131,7 @@ class Delivery < ApplicationRecord
     basket
       .membership
       .memberships_basket_complements
-      .find { |mbc| mbc.basket_complement_id == complement.id }
-  end
-
-  def baskets_with_membership_subscribed_to(complement)
-    baskets
-      .joins(membership: :memberships_basket_complements)
-      .where(memberships_basket_complements: { basket_complement_id: complement.id })
+      .find_by(basket_complement_id: complement.id)
   end
 
   def really_destroy_baskets!
@@ -153,9 +140,14 @@ class Delivery < ApplicationRecord
 
   def bulk_attributes
     super.map { |h|
-      h[:depot_ids] = depot_ids
       h[:basket_complement_ids] = basket_complement_ids
       h
     }
+  end
+
+  def update_baskets_async
+    if saved_change_to_date? || destroyed?
+      DeliveryBasketsUpdaterJob.perform_later(date)
+    end
   end
 end

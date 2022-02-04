@@ -11,12 +11,12 @@ describe 'members page' do
         languages: %w[fr de],
         basket_price_extras: '0, 1, 2, 4, 8',
         basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
-      DeliveriesHelper.create_deliveries(40)
+      create_deliveries(2)
       create(:basket_size, :small)
       create(:basket_size, :big)
 
-      create(:basket_complement, name: 'Oeufs', price: 4.8, deliveries_count: 40)
-      create(:basket_complement, name: 'Pain', price: 6.5, deliveries_count: 20)
+      create(:basket_complement, name: 'Oeufs', price: 4.8)
+      create(:basket_complement, name: 'Pain', price: 6.5, delivery_ids: Delivery.pluck(:id).select(&:odd?))
 
       create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil)
       create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil)
@@ -25,21 +25,21 @@ describe 'members page' do
       visit '/new'
 
       expect(page).to have_selector('span',
-        text: "Abondance PUBLICCHF 1'330 (33.25 x 40 livraisons), 2 ½ journées")
+        text: "Abondance PUBLICCHF 66.50 (33.25 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector('span',
-        text: "Eveil PUBLICCHF 925 (~23.15 x 40 livraisons), 2 ½ journées")
+        text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector('span',
         text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector('label',
-        text: "Oeufs PUBLICCHF 192 (4.80 x 40 livraisons)")
+        text: "Oeufs PUBLICCHF 9.60 (4.80 x 2 livraisons)")
       expect(page).to have_selector('label',
-        text: "Pain PUBLICCHF 260 (6.50 x 40 livraisons)")
+        text: "Pain PUBLICCHF 6.50 (6.50 x 1 livraison)")
 
       expect(page).to have_selector('span',
         text: "Jardin de la main PUBLICRue de la main 6-7")
       expect(page).to have_selector('span',
-        text: "Vélo PUBLICCHF 320 (8.-/livraison), Uniquement à Neuchâtel")
+        text: "Vélo PUBLICCHF 16 (8.-/livraison), Uniquement à Neuchâtel")
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
@@ -90,10 +90,68 @@ describe 'members page' do
       expect(member.billing_year_division).to eq 4
     end
 
+    it 'creates a new member with deliveries_cycle' do
+      create_deliveries(2)
+      create(:basket_size, :small)
+      create(:basket_size, :big)
+
+      create(:deliveries_cycle, id: 10, visible: true, name: 'Toutes les semaines')
+      create(:deliveries_cycle, id: 20, visible: true, week_numbers: :odd, name: 'Semaines paires')
+      create(:deliveries_cycle, id: 30, visible: true, week_numbers: :even, name: 'Semaines impaires')
+      create(:deliveries_cycle, id: 40, visible: true, week_numbers: :odd, name: 'Semaines paires')
+      create(:deliveries_cycle, id: 50, visible: false, months: 1..4, name: 'Hiver')
+
+      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil, deliveries_cycle_ids: [10])
+      create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil, deliveries_cycle_ids: [10, 30])
+      create(:depot, name: 'Domicile', visible: false, deliveries_cycle_ids: [10, 20])
+
+      visit '/new'
+
+      expect(page).to have_selector('span',
+        text: "Abondance PUBLICCHF 33.25-66.50 (33.25 x 1-2 livraisons), 2 ½ journées")
+      expect(page).to have_selector('span',
+        text: "Eveil PUBLICCHF 23.15-46.25 (~23.15 x 1-2 livraisons), 2 ½ journées")
+      expect(page).to have_selector('span',
+        text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
+
+      expect(page).to have_selector('span',
+        text: "Jardin de la main PUBLIC2 livraisons, Rue de la main 6-7")
+      expect(page).to have_selector('span',
+        text: "Vélo PUBLICCHF 8-16 (8.- x 1-2 livraisons), Uniquement à Neuchâtel")
+
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
+      fill_in 'Adresse', with: 'Nowhere srteet 2'
+      fill_in 'NPA', with: '2042'
+      fill_in 'Ville', with: 'Moon City'
+      select 'Suisse', from: 'Pays'
+
+      fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
+      fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
+
+      choose 'Eveil PUBLIC'
+
+      choose 'Vélo PUBLIC'
+
+      choose 'Semaines impaires PUBLIC', visible: false
+
+      choose 'Trimestriel'
+
+      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      member = Member.last
+      expect(member.waiting_basket_size.name).to eq 'Eveil'
+      expect(member.waiting_depot.name).to eq 'Vélo'
+      expect(member.waiting_deliveries_cycle.name).to eq 'Semaines impaires'
+    end
+
     it 'creates a new member with membership and alternative depots' do
       Current.acp.update!(allow_alternative_depots: true)
 
-      DeliveriesHelper.create_deliveries(40)
+      create_deliveries(2)
       create(:basket_size, :small)
       create(:basket_size, :big)
 
@@ -109,11 +167,11 @@ describe 'members page' do
       expect(page).to have_selector('span',
         text: "Jardin de la main PUBLICRue de la main 6-7")
       expect(page).to have_selector('span',
-        text: "Vélo PUBLICCHF 320 (8.-/livraison)")
+        text: "Vélo PUBLICCHF 16 (8.-/livraison)")
       expect(page).to have_selector('span',
-        text: "Neuchâtel PUBLICCHF 160 (4.-/livraison)")
+        text: "Neuchâtel PUBLICCHF 8 (4.-/livraison)")
       expect(page).to have_selector('span',
-        text: "La Chaux-de-Fonds PUBLICCHF 160 (4.-/livraison)")
+        text: "La Chaux-de-Fonds PUBLICCHF 8 (4.-/livraison)")
       expect(page).to have_selector('label',
         text: "Dépôt(s) alternatifs(s)")
 
@@ -159,7 +217,6 @@ describe 'members page' do
         languages: %w[fr de],
         terms_of_service_url: nil,
         annual_fee: 42)
-      DeliveriesHelper.create_deliveries(40)
       create(:basket_size, :small)
       create(:basket_size, :big)
 
@@ -205,7 +262,7 @@ describe 'members page' do
         statutes_url: 'https://statutes.com',
         annual_fee: nil,
         share_price: 250)
-      DeliveriesHelper.create_deliveries(40)
+      create_deliveries(1)
       create(:basket_size, :small)
       create(:basket_size, :big)
 
@@ -293,7 +350,6 @@ describe 'members page' do
         languages: %w[fr de],
         terms_of_service_url: nil,
         annual_fee: 42)
-      DeliveriesHelper.create_deliveries(40)
 
       visit '/new'
 
@@ -327,10 +383,9 @@ describe 'members page' do
     end
   end
 
-  context 'existing member token' do
-    around { |e| travel_to(Date.today.beginning_of_year + 6.months) { e.run } }
-
+  context 'existing member token', freze: '2021-06-01' do
     it 'redirects to deliveries with next basket' do
+      create(:delivery)
       login(member)
 
       visit '/'

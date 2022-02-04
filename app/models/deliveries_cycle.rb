@@ -14,6 +14,12 @@ class DeliveriesCycle < ApplicationRecord
 
   validates :name, :form_priority, presence: true
 
+  after_commit :update_baskets_async, on: :update
+
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[name_contains]
+  end
+
   def display_name; name end
 
   def public_name
@@ -34,12 +40,20 @@ class DeliveriesCycle < ApplicationRecord
     deliveries(delivery.date).include?(delivery)
   end
 
+  def deliveries_in(range)
+    deliveries(range.min).select { |d| range.cover?(d.date) }
+  end
+
   def current_deliveries
     @current_deliveries ||= deliveries(Current.fy_year)
   end
 
   def future_deliveries
     @future_deliveries ||= deliveries(Current.fy_year + 1)
+  end
+
+  def current_and_future_delivery_ids
+    (current_deliveries + future_deliveries).map(&:id).uniq
   end
 
   def wdays=(wdays)
@@ -73,5 +87,9 @@ class DeliveriesCycle < ApplicationRecord
       scoped = scoped.to_a.select.with_index { |_, i| (i + 1).even? }
     end
     scoped
+  end
+
+  def update_baskets_async
+    DeliveriesCycleBasketsUpdaterJob.perform_later(self)
   end
 end

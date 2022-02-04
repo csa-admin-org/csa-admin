@@ -1,14 +1,15 @@
 require 'rails_helper'
 
 describe Liquid::DataPreview do
-  specify 'recursively render drop data' do
-    data = travel_to('2020-03-24') do
-      create(:depot, id: 12, name: 'Jardin de la main')
-      create(:basket_size, id: 33, name: 'Eveil')
+  specify 'recursively render drop data', freeze: '2020-01-01' do
+    create(:delivery, date: '2020-01-07')
+    create(:delivery, date: '2020-10-06')
+    create(:depot, id: 12, name: 'Jardin de la main')
+    create(:basket_size, id: 33, name: 'Eveil')
 
-      mail_template = MailTemplate.create!(title: 'member_activated')
-      described_class.for(mail_template)
-    end
+    mail_template = MailTemplate.create!(title: 'member_activated')
+    data =  described_class.for(mail_template)
+
     expect(data).to eq({
       'acp' => {
         'activity_phone' => '+41 77 447 26 16',
@@ -74,15 +75,15 @@ describe Liquid::DataPreview do
     })
   end
 
-  specify 'without activity feature' do
+  specify 'without activity feature', freeze: '2020-01-01' do
     Current.acp.update!(features: [])
-    data = travel_to('2020-03-24') do
-      create(:depot, id: 12, name: 'Jardin de la main')
-      create(:basket_size, id: 33, name: 'Eveil')
+    create(:delivery, date: '2020-01-07')
+    create(:delivery, date: '2020-10-06')
+    create(:depot, id: 12, name: 'Jardin de la main')
+    create(:basket_size, id: 33, name: 'Eveil')
 
-      mail_template = MailTemplate.create!(title: 'member_activated')
-      described_class.for(mail_template)
-    end
+    mail_template = MailTemplate.create!(title: 'member_activated')
+    data = described_class.for(mail_template)
 
     expect(data).to eq({
       'acp' => {

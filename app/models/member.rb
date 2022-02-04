@@ -20,10 +20,11 @@ class Member < ApplicationRecord
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
   belongs_to :waiting_depot, class_name: 'Depot', optional: true
+  belongs_to :waiting_deliveries_cycle, class_name: 'DeliveriesCycle', optional: true
   has_and_belongs_to_many :waiting_alternative_depots,
-    class_name: 'Depot',
-    join_table: 'members_waiting_alternative_depots',
-    optional: true
+  class_name: 'Depot',
+  join_table: 'members_waiting_alternative_depots',
+  optional: true
   has_many :absences
   has_many :invoices
   has_many :payments
@@ -65,6 +66,7 @@ class Member < ApplicationRecord
 
   after_initialize :set_defaults, unless: :persisted?
   before_validation :set_default_billing_year_division
+  before_validation :set_default_waiting_deliveries_cycle
 
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
@@ -78,6 +80,7 @@ class Member < ApplicationRecord
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_price_extra, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :waiting_depot, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
+  validates :waiting_deliveries_cycle, inclusion: { in: ->(m) { m.waiting_depot&.deliveries_cycles } }, if: :waiting_basket_size, on: :create
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :existing_acp_shares_number, numericality: { greater_than_or_equal_to: 0 }
   validate :email_must_be_unique
@@ -292,6 +295,14 @@ class Member < ApplicationRecord
   def set_default_billing_year_division
     self[:billing_year_division] ||=
       Current.acp.billing_year_divisions.first
+  end
+
+  def set_default_waiting_deliveries_cycle
+    return unless waiting_depot
+
+    if !waiting_deliveries_cycle_id && DeliveriesCycle.visible.none?
+      self[:waiting_deliveries_cycle_id] = waiting_depot.main_deliveries_cycle.id
+    end
   end
 
   def email_must_be_unique

@@ -36,6 +36,10 @@ class FiscalYear
     range.cover?(date)
   end
 
+  def past?
+    end_of_year.past?
+  end
+
   def to_s
     if range.min.year == range.max.year
       range.min.year.to_s

@@ -104,6 +104,10 @@ _:
       _de: Lieferungen
       _fr: Livraisons
       _it: Consegne
+    deliveries_cycle:
+      _de: Zyklus von Lieferungen
+      _fr: Cycle de livraisons
+      _it: Ciclo di consegne
     delivery:
       _de: Lieferung
       _fr: Livraison
@@ -296,6 +300,10 @@ _:
       _de: Gesendet am
       _fr: Envoyé le
       _it: Inviato il
+    shop:
+      _de: Lebensmittelgeschäft
+      _fr: Épicerie
+      _it: Drogheria
     start_time:
       _de: Anfangszeit
       _fr: Heure de début

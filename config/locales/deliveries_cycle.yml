@@ -1,5 +1,9 @@
 _:
   deliveries_cycle:
+    default_name:
+      _de: Alle
+      _fr: Toutes
+      _it: Tutte
     menu_title:
       _de: Lieferungen - Zyklen
       _fr: Livraisons - Cycles
@@ -25,7 +29,7 @@ _:
       all:
         _de: Alle
         _fr: Toutes
-        _it: Ogni
+        _it: Tutte
       even:
         _de: Geraden
         _fr: Paires

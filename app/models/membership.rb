@@ -1,8 +1,6 @@
 require 'rounding'
 
 class Membership < ApplicationRecord
-  include HasSeasons
-
   acts_as_paranoid
   attr_accessor :skip_touch, :renewal_decision
 
@@ -41,6 +39,7 @@ class Membership < ApplicationRecord
   validates :basket_price_extra, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
+  validates :deliveries_cycle, inclusion: { in: ->(m) { m.depot&.deliveries_cycles } }
   validate :good_period_range
   validate :cannot_update_dates_when_renewed
   validate :only_one_per_year
@@ -73,13 +72,6 @@ class Membership < ApplicationRecord
     fy = Current.acp.fiscal_year_for(year)
     where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
   }
-  scope :season_eq, ->(season) {
-    if season.end_with?('_only')
-      where('seasons = ?', season.sub(/(.*)_only/, '{"\1"}'))
-    else
-      where('? = ANY(seasons)', season)
-    end
-  }
   scope :renewed, -> { where.not(renewed_at: nil) }
   scope :not_renewed, -> { where(renewed_at: nil) }
   scope :renewal_state_eq, ->(state) {
@@ -95,17 +87,12 @@ class Membership < ApplicationRecord
     end
   }
 
-  # TODO: DeliveriesCycle, remove after
-  before_validation do
-    self.deliveries_cycle_id = depot.deliveries_cycle_ids.first
-  end
-
   def basket_price_extra=(price)
     super([price.to_f, 0].max)
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year season_eq renewal_state_eq]
+    super + %i[during_year renewal_state_eq]
   end
 
   def billable?
@@ -149,11 +136,11 @@ class Membership < ApplicationRecord
   end
 
   def can_destroy?
-    delivered_baskets_count.zero?
+    !fiscal_year.past?
   end
 
   def can_update?
-    fy_year >= Current.fy_year
+    !fiscal_year.past?
   end
 
   def can_send_email?
@@ -348,7 +335,7 @@ class Membership < ApplicationRecord
   end
 
   def update_activity_participations_demanded!
-    deliveries_count = depot.deliveries.during_year(fy_year).count
+    deliveries_count = deliveries_cycle.deliveries_in(fiscal_year.range).size
     percentage =
       if member.salary_basket? || deliveries_count.zero?
         0
@@ -379,7 +366,7 @@ class Membership < ApplicationRecord
       delivery: delivery,
       basket_size_id: basket_size_id,
       basket_price: basket_price,
-      quantity: season_quantity(delivery),
+      quantity: basket_quantity,
       depot_id: depot_id,
       depot_price: depot_price,
       absent: member.absences.including_date(delivery.date).any?)
@@ -444,8 +431,7 @@ class Membership < ApplicationRecord
   def handle_subscription_change!
     tracked_attributes = %w[
       basket_size_id basket_price basket_quantity
-      depot_id depot_price
-      seasons
+      depot_id depot_price deliveries_cycle_id
     ]
     if (saved_changes.keys & tracked_attributes).any? || memberships_basket_complements_changed?
       range = [Time.current, started_on].max..ended_on
@@ -461,7 +447,7 @@ class Membership < ApplicationRecord
   end
 
   def create_baskets!(range = date_range)
-    reload_depot.deliveries.between(range).each do |delivery|
+    deliveries_cycle.deliveries_in(range).each do |delivery|
       create_basket!(delivery)
     end
   end
@@ -511,10 +497,6 @@ class Membership < ApplicationRecord
     end
   end
 
-  def season_quantity(delivery)
-    out_of_season_quantity(delivery) || basket_quantity
-  end
-
   def only_one_per_year
     return unless member
 
@@ -524,7 +506,7 @@ class Membership < ApplicationRecord
   end
 
   def at_least_one_basket
-    if date_range && depot && depot.deliveries.between(date_range).none?
+    if date_range && date_range.min && deliveries_cycle&.deliveries_in(date_range).none?
       errors.add(:started_on, :invalid)
       errors.add(:ended_on, :invalid)
     end

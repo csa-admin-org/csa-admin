@@ -11,12 +11,10 @@ class ACP < ApplicationRecord
   ]
   FEATURE_FLAGS = %w[basket_price_extra shop]
   LANGUAGES = %w[fr de it]
-  SEASONS = %w[summer winter]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
 
-  attr_writer :summer_month_range_min, :summer_month_range_max
   attribute :shop_delivery_open_last_day_end_time, :time_only
 
   translated_attributes :invoice_info, :invoice_footer
@@ -61,13 +59,6 @@ class ACP < ApplicationRecord
   validates :trial_basket_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
   validates :share_price, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
-  validates :summer_month_range_min,
-    inclusion: { in: 1..12 },
-    if: -> { @summer_month_range_max.present? }
-  validates :summer_month_range_max,
-    inclusion: { in: 1..12 },
-    numericality: { greater_than_or_equal_to: ->(acp) { acp.summer_month_range_min } },
-    if: -> { @summer_month_range_min.present? }
   validates :absence_notice_period_in_days,
     numericality: { greater_than_or_equal_to: 1 }
   validates :activity_i18n_scope, inclusion: { in: ACTIVITY_I18N_SCOPES }
@@ -91,15 +82,14 @@ class ACP < ApplicationRecord
   validates :shop_order_minimal_amount,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
-  before_save :set_summer_month_range
   after_create :create_tenant
+  after_create :create_default_deliveries_cycle
 
   def self.perform(tenant_name)
     enter!(tenant_name)
     yield
   ensure
-    Apartment::Tenant.reset
-    Current.reset
+    exit!
   end
 
   def self.perform_each
@@ -108,8 +98,7 @@ class ACP < ApplicationRecord
       yield
     end
   ensure
-    Apartment::Tenant.reset
-    Current.reset
+    exit!
   end
 
   def self.enter!(tenant_name)
@@ -120,7 +109,11 @@ class ACP < ApplicationRecord
     Sentry.set_tags(acp: tenant_name)
   end
 
-  def self.seasons; SEASONS end
+  def self.exit!
+    Apartment::Tenant.reset
+    Current.reset
+  end
+
   def self.languages; LANGUAGES end
   def self.features; FEATURES end
   def self.feature_flags; FEATURE_FLAGS end
@@ -220,14 +213,6 @@ class ACP < ApplicationRecord
     fiscal_year_for(date).month(date)
   end
 
-  def summer_month_range_min
-    @summer_month_range_min&.to_i || summer_month_range&.min
-  end
-
-  def summer_month_range_max
-    @summer_month_range_max&.to_i || summer_month_range&.max
-  end
-
   def annual_fee?
     annual_fee&.positive?
   end
@@ -236,23 +221,12 @@ class ACP < ApplicationRecord
     share_price&.positive?
   end
 
-  def seasons?
-    summer_month_range?
-  end
-
   def ical_feed?
     ical_feed_auth_token.present?
   end
 
   def ical_feed_auth_token
     credentials(:icalendar_auth_token)
-  end
-
-  def season_for(month)
-    raise 'winter/summer seasons not configured' unless seasons?
-    raise ArgumentError, 'not a month (1..12)' unless month.in? 1..12
-
-    summer_month_range.include?(month) ? 'summer' : 'winter'
   end
 
   def credentials(*keys)
@@ -267,14 +241,11 @@ class ACP < ApplicationRecord
     Apartment::Tenant.create(tenant_name)
   end
 
-  def set_summer_month_range
-    if @summer_month_range_min && @summer_month_range_max
-      self.summer_month_range =
-        if @summer_month_range_min.present? && @summer_month_range_max.present?
-          @summer_month_range_min..@summer_month_range_max
-        else
-          nil
-        end
+  def create_default_deliveries_cycle
+    self.class.perform(tenant_name) do
+      DeliveriesCycle.create!(LANGUAGES.map { |locale|
+        ["name_#{locale}", I18n.t('deliveries_cycle.default_name', locale: locale)]
+      }.to_h)
     end
   end
 end

@@ -14,13 +14,11 @@ describe PDF::Delivery do
         name: 'ldc',
         logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/lumieredeschamps/logo.jpg',
         delivery_pdf_footer: "Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
-      create_deliveries(48)
     }
 
     it 'generates invoice with support amount + complements + annual membership' do
       depot = create(:depot, name: 'Fleurs Kissling')
-      delivery = Delivery.current_year.first
-      delivery.update!(shop_open: false)
+      delivery = create(:delivery, shop_open: false)
       member = create(:member, name: 'Alain Reymond')
       member2 = create(:member, name: 'John Doe')
       member3 = create(:member, name: 'Jame Dane')
@@ -85,7 +83,7 @@ describe PDF::Delivery do
 
     specify 'includes annoucement' do
       depot = create(:depot, name: 'Fleurs Kissling')
-      delivery = Delivery.current_year.first
+      delivery = create(:delivery)
       create(:membership, depot: depot)
 
       Announcement.create!(
@@ -102,7 +100,7 @@ describe PDF::Delivery do
 
     specify 'includes shop orders' do
       depot = create(:depot, name: 'Fleurs Kissling')
-      delivery = Delivery.current_year.first
+      delivery = create(:delivery)
       member = create(:member, name: 'Alain Reymond')
       member2 = create(:member, name: 'John Doe')
       basket_complement = create(:basket_complement,
