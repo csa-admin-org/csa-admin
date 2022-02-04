@@ -187,8 +187,9 @@ ActiveAdmin.register Membership do
           public_name: false)
       }
     end
-    column(:depot) { |m| m.depot&.name }
+    column(:depot) { |m| m.depot.name }
     column(:depot_price) { |m| cur(m.depot_price) }
+    column(:deliveries_cycle) { |m| m.deliveries_cycle.name }
     if Current.acp.feature?('activity')
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
