@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_131637) do
+ActiveRecord::Schema.define(version: 2022_02_04_141732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -207,7 +207,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_131637) do
     t.string "name"
     t.string "notifications", default: [], null: false, array: true
     t.string "language", default: "fr", null: false
-    t.datetime "deleted_at"
     t.string "latest_update_read"
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
@@ -634,7 +633,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_131637) do
     t.string "last_user_agent"
     t.string "email"
     t.bigint "admin_id"
-    t.datetime "deleted_at"
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true

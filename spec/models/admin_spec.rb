@@ -37,10 +37,9 @@ describe Admin do
     admin = create(:admin)
     session = create(:session, admin: admin)
 
-    admin.destroy!
-
-    expect(admin.reload).to be_deleted
-    expect(admin.sessions).to be_empty
+    expect {
+      admin.destroy!
+    }.to change(Session, :count).by(-1)
   end
 
   it 'sets latest_update_read on create' do

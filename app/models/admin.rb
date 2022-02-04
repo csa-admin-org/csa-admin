@@ -1,12 +1,17 @@
 class Admin < ApplicationRecord
-  UnsupportedDeviceNotification = Class.new(StandardError)
-
   include HasSessions
-
-  acts_as_paranoid
 
   RIGHTS = %w[superadmin admin standard readonly none]
   attribute :language, :string, default: -> { Current.acp.languages.first }
+
+  has_many :validated_member,
+    class_name: 'ActivityParticipation',
+    foreign_key: :validator_id,
+    dependent: :nullify
+  has_many :validated_activity_participations,
+    class_name: 'ActivityParticipation',
+    foreign_key: :validator_id,
+    dependent: :nullify
 
   scope :notification, ->(notification) { where('? = ANY (notifications)', notification) }
   scope :with_email, ->(email) { where('lower(email) = ?', email.downcase) }
