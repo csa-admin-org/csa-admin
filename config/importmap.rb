@@ -26,3 +26,12 @@ pin "@joeattardi/emoji-button", to: '@joeattardi--emoji-button.js' # @4.6.2/
 pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js" # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js" # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js" # @0.1.2
+
+# Sentry
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@6.17.4/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@6.17.4/esm/index.js"
+pin "@sentry/hub", to: "https://ga.jspm.io/npm:@sentry/hub@6.17.4/esm/index.js"
+pin "@sentry/minimal", to: "https://ga.jspm.io/npm:@sentry/minimal@6.17.4/esm/index.js"
+pin "@sentry/types", to: "https://ga.jspm.io/npm:@sentry/types@6.17.4/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@6.17.4/esm/index.js"
+pin "tslib", to: "https://ga.jspm.io/npm:tslib@1.14.1/tslib.es6.js"
