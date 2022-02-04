@@ -119,13 +119,6 @@ class Delivery < ApplicationRecord
 
   private
 
-  def handle_date_change!
-    return unless saved_change_to_attribute?(:date)
-
-    baskets.destroy_all
-    Membership.including_date(date).find_each { |m| m.create_basket!(self) }
-  end
-
   def membership_basket_complement_for(basket, complement)
     basket
       .membership
