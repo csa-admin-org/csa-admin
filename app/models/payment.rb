@@ -3,8 +3,6 @@ class Payment < ApplicationRecord
 
   attr_accessor :comment
 
-  acts_as_paranoid
-
   default_scope { order(:date) }
 
   belongs_to :member

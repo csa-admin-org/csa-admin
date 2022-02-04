@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_154240) do
+ActiveRecord::Schema.define(version: 2022_02_04_155641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -610,10 +610,8 @@ ActiveRecord::Schema.define(version: 2022_02_04_154240) do
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.date "date", null: false
     t.string "isr_data"
-    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_payments_on_deleted_at"
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
     t.index ["isr_data"], name: "index_payments_on_isr_data", unique: true
     t.index ["member_id"], name: "index_payments_on_member_id"
