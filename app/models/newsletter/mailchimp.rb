@@ -105,7 +105,7 @@ class Newsletter::MailChimp
   end
 
   def email_suppressed?(email)
-    @suppressed_emails ||= EmailSuppression.mailchimp.pluck(:email)
+    @suppressed_emails ||= EmailSuppression.active.mailchimp.pluck(:email)
     @suppressed_emails.include?(email)
   end
 
@@ -193,7 +193,7 @@ class Newsletter::MailChimp
         json = JSON.load(r['response'])
         if json['title'] == 'Forgotten Email Not Subscribed'
           email = json['detail'].split(' ').first
-          EmailSuppression.create!(
+          EmailSuppression.find_or_create!(
             stream_id: 'mailchimp',
             email: email,
             reason: 'Forgotten',

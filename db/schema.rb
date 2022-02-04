@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_155641) do
+ActiveRecord::Schema.define(version: 2022_02_04_161025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -384,7 +384,7 @@ ActiveRecord::Schema.define(version: 2022_02_04_155641) do
     t.string "reason"
     t.string "origin"
     t.string "stream_id"
-    t.datetime "deleted_at"
+    t.datetime "unsuppressed_at"
     t.datetime "created_at"
     t.index ["stream_id", "email", "reason", "origin", "created_at"], name: "email_suppressions_unique_index", unique: true
   end
