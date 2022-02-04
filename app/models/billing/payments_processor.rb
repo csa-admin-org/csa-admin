@@ -34,7 +34,7 @@ module Billing
     private
 
     def create_payment!(data)
-      return if Payment.with_deleted.where(isr_data: data.isr_data).exists?
+      return if Payment.where(isr_data: data.isr_data).exists?
 
       invoice = Invoice.find(data.invoice_id)
 
