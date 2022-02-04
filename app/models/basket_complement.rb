@@ -75,10 +75,10 @@ class BasketComplement < ApplicationRecord
   private
 
   def after_add_delivery!(delivery)
-    delivery.add_subscribed_baskets_complement!(self)
+    BasketsBasketComplement.handle_deliveries_addition!(delivery, self)
   end
 
   def after_remove_delivery!(delivery)
-    delivery.remove_subscribed_baskets_complement!(self)
+    BasketsBasketComplement.handle_deliveries_removal!(delivery, self)
   end
 end

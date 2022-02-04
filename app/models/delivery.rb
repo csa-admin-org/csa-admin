@@ -67,30 +67,6 @@ class Delivery < ApplicationRecord
     "#{I18n.l(date, format: format)} ##{number}"
   end
 
-  def add_subscribed_baskets_complement!(complement)
-    return unless valid?
-
-    baskets_with_membership_subscribed_to =
-      baskets
-        .joins(membership: :memberships_basket_complements)
-        .where(memberships_basket_complements: { basket_complement_id: complement.id })
-        .includes(membership: :memberships_basket_complements)
-
-    baskets_with_membership_subscribed_to.each do |basket|
-      mbc = membership_basket_complement_for(basket, complement)
-      basket.add_complement!(complement,
-        quantity: mbc.quantity,
-        price: mbc.delivery_price)
-    end
-  end
-
-  def remove_subscribed_baskets_complement!(complement)
-    BasketsBasketComplement
-      .joins(:basket)
-      .where(baskets: { delivery_id: id }, basket_complement_id: complement.id)
-      .destroy_all
-  end
-
   def basket_counts
     @basket_counts ||= BasketCounts.new(self, Depot.pluck(:id))
   end
@@ -119,18 +95,19 @@ class Delivery < ApplicationRecord
 
   private
 
-  def membership_basket_complement_for(basket, complement)
-    basket
-      .membership
-      .memberships_basket_complements
-      .find_by(basket_complement_id: complement.id)
-  end
-
   def bulk_attributes
     super.map { |h|
       h[:basket_complement_ids] = basket_complement_ids
       h
     }
+  end
+
+  def add_subscribed_baskets_complement!(complement)
+    BasketsBasketComplement.handle_deliveries_addition!(self, complement)
+  end
+
+  def remove_subscribed_baskets_complement!(complement)
+    BasketsBasketComplement.handle_deliveries_removal!(self, complement)
   end
 
   def update_baskets_async

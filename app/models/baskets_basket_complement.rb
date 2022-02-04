@@ -12,6 +12,39 @@ class BasketsBasketComplement < ApplicationRecord
     self.price ||= basket_complement&.delivery_price
   end
 
+  def self.handle_deliveries_addition!(delivery, complement)
+    baskets_with_membership_subscription =
+      delivery
+        .baskets
+        .joins(membership: :memberships_basket_complements)
+        .where(memberships_basket_complements: { basket_complement_id: complement.id })
+        .includes(membership: :memberships_basket_complements)
+
+    baskets_with_membership_subscription.find_each do |basket|
+      unless basket.complements.exists?(complement.id)
+        membership_subscription =
+          basket
+            .membership
+            .memberships_basket_complements
+            .find_by(basket_complement_id: complement.id)
+        create!(
+          basket: basket,
+          basket_complement: complement,
+          quantity: membership_subscription.quantity,
+          price: membership_subscription.delivery_price)
+      end
+    end
+  end
+
+  def self.handle_deliveries_removal!(delivery, complement)
+    all
+      .joins(:basket)
+      .where(
+        baskets: { delivery_id: delivery.id },
+        basket_complement_id: complement.id)
+      .destroy_all
+  end
+
   def basket_complement_annual_price_type?
     basket_complement&.annual_price_type?
   end
