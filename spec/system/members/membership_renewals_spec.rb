@@ -17,6 +17,7 @@ describe 'Memberships Renewal' do
       basket_size: basket_size,
       depot: depot)
     create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    new_depot = create(:depot, name: 'Nouveau Lieu')
     membership.open_renewal!
     complement = create(:basket_complement,
       name: 'Oeufs',
@@ -33,6 +34,7 @@ describe 'Memberships Renewal' do
     choose 'Renouveler mon abonnement'
     click_on 'Suivant'
 
+    choose "Nouveau Lieu"
     choose "Grand PUBLIC"
     fill_in 'Oeufs', with: '2'
     fill_in 'Remarque(s)', with: "Plus d'épinards!"
@@ -49,12 +51,13 @@ describe 'Memberships Renewal' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
       expect(page).to have_content 'Grand PUBLIC'
       expect(page).to have_content '2 x Oeufs'
-      expect(page).to have_content 'Joli Lieu'
+      expect(page).to have_content 'Nouveau Lieu'
       expect(page).to have_content '1 Livraison'
       expect(page).to have_content '½ Journées: 2 demandées'
       expect(page).to have_content "CHF 38.40"
     end
     expect(membership.reload).to have_attributes(
+      depot: depot,
       renew: true,
       renewal_annual_fee: nil,
       renewal_opened_at: Time.current,
@@ -66,8 +69,8 @@ describe 'Memberships Renewal' do
       started_on: Date.parse('2021-01-01'),
       ended_on: Date.parse('2021-12-31'),
       basket_size: big_basket,
-      depot: depot,
-      deliveries_cycle: depot.main_deliveries_cycle)
+      depot: new_depot,
+      deliveries_cycle: new_depot.main_deliveries_cycle)
     expect(membership.renewed_membership.memberships_basket_complements.first).to have_attributes(
       basket_complement_id: complement.id,
       quantity: 2)
