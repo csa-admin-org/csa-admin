@@ -13,7 +13,7 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    choose "activity_participation_activity_id_#{activity.id}"
+    check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     click_button 'Inscription'
 
@@ -31,7 +31,7 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    choose "activity_participation_activity_id_#{activity.id}"
+    check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     check 'activity_participation_carpooling'
     fill_in 'activity_participation_carpooling_phone', with: '077 447 58 31'
@@ -53,7 +53,7 @@ describe 'Activity Participation' do
 
     visit '/activity_participations'
 
-    choose "activity_participation_activity_id_#{activity.id}"
+    check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
     check 'activity_participation_carpooling'
 

@@ -43,14 +43,15 @@ export default class extends Controller {
 
   _selectDate(dateText) {
     for (const input of this.inputTargets) {
-      hide(input.closest("span.radio"))
+      hide(input.closest("span.checkbox"))
     }
 
     const dateInputs = this.inputTargets.filter(
       (input) => input.dataset.date == dateText
     )
     for (const input of dateInputs) {
-      show(input.closest("span.radio"))
+      show(input.closest("span.checkbox"))
+      input.checked = false
     }
     if (dateInputs.every((input) => !input.checked)) {
       dateInputs[0].checked = true
