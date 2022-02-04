@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_141732) do
+ActiveRecord::Schema.define(version: 2022_02_04_154240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -518,7 +518,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_141732) do
     t.string "delivery_address", limit: 255
     t.string "delivery_zip", limit: 255
     t.string "delivery_city", limit: 255
-    t.datetime "deleted_at"
     t.string "state", default: "pending", null: false
     t.string "name", null: false
     t.string "profession"
@@ -534,7 +533,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_141732) do
     t.boolean "contact_sharing", default: false, null: false
     t.integer "desired_acp_shares_number", default: 0, null: false
     t.bigint "waiting_deliveries_cycle_id"
-    t.index ["deleted_at"], name: "index_members_on_deleted_at"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"

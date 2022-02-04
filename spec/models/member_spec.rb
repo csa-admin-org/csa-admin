@@ -475,9 +475,8 @@ describe Member do
       expect(member.can_destroy?).to eq true
     end
 
-    specify 'can destory inactive member with no memberships and no invoices' do
+    specify 'can destroy inactive member with no memberships and no invoices' do
       member = create(:member, :inactive)
-      create(:invoice, :annual_fee, :canceled, member: member, annual_fee: 10)
       expect(member.can_destroy?).to eq true
     end
 

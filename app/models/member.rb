@@ -8,8 +8,6 @@ class Member < ApplicationRecord
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
-  acts_as_paranoid
-
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
 
@@ -25,11 +23,11 @@ class Member < ApplicationRecord
   class_name: 'Depot',
   join_table: 'members_waiting_alternative_depots',
   optional: true
-  has_many :absences
+  has_many :absences, dependent: :destroy
   has_many :invoices
   has_many :payments
   has_many :current_year_invoices, -> { current_year }, class_name: 'Invoice'
-  has_many :activity_participations
+  has_many :activity_participations, dependent: :destroy
   has_many :memberships
   has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
   has_one :current_membership, -> { current }, class_name: 'Membership'
@@ -241,8 +239,12 @@ class Member < ApplicationRecord
   end
 
   def can_destroy?
-    pending? ||
-      (inactive? && memberships.none? && invoices.sent.not_canceled.none?)
+    pending? || (inactive? &&
+      memberships.none? &&
+      invoices.none? &&
+      payments.none? &&
+      group_buying_orders.none? &&
+      shop_orders.none?)
   end
 
   def invoices_amount
