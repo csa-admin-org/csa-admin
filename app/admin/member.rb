@@ -152,7 +152,8 @@ ActiveAdmin.register Member do
               shop_order = next_basket.delivery.shop_orders.find_by(member_id: member.id)
               row(I18n.t('shop.title')) { auto_link shop_order }
             end
-            row(Membership.model_name.human) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
+            row(:deliveries_cycle) { auto_link next_basket.membership.deliveries_cycle }
+            row(:membership) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
           end
         end
 
