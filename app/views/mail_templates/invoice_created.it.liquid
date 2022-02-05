@@ -11,7 +11,7 @@
     <strong>Tenendo conto dei pagamenti precedenti, questa fattura è considerata pagata e viene inviata solo a titolo informativo.</strong>
   {% endhighlight %}
 {% when 'open' %}
-  {% if invoice.overdue_notices_count > 0 %}
+  {% if invoice.only_partially_paid %}
     {% highlight %}
       <strong>Tenendo conto dei pagamenti precedenti, il montante che deve essere ancora pagato è di: {{ invoice.missing_amount }}</strong>
     {% endhighlight %}

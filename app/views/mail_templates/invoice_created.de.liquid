@@ -11,7 +11,7 @@
     <strong>Unter Berücksichtigung der bisherigen Einzahlungen gilt diese Rechnung als bezahlt und wird nur informativ geschickt.</strong>
   {% endhighlight %}
 {% when 'open' %}
-  {% if invoice.overdue_notices_count > 0 %}
+  {% if invoice.only_partially_paid %}
     {% highlight %}
       <strong>Unter Berücksichtigung der bisherigen Einzahlungen muss der restliche Betrag von {{ invoice_missing.amount }} noch beglichen werden.</strong>
     {% endhighlight %}
