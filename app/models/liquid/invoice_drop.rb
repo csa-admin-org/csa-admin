@@ -28,6 +28,10 @@ class Liquid::InvoiceDrop < Liquid::Drop
     @invoice.object_id
   end
 
+  def only_partially_paid
+    @invoice.missing_amount < @invoice.amount
+  end
+
   def amount
     cur(@invoice.amount)
   end
