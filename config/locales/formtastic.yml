@@ -333,9 +333,9 @@ _:
           _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
           _it: Aumento o riduzione del prezzo dell'abbonamento a seconda del servizio reso o meno.
         activity_participations_demanded_annualy:
-          _de: Leer lassen für die Standaranzahl.
-          _fr: Laisser blanc pour le nombre par défaut.
-          _it: Lasciare vuoto il campo per il numero predefinito.
+          _de: Leer lassen für die Standaranzahl. Die endgültige Zahl wird automatisch im Verhältnis zur Anzahl der Lieferungen berechnet.
+          _fr: Laisser blanc pour le nombre par défaut. Le nombre final sera calculé automatiquement au prorata du nombre de livraisons.
+          _it: Lasciare vuoto il campo per il numero predefinito. Il numero finale sarà calcolato automaticamente in proporzione al numero di consegne.
         basket_complements_annual_price_change:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen/Zusätze.
           _fr: Modifie le montant final, peu importe le nombre de paniers/compléments.
@@ -344,6 +344,10 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto il campo per il numero predefinito.
+        basket_price_extra:
+          _de: Preisaufschlag, der zu jeder Tasche hinzugefügt wird.
+          _fr: Supplément de prix ajouté à chaque panier.
+          _it: Prezzo aggiuntivo aggiunto ad ogni cesta.
         baskets_annual_price_change:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen.
           _fr: Modifie le montant final, peu importe le nombre de paniers.

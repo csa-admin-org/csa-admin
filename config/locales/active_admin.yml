@@ -476,6 +476,10 @@ _:
           _de: Handbuch konsultieren
           _fr: Consulter le manuel
           _it: Consultare il manuale
+        config:
+          _de: Konfiguration
+          _fr: Configuration
+          _it: Configurazione
         delivery_pdf:
           _de: Signaturblätter
           _fr: Fiches signature
@@ -524,10 +528,10 @@ _:
           _de: Beteiligung der Mitglieder
           _fr: Participation des membres
           _it: Partecipazione dei soci
-        membership_edit_warning:
-          _de: Achtung, nach jeglicher Änderung werden alle künftige Taschen dieses Abonnements neu erstellt!
-          _fr: Attention, toute modification recréera tous les paniers à venir de cet abonnement!
-          _it: Attenzione, dopo ogni modifica tutte le ceste future di questo abbonamento saranno ricreate!
+        membership_configuration_warning_text:
+          _de: Achtung, jede Änderung der Konfiguration wird die Taschen dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
+          _fr: Attention, toute modification de la configuration recréera les paniers de cet abonnement à partir de la date ci-dessous!
+          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà i cestini per questo abbonamento a partire dalla data sottostante!
         membership_renewal:
           _de: Erneuerung
           _fr: Renouvellement
@@ -676,6 +680,14 @@ _:
           _de: Tasche und Depot
           _fr: Panier et dépôt
           _it: Cesta e punto di ritiro
+        billing:
+          _de: Rechnungsstellung
+          _fr: Facturation
+          _it: Fatturazione
+        config:
+          _de: Konfiguration
+          _fr: Configuration
+          _it: Configurazione
         details:
           _de: Details
           _fr: Détails
@@ -692,6 +704,10 @@ _:
           _de: Einen Artikel hinzufügen
           _fr: Ajouter un article
           _it: Aggiungere un articolo
+        membership_configuration_text:
+          _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
+          _fr: Tous les paniers de cet abonnement seront créés en fonction de la configuration ci-dessous.
+          _it: Tutti i cesti di questo abbonamento saranno creati secondo la seguente configurazione.
         refused_activity_participation:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
@@ -761,6 +777,10 @@ _:
           _de: bezahlte
           _fr: payées
           _it: pagato
+        config:
+          _de: Konfiguration
+          _fr: Configuration
+          _it: Configurazione
         confirm:
           _de: Sind Sie sicher?
           _fr: Êtes-vous sûr?

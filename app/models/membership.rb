@@ -3,6 +3,8 @@ require 'rounding'
 class Membership < ApplicationRecord
   attr_accessor :skip_touch, :renewal_decision
 
+  attribute :new_config_from, :date
+
   belongs_to :member
   belongs_to :basket_size
   belongs_to :depot
@@ -22,6 +24,11 @@ class Membership < ApplicationRecord
 
   accepts_nested_attributes_for :memberships_basket_complements, allow_destroy: true
 
+  after_initialize do
+    unless new_record?
+      self.new_config_from ||= [[Date.today, started_on].max, ended_on].min
+    end
+  end
   before_validation do
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
@@ -39,6 +46,13 @@ class Membership < ApplicationRecord
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validates :deliveries_cycle, inclusion: { in: ->(m) { m.depot&.deliveries_cycles } }
+  validates :new_config_from,
+    date: {
+      after_or_equal_to: :started_on,
+      before_or_equal_to: :ended_on
+    },
+    on: :update,
+    unless: ->(m) { m.started_on_changed? || m.ended_on_changed? }
   validate :good_period_range
   validate :cannot_update_dates_when_renewed
   validate :only_one_per_year
@@ -51,7 +65,7 @@ class Membership < ApplicationRecord
   after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
-  after_update :handle_subscription_change!
+  after_update :handle_config_change!
   after_update :cancel_outdated_invoice!
   after_commit :update_member_and_baskets!
   after_touch :update_price_and_invoices_amount!, unless: :skip_touch
@@ -429,19 +443,23 @@ class Membership < ApplicationRecord
     end
   end
 
-  def handle_subscription_change!
+  def handle_config_change!
+    return unless attributes_config_changed? || memberships_basket_complements_config_changed?
+
+    range = new_config_from..ended_on
+    destroy_baskets!(range)
+    create_baskets!(range)
+  end
+
+  def attributes_config_changed?
     tracked_attributes = %w[
       basket_size_id basket_price basket_quantity
       depot_id depot_price deliveries_cycle_id
     ]
-    if (saved_changes.keys & tracked_attributes).any? || memberships_basket_complements_changed?
-      range = [Time.current, started_on].max..ended_on
-      destroy_baskets!(range)
-      create_baskets!(range)
-    end
+    (saved_changes.keys & tracked_attributes).any?
   end
 
-  def memberships_basket_complements_changed?
+  def memberships_basket_complements_config_changed?
     @tracked_memberships_basket_complements_attributes &&
       @tracked_memberships_basket_complements_attributes !=
         memberships_basket_complements.map(&:attributes)

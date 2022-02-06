@@ -29,9 +29,9 @@ _:
       _fr: Balance
       _it: Bilancio
     basket_price_extra:
-      _de: Preis Taschen (zusätzlich)
-      _fr: Prix panier (extra)
-      _it: Prezzo della cesta (extra)
+      _de: Preis Extra-Tasche
+      _fr: Prix panier extra
+      _it: Prezzo extra del cesto
     basket_size:
       _de: Taschengrösse
       _fr: Taille panier
@@ -152,6 +152,10 @@ _:
       _de: Endzeit
       _fr: Heure de fin
       _it: Ora di fine
+    fiscal_year:
+      _de: Geschäftsjahr
+      _fr: Année fiscale
+      _it: Anno fiscale
     form_priority:
       _de: Priorität
       _fr: Priorité
