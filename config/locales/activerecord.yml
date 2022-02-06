@@ -937,6 +937,10 @@ _:
           _de: Noch zu fakturierende Beträge
           _fr: Restant à facturer
           _it: Importi ancora da fatturare
+        new_config_from:
+          _de: Änderung seit dem
+          _fr: Modification à partir du
+          _it: Modifica dal
         period:
           _de: Periode
           _fr: Période

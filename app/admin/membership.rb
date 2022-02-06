@@ -255,6 +255,11 @@ ActiveAdmin.register Membership do
         attributes_table do
           row :id
           row :member
+          row(:period) { [l(m.started_on),l(m.ended_on)].join(' - ') }
+          row(:fiscal_year)
+        end
+
+        attributes_table title: t('.config') do
           row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
           if BasketComplement.any?
             row(:memberships_basket_complements) {
@@ -264,7 +269,6 @@ ActiveAdmin.register Membership do
             end
           row :depot
           row :deliveries_cycle
-          row(:period) { [l(m.started_on),l(m.ended_on)].join(' - ') }
         end
 
         if Date.current > m.started_on
@@ -500,41 +504,59 @@ ActiveAdmin.register Membership do
       end
     end
 
-    f.inputs t('.basket_and_depot') do
-      unless resource.new_record?
-        para t('.membership_edit_warning'), class: 'warning'
-      end
-      f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
-      f.input :basket_price, hint: true, required: false
+    f.inputs t('.billing') do
       if Current.acp.feature_flag?(:basket_price_extra)
-        f.input :basket_price_extra, required: true
+        f.input :basket_price_extra, required: true, label: "#{Membership.human_attribute_name(:basket_price_extra)} (#{Current.acp.basket_price_extra_title})"
       end
       f.input :baskets_annual_price_change, hint: true
-      f.input :basket_quantity
+      if BasketComplement.any?
+        f.input :basket_complements_annual_price_change, hint: true
+      end
+    end
+
+    h3 t('.config')
+    if resource.new_record?
+      para t('.membership_configuration_text')
+    else
+      para t('.membership_configuration_warning_text'), class: 'new_config_from warning'
+      f.inputs do
+        f.input :new_config_from, as: :datepicker, required: true
+      end
+    end
+    f.inputs [Depot.model_name.human(count: 1), DeliveriesCycle.model_name.human(count: 1)].to_sentence do
       f.input :depot,
-        prompt: true,
-        input_html: {
-          class: 'js-reset_price',
-          data: {
-            controller: 'form-select-options',
-            action: 'form-select-options#update',
-            form_select_options_target_param: 'membership_deliveries_cycle_id'
-          }
-        },
-        collection: Depot.all.map { |d|
-          [
-            d.name, d.id,
-            data: {
-              form_select_options_values_param: d.deliveries_cycle_ids.join(',')
-            }
-          ]
+      prompt: true,
+      input_html: {
+        class: 'js-reset_price',
+        data: {
+          controller: 'form-select-options',
+          action: 'form-select-options#update',
+          form_select_options_target_param: 'membership_deliveries_cycle_id'
         }
+      },
+      collection: Depot.all.map { |d|
+        [
+          d.name, d.id,
+          data: {
+            form_select_options_values_param: d.deliveries_cycle_ids.join(',')
+          }
+        ]
+      }
       f.input :depot_price, hint: true, required: false
       f.input :deliveries_cycle,
         as: :select,
         collection: deliveries_cycles_collection,
         disabled: f.object.depot ? (DeliveriesCycle.pluck(:id) - f.object.depot.deliveries_cycle_ids) : [],
         prompt: true
+    end
+    f.inputs [
+      Basket.model_name.human(count: 1),
+      BasketComplement.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
+    ].compact.to_sentence do
+      f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
+      f.input :basket_price, hint: true, required: false
+      f.input :basket_quantity
+
       if BasketComplement.any?
         complements = BasketComplement.all
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
@@ -545,7 +567,6 @@ ActiveAdmin.register Membership do
           ff.input :price, hint: true, required: false
           ff.input :quantity
         end
-        f.input :basket_complements_annual_price_change, hint: true
       end
     end
     f.actions
@@ -558,6 +579,7 @@ ActiveAdmin.register Membership do
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,
+    :new_config_from,
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,

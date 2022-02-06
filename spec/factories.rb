@@ -285,6 +285,9 @@ FactoryBot.define do
         evaluator.deliveries_count,
         evaluator.fiscal_year)
     end
+    after :create do |membership, _|
+      membership.reload # reset new_config_from
+    end
   end
 
   factory :payment do
