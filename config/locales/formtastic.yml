@@ -206,6 +206,10 @@ _:
           _de: Nachdem Sie die Konfiguration für Tage, Wochen und Monate angewendet haben, behalten Sie nur die resultierenden Lieferungen nach dem letztgenannten Kriterium.
           _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
           _it: Una volta che la configurazione di giorni, settimane e mesi è stata applicata, conserva solo le consegne risultanti secondo quest'ultimo criterio.
+        visible:
+          _de: Wird auf jeden Fall sichtbar sein, wenn nur eine Depot ausgewählt wurde.
+          _fr: Sera de toute façon visible si un seul dépôt est selectionné.
+          _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
       delivery:
         basket_complements:
           _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert.
