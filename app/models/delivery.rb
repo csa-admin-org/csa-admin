@@ -5,7 +5,7 @@ class Delivery < ApplicationRecord
   default_scope { order(:date) }
 
   has_many :baskets, dependent: :destroy
-  has_many :depots, through: :baskets
+  has_many :depots, -> { distinct.reorder(:name) }, through: :baskets
   has_many :basket_contents, dependent: :destroy
   has_many :shop_orders, class_name: 'Shop::Order', dependent: :destroy
   has_and_belongs_to_many :basket_complements,
