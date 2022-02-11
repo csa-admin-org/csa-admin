@@ -59,7 +59,10 @@ class Basket < ApplicationRecord
   end
 
   def complements_description
-    baskets_basket_complements.map(&:description).compact.to_sentence.presence
+    baskets_basket_complements
+      .joins(:basket_complement)
+      .merge(BasketComplement.order_by_name)
+      .map(&:description).compact.to_sentence.presence
   end
 
   def complements_price
