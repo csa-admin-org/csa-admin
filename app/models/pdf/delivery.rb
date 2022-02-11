@@ -14,7 +14,7 @@ module PDF
         else
           Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
-      if Current.acp.feature_flag?('shop')
+      if Current.acp.feature?('shop')
         @shop_open = @delivery.shop_open
         @shop_orders =
           @delivery

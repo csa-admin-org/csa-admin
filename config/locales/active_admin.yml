@@ -1263,6 +1263,10 @@ _:
         _de: 'Betrag:'
         _fr: 'Montant:'
         _it: 'Quantità:'
+      edit_settings:
+        _de: Einstellungen bearbeiten
+        _fr: Modifier les paramètres
+        _it: Modifica parametri
       filters:
         _de: Filter
         _fr: Filtres
@@ -1287,13 +1291,21 @@ _:
         _de: Resultate der Suche
         _fr: Résultats de la recherche
         _it: Risultati della ricerca
+      shop_admin_only:
+        _de: Beschränkter Zugang!
+        _fr: Accès limité!
+        _it: Accesso limitato!
+      shop_admin_only_text_html:
+        _de: Nur Admins können derzeit das Lebensmittelgeschäft sehen.
+        _fr: Seuls les admins peuvent actuellement voir l'épicerie.
+        _it: Solo gli amministratori possono attualmente vedere il negozio di drogheria.
       shop_closed_html:
-        _de: Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
-        _fr: Les commandes pour la livraison du <u>%{date}</u> sont terminées.
-        _it: Gli ordini per la consegna il <u>%{date}</u> sono completi.
+        _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
+        _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont plus possibles.
+        _it: Gli ordini per la consegna il <u>%{date}</u> non sono più possibili.
       shop_not_open_yet_html:
-        _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind abgeschlossen.
-        _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possible.
+        _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
+        _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possibles.
         _it: Gli ordini con consegna il <u>%{date}</u> non sono ancora possibili.
       shop_open_until_html:
         _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.

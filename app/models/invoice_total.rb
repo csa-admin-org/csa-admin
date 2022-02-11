@@ -7,7 +7,7 @@ class InvoiceTotal
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?
     scopes << 'GroupBuying::Order' if Current.acp.feature?('group_buying')
-    scopes << 'Shop::Order' if Current.acp.feature_flag?('shop')
+    scopes << 'Shop::Order' if Current.acp.feature?('shop')
     scopes << 'ActivityParticipation' if Current.acp.feature?('activity')
     scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
     all = scopes.flatten.map { |scope| new(scope) }

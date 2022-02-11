@@ -62,6 +62,9 @@ ActiveAdmin.register Shop::Product do
     column(:available)
   end
 
+  sidebar_shop_admin_only_warning
+  sidebar_handbook_link('shop#produits')
+
   form do |f|
     f.semantic_errors :base
     if f.object.errors[:variants].present?

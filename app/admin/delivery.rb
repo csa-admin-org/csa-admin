@@ -12,7 +12,7 @@ ActiveAdmin.register Delivery do
   filter :note, as: :string
   filter :shop_open,
     as: :boolean,
-    if: -> proc { Current.acp.feature_flag?('shop') }
+    if: -> proc { Current.acp.feature?('shop') }
   filter :date
   filter :during_year,
     as: :select,
@@ -28,7 +28,7 @@ ActiveAdmin.register Delivery do
     if BasketComplement.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
-    if Current.acp.feature_flag?('shop')
+    if Current.acp.feature?('shop')
       column :shop, ->(delivery) { status_tag(delivery.shop_open?) }
     end
     actions defaults: true, class: 'col-actions-5' do |delivery|
@@ -61,7 +61,7 @@ ActiveAdmin.register Delivery do
       column(deliveries_cycle.name) { |d| deliveries_cycle.include_delivery?(d) }
     end
 
-    if Current.acp.feature_flag?('shop')
+    if Current.acp.feature?('shop')
       column(:shop_open)
     end
   end
@@ -135,7 +135,7 @@ ActiveAdmin.register Delivery do
         attributes_table do
           row('#') { delivery.number }
           row(:date) { l(delivery.date, format: :long) }
-          if Current.acp.feature_flag?('shop')
+          if Current.acp.feature?('shop')
             row(:shop_open)
           end
         end
@@ -151,7 +151,7 @@ ActiveAdmin.register Delivery do
           end
         end
 
-        if Current.acp.feature_flag?('shop')
+        if Current.acp.feature?('shop')
           panel link_to(Shop::Order.model_name.human(count: 2), shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all)) do
             orders_count = delivery.shop_orders.count
             if orders_count.positive?
@@ -191,7 +191,7 @@ ActiveAdmin.register Delivery do
       end
     end
     f.inputs do
-      if Current.acp.feature_flag?('shop')
+      if Current.acp.feature?('shop')
         f.input :shop_open, as: :boolean
       end
       f.input :note

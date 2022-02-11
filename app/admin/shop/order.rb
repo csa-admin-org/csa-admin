@@ -69,6 +69,8 @@ ActiveAdmin.register Shop::Order do
     column(:balance) { |o| o.invoice&.balance }
   end
 
+  sidebar_shop_admin_only_warning
+
   sidebar I18n.t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
     div class: 'content' do
@@ -110,6 +112,8 @@ ActiveAdmin.register Shop::Order do
       end
     end
   end
+
+  sidebar_handbook_link('shop#commandes')
 
   show do |order|
     columns do

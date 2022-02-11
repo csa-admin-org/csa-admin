@@ -19,6 +19,7 @@ ActiveAdmin.register ACP do
     :vat_number, :vat_membership_rate, :absences_billed,
     :delivery_pdf_show_phones,
     :group_buying_email,
+    :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_delivery_open_delay_in_days, :shop_delivery_open_last_day_end_time,
     :recurring_billing_wday, :currency_code,
@@ -124,14 +125,8 @@ ActiveAdmin.register ACP do
             hint: t('formtastic.hints.acp.open_renewal_text'))
           f.input :open_renewal_reminder_sent_after_in_days
           f.input :membership_renewal_depot_update
-          para class: 'actions' do
-            a href: handbook_page_path('membership_renewal'), class: 'action' do
-              span do
-                span inline_svg_tag('admin/book-open.svg', size: '20', title: I18n.t('layouts.footer.handbook'))
-                span t('.check_handbook')
-              end
-            end.html_safe
-          end
+
+          handbook_button(self, 'membership_renewal')
         end
       end
       tab t('.member_section') do
@@ -185,7 +180,7 @@ ActiveAdmin.register ACP do
         [
           content_tag(:span) {
             content_tag(:span, t("features.#{ff}")) +
-            content_tag(:span, t("features.#{ff}_hint"), class: 'hint')
+            content_tag(:span, t("features.#{ff}_hint").html_safe, class: 'hint')
           },
           ff
         ]
@@ -208,7 +203,7 @@ ActiveAdmin.register ACP do
         end
       end
       if Current.acp.feature?('group_buying')
-        tab t('.group_buying') do
+        tab t('.group_buying'), id: 'group_buying'  do
           f.inputs do
             f.input :group_buying_email, as: :email
             translated_input(f, :group_buying_terms_of_service_urls, required: false)
@@ -219,7 +214,7 @@ ActiveAdmin.register ACP do
         end
       end
       if Current.acp.feature?('activity')
-        tab t('.members_participation') do
+        tab t('.members_participation'), id: 'activity' do
           f.inputs do
             f.input :activity_i18n_scope,
               as: :select,
@@ -232,9 +227,10 @@ ActiveAdmin.register ACP do
           end
         end
       end
-      if Current.acp.feature_flag?('shop')
-        tab t('.shop') do
+      if Current.acp.feature?('shop')
+        tab t('.shop'), id: 'shop' do
           f.inputs do
+            f.input :shop_admin_only
             translated_input(f, :shop_texts,
               as: :action_text,
               required: false,
@@ -253,6 +249,8 @@ ActiveAdmin.register ACP do
               hint: t('formtastic.hints.acp.shop_invoice_info'),
               required: false)
             translated_input(f, :shop_delivery_pdf_footers, required: false)
+
+            handbook_button(self, 'shop')
           end
         end
       end
@@ -289,6 +287,19 @@ ActiveAdmin.register ACP do
     include TranslatedCSVFilename
 
     defaults singleton: true
+
+    def update
+      update! do |success, failure|
+        success.html do
+          if resource.features_previously_changed? && (resource.features - resource.features_previously_was).any?
+            new_feature = (resource.features - resource.features_previously_was).first
+            redirect_to "/settings##{new_feature}"
+          else
+            redirect_to "/"
+          end
+        end
+      end
+    end
 
     def resource
       @resource ||= Current.acp

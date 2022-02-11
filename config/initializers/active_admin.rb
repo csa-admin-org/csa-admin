@@ -420,6 +420,25 @@ module ActiveAdmin
       end
       config.sidebar_sections << section
     end
+
+    def sidebar_shop_admin_only_warning
+      section = ActiveAdmin::SidebarSection.new(
+        I18n.t('active_admin.sidebars.shop_admin_only'),
+        if: -> { Current.acp.shop_admin_only },
+        only: :index,
+        class: 'warning'
+      ) do
+        div class: 'content' do
+          span t('active_admin.sidebars.shop_admin_only_text_html')
+          if authorized?(:manage, Current.acp)
+            para class: 'text-center' do
+              a(href: '/settings#shop') { t('active_admin.sidebars.edit_settings') }
+            end
+          end
+        end
+      end
+      config.sidebar_sections << section
+    end
   end
 end
 

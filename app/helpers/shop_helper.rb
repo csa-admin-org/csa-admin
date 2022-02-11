@@ -1,4 +1,11 @@
 module ShopHelper
+  def show_shop_menu?
+    return unless Current.acp.feature?('shop')
+    return unless current_shop_delivery
+
+    !Current.acp.shop_admin_only || current_session.admin_originated?
+  end
+
   def live_stock(variant, order)
     return unless variant.stock
 

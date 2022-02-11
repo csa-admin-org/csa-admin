@@ -8,11 +8,6 @@ describe 'Shop::Order' do
     login(member)
   end
 
-  specify 'no shop delivery' do
-    visit '/shop'
-    expect(current_path).not_to eq '/shop'
-  end
-
   specify 'shop delivery for next delivery' do
     Current.acp.update!(
       shop_delivery_open_delay_in_days: 2,

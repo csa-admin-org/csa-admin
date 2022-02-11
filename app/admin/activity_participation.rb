@@ -178,14 +178,14 @@ ActiveAdmin.register ActivityParticipation do
     end
 
     def create
-      super do
-        redirect_to collection_url and return if resource.valid?
+      create! do |success, failure|
+        success.html { redirect_to collection_url }
       end
     end
 
     def update
-      super do
-        redirect_to collection_url and return if resource.valid?
+      update! do |success, failure|
+        success.html { redirect_to collection_url }
       end
     end
   end
