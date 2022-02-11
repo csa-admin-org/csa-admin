@@ -85,6 +85,25 @@ describe Member do
       expect(Member.new(annual_fee: 1)).to have_valid(:annual_fee)
       expect(Member.new(annual_fee: -1)).not_to have_valid(:annual_fee)
     end
+
+    it 'validates waiting_depot presence' do
+      member = build(:member,
+        waiting_basket_size: create(:basket_size),
+        waiting_depot: nil)
+
+      expect(member).not_to be_valid
+      expect(member).not_to have_valid(:waiting_depot)
+    end
+
+    it 'validates waiting_deliveries_cycle presence' do
+      member = build(:member,
+        waiting_basket_size: create(:basket_size),
+        waiting_depot: create(:depot),
+        waiting_deliveries_cycle: create(:deliveries_cycle))
+
+      expect(member).not_to be_valid
+      expect(member).not_to have_valid(:waiting_deliveries_cycle)
+    end
   end
 
   it 'strips whitespaces from emails' do

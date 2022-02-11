@@ -77,8 +77,8 @@ class Member < ApplicationRecord
   validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_price_extra, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
-  validates :waiting_depot, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
-  validates :waiting_deliveries_cycle, inclusion: { in: ->(m) { m.waiting_depot&.deliveries_cycles } }, if: :waiting_basket_size, on: :create
+  validates :waiting_depot, presence: true, inclusion: { in: proc { Depot.all } }, if: :waiting_basket_size, on: :create
+  validates :waiting_deliveries_cycle, inclusion: { in: ->(m) { m.waiting_depot&.deliveries_cycles } }, if: :waiting_depot, on: :create
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :existing_acp_shares_number, numericality: { greater_than_or_equal_to: 0 }
   validate :email_must_be_unique
