@@ -26,7 +26,7 @@ class BasketComplementCount
   end
 
   def shop_orders_count
-    return 0 unless Current.acp.feature_flag?('shop')
+    return 0 unless Current.acp.feature?('shop')
 
     @shop_orders_count ||=
       @delivery

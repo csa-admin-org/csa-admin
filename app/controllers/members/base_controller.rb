@@ -43,7 +43,7 @@ class Members::BaseController < ApplicationController
   end
 
   def current_shop_delivery
-    return unless Current.acp.feature_flag?('shop')
+    return unless Current.acp.feature?('shop')
 
     @current_shop_delivery ||=
       Delivery
@@ -54,7 +54,7 @@ class Members::BaseController < ApplicationController
   helper_method :current_shop_delivery
 
   def next_shop_delivery
-    return unless Current.acp.feature_flag?('shop')
+    return unless Current.acp.feature?('shop')
     return unless current_shop_delivery
 
     @next_shop_delivery ||=

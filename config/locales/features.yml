@@ -40,3 +40,11 @@ _:
       _de: Ermöglicht die Organisation von Sammelkäufen von Produkten getrennt von Taschenlieferungen.
       _fr: Permet d'organiser des achats groupés de produits séparément des livraisons de paniers.
       _it: Permette di organizzare acquisti di gruppo di prodotti separatamente dalle consegne del cestino.
+    shop:
+      _de: Lebensmittelgeschäft
+      _fr: Épicerie
+      _it: Drogheria
+    shop_hint:
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Taschen zusätzliche Produkte zu bestellen. Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de paniers. Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
+      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna del cesto. Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.

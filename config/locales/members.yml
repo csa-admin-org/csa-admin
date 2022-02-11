@@ -341,7 +341,7 @@ _:
             _it: Nuovo ordine
           not_orderable:
             _de: Bestellungen sind leider nicht mehr möglich.
-            _fr: Désolé, les commandes ne sont plus possible.
+            _fr: Désolé, les commandes ne sont plus possibles.
             _it: Spiacenti, gli ordini non sono più possibili.
           order_amount:
             _de: 'Gesamt: %{amount}'

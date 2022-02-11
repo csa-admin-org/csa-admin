@@ -1,11 +1,11 @@
 class Members::Shop::BaseController < Members::BaseController
-  before_action :ensure_shop_feature_flag
+  before_action :ensure_shop_feature
   before_action :ensure_delivery
 
   private
 
-  def ensure_shop_feature_flag
-    redirect_to members_member_path unless Current.acp.feature_flag?('shop')
+  def ensure_shop_feature
+    redirect_to members_member_path unless Current.acp.feature?('shop')
   end
 
   def ensure_delivery

@@ -90,7 +90,7 @@ class Ability
     if Current.acp.feature?('group_buying')
       default += group_buying_models
     end
-    if Current.acp.feature_flag?(:shop)
+    if Current.acp.feature?(:shop)
       default += shop_models
     end
     default

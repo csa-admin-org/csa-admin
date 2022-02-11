@@ -32,6 +32,9 @@ ActiveAdmin.register Shop::Producer do
     actions class: 'col-actions-2'
   end
 
+  sidebar_shop_admin_only_warning
+  sidebar_handbook_link('shop#producteurs')
+
   form do |f|
     f.inputs t('.details') do
       f.input :name

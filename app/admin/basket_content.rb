@@ -126,15 +126,15 @@ ActiveAdmin.register BasketContent do
         .merge(Vegetable.order_by_name)
     end
 
-    def update
-      super do
-        redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) and return if resource.valid?
+    def create
+      create! do |success, failure|
+        success.html { redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) }
       end
     end
 
-    def create
-      super do
-        redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) and return if resource.valid?
+    def update
+      update! do |success, failure|
+        success.html { redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) }
       end
     end
   end

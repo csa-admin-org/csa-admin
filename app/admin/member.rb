@@ -148,7 +148,7 @@ ActiveAdmin.register Member do
             end
             row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
             row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
-            if Current.acp.feature_flag?('shop')
+            if Current.acp.feature?('shop')
               shop_order = next_basket.delivery.shop_orders.find_by(member_id: member.id)
               row(I18n.t('shop.title')) { auto_link shop_order }
             end

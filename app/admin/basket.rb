@@ -65,8 +65,8 @@ ActiveAdmin.register Basket do
     include TranslatedCSVFilename
 
     def update
-      super do
-        redirect_to resource.membership and return if resource.valid?
+      update! do |success, failure|
+        success.html { redirect_to resource.membership }
       end
     end
   end

@@ -6,10 +6,11 @@ class ACP < ApplicationRecord
     absence
     activity
     basket_content
-    group_buying
     contact_sharing
+    group_buying
+    shop
   ]
-  FEATURE_FLAGS = %w[basket_price_extra shop]
+  FEATURE_FLAGS = %w[basket_price_extra]
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
@@ -115,7 +116,9 @@ class ACP < ApplicationRecord
   end
 
   def self.languages; LANGUAGES end
-  def self.features; FEATURES end
+  def self.features
+    FEATURES.sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
+  end
   def self.feature_flags; FEATURE_FLAGS end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end

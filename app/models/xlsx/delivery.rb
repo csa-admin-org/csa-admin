@@ -94,7 +94,7 @@ module XLSX
               .joins(:baskets_basket_complements)
               .where(baskets_basket_complements: { basket_complement_id: complement.id })
               .sum('baskets_basket_complements.quantity')
-          if Current.acp.feature_flag?('shop')
+          if Current.acp.feature?('shop')
             amount +=
               @delivery
                 .shop_orders
@@ -183,7 +183,7 @@ module XLSX
           Basket.human_attribute_name(:complement_ids),
           baskets.map(&:complements_description),
           border: border)
-        if Current.acp.feature_flag?('shop')
+        if Current.acp.feature?('shop')
           shop_orders =
             @delivery
               .shop_orders
