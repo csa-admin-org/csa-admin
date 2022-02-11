@@ -1,6 +1,6 @@
 - live_stock = live_stock(variant, @order)
 div class="flex flex-row items-center #{'text-gray-300' if live_stock&.zero? }"
-  div class="flex-grow flex items-center"
+  div class="flex-grow flex items-center mr-2"
     span
       = variant.name
     - case live_stock
