@@ -9,16 +9,16 @@
     = f.simple_fields_for :items, @order.items.sort_by { |i| [i.product.name, i.product_variant.name] } do |ff|
       div class='-mx-1 my-1 px-1 py-1 flex rounded flex-row items-center hover:bg-gray-100 dark:hover:bg-gray-900'
         = ff.label :quantity, class: 'flex-1 flex flex-col justify-start md:flex-row' do
-          div class='mt-1 w-full flex-1 text-left flex-row items-center'
-            span class=''
+          div class='mt-1 w-full flex flex-1 text-left flex-row flex-wrap items-center'
+            span class='mr-2'
               = ff.object.product.name
               = ', '
               = ff.object.product_variant.name
-            span class='ml-2 text-left text-xs text-gray-400 whitespace-nowrap'
+            span class='mr-2 text-left text-xs text-gray-400 whitespace-nowrap'
               = cur(ff.object.item_price)
 
             - unless ff.object.product_variant.available_stock?(ff.object.quantity + 5)
-              span class="ml-2 px-2 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800 whitespace-nowrap"
+              span class="px-2 my-1 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800 whitespace-nowrap"
                 = t('.stock', count: ff.object.product_variant.stock)
 
           div class='mt-1 md:mt-0 flex-none flex flex-row items-center justify-end'
