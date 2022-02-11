@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_161025) do
+ActiveRecord::Schema.define(version: 2022_02_11_072535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_161025) do
     t.integer "fiscal_year_start_month", default: 1, null: false
     t.integer "trial_basket_count", default: 0, null: false
     t.decimal "annual_fee", precision: 8, scale: 2
-    t.int4range "summer_month_range"
     t.string "ccp"
     t.string "isr_identity"
     t.text "isr_payment_for"
@@ -351,12 +350,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_161025) do
     t.index ["depot_id", "deliveries_cycle_id"], name: "deliveries_cycles_depots_unique_index", unique: true
   end
 
-  create_table "deliveries_depots", force: :cascade do |t|
-    t.bigint "depot_id", null: false
-    t.bigint "delivery_id", null: false
-    t.index ["depot_id", "delivery_id"], name: "deliveries_depots_unique_index", unique: true
-  end
-
   create_table "depots", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
     t.string "address", limit: 255
@@ -570,7 +563,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_161025) do
     t.integer "basket_quantity", default: 1, null: false
     t.decimal "basket_price", precision: 8, scale: 3, null: false
     t.decimal "depot_price", precision: 8, scale: 3, null: false
-    t.string "seasons", default: ["summer", "winter"], null: false, array: true
     t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "delivered_baskets_count", default: 0, null: false
@@ -600,7 +592,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_161025) do
     t.integer "quantity", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "seasons", default: ["summer", "winter"], null: false, array: true
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
