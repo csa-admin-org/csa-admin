@@ -152,56 +152,10 @@ describe ActivityParticipation, freeze: '2021-06-15' do
   end
 
   describe '#reminderable?' do
-    it 'is reminderable when activity participations is in less than two weeks' do
-      activity = create(:activity, date: 2.weeks.from_now - 1.hour)
-      participation = create(:activity_participation,
-        activity: activity,
-        created_at: 2.months.ago,
-        latest_reminder_sent_at: nil)
-      expect(participation).to be_reminderable
-    end
-
-    it 'is not reminderable when activity participations is in less than two weeks but already reminded' do
-      activity = create(:activity, date: 2.weeks.from_now - 1.hour)
-      participation = create(:activity_participation,
-        activity: activity,
-        created_at: 2.months.ago,
-        latest_reminder_sent_at: Time.current)
-      expect(participation).not_to be_reminderable
-    end
-
-    it 'is not reminderable when activity participations is in more than two weeks' do
-      activity = create(:activity, date: 15.days.from_now)
-      participation = create(:activity_participation,
-        activity: activity,
-        created_at: 2.months.ago,
-        latest_reminder_sent_at: nil)
-      expect(participation).not_to be_reminderable
-    end
-
-    it 'is reminderable when participation has been created less than a day ago' do
-      activity = create(:activity, date: 2.weeks.from_now - 1.hour)
-      participation = create(:activity_participation,
-        activity: activity,
-        created_at: 1.day.ago,
-        latest_reminder_sent_at: nil)
-      expect(participation).to be_reminderable
-    end
-
-    it 'is reminderable when activity participations is in less than three days' do
-      activity = create(:activity, date: 3.days.from_now - 1.hour)
-      participation = create(:activity_participation,
-        activity: activity,
-        created_at: 2.months.ago,
-        latest_reminder_sent_at: 2.weeks.ago)
-      expect(participation).to be_reminderable
-    end
-
     it 'is reminderable when activity participations is in less than three days and never reminded' do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 6.days.ago,
         latest_reminder_sent_at: nil)
       expect(participation).to be_reminderable
     end
@@ -210,17 +164,15 @@ describe ActivityParticipation, freeze: '2021-06-15' do
       activity = create(:activity, date: 3.days.from_now - 1.hour)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 2.months.ago,
-        latest_reminder_sent_at: 6.days.ago)
+        latest_reminder_sent_at: Time.current)
       expect(participation).not_to be_reminderable
     end
 
-    it 'is not reminderable when activity participations is in less than three days but already reminded (now)' do
-      activity = create(:activity, date: 3.days.from_now - 1.hour)
+    it 'is not reminderable when activity participations is in more than 3 days' do
+      activity = create(:activity, date: 3.days.from_now + 1.hour)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 2.months.ago,
-        latest_reminder_sent_at: Time.current)
+        latest_reminder_sent_at: nil)
       expect(participation).not_to be_reminderable
     end
 
@@ -228,7 +180,6 @@ describe ActivityParticipation, freeze: '2021-06-15' do
       activity = create(:activity, date: 1.day.ago)
       participation = create(:activity_participation,
         activity: activity,
-        created_at: 2.months.ago,
         latest_reminder_sent_at: nil)
       expect(participation).not_to be_reminderable
     end

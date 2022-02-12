@@ -47,9 +47,9 @@ _:
         _fr: Envoyé quand une participation à une activité est refusée.
         _it: Inviato quando la partecipazione a un'attività viene rifiutata.
       activity_participation_reminder:
-        _de: Wird gesendet, um das Mitglied daran zu erinnern, sich 2 Wochen und/oder 3 Tage vorher für eine Aktivität anzumelden.
-        _fr: Envoyé pour rappeler au membre son inscription à une activité, 2 semaines et/ou 3 jours avant.
-        _it: Inviato per ricordare al socio / alla socia della registrazione per un'attività, 2 settimane e / o 3 giorni prima.
+        _de: Wird gesendet, um das Mitglied 3 Tage vorher an seine Registrierung für eine Aktivität zu erinnern.
+        _fr: Envoyé pour rappeler au membre son inscription à une activité 3 jours avant celle-ci.
+        _it: Inviato per ricordare al socio la sua partecipazione a un'attività 3 giorni prima dell'attività.
       activity_participation_validated:
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität bestätigt wird.
         _fr: Envoyé quand une participation à une activité est validée.

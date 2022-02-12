@@ -91,10 +91,11 @@ module Notifier
 
   def send_activity_participation_validated_emails
     return unless Current.acp.feature?('activity')
+    return unless MailTemplate.active_template(:activity_participation_validated)
 
     participations =
       ActivityParticipation
-        .validated
+        .where('validated_at >= ?', 3.days.ago)
         .review_not_sent
         .includes(:activity, :member)
         .select(&:can_send_email?)
@@ -108,10 +109,11 @@ module Notifier
 
   def send_activity_participation_rejected_emails
     return unless Current.acp.feature?('activity')
+    return unless MailTemplate.active_template(:activity_participation_rejected)
 
     participations =
       ActivityParticipation
-        .rejected
+        .where('rejected_at >= ?', 3.days.ago)
         .review_not_sent
         .includes(:activity, :member)
         .select(&:can_send_email?)

@@ -128,7 +128,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def always_active?
-    title.in?(INVOICE_TITLES + ACTIVITY_TITLES)
+    title.in?(INVOICE_TITLES + ['activity_participation_reminder'])
   end
 
   private
