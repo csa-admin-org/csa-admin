@@ -23,7 +23,7 @@ gem 'ros-apartment', require: 'apartment'
 gem 'phony_rails'
 gem 'tod'
 
-gem 'activeadmin'
+gem 'activeadmin', '2.9.0'
 gem 'cancancan'
 gem 'invisible_captcha'
 gem 'ransack'
