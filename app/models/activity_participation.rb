@@ -106,11 +106,9 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def reminderable?
-    return unless coming?
+    return if latest_reminder_sent_at?
 
-    (activity.date < 2.weeks.from_now && !latest_reminder_sent_at) ||
-      (activity.date < 3.days.from_now &&
-        (!latest_reminder_sent_at || latest_reminder_sent_at < 1.week.ago))
+    coming? && activity.date <= 3.days.from_now
   end
 
   private

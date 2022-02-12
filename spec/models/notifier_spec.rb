@@ -48,4 +48,78 @@ describe Notifier do
       expect(mail.to).to eq ['john@doe.com']
     end
   end
+
+  describe '.send_activity_participation_validated_emails' do
+    specify 'send email for recently validated participation' do
+      MailTemplate.create! title: :activity_participation_validated, active: true
+
+      create(:activity_participation, :validated,
+        review_sent_at: nil,
+        validated_at: 1.day.ago,
+        member: create(:member, emails: 'john@snow.com'))
+      create(:activity_participation, :rejected,
+        review_sent_at: nil,
+        rejected_at: 1.day.ago)
+      create(:activity_participation, :validated,
+        validated_at: 1.day.ago,
+        review_sent_at: Time.current)
+      create(:activity_participation, :validated,
+        validated_at: 4.days.ago)
+
+      expect { Notifier.send_activity_participation_validated_emails }
+        .to change { ActivityMailer.deliveries.size }.by(1)
+
+      mail = ActivityMailer.deliveries.last
+      expect(mail.subject).to eq "Activité validée 🎉"
+      expect(mail.to).to eq ['john@snow.com']
+    end
+
+    specify 'does not send email when template is not active' do
+      MailTemplate.create! title: :activity_participation_validated, active: false
+
+      create(:activity_participation, :validated,
+        review_sent_at: nil,
+        validated_at: 1.day.ago)
+
+      expect { Notifier.send_activity_participation_validated_emails }
+        .not_to change { ActivityMailer.deliveries.size }
+    end
+  end
+
+  describe '.send_activity_participation_rejected_emails' do
+    specify 'send email for recently rejected participation' do
+      MailTemplate.create! title: :activity_participation_rejected, active: true
+
+      create(:activity_participation, :rejected,
+        review_sent_at: nil,
+        rejected_at: 1.day.ago,
+        member: create(:member, emails: 'john@snow.com'))
+      create(:activity_participation, :validated,
+        review_sent_at: nil,
+        validated_at: 1.day.ago)
+      create(:activity_participation, :rejected,
+        rejected_at: 1.day.ago,
+        review_sent_at: Time.current)
+      create(:activity_participation, :rejected,
+        rejected_at: 4.days.ago)
+
+      expect { Notifier.send_activity_participation_rejected_emails }
+        .to change { ActivityMailer.deliveries.size }.by(1)
+
+      mail = ActivityMailer.deliveries.last
+      expect(mail.subject).to eq "Activité refusée 😬"
+      expect(mail.to).to eq ['john@snow.com']
+    end
+
+    specify 'does not send email when template is not active' do
+      MailTemplate.create! title: :activity_participation_rejected, active: false
+
+      create(:activity_participation, :rejected,
+        review_sent_at: nil,
+        rejected_at: 1.day.ago)
+
+      expect { Notifier.send_activity_participation_rejected_emails }
+        .not_to change { ActivityMailer.deliveries.size }
+    end
+  end
 end
