@@ -13,6 +13,8 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 InvisibleCaptcha.timestamp_enabled = false
 
+Faker::Config.locale = :fr
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
@@ -31,6 +33,7 @@ RSpec.configure do |config|
       example.run
     end
     Current.reset
+    Faker::UniqueGenerator.clear
   end
 
   config.before(:each, type: :system) do

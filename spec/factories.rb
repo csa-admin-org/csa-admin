@@ -68,7 +68,7 @@ FactoryBot.define do
 
   factory :admin do
     name { 'Bob' }
-    email { Faker::Internet.email }
+    email { Faker::Internet.unique.email }
     rights { 'superadmin' }
   end
 
@@ -123,12 +123,12 @@ FactoryBot.define do
   end
 
   factory :deliveries_cycle do
-    name { Faker::Name.name }
+    sequence(:name) { |n| "Cycle #{n}" }
     public_name { "#{name} PUBLIC" }
   end
 
   factory :depot do
-    name { Faker::Name.name }
+    name { Faker::Address.unique.city }
     public_name { "#{name} PUBLIC" }
     address { Faker::Address.street_address }
     city { Faker::Address.city }
@@ -183,9 +183,9 @@ FactoryBot.define do
   end
 
   factory :member do
-    name { [Faker::Name.last_name, Faker::Name.first_name].join(' ') }
-    emails { [Faker::Internet.email, Faker::Internet.email].join(', ') }
-    phones { Faker::Base.numerify('+41 ## ### ## ##') }
+    name { Faker::Name.unique.name }
+    emails { [Faker::Internet.unique.email, Faker::Internet.unique.email].join(', ') }
+    phones { Faker::Base.unique.numerify('+41 ## ### ## ##') }
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
@@ -310,7 +310,7 @@ FactoryBot.define do
   end
 
   factory :vegetable do
-    name { Faker::Food.vegetables }
+    name { Faker::Food.unique.vegetables }
   end
 
   factory :group_buying_delivery, class: GroupBuying::Delivery do
