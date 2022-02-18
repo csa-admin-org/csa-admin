@@ -187,6 +187,17 @@ ActiveAdmin.register Invoice do
     link_to t('.cancel_invoice'), cancel_invoice_path(resource), method: :post, data: { confirm: t('.link_confirm') }
   end
 
+  # Development only!
+  member_action :pdf, method: :get do
+    I18n.with_locale(resource.member.language) do
+      pdf = PDF::Invoice.new(resource)
+      send_data pdf.render,
+        filename: "invoice-#{resource.id}.pdf",
+        type: 'application/pdf',
+        disposition: 'inline'
+    end
+  end
+
   member_action :send_email, method: :post do
     resource.send!
     redirect_to resource_path, notice: t('.flash.notice')

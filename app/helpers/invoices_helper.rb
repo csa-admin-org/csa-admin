@@ -28,6 +28,10 @@ module InvoicesHelper
     return unless invoice
     return if invoice.processing?
 
-    link_to title, rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+    if Rails.env.development?
+      link_to title, pdf_invoice_path(invoice), class: 'pdf_link', target: '_blank'
+    else
+      link_to title, rails_blob_path(invoice.pdf_file, disposition: 'attachment'), class: 'pdf_link'
+    end
   end
 end
