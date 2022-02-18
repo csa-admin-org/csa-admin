@@ -42,6 +42,14 @@ _:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
           _fr: Laisser vide si aucune cotisation anuelle.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa.
+        basket_price_extra_public_title:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Titel (Anmeldeformular, Rechnung, ...).
+          _fr: Si présent, remplace le titre affiché pour les membres (formulaire d'inscription, facture, ...).
+          _it: Se presente, sostituisce il titolo visualizzato per i soci (modulo di registrazione, fattura, ...).
+        basket_price_extra_text:
+          _de: Dieser optionale Text wird im Anmeldeformular nach der Überschrift eingefügt.
+          _fr: Ce texte optionnel est inséré après le titre dans le formulaire d'inscription.
+          _it: Questo testo opzionale è inserito dopo il titolo nel modulo di registrazione.
         basket_price_extras:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
@@ -69,7 +77,7 @@ _:
         open_renewal_text:
           _de: Text, der auf der Mitgliederseite oberhalb des Verlängerungsantragsformulars angezeigt wird.
           _fr: Texte affiché sur la page de membre au-dessus du formulaire de demande du renouvellement.
-          _it: Testo visibile sulla pagina dei membri sotto il formulario con la domanda di rinnovo.
+          _it: Testo visibile sulla pagina dei soci sotto il formulario con la domanda di rinnovo.
         qr_iban:
           _de: Leer lassen, wenn ESR-Rechnungen verwendet werden.
           _fr: Laisser vide si les factures BVR sont utilisées.
@@ -170,7 +178,7 @@ _:
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione, fattura, scheda firme, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
@@ -183,7 +191,7 @@ _:
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione, fattura, scheda firme, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: Nein" auswählen, wenn die Taschengröße bei der Registrierung nicht verfügbar ist.
           _fr: Séléctionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
@@ -205,7 +213,7 @@ _:
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
-          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione).
         results:
           _de: Nachdem Sie die Konfiguration für Tage, Wochen und Monate angewendet haben, behalten Sie nur die resultierenden Lieferungen nach dem letztgenannten Kriterium.
           _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
@@ -226,7 +234,7 @@ _:
         shop_open:
           _de: Steuert, ob Mitglieder für diese Lieferung Lebensmittel bestellen können oder nicht.
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
-          _it: Controlla se i membri possono fare ordini di alimentari per questa consegna o no.
+          _it: Controlla se i soci possono fare ordini di alimentari per questa consegna o no.
       depot:
         current_deliveries:
           _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
@@ -259,7 +267,7 @@ _:
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i membri (modulo di registrazione, fattura, scheda firme, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription.

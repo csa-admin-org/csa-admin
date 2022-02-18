@@ -136,6 +136,7 @@ describe 'Memberships Renewal' do
 
   specify 'renew membership (with basket_price_extra)', freeze: '2020-09-30' do
     Current.acp.update!(
+      basket_price_extra_title: 'Cotistation solidaire',
       basket_price_extras: '0, 1, 2, 4, 8',
       basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
     membership = create(:membership,

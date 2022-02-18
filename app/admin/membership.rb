@@ -44,6 +44,9 @@ ActiveAdmin.register Membership do
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :basket_price_extra,
+    label: proc { Current.acp.basket_price_extra_title },
+    if: proc { Current.acp.feature?('basket_price_extra') }
   filter :activity_participations_accepted,
     label: proc { t_activity('active_admin.resource.index.activity_participations_accepted') },
     if: proc { Current.acp.feature?('activity') }
@@ -185,8 +188,14 @@ ActiveAdmin.register Membership do
     column(:emails) { |m| m.member.emails_array.join(', ') }
     column(:phones) { |m| m.member.phones_array.map(&:phony_formatted).join(', ') }
     column(:note) { |m| m.member.note }
+    column(:started_on)
+    column(:ended_on)
+    column(:baskets_count)
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_price) { |m| cur(m.basket_price) }
+    if Current.acp.feature?('basket_price_extra')
+      column(Current.acp.basket_price_extra_title) { |m| cur(m.basket_price_extra) }
+    end
     column(:basket_quantity)
     if BasketComplement.any?
       column(:basket_complements) { |m|
@@ -202,15 +211,9 @@ ActiveAdmin.register Membership do
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
     end
-    column(:started_on)
-    column(:ended_on)
-    column(:baskets_count)
     column(:renewal_state) { |m| I18n.t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
-    if Current.acp.feature_flag?(:basket_price_extra)
-      column(:basket_price_extra) { |m| cur(m.basket_price_extra) }
-    end
     column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }
     column(:baskets_annual_price_change) { |m| cur(m.baskets_annual_price_change) }
     column(:price) { |m| cur(m.price) }
@@ -416,6 +419,11 @@ ActiveAdmin.register Membership do
             row(:basket_sizes_price) {
               display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
             }
+            if Current.acp.feature?('basket_price_extra')
+              row(Current.acp.basket_price_extra_title) {
+                display_price_description(m.baskets_extra_price, baskets_extra_price_info(m))
+              }
+            end
             row(:baskets_annual_price_change) {
               cur(m.baskets_annual_price_change)
             }
@@ -505,8 +513,8 @@ ActiveAdmin.register Membership do
     end
 
     f.inputs t('.billing') do
-      if Current.acp.feature_flag?(:basket_price_extra)
-        f.input :basket_price_extra, required: true, label: "#{Membership.human_attribute_name(:basket_price_extra)} (#{Current.acp.basket_price_extra_title})"
+      if Current.acp.feature?('basket_price_extra')
+        f.input :basket_price_extra, required: true, label: Current.acp.basket_price_extra_title
       end
       f.input :baskets_annual_price_change, hint: true
       if BasketComplement.any?

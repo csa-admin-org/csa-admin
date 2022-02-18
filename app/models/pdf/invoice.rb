@@ -78,9 +78,15 @@ module PDF
           object.basket_sizes.uniq.each do |basket_size|
             data << [
               membership_basket_size_description(basket_size),
-              _cur(object.basket_size_total_price(basket_size))
+              _cur(object.basket_size_price(basket_size))
             ]
           end
+        end
+        if Current.acp.feature?('basket_price_extra') && object.baskets_extra_price.positive?
+          data << [
+            membership_baskets_extra_price_description,
+            _cur(object.baskets_extra_price)
+          ]
         end
         unless object.baskets_annual_price_change.zero?
           data << [
@@ -498,6 +504,10 @@ module PDF
     def membership_basket_size_description(basket_size)
       baskets = object.baskets.where(basket_size: basket_size)
       "#{Basket.model_name.human}: #{basket_size.public_name} #{basket_sizes_price_info(object, baskets)}"
+    end
+
+    def membership_baskets_extra_price_description
+      "#{Current.acp.basket_price_extra_public_title} #{baskets_extra_price_info(object)}"
     end
 
     def membership_basket_complement_description(basket_complement)

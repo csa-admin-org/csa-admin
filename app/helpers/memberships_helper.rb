@@ -54,14 +54,18 @@ module MembershipsHelper
       .group_by { |_, p| p }
       .sort
       .map { |price, bbs|
-        txt = "#{bbs.sum { |q, _| q }}x"
-        if membership.basket_price_extra.positive?
-          txt +=" (#{precise_cur(price).strip}+#{precise_cur(membership.basket_price_extra).strip})"
-        else
-          txt += precise_cur(price)
-        end
-        txt
+        "#{bbs.sum { |q, _| q }}x #{precise_cur(price).strip}"
       }.join(' + ')
+  end
+
+  def show_basket_price_extras?
+    Current.acp.feature?('basket_price_extra') &&
+      Current.acp.basket_price_extra_public_title.present? &&
+      Current.acp.basket_price_extras?
+  end
+
+  def baskets_extra_price_info(membership)
+    "#{membership.baskets.billable.sum(:quantity)}x #{precise_cur(membership.basket_price_extra).strip}"
   end
 
   def membership_basket_complements_price_info(membership)

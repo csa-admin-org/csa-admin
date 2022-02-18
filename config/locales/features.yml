@@ -15,7 +15,7 @@ _:
     activity_hint:
       _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.
       _fr: Permet de gérer des activités effectuées par les membres.
-      _it: Permette di gestire le attività svolte dai membri
+      _it: Permette di gestire le attività svolte dai soci
     basket_content:
       _de: Tascheninhalt
       _fr: Contenu Panier
@@ -24,6 +24,14 @@ _:
       _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.
       _fr: Fournit un outil pour calculer le contenu des paniers d'une livraison au prorata du prix de la taille des paniers.
       _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto.
+    basket_price_extra:
+      _de: Preis Extra-Tasche
+      _fr: Prix panier extra
+      _it: Prezzo extra del cesto
+    basket_price_extra_hint:
+      _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen. Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque panier. Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto. Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
     contact_sharing:
       _de: Freigeben von Kontaktinformationen
       _fr: Copaniérage

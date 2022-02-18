@@ -21,10 +21,10 @@ div class="mt-4"
       - when 'renew'
         = f.input :basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(no_basket_option: false), required: true, label: BasketSize.model_name.human, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2'
 
-        - if Current.acp.basket_price_extras?
+        - if show_basket_price_extras?
           div data-form-disabler-target='label'
             label class="text-sm font-medium text-gray-700 dark:text-gray-300"
-              = Current.acp.basket_price_extra_title
+              = Current.acp.basket_price_extra_public_title
             div class="my-1 text-sm text-justify trix"
               = Current.acp.basket_price_extra_text&.html_safe
             = f.input :basket_price_extra, as: :radio_buttons, collection: basket_prices_extra_collection, label: false, input_html: {class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2'

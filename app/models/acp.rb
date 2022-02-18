@@ -6,11 +6,12 @@ class ACP < ApplicationRecord
     absence
     activity
     basket_content
+    basket_price_extra
     contact_sharing
     group_buying
     shop
   ]
-  FEATURE_FLAGS = %w[basket_price_extra]
+  FEATURE_FLAGS = %w[]
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
@@ -30,7 +31,7 @@ class ACP < ApplicationRecord
   translated_rich_texts :shop_text
   translated_attributes :email_signature, :email_footer
   translated_rich_texts :open_renewal_text
-  translated_attributes :basket_price_extra_title, :basket_price_extra_text
+  translated_attributes :basket_price_extra_title, :basket_price_extra_public_title, :basket_price_extra_text
   translated_attributes :basket_price_extra_label, :basket_price_extra_label_detail
   translated_rich_texts :absence_extra_text
 
@@ -190,6 +191,10 @@ class ACP < ApplicationRecord
   def phone=(phone)
     super
     self.activity_phone ||= phone
+  end
+
+  def basket_price_extra_public_title
+    self[:basket_price_extra_public_titles][I18n.locale.to_s].presence || basket_price_extra_title
   end
 
   def basket_price_extras?

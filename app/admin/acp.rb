@@ -47,6 +47,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "open_renewal_text_#{l}" },
     *I18n.available_locales.map { |l| "absence_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_title_#{l}" },
+    *I18n.available_locales.map { |l| "basket_price_extra_public_title_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_detail_#{l}" },
@@ -254,11 +255,15 @@ ActiveAdmin.register ACP do
           end
         end
       end
-      if Current.acp.feature_flag?(:basket_price_extra)
-        tab ACP.human_attribute_name(:basket_price_extra) do
+      if Current.acp.feature?('basket_price_extra')
+        tab ACP.human_attribute_name(:basket_price_extra), id: 'basket_price_extra' do
           f.inputs do
             translated_input(f, :basket_price_extra_titles, required: false)
+            translated_input(f, :basket_price_extra_public_titles,
+              hint: t('formtastic.hints.acp.basket_price_extra_public_title'),
+              required: false)
             translated_input(f, :basket_price_extra_texts,
+              hint: t('formtastic.hints.acp.basket_price_extra_text'),
               required: false,
               as: :action_text,
               input_html: { rows: 5 })
@@ -273,6 +278,8 @@ ActiveAdmin.register ACP do
               hint: t('formtastic.hints.liquid_extra_html'),
               wrapper_html: { class: 'ace-editor' },
               input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+
+            handbook_button(self, 'basket_price_extra')
           end
         end
       end
