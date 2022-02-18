@@ -77,8 +77,8 @@ GEM
       activesupport (>= 3.0.0, < 7.1)
       ruby2_keywords (>= 0.0.2, < 1.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.554.0)
-    aws-sdk-core (3.126.0)
+    aws-partitions (1.555.0)
+    aws-sdk-core (3.126.2)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
@@ -125,7 +125,7 @@ GEM
       ffi
     concurrent-ruby (1.1.9)
     connection_pool (2.2.5)
-    countries (4.2.1)
+    countries (4.2.2)
       i18n_data (~> 0.15.0)
       sixarm_ruby_unaccent (~> 1.1)
     crass (1.0.6)
@@ -156,7 +156,7 @@ GEM
       railties (>= 5.0.0)
     faker (2.19.0)
       i18n (>= 1.6, < 2)
-    faraday (1.9.3)
+    faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -230,7 +230,7 @@ GEM
       nokogiri (>= 1.6)
     invisible_captcha (2.0.0)
       rails (>= 5.0)
-    jmespath (1.5.0)
+    jmespath (1.6.0)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -275,7 +275,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.7.1)
     minitest (5.15.0)
-    msgpack (1.4.4)
+    msgpack (1.4.5)
     multi_json (1.15.0)
     multipart-post (2.1.1)
     nio4r (2.5.8)
@@ -296,8 +296,8 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.3.1)
-    phony (2.19.8)
+    pg (1.3.2)
+    phony (2.19.9)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
       phony (>= 2.18.12)
@@ -326,8 +326,6 @@ GEM
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (2.3.3)
-      rack (>= 1.2.0)
     rack-status (1.0.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -551,7 +549,6 @@ DEPENDENCIES
   public_suffix
   puma
   rack-cors
-  rack-mini-profiler (~> 2.0)
   rack-status
   rails (~> 6.1.4)
   rails-i18n
