@@ -52,10 +52,13 @@ ActiveAdmin.register_page 'Dashboard' do
           panel t('.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
             counts = next_delivery.basket_counts
             if counts.present?
-              table_for counts.all do
-                column Depot.model_name.human, :title
-                column Basket.model_name.human, :count, class: 'align-right'
-                column "#{next_delivery.basket_sizes.map { |bs| bs.name&.gsub(/\s/, '&nbsp;') }.join(' /&nbsp;')}".html_safe, :baskets_count, class: 'align-right'
+              bs_names = next_delivery.basket_sizes.map(&:name)
+              bs_splitter = bs_names.join.size > 20 ? "&nbsp;/<br/>" : " /&nbsp;"
+
+              table_for counts.all, class: 'next-delivery' do
+                column Depot.model_name.human, :title, class: 'depot'
+                column Basket.model_name.human(count: 2), :count, class: 'total align-right'
+                column "#{bs_names.join(bs_splitter)}".html_safe, :baskets_count, class: 'baskets-total align-right'
               end
 
               paid_depots = next_delivery.depots.paid
@@ -72,17 +75,17 @@ ActiveAdmin.register_page 'Dashboard' do
                     count:  paid_counts.sum,
                     baskets_count: paid_counts.sum_detail)
                 ]
-                table_for totals do
-                  column nil, :title
-                  column nil, :count, class: 'align-right'
-                  column nil, :baskets_count, class: 'align-right'
+                table_for totals, class: 'next-delivery' do
+                  column nil, :title, class: 'depot'
+                  column nil, :count, class: 'total align-right'
+                  column nil, :baskets_count, class: 'baskets-total align-right'
                 end
               end
 
-              table_for nil do
-                column(nil, :title) { t('.totals', numbers: '') }
-                column(class: 'align-right') { counts.sum }
-                column(class: 'align-right') { counts.sum_detail }
+              table_for nil, class: 'next-delivery' do
+                column(nil, :title, class: 'depot') { t('.totals', numbers: '') }
+                column(class: 'total align-right') { counts.sum }
+                column(class: 'baskets-total align-right') { counts.sum_detail }
               end
 
               if BasketComplement.any?
