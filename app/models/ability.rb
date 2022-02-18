@@ -2,6 +2,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(admin)
+    can :pdf, Invoice if Rails.env.development?
+
     if admin.right? 'readonly'
       can :manage, Admin, id: admin.id
       can :read, available_models
