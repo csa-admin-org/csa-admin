@@ -26,13 +26,13 @@ describe 'Shop' do
       expect(current_path).not_to eq '/shop'
     end
 
-    specify 'menu only for admin' do
+    specify 'menu only for session originated from admin' do
       Current.acp.update!(shop_admin_only: true, features: ['shop'])
 
       visit '/'
       expect(page).not_to have_css('nav li[aria-label="Shop Menu"]')
 
-      member.sessions.last.update!(user_agent: 'Admin ID: 1')
+      member.sessions.last.update!(admin: create(:admin))
 
       visit '/'
       expect(page).to have_css('nav li[aria-label="Shop Menu"]')

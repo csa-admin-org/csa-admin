@@ -12,11 +12,11 @@ describe Session do
       end
     end
 
-    it 'expires after an hour for Admin ID session' do
-      session = build(:session, :member,
-        email: 'admin@doe.com',
-        created_at: Time.current,
-        user_agent: 'Admin ID: 1234')
+    it 'expires after an hour for member session orginated from admin' do
+      session = build(:session, :member, :admin,
+        email: 'admin@joe.com',
+        created_at: Time.current)
+      expect(session).to be_admin_originated
       expect(session).not_to be_expired
       travel 6.hours + 1.second do
         expect(session).to be_expired

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_11_090753) do
+ActiveRecord::Schema.define(version: 2022_02_18_080059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -624,7 +624,6 @@ ActiveRecord::Schema.define(version: 2022_02_11_090753) do
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true
-    t.check_constraint "(((member_id IS NOT NULL))::integer + ((admin_id IS NOT NULL))::integer) = 1", name: "owner_set"
   end
 
   create_table "shop_order_items", force: :cascade do |t|

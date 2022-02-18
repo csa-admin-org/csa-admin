@@ -12,8 +12,9 @@ class Members::SessionsController < Members::BaseController
 
   # POST /sessions
   def create
-    email = params.require(:session)[:email]
-    @session = build_session(email)
+    @session = Session.new(
+      member_email: params.require(:session)[:email],
+      request: request)
 
     if @session.save
       SessionMailer.with(
@@ -48,15 +49,5 @@ class Members::SessionsController < Members::BaseController
   def destroy
     cookies.delete(:session_id)
     redirect_to members_login_path, notice: t('sessions.flash.deleted')
-  end
-
-  private
-
-  def build_session(email)
-    session = Session.new
-    session.remote_addr = request.remote_addr
-    session.user_agent = request.env.fetch('HTTP_USER_AGENT', '-')
-    session.member_email = email
-    session
   end
 end

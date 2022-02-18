@@ -16,7 +16,7 @@ class Session < ApplicationRecord
   scope :member, -> { where.not(member_id: nil) }
 
   def owner
-    admin || member
+    member || admin
   end
 
   def member_email=(email)
@@ -29,6 +29,11 @@ class Session < ApplicationRecord
     self.admin = Admin.find_by(email: email)
   end
 
+  def request=(request)
+    self[:remote_addr] = request.remote_addr
+    self[:user_agent] = request.env.fetch('HTTP_USER_AGENT', '-')
+  end
+
   def timeout?
     timeout_at < Time.current
   end
@@ -38,13 +43,7 @@ class Session < ApplicationRecord
   end
 
   def expires_at
-    created_at +
-      case user_agent
-      when /\AAdmin ID: \d+/
-        6.hours
-      else
-        EXPIRATION
-      end
+    created_at + (admin_originated? ? 6.hours : EXPIRATION)
   end
 
   def expired?
@@ -52,7 +51,7 @@ class Session < ApplicationRecord
   end
 
   def admin_originated?
-    member && user_agent.start_with?('Admin ID: ')
+    member && admin
   end
 
   private
@@ -65,6 +64,6 @@ class Session < ApplicationRecord
   end
 
   def owner_must_be_present
-    errors.add(:email, :unknown) unless [member_id, admin_id].one?(&:present?)
+    errors.add(:email, :unknown) unless member_id || admin_id
   end
 end
