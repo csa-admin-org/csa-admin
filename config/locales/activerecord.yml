@@ -63,14 +63,18 @@ _:
           _de: Label-Details
           _fr: Détails label
           _it: Dettagli dell'etichetta
+        basket_price_extra_public_title:
+          _de: Titel (Mitglied)
+          _fr: Titre (Membre)
+          _it: Titolo (Socio)
         basket_price_extra_text:
           _de: Erläuterung
           _fr: Explication
           _it: Spiegazione
         basket_price_extra_title:
-          _de: Titolo
+          _de: Titel
           _fr: Titre
-          _it: Titel
+          _it: Titolo
         basket_price_extras:
           _de: Preisen Taschen (zusätzlich)
           _fr: Prix panier (extras)

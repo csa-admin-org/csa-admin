@@ -1310,7 +1310,7 @@ _:
       shop_open_until_html:
         _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
         _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
-        _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai membri fino al <u>%{end_date}</u>.
+        _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai soci fino al <u>%{end_date}</u>.
       shop_status:
         _de: Status Lebensmittelgeschäft
         _fr: Statut épicerie

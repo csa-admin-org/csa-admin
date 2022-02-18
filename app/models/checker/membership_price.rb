@@ -13,6 +13,7 @@ module Checker
     def check!
       expected_price =
         basket_sizes_price +
+        baskets_extra_price +
         baskets_annual_price_change +
         basket_complements_price +
         basket_complements_annual_price_change +
@@ -25,6 +26,7 @@ module Checker
           expected_price: expected_price,
           baskets_annual_price_change: baskets_annual_price_change,
           basket_sizes_price: basket_sizes_price,
+          baskets_extra_price: baskets_extra_price,
           basket_complements_price: basket_complements_price,
           basket_complements_annual_price_change: basket_complements_annual_price_change,
           depots_price: depots_price,

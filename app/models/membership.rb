@@ -268,22 +268,21 @@ class Membership < ApplicationRecord
   end
 
   def basket_sizes_price
-    baskets.pluck(:basket_size_id).uniq.sum { |id| basket_size_total_price(id) }
+    baskets.pluck(:basket_size_id).uniq.sum { |id| basket_size_price(id) }
   end
 
-  def basket_size_total_price(basket_size_id)
-    price =
+  def basket_size_price(basket_size_id)
+    rounded_price(
       baskets
         .billable
         .where(basket_size_id: basket_size_id)
-        .sum('quantity * basket_price')
-    if basket_price_extra.positive?
-      price += baskets
-        .billable
-        .where(basket_size_id: basket_size_id)
-        .sum(:quantity) * basket_price_extra
-    end
-    rounded_price(price)
+        .sum('quantity * basket_price'))
+  end
+
+  def baskets_extra_price
+    return 0 if basket_price_extra.to_i.zero?
+
+    rounded_price(baskets.billable.sum(:quantity) * basket_price_extra)
   end
 
   def basket_complements_price
@@ -493,6 +492,7 @@ class Membership < ApplicationRecord
   def update_price_and_invoices_amount!
     update_columns(
       price: (basket_sizes_price +
+        baskets_extra_price +
         baskets_annual_price_change +
         basket_complements_price +
         basket_complements_annual_price_change +

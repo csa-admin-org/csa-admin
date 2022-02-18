@@ -117,6 +117,10 @@ describe PDF::Invoice do
     end
 
     it 'generates invoice with membership basket_price_extra' do
+      Current.acp.update!(
+        features: ['basket_price_extra'],
+        basket_price_extra_title: 'Prix Extra',
+        basket_price_extra_public_title: 'Cotistation Solidaire')
       membership = create(:membership,
         basket_price_extra: 4,
         basket_size: create(:basket_size, :big),
@@ -131,7 +135,8 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
-        .and contain_sequence('Panier: Abondance PUBLIC 2x (33.25+4.00)', "74.50")
+        .and contain_sequence('Panier: Abondance PUBLIC 2x 33.25', "66.50")
+        .and contain_sequence('Cotistation Solidaire 2x 4.00', "8.00")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "116.50")
     end
@@ -817,7 +822,6 @@ describe PDF::Invoice do
         currency_code: 'CHF',
         invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.",
         invoice_footer: '<b>Le Panier Bio à 2 Roues</b>, Route de Cery 33, 1008 Prilly /// coordination@p2r.ch, 079 844 43 07',
-        feature_flags: ['shop'],
         shop_invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.")
     }
 

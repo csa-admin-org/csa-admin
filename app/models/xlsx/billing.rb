@@ -39,9 +39,9 @@ module XLSX
         total = @baskets.where(baskets: { basket_size_id: basket_size.id }).sum('baskets.quantity * baskets.basket_price')
         add_line("#{Basket.model_name.human}: #{basket_size.name}", total, basket_size.price)
       end
-      if Current.acp.feature_flag?(:basket_price_extra)
+      if Current.acp.feature?('basket_price_extra')
         total = @baskets.sum('baskets.quantity * memberships.basket_price_extra')
-        add_line("#{Membership.human_attribute_name(:basket_price_extra)}:", total)
+        add_line(Current.acp.basket_price_extra_title, total)
       end
       add_empty_line
 

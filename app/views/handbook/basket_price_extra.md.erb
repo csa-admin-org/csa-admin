@@ -1,0 +1,53 @@
+# Prix panier extra
+
+Cette fonctionnalité permet de proposer à vos membres de verser un extra pour chaque panier.
+
+Ce revenu supplémentaire peut servir différents besoins, par exemple:
+
+- Une cotisation solidaire permettant de réduire le prix d'autres abonnements
+- Augmenter le salaire des agriculteurs
+
+## Configuration
+
+Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings#acp_features_input), [plusieurs réglages](/settings#basket_price_extra) vous permettent de configurer comment ces extra seront présentés à vos membres lors de leur inscription ou [le renouvellement](/handbook/membership_renewal) de leur abonnement.
+
+Une fois le titre de l'extra et un texte d'explication (optionnel) choisis, vous pouvez alors définir une liste d'extra séparés par virgules, par exemple:
+
+~~~
+0.0, 1.0, 1.5, 3.0, 5.0
+~~~
+
+Ensuite, vous devez définir avec quel label vos extra seront affichés, par exemple à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
+
+~~~ liquid
+{% if extra == 0 %}
+Tarif de base
+{% elsif extra == 1.5 %}
++ {{ extra }}/panier
+{% else %}
++ {{ extra | ceil }}.-/panier
+{% endif %}
+~~~
+
+Ce qui donnera cette présentation (avec 40 livraisons):
+![Affichage labels](<%= image_url('handbook/basket_price_extra/label.png') %>){:width="600px"}
+
+Vous pouvez également choisir d'ajouter plus de détails au label, par exemple à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
+
+~~~ liquid
+{% if extra == 1.5 %}
+salaire ~{{ extra | plus: 20 }} net/heure, ~{{ extra | plus: 20 | times: 100 | ceil }}.- net/mois à 50%
+{% else %}
+salaire ~{{ extra | plus: 20 | ceil }}.- net/heure, ~{{ extra | plus: 20 | times: 100 | ceil }}.- net/mois à 50%
+{% endif %}
+~~~
+
+Ce qui donnera cette présentation plus détaillée (avec 40 livraisons):
+![Affichage labels détailés](<%= image_url('handbook/basket_price_extra/label_with_details.png') %>){:width="600px"}
+
+
+## Rapport
+
+Vous pouvez facilement filtrer [la liste des abonnements](/memberships?q%5Bbasket_price_extra_greater_than%5D=0&subdomain=admin&order=started_on_desc) avec un extra en utilisant le filtre à droite prévu à cet effet. Cette information se retrouve également dans [l'export CSV des abonnements](/memberships.csv).
+
+> Pour trouver rapidement la somme de tous les extra de l'année fiscale en cours, vous pouvez télécharger le "Récapitulatif Excel" depuis la section "Facturation" du [tableau de bord](/dashboard). Ce fichier XLSX contient une ligne spécifique à ce sujet.
