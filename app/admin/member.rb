@@ -535,10 +535,10 @@ ActiveAdmin.register Member do
   end
 
   member_action :become do
-    session = resource.sessions.create!(
-      email: current_admin.email,
-      remote_addr: request.remote_addr,
-      user_agent: "Admin ID: #{current_admin.id}")
+    session = Session.create!(
+      admin_email: current_admin.email,
+      member: resource,
+      request: request)
     redirect_to members_session_url(
       session.token,
       subdomain: Current.acp.members_subdomain,

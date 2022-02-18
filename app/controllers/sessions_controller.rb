@@ -12,8 +12,9 @@ class SessionsController < ApplicationController
 
   # POST /sessions
   def create
-    email = params.require(:session)[:email]
-    @session = build_session(email)
+    @session = Session.new(
+      admin_email: params.require(:session)[:email],
+      request: request)
 
     if @session.save
       SessionMailer.with(
@@ -52,11 +53,4 @@ class SessionsController < ApplicationController
 
   private
 
-  def build_session(email)
-    session = Session.new
-    session.remote_addr = request.remote_addr
-    session.user_agent = request.env.fetch('HTTP_USER_AGENT', '-')
-    session.admin_email = email
-    session
-  end
 end
