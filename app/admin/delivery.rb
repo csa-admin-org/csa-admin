@@ -33,7 +33,7 @@ ActiveAdmin.register Delivery do
     end
     actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
-        link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link')
+        link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link', target: '_blank')
     end
   end
 
@@ -125,7 +125,7 @@ ActiveAdmin.register Delivery do
             end
             span { '&nbsp;/&nbsp;'.html_safe }
             span do
-              link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(delivery, format: :pdf)
+              link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(delivery, format: :pdf), target: '_blank'
             end
           end
         end
@@ -224,7 +224,8 @@ ActiveAdmin.register Delivery do
           pdf = PDF::Delivery.new(resource)
           send_data pdf.render,
             content_type: pdf.content_type,
-            filename: pdf.filename
+            filename: pdf.filename,
+            disposition: 'inline'
         end
       end
     end
