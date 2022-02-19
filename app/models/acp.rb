@@ -18,6 +18,7 @@ class ACP < ApplicationRecord
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
+  attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
 
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
