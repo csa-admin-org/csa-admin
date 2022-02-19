@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_131437) do
+ActiveRecord::Schema.define(version: 2022_02_19_082930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 2022_02_18_131437) do
     t.boolean "absence_extra_text_only", default: false, null: false
     t.boolean "shop_admin_only", default: true, null: false
     t.jsonb "basket_price_extra_public_titles", default: {}, null: false
+    t.string "icalendar_auth_token"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
