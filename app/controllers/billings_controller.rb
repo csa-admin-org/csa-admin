@@ -1,7 +1,5 @@
 class BillingsController < ApplicationController
-  include HasAuthToken
-
-  before_action { verify_auth_token(:billing) }
+  before_action :authenticate_admin!
 
   # GET billing/:year
   def show

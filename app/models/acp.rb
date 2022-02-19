@@ -230,14 +230,6 @@ class ACP < ApplicationRecord
     share_price&.positive?
   end
 
-  def ical_feed?
-    ical_feed_auth_token.present?
-  end
-
-  def ical_feed_auth_token
-    credentials(:icalendar_auth_token)
-  end
-
   def credentials(*keys)
     Rails.application.credentials.dig(tenant_name.to_sym, *keys)
   end
