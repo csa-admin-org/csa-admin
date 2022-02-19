@@ -33,10 +33,10 @@ ActiveAdmin.register Activity do
     column :period, ->(a) { a.period }
     column :place, ->(a) { display_place(a) }
     column :title, ->(a) { a.title }
-    column :participants, ->(a) {
-      text = [a.participations.sum(&:participants_count), a.participants_limit || '∞'].join(' / ')
+    column :participants_short, ->(a) {
+      text = [a.participations.sum(&:participants_count), a.participants_limit || '∞'].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
-    }
+    }, class: 'align-right'
     actions class: 'col-actions-2'
   end
 

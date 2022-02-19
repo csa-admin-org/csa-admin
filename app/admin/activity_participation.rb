@@ -44,7 +44,9 @@ ActiveAdmin.register ActivityParticipation do
     column :activity, ->(ap) {
       link_to ap.activity.name(show_place: false), activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
     }, sortable: 'activities.date'
-    column :participants_count
+    column :participants_short, ->(ap) {
+      ap.participants_count
+    }, sortable: 'participants_count', class: 'align-right'
     column :state, ->(ap) { status_tag ap.state }
     actions class: 'col-actions-3'
   end

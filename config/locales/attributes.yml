@@ -244,6 +244,10 @@ _:
       _de: Begrenzung Anzahl Teilnehmer
       _fr: Limite de participants
       _it: Limite di partecipanti
+    participants_short:
+      _de: Teiln.
+      _fr: Part.
+      _it: Part.
     participations:
       _de: Teilnahmen
       _fr: Participations
