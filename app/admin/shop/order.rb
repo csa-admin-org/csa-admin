@@ -49,7 +49,7 @@ ActiveAdmin.register Shop::Order do
     column :member, sortable: 'members.name'
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
-    actions defaults: true, class: 'col-actions-3'do |order|
+    actions defaults: true, class: 'col-actions-3' do |order|
       link_to_invoice_pdf(order.invoice)
     end
   end
@@ -221,7 +221,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   action_item :delivery_pdf, only: :show do
-    link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_id: resource.delivery_id, shop_order_id: resource.id, format: :pdf)
+    link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_id: resource.delivery_id, shop_order_id: resource.id, format: :pdf), target: '_blank'
   end
 
   action_item :order_items_csv, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
@@ -231,7 +231,7 @@ ActiveAdmin.register Shop::Order do
 
   action_item :delivery_pdf, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
     delivery_id = params.dig(:q, :delivery_id_eq)
-    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_id: delivery_id, format: :pdf)
+    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_id: delivery_id, format: :pdf), target: '_blank'
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([nil, 'pending']) } do |selection|
@@ -248,7 +248,8 @@ ActiveAdmin.register Shop::Order do
     pdf = PDF::Shop::Delivery.new(delivery, order: order)
     send_data pdf.render,
       content_type: pdf.content_type,
-      filename: pdf.filename
+      filename: pdf.filename,
+      disposition: 'inline'
   end
 
   before_action only: :index do

@@ -131,7 +131,7 @@ ActiveAdmin.register_page 'Dashboard' do
                   end
                   span { '&nbsp;/&nbsp;'.html_safe }
                   span do
-                    link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf)
+                    link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf), target: '_blank'
                   end
 
                   if Current.acp.feature?('absence')
