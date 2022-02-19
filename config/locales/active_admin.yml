@@ -570,6 +570,10 @@ _:
             _fr: Sauvegarder les modifications
             _it: Salvare le modifiche
       index:
+        activity_participation_ical_text_html:
+          _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
+          _fr: Flux <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a> contenant toutes les participations aux activités à venir.
+          _it: Feed <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le voci per le prossime attività.
         activity_participations_accepted/basket_preparation:
           _de: Geleistete Taschen befüllung
           _fr: Mises en panier effectuées
@@ -668,9 +672,9 @@ _:
           _fr: Paramètres
           _it: Parametri
         subscribe_ical_link:
-          _de: Abonnieren Sie den iCal-Feed von Teilnahmen
-          _fr: S'abonner au flux iCal des participations
-          _it: Iscriversi al feed iCal delle presenze
+          _de: Feed abonnieren
+          _fr: S'abonner au flux
+          _it: Abbonati al feed
       new:
         availability:
           _de: Verfügbarkeit
@@ -1263,6 +1267,10 @@ _:
         _de: 'Betrag:'
         _fr: 'Montant:'
         _it: 'Quantità:'
+      calendar:
+        _de: Kalender
+        _fr: Calendrier
+        _it: Calendario
       edit_settings:
         _de: Einstellungen bearbeiten
         _fr: Modifier les paramètres
@@ -1271,10 +1279,6 @@ _:
         _de: Filter
         _fr: Filtres
         _it: Filtri
-      icalendar:
-        _de: iCalendar
-        _fr: iCalendar
-        _it: iCalendar
       import:
         _de: Import
         _fr: Importation

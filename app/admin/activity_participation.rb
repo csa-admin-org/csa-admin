@@ -66,9 +66,14 @@ ActiveAdmin.register ActivityParticipation do
     column(:rejected_at)
   end
 
-  sidebar :icalendar, if: -> { Current.acp.ical_feed? }, only: :index do
+  sidebar :calendar, if: -> { Current.acp.icalendar_auth_token? }, only: :index do
     div class: 'content' do
-      link_to t('.subscribe_ical_link'), activity_participations_calendar_url(auth_token: Current.acp.ical_feed_auth_token), class: 'button'
+      para t('.activity_participation_ical_text_html')
+      div do
+        link_to t('.subscribe_ical_link'), activity_participations_calendar_url(auth_token: Current.acp.icalendar_auth_token).gsub(/^https/, 'webcal'),
+          data: { turbolinks: false },
+          class: 'button full-width'
+      end
     end
   end
 
