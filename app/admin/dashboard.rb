@@ -124,21 +124,23 @@ ActiveAdmin.register_page 'Dashboard' do
                 end
               end
 
-              table_for nil do
-                column do
-                  span do
-                    link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(next_delivery, format: :xlsx)
-                  end
-                  span { '&nbsp;/&nbsp;'.html_safe }
-                  span do
-                    link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf), target: '_blank'
-                  end
+              div class: 'next-delivery-footer' do
+                table_for nil do
+                  column do
+                    span do
+                      link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(next_delivery, format: :xlsx)
+                    end
+                    span { '&nbsp;/&nbsp;'.html_safe }
+                    span do
+                      link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf), target: '_blank'
+                    end
 
-                  if Current.acp.feature?('absence')
-                    absences_count = next_delivery.baskets.absent.sum(:quantity)
-                    if absences_count.positive?
-                      span class: 'delivery_absences' do
-                        link_to "#{Absence.model_name.human(count: absences_count)}: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+                    if Current.acp.feature?('absence')
+                      absences_count = next_delivery.baskets.absent.sum(:quantity)
+                      if absences_count.positive?
+                        span class: 'delivery_absences' do
+                          link_to "#{Absence.model_name.human(count: absences_count)}: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+                        end
                       end
                     end
                   end
