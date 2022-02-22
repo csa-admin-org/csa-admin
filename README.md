@@ -6,6 +6,27 @@
 
 Cette application Ruby on Rails permet l'administration d'ACP (Agriculture Contractuelle de Proximité).
 
+## Fonctionnalités
+
+Les fonctions actuellement prises en charge sont, entre autres:
+
+* Gestion des membres (status, absences, ...)
+* Gestion des abonnements (type de panier, lieu de dépôt, quantité, cycle de livraisons, ...)
+* Gestion des compléments des paniers (fréquence de livraison, quantité, ...)
+* Épicerie en ligne pour permettre aux membres de commander des produits supplémentaires
+* Gestion du contenu des paniers (calcul des quantités en fonction des récoltes)
+* Facturation automatique des abonnements, création et envoi des factures avec numéro de référence (QR-Code/BVR), relevé des versements automatique (EBICS et BAS), envoi des rappels, ...
+* Facturation automatique des parts sociales ou cotisations annuelles
+* Gestion de la participation des membres, avec formulaire d'inscription
+* Mailing-list pour l’envoi d'emails hebdomadaires (synchronisation avec liste MailChimp)
+* Multi-langues (français/allemand/italien)
+* ...
+
+D'autres fonctionnalités peuvent être ajoutées au besoin.
+
+
+## ACP
+
 Elle est actuellement utilisée par les ACP suivantes:
 
 * [Rage de Vert](https://www.ragedevert.ch)
@@ -20,21 +41,8 @@ Elle est actuellement utilisée par les ACP suivantes:
 * [La Ferme des Savanes](http://lafermedessavanes.ch)
 * [Seminterra](https://seminterra.ch)
 * [Le panier bio à 2 roues (P2R)](https://p2r.ch)
+* [Grundnahrig](https://www.grundnahrig.ch)
 
-Les fonctions prises en charge sont, entre autres:
-
-* Gestion des membres (status, absences, ...)
-* Gestion des abonnements (type de panier, lieu de dépôt, quantité, ...)
-* Gestion des compléments des paniers (fréquence de livraison, quantité, ...)
-* Gestion du contenu des paniers (calcul des quantités en fonction des récoltes)
-* Facturation automatique des abonnements, création et envoi des factures avec numéro de référence (QR-Code/BVR), relevé des versements automatique (EBICS et BAS), envoi des rappels, ...
-* Facturation automatique des parts sociales ou cotisations annuelles
-* Gestion de la participation des membres, avec formulaire d'inscription
-* Mailing-list pour l’envoi d'emails hebdomadaires (synchronisation avec liste MailChimp)
-* Multi-langues (français/allemand/italien)
-* ...
-
-D'autres fonctionnalités peuvent être ajoutées au besoin.
 
 ## Développement et support
 
