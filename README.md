@@ -22,12 +22,12 @@ Les fonctions actuellement prises en charge sont, entre autres:
 * Multi-langues (français/allemand/italien)
 * ...
 
-D'autres fonctionnalités peuvent être ajoutées au besoin.
+D'autres fonctionnalités peuvent être ajoutées au besoin, [contactez-moi](mailto:info@acp-admin.ch) pour plus d'informations.
 
 
 ## ACP
 
-Elle est actuellement utilisée par les ACP suivantes:
+Utilisé actuellement par les ACP suivantes:
 
 * [Rage de Vert](https://www.ragedevert.ch)
 * [Lumière des Champs](http://lumiere-des-champs.ch)
