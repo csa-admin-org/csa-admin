@@ -32,7 +32,7 @@ class Activity < ApplicationRecord
     where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
       .ordered(:asc)
       .includes(:participations)
-      .reject { |hd| hd.participant?(member) || hd.full? }
+      .reject { |hd| hd.participant?(member) }
   end
 
   def self.available

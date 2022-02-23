@@ -21,12 +21,12 @@ module ActivitiesHelper
 
   def activities_collection(activities, data: {})
     activities.map do |activity|
-      text = content_tag(:span, class: 'inline-block flex-grow') {
+      text = content_tag(:span, class: "inline-block flex-grow #{'cursor-not-allowed text-gray-300 dark:text-gray-700' if activity.full?}") {
         content_tag(:span, class: 'flex flex-col md:flex-row flex-wrap justify-start mr-2') do
           activity_label(activity).html_safe
         end
       }.concat(
-        content_tag(:span, class: 'flex-none ml-2 flex flex-row flex-nowrap text-gray-400 dark:text-gray-800', title: t('activities.participant_count', count:activity.participants_count)) {
+        content_tag(:span, class: "flex-none ml-2 flex flex-row flex-nowrap text-gray-400 dark:text-gray-800 #{'font-semibold' if activity.full?}", title: t('activities.participant_count', count:activity.participants_count)) {
           content_tag(:span, class: 'mr-1') {
             "#{activity.participants_count}/#{activity.participants_limit || '∞'}"
           }.concat(
