@@ -52,7 +52,7 @@ export default class extends Controller {
     for (const input of dateInputs) {
       show(input.closest("span.checkbox"))
     }
-    if (dateInputs.every((input) => !input.checked)) {
+    if (dateInputs.every((input) => !input.checked && !input.disabled)) {
       dateInputs[0].checked = true
     }
   }
@@ -63,6 +63,7 @@ export default class extends Controller {
     const date = dates.filter((d) => d.startsWith(yearMonth))[0]
 
     calendar.setDate(date)
+    this._selectDate(date)
   }
 
   _flatpickrLocale() {
