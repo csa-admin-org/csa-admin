@@ -384,35 +384,62 @@ describe 'members page' do
     end
   end
 
-  context 'existing member token', freze: '2021-06-01' do
-    it 'redirects to deliveries with next basket' do
-      create(:delivery)
-      login(member)
+  context 'existing member token' do
+    it 'redirects to deliveries with next basket', freeze: '2022-01-01' do
+      create(:delivery, date: '2022-02-02')
+      login(create(:member, :active))
 
       visit '/'
 
       expect(current_path).to eq '/deliveries'
       expect(page).to have_selector('h1', text: 'Livraisons')
+
+      expect(menu_nav).to eq [
+        "Livraisons\n⤷ 2 février 2022",
+        "Abonnement\n⤷ Période d'essai",
+        "½ Journées\n⤷ 0 sur 2 demandées",
+        "Facturation\n⤷ Consulter l'historique",
+        "Absences\n⤷ Prévenez-nous!"
+      ]
     end
 
     it 'redirects to activity_participations without next basket' do
-      login(create(:member))
+      login(create(:member, state: 'active'))
 
       visit '/'
 
       expect(current_path).to eq '/activity_participations'
       expect(page).to have_selector('h1', text: '½ Journées')
+
+      expect(menu_nav).to eq [
+        "½ Journées\n⤷ Aucun engagement",
+        "Facturation\n⤷ Consulter l'historique",
+        "Absences\n⤷ Prévenez-nous!"
+      ]
     end
 
     it 'redirects to billing without activity feature' do
       current_acp.update!(features: [])
 
-      login(create(:member))
+      login(create(:member, state: 'active'))
 
       visit '/'
 
       expect(current_path).to eq '/billing'
       expect(page).to have_selector('h1', text: 'Facturation')
+
+      expect(menu_nav).to eq ["Facturation\n⤷ Consulter l'historique"]
+    end
+
+    it 'redirects inactive user to billing' do
+      login(create(:member, :inactive))
+
+      visit '/'
+
+      expect(current_path).to eq '/billing'
+      expect(page).to have_selector('h1', text: 'Facturation')
+
+      expect(menu_nav).to eq ["Facturation\n⤷ Consulter l'historique"]
     end
   end
 end

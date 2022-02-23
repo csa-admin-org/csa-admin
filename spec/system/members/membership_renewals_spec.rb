@@ -25,10 +25,7 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
-    end
-
+    expect(menu_nav).to include("Abonnement\n⤷ Renouvellement ?")
     click_on 'Abonnement'
 
     choose 'Renouveler mon abonnement'
@@ -44,9 +41,7 @@ describe 'Memberships Renewal' do
     expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été renouvelé. Merci!')
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ En cours"
-    end
+    expect(menu_nav).to include("Abonnement\n⤷ En cours")
     within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
       expect(page).to have_content 'Grand PUBLIC'
@@ -93,10 +88,7 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
-    end
-
+    expect(menu_nav).to include("Abonnement\n⤷ Renouvellement ?")
     click_on 'Abonnement'
 
     choose 'Renouveler mon abonnement'
@@ -109,9 +101,7 @@ describe 'Memberships Renewal' do
     expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été renouvelé. Merci!')
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ En cours"
-    end
+    expect(menu_nav).to include("Abonnement\n⤷ En cours")
     within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
       expect(page).to have_content 'Petit PUBLIC'
@@ -149,9 +139,7 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
-    end
+    expect(menu_nav).to include("Abonnement\n⤷ Renouvellement ?")
     click_on 'Abonnement'
 
     choose 'Renouveler mon abonnement'
@@ -167,9 +155,7 @@ describe 'Memberships Renewal' do
     expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été renouvelé. Merci!')
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ En cours"
-    end
+    expect(menu_nav).to include("Abonnement\n⤷ En cours")
     within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
       expect(page).to have_content 'Grand PUBLIC'
@@ -204,9 +190,7 @@ describe 'Memberships Renewal' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ Renouvellement ?"
-    end
+    expect(menu_nav).to include("Abonnement\n⤷ Renouvellement ?")
     click_on 'Abonnement'
 
     choose 'Résilier mon abonnement'
@@ -220,9 +204,7 @@ describe 'Memberships Renewal' do
     expect(page).to have_selector('.flash',
       text: 'Votre abonnement a été résilié.')
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ En cours"
-    end
+    expect(menu_nav).to include("Abonnement\n⤷ En cours")
     expect(page).to have_content 'Votre abonnement a été résilié et se terminera après la livraison du 7 janvier 2020.'
     expect(membership.reload).to have_attributes(
       renew: false,

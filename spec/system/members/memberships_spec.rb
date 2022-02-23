@@ -11,14 +11,12 @@ describe 'Membership' do
   end
 
   specify 'inactive member' do
-    login(member)
+    login(create(:member, :inactive))
 
-    within 'nav' do
-      expect(page).not_to have_content 'Abonnement'
-    end
+    expect(menu_nav).to eq ["Facturation\n⤷ Consulter l'historique"]
 
     visit 'http://membres.ragedevert.test/membership'
-    expect(current_path).to eq '/activity_participations'
+    expect(current_path).to eq '/billing'
   end
 
   specify 'active member with absence', freeze: '2020-01-01' do
@@ -34,9 +32,7 @@ describe 'Membership' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ En cours"
-    end
+    expect(menu_nav).to include "Abonnement\n⤷ En cours"
 
     click_on 'Abonnement'
 
@@ -60,9 +56,7 @@ describe 'Membership' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ Période d'essai"
-    end
+    expect(menu_nav).to include "Abonnement\n⤷ Période d'essai"
 
     click_on 'Abonnement'
 
@@ -87,9 +81,7 @@ describe 'Membership' do
 
     login(member)
 
-    within 'nav' do
-      expect(page).to have_content "Abonnement\n⤷ À venir"
-    end
+    expect(menu_nav).to include "Abonnement\n⤷ À venir"
 
     click_on 'Abonnement'
 

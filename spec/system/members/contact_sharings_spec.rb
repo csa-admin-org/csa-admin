@@ -20,9 +20,7 @@ describe 'Contact sharing' do
 
     visit '/'
 
-    within 'nav' do
-      expect(page).to have_content "Copaniérage\n⤷ Vin Libre PUBLIC"
-    end
+    expect(menu_nav).to include("Copaniérage\n⤷ Vin Libre PUBLIC")
 
     click_on 'Copaniérage'
 
