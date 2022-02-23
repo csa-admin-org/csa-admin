@@ -1,4 +1,8 @@
 module ActivitiesHelper
+  def display_activity?
+    Current.acp.feature?('activity') && !current_member.inactive?
+  end
+
   def activity_human_name
     I18n.t("activities.#{Current.acp.activity_i18n_scope}.one")
   end

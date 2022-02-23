@@ -59,7 +59,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
                   = Member.human_attribute_name(:contact_sharing)
                 span = '⤷ ' + next_basket.depot.public_name
 
-        - if Current.acp.feature?('activity')
+        - if display_activity?
           li class=nav_class('activity_participations')
             = link_to members_activity_participations_path, class: 'block py-2 px-8' do
               h2 class='font-medium text-gray-700 dark:text-gray-400'
@@ -89,7 +89,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
             - else
               span = t('.see_history')
 
-        - if Current.acp.feature?('absence')
+        - if display_absence?
           li class=nav_class('absences')
             = link_to members_absences_path, class: 'block py-2 px-8' do
               h2 class='font-medium text-gray-700 dark:text-gray-400'

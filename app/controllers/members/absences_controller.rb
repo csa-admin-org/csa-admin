@@ -1,5 +1,7 @@
 class Members::AbsencesController < Members::BaseController
-  before_action :ensure_absence_feature
+  include AbsencesHelper
+
+  before_action :ensure_absence_access
 
   # GET /absences
   def index
@@ -36,7 +38,7 @@ class Members::AbsencesController < Members::BaseController
     params.require(:absence).permit(:started_on, :ended_on)
   end
 
-  def ensure_absence_feature
-    redirect_to members_member_path unless Current.acp.feature?('absence')
+  def ensure_absence_access
+    redirect_to members_member_path unless display_absence?
   end
 end

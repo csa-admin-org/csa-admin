@@ -1,4 +1,6 @@
 class Members::MembersController < Members::BaseController
+  include ActivitiesHelper
+
   skip_before_action :authenticate_member!, only: %i[new create welcome]
   before_action :redirect_current_member!, only: %i[new create welcome]
   invisible_captcha only: :create
@@ -13,7 +15,7 @@ class Members::MembersController < Members::BaseController
   def show
     if current_member.next_basket
       redirect_to members_deliveries_path
-    elsif Current.acp.feature?('activity')
+    elsif display_activity?
       redirect_to members_activity_participations_path
     else
       redirect_to members_billing_path
