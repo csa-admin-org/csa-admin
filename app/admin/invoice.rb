@@ -252,6 +252,7 @@ ActiveAdmin.register Invoice do
       end
       tab t_invoice_object_type('Other'), id: 'other' do
         f.inputs do
+          f.semantic_errors :items
           f.has_many :items, new_record: t('.has_many_new_invoice_item') do |ff|
             ff.input :description
             ff.input :amount, as: :number, step: 0.05, min: 0, max: 99999.95

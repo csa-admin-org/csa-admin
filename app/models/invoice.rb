@@ -58,12 +58,18 @@ class Invoice < ApplicationRecord
   validates :amount, numericality: { other_than: 0 }
   validates :paid_missing_activity_participations,
     numericality: { greater_than_or_equal_to: 1, allow_blank: true }
+  validates :paid_missing_activity_participations,
+    absence: true,
+    unless: :activity_participation_type?
+  validates :items, absence: true, if: :activity_participation_type?
   validates :paid_missing_activity_participations_amount,
     numericality: { greater_than_or_equal_to: 1 },
     if: :paid_missing_activity_participations,
     on: :create
   validates :acp_shares_number,
     numericality: { other_than: 0, allow_blank: true }
+  validates :acp_shares_number, absence: true, unless: :acp_share_type?
+  validates :items, absence: true, if: :acp_share_type?
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
     allow_nil: true
@@ -286,6 +292,10 @@ class Invoice < ApplicationRecord
 
   def acp_share_type?
     object_type == 'ACPShare'
+  end
+
+  def other_type?
+    object_type == 'Other'
   end
 
   def memberships_gross_amount
