@@ -15,7 +15,6 @@ module PDF
           Depot.where(id: @baskets.pluck(:depot_id).uniq).order(:name)
         end
       if Current.acp.feature?('shop')
-        @shop_open = @delivery.shop_open
         @shop_orders =
           @delivery
             .shop_orders
@@ -85,13 +84,14 @@ module PDF
 
     def content(depot, page_baskets, baskets, basket_sizes, basket_complements)
       shop_orders = @shop_orders&.where(member_id: baskets.pluck(:member_id))
+      show_shop_orders = @delivery.shop_open && shop_orders&.any?
 
       font_size 11
       move_down 2.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
-      bc_size += 1 if @shop_open
+      bc_size += 1 if show_shop_orders
 
       page_border = 20
       width = bounds.width - 2 * page_border
@@ -105,19 +105,19 @@ module PDF
         basket_sizes.each_with_index do |bs, i|
           text_box bs.public_name,
             rotate: 45,
-            at: [member_name_width + i * 25 + 10, cursor],
+            at: [member_name_width + i * 25 + 7, cursor + 8],
             valign: :center
         end
         basket_complements.each_with_index do |bc, i|
           text_box bc.public_name,
             rotate: 45,
-            at: [member_name_width + (bs_size + i) * 25 + 10, cursor],
+            at: [member_name_width + (bs_size + i) * 25 + 7, cursor + 8],
             valign: :center
         end
-        if @shop_open
+        if show_shop_orders
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
-            at: [member_name_width + (bs_size + bc_size - 1) * 25 + 10, cursor],
+            at: [member_name_width + (bs_size + bc_size - 1) * 25 + 7, cursor + 8],
             valign: :center
         end
       end
@@ -148,7 +148,7 @@ module PDF
             .flat_map(&:baskets_basket_complements)
             .select { |bbc| bbc.basket_complement_id == c.id }
             .sum(&:quantity)
-        if shop_orders
+        if show_shop_orders
           basket_complement_total +=
             shop_orders
               .joins(items: { product: :basket_complement })
@@ -162,7 +162,7 @@ module PDF
           align: :center
         }
       end
-      if @shop_open
+      if show_shop_orders
         total_line << {
           content: shop_orders.count.to_s,
           width: 25,
@@ -214,7 +214,7 @@ module PDF
               display_quantity(quantity)
             end
         end
-        if @shop_open
+        if show_shop_orders
           line << (shop_order ? 'X' : '')
         end
         line << {
@@ -277,12 +277,18 @@ module PDF
     end
 
     def basket_sizes_for(baskets)
-      basket_size_ids = baskets.pluck(:basket_size_id).uniq
+      basket_size_ids =
+        baskets.where('baskets.quantity > 0').pluck(:basket_size_id).uniq
       BasketSize.where(id: basket_size_ids)
     end
 
     def basket_complements_for(baskets)
-      complement_ids = baskets.joins(:baskets_basket_complements).pluck(:basket_complement_id).uniq
+      complement_ids =
+        baskets
+          .joins(:baskets_basket_complements)
+          .where('baskets_basket_complements.quantity > 0')
+          .pluck(:basket_complement_id)
+          .uniq
       BasketComplement.where(id: complement_ids)
     end
   end
