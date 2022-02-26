@@ -66,6 +66,10 @@ ActiveAdmin.register Delivery do
     end
   end
 
+  action_item :deliveries_cycle, only: :index do
+    link_to DeliveriesCycle.model_name.human(count: 2), deliveries_cycles_path
+  end
+
   sidebar_handbook_link('deliveries')
 
   show do |delivery|
