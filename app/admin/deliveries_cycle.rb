@@ -1,6 +1,17 @@
 ActiveAdmin.register DeliveriesCycle do
   menu parent: :other, priority: 11, label: -> { t('deliveries_cycle.menu_title') }
 
+  breadcrumb do
+    links = [link_to(Delivery.model_name.human(count: 2), deliveries_path)]
+    if params[:action] != 'index'
+      links << link_to(DeliveriesCycle.model_name.human(count: 2), deliveries_cycles_path)
+    end
+    if params['action'].in? %W[edit]
+      links << auto_link(resource)
+    end
+    links
+  end
+
   scope :all, default: true
   scope :visible
   scope :hidden
