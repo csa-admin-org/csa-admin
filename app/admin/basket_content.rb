@@ -7,11 +7,20 @@ ActiveAdmin.register BasketContent do
   filter :basket_size, as: :select, collection: -> { BasketSize.paid }
   filter :depots, as: :select
 
-  includes :depots, :delivery, :vegetable
+  includes :depots, :delivery, :vegetable, :basketcontents_depots
   index download_links: -> {
     params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
+  }, title: -> {
+    title = BasketContent.model_name.human(count: 2)
+    if delivery_id = params.dig(:q, :delivery_id_eq)
+      delivery = Delivery.find(delivery_id)
+      title += (' – ' + l(delivery.date))
+    end
+    title
   } do
-    column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
+    unless params.dig(:q, :delivery_id_eq)
+      column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
+    end
     column :vegetable, ->(bc) { bc.vegetable.name }
     column :qt, ->(bc) { display_quantity(bc.quantity, bc.unit) }
     BasketSize.paid.each do |basket_size|
@@ -21,6 +30,10 @@ ActiveAdmin.register BasketContent do
     all_depots = Depot.all.to_a
     column :depots, ->(bc) { display_depots(bc, all_depots) }
     actions class: 'col-actions-2'
+  end
+
+  action_item :vegetable, only: :index do
+    link_to Vegetable.model_name.human(count: 2), vegetables_path
   end
 
   csv do
