@@ -48,7 +48,7 @@ gem 'faraday-cookie_jar'
 
 gem 'gibbon'
 gem 'icalendar'
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.12'
 gem 'mini_magick'
 gem 'prawn'
 gem 'prawn-table'

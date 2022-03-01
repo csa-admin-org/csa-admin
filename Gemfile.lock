@@ -214,7 +214,7 @@ GEM
     icalendar (2.7.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
-    image_processing (1.12.1)
+    image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     importmap-rails (1.0.3)
@@ -527,7 +527,7 @@ DEPENDENCIES
   i18n (~> 1.8.0)
   i18n-backend-side_by_side
   icalendar
-  image_processing (~> 1.2)
+  image_processing (~> 1.12)
   importmap-rails
   inline_svg
   invisible_captcha
