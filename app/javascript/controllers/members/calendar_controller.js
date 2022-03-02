@@ -49,11 +49,13 @@ export default class extends Controller {
     const dateInputs = this.inputTargets.filter(
       (input) => input.dataset.date == dateText
     )
-    for (const input of dateInputs) {
-      show(input.closest("span.checkbox"))
-    }
-    if (dateInputs.every((input) => !input.checked && !input.disabled)) {
-      dateInputs[0].checked = true
+    if (dateInputs.length > 0) {
+      for (const input of dateInputs) {
+        show(input.closest("span.checkbox"))
+      }
+      if (dateInputs.every((input) => !input.checked && !input.disabled)) {
+        dateInputs[0].checked = true
+      }
     }
   }
 
