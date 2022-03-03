@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe InvoiceMailer do
   specify '#created_email' do
-    template = MailTemplate.create!(title: 'invoice_created')
+    template = MailTemplate.find_by(title: 'invoice_created')
     member = create(:member, emails: 'example@acp-admin.ch')
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
@@ -30,7 +30,7 @@ describe InvoiceMailer do
   end
 
   specify '#created_email (closed)' do
-    template = MailTemplate.create!(title: 'invoice_created')
+    template = MailTemplate.find_by(title: 'invoice_created')
     member = create(:member, emails: 'example@acp-admin.ch')
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
@@ -51,7 +51,7 @@ describe InvoiceMailer do
   end
 
   specify '#created_email (partially paid)' do
-    template = MailTemplate.create!(title: 'invoice_created')
+    template = MailTemplate.find_by(title: 'invoice_created')
     member = create(:member, emails: 'example@acp-admin.ch')
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
@@ -72,7 +72,7 @@ describe InvoiceMailer do
   end
 
   specify '#created_email (Shop::Order)' do
-    template = MailTemplate.create!(title: 'invoice_created')
+    template = MailTemplate.find_by(title: 'invoice_created')
     member = create(:member, emails: 'example@acp-admin.ch')
     order = create(:shop_order, :pending, id: 51235, member: member)
     invoice = order.invoice!
@@ -91,7 +91,7 @@ describe InvoiceMailer do
   end
 
   specify '#overdue_notice_email' do
-    template = MailTemplate.create!(title: 'invoice_overdue_notice')
+    template = MailTemplate.find_by(title: 'invoice_overdue_notice')
     member = create(:member, emails: 'example@acp-admin.ch')
     invoice = create(:invoice, :annual_fee, :open,
       member: member,

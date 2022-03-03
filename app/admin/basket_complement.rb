@@ -1,5 +1,5 @@
 ActiveAdmin.register BasketComplement do
-  menu parent: :other, priority: 4
+  menu parent: :other, priority: 9, label: -> { t('active_admin.menu.basket_complements') }
   actions :all, except: [:show]
 
   scope :all
@@ -41,7 +41,9 @@ ActiveAdmin.register BasketComplement do
         scope: :all)
     }
     column :visible
-    actions class: 'col-actions-2'
+    if authorized?(:update, BasketComplement)
+      actions class: 'col-actions-2'
+    end
   end
 
   form do |f|

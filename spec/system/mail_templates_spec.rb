@@ -10,7 +10,7 @@ describe 'Mail Templates' do
     mail_template = travel_to('2020-03-24') do
       create(:membership,
         basket_size: create(:basket_size, id: 33, name: 'Eveil'))
-      MailTemplate.create!(title: 'member_activated')
+      MailTemplate.find_by(title: 'member_activated')
     end
 
     login create(:admin, email: 'thibaud@thibaud.gg')

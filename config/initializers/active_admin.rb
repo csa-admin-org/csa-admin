@@ -430,7 +430,7 @@ module ActiveAdmin
       ) do
         div class: 'content' do
           span t('active_admin.sidebars.shop_admin_only_text_html')
-          if authorized?(:manage, Current.acp)
+          if authorized?(:read, Current.acp)
             para class: 'text-center' do
               a(href: '/settings#shop') { t('active_admin.sidebars.edit_settings') }
             end

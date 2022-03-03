@@ -1,56 +1,53 @@
 ActiveAdmin.register Admin do
   menu parent: :other, priority: 2
+  actions :all, except: [:show]
 
-  includes :last_session
+  filter :name
+  filter :email
+  filter :permission
+
+  includes :last_session, :permission
   index download_links: false do
     column :name
     column :email
-    column :last_session_used_at
-    column :rights
-    actions class: 'col-actions-3'
-  end
-
-  show do |admin|
-    attributes_table do
-      row :name
-      row(:email) { display_emails_with_link(self, admin.email) }
-      if Current.acp.languages.many?
-        row(:language) { t("languages.#{admin.language}") }
-      end
-      row :rights
-      row :created_at
-      row :last_session_used_at
-      row(:notifications) {
-        admin.notifications.map { |n| t("admin.notifications.#{n}") }.join(', ')
-      }
+    column :last_session_used_at, ->(a) {
+      I18n.l(a.last_session_used_at, format: :medium) if a.last_session_used_at
+    }
+    column :permission, ->(a) {
+      link_to a.permission&.name, permissions_path
+    }
+    if authorized?(:manage, Admin)
+      actions class: 'col-actions-2'
     end
   end
 
+  action_item :permissions, only: :index do
+    link_to Permission.model_name.human(count: 2), permissions_path
+  end
+
   form do |f|
-    f.inputs Admin.model_name.human do
+    f.inputs t('.details') do
       f.input :name
       f.input :email
       f.input :language,
         as: :select,
         collection: ACP.languages.map { |l| [t("languages.#{l}"), l] },
         prompt: true
+      if authorized?(:manage, Admin) && f.object != current_admin
+        f.input :permission, collection: Permission.all, prompt: true, include_blank: false
+      end
     end
     f.inputs do
       f.input :notifications,
         as: :check_boxes,
         collection: Admin.notifications.map { |n| [t("admin.notifications.#{n}"), n] }.sort
     end
-    if current_admin.superadmin?
-      f.inputs do
-        f.input :rights, collection: Admin::RIGHTS, prompt: true
-      end
-    end
     f.actions
   end
 
   permit_params do
     pp = %i[name email language]
-    pp << :rights if current_admin.superadmin?
+    pp << :permission_id if authorized?(:manage, Admin)
     pp << { notifications: [] }
     pp
   end
@@ -62,10 +59,5 @@ ActiveAdmin.register Admin do
     ).invitation_email.deliver_later
   end
 
-  controller do
-    include TranslatedCSVFilename
-  end
-
-  config.filters = false
   config.sort_order = 'name_asc'
 end

@@ -1,5 +1,5 @@
 ActiveAdmin.register GroupBuying::Product do
-  menu parent: :group_buying, priority: 4
+  menu parent: :group_buying, priority: 3
   actions :all, except: [:show]
 
   breadcrumb do
@@ -39,7 +39,9 @@ ActiveAdmin.register GroupBuying::Product do
     column :name, ->(product) { auto_link product }, sortable: :names
     column :available, ->(product) { status_tag(product.available? ? :yes : :no) }
     column :price, ->(product) { cur(product.price) }
-    actions class: 'col-actions-2'
+    if authorized?(:update, GroupBuying::Product)
+      actions class: 'col-actions-2'
+    end
   end
 
   csv do

@@ -1,0 +1,7 @@
+_:
+  time:
+    formats:
+      medium:
+        _de: "%e %b %y, %H:%M"
+        _fr: "%e %b %y, %H:%M"
+        _it: "%e %b %y, %H:%M"

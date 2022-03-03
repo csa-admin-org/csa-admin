@@ -1,9 +1,12 @@
 ActiveAdmin.register ActivityPreset do
-  menu parent: :activities_human_name, priority: 3
+  menu false
   actions :all, except: [:show]
 
   breadcrumb do
-    links = [activities_human_name]
+    links = [
+      activities_human_name,
+      link_to(Activity.model_name.human(count: 2), activities_path)
+    ]
     unless params['action'] == 'index'
       links << link_to(ActivityPreset.model_name.human(count: 2), activity_presets_path)
       if params['action'].in? %W[edit]
@@ -17,7 +20,9 @@ ActiveAdmin.register ActivityPreset do
     column :place
     column :place_url, ->(ap) { link_to truncate(ap.place_url, length: 50), ap.place_url }
     column :title
-    actions class: 'col-actions-2'
+    if authorized?(:update, ActivityPreset)
+      actions class: 'col-actions-2'
+    end
   end
 
   form do |f|

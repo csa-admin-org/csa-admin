@@ -135,7 +135,7 @@ ActiveAdmin.register ActivityParticipation do
     active_admin_comments
   end
 
-  batch_action :reject do |selection|
+  batch_action :reject, if: ->(_) { authorized?(:update, ActivityParticipation) } do |selection|
     participations = ActivityParticipation.includes(:activity).where(id: selection)
     participations.find_each do |participation|
       participation.reject!(current_admin)
@@ -146,7 +146,7 @@ ActiveAdmin.register ActivityParticipation do
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :validate do |selection|
+  batch_action :validate, if: ->(_) { authorized?(:update, ActivityParticipation) } do |selection|
     participations = ActivityParticipation.includes(:activity).where(id: selection)
     participations.find_each do |participation|
       participation.validate!(current_admin)

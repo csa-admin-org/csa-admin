@@ -54,11 +54,10 @@ describe GroupBuying::Order do
     expect(order.items.first).to have_attributes(
       product: product,
       quantity: 2,
-      price: 142.45)
+      price: BigDecimal(142.45, 5))
   end
 
   it 'creates an invoice and send it' do
-    MailTemplate.create!(title: :invoice_created)
     product = create(:group_buying_product,
       name: "Caisse d'orange (1KG)",
       price: 120.45)
@@ -89,10 +88,10 @@ describe GroupBuying::Order do
 
     order = create(:group_buying_order)
 
-    expect(AdminMailer.deliveries.size).to eq 1
-    mail = AdminMailer.deliveries.last
+    mails = ApplicationMailer.deliveries.select { |m| m.to == [admin.email] }
+    expect(mails.size).to eq 1
+    mail = mails.first
     expect(mail.subject).to eq "Nouvelle commande (##{order.id})"
-    expect(mail.to).to eq [admin.email]
     expect(mail.html_part.body).to include admin.name
   end
 end

@@ -2,7 +2,7 @@ class ACP < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
 
-  FEATURES = %w[
+  FEATURES = %i[
     absence
     activity
     basket_content
@@ -11,7 +11,7 @@ class ACP < ApplicationRecord
     group_buying
     shop
   ]
-  FEATURE_FLAGS = %w[]
+  FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
@@ -86,7 +86,9 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
   after_create :create_tenant
-  after_create :create_default_deliveries_cycle
+  after_create :create_superadmin_permission!
+  after_create :create_mail_templates!
+  after_create :create_default_deliveries_cycle!
 
   def self.perform(tenant_name)
     enter!(tenant_name)
@@ -125,12 +127,20 @@ class ACP < ApplicationRecord
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
 
+  def features
+    self[:features].map(&:to_sym) & FEATURES
+  end
+
+  def feature_flags
+    self[:feature_flags].map(&:to_sym) & FEATURE_FLAGS
+  end
+
   def feature?(feature)
-    features.include?(feature.to_s)
+    features.include?(feature.to_sym)
   end
 
   def feature_flag?(feature)
-    feature_flags.include?(feature.to_s)
+    feature_flags.include?(feature.to_sym)
   end
 
   def recurring_billing?
@@ -242,11 +252,21 @@ class ACP < ApplicationRecord
     Apartment::Tenant.create(tenant_name)
   end
 
-  def create_default_deliveries_cycle
+  def create_superadmin_permission!
     self.class.perform(tenant_name) do
-      DeliveriesCycle.create!(LANGUAGES.map { |locale|
-        ["name_#{locale}", I18n.t('deliveries_cycle.default_name', locale: locale)]
-      }.to_h)
+      Permission.create_superadmin!
+    end
+  end
+
+  def create_mail_templates!
+    self.class.perform(tenant_name) do
+      MailTemplate.create_all!
+    end
+  end
+
+  def create_default_deliveries_cycle!
+    self.class.perform(tenant_name) do
+      DeliveriesCycle.create_default!
     end
   end
 end

@@ -26,8 +26,6 @@ describe Invoice do
   end
 
   context 'with mail template' do
-    before { MailTemplate.create! title: :invoice_created }
-
     it 'sends email when send_email is true on creation' do
       expect { create(:invoice, :annual_fee, :unprocessed) }
         .not_to change { InvoiceMailer.deliveries.size }
@@ -158,7 +156,6 @@ describe Invoice do
   end
 
   describe '#send!' do
-    before { MailTemplate.create! title: :invoice_created }
     let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
     it 'delivers email' do
@@ -191,7 +188,6 @@ describe Invoice do
   end
 
   describe '#mark_as_sent!' do
-    before { MailTemplate.create! title: :invoice_created }
     let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
 
     it 'does not deliver email' do

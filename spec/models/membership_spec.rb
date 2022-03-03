@@ -661,7 +661,7 @@ describe Membership do
   end
 
   describe '#open_renewal!' do
-    before { MailTemplate.create! title: :membership_renewal, active: true }
+    before { MailTemplate.find_by(title: :membership_renewal).update!(active: true) }
 
     it 'requires future deliveries to be present' do
       membership = create(:membership)

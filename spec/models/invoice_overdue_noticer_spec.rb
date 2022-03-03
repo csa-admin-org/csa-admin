@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe InvoiceOverdueNoticer do
-  before { MailTemplate.create! title: :invoice_overdue_notice }
   let(:invoice) { create(:invoice, :annual_fee, :open, sent_at: 40.days.ago) }
 
   def perform(invoice)

@@ -29,7 +29,9 @@ ActiveAdmin.register Shop::Producer do
         shop_products_path(
           q: { producer_id_eq: producer.id }))
     }
-    actions class: 'col-actions-2'
+    if authorized?(:update, Shop::Producer)
+      actions class: 'col-actions-2'
+    end
   end
 
   sidebar_shop_admin_only_warning

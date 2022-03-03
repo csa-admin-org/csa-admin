@@ -21,7 +21,7 @@ ActiveAdmin.register MailTemplate do
     if: -> { Current.acp.feature?('activity') }
   scope :invoice
 
-  action_item :view, only: :index do
+  action_item :view, only: :index, if: -> { authorized?(:update, ACP) } do
     link_to t('.settings'), edit_acp_path(anchor: 'mail')
   end
 

@@ -1,9 +1,12 @@
 ActiveAdmin.register Shop::Tag do
-  menu parent: :shop, priority: 10
+  menu false
   actions :all, except: [:show]
 
   breadcrumb do
-    links = [t('active_admin.menu.shop')]
+    links = [
+      t('active_admin.menu.shop'),
+      link_to(Shop::Product.model_name.human(count: 2), shop_products_path)
+    ]
     unless params['action'] == 'index'
       links << link_to(Shop::Tag.model_name.human(count: 2), shop_tags_path)
     end
@@ -20,7 +23,9 @@ ActiveAdmin.register Shop::Tag do
         shop_products_path(
           q: { tags_id_eq: tag.id }))
     }
-    actions class: 'col-actions-2'
+    if authorized?(:update, Shop::Tag)
+      actions class: 'col-actions-2'
+    end
   end
 
   form do |f|

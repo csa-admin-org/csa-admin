@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe MembershipMailer, freeze: '2022-01-01' do
   specify '#last_trial_basket_email' do
-    template = MailTemplate.create!(title: 'membership_last_trial_basket')
+    template = MailTemplate.find_by(title: 'membership_last_trial_basket')
     member = create(:member, emails: 'example@acp-admin.ch')
     membership = create(:membership, member: member)
     basket = membership.baskets.trial.last
@@ -19,7 +19,7 @@ describe MembershipMailer, freeze: '2022-01-01' do
   end
 
   specify '#renewal_email' do
-    template = MailTemplate.create!(title: 'membership_renewal')
+    template = MailTemplate.find_by(title: 'membership_renewal')
     member = create(:member, emails: 'example@acp-admin.ch')
     membership = create(:membership, member: member)
     mail = MembershipMailer.with(
@@ -35,7 +35,7 @@ describe MembershipMailer, freeze: '2022-01-01' do
   end
 
   specify '#renewal_reminder_email' do
-    template = MailTemplate.create!(title: 'membership_renewal_reminder')
+    template = MailTemplate.find_by(title: 'membership_renewal_reminder')
     member = create(:member, emails: 'example@acp-admin.ch')
     membership = create(:membership, member: member)
     mail = MembershipMailer.with(

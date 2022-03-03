@@ -22,7 +22,6 @@ describe Billing::InvoicerACPShare, freeze: '2022-01-01' do
   end
 
   it 'sends emails directly when the send_email attribute is set' do
-    MailTemplate.create!(title: :invoice_created)
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member

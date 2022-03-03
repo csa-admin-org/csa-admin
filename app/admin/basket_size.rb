@@ -1,5 +1,5 @@
 ActiveAdmin.register BasketSize do
-  menu parent: :other, priority: 10
+  menu parent: :other, priority: 10, label: -> { t('active_admin.menu.basket_sizes') }
   actions :all, except: [:show]
 
   includes :memberships
@@ -18,7 +18,9 @@ ActiveAdmin.register BasketSize do
       column t('billing.acp_shares'), ->(bs) { bs.acp_shares_number }
     end
     column :visible
-    actions class: 'col-actions-2'
+    if authorized?(:update, BasketSize)
+      actions class: 'col-actions-2'
+    end
   end
 
   form do |f|
