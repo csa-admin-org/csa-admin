@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe MailTemplate do
-  let(:template) { MailTemplate.create!(title: 'member_activated') }
+  let(:template) { MailTemplate.find_by(title: 'member_activated') }
 
   specify 'audit subject and content changes' do
     session = create(:session, :admin)
@@ -29,7 +29,7 @@ describe MailTemplate do
   end
 
   specify 'set and validate always active template' do
-    template = MailTemplate.create!(title: 'invoice_created')
+    template = MailTemplate.find_by(title: 'invoice_created')
     expect(template).to be_active
 
     template.active = false

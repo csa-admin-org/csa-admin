@@ -37,7 +37,13 @@ ActiveAdmin.register Activity do
       text = [a.participations.sum(&:participants_count), a.participants_limit || '∞'].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
     }, class: 'align-right'
-    actions class: 'col-actions-2'
+    if authorized?(:update, Activity)
+      actions class: 'col-actions-2'
+    end
+  end
+
+  action_item :activity_presets, only: :index do
+    link_to ActivityPreset.model_name.human(count: 2), activity_presets_path
   end
 
   batch_action(:destroy,

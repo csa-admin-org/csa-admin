@@ -25,7 +25,9 @@ ActiveAdmin.register Announcement do
         length: 250,
         escape: false).presence || '–'
     }
-    actions class: 'col-actions-2'
+    if authorized?(:update, Announcement)
+      actions class: 'col-actions-2'
+    end
   end
 
   form do |f|

@@ -7,7 +7,7 @@ describe Liquid::DataPreview do
     create(:depot, id: 12, name: 'Jardin de la main')
     create(:basket_size, id: 33, name: 'Eveil')
 
-    mail_template = MailTemplate.create!(title: 'member_activated')
+    mail_template = MailTemplate.find_by(title: 'member_activated')
     data =  described_class.for(mail_template)
 
     expect(data).to eq({
@@ -52,7 +52,7 @@ describe Liquid::DataPreview do
 
   specify 'render non-drop data' do
     data = travel_to('2020-03-24') do
-      mail_template = MailTemplate.create!(title: 'member_validated')
+      mail_template = MailTemplate.find_by(title: 'member_validated')
       described_class.for(mail_template)
     end
 
@@ -82,7 +82,7 @@ describe Liquid::DataPreview do
     create(:depot, id: 12, name: 'Jardin de la main')
     create(:basket_size, id: 33, name: 'Eveil')
 
-    mail_template = MailTemplate.create!(title: 'member_activated')
+    mail_template = MailTemplate.find_by(title: 'member_activated')
     data = described_class.for(mail_template)
 
     expect(data).to eq({

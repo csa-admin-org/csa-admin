@@ -47,7 +47,13 @@ ActiveAdmin.register Shop::Product do
     column Shop::ProductVariant.model_name.human(count: 2), ->(product) {
       display_variants(self, product)
     }
-    actions class: 'col-actions-2'
+    if authorized?(:update, Shop::Product)
+      actions class: 'col-actions-2'
+    end
+  end
+
+  action_item :tags, only: :index do
+    link_to Shop::Tag.model_name.human(count: 2), shop_tags_path
   end
 
   csv do

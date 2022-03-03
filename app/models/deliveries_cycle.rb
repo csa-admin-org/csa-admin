@@ -20,6 +20,12 @@ class DeliveriesCycle < ApplicationRecord
     super + %i[name_contains]
   end
 
+  def self.create_default!
+    create!(names: ACP.languages.map { |l|
+      [l, I18n.t('deliveries_cycle.default_name', locale: l)]
+    }.to_h)
+  end
+
   def display_name; name end
 
   def public_name

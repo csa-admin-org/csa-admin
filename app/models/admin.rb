@@ -1,9 +1,9 @@
 class Admin < ApplicationRecord
   include HasSessions
 
-  RIGHTS = %w[superadmin admin standard readonly none]
   attribute :language, :string, default: -> { Current.acp.languages.first }
 
+  belongs_to :permission
   has_many :validated_member,
     class_name: 'ActivityParticipation',
     foreign_key: :validator_id,
@@ -17,7 +17,6 @@ class Admin < ApplicationRecord
   scope :with_email, ->(email) { where('lower(email) = ?', email.downcase) }
 
   validates :name, presence: true
-  validates :rights, inclusion: { in: RIGHTS }
   validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
   validates :language, presence: true, inclusion: { in: proc { ACP.languages } }
 
@@ -44,15 +43,7 @@ class Admin < ApplicationRecord
     super(notifications.select(&:presence).compact)
   end
 
-  def superadmin?
-    rights == 'superadmin'
-  end
-
   def master?
     email == ENV['MASTER_ADMIN_EMAIL']
-  end
-
-  def right?(right)
-    RIGHTS.index(self[:rights]) <= RIGHTS.index(right)
   end
 end

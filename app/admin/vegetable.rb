@@ -1,10 +1,23 @@
 ActiveAdmin.register Vegetable do
-  menu parent: :other, priority: 6
+  menu false
   actions :all, except: [:show]
+
+  breadcrumb do
+    links = [link_to(BasketContent.model_name.human(count: 2), basket_contents_path)]
+    if params[:action] != 'index'
+      links << link_to(Vegetable.model_name.human(count: 2), vegetables_path)
+    end
+    if params['action'].in? %W[edit]
+      links << resource.name
+    end
+    links
+  end
 
   index do
     column :name
-    actions class: 'col-actions-2'
+    if authorized?(:update, Vegetable)
+      actions class: 'col-actions-2'
+    end
   end
 
   show do

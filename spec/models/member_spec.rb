@@ -284,7 +284,7 @@ describe Member do
   end
 
   describe '#activate!' do
-    before { MailTemplate.create! title: :member_activated, active: true }
+    before { MailTemplate.find_by(title: :member_activated).update!(active: true) }
 
     it 'activates new active member and sent member-activated email' do
       travel_to(Date.new(Current.fy_year, 1, 15)) do

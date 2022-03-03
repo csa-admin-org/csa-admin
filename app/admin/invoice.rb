@@ -187,8 +187,7 @@ ActiveAdmin.register Invoice do
     link_to t('.cancel_invoice'), cancel_invoice_path(resource), method: :post, data: { confirm: t('.link_confirm') }
   end
 
-  # Development only!
-  member_action :pdf, method: :get do
+  member_action :pdf, method: :get, if: -> { Rails.env.development? } do
     I18n.with_locale(resource.member.language) do
       pdf = PDF::Invoice.new(resource)
       send_data pdf.render,

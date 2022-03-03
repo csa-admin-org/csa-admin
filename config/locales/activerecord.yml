@@ -341,26 +341,14 @@ _:
           _fr: Validateur
           _it: Confermato da
       admin:
-        created_at:
-          _de: Erstellt am
-          _fr: Enregistré à
-          _it: Registrato a
         last_session_used_at:
-          _de: Datum der letzten Anmeldung
-          _fr: Date de dernière connexion
-          _it: Data dell'ultima connessione
+          _de: Letzte Anmeldung
+          _fr: Dernière connexion
+          _it: Ultima connessione
         notifications:
           _de: Benachrichtigungen
           _fr: Notifications
           _it: Notifiche
-        rights:
-          _de: Zugangsrecht
-          _fr: Droit d'accès
-          _it: Diritto d'accesso
-        updated_at:
-          _de: Datum der Aktualisierung
-          _fr: Date de mise à jour
-          _it: Data dell'aggiornamento
       basket:
         absent:
           _de: abwesend
@@ -1019,6 +1007,15 @@ _:
           _de: Kommentar
           _fr: Commentaire
           _it: Commenti
+      permission:
+        rights:
+          _de: Zugriffsrechte
+          _fr: Droits d'accès
+          _it: Diritti di accesso
+        superadmin_rights:
+          _de: Zugriffsrechte
+          _fr: Droits d'accès réservés aux Super Admins
+          _it: Diritti di accesso
       shop/order_item:
         delivery:
           _de: Lieferung vom
@@ -1156,6 +1153,15 @@ _:
           _de: Voreinstellungen
           _fr: Presets
           _it: Presets
+      admin:
+        one:
+          _de: Admin
+          _fr: Admin
+          _it: Admin
+        other:
+          _de: Admins
+          _fr: Admins
+          _it: Admins
       announcement:
         one:
           _de: Ankündigung
@@ -1363,6 +1369,15 @@ _:
           _de: Einzahlungen
           _fr: Paiements
           _it: Pagamenti
+      permission:
+        one:
+          _de: Erlaubnis
+          _fr: Permission
+          _it: Permesso
+        other:
+          _de: Erlaubnisse
+          _fr: Permissions
+          _it: Permessi
       shop:
         one:
           _de: Lebensmittelgeschäfts

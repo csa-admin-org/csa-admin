@@ -1,5 +1,5 @@
 ActiveAdmin.register GroupBuying::Producer do
-  menu parent: :group_buying, priority: 3
+  menu parent: :group_buying, priority: 4
   actions :all, except: [:show]
 
   breadcrumb do
@@ -29,7 +29,9 @@ ActiveAdmin.register GroupBuying::Producer do
         group_buying_products_path(
           q: { producer_id_eq: producer.id }))
     }
-    actions class: 'col-actions-2'
+    if authorized?(:update, GroupBuying::Producer)
+      actions class: 'col-actions-2'
+    end
   end
 
   form do |f|

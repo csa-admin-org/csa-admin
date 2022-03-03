@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Notifier do
   specify '.send_membership_renewal_reminder_emails' do
     Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
-    MailTemplate.create! title: :membership_renewal_reminder, active: true
+    MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
     next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
     create(:delivery, date: next_fy.beginning_of_year)
     member = create(:member, emails: 'john@doe.com')
@@ -24,7 +24,7 @@ describe Notifier do
 
   specify '.send_membership_last_trial_basket_emails' do
     Current.acp.update!(trial_basket_count: 2)
-    MailTemplate.create! title: :membership_last_trial_basket, active: true
+    MailTemplate.find_by(title: :membership_last_trial_basket).update!(active: true)
     travel_to '2021-05-01' do
       create(:delivery, date: '2021-05-01')
       create(:delivery, date: '2021-05-02')
@@ -51,7 +51,7 @@ describe Notifier do
 
   describe '.send_activity_participation_validated_emails' do
     specify 'send email for recently validated participation' do
-      MailTemplate.create! title: :activity_participation_validated, active: true
+      MailTemplate.find_by(title: :activity_participation_validated).update!(active: true)
 
       create(:activity_participation, :validated,
         review_sent_at: nil,
@@ -75,7 +75,7 @@ describe Notifier do
     end
 
     specify 'does not send email when template is not active' do
-      MailTemplate.create! title: :activity_participation_validated, active: false
+      MailTemplate.find_by(title: :activity_participation_validated).update!(active: false)
 
       create(:activity_participation, :validated,
         review_sent_at: nil,
@@ -88,7 +88,7 @@ describe Notifier do
 
   describe '.send_activity_participation_rejected_emails' do
     specify 'send email for recently rejected participation' do
-      MailTemplate.create! title: :activity_participation_rejected, active: true
+      MailTemplate.find_by(title: :activity_participation_rejected).update!(active: true)
 
       create(:activity_participation, :rejected,
         review_sent_at: nil,
@@ -112,7 +112,7 @@ describe Notifier do
     end
 
     specify 'does not send email when template is not active' do
-      MailTemplate.create! title: :activity_participation_rejected, active: false
+      MailTemplate.find_by(title: :activity_participation_rejected).update!(active: false)
 
       create(:activity_participation, :rejected,
         review_sent_at: nil,

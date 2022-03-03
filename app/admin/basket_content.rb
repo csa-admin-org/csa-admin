@@ -29,7 +29,9 @@ ActiveAdmin.register BasketContent do
     column :surplus, ->(bc) { display_surplus_quantity(bc) }
     all_depots = Depot.all.to_a
     column :depots, ->(bc) { display_depots(bc, all_depots) }
-    actions class: 'col-actions-2'
+    if authorized?(:update, BasketContent)
+      actions class: 'col-actions-2'
+    end
   end
 
   action_item :vegetable, only: :index do

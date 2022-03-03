@@ -19,7 +19,7 @@ describe ActivityMailer do
   }
 
   specify '#participation_reminder_email' do
-    template = MailTemplate.create!(title: 'activity_participation_reminder')
+    template = MailTemplate.find_by(title: 'activity_participation_reminder')
     create(:activity_participation, :carpooling,
       activity: activity,
       member: create(:member, name: 'Elea Asah'),
@@ -46,7 +46,7 @@ describe ActivityMailer do
   end
 
   specify '#participation_validated_email' do
-    template = MailTemplate.create!(title: 'activity_participation_validated')
+    template = MailTemplate.find_by(title: 'activity_participation_validated')
 
     mail = ActivityMailer.with(
       template: template,
@@ -66,7 +66,7 @@ describe ActivityMailer do
   end
 
   specify '#participation_rejected_email' do
-    template = MailTemplate.create!(title: 'activity_participation_rejected')
+    template = MailTemplate.find_by(title: 'activity_participation_rejected')
 
     mail = ActivityMailer.with(
       template: template,

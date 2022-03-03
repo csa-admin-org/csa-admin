@@ -283,6 +283,14 @@ _:
       _fr: Veuillez implémenter %{model}#main_content pour afficher le contenu.
       _it: Implementa %{model}#main_content per visualizzare il contenuto.
     menu:
+      basket_complements:
+        _de: Tasche - Zusätze
+        _fr: Panier - Compléments
+        _it: Cestino - Aggiunte
+      basket_sizes:
+        _de: Tasche - Größen
+        _fr: Panier - Tailles
+        _it: Cestino - Dimensioni
       billing:
         _de: Rechnungsstellung
         _fr: Facturation
@@ -551,7 +559,7 @@ _:
         settings:
           _de: Einstellungen
           _fr: Paramètres
-          _it: Parametri
+          _it: Impostazioni
         shop:
           _de: Lebensmittelgeschäft
           _fr: Épicerie
@@ -670,7 +678,7 @@ _:
         settings:
           _de: Einstellungen
           _fr: Paramètres
-          _it: Parametri
+          _it: Impostazioni
         subscribe_ical_link:
           _de: Feed abonnieren
           _fr: S'abonner au flux
@@ -973,7 +981,7 @@ _:
         edit_model:
           _de: Einstellungen
           _fr: Paramètres
-          _it: Parametri
+          _it: Impostazioni
         submit:
           _de: Speichern
           _fr: Sauvegarder
@@ -1131,6 +1139,11 @@ _:
           _de: Neue %{model}
           _fr: Nouveau %{model}
           _it: Nuovo %{model}
+      permission:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+          _it: Nuovo %{model}
       shop/order:
         new_model:
           _de: Neue %{model}
@@ -1257,11 +1270,11 @@ _:
     settings:
       _de: Einstellungen
       _fr: Paramètres
-      _it: Parametri
+      _it: Impostazioni
     settings_emails:
       _de: E-Mail-Einstellungen
       _fr: Paramètres E-Mails
-      _it: Parametri E-Mail
+      _it: Impostazioni dell 'email
     sidebars:
       amount:
         _de: 'Betrag:'

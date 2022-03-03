@@ -91,9 +91,9 @@ _:
           _fr: Laisser vide si pas de part sociale.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
         shop_admin_only:
-          _de: Ermöglicht es Ihnen, das Lebensmittelgeschäft vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Superadmin, die auf das Konto eines Mitglieds zugreifen, können das Lebensmittelgeschäft im Menü sehen.
-          _fr: Permet de cacher l'épicerie aux membres pendant la mise en place des produits. Seuls les superadmin accédant au compte d'un membre peuvent voir l'épicerie dans le menu.
-          _it: Permette di nascondere la drogheria ai soci mentre i prodotti vengono piazzati. Solo i superadmin che accedono all'account di un socio possono vedere la spesa nel menu.
+          _de: Ermöglicht es Ihnen, das Lebensmittelgeschäft vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können das Lebensmittelgeschäft im Menü sehen.
+          _fr: Permet de cacher l'épicerie aux membres pendant la mise en place des produits. Seuls les admins accédant au compte d'un membre peuvent voir l'épicerie dans le menu.
+          _it: Permette di nascondere la drogheria ai soci mentre i prodotti vengono piazzati. Solo gli admin che accedono all'account di un socio possono vedere la spesa nel menu.
         shop_delivery_open_delay_in_days:
           _de: Leer lassen, wenn am Tag der Lieferung noch bestellt werden kann.
           _fr: Laisser vide si les commandes peuvent encore être faites le jour de livraison.

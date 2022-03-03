@@ -1,5 +1,5 @@
 ActiveAdmin.register DeliveriesCycle do
-  menu parent: :other, priority: 11, label: -> { t('deliveries_cycle.menu_title') }
+  menu false
 
   breadcrumb do
     links = [link_to(Delivery.model_name.human(count: 2), deliveries_path)]

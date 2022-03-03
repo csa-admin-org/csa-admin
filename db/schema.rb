@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_19_082930) do
+ActiveRecord::Schema.define(version: 2022_02_25_075602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -210,7 +210,9 @@ ActiveRecord::Schema.define(version: 2022_02_19_082930) do
     t.string "notifications", default: [], null: false, array: true
     t.string "language", default: "fr", null: false
     t.string "latest_update_read"
+    t.bigint "permission_id"
     t.index ["email"], name: "index_admins_on_email", unique: true
+    t.index ["permission_id"], name: "index_admins_on_permission_id"
   end
 
   create_table "announcements", force: :cascade do |t|
@@ -611,6 +613,13 @@ ActiveRecord::Schema.define(version: 2022_02_19_082930) do
     t.index ["member_id"], name: "index_payments_on_member_id"
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.jsonb "names", default: {}, null: false
+    t.jsonb "rights", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "member_id"
     t.string "token", null: false
@@ -700,6 +709,7 @@ ActiveRecord::Schema.define(version: 2022_02_19_082930) do
   add_foreign_key "activity_participations", "activities"
   add_foreign_key "activity_participations", "admins", column: "validator_id"
   add_foreign_key "activity_participations", "members"
+  add_foreign_key "admins", "permissions"
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents", "vegetables"
   add_foreign_key "basket_contents_depots", "basket_contents"

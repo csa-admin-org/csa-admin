@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe MemberMailer do
   specify '#activated_email', freeze: '2021-01-01' do
-    template = MailTemplate.create!(title: 'member_activated')
+    template = MailTemplate.find_by(title: 'member_activated')
     member = create(:member, emails: 'example@acp-admin.ch')
     membership = create(:membership,
       member: member,
@@ -23,7 +23,7 @@ describe MemberMailer do
   end
 
   specify '#validated_email' do
-    template = MailTemplate.create!(title: 'member_validated')
+    template = MailTemplate.find_by(title: 'member_validated')
     member = create(:member, emails: 'example@acp-admin.ch')
     mail = MemberMailer.with(
       template: template,

@@ -6,7 +6,7 @@ describe 'Memberships Renewal' do
   let(:member) { create(:member) }
 
   before do
-    MailTemplate.create! title: :membership_renewal, active: true
+    MailTemplate.find_by(title: :membership_renewal).update!(active: true)
     Capybara.app_host = 'http://membres.ragedevert.test'
   end
 
