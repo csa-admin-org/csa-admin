@@ -89,6 +89,42 @@ li.boolean label {
   font-style: italic;
 }
 
+form select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #cbcbcb;
+  border-radius: 6px;
+  padding: 10px 40px 10px 10px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right .5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-color: #fff;
+}
+
+form select:focus {
+  border-color: rgba(12, 144, 36, 0.5) !important;
+  box-shadow: 0 0 5px rgba(12, 144, 36, 0.25) !important;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+form.filter_form select {
+  padding: 2px 16px 2px 6px;
+  font-size: 13px;
+  height: 21px;
+  background-position: right .3rem center;
+  background-size: 1.25em 1.25em;
+}
+
+form.filter_form input[type="text"] {
+  height: 21px;
+}
+
+form input[type="number"]::-webkit-inner-spin-button {
+  margin-left: 10px;
+}
 
 form input[type="checkbox"]:checked {
   border-color: #80a432 !important;
