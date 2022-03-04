@@ -274,7 +274,7 @@ ActiveAdmin.register Membership do
           row :deliveries_cycle
         end
 
-        if Date.current > m.started_on
+        if m.current_year?
           attributes_table title: Membership.human_attribute_name(:renew) do
             div class: 'actions' do
               handbook_icon_link('membership_renewal')
