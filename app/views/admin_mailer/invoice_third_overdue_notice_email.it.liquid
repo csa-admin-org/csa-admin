@@ -1,0 +1,7 @@
+<p>Ciao {{ admin.name }},</p>
+
+<p>Il 3° richiamo è stato appena inviato per la fattura #{{ invoice.number }} di <strong>{{ member.name }}</strong>.</p>
+
+{% button member.admin_url %}
+  Accedere alla pagina del socio
+{% endbutton %}

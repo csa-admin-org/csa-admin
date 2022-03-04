@@ -18,6 +18,10 @@ class InvoiceOverdueNoticer
     invoice.save!
 
     MailTemplate.deliver_later(:invoice_overdue_notice, invoice: invoice)
+
+    if invoice.overdue_notices_count == 3
+      Admin.notify!(:invoice_third_overdue_notice, invoice: invoice)
+    end
   rescue => e
     Sentry.capture_exception(e, extra: {
       invoice_id: invoice.id,

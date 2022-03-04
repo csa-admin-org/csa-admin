@@ -1,0 +1,7 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Le 3ᵉ rappel vient d'être envoyé pour la facture #{{ invoice.number }} de <strong>{{ member.name }}</strong>.</p>
+
+{% button member.admin_url %}
+  Accéder à la page du membre
+{% endbutton %}

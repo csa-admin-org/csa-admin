@@ -15,6 +15,11 @@ _:
         _de: 'Überzahlte Rechnung #%{number}'
         _fr: 'Facture #%{number} payée en trop'
         _it: 'Fattura #%{number} pagata in eccesso'
+    invoice_third_overdue_notice_email:
+      subject:
+        _de: 'Rechnung #%{number}, 3. Mahnung gesendet'
+        _fr: 'Facture #%{number}, 3ᵉ rappel envoyé'
+        _it: 'Fattura #%{number}, 3° richiamo inviato'
     new_absence_email:
       subject:
         _de: Neue Abwesenheit
