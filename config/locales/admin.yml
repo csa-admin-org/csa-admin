@@ -5,6 +5,10 @@ _:
         _de: Überzahlte Rechnung
         _fr: Facture payée en trop
         _it: Fattura pagata in eccesso
+      invoice_third_overdue_notice:
+        _de: Rechnung, 3. Mahnung gesendet
+        _fr: Facture, 3ᵉ rappel envoyé
+        _it: Fattura, 3° richiamo inviato
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence

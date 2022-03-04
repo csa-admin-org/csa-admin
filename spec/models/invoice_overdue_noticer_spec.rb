@@ -40,8 +40,7 @@ describe InvoiceOverdueNoticer do
   specify 'only send second overdue notice after 35 days first one' do
     invoice = create(:invoice, :annual_fee, :open,
       overdue_notices_count: 1,
-      overdue_notice_sent_at: 10.days.ago
-    )
+      overdue_notice_sent_at: 10.days.ago)
     expect { perform(invoice) }
       .not_to change { InvoiceMailer.deliveries.size }
   end
@@ -49,13 +48,32 @@ describe InvoiceOverdueNoticer do
   it 'sends second overdue notice after 35 days first one' do
     invoice = create(:invoice, :annual_fee, :open,
       overdue_notices_count: 1,
-      overdue_notice_sent_at: 40.days.ago
-    )
+      overdue_notice_sent_at: 40.days.ago)
     expect { perform(invoice) }
       .to change { InvoiceMailer.deliveries.size }.by(1)
 
     mail = InvoiceMailer.deliveries.last
     expect(mail.subject).to eq "Rappel #2 de la facture ##{invoice.id} 😬"
     expect(invoice.overdue_notices_count).to eq 2
+  end
+
+  it 'sends invoice_third_overdue_notice admin notification on third notice' do
+    admin = create(:admin, notifications: ['invoice_third_overdue_notice'])
+    create(:admin, notifications: [])
+
+    invoice = create(:invoice, :annual_fee, :open,
+      overdue_notices_count: 2,
+      overdue_notice_sent_at: 40.days.ago)
+    expect { perform(invoice) }
+      .to change { ApplicationMailer.deliveries.size }.by(2)
+
+    mail = InvoiceMailer.deliveries.first
+    expect(mail.subject).to eq "Rappel #3 de la facture ##{invoice.id} 😬"
+    expect(invoice.overdue_notices_count).to eq 3
+
+    mail = AdminMailer.deliveries.last
+    expect(mail.subject).to eq "Facture ##{invoice.id}, 3ᵉ rappel envoyé"
+    expect(mail.to).to eq [admin.email]
+    expect(mail.html_part.body).to include admin.name
   end
 end

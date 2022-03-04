@@ -85,6 +85,32 @@ describe AdminMailer do
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
+  specify '#invoice_third_overdue_notice_email' do
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    member =  Member.new(
+      id: 2,
+      name: 'Martha')
+    invoice = Invoice.new(id: 42, member: member)
+    mail = AdminMailer.with(
+      admin: admin,
+      invoice: invoice
+    ).invoice_third_overdue_notice_email
+
+    expect(mail.subject).to eq('Facture #42, 3ᵉ rappel envoyé')
+    expect(mail.to).to eq(['admin@acp-admin.ch'])
+    expect(mail.body).to include('Salut John,')
+    expect(mail.body).to include("Le 3ᵉ rappel vient d'être envoyé pour la facture #42")
+    expect(mail.body).to include('Martha')
+    expect(mail.body).to include('Accéder à la page du membre')
+    expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+  end
+
   specify '#new_absence_email' do
     admin = Admin.new(
       id: 1,

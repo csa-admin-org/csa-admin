@@ -53,6 +53,21 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def invoice_third_overdue_notice_email
+    @admin = params[:admin]
+    @invoice = params[:invoice]
+    I18n.with_locale(@admin.language) do
+      invoice = Liquid::InvoiceDrop.new(@invoice)
+      content = liquid_template.render(
+        'admin' => Liquid::AdminDrop.new(@admin),
+        'member' => Liquid::AdminMemberDrop.new(@invoice.member),
+        'invoice' => invoice)
+      content_mail(content,
+        to: @admin.email,
+        subject: t('.subject', number: invoice.number))
+    end
+  end
+
   def new_absence_email
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do

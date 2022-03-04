@@ -1,0 +1,8 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Die 3. Mahnung wurde soeben für die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> verschickt.</p>
+
+
+{% button member.admin_url %}
+  Zur Mitgliederseite gehen
+{% endbutton %}

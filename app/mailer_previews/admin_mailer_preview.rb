@@ -51,6 +51,22 @@ class AdminMailerPreview < ActionMailer::Preview
     ).invoice_overpaid_email
   end
 
+  def invoice_third_overdue_notice_email
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    member =  Member.new(
+      id: 2,
+      name: 'Martha')
+    invoice = Invoice.new(id: 42, member: member)
+    AdminMailer.with(
+      admin: admin,
+      invoice: invoice
+    ).invoice_third_overdue_notice_email
+  end
+
   def new_absence_email
     admin = Admin.new(
       id: 1,
