@@ -50,7 +50,4 @@ class SessionsController < ApplicationController
     cookies.delete(:session_id)
     redirect_to login_path, notice: t('sessions.flash.deleted')
   end
-
-  private
-
 end
