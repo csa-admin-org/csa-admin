@@ -59,5 +59,19 @@ ActiveAdmin.register Admin do
     ).invitation_email.deliver_later
   end
 
+  controller do
+    def scoped_collection
+      if master_email = ENV['MASTER_ADMIN_EMAIL']
+        end_of_association_chain.where.not(email: master_email)
+      else
+        super
+      end
+    end
+
+    def find_resource
+      Admin.find(params[:id])
+    end
+  end
+
   config.sort_order = 'name_asc'
 end
