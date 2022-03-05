@@ -163,6 +163,33 @@ ActiveAdmin.register Membership do
     end
   end
 
+  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') } do
+    div class: 'actions' do
+      handbook_icon_link('basket_price_extra')
+    end
+
+    coll = collection.unscope(:includes).limit(nil)
+    all = coll.joins(:baskets).merge(Basket.billable).distinct(false)
+
+    div class: 'content' do
+      if coll.where('basket_price_extra < 0').any?
+        div class: 'total' do
+          sum = all.where('basket_price_extra > 0').sum('baskets.quantity * memberships.basket_price_extra')
+          span cur(sum), style: 'text-align: right; display: inline-block; width: 100%;'
+        end
+        div class: 'total' do
+          sum = all.where('basket_price_extra < 0').sum('baskets.quantity * memberships.basket_price_extra')
+          span cur(sum), style: 'text-align: right; display: inline-block; width: 100%;'
+        end
+      end
+      div class: 'totals' do
+        sum = all.sum('baskets.quantity * memberships.basket_price_extra')
+        span t('active_admin.sidebars.amount')
+        span cur(sum), style: 'float: right; font-weight: bold;'
+      end
+    end
+  end
+
   collection_action :renew_all, method: :post do
     authorize!(:renew_all, Membership)
     MembershipsRenewal.new.renew_all!
@@ -195,6 +222,7 @@ ActiveAdmin.register Membership do
     column(:basket_price) { |m| cur(m.basket_price) }
     if Current.acp.feature?('basket_price_extra')
       column(Current.acp.basket_price_extra_title) { |m| cur(m.basket_price_extra) }
+      column("#{Current.acp.basket_price_extra_title} - #{Membership.human_attribute_name(:total)}") { |m| cur(m.baskets_extra_price) }
     end
     column(:basket_quantity)
     if BasketComplement.any?

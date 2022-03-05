@@ -16,6 +16,9 @@ module NumbersHelper
       when 'EUR'; "%n %u"
       when 'CHF'; "%u %n"
       end
+    unless unit
+      options[:negative_format] ||= "-%n"
+    end
     number_to_currency(amount, **options)
   end
 

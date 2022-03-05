@@ -54,7 +54,7 @@ module ApplicationHelper
   end
 
   def display_price_description(price, description)
-    "#{cur(price)} #{"(#{description})" if price.positive?}"
+    "#{cur(price)} #{"(#{description})" unless price.zero?}"
   end
 
   def any_basket_complements?
