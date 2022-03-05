@@ -1,9 +1,9 @@
 class Liquid::DataPreview
-  def self.for(mail_template)
+  def self.for(mail_template, random: nil)
     new(
       mail_template.mailer_preview,
       mail_template.email_method,
-      mail_template.updated_at.to_i
+      random || mail_template.updated_at.to_i
     ).data
   end
 
