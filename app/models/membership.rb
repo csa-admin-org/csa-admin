@@ -42,7 +42,7 @@ class Membership < ApplicationRecord
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :basket_price_extra, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :basket_price_extra, numericality: true, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validates :deliveries_cycle, inclusion: { in: ->(m) { m.depot&.deliveries_cycles } }
@@ -99,10 +99,6 @@ class Membership < ApplicationRecord
       renewed
     end
   }
-
-  def basket_price_extra=(price)
-    super([price.to_f, 0].max)
-  end
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[during_year renewal_state_eq]

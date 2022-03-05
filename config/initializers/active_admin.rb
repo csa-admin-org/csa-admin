@@ -409,6 +409,20 @@ module ActiveAdmin
   end
 end
 
+# Support dynamic sidebar title with the :basket_price_extra_title name
+module ActiveAdmin
+  class SidebarSection
+    def title
+      case name
+      when 'basket_price_extra_title'
+        Current.acp.basket_price_extra_title.titleize
+      else
+        I18n.t("active_admin.sidebars.#{name}", default: name.titleize)
+      end
+    end
+  end
+end
+
 module ActiveAdmin
   class DSL
     def sidebar_handbook_link(page)
