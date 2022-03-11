@@ -696,6 +696,10 @@ _:
           _de: Rechnungsstellung
           _fr: Facturation
           _it: Fatturazione
+        check_handbook:
+          _de: Handbuch konsultieren
+          _fr: Consulter le manuel
+          _it: Consultare il manuale
         config:
           _de: Konfiguration
           _fr: Configuration
