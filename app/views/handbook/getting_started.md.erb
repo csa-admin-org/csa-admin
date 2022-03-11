@@ -1,0 +1,57 @@
+# Premiers pas
+
+Bienvenue, ce guide présente les premiers éléments à mettre en place pour bien démarrer avec ACP Admin et préparer [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.acp.members_subdomain) %>). C'est parti!
+
+
+## 1. Paramètres
+
+Faire un tour dans [les paramètres](/settings) est un bon moyen de découvrir les différents réglages disponibles. Vous pouvez commencer par remplir [les paramètres généraux](/settings), ceux concernant [les emails](/settings#mail), ainsi que certains aspects de [la facturation](/settings#billing), par exemple le 1er mois de votre année fiscale, les intervalles de paiements offerts à vos membres ou encore le nombre de paniers à l'essai... Si certains points ne sont pas encore
+décidés pas de problèmes, vous pourrez les définir plus tard.
+
+Certains [paramètres spécifiques au formulaire d'inscription](/settings#registration) sont également disponibles, mais ils sont tous optionnels.
+
+
+## 2. Livraisons
+
+[Les dates de livraisons](/deliveries) sont un élément essentiel, car c'est leur nombre qui détermine le prix de vos abonnements à l'année (livraisons * prix de la taille du panier). Les livraisons sont de ce fait requises pour pouvoir [créer les abonnements](/memberships/new).
+
+[Une page du manuel](/handbook/deliveries) les concernant est disponible, avec une section sur [les cycles de livraisons](/handbook/deliveries#cycles-de-livraisons).
+
+> Même si vous n'êtes pas certain des dates, faite quand même en sorte d'avoir le bon nombre de livraisons pour l'année fiscale à venir afin que les prix affichés dans le formulaire d'inscription soient les bons. Vous pourrez toujours modifier ces dates par la suite.
+
+
+## 3. Tailles de panier
+
+Les tailles de panier déterminent le type d'abonnement (petit, grand, ...) proposé à vos membres. Il est en plus possible d'avoir certaines tailles non visibles dans le formulaire et donc uniquement applicable par un admin.
+
+Selon [les fonctionnalités supplémentaires activées dans les paramètres](/settings#acp_features_input), il est aussi possible de définir un nombre de ½ journées de travail ou de parts sociales différentes pour chaque taille de panier.
+
+
+## 4. Compléments de panier (optionnel)
+
+[Les compléments de panier](/basket_complements) sont par exemple un abonnement de pain, fromage, œufs, ... ajouté à l'abonnement de base du panier. Ces compléments sont exclusivement disponibles pour les membres avec un abonnement.
+
+Le prix d'un complément est par défaut, comme celui de la taille de panier, définit en fonction du nombre de livraisons de l'abonnement, mais il est également possible de définir un prix fixe par an qui ne dépendra ainsi pas du nombre de livraisons.
+
+Chaque complément peut par ailleurs être livré à certaines livraisons spécifiques, par exemple seulement durant la période hivernale ou une semaine sur deux.
+
+
+## 5. Dépôts
+
+[Les dépôts](/depots) représentent les lieux où les membres peuvent se rendre pour récupérer leurs paniers. Il en faut au minimum un pour pouvoir créer des abonnements.
+
+Un prix peut aussi être défini pour chaque dépôt, par exemple pour représenter des coûts de préparation ou de livraisons du panier supplémentaires. Celui-ci sera alors automatiquement pris en compte lors de la facturation des abonnements.
+
+> Dans la section "contact" du dépôt, vous pouvez définir une liste d'emails qui recevront alors automatiquement, le jour précédent chaque livraison, la fiche de signature (PDF) et le récapitulatif Excel les concernant.
+
+
+## 6. Templates Email
+
+Vous pouvez jeter un coup d’œil à la [section des templates d'email](/mail_templates) et peut–être modifier le contenu de ceux-ci. Vous avez également la possibilité de modifier et activer [un email de bienvenue aux nouvelles inscriptions validées](/mail_templates/member_validated) ou encore un autre quand [le dernier panier à l'essai d'un abonnement est livré](/mail_templates/membership_last_trial_basket).
+
+
+## 7. Inviter d'autres admins
+
+Pour finir, vous avez la possibilité [d'inviter d'autres admins](/admins/new), un email leur sera alors automatiquement envoyer afin qu'elle/il puisse se connecter et vous rejoindre!
+
+[Des permissions d'accès spécifiques](/permissions) peuvent être configurées au besoin.
