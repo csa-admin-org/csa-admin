@@ -2,22 +2,11 @@ ActiveAdmin.register_page 'Handbook' do
   menu false
 
   content title: I18n.t('layouts.footer.handbook') do
-    if params[:id]
-      columns do
-        column do
-          div class: 'content' do
-            handbook = Handbook.new(params[:id],binding)
-            handbook.body
-          end
-        end
-      end
-    else
-      columns do
-        column do
-          div class: 'content' do
-            h1 t('.handbook_intro_title')
-            para t('.handbook_intro_html'), class: 'notice'
-          end
+    columns do
+      column do
+        div class: 'content' do
+          handbook = Handbook.new(params[:id], binding)
+          handbook.body
         end
       end
     end
@@ -25,15 +14,6 @@ ActiveAdmin.register_page 'Handbook' do
 
   sidebar I18n.t('active_admin.page.index.pages') do
     ul class: 'handbook-toc' do
-      li do
-        if params[:id]
-          a href: handbook_path do
-            span t('.handbook_intro_title')
-          end
-        else
-          span t('.handbook_intro_title'), class: 'active'
-        end
-      end
       Handbook.all(binding).each do |handbook|
         li class: (handbook.name == params[:id] ? 'active' : '') do
           if handbook.name == params[:id]
@@ -68,4 +48,10 @@ ActiveAdmin.register_page 'Handbook' do
   end
 
   config.breadcrumb = false
+
+  controller do
+    before_action do
+      redirect_to handbook_page_path(:getting_started) unless params[:id]
+    end
+  end
 end

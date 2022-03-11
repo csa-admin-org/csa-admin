@@ -54,6 +54,7 @@ ActiveAdmin.register BasketComplement do
         hint: t('formtastic.hints.basket_complement.public_name'))
       f.input :price_type,
         as: :select,
+        prompt: true,
         collection: BasketComplement::PRICE_TYPES.map { |type|
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }

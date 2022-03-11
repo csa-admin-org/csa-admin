@@ -72,7 +72,7 @@ ActiveAdmin.register ACP do
             required: true
         end
       end
-      tab t('.billing')  do
+      tab t('.billing'), id: 'billing' do
         f.inputs do
           f.input :fiscal_year_start_month,
             as: :select,
@@ -130,7 +130,7 @@ ActiveAdmin.register ACP do
           handbook_button(self, 'membership_renewal')
         end
       end
-      tab t('.member_section') do
+      tab t('.member_section'), id: 'registration' do
         f.inputs do
           translated_input(f, :terms_of_service_urls, required: false)
           translated_input(f, :statutes_urls, required: false)

@@ -329,14 +329,6 @@ _:
           _de: Rechnungsstellung %{fiscal_year}
           _fr: Facturation %{fiscal_year}
           _it: Fatturazione %{fiscal_year}
-        handbook_intro_html:
-          _de: Dieses Handbuch (leider nur auf Französisch) soll einige Funktionen von ACP Admin dokumentieren und wird mit der Zeit erweitert werden. Sie können mich gerne <a href="mailto:info@acp-admin.ch">kontaktieren</a>, wenn Sie der Meinung sind, dass ein bestimmter Abschnitt hinzugefügt werden sollte. Danke!
-          _fr: Le but de ce manuel est de documenter certaines fonctionnalités d'ACP Admin; il devrait s'étoffer avec le temps.<br/><br/> N'hésitez pas à <a href="mailto:info@acp-admin.ch">me contacter</a> si vous pensez qu'une section particulière devrait être ajoutée. Merci!
-          _it: Lo scopo di questo manuale (solo in francese, mi dispiace) è di documentare alcune delle caratteristiche di ACP Admin; dovrebbe crescere col tempo. Sentitevi liberi di <a href="mailto:info@acp-admin.ch">contattarmi</a> se pensate che una particolare sezione debba essere aggiunta. Grazie!
-        handbook_intro_title:
-          _de: Einführung
-          _fr: Introduction
-          _it: Introduzione
         handbook_questions_html:
           _de: Sie können mich gerne <a href="mailto:info@acp-admin.ch">kontaktieren</a>, wenn Sie Fragen oder Anmerkungen zu dieser Seite haben.
           _fr: N'hésitez pas à <a href="mailto:info@acp-admin.ch">me contacter</a> si vous avez des questions ou remarques à propos de cette page.
