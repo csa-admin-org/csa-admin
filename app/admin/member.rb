@@ -414,10 +414,12 @@ ActiveAdmin.register Member do
           as: :select,
           collection: deliveries_cycles_collection,
           disabled: f.object.waiting_depot ? (DeliveriesCycle.pluck(:id) - f.object.waiting_depot.deliveries_cycle_ids) : []
-        f.input :waiting_alternative_depot_ids,
-          collection: Depot.all,
-          as: :check_boxes,
-          hint: false
+        if Depot.many?
+          f.input :waiting_alternative_depot_ids,
+            collection: Depot.all,
+            as: :check_boxes,
+            hint: false
+        end
         if BasketComplement.any?
           complements = BasketComplement.all
           f.has_many :members_basket_complements, allow_destroy: true do |ff|
