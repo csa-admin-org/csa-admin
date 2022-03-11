@@ -104,8 +104,9 @@ ActiveAdmin.register BasketContent do
     basket_size_ids: [])
 
   before_action only: :index do
-    if params.except(:subdomain, :controller, :action).empty?
-      redirect_to q: { delivery_id_eq: Delivery.next&.id }, utf8: '✓'
+    if params.except(:subdomain, :controller, :action).empty? &&
+        (delivery = Delivery.next || Delivery.last)
+      redirect_to q: { delivery_id_eq: delivery.id }, utf8: '✓'
     end
   end
 
