@@ -187,99 +187,101 @@ ActiveAdmin.register ACP do
         ]
       }
 
-    tabs do
-      if Current.acp.feature?('absence')
-        tab Absence.model_name.human(count: 2), id: 'absence' do
-          f.inputs do
-            translated_input(f, :absence_extra_texts,
-              hint: t('formtastic.hints.acp.absence_extra_text'),
-              required: false,
-              as: :action_text,
-              input_html: { rows: 5 })
-            f.input :absence_extra_text_only, as: :boolean
+    if Current.acp.features.any?
+      tabs do
+        if Current.acp.feature?('absence')
+          tab Absence.model_name.human(count: 2), id: 'absence' do
+            f.inputs do
+              translated_input(f, :absence_extra_texts,
+                hint: t('formtastic.hints.acp.absence_extra_text'),
+                required: false,
+                as: :action_text,
+                input_html: { rows: 5 })
+              f.input :absence_extra_text_only, as: :boolean
 
-            f.input :absences_billed
-            f.input :absence_notice_period_in_days, min: 1, required: true
+              f.input :absences_billed
+              f.input :absence_notice_period_in_days, min: 1, required: true
+            end
           end
         end
-      end
-      if Current.acp.feature?('group_buying')
-        tab t('.group_buying'), id: 'group_buying'  do
-          f.inputs do
-            f.input :group_buying_email, as: :email
-            translated_input(f, :group_buying_terms_of_service_urls, required: false)
-            translated_input(f, :group_buying_invoice_infos,
-              hint: t('formtastic.hints.acp.group_buying_invoice_info'),
-              required: false)
+        if Current.acp.feature?('group_buying')
+          tab t('.group_buying'), id: 'group_buying'  do
+            f.inputs do
+              f.input :group_buying_email, as: :email
+              translated_input(f, :group_buying_terms_of_service_urls, required: false)
+              translated_input(f, :group_buying_invoice_infos,
+                hint: t('formtastic.hints.acp.group_buying_invoice_info'),
+                required: false)
+            end
           end
         end
-      end
-      if Current.acp.feature?('activity')
-        tab t('.members_participation'), id: 'activity' do
-          f.inputs do
-            f.input :activity_i18n_scope,
-              as: :select,
-              collection: ACP.activity_i18n_scopes.map { |s| [I18n.t("activities.#{s}", count: 2), s] },
-              prompt: true
-            f.input :activity_participation_deletion_deadline_in_days
-            f.input :activity_availability_limit_in_days, required: true
-            f.input :activity_price
-            f.input :activity_phone, as: :phone
+        if Current.acp.feature?('activity')
+          tab t('.members_participation'), id: 'activity' do
+            f.inputs do
+              f.input :activity_i18n_scope,
+                as: :select,
+                collection: ACP.activity_i18n_scopes.map { |s| [I18n.t("activities.#{s}", count: 2), s] },
+                prompt: true
+              f.input :activity_participation_deletion_deadline_in_days
+              f.input :activity_availability_limit_in_days, required: true
+              f.input :activity_price
+              f.input :activity_phone, as: :phone
+            end
           end
         end
-      end
-      if Current.acp.feature?('shop')
-        tab t('.shop'), id: 'shop' do
-          f.inputs do
-            f.input :shop_admin_only
-            translated_input(f, :shop_texts,
-              as: :action_text,
-              required: false,
-              hint: t('formtastic.hints.acp.shop_text'))
-            translated_input(f, :shop_terms_of_sale_urls,
-              required: false,
-              hint: t('formtastic.hints.acp.shop_terms_of_sale_url'))
-            f.input :shop_order_maximum_weight_in_kg
-            f.input :shop_order_minimal_amount
-            f.input :shop_delivery_open_delay_in_days
-            f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
-              step: 900,
-              value: resource&.shop_delivery_open_last_day_end_time&.strftime('%H:%M'),
-            }
-            translated_input(f, :shop_invoice_infos,
-              hint: t('formtastic.hints.acp.shop_invoice_info'),
-              required: false)
-            translated_input(f, :shop_delivery_pdf_footers, required: false)
+        if Current.acp.feature?('shop')
+          tab t('.shop'), id: 'shop' do
+            f.inputs do
+              f.input :shop_admin_only
+              translated_input(f, :shop_texts,
+                as: :action_text,
+                required: false,
+                hint: t('formtastic.hints.acp.shop_text'))
+              translated_input(f, :shop_terms_of_sale_urls,
+                required: false,
+                hint: t('formtastic.hints.acp.shop_terms_of_sale_url'))
+              f.input :shop_order_maximum_weight_in_kg
+              f.input :shop_order_minimal_amount
+              f.input :shop_delivery_open_delay_in_days
+              f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
+                step: 900,
+                value: resource&.shop_delivery_open_last_day_end_time&.strftime('%H:%M'),
+              }
+              translated_input(f, :shop_invoice_infos,
+                hint: t('formtastic.hints.acp.shop_invoice_info'),
+                required: false)
+              translated_input(f, :shop_delivery_pdf_footers, required: false)
 
-            handbook_button(self, 'shop')
+              handbook_button(self, 'shop')
+            end
           end
         end
-      end
-      if Current.acp.feature?('basket_price_extra')
-        tab ACP.human_attribute_name(:basket_price_extra), id: 'basket_price_extra' do
-          f.inputs do
-            translated_input(f, :basket_price_extra_titles, required: false)
-            translated_input(f, :basket_price_extra_public_titles,
-              hint: t('formtastic.hints.acp.basket_price_extra_public_title'),
-              required: false)
-            translated_input(f, :basket_price_extra_texts,
-              hint: t('formtastic.hints.acp.basket_price_extra_text'),
-              required: false,
-              as: :action_text,
-              input_html: { rows: 5 })
-            f.input :basket_price_extras, as: :string
-            translated_input(f, :basket_price_extra_labels,
-              as: :text,
-              hint: t('formtastic.hints.liquid_extra_html'),
-              wrapper_html: { class: 'ace-editor' },
-              input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
-            translated_input(f, :basket_price_extra_label_details,
-              as: :text,
-              hint: t('formtastic.hints.liquid_extra_html'),
-              wrapper_html: { class: 'ace-editor' },
-              input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+        if Current.acp.feature?('basket_price_extra')
+          tab ACP.human_attribute_name(:basket_price_extra), id: 'basket_price_extra' do
+            f.inputs do
+              translated_input(f, :basket_price_extra_titles, required: false)
+              translated_input(f, :basket_price_extra_public_titles,
+                hint: t('formtastic.hints.acp.basket_price_extra_public_title'),
+                required: false)
+              translated_input(f, :basket_price_extra_texts,
+                hint: t('formtastic.hints.acp.basket_price_extra_text'),
+                required: false,
+                as: :action_text,
+                input_html: { rows: 5 })
+              f.input :basket_price_extras, as: :string
+              translated_input(f, :basket_price_extra_labels,
+                as: :text,
+                hint: t('formtastic.hints.liquid_extra_html'),
+                wrapper_html: { class: 'ace-editor' },
+                input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+              translated_input(f, :basket_price_extra_label_details,
+                as: :text,
+                hint: t('formtastic.hints.liquid_extra_html'),
+                wrapper_html: { class: 'ace-editor' },
+                input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
 
-            handbook_button(self, 'basket_price_extra')
+              handbook_button(self, 'basket_price_extra')
+            end
           end
         end
       end
