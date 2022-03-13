@@ -322,6 +322,10 @@ ActiveAdmin.register Member do
           end
         end
         attributes_table title: t('.billing') do
+          div class: 'actions' do
+            handbook_icon_link('billing')
+          end
+
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
           row(:salary_basket) { status_tag(member.salary_basket) }
           if Current.acp.annual_fee

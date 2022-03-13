@@ -225,7 +225,7 @@ describe 'members page' do
 
       visit '/new'
 
-      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation anuelle de CHF 42 en plus de l'abonnement à son panier."
+      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation annuelle de CHF 42 en plus de l'abonnement à son panier."
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'
@@ -354,7 +354,7 @@ describe 'members page' do
 
       visit '/new'
 
-      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation anuelle de CHF 42 en plus de l'abonnement à son panier."
+      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation annuelle de CHF 42 en plus de l'abonnement à son panier."
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'Р РѕСЃСЃРёСЏ'
       fill_in 'Adresse', with: 'Р РѕСЃСЃРёСЏ'

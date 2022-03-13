@@ -92,15 +92,15 @@ _:
         _it: Ora di lavoro del %{date} non effettuata
       missed_activity_participations/basket_preparation:
         _de: "%{count} nicht geleistete Taschen befüllung"
-        _fr: "%{count} mises en panier non-effectuées"
+        _fr: "%{count} mises en panier non effectuées"
         _it: "%{count} preparazioni ceste non effettuate"
       missed_activity_participations/halfday_work:
         _de: "%{count} nicht geleistete ½ Tage"
-        _fr: "%{count} ½ journées non-effectuées"
+        _fr: "%{count} ½ journées non effectuées"
         _it: "%{count} ½ giornate non effettuate"
       missed_activity_participations/hour_work:
         _de: "%{count} nicht geleistete Arbeitsstunden"
-        _fr: "%{count} heure de travail non-effectuées"
+        _fr: "%{count} heure de travail non effectuées"
         _it: "%{count} ore di lavoro non effettuate"
       missing_amount:
         _de: Zu begleichen

@@ -439,6 +439,10 @@ ActiveAdmin.register Membership do
         end
 
         attributes_table title: t('.billing') do
+          div class: 'actions' do
+            handbook_icon_link('billing', anchor: 'abonnements')
+          end
+
           if m.member.salary_basket?
             em t('.salary_basket')
           elsif m.baskets_count.zero?

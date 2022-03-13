@@ -1,0 +1,132 @@
+# Facturation
+
+ACP Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#abonnements), <% if Current.acp.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if Current.acp.feature?('activity') %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
+
+ACP Admin génère des factures-QR avec numéro de référence (PDF) et les envoie à tous les emails du membre concerné. Afin de pouvoir générer ces factures, il vous faut demander un QR-IBAN à votre banque, attention ce numéro est différent de l'IBAN de votre compte bancaire. Vous pouvez ensuite l'entrer dans [vos paramètres de facturation](/settings#billing).
+
+## Abonnements
+
+La facturation des abonnements est complètement automatisée par le système. Vous pouvez définir dans [les paramètres (Facturation automatique)](/settings#billing) le jour de la semaine où le système va passer en revue tous les abonnements et créer et envoyer automatiquement les factures nécessaires. Par exemple, si un membre est facturé tous les trimestres alors une nouvelle facture sera automatiquement créée et envoyée le premier jour de la semaine configuré d'un nouveau trimestre.
+
+Le montant de la facture est calculé ainsi: montant total de l'abonnement / nombre d'intervalles de paiements. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
+
+Il est donc primordial que chaque configuration d'abonnement soit bien à jour afin que les factures soient correctes.
+
+Par défaut, la première facture est envoyée le jour de facturation suivant la première livraison de panier, mais il est possible de modifier cela dans [les paramètres](/settings#billing) (Facturer les abonnements uniquement après leur première livraison) pour facturer l'abonnement dès le début de celui-ci.
+
+> Depuis la page d'un membre ou d'un abonnement, vous pouvez voir dans la section "Facturation" (colonne de droite) le jour de création de la prochaine facture.
+
+### Facturer maintenant
+
+Dans certain cas, par exemple après un changement de configuration de l'abonnement, il est possible de forcer la création d'une nouvelle facture plutôt que de laisser le système le faire automatiquement le prochain jour de facturation. Pour cela, cliquez sur le bouton "Facturer maintenant" dans la section "Facturation" (colonne de droite). La facture sera alors créée, mais <u>non envoyée</u>, vous pouvez alors la consulter le PDF et l'envoyer manuellement à l'aide du bouton "Envoyer" sur la page de celle-ci. Cela s'avère utile si vous êtes en contact avec un membre et voulez rectifier rapidement une facture.
+
+### Changement de prix
+
+Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifiée, plusieurs cas sont possibles:
+
+- Une facture future doit encore être envoyée (c'est le milieu de l'année et le membre est facturé chaque trimestre); dans ce cas, le changement de prix (positif ou négatif) sera simplement appliqué à la prochaine facture.
+- La dernière facture a déjà été envoyée (c'est la fin de l'année ou le membre est facturé en une fois), il y a alors 2 possibilités:
+  - Le changement de prix est positif, la dernière facture de l'abonnement est alors automatiquement annulée et une nouvelle facture (avec un montant plus élevé) sera recréer le prochain jour de facturation.
+  - Le changement de prix est négatif, la dernière facture de l'abonnement est alors aussi automatiquement annulée et une nouvelle facture (avec un montant moins élevé) sera recréer le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
+
+<% if Current.acp.annual_fee? %>
+### Cotisation annuelle
+
+La cotisation annuelle est automatiquement inclus dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement (soutien) alors une facture spécifique est créée automatiquement en début de l'année fiscale.
+<% end %>
+
+
+<% if Current.acp.share? %>
+## Parts sociales
+
+Chaque jour de facturation, le système créer automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
+
+Pour rembourser une part sociale déjà facturée, rendez-vous sur la page de la facture et cliquer sur le bouton "Remboursement" en haut à droite, vous pouvez alors facilement créer une facture de part sociale négative. Assurez-vous bien que le membre n'ai plus besoin de parts sociales, sinon elles seront à nouveau automatiquement créées le prochain jour de facturation.
+
+Si des parts sociales ont déjà été facturées en dehors d'ACP Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturé.
+
+> Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
+<% end %>
+
+
+<% if Current.acp.feature?('activity') %>
+## <%= activities_human_name %> non effectuées
+
+Chaque ACP a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent d'autres non.
+ACP Admin n'offre actuellement aucune automatisation de facturation des <%= activities_human_name.downcase %> non effectuées; il faut donc procéder manuellement.
+
+
+### Définir les membres à facturer
+
+Le moyen le plus simple pour déterminer le nombre de <%= activities_human_name.downcase %> non effectuées à facturer par membre est d'exporter le CSV [des abonnements](/memberships) de l'année fiscale concernée. La colonne "<%= activities_human_name %> manquantes" est disponible spécifiquement pour cela.
+En ouvrant le CSV avec Excel, il est facile de déterminer les membres à facturer en les triant à l'aide de cette colonne.
+
+
+### Facturation
+
+Depuis [la page de création d'une nouvelle facture](/invoices/new), il suffit de sélectionner le membre à facturer ainsi que de rentrer le nombre de <%= activities_human_name.downcase %> à facturer et de cliquer sur le bouton "Créer Facture".
+
+> Les <%= activities_human_name.downcase %> facturées sont automatiquement comptées comme des <%= activities_human_name.downcase %> effectuées; il est en conséquence important que la date de la facture soit comprise dans l'année fiscale de l'abonnement concerné.
+
+Si le nombre de factures à créer est trop important, il est également possible [de m'envoyer](mailto:info@acp-admin.ch) une liste avec les ID des membres et le nombre de <%= activities_human_name.downcase %> à facturer. Je créerai alors les factures à l'aide d'un script ✨.
+
+
+### Contenu de l'email "Nouvelle facture"
+
+Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle facture"](/mail_templates/invoice_created) pour les factures des <%= activities_human_name.downcase %> à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
+
+~~~ liquid
+{% case invoice.object_type %}
+{% when 'ActivityParticipation' %}
+  <p>Mon texte spécial!</p>
+{% endcase %}
+~~~
+<% end %>
+
+
+## Facture manuelle (Autre)
+
+ACP Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous le tab "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
+
+> Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.acp.share? %>, parts sociales<% end %><% if Current.acp.feature?('activity') %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
+
+
+
+## Paiements
+
+À chaque fois qu'un paiement est créé (automatiquement ou manuellement), le système va répartir le montant de tous paiements aux factures existantes dans l'ordre de priorité suivant:
+
+- Paiement avec numéro de référence, redistribution jusqu'à ce que la facture référencée soit fermée.
+- Dans l'ordre chronologique des factures, les factures les plus anciennes sont fermées en premier.
+
+Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou un membre réutiliserait un ancien numéro de référence pour payer une nouvelle facture.
+
+
+### Importation automatique
+
+La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'automatiquement (chaque nuit) importer les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
+
+ACP Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
+
+> Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](mailto:info@acp-admin.ch).
+
+
+### Importation manuelle
+
+Lorsque l'importation automatique via [EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics) n'est pas encore configurée, vous pouvez facilement importer les paiements des factures avec numéro de référence de vos membres en téléchargeant un fichier au format camt.054 depuis votre e-banking et en l'uploadant dans ACP Admin depuis [la page des paiements](/payments), section "Importation" dans la colonne de droite. N'oubliez pas de répéter l'opération régulièrement (chaque semaine) afin que le système n'envoie pas de rappel inutilement.
+
+Pour les paiements sans numéro de référence (liquide ou versement direct), il vous suffit de [créer un nouveau paiement manuellement](/payments/new). Le montant de celui-ci sera automatiquement redistribué aux factures existantes.
+
+
+### Remboursement
+
+Si vous souhaitez rembourser un membre pour une raison quelconque, il suffit de créer un nouveau paiement avec un montant négatif. Noter que le remboursement doit bien être effectué par vos soins depuis votre e-banking par exemple, ACP Admin ne pouvant pas créer de versement.
+
+
+## Rappels
+
+Le système s'occupe automatiquement d'envoyer un rappel par email à tous les membres qui ont une facture non payée tous les 35 jours, jusqu'à ce que la facture soit payée (1er rappel après 35 jours, 2ᵉ rappel après 70 jours, etc.).
+
+Vous pouvez configurer le contenu de ce rappel en modifiant [le template email "Rappel facture"](/mail_templates/invoice_overdue_notice).
+
+> Vous pouvez être notifié par email lorsque le 3ᵉ rappel d'une facture est envoyé. Gérer vos notifications depuis [votre compte admin](/admins/<%= current_admin.id %>/edit).

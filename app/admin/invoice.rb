@@ -109,6 +109,8 @@ ActiveAdmin.register Invoice do
     end
   end
 
+  sidebar_handbook_link('billing')
+
   show do |invoice|
     columns do
       column do

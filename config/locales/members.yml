@@ -399,7 +399,7 @@ _:
           _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
         annual_fee_text:
           _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
-          _fr: Chaque membre fait également partie de l'association et verse une cotisation anuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
+          _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
           _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
         desired_acp_shares_number_hint:
           _de: Sie können sich entscheiden, mehr zu kaufen, um die Genossenschaft zu unterstützen.

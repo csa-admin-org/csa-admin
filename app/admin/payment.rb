@@ -73,6 +73,8 @@ ActiveAdmin.register Payment do
     render('active_admin/payments/import')
   end
 
+  sidebar_handbook_link('billing#paiements')
+
   collection_action :import, method: :post do
     authorize!(:import, Payment)
     Billing::CamtFile.process!(params.require(:file))

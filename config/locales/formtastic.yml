@@ -40,7 +40,7 @@ _:
           _it: Permette di scegliere uno più luoghi di deposito alternativi durante la registrazione. Utile se la prima scelta è giâ completa.
         annual_fee:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
-          _fr: Laisser vide si aucune cotisation anuelle.
+          _fr: Laisser vide si aucune cotisation annuelle.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa.
         basket_price_extra_public_title:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Titel (Anmeldeformular, Rechnung, ...).

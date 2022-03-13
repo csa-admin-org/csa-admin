@@ -53,7 +53,7 @@ _:
           _it: Scelta di un punto di ritiro alternativo
         annual_fee:
           _de: Jährlicher Beitrag
-          _fr: Cotisation anuelle
+          _fr: Cotisation annuelle
           _it: Quota associativa annuale
         basket_price_extra_label:
           _de: Label
@@ -579,7 +579,7 @@ _:
           _it: N° quote sociali cooperative
         annual_fee:
           _de: Jährlicher Beitrag
-          _fr: Cotisation anuelle
+          _fr: Cotisation annuelle
           _it: Quota associativa annuale
         basket_complements:
           _de: Taschenzusätze
