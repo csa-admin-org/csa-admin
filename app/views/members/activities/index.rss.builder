@@ -10,7 +10,7 @@ xml.rss version: '2.0' do
       xml.item do
         xml.title activity_label(activity, date: true, date_format: :long, description: false)
         xml.description activity_label(activity, date: true, date_format: :long, description: true)
-        xml.pubDate activity.created_at.to_s(:rfc822)
+        xml.pubDate activity.created_at.to_fs(:rfc822)
         xml.guid activity.cache_key
       end
     end
