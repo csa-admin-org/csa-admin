@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '3.0.3'
+ruby '3.1.1'
 
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 7.0.2'
 
 gem 'bootsnap', require: false
 gem 'pg'
@@ -23,11 +23,12 @@ gem 'ros-apartment', require: 'apartment'
 gem 'phony_rails'
 gem 'tod'
 
-gem 'activeadmin', '2.9.0'
+gem 'activeadmin'
+gem 'sprockets-rails'
 gem 'cancancan'
 gem 'invisible_captcha'
 gem 'ransack'
-gem 'formtastic', '~> 4.0'
+gem 'formtastic'
 
 gem 'simple_form'
 gem 'inline_svg'
@@ -48,7 +49,7 @@ gem 'faraday-cookie_jar'
 
 gem 'gibbon'
 gem 'icalendar'
-gem 'image_processing', '~> 1.2'
+gem 'image_processing'
 gem 'mini_magick'
 gem 'prawn'
 gem 'prawn-table'
@@ -90,11 +91,11 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 4.1.0'
+  gem 'web-console'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   # gem 'rack-mini-profiler', '~> 2.0'
-  gem 'listen', '~> 3.3'
+  gem 'listen'
   gem 'bullet'
   gem 'letter_opener'
 end

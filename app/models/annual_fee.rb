@@ -1,0 +1,1 @@
+class AnnualFee; end
