@@ -52,6 +52,7 @@ class ACP < ApplicationRecord
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
     presence: true, if: :qr_invoice?
+  validates :qr_bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
     absence: true, unless: :qr_invoice?
