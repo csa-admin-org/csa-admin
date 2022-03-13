@@ -10,7 +10,7 @@ ActiveAdmin.register ACP do
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
     :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
-    :qr_iban, :qr_creditor_name,
+    :qr_iban, :qr_bank_reference, :qr_creditor_name,
     :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
     :fiscal_year_start_month, :annual_fee, :share_price,
     :absence_notice_period_in_days,
@@ -103,6 +103,7 @@ ActiveAdmin.register ACP do
 
           li { h1 t('.invoice_qr') }
           f.input :qr_iban, required: false, input_html: { maxlength: 21 }, hint: Current.acp.isr_invoice?
+          f.input :qr_bank_reference, required: false, input_html: { maxlength: 16 }
           f.input :qr_creditor_name, required: false, input_html: { maxlength: 70 }
           f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
           f.input :qr_creditor_city, required: false, input_html: { maxlength: 35 }

@@ -191,6 +191,10 @@ _:
           _de: Telefon
           _fr: Téléphone
           _it: Telefono
+        qr_bank_reference:
+          _de: QR-Bankreferenz
+          _fr: Référence bancaire QR
+          _it: Riferimento bancario QR
         qr_creditor_address:
           _de: Adresse
           _fr: Adresse

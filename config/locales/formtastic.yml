@@ -78,6 +78,10 @@ _:
           _de: Text, der auf der Mitgliederseite oberhalb des Verlängerungsantragsformulars angezeigt wird.
           _fr: Texte affiché sur la page de membre au-dessus du formulaire de demande du renouvellement.
           _it: Testo visibile sulla pagina dei soci sotto il formulario con la domanda di rinnovo.
+        qr_bank_reference:
+          _de: Leer lassen, wenn Ihre Bank keine zur Verfügung stellt.
+          _fr: Laisser vide si votre banque n'en fournit pas.
+          _it: Lascia in vuoto se la tua banca non ne fornisce uno.
         qr_iban:
           _de: Leer lassen, wenn ESR-Rechnungen verwendet werden.
           _fr: Laisser vide si les factures BVR sont utilisées.
