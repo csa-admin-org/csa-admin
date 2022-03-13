@@ -116,6 +116,8 @@ ActiveAdmin.register ACP do
             f.input :isr_payment_for, required: false, input_html: { rows: 3 }
             f.input :isr_in_favor_of, required: false, input_html: { rows: 3 }
           end
+
+          handbook_button(self, 'billing')
         end
       end
       tab t('.membership_renewal'), id: 'membership_renewal' do
@@ -191,7 +193,7 @@ ActiveAdmin.register ACP do
     if Current.acp.features.any?
       tabs do
         if Current.acp.feature?('absence')
-          tab Absence.model_name.human(count: 2), id: 'absence' do
+          tab Absence.model_name.human, id: 'absence' do
             f.inputs do
               translated_input(f, :absence_extra_texts,
                 hint: t('formtastic.hints.acp.absence_extra_text'),

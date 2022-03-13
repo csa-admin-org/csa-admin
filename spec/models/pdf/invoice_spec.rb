@@ -39,7 +39,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('Cotisation annuelle association', '42.00')
         .and include('0100000042007>001104190802410000000008070+ 010137346>')
-      expect(pdf_strings).not_to include('Facturation anuelle')
+      expect(pdf_strings).not_to include('Facturation annuelle')
     end
 
     it 'generates invoice with annual_fee amount + annual membership' do
@@ -51,13 +51,13 @@ describe PDF::Invoice do
         id: 4,
         object: membership,
         annual_fee: 42,
-        memberships_amount_description: 'Facturation anuelle')
+        memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance PUBLIC 2x 33.25', "66.50")
-        .and contain_sequence('Montant annuel', "66.50", 'Facturation anuelle', "66.50")
+        .and contain_sequence('Montant annuel', "66.50", 'Facturation annuelle', "66.50")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "108.50")
         .and include '0100000108507>001104190802410000000000048+ 010137346>'
@@ -75,14 +75,14 @@ describe PDF::Invoice do
         id: 7,
         object: membership,
         annual_fee: 30,
-        memberships_amount_description: 'Facturation anuelle')
+        memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance PUBLIC 2x 33.25', "66.50")
         .and contain_sequence('Réduction pour 6 ', '½ ', 'journées supplémentaires', '-20.50')
-        .and contain_sequence('Montant annuel', "46.00", 'Facturation anuelle', "46.00")
+        .and contain_sequence('Montant annuel', "46.00", 'Facturation annuelle', "46.00")
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', "76.00")
         .and include '0100000076007>001104190802410000000000077+ 010137346>'
@@ -130,7 +130,7 @@ describe PDF::Invoice do
         id: 4,
         object: membership,
         annual_fee: 42,
-        memberships_amount_description: 'Facturation anuelle')
+        memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -222,7 +222,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to contain_sequence('3 ', '½ ', 'journées non-effectuées', '180.00')
+        .to contain_sequence('3 ', '½ ', 'journées non effectuées', '180.00')
         .and contain_sequence('Total', '180.00')
         .and include('0100000180005>001104190802410000000020031+ 010137346>')
     end
