@@ -562,6 +562,7 @@ DEPENDENCIES
   liquid
   listen
   lograge
+  matrix
   mini_magick
   nokogiri
   pdf-inspector

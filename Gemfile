@@ -79,6 +79,8 @@ group :production do
   gem 'aws-sdk-s3', require: false
   gem 'redis'
   gem 'barnes' # Heroku metrics
+
+  gem 'matrix' # Rake tasks issue with Heroku on deploy
 end
 
 group :development, :test do
