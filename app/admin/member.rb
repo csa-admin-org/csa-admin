@@ -548,7 +548,8 @@ ActiveAdmin.register Member do
     redirect_to members_session_url(
       session.token,
       subdomain: Current.acp.members_subdomain,
-      locale: I18n.locale)
+      locale: I18n.locale),
+      allow_other_host: true
   end
 
   member_action :force_recurring_billing, method: :post do
