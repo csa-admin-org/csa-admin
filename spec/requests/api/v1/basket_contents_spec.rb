@@ -56,7 +56,7 @@ describe 'BasketContents V1 API' do
 
       expect(response.status).to eq 200
       expect(response.headers).to match(hash_including(
-        "ETag" => "W/\"15999dbf582b394f501abae3d09e4732\"",
+        "ETag" => "W/\"7cafb05d424d24860504619da110895c\"",
         "Last-Modified" => "Fri, 18 Jun 2021 02:12:00 GMT"
       ))
       expect(JSON(response.body)).to eq(

@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_03_13_093908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -21,8 +20,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.date "started_on"
     t.date "ended_on"
     t.text "note"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.bigint "session_id"
     t.index ["member_id"], name: "index_absences_on_member_id"
   end
@@ -31,8 +30,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "name", null: false
     t.string "host", null: false
     t.string "tenant_name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "features", default: [], null: false, array: true
     t.string "email_default_host"
     t.string "email_default_from"
@@ -112,8 +111,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.text "body"
     t.string "record_type", null: false
     t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
@@ -124,8 +123,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "resource_type", limit: 255, null: false
     t.integer "author_id"
     t.string "author_type", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
@@ -136,7 +135,7 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -148,7 +147,7 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -164,8 +163,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.time "start_time", null: false
     t.time "end_time", null: false
     t.integer "participants_limit"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "places", default: {}, null: false
     t.jsonb "place_urls", default: {}, null: false
     t.jsonb "titles", default: {}, null: false
@@ -179,16 +178,16 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.integer "member_id", null: false
     t.integer "validator_id"
     t.string "state", default: "pending", null: false
-    t.datetime "validated_at"
-    t.datetime "rejected_at"
+    t.datetime "validated_at", precision: nil
+    t.datetime "rejected_at", precision: nil
     t.integer "participants_count", default: 1, null: false
     t.string "carpooling_phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "latest_reminder_sent_at"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "latest_reminder_sent_at", precision: nil
     t.string "carpooling_city"
     t.bigint "session_id"
-    t.datetime "review_sent_at"
+    t.datetime "review_sent_at", precision: nil
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
     t.index ["state"], name: "index_activity_participations_on_state"
@@ -204,8 +203,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
 
   create_table "admins", id: :serial, force: :cascade do |t|
     t.string "email", limit: 255, default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "name", null: false
     t.string "notifications", default: [], null: false, array: true
     t.string "language", default: "fr", null: false
@@ -219,8 +218,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.jsonb "texts", default: {}, null: false
     t.integer "delivery_ids", default: [], null: false, array: true
     t.integer "depot_ids", default: [], null: false, array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "audits", force: :cascade do |t|
@@ -228,8 +227,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "auditable_type"
     t.bigint "auditable_id"
     t.jsonb "audited_changes", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["auditable_type", "auditable_id"], name: "index_audits_on_auditable_type_and_auditable_id"
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["session_id"], name: "index_audits_on_session_id"
@@ -237,8 +236,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
 
   create_table "basket_complements", force: :cascade do |t|
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "names", default: {}, null: false
     t.string "price_type", default: "delivery", null: false
     t.boolean "visible", default: true, null: false
@@ -259,8 +258,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.decimal "quantity", precision: 8, scale: 2, null: false
     t.string "unit", null: false
     t.decimal "surplus_quantity", precision: 8, scale: 2, default: "0.0", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "same_basket_quantities", default: false, null: false
     t.decimal "basket_quantities", precision: 8, scale: 2, default: [], null: false, array: true
     t.integer "baskets_counts", default: [], null: false, array: true
@@ -279,8 +278,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
   end
 
   create_table "basket_sizes", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.integer "activity_participations_demanded_annualy", default: 0, null: false
     t.jsonb "names", default: {}, null: false
@@ -300,8 +299,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.decimal "depot_price", precision: 8, scale: 2, null: false
     t.boolean "trial", default: false, null: false
     t.boolean "absent", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "quantity", default: 1, null: false
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
@@ -313,21 +312,21 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "basket_complement_id", null: false
     t.bigint "basket_id", null: false
     t.decimal "price", precision: 8, scale: 3, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "quantity", default: 1, null: false
     t.index ["basket_complement_id", "basket_id"], name: "baskets_basket_complements_unique_index", unique: true
   end
 
   create_table "billing_snapshots", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "deliveries", id: :serial, force: :cascade do |t|
     t.date "date", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "note"
     t.integer "number", default: 0, null: false
     t.boolean "shop_open", default: true
@@ -344,8 +343,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.integer "months", default: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false, array: true
     t.integer "week_numbers", default: 0, null: false
     t.integer "results", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["visible"], name: "index_deliveries_cycles_on_visible"
   end
 
@@ -360,8 +359,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "address", limit: 255
     t.string "zip", limit: 255
     t.string "city", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "price", precision: 8, scale: 2, null: false
     t.string "emails"
     t.bigint "responsible_member_id"
@@ -382,8 +381,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "reason"
     t.string "origin"
     t.string "stream_id"
-    t.datetime "unsuppressed_at"
-    t.datetime "created_at"
+    t.datetime "unsuppressed_at", precision: nil
+    t.datetime "created_at", precision: nil
     t.index ["stream_id", "email", "reason", "origin", "created_at"], name: "email_suppressions_unique_index", unique: true
   end
 
@@ -394,17 +393,17 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.text "fields_echo"
     t.text "events"
     t.text "footer"
-    t.datetime "sent_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "sent_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id"
   end
 
   create_table "group_buying_deliveries", force: :cascade do |t|
     t.date "date", null: false
     t.date "orderable_until", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "depot_ids", default: [], null: false, array: true
   end
 
@@ -413,8 +412,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "product_id", null: false
     t.integer "quantity", null: false
     t.decimal "price", precision: 8, scale: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["order_id", "product_id"], name: "index_group_buying_order_items_on_order_id_and_product_id", unique: true
     t.index ["order_id"], name: "index_group_buying_order_items_on_order_id"
     t.index ["product_id"], name: "index_group_buying_order_items_on_product_id"
@@ -425,8 +424,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "delivery_id", null: false
     t.integer "items_count", default: 0, null: false
     t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["delivery_id"], name: "index_group_buying_orders_on_delivery_id"
     t.index ["member_id"], name: "index_group_buying_orders_on_member_id"
   end
@@ -434,8 +433,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
   create_table "group_buying_producers", force: :cascade do |t|
     t.string "name", null: false
     t.string "website_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "group_buying_products", force: :cascade do |t|
@@ -444,8 +443,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.jsonb "jsonb", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2, null: false
     t.boolean "available", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["producer_id"], name: "index_group_buying_products_on_producer_id"
   end
 
@@ -453,8 +452,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "invoice_id"
     t.string "description", null: false
     t.decimal "amount", precision: 8, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
   end
 
@@ -468,19 +467,19 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.decimal "memberships_amount", precision: 8, scale: 2
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
     t.decimal "paid_memberships_amount", precision: 8, scale: 2
-    t.datetime "sent_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "sent_at", precision: nil
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "overdue_notices_count", default: 0, null: false
-    t.datetime "overdue_notice_sent_at"
-    t.datetime "canceled_at"
+    t.datetime "overdue_notice_sent_at", precision: nil
+    t.datetime "canceled_at", precision: nil
     t.string "state", default: "processing", null: false
     t.string "object_type", null: false
     t.bigint "object_id"
     t.integer "paid_missing_activity_participations"
     t.decimal "memberships_vat_amount", precision: 8, scale: 2
     t.integer "acp_shares_number"
-    t.datetime "overpaid_notification_sent_at"
+    t.datetime "overpaid_notification_sent_at", precision: nil
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
@@ -491,8 +490,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.boolean "active", default: false, null: false
     t.jsonb "subjects", default: {}, null: false
     t.jsonb "contents", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["title"], name: "index_mail_templates_on_title", unique: true
   end
 
@@ -502,13 +501,13 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "address", limit: 255
     t.string "zip", limit: 255
     t.string "city", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "waiting_started_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.datetime "waiting_started_at", precision: nil
     t.text "food_note"
     t.text "note"
     t.integer "validator_id"
-    t.datetime "validated_at"
+    t.datetime "validated_at", precision: nil
     t.boolean "newsletter"
     t.integer "waiting_basket_size_id"
     t.integer "waiting_depot_id"
@@ -525,7 +524,7 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "language", default: "fr", null: false
     t.string "acp_shares_info"
     t.integer "existing_acp_shares_number", default: 0, null: false
-    t.datetime "activated_at"
+    t.datetime "activated_at", precision: nil
     t.decimal "waiting_basket_price_extra", precision: 8, scale: 2
     t.string "country_code", limit: 2
     t.boolean "contact_sharing", default: false, null: false
@@ -541,8 +540,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "basket_complement_id", null: false
     t.bigint "member_id", null: false
     t.integer "quantity", default: 1, null: false
-    t.datetime "created_at", precision: 6
-    t.datetime "updated_at", precision: 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["basket_complement_id", "member_id"], name: "members_basket_complements_unique_index", unique: true
   end
 
@@ -557,8 +556,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.integer "activity_participations_demanded_annualy", null: false
     t.date "started_on", null: false
     t.date "ended_on", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "baskets_count", default: 0, null: false
     t.integer "activity_participations_demanded", default: 0, null: false
     t.integer "activity_participations_accepted", default: 0, null: false
@@ -575,12 +574,12 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.decimal "price", precision: 8, scale: 2
     t.decimal "invoices_amount", precision: 8, scale: 2
     t.decimal "renewal_annual_fee", precision: 8, scale: 2
-    t.datetime "renewed_at"
-    t.datetime "renewal_opened_at"
+    t.datetime "renewed_at", precision: nil
+    t.datetime "renewal_opened_at", precision: nil
     t.text "renewal_note"
-    t.datetime "renewal_reminder_sent_at"
+    t.datetime "renewal_reminder_sent_at", precision: nil
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
-    t.datetime "last_trial_basket_sent_at"
+    t.datetime "last_trial_basket_sent_at", precision: nil
     t.bigint "deliveries_cycle_id", null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["deliveries_cycle_id"], name: "index_memberships_on_deliveries_cycle_id"
@@ -595,8 +594,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "membership_id", null: false
     t.decimal "price", precision: 8, scale: 3, null: false
     t.integer "quantity", default: 1, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
@@ -606,8 +605,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.date "date", null: false
     t.string "isr_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
     t.index ["isr_data"], name: "index_payments_on_isr_data", unique: true
     t.index ["member_id"], name: "index_payments_on_member_id"
@@ -616,8 +615,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
   create_table "permissions", force: :cascade do |t|
     t.jsonb "names", default: {}, null: false
     t.jsonb "rights", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -625,9 +624,9 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.string "token", null: false
     t.text "user_agent", null: false
     t.string "remote_addr", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "last_used_at"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "last_used_at", precision: nil
     t.string "last_remote_addr"
     t.string "last_user_agent"
     t.string "email"
@@ -643,8 +642,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "product_variant_id", null: false
     t.integer "quantity", default: 0, null: false
     t.decimal "item_price", precision: 8, scale: 2, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["order_id", "product_id", "product_variant_id"], name: "shop_order_items_unique_index", unique: true
   end
 
@@ -653,8 +652,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
     t.bigint "delivery_id", null: false
     t.string "state", default: "cart", null: false
     t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
     t.index ["member_id", "delivery_id"], name: "index_shop_orders_on_member_id_and_delivery_id", unique: true
     t.index ["state"], name: "index_shop_orders_on_state"
@@ -699,8 +698,8 @@ ActiveRecord::Schema[6.1].define(version: 2022_03_13_093908) do
   end
 
   create_table "vegetables", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "names", default: {}, null: false
   end
 
