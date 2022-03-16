@@ -66,9 +66,22 @@ describe Delivery do
     basket3 = delivery.baskets.find_by(membership: membership_3)
     basket3.update!(complement_ids: [1, 2])
 
+    Current.acp.update!(recurring_billing_wday: 1)
+    membership_1.member.update!(billing_year_division: 1)
+    invoice_1 = Billing::Invoicer.force_invoice!(membership_1.member)
+    invoice_1.process!
+    invoice_1.mark_as_sent!
+    membership_2.member.update!(billing_year_division: 4)
+    invoice_2 = Billing::Invoicer.force_invoice!(membership_2.member)
+    invoice_2.process!
+    invoice_2.mark_as_sent!
+
     expect { delivery.update!(basket_complement_ids: [1]) }
       .to change { membership_1.reload.price }.by(-4.5)
+      .and change { invoice_1.reload.state }.to('canceled')
       .and change { membership_2.reload.price }.by(-4.5)
+
+    expect(invoice_2.reload.state).to eq('open')
 
     basket1 = delivery.baskets.find_by(membership: membership_1)
     expect(basket1.complement_ids).to match_array [1]
