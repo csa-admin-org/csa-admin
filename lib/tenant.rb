@@ -41,7 +41,7 @@ module Tenant
 
     unless to_or_from_public?(tenant.to_s)
       Sentry.capture_message('Illegal tenant switch', extra: {
-        current: name,
+        current: current,
         target: tenant,
         search_path: ActiveRecord::Base.connection.schema_search_path.inspect
       })
