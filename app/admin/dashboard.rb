@@ -27,13 +27,12 @@ ActiveAdmin.register_page 'Dashboard' do
 
           table_for nil do
             column do
-              span do
-                link_to Invoice.human_attribute_name(:xlsx_recap), billing_path(Current.fy_year, format: :xlsx)
+              div style: 'margin-top: 15px' do
+                link_to_with_icon :xlsx_file, Invoice.human_attribute_name(:summary), billing_path(Current.fy_year, format: :xlsx)
               end
               latest_snapshots = Billing::Snapshot.order(updated_at: :desc).first(4)
               if latest_snapshots.any?
-                span "<br/><br/>".html_safe
-                span do
+                div style: 'margin-top: 15px' do
                   txt = t('.quarterly_snapshots')
                   txt += ': '
                   txt += latest_snapshots.map { |s|
@@ -82,10 +81,10 @@ ActiveAdmin.register_page 'Dashboard' do
                 end
               end
 
-              table_for nil, class: 'next-delivery' do
-                column(nil, :title, class: 'depot') { t('.totals', numbers: '') }
-                column(class: 'total align-right') { counts.sum }
-                column(class: 'baskets-total align-right') { counts.sum_detail }
+              table_for nil, class: 'next-delivery next-delivery-total' do
+                column(nil, :title, class: 'depot text-bold') { t('.totals', numbers: '') }
+                column(class: 'total align-right text-bold') { counts.sum }
+                column(class: 'baskets-total align-right text-bold') { counts.sum_detail }
               end
 
               if BasketComplement.any?
@@ -109,11 +108,9 @@ ActiveAdmin.register_page 'Dashboard' do
               if Current.acp.feature?('shop')
                 count = Shop::Order.all_without_cart.where(delivery: next_delivery).count
                 div id: 'shop-orders' do
-                  span do
-                    span(class: 'bold') { t('shop.title') + ": " }
-                    span do
-                      link_to t('shop.orders', count: count), shop_orders_path(q: { delivery_id_eq: next_delivery.id }, scope: :all_without_cart)
-                    end
+                  span(class: 'bold') { t('shop.title') + ':' }
+                  span(style: 'margin-left: 5px') do
+                    link_to t('shop.orders', count: count), shop_orders_path(q: { delivery_id_eq: next_delivery.id }, scope: :all_without_cart)
                   end
                 end
               end
@@ -128,11 +125,12 @@ ActiveAdmin.register_page 'Dashboard' do
                 table_for nil do
                   column do
                     span do
-                      link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(next_delivery, format: :xlsx)
-                    end
-                    span { '&nbsp;/&nbsp;'.html_safe }
-                    span do
-                      link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf), target: '_blank'
+                      span style: 'display: inline-block; margin-right: 20px' do
+                        link_to_with_icon :xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx)
+                      end
+                      span style: 'display: inline-block;' do
+                        link_to_with_icon :pdf_file, Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf), target: '_blank'
+                      end
                     end
 
                     if Current.acp.feature?('absence')

@@ -368,10 +368,14 @@ _:
       _de: Gewicht (in kg)
       _fr: Poids (en kg)
       _it: Peso (in kg)
-    xlsx_recap:
-      _de: Zusammenfassung Excel
-      _fr: Récapitulatif Excel
-      _it: Riassunto Excel
+    summary:
+      _de: Zusammenfassung
+      _fr: Récapitulatif
+      _it: Riassunto
+    summary_xlsx:
+      _de: Zusammenfassung (XLSX)
+      _fr: Récapitulatif (XLSX)
+      _it: Riassunto (XLSX)
     zip:
       _de: PLZ
       _fr: NPA
