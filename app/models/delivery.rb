@@ -64,7 +64,7 @@ class Delivery < ApplicationRecord
   end
 
   def display_name(format: :medium_long)
-    "#{I18n.l(date, format: format)} ##{number}"
+    "#{I18n.l(date, format: format)} (##{number})"
   end
 
   def basket_counts

@@ -66,17 +66,17 @@ _:
         _it: inattivo
       memberships:
         future:
-          _de: Künftiges Abonnement
-          _fr: Abonnement futur
-          _it: Abbonamento futuro
+          _de: Künftige Abonnements
+          _fr: Abonnements futurs
+          _it: Abbonamenti futuri
         ongoing:
-          _de: Laufendes Abonnement
-          _fr: Abonnement en cours
-          _it: Abbonamento in corso
+          _de: Laufende Abonnements
+          _fr: Abonnements en cours
+          _it: Abbonamenti in corso
         trial:
-          _de: Probeabonnement
-          _fr: Abonnement à l'essai
-          _it: Abbonamento di prova
+          _de: Probeabonnements
+          _fr: Abonnements à l'essai
+          _it: Abbonamenti di prova
       pending:
         _de: zu bestätigen
         _fr: à valider
