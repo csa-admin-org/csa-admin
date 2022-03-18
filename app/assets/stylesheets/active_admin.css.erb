@@ -43,9 +43,18 @@ form legend span {
   text-align: right !important;
 }
 
+.text-bold {
+  font-weight: 700 !important;
+}
+
 a:hover {
   color: #0c9024;
 }
+
+a:hover svg {
+  fill: #0c9024;
+}
+
 
 li.choice input {
   margin-right: 10px !important;
@@ -377,6 +386,15 @@ table a.xlsx_link {
   background-image: url(<%=asset_data_uri"admin/xlsx_file.svg"%>);
 }
 
+span.link-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+span.link-with-icon svg {
+  margin-right: 6px;
+}
+
 .col-selectable {
   width: 68px;
 }
@@ -518,6 +536,10 @@ table.next-delivery .total {
 
 table.next-delivery .baskets-total {
   width: 29%;
+}
+
+table.next-delivery-total thead {
+  display: none;
 }
 
 table.table-baskets .col-delivery,
@@ -887,8 +909,12 @@ fieldset.inputs a.action svg {
   border-radius: 5px;
 }
 
+.next-delivery-footer {
+  margin-top: 20px;
+}
+
 #basket-complements-table, #shop-orders {
-  margin: 20px 0 15px;
+  margin-top: 30px;
 }
 
 #basket-complements-table th.col-complement_panier {

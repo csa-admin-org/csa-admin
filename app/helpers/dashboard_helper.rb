@@ -6,7 +6,7 @@ module DashboardHelper
     [
       %i[pending waiting active].map { |s| members_link_and_count(s) },
       membership_states.map { |s| memberships_link_and_count(s) },
-      %i[support inactive].map { |s| members_link_and_count(s) }
+      %i[support].map { |s| members_link_and_count(s) }
     ].flatten.map { |h| OpenStruct.new(h) }
   end
 
@@ -17,16 +17,16 @@ module DashboardHelper
       status: link_to(
         I18n.t("states.member.#{state}").capitalize,
         members_path(scope: state)),
-      count: Member.send(state).count
+      count: content_tag(:span, Member.send(state).count, style: 'padding-right: 10px')
     }
   end
 
-  def memberships_link_and_count(state, prefix: '&nbsp;&nbsp;- ')
+  def memberships_link_and_count(state, prefix: '&nbsp;&nbsp;–&nbsp;&nbsp;')
     {
       status: prefix.html_safe + link_to(
-        I18n.t("states.member.memberships.#{state}"),
+        I18n.t("states.member.memberships.#{state}") + " (#{Membership.send(state).count})",
         memberships_path(scope: state)),
-      count: Membership.send(state).count
+      count: nil
     }
   end
 end

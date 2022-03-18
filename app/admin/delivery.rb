@@ -104,10 +104,10 @@ ActiveAdmin.register Delivery do
               end
             end
 
-            table_for nil do
-              column nil, :title
-              column(class: 'align-right') { "Total: #{counts.sum}" }
-              column(class: 'align-right') { t('.totals', numbers: counts.sum_detail) }
+            table_for nil, class: 'next-delivery next-delivery-total' do
+              column(nil, :title, class: 'depot text-bold') { t('.totals', numbers: '') }
+              column(class: 'total align-right text-bold') { counts.sum }
+              column(class: 'baskets-total align-right text-bold') { counts.sum_detail }
             end
 
             if BasketComplement.any?
@@ -123,14 +123,6 @@ ActiveAdmin.register Delivery do
                 end
               end
             end
-
-            span do
-              link_to Delivery.human_attribute_name(:xlsx_recap), delivery_path(delivery, format: :xlsx)
-            end
-            span { '&nbsp;/&nbsp;'.html_safe }
-            span do
-              link_to Delivery.human_attribute_name(:signature_sheets), delivery_path(delivery, format: :pdf), target: '_blank'
-            end
           end
         end
       end
@@ -145,8 +137,8 @@ ActiveAdmin.register Delivery do
         end
 
         if Current.acp.feature?('absence')
-          panel link_to(Absence.model_name.human(count: 2), absences_path(q: { including_date: delivery.date }, scope: :all)) do
-            absences = Absence.including_date(delivery.date).includes(:member)
+          absences = Absence.including_date(delivery.date).includes(:member)
+          panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
             if absences.any?
               absences.map { |a| auto_link a.member }.join(', ').html_safe
             else
@@ -173,6 +165,14 @@ ActiveAdmin.register Delivery do
         active_admin_comments
       end
     end
+  end
+
+  action_item :xlsx_summary, only: :show do
+    link_to Delivery.human_attribute_name(:summary_xlsx), delivery_path(delivery, format: :xlsx)
+  end
+
+  action_item :signature_sheets, only: :show do
+    link_to Delivery.human_attribute_name(:signature_sheets_pdf), delivery_path(delivery, format: :pdf), target: '_blank'
   end
 
   form do |f|

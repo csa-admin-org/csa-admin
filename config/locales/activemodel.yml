@@ -1,8 +1,0 @@
-_:
-  activemodel:
-    attributes:
-      activity_participation_count:
-        count:
-          _de: Anzahl (am+pm * Teilnehmer)
-          _fr: Nombre (am+pm * participants)
-          _it: Numero (am+pm * partecipanti)

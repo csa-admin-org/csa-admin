@@ -476,6 +476,10 @@ _:
           _de: Unterschriftszettel
           _fr: Fiches Signature
           _it: Scheda Firme
+        signature_sheets_pdf:
+          _de: Unterschriftszettel (PDF)
+          _fr: Fiches Signature (PDF)
+          _it: Scheda Firme (PDF)
       depot:
         address_name:
           _de: Name
