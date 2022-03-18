@@ -35,7 +35,7 @@ ActiveAdmin.register GroupBuying::Order do
   index do
     column :id, ->(order) { auto_link order, order.id }
     column :created_at, ->(order) { l(order.date, format: :number) }
-    column :delivery, ->(order) { auto_link order.delivery, order.delivery.title  }, sortable: 'delivery_id'
+    column :delivery, ->(order) { auto_link order.delivery  }, sortable: 'delivery_id'
     column :member, sortable: 'members.name'
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
@@ -98,7 +98,7 @@ ActiveAdmin.register GroupBuying::Order do
       column do
         attributes_table do
           row :id
-          row(:delivery) { auto_link order.delivery, order.delivery.title }
+          row(:delivery) { auto_link order.delivery }
           row(:member) { auto_link order.member }
           row(:invoice) { auto_link order.invoice }
           row(:state) { status_tag order.state_i18n_name, class: order.state }

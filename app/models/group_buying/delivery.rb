@@ -37,11 +37,7 @@ module GroupBuying
     end
 
     def display_name
-      "#{model_name.human} #{title}"
-    end
-
-    def title
-      "##{id} – #{I18n.l date}"
+      "#{I18n.l date} (##{id})"
     end
 
     def orderable?

@@ -24,7 +24,7 @@ ActiveAdmin.register Delivery do
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
     column '#', ->(delivery) { auto_link delivery, delivery.number }
-    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium_long) }
+    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium_long).capitalize }
     if BasketComplement.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
@@ -72,7 +72,7 @@ ActiveAdmin.register Delivery do
 
   sidebar_handbook_link('deliveries')
 
-  show do |delivery|
+  show title: ->(d) { d.display_name(format: :long).capitalize } do |delivery|
     columns do
       column do
         panel Basket.model_name.human(count: 2) do
@@ -140,7 +140,7 @@ ActiveAdmin.register Delivery do
           absences = Absence.including_date(delivery.date).includes(:member)
           panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
             if absences.any?
-              absences.map { |a| auto_link a.member }.join(', ').html_safe
+              absences.map { |a| auto_link a.member }.to_sentence.html_safe
             else
               content_tag :span, t('active_admin.empty'), class: 'empty'
             end

@@ -332,6 +332,14 @@ _:
       _de: Teile auf Lager
       _fr: Pièces en stock
       _it: Parti in stock
+    summary:
+      _de: Zusammenfassung
+      _fr: Récapitulatif
+      _it: Riassunto
+    summary_xlsx:
+      _de: Zusammenfassung (XLSX)
+      _fr: Récapitulatif (XLSX)
+      _it: Riassunto (XLSX)
     text:
       _de: Text
       _fr: Texte
@@ -368,14 +376,6 @@ _:
       _de: Gewicht (in kg)
       _fr: Poids (en kg)
       _it: Peso (in kg)
-    summary:
-      _de: Zusammenfassung
-      _fr: Récapitulatif
-      _it: Riassunto
-    summary_xlsx:
-      _de: Zusammenfassung (XLSX)
-      _fr: Récapitulatif (XLSX)
-      _it: Riassunto (XLSX)
     zip:
       _de: PLZ
       _fr: NPA
