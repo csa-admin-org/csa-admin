@@ -345,7 +345,15 @@ ActiveAdmin.register Member do
               cur(member.payments_amount),
               payments_path(q: { member_id_eq: member.id }, scope: :all))
           }
-          row(:balance_amount) { cur member.balance_amount }
+          row(:balance_amount) {
+            if member.balance_amount.zero?
+              cur member.balance_amount
+            else
+              content_tag :b do
+                cur member.balance_amount
+              end
+            end
+          }
           row(:next_invoice_on) {
             if member.billable?
               if Current.acp.recurring_billing?
