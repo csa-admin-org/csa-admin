@@ -2,7 +2,7 @@ module CurrentACP
   extend self
 
   def current_acp
-    ACP.find_by!(tenant_name: Apartment::Tenant.current)
+    ACP.find_by!(tenant_name: Tenant.current)
   end
 end
 

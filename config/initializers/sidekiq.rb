@@ -1,10 +1,10 @@
-module Sidekiq::Middleware::Apartement
+module Sidekiq::Middleware::Tenant
   class Client
     def call(_worker_class, msg, _queue, _redis_pool)
-      unless Apartment::Tenant.current == 'public'
-        msg['acp_tenant_name'] ||= Apartment::Tenant.current
+      unless Tenant.outside?
+        msg['acp_tenant_name'] ||= Tenant.current
         msg['tags'] ||= []
-        msg['tags'] << Apartment::Tenant.current
+        msg['tags'] << Tenant.current
       end
       yield
     end
@@ -23,15 +23,15 @@ end
 
 Sidekiq.configure_client do |config|
   config.client_middleware do |chain|
-    chain.prepend Sidekiq::Middleware::Apartement::Client
+    chain.prepend Sidekiq::Middleware::Tenant::Client
   end
 end
 
 Sidekiq.configure_server do |config|
   config.client_middleware do |chain|
-    chain.prepend Sidekiq::Middleware::Apartement::Client
+    chain.prepend Sidekiq::Middleware::Tenant::Client
   end
   config.server_middleware do |chain|
-    chain.prepend Sidekiq::Middleware::Apartement::Server
+    chain.prepend Sidekiq::Middleware::Tenant::Server
   end
 end

@@ -29,7 +29,7 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
-    Apartment::Tenant.switch('ragedevert') do
+    Tenant.switch('ragedevert') do
       example.run
     end
     Current.reset

@@ -5,7 +5,7 @@ class Current < ActiveSupport::CurrentAttributes
 
   def acp
     unless super
-      self.acp = ACP.find_by!(tenant_name: Apartment::Tenant.current)
+      self.acp = ACP.find_by!(tenant_name: Tenant.current)
     end
     super
   end

@@ -19,9 +19,7 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     options = {}
-    unless Apartment::Tenant.current == 'public'
-      options[:acp] = Apartment::Tenant.current
-    end
+    options[:acp] = Tenant.current if Tenant.inside?
     options
   end
 end

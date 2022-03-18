@@ -1,4 +1,7 @@
 class ACP < ApplicationRecord
+  self.table_name = 'public.acps'
+  self.sequence_name = 'public.acps_id_seq'
+
   include TranslatedAttributes
   include TranslatedRichTexts
 
@@ -99,25 +102,23 @@ class ACP < ApplicationRecord
     exit!
   end
 
-  def self.perform_each
-    ACP.pluck(:tenant_name).each do |tenant_name|
-      enter!(tenant_name)
-      yield
+  def self.perform_each(&block)
+    all.each do |acp|
+      perform(acp.tenant_name) { yield acp }
     end
-  ensure
-    exit!
+    nil
   end
 
   def self.enter!(tenant_name)
     acp = ACP.find_by!(tenant_name: tenant_name)
-    Apartment::Tenant.switch!(acp.tenant_name)
+    Tenant.switch!(acp.tenant_name)
     Current.reset
     Current.acp = acp
     Sentry.set_tags(acp: tenant_name)
   end
 
   def self.exit!
-    Apartment::Tenant.reset
+    Tenant.reset
     Current.reset
   end
 
@@ -251,7 +252,7 @@ class ACP < ApplicationRecord
   end
 
   def create_tenant
-    Apartment::Tenant.create(tenant_name)
+    Tenant.create(tenant_name)
   end
 
   def create_superadmin_permission!
