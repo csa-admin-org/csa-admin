@@ -317,6 +317,15 @@ _:
       _it: Successivo
     page:
       index:
+        absences_count:
+          one:
+            _de: 1 Abwesenheit
+            _fr: 1 absence
+            _it: 1 assenza
+          other:
+            _de: "%{count} Abwesenheiten"
+            _fr: "%{count} absences"
+            _it: "%{count} assenze"
         baskets_to_prepare:
           _de: Taschen vorzubereiten
           _fr: Paniers à préparer

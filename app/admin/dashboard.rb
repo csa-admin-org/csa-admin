@@ -139,7 +139,7 @@ ActiveAdmin.register_page 'Dashboard' do
                       absences_count = next_delivery.baskets.absent.sum(:quantity)
                       if absences_count.positive?
                         span class: 'delivery_absences' do
-                          link_to "#{Absence.model_name.human(count: absences_count)}: #{absences_count}", absences_path(q: { including_date: next_delivery.date.to_s })
+                          link_to t('.absences_count', count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s })
                         end
                       end
                     end
