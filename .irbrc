@@ -12,7 +12,7 @@ def enter
   selection = gets.strip.presence
   acp = acps.detect { |acp| acp.id == selection.to_i } if selection
 
-  Apartment::Tenant.reset if Apartment::Tenant.current != 'public'
+  Tenant.reset if Tenant.inside?
   if acp
     ACP.enter!(acp.tenant_name)
     puts "Entered #{acp.name} context."
@@ -21,7 +21,7 @@ def enter
   end
 end
 
-if Apartment::Tenant.current == 'public'
+if Tenant.outside?
   # Show ACPs upon start. Prevent output of return value with `;`.
   enter;
 end

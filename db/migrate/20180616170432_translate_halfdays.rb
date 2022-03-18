@@ -9,7 +9,7 @@ class TranslateHalfdays < ActiveRecord::Migration[5.2]
     add_column :halfdays, :activities, :jsonb, default: {}, null: false
     add_column :halfdays, :descriptions, :jsonb, default: {}, null: false
 
-    acp = ACP.find_by(tenant_name: Apartment::Tenant.current)
+    acp = Current.acp
     HalfdayPreset.find_each do |halfday_preset|
       places = acp.languages.map { |l| [l, halfday_preset[:place]] }.to_h
       place_urls = acp.languages.map { |l| [l, halfday_preset[:place_url]] }.to_h

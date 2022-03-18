@@ -19,7 +19,6 @@ gem 'rails-i18n'
 gem 'rack-status'
 gem 'rack-cors'
 
-gem 'ros-apartment', require: 'apartment', github: 'rails-on-services/apartment'
 gem 'phony_rails'
 gem 'tod'
 

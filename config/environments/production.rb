@@ -63,7 +63,7 @@ Rails.application.configure do
   config.cache_store = :redis_cache_store, {
     compress: true,
     timeout: 1,
-    namespace: -> { Apartment::Tenant.current },
+    namespace: -> { Tenant.current },
     url: ENV['REDIS_CACHE_TLS_URL'],
     ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
   }

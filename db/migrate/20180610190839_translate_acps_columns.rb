@@ -5,9 +5,7 @@ class TranslateAcpsColumns < ActiveRecord::Migration[5.2]
     add_column :acps, :delivery_pdf_footers, :jsonb, default: {}, null: false
     add_column :acps, :terms_of_service_urls, :jsonb, default: {}, null: false
 
-    # pp Apartment::Tenant.current
-
-    if Apartment::Tenant.current == 'public'
+    if Tenant.outside?
       ACP.find_each do |acp|
         invoice_infos = acp.languages.map { |l| [l, acp[:invoice_info]] }.to_h
         invoice_footers = acp.languages.map { |l| [l, acp[:invoice_footer]] }.to_h

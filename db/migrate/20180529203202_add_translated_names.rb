@@ -4,7 +4,7 @@ class AddTranslatedNames < ActiveRecord::Migration[5.2]
     add_column :basket_complements, :names, :jsonb, default: {}, null: false
     add_column :vegetables, :names, :jsonb, default: {}, null: false
 
-    acp = ACP.find_by(tenant_name: Apartment::Tenant.current)
+    acp = Current.acp
     BasketSize.find_each do |basket_size|
       names = acp.languages.map { |l| [l, basket_size[:name]] }.to_h
       basket_size.update!(names: names)
