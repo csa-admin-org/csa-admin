@@ -51,6 +51,13 @@ module Tenant
     ActiveRecord::Base.connection.clear_query_cache
   end
 
+  def connect(tenant = nil)
+    return reset if tenant.nil?
+
+    Thread.current[:current_tenant] = tenant.to_s
+    ActiveRecord::Base.connection.schema_search_path = full_search_path
+  end
+
   def reset
     Thread.current[:current_tenant] = nil
     ActiveRecord::Base.connection.schema_search_path = full_search_path
@@ -65,13 +72,6 @@ module Tenant
   end
 
   private
-
-  def connect(tenant = nil)
-    return reset if tenant.nil?
-
-    Thread.current[:current_tenant] = tenant.to_s
-    ActiveRecord::Base.connection.schema_search_path = full_search_path
-  end
 
   def to_or_from_public?(tenant)
     !tenant || tenant == default || outside?
