@@ -20,7 +20,19 @@ namespace :anonymizer do
           food_note: nil,
           come_from: nil,
           profession: nil)
+        member.sessions.update_all(email: member.emails_array.first)
       end
+      Admin.find_each do |admin|
+        admin.update_columns(
+          name: Faker::Name.unique.first_name,
+          email: Faker::Internet.unique.email)
+      end
+      Depot.find_each do |depot|
+        if depot.emails?
+          depot.update_columns(emails: Faker::Internet.unique.email)
+        end
+      end
+
       Faker::UniqueGenerator.clear
     end
   end
