@@ -1,6 +1,7 @@
 require 'tenant/migration_context'
-require 'tenant/pg_adapter_patch'
 require 'tenant/schema_creator'
+require 'tenant/pg_adapter_patch'
+require 'tenant/activestorage_patch'
 
 module Tenant
   extend self
