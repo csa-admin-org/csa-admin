@@ -23,9 +23,11 @@ namespace :anonymizer do
         member.sessions.update_all(email: member.emails_array.first)
       end
       Admin.find_each do |admin|
-        admin.update_columns(
-          name: Faker::Name.unique.first_name,
-          email: Faker::Internet.unique.email)
+        unless admin.email.in?([ENV['AUTO_SIGN_IN_ADMIN_EMAIL'], ENV['MASTER_ADMIN_EMAIL']])
+          admin.update_columns(
+            name: Faker::Name.unique.first_name,
+            email: Faker::Internet.unique.email)
+        end
       end
       Depot.find_each do |depot|
         if depot.emails?
