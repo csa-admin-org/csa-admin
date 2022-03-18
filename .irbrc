@@ -1,6 +1,5 @@
-# Disable 'mutliline' support due to poor pasting performance
-# see https://github.com/ruby/irb/issues/43
-IRB.conf[:USE_MULTILINE] = false
+# Skip non-interactive terminal
+return unless $stdout.tty?
 
 # Helper available in IRB, which helps choosing a ACP to enter.
 def enter
