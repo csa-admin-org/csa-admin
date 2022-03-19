@@ -6,7 +6,6 @@
 
 const updatePreview = () => {
   var form = $('#edit_mail_template');
-  var url = form.attr('action') + '/preview.js';
   $.ajax({
     type: 'GET',
     url: form.attr('action') + '/preview',

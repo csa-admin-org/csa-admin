@@ -64,6 +64,7 @@ class Ability
 
     if admin.permission.can_write?(:mail_template)
       writable_models += models_for(:mail_template)
+      can :preview, MailTemplate
     end
 
     if admin.permission.can_write?(:member)
