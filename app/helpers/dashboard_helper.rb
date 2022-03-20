@@ -1,4 +1,8 @@
 module DashboardHelper
+  def onboarding?
+    Delivery.none? || Depot.none? || BasketSize.none?
+  end
+
   def members_count
     membership_states = %i[trial ongoing future]
     membership_states.delete(:trial) unless Current.acp.trial_basket_count.positive?

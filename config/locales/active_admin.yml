@@ -362,6 +362,31 @@ _:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
           _it: Acquisti di gruppo
+        onboarding:
+          create_basket_sizes:
+            _de: Ihre Taschengrößen erstellen
+            _fr: Créer vos tailles de panier
+            _it: Crea le dimensioni del tuo cestino
+          create_deliveries:
+            _de: Ihre Lieferungen erstellen
+            _fr: Créer vos livraisons
+            _it: Crea le tue consegne
+          create_depots:
+            _de: Ihre Depots erstellen
+            _fr: Créer vos dépôts
+            _it: Crea i tuoi punti di ritiro
+          getting_started:
+            _de: Erste Schritte
+            _fr: Premiers pas
+            _it: Primi passi
+          intro_html:
+            _de: Willkommen bei ACP Admin! Hier finden Sie die ersten Elemente, die Sie einrichten müssen. Schauen Sie sich <a href='/handbook/getting_started'>das Handbuch</a> an, das Sie immer am Fuß der Seite finden, oder <a href='mailto:info@acp-admin.ch'>kontaktieren Sie mich</a>, wenn Sie Fragen haben.
+            _fr: Bienvenue sur ACP Admin! Pour commencer, voici les premiers éléments à mettre en place. N'hésitez pas à <a href='/handbook/getting_started'>consulter le manuel</a>, toujours accessible en pied de page, ou à <a href='mailto:info@acp-admin.ch'>me contacter</a> si vous avez des questions.
+            _it: Benvenuto in ACP Admin! Per iniziare, ecco i primi elementi da impostare. Sentitevi liberi di <a href='/handbook/getting_started'>consultare il manuale</a>, sempre disponibile nel footer, o <a href='mailto:info@acp-admin.ch'>contattatemi</a> se avete delle domande.
+          welcome:
+            _de: "Willkommen! \U0001F64C\U0001F3FB"
+            _fr: "Bienvenue! \U0001F64C\U0001F3FB"
+            _it: "Benvenuti! \U0001F64C\U0001F3FB"
         pages:
           _de: Seiten
           _fr: Pages
