@@ -12,8 +12,8 @@ gem 'lograge'
 
 gem 'bcrypt'
 gem 'date_validator'
-gem 'i18n', '~> 1.8.0'
-gem 'i18n-backend-side_by_side'
+gem 'i18n'
+gem 'i18n-backend-side_by_side', github: 'electric-feel/i18n-backend-side_by_side', branch: 'i18n-1.10'
 gem 'rails-i18n'
 
 gem 'rack-status'
@@ -25,9 +25,6 @@ gem 'tod'
 gem 'activeadmin'
 gem 'sprockets-rails'
 gem 'cancancan'
-gem 'invisible_captcha'
-gem 'ransack'
-gem 'formtastic'
 
 gem 'simple_form'
 gem 'inline_svg'
@@ -40,10 +37,13 @@ gem 'importmap-rails'
 gem 'hotwire-rails'
 gem 'tailwindcss-rails'
 
+gem 'invisible_captcha'
+gem 'cld'
+
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
 
-gem 'faraday', '~> 1.9' # Gibbon depends on 1.9
+gem 'faraday'
 gem 'faraday-cookie_jar'
 
 gem 'gibbon'
@@ -60,7 +60,6 @@ gem 'postmark-rails'
 gem 'premailer-rails'
 gem 'liquid'
 
-gem 'cld'
 
 gem 'camt_parser'
 gem 'epics'
@@ -106,7 +105,4 @@ group :test do
   gem 'factory_bot_rails'
   gem 'capybara'
   gem 'capybara-email'
-  gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
 end
