@@ -16,6 +16,10 @@ _:
       _de: gruppeneinkauf-lieferung
       _fr: achats-groupés-livraison
       _it: acquisto-di-gruppo-consegna
+    no_basket_complements:
+      _de: Kein Zusatz für diese Lieferung
+      _fr: Aucun complément pour cette livraison
+      _it: Nessun supplemento per questa consegna
     recap:
       _de: Zusammenfassung
       _fr: Récapitulatif

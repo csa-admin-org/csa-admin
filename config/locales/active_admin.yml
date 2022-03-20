@@ -326,10 +326,6 @@ _:
             _de: "%{count} Abwesenheiten"
             _fr: "%{count} absences"
             _it: "%{count} assenze"
-        baskets_to_prepare:
-          _de: Taschen vorzubereiten
-          _fr: Paniers à préparer
-          _it: Ceste da preparare
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
@@ -354,10 +350,6 @@ _:
           _de: Gruppeneinkauf am %{delivery}
           _fr: Achats Groupés du %{delivery}
           _it: Acquisti di gruppo %{delivery}
-        no_basket_complements:
-          _de: Kein Zusatz für diese Lieferung
-          _fr: Aucun complément pour cette livraison
-          _it: Nessun supplemento per questa consegna
         no_next_deliveries:
           _de: Nächste Lieferung
           _fr: Aucune livraison à venir
@@ -758,10 +750,6 @@ _:
               _de: "%{count} die in Rechnung gestellt werden"
               _fr: "%{count} qui seront facturées"
               _it: "%{count} che saranno fatturati"
-        baskets_to_prepare:
-          _de: Taschen vorzubereiten
-          _fr: Paniers à préparer
-          _it: Ceste da preparare
         become_member:
           _de: Zugang zum Konto
           _fr: Accéder au compte
@@ -870,10 +858,6 @@ _:
           _de: Keine Arbeitsstunden
           _fr: Aucune heure de travail
           _it: Nessuna ora di lavoro
-        no_basket_complements:
-          _de: Kein Zusatz für diese Lieferung
-          _fr: Aucun complément pour cette livraison
-          _it: Nessuna aggiunta per questa consegna
         no_baskets:
           _de: Keine Taschen
           _fr: Pas de paniers

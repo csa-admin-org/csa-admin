@@ -51,59 +51,7 @@ ActiveAdmin.register_page 'Dashboard' do
           panel t('.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
             counts = next_delivery.basket_counts
             if counts.present?
-              bs_names = next_delivery.basket_sizes.map(&:name)
-              bs_splitter = bs_names.join.size > 20 ? "&nbsp;/<br/>" : " /&nbsp;"
-
-              table_for counts.all, class: 'next-delivery' do
-                column Depot.model_name.human, :title, class: 'depot'
-                column Basket.model_name.human(count: 2), :count, class: 'total align-right'
-                column "#{bs_names.join(bs_splitter)}".html_safe, :baskets_count, class: 'baskets-total align-right'
-              end
-
-              paid_depots = next_delivery.depots.paid
-              if paid_depots.any?
-                free_counts = BasketCounts.new(next_delivery, Depot.free.pluck(:id))
-                paid_counts = BasketCounts.new(next_delivery, Depot.paid.pluck(:id))
-                totals = [
-                  OpenStruct.new(
-                    title: "#{Basket.model_name.human(count: 2)}: #{free_counts.depots.pluck(:name).to_sentence}",
-                    count: free_counts.sum,
-                    baskets_count: free_counts.sum_detail),
-                  OpenStruct.new(
-                    title: t('.baskets_to_prepare'),
-                    count:  paid_counts.sum,
-                    baskets_count: paid_counts.sum_detail)
-                ]
-                table_for totals, class: 'next-delivery' do
-                  column nil, :title, class: 'depot'
-                  column nil, :count, class: 'total align-right'
-                  column nil, :baskets_count, class: 'baskets-total align-right'
-                end
-              end
-
-              table_for nil, class: 'next-delivery next-delivery-total' do
-                column(nil, :title, class: 'depot text-bold') { t('.totals', numbers: '') }
-                column(class: 'total align-right text-bold') { counts.sum }
-                column(class: 'baskets-total align-right text-bold') { counts.sum_detail }
-              end
-
-              if BasketComplement.any?
-                counts = BasketComplementCount.all(next_delivery)
-                div id: 'basket-complements-table' do
-                  if counts.any?
-                    table_for counts do
-                      column BasketComplement.model_name.human, :title
-                      if Current.acp.feature?('shop')
-                        column Membership.model_name.human(count: 2), :memberships_count, class: 'align-right'
-                        column Shop::Order.model_name.human(count: 2), :shop_orders_count, class: 'align-right'
-                      end
-                      column t('.total', number: ''), :count, class: 'align-right'
-                    end
-                  else
-                    em t('.no_basket_complements')
-                  end
-                end
-              end
+              render partial: 'active_admin/deliveries/baskets', locals: { delivery: next_delivery }
 
               if Current.acp.feature?('shop')
                 count = Shop::Order.all_without_cart.where(delivery: next_delivery).count
