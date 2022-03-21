@@ -11,10 +11,11 @@ ActiveAdmin.register_page 'Dashboard' do
       columns do
         column do
           panel Member.model_name.human(count: 2) do
-            table_for members_count, i18n: Member do
-              column :status
-              column :count, class: 'align-right'
-            end
+            render 'members_count'
+          end
+
+          panel "#{Membership.model_name.human(count: 2)} #{Current.fiscal_year}" do
+            render 'memberships_count'
           end
 
           panel t('.billing_year', fiscal_year: Current.fiscal_year) do
@@ -128,11 +129,8 @@ ActiveAdmin.register_page 'Dashboard' do
           end
 
           if Current.acp.feature?('activity')
-            panel "#{activities_human_name} #{Current.fy_year}" do
-              table_for ActivityParticipationCount.all(Current.fy_year), i18n: ActivityParticipationCount do
-                column(:state) { |count| link_to_if(count.url, count.title, count.url) }
-                column :count, class: 'align-right'
-              end
+            panel "#{activities_human_name} #{Current.fiscal_year}" do
+              render 'activity_participations_count'
             end
           end
         end

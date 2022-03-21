@@ -18,6 +18,7 @@ class ActivityParticipation < ApplicationRecord
   scope :pending, -> { joins(:activity).merge(Activity.past).where(state: 'pending') }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
   scope :past_current_year, -> { joins(:activity).merge(Activity.past_current_year) }
+  scope :current_year, -> { joins(:activity).merge(Activity.current_year) }
   scope :during_year, ->(year) { joins(:activity).merge(Activity.during_year(year)) }
   scope :carpooling, -> { where.not(carpooling_phone: nil) }
 

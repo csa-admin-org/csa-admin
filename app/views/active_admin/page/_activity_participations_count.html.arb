@@ -1,0 +1,38 @@
+ul class: 'counts' do
+  %i[coming pending validated paid missing].each do |scope|
+    li do
+      path =
+        case scope
+        when :missing then nil
+        when :paid
+          invoices_path(scope: :all_without_canceled, q: {
+            object_type_in: 'ActivityParticipation',
+            during_year: Current.acp.current_fiscal_year.year
+          })
+        else
+          activity_participations_path(scope: scope, q: {
+            during_year: Current.acp.current_fiscal_year.year
+          })
+        end
+      count =
+        case scope
+        when :missing
+          Membership.current_year.sum(&:missing_activity_participations)
+        when :paid
+          Invoice.not_canceled.activity_participation_type.current_year.sum(:paid_missing_activity_participations)
+        else
+          ActivityParticipation.current_year.send(scope).sum(:participants_count)
+        end
+      content = span class: ('zero' if count.zero?) do
+        span count.zero? ? '–' : count, class: 'count'
+        span I18n.t("active_admin.resources.activity_participation.scopes.#{scope}",
+          default: I18n.t("active_admin.scopes.#{scope}")).capitalize
+      end
+      case scope
+      when :missing then content
+      else
+        a content, href: path
+      end
+    end
+  end
+end

@@ -91,7 +91,7 @@ _:
         _it: Abbonamento di prova
       waiting:
         _de: Warteliste
-        _fr: attente
+        _fr: liste d'attente
         _it: lista di attesa
     shop/order:
       cart:

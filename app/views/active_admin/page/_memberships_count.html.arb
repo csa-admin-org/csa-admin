@@ -1,0 +1,16 @@
+ul class: 'counts' do
+  scopes = %i[trial ongoing future past]
+  scopes.delete(:trial) unless Current.acp.trial_basket_count.positive?
+  scopes.each do |scope|
+    li do
+      count = Membership.current_year.send(scope).count
+      a href: memberships_path(scope: scope, q: { during_year: Current.acp.current_fiscal_year.year }) do
+        span class: ('zero' if count.zero?) do
+          span count.zero? ? '–' : count, class: 'count'
+          span I18n.t("active_admin.resources.membership.scopes.#{scope}",
+            default: I18n.t("active_admin.scopes.#{scope}")).capitalize
+        end
+      end
+    end
+  end
+end

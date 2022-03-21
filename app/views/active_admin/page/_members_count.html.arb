@@ -1,0 +1,13 @@
+ul class: 'counts' do
+  %i[pending waiting active support].each do |scope|
+    li do
+      count = Member.send(scope).count
+      a href: members_path(scope: scope) do
+        span class: ('zero' if count.zero?) do
+          span count.zero? ? '–' : count, class: 'count'
+          span I18n.t("active_admin.scopes.#{scope}").capitalize
+        end
+      end
+    end
+  end
+end

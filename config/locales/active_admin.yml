@@ -1024,6 +1024,14 @@ _:
             _de: Alle
             _fr: Toutes
             _it: Tutto
+          missing:
+            _de: Fehlende
+            _fr: Manquantes
+            _it: Mancanti
+          paid:
+            _de: In Rechnung gestellt
+            _fr: Facturées
+            _it: Fatturate
           rejected:
             _de: Abgelehnte
             _fr: Refusées
@@ -1262,7 +1270,7 @@ _:
         _it: Visibile
       waiting:
         _de: Warteliste
-        _fr: Attente
+        _fr: Liste d'attente
         _it: Lista d'attesa
       with_overdue_notice:
         _de: Mahnungen
@@ -1437,7 +1445,7 @@ _:
         _it: confermato
       waiting:
         _de: warteliste
-        _fr: attente
+        _fr: liste d'attente
         _it: lista d'attesa
     update_model:
       _de: "%{model} bearbeiten"
