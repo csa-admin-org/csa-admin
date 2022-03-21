@@ -13,7 +13,7 @@ gem 'lograge'
 gem 'bcrypt'
 gem 'date_validator'
 gem 'i18n'
-gem 'i18n-backend-side_by_side', github: 'electric-feel/i18n-backend-side_by_side', branch: 'i18n-1.10'
+gem 'i18n-backend-side_by_side'
 gem 'rails-i18n'
 
 gem 'rack-status'
