@@ -5,71 +5,7 @@ ActiveAdmin.register_page 'Dashboard' do
 
   content title: proc { t('active_admin.dashboard') unless onboarding? } do
     if onboarding?
-      columns class: 'onboarding' do
-        column do
-          h1 t('.onboarding.welcome')
-          panel t('.onboarding.getting_started') do
-            div class: 'actions' do
-              handbook_icon_link('getting_started')
-            end
-            para t('.onboarding.intro_html')
-
-            ul do
-              li do
-                if Delivery.any?
-                  a href: deliveries_path do
-                    span class: 'checked' do
-                      span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                      span t('.onboarding.create_deliveries')
-                    end
-                  end
-                else
-                  a href: new_delivery_path do
-                    span do
-                      span inline_svg_tag('admin/clipboard.svg', size: '40')
-                      span t('.onboarding.create_deliveries')
-                    end
-                  end
-                end
-              end
-              li do
-                if BasketSize.any?
-                  a href: basket_sizes_path do
-                    span class: 'checked' do
-                      span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                      span t('.onboarding.create_basket_sizes')
-                    end
-                  end
-                else
-                  a href: new_basket_size_path do
-                    span do
-                      span inline_svg_tag('admin/clipboard.svg', size: '40')
-                      span t('.onboarding.create_basket_sizes')
-                    end
-                  end
-                end
-              end
-              li do
-                if Depot.any?
-                  a href: depots_path do
-                    span class: 'checked' do
-                      span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                      span t('.onboarding.create_depots')
-                    end
-                  end
-                else
-                  a href: new_depot_path do
-                    span do
-                      span inline_svg_tag('admin/clipboard.svg', size: '40')
-                      span t('.onboarding.create_depots')
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
+      render 'onboarding'
     else
       next_delivery = Delivery.next
       columns do
