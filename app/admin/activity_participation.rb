@@ -19,8 +19,8 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   scope :all
-  scope :pending, default: true
   scope :coming
+  scope :pending, default: true
   scope :validated
   scope :rejected
 
