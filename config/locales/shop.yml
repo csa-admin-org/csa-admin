@@ -5,6 +5,10 @@ _:
         _de: Lieferschein
         _fr: Bulletin de livraison
         _it: Bolla di consegna
+    open:
+      _de: Offenes
+      _fr: Ouverte
+      _it: Aperto
     orders:
       one:
         _de: 1 Bestellung

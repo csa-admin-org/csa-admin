@@ -87,8 +87,19 @@ ActiveAdmin.register Delivery do
         attributes_table do
           row('#') { delivery.number }
           row(:date) { l(delivery.date, format: :long) }
-          if Current.acp.feature?('shop')
-            row(:shop_open)
+        end
+
+        if Current.acp.feature?('shop')
+          attributes_table title: t('shop.title') do
+            row(t('shop.open')) { status_tag(delivery.shop_open?)}
+            row(Shop::Order.model_name.human(count: 2)) {
+              orders_count = delivery.shop_orders.all_without_cart.count
+              if orders_count.positive?
+                link_to(orders_count, shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all_without_cart))
+              else
+                content_tag :span, t('active_admin.empty'), class: 'empty'
+              end
+            }
           end
         end
 
@@ -97,17 +108,6 @@ ActiveAdmin.register Delivery do
           panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
             if absences.any?
               absences.map { |a| auto_link a.member }.to_sentence.html_safe
-            else
-              content_tag :span, t('active_admin.empty'), class: 'empty'
-            end
-          end
-        end
-
-        if Current.acp.feature?('shop')
-          panel link_to(Shop::Order.model_name.human(count: 2), shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all)) do
-            orders_count = delivery.shop_orders.count
-            if orders_count.positive?
-              link_to(orders_count, shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all))
             else
               content_tag :span, t('active_admin.empty'), class: 'empty'
             end
