@@ -1,31 +1,7 @@
 h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
   = t('.billing')
 
-- if @open_invoices.any?
-  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
-    = t('.open_invoices')
-  ul class='mt-2'
-    - @open_invoices.each do |invoice|
-      li class="flex flex-row justify-between items-center flex-wrap md:flex-nowrap rounded bg-red-100 dark:bg-red-900 py-1 my-2 px-2 -mx-2"
-        = render 'line', object: invoice
-
-h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
-  = t('.history')
-- if @billing_history.empty?
-  p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
-    = t('.no_billing_history')
-- else
-  ul class='mt-2'
-    - history_limit = params[:all] ? 10_000 : 15
-    - @billing_history.first(history_limit).each do |object|
-      li class="flex flex-row justify-between items-center flex-wrap md:flex-nowrap rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-2 px-2 -mx-2 #{'line-through text-gray-300 dark:text-gray-700' if object.respond_to?(:canceled?) && object.canceled?}"
-        = render 'line', object: object
-
-  - if @billing_history.size > history_limit
-    div class='mt-4 text-center w-full md:w-none'
-      = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history'), class: 'button md:min-w-min min-w-full text-center py-1 px-2 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer'
-
-section class="mt-12"
+section
 ul class="flex flex-row -m-2 flex-wrap justify-center"
   - balance = current_member.member_balance_amount
   - if balance >= 0
@@ -56,5 +32,30 @@ ul class="flex flex-row -m-2 flex-wrap justify-center"
         span class='text-xl whitespace-nowrap font-medium'
           = t("billing.year_division.x#{current_member.billing_year_division}")
 
-p class='mt-8 text-sm text-justify text-gray-400 dark:text-gray-600'
+- if @open_invoices.any?
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.open_invoices')
+  ul class='mt-2'
+    - @open_invoices.each do |invoice|
+      li class="flex flex-row justify-between items-center flex-wrap md:flex-nowrap rounded bg-red-100 dark:bg-red-900 py-1 my-2 px-2 -mx-2"
+        = render 'line', object: invoice
+
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.history')
+- if @billing_history.empty?
+  p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+    = t('.no_billing_history')
+- else
+  ul class='mt-2'
+    - history_limit = params[:all] ? 10_000 : 15
+    - @billing_history.first(history_limit).each do |object|
+      li class="flex flex-row justify-between items-center flex-wrap md:flex-nowrap rounded hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-2 px-2 -mx-2 #{'line-through text-gray-300 dark:text-gray-700' if object.respond_to?(:canceled?) && object.canceled?}"
+        = render 'line', object: object
+
+  - if @billing_history.size > history_limit
+    div class='mt-4 text-center w-full md:w-none'
+      = link_to t('.show_all'), url_for(all: true, anchor: 'billing_history'), class: 'button md:min-w-min min-w-full text-center py-1 px-2 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer'
+
+
+p class='mt-12 text-sm text-justify text-gray-400 dark:text-gray-600'
   = t('.explanation')
