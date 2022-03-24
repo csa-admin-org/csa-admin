@@ -59,13 +59,13 @@ _:
         _fr: Ajustement du prix des paniers
         _it: ACorrezione del prezzo delle ceste
       credit_amount:
-        _de: Guthaben
-        _fr: Avoir
-        _it: Credito
+        _de: Bereits bezahlt
+        _fr: Déjà payé
+        _it: Già pagato
       extra_credit_amount:
-        _de: Das verbleibende Guthaben wird auf der nächsten Rechnung übertragen.
-        _fr: L'avoir restant sera reporté sur la facture suivante.
-        _it: Il credito residuo verrà riportato sulla fattura successiva.
+        _de: Das verbleibende Guthaben (%{amount}) wird auf der nächsten Rechnung übertragen.
+        _fr: L'avoir restant (%{amount}) sera reporté sur la facture suivante.
+        _it: Il credito residuo (%{amount}) verrà riportato sulla fattura successiva.
       missed_activity_participation/basket_preparation:
         _de: Nicht geleistete Taschen befüllung
         _fr: Mise en panier non-effectuée
