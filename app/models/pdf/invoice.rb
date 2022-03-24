@@ -253,7 +253,7 @@ module PDF
       end
 
       if invoice.member.credit_amount.positive?
-        positive_credit_text = "#{appendice_star} #{t('extra_credit_amount')}"
+        positive_credit_text = "#{appendice_star} #{t('extra_credit_amount', amount: cur(invoice.member.credit_amount))}"
         bounding_box [0, y - yy], width: bounds.width - 24 do
           text positive_credit_text, width: 200, align: :right, style: :italic, size: 9
         end
