@@ -36,6 +36,12 @@ La cotisation annuelle est automatiquement inclus dans la première facture de l
 <% end %>
 
 
+### Paniers à l'essai
+
+Si un nombre de paniers à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les paniers à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier panier non à l'essai.
+
+Si l'abonnement est arrêté durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. <% if Current.acp.annual_fee? %> Dans ce cas, la cotisation annuelle n'est pas facturée.<% end %>
+
 <% if Current.acp.share? %>
 ## Parts sociales
 
