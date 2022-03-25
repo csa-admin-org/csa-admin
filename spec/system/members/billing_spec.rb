@@ -42,7 +42,7 @@ describe 'Billing' do
     expect(page).to have_content(
       ['19.03.2017', 'Facture #103 (Cotisation)', ' CHF 30.00'].join)
 
-    expect(page).to have_content(['Déjà payé', 'CHF 12.00'].join)
+    expect(page).to have_content(['Avoir', 'CHF 12.00'].join)
     expect(page).to have_content(['Intervalle de paiement', 'Annuel'].join)
   end
 end
