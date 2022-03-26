@@ -60,14 +60,14 @@ class Membership < ApplicationRecord
   validate :at_least_one_basket
 
   before_save :set_renew
-  after_save :update_activity_participations, :update_price_and_invoices_amount!
+  after_save :update_price_and_invoices_amount!
   after_create :create_baskets!
   after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_config_change!
   after_update :cancel_outdated_invoice!
-  after_commit :update_member_and_baskets!
+  after_commit :update_member_and_baskets!, :update_activity_participations_demanded!
   after_touch :update_price_and_invoices_amount!, unless: :skip_touch
   after_destroy :update_renewal_of_previous_membership!
 
@@ -343,14 +343,10 @@ class Membership < ApplicationRecord
   end
 
   def update_activity_participations_demanded!
-    deliveries_count = deliveries_cycle.deliveries_in(fiscal_year.range).size
-    percentage =
-      if member.salary_basket? || deliveries_count.zero?
-        0
-      else
-        baskets_count / deliveries_count.to_f
-      end
-    update_column(:activity_participations_demanded, (percentage * activity_participations_demanded_annualy).round)
+    demanded = ActivityParticipationDemanded.new(self, Current.acp.activity_participations_demanded_logic).count
+    if activity_participations_demanded != demanded
+      update_column(:activity_participations_demanded, demanded)
+    end
   end
 
   def update_activity_participations_accepted!
@@ -408,15 +404,6 @@ class Membership < ApplicationRecord
   def set_renew
     if ended_on_changed?
       self.renew = (ended_on >= Current.fy_range.max)
-    end
-  end
-
-  def update_activity_participations
-    if saved_change_to_attribute?(:activity_participations_demanded_annualy) ||
-        saved_change_to_attribute?(:ended_on) ||
-        saved_change_to_attribute?(:started_on)
-
-      update_activity_participations_demanded!
     end
   end
 

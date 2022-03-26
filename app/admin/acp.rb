@@ -16,6 +16,7 @@ ActiveAdmin.register ACP do
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
+    :activity_participations_demanded_logic,
     :vat_number, :vat_membership_rate, :absences_billed,
     :delivery_pdf_show_phones,
     :group_buying_email,
@@ -229,6 +230,11 @@ ActiveAdmin.register ACP do
               f.input :activity_availability_limit_in_days, required: true
               f.input :activity_price
               f.input :activity_phone, as: :phone
+              f.input :activity_participations_demanded_logic,
+                as: :text,
+                hint: t('formtastic.hints.acp.activity_participations_demanded_logic_html'),
+                wrapper_html: { class: 'ace-editor' },
+                input_html: { class: 'ace-editor', data: { mode: 'liquid' } }
             end
           end
         end

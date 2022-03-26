@@ -39,6 +39,10 @@ _:
           _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
           _it: Scdenza della disiscrizione (in giorni)
+        activity_participations_demanded_logic:
+          _de: Logik zur Berechnung der verlangten Beteiligungen
+          _fr: Logique de calcul des participations demandées
+          _it: Logica di calcolo delle partecipazioni richieste
         activity_phone:
           _de: Telefon
           _fr: Téléphone

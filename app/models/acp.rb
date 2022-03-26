@@ -76,6 +76,7 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0 }
   validates :activity_price,
     numericality: { greater_than_or_equal_to: 0 }
+  validate :activity_participations_demanded_logic_must_be_valid
   validates :open_renewal_reminder_sent_after_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
@@ -271,5 +272,13 @@ class ACP < ApplicationRecord
     self.class.perform(tenant_name) do
       DeliveriesCycle.create_default!
     end
+  end
+
+  private
+
+  def activity_participations_demanded_logic_must_be_valid
+    Liquid::Template.parse(activity_participations_demanded_logic)
+  rescue Liquid::SyntaxError => e
+    errors.add(:activity_participations_demanded_logic, e.message)
   end
 end

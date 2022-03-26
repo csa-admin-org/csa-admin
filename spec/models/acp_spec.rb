@@ -6,6 +6,16 @@ describe ACP do
     expect(acp).not_to have_valid(:activity_price)
   end
 
+  specify 'validates activity_participations_demanded_logic liquid syntax' do
+    acp = ACP.new(activity_participations_demanded_logic: <<~LIQUID)
+      {% if member.salary_basket %}
+    LIQUID
+
+    expect(acp).not_to have_valid(:activity_participations_demanded_logic)
+    expect(acp.errors[:activity_participations_demanded_logic])
+      .to include("Liquid syntax error: 'if' tag was never closed")
+  end
+
   describe '#billing_year_divisions=' do
     it 'keeps only allowed divisions' do
       acp = ACP.new(billing_year_divisions: ['', '1', '6', '12'])
