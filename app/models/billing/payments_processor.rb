@@ -2,7 +2,7 @@ module Billing
   class PaymentsProcessor
     NoRecentPaymentsError = Class.new(StandardError)
 
-    NO_RECENT_PAYMENTS_SINCE = 4.weeks
+    NO_RECENT_PAYMENTS_SINCE = 6.weeks
 
     def self.process!
       return if Rails.env.development?
