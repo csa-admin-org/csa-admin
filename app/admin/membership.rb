@@ -537,7 +537,7 @@ ActiveAdmin.register Membership do
       f.inputs activities_human_name do
         f.input :activity_participations_demanded_annualy,
           label: "#{activities_human_name} (#{t('.full_year')})",
-          hint: true
+          hint: t('formtastic.hints.membership.activity_participations_demanded_annualy_html')
         f.input :activity_participations_annual_price_change,
           label: true,
           hint: true

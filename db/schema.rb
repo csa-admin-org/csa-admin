@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_13_093908) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_25_102148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -102,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_13_093908) do
     t.jsonb "basket_price_extra_public_titles", default: {}, null: false
     t.string "icalendar_auth_token"
     t.string "qr_bank_reference"
+    t.text "activity_participations_demanded_logic", default: "{% if member.salary_basket %}\n  0\n{% else %}\n  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}\n{% endif %}\n", null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

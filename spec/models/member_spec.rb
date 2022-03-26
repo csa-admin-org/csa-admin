@@ -424,6 +424,7 @@ describe Member do
 
       expect { member.reload.update!(salary_basket: true) }
         .to change { membership.reload.price }.to(0)
+        .and change { membership.reload.activity_participations_demanded }.from(2).to(0)
     end
 
     it 'updates future membership price' do
@@ -432,6 +433,7 @@ describe Member do
 
       expect { member.reload.update!(salary_basket: true) }
         .to change { membership.reload.price }.to(0)
+        .and change { membership.reload.activity_participations_demanded }.from(2).to(0)
     end
   end
 
