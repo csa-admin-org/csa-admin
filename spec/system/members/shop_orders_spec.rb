@@ -59,7 +59,7 @@ describe 'Shop::Order' do
       find('input[aria-label="update_order"]', visible: false).click
 
       expect(order.reload.items.pluck(:product_id, :quantity))
-        .to eq([[product1.id, 3], [product2.id, 1]])
+        .to contain_exactly([product1.id, 3], [product2.id, 1])
     end
   end
 
