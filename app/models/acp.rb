@@ -228,6 +228,10 @@ class ACP < ApplicationRecord
     FiscalYear.current(start_month: fiscal_year_start_month)
   end
 
+  def next_fiscal_year
+    fiscal_year_for(current_fiscal_year.year + 1)
+  end
+
   def fiscal_year_for(date_or_year)
     FiscalYear.for(date_or_year, start_month: fiscal_year_start_month)
   end

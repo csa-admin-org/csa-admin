@@ -14,7 +14,7 @@ ActiveAdmin.register_page 'Dashboard' do
             render 'members_count'
           end
 
-          panel "#{Membership.model_name.human(count: 2)} #{Current.fiscal_year}" do
+          panel Membership.model_name.human(count: 2) do
             render 'memberships_count'
           end
 
