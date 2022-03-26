@@ -1,4 +1,6 @@
 class FiscalYear
+  include Comparable
+
   def self.current(start_month: 1)
     new(Date.current, start_month: start_month)
   end
@@ -50,6 +52,10 @@ class FiscalYear
 
   def year
     beginning_of_year.year
+  end
+
+  def <=>(other)
+    year <=> other.year
   end
 
   def month(date)
