@@ -65,7 +65,13 @@ ActiveAdmin.register BasketContent do
     end
     f.inputs BasketContent.human_attribute_name(:content) do
       f.input :vegetable,
-        collection: Vegetable.all,
+        input_html: {
+          data: {
+            controller: 'form-select-option-defaults',
+            action: 'form-select-option-defaults#change'
+          }
+        },
+        collection: vegetables_collection,
         required: true,
         prompt: true
       f.input :quantity
