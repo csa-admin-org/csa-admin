@@ -9,4 +9,8 @@ class Vegetable < ApplicationRecord
   default_scope { order_by_name }
 
   validates :names, presence: true, uniqueness: true
+
+  def can_destroy?
+    basket_contents.none?
+  end
 end

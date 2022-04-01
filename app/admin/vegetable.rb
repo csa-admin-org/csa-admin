@@ -13,6 +13,7 @@ ActiveAdmin.register Vegetable do
     links
   end
 
+  includes :basket_contents
   index do
     column :name
     if authorized?(:update, Vegetable)
