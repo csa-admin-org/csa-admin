@@ -16,7 +16,6 @@ class BasketContent < ApplicationRecord
   validates :quantity, presence: true
   validates :depots, presence: true
   validates :unit, inclusion: { in: UNITS }
-  validates :vegetable_id, uniqueness: { scope: :delivery_id }
   validate :basket_size_ids_presence
   validate :enough_quantity
 
