@@ -46,4 +46,17 @@ module BasketContentsHelper
       [I18n.t("units.#{unit}"), unit]
     end
   end
+
+  def vegetables_collection
+    Vegetable.includes(:latest_basket_content).map do |vegetable|
+      data = {}
+      if basket_content = vegetable.latest_basket_content
+        data[:form_select_option_defaults] = {
+          basket_content_quantity: basket_content.quantity,
+          basket_content_unit: basket_content.unit
+        }
+      end
+      [vegetable.name, vegetable.id, data: data]
+    end
+  end
 end
