@@ -10,6 +10,8 @@ class BasketContent < ApplicationRecord
     joins(:depots).where('basket_contents_depots.depot_id = ?', depot)
   }
 
+  after_initialize :set_defaults
+
   before_validation :set_baskets_counts, :set_basket_quantities
 
   validates :delivery, presence: true
@@ -17,28 +19,43 @@ class BasketContent < ApplicationRecord
   validates :depots, presence: true
   validates :unit, inclusion: { in: UNITS }
   validate :basket_size_ids_presence
+  validate :basket_percentages_presence
   validate :enough_quantity
 
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
   end
 
-  def basket_size_ids=(ids)
-    super ids.map(&:presence).compact.map(&:to_i).sort
+  def basket_size_ids_percentages
+    basket_size_ids.map { |bs| [bs, basket_percentage(bs)] }.to_h
+  end
+
+  def basket_size_ids_percentages_pro_rated
+    pcts = basket_percentages_pro_rated
+    default_basket_sizes.map.with_index { |bs, i| [bs.id, pcts[i]] }.to_h
+  end
+
+  def basket_size_ids_percentages_even
+    pcts = basket_percentages_even
+    default_basket_sizes.map.with_index { |bs, i| [bs.id, pcts[i]] }.to_h
+  end
+
+  def basket_size_ids_percentages=(pcts)
+    non_zero_pcts = pcts.compact.reject { |_, p| p.to_i.zero? }
+
+    self[:basket_size_ids] = non_zero_pcts.keys
+    self[:basket_percentages] = non_zero_pcts.values.map(&:to_i)
+    @basket_sizes = nil
   end
 
   def basket_sizes
     @basket_sizes ||= BasketSize.reorder(:id).find(basket_size_ids)
   end
 
-  def same_basket_quantities
-    basket_size_ids.many? && self[:same_basket_quantities]
-  end
-
-  def basket_quantity(basket_size)
+  def basket_percentage(basket_size)
     if i = basket_size_index(basket_size)
-      basket_quantities[i]
-    end
+      basket_percentages[i]
+    end || 0
   end
 
   def baskets_count(basket_size)
@@ -47,7 +64,52 @@ class BasketContent < ApplicationRecord
     end
   end
 
+  def basket_quantity(basket_size)
+    if i = basket_size_index(basket_size)
+      basket_quantities[i]
+    end
+  end
+
   private
+
+  def set_defaults
+    return unless basket_size_ids.empty?
+
+    self[:basket_size_ids] = default_basket_sizes.map(&:id)
+    self[:basket_percentages] = basket_percentages_pro_rated
+  end
+
+  def default_basket_sizes
+    @default_basket_size ||= BasketSize.paid.reorder(:id)
+  end
+
+  def basket_percentages_pro_rated
+    total_prices = default_basket_sizes.sum(&:price)
+    pcts = default_basket_sizes.map do |bs|
+      ((bs.price / total_prices.to_f) * 100).round
+    end
+    ensure_100(pcts)
+  end
+
+  def basket_percentages_even
+    pcts = default_basket_sizes.map do
+      (100 / default_basket_sizes.length.to_f).round
+    end
+    ensure_100(pcts)
+  end
+
+  def ensure_100(pcts)
+    return pcts if pcts.empty?
+
+    until pcts.sum == 100
+      if pcts.sum < 100
+        pcts[default_basket_sizes.index(BasketSize.paid.last)] += 1
+      else
+        pcts[default_basket_sizes.index(BasketSize.paid.first)] -= 1
+      end
+    end
+    pcts
+  end
 
   def basket_size_index(basket_size)
     id = basket_size.respond_to?(:id) ? basket_size.id : basket_size
@@ -57,6 +119,12 @@ class BasketContent < ApplicationRecord
   def basket_size_ids_presence
     if basket_size_ids.empty?
       errors.add(:basket_size_ids, :blank)
+    end
+  end
+
+  def basket_percentages_presence
+    if basket_size_ids.size != basket_percentages.size || basket_percentages.sum != 100
+      errors.add(:basket_percentages, :invalid)
     end
   end
 
@@ -79,6 +147,8 @@ class BasketContent < ApplicationRecord
   def set_basket_quantities
     return unless quantity
 
+    self[:basket_quantities] = []
+    self[:surplus_quantity] = nil
     roundings = %i[up upup down downdown]
     permutations = roundings.repeated_permutation(basket_size_ids.size)
     possibilities = permutations.map { |r| possibility(r) }
@@ -90,9 +160,17 @@ class BasketContent < ApplicationRecord
   end
 
   def possibility(roundings)
-    basket_sizes.map.with_index do |basket_size, i|
-      round(quantity * ratio(basket_size), roundings[i])
+    basket_size_ids.map.with_index do |bs, i|
+      round(quantity * ratio(bs), roundings[i])
     end
+  end
+
+  def ratio(basket_size)
+    basket_count = baskets_count(basket_size)
+    return 0 if basket_count.zero?
+
+    total = basket_size_ids.sum { |bs| baskets_count(bs) * basket_percentage(bs) }
+    basket_percentage(basket_size) / total.to_f
   end
 
   def total_quantities(quantities)
@@ -113,22 +191,5 @@ class BasketContent < ApplicationRecord
     when 'kg'; ((quantity * 100).send(method) + diff) / 100.0
     when 'pc'; quantity.send(method) + diff
     end
-  end
-
-  def ratio(basket_size)
-    baskets_count = baskets_count(basket_size)
-    if baskets_count.zero?
-      0
-    elsif basket_size_ids.one?
-      1 / baskets_count.to_f
-    elsif same_basket_quantities
-      1 / baskets_counts.sum.to_f
-    else
-      basket_size.price / total_prices.to_f
-    end
-  end
-
-  def total_prices
-    @total_prices ||= basket_sizes.sum { |bs| baskets_count(bs) * bs.price }
   end
 end

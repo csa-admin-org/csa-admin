@@ -80,16 +80,47 @@ ActiveAdmin.register BasketContent do
         required: true,
         prompt: true
     end
-    f.inputs Basket.model_name.human(count: 2) do
-      f.input :basket_size_ids,
-        collection: BasketSize.paid,
-        as: :check_boxes,
-        label: BasketSize.model_name.human(count: 2),
-        required: true
-      f.input :same_basket_quantities,
-        as: :boolean,
-        input_html: { disabled: !f.object.basket_size_ids.many? },
-        label_class: f.object.basket_size_ids.many? ? '' : 'disabled'
+    f.inputs t('basket_content.percentages'), 'data-controller' => 'basket-content-percentages' do
+      BasketSize.paid.each do |basket_size|
+        f.input :basket_size_ids_percentages,
+          as: :range,
+          step: 1,
+          min: 0,
+          max: 100,
+          label: basket_size.name,
+          required: true,
+          hint: f.object.basket_percentage(basket_size).to_s,
+          wrapper_html: {
+            id: nil,
+            class: 'basket_size_ids_percentages_wrapper'
+          },
+          input_html: {
+            id: "basket_size_ids_percentages_#{basket_size.id}",
+            value: f.object.basket_percentage(basket_size),
+            name: "basket_content[basket_size_ids_percentages][#{basket_size.id}]",
+            data: {
+              'basket-content-percentages-target' => 'range',
+              'action' => 'basket-content-percentages#change'
+            }
+          }
+      end
+      div class: 'basket_size_ids_percentages_presets' do
+        a class: 'button',
+            'data-basket-content-percentages-target' => 'preset',
+            'data-action' => 'basket-content-percentages#applyPreset',
+            'data-preset' => f.object.basket_size_ids_percentages_pro_rated.to_json do
+          t('basket_content.preset.basket_content_percentages_pro_rated')
+        end
+        a class: 'button',
+            'data-basket-content-percentages-target' => 'preset',
+            'data-action' => 'basket-content-percentages#applyPreset',
+            'data-preset' => f.object.basket_size_ids_percentages_even.to_json do
+          t('basket_content.preset.basket_content_percentages_even')
+        end
+      end
+      para class: 'basket_size_ids_percentages_wrapper_hint inline-hints' do
+         t('basket_content.percentages_hint')
+      end
     end
     f.inputs Depot.model_name.human(count: 2) do
       f.input :depots,
@@ -99,15 +130,9 @@ ActiveAdmin.register BasketContent do
     f.actions
   end
 
-  permit_params(*%i[
-    delivery_id
-    vegetable_id
-    quantity
-    same_basket_quantities
-    unit
-  ],
+  permit_params(*%i[delivery_id vegetable_id quantity unit],
     depot_ids: [],
-    basket_size_ids: [])
+    basket_size_ids_percentages: {})
 
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty? &&
@@ -118,10 +143,7 @@ ActiveAdmin.register BasketContent do
 
   before_build do |basket_content|
     basket_content.delivery ||= Delivery.next
-    if basket_content.basket_size_ids.empty?
-      basket_content.basket_size_ids = BasketSize.paid.pluck(:id)
-    end
-    if basket_content.depots.empty?
+      if basket_content.depots.empty?
       basket_content.depots = Depot.all
     end
   end

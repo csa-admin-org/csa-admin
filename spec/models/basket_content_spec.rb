@@ -17,14 +17,22 @@ describe BasketContent do
 
   describe 'validations' do
     it 'validates basket_sizes presence' do
-      basket_content = BasketContent.new(basket_size_ids: [])
+      basket_content = BasketContent.new(basket_size_ids_percentages: {})
       expect(basket_content).not_to have_valid(:basket_size_ids)
+    end
+
+    it 'validates percentages' do
+      basket_content = BasketContent.new(basket_size_ids_percentages: {
+        1001 => 50,
+        1002 => 51
+      })
+      expect(basket_content).not_to have_valid(:basket_percentages)
     end
 
     it 'validates enough quantity' do
       setup(id: 1001, quantity: 100)
       basket_content = build(:basket_content,
-        basket_size_ids: [1001],
+        basket_size_ids_percentages: { 1001 => 100 },
         quantity: 99,
         unit: 'pc')
 
@@ -39,7 +47,6 @@ describe BasketContent do
         { id: 1002, quantity: 50, price: 1.5 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002],
         quantity: 150,
         unit: 'pc')
 
@@ -53,7 +60,6 @@ describe BasketContent do
         { id: 1002, quantity: 50, price: 1.5 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002],
         quantity: 200,
         unit: 'pc')
 
@@ -67,7 +73,10 @@ describe BasketContent do
         { id: 1002, quantity: 50, price: 1.5 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001],
+        basket_size_ids_percentages: {
+          1001 => 100,
+          1002 => 0
+        },
         quantity: 200,
         unit: 'pc')
 
@@ -82,7 +91,6 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002],
         quantity: 83,
         unit: 'kg')
 
@@ -96,7 +104,6 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002],
         quantity: 100,
         unit: 'kg')
 
@@ -110,7 +117,6 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002],
         quantity: 34,
         unit: 'kg')
 
@@ -124,10 +130,12 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1001, 1002],
+        basket_size_ids_percentages: {
+          1001 => 50,
+          1002 => 50
+        },
         quantity: 320,
-        unit: 'kg',
-        same_basket_quantities: '1')
+        unit: 'kg')
 
       expect(basket_content.basket_quantities.map(&:to_f)).to eq [2, 2]
       expect(basket_content.surplus_quantity.to_f).to be_zero
@@ -139,7 +147,10 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: [1002],
+        basket_size_ids_percentages: {
+          1001 => 0,
+          1002 => 100
+        },
         quantity: 83,
         unit: 'kg')
 
@@ -152,10 +163,9 @@ describe BasketContent do
       setup [
         { id: 1002, quantity: 50, price: 33 },
         { id: 1005, quantity: 100, price: 23 },
-        { id: 1003, quantity: 20, price: 43 }
+        { id: 1003, quantity: 20, price: 44 }
       ]
       basket_content = create(:basket_content,
-        basket_size_ids: ["1005", 1002, 1003],
         quantity: 100,
         unit: 'kg')
 

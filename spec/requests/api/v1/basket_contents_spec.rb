@@ -40,7 +40,7 @@ describe 'BasketContents V1 API' do
           vegetable: create(:vegetable, id: 734521),
           delivery: delivery,
           depot_ids: [depot1.id, depot2.id],
-          basket_size_ids: [big_basket.id],
+          basket_size_ids_percentages: { big_basket.id => 100 },
           quantity: 10,
           unit: 'pc')
         create(:basket_content,
