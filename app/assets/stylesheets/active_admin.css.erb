@@ -76,6 +76,69 @@ li.boolean label {
   padding-left: 18px;
 }
 
+li.basket_size_ids_percentages_wrapper {
+  border: 0;
+}
+
+p.basket_size_ids_percentages_wrapper_hint {
+  margin: 0;
+  padding: 5px 20px 0;
+}
+
+.basket_size_ids_percentages_presets {
+  margin-top: 10px;
+  padding: 10px 15px;
+}
+
+li.range input {
+  width: 200px !important;
+  border-bottom: 0px;
+  -webkit-appearance: none;
+  width: 100%;
+  margin-top: 4px;
+  height: 10px;
+  border-radius: 5px;
+  background: #EBEEF2;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+li.range input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #80a432;
+  cursor: pointer;
+}
+
+li.range input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #80a432;
+  cursor: pointer;
+}
+
+li.range p.inline-hints {
+  display: inline-block;
+  line-height: 15px;
+  width: 55px;
+  text-align: right;
+  margin: 0;
+  padding: 0 0 0 0;
+  font-size: 16px;
+  color: #3f3f3f;
+  font-weight: 300;
+}
+li.range p.inline-hints::after {
+  content: "%";
+}
+
+
 #main_content form > h3 {
   margin: 40px 0 0 0;
   font-size: 24px;

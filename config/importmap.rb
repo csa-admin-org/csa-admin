@@ -10,11 +10,11 @@
 pin "@hotwired/stimulus", to: "stimulus.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/components", under: "components"
+pin "throttle-debounce" # @3.0.1
 
 pin "members"
 pin "@hotwired/turbo-rails", to: "turbo.js"
 pin_all_from "app/javascript/controllers/members", under: "controllers/members"
-pin "throttle-debounce" # @3.0.1
 pin "flatpickr" # @4.6.9
 pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js" # @4.6.9
 pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js" # @4.6.9
