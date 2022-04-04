@@ -45,6 +45,10 @@ _:
         _de: "%{count} Lieferungen"
         _fr: "%{count} livraisons"
         _it: "%{count} consegne"
+      zero:
+        _de: Keine Lieferung
+        _fr: Aucune livraison
+        _it: Nessuna consegna
     deliveries_counts_range:
       _de: "%{range} Lieferungen"
       _fr: "%{range} livraisons"
