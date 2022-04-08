@@ -752,7 +752,7 @@ describe Membership do
       }.to change { membership.reload.renewed_at }.to(nil)
     end
 
-    it 'cancels previous membershipd when renewed membership is destroyed and in new fiscal' do
+    it 'cancels previous membership when renewed membership is destroyed and in new fiscal' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -799,7 +799,6 @@ describe Membership do
       end
       travel_to '2022-02-01' do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-
         expect { membership.baskets.first.update!(basket_price: 5) }
           .to change { invoice.reload.state }.from('open').to('canceled')
           .and change { membership.reload.invoices_amount }.to(0)
@@ -817,7 +816,6 @@ describe Membership do
       end
       travel_to '2022-02-01' do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-
         expect {
           create(:absence,
             member: member,
@@ -833,11 +831,32 @@ describe Membership do
       member = create(:member, billing_year_division: 1)
       membership = create(:membership, member: member)
       invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-
       travel_to(Date.new(Current.fy_year + 1, 12, 15)) do
         expect { membership.baskets.first.update!(basket_price: 5) }
           .not_to change { membership.reload.invoices_amount }
         expect(invoice.reload.state).to eq('open')
+      end
+    end
+
+    specify 'basket complement is added' do
+      member = create(:member, billing_year_division: 1)
+      membership = travel_to '2022-01-01' do
+        create(:delivery, date: '2022-01-01')
+        create(:delivery, date: '2022-06-01')
+        create(:basket_complement, id: 1, price: 4)
+        create(:membership, member: member, memberships_basket_complements_attributes: {
+            '0' => { basket_complement_id: 1, quantity: 1 }
+          })
+      end
+      create(:basket_complement, id: 2, price: 4)
+      travel_to '2022-05-01' do
+        invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+        membership.reload
+        expect {
+          membership.update!(memberships_basket_complements_attributes: {
+            '0' => { basket_complement_id: 2, quantity: 1 }
+          })
+        }.not_to change { invoice.reload.state }.from('open')
       end
     end
   end
