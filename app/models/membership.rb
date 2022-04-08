@@ -66,8 +66,7 @@ class Membership < ApplicationRecord
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_config_change!
-  after_update :cancel_outdated_invoice!
-  after_commit :update_member_and_baskets!, :update_activity_participations_demanded!
+  after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
   after_touch :update_price_and_invoices_amount!, unless: :skip_touch
   after_destroy :update_renewal_of_previous_membership!
 
@@ -390,9 +389,9 @@ class Membership < ApplicationRecord
   end
 
   def cancel_outdated_invoice!
+    return if destroyed?
     return unless current_year?
 
-    update_price_and_invoices_amount!
     if invoices_amount > price && invoices.not_canceled.any?
       invoices.not_canceled.order(:date).last.destroy_or_cancel!
       update_price_and_invoices_amount!
