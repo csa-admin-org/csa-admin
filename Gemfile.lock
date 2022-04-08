@@ -83,7 +83,7 @@ GEM
       activesupport (>= 3.0.0, < 7.1)
       ruby2_keywords (>= 0.0.2, < 1.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.571.0)
+    aws-partitions (1.574.0)
     aws-sdk-core (3.130.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -130,7 +130,7 @@ GEM
       ffi
     concurrent-ruby (1.1.10)
     connection_pool (2.2.5)
-    countries (4.2.3)
+    countries (5.0.0)
       i18n_data (~> 0.16.0)
       sixarm_ruby_unaccent (~> 1.1)
     crass (1.0.6)
@@ -173,8 +173,8 @@ GEM
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
     formtastic_i18n (0.7.0)
-    fugit (1.5.2)
-      et-orbi (~> 1.1, >= 1.1.8)
+    fugit (1.5.3)
+      et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     gibbon (3.4.4)
       faraday (>= 1.0)
@@ -218,7 +218,6 @@ GEM
       nokogiri (>= 1.6)
     invisible_captcha (2.0.0)
       rails (>= 5.0)
-    io-wait (0.2.1)
     jmespath (1.6.1)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
@@ -252,7 +251,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.15.0)
+    loofah (2.16.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -264,7 +263,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.15.0)
-    msgpack (1.4.5)
+    msgpack (1.5.1)
     multi_json (1.15.0)
     net-imap (0.2.3)
       digest
@@ -274,8 +273,7 @@ GEM
       digest
       net-protocol
       timeout
-    net-protocol (0.1.2)
-      io-wait
+    net-protocol (0.1.3)
       timeout
     net-smtp (0.3.1)
       digest
@@ -387,7 +385,7 @@ GEM
     rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
-    rspec-mocks (3.11.0)
+    rspec-mocks (3.11.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
     rspec-rails (5.1.1)
