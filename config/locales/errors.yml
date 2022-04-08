@@ -33,6 +33,10 @@ _:
         _de: muss ausgefüllt werden
         _fr: doit être rempli(e)
         _it: deve essere riempito/a
+      enabled_with_trial_baskets:
+        _de: kann nicht mit Taschen auf Probe deaktiviert werden
+        _fr: ne peut pas être désactivé avec des paniers à l'essai
+        _it: non può essere disabilitato con i cestini di prova
       equal_to:
         _de: muss gleich %{count} sein
         _fr: doit être égal à %{count}
