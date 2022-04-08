@@ -368,7 +368,7 @@ class Membership < ApplicationRecord
 
   def create_basket!(delivery)
     baskets.create!(
-      delivery: delivery,
+      delivery_id: delivery.id,
       basket_size_id: basket_size_id,
       basket_price: basket_price,
       quantity: basket_quantity,

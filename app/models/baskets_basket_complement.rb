@@ -23,15 +23,15 @@ class BasketsBasketComplement < ApplicationRecord
         .includes(membership: :memberships_basket_complements)
 
     baskets_with_membership_subscription.find_each do |basket|
-      unless basket.complements.exists?(complement.id)
+      unless basket.complement_ids.include?(complement.id)
         membership_subscription =
           basket
             .membership
             .memberships_basket_complements
             .find_by(basket_complement_id: complement.id)
         create!(
-          basket: basket,
-          basket_complement: complement,
+          basket_id: basket.id,
+          basket_complement_id: complement.id,
           quantity: membership_subscription.quantity,
           price: membership_subscription.delivery_price)
       end
