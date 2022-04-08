@@ -90,6 +90,7 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :shop_order_minimal_amount,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validate :ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
 
   after_create :create_tenant
   after_create :create_superadmin_permission!
@@ -284,5 +285,11 @@ class ACP < ApplicationRecord
     Liquid::Template.parse(activity_participations_demanded_logic)
   rescue Liquid::SyntaxError => e
     errors.add(:activity_participations_demanded_logic, e.message)
+  end
+
+  def ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
+    if trial_basket_count.positive? && !billing_starts_after_first_delivery?
+      errors.add(:billing_starts_after_first_delivery, :enabled_with_trial_baskets)
+    end
   end
 end

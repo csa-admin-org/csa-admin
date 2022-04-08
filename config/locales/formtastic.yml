@@ -131,9 +131,9 @@ _:
           _fr: Texte affiché en haut de la page de membre de l'épicerie.
           _it: Testo visibile nella parte superiore della pagina di socio del droghiere.
         trial_basket_count:
-          _de: Das Abonnement wird in Rechnung gestellt, nachdem alle Probetaschen geliefert wurden. Wird das Abonnement während des Testzeitraums beendet, werden nur die gelieferten Taschen in Rechnung gestellt.
-          _fr: L'abonnement est facturé après que tous les paniers à l'essai sont livrés. Si l'abonnement est arrêté durant la période d'essai seuls les paniers livrés sont facturés.
-          _it: L'abbonamento viene fatturato dopo che tutti i cesti di prova sono stati consegnati. Se l'abbonamento viene interrotto durante il periodo di prova, verranno fatturati solo i cesti consegnati.
+          _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probetaschen ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Taschen in Rechnung gestellt.
+          _fr: L'abonnement est facturé une fois que tous les paniers à l'essai ont été livrés. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les paniers livrés sont facturés.
+          _it: L'abbonamento viene fatturato una volta che tutti i cestini di prova sono stati consegnati. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitati solo i cestini consegnati.
       activity:
         description:
           _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut.'

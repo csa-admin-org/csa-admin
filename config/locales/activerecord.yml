@@ -85,8 +85,8 @@ _:
           _it: Prezzo della cesta (extras)
         billing_starts_after_first_delivery:
           _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
-          _fr: Facturer les abonnements uniquement après leur première livraison
-          _it: Fatturare gli abbonamenti solo dopo la prima consegna
+          _fr: Facturer les abonnements seulement après leur première livraison
+          _it: Fatturare gli abbonamenti solo dopo la loro prima consegna
         billing_year_divisions:
           _de: Zahlungsintervall
           _fr: Intervalle de paiement
