@@ -15,7 +15,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:12.5
+        image: postgres:14.2
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -28,11 +28,7 @@ jobs:
           - 5432:5432
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-
-    - name: Install required apt packages
-      run: sudo apt-get -yqq install libpq-dev
+    - uses: actions/checkout@v3
 
     - name: Install Ruby and run Bundler install with cache
       uses: ruby/setup-ruby@v1
