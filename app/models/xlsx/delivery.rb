@@ -5,7 +5,7 @@ module XLSX
     def initialize(delivery, depot = nil)
       @delivery = delivery
       @depot = depot
-      @baskets = @delivery.baskets.not_absent
+      @baskets = @delivery.baskets.not_absent.includes(:member)
       @depots = Depot.where(id: @baskets.pluck(:depot_id).uniq)
       basket_complement_ids =
         @baskets
@@ -98,8 +98,9 @@ module XLSX
             amount +=
               @delivery
                 .shop_orders
-                .joins(items: :product)
+                .joins(:products)
                 .where(shop_products: { basket_complement_id: complement.id })
+                .where(shop_orders: { member_id: baskets.map { |b| b.member.id } })
                 .sum('shop_order_items.quantity')
           end
           @worksheet.add_cell(@line, cols_count + i, amount).set_number_format('0')
