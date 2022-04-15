@@ -15,6 +15,9 @@ module Shop
       class_name: 'Shop::OrderItem',
       inverse_of: :order,
       dependent: :destroy
+    has_many :products,
+      class_name: 'Shop::Product',
+      through: :items
     has_many :invoices, as: :object
     has_one :invoice, -> { not_canceled }, as: :object
 
