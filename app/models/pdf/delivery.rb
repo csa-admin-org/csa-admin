@@ -27,12 +27,11 @@ module PDF
       @depots.each do |dist|
         baskets = @baskets.where(depot: dist)
         basket_sizes = basket_sizes_for(baskets)
-        basket_complements = basket_complements_for(baskets)
         total_pages = (baskets.count / basket_per_page.to_f).ceil
 
         baskets.each_slice(basket_per_page).with_index do |slice, i|
           page_n = i + 1
-          page(dist, slice, baskets, basket_sizes, basket_complements, page: page_n, total_pages: total_pages)
+          page(dist, slice, baskets, basket_sizes, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
         start_new_page unless @depots.last == dist
@@ -54,9 +53,9 @@ module PDF
       super.merge(Title: "#{::Delivery.human_attribute_name(:signature_sheets)} #{delivery.date}")
     end
 
-    def page(depot, page_baskets, baskets, basket_sizes, basket_complements, page:, total_pages:)
+    def page(depot, page_baskets, baskets, basket_sizes, page:, total_pages:)
       header(depot, page: page, total_pages: total_pages)
-      content(depot, page_baskets, baskets, basket_sizes, basket_complements)
+      content(depot, page_baskets, baskets, basket_sizes)
       footer
     end
 
@@ -82,9 +81,10 @@ module PDF
       end
     end
 
-    def content(depot, page_baskets, baskets, basket_sizes, basket_complements)
+    def content(depot, page_baskets, baskets, basket_sizes)
       shop_orders = @shop_orders&.where(member_id: baskets.pluck(:member_id))
       show_shop_orders = @delivery.shop_open && shop_orders&.any?
+      basket_complements = basket_complements_for(baskets, show_shop_orders && shop_orders)
 
       font_size 11
       move_down 2.cm
@@ -282,14 +282,19 @@ module PDF
       BasketSize.where(id: basket_size_ids)
     end
 
-    def basket_complements_for(baskets)
+    def basket_complements_for(baskets, shop_orders)
       complement_ids =
         baskets
           .joins(:baskets_basket_complements)
           .where('baskets_basket_complements.quantity > 0')
           .pluck(:basket_complement_id)
-          .uniq
-      BasketComplement.where(id: complement_ids)
+      if shop_orders
+        complement_ids +=
+          shop_orders
+            .joins(:products)
+            .pluck('shop_products.basket_complement_id')
+      end
+      BasketComplement.where(id: complement_ids.uniq)
     end
   end
 end

@@ -117,7 +117,6 @@ describe PDF::Delivery do
         depot: depot,
         basket_size: create(:basket_size, name: 'Grand'),
         memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1 },
           '1' => { basket_complement_id: 2 }
         })
       membership = create(:membership,
@@ -126,7 +125,7 @@ describe PDF::Delivery do
         basket_size: small_basket,
         basket_quantity: 2,
         memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1, quantity: 2 },
+          '0' => { basket_complement_id: 2, quantity: 2 },
         })
 
       product = create(:shop_product,
@@ -172,8 +171,8 @@ describe PDF::Delivery do
         .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
         .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs PUBLIC', 'Tomme de Lavaux PUBLIC', "Commande d'épicerie")
-        .and contain_sequence('Totaux (dépôt)', '2', '1', '5', '1', '2', 'Signature')
-        .and contain_sequence('Alain Reymond', '1', '3', '1', 'X')
+        .and contain_sequence('Totaux (dépôt)', '2', '1', '2', '3', '2', 'Signature')
+        .and contain_sequence('Alain Reymond', '1', '2', '1', 'X')
         .and contain_sequence('John Doe', '2', '2', 'X')
     end
   end
