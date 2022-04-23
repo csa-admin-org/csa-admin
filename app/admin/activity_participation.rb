@@ -165,8 +165,8 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   before_build do |ap|
-    ap.member_id ||= referer_filter_member_id
-    ap.activity_id ||= referer_filter_activity_id
+    ap.member_id ||= referer_filter(:member_id)
+    ap.activity_id ||= referer_filter(:activity_id)
   end
 
   controller do
