@@ -1,0 +1,9 @@
+delivery.basket_content_prices.each do |basket_size, depot_prices|
+  prices = [depot_prices.values.min, depot_prices.values.max].uniq
+  div class: "basket_price #{prices.many? ? 'tooltip-toggle' : ''}", 'data-tooltip' => depot_prices_list(depot_prices) do
+    span basket_size.name, class: 'title'
+    span display_basket_price_with_diff(basket_size.price, prices), class: 'prices'
+    span delivery.fiscal_year, class: 'sub-title'
+    span display_basket_price_diff(basket_size.price, delivery.basket_content_yearly_avg_price(basket_size)), class: 'avg_diff'
+  end
+end

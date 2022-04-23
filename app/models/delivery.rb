@@ -93,6 +93,51 @@ class Delivery < ApplicationRecord
     date >= Date.today
   end
 
+  def basket_content_yearly_avg_price(basket_size)
+    basket_content_yearly_avg_prices[basket_size.id]
+  end
+
+  def basket_content_yearly_avg_prices
+    @basket_content_yearly_avg_prices ||= begin
+      avg_prices = Delivery.during_year(fiscal_year).pluck(:basket_content_avg_prices)
+      BasketSize.paid.each_with_object({}) do |basket_size, h|
+        prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact
+        if prices.any?
+          h[basket_size.id] = prices.sum.fdiv(prices.size).round_to_five_cents
+        end
+      end
+    end
+  end
+
+  def basket_content_prices
+    bcs = basket_contents.with_unit_price.includes(:depots)
+    return {} if bcs.empty?
+
+    BasketSize.paid.map do |basket_size|
+      depot_prices = Depot.all.map do |depot|
+        [
+          depot,
+          bcs.sum { |bc| bc.price_for(basket_size, depot) || 0 }.round_to_five_cents
+        ]
+      end.to_h
+      [basket_size, depot_prices]
+    end.to_h
+  end
+
+  def update_basket_content_avg_prices!
+    avg_prices = {}
+    basket_content_prices.each do |basket_size, depot_prices|
+      prices = depot_prices.flat_map { |depot, price|
+        Array(price) * depot.baskets_count_for(self, basket_size)
+      }
+      if prices.any?
+        avg_price = prices.sum.fdiv(prices.size)
+        avg_prices[basket_size.id] = avg_price.to_f
+      end
+    end
+    update_column(:basket_content_avg_prices, avg_prices)
+  end
+
   private
 
   def bulk_attributes

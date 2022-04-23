@@ -191,6 +191,11 @@ _:
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
+      basket_content:
+        unit_price:
+          _de: Pro kg oder pro Stück.
+          _fr: Au kg ou à la pièce.
+          _it: Per kg o per pezzo.
       basket_size:
         form_priority:
           _de: Ermöglicht das Sortieren von Taschengrößen in einer bestimmten Reihenfolge

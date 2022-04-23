@@ -1,0 +1,41 @@
+/* Tooltip */
+.tooltip-toggle {
+  cursor: pointer;
+  position: relative;
+}
+/* Tooltip text container */
+.tooltip-toggle::before {
+  /* This pulls in the text from the element with the tooltip */
+  content: attr(data-tooltip);
+  text-transform: none;
+  transition: all 0.25s ease;
+  position: fixed;
+  top: 1;
+  left: 1;
+  margin-left: -110px;
+  margin-top: -20px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: rgb(31 41 55);
+  white-space: pre;
+  z-index: 10000;
+}
+
+/* Setting up the transition */
+.tooltip-toggle::after,
+.tooltip-toggle::before {
+  opacity: 0;
+  font-size: 13px;
+  line-height: 1.1rem;
+  text-align: left;
+  color: white;
+  pointer-events: none;
+}
+
+/* Triggering the transition */
+.tooltip-toggle:hover::after,
+.tooltip-toggle:hover::before {
+  opacity: 1;
+  transition: all 0.25s ease;
+}
