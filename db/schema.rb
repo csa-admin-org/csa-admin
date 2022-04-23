@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_01_160908) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_10_080234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -266,6 +266,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_01_160908) do
     t.integer "baskets_counts", default: [], null: false, array: true
     t.integer "basket_size_ids", default: [], null: false, array: true
     t.integer "basket_percentages", default: [], null: false, array: true
+    t.decimal "unit_price", precision: 8, scale: 2
     t.index ["delivery_id"], name: "index_basket_contents_on_delivery_id"
     t.index ["vegetable_id"], name: "index_basket_contents_on_vegetable_id"
   end
@@ -331,6 +332,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_01_160908) do
     t.text "note"
     t.integer "number", default: 0, null: false
     t.boolean "shop_open", default: true
+    t.jsonb "basket_content_avg_prices", default: {}
     t.index ["date"], name: "index_deliveries_on_date", unique: true
     t.index ["shop_open"], name: "index_deliveries_on_shop_open"
   end

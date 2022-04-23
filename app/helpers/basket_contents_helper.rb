@@ -41,6 +41,58 @@ module BasketContentsHelper
     end
   end
 
+  def depot_prices_list(depot_prices)
+    depot_prices.sort_by { |d, p| [p, d.name] }.map do |depot, price|
+      "#{depot.name}:#{cur(price, unit: false)}"
+    end.join("&#xa;").html_safe
+  end
+
+  def display_basket_price_with_diff(base_price, prices)
+    prices.map { |price|
+      content_tag(:div, class: 'price-diff') {
+        (content_tag(:span, cur(price, unit: false, format: '%n'), class: 'price') +
+          display_basket_price_diff(base_price, price))
+      }
+    }.join(content_tag(:span, '-', class: 'main-divider')).html_safe
+  end
+
+  def display_basket_price_diff(base_price, price)
+    diff = price - base_price
+    per = (diff / base_price * 100).round(1)
+    plus_sign = diff.positive? ? '+' : ''
+    color_class =
+      if per.in?(-5..5)
+        'neutral'
+      elsif per > 5
+        'positive'
+      else
+        'negative'
+      end
+    content_tag :span, class: "diff #{color_class}" do
+      [
+        "#{plus_sign}#{cur(diff, unit: false, format: '%n')}",
+        "#{plus_sign}#{per}%"
+      ].join(content_tag(:span, '/', class: 'divider')).html_safe
+    end.html_safe
+  end
+
+  def display_with_price(price, quantity)
+    return yield unless price.present? && quantity.present?
+
+    (
+      yield +
+      content_tag(:span, cur(price * quantity), class: 'price')
+    ).html_safe
+  end
+
+  def display_with_unit_price(price, unit)
+    return yield unless price.present?
+
+    unit_price = I18n.t("units.#{unit}_quantity", quantity: "#{cur(price)}/")
+    (yield + content_tag(:span, unit_price, class: 'price')).html_safe
+  end
+
+
   def units_collection
     BasketContent::UNITS.map do |unit|
       [I18n.t("units.#{unit}"), unit]
@@ -53,6 +105,7 @@ module BasketContentsHelper
       if basket_content = vegetable.latest_basket_content
         data[:form_select_option_defaults] = {
           basket_content_quantity: basket_content.quantity,
+          basket_content_unit_price: basket_content.unit_price,
           basket_content_unit: basket_content.unit
         }
       end

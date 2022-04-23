@@ -21,9 +21,9 @@ _:
       _fr: Contenu Panier
       _it: Contenuto cesta
     basket_content_hint:
-      _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.
-      _fr: Fournit un outil pour calculer le contenu des paniers d'une livraison au prorata du prix de la taille des paniers.
-      _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung.
+      _fr: Fournit un outil pour calculer le contenu et la valeur des paniers pour chaque livraison.
+      _it: Fornisce uno strumento per calcolare il contenuto e il valore dei cestini per ogni consegna.
     basket_price_extra:
       _de: Preis Extra-Tasche
       _fr: Prix panier extra

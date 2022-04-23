@@ -46,6 +46,14 @@ class Depot < ApplicationRecord
       .uniq
   end
 
+  def baskets_count_for(delivery, basket_size)
+    baskets
+      .not_absent
+      .not_empty
+      .where(delivery_id: delivery.id, basket_size_id: basket_size.id)
+      .count
+  end
+
   def free?
     price.zero?
   end

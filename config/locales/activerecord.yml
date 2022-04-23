@@ -420,6 +420,10 @@ _:
           _de: Einheit
           _fr: Unité
           _it: Unità
+        unit_price:
+          _de: Preis pro Einheit
+          _fr: Prix unitaire
+          _it: Prezzo per unità
         vegetable:
           _de: Gemüse
           _fr: Légume

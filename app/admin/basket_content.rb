@@ -8,25 +8,54 @@ ActiveAdmin.register BasketContent do
   filter :depots, as: :select
 
   includes :depots, :delivery, :vegetable, :basketcontents_depots
-  index download_links: -> {
+
+  class BasketContentIndex < ActiveAdmin::Views::IndexAsTable
+    def build(_page_presenter, collection)
+      if (delivery_id = params.dig(:q, :delivery_id_eq)) && collection.with_unit_price.any?
+        delivery = Delivery.find(delivery_id)
+        panel t('.basket_prices', currency: currency_symbol), class: 'basket_prices' do
+          render partial: 'active_admin/basket_contents/prices', locals: { delivery: delivery, context: self }
+        end
+      end
+      super
+    end
+  end
+
+  index as: BasketContentIndex, download_links: -> {
     params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
   }, title: -> {
     title = BasketContent.model_name.human(count: 2)
     if delivery_id = params.dig(:q, :delivery_id_eq)
       delivery = Delivery.find(delivery_id)
-      title += (' – ' + l(delivery.date))
+      title += " – #{l(delivery.date)}"
     end
     title
   } do
     unless params.dig(:q, :delivery_id_eq)
       column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
     end
-    column :vegetable, ->(bc) { bc.vegetable.name }
-    column :qt, ->(bc) { display_quantity(bc.quantity, bc.unit) }
+    column :vegetable, ->(bc) {
+      display_with_unit_price(bc.unit_price, bc.unit) {
+        bc.vegetable.name
+      }
+    }
+    column :qt, ->(bc) {
+      display_with_price(bc.unit_price, bc.quantity) {
+        display_quantity(bc.quantity, bc.unit)
+      }
+    }
     BasketSize.paid.each do |basket_size|
-      column basket_size.name, ->(bc) { display_basket_quantity(bc, basket_size) }, class: 'nowrap'
+      column basket_size.name, ->(bc) {
+        display_with_price(bc.unit_price, bc.basket_quantity(basket_size)) {
+          display_basket_quantity(bc, basket_size)
+        }
+      }, class: 'nowrap'
     end
-    column :surplus, ->(bc) { display_surplus_quantity(bc) }
+    column :surplus, ->(bc) {
+      display_with_price(bc.unit_price, bc.surplus_quantity) {
+        display_surplus_quantity(bc)
+      }
+    }
     all_depots = Depot.all.to_a
     column :depots, ->(bc) { display_depots(bc, all_depots) }
     if authorized?(:update, BasketContent)
@@ -42,6 +71,7 @@ ActiveAdmin.register BasketContent do
     column(:date) { |bc| bc.delivery.date.to_s }
     column(:vegetable) { |bc| bc.vegetable.name }
     column(:unit) { |bc| t("units.#{bc.unit}") }
+    column(:unit_price) { |bc| cur(bc.unit_price) }
     column(:quantity) { |bc| bc.quantity }
     BasketSize.paid.each do |basket_size|
       column("#{basket_size.name} - #{Basket.model_name.human(count: 2)}") { |bc|
@@ -50,8 +80,14 @@ ActiveAdmin.register BasketContent do
       column("#{basket_size.name} - #{BasketContent.human_attribute_name(:quantity)}") { |bc|
         bc.basket_quantity(basket_size)
       }
+      column("#{basket_size.name} - #{BasketContent.human_attribute_name(:price)}") { |bc|
+        cur(bc.basket_quantity(basket_size) * bc.unit_price)
+      }
     end
     column(:surplus) { |bc| bc.surplus_quantity }
+    column("#{BasketContent.human_attribute_name(:surplus)} - #{BasketContent.human_attribute_name(:price)}") { |bc|
+      cur(bc.surplus_quantity * bc.unit_price)
+    }
     all_depots = Depot.all.to_a
     column(:depots) { |bc| display_depots(bc, all_depots) }
   end
@@ -74,11 +110,16 @@ ActiveAdmin.register BasketContent do
         collection: vegetables_collection,
         required: true,
         prompt: true
-      f.input :quantity
       f.input :unit,
         collection: units_collection,
         required: true,
         prompt: true
+      f.input :quantity
+      f.input :unit_price,
+      label: BasketContent.human_attribute_name(:price),
+        as: :number,
+        min: 0,
+        step: 0.05
     end
     f.inputs t('basket_content.percentages'), 'data-controller' => 'basket-content-percentages' do
       BasketSize.paid.each do |basket_size|
@@ -122,7 +163,7 @@ ActiveAdmin.register BasketContent do
          t('basket_content.percentages_hint')
       end
     end
-    f.inputs Depot.model_name.human(count: 2) do
+    f.inputs do
       f.input :depots,
         collection: Depot.all,
         as: :check_boxes
@@ -130,7 +171,7 @@ ActiveAdmin.register BasketContent do
     f.actions
   end
 
-  permit_params(*%i[delivery_id vegetable_id quantity unit],
+  permit_params(*%i[delivery_id vegetable_id quantity unit unit_price],
     depot_ids: [],
     basket_size_ids_percentages: {})
 
@@ -142,14 +183,15 @@ ActiveAdmin.register BasketContent do
   end
 
   before_build do |basket_content|
-    basket_content.delivery ||= Delivery.next
-      if basket_content.depots.empty?
+    basket_content.delivery_id ||= referer_filter(:delivery_id) || Delivery.next&.id
+    if basket_content.depots.empty?
       basket_content.depots = Depot.all
     end
   end
 
   controller do
     include TranslatedCSVFilename
+    include ApplicationHelper
 
     def index
       super do |format|

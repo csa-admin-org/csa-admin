@@ -173,4 +173,105 @@ describe BasketContent do
       expect(basket_content.surplus_quantity.to_f).to be_zero
     end
   end
+
+  describe 'Delivery#update_basket_content_avg_prices!', freeze: '2022-04-18' do
+    before {
+      setup [
+        { id: 1001, quantity: 1, price: 20 },
+        { id: 1002, quantity: 1, price: 30 }
+      ]
+    }
+
+    let(:delivery) { create(:delivery) }
+    let(:depot) { create(:depot) }
+    let(:basket_size_1) { BasketSize.find(1001) }
+    let(:basket_size_2) { BasketSize.find(1002) }
+
+    specify 'with all depots content' do
+      expect {
+        create(:basket_content,
+          delivery: delivery,
+          quantity: 100,
+          unit: 'pc',
+          unit_price: 2)
+      }.to change { delivery.reload.basket_content_avg_prices }
+
+      expect(delivery.basket_content_avg_prices).to eq(
+        '1001' => 78.0,
+        '1002' => 122.0)
+      expect(delivery.basket_content_yearly_avg_prices).to eq(
+        1001 => 78.0,
+        1002 => 122.0)
+      expect(delivery.basket_content_prices).to eq(
+        basket_size_1 => { depot => 78.0 },
+        basket_size_2 => { depot => 122.0 })
+    end
+
+    specify 'with different depots content' do
+      other_depot = create(:depot)
+      create(:basket_content,
+        delivery: delivery,
+        quantity: 100,
+        unit: 'pc',
+        unit_price: 2,
+        depot_ids: [depot.id])
+
+      expect(delivery.basket_content_avg_prices).to eq(
+        '1001' => 78.0,
+        '1002' => 122.0)
+      expect(delivery.basket_content_prices).to eq(
+        basket_size_1 => {
+          other_depot => 0,
+          depot => 78.0 },
+        basket_size_2 => {
+          other_depot => 0,
+          depot => 122.0
+        })
+    end
+
+    specify 'with all in one basket_size' do
+      create(:basket_content,
+        delivery: delivery,
+        basket_size_ids_percentages: {
+          1001 => 0,
+          1002 => 100
+        },
+        quantity: 100,
+        unit: 'pc',
+        unit_price: 2)
+
+      expect(delivery.basket_content_avg_prices).to eq(
+        '1001' => 0,
+        '1002' => 200.0)
+      expect(delivery.basket_content_prices).to eq(
+        basket_size_1 => { depot => 0 },
+        basket_size_2 => { depot => 200.0 })
+    end
+
+    specify 'with other delivery basket content' do
+      other_delivery = create(:delivery, date: '2022-04-20')
+      create(:basket_content,
+        delivery: other_delivery,
+        quantity: 100,
+        unit: 'kg',
+        unit_price: 1)
+      create(:basket_content,
+        delivery: delivery,
+        quantity: 100,
+        unit: 'pc',
+        unit_price: 2)
+
+      expect(other_delivery.basket_content_avg_prices).to eq(
+        '1001' => 40.0,
+        '1002' => 60.0)
+      expect(delivery.basket_content_avg_prices).to eq(
+        '1001' => 78.0,
+        '1002' => 122.0)
+      expect(delivery.basket_content_yearly_avg_prices)
+        .to eq(other_delivery.basket_content_yearly_avg_prices)
+      expect(delivery.basket_content_yearly_avg_prices).to eq(
+        1001 => 59.0,
+        1002 => 91.0)
+    end
+  end
 end

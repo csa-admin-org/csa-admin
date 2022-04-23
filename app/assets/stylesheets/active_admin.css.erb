@@ -5,6 +5,7 @@
 *= require admin/tags
 *= require admin/emoji_button
 *= require admin/updates
+*= require admin/tooltip
 *= require_self
 */
 
@@ -1459,3 +1460,103 @@ ul.counts li span.zero span.count {
   font-weight: 200;
 }
 
+.basket_prices .panel_contents {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.basket_price {
+  margin: 15px 0 25px 0;
+  text-align: center;
+}
+
+.basket_price span {
+  display: block;
+  width: 100;
+}
+
+.basket_price .divider {
+  display: inline-block;
+  margin: 0 2px;
+  font-weight: 100;
+}
+
+.basket_price .title {
+  font-size: 18px;
+  font-weight: 200;
+  margin-bottom: 10px;
+}
+.basket_price .content {
+  margin: 5px 0 5px 0;
+  padding: 15px 0;
+}
+
+.basket_price .sub-title {
+  font-size: 15px;
+  font-weight: 200;
+  margin: 20px 0 3px 0;
+}
+
+.basket_price .prices {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.basket_price .price-diff {
+  min-width: 100px;
+}
+
+.basket_price .main-divider {
+  width: 20px;
+  font-size: 34px;
+  font-weight: 200;
+  align-self: flex-start;
+}
+
+.basket_price .price {
+  font-size: 34px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.basket_price .diff {
+  font-size: 11px;
+  font-weight: 400;
+  border-radius: 20px;
+  padding: 2px 6px 3px 6px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.basket_price .diff.neutral {
+  background-color: rgb(229 231 235);
+  color: rgb(55 65 81);
+}
+
+.basket_price .diff.positive {
+  background-color: rgb(187 247 208);
+  color: rgb(21 128 61);
+}
+
+.basket_price .diff.negative {
+  background-color: rgb(254 202 202);
+  color: rgb(185 28 28);
+}
+
+.basket_price .diff .percentage {
+  display: inline;
+  margin-left: 4px;
+}
+
+.index_table td span.price {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 1px;
+  color: rgb(163 163 163);
+  white-space: nowrap;
+}

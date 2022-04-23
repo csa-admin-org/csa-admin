@@ -624,6 +624,10 @@ _:
           _de: Verlangte Arbeitsstunden
           _fr: Heures de travail demandées
           _it: Ore di lavoro richieste
+        basket_prices:
+          _de: Wert der Taschen (%{currency})
+          _fr: Valeur des paniers (%{currency})
+          _it: Valore dei cestini (%{currency})
         canceled_renewals:
           one:
             _de: "%{count_link} Kündigung"

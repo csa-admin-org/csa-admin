@@ -9,7 +9,7 @@ module XLSX
       @basket_contents =
         @delivery
           .basket_contents
-          .includes(:vegetable)
+          .includes(:vegetable, :depots, :basketcontents_depots)
           .merge(Vegetable.order_by_name)
 
       build_recap_worksheet
@@ -36,6 +36,7 @@ module XLSX
 
       add_vegetable_columns(@basket_contents)
       add_unit_columns(@basket_contents)
+      add_unit_price_columns(@basket_contents)
       add_column(
         ::BasketContent.human_attribute_name(:quantity),
         @basket_contents.map { |bc| bc.quantity })
@@ -46,10 +47,16 @@ module XLSX
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:quantity)}",
           @basket_contents.map { |bc| bc.basket_quantity(basket_size) } )
+        add_column(
+          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
+          @basket_contents.map { |bc| bc.basket_quantity(basket_size) * bc.unit_price})
       end
       add_column(
         ::BasketContent.human_attribute_name(:surplus),
         @basket_contents.map { |bc| bc.surplus_quantity })
+      add_column(
+        "#{::BasketContent.human_attribute_name(:surplus)} - #{::BasketContent.human_attribute_name(:price)}",
+        @basket_contents.map { |bc| bc.surplus_quantity * bc.unit_price })
       all_depots = Depot.all.to_a
       add_column(
         Depot.model_name.human(count: 2),
@@ -63,6 +70,7 @@ module XLSX
 
       add_vegetable_columns(basket_contents)
       add_unit_columns(basket_contents)
+      add_unit_price_columns(basket_contents)
       add_column(
         ::BasketContent.human_attribute_name(:quantity),
         basket_contents.map { |bc|
@@ -79,6 +87,9 @@ module XLSX
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:quantity)}",
           basket_contents.map { |bc| bc.basket_quantity(basket_size) })
+        add_column(
+          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
+          basket_contents.map { |bc| bc.basket_quantity(basket_size) * bc.unit_price})
       end
     end
 
@@ -92,6 +103,12 @@ module XLSX
       add_column(
         ::BasketContent.human_attribute_name(:unit),
         basket_contents.map { |bc| I18n.t("units.#{bc.unit}") })
+    end
+
+    def add_unit_price_columns(basket_contents)
+      add_column(
+        ::BasketContent.human_attribute_name(:unit_price),
+        basket_contents.map { |bc| bc.unit_price })
     end
   end
 end

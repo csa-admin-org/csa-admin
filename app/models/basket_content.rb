@@ -9,6 +9,7 @@ class BasketContent < ApplicationRecord
   scope :for_depot, ->(depot) {
     joins(:depots).where('basket_contents_depots.depot_id = ?', depot)
   }
+  scope :with_unit_price, -> { where.not(unit_price: nil) }
 
   after_initialize :set_defaults
 
@@ -21,6 +22,9 @@ class BasketContent < ApplicationRecord
   validate :basket_size_ids_presence
   validate :basket_percentages_presence
   validate :enough_quantity
+  validates :unit_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+
+  after_commit :update_delivery_basket_content_avg_prices!
 
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
@@ -68,6 +72,12 @@ class BasketContent < ApplicationRecord
     if i = basket_size_index(basket_size)
       basket_quantities[i]
     end
+  end
+
+  def price_for(basket_size, depot)
+    return unless depots.include?(depot)
+
+    basket_quantity(basket_size).to_f * unit_price
   end
 
   private
@@ -191,5 +201,9 @@ class BasketContent < ApplicationRecord
     when 'kg'; ((quantity * 100).send(method) + diff) / 100.0
     when 'pc'; quantity.send(method) + diff
     end
+  end
+
+  def update_delivery_basket_content_avg_prices!
+    delivery.update_basket_content_avg_prices!
   end
 end
