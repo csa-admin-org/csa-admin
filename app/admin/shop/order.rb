@@ -259,7 +259,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   before_build do |order|
-    order.member_id ||= referer_filter_member_id
+    order.member_id ||= referer_filter(:member_id)
     order.delivery ||= Delivery.next
     order.admin = current_admin
   end

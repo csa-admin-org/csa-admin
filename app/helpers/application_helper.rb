@@ -102,18 +102,11 @@ module ApplicationHelper
     }
   end
 
-  def referer_filter_member_id
+  def referer_filter(attr)
     return unless request&.referer
 
     query = URI(request.referer).query
-    Rack::Utils.parse_nested_query(query).dig('q', 'member_id_eq')
-  end
-
-  def referer_filter_activity_id
-    return unless request&.referer
-
-    query = URI(request.referer).query
-    Rack::Utils.parse_nested_query(query).dig('q', 'activity_id_eq')
+    Rack::Utils.parse_nested_query(query).dig('q', "#{attr}_eq")
   end
 
   def postmark_url(path = 'streams')

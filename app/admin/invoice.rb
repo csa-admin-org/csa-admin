@@ -292,7 +292,7 @@ ActiveAdmin.register Invoice do
     end
 
     invoice.paid_missing_activity_participations_amount ||= Current.acp.activity_price
-    invoice.member_id ||= referer_filter_member_id
+    invoice.member_id ||= referer_filter(:member_id)
     invoice.date ||= Date.current
   end
 
