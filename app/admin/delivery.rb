@@ -103,6 +103,17 @@ ActiveAdmin.register Delivery do
           end
         end
 
+        if Current.acp.feature?('basket_content')
+          basket_contents = delivery.basket_contents.includes(:vegetable)
+          panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
+            if basket_contents.any?
+              basket_contents.map { |bc| bc.vegetable.name }.sort.to_sentence.html_safe
+            else
+              content_tag :span, t('active_admin.empty'), class: 'empty'
+            end
+          end
+        end
+
         if Current.acp.feature?('absence')
           absences = Absence.including_date(delivery.date).includes(:member)
           panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
