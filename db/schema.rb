@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_10_080234) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_25_171112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -343,7 +343,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_10_080234) do
     t.integer "form_priority", default: 0, null: false
     t.boolean "visible", default: false, null: false
     t.integer "wdays", default: [0, 1, 2, 3, 4, 5, 6], null: false, array: true
-    t.integer "months", default: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false, array: true
+    t.integer "months", default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false, array: true
     t.integer "week_numbers", default: 0, null: false
     t.integer "results", default: 0, null: false
     t.datetime "created_at", null: false
