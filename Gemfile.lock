@@ -236,7 +236,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    kramdown (2.3.2)
+    kramdown (2.4.0)
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
@@ -369,7 +369,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.6.0)
-    regexp_parser (2.3.0)
+    regexp_parser (2.3.1)
     request_store (1.5.1)
       rack (>= 1.4)
     responders (3.0.1)
@@ -388,7 +388,7 @@ GEM
     rspec-mocks (3.11.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
-    rspec-rails (5.1.1)
+    rspec-rails (5.1.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       railties (>= 5.2)
