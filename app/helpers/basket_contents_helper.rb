@@ -57,7 +57,7 @@ module BasketContentsHelper
   end
 
   def display_basket_price_diff(base_price, price)
-    diff = price - base_price
+    diff = price.to_i - base_price
     per = (diff / base_price * 100).round(1)
     plus_sign = diff.positive? ? '+' : ''
     color_class =
