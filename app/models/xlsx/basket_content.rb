@@ -50,8 +50,7 @@ module XLSX
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
           @basket_contents.map { |bc|
-            quantity = bc.basket_quantity(basket_size)
-            quantity * bc.unit_price if quantity
+            display_price bc.unit_price, bc.basket_quantity(basket_size)
           })
       end
       add_column(
@@ -59,7 +58,7 @@ module XLSX
         @basket_contents.map { |bc| bc.surplus_quantity })
       add_column(
         "#{::BasketContent.human_attribute_name(:surplus)} - #{::BasketContent.human_attribute_name(:price)}",
-        @basket_contents.map { |bc| bc.surplus_quantity * bc.unit_price })
+        @basket_contents.map { |bc| display_price bc.unit_price, bc.surplus_quantity })
       all_depots = Depot.all.to_a
       add_column(
         Depot.model_name.human(count: 2),
@@ -93,10 +92,8 @@ module XLSX
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
           basket_contents.map { |bc|
-            quantity = bc.basket_quantity(basket_size)
-            quantity * bc.unit_price if quantity
+            display_price bc.unit_price, bc.basket_quantity(basket_size)
           })
-
       end
     end
 

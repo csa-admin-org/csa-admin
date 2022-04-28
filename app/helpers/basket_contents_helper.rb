@@ -1,4 +1,6 @@
 module BasketContentsHelper
+  include NumbersHelper
+
   def display_quantity(quantity, unit)
     case unit
     when 'g'; I18n.t("units.g_quantity", quantity: number_with_delimiter(quantity))
@@ -83,6 +85,12 @@ module BasketContentsHelper
       yield +
       content_tag(:span, cur(price * quantity), class: 'price')
     ).html_safe
+  end
+
+  def display_price(price, quantity)
+    if price.present? && quantity.present?
+      cur(price * quantity)
+    end
   end
 
   def display_with_unit_price(price, unit)
