@@ -81,13 +81,12 @@ ActiveAdmin.register BasketContent do
         bc.basket_quantity(basket_size)
       }
       column("#{basket_size.name} - #{BasketContent.human_attribute_name(:price)}") { |bc|
-        quantity = bc.basket_quantity(basket_size)
-        cur(quantity * bc.unit_price) if quantity
+        display_price bc.unit_price, bc.basket_quantity(basket_size)
       }
     end
     column(:surplus) { |bc| bc.surplus_quantity }
     column("#{BasketContent.human_attribute_name(:surplus)} - #{BasketContent.human_attribute_name(:price)}") { |bc|
-      cur(bc.surplus_quantity * bc.unit_price)
+      display_price bc.unit_price, bc.surplus_quantity
     }
     all_depots = Depot.all.to_a
     column(:depots) { |bc| display_depots(bc, all_depots) }
