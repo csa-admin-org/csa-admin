@@ -20,9 +20,9 @@ module API
       def payload
         {
           delivery: @delivery.as_json(only: [:id, :date]),
-          vegetables: @basket_contents.map { |content|
+          products: @basket_contents.map { |content|
             {
-              id: content.vegetable_id,
+              id: content.product_id,
               unit: content.unit,
               quantities: content.basket_size_ids.map { |basket_size_id|
                 {

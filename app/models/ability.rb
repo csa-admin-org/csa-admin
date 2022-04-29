@@ -6,7 +6,7 @@ class Ability
     membership: [Membership, Basket],
     billing: [Invoice, Payment],
     activity: [Activity, ActivityParticipation, ActivityPreset],
-    basket_content: [BasketContent, Vegetable],
+    basket_content: [BasketContent, BasketContent::Product],
     group_buying: [
       GroupBuying::Delivery,
       GroupBuying::Producer,

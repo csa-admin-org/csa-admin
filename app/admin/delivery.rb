@@ -104,10 +104,10 @@ ActiveAdmin.register Delivery do
         end
 
         if Current.acp.feature?('basket_content')
-          basket_contents = delivery.basket_contents.includes(:vegetable)
+          basket_contents = delivery.basket_contents.includes(:product)
           panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
             if basket_contents.any?
-              basket_contents.map { |bc| bc.vegetable.name }.sort.to_sentence.html_safe
+              basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe
             else
               content_tag :span, t('active_admin.empty'), class: 'empty'
             end
