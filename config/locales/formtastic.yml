@@ -240,10 +240,18 @@ _:
           _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert.
           _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
+        date:
+          _de: Im Falle einer Änderung werden alle betroffenen Abonnements, basierend auf ihrem Anfangs- und Enddatum sowie ihrem Lieferungszyklus, automatisch aktualisiert.
+          _fr: En cas de changement, tous les abonnements concernés, en fonction de leurs dates de début et de fin ainsi que leur cycle de livraisons, seront automatiquement mis à jour.
+          _it: In caso di modifica, tutti gli abbonamenti interessati, secondo le loro date di inizio e fine e il loro ciclo di consegna, saranno automaticamente aggiornati.
         depots:
           _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
           _fr: Les paniers des dépôts seront automatiquement effacés ou créés en cas de changement.
           _it: Le ceste in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
+        note:
+          _de: Auf der Übersicht angezeigte Informationen.
+          _fr: Information affichée sur le tableau de bord d'administration.
+          _it: Informazioni visualizzate sul pannello di controllo.
         shop_open:
           _de: Steuert, ob Mitglieder für diese Lieferung Lebensmittel bestellen können oder nicht.
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
