@@ -3,7 +3,14 @@ delivery.basket_content_prices.each do |basket_size, depot_prices|
   div class: "basket_price #{prices.many? ? 'tooltip-toggle' : ''}", 'data-tooltip' => depot_prices_list(depot_prices) do
     span basket_size.name, class: 'title'
     span display_basket_price_with_diff(basket_size.price, prices), class: 'prices'
-    span delivery.fiscal_year, class: 'sub-title'
-    span display_basket_price_diff(basket_size.price, delivery.basket_content_yearly_price_diff(basket_size)), class: 'avg_diff'
+    delivery.basket_content_yearly_price_diff(basket_size).each do |(cycle, diff)|
+      if DeliveriesCycle.many?
+        title = [cycle.name, delivery.fiscal_year.to_s].join(' – ')
+      else
+        title = delivery.fiscal_year
+      end
+      span title, class: 'sub-title'
+      span display_basket_price_diff(basket_size.price, diff), class: 'avg_diff'
+    end
   end
 end
