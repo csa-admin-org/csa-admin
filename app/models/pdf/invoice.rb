@@ -178,8 +178,7 @@ module PDF
       if invoice.amount.positive? && @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
         credit_amount = _cur(-(already_paid + invoice.member.credit_amount))
-        credit_amount = "#{appendice_star} #{credit_amount}" if invoice.member.credit_amount.positive?
-        data << [t('credit_amount'), credit_amount]
+        data << [t('credit_amount'), "#{appendice_star} #{credit_amount}"]
         data << [t('missing_amount'), _cur(@missing_amount)]
       elsif (invoice.memberships_amount? && invoice.annual_fee?) || invoice.object_type != 'Membership'
         data << [t('total'), _cur(invoice.amount)]
@@ -252,15 +251,15 @@ module PDF
         yy = 10
       end
 
-      if invoice.member.credit_amount.positive?
-        positive_credit_text = "#{appendice_star} #{t('extra_credit_amount', amount: cur(invoice.member.credit_amount))}"
+      if invoice.amount.positive? && @missing_amount != invoice.amount
+        credit_amount_text = "#{appendice_star} #{t('credit_amount_text')}"
         bounding_box [0, y - yy], width: bounds.width - 24 do
-          text positive_credit_text, width: 200, align: :right, style: :italic, size: 9
+          text credit_amount_text, width: 200, align: :right, style: :italic, size: 9
         end
         yy = 10
       end
 
-      bounding_box [0, y - yy], width: bounds.width - 24 do
+      bounding_box [0, y - yy - 20], width: bounds.width - 24 do
         invoice_info =
           if invoice.object_type == 'GroupBuying::Order' && Current.acp.group_buying_invoice_info
             Current.acp.group_buying_invoice_info % {

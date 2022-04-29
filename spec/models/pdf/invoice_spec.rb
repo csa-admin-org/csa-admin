@@ -607,10 +607,12 @@ describe PDF::Invoice do
         .and contain_sequence('Panier: Grand PUBLIC 4x 30.50', "122.00")
         .and contain_sequence('Montant annuel', "122.00", 'Facturation annuelle', "* 122.00")
         .and contain_sequence('Cotisation annuelle association', '75.00')
-        .and contain_sequence('Déjà payé', "-42.00")
+        .and contain_sequence('Balance', "** -42.00")
         .and contain_sequence("À payer", "155.00")
         .and contain_sequence("* TTC, CHF 121.88 HT, CHF 0.12 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
+        .and contain_sequence("** Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission cette facture.")
+        .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
         .and include '0100000155008>800250000000000000000002428+ 010092520>'
         expect(pdf_strings).not_to include 'Montant restant'
     end
@@ -644,11 +646,12 @@ describe PDF::Invoice do
         .and contain_sequence('Déjà facturé', '-10.15')
         .and contain_sequence('Montant annuel restant', "111.85")
         .and contain_sequence('Facturation mensuelle #2', '* 10.15')
-        .and contain_sequence('Déjà payé', '** -56.85')
+        .and contain_sequence('Balance', '** -56.85')
         .and contain_sequence("À payer", '0.00')
         .and contain_sequence('* TTC, CHF 10.14 HT, CHF 0.01 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and contain_sequence("** L'avoir restant (CHF 46.70) sera reporté sur la facture suivante.")
+        .and contain_sequence("** Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission cette facture.")
+        .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
         .and contain_sequence('XXXX', 'XX')
         .and include '0100000000005>800250000000000000000002433+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
@@ -717,8 +720,10 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('N° part sociale: 345')
         .and contain_sequence('Acquisition de 2 parts sociales', '500.00')
-        .and contain_sequence('Déjà payé', '-75.00')
+        .and contain_sequence('Balance', '* -75.00')
         .and contain_sequence('À payer', '425.00')
+        .and contain_sequence("* Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission cette facture.")
+        .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
     end
 
     it 'generates invoice with negative acp_shares_number' do

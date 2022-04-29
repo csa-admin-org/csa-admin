@@ -59,13 +59,19 @@ _:
         _fr: Ajustement du prix des paniers
         _it: ACorrezione del prezzo delle ceste
       credit_amount:
-        _de: Bereits bezahlt
-        _fr: Déjà payé
-        _it: Già pagato
-      extra_credit_amount:
-        _de: Das verbleibende Guthaben (%{amount}) wird auf der nächsten Rechnung übertragen.
-        _fr: L'avoir restant (%{amount}) sera reporté sur la facture suivante.
-        _it: Il credito residuo (%{amount}) verrà riportato sulla fattura successiva.
+        _de: Saldo
+        _fr: Balance
+        _it: Saldo
+      credit_amount_text:
+        _de: |-
+          Differenz zwischen allen bestehenden Rechnungen und allen Zahlungen, die zum Zeitpunkt der Ausstellung dieser Rechnung geleistet wurden.
+          Der Verlauf Ihrer Rechnungen kann jederzeit auf Ihrer Mitgliederseite eingesehen werden.
+        _fr: |-
+          Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission cette facture.
+          L’historique de votre facturation est disponible à tout moment sur votre page de membre.
+        _it: |-
+          Differenza tra tutte le fatture esistenti e tutti i pagamenti effettuati al momento dell'emissione di questa fattura.
+          Lo storico delle tue fatture può essere visualizzato in qualsiasi momento sulla tua pagina utente.
       missed_activity_participation/basket_preparation:
         _de: Nicht geleistete Taschen befüllung
         _fr: Mise en panier non-effectuée
