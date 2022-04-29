@@ -50,16 +50,15 @@ module BasketContentsHelper
   end
 
   def display_basket_price_with_diff(base_price, prices)
-    prices.map { |price|
+    prices.compact.map { |price|
       content_tag(:div, class: 'price-diff') {
         (content_tag(:span, cur(price, unit: false, format: '%n'), class: 'price') +
-          display_basket_price_diff(base_price, price))
+          display_basket_price_diff(base_price, price - base_price))
       }
     }.join(content_tag(:span, '-', class: 'main-divider')).html_safe
   end
 
-  def display_basket_price_diff(base_price, price)
-    diff = price.to_i - base_price
+  def display_basket_price_diff(base_price, diff)
     per = (diff / base_price * 100).round(1)
     plus_sign = diff.positive? ? '+' : ''
     color_class =

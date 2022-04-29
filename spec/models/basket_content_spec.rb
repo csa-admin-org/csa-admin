@@ -199,9 +199,9 @@ describe BasketContent do
       expect(delivery.basket_content_avg_prices).to eq(
         '1001' => 78.0,
         '1002' => 122.0)
-      expect(delivery.basket_content_yearly_avg_prices).to eq(
-        1001 => 78.0,
-        1002 => 122.0)
+      expect(delivery.basket_content_yearly_price_diffs).to eq(
+        1001 => 58.0,
+        1002 => 92.0)
       expect(delivery.basket_content_prices).to eq(
         basket_size_1 => { depot => 78.0 },
         basket_size_2 => { depot => 122.0 })
@@ -267,11 +267,11 @@ describe BasketContent do
       expect(delivery.basket_content_avg_prices).to eq(
         '1001' => 78.0,
         '1002' => 122.0)
-      expect(delivery.basket_content_yearly_avg_prices)
-        .to eq(other_delivery.basket_content_yearly_avg_prices)
-      expect(delivery.basket_content_yearly_avg_prices).to eq(
-        1001 => 59.0,
-        1002 => 91.0)
+      expect(delivery.basket_content_yearly_price_diffs)
+        .to eq(other_delivery.basket_content_yearly_price_diffs)
+      expect(delivery.basket_content_yearly_price_diffs).to eq(
+        1001 => 78.0,
+        1002 => 122.0)
     end
   end
 end
