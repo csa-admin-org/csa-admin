@@ -13,7 +13,7 @@ ActiveAdmin.register Depot do
     as: :string
   filter :deliveries_cycles, as: :select
 
-  includes :memberships, :responsible_member, :deliveries_cycles
+  includes :memberships, :deliveries_cycles
   index do
     column :name, ->(d) { auto_link d }
     column :city
@@ -43,15 +43,9 @@ ActiveAdmin.register Depot do
     column(:zip)
     column(:form_priority)
     column(:visible)
+    column(:contact_name)
     column(:emails) { |d| d.emails_array.join(', ') }
     column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(', ') }
-    column(:responsible_member) { |d| d.responsible_member&.name }
-    column(:responsible_member_emails) { |d|
-      d.responsible_member&.emails_array&.join(', ')
-    }
-    column(:responsible_member_phones) { |d|
-      d.responsible_member&.phones_array&.map(&:phony_formatted)&.join(', ')
-    }
   end
 
   show do |depot|
@@ -81,9 +75,9 @@ ActiveAdmin.register Depot do
         end
 
         attributes_table title: Depot.human_attribute_name(:contact) do
+          row :contact_name
           row(:emails) { display_emails_with_link(self, depot.emails_array) }
           row(:phones) { display_phones_with_link(self, depot.phones_array) }
-          row :responsible_member
         end
       end
       column do
@@ -149,9 +143,9 @@ ActiveAdmin.register Depot do
     end
 
     f.inputs Depot.human_attribute_name(:contact) do
+      f.input :contact_name
       f.input :emails, as: :string
       f.input :phones, as: :string
-      f.input :responsible_member, collection: Member.order(:name)
     end
 
     f.actions
@@ -161,7 +155,7 @@ ActiveAdmin.register Depot do
     *%i[
       name language price visible note
       address_name address zip city
-      emails phones responsible_member_id
+      contact_name emails phones
       form_priority
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },

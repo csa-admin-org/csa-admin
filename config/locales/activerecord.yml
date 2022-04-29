@@ -210,7 +210,7 @@ _:
         qr_creditor_name:
           _de: Name
           _fr: Nom
-          _it: Cognome
+          _it: Nome
         qr_creditor_zip:
           _de: PLZ
           _fr: NPA
@@ -492,7 +492,11 @@ _:
         address_name:
           _de: Name
           _fr: Nom
-          _it: Cognome
+          _it: Nome
+        contact_name:
+          _de: Name
+          _fr: Nom
+          _it: Nome
         current_deliveries:
           _de: Lieferungen (laufendes Jahr)
           _fr: Livraisons (année courante)
@@ -513,18 +517,6 @@ _:
           _de: Preis/Tasche
           _fr: Prix/panier
           _it: Prezzo/cesta
-        responsible_member:
-          _de: Verantwortliches Mitglied
-          _fr: Membre responsable
-          _it: Socio responsabile
-        responsible_member_emails:
-          _de: Verantwortliches Mitglied, Email(s)
-          _fr: Membre responsable, Email(s)
-          _it: Socio responsabile, Email
-        responsible_member_phones:
-          _de: Verantwortliches Mitglied, Telefon(e)
-          _fr: Membre responsable, Téléphone(s)
-          _it: Socio responsabile, Telefono/i
       group_buying/delivery:
         orderable_until:
           _de: Kommandofähig bis
@@ -716,7 +708,7 @@ _:
         with_name:
           _de: Name
           _fr: Nom
-          _it: Cognome
+          _it: Nome
         with_phone:
           _de: Telefon
           _fr: Téléphone

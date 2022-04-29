@@ -30,9 +30,10 @@ namespace :anonymizer do
         end
       end
       Depot.find_each do |depot|
-        if depot.emails?
-          depot.update_columns(emails: Faker::Internet.unique.email)
-        end
+        attrs = {}
+        attrs[:emails] = Faker::Internet.unique.email if depot.emails?
+        attrs[:contact_name] = Faker::Name.unique.name if depot.contact_name?
+        depot.update_columns(attrs)
       end
 
       Faker::UniqueGenerator.clear
