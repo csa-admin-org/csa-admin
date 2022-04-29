@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_29_151855) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_29_153611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -372,7 +372,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_151855) do
     t.datetime "updated_at", precision: nil
     t.decimal "price", precision: 8, scale: 2, null: false
     t.string "emails"
-    t.bigint "responsible_member_id"
     t.string "address_name"
     t.string "phones"
     t.text "note"
@@ -382,7 +381,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_151855) do
     t.integer "form_priority", default: 0, null: false
     t.string "xlsx_worksheet_style", default: "default", null: false
     t.string "contact_name"
-    t.index ["responsible_member_id"], name: "index_depots_on_responsible_member_id"
     t.index ["visible"], name: "index_depots_on_visible"
   end
 
@@ -721,7 +719,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_151855) do
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
-  add_foreign_key "depots", "members", column: "responsible_member_id"
   add_foreign_key "group_buying_order_items", "group_buying_orders", column: "order_id"
   add_foreign_key "group_buying_order_items", "group_buying_products", column: "product_id"
   add_foreign_key "group_buying_orders", "group_buying_deliveries", column: "delivery_id"
