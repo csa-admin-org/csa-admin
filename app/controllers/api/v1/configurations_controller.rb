@@ -4,7 +4,7 @@ module API
       def show
         @basket_sizes = BasketSize.all
         @depots = Depot.used.all
-        @vegetable = Vegetable.all
+        @basket_content_products = BasketContent::Product.all
 
         if stale?(cache_object)
           render json: payload
@@ -17,7 +17,7 @@ module API
         updated_at = [
           @basket_sizes,
           @depots,
-          @vegetable
+          @basket_content_products
         ].map { |k| k.maximum(:updated_at) }.compact.max
         OpenStruct.new(updated_at: updated_at)
       end
@@ -26,7 +26,7 @@ module API
         {
           basket_sizes: basket_sizes_json,
           depots: depots_json,
-          vegetables: @vegetable.select(:id, :names)
+          basket_content_products: @basket_content_products.select(:id, :names)
         }
       end
 

@@ -408,6 +408,10 @@ _:
           _de: Inhalt
           _fr: Contenu
           _it: Contenuto
+        product:
+          _de: Produkt
+          _fr: Produit
+          _it: Prodotto
         same_basket_quantities:
           _de: Wenn möglich, gleiche Menge für alle Taschen
           _fr: Si possible, même quantité pour tous les paniers
@@ -424,10 +428,6 @@ _:
           _de: Preis pro Einheit
           _fr: Prix unitaire
           _it: Prezzo per unità
-        vegetable:
-          _de: Gemüse
-          _fr: Légume
-          _it: Verdura
       basket_size:
         activity_participations_demanded_annualy/basket_preparation:
           _de: Taschen befüllung pro Jahr
@@ -1202,6 +1202,15 @@ _:
           _de: Tascheninhalt
           _fr: Contenu Paniers
           _it: Contenuto ceste
+      basket_content/product:
+        one:
+          _de: Produkt
+          _fr: Produit
+          _it: Prodotto
+        other:
+          _de: Produkte
+          _fr: Produits
+          _it: Prodotti
       basket_size:
         none:
           _de: Kein
@@ -1437,12 +1446,3 @@ _:
           _de: Tags
           _fr: Tags
           _it: Tags
-      vegetable:
-        one:
-          _de: Gemüse
-          _fr: Légume
-          _it: Verdura
-        other:
-          _de: Gemüse
-          _fr: Légumes
-          _it: Verdure

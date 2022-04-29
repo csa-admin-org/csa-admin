@@ -106,17 +106,17 @@ module BasketContentsHelper
     end
   end
 
-  def vegetables_collection
-    Vegetable.includes(:latest_basket_content).map do |vegetable|
+  def basket_content_products_collection
+    BasketContent::Product.includes(:latest_basket_content).map do |product|
       data = {}
-      if basket_content = vegetable.latest_basket_content
+      if basket_content = product.latest_basket_content
         data[:form_select_option_defaults] = {
           basket_content_quantity: basket_content.quantity,
           basket_content_unit_price: basket_content.unit_price,
           basket_content_unit: basket_content.unit
         }
       end
-      [vegetable.name, vegetable.id, data: data]
+      [product.name, product.id, data: data]
     end
   end
 end

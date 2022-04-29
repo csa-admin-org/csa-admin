@@ -9,8 +9,8 @@ module XLSX
       @basket_contents =
         @delivery
           .basket_contents
-          .includes(:vegetable, :depots, :basketcontents_depots)
-          .merge(Vegetable.order_by_name)
+          .includes(:product, :depots, :basketcontents_depots)
+          .merge(Product.order_by_name)
 
       build_recap_worksheet
       Depot.all.each do |depot|
@@ -34,7 +34,7 @@ module XLSX
     def build_recap_worksheet
       add_worksheet I18n.t('delivery.recap')
 
-      add_vegetable_columns(@basket_contents)
+      add_product_columns(@basket_contents)
       add_unit_columns(@basket_contents)
       add_unit_price_columns(@basket_contents)
       add_column(
@@ -70,7 +70,7 @@ module XLSX
 
       basket_contents = @basket_contents.for_depot(depot)
 
-      add_vegetable_columns(basket_contents)
+      add_product_columns(basket_contents)
       add_unit_columns(basket_contents)
       add_unit_price_columns(basket_contents)
       add_column(
@@ -97,10 +97,10 @@ module XLSX
       end
     end
 
-    def add_vegetable_columns(basket_contents)
+    def add_product_columns(basket_contents)
       add_column(
-        Vegetable.model_name.human(count: 2),
-        basket_contents.map { |bc| bc.vegetable.name })
+        ::BasketContent::Product.model_name.human(count: 2),
+        basket_contents.map { |bc| bc.product.name })
     end
 
     def add_unit_columns(basket_contents)

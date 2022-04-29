@@ -3,11 +3,11 @@ ActiveAdmin.register BasketContent do
   actions :all, except: [:show]
 
   filter :delivery, as: :select
-  filter :vegetable, as: :select
+  filter :product, as: :select
   filter :basket_size, as: :select, collection: -> { BasketSize.paid }
   filter :depots, as: :select
 
-  includes :depots, :delivery, :vegetable, :basketcontents_depots
+  includes :depots, :delivery, :product, :basketcontents_depots
 
   class BasketContentIndex < ActiveAdmin::Views::IndexAsTable
     def build(_page_presenter, collection)
@@ -34,9 +34,9 @@ ActiveAdmin.register BasketContent do
     unless params.dig(:q, :delivery_id_eq)
       column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
     end
-    column :vegetable, ->(bc) {
+    column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
-        bc.vegetable.name
+        bc.product.name
       }
     }
     column :qt, ->(bc) {
@@ -63,13 +63,13 @@ ActiveAdmin.register BasketContent do
     end
   end
 
-  action_item :vegetable, only: :index do
-    link_to Vegetable.model_name.human(count: 2), vegetables_path
+  action_item :product, only: :index do
+    link_to BasketContent::Product.model_name.human(count: 2), basket_content_products_path
   end
 
   csv do
     column(:date) { |bc| bc.delivery.date.to_s }
-    column(:vegetable) { |bc| bc.vegetable.name }
+    column(:product) { |bc| bc.product.name }
     column(:unit) { |bc| t("units.#{bc.unit}") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
     column(:quantity) { |bc| bc.quantity }
@@ -100,14 +100,14 @@ ActiveAdmin.register BasketContent do
         prompt: true
     end
     f.inputs BasketContent.human_attribute_name(:content) do
-      f.input :vegetable,
+      f.input :product,
         input_html: {
           data: {
             controller: 'form-select-option-defaults',
             action: 'form-select-option-defaults#change'
           }
         },
-        collection: vegetables_collection,
+        collection: basket_content_products_collection,
         required: true,
         prompt: true
       f.input :unit,
@@ -171,7 +171,7 @@ ActiveAdmin.register BasketContent do
     f.actions
   end
 
-  permit_params(*%i[delivery_id vegetable_id quantity unit unit_price],
+  permit_params(*%i[delivery_id product_id quantity unit unit_price],
     depot_ids: [],
     basket_size_ids_percentages: {})
 
@@ -207,9 +207,9 @@ ActiveAdmin.register BasketContent do
 
     def collection
       super
-        .joins(:delivery, :vegetable)
+        .joins(:delivery, :product)
         .merge(Delivery.reorder(date: :desc))
-        .merge(Vegetable.order_by_name)
+        .merge(BasketContent::Product.order_by_name)
     end
 
     def create

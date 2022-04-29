@@ -37,14 +37,14 @@ describe 'BasketContents V1 API' do
 
       travel_to '2021-06-18 04:12:00' do
         create(:basket_content,
-          vegetable: create(:vegetable, id: 734521),
+          product: create(:product, id: 734521),
           delivery: delivery,
           depot_ids: [depot1.id, depot2.id],
           basket_size_ids_percentages: { big_basket.id => 100 },
           quantity: 10,
           unit: 'pc')
         create(:basket_content,
-          vegetable: create(:vegetable, id: 643241),
+          product: create(:product, id: 643241),
           delivery: delivery,
           basket_size_ids: [small_basket.id, big_basket.id],
           depot_ids: [depot1.id],
@@ -64,7 +64,7 @@ describe 'BasketContents V1 API' do
           "id" => 526123,
           "date" => "2021-06-18"
         },
-        "vegetables" => [
+        "products" => [
           {
             "id" => 734521,
             "unit" => "pc",

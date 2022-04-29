@@ -20,16 +20,16 @@ describe 'Configurations V1 API' do
       expect(response.status).to eq 401
     end
 
-    it 'returns basket sizes, depots, and vegetables' do
+    it 'returns basket sizes, depots, and basket_content_products' do
       travel_to '2021-06-17' do
         create(:depot, name: 'Vieux Dépôt')
         depot = create(:depot, id: 1324124, name: 'Dépôt A', public_name: '')
         basket_size = create(:basket_size, id: 435132, name: 'Grand', public_name: 'Grand P')
         create(:membership, depot: depot, basket_size: basket_size)
-        create(:vegetable, id: 5234123, name: 'Carotte')
+        create(:product, id: 5234123, name: 'Carotte')
       end
       travel_to '2021-06-18 04:12:00' do
-        create(:vegetable, id: 4354234, name: 'Chou')
+        create(:product, id: 4354234, name: 'Chou')
       end
 
       travel_to '2021-06-19' do
@@ -56,7 +56,7 @@ describe 'Configurations V1 API' do
             'names' => { 'fr' => 'Dépôt A' }
           }
         ],
-        'vegetables' => [
+        'basket_content_products' => [
           {
             'id' => 5234123,
             'names' => { 'fr' => 'Carotte' }

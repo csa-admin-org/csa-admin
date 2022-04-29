@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_25_171112) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_29_132424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -253,9 +253,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_25_171112) do
     t.index ["basket_complement_id", "delivery_id"], name: "basket_complements_deliveries_unique_index", unique: true
   end
 
+  create_table "basket_content_products", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.jsonb "names", default: {}, null: false
+  end
+
   create_table "basket_contents", id: :serial, force: :cascade do |t|
     t.integer "delivery_id", null: false
-    t.integer "vegetable_id", null: false
+    t.integer "product_id", null: false
     t.decimal "quantity", precision: 8, scale: 2, null: false
     t.string "unit", null: false
     t.decimal "surplus_quantity", precision: 8, scale: 2, default: "0.0", null: false
@@ -268,7 +274,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_25_171112) do
     t.integer "basket_percentages", default: [], null: false, array: true
     t.decimal "unit_price", precision: 8, scale: 2
     t.index ["delivery_id"], name: "index_basket_contents_on_delivery_id"
-    t.index ["vegetable_id"], name: "index_basket_contents_on_vegetable_id"
+    t.index ["product_id"], name: "index_basket_contents_on_product_id"
   end
 
   create_table "basket_contents_depots", id: false, force: :cascade do |t|
@@ -700,20 +706,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_25_171112) do
     t.string "emoji"
   end
 
-  create_table "vegetables", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.jsonb "names", default: {}, null: false
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_participations", "activities"
   add_foreign_key "activity_participations", "admins", column: "validator_id"
   add_foreign_key "activity_participations", "members"
   add_foreign_key "admins", "permissions"
+  add_foreign_key "basket_contents", "basket_content_products", column: "product_id"
   add_foreign_key "basket_contents", "deliveries"
-  add_foreign_key "basket_contents", "vegetables"
   add_foreign_key "basket_contents_depots", "basket_contents"
   add_foreign_key "basket_contents_depots", "depots"
   add_foreign_key "baskets", "basket_sizes"

@@ -2,7 +2,7 @@ class BasketContent < ApplicationRecord
   UNITS = %w[kg pc]
 
   belongs_to :delivery
-  belongs_to :vegetable
+  belongs_to :product, class_name: 'BasketContent::Product'
   has_and_belongs_to_many :depots
 
   scope :basket_size_eq, ->(id) { where('basket_size_ids @> ?', "{#{id}}") }

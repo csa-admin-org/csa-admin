@@ -1059,6 +1059,11 @@ _:
           _de: Neuer %{model}
           _fr: Nouveau %{model}
           _it: Nuovo %{model}
+      basket_content/product:
+        new_model:
+          _de: Neues %{model}
+          _fr: Nouveau %{model}
+          _it: Nuovo %{model}
       basket_size:
         new_model:
           _de: Neue %{model}
@@ -1198,11 +1203,6 @@ _:
             _de: Nicht verfügbar
             _fr: Indisponible
             _it: Indisponibile
-      vegetable:
-        new_model:
-          _de: Neues %{model}
-          _fr: Nouveau %{model}
-          _it: Nuovo %{model}
     scopes:
       active:
         _de: Aktive
