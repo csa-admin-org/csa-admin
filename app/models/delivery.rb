@@ -99,12 +99,15 @@ class Delivery < ApplicationRecord
 
   def basket_content_yearly_price_diffs
     @basket_content_yearly_price_diffs ||= begin
-      avg_prices = Delivery.during_year(fiscal_year).pluck(:basket_content_avg_prices)
-      BasketSize.paid.each_with_object({}) do |basket_size, h|
-        prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact
-        basket_prices = prices.size * basket_size.price
-        prices_sum = prices.sum
-        h[basket_size.id] = (prices_sum - basket_prices).round_to_five_cents
+      DeliveriesCycle.for(self).each_with_object({}) do |cycle, h|
+        avg_prices = cycle.deliveries(fiscal_year).map(&:basket_content_avg_prices)
+        BasketSize.paid.each do |basket_size|
+          prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact
+          basket_prices = prices.size * basket_size.price
+          prices_sum = prices.sum
+          h[basket_size.id] ||= {}
+          h[basket_size.id][cycle] = (prices_sum - basket_prices).round_to_five_cents
+        end
       end
     end
   end

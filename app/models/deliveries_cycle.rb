@@ -26,6 +26,10 @@ class DeliveriesCycle < ApplicationRecord
     }.to_h)
   end
 
+  def self.for(delivery)
+    DeliveriesCycle.all.select { |dc| dc.include_delivery?(delivery) }
+  end
+
   def display_name; name end
 
   def public_name
@@ -74,8 +78,6 @@ class DeliveriesCycle < ApplicationRecord
     depots.empty? && DeliveriesCycle.where.not(id: id).exists?
   end
 
-  private
-
   def deliveries(year)
     scoped =
       Delivery
@@ -94,6 +96,8 @@ class DeliveriesCycle < ApplicationRecord
     end
     scoped
   end
+
+  private
 
   def update_baskets_async
     DeliveriesCycleBasketsUpdaterJob.perform_later(self)
