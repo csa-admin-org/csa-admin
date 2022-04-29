@@ -93,18 +93,18 @@ class Delivery < ApplicationRecord
     date >= Date.today
   end
 
-  def basket_content_yearly_avg_price(basket_size)
-    basket_content_yearly_avg_prices[basket_size.id]
+  def basket_content_yearly_price_diff(basket_size)
+    basket_content_yearly_price_diffs[basket_size.id]
   end
 
-  def basket_content_yearly_avg_prices
-    @basket_content_yearly_avg_prices ||= begin
+  def basket_content_yearly_price_diffs
+    @basket_content_yearly_price_diffs ||= begin
       avg_prices = Delivery.during_year(fiscal_year).pluck(:basket_content_avg_prices)
       BasketSize.paid.each_with_object({}) do |basket_size, h|
         prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact
-        if prices.any?
-          h[basket_size.id] = prices.sum.fdiv(prices.size).round_to_five_cents
-        end
+        basket_prices = prices.size * basket_size.price
+        prices_sum = prices.sum
+        h[basket_size.id] = (prices_sum - basket_prices).round_to_five_cents
       end
     end
   end
