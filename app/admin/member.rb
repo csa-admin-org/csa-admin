@@ -525,10 +525,10 @@ ActiveAdmin.register Member do
       member_id: resource.id,
       started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max
     }
-    params[:basket_size_id] = resource&.waiting_basket_size_id
+    params[:basket_size_id] = resource&.waiting_basket_size&.id
     params[:basket_price_extra] = resource.waiting_basket_price_extra if resource.waiting_basket_price_extra&.positive?
-    params[:depot_id] = resource&.waiting_depot_id
-    params[:deliveries_cycle_id] = resource&.waiting_deliveries_cycle_id
+    params[:depot_id] = resource&.waiting_depot&.id
+    params[:deliveries_cycle_id] = resource&.waiting_deliveries_cycle&.id
     params[:subscribed_basket_complement_ids] = resource.waiting_basket_complement_ids if resource.waiting_basket_complement_ids&.any?
     link_to t('.create_membership'), new_membership_path(params)
   end
