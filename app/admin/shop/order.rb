@@ -162,7 +162,7 @@ ActiveAdmin.register Shop::Order do
       end
     end
     f.inputs t('.details') do
-      f.input :member, collection: Member.active.reorder(:name), prompt: true
+      f.input :member, collection: Member.reorder(:name), prompt: true
       f.input :delivery, prompt: true, collection: Delivery.shop_open
       f.has_many :items, allow_destroy: true do |ff|
         ff.input :product, collection: products_collection, prompt: true,
