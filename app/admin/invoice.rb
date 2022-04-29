@@ -144,6 +144,9 @@ ActiveAdmin.register Invoice do
           if invoice.acp_share_type?
             row(:acp_shares_number)
           end
+          if invoice.activity_participation_type?
+            row(:paid_missing_activity_participations)
+          end
           row(:date) { l invoice.date }
           row(:state) { status_tag invoice.state }
           row(:sent_at) { l invoice.sent_at if invoice.sent_at }
@@ -240,7 +243,7 @@ ActiveAdmin.register Invoice do
               end
             end
             f.input :paid_missing_activity_participations, as: :number, step: 1
-            f.input :paid_missing_activity_participations_amount, as: :number, min: 0, max: 99999.95, step: 0.05
+            f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
           end
         end
       end
@@ -271,7 +274,7 @@ ActiveAdmin.register Invoice do
     :date,
     :comment,
     :paid_missing_activity_participations,
-    :paid_missing_activity_participations_amount,
+    :activity_price,
     :acp_shares_number,
     items_attributes: %i[description amount]
 
@@ -281,8 +284,6 @@ ActiveAdmin.register Invoice do
       invoice.member = ap.member
       invoice.object = ap
       invoice.paid_missing_activity_participations = ap.participants_count
-      invoice.paid_missing_activity_participations_amount =
-        ap.participants_count * Current.acp.activity_price
     elsif params[:member_id]
       member = Member.find(params[:member_id])
       invoice.member = member
@@ -291,7 +292,6 @@ ActiveAdmin.register Invoice do
       invoice.acp_shares_number ||= params[:acp_shares_number]
     end
 
-    invoice.paid_missing_activity_participations_amount ||= Current.acp.activity_price
     invoice.member_id ||= referer_filter(:member_id)
     invoice.date ||= Date.current
   end

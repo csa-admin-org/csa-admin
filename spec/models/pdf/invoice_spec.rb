@@ -187,8 +187,7 @@ describe PDF::Invoice do
         id: 2001,
         date: '2018-4-5',
         object: rejected_participation,
-        paid_missing_activity_participations: 2,
-        paid_missing_activity_participations_amount: 120)
+        paid_missing_activity_participations: 2)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -201,8 +200,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 2002,
         date: '2018-4-5',
-        paid_missing_activity_participations: 1,
-        paid_missing_activity_participations_amount: 60)
+        paid_missing_activity_participations: 1)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -217,10 +215,9 @@ describe PDF::Invoice do
         id: 2003,
         date: '2018-4-5',
         paid_missing_activity_participations: 3,
-        paid_missing_activity_participations_amount: 180)
+        activity_price: 60)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
-
       expect(pdf_strings)
         .to contain_sequence('3 ', '½ ', 'journées non effectuées', '180.00')
         .and contain_sequence('Total', '180.00')
