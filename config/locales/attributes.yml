@@ -211,7 +211,7 @@ _:
     name:
       _de: Name
       _fr: Nom
-      _it: Cognome
+      _it: Nome
     next_invoice_on:
       _de: Nächste Rechnung am
       _fr: Prochaine facture le
@@ -295,7 +295,7 @@ _:
     public_name:
       _de: Name (Mitglied)
       _fr: Nom (Membre)
-      _it: Cognome (Socio)
+      _it: Nome (Socio)
     qt:
       _de: Mg.
       _fr: Qté.
