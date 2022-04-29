@@ -7,7 +7,6 @@ class Depot < ApplicationRecord
 
   translated_attributes :public_name
 
-  belongs_to :responsible_member, class_name: 'Member', optional: true
   has_many :baskets
   has_many :memberships
   has_many :members, through: :memberships
