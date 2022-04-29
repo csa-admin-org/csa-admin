@@ -51,7 +51,7 @@ describe Invoice do
     invoice = build(:invoice,
       member: member,
       paid_missing_activity_participations: 2,
-      paid_missing_activity_participations_amount: 120)
+      activity_price: 60)
 
     expect { invoice.save! }.to change { membership.reload.activity_participations_accepted }.by(2)
     expect { invoice.reload.cancel! }.to change { membership.reload.activity_participations_accepted }.by(-2)
@@ -113,18 +113,18 @@ describe Invoice do
   end
 
   context 'when activity_participation' do
-    it 'validates paid_missing_activity_participations_amount presence when paid_missing_activity_participations is present' do
-      invoice = build(:invoice, paid_missing_activity_participations: 1)
-      expect(invoice).not_to have_valid(:paid_missing_activity_participations_amount)
+    it 'validates activity_price presence when paid_missing_activity_participations is present' do
+      invoice = build(:invoice, paid_missing_activity_participations: 1, activity_price: nil)
+      expect(invoice).not_to have_valid(:activity_price)
     end
 
     it 'sets object_type to ActivityParticipation with paid_missing_activity_participations' do
       invoice = create(:invoice, :manual,
-        paid_missing_activity_participations: 1,
-        paid_missing_activity_participations_amount: 42)
+        paid_missing_activity_participations: 2,
+        activity_price: 21)
 
       expect(invoice.object_type).to eq 'ActivityParticipation'
-      expect(invoice.paid_missing_activity_participations).to eq 1
+      expect(invoice.paid_missing_activity_participations).to eq 2
       expect(invoice.amount).to eq 42
     end
   end

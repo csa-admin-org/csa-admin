@@ -7,8 +7,8 @@ class Invoice < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   UnprocessedError = Class.new(StandardError)
 
+  attribute :activity_price, :decimal, default: -> { Current.acp.activity_price }
   attr_writer :membership_amount_fraction, :send_email
-  attr_reader :paid_missing_activity_participations_amount
   attr_accessor :comment
 
   has_states :processing, :not_sent, :open, :closed, :canceled
@@ -62,7 +62,7 @@ class Invoice < ApplicationRecord
     absence: true,
     unless: :activity_participation_type?
   validates :items, absence: true, if: :activity_participation_type?
-  validates :paid_missing_activity_participations_amount,
+  validates :activity_price,
     numericality: { greater_than_or_equal_to: 1 },
     if: :paid_missing_activity_participations,
     on: :create
@@ -242,13 +242,6 @@ class Invoice < ApplicationRecord
     self[:object_type] = 'ActivityParticipation' unless object_type?
   end
 
-  def paid_missing_activity_participations_amount=(amount)
-    @paid_missing_activity_participations_amount = amount
-    if activity_participation_type?
-      self[:amount] = amount
-    end
-  end
-
   def acp_shares_number=(number)
     return if number.to_i == 0
 
@@ -330,7 +323,12 @@ class Invoice < ApplicationRecord
   end
 
   def set_amount
-    self[:amount] ||= (memberships_amount || 0) + (annual_fee || 0)
+    self[:amount] ||=
+      if activity_participation_type? && activity_price
+        paid_missing_activity_participations * activity_price
+      else
+        (memberships_amount || 0) + (annual_fee || 0)
+      end
   end
 
   def set_memberships_vat_amount

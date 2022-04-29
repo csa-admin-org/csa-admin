@@ -290,6 +290,11 @@ _:
           _de: Lassen Sie alles ungeprüft, wenn alle Mitglieder Zugang zur Lieferung haben.
           _fr: Laisser tout décoché si tous les membres ont accès à la livraison.
           _it: Lasciare tutto deselezionato se tutti i soci hanno accesso alla consegna.
+      invoice:
+        activity_price:
+          _de: Betrag für eine einmalige Teilnahme.
+          _fr: Montant pour une seule participation.
+          _it: Importo per una singola partecipazione.
       liquid:
         _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
         _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.

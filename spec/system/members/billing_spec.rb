@@ -29,7 +29,7 @@ describe 'Billing' do
       member: member, date: '2017-03-19', sent_at: nil)
     closed_invoice.update_column(:state, 'closed')
     inovice = create(:invoice, :activity_participation, id: 242,
-      member: member, date: '2018-04-12', paid_missing_activity_participations_amount: 120)
+      member: member, date: '2018-04-12', activity_price: 120)
     create(:payment, invoice: inovice, member: member, date: '2018-5-1', amount: 162)
 
     visit '/billing'
