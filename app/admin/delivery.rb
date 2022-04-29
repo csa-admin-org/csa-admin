@@ -165,7 +165,7 @@ ActiveAdmin.register Delivery do
       if Current.acp.feature?('shop')
         f.input :shop_open, as: :boolean
       end
-      f.input :note
+      f.input :note, as: :text, input_html: { rows: 3 }
     end
     f.actions
   end
