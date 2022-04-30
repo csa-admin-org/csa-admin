@@ -829,6 +829,18 @@ _:
           _de: Arbeitsstunden verlangt
           _fr: Heures de travail demandées
           _it: Ore di lavoro richieste
+        activity_participations_paid:
+          _de: In Rechnung gestellt
+          _fr: Facturées
+          _it: Fatturate
+        activity_participations_pending:
+          _de: Zu bestätigen
+          _fr: À valider
+          _it: Da confermare
+        activity_participations_rejected:
+          _de: Abgelehnte
+          _fr: Refusées
+          _it: Rifiutato
         activity_participations_validated:
           _de: Bestätigte
           _fr: Validées
