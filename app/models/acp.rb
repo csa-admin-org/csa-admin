@@ -204,9 +204,8 @@ class ACP < ApplicationRecord
     self.host ||= PublicSuffix.parse(URI(url).host).sld
   end
 
-  def phone=(phone)
-    super
-    self.activity_phone ||= phone
+  def activity_phone
+    super.presence || phone
   end
 
   def basket_price_extra_public_title
