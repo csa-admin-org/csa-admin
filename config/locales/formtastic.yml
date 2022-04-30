@@ -368,7 +368,7 @@ _:
       membership:
         activity_participations_annual_price_change:
           _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
-          _fr: Augmentation ou réduction du prix de l'abonnement contre servGice rendu ou non.
+          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
           _it: Aumento o riduzione del prezzo dell'abbonamento a seconda del servizio reso o meno.
         activity_participations_demanded_annualy_html:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
