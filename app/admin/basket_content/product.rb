@@ -17,6 +17,7 @@ class BasketContent
     includes :basket_contents
     index do
       column :name
+      column :url, ->(bc) { link_to(bc.url_domain, bc.url) if bc.url? }
       if authorized?(:update, Product)
         actions class: 'col-actions-2'
       end
@@ -25,17 +26,19 @@ class BasketContent
     show do
       attributes_table do
         row :name
+        row :url
       end
     end
 
     form do |f|
       f.inputs do
         translated_input(f, :names)
+        f.input :url, hint: t('formtastic.hints.basket_content/product.url')
       end
       f.actions
     end
 
-    permit_params(*I18n.available_locales.map { |l| "name_#{l}" })
+    permit_params(:url, *I18n.available_locales.map { |l| "name_#{l}" })
 
     controller do
       include TranslatedCSVFilename
