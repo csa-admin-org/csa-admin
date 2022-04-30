@@ -99,7 +99,6 @@ module BasketContentsHelper
     (yield + content_tag(:span, unit_price, class: 'price')).html_safe
   end
 
-
   def units_collection
     BasketContent::UNITS.map do |unit|
       [I18n.t("units.#{unit}"), unit]
@@ -113,7 +112,13 @@ module BasketContentsHelper
         data[:form_select_option_defaults] = {
           basket_content_quantity: basket_content.quantity,
           basket_content_unit_price: basket_content.unit_price,
-          basket_content_unit: basket_content.unit
+          basket_content_unit: basket_content.unit,
+        }
+      end
+      if product.url?
+        data[:form_hint_url] = {
+          text: product.url_domain,
+          href: product.url
         }
       end
       [product.name, product.id, data: data]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_29_153611) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_30_101818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_153611) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.jsonb "names", default: {}, null: false
+    t.string "url"
   end
 
   create_table "basket_contents", id: :serial, force: :cascade do |t|

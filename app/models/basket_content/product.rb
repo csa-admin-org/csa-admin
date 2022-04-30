@@ -15,6 +15,13 @@ class BasketContent
 
     validates :names, presence: true, uniqueness: true
 
+    def url_domain
+      return unless url?
+
+      uri = URI.parse(url)
+      PublicSuffix.parse(uri.host).to_s
+    end
+
     def can_destroy?
       basket_contents.none?
     end

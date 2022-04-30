@@ -428,6 +428,11 @@ _:
           _de: Preis pro Einheit
           _fr: Prix unitaire
           _it: Prezzo per unità
+      basket_content/product:
+        url:
+          _de: Externer Link
+          _fr: Lien externe
+          _it: Link esterno
       basket_size:
         activity_participations_demanded_annualy/basket_preparation:
           _de: Taschen befüllung pro Jahr

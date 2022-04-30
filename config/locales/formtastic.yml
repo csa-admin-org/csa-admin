@@ -196,6 +196,11 @@ _:
           _de: Pro kg oder pro Stück.
           _fr: Au kg ou à la pièce.
           _it: Per kg o per pezzo.
+      basket_content/product:
+        url:
+          _de: Zum Beispiel eine Seite, die auf den Verkaufspreis verweist.
+          _fr: Par exemple, une page référençant le prix de vente.
+          _it: Per esempio, una pagina che fa riferimento al prezzo di vendita.
       basket_size:
         form_priority:
           _de: Ermöglicht das Sortieren von Taschengrößen in einer bestimmten Reihenfolge

@@ -36,7 +36,7 @@ ActiveAdmin.register BasketContent do
     end
     column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
-        bc.product.name
+        display_with_external_url(bc.product.name, bc.product.url)
       }
     }
     column :qt, ->(bc) {
@@ -104,12 +104,18 @@ ActiveAdmin.register BasketContent do
         input_html: {
           data: {
             controller: 'form-select-option-defaults',
-            action: 'form-select-option-defaults#change'
+            action: 'form-select-option-defaults#change form-hint-url#change',
+          }
+        },
+        wrapper_html: {
+          data: {
+            controller: 'form-hint-url',
           }
         },
         collection: basket_content_products_collection,
         required: true,
-        prompt: true
+        prompt: true,
+        hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: '_blank', data: { 'form-hint-url-target' => 'link' })
       f.input :unit,
         collection: units_collection,
         required: true,
