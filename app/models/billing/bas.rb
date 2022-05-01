@@ -7,7 +7,7 @@ module Billing
     URL = 'https://wwwsec.abs.ch'.freeze
 
     GET_PAYMENTS_FROM = 1.month.ago
-    NO_DATA_INFO_MSG = "<INFO_MSG>Aucune donn\xE9e BVR n'a \xE9t\xE9 trouv\xE9e</INFO_MSG>".force_encoding('ASCII-8BIT')
+    NO_DATA_INFO_MSG = "<INFO_MSG>Aucune donn\xE9e BVR n'a \xE9t\xE9 trouv\xE9e</INFO_MSG>".force_encoding('ISO-8859-1')
 
     attr_reader :session
 
