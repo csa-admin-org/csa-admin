@@ -4,13 +4,13 @@
   - low
 :schedule:
   billing_invoices:
-    cron: '0 0 3 * * *'
+    cron: '0 0 4 * * *'
     queue: low
     class: ACPJob
     args: Scheduled::BillingInvoicerJob
     description: "Automatically create and send new invoices"
   billing_payments:
-    cron: '0 30 2 * * *'
+    cron: '0 30 3 * * *'
     queue: low
     class: ACPJob
     args: Scheduled::BillingPaymentsProcessorJob
@@ -34,7 +34,7 @@
     args: Scheduled::NewsletterSyncListJob
     description: "Sync members with Mailchimp audience list"
   notifier:
-    cron: '0 0 4 * * *'
+    cron: '0 30 4 * * *'
     queue: low
     class: ACPJob
     args: Scheduled::NotifierJob
