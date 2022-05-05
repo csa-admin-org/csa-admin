@@ -10,7 +10,7 @@ module XLSX
         @delivery
           .basket_contents
           .includes(:product, :depots, :basketcontents_depots)
-          .merge(Product.order_by_name)
+          .merge(::BasketContent::Product.order_by_name)
 
       build_recap_worksheet
       Depot.all.each do |depot|
