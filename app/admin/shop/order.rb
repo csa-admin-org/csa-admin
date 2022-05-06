@@ -154,13 +154,8 @@ ActiveAdmin.register Shop::Order do
   end
 
   form do |f|
-    if f.object.errors[:base].present?
-      ul class: 'errors' do
-        f.object.errors[:base].each do |msg|
-          li msg
-        end
-      end
-    end
+    f.semantic_errors :base
+    f.semantic_errors :amount
     f.inputs t('.details') do
       f.input :member, collection: Member.reorder(:name), prompt: true
       f.input :delivery, prompt: true, collection: Delivery.shop_open
