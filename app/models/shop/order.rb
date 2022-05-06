@@ -36,7 +36,7 @@ module Shop
       allow_destroy: true
 
     def depot
-      delivery.baskets.joins(:membership).where(memberships: { member: member }).first.depot
+      delivery.baskets.joins(:membership).where(memberships: { member: member }).first&.depot
     end
 
     def date
