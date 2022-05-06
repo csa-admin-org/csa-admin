@@ -27,6 +27,7 @@ module Shop
 
     validates :items, presence: true, unless: :cart?
     validates :member_id, uniqueness: { scope: :delivery_id }
+    validates :amount, numericality: { greater_than: 0 }, if: :admin
     validate :unique_items
     validate :ensure_maximum_weight_limit
     validate :ensure_minimal_amount
