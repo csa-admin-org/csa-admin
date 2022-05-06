@@ -105,4 +105,5 @@ group :test do
   gem 'factory_bot_rails'
   gem 'capybara'
   gem 'capybara-email'
+  gem 'super_diff'
 end
