@@ -648,6 +648,7 @@ describe PDF::Invoice do
         .and contain_sequence('Facturation mensuelle #2', '* 10.15')
         .and contain_sequence('Balance', '** -56.85')
         .and contain_sequence("À payer", '0.00')
+        .and contain_sequence('Avoir restant', '46.70')
         .and contain_sequence('* TTC, CHF 10.14 HT, CHF 0.01 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
         .and contain_sequence("** Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission de cette facture.")

@@ -3,8 +3,8 @@ require 'rails_helper'
 describe PDF::Shop::Delivery do
   def save_pdf_and_return_strings(delivery)
     pdf = PDF::Shop::Delivery.new(delivery)
-    pdf_path = "tmp/shop-delivery-#{Current.acp.name}-#{delivery.date}.pdf"
-    pdf.render_file(Rails.root.join(pdf_path))
+    # pdf_path = "tmp/shop-delivery-#{Current.acp.name}-#{delivery.date}.pdf"
+    # pdf.render_file(Rails.root.join(pdf_path))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
 
