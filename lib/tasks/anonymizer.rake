@@ -33,7 +33,7 @@ namespace :anonymizer do
         attrs = {}
         attrs[:emails] = Faker::Internet.unique.email if depot.emails?
         attrs[:contact_name] = Faker::Name.unique.name if depot.contact_name?
-        depot.update_columns(attrs)
+        depot.update_columns(attrs) if attrs.present?
       end
 
       Faker::UniqueGenerator.clear
