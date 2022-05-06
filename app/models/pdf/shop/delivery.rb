@@ -12,7 +12,7 @@ module PDF
             delivery.shop_orders
               .all_without_cart
               .includes(:member, items: [:product_variant, product: :producer])
-              .sort_by { |order| [order.depot.name, order.member] }
+              .sort_by { |order| [order.depot&.name, order.member] }
           end
         super
         @current_time = Time.current
@@ -40,13 +40,15 @@ module PDF
         footer
       end
 
-      def header(member, depot)
+      def header(member, depot = nil)
         image acp_logo_io, at: [15, bounds.height - 20], width: 110
         bounding_box [bounds.width - 450, bounds.height - 20], width: 430, height: 120 do
           text member.name, size: 22, align: :right
           move_down 10
-          text depot.public_name, size: 20, align: :right
-          move_down 5
+          if depot
+            text depot.public_name, size: 20, align: :right
+            move_down 5
+          end
           text I18n.l(delivery.date), size: 20, align: :right
         end
 
