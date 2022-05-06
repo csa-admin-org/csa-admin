@@ -72,6 +72,10 @@ _:
         _it: |-
           Differenza tra tutte le fatture esistenti e tutti i pagamenti effettuati al momento dell'emissione di questa fattura.
           Lo storico delle tue fatture può essere visualizzato in qualsiasi momento sulla tua pagina utente.
+      extra_credit:
+        _de: Restguthaben
+        _fr: Avoir restant
+        _it: Credito residuo
       missed_activity_participation/basket_preparation:
         _de: Nicht geleistete Taschen befüllung
         _fr: Mise en panier non-effectuée

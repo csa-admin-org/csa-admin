@@ -233,6 +233,19 @@ module PDF
         end
       end
 
+      if invoice.member.credit_amount.positive?
+        move_down 5
+
+        data = [[t('extra_credit'), _cur(invoice.member.credit_amount)]]
+        table data, column_widths: [bounds.width - 120, 70], position: :center do |t|
+          t.cells.borders = []
+          t.cells.align = :right
+          t.cells.font_style = :italic
+          t.columns(0).padding_right = 15
+          t.columns(1).padding_right = 0
+        end
+      end
+
       yy = 25
       reset_appendice_star
 
@@ -254,7 +267,7 @@ module PDF
       if invoice.amount.positive? && @missing_amount != invoice.amount
         credit_amount_text = "#{appendice_star} #{t('credit_amount_text')}"
         bounding_box [0, y - yy], width: bounds.width - 24 do
-          text credit_amount_text, width: 200, align: :right, style: :italic, size: 9
+          text credit_amount_text, width: 200, align: :right, style: :italic, size: 9, leading: 1.5
         end
         yy = 10
       end
