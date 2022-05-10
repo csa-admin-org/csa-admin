@@ -37,7 +37,7 @@ class InvoiceMailerPreview < ActionMailer::Preview
       id: 42,
       date: Date.today,
       state: 'open',
-      object_type: Invoice.object_types.sample(random: random),
+      object_type: Invoice.used_object_types.sample(random: random),
       object_number: 33,
       amount: 990,
       missing_amount: 990,
