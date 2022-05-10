@@ -91,12 +91,16 @@ class Invoice < ApplicationRecord
 
   def self.object_types
     types = %w[Membership Other]
-    types << 'ActivityParticipation' if Current.acp.feature?('activity')
-    types << 'GroupBuying::Order' if Current.acp.feature?('group_buying')
-    types << 'Shop::Order' if Current.acp.feature?('shop')
-    types << 'AnnualFee' if Current.acp.annual_fee?
-    types << 'ACPShare' if Current.acp.share?
+    types << 'ActivityParticipation'
+    types << 'GroupBuying::Order'
+    types << 'Shop::Order'
+    types << 'AnnualFee'
+    types << 'ACPShare'
     types
+  end
+
+  def self.used_object_types
+    (%w[Membership Other] + pluck(:object_type)).uniq.sort
   end
 
   def self.ransackable_scopes(_auth_object = nil)

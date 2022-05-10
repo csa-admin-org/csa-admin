@@ -1,6 +1,6 @@
 module InvoicesHelper
   def object_type_collection
-    Invoice.object_types.map { |type|
+    Invoice.used_object_types.map { |type|
       [t_invoice_object_type(type), type]
     }.sort_by { |a| a.first }
   end
