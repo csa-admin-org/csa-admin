@@ -25,9 +25,8 @@ ActiveAdmin.register BasketSize do
 
   form do |f|
     f.inputs do
-      translated_input(f, :names, required: true)
+      translated_input(f, :names)
       translated_input(f, :public_names,
-        required: false,
         hint: t('formtastic.hints.basket_size.public_name'))
       f.input :price, as: :number, min: 0
       if Current.acp.feature?('activity')

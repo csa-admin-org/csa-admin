@@ -18,7 +18,9 @@ ActiveAdmin.register ActivityPreset do
 
   index download_links: false do
     column :place
-    column :place_url, ->(ap) { link_to truncate(ap.place_url, length: 50), ap.place_url }
+    column :place_url, ->(ap) {
+      link_to(truncate(ap.place_url, length: 50), ap.place_url) if ap.place_url?
+    }
     column :title
     if authorized?(:update, ActivityPreset)
       actions class: 'col-actions-2'

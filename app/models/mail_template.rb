@@ -24,12 +24,11 @@ class MailTemplate < ApplicationRecord
 
   audited_attributes :subjects, :contents
 
-  translated_attributes :subject, :content
+  translated_attributes :subject, :content, required: true
   validates :title,
     presence: true,
     inclusion: { in: TITLES },
     uniqueness: true
-  validate :subjects_must_be_present, :contents_must_be_present
   validate :subjects_must_be_valid, :contents_must_be_valid
   validates :active, inclusion: [true], if: :always_active?
 
@@ -132,18 +131,6 @@ class MailTemplate < ApplicationRecord
   end
 
   private
-
-  def subjects_must_be_present
-    Current.acp.languages.each do |locale|
-      errors.add("subject_#{locale}".to_sym, :blank) if subjects[locale].blank?
-    end
-  end
-
-  def contents_must_be_present
-    Current.acp.languages.each do |locale|
-      errors.add("content_#{locale}".to_sym, :blank) if contents[locale].blank?
-    end
-  end
 
   def subjects_must_be_valid
     validate_liquid(:subjects)

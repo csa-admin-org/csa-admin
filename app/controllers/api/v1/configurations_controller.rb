@@ -26,7 +26,11 @@ module API
         {
           basket_sizes: basket_sizes_json,
           depots: depots_json,
-          basket_content_products: @basket_content_products.select(:id, :names)
+          basket_content_products: @basket_content_products.select(:id, :names).map { |product|
+            product
+              .as_json(only: %i[id])
+              .merge(names: all_locales { |l| [l, product.name] })
+          }
         }
       end
 
@@ -36,9 +40,8 @@ module API
           .map { |basket_size|
             basket_size
               .as_json(only: %i[id visible])
-              .merge(names: Current.acp.languages.map { |l| [l, basket_size.public_name] }.to_h)
+              .merge(names: all_locales { |l| [l, basket_size.public_name] })
           }
-
       end
 
       def depots_json
@@ -47,8 +50,14 @@ module API
           .map { |depot|
             depot
               .as_json(only: %i[id visible])
-              .merge(names: Current.acp.languages.map { |l| [l, depot.public_name] }.to_h)
+              .merge(names: all_locales { |l| [l, depot.public_name] })
           }
+      end
+
+      def all_locales
+        Current.acp.languages.map { |l|
+          I18n.with_locale(l) { yield(l) }
+        }.to_h
       end
     end
   end

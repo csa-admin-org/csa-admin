@@ -5,7 +5,7 @@ module GroupBuying
     include TranslatedAttributes
     include TranslatedRichTexts
 
-    translated_attributes :name
+    translated_attributes :name, required: true
     translated_rich_texts :description
 
     default_scope { order_by_name }
@@ -15,7 +15,6 @@ module GroupBuying
 
     scope :available, -> { where(available: true) }
 
-    validates :name, presence: true
     validates :price,
       presence: true,
       numericality: { greater_than_or_equal_to: 0 }

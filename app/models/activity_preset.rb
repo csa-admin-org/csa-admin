@@ -3,10 +3,8 @@ class ActivityPreset < ApplicationRecord
 
   default_scope { order_by_place }
 
-  translated_attributes :place, :place_url, :title
-
-  validates :places, presence: true, uniqueness: { scope: :titles }
-  validates :titles, presence: true
+  translated_attributes :place, :title, required: true
+  translated_attributes :place_url
 
   def name
     [place, title].compact.join(', ')

@@ -2,20 +2,29 @@ module TranslatedAttributes
   extend ActiveSupport::Concern
 
   class_methods do
-    def translated_attributes(*attrs)
+    def translated_attributes(*attrs, required: false)
       attrs.each do |attr|
         column = attr.to_s.pluralize
-        define_method(attr) { |locale = I18n.locale|
+        define_method(attr) do |locale = I18n.locale|
           self[column][locale.to_s].presence ||
             self[column][Current.acp.default_locale.to_s].presence
-        }
-        define_method("#{attr}=") { |str| self[column][I18n.locale.to_s] = str }
-        ACP::LANGUAGES.each do |locale|
-          define_method("#{attr}_#{locale}") do
-            self[column][locale].presence
+        end
+        define_method("#{attr}?") do |locale = I18n.locale|
+          send(attr, locale).present?
+        end
+        define_method("#{attr}=") do |str|
+          ACP::LANGUAGES.each do |locale|
+            send("#{attr}_#{locale}=", str)
           end
+        end
+        ACP::LANGUAGES.each do |locale|
+          define_method("#{attr}_#{locale}") { self[column][locale].presence }
           define_method("#{attr}_#{locale}=") do |str|
-            self[column][locale] = str
+            if str.present?
+              self[column][locale] = str
+            else
+              self[column].delete(locale)
+            end
           end
         end
 
@@ -31,10 +40,18 @@ module TranslatedAttributes
         scope "#{attr}_contains", ->(str) {
           where("#{table_name}.#{column}->>'#{I18n.locale}' ILIKE ?", "%#{str}%")
         }
+
+        if required
+          ACP::LANGUAGES.each do |locale|
+            validates "#{attr}_#{locale}".to_sym, presence: true, if: -> {
+              locale.in?(Current.acp.languages)
+            }
+          end
+        end
       end
 
       define_singleton_method(:ransackable_scopes) do |_auth_object = nil|
-        super(_auth_object) + attrs.map { |attr| "#{attr}_eq" }
+        super(_auth_object) + attrs.flat_map { |attr| ["#{attr}_eq", "#{attr}_contains"] }
       end
     end
   end

@@ -5,7 +5,7 @@ class Permission < ApplicationRecord
   SUPERADMIN_ID = 1
   SUPERADMIN_FEATURES =
 
-  translated_attributes :name
+  translated_attributes :name, required: true
 
   has_many :admins
 

@@ -8,7 +8,8 @@ class Activity < ApplicationRecord
   attribute :start_time, :time_only
   attribute :end_time, :time_only
 
-  translated_attributes :place, :place_url, :title, :description
+  translated_attributes :place_url, :description
+  translated_attributes :place, :title, required: true
 
   has_many :participations, class_name: 'ActivityParticipation'
 
@@ -22,7 +23,7 @@ class Activity < ApplicationRecord
     includes(:participations).where(participations: { id: nil })
   }
 
-  validates :start_time, :end_time, :title, presence: true
+  validates :start_time, :end_time, presence: true
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :end_time_must_be_greather_than_start_time

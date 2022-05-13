@@ -8,17 +8,14 @@ class DeliveriesCycle < ApplicationRecord
   has_many :memberships
   has_and_belongs_to_many :depots
 
-  translated_attributes :name, :public_name
+  translated_attributes :public_name
+  translated_attributes :name, required: true
 
   default_scope { order_by_name }
 
-  validates :name, :form_priority, presence: true
+  validates :form_priority, presence: true
 
   after_commit :update_baskets_async, on: :update
-
-  def self.ransackable_scopes(_auth_object = nil)
-    super + %i[name_contains]
-  end
 
   def self.create_default!
     create!(names: ACP.languages.map { |l|

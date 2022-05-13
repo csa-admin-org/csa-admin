@@ -4,7 +4,8 @@ class BasketComplement < ApplicationRecord
 
   PRICE_TYPES = %w[delivery annual]
 
-  translated_attributes :name, :public_name
+  translated_attributes :name, required: true
+  translated_attributes :public_name
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
