@@ -860,4 +860,29 @@ describe Membership do
       end
     end
   end
+
+  describe '#destroy_or_cancel_invoices!' do
+    specify 'cancel or destroy membership invoices on destroy' do
+      Current.acp.update!(
+        trial_basket_count: 0,
+        fiscal_year_start_month: 1,
+        recurring_billing_wday: 1,
+        billing_year_divisions: [12])
+      member = create(:member, billing_year_division: 12)
+      membership = travel_to '2022-01-01' do
+        create(:membership, member: member)
+      end
+      sent_invoice = travel_to '2022-02-01' do
+        Billing::Invoicer.force_invoice!(member, send_email: true)
+      end
+      not_sent_invoice = travel_to '2022-03-01' do
+        Billing::Invoicer.force_invoice!(member, send_email: false)
+      end
+
+      expect { membership.destroy }
+        .to change { Invoice.not_canceled.reload.count }.by(-2)
+        .and change { sent_invoice.reload.state }.from('open').to('canceled')
+      expect { not_sent_invoice.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

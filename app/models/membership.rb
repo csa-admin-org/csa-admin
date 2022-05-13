@@ -68,7 +68,7 @@ class Membership < ApplicationRecord
   after_update :handle_config_change!
   after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
   after_touch :update_price_and_invoices_amount!, unless: :skip_touch
-  after_destroy :update_renewal_of_previous_membership!
+  after_destroy :update_renewal_of_previous_membership!, :destroy_or_cancel_invoices!
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -496,6 +496,10 @@ class Membership < ApplicationRecord
         renewed_at: nil,
         renew: false)
     end
+  end
+
+  def destroy_or_cancel_invoices!
+    invoices.not_canceled.each(&:destroy_or_cancel!)
   end
 
   def only_one_per_year
