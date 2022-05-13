@@ -4,7 +4,7 @@ module Shop
 
     include TranslatedAttributes
 
-    translated_attributes :name
+    translated_attributes :name, required: true
 
     default_scope { order_by_name.order(:price) }
 
@@ -14,7 +14,6 @@ module Shop
     scope :available, -> { where(available: true) }
     scope :unavailable, -> { where(available: false) }
 
-    validates :name, presence: true
     validates :available, inclusion: [true, false]
     validates :price,
       presence: true,

@@ -22,7 +22,7 @@ describe Ability do
   end
 
   context 'read-only' do
-    let(:admin) { create(:admin, permission: Permission.create!(rights: {})) }
+    let(:admin) { create(:admin, permission: create(:permission, rights: {})) }
 
     specify { expect(ability.can?(:read, ActiveAdmin::Page)).to be_truthy }
     specify { expect(ability.can?(:pdf, Invoice)).to be_truthy }
@@ -37,7 +37,7 @@ describe Ability do
   end
 
   context 'with member write permission' do
-    let(:admin) { create(:admin, permission: Permission.create!(rights: { member: :write })) }
+    let(:admin) { create(:admin, permission: create(:permission, rights: { member: :write })) }
 
     specify { expect(ability.can?(:create, Member)).to be_truthy }
     specify { expect(ability.can?(:update, Member)).to be_truthy }
@@ -47,7 +47,7 @@ describe Ability do
   end
 
   context 'with membership write permission' do
-    let(:admin) { create(:admin, permission: Permission.create!(rights: { membership: :write })) }
+    let(:admin) { create(:admin, permission: create(:permission, rights: { membership: :write })) }
 
     specify { expect(ability.can?(:create, Membership)).to be_truthy }
     specify { expect(ability.can?(:update, Membership)).to be_truthy }
@@ -62,7 +62,7 @@ describe Ability do
   end
 
   context 'with billing write permission' do
-    let(:admin) { create(:admin, permission: Permission.create!(rights: { billing: :write })) }
+    let(:admin) { create(:admin, permission: create(:permission, rights: { billing: :write })) }
 
     specify { expect(ability.can?(:create, Invoice)).to be_truthy }
     specify { expect(ability.can?(:update, Invoice)).to be_truthy }
@@ -77,7 +77,7 @@ describe Ability do
 
   context 'with billing group_buying permission' do
     before { Current.acp.update! features: [:group_buying] }
-    let(:admin) { create(:admin, permission: Permission.create!(rights: { group_buying: :write })) }
+    let(:admin) { create(:admin, permission: create(:permission, rights: { group_buying: :write })) }
 
     specify { expect(ability.can?(:create, GroupBuying::Delivery)).to be_truthy }
     specify { expect(ability.can?(:update, GroupBuying::Delivery)).to be_truthy }
@@ -93,7 +93,7 @@ describe Ability do
 
   context 'with billing shop permission' do
     before { Current.acp.update! features: [:shop] }
-    let(:admin) { create(:admin, permission: Permission.create!(rights: { shop: :write })) }
+    let(:admin) { create(:admin, permission: create(:permission, rights: { shop: :write })) }
 
     specify { expect(ability.can?(:create, Shop::Order)).to be_truthy }
     specify { expect(ability.can?(:update, Shop::Order)).to be_truthy }

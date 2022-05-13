@@ -5,7 +5,7 @@ module Shop
     include TranslatedAttributes
     include TranslatedRichTexts
 
-    translated_attributes :name
+    translated_attributes :name, required: true
     translated_rich_texts :description
 
     default_scope { order_by_name }
@@ -33,7 +33,6 @@ module Shop
       joins(:variants).merge(ProductVariant.name_contains(str))
     }
 
-    validates :name, presence: true
     validates :available, inclusion: [true, false]
     validates :variants, presence: true
     validates :variants, length: { is: 1, message: :single_variant }, if: :basket_complement_id?

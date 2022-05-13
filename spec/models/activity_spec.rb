@@ -4,8 +4,8 @@ describe Activity do
   it_behaves_like 'bulk_dates_insert'
 
   it 'validates title presence' do
-    activity = Activity.new(title: '')
-    expect(activity).not_to have_valid(:title)
+    activity = Activity.new(title_fr: '')
+    expect(activity).not_to have_valid(:title_fr)
   end
 
   it 'validates participants_limit to be at least 1' do

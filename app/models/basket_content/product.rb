@@ -2,7 +2,7 @@ class BasketContent
   class Product < ApplicationRecord
     include TranslatedAttributes
 
-    translated_attributes :name
+    translated_attributes :name, required: true
 
     has_many :basket_contents
     has_many :deliveries, through: :basket_contents
@@ -13,7 +13,7 @@ class BasketContent
 
     default_scope { order_by_name }
 
-    validates :names, presence: true, uniqueness: true
+    validates :names, uniqueness: true
 
     def url_domain
       return unless url?

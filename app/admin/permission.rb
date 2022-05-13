@@ -24,7 +24,7 @@ ActiveAdmin.register Permission do
 
   form do |f|
     f.inputs t('.details') do
-      translated_input(f, :names, required: true)
+      translated_input(f, :names)
     end
 
     f.semantic_fields_for :rights do |fr|

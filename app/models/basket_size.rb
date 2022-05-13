@@ -2,7 +2,8 @@ class BasketSize < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 
-  translated_attributes :name, :public_name
+  translated_attributes :name, required: true
+  translated_attributes :public_name
 
   has_many :memberships
   has_many :members, through: :memberships
@@ -12,7 +13,7 @@ class BasketSize < ApplicationRecord
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
 
-  validates :name, :form_priority, presence: true
+  validates :form_priority, presence: true
   validates :price,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true

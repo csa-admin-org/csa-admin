@@ -56,10 +56,8 @@ ActiveAdmin.register GroupBuying::Product do
   form do |f|
     f.inputs t('.details') do
       f.input :producer
-      translated_input(f, :names, required: true)
-      translated_input(f, :descriptions,
-        as: :action_text,
-        required: false)
+      translated_input(f, :names)
+      translated_input(f, :descriptions, as: :action_text)
       f.input :price, as: :number, step: 0.05, min: -99999.95, max: 99999.95
       f.input :available, as: :boolean, required: false
     end

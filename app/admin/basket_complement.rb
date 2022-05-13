@@ -48,9 +48,8 @@ ActiveAdmin.register BasketComplement do
 
   form do |f|
     f.inputs do
-      translated_input(f, :names, required: true)
+      translated_input(f, :names)
       translated_input(f, :public_names,
-        required: false,
         hint: t('formtastic.hints.basket_complement.public_name'))
       f.input :price_type,
         as: :select,
