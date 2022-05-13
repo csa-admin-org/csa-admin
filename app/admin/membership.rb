@@ -302,7 +302,7 @@ ActiveAdmin.register Membership do
           row :deliveries_cycle
         end
 
-        if m.current_year?
+        if Current.fiscal_year >= m.fiscal_year
           attributes_table title: Membership.human_attribute_name(:renew) do
             div class: 'actions' do
               handbook_icon_link('membership_renewal')
