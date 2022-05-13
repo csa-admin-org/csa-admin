@@ -19,41 +19,6 @@ class Payment < ApplicationRecord
 
   after_commit :redistribute!
 
-  def self.redistribute!(member_id)
-    member = Member.find(member_id)
-    remaining_amount = 0
-
-    transaction do
-      member.invoices.update_all(paid_amount: 0)
-
-      # Use payment amount to targeted invoice first.
-      member.payments.each do |payment|
-        if payment.invoice && !payment.invoice.canceled?
-          paid_amount = [[payment.amount, payment.invoice.missing_amount].min, 0].max
-          payment.invoice.increment!(:paid_amount, paid_amount)
-          remaining_amount += payment.amount - paid_amount
-        else
-          remaining_amount += payment.amount
-        end
-      end
-
-      # Add negative (payback) invoice to remaining_amount
-      remaining_amount += -member.invoices.not_canceled.where('amount < 0').sum(:amount)
-
-      # Split remaining amount on other invoices chronogically
-      invoices = member.invoices.not_canceled.order(:date, :id)
-      last_invoice = invoices.last
-      invoices.each do |invoice|
-        if invoice.missing_amount.positive? && remaining_amount.positive?
-          paid_amount = invoice == last_invoice ? remaining_amount : [remaining_amount, invoice.missing_amount].min
-          invoice.increment!(:paid_amount, paid_amount)
-          remaining_amount -= paid_amount
-        end
-        invoice.reload.close_or_open!
-      end
-    end
-  end
-
   def invoice_id=(invoice_id)
     super
     self.invoice = invoice if invoice
@@ -91,6 +56,6 @@ class Payment < ApplicationRecord
   private
 
   def redistribute!
-    self.class.redistribute!(member_id)
+    Billing::PaymentsRedistributor.redistribute!(member_id)
   end
 end

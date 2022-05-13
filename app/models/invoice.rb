@@ -114,11 +114,11 @@ class Invoice < ApplicationRecord
   def process!(send_email: false)
     return unless processing?
 
-    Payment.redistribute!(member_id)
+    Billing::PaymentsRedistributor.redistribute!(member_id)
     handle_acp_shares_change!
     reload # ensure that paid_amount/state change are reflected.
     set_pdf!
-    Payment.redistribute!(member_id)
+    Billing::PaymentsRedistributor.redistribute!(member_id)
     transaction do
       update!(state: NOT_SENT_STATE)
       close_or_open!
@@ -157,7 +157,7 @@ class Invoice < ApplicationRecord
       update!(
         canceled_at: Time.current,
         state: CANCELED_STATE)
-      Payment.redistribute!(member_id)
+      Billing::PaymentsRedistributor.redistribute!(member_id)
       handle_acp_shares_change!
     end
   end
