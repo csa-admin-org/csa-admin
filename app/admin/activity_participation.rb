@@ -55,7 +55,9 @@ ActiveAdmin.register ActivityParticipation do
     column(:activity) { |ap| ap.activity.name }
     column(:member_id, &:member_id)
     column(:member_name) { |ap| ap.member.name }
-    column(:member_phones) { |ap| ap.member.phones_array.map(&:phony_formatted).join(', ') }
+    column(:member_phones) { |ap|
+      ap.member.phones_array.map { |p| display_phone(p) }.join(', ')
+    }
     column(:member_emails) { |ap| ap.member.emails_array.join(', ') }
     column(:email_session) { |ap| ap.session&.email }
     column(:participants_count)

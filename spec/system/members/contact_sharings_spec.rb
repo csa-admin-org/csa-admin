@@ -41,7 +41,7 @@ describe 'Contact sharing' do
     jane = create(:member,
       name: 'Jane',
       contact_sharing: true,
-      phones: '076 123 456 78',
+      phones: '+33 6 03 42 11 22',
       address: 'Nowhere 42',
       zip: '4321',
       city: 'Townhall')
@@ -51,7 +51,7 @@ describe 'Contact sharing' do
 
     within 'ul#members' do
       expect(page).not_to have_content 'John Doe'
-      expect(page).to have_content '076 123 45 678'
+      expect(page).to have_content '+33 6 03 42 11 22'
       expect(page).to have_content 'Nowhere 42'
       expect(page).to have_content '4321 Townhall'
     end

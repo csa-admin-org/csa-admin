@@ -9,7 +9,7 @@ describe 'Account' do
       city: 'Town',
       country_code: 'CH',
       emails: 'john@doe.com, jame@doe.com',
-      phones: '076 123 45 67, 079 765 43 21')
+      phones: '076 123 45 67, +33 6 01 42 11 22')
   }
 
   before do
@@ -22,10 +22,10 @@ describe 'Account' do
 
     click_on 'Doe Jame and John'
 
-    expect(page).to have_content("Doe Jame and John")
-    expect(page).to have_content("Nowhere 11234 TownSuisse")
-    expect(page).to have_content("jame@doe.com, john@doe.com")
-    expect(page).to have_content("076 123 45 67, 079 765 43 21")
+    expect(page).to have_content('Doe Jame and John')
+    expect(page).to have_content('Nowhere 11234 TownSuisse')
+    expect(page).to have_content('jame@doe.com, john@doe.com')
+    expect(page).to have_content('076 123 45 67, +33 6 01 42 11 22')
   end
 
   it 'edits current member data' do

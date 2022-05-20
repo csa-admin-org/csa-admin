@@ -64,7 +64,8 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def carpooling_phone=(phone)
-    super PhonyRails.normalize_number(phone, default_country_code: 'CH')
+    super PhonyRails.normalize_number(phone,
+      default_country_code: Current.acp.country_code)
   end
 
   def carpooling=(boolean)
