@@ -14,7 +14,11 @@ class BasketContent
       links
     end
 
-    includes :basket_contents, :latest_basket_content
+    filter :name_contains,
+      label: -> { BasketContent::Product.human_attribute_name(:name) },
+      as: :string
+
+    includes :basket_contents, latest_basket_content: :delivery
     index do
       column :name
       column :url, ->(p) { link_to(p.url_domain, p.url) if p.url? }
@@ -69,7 +73,6 @@ class BasketContent
       include TranslatedCSVFilename
     end
 
-    config.filters = false
     config.per_page = 50
     config.sort_order = :default_scope
   end
