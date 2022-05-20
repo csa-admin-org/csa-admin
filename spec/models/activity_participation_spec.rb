@@ -90,13 +90,14 @@ describe ActivityParticipation, freeze: '2021-06-15' do
 
   describe '#reject!' do
     it 'sets states column' do
-      activity = create(:activity, date: 3.days.ago)
+      activity = create(:activity, date: Date.yesterday)
       participation = create(:activity_participation,
         activity: activity,
         review_sent_at: Time.current,
         validated_at: Time.current)
 
-      expect(participation.reject!(admin)).to eq true
+      expect { participation.reject!(admin) }
+        .to change { participation.reload.state }.from('pending').to('rejected')
 
       expect(participation).to have_attributes(
         state: 'rejected',
@@ -110,6 +111,16 @@ describe ActivityParticipation, freeze: '2021-06-15' do
       activity = create(:activity, date: 3.days.ago)
       participation = create(:activity_participation, :rejected, activity: activity)
 
+      expect(participation.reject!(admin)).to be_nil
+    end
+
+    it 'does not reject coming activity participation' do
+      activity = create(:activity, date: Date.today)
+      participation = create(:activity_participation, activity: activity)
+      expect(participation.reject!(admin)).to be_nil
+
+      activity = create(:activity, date: Date.tomorrow)
+      participation = create(:activity_participation, activity: activity)
       expect(participation.reject!(admin)).to be_nil
     end
   end

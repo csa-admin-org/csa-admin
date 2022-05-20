@@ -46,7 +46,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def coming?
-    pending? && activity.date > Date.current
+    pending? && activity.date >= Date.current
   end
 
   def state
