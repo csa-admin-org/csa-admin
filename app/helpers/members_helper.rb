@@ -172,7 +172,7 @@ module MembersHelper
   def display_phones(member)
     parts = []
     member.phones_array.each do |phone|
-      parts << link_to(phone.phony_formatted, 'tel:' + phone.phony_formatted(spaces: '', format: :international))
+      parts << phone_link(phone)
     end
     parts.join(', ').html_safe
   end

@@ -183,7 +183,7 @@ module PDF
         if Current.acp.delivery_pdf_show_phones?
           phones = basket.member.phones_array
           if phones.any?
-            txt = phones.map(&:phony_formatted).join(', ')
+            txt = phones.map { |p| display_phone(p) }.join(', ')
             column_content += "<font size='3'>\n\n</font>"
             column_content += "<font size='10'><i><color rgb='666666'>#{txt}</color></i></font>"
           end

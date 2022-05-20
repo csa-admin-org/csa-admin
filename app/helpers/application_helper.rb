@@ -44,13 +44,25 @@ module ApplicationHelper
 
     arbre.ul do
       Array(phones).map do |phone|
-        arbre.li do
-          link_to(
-            phone.phony_formatted,
-            'tel:' + phone.phony_formatted(spaces: '', format: :international))
-        end
+        arbre.li phone_link(phone)
       end
     end
+  end
+
+  def phone_link(phone)
+    phone_to(
+      phone.phony_formatted(spaces: '', format: :international),
+      display_phone(phone))
+  end
+
+  def display_phone(phone)
+    format =
+      if PhonyRails.country_from_number(phone) == Current.acp.country_code
+        :national
+      else
+        :international
+      end
+    phone.phony_formatted(format: format)
   end
 
   def display_price_description(price, description)

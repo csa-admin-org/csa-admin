@@ -153,7 +153,7 @@ module XLSX
         border: border)
       add_column(
         Member.human_attribute_name(:phones),
-        baskets.map { |b| b.member.phones_array.map(&:phony_formatted).join(', ') },
+        baskets.map { |b| b.member.phones_array.map { |p| display_phone(p) }.join(', ') },
         border: border)
       unless style == 'bike_delivery'
         add_column(

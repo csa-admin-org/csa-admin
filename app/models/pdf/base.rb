@@ -3,6 +3,7 @@ require 'prawn/measurement_extensions'
 module PDF
   class Base < Prawn::Document
     include ActionView::Helpers::NumberHelper
+    include ApplicationHelper
 
     def initialize(*_args)
       super(
