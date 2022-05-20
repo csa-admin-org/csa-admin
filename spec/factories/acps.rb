@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :acp do
     name { 'Rage de Vert' }
     url { 'https://www.ragedevert.ch' }
-    logo_url { 'https://d2ibcm5tv7rtdh.cloudfront.net/ragedevert/logo.jpg' }
+    logo_url { Rails.root.join('spec/fixtures/files/logo.png') }
     email { 'info@ragedevert.ch' }
     phone { '077 447 26 16' }
     sequence(:tenant_name) { |n| "acp#{n}" }

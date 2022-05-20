@@ -5,7 +5,7 @@ ActiveAdmin.register ACP do
 
   actions :edit, :update
   permit_params \
-    :name, :host, :logo_url,
+    :name, :host,
     :url, :email, :phone, :country_code,
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
