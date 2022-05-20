@@ -42,7 +42,7 @@ class ACP < ApplicationRecord
   validates :name, presence: true
   validates :host, presence: true
   validates :url, presence: true, format: { with: %r{\Ahttps?://.*\z} }
-  validates :logo_url, presence: true, format: { with: %r{\Ahttps://.*\z} }
+  validates :logo_url, presence: true
   validates :email, presence: true
   validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email_default_from, presence: true, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
