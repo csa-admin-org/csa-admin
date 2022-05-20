@@ -429,6 +429,26 @@ _:
           _fr: Prix unitaire
           _it: Prezzo per unità
       basket_content/product:
+        latest_delivery:
+          _de: Letzte Lieferung
+          _fr: Dernière livraison
+          _it: Ultima consegna
+        latest_quantity:
+          _de: Letzte Menge
+          _fr: Dernière quantité
+          _it: Ultima quantità
+        latest_unit:
+          _de: Letzte Einheit
+          _fr: Dernière unité
+          _it: Ultima unità
+        latest_unit_price:
+          _de: Letzter Preis pro Einheit
+          _fr: Dernier prix unitaire
+          _it: Ultimo prezzo per unità
+        latest_use:
+          _de: Letzte Nutzung
+          _fr: Dernière utilisation
+          _it: Ultima utilizzazione
         url:
           _de: Externer Link
           _fr: Lien externe
