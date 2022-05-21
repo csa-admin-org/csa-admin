@@ -1,6 +1,5 @@
 module XLSX
   class BasketContent < Base
-    include ActionView::Helpers::TextHelper
     include BasketContentsHelper
 
     def initialize(delivery)
