@@ -1,7 +1,5 @@
 module XLSX
   class Delivery < Base
-    include ActionView::Helpers::TextHelper
-
     def initialize(delivery, depot = nil)
       @delivery = delivery
       @depot = depot

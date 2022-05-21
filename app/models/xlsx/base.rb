@@ -3,6 +3,8 @@ require 'rubyXL/convenience_methods'
 module XLSX
   class Base
     include ActionView::Helpers::NumberHelper
+    include ActionView::Helpers::TextHelper
+    include ApplicationHelper
 
     delegate :content_type, to: :workbook
 
