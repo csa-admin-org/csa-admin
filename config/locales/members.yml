@@ -704,6 +704,10 @@ _:
             _de: Total
             _fr: Total
             _it: Totale
+          unavailable:
+            _de: unverfügbar
+            _fr: indisponible
+            _it: indisponible
         show:
           cart:
             _de: Warenkorb

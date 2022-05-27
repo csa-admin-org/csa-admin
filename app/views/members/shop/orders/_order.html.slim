@@ -17,9 +17,13 @@
             span class='mr-2 text-left text-xs text-gray-400 whitespace-nowrap'
               = cur(ff.object.item_price)
 
-            - unless ff.object.product_variant.available_stock?(ff.object.quantity + 5)
+            - if ff.object.product_variant.unavailable?
+              span class="px-2 my-1 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800 whitespace-nowrap"
+                = t('.unavailable')
+            - elsif !ff.object.product_variant.available_stock?(ff.object.quantity + 5)
               span class="px-2 my-1 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800 whitespace-nowrap"
                 = t('.stock', count: ff.object.product_variant.stock)
+
 
           div class='mt-1 md:mt-0 flex-none flex flex-row items-center justify-end'
             span class="ml-2" title="#{ff.object.quantity} x #{cur(ff.object.item_price)}"
@@ -35,7 +39,7 @@
 
               = ff.input_field :quantity, class: 'controls-none outline-none focus:outline-none border-none text-center dark:text-gray-400 w-8 bg-gray-200 dark:bg-gray-800 font-semibold px-0 hover:text-black dark:hover:text-gray-200 focus:text-black dark:focus:text-white md:text-base cursor-default focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-gray-700 z-10', min: 0, max: ff.object.product_variant.stock, data: { form_number_controls_target: 'input', action: "change->form-submitter#submit" }
 
-              button aria-label="plus" class="bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 rounded-r cursor-pointer outline-none #{'hover:bg-gray-300 dark:hover:bg-gray-700' if !ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i}" data-action="form-number-controls#increment" disabled=(ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i)
+              button aria-label="plus" class="bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 rounded-r cursor-pointer outline-none #{'hover:bg-gray-300 dark:hover:bg-gray-700' if !ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i}" data-action="form-number-controls#increment" disabled=(ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i))
                 div class="mx-2 flex items-center"
                   = inline_svg_tag('members/plus.svg', class: 'w-4 h-4 flex-shrink-0 stroke-current')
 
@@ -63,7 +67,7 @@ div class='w-full mt-8 flex flex-col md:flex-row md:justify-end'
   div class='mt-2 md:mt-0 order-2 md:order-1 flex items-center'
     = link_to t('.continue_shopping'), shop_path, class: 'button md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer', target: '_top'
   div class='w-full md:w-auto order-1 md:order-2 md:ml-2 flex items-center'
-    = button_to t('.submit_order'), confirm_members_shop_order_path(@order), disabled: submit_disabled, class: "md:min-w-min min-w-full py-2 px-4 border #{!submit_disabled ? 'text-white border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' : 'text-gray-400 dark:text-gray-600 dark:border-gray-800 bg-gray-200 dark:bg-gray-800 cursor-not-allowed'} font-medium rounded-md ocus:z-10 text-base", form: { data: { turbo: false }, class: 'w-full' }
+    = button_to t('.submit_order'), confirm_members_shop_order_path(@order), disabled: submit_disabled, class: "md:min-w-min min-w-full py-2 px-4 border #{!submit_disabled ? 'text-white border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' : 'text-gray-400 dark:text-gray-600 dark:border-gray-800 bg-gray-200 dark:bg-gray-800 cursor-not-allowed'} font-medium rounded-md ocus:z-10 text-base", form: { data: { turbo: false }, class: 'w-full' }, aria: { label: 'confirm_order' }
 
 
 div class='mt-12 flex flex-row justify-center md:justify-end'

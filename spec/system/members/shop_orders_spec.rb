@@ -95,6 +95,40 @@ describe 'Shop::Order' do
     end
   end
 
+  specify 'unavailable product in cart order' do
+    travel_to '2021-11-08' do
+      delivery = create(:delivery, shop_open: true, date: '2021-11-10')
+      create(:membership, member: member, started_on: '2021-11-01', ended_on: '2021-11-30')
+      order = create(:shop_order, :cart,
+        delivery: Delivery.last,
+        member: member,
+        items_attributes: {
+          '0' => {
+            product_id: product1.id,
+            product_variant_id: product1.variants.first.id,
+            quantity: 1
+          },
+          '1' => {
+            product_id: product2.id,
+            product_variant_id: product2.variants.first.id,
+            quantity: 1
+          }
+        })
+
+      product1.update!(available: false)
+
+      visit "/shop/orders/#{order.id}"
+      expect(current_path).to eq "/shop/orders/#{order.id}"
+
+      within 'label[for="shop_order_items_attributes_0_quantity"]' do
+        expect(page).to have_content('indisponible')
+      end
+
+      button = find('button[aria-label="confirm_order"]')
+      expect(button).to be_disabled
+    end
+  end
+
   specify 'cart can be finalize depending date' do
     order = nil
     travel_to '2021-11-08 11:59 +01' do
