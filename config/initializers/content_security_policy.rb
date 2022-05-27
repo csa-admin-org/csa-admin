@@ -12,7 +12,7 @@ Rails.application.configure do
     policy.object_src  :none
     policy.script_src  :self, :https, :unsafe_inline, 'blob: *'
     policy.style_src   :self, :https, :unsafe_inline
-    policy.frame_src   :self, '*.youtube.com', '*.vimeo.com', 'blob: *'
+    policy.frame_src   :self, '*.youtube.com', '*.vimeo.com'
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
   end
