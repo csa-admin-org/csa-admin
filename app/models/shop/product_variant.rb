@@ -23,6 +23,10 @@ module Shop
     validates :weight_in_kg,
       numericality: { greater_than: 0, allow_nil: true }
 
+    def unavailable?
+      !available? || !product.available?
+    end
+
     def out_of_stock?
       stock&.zero?
     end
