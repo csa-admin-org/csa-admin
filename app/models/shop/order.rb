@@ -129,6 +129,7 @@ module Shop
         item_sign = [item.product_id, item.product_variant_id]
         if item_sign.in?(used_items)
           item.errors.add(:product_variant_id, :taken)
+          errors.add(:items, :taken) # required to show item error on form
         end
         used_items << item_sign
       end
