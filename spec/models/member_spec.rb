@@ -104,6 +104,25 @@ describe Member do
       expect(member).not_to be_valid
       expect(member).not_to have_valid(:waiting_deliveries_cycle)
     end
+
+    it 'validates desired_acp_shares_number >= 1 on public create' do
+      Current.acp.update!(annual_fee: 50, share_price: nil)
+      member = build(:member, desired_acp_shares_number: 0)
+
+      member.public_create = nil
+      expect(member).to have_valid(:desired_acp_shares_number)
+      member.public_create = true
+      expect(member).to have_valid(:desired_acp_shares_number)
+
+      Current.acp.update!(annual_fee: nil, share_price: 100)
+
+      member.public_create = nil
+      expect(member).to have_valid(:desired_acp_shares_number)
+      member.public_create = true
+      expect(member).not_to have_valid(:desired_acp_shares_number)
+      member.desired_acp_shares_number = 1
+      expect(member).to have_valid(:desired_acp_shares_number)
+    end
   end
 
   it 'strips whitespaces from emails' do
