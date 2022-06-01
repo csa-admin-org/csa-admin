@@ -83,6 +83,9 @@ class Member < ApplicationRecord
   validates :existing_acp_shares_number, numericality: { greater_than_or_equal_to: 0 }
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
+  validates :desired_acp_shares_number,
+    numericality: { greater_than_or_equal_to: 1 },
+    if: -> { public_create && Current.acp.share? }
 
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
