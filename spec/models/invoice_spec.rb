@@ -145,7 +145,8 @@ describe Invoice do
       invoice = create(:invoice, :manual,
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: '10.11' },
-          '1' => { description: 'Un truc cool pluc cher', amount: '32.33' }
+          '1' => { description: 'Un truc cool gratuit', amount: '0' },
+          '2' => { description: 'Un truc cool plus cher', amount: '32.33' }
         })
 
       expect(invoice.object_type).to eq 'Other'
