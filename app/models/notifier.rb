@@ -77,7 +77,7 @@ module Notifier
 
     participations =
       ActivityParticipation
-        .coming
+        .future
         .includes(:activity, :member)
         .select(&:reminderable?)
         .select(&:can_send_email?)

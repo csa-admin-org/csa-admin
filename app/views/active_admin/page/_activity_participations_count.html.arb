@@ -1,5 +1,5 @@
 ul class: 'counts' do
-  %i[coming pending validated paid missing].each do |scope|
+  %i[future pending validated paid missing].each do |scope|
     li do
       path =
         case scope

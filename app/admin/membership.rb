@@ -394,10 +394,10 @@ ActiveAdmin.register Membership do
         if Current.acp.feature?('activity')
           attributes_table title: activities_human_name do
             row(:activity_participations_demanded) { m.activity_participations_demanded }
-            row(:activity_participations_coming) {
+            row(:activity_participations_future) {
               link_to(
-                m.member.activity_participations.coming.during_year(m.fiscal_year).sum(:participants_count),
-                activity_participations_path(scope: :coming, q: {
+                m.member.activity_participations.future.during_year(m.fiscal_year).sum(:participants_count),
+                activity_participations_path(scope: :future, q: {
                   member_id_eq: resource.member_id,
                   during_year: resource.fiscal_year.year
                 }))

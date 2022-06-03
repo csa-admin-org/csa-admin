@@ -1020,6 +1020,10 @@ _:
             _de: Alle
             _fr: Toutes
             _it: Tutto
+          future:
+            _de: Kommend
+            _fr: À venir
+            _it: Venendo
           missing:
             _de: Fehlende
             _fr: Manquantes
@@ -1204,10 +1208,6 @@ _:
         _de: Alle
         _fr: Tous
         _it: Tutto
-      coming:
-        _de: Bevorsetehende
-        _fr: À venir
-        _it: Imminente
       current:
         _de: Laufende
         _fr: En cours
@@ -1375,14 +1375,14 @@ _:
         _de: geschlossene
         _fr: fermée
         _it: chiuso
-      coming:
-        _de: bevorsetehende
-        _fr: à venir
-        _it: imminente
       'false':
         _de: nein
         _fr: non
         _it: 'no'
+      future:
+        _de: bevorsetehende
+        _fr: à venir
+        _it: imminente
       inactive:
         _de: inaktiv
         _fr: inactif

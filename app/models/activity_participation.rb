@@ -17,6 +17,7 @@ class ActivityParticipation < ApplicationRecord
   scope :not_rejected, -> { where.not(state: 'rejected') }
   scope :pending, -> { joins(:activity).merge(Activity.past).where(state: 'pending') }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
+  scope :future, -> { joins(:activity).merge(Activity.future) }
   scope :past_current_year, -> { joins(:activity).merge(Activity.past_current_year) }
   scope :current_year, -> { joins(:activity).merge(Activity.current_year) }
   scope :during_year, ->(year) { joins(:activity).merge(Activity.during_year(year)) }
@@ -45,12 +46,12 @@ class ActivityParticipation < ApplicationRecord
     super + %i[during_year]
   end
 
-  def coming?
-    pending? && activity.date >= Date.current
+  def future?
+    pending? && activity.future?
   end
 
   def state
-    coming? ? 'coming' : super
+    future? ? 'future' : super
   end
 
   %w[validated rejected pending].each do |state|
@@ -82,7 +83,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def validate!(validator)
-    return if coming? || validated?
+    return if future? || validated?
 
     update!(
       state: 'validated',
@@ -93,7 +94,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def reject!(validator)
-    return if coming? || rejected?
+    return if future? || rejected?
 
     update!(
       state: 'rejected',
@@ -110,7 +111,7 @@ class ActivityParticipation < ApplicationRecord
   def reminderable?
     return if latest_reminder_sent_at?
 
-    coming? && activity.date <= 3.days.from_now
+    future? && activity.date <= 3.days.from_now
   end
 
   private
@@ -121,7 +122,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def validate_participants_count?
-    coming? && missing_participants_count
+    activity.coming? && missing_participants_count
   end
 
   def update_membership_activity_participations_accepted!
