@@ -59,6 +59,7 @@ class ACP < ApplicationRecord
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
     absence: true, unless: :qr_invoice?
+  validates :qr_iban, format: /\ACH\d{7}[a-z0-9]{12}\z/i, if: :qr_invoice?
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
