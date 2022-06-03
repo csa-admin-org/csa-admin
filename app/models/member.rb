@@ -305,9 +305,7 @@ class Member < ApplicationRecord
   def set_default_waiting_deliveries_cycle
     return unless waiting_depot
 
-    if !waiting_deliveries_cycle_id && DeliveriesCycle.visible.none?
-      self[:waiting_deliveries_cycle_id] = waiting_depot.main_deliveries_cycle.id
-    end
+    self[:waiting_deliveries_cycle_id] ||= waiting_depot.main_deliveries_cycle.id
   end
 
   def email_must_be_unique
