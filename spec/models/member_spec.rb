@@ -534,4 +534,16 @@ describe Member do
       expect(member.can_destroy?).to eq false
     end
   end
+
+  specify '#set_default_waiting_deliveries_cycle' do
+    visible_dc = create(:deliveries_cycle, visible: true)
+    hidden_dc = create(:deliveries_cycle, visible: false)
+    depot = create(:depot, deliveries_cycles: [visible_dc, hidden_dc])
+
+    member = create(:member,
+      waiting_depot: depot,
+      waiting_deliveries_cycle_id: nil)
+
+    expect(member.waiting_deliveries_cycle).to eq visible_dc
+  end
 end
