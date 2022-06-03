@@ -61,7 +61,7 @@ ActiveAdmin.register Payment do
     as: :select,
     collection: -> { fiscal_years_collection }
 
-  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
+  sidebar :total, only: :index do
     all = collection.unscope(:includes).limit(nil)
     div class: 'content' do
       span t('active_admin.sidebars.amount')

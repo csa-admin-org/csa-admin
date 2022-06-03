@@ -338,10 +338,6 @@ _:
           _de: Sie können mich gerne <a href="mailto:info@acp-admin.ch">kontaktieren</a>, wenn Sie Fragen oder Anmerkungen zu dieser Seite haben.
           _fr: N'hésitez pas à <a href="mailto:info@acp-admin.ch">me contacter</a> si vous avez des questions ou remarques à propos de cette page.
           _it: Sentitevi liberi di <a href="mailto:info@acp-admin.ch">contattarmi</a> se avete domande o commenti su questa pagina.
-        help:
-          _de: Hilfe
-          _fr: Aide
-          _it: Aiuto
         next_delivery:
           _de: Lieferung vom %{delivery}
           _fr: Livraison du %{delivery}
@@ -362,10 +358,6 @@ _:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
           _it: Acquisti di gruppo
-        pages:
-          _de: Seiten
-          _fr: Pages
-          _it: Pagine
         quarterly_snapshots:
           _de: Quartalsschnappschüsse
           _fr: Instantanés trimestriels
@@ -1318,6 +1310,10 @@ _:
         _de: Filter
         _fr: Filtres
         _it: Filtri
+      help:
+        _de: Hilfe
+        _fr: Aide
+        _it: Aiuto
       import:
         _de: Import
         _fr: Importation
@@ -1326,6 +1322,10 @@ _:
         _de: 'Überbezahlt:'
         _fr: 'Payé en trop:'
         _it: 'Pagamento in eccesso:'
+      pages:
+        _de: Seiten
+        _fr: Pages
+        _it: Pagine
       renewal:
         _de: Verlängerungen
         _fr: Renouvellements

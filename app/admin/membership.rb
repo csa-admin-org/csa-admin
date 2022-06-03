@@ -239,7 +239,7 @@ ActiveAdmin.register Membership do
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
     end
-    column(:renewal_state) { |m| I18n.t("active_admin.status_tag.#{m.renewal_state}") }
+    column(:renewal_state) { |m| t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
     column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }

@@ -154,7 +154,7 @@ ActiveAdmin.register Delivery do
         para class: 'actions' do
           a href: handbook_page_path('deliveries', anchor: 'complments-de-panier'), class: 'action' do
             span do
-              span inline_svg_tag('admin/book-open.svg', size: '20', title: I18n.t('layouts.footer.handbook'))
+              span inline_svg_tag('admin/book-open.svg', size: '20', title: t('layouts.footer.handbook'))
               span t('.check_handbook')
             end
           end.html_safe

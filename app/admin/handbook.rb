@@ -1,7 +1,7 @@
 ActiveAdmin.register_page 'Handbook' do
   menu false
 
-  content title: I18n.t('layouts.footer.handbook') do
+  content title: proc { t('layouts.footer.handbook') } do
     columns do
       column do
         div class: 'content' do
@@ -12,7 +12,7 @@ ActiveAdmin.register_page 'Handbook' do
     end
   end
 
-  sidebar I18n.t('active_admin.page.index.pages') do
+  sidebar :pages do
     ul class: 'handbook-toc' do
       Handbook.all(binding).each do |handbook|
         li class: (handbook.name == params[:id] ? 'active' : '') do
@@ -41,7 +41,7 @@ ActiveAdmin.register_page 'Handbook' do
     end
   end
 
-  sidebar I18n.t('active_admin.page.index.help'), if: -> { params[:id] } do
+  sidebar :help, if: -> { params[:id] } do
     div class: 'content' do
       para t('.handbook_questions_html')
     end

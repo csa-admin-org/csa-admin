@@ -1,6 +1,6 @@
 ActiveAdmin.register ACP do
   menu priority: 100, label: -> {
-    inline_svg_tag('admin/gear.svg', size: '20', title: I18n.t('active_admin.settings'))
+    inline_svg_tag('admin/gear.svg', size: '20', title: t('active_admin.settings'))
   }
 
   actions :edit, :update
@@ -154,7 +154,7 @@ ActiveAdmin.register ACP do
           para class: 'actions' do
             a href: new_members_member_url(subdomain: Current.acp.members_subdomain), class: 'action' do
               span do
-                span inline_svg_tag('admin/external-link.svg', size: '20', title: I18n.t('layouts.footer.handbook'))
+                span inline_svg_tag('admin/external-link.svg', size: '20', title: t('layouts.footer.handbook'))
                 span t('.member_section')
               end
             end.html_safe
@@ -230,7 +230,7 @@ ActiveAdmin.register ACP do
             f.inputs do
               f.input :activity_i18n_scope,
                 as: :select,
-                collection: ACP.activity_i18n_scopes.map { |s| [I18n.t("activities.#{s}", count: 2), s] },
+                collection: ACP.activity_i18n_scopes.map { |s| [t("activities.#{s}", count: 2), s] },
                 prompt: true
               f.input :activity_participation_deletion_deadline_in_days
               f.input :activity_availability_limit_in_days, required: true
@@ -303,7 +303,7 @@ ActiveAdmin.register ACP do
     end
 
     f.actions do
-      f.submit I18n.t('active_admin.resources.acp.submit')
+      f.submit t('active_admin.resources.acp.submit')
     end
   end
 

@@ -47,7 +47,7 @@ ActiveAdmin.register DeliveriesCycle do
               column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
             end
           else
-            span I18n.t("active_admin.empty"), class: "empty"
+            span t('active_admin.empty'), class: 'empty'
           end
         end
         panel "#{deliveries_next_year_title}: #{dc.future_deliveries.count}"  do
@@ -57,7 +57,7 @@ ActiveAdmin.register DeliveriesCycle do
               column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
             end
           else
-            span I18n.t("active_admin.empty"), class: "empty"
+            span t('active_admin.empty'), class: 'empty'
           end
         end
       end
@@ -78,18 +78,18 @@ ActiveAdmin.register DeliveriesCycle do
             if dc.wdays.size == 7
               t('active_admin.scopes.all')
             else
-              dc.wdays.map { |d| I18n.t('date.day_names')[d].capitalize }.to_sentence
+              dc.wdays.map { |d| t('date.day_names')[d].capitalize }.to_sentence
             end
           }
-          row(:week_numbers) { I18n.t("deliveries_cycle.week_numbers.#{dc.week_numbers}") }
+          row(:week_numbers) { t("deliveries_cycle.week_numbers.#{dc.week_numbers}") }
           row(:months) {
             if dc.months.size == 12
               t('active_admin.scopes.all')
             else
-              dc.months.map { |m| I18n.t('date.month_names')[m].capitalize }.to_sentence
+              dc.months.map { |m| t('date.month_names')[m].capitalize }.to_sentence
             end
           }
-          row(:results) { I18n.t("deliveries_cycle.results.#{dc.results}") }
+          row(:results) { t("deliveries_cycle.results.#{dc.results}") }
         end
 
         panel Depot.model_name.human(count: 2) do
