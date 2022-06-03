@@ -45,7 +45,7 @@ ActiveAdmin.register MailTemplate do
       Current.acp.languages.each do |locale|
         column do
           title = t('.preview')
-          title += " (#{I18n.t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           panel title do
             iframe(
               srcdoc: mail_template.mail_preview(locale),
@@ -88,7 +88,7 @@ ActiveAdmin.register MailTemplate do
       Current.acp.languages.each do |locale|
         column do
           title = t('.preview')
-          title += " (#{I18n.t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           f.inputs title do
             div class: 'iframe-wrapper' do
               iframe(

@@ -426,7 +426,7 @@ end
 module ActiveAdmin
   class DSL
     def sidebar_handbook_link(page)
-      section = ActiveAdmin::SidebarSection.new(:hanbook, only: :index) do
+      section = ActiveAdmin::SidebarSection.new(:handbook, only: :index) do
         a href: "/handbook/#{page}" do
           span inline_svg_tag('admin/book-open.svg', size: '20')
           span t('layouts.footer.handbook')
@@ -437,7 +437,7 @@ module ActiveAdmin
 
     def sidebar_shop_admin_only_warning
       section = ActiveAdmin::SidebarSection.new(
-        I18n.t('active_admin.sidebars.shop_admin_only'),
+        :shop_admin_only,
         if: -> { Current.acp.shop_admin_only },
         only: :index,
         class: 'warning'

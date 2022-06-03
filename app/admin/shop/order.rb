@@ -71,7 +71,7 @@ ActiveAdmin.register Shop::Order do
 
   sidebar_shop_admin_only_warning
 
-  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
+  sidebar t('active_admin.sidebars.total'), only: :index do
     all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
     div class: 'content' do
       if params[:scope].in? ['invoiced', nil]
@@ -96,7 +96,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  sidebar I18n.t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :delivery_id_eq) }, only: :index do
+  sidebar t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :delivery_id_eq) }, only: :index do
     div class: 'content' do
       delivery = Delivery.find(params[:q][:delivery_id_eq])
       if delivery == Delivery.shop_open.next

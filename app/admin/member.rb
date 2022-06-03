@@ -27,7 +27,7 @@ ActiveAdmin.register Member do
   }
   filter :billing_year_division,
     as: :select,
-    collection: -> { Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] } }
+    collection: -> { Current.acp.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] } }
   filter :salary_basket,
     as: :boolean,
     if: proc { params[:scope].in? ['active', nil] }
@@ -150,7 +150,7 @@ ActiveAdmin.register Member do
             row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
             if Current.acp.feature?('shop')
               shop_order = next_basket.delivery.shop_orders.find_by(member_id: member.id)
-              row(I18n.t('shop.title')) { auto_link shop_order }
+              row(t('shop.title')) { auto_link shop_order }
             end
             row(:deliveries_cycle) { auto_link next_basket.membership.deliveries_cycle }
             row(:membership) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
@@ -472,7 +472,7 @@ ActiveAdmin.register Member do
     f.inputs t('active_admin.resource.show.billing') do
       f.input :billing_year_division,
         as: :select,
-        collection: Current.acp.billing_year_divisions.map { |i| [I18n.t("billing.year_division.x#{i}"), i] },
+        collection: Current.acp.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] },
         prompt: true
       if Current.acp.annual_fee
         f.input :annual_fee

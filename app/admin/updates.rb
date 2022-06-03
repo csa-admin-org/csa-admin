@@ -1,7 +1,7 @@
 ActiveAdmin.register_page 'Updates' do
   menu false
 
-  content title: I18n.t('layouts.footer.updates').capitalize do
+  content title: proc { t('layouts.footer.updates').capitalize } do
     columns do
       column do
         div class: 'content' do

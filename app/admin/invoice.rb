@@ -66,7 +66,7 @@ ActiveAdmin.register Invoice do
     column :state, &:state_i18n_name
   end
 
-  sidebar I18n.t('active_admin.sidebars.total'), only: :index do
+  sidebar :total, only: :index do
     all = collection.unscope(:includes).limit(nil)
     div class: 'content' do
       if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
@@ -233,7 +233,7 @@ ActiveAdmin.register Invoice do
               li(class: 'refused_activity_participation') do
                 parts = []
                 parts << link_to(
-                  I18n.t('active_admin.resource.new.refused_activity_participation', date: f.object.object.activity.date),
+                  t('active_admin.resource.new.refused_activity_participation', date: f.object.object.activity.date),
                   activity_participation_path(f.object.object_id))
                 parts << ' – '
                 parts << link_to(

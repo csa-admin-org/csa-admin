@@ -45,7 +45,7 @@ class BasketContent
       }
       column(:latest_unit) { |p|
         if p.latest_basket_content
-          I18n.t("units.#{p.latest_basket_content.unit}")
+          t("units.#{p.latest_basket_content.unit}")
         end
       }
       column(:latest_quantity) { |p| p.latest_basket_content&.quantity }

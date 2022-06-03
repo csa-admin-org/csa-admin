@@ -1,6 +1,6 @@
 ActiveAdmin.register_page 'Dashboard' do
   menu priority: 1, label: -> {
-    inline_svg_tag('admin/home.svg', size: '20', title: I18n.t('active_admin.dashboard'))
+    inline_svg_tag('admin/home.svg', size: '20', title: t('active_admin.dashboard'))
   }
 
   content title: proc { t('active_admin.dashboard') unless onboarding? } do
