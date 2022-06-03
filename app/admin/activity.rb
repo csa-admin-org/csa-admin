@@ -14,7 +14,7 @@ ActiveAdmin.register Activity do
   end
 
   scope :all
-  scope :coming, default: true
+  scope :future, default: true
   scope :past
 
   filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).compact.sort }

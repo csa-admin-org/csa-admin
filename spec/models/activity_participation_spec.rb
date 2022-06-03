@@ -114,10 +114,10 @@ describe ActivityParticipation, freeze: '2021-06-15' do
       expect(participation.reject!(admin)).to be_nil
     end
 
-    it 'does not reject coming activity participation' do
+    it 'does not reject future activity participation' do
       activity = create(:activity, date: Date.today)
       participation = create(:activity_participation, activity: activity)
-      expect(participation.reject!(admin)).to be_nil
+      expect(participation.reject!(admin)).to eq true
 
       activity = create(:activity, date: Date.tomorrow)
       participation = create(:activity_participation, activity: activity)

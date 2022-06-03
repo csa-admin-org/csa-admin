@@ -15,6 +15,7 @@ class Activity < ApplicationRecord
 
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
   scope :coming, -> { where('activities.date >= ?', Date.current) }
+  scope :future, -> { where('activities.date > ?', Date.current) }
   scope :past, -> { where('activities.date <= ?', Date.current) }
   scope :past_current_year, -> {
     where('activities.date < ? AND activities.date >= ?', Date.current, Current.fy_range.min)
@@ -41,6 +42,14 @@ class Activity < ApplicationRecord
       .ordered(:asc)
       .includes(:participations)
       .reject(&:full?)
+  end
+
+  def future?
+    date.future?
+  end
+
+  def coming?
+    date.today? || future?
   end
 
   def full?

@@ -834,10 +834,6 @@ _:
             _de: Rabatt für %{count} zusätzliche Arbeitsstunden
             _fr: Réduction pour %{count} heures de travail supplémentaires
             _it: Riduzione per %{count} ore di lavoro supplementari
-        activity_participations_coming:
-          _de: Künftig
-          _fr: À venir
-          _it: Futuro
         activity_participations_demanded:
           _de: Zu leisten
           _fr: Demandées
@@ -854,6 +850,10 @@ _:
           _de: Arbeitsstunden verlangt
           _fr: Heures de travail demandées
           _it: Ore di lavoro richieste
+        activity_participations_future:
+          _de: Kommend
+          _fr: À venir
+          _it: Venendo
         activity_participations_paid:
           _de: In Rechnung gestellt
           _fr: Facturées

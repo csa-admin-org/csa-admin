@@ -1,10 +1,10 @@
 _:
   states:
     activity_participation:
-      coming:
-        _de: künftig
+      future:
+        _de: Kommend
         _fr: à venir
-        _it: futuro
+        _it: venendo
       pending:
         _de: wartet auf Bestätigung
         _fr: en attente de validation

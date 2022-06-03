@@ -19,7 +19,7 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   scope :all
-  scope :coming
+  scope :future
   scope :pending, default: true
   scope :validated
   scope :rejected
@@ -145,7 +145,7 @@ ActiveAdmin.register ActivityParticipation do
     participations.find_each do |participation|
       participation.validate!(current_admin)
     end
-    if participations.coming.any?
+    if participations.future.any?
       flash[:alert] = t('.validate.flash.alert')
     end
     redirect_back fallback_location: collection_path
@@ -159,7 +159,7 @@ ActiveAdmin.register ActivityParticipation do
     participations.find_each do |participation|
       participation.reject!(current_admin)
     end
-    if participations.coming.any?
+    if participations.future.any?
       flash[:alert] = t('.reject.flash.alert')
     end
     redirect_back fallback_location: collection_path
