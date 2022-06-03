@@ -70,6 +70,16 @@ ActiveAdmin.register ActivityParticipation do
     column(:rejected_at)
   end
 
+  sidebar :total, only: :index do
+    all = collection.unscope(:includes).limit(nil)
+    div class: 'content' do
+      div class: 'total' do
+        span activities_human_name + ":"
+        span all.sum(:participants_count), style: 'float: right; font-weight: bold;'
+      end
+    end
+  end
+
   sidebar :calendar, if: -> { Current.acp.icalendar_auth_token? }, only: :index do
     div class: 'content' do
       para t('.activity_participation_ical_text_html')
