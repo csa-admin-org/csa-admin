@@ -9,7 +9,7 @@ module Shop
     belongs_to :product_variant, class_name: 'Shop::ProductVariant', optional: false
     has_one :delivery, through: :order
 
-    validates :item_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+    validates :item_price, presence: true, numericality: true
     validates :quantity, presence: true, numericality: { greater_than: 0 }
     validates :order_id, uniqueness: { scope: %i[product_id product_variant_id] }
     validate :ensure_available_product_variant_stock

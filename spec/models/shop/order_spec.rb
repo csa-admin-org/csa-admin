@@ -306,4 +306,23 @@ describe Shop::Order do
       expect(order.invoice).to be_nil
     end
   end
+
+  specify 'allow invoice with negative amount' do
+    product = create(:shop_product)
+    order = create(:shop_order, :pending, items_attributes: {
+      '0' => {
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        item_price: 4,
+        quantity: 1
+      },
+      '1' => {
+        product_id: product.id,
+        product_variant_id: product.variants.last.id,
+        item_price: -5,
+        quantity: 1
+      }
+    })
+    expect(order.amount).to eq(-1)
+  end
 end
