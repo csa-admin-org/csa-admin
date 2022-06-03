@@ -57,6 +57,12 @@ ActiveAdmin.register ACP do
     features: []
 
   form do |f|
+    div do
+      f.object.errors.attribute_names.each do |attr|
+        para f.semantic_errors attr
+      end
+    end
+
     tabs do
       tab t('.general') do
         f.inputs do
@@ -103,7 +109,7 @@ ActiveAdmin.register ACP do
           translated_input(f, :invoice_footers)
 
           li { h1 t('.invoice_qr') }
-          f.input :qr_iban, required: false, input_html: { maxlength: 21 }, hint: Current.acp.isr_invoice?
+          f.input :qr_iban, required: false, input_html: { maxlength: 21 }
           f.input :qr_bank_reference, required: false, input_html: { maxlength: 16 }
           f.input :qr_creditor_name, required: false, input_html: { maxlength: 70 }
           f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }

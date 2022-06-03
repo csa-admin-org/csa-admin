@@ -16,6 +16,17 @@ describe ACP do
       .to include("Liquid syntax error: 'if' tag was never closed")
   end
 
+  specify 'validates QR IBAN' do
+    acp = ACP.new(qr_iban: 'CH3230114A012B456789z')
+    expect(acp).to have_valid(:qr_iban)
+
+    acp = ACP.new(qr_iban: 'CH 33 30767 000K 5510')
+    expect(acp).not_to have_valid(:qr_iban)
+
+    acp = ACP.new(qr_iban: '', ccp: 'foo')
+    expect(acp).to have_valid(:qr_iban)
+  end
+
   specify 'ensure billing_starts_after_first_delivery is enabled with_trial_baskets' do
     acp = ACP.new(
       trial_basket_count: 3,

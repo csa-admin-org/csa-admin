@@ -87,9 +87,9 @@ _:
           _fr: Laisser vide si votre banque n'en fournit pas.
           _it: Lascia in vuoto se la tua banca non ne fornisce uno.
         qr_iban:
-          _de: Leer lassen, wenn ESR-Rechnungen verwendet werden.
-          _fr: Laisser vide si les factures BVR sont utilisées.
-          _it: Lasciare vuoto se le fatture BVR sono utilizzate.
+          _de: Ohne Leerzeichen, 21 Zeichen in der Schweiz.
+          _fr: Sans les espaces, 21 charactères en Suisse.
+          _it: Senza spazi, 21 caratteri in Svizzera.
         recurring_billing_wday:
           _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet.
           _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
