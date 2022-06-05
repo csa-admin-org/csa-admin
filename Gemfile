@@ -34,7 +34,8 @@ gem 'slim'
 gem 'turbolinks'
 # Members section
 gem 'importmap-rails'
-gem 'hotwire-rails'
+gem 'turbo-rails'
+gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 
 gem 'invisible_captcha'
