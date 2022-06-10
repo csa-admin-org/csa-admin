@@ -88,6 +88,7 @@ class Invoice < ApplicationRecord
 
   after_commit :enqueue_processing, on: :create
   after_commit :update_membership_activity_participations_accepted!
+  after_destroy -> { Billing::PaymentsRedistributor.redistribute!(member_id) }
 
   def self.object_types
     types = %w[Membership Other]
