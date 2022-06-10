@@ -3,9 +3,8 @@
 
 # Use npm packages from a JavaScript CDN by running ./bin/importmap
 
-# TODO: Change when on Rails 7, instead of using the component version
-# pin "trix"
-# pin "@rails/actiontext", to: "actiontext.js"
+pin "@rails/actiontext", to: "actiontext.js"
+pin "trix" # @2.0.0
 
 pin "@hotwired/stimulus", to: "stimulus.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
