@@ -3,34 +3,32 @@
 
 # Use npm packages from a JavaScript CDN by running ./bin/importmap
 
+pin "trix", to: "trix.js"
 pin "@rails/actiontext", to: "actiontext.js"
-pin "trix" # @2.0.0
 
 pin "@hotwired/stimulus", to: "stimulus.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/components", under: "components"
-pin "throttle-debounce" # @3.0.1
+pin "throttle-debounce" # @5.0.0
 
 pin "members"
 pin "@hotwired/turbo-rails", to: "turbo.js"
 pin_all_from "app/javascript/controllers/members", under: "controllers/members"
-pin "flatpickr" # @4.6.9
-pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js" # @4.6.9
-pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js" # @4.6.9
-pin "flatpickr/dist/l10n/de", to: "flatpickr--dist--l10n--de.js" # @4.6.9
+pin "flatpickr" # @4.6.13
+pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js" # @4.6.13
+pin "flatpickr/dist/l10n/de", to: "flatpickr--dist--l10n--de.js" # @4.6.13
+pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js" # @4.6.13
 
 pin "admin"
 pin_all_from "app/javascript/controllers/admin", under: "controllers/admin"
-pin "@joeattardi/emoji-button", to: '@joeattardi--emoji-button.js' # @4.6.2/
+pin "@joeattardi/emoji-button", to: "@joeattardi--emoji-button.js" # @4.6.4
 pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js" # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js" # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js" # @0.1.2
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@6.17.4/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@6.17.4/esm/index.js"
-pin "@sentry/hub", to: "https://ga.jspm.io/npm:@sentry/hub@6.17.4/esm/index.js"
-pin "@sentry/minimal", to: "https://ga.jspm.io/npm:@sentry/minimal@6.17.4/esm/index.js"
-pin "@sentry/types", to: "https://ga.jspm.io/npm:@sentry/types@6.17.4/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@6.17.4/esm/index.js"
-pin "tslib", to: "https://ga.jspm.io/npm:tslib@1.14.1/tslib.es6.js"
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.1.1/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.1.1/esm/index.js"
+pin "@sentry/hub", to: "https://ga.jspm.io/npm:@sentry/hub@7.1.1/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.1.1/esm/index.js"
+pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.1.1/esm/buildPolyfills/index.js"

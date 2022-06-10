@@ -1,5 +1,5 @@
-/* TODO: Change when on Rails 7, instead of using the vendor version
-*= require trix/dist/trix
+/* Sprockets requires
+*= require trix
 */
 
 .trix-content .attachment-gallery > action-text-attachment,
