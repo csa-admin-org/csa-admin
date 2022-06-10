@@ -328,4 +328,16 @@ describe Invoice do
       }.not_to change { AdminMailer.deliveries.size }
     end
   end
+
+  specify 'redistribute payments after destroy' do
+    member = create(:member)
+    invoice1 = create(:invoice, :manual, member: member, item_price: 10, date: '2022-01-01')
+    invoice2 = create(:invoice, :manual, member: member,item_price: 10, date: '2022-01-02')
+    create(:payment, member: member, amount: 10)
+
+    expect(invoice1.reload).to be_closed
+    expect {
+      invoice1.destroy!
+    }.to change { invoice2.reload.state }.from('open').to('closed')
+  end
 end

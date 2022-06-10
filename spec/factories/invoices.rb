@@ -20,7 +20,18 @@ FactoryBot.define do
     end
 
     trait :manual do
+      transient do
+        item_price { nil }
+      end
+
       object_type { '' }
+      after(:build) do |invoice, evaluator|
+        if evaluator.item_price
+          invoice.items_attributes = {
+            '0' => { description: 'Un truc', amount: evaluator.item_price }
+          }
+        end
+      end
     end
 
     trait :unprocessed do
