@@ -271,7 +271,11 @@ class Invoice < ApplicationRecord
   end
 
   def can_send_email?
-    !processing? && !sent_at? && !canceled? && member.emails?
+    can_be_mark_as_sent? && member.emails?
+  end
+
+  def can_be_mark_as_sent?
+    !processing? && !sent_at? && !canceled?
   end
 
   def can_refund?
