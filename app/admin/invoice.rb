@@ -188,6 +188,10 @@ ActiveAdmin.register Invoice do
     link_to t('.send_email'), send_email_invoice_path(resource), method: :post
   end
 
+  action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
+    link_to t('.mark_as_sent'), mark_as_sent_invoice_path(resource), method: :post
+  end
+
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.object_type != 'Shop::Order' } do
     link_to t('.cancel_invoice'), cancel_invoice_path(resource), method: :post, data: { confirm: t('.link_confirm') }
   end
@@ -205,6 +209,11 @@ ActiveAdmin.register Invoice do
   member_action :send_email, method: :post do
     resource.send!
     redirect_to resource_path, notice: t('.flash.notice')
+  end
+
+  member_action :mark_as_sent, method: :post do
+    resource.mark_as_sent!
+    redirect_to resource_path, notice: t('flash.actions.update.notice')
   end
 
   member_action :cancel, method: :post do
