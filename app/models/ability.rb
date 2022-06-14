@@ -92,6 +92,7 @@ class Ability
 
       can :force_recurring_billing, Member
       can :send_email, Invoice, can_send_email?: true
+      can :mark_as_sent, Invoice, can_send_email?: true
       can :cancel, Invoice, can_cancel?: true
       can :import, Payment
     end

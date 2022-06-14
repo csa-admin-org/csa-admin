@@ -855,6 +855,10 @@ _:
           _de: Sind Sie mehr als sicher?
           _fr: Êtes-vous sûr de sûr?
           _it: Siete davvero sicuri?
+        mark_as_sent:
+          _de: Als gesendet markieren
+          _fr: Marquer comme envoyée
+          _it: Contrassegnare come inviata
         member_new_form:
           _de: Registrierungsformular
           _fr: Formulaire d'inscription
