@@ -248,7 +248,9 @@ ActiveAdmin.register Shop::Order do
   end
 
   before_action only: :index do
-    if params.except(:subdomain, :controller, :action).empty? && next_delivery = Delivery.shop_open.next
+    if params.except(:subdomain, :controller, :action).empty? &&
+        params[:q].blank? &&
+        next_delivery = Delivery.shop_open.next
       redirect_to q: { delivery_id_eq: next_delivery.id }, utf8: '✓'
     end
   end
