@@ -456,6 +456,11 @@ module ActiveAdmin
   end
 end
 
+require 'active_admin/filter_saver'
+ActiveAdmin.before_load do |app|
+  ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver
+end
+
 # https://github.com/activeadmin/activeadmin/issues/5712#issuecomment-508184641
 ActiveAdmin.after_load do |app|
   app.namespaces.each do |namespace|

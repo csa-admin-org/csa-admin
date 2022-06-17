@@ -183,6 +183,7 @@ ActiveAdmin.register BasketContent do
 
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty? &&
+        params[:q].blank? &&
         (delivery = Delivery.next || Delivery.last)
       redirect_to q: { delivery_id_eq: delivery.id }, utf8: '✓'
     end
@@ -216,18 +217,6 @@ ActiveAdmin.register BasketContent do
         .joins(:delivery, :product)
         .merge(Delivery.reorder(date: :desc))
         .merge(BasketContent::Product.order_by_name)
-    end
-
-    def create
-      create! do |success, failure|
-        success.html { redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) }
-      end
-    end
-
-    def update
-      update! do |success, failure|
-        success.html { redirect_to basket_contents_path(q: { delivery_id_eq: resource.delivery_id }) }
-      end
     end
   end
 end
