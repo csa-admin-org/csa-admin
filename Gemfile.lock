@@ -84,7 +84,7 @@ GEM
       ruby2_keywords (>= 0.0.2, < 1.0)
     attr_extras (6.2.5)
     aws-eventstream (1.2.0)
-    aws-partitions (1.598.0)
+    aws-partitions (1.599.0)
     aws-sdk-core (3.131.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -258,7 +258,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.15.0)
+    minitest (5.16.0)
     msgpack (1.5.2)
     multi_json (1.15.0)
     net-imap (0.2.3)
@@ -417,7 +417,7 @@ GEM
     sentry-sidekiq (5.3.1)
       sentry-ruby-core (~> 5.3.1)
       sidekiq (>= 3.0)
-    sidekiq (6.5.0)
+    sidekiq (6.5.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -486,7 +486,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   arm64-darwin
