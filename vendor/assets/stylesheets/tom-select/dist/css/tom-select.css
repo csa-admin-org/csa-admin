@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v2.0.0)
+ * tom-select.css (v2.0.3)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -12,6 +12,10 @@
  * governing permissions and limitations under the License.
  *
  */
+.ts-wrapper.single .ts-control, .ts-wrapper.single .ts-control input {
+  cursor: pointer;
+}
+
 .ts-wrapper.plugin-drag_drop.multi > .ts-control > div.ui-sortable-placeholder {
   visibility: visible !important;
   background: #f2f2f2 !important;
@@ -47,7 +51,7 @@
 .plugin-clear_button.single .clear-button {
   right: calc(8px - 6px + 2rem);
 }
-.plugin-clear_button.focus.has-items .clear-button, .plugin-clear_button:hover.has-items .clear-button {
+.plugin-clear_button.focus.has-items .clear-button, .plugin-clear_button:not(.disabled):hover.has-items .clear-button {
   opacity: 1;
 }
 
@@ -85,6 +89,15 @@
   width: 100%;
   background: transparent;
 }
+.plugin-dropdown_input .items-placeholder {
+  border: 0 none !important;
+  box-shadow: none !important;
+  width: 100%;
+}
+.plugin-dropdown_input.has-items .items-placeholder, .plugin-dropdown_input.dropdown-active .items-placeholder {
+  display: none !important;
+}
+
 .ts-wrapper.plugin-input_autogrow.has-items .ts-control > input {
   min-width: 0;
 }
@@ -369,10 +382,10 @@
   clip: rect(0 0 0 0) !important;
   -webkit-clip-path: inset(50%) !important;
           clip-path: inset(50%) !important;
-  height: 1px !important;
   overflow: hidden !important;
   padding: 0 !important;
   position: absolute !important;
   width: 1px !important;
   white-space: nowrap !important;
 }
+/*# sourceMappingURL=tom-select.css.map */
