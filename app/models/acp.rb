@@ -153,8 +153,8 @@ class ACP < ApplicationRecord
     !!recurring_billing_wday
   end
 
-  def payments_processing?
-    credentials(:ebics) || credentials(:bas)
+  def send_invoice_overdue_notice?
+    [credentials(:ebics), credentials(:bas)].any?(&:present?)
   end
 
   def billing_year_divisions=(divisions)

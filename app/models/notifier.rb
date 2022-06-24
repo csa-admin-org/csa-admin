@@ -12,7 +12,7 @@ module Notifier
   end
 
   def send_invoice_overdue_notice_emails
-    return unless Current.acp.payments_processing?
+    return unless Current.acp.send_invoice_overdue_notice?
 
     Invoice.open.each { |i| InvoiceOverdueNoticer.perform(i) }
   end

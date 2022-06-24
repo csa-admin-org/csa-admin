@@ -30,7 +30,6 @@ class MailTemplate < ApplicationRecord
     inclusion: { in: TITLES },
     uniqueness: true
   validate :subjects_must_be_valid, :contents_must_be_valid
-  validates :active, inclusion: [true], if: :always_active?
 
   after_initialize :set_defaults
 
@@ -128,6 +127,22 @@ class MailTemplate < ApplicationRecord
 
   def always_active?
     title.in?(INVOICE_TITLES + ['activity_participation_reminder'])
+  end
+
+  def active=(value)
+    if always_active?
+      super(true)
+    else
+      super
+    end
+  end
+
+  def active
+    if title == 'invoice_overdue_notice' && !Current.acp.send_invoice_overdue_notice?
+      false
+    else
+      super
+    end
   end
 
   private
