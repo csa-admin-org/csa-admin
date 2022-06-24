@@ -1,5 +1,5 @@
 /**
-* Tom Select v2.0.0
+* Tom Select v2.0.3
 * Licensed under the Apache License, Version 2.0 (the "License");
 */
 
@@ -7,7 +7,7 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.TomSelect = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
 	/**
 	 * MicroEvent - to make any js object an event emitter
@@ -31,6 +31,7 @@
 
 	class MicroEvent {
 	  constructor() {
+	    this._events = void 0;
 	    this._events = {};
 	  }
 
@@ -478,6 +479,8 @@
 	   *
 	   */
 	  constructor(items, settings) {
+	    this.items = void 0;
+	    this.settings = void 0;
 	    this.items = items;
 	    this.settings = settings || {
 	      diacritics: true
@@ -796,7 +799,7 @@
 	        }
 	      });
 	    } else {
-	      iterate(self.items, (item, id) => {
+	      iterate(self.items, (_, id) => {
 	        search.items.push({
 	          'score': 1,
 	          'id': id
@@ -1504,9 +1507,24 @@
 	  // @deprecated 1.8
 	  constructor(input_arg, user_settings) {
 	    super();
+	    this.control_input = void 0;
+	    this.wrapper = void 0;
+	    this.dropdown = void 0;
+	    this.control = void 0;
+	    this.dropdown_content = void 0;
+	    this.focus_node = void 0;
 	    this.order = 0;
+	    this.settings = void 0;
+	    this.input = void 0;
+	    this.tabIndex = void 0;
+	    this.is_select_tag = void 0;
+	    this.rtl = void 0;
+	    this.inputId = void 0;
+	    this._destroy = void 0;
+	    this.sifter = void 0;
 	    this.isOpen = false;
 	    this.isDisabled = false;
+	    this.isRequired = void 0;
 	    this.isInvalid = false;
 	    this.isValid = true;
 	    this.isLocked = false;
@@ -1515,6 +1533,7 @@
 	    this.isSetup = false;
 	    this.ignoreFocus = false;
 	    this.hasOptions = false;
+	    this.currentResults = void 0;
 	    this.lastValue = '';
 	    this.caretPos = 0;
 	    this.loading = 0;
@@ -1572,7 +1591,9 @@
 	      if (filter instanceof RegExp) {
 	        settings.createFilter = input => filter.test(input);
 	      } else {
-	        settings.createFilter = () => true;
+	        settings.createFilter = value => {
+	          return this.settings.duplicates || !this.options[value];
+	        };
 	      }
 	    }
 
@@ -1615,7 +1636,7 @@
 	      });
 	      control_input.tabIndex = -1;
 	      control.appendChild(control_input);
-	      this.focus_node = control_input; // dom element	
+	      this.focus_node = control_input; // dom element
 	    } else if (settings.controlInput) {
 	      control_input = getDom(settings.controlInput);
 	      this.focus_node = control_input;
@@ -1692,15 +1713,15 @@
 	      });
 	    }
 
-	    if (self.settings.placeholder) {
+	    if (settings.placeholder) {
 	      setAttr(control_input, {
 	        placeholder: settings.placeholder
 	      });
 	    } // if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 
 
-	    if (!self.settings.splitOn && self.settings.delimiter) {
-	      self.settings.splitOn = new RegExp('\\s*' + escape_regex(self.settings.delimiter) + '+\\s*');
+	    if (!settings.splitOn && settings.delimiter) {
+	      settings.splitOn = new RegExp('\\s*' + escape_regex(settings.delimiter) + '+\\s*');
 	    } // debounce user defined load() if loadThrottle > 0
 	    // after initializePlugins() so plugins can create/modify user defined loaders
 
@@ -1782,7 +1803,7 @@
 
 	    this._destroy = () => {
 	      document.removeEventListener('mousedown', doc_mousedown);
-	      window.removeEventListener('sroll', win_scroll);
+	      window.removeEventListener('scroll', win_scroll);
 	      window.removeEventListener('resize', win_scroll);
 	      if (label) label.removeEventListener('click', label_click);
 	    }; // store original html and tab index so that they can be
@@ -1927,7 +1948,7 @@
 	      delimiter: self.settings.delimiter
 	    }) : self.settings;
 	    self.setupOptions(settings.options, settings.optgroups);
-	    self.setValue(settings.items, true); // silent prevents recursion
+	    self.setValue(settings.items || [], true); // silent prevents recursion
 
 	    self.lastQuery = null; // so updated options will be displayed in dropdown
 	  }
@@ -2595,13 +2616,16 @@
 
 
 	  selectAll() {
-	    if (this.settings.mode === 'single') return;
-	    const activeItems = this.controlChildren();
+	    const self = this;
+	    if (self.settings.mode === 'single') return;
+	    const activeItems = self.controlChildren();
 	    if (!activeItems.length) return;
-	    this.hideInput();
-	    this.close();
-	    this.activeItems = activeItems;
-	    addClasses(activeItems, 'active');
+	    self.hideInput();
+	    self.close();
+	    self.activeItems = activeItems;
+	    iterate(activeItems, item => {
+	      self.setActiveItemClass(item);
+	    });
 	  }
 	  /**
 	   * Determines if the control_input should be in a hidden or visible state
@@ -2786,13 +2810,14 @@
 	    var self = this;
 	    var query = self.inputValue();
 	    var results = self.search(query);
-	    var active_option = self.activeOption;
+	    var active_option = null; //self.activeOption;
+
 	    var show_dropdown = self.settings.shouldOpen || false;
 	    var dropdown_content = self.dropdown_content;
 
-	    if (active_option) {
-	      active_value = active_option.dataset.value;
-	      active_group = active_option.closest('[data-group]');
+	    if (self.activeOption) {
+	      active_value = self.activeOption.dataset.value;
+	      active_group = self.activeOption.closest('[data-group]');
 	    } // build markup
 
 
@@ -2844,8 +2869,14 @@
 	        } // make sure we keep the activeOption in the same group
 
 
-	        if (active_value == opt_value && active_group && active_group.dataset.group === optgroup) {
-	          active_option = option_el;
+	        if (!active_option && active_value == opt_value) {
+	          if (active_group) {
+	            if (active_group.dataset.group === optgroup) {
+	              active_option = option_el;
+	            }
+	          } else {
+	            active_option = option_el;
+	          }
 	        }
 
 	        groups[optgroup].appendChild(option_el);
@@ -2926,7 +2957,7 @@
 
 	    if (show_dropdown) {
 	      if (results.items.length > 0) {
-	        if (!dropdown_content.contains(active_option) && self.settings.mode === 'single' && self.items.length) {
+	        if (!active_option && self.settings.mode === 'single' && self.items.length) {
 	          active_option = self.getOption(self.items[0]);
 	        }
 
@@ -3520,20 +3551,26 @@
 
 	    if (self.is_select_tag) {
 	      const selected = [];
+	      const has_selected = self.input.querySelectorAll('option:checked').length;
 
 	      function AddSelected(option_el, value, label) {
 	        if (!option_el) {
 	          option_el = getDom('<option value="' + escape_html(value) + '">' + escape_html(label) + '</option>');
 	        } // don't move empty option from top of list
-	        // fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293				
+	        // fixes bug in firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1725293
 
 
 	        if (option_el != empty_option) {
 	          self.input.append(option_el);
 	        }
 
-	        selected.push(option_el);
-	        option_el.selected = true;
+	        selected.push(option_el); // marking empty option as selected can break validation
+	        // fixes https://github.com/orchidjs/tom-select/issues/303
+
+	        if (option_el != empty_option || has_selected > 0) {
+	          option_el.selected = true;
+	        }
+
 	        return option_el;
 	      } // unselect all selected options
 
@@ -4130,6 +4167,15 @@
 
 	      UpdateCheckbox(option);
 	    }
+	  }); // check when item added
+
+	  self.on('item_add', value => {
+	    var option = self.getOption(value);
+
+	    if (option) {
+	      // if dropdown hasn't been opened yet, the option won't exist
+	      UpdateCheckbox(option);
+	    }
 	  }); // remove items when selected option is clicked
 
 	  self.hook('instead', 'onOptionSelect', (evt, option) => {
@@ -4172,6 +4218,10 @@
 	  self.on('initialize', () => {
 	    var button = getDom(options.html(options));
 	    button.addEventListener('click', evt => {
+	      if (self.isDisabled) {
+	        return;
+	      }
+
 	      self.clear();
 
 	      if (self.settings.mode === 'single' && self.settings.allowEmptyOption) {
@@ -4333,7 +4383,8 @@
 	    if (last_active) {
 	      const idx = nodeIndex(last_active);
 	      self.setCaret(direction > 0 ? idx + 1 : idx);
-	      self.setActiveItem(); // move caret left or right of current position
+	      self.setActiveItem();
+	      removeClasses(last_active, 'last-active'); // move caret left or right of current position
 	    } else {
 	      self.setCaret(self.caretPos + direction);
 	    }
@@ -4355,7 +4406,7 @@
 	 *
 	 */
 	function dropdown_input () {
-	  var self = this;
+	  const self = this;
 	  self.settings.shouldOpen = true; // make sure the input is shown even if there are no options to display in the dropdown
 
 	  self.hook('before', 'setup', () => {
@@ -4363,7 +4414,11 @@
 	    addClasses(self.control_input, 'dropdown-input');
 	    const div = getDom('<div class="dropdown-input-wrap">');
 	    div.append(self.control_input);
-	    self.dropdown.insertBefore(div, self.dropdown.firstChild);
+	    self.dropdown.insertBefore(div, self.dropdown.firstChild); // set a placeholder in the select control
+
+	    const placeholder = getDom('<input class="items-placeholder" tabindex="-1" />');
+	    placeholder.placeholder = self.settings.placeholder || '';
+	    self.control.append(placeholder);
 	  });
 	  self.on('initialize', () => {
 	    // set tabIndex on control to -1, otherwise [shift+tab] will put focus right back on control_input
@@ -4484,7 +4539,7 @@
 	}
 
 	/**
-	 * Plugin: "input_autogrow" (Tom Select)
+	 * Plugin: "no_active_items" (Tom Select)
 	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 	 * file except in compliance with the License. You may obtain a copy of the License at:
@@ -4597,6 +4652,7 @@
 	        var value = rendered.dataset.value;
 	        self.removeItem(value);
 	        self.refreshOptions(false);
+	        self.inputState();
 	      });
 	      return rendered;
 	    };
@@ -4625,6 +4681,10 @@
 	    }
 	  }, userOptions);
 	  self.on('item_remove', function (value) {
+	    if (!self.isFocused) {
+	      return;
+	    }
+
 	    if (self.control_input.value.trim() === '') {
 	      var option = self.options[value];
 
@@ -4657,6 +4717,29 @@
 	  var pagination = {};
 	  var dropdown_content;
 	  var loading_more = false;
+	  var load_more_opt;
+
+	  if (!self.settings.shouldLoadMore) {
+	    // return true if additional results should be loaded
+	    self.settings.shouldLoadMore = function () {
+	      const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
+
+	      if (scroll_percent > 0.9) {
+	        return true;
+	      }
+
+	      if (self.activeOption) {
+	        var selectable = self.selectable();
+	        var index = [...selectable].indexOf(self.activeOption);
+
+	        if (index >= selectable.length - 2) {
+	          return true;
+	        }
+	      }
+
+	      return false;
+	    };
+	  }
 
 	  if (!self.settings.firstUrl) {
 	    throw 'virtual_scroll plugin requires a firstUrl() method';
@@ -4698,7 +4781,7 @@
 
 
 	    pagination = {};
-	    return self.settings.firstUrl(query);
+	    return self.settings.firstUrl.call(self, query);
 	  }; // don't clear the active option (and cause unwanted dropdown scroll)
 	  // while loading more results
 
@@ -4723,6 +4806,8 @@
 	  self.hook('instead', 'loadCallback', (options, optgroups) => {
 	    if (!loading_more) {
 	      self.clearOptions();
+	    } else if (load_more_opt && options.length > 0) {
+	      load_more_opt.dataset.value = options[0][self.settings.valueField];
 	    }
 
 	    orig_loadCallback.call(self, options, optgroups);
@@ -4739,7 +4824,12 @@
 	      option = self.render('loading_more', {
 	        query: query
 	      });
-	      if (option) option.setAttribute('data-selectable', ''); // so that navigating dropdown with [down] keypresses can navigate to this node
+
+	      if (option) {
+	        option.setAttribute('data-selectable', ''); // so that navigating dropdown with [down] keypresses can navigate to this node
+
+	        load_more_opt = option;
+	      }
 	    } else if (query in pagination && !dropdown_content.querySelector('.no-results')) {
 	      option = self.render('no_more_results', {
 	        query: query
@@ -4765,9 +4855,7 @@
 	    }, self.settings.render); // watch dropdown content scroll position
 
 	    dropdown_content.addEventListener('scroll', function () {
-	      const scroll_percent = dropdown_content.clientHeight / (dropdown_content.scrollHeight - dropdown_content.scrollTop);
-
-	      if (scroll_percent < 0.95) {
+	      if (!self.settings.shouldLoadMore.call(self)) {
 	        return;
 	      } // !important: this will get checked again in load() but we still need to check here otherwise loading_more will be set to true
 
@@ -4801,6 +4889,6 @@
 
 	return TomSelect;
 
-})));
+}));
 var tomSelect=function(el,opts){return new TomSelect(el,opts);} 
 //# sourceMappingURL=tom-select.complete.js.map
