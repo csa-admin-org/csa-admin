@@ -59,9 +59,9 @@ _:
         _fr: Envoyé lors de la création automatique d'une facture ou quand le bouton "Envoyer" d'une facture créée manuellement est pressé.
         _it: Inviato durante la creazione automatica di una fattura o quando si preme il pulsante "Invia" di una fattura creata manualmente.
       invoice_overdue_notice:
-        _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.
-        _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.
-        _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.
+        _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.</br><i>Deaktiviert, wenn die Zahlungen nicht automatisch verarbeitet werden (EBICS).</i>
+        _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.</br><i>Désactivé quand les paiements ne sont pas traités automatiquement (EBICS).</i>
+        _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.</br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
       member_activated:
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.

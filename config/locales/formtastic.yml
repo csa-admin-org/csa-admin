@@ -326,9 +326,9 @@ _:
           _fr: Cet email n'est pas envoyé par défaut, veuillez vérifier son contenu avant de l'activer.
           _it: Questa email non viene inviata per default, controlla il suo contenuto prima di attivarla
         always_active:
-          _de: Diese E-Mail ist obligatorisch und kann nicht deaktiviert werden.
-          _fr: Cet email est obligatoire et ne peut pas être désactivé.
-          _it: Questa email è obbligatoria e non può essere disattivata.
+          _de: Diese E-Mail ist obligatorisch und kann nicht geändert werden.
+          _fr: Cet email est obligatoire et ne peut pas être modifié.
+          _it: Questo indirizzo e-mail è obbligatorio e non può essere modificato.
       member:
         contact_sharing:
           _de: Gemeinsame Nutzung von Kontakten zwischen Mitgliedern desselben Depots

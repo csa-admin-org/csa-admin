@@ -67,9 +67,14 @@ ActiveAdmin.register MailTemplate do
   form do |f|
     mail_template = f.object
     f.inputs t('.settings') do
+      li do
+        para f.object.description
+      end
+
       if mail_template.always_active?
         f.input :active,
           input_html: { disabled: true },
+          required: false,
           hint: t('formtastic.hints.mail_template.always_active')
       else
         f.input :active, hint: true

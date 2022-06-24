@@ -109,6 +109,12 @@ ActiveAdmin.register Invoice do
     end
   end
 
+  sidebar :overdue_notice_not_sent_warning, only: :index, class: 'warning', unless: -> { Current.acp.send_invoice_overdue_notice? } do
+    div class: 'content' do
+      span t('active_admin.sidebars.overdue_notice_not_sent_warning_text_html')
+    end
+  end
+
   sidebar_handbook_link('billing')
 
   show do |invoice|

@@ -1322,6 +1322,14 @@ _:
         _de: Import
         _fr: Importation
         _it: Importazione
+      overdue_notice_not_sent_warning:
+        _de: Mahnungen deaktiviert!
+        _fr: Rappels désactivés!
+        _it: Promemoria disabilitati!
+      overdue_notice_not_sent_warning_text_html:
+        _de: Rechnungsmahnungen werden erst verschickt, wenn die Zahlungen automatisch verarbeitet werden (EBICS).
+        _fr: Les rappels de facture ne sont pas envoyés tant que les paiements ne sont pas traités automatiquement (EBICS).
+        _it: I promemoria delle fatture non vengono inviati finché i pagamenti non vengono elaborati automaticamente (EBICS).
       overpaid:
         _de: 'Überbezahlt:'
         _fr: 'Payé en trop:'

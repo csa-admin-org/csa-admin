@@ -28,12 +28,30 @@ describe MailTemplate do
     expect(template.contents['de']).to include('<p>MICH BEARBEITEN!</p>')
   end
 
-  specify 'set and validate always active template' do
+  specify 'set always active template' do
     template = MailTemplate.find_by(title: 'invoice_created')
     expect(template).to be_active
 
     template.active = false
-    expect(template).not_to have_valid(:active)
+    expect(template).to be_active
+    expect(template[:active]).to eq true
+  end
+
+  specify 'invoice_overdue_notice is not always active' do
+    expect(Current.acp.send_invoice_overdue_notice?).to eq true
+    template = MailTemplate.find_by(title: 'invoice_overdue_notice')
+    expect(template).to be_active
+
+    template.active = false
+    expect(template).to be_active
+    expect(template[:active]).to eq true
+
+    Current.acp = double(send_invoice_overdue_notice?: false)
+    expect(template).not_to be_active
+
+    template.active = false
+    expect(template).not_to be_active
+    expect(template[:active]).to eq true
   end
 
   specify 'validate liquid syntax' do
