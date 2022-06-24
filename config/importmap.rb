@@ -27,8 +27,8 @@ pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoj
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js" # @0.1.2
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.1.1/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.1.1/esm/index.js"
-pin "@sentry/hub", to: "https://ga.jspm.io/npm:@sentry/hub@7.1.1/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.1.1/esm/index.js"
-pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.1.1/esm/buildPolyfills/index.js"
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.2.0/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.2.0/esm/index.js"
+pin "@sentry/hub", to: "https://ga.jspm.io/npm:@sentry/hub@7.2.0/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.2.0/esm/index.js"
+pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.2.0/esm/buildPolyfills/index.js"
