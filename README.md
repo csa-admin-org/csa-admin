@@ -42,6 +42,8 @@ Utilisé actuellement par les ACP suivantes:
 * [Seminterra](https://seminterra.ch)
 * [Le panier bio à 2 roues (P2R)](https://p2r.ch)
 * [Grundnahrig](https://www.grundnahrig.ch)
+* [Le Jardin des Turricules](https://jardindesturricules.ch)
+* [Le Petit Sécheron](https://lepetitsecheron.ch)
 
 
 ## Développement et support
