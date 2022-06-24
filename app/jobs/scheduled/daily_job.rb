@@ -1,5 +1,7 @@
 module Scheduled
   class DailyJob < BaseJob
+    retry_on StandardError, attempts: 5
+
     def perform
       Membership
         .current_year
