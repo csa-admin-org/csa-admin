@@ -1212,6 +1212,10 @@ _:
         _de: Alle
         _fr: Tous
         _it: Tutto
+      coming:
+        _de: Künftige
+        _fr: Futures
+        _it: Futuro
       current:
         _de: Laufende
         _fr: En cours
