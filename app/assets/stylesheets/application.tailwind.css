@@ -1,112 +1,55 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
-/**
- * This injects Tailwind's base styles and any base styles registered by
- * plugins.
- */
-@layer base {
-  header img {
-    @apply dark:invert dark:hue-rotate-180;
-  }
-
-  /* "@apply dark:invert" doesn't work with the :: selector */
-  @media (prefers-color-scheme: dark) {
-    ::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-    }
-  }
-
-  a:hover,
-  a:hover h2,
-  button:hover {
-    @apply text-green-500;
-  }
-
-  a.button {
-    @apply hover:text-white;
-  }
-
-  p a,
-  .trix-content a,
-  .trix a {
-    @apply underline;
-  }
-
-  .trix ul li {
-    @apply list-disc list-inside;
-  }
-
-  .trix ol li {
-    @apply list-decimal list-inside;
-  }
+/* Custom CSS */
+.field_with_errors input {
+  @apply border-2 border-red-500;
 }
 
-/**
- * This injects Tailwind's component classes and any component classes
- * registered by plugins.
- */
-@layer components {
-  /* .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  } */
+.field_with_errors {
+  @apply w-full;
 }
 
-/**
- * This injects Tailwind's utility classes and any utility classes registered
- * by plugins.
- */
-@layer utilities {
-  .field_with_errors input {
-    @apply border-2 border-red-500;
-  }
+.field_with_errors span.error {
+  @apply block mt-1 px-4 py-2 bg-red-100 dark:bg-red-900 text-red-500 rounded-md;
+}
 
-  .field_with_errors {
-    @apply w-full;
-  }
+.shop_order_items_quantity.field_with_errors {
+  @apply w-auto;
+}
 
-  .field_with_errors span.error {
-    @apply block mt-1 px-4 py-2 bg-red-100 dark:bg-red-900 text-red-500 rounded-md;
-  }
+.shop_order_items_quantity.field_with_errors input,
+.shop_order_items_quantity.field_with_errors button {
+  @apply text-gray-500 bg-red-100 dark:bg-red-900;
+}
 
-  .shop_order_items_quantity.field_with_errors {
-    @apply w-auto;
-  }
+.shop_order_items_quantity.field_with_errors span.error {
+  @apply hidden w-0 p-0 mt-0;
+}
 
-  .shop_order_items_quantity.field_with_errors input,
-  .shop_order_items_quantity.field_with_errors button {
-    @apply text-gray-500 bg-red-100 dark:bg-red-900;
-  }
+li.active a,
+li.active a h2,
+h2.active,
+span.active {
+  @apply text-green-500 cursor-default;
+}
 
-  .shop_order_items_quantity.field_with_errors span.error {
-    @apply hidden w-0 p-0 mt-0;
-  }
+.disabled label,
+.disabled span,
+.disabled input,
+.disabled div.text-sm,
+button:disabled,
+input.string:disabled {
+  @apply text-gray-300 dark:text-gray-700 border-gray-300 dark:border-gray-800 cursor-not-allowed pointer-events-auto;
+}
 
-  li.active a,
-  li.active a h2,
-  h2.active,
-  span.active {
-    @apply text-green-500 cursor-default;
-  }
+input.controls-none::-webkit-outer-spin-button,
+input.controls-none::-webkit-inner-spin-button {
+  @apply appearance-none m-0;
+}
 
-  .disabled label,
-  .disabled span,
-  .disabled input,
-  .disabled div.text-sm,
-  button:disabled,
-  input.string:disabled {
-    @apply text-gray-300 dark:text-gray-700 border-gray-300 dark:border-gray-800 cursor-not-allowed pointer-events-auto;
-  }
-
-  input.controls-none::-webkit-outer-spin-button,
-  input.controls-none::-webkit-inner-spin-button {
-    @apply appearance-none m-0;
-  }
-
-  input[type="number"].controls-none {
-    -moz-appearance: textfield;
-  }
+input[type="number"].controls-none {
+  -moz-appearance: textfield;
 }
 
 /* Flatpickr */
@@ -231,4 +174,64 @@
 .tooltip-toggle:hover::before {
   opacity: 1;
   transition: all 0.75s ease;
+}
+
+@tailwind utilities;
+
+/**
+ * This injects Tailwind's base styles and any base styles registered by
+ * plugins.
+ */
+@layer base {
+  header img {
+    @apply dark:invert dark:hue-rotate-180;
+  }
+
+  /* "@apply dark:invert" doesn't work with the :: selector */
+  @media (prefers-color-scheme: dark) {
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+  }
+
+  a:hover,
+  a:hover h2,
+  button:hover {
+    @apply text-green-500;
+  }
+
+  a.button {
+    @apply hover:text-white;
+  }
+
+  p a,
+  .trix-content a,
+  .trix a {
+    @apply underline;
+  }
+
+  .trix ul li {
+    @apply list-disc list-inside;
+  }
+
+  .trix ol li {
+    @apply list-decimal list-inside;
+  }
+}
+
+/**
+ * This injects Tailwind's component classes and any component classes
+ * registered by plugins.
+ */
+@layer components {
+  /* .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  } */
+}
+
+/**
+ * This injects Tailwind's utility classes and any utility classes registered
+ * by plugins.
+ */
+@layer utilities {
 }
