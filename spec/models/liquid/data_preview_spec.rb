@@ -51,6 +51,8 @@ describe Liquid::DataPreview do
   end
 
   specify 'render non-drop data' do
+    basket_size = create(:basket_size)
+    depot = create(:depot)
     data = travel_to('2020-03-24') do
       mail_template = MailTemplate.find_by(title: 'member_validated')
       described_class.for(mail_template, random: 1)
@@ -71,7 +73,9 @@ describe Liquid::DataPreview do
         'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
         'membership_renewal_url' => 'https://membres.ragedevert.ch/membership#renewal'
       },
-      'waiting_list_position' => 1
+      'waiting_list_position' => 1,
+      'waiting_basket_size_id' => basket_size.id,
+      'waiting_depot_id' => depot.id
     })
   end
 
