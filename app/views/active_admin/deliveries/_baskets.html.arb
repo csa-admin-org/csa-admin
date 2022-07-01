@@ -1,4 +1,4 @@
-counts = delivery.basket_counts
+counts = delivery.basket_counts(scope: scope)
 bs_names = delivery.basket_sizes.map(&:name)
 bs_splitter = bs_names.join.size > 20 ? "&nbsp;/<br/>" : " /&nbsp;"
 
@@ -10,8 +10,8 @@ end
 
 paid_depots = delivery.depots.paid
 if paid_depots.any?
-  free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id))
-  paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id))
+  free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id), scope: scope)
+  paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id), scope: scope)
   totals = [
     OpenStruct.new(
       title: "#{Basket.model_name.human(count: 2)}: #{free_counts.depots.pluck(:name).to_sentence}",
@@ -36,12 +36,12 @@ table_for nil, class: 'next-delivery next-delivery-total' do
 end
 
 if BasketComplement.any?
-  counts = BasketComplementCount.all(delivery)
+  counts = delivery.basket_complement_counts(scope: scope)
   div id: 'basket-complements-table' do
     if counts.any?
       table_for counts do
         column BasketComplement.model_name.human, :title
-        if Current.acp.feature?('shop')
+        if Current.acp.feature?('shop') && scope != :absent
           column Membership.model_name.human(count: 2), :memberships_count, class: 'align-right'
           column Shop::Order.model_name.human(count: 2), :shop_orders_count, class: 'align-right'
         end

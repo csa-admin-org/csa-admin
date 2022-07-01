@@ -55,7 +55,8 @@ ActiveAdmin.register_page 'Dashboard' do
             panel t('.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
               counts = next_delivery.basket_counts
               if counts.present?
-                render partial: 'active_admin/deliveries/baskets', locals: { delivery: next_delivery }
+                render partial: 'active_admin/deliveries/baskets',
+                  locals: { delivery: next_delivery, scope: :not_absent }
 
                 if Current.acp.feature?('shop')
                   count = Shop::Order.all_without_cart.where(delivery: next_delivery).count
