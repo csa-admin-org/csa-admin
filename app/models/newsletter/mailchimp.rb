@@ -55,16 +55,16 @@ class Newsletter::MailChimp
   def upsert_merge_fields
     fields = {
       MEMB_ID:   { name: 'ID', type: 'number', required: false },
-      MEMB_NAME: { name: 'Nom', type: 'text', required: false },
-      MEMB_LANG: { name: 'Langue', type: 'text', required: false },
-      MEMB_STAT: { name: 'Status', type: 'dropdown', required: false, options: { choices: Member::STATES } },
-      CURR_MEMB: { name: 'Abonnement en cours?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
-      MEMB_RNEW: { name: 'Abonnement renouvellement?', type: 'dropdown', required: false, options: { choices: %w[yes no –] } },
-      BASK_FIRS: { name: 'Date du premier panier', type: 'text', required: false },
-      BASK_DATE: { name: 'Date du prochain panier', type: 'text', required: false },
-      BASK_DELI: { name: 'Prochain panier livré?', type: 'dropdown', required: false, options: { choices: %w[yes no] } },
-      BASK_SIZE: { name: 'Taille panier', type: 'dropdown', required: false, options: { choices: BasketSize.all.map(&:name) } },
-      BASK_DIST: { name: 'Depot', type: 'dropdown', required: false, options: { choices: Depot.order(:name).pluck(:name) } }
+      MEMB_NAME: { name: t('name'), type: 'text', required: false },
+      MEMB_LANG: { name: t('language'), type: 'text', required: false },
+      MEMB_STAT: { name: t('status'), type: 'dropdown', required: false, options: { choices: Member::STATES } },
+      CURR_MEMB: { name: t('membership_ongoing'), type: 'dropdown', required: false, options: { choices: %w[yes no] } },
+      MEMB_RNEW: { name: t('membership_renewed'), type: 'dropdown', required: false, options: { choices: %w[yes no –] } },
+      BASK_FIRS: { name: t('first_basket_date'), type: 'text', required: false },
+      BASK_DATE: { name: t('next_basket_date'), type: 'text', required: false },
+      BASK_DELI: { name: t('next_basket_delivered'), type: 'dropdown', required: false, options: { choices: %w[yes no] } },
+      BASK_SIZE: { name: t('basket_size'), type: 'dropdown', required: false, options: { choices: BasketSize.all.map(&:name) } },
+      BASK_DIST: { name: t('depot'), type: 'dropdown', required: false, options: { choices: Depot.order(:name).pluck(:name) } }
     }
     if Current.acp.feature?(:activity)
       fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: false }
@@ -223,5 +223,9 @@ class Newsletter::MailChimp
       end
     end
     results
+  end
+
+  def t(key)
+    I18n.t(key, scope: 'mailchimp.merge_fields')
   end
 end
