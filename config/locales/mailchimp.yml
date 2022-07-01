@@ -1,0 +1,43 @@
+_:
+  mailchimp:
+    merge_fields:
+      basket_size:
+        _de: Taschengrösse
+        _fr: Taille panier
+        _it: Dimensione della cesta
+      depot:
+        _de: Depot
+        _fr: Dépôt
+        _it: Punto di ritiro
+      first_basket_date:
+        _de: Datum der ersten Tasche
+        _fr: Date du premier panier
+        _it: Data del primo cestino
+      language:
+        _de: Sprache
+        _fr: Langue
+        _it: Lingua
+      membership_ongoing:
+        _de: Aktuelles Abonnement?
+        _fr: Abonnement en cours?
+        _it: Abbonamento in corso?
+      membership_renewed:
+        _de: Abonnement erneuert?
+        _fr: Abonnement renouvelé?
+        _it: Abbonamento rinnovato?
+      name:
+        _de: Name
+        _fr: Nom
+        _it: Nome
+      next_basket_date:
+        _de: Datum der nächsten Tasche
+        _fr: Date du prochain panier
+        _it: Data del prossimo cestino
+      next_basket_delivered:
+        _de: Nächste Tasche geliefert?
+        _fr: Prochain panier livré?
+        _it: Prossimo cestino consegnato?
+      status:
+        _de: Status
+        _fr: Statut
+        _it: Status
