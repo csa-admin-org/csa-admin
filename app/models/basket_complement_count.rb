@@ -1,14 +1,15 @@
 class BasketComplementCount
-  def self.all(delivery)
+  def self.all(delivery, scope: nil)
     BasketComplement
       .all
-      .map { |c| new(c, delivery) }
+      .map { |c| new(c, delivery, scope: scope) }
       .select { |c| c.count.positive? }
   end
 
-  def initialize(complement, delivery)
+  def initialize(complement, delivery, scope: nil)
     @complement = complement
     @delivery = delivery
+    @scope = scope || :not_absent
   end
 
   def title
@@ -19,7 +20,7 @@ class BasketComplementCount
     @memberships_count ||=
       @delivery
         .baskets
-        .not_absent
+        .send(@scope)
         .joins(:baskets_basket_complements)
         .where(baskets_basket_complements: { basket_complement_id: @complement.id })
         .sum('baskets_basket_complements.quantity')

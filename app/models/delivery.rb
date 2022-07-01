@@ -67,8 +67,12 @@ class Delivery < ApplicationRecord
     "#{I18n.l(date, format: format)} (##{number})"
   end
 
-  def basket_counts
-    @basket_counts ||= BasketCounts.new(self, Depot.pluck(:id))
+  def basket_counts(scope: nil)
+    BasketCounts.new(self, Depot.pluck(:id), scope: scope)
+  end
+
+  def basket_complement_counts(scope: nil)
+    BasketComplementCount.all(self, scope: scope)
   end
 
   def shop_closing_at

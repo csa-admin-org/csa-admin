@@ -17,9 +17,9 @@ _:
       _fr: achats-groupés-livraison
       _it: acquisto-di-gruppo-consegna
     no_basket_complements:
-      _de: Kein Zusatz für diese Lieferung
-      _fr: Aucun complément pour cette livraison
-      _it: Nessun supplemento per questa consegna
+      _de: Kein Zusatz
+      _fr: Aucun complément
+      _it: Nessun supplemento
     recap:
       _de: Zusammenfassung
       _fr: Récapitulatif

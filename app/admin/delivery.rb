@@ -41,7 +41,7 @@ ActiveAdmin.register Delivery do
     column(:id)
     column(:date)
     column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
-    column(:absent_baskets) { |d| d.basket_counts.all.sum(&:absent_count) }
+    column(:absent_baskets) { |d| d.basket_counts(scope: :absent).all.sum(&:count) }
 
     Depot.all.each do |depot|
       column(depot.name) { |d| BasketCounts.new(d, depot.id).sum }
@@ -78,7 +78,21 @@ ActiveAdmin.register Delivery do
         panel Basket.model_name.human(count: 2) do
           counts = delivery.basket_counts
           if counts.present?
-            render partial: 'active_admin/deliveries/baskets', locals: { delivery: delivery }
+            render partial: 'active_admin/deliveries/baskets',
+              locals: { delivery: delivery, scope: :not_absent }
+          end
+        end
+
+        if Current.acp.feature?('absence')
+          absences = Absence.including_date(delivery.date).includes(:member)
+          panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
+            absent_counts = delivery.basket_counts(scope: :absent)
+            if absent_counts.present?
+              render partial: 'active_admin/deliveries/baskets',
+                locals: { delivery: delivery, scope: :absent }
+            else
+              content_tag :span, t('active_admin.empty'), class: 'empty'
+            end
           end
         end
       end
@@ -108,17 +122,6 @@ ActiveAdmin.register Delivery do
           panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
             if basket_contents.any?
               basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe
-            else
-              content_tag :span, t('active_admin.empty'), class: 'empty'
-            end
-          end
-        end
-
-        if Current.acp.feature?('absence')
-          absences = Absence.including_date(delivery.date).includes(:member)
-          panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
-            if absences.any?
-              absences.map { |a| auto_link a.member }.to_sentence.html_safe
             else
               content_tag :span, t('active_admin.empty'), class: 'empty'
             end
