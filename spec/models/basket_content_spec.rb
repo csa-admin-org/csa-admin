@@ -249,7 +249,7 @@ describe BasketContent do
     end
 
     specify 'with other delivery basket content' do
-      other_delivery = create(:delivery, date: '2022-04-20')
+      other_delivery = create(:delivery)
       create(:basket_content,
         delivery: other_delivery,
         quantity: 100,
