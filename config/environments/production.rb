@@ -60,12 +60,8 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  config.cache_store = :redis_cache_store, {
-    compress: true,
-    timeout: 1,
-    namespace: -> { Tenant.current },
-    url: ENV['REDIS_CACHE_TLS_URL'],
-    ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+  config.cache_store = :memory_store, {
+    namespace: -> { Tenant.current }
   }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
