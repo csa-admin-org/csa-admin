@@ -132,7 +132,7 @@ describe Billing::PaymentsRedistributor do
       invoice2 = create(:invoice, :open, :manual,
         date: beginning_of_year + 1.day,
         member: member,
-        items_attributes: { '0' => { description: 'Turc', amount: '5' } })
+        items_attributes: { '0' => { description: 'Truc', amount: '5' } })
       invoice3 = create(:invoice, :open,
         date: beginning_of_year + 2.days,
         member: member,
@@ -150,6 +150,36 @@ describe Billing::PaymentsRedistributor do
       expect(invoice2.state).to eq 'open'
       expect(invoice3.reload.paid_amount).to eq 20
       expect(invoice3.state).to eq 'closed'
+    end
+
+    it 'prioritizes invoices with the same object types but only in the same fiscal year' do
+      member = create(:member, :active)
+      beginning_of_year = Time.current.beginning_of_year
+      invoice1 = create(:invoice, :open, :manual,
+        date: beginning_of_year - 1.year,
+        member: member,
+        items_attributes: { '0' => { description: 'Truc', amount: '5' } })
+      invoice2 = create(:invoice, :open,
+        date: beginning_of_year + 1.day,
+        member: member,
+        object: member.current_membership,
+        memberships_amount_description: 'Montant #1',
+        membership_amount_fraction: 3)
+      invoice3 = create(:invoice, :open, :manual,
+        date: beginning_of_year + 2.day,
+        member: member,
+        items_attributes: { '0' => { description: 'Machin', amount: '10' } })
+
+      create(:payment, member: member, invoice: invoice1, amount: 16)
+
+      described_class.redistribute!(member.id)
+
+      expect(invoice1.reload.paid_amount).to eq 5
+      expect(invoice1.state).to eq 'closed'
+      expect(invoice2.reload.paid_amount).to eq 10
+      expect(invoice2.state).to eq 'closed'
+      expect(invoice3.reload.paid_amount).to eq 1
+      expect(invoice3.state).to eq 'open'
     end
 
     it 'handles payback invoice with negative amount' do

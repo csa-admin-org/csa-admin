@@ -6,7 +6,7 @@ module Billing
 
     def initialize(member_id)
       @member = Member.find(member_id)
-      @remaining_amounts = Hash.new(0)
+      @remaining_amounts = {}
       @remaining_amount = 0
     end
 
@@ -27,37 +27,41 @@ module Billing
 
     # Use payment amount to targeted invoice first.
     def pay_targeted_invoices_first!
-      payments.each do |payment|
-        if payment.invoice
-          if payment.invoice.canceled?
-            @remaining_amounts[payment.invoice.object_type] += payment.amount
+      payments.each do |pm|
+        if pm.invoice
+          @remaining_amounts[pm.invoice.fy_year] ||= Hash.new(0)
+          if pm.invoice.canceled?
+            @remaining_amounts[pm.invoice.fy_year][pm.invoice.object_type] += pm.amount
           else
-            paid_amount = [[payment.amount, payment.invoice.missing_amount].min, 0].max
-            payment.invoice.increment!(:paid_amount, paid_amount)
-            @remaining_amounts[payment.invoice.object_type] += payment.amount - paid_amount
+            paid_amount = [[pm.amount, pm.invoice.missing_amount].min, 0].max
+            pm.invoice.increment!(:paid_amount, paid_amount)
+            @remaining_amounts[pm.invoice.fy_year][pm.invoice.object_type] += pm.amount - paid_amount
           end
         else
-          @remaining_amount += payment.amount
+          @remaining_amount += pm.amount
         end
       end
     end
 
-    # Split remaining amounts on other invoices with the same object type chronogically
+    # Split remaining amounts on other invoices of the same or previous fiscal years
+    # with the same object type chronogically.
     def pay_remaining_amounts_to_same_object_type_invoices!
-      @remaining_amounts.each do |object_type, rem_amount|
-        invoices.where(object_type: object_type).each do |invoice|
-          if invoice.missing_amount.positive? && rem_amount.positive?
-            paid_amount = [rem_amount, invoice.missing_amount].min
-            invoice.increment!(:paid_amount, paid_amount)
-            rem_amount -= paid_amount
+      @remaining_amounts.each do |year, type_amounts|
+        type_amounts.each do |object_type, rem_amount|
+          invoices.before_or_during_year(year).where(object_type: object_type).each do |invoice|
+            if invoice.missing_amount.positive? && rem_amount.positive?
+              paid_amount = [rem_amount, invoice.missing_amount].min
+              invoice.increment!(:paid_amount, paid_amount)
+              rem_amount -= paid_amount
+            end
+            invoice.reload.close_or_open!
           end
-          invoice.reload.close_or_open!
+          @remaining_amount += rem_amount
         end
-        @remaining_amount += rem_amount
       end
     end
 
-    # Split remaining amount on other invoices chronogically
+    # Split remaining amount on other invoices chronogically.
     def pay_remaining_amount_chronogically!
       # Add negative (payback) invoice to remaining_amount
       @remaining_amount += -invoices.where('amount < 0').sum(:amount)

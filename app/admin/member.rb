@@ -238,7 +238,7 @@ ActiveAdmin.register Member do
           if invoices_count.zero?
             em t('.no_invoices')
           else
-            table_for(invoices.limit(6), class: 'table-invoices') do
+            table_for(invoices.limit(10), class: 'table-invoices') do
               column(:id) { |i| auto_link i, i.id }
               column(:date) { |i| l(i.date, format: :number) }
               column(:amount) { |i| cur(i.amount) }
@@ -247,7 +247,7 @@ ActiveAdmin.register Member do
               column(:status) { |i| status_tag i.state }
               column(class: 'col-actions') { |i| link_to_invoice_pdf(i) }
             end
-            if invoices_count > 6
+            if invoices_count > 10
               em link_to(t('.show_more'), all_invoices_path), class: 'show_more'
             end
           end
@@ -260,14 +260,14 @@ ActiveAdmin.register Member do
           if payments_count.zero?
             em t('.no_payments')
           else
-            table_for(payments.limit(6), class: 'table-payments') do
+            table_for(payments.limit(10), class: 'table-payments') do
               column(:id) { |p| auto_link p, p.id }
               column(:date) { |p| l(p.date, format: :number) }
               column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
               column(:amount) { |p| cur(p.amount) }
               column(:type) { |p| status_tag p.type }
             end
-            if payments_count > 6
+            if payments_count > 10
               em link_to(t('.show_more'), all_payments_path), class: 'show_more'
             end
           end
