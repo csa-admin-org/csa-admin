@@ -31,6 +31,7 @@ module XLSX
     end
 
     def add_worksheet(name)
+      name.gsub!(RubyXL::Workbook::SHEET_NAME_FORBIDDEN_CHARS, ' ')
       if !@first_worksheet_used
         @worksheet = workbook.worksheets[0]
         @worksheet.sheet_name = name
