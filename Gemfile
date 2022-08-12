@@ -63,7 +63,7 @@ gem 'liquid'
 
 
 gem 'camt_parser'
-gem 'epics'
+gem 'epics', github: 'railslove/epics', branch: 'bug/support-key-decrypting-on-init-for-openssl3'
 gem 'rqrcode'
 gem 'countries'
 
