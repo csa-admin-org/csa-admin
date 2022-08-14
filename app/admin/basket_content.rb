@@ -99,12 +99,12 @@ ActiveAdmin.register BasketContent do
         required: true,
         prompt: true
     end
-    f.inputs BasketContent.human_attribute_name(:content) do
+    f.inputs BasketContent.human_attribute_name(:content), 'data-controller' => 'basket-content-products-select' do
       f.input :product,
         input_html: {
           data: {
-            controller: 'form-select-option-defaults',
-            action: 'form-select-option-defaults#change form-hint-url#change',
+            action: 'basket-content-products-select#productChange form-hint-url#change',
+            'basket-content-products-select-target' => 'productSelect'
           }
         },
         wrapper_html: {
@@ -119,13 +119,29 @@ ActiveAdmin.register BasketContent do
       f.input :unit,
         collection: units_collection,
         required: true,
-        prompt: true
-      f.input :quantity
+        prompt: true,
+        input_html: {
+          data: {
+            action: 'basket-content-products-select#unitChange',
+            'basket-content-products-select-target' => 'unitSelect'
+          }
+        }
+      f.input :quantity,
+        input_html: {
+          data: {
+            'basket-content-products-select-target' => 'quantityInput'
+          }
+        }
       f.input :unit_price,
-      label: BasketContent.human_attribute_name(:price),
+        label: BasketContent.human_attribute_name(:price),
         as: :number,
         min: 0,
-        step: 0.05
+        step: 0.05,
+        input_html: {
+          data: {
+            'basket-content-products-select-target' => 'unitPriceInput'
+          }
+        }
     end
     f.inputs t('basket_content.percentages'), 'data-controller' => 'basket-content-percentages' do
       BasketSize.paid.each do |basket_size|
