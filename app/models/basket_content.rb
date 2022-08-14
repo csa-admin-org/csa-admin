@@ -10,6 +10,8 @@ class BasketContent < ApplicationRecord
     joins(:depots).where('basket_contents_depots.depot_id = ?', depot)
   }
   scope :with_unit_price, -> { where.not(unit_price: nil) }
+  scope :in_kg, -> { where(unit: 'kg') }
+  scope :in_pc, -> { where(unit: 'pc') }
 
   after_initialize :set_defaults
 

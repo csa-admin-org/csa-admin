@@ -7,9 +7,17 @@ class BasketContent
     has_many :basket_contents
     has_many :deliveries, through: :basket_contents
 
-    has_one :latest_basket_content, -> {
-      joins(:delivery).merge(Delivery.unscoped.order(date: :desc) )
-    }, class_name: 'BasketContent'
+    with_options class_name: 'BasketContent' do
+      has_one :latest_basket_content, -> {
+        joins(:delivery).merge(Delivery.unscoped.order(date: :desc))
+      }
+      has_one :latest_basket_content_in_kg, -> {
+        joins(:delivery).merge(Delivery.unscoped.order(date: :desc)).in_kg
+      }
+      has_one :latest_basket_content_in_pc, -> {
+        joins(:delivery).merge(Delivery.unscoped.order(date: :desc)).in_pc
+      }
+    end
 
     default_scope { order_by_name }
 

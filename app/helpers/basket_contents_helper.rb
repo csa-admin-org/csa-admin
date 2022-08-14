@@ -106,13 +106,29 @@ module BasketContentsHelper
   end
 
   def basket_content_products_collection
-    BasketContent::Product.includes(:latest_basket_content).map do |product|
-      data = {}
-      if basket_content = product.latest_basket_content
-        data[:form_select_option_defaults] = {
-          basket_content_quantity: basket_content.quantity,
-          basket_content_unit_price: basket_content.unit_price,
-          basket_content_unit: basket_content.unit,
+    products = BasketContent::Product.includes(:latest_basket_content_in_kg, :latest_basket_content_in_pc)
+    products.map do |product|
+      data = { latest_basket_content: {} }
+      bc_kg = product.latest_basket_content_in_kg
+      bc_pc = product.latest_basket_content_in_pc
+      if bc_kg
+        if !bc_pc || bc_kg.updated_at >= bc_pc.updated_at
+          data[:latest_basket_content_unit] = 'kg'
+        end
+        data[:latest_basket_content][:kg] = {
+          quantity: bc_kg.quantity,
+          unit_price: bc_kg.unit_price,
+          used_at: bc_kg.updated_at.to_datetime.strftime('%Q')
+        }
+      end
+      if bc_pc
+        if !bc_kg || bc_pc.updated_at >= bc_kg.updated_at
+          data[:latest_basket_content_unit] = 'pc'
+        end
+        data[:latest_basket_content][:pc] = {
+          quantity: bc_pc.quantity,
+          unit_price: bc_pc.unit_price,
+          used_at: bc_pc.updated_at.to_datetime.strftime('%Q')
         }
       end
       if product.url?
