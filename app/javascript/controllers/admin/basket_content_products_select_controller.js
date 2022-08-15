@@ -14,21 +14,22 @@ export default class extends Controller {
       this.unitSelectTarget.value = latestUnit
       this.unitChange()
     } else {
-      this.unitSelectTarget.value = null
-      this.quantityInputTarget.value = null
-      this.unitPriceInputTarget.value = null
+      this.unitSelectTarget.value = ''
+      this.quantityInputTarget.value = ''
+      this.unitPriceInputTarget.value = ''
     }
   }
 
   unitChange() {
-    const data = JSON.parse(this._productDataset('latestBasketContent'))
+    const rawData = this._productDataset('latestBasketContent')
+    const data = rawData && JSON.parse(rawData)
     const unit = this.unitSelectTarget.value
     if (data && data[unit]) {
       this.quantityInputTarget.value = data[unit]['quantity']
       this.unitPriceInputTarget.value = data[unit]['unit_price']
     } else {
-      this.quantityInputTarget.value = null
-      this.unitPriceInputTarget.value = null
+      this.quantityInputTarget.value = ''
+      this.unitPriceInputTarget.value = ''
     }
   }
 
