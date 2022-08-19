@@ -41,7 +41,7 @@ ActiveAdmin.register MailTemplate do
         end
       end
     end
-    columns do
+    columns 'data-controller' => 'iframe-resize' do
       Current.acp.languages.each do |locale|
         column do
           title = t('.preview')
@@ -51,7 +51,8 @@ ActiveAdmin.register MailTemplate do
               srcdoc: mail_template.mail_preview(locale),
               scrolling: 'no',
               class: 'mail_preview',
-              id: "mail_preview_#{locale}")
+              id: "mail_preview_#{locale}",
+              'data-iframe-resize-target' => 'iframe')
           end
         end
       end
@@ -64,7 +65,7 @@ ActiveAdmin.register MailTemplate do
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales)
 
-  form do |f|
+  form data: { controller: 'code-editor', code_editor_target: 'form' } do |f|
     mail_template = f.object
     f.inputs t('.settings') do
       li do
@@ -82,14 +83,20 @@ ActiveAdmin.register MailTemplate do
     end
     f.inputs do
       translated_input(f, :subjects,
-        hint: t('formtastic.hints.liquid').html_safe)
+        hint: t('formtastic.hints.liquid').html_safe,
+        input_html: {
+          data: { action: 'code-editor#updatePreview' }
+        })
       translated_input(f, :contents,
         as: :text,
         hint: t('formtastic.hints.liquid').html_safe,
         wrapper_html: { class: 'ace-editor' },
-        input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+        input_html: {
+          class: 'ace-editor',
+          data: { mode: 'liquid', code_editor_target: 'editor' }
+        })
     end
-    columns id: 'mail_preview' do
+    columns 'data-controller' => 'iframe-resize' do
       Current.acp.languages.each do |locale|
         column do
           title = t('.preview')
@@ -100,7 +107,8 @@ ActiveAdmin.register MailTemplate do
                 srcdoc: mail_template.mail_preview(locale),
                 scrolling: 'no',
                 class: 'mail_preview',
-                id: "mail_preview_#{locale}")
+                id: "mail_preview_#{locale}",
+                'data-iframe-resize-target' => 'iframe')
             end
             translated_input(f, :liquid_data_preview_yamls,
               locale: locale,
@@ -109,7 +117,7 @@ ActiveAdmin.register MailTemplate do
               wrapper_html: { class: 'ace-editor' },
               input_html: {
                 class: 'ace-editor',
-                data: { mode: 'yaml' },
+                data: { mode: 'yaml', code_editor_target: 'editor' },
                 name: "mail_template[liquid_data_preview_yamls][#{locale}]"
               })
           end
@@ -129,6 +137,8 @@ ActiveAdmin.register MailTemplate do
   end
 
   controller do
+    skip_before_action :verify_authenticity_token, only: :preview
+
     def scoped_collection
       scoped = end_of_association_chain
       unless Current.acp.feature?('activity')

@@ -10,7 +10,7 @@ Rails.application.configure do
     policy.font_src    :self, :https, :data
     policy.img_src     :self, :https, :data
     policy.object_src  :none
-    policy.script_src  :self, :https, :unsafe_inline, 'blob: *'
+    policy.script_src  :self, :https, :unsafe_inline, :unsafe_eval, 'blob: *'
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   :self, '*.youtube.com', '*.vimeo.com'
     # Specify URI for violation reports
