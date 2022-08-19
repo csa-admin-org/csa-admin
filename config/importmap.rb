@@ -25,6 +25,10 @@ pin "@joeattardi/emoji-button", to: "@joeattardi--emoji-button.js" # @4.6.4
 pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js" # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js" # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js" # @0.1.2
+pin "ace-builds" # @1.9.6
+pin "ace-builds/src-noconflict/mode-liquid", to: "ace-builds--src-noconflict--mode-liquid.js" # @1.9.6
+pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode-yaml.js" # @1.9.6
+pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconflict--theme-dreamweaver.js" # @1.9.6
 
 # Sentry
 pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.11.1/esm/index.js"

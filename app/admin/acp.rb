@@ -56,7 +56,7 @@ ActiveAdmin.register ACP do
     languages: [],
     features: []
 
-  form do |f|
+  form data: { controller: 'code-editor' } do |f|
     div do
       f.object.errors.attribute_names.each do |attr|
         para f.semantic_errors attr
@@ -240,7 +240,10 @@ ActiveAdmin.register ACP do
                 as: :text,
                 hint: t('formtastic.hints.acp.activity_participations_demanded_logic_html'),
                 wrapper_html: { class: 'ace-editor' },
-                input_html: { class: 'ace-editor', data: { mode: 'liquid' } }
+                input_html: {
+                  class: 'ace-editor',
+                  data: { mode: 'liquid', code_editor_target: 'editor' }
+                }
             end
           end
         end
@@ -288,12 +291,18 @@ ActiveAdmin.register ACP do
                 as: :text,
                 hint: t('formtastic.hints.liquid_extra_html'),
                 wrapper_html: { class: 'ace-editor' },
-                input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+                input_html: {
+                  class: 'ace-editor',
+                  data: { mode: 'liquid', code_editor_target: 'editor' }
+                })
               translated_input(f, :basket_price_extra_label_details,
                 as: :text,
                 hint: t('formtastic.hints.liquid_extra_html'),
                 wrapper_html: { class: 'ace-editor' },
-                input_html: { class: 'ace-editor', data: { mode: 'liquid' } })
+                input_html: {
+                  class: 'ace-editor',
+                  data: { mode: 'liquid', code_editor_target: 'editor' }
+                })
 
               handbook_button(self, 'basket_price_extra')
             end
