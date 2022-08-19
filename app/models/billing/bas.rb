@@ -73,6 +73,7 @@ module Billing
         builder.request :url_encoded
         builder.use :cookie_jar
         builder.adapter Faraday.default_adapter
+        builder.options[:timeout] = 10
       end
     end
 
