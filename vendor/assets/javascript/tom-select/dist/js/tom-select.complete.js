@@ -299,7 +299,7 @@
 
 	  latin_chars = latin_chars.sort((a, b) => b.length - a.length);
 	  latin_pat = new RegExp('(' + arrayToPattern(latin_chars) + accent_pat + '*)', 'g'); // build diacritic patterns
-	  // ae needs: 
+	  // ae needs:
 	  //	(?:(?:ae|Æ|Ǽ|Ǣ)|(?:A|Ⓐ|Ａ...)(?:E|ɛ|Ⓔ...))
 
 	  var diacritic_patterns = {};
@@ -4890,5 +4890,4 @@
 	return TomSelect;
 
 }));
-var tomSelect=function(el,opts){return new TomSelect(el,opts);} 
-//# sourceMappingURL=tom-select.complete.js.map
+var tomSelect=function(el,opts){return new TomSelect(el,opts);}
