@@ -4,13 +4,13 @@
   - low
 :schedule:
   billing_invoices:
-    cron: '0 0 4 * * *'
+    cron: '0 0 5 * * *'
     queue: low
     class: ACPJob
     args: Scheduled::BillingInvoicerJob
     description: "Automatically create and send new invoices"
   billing_payments:
-    cron: '0 30 3 * * *'
+    cron: '0 30 4 * * *'
     queue: low
     class: ACPJob
     args: Scheduled::BillingPaymentsProcessorJob
