@@ -31,7 +31,7 @@ pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode
 pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconflict--theme-dreamweaver.js" # @1.9.6
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.11.1/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.11.1/esm/index.js"
-pin "@sentry/hub", to: "https://ga.jspm.io/npm:@sentry/hub@7.11.1/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.11.1/esm/index.js"
+pin "@sentry/browser", to: "@sentry--browser.js" # @7.11.1
+pin "@sentry/core", to: "@sentry--core.js" # @7.11.1
+pin "@sentry/hub", to: "@sentry--hub.js" # @7.11.1
+pin "@sentry/utils", to: "@sentry--utils.js" # @7.11.1
