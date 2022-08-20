@@ -1,5 +1,5 @@
 /**
- * tom-select.css (v2.0.3)
+ * tom-select.css (v2.1.0)
  * Copyright (c) contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -12,7 +12,7 @@
  * governing permissions and limitations under the License.
  *
  */
-.ts-wrapper.single .ts-control, .ts-wrapper.single .ts-control input {
+ .ts-wrapper.single .ts-control, .ts-wrapper.single .ts-control input {
   cursor: pointer;
 }
 
@@ -204,7 +204,7 @@
   flex-wrap: wrap;
 }
 .ts-wrapper.multi.has-items .ts-control {
-  padding: calc( 8px - 2px - 0) 8px calc( 8px - 2px - 3px - 0);
+  padding: calc( 8px - 2px - 0px) 8px calc( 8px - 2px - 3px - 0px);
 }
 .full .ts-control {
   background-color: #fff;
@@ -225,17 +225,17 @@
   padding: 2px 6px;
   background: #f2f2f2;
   color: #303030;
-  border: 0 solid #d0d0d0;
+  border: 0px solid #d0d0d0;
 }
 .ts-wrapper.multi .ts-control > div.active {
   background: #e8e8e8;
   color: #303030;
-  border: 0 solid #cacaca;
+  border: 0px solid #cacaca;
 }
 .ts-wrapper.multi.disabled .ts-control > div, .ts-wrapper.multi.disabled .ts-control > div.active {
   color: #7d7d7d;
   background: white;
-  border: 0 solid white;
+  border: 0px solid white;
 }
 .ts-control > input {
   flex: 1 1 auto;
@@ -263,7 +263,7 @@
   outline: none !important;
 }
 .has-items .ts-control > input {
-  margin: 0 4px !important;
+  margin: 0px 4px !important;
 }
 .ts-control.rtl {
   text-align: right;
@@ -273,7 +273,7 @@
   right: auto;
 }
 .ts-control.rtl .ts-control > input {
-  margin: 0 4px 0 -2px !important;
+  margin: 0px 4px 0px -2px !important;
 }
 .disabled .ts-control {
   opacity: 0.5;
@@ -329,14 +329,10 @@
   background: #fff;
   cursor: default;
 }
-.ts-dropdown .create:hover,
-.ts-dropdown .option:hover,
 .ts-dropdown .active {
   background-color: #f5fafd;
   color: #495c68;
 }
-.ts-dropdown .create:hover.create,
-.ts-dropdown .option:hover.create,
 .ts-dropdown .active.create {
   color: #495c68;
 }

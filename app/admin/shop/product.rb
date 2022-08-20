@@ -88,7 +88,8 @@ ActiveAdmin.register Shop::Product do
           f.input :tags,
             as: :select,
             collection: Shop::Tag.all.map { |t| [t.display_name, t.id] },
-            input_html: { multiple: true, id: 'select-tags' }
+            wrapper_html: { class: 'select-tags' },
+            input_html: { multiple: true, data: { controller: 'select-tags' } }
           f.input :producer
           f.input :basket_complement,
             collection: BasketComplement.includes(:shop_product).map { |bc|
