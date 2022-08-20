@@ -29,6 +29,8 @@ pin "ace-builds" # @1.9.6
 pin "ace-builds/src-noconflict/mode-liquid", to: "ace-builds--src-noconflict--mode-liquid.js" # @1.9.6
 pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode-yaml.js" # @1.9.6
 pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconflict--theme-dreamweaver.js" # @1.9.6
+# Don't forget to update vendor/assets/stylesheets/tom-select/dist/css/tom-select.css too
+pin "tom-select" # @2.1.0
 
 # Sentry
 pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.11.1/esm/index.js"
