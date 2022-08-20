@@ -262,8 +262,7 @@ ActiveAdmin.register ACP do
               f.input :shop_order_minimal_amount
               f.input :shop_delivery_open_delay_in_days
               f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
-                step: 900,
-                value: resource&.shop_delivery_open_last_day_end_time&.strftime('%H:%M'),
+                value: f.object.shop_delivery_open_last_day_end_time&.strftime('%H:%M')
               }
               translated_input(f, :shop_invoice_infos,
                 hint: t('formtastic.hints.acp.shop_invoice_info'),
