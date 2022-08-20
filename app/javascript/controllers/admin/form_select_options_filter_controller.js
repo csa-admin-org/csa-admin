@@ -9,18 +9,28 @@ export default class extends Controller {
   }
 
   filter(event) {
-    this.selectTarget.removeAttribute("disabled");
-    Array.from(this.selectTarget.options).forEach((option) => {
-      if (option.getAttribute(this.attributeValue) === event.currentTarget.value) {
-        option.disabled = option.getAttribute("data-disabled") == "true";
-        option.hidden = option.getAttribute("data-disabled") == "true";
-        option.selected = option.getAttribute("data-disabled") == "true";
-      } else {
-        option.disabled = true;
-        option.hidden = true;
-        option.selected = false;
+    this.selectTargets.forEach(select => {
+      select.removeAttribute("disabled")
+      const selectedValue = select.value
+      Array.from(select.options).forEach((option) => {
+        const values = option.getAttribute(this.attributeValue)?.split(',')
+        console.log(values)
+        if (values && values.some((v) => v === event.currentTarget.value.toString())) {
+          option.disabled = option.getAttribute("data-disabled") == "true"
+          option.hidden = option.getAttribute("data-disabled") == "true"
+          option.selected = option.getAttribute("data-disabled") == "true"
+        } else {
+          option.disabled = true
+          option.hidden = true
+          option.selected = false
+        }
+        if (option.value === selectedValue && !option.disabled) {
+          option.selected = true;
+        }
+      })
+      if (!select.value) {
+        Array.from(select.options).find((o) => !o.disabled).selected = true
       }
-    });
-    Array.from(this.selectTarget.options).find((o) => !o.disabled).selected = true;
+    })
   }
 }
