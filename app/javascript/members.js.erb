@@ -1,5 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 
-import "components/sentry"
+<% if Rails.env.production? %>
+  import "components/sentry"
+<% end %>
 import "@hotwired/turbo-rails"
 import "controllers/members"
