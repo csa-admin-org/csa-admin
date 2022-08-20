@@ -84,16 +84,17 @@ ActiveAdmin.register Activity do
         value: f.object.end_time&.strftime('%H:%M') || '12:00'
       }
     end
-    f.inputs t('formtastic.inputs.place_and_title') do
+    f.inputs t('formtastic.inputs.place_and_title'), 'data-controller' => 'preset' do
       if f.object.new_record? && ActivityPreset.any?
         f.input :preset_id,
           collection: ActivityPreset.all + [ActivityPreset.new(id: 0, place: ActivityPreset.human_attribute_name(:other))],
-          include_blank: false
+          include_blank: false,
+          input_html: { data: { action: 'preset#change' } }
       end
       preset_present = f.object.preset.present?
-      translated_input(f, :places, input_html: { disabled: preset_present, class: 'js-preset' })
-      translated_input(f, :place_urls, input_html: { disabled: preset_present, class: 'js-preset' })
-      translated_input(f, :titles, input_html: { disabled: preset_present, class: 'js-preset' })
+      translated_input(f, :places, input_html: { disabled: preset_present, data: { preset_target: 'input' } })
+      translated_input(f, :place_urls, input_html: { disabled: preset_present, data: { preset_target: 'input' } })
+      translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: 'input' } })
     end
     f.inputs t('.details') do
       translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 4 })
