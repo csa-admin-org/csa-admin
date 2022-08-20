@@ -1,12 +1,3 @@
-const resetPrice = (el) => {
-  var nextInput = $(el)
-    .closest("li.select")
-    .nextAll(".number")
-    .first()
-    .find('input[type="number"]');
-  nextInput.prop("value", "");
-};
-
 const updateProductVariantOptions = (el) => {
   var selectedProductID = el.value;
   const selectID = el.id.replace("_id", "_variant_id");
@@ -28,9 +19,6 @@ const updateProductVariantOptions = (el) => {
 };
 
 $(document).on("turbolinks:load", function() {
-  $(".js-reset_price").on("change", function() {
-    resetPrice(this);
-  });
   $(".js-update_product_variant_options").on("change", function() {
     updateProductVariantOptions(this);
   });
@@ -40,9 +28,6 @@ $(document).on("turbolinks:load", function() {
     fieldset,
     container
   ) {
-    $(".js-reset_price").on("change", function() {
-      resetPrice(this);
-    });
     $(".js-update_product_variant_options").on("change", function() {
       updateProductVariantOptions(this);
     });

@@ -160,13 +160,27 @@ ActiveAdmin.register Shop::Order do
       f.input :member, collection: Member.reorder(:name), prompt: true
       f.input :delivery, prompt: true, collection: Delivery.shop_open
       f.has_many :items, allow_destroy: true do |ff|
-        ff.input :product, collection: products_collection, prompt: true,
-          input_html: { class: 'js-reset_price js-update_product_variant_options' }
-        ff.input :product_variant,
-          collection: product_variants_collection(ff.object.product_id),
-          input_html: { class: 'js-reset_price hide-disabled-options', disabled: ff.object.product_variant_id.blank? }
+        ff.inputs class: 'blank', 'data-controller' => 'form-reset' do
+          ff.input :product,
+            collection: products_collection,
+            prompt: true,
+            input_html: {
+              class: 'js-update_product_variant_options',
+              data: { action: 'form-reset#reset' }
+            }
+          ff.input :product_variant,
+            collection: product_variants_collection(ff.object.product_id),
+            input_html: {
+              class: 'hide-disabled-options',
+              disabled: ff.object.product_variant_id.blank?,
+              data: { action: 'form-reset#reset' }
+            }
           ff.input :quantity, as: :number, step: 1, min: 1
-        ff.input :item_price, hint: true, required: false
+          ff.input :item_price,
+            hint: true,
+            required: false,
+            input_html: { data: { form_reset_target: 'input' } }
+        end
       end
     end
     f.actions

@@ -563,26 +563,31 @@ ActiveAdmin.register Membership do
         f.input :new_config_from, as: :datepicker, required: true
       end
     end
-    f.inputs [Depot.model_name.human(count: 1), DeliveriesCycle.model_name.human(count: 1)].to_sentence do
+    f.inputs [
+      Depot.model_name.human(count: 1),
+      DeliveriesCycle.model_name.human(count: 1)
+    ].to_sentence, 'data-controller' => 'form-reset' do
       f.input :depot,
-      prompt: true,
-      input_html: {
-        class: 'js-reset_price',
-        data: {
-          controller: 'form-select-options',
-          action: 'form-select-options#update',
-          form_select_options_target_param: 'membership_deliveries_cycle_id'
-        }
-      },
-      collection: Depot.all.map { |d|
-        [
-          d.name, d.id,
+        prompt: true,
+        input_html: {
           data: {
-            form_select_options_values_param: d.deliveries_cycle_ids.join(',')
+            controller: 'form-select-options',
+            action: 'form-select-options#update form-reset#reset',
+            form_select_options_target_param: 'membership_deliveries_cycle_id'
           }
-        ]
-      }
-      f.input :depot_price, hint: true, required: false
+        },
+        collection: Depot.all.map { |d|
+          [
+            d.name, d.id,
+            data: {
+              form_select_options_values_param: d.deliveries_cycle_ids.join(',')
+            }
+          ]
+        }
+      f.input :depot_price,
+        hint: true,
+        required: false,
+        input_html: { data: { form_reset_target: 'input' } }
       f.input :deliveries_cycle,
         as: :select,
         collection: deliveries_cycles_collection,
@@ -592,20 +597,30 @@ ActiveAdmin.register Membership do
     f.inputs [
       Basket.model_name.human(count: 1),
       BasketComplement.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-    ].compact.to_sentence do
-      f.input :basket_size, prompt: true, input_html: { class: 'js-reset_price' }
-      f.input :basket_price, hint: true, required: false
+    ].compact.to_sentence, 'data-controller' => 'form-reset' do
+      f.input :basket_size,
+        prompt: true,
+        input_html: { data: { action: 'form-reset#reset' } }
+      f.input :basket_price,
+        hint: true,
+        required: false,
+        input_html: { data: { form_reset_target: 'input' } }
       f.input :basket_quantity
 
       if BasketComplement.any?
         complements = BasketComplement.all
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
-          ff.input :basket_complement,
-            collection: complements,
-            prompt: true,
-            input_html: { class: 'js-reset_price' }
-          ff.input :price, hint: true, required: false
-          ff.input :quantity
+          ff.inputs class: 'blank', 'data-controller' => 'form-reset' do
+            ff.input :basket_complement,
+              collection: complements,
+              prompt: true,
+              input_html: { data: { action: 'form-reset#reset' } }
+            ff.input :price,
+              hint: true,
+              required: false,
+              input_html: { data: { form_reset_target: 'input' } }
+            ff.input :quantity
+          end
         end
       end
     end
