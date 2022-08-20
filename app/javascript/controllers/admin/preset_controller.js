@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { prop, removeValues, setValues } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["input"]
+  static get targets() {
+    return ["input"]
+  }
 
   change(event) {
     if (event.target.value === "0") {

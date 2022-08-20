@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["link"]
+  static get targets() {
+    return ["link"]
+  }
 
   change(event) {
     let data = event.currentTarget.selectedOptions[0].dataset.formHintUrl;

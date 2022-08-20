@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["iframe"]
+  static get targets() {
+    return ["iframe"]
+  }
 
   iframeTargetConnected(element) {
     element.onload = () => { this.resize() }
