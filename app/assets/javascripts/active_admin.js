@@ -1,8 +1,6 @@
 //= require active_admin/base
 //= require turbolinks
 
-//= require components/form
-
 //= require jquery-ui/ui/i18n/datepicker-fr-CH
 //= require jquery-ui/ui/i18n/datepicker-de
 //= require jquery-ui/ui/i18n/datepicker-it-CH

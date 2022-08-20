@@ -17,26 +17,31 @@ ActiveAdmin.register Basket do
     links
   end
 
-  form  do |f|
+  form data: { controller: 'form-select-options-filter', form_select_options_filter_attribute_value: 'data-delivery-ids' } do |f|
     delivery_collection = basket_deliveries_collection(f.object)
     f.inputs [
-      Depot.model_name.human(count: 1),
-      delivery_collection.many? ? Delivery.model_name.human(count: 1) : nil
+      delivery_collection.many? ? Delivery.model_name.human(count: 1) : nil,
+      Depot.model_name.human(count: 1)
     ].compact.to_sentence, 'data-controller' => 'form-reset' do
-      f.input :depot,
-        collection: basket_depots_collection(f.object),
-        prompt: true,
-        input_html: { data: { action: 'form-reset#reset' } }
-      f.input :depot_price,
-        hint: true,
-        required: false,
-        input_html: { data: { form_reset_target: 'input' } }
       if delivery_collection.many?
         f.input :delivery,
           collection: delivery_collection,
           prompt: true,
-          input_html: { class: 'js-update_basket_depot_options' }
+          input_html: { data: { action: 'form-select-options-filter#filter' } }
       end
+      f.input :depot,
+        collection: basket_depots_collection(f.object),
+        prompt: true,
+        input_html: {
+          data: {
+            action: 'form-reset#reset',
+            form_select_options_filter_target: 'select'
+          }
+        }
+      f.input :depot_price,
+        hint: true,
+        required: false,
+        input_html: { data: { form_reset_target: 'input' } }
     end
     f.inputs [
       Basket.model_name.human(count: 1),
@@ -56,7 +61,12 @@ ActiveAdmin.register Basket do
             ff.input :basket_complement,
               collection: basket_complements_collection(f.object),
               prompt: true,
-              input_html: { data: { action: 'form-reset#reset' } }
+              input_html: {
+                data: {
+                  action: 'form-reset#reset',
+                  form_select_options_filter_target: 'select'
+                }
+              }
             ff.input :price,
               hint: true,
               required: false,
