@@ -238,7 +238,7 @@ ActiveAdmin.setup do |config|
       menu.add label: -> { I18n.t('active_admin.menu.group_buying') }, priority: 7, id: :group_buying
       menu.add label: -> { I18n.t('active_admin.menu.shop') }, priority: 8, id: :shop
       menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 9, id: :billing
-      menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 10, id: :other
+      menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 10, id: :other, html_options: { data: { controller: 'menu-sorting' } }
     end
   end
 
