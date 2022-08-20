@@ -7,7 +7,9 @@ import "ace-builds/src-noconflict/mode-yaml"
 import "ace-builds/src-noconflict/theme-dreamweaver"
 
 export default class extends Controller {
-  static targets = ["editor", "form"]
+  static get targets() {
+    return ["editor", "form"]
+  }
 
   initialize() {
     this.updatePreview = debounce(500, this.updatePreview)

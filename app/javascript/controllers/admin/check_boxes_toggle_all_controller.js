@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import { show } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["toggle", "input"]
+  static get targets() {
+    return ["toggle", "input"]
+  }
 
   connect() {
     this.updateToggle()

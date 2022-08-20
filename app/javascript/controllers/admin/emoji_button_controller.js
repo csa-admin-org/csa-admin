@@ -5,10 +5,11 @@ import frEmojiData from '@roderickhsiao/emoji-button-locale-data/dist/fr'
 import itEmojiData from '@roderickhsiao/emoji-button-locale-data/dist/it'
 
 export default class extends Controller {
-  static targets = ["button"]
+  static get targets() {
+    return ["button"]
+  }
 
   connect() {
-
     const locale = document.documentElement.lang
 
     var localeEmojiData;

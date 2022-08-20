@@ -1,12 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [
-    "productSelect",
-    "unitSelect",
-    "quantityInput",
-    "unitPriceInput",
-  ]
+  static get targets() {
+    return [
+      "productSelect",
+      "unitSelect",
+      "quantityInput",
+      "unitPriceInput",
+    ]
+  }
 
   productChange() {
     const latestUnit = this._productDataset('latestBasketContentUnit')
