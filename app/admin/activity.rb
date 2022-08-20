@@ -78,12 +78,10 @@ ActiveAdmin.register Activity do
 
     f.inputs t('formtastic.inputs.period') do
       f.input :start_time, as: :time_picker, input_html: {
-        step: 900,
-        value: resource&.start_time&.strftime('%H:%M')
+        value: f.object.start_time&.strftime('%H:%M') || '08:00'
       }
       f.input :end_time, as: :time_picker, input_html: {
-        step: 900,
-        value: resource&.end_time&.strftime('%H:%M')
+        value: f.object.end_time&.strftime('%H:%M') || '12:00'
       }
     end
     f.inputs t('formtastic.inputs.place_and_title') do
