@@ -26,6 +26,13 @@ export const resetValues = (elementOrSelector, value) => {
   }
 }
 
+export const setValues = (elementOrSelector, value) => {
+  const els = getElements(elementOrSelector)
+  for (const el of els) {
+    el.value = value
+  }
+}
+
 export const addClass = (elementOrSelector, className) => {
   const els = getElements(elementOrSelector)
   for (const el of els) {
