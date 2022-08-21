@@ -480,7 +480,7 @@ ActiveAdmin.register Member do
       if Current.acp.share?
         f.input :acp_shares_info
         f.input :existing_acp_shares_number
-        if member.acp_shares_number.zero?
+        if member.acp_shares_number.zero? || member.desired_acp_shares_number.positive?
           f.input :desired_acp_shares_number
         end
       end
