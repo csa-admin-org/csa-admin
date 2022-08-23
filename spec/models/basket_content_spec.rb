@@ -268,7 +268,10 @@ describe BasketContent do
         '1001' => 78.0,
         '1002' => 122.0)
       expect(delivery.basket_content_yearly_price_diffs)
-        .to eq(other_delivery.basket_content_yearly_price_diffs)
+        .not_to eq(other_delivery.basket_content_yearly_price_diffs)
+      expect(other_delivery.basket_content_yearly_price_diffs).to eq(
+        1001 => { DeliveriesCycle.first => 20.0 },
+        1002 => { DeliveriesCycle.first => 30.0 })
       expect(delivery.basket_content_yearly_price_diffs).to eq(
         1001 => { DeliveriesCycle.first => 78.0 },
         1002 => { DeliveriesCycle.first => 122.0 })
