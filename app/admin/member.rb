@@ -520,17 +520,7 @@ ActiveAdmin.register Member do
     link_to t('.deactivate'), deactivate_member_path(resource), method: :post
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
-    next_delivery = Delivery.next
-    params = {
-      member_id: resource.id,
-      started_on: [Date.current, next_delivery.fy_range.min, next_delivery.date.beginning_of_week].max
-    }
-    params[:basket_size_id] = resource&.waiting_basket_size&.id
-    params[:basket_price_extra] = resource.waiting_basket_price_extra if resource.waiting_basket_price_extra&.positive?
-    params[:depot_id] = resource&.waiting_depot&.id
-    params[:deliveries_cycle_id] = resource&.waiting_deliveries_cycle&.id
-    params[:subscribed_basket_complement_ids] = resource.waiting_basket_complement_ids if resource.waiting_basket_complement_ids&.any?
-    link_to t('.create_membership'), new_membership_path(params)
+    link_to t('.create_membership'), new_membership_path(member_id: resource.id)
   end
 
   member_action :validate, method: :post do

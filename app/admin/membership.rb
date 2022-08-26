@@ -662,19 +662,27 @@ ActiveAdmin.register Membership do
   end
 
   before_build do |membership|
-    membership.member_id ||= params[:member_id]
-    membership.basket_size_id ||= params[:basket_size_id]
-    if params[:basket_price_extra]
-      membership.basket_price_extra = params[:basket_price_extra]
+    if member = Member.find_by(id: params[:member_id])
+      membership.member_id ||= member.id
+      membership.basket_size_id ||= member.waiting_basket_size&.id
+      if member.waiting_basket_price_extra&.positive?
+        membership.basket_price_extra = member.waiting_basket_price_extra
+      end
+      membership.depot_id ||= member.waiting_depot&.id
+      membership.deliveries_cycle_id ||= member.waiting_deliveries_cycle&.id
+      member.members_basket_complements.each do |mbc|
+        membership.memberships_basket_complements.build(
+          basket_complement_id: mbc.basket_complement_id,
+          quantity: mbc.quantity)
+      end
     end
-    membership.depot_id ||= params[:depot_id]
-    membership.deliveries_cycle_id ||= params[:deliveries_cycle_id]
-    params[:subscribed_basket_complement_ids]&.each do |id|
-      membership.memberships_basket_complements.build(basket_complement_id: id)
-    end
-    if fy_range = Delivery.next&.fy_range
-      membership.started_on ||= params[:started_on] || [Date.current, fy_range.min].max
-      membership.ended_on ||= fy_range.max
+    if next_delivery = Delivery.next
+      membership.started_on ||= [
+        Date.current,
+        next_delivery.fy_range.min,
+        next_delivery.date.beginning_of_week
+      ].max
+      membership.ended_on ||= next_delivery.fy_range.max
     end
   end
 
