@@ -1,8 +1,8 @@
 namespace :postmark do
   desc 'Create/update message streams'
   task message_streams_setup: :environment do
-    ACP.perform_each do
-      if api_token = Current.acp.credentials(:postmark, :api_token)
+    ACP.switch_each do |acp|
+      if api_token = acp.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
 
         outbound = client.get_message_stream('outbound')

@@ -93,45 +93,22 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
 
-  after_create :create_tenant
-  after_create :create_superadmin_permission!
-  after_create :create_mail_templates!
-  after_create :create_default_deliveries_cycle!
+  after_create :create_tenant!
 
-  def self.perform(tenant_name)
-    enter!(tenant_name)
-    yield
-  ensure
-    exit!
-  end
-
-  def self.perform_each(&block)
-    all.each do |acp|
-      perform(acp.tenant_name) { yield acp }
-    end
-    nil
-  end
-
-  def self.enter!(tenant_name)
-    acp = ACP.find_by!(tenant_name: tenant_name)
-    Tenant.switch!(acp.tenant_name)
-    Current.reset
-    Current.acp = acp
-    Sentry.set_tags(acp: tenant_name)
-  end
-
-  def self.exit!
-    Tenant.reset
-    Current.reset
-  end
-
-  def self.languages; LANGUAGES end
   def self.features
     FEATURES.sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
   end
+  def self.languages; LANGUAGES end
   def self.feature_flags; FEATURE_FLAGS end
-  def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
+  def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
+
+  def self.switch_each
+    all.each do |acp|
+      Tenant.switch(acp.tenant_name) { yield acp }
+    end
+    nil
+  end
 
   def features
     self[:features].map(&:to_sym) & FEATURES
@@ -257,28 +234,6 @@ class ACP < ApplicationRecord
     self[:group_buying_email] || email
   end
 
-  def create_tenant
-    Tenant.create(tenant_name)
-  end
-
-  def create_superadmin_permission!
-    self.class.perform(tenant_name) do
-      Permission.create_superadmin!
-    end
-  end
-
-  def create_mail_templates!
-    self.class.perform(tenant_name) do
-      MailTemplate.create_all!
-    end
-  end
-
-  def create_default_deliveries_cycle!
-    self.class.perform(tenant_name) do
-      DeliveriesCycle.create_default!
-    end
-  end
-
   private
 
   def activity_participations_demanded_logic_must_be_valid
@@ -291,5 +246,12 @@ class ACP < ApplicationRecord
     if trial_basket_count.positive? && !billing_starts_after_first_delivery?
       errors.add(:billing_starts_after_first_delivery, :enabled_with_trial_baskets)
     end
+  end
+
+  def create_tenant!
+    Tenant.create!(tenant_name)
+    Permission.create_superadmin!
+    MailTemplate.create_all!
+    DeliveriesCycle.create_default!
   end
 end

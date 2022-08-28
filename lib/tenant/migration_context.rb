@@ -3,7 +3,7 @@ module Tenant
     def migrate(target_version = nil, &block)
       puts "Migrating #{Tenant.default}"
       super
-      Tenant.switch_each do |tenant|
+      switch_each do |tenant|
         puts "Migrating #{tenant}"
         super
       end
@@ -12,7 +12,7 @@ module Tenant
     def rollback(steps = 1)
       puts "Rolling back #{Tenant.default}"
       super
-      Tenant.switch_each do |tenant|
+      switch_each do |tenant|
         puts "Rolling back #{tenant}"
         super
       end
@@ -21,9 +21,18 @@ module Tenant
     def run(direction, target_version)
       puts "#{direction} #{Tenant.default}"
       super
-      Tenant.switch_each do |tenant|
+      switch_each do |tenant|
         puts "#{direction} #{tenant}"
         super
+      end
+    end
+
+    private
+
+    def switch_each
+      tenants = ACP.pluck(:tenant_name)
+      tenants.each do |tenant|
+        Tenant.switch(tenant) { yield tenant }
       end
     end
   end

@@ -10,7 +10,7 @@ module Tenant
         Tenant.reset
         resp = @app.call(env)
         resp[2] = ::Rack::BodyProxy.new(resp[2]) do
-          ACP.enter!(previous_tenant)
+          Tenant.switch!(previous_tenant)
         end
         resp
       else

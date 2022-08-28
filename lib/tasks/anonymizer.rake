@@ -3,8 +3,8 @@ namespace :anonymizer do
   task run: :environment do
     raise 'Dev only!' unless Rails.env.development?
 
-    ACP.perform_each do
-      Faker::Config.locale = Current.acp.default_locale
+    ACP.switch_each do |acp|
+      Faker::Config.locale = acp.default_locale
       Member.find_each do |member|
         member.update_columns(
           name: Faker::Name.unique.name,

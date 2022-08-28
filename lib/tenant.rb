@@ -30,12 +30,6 @@ module Tenant
     switch!(previous_tenant) rescue reset
   end
 
-  def switch_each(&block)
-    ACP.pluck(:tenant_name).each do |tenant|
-      switch(tenant) { yield tenant }
-    end
-  end
-
   def switch!(tenant = nil)
     return reset if tenant.nil?
 
@@ -55,20 +49,23 @@ module Tenant
     return reset if tenant.nil?
 
     Thread.current[:current_tenant] = tenant.to_s
+    Current.reset
+    Sentry.set_tags(tenant: tenant)
     ActiveRecord::Base.connection.schema_search_path = full_search_path
   end
 
   def reset
     Thread.current[:current_tenant] = nil
+    Current.reset
+    Sentry.set_tags(tenant: nil)
     ActiveRecord::Base.connection.schema_search_path = full_search_path
   end
 
-  def create(tenant)
+  def create!(tenant)
     connection = ActiveRecord::Base.connection
     connection.execute(%(CREATE SCHEMA "#{tenant}"))
-    switch(tenant) do
-      SchemaCreator.new(connection, ActiveRecord::Base.connection_db_config.configuration_hash).run
-    end
+    switch!(tenant)
+    SchemaCreator.new(connection, ActiveRecord::Base.connection_db_config.configuration_hash).run
   end
 
   private

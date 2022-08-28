@@ -52,9 +52,9 @@ describe ACP do
   end
 
   specify 'creates default deliveries cycle' do
-    ACP.exit!
+    Tenant.reset
     create(:acp, tenant_name: 'test')
-    ACP.enter!('test')
+    Tenant.switch!('test')
 
     expect(DeliveriesCycle.count).to eq 1
     expect(DeliveriesCycle.first).to have_attributes(

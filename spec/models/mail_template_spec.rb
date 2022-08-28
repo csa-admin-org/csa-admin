@@ -46,7 +46,7 @@ describe MailTemplate do
     expect(template).to be_active
     expect(template[:active]).to eq true
 
-    Current.acp = double(send_invoice_overdue_notice?: false)
+    allow(Current.acp).to receive(:send_invoice_overdue_notice?).and_return(false)
     expect(template).not_to be_active
 
     template.active = false
