@@ -7,7 +7,7 @@ describe MembershipRenewalJob, freeze: '2022-01-01' do
     membership = create(:membership)
 
     expect(Delivery.between(next_fy.range).count).to be_zero
-    expect { MembershipRenewalJob.perform_now(membership) }
+    expect { MembershipRenewalJob.perform_later(membership) }
       .to raise_error(MembershipRenewal::MissingDeliveriesError)
   end
 
@@ -24,7 +24,7 @@ describe MembershipRenewalJob, freeze: '2022-01-01' do
     membership.basket_size.update!(price: 41)
     membership.depot.update!(price: 4)
 
-    expect { MembershipRenewalJob.perform_now(membership) }
+    expect { MembershipRenewalJob.perform_later(membership) }
       .to change(Membership, :count).by(1)
 
     expect(Membership.last).to have_attributes(

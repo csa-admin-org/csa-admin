@@ -9,7 +9,7 @@ module Tenant
       host = request.host.split('.')[-2]
 
       if tenant_name = ACP.find_by(host: host)&.tenant_name
-        ACP.perform(tenant_name) { @app.call(env) }
+        Tenant.switch(tenant_name) { @app.call(env) }
       else
         @app.call(env)
       end

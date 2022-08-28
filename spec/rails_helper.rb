@@ -33,7 +33,6 @@ RSpec.configure do |config|
     Tenant.switch('ragedevert') do
       example.run
     end
-    Current.reset
     Faker::UniqueGenerator.clear
   end
 

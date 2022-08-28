@@ -14,8 +14,8 @@ def enter
 
   Tenant.reset if Tenant.inside?
   if acp
-    ACP.enter!(acp.tenant_name)
-    puts "Entered #{acp.name} context."
+    Tenant.switch!(acp.tenant_name)
+    puts "Entered #{acp.name} (#{acp.tenant_name}) context."
   else
     puts 'No ACP selected.'
   end
