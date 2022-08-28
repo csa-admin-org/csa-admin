@@ -5,6 +5,8 @@ module CurrentContext
   included do
     around_perform do |_, block|
       Current.set(@current, &block)
+    ensure
+      Tenant.reset unless Rails.env.test?
     end
   end
 
