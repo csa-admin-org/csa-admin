@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.04">
+  <BkToCstmrDbtCdtNtfctn>
+    <GrpHdr>
+      <MsgId>2020112000085998</MsgId>
+      <CreDtTm>2020-11-20T10:27:59</CreDtTm>
+      <MsgPgntn>
+        <PgNb>1</PgNb>
+        <LastPgInd>true</LastPgInd>
+      </MsgPgntn>
+    </GrpHdr>
+    <Ntfctn>
+      <Id>2020112000085998</Id>
+      <ElctrncSeqNb>1</ElctrncSeqNb>
+      <CreDtTm>2020-11-20T10:27:59</CreDtTm>
+      <FrToDt>
+        <FrDtTm>2020-08-21T00:00:00</FrDtTm>
+        <ToDtTm>2020-11-19T23:59:59</ToDtTm>
+      </FrToDt>
+      <RptgSrc>
+        <Prtry>OTHR</Prtry>
+      </RptgSrc>
+      <Acct>
+        <Id>
+          <IBAN>CH120345006789100000</IBAN>
+        </Id>
+        <Ccy>CHF</Ccy>
+        <Ownr>
+          <Nm>Mule</Nm>
+          <PstlAdr>
+            <AdrLine>Route du chemin 3</AdrLine>
+            <AdrLine>2300 La Chaux-de-Fonds</AdrLine>
+          </PstlAdr>
+        </Ownr>
+        <Svcr>
+          <FinInstnId>
+            <BICFI>ABSOCH22XXX</BICFI>
+            <Nm>Alternative Bank Schweiz AG</Nm>
+          </FinInstnId>
+        </Svcr>
+      </Acct>
+      <Ntry>
+        <NtryRef>CH120345006789100000</NtryRef>
+        <Amt Ccy="CHF">1</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <RvslInd>false</RvslInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2020-11-13</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2020-11-13</Dt>
+        </ValDt>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>RCDT</Cd>
+              <SubFmlyCd>VCOM</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <Btch>
+            <NbOfTxs>1</NbOfTxs>
+            <TtlAmt Ccy="CHF">1</TtlAmt>
+            <CdtDbtInd>CRDT</CdtDbtInd>
+          </Btch>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>ZV20201113/371247/2</AcctSvcrRef>
+              <EndToEndId>NOTPROVIDED</EndToEndId>
+            </Refs>
+            <Amt Ccy="CHF">1</Amt>
+            <CdtDbtInd>CRDT</CdtDbtInd>
+            <AmtDtls>
+              <InstdAmt>
+                <Amt Ccy="CHF">1</Amt>
+              </InstdAmt>
+            </AmtDtls>
+            <BkTxCd>
+              <Domn>
+                <Cd>PMNT</Cd>
+                <Fmly>
+                  <Cd>RCDT</Cd>
+                  <SubFmlyCd>VCOM</SubFmlyCd>
+                </Fmly>
+              </Domn>
+            </BkTxCd>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Monsieur Thibaud Guillaume-Gentil</Nm>
+                <PstlAdr>
+                  <AdrLine>2300 La Chaux-de-Fonds</AdrLine>
+                </PstlAdr>
+              </Dbtr>
+              <Cdtr>
+                <Nm>Mule</Nm>
+                <PstlAdr>
+                  <AdrLine>Route du chemin 3</AdrLine>
+                  <AdrLine>2300 La Chaux-de-Fonds</AdrLine>
+                </PstlAdr>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Strd>
+                <CdtrRefInf>
+                  <Tp>
+                    <CdOrPrtry>
+                      <Prtry>QRR</Prtry>
+                    </CdOrPrtry>
+                  </Tp>
+                  <Ref>ABCD000000000000000001ABCD1</Ref>
+                </CdtrRefInf>
+                <AddtlRmtInf>Test QR</AddtlRmtInf>
+              </Strd>
+            </RmtInf>
+            <AddtlTxInf>Crédit QR-facture</AddtlTxInf>
+          </TxDtls>
+        </NtryDtls>
+        <AddtlNtryInf>Crédit QR-facture</AddtlNtryInf>
+      </Ntry>
+    </Ntfctn>
+  </BkToCstmrDbtCdtNtfctn>
+</Document>

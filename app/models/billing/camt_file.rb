@@ -21,7 +21,7 @@ module Billing
               date = entry.value_date
               entry.transactions.map { |transaction|
                 ref = transaction.creditor_reference
-                if transaction.credit? && ref.present?
+                if transaction.credit? && valid_ref?(ref)
                   bank_ref = transaction.bank_reference
                   PaymentData.new(
                     invoice_id: ref.last(10).first(9).to_i,
@@ -45,6 +45,11 @@ module Billing
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
       Sentry.capture_exception(e, extra: { file: @files.first.read })
       raise UnsupportedFileError, e.message
+    end
+
+    # Only validate ref with numbers
+    def valid_ref?(ref)
+      ref.present? && ref =~ /\A\d+\z/
     end
   end
 end
