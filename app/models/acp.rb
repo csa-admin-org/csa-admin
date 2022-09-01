@@ -138,6 +138,12 @@ class ACP < ApplicationRecord
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end
 
+  def qr_iban=(iban)
+    if iban.present?
+      super iban.gsub(/\s/, '')
+    end
+  end
+
   def invoice_type
     ccp? ? 'ISR' : 'QR'
   end
