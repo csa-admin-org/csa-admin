@@ -109,7 +109,7 @@ ActiveAdmin.register ACP do
           translated_input(f, :invoice_footers)
 
           li { h1 t('.invoice_qr') }
-          f.input :qr_iban, required: false, input_html: { maxlength: 21 }
+          f.input :qr_iban, required: false
           f.input :qr_bank_reference, required: false, input_html: { maxlength: 16 }
           f.input :qr_creditor_name, required: false, input_html: { maxlength: 70 }
           f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
