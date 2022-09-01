@@ -62,7 +62,7 @@ module PDF
     def header(depot, page:, total_pages:)
       image acp_logo_io, at: [15, bounds.height - 20], width: 110
       if announcement = Announcement.for(delivery, depot)
-        bounding_box [20, bounds.height - 140], width: 300, height: 70 do
+        bounding_box [20, bounds.height - 130], width: 290, height: 70 do
           text announcement.text,
             size: 13,
             style: :bold,
