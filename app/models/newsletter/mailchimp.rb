@@ -193,7 +193,7 @@ class Newsletter::MailChimp
         json = JSON.load(r['response'])
         if json['title'] == 'Forgotten Email Not Subscribed'
           email = json['detail'].split(' ').first
-          EmailSuppression.find_or_create!(
+          EmailSuppression.find_or_create_by!(
             stream_id: 'mailchimp',
             email: email,
             reason: 'Forgotten',
