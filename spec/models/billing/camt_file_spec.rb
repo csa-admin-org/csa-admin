@@ -13,6 +13,11 @@ describe Billing::CamtFile do
       ])
     end
 
+    it 'returns no payment data when REF has letter' do
+      file = described_class.new(file_fixture('camt054_ref_with_letters.xml'))
+      expect(file.payments_data).to be_empty
+    end
+
     it 'raise for invalid CAMT namespace' do
       file = described_class.new(file_fixture('camt_wrong.xml'))
       expect { file.payments_data }
