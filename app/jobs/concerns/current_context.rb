@@ -4,7 +4,9 @@ module CurrentContext
   included do
     around_perform do |_, block|
       Current.set(@current, &block)
-    ensure
+    end
+
+    after_perform do |job|
       # Do not reset context if the job is performed inline in a spec
       Tenant.reset unless Rails.env.test?
     end
