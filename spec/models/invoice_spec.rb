@@ -186,6 +186,14 @@ describe Invoice do
         .not_to change { InvoiceMailer.deliveries.size }
       expect(invoice.reload.sent_at).to be_nil
     end
+
+    it 'stores sender' do
+      admin = create(:admin)
+      Current.session = create(:session, admin: admin)
+
+      invoice.send!
+      expect(invoice.sent_by).to eq admin
+    end
   end
 
   describe '#mark_as_sent!' do
@@ -202,6 +210,31 @@ describe Invoice do
 
     it 'sets invoice as open' do
       expect { invoice.send! }.to change(invoice, :state).to('open')
+    end
+
+    it 'stores who mark it as sent' do
+      admin = create(:admin)
+      Current.session = create(:session, admin: admin)
+
+      invoice.mark_as_sent!
+      expect(invoice.sent_by).to eq admin
+    end
+  end
+
+  describe '#cancel!' do
+    let(:invoice) { create(:invoice, :annual_fee, :open) }
+
+    it 'sets invoice as canceled' do
+      expect { invoice.cancel! }
+        .to change(invoice, :state).to('canceled')
+    end
+
+    it 'stores cancelor' do
+      admin = create(:admin)
+      Current.session = create(:session, admin: admin)
+
+      invoice.cancel!
+      expect(invoice.canceled_by).to eq admin
     end
   end
 
@@ -339,5 +372,32 @@ describe Invoice do
     expect {
       invoice1.destroy!
     }.to change { invoice2.reload.state }.from('open').to('closed')
+  end
+
+  specify 'set creator once processed' do
+    admin = create(:admin)
+    Current.session = create(:session, admin: admin)
+    invoice = create(:invoice, :annual_fee, :unprocessed)
+
+    invoice.reload
+    expect(invoice).to be_processed
+    expect(invoice.created_by).to eq admin
+  end
+
+  specify 'closing an invoice keep track of actor' do
+    member = create(:member, :active)
+    invoice = create(:invoice, :open,
+      member: member,
+      items_attributes: { '0' => { description: 'Machin', amount: '10' } })
+    expect(invoice).not_to be_closed
+    expect(invoice.closed_by).to be_nil
+
+    admin = create(:admin)
+    Current.session = create(:session, admin: admin)
+    create(:payment, member: member, invoice: invoice, amount: 10)
+
+    invoice.reload
+    expect(invoice.closed_by).to eq admin
+    expect(invoice.closed_at).to eq invoice.audits.last.created_at
   end
 end

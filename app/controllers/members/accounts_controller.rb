@@ -9,8 +9,6 @@ class Members::AccountsController < Members::BaseController
 
   # PATCH /account
   def update
-    current_member.audit_session = current_session
-
     if current_member.update(member_params)
       redirect_to members_account_path
     else

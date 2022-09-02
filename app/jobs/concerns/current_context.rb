@@ -1,4 +1,3 @@
-
 module CurrentContext
   extend ActiveSupport::Concern
 
@@ -6,6 +5,7 @@ module CurrentContext
     around_perform do |_, block|
       Current.set(@current, &block)
     ensure
+      # Do not reset context if the job is performed inline in a spec
       Tenant.reset unless Rails.env.test?
     end
   end

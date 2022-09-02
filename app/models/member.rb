@@ -11,7 +11,7 @@ class Member < ApplicationRecord
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
 
-  audited_attributes :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing
+  audited_attributes :state, :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing
 
   has_states :pending, :waiting, :active, :support, :inactive
 

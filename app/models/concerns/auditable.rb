@@ -2,27 +2,27 @@ module Auditable
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :audit_session
-    has_many :audits, as: :auditable
-    before_update :save_audited_changes!
+    class_attribute :auditable_attributes, default: []
+
+    has_many :audits, as: :auditable, dependent: :delete_all
+
+    before_save :audit_changes!
   end
 
   class_methods do
-    def audited_attributes(*attributes)
-      const_set('AUDITED_ATTRIBUTES', attributes.map(&:to_s).freeze)
+    def audited_attributes(*attrs)
+      self.auditable_attributes = attrs.map(&:to_s).freeze
     end
   end
 
   private
 
-  def save_audited_changes!
-    return unless audit_session
-
-    audited_changes = changes.slice(*self.class::AUDITED_ATTRIBUTES)
+  def audit_changes!
+    audited_changes = changes.slice(*self.class.auditable_attributes)
     return if audited_changes.none?
 
-    audits.create!(
-      session: audit_session,
+    self.audits.build(
+      session: Current.session,
       audited_changes: audited_changes)
   end
 end
