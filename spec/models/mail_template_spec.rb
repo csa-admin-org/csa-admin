@@ -5,7 +5,7 @@ describe MailTemplate do
 
   specify 'audit subject and content changes' do
     session = create(:session, :admin)
-    template.audit_session = session
+    Current.session = session
 
     expect {
       template.update!(

@@ -60,10 +60,26 @@ _:
       _de: Häufigkeit
       _fr: Fréquence
       _it: Frequenza
+    canceled_at:
+      _de: Storniert am
+      _fr: Annulé le
+      _it: Annullato il
+    canceled_by:
+      _de: Storniert von
+      _fr: Annulé par
+      _it: Annullato da
     city:
       _de: Stadt
       _fr: Ville
       _it: Città
+    closed_at:
+      _de: Geschlossen am
+      _fr: Fermé le
+      _it: Chiuso il
+    closed_by:
+      _de: Geschlossen von
+      _fr: Fermé par
+      _it: Chiuso da
     comment:
       _de: Kommentar
       _fr: Commentaire
@@ -84,6 +100,10 @@ _:
       _de: Erstellt am
       _fr: Créé le
       _it: Creato il
+    created_by:
+      _de: Erstellt von
+      _fr: Créé par
+      _it: Creato da
     current_deliveries:
       _de: Lieferungen (laufendes Jahr)
       _fr: Livraisons (année courante)
@@ -312,6 +332,10 @@ _:
       _de: Gesendet am
       _fr: Envoyé le
       _it: Inviato il
+    sent_by:
+      _de: Gesendet von
+      _fr: Envoyé par
+      _it: Inviato da
     shop:
       _de: Lebensmittelgeschäft
       _fr: Épicerie
@@ -360,6 +384,10 @@ _:
       _de: Aktualisiert am
       _fr: Mis à jour le
       _it: Aggiornato il
+    updated_by:
+      _de: Aktualisiert von
+      _fr: Mis à jour par
+      _it: Aggiornato da
     visible:
       _de: Sichtbar
       _fr: Visible

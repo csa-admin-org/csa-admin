@@ -20,8 +20,6 @@ class Members::ContactSharingsController < Members::BaseController
 
   # POST /contact_sharing
   def create
-    current_member.audit_session = current_session
-
     if current_member.update(member_params)
       redirect_to members_contact_sharing_path, notice: t('members.contact_sharings.flash.joined')
     else

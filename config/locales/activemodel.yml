@@ -1,0 +1,7 @@
+_:
+  activemodel:
+    models:
+      system:
+        _de: ACP Admin
+        _fr: ACP Admin
+        _it: ACP Admin

@@ -155,8 +155,19 @@ ActiveAdmin.register Invoice do
           end
           row(:date) { l invoice.date }
           row(:state) { status_tag invoice.state }
-          row(:sent_at) { l invoice.sent_at if invoice.sent_at }
-          row(:updated_at) { l invoice.updated_at }
+          row(:created_at) { l invoice.created_at }
+          row(:created_by)
+          if invoice.sent_at?
+            row(:sent_at) { l invoice.sent_at if invoice.sent_at }
+            row(:sent_by)
+          end
+          if invoice.closed?
+            row(:closed_at) { l(invoice.closed_at) if invoice.closed_at }
+            row(:closed_by)
+          elsif invoice.canceled?
+            row(:canceled_at) { l invoice.canceled_at }
+            row(:canceled_by)
+          end
         end
 
         attributes_table title: Invoice.human_attribute_name(:amount) do

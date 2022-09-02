@@ -127,10 +127,6 @@ ActiveAdmin.register MailTemplate do
     f.actions
   end
 
-  before_save do |mail_template|
-    mail_template.audit_session = current_session
-  end
-
   member_action :preview, method: :get do
     resource.assign_attributes(permitted_params[:mail_template])
     render :preview

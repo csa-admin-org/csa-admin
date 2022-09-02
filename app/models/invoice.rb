@@ -4,6 +4,7 @@ require 'bigdecimal'
 class Invoice < ApplicationRecord
   include HasFiscalYearScopes
   include HasState
+  include Auditable
   include ActionView::Helpers::NumberHelper
   UnprocessedError = Class.new(StandardError)
 
@@ -12,6 +13,8 @@ class Invoice < ApplicationRecord
   attr_accessor :comment
 
   has_states :processing, :not_sent, :open, :closed, :canceled
+
+  audited_attributes :state, :sent_at
 
   belongs_to :member
   belongs_to :object, polymorphic: true, optional: true, touch: true
@@ -133,7 +136,7 @@ class Invoice < ApplicationRecord
 
     # Leave some time for the invoice PDF to be uploaded
     MailTemplate.deliver_later(:invoice_created, invoice: self, wait: 5.seconds)
-    touch(:sent_at)
+    update!(sent_at: Time.current)
     close_or_open!
   rescue => e
     Sentry.capture_exception(e, extra: {
@@ -147,7 +150,7 @@ class Invoice < ApplicationRecord
     return if sent_at?
     invalid_transition(:mark_as_sent!) if processing?
 
-    touch(:sent_at)
+    update!(sent_at: Time.current)
     close_or_open!
   end
 
@@ -308,7 +311,37 @@ class Invoice < ApplicationRecord
     (memberships_gross_amount - memberships_vat_amount) if memberships_gross_amount
   end
 
+  def created_by
+    audits.find_change_of(:state, from: PROCESSING_STATE)&.actor
+  end
+
+  def sent_by
+    return unless sent_at?
+
+    audits.reversed.find_change_of(:sent_at, from: nil)&.actor
+  end
+
+  def closed_by
+    closed_audit&.actor
+  end
+
+  def closed_at
+    closed_audit&.created_at
+  end
+
+  def canceled_by
+    return unless canceled?
+
+    audits.reversed.find_change_of(:state, to: CANCELED_STATE)&.actor
+  end
+
   private
+
+  def closed_audit
+    return unless closed?
+
+    @closed_audit ||= audits.reversed.find_change_of(:state, to: CLOSED_STATE)
+  end
 
   def validate_memberships_amount_for_current_year
     paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)

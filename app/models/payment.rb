@@ -1,7 +1,10 @@
 class Payment < ApplicationRecord
   include HasFiscalYearScopes
+  include Auditable
 
   attr_accessor :comment
+
+  audited_attributes :member_id, :invoice_id, :date, :amount
 
   default_scope { order(:date) }
 
@@ -51,6 +54,20 @@ class Payment < ApplicationRecord
 
   def can_update?
     manual?
+  end
+
+  def created_by
+    audits.find_change_of(:member_id, from: nil)&.actor
+  end
+
+  def updated?
+    updated_at > created_at
+  end
+
+  def updated_by
+    return unless updated?
+
+    audits.last&.actor
   end
 
   private

@@ -91,7 +91,11 @@ ActiveAdmin.register Payment do
       row(:date) { l payement.date }
       row(:amount) { cur(payement.amount) }
       row(:created_at) { l payement.created_at }
-      row(:updated_at) { l payement.updated_at }
+      row(:created_by)
+      if payment.manual? && payment.updated?
+        row(:updated_at) { l payement.updated_at }
+        row(:updated_by)
+      end
     end
 
     active_admin_comments

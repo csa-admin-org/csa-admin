@@ -558,10 +558,6 @@ ActiveAdmin.register Member do
     end
   end
 
-  before_save do |member|
-    member.audit_session = current_session
-  end
-
   controller do
     include TranslatedCSVFilename
 

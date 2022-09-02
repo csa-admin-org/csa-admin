@@ -44,7 +44,8 @@ describe 'Account' do
     expect(page).to have_content("Doe Jame & John")
     expect(page).to have_content("Nowhere 112345 VillarAllemagne")
 
-    expect(member.audits.first).to have_attributes(
+    expect(member.audits.last).to have_attributes(
+      actor: member,
       session: member.last_session,
       audited_changes: {
         'zip' => ['1234', '12345'],
