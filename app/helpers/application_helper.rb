@@ -118,7 +118,8 @@ module ApplicationHelper
     return unless request&.referer
 
     query = URI(request.referer).query
-    Rack::Utils.parse_nested_query(query).dig('q', "#{attr}_eq")
+    Rack::Utils.parse_nested_query(query).dig('q', "#{attr}_eq") ||
+      Rack::Utils.parse_nested_query(query).dig('q', "#{attr}_equals")
   end
 
   def postmark_url(path = 'streams')

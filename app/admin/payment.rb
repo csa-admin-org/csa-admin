@@ -125,6 +125,7 @@ ActiveAdmin.register Payment do
       payment.member = invoice.member
     end
     payment.member_id ||= referer_filter(:member_id)
+    payment.invoice_id ||= referer_filter(:invoice_id)
     payment.date ||= Date.current
     payment.amount ||= params[:amount] || 0
   end
