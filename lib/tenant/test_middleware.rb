@@ -8,6 +8,7 @@ module Tenant
       if Tenant.inside?
         previous_tenant = Tenant.current
         Tenant.reset
+        Current.reset!
         resp = @app.call(env)
         resp[2] = ::Rack::BodyProxy.new(resp[2]) do
           Tenant.switch!(previous_tenant)
