@@ -15,14 +15,10 @@ class Current < ActiveSupport::CurrentAttributes
 
   # AcitveJob inline queue adapter is reseting the Current attributes
   # after each run. This is a workaround to keep the Current attributes
-  # set when a job is performed inline in a spec and only reset the
-  # current attributes when the Tenant is switched.
+  # set when a job is performed inline in a spec.
   # https://github.com/rails/rails/issues/36298
   if Rails.env.test?
-    def reset
-      run_callbacks :reset do
-        super if caller[5].include?('/lib/tenant.rb')
-      end
-    end
+    alias :reset! :reset
+    def reset; nil end
   end
 end

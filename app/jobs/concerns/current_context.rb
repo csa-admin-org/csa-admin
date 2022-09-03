@@ -3,12 +3,10 @@ module CurrentContext
 
   included do
     around_perform do |_, block|
-      Current.set(@current, &block)
-    end
-
-    after_perform do |job|
-      # Do not reset context if the job is performed inline in a spec
-      Tenant.reset unless Rails.env.test?
+      Tenant.switch(@tenant) do
+        attrs = ActiveJob::Arguments.deserialize(@current).to_h
+        Current.set(attrs, &block)
+      end
     end
   end
 
@@ -19,8 +17,14 @@ module CurrentContext
   end
 
   def deserialize(data)
-    Tenant.switch!(data['tenant'])
-    @current = ActiveJob::Arguments.deserialize(data['current']).to_h
+    @tenant = data['tenant']
+    @current = data['current']
     super
+  end
+
+  private
+
+  def deserialize_arguments(arguments)
+    Tenant.switch(@tenant) { super }
   end
 end
