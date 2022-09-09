@@ -107,44 +107,50 @@ ActiveAdmin.register ActivityParticipation do
   permit_params(*%i[activity_id member_id participants_count])
 
   show do |ap|
-    attributes_table do
-      row(:activity) { link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all) }
-      row(:participants_count)
-      row(:latest_reminder_sent_at) { l(ap.latest_reminder_sent_at) if ap.latest_reminder_sent_at }
-      row(:created_at)  { l(ap.created_at) }
-      row(:updated_at) { l(ap.updated_at) }
-    end
-
-    attributes_table title: ActivityParticipation.human_attribute_name(:contact) do
-      row :member
-      row(:email) { ap.session&.email }
-      row(:phones) { display_phones_with_link(self, ap.member.phones_array) }
-      if ap.carpooling?
-        row(:carpooling_phone) { display_phones_with_link(self, ap.carpooling_phone) }
-        row(:carpooling_city) { ap.carpooling_city }
-      end
-    end
-
-    if ap.validated? || ap.rejected?
-      attributes_table ActivityParticipation.human_attribute_name(:state) do
-        row(:status) { status_tag ap.state, label: ap.state_i18n_name }
-        row :validator
-        if ap.validated?
-          row(:validated_at) { l(ap.validated_at) }
+    columns do
+      column do
+        attributes_table title: ActivityParticipation.human_attribute_name(:contact) do
+          row :member
+          row(:email) { ap.session&.email }
+          row(:phones) { display_phones_with_link(self, ap.member.phones_array) }
+          if ap.carpooling?
+            row(:carpooling_phone) { display_phones_with_link(self, ap.carpooling_phone) }
+            row(:carpooling_city) { ap.carpooling_city }
+          end
         end
-        if ap.rejected?
-          row(:rejected_at) { l(ap.rejected_at) }
+
+        if ap.invoices.any?
+          attributes_table title: t('.billing') do
+            row(:invoiced_at) { auto_link ap.invoices.first, l(ap.invoices.first.date) }
+          end
         end
       end
-    end
+      column do
+        attributes_table do
+          row(:activity) { link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all) }
+          row(:participants_count)
+          row(:latest_reminder_sent_at) { l(ap.latest_reminder_sent_at) if ap.latest_reminder_sent_at }
+          row(:created_at)  { l(ap.created_at) }
+          row(:updated_at) { l(ap.updated_at) }
+        end
 
-    if ap.invoices.any?
-      attributes_table title: t('.billing') do
-        row(:invoiced_at) { auto_link ap.invoices.first, l(ap.invoices.first.date) }
+
+        if ap.validated? || ap.rejected?
+          attributes_table title: ActivityParticipation.human_attribute_name(:state) do
+            row(:status) { status_tag ap.state, label: ap.state_i18n_name }
+            row :validator
+            if ap.validated?
+              row(:validated_at) { l(ap.validated_at) }
+            end
+            if ap.rejected?
+              row(:rejected_at) { l(ap.rejected_at) }
+            end
+          end
+        end
+
+        active_admin_comments
       end
     end
-
-    active_admin_comments
   end
 
   batch_action :validate, if: ->(_) {
