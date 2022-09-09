@@ -571,6 +571,10 @@ _:
               _de: Mein Abonnement erneuern
               _fr: Renouveler mon abonnement
               _it: Rinnovare il mio abbonamento
+            renew_hint:
+              _de: Möglichkeit, seine Zusammensetzung zu ändern
+              _fr: Possibilité de modifier sa composition
+              _it: Possibilità di modificare la composizione
           options_label:
             _de: 'Ich wünsche:'
             _fr: 'Je désire:'

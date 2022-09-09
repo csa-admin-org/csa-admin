@@ -123,7 +123,18 @@ module MembershipsHelper
   end
 
   def renewal_decisions_collection
-    %i[renew cancel].map { |d| [t(".renewal.options.#{d}"), d] }
+    [
+      [
+        content_tag(:span, class: 'flex flex-col') {
+          content_tag(:span, t(".renewal.options.renew"),
+            class: '') +
+          content_tag(:span, t(".renewal.options.renew_hint"),
+            class: 'hint text-sm italic text-gray-400 dark:text-gray-600')
+        }.html_safe,
+        :renew
+      ],
+      [t(".renewal.options.cancel"), :cancel]
+    ]
   end
 
   private
