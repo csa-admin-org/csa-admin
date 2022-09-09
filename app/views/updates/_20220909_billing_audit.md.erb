@@ -1,0 +1,17 @@
+# Traçabilité de la facturation
+
+ACP Admin garde désormais une trace de toutes les modifications effectuées aux factures et aux paiements. Vous pouvez ainsi retrouver par qui et quand une action a été effectuée sur la page d'une facture ou d'un paiement.
+
+Les actions suivantes sont enregistrées:
+
+  * Création d'une facture
+  * Envoi d'une facture par email
+  * Fermeture d'une facture
+  * Annulation d'une facture
+  * Création d'un paiement
+  * Modification d'un paiement
+
+Noter que c'est la session active de l'admin ou du membre qui a initialisé l'action, même indirectement, qui est enregistrée. Par exemple, si un admin créer un paiement qui a pour effet de fermer une facture, c'est l'admin qui est enregistré comme ayant effectué l'action de fermeture de cette facture. Autre exemple, si un membre effectue une commande d'achats groupés qui est facturée automatiquement, c'est le membre qui est enregistré comme ayant effectué l'action de création de cette facture.
+
+![Trace des actions sur une facture](<%= image_url('updates/20220909_billing_audit/invoice_audit.png') %>){:width="50%"}
+
