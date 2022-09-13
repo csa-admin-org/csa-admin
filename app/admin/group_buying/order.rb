@@ -126,7 +126,9 @@ ActiveAdmin.register GroupBuying::Order do
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) } do
-    link_to t('.cancel_invoice'), cancel_group_buying_order_path(resource), method: :post, data: { confirm: t('.link_confirm') }
+    button_to t('.cancel_invoice'), cancel_group_buying_order_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
+      data: { confirm: t('.link_confirm') }
   end
 
   member_action :cancel, method: :post do

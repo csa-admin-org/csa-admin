@@ -141,20 +141,16 @@ ActiveAdmin.register Membership do
             if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
               openable_count = renewal.openable.count
               if openable_count.positive?
-                div do
-                  link_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
-                    data: { confirm: t('.confirm'), disable_with: t('.opening') },
-                    class: 'clear_filters_btn full-width',
-                    method: :post
-                end
+                button_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
+                  form: { data: { controller: 'disable', disable_with_value: t('.opening') } },
+                  class: 'clear_filters_btn full-width'
               end
             end
             if authorized?(:renew_all, Membership)
               div class: 'top-small-spacing' do
-                link_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
-                  data: { confirm: t('.confirm'), disable_with: t('.renewing') },
-                  class: 'clear_filters_btn full-width',
-                  method: :post
+                button_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
+                  form: { data: { controller: 'disable', disable_with_value: t('.renewing') } },
+                  class: 'clear_filters_btn full-width'
               end
             end
           end
@@ -323,12 +319,11 @@ ActiveAdmin.register Membership do
               row :renewal_note
               if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:enable_renewal, m)
                 div class: 'buttons-inline' do
-                  div class: 'button-inline' do
-                    link_to t('.enable_renewal'), enable_renewal_membership_path(m),
-                      data: { confirm: t('.confirm') },
-                      class: 'clear_filters_btn',
-                      method: :post
-                  end
+                  button_to t('.enable_renewal'), enable_renewal_membership_path(m),
+                    form: {
+                      data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                    },
+                    data: { confirm: t('.confirm') }
                 end
               end
             elsif m.renewal_opened?
@@ -343,18 +338,21 @@ ActiveAdmin.register Membership do
               div class: 'buttons-inline' do
                 if authorized?(:renew, m)
                   div class: 'button-inline' do
-                    link_to t('.renew'), renew_membership_path(m),
-                      data: { confirm: t('.confirm') },
-                      class: 'clear_filters_btn',
-                      method: :post
+                    button_to t('.renew'), renew_membership_path(m),
+                      form: {
+                        data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                      },
+                      data: { confirm: t('.confirm') }
                   end
                 end
                 if authorized?(:cancel, m)
                   div class: 'button-inline' do
-                    link_to t('.cancel_renewal'), cancel_membership_path(m),
+                    button_to t('.cancel_renewal'), cancel_membership_path(m),
+                      form: {
+                        data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                      },
                       data: { confirm: t('.confirm') },
-                      class: 'clear_filters_btn',
-                      method: :post
+                      class: 'clear_filters_btn'
                   end
                 end
               end
@@ -363,27 +361,32 @@ ActiveAdmin.register Membership do
                 if Delivery.any_next_year?
                   if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                     div class: 'button-inline' do
-                      link_to t('.open_renewal'), open_renewal_membership_path(m),
-                        data: { confirm: t('.confirm') },
-                        class: 'clear_filters_btn',
-                        method: :post
+                      button_to t('.open_renewal'), open_renewal_membership_path(m),
+                        form: {
+                          data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                        },
+                        data: { confirm: t('.confirm') }
                     end
                   end
                   if authorized?(:renew, m)
                     div class: 'button-inline' do
-                      link_to t('.renew'), renew_membership_path(m),
+                      button_to t('.renew'), renew_membership_path(m),
+                        form: {
+                          data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                        },
                         data: { confirm: t('.confirm') },
-                        class: 'clear_filters_btn',
-                        method: :post
+                        class: 'clear_filters_btn'
                     end
                   end
                 end
                 if authorized?(:cancel, m)
                   div class: 'button-inline' do
-                    link_to t('.cancel_renewal'), cancel_membership_path(m),
-                      data: { confirm: t('.confirm') },
-                      class: 'clear_filters_btn',
-                      method: :post
+                    button_to t('.cancel_renewal'), cancel_membership_path(m),
+                      form: {
+                        data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                      },
+                      data: { confirm: t('.force_recurring_billing_confirm') },
+                      class: 'clear_filters_btn'
                   end
                 end
               end
@@ -495,9 +498,11 @@ ActiveAdmin.register Membership do
                       l(invoicer.next_date, format: :long_medium)
                     end
                     if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
-                      link_to t('.force_recurring_billing'), force_recurring_billing_member_path(resource.member),
-                        method: :post,
-                        class: 'button',
+                      button_to t('.force_recurring_billing'), force_recurring_billing_member_path(resource.member),
+                        form: {
+                          data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                          class: 'inline'
+                        },
                         data: { confirm: t('.force_recurring_billing_confirm') }
                     end
                   end
