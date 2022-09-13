@@ -345,6 +345,10 @@ input[type="button"]:hover,
 button:hover {
   background: #ffffff;
 }
+button:disabled {
+  cursor: not-allowed;
+  background-color: #f7f7f7;
+}
 
 .ui-dialog .ui-dialog-buttonpane button:first-of-type,
 input[type="submit"]:not(.cancel) {
@@ -907,7 +911,9 @@ form textarea:focus ~ .inline-hints {
   display: inline-block;
 }
 
-.title_bar #titlebar_right .action_item a {
+.title_bar #titlebar_right .action_item a,
+.title_bar #titlebar_right .action_item button {
+  background-color: white;
   border: 1px solid #86c892;
   border-radius: 6px;
   color: #49ac5b;
@@ -923,7 +929,8 @@ form textarea:focus ~ .inline-hints {
   margin-left: 5px;
 }
 
-.title_bar #titlebar_right .action_item a:hover {
+.title_bar #titlebar_right .action_item a:hover,
+.title_bar #titlebar_right .action_item button:hover {
   border-color: #0a731d;
   color: #0a731d;
 }
@@ -963,7 +970,8 @@ form textarea:focus ~ .inline-hints {
     margin-top: 10px;
   }
 
-  .title_bar .action_item a {
+  .title_bar .action_item a,
+  .title_bar .action_item button {
     margin: 2px 0;
   }
 }
@@ -1019,7 +1027,17 @@ a.member_link {
   white-space: nowrap;
 }
 
-a.button {
+form.inline {
+  display: inline;
+}
+
+form.inline button {
+  display: inline-block;
+  padding: 3px 5px !important;
+  margin: -3px 0 0 5px;
+}
+
+a.button  {
   padding: 3px 5px !important;
   margin: -3px 0 0 5px;
 }
@@ -1740,6 +1758,7 @@ form.filter_form .buttons {
   margin: 20px 0;
 }
 
+button.clear_filters_btn,
 form.import .buttons a.clear_filters_btn,
 form.filter_form .buttons a.clear_filters_btn {
   margin-left: 5px;

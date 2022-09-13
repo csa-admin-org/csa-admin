@@ -201,7 +201,8 @@ ActiveAdmin.register Shop::Order do
     ])
 
   action_item :invoice, only: :show, if: -> { resource.can_invoice? } do
-    link_to t('.invoice_action'), invoice_shop_order_path(resource), method: :post
+    button_to t('.invoice_action'), invoice_shop_order_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
@@ -211,8 +212,8 @@ ActiveAdmin.register Shop::Order do
   end
 
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
-    link_to t('.cancel_action'), cancel_shop_order_path(resource),
-      method: :post,
+    button_to t('.cancel_action'), cancel_shop_order_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
       data: { confirm: t('.cancel_action_confirm') }
   end
 

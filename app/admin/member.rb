@@ -233,7 +233,7 @@ ActiveAdmin.register Member do
 
         all_invoices_path = invoices_path(q: { member_id_eq: member.id }, scope: :all)
         panel link_to(Invoice.model_name.human(count: 2), all_invoices_path) do
-          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc)
+          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc, id: :desc)
           invoices_count = invoices.count
           if invoices_count.zero?
             em t('.no_invoices')
@@ -363,9 +363,11 @@ ActiveAdmin.register Member do
                     l(invoicer.next_date, format: :long_medium)
                   end
                   if authorized?(:force_recurring_billing, member) && invoicer.billable?
-                    link_to t('.force_recurring_billing'), force_recurring_billing_member_path(member),
-                      method: :post,
-                      class: 'button',
+                    button_to t('.force_recurring_billing'), force_recurring_billing_member_path(member),
+                      form: {
+                        data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                        class: 'inline'
+                      },
                       data: { confirm: t('.force_recurring_billing_confirm') }
                   end
                 end
@@ -511,13 +513,16 @@ ActiveAdmin.register Member do
     ]
 
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
-    link_to t('.validate'), validate_member_path(resource), method: :post
+    button_to t('.validate'), validate_member_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
   action_item :wait, only: :show, if: -> { authorized?(:wait, resource) } do
-    link_to t('.wait'), wait_member_path(resource), method: :post
+    button_to t('.wait'), wait_member_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
   action_item :deactivate, only: :show, if: -> { authorized?(:deactivate, resource) } do
-    link_to t('.deactivate'), deactivate_member_path(resource), method: :post
+    button_to t('.deactivate'), deactivate_member_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
     link_to t('.create_membership'), new_membership_path(member_id: resource.id)

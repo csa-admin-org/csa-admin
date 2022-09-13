@@ -202,15 +202,19 @@ ActiveAdmin.register Invoice do
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
-    link_to t('.send_email'), send_email_invoice_path(resource), method: :post
+    button_to t('.send_email'), send_email_invoice_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
 
   action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
-    link_to t('.mark_as_sent'), mark_as_sent_invoice_path(resource), method: :post
+    button_to t('.mark_as_sent'), mark_as_sent_invoice_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.object_type != 'Shop::Order' } do
-    link_to t('.cancel_invoice'), cancel_invoice_path(resource), method: :post, data: { confirm: t('.link_confirm') }
+    button_to t('.cancel_invoice'), cancel_invoice_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
+      data: { confirm: t('.link_confirm') }
   end
 
   member_action :pdf, method: :get, if: -> { Rails.env.development? } do

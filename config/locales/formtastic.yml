@@ -450,6 +450,10 @@ _:
       _de: Nein
       _fr: Non
       _it: 'No'
+    processing:
+      _de: Verarbeite...
+      _fr: Traitement...
+      _it: Elaborazione...
     required:
       _de: obligatorisch
       _fr: obligatoire
