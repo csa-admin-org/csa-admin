@@ -23,6 +23,10 @@ class Liquid::MemberDrop < Liquid::Drop
     url(:members_membership, anchor: 'renewal')
   end
 
+  def billing_email
+    !!@member.billing_email?
+  end
+
   private
 
   def url(name, **options)

@@ -92,6 +92,7 @@ ActiveAdmin.register Member do
     column(:delivery_zip)
     column(:delivery_city)
     column(:profession)
+    column(:billing_email)
     column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     if Current.acp.annual_fee
       column(:annual_fee) { |m| cur(m.annual_fee) }
@@ -326,6 +327,9 @@ ActiveAdmin.register Member do
             handbook_icon_link('billing')
           end
 
+          if member.billing_email?
+            row(t('.email')) { display_email_with_link(self, member.billing_email) }
+          end
           row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
           row(:salary_basket) { status_tag(member.salary_basket) }
           if Current.acp.annual_fee
@@ -472,6 +476,7 @@ ActiveAdmin.register Member do
       end
     end
     f.inputs t('active_admin.resource.show.billing') do
+      f.input :billing_email, type: :email, label: t('.email')
       f.input :billing_year_division,
         as: :select,
         collection: Current.acp.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] },
@@ -501,7 +506,8 @@ ActiveAdmin.register Member do
     :name, :language, :emails, :phones,
     :address, :city, :zip, :country_code,
     :delivery_address, :delivery_city, :delivery_zip,
-    :annual_fee, :salary_basket, :billing_year_division,
+    :annual_fee, :salary_basket,
+    :billing_email, :billing_year_division,
     :acp_shares_info, :existing_acp_shares_number, :desired_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_depot_id, :waiting_deliveries_cycle_id,

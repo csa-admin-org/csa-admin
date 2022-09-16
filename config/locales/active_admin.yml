@@ -510,6 +510,10 @@ _:
           _de: Details
           _fr: Détails
           _it: Dettagli
+        email:
+          _de: E-Mail
+          _fr: Email
+          _it: E-mail
         full_year:
           _de: ganzes Jahr
           _fr: année complète
@@ -831,6 +835,10 @@ _:
           _de: Bearbeiten
           _fr: Modifier
           _it: Modificare
+        email:
+          _de: Email
+          _fr: Email
+          _it: E-mail
         enable_renewal:
           _de: Kündigung abbrechen
           _fr: Annuler résiliation
