@@ -20,6 +20,7 @@ describe Liquid::DataPreview do
       },
       'member' =>  {
         'name' => 'John Doe',
+        'billing_email' => false,
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
         'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
@@ -68,6 +69,7 @@ describe Liquid::DataPreview do
       },
       'member' =>  {
         'name' => 'John Doe',
+        'billing_email' => false,
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
         'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
@@ -98,6 +100,7 @@ describe Liquid::DataPreview do
       },
       'member' =>  {
         'name' => 'John Doe',
+        'billing_email' => false,
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
         'membership_renewal_url' => 'https://membres.ragedevert.ch/membership#renewal'

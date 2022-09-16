@@ -19,6 +19,7 @@ class ACP < ApplicationRecord
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
+  EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
@@ -45,7 +46,7 @@ class ACP < ApplicationRecord
   validates :logo_url, presence: true
   validates :email, presence: true
   validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
-  validates :email_default_from, presence: true, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
+  validates :email_default_from, presence: true, format: { with: EMAIL_REGEXP }
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
   validates :ccp, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/, allow_blank: true }
   validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,

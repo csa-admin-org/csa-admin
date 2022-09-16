@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_30_101818) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_16_114911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -539,6 +539,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_30_101818) do
     t.boolean "contact_sharing", default: false, null: false
     t.integer "desired_acp_shares_number", default: 0, null: false
     t.bigint "waiting_deliveries_cycle_id"
+    t.string "billing_email"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"

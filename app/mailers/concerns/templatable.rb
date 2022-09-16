@@ -3,7 +3,7 @@ module Templatable
 
   private
 
-  def template_mail(member, **data)
+  def template_mail(member, to: nil, **data)
     template = params[:template]
     I18n.with_locale(member.language) do
       data['acp'] = Liquid::ACPDrop.new(Current.acp)
@@ -11,7 +11,7 @@ module Templatable
       subject = Liquid::Template.parse(template.subject).render(**data)
       content = Liquid::Template.parse(template.content).render(**data)
       content_mail(content,
-        to: member.emails_array,
+        to: to || member.emails_array,
         subject: subject)
     end
   end

@@ -6,6 +6,7 @@ class InvoiceMailer < ApplicationMailer
     member = invoice.member
     attach_invoice_pdf!
     template_mail(member,
+      to: to(member),
       'member' => Liquid::MemberDrop.new(member),
       'invoice' => Liquid::InvoiceDrop.new(invoice))
   end
@@ -16,11 +17,16 @@ class InvoiceMailer < ApplicationMailer
     attach_invoice_pdf!
     @subject_class = 'warning'
     template_mail(member,
+      to: to(member),
       'member' => Liquid::MemberDrop.new(member),
       'invoice' => Liquid::InvoiceDrop.new(invoice))
   end
 
   private
+
+  def to(member)
+    member.billing_email.presence || member.emails_array
+  end
 
   def attach_invoice_pdf!
     invoice = params[:invoice]

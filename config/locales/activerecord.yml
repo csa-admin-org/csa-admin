@@ -618,6 +618,10 @@ _:
           _de: Taschengrösse
           _fr: Taille panier
           _it: Dimensione della cesta
+        billing_email:
+          _de: Email (Rechnung)
+          _fr: Email (facturation)
+          _it: E-mail (fatturazione)
         billing_year_division:
           _de: Einzahlungsintervall
           _fr: Intervalle de paiement

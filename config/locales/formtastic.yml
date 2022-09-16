@@ -330,6 +330,10 @@ _:
           _fr: Cet email est obligatoire et ne peut pas être modifié.
           _it: Questo indirizzo e-mail è obbligatorio e non può essere modificato.
       member:
+        billing_email:
+          _de: Wenn vorhanden, werden die Benachrichtigungs-E-Mails für neue Rechnungen und Mahnungen an diese Adresse anstelle der E-Mail(s) des Mitglieds gesendet.
+          _fr: Si présent, les emails de notification pour nouvelle facture et rappel seront envoyés à cette adresse à la place du/des email(s) du membre.
+          _it: Se presente, le e-mail di notifica per le nuove fatture e i promemoria saranno inviate a questo indirizzo invece che all'e-mail del socio.
         contact_sharing:
           _de: Gemeinsame Nutzung von Kontakten zwischen Mitgliedern desselben Depots
           _fr: Partage de contact entre membres d'un même dépôt

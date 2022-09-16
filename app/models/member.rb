@@ -86,6 +86,7 @@ class Member < ApplicationRecord
   validates :desired_acp_shares_number,
     numericality: { greater_than_or_equal_to: 1 },
     if: -> { public_create && Current.acp.share? }
+  validates :billing_email, format: { with: ACP::EMAIL_REGEXP, allow_nil: true }
 
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
@@ -97,6 +98,10 @@ class Member < ApplicationRecord
 
   def name=(name)
     super name.strip
+  end
+
+  def billing_email=(email)
+    super email.strip.presence
   end
 
   def display_address
