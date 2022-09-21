@@ -274,7 +274,7 @@ class Invoice < ApplicationRecord
   end
 
   def can_send_email?
-    can_be_mark_as_sent? && member.emails?
+    can_be_mark_as_sent? && (member.emails? || member.billing_email?)
   end
 
   def can_be_mark_as_sent?

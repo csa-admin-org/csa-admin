@@ -31,6 +31,28 @@ describe InvoiceOverdueNoticer do
       .not_to change { InvoiceMailer.deliveries.size }
   end
 
+  specify 'does not send overdue notice when member emails is empty' do
+    invoice.member.update!(emails: '')
+    expect { perform(invoice) }
+      .not_to change { InvoiceMailer.deliveries.size }
+  end
+
+  specify 'sends invoice overdue_notice to billing email' do
+    invoice.member.update!(emails: '', billing_email: 'john@doe.com')
+    expect { perform(invoice) }
+      .to change { InvoiceMailer.deliveries.size }.by(1)
+    mail = InvoiceMailer.deliveries.last
+    expect(mail.to).to eq ['john@doe.com']
+  end
+
+  specify 'sends invoice overdue_notice to billing email only' do
+    invoice.member.update!(emails: 'jane@doe.com', billing_email: 'john@doe.com')
+    expect { perform(invoice) }
+      .to change { InvoiceMailer.deliveries.size }.by(1)
+    mail = InvoiceMailer.deliveries.last
+    expect(mail.to).to eq ['john@doe.com']
+  end
+
   specify 'only send first overdue notice after 35 days' do
     invoice = create(:invoice, :annual_fee, sent_at: 10.days.ago)
     expect { perform(invoice) }
