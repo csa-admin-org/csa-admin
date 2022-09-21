@@ -73,6 +73,16 @@ describe Ability do
     specify { expect(ability.can?(:send_email, Invoice)).to be_truthy }
     specify { expect(ability.can?(:cancel, Invoice)).to be_truthy }
     specify { expect(ability.can?(:import, Payment)).to be_truthy }
+    specify 'cannot send invoice when member has no emails' do
+      invoice = create(:invoice, :annual_fee, :not_sent,
+        member: create(:member, emails: ''))
+      expect(ability.can?(:send_email, invoice)).to be_falsy
+    end
+    specify 'can send invoice when member has only billing email' do
+      invoice = create(:invoice, :annual_fee, :not_sent,
+        member: create(:member, emails: '', billing_email: 'john@doe.com'))
+      expect(ability.can?(:send_email, invoice)).to be_truthy
+    end
   end
 
   context 'with billing group_buying permission' do

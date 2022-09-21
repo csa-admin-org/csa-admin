@@ -37,7 +37,7 @@ class InvoiceOverdueNoticer
   end
 
   def member_emails?
-    invoice.member.emails?
+    invoice.member.emails? || invoice.member.billing_email?
   end
 
   def last_sent_at
