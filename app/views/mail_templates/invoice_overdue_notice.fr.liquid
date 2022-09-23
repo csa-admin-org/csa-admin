@@ -9,9 +9,9 @@
 <p>Nous vous remercions par avance pour votre prochain règlement, et restons à votre entière disposition pour toute question.</p>
 
 {% unless member.billing_email %}
-<p>Vous pouvez consultez à tout moment vos factures et paiements depuis votre page de membre.</p>
+  <p>Vous pouvez consultez à tout moment vos factures et paiements depuis votre page de membre.</p>
 
-{% button member.billing_url %}
-  Accéder à ma page de membre
-{% endbutton %}
+  {% button member.billing_url %}
+    Accéder à ma page de membre
+  {% endbutton %}
 {% endunless %}

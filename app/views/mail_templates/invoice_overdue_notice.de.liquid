@@ -9,9 +9,9 @@
 <p>Vielen Dank im Voraus für Ihre Einzahlung. Bei Fragen stehen wir Ihnen gerne zur Verfügung.</p>
 
 {% unless member.billing_email %}
-<p>Schauen Sie Ihre Rechnungen und Einzahlungen auf Ihrer Mitgliederseite nach.</p>
+  <p>Schauen Sie Ihre Rechnungen und Einzahlungen auf Ihrer Mitgliederseite nach.</p>
 
-{% button member.billing_url %}
-  Zugang zu meiner Mitgliederseite
-{% endbutton %}
+  {% button member.billing_url %}
+    Zugang zu meiner Mitgliederseite
+  {% endbutton %}
 {% endunless %}

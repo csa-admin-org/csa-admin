@@ -9,9 +9,9 @@
 <p>Vi ringraziamo anticipatamente per il vostro prossimo pagamento e rimaniamo a vostra disposizione per qualsiasi domanda.</p>
 
 {% unless member.billing_email %}
-<p>In qualsiasi momento, dalla pagina di socio, potete consultare le vostre fatture e i vostri pagamenti.</p>
+  <p>In qualsiasi momento, dalla pagina di socio, potete consultare le vostre fatture e i vostri pagamenti.</p>
 
-{% button member.billing_url %}
-  Accedere alla mia pagina di socio
-{% endbutton %}
+  {% button member.billing_url %}
+    Accedere alla mia pagina di socio
+  {% endbutton %}
 {% endunless %}
