@@ -15,7 +15,7 @@ ActiveAdmin.register Permission do
     column :name
     column [Permission.human_attribute_name(:rights), t('permissions.rights.write')].join(' – '), ->(p) { display_rights(p) }
     column :admins, ->(p) {
-      link_to p.admins.size, admins_path(q: { permission_id_eq: p.id, }, scope: :all)
+      link_to p.admins_count, admins_path(q: { permission_id_eq: p.id, }, scope: :all)
     }, class: 'align-right'
     if authorized?(:update, Permission)
       actions class: 'col-actions-2'
