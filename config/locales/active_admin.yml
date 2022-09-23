@@ -654,6 +654,15 @@ _:
             _de: "%{count} Anfragen senden"
             _fr: Envoyer %{count} demandes
             _it: Inviare %{count} domande
+        openable_renewals:
+          one:
+            _de: "%{count_link} Anfrage zu senden"
+            _fr: "%{count_link} demande à envoyer"
+            _it: "%{count_link} domanda da inviare"
+          other:
+            _de: "%{count_link} Anfragen zu senden"
+            _fr: "%{count_link} demandes à envoyer"
+            _it: "%{count_link} domande da inviare"
         opened_renewals:
           one:
             _de: "%{count_link} offener Antrag"
