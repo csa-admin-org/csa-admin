@@ -77,4 +77,13 @@ class Permission < ApplicationRecord
   def right(feature)
     rights[feature.to_s]&.to_sym || :read
   end
+
+  def admins_count
+    # Do no count master admin
+    if superadmin? && ENV['MASTER_ADMIN_EMAIL']
+      admins.count - 1
+    else
+      admins.count
+    end
+  end
 end
