@@ -33,11 +33,9 @@ class InvoiceOverdueNoticer
   private
 
   def overdue_noticable?
-    invoice.open? && last_sent_at < DAYS_DELAY.ago && member_emails?
-  end
-
-  def member_emails?
-    invoice.member.emails? || invoice.member.billing_email?
+    invoice.open? &&
+      last_sent_at < DAYS_DELAY.ago &&
+      invoice.member.billing_emails?
   end
 
   def last_sent_at
