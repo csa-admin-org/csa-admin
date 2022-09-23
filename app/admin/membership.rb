@@ -98,6 +98,15 @@ ActiveAdmin.register Membership do
     else
       div class: 'content' do
         ul do
+          li do
+            openable_count = renewal.openable.count
+            t('.openable_renewals',
+              count: openable_count,
+              count_link: link_to(
+                openable_count,
+                collection_path(scope: :all, q: { renewal_state_eq: :renewal_enabled, during_year: Current.acp.current_fiscal_year.year }))
+            ).html_safe
+          end
           if MailTemplate.active_template(:membership_renewal)
             li do
               renewal_opened_count = renewal.opened.count
@@ -141,9 +150,11 @@ ActiveAdmin.register Membership do
             if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
               openable_count = renewal.openable.count
               if openable_count.positive?
-                button_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
-                  form: { data: { controller: 'disable', disable_with_value: t('.opening') } },
-                  class: 'clear_filters_btn full-width'
+                div class: 'top-small-spacing' do
+                  button_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
+                    form: { data: { controller: 'disable', disable_with_value: t('.opening') } },
+                    class: 'clear_filters_btn full-width'
+                end
               end
             end
             if authorized?(:renew_all, Membership)
