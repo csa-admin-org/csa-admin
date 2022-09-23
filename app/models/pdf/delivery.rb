@@ -215,7 +215,12 @@ module PDF
             end
         end
         if show_shop_orders
-          line << (shop_order ? 'X' : '')
+          line <<
+            if basket.absent?
+              '–'
+            else
+              shop_order ? 'X' : ''
+            end
         end
         line << {
           content: basket.absent? ? Basket.human_attribute_name(:absent).upcase : '',
@@ -227,27 +232,43 @@ module PDF
 
       table(
         data,
-        row_colors: %w[FFFFFF DDDDDD],
-        cell_style: { border_width: 0.5, border_color: 'AAAAAA', inline_format: true },
+        row_colors: %w[DDDDDD FFFFFF],
+        cell_style: { border_width: 0, border_color: 'FFFFFF', inline_format: true },
         position: :center) do |t|
         t.cells.borders = []
         t.cells.valign = :center if Current.acp.delivery_pdf_show_phones?
+
         (bs_size + bc_size).times do |i|
-          t.columns(1 + i).width = number_width
-          t.columns(1 + i).align = :center
-          t.columns(1 + i).font_style = :light # Ensure number is well centered in the cell!
-          t.columns(1 + i).borders = %i[left right]
+          t.column(1 + i).width = number_width
+          t.column(1 + i).align = :center
+          t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
         end
+
         t.row(0).size = 11
         t.row(0).font_style = :bold
-        t.row(0).height = 30
+        t.row(0).padding = [4, 5, 8, 5]
         t.row(0).valign = :center
-        t.row(0).borders = []
-        t.row(-1).borders = %i[left right bottom]
-        t.row(-1).columns(0).borders = %i[right bottom]
-        t.row(-1).columns(-1).borders = %i[left bottom]
-        t.row(-1).border_bottom_width = 0.5
-        t.row(-1).border_bottom_color = 'DDDDDD'
+        t.row(0).background_color = 'FFFFFF'
+
+        t.cells.column_count.times do |i|
+         if i%2 == 1 && i != (t.cells.column_count - 1)
+           t.column(i).background_color = 'BBBBBB'
+         end
+        end
+        if t.cells.row_count%2 == 0
+          t.row(-1).borders = %i[bottom left]
+          t.row(-1).border_bottom_width = 1
+          t.row(-1).border_bottom_color = 'BBBBBB'
+        end
+        if t.cells.column_count%2 == 0
+          t.column(-1).borders = %i[bottom left]
+          t.column(-1).border_left_width = 1
+          t.column(-1).border_left_color = 'BBBBBB'
+        end
+
+        t.row(0).borders = %i[bottom left]
+        t.row(0).border_bottom_width = 1
+        t.row(0).border_bottom_color = '000000'
       end
     end
 
