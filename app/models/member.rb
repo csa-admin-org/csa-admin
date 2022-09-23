@@ -104,6 +104,14 @@ class Member < ApplicationRecord
     super email.strip.presence
   end
 
+  def billing_emails
+    billing_email? ? [billing_email] : emails_array
+  end
+
+  def billing_emails?
+    billing_emails.any?
+  end
+
   def display_address
     return if address.blank?
 
