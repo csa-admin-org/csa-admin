@@ -21,9 +21,9 @@
 <p>Danke schön!</p>
 
 {% unless member.billing_email %}
-<p>Schauen Sie Ihre Rechnungen und Einzahlungen auf Ihrer Mitgliederseite nach.</p>
+  <p>Schauen Sie Ihre Rechnungen und Einzahlungen auf Ihrer Mitgliederseite nach.</p>
 
-{% button member.billing_url %}
-  Zugang zu meiner Mitgliederseite
-{% endbutton %}
+  {% button member.billing_url %}
+    Zugang zu meiner Mitgliederseite
+  {% endbutton %}
 {% endunless %}
