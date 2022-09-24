@@ -1,4 +1,4 @@
-module ISRDigitChecker
+module DigitChecker
   SERIES = [0, 9, 4, 6, 8, 2, 7, 1, 3, 5].freeze
 
   def check_digit!(string)

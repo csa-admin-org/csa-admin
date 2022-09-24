@@ -1,7 +1,7 @@
-require 'isr_digit_checker'
+require 'digit_checker'
 
 class QRReferenceNumber
-  include ISRDigitChecker
+  include DigitChecker
 
   REF_LENGHT_WITHOUT_CHECK_DIGIT = 26
 

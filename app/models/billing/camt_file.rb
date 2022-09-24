@@ -27,7 +27,7 @@ module Billing
                     invoice_id: ref.last(10).first(9).to_i,
                     amount: transaction.amount,
                     date: date,
-                    isr_data: "#{date}-#{bank_ref}-#{ref}")
+                    fingerprint: "#{date}-#{bank_ref}-#{ref}")
                 end
               }.compact
             }
@@ -36,9 +36,9 @@ module Billing
           raise UnsupportedFileError, "Invalid format: #{camt54.class.name}"
         end
       # Handle identical payment (same date, same ref, same amount)
-      }.group_by(&:isr_data).flat_map { |_, dd|
+      }.group_by(&:fingerprint).flat_map { |_, dd|
         dd.each_with_index.map { |d, i|
-          d.isr_data += "-#{i}" if i > 0
+          d.fingerprint += "-#{i}" if i > 0
           d
         }
       }

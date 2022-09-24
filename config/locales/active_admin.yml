@@ -526,10 +526,6 @@ _:
           _de: Gruppeneinkauf
           _fr: Achats Groupés
           _it: Acquisti di gruppo
-        invoice_isr:
-          _de: ESR-Rechnung
-          _fr: Facture BVR
-          _it: Fattura BVR
         invoice_qr:
           _de: QR-Rechnung
           _fr: Facture QR
@@ -1257,10 +1253,6 @@ _:
         _de: Inaktive
         _fr: Inactifs
         _it: Inattivo
-      isr:
-        _de: ESR
-        _fr: BVR
-        _it: BVR
       manual:
         _de: Manuelle
         _fr: Manuels
@@ -1281,6 +1273,10 @@ _:
         _de: Zu bestätigen
         _fr: À valider
         _it: Da confermare
+      qr:
+        _de: QR
+        _fr: QR
+        _it: QR
       support:
         _de: Support
         _fr: Soutien
@@ -1420,10 +1416,6 @@ _:
         _de: inaktiv
         _fr: inactif
         _it: inattivo
-      isr:
-        _de: ESR
-        _fr: BVR
-        _it: BVR
       manual:
         _de: manuell
         _fr: manuel
@@ -1444,6 +1436,10 @@ _:
         _de: in Bearbeitung
         _fr: en traitement
         _it: elaborazione
+      qr:
+        _de: QR
+        _fr: QR
+        _it: QR
       rejected:
         _de: abgelehnte
         _fr: refusée

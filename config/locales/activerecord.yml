@@ -91,10 +91,6 @@ _:
           _de: Zahlungsintervall
           _fr: Intervalle de paiement
           _it: Intervallo di pagamento
-        ccp:
-          _de: Postkonto
-          _fr: Numéro CCP
-          _it: Numero di Conto Corrente Postale
         currency_code:
           _de: Währung
           _fr: Monnaie
@@ -151,18 +147,6 @@ _:
           _de: Informationszeile Rechnung
           _fr: Facture ligne info
           _it: Riga d'informazione della fattura
-        isr_identity:
-          _de: Kennzeichnung ESR
-          _fr: Identité BVR
-          _it: ID BVR/ESR
-        isr_in_favor_of:
-          _de: Zugunsten von
-          _fr: En faveur de
-          _it: In favore di
-        isr_payment_for:
-          _de: Einzahlung für
-          _fr: Versement pour
-          _it: Versamento per
         languages:
           _de: Sprachen
           _fr: Languages

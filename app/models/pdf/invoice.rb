@@ -16,7 +16,7 @@ module PDF
       member_address
       content
       footer
-      bill
+      qr
     end
 
     private
@@ -290,72 +290,8 @@ module PDF
 
     def footer
       font_size 10
-      y = Current.acp.invoice_type == 'ISR' ? 300 : 320
-      bounding_box [0, y], width: bounds.width, height: 50 do
+      bounding_box [0, 320], width: bounds.width, height: 50 do
         text Current.acp.invoice_footer, inline_format: true, align: :center
-      end
-    end
-
-    def bill
-      case Current.acp.invoice_type
-      when 'QR'; qr
-      when 'ISR'; isr
-      end
-    end
-
-    def isr
-      y = 273
-      font_size 8
-      isr_ref = ISRReferenceNumber.new(invoice.id, @missing_amount)
-      bounding_box [0, y], width: bounds.width, height: y do
-        image "#{Rails.root}/lib/assets/images/isr.jpg",
-          at: [0, y],
-          width: bounds.width
-        [10, 185].each do |x|
-          text_box Current.acp.isr_payment_for, at: [x, y - 25], width: 120, height: 50, leading: 2
-          text_box Current.acp.isr_in_favor_of, at: [x, y - 62], width: 120, height: 50, leading: 2
-          text_box "N° #{::Invoice.model_name.human}: #{invoice.id}",
-            at: [x, y - 108],
-            width: 120,
-            height: 50
-        end
-        font('OcrB')
-        [87, 260].each do |x|
-          text_box Current.acp.ccp,
-            at: [x, y - 120],
-            width: 100,
-            height: 50,
-            size: 10.5,
-            character_spacing: 1
-        end
-        [64, 238].each do |x|
-          text_box isr_ref.amount_without_cents,
-            at: [x, y - 145],
-            width: 50,
-            height: 50,
-            character_spacing: 1,
-            size: 12,
-            align: :right
-          text_box isr_ref.amount_cents,
-            at: [x + 75, y - 145],
-            width: 50,
-            height: 50,
-            size: 12,
-            character_spacing: 1
-        end
-        text_box isr_ref.ref,
-          at: [353, y - 97],
-          width: 370,
-          height: 50,
-          size: 10.5,
-          character_spacing: 1
-        text_box isr_ref.full_ref,
-          at: [185, y - 241],
-          width: 390,
-          height: 50,
-          size: 10.5,
-          align: :right,
-          character_spacing: 1
       end
     end
 

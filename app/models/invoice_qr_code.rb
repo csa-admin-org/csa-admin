@@ -42,10 +42,16 @@ class InvoiceQRCode
     @acp = Current.acp
   end
 
-  def generate_qr_image
-    qrcode_image.composite(logo_image) do |c|
-      c.compose 'Over'
-      c.gravity 'center'
+  def generate_qr_image(rails_env: Rails.env)
+    # Generating the QR code image is slow so we skip it for performance reasons
+    # in the test env.
+    if rails_env == 'test'
+      File.new(Rails.root.join('spec', 'fixtures', 'files', 'qrcode-test.png'))
+    else
+      qrcode_image.composite(logo_image) do |c|
+        c.compose 'Over'
+        c.gravity 'center'
+      end
     end
   end
 

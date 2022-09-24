@@ -48,19 +48,11 @@ class ACP < ApplicationRecord
   validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :email_default_from, presence: true, format: { with: EMAIL_REGEXP }
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
-  validates :ccp, format: { with: /\A\d{2}-\d{1,6}-\d{1}\z/, allow_blank: true }
-  validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
-    presence: true, if: :isr_invoice?
-  validates :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
-    absence: true, unless: :isr_invoice?
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
-    presence: true, if: :qr_invoice?
+    presence: true
   validates :qr_bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
-  validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
-    :qr_creditor_city, :qr_creditor_zip,
-    absence: true, unless: :qr_invoice?
-  validates :qr_iban, format: /\ACH\d{7}[a-z0-9]{12}\z/i, if: :qr_invoice?
+  validates :qr_iban, format: /\ACH\d{7}[a-z0-9]{12}\z/i
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
@@ -143,18 +135,6 @@ class ACP < ApplicationRecord
     if iban.present?
       super iban.gsub(/\s/, '')
     end
-  end
-
-  def invoice_type
-    ccp? ? 'ISR' : 'QR'
-  end
-
-  def isr_invoice?
-    invoice_type == 'ISR'
-  end
-
-  def qr_invoice?
-    invoice_type == 'QR'
   end
 
   def languages=(languages)

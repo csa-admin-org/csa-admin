@@ -9,7 +9,6 @@ ActiveAdmin.register ACP do
     :url, :email, :phone, :country_code,
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
-    :ccp, :isr_identity, :isr_payment_for, :isr_in_favor_of,
     :qr_iban, :qr_bank_reference, :qr_creditor_name,
     :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
     :fiscal_year_start_month, :annual_fee, :share_price,
@@ -115,14 +114,6 @@ ActiveAdmin.register ACP do
           f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
           f.input :qr_creditor_city, required: false, input_html: { maxlength: 35 }
           f.input :qr_creditor_zip, required: false, input_html: { maxlength: 16 }
-
-          if Current.acp.isr_invoice?
-            li { h1 t('.invoice_isr') }
-            f.input :ccp, required: false
-            f.input :isr_identity, required: false
-            f.input :isr_payment_for, required: false, input_html: { rows: 3 }
-            f.input :isr_in_favor_of, required: false, input_html: { rows: 3 }
-          end
 
           handbook_button(self, 'billing')
         end
