@@ -14,10 +14,11 @@ FactoryBot.define do
     billing_year_divisions { [1, 4] }
     annual_fee { 30 }
     activity_price { 60 }
-    ccp { '01-13734-6' }
-    isr_identity { '00 11041 90802 41000' }
-    isr_payment_for { "Banque Raiffeisen du Vignoble\n2023 Gorgier" }
-    isr_in_favor_of { "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle" }
+    qr_iban { 'CH4431999123000889012' }
+    qr_creditor_name { 'Association Rage de Vert' }
+    qr_creditor_address { 'Closel-Bourbon 3' }
+    qr_creditor_city { 'Thielle' }
+    qr_creditor_zip { '2075' }
     invoice_info { 'Payable dans les 30 jours, avec nos remerciements.' }
     invoice_footer { '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84' }
     terms_of_service_url { 'https://www.ragedevert.ch/s/RageDeVert-Reglement-2015.pdf' }

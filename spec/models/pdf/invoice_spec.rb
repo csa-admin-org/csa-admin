@@ -5,10 +5,8 @@ describe PDF::Invoice do
     before {
       Current.acp.update!(
         name: 'rdv',
-        ccp: '01-13734-6',
-        isr_identity: '00 11041 90802 41000',
-        isr_payment_for: "Banque Raiffeisen du Vignoble\n2023 Gorgier",
-        isr_in_favor_of: "Association Rage de Vert\nClosel-Bourbon 3\n2075 Thielle",
+        qr_iban: 'CH44 3199 9123 0008 8901 2',
+        qr_bank_reference: '11041',
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
         invoice_footer: '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84')
     }
@@ -26,10 +24,8 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to include('Facture N° 706')
         .and contain_sequence('John Doe', 'Unknown Str. 42', '0123 Nowhere')
-        .and contain_sequence('Banque Raiffeisen du Vignoble', '2023 Gorgier')
         .and contain_sequence('Association Rage de Vert', 'Closel-Bourbon 3', '2075 Thielle')
-        .and include('N° Facture: 706')
-        .and include('01-13734-6')
+        .and include('CH44 3199 9123 0008 8901 2')
     end
 
     it 'generates invoice with only annual_fee amount' do
@@ -38,7 +34,7 @@ describe PDF::Invoice do
 
       expect(pdf_strings)
         .to contain_sequence('Cotisation annuelle association', '42.00')
-        .and include('0100000042007>001104190802410000000008070+ 010137346>')
+        .and include('11 04100 00000 00000 00000 08072')
       expect(pdf_strings).not_to include('Facturation annuelle')
     end
 
@@ -60,7 +56,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant annuel', "66.50", 'Facturation annuelle', "66.50")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "108.50")
-        .and include '0100000108507>001104190802410000000000048+ 010137346>'
+        .and include '11 04100 00000 00000 00000 00047'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -85,7 +81,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant annuel', "46.00", 'Facturation annuelle', "46.00")
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', "76.00")
-        .and include '0100000076007>001104190802410000000000077+ 010137346>'
+        .and include '11 04100 00000 00000 00000 00071'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -113,7 +109,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant trimestriel #1', '13.55')
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', '43.55')
-        .and include '0100000043552>001104190802410000000000085+ 010137346>'
+        .and include '11 04100 00000 00000 00000 00086'
     end
 
     it 'generates invoice with membership basket_price_extra' do
@@ -175,7 +171,7 @@ describe PDF::Invoice do
         .and contain_sequence('Déjà facturé', '-33.25')
         .and contain_sequence('Montant annuel restant', '33.25')
         .and contain_sequence('Facturation trimestrielle #3', '16.65')
-        .and include('0100000016653>001104190802410000000010019+ 010137346>')
+        .and include('11 04100 00000 00000 00000 10011')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -193,7 +189,6 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('½ ', 'journée du 4 mars 2018 non-effectuée (2 participants)', '120.00')
         .and contain_sequence('Total', '120.00')
-        .and include('0100000120000>001104190802410000000020015+ 010137346>')
     end
 
     it 'generates invoice with ActivityParticipation type (one participant)' do
@@ -207,7 +202,6 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('½ ', 'journée non-effectuée', '60.00')
         .and contain_sequence('Total', '60.00')
-        .and include('0100000060004>001104190802410000000020020+ 010137346>')
     end
 
     it 'generates invoice with ActivityParticipation type (many participants)' do
@@ -221,7 +215,6 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence('3 ', '½ ', 'journées non effectuées', '180.00')
         .and contain_sequence('Total', '180.00')
-        .and include('0100000180005>001104190802410000000020031+ 010137346>')
     end
 
     it 'generates an invoice with items' do
@@ -239,7 +232,6 @@ describe PDF::Invoice do
         .to contain_sequence('Un truc cool pas cher', '10.00')
         .and contain_sequence('Un truc cool pluc cher', '32.00')
         .and contain_sequence('Total', '42.00')
-        .and include('0100000042007>001104190802410000000020106+ 010137346>')
     end
   end
 
@@ -251,10 +243,7 @@ describe PDF::Invoice do
         fiscal_year_start_month: 4,
         vat_membership_rate: 0.1,
         vat_number: 'CHE-273.220.900',
-        ccp: '01-9252-0',
-        isr_identity: '800250',
-        isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
-        isr_in_favor_of: "Association Lumière des Champs\nBd Paderewski 28\n1800 Vevey",
+        qr_bank_reference: '800250',
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
         invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch',
         features: ['group_buying'],
@@ -304,7 +293,7 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "221.40")
         .and contain_sequence("* TTC, CHF 146.25 HT, CHF 0.15 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000221408>800250000000000000000001221+ 010092520>'
+        .and include '80 02500 00000 00000 00000 01221'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -349,7 +338,6 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "611.80")
         .and contain_sequence("* TTC, CHF 536.26 HT, CHF 0.54 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000611805>800250000000000000000012205+ 010092520>'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -402,7 +390,6 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "573.90")
         .and contain_sequence("* TTC, CHF 498.40 HT, CHF 0.50 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000573906>800250000000000000000012205+ 010092520>'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -442,7 +429,6 @@ describe PDF::Invoice do
         .and contain_sequence('Facturation quadrimestrielle #2', '* 10.20')
         .and contain_sequence('* TTC, CHF 10.19 HT, CHF 0.01 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000010205>800250000000000000000001252+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -497,7 +483,6 @@ describe PDF::Invoice do
         .and contain_sequence('Facturation mensuelle #3', "* 7.80")
         .and contain_sequence('* TTC, CHF 7.79 HT, CHF 0.01 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000007809>800250000000000000000001273+ 010092520>'
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -540,7 +525,6 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "106.80")
         .and contain_sequence('* TTC, CHF 31.77 HT, CHF 0.03 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000106803>800250000000000000000001236+ 010092520>'
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -583,7 +567,6 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "136.65")
         .and contain_sequence('* TTC, CHF 61.59 HT, CHF 0.06 TVA (0.1%)')
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '0100000136657>800250000000000000000001244+ 010092520>'
       expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -613,7 +596,6 @@ describe PDF::Invoice do
         .and contain_sequence('N° TVA CHE-273.220.900')
         .and contain_sequence("** Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission de cette facture.")
         .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
-        .and include '0100000155008>800250000000000000000002428+ 010092520>'
         expect(pdf_strings).not_to include 'Montant restant'
     end
 
@@ -653,8 +635,7 @@ describe PDF::Invoice do
         .and contain_sequence('N° TVA CHE-273.220.900')
         .and contain_sequence("** Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission de cette facture.")
         .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
-        .and contain_sequence('XXXX', 'XX')
-        .and include '0100000000005>800250000000000000000002433+ 010092520>'
+        .and contain_sequence('CHF', 'Montant', '0.00')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -696,10 +677,6 @@ describe PDF::Invoice do
         logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/tapatate/logo.jpg',
         share_price: 250,
         fiscal_year_start_month: 4,
-        ccp: '01-9252-0',
-        isr_identity: '800350',
-        isr_payment_for: "Banque Alternative Suisse SA\n4601 Olten",
-        isr_in_favor_of: "TaPatate! c/o Danielle Huser\nDunantstrasse 6\n3006 Bern",
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
         invoice_footer: '<b>TaPatate!<b>, c/o Danielle Huser, Dunantstrasse 6, 3006 Bern /// info@tapatate.ch')
     }
@@ -752,10 +729,6 @@ describe PDF::Invoice do
       Current.acp.update!(
         name: 'qrcode',
         country_code: 'CH',
-        ccp: nil,
-        isr_identity: nil,
-        isr_payment_for: nil,
-        isr_in_favor_of: nil,
         qr_iban: 'CH4431999123000889012',
         qr_creditor_name: 'Robert Schneider AG',
         qr_creditor_address: 'Rue du Lac 1268',
@@ -812,10 +785,6 @@ describe PDF::Invoice do
         name: 'p2r',
         logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/p2r/logo.jpg',
         fiscal_year_start_month: 1,
-        ccp: nil,
-        isr_identity: nil,
-        isr_payment_for: nil,
-        isr_in_favor_of: nil,
         qr_iban: 'CH1830123031135810006',
         qr_creditor_name: 'Le Panier Bio à 2 Roues',
         qr_creditor_address: 'Route de Cery 33',

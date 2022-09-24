@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Payment do
   specify 'store created_by via audit' do
-    payment = create(:payment, :isr)
+    payment = create(:payment, :qr)
     expect(payment.created_by).to eq System.instance
 
     admin = create(:admin)

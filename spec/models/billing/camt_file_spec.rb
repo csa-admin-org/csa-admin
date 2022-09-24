@@ -9,7 +9,7 @@ describe Billing::CamtFile do
           invoice_id: 1,
           amount: 1,
           date: Date.new(2020, 11, 13, 11),
-          isr_data: '2020-11-13-ZV20201113/371247/2-000000000000000000000000011')
+          fingerprint: '2020-11-13-ZV20201113/371247/2-000000000000000000000000011')
       ])
     end
 

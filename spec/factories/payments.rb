@@ -4,8 +4,8 @@ FactoryBot.define do
     date { Time.current }
     amount { 1000 }
 
-    trait :isr do
-      isr_data { 'isr_data' }
+    trait :qr do
+      fingerprint { 'fingerprint' }
     end
   end
 end

@@ -34,7 +34,7 @@ module Billing
     private
 
     def create_payment!(data)
-      return if Payment.where(isr_data: data.isr_data).exists?
+      return if Payment.where(fingerprint: data.fingerprint).exists?
 
       invoice = Invoice.find(data.invoice_id)
 
@@ -42,7 +42,7 @@ module Billing
         invoice: invoice,
         amount: data.amount,
         date: data.date,
-        isr_data: data.isr_data)
+        fingerprint: data.fingerprint)
 
       if invoice.reload.overpaid?
         invoice.send_overpaid_notification_to_admins!
@@ -53,8 +53,8 @@ module Billing
 
     def ensure_recent_payments!
       if Invoice.not_canceled.sent.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
-          Payment.isr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
-        if last_payment = Payment.isr.reorder(:created_at).last
+          Payment.qr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
+        if last_payment = Payment.qr.reorder(:created_at).last
           Sentry.capture_message('No recent payment error', extra: {
             last_payment_id: last_payment.id,
             last_payment_date: last_payment.date,

@@ -11,14 +11,14 @@ class Payment < ApplicationRecord
   belongs_to :member
   belongs_to :invoice, optional: true
 
-  scope :isr, -> { where.not(isr_data: nil) }
-  scope :manual, -> { where(isr_data: nil) }
+  scope :qr, -> { where.not(fingerprint: nil) }
+  scope :manual, -> { where(fingerprint: nil) }
   scope :refund, -> { where('amount < 0') }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true
   validates :amount, numericality: { other_than: 0 }, presence: true
-  validates :isr_data, uniqueness: true, allow_nil: true
+  validates :fingerprint, uniqueness: true, allow_nil: true
 
   after_commit :redistribute!
 
@@ -33,11 +33,11 @@ class Payment < ApplicationRecord
   end
 
   def type
-    isr_data? ? 'isr' : 'manual'
+    fingerprint? ? 'qr' : 'manual'
   end
 
-  def isr?
-    type == 'isr'
+  def qr?
+    type == 'qr'
   end
 
   def manual?

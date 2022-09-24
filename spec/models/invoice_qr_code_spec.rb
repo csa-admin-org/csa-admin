@@ -3,10 +3,6 @@ require 'rails_helper'
 describe InvoiceQRCode do
   before {
     Current.acp.update!(
-      ccp: nil,
-      isr_identity: nil,
-      isr_payment_for: nil,
-      isr_in_favor_of: nil,
       country_code: 'CH',
       qr_iban: 'CH4431999123000889012',
       qr_creditor_name: 'Robert Schneider AG',
@@ -67,7 +63,7 @@ describe InvoiceQRCode do
   specify '#generate_qr_image' do
     expected = MiniMagick::Image.open file_fixture('qrcode-706.png')
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
-    result = InvoiceQRCode.new(invoice).generate_qr_image
+    result = InvoiceQRCode.new(invoice).generate_qr_image(rails_env: 'not_test')
     # result.write("#{Rails.root}/tmp/qrcode-#{invoice.id}.png")
     expect(result).to eq expected
   end

@@ -1,7 +1,7 @@
-require 'isr_digit_checker'
+require 'digit_checker'
 
-describe ISRDigitChecker do
-  include ISRDigitChecker
+describe DigitChecker do
+  include DigitChecker
 
   describe '.check_digit' do
     specify { expect(check_digit('00 11041 90802 41000 00000 0001')).to eq 6 }

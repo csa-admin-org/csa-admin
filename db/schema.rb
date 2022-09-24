@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_16_114911) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_23_142811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -38,10 +38,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_114911) do
     t.integer "fiscal_year_start_month", default: 1, null: false
     t.integer "trial_basket_count", default: 0, null: false
     t.decimal "annual_fee", precision: 8, scale: 2
-    t.string "ccp"
-    t.string "isr_identity"
-    t.text "isr_payment_for"
-    t.text "isr_in_favor_of"
     t.integer "billing_year_divisions", default: [], null: false, array: true
     t.string "activity_i18n_scope", default: "halfday_work", null: false
     t.string "email"
@@ -614,11 +610,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_114911) do
     t.bigint "invoice_id"
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.date "date", null: false
-    t.string "isr_data"
+    t.string "fingerprint"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.index ["fingerprint"], name: "index_payments_on_fingerprint", unique: true
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
-    t.index ["isr_data"], name: "index_payments_on_isr_data", unique: true
     t.index ["member_id"], name: "index_payments_on_member_id"
   end
 
