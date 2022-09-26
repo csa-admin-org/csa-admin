@@ -153,7 +153,7 @@ ActiveAdmin.register Membership do
                 div class: 'top-small-spacing' do
                   button_to t('.open_renewal_all_action', count: openable_count), open_renewal_all_memberships_path,
                     form: { data: { controller: 'disable', disable_with_value: t('.opening') } },
-                    class: 'clear_filters_btn full-width'
+                    class: 'full-width'
                 end
               end
             end
@@ -161,7 +161,7 @@ ActiveAdmin.register Membership do
               div class: 'top-small-spacing' do
                 button_to t('.renew_all_action', count: renewable_count), renew_all_memberships_path,
                   form: { data: { controller: 'disable', disable_with_value: t('.renewing') } },
-                  class: 'clear_filters_btn full-width'
+                  class: 'full-width'
               end
             end
           end
@@ -261,7 +261,8 @@ ActiveAdmin.register Membership do
       column do
         next_basket = m.next_basket
         panel "#{m.baskets_count} #{Basket.model_name.human(count: m.baskets_count)}" do
-          table_for(m.baskets.includes(
+          table_for(m.baskets.preload(
+            :membership,
             :delivery,
             :basket_size,
             :depot,
@@ -330,11 +331,13 @@ ActiveAdmin.register Membership do
               row :renewal_note
               if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:enable_renewal, m)
                 div class: 'buttons-inline' do
-                  button_to t('.enable_renewal'), enable_renewal_membership_path(m),
-                    form: {
-                      data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
-                    },
-                    data: { confirm: t('.confirm') }
+                  div class: 'button-inline' do
+                    button_to t('.enable_renewal'), enable_renewal_membership_path(m),
+                      form: {
+                        data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
+                      },
+                      data: { confirm: t('.confirm') }
+                  end
                 end
               end
             elsif m.renewal_opened?
@@ -362,8 +365,7 @@ ActiveAdmin.register Membership do
                       form: {
                         data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
                       },
-                      data: { confirm: t('.confirm') },
-                      class: 'clear_filters_btn'
+                      data: { confirm: t('.confirm') }
                   end
                 end
               end
@@ -385,9 +387,8 @@ ActiveAdmin.register Membership do
                         form: {
                           data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
                         },
-                        data: { confirm: t('.confirm') },
-                        class: 'clear_filters_btn'
-                    end
+                        data: { confirm: t('.confirm') }
+                      end
                   end
                 end
                 if authorized?(:cancel, m)
@@ -396,8 +397,7 @@ ActiveAdmin.register Membership do
                       form: {
                         data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
                       },
-                      data: { confirm: t('.force_recurring_billing_confirm') },
-                      class: 'clear_filters_btn'
+                      data: { confirm: t('.confirm') }
                   end
                 end
               end
