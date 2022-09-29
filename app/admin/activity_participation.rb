@@ -198,7 +198,11 @@ ActiveAdmin.register ActivityParticipation do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name')
+      if params[:scope].in?(%w[validated rejected]) && !params[:order]
+        super(chain).joins(:member).reorder('activities.date DESC, members.name')
+      else
+        super(chain).joins(:member).order('members.name')
+      end
     end
 
     before_create do |participation|
