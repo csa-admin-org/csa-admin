@@ -120,6 +120,14 @@ ActiveAdmin.register Activity do
 
   controller do
     include TranslatedCSVFilename
+
+    def apply_sorting(chain)
+      if params[:scope] == 'past' && !params[:order]
+        super(chain).reorder(date: :desc)
+      else
+        super(chain)
+      end
+    end
   end
 
   config.per_page = 100
