@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 describe EmailSuppression do
-  def suppress!(stream_id, email, reason, origin, created_at = Time.current)
-    EmailSuppression.create!(
+  def suppress!(stream_id, email, reason, origin)
+    create(:email_suppression,
       stream_id: stream_id,
       email: email,
       reason: reason,
-      origin: origin,
-      created_at: created_at)
+      origin: origin)
   end
 
   specify '.sync_postmark!' do

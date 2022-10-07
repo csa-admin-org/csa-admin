@@ -180,6 +180,25 @@ describe Invoice do
         .not_to change { InvoiceMailer.deliveries.size }
     end
 
+    it 'does nothing when all member emails are suppressed' do
+      invoice.member.active_emails.each do |email|
+        create(:email_suppression, email: email)
+      end
+
+      expect(invoice.member.reload.billing_emails).to eq []
+      expect { invoice.send! }
+        .not_to change { InvoiceMailer.deliveries.size }
+    end
+
+    it 'does nothing when member billing email is suppressed' do
+      invoice.member.update!(billing_email: 'john@doe.com')
+      create(:email_suppression, email: 'john@doe.com')
+
+      expect(invoice.member.reload.billing_emails).to eq []
+      expect { invoice.send! }
+        .not_to change { InvoiceMailer.deliveries.size }
+    end
+
     it 'does nothing when member has no email' do
       invoice.member.update(emails: '')
       expect { invoice.send! }

@@ -105,7 +105,11 @@ class Member < ApplicationRecord
   end
 
   def billing_emails
-    billing_email? ? [billing_email] : emails_array
+    if billing_email
+      EmailSuppression.active.exists?(email: billing_email) ? [] : [billing_email]
+    else
+      active_emails
+    end
   end
 
   def billing_emails?
