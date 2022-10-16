@@ -110,9 +110,27 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar :overdue_notice_not_sent_warning, only: :index, class: 'warning', if: -> { !Current.acp.send_invoice_overdue_notice? } do
+    div class: 'actions warning' do
+      handbook_icon_link('billing', anchor: 'rappels')
+    end
+
     div class: 'content' do
       span t('active_admin.sidebars.overdue_notice_not_sent_warning_text_html')
+
+      if authorized?(:create, Invoice)
+        div class: 'top-spacing' do
+          button_to t('.send_overdue_notices'), send_overdue_notices_invoices_path,
+            form: { data: { controller: 'disable', disable_with_value: t('.sending') } },
+            class: 'full-width'
+        end
+      end
     end
+  end
+
+  collection_action :send_overdue_notices, method: :post do
+    authorize!(:create, Invoice)
+    Invoice.open.each { |i| InvoiceOverdueNoticer.perform(i) }
+    redirect_to collection_path, notice: t('active_admin.flash.sending_overdue_notices')
   end
 
   sidebar_handbook_link('billing')
