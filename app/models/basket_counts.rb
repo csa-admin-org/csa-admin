@@ -4,14 +4,14 @@ class BasketCounts
   def initialize(delivery, depot_ids, scope: nil)
     @delivery = delivery
     @basket_size_ids = @delivery.basket_sizes.pluck(:id)
-    @depots = Depot.where(id: (Array(depot_ids) & delivery.baskets.pluck(:depot_id).uniq))
-    @scope = scope
+    @baskets = @delivery.baskets.send(scope || :not_absent).to_a
+    @depots = Depot.where(id: (Array(depot_ids) & @baskets.map(&:depot_id).uniq))
   end
 
   def all
     @all ||= @depots
       .select(:name, :id)
-      .map { |dist| BasketCount.new(dist, @delivery.id, @basket_size_ids, scope: @scope) }
+      .map { |depot| BasketCount.new(depot, @baskets, @basket_size_ids) }
       .select { |c| c.count.positive? }
   end
 
@@ -37,11 +37,10 @@ class BasketCounts
   class BasketCount
     attr_reader :depot
 
-    def initialize(depot, delivery_id, basket_size_ids, scope: nil)
+    def initialize(depot, baskets, basket_size_ids)
       @depot = depot
+      @baskets = baskets.select { |b| b.depot_id == depot.id }
       @basket_size_ids = basket_size_ids
-      @scope = scope || :not_absent
-      @baskets = depot.baskets.send(@scope).where(delivery_id: delivery_id)
     end
 
     def title
@@ -53,7 +52,7 @@ class BasketCounts
     end
 
     def count
-      @count ||= @baskets.sum(:quantity)
+      @count ||= @baskets.sum(&:quantity)
     end
 
     def baskets_count
@@ -62,7 +61,7 @@ class BasketCounts
 
     def basket_sizes_count
       @basket_sizes_count ||=
-        @basket_size_ids.map { |id| @baskets.where(basket_size_id: id).sum(:quantity) }
+        @basket_size_ids.map { |id| @baskets.select { |b| b.basket_size_id == id }.sum(&:quantity) }
     end
   end
 end
