@@ -482,7 +482,7 @@ _:
           _fr: Compléments paniers
           _it: Aggiunte nella cesta
         shop_open:
-          _de: Offenes Lebensmittelgeschäft
+          _de: Hofladen geöffnet
           _fr: Épicerie ouverte
           _it: Drogheria aperta
         signature:
@@ -1406,7 +1406,7 @@ _:
           _it: Permessi
       shop:
         one:
-          _de: Lebensmittelgeschäfts
+          _de: Hofladen
           _fr: Épicerie
           _it: Drogheria
       shop/order:

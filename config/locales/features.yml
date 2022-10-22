@@ -49,7 +49,7 @@ _:
       _fr: Permet d'organiser des achats groupés de produits séparément des livraisons de paniers.
       _it: Permette di organizzare acquisti di gruppo di prodotti separatamente dalle consegne del cestino.
     shop:
-      _de: Lebensmittelgeschäft
+      _de: Hofladen
       _fr: Épicerie
       _it: Drogheria
     shop_hint:

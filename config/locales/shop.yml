@@ -23,15 +23,15 @@ _:
         _fr: aucune commande
         _it: nessun ordine
     title:
-      _de: Lebensmittelgeschäft
+      _de: Hofladen
       _fr: Épicerie
       _it: Drogheria
     title_orders:
       one:
-        _de: Bestellung des Lebensmittelgeschäft
+        _de: Bestellung des Hofladens
         _fr: Commande d'épicerie
         _it: Ordine di drogheria
       other:
-        _de: Bestellung des Lebensmittelgeschäfts
+        _de: Bestellungen vom Hofladen
         _fr: Commandes d'épicerie
         _it: Ordini di drogheria

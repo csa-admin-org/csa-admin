@@ -308,7 +308,7 @@ _:
         _fr: Autre
         _it: Altro
       shop:
-        _de: Lebensmittelgeschäft
+        _de: Hofladen
         _fr: Épicerie
         _it: Drogheria
     new_model:
@@ -575,7 +575,7 @@ _:
           _fr: Paramètres
           _it: Impostazioni
         shop:
-          _de: Lebensmittelgeschäft
+          _de: Hofladen
           _fr: Épicerie
           _it: Drogheria
         submit:
@@ -1380,7 +1380,7 @@ _:
         _fr: Accès limité!
         _it: Accesso limitato!
       shop_admin_only_text_html:
-        _de: Nur Admins können derzeit das Lebensmittelgeschäft sehen.
+        _de: Nur Admins können derzeit den Hofladen sehen.
         _fr: Seuls les admins peuvent actuellement voir l'épicerie.
         _it: Solo gli amministratori possono attualmente vedere il negozio di drogheria.
       shop_closed_html:
@@ -1396,7 +1396,7 @@ _:
         _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
         _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai soci fino al <u>%{end_date}</u>.
       shop_status:
-        _de: Status Lebensmittelgeschäft
+        _de: Status Hofladen
         _fr: Statut épicerie
         _it: Stato della drogheria
       total:

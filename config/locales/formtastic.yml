@@ -99,7 +99,7 @@ _:
           _fr: Laisser vide si pas de part sociale.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
         shop_admin_only:
-          _de: Ermöglicht es Ihnen, das Lebensmittelgeschäft vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können das Lebensmittelgeschäft im Menü sehen.
+          _de: Ermöglicht es Ihnen, das Hofladen vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können das Hofladen im Menü sehen.
           _fr: Permet de cacher l'épicerie aux membres pendant la mise en place des produits. Seuls les admins accédant au compte d'un membre peuvent voir l'épicerie dans le menu.
           _it: Permette di nascondere la drogheria ai soci mentre i prodotti vengono piazzati. Solo gli admin che accedono all'account di un socio possono vedere la spesa nel menu.
         shop_delivery_open_delay_in_days:
@@ -123,11 +123,11 @@ _:
           _fr: Laisser vide si aucune limite.
           _it: Lasciare vuoto se non ci sono limiti.
         shop_terms_of_sale_url:
-          _de: Link zu den Geschäftsbedingungen, der unten auf der Mitgliederseite des Lebensmittelgeschäfts angezeigt wird.
+          _de: Link zu den Geschäftsbedingungen, der unten auf der Mitgliederseite des Hofladens angezeigt wird.
           _fr: Lien sur les conditions de vente affiché en bas de la page de membre de l'épicerie.
           _it: Link alle condizioni di vendita pubblicate in fondo alla pagina dei soci del drogheria.
         shop_text:
-          _de: Text, der oben auf der Mitgliederseite des Lebensmittelgeschäfts angezeigt wird.
+          _de: Text, der oben auf der Mitgliederseite des Hofladens angezeigt wird.
           _fr: Texte affiché en haut de la page de membre de l'épicerie.
           _it: Testo visibile nella parte superiore della pagina di socio del droghiere.
         trial_basket_count:
@@ -258,7 +258,7 @@ _:
           _fr: Information affichée sur le tableau de bord d'administration.
           _it: Informazioni visualizzate sul pannello di controllo.
         shop_open:
-          _de: Steuert, ob Mitglieder für diese Lieferung Lebensmittel bestellen können oder nicht.
+          _de: Steuert, ob Mitglieder für diese Lieferung Bestellungen vom Hofladen aufgeben können oder nicht.
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
           _it: Controlla se i soci possono fare ordini di alimentari per questa consegna o no.
       depot:
