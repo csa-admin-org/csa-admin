@@ -594,7 +594,7 @@ _:
           _fr: Votre email
           _it: Vostra email
         email_placeholder:
-          _de: ihres@email.com
+          _de: ihre@email.com
           _fr: votre@email.com
           _it: vostra@email.com
         features:

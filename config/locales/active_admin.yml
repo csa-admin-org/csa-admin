@@ -1215,7 +1215,7 @@ _:
             _fr: Facturée
             _it: Fatturato
           pending:
-            _de: Vorbereitet sein
+            _de: Vorzubereiten
             _fr: À préparer
             _it: Essere preparati
       shop/product:
