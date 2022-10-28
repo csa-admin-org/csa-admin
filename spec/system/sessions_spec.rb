@@ -9,7 +9,7 @@ describe 'Admin sessions' do
     expect(page).to have_selector('.flash_alert',
       text: 'Merci de vous authentifier pour accéder à votre compte.')
 
-    fill_in 'Email', with: 'thibaud@thibaud.gg'
+    fill_in 'Email', with: ' Thibaud@thibaud.gg '
     click_button 'Envoyer'
 
     session = admin.sessions.last
