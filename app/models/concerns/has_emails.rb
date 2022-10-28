@@ -19,7 +19,7 @@ module HasEmails
   end
 
   def emails=(emails)
-    super string_to_a(emails).join(', ')
+    super string_to_a(emails.downcase).join(', ')
   end
 
   def emails_array

@@ -10,7 +10,7 @@ describe 'Member sessions' do
     expect(current_path).to eq '/login'
     expect(page).to have_content 'Merci de vous authentifier pour accéder à votre compte.'
 
-    fill_in 'session_email', with: 'thibaud@thibaud.gg'
+    fill_in 'session_email', with: ' thibaud@Thibaud.GG '
     click_button 'Envoyer'
 
     session = member.sessions.last

@@ -51,4 +51,8 @@ class Admin < ApplicationRecord
   def master?
     email == ENV['MASTER_ADMIN_EMAIL']
   end
+
+  def email=(email)
+    super(email.downcase.strip)
+  end
 end

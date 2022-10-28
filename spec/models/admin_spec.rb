@@ -14,4 +14,9 @@ describe Admin do
     admin = create(:admin, latest_update_read: nil)
     expect(admin.latest_update_read).to eq Update.all.first.name
   end
+
+  specify 'email=' do
+    admin = Admin.new(email: 'Thibaud@Thibaud.GG ')
+    expect(admin.email).to eq 'thibaud@thibaud.gg'
+  end
 end

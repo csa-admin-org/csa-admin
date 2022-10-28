@@ -125,8 +125,8 @@ describe Member do
     end
   end
 
-  it 'strips whitespaces from emails' do
-    member = Member.new(emails: ' foo@gmail.com ')
+  it 'strips whitespaces from emails and downcase' do
+    member = Member.new(emails: ' foo@Gmail.COM ')
 
     expect(member.emails_array).to eq ['foo@gmail.com']
   end

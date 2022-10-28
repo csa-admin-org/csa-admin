@@ -20,11 +20,13 @@ class Session < ApplicationRecord
   end
 
   def member_email=(email)
+    email = email.downcase.strip
     self[:email] = email
     self.member = Member.find_by_email(email)
   end
 
   def admin_email=(email)
+    email = email.downcase.strip
     self[:email] = email
     self.admin = Admin.find_by(email: email)
   end
