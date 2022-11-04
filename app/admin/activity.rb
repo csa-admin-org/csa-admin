@@ -46,18 +46,6 @@ ActiveAdmin.register Activity do
     link_to ActivityPreset.model_name.human(count: 2), activity_presets_path
   end
 
-  batch_action(:destroy,
-    confirm: proc { t('active_admin.batch_actions.delete_confirmation', plural_model: active_admin_config.plural_resource_label.downcase) },
-    if: proc { controller.action_methods.include?('destroy') && authorized?(ActiveAdmin::Auth::DESTROY, active_admin_config.resource_class) }
-  ) do |ids|
-    Activity.without_participations.delete(ids)
-    redirect_to active_admin_config.route_collection_path(params),
-      notice: t('active_admin.batch_actions.succesfully_destroyed',
-        count: ids.count,
-        model: active_admin_config.resource_label.downcase,
-        plural_model: active_admin_config.plural_resource_label(count: ids.count).downcase)
-  end
-
   order_by(:date) do |order_clause|
     [order_clause.to_sql, "activities.start_time #{order_clause.order}"].join(', ')
   end
