@@ -21,13 +21,22 @@ module Billing
               date = entry.value_date
               entry.transactions.map { |transaction|
                 ref = transaction.creditor_reference
-                if transaction.credit? && valid_ref?(ref)
+                if transaction.credit?
                   bank_ref = transaction.bank_reference
-                  PaymentData.new(
-                    invoice_id: ref.last(10).first(9).to_i,
-                    amount: transaction.amount,
-                    date: date,
-                    fingerprint: "#{date}-#{bank_ref}-#{ref}")
+                  if valid_ref?(ref)
+                    PaymentData.new(
+                      invoice_id: ref.last(10).first(9).to_i,
+                      amount: transaction.amount,
+                      date: date,
+                      fingerprint: "#{date}-#{bank_ref}-#{ref}")
+                  else
+                    Sentry.capture_message('Invalid payment referrence', extra: {
+                      ref: ref,
+                      bank_ref: bank_ref,
+                      amount: transaction.amount,
+                      date: date,
+                    })
+                  end
                 end
               }.compact
             }
@@ -49,7 +58,7 @@ module Billing
 
     # Only validate ref with numbers
     def valid_ref?(ref)
-      ref.present? && ref =~ /\A\d+\z/
+      ref.present? && ref =~ /\A\d+\z/ && ref.length == QRReferenceNumber::LENGTH
     end
   end
 end
