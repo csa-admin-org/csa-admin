@@ -34,6 +34,11 @@ describe Ability do
     specify { expect(ability.can?(:create, ActiveAdmin::Comment)).to be_truthy }
     specify { expect(ability.can?(:manage, create(:comment))).to be_falsey }
     specify { expect(ability.can?(:manage, create(:comment, author: admin))).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Member)).to be_falsey }
+    specify { expect(ability.can?(:batch_action, Membership)).to be_falsey }
+    specify { expect(ability.can?(:batch_action, Invoice)).to be_falsey }
+    specify { expect(ability.can?(:batch_action, GroupBuying::Product)).to be_falsey }
+    specify { expect(ability.can?(:batch_action, Shop::Product)).to be_falsey }
   end
 
   context 'with member write permission' do
@@ -41,6 +46,7 @@ describe Ability do
 
     specify { expect(ability.can?(:create, Member)).to be_truthy }
     specify { expect(ability.can?(:update, Member)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Member)).to be_truthy }
 
     specify { expect(ability.can?(:become, Member)).to be_truthy }
     specify { expect(ability.can?(:validate, Member.new(state: 'pending'))).to be_truthy }
@@ -52,6 +58,7 @@ describe Ability do
     specify { expect(ability.can?(:create, Membership)).to be_truthy }
     specify { expect(ability.can?(:update, Membership)).to be_truthy }
     specify { expect(ability.can?(:update, Basket)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Membership)).to be_truthy }
 
     specify { expect(ability.can?(:renew_all, Membership)).to be_truthy }
     specify { expect(ability.can?(:open_renewal_all, Membership)).to be_truthy }
@@ -66,8 +73,10 @@ describe Ability do
 
     specify { expect(ability.can?(:create, Invoice)).to be_truthy }
     specify { expect(ability.can?(:update, Invoice)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Invoice)).to be_truthy }
     specify { expect(ability.can?(:create, Payment)).to be_truthy }
     specify { expect(ability.can?(:update, Payment)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Payment)).to be_truthy }
 
     specify { expect(ability.can?(:force_recurring_billing, Member)).to be_truthy }
     specify { expect(ability.can?(:send_email, Invoice)).to be_truthy }
@@ -95,6 +104,7 @@ describe Ability do
     specify { expect(ability.can?(:update, GroupBuying::Order)).to be_truthy }
     specify { expect(ability.can?(:create, GroupBuying::Product)).to be_truthy }
     specify { expect(ability.can?(:update, GroupBuying::Product)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, GroupBuying::Product)).to be_truthy }
     specify { expect(ability.can?(:create, GroupBuying::Producer)).to be_truthy }
     specify { expect(ability.can?(:update, GroupBuying::Producer)).to be_truthy }
 
@@ -107,8 +117,10 @@ describe Ability do
 
     specify { expect(ability.can?(:create, Shop::Order)).to be_truthy }
     specify { expect(ability.can?(:update, Shop::Order)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Shop::Order)).to be_truthy }
     specify { expect(ability.can?(:create, Shop::Product)).to be_truthy }
     specify { expect(ability.can?(:update, Shop::Product)).to be_truthy }
+    specify { expect(ability.can?(:batch_action, Shop::Product)).to be_truthy }
     specify { expect(ability.can?(:create, Shop::Producer)).to be_truthy }
     specify { expect(ability.can?(:update, Shop::Producer)).to be_truthy }
     specify { expect(ability.can?(:create, Shop::Tag)).to be_truthy }
