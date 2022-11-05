@@ -36,6 +36,7 @@ module Billing
                       amount: transaction.amount,
                       date: date,
                     })
+                    nil
                   end
                 end
               }.compact
