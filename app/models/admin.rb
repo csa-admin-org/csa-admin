@@ -24,6 +24,8 @@ class Admin < ApplicationRecord
 
   def self.notify!(notification, skip: [], **attrs)
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
+      next if EmailSuppression.active.exists?(email: admin.email)
+
       attrs[:admin] = admin
       AdminMailer
         .with(**attrs)
