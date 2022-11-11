@@ -24,7 +24,15 @@ class SpamDetector
       @member.city&.match?(CYRILLIC_CHECK) ||
       @member.come_from&.match?(CYRILLIC_CHECK) ||
       non_native_language? ||
-      long_duplicated_texts?
+      long_duplicated_texts? ||
+      non_allowed_country?
+  end
+
+  def non_allowed_country?
+    allowed_country_codes = ENV['ALLOWED_COUNTRY_CODES'].to_s.split(',')
+    return unless allowed_country_codes.any?
+
+    allowed_country_codes.exclude?(@member.country_code)
   end
 
   def non_native_language?
