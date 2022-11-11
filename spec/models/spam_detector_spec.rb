@@ -87,12 +87,24 @@ describe SpamDetector do
   end
 
   specify 'allowed country' do
+    ENV['ALLOWED_COUNTRY_CODES'] = 'CH,FR'
     member = Member.new(country_code: 'CH')
+    expect(spam?(member)).to eq false
+  ensure
+    ENV['ALLOWED_COUNTRY_CODES'] = nil
+  end
+
+  specify 'allowed countries not enabled' do
+    ENV['ALLOWED_COUNTRY_CODES'] = nil
+    member = Member.new(country_code: 'VG')
     expect(spam?(member)).to eq false
   end
 
   specify 'non allowed country' do
+    ENV['ALLOWED_COUNTRY_CODES'] = 'CH,FR'
     member = Member.new(country_code: 'VG')
     expect(spam?(member)).to eq true
+  ensure
+    ENV['ALLOWED_COUNTRY_CODES'] = nil
   end
 end
