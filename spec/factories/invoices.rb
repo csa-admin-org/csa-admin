@@ -39,13 +39,11 @@ FactoryBot.define do
     end
 
     trait :not_sent do
-      state { 'not_sent' }
       sent_at { nil }
     end
 
     trait :open do
       state { 'open' }
-      sent_at { Time.current }
     end
 
     trait :canceled do

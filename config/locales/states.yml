@@ -43,10 +43,6 @@ _:
         _de: geschlossen
         _fr: fermée
         _it: chiuso
-      not_sent:
-        _de: nicht gesendet
-        _fr: non-envoyée
-        _it: non inviato
       open:
         _de: offen
         _fr: ouverte
