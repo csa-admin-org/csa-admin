@@ -157,7 +157,7 @@ describe Invoice do
   end
 
   describe '#send!' do
-    let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
+    let(:invoice) { create(:invoice, :annual_fee, :open, :not_sent) }
 
     it 'delivers email' do
       expect { invoice.send! }
@@ -170,8 +170,8 @@ describe Invoice do
       expect { invoice.send! }.to change(invoice, :sent_at).from(nil)
     end
 
-    it 'sets invoice as open' do
-      expect { invoice.send! }.to change(invoice, :state).to('open')
+    it 'keeps invoice as open' do
+      expect { invoice.send! }.not_to change(invoice, :state).from('open')
     end
 
     it 'does nothing when already sent' do
@@ -216,7 +216,7 @@ describe Invoice do
   end
 
   describe '#mark_as_sent!' do
-    let(:invoice) { create(:invoice, :annual_fee, :not_sent) }
+    let(:invoice) { create(:invoice, :annual_fee, :open, :not_sent) }
 
     it 'does not deliver email' do
       expect { invoice.mark_as_sent! }
@@ -227,8 +227,8 @@ describe Invoice do
       expect { invoice.mark_as_sent! }.to change(invoice, :sent_at).from(nil)
     end
 
-    it 'sets invoice as open' do
-      expect { invoice.send! }.to change(invoice, :state).to('open')
+    it 'keeps invoice as open' do
+      expect { invoice.send! }.not_to change(invoice, :state).from('open')
     end
 
     it 'stores who mark it as sent' do
@@ -298,12 +298,12 @@ describe Invoice do
 
   describe '#can_destroy?' do
     it 'can destroy not sent invoice' do
-      invoice = create(:invoice, :annual_fee, :not_sent)
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
       expect(invoice.can_destroy?).to eq true
     end
 
     it 'can not destroy not sent invoice with payments' do
-      invoice = create(:invoice, :annual_fee, :not_sent)
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
       create(:payment, invoice: invoice)
       expect(invoice.can_destroy?).to eq false
     end

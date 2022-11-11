@@ -17,7 +17,9 @@ ActiveAdmin.register Invoice do
   end
 
   scope :all_without_canceled
-  scope :not_sent
+  scope :open_and_not_sent do |scope|
+    scope.open.not_sent
+  end
   scope :open, default: true
   scope :closed
   scope :canceled
@@ -29,6 +31,7 @@ ActiveAdmin.register Invoice do
   filter :object_type,
     as: :check_boxes,
     collection: -> { object_type_collection }
+  filter :sent, as: :boolean
   filter :amount
   filter :balance, as: :numeric
   filter :overdue_notices_count
@@ -173,6 +176,7 @@ ActiveAdmin.register Invoice do
           end
           row(:date) { l invoice.date }
           row(:state) { status_tag invoice.state }
+          row(:sent) { status_tag invoice.sent_at? }
           row(:created_at) { l invoice.created_at }
           row(:created_by)
           if invoice.sent_at?
@@ -351,6 +355,13 @@ ActiveAdmin.register Invoice do
         body: invoice.comment,
         author: current_admin,
         namespace: 'root')
+    end
+  end
+
+  before_action only: :index do
+    if params[:scope] == 'open_and_not_sent'
+      params[:q] ||= {}
+      params[:q][:sent_eq] = false
     end
   end
 

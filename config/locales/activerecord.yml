@@ -564,6 +564,10 @@ _:
           _de: Anzahl / Teilnehmer
           _fr: Nombre / Participants
           _it: Numero / Partecipanti
+        sent:
+          _de: Gesendete
+          _fr: Envoyée
+          _it: Inviato
       mail_template:
         active:
           _de: Gesendet

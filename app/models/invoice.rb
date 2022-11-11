@@ -12,7 +12,7 @@ class Invoice < ApplicationRecord
   attr_writer :membership_amount_fraction, :send_email
   attr_accessor :comment
 
-  has_states :processing, :not_sent, :open, :closed, :canceled
+  has_states :processing, :open, :closed, :canceled
 
   audited_attributes :state, :sent_at
 
@@ -31,9 +31,11 @@ class Invoice < ApplicationRecord
   scope :not_processing, -> { where.not(state: PROCESSING_STATE) }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
+  scope :not_sent, -> { where(sent_at: nil) }
+  scope :sent_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sent : not_sent }
   scope :all_without_canceled, -> { not_processing.not_canceled }
   scope :visible, -> { where(state: [OPEN_STATE, CLOSED_STATE, CANCELED_STATE]) }
-  scope :history, -> { not_processing.where.not(state: [NOT_SENT_STATE, OPEN_STATE]) }
+  scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
   scope :unpaid, -> { not_canceled.where('paid_amount < amount') }
   scope :overpaid, -> { not_canceled.where('amount > 0 AND paid_amount > amount') }
   scope :balance_equals, ->(amount) { where('(paid_amount - amount) = ?', amount) }
@@ -108,7 +110,7 @@ class Invoice < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[balance_equals balance_greater_than balance_less_than]
+    super + %i[balance_equals balance_greater_than balance_less_than sent_eq]
   end
 
   def display_name
@@ -124,7 +126,7 @@ class Invoice < ApplicationRecord
     set_pdf!
     Billing::PaymentsRedistributor.redistribute!(member_id)
     transaction do
-      update!(state: NOT_SENT_STATE)
+      update!(state: OPEN_STATE)
       close_or_open!
       send! if send_email
     end
@@ -182,10 +184,8 @@ class Invoice < ApplicationRecord
 
     if missing_amount.zero?
       update!(state: CLOSED_STATE)
-    elsif sent_at?
-      update!(state: OPEN_STATE)
     else
-      update!(state: NOT_SENT_STATE)
+      update!(state: OPEN_STATE)
     end
   end
 
@@ -270,7 +270,7 @@ class Invoice < ApplicationRecord
     !can_destroy? &&
       !processing? &&
       !canceled? &&
-      (not_sent? || open? || current_year?)
+      (open? || current_year?)
   end
 
   def can_send_email?

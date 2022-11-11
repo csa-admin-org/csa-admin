@@ -1145,14 +1145,14 @@ _:
             _de: Geschlossene
             _fr: Fermées
             _it: Chiuso
-          not_sent:
-            _de: Nicht Gesendete
-            _fr: Non-envoyées
-            _it: Non inviato
           open:
             _de: Offene
             _fr: Ouvertes
             _it: Aperto
+          open_and_not_sent:
+            _de: Offene (nicht Gesendete)
+            _fr: Ouvertes (non-envoyées)
+            _it: Aperto (non inviato)
       mail_template:
         scopes:
           invoice:
@@ -1432,10 +1432,6 @@ _:
         _de: manuell
         _fr: manuel
         _it: manuale
-      not_sent:
-        _de: nicht gesendete
-        _fr: non-envoyée
-        _it: non inviato
       open:
         _de: offene
         _fr: ouverte
