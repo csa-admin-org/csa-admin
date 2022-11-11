@@ -85,4 +85,14 @@ describe SpamDetector do
     member = Member.new(note: 'Je me réjouis vraiment de recevoir mon panier!' * 3)
     expect(spam?(member)).to eq false
   end
+
+  specify 'allowed country' do
+    member = Member.new(country_code: 'CH')
+    expect(spam?(member)).to eq false
+  end
+
+  specify 'non allowed country' do
+    member = Member.new(country_code: 'VG')
+    expect(spam?(member)).to eq true
+  end
 end
