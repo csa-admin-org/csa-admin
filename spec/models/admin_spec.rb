@@ -19,4 +19,15 @@ describe Admin do
     admin = Admin.new(email: 'Thibaud@Thibaud.GG ')
     expect(admin.email).to eq 'thibaud@thibaud.gg'
   end
+
+  describe '.notify!' do
+    specify 'with suppressed email' do
+      admin = create(:admin, notifications: ['new_absence'])
+      create(:email_suppression, email: admin.email)
+
+      expect {
+        Admin.notify!(:new_absence)
+      }.not_to change(ActionMailer::Base.deliveries, :count)
+    end
+  end
 end

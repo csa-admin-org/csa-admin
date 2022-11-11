@@ -9,7 +9,7 @@ ActiveAdmin.register Admin do
   includes :last_session, :permission
   index download_links: false do
     column :name
-    column :email
+    column :email, ->(admin) { display_email_with_link(self, admin.email) }
     column :last_session_used_at, ->(a) {
       I18n.l(a.last_session_used_at, format: :medium) if a.last_session_used_at
     }
