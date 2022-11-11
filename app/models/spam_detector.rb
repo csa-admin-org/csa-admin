@@ -30,7 +30,7 @@ class SpamDetector
 
   def non_allowed_country?
     allowed_country_codes = ENV['ALLOWED_COUNTRY_CODES'].to_s.split(',')
-    return unless allowed_country_codes.any?
+    return false unless allowed_country_codes.any?
 
     allowed_country_codes.exclude?(@member.country_code)
   end
