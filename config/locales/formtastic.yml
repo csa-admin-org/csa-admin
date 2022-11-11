@@ -59,9 +59,9 @@ _:
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
         billing_starts_after_first_delivery:
-          _de: Bei Deaktivierung erfolgt die Rechnungsstellung zu Beginn des Abonnements.
+          _de: Wenn deaktiviert, erfolgt die Rechnungsstellung ab Beginn des Abonnements..
           _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
-          _it: Se disattivato la fatturazione avràluogo all'inizio dell'abbonamento.
+          _it: Se disattivato, la fatturazione avverrà dall'inizio dell'abbonamento..
         group_buying_invoice_info:
           _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann.
           _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable.
@@ -94,6 +94,10 @@ _:
           _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet.
           _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
           _it: La fatturazione automatica è effettuata ogni settimana all'inizio del giorno scelto. Le fatture create sono inviate automaticamente.
+        send_closed_invoice:
+          _de: Wenn deaktiviert, werden neue Rechnungen, die aufgrund eines positiven Saldos als bereits bezahlt gelten, nicht über die automatische Rechnungsstellung versendet.
+          _fr: Si désactivée, les nouvelles factures considérées comme déjà payées à cause d'une balance positive ne sont pas envoyées par la facturation automatique.
+          _it: Se disattivato, le nuove fatture considerate già pagate a causa di un saldo positivo non vengono inviate dalla fatturazione automatica.
         share_price:
           _de: Leer lassen, wenn kein Anteilschein.
           _fr: Laisser vide si pas de part sociale.

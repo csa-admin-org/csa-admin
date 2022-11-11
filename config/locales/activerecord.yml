@@ -203,6 +203,10 @@ _:
           _de: QR-IBAN
           _fr: QR-IBAN
           _it: QR-IBAN
+        send_closed_invoice:
+          _de: Versenden neuer Rechnungen, die als bereits bezahlt gelten
+          _fr: Envoyer les nouvelles factures considérées comme déjà payées
+          _it: Inviare nuove fatture considerate già pagate
         share_price:
           _de: Betrag Anteilschein
           _fr: Montant part sociale
