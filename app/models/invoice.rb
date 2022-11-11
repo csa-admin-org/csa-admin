@@ -128,7 +128,7 @@ class Invoice < ApplicationRecord
     transaction do
       update!(state: OPEN_STATE)
       close_or_open!
-      send! if send_email
+      send! if send_email && (Current.acp.send_closed_invoice? || open?)
     end
   end
 

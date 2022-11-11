@@ -34,7 +34,17 @@ describe Invoice do
         .to change { InvoiceMailer.deliveries.size }.by(1)
     end
 
+    specify 'does not send email when invoice is closed' do
+      member = create(:member, annual_fee: 42)
+      create(:payment, amount: 100, member: member)
+
+      expect {
+        create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
+      }.not_to change { InvoiceMailer.deliveries.size }
+    end
+
     it 'closes invoice before sending email' do
+      Current.acp.update!(send_closed_invoice: true)
       member = create(:member, annual_fee: 42)
       create(:payment, amount: 100, member: member)
       invoice = create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)

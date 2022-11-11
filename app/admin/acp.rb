@@ -23,6 +23,7 @@ ActiveAdmin.register ACP do
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_delivery_open_delay_in_days, :shop_delivery_open_last_day_end_time,
     :recurring_billing_wday, :currency_code,
+    :send_closed_invoice,
     :open_renewal_reminder_sent_after_in_days,
     :membership_renewal_depot_update,
     :billing_starts_after_first_delivery,
@@ -98,6 +99,7 @@ ActiveAdmin.register ACP do
             include_blank: false,
             prompt: false,
             required: false
+          f.input :send_closed_invoice, as: :boolean
           f.input :trial_basket_count
           f.input :billing_starts_after_first_delivery, as: :boolean
           f.input :annual_fee, as: :number
