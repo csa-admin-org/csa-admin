@@ -702,10 +702,6 @@ ActiveAdmin.register Membership do
     end
   end
 
-  before_save do |membership|
-    membership.skip_touch = true
-  end
-
   controller do
     include ApplicationHelper
     include TranslatedCSVFilename
