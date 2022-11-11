@@ -774,7 +774,8 @@ describe Membership do
       Current.acp.update!(
         trial_basket_count: 0,
         fiscal_year_start_month: 1,
-        recurring_billing_wday: 1)
+        recurring_billing_wday: 1,
+        billing_year_divisions: [1, 3])
     end
 
     specify 'membership period is reduced' do
@@ -789,6 +790,28 @@ describe Membership do
         expect { membership.update!(ended_on: '2022-05-01') }
           .to change { invoice.reload.state }.from('open').to('canceled')
           .and change { membership.reload.invoices_amount }.to(0)
+      end
+    end
+
+    specify 'only cancel the over-paid invoices' do
+      member = create(:member, billing_year_division: 3)
+      membership = travel_to '2022-01-01' do
+        create(:membership, member: member)
+      end
+      invoice_1 = travel_to '2022-01-01' do
+        Billing::Invoicer.force_invoice!(member, send_email: true)
+      end
+      invoice_2 = travel_to '2022-05-01' do
+        Billing::Invoicer.force_invoice!(member, send_email: true)
+      end
+      travel_to '2022-09-01' do
+        invoice_3 = Billing::Invoicer.force_invoice!(member, send_email: true)
+        expect {
+          expect { membership.update!(baskets_annual_price_change: -11) }
+            .to change { invoice_3.reload.state }.from('open').to('canceled')
+            .and change { invoice_2.reload.state }.from('open').to('canceled')
+            .and change { membership.reload.invoices_amount }.to(10)
+        }.not_to change { invoice_1.reload.state }.from('open')
       end
     end
 

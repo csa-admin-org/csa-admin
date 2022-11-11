@@ -1,7 +1,7 @@
 require 'rounding'
 
 class Membership < ApplicationRecord
-  attr_accessor :skip_touch, :renewal_decision
+  attr_accessor :renewal_decision
 
   attribute :new_config_from, :date
 
@@ -60,14 +60,13 @@ class Membership < ApplicationRecord
   validate :at_least_one_basket
 
   before_save :set_renew
-  after_save :update_price_and_invoices_amount!
   after_create :create_baskets!
   after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_config_change!
   after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
-  after_touch :update_price_and_invoices_amount!, unless: :skip_touch
+  after_commit :update_price_and_invoices_amount!, on: %i[create update]
   after_destroy :update_renewal_of_previous_membership!, :destroy_or_cancel_invoices!
 
   scope :started, -> { where('started_on < ?', Time.current) }
