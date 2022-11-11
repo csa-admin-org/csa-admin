@@ -1,10 +1,18 @@
 class Liquid::MemberDrop < Liquid::Drop
+  include NumbersHelper
+
+  private *NumbersHelper.public_instance_methods
+
   def initialize(member)
     @member = member
   end
 
   def name
     @member.name
+  end
+
+  def balance
+    cur(@member.member_balance_amount.to_f)
   end
 
   def page_url
