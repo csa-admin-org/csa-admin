@@ -271,20 +271,12 @@ class Member < ApplicationRecord
     @invoices_amount ||= invoices.not_canceled.sum(:amount)
   end
 
-  def visible_invoices_amount
-    @public_invoices_amount ||= invoices.visible.not_canceled.sum(:amount)
-  end
-
   def payments_amount
     @payments_amount ||= payments.sum(:amount)
   end
 
   def balance_amount
     payments_amount - invoices_amount
-  end
-
-  def member_balance_amount
-    payments_amount - visible_invoices_amount
   end
 
   def credit_amount

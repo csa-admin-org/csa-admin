@@ -12,7 +12,7 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def balance
-    cur(@member.member_balance_amount.to_f)
+    cur(@member.balance_amount.to_f)
   end
 
   def page_url
