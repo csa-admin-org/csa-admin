@@ -94,7 +94,7 @@ GEM
       ruby2_keywords (>= 0.0.2, < 1.0)
     attr_extras (7.0.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.658.0)
+    aws-partitions (1.660.0)
     aws-sdk-core (3.167.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -109,9 +109,6 @@ GEM
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    barnes (0.0.9)
-      multi_json (~> 1)
-      statsd-ruby (~> 1.1)
     bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.13.0)
@@ -172,7 +169,7 @@ GEM
     faraday-cookie_jar (0.0.7)
       faraday (>= 0.8.0)
       http-cookie (~> 1.0.0)
-    faraday-net_http (3.0.1)
+    faraday-net_http (3.0.2)
     ffi (1.15.5)
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
@@ -433,20 +430,19 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    statsd-ruby (1.5.0)
     stimulus-rails (1.1.1)
       railties (>= 6.0.0)
     super_diff (0.9.0)
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
-    tailwindcss-rails (2.0.20)
+    tailwindcss-rails (2.0.21)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.0.20-arm64-darwin)
+    tailwindcss-rails (2.0.21-arm64-darwin)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.0.20-x86_64-darwin)
+    tailwindcss-rails (2.0.21-x86_64-darwin)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.0.20-x86_64-linux)
+    tailwindcss-rails (2.0.21-x86_64-linux)
       railties (>= 6.0.0)
     temple (0.8.2)
     thor (1.2.1)
@@ -489,7 +485,6 @@ PLATFORMS
 DEPENDENCIES
   activeadmin
   aws-sdk-s3
-  barnes
   bcrypt
   bootsnap
   bullet
@@ -521,7 +516,6 @@ DEPENDENCIES
   liquid
   listen
   lograge
-  matrix
   mini_magick
   nokogiri
   pdf-inspector
