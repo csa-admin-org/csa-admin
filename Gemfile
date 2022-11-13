@@ -77,6 +77,7 @@ gem 'nokogiri'
 group :production do
   gem 'aws-sdk-s3', require: false
   gem 'redis'
+  gem 'matrix'
 end
 
 group :development, :test do
