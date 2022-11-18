@@ -33,6 +33,6 @@ pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconfli
 pin "tom-select" # @2.1.0
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.18.0/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.18.0/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.18.0/esm/index.js"
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.19.0/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.19.0/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.19.0/esm/index.js"
