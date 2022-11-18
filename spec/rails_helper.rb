@@ -41,4 +41,8 @@ RSpec.configure do |config|
     driven_by :rack_test
     Capybara.app_host = 'http://admin.ragedevert.test'
   end
+
+  config.after(:each) do
+    FactoryBot.rewind_sequences
+  end
 end
