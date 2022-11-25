@@ -94,8 +94,8 @@ GEM
       ruby2_keywords (>= 0.0.2, < 1.0)
     attr_extras (7.0.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.663.0)
-    aws-sdk-core (3.168.0)
+    aws-partitions (1.665.0)
+    aws-sdk-core (3.168.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -111,7 +111,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
     bindex (0.8.1)
-    bootsnap (1.13.0)
+    bootsnap (1.14.0)
       msgpack (~> 1.2)
     builder (3.2.4)
     bullet (7.0.3)
@@ -163,7 +163,7 @@ GEM
       railties (>= 5.0.0)
     faker (3.0.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.7.0)
+    faraday (2.7.1)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-cookie_jar (0.0.7)
@@ -295,7 +295,7 @@ GEM
     phony_rails (0.15.0)
       activesupport (>= 3.0)
       phony (>= 2.18.12)
-    postmark (1.22.1)
+    postmark (1.22.2)
       json
     postmark-rails (0.22.1)
       actionmailer (>= 3.0.0)
@@ -445,6 +445,8 @@ GEM
     tailwindcss-rails (2.0.21-x86_64-linux)
       railties (>= 6.0.0)
     temple (0.8.2)
+    terminal-table (3.0.2)
+      unicode-display_width (>= 1.1.1, < 3)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.0)
@@ -463,6 +465,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
+    unicode-display_width (2.3.0)
     uniform_notifier (1.16.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
@@ -548,6 +551,7 @@ DEPENDENCIES
   stimulus-rails
   super_diff
   tailwindcss-rails
+  terminal-table
   tod
   turbo-rails
   turbolinks
