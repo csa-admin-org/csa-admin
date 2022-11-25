@@ -15,11 +15,9 @@ namespace :postmark do
           client.update_message_stream('inbound', name: 'Inbound Stream')
         end
 
-        if client.message_streams.none? { |s| s[:id] == 'broadcast' }
-          client.create_message_stream(
-            id: 'broadcast',
-            name: 'Broadcasts Stream',
-            message_stream_type: 'Broadcasts')
+        brodcast = client.get_message_stream('broadcast')
+        unless brodcast[:name] == 'Broadcasts Stream'
+          client.update_message_stream('broadcast', name: 'Broadcasts Stream')
         end
       end
     end
