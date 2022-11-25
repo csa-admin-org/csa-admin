@@ -97,6 +97,8 @@ group :development do
   gem 'listen'
   gem 'bullet'
   gem 'letter_opener'
+
+  gem 'terminal-table'
 end
 
 group :test do
