@@ -86,13 +86,22 @@ describe Member do
       expect(Member.new(annual_fee: -1)).not_to have_valid(:annual_fee)
     end
 
+    it 'validates waiting_basket_size presence when a depot is set' do
+      member = build(:member,
+        waiting_basket_size: nil,
+        waiting_depot: create(:depot))
+
+      expect(member).not_to be_valid
+      expect(member).not_to have_valid(:waiting_basket_size_id)
+    end
+
     it 'validates waiting_depot presence' do
       member = build(:member,
         waiting_basket_size: create(:basket_size),
         waiting_depot: nil)
 
       expect(member).not_to be_valid
-      expect(member).not_to have_valid(:waiting_depot)
+      expect(member).not_to have_valid(:waiting_depot_id)
     end
 
     it 'validates waiting_deliveries_cycle presence' do
@@ -538,7 +547,7 @@ describe Member do
     hidden_dc = create(:deliveries_cycle, visible: false)
     depot = create(:depot, deliveries_cycles: [visible_dc, hidden_dc])
 
-    member = create(:member,
+    member = create(:member, :waiting,
       waiting_depot: depot,
       waiting_deliveries_cycle_id: nil)
 
