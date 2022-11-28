@@ -15,7 +15,10 @@ class ActivityParticipationDemanded
     end
 
     def full_year_deliveries
-      @membership.deliveries_cycle.deliveries_in(@membership.fiscal_year.range).size.to_f
+      [
+        @membership.deliveries_cycle.deliveries_in(@membership.fiscal_year.range).size.to_f,
+        @membership.baskets_count.to_f
+      ].max
     end
 
     def full_year_activity_participations
