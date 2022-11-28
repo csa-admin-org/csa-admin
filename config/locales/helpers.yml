@@ -18,6 +18,15 @@ _:
         _de: "%{count} Taschen befüllung"
         _fr: "%{count} mises en panier"
         _it: "%{count} preparazione ceste"
+    activities_count_per_year/day_work:
+      one:
+        _de: "%{count} Arbeitstag"
+        _fr: "%{count} journée de travail"
+        _it: "%{count} giorno di lavoro"
+      other:
+        _de: "%{count} Arbeitstage"
+        _fr: "%{count} journées de travail"
+        _it: "%{count} giorni di lavoro"
     activities_count_per_year/halfday_work:
       one:
         _de: "%{count} Halbtag"

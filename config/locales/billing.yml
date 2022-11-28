@@ -82,6 +82,10 @@ _:
         _de: Anpassung Taschen befüllung
         _fr: Ajustement mises en panier
         _it: Correzioni preparazioni cesta
+      activity/day_work:
+        _de: Anpassung Arbeitstage
+        _fr: Ajustement journées de travail
+        _it: Correzione dei giorni di lavoro
       activity/halfday_work:
         _de: Anpassung ½ Tage
         _fr: Ajustement ½ journées

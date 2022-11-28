@@ -9,6 +9,15 @@ _:
         _de: Taschen befüllung
         _fr: Mises en panier
         _it: Preparazione ceste
+    day_work:
+      one:
+        _de: Arbeitstag
+        _fr: Journée de travail
+        _it: Giorno di lavoro
+      other:
+        _de: Arbeitstage
+        _fr: Journées de travail
+        _it: Giorni di lavoro
     halfday_work:
       one:
         _de: "½ Tag"

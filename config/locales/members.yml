@@ -120,6 +120,10 @@ _:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per la preparazione delle ceste che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
+        coming_activity_participation_cannot_be_cancel_explanation/day_work:
+          _de: Aus Organisationsgründe, die Anmeldungen zu Arbeitstagen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _fr: Pour des raisons d'organisation, les inscriptions aux journées de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _it: Per motivi organizzativi, le iscrizioni per i giorni di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/halfday_work:
           _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
@@ -132,12 +136,16 @@ _:
           _de: Ihre künftigen Taschen befüllung
           _fr: Vos mises en panier à venir
           _it: Le vostre prossime preparazioni ceste
+        coming_activity_participations/day_work:
+          _de: Ihre künftigen Arbeitstage
+          _fr: Vos journées de travail à venir
+          _it: Le vostre prossime giornate di lavoro
         coming_activity_participations/halfday_work:
           _de: Ihre künftigen ½ Tage
           _fr: Vos ½ journées à venir
           _it: Le vostre prossime ½ giornate di lavoro
         coming_activity_participations/hour_work:
-          _de: Ihre künftigen ½ Tage
+          _de: Ihre künftigen Arbeitsstunden
           _fr: Vos heures de travail à venir
           _it: Le vostre prossime ore di lavoro
         contact_link:
@@ -152,6 +160,10 @@ _:
           _de: Sorry, momentan gibt es keine freie Taschen befüllung.
           _fr: Désolé, aucune mise en panier disponible pour le moment.
           _it: Spiacenti, nessuna preparazione cesta è disponibile al momento.
+        no_activities/day_work:
+          _de: Sorry, momentan gibt es keine freien Arbeitstage.
+          _fr: Désolé, aucune journée de travail disponible pour le moment.
+          _it: Spiacenti, nessun giorno di lavoro disponibile al momento.
         no_activities/halfday_work:
           _de: Sorry, momentan gibt es keinen freien ½ Tag.
           _fr: Désolé, aucune ½ journée disponible pour le moment.
@@ -164,6 +176,10 @@ _:
           _de: In diesem Monat findet keine Taschen befüllung statt.
           _fr: Aucune mise en panier ce mois.
           _it: Nessuna preparazione di ceste questo mese
+        no_activities_this_month/day_work:
+          _de: In diesem Monat findet kein Arbeitstag statt.
+          _fr: Aucune journée de travail ce mois.
+          _it: Nessun giorno di lavoro pianificato questo mese.
         no_activities_this_month/halfday_work:
           _de: In diesem Monat findet keinen ½ Tag statt.
           _fr: Aucune ½ journée ce mois.
@@ -176,6 +192,10 @@ _:
           _de: Momentan gibt es keine freie Taschen befüllung.
           _fr: Aucune mises en panier disponible pour le moment.
           _it: Nessuna preparazione cesta è disponibile al momento.
+        no_coming_activity_participations/day_work:
+          _de: Momentan gibt es keine freien Arbeitstage.
+          _fr: Aucune journée de travail disponible pour le moment.
+          _it: Nessun giorno di lavoro disponibile al momento.
         no_coming_activity_participations/halfday_work:
           _de: Momentan gibt es keine freie ½ Tage.
           _fr: Aucune ½ journée disponible pour le moment.
@@ -196,6 +216,10 @@ _:
           _de: Ihre geleisteten Taschen befüllung
           _fr: Vos mises en panier effectuées
           _it: Vostre preparazioni ceste effettuate
+        past_activity_participations/day_work:
+          _de: Ihre geleisteten Arbeitstage
+          _fr: Vos journées de travail effectuées
+          _it: Le vostre giornate di lavoro effettuate
         past_activity_participations/halfday_work:
           _de: Ihre geleisteten ½ Tage
           _fr: Vos ½ journées effectuées
@@ -606,6 +630,10 @@ _:
             _de: sich für die Taschen befüllung einschreiben können
             _fr: de s'inscrire aux mises en panier
             _it: registrarsi per la preparazione ceste
+          activity_text/day_work:
+            _de: sich für die Arbeitstage einschreiben können
+            _fr: de s'inscrire aux journées de travail
+            _it: registrarsi per i giorni di lavoro
           activity_text/halfday_work:
             _de: sich für die Halbtage einschreiben können
             _fr: de s'inscrire aux ½ journées
