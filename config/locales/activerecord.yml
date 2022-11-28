@@ -894,6 +894,10 @@ _:
           _de: Taschen
           _fr: Paniers
           _it: Ceste
+        baskets_absent_count:
+          _de: Abwesenheiten
+          _fr: Absences
+          _it: Assenze
         baskets_annual_price_change:
           _de: Anpassung Preis Abonnement (Taschen)
           _fr: Ajustement du prix de l'abonnement (paniers)
@@ -902,6 +906,10 @@ _:
           _de: Taschen
           _fr: Paniers
           _it: Paniers
+        baskets_trial_count:
+          _de: Probetaschen
+          _fr: Paniers à l'essai
+          _it: Ceste di prova
         deliveries_count:
           _de: Taschen
           _fr: Paniers
