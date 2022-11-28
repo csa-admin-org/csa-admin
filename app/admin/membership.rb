@@ -54,7 +54,7 @@ ActiveAdmin.register Membership do
     label: proc { t_activity('active_admin.resource.index.activity_participations_demanded') },
     if: proc { Current.acp.feature?('activity') }
 
-  includes :member
+  includes :member, :baskets
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: 'members.name'
@@ -225,6 +225,12 @@ ActiveAdmin.register Membership do
     column(:started_on)
     column(:ended_on)
     column(:baskets_count)
+    if Current.acp.trial_basket_count.positive?
+      column(:baskets_trial_count) { |m| m.baskets.select(&:trial?).size }
+    end
+    if Current.acp.feature?('absence')
+      column(:baskets_absent_count) { |m| m.baskets.select(&:absent?).size }
+    end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_price) { |m| cur(m.basket_price) }
     if Current.acp.feature?('basket_price_extra')
