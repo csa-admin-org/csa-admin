@@ -446,6 +446,10 @@ _:
           _de: Taschen befüllung pro Jahr
           _fr: Mises en panier par année
           _it: Ceste riempite all'anno
+        activity_participations_demanded_annualy/day_work:
+          _de: Arbeitstage pro Jahr
+          _fr: Journées de travail par année
+          _it: Giorni di lavoro all'anno
         activity_participations_demanded_annualy/halfday_work:
           _de: "½ Arbeitstage pro Jahr"
           _fr: "½ journées de travail par année"
@@ -744,6 +748,10 @@ _:
           _de: Anpassung Preis Abonnement (Taschen befüllung)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
           _it: Adeguamento del prezzo dell'abbonamento (riempimento della cesta)
+        activity_participations_annual_price_change/day_work:
+          _de: Anpassung Preis Abonnement (Arbeitstage)
+          _fr: Ajustement du prix de l'abonnement (Journées de travail)
+          _it: Adeguamento del prezzo dell'abbonamento (Giorni di lavoro)
         activity_participations_annual_price_change/halfday_work:
           _de: Anpassung Preis Abonnement (½ Tage)
           _fr: Ajustement du prix de l'abonnement (½ journées)
@@ -756,8 +764,12 @@ _:
           _de: Taschen befüllung
           _fr: Mises en panier
           _it: Riempimento della cesta
+        activity_participations_annual_price_change_default/day_work:
+          _de: Arbeitstag
+          _fr: Journée de travail
+          _it: Giorno di lavoro
         activity_participations_annual_price_change_default/halfday_work:
-          _de: Halbtage
+          _de: "½ Tage"
           _fr: "½ journées"
           _it: "½ giornate"
         activity_participations_annual_price_change_default/hour_work:
@@ -773,6 +785,15 @@ _:
             _de: "%{count} nicht geleistete Taschen befüllung"
             _fr: "%{count} mises en panier non effectuées"
             _it: "%{count} riempimento della cesta non effettuato"
+        activity_participations_annual_price_change_negative/day_work:
+          one:
+            _de: Ein nicht geleisteter Arbeitstag
+            _fr: Une journée de travail non effectuée
+            _it: Un giorno di lavoro non effettuato
+          other:
+            _de: "%{count} nicht geleistete Arbeitstage"
+            _fr: "%{count} journées de travail non effectuées"
+            _it: "%{count} giorni di lavoro non effettuati"
         activity_participations_annual_price_change_negative/halfday_work:
           one:
             _de: Ein nicht geleisteter Halbtag
@@ -795,6 +816,10 @@ _:
           _de: Nicht geleistete Taschen befüllung
           _fr: Mises en panier non effectuées
           _it: Riempimento delle ceste non effetuate
+        activity_participations_annual_price_change_positive/day_work:
+          _de: Nicht geleistete Arbeitstage
+          _fr: Journées de travail non effectuées
+          _it: Giorni di lavoro non effettuati
         activity_participations_annual_price_change_positive/halfday_work:
           _de: Nicht geleistete Halbtage
           _fr: "½ journées de travail non effectuées"
@@ -812,6 +837,15 @@ _:
             _de: Rabatt für %{count} zusätzliche Taschen befüllung
             _fr: Réduction pour %{count} mises en panier supplémentaires
             _it: Riduzione per %{count} preparazioni ceste supplementari
+        activity_participations_annual_price_change_reduction/day_work:
+          one:
+            _de: Rabatt für einen zusätzlichen Arbeitstag
+            _fr: Réduction pour une journée de travail supplémentaire
+            _it: Riduzione per un giorno di lavoro supplementare
+          other:
+            _de: Rabatt für %{count} zusätzliche Arbeitstage
+            _fr: Réduction pour %{count} journées de travail supplémentaires
+            _it: Riduzione per %{count} giorni di lavoro supplementari
         activity_participations_annual_price_change_reduction/halfday_work:
           one:
             _de: Rabatt für einen zusätzlichen Halbtag
@@ -838,6 +872,10 @@ _:
           _de: Verlangte Taschen befüllung
           _fr: Mises en panier demandées
           _it: Preparazioni ceste richieste
+        activity_participations_demanded/day_work:
+          _de: Arbeitstage verlangt
+          _fr: Journées de travail demandées
+          _it: Giorni di lavoro richiesti
         activity_participations_demanded/halfday_work:
           _de: "½ Tage verlangt"
           _fr: "½ journées demandées"
@@ -958,6 +996,10 @@ _:
           _de: Fehlende Taschen befüllung
           _fr: Mises en panier manquantes
           _it: Preparazioni ceste mancanti
+        missing_activity_participations/day_work:
+          _de: Fehlende Arbeitstage
+          _fr: Journées de travail manquantes
+          _it: Giorni di lavoro mancanti
         missing_activity_participations/halfday_work:
           _de: Fehlende ½ Tage
           _fr: "½ journées manquantes"

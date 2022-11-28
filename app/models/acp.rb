@@ -18,7 +18,7 @@ class ACP < ApplicationRecord
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
-  ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work basket_preparation]
+  ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]
   EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
 
   attribute :shop_delivery_open_last_day_end_time, :time_only

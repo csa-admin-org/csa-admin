@@ -80,6 +80,10 @@ _:
         _de: Nicht geleistete Taschen befüllung
         _fr: Mise en panier non-effectuée
         _it: Preparazione ceste non effettuata
+      missed_activity_participation/day_work:
+        _de: Nicht geleisteter Arbeitstag
+        _fr: Journée de travail non-effectuée
+        _it: Giorno di lavoro non effettuato
       missed_activity_participation/halfday_work:
         _de: nicht geleisteter ½ Tag
         _fr: "½ journée non-effectuée"
@@ -92,6 +96,10 @@ _:
         _de: Nicht geleistete Taschen befüllung vom %{date}
         _fr: Mise en panier du %{date} non-effectuée
         _it: Preparazione ceste del %{date} non effettuata
+      missed_activity_participation_with_date/day_work:
+        _de: nicht geleisteter Arbeitstag vom %{date}
+        _fr: Journée de travail du %{date} non-effectuée
+        _it: Giorno di lavoro di %{date} non effettuato
       missed_activity_participation_with_date/halfday_work:
         _de: nicht geleisteter ½ Tag vom %{date}
         _fr: "½ journée du %{date} non-effectuée"
@@ -104,6 +112,10 @@ _:
         _de: "%{count} nicht geleistete Taschen befüllung"
         _fr: "%{count} mises en panier non effectuées"
         _it: "%{count} preparazioni ceste non effettuate"
+      missed_activity_participations/day_work:
+        _de: "%{count} nicht geleistete Arbeitstage"
+        _fr: "%{count} journées de travail non effectuées"
+        _it: "%{count} giorni di lavoro non effettuato"
       missed_activity_participations/halfday_work:
         _de: "%{count} nicht geleistete ½ Tage"
         _fr: "%{count} ½ journées non effectuées"

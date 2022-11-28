@@ -600,6 +600,10 @@ _:
           _de: Geleistete Taschen befüllung
           _fr: Mises en panier effectuées
           _it: Preparazione dei cestini effettuate
+        activity_participations_accepted/day_work:
+          _de: Geleistete Arbeitstage
+          _fr: Journées de travail effectuées
+          _it: Giorni di lavoro effettuati
         activity_participations_accepted/halfday_work:
           _de: Geleistete ½ Tage
           _fr: "½ journées effectuées"
@@ -612,6 +616,10 @@ _:
           _de: Verlangte Taschen befüllung
           _fr: Mises en panier demandées
           _it: Preparazione dei cestini richieste
+        activity_participations_demanded/day_work:
+          _de: Verlangte Arbeitstage
+          _fr: Journées de travail demandées
+          _it: Giorni di lavoro richiesti
         activity_participations_demanded/halfday_work:
           _de: Verlangte ½ Tage
           _fr: "½ journées demandées"
@@ -900,6 +908,10 @@ _:
           _de: Keine taschen befüllung
           _fr: Aucune mise en panier
           _it: Nessuna cesta da preparare
+        no_activities/day_work:
+          _de: Kein Arbeitstag
+          _fr: Aucune journée de travail
+          _it: Nessun giorno di lavoro
         no_activities/halfday_work:
           _de: Kein ½ Tag
           _fr: Aucune ½ journée
