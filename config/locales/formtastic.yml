@@ -179,6 +179,10 @@ _:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
+        form_details:
+          _de: Leer lassen für den Standardtext.
+          _fr: Laisser blanc pour le texte par défaut.
+          _it: Lasciare vuoto per il testo predefinito.
         form_priority:
           _de: Ermöglicht es Ihnen, die Zusätze in einer bestimmten Reihenfolge zu sortieren.
           _fr: Permet de trier les compléments dans un ordre spécifique.
@@ -206,6 +210,10 @@ _:
           _fr: Par exemple, une page référençant le prix de vente.
           _it: Per esempio, una pagina che fa riferimento al prezzo di vendita.
       basket_size:
+        form_details:
+          _de: Leer lassen für den Standardtext.
+          _fr: Laisser blanc pour le texte par défaut.
+          _it: Lasciare vuoto per il testo predefinito.
         form_priority:
           _de: Ermöglicht das Sortieren von Taschengrößen in einer bestimmten Reihenfolge
           _fr: Permet de trier les tailles de panier dans un ordre spécifique.

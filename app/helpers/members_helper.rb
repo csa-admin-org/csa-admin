@@ -19,22 +19,28 @@ module MembersHelper
     }
   end
 
+  def basket_size_details(bs, force_default: false)
+    return bs.form_details if !force_default && bs.form_details?
+
+    @acp_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
+    details = []
+    if bs.price.positive?
+      details << "#{deliveries_based_price_info(bs.price)} (#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)})"
+    else
+      details << deliveries_count(deliveries_counts)
+    end
+    details << activities_count(bs.activity_participations_demanded_annualy)
+    if @acp_shares_numbers.size > 1
+      details << acp_shares_number(bs.acp_shares_number)
+    end
+    details.compact.join(', ').html_safe
+  end
+
   def basket_sizes_collection(no_basket_option: true, data: {}, no_basket_data: {})
     basket_sizes = BasketSize.visible.reorder(:form_priority, price: :desc)
-    acp_shares_numbers = basket_sizes.pluck(:acp_shares_number).uniq
     col = basket_sizes.map { |bs|
-      details = []
-      if bs.price.positive?
-        details << "#{deliveries_based_price_info(bs.price)} (#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)})"
-      else
-        details << deliveries_count(deliveries_counts)
-      end
-      details << activities_count(bs.activity_participations_demanded_annualy)
-      if acp_shares_numbers.size > 1
-        details << acp_shares_number(bs.acp_shares_number)
-      end
       [
-        collection_text(bs.public_name, details: details.compact.join(', ')),
+        collection_text(bs.public_name, details: basket_size_details(bs)),
         bs.id,
         data: {
           form_min_value_enforcer_min_value_param: bs.acp_shares_number
@@ -76,17 +82,21 @@ module MembersHelper
     end
   end
 
-  def basket_complement_label(bc)
+  def basket_complement_details(bc, force_default: false)
+    return bc.form_details if !force_default && bc.form_details?
+
     if bc.annual_price_type?
-      collection_text(bc.public_name,
-        details: "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})")
+      "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})".html_safe
     else
       d_counts = depots_delivery_ids.map { |d_ids|
         (d_ids & bc.delivery_ids).size
       }.uniq
-      collection_text(bc.public_name,
-        details: "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})")
+      "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})".html_safe
     end
+  end
+
+  def basket_complement_label(bc)
+    collection_text(bc.public_name, details: basket_complement_details(bc))
   end
 
   def depots_collection(membership: nil, data: {})
