@@ -14,9 +14,9 @@ describe 'members page' do
         basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
       create_deliveries(2)
       create(:basket_size, :small)
-      create(:basket_size, :big)
+      create(:basket_size, :big, form_details: "Super Grand Panier, 66.50 CHF")
 
-      create(:basket_complement, name: 'Oeufs', price: 4.8)
+      create(:basket_complement, name: 'Oeufs', price: 4.8, form_details: "Seulement 9.60 CHF")
       create(:basket_complement, name: 'Pain', price: 6.5, delivery_ids: Delivery.pluck(:id).select(&:odd?))
 
       create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil)
@@ -26,14 +26,14 @@ describe 'members page' do
       visit '/new'
 
       expect(page).to have_selector('span',
-        text: "Abondance PUBLICCHF 66.50 (33.25 x 2 livraisons), 2 ½ journées")
+        text: "Abondance PUBLICSuper Grand Panier, 66.50 CHF")
       expect(page).to have_selector('span',
         text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector('span',
         text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector('label',
-        text: "Oeufs PUBLICCHF 9.60 (4.80 x 2 livraisons)")
+        text: "Oeufs PUBLICSeulement 9.60 CHF")
       expect(page).to have_selector('label',
         text: "Pain PUBLICCHF 6.50 (6.50 x 1 livraison)")
 
