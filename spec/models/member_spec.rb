@@ -132,6 +132,32 @@ describe Member do
       member.desired_acp_shares_number = 1
       expect(member).to have_valid(:desired_acp_shares_number)
     end
+
+    specify 'required profession mode on public create' do
+      Current.acp.update!(member_profession_form_mode: 'visible')
+      member = build(:member,
+        public_create: true,
+        profession: nil)
+
+      expect(member).to have_valid(:profession)
+
+      Current.acp.update!(member_profession_form_mode: 'required')
+
+      expect(member).not_to have_valid(:profession)
+    end
+
+    specify 'required come_form mode on public create' do
+      Current.acp.update!(member_come_from_form_mode: 'visible')
+      member = build(:member,
+        public_create: true,
+        come_from: nil)
+
+      expect(member).to have_valid(:come_from)
+
+      Current.acp.update!(member_come_from_form_mode: 'required')
+
+      expect(member).not_to have_valid(:come_from)
+    end
   end
 
   it 'strips whitespaces from emails and downcase' do
