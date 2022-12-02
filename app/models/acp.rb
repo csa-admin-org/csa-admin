@@ -187,7 +187,7 @@ class ACP < ApplicationRecord
   end
 
   def basket_price_extra_label_detail_or_default
-    basket_price_extra_label_detail || basket_price_extra_label_detail_default
+    basket_price_extra_label_detail.presence || basket_price_extra_label_detail_default
   end
 
   def basket_price_extras?
