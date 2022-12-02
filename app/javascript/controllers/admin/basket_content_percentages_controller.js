@@ -1,10 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from 'throttle-debounce'
-import { addClass, removeClass } from "components/utils"
+import { addClass, removeClass, show, hide } from "components/utils"
 
 export default class extends Controller {
   static get targets() {
-    return ["range", "preset"]
+    return ["range", "input", "sum", "preset"]
   }
 
   initialize() {
@@ -12,16 +12,18 @@ export default class extends Controller {
   }
 
   connect() {
-    this.updatePresetStates()
+    this.updateAll()
   }
 
   change(event) {
-    this.updateLabel(event.target)
+    this.updateOther(event.target)
 
-    while (this.percentagesDiff() !== 0) {
-      this.adjustOtherPercentages(event.target)
+    if (event.target.type == "range") {
+      while (this.percentagesDiff() !== 0) {
+        this.adjustOtherPercentages(event.target)
+      }
     }
-    this.updatePresetStates()
+    this.updateAll()
   }
 
   applyPreset(event) {
@@ -30,7 +32,7 @@ export default class extends Controller {
       const input = document.getElementById("basket_size_ids_percentages_" + inputID)
       this.set(input, value)
     })
-    this.updatePresetStates()
+    this.updateAll()
   }
 
   updatePresetStates() {
@@ -77,12 +79,49 @@ export default class extends Controller {
     return targets
   }
 
-  set(rangeInput, value) {
-    rangeInput.value = value
-    this.updateLabel(rangeInput)
+  set(target, value) {
+    target.value = value
+    this.updateOther(target)
   }
 
-  updateLabel(target) {
-    target.nextElementSibling.innerText = target.value;
+  updateOther(target) {
+    if (target.type == "range") {
+      const input = document.getElementById(target.id.replace("_range", ""))
+      input.value = target.value
+    } else {
+      const range = document.getElementById(target.id + "_range")
+      range.value = target.value
+    }
+  }
+
+  updateRangeStates() {
+    const sum = this.percentagesSum()
+    this.rangeTargets.forEach((t) => {
+      t.disabled = (sum !== 100)
+    })
+  }
+
+  updateSum() {
+    const sum = this.percentagesSum()
+    if (sum > 100) {
+      this.sumTarget.innerHTML = "-" + (sum - 100)
+    } else if (sum < 100) {
+      this.sumTarget.innerHTML = "+" + (100 - sum)
+    }
+    if (sum === 100) {
+      hide(this.sumTarget)
+    } else {
+      show(this.sumTarget)
+    }
+  }
+
+  percentagesSum() {
+    return this.inputTargets.reduce((s, t) => s + parseInt(t.value), 0)
+  }
+
+  updateAll() {
+    this.updatePresetStates()
+    this.updateRangeStates()
+    this.updateSum()
   }
 }
