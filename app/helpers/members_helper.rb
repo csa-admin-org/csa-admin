@@ -72,7 +72,7 @@ module MembersHelper
     label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
     details_template = Liquid::Template.parse(Current.acp.basket_price_extra_label_detail_or_default)
     Current.acp[:basket_price_extras].map do |extra|
-      full_year_price = deliveries_based_price_info(extra) unless extra.zero?
+      full_year_price = deliveries_based_price_info(extra) if extra.positive?
       details = details_template.render(
         'extra' => extra,
         'full_year_price' => full_year_price)
