@@ -94,8 +94,8 @@ describe BasketContent do
         quantity: 83,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.48, 0.69]
-      expect(basket_content.surplus_quantity.to_f).to eq 0.11
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.48, 0.693]
+      expect(basket_content.surplus_quantity.to_f).to eq 0.02
     end
 
     it 'splits kilogramme to both baskets (2)' do
@@ -107,8 +107,8 @@ describe BasketContent do
         quantity: 100,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.58, 0.82]
-      expect(basket_content.surplus_quantity.to_f).to eq 0.24
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.579, 0.832]
+      expect(basket_content.surplus_quantity.to_f).to eq 0.02
     end
 
     it 'splits kilogramme to both baskets (3)' do
@@ -120,8 +120,8 @@ describe BasketContent do
         quantity: 34,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.17, 0.27]
-      expect(basket_content.surplus_quantity.to_f).to eq 0.5
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.176, 0.255]
+      expect(basket_content.surplus_quantity.to_f).to eq 0.03
     end
 
     it 'splits kilogramme equaly between both baskets' do
@@ -154,9 +154,9 @@ describe BasketContent do
         quantity: 83,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [2.86]
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [2.862]
       expect(basket_content.basket_quantity(BasketSize.new(id: 1001))).to be_nil
-      expect(basket_content.surplus_quantity.to_f).to eq 0.06
+      expect(basket_content.surplus_quantity.to_f).to be_zero
     end
 
     specify 'with 3 basket sizes' do
@@ -169,7 +169,7 @@ describe BasketContent do
         quantity: 100,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.68, 0.9, 0.48]
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.682, 0.91, 0.477]
       expect(basket_content.surplus_quantity.to_f).to be_zero
     end
   end

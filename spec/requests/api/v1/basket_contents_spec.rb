@@ -82,11 +82,11 @@ describe 'BasketContents V1 API' do
             "quantities" =>  [
               {
                 "basket_size_id" => 125123,
-                "quantity" => 2.04
+                "quantity" => 2.049
               },
              {
                "basket_size_id" => 623411,
-               "quantity" => 2.96
+               "quantity" => 2.951
               }
             ],
             "depot_ids" => [161412]
