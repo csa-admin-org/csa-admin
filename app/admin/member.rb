@@ -125,6 +125,7 @@ ActiveAdmin.register Member do
       column(:contact_sharing)
     end
     column(:food_note)
+    column(:come_from)
     column(:note)
     column(:validated_at)
     column(:created_at)
