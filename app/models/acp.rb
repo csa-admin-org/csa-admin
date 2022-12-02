@@ -180,6 +180,16 @@ class ACP < ApplicationRecord
     self[:basket_price_extra_public_titles][I18n.locale.to_s].presence || basket_price_extra_title
   end
 
+  def basket_price_extra_label_detail_default
+    <<~LIQUID
+      {% if extra != 0 %}{{ full_year_price }}{% endif %}
+    LIQUID
+  end
+
+  def basket_price_extra_label_detail_or_default
+    basket_price_extra_label_detail || basket_price_extra_label_detail_default
+  end
+
   def basket_price_extras?
     self[:basket_price_extras].any?
   end

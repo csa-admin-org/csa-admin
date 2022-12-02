@@ -10,14 +10,6 @@ _:
       _it: Creare %{model}
     hints:
       acp:
-        member_profession_form_mode:
-          _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
-          _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
-          _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
-        member_come_from_form_mode:
-          _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
-          _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
-          _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
         absence_extra_text:
           _de: Dieser optionale Text wird vor dem Erklärungstext eingefügt, der standardmäßig auf dem Konto des Mitglieds generiert wird.
           _fr: Ce texte optionnel est inséré avant le texte d'explication généré par défaut sur le compte du membre.
@@ -54,6 +46,14 @@ _:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
           _fr: Laisser vide si aucune cotisation annuelle.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa.
+        basket_price_extra_label_details_html:
+          _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}" und "{{ full_year_price }}".
+          _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec les objects "{{ extra }}" et "{{ full_year_price }}".
+          _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con gli oggetti "{{ extra }}" e "{{ full_year_price }}".
+        basket_price_extra_labels_html:
+          _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit Objekt "{{ extra }}".
+          _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec l'object "{{ extra }}".
+          _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con l'oggetto "{{ extra }}".
         basket_price_extra_public_title:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Titel (Anmeldeformular, Rechnung, ...).
           _fr: Si présent, remplace le titre affiché pour les membres (formulaire d'inscription, facture, ...).
@@ -74,6 +74,14 @@ _:
           _de: Die Variable "%{Datum}" wird durch das Datum ersetzt, bis zu dem die Lieferung bestellt werden kann.
           _fr: La variable "%{date}" est remplacée par la date jusqu'où la livraison est commandable.
           _it: La variabile "%{date}" è sostituita dalla data entro cui la consegna e ordinabile.
+        member_come_from_form_mode:
+          _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
+          _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
+          _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
+        member_profession_form_mode:
+          _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
+          _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
+          _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
         membership_extra_text:
           _de: Dieser optionale Text wird vor der Auswahl der Größe der Tasche eingefügt.
           _fr: Ce texte optionnel est inséré avant le choix de la taille du panier.
@@ -336,10 +344,6 @@ _:
         _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
         _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
         _it: Questa struttura dati è presentata come un esempio e viene generata in modo semi-casuale, potete modificarne i valori a piacimento per visualizzare in anteprima il tuo template.
-      liquid_extra_html:
-        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit Objekt "{{ extra }}".
-        _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec l'object "{{ extra }}".
-        _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con l'oggetto "{{ extra }}".
       mail_template:
         active:
           _de: Diese E-Mail wird standardmäßig nicht gesendet, bitte überprüfen Sie den Inhalt, bevor Sie sie aktivieren.

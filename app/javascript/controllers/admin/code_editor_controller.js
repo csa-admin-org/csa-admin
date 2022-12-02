@@ -22,6 +22,7 @@ export default class extends Controller {
     var editor = ace.edit(editDiv, {
       mode: 'ace/mode/' + element.dataset.mode,
       theme: 'ace/theme/dreamweaver',
+      placeholder: element.placeholder,
       highlightActiveLine: false,
       showGutter: false,
       printMargin: false,

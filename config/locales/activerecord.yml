@@ -64,9 +64,9 @@ _:
           _fr: Label
           _it: Etichetta
         basket_price_extra_label_detail:
-          _de: Label-Details
-          _fr: Détails label
-          _it: Dettagli dell'etichetta
+          _de: Beschreibung
+          _fr: Description
+          _it: Descrizione
         basket_price_extra_public_title:
           _de: Titel (Mitglied)
           _fr: Titre (Membre)
