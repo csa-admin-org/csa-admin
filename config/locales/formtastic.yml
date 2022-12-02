@@ -10,6 +10,14 @@ _:
       _it: Creare %{model}
     hints:
       acp:
+        member_profession_form_mode:
+          _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
+          _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
+          _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
+        member_come_from_form_mode:
+          _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
+          _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
+          _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
         absence_extra_text:
           _de: Dieser optionale Text wird vor dem Erklärungstext eingefügt, der standardmäßig auf dem Konto des Mitglieds generiert wird.
           _fr: Ce texte optionnel est inséré avant le texte d'explication généré par défaut sur le compte du membre.

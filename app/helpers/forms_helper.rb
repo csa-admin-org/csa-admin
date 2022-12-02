@@ -32,6 +32,10 @@ module FormsHelper
     }.sort_by { |(name, code)| ActiveSupport::Inflector.transliterate name }
   end
 
+  def form_modes_collection
+    ACP::FORM_MODES.map { |mode| [t("form_modes.#{mode}"), mode] }
+  end
+
   private
 
   def attribute_label(model_class, attr, locale)

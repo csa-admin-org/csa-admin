@@ -74,6 +74,10 @@ class Member < ApplicationRecord
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :name, presence: true
   validates :emails, presence: true, if: :public_create
+  validates :profession, presence: true,
+    if: -> { public_create && Current.acp.member_profession_form_mode == 'required' }
+  validates :come_from, presence: true,
+    if: -> { public_create && Current.acp.member_come_from_form_mode == 'required' }
   validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create

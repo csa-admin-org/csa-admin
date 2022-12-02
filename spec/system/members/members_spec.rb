@@ -382,6 +382,21 @@ describe 'members page' do
       expect(page).not_to have_selector('span',
         text: "Aucun, devenir membre de soutien")
     end
+
+    specify 'with different form modes' do
+      Current.acp.update!(
+        member_profession_form_mode: 'hidden',
+        member_come_from_form_mode: 'required')
+
+      visit '/new'
+
+      expect(page).not_to have_text('Profession / Compétences')
+      expect(page).to have_text('Comment avez-vous entendu parler de nous? *')
+
+      click_button 'Envoyer'
+
+      expect(page).to have_text('Comment avez-vous entendu parler de nous? * doit être rempli(e)')
+    end
   end
 
   context 'existing member token' do

@@ -31,6 +31,7 @@ ActiveAdmin.register ACP do
     :membership_extra_text_only,
     :basket_price_extras,
     :absence_extra_text_only,
+    :member_profession_form_mode, :member_come_from_form_mode,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
@@ -144,6 +145,19 @@ ActiveAdmin.register ACP do
             input_html: { rows: 5 })
           f.input :membership_extra_text_only, as: :boolean
           f.input :allow_alternative_depots, as: :boolean
+          f.input :member_profession_form_mode,
+            label: Member.human_attribute_name(:profession),
+            as: :select,
+            collection: form_modes_collection,
+            include_blank: false,
+            required: false
+          f.input :member_come_from_form_mode,
+            label: Member.human_attribute_name(:come_from),
+            as: :select,
+            collection: form_modes_collection,
+            include_blank: false,
+            required: false
+
           para class: 'actions' do
             a href: new_members_member_url(subdomain: Current.acp.members_subdomain), class: 'action' do
               span do
@@ -310,6 +324,7 @@ ActiveAdmin.register ACP do
 
   controller do
     include TranslatedCSVFilename
+    include FormsHelper
 
     defaults singleton: true
 

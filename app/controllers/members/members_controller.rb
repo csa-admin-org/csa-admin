@@ -7,7 +7,7 @@ class Members::MembersController < Members::BaseController
 
   # GET /new
   def new
-    @member = Member.new
+    @member = Member.new(public_create: true)
     set_basket_complements
   end
 
