@@ -200,7 +200,7 @@ class BasketContent < ApplicationRecord
 
   def round_unit(quantity, method, diff)
     case unit
-    when 'kg'; ((quantity * 100).send(method) + diff) / 100.0
+    when 'kg'; ((quantity * 1000).send(method) + diff) / 1000.0
     when 'pc'; quantity.send(method) + diff
     end
   end
