@@ -23,7 +23,7 @@ module TranslatedAttributes
             if str.present?
               self[column][locale] = str
             else
-              self[column].delete(locale)
+              self[column][locale] = nil
             end
           end
         end

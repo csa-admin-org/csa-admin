@@ -70,14 +70,14 @@ module MembersHelper
     return unless Current.acp.basket_price_extras?
 
     label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
-    details_template = Liquid::Template.parse(Current.acp.basket_price_extra_label_detail)
+    details_template = Liquid::Template.parse(Current.acp.basket_price_extra_label_detail_or_default)
     Current.acp[:basket_price_extras].map do |extra|
-      details = []
-      details << deliveries_based_price_info(extra) if extra.positive?
-      details << details_template.render('extra' => extra)
-      details.map!(&:presence).compact!
+      full_year_price = deliveries_based_price_info(extra) unless extra.zero?
+      details = details_template.render(
+        'extra' => extra,
+        'full_year_price' => full_year_price)
 
-      text = collection_text(label_template.render('extra' => extra), details: details.join(', '))
+      text = collection_text(label_template.render('extra' => extra), details: details)
       [text, extra, data: data]
     end
   end

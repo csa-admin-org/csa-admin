@@ -295,7 +295,7 @@ ActiveAdmin.register ACP do
               f.input :basket_price_extras, as: :string
               translated_input(f, :basket_price_extra_labels,
                 as: :text,
-                hint: t('formtastic.hints.liquid_extra_html'),
+                hint: t('formtastic.hints.acp.basket_price_extra_labels_html'),
                 wrapper_html: { class: 'ace-editor' },
                 input_html: {
                   class: 'ace-editor',
@@ -303,7 +303,8 @@ ActiveAdmin.register ACP do
                 })
               translated_input(f, :basket_price_extra_label_details,
                 as: :text,
-                hint: t('formtastic.hints.liquid_extra_html'),
+                placeholder: Current.acp.basket_price_extra_label_detail_default,
+                hint: t('formtastic.hints.acp.basket_price_extra_label_details_html'),
                 wrapper_html: { class: 'ace-editor' },
                 input_html: {
                   class: 'ace-editor',
