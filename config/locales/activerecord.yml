@@ -388,6 +388,10 @@ _:
           _fr: Livraison
           _it: Consegna
       basket_content:
+        basket_percentages:
+          _de: Prozentuale Verteilung
+          _fr: La somme des pourcentages
+          _it: Distribuzione percentuale
         basket_size:
           _de: Tasche
           _fr: Panier

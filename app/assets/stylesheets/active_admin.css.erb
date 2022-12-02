@@ -76,6 +76,29 @@ li.boolean label {
   padding-left: 18px;
 }
 
+span.basket_size_ids_percentages_sum {
+  display: block;
+  margin-top: 5px;
+  margin-left: calc(20% + 241px);
+  margin-bottom: -23px;
+  font-weight: 700;
+  width: 70px;
+  text-align: right;
+  color: red;
+}
+
+@media only screen and (max-width: 480px) {
+  span.basket_size_ids_percentages_sum {
+    margin-left: 248px;
+    margin-bottom: 10px;
+  }
+}
+
+
+span.basket_size_ids_percentages_sum::after {
+  content: " %";
+}
+
 li.basket_size_ids_percentages_wrapper {
   border: 0;
 }
@@ -90,12 +113,12 @@ p.basket_size_ids_percentages_wrapper_hint {
   padding: 10px 15px;
 }
 
-li.range input {
+li.custom_range input[type='range'] {
   width: 200px !important;
   border-bottom: 0px;
   -webkit-appearance: none;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 15px;
   height: 10px;
   border-radius: 5px;
   background: #EBEEF2;
@@ -105,7 +128,11 @@ li.range input {
   transition: opacity .2s;
 }
 
-li.range input::-webkit-slider-thumb {
+li.custom_range input[type='range']:disabled {
+  background: #E2E4E8;
+}
+
+li.custom_range input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -115,7 +142,12 @@ li.range input::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-li.range input::-moz-range-thumb {
+li.custom_range input[type='range']:disabled::-webkit-slider-thumb {
+  background: #B8B8B8;
+  cursor: not-allowed;
+}
+
+li.custom_range input[type='range']::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -123,21 +155,25 @@ li.range input::-moz-range-thumb {
   cursor: pointer;
 }
 
-li.range p.inline-hints {
+li.custom_range input[type='range']:disabled::-moz-range-thumb {
+  background: #B8B8B8;
+  cursor: not-allowed;
+}
+
+li.custom_range input[type='text'] {
+  width: 50px;
+}
+
+li.custom_range p.inline-hints {
   display: inline-block;
-  line-height: 15px;
-  width: 55px;
-  text-align: right;
-  margin: 0;
+  line-height: 40px;
+  margin: 0 0 0 5px;
   padding: 0 0 0 0;
   font-size: 16px;
   color: #3f3f3f;
+  width: 20px !important;
   font-weight: 300;
 }
-li.range p.inline-hints::after {
-  content: "%";
-}
-
 
 #main_content form > h3 {
   margin: 40px 0 0 0;
@@ -233,6 +269,13 @@ form li.boolean input {
 form li.boolean p.inline-hints {
   margin: 0;
   padding-top: 5px;
+}
+
+form fieldset.inputs ul.errors {
+  margin: 10px;
+}
+form fieldset.inputs ul.errors li {
+  list-style: none;
 }
 
 form ul.errors {
