@@ -47,6 +47,10 @@ module Shop
       ].join(', ')
     end
 
+    def quantity_was
+      persisted? ? super : 0
+    end
+
     private
 
     def ensure_available_product_variant_stock

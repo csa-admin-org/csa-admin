@@ -3,7 +3,9 @@ class Members::Shop::OrderItemsController < Members::Shop::BaseController
 
   # POST /shop/orders/:order_id/order_items
   def create
-    @item = @order.items.find_or_initialize_by(product_variant_id: product_variant_id)
+    @item = @order.items.find_or_initialize_by(product_variant_id: product_variant_id) do |i|
+      i.quantity = 0
+    end
     @item.quantity += 1
     params.permit!
 
