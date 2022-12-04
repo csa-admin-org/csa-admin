@@ -68,8 +68,8 @@ ActiveAdmin.register GroupBuying::Delivery do
       column do
         attributes_table do
           row :id
-          row(:date) { l(delivery.date, date_format: :long) }
-          row(:orderable_until) { l(delivery.orderable_until, date_format: :long) }
+          row(:date) { l(delivery.date, format: :long) }
+          row(:orderable_until) { l(delivery.orderable_until, format: :long) }
           row(:depots) { Depot.where(id: delivery.depot_ids).pluck(:name).join(', ')}
         end
         attributes_table title: GroupBuying::Order.model_name.human(count: 2) do

@@ -102,7 +102,7 @@ ActiveAdmin.register GroupBuying::Order do
           row(:member) { auto_link order.member }
           row(:invoice) { auto_link order.invoice }
           row(:state) { status_tag order.state_i18n_name, class: order.state }
-          row(:created_at) { l(order.created_at, date_format: :long) }
+          row(:created_at) { l(order.created_at, format: :long) }
         end
 
         attributes_table title: Invoice.human_attribute_name(:amount) do
