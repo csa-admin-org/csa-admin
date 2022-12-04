@@ -1111,6 +1111,15 @@ _:
           _de: Neue %{model}
           _fr: Nouvelle %{model}
           _it: Nuova %{model}
+        scopes:
+          all:
+            _de: Alle
+            _fr: Toutes
+            _it: Tutto
+          past:
+            _de: Vergangene
+            _fr: Passées
+            _it: Passato
       depot:
         new_model:
           _de: Neues %{model}
