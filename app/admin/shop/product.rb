@@ -17,6 +17,7 @@ ActiveAdmin.register Shop::Product do
     end
   end
 
+  scope :all
   scope :available, default: true
   scope :unavailable
 
