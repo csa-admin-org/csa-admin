@@ -307,8 +307,8 @@ ActiveAdmin.register Member do
           if Current.acp.languages.many?
             row(:language) { t("languages.#{member.language}") }
           end
-          row(:created_at) { l member.created_at }
-          row(:validated_at) { member.validated_at ? l(member.validated_at) : nil }
+          row(:created_at) { l member.created_at, format: :long }
+          row(:validated_at) { member.validated_at ? l(member.validated_at, format: :long) : nil }
           row :validator
         end
         attributes_table title: Member.human_attribute_name(:contact) do

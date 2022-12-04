@@ -90,10 +90,10 @@ ActiveAdmin.register Payment do
       row :invoice
       row(:date) { l payement.date }
       row(:amount) { cur(payement.amount) }
-      row(:created_at) { l payement.created_at }
+      row(:created_at) { l payement.created_at, format: :long }
       row(:created_by)
       if payment.manual? && payment.updated?
-        row(:updated_at) { l payement.updated_at }
+        row(:updated_at) { l payement.updated_at, format: :long }
         row(:updated_by)
       end
     end

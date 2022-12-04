@@ -177,17 +177,17 @@ ActiveAdmin.register Invoice do
           row(:date) { l invoice.date }
           row(:state) { status_tag invoice.state }
           row(:sent) { status_tag invoice.sent_at? }
-          row(:created_at) { l invoice.created_at }
+          row(:created_at) { l(invoice.created_at, format: :long) }
           row(:created_by)
           if invoice.sent_at?
-            row(:sent_at) { l invoice.sent_at if invoice.sent_at }
+            row(:sent_at) { l(invoice.sent_at, format: :long) if invoice.sent_at }
             row(:sent_by)
           end
           if invoice.closed?
-            row(:closed_at) { l(invoice.closed_at) if invoice.closed_at }
+            row(:closed_at) { l(invoice.closed_at, format: :long) if invoice.closed_at }
             row(:closed_by)
           elsif invoice.canceled?
-            row(:canceled_at) { l invoice.canceled_at }
+            row(:canceled_at) { l invoice.canceled_at, format: :long }
             row(:canceled_by)
           end
         end
