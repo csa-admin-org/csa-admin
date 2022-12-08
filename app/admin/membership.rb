@@ -257,6 +257,9 @@ ActiveAdmin.register Membership do
     column(:renewal_note)
     column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }
     column(:baskets_annual_price_change) { |m| cur(m.baskets_annual_price_change) }
+    if BasketComplement.any?
+      column(:basket_complements_annual_price_change) { |m| cur(m.basket_complements_annual_price_change) }
+    end
     column(:price) { |m| cur(m.price) }
     column(:invoices_amount) { |m| cur(m.invoices_amount) }
     column(:missing_invoices_amount) { |m| cur(m.missing_invoices_amount) }
