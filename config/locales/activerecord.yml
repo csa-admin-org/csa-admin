@@ -1129,6 +1129,35 @@ _:
           _de: Varianten
           _fr: Variantes
           _it: Varianti
+      shop/special_delivery:
+        open:
+          _de: Offene
+          _fr: Ouverte
+          _it: Aperta
+        open_delay_in_days:
+          _de: Dauer der Bestellung bis zur Lieferung (in Tagen)
+          _fr: Délai de commande avant la livraison (en jours)
+          _it: Tempo di consegna dell'ordine (in giorni)
+        open_last_day_end_time:
+          _de: Annahmeschluss am letzten Tag der Bestellung
+          _fr: Heure de fermeture le dernier jour de commande
+          _it: Orario di chiusura dell'ultimo giorno d'ordine
+        open_until:
+          _de: Offen bis zum
+          _fr: Ouverte jusqu'au
+          _it: Aperta fino al
+        products:
+          _de: Produkte verfügbar
+          _fr: Produits disponibles
+          _it: Prodotti disponibili
+        special:
+          _de: sonder
+          _fr: spéciale
+          _it: speciale
+        text:
+          _de: Erläuterung
+          _fr: Explication
+          _it: Spiegazione
     errors:
       models:
         basket_content:
@@ -1516,6 +1545,15 @@ _:
           _de: Varianten
           _fr: Variantes
           _it: Varianti
+      shop/special_delivery:
+        one:
+          _de: Sonderlieferung
+          _fr: Livraison spéciale
+          _it: Consegna speciale
+        other:
+          _de: Sonderlieferungen
+          _fr: Livraisons spéciales
+          _it: Consegne speciali
       shop/tag:
         one:
           _de: Tag

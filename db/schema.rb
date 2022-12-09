@@ -666,6 +666,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_04_142422) do
     t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "delivery_type", default: "Delivery", null: false
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
     t.index ["member_id", "delivery_id"], name: "index_shop_orders_on_member_id_and_delivery_id", unique: true
     t.index ["state"], name: "index_shop_orders_on_state"
@@ -698,10 +699,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_04_142422) do
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
   end
 
+  create_table "shop_products_special_deliveries", id: false, force: :cascade do |t|
+    t.bigint "special_delivery_id", null: false
+    t.bigint "product_id", null: false
+    t.index ["special_delivery_id"], name: "index_shop_products_special_deliveries_on_special_delivery_id"
+  end
+
   create_table "shop_products_tags", id: false, force: :cascade do |t|
     t.bigint "product_id", null: false
     t.bigint "tag_id", null: false
     t.index ["product_id", "tag_id"], name: "index_shop_products_tags_unique", unique: true
+  end
+
+  create_table "shop_special_deliveries", force: :cascade do |t|
+    t.date "date", null: false
+    t.integer "open_delay_in_days"
+    t.time "open_last_day_end_time"
+    t.boolean "open", default: false, null: false
+    t.integer "shop_products_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_shop_special_deliveries_on_date", unique: true
   end
 
   create_table "shop_tags", force: :cascade do |t|
@@ -738,11 +756,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_04_142422) do
   add_foreign_key "shop_order_items", "shop_orders", column: "order_id"
   add_foreign_key "shop_order_items", "shop_product_variants", column: "product_variant_id"
   add_foreign_key "shop_order_items", "shop_products", column: "product_id"
-  add_foreign_key "shop_orders", "deliveries"
   add_foreign_key "shop_orders", "members"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
   add_foreign_key "shop_products", "basket_complements"
   add_foreign_key "shop_products", "shop_producers", column: "producer_id"
+  add_foreign_key "shop_products_special_deliveries", "shop_products", column: "product_id"
+  add_foreign_key "shop_products_special_deliveries", "shop_special_deliveries", column: "special_delivery_id"
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
   add_foreign_key "shop_products_tags", "shop_tags", column: "tag_id"
 end

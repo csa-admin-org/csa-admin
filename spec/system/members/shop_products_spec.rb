@@ -4,6 +4,7 @@ describe 'Shop::Order' do
   let(:member) { create(:member) }
 
   before do
+    Current.acp.update!(shop_admin_only: false)
     Capybara.app_host = 'http://membres.ragedevert.test'
     login(member)
   end
@@ -130,5 +131,53 @@ describe 'Shop::Order' do
     order = member.shop_orders.last
     expect(order.items.sum(:quantity)).to eq 4
     expect(order.amount).to eq 35
+  end
+
+  specify 'shop special delivery' do
+    product =
+      create(:shop_product,
+        name: 'Farine de sarrasin',
+        variants_attributes: {
+          '0' => {
+            name: '1 kg',
+            price: 10,
+            stock: 3
+          },
+          '1' => {
+            name: '2 kg',
+            price: 10,
+            stock: 0,
+            available: false
+          }
+        })
+    other_product = create(:shop_product)
+    create(:shop_special_delivery, date: '2022-12-08', products: [product])
+
+    travel_to '2022-11-08 11:59 +01' do
+      visit '/shop'
+      expect(current_path).not_to eq '/shop'
+
+      expect(page).to have_content 'Épicerie'
+      expect(page).to have_content '⤷ 8 décembre 2022'
+
+      click_link '⤷ 8 décembre 2022'
+
+      expect(current_path).to eq '/shop/special/2022-12-08'
+      expect(page).to have_content 'Livraison spéciale du jeudi 8 décembre 2022'
+
+      expect(page).to have_selector "#product_variant_#{product.variants.first.id}"
+      expect(page).not_to have_selector "#product_variant_#{product.variants.second.id}"
+      expect(page).not_to have_selector "#product_variant_#{other_product.variants.first.id}"
+
+      within("#product_variant_#{product.variants.first.id}") do
+        expect(page).to have_content "3 disponibles"
+        click_button 'Ajouter au panier'
+        expect(page).to have_content "2 disponibles"
+      end
+
+      within('#cart') do
+        expect(page).to have_content "1 Produit\nCHF 10.00"
+      end
+    end
   end
 end

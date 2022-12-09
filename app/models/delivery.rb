@@ -7,7 +7,10 @@ class Delivery < ApplicationRecord
   has_many :baskets, dependent: :destroy
   has_many :depots, -> { distinct.reorder(:name) }, through: :baskets
   has_many :basket_contents, dependent: :destroy
-  has_many :shop_orders, class_name: 'Shop::Order', dependent: :destroy
+  has_many :shop_orders,
+    class_name: 'Shop::Order',
+    dependent: :destroy,
+    as: :delivery
   has_and_belongs_to_many :basket_complements,
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
@@ -55,6 +58,10 @@ class Delivery < ApplicationRecord
     end
   end
 
+  def gid
+    to_global_id.to_s
+  end
+
   def basket_sizes
     @basket_sizes ||= BasketSize.find(baskets.not_absent.pluck(:basket_size_id))
   end
@@ -64,7 +71,11 @@ class Delivery < ApplicationRecord
   end
 
   def display_name(format: :medium_long)
-    "#{I18n.l(date, format: format)} (##{number})"
+    "#{I18n.l(date, format: format)} (#{display_number})"
+  end
+
+  def display_number
+    "##{number}"
   end
 
   def basket_counts(scope: nil)
@@ -87,6 +98,14 @@ class Delivery < ApplicationRecord
     return false unless shop_open
 
     !shop_closing_at.past?
+  end
+
+  def shop_text
+    Current.acp.shop_text
+  end
+
+  def available_shop_products(depot)
+    Shop::Product.available_for(self, depot)
   end
 
   def can_destroy?

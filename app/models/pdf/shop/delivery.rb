@@ -27,7 +27,7 @@ module PDF
         [
           I18n.t('shop.title').parameterize,
           ::Delivery.model_name.human.parameterize,
-          "##{delivery.number}",
+          delivery.display_number,
           delivery.date.strftime('%Y%m%d')
         ].join('-') + '.pdf'
       end

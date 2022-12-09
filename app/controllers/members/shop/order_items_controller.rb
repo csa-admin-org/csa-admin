@@ -23,13 +23,18 @@ class Members::Shop::OrderItemsController < Members::Shop::BaseController
   private
 
   def find_order
-    @order =
+    @order ||=
       Shop::Order
-        .where(delivery: [current_shop_delivery, next_shop_delivery].compact)
-        .where(member_id:current_member.id)
+      .where(delivery: [current_shop_delivery, next_shop_delivery, *shop_special_deliveries].compact)
+      .where(member_id: current_member.id)
         .includes(items: [:product, :product_variant])
         .find(params[:order_id])
   end
+
+  def delivery
+    find_order&.delivery
+  end
+  helper_method :delivery
 
   def product_variant_id
     params.require(:variant_id)

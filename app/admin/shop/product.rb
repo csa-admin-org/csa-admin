@@ -1,5 +1,5 @@
 ActiveAdmin.register Shop::Product do
-  menu parent: :shop, priority: 4
+  menu parent: :shop, priority: 2
   actions :all, except: [:show]
 
   breadcrumb do

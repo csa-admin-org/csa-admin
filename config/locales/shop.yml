@@ -22,6 +22,11 @@ _:
         _de: keine Bestellung
         _fr: aucune commande
         _it: nessun ordine
+    producers:
+      null_producer:
+        _de: Produzent nicht definiert
+        _fr: Producteur non défini
+        _it: Produttore non definito
     title:
       _de: Hofladen
       _fr: Épicerie

@@ -65,4 +65,11 @@ class Members::BaseController < ApplicationController
         .next
   end
   helper_method :next_shop_delivery
+
+  def shop_special_deliveries
+    return unless Current.acp.feature?('shop')
+
+    @shop_special_deliveries ||= Shop::SpecialDelivery.coming.open.select(&:shop_open?)
+  end
+  helper_method :shop_special_deliveries
 end

@@ -1,0 +1,9 @@
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('activerecord.models.shop.one')
+
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = delivery_title(@order.delivery)
+
+- if @order.delivery.shop_text.present?
+  div class='trix mt-2'
+    == @order.delivery.shop_text

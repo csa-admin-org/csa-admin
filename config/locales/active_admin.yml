@@ -852,6 +852,10 @@ _:
           _de: Lieferschein (PDF)
           _fr: Bulletin de livraison (PDF)
           _it: Bolla di consegna (PDF)
+        delivery_orders_pdf:
+          _de: Lieferscheine (PDF)
+          _fr: Bulletins de livraison (PDF)
+          _it: Bolle di consegna (PDF)
         direct_payments:
           _de: Direkte Einzahlungen
           _fr: Paiements directs
@@ -1249,6 +1253,20 @@ _:
             _de: Nicht verfügbar
             _fr: Indisponible
             _it: Indisponibile
+      shop/special_delivery:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+          _it: Nuova %{model}
+        scopes:
+          all:
+            _de: Alle
+            _fr: Toutes
+            _it: Tutto
+          past:
+            _de: Vergangene
+            _fr: Passées
+            _it: Passato
     scopes:
       active:
         _de: Aktive

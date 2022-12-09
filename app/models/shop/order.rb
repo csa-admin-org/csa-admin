@@ -10,7 +10,9 @@ module Shop
     has_states :cart, :pending, :invoiced
 
     belongs_to :member, optional: false
-    belongs_to :delivery, optional: false
+    belongs_to :delivery,
+      polymorphic: true,
+      optional: false
     has_many :items,
       class_name: 'Shop::OrderItem',
       inverse_of: :order,
@@ -22,7 +24,9 @@ module Shop
     has_one :invoice, -> { not_canceled }, as: :object
 
     scope :all_without_cart, -> { where.not(state: 'cart') }
-
+    scope :_delivery_gid_eq, ->(gid) {
+      where(delivery: GlobalID::Locator.locate(gid))
+    }
     before_validation :set_amount
 
     validates :items, presence: true, unless: :cart?
@@ -36,12 +40,29 @@ module Shop
       reject_if: ->(attrs) { attrs[:quantity].to_i.zero? },
       allow_destroy: true
 
+    def self.ransackable_scopes(_auth_object = nil)
+      super + %i[_delivery_gid_eq]
+    end
+
     def depot
-      delivery.baskets.joins(:membership).where(memberships: { member: member }).first&.depot
+      case delivery
+      when Delivery
+        delivery.baskets.joins(:membership).where(memberships: { member: member }).first&.depot
+      when Shop::SpecialDelivery
+        member.memberships.during_year(delivery.date).first&.depot
+      end
     end
 
     def date
       created_at.to_date
+    end
+
+    def delivery_gid=(gid)
+      self.delivery = GlobalID::Locator.locate(gid)
+    end
+
+    def delivery_gid
+      delivery&.gid
     end
 
     def weight_in_kg

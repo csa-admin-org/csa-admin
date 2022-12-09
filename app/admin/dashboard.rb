@@ -63,7 +63,7 @@ ActiveAdmin.register_page 'Dashboard' do
                   div id: 'shop-orders' do
                     span(class: 'bold') { t('shop.title') + ':' }
                     span(style: 'margin-left: 5px') do
-                      link_to t('shop.orders', count: count), shop_orders_path(q: { delivery_id_eq: next_delivery.id }, scope: :all_without_cart)
+                      link_to t('shop.orders', count: count), shop_orders_path(q: { _delivery_gid_eq: next_delivery.gid }, scope: :all_without_cart)
                     end
                   end
                 end

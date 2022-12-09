@@ -12,7 +12,7 @@ ActiveAdmin.register Shop::Order do
       if params['action'].in? %W[show edit]
         links << link_to(
           shop_order.delivery.display_name,
-          shop_orders_path(q: { delivery_id_eq: shop_order.delivery_id }, scope: :all))
+          shop_orders_path(q: { _delivery_gid_eq: shop_order.delivery_gid }, scope: :all_without_cart))
         if params['action'].in? %W[edit]
           links << auto_link(shop_order, shop_order.id)
         end
@@ -26,9 +26,10 @@ ActiveAdmin.register Shop::Order do
   scope :invoiced
 
   filter :id, as: :numeric
-  filter :delivery,
+  filter :_delivery_gid,
     as: :select,
-    collection: -> { Delivery.shop_open }
+    collection: -> { shop_deliveries_collection },
+    label: -> { Delivery.model_name.human }
   filter :member,
     as: :select,
     collection: -> {
@@ -134,8 +135,8 @@ ActiveAdmin.register Shop::Order do
           row(:member) { auto_link order.member }
           row(:state) { status_tag order.state_i18n_name, class: order.state }
           row(:weight) { kg(order.weight_in_kg) }
-          row(:created_at) { l(order.created_at, date_format: :long) }
-          row(:updated_at) { l(order.updated_at, date_format: :long) }
+          row(:created_at) { l(order.created_at, format: :long) }
+          row(:updated_at) { l(order.updated_at, format: :long) }
         end
 
         attributes_table title: t('billing.title') do
@@ -158,7 +159,10 @@ ActiveAdmin.register Shop::Order do
     f.semantic_errors :amount
     f.inputs t('.details') do
       f.input :member, collection: Member.reorder(:name), prompt: true
-      f.input :delivery, prompt: true, collection: Delivery.shop_open
+      f.input :delivery_gid,
+        label: Delivery.model_name.human,
+        prompt: true,
+        collection: shop_deliveries_collection
       f.has_many :items, allow_destroy: true do |ff|
         ff.inputs class: 'blank', 'data-controller' => 'form-reset form-select-options-filter', 'data-form-select-options-filter-attribute-value' => 'data-product-id' do
           ff.input :product,
@@ -190,7 +194,7 @@ ActiveAdmin.register Shop::Order do
 
   permit_params(
     :member_id,
-    :delivery_id,
+    :delivery_gid,
     items_attributes: [
       :id,
       :product_id,
@@ -241,9 +245,14 @@ ActiveAdmin.register Shop::Order do
     link_to t('.order_items_csv'), shop_order_items_path(q: { delivery_id_eq: delivery_id }, format: :csv)
   end
 
-  action_item :delivery_pdf, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
-    delivery_id = params.dig(:q, :delivery_id_eq)
-    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_id: delivery_id, format: :pdf), target: '_blank'
+  action_item :delivery_pdf, only: :index, if: -> { params[:q]&.key?(:_delivery_gid_eq) } do
+    delivery_gid = params.dig(:q, :_delivery_gid_eq)
+    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_gid: delivery_gid, format: :pdf), target: '_blank'
+  end
+
+  action_item :delivery_xlsx, only: :index, if: -> { params[:q]&.key?(:_delivery_gid_eq) } do
+    delivery_gid = params.dig(:q, :_delivery_gid_eq)
+    link_to 'XLSX', delivery_shop_orders_path(delivery_gid: delivery_gid, format: :xlsx), target: '_blank'
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([nil, 'pending']) } do |selection|
@@ -254,26 +263,36 @@ ActiveAdmin.register Shop::Order do
     redirect_back fallback_location: collection_path
   end
 
-  collection_action :delivery, method: :get, if: -> { params[:delivery_id] } do
-    delivery = Delivery.find(params[:delivery_id])
-    order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id]
-    pdf = PDF::Shop::Delivery.new(delivery, order: order)
-    send_data pdf.render,
-      content_type: pdf.content_type,
-      filename: pdf.filename,
-      disposition: 'inline'
+  collection_action :delivery, method: :get, if: -> { params[:delivery_gid] } do
+    delivery = GlobalID::Locator.locate(params[:delivery_gid])
+    case params[:format]
+    when 'pdf'
+      order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id]
+      pdf = PDF::Shop::Delivery.new(delivery, order: order)
+      send_data pdf.render,
+        content_type: pdf.content_type,
+        filename: pdf.filename,
+        disposition: 'inline'
+    when 'xlsx'
+      producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id]
+      xlsx = XLSX::Shop::Delivery.new(delivery, producer)
+      send_data xlsx.data,
+        content_type: xlsx.content_type,
+        filename: xlsx.filename
+    end
   end
 
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty? &&
         params[:q].blank? &&
         next_delivery = Delivery.shop_open.next
-      redirect_to q: { delivery_id_eq: next_delivery.id }, utf8: '✓'
+      redirect_to q: { _delivery_gid_eq: next_delivery.gid }, utf8: '✓'
     end
   end
 
   before_build do |order|
     order.member_id ||= referer_filter(:member_id)
+    order.delivery_gid ||= referer_filter(:_delivery_gid)
     order.delivery ||= Delivery.next
     order.admin = current_admin
   end

@@ -28,7 +28,7 @@ module XLSX
     def filename
       [
         t('delivery'),
-        "##{@delivery.number}",
+        @delivery.display_number,
         @delivery.date.strftime('%Y%m%d')
       ].join('-') + '.xlsx'
     end

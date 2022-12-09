@@ -807,6 +807,10 @@ _:
             _de: Lieferung am %{date}
             _fr: Livraison du %{date}
             _it: Consegna il %{date}
+          special_delivery:
+            _de: Sonderlieferung vom %{date}
+            _fr: Livraison spéciale du %{date}
+            _it: Consegna speciale del %{date}
         variant:
           add_to_basket:
             _de: In den Warenkorb legen

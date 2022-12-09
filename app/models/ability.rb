@@ -18,6 +18,7 @@ class Ability
       Shop::OrderItem,
       Shop::Producer,
       Shop::Product,
+      Shop::SpecialDelivery,
       Shop::Tag
     ]
   }

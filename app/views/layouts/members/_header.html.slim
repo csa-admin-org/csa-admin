@@ -21,19 +21,30 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
             = link_to members_deliveries_path, class: 'block py-2 px-8' do
               h2 class='font-medium text-gray-700 dark:text-gray-400'
                 = Delivery.model_name.human(count: 2)
-              span = t('.next_delivery', date: l(next_basket.delivery.date))
+              span = t('.delivery', date: l(next_basket.delivery.date))
 
-          - if show_shop_menu?
-            li class="py-2" aria-label="Shop Menu"
+        - if show_shop_menu?
+          li class="py-2" aria-label="Shop Menu"
+            - if current_shop_delivery
               = link_to members_shop_path, class: "block px-8" do
                 h2 class="font-medium text-gray-700 dark:text-gray-400 #{nav_class('shop')}"
                   = t('activerecord.models.shop.one')
                 span class="#{nav_class('shop') if @order&.delivery == current_shop_delivery}"
-                  = t('.next_delivery', date: l(current_shop_delivery.date))
-              - if !current_shop_delivery.shop_open? && next_shop_delivery
-                = link_to members_shop_next_path, class: 'block px-8' do
-                  span class="#{nav_class('shop') if @order&.delivery == next_shop_delivery}"
-                    = t('.next_delivery', date: l(next_shop_delivery.date))
+                  = t('.delivery', date: l(current_shop_delivery.date))
+            - if !current_shop_delivery&.shop_open? && next_shop_delivery
+              = link_to members_shop_next_path, class: 'block px-8' do
+                span class="#{nav_class('shop') if @order&.delivery == next_shop_delivery}"
+                  = t('.delivery', date: l(next_shop_delivery.date))
+
+            - if current_shop_delivery && shop_special_deliveries.any?
+              div class='my-2'
+            - shop_special_deliveries.each do |delivery|
+              = link_to members_shop_special_delivery_path(delivery.date), class: 'block px-8' do
+                - unless current_shop_delivery
+                  h2 class="font-medium text-gray-700 dark:text-gray-400 #{nav_class('shop')}"
+                    = t('activerecord.models.shop.one')
+                span class="#{nav_class('shop') if @order&.delivery == delivery}"
+                  = t('.delivery', date: l(delivery.date))
 
         - if membership
           li class=nav_class('membership')
@@ -76,7 +87,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
               h2 class='font-medium text-gray-700 dark:text-gray-400'
                 = t('activerecord.models.group_buying.one')
               span
-                = t('.next_delivery', date: l(next_group_buying_delivery.date))
+                = t('.delivery', date: l(next_group_buying_delivery.date))
 
         li class=nav_class('billing')
           = link_to members_billing_path, class: 'block py-2 px-8' do
