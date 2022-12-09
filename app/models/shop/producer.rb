@@ -14,6 +14,12 @@ module Shop
       allow_blank: true
     }
 
+    def self.find(*args)
+      return NullProducer.instance if args.first == 'null'
+
+      super
+    end
+
     def can_update?; true end
 
     def can_destroy?

@@ -89,4 +89,9 @@ describe Shop::Product do
         .to contain_exactly(product1)
     end
   end
+
+  specify 'null producer' do
+    product = create(:shop_product, producer: nil)
+    expect(product.producer).to eq Shop::NullProducer.instance
+  end
 end

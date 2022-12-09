@@ -42,6 +42,10 @@ _:
           _de: Kontakt
           _fr: Contact
           _it: Contatti
+        delivery:
+          _de: "⤷ %{date}"
+          _fr: "⤷ %{date}"
+          _it: "⤷ %{date}"
         logout:
           _de: Abmeldung
           _fr: Déconnexion
@@ -66,10 +70,6 @@ _:
           _de: "⤷ Probezeit"
           _fr: "⤷ Période d'essai"
           _it: "⤷ Periodo di prova"
-        next_delivery:
-          _de: "⤷ %{date}"
-          _fr: "⤷ %{date}"
-          _it: "⤷ %{date}"
         no_activity_participations_demanded:
           _de: "⤷ Keine Verpflichtung"
           _fr: "⤷ Aucun engagement"

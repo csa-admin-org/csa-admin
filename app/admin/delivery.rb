@@ -109,7 +109,7 @@ ActiveAdmin.register Delivery do
             row(Shop::Order.model_name.human(count: 2)) {
               orders_count = delivery.shop_orders.all_without_cart.count
               if orders_count.positive?
-                link_to(orders_count, shop_orders_path(q: { delivery_id_eq: delivery.id }, scope: :all_without_cart))
+                link_to(orders_count, shop_orders_path(q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
               else
                 content_tag :span, t('active_admin.empty'), class: 'empty'
               end
@@ -189,7 +189,12 @@ ActiveAdmin.register Delivery do
       super do |success, _failure|
         success.html
         success.xlsx do
-          xlsx = XLSX::Delivery.new(resource)
+          xlsx =
+            if params[:shop]
+              XLSX::Shop::Delivery.new(resource, nil)
+            else
+              XLSX::Delivery.new(resource)
+            end
           send_data xlsx.data,
             content_type: xlsx.content_type,
             filename: xlsx.filename

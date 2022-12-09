@@ -19,7 +19,13 @@ class Members::Shop::ProductsController < Members::Shop::BaseController
   end
 
   def delivery
-    params[:next] ? next_shop_delivery : current_shop_delivery
+    if params[:next]
+      next_shop_delivery
+    elsif params[:special_delivery_date]
+      shop_special_deliveries.detect { |d| d.date.to_s == params[:special_delivery_date] }
+    else
+      current_shop_delivery
+    end
   end
   helper_method :delivery
 
@@ -46,7 +52,7 @@ class Members::Shop::ProductsController < Members::Shop::BaseController
         .map(&:producer)
         .compact
         .uniq
-        .sort_by(&:name)
+        .sort_by(&:name) - [Shop::NullProducer.instance]
   end
   helper_method :available_producers
 
@@ -60,11 +66,8 @@ class Members::Shop::ProductsController < Members::Shop::BaseController
   helper_method :available_tags
 
   def all_available_products(pparams = params)
-    products =
-      Shop::Product.available_for(
-        @order.delivery,
-        current_member.next_basket.depot)
-      .preload(:variants, :tags, :producer, "rich_text_description_#{I18n.locale}".to_sym)
+    products = delivery.available_shop_products(current_member.next_basket&.depot)
+    products = products.preload(:variants, :tags, :producer, "rich_text_description_#{I18n.locale}".to_sym)
     if pparams[:producer_id].present?
       products = products.where(producer_id: pparams[:producer_id])
     end

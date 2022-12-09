@@ -454,6 +454,11 @@ _:
           _de: Leer lassen, wenn nicht im Gesamtgewicht der Bestellung enthalten.
           _fr: Laisser vide si ne compte pas dans le poids total de la commande.
           _it: Lasciare vuoto se non è incluso nel peso totale dell'ordine.
+      shop/special_delivery:
+        products:
+          _de: Die individuelle Verfügbarkeit der ausgewählten Produkte wird hier ignoriert.
+          _fr: La disponibilité individuelle des produits séléctionnés est ici ignorée.
+          _it: La disponibilità individuale dei prodotti selezionati è ignorata qui.
     inputs:
       period:
         _de: Zeitplan

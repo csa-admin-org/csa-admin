@@ -7,7 +7,7 @@ div class=''
         - product.tags.each do |tag|
           li = render partial: 'members/shop/products/tag', object: tag
 
-  - if params[:producer_id].blank? && product.producer
+  - if params[:producer_id].blank? && product.producer_id?
     div class='mt-1 text-sm font-medium'
       span class='flex flex-row items-center'
         = link_to params.merge(producer_id: product.producer_id) do

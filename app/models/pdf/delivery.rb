@@ -42,7 +42,7 @@ module PDF
       [
         ::Delivery.human_attribute_name(:signature_sheets).parameterize,
         ::Delivery.model_name.human.parameterize,
-        "##{delivery.number}",
+        delivery.display_number,
         delivery.date.strftime('%Y%m%d')
       ].join('-') + '.pdf'
     end

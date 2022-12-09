@@ -179,6 +179,19 @@ describe Shop::Order do
     end
   end
 
+  specify 'support polymorphic delivery association' do
+    delivery = create(:delivery)
+    order = create(:shop_order, delivery_gid: delivery.gid)
+    special_delivery = create(:shop_special_delivery)
+    special_order = create(:shop_order, delivery_gid: special_delivery.gid)
+
+    expect(order.delivery_gid).to eq "gid://acp-admin/Delivery/#{delivery.id}"
+    expect(special_order.delivery_gid).to eq "gid://acp-admin/Shop::SpecialDelivery/#{special_delivery.id}"
+
+    expect(Shop::Order._delivery_gid_eq(delivery.gid)).to eq [order]
+    expect(Shop::Order._delivery_gid_eq(special_delivery.gid)).to eq [special_order]
+  end
+
   specify 'update amount when removing item' do
     product = create(:shop_product, variants_attributes: {
       '0' => {

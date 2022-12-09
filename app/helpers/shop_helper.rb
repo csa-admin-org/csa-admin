@@ -1,7 +1,7 @@
 module ShopHelper
   def show_shop_menu?
     return unless Current.acp.feature?('shop')
-    return unless current_shop_delivery
+    return unless current_shop_delivery || shop_special_deliveries.any?
 
     !Current.acp.shop_admin_only || current_session.admin_originated?
   end
@@ -39,6 +39,12 @@ module ShopHelper
     end
   end
 
+  def shop_deliveries_collection
+    (Delivery.shop_open + Shop::SpecialDelivery.all).sort_by(&:date).map do |delivery|
+      [delivery.display_name, delivery.to_global_id]
+    end
+  end
+
   def product_variants_collection(product_id)
     Shop::Product.all.includes(:variants).order_by_name.flat_map do |product|
       product.variants.map do |variant|
@@ -49,6 +55,14 @@ module ShopHelper
           disabled: (variant.out_of_stock? || product.id != product_id)
         ]
       end
+    end
+  end
+
+  def delivery_title(delivery)
+    if @order.delivery.is_a?(Shop::SpecialDelivery)
+      t('members.shop.products.index.special_delivery', date: l(@order.delivery.date, format: :long))
+    else
+      t('members.shop.products.index.delivery', date: l(@order.delivery.date, format: :long))
     end
   end
 end

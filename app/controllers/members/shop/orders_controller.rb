@@ -54,13 +54,18 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
   private
 
   def find_order
-    @order =
+    @order ||=
       Shop::Order
-        .where(delivery: [current_shop_delivery, next_shop_delivery].compact)
-        .where(member_id:current_member.id)
+        .where(delivery: [current_shop_delivery, next_shop_delivery, *shop_special_deliveries].compact)
+        .where(member_id: current_member.id)
         .includes(items: [:product, :product_variant])
         .find(params[:id])
   end
+
+  def delivery
+    find_order&.delivery
+  end
+  helper_method :delivery
 
   def ensure_order_not_empty
     if @order.items.empty?

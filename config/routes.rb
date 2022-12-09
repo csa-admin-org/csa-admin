@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       namespace :shop do
         get '/' => 'products#index'
         get '/next' => 'products#index', as: :next, next: true
+        get '/special/:special_delivery_date' => 'products#index', as: :special_delivery
         resources :orders, only: %i[show update destroy] do
           post 'confirm', on: :member
           post 'unconfirm', on: :member

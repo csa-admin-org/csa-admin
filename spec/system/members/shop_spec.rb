@@ -9,8 +9,16 @@ describe 'Shop' do
   end
 
   specify 'no shop delivery' do
+    Current.acp.update!(shop_admin_only: false, features: ['shop'])
     visit '/shop'
     expect(current_path).not_to eq '/shop'
+  end
+
+  specify 'only shop special delivery' do
+    Current.acp.update!(shop_admin_only: false, features: ['shop'])
+    create(:shop_special_delivery)
+    visit '/'
+    expect(page).to have_css('nav li[aria-label="Shop Menu"]')
   end
 
   context 'with shop delivery' do

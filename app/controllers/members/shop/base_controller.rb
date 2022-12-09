@@ -9,7 +9,7 @@ class Members::Shop::BaseController < Members::BaseController
   end
 
   def ensure_delivery
-    unless current_shop_delivery || next_shop_delivery
+    unless delivery
       redirect_to members_member_path
     end
   end
@@ -17,6 +17,7 @@ class Members::Shop::BaseController < Members::BaseController
   def shop_path
     case @order&.delivery
     when next_shop_delivery; members_shop_next_path
+    when Shop::SpecialDelivery; members_shop_special_delivery_path(@order.delivery.date)
     else members_shop_path
     end
   end

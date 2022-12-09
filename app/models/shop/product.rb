@@ -18,6 +18,9 @@ module Shop
       dependent: :delete_all
     has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product
     has_and_belongs_to_many :tags, class_name: 'Shop::Tag'
+    has_and_belongs_to_many :special_deliveries,
+      class_name: 'Shop::SpecialDelivery',
+      counter_cache: 'shop_products_count'
 
     accepts_nested_attributes_for :variants, allow_destroy: true
 
@@ -63,9 +66,10 @@ module Shop
       self[:unavailable_for_depot_ids] = Depot.pluck(:id) - ids.map(&:to_i)
     end
 
-    def display_name
+    def display_name(producer: false)
       txt = name
       txt += "*" if basket_complement_id?
+      txt += " (#{send(:producer).name})" if producer && producer_id?
       txt
     end
 
@@ -73,6 +77,10 @@ module Shop
 
     def can_destroy?
       order_items.none?
+    end
+
+    def producer
+      super || NullProducer.instance
     end
 
     private

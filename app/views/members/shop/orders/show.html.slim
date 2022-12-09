@@ -1,12 +1,4 @@
-h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
-  = t('activerecord.models.shop.one')
-
-h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
-  = t('members.shop.products.index.delivery', date: l(@order.delivery.date, format: :long))
-
-- if Current.acp.shop_text?
-  div class='trix mt-2'
-    == Current.acp.shop_text
+= render partial: 'members/shop/shared/header'
 
 - case @order.state
 - when Shop::Order::CART_STATE
