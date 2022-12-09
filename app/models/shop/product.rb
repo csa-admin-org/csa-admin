@@ -86,7 +86,7 @@ module Shop
     private
 
     def ensure_at_least_one_available_variant
-      if variants.none?(&:available?)
+      if available? && variants.none?(&:available?)
         self.errors.add(:base, :at_least_one_available_variant)
       end
     end
