@@ -14,6 +14,7 @@ class ACP < ApplicationRecord
     group_buying
     shop
   ]
+  FEATURES_SUNSET = %i[group_buying]
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
@@ -92,7 +93,8 @@ class ACP < ApplicationRecord
   after_create :create_tenant!
 
   def self.features
-    FEATURES.sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
+    ((FEATURES - FEATURES_SUNSET) | Current.acp.features)
+      .sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
   end
   def self.languages; LANGUAGES end
   def self.feature_flags; FEATURE_FLAGS end
