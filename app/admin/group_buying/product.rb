@@ -44,6 +44,8 @@ ActiveAdmin.register GroupBuying::Product do
     end
   end
 
+  sidebar_group_buying_deprecation_warning
+
   csv do
     column(:name)
     column(:producer) { |p| p.producer.name }

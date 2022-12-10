@@ -1374,6 +1374,14 @@ _:
         _de: Kalender
         _fr: Calendrier
         _it: Calendario
+      deprecation_warning:
+        _de: Abandon-Warnung
+        _fr: Avertissement d'abandon
+        _it: Avviso di abbandono
+      deprecation_warning_group_buying_text_html:
+        _de: Die Funktion für Sammelkäufe wird bald eingestellt. Bitte nutzen Sie stattdessen <a href='/handbook/shop'>das Hofladen</a>.<br/><br/>Bitte zögern Sie nicht, <a href='mailto:info@acp-admin.ch'mich zu kontaktieren</a>, wenn Sie eine Migration bestimmter Informationen wünschen.
+        _fr: La fonctionnalité d'achats groupés sera bientôt abandonnée. Merci <a href='/handbook/shop'>d'utiliser l'épicerie</a> à la place.<br/><br/>N'hésitez pas à <a href='mailto:info@acp-admin.ch'>me contacter</a> pour une migration de certaines informations.
+        _it: La funzione di acquisto di gruppo sarà presto interrotta. Per favore, usate invece <a href='/handbook/shop'>la drogheria</a>.<br/><br/>Non esitate <a href='mailto:info@acp-admin.ch'>a contattarmi</a> per una migrazione di alcune informazioni.
       edit_settings:
         _de: Einstellungen bearbeiten
         _fr: Modifier les paramètres

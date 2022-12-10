@@ -94,8 +94,8 @@ GEM
       ruby2_keywords (>= 0.0.2, < 1.0)
     attr_extras (7.0.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.673.0)
-    aws-sdk-core (3.168.3)
+    aws-partitions (1.674.0)
+    aws-sdk-core (3.168.4)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -143,6 +143,7 @@ GEM
     crass (1.0.6)
     css_parser (1.12.0)
       addressable
+    date (3.3.1)
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
@@ -263,7 +264,8 @@ GEM
     minitest (5.16.3)
     msgpack (1.6.0)
     multi_json (1.15.0)
-    net-imap (0.3.1)
+    net-imap (0.3.2)
+      date
       net-protocol
     net-pop (0.1.2)
       net-protocol
@@ -381,7 +383,7 @@ GEM
     rspec-expectations (3.12.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.0)
+    rspec-mocks (3.12.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-rails (6.0.1)
