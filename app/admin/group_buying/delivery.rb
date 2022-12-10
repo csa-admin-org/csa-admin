@@ -44,6 +44,8 @@ ActiveAdmin.register GroupBuying::Delivery do
     end
   end
 
+  sidebar_group_buying_deprecation_warning
+
   show do |delivery|
     columns do
       column do

@@ -34,6 +34,8 @@ ActiveAdmin.register GroupBuying::Producer do
     end
   end
 
+  sidebar_group_buying_deprecation_warning
+
   form do |f|
     f.inputs t('.details') do
       f.input :name

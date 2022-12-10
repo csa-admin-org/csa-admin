@@ -453,6 +453,19 @@ module ActiveAdmin
       end
       config.sidebar_sections << section
     end
+
+    def sidebar_group_buying_deprecation_warning
+      section = ActiveAdmin::SidebarSection.new(
+        :deprecation_warning,
+        only: :index,
+        class: 'warning'
+      ) do
+        div class: 'content' do
+          span t('active_admin.sidebars.deprecation_warning_group_buying_text_html')
+        end
+      end
+      config.sidebar_sections << section
+    end
   end
 end
 

@@ -83,6 +83,8 @@ ActiveAdmin.register GroupBuying::Order do
     end
   end
 
+  sidebar_group_buying_deprecation_warning
+
   show do |order|
     columns do
       column do
