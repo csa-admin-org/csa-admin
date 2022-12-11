@@ -237,7 +237,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   action_item :delivery_pdf, only: :show do
-    link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_id: resource.delivery_id, shop_order_id: resource.id, format: :pdf), target: '_blank'
+    link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: '_blank'
   end
 
   action_item :order_items_csv, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
