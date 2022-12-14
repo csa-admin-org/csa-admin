@@ -189,7 +189,7 @@ module XLSX
               .joins(items: { product: :basket_complement })
               .includes(items: { product: :basket_complement })
           add_column(
-            "#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})",
+            "#{Basket.human_attribute_name(:complement_ids)} (#{::Shop::Order.model_name.human(count: 1)})",
             baskets.map { |b|
               shop_orders.find { |o| o.member_id == b.member.id }&.complements_description
             },
