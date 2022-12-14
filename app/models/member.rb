@@ -86,9 +86,10 @@ class Member < ApplicationRecord
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :waiting_deliveries_cycle, inclusion: { in: ->(m) { m.waiting_depot&.deliveries_cycles } }, if: :waiting_depot, on: :create
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :existing_acp_shares_number, numericality: { greater_than_or_equal_to: 0 }
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
+  validates :existing_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :desired_acp_shares_number,
     numericality: { greater_than_or_equal_to: 1 },
     if: -> { public_create && Current.acp.share? }
@@ -290,12 +291,12 @@ class Member < ApplicationRecord
   end
 
   def acp_shares_number
-    existing_acp_shares_number + invoices.not_canceled.acp_share.sum(:acp_shares_number)
+    existing_acp_shares_number.to_i + invoices.not_canceled.acp_share.sum(:acp_shares_number)
   end
 
   def missing_acp_shares_number
     required = current_or_future_membership&.basket_size&.acp_shares_number.to_i
-    [[required, desired_acp_shares_number].max - acp_shares_number, 0].max
+    [[required, desired_acp_shares_number.to_i].max - acp_shares_number, 0].max
   end
 
   def handle_acp_shares_change!
