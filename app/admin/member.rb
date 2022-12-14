@@ -304,9 +304,6 @@ ActiveAdmin.register Member do
             end
           }
           row(:status) { status_tag member.state }
-          if Current.acp.languages.many?
-            row(:language) { t("languages.#{member.language}") }
-          end
           row(:created_at) { l member.created_at, format: :long }
           row(:validated_at) { member.validated_at ? l(member.validated_at, format: :long) : nil }
           row :validator
@@ -319,6 +316,9 @@ ActiveAdmin.register Member do
           end
           row(:emails) { display_emails_with_link(self, member.emails_array) }
           row(:phones) { display_phones_with_link(self, member.phones_array) }
+          if Current.acp.languages.many?
+            row(:language) { t("languages.#{member.language}") }
+          end
           if Current.acp.feature?('contact_sharing')
             row(:contact_sharing) { status_tag(member.contact_sharing) }
           end
@@ -397,10 +397,16 @@ ActiveAdmin.register Member do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs Member.human_attribute_name(:contact) do
       f.input :name
+      f.input :emails, as: :string
+      f.input :phones, as: :string
       language_input(f)
+      if Current.acp.feature?('contact_sharing')
+        f.input :contact_sharing
+      end
     end
+
     if member.pending? || member.waiting?
       f.inputs t('active_admin.resource.show.waiting_membership') do
         f.input :waiting_basket_size,
@@ -413,6 +419,7 @@ ActiveAdmin.register Member do
         end
         f.input :waiting_depot,
           label: Depot.model_name.human,
+          required: false,
           input_html: {
             data: {
               controller: 'form-select-options',
@@ -462,19 +469,6 @@ ActiveAdmin.register Member do
       f.input :delivery_address
       f.input :delivery_city
       f.input :delivery_zip
-    end
-    f.inputs Member.human_attribute_name(:contact) do
-      f.input :emails, as: :string
-      f.input :phones, as: :string
-      if Current.acp.languages.many?
-        f.input :language,
-          as: :select,
-          collection: ACP.languages.map { |l| [t("languages.#{l}"), l] },
-          prompt: true
-      end
-      if Current.acp.feature?('contact_sharing')
-        f.input :contact_sharing
-      end
     end
     f.inputs t('active_admin.resource.show.billing') do
       f.input :billing_email, type: :email, label: t('.email')
