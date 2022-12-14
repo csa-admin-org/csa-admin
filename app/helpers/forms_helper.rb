@@ -8,7 +8,7 @@ module FormsHelper
         input_html: {
           class: "#{klass}_#{attr.to_s.singularize}",
           value: form.object.send(attr)[locale]
-        }
+        }.merge(options.delete(:input_html) || {})
       }.deep_merge(options)
     end
   end
@@ -16,11 +16,8 @@ module FormsHelper
   def language_input(form)
     if Current.acp.languages.many?
       form.input :language,
-        as: :select,
         collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] },
         prompt: true
-    else
-      form.input :language, as: :hidden, input_html: { value: Current.acp.languages.first }
     end
   end
 

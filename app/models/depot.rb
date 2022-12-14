@@ -6,6 +6,7 @@ class Depot < ApplicationRecord
   include HasVisibility
 
   translated_attributes :public_name
+  attribute :language, :string, default: -> { Current.acp.languages.first }
 
   has_many :baskets
   has_many :memberships

@@ -10,6 +10,7 @@ class Member < ApplicationRecord
 
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
+  attribute :language, :string, default: -> { Current.acp.languages.first }
 
   audited_attributes :state, :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing
 
