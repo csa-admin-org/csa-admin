@@ -751,6 +751,10 @@ _:
           _de: Details
           _fr: Détails
           _it: Dettagli
+        email:
+          _de: Email
+          _fr: Email
+          _it: E-mail
         erase:
           _de: Löschen
           _fr: Effacer
