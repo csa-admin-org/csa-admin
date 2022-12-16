@@ -30,7 +30,7 @@ describe MembershipMailer, freeze: '2022-01-01' do
     expect(mail.subject).to eq('Renouvellement de votre abonnement')
     expect(mail.to).to eq(['example@acp-admin.ch'])
     expect(mail.body).to include('Accéder au formulaire de renouvellement')
-    expect(mail.body).to include('https://membres.ragedevert.ch/membership#renewal')
+    expect(mail.body).to include('https://membres.ragedevert.ch/memberships#renewal')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -46,7 +46,7 @@ describe MembershipMailer, freeze: '2022-01-01' do
     expect(mail.subject).to eq('Renouvellement de votre abonnement (Rappel)')
     expect(mail.to).to eq(['example@acp-admin.ch'])
     expect(mail.body).to include('Accéder au formulaire de renouvellement')
-    expect(mail.body).to include('https://membres.ragedevert.ch/membership#renewal')
+    expect(mail.body).to include('https://membres.ragedevert.ch/memberships#renewal')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 end

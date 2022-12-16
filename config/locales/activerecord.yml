@@ -83,6 +83,10 @@ _:
           _de: Preisen Taschen (zusätzlich)
           _fr: Prix panier (extras)
           _it: Prezzo della cesta (extras)
+        basket_update_limit_in_days:
+          _de: Änderungen vor der Lieferung erlauben (in Tagen)
+          _fr: Délai de modification avant la livraison (en jours)
+          _it: Permettere la modifica prima della consegna (in giorni)
         billing_starts_after_first_delivery:
           _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
           _fr: Facturer les abonnements seulement après leur première livraison
@@ -155,6 +159,10 @@ _:
           _de: Logo URL
           _fr: Logo URL
           _it: Logo URL
+        membership_depot_update_allowed:
+          _de: Änderung des Depots erlauben
+          _fr: Permettre la modification du dépôt
+          _it: Permettere la modifica del punto di ritiro
         membership_extra_text:
           _de: Zusätzliche Erklärung
           _fr: Explication supplémentaire
@@ -167,6 +175,10 @@ _:
           _de: Erlauben Sie die Änderung das Depot
           _fr: Permettre le changement du dépôt
           _it: Permettere il cambiamento del punto di ritiro
+        membership_update_text:
+          _de: Erläuterung
+          _fr: Explication
+          _it: Spiegazione
         open_renewal_reminder_sent_after_in_days:
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _fr: Envoyer un rappel après (en jours)

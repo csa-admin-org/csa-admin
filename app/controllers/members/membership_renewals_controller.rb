@@ -23,7 +23,7 @@ class Members::MembershipRenewalsController < Members::BaseController
       flash[:notice] = t('.flash.renewed')
     end
 
-    redirect_to members_membership_path
+    redirect_to members_memberships_path
   end
 
   private

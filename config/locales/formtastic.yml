@@ -66,6 +66,10 @@ _:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
+        basket_update_limit_in_days:
+          _de: Nach Ablauf dieser Frist ist eine Änderung nicht mehr möglich. Null bedeutet, dass die Änderung noch am Tag der Lieferung möglich ist.
+          _fr: Passé ce délai, la modification n'est plus possible. Zéro signifie que la modification est toujours possible le jour même de la livraison.
+          _it: Dopo questo periodo, la modifica non è più possibile. Zero significa che la modifica è ancora possibile il giorno della consegna.
         billing_starts_after_first_delivery:
           _de: Wenn deaktiviert, erfolgt die Rechnungsstellung ab Beginn des Abonnements..
           _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
@@ -82,6 +86,10 @@ _:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
+        membership_depot_update_allowed:
+          _de: Nur die Änderung zukünftiger Lieferungen ist erlaubt.
+          _fr: Seule la modification des futures livraisons est autorisée.
+          _it: È consentita solo la modifica delle consegne future.
         membership_extra_text:
           _de: Dieser optionale Text wird vor der Auswahl der Größe der Tasche eingefügt.
           _fr: Ce texte optionnel est inséré avant le choix de la taille du panier.
@@ -90,6 +98,10 @@ _:
           _de: Entfernt den standardmäßig generierten Erklärungstext und zeigt nur die zusätzlichen Erklärungen an.
           _fr: Enlève le texte d'explication généré par défaut et affiche uniquement les explications supplémentaires.
           _it: Rimuove il testo di spiegazione generato di default e visualizza solo le spiegazioni supplementari.
+        membership_update_text:
+          _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Tasche angezeigt wird.
+          _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou du panier.
+          _it: Testo opzionale visualizzato nella pagina del socio sopra il modulo di iscrizione o di modifica del cestino.
         open_renewal_reminder_sent_after_in_days:
           _de: Die Mahnung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Lassen Sie das Feld leer, wenn keine Mahnung erfolgt.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.

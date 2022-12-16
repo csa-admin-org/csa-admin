@@ -7,7 +7,7 @@ ActiveAdmin.register_page 'Updates' do
         div class: 'content' do
           para t('.updates_explanation_html'), class: 'notice'
         end
-        Update.all.each_with_index do |update, i|
+        Update.all.first(20).each_with_index do |update, i|
           panel l(update.date), class: unread_count > i ? 'unread' : '', id: update.name do
             update.body(binding)
           end

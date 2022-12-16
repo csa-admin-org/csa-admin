@@ -154,6 +154,28 @@ class Membership < ApplicationRecord
     member.emails?
   end
 
+  def can_member_update?
+    member_updatable_baskets.any?
+  end
+
+  def member_updatable_baskets
+    baskets.includes(:delivery).select(&:can_member_update?)
+  end
+
+  def member_update!(params)
+    raise 'update not allowed' unless can_member_update?
+    return unless params.key?(:depot_id)
+
+    depot = Depot.find(params[:depot_id])
+    params[:depot_price] = depot.price
+    params = params.to_h.slice(:depot_id, :depot_price)
+
+    transaction do
+      update_columns(params)
+      member_updatable_baskets.each { |b| b.update!(params) }
+    end
+  end
+
   def renewal_state
     if renewed?
       :renewed

@@ -86,4 +86,52 @@ describe Basket do
     expect(basket2.complement_ids).to match_array [2]
     expect(basket2.complements_price).to eq 4.5
   end
+
+  specify '#can_member_update?' do
+    Current.acp.update!(membership_depot_update_allowed: false)
+
+    delivery = build(:delivery, date: '2022-12-15')
+    basket = build(:basket, delivery: delivery)
+
+    travel_to '2022-12-01' do
+      expect(basket.can_member_update?).to be false
+    end
+
+    Current.acp.update!(membership_depot_update_allowed: true)
+    Current.acp.update!(basket_update_limit_in_days: 5)
+
+    travel_to '2022-12-10' do
+      expect(basket.can_member_update?).to be true
+    end
+    travel_to '2022-12-11' do
+      expect(basket.can_member_update?).to be false
+    end
+
+    Current.acp.update!(basket_update_limit_in_days: 0)
+
+    travel_to '2022-12-15' do
+      expect(basket.can_member_update?).to be true
+    end
+    travel_to '2022-12-16' do
+      expect(basket.can_member_update?).to be false
+    end
+  end
+
+  specify '#member_update!' do
+    depot = create(:depot, price: 2)
+    new_depot = create(:depot, price: 3)
+    basket = create(:membership, depot: depot).baskets.first
+
+    travel_to Time.current.beginning_of_year do
+      Current.acp.update!(membership_depot_update_allowed: false)
+      expect { basket.member_update!(depot_id: new_depot.id) }
+        .to raise_error(RuntimeError, 'update not allowed')
+
+      Current.acp.update!(membership_depot_update_allowed: true)
+      expect { basket.member_update!(depot_id: new_depot.id) }
+        .to change { basket.reload.depot }.from(depot).to(new_depot)
+        .and change { basket.reload.depot_price }.from(2).to(3)
+        .and change { basket.reload.membership.price }.by(1)
+    end
+  end
 end

@@ -1,0 +1,25 @@
+h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+  = t('.title', year: @membership.fiscal_year)
+
+h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+  = t('.subtitle')
+
+- if Current.acp.membership_update_text?
+  div class='trix mt-2 mb-8 justify'
+    = Current.acp.membership_update_text
+
+section class="mt-4 w-full"
+  = simple_form_for @membership do |f|
+    - member_updatable_baskets = @membership.member_updatable_baskets
+
+    - if Current.acp.membership_depot_update_allowed?
+      div class='space-y-8'
+        = f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, deliveries_cycle: @membership.deliveries_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }
+
+    div class="mt-16"
+      p class="mt-8 italic text-justify md:text-right text-sm text-gray-500 dark:text-gray-400"
+        = t('.updateable_baskets', count: member_updatable_baskets.size, first_date: l(member_updatable_baskets.first.delivery.date))
+
+    div class='flex flex-col md:flex-row justify-end mt-4 md:space-x-4'
+      = link_to t('.cancel_link'), members_memberships_path, class: 'button order-2 md:order-1 mt-4 md:mt-0 md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
+      = f.button :submit, t('.submit'), class: 'order-1 md:order-2 min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'

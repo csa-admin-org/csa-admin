@@ -32,6 +32,7 @@ ActiveAdmin.register ACP do
     :basket_price_extras,
     :absence_extra_text_only,
     :member_profession_form_mode, :member_come_from_form_mode,
+    :membership_depot_update_allowed, :basket_update_limit_in_days,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
@@ -53,6 +54,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "basket_price_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_detail_#{l}" },
+    *I18n.available_locales.map { |l| "membership_update_text_#{l}" },
     billing_year_divisions: [],
     languages: [],
     features: []
@@ -166,6 +168,19 @@ ActiveAdmin.register ACP do
               end
             end.html_safe
           end
+        end
+      end
+      tab Membership.model_name.human, id: 'membership' do
+        f.inputs do
+          para t('.membership_update_text_html'), class: 'description'
+
+          f.input :membership_depot_update_allowed
+          translated_input(f, :membership_update_texts,
+            as: :action_text,
+            required: false,
+            hint: t('formtastic.hints.acp.membership_update_text'))
+
+          f.input :basket_update_limit_in_days, step: 1
         end
       end
       tab t('.delivery_pdf') do

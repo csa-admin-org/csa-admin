@@ -908,4 +908,66 @@ describe Membership do
       expect { not_sent_invoice.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  specify '#can_member_update?' do
+    Current.acp.update!(membership_depot_update_allowed: false)
+
+    membership = travel_to '2022-12-01' do
+      create(:delivery, date: '2022-12-15')
+      create(:membership)
+    end
+
+    travel_to '2022-12-01' do
+      expect(membership.can_member_update?).to be false
+    end
+
+    Current.acp.update!(membership_depot_update_allowed: true)
+    Current.acp.update!(basket_update_limit_in_days: 5)
+
+    travel_to '2022-12-10' do
+      expect(membership.can_member_update?).to be true
+    end
+    travel_to '2022-12-11' do
+      expect(membership.can_member_update?).to be false
+    end
+
+    Current.acp.update!(basket_update_limit_in_days: 0)
+
+    travel_to '2022-12-15' do
+      expect(membership.can_member_update?).to be true
+    end
+    travel_to '2022-12-16' do
+      expect(membership.can_member_update?).to be false
+    end
+  end
+
+  specify '#member_update!' do
+    depot = create(:depot, price: 2)
+    new_depot = create(:depot, price: 3)
+
+    membership = travel_to '2022-01-01' do
+      create(:delivery, date: '2022-02-01')
+      create(:delivery, date: '2022-03-01')
+      create(:delivery, date: '2022-04-01')
+      create(:membership, depot: depot)
+    end
+
+    Current.acp.update!(membership_depot_update_allowed: false)
+    expect { membership.member_update!(depot_id: new_depot.id) }
+      .to raise_error(RuntimeError, 'update not allowed')
+
+    travel_to '2022-02-01' do
+      Current.acp.update!(
+        membership_depot_update_allowed: true,
+        basket_update_limit_in_days: 1)
+      expect {
+        expect { membership.member_update!(depot_id: new_depot.id) }
+          .to change { membership.reload.depot_id }.from(depot.id).to(new_depot.id)
+          .and change { membership.reload.depot_price }.from(2).to(3)
+          .and change { membership.baskets.last.depot }.from(depot).to(new_depot)
+          .and change { membership.baskets.last(2).first.depot }.from(depot).to(new_depot)
+          .and change { membership.price }.by(2)
+      }.not_to change { membership.baskets.first.depot }
+    end
+  end
 end
