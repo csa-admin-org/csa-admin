@@ -122,7 +122,7 @@ class Invoice < ApplicationRecord
     Billing::PaymentsRedistributor.redistribute!(member_id)
     handle_acp_shares_change!
     reload # ensure that paid_amount/state change are reflected.
-    set_pdf!
+    attach_pdf
     Billing::PaymentsRedistributor.redistribute!(member_id)
     transaction do
       update!(state: OPEN_STATE)
@@ -334,6 +334,16 @@ class Invoice < ApplicationRecord
     audits.reversed.find_change_of(:state, to: CANCELED_STATE)&.actor
   end
 
+  def attach_pdf
+    I18n.with_locale(member.language) do
+      invoice_pdf = PDF::Invoice.new(self)
+      pdf_file.attach(
+        io: StringIO.new(invoice_pdf.render),
+        filename: "invoice-#{id}.pdf",
+        content_type: 'application/pdf')
+    end
+  end
+
   private
 
   def closed_audit
@@ -386,16 +396,6 @@ class Invoice < ApplicationRecord
 
   def handle_acp_shares_change!
     member.handle_acp_shares_change! if acp_share_type?
-  end
-
-  def set_pdf!
-    I18n.with_locale(member.language) do
-      invoice_pdf = PDF::Invoice.new(self)
-      pdf_file.attach(
-        io: StringIO.new(invoice_pdf.render),
-        filename: "invoice-#{id}.pdf",
-        content_type: 'application/pdf')
-    end
   end
 
   def update_membership_activity_participations_accepted!

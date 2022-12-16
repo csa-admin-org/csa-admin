@@ -23,6 +23,12 @@ describe InvoiceOverdueNoticer do
     expect(mail.subject).to eq "Rappel #1 de la facture ##{invoice.id} 😬"
   end
 
+  specify 'regenerate invoice PDF email' do
+    expect { perform(invoice) }
+      .to change { InvoiceMailer.deliveries.size }.by(1)
+      .and change { invoice.pdf_file.download }
+  end
+
   specify 'only send overdue notice when invoice is open' do
     invoice = create(:invoice, :annual_fee, :open)
     create(:payment, invoice: invoice, amount: Current.acp.annual_fee)
