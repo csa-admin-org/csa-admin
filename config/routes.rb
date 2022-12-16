@@ -47,8 +47,15 @@ Rails.application.routes.draw do
       get '/login' => 'sessions#new', as: :login
       delete '/logout' => 'sessions#destroy', as: :logout
 
-      resource :membership, only: %i[show] do
-        resource :renewal, only: %i[new create], controller: 'membership_renewals'
+      get '/membership', to: redirect('/memberships')
+      resources :memberships, only: %i[index edit update]
+      resources :baskets, only: %i[edit update]
+
+      scope :membership do
+        resource :renewal,
+          only: %i[new create],
+          as: 'membership_renewal',
+          controller: 'membership_renewals'
         get ':decision' => 'membership_renewals#new'
       end
 

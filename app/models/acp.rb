@@ -41,6 +41,7 @@ class ACP < ApplicationRecord
   translated_attributes :basket_price_extra_title, :basket_price_extra_public_title, :basket_price_extra_text
   translated_attributes :basket_price_extra_label, :basket_price_extra_label_detail
   translated_rich_texts :absence_extra_text
+  translated_rich_texts :membership_update_text
 
   validates :name, presence: true
   validates :host, presence: true
@@ -89,6 +90,9 @@ class ACP < ApplicationRecord
   validate :ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
   validates :member_profession_form_mode, presence: true, inclusion: { in: FORM_MODES }
   validates :member_come_from_form_mode, presence: true, inclusion: { in: FORM_MODES }
+  validates :basket_update_limit_in_days,
+    presence: true,
+    numericality: { greater_than_or_equal_to: 0 }
 
   after_create :create_tenant!
 

@@ -48,7 +48,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
 
         - if membership
           li class=nav_class('membership')
-            = link_to members_membership_path(anchor: membership.renewal_opened? ? 'renewal' : ''), class: 'block py-2 px-8' do
+            = link_to members_memberships_path(anchor: membership.renewal_opened? ? 'renewal' : nil), class: 'block py-2 px-8' do
               h2 class='font-medium text-gray-700 dark:text-gray-400'
                 = Membership.model_name.human
               - if membership.renewal_opened?

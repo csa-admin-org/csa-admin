@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_04_142422) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_11_092954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -102,6 +102,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_04_142422) do
     t.boolean "send_closed_invoice", default: false, null: false
     t.string "member_profession_form_mode", default: "visible", null: false
     t.string "member_come_from_form_mode", default: "visible", null: false
+    t.integer "basket_update_limit_in_days", default: 0, null: false
+    t.boolean "membership_depot_update_allowed", default: false, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

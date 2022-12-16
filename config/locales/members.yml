@@ -228,6 +228,29 @@ _:
           _de: Ihre geleistete Arbeitsstunden
           _fr: Vos heures de travail effectuées
           _it: Vostre ore di lavoro effettuate
+    baskets:
+      basket:
+        edit:
+          _de: Bearbeiten
+          _fr: Modifier
+          _it: Modifica
+      edit:
+        cancel_link:
+          _de: Abbrechen
+          _fr: Annuler
+          _it: Annullare
+        submit:
+          _de: Bestätigen
+          _fr: Confirmer
+          _it: Confermare
+        subtitle:
+          _de: Bearbeiten
+          _fr: Modification
+          _it: Modifica
+        title:
+          _de: Lieferung am %{date}
+          _fr: Livraison du %{date}
+          _it: Consegna il %{date}
     billing:
       index:
         acp_shares:
@@ -544,43 +567,33 @@ _:
             _fr: Renouvellement
             _it: Rinnovo
     memberships:
-      membership:
-        absent_baskets_count:
+      edit:
+        cancel_link:
+          _de: Abbrechen
+          _fr: Annuler
+          _it: Annullare
+        submit:
+          _de: Bestätigen
+          _fr: Confirmer
+          _it: Confermare
+        subtitle:
+          _de: Bearbeiten
+          _fr: Modification
+          _it: Modifica
+        title:
+          _de: Abonnement %{year}
+          _fr: Abonnement %{year}
+          _it: Abbonamento %{year}
+        updateable_baskets:
           one:
-            _de: eine Abwesenheit
-            _fr: une absence
-            _it: una assenza
+            _de: Nur die Lieferung vom %{first_date} wird geändert.
+            _fr: Seule la livraison du %{first_date} sera modifiée.
+            _it: Solo la consegna del %{first_date} verrà modificata.
           other:
-            _de: "%{count} Abwesenheiten"
-            _fr: "%{count} absences"
-            _it: "%{count} assenze"
-        activity_participations_demanded:
-          one:
-            _de: 1 angefordert
-            _fr: 1 demandée
-            _it: 1 richiesta
-          other:
-            _de: "%{count} angefordert"
-            _fr: "%{count} demandées"
-            _it: "%{count} richieste"
-          zero:
-            _de: Keine Verpflichtung
-            _fr: Aucun engagement
-            _it: Nessun impegno
-        price_salary_basket:
-          _de: Lohntaschen
-          _fr: Paniers salaire
-          _it: Cesta-compenso
-        remaning_trial_baskets_count:
-          one:
-            _de: mehr als eine auf Probe und unverbindlich
-            _fr: plus que une à l'essai et sans engagement
-            _it: uno di prova e senza impegno
-          other:
-            _de: "%{count} weitere auf Probe und unverbindlich"
-            _fr: encore %{count} à l'essai et sans engagement
-            _it: ancora %{count} di prova e senza impegno
-      show:
+            _de: "%{count} Lieferungen ab dem %{first_date} werden geändert."
+            _fr: "%{count} livraisons à partir du %{first_date} seront modifiées."
+            _it: "%{count} consegne a partire dal %{first_date} verranno modificate."
+      index:
         renewal:
           canceled:
             _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
@@ -611,6 +624,46 @@ _:
             _de: Erneuerung
             _fr: Renouvellement
             _it: Rinnovo
+      membership:
+        absent_baskets_count:
+          one:
+            _de: eine Abwesenheit
+            _fr: une absence
+            _it: una assenza
+          other:
+            _de: "%{count} Abwesenheiten"
+            _fr: "%{count} absences"
+            _it: "%{count} assenze"
+        activity_participations_demanded:
+          one:
+            _de: 1 angefordert
+            _fr: 1 demandée
+            _it: 1 richiesta
+          other:
+            _de: "%{count} angefordert"
+            _fr: "%{count} demandées"
+            _it: "%{count} richieste"
+          zero:
+            _de: Keine Verpflichtung
+            _fr: Aucun engagement
+            _it: Nessun impegno
+        edit:
+          _de: Bearbeiten
+          _fr: Modifier
+          _it: Modifica
+        price_salary_basket:
+          _de: Lohntaschen
+          _fr: Paniers salaire
+          _it: Cesta-compenso
+        remaning_trial_baskets_count:
+          one:
+            _de: mehr als eine auf Probe und unverbindlich
+            _fr: plus que une à l'essai et sans engagement
+            _it: uno di prova e senza impegno
+          other:
+            _de: "%{count} weitere auf Probe und unverbindlich"
+            _fr: encore %{count} à l'essai et sans engagement
+            _it: ancora %{count} di prova e senza impegno
     sessions:
       new:
         email_input:

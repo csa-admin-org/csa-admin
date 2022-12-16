@@ -562,6 +562,10 @@ _:
           _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
           _it: <a href="/mail_templates?scope=membership">I templates delle email</a> per il rinnovo degli abbonamenti devono essere editati e attivati prima di poter inviare le domande attraverso alla pagina degli abbonamenti.
+        membership_update_text_html:
+          _de: Ermöglichen Sie Ihren Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder Taschenfutures individuell von ihrem Konto aus zu ändern.
+          _fr: Permettez à vos membres de modifier la configuration de leur abonnement ou futures paniers individuellement depuis leur compte.
+          _it: Permettete ai vostri membri di modificare le impostazioni di abbonamento o i panieri futuri individualmente dal loro account.
         preview:
           _de: Vorschau
           _fr: Prévisualisation

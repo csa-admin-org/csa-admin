@@ -15,7 +15,7 @@ describe 'Membership' do
 
     expect(menu_nav).to eq ["Facturation\n⤷ Consulter l'historique"]
 
-    visit 'http://membres.ragedevert.test/membership'
+    visit 'http://membres.ragedevert.test/memberships'
     expect(current_path).to eq '/billing'
   end
 
@@ -93,5 +93,35 @@ describe 'Membership' do
       expect(page).to have_content '½ Journées: 1 demandée'
       expect(page).to have_content "CHF 30"
     end
+  end
+
+  specify 'update depot', freeze: '2022-01-01' do
+    Current.acp.update!(membership_depot_update_allowed: true)
+
+    depot_1 = create(:depot, public_name: 'Joli Lieu')
+    depot_2 = create(:depot, public_name: 'Beau Lieu')
+
+    create(:delivery, date: '2022-02-01')
+    membership = create(:membership, member: member, depot: depot_1)
+    basket = member.current_year_membership.baskets.first
+
+    login(member)
+    expect(menu_nav).to include "Abonnement\n⤷ Période d'essai"
+    click_on 'Abonnement'
+
+    expect(current_path).to eq '/memberships'
+    expect(page).to have_content 'Joli Lieu'
+
+    click_on 'Modifier'
+    choose 'Beau Lieu'
+
+    expect {
+      click_on 'Confirmer'
+    }
+      .to change { membership.reload.depot_id }.from(depot_1.id).to(depot_2.id)
+      .and change { basket.reload.depot }.from(depot_1).to(depot_2)
+
+    expect(current_path).to eq '/memberships'
+    expect(page).to have_content 'Beau Lieu'
   end
 end

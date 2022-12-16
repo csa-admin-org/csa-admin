@@ -28,7 +28,7 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def membership_renewal_url
-    url(:members_membership, anchor: 'renewal')
+    url(:members_memberships, anchor: 'renewal')
   end
 
   def billing_email

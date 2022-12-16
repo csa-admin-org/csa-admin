@@ -1,4 +1,8 @@
-ul class="my-2 md:mr-4 -mx-2 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{'text-gray-300 dark:text-gray-700' if basket.absent?} #{'bg-gray-200 dark:bg-gray-800' if basket == @next_basket}"
+ul class="relative my-2 md:mr-4 -mx-2 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{'text-gray-300 dark:text-gray-700' if basket.absent?} #{'bg-gray-200 dark:bg-gray-800' if basket == @next_basket}"
+  - if basket.can_member_update?
+    = link_to edit_members_basket_path(basket), title: t('.edit'), class: 'absolute top-0 right-0 p-2 text-gray-400 dark:text-gray-600 hover:text-green-500' do
+      = inline_svg_tag 'members/pencil_square.svg', class: 'h-5 w-5 fill-stroke'
+
   li class='flex flex-row items-center'
     = inline_svg_tag 'members/calendar.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
     span class='ml-2'
