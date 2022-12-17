@@ -182,8 +182,14 @@ class ACP < ApplicationRecord
     super.presence || phone
   end
 
+  def basket_price_extra_title
+    self[:basket_price_extra_titles][I18n.locale.to_s].presence ||
+      self.class.human_attribute_name(:basket_price_extra)
+  end
+
   def basket_price_extra_public_title
-    self[:basket_price_extra_public_titles][I18n.locale.to_s].presence || basket_price_extra_title
+    self[:basket_price_extra_public_titles][I18n.locale.to_s].presence ||
+      basket_price_extra_title
   end
 
   def basket_price_extra_label_detail_default
