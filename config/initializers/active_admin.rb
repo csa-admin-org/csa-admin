@@ -415,7 +415,7 @@ module ActiveAdmin
     def title
       case name
       when 'basket_price_extra_title'
-        Current.acp.basket_price_extra_title.titleize
+        Current.acp.basket_price_extra_title
       else
         I18n.t("active_admin.sidebars.#{name}", default: name.titleize)
       end
