@@ -1,4 +1,5 @@
 module BasketContentsHelper
+  include ActionView::Helpers::NumberHelper
   include NumbersHelper
 
   def display_quantity(quantity, unit)

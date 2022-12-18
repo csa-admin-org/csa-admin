@@ -118,7 +118,6 @@ ActiveAdmin.register BasketContent do
         hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: '_blank', data: { 'form-hint-url-target' => 'link' })
       f.input :unit,
         collection: units_collection,
-        required: true,
         prompt: true,
         input_html: {
           data: {
@@ -143,58 +142,87 @@ ActiveAdmin.register BasketContent do
           }
         }
     end
-    f.inputs t('basket_content.percentages'), 'data-controller' => 'basket-content-percentages' do
-      f.semantic_errors :basket_percentages
-      BasketSize.paid.each do |basket_size|
-        f.input :basket_size_ids_percentages,
-          as: :custom_range,
-          step: 1,
-          min: 0,
-          max: 100,
-          label: basket_size.name,
-          required: true,
-          wrapper_html: {
-            id: nil,
-            class: 'basket_size_ids_percentages_wrapper'
-          },
-          hint: '%',
-          input_html: {
-            id: "basket_size_ids_percentages_#{basket_size.id}",
-            value: f.object.basket_percentage(basket_size),
-            name: "basket_content[basket_size_ids_percentages][#{basket_size.id}]",
-            data: {
-              'basket-content-percentages-target' => 'input',
-              'action' => 'blur->basket-content-percentages#change'
-            }
-          },
-          range_html: {
-            id: "basket_size_ids_percentages_#{basket_size.id}_range",
-            name: "basket_content[basket_size_ids_percentages_range][#{basket_size.id}]",
-            data: {
-              'basket-content-percentages-target' => 'range',
-              'action' => 'basket-content-percentages#change'
-            }
-          }
-      end
-      span class: 'basket_size_ids_percentages_sum',
-        style: 'display: none;',
-        'data-basket-content-percentages-target' => 'sum'
-      div class: 'basket_size_ids_percentages_presets' do
-        a class: 'button',
-            'data-basket-content-percentages-target' => 'preset',
-            'data-action' => 'basket-content-percentages#applyPreset',
-            'data-preset' => f.object.basket_size_ids_percentages_pro_rated.to_json do
-          t('basket_content.preset.basket_content_percentages_pro_rated')
+    div 'data-controller' => 'basket-content-distribution' do
+      h2 t('basket_content.distribution')
+      tabs  do
+        tab t('basket_content.distribution_mode.automatic'), id: 'automatic', html_options: { class: ('ui-tabs-active' if f.object.distribution_automatic?), 'data-action' => 'click->basket-content-distribution#automaticMode' } do
+          f.inputs do
+            f.semantic_errors :basket_percentages
+            BasketSize.paid.each do |basket_size|
+              f.input :basket_size_ids_percentages,
+                as: :custom_range,
+                step: 1,
+                min: 0,
+                max: 100,
+                label: basket_size.name,
+                required: true,
+                wrapper_html: {
+                  id: nil,
+                  class: 'basket_content_distribution_wrapper'
+                },
+                hint: '%',
+                input_html: {
+                  id: "basket_size_ids_percentages_#{basket_size.id}",
+                  value: f.object.basket_percentage(basket_size),
+                  name: "basket_content[basket_size_ids_percentages][#{basket_size.id}]",
+                  data: {
+                    'basket-content-distribution-target' => 'input',
+                    'action' => 'blur->basket-content-distribution#change'
+                  }
+                },
+                range_html: {
+                  id: "basket_size_ids_percentages_#{basket_size.id}_range",
+                  name: "basket_content[basket_size_ids_percentages_range][#{basket_size.id}]",
+                  data: {
+                    'basket-content-distribution-target' => 'range',
+                    'action' => 'basket-content-distribution#change'
+                  }
+                }
+            end
+            span class: 'basket_size_ids_percentages_sum',
+              style: 'display: none;',
+              'data-basket-content-distribution-target' => 'sum'
+            div class: 'basket_size_ids_percentages_presets' do
+              a class: 'button',
+                  'data-basket-content-distribution-target' => 'preset',
+                  'data-action' => 'basket-content-distribution#applyPreset',
+                  'data-preset' => f.object.basket_size_ids_percentages_pro_rated.to_json do
+                t('basket_content.preset.basket_content_percentages_pro_rated')
+              end
+              a class: 'button',
+                  'data-basket-content-distribution-target' => 'preset',
+                  'data-action' => 'basket-content-distribution#applyPreset',
+                  'data-preset' => f.object.basket_size_ids_percentages_even.to_json do
+                t('basket_content.preset.basket_content_percentages_even')
+              end
+            end
+            para class: 'basket_content_distribution_wrapper_hint inline-hints' do
+              t('basket_content.percentages_hint')
+            end
+          end
         end
-        a class: 'button',
-            'data-basket-content-percentages-target' => 'preset',
-            'data-action' => 'basket-content-percentages#applyPreset',
-            'data-preset' => f.object.basket_size_ids_percentages_even.to_json do
-          t('basket_content.preset.basket_content_percentages_even')
+        tab t('basket_content.distribution_mode.manual'), id: 'manual', html_options: { class: ('ui-tabs-active' if f.object.distribution_manual?), 'data-action' => 'click->basket-content-distribution#manualMode' } do
+          f.inputs do
+            f.semantic_errors :basket_quantities
+            BasketSize.paid.each do |basket_size|
+              f.input :basket_size_ids_quantities,
+                as: :number,
+                step: 1,
+                min: 0,
+                label: basket_size.name,
+                hint: 'En g ou à la pièce',
+                wrapper_html: { id: nil },
+                input_html: {
+                  id: "basket_size_ids_quantities_#{basket_size.id}",
+                  value: f.object.basket_size_ids_quantity(basket_size),
+                  name: "basket_content[basket_size_ids_quantities][#{basket_size.id}]",
+                  data: {
+                    'basket-content-distribution-target' => 'quantityInput'
+                  }
+                }
+            end
+          end
         end
-      end
-      para class: 'basket_size_ids_percentages_wrapper_hint inline-hints' do
-         t('basket_content.percentages_hint')
       end
     end
     f.inputs do
@@ -207,7 +235,8 @@ ActiveAdmin.register BasketContent do
 
   permit_params(*%i[delivery_id product_id quantity unit unit_price],
     depot_ids: [],
-    basket_size_ids_percentages: {})
+    basket_size_ids_percentages: {},
+    basket_size_ids_quantities: {})
 
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty? &&

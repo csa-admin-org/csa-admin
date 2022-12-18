@@ -416,10 +416,6 @@ _:
           _de: Produkt
           _fr: Produit
           _it: Prodotto
-        same_basket_quantities:
-          _de: Wenn möglich, gleiche Menge für alle Taschen
-          _fr: Si possible, même quantité pour tous les paniers
-          _it: Se possibile la stessa quantità per ogni cesta
         surplus:
           _de: Überschuss
           _fr: Surplus
@@ -1179,6 +1175,10 @@ _:
                 _de: Ungenügende
                 _fr: Insuffisante
                 _it: Insufficiente
+              insufficient_miss:
+                _de: Ungenügende (fehlen %{miss})
+                _fr: Insuffisante (manque %{miss})
+                _it: Insufficiente (manca %{miss})
         group_buying/order:
           attributes:
             base:

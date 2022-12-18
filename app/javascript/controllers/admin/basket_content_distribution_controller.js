@@ -4,7 +4,7 @@ import { addClass, removeClass, show, hide } from "components/utils"
 
 export default class extends Controller {
   static get targets() {
-    return ["range", "input", "sum", "preset"]
+    return ["range", "input", "sum", "preset", "quantityInput"]
   }
 
   initialize() {
@@ -13,6 +13,19 @@ export default class extends Controller {
 
   connect() {
     this.updateAll()
+  }
+
+  automaticMode(_event) {
+    this.presetTargets[0].click()
+    this.quantityInputTargets.forEach((input) => {
+      input.value = ""
+    })
+  }
+
+  manualMode(_event) {
+    this.quantityInputTargets.forEach((input) => {
+      input.value = 0
+    })
   }
 
   change(event) {
