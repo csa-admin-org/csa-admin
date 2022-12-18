@@ -37,16 +37,69 @@ describe BasketContent do
         unit: 'pc')
 
       expect(basket_content).not_to have_valid(:quantity)
+      expect(basket_content.errors[:quantity]).to eq ['Insuffisante']
+    end
+
+    it 'validates enough quantity with miss piece' do
+      setup(id: 1001, quantity: 100)
+      basket_content = build(:basket_content,
+        basket_size_ids_quantities: { 1001 => 1 },
+        quantity: 99,
+        unit: 'pc')
+
+      expect(basket_content).not_to have_valid(:quantity)
+      expect(basket_content.errors[:quantity]).to eq ['Insuffisante (manque 1p)']
     end
   end
 
-  describe '#set_basket_quantities' do
+  describe '#set_distribution_mode' do
+    before do
+      setup [
+        { id: 1001, quantity: 1, price: 1 },
+        { id: 1002, quantity: 1, price: 1 }
+      ]
+    end
+
+    specify 'set automatic mode by default' do
+      basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 50,
+          1002 => 50
+        },
+        quantity: 150,
+        unit: 'pc')
+
+      expect(basket_content.distribution_mode).to eq 'automatic'
+    end
+
+    specify 'set manual mode when quantities present' do
+      basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 50,
+          1002 => 50
+        },
+        basket_size_ids_quantities: {
+          1001 => 75,
+          1002 => 75
+        },
+        quantity: 150,
+        unit: 'pc')
+
+      expect(basket_content.distribution_mode).to eq 'manual'
+    end
+  end
+
+  describe '#set_basket_quantities_automatically' do
     it 'splits pieces to both baskets' do
       setup [
         { id: 1001, quantity: 100, price: 1 },
         { id: 1002, quantity: 50, price: 1.5 }
       ]
       basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
         quantity: 150,
         unit: 'pc')
 
@@ -60,6 +113,10 @@ describe BasketContent do
         { id: 1002, quantity: 50, price: 1.5 }
       ]
       basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
         quantity: 200,
         unit: 'pc')
 
@@ -91,6 +148,10 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 41,
+          1002 => 59
+        },
         quantity: 83,
         unit: 'kg')
 
@@ -104,6 +165,10 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 41,
+          1002 => 59
+        },
         quantity: 100,
         unit: 'kg')
 
@@ -117,6 +182,10 @@ describe BasketContent do
         { id: 1002, quantity: 29, price: 33 }
       ]
       basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 41,
+          1002 => 59
+        },
         quantity: 34,
         unit: 'kg')
 
@@ -161,16 +230,60 @@ describe BasketContent do
 
     specify 'with 3 basket sizes' do
       setup [
-        { id: 1002, quantity: 50, price: 33 },
         { id: 1005, quantity: 100, price: 23 },
+        { id: 1002, quantity: 50, price: 33 },
         { id: 1003, quantity: 20, price: 44 }
       ]
       basket_content = create(:basket_content,
+        basket_size_ids_percentages: {
+          1005 => 23,
+          1002 => 33,
+          1003 => 44
+        },
         quantity: 100,
         unit: 'kg')
 
-      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.682, 0.91, 0.477]
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.476, 0.684, 0.91]
       expect(basket_content.surplus_quantity.to_f).to be_zero
+    end
+  end
+
+  describe '#set_basket_quantities_automatically' do
+    specify 'gives all kilogramme to big baskets' do
+      setup [
+        { id: 1001, quantity: 131, price: 23 },
+        { id: 1002, quantity: 29, price: 33 }
+      ]
+      basket_content = create(:basket_content,
+        basket_size_ids_quantities: {
+          1001 => 0,
+          1002 => 2500
+        },
+        quantity: 83,
+        unit: 'kg')
+
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [2.5]
+      expect(basket_content.basket_quantity(BasketSize.new(id: 1001))).to be_nil
+      expect(basket_content.surplus_quantity.to_f).to eq 10.5
+    end
+
+    specify 'with 3 basket sizes' do
+      setup [
+        { id: 1005, quantity: 100, price: 23 },
+        { id: 1002, quantity: 50, price: 33 },
+        { id: 1003, quantity: 20, price: 44 }
+      ]
+      basket_content = create(:basket_content,
+        basket_size_ids_quantities: {
+          1005 => 500,
+          1002 => 600,
+          1003 => 900
+        },
+        quantity: 100,
+        unit: 'kg')
+
+      expect(basket_content.basket_quantities.map(&:to_f)).to eq [0.5, 0.6, 0.9]
+      expect(basket_content.surplus_quantity.to_f).to eq 2.0
     end
   end
 
@@ -190,6 +303,10 @@ describe BasketContent do
     specify 'with all depots content' do
       expect {
         create(:basket_content,
+          basket_size_ids_percentages: {
+            1001 => 40,
+            1002 => 60
+          },
           delivery: delivery,
           quantity: 100,
           unit: 'pc',
@@ -210,6 +327,10 @@ describe BasketContent do
     specify 'with different depots content' do
       other_depot = create(:depot)
       create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
         delivery: delivery,
         quantity: 100,
         unit: 'pc',
@@ -251,11 +372,19 @@ describe BasketContent do
     specify 'with other delivery basket content' do
       other_delivery = create(:delivery)
       create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
         delivery: other_delivery,
         quantity: 100,
         unit: 'kg',
         unit_price: 1)
       create(:basket_content,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
         delivery: delivery,
         quantity: 100,
         unit: 'pc',

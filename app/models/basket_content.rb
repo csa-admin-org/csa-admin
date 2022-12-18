@@ -1,5 +1,10 @@
 class BasketContent < ApplicationRecord
   UNITS = %w[kg pc]
+  DISTRIBUTION_MODES = %w[automatic manual]
+
+  include BasketContentsHelper
+
+  attribute :distribution_mode, :string, default: -> { last&.distribution_mode }
 
   belongs_to :delivery
   belongs_to :product, class_name: 'BasketContent::Product'
@@ -15,14 +20,16 @@ class BasketContent < ApplicationRecord
 
   after_initialize :set_defaults
 
-  before_validation :set_baskets_counts, :set_basket_quantities
+  before_validation :set_distribution_mode, :set_basket_quantities
 
   validates :delivery, presence: true
   validates :quantity, presence: true
   validates :depots, presence: true
-  validates :unit, inclusion: { in: UNITS }
+  validates :unit, inclusion: { in: UNITS }, presence: true
+  validates :distribution_mode, inclusion: { in: DISTRIBUTION_MODES }
   validate :basket_size_ids_presence
   validate :basket_percentages_presence
+  validate :basket_quantities_presence
   validate :enough_quantity
   validates :unit_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
@@ -30,6 +37,20 @@ class BasketContent < ApplicationRecord
 
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
+  end
+
+  def distribution_automatic?
+    distribution_mode == 'automatic'
+  end
+
+  def distribution_manual?
+    distribution_mode == 'manual'
+  end
+
+  def basket_size_ids_quantities
+    return {} if distribution_mode == 'automatic'
+
+    basket_size_ids.map { |bs| [bs, basket_quantity(bs)] }.to_h
   end
 
   def basket_size_ids_percentages
@@ -46,12 +67,12 @@ class BasketContent < ApplicationRecord
     default_basket_sizes.map.with_index { |bs, i| [bs.id, pcts[i]] }.to_h
   end
 
-  def basket_size_ids_percentages=(pcts)
-    non_zero_pcts = pcts.compact.reject { |_, p| p.to_i.zero? }
+  def basket_size_ids_percentages=(percentages)
+    @percentages = percentages
+  end
 
-    self[:basket_size_ids] = non_zero_pcts.keys
-    self[:basket_percentages] = non_zero_pcts.values.map(&:to_i)
-    @basket_sizes = nil
+  def basket_size_ids_quantities=(quantities)
+    @quantities = quantities
   end
 
   def basket_sizes
@@ -59,9 +80,12 @@ class BasketContent < ApplicationRecord
   end
 
   def basket_percentage(basket_size)
-    if i = basket_size_index(basket_size)
-      basket_percentages[i]
-    end || 0
+    i =
+      case distribution_mode
+      when 'automatic'; basket_size_index(basket_size)
+      when 'manual'; default_basket_size_index(basket_size)
+      end
+    (i && basket_percentages[i]) || 0
   end
 
   def baskets_count(basket_size)
@@ -73,6 +97,18 @@ class BasketContent < ApplicationRecord
   def basket_quantity(basket_size)
     if i = basket_size_index(basket_size)
       basket_quantities[i]
+    end
+  end
+
+  def basket_size_ids_quantity(basket_size)
+    return unless distribution_manual?
+
+    quantity = basket_quantity(basket_size)
+    case unit
+    when 'kg'; (quantity.to_f * 1000).to_i
+    when 'pc'; quantity.to_i
+    else
+      0
     end
   end
 
@@ -89,6 +125,10 @@ class BasketContent < ApplicationRecord
 
     self[:basket_size_ids] = default_basket_sizes.map(&:id)
     self[:basket_percentages] = basket_percentages_pro_rated
+    self[:basket_quantities] = []
+    self[:surplus_quantity] = nil
+    @percentages ||= {}
+    @quantities ||= {}
   end
 
   def default_basket_sizes
@@ -128,6 +168,11 @@ class BasketContent < ApplicationRecord
     basket_size_ids.index(id)
   end
 
+  def default_basket_size_index(basket_size)
+    id = basket_size.respond_to?(:id) ? basket_size.id : basket_size
+    default_basket_sizes.map(&:id).index(id)
+  end
+
   def basket_size_ids_presence
     if basket_size_ids.empty?
       errors.add(:basket_size_ids, :blank)
@@ -135,14 +180,27 @@ class BasketContent < ApplicationRecord
   end
 
   def basket_percentages_presence
+    return unless distribution_automatic?
+
     if basket_size_ids.size != basket_percentages.size || basket_percentages.sum != 100
       errors.add(:basket_percentages, :invalid)
+    end
+  end
+
+  def basket_quantities_presence
+    return unless distribution_manual?
+
+    if basket_size_ids.size != basket_quantities.size || basket_quantities.sum.zero?
+      errors.add(:basket_quantities, :invalid)
     end
   end
 
   def enough_quantity
     if basket_quantities.empty?
       errors.add(:quantity, :insufficient)
+    elsif surplus_quantity < 0
+      errors.add(:quantity, :insufficient_miss,
+        miss: display_quantity(surplus_quantity.abs, unit))
     end
   end
 
@@ -156,19 +214,48 @@ class BasketContent < ApplicationRecord
     end
   end
 
+  def set_distribution_mode
+    self.distribution_mode =
+      @quantities.values.any?(&:present?) ? 'manual' : 'automatic'
+  end
+
   def set_basket_quantities
     return unless quantity
 
-    self[:basket_quantities] = []
-    self[:surplus_quantity] = nil
+    case distribution_mode
+    when 'automatic'; set_basket_quantities_automatically
+    when 'manual'; set_basket_quantities_manually
+    end
+
+    self[:surplus_quantity] = quantity - total_quantities(basket_quantities)
+  end
+
+  def set_basket_quantities_automatically
+    non_zero_pcts = @percentages.compact.reject { |_, p| p.to_i.zero? }
+    self[:basket_size_ids] = non_zero_pcts.keys
+    self[:basket_percentages] = non_zero_pcts.values.map(&:to_i)
+    set_baskets_counts
+
     roundings = %i[up upup down downdown]
     permutations = roundings.repeated_permutation(basket_size_ids.size)
     possibilities = permutations.map { |r| possibility(r) }
     possibilities.reject! { |p| p.any? { |q| q <= 0 } || total_quantities(p) > quantity }
     if best_possibility = possibilities.sort.max_by { |p| total_quantities(p) }
       self[:basket_quantities] = best_possibility
-      self[:surplus_quantity] = quantity - total_quantities(best_possibility)
     end
+  end
+
+  def set_basket_quantities_manually
+    self[:basket_percentages] = basket_percentages_pro_rated
+
+    non_zero_qts = @quantities.compact.reject { |_, p| p.to_i.zero? }
+    self[:basket_size_ids] = non_zero_qts.keys
+    self[:basket_quantities] =
+      case unit
+      when 'kg'; non_zero_qts.values.map { |q| q.to_f / 1000.0 }
+      when 'pc'; non_zero_qts.values.map(&:to_i)
+      end
+    set_baskets_counts
   end
 
   def possibility(roundings)

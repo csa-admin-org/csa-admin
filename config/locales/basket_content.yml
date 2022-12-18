@@ -9,10 +9,19 @@ _:
         _de: Alle, außer %{missing}
         _fr: Tous, sauf %{missing}
         _it: Tutto, tranne %{missing}
-    percentages:
+    distribution:
       _de: Verteilung nach Taschengröße
       _fr: Distribution par taille de paniers
       _it: Distribuzione per dimensione del cestino
+    distribution_mode:
+      automatic:
+        _de: Automatisch
+        _fr: Automatique
+        _it: Automatico
+      manual:
+        _fr: Manuelle
+        _it: Manuale
+        _de: Manuell
     percentages_hint:
       _de: Das System optimiert die Verteilung, um den Überschuss zu minimieren, aufgrund dessen kann die endgültige Verteilung leicht von den oben genannten Prozentsätzen abweichen.
       _fr: Le système optimise la répartition afin de minimiser le surplus, à cause de cela la distribution finale peut légèrement différer des pourcentages ci-dessus.

@@ -2333,6 +2333,7 @@ table.index_table tbody td.nowrap {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   padding: 6px 15px 0;
+  border-bottom-width: 0;
 }
 
 .tabs .nav-tabs:after {
@@ -2343,8 +2344,14 @@ table.index_table tbody td.nowrap {
 
 .tabs .nav-tabs li {
   float: left;
-  padding: 9px 16px;
   transition: background-color 250ms;
+}
+
+.tabs .nav-tabs li a {
+  display: inline-block;
+  outline: none;
+  padding: 9px 16px;
+  text-decoration: none;
 }
 
 .tabs .nav-tabs li:not(:first-of-type):not(.ui-tabs-active) {
@@ -2352,18 +2359,11 @@ table.index_table tbody td.nowrap {
 }
 
 .tabs .nav-tabs li.ui-tabs-active {
-  background-color: #f9f9f9;
+  background-color: #fff;
   border: 1px solid #e2e4e8;
   border-bottom-width: 0;
   border-radius: 6px 6px 0 0;
   font-weight: bold;
-  margin-bottom: -1px;
-  padding: 9px 15px;
-}
-
-.tabs .nav-tabs li a {
-  outline: none;
-  text-decoration: none;
 }
 
 .tabs .ui-tabs-panel > fieldset.inputs {

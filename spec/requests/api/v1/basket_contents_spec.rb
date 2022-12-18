@@ -46,6 +46,10 @@ describe 'BasketContents V1 API' do
         create(:basket_content,
           product: create(:product, id: 643241),
           delivery: delivery,
+          basket_size_ids_percentages: {
+            small_basket.id => 41,
+            big_basket.id => 59
+          },
           basket_size_ids: [small_basket.id, big_basket.id],
           depot_ids: [depot1.id],
           quantity: 5,
