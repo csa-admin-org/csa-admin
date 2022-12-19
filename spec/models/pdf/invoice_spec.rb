@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe PDF::Invoice do
+  let(:member) { create(:member, id: 4242) }
   context 'Rage de Vert settings' do
     before {
       Current.acp.update!(
@@ -29,22 +30,24 @@ describe PDF::Invoice do
     end
 
     it 'generates invoice with only annual_fee amount' do
-      invoice = create(:invoice, :annual_fee, id: 807, annual_fee: 42)
+      invoice = create(:invoice, :annual_fee, member: member, id: 807, annual_fee: 42)
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
         .to contain_sequence('Cotisation annuelle association', '42.00')
-        .and include('11 04100 00000 00000 00000 08072')
+        .and include('11 04100 00000 04242 00000 08078')
       expect(pdf_strings).not_to include('Facturation annuelle')
     end
 
     it 'generates invoice with annual_fee amount + annual membership' do
       membership = create(:membership,
+        member: member,
         basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         deliveries_count: 2)
       invoice = create(:invoice,
         id: 4,
+        member: member,
         object: membership,
         annual_fee: 42,
         memberships_amount_description: 'Facturation annuelle')
@@ -56,12 +59,13 @@ describe PDF::Invoice do
         .and contain_sequence('Montant annuel', "66.50", 'Facturation annuelle', "66.50")
         .and contain_sequence('Cotisation annuelle association', '42.00')
         .and contain_sequence('Total', "108.50")
-        .and include '11 04100 00000 00000 00000 00047'
+        .and include '11 04100 00000 04242 00000 00049'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
     it 'generates invoice with support ammount + annual membership + activity_participations reduc' do
       membership = create(:membership,
+        member: member,
         basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         activity_participations_demanded_annualy: 8,
@@ -69,6 +73,7 @@ describe PDF::Invoice do
         deliveries_count: 2)
       invoice = create(:invoice,
         id: 7,
+        member: member,
         object: membership,
         annual_fee: 30,
         memberships_amount_description: 'Facturation annuelle')
@@ -81,12 +86,12 @@ describe PDF::Invoice do
         .and contain_sequence('Montant annuel', "46.00", 'Facturation annuelle', "46.00")
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', "76.00")
-        .and include '11 04100 00000 00000 00000 00071'
+        .and include '11 04100 00000 04242 00000 00070'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
     it 'generates invoice with support ammount + quarter membership' do
-      member = create(:member, billing_year_division: 4)
+      member = create(:member, id: 4444, billing_year_division: 4)
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :small, price: '23.125'),
@@ -109,7 +114,7 @@ describe PDF::Invoice do
         .and contain_sequence('Montant trimestriel #1', '13.55')
         .and contain_sequence('Cotisation annuelle association', '30.00')
         .and contain_sequence('Total', '43.55')
-        .and include '11 04100 00000 00000 00000 00086'
+        .and include '11 04100 00000 04444 00000 00080'
     end
 
     it 'generates invoice with membership basket_price_extra' do
@@ -138,7 +143,7 @@ describe PDF::Invoice do
     end
 
     it 'generates invoice with quarter menbership and paid amount' do
-      member = create(:member, billing_year_division: 4)
+      member = create(:member, id: 42, billing_year_division: 4)
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),
@@ -171,7 +176,7 @@ describe PDF::Invoice do
         .and contain_sequence('Déjà facturé', '-33.25')
         .and contain_sequence('Montant annuel restant', '33.25')
         .and contain_sequence('Facturation trimestrielle #3', '16.65')
-        .and include('11 04100 00000 00000 00000 10011')
+        .and include('11 04100 00000 00042 00000 10013')
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
 
@@ -253,6 +258,7 @@ describe PDF::Invoice do
 
     it 'generates invoice with support amount + complements + annual membership' do
       member = create(:member,
+        id: 42,
         name: 'Alain Reymond',
         address: 'Bd Plumhof 6',
         zip: '1800',
@@ -293,7 +299,7 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "221.40")
         .and contain_sequence("* TTC, CHF 146.25 HT, CHF 0.15 TVA (0.1%)")
         .and contain_sequence('N° TVA CHE-273.220.900')
-        .and include '80 02500 00000 00000 00000 01221'
+        .and include '80 02500 00000 00042 00000 01221'
       expect(pdf_strings).not_to include 'Montant annuel restant'
     end
 
@@ -741,6 +747,7 @@ describe PDF::Invoice do
     }
     let(:member) {
       create(:member,
+        id: 424242,
         name: 'Pia-Maria Rutschmann-Schnyder',
         address: 'Grosse Marktgasse 28',
         zip: '9400',
@@ -760,7 +767,7 @@ describe PDF::Invoice do
         .and contain_sequence('Compte / Payable à')
         .and contain_sequence('CH44 3199 9123 0008 8901 2')
         .and contain_sequence('Robert Schneider AG', 'Rue du Lac 1268', '2501 Biel')
-        .and contain_sequence('Référence', '00 00000 00000 00000 00000 10014')
+        .and contain_sequence('Référence', '00 00000 00004 24242 00000 10014')
         .and contain_sequence('Payable par')
         .and contain_sequence('Pia-Maria Rutschmann-Schnyder', 'Grosse Marktgasse 28', '9400 Rorschach')
         .and contain_sequence('Monnaie', 'CHF')
@@ -772,7 +779,7 @@ describe PDF::Invoice do
         .and contain_sequence('Compte / Payable à')
         .and contain_sequence('CH44 3199 9123 0008 8901 2')
         .and contain_sequence('Robert Schneider AG', 'Rue du Lac 1268', '2501 Biel')
-        .and contain_sequence('Référence', '00 00000 00000 00000 00000 10014')
+        .and contain_sequence('Référence', '00 00000 00004 24242 00000 10014')
         .and contain_sequence('Informations supplémentaires', 'Facture 1001')
         .and contain_sequence('Payable par')
         .and contain_sequence('Pia-Maria Rutschmann-Schnyder', 'Grosse Marktgasse 28', '9400 Rorschach')

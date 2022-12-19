@@ -85,7 +85,7 @@ class InvoiceQRCode
       @member.city,
       @member.country_code,
       'QRR',
-      QRReferenceNumber.new(@invoice.id).ref,
+      QRReferenceNumber.new(@invoice).ref,
       "#{Invoice.model_name.human} #{@invoice.id}",
       'EPD',
       '',

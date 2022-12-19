@@ -343,7 +343,7 @@ module PDF
         move_down border
 
         qr_text_title t('qr_bill.reference'), size: 6
-        qr_text QRReferenceNumber.new(invoice.id).formatted_ref, size: 8
+        qr_text QRReferenceNumber.new(invoice).formatted_ref, size: 8
         move_down border
 
         qr_text_title t('qr_bill.payable_by'), size: 6
@@ -392,7 +392,7 @@ module PDF
           move_down border
 
           qr_text_title t('qr_bill.reference')
-          qr_text QRReferenceNumber.new(invoice.id).formatted_ref
+          qr_text QRReferenceNumber.new(invoice).formatted_ref
           move_down border
 
           qr_text_title t('qr_bill.further_information')
