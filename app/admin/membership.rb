@@ -548,8 +548,8 @@ ActiveAdmin.register Membership do
         prompt: true
     end
     f.inputs Membership.human_attribute_name(:dates) do
-      f.input :started_on, as: :datepicker
-      f.input :ended_on, as: :datepicker
+      f.input :started_on, as: :date_picker
+      f.input :ended_on, as: :date_picker
     end
 
     if Current.acp.annual_fee? && f.object.canceled?
@@ -585,7 +585,7 @@ ActiveAdmin.register Membership do
     else
       para t('.membership_configuration_warning_text'), class: 'new_config_from warning'
       f.inputs do
-        f.input :new_config_from, as: :datepicker, required: true
+        f.input :new_config_from, as: :date_picker, required: true
       end
     end
     f.inputs [

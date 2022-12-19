@@ -111,7 +111,7 @@ ActiveAdmin.register Payment do
         f.input :member_id, as: :hidden
         f.input :invoice, collection: f.object.member.invoices, include_blank: true
       end
-      f.input :date, as: :datepicker, prompt: true
+      f.input :date, as: :date_picker, prompt: true
       f.input :amount, as: :number, step: 0.05, min: -99999.95, max: 99999.95
       unless f.object.persisted?
         f.input :comment, as: :text, input_html: { rows: 4 }

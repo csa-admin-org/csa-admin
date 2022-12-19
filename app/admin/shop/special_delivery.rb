@@ -124,7 +124,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
   form do |f|
     f.inputs t('.details') do
       f.input :open
-      f.input :date, as: :datepicker
+      f.input :date, as: :date_picker
       f.input :open_delay_in_days, hint: t('formtastic.hints.acp.shop_delivery_open_delay_in_days')
       f.input :open_last_day_end_time,
         as: :time_picker,
