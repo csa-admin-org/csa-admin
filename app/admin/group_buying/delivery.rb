@@ -105,8 +105,8 @@ ActiveAdmin.register GroupBuying::Delivery do
 
   form do |f|
     f.inputs t('.details') do
-      f.input :date, as: :datepicker, required: true
-      f.input :orderable_until, as: :datepicker, required: true
+      f.input :date, as: :date_picker, required: true
+      f.input :orderable_until, as: :date_picker, required: true
     end
     f.inputs do
       translated_input(f, :descriptions, as: :action_text)

@@ -64,8 +64,8 @@ ActiveAdmin.register Absence do
         prompt: true
     end
     f.inputs Absence.human_attribute_name(:dates) do
-      f.input :started_on, as: :datepicker
-      f.input :ended_on, as: :datepicker
+      f.input :started_on, as: :date_picker
+      f.input :ended_on, as: :date_picker
     end
     unless f.object.persisted?
       f.inputs Absence.human_attribute_name(:comment) do

@@ -272,7 +272,7 @@ ActiveAdmin.register Invoice do
         input_html: { onchange: "self.location='#{new_invoice_path}?member_id='+$(this).val();" }
       f.hidden_field :object_id
       f.hidden_field :object_type
-      f.input :date, as: :datepicker
+      f.input :date, as: :date_picker
       unless f.object.persisted?
         f.input :comment, as: :text, input_html: { rows: 4 }
       end

@@ -1141,105 +1141,6 @@ form.active_admin_comment input[type="submit"] {
   margin-top: 1em;
 }
 
-.ui-datepicker {
-  background-color: rgba(12, 144, 36, 0.75);
-  backdrop-filter: blur(3px);
-  border-radius: 6px;
-  color: #ffffff;
-  margin-top: 2px;
-}
-
-.ui-datepicker a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.ui-datepicker-header,
-.ui-datepicker-calendar {
-  padding: 5px;
-  text-align: center;
-}
-
-.ui-datepicker-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.ui-datepicker-title {
-  font-weight: bold;
-}
-
-.ui-datepicker-prev,
-.ui-datepicker-next {
-  cursor: pointer;
-}
-
-.ui-datepicker-prev .ui-icon,
-.ui-datepicker-next .ui-icon {
-  display: none;
-}
-
-.ui-datepicker-prev:before,
-.ui-datepicker-next:before {
-  border: 5px solid transparent;
-  content: "";
-  height: 0;
-  position: absolute;
-  top: 10px;
-  transition: border-color 250ms;
-  width: 0;
-}
-
-.ui-datepicker-prev:before {
-  border-left-width: 0;
-  border-right-color: rgba(255, 255, 255, 0.5);
-  left: 10px;
-}
-
-.ui-datepicker-prev:hover:before {
-  border-right-color: #ffffff;
-}
-
-.ui-datepicker-next:before {
-  border-left-color: rgba(255, 255, 255, 0.5);
-  border-right-width: 0;
-  right: 10px;
-}
-
-.ui-datepicker-next:hover:before {
-  border-left-color: #ffffff;
-}
-
-.ui-datepicker-calendar {
-  font-size: 14px;
-}
-
-.ui-datepicker-calendar a:hover {
-  transition: background-color 250ms;
-}
-
-.ui-datepicker-calendar .ui-state-default {
-  border-radius: 6px;
-  padding: 1px 2px;
-}
-
-.ui-datepicker-calendar .ui-state-default:hover {
-  background-color: rgba(255, 255, 255, 0.25);
-}
-
-.ui-datepicker-calendar .ui-state-active {
-  background-color: #ffffff;
-  color: #0c9024;
-}
-
-.ui-datepicker-calendar .ui-state-highlight {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #0c9024;
-}
-
-.ui-datepicker-calendar .ui-state-highlight:hover {
-  background-color: #ffffff;
-}
-
 .dropdown_menu {
   display: inline-block;
 }
@@ -1653,6 +1554,7 @@ form .boolean .inline-errors {
     display: block;
     float: none;
     width: 100%;
+    margin-left: 0 !important;
   }
 
   form ol > li label {
@@ -1701,6 +1603,7 @@ form .boolean .inline-errors {
 }
 
 .sidebar_section input[type="text"],
+.sidebar_section input[type="date"],
 .sidebar_section input[type="password"],
 .sidebar_section input[type="email"],
 .sidebar_section input[type="url"],
@@ -1732,7 +1635,8 @@ form.filter_form .filter_form_field.select_and_search input[type="text"] {
 }
 
 form.filter_form .filter_form_field.filter_date_range .separator,
-form.filter_form .filter_form_field.filter_date_range input[type="text"] {
+form.filter_form .filter_form_field.filter_date_range input[type="text"],
+form.filter_form .filter_form_field.filter_date_range input[type="date"] {
   display: inline-block;
   float: none;
 }
@@ -1746,6 +1650,17 @@ form.filter_form .filter_form_field.filter_date_range input[type="text"] {
   background-repeat: no-repeat;
   padding-right: 25px;
   width: calc(50% - 9px);
+}
+
+form.filter_form .filter_form_field.filter_date_range input[type="date"]:first-of-type {
+  margin-right: 7px;
+}
+
+form.filter_form .filter_form_field.filter_date_range input[type="date"] {
+  display: inline-block;
+  margin-left: 0;
+  width: calc(50% - 6px) !important;
+  line-height: 13px;
 }
 
 form.import,
@@ -1771,6 +1686,14 @@ form.filter_form .buttons a.clear_filters_btn {
   padding: 5px 10px;
   box-shadow: rgba(27, 31, 35, 0.1) 0px 1px 0px 0px,
     rgba(255, 255, 255, 0.03) 0px 1px 0px 0px inset;
+}
+
+form.filter_form .buttons a.clear_filters_btn {
+  margin-left: 0;
+  width: 100%;
+}
+form.filter_form .buttons input[type="submit"] {
+  display: none;
 }
 
 form.import input[type="file"] {

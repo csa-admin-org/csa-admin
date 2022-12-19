@@ -409,6 +409,35 @@ module ActiveAdmin
   end
 end
 
+module ActiveAdmin
+  module Filters
+    module ResourceExtension
+      def filters_sidebar_section
+        ActiveAdmin::SidebarSection.new :filters, only: :index, if: -> { active_admin_config.filters.any? } do
+          active_admin_filters_form_for assigns[:search], active_admin_config.filters,
+            data: {
+              controller: 'filters',
+              action: 'change->filters#submit'
+            }
+        end
+      end
+    end
+  end
+
+  module Inputs
+    module Filters
+      class DateRangeInput < ::Formtastic::Inputs::StringInput
+        def input_html_options
+          {
+            size: 12,
+            type: 'date'
+           }.merge(options[:input_html] || {})
+        end
+      end
+    end
+  end
+end
+
 # Support dynamic sidebar title with the :basket_price_extra_title name
 module ActiveAdmin
   class SidebarSection
