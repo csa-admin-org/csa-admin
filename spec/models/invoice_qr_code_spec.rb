@@ -14,6 +14,7 @@ describe InvoiceQRCode do
   }
   let(:member) {
     create(:member,
+      id: 1234,
       name: 'Pia-Maria Rutschmann-Schnyder',
       address: 'Grosse Marktgasse 28',
       zip: '9400',
@@ -54,7 +55,7 @@ describe InvoiceQRCode do
       "Rorschach\r\n" +
       "CH\r\n" +
       "QRR\r\n" +
-      "000000000000000000000007068\r\n" +
+      "000000000000012340000007067\r\n" +
       "Facture 706\r\n" +
       "EPD\r\n" +
       "\r\n")
