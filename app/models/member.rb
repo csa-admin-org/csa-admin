@@ -69,8 +69,11 @@ class Member < ApplicationRecord
 
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
+    inclusion: { in: proc { Current.acp.billing_year_divisions } },
+    on: :create
+  validates :billing_year_division,
     presence: true,
-    inclusion: { in: proc { Current.acp.billing_year_divisions } }
+    inclusion: { in: ACP.billing_year_divisions }
   validates :country_code,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :name, presence: true
