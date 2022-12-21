@@ -45,9 +45,15 @@ describe Member do
 
     it 'only accepts ACP billing_year_divisions' do
       Current.acp.billing_year_divisions = [1, 12]
-      member = Member.new(billing_year_division: 3)
+      member = build(:member, billing_year_division: 3)
 
       expect(member).not_to have_valid(:billing_year_division)
+
+      member.billing_year_division = 1
+      member.save!
+
+      member.billing_year_division = 3
+      expect(member).to have_valid(:billing_year_division)
     end
 
     it 'validates email presence, but only on public creation' do
