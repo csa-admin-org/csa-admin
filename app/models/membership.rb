@@ -482,6 +482,7 @@ class Membership < ApplicationRecord
       waiting_started_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
+      waiting_deliveries_cycle: nil,
       waiting_basket_complement_ids: nil)
   end
 

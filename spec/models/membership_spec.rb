@@ -586,6 +586,7 @@ describe Membership do
      .to change { member.waiting_started_at }.to(nil)
      .and change { member.waiting_basket_size_id }.to(nil)
      .and change { member.waiting_depot_id }.to(nil)
+     .and change { member.waiting_deliveries_cycle_id }.to(nil)
      .and change { member.waiting_basket_complement_ids }.to([])
   end
 
