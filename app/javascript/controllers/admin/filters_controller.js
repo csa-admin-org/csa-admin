@@ -8,10 +8,10 @@ export default class extends Controller {
     if (this.isSelectAndSearch(event.target)) {
       if (event.target.nextElementSibling.value != '') {
         // Let the select_and_search active admin JS do its job first
-        setTimeout(() => { form.requestSubmit() }, 50)
+        setTimeout(() => { form.submit() }, 50)
       }
     } else {
-      form.requestSubmit()
+      form.submit()
     }
   }
 
