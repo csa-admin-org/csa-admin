@@ -1162,7 +1162,7 @@ _:
           _de: sonder
           _fr: spéciale
           _it: speciale
-        text:
+        shop_text:
           _de: Erläuterung
           _fr: Explication
           _it: Spiegazione
