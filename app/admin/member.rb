@@ -27,7 +27,10 @@ ActiveAdmin.register Member do
   }
   filter :billing_year_division,
     as: :select,
-    collection: -> { Current.acp.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] } }
+    collection: -> {
+      divisions = Member.pluck(:billing_year_division).uniq.sort
+      divisions.map { |i| [t("billing.year_division.x#{i}"), i] }
+    }
   filter :salary_basket,
     as: :boolean,
     if: proc { params[:scope].in? ['active', nil] }
@@ -474,7 +477,10 @@ ActiveAdmin.register Member do
       f.input :billing_email, type: :email, label: t('.email')
       f.input :billing_year_division,
         as: :select,
-        collection: Current.acp.billing_year_divisions.map { |i| [t("billing.year_division.x#{i}"), i] },
+        collection: (
+          Array(f.object.persisted? ? f.object.billing_year_division : nil) +
+          Current.acp.billing_year_divisions
+        ).compact.uniq.sort.map { |i| [t("billing.year_division.x#{i}"), i] },
         prompt: true
       if Current.acp.annual_fee
         f.input :annual_fee
