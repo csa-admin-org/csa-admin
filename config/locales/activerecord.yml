@@ -1158,14 +1158,14 @@ _:
           _de: Produkte verfügbar
           _fr: Produits disponibles
           _it: Prodotti disponibili
-        special:
-          _de: sonder
-          _fr: spéciale
-          _it: speciale
         shop_text:
           _de: Erläuterung
           _fr: Explication
           _it: Spiegazione
+        special:
+          _de: sonder
+          _fr: spéciale
+          _it: speciale
     errors:
       models:
         basket_content:

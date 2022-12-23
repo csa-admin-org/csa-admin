@@ -96,6 +96,7 @@ class Ability
       can :mark_as_sent, Invoice, can_be_mark_as_sent?: true
       can :cancel, Invoice, can_cancel?: true
       can :import, Payment
+      can :invoice_all, ActivityParticipation
     end
 
     if admin.permission.can_write?(:depot)

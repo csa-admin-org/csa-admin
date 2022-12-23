@@ -62,6 +62,35 @@ describe ActivityParticipation, freeze: '2021-06-15' do
     end
   end
 
+  describe '.invoice_all_missing' do
+    before do
+      Current.acp.update!(activity_price: 90)
+      create(:membership, activity_participations_demanded_annualy: 0)
+      create(:membership, activity_participations_demanded_annualy: 1)
+      create(:membership, activity_participations_demanded_annualy: 2)
+    end
+
+    specify 'noop if no activty price' do
+      Current.acp.update!(activity_price: 0)
+
+      expect {
+        described_class.invoice_all_missing(Date.today.year)
+      }.not_to change { Invoice.count }
+    end
+
+    specify 'noop if no missing activity participations' do
+      expect {
+        described_class.invoice_all_missing(Date.today.year - 1)
+      }.not_to change { Invoice.count }
+    end
+
+    specify 'noop if no missing activity participations' do
+      expect {
+        described_class.invoice_all_missing(Date.today.year)
+      }.to change { Invoice.count }.by(2)
+    end
+  end
+
   describe '#validate!' do
     it 'sets states column' do
       activity = create(:activity, date: 3.days.ago)

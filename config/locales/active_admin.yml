@@ -653,6 +653,36 @@ _:
           _de: Lieferscheine (PDF)
           _fr: Bulletins de livraison (PDF)
           _it: Bolle di consegna (PDF)
+        invoice_all:
+          _de: Alles in Rechnung stellen
+          _fr: Tout facturer
+          _it: Fattura tutti
+        invoice_all_confirm:
+          one:
+            _de: Sind Sie sicher, dass Sie 1 fehlende Teilnahme (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
+            _fr: Êtes-vous sûr de vouloir facturer 1 participation manquante (%{activity_price}/part.) pour l'année %{year}?
+            _it: Siete sicuri di voler addebitare 1 partecipazione mancante ({activity_price}/part.) per l'anno %{year}?
+          other:
+            _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
+            _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
+            _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
+        invoicing:
+          _de: Rechnungen werden erstellt ...
+          _fr: Facturation en cours...
+          _it: Creazione delle fatture in corso...
+        missing_activity_participations_count_html:
+          one:
+            _de: "<b>%{count}</b> fehlende in %{year}"
+            _fr: "<b>%{count}</b> manquante en %{year}"
+            _it: "<b>%{count}</b> mancante in %{year}"
+          other:
+            _de: "<b>%{count}</b> fehlende in %{year}"
+            _fr: "<b>%{count}</b> manquantes en %{year}"
+            _it: "<b>%{count}</b> mancanti in %{year}"
+        no_missing_activity_participations:
+          _de: Keine fehlenden Teilnahmen
+          _fr: Aucune participation manquante
+          _it: Nessuna partecipazione mancante
         no_next_year_deliveries:
           _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
@@ -1378,6 +1408,10 @@ _:
         _de: 'Betrag:'
         _fr: 'Montant:'
         _it: 'Quantità:'
+      billing:
+        _de: Rechnungsstellung
+        _fr: Facturation
+        _it: Fatturazione
       calendar:
         _de: Kalender
         _fr: Calendrier

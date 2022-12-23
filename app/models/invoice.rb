@@ -261,6 +261,10 @@ class Invoice < ApplicationRecord
     !processing?
   end
 
+  def sent?
+    sent_at?
+  end
+
   def can_destroy?
     !processing? && !sent_at? && payments.none?
   end

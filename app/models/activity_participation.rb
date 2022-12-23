@@ -46,6 +46,16 @@ class ActivityParticipation < ApplicationRecord
     super + %i[during_year]
   end
 
+  def self.invoice_all_missing(year)
+    return unless Current.acp.activity_price.positive?
+
+    Membership.during_year(year).each do |membership|
+      next unless membership.missing_activity_participations.positive?
+
+      Billing::MissingActivityParticipationsInvoicerJob.perform_later(membership)
+    end
+  end
+
   def future?
     pending? && activity.future?
   end
