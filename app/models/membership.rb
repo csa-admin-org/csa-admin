@@ -102,6 +102,14 @@ class Membership < ApplicationRecord
     super + %i[during_year renewal_state_eq]
   end
 
+  def self.human_attribute_name(attr, *args)
+    if attr == :basket_price_extra_title
+      Current.acp.basket_price_extra_title
+    else
+      super
+    end
+  end
+
   def billable?
     missing_invoices_amount.positive?
   end
@@ -295,10 +303,10 @@ class Membership < ApplicationRecord
         .sum('quantity * basket_price'))
   end
 
-  def baskets_extra_price
+  def baskets_price_extra
     return 0 if basket_price_extra.to_i.zero?
 
-    rounded_price(baskets.billable.sum(:quantity) * basket_price_extra)
+    rounded_price(baskets.sum(&:price_extra))
   end
 
   def basket_complements_price
@@ -496,7 +504,7 @@ class Membership < ApplicationRecord
   def update_price_and_invoices_amount!
     update_columns(
       price: (basket_sizes_price +
-        baskets_extra_price +
+        baskets_price_extra +
         baskets_annual_price_change +
         basket_complements_price +
         basket_complements_annual_price_change +

@@ -82,10 +82,10 @@ module PDF
             ]
           end
         end
-        if Current.acp.feature?('basket_price_extra') && object.baskets_extra_price.positive?
+        if Current.acp.feature?('basket_price_extra') && !object.baskets_price_extra.zero?
           data << [
-            membership_baskets_extra_price_description,
-            _cur(object.baskets_extra_price)
+            membership_baskets_price_extra_description,
+            _cur(object.baskets_price_extra)
           ]
         end
         unless object.baskets_annual_price_change.zero?
@@ -454,8 +454,8 @@ module PDF
       "#{Basket.model_name.human}: #{basket_size.public_name} #{basket_sizes_price_info(object, baskets)}"
     end
 
-    def membership_baskets_extra_price_description
-      "#{Current.acp.basket_price_extra_public_title} #{baskets_extra_price_info(object)}"
+    def membership_baskets_price_extra_description
+      "#{Current.acp.basket_price_extra_public_title} #{baskets_price_extra_info(object.baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)

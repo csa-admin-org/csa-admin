@@ -59,6 +59,10 @@ _:
           _de: Jährlicher Beitrag
           _fr: Cotisation annuelle
           _it: Quota associativa annuale
+        basket_price_extra_dynamic_pricing:
+          _de: Dynamischer Preis
+          _fr: Prix dynamique
+          _it: Prezzo dinamico
         basket_price_extra_label:
           _de: Label
           _fr: Label

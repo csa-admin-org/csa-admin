@@ -64,8 +64,15 @@ module MembershipsHelper
       Current.acp.basket_price_extras?
   end
 
-  def baskets_extra_price_info(membership)
-    "#{membership.baskets.billable.sum(:quantity)}x #{precise_cur(membership.basket_price_extra).strip}"
+  def baskets_price_extra_info(baskets)
+    baskets
+      .includes(:membership)
+      .reject { |b| b.price_extra.zero? }
+      .group_by(&:price_extra)
+      .sort
+      .map { |price_extra, bbs|
+        "#{bbs.sum(&:quantity)}x #{precise_cur(price_extra).strip}"
+      }.join(' + ')
   end
 
   def membership_basket_complements_price_info(membership)

@@ -134,4 +134,86 @@ describe Basket do
         .and change { basket.reload.membership.price }.by(1)
     end
   end
+
+  describe '#price_extra' do
+    before { Current.acp.update! features: [:basket_price_extra] }
+    let(:basket) {
+      basket = Basket.new(
+        quantity: 2,
+        basket_price: 19,
+        membership: Membership.new(basket_price_extra: 2.42))
+    }
+
+    specify 'without basket_price_extra feature' do
+      Current.acp.update! features: []
+
+      expect(basket.price_extra).to eq 0
+    end
+
+    specify 'when basket_price is zero' do
+      basket.basket_price = 0
+      expect(basket.price_extra).to eq 0
+    end
+
+    specify 'when quantity is zero' do
+      basket.quantity = 0
+      expect(basket.price_extra).to eq 0
+    end
+
+    specify 'when no membership basket_price_extra' do
+      basket.membership = Membership.new(basket_price_extra: 0)
+      expect(basket.price_extra).to eq 0
+    end
+
+    specify 'when non billable basket' do
+      Current.acp.update!(absences_billed: false)
+      basket.absent = true
+      expect(basket.price_extra).to eq 0
+    end
+
+    specify 'without dynamic pricing' do
+      expect(basket.price_extra).to eq 2 * 2.42
+    end
+
+    specify 'with dynamic pricing based on basket_size' do
+      membership = create(:membership, basket_price_extra: 2)
+      basket_1 = Basket.new(
+        basket_size_id: 1,
+        basket_price: 19,
+        quantity: 2,
+        membership: membership)
+      basket_2 = Basket.new(
+        basket_size_id: 2,
+        basket_price: 33,
+        quantity: 2,
+        membership: membership)
+
+      Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
+        {% if basket_size_id == 1 %}
+          {{ 15 | minus: 10 | divided_by: 3.0 }}
+        {% else %}
+          2.5
+        {% endif %}
+      LIQUID
+
+      expect(basket_1.price_extra).to eq 2 * 5 / 3.0
+      expect(basket_2.price_extra).to eq 2 * 2.5
+    end
+
+    specify 'with dynamic pricing based on deliveries count and extra', freeze: '2022-01-01' do
+      create_deliveries(3)
+      membership = create(:membership, basket_price_extra: 10)
+      basket = Basket.new(
+        basket_size_id: 1,
+        basket_price: 19,
+        quantity: 2,
+        membership: membership)
+
+      Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
+        {{ extra | divided_by: deliveries_count }}
+      LIQUID
+
+      expect(basket.price_extra).to eq 2 * 10 / 3.0
+    end
+  end
 end

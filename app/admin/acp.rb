@@ -33,6 +33,7 @@ ActiveAdmin.register ACP do
     :absence_extra_text_only,
     :member_profession_form_mode, :member_come_from_form_mode,
     :membership_depot_update_allowed, :basket_update_limit_in_days,
+    :basket_price_extra_dynamic_pricing,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
@@ -325,6 +326,15 @@ ActiveAdmin.register ACP do
                   class: 'ace-editor',
                   data: { mode: 'liquid', code_editor_target: 'editor' }
                 })
+
+              f.input :basket_price_extra_dynamic_pricing,
+                as: :text,
+                hint: t('formtastic.hints.acp.basket_price_extra_dynamic_pricing_html'),
+                wrapper_html: { class: 'ace-editor' },
+                input_html: {
+                  class: 'ace-editor',
+                  data: { mode: 'liquid', code_editor_target: 'editor' }
+                }
 
               handbook_button(self, 'basket_price_extra')
             end
