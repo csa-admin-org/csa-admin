@@ -40,7 +40,7 @@ module XLSX
         add_line("#{Basket.model_name.human}: #{basket_size.name}", total, basket_size.price)
       end
       if Current.acp.feature?('basket_price_extra')
-        total = @baskets.sum('baskets.quantity * memberships.basket_price_extra')
+        total = @baskets.sum(&:price_extra)
         add_line(Current.acp.basket_price_extra_title, total)
       end
       add_empty_line

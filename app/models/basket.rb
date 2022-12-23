@@ -58,6 +58,31 @@ class Basket < ApplicationRecord
     end
   end
 
+  def billable?
+    !absent? || Current.acp.absences_billed?
+  end
+
+  def price_extra
+    return 0 unless Current.acp.feature?('basket_price_extra')
+    return 0 if basket_price.zero? || quantity.zero?
+    return 0 unless membership.basket_price_extra?
+    return 0 unless billable?
+
+    extra =
+      if Current.acp.basket_price_extra_dynamic_pricing?
+        template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
+        template.render(
+          'basket_price' => membership.basket_price.to_f,
+          'extra' => membership.basket_price_extra.to_f,
+          'basket_size_id' => basket_size_id,
+          'deliveries_count' => Delivery.during_year(membership.fy_year).count.to_f
+        ).to_f
+      else
+        membership.basket_price_extra
+      end
+    quantity * extra
+  end
+
   def complements_description
     baskets_basket_complements
       .joins(:basket_complement)

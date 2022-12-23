@@ -305,6 +305,22 @@ describe Membership do
       .to eq(membership.basket_sizes_price + membership.depots_price - 11)
   end
 
+  specify 'with custom basket dynamic extra price' do
+    Current.acp.update!(
+      features: [:basket_price_extra],
+      basket_price_extra_dynamic_pricing: <<~LIQUID)
+        {{ extra | divided_by: 2.0 }}
+      LIQUID
+
+    membership = create(:membership,
+      basket_size_id: create(:basket_size, price: 15).id,
+      basket_quantity: 2,
+      depot_id: create(:depot, price: 2).id,
+      basket_price_extra: 3)
+
+    expect(membership.baskets_price_extra).to eq 2 * 3 / 2.0
+  end
+
   specify 'with basket complements' do
     membership = create(:membership, basket_price: 31, deliveries_count: 40)
     create(:basket_complement, id: 1, price: 2.20)

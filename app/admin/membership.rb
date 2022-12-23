@@ -170,27 +170,27 @@ ActiveAdmin.register Membership do
     end
   end
 
-  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') } do
+  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') && params.dig(:q, :during_year) } do
     div class: 'actions' do
       handbook_icon_link('basket_price_extra')
     end
 
-    coll = collection.unscope(:includes).limit(nil)
-    all = coll.joins(:baskets).merge(Basket.billable).distinct(false)
+    coll = collection.unscope(:includes, :order).limit(nil)
+    all = coll.includes(:baskets, :member)
 
     div class: 'content' do
       if coll.where('basket_price_extra < 0').any?
         div class: 'total' do
-          sum = all.where('basket_price_extra > 0').sum('baskets.quantity * memberships.basket_price_extra')
+          sum = all.where('basket_price_extra > 0').sum(&:baskets_price_extra)
           span cur(sum), style: 'text-align: right; display: inline-block; width: 100%;'
         end
         div class: 'total' do
-          sum = all.where('basket_price_extra < 0').sum('baskets.quantity * memberships.basket_price_extra')
+          sum = all.where('basket_price_extra < 0').sum(&:baskets_price_extra)
           span cur(sum), style: 'text-align: right; display: inline-block; width: 100%;'
         end
       end
       div class: 'totals' do
-        sum = all.sum('baskets.quantity * memberships.basket_price_extra')
+        sum = all.sum(&:baskets_price_extra)
         span t('active_admin.sidebars.amount')
         span cur(sum), style: 'float: right; font-weight: bold;'
       end
@@ -234,8 +234,14 @@ ActiveAdmin.register Membership do
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_price) { |m| cur(m.basket_price) }
     if Current.acp.feature?('basket_price_extra')
-      column(Current.acp.basket_price_extra_title) { |m| cur(m.basket_price_extra) }
-      column("#{Current.acp.basket_price_extra_title} - #{Membership.human_attribute_name(:total)}") { |m| cur(m.baskets_extra_price) }
+      column(Current.acp.basket_price_extra_title) { |m|
+        if Current.acp.basket_price_extra_dynamic_pricing?
+          m.basket_price_extra
+        else
+          cur(m.basket_price_extra)
+        end
+      }
+      column("#{Current.acp.basket_price_extra_title} - #{Membership.human_attribute_name(:total)}") { |m| cur(m.baskets_price_extra) }
     end
     column(:basket_quantity)
     if BasketComplement.any?
@@ -475,8 +481,8 @@ ActiveAdmin.register Membership do
               display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
             }
             if Current.acp.feature?('basket_price_extra')
-              row(Current.acp.basket_price_extra_title) {
-                display_price_description(m.baskets_extra_price, baskets_extra_price_info(m))
+              row(:basket_price_extra_title) {
+                display_price_description(m.baskets_price_extra, baskets_price_extra_info(m.baskets))
               }
             end
             row(:baskets_annual_price_change) {
