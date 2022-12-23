@@ -80,6 +80,46 @@ ActiveAdmin.register ActivityParticipation do
     end
   end
 
+  sidebar :billing, only: :index, if: -> { Current.acp.activity_price.positive? } do
+    div class: 'actions' do
+      handbook_icon_link('billing', anchor: 'activity')
+    end
+
+    div class: 'content' do
+      no_counts = true
+      [Current.fy_year - 1, Current.fy_year].each do |year|
+        fy = Current.acp.fiscal_year_for(year)
+        missing_count = Membership.during_year(fy).sum(&:missing_activity_participations)
+        if missing_count.positive?
+          no_counts = false
+          div class: 'top-spacing' do
+            span t('.missing_activity_participations_count_html', year: fy.to_s, count: missing_count)
+          end
+          if authorized?(:invoice_all, ActivityParticipation)
+            div class: 'top-small-spacing' do
+              button_to t('.invoice_all'), invoice_all_activity_participations_path,
+                params: { year: fy.year },
+                form: { data: { controller: 'disable', disable_with_value: t('.invoicing') } },
+                data: { confirm: t('.invoice_all_confirm', year: fy.to_s, count: missing_count, activity_price: cur(Current.acp.activity_price)) },
+                class: 'full-width'
+            end
+          end
+        end
+      end
+      if no_counts
+        div class: 'content' do
+          span t('.no_missing_activity_participations'), class: 'empty'
+        end
+      end
+    end
+  end
+
+  collection_action :invoice_all, method: :post do
+    authorize!(:invoice_all, ActivityParticipation)
+    ActivityParticipation.invoice_all_missing(params[:year])
+    redirect_to collection_path, notice: t('active_admin.resource.index.invoicing')
+  end
+
   sidebar :calendar, if: -> { Current.acp.icalendar_auth_token? }, only: :index do
     div class: 'content' do
       para t('.activity_participation_ical_text_html')
