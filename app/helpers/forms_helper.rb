@@ -1,6 +1,7 @@
 module FormsHelper
   def translated_input(form, attr, options = {})
     locales = Array(options.delete(:locale) || Current.acp.languages)
+    input_html = options.delete(:input_html) || {}
     locales.each do |locale|
       klass = form.object.class.name.underscore.gsub('/', '_')
       form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
@@ -8,7 +9,7 @@ module FormsHelper
         input_html: {
           class: "#{klass}_#{attr.to_s.singularize}",
           value: form.object.send(attr)[locale]
-        }.merge(options.delete(:input_html) || {})
+        }.merge(input_html)
       }.deep_merge(options)
     end
   end
