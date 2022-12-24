@@ -16,6 +16,16 @@ describe ACP do
       .to include("Liquid syntax error: 'if' tag was never closed")
   end
 
+  specify 'validates basket_price_extra_dynamic_pricing liquid syntax' do
+    acp = ACP.new(basket_price_extra_dynamic_pricing: <<~LIQUID)
+      {% if extra %}
+    LIQUID
+
+    expect(acp).not_to have_valid(:basket_price_extra_dynamic_pricing)
+    expect(acp.errors[:basket_price_extra_dynamic_pricing])
+      .to include("Liquid syntax error: 'if' tag was never closed")
+  end
+
   specify 'validates QR IBAN' do
     acp = ACP.new(qr_iban: 'CH3230114A012B456789z')
     expect(acp).to have_valid(:qr_iban)
