@@ -74,6 +74,7 @@ class ACP < ApplicationRecord
   validates :activity_price,
     numericality: { greater_than_or_equal_to: 0 }
   validate :activity_participations_demanded_logic_must_be_valid
+  validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
   validates :open_renewal_reminder_sent_after_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
@@ -252,6 +253,12 @@ class ACP < ApplicationRecord
     Liquid::Template.parse(activity_participations_demanded_logic)
   rescue Liquid::SyntaxError => e
     errors.add(:activity_participations_demanded_logic, e.message)
+  end
+
+  def basket_price_extra_dynamic_pricing_logic_must_be_valid
+    Liquid::Template.parse(basket_price_extra_dynamic_pricing)
+  rescue Liquid::SyntaxError => e
+    errors.add(:basket_price_extra_dynamic_pricing, e.message)
   end
 
   def ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
