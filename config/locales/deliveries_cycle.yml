@@ -17,6 +17,22 @@ _:
         _de: Ungeraden
         _fr: Impairs
         _it: Dispari
+      quarter_1:
+        _de: 1. Viertel
+        _fr: 1er quart
+        _it: 1° quarto
+      quarter_2:
+        _de: 2. Viertel
+        _fr: 2ème quart
+        _it: 2° quarto
+      quarter_3:
+        _de: 3. Viertel
+        _fr: 3ème quart
+        _it: 3° quarto
+      quarter_4:
+        _de: 4. Viertel
+        _fr: 4ème quart
+        _it: 4° quarto
     settings:
       _de: Konfiguration
       _fr: Configuration

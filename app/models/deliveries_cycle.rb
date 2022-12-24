@@ -3,7 +3,11 @@ class DeliveriesCycle < ApplicationRecord
   include HasVisibility
 
   enum week_numbers: %i[all odd even], _suffix: true
-  enum results: %i[all odd even], _suffix: true
+  enum results: %i[
+    all
+    odd even
+    quarter_1 quarter_2 quarter_3 quarter_4
+  ], _suffix: true
 
   has_many :memberships
   has_and_belongs_to_many :depots
@@ -90,6 +94,14 @@ class DeliveriesCycle < ApplicationRecord
       scoped = scoped.to_a.select.with_index { |_, i| (i + 1).odd? }
     elsif even_results?
       scoped = scoped.to_a.select.with_index { |_, i| (i + 1).even? }
+    elsif quarter_1_results?
+      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 0 }
+    elsif quarter_2_results?
+      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 1 }
+    elsif quarter_3_results?
+      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 2 }
+    elsif quarter_4_results?
+      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 3 }
     end
     scoped
   end

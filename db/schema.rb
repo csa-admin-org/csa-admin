@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_23_125723) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_24_101219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -611,6 +611,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_23_125723) do
     t.integer "quantity", default: 1, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "deliveries_cycle_id"
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
@@ -752,6 +753,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_23_125723) do
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "deliveries_cycles"
   add_foreign_key "memberships", "depots"
+  add_foreign_key "memberships_basket_complements", "deliveries_cycles"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
   add_foreign_key "sessions", "admins"

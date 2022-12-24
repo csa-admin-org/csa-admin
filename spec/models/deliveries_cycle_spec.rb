@@ -61,6 +61,46 @@ describe DeliveriesCycle, freeze: '2022-01-01' do
     expect(cycle.current_deliveries.pluck(:number)).to eq [2, 4, 6, 8, 10]
   end
 
+  specify 'only first quarter results' do
+    Array(0..9).each do |i|
+      create(:delivery, date: Date.today + i.day)
+    end
+
+    cycle = create(:deliveries_cycle, results: :quarter_1)
+    expect(cycle.current_deliveries.count).to eq 3
+    expect(cycle.current_deliveries.pluck(:number)).to eq [1, 5, 9]
+  end
+
+  specify 'only second quarter results' do
+    Array(0..9).each do |i|
+      create(:delivery, date: Date.today + i.day)
+    end
+
+    cycle = create(:deliveries_cycle, results: :quarter_2)
+    expect(cycle.current_deliveries.count).to eq 3
+    expect(cycle.current_deliveries.pluck(:number)).to eq [2, 6, 10]
+  end
+
+  specify 'only third quarter results' do
+    Array(0..9).each do |i|
+      create(:delivery, date: Date.today + i.day)
+    end
+
+    cycle = create(:deliveries_cycle, results: :quarter_3)
+    expect(cycle.current_deliveries.count).to eq 2
+    expect(cycle.current_deliveries.pluck(:number)).to eq [3, 7]
+  end
+
+  specify 'only fourth quarter results' do
+    Array(0..9).each do |i|
+      create(:delivery, date: Date.today + i.day)
+    end
+
+    cycle = create(:deliveries_cycle, results: :quarter_4)
+    expect(cycle.current_deliveries.count).to eq 2
+    expect(cycle.current_deliveries.pluck(:number)).to eq [4, 8]
+  end
+
   specify 'only Tuesday, in Janury, odd weeks, and even results' do
     Array(0..60).each do |i|
       create(:delivery, date: Date.today + i.day)

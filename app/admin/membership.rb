@@ -651,6 +651,11 @@ ActiveAdmin.register Membership do
               required: false,
               input_html: { data: { form_reset_target: 'input' } }
             ff.input :quantity
+            ff.input :deliveries_cycle,
+              as: :select,
+              collection: deliveries_cycles_collection,
+              include_blank: true,
+              hint: true
           end
         end
       end
@@ -669,6 +674,7 @@ ActiveAdmin.register Membership do
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,
+      :deliveries_cycle_id,
       :_destroy
     ]
 
