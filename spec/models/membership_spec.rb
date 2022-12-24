@@ -341,6 +341,20 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.basket_complements_price
   end
 
+  specify 'with basket complement with deliveries cycle' do
+    create(:deliveries_cycle, results: :all)
+    cycle = create(:deliveries_cycle, results: :quarter_1)
+    create_deliveries(40)
+    create(:basket_complement, id: 1, price: 2.20)
+    membership = create(:membership,
+      memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, quantity: 1, deliveries_cycle: cycle }
+      })
+
+    expect(membership.baskets.size).to eq 40
+    expect(membership.baskets.map(&:complement_ids).flatten.size).to eq 10
+  end
+
   specify 'with basket complements with annual price type', freeze: '2022-01-01' do
     create_deliveries(3)
     create(:basket_complement, :annual_price_type, id: 1, price: 100)

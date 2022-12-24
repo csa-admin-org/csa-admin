@@ -126,7 +126,10 @@ class Basket < ApplicationRecord
       delivery.basket_complement_ids & membership.subscribed_basket_complement_ids
     membership
       .memberships_basket_complements
+      .includes(:deliveries_cycle)
       .where(basket_complement_id: complement_ids).each do |mbc|
+        next if mbc.deliveries_cycle && !mbc.deliveries_cycle.include_delivery?(delivery)
+
         baskets_basket_complements.build(
           basket_complement_id: mbc.basket_complement_id,
           quantity: mbc.quantity,

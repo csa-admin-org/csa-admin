@@ -451,6 +451,11 @@ _:
           _de: Leer lassen, wenn das Mitglied nicht als unterstützendes Mitglied fortfahren möchte.
           _fr: Laisser blanc si le membre ne désire pas continuer en tant que membre de soutien.
           _it: Lasciare vuoto se il membro non desidera continuare come membro sostenitore.
+      memberships_basket_complement:
+        deliveries_cycle:
+          _de: Wenn ein Lieferzyklus ausgewählt ist, werden nur die Überschneidungen der Lieferungen des Abonnements, des Zusatzes und des Lieferzyklus berücksichtigt.
+          _fr: Si un cycle de livraisons est sélectionné, seule l'intersection des livraisons de l'abonnement, du complément et de ce cycle seront considérées.
+          _it: Se si seleziona un ciclo di consegna, verrà considerato solo l'incrocio delle consegne dell'abbonamento, della ricarica e di questo ciclo.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.
