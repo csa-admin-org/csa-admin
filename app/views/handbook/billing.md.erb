@@ -6,7 +6,7 @@ ACP Admin génère des factures-QR avec numéro de référence (PDF) et les envo
 
 ## Abonnements
 
-La facturation des abonnements est complètement automatisée par le système. Vous pouvez définir dans [les paramètres (Facturation automatique)](/settings#billing) le jour de la semaine où le système va passer en revue tous les abonnements et créer et envoyer automatiquement les factures nécessaires. Par exemple, si un membre est facturé tous les trimestres alors une nouvelle facture sera automatiquement créée et envoyée le premier jour de la semaine configuré d'un nouveau trimestre.
+La facturation des abonnements est complètement automatisée par le système. Vous pouvez définir dans [les paramètres (Facturation automatique)](/settings#billing) le jour de la semaine où le système va passer en revue tous les abonnements et créer et envoyer automatiquement les factures nécessaires. Par exemple, si un membre est facturé tous les trimestres, alors une nouvelle facture sera automatiquement créée et envoyée le premier jour de la semaine configuré d'un nouveau trimestre.
 
 Le montant de la facture est calculé ainsi: montant total de l'abonnement / nombre d'intervalles de paiements. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
 
@@ -26,13 +26,13 @@ Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifi
 
 - Une facture future doit encore être envoyée (c'est le milieu de l'année et le membre est facturé chaque trimestre); dans ce cas, le changement de prix (positif ou négatif) sera simplement appliqué à la prochaine facture.
 - La dernière facture a déjà été envoyée (c'est la fin de l'année ou le membre est facturé en une fois), il y a alors 2 possibilités:
-  - Le changement de prix est positif, la dernière facture de l'abonnement est alors automatiquement annulée et une nouvelle facture (avec un montant plus élevé) sera recréer le prochain jour de facturation.
-  - Le changement de prix est négatif, la dernière facture de l'abonnement est alors aussi automatiquement annulée et une nouvelle facture (avec un montant moins élevé) sera recréer le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
+  - Le changement de prix est positif, la dernière facture de l'abonnement est alors automatiquement annulée et une nouvelle facture (avec un montant plus élevé) sera recréée le prochain jour de facturation.
+  - Le changement de prix est négatif, la dernière facture de l'abonnement est alors aussi automatiquement annulée et une nouvelle facture (avec un montant moins élevé) sera recréée le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée, alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
 
 <% if Current.acp.annual_fee? %>
 ### Cotisation annuelle
 
-La cotisation annuelle est automatiquement inclus dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement (soutien) alors une facture spécifique est créée automatiquement en début de l'année fiscale.
+La cotisation annuelle est automatiquement incluse dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement (soutien) alors une facture spécifique est créée automatiquement au début de l'année fiscale.
 <% end %>
 
 
@@ -45,11 +45,11 @@ Si l'abonnement est arrêté durant la période d'essai, alors seulement les pan
 <% if Current.acp.share? %>
 ## Parts sociales
 
-Chaque jour de facturation, le système créer automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
+Chaque jour de facturation, le système créée automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
 
-Pour rembourser une part sociale déjà facturée, rendez-vous sur la page de la facture et cliquer sur le bouton "Remboursement" en haut à droite, vous pouvez alors facilement créer une facture de part sociale négative. Assurez-vous bien que le membre n'ai plus besoin de parts sociales, sinon elles seront à nouveau automatiquement créées le prochain jour de facturation.
+Pour rembourser une part sociale déjà facturée, rendez vous sur la page de la facture et cliquez sur le bouton "Remboursement" en haut à droite, vous pouvez alors facilement créer une facture de part sociale négative. Assurez-vous bien que le membre n'ai plus besoin de parts sociales, sinon elles seront à nouveau automatiquement créées le prochain jour de facturation.
 
-Si des parts sociales ont déjà été facturées en dehors d'ACP Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturé.
+Si des parts sociales ont déjà été facturées en dehors d'ACP Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturées.
 
 > Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
 <% end %>
@@ -58,7 +58,7 @@ Si des parts sociales ont déjà été facturées en dehors d'ACP Admin, vous po
 <% if Current.acp.feature?('activity') %>
 ## <%= activities_human_name %> non effectuées {#activity}
 
-Chaque ACP a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent d'autres non.
+Chaque ACP a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent, d'autres non.
 ACP Admin vous permet de facturer individuellement ou de manière groupée les <%= activities_human_name.downcase %> non effectuées.
 
 ### Définir les membres à facturer
@@ -70,7 +70,7 @@ En ouvrant le CSV avec Excel, il est facile de déterminer les membres à factur
 
 Soit en utilisant le bouton "Facturer" depuis la page d'une participation refusée ou depuis [la page de création d'une nouvelle facture](/invoices/new). Il suffit ensuite de rentrer le nombre de <%= activities_human_name.downcase %> à facturer et de cliquer sur le bouton "Créer Facture".
 
-N'oubliez pas d'envoyer la facture, elle n'est pas envoyer automatiquement afin que vous puissiez la vérifier.
+N'oubliez pas d'envoyer la facture, elle n'est pas envoyée automatiquement afin que vous puissiez la vérifier.
 
 > Les <%= activities_human_name.downcase %> facturées sont automatiquement comptées comme des <%= activities_human_name.downcase %> effectuées; il est en conséquence important que la date de la facture soit comprise dans l'année fiscale de l'abonnement concerné.
 
@@ -97,7 +97,7 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 
 ## Facture manuelle (Autre)
 
-ACP Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous le tab "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
+ACP Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 
 > Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.acp.share? %>, parts sociales<% end %><% if Current.acp.feature?('activity') %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
 
@@ -105,7 +105,7 @@ ACP Admin offre la possibilité de facturer manuellement des articles ou des ser
 
 ## Paiements
 
-À chaque fois qu'un paiement est créé (automatiquement ou manuellement) ou qu'une facture est créée ou annulée, le système va répartir le montant de tous paiements aux factures existantes dans l'ordre de priorité suivant:
+À chaque fois qu'un paiement est créé (automatiquement ou manuellement) ou qu'une facture est créée ou annulée, le système va répartir le montant de tous les paiements aux factures existantes dans l'ordre de priorité suivant:
 
 1. Paiement avec numéro de référence, redistribution jusqu'à ce que la facture référencée soit fermée.
 2. Redistribution des montants excédants des paiements avec numéro de référence sur les factures encore ouvertes du même type et de la même ou précédentes années fiscales dans l'ordre chronologique.
@@ -116,7 +116,7 @@ Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou
 
 ### Importation automatique
 
-La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'automatiquement (chaque nuit) importer les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
+La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
 
 ACP Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
 
