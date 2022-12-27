@@ -34,7 +34,7 @@ describe 'Shop' do
       expect(current_path).not_to eq '/shop'
     end
 
-    specify 'menu only for session originated from admin' do
+    specify 'menu only for session originated from admin', freeze: '2022-01-01' do
       Current.acp.update!(shop_admin_only: true, features: ['shop'])
 
       visit '/'
