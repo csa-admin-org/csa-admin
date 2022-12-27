@@ -159,7 +159,7 @@ describe Billing::Invoicer do
       expect(invoice.pdf_file).to be_attached
     end
 
-    specify 'when salary basket & support member' do
+    specify 'when salary basket & support member', freeze: '2022-01-01' do
       member = create(:member, :support_annual_fee, salary_basket: true)
       invoice = create_invoice(member)
 
