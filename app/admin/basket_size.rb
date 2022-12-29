@@ -4,6 +4,7 @@ ActiveAdmin.register BasketSize do
 
   includes :memberships
   index download_links: false do
+    column :id
     column :name
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) {

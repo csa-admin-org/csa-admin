@@ -8,6 +8,7 @@ ActiveAdmin.register BasketComplement do
 
   includes :memberships_basket_complements, :current_deliveries
   index download_links: false do
+    column :id
     column :name
     column :price_type, -> (bc) {
       BasketComplement.human_attribute_name("price_type/#{bc.price_type}")
