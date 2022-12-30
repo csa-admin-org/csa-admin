@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe BasketComplement do
-  describe '#deliveries_count' do
+  describe '#deliveries_count', freeze: '2022-01-01' do
     it 'counts future deliveries when exits' do
       basket_complement = create(:basket_complement)
 
@@ -19,7 +19,7 @@ describe BasketComplement do
     end
   end
 
-  it 'adds basket_complement on subscribed baskets' do
+  it 'adds basket_complement on subscribed baskets', freeze: '2022-01-01' do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -49,7 +49,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-  it 'adds basket_complement with annual price type on subscribed baskets' do
+  it 'adds basket_complement with annual price type on subscribed baskets', freeze: '2022-01-01' do
     basket_complement1 = create(:basket_complement, :annual_price_type, id: 1)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -79,7 +79,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 4.5
   end
 
-  it 'removes basket_complement on baskets' do
+  it 'removes basket_complement on baskets', freeze: '2022-01-01' do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -115,7 +115,7 @@ describe BasketComplement do
     basket1 = nil
     basket2 = nil
     basket3 = nil
-    travel_to 1.year.ago do
+    travel_to 1.year.ago.beginning_of_year do
       create(:delivery)
       membership_1 = create(:membership, subscribed_basket_complement_ids: [1, 2])
       membership_2 = create(:membership, subscribed_basket_complement_ids: [2])

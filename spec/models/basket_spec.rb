@@ -69,7 +69,7 @@ describe Basket do
     }.to change(basket, :complements_price).from(3.2 + 4.5).to(4.5)
   end
 
-  it 'sets basket_complement on creation when its match membership subscriptions' do
+  it 'sets basket_complement on creation when its match membership subscriptions', freeze: '2022-01-01' do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
