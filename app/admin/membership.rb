@@ -256,6 +256,7 @@ ActiveAdmin.register Membership do
     column(:deliveries_cycle) { |m| m.deliveries_cycle.name }
     if Current.acp.feature?('activity')
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
+      column(activity_scoped_attribute(:activity_participations_accepted), &:activity_participations_accepted)
       column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
     end
     column(:renewal_state) { |m| t("active_admin.status_tag.#{m.renewal_state}") }

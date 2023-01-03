@@ -760,6 +760,22 @@ _:
           _fr: Complément
           _it: Aggiunte
       membership:
+        activity_participations_accepted/basket_preparation:
+          _de: Verlangte Taschen akzeptiert
+          _fr: Mises en panier acceptées
+          _it: Preparazioni ceste accettate
+        activity_participations_accepted/day_work:
+          _de: Arbeitstage akzeptiert
+          _fr: Journées de travail acceptées
+          _it: Giorni di lavoro accettati
+        activity_participations_accepted/halfday_work:
+          _de: "½ Tage akzeptiert"
+          _fr: "½ journées acceptées"
+          _it: "½ giornate accettate"
+        activity_participations_accepted/hour_work:
+          _de: Arbeitsstunden akzeptiert
+          _fr: Heures de travail acceptées
+          _it: Ore di lavoro accettate
         activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Preis Abonnement (Taschen befüllung)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
