@@ -218,14 +218,16 @@ describe Billing::Invoicer do
 
     specify 'when quarter #2' do
       travel_to('2022-01-01') { create_invoice(member) }
-      invoice = travel_to('2022-04-01') { create_invoice(member) }
+      travel_to('2022-04-01') {
+        invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
-      expect(invoice.annual_fee).to be_nil
-      expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
-      expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
-      expect(invoice.memberships_amount).to eq membership.price / 4.0
-      expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #2'
+        expect(invoice.object).to eq membership
+        expect(invoice.annual_fee).to be_nil
+        expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
+        expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
+        expect(invoice.memberships_amount).to eq membership.price / 4.0
+        expect(invoice.memberships_amount_description).to eq 'Facturation trimestrielle #2'
+      }
     end
 
     specify 'when quarter #2 (already billed)' do
