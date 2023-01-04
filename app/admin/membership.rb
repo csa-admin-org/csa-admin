@@ -312,6 +312,7 @@ ActiveAdmin.register Membership do
           row :member
           row(:period) { [l(m.started_on),l(m.ended_on)].join(' - ') }
           row(:fiscal_year)
+          row(:created_at) { l m.created_at, format: :long }
         end
 
         attributes_table title: t('.config') do
