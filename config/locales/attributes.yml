@@ -320,6 +320,10 @@ _:
       _de: Name (Mitglied)
       _fr: Nom (Membre)
       _it: Nome (Socio)
+    public_note:
+      _de: Notiz (Mitglied)
+      _fr: Note (Membre)
+      _it: Nota (Socio)
     qt:
       _de: Mg.
       _fr: Qté.

@@ -217,6 +217,14 @@ input[type="number"].controls-none {
   .trix ol li {
     @apply list-decimal list-inside;
   }
+
+  .trix h1 {
+    @apply my-0 text-lg font-bold text-gray-900 dark:text-gray-100;
+  }
+
+  .trix strong {
+    @apply font-semibold text-gray-600 dark:text-gray-400;
+  }
 }
 
 /**

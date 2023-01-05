@@ -347,6 +347,10 @@ _:
           _it: Accetto di condividere le mie informazioni di contatto con altri soci del mio punto di ritiro.
     deliveries:
       index:
+        depot_note:
+          _de: 'Informationen: %{depot}'
+          _fr: 'Information: %{depot}'
+          _it: 'Informazione: %{depot}'
         future_deliveries:
           _de: Zukünftige Lieferungen (%{count})
           _fr: Futures livraisons (%{count})

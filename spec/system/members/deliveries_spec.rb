@@ -33,4 +33,16 @@ describe 'members page' do
 
     expect(current_path).not_to eq '/deliveries'
   end
+
+  specify 'shows next basket depot public note', freeze: '2023-01-01' do
+    depot = create(:depot, public_name: 'Jardin de la main', public_note: 'Note publique 42')
+    member = create(:member)
+    create(:membership, member: member, depot: depot)
+
+    login(member)
+    visit '/deliveries'
+
+    expect(page).to have_content 'Information: Jardin de la main'
+    expect(page).to have_content 'Note publique 42'
+  end
 end

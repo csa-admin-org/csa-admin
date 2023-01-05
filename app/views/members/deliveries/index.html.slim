@@ -1,6 +1,11 @@
 h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
   = Delivery.model_name.human(count: 2)
 
+- if @next_basket&.depot&.public_note?
+  h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
+    = t('.depot_note', depot: @next_basket.depot.public_name)
+  .trix.mt-2 = @next_basket.depot.public_note
+
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t('.future_deliveries', count: @future_baskets.count)
 ul class='w-full flex flex-row flex-wrap'

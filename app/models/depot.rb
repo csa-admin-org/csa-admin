@@ -3,10 +3,13 @@ class Depot < ApplicationRecord
   include HasPhones
   include HasLanguage
   include TranslatedAttributes
+  include TranslatedRichTexts
   include HasVisibility
 
-  translated_attributes :public_name
   attribute :language, :string, default: -> { Current.acp.languages.first }
+
+  translated_attributes :public_name
+  translated_rich_texts :public_note
 
   has_many :baskets
   has_many :memberships
