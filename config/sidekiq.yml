@@ -2,46 +2,47 @@
   - [critical, 5]
   - [default, 2]
   - low
-:schedule:
-  billing_invoices:
-    cron: '0 0 5 * * *'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::BillingInvoicerJob
-    description: "Automatically create and send new invoices"
-  billing_payments:
-    cron: '0 30 4 * * *'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::BillingPaymentsProcessorJob
-    description: "Process all new payments from the bank"
-  billing_snapshot:
-    cron: '0 45-59/1 23 28-31 * *'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::BillingSnapshotJob
-    description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
-  daily:
-    cron: '5 0 0 * * *'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::DailyJob
-    description: "Daily checks and updates"
-  newsletter_sync_list:
-    cron: '0 0 1 * * *'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::NewsletterSyncListJob
-    description: "Sync members with Mailchimp audience list"
-  notifier:
-    cron: '0 30 4 * * *'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::NotifierJob
-    description: "Send notifications to members and admins"
-  postmark_sync_suppressions:
-    every: '1h'
-    queue: low
-    class: ScheduledJob
-    args: Scheduled::PostmarkSyncSuppressionsJob
-    description: "Sync Postmark suppressions"
+:scheduler:
+  :schedule:
+    billing_invoices:
+      cron: '0 0 5 * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::BillingInvoicerJob
+      description: "Automatically create and send new invoices"
+    billing_payments:
+      cron: '0 30 4 * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::BillingPaymentsProcessorJob
+      description: "Process all new payments from the bank"
+    billing_snapshot:
+      cron: '0 45-59/1 23 28-31 * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::BillingSnapshotJob
+      description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
+    daily:
+      cron: '5 0 0 * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::DailyJob
+      description: "Daily checks and updates"
+    newsletter_sync_list:
+      cron: '0 0 1 * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::NewsletterSyncListJob
+      description: "Sync members with Mailchimp audience list"
+    notifier:
+      cron: '0 30 4 * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::NotifierJob
+      description: "Send notifications to members and admins"
+    postmark_sync_suppressions:
+      every: '1h'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::PostmarkSyncSuppressionsJob
+      description: "Sync Postmark suppressions"
