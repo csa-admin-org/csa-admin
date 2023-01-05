@@ -90,6 +90,7 @@ ActiveAdmin.register Depot do
           end
           row(:price) { cur(depot.price) }
           row(:note) { text_format(depot.note) }
+          row(:public_note) { depot.public_note if depot.public_note? }
         end
 
         attributes_table title: t('.member_new_form') do
@@ -111,6 +112,10 @@ ActiveAdmin.register Depot do
       language_input(f)
       f.input :price, hint: true
       f.input :note, input_html: { rows: 3 }
+      translated_input(f, :public_notes,
+        as: :action_text,
+        required: false,
+        hint: t('formtastic.hints.depot.public_note'))
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
@@ -159,6 +164,7 @@ ActiveAdmin.register Depot do
       form_priority
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "public_note_#{l}" },
     deliveries_cycle_ids: [])
 
   before_build do |depot|

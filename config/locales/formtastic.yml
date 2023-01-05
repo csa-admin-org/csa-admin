@@ -338,6 +338,10 @@ _:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
           _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
+        public_note:
+          _de: Information, die oben auf der Liste der Lieferungen auf dem Mitgliederkonto angezeigt wird.
+          _fr: Information affichée en haut de la liste des livraisons sur le compte du membre.
+          _it: Informazioni visualizzate in alto nella lista delle consegne sul conto del socio.
         visible:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung.'
           _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
