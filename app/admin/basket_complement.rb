@@ -58,7 +58,7 @@ ActiveAdmin.register BasketComplement do
         collection: BasketComplement::PRICE_TYPES.map { |type|
           [BasketComplement.human_attribute_name("price_type/#{type}"), type]
         }
-      f.input :price, as: :number, min: 0
+      f.input :price, as: :number, min: 0, hint: f.object.persisted?
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
