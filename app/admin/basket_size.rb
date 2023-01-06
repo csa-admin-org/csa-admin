@@ -29,7 +29,7 @@ ActiveAdmin.register BasketSize do
       translated_input(f, :names)
       translated_input(f, :public_names,
         hint: t('formtastic.hints.basket_size.public_name'))
-      f.input :price, as: :number, min: 0
+      f.input :price, as: :number, min: 0, hint: f.object.persisted?
       if Current.acp.feature?('activity')
         f.input :activity_participations_demanded_annualy,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy)),

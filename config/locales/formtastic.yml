@@ -223,6 +223,10 @@ _:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
+        price:
+          _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
+          _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
+          _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
@@ -250,6 +254,10 @@ _:
           _de: Ermöglicht das Sortieren von Taschengrößen in einer bestimmten Reihenfolge
           _fr: Permet de trier les tailles de panier dans un ordre spécifique.
           _it: Permette di ordinare le dimensioni del cestino in un ordine specifico.
+        price:
+          _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
+          _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
+          _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
