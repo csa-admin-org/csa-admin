@@ -13,6 +13,7 @@ module XLSX
             .order(Arel.sql("members.name, shop_products.names->>'#{I18n.locale}', shop_product_variants.names->>'#{I18n.locale}'"))
         @producers = @order_items.map { |i| i.product.producer }.uniq
 
+        build_all_procuders_worksheet unless producer
         Array(producer || @producers).each do |p|
           build_producer_worksheet(p)
         end
@@ -29,14 +30,19 @@ module XLSX
 
       private
 
+      def build_all_procuders_worksheet
+        worksheet_name = I18n.t('shop.producers.all')
+        add_order_items_worksheet(worksheet_name, @order_items)
+      end
+
       def build_producer_worksheet(producer)
         order_items = @order_items.select { |i| i.product.producer == producer }
         worksheet_name = producer.name
 
-        add_order_items_worksheet(worksheet_name, order_items)
+        add_order_items_worksheet(worksheet_name, order_items, producer)
       end
 
-      def add_order_items_worksheet(name, order_items)
+      def add_order_items_worksheet(name, order_items, producer = nil)
         add_worksheet(name)
 
         add_column(
@@ -47,6 +53,11 @@ module XLSX
           order_items.map { |i| i.order.id },
           align: 'right',
           min_width: 12)
+        unless producer
+          add_column(
+            ::Shop::Producer.model_name.human,
+            order_items.map { |i| i.product.producer.name })
+        end
         add_column(
           ::Shop::Product.model_name.human,
           order_items.map { |i| i.product.name })
