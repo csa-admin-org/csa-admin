@@ -1,9 +1,23 @@
 require 'rubygems/package'
 
-class Newsletter::MailChimp
+class Mailchimp
   include ActivitiesHelper
 
   BatchError = Class.new(StandardError)
+
+  def self.sync_list
+    return if Rails.env.development?
+    return unless mailchimp_credentials = Current.acp.credentials(:mailchimp)
+
+    mailchimp = new(mailchimp_credentials)
+    I18n.with_locale(Current.acp.default_locale) do
+      mailchimp.upsert_merge_fields
+      mailchimp.upsert_members(Member.all)
+      mailchimp.unsubscribe_deleted_members(Member.all)
+    end
+  rescue Gibbon::MailChimpError => e
+    Sentry.capture_exception(e)
+  end
 
   def initialize(credentials)
     @credentials = credentials
@@ -32,7 +46,7 @@ class Newsletter::MailChimp
       end
     end
     res = client.batches.create(body: { operations: operations })
-    Rails.logger.info "MailChimp batch #{res.body[:id]} created"
+    Rails.logger.info "Mailchimp batch #{res.body[:id]} created"
     ensure_batch_succeed!(res.body[:id])
   end
 
@@ -177,9 +191,9 @@ class Newsletter::MailChimp
     if res.body[:status] != 'finished'
       if retry_count > 0
         ensure_batch_succeed!(res.body[:id], retry_count: retry_count - 1)
-        Rails.logger.info "MailChimp batch #{batch_id} finished"
+        Rails.logger.info "Mailchimp batch #{batch_id} finished"
       else
-        Rails.logger.info "MailChimp batch #{batch_id} is not finished yet"
+        Rails.logger.info "Mailchimp batch #{batch_id} is not finished yet"
       end
     elsif res.body[:errored_operations].positive?
       suppress_emails(res)
