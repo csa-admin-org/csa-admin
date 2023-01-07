@@ -65,9 +65,13 @@ ActiveAdmin.register MailTemplate do
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales)
 
-  form data: { controller: 'code-editor', code_editor_target: 'form' } do |f|
-    mail_template = f.object
+  form data: {
+    controller: 'code-editor',
+    code_editor_target: 'form',
+    code_editor_preview_path_value: '/mail_templates/preview.js'
+  } do |f|
     f.inputs t('.settings') do
+      f.input :title, as: :hidden
       li do
         para f.object.description
       end
@@ -127,7 +131,8 @@ ActiveAdmin.register MailTemplate do
     f.actions
   end
 
-  member_action :preview, method: :get do
+  collection_action :preview, method: :get do
+    @mail_template = scoped_collection.where(title: params[:mail_template][:title]).first!
     resource.assign_attributes(permitted_params[:mail_template])
     render :preview
   end

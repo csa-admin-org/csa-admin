@@ -2,10 +2,17 @@ module FormsHelper
   def translated_input(form, attr, options = {})
     locales = Array(options.delete(:locale) || Current.acp.languages)
     input_html = options.delete(:input_html) || {}
+    label_option = options.delete(:label)
     locales.each do |locale|
       klass = form.object.class.name.underscore.gsub('/', '_')
+      label =
+        label_option&.call(locale) ||
+          label_with_language(
+            form.object.class.human_attribute_name(attr.to_s.singularize),
+            locale)
+
       form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
-        label: attribute_label(form.object.class, attr, locale),
+        label: label,
         input_html: {
           class: "#{klass}_#{attr.to_s.singularize}",
           value: form.object.send(attr)[locale]
@@ -34,10 +41,7 @@ module FormsHelper
     ACP::FORM_MODES.map { |mode| [t("form_modes.#{mode}"), mode] }
   end
 
-  private
-
-  def attribute_label(model_class, attr, locale)
-    txt = model_class.human_attribute_name(attr.to_s.singularize)
+  def label_with_language(txt, locale)
     if Current.acp.languages.many?
       txt += " (#{I18n.t("languages.#{locale}")})"
     end

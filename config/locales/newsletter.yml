@@ -1,0 +1,7 @@
+_:
+  newsletter:
+    template:
+      subject:
+        _de: Titel der Newsletter
+        _fr: Titre de la Newsletter
+        _it: Titolo della Newsletter

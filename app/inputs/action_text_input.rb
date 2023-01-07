@@ -3,6 +3,7 @@ class ActionTextInput < Formtastic::Inputs::StringInput
     input_wrapping do
       editor_tag_params = {
         input: input_html_options[:id],
+        data: input_html_options[:data],
         class: 'trix-content'
       }
       editor_tag = template.content_tag('trix-editor', '', editor_tag_params)

@@ -38,12 +38,32 @@
   display: none !important;
 }
 
+.trix-button--icon-heading-1 {
+  display: none !important;
+}
+.trix-button--icon-quote {
+  display: none !important;
+}
+.trix-button--icon-code {
+  display: none !important;
+}
+.trix-button--icon-bullet-list {
+  border-left-width: 0 !important;
+}
 
 trix-editor {
   background-color: white;
 }
 
-
 trix-editor + p.inline-hints {
+  margin-left: 0;
+}
+
+.error trix-editor {
+  border-width: 2px;
+  border-color: #ff2600;
+}
+
+.action_text.error p.inline-errors {
   margin-left: 0;
 }

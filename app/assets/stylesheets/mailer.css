@@ -84,7 +84,7 @@ h1.alert {
   box-sizing: border-box;
 }
 
-h2 {
+h2, .trix-content h1 {
   margin-top: 0;
   color: #333333;
   font-size: 16px;
@@ -116,6 +116,14 @@ blockquote {
 
 ol, ul {
   margin: .4em 0;
+}
+
+ul li {
+  list-style: disc outside none;
+}
+
+ol li {
+  list-style: decimal outside none;
 }
 
 p.sub {
@@ -426,6 +434,18 @@ p {
 
 .content-cell {
   padding: 45px;
+}
+
+.content-block {
+  margin: 20px auto;
+}
+
+.content-block h2 {
+  margin-bottom: 10px;
+}
+
+.trix-content {
+  margin: 0px auto;
 }
 
 /*Media Queries ------------------------------ */

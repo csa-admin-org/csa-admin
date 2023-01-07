@@ -19,6 +19,16 @@ module TranslatedRichTexts
             [locale, send("#{text}_#{locale}")]
           }.to_h
         }
+        define_method("all_#{plural}?") {
+          Current.acp.languages.all? { |locale|
+            send("#{text}_#{locale}").to_plain_text.present?
+          }
+        }
+        define_method("any_#{plural}?") {
+          Current.acp.languages.any? { |locale|
+            send("#{text}_#{locale}").to_plain_text.present?
+          }
+        }
         define_method(text) {
           send("#{text}_#{I18n.locale}").to_s
         }

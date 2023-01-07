@@ -46,6 +46,7 @@ class Permission < ApplicationRecord
       billing
       depot
       announcement
+      newsletter
     ] +
       Current.acp.features.map(&:to_sym) - %i[basket_price_extra contact_sharing]
   end

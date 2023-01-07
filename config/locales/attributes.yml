@@ -216,6 +216,10 @@ _:
       _de: Enddatum des letzten Abonnements
       _fr: Date de fin du dernier abonnement
       _it: Date di fine dell'ultimo abbonamento
+    liquid_data_preview_yaml:
+      _de: Vorschau der Daten
+      _fr: Données de prévisualisation
+      _it: Anteprima dei dati
     member:
       _de: Mitglied
       _fr: Membre
