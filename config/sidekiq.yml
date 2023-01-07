@@ -28,7 +28,7 @@
       class: ScheduledJob
       args: Scheduled::DailyJob
       description: "Daily checks and updates"
-    newsletter_sync_list:
+    mailchimp_sync_list:
       cron: '0 0 1 * * *'
       queue: low
       class: ScheduledJob
