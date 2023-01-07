@@ -10,6 +10,9 @@ export default class extends Controller {
   static get targets() {
     return ["editor", "form"]
   }
+  static get values() {
+    return { previewPath: String }
+  }
 
   initialize() {
     this.updatePreview = debounce(500, this.updatePreview)
@@ -44,10 +47,11 @@ export default class extends Controller {
   }
 
   updatePreview() {
-    if (this.hasFormTarget) {
-      const url = this.formTarget.getAttribute('action') + '/preview.js'
+    const path = this.previewPathValue
+
+    if (this.hasFormTarget && path) {
       const params = (new URLSearchParams(new FormData(this.formTarget))).toString()
-      fetch(url + '?' + params, {
+      fetch(path + '?' + params, {
         method: 'GET'
       }).then(response => response.text()).then(js => eval(js))
     }

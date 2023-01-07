@@ -29,6 +29,14 @@ _:
         _de: stimmt mit der Bestätigung nicht überein
         _fr: ne concorde pas avec la confirmation
         _it: non corrisponde alla conferma
+      content_block_ids_must_be_equal_for_all_languages:
+        _de: Die IDs der "content" Blöcke müssen für alle Sprachen gleich sein
+        _fr: Les ID des blocs "content" doivent être identiques pour toutes les langues
+        _it: Gli ID dei blocchi "content" devono essere uguali per tutte le lingue
+      content_block_ids_must_be_unique:
+        _de: Die IDs der "content" Blöcke müssen einzigartig sein
+        _fr: Les ID des blocs "content" doivent être uniques
+        _it: Gli ID dei blocchi "content" devono essere unici
       empty:
         _de: muss ausgefüllt werden
         _fr: doit être rempli(e)

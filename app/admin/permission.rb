@@ -29,7 +29,10 @@ ActiveAdmin.register Permission do
 
     f.semantic_fields_for :rights do |fr|
       fr.inputs Permission.human_attribute_name(:rights) do
-        Permission.editable_features.sort_by { |f| feature_name(f) }.each do |feature|
+        features = Permission.editable_features
+        # TODO: Newsletter, remove when feature is ready
+        features -= %i[newsletter] unless current_admin.master?
+        features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
             label: feature_name(feature),
             as: :select,

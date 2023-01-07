@@ -502,6 +502,10 @@ _:
           _de: Konfiguration
           _fr: Configuration
           _it: Configurazione
+        content:
+          _de: Inhalt
+          _fr: Contenu
+          _it: Contenuto
         delivery_pdf:
           _de: Signaturblätter
           _fr: Fiches signature
@@ -781,6 +785,10 @@ _:
           _de: Konfiguration
           _fr: Configuration
           _it: Configurazione
+        content:
+          _de: Inhalt
+          _fr: Contenu
+          _it: Contenuto
         details:
           _de: Details
           _fr: Détails
@@ -805,6 +813,10 @@ _:
           _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
           _fr: Tous les paniers de cet abonnement seront créés en fonction de la configuration ci-dessous.
           _it: Tutti i cesti di questo abbonamento saranno creati secondo la seguente configurazione.
+        preview:
+          _de: Vorschau
+          _fr: Prévisualisation
+          _it: Anteprima
         refused_activity_participation:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
@@ -1253,6 +1265,11 @@ _:
             _de: Proben
             _fr: Essais
             _it: prova
+      newsletter:
+        new_model:
+          _de: Neue %{model}
+          _fr: Nouvelle %{model}
+          _it: Nuovo %{model}
       payment:
         new_model:
           _de: Neue %{model}
@@ -1505,6 +1522,10 @@ _:
         _de: geschlossene
         _fr: fermée
         _it: chiuso
+      draft:
+        _de: Entwurf
+        _fr: Brouillon
+        _it: Bozza
       'false':
         _de: nein
         _fr: non

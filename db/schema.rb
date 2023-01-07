@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_24_101219) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_25_142346) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -615,6 +615,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_24_101219) do
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
+  create_table "newsletter_blocks", force: :cascade do |t|
+    t.bigint "newsletter_id", null: false
+    t.string "block_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["newsletter_id", "block_id"], name: "index_newsletter_blocks_on_newsletter_id_and_block_id", unique: true
+    t.index ["newsletter_id"], name: "index_newsletter_blocks_on_newsletter_id"
+  end
+
+  create_table "newsletter_templates", force: :cascade do |t|
+    t.string "title", null: false
+    t.jsonb "contents", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_newsletter_templates_on_title", unique: true
+  end
+
+  create_table "newsletters", force: :cascade do |t|
+    t.bigint "newsletter_template_id", null: false
+    t.jsonb "template_contents", default: {}, null: false
+    t.jsonb "subjects", default: {}, null: false
+    t.datetime "sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["newsletter_template_id"], name: "index_newsletters_on_newsletter_template_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.bigint "invoice_id"
@@ -754,6 +781,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_24_101219) do
   add_foreign_key "memberships", "deliveries_cycles"
   add_foreign_key "memberships", "depots"
   add_foreign_key "memberships_basket_complements", "deliveries_cycles"
+  add_foreign_key "newsletter_blocks", "newsletters"
+  add_foreign_key "newsletters", "newsletter_templates"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
   add_foreign_key "sessions", "admins"

@@ -54,7 +54,7 @@ ActiveAdmin.register Membership do
     label: proc { t_activity('active_admin.resource.index.activity_participations_demanded') },
     if: proc { Current.acp.feature?('activity') }
 
-  includes :member, :baskets
+  includes :member, :baskets, :deliveries_cycle
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: 'members.name'

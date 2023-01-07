@@ -601,10 +601,6 @@ _:
           _de: Inhalt
           _fr: Contenu
           _it: Contenuto
-        liquid_data_preview_yaml:
-          _de: Vorschau der Daten
-          _fr: Données de prévisualisation
-          _it: Anteprima dei dati
         subject:
           _de: Betreff
           _fr: Sujet
@@ -1109,6 +1105,16 @@ _:
           _de: Zusatz
           _fr: Complément
           _it: Aggiunte
+      newsletter:
+        subject:
+          _de: Betreff
+          _fr: Sujet
+          _it: Soggeto
+      newsletter/template:
+        content:
+          _de: Inhalt
+          _fr: Contenu
+          _it: Contenuto
       payment:
         comment:
           _de: Kommentar
@@ -1509,6 +1515,24 @@ _:
           _de: Zusätze
           _fr: Compléments
           _it: Aggiunte
+      newsletter:
+        one:
+          _de: Newsletter
+          _fr: Newsletter
+          _it: Newsletter
+        other:
+          _de: Newsletters
+          _fr: Newsletters
+          _it: Newsletters
+      newsletter/template:
+        one:
+          _de: Vorlage
+          _fr: Template
+          _it: Template
+        other:
+          _de: Vorlagen
+          _fr: Templates
+          _it: Templates
       payment:
         one:
           _de: Einzahlung

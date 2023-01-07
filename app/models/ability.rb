@@ -20,7 +20,8 @@ class Ability
       Shop::Product,
       Shop::SpecialDelivery,
       Shop::Tag
-    ]
+    ],
+    newsletter: [Newsletter, Newsletter::Template]
   }
 
   def initialize(admin)
@@ -132,10 +133,21 @@ class Ability
       can :cancel, Shop::Order, can_cancel?: true
     end
 
+    if admin.permission.can_write?(:newsletter)
+      writable_models += models_for(:newsletter)
+
+      can :preview, [Newsletter, Newsletter::Template]
+    end
+
     can :create, writable_models
     can :update, writable_models, can_update?: true
     can :destroy, writable_models, can_destroy?: true
     can :batch_action, writable_models
+
+    # TODO: Newsletter, remove when feature is ready
+    unless admin.master?
+      cannot :manage, models_for(:newsletter)
+    end
   end
 
   private
