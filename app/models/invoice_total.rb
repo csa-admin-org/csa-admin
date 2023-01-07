@@ -2,7 +2,7 @@ class InvoiceTotal
   include ActivitiesHelper
   include ActionView::Helpers::UrlHelper
 
-  def self.all
+  def self.all(year = Date.today.year)
     scopes = %w[Membership]
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?
@@ -10,9 +10,9 @@ class InvoiceTotal
     scopes << 'Shop::Order' if Current.acp.feature?('shop')
     scopes << 'ActivityParticipation' if Current.acp.feature?('activity')
     scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
-    all = scopes.flatten.map { |scope| new(scope) }
+    all = scopes.flatten.map { |scope| new(scope, year) }
     sum = all.sum(&:price)
-    remaining = new('RemainingMembership')
+    remaining = new('RemainingMembership', year)
 
     all << OpenStruct.new(price: sum)
     all << remaining
@@ -21,9 +21,9 @@ class InvoiceTotal
 
   attr_reader :scope
 
-  def initialize(scope)
-    @memberships = Membership.joins(:member).where(members: { salary_basket: false }).current_year
-    @invoices = Invoice.current_year.not_canceled
+  def initialize(scope, year)
+    @memberships = Membership.joins(:member).where(members: { salary_basket: false }).during_year(year)
+    @invoices = Invoice.during_year(year).not_canceled
     @scope = scope
   end
 
