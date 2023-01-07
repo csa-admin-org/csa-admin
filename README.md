@@ -18,7 +18,7 @@ Les fonctions actuellement prises en charge sont, entre autres:
 * Facturation automatique des abonnements, création et envoi des factures avec numéro de référence (QR-Code), relevé des versements automatique (EBICS et BAS), envoi des rappels, ...
 * Facturation automatique des parts sociales ou cotisations annuelles
 * Gestion de la participation des membres, avec formulaire d'inscription
-* Mailing-list pour l’envoi d'emails hebdomadaires (synchronisation avec liste MailChimp)
+* Mailing-list pour l’envoi d'emails hebdomadaires (synchronisation avec liste Mailchimp)
 * Multi-langues (français/allemand/italien)
 * ...
 

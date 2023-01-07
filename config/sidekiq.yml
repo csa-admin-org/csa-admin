@@ -32,7 +32,7 @@
       cron: '0 0 1 * * *'
       queue: low
       class: ScheduledJob
-      args: Scheduled::NewsletterSyncListJob
+      args: Scheduled::MailchimpSyncListJob
       description: "Sync members with Mailchimp audience list"
     notifier:
       cron: '0 30 4 * * *'
