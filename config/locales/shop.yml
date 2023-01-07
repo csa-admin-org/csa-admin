@@ -23,6 +23,10 @@ _:
         _fr: aucune commande
         _it: nessun ordine
     producers:
+      all:
+        _de: Alle Produzenten
+        _fr: Tous les producteurs
+        _it: Tutti i produttori
       null_producer:
         _de: Produzent nicht definiert
         _fr: Producteur non défini
