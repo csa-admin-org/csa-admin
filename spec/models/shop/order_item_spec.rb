@@ -116,7 +116,9 @@ describe Shop::OrderItem do
         }
       })
 
+      member = create(:member, :active)
       order = build(:shop_order, :pending,
+        member: member,
         delivery: delivery,
         items_attributes: {
           '0' => {
