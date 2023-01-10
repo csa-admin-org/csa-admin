@@ -24,7 +24,7 @@ module Shop
       numericality: { greater_than: 0, allow_nil: true }
 
     def unavailable?
-      !available? || !product.available?
+      !available?
     end
 
     def out_of_stock?

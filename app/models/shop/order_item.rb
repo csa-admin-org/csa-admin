@@ -70,8 +70,9 @@ module Shop
 
     def ensure_product_available_for_delivery
       return unless order&.delivery
+      return unless order&.depot
 
-      @available_products ||= Product.available_for(order.delivery)
+      @available_products ||= order.delivery.available_shop_products(order.depot)
       unless @available_products.include?(product)
         self.errors.add(:product, :not_available_for_delivery)
       end

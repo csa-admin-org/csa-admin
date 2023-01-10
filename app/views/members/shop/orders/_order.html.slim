@@ -17,7 +17,7 @@
             span class='mr-2 text-left text-xs text-gray-400 whitespace-nowrap'
               = cur(ff.object.item_price)
 
-            - if ff.object.product_variant.unavailable?
+            - if available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable?
               span class="px-2 my-1 text-xs text-red-500 dark:text-red-400 rounded-full bg-red-100 dark:bg-red-800 whitespace-nowrap"
                 = t('.unavailable')
             - elsif !ff.object.product_variant.available_stock?(ff.object.quantity + 5)
@@ -39,7 +39,7 @@
 
               = ff.input_field :quantity, class: 'controls-none outline-none focus:outline-none border-none text-center dark:text-gray-400 w-8 bg-gray-200 dark:bg-gray-800 font-semibold px-0 hover:text-black dark:hover:text-gray-200 focus:text-black dark:focus:text-white md:text-base cursor-default focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-gray-700 z-10', min: 0, max: ff.object.product_variant.stock, data: { form_number_controls_target: 'input', action: "change->form-submitter#submit" }
 
-              button aria-label="plus" class="bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 rounded-r cursor-pointer outline-none #{'hover:bg-gray-300 dark:hover:bg-gray-700' if !ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i}" data-action="form-number-controls#increment" disabled=(ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i))
+              button aria-label="plus" class="bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 rounded-r cursor-pointer outline-none #{'hover:bg-gray-300 dark:hover:bg-gray-700' if !ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i}" data-action="form-number-controls#increment" disabled=(available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i))
                 div class="mx-2 flex items-center"
                   = inline_svg_tag('members/plus.svg', class: 'w-4 h-4 flex-shrink-0 stroke-current')
 
