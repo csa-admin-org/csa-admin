@@ -484,7 +484,11 @@ ActiveAdmin.register Membership do
             }
             if Current.acp.feature?('basket_price_extra')
               row(:basket_price_extra_title) {
-                display_price_description(m.baskets_price_extra, baskets_price_extra_info(m.baskets))
+                description = baskets_price_extra_info(m.baskets)
+                if Current.acp.basket_price_extra_dynamic_pricing?
+                  description = "#{display_basket_price_extra_raw(m)}, #{description}"
+                end
+                display_price_description(m.baskets_price_extra, description)
               }
             end
             row(:baskets_annual_price_change) {
