@@ -2,7 +2,7 @@ class InvoiceTotal
   include ActivitiesHelper
   include ActionView::Helpers::UrlHelper
 
-  def self.all(year = Date.today.year)
+  def self.all(year)
     scopes = %w[Membership]
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?

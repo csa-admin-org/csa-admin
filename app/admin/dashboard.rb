@@ -19,7 +19,7 @@ ActiveAdmin.register_page 'Dashboard' do
           end
 
           panel t('.billing_year', fiscal_year: Current.fiscal_year) do
-            table_for InvoiceTotal.all, class: 'totals_2' do
+            table_for InvoiceTotal.all(Current.fiscal_year), class: 'totals_2' do
               column Invoice.model_name.human(count: 2), :title
               column(class: 'align-right') { |total| cur(total.price) }
             end
