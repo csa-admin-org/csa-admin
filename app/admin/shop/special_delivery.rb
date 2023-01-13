@@ -138,13 +138,20 @@ ActiveAdmin.register Shop::SpecialDelivery do
         hint: t('formtastic.hints.acp.shop_text'))
     end
 
-    f.inputs id: 'products' do
-      f.input :products,
-        as: :check_boxes,
-        collection: Shop::Product.includes(:producer).map { |p|
-          [p.display_name(producer: true), p.id]
-        },
-        hint: t('formtastic.hints.shop/special_delivery.products')
+    f.inputs Shop::SpecialDelivery.human_attribute_name(:products), id: 'products' do
+      Shop::Product
+        .includes(:producer)
+        .group_by(&:producer)
+        .sort_by { |p, pp| p.name }
+        .each do |producer, products|
+          f.input :products,
+            label: producer.name,
+            as: :check_boxes,
+            collection: products.map { |p|
+              [p.display_name, p.id]
+            },
+            hint: t('formtastic.hints.shop/special_delivery.products')
+        end
     end
     f.actions
   end
