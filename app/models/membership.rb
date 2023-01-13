@@ -67,7 +67,7 @@ class Membership < ApplicationRecord
   after_update :handle_config_change!
   after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
-  after_destroy :update_renewal_of_previous_membership!, :destroy_or_cancel_invoices!
+  after_destroy :update_renewal_of_previous_membership, :destroy_or_cancel_invoices!
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -513,15 +513,15 @@ class Membership < ApplicationRecord
       invoices_amount: invoices.not_canceled.sum(:memberships_amount))
   end
 
-  def update_renewal_of_previous_membership!
+  def update_renewal_of_previous_membership
     case started_on
     when Current.fiscal_year.end_of_year + 1.day
-      previous_membership&.update!(
+      previous_membership&.update_columns(
         renewal_opened_at: nil,
         renewed_at: nil,
         renew: true)
     when Current.fiscal_year.beginning_of_year
-      previous_membership&.update!(
+      previous_membership&.update_columns(
         renewal_opened_at: nil,
         renewed_at: nil,
         renew: false)
