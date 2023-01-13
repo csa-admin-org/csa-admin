@@ -738,11 +738,11 @@ _:
         renewed_renewals:
           one:
             _de: "%{count_link} Erneuerung"
-            _fr: "%{count_link} rénouvellement"
+            _fr: "%{count_link} renouvellement"
             _it: "%{count_link} rinnovo"
           other:
             _de: "%{count_link} Erneuerungen"
-            _fr: "%{count_link} rénouvellements"
+            _fr: "%{count_link} renouvellements"
             _it: "%{count_link} rinnovi"
         renewing:
           _de: Verlängerungen am laufen...
