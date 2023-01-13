@@ -59,3 +59,6 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
         - else
           = link_to members_billing_path do
             = cur(membership.price)
+            - if txt = display_basket_price_extra_raw(membership)
+              span class='italic text-sm text-gray-400 dark:text-gray-600'
+                = " (#{Current.acp.basket_price_extra_public_title}: #{txt})"
