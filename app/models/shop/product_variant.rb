@@ -6,7 +6,7 @@ module Shop
 
     translated_attributes :name, required: true
 
-    default_scope { order_by_name.order(:price) }
+    default_scope { order(:price).order_by_name }
 
     belongs_to :product, class_name: 'Shop::Product', optional: true
     has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product_variant

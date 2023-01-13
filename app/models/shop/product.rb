@@ -13,7 +13,6 @@ module Shop
     belongs_to :producer, class_name: 'Shop::Producer', optional: true
     belongs_to :basket_complement, optional: true
     has_many :variants,
-      -> { merge(ProductVariant.order_by_name).order("price") },
       class_name: 'Shop::ProductVariant',
       dependent: :delete_all
     has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product
