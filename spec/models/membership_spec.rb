@@ -770,7 +770,7 @@ describe Membership do
     end
   end
 
-  describe '#update_renewal_of_previous_membership!' do
+  describe '#update_renewal_of_previous_membership' do
     it 'clears renewed_at when renewed membership is destroyed' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
