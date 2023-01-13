@@ -28,7 +28,7 @@ module SharedDataPreview
       depot: depot,
       remaning_trial_baskets_count: Current.acp.trial_basket_count,
       activity_participations_demanded: basket_size&.activity_participations_demanded_annualy,
-      basket_complements: BasketComplement.reorder(:id).sample(2, random: random))
+      subscribed_basket_complements: BasketComplement.reorder(:id).sample(2, random: random))
   end
 
   def basket_size

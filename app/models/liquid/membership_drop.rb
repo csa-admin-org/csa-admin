@@ -36,13 +36,13 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def basket_complements
-    @membership.basket_complements.map do |bc|
+    @membership.subscribed_basket_complements.map do |bc|
       Liquid::BasketComplementDrop.new(bc)
     end
   end
 
   def basket_complement_names
-    @membership.basket_complements.map(&:name).to_sentence(locale: I18n.locale).presence
+    @membership.subscribed_basket_complements.map(&:name).to_sentence(locale: I18n.locale).presence
   end
 
   def depot
