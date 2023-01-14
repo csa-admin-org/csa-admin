@@ -11,8 +11,8 @@ ActiveAdmin.register BasketContent do
 
   class BasketContentIndex < ActiveAdmin::Views::IndexAsTable
     def build(_page_presenter, collection)
-      if (delivery_id = params.dig(:q, :delivery_id_eq)) && collection.with_unit_price.any?
-        delivery = Delivery.find(delivery_id)
+      if params.dig(:q, :delivery_id_eq).present? && collection.with_unit_price.any?
+        delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
         panel t('.basket_prices', currency: currency_symbol), class: 'basket_prices' do
           render partial: 'active_admin/basket_contents/prices', locals: { delivery: delivery, context: self }
         end
@@ -25,8 +25,8 @@ ActiveAdmin.register BasketContent do
     params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
   }, title: -> {
     title = BasketContent.model_name.human(count: 2)
-    if delivery_id = params.dig(:q, :delivery_id_eq)
-      delivery = Delivery.find(delivery_id)
+    if params.dig(:q, :delivery_id_eq).present?
+      delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
       title += " – #{l(delivery.date)}"
     end
     title
