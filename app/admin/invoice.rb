@@ -63,6 +63,16 @@ ActiveAdmin.register Invoice do
     column :date
     column(:object) { |i| t_invoice_object_type(i.object_type) }
     column :amount
+    if Current.acp.annual_fee?
+      column :annual_fee
+      column :memberships_amount
+    end
+    if Current.acp.vat_number?
+      column :vat_rate
+      column :amount_without_vat
+      column :vat_amount
+      column :amount_with_vat
+    end
     column :paid_amount
     column :balance
     column :overdue_notices_count
@@ -309,6 +319,9 @@ ActiveAdmin.register Invoice do
       tab t_invoice_object_type('Other'), id: 'other' do
         f.inputs do
           f.semantic_errors :items
+          if Current.acp.vat_number?
+            f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01
+          end
           f.has_many :items, new_record: t('.has_many_new_invoice_item') do |ff|
             ff.input :description
             ff.input :amount, as: :number, step: 0.05, min: 0, max: 99999.95
@@ -328,6 +341,7 @@ ActiveAdmin.register Invoice do
     :paid_missing_activity_participations,
     :activity_price,
     :acp_shares_number,
+    :vat_rate,
     items_attributes: %i[description amount]
 
   before_build do |invoice|

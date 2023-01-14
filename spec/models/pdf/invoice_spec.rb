@@ -196,6 +196,24 @@ describe PDF::Invoice do
         .and contain_sequence('Total', '120.00')
     end
 
+    specify 'invoice with ActivityParticipation object and VAT' do
+      Current.acp.update!(
+        vat_activity_rate: 7.7,
+        vat_number: 'CHE-123.456.789',
+        activity_price: 60)
+      activity = create(:activity, date: '2018-3-4')
+      invoice = create(:invoice,
+        id: 20011,
+        date: '2023-1-13',
+        paid_missing_activity_participations: 2)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('Total', '* 120.00')
+        .and contain_sequence("* TTC, CHF 111.42 HT, CHF 8.58 TVA (7.7%)")
+        .and contain_sequence('N° TVA CHE-123.456.789')
+    end
+
     it 'generates invoice with ActivityParticipation type (one participant)' do
       invoice = create(:invoice,
         id: 2002,
@@ -237,6 +255,31 @@ describe PDF::Invoice do
         .to contain_sequence('Un truc cool pas cher', '10.00')
         .and contain_sequence('Un truc cool pluc cher', '32.00')
         .and contain_sequence('Total', '42.00')
+    end
+
+    it 'generates an invoice with items and VAT' do
+      Current.acp.update!(vat_number: 'CHE-123.456.789')
+      payment = create(:payment, amount: 12)
+      invoice = create(:invoice,
+        id: 20101,
+        date: '2023-01-14',
+        member: payment.member,
+        vat_rate: 2.5,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: 10 },
+          '1' => { description: 'Un truc cool pluc cher', amount: 32 }
+        })
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+
+      expect(pdf_strings)
+        .to contain_sequence('Un truc cool pas cher', '10.00')
+        .and contain_sequence('Un truc cool pluc cher', '32.00')
+        .and contain_sequence('Total', '* 42.00')
+        .and contain_sequence('Balance', '** -12.00')
+        .and contain_sequence('À payer', '30.00')
+        .and contain_sequence("* TTC, CHF 40.98 HT, CHF 1.02 TVA (2.5%)")
+        .and contain_sequence('N° TVA CHE-123.456.789')
     end
   end
 
@@ -853,6 +896,57 @@ describe PDF::Invoice do
         .and contain_sequence("Total", '75.10')
         .and contain_sequence("Payable jusqu'au 26 août 2021, avec nos remerciements.")
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
+    end
+
+    specify 'shop order with credit and vat' do
+      Current.acp.update!( vat_shop_rate: 2.5, vat_number: 'CHE-123.456.789')
+      member = create(:member)
+      create(:payment, member: member, amount: 12)
+      product = create(:shop_product,
+        name: 'Courge',
+        variants_attributes: {
+          '0' => {
+            name: '5 kg',
+            price: 16
+          },
+          '1' => {
+            name: '10 kg',
+            price: 30
+          }
+        })
+
+      invoice = nil
+      order = nil
+      travel_to '2021-08-21' do
+        delivery = create(:delivery, date: '2021-08-26')
+        order = create(:shop_order, :pending,
+          member: member,
+          delivery: delivery,
+          items_attributes: {
+            '0' => {
+              product_id: product.id,
+              product_variant_id: product.variants.first.id,
+              quantity: 1
+            },
+            '1' => {
+              product_id: product.id,
+              product_variant_id: product.variants.last.id,
+              item_price: 29.55,
+              quantity: 2
+            }
+          })
+      end
+      invoice = order.invoice!
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence("Facture N° #{invoice.id}")
+        .and contain_sequence("Commande N° #{order.id}")
+        .and contain_sequence("Total", '* 75.10')
+        .and contain_sequence("Balance", '** -12.00')
+        .and contain_sequence("À payer", '63.10')
+        .and contain_sequence("* TTC, CHF 73.27 HT, CHF 1.83 TVA (2.5%)")
+        .and contain_sequence('N° TVA CHE-123.456.789')
     end
   end
 end

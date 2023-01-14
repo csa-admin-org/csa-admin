@@ -16,7 +16,8 @@ ActiveAdmin.register ACP do
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :activity_participations_demanded_logic,
-    :vat_number, :vat_membership_rate, :absences_billed,
+    :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
+    :absences_billed,
     :delivery_pdf_show_phones,
     :group_buying_email,
     :shop_admin_only,
@@ -109,7 +110,16 @@ ActiveAdmin.register ACP do
           f.input :annual_fee, as: :number
           f.input :share_price, as: :number
           f.input :vat_number
-          f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01
+          f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01,
+            label: t('.vat_rate', type: Membership.model_name.human(count: 2))
+          if Current.acp.feature?('activity')
+            f.input :vat_activity_rate, as: :number, min: 0, max: 100, step: 0.01,
+              label: t('.vat_rate', type: activities_human_name)
+          end
+          if Current.acp.feature?('shop')
+            f.input :vat_shop_rate, as: :number, min: 0, max: 100, step: 0.01,
+              label: t('.vat_rate', type: t('shop.title'))
+          end
           translated_input(f, :invoice_infos)
           translated_input(f, :invoice_footers)
 

@@ -8,6 +8,14 @@ _:
       _de: Anpassungen
       _fr: Ajustements
       _it: Correzione
+    amount_with_vat:
+      _de: Betrag inkl. MwSt.
+      _fr: Montant TTC
+      _it: Importo IVA inclusa
+    amount_without_vat:
+      _de: Betrag exkl. MwSt.
+      _fr: Montant HT
+      _it: Importo IVA esclusa
     annual_fees:
       _de: Beiträge
       _fr: Cotisations
@@ -37,22 +45,10 @@ _:
         _de: 'Quartalweise Rechnungsstellung #%{number}'
         _fr: 'Facturation trimestrielle #%{number}'
         _it: 'Fatturazione trimestrale #%{number}'
-    memberships_gross_amount:
-      _de: Abonnements inkl. MwSt.
-      _fr: Abonnements TTC
-      _it: Abbonamento inclusa IVA
-    memberships_net_amount:
-      _de: Abonnements exkl. MwSt.
-      _fr: Abonnements HT
-      _it: Abbonamenti esclusa IVA
     memberships_total:
       _de: Abonnements gesamt
       _fr: Abonnements Total
       _it: Abbonamenti totali
-    memberships_vat_amount:
-      _de: Abonnements MwSt.
-      _fr: Abonnements TVA
-      _it: Abbonamenti IVA
     missing_amounts:
       _de: Fehlende Zahlungen
       _fr: Paiements manquants
@@ -135,6 +131,10 @@ _:
       _de: Rechnungsstellung
       _fr: Facturation
       _it: Fatturazione
+    vat_amount:
+      _de: MwSt. Betrag
+      _fr: Montant TVA
+      _it: Importo IVA
     year_division:
       x1:
         _de: Jährlich

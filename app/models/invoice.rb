@@ -50,10 +50,9 @@ class Invoice < ApplicationRecord
     before_validation \
       :set_paid_memberships_amount,
       :set_remaining_memberships_amount,
-      :set_memberships_amount,
-      :set_memberships_vat_amount
+      :set_memberships_amount
   end
-  before_validation :set_amount, on: :create
+  before_validation :set_amount, :set_vat_rate_and_amount, on: :create
 
   validates :member, presence: true
   validates :date, presence: true
@@ -80,9 +79,8 @@ class Invoice < ApplicationRecord
   validates :memberships_amount,
     numericality: { greater_than: 0 },
     allow_nil: true
-  validates :memberships_vat_amount,
-    presence: true,
-    if: -> { memberships_amount? && Current.acp.vat_membership_rate? }
+  validates :vat_rate, numericality: { greater_or_equal_to_than: 0, allow_nil: true }
+  validates :vat_amount, presence: true, if: :vat_rate
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
@@ -306,12 +304,14 @@ class Invoice < ApplicationRecord
     object_type == 'Other'
   end
 
-  def memberships_gross_amount
-    memberships_amount
+  def amount_with_vat
+    memberships_amount || amount
   end
 
-  def memberships_net_amount
-    (memberships_gross_amount - memberships_vat_amount) if memberships_gross_amount
+  def amount_without_vat
+    return amount_with_vat unless vat_amount
+
+    amount_with_vat - vat_amount
   end
 
   def created_by
@@ -386,11 +386,12 @@ class Invoice < ApplicationRecord
       end
   end
 
-  def set_memberships_vat_amount
-    if vat_rate = Current.acp.vat_membership_rate
-      gross_amount = memberships_gross_amount
+  def set_vat_rate_and_amount
+    if configured_vat_rate.presence&.positive?
+      self[:vat_rate] = configured_vat_rate
+      gross_amount = amount_with_vat
       net_amount = gross_amount / (1 + vat_rate / 100)
-      self[:memberships_vat_amount] = gross_amount - net_amount.round(2)
+      self[:vat_amount] = gross_amount - net_amount.round(2)
     end
   end
 
@@ -405,6 +406,19 @@ class Invoice < ApplicationRecord
   def update_membership_activity_participations_accepted!
     if activity_participation_type?
       member.membership(fy_year)&.update_activity_participations_accepted!
+    end
+  end
+
+  def configured_vat_rate
+    case object_type
+    when 'Membership'
+      Current.acp.vat_membership_rate
+    when 'ActivityParticipation'
+      Current.acp.vat_activity_rate
+    when 'Shop::Order'
+      Current.acp.vat_shop_rate
+    when 'Other'
+      vat_rate
     end
   end
 end

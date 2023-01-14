@@ -16,6 +16,10 @@ _:
       _de: Betrag
       _fr: Montant
       _it: Quantità
+    annual_fee:
+      _de: Jährlicher Beitrag
+      _fr: Cotisation annuelle
+      _it: Quota associativa annuale
     annual_price:
       _de: Jährlicher Preis
       _fr: Prix annuel
