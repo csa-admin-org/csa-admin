@@ -1,4 +1,6 @@
 ActiveAdmin.register_page 'Dashboard' do
+  DEPOTS_LIMIT = 12
+
   menu priority: 1, label: -> {
     inline_svg_tag('admin/home.svg', size: '20', title: t('active_admin.dashboard'))
   }
@@ -16,6 +18,12 @@ ActiveAdmin.register_page 'Dashboard' do
 
           panel Membership.model_name.human(count: 2) do
             render 'memberships_count'
+          end
+
+          if Current.acp.feature?('activity') && Depot.visible.count > DEPOTS_LIMIT
+            panel "#{activities_human_name} #{Current.fiscal_year}" do
+              render 'activity_participations_count'
+            end
           end
 
           panel t('.billing_year', fiscal_year: Current.fiscal_year) do
@@ -129,7 +137,7 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
 
-          if Current.acp.feature?('activity')
+          if Current.acp.feature?('activity') && Depot.visible.count <= DEPOTS_LIMIT
             panel "#{activities_human_name} #{Current.fiscal_year}" do
               render 'activity_participations_count'
             end
