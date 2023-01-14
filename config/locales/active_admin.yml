@@ -599,6 +599,10 @@ _:
             _de: Änderungen speichern
             _fr: Sauvegarder les modifications
             _it: Salvare le modifiche
+        vat_rate:
+          _de: 'MwSt: %{type} (in %)'
+          _fr: 'TVA: %{type} (en %)'
+          _it: 'IVA: %{type} (en %)'
       index:
         activity_participation_ical_text_html:
           _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.

@@ -164,6 +164,36 @@ describe Invoice do
       expect(invoice.items.last.amount).to eq 32.35
       expect(invoice.amount).to eq 42.45
     end
+
+    specify 'accepts custom vat_rate' do
+      Current.acp.update!(vat_membership_rate: 7.7, vat_number: 'XXX')
+
+      invoice = create(:invoice, :manual,
+        vat_rate: 2.5,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '10' }
+        })
+
+      expect(invoice.vat_rate).to eq 2.5
+      expect(invoice.amount_with_vat).to eq 10
+      expect(invoice.amount_without_vat).to eq BigDecimal(9.76, 6)
+      expect(invoice.vat_amount).to eq BigDecimal(0.24, 4)
+    end
+
+    specify 'accepts no vat_rate' do
+      Current.acp.update!(vat_membership_rate: 7.7, vat_number: 'XXX')
+
+      invoice = create(:invoice, :manual,
+        vat_rate: '',
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '10' }
+        })
+
+      expect(invoice.vat_rate).to be_nil
+      expect(invoice.amount_with_vat).to eq 10
+      expect(invoice.amount_without_vat).to eq 10
+      expect(invoice.vat_amount).to be_nil
+    end
   end
 
   describe '#send!' do
@@ -267,26 +297,53 @@ describe Invoice do
     end
   end
 
-  describe 'set_memberships_vat_amount', freeze: '01-06-2018' do
+  describe 'set_vat_rate_and_amount', freeze: '2023-01-01' do
     it 'does not set it for non-membership invoices' do
       invoice = create(:invoice, :annual_fee)
-      expect(invoice.memberships_vat_amount).to be_nil
+      expect(invoice.vat_amount).to be_nil
+      expect(invoice.vat_rate).to be_nil
     end
 
     it 'does not set it when ACP as no VAT set' do
       Current.acp.update!(vat_membership_rate: nil)
 
       invoice = create(:invoice, :membership)
-      expect(invoice.memberships_vat_amount).to be_nil
+      expect(invoice.vat_rate).to be_nil
+      expect(invoice.vat_amount).to be_nil
     end
 
     it 'sets the vat_amount for membership invoice and ACP with rate set' do
       Current.acp.update!(vat_membership_rate: 7.7, vat_number: 'XXX')
       invoice = create(:invoice, :membership)
 
-      expect(invoice.memberships_gross_amount).to eq 120
-      expect(invoice.memberships_net_amount).to eq BigDecimal(111.42, 6)
-      expect(invoice.memberships_vat_amount).to eq BigDecimal(8.58, 4)
+      expect(invoice.vat_rate).to eq 7.7
+      expect(invoice.amount_with_vat).to eq 120
+      expect(invoice.amount_without_vat).to eq BigDecimal(111.42, 6)
+      expect(invoice.vat_amount).to eq BigDecimal(8.58, 4)
+    end
+
+    it 'sets the vat_amount for activity participation invoice' do
+      Current.acp.update!(vat_activity_rate: 5.5, vat_number: 'XXX')
+      invoice = create(:invoice,
+        paid_missing_activity_participations: 2,
+        activity_price: 60)
+
+      expect(invoice.vat_rate).to eq 5.5
+      expect(invoice.amount_with_vat).to eq 120
+      expect(invoice.amount_without_vat).to eq BigDecimal(113.74, 6)
+      expect(invoice.vat_amount).to eq BigDecimal(6.26, 4)
+    end
+
+    it 'sets the vat_amount for shop order invoice' do
+      Current.acp.update!(vat_shop_rate: 2.5, vat_number: 'XXX')
+      order = create(:shop_order, :pending)
+      order.invoice!
+      invoice = order.invoice
+
+      expect(invoice.vat_rate).to eq 2.5
+      expect(invoice.amount_with_vat).to eq 16.75
+      expect(invoice.amount_without_vat).to eq BigDecimal(16.34, 6)
+      expect(invoice.vat_amount).to eq BigDecimal(0.41, 4)
     end
   end
 

@@ -103,13 +103,13 @@ module XLSX
       add_line("#{t_invoice}: #{t('other')}", @invoices.other_type.sum(:amount))
       add_line(t_invoice, invoices_total(:amount))
 
-      if Current.acp.vat_membership_rate?
+      if Current.acp.vat_number?
         add_empty_line
         add_empty_line
 
-        add_line(t('memberships_net_amount'), invoices_total(:memberships_net_amount))
-        add_line(t('memberships_vat_amount'), invoices_total(:memberships_vat_amount))
-        add_line(t('memberships_gross_amount'), invoices_total(:memberships_gross_amount))
+        add_line(t('amount_without_vat'), invoices_total(:amount_without_vat))
+        add_line(t('vat_amount'), invoices_total(:vat_amount))
+        add_line(t('amount_with_vat'), invoices_total(:amount_with_vat))
       end
 
       add_empty_line

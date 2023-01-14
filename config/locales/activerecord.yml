@@ -55,10 +55,6 @@ _:
           _de: Auswahl an alternativen Depots
           _fr: Choix de dépôts alternatifs
           _it: Scelta di un punto di ritiro alternativo
-        annual_fee:
-          _de: Jährlicher Beitrag
-          _fr: Cotisation annuelle
-          _it: Quota associativa annuale
         basket_price_extra_dynamic_pricing:
           _de: Dynamischer Preis
           _fr: Prix dynamique
@@ -279,10 +275,6 @@ _:
           _de: Webseite URL
           _fr: Site URL
           _it: URL del sito
-        vat_membership_rate:
-          _de: Mehrwertsteuersatz Abonnement (in %)
-          _fr: Taux TVA abonnement (en %)
-          _it: Tasso IVA dell'abbonamento (en %)
         vat_number:
           _de: Mehrwertsteuernummer
           _fr: Numéro TVA
@@ -560,6 +552,14 @@ _:
           _de: Betrag
           _fr: Montant
           _it: Quantità
+        amount_with_vat:
+          _de: Betrag inkl. MwSt.
+          _fr: Montant TTC
+          _it: Importo IVA inclusa
+        amount_without_vat:
+          _de: Betrag exkl. MwSt.
+          _fr: Montant HT
+          _it: Importo IVA esclusa
         balance:
           _de: Saldo
           _fr: Balance
@@ -568,6 +568,10 @@ _:
           _de: Artikel
           _fr: Articles
           _it: Articoli
+        memberships_amount:
+          _de: Betrag Abonnement
+          _fr: Montant abonnement
+          _it: Importo abbonamento
         object:
           _de: Objekt
           _fr: Objet
@@ -592,6 +596,14 @@ _:
           _de: Gesendete
           _fr: Envoyée
           _it: Inviato
+        vat_amount:
+          _de: MwSt. Betrag
+          _fr: Montant TVA
+          _it: Importo IVA
+        vat_rate:
+          _de: MwSt. Satz
+          _fr: Taux TVA
+          _it: Tasso IVA
       mail_template:
         active:
           _de: Gesendet

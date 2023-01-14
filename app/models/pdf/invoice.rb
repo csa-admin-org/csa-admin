@@ -166,9 +166,10 @@ module PDF
       end
 
       if invoice.memberships_amount?
-        gross_amount = _cur(invoice.memberships_amount).to_s
-        gross_amount = "#{appendice_star}#{gross_amount}" if invoice.memberships_vat_amount&.positive?
-        data << [invoice.memberships_amount_description, gross_amount]
+        data << [
+          invoice.memberships_amount_description,
+          _cur_with_vat_appendice(invoice, invoice.memberships_amount)
+        ]
       end
 
       if invoice.annual_fee?
@@ -178,10 +179,15 @@ module PDF
       if invoice.amount.positive? && @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
         credit_amount = _cur(-(already_paid + invoice.member.credit_amount))
+        unless invoice.memberships_amount?
+          data << [t('total'), _cur_with_vat_appendice(invoice, invoice.amount)]
+        end
         data << [t('credit_amount'), "#{appendice_star} #{credit_amount}"]
         data << [t('missing_amount'), _cur(@missing_amount)]
-      elsif (invoice.memberships_amount? && invoice.annual_fee?) || invoice.object_type != 'Membership'
+      elsif invoice.memberships_amount? && invoice.annual_fee?
         data << [t('total'), _cur(invoice.amount)]
+      elsif invoice.object_type != 'Membership'
+        data << [t('total'), _cur_with_vat_appendice(invoice, invoice.amount)]
       end
 
       move_down 30
@@ -208,9 +214,15 @@ module PDF
           t.row(cell.row).font_style = :italic if cell.content == ''
         end
 
+        if invoice.amount.positive? && @missing_amount != invoice.amount && invoice.object_type != 'Membership'
+          row = -3
+          t.columns(1).rows(row).borders = [:top]
+          t.row(row).padding_top = 0
+          t.row(row - 1).padding_bottom = 10
+        end
+
         row = -1
         t.row(row).font_style = :bold
-
         if (@missing_amount != invoice.amount) || (invoice.memberships_amount? &&
             (invoice.annual_fee? || !invoice.memberships_amount_description?)) ||
             invoice.object_type != 'Membership'
@@ -249,11 +261,11 @@ module PDF
       yy = 25
       reset_appendice_star
 
-      if invoice.memberships_vat_amount&.positive?
+      if invoice.vat_amount&.positive?
         membership_vat_text = [
           "#{appendice_star} #{t('all_taxes_included')}",
-          "#{_cur(invoice.memberships_net_amount, unit: true)} #{t('without_taxes')}",
-          "#{_cur(invoice.memberships_vat_amount, unit: true)} #{t('vat')} (#{Current.acp.vat_membership_rate}%)"
+          "#{_cur(invoice.amount_without_vat, unit: true)} #{t('without_taxes')}",
+          "#{_cur(invoice.vat_amount, unit: true)} #{t('vat')} (#{invoice.vat_rate}%)"
         ].join(', ')
         bounding_box [0, y - 25], width: bounds.width - 24 do
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
@@ -483,6 +495,15 @@ module PDF
 
     def _cur(amount, unit: false, **options)
       cur(amount, unit: unit, **options)
+    end
+
+    def _cur_with_vat_appendice(invoice, amount, unit: false, **options)
+      amount = _cur(amount).to_s
+      if invoice.vat_amount&.positive?
+        "#{appendice_star}#{amount}"
+      else
+        amount
+      end
     end
 
     def t(key, **args)

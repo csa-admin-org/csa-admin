@@ -77,8 +77,12 @@ class ACP < ApplicationRecord
   validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
   validates :open_renewal_reminder_sent_after_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
-  validates :vat_number, presence: true, if: -> { vat_membership_rate&.positive? }
-  validates :vat_membership_rate, numericality: { greater_than: 0 }, if: :vat_number?
+  validates :vat_number, presence: true, if: -> {
+    vat_membership_rate&.positive? || vat_activity_rate&.positive? || vat_shop_rate&.positive?
+  }
+  validates :vat_membership_rate, numericality: { greater_or_equal_to_than: 0, allow_nil: true }
+  validates :vat_activity_rate, numericality: { greater_or_equal_to_than: 0, allow_nil: true }
+  validates :vat_shop_rate, numericality: { greater_or_equal_to_than: 0, allow_nil: true }
   validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true
   validates :country_code,
     presence: true,
