@@ -51,6 +51,8 @@ class Member < ApplicationRecord
 
   accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
+  scope :not_pending, -> { where.not(state: 'pending') }
+  scope :not_inactive, -> { where.not(state: 'inactive') }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :sharing_contact, -> { where(contact_sharing: true) }
   scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }

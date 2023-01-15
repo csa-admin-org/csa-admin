@@ -22,6 +22,10 @@ ActiveAdmin.register Newsletter do
   index download_links: false do
     column :id, ->(n) { link_to n.id, n }
     column :subject, ->(n) { link_to n.subject, n }
+    column :audience, ->(n) {
+      segment = n.audience_segment
+      "#{audience_name(segment.key)}: #{segment.name}"
+    }
     column :sent_at, ->(n) {
       if n.sent_at?
         I18n.l(n.sent_at, format: :medium)
@@ -38,6 +42,12 @@ ActiveAdmin.register Newsletter do
         attributes_table do
           row(:id)
           row(:subject)
+          row(:audience) {
+            segment = newsletter.audience_segment
+            members_count = newsletter.members_count
+            "#{audience_name(segment.key)}: #{segment.name} " +
+              "(#{members_count} #{Member.model_name.human(count: members_count)})"
+          }
           row(:template)
           if newsletter.sent_at?
             row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
@@ -80,15 +90,16 @@ ActiveAdmin.register Newsletter do
         input_html: {
           data: { action: 'code-editor#updatePreview' }
         })
+      f.input :audience, collection: newsletter_audience_collection, prompt: true
+    end
+
+    f.inputs t('.content') do
       f.input :template,
         prompt: true,
         include_blank: false,
         input_html: {
           data: { action: 'form-select-hidder#toggle code-editor#updatePreview' }
         }
-    end
-
-    f.inputs t('.content') do
       if f.object.errors[:blocks].present?
         ul class: 'errors' do
           f.object.errors[:blocks].uniq.each do |msg|
@@ -151,6 +162,7 @@ ActiveAdmin.register Newsletter do
   end
 
   permit_params(
+    :audience,
     :newsletter_template_id,
     *I18n.available_locales.map { |l| "subject_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,
