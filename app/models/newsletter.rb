@@ -13,8 +13,17 @@ class Newsletter < ApplicationRecord
   scope :draft, -> { where(sent_at: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
 
+  validates :audience, presence: true
   validate :at_least_one_block_must_be_present
   validate :same_blocks_must_be_present_for_all_languages
+
+  def audience_segment
+    @audience_segment ||= Audience::Segment.parse(audience)
+  end
+
+  def members_count
+    @members_count ||= audience_segment.members.count
+  end
 
   def sent?
     sent_at?

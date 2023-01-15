@@ -1,5 +1,31 @@
 _:
   newsletter:
+    activity_state:
+      demanded:
+        _de: Zu leisten
+        _fr: Demandées
+        _it: Richieste
+      missing:
+        _de: Fehlende
+        _fr: Manquantes
+        _it: Mancanti
+    member_state:
+      all:
+        _de: Alle
+        _fr: Tous
+        _it: Tutti
+      not_inactive:
+        _de: Alle außer inaktiv
+        _fr: Tous sauf inactifs
+        _it: Tutti tranne inattivi
+      waiting_active:
+        _de: Warteliste und aktive
+        _fr: Liste d'attente et actifs
+        _it: Lista d'attesa e attivi
+    segment_unknown:
+      _de: Unbekannt
+      _fr: Inconnu
+      _it: Sconosciuto
     template:
       subject:
         _de: Titel der Newsletter

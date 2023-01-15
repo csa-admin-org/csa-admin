@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_08_141618) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_14_161519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -642,6 +642,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_08_141618) do
     t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "audience", null: false
     t.index ["newsletter_template_id"], name: "index_newsletters_on_newsletter_template_id"
   end
 
