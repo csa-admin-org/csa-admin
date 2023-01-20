@@ -142,6 +142,30 @@ describe PDF::Invoice do
         .and contain_sequence('Total', "116.50")
     end
 
+    it 'generates invoice with membership basket_price_extra and dynamic pricing' do
+      Current.acp.update!(
+        features: ['basket_price_extra'],
+        basket_price_extra_title: 'Classe',
+        basket_price_extra_public_title: 'Classe salariale',
+        basket_price_extra_dynamic_pricing: "4.2")
+      membership = create(:membership,
+        basket_price_extra: 4,
+        basket_size: create(:basket_size, :big),
+        depot: create(:depot, price: 0),
+        deliveries_count: 2)
+      invoice = create(:invoice,
+        id: 4,
+        object: membership,
+        memberships_amount_description: 'Facturation annuelle')
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .and contain_sequence('Panier: Abondance PUBLIC 2x 33.25', '66.50')
+        .and contain_sequence('Classe salariale: 4, 2x 4.20', '8.40')
+        .and contain_sequence('Montant annuel', '74.90')
+    end
+
     it 'generates invoice with quarter menbership and paid amount' do
       member = create(:member, id: 42, billing_year_division: 4)
       membership = create(:membership,
