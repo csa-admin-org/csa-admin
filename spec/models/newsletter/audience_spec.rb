@@ -24,25 +24,25 @@ describe Newsletter::Audience do
     inactive = create(:member, :inactive)
 
     segment = segment_for('member_state::all')
-    expect(segment.members).to eq [waiting, active, support, inactive]
+    expect(segment.members).to contain_exactly(waiting, active, support, inactive)
 
     segment = segment_for('member_state::not_inactive')
-    expect(segment.members).to eq [waiting, active, support]
+    expect(segment.members).to contain_exactly(waiting, active, support)
 
     segment = segment_for('member_state::waiting_active')
-    expect(segment.members).to eq [waiting, active]
+    expect(segment.members).to contain_exactly(waiting, active)
 
     segment = segment_for('member_state::waiting')
-    expect(segment.members).to eq [waiting]
+    expect(segment.members).to contain_exactly(waiting)
 
     segment = segment_for('member_state::active')
-    expect(segment.members).to eq [active]
+    expect(segment.members).to contain_exactly(active)
 
     segment = segment_for('member_state::support')
-    expect(segment.members).to eq [support]
+    expect(segment.members).to contain_exactly(support)
 
     segment = segment_for('member_state::inactive')
-    expect(segment.members).to eq [inactive]
+    expect(segment.members).to contain_exactly(inactive)
   end
 
   specify 'activity_state' do
@@ -57,7 +57,7 @@ describe Newsletter::Audience do
     expect(segment.members).to contain_exactly(demanded, missing)
 
     segment = segment_for('activity_state::missing')
-    expect(segment.members).to eq [missing]
+    expect(segment.members).to contain_exactly(missing)
   end
 
   specify 'memberships' do
@@ -97,18 +97,18 @@ describe Newsletter::Audience do
       depot_id: 2)
 
     segment = segment_for('basket_size_id::1')
-    expect(segment.members).to eq [member1, member2]
+    expect(segment.members).to contain_exactly(member1, member2)
     segment = segment_for('basket_size_id::2')
-    expect(segment.members).to eq [member3, member4]
+    expect(segment.members).to contain_exactly(member3, member4)
 
     segment = segment_for('basket_complement_id::1')
-    expect(segment.members).to eq [member2, member3]
+    expect(segment.members).to contain_exactly(member2, member3)
     segment = segment_for('basket_complement_id::2')
-    expect(segment.members).to eq [member3]
+    expect(segment.members).to contain_exactly(member3)
 
     segment = segment_for('depot_id::1')
-    expect(segment.members).to eq [member1, member3]
+    expect(segment.members).to contain_exactly(member1, member3)
     segment = segment_for('depot_id::2')
-    expect(segment.members).to eq [member2, member4]
+    expect(segment.members).to contain_exactly(member2, member4)
   end
 end
