@@ -170,7 +170,7 @@ ActiveAdmin.register Membership do
     end
   end
 
-  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') && params.dig(:q, :during_year) } do
+  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') && !Current.acp.basket_price_extra_dynamic_pricing? && params.dig(:q, :during_year) } do
     div class: 'actions' do
       handbook_icon_link('basket_price_extra')
     end

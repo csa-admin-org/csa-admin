@@ -70,13 +70,23 @@ class Basket < ApplicationRecord
 
     extra =
       if Current.acp.basket_price_extra_dynamic_pricing?
-        template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
-        template.render(
-          'basket_price' => membership.basket_price.to_f,
-          'extra' => membership.basket_price_extra.to_f,
-          'basket_size_id' => basket_size_id,
-          'deliveries_count' => Delivery.during_year(membership.fy_year).count.to_f
-        ).to_f
+        cache_key = [
+          'basket_price_extra_dynamic_pricing',
+          Current.acp.updated_at,
+          membership.fy_year,
+          basket_size_id,
+          membership.basket_price.to_f,
+          membership.basket_price_extra.to_f
+        ]
+        Rails.cache.fetch cache_key do
+          template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
+          template.render(
+            'basket_price' => membership.basket_price.to_f,
+            'extra' => membership.basket_price_extra.to_f,
+            'basket_size_id' => basket_size_id,
+            'deliveries_count' => Delivery.during_year(membership.fy_year).count.to_f
+          ).to_f
+        end
       else
         membership.basket_price_extra
       end
