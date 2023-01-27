@@ -38,10 +38,11 @@ class DeliveriesCycle < ApplicationRecord
   end
 
   def reset_cache!
-    update_columns(deliveries_counts: {
-      Current.fy_year => current_deliveries.count,
-      Current.fy_year + 1 => future_deliveries.count
-    })
+    min = Current.acp.fiscal_year_for(Delivery.minimum(:date))&.year || Current.fy_year
+    max = Current.acp.next_fiscal_year.year
+    counts = (min..max).map { |y| [y.to_s, deliveries(y).count] }.to_h
+
+    update_column(:deliveries_counts, counts)
   end
 
   def display_name; name end
@@ -59,11 +60,15 @@ class DeliveriesCycle < ApplicationRecord
   end
 
   def current_deliveries_count
-    deliveries_counts[Current.fy_year.to_s].to_i
+    deliveries_count_for Current.fy_year
   end
 
   def future_deliveries_count
-    deliveries_counts[(Current.fy_year + 1).to_s].to_i
+    deliveries_count_for Current.fy_year + 1
+  end
+
+  def deliveries_count_for(year)
+    deliveries_counts[year.to_s].to_i
   end
 
   def include_delivery?(delivery)
