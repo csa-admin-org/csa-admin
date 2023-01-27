@@ -6,7 +6,7 @@ ActiveAdmin.register BasketComplement do
   scope :visible, default: true
   scope :hidden
 
-  includes :memberships_basket_complements, :current_deliveries
+  includes :memberships_basket_complements, :current_deliveries, :future_deliveries
   index download_links: false do
     column :id
     column :name
