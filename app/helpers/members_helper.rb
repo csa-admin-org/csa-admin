@@ -241,7 +241,7 @@ module MembersHelper
     ids << membership.depot_id if membership
     Depot
       .where(id: ids.uniq)
-      .includes(:deliveries_cycles)
+      .includes(:deliveries_cycles, :visibe_deliveries_cycles)
       .reorder('form_priority, price, name')
       .to_a
   end

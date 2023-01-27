@@ -160,6 +160,30 @@ describe Delivery do
       absent: true)
   end
 
+  specify 'reset deliveries_cycle cache after date change', freeze: '2023-01-01' do
+    cycle = create(:deliveries_cycle, wdays: [0])
+
+    expect { create(:delivery, date: '2023-01-01') }
+      .to change { cycle.reload.deliveries_counts }
+      .from('2023' => 0, '2024' => 0)
+      .to('2023' => 1, '2024' => 0)
+
+    expect { Delivery.last.update!(date: '2023-01-02') }
+      .to change { cycle.reload.deliveries_counts }
+      .from('2023' => 1, '2024' => 0)
+      .to('2023' => 0, '2024' => 0)
+  end
+
+  specify 'reset deliveries_cycle cache after destroy', freeze: '2023-01-01' do
+    cycle = create(:deliveries_cycle, wdays: [0])
+    delivery = create(:delivery, date: '2023-01-01')
+
+    expect { delivery.destroy! }
+      .to change { cycle.reload.deliveries_counts }
+      .from('2023' => 1, '2024' => 0)
+      .to('2023' => 0, '2024' => 0)
+  end
+
   describe '#shop_open?' do
     specify 'when shop_open is false' do
       delivery = create(:delivery, shop_open: false)

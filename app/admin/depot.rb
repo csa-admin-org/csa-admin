@@ -59,10 +59,10 @@ ActiveAdmin.register Depot do
           table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
             column :name, ->(dc) { auto_link dc }
             column Current.acp.current_fiscal_year, ->(dc) {
-              auto_link dc, dc.current_deliveries.count
+              auto_link dc, dc.current_deliveries_count
             }
             column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
-              auto_link dc, dc.future_deliveries.count
+              auto_link dc, dc.future_deliveries_count
             }
             column :visible
           end

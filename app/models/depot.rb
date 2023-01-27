@@ -18,6 +18,9 @@ class Depot < ApplicationRecord
   has_and_belongs_to_many :deliveries_cycles,
     after_add: :deliveries_cycles_changed!,
     after_remove: :deliveries_cycles_changed!
+  has_and_belongs_to_many :visibe_deliveries_cycles,
+    -> { visible },
+    class_name: 'DeliveriesCycle'
 
   default_scope { order(:name) }
   scope :free, -> { where('price = 0') }
@@ -81,18 +84,18 @@ class Depot < ApplicationRecord
   end
 
   def visible_deliveries_cycle_ids
-    if deliveries_cycles.visible.none?
+    if visibe_deliveries_cycles.none?
       [main_deliveries_cycle.id]
     else
-      deliveries_cycles.visible.pluck(:id)
+      visibe_deliveries_cycles.pluck(:id)
     end
   end
 
   def deliveries_counts
-    if deliveries_cycles.visible.none?
+    if visibe_deliveries_cycles.none?
       [main_deliveries_cycle.deliveries_count]
     else
-      deliveries_cycles.visible.map(&:deliveries_count).uniq
+      visibe_deliveries_cycles.map(&:deliveries_count).uniq
     end
   end
 

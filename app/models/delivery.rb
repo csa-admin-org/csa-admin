@@ -37,7 +37,7 @@ class Delivery < ApplicationRecord
     on: :create
 
   after_commit -> { self.class.update_numbers(fiscal_year) }
-  after_commit :update_baskets_async
+  after_commit :update_baskets_async, :reset_deliveries_cycle_cache!
 
   def self.next
     coming.order(:date).first
@@ -183,6 +183,12 @@ class Delivery < ApplicationRecord
 
   def remove_subscribed_baskets_complement!(complement)
     BasketsBasketComplement.handle_deliveries_removal!(self, complement)
+  end
+
+  def reset_deliveries_cycle_cache!
+    if saved_change_to_date? || destroyed?
+      DeliveriesCycle.reset_cache!
+    end
   end
 
   def update_baskets_async

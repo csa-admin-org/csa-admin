@@ -19,7 +19,7 @@ describe MembershipBasketsUpdater do
   specify 'update membership cycle when removed from depot', freeze: '2022-01-01' do
     membership
     new_cycle = create(:deliveries_cycle, wdays: [3])
-    expect(new_cycle.current_deliveries.size).to eq(3)
+    expect(new_cycle.current_deliveries_count).to eq(3)
 
     expect { depot.update!(deliveries_cycles: [new_cycle]) }
       .to change { membership.reload.baskets.count }.from(6).to(3)
