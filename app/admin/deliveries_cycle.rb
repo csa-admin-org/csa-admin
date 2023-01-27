@@ -21,7 +21,7 @@ ActiveAdmin.register DeliveriesCycle do
     as: :string
   filter :depots, as: :select
 
-  includes :depots
+  includes :depots, :memberships_basket_complements
   index download_links: false do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
