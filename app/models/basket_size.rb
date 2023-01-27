@@ -33,4 +33,14 @@ class BasketSize < ApplicationRecord
   def can_destroy?
     memberships.none? && baskets.none?
   end
+
+  def price_for(year)
+    Basket
+      .during_year(year)
+      .where(basket_size: self)
+      .pluck(:basket_price)
+      .group_by(&:itself)
+      .max_by(&:size)
+      &.first || 0
+  end
 end

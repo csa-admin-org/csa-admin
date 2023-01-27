@@ -110,6 +110,10 @@ class Membership < ApplicationRecord
     end
   end
 
+  def self.used_deliveries_cycle_ids_for(year)
+    during_year(year).distinct.pluck(:deliveries_cycle_id)
+  end
+
   def billable?
     missing_invoices_amount.positive?
   end
