@@ -20,6 +20,7 @@ class DeliveriesCycle < ApplicationRecord
 
   validates :form_priority, presence: true
 
+  after_save :reset_cache!
   after_commit :update_baskets_async, on: :update
 
   def self.create_default!
@@ -30,6 +31,17 @@ class DeliveriesCycle < ApplicationRecord
 
   def self.for(delivery)
     DeliveriesCycle.all.select { |dc| dc.include_delivery?(delivery) }
+  end
+
+  def self.reset_cache!
+    find_each(&:reset_cache!)
+  end
+
+  def reset_cache!
+    update_columns(deliveries_counts: {
+      Current.fy_year => current_deliveries.count,
+      Current.fy_year + 1 => future_deliveries.count
+    })
   end
 
   def display_name; name end
@@ -43,9 +55,15 @@ class DeliveriesCycle < ApplicationRecord
   end
 
   def deliveries_count
-    @deliveries_count ||= begin
-      future_deliveries.any? ? future_deliveries.size : current_deliveries.size
-    end
+    future_deliveries_count.positive? ? future_deliveries_count : current_deliveries_count
+  end
+
+  def current_deliveries_count
+    deliveries_counts[Current.fy_year.to_s].to_i
+  end
+
+  def future_deliveries_count
+    deliveries_counts[(Current.fy_year + 1).to_s].to_i
   end
 
   def include_delivery?(delivery)

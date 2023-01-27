@@ -84,7 +84,7 @@ class Basket < ApplicationRecord
             'basket_price' => membership.basket_price.to_f,
             'extra' => membership.basket_price_extra.to_f,
             'basket_size_id' => basket_size_id,
-            'deliveries_count' => Delivery.during_year(membership.fy_year).count.to_f
+            'deliveries_count' => Current.acp.deliveries_count(membership.fy_year).to_f
           ).to_f
         end
       else

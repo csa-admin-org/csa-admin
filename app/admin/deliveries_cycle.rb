@@ -26,10 +26,10 @@ ActiveAdmin.register DeliveriesCycle do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
     column Current.acp.current_fiscal_year, ->(dc) {
-      auto_link dc, dc.current_deliveries.count
+      auto_link dc, dc.current_deliveries_count
     }
     column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
-      auto_link dc, dc.future_deliveries.count
+      auto_link dc, dc.future_deliveries_count
     }
     column :visible
     actions class: 'col-actions-3'
@@ -40,8 +40,8 @@ ActiveAdmin.register DeliveriesCycle do
   show do |dc|
     columns do
       column do
-        panel  "#{deliveries_current_year_title}: #{dc.current_deliveries.count}" do
-          if dc.current_deliveries.any?
+        panel  "#{deliveries_current_year_title}: #{dc.current_deliveries_count}" do
+          if dc.current_deliveries_count.positive?
             table_for dc.current_deliveries, class: 'deliveries' do
               column '#', ->(d) { auto_link d, d.number }
               column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
@@ -50,8 +50,8 @@ ActiveAdmin.register DeliveriesCycle do
             span t('active_admin.empty'), class: 'empty'
           end
         end
-        panel "#{deliveries_next_year_title}: #{dc.future_deliveries.count}"  do
-          if dc.future_deliveries.any?
+        panel "#{deliveries_next_year_title}: #{dc.future_deliveries_count}"  do
+          if dc.future_deliveries_count.positive?
             table_for dc.future_deliveries, class: 'deliveries' do
               column '#', ->(d) { auto_link d, d.number }
               column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }

@@ -251,6 +251,14 @@ class ACP < ApplicationRecord
     self[:group_buying_email] || email
   end
 
+  def deliveries_count(year)
+    @max_deliveries_counts ||=
+      DeliveriesCycle
+        .pluck(:deliveries_counts)
+        .reduce({}) { |h, i| h.merge(i) { |k, old, new| [old, new].flatten.max } }
+    @max_deliveries_counts[year.to_s]
+  end
+
   private
 
   def activity_participations_demanded_logic_must_be_valid
