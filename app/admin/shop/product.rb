@@ -177,7 +177,6 @@ ActiveAdmin.register Shop::Product do
     end
   end
 
-  config.per_page = 100
   config.batch_actions = true
   config.sort_order = :default_scope
 end

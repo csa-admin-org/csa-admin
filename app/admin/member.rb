@@ -598,6 +598,5 @@ ActiveAdmin.register Member do
     end
   end
 
-  config.per_page = 50
   config.sort_order = 'name_asc'
 end

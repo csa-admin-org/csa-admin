@@ -118,7 +118,6 @@ ActiveAdmin.register Activity do
     end
   end
 
-  config.per_page = 100
   config.sort_order = 'date_asc'
   config.batch_actions = true
 end

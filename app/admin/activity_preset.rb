@@ -46,6 +46,5 @@ ActiveAdmin.register ActivityPreset do
   end
 
   config.filters = false
-  config.per_page = 50
   config.sort_order = :default_scope
 end

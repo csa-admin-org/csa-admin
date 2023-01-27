@@ -60,6 +60,4 @@ ActiveAdmin.register Announcement do
     *I18n.available_locales.map { |l| "text_#{l}" },
     depot_ids: [],
     delivery_ids: [])
-
-  config.per_page = 50
 end
