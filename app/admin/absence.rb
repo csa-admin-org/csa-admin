@@ -119,6 +119,5 @@ ActiveAdmin.register Absence do
     end
   end
 
-  config.per_page = 25
   config.sort_order = 'started_on_desc'
 end

@@ -742,6 +742,5 @@ ActiveAdmin.register Membership do
     end
   end
 
-  config.per_page = 50
   config.sort_order = 'started_on_desc'
 end

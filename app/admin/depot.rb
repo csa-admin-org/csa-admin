@@ -176,6 +176,5 @@ ActiveAdmin.register Depot do
     include DeliveriesCyclesHelper
   end
 
-  config.per_page = 25
   config.sort_order = 'name_asc'
 end
