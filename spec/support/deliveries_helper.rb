@@ -2,7 +2,7 @@ module DeliveriesHelper
   extend self
 
   def create_deliveries(count, fiscal_year = Current.fiscal_year)
-    return if Delivery.during_year(fiscal_year).any?
+    return if Delivery.any_in_year?(fiscal_year)
 
     date = fiscal_year.beginning_of_year.beginning_of_week + 8.days
     count.times.each do

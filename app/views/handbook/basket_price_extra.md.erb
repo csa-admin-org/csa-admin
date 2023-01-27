@@ -48,7 +48,7 @@ Ce qui donnera cette présentation plus détaillée (avec 40 livraisons):
 
 ## Rapport
 
-Le montant total de tous les extras est affiché en bas à droite de [la liste des abonnements](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fiscal_year.year %>&scope=all&subdomain=admin&order=started_on_desc), en dessous des filtres. N'oubliez pas de filtrer les abonnements par année fiscale pour avoir le bon montant.
+Le montant total de tous les extras est affiché en bas à droite de [la liste des abonnements](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc), en dessous des filtres. N'oubliez pas de filtrer les abonnements par année fiscale pour avoir le bon montant.
 
 Vous pouvez facilement filtrer [la liste des abonnements](/memberships?q%5Bbasket_price_extra_greater_than%5D=0&subdomain=admin&order=started_on_desc) avec un extra en utilisant le filtre à droite prévu à cet effet. Cette information se retrouve également dans [l'export CSV des abonnements](/memberships.csv).
 

@@ -47,9 +47,12 @@ class Delivery < ApplicationRecord
     where('date <= ?', Date.current).order(:date).last
   end
 
+  def self.any_in_year?(year)
+    during_year(year).any?
+  end
+
   def self.any_next_year?
-    next_year = Current.fiscal_year.year + 1
-    Delivery.during_year(next_year).any?
+    any_in_year?(Current.fy_year + 1)
   end
 
   def self.update_numbers(fiscal_year)

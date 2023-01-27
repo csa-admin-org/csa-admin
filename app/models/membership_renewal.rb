@@ -11,7 +11,7 @@ class MembershipRenewal
   # This method only takes care of creating the new membership,
   # please use Membership#renew! directly.
   def renew!(attrs = {})
-    unless Delivery.during_year(@fiscal_year).any?
+    unless Delivery.any_in_year?(@fiscal_year)
       raise MissingDeliveriesError, 'Deliveries for the renewed fiscal year are missing.'
     end
     new_membership = Membership.new(renewed_attrs(attrs))
