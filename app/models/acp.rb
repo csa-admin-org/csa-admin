@@ -228,6 +228,8 @@ class ACP < ApplicationRecord
   end
 
   def fiscal_year_for(date_or_year)
+    return unless date_or_year
+
     FiscalYear.for(date_or_year, start_month: fiscal_year_start_month)
   end
 
