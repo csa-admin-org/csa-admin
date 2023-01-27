@@ -31,8 +31,8 @@ ActiveAdmin.register BasketContent do
     end
     title
   } do
-    unless params.dig(:q, :delivery_id_eq)
-      column :date, ->(bc) { bc.delivery.date.to_s }, class: 'nowrap'
+    unless params.dig(:q, :delivery_id_eq).present?
+      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: 'nowrap'
     end
     column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
