@@ -97,7 +97,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  sidebar t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :delivery_id_eq) }, only: :index do
+  sidebar t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :delivery_id_eq).present? }, only: :index do
     div class: 'content' do
       delivery = Delivery.find(params[:q][:delivery_id_eq])
       if delivery == Delivery.shop_open.next
@@ -240,17 +240,17 @@ ActiveAdmin.register Shop::Order do
     link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: '_blank'
   end
 
-  action_item :order_items_csv, only: :index, if: -> { params[:q]&.key?(:delivery_id_eq) } do
+  action_item :order_items_csv, only: :index, if: -> { params.dig(:q, :delivery_id_eq).present? } do
     delivery_id = params.dig(:q, :delivery_id_eq)
     link_to t('.order_items_csv'), shop_order_items_path(q: { delivery_id_eq: delivery_id }, format: :csv)
   end
 
-  action_item :delivery_pdf, only: :index, if: -> { params[:q]&.key?(:_delivery_gid_eq) } do
+  action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_gid: delivery_gid, format: :pdf), target: '_blank'
   end
 
-  action_item :delivery_xlsx, only: :index, if: -> { params[:q]&.key?(:_delivery_gid_eq) } do
+  action_item :delivery_xlsx, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     link_to 'XLSX', delivery_shop_orders_path(delivery_gid: delivery_gid, format: :xlsx), target: '_blank'
   end
