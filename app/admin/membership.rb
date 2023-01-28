@@ -170,27 +170,30 @@ ActiveAdmin.register Membership do
     end
   end
 
-  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') && !Current.acp.basket_price_extra_dynamic_pricing? && params.dig(:q, :during_year) } do
+  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?('basket_price_extra') && params.dig(:q, :during_year).present? } do
     div class: 'actions' do
       handbook_icon_link('basket_price_extra')
     end
 
-    coll = collection.unscope(:includes, :order).limit(nil)
-    all = coll.includes(:baskets, :member)
-
+    coll =
+      collection.unscope(:includes, :joins, :order)
+      .limit(nil)
+      .joins(:member)
+      .merge(Member.no_salary_basket)
+    baskets = Basket.billable.where(membership: coll)
     div class: 'content' do
       if coll.where('basket_price_extra < 0').any?
         div class: 'total' do
-          sum = all.where('basket_price_extra > 0').sum(&:baskets_price_extra)
+          sum = baskets.where('price_extra > 0').sum('quantity * price_extra')
           span cur(sum), style: 'text-align: right; display: inline-block; width: 100%;'
         end
         div class: 'total' do
-          sum = all.where('basket_price_extra < 0').sum(&:baskets_price_extra)
+          sum = baskets.where('price_extra < 0').sum('quantity * price_extra')
           span cur(sum), style: 'text-align: right; display: inline-block; width: 100%;'
         end
       end
       div class: 'totals' do
-        sum = all.sum(&:baskets_price_extra)
+        sum = baskets.sum('quantity * price_extra')
         span t('active_admin.sidebars.amount')
         span cur(sum), style: 'float: right; font-weight: bold;'
       end
