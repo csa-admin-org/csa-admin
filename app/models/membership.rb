@@ -65,6 +65,7 @@ class Membership < ApplicationRecord
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_config_change!
+  after_update :update_baskets_price_extra!
   after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
   after_destroy :update_renewal_of_previous_membership, :destroy_or_cancel_invoices!
@@ -296,7 +297,10 @@ class Membership < ApplicationRecord
   end
 
   def basket_sizes_price
-    baskets.pluck(:basket_size_id).uniq.sum { |id| basket_size_price(id) }
+    rounded_price(
+      baskets
+        .billable
+        .sum('quantity * basket_price'))
   end
 
   def basket_size_price(basket_size_id)
@@ -308,9 +312,12 @@ class Membership < ApplicationRecord
   end
 
   def baskets_price_extra
-    return 0 if basket_price_extra.to_i.zero?
+    return 0 if basket_price_extra.zero?
 
-    rounded_price(baskets.sum(&:price_extra))
+    rounded_price(
+      baskets
+        .billable
+        .sum('quantity * price_extra'))
   end
 
   def basket_complements_price
@@ -487,6 +494,12 @@ class Membership < ApplicationRecord
 
   def destroy_baskets!(range)
     baskets.between(range).destroy_all
+  end
+
+  def update_baskets_price_extra!
+    if saved_change_to_attribute?(:basket_price_extra)
+      baskets.find_each(&:update_price_extra!)
+    end
   end
 
   def clear_member_waiting_info!

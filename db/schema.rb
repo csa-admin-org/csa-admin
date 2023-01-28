@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_27_082048) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_27_154644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -317,6 +317,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_082048) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "quantity", default: 1, null: false
+    t.decimal "price_extra", precision: 8, scale: 3, default: "0.0", null: false
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id", "membership_id"], name: "index_baskets_on_delivery_id_and_membership_id", unique: true
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"

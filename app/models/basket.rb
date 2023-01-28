@@ -15,6 +15,7 @@ class Basket < ApplicationRecord
 
   before_create :add_complements
   before_validation :set_prices
+  before_save :set_price_extra
   after_commit { membership.cancel_outdated_invoice! }
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
@@ -62,37 +63,6 @@ class Basket < ApplicationRecord
     !absent? || Current.acp.absences_billed?
   end
 
-  def price_extra
-    return 0 unless Current.acp.feature?('basket_price_extra')
-    return 0 if basket_price.zero? || quantity.zero?
-    return 0 unless membership.basket_price_extra?
-    return 0 unless billable?
-
-    extra =
-      if Current.acp.basket_price_extra_dynamic_pricing?
-        cache_key = [
-          'basket_price_extra_dynamic_pricing',
-          Current.acp.updated_at,
-          membership.fy_year,
-          basket_size_id,
-          membership.basket_price.to_f,
-          membership.basket_price_extra.to_f
-        ]
-        Rails.cache.fetch cache_key do
-          template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
-          template.render(
-            'basket_price' => membership.basket_price.to_f,
-            'extra' => membership.basket_price_extra.to_f,
-            'basket_size_id' => basket_size_id,
-            'deliveries_count' => Current.acp.deliveries_count(membership.fy_year).to_f
-          ).to_f
-        end
-      else
-        membership.basket_price_extra
-      end
-    quantity * extra
-  end
-
   def complements_description
     baskets_basket_complements
       .joins(:basket_complement)
@@ -103,6 +73,10 @@ class Basket < ApplicationRecord
   def complements_price
     baskets_basket_complements
       .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
+  end
+
+  def update_price_extra!
+    update_column(:price_extra, calculate_price_extra)
   end
 
   def empty?
@@ -172,6 +146,27 @@ class Basket < ApplicationRecord
   def delivery_must_be_in_depot_deliveries
     if delivery && depot && !depot.include_delivery?(delivery)
       errors.add(:depot, :exclusion)
+    end
+  end
+
+  def set_price_extra
+    self.price_extra = calculate_price_extra
+  end
+
+  def calculate_price_extra
+    return 0 unless Current.acp.feature?('basket_price_extra')
+    return 0 if basket_price.zero?
+
+    if Current.acp.basket_price_extra_dynamic_pricing?
+      template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
+      template.render(
+        'basket_price' => membership.basket_price.to_f,
+        'extra' => membership.basket_price_extra.to_f,
+        'basket_size_id' => basket_size_id,
+        'deliveries_count' => Current.acp.deliveries_count(membership.fy_year).to_f
+      ).to_f
+    else
+      membership.basket_price_extra
     end
   end
 end

@@ -640,6 +640,19 @@ describe Membership do
     end
   end
 
+  specify 'updates baskets price_extre' do
+    Current.acp.update! features: [:basket_price_extra]
+    membership = create(:membership,
+      basket_price_extra: 2,
+      deliveries_count: 2)
+
+    expect {
+      expect { membership.update!(basket_price_extra: 3) }
+        .to change { membership.baskets.pluck(:price_extra).uniq }
+        .from([2]).to([3])
+    }.to change { membership.reload.baskets_price_extra }.from(4).to(6)
+  end
+
   it 'updates baskets counts after commit' do
     Current.acp.update!(trial_basket_count: 3)
 

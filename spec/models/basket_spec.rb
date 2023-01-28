@@ -135,7 +135,7 @@ describe Basket do
     end
   end
 
-  describe '#price_extra' do
+  describe '#calculate_price_extra' do
     before { Current.acp.update! features: [:basket_price_extra] }
     let(:basket) {
       basket = Basket.new(
@@ -147,32 +147,32 @@ describe Basket do
     specify 'without basket_price_extra feature' do
       Current.acp.update! features: []
 
-      expect(basket.price_extra).to eq 0
+      expect(basket.send(:calculate_price_extra)).to eq 0
     end
 
     specify 'when basket_price is zero' do
       basket.basket_price = 0
-      expect(basket.price_extra).to eq 0
+      expect(basket.send(:calculate_price_extra)).to eq 0
     end
 
     specify 'when quantity is zero' do
       basket.quantity = 0
-      expect(basket.price_extra).to eq 0
+      expect(basket.send(:calculate_price_extra)).to eq 2.42
     end
 
     specify 'when no membership basket_price_extra' do
       basket.membership = Membership.new(basket_price_extra: 0)
-      expect(basket.price_extra).to eq 0
+      expect(basket.send(:calculate_price_extra)).to eq 0
     end
 
     specify 'when non billable basket' do
       Current.acp.update!(absences_billed: false)
       basket.absent = true
-      expect(basket.price_extra).to eq 0
+      expect(basket.send(:calculate_price_extra)).to eq 2.42
     end
 
     specify 'without dynamic pricing' do
-      expect(basket.price_extra).to eq 2 * 2.42
+      expect(basket.send(:calculate_price_extra)).to eq 2.42
     end
 
     specify 'with dynamic pricing based on basket_size' do
@@ -196,8 +196,8 @@ describe Basket do
         {% endif %}
       LIQUID
 
-      expect(basket_1.price_extra).to eq 2 * 5 / 3.0
-      expect(basket_2.price_extra).to eq 2 * 2.5
+      expect(basket_1.send(:calculate_price_extra)).to eq 5 / 3.0
+      expect(basket_2.send(:calculate_price_extra)).to eq 2.5
     end
 
     specify 'with dynamic pricing based on deliveries count and extra', freeze: '2022-01-01' do
@@ -213,7 +213,14 @@ describe Basket do
         {{ extra | divided_by: deliveries_count }}
       LIQUID
 
-      expect(basket.price_extra).to eq 2 * 10 / 3.0
+      expect(basket.send(:calculate_price_extra)).to eq 10 / 3.0
     end
+  end
+
+  specify 'set price_extra before save' do
+    Current.acp.update! features: [:basket_price_extra]
+    membership = create(:membership, basket_price_extra: 2)
+    basket = membership.baskets.last
+    expect(basket.price_extra).to eq 2
   end
 end
