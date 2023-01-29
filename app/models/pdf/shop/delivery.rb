@@ -12,7 +12,7 @@ module PDF
             delivery.shop_orders
               .all_without_cart
               .includes(:member, items: [:product_variant, product: :producer])
-              .sort_by { |order| [order.depot&.name, order.member] }
+              .sort_by { |order| [order.depot&.name.to_s, order.member] }
           end
         super
         @current_time = Time.current
