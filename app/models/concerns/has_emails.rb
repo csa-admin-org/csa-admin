@@ -14,6 +14,8 @@ module HasEmails
 
   class_methods do
     def find_by_email(email)
+      return unless email.present?
+
       including_email(email).first
     end
   end
@@ -27,7 +29,7 @@ module HasEmails
   end
 
   def active_emails
-    emails_array.reject { |email| EmailSuppression.active.exists?(email: email) }
+    emails_array.reject { |email| EmailSuppression.outbound.active.exists?(email: email) }
   end
 
   def emails?
