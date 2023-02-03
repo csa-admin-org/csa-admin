@@ -73,7 +73,7 @@ class Mailchimp
     unsuppressable_emails = EmailSuppression.unsuppressable.where(context).pluck(:email)
     hash_ids_and_emails.each do |hash_id, email|
       if unsubscribed_hash_ids.include?(hash_id)
-        EmailSuppression.suppress!(email, **context.merge(reason: 'ManualSuppression')
+        EmailSuppression.suppress!(email, **context.merge(reason: 'ManualSuppression'))
       elsif unsuppressable_emails.include?(email)
         EmailSuppression.unsuppress!(email, **context)
       end
