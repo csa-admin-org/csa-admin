@@ -29,8 +29,8 @@ describe EmailSuppression do
     EmailSuppression.first.unsuppress!
 
     expect { EmailSuppression.sync_postmark! }
-      .to change { EmailSuppression.count }.by(1)
-    expect(EmailSuppression.active.first).to have_attributes(
+      .to change { EmailSuppression.outbound.count }.by(1)
+    expect(EmailSuppression.outbound.active.first).to have_attributes(
       email: 'd@f.com',
       reason: 'SpamComplaint',
       origin: 'Customer',
@@ -46,7 +46,7 @@ describe EmailSuppression do
     end
 
     specify 'unsuppress all suppressable suppression with give email' do
-      expect { EmailSuppression.unsuppress!('a@b.com') }
+      expect { EmailSuppression.unsuppress!('a@b.com', origin: 'Recipient') }
         .to change { EmailSuppression.active.count }.by(-1)
       expect(EmailSuppression.active.outbound.where(email: 'a@b.com')).to be_empty
       expect(postmark_client.calls).to eq [
@@ -55,8 +55,39 @@ describe EmailSuppression do
     end
 
     specify 'skips undeletable emails' do
-      expect { EmailSuppression.unsuppress!('z@y.com') }
+      expect { EmailSuppression.unsuppress!('z@y.com', origin: 'Recipient') }
         .not_to change { EmailSuppression.active.count }
+      expect(postmark_client.calls).to be_empty
+    end
+  end
+
+  describe '.suppress!' do
+    before do
+      suppress!('outbound', 'a@b.com', 'HardBounce', 'Recipient')
+      suppress!('broadcast', 'a@b.com', 'HardBounce', 'Recipient')
+    end
+
+    specify 'create new suppression' do
+      expect {
+        EmailSuppression.suppress!('x@y.com',
+          origin: 'Customer',
+          reason: 'ManualSuppression')
+      }.to change { EmailSuppression.active.count }.by(1)
+      expect(EmailSuppression.active.find_by(email: 'x@y.com')).to have_attributes(
+        stream_id: 'outbound',
+        origin: 'Customer',
+        reason: 'ManualSuppression')
+      expect(postmark_client.calls).to eq [
+        [:create_suppressions, 'outbound', 'x@y.com']
+      ]
+    end
+
+    specify 'skips already suppressed email' do
+      expect {
+        EmailSuppression.suppress!('a@b.com',
+          origin: 'Customer',
+          reason: 'ManualSuppression')
+      }.not_to change { EmailSuppression.active.count }
       expect(postmark_client.calls).to be_empty
     end
   end

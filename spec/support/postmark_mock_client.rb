@@ -21,4 +21,8 @@ class PostmarkMockClient
   def delete_suppressions(stream_id, email)
     @calls << [:delete_suppressions, stream_id, email]
   end
+
+  def create_suppressions(stream_id, email)
+    @calls << [:create_suppressions, stream_id, email]
+  end
 end

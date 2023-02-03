@@ -14,6 +14,7 @@ class Mailchimp
       mailchimp.upsert_merge_fields
       mailchimp.upsert_members(Member.all)
       mailchimp.unsubscribe_deleted_members(Member.all)
+      mailchimp.sync_unsubscribed_members(Member.all)
     end
   rescue Gibbon::MailChimpError => e
     Sentry.capture_exception(e)
@@ -51,9 +52,7 @@ class Mailchimp
   end
 
   def unsubscribe_deleted_members(members)
-    hash_ids_and_emails = members.select(:emails).flat_map(&:emails_array).map { |e|
-      [hash_id(e), e]
-    }.to_h
+    hash_ids_and_emails = hash_ids_and_emails(members)
     mailchimp_hash_ids_and_emails = get_hash_ids_and_emails
     hash_ids_to_delete = mailchimp_hash_ids_and_emails.keys - hash_ids_and_emails.keys
     hash_ids_to_delete.each do |hash_id|
@@ -63,6 +62,21 @@ class Mailchimp
         email: mailchimp_hash_ids_and_emails[hash_id],
         hash_id: hash_id
       })
+    end
+  end
+
+  def sync_unsubscribed_members(members)
+    hash_ids_and_emails = hash_ids_and_emails(members)
+    mailchimp_hash_ids_and_emails = get_hash_ids_and_emails(status: 'unsubscribed')
+    unsubscribed_hash_ids = mailchimp_hash_ids_and_emails.keys & hash_ids_and_emails.keys
+    context = { stream_id: 'broadcast', origin: 'Mailchimp' }
+    unsuppressable_emails = EmailSuppression.unsuppressable.where(context).pluck(:email)
+    hash_ids_and_emails.each do |hash_id, email|
+      if unsubscribed_hash_ids.include?(hash_id)
+        EmailSuppression.suppress!(email, **context.merge(reason: 'ManualSuppression')
+      elsif unsuppressable_emails.include?(email)
+        EmailSuppression.unsuppress!(email, **context)
+      end
     end
   end
 
@@ -119,12 +133,18 @@ class Mailchimp
   end
 
   def email_suppressed?(email)
-    @suppressed_emails ||= EmailSuppression.active.mailchimp.pluck(:email)
+    @suppressed_emails ||= EmailSuppression.active.broadcast.pluck(:email)
     @suppressed_emails.include?(email)
   end
 
   def hash_id(email)
     Digest::MD5.hexdigest(email.downcase)
+  end
+
+  def hash_ids_and_emails(members)
+    members.select(:emails).flat_map(&:emails_array).map { |e|
+      [hash_id(e), e]
+    }.to_h
   end
 
   def hash_ids
@@ -207,11 +227,10 @@ class Mailchimp
         json = JSON.load(r['response'])
         if json['title'] == 'Forgotten Email Not Subscribed'
           email = json['detail'].split(' ').first
-          EmailSuppression.find_or_create_by!(
-            stream_id: 'mailchimp',
-            email: email,
-            reason: 'Forgotten',
-            origin: 'Sync')
+          EmailSuppression.suppress!(email,
+            stream_id: 'broadcast',
+            origin: 'Mailchimp',
+            reason: 'Forgotten')
         else
           Sentry.capture_message('Unknown Mailchimp batch error (400) title', extra: {
             title: json['title'],
