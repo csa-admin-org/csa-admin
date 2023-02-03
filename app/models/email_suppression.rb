@@ -1,18 +1,19 @@
 require 'postmark_wrapper'
 
 class EmailSuppression < ApplicationRecord
-  STREAM_IDS = %w[outbound]
+  STREAM_IDS = %w[outbound broadcast]
   REASONS = %w[HardBounce SpamComplaint ManualSuppression Forgotten]
-  ORIGINS = %w[Recipient Customer Admin Sync]
+  ORIGINS = %w[Recipient Customer Admin Sync Mailchimp]
 
   scope :active, -> { where(unsuppressed_at: nil) }
   scope :outbound, -> { where(stream_id: 'outbound') }
-  scope :mailchimp, -> { where(stream_id: 'mailchimp') }
-  scope :unsuppressable, -> { where(reason: 'HardBounce', origin: 'Recipient') }
+  scope :broadcast, -> { where(stream_id: 'broadcast') }
+  scope :unsuppressable, -> { active.where.not(reason: 'SpamComplaint') }
 
   validates :email, presence: true
-  validates :reason, inclusion: { in: REASONS }
-  validates :origin, inclusion: { in: ORIGINS }
+  validates :stream_id, presence: true, inclusion: { in: STREAM_IDS }
+  validates :reason, presence: true, inclusion: { in: REASONS }
+  validates :origin, presence: true, inclusion: { in: ORIGINS }
 
   after_create_commit :notify_admins!
 
@@ -29,11 +30,20 @@ class EmailSuppression < ApplicationRecord
     end
   end
 
-  def self.unsuppress!(email)
-    suppressions = outbound.unsuppressable.where(email: email)
+  def self.unsuppress!(email, stream_id: 'outbound', origin: 'Customer')
+    conditions = { email: email, stream_id: stream_id, origin: origin }
+    suppressions = unsuppressable.where(conditions)
     if suppressions.any?
-      PostmarkWrapper.delete_suppressions('outbound', email)
+      PostmarkWrapper.delete_suppressions(stream_id, email)
       suppressions.each(&:unsuppress!)
+    end
+  end
+
+  def self.suppress!(email, stream_id: 'outbound', **attrs)
+    conditions = { email: email, stream_id: stream_id }
+    unless active.exists?(conditions)
+      PostmarkWrapper.create_suppressions(stream_id, email)
+      create!(conditions.merge(attrs))
     end
   end
 
@@ -49,14 +59,14 @@ class EmailSuppression < ApplicationRecord
     owners
   end
 
-  def mailchimp?
-    stream_id == 'mailchimp'
+  def broadcast?
+    stream_id == 'broadcast'
   end
 
   private
 
   def notify_admins!
-    return if mailchimp?
+    return if broadcast?
 
     Admin.notify!(:new_email_suppression, email_suppression: self)
   end
