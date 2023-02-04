@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 describe Newsletter::Audience do
+  specify 'encrypt and decrypt email' do
+    email = 'thibaud@thibaud.gg'
+    encrypted = described_class.encrypt_email(email)
+    expect(described_class.decrypt_email(encrypted)).to eq email
+  end
+
+  specify 'decrypt email with invalid token' do
+    expect(described_class.decrypt_email('invalid')).to be_nil
+  end
 
   def segment_for(audience)
     described_class::Segment.parse(audience)

@@ -30,7 +30,7 @@ class EmailSuppression < ApplicationRecord
     end
   end
 
-  def self.unsuppress!(email, stream_id: 'outbound', origin: 'Customer')
+  def self.unsuppress!(email, stream_id:, origin:)
     conditions = { email: email, stream_id: stream_id, origin: origin }
     suppressions = unsuppressable.where(conditions)
     if suppressions.any?
@@ -39,7 +39,7 @@ class EmailSuppression < ApplicationRecord
     end
   end
 
-  def self.suppress!(email, stream_id: 'outbound', **attrs)
+  def self.suppress!(email, stream_id:, **attrs)
     conditions = { email: email, stream_id: stream_id }
     unless active.exists?(conditions)
       PostmarkWrapper.create_suppressions(stream_id, email)

@@ -668,6 +668,30 @@ _:
             _de: "%{count} weitere auf Probe und unverbindlich"
             _fr: encore %{count} à l'essai et sans engagement
             _it: ancora %{count} di prova e senza impegno
+    newsletter_subscriptions:
+      create:
+        title:
+          _de: Ihre E-Mail (%{email}) wurde wieder zur Verteilerliste hinzugefügt.
+          _fr: Votre email (%{email}) est à nouveau inscrit à la liste de diffusion.
+          _it: La tua email (%{email}) è stata nuovamente iscritta alla lista di distribuzione.
+      destroy:
+        subscribe:
+          _de: Ich möchte mich wieder anmelden.
+          _fr: Je m'inscris à nouveau.
+          _it: Mi iscrivo nuovamente.
+        subscribe_back:
+          _de: Whoops, das war ein Fehler.
+          _fr: Whoops, c'était une erreur.
+          _it: Whoops, era un errore.
+        title:
+          _de: Ihre E-Mail (%{email}) wurde von der Verteilerliste entfernt.
+          _fr: Votre email (%{email}) a été supprimé de la liste de diffusion.
+          _it: La tua email (%{email}) è stata rimossa dalla lista di distribuzione.
+      invalid:
+        title:
+          _de: Dieser Link ist abgelaufen oder ungültig.
+          _fr: Ce lien a expiré ou n'est pas valide.
+          _it: Questo link è scaduto o non è valido.
     sessions:
       new:
         email_input:
