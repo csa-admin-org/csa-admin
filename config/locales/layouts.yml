@@ -14,6 +14,10 @@ _:
         _de: Meine Benachrichtigungen verwalten
         _fr: Gérer mes notifications
         _it: Gestisci le notiche
+      unsubscribe:
+        _de: Abmeldung
+        _fr: Désincription
+        _it: Disiscrizione
     members:
       footer:
         contact:

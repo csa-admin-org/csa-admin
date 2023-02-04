@@ -58,6 +58,12 @@
                       </p>
                       <% end %>
 
+                      <% if @unsubscribe_token %>
+                      <p class="f-fallback sub align-center">
+                        <%= link_to t('.unsubscribe'), members_unsubscribe_newsletter_url(@unsubscribe_token) %>
+                      </p>
+                      <% end %>
+
                       <p class="f-fallback sub align-center">
                         <%= link_to Current.acp.name, Current.acp.url, target: '_blank' %>
                       </p>

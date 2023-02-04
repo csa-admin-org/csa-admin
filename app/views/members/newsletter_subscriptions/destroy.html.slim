@@ -1,0 +1,8 @@
+h1 class="mt-12 text-center text-xl md:text-2xl text-gray-900 dark:text-gray-100"
+  span class="my-6 text-6xl block" = "👋🏻"
+  = t('.title', email: ellipsisize(email))
+
+
+div class="my-10 text-center"
+  p class='inline-block text-gray-500' = t('.subscribe_back')
+  = button_to t('.subscribe'), members_subscribe_newsletter_path(params[:token]), form: { class: 'ml-1 inline-block' }, class: 'cursor-pointer underline', data: { turbo: false }

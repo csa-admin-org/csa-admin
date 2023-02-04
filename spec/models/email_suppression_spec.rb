@@ -46,8 +46,11 @@ describe EmailSuppression do
     end
 
     specify 'unsuppress all suppressable suppression with give email' do
-      expect { EmailSuppression.unsuppress!('a@b.com', origin: 'Recipient') }
-        .to change { EmailSuppression.active.count }.by(-1)
+      expect {
+        EmailSuppression.unsuppress!('a@b.com',
+          stream_id: 'outbound',
+          origin: 'Recipient')
+      }.to change { EmailSuppression.active.count }.by(-1)
       expect(EmailSuppression.active.outbound.where(email: 'a@b.com')).to be_empty
       expect(postmark_client.calls).to eq [
         [:delete_suppressions, 'outbound', 'a@b.com']
@@ -55,8 +58,11 @@ describe EmailSuppression do
     end
 
     specify 'skips undeletable emails' do
-      expect { EmailSuppression.unsuppress!('z@y.com', origin: 'Recipient') }
-        .not_to change { EmailSuppression.active.count }
+      expect {
+        EmailSuppression.unsuppress!('z@y.com',
+          stream_id: 'outbound',
+          origin: 'Recipient')
+      }.not_to change { EmailSuppression.active.count }
       expect(postmark_client.calls).to be_empty
     end
   end
@@ -70,6 +76,7 @@ describe EmailSuppression do
     specify 'create new suppression' do
       expect {
         EmailSuppression.suppress!('x@y.com',
+          stream_id: 'outbound',
           origin: 'Customer',
           reason: 'ManualSuppression')
       }.to change { EmailSuppression.active.count }.by(1)
@@ -85,6 +92,7 @@ describe EmailSuppression do
     specify 'skips already suppressed email' do
       expect {
         EmailSuppression.suppress!('a@b.com',
+          stream_id: 'outbound',
           origin: 'Customer',
           reason: 'ManualSuppression')
       }.not_to change { EmailSuppression.active.count }

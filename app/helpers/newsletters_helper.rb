@@ -17,4 +17,19 @@ module NewslettersHelper
     when :activity_state; activities_human_name
     end
   end
+
+  def ellipsisize(email)
+    return unless email
+
+    email.split('@').map { |part|
+      case part.length
+      when 0..5
+        part.gsub(%r{(.).+(.)}, '\1...\2')
+      when 5..8
+        part.gsub(%r{(.{2}).{2,}(.{2})}, '\1...\2')
+      else
+        part.gsub(%r{(.{3}).{3,}(.{3})}, '\1...\2')
+      end
+    }.join('@')
+  end
 end
