@@ -3,11 +3,12 @@ module Templatable
 
   private
 
-  def template_mail(member, to: nil, **data)
+  def template_mail(member, to: nil, stream: 'outbound', **data)
     render_template(member, **data) do |subject, content|
       content_mail(content,
         to: to || member.emails_array,
-        subject: subject)
+        subject: subject,
+        message_stream: stream)
     end
   end
 

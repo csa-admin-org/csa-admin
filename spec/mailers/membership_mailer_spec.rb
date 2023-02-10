@@ -16,6 +16,7 @@ describe MembershipMailer, freeze: '2022-01-01' do
     expect(mail.body).to include("C'est le jour de votre dernier panier à l'essai...")
     expect(mail.body).to include('https://membres.ragedevert.ch')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'outbound'
   end
 
   specify '#renewal_email' do
@@ -32,6 +33,7 @@ describe MembershipMailer, freeze: '2022-01-01' do
     expect(mail.body).to include('Accéder au formulaire de renouvellement')
     expect(mail.body).to include('https://membres.ragedevert.ch/memberships#renewal')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'outbound'
   end
 
   specify '#renewal_reminder_email' do
@@ -48,5 +50,6 @@ describe MembershipMailer, freeze: '2022-01-01' do
     expect(mail.body).to include('Accéder au formulaire de renouvellement')
     expect(mail.body).to include('https://membres.ragedevert.ch/memberships#renewal')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'outbound'
   end
 end
