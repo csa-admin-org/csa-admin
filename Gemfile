@@ -39,8 +39,7 @@ gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 
 gem 'invisible_captcha'
-# https://github.com/jtoy/cld/issues/24
-gem 'cld', github: 'jtoy/cld'
+gem 'cld'
 
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
