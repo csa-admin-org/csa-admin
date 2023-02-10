@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
       SessionMailer.with(
         session: @session,
         session_url: session_url(@session.token)
-      ).new_admin_session_email.deliver_later
+      ).new_admin_session_email.deliver_later(queue: :critical)
       I18n.locale = @session.admin.language
       redirect_to login_path(locale: I18n.locale), notice: t('sessions.flash.initiated')
     else
