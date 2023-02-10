@@ -207,10 +207,10 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
       basket_complement:
-        current_deliveries:
-          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
-          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
-          _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
+        current_deliveries_html:
+          _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnungung dieser Abonnements kann beeinflusst werden.</a></b>
+          _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>
+          _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica. <b>Attenzione, <a href='/handbook/billing#price-change'>la fatturazione di questi abbonamenti potrebbe essere influenzata.</a></b>
         form_details:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
@@ -294,13 +294,13 @@ _:
           _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
       delivery:
         basket_complements:
-          _de: Jede Abonnements mit diesen Zusätze werden bei Änderungen automatisch aktualisiert.
-          _fr: Tous les abonnements qui ont souscrit à ces compléments seront automatiquement mis à jour en cas de changement.
-          _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
-        date:
-          _de: Im Falle einer Änderung werden alle betroffenen Abonnements, basierend auf ihrem Anfangs- und Enddatum sowie ihrem Lieferungszyklus, automatisch aktualisiert.
-          _fr: En cas de changement, tous les abonnements concernés, en fonction de leurs dates de début et de fin ainsi que leur cycle de livraisons, seront automatiquement mis à jour.
-          _it: In caso di modifica, tutti gli abbonamenti interessati, secondo le loro date di inizio e fine e il loro ciclo di consegna, saranno automaticamente aggiornati.
+          _de: Alle Abonnements, die diese Zusätze abonniert haben und diese/n neue/n Datum/Daten beinhalten, werden automatisch aktualisiert.
+          _fr: Tous les abonnements qui ont souscrit à ces compléments et qui incluent cette/ces nouvelle(s) date(s) seront mis à jour automatiquement.
+          _it: Tutti gli abbonamenti che hanno sottoscritto questi supplementi e che includono questa/data nuova saranno automaticamente aggiornati.
+        date_html:
+          _de: Im Falle einer Änderung werden alle betroffenen Abonnements, basierend auf ihrem Anfangs- und Enddatum sowie ihrem Lieferungszyklus, automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnung für diese Abonnements kann beeinflusst werden.</a></b>
+          _fr: En cas de changement, tous les abonnements concernés, en fonction de leurs dates de début et de fin ainsi que leur cycle de livraisons, seront automatiquement mis à jour. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>
+          _it: In caso di modifica, tutti gli abbonamenti interessati, secondo le loro date di inizio e fine e il loro ciclo di consegna, saranno automaticamente aggiornati. <b>Attenzione, <a href='/handbook/billing#price-change'>la fatturazione di questi abbonamenti potrebbe essere influenzata.</a></b>
         depots:
           _de: Die Taschen in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
           _fr: Les paniers des dépôts seront automatiquement effacés ou créés en cas de changement.
@@ -314,10 +314,6 @@ _:
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
           _it: Controlla se i soci possono fare ordini di alimentari per questa consegna o no.
       depot:
-        current_deliveries:
-          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
-          _fr: Les paniers de ce dépôt seront automatiquement effacés ou créés en cas de changement.
-          _it: Le ceste in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
         deliveries_cycles:
           _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
           _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
@@ -330,10 +326,6 @@ _:
           _de: Ermöglicht es Ihnen, die Einlagen in einer bestimmten Reihenfolge zu sortieren.
           _fr: Permet de trier les dépôts dans un ordre spécifique.
           _it: Permette di ordinare i luoghi di deposito in un ordine specifico.
-        future_deliveries:
-          _de: Die Taschen in diesem Depot werden bei einer Änderung automatisch gelöscht oder angelegt.
-          _fr: Les paniers de ce dépôt seront automatiquement effacés ou créés en cas de changement.
-          _it: Le ceste in questo punto di ritiro vengono automaticamente cancellate o create in caso di modifica.
         phones:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
