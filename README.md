@@ -44,6 +44,8 @@ Utilisé actuellement par les ACP suivantes:
 * [Grundnahrig](https://www.grundnahrig.ch)
 * [Le Jardin des Turricules](https://jardindesturricules.ch)
 * [Le Petit Sécheron](https://lepetitsecheron.ch)
+* [Le Petit Marché de Savigny](https://paniersdesavigny.ch)
+* [Les Jardins de Cocagne](https://cocagne.ch)
 
 
 ## Développement et support
