@@ -1,5 +1,5 @@
 _:
-  newsletter:
+  newsletters:
     activity_state:
       demanded:
         _de: Zu leisten
@@ -26,6 +26,12 @@ _:
       _de: Unbekannt
       _fr: Inconnu
       _it: Sconosciuto
+    send_email:
+      flash:
+        notice:
+          _de: Versand der Newsletter läuft...
+          _fr: Envoie de la newsletter en cours...
+          _it: Invio della newsletter in corso...
     template:
       subject:
         _de: Titel der Newsletter

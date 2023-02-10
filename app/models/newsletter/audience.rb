@@ -30,11 +30,20 @@ class Newsletter
       end
 
       def name
-        super || record&.name || I18n.t('newsletter.segment_unknown')
+        super || record&.name || I18n.t('newsletters.segment_unknown')
       end
 
       def id
         "#{key}::#{value}"
+      end
+
+      def emails
+        @emails ||= all_emails - suppressed_emails
+      end
+
+      def suppressed_emails
+        @suppressed_emails ||=
+          EmailSuppression.broadcast.active.where(email: all_emails).pluck(:email)
       end
 
       def members
@@ -51,6 +60,8 @@ class Newsletter
           Member
             .joins(:current_membership)
             .where(memberships: { depot_id: value })
+        when :member_id
+          Member.where(id: value)
         when :member_state
           case value
           when 'all'; Member.not_pending
@@ -72,6 +83,12 @@ class Newsletter
           end
         end
       end
+
+      private
+
+      def all_emails
+        @all_emails ||= members.flat_map(&:emails_array)
+      end
     end
 
     def record_for(key, value)
@@ -84,13 +101,13 @@ class Newsletter
           if Member::STATES.include?(value)
             I18n.t("states.member.#{value}").capitalize
           else
-            I18n.t("newsletter.member_state.#{value}")
+            I18n.t("newsletters.member_state.#{value}")
           end
         OpenStruct.new(id: value, name: name)
       when :activity_state
         OpenStruct.new(
           id: value,
-          name: I18n.t("newsletter.activity_state.#{value}"))
+          name: I18n.t("newsletters.activity_state.#{value}"))
       end
     end
 
@@ -110,8 +127,6 @@ class Newsletter
         [key, records.map { |r| Segment.new(key, r.id, r.name) }.sort_by(&:name)]
       }.to_h
     end
-
-    private
 
     def member_state_records
       states = Member::STATES - %w[pending]

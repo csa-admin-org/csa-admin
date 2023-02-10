@@ -1,12 +1,17 @@
 class Newsletter < ApplicationRecord
   include TranslatedAttributes
+  include Auditable
 
   translated_attributes :subject, required: true
+
+  audited_attributes :sent_at
 
   belongs_to :template,
     class_name: 'Newsletter::Template',
     foreign_key: 'newsletter_template_id'
   has_many :blocks, class_name: 'Newsletter::Block', dependent: :destroy
+  has_many :deliveries, class_name: 'Newsletter::Delivery'
+  has_many :members, through: :deliveries
 
   accepts_nested_attributes_for :blocks, allow_destroy: true
 
@@ -22,19 +27,58 @@ class Newsletter < ApplicationRecord
   end
 
   def members_count
-    @members_count ||= audience_segment.members.count
+    @members_count ||= if sent?
+      members.count
+    else
+      audience_segment.members.count
+    end
+  end
+
+  def emails
+    @member_emails ||= if sent?
+      deliveries.pluck(:emails).flatten
+    else
+      audience_segment.emails
+    end
+  end
+
+  def suppressed_emails
+    @suppressed_emails ||= if sent?
+      deliveries.pluck(:suppressed_emails).flatten
+    else
+      audience_segment.suppressed_emails
+    end
   end
 
   def sent?
     sent_at?
   end
 
+  def ongoing_delivery?
+    deliveries.undelivered.any?
+  end
+
+  def send!
+    raise 'Already sent!' if sent?
+
+    transaction do
+      update!(
+        template_contents: template.contents,
+        sent_at: Time.current)
+      audience_segment.members.each do |member|
+        deliveries.create!(member: member)
+      end
+    end
+    Newsletter::DeliveryJob.set(wait: 10).perform_later(self)
+  end
+
   def mail_preview(locale)
     template.liquid_data_preview_yamls = liquid_data_preview_yamls
+    template.contents = template_contents if sent?
     mailer_preview.call(email_method,
       template: template,
       subject: subject(locale).to_s,
-      blocks: template_blocks,
+      blocks: relevant_blocks,
       locale: locale
     ).html_part.body.encoded
   rescue => e
@@ -70,7 +114,7 @@ class Newsletter < ApplicationRecord
   def mailer_preview; NewsletterMailerPreview end
   def email_method; :newsletter_email end
 
-  def template_blocks
+  def relevant_blocks
     blocks.select { |b| b.template_id == template.id }
   end
 
@@ -97,16 +141,20 @@ class Newsletter < ApplicationRecord
     !sent?
   end
 
+  def can_send_email?
+    !sent? && emails.size.positive?
+  end
+
   private
 
   def at_least_one_block_must_be_present
-    if template_blocks.none?(&:any_contents?)
+    if relevant_blocks.none?(&:any_contents?)
       errors.add(:blocks, :empty)
     end
   end
 
   def same_blocks_must_be_present_for_all_languages
-    template_blocks.each do |block|
+    relevant_blocks.each do |block|
       if block.any_contents? && !block.all_contents?
         block.contents.each do |locale, content|
           if content.to_plain_text.blank?

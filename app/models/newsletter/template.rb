@@ -6,6 +6,8 @@ class Newsletter
     include Auditable
     include Liquidable
 
+    attr_accessor :no_preview
+
     has_many :newsletters, foreign_key: 'newsletter_template_id'
 
     audited_attributes :contents
@@ -43,13 +45,15 @@ class Newsletter
           @liquid_data_previews&.dig(locale) ||
             I18n.with_locale(locale) {
               Liquid::DataPreview.for(self).merge(
-                'subject' => I18n.t('newsletter.template.subject'))
+                'subject' => I18n.t('newsletters.template.subject'))
             }
         [locale, data.to_yaml(line_width: -1).gsub("---\n", '')]
       }.to_h
     end
 
     def liquid_data_preview
+      return if no_preview
+
       unless @liquid_data_previews
         self.liquid_data_preview_yamls = liquid_data_preview_yamls
       end
