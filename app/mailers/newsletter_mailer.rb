@@ -3,7 +3,10 @@ class NewsletterMailer < ApplicationMailer
   EmailRender = Struct.new(:subject, :content)
 
   def newsletter_email
-    template_mail(params[:member], to: params[:to], **prepared_data)
+    template_mail(params[:member],
+      to: params[:to],
+      stream: 'broadcast',
+      **prepared_data)
   end
 
   # Only used by Newsletter::Delivery to persist the rendered email

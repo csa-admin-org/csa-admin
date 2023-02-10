@@ -24,6 +24,7 @@ describe NewsletterMailer do
     expect(mail.subject).to eq 'Ma Newsletter'
     expect(mail.to).to eq ['john@doe.com']
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'broadcast'
 
     expect(mail.body).to include('Salut John Doe,')
     expect(mail.body).to include('<h2 class="content_title">Content Title</h2>')

@@ -28,6 +28,7 @@ describe SessionMailer do
 
     expect(mail.subject).to eq('Connexion à votre compte admin')
     expect(mail.to).to eq(['example@acp-admin.ch'])
+
     expect(mail.body).to include('Accéder à mon compte admin')
     expect(mail.body).to include('https://example.com/session/token')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'

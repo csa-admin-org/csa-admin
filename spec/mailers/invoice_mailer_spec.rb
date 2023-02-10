@@ -22,6 +22,7 @@ describe InvoiceMailer do
     expect(body).to include('Accéder à ma page de membre')
     expect(body).to include('https://membres.ragedevert.ch/billing')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'outbound'
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
@@ -173,6 +174,7 @@ describe InvoiceMailer do
     expect(body).not_to include('Accéder à ma page de membre')
     expect(body).not_to include('https://membres.ragedevert.ch/billing')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'outbound'
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
