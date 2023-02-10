@@ -19,6 +19,10 @@ namespace :postmark do
         unless brodcast[:name] == 'Broadcasts Stream'
           client.update_message_stream('broadcast', name: 'Broadcasts Stream')
         end
+        unless brodcast.dig(:subscription_management_configuration, 'UnsubscribeHandlingType') == 'Custom'
+          client.update_message_stream('broadcast',
+            subscription_management_configuration: { UnsubscribeHandlingType: 'Custom' })
+        end
       end
     end
   end
