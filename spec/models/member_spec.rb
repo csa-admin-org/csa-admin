@@ -284,8 +284,8 @@ describe Member do
     end
   end
 
-  describe '#review_active_state!', freeze: '01-06-2018' do
-    it 'activates new active member' do
+  describe '#review_active_state!' do
+    it 'activates new active member', freeze: '01-06-2018' do
       member = create(:member, :inactive)
       membership = create(:membership,
         member: member,
@@ -297,13 +297,51 @@ describe Member do
         .to change(member, :state).from('inactive').to('active')
     end
 
-    it 'deactivates old active member' do
+    it 'deactivates old active member', freeze: '01-06-2018' do
       member = create(:member, :active)
       member.membership.update_column(:ended_on, 1.day.ago)
       member.reload
 
       expect { member.review_active_state! }
         .to change(member, :state).from('active').to('inactive')
+    end
+
+    it 'sets state to support when membership.renewal_annual_fee is present' do
+      membership = create(:membership)
+      member = membership.member
+      membership.cancel!(renewal_annual_fee: '1')
+
+      travel 1.year do
+        member.reload
+        expect { member.review_active_state! }
+          .to change(member, :state).to('support')
+        expect(member.annual_fee).to eq 30
+      end
+    end
+
+    it 'sets state to support when user still has acp_shares', freeze: '2021-06-15' do
+      Current.acp.update!(share_price: 100, annual_fee: nil)
+      member = create(:member, :active)
+      member.membership.update_column(:ended_on, 1.day.ago)
+      create(:invoice, member: member, acp_shares_number: 1, object_type: 'ACPShare')
+
+      expect(member.acp_shares_number).to eq 1
+      expect { member.review_active_state! }
+        .to change { member.reload.state }.to('support')
+      expect(member.annual_fee).to be_nil
+    end
+
+    it 'sets state to inactive and desired_acp_shares_number to 0 when membership ended', freeze: '2021-06-15' do
+      Current.acp.update!(share_price: 100, annual_fee: nil)
+      member = create(:member, :trial, desired_acp_shares_number: 1)
+      member.membership.update_column(:ended_on, 1.day.ago)
+
+      expect(member.acp_shares_number).to eq 0
+      expect { member.review_active_state! }
+        .to change { member.reload.state }.to('inactive')
+        .and change { member.reload.desired_acp_shares_number }.from(1).to(0)
+      expect(member.annual_fee).to be_nil
+      expect(member.acp_shares_number).to eq 0
     end
   end
 
@@ -405,42 +443,6 @@ describe Member do
 
       expect { member.deactivate! }.to change(member, :state).to('inactive')
       expect(member.annual_fee).to be_nil
-    end
-
-    it 'sets state to support when membership.renewal_annual_fee is present' do
-      membership = create(:membership)
-      member = membership.member
-      membership.cancel!(renewal_annual_fee: '1')
-
-      travel 1.year do
-        member.reload
-        expect { member.deactivate! }.to change(member, :state).to('support')
-        expect(member.annual_fee).to eq 30
-      end
-    end
-
-    it 'sets state to support when user still has acp_shares', freeze: '2021-06-15' do
-      Current.acp.update!(share_price: 100, annual_fee: nil)
-      member = create(:member, :active)
-      member.membership.update_column(:ended_on, 1.day.ago)
-      create(:invoice, member: member, acp_shares_number: 1, object_type: 'ACPShare')
-
-      expect(member.acp_shares_number).to eq 1
-      expect { member.deactivate! }.to change { member.reload.state }.to('support')
-      expect(member.annual_fee).to be_nil
-    end
-
-    it 'sets state to inactive and desired_acp_shares_number to 0 when membership ended', freeze: '2021-06-15' do
-      Current.acp.update!(share_price: 100, annual_fee: nil)
-      member = create(:member, :trial, desired_acp_shares_number: 1)
-      member.membership.update_column(:ended_on, 1.day.ago)
-
-      expect(member.acp_shares_number).to eq 0
-      expect { member.deactivate! }
-        .to change { member.reload.state }.to('inactive')
-        .and change { member.reload.desired_acp_shares_number }.from(1).to(0)
-      expect(member.annual_fee).to be_nil
-      expect(member.acp_shares_number).to eq 0
     end
 
     it 'raise if current membership' do

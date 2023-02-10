@@ -21,9 +21,9 @@ class Member < ApplicationRecord
   belongs_to :waiting_depot, class_name: 'Depot', optional: true
   belongs_to :waiting_deliveries_cycle, class_name: 'DeliveriesCycle', optional: true
   has_and_belongs_to_many :waiting_alternative_depots,
-  class_name: 'Depot',
-  join_table: 'members_waiting_alternative_depots',
-  optional: true
+    class_name: 'Depot',
+    join_table: 'members_waiting_alternative_depots',
+    optional: true
   has_many :absences, dependent: :destroy
   has_many :invoices
   has_many :payments
@@ -214,7 +214,13 @@ class Member < ApplicationRecord
     if current_or_future_membership
       activate! unless active?
     elsif active?
-      deactivate!
+      if last_membership&.renewal_annual_fee&.positive?
+        support!(annual_fee: last_membership.renewal_annual_fee)
+      elsif acp_shares_number.positive?
+        support!
+      else
+        deactivate!
+      end
     end
   end
 
@@ -232,23 +238,23 @@ class Member < ApplicationRecord
     end
   end
 
+  def support!(annual_fee: nil)
+    invalid_transition(:support!) if support?
+
+    update!(
+      state: SUPPORT_STATE,
+      annual_fee: annual_fee,
+      waiting_started_at: nil)
+  end
+
   def deactivate!
     invalid_transition(:deactivate!) unless can_deactivate?
 
-    attrs = { waiting_started_at: nil }
-    if acp_shares_number.positive?
-      attrs[:state] = SUPPORT_STATE
-      attrs[:annual_fee] = nil
-    elsif last_membership&.renewal_annual_fee&.positive?
-      attrs[:state] = SUPPORT_STATE
-      attrs[:annual_fee] = last_membership.renewal_annual_fee
-    else
-      attrs[:state] =  INACTIVE_STATE
-      attrs[:annual_fee] = nil
-      attrs[:desired_acp_shares_number] = 0
-    end
-
-    update!(attrs)
+    update!(
+      state: INACTIVE_STATE,
+      annual_fee: nil,
+      desired_acp_shares_number: 0,
+      waiting_started_at: nil)
   end
 
   def can_wait?
