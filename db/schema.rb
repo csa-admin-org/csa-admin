@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_27_154644) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_04_135527) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -629,6 +629,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_154644) do
     t.index ["newsletter_id"], name: "index_newsletter_blocks_on_newsletter_id"
   end
 
+  create_table "newsletter_deliveries", force: :cascade do |t|
+    t.bigint "newsletter_id", null: false
+    t.bigint "member_id", null: false
+    t.string "emails", default: [], null: false, array: true
+    t.string "suppressed_emails", default: [], null: false, array: true
+    t.string "subject"
+    t.text "content"
+    t.datetime "delivered_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_newsletter_deliveries_on_member_id"
+    t.index ["newsletter_id"], name: "index_newsletter_deliveries_on_newsletter_id"
+  end
+
   create_table "newsletter_templates", force: :cascade do |t|
     t.string "title", null: false
     t.jsonb "contents", default: {}, null: false
@@ -788,6 +802,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_27_154644) do
   add_foreign_key "memberships", "depots"
   add_foreign_key "memberships_basket_complements", "deliveries_cycles"
   add_foreign_key "newsletter_blocks", "newsletters"
+  add_foreign_key "newsletter_deliveries", "members"
+  add_foreign_key "newsletter_deliveries", "newsletters"
   add_foreign_key "newsletters", "newsletter_templates"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"

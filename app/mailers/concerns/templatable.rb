@@ -4,11 +4,17 @@ module Templatable
   private
 
   def template_mail(member, to: nil, **data)
+    render_template(member, **data) do |subject, content|
+      content_mail(content,
+        to: to || member.emails_array,
+        subject: subject)
+    end
+  end
+
+  def render_template(member, **data)
     I18n.with_locale(member.language) do
       set_data(data)
-      content_mail(render_content,
-        to: to || member.emails_array,
-        subject: render_subjet)
+      yield render_subjet, render_content
     end
   end
 

@@ -886,6 +886,10 @@ _:
           _de: bezahlte
           _fr: payées
           _it: pagato
+        ongoing_delivery:
+          _fr: Envoi en cours...
+          _it: Spedizione in corso...
+          _de: Lieferung in Bearbeitung...
         config:
           _de: Konfiguration
           _fr: Configuration
@@ -958,6 +962,11 @@ _:
           _de: Neue Einzahlung
           _fr: Nouveau paiement
           _it: Nuovo pagamento
+        newsletter:
+          confirm:
+            _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
+            _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
+            _it: Sei sicuro di voler inviare questa newsletter a %{members_count} membri?
         no_absences:
           _de: Keine Abwesenheit
           _fr: Aucune absence
@@ -1047,6 +1056,10 @@ _:
           _de: mehr anzeigen
           _fr: voir plus
           _it: vedi altro
+        subscribed_emails:
+          _de: abonnierte Emails
+          _fr: emails abonnés
+          _it: iscritti all'e-mail
         total:
           _de: Gesamt %{number}
           _fr: Total %{number}
@@ -1543,6 +1556,10 @@ _:
         _de: Entwurf
         _fr: Brouillon
         _it: Bozza
+      sent:
+        _fr: Envoyée
+        _de: Gesendet
+        _it: Inviato
       'false':
         _de: nein
         _fr: non

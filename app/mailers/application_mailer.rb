@@ -2,6 +2,8 @@ class ApplicationMailer < ActionMailer::Base
   default from: -> { Current.acp.email_from }
   layout 'mailer'
 
+  attr_reader :content
+
   after_action :set_postmark_api_token
 
   private

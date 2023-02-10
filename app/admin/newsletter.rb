@@ -46,13 +46,19 @@ ActiveAdmin.register Newsletter do
             segment = newsletter.audience_segment
             members_count = newsletter.members_count
             "#{audience_name(segment.key)}: #{segment.name} " +
-              "(#{members_count} #{Member.model_name.human(count: members_count)})"
+              "(#{members_count} #{Member.model_name.human(count: members_count)},
+              #{newsletter.emails.size}/#{newsletter.emails.size + newsletter.suppressed_emails.size} #{t('.subscribed_emails')})"
           }
           row(:template)
-          if newsletter.sent_at?
+          row(:status) {
+            if newsletter.ongoing_delivery?
+              status_tag t('.ongoing_delivery')
+            else
+              status_tag newsletter.sent_at? ? :sent : :draft
+            end
+          }
+          if newsletter.sent_at? && !newsletter.ongoing_delivery?
             row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
-          else
-            row(:status) { status_tag :draft }
           end
           row(:created_at) { I18n.l(newsletter.created_at, format: :medium) }
           row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
@@ -158,7 +164,7 @@ ActiveAdmin.register Newsletter do
         end
       end
     end
-    f.actions
+    f.actions title: 'AAA'
   end
 
   permit_params(
@@ -177,6 +183,17 @@ ActiveAdmin.register Newsletter do
     @newsletter = resource_class.new
     assign_attributes(resource, permitted_params[:newsletter])
     render 'mail_templates/preview'
+  end
+
+  action_item :send_email, class: 'send_newsletter', only: :show, if: -> { authorized?(:send_email, resource) } do
+    button_to t('.send_email'), send_email_newsletter_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
+      data: { confirm: t('.newsletter.confirm', members_count: resource.members_count) }
+  end
+
+  member_action :send_email, method: :post do
+    resource.send!
+    redirect_to resource_path, notice: t('.flash.notice')
   end
 
   controller do

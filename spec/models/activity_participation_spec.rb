@@ -4,10 +4,6 @@ describe ActivityParticipation, freeze: '2021-06-15' do
   let(:member) { create(:member) }
   let(:admin) { create(:admin) }
 
-  def last_email
-    ActionMailer::Base.deliveries.last
-  end
-
   describe 'validations' do
     it 'validates activity participants limit' do
       activity = create(:activity, participants_limit: 3)
