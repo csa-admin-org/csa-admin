@@ -73,7 +73,7 @@ ActiveAdmin.register BasketComplement do
           label: deliveries_current_year_title,
           as: :check_boxes,
           collection: Delivery.current_year,
-          hint: f.object.persisted?
+          hint: f.object.persisted? ? t('formtastic.hints.basket_complement.current_deliveries_html') : nil
       end
       if Delivery.future_year.any?
         f.input :future_deliveries,

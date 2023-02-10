@@ -22,6 +22,6 @@ if resource.new_record?
   end
 else
   f.inputs do
-    f.input :date, as: :date_picker
+    f.input :date, as: :date_picker, hint: t("formtastic.hints.#{resource.class.name.underscore}.date_html", default: nil)
   end
 end
