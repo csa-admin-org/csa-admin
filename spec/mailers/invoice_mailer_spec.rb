@@ -181,4 +181,21 @@ describe InvoiceMailer do
     expect(attachment.filename).to eq 'facture-ragedevert-42.pdf'
     expect(attachment.content_type).to eq 'application/pdf'
   end
+
+  specify 'sanitize html from subject' do
+    template = MailTemplate.find_by(title: 'invoice_overdue_notice')
+    template.update!(subject: 'Rappel <strong>#{{ invoice.overdue_notices_count }}</strong> 😬')
+
+    member = create(:member, name: 'John Doe')
+    invoice = create(:invoice, :annual_fee, :open,
+      member: member,
+      overdue_notices_count: 2)
+
+    mail = InvoiceMailer.with(
+      template: template,
+      invoice: invoice,
+    ).overdue_notice_email
+
+    expect(mail.subject).to eq('Rappel #2 😬')
+  end
 end

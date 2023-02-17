@@ -7,7 +7,7 @@ module Templatable
     render_template(member, **data) do |subject, content|
       content_mail(content,
         to: to || member.emails_array,
-        subject: subject,
+        subject: sanitize_html(subject),
         message_stream: stream)
     end
   end
@@ -42,5 +42,9 @@ module Templatable
 
   def render_content
     Liquid::Template.parse(@template.content).render(**@data)
+  end
+
+  def sanitize_html(string)
+    ActionView::Base.full_sanitizer.sanitize(string)
   end
 end
