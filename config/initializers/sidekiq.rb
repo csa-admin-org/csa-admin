@@ -11,6 +11,7 @@ module Sidekiq::Middleware::Tenant
 end
 
 Sidekiq.configure_client do |config|
+  config.logger = Rails.logger if Rails.env.test?
   config.client_middleware do |chain|
     chain.prepend Sidekiq::Middleware::Tenant::Client
   end
