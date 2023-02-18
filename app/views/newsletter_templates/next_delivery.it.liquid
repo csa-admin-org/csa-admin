@@ -1,0 +1,43 @@
+{% content id: 'intro' %}{% endcontent %}
+
+{% if basket.contents.size > 0 %}
+  <h2>Contenuto del cestino</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+
+  {% if basket.complements.size > 0 %}
+    <p>Complemento/i: {{ basket.complements_description }}</p>
+  {% endif %}
+{% endif %}
+
+{% content id: 'events', title: 'Prossimi eventi' %}{% endcontent %}
+
+{% content id: 'recipe', title: 'La ricetta' %}{% endcontent %}
+
+{% if member.activities_url %}
+  {% lowlight %}
+    <p>Ecco le prossime attività per le quali abbiamo ancora bisogno di persone:</p>
+
+    <ul>
+      {% assign activities = future_activities | slice: 0, 7 %}
+      {% for activity in activities %}
+        <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
+      {% endfor %}
+    </ul>
+    <br/>
+    <p>Gestite le vostre registrazioni dal
+      <a href="{{ member.activities_url }}">vostro account</a>.
+    </p>
+
+    {% if membership.activity_participations_missing_count > 0 %}
+      <p>Tenendo conto delle vostre registrazioni attuali, avete ancora
+        <span class="bold">{{ membership.activity_participations_missing_count }}</span>
+        attività da svolgere.</p>
+    {% endif %}
+  {% endlowlight %}
+{% endif %}

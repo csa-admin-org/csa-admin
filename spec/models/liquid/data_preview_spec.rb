@@ -4,8 +4,9 @@ describe Liquid::DataPreview do
   specify 'recursively render drop data', freeze: '2020-01-01' do
     create(:delivery, date: '2020-01-07')
     create(:delivery, date: '2020-10-06')
-    create(:depot, id: 12, name: 'Jardin de la main')
-    create(:basket_size, id: 33, name: 'Eveil')
+    depot = create(:depot, id: 12, name: 'Jardin de la main')
+    basket_size = create(:basket_size, id: 33, name: 'Eveil')
+    create(:membership, depot: depot, basket_size: basket_size)
 
     mail_template = MailTemplate.find_by(title: 'member_activated')
     data =  described_class.for(mail_template, random: 1)
@@ -18,6 +19,24 @@ describe Liquid::DataPreview do
         'phone'=> '+41 77 447 26 16',
         'url' => 'https://www.ragedevert.ch'
       },
+      'basket' => {
+        'complements' => [],
+        'complements_description' => nil,
+        'contents' => [],
+        'delivery' => {
+          'date' => '7 janvier 2020'
+        },
+        'depot' => {
+          'id' => 12,
+          'name' => 'Jardin de la main PUBLIC'
+        },
+        'description' => 'Eveil PUBLIC',
+        'quantity' => 1,
+        'size' => {
+          'id' => 33,
+          'name' => 'Eveil PUBLIC'
+        }
+      },
       'member' =>  {
         'name' => 'John Doe',
         'balance' => 'CHF 0.00',
@@ -28,9 +47,13 @@ describe Liquid::DataPreview do
         'membership_renewal_url' => 'https://membres.ragedevert.ch/memberships#renewal'
       },
       'membership' => {
+        'activity_participations_accepted_count' => 2,
         'activity_participations_demanded_count' => 2,
+        'activity_participations_missing_count' => 0,
         'basket_complement_names' => nil,
         'basket_complements' => [],
+        'basket_complements_description' => nil,
+        'basket_quantity' => 1,
         'basket_size' => {
           'id' => 33,
           'name' => 'Eveil PUBLIC'
@@ -55,10 +78,10 @@ describe Liquid::DataPreview do
   specify 'render non-drop data' do
     basket_size = create(:basket_size)
     depot = create(:depot)
-    data = travel_to('2020-03-24') do
-      mail_template = MailTemplate.find_by(title: 'member_validated')
-      described_class.for(mail_template, random: 1)
-    end
+    create(:membership, depot: depot, basket_size: basket_size)
+
+    mail_template = MailTemplate.find_by(title: 'member_validated')
+    data = described_class.for(mail_template, random: 1)
 
     expect(data).to eq({
       'acp' => {
@@ -89,6 +112,7 @@ describe Liquid::DataPreview do
     create(:delivery, date: '2020-10-06')
     create(:depot, id: 12, name: 'Jardin de la main')
     create(:basket_size, id: 33, name: 'Eveil')
+    create(:membership, depot_id: 12, basket_size_id: 33)
 
     mail_template = MailTemplate.find_by(title: 'member_activated')
     data = described_class.for(mail_template, random: 1)
@@ -99,6 +123,23 @@ describe Liquid::DataPreview do
         'name'=> 'Rage de Vert',
         'phone'=> '+41 77 447 26 16',
         'url' => 'https://www.ragedevert.ch'
+      },
+      'basket' => {
+        'complements' => [],
+        'complements_description' => nil,
+        'delivery' => {
+          'date' => '7 janvier 2020'
+        },
+        'depot' => {
+          'id' => 12,
+          'name' => 'Jardin de la main PUBLIC'
+        },
+        'description' => 'Eveil PUBLIC',
+        'quantity' => 1,
+        'size' => {
+          'id' => 33,
+          'name' => 'Eveil PUBLIC'
+        }
       },
       'member' =>  {
         'name' => 'John Doe',
@@ -111,6 +152,8 @@ describe Liquid::DataPreview do
       'membership' => {
         'basket_complement_names' => nil,
         'basket_complements' => [],
+        'basket_complements_description' => nil,
+        'basket_quantity' => 1,
         'basket_size' => {
           'id' => 33,
           'name' => 'Eveil PUBLIC'

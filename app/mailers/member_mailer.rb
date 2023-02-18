@@ -4,9 +4,11 @@ class MemberMailer < ApplicationMailer
   def activated_email
     member = params[:member]
     membership = member.current_or_future_membership
+    basket = membership&.next_basket
     template_mail(member,
       'member' => Liquid::MemberDrop.new(member),
-      'membership' => Liquid::MembershipDrop.new(membership))
+      'membership' => Liquid::MembershipDrop.new(membership),
+      'basket' => Liquid::BasketDrop.new(basket))
   end
 
   def validated_email

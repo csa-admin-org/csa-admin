@@ -63,7 +63,9 @@ describe Newsletter::Template do
 
       {% content id: 'main', title: "Content Title" %}
       Example Text {{ member.name }}
-        {{ member.email }}
+        {% if member.email %}
+          Hello {{ member.email }}
+        {% endif %}
       {% endcontent %}
 
       <p>bla bla</p>
@@ -89,7 +91,7 @@ describe Newsletter::Template do
       nil
     ]
     expect(content_blocks.map(&:raw_body)).to eq [
-      "<div>Example Text {{ member.name }}\n  {{ member.email }}</div>",
+      "<div>Example Text {{ member.name }}\n  {% if member.email  %}\n  Hello {{ member.email }}\n{% endif %}</div>",
       "<div></div>",
       "<div><p>Third Content</p></div>"
     ]
@@ -127,5 +129,138 @@ describe Newsletter::Template do
     expect(mail).not_to include 'Second Title/h2>'
     expect(mail).to include 'Third Content</p>'
     expect(mail).to include 'bla bla</p>'
+  end
+
+  specify 'send default simple template' do
+    Newsletter::Template.create_defaults!
+    template = Newsletter::Template.find_by(title: 'Texte simple')
+    member = create(:member,
+      name: 'John Doe',
+      emails: 'john@doe.com')
+    newsletter = create(:newsletter,
+      template: template,
+      audience: 'member_state::pending',
+      subject: 'Texte simple test',
+      blocks_attributes: {
+        '0' => { block_id: 'text', content_fr: 'Hello {{ member.name }}' }
+      })
+
+    expect { newsletter.send! }
+      .to change { newsletter.deliveries.count }.by(1)
+
+    email = ActionMailer::Base.deliveries.first
+    expect(email.subject).to eq 'Texte simple test'
+    mail_body = email.parts.map(&:body).join
+    expect(mail_body).to include "Hello John Doe"
+  end
+
+  specify 'send default next delivery template' do
+    Newsletter::Template.create_defaults!
+    template = Newsletter::Template.find_by(title: 'Prochaine livraison')
+    member = create(:member, name: 'John Doe')
+    create(:membership, member: member)
+    create(:activity, date: 1.week.from_now)
+    create(:activity_participation, member: member)
+    newsletter = create(:newsletter,
+      template: template,
+      audience: 'member_state::active',
+      subject: 'Prochaine livraison test',
+      blocks_attributes: {
+        '0' => { block_id: 'intro', content_fr: 'Intro {{ member.name }}!' },
+        '2' => { block_id: 'events', content_fr: 'Marché du fun' },
+        '3' => { block_id: 'recipe', content_fr: '' }
+      })
+
+    expect { newsletter.send! }
+      .to change { newsletter.deliveries.count }.by(1)
+
+    email = ActionMailer::Base.deliveries.first
+    expect(email.subject).to eq 'Prochaine livraison test'
+    mail_body = email.parts.map(&:body).join
+    expect(mail_body).to include "Intro John Doe!"
+    expect(mail_body).not_to include "Contenu panier"
+    expect(mail_body).to include "Événements à venir"
+    expect(mail_body).to include "Marché du fun"
+    expect(mail_body).not_to include "La recette"
+
+    expect(mail_body).to include "Voici les activités à venir pour lesquelles nous avons encore besoin de monde:"
+    expect(mail_body).to include "Aide aux champs, Thielle</li>"
+    expect(mail_body).to include "En tenant compte de vos inscriptions actuelles"
+  end
+
+  specify 'send default next delivery template (without ativities)' do
+    Current.acp.update!(features: [])
+    Newsletter::Template.create_defaults!
+    template = Newsletter::Template.find_by(title: 'Prochaine livraison')
+    create(:membership)
+
+    newsletter = create(:newsletter,
+      template: template,
+      audience: 'member_state::active',
+      subject: 'Prochaine livraison test',
+      blocks_attributes: {
+        '0' => { block_id: 'intro', content_fr: 'Hello' },
+        '2' => { block_id: 'events', content_fr: '' },
+        '3' => { block_id: 'recipe', content_fr: '' }
+      })
+
+    expect { newsletter.send! }
+      .to change { newsletter.deliveries.count }.by(1)
+
+    email = ActionMailer::Base.deliveries.first
+    mail_body = email.parts.map(&:body).join
+    expect(mail_body).not_to include "Voici les activités à venir pour lesquelles nous avons encore besoin de monde:"
+  end
+
+  specify 'send default next delivery template (with basket content)', freeze: '2023-01-01' do
+    Current.acp.update!(features: [])
+    Newsletter::Template.create_defaults!
+    template = Newsletter::Template.find_by(title: 'Prochaine livraison')
+
+    delivery = create(:delivery, date: 1.week.from_now)
+
+    create(:basket_complement, id: 1, name: 'Pain')
+    create(:basket_complement, id: 2, name: 'Oeufs')
+
+    membership = create(:membership,
+      basket_size: create(:basket_size, name: 'Petit'))
+    basket = membership.next_basket
+    basket.update!(baskets_basket_complements_attributes: {
+      '0' => { basket_complement_id: 1, quantity: 1 },
+      '1' => { basket_complement_id: 2, quantity: 2 }
+    })
+
+    create(:basket_content,
+      basket_size_ids_percentages: { BasketSize.first.id => 100 },
+      product: create(:product, name: 'Carottes'))
+    create(:basket_content,
+      basket_size_ids_percentages: { BasketSize.first.id => 100 },
+      product: create(:product, name: 'Choux-Fleur'))
+    create(:basket_content,
+      basket_size_ids_percentages: { BasketSize.first.id => 100 },
+      product: create(:product, name: 'Céleri'),
+      depots: [create(:depot)])
+
+    newsletter = create(:newsletter,
+      template: template,
+      audience: 'member_state::active',
+      subject: 'Prochaine livraison test',
+      blocks_attributes: {
+        '0' => { block_id: 'intro', content_fr: 'Hello' },
+        '2' => { block_id: 'events', content_fr: '' },
+        '3' => { block_id: 'recipe', content_fr: '' }
+      })
+
+    expect { newsletter.send! }
+      .to change { newsletter.deliveries.count }.by(1)
+
+    email = ActionMailer::Base.deliveries.first
+    mail_body = email.parts.map(&:body).join
+    expect(mail_body).to include "Petit PUBLIC:</span>"
+    expect(mail_body).to include "Carottes (10.0kg)</li>"
+    expect(mail_body).to include "Choux-Fleur (10.0kg)</li>"
+    expect(mail_body).not_to include "Céleri"
+
+    expect(mail_body).to include "Complément(s): Pain PUBLIC et 2 x Oeufs PUBLIC</p>"
   end
 end

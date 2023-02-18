@@ -886,10 +886,6 @@ _:
           _de: bezahlte
           _fr: payées
           _it: pagato
-        ongoing_delivery:
-          _fr: Envoi en cours...
-          _it: Spedizione in corso...
-          _de: Lieferung in Bearbeitung...
         config:
           _de: Konfiguration
           _fr: Configuration
@@ -1011,6 +1007,10 @@ _:
           _de: Notizen
           _fr: Notes
           _it: Note
+        ongoing_delivery:
+          _de: Lieferung in Bearbeitung...
+          _fr: Envoi en cours...
+          _it: Spedizione in corso...
         open_orders:
           _de: Zu zahlen
           _fr: À payer
@@ -1556,10 +1556,6 @@ _:
         _de: Entwurf
         _fr: Brouillon
         _it: Bozza
-      sent:
-        _fr: Envoyée
-        _de: Gesendet
-        _it: Inviato
       'false':
         _de: nein
         _fr: non
@@ -1612,6 +1608,10 @@ _:
         _de: erneuert
         _fr: renouvelé
         _it: rinnovato
+      sent:
+        _de: Gesendet
+        _fr: Envoyée
+        _it: Inviato
       support:
         _de: unterstützung
         _fr: soutien

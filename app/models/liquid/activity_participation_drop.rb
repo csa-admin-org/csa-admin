@@ -3,6 +3,10 @@ class Liquid::ActivityParticipationDrop < Liquid::Drop
     @activity_participation = activity_participation
   end
 
+  def activity
+    Liquid::ActivityDrop.new(@activity_participation.activity)
+  end
+
   def participants_count
     @activity_participation.participants_count
   end

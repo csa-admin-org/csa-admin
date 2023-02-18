@@ -18,7 +18,8 @@ class MemberMailerPreview < ActionMailer::Preview
   def activated_email_params
     {
       member: member,
-      membership: membership
+      membership: membership,
+      basket: basket
     }
   end
 

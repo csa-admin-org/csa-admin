@@ -3,6 +3,11 @@ module BasketContentsHelper
   include NumbersHelper
 
   def display_quantity(quantity, unit)
+    if unit == 'kg' && quantity < 1
+      unit = 'g'
+      quantity = (quantity * 1000).to_i
+    end
+
     case unit
     when 'g'; I18n.t("units.g_quantity", quantity: number_with_delimiter(quantity))
     when 'kg'; I18n.t("units.kg_quantity", quantity: number_with_delimiter(quantity))

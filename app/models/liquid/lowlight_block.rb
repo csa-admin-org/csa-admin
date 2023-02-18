@@ -1,16 +1,16 @@
-class Liquid::HighlightBlock < Liquid::Block
+class Liquid::LowlightBlock < Liquid::Block
   def initialize(_name, _args, _tokens)
      super
   end
 
   def render(context)
     <<-HTML
-    <table class="attributes" width="100%" cellpadding="0" cellspacing="0">
+    <table class="attributes spaced" width="100%" cellpadding="0" cellspacing="0">
       <tr>
-        <td class="attributes_highlight">
+        <td class="attributes_lowlight">
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-              <td class="attributes_item">
+              <td>
                 #{ super }
               </td>
             </tr>
