@@ -28,24 +28,58 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def activity_participations_demanded_count
+    return unless Current.acp.feature?('activity')
+
     @membership.activity_participations_demanded
+  end
+
+  def activity_participations_accepted_count
+    return unless Current.acp.feature?('activity')
+
+    @membership.activity_participations_accepted
+  end
+
+  def activity_participations_missing_count
+    return unless Current.acp.feature?('activity')
+
+    @membership.missing_activity_participations
   end
 
   def basket_size
     Liquid::BasketSizeDrop.new(@membership.basket_size)
   end
 
+  def basket_quantity
+    @membership.basket_quantity
+  end
+
   def basket_complements
-    @membership.subscribed_basket_complements.map do |bc|
-      Liquid::BasketComplementDrop.new(bc)
+    @membership.memberships_basket_complements.map do |mbc|
+      Liquid::BasketComplementDrop.new(mbc)
     end
   end
 
   def basket_complement_names
-    @membership.subscribed_basket_complements.map(&:name).to_sentence(locale: I18n.locale).presence
+    @membership
+      .memberships_basket_complements
+      .map(&:basket_complement)
+      .map(&:name)
+      .sort
+      .to_sentence(locale: I18n.locale)
+      .presence
+  end
+
+  def basket_complements_description
+    helpers.basket_complements_description(@membership.memberships_basket_complements, text_only: true)
   end
 
   def depot
     Liquid::DepotDrop.new(@membership.depot)
+  end
+
+  private
+
+  def helpers
+    ApplicationController.helpers
   end
 end

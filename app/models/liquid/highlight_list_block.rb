@@ -21,7 +21,7 @@ class Liquid::HighlightListBlock < Liquid::Block
     <<-HTML
     <table class="attributes" width="100%" cellpadding="0" cellspacing="0">
       <tr>
-        <td class="attributes_content">
+        <td class="attributes_highlight">
           <table width="100%" cellpadding="0" cellspacing="0">
             #{ lines.join("\n") }
           </table>

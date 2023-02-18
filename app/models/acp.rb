@@ -285,6 +285,7 @@ class ACP < ApplicationRecord
     Tenant.create!(tenant_name)
     Permission.create_superadmin!
     MailTemplate.create_all!
+    Newsletter::Template.create_defaults!
     DeliveriesCycle.create_default!
   end
 end

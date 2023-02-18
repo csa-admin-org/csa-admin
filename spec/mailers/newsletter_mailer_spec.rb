@@ -14,6 +14,7 @@ describe NewsletterMailer do
     member = create(:member,
       name: 'John Doe',
       emails: 'john@doe.com, jane@doe.com')
+    membership = create(:membership, member: member)
     mail = NewsletterMailer.with(
       template: template,
       subject: 'Ma Newsletter',

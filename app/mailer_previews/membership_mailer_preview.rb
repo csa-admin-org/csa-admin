@@ -42,13 +42,6 @@ class MembershipMailerPreview < ActionMailer::Preview
       membership: membership
     }
   end
-
-  def basket
-    OpenStruct.new(
-      delivery: OpenStruct.new(date: Date.today),
-      member: member,
-      description: BasketSize.first&.name || 'Petit')
-  end
 end
 
 

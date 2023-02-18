@@ -2,6 +2,8 @@ class Newsletter
   class Template < ApplicationRecord
     self.table_name = 'newsletter_templates'
 
+    DEFAULTS = %w[simple next_delivery].freeze
+
     include TranslatedAttributes
     include Auditable
     include Liquidable
@@ -18,6 +20,20 @@ class Newsletter
     validate :contents_must_be_valid
     validate :content_block_ids_must_be_unique
     validate :content_block_ids_must_be_equal_for_all_languages
+
+    def self.create_defaults!
+      DEFAULTS.each do |key|
+        title = I18n.with_locale(Current.acp.default_locale) {
+          I18n.t("newsletters.template.#{key}.title")
+        }
+        contents = Current.acp.languages.reduce({}) { |h, l|
+          path = Rails.root.join("app/views/newsletter_templates/#{key}.#{l}.liquid")
+          h[l] = File.read(path)
+          h
+        }
+        create!(title: title, contents: contents)
+      end
+    end
 
     def mail_preview(locale)
       mailer_preview.call(email_method,

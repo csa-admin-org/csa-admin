@@ -20,6 +20,8 @@ class NewsletterMailer < ApplicationMailer
 
   def prepared_data
     member = params[:member]
+    membership = member.current_or_future_membership
+    basket = membership&.next_basket
     today = I18n.with_locale(member.language) do
       params[:today] || I18n.l(Date.today)
     end
@@ -32,7 +34,15 @@ class NewsletterMailer < ApplicationMailer
     {
       'today' => today,
       'subject' => params[:subject],
-      'member' => Liquid::MemberDrop.new(member, email: params[:to])
+      'member' => Liquid::MemberDrop.new(member, email: params[:to]),
+      'membership' => Liquid::MembershipDrop.new(membership),
+      'basket' => Liquid::BasketDrop.new(basket),
+      'future_activities' => Activity.available.first(10).map { |a|
+        Liquid::ActivityDrop.new(a)
+      },
+      'coming_activity_participations' => member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc)).map { |p|
+        Liquid::ActivityParticipationDrop.new(p)
+      }
     }
   end
 end

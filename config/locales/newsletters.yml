@@ -33,6 +33,16 @@ _:
           _fr: Envoie de la newsletter en cours...
           _it: Invio della newsletter in corso...
     template:
+      next_delivery:
+        title:
+          _de: Nächste Lieferung
+          _fr: Prochaine livraison
+          _it: Prossima consegna
+      simple:
+        title:
+          _de: Einfacher Text
+          _fr: Texte simple
+          _it: Testo semplice
       subject:
         _de: Titel der Newsletter
         _fr: Titre de la Newsletter

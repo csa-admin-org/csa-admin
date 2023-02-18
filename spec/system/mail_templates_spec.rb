@@ -6,12 +6,10 @@ describe 'Mail Templates' do
     Capybara::Node::Simple.new(src)
   end
 
-  specify 'modify and preview' do
-    mail_template = travel_to('2020-03-24') do
-      create(:membership,
-        basket_size: create(:basket_size, id: 33, name: 'Eveil'))
-      MailTemplate.find_by(title: 'member_activated')
-    end
+  specify 'modify and preview', freeze: '2023-01-01' do
+    create(:membership,
+      basket_size: create(:basket_size, id: 33, name: 'Eveil'))
+      mail_template = MailTemplate.find_by(title: 'member_activated')
 
     login create(:admin, email: 'thibaud@thibaud.gg')
 
@@ -23,9 +21,7 @@ describe 'Mail Templates' do
     fill_in 'Contenu', with: '<p>Panier:: {{ membership.basket_size.name }}</p>'
 
     expect {
-      travel_to('2020-03-25') do
-        click_button 'Mettre à jour Template Email'
-      end
+      click_button 'Mettre à jour Template Email'
     }.to change(Audit, :count).by(1)
 
     click_link 'Membre activé'

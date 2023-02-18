@@ -1,0 +1,47 @@
+{% content id: 'intro' %}{% endcontent %}
+
+{% content id: 'basket', title: 'Inhalt Korb' %}{% endcontent %}
+
+{% if basket.contents.size > 0 %}
+  <h2>Inhalt Korb</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+
+  {% if basket.complements.size > 0 %}
+    <p>Zusatz(e): {{ basket.complements_description }}</p>
+  {% endif %}
+{% endif %}
+
+{% content id: 'events', title: 'Bevorstehende Veranstaltungen' %}{% endcontent %}
+
+{% content id: 'recipe', title: 'Das Rezept' %}{% endcontent %}
+
+{% if member.activities_url %}
+  {% lowlight %}
+    <p>Hier sind die kommenden Aktivitäten, für die wir noch Leute brauchen:</p>
+
+    <ul>
+      {% assign activities = future_activities | slice: 0, 7 %}
+      {% for activity in activities %}
+        <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
+      {% endfor %}
+    </ul>
+    <br/>
+    <p>
+      Verwalten Sie Ihre Anmeldungen
+      <a href="{{ member.activities_url }}">von Ihrem Konto</a>
+      aus.
+    </p>
+
+    {% if membership.activity_participations_missing_count > 0 %}
+      <p>Unter Berücksichtigung Ihrer derzeitigen Anmeldungen müssen Sie noch
+        <span class="bold">{{ membership.activity_participations_missing_count }}</span>
+        Aktivität(en) absolvieren.</p>
+    {% endif %}
+  {% endlowlight %}
+{% endif %}

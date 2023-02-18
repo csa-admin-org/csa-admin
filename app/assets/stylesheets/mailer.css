@@ -85,7 +85,7 @@ h1.alert {
 }
 
 h2, .trix-content h1 {
-  margin-top: 0;
+  margin-top: 2em;
   color: #333333;
   font-size: 16px;
   font-weight: bold;
@@ -194,12 +194,33 @@ p.closing {
   margin: 0 0 21px;
 }
 
-.attributes_content {
+.spaced {
+  padding: 16px 0;
+}
+
+.attributes_highlight {
   background-color: #F4F4F7;
   padding: 16px;
 }
 
 .attributes_item {
+  padding: 0;
+}
+
+.attributes_lowlight {
+  background: none;
+  border: solid 1px #dddddd;
+  border-width: 1px 0;
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  padding: 0.7875em 0 0 0;
+}
+
+.attributes_lowlight p , .attributes_lowlight li {
+  color: #888888;
+  font-size: 12px;
+  font-style: italic;
   padding: 0;
 }
 
@@ -461,7 +482,7 @@ p {
     padding: 25px !important;
   }
 
-  .attributes_content {
+  .attributes_highlight {
     padding: 6px !important;
   }
 }
@@ -493,7 +514,7 @@ p {
     filter: invert(0.8) hue-rotate(180deg);
   }
 
-  .attributes_content,
+  .attributes_highlight,
   .discount {
     background-color: #222 !important;
   }

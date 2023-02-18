@@ -32,7 +32,7 @@ module Templatable
     return unless blocks = params.delete(:blocks)
 
     blocks.each do |b|
-      @data[b.data_name] = Liquid::Template.parse(b.content.to_s).render(**@data)
+      @data[b.data_name] = Liquid::Template.parse(b.content_as_trix_html).render(**@data)
     end
   end
 

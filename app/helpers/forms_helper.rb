@@ -11,11 +11,15 @@ module FormsHelper
             form.object.class.human_attribute_name(attr.to_s.singularize),
             locale)
 
+      value = form.object.send(attr)[locale]
+      if value.respond_to?(:to_trix_html)
+        value = value.to_trix_html
+      end
       form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
         label: label,
         input_html: {
           class: "#{klass}_#{attr.to_s.singularize}",
-          value: form.object.send(attr)[locale]
+          value: value
         }.merge(input_html)
       }.deep_merge(options)
     end

@@ -24,6 +24,8 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def activities_url
+    return unless Current.acp.feature?('activity')
+
     url(:members_activity_participations)
   end
 

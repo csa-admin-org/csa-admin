@@ -1,8 +1,7 @@
 class Liquid::ContentBlock < Liquid::Block
   attr :id, :title
 
-  EMPTY_TRIX_CONTENT = "<div class=\"trix-content\">\n  \n</div>"
-  TEMPLATE_EMPTY_TRIX_CONTENT = "<div class=\"trix-content\">\n  <div></div>\n</div>"
+  EMPTY_RAW_BODY = "<div></div>"
 
   def initialize(_name, markup, _tokens)
     super
@@ -14,21 +13,18 @@ class Liquid::ContentBlock < Liquid::Block
   end
 
   def raw_body
-    raw = @body.nodelist.map { |node|
-      node.is_a?(String) ? node : "{{#{node.raw}}}"
-    }.join.strip
+    raw = nodelist_to_string(@body.nodelist)
     "<div>#{raw}</div>"
   end
 
   def render(context)
     content = (context["#{@id}_content"] || super).strip
     return '' if content.blank?
-    return '' if content == EMPTY_TRIX_CONTENT
-    return '' if content == TEMPLATE_EMPTY_TRIX_CONTENT
+    return '' if content == EMPTY_RAW_BODY
 
     <<-HTML
       <div class="content-block" id="#{ @id }">
-        #{ @title && "<h2 class=\"content_title\">#{@title}</h2>" }
+        #{@title && "<h2 class=\"content_title\">#{@title}</h2>" }
         #{content}
       </div>
     HTML
@@ -41,5 +37,24 @@ class Liquid::ContentBlock < Liquid::Block
       value = value.gsub(/\A['":]|['"]\z/, '').strip if value
       [key, value]
     end.to_h.symbolize_keys
+  end
+
+  def nodelist_to_string(nodelist)
+    nodelist.map { |node|
+      case node
+      when String
+        node
+      when Liquid::Variable
+        "{{#{node.raw}}}"
+      when Liquid::Tag
+        <<~LIQUID
+          {% #{node.raw} %}
+            #{nodelist_to_string(node.nodelist)}
+          {% #{node.block_delimiter} %}
+        LIQUID
+      when Liquid::BlockBody
+        nodelist_to_string(node.nodelist)
+      end
+    }.join.strip
   end
 end
