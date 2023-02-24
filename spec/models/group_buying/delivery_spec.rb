@@ -25,23 +25,23 @@ describe GroupBuying::Delivery do
       expect(delivery.can_access?('foo')).to eq true
     end
 
-    specify 'allowed when next basket depot is in the list', freeze: '01-01-2020' do
+    specify 'allowed when next basket depot is in the list', freeze: '2023-01-01' do
       membership = create(:membership)
       delivery = described_class.new(depot_ids: [membership.next_basket.depot_id])
 
       expect(delivery.can_access?(membership.member)).to be_truthy
     end
 
-    specify 'not allowed when next basket depot is not in the list', freeze: '01-01-2020' do
+    specify 'not allowed when next basket depot is not in the list', freeze: '2023-01-01' do
       membership = create(:membership)
-      delivery = described_class.new(depot_ids: [1001])
+      delivery = described_class.new(depot_ids: [membership.depot_id + 1])
 
       expect(delivery.can_access?(membership.member)).to be_falsey
     end
 
     specify 'not allowed when user has no next basket' do
       member = create(:member)
-      delivery = described_class.new(depot_ids: [1002])
+      delivery = described_class.new(depot_ids: [1])
 
       expect(delivery.can_access?(member)).to be_falsey
     end
