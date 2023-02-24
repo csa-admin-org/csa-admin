@@ -34,7 +34,8 @@ td {
 body,
 td,
 th {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 h1 {
@@ -51,7 +52,7 @@ h1.notice {
   border-right: 18px solid #27ae60;
   border-bottom: 10px solid #27ae60;
   border-left: 18px solid #27ae60;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
   border-radius: 3px;
   -webkit-text-size-adjust: none;
@@ -64,7 +65,7 @@ h1.warning {
   border-right: 18px solid #f39c12;
   border-bottom: 10px solid #f39c12;
   border-left: 18px solid #f39c12;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
   border-radius: 3px;
   -webkit-text-size-adjust: none;
@@ -77,14 +78,15 @@ h1.alert {
   border-right: 18px solid #c0392b;
   border-bottom: 10px solid #c0392b;
   border-left: 18px solid #c0392b;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
   border-radius: 3px;
   -webkit-text-size-adjust: none;
   box-sizing: border-box;
 }
 
-h2, .trix-content h1 {
+h2,
+.trix-content h1 {
   margin-top: 2em;
   color: #333333;
   font-size: 16px;
@@ -109,13 +111,14 @@ p,
 ul,
 ol,
 blockquote {
-  margin: .4em 0 1.1875em;
+  margin: 0.4em 0 1.1875em;
   font-size: 16px;
   line-height: 1.4;
 }
 
-ol, ul {
-  margin: .4em 0;
+ol,
+ul {
+  margin: 0.4em 0;
 }
 
 ul li {
@@ -151,13 +154,13 @@ p.closing {
 /* Buttons ------------------------------ */
 
 .button {
-  background-color: #3869D4;
-  border-top: 10px solid #3869D4;
-  border-right: 18px solid #3869D4;
-  border-bottom: 10px solid #3869D4;
-  border-left: 18px solid #3869D4;
+  background-color: #3869d4;
+  border-top: 10px solid #3869d4;
+  border-right: 18px solid #3869d4;
+  border-bottom: 10px solid #3869d4;
+  border-left: 18px solid #3869d4;
   display: inline-block;
-  color: #FFF;
+  color: #fff;
   text-decoration: none;
   border-radius: 3px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
@@ -174,11 +177,11 @@ p.closing {
 }
 
 .button--red {
-  background-color: #FF6136;
-  border-top: 10px solid #FF6136;
-  border-right: 18px solid #FF6136;
-  border-bottom: 10px solid #FF6136;
-  border-left: 18px solid #FF6136;
+  background-color: #ff6136;
+  border-top: 10px solid #ff6136;
+  border-right: 18px solid #ff6136;
+  border-bottom: 10px solid #ff6136;
+  border-left: 18px solid #ff6136;
 }
 
 @media only screen and (max-width: 500px) {
@@ -199,7 +202,7 @@ p.closing {
 }
 
 .attributes_highlight {
-  background-color: #F4F4F7;
+  background-color: #f4f4f7;
   padding: 16px;
 }
 
@@ -217,7 +220,9 @@ p.closing {
   padding: 0.7875em 0 0 0;
 }
 
-.attributes_lowlight p , .attributes_lowlight li {
+.attributes_lowlight p,
+.attributes_lowlight span,
+.attributes_lowlight li {
   color: #888888;
   font-size: 12px;
   font-style: italic;
@@ -237,14 +242,14 @@ p.closing {
 
 .related_item {
   padding: 10px 0;
-  color: #CBCCCF;
+  color: #cbcccf;
   font-size: 15px;
   line-height: 18px;
 }
 
 .related_item-title {
   display: block;
-  margin: .5em 0 0;
+  margin: 0.5em 0 0;
 }
 
 .related_item-thumb {
@@ -253,7 +258,7 @@ p.closing {
 }
 
 .related_heading {
-  border-top: 1px solid #CBCCCF;
+  border-top: 1px solid #cbcccf;
   text-align: center;
   padding: 25px 0 10px;
 }
@@ -267,8 +272,8 @@ p.closing {
   -premailer-width: 100%;
   -premailer-cellpadding: 0;
   -premailer-cellspacing: 0;
-  background-color: #F4F4F7;
-  border: 2px dashed #CBCCCF;
+  background-color: #f4f4f7;
+  border: 2px dashed #cbcccf;
 }
 
 .discount_heading {
@@ -319,25 +324,25 @@ p.closing {
 
 .purchase_item {
   padding: 10px 0;
-  color: #51545E;
+  color: #51545e;
   font-size: 15px;
   line-height: 18px;
 }
 
 .purchase_heading {
   padding-bottom: 8px;
-  border-bottom: 1px solid #EAEAEC;
+  border-bottom: 1px solid #eaeaec;
 }
 
 .purchase_heading p {
   margin: 0;
-  color: #85878E;
+  color: #85878e;
   font-size: 12px;
 }
 
 .purchase_footer {
   padding-top: 15px;
-  border-top: 1px solid #EAEAEC;
+  border-top: 1px solid #eaeaec;
 }
 
 .purchase_total {
@@ -353,11 +358,11 @@ p.closing {
 
 body {
   background-color: #ffffff;
-  color: #51545E;
+  color: #51545e;
 }
 
 p {
-  color: #51545E;
+  color: #51545e;
 }
 
 .email-wrapper {
@@ -393,7 +398,7 @@ p {
 .email-masthead_name {
   font-size: 16px;
   font-weight: bold;
-  color: #A8AAAF;
+  color: #a8aaaf;
   text-decoration: none;
   text-shadow: 0 1px 0 white;
 }
@@ -430,11 +435,11 @@ p {
 }
 
 .email-footer p {
-  color: #A8AAAF;
+  color: #a8aaaf;
 }
 
 .email-footer a {
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 
 .body-action {
@@ -450,7 +455,7 @@ p {
 .body-sub {
   margin-top: 25px;
   padding-top: 25px;
-  border-top: 1px solid #EAEAEC;
+  border-top: 1px solid #eaeaec;
 }
 
 .content-cell {
@@ -472,7 +477,6 @@ p {
 /*Media Queries ------------------------------ */
 
 @media only screen and (max-width: 600px) {
-
   .email-body_inner,
   .email-footer {
     width: 100% !important;
@@ -488,7 +492,6 @@ p {
 }
 
 @media (prefers-color-scheme: dark) {
-
   body,
   .email-body,
   .email-body_inner,
@@ -497,7 +500,7 @@ p {
   .email-masthead,
   .email-footer {
     background-color: #333333 !important;
-    color: #FFF !important;
+    color: #fff !important;
   }
 
   p,
@@ -507,7 +510,7 @@ p {
   h1,
   h2,
   h3 {
-    color: #FFF !important;
+    color: #fff !important;
   }
 
   .email-masthead img {

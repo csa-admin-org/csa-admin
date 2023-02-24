@@ -21,23 +21,35 @@
 
 {% if member.activities_url %}
   {% lowlight %}
-    <p>Ecco le prossime attività per le quali abbiamo ancora bisogno di persone:</p>
+    {% if future_activities.size > 0 %}
+      <span>Ecco le prossime attività per le quali abbiamo ancora bisogno di persone:</span>
+      <ul>
+        {% assign activities = future_activities | slice: 0, 7 %}
+        {% for activity in activities %}
+          <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
 
-    <ul>
-      {% assign activities = future_activities | slice: 0, 7 %}
-      {% for activity in activities %}
-        <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
-      {% endfor %}
-    </ul>
-    <br/>
-    <p>Gestite le vostre registrazioni dal
-      <a href="{{ member.activities_url }}">vostro account</a>.
-    </p>
+    {% if coming_activity_participations.size > 0 %}
+      <span>La vostra registrazione è in arrivo:</span>
+      <ul>
+        {% for participation in coming_activity_participations %}
+          <li>{{ participation.activity.date_long }}, {{ participation.activity.period }}, {{ participation.activity.title }}, {{ participation.activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
 
     {% if membership.activity_participations_missing_count > 0 %}
       <p>Tenendo conto delle vostre registrazioni attuali, avete ancora
         <span class="bold">{{ membership.activity_participations_missing_count }}</span>
         attività da svolgere.</p>
     {% endif %}
+
+    <p>Gestite le vostre registrazioni dal
+      <a href="{{ member.activities_url }}">vostro account</a>.
+    </p>
   {% endlowlight %}
 {% endif %}
