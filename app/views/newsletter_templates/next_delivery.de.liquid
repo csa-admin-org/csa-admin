@@ -1,6 +1,6 @@
-{% content id: 'intro' %}{% endcontent %}
+{% content id: "intro" %}{% endcontent %}
 
-{% content id: 'basket', title: 'Inhalt Korb' %}{% endcontent %}
+{% content id: "basket", title: "Inhalt Korb" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
   <h2>Inhalt Korb</h2>
@@ -17,9 +17,9 @@
   {% endif %}
 {% endif %}
 
-{% content id: 'events', title: 'Bevorstehende Veranstaltungen' %}{% endcontent %}
+{% content id: "events", title: "Bevorstehende Veranstaltungen" %}{% endcontent %}
 
-{% content id: 'recipe', title: 'Das Rezept' %}{% endcontent %}
+{% content id: "recipe", title: "Das Rezept" %}{% endcontent %}
 
 {% if member.activities_url %}
   {% lowlight %}
