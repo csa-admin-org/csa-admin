@@ -23,25 +23,37 @@
 
 {% if member.activities_url %}
   {% lowlight %}
-    <p>Hier sind die kommenden Aktivitäten, für die wir noch Leute brauchen:</p>
+    {% if future_activities.size > 0 %}
+      <span>Hier sind die kommenden Aktivitäten, für die wir noch Leute brauchen:</span>
+      <ul>
+        {% assign activities = future_activities | slice: 0, 7 %}
+        {% for activity in activities %}
+          <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
 
-    <ul>
-      {% assign activities = future_activities | slice: 0, 7 %}
-      {% for activity in activities %}
-        <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
-      {% endfor %}
-    </ul>
-    <br/>
-    <p>
-      Verwalten Sie Ihre Anmeldungen
-      <a href="{{ member.activities_url }}">von Ihrem Konto</a>
-      aus.
-    </p>
+    {% if coming_activity_participations.size > 0 %}
+      <span>Ihre Anmeldungen in Kürze:</span>
+      <ul>
+        {% for participation in coming_activity_participations %}
+          <li>{{ participation.activity.date_long }}, {{ participation.activity.period }}, {{ participation.activity.title }}, {{ participation.activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
 
     {% if membership.activity_participations_missing_count > 0 %}
       <p>Unter Berücksichtigung Ihrer derzeitigen Anmeldungen müssen Sie noch
         <span class="bold">{{ membership.activity_participations_missing_count }}</span>
         Aktivität(en) absolvieren.</p>
     {% endif %}
+
+    <p>
+      Verwalten Sie Ihre Anmeldungen
+      <a href="{{ member.activities_url }}">von Ihrem Konto</a>
+      aus.
+    </p>
   {% endlowlight %}
 {% endif %}
