@@ -16,7 +16,9 @@ ActiveAdmin.register Newsletter::Template do
     column :newsletters, ->(t) {
       link_to t.newsletters.count, newsletters_path(q: { template_id_eq: t.id })
     }
-    actions class: 'col-actions-2'
+    actions defaults: true, class: 'col-actions-3' do |template|
+      link_to(t('.duplicate'), new_newsletter_template_path(template_id: template.id), class: 'duplicate_link')
+    end
   end
 
   form data: {
@@ -78,6 +80,13 @@ ActiveAdmin.register Newsletter::Template do
     @newsletter_template = resource_class.new
     resource.assign_attributes(permitted_params[:newsletter_template])
     render 'mail_templates/preview'
+  end
+
+  before_build do |resource|
+    if template = Newsletter::Template.find_by(id: params[:template_id])
+      resource.title = template.title + ' (copy)'
+      resource.contents = template.contents
+    end
   end
 
   controller do

@@ -33,7 +33,9 @@ ActiveAdmin.register Newsletter do
         status_tag :draft
       end
     }
-    actions class: 'col-actions-3'
+    actions defaults: true, class: 'col-actions-4' do |newsletter|
+      link_to(t('.duplicate'), new_newsletter_path(newsletter_id: newsletter.id), class: 'duplicate_link')
+    end
   end
 
   show do |newsletter|
@@ -189,6 +191,10 @@ ActiveAdmin.register Newsletter do
     render 'mail_templates/preview'
   end
 
+  action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
+    link_to(t('.duplicate'), new_newsletter_path(newsletter_id: resource.id), class: 'duplicate_link')
+  end
+
   action_item :send_email, class: 'send_newsletter', only: :show, if: -> { authorized?(:send_email, resource) } do
     button_to t('.send_email'), send_email_newsletter_path(resource),
       form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
@@ -203,8 +209,15 @@ ActiveAdmin.register Newsletter do
   controller do
     skip_before_action :verify_authenticity_token, only: :preview
 
-    before_build do |newsletter|
-      newsletter.template ||= Newsletter.last&.template || Newsletter::Template.first
+    before_build do |resource|
+      if newsletter = Newsletter.find_by(id: params[:newsletter_id])
+        resource.subjects = newsletter.subjects
+        resource.audience = newsletter.audience
+        resource.template = newsletter.template
+        resource.blocks = newsletter.blocks.map { |b| b.id = nil; b }
+      else
+        resource.template ||= Newsletter.last&.template || Newsletter::Template.first
+      end
     end
 
     def assign_attributes(resource, attributes)

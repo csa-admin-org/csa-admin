@@ -450,23 +450,28 @@ h3 span.link {
   margin: 2px -5px 0 0;
 }
 
+.table_actions {
+  padding-top: 3px;
+}
+
 h3 .xlsx_link,
 table .delete_link,
 table .edit_link,
 table .pdf_link,
 table .view_link,
+table .duplicate_link,
 table .xlsx_link {
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
-  height: 16px;
-  margin: 0 5px;
-  opacity: 0.75;
+  height: 19px;
+  margin: 0 3px;
+  padding: 0;
   position: relative;
   text-indent: -99999px;
   overflow: hidden;
   transition: opacity 250ms;
-  width: 16px;
+  width: 19px;
 }
 
 h3 .xlsx_link:hover,
@@ -474,6 +479,7 @@ table .delete_link:hover,
 table .edit_link:hover,
 table .pdf_link:hover,
 table .view_link:hover,
+table .duplicate_link:hover,
 table .xlsx_link:hover {
   opacity: 1 !important;
   color: transparent;
@@ -481,12 +487,25 @@ table .xlsx_link:hover {
 
 table a.delete_link,
 table a.edit_link,
-table a.view_link {
-  opacity: 0.6 !important;
+table a.view_link,
+table a.duplicate_link,
+table a.pdf_link,
+table a.xlsx_link {
+  opacity: 0.65 !important;
+}
+
+a.pdf_link, a.xlsx_link {
+  height: 17px;
+  width: 17px;
+  margin: 1px 3px;
 }
 
 table a.pdf_link {
   background-image: url(<%=asset_data_uri"admin/pdf_file.svg"%>);
+}
+
+table a.duplicate_link {
+  background-image: url(<%=asset_data_uri"admin/document-duplicate.svg"%>);
 }
 
 h3 a.xlsx_link,
@@ -583,23 +602,27 @@ table.index_table .col-ended_on {
 }
 
 table.index_table .col-actions-2 {
-  width: 72px;
-  padding: 10px;
+  width: 70px;
+  min-width: 70px;
+  padding: 3px 10px;
 }
 
 table.index_table .col-actions-3 {
-  width: 98px;
-  padding: 10px;
+  width: 95px;
+  min-width: 95px;
+  padding: 3px 10px;
 }
 
 table.index_table .col-actions-4 {
-  width: 124px;
-  padding: 10px;
+  width: 120px;
+  min-width: 120px;
+  padding: 3px 10px;
 }
 
 table.index_table .col-actions-5 {
-  width: 150px;
-  padding: 10px;
+  width: 141px;
+  min-width: 141px;
+  padding: 3px 10px;
 }
 
 table#index_table_invoices .col-amount,
