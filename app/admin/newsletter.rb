@@ -124,6 +124,7 @@ ActiveAdmin.register Newsletter do
             b.object.titles[locale] ||
               label_with_language(b.object.block_id.titleize, locale)
           },
+          hint: t('formtastic.hints.liquid').html_safe,
           wrapper_html: {
             data: {
               form_select_hidder_target: 'element',
