@@ -665,6 +665,10 @@ _:
           _de: Lieferscheine (PDF)
           _fr: Bulletins de livraison (PDF)
           _it: Bolle di consegna (PDF)
+        duplicate:
+          _de: Duplizieren
+          _fr: Dupliquer
+          _it: Duplicare
         invoice_all:
           _de: Alles in Rechnung stellen
           _fr: Tout facturer
@@ -922,6 +926,10 @@ _:
           _de: Direkte Einzahlungen
           _fr: Paiements directs
           _it: Pagamento diretto
+        duplicate:
+          _de: Duplizieren
+          _fr: Dupliquer
+          _it: Duplicare
         edit:
           _de: Bearbeiten
           _fr: Modifier
