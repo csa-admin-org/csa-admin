@@ -46,7 +46,7 @@ describe Newsletter do
     )
 
     expect(newsletter).not_to have_valid(:blocks)
-    expect(newsletter.blocks.first.errors[:content_de]).to eq ['doit être rempli(e)']
+    expect(newsletter.errors[:blocks]).to eq ['doit être rempli(e)']
   end
 
   specify 'mailpreview' do

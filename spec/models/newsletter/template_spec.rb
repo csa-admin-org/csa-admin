@@ -132,7 +132,6 @@ describe Newsletter::Template do
   end
 
   specify 'send default simple template' do
-    Newsletter::Template.create_defaults!
     template = Newsletter::Template.find_by(title: 'Texte simple')
     member = create(:member,
       name: 'John Doe',
@@ -155,7 +154,6 @@ describe Newsletter::Template do
   end
 
   specify 'send default next delivery template' do
-    Newsletter::Template.create_defaults!
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
     member = create(:member, name: 'John Doe')
     create(:membership, member: member)
@@ -190,7 +188,6 @@ describe Newsletter::Template do
 
   specify 'send default next delivery template (without ativities)' do
     Current.acp.update!(features: [])
-    Newsletter::Template.create_defaults!
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
     create(:membership)
 
@@ -214,7 +211,6 @@ describe Newsletter::Template do
 
   specify 'send default next delivery template (with basket content)', freeze: '2023-01-01' do
     Current.acp.update!(features: [])
-    Newsletter::Template.create_defaults!
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
 
     delivery = create(:delivery, date: 1.week.from_now)
