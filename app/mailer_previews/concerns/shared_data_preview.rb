@@ -53,7 +53,7 @@ module SharedDataPreview
   def basket
     return unless delivery = (deliveries.next || deliveries.last)
 
-    delivery.baskets.sample(random: random)
+    delivery.baskets.where(quantity: 1..).sample(random: random)
   end
 
   def basket_size
