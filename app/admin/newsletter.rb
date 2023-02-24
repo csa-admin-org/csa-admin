@@ -165,7 +165,10 @@ ActiveAdmin.register Newsletter do
         end
       end
     end
-    f.actions title: 'AAA'
+    f.actions do
+      action(:submit, label: t('.submit_newsletter'))
+      cancel_link
+    end
   end
 
   permit_params(

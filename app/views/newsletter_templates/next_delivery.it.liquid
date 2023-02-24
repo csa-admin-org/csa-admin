@@ -1,6 +1,6 @@
 {% content id: 'intro' %}{% endcontent %}
 
-{% if basket.contents.size > 0 %}
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
   <h2>Contenuto del cestino</h2>
 
   <span>{{ basket.description }}:</span>

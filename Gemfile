@@ -61,7 +61,6 @@ gem 'postmark-rails'
 gem 'premailer-rails'
 gem 'liquid'
 
-
 gem 'camt_parser'
 gem 'epics', github: 'railslove/epics', branch: 'bug/support-key-decrypting-on-init-for-openssl3'
 gem 'rqrcode'
