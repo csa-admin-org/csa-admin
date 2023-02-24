@@ -54,6 +54,10 @@ class Newsletter < ApplicationRecord
     sent_at?
   end
 
+  def sent_by
+    audits.find_change_of(:sent_at, from: nil)&.actor
+  end
+
   def ongoing_delivery?
     deliveries.undelivered.any?
   end
