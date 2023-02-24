@@ -61,6 +61,7 @@ ActiveAdmin.register Newsletter do
           }
           if newsletter.sent_at? && !newsletter.ongoing_delivery?
             row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
+            row(:sent_by)
           end
           row(:created_at) { I18n.l(newsletter.created_at, format: :medium) }
           row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
