@@ -261,6 +261,10 @@ class ACP < ApplicationRecord
     @max_deliveries_counts[year.to_s]
   end
 
+  def mailchimp?
+    credentials(:mailchimp).present?
+  end
+
   private
 
   def activity_participations_demanded_logic_must_be_valid

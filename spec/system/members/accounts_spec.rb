@@ -24,7 +24,7 @@ describe 'Account' do
 
     expect(page).to have_content('Doe Jame and John')
     expect(page).to have_content('Nowhere 11234 TownSuisse')
-    expect(page).to have_content('jame@doe.com, john@doe.com')
+    expect(page).to have_content('john@doe.com, jame@doe.com')
     expect(page).to have_content('076 123 45 67, +33 6 01 42 11 22')
   end
 

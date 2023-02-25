@@ -63,6 +63,10 @@ _:
           _de: Kein
           _fr: Aucun
           _it: Nessuno
+        subscribe_back_to_newsletter:
+          _de: Ich möchte mich erneut für Newsletter anmelden
+          _fr: Je souhaite à nouveau m'inscrire aux newsletters
+          _it: Vorrei iscrivermi nuovamente alle newsletter
         title:
           _de: Konto
           _fr: Compte
@@ -371,6 +375,13 @@ _:
           _de: Alte Lieferungen (%{count})
           _fr: Anciennes livraisons (%{count})
           _it: Vecchie consegne(%{count})
+    email_suppressions:
+      destroy:
+        flash:
+          notice:
+            _de: Vielen Dank, dass Sie sich wieder für unseren Newsletter angemeldet haben!
+            _fr: Merci de vous être à nouveau inscrit à nos newsletters!
+            _it: Grazie per esservi nuovamente iscritti alla nostra newsletter!
     group_buying:
       base:
         show:

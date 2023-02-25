@@ -86,6 +86,7 @@ Rails.application.routes.draw do
       end
       resource :account, only: %i[show edit update]
       resource :contact_sharing, only: %i[show create]
+      resource :email_suppression, only: :destroy
     end
   end
 end
