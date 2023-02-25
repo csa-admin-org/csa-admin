@@ -179,9 +179,8 @@ module MembersHelper
 
   def display_emails(member)
     emails = member.emails_array - [current_session.email]
-    parts = []
+    parts = emails
     parts << content_tag(:i, current_session.email) unless current_session.admin_originated?
-    parts += emails
     parts.join(', ').html_safe
   end
 
@@ -191,6 +190,16 @@ module MembersHelper
       parts << phone_link(phone)
     end
     parts.join(', ').html_safe
+  end
+
+  def newsletter_unsubscribed?
+    return if current_session.admin_originated?
+
+    suppressions = EmailSuppression.unsuppressable.broadcast
+    if Current.acp.mailchimp?
+      suppressions = suppressions.where.not(origin: 'Mailchimp')
+    end
+    suppressions.where(email: current_session.email).any?
   end
 
   def display_acp_shares_number(member)

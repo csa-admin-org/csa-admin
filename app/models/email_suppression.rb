@@ -30,9 +30,9 @@ class EmailSuppression < ApplicationRecord
     end
   end
 
-  def self.unsuppress!(email, stream_id:, origin:)
+  def self.unsuppress!(email, stream_id:, origin: nil)
     conditions = { email: email, stream_id: stream_id, origin: origin }
-    suppressions = unsuppressable.where(conditions)
+    suppressions = unsuppressable.where(conditions.compact)
     if suppressions.any?
       PostmarkWrapper.delete_suppressions(stream_id, email)
       suppressions.each(&:unsuppress!)

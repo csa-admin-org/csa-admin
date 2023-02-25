@@ -17,6 +17,8 @@ section
       = inline_svg_tag 'members/mail.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
       span class='ml-4'
         = display_emails(current_member)
+        - if newsletter_unsubscribed?
+          = button_to t('.subscribe_back_to_newsletter'), members_email_suppression_path, method: :delete, class: 'mt-1 block text-left md:min-w-min min-w-full text-sm hover:text-green-500 underline'
 
     li class='flex flex-row'
       = inline_svg_tag 'members/phone.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
