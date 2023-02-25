@@ -34,9 +34,11 @@ ActiveAdmin.register Newsletter do
       end
     }
     actions defaults: true, class: 'col-actions-4' do |newsletter|
-      link_to(t('.duplicate'), new_newsletter_path(newsletter_id: newsletter.id), class: 'duplicate_link')
+      link_to(t('.duplicate'), new_newsletter_path(newsletter_id: newsletter.id), class: 'duplicate_link', title: t('.duplicate'))
     end
   end
+
+  sidebar_handbook_link('newsletters')
 
   show do |newsletter|
     columns do

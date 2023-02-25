@@ -1,0 +1,35 @@
+# Newsletters
+
+En complément [des emails automatiques](/mail_templates) envoyés lors d'événements spécifiques (nouvelle facture, renouvellement, ...), ACP Admin offre également la possibilité d'envoyer [des newsletters (emails groupés)](/newsletters).
+
+Ces newsletters peuvent s'adresser à tous vos membres ou à un groupe spécifique (statut, taille de panier, dépôt, ...).
+
+> Contrairement [aux emails automatiques](/mail_templates), les newsletters sont toujours envoyées manuellement par un admin et elles incluent un lien de désinscription (obligatoire) dans leur bas de page. Pour les utilisateurs de Mailchimp, la liste des désinscriptions est synchronisée avec ACP Admin.
+
+## Templates
+
+Pour faciliter la création de vos newsletters, ACP Admin propose un système sophistiqué de [templates](/newsletter_templates). Ces templates sont des modèles d'email avec des blocs de contenu prédéfinis que vous pouvez créer et modifier selon vos besoins.
+
+Par défaut, [2 templates](/newsletter_templates) sont disponibles:
+
+- <strong>Texte libre</strong>: un template simple avec un seul bloc de contenu sans titre.
+- <strong>Prochaine livraison</strong>: un template plus complexe avec plusieurs blocs de contenu, ainsi que des informations dynamiques (contenu panier, prochaine activité, ...).
+
+N'hésitez pas à les dupliquer et à les modifier à votre guise ou en [créer de nouveaux](/newsletter_templates/new).
+
+> Malgré l'envoi "groupé" d'une newsletter, le contenu de chaque email est généré individuelement en fonction des informations de chaque membre (nom, langue, abonnement, ...).
+
+### Blocs de contenu
+
+Chaque template doit contenir au moins un bloc de contenu. Il s'agit d'un bloc de texte libre qui pourra ensuite être modifié lors de la création d'une newsletter. Un bloc dont le contenu sera laissé vide lors de l'édition d'une newsletter sera simplement ignoré.
+
+Chaque bloc est défini avec un identifiant (`id`) unique et optionnellement un titre (`title`) ainsi qu'un contenu par défaut.
+
+Exemple d'un bloc avec un titre et un contenu par défaut:
+
+~~~ liquid
+{% content id: "identifiant", title: "Un titre optionnel" %}
+  <p>Contenu par défaut optionnel</p>
+{% endcontent %}
+~~~
+
