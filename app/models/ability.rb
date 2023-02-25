@@ -144,11 +144,6 @@ class Ability
     can :update, writable_models, can_update?: true
     can :destroy, writable_models, can_destroy?: true
     can :batch_action, writable_models
-
-    # TODO: Newsletter, remove when feature is ready
-    unless admin.master?
-      cannot :manage, models_for(:newsletter)
-    end
   end
 
   private
