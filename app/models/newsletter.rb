@@ -70,6 +70,7 @@ class Newsletter < ApplicationRecord
     raise 'Already sent!' if sent?
 
     transaction do
+      self[:liquid_data_preview_yamls] = liquid_data_preview_yamls
       update!(
         template_contents: template.contents,
         sent_at: Time.current)
@@ -81,8 +82,12 @@ class Newsletter < ApplicationRecord
   end
 
   def mail_preview(locale)
-    template.liquid_data_preview_yamls = liquid_data_preview_yamls
-    template.contents = template_contents if sent?
+    if sent?
+      template.contents = template_contents
+      template.liquid_data_preview_yamls = self[:liquid_data_preview_yamls]
+    else
+      template.liquid_data_preview_yamls = liquid_data_preview_yamls
+    end
     mailer_preview.call(email_method,
       template: template,
       subject: subject(locale).to_s,
