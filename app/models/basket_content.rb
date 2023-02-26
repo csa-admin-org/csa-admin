@@ -35,6 +35,10 @@ class BasketContent < ApplicationRecord
 
   after_commit :update_delivery_basket_content_avg_prices!
 
+  def self.last_delivery
+    all.joins(:delivery).order(:date).last&.delivery
+  end
+
   def self.ransackable_scopes(_auth_object = nil)
     %i[basket_size_eq]
   end
