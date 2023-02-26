@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe NewsletterMailer do
-  specify '#newsletter_email', freeze: '2022-01-01' do
-    template = create(:newsletter_template,
+  let(:template) {
+    create(:newsletter_template,
       content: <<~LIQUID)
         Salut {{ member.name }},
 
@@ -10,7 +10,9 @@ describe NewsletterMailer do
           Example Text {{ member.name }}
         {% endcontent %}
       LIQUID
+  }
 
+  specify '#newsletter_email', freeze: '2022-01-01' do
     member = create(:member,
       name: 'John Doe',
       emails: 'john@doe.com, jane@doe.com')
@@ -32,5 +34,27 @@ describe NewsletterMailer do
     expect(mail.body).to include('Example Text John Doe')
     expect(mail.body).to have_link('Désincription',
       href: "https://membres.ragedevert.ch/newsletters/unsubscribe/909b574ee84d745debcd427c9c8a1f2c")
+  end
+
+  specify '#newsletter_email with attachments' do
+    newsletter = create(:newsletter, template: template)
+    attachment = Newsletter::Attachment.new
+    attachment.file.attach(
+      io: File.open(file_fixture('qrcode-test.png')),
+      filename: 'qrcode-test.png')
+    newsletter.update! attachments: [attachment]
+
+    mail = NewsletterMailer.with(
+      template: template,
+      subject: 'Ma Newsletter',
+      member: create(:member),
+      attachments: newsletter.attachments.to_a,
+      to: 'john@doe.com'
+    ).newsletter_email
+
+    expect(mail.attachments.size).to eq 1
+    attachment = mail.attachments.first
+    expect(attachment.filename).to eq 'qrcode-test.png'
+    expect(attachment.content_type).to eq 'image/png'
   end
 end

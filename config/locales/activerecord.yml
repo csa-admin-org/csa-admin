@@ -1118,10 +1118,19 @@ _:
           _fr: Complément
           _it: Aggiunte
       newsletter:
+        attachments:
+          _de: Anhänge
+          _fr: Pièces jointes
+          _it: Allegati
         subject:
           _de: Betreff
           _fr: Sujet
           _it: Soggeto
+      newsletter/attachment:
+        file:
+          _de: Datei
+          _fr: Fichier
+          _it: File
       newsletter/template:
         content:
           _de: Inhalt
@@ -1228,6 +1237,13 @@ _:
                 _de: Die Allgemeinen Verkaufsbedingungen müssen akzeptiert werden
                 _fr: Les conditions générales de vente doivent être acceptées
                 _it: Le condizioni generali devono essere accettate
+        newsletter:
+          attributes:
+            attachments:
+              too_large:
+                _de: Die Anhänge dürfen nicht größer als 5 Mo sein
+                _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
+                _it: Gli allegati non devono superare i 5 Mo
         session:
           attributes:
             email:
@@ -1536,6 +1552,15 @@ _:
           _de: Newsletters
           _fr: Newsletters
           _it: Newsletters
+      newsletter/attachment:
+        one:
+          _de: Datei
+          _fr: fichier
+          _it: file
+        other:
+          _de: Anhänge
+          _fr: Pièces jointes
+          _it: Allegati
       newsletter/template:
         one:
           _de: Vorlage

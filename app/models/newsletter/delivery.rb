@@ -45,7 +45,8 @@ class Newsletter
         member: member,
         subject: newsletter.subject(member.language).to_s,
         template_contents: newsletter.template_contents,
-        blocks: newsletter.relevant_blocks
+        blocks: newsletter.relevant_blocks,
+        attachments: newsletter.attachments.to_a
       }
     end
 

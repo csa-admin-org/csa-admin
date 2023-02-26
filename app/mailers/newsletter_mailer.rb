@@ -3,6 +3,7 @@ class NewsletterMailer < ApplicationMailer
   EmailRender = Struct.new(:subject, :content)
 
   def newsletter_email
+    attach_attchments!
     template_mail(params[:member],
       to: params[:to],
       stream: 'broadcast',
@@ -17,6 +18,17 @@ class NewsletterMailer < ApplicationMailer
   end
 
   private
+
+  def attach_attchments!
+    return unless params[:attachments].present?
+
+    params[:attachments].map(&:file).each { |file|
+      attachments[file.filename.to_s] = {
+        mime_type: file.content_type,
+        content: file.download
+      }
+    }
+  end
 
   def prepared_data
     member = params[:member]

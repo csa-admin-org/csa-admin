@@ -46,4 +46,30 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Salut Bob,"
     expect(mail_body).to include "Block Bob"
   end
+
+  specify 'deliver newsletter with attachments' do
+    attachment = Newsletter::Attachment.new
+    attachment.file.attach(
+      io: File.open(file_fixture('qrcode-test.png')),
+      filename: 'qrcode-test.png')
+    newsletter.update! attachments: [attachment]
+
+    # simulate newsletter sent
+    newsletter.update!(template_contents: template.contents)
+
+    member = create(:member, name: 'Bob', emails: 'john@bob.com, jane@bob.com')
+    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
+
+    expect { delivery.deliver! }
+      .to change { ActionMailer::Base.deliveries.count }.by(2)
+      .and change { delivery.reload.delivered_at }.from(nil)
+
+    mail = ActionMailer::Base.deliveries.first
+    expect(mail[:message_stream].to_s).to eq 'broadcast'
+
+    expect(mail.attachments.size).to eq 1
+    attachment = mail.attachments.first
+    expect(attachment.filename).to eq 'qrcode-test.png'
+    expect(attachment.content_type).to eq 'image/png'
+  end
 end
