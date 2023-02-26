@@ -136,7 +136,7 @@ GEM
     chunky_png (1.4.0)
     cld (0.12.0)
       ffi
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     connection_pool (2.3.0)
     countries (5.3.1)
       unaccent (~> 0.3)
@@ -295,7 +295,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.4.5)
+    pg (1.4.6)
     phony (2.20.2)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
