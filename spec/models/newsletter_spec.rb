@@ -72,7 +72,7 @@ describe Newsletter do
     expect(mail).to include 'Youpla Boom'
   end
 
-  specify 'mailpreview is using persisted template content once sent' do
+  specify 'mailpreview is using persisted template content and preview data once sent' do
     newsletter = build(:newsletter, template: template,
       subject: 'Ma Super Newsletter',
       blocks_attributes: {
@@ -80,15 +80,17 @@ describe Newsletter do
         '1' => { block_id: 'second', content_fr: 'Youpla Boom' },
       }
     )
-    newsletter.liquid_data_preview_yamls = {
+    preview_yamls = {
       'fr' => <<~YAML
         member:
           name: Bob Dae
         subject: Ma Newsletter
       YAML
     }
+    newsletter.liquid_data_preview_yamls = preview_yamls
 
     mail = newsletter.mail_preview('fr')
+    expect(mail).to include 'Ma Super Newsletter</h1>'
     expect(mail).to include 'First FR</h2>'
     expect(mail).to include 'Hello Bob Dae'
     expect(mail).to include 'Youpla Boom'
@@ -106,15 +108,11 @@ describe Newsletter do
     LIQUID
 
     newsletter = Newsletter.last # hard reload
-    newsletter.liquid_data_preview_yamls = {
-      'fr' => <<~YAML
-        member:
-          name: Bob Dae
-        subject: Ma Newsletter
-      YAML
-    }
+
+    expect(newsletter[:liquid_data_preview_yamls]).to eq preview_yamls
 
     mail = newsletter.mail_preview('fr')
+    expect(mail).to include 'Ma Super Newsletter</h1>'
     expect(mail).to include 'First FR</h2>'
     expect(mail).not_to include 'NEW LINE'
     expect(mail).to include 'Hello Bob Dae'
@@ -145,6 +143,7 @@ describe Newsletter do
       ]
       expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
       expect(newsletter.template_contents).to be_empty
+      expect(newsletter[:liquid_data_preview_yamls]).to be_empty
 
       expect { newsletter.send! }
         .to change { newsletter.deliveries.count }.by(2)
@@ -162,6 +161,7 @@ describe Newsletter do
       ]
       expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
       expect(newsletter.template_contents).to eq newsletter.template.contents
+      expect(newsletter[:liquid_data_preview_yamls]).not_to be_empty
     end
   end
 end
