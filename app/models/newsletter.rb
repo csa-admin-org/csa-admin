@@ -2,6 +2,8 @@ class Newsletter < ApplicationRecord
   include TranslatedAttributes
   include Auditable
 
+  ATTACHMENTS_MAXIMUM_SIZE = 5.megabytes
+
   translated_attributes :subject, required: true
 
   audited_attributes :sent_at
@@ -10,10 +12,11 @@ class Newsletter < ApplicationRecord
     class_name: 'Newsletter::Template',
     foreign_key: 'newsletter_template_id'
   has_many :blocks, class_name: 'Newsletter::Block', dependent: :destroy
+  has_many :attachments, class_name: 'Newsletter::Attachment', dependent: :destroy
   has_many :deliveries, class_name: 'Newsletter::Delivery'
   has_many :members, through: :deliveries
 
-  accepts_nested_attributes_for :blocks, allow_destroy: true
+  accepts_nested_attributes_for :blocks, :attachments, allow_destroy: true
 
   scope :draft, -> { where(sent_at: nil) }
   scope :sent, -> { where.not(sent_at: nil) }
@@ -21,6 +24,7 @@ class Newsletter < ApplicationRecord
   validates :audience, presence: true
   validate :at_least_one_block_must_be_present
   validate :same_blocks_must_be_present_for_all_languages
+  validate :attachments_must_not_exceed_maximum_size
 
   def audience_segment
     @audience_segment ||= Audience::Segment.parse(audience)
@@ -167,6 +171,12 @@ class Newsletter < ApplicationRecord
           end
         end
       end
+    end
+  end
+
+  def attachments_must_not_exceed_maximum_size
+    if attachments.sum { |a| a.file.byte_size } > ATTACHMENTS_MAXIMUM_SIZE
+      errors.add(:attachments, :too_large)
     end
   end
 end

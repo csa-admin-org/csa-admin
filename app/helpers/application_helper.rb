@@ -53,6 +53,12 @@ module ApplicationHelper
     end
   end
 
+  def display_attachment(attachment)
+    link_to(
+      "#{attachment.filename} (#{number_to_human_size(attachment.byte_size)})",
+      rails_blob_path(attachment, disposition: 'attachment'))
+  end
+
   def phone_link(phone)
     phone_to(
       phone.phony_formatted(spaces: '', format: :international),

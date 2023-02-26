@@ -53,6 +53,7 @@ ActiveAdmin.register Newsletter do
               "(#{members_count} #{Member.model_name.human(count: members_count)},
               #{newsletter.emails.size}/#{newsletter.emails.size + newsletter.suppressed_emails.size} #{t('.subscribed_emails')})"
           }
+          row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           row(:template)
           row(:status) {
             if newsletter.ongoing_delivery?
@@ -102,6 +103,20 @@ ActiveAdmin.register Newsletter do
           data: { action: 'code-editor#updatePreview' }
         })
       f.input :audience, collection: newsletter_audience_collection, prompt: true
+      if f.object.errors[:attachments].present?
+        ul class: 'errors' do
+          f.object.errors[:attachments].uniq.each do |msg|
+            li msg
+          end
+        end
+      end
+      f.has_many :attachments, allow_destroy: true do |a|
+        if a.object.persisted?
+          content_tag :span, display_attachment(a.object.file), class: 'filename'
+        else
+          a.input :file, as: :file
+        end
+      end
     end
 
     f.inputs t('.content') do
@@ -181,6 +196,7 @@ ActiveAdmin.register Newsletter do
     :newsletter_template_id,
     *I18n.available_locales.map { |l| "subject_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,
+    attachments_attributes: [:id, :file, :_destroy],
     blocks_attributes: [
       :id,
       :block_id,
