@@ -78,7 +78,7 @@ ActiveAdmin.register Newsletter::Template do
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales)
 
-  collection_action :preview, method: :get do
+  collection_action :preview, method: :post do
     @newsletter_template = resource_class.new
     resource.assign_attributes(permitted_params[:newsletter_template])
     render 'mail_templates/preview'

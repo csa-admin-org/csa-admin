@@ -131,7 +131,7 @@ ActiveAdmin.register MailTemplate do
     f.actions
   end
 
-  collection_action :preview, method: :get do
+  collection_action :preview, method: :post do
     @mail_template = scoped_collection.where(title: params[:mail_template][:title]).first!
     resource.assign_attributes(permitted_params[:mail_template])
     render :preview
