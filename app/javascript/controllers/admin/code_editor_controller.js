@@ -38,7 +38,7 @@ export default class extends Controller {
       fontSize: 14
     })
     editor.renderer.setPadding(12)
-    editor.getSession().setUseWorker(false);
+    editor.getSession().setUseWorker(false)
     editor.getSession().setValue(element.value)
     editor.getSession().on('change', () => {
       element.innerHTML = editor.getSession().getValue()
@@ -50,9 +50,12 @@ export default class extends Controller {
     const path = this.previewPathValue
 
     if (this.hasFormTarget && path) {
-      const params = (new URLSearchParams(new FormData(this.formTarget))).toString()
-      fetch(path + '?' + params, {
-        method: 'GET'
+      const formData = new FormData(this.formTarget)
+      formData.delete('_method') // remove PATCH Rails form _method
+      const params = new URLSearchParams(formData)
+      fetch(path, {
+        method: 'POST',
+        body: params
       }).then(response => response.text()).then(js => eval(js))
     }
   }

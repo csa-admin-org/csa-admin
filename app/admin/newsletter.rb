@@ -204,7 +204,7 @@ ActiveAdmin.register Newsletter do
       *I18n.available_locales.map { |l| "content_#{l}" }
     ])
 
-  collection_action :preview, method: :get do
+  collection_action :preview, method: :post do
     @newsletter = resource_class.new
     assign_attributes(resource, permitted_params[:newsletter])
     render 'mail_templates/preview'
