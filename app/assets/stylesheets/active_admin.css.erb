@@ -505,7 +505,8 @@ table a.xlsx_link {
   opacity: 0.65 !important;
 }
 
-a.pdf_link, a.xlsx_link {
+table a.pdf_link,
+table a.xlsx_link {
   height: 17px;
   width: 17px;
   margin: 1px 3px;
@@ -775,6 +776,10 @@ table#index_table_invoices .col-status,
 table.table-invoices .col-status {
   text-align: right;
   width: 100px;
+}
+
+table.table-invoices .col-actions a.pdf_link {
+  top: 1px;
 }
 
 table#index_table_invoices .col-overdue_notices_count,
