@@ -5,8 +5,7 @@ class EmailSuppressionsController < ApplicationController
   def destroy
     suppersion = EmailSuppression.find(params[:id])
     EmailSuppression.unsuppress!(suppersion.email,
-      stream_id: 'outbound',
-      origin: 'Customer')
+      stream_id: 'outbound')
 
     redirect_back fallback_location: root_path
   end
