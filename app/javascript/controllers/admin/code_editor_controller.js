@@ -56,7 +56,13 @@ export default class extends Controller {
       fetch(path, {
         method: 'POST',
         body: params
-      }).then(response => response.text()).then(js => eval(js))
+      }).then(response => response.text()).then((js) => {
+        try {
+          eval(js)
+        } catch (e) {
+          console.error(e)
+        }
+      })
     }
   }
 }
