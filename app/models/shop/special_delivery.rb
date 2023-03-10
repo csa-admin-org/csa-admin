@@ -18,8 +18,9 @@ module Shop
 
     default_scope { order(:date) }
 
-    scope :past, -> { where(date: ...Date.current) }
-    scope :coming, -> { where(date: Date.current..) }
+    scope :between, ->(range) { where(date: range) }
+    scope :past, -> { between(...Date.current) }
+    scope :coming, -> { between(Date.current..) }
     scope :open, -> { where(open: true) }
 
     validates :date, uniqueness: true
@@ -42,6 +43,8 @@ module Shop
     def display_name(format: :medium_long)
       "#{I18n.l(date, format: format)} (#{display_number})"
     end
+
+    def name; display_name; end
 
     def display_number
       I18n.t 'activerecord.attributes.shop/special_delivery.special'

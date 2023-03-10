@@ -17,6 +17,8 @@ module NewslettersHelper
     when :member_state; Member.model_name.human(count: 2)
     when :activity_state; activities_human_name
     when :activity_id; Activity.model_name.human
+    when :shop_delivery_gid
+      Shop::Order.model_name.human(count: 2) + " (#{t('shop.title')})"
     end
   end
 
