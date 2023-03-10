@@ -14,12 +14,11 @@ class Activity < ApplicationRecord
   has_many :participations, class_name: 'ActivityParticipation'
 
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
-  scope :coming, -> { where('activities.date >= ?', Date.current) }
-  scope :future, -> { where('activities.date > ?', Date.current) }
-  scope :past, -> { where('activities.date <= ?', Date.current) }
-  scope :past_current_year, -> {
-    where('activities.date < ? AND activities.date >= ?', Date.current, Current.fy_range.min)
-  }
+  scope :between, ->(range) { where(date: range) }
+  scope :coming, -> { between(Date.current..) }
+  scope :future, -> { between(Date.tomorrow..) }
+  scope :past, -> { between(..Date.current) }
+  scope :past_current_year, -> { between(Current.fy_range.min...Date.current) }
   scope :without_participations, -> {
     includes(:participations).where(participations: { id: nil })
   }

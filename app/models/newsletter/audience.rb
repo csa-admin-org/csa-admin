@@ -85,6 +85,10 @@ class Newsletter
               .where(memberships: { activity_participations_demanded: 1..})
               .where('activity_participations_demanded > activity_participations_accepted')
           end
+        when :activity_id
+          Member
+            .joins(:activity_participations)
+            .where(activity_participations: { activity_id: value })
         end
       end
 
@@ -113,6 +117,7 @@ class Newsletter
         OpenStruct.new(
           id: value,
           name: I18n.t("newsletters.activity_state.#{value}"))
+      when :activity_id; Activity.find_by(id: value)
       end
     end
 
@@ -128,6 +133,8 @@ class Newsletter
       end
       if Current.acp.feature?('activity')
         base[:activity_state] = activity_state_records
+        base[:activity_id] =
+          Activity.joins(:participations).coming.limit(12).distinct.order(:date)
       end
       base.map { |key, records|
         [key, records.map { |r| Segment.new(key, r.id, r.name) }]
