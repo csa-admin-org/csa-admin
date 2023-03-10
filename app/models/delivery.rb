@@ -77,6 +77,8 @@ class Delivery < ApplicationRecord
     "#{I18n.l(date, format: format)} (#{display_number})"
   end
 
+  def name; display_name; end
+
   def display_number
     "##{number}"
   end

@@ -60,6 +60,10 @@ class Newsletter
           Member
             .joins(:current_membership)
             .where(memberships: { depot_id: value })
+        when :delivery_id
+          Member
+            .joins(:baskets)
+            .where(baskets: { delivery_id: value })
         when :member_id
           Member.where(id: value)
         when :member_state
@@ -96,6 +100,7 @@ class Newsletter
       when :basket_size_id; BasketSize.find_by(id: value)
       when :basket_complement_id; BasketComplement.find_by(id: value)
       when :depot_id; Depot.find_by(id: value)
+      when :delivery_id; ::Delivery.find_by(id: value)
       when :member_state
         name =
           if Member::STATES.include?(value)
@@ -113,9 +118,10 @@ class Newsletter
 
     def segments
       base = {
-        member_state: member_state_records,
+        member_state: member_state_records.sort_by(&:name),
+        delivery_id: ::Delivery.between(1.week.ago..).limit(8),
         depot_id: Depot.used.reorder(:name),
-        basket_size_id: BasketSize.used
+        basket_size_id: BasketSize.used,
       }
       if BasketComplement.any?
         base[:basket_complement_id] = BasketComplement.used
@@ -124,8 +130,8 @@ class Newsletter
         base[:activity_state] = activity_state_records
       end
       base.map { |key, records|
-        [key, records.map { |r| Segment.new(key, r.id, r.name) }.sort_by(&:name)]
-      }.to_h
+        [key, records.map { |r| Segment.new(key, r.id, r.name) }]
+      }.select { |_, segments| segments.any? }.to_h
     end
 
     def member_state_records
