@@ -27,7 +27,7 @@ class Depot < ApplicationRecord
   scope :paid, -> { where('price > 0') }
   scope :used, -> {
     joins(:memberships)
-      .merge(Membership.current_year)
+      .merge(Membership.current_or_future)
       .reorder(:id)
       .distinct
     }

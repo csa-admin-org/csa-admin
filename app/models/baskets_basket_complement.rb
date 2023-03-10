@@ -1,6 +1,7 @@
 class BasketsBasketComplement < ApplicationRecord
   belongs_to :basket, touch: true
   belongs_to :basket_complement
+  has_one :delivery, through: :basket
 
   validates :basket_complement_id, uniqueness: { scope: :basket_id }
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true

@@ -23,6 +23,14 @@ class BasketComplement < ApplicationRecord
     after_remove: :after_remove_delivery!
 
   scope :annual_price_type, -> { where(price_type: 'annual') }
+  scope :used, -> {
+    ids = BasketsBasketComplement
+      .joins(:delivery)
+      .merge(Delivery.current_and_future_year)
+      .pluck(:basket_complement_id)
+      .uniq
+    where(id: ids)
+  }
 
   default_scope { order_by_name }
 
