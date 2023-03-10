@@ -89,6 +89,10 @@ class Newsletter
           Member
             .joins(:activity_participations)
             .where(activity_participations: { activity_id: value })
+        when :shop_delivery_gid
+          Member
+            .joins(:shop_orders)
+            .merge(Shop::Order.all_without_cart._delivery_gid_eq(value))
         end
       end
 
@@ -118,6 +122,7 @@ class Newsletter
           id: value,
           name: I18n.t("newsletters.activity_state.#{value}"))
       when :activity_id; Activity.find_by(id: value)
+      when :shop_delivery_gid; GlobalID::Locator.locate(value)
       end
     end
 
@@ -131,13 +136,35 @@ class Newsletter
       if BasketComplement.any?
         base[:basket_complement_id] = BasketComplement.used
       end
+      if Current.acp.feature?('shop')
+        base[:shop_delivery_gid] = (
+          ::Delivery
+            .between(1.week.ago..)
+            .joins(:shop_orders)
+            .merge(Shop::Order.all_without_cart)
+            .distinct
+            .limit(8) +
+          Shop::SpecialDelivery
+            .between(1.week.ago..)
+            .joins(:shop_orders)
+            .merge(Shop::Order.all_without_cart)
+            .distinct
+            .limit(8)
+        ).sort_by(&:date).first(8)
+      end
       if Current.acp.feature?('activity')
         base[:activity_state] = activity_state_records
         base[:activity_id] =
           Activity.joins(:participations).coming.limit(12).distinct.order(:date)
       end
       base.map { |key, records|
-        [key, records.map { |r| Segment.new(key, r.id, r.name) }]
+        [
+          key,
+          records.map { |r|
+            value = r.respond_to?(:gid) ? r.gid : r.id
+            Segment.new(key, value, r.name)
+          }
+        ]
       }.select { |_, segments| segments.any? }.to_h
     end
 
