@@ -184,6 +184,8 @@ class ACP < ApplicationRecord
   end
 
   def email_hostname
+    return unless email_default_host
+
     URI.parse(email_default_host).host.gsub(/\A#{members_subdomain}./,"")
   end
 
