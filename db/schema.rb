@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_26_132838) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_08_135929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -727,7 +727,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_26_132838) do
     t.datetime "updated_at", null: false
     t.string "delivery_type", default: "Delivery", null: false
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
-    t.index ["member_id", "delivery_id"], name: "index_shop_orders_on_member_id_and_delivery_id", unique: true
+    t.index ["member_id", "delivery_type", "delivery_id"], name: "index_shop_orders_on_member_and_delivery", unique: true
     t.index ["state"], name: "index_shop_orders_on_state"
   end
 
