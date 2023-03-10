@@ -198,6 +198,10 @@ module XLSX
       end
       unless style == 'bike_delivery'
         add_column(
+          Member.human_attribute_name(:note),
+          baskets.map { |b| truncate(b.member.note, length: 160) },
+          border: border)
+        add_column(
           Member.human_attribute_name(:food_note),
           baskets.map { |b| truncate(b.member.food_note, length: 80) },
           border: border)
