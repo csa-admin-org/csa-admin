@@ -107,7 +107,9 @@ ActiveAdmin.register Member do
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
     if Current.acp.feature?('basket_price_extra')
-      column(:waiting_basket_price_extra) { |m| cur(m.waiting_basket_price_extra) }
+      column(I18n.t('active_admin.resource.index.waiting_attribute', attribute: Current.acp.basket_price_extra_title)) { |m|
+        cur(m.waiting_basket_price_extra)
+      }
     end
     if BasketComplement.any?
       column(:waiting_basket_complements) { |m|
@@ -166,7 +168,7 @@ ActiveAdmin.register Member do
           attributes_table title: t('.waiting_membership') do
             row(:basket_size) { member.waiting_basket_size&.name }
             if Current.acp.feature?('basket_price_extra')
-              row(:basket_price_extra) { cur(member.waiting_basket_price_extra) }
+              row(Current.acp.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
             end
             if BasketComplement.any?
               row(Membership.human_attribute_name(:memberships_basket_complements)) {
@@ -417,7 +419,7 @@ ActiveAdmin.register Member do
           required: false
         if Current.acp.feature?('basket_price_extra')
           f.input :waiting_basket_price_extra,
-            label: Member.human_attribute_name(:basket_price_extra),
+            label: Current.acp.basket_price_extra_title,
             required: false
         end
         f.input :waiting_depot,

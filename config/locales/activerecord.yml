@@ -727,21 +727,21 @@ _:
           _fr: Dépôt(s) alternatifs(s)
           _it: Punto/ di ritiro alternativo
         waiting_basket_complements:
-          _de: Taschenzusätze Warteliste
-          _fr: Compléments panier en attente
-          _it: Aggiunta alla cesta in lista d'attesa
-        waiting_basket_price_extra:
-          _de: Preis Taschen (zusätzlich) Warteliste
-          _fr: Prix panier (extra) en attente
-          _it: Prezzo cesta (extra) in lista d'attesa
+          _de: Taschenzusätze (Warteliste)
+          _fr: Compléments panier (en attente)
+          _it: Aggiunta alla cesta (in lista d'attesa)
         waiting_basket_size:
-          _de: Taschengrösse Warteliste
-          _fr: Taille panier en attente
-          _it: Dimensione cesta in lista d'attesa
+          _de: Taschengrösse (Warteliste)
+          _fr: Taille panier (en attente)
+          _it: Dimensione cesta (in lista d'attesa)
+        waiting_deliveries_cycle:
+          _de: Zyklus von Lieferungen (Warteliste)
+          _fr: Cycle de livraisons (en attente)
+          _it: Ciclo di consegne (in lista d'attesa)
         waiting_depot:
-          _de: Depot Warteliste
-          _fr: Dépôt en attente
-          _it: Punto di ritiro in lista d'attesa
+          _de: Depot (Warteliste)
+          _fr: Dépôt (en attente)
+          _it: Punto di ritiro (in lista d'attesa)
         waiting_started_at:
           _de: Auf Warteliste seit
           _fr: Sur liste d'attente depuis

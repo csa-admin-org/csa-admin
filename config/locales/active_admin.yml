@@ -776,6 +776,10 @@ _:
           _de: Feed abonnieren
           _fr: S'abonner au flux
           _it: Abbonati al feed
+        waiting_attribute:
+          _de: "%{attribute} (Warteliste)"
+          _fr: "%{attribute} (en attente)"
+          _it: "%{attribute} (in lista d'attesa)"
       new:
         availability:
           _de: Verfügbarkeit
