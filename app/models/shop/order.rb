@@ -30,7 +30,7 @@ module Shop
     before_validation :set_amount
 
     validates :items, presence: true, unless: :cart?
-    validates :member_id, uniqueness: { scope: :delivery_id }
+    validates :member_id, uniqueness: { scope: [:delivery_type, :delivery_id] }
     validates :amount, numericality: true, if: :admin
     validate :unique_items
     validate :ensure_maximum_weight_limit
