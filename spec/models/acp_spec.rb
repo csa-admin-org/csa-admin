@@ -1,6 +1,24 @@
 require 'rails_helper'
 
 describe ACP do
+  specify 'validates email_default_from format' do
+    acp = ACP.new(email_default_host: 'https://membres.ragedevert.ch')
+
+    expect(acp.email_hostname).to eq 'ragedevert.ch'
+
+    acp.email_default_from = 'info@ragedevert.ch'
+    expect(acp).to have_valid(:email_default_from)
+
+    acp.email_default_from = 'contact@ragedevert.ch'
+    expect(acp).to have_valid(:email_default_from)
+
+    acp.email_default_from = 'info@rave.ch'
+    expect(acp).not_to have_valid(:email_default_from)
+
+    acp.email_default_from = 'ragedevert.ch'
+    expect(acp).not_to have_valid(:email_default_from)
+  end
+
   specify 'validates that activity_price cannot be 0' do
     acp = ACP.new(activity_price: nil)
     expect(acp).not_to have_valid(:activity_price)

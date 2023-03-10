@@ -48,8 +48,13 @@ class ACP < ApplicationRecord
   validates :url, presence: true, format: { with: %r{\Ahttps?://.*\z} }
   validates :logo_url, presence: true
   validates :email, presence: true
-  validates :email_default_host, presence: true, format: { with: %r{\Ahttps://.*\z} }
-  validates :email_default_from, presence: true, format: { with: EMAIL_REGEXP }
+  validates :email_default_host,
+    presence: true,
+    format: { with: %r{\Ahttps://.*\z} }
+  validates :email_default_from,
+    presence: true,
+    format: { with: EMAIL_REGEXP },
+    format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
@@ -176,6 +181,10 @@ class ACP < ApplicationRecord
 
   def members_subdomain
     URI.parse(email_default_host).host.split('.').first
+  end
+
+  def email_hostname
+    URI.parse(email_default_host).host.gsub(/\A#{members_subdomain}./,"")
   end
 
   def url=(url)
