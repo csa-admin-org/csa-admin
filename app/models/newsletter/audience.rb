@@ -73,6 +73,13 @@ class Newsletter
           when 'waiting_active'; Member.where(state: %w[waiting active])
           else; Member.where(state: value)
           end
+        when :invoice_state
+          case value
+          when 'open'
+            Member.joins(:invoices).merge(Invoice.open.sent).distinct
+          when 'open_with_overdue_notice'
+            Member.joins(:invoices).merge(Invoice.sent.with_overdue_notice).distinct
+          end
         when :activity_state
           case value
           when 'demanded'
@@ -117,6 +124,10 @@ class Newsletter
             I18n.t("newsletters.member_state.#{value}")
           end
         OpenStruct.new(id: value, name: name)
+      when :invoice_state
+        OpenStruct.new(
+          id: value,
+          name: I18n.t("states.invoice.#{value}").capitalize)
       when :activity_state
         OpenStruct.new(
           id: value,
@@ -136,6 +147,7 @@ class Newsletter
       if BasketComplement.any?
         base[:basket_complement_id] = BasketComplement.used
       end
+      base[:invoice_state] = invoice_state_records.sort_by(&:name)
       if Current.acp.feature?('shop')
         base[:shop_delivery_gid] = (
           ::Delivery
@@ -172,6 +184,11 @@ class Newsletter
       states = Member::STATES - %w[pending]
       states += %w[all not_inactive waiting_active]
       states.map { |s| record_for(:member_state, s) }
+    end
+
+    def invoice_state_records
+      states = %w[open open_with_overdue_notice]
+      states.map { |s| record_for(:invoice_state, s) }
     end
 
     def activity_state_records

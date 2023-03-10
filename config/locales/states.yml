@@ -47,6 +47,10 @@ _:
         _de: offen
         _fr: ouverte
         _it: aperto
+      open_with_overdue_notice:
+        _de: offen mit Mahnung(en)
+        _fr: ouverte avec rappel(s)
+        _it: aperto con richiamo(i)
       processing:
         _de: in Bearbeitung
         _fr: en traitement
