@@ -12,6 +12,14 @@ class BasketSize < ApplicationRecord
   default_scope { order(:price) }
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
+  scope :used, -> {
+    ids = Basket
+      .joins(:delivery)
+      .merge(Delivery.current_and_future_year)
+      .pluck(:basket_size_id)
+      .uniq
+    where(id: ids)
+  }
 
   validates :form_priority, presence: true
   validates :price,

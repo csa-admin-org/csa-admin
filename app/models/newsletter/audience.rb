@@ -115,10 +115,10 @@ class Newsletter
       base = {
         member_state: member_state_records,
         depot_id: Depot.used.reorder(:name),
-        basket_size_id: BasketSize.all,
+        basket_size_id: BasketSize.used
       }
       if BasketComplement.any?
-        base[:basket_complement_id] = BasketComplement.all
+        base[:basket_complement_id] = BasketComplement.used
       end
       if Current.acp.feature?('activity')
         base[:activity_state] = activity_state_records
