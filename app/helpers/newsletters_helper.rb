@@ -15,6 +15,7 @@ module NewslettersHelper
     when :depot_id; Depot.model_name.human
     when :delivery_id; Delivery.model_name.human
     when :member_state; Member.model_name.human(count: 2)
+    when :invoice_state; Invoice.model_name.human(count: 2)
     when :activity_state; activities_human_name
     when :activity_id; Activity.model_name.human
     when :shop_delivery_gid
