@@ -21,6 +21,22 @@ describe Newsletter do
       LIQUID
   }
 
+  specify 'validate from hostname' do
+    Current.acp.update!(email_default_host: 'https://membres.ragedevert.ch')
+
+    newsletter = build(:newsletter, from: 'info@rave.ch')
+    expect(newsletter).not_to have_valid(:from)
+
+    newsletter = build(:newsletter, from: 'contact@ragedevert.ch')
+    expect(newsletter).to have_valid(:from)
+
+    newsletter = build(:newsletter, from: nil)
+    expect(newsletter).to have_valid(:from)
+
+    newsletter = build(:newsletter, from: '')
+    expect(newsletter).to have_valid(:from)
+  end
+
   specify 'validate at least content must be present' do
     newsletter = build(:newsletter, template: template,
       blocks_attributes: {
@@ -50,6 +66,7 @@ describe Newsletter do
   end
 
   specify 'mailpreview' do
+    Current.acp.update! email_signature: 'Signature'
     newsletter = build(:newsletter, template: template,
       subject: 'Ma Super Newsletter',
       blocks_attributes: {
@@ -70,6 +87,18 @@ describe Newsletter do
     expect(mail).to include 'First FR</h2>'
     expect(mail).to include 'Hello Bob Dae'
     expect(mail).to include 'Youpla Boom'
+    expect(mail).to include 'Signature'
+  end
+
+  specify 'mailpreview with custom signature' do
+    Current.acp.update! email_signature: 'Signature'
+    newsletter = build(:newsletter,
+      template: template,
+      signature: 'Au plaisir')
+
+    mail = newsletter.mail_preview('fr')
+    expect(mail).not_to include 'Signature'
+    expect(mail).to include 'Au plaisir'
   end
 
   specify 'mailpreview is using persisted template content and preview data once sent' do

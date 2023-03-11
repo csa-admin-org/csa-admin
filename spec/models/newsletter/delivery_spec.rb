@@ -41,10 +41,47 @@ describe Newsletter::Delivery do
       %w[john@bob.com], %w[jane@bob.com])
 
     email = ActionMailer::Base.deliveries.first
+    expect(email.from).to eq ['info@ragedevert.ch']
     expect(email.subject).to eq 'Subject Bob'
     mail_body = email.parts.map(&:body).join
     expect(mail_body).to include "Salut Bob,"
     expect(mail_body).to include "Block Bob"
+    expect(mail_body).to include "Au plaisir,\r\n<br />Rage de Vert</p>"
+  end
+
+  specify 'deliver newsletter with custom from' do
+    newsletter.update!(
+      # simulate newsletter sent
+      template_contents: template.contents,
+      from: 'contact@ragedevert.ch')
+
+    member = create(:member)
+    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
+
+    expect { delivery.reload.deliver! }
+      .to change { ActionMailer::Base.deliveries.count }
+
+    email = ActionMailer::Base.deliveries.first
+    expect(email.from).to eq ['contact@ragedevert.ch']
+  end
+
+  specify 'deliver newsletter with custom signature' do
+    Current.acp.update! email_signature: 'Signature'
+    newsletter.update!(
+      # simulate newsletter sent
+      template_contents: template.contents,
+      signature: 'Au plaisir')
+
+    member = create(:member, emails: 'john@doe.com')
+    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
+
+    expect { delivery.reload.deliver! }
+      .to change { ActionMailer::Base.deliveries.count }
+
+    email = ActionMailer::Base.deliveries.first
+    mail_body = email.parts.map(&:body).join
+    expect(mail_body).not_to include 'Signature'
+    expect(mail_body).to include "Au plaisir</p>"
   end
 
   specify 'deliver newsletter with attachments' do

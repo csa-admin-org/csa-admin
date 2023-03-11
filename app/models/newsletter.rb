@@ -4,6 +4,7 @@ class Newsletter < ApplicationRecord
 
   ATTACHMENTS_MAXIMUM_SIZE = 5.megabytes
 
+  translated_attributes :signature
   translated_attributes :subject, required: true
 
   audited_attributes :sent_at
@@ -25,9 +26,21 @@ class Newsletter < ApplicationRecord
   validate :at_least_one_block_must_be_present
   validate :same_blocks_must_be_present_for_all_languages
   validate :attachments_must_not_exceed_maximum_size
+  validates :from, format: {
+    with: ->(n) { /.*@#{Current.acp.email_hostname}\z/ },
+    allow_nil: true
+  }
+
+  def from=(value)
+    self[:from] = value.presence
+  end
 
   def audience_segment
     @audience_segment ||= Audience::Segment.parse(audience)
+  end
+
+  def signatures
+    self[:signatures].presence || Current.acp.email_signatures
   end
 
   def members_count
@@ -92,6 +105,7 @@ class Newsletter < ApplicationRecord
       template: template,
       subject: subject(locale).to_s,
       blocks: relevant_blocks,
+      signature: signature,
       locale: locale
     ).html_part.body.encoded
   rescue => e

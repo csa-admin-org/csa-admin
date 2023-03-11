@@ -42,10 +42,12 @@ class Newsletter
 
     def mailer_params
       {
+        from: newsletter.from.presence,
         member: member,
         subject: newsletter.subject(member.language).to_s,
         template_contents: newsletter.template_contents,
         blocks: newsletter.relevant_blocks,
+        signature: newsletter.signature.presence,
         attachments: newsletter.attachments.to_a
       }
     end

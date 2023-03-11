@@ -53,6 +53,7 @@ ActiveAdmin.register Newsletter do
               "(#{members_count} #{Member.model_name.human(count: members_count)},
               #{newsletter.emails.size}/#{newsletter.emails.size + newsletter.suppressed_emails.size} #{t('.subscribed_emails')})"
           }
+          row(:from) { newsletter.from || Current.acp.email_default_from.html_safe }
           row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           row(:template)
           row(:status) {
@@ -110,6 +111,12 @@ ActiveAdmin.register Newsletter do
           end
         end
       end
+
+      f.input :from,
+        as: :string,
+        placeholder: Current.acp.email_default_from.html_safe,
+        hint: t('formtastic.hints.newsletter.from_html', hostname: Current.acp.email_hostname)
+
       f.has_many :attachments, allow_destroy: true do |a|
         if a.object.persisted?
           content_tag :span, display_attachment(a.object.file), class: 'filename'
@@ -156,6 +163,14 @@ ActiveAdmin.register Newsletter do
             data: { action: 'trix-change->code-editor#updatePreview' }
           })
       end
+
+      translated_input(f, :signatures,
+        as: :text,
+        placeholder: ->(locale) { Current.acp.email_signatures[locale]&.html_safe },
+        input_html: {
+          rows: 3,
+          data: { action: 'code-editor#updatePreview' }
+        })
     end
     columns 'data-controller' => 'iframe-resize' do
       Current.acp.languages.each do |locale|
@@ -192,9 +207,11 @@ ActiveAdmin.register Newsletter do
   end
 
   permit_params(
+    :from,
     :audience,
     :newsletter_template_id,
     *I18n.available_locales.map { |l| "subject_#{l}" },
+    *I18n.available_locales.map { |l| "signature_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,
     attachments_attributes: [:id, :file, :_destroy],
     blocks_attributes: [

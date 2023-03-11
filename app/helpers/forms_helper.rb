@@ -3,6 +3,7 @@ module FormsHelper
     locales = Array(options.delete(:locale) || Current.acp.languages)
     input_html = options.delete(:input_html) || {}
     label_option = options.delete(:label)
+    placeholder_option = options.delete(:placeholder)
     locales.each do |locale|
       klass = form.object.class.name.underscore.gsub('/', '_')
       label =
@@ -10,6 +11,11 @@ module FormsHelper
           label_with_language(
             form.object.class.human_attribute_name(attr.to_s.singularize),
             locale)
+      placeholder = if placeholder_option&.respond_to?(:call)
+        placeholder_option.call(locale)
+      else
+        placeholder_option
+      end
 
       value = form.object.send(attr)[locale]
       if value.respond_to?(:to_trix_html)
@@ -17,6 +23,7 @@ module FormsHelper
       end
       form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
         label: label,
+        placeholder: placeholder,
         input_html: {
           class: "#{klass}_#{attr.to_s.singularize}",
           value: value

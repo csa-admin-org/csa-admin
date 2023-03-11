@@ -5,6 +5,7 @@ class NewsletterMailer < ApplicationMailer
   def newsletter_email
     attach_attchments!
     template_mail(params[:member],
+      from: params[:from],
       to: params[:to],
       stream: 'broadcast',
       **prepared_data)
@@ -42,6 +43,9 @@ class NewsletterMailer < ApplicationMailer
     end
     if params[:to]
       @unsubscribe_token = Newsletter::Audience.encrypt_email(params[:to])
+    end
+    if signature = params.delete(:signature)
+      @signature = signature
     end
     {
       'today' => today,

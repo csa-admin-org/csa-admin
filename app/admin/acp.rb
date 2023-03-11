@@ -208,11 +208,11 @@ ActiveAdmin.register ACP do
           translated_input(f, :email_signatures,
             as: :text,
             required: true,
-            input_html: { rows: 2 })
+            input_html: { rows: 3 })
           translated_input(f, :email_footers,
             as: :text,
             required: true,
-            input_html: { rows: 2 })
+            input_html: { rows: 3 })
         end
       end
     end

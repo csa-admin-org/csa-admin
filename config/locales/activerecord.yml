@@ -1122,6 +1122,14 @@ _:
           _de: Anhänge
           _fr: Pièces jointes
           _it: Allegati
+        from:
+          _de: Absender-Adresse
+          _fr: Adresse d'envoi
+          _it: Indirizzo di spedizione
+        signature:
+          _de: Signatur
+          _fr: Signature
+          _it: Firma
         subject:
           _de: Betreff
           _fr: Sujet
