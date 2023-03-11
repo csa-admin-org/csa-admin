@@ -40,7 +40,7 @@ ActiveAdmin.register Newsletter do
 
   sidebar_handbook_link('newsletters')
 
-  show do |newsletter|
+  show title: ->(n) { n.subject.truncate(40) } do |newsletter|
     columns do
       column do
         attributes_table do
