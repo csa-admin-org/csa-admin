@@ -460,6 +460,11 @@ _:
           _de: Wenn ein Lieferzyklus ausgewählt ist, werden nur die Überschneidungen der Lieferungen des Abonnements, des Zusatzes und des Lieferzyklus berücksichtigt.
           _fr: Si un cycle de livraisons est sélectionné, seule l'intersection des livraisons de l'abonnement, du complément et de ce cycle seront considérées.
           _it: Se si seleziona un ciclo di consegna, verrà considerato solo l'incrocio delle consegne dell'abbonamento, della ricarica e di questo ciclo.
+      newsletter:
+        from_html:
+          _de: Leer lassen, um die Standardadresse zu verwenden, muss mit <i>@%{hostname}</i> enden.
+          _fr: Laisser vide pour utiliser l'adresse par défaut, doit finir par <i>@%{hostname}</i>.
+          _it: Lasciare vuoto per utilizzare l'indirizzo predefinito, deve terminare con <i>@%{hostname}</i>.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.
