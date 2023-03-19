@@ -473,6 +473,12 @@ p {
   margin: 0px auto;
 }
 
+.trix-content img {
+  max-width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
 /*Media Queries ------------------------------ */
 
 @media only screen and (max-width: 600px) {

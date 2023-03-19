@@ -1,8 +1,6 @@
 class Liquid::ContentBlock < Liquid::Block
   attr :id, :title
 
-  EMPTY_RAW_BODY = "<div></div>"
-
   def initialize(_name, markup, _tokens)
     super
     attrs = parse_markup(markup)
@@ -20,7 +18,6 @@ class Liquid::ContentBlock < Liquid::Block
   def render(context)
     content = (context["#{@id}_content"] || super).strip
     return '' if content.blank?
-    return '' if content == EMPTY_RAW_BODY
 
     <<-HTML
       <div class="content-block" id="#{ @id }">

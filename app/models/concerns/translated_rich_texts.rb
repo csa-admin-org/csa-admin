@@ -38,9 +38,6 @@ module TranslatedRichTexts
         define_method("#{text}_as_plain_text") {
           send("#{text}_#{I18n.locale}").to_plain_text
         }
-        define_method("#{text}_as_trix_html") {
-          send("#{text}_#{I18n.locale}").to_trix_html
-        }
         define_method("#{text}=") { |str|
           send("#{text}_#{I18n.locale}=", str)
         }

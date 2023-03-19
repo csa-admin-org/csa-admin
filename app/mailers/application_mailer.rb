@@ -9,7 +9,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def default_url_options
-    { host: Current.acp.email_default_host }
+    { host: Current.acp.email_host }
   end
 
   def content_mail(content, **args)
