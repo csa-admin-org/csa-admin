@@ -44,8 +44,7 @@ div class="mt-8"
               - if Current.acp.share?
                 p == t('.acp_shares_text', price: cur(Current.acp.share_price, precision: 0))
             - if Current.acp.membership_extra_text
-              div.trix
-                == Current.acp.membership_extra_text
+              .trix-content == Current.acp.membership_extra_text
 
           = f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: 'form-disabler#enableInputs form-min-value-enforcer#enforceMinValue'}, no_basket_data: { action: 'form-disabler#disableInputs form-min-value-enforcer#enforceMinValue' }), required: true, label: BasketSize.model_name.human, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2'
 

@@ -179,6 +179,14 @@ class ACP < ApplicationRecord
     }.to_s
   end
 
+  def email_host
+    if Rails.env.development?
+      email_default_host.gsub(/\.\w+\z/, '.test')
+    else
+      email_default_host
+    end
+  end
+
   def members_subdomain
     URI.parse(email_default_host).host.split('.').first
   end

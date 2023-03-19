@@ -176,6 +176,43 @@ input[type="number"].controls-none {
   transition: all 0.75s ease;
 }
 
+.trix-content * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.trix-content .attachment-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.trix-content .attachment-gallery > action-text-attachment,
+.trix-content .attachment-gallery > .attachment {
+  flex: 1 0 33%;
+  padding: 0 0.5em;
+  max-width: 33%;
+}
+
+.trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
+.trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
+.trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
+  flex-basis: 50%;
+  max-width: 50%;
+}
+
+.trix-content .attachment {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+.trix-content img {
+  margin: 0 auto;
+  max-height: 20rem;
+  object-fit: contain;
+}
+
 @tailwind utilities;
 
 /**
@@ -205,24 +242,23 @@ input[type="number"].controls-none {
   }
 
   p a,
-  .trix-content a,
-  .trix a {
+  .trix-content a {
     @apply underline;
   }
 
-  .trix ul li {
+  .trix-content ul li {
     @apply list-disc list-inside;
   }
 
-  .trix ol li {
+  .trix-content ol li {
     @apply list-decimal list-inside;
   }
 
-  .trix h1 {
+  .trix-content h1 {
     @apply my-0 text-lg font-bold text-gray-900 dark:text-gray-100;
   }
 
-  .trix strong {
+  .trix-content strong {
     @apply font-semibold text-gray-600 dark:text-gray-400;
   }
 }
