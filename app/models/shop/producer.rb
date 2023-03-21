@@ -4,6 +4,8 @@ module Shop
 
     include TranslatedRichTexts
 
+    default_scope { order(:name) }
+
     translated_rich_texts :description
 
     has_many :products, class_name: 'Shop::Product'

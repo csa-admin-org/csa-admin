@@ -27,9 +27,7 @@ ActiveAdmin.register Shop::Product do
   filter :tags,
     as: :select,
     collection: -> { Shop::Tag.all }
-  filter :producer,
-    as: :select,
-    collection: -> { Shop::Producer.order(:name) }
+  filter :producer, as: :select
   filter :variant_name_contains,
     label: -> { Shop::ProductVariant.model_name.human(count: 1) },
     as: :string
