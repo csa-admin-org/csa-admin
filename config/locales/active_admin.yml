@@ -27,6 +27,10 @@ _:
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
         _it: Siete sicuri di voler eliminare %{plural_model} ?
       labels:
+        close_shop:
+          _de: Hofladen schließen für
+          _fr: Fermer l'épicerie pour
+          _it: Chiudere la drogheria per
         destroy:
           _de: Löschen
           _fr: Supprimer
@@ -43,6 +47,10 @@ _:
           _de: Unverfügbar machen
           _fr: Rendre indisponible
           _it: Rendere non-disponibile
+        open_shop:
+          _de: Hofladen öffnen für
+          _fr: Ouvrir l'épicerie pour
+          _it: Aprire la drogheria per
         reject:
           _de: Verweigern
           _fr: Refuser
