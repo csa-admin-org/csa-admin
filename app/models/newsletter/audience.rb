@@ -38,12 +38,12 @@ class Newsletter
       end
 
       def emails
-        @emails ||= all_emails - suppressed_emails
+        @emails ||= (all_emails - suppressed_emails).uniq
       end
 
       def suppressed_emails
         @suppressed_emails ||=
-          EmailSuppression.broadcast.active.where(email: all_emails).pluck(:email)
+          EmailSuppression.broadcast.active.where(email: all_emails).pluck(:email).uniq
       end
 
       def members
