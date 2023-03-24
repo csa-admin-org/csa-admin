@@ -61,9 +61,10 @@ class Newsletter
             .joins(:current_membership)
             .where(memberships: { depot_id: value })
         when :delivery_id
+          delivery_id = GlobalID.new(value).model_id
           Member
             .joins(:baskets)
-            .where(baskets: { delivery_id: value })
+            .where(baskets: { delivery_id: delivery_id })
         when :member_id
           Member.where(id: value)
         when :member_state
@@ -115,7 +116,6 @@ class Newsletter
       when :basket_size_id; BasketSize.find_by(id: value)
       when :basket_complement_id; BasketComplement.find_by(id: value)
       when :depot_id; Depot.find_by(id: value)
-      when :delivery_id; ::Delivery.find_by(id: value)
       when :member_state
         name =
           if Member::STATES.include?(value)
@@ -133,7 +133,8 @@ class Newsletter
           id: value,
           name: I18n.t("newsletters.activity_state.#{value}"))
       when :activity_id; Activity.find_by(id: value)
-      when :shop_delivery_gid; GlobalID::Locator.locate(value)
+      when :shop_delivery_gid, :delivery_id
+        GlobalID::Locator.locate(value)
       end
     end
 
