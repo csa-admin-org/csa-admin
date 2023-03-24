@@ -53,7 +53,7 @@ class Newsletter < ApplicationRecord
 
   def emails
     @member_emails ||= if sent?
-      deliveries.pluck(:emails).flatten
+      deliveries.pluck(:emails).flatten.uniq
     else
       audience_segment.emails
     end
@@ -61,7 +61,7 @@ class Newsletter < ApplicationRecord
 
   def suppressed_emails
     @suppressed_emails ||= if sent?
-      deliveries.pluck(:suppressed_emails).flatten
+      deliveries.pluck(:suppressed_emails).flatten.uniq
     else
       audience_segment.suppressed_emails
     end
