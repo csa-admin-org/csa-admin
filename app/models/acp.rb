@@ -51,10 +51,9 @@ class ACP < ApplicationRecord
   validates :email_default_host,
     presence: true,
     format: { with: %r{\Ahttps://.*\z} }
-  validates :email_default_from,
-    presence: true,
-    format: { with: EMAIL_REGEXP },
-    format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
+  validates :email_default_from, presence: true
+  validates :email_default_from, format: { with: EMAIL_REGEXP }
+  validates :email_default_from, format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
   validates :activity_phone, presence: true, if: -> { feature?('activity') }
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
