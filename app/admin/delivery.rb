@@ -23,6 +23,9 @@ ActiveAdmin.register Delivery do
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
+    if Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming')
+      selectable_column
+    end
     column '#', ->(delivery) { auto_link delivery, delivery.number }
     column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium_long).capitalize }
     if BasketComplement.any?
@@ -182,6 +185,18 @@ ActiveAdmin.register Delivery do
     bulk_dates_wdays: [],
     basket_complement_ids: []
 
+  batch_action :destroy, false
+
+  batch_action :open_shop, if: ->(attr) { Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming') } do |selection|
+    Delivery.where(id: selection).update_all(shop_open: true)
+    redirect_back fallback_location: collection_path
+  end
+
+  batch_action :close_shop, if: ->(attr) { Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming') } do |selection|
+    Delivery.where(id: selection).update_all(shop_open: false)
+    redirect_back fallback_location: collection_path
+  end
+
   controller do
     include TranslatedCSVFilename
 
@@ -210,6 +225,7 @@ ActiveAdmin.register Delivery do
     end
   end
 
+  config.batch_actions = true
   config.sort_order = 'date_asc'
   config.per_page = 52
 end
