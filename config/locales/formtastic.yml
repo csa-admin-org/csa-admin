@@ -236,6 +236,10 @@ _:
           _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
       basket_content:
+        basket_size_ids_quantities:
+          _de: Pro g oder pro Stück.
+          _fr: En g ou à la pièce.
+          _it: Per g o per pezzo.
         unit_price:
           _de: Pro kg oder pro Stück.
           _fr: Au kg ou à la pièce.
