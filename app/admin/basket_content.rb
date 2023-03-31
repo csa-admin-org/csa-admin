@@ -210,7 +210,6 @@ ActiveAdmin.register BasketContent do
                 step: 1,
                 min: 0,
                 label: basket_size.name,
-                hint: 'En g ou à la pièce',
                 wrapper_html: { id: nil },
                 input_html: {
                   id: "basket_size_ids_quantities_#{basket_size.id}",
