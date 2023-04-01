@@ -112,4 +112,14 @@ describe EmailSuppression do
     expect(mail.to).to eq [admin.email]
     expect(mail.html_part.body).to include admin.name
   end
+
+
+  specify 'do not notify manual suppression to admins when created' do
+    admin = create(:admin, notifications: ['new_email_suppression'])
+    create(:admin, notifications: [])
+
+    suppress!('outbound', 'a@b.com', 'ManualSuppression', 'Customer')
+
+    expect(AdminMailer.deliveries.size).to be_zero
+  end
 end

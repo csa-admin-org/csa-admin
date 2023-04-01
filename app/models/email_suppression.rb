@@ -32,11 +32,7 @@ class EmailSuppression < ApplicationRecord
 
   def self.unsuppress!(email, stream_id:, origin: nil)
     conditions = { email: email, stream_id: stream_id, origin: origin }
-    suppressions = unsuppressable.where(conditions.compact)
-    if suppressions.any?
-      PostmarkWrapper.delete_suppressions(stream_id, email)
-      suppressions.each(&:unsuppress!)
-    end
+    unsuppressable.where(conditions.compact).find_each(&:unsuppress!)
   end
 
   def self.suppress!(email, stream_id:, **attrs)
@@ -48,7 +44,18 @@ class EmailSuppression < ApplicationRecord
   end
 
   def unsuppress!
+    return unless unsuppressable?
+
+    PostmarkWrapper.delete_suppressions(stream_id, email)
     touch(:unsuppressed_at)
+  end
+
+  def active?
+    unsuppressed_at.nil?
+  end
+
+  def unsuppressable?
+    active? && !spam_complaint?
   end
 
   def owners
@@ -63,10 +70,18 @@ class EmailSuppression < ApplicationRecord
     stream_id == 'broadcast'
   end
 
+  def manual_suppression?
+    reason == 'ManualSuppression'
+  end
+
+  def spam_complaint?
+    reason == 'SpamComplaint'
+  end
+
   private
 
   def notify_admins!
-    return if broadcast?
+    return if manual_suppression?
 
     Admin.notify!(:new_email_suppression, email_suppression: self)
   end

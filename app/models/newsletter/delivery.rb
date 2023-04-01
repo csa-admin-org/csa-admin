@@ -32,7 +32,7 @@ class Newsletter
 
     def store_emails
       self.suppressed_emails =
-        EmailSuppression.broadcast.active.where(email: member.emails_array).pluck(:email).uniq
+        EmailSuppression.active.where(email: member.emails_array).pluck(:email).uniq
       self.emails = member.emails_array - suppressed_emails
     end
 

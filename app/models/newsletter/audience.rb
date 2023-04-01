@@ -43,7 +43,7 @@ class Newsletter
 
       def suppressed_emails
         @suppressed_emails ||=
-          EmailSuppression.broadcast.active.where(email: all_emails).pluck(:email).uniq
+          EmailSuppression.active.where(email: all_emails).pluck(:email).uniq
       end
 
       def members

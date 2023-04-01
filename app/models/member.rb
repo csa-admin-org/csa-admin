@@ -119,7 +119,7 @@ class Member < ApplicationRecord
 
   def billing_emails
     if billing_email
-      EmailSuppression.outbound.active.exists?(email: billing_email) ? [] : [billing_email]
+      EmailSuppression.active.exists?(email: billing_email) ? [] : [billing_email]
     else
       active_emails
     end
