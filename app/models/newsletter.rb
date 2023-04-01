@@ -51,6 +51,14 @@ class Newsletter < ApplicationRecord
     end
   end
 
+  def all_members
+    @all_members ||= if sent?
+      members
+    else
+      audience_segment.members
+    end
+  end
+
   def emails
     @member_emails ||= if sent?
       deliveries.pluck(:emails).flatten.uniq

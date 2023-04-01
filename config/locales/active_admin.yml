@@ -878,6 +878,10 @@ _:
               _de: "%{count} die in Rechnung gestellt werden"
               _fr: "%{count} qui seront facturées"
               _it: "%{count} che saranno fatturati"
+        active_suppression_reasons:
+          _de: Status (aktuell)
+          _fr: Statut (actuel)
+          _it: Stato (attuale)
         become_member:
           _de: Zugang zum Konto
           _fr: Accéder au compte
@@ -1031,6 +1035,10 @@ _:
           _de: Keine Einzahlung
           _fr: Aucun paiement
           _it: Nessun pagamento
+        none:
+          _de: Keine
+          _fr: Aucun
+          _it: Nessun
         notes:
           _de: Notizen
           _fr: Notes
@@ -1085,9 +1093,21 @@ _:
           _fr: voir plus
           _it: vedi altro
         subscribed_emails:
-          _de: abonnierte Emails
-          _fr: emails abonnés
-          _it: iscritti all'e-mail
+          _de: aktive emails
+          _fr: emails actifs
+          _it: email attive
+        suppressed_emails:
+          _de: Ignorierte Emails (%{count})
+          _fr: Emails ignorés (%{count})
+          _it: Email ignorate (%{count})
+        suppressed_emails_description:
+          _de: Die folgenden Emails werden beim Versand der Newsletter ignoriert.
+          _fr: Les emails suivants seront ignorés lors de l'envoi de la newsletter.
+          _it: Le seguenti email saranno ignorate durante l'invio della newsletter.
+        suppressed_emails_sent_description:
+          _de: Die folgenden Emails wurden beim Versand der Newsletter ignoriert.
+          _fr: Les emails suivants ont été ignorés lors de l'envoi de la newsletter.
+          _it: Le seguenti email sono state ignorate durante l'invio della newsletter.
         total:
           _de: Gesamt %{number}
           _fr: Total %{number}
@@ -1592,6 +1612,10 @@ _:
         _de: bevorsetehende
         _fr: à venir
         _it: imminente
+      hard_bounce:
+        _de: ungültig (hard bounce)
+        _fr: invalide (hard bounce)
+        _it: non valido (hard bounce)
       inactive:
         _de: inaktiv
         _fr: inactif
@@ -1600,6 +1624,10 @@ _:
         _de: manuell
         _fr: manuel
         _it: manuale
+      manual_suppression:
+        _de: abgemeldet
+        _fr: désinscrit
+        _it: disiscritto
       open:
         _de: offene
         _fr: ouverte
@@ -1640,6 +1668,10 @@ _:
         _de: Gesendet
         _fr: Envoyée
         _it: Inviato
+      spam_complaint:
+        _de: Beschwerde (spam complaint)
+        _fr: plainte (spam complaint)
+        _it: reclamo (spam complaint)
       support:
         _de: unterstützung
         _fr: soutien
