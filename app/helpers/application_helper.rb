@@ -24,18 +24,22 @@ module ApplicationHelper
   end
 
   def display_email_with_link(arbre, email)
-    suppressions = EmailSuppression.active.outbound.where(email: email)
+    suppressions =
+      EmailSuppression
+        .active
+        .where(email: email)
+        .where.not(reason: 'ManualSuppression')
     if suppressions.any?
       arbre.s(email)
       suppressions.each do |suppression|
         arbre.status_tag suppression.reason.underscore
-      end
-      if suppressions.unsuppressable.any?
-        arbre.span do
-          link_to(t('helpers.email_suppressions.destroy'), suppressions.first,
-            method: :delete,
-            class: 'button',
-            data: { confirm: t('helpers.email_suppressions.destroy_confirm') })
+        if suppression.unsuppressable?
+          arbre.span do
+            link_to(t('helpers.email_suppressions.destroy'), suppression,
+              method: :delete,
+              class: 'button',
+              data: { confirm: t('helpers.email_suppressions.destroy_confirm') })
+          end
         end
       end
     else

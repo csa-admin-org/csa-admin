@@ -11,8 +11,8 @@ describe 'Newsletter subscriptions' do
 
       expect {
         visit "/newsletters/unsubscribe/#{token}"
-      }.to change { EmailSuppression.active.broadcast.count }.by(1)
-      expect(EmailSuppression.active.broadcast.last).to have_attributes(
+      }.to change { EmailSuppression.active.count }.by(1)
+      expect(EmailSuppression.active.last).to have_attributes(
         email: email,
         reason: 'ManualSuppression',
         origin: 'Customer')
@@ -31,7 +31,7 @@ describe 'Newsletter subscriptions' do
 
       expect {
         visit "/newsletters/unsubscribe/#{token}"
-      }.to change { EmailSuppression.active.broadcast.count }.by(1)
+      }.to change { EmailSuppression.active.count }.by(1)
 
       expect(page).to have_content '(j...e@do...om)'
     end
@@ -39,7 +39,7 @@ describe 'Newsletter subscriptions' do
     specify 'with invalid token' do
       expect {
         visit "/newsletters/unsubscribe/foo"
-      }.not_to change { EmailSuppression.active.broadcast.count }
+      }.not_to change { EmailSuppression.active.count }
 
       expect(page.status_code).to eq 404
       expect(page).to have_content "Ce lien a expiré ou n'est pas valide."
@@ -51,7 +51,7 @@ describe 'Newsletter subscriptions' do
 
       expect {
         visit "/newsletters/unsubscribe/#{token}"
-      }.not_to change { EmailSuppression.active.broadcast.count }
+      }.not_to change { EmailSuppression.active.count }
 
       expect(page.status_code).to eq 404
       expect(page).to have_content "Ce lien a expiré ou n'est pas valide."
@@ -65,9 +65,9 @@ describe 'Newsletter subscriptions' do
 
     expect {
       visit "/newsletters/unsubscribe/#{token}"
-    }.to change { EmailSuppression.active.broadcast.count }.by(1)
+    }.to change { EmailSuppression.active.count }.by(1)
 
-    suppression = EmailSuppression.active.broadcast.last
+    suppression = EmailSuppression.active.last
     expect(suppression).to have_attributes(
       email: email,
       reason: 'ManualSuppression',
@@ -76,7 +76,7 @@ describe 'Newsletter subscriptions' do
 
     expect {
       click_button "Je m'inscris à nouveau."
-    }.to change { EmailSuppression.active.broadcast.count }.by(-1)
+    }.to change { EmailSuppression.active.count }.by(-1)
     expect(suppression.reload.unsuppressed_at).to be_present
 
     expect(page)
