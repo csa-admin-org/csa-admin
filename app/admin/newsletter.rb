@@ -48,10 +48,10 @@ ActiveAdmin.register Newsletter do
           row(:subject)
           row(:audience) {
             segment = newsletter.audience_segment
-            members_count = newsletter.members_count
-            "#{audience_name(segment.key)}: #{segment.name} " +
-              "(#{members_count} #{Member.model_name.human(count: members_count)},
-              #{newsletter.emails.size}/#{newsletter.emails.size + newsletter.suppressed_emails.size} #{t('.subscribed_emails')})"
+            "#{audience_name(segment.key)}: #{segment.name}"
+          }
+          row(Member.model_name.human(count: 2)) {
+            "#{newsletter.members_count} (#{newsletter.emails.size} #{t('.subscribed_emails')})"
           }
           row(:from) { newsletter.from || Current.acp.email_default_from.html_safe }
           row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
@@ -69,6 +69,41 @@ ActiveAdmin.register Newsletter do
           end
           row(:created_at) { I18n.l(newsletter.created_at, format: :medium) }
           row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
+        end
+      end
+      column do
+        panel t('.suppressed_emails', count: newsletter.suppressed_emails.size) do
+          if newsletter.suppressed_emails.any?
+            members = newsletter.all_members
+            active_suppressions = EmailSuppression.active.where(email: newsletter.suppressed_emails)
+            table_for(newsletter.suppressed_emails) do
+              column(:email) { |email|
+                member = members.find { |m| m.emails_array.include?(email) }
+                if member
+                  link_to email, member
+                else
+                  email
+                end
+              }
+              column(t('.active_suppression_reasons')) { |email|
+                reasons = active_suppressions.select { |s| s.email == email }.map(&:reason).uniq
+                if reasons.any?
+                  content_tag :div do
+                    reasons.map { |r| status_tag(r.underscore) }
+                  end
+                else
+                  status_tag(:active)
+                end
+              }
+            end
+            if newsletter.sent?
+              para(em t('.suppressed_emails_sent_description'))
+            else
+              para(em t('.suppressed_emails_description'))
+            end
+          else
+            em t('.none')
+          end
         end
       end
     end
