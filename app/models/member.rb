@@ -48,6 +48,7 @@ class Member < ApplicationRecord
   has_many :waiting_basket_complements,
     source: :basket_complement,
     through: :members_basket_complements
+  has_many :newsletter_deliveries, class_name: 'Newsletter::Delivery'
 
   accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
