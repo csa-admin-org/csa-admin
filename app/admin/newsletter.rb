@@ -82,17 +82,22 @@ ActiveAdmin.register Newsletter do
                 if member
                   link_to email, member
                 else
-                  email
+                  content_tag :strike, email
                 end
               }
               column(t('.active_suppression_reasons')) { |email|
+                member = members.find { |m| m.emails_array.include?(email) }
                 reasons = active_suppressions.select { |s| s.email == email }.map(&:reason).uniq
-                if reasons.any?
-                  content_tag :div do
-                    reasons.map { |r| status_tag(r.underscore) }
+                if member
+                  if reasons.any?
+                    content_tag :div do
+                      reasons.map { |r| status_tag(r.underscore) }
+                    end
+                  else
+                    status_tag(:active)
                   end
                 else
-                  status_tag(:active)
+                  status_tag(:deleted)
                 end
               }
             end

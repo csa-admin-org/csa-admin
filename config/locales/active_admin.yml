@@ -1600,6 +1600,10 @@ _:
         _de: geschlossene
         _fr: fermée
         _it: chiuso
+      deleted:
+        _de: gelöscht
+        _fr: supprimé
+        _it: eliminato
       draft:
         _de: Entwurf
         _fr: Brouillon
