@@ -33,9 +33,9 @@ pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconfli
 pin "tom-select" # @2.1.0
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.45.0/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.45.0/esm/index.js"
-pin "@sentry/replay", to: "https://ga.jspm.io/npm:@sentry/replay@7.45.0/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.45.0/esm/index.js"
-pin "@sentry-internal/tracing", to: "https://ga.jspm.io/npm:@sentry-internal/tracing@7.45.0/esm/index.js"
-pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.45.0/esm/buildPolyfills/index.js"
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.47.0/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.47.0/esm/index.js"
+pin "@sentry/replay", to: "https://ga.jspm.io/npm:@sentry/replay@7.47.0/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.47.0/esm/index.js"
+pin "@sentry-internal/tracing", to: "https://ga.jspm.io/npm:@sentry-internal/tracing@7.47.0/esm/index.js"
+pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.47.0/esm/buildPolyfills/index.js"
