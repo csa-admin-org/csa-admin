@@ -164,10 +164,17 @@ describe ActivityParticipation, freeze: '2021-06-15' do
   end
 
   describe '#destroyable?' do
-    it 'always returns true by the default' do
+    it 'always returns true by the default when not the same day' do
       activity = create(:activity, date: 2.days.from_now)
       participation = create(:activity_participation, activity: activity, created_at: 25.hours.ago)
       expect(participation).to be_destroyable
+    end
+
+    it 'always returns false by the default when the same day' do
+      Current.acp.update!(activity_participation_deletion_deadline_in_days: nil)
+      activity = create(:activity, date: Date.today)
+      participation = create(:activity_participation, activity: activity, created_at: 25.hours.ago)
+      expect(participation).not_to be_destroyable
     end
 
     it 'returns true when a deletion deadline is set and creation is in the last 24h' do
