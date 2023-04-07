@@ -35,8 +35,7 @@ module Billing
 
     def create_payment!(data)
       return if Payment.where(fingerprint: data.fingerprint).exists?
-
-      invoice = Invoice.find(data.invoice_id)
+      return unless invoice = find_invoice(data)
 
       Payment.create!(
         invoice: invoice,
@@ -51,6 +50,27 @@ module Billing
       Sentry.capture_exception(e, extra: { data: data })
     end
 
+    def find_invoice(data)
+      if data.member_id && !Member.exists?(data.member_id)
+        log(:unknown_member, data)
+        return
+      end
+
+      invoices =
+        if data.member_id
+          Member.find(data.member_id).invoices
+        else
+          Invoice.all
+        end
+
+      unless invoice = invoices.find_by(id: data.invoice_id)
+        log(:unknown_invoice, data)
+        return
+      end
+
+      invoice
+    end
+
     def ensure_recent_payments!
       if Invoice.not_canceled.sent.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).any? &&
           Payment.qr.where('created_at > ?', NO_RECENT_PAYMENTS_SINCE.ago).none?
@@ -62,6 +82,10 @@ module Billing
           })
         end
       end
+    end
+
+    def log(event, data)
+      Rails.logger.info "payment_processing #{event} #{data.fingerprint}"
     end
   end
 end

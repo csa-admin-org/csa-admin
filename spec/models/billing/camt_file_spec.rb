@@ -7,9 +7,10 @@ describe Billing::CamtFile do
       expect(file.payments_data).to eq([
         Billing::CamtFile::PaymentData.new(
           invoice_id: 1,
+          member_id: 42,
           amount: 1,
           date: Date.new(2020, 11, 13, 11),
-          fingerprint: '2020-11-13-ZV20201113/371247/2-000000000000000000000000011')
+          fingerprint: '2020-11-13-ZV20201113/371247/2-000000000000000420000000011')
       ])
     end
 
