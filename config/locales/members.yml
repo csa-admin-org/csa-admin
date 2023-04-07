@@ -156,6 +156,10 @@ _:
           _de: Kontakt aufnehmen
           _fr: contacter
           _it: contattaci
+        edit_activity_participation_explanation:
+          _de: Um eine Anmeldung zu ändern, brechen Sie sie bitte ab und melden Sie sich neu an.
+          _fr: Pour modifier une inscription, merci de l'annuler et de vous réinscrire.
+          _it: Per modificare una registrazione, annullarla e registrarsi nuovamente.
         extra_coming_activity_participations:
           _de: "... und noch weitere %{count} bis zum %{last_date}!"
           _fr: "... et encore %{count} autres jusqu'au %{last_date}!"

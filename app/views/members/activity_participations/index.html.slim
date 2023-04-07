@@ -46,6 +46,9 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
     - if @coming_participations.any? { |p| !p.destroyable? }
       p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
         == t_activity('.coming_activity_participation_cannot_be_cancel_explanation', days_count: Current.acp.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
+    - else
+      p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+        == t('.edit_activity_participation_explanation')
 
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t_activity('.past_activity_participations')
