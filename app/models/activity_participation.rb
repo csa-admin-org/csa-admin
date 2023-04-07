@@ -88,8 +88,8 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def destroyable?
-    deadline = Current.acp.activity_participation_deletion_deadline_in_days
-    !deadline || created_at > 1.day.ago || activity.date > deadline.days.from_now
+    deadline = Current.acp.activity_participation_deletion_deadline_in_days || 0
+    created_at > 1.day.ago || activity.date > deadline.days.from_now.to_date
   end
 
   def validate!(validator)
