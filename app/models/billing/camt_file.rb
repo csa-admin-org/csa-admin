@@ -24,7 +24,9 @@ module Billing
                 if transaction.credit?
                   bank_ref = transaction.bank_reference
                   if valid_ref?(ref)
+                    member_id = ref.last(20).first(10).to_i
                     PaymentData.new(
+                      member_id: member_id.zero? ? nil : member_id,
                       invoice_id: ref.last(10).first(9).to_i,
                       amount: transaction.amount,
                       date: date,
