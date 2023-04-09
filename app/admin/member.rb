@@ -5,7 +5,7 @@ ActiveAdmin.register Member do
   scope :pending
   scope :waiting
   scope :active, default: true
-  scope :support
+  scope :support, if: -> { Current.acp.member_support? }
   scope :inactive
 
   filter :id

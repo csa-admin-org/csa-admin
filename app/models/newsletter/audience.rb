@@ -71,7 +71,6 @@ class Newsletter
           case value
           when 'all'; Member.not_pending
           when 'not_inactive'; Member.not_pending.not_inactive
-          when 'waiting_active'; Member.where(state: %w[waiting active])
           else; Member.where(state: value)
           end
         when :invoice_state
@@ -183,7 +182,8 @@ class Newsletter
 
     def member_state_records
       states = Member::STATES - %w[pending]
-      states += %w[all not_inactive waiting_active]
+      states -= %w[support] unless Current.acp.member_support?
+      states += %w[all not_inactive]
       states.map { |s| record_for(:member_state, s) }
     end
 
