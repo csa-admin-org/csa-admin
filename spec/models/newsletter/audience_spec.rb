@@ -38,9 +38,6 @@ describe Newsletter::Audience do
     segment = segment_for('member_state::not_inactive')
     expect(segment.members).to contain_exactly(waiting, active, support)
 
-    segment = segment_for('member_state::waiting_active')
-    expect(segment.members).to contain_exactly(waiting, active)
-
     segment = segment_for('member_state::waiting')
     expect(segment.members).to contain_exactly(waiting)
 

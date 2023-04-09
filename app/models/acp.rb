@@ -255,6 +255,10 @@ class ACP < ApplicationRecord
     fiscal_year_for(date).month(date)
   end
 
+  def member_support?
+    annual_fee? || share?
+  end
+
   def annual_fee?
     annual_fee&.positive?
   end

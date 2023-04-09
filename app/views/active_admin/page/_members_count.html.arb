@@ -1,5 +1,7 @@
 ul class: 'counts' do
-  %i[pending waiting active support].each do |scope|
+  states = %i[pending waiting active]
+  states += %i[support] if Current.acp.member_support?
+  states.each do |scope|
     li do
       count = Member.send(scope).count
       a href: members_path(scope: scope) do

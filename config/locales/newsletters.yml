@@ -18,10 +18,6 @@ _:
         _de: Alle außer inaktiv
         _fr: Tous sauf inactifs
         _it: Tutti tranne inattivi
-      waiting_active:
-        _de: Warteliste und aktive
-        _fr: Liste d'attente et actifs
-        _it: Lista d'attesa e attivi
     segment_unknown:
       _de: Unbekannt
       _fr: Inconnu

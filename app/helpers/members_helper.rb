@@ -47,7 +47,7 @@ module MembersHelper
         }.merge(data)
       ]
     }
-    if no_basket_option && (Current.acp.annual_fee? || Current.acp.share?)
+    if no_basket_option && (Current.acp.member_support?)
       col << [
         collection_text(t('helpers.no_basket_size'),
           details:
