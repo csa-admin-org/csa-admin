@@ -296,6 +296,11 @@ ActiveAdmin.register Newsletter do
       end
     end
 
+    def apply_sorting(chain)
+      params[:order] ||= 'sent_at_desc' if params[:scope].in?(%w[all sent])
+      super
+    end
+
     def assign_attributes(resource, attributes)
       attrs = Array(attributes).first
       template_id = attrs[:newsletter_template_id]
