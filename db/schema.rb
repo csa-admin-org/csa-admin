@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_11_121319) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_07_090420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -648,6 +648,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_121319) do
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_newsletter_deliveries_on_member_id"
     t.index ["newsletter_id"], name: "index_newsletter_deliveries_on_newsletter_id"
+  end
+
+  create_table "newsletter_segments", force: :cascade do |t|
+    t.jsonb "titles", default: {}, null: false
+    t.integer "depot_ids", default: [], null: false, array: true
+    t.integer "basket_size_ids", default: [], null: false, array: true
+    t.integer "basket_complement_ids", default: [], null: false, array: true
+    t.integer "deliveries_cycle_ids", default: [], null: false, array: true
+    t.string "renewal_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "newsletter_templates", force: :cascade do |t|

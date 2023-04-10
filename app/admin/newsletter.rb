@@ -15,6 +15,9 @@ ActiveAdmin.register Newsletter do
   scope :draft, default: true
   scope :sent
 
+  action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
+    link_to Newsletter.human_attribute_name(:audience), newsletter_segments_path
+  end
   action_item :templates, only: :index do
     link_to Newsletter::Template.model_name.human(count: 2), newsletter_templates_path
   end

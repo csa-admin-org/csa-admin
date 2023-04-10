@@ -3,6 +3,13 @@ require 'rounding'
 class Membership < ApplicationRecord
   attr_accessor :renewal_decision
 
+  RENEWAL_STATES = %w[
+    renewal_enabled
+    renewal_opened
+    renewal_canceled
+    renewed
+  ].freeze
+
   attribute :new_config_from, :date
 
   belongs_to :member

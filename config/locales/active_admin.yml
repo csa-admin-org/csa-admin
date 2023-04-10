@@ -1535,6 +1535,10 @@ _:
         _de: Import
         _fr: Importation
         _it: Importazione
+      info:
+        _de: Info
+        _fr: Info
+        _it: Info
       overdue_notice_not_sent_warning:
         _de: Mahnungen deaktiviert!
         _fr: Rappels désactivés!

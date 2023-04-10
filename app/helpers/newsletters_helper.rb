@@ -10,6 +10,7 @@ module NewslettersHelper
 
   def audience_name(key)
     case key
+    when :segment_id; t('newsletters.segment.title')
     when :basket_size_id; BasketSize.model_name.human
     when :basket_complement_id; BasketComplement.model_name.human
     when :depot_id; Depot.model_name.human

@@ -18,6 +18,19 @@ _:
         _de: Alle außer inaktiv
         _fr: Tous sauf inactifs
         _it: Tutti tranne inattivi
+    segment:
+      criterias:
+        _de: Kriterien
+        _fr: Critères
+        _it: Criteri
+      info_html:
+        _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten immer <b>nur für aktive Mitglieder</b> und für die <b>aktuelle oder zukünftige Abonnementkonfiguration</b>.
+        _fr: Les segments d'audience vous permettre de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent toujours <b>uniquement aux membres actifs</b> et à la configuration de leur <b>abonnement actuel ou future</b>.
+        _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri specifici. Questi criteri si applicano sempre <b>solo ai membri attivi</b> e alla configurazione del loro <b>abbonamento attuale o futuro</b>.
+      title:
+        _de: Segment
+        _fr: Segment
+        _it: Segmento
     segment_unknown:
       _de: Unbekannt
       _fr: Inconnu

@@ -21,7 +21,7 @@ class Ability
       Shop::SpecialDelivery,
       Shop::Tag
     ],
-    newsletter: [Newsletter, Newsletter::Template]
+    newsletter: [Newsletter, Newsletter::Segment, Newsletter::Template]
   }
 
   def initialize(admin)
@@ -144,6 +144,9 @@ class Ability
     can :update, writable_models, can_update?: true
     can :destroy, writable_models, can_destroy?: true
     can :batch_action, writable_models
+
+    # TODO: Remove once segment is fully implemented
+    cannot :manage, Newsletter::Segment unless admin.master?
   end
 
   private
