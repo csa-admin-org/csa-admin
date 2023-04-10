@@ -97,12 +97,7 @@ module ApplicationHelper
   end
 
   def renewal_states_collection
-    %i[
-      renewal_enabled
-      renewal_opened
-      renewal_canceled
-      renewed
-    ].map { |state|
+    Membership::RENEWAL_STATES.map { |state|
       [I18n.t("active_admin.status_tag.#{state}").capitalize, state]
     }
   end

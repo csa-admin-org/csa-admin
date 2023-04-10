@@ -344,6 +344,10 @@ _:
       _de: Automatische Rechnungsstellung
       _fr: Facturation automatique
       _it: Fatturazione automatica
+    renewal_state:
+      _de: Verlängerung
+      _fr: Renouvellement
+      _it: Rinnovo
     sent_at:
       _de: Gesendet am
       _fr: Envoyé le

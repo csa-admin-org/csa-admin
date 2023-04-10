@@ -469,6 +469,23 @@ _:
           _de: Leer lassen, um die Standardadresse zu verwenden, muss mit <i>@%{hostname}</i> enden.
           _fr: Laisser vide pour utiliser l'adresse par défaut, doit finir par <i>@%{hostname}</i>.
           _it: Lasciare vuoto per utilizzare l'indirizzo predefinito, deve terminare con <i>@%{hostname}</i>.
+      newsletter/segment:
+        basket_complement_ids:
+          _de: Alle Warenkorbzusätze sind enthalten, wenn keiner ausgewählt ist.
+          _fr: Tous les compléments de panier sont inclus si aucun n'est sélectionné.
+          _it: Tutti i complementi del cestino sono inclusi se nessuno è selezionato.
+        basket_size_ids:
+          _de: Alle Warenkorbgrößen sind enthalten, wenn keine ausgewählt ist.
+          _fr: Toutes les tailles de panier sont incluses si aucune n'est sélectionnée.
+          _it: Tutte le dimensioni del cestino sono incluse se nessuna è selezionata.
+        deliveries_cycle_ids:
+          _de: Alle Zyklen von Lieferungen sind enthalten, wenn keiner ausgewählt ist.
+          _fr: Tous les cycles de livraison sont inclus si aucun n'est sélectionné.
+          _it: Tutti i cicli di consegna sono inclusi se nessuno è selezionato.
+        depot_ids:
+          _de: Alle Depots sind enthalten, wenn keines ausgewählt ist.
+          _fr: Tous les dépôts sont inclus si aucun n'est sélectionné.
+          _it: Tutti i punti di ritiro sono inclusi se nessuno è selezionato.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.

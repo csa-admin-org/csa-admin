@@ -1084,10 +1084,6 @@ _:
           _de: Mahnung gesendet am
           _fr: Rappel envoyé le
           _it: Promemoria inviato il
-        renewal_state:
-          _de: Verlängerung
-          _fr: Renouvellement
-          _it: Rinnovo
         renewed:
           _de: Erneuert
           _fr: Renouvelé
@@ -1122,6 +1118,10 @@ _:
           _de: Anhänge
           _fr: Pièces jointes
           _it: Allegati
+        audience:
+          _de: Audienz
+          _fr: Audience
+          _it: Pubblico
         from:
           _de: Absender-Adresse
           _fr: Adresse d'envoi
@@ -1569,6 +1569,15 @@ _:
           _de: Anhänge
           _fr: Pièces jointes
           _it: Allegati
+      newsletter/segment:
+        one:
+          _de: Audienzsegment
+          _fr: Segment d'audience
+          _it: Segmento di pubblico
+        other:
+          _de: Audienzsegmente
+          _fr: Segments d'audience
+          _it: Segmenti di pubblico
       newsletter/template:
         one:
           _de: Vorlage

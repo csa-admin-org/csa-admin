@@ -48,6 +48,9 @@ class Newsletter
 
       def members
         case key
+        when :segment_id
+          segment = Newsletter::Segment.find_by(id: value)
+          segment&.members || []
         when :basket_size_id
           Member
             .joins(:current_membership)
@@ -112,6 +115,7 @@ class Newsletter
 
     def record_for(key, value)
       case key
+      when :segment_id; Newsletter::Segment.find_by(id: value)
       when :basket_size_id; BasketSize.find_by(id: value)
       when :basket_complement_id; BasketComplement.find_by(id: value)
       when :depot_id; Depot.find_by(id: value)
@@ -139,6 +143,7 @@ class Newsletter
 
     def segments
       base = {
+        segment_id: Newsletter::Segment.all,
         member_state: member_state_records.sort_by(&:name),
         delivery_id: ::Delivery.between(1.week.ago..).limit(8),
         depot_id: Depot.used.reorder(:name),
