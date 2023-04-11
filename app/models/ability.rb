@@ -144,9 +144,6 @@ class Ability
     can :update, writable_models, can_update?: true
     can :destroy, writable_models, can_destroy?: true
     can :batch_action, writable_models
-
-    # TODO: Remove once segment is fully implemented
-    cannot :manage, Newsletter::Segment unless admin.master?
   end
 
   private
