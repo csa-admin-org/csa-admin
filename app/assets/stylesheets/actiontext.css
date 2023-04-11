@@ -74,6 +74,10 @@ trix-editor figcaption {
   display: none;
 }
 
+trix-editor.long-text {
+  min-height: 15rem;
+}
+
 .error trix-editor {
   border-width: 2px;
   border-color: #ff2600;

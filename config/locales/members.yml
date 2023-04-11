@@ -457,6 +457,12 @@ _:
               _de: Vielen Dank für Ihre Bestellung!
               _fr: Merci pour votre commande!
               _it: Grazie per il vostro ordine!
+    infos:
+      show:
+        title:
+          _de: Informationen
+          _fr: Informations
+          _it: Informazioni
     members:
       new:
         acp_shares_text:
