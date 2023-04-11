@@ -547,17 +547,17 @@ _:
           _fr: Facture QR
           _it: Fattura QR
         mailer:
-          _de: Emails
-          _fr: Emails
+          _de: Email
+          _fr: Email
           _it: E-mail
         mailer_text_html:
-          _de: Diese Einstellungen werden von <a href="/mail_templates">Email-Vorlagen</a> verwendet.
-          _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a>.
-          _it: Questi parametri sono utilizzati dai <a href="/mail_templates">templates email</a>.
-        member_section:
-          _de: Registrierungsformular
-          _fr: Formulaire d'inscription
-          _it: Formulario d'iscrizione
+          _de: Diese Einstellungen werden von <a href="/mail_templates">Email-Vorlagen</a> und <a href="/newsletters">Newsletter</a> verwendet.
+          _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a> et <a href="/newsletters">les newsletters</a>.
+          _it: Queste impostazioni sono utilizzate dai <a href="/mail_templates">modelli email</a> e dalle <a href="/newsletters">newsletter</a>.
+        member_account:
+          _de: Mitgliederkonto
+          _fr: Compte membre
+          _it: Account membro
         members_participation:
           _de: Beteiligung der Mitglieder
           _fr: Participation des membres
@@ -586,6 +586,14 @@ _:
           _de: deaktiviert
           _fr: désactivée
           _it: disabilitato
+        registration:
+          _de: Anmeldung
+          _fr: Inscription
+          _it: Iscrizione
+        registration_form:
+          _de: Registrierungsformular
+          _fr: Formulaire d'inscription
+          _it: Formulario d'iscrizione
         settings:
           _de: Einstellungen
           _fr: Paramètres

@@ -1,6 +1,12 @@
 footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-600"
   div class="mx-auto #{'md:mx-0' if current_member}"
-    ul class="flex flex-row flex-wrap #{'md:flex-col' if current_member} "
+    ul class="flex flex-row flex-wrap #{'flex-col' if current_member} "
+      - if current_member && Current.acp.member_information_text?
+        li class="mx-auto px-4 md:mx-0 md:px-0 mb-4"
+          = link_to members_info_path, class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do
+            = inline_svg_tag 'members/information-circle.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+            span class='ml-2'
+              = t('.information')
       - if Current.acp.phone?
         li class="mx-auto px-4 #{'md:mx-0 md:px-0' if current_member}"
           = link_to "tel:#{Current.acp.phone.phony_formatted(spaces: '', format: :international)}", class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do

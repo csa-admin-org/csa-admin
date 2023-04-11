@@ -57,6 +57,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "basket_price_extra_label_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_detail_#{l}" },
     *I18n.available_locales.map { |l| "membership_update_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_information_text_#{l}" },
     billing_year_divisions: [],
     languages: [],
     features: []
@@ -134,20 +135,7 @@ ActiveAdmin.register ACP do
           handbook_button(self, 'billing')
         end
       end
-      tab t('.membership_renewal'), id: 'membership_renewal' do
-        f.inputs do
-          para t('.membership_renewal_text_html'), class: 'description'
-          translated_input(f, :open_renewal_texts,
-            as: :action_text,
-            required: false,
-            hint: t('formtastic.hints.acp.open_renewal_text'))
-          f.input :open_renewal_reminder_sent_after_in_days
-          f.input :membership_renewal_depot_update
-
-          handbook_button(self, 'membership_renewal')
-        end
-      end
-      tab t('.member_section'), id: 'registration' do
+      tab t('.registration'), id: 'registration' do
         f.inputs do
           translated_input(f, :terms_of_service_urls, required: false)
           translated_input(f, :statutes_urls, required: false)
@@ -175,10 +163,19 @@ ActiveAdmin.register ACP do
             a href: new_members_member_url(subdomain: Current.acp.members_subdomain), class: 'action' do
               span do
                 span inline_svg_tag('admin/external-link.svg', size: '20', title: t('layouts.footer.handbook'))
-                span t('.member_section')
+                span t('.registration_form')
               end
             end.html_safe
           end
+        end
+      end
+      tab t('.member_account'), id: 'member_account' do
+        f.inputs do
+          translated_input(f, :member_information_texts,
+            hint: t('formtastic.hints.acp.member_information_text'),
+            required: false,
+            as: :action_text,
+            input_html: { class: 'long-text' })
         end
       end
       tab Membership.model_name.human, id: 'membership' do
@@ -192,6 +189,19 @@ ActiveAdmin.register ACP do
             hint: t('formtastic.hints.acp.membership_update_text'))
 
           f.input :basket_update_limit_in_days, step: 1
+        end
+      end
+      tab t('.membership_renewal'), id: 'membership_renewal' do
+        f.inputs do
+          para t('.membership_renewal_text_html'), class: 'description'
+          translated_input(f, :open_renewal_texts,
+            as: :action_text,
+            required: false,
+            hint: t('formtastic.hints.acp.open_renewal_text'))
+          f.input :open_renewal_reminder_sent_after_in_days
+          f.input :membership_renewal_depot_update
+
+          handbook_button(self, 'membership_renewal')
         end
       end
       tab t('.delivery_pdf') do

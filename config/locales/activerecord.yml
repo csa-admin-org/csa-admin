@@ -159,6 +159,10 @@ _:
           _de: Logo URL
           _fr: Logo URL
           _it: Logo URL
+        member_information_text:
+          _de: Informationen
+          _fr: Informations
+          _it: Informazioni
         membership_depot_update_allowed:
           _de: Änderung des Depots erlauben
           _fr: Permettre la modification du dépôt

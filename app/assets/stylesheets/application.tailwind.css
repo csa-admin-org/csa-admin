@@ -247,11 +247,11 @@ input[type="number"].controls-none {
   }
 
   .trix-content ul li {
-    @apply list-disc list-inside;
+    @apply list-disc list-outside ml-6;
   }
 
   .trix-content ol li {
-    @apply list-decimal list-inside;
+    @apply list-decimal list-outside ml-6;
   }
 
   .trix-content h1 {
