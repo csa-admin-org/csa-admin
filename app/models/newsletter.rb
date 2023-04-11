@@ -4,6 +4,7 @@ class Newsletter < ApplicationRecord
 
   ATTACHMENTS_MAXIMUM_SIZE = 5.megabytes
 
+  translated_attributes :audience_name
   translated_attributes :signature
   translated_attributes :subject, required: true
 
@@ -37,6 +38,14 @@ class Newsletter < ApplicationRecord
 
   def audience_segment
     @audience_segment ||= Audience::Segment.parse(audience)
+  end
+
+  def audience_name
+    if sent?
+      audience_name_with_fallback
+    else
+      Audience.name(audience_segment)
+    end
   end
 
   def signatures
@@ -92,9 +101,10 @@ class Newsletter < ApplicationRecord
 
     transaction do
       self[:liquid_data_preview_yamls] = liquid_data_preview_yamls
-      update!(
-        template_contents: template.contents,
-        sent_at: Time.current)
+      set_audience_names
+      self.template_contents = template.contents
+      self.sent_at = Time.current
+      save!
       audience_segment.members.each do |member|
         deliveries.create!(member: member)
       end
@@ -204,6 +214,14 @@ class Newsletter < ApplicationRecord
   def attachments_must_not_exceed_maximum_size
     if attachments.sum { |a| a.file.byte_size } > ATTACHMENTS_MAXIMUM_SIZE
       errors.add(:attachments, :too_large)
+    end
+  end
+
+  def set_audience_names
+    Current.acp.languages.each do |locale|
+      I18n.with_locale(locale) do
+        self.send "audience_name_#{locale}=", Audience.name(audience_segment)
+      end
     end
   end
 end

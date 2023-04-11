@@ -25,10 +25,7 @@ ActiveAdmin.register Newsletter do
   index download_links: false do
     column :id, ->(n) { link_to n.id, n }
     column :subject, ->(n) { link_to n.subject, n }
-    column :audience, ->(n) {
-      segment = n.audience_segment
-      "#{audience_name(segment.key)}: #{segment.name}"
-    }
+    column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
       if n.sent_at?
         I18n.l(n.sent_at, format: :medium)
@@ -49,10 +46,7 @@ ActiveAdmin.register Newsletter do
         attributes_table do
           row(:id)
           row(:subject)
-          row(:audience) {
-            segment = newsletter.audience_segment
-            "#{audience_name(segment.key)}: #{segment.name}"
-          }
+          row(:audience) { newsletter.audience_name }
           row(Member.model_name.human(count: 2)) {
             "#{newsletter.members_count} (#{newsletter.emails.size} #{t('.subscribed_emails')})"
           }

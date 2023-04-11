@@ -1,5 +1,7 @@
 class Newsletter
   module Audience
+    include ActivitiesHelper
+
     extend self
     CIPHER_KEY = 'aes-256-cbc'
 
@@ -17,6 +19,26 @@ class Newsletter
       cipher.update(s) + cipher.final
     rescue OpenSSL::Cipher::CipherError
       nil
+    end
+
+    def name(segment)
+      "#{segment_name(segment.key)}: #{segment.name}"
+    end
+
+    def segment_name(key)
+      case key
+      when :segment_id; I18n.t('newsletters.segment.title')
+      when :basket_size_id; BasketSize.model_name.human
+      when :basket_complement_id; BasketComplement.model_name.human
+      when :depot_id; Depot.model_name.human
+      when :delivery_id; Delivery.model_name.human
+      when :member_state; Member.model_name.human(count: 2)
+      when :invoice_state; Invoice.model_name.human(count: 2)
+      when :activity_state; activities_human_name
+      when :activity_id; Activity.model_name.human
+      when :shop_delivery_gid
+        Shop::Order.model_name.human(count: 2) + " (#{I18n.t('shop.title')})"
+      end
     end
 
     class Segment < Struct.new(:key, :value, :name)
