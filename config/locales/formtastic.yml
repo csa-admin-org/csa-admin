@@ -87,9 +87,9 @@ _:
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
         member_information_text:
-          _de: Wenn vorhanden, wird der Inhalt dieses Feldes auf dem Konto des Mitglieds unter dem Abschnitt "Informationen" angezeigt. Sie können es beispielsweise verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
-          _fr: Si présent, le contenu de ce champ sera affiché sur le compte du membre sous la section "Informations". Vous pouvez l'utiliser pour, par exemple, partager des informations confidentielles avec vos membres.
-          _it: Se presente, il contenuto di questo campo verrà visualizzato sull'account del socio nella sezione "Informazioni". Puoi usarlo, ad esempio, per condividere informazioni riservate con i tuoi soci.
+          _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Sie können es z.B. verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
+          _fr: Si présent, le contenu de ce champ sera affiché sur le compte du membre sous la section "Informations". Vous pouvez l'utiliser, par exemple, pour partager des informations confidentielles avec vos membres.
+          _it: Se presente, il contenuto di questo campo verrà visualizzato sul conto del socio sotto la sezione "Informazioni". Puoi usarlo, ad esempio, per condividere informazioni riservate con i tuoi soci.
         member_profession_form_mode:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
