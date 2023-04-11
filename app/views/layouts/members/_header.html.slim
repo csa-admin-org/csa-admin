@@ -5,12 +5,12 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
         = image_tag(Current.acp.logo_url, alt: "#{Current.acp.name} Logo", class: 'h-20 w-20 md:h-40 md:w-40')
     div class='m-4 text-gray-900 dark:text-gray-100 md:hidden'
       = link_to '#menu', data: { action: "click->menu#show" } do
-        = inline_svg_tag 'members/menu.svg', title: 'Show Menu', class: 'h-12 w-12'
+        = inline_svg_tag 'members/menu.svg', title: 'Show Menu', class: 'h-10 w-10'
 
-  nav data-menu-target='menu' class='hidden flex-grow flex-col w-full md:block '
-    div class='text-right mt-8 mr-8 text-gray-900 dark:text-gray-100 flex-none md:hidden'
+  nav data-menu-target='menu' class='my-4 hidden flex-grow flex-col w-full md:block '
+    div class='h-20 mx-8 mb-4 flex-none flex justify-end items-center text-gray-900 dark:text-gray-100 md:hidden'
       = link_to '#nomenu', data: { action: "click->menu#hide" }, class: 'inline-block' do
-        = inline_svg_tag 'members/close.svg', title: 'Hide Menu', class: 'h-12 w-12'
+        = inline_svg_tag 'members/close.svg', title: 'Hide Menu', class: 'h-10 w-10'
 
     div class='mr-8 flex flex-grow h-full flex-col justify-between'
       - membership = current_member.current_or_future_membership
