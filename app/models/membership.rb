@@ -12,7 +12,7 @@ class Membership < ApplicationRecord
 
   attribute :new_config_from, :date
 
-  belongs_to :member
+  belongs_to :member, counter_cache: true
   belongs_to :basket_size
   belongs_to :depot
   belongs_to :deliveries_cycle

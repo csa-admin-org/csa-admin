@@ -190,7 +190,7 @@ ActiveAdmin.register Member do
         end
 
         all_memberships_path = memberships_path(q: { member_id_eq: member.id }, scope: :all)
-        panel link_to(Membership.model_name.human(count: 2), all_memberships_path) do
+        panel link_to("#{Membership.model_name.human(count: 2)} (#{member.memberships_count})", all_memberships_path) do
           memberships = member.memberships.order(started_on: :desc)
           memberships_count = memberships.count
           if memberships_count.zero?
