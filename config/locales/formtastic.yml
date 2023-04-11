@@ -486,6 +486,10 @@ _:
           _de: Alle Depots sind enthalten, wenn keines ausgewählt ist.
           _fr: Tous les dépôts sont inclus si aucun n'est sélectionné.
           _it: Tutti i punti di ritiro sono inclusi se nessuno è selezionato.
+        first_membership:
+          _de: Unterscheidet neue Mitglieder von alten, die bereits mehrere Abonnements haben.
+          _fr: Permet de différencier les nouveaux membres des anciens qui ont déjà plusieurs abonnements.
+          _it: Consente di differenziare i nuovi membri da quelli vecchi che hanno già diversi abbonamenti.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.

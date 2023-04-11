@@ -89,4 +89,19 @@ describe Newsletter::Segment do
     segment = create(:newsletter_segment, renewal_state: nil)
     expect(segment.members).to contain_exactly(member_1, member_2)
   end
+
+  specify 'segment by first_membership' do
+    member_1 = create(:membership, :last_year).member
+    create(:membership, member: member_1)
+    member_2 = create(:membership).member
+
+    segment = create(:newsletter_segment, first_membership: false)
+    expect(segment.members).to contain_exactly(member_1)
+
+    segment = create(:newsletter_segment, first_membership: true)
+    expect(segment.members).to contain_exactly(member_2)
+
+    segment = create(:newsletter_segment, first_membership: nil)
+    expect(segment.members).to contain_exactly(member_1, member_2)
+  end
 end

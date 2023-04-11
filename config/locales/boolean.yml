@@ -1,0 +1,10 @@
+_:
+  boolean:
+    'no':
+      _de: Nein
+      _fr: Non
+      _it: 'No'
+    'yes':
+      _de: Ja
+      _fr: Oui
+      _it: Sì

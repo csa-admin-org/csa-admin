@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_11_080033) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_11_081416) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -660,6 +660,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_080033) do
     t.string "renewal_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "first_membership"
   end
 
   create_table "newsletter_templates", force: :cascade do |t|

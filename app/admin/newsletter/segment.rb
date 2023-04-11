@@ -52,6 +52,11 @@ ActiveAdmin.register Newsletter::Segment do
           label: DeliveriesCycle.model_name.human(count: 2),
           hint: t('formtastic.hints.newsletter/segment.deliveries_cycle_ids')
       end
+      f.input :first_membership,
+        as: :select,
+        collection: [[t('boolean.yes'), true], [t('boolean.no'), false]],
+        include_blank: true,
+        hint: t('formtastic.hints.newsletter/segment.first_membership')
       f.input :renewal_state,
         as: :select,
         collection: renewal_states_collection,
@@ -63,6 +68,7 @@ ActiveAdmin.register Newsletter::Segment do
 
   permit_params(
     :renewal_state,
+    :first_membership,
     *I18n.available_locales.map { |l| "title_#{l}" },
     basket_size_ids: [],
     basket_complement_ids: [],

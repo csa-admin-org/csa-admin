@@ -1139,6 +1139,11 @@ _:
           _de: Datei
           _fr: Fichier
           _it: File
+      newsletter/segment:
+        first_membership:
+          _de: Erstes Abonnement
+          _fr: Premier abonnement
+          _it: Primo abbonamento
       newsletter/template:
         content:
           _de: Inhalt
