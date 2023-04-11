@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_07_090420) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_10_112016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -680,6 +680,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_090420) do
     t.jsonb "liquid_data_preview_yamls", default: {}, null: false
     t.string "from"
     t.jsonb "signatures", default: {}, null: false
+    t.jsonb "audience_names", default: {}, null: false
     t.index ["newsletter_template_id"], name: "index_newsletters_on_newsletter_template_id"
   end
 

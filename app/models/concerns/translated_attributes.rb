@@ -6,6 +6,9 @@ module TranslatedAttributes
       attrs.each do |attr|
         column = attr.to_s.pluralize
         define_method(attr) do |locale = I18n.locale|
+          send("#{attr}_with_fallback", locale)
+        end
+        define_method("#{attr}_with_fallback") do |locale = I18n.locale|
           self[column][locale.to_s].presence ||
             self[column][Current.acp.default_locale.to_s].presence
         end

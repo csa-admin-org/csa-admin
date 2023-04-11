@@ -173,6 +173,7 @@ describe Newsletter do
       expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
       expect(newsletter.template_contents).to be_empty
       expect(newsletter[:liquid_data_preview_yamls]).to be_empty
+      expect(newsletter.audience_names).to be_empty
 
       expect { newsletter.send! }
         .to change { newsletter.deliveries.count }.by(2)
@@ -191,6 +192,8 @@ describe Newsletter do
       expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
       expect(newsletter.template_contents).to eq newsletter.template.contents
       expect(newsletter[:liquid_data_preview_yamls]).not_to be_empty
+      expect(newsletter.audience_names).to eq(
+        'fr' => 'Membres: À valider')
     end
   end
 end
