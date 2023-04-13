@@ -4,6 +4,7 @@ class BasketSize < ApplicationRecord
 
   translated_attributes :name, required: true
   translated_attributes :public_name
+  translated_attributes :form_detail
 
   has_many :memberships
   has_many :members, through: :memberships

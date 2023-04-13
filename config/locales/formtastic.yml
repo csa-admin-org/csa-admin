@@ -215,7 +215,7 @@ _:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnungung dieser Abonnements kann beeinflusst werden.</a></b>
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica. <b>Attenzione, <a href='/handbook/billing#price-change'>la fatturazione di questi abbonamenti potrebbe essere influenzata.</a></b>
-        form_details:
+        form_detail:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
           _it: Lasciare vuoto per il testo predefinito.
@@ -254,7 +254,7 @@ _:
           _fr: Par exemple, une page référençant le prix de vente.
           _it: Per esempio, una pagina che fa riferimento al prezzo di vendita.
       basket_size:
-        form_details:
+        form_detail:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
           _it: Lasciare vuoto per il testo predefinito.
