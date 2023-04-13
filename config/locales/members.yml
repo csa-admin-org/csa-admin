@@ -275,7 +275,7 @@ _:
           _it: Credito
         explanation:
           _de: Die Einzahlungen mit Referenznummer werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
-          _fr: Les paiements avec numéro de référence sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiments n'apparaîtrait pas.
+          _fr: Les paiements avec numéro de référence sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiements n'apparaîtrait pas.
           _it: I pagamenti con numero di riferimento vengono elaborati automaticamente durante la notte, contattaci se uno dei tuoi pagamenti non viene visualizzato.
         history:
           _de: Verlauf
@@ -287,7 +287,7 @@ _:
           _it: Montante restante da pagare
         no_billing_history:
           _de: Im Moment keine Rechnung oder Einzahlung.
-          _fr: Aucune facture ou paiment pour le moment.
+          _fr: Aucune facture ou paiement pour le moment.
           _it: Nessuna fattura o pagamento per il momento
         open_invoices:
           _de: Offene Rechnungen
