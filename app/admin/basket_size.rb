@@ -47,8 +47,10 @@ ActiveAdmin.register BasketSize do
       f.input :visible, as: :select, include_blank: false
       translated_input(f, :form_details,
         hint: t('formtastic.hints.basket_size.form_detail'),
-        input_html: {
-          placeholder: basket_size_details(f.object, force_default: true)
+        placeholder: ->(locale) {
+          I18n.with_locale(locale) {
+            basket_size_details(f.object, force_default: true)
+          }
         })
     end
 
