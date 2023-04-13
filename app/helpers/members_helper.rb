@@ -20,7 +20,7 @@ module MembersHelper
   end
 
   def basket_size_details(bs, force_default: false)
-    return bs.form_details if !force_default && bs.form_details?
+    return bs.form_detail if !force_default && bs.form_detail?
 
     @acp_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
     details = []
@@ -83,7 +83,7 @@ module MembersHelper
   end
 
   def basket_complement_details(bc, force_default: false)
-    return bc.form_details if !force_default && bc.form_details?
+    return bc.form_detail if !force_default && bc.form_detail?
 
     if bc.annual_price_type?
       "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})".html_safe

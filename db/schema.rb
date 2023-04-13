@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_11_081416) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_13_065605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -248,7 +248,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_081416) do
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
-    t.string "form_details"
+    t.jsonb "form_details", default: {}, null: false
     t.index ["visible"], name: "index_basket_complements_on_visible"
   end
 
@@ -301,7 +301,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_11_081416) do
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
-    t.string "form_details"
+    t.jsonb "form_details", default: {}, null: false
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 

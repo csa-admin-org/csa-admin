@@ -6,6 +6,7 @@ class BasketComplement < ApplicationRecord
 
   translated_attributes :name, required: true
   translated_attributes :public_name
+  translated_attributes :form_detail
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy

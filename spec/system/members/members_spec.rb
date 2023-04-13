@@ -14,9 +14,9 @@ describe 'members page' do
         basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
       create_deliveries(2)
       create(:basket_size, :small)
-      create(:basket_size, :big, form_details: "Super Grand Panier, 66.50 CHF")
+      create(:basket_size, :big, form_detail: "Super Grand Panier, 66.50 CHF")
 
-      create(:basket_complement, name: 'Oeufs', price: 4.8, form_details: "Seulement 9.60 CHF")
+      create(:basket_complement, name: 'Oeufs', price: 4.8, form_detail: "Seulement 9.60 CHF")
       create(:basket_complement, name: 'Pain', price: 6.5, delivery_ids: Delivery.pluck(:id).select(&:odd?))
 
       create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil)
