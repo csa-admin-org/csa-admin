@@ -117,4 +117,23 @@ describe Newsletter::Audience do
     segment = segment_for('depot_id::2')
     expect(segment.members).to contain_exactly(member2, member4)
   end
+
+  specify 'delivery ignore absent or empty baskets' do
+    member1 = create(:member)
+    member2 = create(:member)
+    member3 = create(:member)
+    member4 = create(:member)
+    create(:membership, member: member1)
+    create(:membership, member: member2)
+    create(:membership, member: member3)
+    create(:membership, member: member4)
+
+    delivery = Delivery.first
+
+    member3.baskets.update_all(absent: true)
+    member4.baskets.update_all(quantity: 0)
+
+    segment = segment_for("delivery_id::#{delivery.gid}")
+    expect(segment.members).to contain_exactly(member1, member2)
+  end
 end
