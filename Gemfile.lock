@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/railslove/epics.git
-  revision: 33d419b51584abc2fc068dfe29a2e90fa32e31d0
-  branch: bug/support-key-decrypting-on-init-for-openssl3
+  revision: 5f5c275122bb3f34c9146977f3df5597e0a848b8
+  branch: master
   specs:
-    epics (1.8.1)
+    epics (2.1.1)
       faraday (>= 1.10.0)
-      nokogiri (>= 1.13.6)
+      nokogiri (>= 1.14.0)
+      rexml (>= 3.2.5)
       rubyzip (>= 2.3.2)
 
 GEM
@@ -274,14 +275,14 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.14.2)
+    nokogiri (1.14.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.14.2-arm64-darwin)
+    nokogiri (1.14.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-darwin)
+    nokogiri (1.14.3-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.2-x86_64-linux)
+    nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
     optimist (3.0.1)
     patience_diff (1.2.0)
