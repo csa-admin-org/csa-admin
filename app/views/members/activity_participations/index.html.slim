@@ -8,7 +8,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
     = t_activity('.no_activities')
 - else
-  .activities-form data-controller="calendar" data-calendar-dates-value="#{@activities.map(&:date).uniq.as_json}" data-calendar-default-date-value="#{@activity_participation.date}"
+  .activities-form data-controller="calendar" data-calendar-dates-value="#{@activities.map(&:date).uniq.as_json}" data-calendar-non-full-dates-value="#{@activities.select(&:missing_participants?).map(&:date).uniq.as_json}" data-calendar-default-date-value="#{@activity_participation.date}"
     = simple_form_for @activity_participation, url: [:members, @activity_participation] do |f|
       div class='mt-2 mb-6'
         div.calendar-wrapper class=''

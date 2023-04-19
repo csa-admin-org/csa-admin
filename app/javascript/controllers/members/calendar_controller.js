@@ -12,6 +12,7 @@ export default class extends Controller {
   static get values() {
     return {
       dates: Array,
+      nonFullDates: Array,
       defaultDate: String,
     }
   }
@@ -34,6 +35,14 @@ export default class extends Controller {
       onYearChange: (selectedDates, dateStr, instance) => {
         this._monthOrYearChanged(this.datesValue, instance)
       },
+      onDayCreate: (dObj, dStr, fp, dayElem) => {
+        var offset = dayElem.dateObj.getTimezoneOffset()
+        var date = new Date(dayElem.dateObj.getTime() - (offset * 60 * 1000))
+        var dateStr = date.toISOString().substring(0, 10)
+        if (this.nonFullDatesValue.find(e => e === dateStr)) {
+          dayElem.className += ' not-full'
+        }
+      }
     })
   }
 

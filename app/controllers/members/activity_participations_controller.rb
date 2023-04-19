@@ -6,7 +6,8 @@ class Members::ActivityParticipationsController < Members::BaseController
   # GET /activity_participations
   def index
     @activities = Activity.available_for(current_member)
-    @activity_participation = ActivityParticipation.new(activity: @activities.first)
+    @activity_participation = ActivityParticipation.new(
+      activity: @activities.select(&:missing_participants?).first || @activities.first)
     @activity_participation.carpooling_phone ||= current_member.phones_array.first
     @activity_participation.carpooling_city ||= current_member.city
   end
