@@ -55,6 +55,10 @@ class Activity < ApplicationRecord
     participants_limit && missing_participants_count.zero?
   end
 
+  def missing_participants?
+    !participants_limit || missing_participants_count.positive?
+  end
+
   def participant?(member)
     participations.map(&:member_id).include?(member.id)
   end
