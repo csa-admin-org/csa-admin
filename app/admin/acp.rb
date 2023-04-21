@@ -29,7 +29,7 @@ ActiveAdmin.register ACP do
     :membership_renewal_depot_update,
     :billing_starts_after_first_delivery,
     :allow_alternative_depots,
-    :membership_extra_text_only,
+    :member_form_extra_text_only,
     :basket_price_extras,
     :absence_extra_text_only,
     :member_profession_form_mode, :member_come_from_form_mode,
@@ -42,7 +42,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "delivery_pdf_footer_#{l}" },
     *I18n.available_locales.map { |l| "terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "statutes_url_#{l}" },
-    *I18n.available_locales.map { |l| "membership_extra_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "group_buying_terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "group_buying_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
@@ -139,12 +139,12 @@ ActiveAdmin.register ACP do
         f.inputs do
           translated_input(f, :terms_of_service_urls, required: false)
           translated_input(f, :statutes_urls, required: false)
-          translated_input(f, :membership_extra_texts,
-            hint: t('formtastic.hints.acp.membership_extra_text'),
+          translated_input(f, :member_form_extra_texts,
+            hint: t('formtastic.hints.acp.member_form_extra_text'),
             required: false,
             as: :action_text,
             input_html: { rows: 5 })
-          f.input :membership_extra_text_only, as: :boolean
+          f.input :member_form_extra_text_only, as: :boolean
           f.input :allow_alternative_depots, as: :boolean
           f.input :member_profession_form_mode,
             label: Member.human_attribute_name(:profession),

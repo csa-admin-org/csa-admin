@@ -318,13 +318,13 @@ describe 'members page' do
     it 'shows only membership extra text' do
       default_text = "Chaque membre s'engage pour un abonnement d'une année"
       extra_text = 'Règles spéciales'
-      Current.acp.update!(membership_extra_text: extra_text)
+      Current.acp.update!(member_form_extra_text: extra_text)
 
       visit '/new'
       expect(page).to have_content default_text
       expect(page).to have_content extra_text
 
-      Current.acp.update!(membership_extra_text_only: true)
+      Current.acp.update!(member_form_extra_text_only: true)
       visit '/new'
 
       expect(page).not_to have_content default_text
