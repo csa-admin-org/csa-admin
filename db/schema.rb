@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_13_065605) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_065605) do
     t.jsonb "email_footers", default: {}, null: false
     t.boolean "billing_starts_after_first_delivery", default: true, null: false
     t.boolean "allow_alternative_depots", default: false, null: false
-    t.boolean "membership_extra_text_only", default: false, null: false
+    t.boolean "member_form_extra_text_only", default: false, null: false
     t.decimal "basket_price_extras", precision: 8, scale: 2, default: [], null: false, array: true
     t.jsonb "basket_price_extra_titles", default: {}, null: false
     t.jsonb "basket_price_extra_texts", default: {}, null: false
@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_13_065605) do
     t.text "basket_price_extra_dynamic_pricing"
     t.decimal "vat_activity_rate", precision: 8, scale: 2
     t.decimal "vat_shop_rate", precision: 8, scale: 2
+    t.string "member_form_mode", default: "membership", null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

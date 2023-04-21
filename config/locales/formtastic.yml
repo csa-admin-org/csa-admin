@@ -86,6 +86,14 @@ _:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
+        member_form_extra_text:
+          _de: Dieser optionale Text wird nach dem standardmäßig erzeugten Erklärungstext eingefügt.
+          _fr: Ce texte optionnel est inséré après le texte d'explication généré par défaut.
+          _it: Questo testo opzionale è inserito dopo il testo di spiegazione generato di default.
+        member_form_extra_text_only:
+          _de: Entfernt den standardmäßig generierten Erklärungstext und zeigt nur die zusätzlichen Erklärungen an.
+          _fr: Enlève le texte d'explication généré par défaut et affiche uniquement les explications supplémentaires.
+          _it: Rimuove il testo di spiegazione generato di default e visualizza solo le spiegazioni supplementari.
         member_information_text:
           _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Sie können es z.B. verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
           _fr: Si présent, le contenu de ce champ sera affiché sur le compte du membre sous la section "Informations". Vous pouvez l'utiliser, par exemple, pour partager des informations confidentielles avec vos membres.
@@ -98,14 +106,6 @@ _:
           _de: Nur die Änderung zukünftiger Lieferungen ist erlaubt.
           _fr: Seule la modification des futures livraisons est autorisée.
           _it: È consentita solo la modifica delle consegne future.
-        membership_extra_text:
-          _de: Dieser optionale Text wird vor der Auswahl der Größe der Tasche eingefügt.
-          _fr: Ce texte optionnel est inséré avant le choix de la taille du panier.
-          _it: Questo testo opzionale è inserito prima della scelta della dimensione della cesta.
-        membership_extra_text_only:
-          _de: Entfernt den standardmäßig generierten Erklärungstext und zeigt nur die zusätzlichen Erklärungen an.
-          _fr: Enlève le texte d'explication généré par défaut et affiche uniquement les explications supplémentaires.
-          _it: Rimuove il testo di spiegazione generato di default e visualizza solo le spiegazioni supplementari.
         membership_update_text:
           _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Tasche angezeigt wird.
           _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou du panier.

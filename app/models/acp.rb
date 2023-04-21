@@ -29,7 +29,6 @@ class ACP < ApplicationRecord
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
   translated_attributes :terms_of_service_url, :statutes_url
-  translated_attributes :membership_extra_text
   translated_attributes :group_buying_terms_of_service_url
   translated_attributes :group_buying_invoice_info
   translated_attributes :shop_invoice_info
@@ -43,6 +42,7 @@ class ACP < ApplicationRecord
   translated_rich_texts :absence_extra_text
   translated_rich_texts :membership_update_text
   translated_rich_texts :member_information_text
+  translated_rich_texts :member_form_extra_text
 
   validates :name, presence: true
   validates :host, presence: true
