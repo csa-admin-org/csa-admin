@@ -26,12 +26,13 @@ describe 'Email Suppressions' do
     expect(page).not_to have_content("Je souhaite à nouveau m'inscrire aux newsletters")
   end
 
-  specify 'do not allow Mailchimp origin re-subscription' do
+  specify 'do not allow Mailchimp only origin re-subscription' do
     suppression = EmailSuppression.suppress!(member.emails_array.first,
       stream_id: 'broadcast',
       origin: 'Mailchimp',
       reason: 'Forgotten')
-    expect(Current.acp.mailchimp?).to be true
+    expect(Rails.application).to receive(:credentials).and_return(
+      ragedevert: { mailchimp: {foo: :bar} })
 
     visit '/account'
 
