@@ -49,7 +49,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         d.shop_orders_count,
         shop_orders_path(
           q: { _delivery_gid_eq: d.gid }, scope: :all_without_cart))
-    }, sortable: :false
+    }, sortable: false
     actions defaults: true, class: 'col-actions-5' do |delivery|
       link_to('XLSX', shop_special_delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
         link_to('PDF', delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), class: 'pdf_link', target: '_blank')
