@@ -5,7 +5,7 @@ ruby '3.2.2'
 gem 'rails', '~> 7.0.4'
 
 gem 'bootsnap', require: false
-gem 'pg'
+gem 'pg', '~> 1.4.6'
 gem 'puma'
 
 gem 'lograge'
