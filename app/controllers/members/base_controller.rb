@@ -48,7 +48,7 @@ class Members::BaseController < ApplicationController
     @current_shop_delivery ||=
       Delivery
         .shop_open
-        .where(id: current_member.baskets.coming.pluck(:delivery_id))
+        .where(id: coming_delivery_ids)
         .next
   end
   helper_method :current_shop_delivery
@@ -61,7 +61,7 @@ class Members::BaseController < ApplicationController
       Delivery
         .shop_open
         .where.not(id: current_shop_delivery.id)
-        .where(id: current_member.baskets.coming.pluck(:delivery_id))
+        .where(id: coming_delivery_ids)
         .next
   end
   helper_method :next_shop_delivery
@@ -72,4 +72,12 @@ class Members::BaseController < ApplicationController
     @shop_special_deliveries ||= Shop::SpecialDelivery.coming.open.select(&:shop_open?)
   end
   helper_method :shop_special_deliveries
+
+  def coming_delivery_ids
+    if current_member.shop_depot
+      Delivery.coming.pluck(:id)
+    else
+      current_member.baskets.coming.pluck(:delivery_id)
+    end
+  end
 end

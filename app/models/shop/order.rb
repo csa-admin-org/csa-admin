@@ -10,6 +10,7 @@ module Shop
     has_states :cart, :pending, :invoiced
 
     belongs_to :member, optional: false
+    belongs_to :depot, optional: true
     belongs_to :delivery,
       polymorphic: true,
       optional: false
@@ -45,6 +46,9 @@ module Shop
     end
 
     def depot
+      return super if depot_id?
+      return member.shop_depot if member.use_shop_depot?
+
       case delivery
       when Delivery
         delivery.baskets.joins(:membership).where(memberships: { member: member }).first&.depot
@@ -94,7 +98,9 @@ module Shop
 
       transaction do
         items.each(&:validate!)
-        update!(state: PENDING_STATE)
+        update!(
+          state: PENDING_STATE,
+          depot: depot)
         items.each(&:save!) # update stocks
       end
     end
@@ -103,7 +109,9 @@ module Shop
       invalid_transition(:confirm!) unless pending?
 
       transaction do
-        update!(state: CART_STATE)
+        update!(
+          state: CART_STATE,
+          depot: nil)
         items.each { |i| i.save!(validate: false) } # update stocks
       end
     end

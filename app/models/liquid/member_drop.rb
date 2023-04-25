@@ -37,6 +37,12 @@ class Liquid::MemberDrop < Liquid::Drop
     !!@member.billing_email?
   end
 
+  def shop_depot
+    return unless @member.shop_depot
+
+    Liquid::DepotDrop.new(@member.shop_depot)
+  end
+
   private
 
   def url(name, **options)

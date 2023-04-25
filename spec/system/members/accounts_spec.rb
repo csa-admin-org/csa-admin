@@ -54,4 +54,25 @@ describe 'Account' do
         'name' => ['Doe Jame and John', 'Doe Jame & John']
       })
   end
+
+  specify 'edit shop depot' do
+    mega_depot = create(:depot, name: 'Mega Depot')
+    member.update!(shop_depot: mega_depot)
+    giga_depot = create(:depot, name: 'Giga Depot')
+
+    visit '/'
+
+    click_on 'Doe Jame and John'
+    expect(page).to have_content("Mega Depot")
+
+    click_on 'Modifier les données du compte'
+
+    choose 'Giga Depot'
+
+    expect {
+      click_button 'Soumettre'
+    }.to change { member.reload.shop_depot }.from(mega_depot).to(giga_depot)
+
+    expect(page).to have_content("Giga Depot")
+  end
 end

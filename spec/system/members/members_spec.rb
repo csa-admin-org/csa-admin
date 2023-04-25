@@ -213,6 +213,52 @@ describe 'members page' do
       expect(member.waiting_alternative_depots.map(&:name)).to eq ['Jardin de la main', 'Vélo']
     end
 
+    it 'creates a new shop-only member' do
+      Current.acp.update!(
+        member_form_mode: 'shop',
+        terms_of_service_url: nil,
+        annual_fee: nil)
+
+      depot = create(:depot, name: 'Jardin de la main', price: 42)
+
+      visit '/new'
+
+      expect(page).to have_content "Épicerie"
+      expect(page).not_to have_content "Abonnement"
+      expect(page).to have_content "Merci de choisir un dépôt pour vos commandes."
+
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
+      fill_in 'Adresse', with: 'Nowhere srteet 2'
+      fill_in 'NPA', with: '2042'
+      fill_in 'Ville', with: 'Moon City'
+
+      fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
+      fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
+
+      choose 'Jardin de la main PUBLIC'
+      expect(page).not_to have_content "42.-/livraison"
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      member = Member.last
+      expect(member).to have_attributes(
+        state: 'pending',
+        name: 'John et Jame Doe',
+        address: 'Nowhere srteet 2',
+        zip: '2042',
+        city: 'Moon City',
+        emails: 'john@doe.com, jane@doe.com',
+        phones: '+41771424242, +41771434444',
+        language: 'fr')
+      expect(member.waiting_basket_size).to be_nil
+      expect(member.waiting_depot).to be_nil
+      expect(member.shop_depot).to eq depot
+      expect(member.annual_fee).to be_nil
+      expect(member.billing_year_division).to eq 1
+    end
+
     it 'creates a new support member (annual fee)' do
       Current.acp.update!(
         languages: %w[fr de],
@@ -428,8 +474,26 @@ describe 'members page' do
 
       expect(menu_nav).to eq [
         "½ Journées\n⤷ Aucun engagement",
-        "Facturation\n⤷ Consulter l'historique",
-        "Absences\n⤷ Prévenez-nous!"
+        "Facturation\n⤷ Consulter l'historique"
+      ]
+    end
+
+    it 'redirects to shop', freeze: '2023-01-01' do
+      current_acp.update!(
+        features: ['shop'],
+        shop_admin_only: false)
+
+      create(:delivery, shop_open: true, date: '2023-02-01')
+      login(create(:member, state: 'active', shop_depot: create(:depot)))
+
+      visit '/'
+
+      expect(current_path).to eq '/shop'
+      expect(page).to have_selector('h1', text: 'Épicerie')
+
+      expect(menu_nav).to eq [
+        "Épicerie\n⤷ 1 février 2023",
+        "Facturation\n⤷ Consulter l'historique"
       ]
     end
 

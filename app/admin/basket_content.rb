@@ -27,7 +27,7 @@ ActiveAdmin.register BasketContent do
     title = BasketContent.model_name.human(count: 2)
     if params.dig(:q, :delivery_id_eq).present?
       delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-      title += " – #{l(delivery.date)}"
+      title += " – #{delivery.display_name}"
     end
     title
   } do

@@ -24,6 +24,7 @@ class Member < ApplicationRecord
     class_name: 'Depot',
     join_table: 'members_waiting_alternative_depots',
     optional: true
+  belongs_to :shop_depot, class_name: 'Depot', optional: true
   has_many :absences, dependent: :destroy
   has_many :invoices
   has_many :payments
@@ -92,6 +93,7 @@ class Member < ApplicationRecord
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :waiting_deliveries_cycle, inclusion: { in: ->(m) { m.waiting_depot&.deliveries_cycles } }, if: :waiting_depot, on: :create
+  validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
@@ -104,6 +106,7 @@ class Member < ApplicationRecord
 
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
+  after_update :review_active_state!
   after_create_commit :notify_admins!, if: :public_create
 
   def billable?
@@ -169,6 +172,10 @@ class Member < ApplicationRecord
     read_attribute(:delivery_zip).presence || zip
   end
 
+  def use_shop_depot?
+    shop_depot.present? && current_or_future_membership.nil?
+  end
+
   def self.ransackable_scopes(_auth_object = nil)
     %i[with_name with_address with_email with_phone with_waiting_depots_eq]
   end
@@ -212,7 +219,9 @@ class Member < ApplicationRecord
   end
 
   def review_active_state!
-    if current_or_future_membership
+    return if pending? || waiting?
+
+    if current_or_future_membership || shop_depot
       activate! unless active?
     elsif active?
       if last_membership&.renewal_annual_fee&.positive?
@@ -226,7 +235,7 @@ class Member < ApplicationRecord
   end
 
   def activate!
-    invalid_transition(:activate!) unless current_or_future_membership
+    invalid_transition(:activate!) unless current_or_future_membership || shop_depot
     return if active?
 
     self.state = ACTIVE_STATE
@@ -253,6 +262,7 @@ class Member < ApplicationRecord
 
     update!(
       state: INACTIVE_STATE,
+      shop_depot: nil,
       annual_fee: nil,
       desired_acp_shares_number: 0,
       waiting_started_at: nil)

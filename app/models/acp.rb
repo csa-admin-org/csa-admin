@@ -21,7 +21,8 @@ class ACP < ApplicationRecord
   BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]
   EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
-  FORM_MODES = %w[hidden visible required]
+  MEMBER_FORM_MODES = %w[membership shop]
+  INPUT_FORM_MODES = %w[hidden visible required]
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
@@ -98,8 +99,9 @@ class ACP < ApplicationRecord
   validates :shop_order_minimal_amount,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
-  validates :member_profession_form_mode, presence: true, inclusion: { in: FORM_MODES }
-  validates :member_come_from_form_mode, presence: true, inclusion: { in: FORM_MODES }
+  validates :member_form_mode, presence: true, inclusion: { in: MEMBER_FORM_MODES }
+  validates :member_profession_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
+  validates :member_come_from_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
   validates :basket_update_limit_in_days,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 }

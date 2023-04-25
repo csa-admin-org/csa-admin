@@ -24,6 +24,7 @@ class Members::AccountsController < Members::BaseController
       .permit(
         :name,
         :address, :zip, :city, :country_code,
-        :emails, :phones, :language)
+        :emails, :phones, :language,
+        :shop_depot_id)
   end
 end

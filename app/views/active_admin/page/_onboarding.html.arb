@@ -25,19 +25,21 @@ columns class: 'onboarding' do
             end
           end
         end
-        li do
-          if BasketSize.any?
-            a href: basket_sizes_path do
-              span class: 'checked' do
-                span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                span t('.create_basket_sizes')
+        if Current.acp.member_form_mode == 'membership'
+          li do
+            if BasketSize.any?
+              a href: basket_sizes_path do
+                span class: 'checked' do
+                  span inline_svg_tag('admin/clipboard-check.svg', size: '40')
+                  span t('.create_basket_sizes')
+                end
               end
-            end
-          else
-            a href: new_basket_size_path do
-              span do
-                span inline_svg_tag('admin/clipboard.svg', size: '40')
-                span t('.create_basket_sizes')
+            else
+              a href: new_basket_size_path do
+                span do
+                  span inline_svg_tag('admin/clipboard.svg', size: '40')
+                  span t('.create_basket_sizes')
+                end
               end
             end
           end

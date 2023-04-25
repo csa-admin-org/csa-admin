@@ -44,7 +44,8 @@ describe Liquid::DataPreview do
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
         'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
-        'membership_renewal_url' => 'https://membres.ragedevert.ch/memberships#renewal'
+        'membership_renewal_url' => 'https://membres.ragedevert.ch/memberships#renewal',
+        'shop_depot' => nil
       },
       'membership' => {
         'activity_participations_accepted_count' => 2,
@@ -98,7 +99,8 @@ describe Liquid::DataPreview do
         'page_url' => 'https://membres.ragedevert.ch',
         'billing_url' => 'https://membres.ragedevert.ch/billing',
         'activities_url' => 'https://membres.ragedevert.ch/activity_participations',
-        'membership_renewal_url' => 'https://membres.ragedevert.ch/memberships#renewal'
+        'membership_renewal_url' => 'https://membres.ragedevert.ch/memberships#renewal',
+        'shop_depot' => nil
       },
       'waiting_list_position' => 1,
       'waiting_basket_size_id' => basket_size.id,
@@ -106,7 +108,7 @@ describe Liquid::DataPreview do
     })
   end
 
-  specify 'without activity feature', freeze: '2020-01-01' do
+  specify 'without any feature', freeze: '2020-01-01' do
     Current.acp.update!(features: [])
     create(:delivery, date: '2020-01-07')
     create(:delivery, date: '2020-10-06')
