@@ -99,23 +99,25 @@ module MembersHelper
     collection_text(bc.public_name, details: basket_complement_details(bc))
   end
 
-  def depots_collection(membership: nil, deliveries_cycle: nil, only_price_per_delivery: false, data: {})
+  def depots_collection(membership: nil, deliveries_cycle: nil, show_price: true, only_price_per_delivery: false, data: {})
     visible_depots(membership).select { |d|
       !deliveries_cycle || deliveries_cycle.in?(d.deliveries_cycles)
     }.map { |d|
       details = []
-      if only_price_per_delivery
-        if d.price.positive?
-          details << "#{t('helpers.price_per_delivery', price: short_price(d.price))}"
+      if show_price
+        if only_price_per_delivery
+          if d.price.positive?
+            details << "#{t('helpers.price_per_delivery', price: short_price(d.price))}"
+          end
+        elsif deliveries_counts.many?
+          if d.price.positive?
+            details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.deliveries_counts)})"
+          else
+            details << deliveries_count(d.deliveries_counts)
+          end
+        elsif d.price.positive?
+          details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
         end
-      elsif deliveries_counts.many?
-        if d.price.positive?
-          details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.deliveries_counts)})"
-        else
-          details << deliveries_count(d.deliveries_counts)
-        end
-      elsif d.price.positive?
-        details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
       end
       if address = d.full_address
         details << address

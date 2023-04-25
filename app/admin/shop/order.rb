@@ -21,15 +21,11 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  scope :all_without_cart
-  scope :pending, default: true
+  scope :all_without_cart, default: true
+  scope :pending
   scope :invoiced
 
   filter :id, as: :numeric
-  filter :_delivery_gid,
-    as: :select,
-    collection: -> { shop_deliveries_collection },
-    label: -> { Delivery.model_name.human }
   filter :member,
     as: :select,
     collection: -> {
@@ -38,16 +34,32 @@ ActiveAdmin.register Shop::Order do
         .order(:name)
         .distinct
     }
+  filter :_delivery_gid,
+    as: :select,
+    collection: -> { shop_deliveries_collection },
+    label: -> { Delivery.model_name.human }
+  filter :depot, as: :select
   filter :amount
   filter :created_at
 
-  includes :member, :delivery, invoice: { pdf_file_attachment: :blob }
-  index do
+  includes :member, :depot, invoice: { pdf_file_attachment: :blob }
+  index title: -> {
+    title = Shop::Order.model_name.human(count: 2)
+    if params.dig(:q, :_delivery_gid_eq).present?
+      delivery = GlobalID::Locator.locate(params.dig(:q, :_delivery_gid_eq))
+      title += " – #{delivery.display_name}"
+    end
+    title
+  } do
     selectable_column if params[:scope].in?([nil, 'pending'])
     column :id, ->(order) { auto_link order, order.id }
     column :created_at, ->(order) { l(order.date, format: :number) }
-    column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: 'delivery_id'
     column :member, sortable: 'members.name'
+    if params.dig(:q, :_delivery_gid_eq).present?
+      column :depot, sortable: 'depots.name'
+    else
+      column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: 'delivery_id'
+    end
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
     actions defaults: true, class: 'col-actions-3' do |order|
@@ -60,8 +72,9 @@ ActiveAdmin.register Shop::Order do
     column :member_id
     column(:name) { |o| o.member.name }
     column(:emails) { |o| o.member.emails_array.join(', ') }
-    column :delivery_id
+    column(:delivery) { |o| o.delivery.display_name }
     column(:delivery_date) { |o| o.delivery.date }
+    column(:depot) { |o| o.depot&.name }
     column :created_at
     column :state, &:state_i18n_name
     column :amount
@@ -131,8 +144,9 @@ ActiveAdmin.register Shop::Order do
       column do
         attributes_table do
           row :id
+          row(:member)
           row(:delivery) { auto_link order.delivery, order.delivery.display_name }
-          row(:member) { auto_link order.member }
+          row(:depot)
           row(:state) { status_tag order.state_i18n_name, class: order.state }
           row(:weight) { kg(order.weight_in_kg) }
           row(:created_at) { l(order.created_at, format: :long) }
@@ -163,6 +177,11 @@ ActiveAdmin.register Shop::Order do
         label: Delivery.model_name.human,
         prompt: true,
         collection: shop_deliveries_collection
+      unless f.object.new_record?
+        f.input :depot,
+          prompt: true,
+          collection: Depot.all
+      end
       f.has_many :items, allow_destroy: true do |ff|
         ff.inputs class: 'blank', 'data-controller' => 'form-reset form-select-options-filter', 'data-form-select-options-filter-attribute-value' => 'data-product-id' do
           ff.input :product,
@@ -195,6 +214,7 @@ ActiveAdmin.register Shop::Order do
   permit_params(
     :member_id,
     :delivery_gid,
+    :depot_id,
     items_attributes: [
       :id,
       :product_id,
@@ -240,19 +260,16 @@ ActiveAdmin.register Shop::Order do
     link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: '_blank'
   end
 
-  action_item :order_items_csv, only: :index, if: -> { params.dig(:q, :delivery_id_eq).present? } do
-    delivery_id = params.dig(:q, :delivery_id_eq)
-    link_to t('.order_items_csv'), shop_order_items_path(q: { delivery_id_eq: delivery_id }, format: :csv)
-  end
-
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
-    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_gid: delivery_gid, format: :pdf), target: '_blank'
+    depot_id = params.dig(:q, :depot_id_eq)
+    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), target: '_blank'
   end
 
   action_item :delivery_xlsx, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
-    link_to 'XLSX', delivery_shop_orders_path(delivery_gid: delivery_gid, format: :xlsx), target: '_blank'
+    depot_id = params.dig(:q, :depot_id_eq)
+    link_to 'XLSX', delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), target: '_blank'
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([nil, 'pending']) } do |selection|
@@ -265,17 +282,18 @@ ActiveAdmin.register Shop::Order do
 
   collection_action :delivery, method: :get, if: -> { params[:delivery_gid] } do
     delivery = GlobalID::Locator.locate(params[:delivery_gid])
+    depot = Depot.find(params[:depot_id]) if params[:depot_id]
     case params[:format]
     when 'pdf'
       order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id]
-      pdf = PDF::Shop::Delivery.new(delivery, order: order)
+      pdf = PDF::Shop::Delivery.new(delivery, order: order, depot: depot)
       send_data pdf.render,
         content_type: pdf.content_type,
         filename: pdf.filename,
         disposition: 'inline'
     when 'xlsx'
       producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id]
-      xlsx = XLSX::Shop::Delivery.new(delivery, producer)
+      xlsx = XLSX::Shop::Delivery.new(delivery, producer, depot: depot)
       send_data xlsx.data,
         content_type: xlsx.content_type,
         filename: xlsx.filename

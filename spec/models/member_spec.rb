@@ -216,6 +216,17 @@ describe Member do
       expect(member.validator).to eq admin
     end
 
+    it 'sets state to active if shop depot is set' do
+      member = create(:member, :pending,
+        waiting_basket_size: nil,
+        waiting_depot: nil,
+        shop_depot: create(:depot))
+
+      expect { member.validate!(admin) }.to change(member, :state).to('active')
+      expect(member.validated_at).to be_present
+      expect(member.validator).to eq admin
+    end
+
     it 'sets state to support if annual_fee is present' do
       member = create(:member, :pending,
         waiting_basket_size: nil,
@@ -292,6 +303,15 @@ describe Member do
         ended_on: 1.day.ago)
       membership.update_column(:ended_on, 1.day.from_now)
       member.reload
+
+      expect { member.review_active_state! }
+        .to change(member, :state).from('inactive').to('active')
+    end
+
+    it 'activates new inactive member with shop_depot' do
+      depot = create(:depot)
+      member = create(:member, :inactive)
+      member.update_column(:shop_depot_id, depot.id)
 
       expect { member.review_active_state! }
         .to change(member, :state).from('inactive').to('active')
@@ -421,12 +441,15 @@ describe Member do
   end
 
   describe '#deactivate!' do
-    it 'sets state to inactive and clears waiting_started_at and annual_fee' do
-      member = create(:member, :waiting, annual_fee: 42)
+    it 'sets state to inactive and clears waiting_started_at, annual_fee, and shop_depot' do
+      member = create(:member, :waiting,
+        annual_fee: 42,
+        shop_depot: create(:depot))
 
       expect { member.deactivate! }.to change(member, :state).to('inactive')
       expect(member.waiting_started_at).to be_nil
       expect(member.annual_fee).to be_nil
+      expect(member.shop_depot).to be_nil
     end
 
     it 'sets state to inactive and clears annual_fee' do

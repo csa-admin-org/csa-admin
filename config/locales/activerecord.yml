@@ -714,6 +714,10 @@ _:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire
           _it: Ceste-compenso
+        shop_depot:
+          _de: Depot (Hofladen)
+          _fr: Dépôt (épicerie)
+          _it: Punto di ritiro (drogheria)
         validated_at:
           _de: Bestätigt am
           _fr: Validé le

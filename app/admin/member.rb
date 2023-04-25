@@ -17,7 +17,11 @@ ActiveAdmin.register Member do
     label: -> { Member.human_attribute_name(:waiting_depot) },
     as: :select,
     collection: -> { Depot.visible },
-    if: proc { params[:scope].in? ['waiting', nil] }
+    if: proc { params[:scope] == 'waiting' && Current.acp.member_form_mode == 'membership' }
+  filter :shop_depot,
+    as: :select,
+    collection: -> { Depot.visible },
+    if: proc { params[:scope] != 'inactive' && Current.acp.member_form_mode == 'shop' }
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
@@ -35,7 +39,7 @@ ActiveAdmin.register Member do
     as: :boolean,
     if: proc { params[:scope].in? ['active', nil] }
 
-  includes next_basket: [:basket_size, :depot, :membership, baskets_basket_complements: :basket_complement]
+  includes :shop_depot, next_basket: [:basket_size, :depot, :membership, baskets_basket_complements: :basket_complement]
   index do
     column :id, ->(member) { auto_link member, member.id }
     if params[:scope] == 'waiting'
@@ -45,25 +49,31 @@ ActiveAdmin.register Member do
       }, sortable: :waiting_started_at
     end
     column :name, ->(member) { auto_link member }
-    case params[:scope]
-    when 'pending', 'waiting'
-      column Depot.model_name.human(count: Current.acp.allow_alternative_depots? ? 2 : 1), ->(member) {
-        ([member.waiting_depot] + member.waiting_alternative_depots)
-          .compact.map(&:name).to_sentence.truncate(50)
-      }
-    when nil, 'all', 'active'
-      column :next_basket, ->(member) {
-        if next_basket = member.next_basket
-          a href: url_for(member.next_basket.membership) do
-            content_tag(:span, [
-              next_basket.description,
-              next_basket.depot.name
-            ].join(' / '))
+    case Current.acp.member_form_mode
+    when 'membership'
+      case params[:scope]
+      when 'pending', 'waiting'
+        column Depot.model_name.human(count: Current.acp.allow_alternative_depots? ? 2 : 1), ->(member) {
+          ([member.waiting_depot] + member.waiting_alternative_depots)
+            .compact.map(&:name).to_sentence.truncate(50)
+        }
+      when nil, 'all', 'active'
+        column :next_basket, ->(member) {
+          if next_basket = member.next_basket
+            a href: url_for(member.next_basket.membership) do
+              content_tag(:span, [
+                next_basket.description,
+                next_basket.depot.name
+              ].join(' / '))
+            end
+            status_tag(:trial) if next_basket.trial?
           end
-          status_tag(:trial) if next_basket.trial?
-        end
-      }
-    else
+        }
+      end
+    when 'shop'
+      column(:shop_depot) unless params[:scope] == 'inactive'
+    end
+    if params[:scope] == 'inactive'
       column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : '–' }
     end
     column :state, ->(member) { status_tag(member.state) }
@@ -128,6 +138,9 @@ ActiveAdmin.register Member do
     end
     if Current.acp.feature?('contact_sharing')
       column(:contact_sharing)
+    end
+    if Current.acp.feature?('shop')
+      column(:shop_depot) { |m| m.shop_depot&.name }
     end
     column(:food_note)
     column(:come_from)
@@ -212,7 +225,35 @@ ActiveAdmin.register Member do
             end
           end
         end
-
+        if Current.acp.feature?('shop')
+          all_orders_path = shop_orders_path(q: { member_id_eq: member.id }, scope: :all_without_cart)
+          panel link_to(t('shop.title_orders', count: 2), all_orders_path) do
+            orders =
+              member
+                .shop_orders
+                .all_without_cart
+                .includes(:delivery, invoice: { pdf_file_attachment: :blob })
+                .order(created_at: :desc)
+            orders_count = orders.count
+            if orders_count.zero?
+              div do
+                em t('.no_orders')
+              end
+            else
+              table_for(orders.limit(3), class: 'table-shop_orders') do
+                column(:id) { |o| auto_link o, o.id }
+                column(:date) { |o| l(o.date, format: :number) }
+                column(:delivery) { |o| link_to o.delivery.display_name(format: :number), o.delivery }
+                column(:amount) { |o| cur(o.amount) }
+                column(:status) { |o| status_tag o.state_i18n_name, class: o.state }
+                column(class: 'col-actions') { |o| link_to_invoice_pdf(o.invoice) }
+              end
+              if orders_count > 3
+                em link_to(t('.show_more'), all_orders_path), class: 'show_more'
+              end
+            end
+          end
+        end
         if Current.acp.feature?('activity')
           all_activity_participations_path =
             activity_participations_path(q: { member_id_eq: member.id }, scope: :all)
@@ -228,7 +269,7 @@ ActiveAdmin.register Member do
                 column(Activity.model_name.human) { |ap|
                   auto_link ap, ap.activity.name
                 }
-                column(:participants_count)
+                column(:participants_short) { |ap| ap.participants_count }
                 column(:state) { |ap| status_tag(ap.state) }
               end
               if activity_participations_count > 6
@@ -312,6 +353,11 @@ ActiveAdmin.register Member do
           row(:created_at) { l member.created_at, format: :long }
           row(:validated_at) { member.validated_at ? l(member.validated_at, format: :long) : nil }
           row :validator
+        end
+        if Current.acp.feature?('shop') && member.use_shop_depot?
+          attributes_table title: t('shop.title') do
+            row(:depot) { member.shop_depot }
+          end
         end
         attributes_table title: Member.human_attribute_name(:contact) do
           row :name
@@ -462,6 +508,15 @@ ActiveAdmin.register Member do
         end
       end
     end
+    # TODO: Remove Current.acp.member_form_mode == 'shop' once announced
+    if Current.acp.feature?('shop') && Current.acp.member_form_mode == 'shop' && !member.current_or_future_membership
+      f.inputs t('shop.title') do
+        f.input :shop_depot,
+          label: Depot.model_name.human,
+          required: false,
+          collection: Depot.all
+      end
+    end
     f.inputs Member.human_attribute_name(:address) do
       f.input :address
       f.input :city
@@ -514,6 +569,7 @@ ActiveAdmin.register Member do
     :acp_shares_info, :existing_acp_shares_number, :desired_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_depot_id, :waiting_deliveries_cycle_id,
+    :shop_depot_id,
     :profession, :come_from, :food_note, :note,
     :contact_sharing,
     waiting_alternative_depot_ids: [],

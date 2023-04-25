@@ -464,32 +464,39 @@ _:
           _fr: Informations
           _it: Informazioni
     members:
+      form_modes:
+        membership:
+          acp_shares_text:
+            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben.
+            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
+            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
+          annual_fee_text:
+            _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
+            _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
+            _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
+          desired_acp_shares_number_hint:
+            _de: Sie können sich entscheiden, mehr zu kaufen, um die Genossenschaft zu unterstützen.
+            _fr: Vous pouvez décider d'en acquérir plus pour soutenir la coopérative.
+            _it: Comperandone più di una quota sostieni la cooperativa.
+          text:
+            _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
+            _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+            _it: Ogni socio si impegna per un abbonamento di un anno (%{fiscal_year_months_range}). Il prezzo durante l'anno è proporzionale al numero di consegne rimanenti.
+          trial_text:
+            one:
+              _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
+              _fr: La première livraison est à l'essai et sans engagement.
+              _it: La prima consegna è in prova e senza impegno.
+            other:
+              _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
+              _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+              _it: Le %{count} consegne sono in prova e senza impegno.
+        shop:
+          text:
+            _de: Bitte wählen Sie ein Depot für Ihre Bestellungen.
+            _fr: Merci de choisir un dépôt pour vos commandes.
+            _it: Scegliete un punto di ritiro per i vostri ordini.
       new:
-        acp_shares_text:
-          _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben.
-          _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
-          _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
-        annual_fee_text:
-          _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
-          _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
-          _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
-        desired_acp_shares_number_hint:
-          _de: Sie können sich entscheiden, mehr zu kaufen, um die Genossenschaft zu unterstützen.
-          _fr: Vous pouvez décider d'en acquérir plus pour soutenir la coopérative.
-          _it: Comperandone più di una quota sostieni la cooperativa.
-        membership_text:
-          _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
-          _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
-          _it: Ogni socio si impegna per un abbonamento di un anno (%{fiscal_year_months_range}). Il prezzo durante l'anno è proporzionale al numero di consegne rimanenti.
-        membership_trial_text:
-          one:
-            _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
-            _fr: La première livraison est à l'essai et sans engagement.
-            _it: La prima consegna è in prova e senza impegno.
-          other:
-            _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
-            _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
-            _it: Le %{count} consegne sono in prova e senza impegno.
         more_info:
           _de: Zusatzinformationen
           _fr: Infos complémentaires

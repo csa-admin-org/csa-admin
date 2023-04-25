@@ -35,5 +35,16 @@ section
       span class='ml-4'
         = t("languages.#{current_member.language}")
 
+    - if current_member.use_shop_depot?
+      li class='pt-4 flex flex-row'
+        = inline_svg_tag 'members/basket.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+        span class='ml-4'
+          - depot = current_member.shop_depot
+          - if depot.full_address
+            = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
+              = h depot.public_name
+          - else
+            = h depot.public_name
+
   div class='flex mt-8 w-full md:max-w-max'
     = link_to t('.edit_link'), edit_members_account_path, class: 'button md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'

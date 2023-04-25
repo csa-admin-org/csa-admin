@@ -25,9 +25,9 @@ describe PDF::Shop::Delivery do
       create(:membership, member: member2, depot: depot2)
       delivery = Delivery.current_year.first
 
-      procuder = create(:shop_producer, name: 'La ferme du Village')
+      producer = create(:shop_producer, name: 'La ferme du Village')
       product = create(:shop_product,
-        producer: procuder,
+        producer: producer,
         name: 'Courge',
         variants_attributes: {
           '0' => {

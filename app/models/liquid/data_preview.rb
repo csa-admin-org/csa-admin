@@ -76,6 +76,9 @@ class Liquid::DataPreview
         activity_participations_missing_count
       ]
     end
+    unless Current.acp.feature?(:shop)
+      methods -= %w[shop_depot]
+    end
     unless Current.acp.feature?(:basket_content)
       methods -= %w[contents]
     end

@@ -3,16 +3,20 @@ module PDF
     class Delivery < PDF::Base
       attr_reader :delivery, :current_time
 
-      def initialize(delivery, order: nil)
+      def initialize(delivery, order: nil, depot: nil)
         @delivery = delivery
         @orders =
           if order
             [order]
           else
-            delivery.shop_orders
-              .all_without_cart
-              .includes(:member, items: [:product_variant, product: :producer])
-              .sort_by { |order| [order.depot&.name.to_s, order.member] }
+            orders =
+              delivery.shop_orders
+                .all_without_cart
+                .includes(:member, :depot, items: [:product_variant, product: :producer])
+            if depot
+              orders = orders.where(depot: depot)
+            end
+            orders.sort_by { |order| [order.depot&.name.to_s, order.member] }
           end
         super
         @current_time = Time.current

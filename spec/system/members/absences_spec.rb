@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Absences', freeze: '2021-06-15' do
-  let(:member) { create(:member) }
+  let(:member) { create(:member, :active) }
 
   before do
     Capybara.app_host = 'http://membres.ragedevert.test'

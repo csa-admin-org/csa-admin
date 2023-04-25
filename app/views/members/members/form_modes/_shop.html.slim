@@ -1,0 +1,13 @@
+div
+  legend class="text-lg font-medium text-gray-700 dark:text-gray-300"
+    = t('shop.title')
+  div class='space-y-6'
+    div class='font-normal text-gray-500 mt-2 text-justify space-y-2'
+      - unless Current.acp.member_form_extra_text_only?
+        p = t('.text')
+      - if Current.acp.member_form_extra_text?
+        == Current.acp.member_form_extra_text
+
+    div
+      div class='space-y-6'
+        = f.input :shop_depot_id, as: :radio_buttons, collection: depots_collection(show_price: false), label: Depot.model_name.human, required: true, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }

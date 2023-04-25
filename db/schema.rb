@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_151211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -58,7 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
     t.string "activity_phone"
     t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
     t.boolean "absences_billed", default: true, null: false
-    t.jsonb "membership_extra_texts", default: {}, null: false
     t.boolean "delivery_pdf_show_phones", default: false, null: false
     t.string "group_buying_email"
     t.jsonb "group_buying_terms_of_service_urls", default: {}, null: false
@@ -552,6 +551,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
     t.bigint "waiting_deliveries_cycle_id"
     t.string "billing_email"
     t.integer "memberships_count", default: 0, null: false
+    t.bigint "shop_depot_id"
+    t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
@@ -743,7 +744,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "delivery_type", default: "Delivery", null: false
+    t.bigint "depot_id"
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
+    t.index ["depot_id"], name: "index_shop_orders_on_depot_id"
     t.index ["member_id", "delivery_type", "delivery_id"], name: "index_shop_orders_on_member_and_delivery", unique: true
     t.index ["state"], name: "index_shop_orders_on_state"
   end
@@ -822,6 +825,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
   add_foreign_key "group_buying_orders", "group_buying_deliveries", column: "delivery_id"
   add_foreign_key "group_buying_products", "group_buying_producers", column: "producer_id"
   add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "deliveries_cycles"
   add_foreign_key "memberships", "depots"
@@ -838,6 +842,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_074415) do
   add_foreign_key "shop_order_items", "shop_orders", column: "order_id"
   add_foreign_key "shop_order_items", "shop_product_variants", column: "product_variant_id"
   add_foreign_key "shop_order_items", "shop_products", column: "product_id"
+  add_foreign_key "shop_orders", "depots"
   add_foreign_key "shop_orders", "members"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
   add_foreign_key "shop_products", "basket_complements"

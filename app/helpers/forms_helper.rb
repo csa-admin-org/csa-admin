@@ -49,7 +49,7 @@ module FormsHelper
   end
 
   def form_modes_collection
-    ACP::FORM_MODES.map { |mode| [t("form_modes.#{mode}"), mode] }
+    ACP::INPUT_FORM_MODES.map { |mode| [t("form_modes.#{mode}"), mode] }
   end
 
   def label_with_language(txt, locale)

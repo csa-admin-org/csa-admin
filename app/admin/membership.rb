@@ -29,12 +29,11 @@ ActiveAdmin.register Membership do
   filter :member,
     as: :select,
     collection: -> { Member.joins(:memberships).order(:name).distinct }
-  filter :basket_size, as: :select, collection: -> { BasketSize.all }
+  filter :basket_size, as: :select
   filter :basket_complements,
     as: :select,
-    collection: -> { BasketComplement.all },
     if: :any_basket_complements?
-  filter :depot, as: :select, collection: -> { Depot.all }
+  filter :depot, as: :select
   filter :deliveries_cycle, as: :select
   filter :renewal_state,
     as: :select,

@@ -422,6 +422,10 @@ _:
           _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
+        shop_depot:
+          _de: Ermöglicht es einem Mitglied ohne Abonnement, Produkte vom Hofladen zu bestellen.
+          _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.
+          _it: Consente a un socio senza abbonamento di effettuare ordini di drogheria.
         waiting_alternative_depot_ids:
           _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Taschen vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos paniers dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.

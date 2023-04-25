@@ -1,5 +1,6 @@
 class Members::MembersController < Members::BaseController
   include ActivitiesHelper
+  include ShopHelper
 
   skip_before_action :authenticate_member!, only: %i[new create welcome]
   before_action :redirect_current_member!, only: %i[new create welcome]
@@ -15,6 +16,8 @@ class Members::MembersController < Members::BaseController
   def show
     if current_member.next_basket
       redirect_to members_deliveries_path
+    elsif show_shop_menu?
+      redirect_to shop_path
     elsif display_activity?
       redirect_to members_activity_participations_path
     else
@@ -75,6 +78,7 @@ class Members::MembersController < Members::BaseController
         :waiting_depot_id, :waiting_deliveries_cycle_id,
         :desired_acp_shares_number,
         :billing_year_division,
+        :shop_depot_id,
         :profession, :come_from, :note,
         :terms_of_service,
         waiting_alternative_depot_ids: [],
@@ -86,5 +90,15 @@ class Members::MembersController < Members::BaseController
     }
     permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
     permitted
+  end
+
+  def shop_path
+    if !current_shop_delivery&.shop_open? && next_shop_delivery
+      members_shop_next_path
+    elsif shop_special_deliveries.any?
+      members_shop_special_delivery_path(shop_special_deliveries.first.date)
+    else
+      members_shop_path
+    end
   end
 end

@@ -3,17 +3,21 @@ module XLSX
     class Delivery < Base
       include ActionView::Helpers::TextHelper
 
-      def initialize(delivery, producer = nil)
+      def initialize(delivery, producer = nil, depot: nil)
         @delivery = delivery
+        orders = ::Shop::Order.where(delivery: delivery).all_without_cart
+        if depot
+          orders = orders.where(depot: depot)
+        end
         @order_items =
           ::Shop::OrderItem
             .joins(:order)
-            .merge(::Shop::Order.where(delivery: delivery).all_without_cart)
-            .eager_load(:product_variant, product: :producer, order: [:invoice, :member])
+            .merge(orders)
+            .eager_load(:product_variant, product: :producer, order: [:invoice, :member, :depot])
             .order(Arel.sql("members.name, shop_products.names->>'#{I18n.locale}', shop_product_variants.names->>'#{I18n.locale}'"))
         @producers = @order_items.map { |i| i.product.producer }.uniq
 
-        build_all_procuders_worksheet unless producer
+        build_all_producers_worksheet unless producer
         Array(producer || @producers).each do |p|
           build_producer_worksheet(p)
         end
@@ -30,7 +34,7 @@ module XLSX
 
       private
 
-      def build_all_procuders_worksheet
+      def build_all_producers_worksheet
         worksheet_name = I18n.t('shop.producers.all')
         add_order_items_worksheet(worksheet_name, @order_items)
       end
@@ -46,13 +50,16 @@ module XLSX
         add_worksheet(name)
 
         add_column(
-          Member.human_attribute_name(:name),
-          order_items.map { |i| i.order.member.name })
-        add_column(
           ::Shop::Order.model_name.human,
           order_items.map { |i| i.order.id },
           align: 'right',
           min_width: 12)
+        add_column(
+          Member.human_attribute_name(:name),
+          order_items.map { |i| i.order.member.name })
+        add_column(
+          Depot.model_name.human,
+          order_items.map { |i| i.order.depot&.name })
         unless producer
           add_column(
             ::Shop::Producer.model_name.human,

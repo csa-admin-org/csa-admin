@@ -155,10 +155,10 @@ describe Newsletter::Template do
 
   specify 'send default next delivery template' do
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
-    member = create(:member, name: 'John Doe')
-    create(:membership, member: member)
+    member = create(:member, :active, name: 'John Doe')
     create(:activity, date: 1.week.from_now)
     create(:activity_participation, member: member)
+
     newsletter = create(:newsletter,
       template: template,
       audience: 'member_state::active',

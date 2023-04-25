@@ -256,6 +256,17 @@ describe Shop::Order do
         .to change { product.variants.first.reload.stock }.from(2).to(1)
         .and change { order.reload.state }.from('cart').to('pending')
     end
+
+    specify 'persist the depot' do
+      member = create(:member, :active)
+      depot = member.current_membership.depot
+      order = create(:shop_order, :cart, member: member)
+
+      expect(order.depot).to eq(depot)
+
+      expect { order.confirm! }
+        .to change { order.reload.depot_id }.from(nil).to(depot.id)
+    end
   end
 
   describe '#invoice!' do

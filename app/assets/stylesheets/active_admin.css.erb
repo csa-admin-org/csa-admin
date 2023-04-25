@@ -643,12 +643,6 @@ table#index_table_invoices .col-paid_amount,
 table#index_table_payments .col-amount,
 table#index_table_payments .col-paid_amount {
   text-align: right;
-  width: 130px;
-}
-
-table#index_table_invoices .col-rap,
-table#index_table_payments .col-rap {
-  text-align: right;
 }
 
 table#index_table_deliveries .col- {
@@ -750,7 +744,17 @@ table.table-group_buying_orders .col-amount,
 table.table-shop_orders .col-price,
 table.table-shop_orders .col-item_price,
 table.table-shop_orders .col-amount {
-  width: 90px !important;
+  min-width: 90px !important;
+}
+
+table.table-shop_orders .col-date {
+  min-width: 50px;
+}
+table.table-shop_orders .col-delivery {
+  min-width: 100px;
+}
+table.table-shop_orders .col-status {
+  text-align: right;
 }
 
 table.table-group_buying_orders .col-quantity,
@@ -766,21 +770,23 @@ table .col-newsletters {
   width: 50px;
 }
 
-table#index_table_invoices .col-rap,
-table.table-invoices .col-rap {
-  text-align: right;
-  width: 30px;
-  padding-right: 10px;
-}
-
 table#index_table_invoices .col-status,
 table.table-invoices .col-status {
   text-align: right;
   width: 100px;
 }
 
+table.table-shop_orders .col-actions,
+table.table-invoices .col-actions {
+  width: 15px;
+  padding-right: 0;
+  margin-right: 0;
+}
+table.table-shop_orders .col-actions a.pdf_link,
 table.table-invoices .col-actions a.pdf_link {
   top: 1px;
+  padding-right: 0;
+  margin-right: 0;
 }
 
 table#index_table_invoices .col-overdue_notices_count,
@@ -830,9 +836,9 @@ table.table-activity_participations .col-description {
 }
 
 table#index_table_activity_participations .col-participants,
-table#index_table_activity_participations .col-participants_count,
+table#index_table_activity_participations .col-participants_short,
 table.table-activity_participations .col-participants,
-table.table-activity_participations .col-participants_count {
+table.table-activity_participations .col-participants_short {
   width: 40px;
   text-align: right;
 }
