@@ -303,7 +303,11 @@ ActiveAdmin.register Shop::Order do
   before_action only: :index do
     if params.except(:subdomain, :controller, :action).empty? &&
         params[:q].blank? &&
-        next_delivery = Delivery.shop_open.next
+        next_delivery =
+          Delivery.shop_open.next ||
+          Shop::SpecialDelivery.next ||
+          Delivery.shop_open.last ||
+          Shop::SpecialDelivery.last
       redirect_to q: { _delivery_gid_eq: next_delivery.gid }, utf8: '✓'
     end
   end
