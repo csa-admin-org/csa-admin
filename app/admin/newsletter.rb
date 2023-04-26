@@ -268,7 +268,7 @@ ActiveAdmin.register Newsletter do
     link_to(t('.duplicate'), new_newsletter_path(newsletter_id: resource.id), class: 'duplicate_link')
   end
 
-  action_item :send_email, class: 'send_newsletter', only: :show, if: -> { authorized?(:send_email, resource) } do
+  action_item :send_email, class: 'left-margin', only: :show, if: -> { authorized?(:send_email, resource) } do
     button_to t('.send_email'), send_email_newsletter_path(resource),
       form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
       data: { confirm: t('.newsletter.confirm', members_count: resource.members_count) }
