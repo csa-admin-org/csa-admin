@@ -1014,4 +1014,12 @@ describe Membership do
       }.not_to change { membership.baskets.first.depot }
     end
   end
+
+  specify 'activates pending member on creation' do
+    member = create(:member, :waiting)
+
+    expect {
+      create(:membership, member: member)
+    }.to change { member.reload.state }.from('waiting').to('active')
+  end
 end

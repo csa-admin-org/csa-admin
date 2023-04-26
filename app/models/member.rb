@@ -219,7 +219,7 @@ class Member < ApplicationRecord
   end
 
   def review_active_state!
-    return if pending? || waiting?
+    return if pending?
 
     if current_or_future_membership || shop_depot
       activate! unless active?
