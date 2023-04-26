@@ -224,17 +224,6 @@ ActiveAdmin.register Shop::Order do
       :_destroy
     ])
 
-  action_item :invoice, only: :show, if: -> { resource.can_invoice? } do
-    button_to t('.invoice_action'), invoice_shop_order_path(resource),
-      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
-  end
-
-  member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
-    resource.admin = current_admin
-    resource.invoice!
-    redirect_to resource_path, notice: t('.flash.notice')
-  end
-
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
     button_to t('.cancel_action'), cancel_shop_order_path(resource),
       form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
@@ -258,6 +247,17 @@ ActiveAdmin.register Shop::Order do
 
   action_item :delivery_pdf, only: :show do
     link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: '_blank'
+  end
+
+  action_item :invoice, class: 'left-margin', only: :show, if: -> { resource.can_invoice? } do
+    button_to t('.invoice_action'), invoice_shop_order_path(resource),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
+  end
+
+  member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
+    resource.admin = current_admin
+    resource.invoice!
+    redirect_to resource_path, notice: t('.flash.notice')
   end
 
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
