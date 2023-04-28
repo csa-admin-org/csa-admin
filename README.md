@@ -45,6 +45,8 @@ Utilisé actuellement par les ACP suivantes:
 - [Le Petit Sécheron](https://lepetitsecheron.ch)
 - [Le Petit Marché de Savigny](https://paniersdesavigny.ch)
 - [Les Jardins de Cocagne](https://cocagne.ch)
+- [Les Potagers de Gaïa](https://www.potagersdegaia.ch)
+- [La Touvière](https://www.latouviere.ch)
 
 ## Développement et support
 
