@@ -16,8 +16,7 @@ class Depot < ApplicationRecord
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
   has_and_belongs_to_many :deliveries_cycles,
-    after_add: :deliveries_cycles_changed!,
-    after_remove: :deliveries_cycles_changed!
+    after_remove: :deliveries_cycles_removed!
   has_and_belongs_to_many :visibe_deliveries_cycles,
     -> { visible },
     class_name: 'DeliveriesCycle'
@@ -109,15 +108,15 @@ class Depot < ApplicationRecord
 
   private
 
-  def deliveries_cycles_changed!(deliveries_cycle)
-    @deliveries_cycles_changes ||= []
-    @deliveries_cycles_changes << deliveries_cycle
+  def deliveries_cycles_removed!(deliveries_cycle)
+    @deliveries_cycles_removed ||= []
+    @deliveries_cycles_removed << deliveries_cycle
   end
 
   def update_baskets_async
-    return unless @deliveries_cycles_changes
+    return unless @deliveries_cycles_removed
 
-    @deliveries_cycles_changes.uniq.each do |deliveries_cycle|
+    @deliveries_cycles_removed.uniq.each do |deliveries_cycle|
       DeliveriesCycleBasketsUpdaterJob.perform_later(deliveries_cycle)
     end
   end
