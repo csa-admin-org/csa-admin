@@ -38,3 +38,13 @@ Exemple d'un bloc avec un titre et un contenu par défaut:
 Vous pouvez ajouter des pièces jointes à vos newsletters, mais le poids total de ces pièces jointes ne doit pas dépasser 5 Mo.
 
 Si vous souhaitez envoyer des pièces jointes plus lourdes, vous pouvez utiliser un service externe tel que [SwissTransfer](https://www.swisstransfer.com) ou les héberger sur votre site et simplement ajouter un lien vers ces fichiers dans votre newsletter.
+
+## Désinscriptions
+
+Les newsletters envoyées avec ACP Admin incluent un lien de désinscription (obligatoire) dans leur bas de page. Pour les ACP qui utilisent encore Mailchimp, la liste des désinscriptions est synchronisée avec ACP Admin, mais l'inverse n'est pas possible.
+
+Pour les ACP qui n'ont pas (ou plus) la synchronisation avec Mailchimp, un lien de réinscription est présent dans [le compte du membre](<%= members_account_url(subdomain: Current.acp.members_subdomain) %>) en dessous de son adresse email.
+
+![lien de réinscription](<%= image_url('handbook/newsletters/subscribe-back.png') %>){:width="250px"}
+
+> Merci de noter que le lien de désinscription est uniquement affiché dans le compte du membre quand la session a été initiée directement par le membre et non par un admin.
