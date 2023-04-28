@@ -16,15 +16,27 @@ describe MembershipBasketsUpdater do
       ended_on: '2022-01-31')
   }
 
-  specify 'update membership cycle when removed from depot', freeze: '2022-01-01' do
+  specify 'update membership cycle when removed from depot but not when added', freeze: '2022-01-01' do
     membership
-    new_cycle = create(:deliveries_cycle, wdays: [3])
-    expect(new_cycle.current_deliveries_count).to eq(3)
+    other_cycle = create(:deliveries_cycle, wdays: [3])
+    expect(other_cycle.current_deliveries_count).to eq(3)
+    other_depot = create(:depot, deliveries_cycles: [other_cycle])
+    other_membership = create(:membership,
+      depot: other_depot,
+      deliveries_cycle: other_cycle,
+      started_on: '2022-01-01',
+      ended_on: '2022-01-31')
 
-    expect { depot.update!(deliveries_cycles: [new_cycle]) }
+    # Update other membership to ensure it is not updated when depot is updated
+    other_membership.update!(updated_at: '2022-01-02')
+
+    expect { depot.update!(deliveries_cycles: [cycle, other_cycle]) }
+      .not_to change { other_membership.reload.updated_at }
+
+    expect { depot.update!(deliveries_cycles: [other_cycle]) }
       .to change { membership.reload.baskets.count }.from(6).to(3)
       .and change { membership.reload.price }.from(180).to(90)
-      .and change { membership.reload.deliveries_cycle }.from(cycle).to(new_cycle)
+      .and change { membership.reload.deliveries_cycle }.from(cycle).to(other_cycle)
 
     expect(membership.deliveries.map(&:date).map(&:to_s)).to eq([
       '2022-01-05',
