@@ -59,6 +59,7 @@ module Shop
     end
 
     def shop_open?
+      return false unless Current.acp.feature?('shop')
       return false unless open
 
       !shop_closing_at.past?

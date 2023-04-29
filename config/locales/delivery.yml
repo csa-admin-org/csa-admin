@@ -1,9 +1,5 @@
 _:
   delivery:
-    baskets_to_prepare:
-      _de: Taschen vorzubereiten
-      _fr: Paniers à préparer
-      _it: Ceste da preparare
     delivered_by:
       _de: Liefert von
       _fr: Livré par
@@ -12,6 +8,10 @@ _:
       _de: lieferung
       _fr: livraison
       _it: consegna
+    free_depots:
+      _de: Gratis Depots
+      _fr: Dépôts gratuits
+      _it: Punto di ritiro gratuito
     group_buying/delivery:
       _de: gruppeneinkauf-lieferung
       _fr: achats-groupés-livraison
@@ -20,6 +20,10 @@ _:
       _de: Kein Zusatz
       _fr: Aucun complément
       _it: Nessun supplemento
+    paid_depots:
+      _de: Bezahlte Depots
+      _fr: Dépôts payants
+      _it: Punto di ritiro a pagamento
     recap:
       _de: Zusammenfassung
       _fr: Récapitulatif

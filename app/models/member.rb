@@ -8,6 +8,9 @@ class Member < ApplicationRecord
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
+  # Temporary attributes for Delivery XLSX worksheet
+  attr_accessor :basket, :shop_order
+
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
   attribute :language, :string, default: -> { Current.acp.languages.first }

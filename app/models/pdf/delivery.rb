@@ -8,33 +8,26 @@ module PDF
       @current_time = Time.current
       basket_ids = delivery.baskets.not_empty.pluck(:id)
       @baskets = Basket.where(id: basket_ids).includes(:member, :baskets_basket_complements, membership: :member).order('members.name')
-      @depots =
-        if depot
-          [depot]
-        else
-          Depot.where(id: @baskets.pluck(:depot_id).uniq)
-        end
-      if Current.acp.feature?('shop')
-        @shop_orders =
-          @delivery
-            .shop_orders
-            .all_without_cart
-            .includes(items: { product: :basket_complement })
-      end
+      @shop_orders =
+        @delivery
+          .shop_orders
+          .all_without_cart
+          .includes(:member, items: { product: :basket_complement })
+      @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
+      members_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 22
 
-      basket_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 22
-
-      @depots.each do |dist|
-        baskets = @baskets.where(depot: dist)
+      Array(@depot || @depots).each do |depot|
+        baskets = @baskets.where(depot: depot)
+        shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = basket_sizes_for(baskets)
-        total_pages = (baskets.count / basket_per_page.to_f).ceil
-
-        baskets.each_slice(basket_per_page).with_index do |slice, i|
+        member_ids = (baskets.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+        total_pages = (member_ids.count / members_per_page.to_f).ceil
+        member_ids.each_slice(members_per_page).with_index do |slice, i|
           page_n = i + 1
-          page(dist, slice, baskets, basket_sizes, page: page_n, total_pages: total_pages)
+          page(depot, slice, baskets, basket_sizes, shop_orders, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
-        start_new_page unless @depots.last == dist
+        start_new_page unless @depots.last == depot
       end
     end
 
@@ -53,9 +46,9 @@ module PDF
       super.merge(Title: "#{::Delivery.human_attribute_name(:signature_sheets)} #{delivery.date}")
     end
 
-    def page(depot, page_baskets, baskets, basket_sizes, page:, total_pages:)
+    def page(depot, member_ids, baskets, basket_sizes, shop_orders, page:, total_pages:)
       header(depot, page: page, total_pages: total_pages)
-      content(depot, page_baskets, baskets, basket_sizes)
+      content(depot, member_ids, baskets, basket_sizes, shop_orders)
       footer
     end
 
@@ -81,17 +74,16 @@ module PDF
       end
     end
 
-    def content(depot, page_baskets, baskets, basket_sizes)
-      shop_orders = @shop_orders&.where(member_id: baskets.pluck(:member_id))
-      show_shop_orders = @delivery.shop_open && shop_orders&.any?
-      basket_complements = basket_complements_for(baskets, show_shop_orders && shop_orders)
+    def content(depot, member_ids, baskets, basket_sizes, shop_orders)
+      members = Member.where(id: member_ids).order(:name)
+      basket_complements = basket_complements_for(baskets, shop_orders)
 
       font_size 11
       move_down 2.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
-      bc_size += 1 if show_shop_orders
+      bc_size += 1 if shop_orders.any?
 
       page_border = 20
       width = bounds.width - 2 * page_border
@@ -114,7 +106,7 @@ module PDF
             at: [member_name_width + (bs_size + i) * 25 + 7, cursor + 8],
             valign: :center
         end
-        if show_shop_orders
+        if shop_orders.any?
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
             at: [member_name_width + (bs_size + bc_size - 1) * 25 + 7, cursor + 8],
@@ -148,21 +140,19 @@ module PDF
             .flat_map(&:baskets_basket_complements)
             .select { |bbc| bbc.basket_complement_id == c.id }
             .sum(&:quantity)
-        if show_shop_orders
-          basket_complement_total +=
-            shop_orders
-              .joins(items: { product: :basket_complement })
-              .where(shop_products: { basket_complement_id: c.id })
-              .sum('shop_order_items.quantity')
-              .to_i
-        end
+        basket_complement_total +=
+          shop_orders
+            .joins(items: { product: :basket_complement })
+            .where(shop_products: { basket_complement_id: c.id })
+            .sum('shop_order_items.quantity')
+            .to_i
         total_line << {
           content: basket_complement_total.to_s,
           width: 25,
           align: :center
         }
       end
-      if show_shop_orders
+      if shop_orders.any?
         total_line << {
           content: shop_orders.count.to_s,
           width: 25,
@@ -177,11 +167,13 @@ module PDF
       data << total_line
 
       # Baskets
-      page_baskets.each do |basket|
-        column_content = basket.member.name
+      members.each do |member|
+        column_content = member.name
+        basket = baskets.find { |b| b.membership.member_id == member.id }
+        shop_order = shop_orders.find { |so| so.member_id == member.id }
 
         if Current.acp.delivery_pdf_show_phones?
-          phones = basket.member.phones_array
+          phones = member.phones_array
           if phones.any?
             txt = phones.map { |p| display_phone(p) }.join(', ')
             column_content += "<font size='3'>\n\n</font>"
@@ -194,19 +186,23 @@ module PDF
           width: member_name_width,
           align: :right,
           padding_right: 15,
-          font_style: basket.absent? ? :italic : nil,
-          text_color: basket.absent? ? '999999' : nil
+          font_style: basket&.absent? ? :italic : nil,
+          text_color: basket&.absent? ? '999999' : nil
         ]
         basket_sizes.each do |bs|
-          line << (basket.absent? ? '–' : (basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''))
-        end
-        shop_order = shop_orders&.find { |so| so.member_id == basket.membership.member_id }
-        basket_complements.each do |c|
           line <<
-            if basket.absent?
+            if basket&.absent?
               '–'
             else
-              quantity = basket.baskets_basket_complements.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
+              basket && basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''
+            end
+        end
+        basket_complements.each do |c|
+          line <<
+            if basket&.absent?
+              '–'
+            else
+              quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
               if shop_order
                 shop_order_item = shop_order.items.find { |i| i.product.basket_complement_id == c.id }
                 quantity += shop_order_item&.quantity || 0
@@ -214,16 +210,16 @@ module PDF
               display_quantity(quantity)
             end
         end
-        if show_shop_orders
+        if shop_orders.any?
           line <<
-            if basket.absent?
+            if basket&.absent?
               '–'
             else
               shop_order ? 'X' : ''
             end
         end
         line << {
-          content: basket.absent? ? Basket.human_attribute_name(:absent).upcase : '',
+          content: basket&.absent? ? Basket.human_attribute_name(:absent).upcase : '',
           width: signature_width,
           align: :center
         }
@@ -309,12 +305,10 @@ module PDF
           .joins(:baskets_basket_complements)
           .where('baskets_basket_complements.quantity > 0')
           .pluck(:basket_complement_id)
-      if shop_orders
-        complement_ids +=
-          shop_orders
-            .joins(:products)
-            .pluck('shop_products.basket_complement_id')
-      end
+      complement_ids +=
+        shop_orders
+          .joins(:products)
+          .pluck('shop_products.basket_complement_id')
       BasketComplement.where(id: complement_ids.uniq)
     end
   end

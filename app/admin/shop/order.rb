@@ -329,12 +329,15 @@ ActiveAdmin.register Shop::Order do
     include ShopHelper
 
     before_create do |order|
-      order.state = Shop::Order::PENDING_STATE
       # Clear stale cart order
       cart_order = Shop::Order.cart.find_by(member_id: order.member_id, delivery_id: order.delivery_id)
       if cart_order && !cart_order.can_member_update?
         cart_order.destroy
       end
+    end
+
+    after_create do |order|
+      order.confirm!
     end
   end
 

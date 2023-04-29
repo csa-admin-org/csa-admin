@@ -100,6 +100,7 @@ class Delivery < ApplicationRecord
   end
 
   def shop_open?
+    return false unless Current.acp.feature?('shop')
     return false unless shop_open
 
     !shop_closing_at.past?
