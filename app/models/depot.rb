@@ -63,6 +63,10 @@ class Depot < ApplicationRecord
     price.zero?
   end
 
+  def paid?
+    price.positive?
+  end
+
   def require_delivery_address?
     address.blank?
   end

@@ -1,38 +1,53 @@
 counts = delivery.basket_counts(scope: scope)
 bs_names = delivery.basket_sizes.map(&:name)
 bs_splitter = bs_names.join.size > 20 ? "&nbsp;/<br/>" : " /&nbsp;"
+show_shop_orders = Current.acp.feature?('shop') && delivery.shop_open && scope != :absent
 
 table_for counts.all, class: 'next-delivery' do
   column Depot.model_name.human, :title, class: 'depot'
-  column Basket.model_name.human(count: 2), :count, class: 'total align-right'
-  column "#{bs_names.join(bs_splitter)}".html_safe, :baskets_count, class: 'baskets-total align-right'
+  if show_shop_orders
+    column link_to(t('shop.title'), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: 'total align-right'
+  end
+  if counts.sum.positive?
+    column Basket.model_name.human(count: 2), :count, class: 'total align-right'
+    column "#{bs_names.join(bs_splitter)}".html_safe, :baskets_count, class: 'baskets-total align-right'
+  end
 end
 
-paid_depots = delivery.depots.paid
-if paid_depots.any?
+if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
   free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id), scope: scope)
   paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id), scope: scope)
   totals = [
     OpenStruct.new(
-      title: "#{Basket.model_name.human(count: 2)}: #{free_counts.depots.pluck(:name).to_sentence}",
+      title: t('delivery.free_depots'),
       count: free_counts.sum,
       baskets_count: free_counts.sum_detail),
     OpenStruct.new(
-      title: t('delivery.baskets_to_prepare'),
+      title: t('delivery.paid_depots'),
       count:  paid_counts.sum,
       baskets_count: paid_counts.sum_detail)
   ]
   table_for totals, class: 'next-delivery' do
     column nil, :title, class: 'depot'
-    column nil, :count, class: 'total align-right'
-    column nil, :baskets_count, class: 'baskets-total align-right'
+    if show_shop_orders
+      column nil, :shop_orders_count, class: 'total align-right'
+    end
+    if counts.sum.positive?
+      column nil, :count, class: 'total align-right'
+      column nil, :baskets_count, class: 'baskets-total align-right'
+    end
   end
 end
 
 table_for nil, class: 'next-delivery next-delivery-total' do
-  column(nil, :title, class: 'depot text-bold') { t('active_admin.page.index.totals', numbers: '') }
-  column(class: 'total align-right text-bold') { counts.sum }
-  column(class: 'baskets-total align-right text-bold') { counts.sum_detail }
+  column(nil, :title, class: 'depot text-bold') { t('active_admin.page.index.total', number: '') }
+  if show_shop_orders
+    column(class: 'total align-right text-bold') { counts.sum_shop_orders }
+  end
+  if counts.sum.positive?
+    column(class: 'total align-right text-bold') { counts.sum }
+    column(class: 'baskets-total align-right text-bold') { counts.sum_detail }
+  end
 end
 
 if BasketComplement.any?
@@ -41,11 +56,11 @@ if BasketComplement.any?
     if counts.any?
       table_for counts do
         column BasketComplement.model_name.human, :title
-        if Current.acp.feature?('shop') && scope != :absent
-          column Membership.model_name.human(count: 2), :memberships_count, class: 'align-right'
-          column Shop::Order.model_name.human(count: 2), :shop_orders_count, class: 'align-right'
+        if show_shop_orders
+          column link_to(t('shop.title'), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: 'align-right'
         end
-        column t('active_admin.page.index.total', number: ''), :count, class: 'align-right'
+        column Membership.model_name.human(count: 2), :memberships_count, class: 'align-right'
+        column t('active_admin.page.index.total', number: ''), :count, class: 'align-right text-bold'
       end
     else
       em t('delivery.no_basket_complements')

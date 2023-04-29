@@ -66,16 +66,6 @@ ActiveAdmin.register_page 'Dashboard' do
                 render partial: 'active_admin/deliveries/baskets',
                   locals: { delivery: next_delivery, scope: :not_absent }
 
-                if Current.acp.feature?('shop')
-                  count = Shop::Order.all_without_cart.where(delivery: next_delivery).count
-                  div id: 'shop-orders' do
-                    span(class: 'bold') { t('shop.title') + ':' }
-                    span(style: 'margin-left: 5px') do
-                      link_to t('shop.orders', count: count), shop_orders_path(q: { _delivery_gid_eq: next_delivery.gid }, scope: :all_without_cart)
-                    end
-                  end
-                end
-
                 if next_delivery.note?
                   div class: 'delivery-note' do
                     para next_delivery.note

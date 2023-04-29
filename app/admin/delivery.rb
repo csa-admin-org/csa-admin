@@ -201,21 +201,22 @@ ActiveAdmin.register Delivery do
     include TranslatedCSVFilename
 
     def show
+      depot = Depot.find(params[:depot_id]) if params[:depot_id]
       super do |success, _failure|
         success.html
         success.xlsx do
           xlsx =
             if params[:shop]
-              XLSX::Shop::Delivery.new(resource, nil)
+              XLSX::Shop::Delivery.new(resource, nil, depot: depot)
             else
-              XLSX::Delivery.new(resource)
+              XLSX::Delivery.new(resource, depot)
             end
           send_data xlsx.data,
             content_type: xlsx.content_type,
             filename: xlsx.filename
         end
         success.pdf do
-          pdf = PDF::Delivery.new(resource)
+          pdf = PDF::Delivery.new(resource, depot)
           send_data pdf.render,
             content_type: pdf.content_type,
             filename: pdf.filename,

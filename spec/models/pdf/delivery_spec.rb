@@ -99,8 +99,9 @@ describe PDF::Delivery do
     end
 
     specify 'includes shop orders' do
+      Current.acp.update!(features: ['shop'])
       depot = create(:depot, name: 'Fleurs Kissling')
-      delivery = create(:delivery)
+      delivery = create(:delivery, shop_open: true)
       member = create(:member, name: 'Alain Reymond')
       member2 = create(:member, name: 'John Doe')
       basket_complement = create(:basket_complement,
@@ -148,6 +149,7 @@ describe PDF::Delivery do
       order = create(:shop_order, :pending,
         delivery: delivery,
         member: member,
+        depot: depot,
         items_attributes: {
         '0' => {
           product_id: product.id,
@@ -158,6 +160,7 @@ describe PDF::Delivery do
       order = create(:shop_order, :pending,
         delivery: delivery,
         member: member2,
+        depot: depot,
         items_attributes: {
         '0' => {
           product_id: product2.id,
