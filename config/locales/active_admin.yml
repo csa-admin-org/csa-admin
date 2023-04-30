@@ -577,7 +577,7 @@ _:
         membership_update_text_html:
           _de: Ermöglichen Sie Ihren Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder Taschenfutures individuell von ihrem Konto aus zu ändern.
           _fr: Permettez à vos membres de modifier la configuration de leur abonnement ou futures paniers individuellement depuis leur compte.
-          _it: Permettete ai vostri membri di modificare le impostazioni di abbonamento o i panieri futuri individualmente dal loro account.
+          _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o i cestini futuri individualmente dal loro account.
         preview:
           _de: Vorschau
           _fr: Prévisualisation
@@ -998,7 +998,7 @@ _:
           confirm:
             _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
             _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
-            _it: Sei sicuro di voler inviare questa newsletter a %{members_count} membri?
+            _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
         no_absences:
           _de: Keine Abwesenheit
           _fr: Aucune absence

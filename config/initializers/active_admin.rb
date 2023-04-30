@@ -454,8 +454,8 @@ end
 
 module ActiveAdmin
   class DSL
-    def sidebar_handbook_link(page)
-      section = ActiveAdmin::SidebarSection.new(:handbook, only: :index) do
+    def sidebar_handbook_link(page, only: :index)
+      section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
         a href: "/handbook/#{page}" do
           span inline_svg_tag('admin/book-open.svg', size: '20')
           span t('layouts.footer.handbook')

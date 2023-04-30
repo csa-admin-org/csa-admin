@@ -33,7 +33,7 @@ _:
         activity_participations_demanded_logic_html:
           _de: 'Logik, welche <a href=''https://shopify.github.io/liquid/'' target=''_blank''>die Liquid-Syntax</a> verwendet, um die Anzahl der für ein Abonnement benötigten Teilnahmen zu berechnen.</br>Die folgenden Variablen sind verfügbar:</br>– <b>member.salary_basket</b>: Mitglied mit Lohnkorb</br>– <b>membership.full_year_deliveries</b>: Anzahl der Lieferungen für ein ganzes Jahr.</br>– <b>membership.baskets</b>: Anzahl der Taschen des Abonnements</br>– <b>member.full_year_activity_participations</b>: Anzahl der beantragten Teilnahmen des Abonnements für ein ganzes Jahr'
           _fr: 'Logique utilisant <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la syntaxe Liquid</a> qui permet de calculer le nombre de participations demandées pour un abonnement.</br>Les variables suivantes sont disponibles:</br>– <b>member.salary_basket</b>: Membre avec panier-salaire</br>– <b>membership.full_year_deliveries</b>: Nombre de livraisons pour une année complète</br>– <b>membership.baskets</b>: Nombre de paniers de l''abonnement</br>– <b>member.full_year_activity_participations</b>: Nombre de participations demandées de l''abonnement pour une année complète'
-          _it: 'Logica che utilizza <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la sintassi Liquid</a> che calcola il numero di voci necessarie per un abbonamento.</br>Sono disponibili le seguenti variabili:</br>– <b>member.salary_basket</b>: membro con paniere salariale</br>– <b>membership.full_year_deliveries</b>: Numero di consegne per un anno intero</br>– <b>membership.baskets</b>: numero di cesti nella membership</br>– <b>member.full_year_activity_participations</b>: numero di partecipazioni richieste ai membri per un anno intero'
+          _it: 'Logica che utilizza <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la sintassi Liquid</a> che calcola il numero di voci necessarie per un abbonamento.</br>Sono disponibili le seguenti variabili:</br>– <b>member.salary_basket</b>: membro con paniere salariale</br>– <b>membership.full_year_deliveries</b>: Numero di consegne per un anno intero</br>– <b>membership.baskets</b>: numero di cesti nella membership</br>– <b>member.full_year_activity_participations</b>: numero di partecipazioni richieste ai soci per un anno intero'
         activity_price:
           _de: Belassen Sie es bei 0, wenn die fehlende Teilnahme nicht berechnet wird.
           _fr: Laisser à zéro si le manque de participation n'est pas facturé.
@@ -389,7 +389,7 @@ _:
         contact_sharing:
           _de: Gemeinsame Nutzung von Kontakten zwischen Mitgliedern desselben Depots
           _fr: Partage de contact entre membres d'un même dépôt
-          _it: Condivisione di informazioni di contatto tra membri di un stesso luogo di consegna
+          _it: Condivisione dei contatti tra i soci dello stesso punto di ritiro
         delivery_address:
           _de: Leer lassen, wenn gleich.
           _fr: Laisser vide si identique.
@@ -496,8 +496,12 @@ _:
           _it: Tutti i punti di ritiro sono inclusi se nessuno è selezionato.
         first_membership:
           _de: Unterscheidet neue Mitglieder von alten, die bereits mehrere Abonnements haben.
-          _fr: Permet de différencier les nouveaux membres des anciens qui ont déjà plusieurs abonnements.
-          _it: Consente di differenziare i nuovi membri da quelli vecchi che hanno già diversi abbonamenti.
+          _fr: Permet de différencier les nouveaux membres actifs des anciens qui étaient déjà abonnés les années précédentes.
+          _it: Permette di distinguere tra nuovi soci attivi e vecchi soci che erano già abbonati negli anni precedenti
+        renewal_state:
+          _de: Unterscheidet aktive Mitglieder nach dem Erneuerungsstatus ihres aktuellen oder zukünftigen Abonnements.
+          _fr: Permet de différencier les membres actifs par l'état de renouvellement de leur abonnement actuel ou future.
+          _it: Permette di differenziare i soci attivi in base allo stato di rinnovo dell'abbonamento attuale o futuro.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.
