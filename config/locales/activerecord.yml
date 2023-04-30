@@ -1149,9 +1149,9 @@ _:
           _it: File
       newsletter/segment:
         first_membership:
-          _de: Erstes Abonnement
-          _fr: Premier abonnement
-          _it: Primo abbonamento
+          _de: Erstes Abonnement dieses Jahr
+          _fr: Premier abonnement cette année
+          _it: Primo abbonamento quest'anno
       newsletter/template:
         content:
           _de: Inhalt
@@ -1432,7 +1432,7 @@ _:
         one:
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
           _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
-          _it: Condivisione di informazioni di contatto (tra membri di un luogo di consegna)
+          _it: Condivisione dei contatti (tra soci di un punto di ritiro)
       deliveries_cycle:
         one:
           _de: Zyklus von Lieferungen

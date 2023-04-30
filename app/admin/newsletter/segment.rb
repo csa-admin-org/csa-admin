@@ -22,6 +22,8 @@ ActiveAdmin.register Newsletter::Segment do
     actions defaults: true, class: 'col-actions-2'
   end
 
+  sidebar_handbook_link('newsletters', only: nil)
+
   form do |f|
     f.inputs do
       translated_input(f, :titles, required: true)
@@ -60,7 +62,8 @@ ActiveAdmin.register Newsletter::Segment do
       f.input :renewal_state,
         as: :select,
         collection: renewal_states_collection,
-        include_blank: true
+        include_blank: true,
+        hint: t('formtastic.hints.newsletter/segment.renewal_state')
     end
 
     f.actions
