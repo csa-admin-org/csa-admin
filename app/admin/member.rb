@@ -508,8 +508,7 @@ ActiveAdmin.register Member do
         end
       end
     end
-    # TODO: Remove Current.acp.member_form_mode == 'shop' once announced
-    if Current.acp.feature?('shop') && Current.acp.member_form_mode == 'shop' && !member.current_or_future_membership
+    if Current.acp.feature?('shop') && !member.current_or_future_membership
       f.inputs t('shop.title') do
         f.input :shop_depot,
           label: Depot.model_name.human,
