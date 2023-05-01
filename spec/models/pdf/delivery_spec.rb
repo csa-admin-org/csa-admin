@@ -81,7 +81,7 @@ describe PDF::Delivery do
       expect(pdf_strings).not_to include 'Moyen PUBLIC'
     end
 
-    specify 'includes annoucement' do
+    specify 'includes announcement' do
       depot = create(:depot, name: 'Fleurs Kissling')
       delivery = create(:delivery)
       create(:membership, depot: depot)

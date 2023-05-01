@@ -269,6 +269,46 @@ describe Shop::Order do
     end
   end
 
+  describe '#percentage' do
+    specify 'set percentage (reduction)' do
+      product = create(:shop_product)
+      order = create(:shop_order, :cart,
+        amount_percentage: -15.5,
+        items_attributes: {
+          '0' => {
+            product_id: product.id,
+            product_variant_id: product.variants.first.id,
+            item_price: 10,
+            quantity: 1
+          },
+        })
+
+      expect(order).to have_attributes(
+        amount_before_percentage: 10,
+        amount_percentage: -15.5,
+        amount: 8.45)
+    end
+
+    specify 'set percentage (increase)' do
+      product = create(:shop_product)
+      order = create(:shop_order, :cart,
+        amount_percentage: 21.5,
+        items_attributes: {
+          '0' => {
+            product_id: product.id,
+            product_variant_id: product.variants.first.id,
+            item_price: 10,
+            quantity: 1
+          },
+        })
+
+      expect(order).to have_attributes(
+        amount_before_percentage: 10,
+        amount_percentage: 21.5,
+        amount: 12.15)
+    end
+  end
+
   describe '#invoice!' do
     specify 'create an invoice and set state to invoiced' do
       product = create(:shop_product,

@@ -176,6 +176,13 @@ module PDF
         data << [t('annual_fee'), _cur(invoice.annual_fee)]
       end
 
+      if invoice.amount_percentage?
+        data << [t('total_before_percentage'), _cur(invoice.amount_before_percentage)]
+        data << [
+          _number_to_percentage(invoice.amount_percentage, precision: 1),
+          _cur(invoice.amount - invoice.amount_before_percentage)]
+      end
+
       if invoice.amount.positive? && @missing_amount != invoice.amount
         already_paid = invoice.amount - @missing_amount
         credit_amount = _cur(-(already_paid + invoice.member.credit_amount))
@@ -214,8 +221,16 @@ module PDF
           t.row(cell.row).font_style = :italic if cell.content == ''
         end
 
+        row = -1
+        if invoice.amount_percentage?
+          row -= 2
+          t.columns(1).rows(row).borders = [:top]
+          t.row(row).padding_top = 0
+          t.row(row - 1).padding_bottom = 10
+        end
+
         if invoice.amount.positive? && @missing_amount != invoice.amount && invoice.object_type != 'Membership'
-          row = -3
+          row -= 2
           t.columns(1).rows(row).borders = [:top]
           t.row(row).padding_top = 0
           t.row(row - 1).padding_bottom = 10

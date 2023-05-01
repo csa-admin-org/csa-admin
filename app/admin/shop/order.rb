@@ -154,6 +154,10 @@ ActiveAdmin.register Shop::Order do
         end
 
         attributes_table title: t('billing.title') do
+          if order.amount_percentage?
+            row(:amount_before_percentage) { cur(order.amount_before_percentage) }
+            row(:amount_percentage) { number_to_percentage(order.amount_percentage, precision: 1) }
+          end
           row(:amount) { cur(order.amount) }
           if order.invoice
             row(:invoice) { auto_link order.invoice, order.invoice.id }
@@ -182,6 +186,9 @@ ActiveAdmin.register Shop::Order do
           prompt: true,
           collection: Depot.all
       end
+      f.input :amount_percentage,
+        step: 0.1, min: -100, max: 200,
+        hint: I18n.t('formtastic.hints.shop/order.amount_percentage')
       f.has_many :items, allow_destroy: true do |ff|
         ff.inputs class: 'blank', 'data-controller' => 'form-reset form-select-options-filter', 'data-form-select-options-filter-attribute-value' => 'data-product-id' do
           ff.input :product,
@@ -215,6 +222,7 @@ ActiveAdmin.register Shop::Order do
     :member_id,
     :delivery_gid,
     :depot_id,
+    :amount_percentage,
     items_attributes: [
       :id,
       :product_id,

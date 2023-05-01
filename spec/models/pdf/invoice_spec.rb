@@ -281,6 +281,25 @@ describe PDF::Invoice do
         .and contain_sequence('Total', '42.00')
     end
 
+    it 'generates an invoice with items and percentage' do
+      invoice = create(:invoice,
+        id: 2010,
+        date: '2018-11-01',
+        amount_percentage: 4.2,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: 10 },
+          '1' => { description: 'Un truc cool pluc cher', amount: 32 }
+        })
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('Un truc cool pas cher', '10.00')
+        .and contain_sequence('Un truc cool pluc cher', '32.00')
+        .and contain_sequence('Total (avant pourcentage)', '42.00')
+        .and contain_sequence('+4.2%', '1.75')
+        .and contain_sequence('Total', '43.75')
+    end
+
     it 'generates an invoice with items and VAT' do
       Current.acp.update!(vat_number: 'CHE-123.456.789')
       payment = create(:payment, amount: 12)

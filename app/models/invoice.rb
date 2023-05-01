@@ -59,6 +59,12 @@ class Invoice < ApplicationRecord
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
   validates :object_type, inclusion: { in: proc { Invoice.object_types } }
   validates :amount, numericality: { other_than: 0 }
+  validates :amount_percentage,
+    numericality: {
+      greater_than_or_equal_to: -100,
+      less_than_or_equal_to: 200,
+      allow_nil: true
+    }
   validates :paid_missing_activity_participations,
     numericality: { greater_than_or_equal_to: 1, allow_blank: true }
   validates :paid_missing_activity_participations,
@@ -384,13 +390,23 @@ class Invoice < ApplicationRecord
       else
         (memberships_amount || 0) + (annual_fee || 0)
       end
+    apply_amount_percentage
+  end
+
+  def apply_amount_percentage
+    if amount_percentage?
+      self[:amount_before_percentage] = amount
+      self[:amount] = (amount * (1 + amount_percentage / 100.0)).round_to_five_cents
+    else
+      self[:amount_before_percentage] = nil
+    end
   end
 
   def set_vat_rate_and_amount
     if configured_vat_rate.presence&.positive?
       self[:vat_rate] = configured_vat_rate
       gross_amount = amount_with_vat
-      net_amount = gross_amount / (1 + vat_rate / 100)
+      net_amount = gross_amount / (1 + vat_rate / 100.0)
       self[:vat_amount] = gross_amount - net_amount.round(2)
     end
   end

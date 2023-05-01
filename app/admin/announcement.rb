@@ -34,7 +34,7 @@ ActiveAdmin.register Announcement do
     f.semantic_errors :base
     f.inputs do
       translated_input(f, :texts,
-        hint: t('formtastic.hints.annoucement.text'))
+        hint: t('formtastic.hints.announcement.text'))
       f.input :depot_ids,
         collection: Depot.all,
         as: :check_boxes,

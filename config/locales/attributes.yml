@@ -16,6 +16,14 @@ _:
       _de: Betrag
       _fr: Montant
       _it: Quantità
+    amount_before_percentage:
+      _de: Betrag vor Prozentsatz
+      _fr: Montant avant pourcentage
+      _it: Importo prima della percentuale
+    amount_percentage:
+      _de: Prozentsatz
+      _fr: Pourcentage
+      _it: Percentuale
     annual_fee:
       _de: Jährlicher Beitrag
       _fr: Cotisation annuelle

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_22_151211) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_075031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -499,6 +499,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_22_151211) do
     t.integer "acp_shares_number"
     t.datetime "overpaid_notification_sent_at", precision: nil
     t.decimal "vat_rate", precision: 8, scale: 2
+    t.decimal "amount_percentage", precision: 8, scale: 2
+    t.decimal "amount_before_percentage", precision: 8, scale: 2
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
@@ -745,6 +747,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_22_151211) do
     t.datetime "updated_at", null: false
     t.string "delivery_type", default: "Delivery", null: false
     t.bigint "depot_id"
+    t.decimal "amount_percentage", precision: 5, scale: 3
+    t.decimal "amount_before_percentage", precision: 8, scale: 2
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
     t.index ["depot_id"], name: "index_shop_orders_on_depot_id"
     t.index ["member_id", "delivery_type", "delivery_id"], name: "index_shop_orders_on_member_and_delivery", unique: true

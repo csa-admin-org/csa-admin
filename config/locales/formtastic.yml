@@ -28,8 +28,8 @@ _:
           _it: Superato questo limite non sara più possibile iscriversi. Lasciare a zero se non ci sono limiti.
         activity_participation_deletion_deadline_in_days:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
-          _fr: Laisser vide si aucun délai, dans tous les cas la désincription est possible pendant les premières 24h.
-          _it: Lasciare vuoto se non vuoi una scadenza, in ogni caso la disincrizione è possibile nelle prime 24h.
+          _fr: Laisser vide si aucun délai, dans tous les cas la désinscription est possible pendant les premières 24h.
+          _it: Lasciare vuoto se non vuoi una scadenza, in ogni caso la disiscrizione è possibile nelle prime 24h.
         activity_participations_demanded_logic_html:
           _de: 'Logik, welche <a href=''https://shopify.github.io/liquid/'' target=''_blank''>die Liquid-Syntax</a> verwendet, um die Anzahl der für ein Abonnement benötigten Teilnahmen zu berechnen.</br>Die folgenden Variablen sind verfügbar:</br>– <b>member.salary_basket</b>: Mitglied mit Lohnkorb</br>– <b>membership.full_year_deliveries</b>: Anzahl der Lieferungen für ein ganzes Jahr.</br>– <b>membership.baskets</b>: Anzahl der Taschen des Abonnements</br>– <b>member.full_year_activity_participations</b>: Anzahl der beantragten Teilnahmen des Abonnements für ein ganzes Jahr'
           _fr: 'Logique utilisant <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la syntaxe Liquid</a> qui permet de calculer le nombre de participations demandées pour un abonnement.</br>Les variables suivantes sont disponibles:</br>– <b>member.salary_basket</b>: Membre avec panier-salaire</br>– <b>membership.full_year_deliveries</b>: Nombre de livraisons pour une année complète</br>– <b>membership.baskets</b>: Nombre de paniers de l''abonnement</br>– <b>member.full_year_activity_participations</b>: Nombre de participations demandées de l''abonnement pour une année complète'
@@ -124,7 +124,7 @@ _:
           _it: Lascia in vuoto se la tua banca non ne fornisce uno.
         qr_iban:
           _de: Ohne Leerzeichen, 21 Zeichen in der Schweiz.
-          _fr: Sans les espaces, 21 charactères en Suisse.
+          _fr: Sans les espaces, 21 caractères en Suisse.
           _it: Senza spazi, 21 caratteri in Svizzera.
         recurring_billing_wday:
           _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet.
@@ -196,7 +196,7 @@ _:
         _de: Leer lassen wenn unverändert.
         _fr: Laisser vide si inchangé.
         _it: Lasciare vuoto se invariato.
-      annoucement:
+      announcement:
         text:
           _de: Die Ankündigung erfolgt auf den Signaturkarten (PDF) der untenstehenden Depot-/Lieferpaare.
           _fr: L'annonce sera affichée sur les fiches signature (PDF) des paires dépôts/livraisons ci-dessous.
@@ -232,12 +232,12 @@ _:
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftzettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
           _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
-          _fr: Séléctionner "Non" si le complément n'est pas disponible lors de l'inscription.
+          _fr: Sélectionner "Non" si le complément n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
       basket_content:
         basket_size_ids_quantities:
@@ -272,7 +272,7 @@ _:
           _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         visible:
           _de: Nein" auswählen, wenn die Taschengröße bei der Registrierung nicht verfügbar ist.
-          _fr: Séléctionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
+          _fr: Sélectionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
           _it: Seleziona "No" se la dimensione del cestino non è disponibile durante la registrazione.
       baskets_basket_complement:
         price:
@@ -298,7 +298,7 @@ _:
           _it: Una volta che la configurazione di giorni, settimane e mesi è stata applicata, conserva solo le consegne risultanti secondo quest'ultimo criterio.
         visible:
           _de: Wird auf jeden Fall sichtbar sein, wenn nur eine Depot ausgewählt wurde.
-          _fr: Sera de toute façon visible si un seul dépôt est selectionné.
+          _fr: Sera de toute façon visible si un seul dépôt est sélectionné.
           _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
       delivery:
         basket_complements:
@@ -352,7 +352,7 @@ _:
           _it: Informazioni visualizzate in alto nella lista delle consegne sul conto del socio.
         visible:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung.'
-          _fr: Séléctionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
+          _fr: Sélectionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
           _it: Seleziona "No" se il punto di ritiro non è più disponibile durante la registrazione.
       group_buying/delivery:
         depot_ids:
@@ -502,6 +502,11 @@ _:
           _de: Unterscheidet aktive Mitglieder nach dem Erneuerungsstatus ihres aktuellen oder zukünftigen Abonnements.
           _fr: Permet de différencier les membres actifs par l'état de renouvellement de leur abonnement actuel ou future.
           _it: Permette di differenziare i soci attivi in base allo stato di rinnovo dell'abbonamento attuale o futuro.
+      shop/order:
+        amount_percentage:
+          _de: Verändert den Schlussbetrag der Bestellung um einen bestimmten Prozentsatz.
+          _fr: Permet d'augmenter ou de diminuer le prix final de la commande d'un certain pourcentage.
+          _it: Modifica l'importo finale dell'ordine di una certa percentuale.
       shop/order_item:
         item_price:
           _de: Leer lassen für den Standardpreis.
@@ -524,7 +529,7 @@ _:
       shop/special_delivery:
         products:
           _de: Die individuelle Verfügbarkeit der ausgewählten Produkte wird hier ignoriert.
-          _fr: La disponibilité individuelle des produits séléctionnés est ici ignorée.
+          _fr: La disponibilité individuelle des produits sélectionnés est ici ignorée.
           _it: La disponibilità individuale dei prodotti selezionati è ignorata qui.
     inputs:
       period:
@@ -560,7 +565,7 @@ _:
       _it: obbligatorio
     reset:
       _de: "%{model} zurücksetzten"
-      _fr: Réinitiaser %{model}
+      _fr: Réinitialiser %{model}
       _it: Ripristina %{model}
     submit:
       _de: "%{model} einreichen"

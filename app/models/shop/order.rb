@@ -28,11 +28,18 @@ module Shop
     scope :_delivery_gid_eq, ->(gid) {
       where(delivery: GlobalID::Locator.locate(gid))
     }
+
     before_validation :set_amount
 
     validates :items, presence: true, unless: :cart?
     validates :member_id, uniqueness: { scope: [:delivery_type, :delivery_id] }
     validates :amount, numericality: true, if: :admin
+    validates :amount_percentage,
+      numericality: {
+        greater_than_or_equal_to: -100,
+        less_than_or_equal_to: 200,
+        allow_nil: true
+      }
     validate :unique_items
     validate :ensure_maximum_weight_limit
     validate :ensure_minimal_amount
@@ -149,7 +156,14 @@ module Shop
     private
 
     def set_amount
-      self.amount = items.reject(&:marked_for_destruction?).sum(&:amount)
+      raw_amount = items.reject(&:marked_for_destruction?).sum(&:amount)
+      if amount_percentage?
+        self[:amount_before_percentage] = raw_amount
+        self[:amount] = (raw_amount * (1 + amount_percentage / 100.0)).round_to_five_cents
+      else
+        self[:amount_before_percentage] = nil
+        self[:amount] = raw_amount
+      end
     end
 
     def unique_items
@@ -193,6 +207,7 @@ module Shop
         send_email: true,
         member: member,
         date: Date.today,
+        amount_percentage: amount_percentage,
         items_attributes: items.map.with_index { |item, index|
           [index.to_s, {
             description: item.description,
