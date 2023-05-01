@@ -1194,7 +1194,7 @@ _:
           _it: Ordine ID
         order_state:
           _de: Status der Bestellung
-          _fr: Êtat de la commande
+          _fr: État de la commande
           _it: Stato dell'ordine
       shop/product:
         basket_complement:
