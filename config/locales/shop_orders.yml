@@ -10,5 +10,5 @@ _:
       flash:
         notice:
           _de: Bestellung erfolgreich fakturiert. Die Rechnung wurde bereits versandt.
-          _fr: Commande facturée avec succés. La facture a été envoyée.
+          _fr: Commande facturée avec succès. La facture a été envoyée.
           _it: Ordine fatturato con successo. La fattura è stata inviata.

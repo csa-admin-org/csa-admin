@@ -270,14 +270,14 @@ describe PDF::Invoice do
         date: '2018-11-01',
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: 10 },
-          '1' => { description: 'Un truc cool pluc cher', amount: 32 }
+          '1' => { description: 'Un truc cool plus cher', amount: 32 }
         })
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
         .to contain_sequence('Un truc cool pas cher', '10.00')
-        .and contain_sequence('Un truc cool pluc cher', '32.00')
+        .and contain_sequence('Un truc cool plus cher', '32.00')
         .and contain_sequence('Total', '42.00')
     end
 
@@ -288,13 +288,13 @@ describe PDF::Invoice do
         amount_percentage: 4.2,
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: 10 },
-          '1' => { description: 'Un truc cool pluc cher', amount: 32 }
+          '1' => { description: 'Un truc cool plus cher', amount: 32 }
         })
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to contain_sequence('Un truc cool pas cher', '10.00')
-        .and contain_sequence('Un truc cool pluc cher', '32.00')
+        .and contain_sequence('Un truc cool plus cher', '32.00')
         .and contain_sequence('Total (avant pourcentage)', '42.00')
         .and contain_sequence('+4.2%', '1.75')
         .and contain_sequence('Total', '43.75')
@@ -310,14 +310,14 @@ describe PDF::Invoice do
         vat_rate: 2.5,
         items_attributes: {
           '0' => { description: 'Un truc cool pas cher', amount: 10 },
-          '1' => { description: 'Un truc cool pluc cher', amount: 32 }
+          '1' => { description: 'Un truc cool plus cher', amount: 32 }
         })
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
         .to contain_sequence('Un truc cool pas cher', '10.00')
-        .and contain_sequence('Un truc cool pluc cher', '32.00')
+        .and contain_sequence('Un truc cool plus cher', '32.00')
         .and contain_sequence('Total', '* 42.00')
         .and contain_sequence('Balance', '** -12.00')
         .and contain_sequence('À payer', '30.00')

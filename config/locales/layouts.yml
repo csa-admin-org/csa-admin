@@ -13,7 +13,7 @@ _:
       manage_admin_notifications:
         _de: Meine Benachrichtigungen verwalten
         _fr: Gérer mes notifications
-        _it: Gestisci le notiche
+        _it: Gestire le notifiche
       unsubscribe:
         _de: Abmeldung
         _fr: Désinscription
@@ -57,7 +57,7 @@ _:
         logout:
           _de: Abmeldung
           _fr: Déconnexion
-          _it: Disconnesione
+          _it: Disconnessione
         membership_current:
           _de: "⤷ Aktuelles"
           _fr: "⤷ En cours"

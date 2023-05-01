@@ -343,7 +343,7 @@ _:
           _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro ceste nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
         nobody_sharing_contact:
           _de: Keine anderen Mitglieder geben zu diesem Zeitpunkt ihre Kontaktinformationen weiter!
-          _fr: Aucun autre membre ne partage ses coordonées pour le moment!
+          _fr: Aucun autre membre ne partage ses coordonnées pour le moment!
           _it: Nessun altro membro sta condividendo le sue informazioni di contatto in questo momento!
         submit:
           _de: Freigeben
@@ -570,7 +570,7 @@ _:
           placeholder:
             cancel:
               _de: Danke, dass Sie uns Ihren Kündigungsgrund mitteilen!
-              _fr: Merci de partager avec nous ce qui motive votre décison...
+              _fr: Merci de partager avec nous ce qui motive votre décision...
               _it: Grazie per condividere con noi i motivi della tua scelta...
             renew:
               _de: Vielen Dank, dass Sie uns mitteilen, was Ihnen in diesem Jahr gut oder weniger gut gefallen hat!

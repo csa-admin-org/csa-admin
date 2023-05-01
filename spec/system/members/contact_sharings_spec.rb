@@ -30,7 +30,7 @@ describe 'Contact sharing' do
 
     expect(page).to have_selector('.flash',
       text: 'Vos coordonnées sont maintenant partagées avec les autres membres de votre dépôt!')
-    expect(page).to have_content 'Aucun autre membre ne partage ses coordonées pour le moment!'
+    expect(page).to have_content 'Aucun autre membre ne partage ses coordonnées pour le moment!'
   end
 
   it 'lists other members contact' do

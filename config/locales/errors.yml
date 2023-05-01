@@ -149,7 +149,7 @@ _:
         one:
           _de: 'Dieses %{model} kann nicht gespeichert werden: 1 Fehlermeldung'
           _fr: 'Impossible d''enregistrer ce %{model} : 1 erreur'
-          _it: 'Impossibile registrare questo %{model} : 1 ererrorereur'
+          _it: 'Impossibile registrare questo %{model} : 1 error'
         other:
           _de: 'Dieses %{model} kann nicht gespeichert werden: %{count} Fehlermeldungen'
           _fr: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
