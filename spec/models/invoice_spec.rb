@@ -196,6 +196,51 @@ describe Invoice do
     end
   end
 
+  describe '#apply_percentage' do
+    specify 'set percentage (reduction)' do
+      invoice = create(:invoice, :manual,
+        amount_percentage: -10.1,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '10' }
+        })
+
+      expect(invoice.amount_percentage).to eq -10.1
+      expect(invoice.amount_before_percentage).to eq 10
+      expect(invoice.amount).to eq BigDecimal(9.00, 6)
+    end
+
+    specify 'set percentage (increase)' do
+      invoice = create(:invoice, :manual,
+        amount_percentage: 2.51,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '10' }
+        })
+
+      expect(invoice.amount_percentage).to eq 2.51
+      expect(invoice.amount_before_percentage).to eq 10
+      expect(invoice.amount).to eq BigDecimal(10.25, 6)
+    end
+
+    specify 'with vat' do
+      Current.acp.update!(vat_membership_rate: 7.7, vat_number: 'XXX')
+
+      invoice = create(:invoice, :manual,
+        vat_rate: 2.5,
+        amount_percentage: 10,
+        items_attributes: {
+          '0' => { description: 'Un truc cool pas cher', amount: '10' }
+        })
+
+      expect(invoice.amount_percentage).to eq 10
+      expect(invoice.amount_before_percentage).to eq 10
+      expect(invoice.amount).to eq BigDecimal(11, 6)
+      expect(invoice.vat_rate).to eq 2.5
+      expect(invoice.amount_with_vat).to eq 11
+      expect(invoice.amount_without_vat).to eq BigDecimal(10.73, 6)
+      expect(invoice.vat_amount).to eq BigDecimal(0.27, 4)
+    end
+  end
+
   describe '#send!' do
     let(:invoice) { create(:invoice, :annual_fee, :open, :not_sent) }
 

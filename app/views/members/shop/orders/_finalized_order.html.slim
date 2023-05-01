@@ -16,6 +16,20 @@ div class="mt-2 space-y-4 md:space-y-2"
         span class="ml-2" title="#{item.quantity} x #{cur(item.item_price)}"
           = cur(item.amount)
 
+- if @order.amount_percentage?
+  div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
+    span class='border-t border-gray-500 pl-1 text-right'
+      span
+        = t('.total')
+      span class='inline-block w-28'
+        = cur(@order.amount_before_percentage)
+  div class='flex flex-row items-center justify-end'
+    span class='text-right'
+      span class=''
+        = _number_to_percentage(@order.amount_percentage, precision: 1)
+      span class='inline-block w-28'
+        = cur(@order.amount - @order.amount_before_percentage)
+
 div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
   div class='text-sm text-gray-400 dark:text-gray-600 flex flex-row items-center justify-end' title=t('.order_total_weight')
     = inline_svg_tag('members/scale.svg', class: 'w-4 h-4 stroke-current')
@@ -26,7 +40,7 @@ div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
     span class='border-t border-gray-500 pl-1  font-medium'
       span
         = t('.total')
-      span class='ml-4'
+      span class='inline-block w-28'
         = cur(@order.amount)
 
 - if @order.pending? && @order.can_member_update?

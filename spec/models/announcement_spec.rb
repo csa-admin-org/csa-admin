@@ -9,13 +9,13 @@ describe Announcement do
       depot_ids: [depot.id],
       delivery_ids: [delivery.id])
 
-    annoucement = Announcement.new(
+    announcement = Announcement.new(
       text: 'La semaine prochaine pas de livraison',
       depot_ids: [depot.id],
       delivery_ids: [delivery.id])
 
-    expect(annoucement).not_to have_valid(:base)
-    expect(annoucement.errors[:base].first)
+    expect(announcement).not_to have_valid(:base)
+    expect(announcement.errors[:base].first)
       .to starting_with("Il y'a déjà une annonce pour la livraison du ")
   end
 end

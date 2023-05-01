@@ -62,6 +62,8 @@ ActiveAdmin.register Invoice do
     column(:last_membership_ended_on) { |i| i.member.last_membership&.ended_on }
     column :date
     column(:object) { |i| t_invoice_object_type(i.object_type) }
+    column :amount_before_percentage
+    column :amount_percentage
     column :amount
     if Current.acp.annual_fee?
       column :annual_fee
@@ -203,6 +205,10 @@ ActiveAdmin.register Invoice do
         end
 
         attributes_table title: Invoice.human_attribute_name(:amount) do
+          if invoice.amount_percentage?
+            row(:amount_before_percentage) { cur(invoice.amount_before_percentage) }
+            row(:amount_percentage) { number_to_percentage(invoice.amount_percentage, precision: 1) }
+          end
           row(:amount) { cur(invoice.amount) }
           row(:paid_amount) { cur(invoice.paid_amount) }
           row(:balance) { cur(invoice.balance) }

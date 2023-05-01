@@ -16,11 +16,11 @@ module Shop
     validate :ensure_product_available_for_delivery
 
     before_save :update_product_variant_stock!
-    after_save :update_order_amount!
     after_destroy :release_product_variant_stock!
+    after_save :set_order_amount
 
     def amount
-      item_price * quantity
+      (item_price * quantity).round_to_five_cents
     end
 
     def weight_in_kg
@@ -89,8 +89,9 @@ module Shop
       end
     end
 
-    def update_order_amount!
-      order.update_column(:amount, order.items.sum(&:amount))
+    def set_order_amount
+      order.send(:set_amount)
+      order.save
     end
 
     def release_product_variant_stock!

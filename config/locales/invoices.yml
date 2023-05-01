@@ -177,6 +177,10 @@ _:
         _de: Gesamt
         _fr: Total
         _it: Totale
+      total_before_percentage:
+        _de: Total (vor Prozentsatz)
+        _fr: Total (avant pourcentage)
+        _it: Totale (prima della percentuale)
       vat:
         _de: MwSt.
         _fr: TVA

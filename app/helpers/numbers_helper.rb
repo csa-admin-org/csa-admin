@@ -28,4 +28,13 @@ module NumbersHelper
       strip_insignificant_zeros: true)
     "#{sprintf("%.1f", number)} kg"
   end
+
+  def _number_to_percentage(number, **options)
+    txt = number_to_percentage(number, **options)
+    if number.positive?
+      "+#{txt}"
+    else
+      txt
+    end
+  end
 end
