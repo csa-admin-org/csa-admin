@@ -2,7 +2,6 @@ module XLSX
   class Delivery < Base
     def initialize(delivery, depot = nil)
       @delivery = delivery
-      @depot = depot
       @baskets = @delivery.baskets.not_absent.includes(:member)
       @shop_orders =
         @delivery
@@ -19,14 +18,14 @@ module XLSX
       basket_size_ids = @baskets.pluck(:basket_size_id).uniq
       @basket_sizes = BasketSize.find(basket_size_ids)
 
-      build_recap_worksheet unless @depot
+      build_recap_worksheet unless depot
 
-      Array(@depot || @depots).each do |d|
+      Array(depot || @depots).each do |d|
         build_depot_worksheet(d)
       end
 
       if Current.acp.feature?('absence')
-        build_absences_worksheet if !@depot && @delivery.baskets.absent.any?
+        build_absences_worksheet if !depot && @delivery.baskets.absent.any?
       end
     end
 

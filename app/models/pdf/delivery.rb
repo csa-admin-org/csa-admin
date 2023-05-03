@@ -16,7 +16,7 @@ module PDF
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
       members_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 22
 
-      Array(@depot || @depots).each do |depot|
+      Array(depot || @depots).each do |depot|
         baskets = @baskets.where(depot: depot)
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = basket_sizes_for(baskets)
