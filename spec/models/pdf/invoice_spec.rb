@@ -324,6 +324,35 @@ describe PDF::Invoice do
         .and contain_sequence("* TTC, CHF 40.98 HT, CHF 1.02 TVA (2.5%)")
         .and contain_sequence('N° TVA CHE-123.456.789')
     end
+
+    specify 'with items over 2 pages' do
+      invoice = create(:invoice,
+        id: 20101,
+        date: '2023-05-05',
+        items_attributes: 50.times.map { |i|
+          [i, { description: 'Un truc', amount: 10 }]
+        }.to_h)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('1 / 2')
+        .and contain_sequence('2 / 2')
+    end
+
+    specify 'with items over 3 pages' do
+      invoice = create(:invoice,
+        id: 20101,
+        date: '2023-05-05',
+        items_attributes: 51.times.map { |i|
+          [i, { description: 'Un truc', amount: 10 }]
+        }.to_h)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence('1 / 3')
+        .and contain_sequence('2 / 3')
+        .and contain_sequence('3 / 3')
+    end
   end
 
   context 'Lumiere des Champs settings' do
