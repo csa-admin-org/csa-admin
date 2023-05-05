@@ -783,7 +783,15 @@ describe Membership do
     end
   end
 
-  describe '#update_renewal_of_previous_membership' do
+  specify 'update_renewal_of_previous_membership_after_creation' do
+    membership = create(:membership, :last_year)
+    membership.update!(renew: true, renewal_opened_at: 1.year.ago)
+
+    expect { create(:membership, member: membership.member) }
+      .to change { membership.reload.renewal_state }.from(:renewal_opened).to(:renewed)
+  end
+
+  describe '#update_renewal_of_previous_membership_after_deletion' do
     it 'clears renewed_at when renewed membership is destroyed' do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
