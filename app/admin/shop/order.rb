@@ -345,7 +345,7 @@ ActiveAdmin.register Shop::Order do
     end
 
     after_create do |order|
-      order.confirm!
+      order.confirm! if order.valid?
     end
   end
 
