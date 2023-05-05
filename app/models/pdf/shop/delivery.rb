@@ -3,6 +3,8 @@ module PDF
     class Delivery < PDF::Base
       attr_reader :delivery, :current_time
 
+      ITEMS_PER_PAGE = 26
+
       def initialize(delivery, order: nil, depot: nil)
         @delivery = delivery
         @orders =
@@ -22,7 +24,7 @@ module PDF
         @current_time = Time.current
 
         @orders.each do |order|
-          page(order)
+          order_pages(order)
           start_new_page unless @orders.last == order
         end
       end
@@ -38,13 +40,18 @@ module PDF
 
       private
 
-      def page(order)
-        header(order.member, order.depot)
-        content(order)
-        footer
+      def order_pages(order)
+        total_pages = (order.items.count / ITEMS_PER_PAGE.to_f).ceil
+        order.items.each_slice(ITEMS_PER_PAGE).with_index do |items_slice, i|
+          page_n = i + 1
+          header(order.member, order.depot, page: page_n, total_pages: total_pages)
+          content(items_slice)
+          footer
+          start_new_page unless page_n == total_pages
+        end
       end
 
-      def header(member, depot = nil)
+      def header(member, depot = nil, page:, total_pages:)
         image acp_logo_io, at: [15, bounds.height - 20], width: 110
         bounding_box [bounds.width - 450, bounds.height - 20], width: 430, height: 120 do
           text member.name, size: 22, align: :right
@@ -54,6 +61,10 @@ module PDF
             move_down 5
           end
           text I18n.l(delivery.date), size: 20, align: :right
+          if total_pages > 1
+            move_down 10
+            text "#{page} / #{total_pages}", size: 22, align: :right, style: :bold
+          end
         end
 
         bounding_box [20, cursor - 15], width: 430, height: 15 do
@@ -61,7 +72,7 @@ module PDF
         end
       end
 
-      def content(order)
+      def content(items)
         font_size 11
         move_down 15
 
@@ -81,7 +92,7 @@ module PDF
         data = []
 
         # Order Items
-        items = order.items.map { |item|
+        items = items.map { |item|
           item_description = [
             item.product.name,
             item.product_variant.name,

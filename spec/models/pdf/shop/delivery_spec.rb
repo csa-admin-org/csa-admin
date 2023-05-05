@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe PDF::Shop::Delivery do
-  def save_pdf_and_return_strings(delivery)
-    pdf = PDF::Shop::Delivery.new(delivery)
+  def save_pdf_and_return_strings(delivery, order: nil)
+    pdf = PDF::Shop::Delivery.new(delivery, order: order)
     # pdf_path = "tmp/shop-delivery-#{Current.acp.name}-#{delivery.date}.pdf"
     # pdf.render_file(Rails.root.join(pdf_path))
     PDF::Inspector::Text.analyze(pdf.render).strings
@@ -55,7 +55,6 @@ describe PDF::Shop::Delivery do
         }
       })
 
-
       pdf_strings = save_pdf_and_return_strings(delivery)
       expect(pdf_strings)
         .to include('Cery PUBLIC')
@@ -69,6 +68,35 @@ describe PDF::Shop::Delivery do
 
       expect(pdf_strings).not_to include 'Chailly'
       expect(pdf_strings).not_to include 'John Doe'
+    end
+
+    it 'generates delivery for a specific order with multiple pages' do
+      depot= create(:depot, name: 'Cery')
+      member = create(:member, name: 'James Doe', shop_depot: depot)
+      delivery = create(:delivery)
+
+      order = create(:shop_order, :pending,
+        delivery: delivery,
+        member: member,
+        items_attributes: 27.times.map { |i|
+          product = create(:shop_product, name: "Produit #{i}")
+          [
+            i,
+            {
+              product_id: product.id,
+              product_variant_id: product.variants.first.id,
+              quantity: 1
+            }
+          ]
+        }.to_h)
+
+      pdf_strings = save_pdf_and_return_strings(delivery, order: order)
+      expect(pdf_strings)
+        .to include('Cery PUBLIC')
+        .and include('James Doe')
+        .and include(I18n.l delivery.date)
+        .and include('1 / 2')
+        .and include('2 / 2')
     end
   end
 end
