@@ -33,7 +33,8 @@ ActiveAdmin.register ACP do
     :basket_price_extras,
     :absence_extra_text_only,
     :member_profession_form_mode, :member_come_from_form_mode,
-    :membership_depot_update_allowed, :basket_update_limit_in_days,
+    :membership_depot_update_allowed, :membership_complements_update_allowed,
+    :basket_update_limit_in_days,
     :basket_price_extra_dynamic_pricing,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
@@ -183,6 +184,7 @@ ActiveAdmin.register ACP do
           para t('.membership_update_text_html'), class: 'description'
 
           f.input :membership_depot_update_allowed
+          f.input :membership_complements_update_allowed
           translated_input(f, :membership_update_texts,
             as: :action_text,
             required: false,

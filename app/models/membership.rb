@@ -176,6 +176,8 @@ class Membership < ApplicationRecord
   end
 
   def can_member_update?
+    return false unless Current.acp.membership_depot_update_allowed?
+
     member_updatable_baskets.any?
   end
 

@@ -32,7 +32,15 @@ module MembershipsHelper
   end
 
   def basket_complements_description(complements, text_only: false, public_name: true)
-    names = Array(complements).compact.map do |complement|
+    complements =
+      Array(complements)
+        .compact
+        .sort_by { |bbc|
+          [
+            public_name ? bbc.basket_complement.public_name : bbc.basket_complement.name
+          ]
+        }
+    names = complements.map do |complement|
       name = public_name ? complement.basket_complement.public_name : complement.basket_complement.name
       case complement.quantity
       when 1 then name

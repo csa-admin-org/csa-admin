@@ -23,8 +23,17 @@ class Members::BasketsController < Members::BaseController
   end
 
   def basket_params
-    params
-      .require(:basket)
-      .permit(:depot_id)
+    permitted =
+      params
+        .require(:basket)
+        .permit(
+          :depot_id,
+          baskets_basket_complements_attributes: [
+            :id, :basket_complement_id, :quantity
+          ])
+    permitted[:baskets_basket_complements_attributes]&.each { |i, attrs|
+      attrs['_destroy'] = true if attrs['quantity'].to_i.zero?
+    }
+    permitted
   end
 end

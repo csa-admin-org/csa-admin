@@ -171,6 +171,10 @@ _:
           _de: Informationsseite
           _fr: Page d'informations
           _it: Pagina di informazioni
+        membership_complements_update_allowed:
+          _de: Änderung der Zusätze erlauben
+          _fr: Permettre la modification des compléments
+          _it: Permettere la modifica dei aggiunte
         membership_depot_update_allowed:
           _de: Änderung des Depots erlauben
           _fr: Permettre la modification du dépôt

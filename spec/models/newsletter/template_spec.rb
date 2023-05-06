@@ -257,6 +257,6 @@ describe Newsletter::Template do
     expect(mail_body).to include "Choux-Fleur (10.0kg)</li>"
     expect(mail_body).not_to include "Céleri"
 
-    expect(mail_body).to include "Complément(s): Pain PUBLIC et 2 x Oeufs PUBLIC</p>"
+    expect(mail_body).to include "Complément(s): 2 x Oeufs PUBLIC et Pain PUBLIC</p>"
   end
 end

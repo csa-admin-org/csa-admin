@@ -82,11 +82,13 @@ module MembersHelper
     end
   end
 
-  def basket_complement_details(bc, force_default: false)
+  def basket_complement_details(bc, force_default: false, only_price_per_delivery: false)
     return bc.form_detail if !force_default && bc.form_detail?
 
     if bc.annual_price_type?
       "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})".html_safe
+    elsif only_price_per_delivery
+      t('helpers.price_per_delivery', price: short_price(bc.price))
     else
       d_counts = depots_delivery_ids.map { |d_ids|
         (d_ids & bc.delivery_ids).size
@@ -95,8 +97,8 @@ module MembersHelper
     end
   end
 
-  def basket_complement_label(bc)
-    collection_text(bc.public_name, details: basket_complement_details(bc))
+  def basket_complement_label(bc, only_price_per_delivery: false)
+    collection_text(bc.public_name, details: basket_complement_details(bc, only_price_per_delivery: only_price_per_delivery))
   end
 
   def depots_collection(membership: nil, deliveries_cycle: nil, show_price: true, only_price_per_delivery: false, data: {})

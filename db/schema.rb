@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_075031) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_05_124628) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_075031) do
     t.decimal "vat_activity_rate", precision: 8, scale: 2
     t.decimal "vat_shop_rate", precision: 8, scale: 2
     t.string "member_form_mode", default: "membership", null: false
+    t.boolean "membership_complements_update_allowed", default: false, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -747,7 +748,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_075031) do
     t.datetime "updated_at", null: false
     t.string "delivery_type", default: "Delivery", null: false
     t.bigint "depot_id"
-    t.decimal "amount_percentage", precision: 5, scale: 3
+    t.decimal "amount_percentage", precision: 8, scale: 2
     t.decimal "amount_before_percentage", precision: 8, scale: 2
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
     t.index ["depot_id"], name: "index_shop_orders_on_depot_id"
