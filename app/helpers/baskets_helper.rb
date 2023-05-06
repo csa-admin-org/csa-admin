@@ -29,4 +29,21 @@ module BasketsHelper
         }]
     end
   end
+
+  def baskets_basket_complements(basket)
+    complements = basket.delivery.basket_complements.visible
+    basket_complements = basket.complements
+    complements.each do |complement|
+      unless complement.in?(basket_complements)
+        basket.baskets_basket_complements.build(
+          quantity: 0,
+          basket_complement: complement)
+      end
+    end
+    basket
+      .baskets_basket_complements
+      .sort_by { |bbc|
+        [bbc.basket_complement.form_priority, bbc.basket_complement.public_name]
+      }
+  end
 end

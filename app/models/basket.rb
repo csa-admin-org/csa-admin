@@ -88,7 +88,8 @@ class Basket < ApplicationRecord
   end
 
   def can_member_update?
-    return false unless Current.acp.membership_depot_update_allowed?
+    return false unless Current.acp.membership_depot_update_allowed? ||
+                        Current.acp.membership_complements_update_allowed?
     return false unless Current.acp.basket_update_limit_in_days
 
     delivery.date >= Current.acp.basket_update_limit_in_days.days.from_now
@@ -96,11 +97,11 @@ class Basket < ApplicationRecord
 
   def member_update!(params)
     raise 'update not allowed' unless can_member_update?
-    return unless params.key?(:depot_id)
 
-    self.depot_price = nil
-    self.depot_id = params[:depot_id]
-    save!
+    if params.key?(:depot_id)
+      self.depot_price = nil
+    end
+    update!(params)
   end
 
   private

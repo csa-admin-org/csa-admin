@@ -102,6 +102,10 @@ _:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
+        membership_complements_update_allowed:
+          _de: Nur die Änderung zukünftiger Lieferungen ist erlaubt. Die Änderung ist nur pro Lieferung und nicht für das gesamte Abonnement möglich.
+          _fr: Seule la modification des futures livraisons est autorisée. La modification est uniquement possible par livraison et non pour l'ensemble de l'abonnement.
+          _it: È consentita solo la modifica delle consegne future. La modifica è possibile solo per consegna e non per l'intero abbonamento.
         membership_depot_update_allowed:
           _de: Nur die Änderung zukünftiger Lieferungen ist erlaubt.
           _fr: Seule la modification des futures livraisons est autorisée.
