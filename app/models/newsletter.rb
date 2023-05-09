@@ -15,7 +15,7 @@ class Newsletter < ApplicationRecord
     foreign_key: 'newsletter_template_id'
   has_many :blocks, class_name: 'Newsletter::Block', dependent: :destroy
   has_many :attachments, class_name: 'Newsletter::Attachment', dependent: :destroy
-  has_many :deliveries, class_name: 'Newsletter::Delivery'
+  has_many :deliveries, class_name: 'Newsletter::Delivery', dependent: :destroy
   has_many :members, through: :deliveries
 
   accepts_nested_attributes_for :blocks, :attachments, allow_destroy: true
