@@ -59,7 +59,7 @@ ActiveAdmin.register GroupBuying::Order do
   end
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
+    all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
     div class: 'content' do
       if params[:scope].in? ['all_without_canceled', 'open', nil]
         div class: 'total' do

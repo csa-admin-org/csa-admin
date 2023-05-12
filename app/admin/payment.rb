@@ -62,7 +62,7 @@ ActiveAdmin.register Payment do
     collection: -> { fiscal_years_collection }
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).limit(nil)
+    all = collection.unscope(:includes).offset(nil).limit(nil)
     div class: 'content' do
       span t('active_admin.sidebars.amount')
       span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
@@ -149,7 +149,7 @@ ActiveAdmin.register Payment do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name')
+      super(chain).joins(:member).order('members.name', id: :desc)
     end
   end
 

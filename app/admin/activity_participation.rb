@@ -71,7 +71,7 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).limit(nil)
+    all = collection.unscope(:includes).offset(nil).limit(nil)
     div class: 'content' do
       div class: 'total' do
         span activities_human_name + ":"
@@ -239,9 +239,9 @@ ActiveAdmin.register ActivityParticipation do
 
     def apply_sorting(chain)
       if params[:scope].in?(%w[validated rejected]) && !params[:order]
-        super(chain).joins(:member).reorder('activities.date DESC, members.name')
+        super(chain).joins(:member).reorder('activities.date DESC, members.name', id: :desc)
       else
-        super(chain).joins(:member).order('members.name')
+        super(chain).joins(:member).order('members.name', id: :desc)
       end
     end
 

@@ -740,7 +740,7 @@ ActiveAdmin.register Membership do
     end
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name')
+      super(chain).joins(:member).order('members.name', id: :desc)
     end
   end
 
