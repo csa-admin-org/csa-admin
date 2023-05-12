@@ -52,6 +52,12 @@ module Shop
       super + %i[_delivery_gid_eq]
     end
 
+    def self.complement_count(complement)
+      joins(items: :product)
+        .where(shop_products: { basket_complement_id: complement.id })
+        .sum('shop_order_items.quantity')
+    end
+
     def depot
       return super if depot_id?
       return member.shop_depot if member.use_shop_depot?

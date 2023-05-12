@@ -95,17 +95,9 @@ module XLSX
       if @basket_complements.any?
         cols_count = 3 + @basket_sizes.count
         @basket_complements.each_with_index do |complement, i|
-          amount =
-            baskets
-              .joins(:baskets_basket_complements)
-              .where(baskets_basket_complements: { basket_complement_id: complement.id })
-              .sum('baskets_basket_complements.quantity')
+          amount = baskets.complement_count(complement)
           if Current.acp.feature?('shop')
-            amount +=
-              shop_orders
-                .joins(:products)
-                .where(shop_products: { basket_complement_id: complement.id })
-                .sum('shop_order_items.quantity')
+            amount += shop_orders.complement_count(complement)
           end
           @worksheet.add_cell(@line, cols_count + i, amount).set_number_format('0')
         end
