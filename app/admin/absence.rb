@@ -103,7 +103,7 @@ ActiveAdmin.register Absence do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name')
+      super(chain).joins(:member).order('members.name', id: :desc)
     end
 
     def create

@@ -82,7 +82,7 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).limit(nil)
+    all = collection.unscope(:includes).offset(nil).limit(nil)
     div class: 'content' do
       if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
         div class: 'total' do
@@ -390,7 +390,7 @@ ActiveAdmin.register Invoice do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name')
+      super(chain).joins(:member).order('members.name', id: :desc)
     end
   end
 

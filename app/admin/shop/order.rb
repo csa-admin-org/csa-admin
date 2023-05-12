@@ -86,7 +86,7 @@ ActiveAdmin.register Shop::Order do
   sidebar_shop_admin_only_warning
 
   sidebar t('active_admin.sidebars.total'), only: :index do
-    all = collection.unscope(:includes).eager_load(:invoice).limit(nil)
+    all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
     div class: 'content' do
       if params[:scope].in? ['invoiced', nil]
         div class: 'total' do
