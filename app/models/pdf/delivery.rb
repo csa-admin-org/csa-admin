@@ -203,11 +203,6 @@ module PDF
           t.row(-1).border_bottom_width = 1
           t.row(-1).border_bottom_color = 'BBBBBB'
         end
-        if t.cells.column_count%2 == 1
-          t.column(-1).borders = %i[bottom right]
-          t.column(-1).border_right_width = 1
-          t.column(-1).border_right_color = 'BBBBBB'
-        end
 
         t.row(0).borders = %i[bottom right]
         t.row(0).border_bottom_width = 1
