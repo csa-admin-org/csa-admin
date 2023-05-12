@@ -22,6 +22,10 @@ class Admin < ApplicationRecord
 
   after_create -> { Update.mark_as_read!(self) }
 
+  def self.master
+    find_by(email: ENV['MASTER_ADMIN_EMAIL'])
+  end
+
   def self.notify!(notification, skip: [], **attrs)
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
       next if EmailSuppression.outbound.active.exists?(email: admin.email)
