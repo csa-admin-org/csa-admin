@@ -11,7 +11,7 @@ module XLSX
           .includes(:product, :depots, :basketcontents_depots)
           .merge(::BasketContent::Product.order_by_name)
 
-      build_recap_worksheet
+      build_summary_worksheet
       Depot.all.each do |depot|
         baskets = depot.baskets.not_absent.where(delivery_id: @delivery)
         if baskets.sum(:quantity) > 0
@@ -30,8 +30,8 @@ module XLSX
 
     private
 
-    def build_recap_worksheet
-      add_worksheet I18n.t('delivery.recap')
+    def build_summary_worksheet
+      add_worksheet I18n.t('delivery.summary')
 
       add_product_columns(@basket_contents)
       add_unit_columns(@basket_contents)

@@ -24,7 +24,7 @@ _:
       _de: Bezahlte Depots
       _fr: Dépôts payants
       _it: Punto di ritiro a pagamento
-    recap:
+    summary:
       _de: Zusammenfassung
       _fr: Récapitulatif
       _it: Sommario
@@ -32,7 +32,3 @@ _:
       _de: Gesamt
       _fr: Total
       _it: Totale
-    totals:
-      _de: Gesamtsummen (Depot)
-      _fr: Totaux (dépôt)
-      _it: Totali (punto di ritiro)
