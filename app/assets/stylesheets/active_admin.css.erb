@@ -1377,12 +1377,18 @@ body.logged_out footer p a:hover svg {
   fill: #0c9024;
 }
 
-ul#utility_nav li#logout {
-  padding: 0;
+ul#utility_nav li#current_user {
+  margin: 0 -2px 0 5px;
+}
+ul#utility_nav li#updates {
   margin: 0;
 }
+ul#utility_nav li#logout {
+  margin: 0 0 0 3px;
+}
 
-ul#utility_nav li#logout a {
+ul#utility_nav li#logout a,
+ul#utility_nav li#updates a {
   margin: 0;
   padding: 5px;
 }
@@ -1391,6 +1397,22 @@ ul#utility_nav li#logout a svg {
   height: 20px;
   width: 20px;
   margin: 0 0 -5px;
+}
+
+ul#utility_nav li#updates a svg {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  margin: 0 -3px -5px 0px;
+}
+ul#utility_nav li#updates a .badge {
+  position: absolute;
+  top: -4px;
+  right: 2px;
+  padding: 4px 4px;
+  width: 8px;
+  border-radius: 50%;
+  background: #ff2600;
 }
 
 div.ace_editor {
