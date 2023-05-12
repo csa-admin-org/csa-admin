@@ -44,6 +44,12 @@ class Basket < ApplicationRecord
   validate :delivery_must_be_in_membership_date_range
   validate :delivery_must_be_in_depot_deliveries
 
+  def self.complement_count(complement)
+    joins(:baskets_basket_complements)
+      .where(baskets_basket_complements: { basket_complement_id: complement.id })
+      .sum('baskets_basket_complements.quantity')
+  end
+
   def description
     [
       basket_description,
