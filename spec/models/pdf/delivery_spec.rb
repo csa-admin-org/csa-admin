@@ -72,7 +72,7 @@ describe PDF::Delivery do
         .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
         .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs PUBLIC', 'Tomme de Lavaux PUBLIC')
-        .and contain_sequence('Totaux (dépôt)', '2', '1', '3', '1', 'Signature')
+        .and contain_sequence('Membre', '2', '1', '3', '1', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '1', '1')
         .and contain_sequence('John Doe', '2', '2')
         .and contain_sequence('Missing Joe', '–', '–', '–', '–', 'ABSENT·E')
@@ -174,7 +174,7 @@ describe PDF::Delivery do
         .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
         .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs PUBLIC', 'Tomme de Lavaux PUBLIC', "Commande d'épicerie")
-        .and contain_sequence('Totaux (dépôt)', '2', '1', '2', '3', '2', 'Signature')
+        .and contain_sequence('Membre', '2', '1', '2', '3', '2', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '2', '1', 'X')
         .and contain_sequence('John Doe', '2', '2', 'X')
     end

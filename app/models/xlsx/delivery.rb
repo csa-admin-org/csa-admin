@@ -2,12 +2,8 @@ module XLSX
   class Delivery < Base
     def initialize(delivery, depot = nil)
       @delivery = delivery
-      @baskets = @delivery.baskets.not_absent.includes(:member)
-      @shop_orders =
-        @delivery
-          .shop_orders
-          .all_without_cart
-          .includes(:member, items: { product: :basket_complement })
+      @baskets = @delivery.baskets.not_absent
+      @shop_orders = @delivery.shop_orders.all_without_cart
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
       basket_complement_ids =
         @baskets
@@ -18,7 +14,9 @@ module XLSX
       basket_size_ids = @baskets.pluck(:basket_size_id).uniq
       @basket_sizes = BasketSize.find(basket_size_ids)
 
-      build_recap_worksheet unless depot
+      build_summary_worksheet unless depot
+
+      @baskets = @baskets.includes(:member).order('members.name')
 
       Array(depot || @depots).each do |d|
         build_depot_worksheet(d)
@@ -39,8 +37,8 @@ module XLSX
 
     private
 
-    def build_recap_worksheet
-      add_worksheet(t('recap'))
+    def build_summary_worksheet
+      add_worksheet(t('summary'))
 
       cols = ['', t('total')]
       cols += @basket_sizes.map(&:name)
@@ -115,8 +113,8 @@ module XLSX
 
     def build_depot_worksheet(depot)
       baskets = @baskets.where(depot: depot).includes(:membership, :basket_size, :complements, baskets_basket_complements: :basket_complement)
-      shop_orders = @shop_orders.where(depot: depot)
-      member_ids = (baskets.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+      shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product: :basket_complement })
+      member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
       members = Member.where(id: member_ids).order(:name)
       members.each do |member|
         member.basket = baskets.find { |b| b.membership.member_id == member.id }
