@@ -39,6 +39,32 @@ module ShopHelper
     end
   end
 
+  def shop_member_percentages_collection
+    options = Current.acp[:shop_member_percentages].reverse.map do |percentage|
+      text =
+        if percentage.positive?
+          t('shop.percentage.positive', percentage: percentage)
+        else
+          t('shop.percentage.negative', percentage: percentage)
+        end
+      [text, percentage]
+    end
+  end
+
+  def shop_member_percentages_label(order)
+    if order.amount_percentage.in?(Current.acp[:shop_member_percentages])
+      return t('shop.percentages_title.remove')
+    end
+
+    if Current.acp[:shop_member_percentages].all?(&:positive?)
+      t('shop.percentages_title.positive')
+    elsif Current.acp[:shop_member_percentages].all?(&:negative?)
+      t('shop.percentages_title.negative')
+    else
+      t('shop.percentages_title.mixed')
+    end
+  end
+
   def shop_deliveries_collection
     (Delivery.shop_open + Shop::SpecialDelivery.all).sort_by(&:date).map do |delivery|
       [delivery.display_name, delivery.to_global_id]
