@@ -91,6 +91,12 @@ class DeliveriesCycle < ApplicationRecord
     (current_deliveries + future_deliveries).map(&:id).uniq
   end
 
+  def coming_deliveries
+    (current_deliveries + future_deliveries).select { |d|
+      d.date >= Date.current
+    }.uniq
+  end
+
   def wdays=(wdays)
     super wdays.map(&:to_s) & Array(0..6).map(&:to_s)
   end
