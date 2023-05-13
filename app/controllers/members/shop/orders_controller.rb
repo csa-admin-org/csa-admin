@@ -82,9 +82,11 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
   def order_params
     params
       .require(:shop_order)
-      .permit(
-        items_attributes: %i[id quantity])
+      .permit(:amount_percentage, items_attributes: %i[id quantity])
       .tap do |whitelisted|
+        unless whitelisted[:amount_percentage].to_i.in?(Current.acp[:shop_member_percentages])
+          whitelisted[:amount_percentage] = nil
+        end
         whitelisted[:items_attributes].each do |_, item|
           if item[:quantity] == '0'
             item.delete(:quantity)

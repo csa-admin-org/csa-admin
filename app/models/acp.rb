@@ -240,6 +240,25 @@ class ACP < ApplicationRecord
     self[:basket_price_extras] = string.split(',').map(&:presence).compact
   end
 
+  def shop_member_percentages?
+    self[:shop_member_percentages].any?
+  end
+
+  def shop_member_percentages
+    self[:shop_member_percentages].join(', ')
+  end
+
+  def shop_member_percentages=(string)
+    self[:shop_member_percentages] =
+      string
+        .split(',')
+        .map(&:presence)
+        .compact
+        .map(&:to_i)
+        .reject(&:zero?)
+        .sort
+  end
+
   def current_fiscal_year
     FiscalYear.current(start_month: fiscal_year_start_month)
   end

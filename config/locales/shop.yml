@@ -22,6 +22,36 @@ _:
         _de: keine Bestellung
         _fr: aucune commande
         _it: nessun ordine
+    percentage:
+      negative:
+        _de: Rabatt %{percentage}%
+        _fr: Rabais %{percentage}%
+        _it: Sconto %{percentage}%
+      none:
+        _de: Kein
+        _fr: Aucun
+        _it: Nessuno
+      positive:
+        _de: Unterstützung +%{percentage}%
+        _fr: Soutien +%{percentage}%
+        _it: Sostegno +%{percentage}%
+    percentages_title:
+      mixed:
+        _de: Unterstützung / Rabatt
+        _fr: Soutien / Rabais
+        _it: Sostegno / Sconto
+      negative:
+        _de: Rabatt
+        _fr: Rabais
+        _it: Sconto
+      positive:
+        _de: Unterstütze uns!
+        _fr: Soutenez-nous!
+        _it: Sosteneteci!
+      remove:
+        _de: Kein
+        _fr: Aucun
+        _it: Nessuno
     producers:
       all:
         _de: Alle Produzenten

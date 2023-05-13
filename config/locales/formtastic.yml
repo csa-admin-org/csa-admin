@@ -158,6 +158,10 @@ _:
           _de: Die Variable "%{date}" wird durch das Datum der Lieferung ersetzt.
           _fr: La variable "%{date}" est remplacée par la date de la livraison.
           _it: La variabile "%{date}" è sostituita dalla data di consegna.
+        shop_member_percentages:
+          _de: Durch Komma getrennt. Ermöglicht es Mitgliedern, den Endpreis seiner Bestellung selbst um die verfügbaren Prozentsätze zu erhöhen (Unterstützung) oder zu senken (Rabatt).
+          _fr: Séparés par une virgule. Permet aux membres d'augmenter (soutien) ou de diminuer (rabais) lui-même le prix final de sa commande par les pourcentages disponibles.
+          _it: Separati da una virgola. Consente ai soci di aumentare (supporto) o diminuire (sconto) il prezzo finale dell'ordine in base alle percentuali disponibili.
         shop_order_maximum_weight_in_kg:
           _de: Leer lassen, wenn keine Begrenzung.
           _fr: Laisser vide si aucune limite.

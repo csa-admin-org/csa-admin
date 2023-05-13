@@ -22,6 +22,7 @@ ActiveAdmin.register ACP do
     :group_buying_email,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
+    :shop_member_percentages,
     :shop_delivery_open_delay_in_days, :shop_delivery_open_last_day_end_time,
     :recurring_billing_wday, :currency_code,
     :send_closed_invoice,
@@ -305,6 +306,7 @@ ActiveAdmin.register ACP do
                 hint: t('formtastic.hints.acp.shop_terms_of_sale_url'))
               f.input :shop_order_maximum_weight_in_kg
               f.input :shop_order_minimal_amount
+              f.input :shop_member_percentages, as: :string
               f.input :shop_delivery_open_delay_in_days
               f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
                 value: f.object.shop_delivery_open_last_day_end_time&.strftime('%H:%M')
