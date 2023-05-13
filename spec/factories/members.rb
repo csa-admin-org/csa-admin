@@ -43,9 +43,11 @@ FactoryBot.define do
     trait :active do
       state { 'active' }
       activated_at { Time.current }
-      after :create do |member|
-        create(:membership, :last_year, member: member)
-        create(:membership, member: member)
+      after :create do |member, evaluator|
+        unless evaluator.shop_depot
+          create(:membership, :last_year, member: member)
+          create(:membership, member: member)
+        end
       end
     end
 

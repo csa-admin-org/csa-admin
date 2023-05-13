@@ -75,7 +75,7 @@ class Members::BaseController < ApplicationController
 
   def coming_delivery_ids
     if current_member.shop_depot
-      Delivery.coming.pluck(:id)
+      current_member.shop_depot.coming_delivery_ids
     else
       current_member.baskets.coming.pluck(:delivery_id)
     end

@@ -27,6 +27,19 @@ describe 'Shop::Order' do
     end
   end
 
+  specify 'shop delivery for next delivery of member with a shop depot', freeze: '2023-05-01' do
+    create(:delivery, shop_open: true, date: '2023-05-15')
+    create(:delivery, shop_open: true, date: '2023-06-15')
+    deliveries_cycle = create(:deliveries_cycle, months: [6])
+    depot = create(:depot, deliveries_cycles: [deliveries_cycle])
+    member.update!(shop_depot: depot)
+    member.activate!
+
+    visit '/shop'
+    expect(current_path).to eq '/shop'
+    expect(page).to have_content 'Livraison du jeudi 15 juin 2023'
+  end
+
   specify 'shop delivery open/closed depending date' do
     Current.acp.update!(
       shop_delivery_open_delay_in_days: 2,
