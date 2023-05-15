@@ -1,0 +1,12 @@
+- depot = @order.depot
+div class='mt-12'
+  h2 class='font-medium text-gray-700 dark:text-gray-300'
+    span = "#{Depot.model_name.human}:"
+    span class='ml-2'
+      - if depot.full_address
+        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
+          = h depot.public_name
+      - else
+        = h depot.public_name
+  - if depot&.public_note?
+    .mt-2 = depot.public_note
