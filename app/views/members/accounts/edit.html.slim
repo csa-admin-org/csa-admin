@@ -19,7 +19,7 @@ section class="w-full"
 
       = f.input :phones, as: :string, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'text-sm' }
 
-      = f.input :language, as: :select, collection: ACP.languages.map { |l| [t("languages.#{l}"), l] }, required: true, prompt: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+      = f.input :language, as: :select, collection: Current.acp.languages.map { |l| [t("languages.#{l}"), l] }, required: true, prompt: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
 
     - if current_member.use_shop_depot?
       div class='mt-8'
