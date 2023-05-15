@@ -14,7 +14,7 @@ class BasketCounts
     @all ||= @depots
       .select(:name, :id)
       .map { |depot| BasketCount.new(depot, @baskets, @basket_size_ids, @shop_orders) }
-      .select { |c| c.count.positive? }
+      .select { |c| c.count.positive? || c.shop_orders_count.positive? }
   end
 
   def present?
