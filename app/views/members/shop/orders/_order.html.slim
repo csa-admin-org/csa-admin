@@ -95,3 +95,6 @@ div class='mt-12 flex flex-row justify-center md:justify-end'
         = inline_svg_tag('members/trash.svg', class: 'w-4 h-4 stroke-current')
         span class='ml-1 text-sm font-normal'
           = t('.destroy_cart')
+
+- if current_member.use_shop_depot?
+  = render 'members/shop/orders/shop_depot'

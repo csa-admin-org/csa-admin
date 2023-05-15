@@ -58,6 +58,9 @@ div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
   p class='mt-12 text-center italic text-gray-400 dark:text-gray-600'
     = t('.contact_us_html', email: Current.acp.email)
 
+- if current_member.use_shop_depot?
+  = render 'members/shop/orders/shop_depot'
+
 - if next_shop_delivery && @order.delivery == current_shop_delivery && @order.delivery.shop_open?
   p class="mt-16 text-gray-400 dark:text-gray-600"
     = t('members.shop.products.index.next_delivery_html',

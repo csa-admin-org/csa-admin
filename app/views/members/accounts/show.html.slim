@@ -36,8 +36,8 @@ section
         = t("languages.#{current_member.language}")
 
     - if current_member.use_shop_depot?
-      li class='pt-4 flex flex-row'
-        = inline_svg_tag 'members/basket.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+      li class='pt-6 flex flex-row'
+        = inline_svg_tag 'members/basket.svg', class: '-mt-0.5 h-6 w-6 flex-shrink-0 fill-stroke'
         span class='ml-4'
           - depot = current_member.shop_depot
           - if depot.full_address
