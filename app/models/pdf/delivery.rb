@@ -74,6 +74,8 @@ module PDF
       number_width = 25
       depot_name_width = width - (bs_size + bc_size) * number_width
       total_rotate = 45
+      offset_x = 8
+      offset_y = 12
 
       # Headers Basket Sizes and Complements
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
@@ -81,14 +83,14 @@ module PDF
         basket_sizes.each_with_index do |bs, i|
           text_box bs.public_name,
             rotate: total_rotate,
-            at: [depot_name_width + i * number_width + 7, cursor + 8],
+            at: [depot_name_width + i * number_width + offset_x, cursor + offset_y],
             valign: :center,
             width: 150
         end
         basket_complements.each_with_index do |bc, i|
           text_box bc.public_name,
             rotate: total_rotate,
-            at: [depot_name_width + (bs_size + i) * number_width + 7, cursor + 8],
+            at: [depot_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y],
             valign: :center,
             overflow: :expand,
             width: 150
@@ -96,7 +98,7 @@ module PDF
         if @shop_orders.any?
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: total_rotate,
-            at: [depot_name_width + (bs_size + bc_size - 1) * number_width + 7, cursor + 8],
+            at: [depot_name_width + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
             valign: :center,
             width: 100
         end
@@ -258,6 +260,8 @@ module PDF
       number_width = 25
       signature_width = 125
       member_name_width = width - (bs_size + bc_size) * number_width - signature_width
+      offset_x = 6
+      offset_y = 12
 
       # Headers Basket Sizes and Complements
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
@@ -265,19 +269,19 @@ module PDF
         basket_sizes.each_with_index do |bs, i|
           text_box bs.public_name,
             rotate: 45,
-            at: [member_name_width + i * number_width + 7, cursor + 8],
+            at: [member_name_width + i * number_width + offset_x, cursor + offset_y],
             valign: :center
         end
         basket_complements.each_with_index do |bc, i|
           text_box bc.public_name,
             rotate: 45,
-            at: [member_name_width + (bs_size + i) * number_width + 7, cursor + 8],
+            at: [member_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y],
             valign: :center
         end
         if shop_orders.any?
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
-            at: [member_name_width + (bs_size + bc_size - 1) * number_width + 7, cursor + 8],
+            at: [member_name_width + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
             valign: :center
         end
       end
