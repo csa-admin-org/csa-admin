@@ -75,15 +75,15 @@ class Newsletter
           segment&.members || []
         when :basket_size_id
           Member
-            .joins(:current_membership)
+            .joins(:current_or_future_membership)
             .where(memberships: { basket_size_id: value })
         when :basket_complement_id
           Member
-            .joins(current_membership: :memberships_basket_complements)
+            .joins(current_or_future_membership: :memberships_basket_complements)
             .where(memberships_basket_complements: { basket_complement_id: value })
         when :depot_id
           Member
-            .joins(:current_membership)
+            .joins(:current_or_future_membership)
             .where(memberships: { depot_id: value })
         when :delivery_id
           delivery_id = GlobalID.new(value).model_id
