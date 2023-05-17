@@ -58,7 +58,7 @@ class Invoice < ApplicationRecord
   validates :date, presence: true
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
   validates :object_type, inclusion: { in: proc { Invoice.object_types } }
-  validates :amount, numericality: { other_than: 0 }
+  validates :amount, presence: true
   validates :amount_percentage,
     numericality: {
       greater_than_or_equal_to: -100,
