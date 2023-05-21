@@ -236,7 +236,6 @@ ActiveAdmin.setup do |config|
     admin.build_menu do |menu|
       menu.add label: -> { I18n.t('active_admin.menu.shop') }, priority: 6, id: :shop
       menu.add label: :activities_human_name, priority: 7
-      menu.add label: -> { I18n.t('active_admin.menu.group_buying') }, priority: 8, id: :group_buying
       menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 9, id: :billing
       menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 10, id: :other, html_options: { data: { controller: 'menu-sorting' } }
     end
@@ -498,19 +497,6 @@ module ActiveAdmin
               a(href: '/settings#shop') { t('active_admin.sidebars.edit_settings') }
             end
           end
-        end
-      end
-      config.sidebar_sections << section
-    end
-
-    def sidebar_group_buying_deprecation_warning
-      section = ActiveAdmin::SidebarSection.new(
-        :deprecation_warning,
-        only: :index,
-        class: 'warning'
-      ) do
-        div class: 'content' do
-          span t('active_admin.sidebars.deprecation_warning_group_buying_text_html')
         end
       end
       config.sidebar_sections << section

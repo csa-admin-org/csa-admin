@@ -365,9 +365,7 @@ describe PDF::Invoice do
         vat_number: 'CHE-273.220.900',
         qr_bank_reference: '800250',
         invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
-        invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch',
-        features: ['group_buying'],
-        group_buying_invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.")
+        invoice_footer: '<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch')
       create_deliveries(4)
     }
 
@@ -757,36 +755,6 @@ describe PDF::Invoice do
         .and contain_sequence("** Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission de cette facture.")
         .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
         .and contain_sequence('CHF', 'Montant', '0.00')
-      expect(pdf_strings).not_to include 'Cotisation annuelle association'
-    end
-
-    it 'generates an invoice for a group buying order' do
-      member = create(:member)
-
-      invoice = nil
-      travel_to '2019-11-20' do
-        delivery = create(:group_buying_delivery,
-          orderable_until: '2019-12-02')
-        product = create(:group_buying_product,
-          name: "Caisse d'orange (1KG)",
-          price: 120.45)
-        order = create(:group_buying_order,
-          delivery: delivery,
-          items_attributes: {
-            '0' => {
-              product_id: product.id,
-              quantity: 2
-            }
-          })
-        invoice = order.invoice
-      end
-
-      pdf_strings = save_pdf_and_return_strings(invoice)
-
-      expect(pdf_strings)
-        .to contain_sequence("Caisse d'orange (1KG) 2x 120.45", '240.90')
-        .and contain_sequence("Total", '240.90')
-        .and contain_sequence("Payable jusqu'au 2 décembre 2019, avec nos remerciements.")
       expect(pdf_strings).not_to include 'Cotisation annuelle association'
     end
   end

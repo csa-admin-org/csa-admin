@@ -6,7 +6,6 @@ class InvoiceTotal
     scopes = %w[Membership]
     scopes << 'AnnualFee' if Current.acp.annual_fee?
     scopes << 'ACPShare' if Current.acp.share?
-    scopes << 'GroupBuying::Order' if Current.acp.feature?('group_buying')
     scopes << 'Shop::Order' if Current.acp.feature?('shop')
     scopes << 'ActivityParticipation' if Current.acp.feature?('activity')
     scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
@@ -37,8 +36,6 @@ class InvoiceTotal
       link_to_invoices(I18n.t('billing.annual_fees'), %w[Membership AnnualFee])
     when 'ACPShare'
       link_to_invoices I18n.t('billing.acp_shares')
-    when 'GroupBuying::Order'
-      link_to_invoices GroupBuying::Order.model_name.human(count: 2)
     when 'Shop::Order'
       link_to_invoices I18n.t('shop.title_orders', count: 2)
     when 'ActivityParticipation'

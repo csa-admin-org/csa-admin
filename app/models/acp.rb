@@ -11,10 +11,8 @@ class ACP < ApplicationRecord
     basket_content
     basket_price_extra
     contact_sharing
-    group_buying
     shop
   ]
-  FEATURES_SUNSET = %i[group_buying]
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
@@ -30,8 +28,6 @@ class ACP < ApplicationRecord
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
   translated_attributes :terms_of_service_url, :statutes_url
-  translated_attributes :group_buying_terms_of_service_url
-  translated_attributes :group_buying_invoice_info
   translated_attributes :shop_invoice_info
   translated_attributes :shop_delivery_pdf_footer
   translated_attributes :shop_terms_of_sale_url
@@ -109,7 +105,7 @@ class ACP < ApplicationRecord
   after_create :create_tenant!
 
   def self.features
-    ((FEATURES - FEATURES_SUNSET) | Current.acp.features)
+    (FEATURES | Current.acp.features)
       .sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
   end
   def self.languages; LANGUAGES end
@@ -291,10 +287,6 @@ class ACP < ApplicationRecord
 
   def credentials(*keys)
     Rails.application.credentials.dig(tenant_name.to_sym, *keys)
-  end
-
-  def group_buying_email
-    self[:group_buying_email] || email
   end
 
   def deliveries_count(year)

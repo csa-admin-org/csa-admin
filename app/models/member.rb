@@ -46,7 +46,6 @@ class Member < ApplicationRecord
     through: :memberships,
     source: :delivered_baskets,
     class_name: 'Basket'
-  has_many :group_buying_orders, class_name: 'GroupBuying::Order'
   has_many :shop_orders, class_name: 'Shop::Order'
   has_many :members_basket_complements, dependent: :destroy
   has_many :waiting_basket_complements,
@@ -296,7 +295,6 @@ class Member < ApplicationRecord
       memberships.none? &&
       invoices.none? &&
       payments.none? &&
-      group_buying_orders.none? &&
       shop_orders.none?)
   end
 

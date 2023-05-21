@@ -37,7 +37,6 @@ describe Ability do
     specify { expect(ability.can?(:batch_action, Member)).to be_falsey }
     specify { expect(ability.can?(:batch_action, Membership)).to be_falsey }
     specify { expect(ability.can?(:batch_action, Invoice)).to be_falsey }
-    specify { expect(ability.can?(:batch_action, GroupBuying::Product)).to be_falsey }
     specify { expect(ability.can?(:batch_action, Shop::Product)).to be_falsey }
   end
 
@@ -92,23 +91,6 @@ describe Ability do
         member: create(:member, emails: '', billing_email: 'john@doe.com'))
       expect(ability.can?(:send_email, invoice)).to be_truthy
     end
-  end
-
-  context 'with billing group_buying permission' do
-    before { Current.acp.update! features: [:group_buying] }
-    let(:admin) { create(:admin, permission: create(:permission, rights: { group_buying: :write })) }
-
-    specify { expect(ability.can?(:create, GroupBuying::Delivery)).to be_truthy }
-    specify { expect(ability.can?(:update, GroupBuying::Delivery)).to be_truthy }
-    specify { expect(ability.can?(:create, GroupBuying::Order)).to be_truthy }
-    specify { expect(ability.can?(:update, GroupBuying::Order)).to be_truthy }
-    specify { expect(ability.can?(:create, GroupBuying::Product)).to be_truthy }
-    specify { expect(ability.can?(:update, GroupBuying::Product)).to be_truthy }
-    specify { expect(ability.can?(:batch_action, GroupBuying::Product)).to be_truthy }
-    specify { expect(ability.can?(:create, GroupBuying::Producer)).to be_truthy }
-    specify { expect(ability.can?(:update, GroupBuying::Producer)).to be_truthy }
-
-    specify { expect(ability.can?(:cancel, GroupBuying::Order)).to be_truthy }
   end
 
   context 'with billing shop permission' do

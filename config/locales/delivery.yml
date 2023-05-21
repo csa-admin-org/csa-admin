@@ -12,10 +12,6 @@ _:
       _de: Gratis Depots
       _fr: Dépôts gratuits
       _it: Punto di ritiro gratuito
-    group_buying/delivery:
-      _de: gruppeneinkauf-lieferung
-      _fr: achats-groupés-livraison
-      _it: acquisto-di-gruppo-consegna
     no_basket_complements:
       _de: Kein Zusatz
       _fr: Aucun complément

@@ -132,7 +132,7 @@ ActiveAdmin.register Shop::Order do
   show do |order|
     columns do
       column do
-        panel "#{order.items.size} #{GroupBuying::Product.model_name.human(count: order.items.size)}" do
+        panel "#{order.items.size} #{Shop::Product.model_name.human(count: order.items.size)}" do
           table_for order.items.includes(:product, :product_variant), class: 'table-shop_orders' do
             column(:product) { |i| link_to "#{i.product.name}, #{i.product_variant.name}", [:edit, i.product] }
             column(:item_price) { |i| cur(i.item_price) }

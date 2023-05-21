@@ -41,7 +41,6 @@ class Invoice < ApplicationRecord
   scope :balance_greater_than, ->(amount) { where('(paid_amount - amount) > ?', amount) }
   scope :balance_less_than, ->(amount) { where('(paid_amount - amount) < ?', amount) }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
-  scope :group_buying_order_type, -> { where(object_type: 'GroupBuying::Order') }
   scope :shop_order_type, -> { where(object_type: 'Shop::Order') }
   scope :activity_participation_type, -> { where(object_type: 'ActivityParticipation') }
   scope :other_type, -> { where(object_type: 'Other') }
@@ -101,7 +100,6 @@ class Invoice < ApplicationRecord
   def self.object_types
     types = %w[Membership Other]
     types << 'ActivityParticipation'
-    types << 'GroupBuying::Order'
     types << 'Shop::Order'
     types << 'AnnualFee'
     types << 'ACPShare'

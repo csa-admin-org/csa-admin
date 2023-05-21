@@ -7,12 +7,6 @@ class Ability
     billing: [Invoice, Payment],
     activity: [Activity, ActivityParticipation, ActivityPreset],
     basket_content: [BasketContent, BasketContent::Product],
-    group_buying: [
-      GroupBuying::Delivery,
-      GroupBuying::Producer,
-      GroupBuying::Product,
-      GroupBuying::Order
-    ],
     shop: [
       Shop::Order,
       Shop::OrderItem,
@@ -118,12 +112,6 @@ class Ability
 
     if admin.permission.can_write?(:basket_content)
       writable_models += models_for(:basket_content)
-    end
-
-    if admin.permission.can_write?(:group_buying)
-      writable_models += models_for(:group_buying)
-
-      can :cancel, GroupBuying::Order, can_cancel?: true
     end
 
     if admin.permission.can_write?(:shop)

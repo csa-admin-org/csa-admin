@@ -307,10 +307,6 @@ _:
         _de: Rechnungsstellung
         _fr: Facturation
         _it: Fatturazione
-      group_buying:
-        _de: Gruppeneinkauf
-        _fr: Achats Groupés
-        _it: Acquisti di gruppo
       other:
         _de: Weiteres
         _fr: Autre
@@ -354,10 +350,6 @@ _:
           _de: Lieferung vom %{delivery}
           _fr: Livraison du %{delivery}
           _it: Consegna %{delivery}
-        next_group_buying_delivery:
-          _de: Gruppeneinkauf am %{delivery}
-          _fr: Achats Groupés du %{delivery}
-          _it: Acquisti di gruppo %{delivery}
         no_next_deliveries:
           _de: Nächste Lieferung
           _fr: Aucune livraison à venir
@@ -366,10 +358,6 @@ _:
           _de: Nächste Lieferung
           _fr: Prochaine livraison
           _it: Prossima consegna
-        no_next_group_buying_delivery:
-          _de: Gruppeneinkauf
-          _fr: Achats Groupés
-          _it: Acquisti di gruppo
         quarterly_snapshots:
           _de: Quartalsschnappschüsse
           _fr: Instantanés trimestriels
@@ -538,10 +526,6 @@ _:
           _de: Allgemeine
           _fr: Généraux
           _it: Generali
-        group_buying:
-          _de: Gruppeneinkauf
-          _fr: Achats Groupés
-          _it: Acquisti di gruppo
         invoice_qr:
           _de: QR-Rechnung
           _fr: Facture QR
@@ -914,10 +898,6 @@ _:
           _de: Kündigen
           _fr: Résilier
           _it: Terminare
-        closed_orders:
-          _de: bezahlte
-          _fr: payées
-          _it: pagato
         config:
           _de: Konfiguration
           _fr: Configuration
@@ -1051,10 +1031,6 @@ _:
           _de: Lieferung in Bearbeitung...
           _fr: Envoi en cours...
           _it: Spedizione in corso...
-        open_orders:
-          _de: Zu zahlen
-          _fr: À payer
-          _it: Da pagare
         open_renewal:
           _de: Anfrage senden
           _fr: Envoyer la demande
@@ -1116,10 +1092,6 @@ _:
           _de: Gesamt %{number}
           _fr: Total %{number}
           _it: Totale %{number}
-        total_row:
-          _de: Gesamt
-          _fr: Total
-          _it: Totale
         totals:
           _de: Gesamtsummen %{numbers}
           _fr: Totaux %{numbers}
@@ -1248,29 +1220,6 @@ _:
           _de: Neues %{model}
           _fr: Nouveau %{model}
           _it: Nuovo %{model}
-      group_buying/delivery:
-        new_model:
-          _de: Neue %{model}
-          _fr: Nouvelle %{model}
-          _it: Nuovo %{model}
-      group_buying/order:
-        scopes:
-          all_without_canceled:
-            _de: Alle
-            _fr: Toutes
-            _it: Tutto
-          canceled:
-            _de: Stornierte
-            _fr: Annulées
-            _it: Annullato
-          closed:
-            _de: Bezahlte
-            _fr: Payées
-            _it: Pagato
-          open:
-            _de: Zu zahlen
-            _fr: À payer
-            _it: Da pagare
       invoice:
         new_model:
           _de: Neue %{model}
@@ -1515,14 +1464,6 @@ _:
         _de: Kalender
         _fr: Calendrier
         _it: Calendario
-      deprecation_warning:
-        _de: Abandon-Warnung
-        _fr: Avertissement d'abandon
-        _it: Avviso di abbandono
-      deprecation_warning_group_buying_text_html:
-        _de: Die Funktion für Sammelkäufe wird bald eingestellt. Bitte nutzen Sie stattdessen <a href='/handbook/shop'>das Hofladen</a>.<br/><br/>Bitte zögern Sie nicht, <a href='mailto:info@acp-admin.ch'mich zu kontaktieren</a>, wenn Sie eine Migration bestimmter Informationen wünschen.
-        _fr: La fonctionnalité d'achats groupés sera bientôt abandonnée. Merci <a href='/handbook/shop'>d'utiliser l'épicerie</a> à la place.<br/><br/>N'hésitez pas à <a href='mailto:info@acp-admin.ch'>me contacter</a> pour une migration de certaines informations.
-        _it: La funzione di acquisto di gruppo sarà presto interrotta. Per favore, usate invece <a href='/handbook/shop'>la drogheria</a>.<br/><br/>Non esitate <a href='mailto:info@acp-admin.ch'>a contattarmi</a> per una migrazione di alcune informazioni.
       edit_settings:
         _de: Einstellungen bearbeiten
         _fr: Modifier les paramètres
