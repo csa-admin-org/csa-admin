@@ -81,14 +81,6 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
                 - else
                   = t('.no_activity_participations_demanded')
 
-        - if display_group_buying?
-          li class=nav_class('group_buying')
-            = link_to members_group_buying_path, class: 'block py-2 px-8' do
-              h2 class='font-medium text-gray-700 dark:text-gray-400'
-                = t('activerecord.models.group_buying.one')
-              span
-                = t('.delivery', date: l(next_group_buying_delivery.date))
-
         li class=nav_class('billing')
           = link_to members_billing_path, class: 'block py-2 px-8' do
             h2 class='font-medium text-gray-700 dark:text-gray-400'

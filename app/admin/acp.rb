@@ -19,7 +19,6 @@ ActiveAdmin.register ACP do
     :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
     :absences_billed,
     :delivery_pdf_show_phones,
-    :group_buying_email,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_member_percentages,
@@ -45,8 +44,6 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "statutes_url_#{l}" },
     *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
-    *I18n.available_locales.map { |l| "group_buying_terms_of_service_url_#{l}" },
-    *I18n.available_locales.map { |l| "group_buying_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_delivery_pdf_footer_#{l}" },
     *I18n.available_locales.map { |l| "shop_terms_of_sale_url_#{l}" },
@@ -257,17 +254,6 @@ ActiveAdmin.register ACP do
 
               f.input :absences_billed
               f.input :absence_notice_period_in_days, min: 1, required: true
-            end
-          end
-        end
-        if Current.acp.feature?('group_buying')
-          tab t('.group_buying'), id: 'group_buying'  do
-            f.inputs do
-              f.input :group_buying_email, as: :email
-              translated_input(f, :group_buying_terms_of_service_urls, required: false)
-              translated_input(f, :group_buying_invoice_infos,
-                hint: t('formtastic.hints.acp.group_buying_invoice_info'),
-                required: false)
             end
           end
         end

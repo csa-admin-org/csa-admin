@@ -1,8 +1,0 @@
-_:
-  group_buying_orders:
-    cancel:
-      flash:
-        notice:
-          _de: Stornierte Bestellung
-          _fr: Commande annulée
-          _it: Ordine annullato

@@ -17,23 +17,6 @@ _:
         _de: bestätigt
         _fr: validée
         _it: confermato
-    group_buying/order:
-      canceled:
-        _de: stornierte
-        _fr: annulée
-        _it: annullato
-      closed:
-        _de: bezahlte
-        _fr: payée
-        _it: pagato
-      open:
-        _de: zu zahlen
-        _fr: à payer
-        _it: da pagare
-      processing:
-        _de: in Bearbeitung
-        _fr: en traitement
-        _it: elaborazione
     invoice:
       canceled:
         _de: stornierte

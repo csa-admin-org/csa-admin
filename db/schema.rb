@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_13_093559) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_20_173635) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -59,9 +59,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_13_093559) do
     t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
     t.boolean "absences_billed", default: true, null: false
     t.boolean "delivery_pdf_show_phones", default: false, null: false
-    t.string "group_buying_email"
-    t.jsonb "group_buying_terms_of_service_urls", default: {}, null: false
-    t.jsonb "group_buying_invoice_infos", default: {}, null: false
     t.integer "recurring_billing_wday"
     t.string "email_notifications", default: [], null: false, array: true
     t.string "feature_flags", default: [], null: false, array: true
@@ -417,55 +414,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_13_093559) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["delivery_id"], name: "index_gribouilles_on_delivery_id"
-  end
-
-  create_table "group_buying_deliveries", force: :cascade do |t|
-    t.date "date", null: false
-    t.date "orderable_until", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "depot_ids", default: [], null: false, array: true
-  end
-
-  create_table "group_buying_order_items", force: :cascade do |t|
-    t.bigint "order_id", null: false
-    t.bigint "product_id", null: false
-    t.integer "quantity", null: false
-    t.decimal "price", precision: 8, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id", "product_id"], name: "index_group_buying_order_items_on_order_id_and_product_id", unique: true
-    t.index ["order_id"], name: "index_group_buying_order_items_on_order_id"
-    t.index ["product_id"], name: "index_group_buying_order_items_on_product_id"
-  end
-
-  create_table "group_buying_orders", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.bigint "delivery_id", null: false
-    t.integer "items_count", default: 0, null: false
-    t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["delivery_id"], name: "index_group_buying_orders_on_delivery_id"
-    t.index ["member_id"], name: "index_group_buying_orders_on_member_id"
-  end
-
-  create_table "group_buying_producers", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "website_url"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "group_buying_products", force: :cascade do |t|
-    t.bigint "producer_id", null: false
-    t.jsonb "names", default: {}, null: false
-    t.jsonb "jsonb", default: {}, null: false
-    t.decimal "price", precision: 8, scale: 2, null: false
-    t.boolean "available", default: true, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["producer_id"], name: "index_group_buying_products_on_producer_id"
   end
 
   create_table "invoice_items", force: :cascade do |t|
@@ -826,10 +774,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_13_093559) do
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
-  add_foreign_key "group_buying_order_items", "group_buying_orders", column: "order_id"
-  add_foreign_key "group_buying_order_items", "group_buying_products", column: "product_id"
-  add_foreign_key "group_buying_orders", "group_buying_deliveries", column: "delivery_id"
-  add_foreign_key "group_buying_products", "group_buying_producers", column: "producer_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"

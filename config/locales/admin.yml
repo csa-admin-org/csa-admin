@@ -17,10 +17,6 @@ _:
         _de: Email abgelehnt
         _fr: Email rejeté
         _it: E-mail rifiutata
-      new_group_buying_order:
-        _de: Neue Bestellung (Gruppeneinkauf)
-        _fr: Nouvelle commande (Achats Groupés)
-        _it: Nuovo ordine (Acquisto di gruppo)
       new_inscription:
         _de: Neue Anmeldung
         _fr: Nouvelle inscription

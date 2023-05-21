@@ -131,18 +131,6 @@ _:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
           _it: 1° mese dell'anno fiscale
-        group_buying_email:
-          _de: Email
-          _fr: Email
-          _it: E-mail
-        group_buying_invoice_info:
-          _de: Informationszeile Rechnung
-          _fr: Facture ligne info
-          _it: Riga d'informazione della fattura
-        group_buying_terms_of_service_url:
-          _de: Allgemeine Verkaufsbedingungen URL
-          _fr: Conditions générales de vente URL
-          _it: Condizioni generali di vendita URL
         invoice_footer:
           _de: Fusszeile Rechnung
           _fr: Facture bas de page
@@ -554,11 +542,6 @@ _:
           _de: Preis/Tasche
           _fr: Prix/panier
           _it: Prezzo/cesta
-      group_buying/delivery:
-        orderable_until:
-          _de: Kommandofähig bis
-          _fr: Commandable jusqu'au
-          _it: Ordinabile fino a
       invoice:
         activity_price:
           _de: Betrag
@@ -1255,17 +1238,6 @@ _:
                 _de: Ungenügende (fehlen %{miss})
                 _fr: Insuffisante (manque %{miss})
                 _it: Insufficiente (manca %{miss})
-        group_buying/order:
-          attributes:
-            base:
-              no_items:
-                _de: Kein Produkt ausgewählt
-                _fr: Aucun produit sélectionné
-                _it: Nessun prodoto selezionato
-              terms_of_service_unchecked:
-                _de: Die Allgemeinen Verkaufsbedingungen müssen akzeptiert werden
-                _fr: Les conditions générales de vente doivent être acceptées
-                _it: Le condizioni generali devono essere accettate
         newsletter:
           attributes:
             attachments:
@@ -1468,47 +1440,6 @@ _:
           _de: Depots
           _fr: Dépôts
           _it: Punti di ritiro
-      group_buying:
-        one:
-          _de: Gruppeneinkauf
-          _fr: Achats Groupés
-          _it: Acquisti di gruppo
-      group_buying/delivery:
-        one:
-          _de: Lieferung
-          _fr: Livraison
-          _it: Consegna
-        other:
-          _de: Lieferungen
-          _fr: Livraisons
-          _it: Consegne
-      group_buying/order:
-        one:
-          _de: Bestellung
-          _fr: Commande
-          _it: Ordine
-        other:
-          _de: Bestellungen
-          _fr: Commandes
-          _it: Ordini
-      group_buying/producer:
-        one:
-          _de: Produzent
-          _fr: Producteur
-          _it: Produttore
-        other:
-          _de: Produzenten
-          _fr: Producteurs
-          _it: Produttori
-      group_buying/product:
-        one:
-          _de: Produkt
-          _fr: Produit
-          _it: Prodotto
-        other:
-          _de: Produkte
-          _fr: Produits
-          _it: Prodotti
       invoice:
         one:
           _de: Rechnung

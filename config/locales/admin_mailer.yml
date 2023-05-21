@@ -30,11 +30,6 @@ _:
         _de: Email abgelehnt (%{reason})
         _fr: Email rejeté (%{reason})
         _it: E-mail rifiutatata (%{reason})
-    new_group_buying_order_email:
-      subject:
-        _de: Neue Bestellung (#%{order_id})
-        _fr: Nouvelle commande (#%{order_id})
-        _it: Nuovo ordine (#%{order_id})
     new_inscription_email:
       subject:
         _de: Neue Einschreibung

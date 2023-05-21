@@ -40,14 +40,6 @@ _:
       _de: Ermöglicht das Teilen von Kontaktdaten zwischen Mitgliedern desselben Depots.
       _fr: Rends possible le partage des coordonnées entre membres d'un même dépôt.
       _it: Rende possibile la condivisione dei dati di contatto tra i soci dello stesso punto di ritiro.
-    group_buying:
-      _de: Gruppeneinkauf
-      _fr: Achats Groupés
-      _it: Acquisti di gruppo
-    group_buying_hint:
-      _de: Ermöglicht die Organisation von Sammelkäufen von Produkten getrennt von Taschenlieferungen.
-      _fr: Permet d'organiser des achats groupés de produits séparément des livraisons de paniers.
-      _it: Permette di organizzare acquisti di gruppo di prodotti separatamente dalle consegne del cestino.
     shop:
       _de: Hofladen
       _fr: Épicerie

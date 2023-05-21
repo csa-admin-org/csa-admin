@@ -105,17 +105,4 @@ class AdminMailer < ApplicationMailer
         subject: t('.subject'))
     end
   end
-
-  def new_group_buying_order_email
-    @admin = params[:admin]
-    @order = params[:order]
-    I18n.with_locale(@admin.language) do
-      content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'order' => Liquid::GroupBuyingOrderDrop.new(@order))
-      content_mail(content,
-        to: @admin.email,
-        subject: t('.subject', order_id: @order.id))
-    end
-  end
 end

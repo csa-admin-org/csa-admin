@@ -107,26 +107,6 @@ ActiveAdmin.register_page 'Dashboard' do
             end
           end
 
-          if Current.acp.feature?('group_buying')
-            if next_group_buying_delivery = GroupBuying::Delivery.next
-              panel t('.next_group_buying_delivery', delivery: link_to(next_group_buying_delivery.display_name, next_group_buying_delivery)).html_safe do
-                table_for GroupBuying::OrderTotal.all(next_group_buying_delivery), class: 'totals', i18n: GroupBuying::Order do
-                  column :state, :title
-                  column(GroupBuying::Order.model_name.human(count: 2), class: 'align-right') { |total| total.count }
-                  column(class: 'align-right') { |total| cur(total.price) }
-                end
-              end
-            else
-              panel t('.no_next_group_buying_delivery') do
-                div class: 'blank_slate_container' do
-                  i do
-                    link_to t('.no_next_deliveries'), group_buying_deliveries_path
-                  end
-                end
-              end
-            end
-          end
-
           if Current.acp.feature?('activity') && Depot.visible.count <= DEPOTS_LIMIT
             panel "#{activities_human_name} #{Current.fiscal_year}" do
               render 'activity_participations_count'
