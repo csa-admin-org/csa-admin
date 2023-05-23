@@ -86,9 +86,9 @@ class Depot < ApplicationRecord
       deliveries_cycles.map(&:current_and_future_delivery_ids).flatten.uniq
   end
 
-  def coming_delivery_ids
-    @coming_delivery_ids ||=
-      deliveries_cycles.map(&:coming_deliveries).flatten.uniq.sort_by(&:date).map(&:id)
+  def coming_deliveries
+    @coming_deliveries ||=
+      deliveries_cycles.map(&:coming_deliveries).flatten.uniq
   end
 
   def visible_deliveries_cycle_ids

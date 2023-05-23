@@ -56,8 +56,7 @@ ActiveAdmin.register BasketContent do
         display_surplus_quantity(bc)
       }
     }
-    all_depots = Depot.all.to_a
-    column :depots, ->(bc) { display_depots(bc, all_depots) }
+    column :depots, ->(bc) { display_depots(bc.depots) }
     if authorized?(:update, BasketContent)
       actions class: 'col-actions-2'
     end
@@ -88,8 +87,7 @@ ActiveAdmin.register BasketContent do
     column("#{BasketContent.human_attribute_name(:surplus)} - #{BasketContent.human_attribute_name(:price)}") { |bc|
       display_price bc.unit_price, bc.surplus_quantity
     }
-    all_depots = Depot.all.to_a
-    column(:depots) { |bc| display_depots(bc, all_depots) }
+    column(:depots) { |bc| display_depots(bc.depots) }
   end
 
   form do |f|

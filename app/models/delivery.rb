@@ -91,6 +91,19 @@ class Delivery < ApplicationRecord
     BasketComplementCount.all(self, scope: scope)
   end
 
+  def shop_open_for_depots
+    Depot.where.not(id: shop_closed_for_depot_ids)
+  end
+
+  def shop_open_for_depot_ids
+    @shop_open_for_depot_ids ||= shop_open_for_depots.pluck(:id)
+  end
+
+  def shop_open_for_depot_ids=(ids)
+    @shop_open_for_depot_ids = nil
+    self[:shop_closed_for_depot_ids] = Depot.pluck(:id) - ids.map(&:to_i)
+  end
+
   def shop_closing_at
     return nil unless shop_open
 
@@ -99,11 +112,13 @@ class Delivery < ApplicationRecord
     limit = end_time.on(date - delay_in_days)
   end
 
-  def shop_open?
+  def shop_open?(depot_id: nil, ignore_closing_at: false)
     return false unless Current.acp.feature?('shop')
     return false unless shop_open
+    return false if shop_open_for_depot_ids.empty?
 
-    !shop_closing_at.past?
+    (ignore_closing_at || !shop_closing_at.past?) &&
+      (!depot_id || shop_closed_for_depot_ids.exclude?(depot_id))
   end
 
   def shop_text

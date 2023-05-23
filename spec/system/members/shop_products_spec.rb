@@ -31,7 +31,9 @@ describe 'Shop::Order' do
     create(:delivery, shop_open: true, date: '2023-05-15')
     create(:delivery, shop_open: true, date: '2023-06-15')
     deliveries_cycle = create(:deliveries_cycle, months: [6])
-    depot = create(:depot, deliveries_cycles: [deliveries_cycle])
+    depot = create(:depot, id: 1, deliveries_cycles: [deliveries_cycle])
+    create(:depot, id: 2, deliveries_cycles: [deliveries_cycle])
+    create(:delivery, shop_open: true, shop_open_for_depot_ids: [2], date: '2023-06-14')
     member.update!(shop_depot: depot)
     member.activate!
 
@@ -60,12 +62,38 @@ describe 'Shop::Order' do
       visit '/shop'
       expect(current_path).to eq '/shop'
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
+      expect(page).to have_link "Livraison du 17 novembre 2021", href: '/shop/next'
     end
-    travel_to '2021-11-08 12:01 +01' do
+  end
+
+  specify 'shop delivery open/closed depending date and depot' do
+    Current.acp.update!(
+      shop_delivery_open_delay_in_days: 2,
+      shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse('12:00:00'))
+
+    depot = create(:depot, id: 1)
+    create(:depot, id: 2)
+
+    travel_to '2021-01-01' do
+      create(:delivery, shop_open: true, shop_open_for_depot_ids: [2], date: '2021-11-10')
+      create(:delivery, shop_open: true, shop_open_for_depot_ids: [1, 2], date: '2021-11-17')
+      create(:delivery, shop_open: true, shop_open_for_depot_ids: [2], date: '2021-11-24')
+      create(:delivery, shop_open: true, shop_open_for_depot_ids: [1, 2], date: '2021-11-30')
+      create(:membership, member: member, depot: depot, started_on: '2021-11-01', ended_on: '2021-11-30')
+    end
+
+    travel_to '2021-11-08 11:59 +01' do
       visit '/shop'
       expect(current_path).to eq '/shop'
+      expect(page).to have_content "Épicerie\n⤷ 17 novembre 2021"
+      expect(page).to have_content "Livraison du mercredi 17 novembre 2021\nVotre commande peut-être passée ou modifié jusqu'au lundi 15 novembre 2021 12h00."
+    end
+    travel_to '2021-11-15 12:01 +01' do
+      visit '/shop'
+      expect(current_path).to eq '/shop'
+      expect(page).to have_content "Épicerie\n⤷ 17 novembre 2021"
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
-      expect(page).to have_link "Livraison du 17 novembre 2021", href: '/shop/next'
+      expect(page).to have_link "Livraison du 30 novembre 2021", href: '/shop/next'
     end
   end
 

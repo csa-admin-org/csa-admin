@@ -58,10 +58,9 @@ module XLSX
       add_column(
         "#{::BasketContent.human_attribute_name(:surplus)} - #{::BasketContent.human_attribute_name(:price)}",
         @basket_contents.map { |bc| display_price bc.unit_price, bc.surplus_quantity })
-      all_depots = Depot.all.to_a
       add_column(
         Depot.model_name.human(count: 2),
-        @basket_contents.map { |bc| display_depots(bc, all_depots) })
+        @basket_contents.map { |bc| display_depots(bc.depots) })
     end
 
     def build_depot_worksheet(depot, baskets)

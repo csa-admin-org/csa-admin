@@ -58,11 +58,11 @@ module Shop
       limit = end_time.on(date - delay_in_days)
     end
 
-    def shop_open?
+    def shop_open?(depot_id: nil, ignore_closing_at: false)
       return false unless Current.acp.feature?('shop')
       return false unless open
 
-      !shop_closing_at.past?
+      ignore_closing_at || !shop_closing_at.past?
     end
 
     def shop_orders_count

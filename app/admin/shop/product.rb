@@ -98,12 +98,22 @@ ActiveAdmin.register Shop::Product do
         end
       end
       tab t('.availability'), id: :availability do
-        f.inputs nil do
-          f.input :available, as: :boolean, required: false
+        f.inputs nil, 'data-controller' => 'form-checkbox-toggler' do
+          f.input :available,
+            as: :boolean,
+            required: false,
+            input_html: { data: {
+              form_checkbox_toggler_target: 'checkbox',
+              action: 'form-checkbox-toggler#toggleInput'
+            } }
+
           f.input :available_for_depot_ids,
             label: Depot.model_name.human(count: 2),
             as: :check_boxes,
-            collection: Depot.all
+            collection: Depot.all,
+            input_html: {
+              data: { form_checkbox_toggler_target: 'input' }
+            }
         end
       end
       tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do

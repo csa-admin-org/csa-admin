@@ -36,8 +36,8 @@ module BasketContentsHelper
     end
   end
 
-  def display_depots(basket_content, all_depots)
-    depots = basket_content.depots
+  def display_depots(depots)
+    all_depots = Depot.all.to_a
     if depots.size == all_depots.size
       I18n.t('basket_content.depots.all')
     elsif all_depots.size - depots.size < 3
