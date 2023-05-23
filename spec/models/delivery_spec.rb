@@ -185,6 +185,8 @@ describe Delivery do
   end
 
   describe '#shop_open?' do
+    before { create(:depot) }
+
     specify 'when shop_open is false' do
       delivery = create(:delivery, shop_open: false)
 
