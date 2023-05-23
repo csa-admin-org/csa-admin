@@ -138,7 +138,7 @@ module Formtastic
           .merge(data: {
             check_boxes_toggle_all_target: 'input',
             action: "check-boxes-toggle-all#updateToggle"
-         })
+          }.merge(input_html_options[:data] || {}))
       end
 
       def legend_html
@@ -146,6 +146,7 @@ module Formtastic
           legend = template.content_tag(:label, label_text)
           legend += template.content_tag(:input, nil, type: 'checkbox', data: {
             check_boxes_toggle_all_target: 'toggle',
+            form_checkbox_toggler_target: 'input',
             action: "check-boxes-toggle-all#toggleAll"
           })
           template.content_tag(:legend,

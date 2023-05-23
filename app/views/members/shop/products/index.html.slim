@@ -1,6 +1,6 @@
 = render partial: 'members/shop/shared/header'
 
-- if @order.delivery.shop_open?
+- if @order.shop_open?
   p class="mt-2"
     = t('.closing_at_html', date: l(@order.delivery.shop_closing_at, format: :long))
 

@@ -497,10 +497,14 @@ _:
           _de: Taschenzusätze
           _fr: Compléments paniers
           _it: Aggiunte nella cesta
+        note:
+          _de: Notiz (Admin)
+          _fr: Note (Admin)
+          _it: Nota (Admin)
         shop_open:
-          _de: Hofladen geöffnet
-          _fr: Épicerie ouverte
-          _it: Drogheria aperta
+          _de: Offenes
+          _fr: Ouverte
+          _it: Aperto
         signature:
           _de: Unterschrift
           _fr: Signature

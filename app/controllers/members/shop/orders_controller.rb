@@ -74,7 +74,7 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
   end
 
   def ensure_order_state
-    if @order.cart? && !@order.delivery.shop_open?
+    if @order.cart? && !@order.shop_open?
       redirect_to shop_path, status: :see_other
     end
   end

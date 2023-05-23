@@ -74,10 +74,22 @@ class Members::BaseController < ApplicationController
   helper_method :shop_special_deliveries
 
   def coming_delivery_ids
-    if current_member.shop_depot
-      current_member.shop_depot.coming_delivery_ids
+    if depot = current_member.shop_depot
+      depot
+        .coming_deliveries
+        .select { |delivery|
+          delivery.shop_open?(depot_id: depot.id, ignore_closing_at: true)
+        }
+        .map(&:id)
     else
-      current_member.baskets.coming.pluck(:delivery_id)
+      current_member
+        .baskets
+        .coming
+        .includes(:delivery)
+        .select { |basket|
+          basket.delivery.shop_open?(depot_id: basket.depot_id, ignore_closing_at: true)
+        }
+        .map(&:delivery_id)
     end
   end
 end

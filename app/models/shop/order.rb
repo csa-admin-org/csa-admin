@@ -86,8 +86,12 @@ module Shop
       items.sum(&:weight_in_kg)
     end
 
+    def shop_open?
+      delivery.shop_open?(depot_id: depot&.id)
+    end
+
     def can_member_update?
-      delivery.shop_open?
+      shop_open?
     end
 
     def can_update?

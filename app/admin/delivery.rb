@@ -104,11 +104,15 @@ ActiveAdmin.register Delivery do
         attributes_table do
           row('#') { delivery.number }
           row(:date) { l(delivery.date, format: :long) }
+          row(:note) { text_format(delivery.note) }
         end
 
         if Current.acp.feature?('shop')
           attributes_table title: t('shop.title') do
-            row(t('shop.open')) { status_tag(delivery.shop_open?)}
+            row(t('shop.open')) { status_tag(delivery.shop_open?) }
+            if delivery.shop_open
+              row(:depots) { display_depots(delivery.shop_open_for_depots) }
+            end
             row(Shop::Order.model_name.human(count: 2)) {
               orders_count = delivery.shop_orders.all_without_cart.count
               if orders_count.positive?
@@ -129,10 +133,6 @@ ActiveAdmin.register Delivery do
               content_tag :span, t('active_admin.empty'), class: 'empty'
             end
           end
-        end
-
-        attributes_table title: t('.notes') do
-          row(:note) { text_format(delivery.note) }
         end
 
         active_admin_comments
@@ -168,10 +168,25 @@ ActiveAdmin.register Delivery do
       end
     end
     f.inputs do
-      if Current.acp.feature?('shop')
-        f.input :shop_open, as: :boolean
-      end
       f.input :note, as: :text, input_html: { rows: 3 }
+    end
+    if Current.acp.feature?('shop')
+      f.inputs t('shop.title'), 'data-controller' => 'form-checkbox-toggler' do
+        f.input :shop_open,
+          as: :boolean,
+          input_html: { data: {
+            form_checkbox_toggler_target: 'checkbox',
+            action: 'form-checkbox-toggler#toggleInput'
+          } }
+        f.input :shop_open_for_depot_ids,
+          label: Depot.model_name.human(count: 2),
+          as: :check_boxes,
+          required: false,
+          collection: Depot.all.map,
+          input_html: {
+            data: { form_checkbox_toggler_target: 'input' }
+          }
+      end
     end
     f.actions
   end
@@ -183,6 +198,7 @@ ActiveAdmin.register Delivery do
     :bulk_dates_weeks_frequency,
     :shop_open,
     bulk_dates_wdays: [],
+    shop_open_for_depot_ids: [],
     basket_complement_ids: []
 
   batch_action :destroy, false

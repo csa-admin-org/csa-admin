@@ -61,7 +61,7 @@ div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
 - if current_member.use_shop_depot?
   = render 'members/shop/orders/shop_depot'
 
-- if next_shop_delivery && @order.delivery == current_shop_delivery && @order.delivery.shop_open?
+- if next_shop_delivery && @order.delivery == current_shop_delivery && @order.shop_open?
   p class="mt-16 text-gray-400 dark:text-gray-600"
     = t('members.shop.products.index.next_delivery_html',
       date: l(next_shop_delivery.date, format: :long),

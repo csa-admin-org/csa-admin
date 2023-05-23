@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_20_173635) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -347,6 +347,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_173635) do
     t.integer "number", default: 0, null: false
     t.boolean "shop_open", default: true
     t.jsonb "basket_content_avg_prices", default: {}
+    t.integer "shop_closed_for_depot_ids", default: [], array: true
     t.index ["date"], name: "index_deliveries_on_date", unique: true
     t.index ["shop_open"], name: "index_deliveries_on_shop_open"
   end
