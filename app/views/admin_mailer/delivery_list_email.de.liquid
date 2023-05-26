@@ -1,0 +1,7 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Hier sind als Anhänge die Zusammenfassung (XLSX) und die Unterschriftenzettel (PDF) für die Lieferung am {{ delivery.date }}.</p>
+
+{% button delivery.admin_url %}
+  Zur Lieferungsseite gehen
+{% endbutton %}

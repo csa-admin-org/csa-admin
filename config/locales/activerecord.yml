@@ -510,11 +510,11 @@ _:
           _fr: Signature
           _it: Firma
         signature_sheets:
-          _de: Unterschriftszettel
+          _de: Unterschriftenzettel
           _fr: Fiches Signature
           _it: Scheda Firme
         signature_sheets_pdf:
-          _de: Unterschriftszettel (PDF)
+          _de: Unterschriftenzettel (PDF)
           _fr: Fiches Signature (PDF)
           _it: Scheda Firme (PDF)
       depot:

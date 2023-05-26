@@ -1,9 +1,14 @@
 _:
   admin_mailer:
+    delivery_list_email:
+      subject:
+        _de: Lieferungsliste vom %{date}
+        _fr: Liste livraison du %{date}
+        _it: Lista di consegna del %{date}
     depot_delivery_list_email:
       subject:
         _de: Lieferungsliste vom %{date} (%{depot})
-        _fr: Liste Livraison du %{date} (%{depot})
+        _fr: Liste livraison du %{date} (%{depot})
         _it: Lista di consegna del %{date} (%{depot})
     invitation_email:
       subject:
