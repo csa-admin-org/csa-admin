@@ -30,8 +30,9 @@ ActiveAdmin.register Membership do
     as: :select,
     collection: -> { Member.joins(:memberships).order(:name).distinct }
   filter :basket_size, as: :select
-  filter :basket_complements,
+  filter :subscribed_basket_complements,
     as: :select,
+    label: proc { BasketComplement.model_name.human },
     if: :any_basket_complements?
   filter :depot, as: :select
   filter :deliveries_cycle, as: :select
