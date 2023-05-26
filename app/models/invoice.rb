@@ -275,7 +275,7 @@ class Invoice < ApplicationRecord
     !can_destroy? &&
       !processing? &&
       !canceled? &&
-      (open? || current_year?)
+      (open? || current_year? || other_type?)
   end
 
   def can_send_email?
