@@ -3,7 +3,7 @@ module Notifier
 
   def send_all
     send_invoice_overdue_notice_emails
-    send_admin_depot_delivery_list_emails
+    send_admin_delivery_list_emails
     send_membership_renewal_reminder_emails
     send_membership_last_trial_basket_emails
     send_activity_participation_reminder_emails
@@ -17,7 +17,7 @@ module Notifier
     Invoice.open.each { |i| InvoiceOverdueNoticer.perform(i) }
   end
 
-  def send_admin_depot_delivery_list_emails
+  def send_admin_delivery_list_emails
     next_delivery = Delivery.next
     return unless next_delivery
     return unless Date.current == (next_delivery.date - 1.day)
@@ -28,6 +28,7 @@ module Notifier
         delivery: next_delivery
       ).depot_delivery_list_email.deliver_later
     end
+    Admin.notify!(:delivery_list, delivery: next_delivery)
   end
 
   def send_membership_renewal_reminder_emails

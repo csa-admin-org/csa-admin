@@ -40,6 +40,7 @@ class Admin < ApplicationRecord
 
   def self.notifications
     all = %w[
+      delivery_list
       new_email_suppression
       new_inscription
       invoice_overpaid

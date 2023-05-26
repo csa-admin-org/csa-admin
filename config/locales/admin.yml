@@ -1,6 +1,10 @@
 _:
   admin:
     notifications:
+      delivery_list:
+        _de: Lieferungsliste (XLSX und PDF)
+        _fr: Liste de livraison (XLSX et PDF)
+        _it: Lista di consegna (XLSX e PDF)
       invoice_overpaid:
         _de: Überzahlte Rechnung
         _fr: Facture payée en trop

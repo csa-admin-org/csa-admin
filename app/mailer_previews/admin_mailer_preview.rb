@@ -23,6 +23,18 @@ class AdminMailerPreview < ActionMailer::Preview
     ).depot_delivery_list_email
   end
 
+  def delivery_list_email
+    admin = Admin.new(
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    delivery = Delivery.new(id: 1, date: Date.new(2020, 11, 10))
+    AdminMailer.with(
+      admin: admin,
+      delivery: delivery
+    ).delivery_list_email
+  end
+
   def invitation_email
     admin = Admin.new(
       name: 'John',

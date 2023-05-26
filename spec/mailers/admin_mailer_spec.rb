@@ -20,7 +20,7 @@ describe AdminMailer do
       delivery: delivery
     ).depot_delivery_list_email
 
-    expect(mail.subject).to eq('Liste Livraison du 6 novembre 2020 (Jardin de la Main)')
+    expect(mail.subject).to eq('Liste livraison du 6 novembre 2020 (Jardin de la Main)')
     expect(mail.to).to eq(['respondent1@acp-admin.ch', 'respondent2@acp-admin.ch'])
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
 
@@ -36,6 +36,38 @@ describe AdminMailer do
     expect(attachment1.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     attachment2 = mail.attachments.second
     expect(attachment2.filename).to eq 'fiches-signature-livraison-#1-20201106.pdf'
+    expect(attachment2.content_type).to eq 'application/pdf'
+  end
+
+  specify '#delivery_list_email', freeze: '2023-01-01' do
+    admin = Admin.new(
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    delivery = create(:delivery,
+      id: 1,
+      date: Date.new(2023, 11, 6))
+    mail = AdminMailer.with(
+      admin: admin,
+      delivery: delivery
+    ).delivery_list_email
+
+    expect(mail.subject).to eq('Liste livraison du 6 novembre 2023')
+    expect(mail.to).to eq(['admin@acp-admin.ch'])
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+
+    body = mail.html_part.body
+    expect(body).to include('(XLSX)')
+    expect(body).to include('(PDF)')
+    expect(body).to include("Accéder à la page de la livraison")
+    expect(body).to include('https://admin.ragedevert.ch/deliveries/1')
+
+    expect(mail.attachments.size).to eq 2
+    attachment1 = mail.attachments.first
+    expect(attachment1.filename).to eq 'livraison-#1-20231106.xlsx'
+    expect(attachment1.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    attachment2 = mail.attachments.second
+    expect(attachment2.filename).to eq 'fiches-signature-livraison-#1-20231106.pdf'
     expect(attachment2.content_type).to eq 'application/pdf'
   end
 

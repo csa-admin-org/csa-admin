@@ -271,7 +271,7 @@ _:
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftenzettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
           _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         visible:
@@ -347,7 +347,7 @@ _:
           _fr: Prix pour la préparation et/ou livraison d'un panier.
           _it: Prezzo per la preparazione e/o consegna di una cesta.
         public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftszettel, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftenzettel, ...).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
           _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
         public_note:
