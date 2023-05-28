@@ -248,6 +248,10 @@ _:
       _de: Fehlender Betrag
       _fr: Montant manquant
       _it: Quantità mancante
+    month:
+      _de: Monat
+      _fr: Mois
+      _it: Mese
     name:
       _de: Name
       _fr: Nom
@@ -420,6 +424,10 @@ _:
       _de: Sichtbar
       _fr: Visible
       _it: Visibile
+    wday:
+      _de: Wochentag
+      _fr: Jour de la semaine
+      _it: Giorno della settimana
     website_url:
       _de: Website
       _fr: Site Web

@@ -71,6 +71,8 @@ ActiveAdmin.register BasketContent do
 
   csv do
     column(:date) { |bc| bc.delivery.date.to_s }
+    column(:month) { |bc| I18n.t('date.month_names')[bc.delivery.date.month] }
+    column(:wday) { |bc| I18n.t('date.day_names')[bc.delivery.date.wday] }
     column(:product) { |bc| bc.product.name }
     column(:unit) { |bc| t("units.#{bc.unit}") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
