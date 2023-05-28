@@ -6,6 +6,9 @@ ActiveAdmin.register BasketContent do
   filter :product, as: :select
   filter :basket_size, as: :select, collection: -> { BasketSize.paid }
   filter :depots, as: :select
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   includes :depots, :delivery, :product, :basketcontents_depots
 
@@ -22,7 +25,7 @@ ActiveAdmin.register BasketContent do
   end
 
   index as: BasketContentIndex, download_links: -> {
-    params.dig(:q, :delivery_id_eq) ? [:csv, :xlsx] : [:csv]
+    params.dig(:q, :delivery_id_eq).present? ? [:csv, :xlsx] : [:csv]
   }, title: -> {
     title = BasketContent.model_name.human(count: 2)
     if params.dig(:q, :delivery_id_eq).present?

@@ -17,6 +17,10 @@ class BasketContent < ApplicationRecord
   scope :with_unit_price, -> { where.not(unit_price: nil) }
   scope :in_kg, -> { where(unit: 'kg') }
   scope :in_pc, -> { where(unit: 'pc') }
+  scope :during_year, ->(year) {
+    joins(:delivery)
+      .where(deliveries: { date: Current.acp.fiscal_year_for(year).range })
+  }
 
   after_initialize :set_defaults
 
@@ -40,7 +44,7 @@ class BasketContent < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[basket_size_eq]
+    %i[basket_size_eq during_year]
   end
 
   def distribution_automatic?
