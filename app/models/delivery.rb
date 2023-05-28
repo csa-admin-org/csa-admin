@@ -170,7 +170,7 @@ class Delivery < ApplicationRecord
           depot,
           bcs.sum { |bc| bc.price_for(basket_size, depot) || 0 }.round_to_five_cents
         ]
-      end.to_h
+      end.to_h.select { |_, price| price.positive? } # ignore depot with zero price
       [basket_size, depot_prices]
     end.to_h
   end
@@ -180,7 +180,7 @@ class Delivery < ApplicationRecord
     basket_content_prices.each do |basket_size, depot_prices|
       prices = depot_prices.flat_map { |depot, price|
         Array(price) * depot.baskets_count_for(self, basket_size)
-      }
+      }.select(&:positive?) # ignore empty depot
       if prices.any?
         avg_price = prices.sum.fdiv(prices.size)
         avg_prices[basket_size.id] = avg_price.to_f

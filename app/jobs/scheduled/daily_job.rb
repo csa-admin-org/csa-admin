@@ -8,6 +8,7 @@ module Scheduled
         .includes(:current_or_future_membership, :last_membership)
         .each(&:review_active_state!)
       Checker::MembershipPrice.check_all!
+      Checker::DeliveryBasketContentAvgPrices.check_all!
     end
   end
 end
