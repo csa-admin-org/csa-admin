@@ -342,10 +342,8 @@ describe BasketContent do
         '1002' => 122.0)
       expect(delivery.basket_content_prices).to eq(
         basket_size_1 => {
-          other_depot => 0,
           depot => 78.0 },
         basket_size_2 => {
-          other_depot => 0,
           depot => 122.0
         })
     end
@@ -362,10 +360,9 @@ describe BasketContent do
         unit_price: 2)
 
       expect(delivery.basket_content_avg_prices).to eq(
-        '1001' => 0,
         '1002' => 200.0)
       expect(delivery.basket_content_prices).to eq(
-        basket_size_1 => { depot => 0 },
+        basket_size_1 => {},
         basket_size_2 => { depot => 200.0 })
     end
 
