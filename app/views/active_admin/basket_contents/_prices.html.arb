@@ -1,6 +1,6 @@
 used_cycles = Membership.used_deliveries_cycle_ids_for(delivery.fy_year)
 delivery.basket_content_prices.each do |basket_size, depot_prices|
-  prices = [depot_prices.values.min, depot_prices.values.max].uniq
+  prices = [depot_prices.values.min || 0, depot_prices.values.max || 0].uniq
   basket_price = basket_size.price_for(delivery.fy_year)
   div class: "basket_price #{prices.many? ? 'tooltip-toggle' : ''}", 'data-tooltip' => depot_prices_list(depot_prices) do
     span basket_size.name, class: 'title'
