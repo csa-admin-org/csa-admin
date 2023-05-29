@@ -338,8 +338,9 @@ class Member < ApplicationRecord
   end
 
   def set_default_billing_year_division
-    self[:billing_year_division] ||=
-      Current.acp.billing_year_divisions.first
+    unless self[:billing_year_division].in?(Current.acp.billing_year_divisions)
+      self[:billing_year_division] = Current.acp.billing_year_divisions.last
+    end
   end
 
   def set_default_waiting_deliveries_cycle
