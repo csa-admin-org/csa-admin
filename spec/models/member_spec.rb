@@ -40,20 +40,24 @@ describe Member do
     it 'sets first ACP billing_year_divisions by default' do
       Current.acp.billing_year_divisions = [4, 12]
       member = create(:member, billing_year_division: nil)
-      expect(member.billing_year_division).to eq 4
+      expect(member.billing_year_division).to eq 12
+    end
+
+    it 'sets last ACP billing_year_divisions by default ' do
+      Current.acp.billing_year_divisions = [4, 12]
+      member = create(:member, billing_year_division: 1)
+      expect(member.billing_year_division).to eq 12
     end
 
     it 'only accepts ACP billing_year_divisions' do
       Current.acp.billing_year_divisions = [1, 12]
       member = build(:member, billing_year_division: 3)
 
-      expect(member).not_to have_valid(:billing_year_division)
+      member.validate
+      expect(member.billing_year_division).to eq 12
 
       member.billing_year_division = 1
       member.save!
-
-      member.billing_year_division = 3
-      expect(member).to have_valid(:billing_year_division)
     end
 
     it 'validates email presence, but only on public creation' do
