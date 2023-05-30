@@ -247,7 +247,14 @@ class BasketContent < ApplicationRecord
     roundings = %i[up upup down downdown]
     permutations = roundings.repeated_permutation(basket_size_ids.size)
     possibilities = permutations.map { |r| possibility(r) }
-    possibilities.reject! { |p| p.any? { |q| q <= 0 } || total_quantities(p) > quantity }
+    possibilities.reject! { |p|
+      p.any?(&:negative?) ||
+      p.map.with_index { |q, i|
+        count = baskets_counts[i]
+        (q.zero? && count.positive?) || (q.positive? && count.zero?)
+      }.any? ||
+      total_quantities(p) > quantity
+    }
     if best_possibility = possibilities.sort.max_by { |p| total_quantities(p) }
       self[:basket_quantities] = best_possibility
     end

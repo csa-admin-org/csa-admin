@@ -84,11 +84,11 @@ module BasketContentsHelper
   end
 
   def display_with_price(price, quantity)
-    return yield unless price.present? && quantity.present?
+    return yield unless price.present?
 
     (
       yield +
-      content_tag(:span, cur(price * quantity), class: 'price')
+      content_tag(:span, cur(price * quantity.to_f), class: 'price')
     ).html_safe
   end
 
