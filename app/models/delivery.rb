@@ -183,7 +183,7 @@ class Delivery < ApplicationRecord
       }.select(&:positive?) # ignore empty depot
       if prices.any?
         avg_price = prices.sum.fdiv(prices.size)
-        avg_prices[basket_size.id] = avg_price.to_f
+        avg_prices[basket_size.id] = avg_price.round(2)
       end
     end
     update_column(:basket_content_avg_prices, avg_prices)
