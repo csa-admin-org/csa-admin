@@ -29,6 +29,7 @@ describe AdminMailer do
     expect(body).to include('<strong>Charle</strong>, Abondance')
     expect(body).to include('<strong>Martha</strong>, Eveil')
     expect(body).to include('Voir les pièces jointes pour plus de détails, merci.')
+    expect(body).not_to include('Gérer mes notifications')
 
     expect(mail.attachments.size).to eq 2
     attachment1 = mail.attachments.first
@@ -41,6 +42,7 @@ describe AdminMailer do
 
   specify '#delivery_list_email', freeze: '2023-01-01' do
     admin = Admin.new(
+      id: 1,
       name: 'John',
       language: I18n.locale,
       email: 'admin@acp-admin.ch')
@@ -61,6 +63,7 @@ describe AdminMailer do
     expect(body).to include('(PDF)')
     expect(body).to include("Accéder à la page de la livraison")
     expect(body).to include('https://admin.ragedevert.ch/deliveries/1')
+    expect(body).to include('Gérer mes notifications')
 
     expect(mail.attachments.size).to eq 2
     attachment1 = mail.attachments.first
@@ -87,6 +90,7 @@ describe AdminMailer do
     expect(mail.body).to include('admin@acp-admin.ch')
     expect(mail.body).to include("Accéder à l'admin de Rage de Vert")
     expect(mail.body).to include('https://admin.ragedevert.ch')
+    expect(mail.body).not_to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -114,6 +118,7 @@ describe AdminMailer do
     expect(mail.body).to include('Accéder à la page du membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -140,6 +145,7 @@ describe AdminMailer do
     expect(mail.body).to include('Accéder à la page du membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -168,6 +174,7 @@ describe AdminMailer do
     expect(mail.body).to include("Accéder à la page de l'absence")
     expect(mail.body).to include('https://admin.ragedevert.ch/absences/1')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -203,6 +210,7 @@ describe AdminMailer do
     expect(mail.body).to include('Membre: Martha')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 
@@ -227,6 +235,7 @@ describe AdminMailer do
     expect(mail.body).to include("Accéder à la page du membre")
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
 end
