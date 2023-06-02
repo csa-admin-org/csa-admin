@@ -62,7 +62,11 @@ ActiveAdmin.register BasketComplement do
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
-      f.input :form_priority, hint: true
+      f.input :member_order_priority,
+        collection: member_order_priorities_collection,
+        as: :select,
+        prompt: true,
+        hint: t('formtastic.hints.acp.member_order_priority_html')
       f.input :visible, as: :select, include_blank: false
       translated_input(f, :form_details,
         hint: t('formtastic.hints.basket_complement.form_detail'),
@@ -106,7 +110,7 @@ ActiveAdmin.register BasketComplement do
     :price,
     :price_type,
     :visible,
-    :form_priority,
+    :member_order_priority,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
@@ -119,4 +123,5 @@ ActiveAdmin.register BasketComplement do
 
   config.filters = false
   config.sort_order = :default_scope
+  config.paginate = false
 end

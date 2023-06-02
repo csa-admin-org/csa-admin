@@ -58,4 +58,18 @@ module FormsHelper
     end
     txt
   end
+
+  def member_order_priorities_collection
+    [
+      [t('member_order.priorities.first'), 0],
+      [t('member_order.priorities.default'), 1],
+      [t('member_order.priorities.last'), 2]
+    ]
+  end
+
+  def member_order_modes_collection(klass)
+    modes = klass::MEMBER_ORDER_MODES.map { |mode|
+      [t("member_order.modes.#{mode}"), mode]
+    }
+  end
 end

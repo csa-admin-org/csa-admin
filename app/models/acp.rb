@@ -98,6 +98,18 @@ class ACP < ApplicationRecord
   validates :member_form_mode, presence: true, inclusion: { in: MEMBER_FORM_MODES }
   validates :member_profession_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
   validates :member_come_from_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
+  validates :basket_sizes_member_order_mode,
+    presence: true,
+    inclusion: { in: BasketSize::MEMBER_ORDER_MODES }
+  validates :basket_complements_member_order_mode,
+    presence: true,
+    inclusion: { in: BasketComplement::MEMBER_ORDER_MODES }
+  validates :depots_member_order_mode,
+    presence: true,
+    inclusion: { in: Depot::MEMBER_ORDER_MODES }
+  validates :deliveries_cycles_member_order_mode,
+    presence: true,
+    inclusion: { in: DeliveriesCycle::MEMBER_ORDER_MODES }
   validates :basket_update_limit_in_days,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 }

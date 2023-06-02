@@ -55,8 +55,8 @@ class Members::MembersController < Members::BaseController
     complement_ids =
       BasketComplement
         .visible
+        .member_ordered
         .select { |bc| bc.deliveries_count.positive? }
-        .sort_by { |bc| [bc.form_priority, bc.public_name] }
         .map(&:id)
     mbcs = @member.members_basket_complements.to_a
     @member.members_basket_complements.clear

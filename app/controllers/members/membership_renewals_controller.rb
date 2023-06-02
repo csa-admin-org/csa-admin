@@ -32,8 +32,8 @@ class Members::MembershipRenewalsController < Members::BaseController
     complement_ids =
       BasketComplement
         .visible
+        .member_ordered
         .select { |bc| bc.deliveries_count.positive? }
-        .sort_by { |bc| [bc.form_priority, bc.public_name] }
         .map(&:id)
     complement_ids.each do |id|
       quantity =

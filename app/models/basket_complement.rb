@@ -3,6 +3,13 @@ class BasketComplement < ApplicationRecord
   include HasVisibility
 
   PRICE_TYPES = %w[delivery annual]
+  MEMBER_ORDER_MODES = %w[
+    name_asc
+    price_asc
+    price_desc
+    deliveries_count_asc
+    deliveries_count_desc
+  ]
 
   translated_attributes :name, required: true
   translated_attributes :public_name
@@ -23,6 +30,8 @@ class BasketComplement < ApplicationRecord
     after_add: :after_add_delivery!,
     after_remove: :after_remove_delivery!
 
+  default_scope { order_by_name }
+
   scope :annual_price_type, -> { where(price_type: 'annual') }
   scope :used, -> {
     ids = BasketsBasketComplement
@@ -33,10 +42,23 @@ class BasketComplement < ApplicationRecord
     where(id: ids)
   }
 
-  default_scope { order_by_name }
-
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_type, inclusion: { in: PRICE_TYPES }
+
+  def self.member_ordered
+    all.to_a.sort_by { |bc|
+      clauses = [bc.member_order_priority]
+      clauses <<
+        case Current.acp.basket_complements_member_order_mode
+        when 'price_asc'; bc.price
+        when 'price_desc'; -bc.price
+        when 'deliveries_count_asc'; bc.deliveries_count
+        when 'deliveries_count_desc'; -bc.deliveries_count
+        end
+      clauses << bc.public_name
+      clauses
+    }
+  end
 
   def deliveries_count
     @deliveries_count ||= begin

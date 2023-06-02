@@ -1,6 +1,37 @@
 require 'rails_helper'
 
 describe BasketComplement do
+  def member_ordered_names
+    BasketComplement.member_ordered.map(&:name)
+  end
+
+  specify '#member_ordered' do
+    create_deliveries(3)
+    egg = create(:basket_complement, price: 5, name: 'oeuf',
+      delivery_ids: Delivery.first(1).pluck(:id))
+    create(:basket_complement, price: 6, name: 'fromage',
+      delivery_ids: Delivery.first(3).pluck(:id))
+    create(:basket_complement, price: 7, name: 'pain',
+      delivery_ids: Delivery.first(2).pluck(:id))
+
+    expect(member_ordered_names).to eq %w[fromage pain oeuf]
+
+    Current.acp.update! basket_complements_member_order_mode: 'price_asc'
+    expect(member_ordered_names).to eq %w[oeuf fromage pain]
+
+    Current.acp.update! basket_complements_member_order_mode: 'price_desc'
+    expect(member_ordered_names).to eq %w[pain fromage oeuf]
+
+    Current.acp.update! basket_complements_member_order_mode: 'deliveries_count_asc'
+    expect(member_ordered_names).to eq %w[oeuf pain fromage]
+
+    Current.acp.update! basket_complements_member_order_mode: 'name_asc'
+    expect(member_ordered_names).to eq %w[fromage oeuf pain]
+
+    egg.update! member_order_priority: 2
+    expect(member_ordered_names).to eq %w[fromage pain oeuf]
+  end
+
   describe '#deliveries_count', freeze: '2022-01-01' do
     it 'counts future deliveries when exits' do
       basket_complement = create(:basket_complement)

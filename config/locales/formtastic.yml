@@ -46,6 +46,10 @@ _:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag.
           _fr: Laisser vide si aucune cotisation annuelle.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa.
+        basket_complements_member_order_mode:
+          _de: Legt die Reihenfolge der Taschenzusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
+          _fr: Permet de définir l'ordre d'affichage des compléments de paniers dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
+          _it: Permette di definire l'ordine di visualizzazione dei aggiunte di cestini nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
         basket_price_extra_dynamic_pricing_html:
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Größe des Korb.<br/> Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_price }}" und "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix appliqué en fonction de différents critères comme la taille du panier.<br/> Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec les objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_price }}" et "{{ deliveries_count }}".
@@ -70,6 +74,10 @@ _:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
+        basket_sizes_member_order_mode:
+          _de: Legt die Reihenfolge der Taschengrößen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
+          _fr: Permet de définir l'ordre d'affichage des tailles de paniers dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
+          _it: Permette di definire l'ordine di visualizzazione delle dimensioni dei cestini nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
         basket_update_limit_in_days:
           _de: Nach Ablauf dieser Frist ist eine Änderung nicht mehr möglich. Null bedeutet, dass die Änderung noch am Tag der Lieferung möglich ist.
           _fr: Passé ce délai, la modification n'est plus possible. Zéro signifie que la modification est toujours possible le jour même de la livraison.
@@ -78,6 +86,14 @@ _:
           _de: Wenn deaktiviert, erfolgt die Rechnungsstellung ab Beginn des Abonnements..
           _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
           _it: Se disattivato, la fatturazione avverrà dall'inizio dell'abbonamento..
+        deliveries_cycles_member_order_mode:
+          _de: Legt die Reihenfolge der Lieferzyklen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
+          _fr: Permet de définir l'ordre d'affichage des cycles de livraison dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
+          _it: Permette di definire l'ordine di visualizzazione dei cicli di consegna nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
+        depots_member_order_mode:
+          _de: Legt die Reihenfolge der Depots im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
+          _fr: Permet de définir l'ordre d'affichage des dépôts dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
+          _it: Permette di definire l'ordine di visualizzazione dei punti di ritiro nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
         member_come_from_form_mode:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
@@ -94,6 +110,10 @@ _:
           _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Sie können es z.B. verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
           _fr: Si présent, le contenu de ce champ sera affiché sur le compte du membre sous la section "Informations". Vous pouvez l'utiliser, par exemple, pour partager des informations confidentielles avec vos membres.
           _it: Se presente, il contenuto di questo campo verrà visualizzato sul conto del socio sotto la sezione "Informazioni". Puoi usarlo, ad esempio, per condividere informazioni riservate con i tuoi soci.
+        member_order_priority_html:
+          _de: Ermöglicht das Erzwingen der Position, bevor die in <a href='/settings#registration'>den Einstellungen</a> festgelegte Reihenfolge angewendet wird.
+          _fr: Permet de forcer la position avant l'application de l'ordre défini dans <a href='/settings#registration'>les paramètres</a>.
+          _it: Utilizzato per forzare la posizione prima di applicare l'ordine definito <a href='/settings#registration'>nei parametri</a>.
         member_profession_form_mode:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
@@ -223,10 +243,6 @@ _:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
           _it: Lasciare vuoto per il testo predefinito.
-        form_priority:
-          _de: Ermöglicht es Ihnen, die Zusätze in einer bestimmten Reihenfolge zu sortieren.
-          _fr: Permet de trier les compléments dans un ordre spécifique.
-          _it: Permette di ordinare le aggiunte in un ordine specifico.
         future_deliveries:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
@@ -262,10 +278,6 @@ _:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
           _it: Lasciare vuoto per il testo predefinito.
-        form_priority:
-          _de: Ermöglicht das Sortieren von Taschengrößen in einer bestimmten Reihenfolge
-          _fr: Permet de trier les tailles de panier dans un ordre spécifique.
-          _it: Permette di ordinare le dimensioni del cestino in un ordine specifico.
         price:
           _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
@@ -288,10 +300,6 @@ _:
           _de: Wenn ein Depot von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Depots, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
           _fr: Si un dépôt est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Les dépôts qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
           _it: Se un punto di ritiro viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). I punti di ritiro che hanno solo questa corsa di consegna non possono essere rimossi dalla lista.
-        form_priority:
-          _de: Ermöglicht es Ihnen, die Lieferzyklen in einer bestimmten Reihenfolge zu sortieren.
-          _fr: Permet de trier les cycles de livraisons dans un ordre spécifique.
-          _it: Permette di ordinare i cicli di consegna in un ordine specifico.
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
@@ -334,10 +342,6 @@ _:
           _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
           _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cesta.
-        form_priority:
-          _de: Ermöglicht es Ihnen, die Einlagen in einer bestimmten Reihenfolge zu sortieren.
-          _fr: Permet de trier les dépôts dans un ordre spécifique.
-          _it: Permette di ordinare i luoghi di deposito in un ordine specifico.
         phones:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
