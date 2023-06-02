@@ -24,7 +24,9 @@ class NewsletterMailer < ApplicationMailer
     return unless params[:attachments].present?
 
     params[:attachments].map(&:file).each { |file|
-      attachments[file.filename.to_s] = {
+      filename =
+        ActiveSupport::Inflector.transliterate(file.filename.to_s.gsub(/"/, "'"))
+      attachments[filename] = {
         mime_type: file.content_type,
         content: file.download
       }

@@ -41,7 +41,7 @@ describe NewsletterMailer do
     attachment = Newsletter::Attachment.new
     attachment.file.attach(
       io: File.open(file_fixture('qrcode-test.png')),
-      filename: 'qrcode-test.png')
+      filename: "Un code \"QR\" stylé.png")
     newsletter.update! attachments: [attachment]
 
     mail = NewsletterMailer.with(
@@ -54,7 +54,7 @@ describe NewsletterMailer do
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
-    expect(attachment.filename).to eq 'qrcode-test.png'
+    expect(attachment.filename).to eq "Un code 'QR' style.png"
     expect(attachment.content_type).to eq 'image/png'
   end
 end
