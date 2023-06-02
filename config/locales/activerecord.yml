@@ -55,6 +55,10 @@ _:
           _de: Auswahl an alternativen Depots
           _fr: Choix de dépôts alternatifs
           _it: Scelta di un punto di ritiro alternativo
+        basket_complements_member_order_mode:
+          _de: Reihenfolge der Zusätze
+          _fr: Ordre des compléments
+          _it: Ordine dei aggiunta
         basket_price_extra_dynamic_pricing:
           _de: Dynamischer Preis
           _fr: Prix dynamique
@@ -83,6 +87,10 @@ _:
           _de: Preisen Taschen (zusätzlich)
           _fr: Prix panier (extras)
           _it: Prezzo della cesta (extras)
+        basket_sizes_member_order_mode:
+          _de: Reihenfolge der Taschengrößen
+          _fr: Ordre des tailles de panier
+          _it: Ordine delle dimensioni del cesto
         basket_update_limit_in_days:
           _de: Änderungen vor der Lieferung erlauben (in Tagen)
           _fr: Délai de modification avant la livraison (en jours)
@@ -99,6 +107,10 @@ _:
           _de: Währung
           _fr: Monnaie
           _it: Valuta
+        deliveries_cycles_member_order_mode:
+          _de: Reihenfolge der Lieferzyklen
+          _fr: Ordre des cycles de livraisons
+          _it: Ordine dei cicli di consegna
         delivery_pdf_footer:
           _de: Fußzeile
           _fr: Bas de page
@@ -107,6 +119,10 @@ _:
           _de: Telefonnummern einbeziehen
           _fr: Inclure les numéros de téléphone
           _it: Includere il numero di telefono
+        depots_member_order_mode:
+          _de: Reihenfolge der Depots
+          _fr: Ordre des dépôts
+          _it: Ordine dei punti di ritiro
         email:
           _de: Email
           _fr: Email

@@ -2,6 +2,13 @@ class DeliveriesCycle < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 
+  MEMBER_ORDER_MODES = %w[
+    name_asc
+    deliveries_count_asc
+    deliveries_count_desc
+    wdays_asc
+  ]
+
   enum week_numbers: %i[all odd even], _suffix: true
   enum results: %i[
     all
@@ -18,8 +25,6 @@ class DeliveriesCycle < ApplicationRecord
 
   default_scope { order_by_name }
 
-  validates :form_priority, presence: true
-
   after_save :reset_cache!
   after_commit :update_baskets_async, on: :update
 
@@ -31,6 +36,20 @@ class DeliveriesCycle < ApplicationRecord
 
   def self.for(delivery)
     DeliveriesCycle.all.select { |dc| dc.include_delivery?(delivery) }
+  end
+
+  def self.member_ordered
+    all.to_a.sort_by { |dc|
+      clauses = [dc.member_order_priority]
+      clauses <<
+        case Current.acp.deliveries_cycles_member_order_mode
+        when 'deliveries_count_asc'; dc.deliveries_count
+        when 'deliveries_count_desc'; -dc.deliveries_count
+        when 'wdays_asc'; [dc.wdays.sort, -dc.deliveries_count]
+        end
+      clauses << dc.public_name
+      clauses
+    }
   end
 
   def self.reset_cache!

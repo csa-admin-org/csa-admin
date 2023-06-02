@@ -69,7 +69,6 @@ ActiveAdmin.register DeliveriesCycle do
         end
 
         attributes_table title: t('.member_new_form') do
-          row :form_priority
           row :visible
         end
 
@@ -113,7 +112,11 @@ ActiveAdmin.register DeliveriesCycle do
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
-      f.input :form_priority, hint: true
+      f.input :member_order_priority,
+        collection: member_order_priorities_collection,
+        as: :select,
+        prompt: true,
+        hint: t('formtastic.hints.acp.member_order_priority_html')
       f.input :visible, as: :select, include_blank: false
     end
 
@@ -147,7 +150,7 @@ ActiveAdmin.register DeliveriesCycle do
 
   permit_params(
     :visible,
-    :form_priority,
+    :member_order_priority,
     :week_numbers,
     :results,
     *I18n.available_locales.map { |l| "name_#{l}" },
@@ -171,4 +174,5 @@ ActiveAdmin.register DeliveriesCycle do
   end
 
   config.sort_order = :default_scope
+  config.paginate = false
 end

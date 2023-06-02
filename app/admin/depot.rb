@@ -41,7 +41,6 @@ ActiveAdmin.register Depot do
     column(:address_name)
     column(:address)
     column(:zip)
-    column(:form_priority)
     column(:visible)
     column(:contact_name)
     column(:emails) { |d| d.emails_array.join(', ') }
@@ -94,7 +93,6 @@ ActiveAdmin.register Depot do
         end
 
         attributes_table title: t('.member_new_form') do
-          row :form_priority
           row :visible
         end
 
@@ -119,7 +117,11 @@ ActiveAdmin.register Depot do
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
-      f.input :form_priority, hint: true
+      f.input :member_order_priority,
+        collection: member_order_priorities_collection,
+        as: :select,
+        prompt: true,
+        hint: t('formtastic.hints.acp.member_order_priority_html')
       f.input :visible, as: :select, include_blank: false
     end
 
@@ -161,7 +163,7 @@ ActiveAdmin.register Depot do
       name language price visible note
       address_name address zip city
       contact_name emails phones
-      form_priority
+      member_order_priority
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
@@ -177,4 +179,5 @@ ActiveAdmin.register Depot do
   end
 
   config.sort_order = 'name_asc'
+  config.paginate = false
 end

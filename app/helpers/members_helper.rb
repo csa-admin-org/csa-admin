@@ -37,7 +37,7 @@ module MembersHelper
   end
 
   def basket_sizes_collection(no_basket_option: true, data: {}, no_basket_data: {})
-    basket_sizes = BasketSize.visible.reorder(:form_priority, price: :desc)
+    basket_sizes = BasketSize.visible.member_ordered
     col = basket_sizes.map { |bs|
       [
         collection_text(bs.public_name, details: basket_size_details(bs)),
@@ -64,6 +64,19 @@ module MembersHelper
       ]
     end
     col
+  end
+
+  def baskets_basket_complements(basket)
+    complements = basket.delivery.basket_complements.visible.member_ordered
+    basket_complements = basket.complements
+    complements.each do |complement|
+      unless complement.in?(basket_complements)
+        basket.baskets_basket_complements.build(
+          quantity: 0,
+          basket_complement: complement)
+      end
+    end
+    basket.baskets_basket_complements
   end
 
   def basket_prices_extra_collection(data: {})
@@ -144,8 +157,7 @@ module MembersHelper
     ids << membership.deliveries_cycle_id if membership
     DeliveriesCycle
       .where(id: ids.uniq)
-      .to_a
-      .sort_by { |dc| [dc.form_priority, -1 * dc.deliveries_count, dc.public_name] }
+      .member_ordered
       .map { |dc|
         [
           collection_text(dc.public_name,
@@ -253,7 +265,7 @@ module MembersHelper
     Depot
       .where(id: ids.uniq)
       .includes(:deliveries_cycles, :visibe_deliveries_cycles)
-      .reorder('form_priority, price, name')
+      .member_ordered
       .to_a
   end
 

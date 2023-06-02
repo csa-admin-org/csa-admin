@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_28_115612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -106,6 +106,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
     t.string "member_form_mode", default: "membership", null: false
     t.boolean "membership_complements_update_allowed", default: false, null: false
     t.decimal "shop_member_percentages", precision: 8, scale: 2, default: [], null: false, array: true
+    t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
+    t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
+    t.string "depots_member_order_mode", default: "price_asc", null: false
+    t.string "deliveries_cycles_member_order_mode", default: "deliveries_count_desc", null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -248,6 +252,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
     t.jsonb "form_details", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
     t.index ["visible"], name: "index_basket_complements_on_visible"
   end
 
@@ -301,6 +306,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
     t.jsonb "form_details", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 
@@ -364,6 +370,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "deliveries_counts", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
     t.index ["visible"], name: "index_deliveries_cycles_on_visible"
   end
 
@@ -391,6 +398,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_105532) do
     t.integer "form_priority", default: 0, null: false
     t.string "xlsx_worksheet_style", default: "default", null: false
     t.string "contact_name"
+    t.integer "member_order_priority", default: 1, null: false
     t.index ["visible"], name: "index_depots_on_visible"
   end
 

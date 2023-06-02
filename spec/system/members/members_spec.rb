@@ -378,9 +378,9 @@ describe 'members page' do
     end
 
     it 'orders depots by form priority' do
-      create(:depot, name: 'Jardin de la main', form_priority: 0)
-      create(:depot, name: 'Vélo', form_priority: 1)
-      create(:depot, name: 'Domicile', form_priority: 2)
+      create(:depot, name: 'Jardin de la main', member_order_priority: 0)
+      create(:depot, name: 'Vélo', member_order_priority: 1)
+      create(:depot, name: 'Domicile', member_order_priority: 2)
 
       visit '/new'
 

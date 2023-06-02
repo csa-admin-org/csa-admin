@@ -1,0 +1,40 @@
+_:
+  member_order:
+    modes:
+      deliveries_count_asc:
+        _de: Anzahl Lieferungen (aufsteigend), alphabetisch
+        _fr: Nombre de livraisons (croissant), ordre alphabétique
+        _it: Numero di consegne (crescente), ordine alfabetico
+      deliveries_count_desc:
+        _de: Anzahl Lieferungen (absteigend), alphabetisch
+        _fr: Nombre de livraisons (décroissant), ordre alphabétique
+        _it: Numero di consegne (decrescente), ordine alfabetico
+      name_asc:
+        _de: Nur alphabetisch
+        _fr: Ordre alphabétique uniquement
+        _it: Solo ordine alfabetico
+      price_asc:
+        _de: Preis (aufsteigend), alphabetisch
+        _fr: Prix (croissant), ordre alphabétique
+        _it: Prezzo (crescente), ordine alfabetico
+      price_desc:
+        _de: Preis (absteigend), alphabetisch
+        _fr: Prix (décroissant), ordre alphabétique
+        _it: Prezzo (decrescente), ordine alfabetico
+      wdays_asc:
+        _de: Wochentage, Anzahl Lieferungen (absteigend), alphabetisch
+        _fr: Jours de la semaine, Nombre de livraisons (décroissant), ordre alphabétique
+        _it: Giorni della settimana, Numero di consegne (decrescente), ordine alfabetico
+    priorities:
+      default:
+        _de: Keine
+        _fr: Aucune
+        _it: Nessuna
+      first:
+        _de: Erste Position(en)
+        _fr: Première(s) position(s)
+        _it: Prima posizione
+      last:
+        _de: Letzte Position(en)
+        _fr: Dernière(s) position(s)
+        _it: Ultima posizione

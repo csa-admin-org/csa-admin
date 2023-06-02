@@ -2,6 +2,12 @@ class BasketSize < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 
+  MEMBER_ORDER_MODES = %w[
+    name_asc
+    price_asc
+    price_desc
+  ]
+
   translated_attributes :name, required: true
   translated_attributes :public_name
   translated_attributes :form_detail
@@ -11,6 +17,16 @@ class BasketSize < ApplicationRecord
   has_many :baskets, through: :memberships
 
   default_scope { order(:price) }
+  scope :member_ordered, -> {
+    order_clauses = ['member_order_priority']
+    order_clauses <<
+      case Current.acp.basket_sizes_member_order_mode
+      when 'price_asc'; 'price ASC'
+      when 'price_desc'; 'price DESC'
+      end
+    order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), names->>'#{I18n.locale}')"
+    reorder(Arel.sql(order_clauses.compact.join(', ')))
+  }
   scope :free, -> { where('price = 0') }
   scope :paid, -> { where('price > 0') }
   scope :used, -> {
@@ -22,7 +38,6 @@ class BasketSize < ApplicationRecord
     where(id: ids)
   }
 
-  validates :form_priority, presence: true
   validates :price,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true

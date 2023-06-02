@@ -1,6 +1,34 @@
 require 'rails_helper'
 
 describe DeliveriesCycle, freeze: '2022-01-01' do
+  def member_ordered_names
+    DeliveriesCycle.member_ordered.map(&:name)
+  end
+
+  specify '#member_ordered' do
+    Array(0..14).each do |i|
+      create(:delivery, date: Date.today + i.days)
+    end
+    DeliveriesCycle.delete_all
+    a = create(:deliveries_cycle, results: :all, wdays: [2,6], name: 'a')
+    create(:deliveries_cycle, results: :quarter_1, wdays: [1,5], name: 'b')
+    create(:deliveries_cycle, results: :odd, wdays: [3,4], name: 'c')
+
+    expect(member_ordered_names).to eq %w[a c b]
+
+    Current.acp.update! deliveries_cycles_member_order_mode: 'deliveries_count_asc'
+    expect(member_ordered_names).to eq %w[b c a]
+
+    Current.acp.update! deliveries_cycles_member_order_mode: 'name_asc'
+    expect(member_ordered_names).to eq %w[a b c]
+
+    Current.acp.update! deliveries_cycles_member_order_mode: 'wdays_asc'
+    expect(member_ordered_names).to eq %w[b a c]
+
+    a.update! member_order_priority: 2
+    expect(member_ordered_names).to eq %w[b c a]
+  end
+
   specify 'only mondays' do
     Array(0..6).each do |i|
       create(:delivery, date: Date.today + i.days)
