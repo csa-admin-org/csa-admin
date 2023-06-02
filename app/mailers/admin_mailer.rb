@@ -27,9 +27,9 @@ class AdminMailer < ApplicationMailer
   end
 
   def delivery_list_email
-    admin = params[:admin]
+    @admin = params[:admin]
     delivery = params[:delivery]
-    I18n.with_locale(admin.language) do
+    I18n.with_locale(@admin.language) do
       xlsx = XLSX::Delivery.new(delivery)
       attachments[xlsx.filename] = {
         mime_type: xlsx.content_type,
@@ -41,10 +41,10 @@ class AdminMailer < ApplicationMailer
         content: pdf.render
       }
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(admin),
+        'admin' => Liquid::AdminDrop.new(@admin),
         'delivery' => Liquid::AdminDeliveryDrop.new(delivery))
       content_mail(content,
-        to: admin.email,
+        to: @admin.email,
         subject: t('.subject', date: I18n.l(delivery.date)))
     end
   end
