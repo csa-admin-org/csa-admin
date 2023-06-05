@@ -504,6 +504,75 @@ module ActiveAdmin
   end
 end
 
+# Allow to add table data attributes
+module ActiveAdmin
+  module Views
+    class IndexAsTable < ActiveAdmin::Component
+
+      def build(page_presenter, collection)
+        table_options = {
+          id: "index_table_#{active_admin_config.resource_name.plural}",
+          sortable: true,
+          class: "index_table index",
+          i18n: active_admin_config.resource_class,
+          paginator: page_presenter[:paginator] != false,
+          row_class: page_presenter[:row_class]
+        }
+
+        # Support row_data and tbody extra options
+        table_options[:row_data] = page_presenter[:row_data]
+        table_options[:tbody] = page_presenter[:tbody]
+
+        table_for collection, table_options do |t|
+          table_config_block = page_presenter.block || default_table
+          instance_exec(t, &table_config_block)
+        end
+      end
+    end
+
+    class TableFor < Arbre::HTML::Table
+      def build(obj, *attrs)
+        options = attrs.extract_options!
+        @sortable = options.delete(:sortable)
+        @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [obj]
+        @resource_class = options.delete(:i18n)
+        @resource_class ||= @collection.klass if @collection.respond_to? :klass
+
+        @columns = []
+        @row_class = options.delete(:row_class)
+
+        # Handle row_data and tbody extra options
+        @tbody_options = options.delete(:tbody)
+        @row_data = options.delete(:row_data)
+
+        build_table
+        super(options)
+        columns(*attrs)
+      end
+
+      protected
+
+      def build_table_body
+        # Add tbody tag with data attributes
+        @tbody = tbody @tbody_options do
+          # Build enough rows for our collection
+          @collection.each do |elem|
+            classes = [helpers.cycle("odd", "even")]
+
+            if @row_class
+              classes << @row_class.call(elem)
+            end
+
+            # Add tr row data attributes
+            data_attrs = @row_data ? @row_data.call(elem) : {}
+            tr({ class: classes.flatten.join(" "), id: dom_id_for(elem) }.merge(data_attrs))
+          end
+        end
+      end
+    end
+  end
+end
+
 require 'active_admin/filter_saver'
 ActiveAdmin.before_load do |app|
   ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver

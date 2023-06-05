@@ -15,6 +15,7 @@ ActiveAdmin.register Depot do
 
   includes :memberships, :deliveries_cycles
   index do
+    column :id, ->(d) { auto_link d, d.id }
     column :name, ->(d) { auto_link d }
     column :city
     if Depot.pluck(:price).any?(&:positive?)
@@ -27,6 +28,13 @@ ActiveAdmin.register Depot do
     }
     column :visible
     actions class: 'col-actions-3'
+  end
+
+  member_action :move_to, method: :patch do
+    authorize!(:update, Depot)
+    depot = Depot.find(params[:id])
+    depot.move_to(params[:position].to_i, params[:delivery_id])
+    head :ok
   end
 
   csv do

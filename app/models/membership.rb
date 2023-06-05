@@ -19,7 +19,7 @@ class Membership < ApplicationRecord
   has_many :baskets, dependent: :destroy
   has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
-  has_many :depots, -> { reorder(:name) }, through: :baskets
+  has_many :depots, -> { distinct.reorder(:position) }, through: :baskets
   has_many :deliveries, through: :baskets
   has_many :basket_complements, -> { reorder_by_name }, source: :complements, through: :baskets
   has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'

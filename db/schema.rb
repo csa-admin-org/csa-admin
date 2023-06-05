@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_28_115612) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_03_081646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -399,6 +399,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_115612) do
     t.string "xlsx_worksheet_style", default: "default", null: false
     t.string "contact_name"
     t.integer "member_order_priority", default: 1, null: false
+    t.integer "position"
     t.index ["visible"], name: "index_depots_on_visible"
   end
 

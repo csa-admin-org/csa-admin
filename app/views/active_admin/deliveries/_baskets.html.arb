@@ -3,7 +3,13 @@ bs_names = delivery.basket_sizes.map(&:name)
 bs_splitter = bs_names.join.size > 20 ? "&nbsp;/<br/>" : " /&nbsp;"
 show_shop_orders = Current.acp.feature?('shop') && delivery.shop_open && scope != :absent
 
-table_for counts.all, class: 'next-delivery' do
+table_for(counts.all,
+  class: 'next-delivery sortable',
+  tbody: { 'data-controller' => 'sortable' },
+  row_data: ->(bc) {
+    { 'data-sortable-update-url' => "/depots/#{bc.depot_id}/move_to?delivery_id=#{delivery.id}" }
+  }
+) do
   column Depot.model_name.human, :title, class: 'depot'
   if show_shop_orders
     column link_to(t('shop.title'), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: 'total align-right'
