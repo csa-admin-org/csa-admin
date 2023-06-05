@@ -31,4 +31,33 @@ describe Depot do
         .to change { depot.reload.deliveries_counts }.from([2]).to([1])
     end
   end
+
+  describe '#move_to' do
+    it 'moves depot to a new position' do
+      depot1 = create(:depot, id: 1)
+      depot2 = create(:depot, id: 2)
+      depot3 = create(:depot, id: 3)
+      create(:membership, depot: depot1)
+      create(:membership, depot: depot2)
+      create(:membership, depot: depot3)
+
+      expect { depot1.move_to(2, Delivery.first.id) }
+        .to change { Depot.pluck(:id) }
+        .from([1, 2, 3])
+        .to([2, 1, 3])
+    end
+
+    it 'moves depot to a new position with delivery context respected' do
+      depot1 = create(:depot, id: 1)
+      create(:depot, id: 2)
+      depot3 = create(:depot, id: 3)
+      create(:membership, depot: depot1)
+      create(:membership, depot: depot3)
+
+      expect { depot1.move_to(2, Delivery.first.id) }
+        .to change { Depot.pluck(:id) }
+        .from([1, 2, 3])
+        .to([2, 3, 1])
+    end
+  end
 end

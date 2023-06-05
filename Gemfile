@@ -25,6 +25,7 @@ gem 'tod'
 gem 'activeadmin'
 gem 'sprockets-rails'
 gem 'cancancan'
+gem 'acts_as_list'
 
 gem 'simple_form'
 gem 'inline_svg'

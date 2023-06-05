@@ -31,6 +31,9 @@ pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode
 pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconflict--theme-dreamweaver.js" # @1.9.6
 # Don't forget to update vendor/assets/stylesheets/tom-select/dist/css/tom-select.css too
 pin "tom-select" # @2.1.0
+pin "stimulus-sortable", to: "https://ga.jspm.io/npm:stimulus-sortable@4.1.0/dist/stimulus-sortable.mjs"
+pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.8/src/index.js"
+pin "sortablejs", to: "https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js"
 
 # Sentry
 pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.53.1/esm/index.js"

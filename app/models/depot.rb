@@ -12,6 +12,8 @@ class Depot < ApplicationRecord
     price_desc
   ]
 
+  acts_as_list
+
   attribute :language, :string, default: -> { Current.acp.languages.first }
 
   translated_attributes :public_name
@@ -27,7 +29,7 @@ class Depot < ApplicationRecord
     -> { visible },
     class_name: 'DeliveriesCycle'
 
-  default_scope { order(:name) }
+  default_scope { order(:position) }
   scope :member_ordered, -> {
     order_clauses = ['member_order_priority']
     order_clauses <<
@@ -54,6 +56,13 @@ class Depot < ApplicationRecord
 
   def public_name
     self[:public_names][I18n.locale.to_s].presence || name
+  end
+
+  def move_to(position, delivery_id)
+    # Take over position within delivery context
+    delivery = Delivery.find(delivery_id)
+    position = delivery.depots[position - 1].position
+    insert_at(position)
   end
 
   def baskets_for(delivery)
