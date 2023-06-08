@@ -7,14 +7,15 @@ delivery.basket_content_prices.each do |basket_size, depot_prices|
       span basket_size.name, class: 'title'
       span display_basket_price_with_diff(basket_price, prices), class: 'prices'
       delivery.basket_content_yearly_price_diff(basket_size)&.each do |(cycle, diff)|
-        annual_basket_price = basket_price * cycle.deliveries_count_for(delivery.fy_year)
+        deliveries_count_so_far = cycle.deliveries_in(delivery.fiscal_year.beginning_of_year..delivery.date).size
+        baskets_price_total = basket_price * deliveries_count_so_far
         if used_cycles.many?
           title = [cycle.name, delivery.fiscal_year.to_s].join(' – ')
         else
           title = delivery.fiscal_year
         end
         span title, class: 'sub-title'
-        span display_basket_price_diff(annual_basket_price, diff), class: 'avg_diff'
+        span display_basket_price_diff(baskets_price_total, diff), class: 'avg_diff'
       end
     end
   end
