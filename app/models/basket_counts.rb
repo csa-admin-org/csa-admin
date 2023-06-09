@@ -41,6 +41,8 @@ class BasketCounts
   end
 
   class BasketCount
+    include ActionView::Helpers::UrlHelper
+
     attr_reader :depot
 
     def initialize(depot, baskets, basket_size_ids, shop_orders)
@@ -51,7 +53,8 @@ class BasketCounts
     end
 
     def title
-      @depot.name
+      url_helpers = Rails.application.routes.url_helpers
+      link_to @depot.name, url_helpers.depot_path(@depot)
     end
 
     def depot_id

@@ -79,6 +79,11 @@ ActiveAdmin.register Delivery do
     columns do
       column do
         panel Basket.model_name.human(count: 2) do
+          div class: 'actions' do
+            icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
+            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: '_blank')
+          end
+
           counts = delivery.basket_counts
           if counts.present?
             render partial: 'active_admin/deliveries/baskets',
@@ -138,14 +143,6 @@ ActiveAdmin.register Delivery do
         active_admin_comments
       end
     end
-  end
-
-  action_item :xlsx_summary, only: :show do
-    link_to Delivery.human_attribute_name(:summary_xlsx), delivery_path(delivery, format: :xlsx)
-  end
-
-  action_item :signature_sheets, only: :show do
-    link_to Delivery.human_attribute_name(:signature_sheets_pdf), delivery_path(delivery, format: :pdf), target: '_blank'
   end
 
   form do |f|

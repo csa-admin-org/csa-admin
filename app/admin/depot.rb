@@ -33,6 +33,8 @@ ActiveAdmin.register Depot do
   member_action :move_to, method: :patch do
     authorize!(:update, Depot)
     depot = Depot.find(params[:id])
+    delivery = Delivery.find(params[:delivery_id])
+    depot.move_to(params[:position].to_i, delivery)
     depot.move_to(params[:position].to_i, params[:delivery_id])
     head :ok
   end
@@ -58,6 +60,19 @@ ActiveAdmin.register Depot do
   show do |depot|
     columns do
       column do
+        next_delivery = depot.next_delivery
+        panel t('active_admin.page.index.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
+          div class: 'actions' do
+            icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
+            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: '_blank')
+          end
+
+          table_for(depot.baskets_for(next_delivery)) do
+            column Member.model_name.human, -> (b) { auto_link b.member }
+            column Basket.model_name.human, -> (b) { link_to(b.description, b.membership) }
+          end
+        end
+
         all_deliveries_cycles_path = deliveries_cycles_path(q: { depots_id_eq: depot.id }, scope: :all)
         panel link_to(DeliveriesCycle.model_name.human(count: 2), all_deliveries_cycles_path) do
           div class: 'actions' do
@@ -73,18 +88,6 @@ ActiveAdmin.register Depot do
             }
             column :visible
           end
-        end
-        attributes_table title: Depot.human_attribute_name(:address) do
-          row :address_name
-          row :address
-          row :zip
-          row :city
-        end
-
-        attributes_table title: Depot.human_attribute_name(:contact) do
-          row :contact_name
-          row(:emails) { display_emails_with_link(self, depot.emails_array) }
-          row(:phones) { display_phones_with_link(self, depot.phones_array) }
         end
       end
       column do
@@ -103,6 +106,20 @@ ActiveAdmin.register Depot do
         attributes_table title: t('.member_new_form') do
           row :visible
         end
+
+        attributes_table title: Depot.human_attribute_name(:address) do
+          row :address_name
+          row :address
+          row :zip
+          row :city
+        end
+
+        attributes_table title: Depot.human_attribute_name(:contact) do
+          row :contact_name
+          row(:emails) { display_emails_with_link(self, depot.emails_array) }
+          row(:phones) { display_phones_with_link(self, depot.phones_array) }
+        end
+
 
         active_admin_comments
       end

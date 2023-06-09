@@ -222,9 +222,9 @@ _:
         _it: Lasciare vuoto se invariato.
       announcement:
         text:
-          _de: Die Ankündigung erfolgt auf den Signaturkarten (PDF) der untenstehenden Depot-/Lieferpaare.
-          _fr: L'annonce sera affichée sur les fiches signature (PDF) des paires dépôts/livraisons ci-dessous.
-          _it: L'annuncio sarà pubblicato sulle schede delle firme (PDF) delle coppie di ritiro/consegna qui sotto.
+          _de: Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
+          _fr: L'annonce sera affichée sur les fiches (PDF) des paires dépôts/livraisons ci-dessous.
+          _it: L'annuncio verrà visualizzato sulla coppia di fogli punti di ritiro/consegne (PDF) qui sotto.
       basket:
         basket_price:
           _de: Leer lassen für den Standardpreis.
@@ -252,9 +252,9 @@ _:
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftzettel, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
         visible:
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
           _fr: Sélectionner "Non" si le complément n'est pas disponible lors de l'inscription.
@@ -283,9 +283,9 @@ _:
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftenzettel, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
         visible:
           _de: Nein" auswählen, wenn die Taschengröße bei der Registrierung nicht verfügbar ist.
           _fr: Sélectionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
@@ -351,9 +351,9 @@ _:
           _fr: Prix pour la préparation et/ou livraison d'un panier.
           _it: Prezzo per la preparazione e/o consegna di una cesta.
         public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Unterschriftenzettel, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches signature, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, scheda firme, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
         public_note:
           _de: Information, die oben auf der Liste der Lieferungen auf dem Mitgliederkonto angezeigt wird.
           _fr: Information affichée en haut de la liste des livraisons sur le compte du membre.
@@ -517,9 +517,9 @@ _:
           _it: Lasciare vuoto per il prezzo standard.
       shop/product:
         basket_complement:
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in der Excel-Zusammenfassung und den Unterschriftenblättern der Taschenlieferung gezählt.
-          _fr: Gère le produit comme un complément panier, les commandes de ce produit seront alors comptées dans le récapitulatif Excel et les fiches signature de la livraison des paniers.
-          _it: Gestisci il prodotto come un aggiunta cesta, gli ordini per questo prodotto saranno allora contati nei fogli Excel di riepilogo e di firma di consegna del cesto
+          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in der Zusammenfassung (XLSX) und den Blättern (PDF) der Taschenlieferung gezählt.
+          _fr: Gère le produit comme un complément panier, les commandes de ce produit seront alors comptées dans le récapitulatif (XLSX) et les fiches (PDF) de la livraison des paniers.
+          _it: Gestisce il prodotto come componente aggiuntivo del carrello. Gli ordini per questo prodotto saranno quindi conteggiati nel riepilogo delle consegne del carrello (XLSX) e nei fogli (PDF).
       shop/product_variant:
         stock:
           _de: Leer lassen, wenn der Lagerbestand nicht verwaltet wird.

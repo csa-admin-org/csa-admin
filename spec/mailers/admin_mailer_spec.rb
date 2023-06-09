@@ -36,7 +36,7 @@ describe AdminMailer do
     expect(attachment1.filename).to eq 'livraison-#1-20201106.xlsx'
     expect(attachment1.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     attachment2 = mail.attachments.second
-    expect(attachment2.filename).to eq 'fiches-signature-livraison-#1-20201106.pdf'
+    expect(attachment2.filename).to eq 'fiches-livraison-#1-20201106.pdf'
     expect(attachment2.content_type).to eq 'application/pdf'
   end
 
@@ -70,7 +70,7 @@ describe AdminMailer do
     expect(attachment1.filename).to eq 'livraison-#1-20231106.xlsx'
     expect(attachment1.content_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     attachment2 = mail.attachments.second
-    expect(attachment2.filename).to eq 'fiches-signature-livraison-#1-20231106.pdf'
+    expect(attachment2.filename).to eq 'fiches-livraison-#1-20231106.pdf'
     expect(attachment2.content_type).to eq 'application/pdf'
   end
 

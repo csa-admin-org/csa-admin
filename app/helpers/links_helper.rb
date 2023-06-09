@@ -1,9 +1,9 @@
 module LinksHelper
-  def link_to_with_icon(icon, text, url, options = {})
-    text_with_icon = content_tag :span, class: 'link-with-icon' do
-      inline_svg_tag("admin/#{icon}.svg", size: '18') +
-        content_tag(:span, text)
+  def icon_link(icon, title, url, size: 24, **options)
+    content_tag :span do
+      link_to(url, title: title, **options) do
+        inline_svg_tag("admin/#{icon}.svg", size: size.to_s)
+      end
     end
-    link_to(text_with_icon, url, options)
   end
 end

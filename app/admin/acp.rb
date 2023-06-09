@@ -222,9 +222,9 @@ ActiveAdmin.register ACP do
           handbook_button(self, 'membership_renewal')
         end
       end
-      tab t('.delivery_pdf') do
+      tab Delivery.human_attribute_name(:sheets) do
         f.inputs do
-          para t('.delivery_pdf_text_html'), class: 'description'
+          para t('.delivery_sheets_text_html'), class: 'description'
           translated_input(f, :delivery_pdf_footers, required: false)
           f.input :delivery_pdf_show_phones, as: :boolean
         end
