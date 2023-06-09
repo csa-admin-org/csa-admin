@@ -41,7 +41,7 @@ describe Depot do
       create(:membership, depot: depot2)
       create(:membership, depot: depot3)
 
-      expect { depot1.move_to(2, Delivery.first.id) }
+      expect { depot1.move_to(2, Delivery.first) }
         .to change { Depot.pluck(:id) }
         .from([1, 2, 3])
         .to([2, 1, 3])
@@ -54,7 +54,7 @@ describe Depot do
       create(:membership, depot: depot1)
       create(:membership, depot: depot3)
 
-      expect { depot1.move_to(2, Delivery.first.id) }
+      expect { depot1.move_to(2, Delivery.first) }
         .to change { Depot.pluck(:id) }
         .from([1, 2, 3])
         .to([2, 3, 1])

@@ -137,7 +137,7 @@ module ApplicationHelper
   end
 
   def handbook_icon_link(*args)
-    link_to(handbook_page_path(*args), title: I18n.t('layouts.footer.handbook')) do
+    link_to(handbook_page_path(*args), title: I18n.t('layouts.footer.handbook'), class: 'color-light') do
       inline_svg_tag('admin/book-open.svg', size: '24')
     end
   end

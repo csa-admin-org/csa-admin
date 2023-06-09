@@ -18,7 +18,8 @@ module PDF
 
       @baskets = @baskets.joins(:member).order('members.name')
 
-      Array(depot || @depots).each do |depot|
+      depots = Array(depot || @depots)
+      depots.each do |depot|
         baskets = @baskets.where(depot: depot)
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = basket_sizes_for(baskets)
@@ -29,13 +30,13 @@ module PDF
           page(depot, slice, baskets, basket_sizes, shop_orders, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
-        start_new_page unless @depots.last == depot
+        start_new_page unless depots.last == depot
       end
     end
 
     def filename
       [
-        ::Delivery.human_attribute_name(:signature_sheets).parameterize,
+        ::Delivery.human_attribute_name(:sheets).parameterize,
         ::Delivery.model_name.human.parameterize,
         delivery.display_number,
         delivery.date.strftime('%Y%m%d')
@@ -213,7 +214,7 @@ module PDF
     end
 
     def info
-      super.merge(Title: "#{::Delivery.human_attribute_name(:signature_sheets)} #{delivery.date}")
+      super.merge(Title: "#{::Delivery.human_attribute_name(:sheets)} #{delivery.date}")
     end
 
     def page(depot, member_ids, baskets, basket_sizes, shop_orders, page:, total_pages:)

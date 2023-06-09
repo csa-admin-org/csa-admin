@@ -27,6 +27,10 @@ ActiveAdmin.register_page 'Dashboard' do
           end
 
           panel t('.billing_year', fiscal_year: Current.fiscal_year) do
+            div class: 'actions' do
+              icon_link(:xlsx_file, Invoice.human_attribute_name(:summary), billing_path(Current.fy_year, format: :xlsx))
+            end
+
             table_for InvoiceTotal.all(Current.fiscal_year), class: 'totals_2' do
               column Invoice.model_name.human(count: 2), :title
               column(class: 'align-right') { |total| cur(total.price) }
@@ -37,22 +41,15 @@ ActiveAdmin.register_page 'Dashboard' do
               column(class: 'align-right') { |total| cur(total.price) }
             end
 
-            table_for nil do
-              column do
-                div style: 'margin-top: 15px' do
-                  link_to_with_icon :xlsx_file, Invoice.human_attribute_name(:summary), billing_path(Current.fy_year, format: :xlsx)
-                end
-                latest_snapshots = Billing::Snapshot.order(updated_at: :desc).first(4)
-                if latest_snapshots.any?
-                  div style: 'margin-top: 15px' do
-                    txt = t('.quarterly_snapshots')
-                    txt += ': '
-                    txt += latest_snapshots.map { |s|
-                        link_to l(s.updated_at.to_date, format: :number), billing_snapshot_path(s)
-                      }.join(' / ')
-                    txt.html_safe
-                  end
-                end
+            latest_snapshots = Billing::Snapshot.order(updated_at: :desc).first(4)
+            if latest_snapshots.any?
+              div style: 'margin: 30px 0 5px 0' do
+                txt = t('.quarterly_snapshots')
+                txt += ': '
+                txt += latest_snapshots.map { |s|
+                    link_to l(s.updated_at.to_date, format: :number), billing_snapshot_path(s)
+                  }.join(' / ')
+                txt.html_safe
               end
             end
           end
@@ -61,6 +58,11 @@ ActiveAdmin.register_page 'Dashboard' do
         column do
           if next_delivery
             panel t('.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
+              div class: 'actions' do
+                icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx)) +
+                icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf), target: '_blank')
+              end
+
               counts = next_delivery.basket_counts
               if counts.present?
                 render partial: 'active_admin/deliveries/baskets',
@@ -72,26 +74,11 @@ ActiveAdmin.register_page 'Dashboard' do
                   end
                 end
 
-                div class: 'next-delivery-footer' do
-                  table_for nil do
-                    column do
-                      span do
-                        span style: 'display: inline-block; margin-right: 20px' do
-                          link_to_with_icon :xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx)
-                        end
-                        span style: 'display: inline-block;' do
-                          link_to_with_icon :pdf_file, Delivery.human_attribute_name(:signature_sheets), delivery_path(next_delivery, format: :pdf), target: '_blank'
-                        end
-                      end
-
-                      if Current.acp.feature?('absence')
-                        absences_count = next_delivery.baskets.absent.sum(:quantity)
-                        if absences_count.positive?
-                          span class: 'delivery_absences' do
-                            link_to t('.absences_count', count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s })
-                          end
-                        end
-                      end
+                if Current.acp.feature?('absence')
+                  absences_count = next_delivery.baskets.absent.sum(:quantity)
+                  if absences_count.positive?
+                    div class: 'delivery_absences' do
+                      link_to t('.absences_count', count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s })
                     end
                   end
                 end

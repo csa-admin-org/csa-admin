@@ -517,6 +517,10 @@ _:
           _de: Notiz (Admin)
           _fr: Note (Admin)
           _it: Nota (Admin)
+        sheets:
+          _de: Blätter
+          _fr: Fiches
+          _it: Fogli
         shop_open:
           _de: Offenes
           _fr: Ouverte
@@ -525,14 +529,6 @@ _:
           _de: Unterschrift
           _fr: Signature
           _it: Firma
-        signature_sheets:
-          _de: Unterschriftenzettel
-          _fr: Fiches Signature
-          _it: Scheda Firme
-        signature_sheets_pdf:
-          _de: Unterschriftenzettel (PDF)
-          _fr: Fiches Signature (PDF)
-          _it: Scheda Firme (PDF)
       depot:
         address_name:
           _de: Name

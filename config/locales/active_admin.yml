@@ -362,10 +362,10 @@ _:
           _de: Quartalsschnappschüsse
           _fr: Instantanés trimestriels
           _it: Panoramica trimestrale
-        signature_sheets:
-          _de: Unterschriftenzettel
-          _fr: Fiches Signature
-          _it: Fogli per le firme
+        sheets:
+          _de: Blätter
+          _fr: Fiches
+          _it: Fogli
         submit_delivery_note:
           _de: Notiz aktualisieren
           _fr: Mettre à jour la note
@@ -502,14 +502,10 @@ _:
           _de: Inhalt
           _fr: Contenu
           _it: Contenuto
-        delivery_pdf:
-          _de: Signaturblätter
-          _fr: Fiches signature
-          _it: Fogli firma
-        delivery_pdf_text_html:
-          _de: Signaturblätter (PDF) werden für jede Depot und Lieferung on-the-fly erstellt.
-          _fr: Les fiches de signature (PDF) sont générées à la volée pour chaque dépôt et livraison.
-          _it: I fogli firma (PDF) sono generati al volo per ogni deposito e consegna.
+        delivery_sheets_text_html:
+          _de: Die Blätter (PDF) werden für jedes Depot und jede Lieferung on-the-fly erstellt.
+          _fr: Les fiches (PDF) sont générées à la volée pour chaque dépôt et livraison.
+          _it: I fogli (PDF) vengono generati al volo per ogni punto di ritiro e consegna..
         details:
           _de: Details
           _fr: Détails

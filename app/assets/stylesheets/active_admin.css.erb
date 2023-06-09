@@ -313,9 +313,9 @@ span.delivery_note input[type="submit"] {
   margin: 5px 0 10px 0;
 }
 
-span.delivery_absences {
-  display: block;
-  float: right;
+.delivery_absences {
+  margin: 20px 0 5px;
+  text-align: right;
 }
 
 #page_title {
@@ -522,15 +522,6 @@ table a.duplicate_link {
 h3 a.xlsx_link,
 table a.xlsx_link {
   background-image: url(<%=asset_data_uri"admin/xlsx_file.svg"%>);
-}
-
-span.link-with-icon {
-  display: flex;
-  align-items: center;
-}
-
-span.link-with-icon svg {
-  margin-right: 6px;
 }
 
 .col-selectable {
@@ -1044,8 +1035,8 @@ fieldset.inputs a.action svg {
   border-radius: 5px;
 }
 
-.next-delivery-footer {
-  margin-top: 20px;
+#basket-complements-table {
+  margin-bottom: 5px;
 }
 
 #basket-complements-table, #shop-orders {
@@ -1461,11 +1452,20 @@ select option[hidden] {
   position: absolute;
   top: 9px;
   right: 12px;
-  color: #aaa;
+}
+
+.panel div.actions a {
+  text-decoration: none;
+  margin-left: 6px;
+  color: #888;
 }
 
 .text-center {
   text-align: center;
+}
+
+a.color-light svg {
+  color: #aaa;
 }
 
 @media only screen and (max-width: 767px) {

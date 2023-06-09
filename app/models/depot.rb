@@ -58,9 +58,8 @@ class Depot < ApplicationRecord
     self[:public_names][I18n.locale.to_s].presence || name
   end
 
-  def move_to(position, delivery_id)
+  def move_to(position, delivery)
     # Take over position within delivery context
-    delivery = Delivery.find(delivery_id)
     position = delivery.depots[position - 1].position
     insert_at(position)
   end
@@ -110,9 +109,13 @@ class Depot < ApplicationRecord
       deliveries_cycles.map(&:current_and_future_delivery_ids).flatten.uniq
   end
 
+  def next_delivery
+    @next_delivery ||= coming_deliveries.first
+  end
+
   def coming_deliveries
     @coming_deliveries ||=
-      deliveries_cycles.map(&:coming_deliveries).flatten.uniq
+      deliveries_cycles.map(&:coming_deliveries).flatten.uniq.sort_by(&:date)
   end
 
   def visible_deliveries_cycle_ids
