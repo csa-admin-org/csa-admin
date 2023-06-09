@@ -35,7 +35,6 @@ ActiveAdmin.register Depot do
     depot = Depot.find(params[:id])
     delivery = Delivery.find(params[:delivery_id])
     depot.move_to(params[:position].to_i, delivery)
-    depot.move_to(params[:position].to_i, params[:delivery_id])
     head :ok
   end
 
