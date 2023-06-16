@@ -519,15 +519,12 @@ module PDF
     end
 
     def membership_baskets_price_extra_description
-      desc = Current.acp.basket_price_extra_public_title
-      if Current.acp.basket_price_extra_dynamic_pricing?
-        desc += ": #{object.basket_price_extra.to_i},"
-      end
-      "#{desc} #{baskets_price_extra_info(object.baskets)}"
+      title = Current.acp.basket_price_extra_public_title
+      "#{title}: #{baskets_price_extra_info(object, object.baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)
-      "#{basket_complement.public_name} #{basket_complement_price_info(object, basket_complement)}"
+      "#{basket_complement.public_name}: #{basket_complement_price_info(object, basket_complement)}"
     end
 
     def membership_depot_description(depot)

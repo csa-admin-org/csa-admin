@@ -15,7 +15,7 @@ class Basket < ApplicationRecord
 
   before_create :add_complements
   before_validation :set_prices
-  before_save :set_price_extra
+  before_save :set_calculated_price_extra
   after_commit { membership.cancel_outdated_invoice! }
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
@@ -38,6 +38,7 @@ class Basket < ApplicationRecord
   }
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :price_extra, numericality: true, presence: true
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :unique_basket_complement_id
@@ -79,10 +80,6 @@ class Basket < ApplicationRecord
   def complements_price
     baskets_basket_complements
       .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
-  end
-
-  def update_price_extra!
-    update_column(:price_extra, calculate_price_extra)
   end
 
   def empty?
@@ -156,8 +153,8 @@ class Basket < ApplicationRecord
     end
   end
 
-  def set_price_extra
-    self.price_extra = calculate_price_extra
+  def set_calculated_price_extra
+    self.calculated_price_extra = calculate_price_extra
   end
 
   def calculate_price_extra
@@ -167,13 +164,13 @@ class Basket < ApplicationRecord
     if Current.acp.basket_price_extra_dynamic_pricing?
       template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
       template.render(
-        'basket_price' => membership.basket_price.to_f,
-        'extra' => membership.basket_price_extra.to_f,
+        'basket_price' => basket_price.to_f,
+        'extra' => price_extra.to_f,
         'basket_size_id' => basket_size_id,
         'deliveries_count' => Current.acp.deliveries_count(membership.fy_year).to_f
       ).to_f
     else
-      membership.basket_price_extra
+      price_extra
     end
   end
 end

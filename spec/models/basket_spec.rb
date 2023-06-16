@@ -141,7 +141,7 @@ describe Basket do
       basket = Basket.new(
         quantity: 2,
         basket_price: 19,
-        membership: Membership.new(basket_price_extra: 2.42))
+        price_extra: 2.42)
     }
 
     specify 'without basket_price_extra feature' do
@@ -161,7 +161,7 @@ describe Basket do
     end
 
     specify 'when no membership basket_price_extra' do
-      basket.membership = Membership.new(basket_price_extra: 0)
+      basket.price_extra = 0
       expect(basket.send(:calculate_price_extra)).to eq 0
     end
 
@@ -176,15 +176,17 @@ describe Basket do
     end
 
     specify 'with dynamic pricing based on basket_size' do
-      membership = create(:membership, basket_price_extra: 2)
+      membership = create(:membership)
       basket_1 = Basket.new(
         basket_size_id: 1,
         basket_price: 19,
+        price_extra: 2,
         quantity: 2,
         membership: membership)
       basket_2 = Basket.new(
         basket_size_id: 2,
         basket_price: 33,
+        price_extra: 2,
         quantity: 2,
         membership: membership)
 
@@ -202,12 +204,13 @@ describe Basket do
 
     specify 'with dynamic pricing based on deliveries count and extra', freeze: '2022-01-01' do
       create_deliveries(3)
-      membership = create(:membership, basket_price_extra: 10)
+      membership = create(:membership)
       basket = Basket.new(
         basket_size_id: 1,
         basket_price: 19,
+        price_extra: 10,
         quantity: 2,
-        membership: membership)
+        membership: create(:membership))
 
       Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
         {{ extra | divided_by: deliveries_count }}
@@ -215,12 +218,5 @@ describe Basket do
 
       expect(basket.send(:calculate_price_extra)).to eq 10 / 3.0
     end
-  end
-
-  specify 'set price_extra before save' do
-    Current.acp.update! features: [:basket_price_extra]
-    membership = create(:membership, basket_price_extra: 2)
-    basket = membership.baskets.last
-    expect(basket.price_extra).to eq 2
   end
 end
