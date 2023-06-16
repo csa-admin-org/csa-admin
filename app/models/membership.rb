@@ -72,7 +72,6 @@ class Membership < ApplicationRecord
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_config_change!
-  after_update :update_baskets_price_extra!
   after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
@@ -322,12 +321,10 @@ class Membership < ApplicationRecord
   end
 
   def baskets_price_extra
-    return 0 if basket_price_extra.zero?
-
     rounded_price(
       baskets
         .billable
-        .sum('quantity * price_extra'))
+        .sum('quantity * calculated_price_extra'))
   end
 
   def basket_complements_price
@@ -421,6 +418,7 @@ class Membership < ApplicationRecord
       delivery_id: delivery.id,
       basket_size_id: basket_size_id,
       basket_price: basket_price,
+      price_extra: basket_price_extra,
       quantity: basket_quantity,
       depot_id: depot_id,
       depot_price: depot_price,
@@ -484,7 +482,7 @@ class Membership < ApplicationRecord
 
   def attributes_config_changed?
     tracked_attributes = %w[
-      basket_size_id basket_price basket_quantity
+      basket_size_id basket_price basket_price_extra basket_quantity
       depot_id depot_price deliveries_cycle_id
     ]
     (saved_changes.keys & tracked_attributes).any?
@@ -504,12 +502,6 @@ class Membership < ApplicationRecord
 
   def destroy_baskets!(range)
     baskets.between(range).destroy_all
-  end
-
-  def update_baskets_price_extra!
-    if saved_change_to_attribute?(:basket_price_extra)
-      baskets.find_each(&:update_price_extra!)
-    end
   end
 
   def clear_member_waiting_info!

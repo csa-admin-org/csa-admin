@@ -54,6 +54,9 @@ ActiveAdmin.register Basket do
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: 'input' } }
+      if Current.acp.feature?('basket_price_extra')
+        f.input :price_extra, required: true, label: Current.acp.basket_price_extra_title
+      end
       f.input :quantity
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
@@ -83,7 +86,7 @@ ActiveAdmin.register Basket do
   end
 
   permit_params \
-    :basket_size_id, :basket_price, :quantity,
+    :basket_size_id, :basket_price, :price_extra, :quantity,
     :delivery_id,
     :depot_id, :depot_price,
     baskets_basket_complements_attributes: %i[

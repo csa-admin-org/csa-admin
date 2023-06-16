@@ -72,15 +72,28 @@ module MembershipsHelper
       Current.acp.basket_price_extras?
   end
 
-  def baskets_price_extra_info(baskets)
-    baskets
-      .includes(:membership)
-      .reject { |b| b.price_extra.zero? }
-      .group_by(&:price_extra)
-      .sort
-      .map { |price_extra, bbs|
-        "#{bbs.sum(&:quantity)}x #{precise_cur(price_extra).strip}"
-      }.join(' + ')
+  def baskets_price_extra_info(membership, baskets, highlight_current: false)
+    grouped =
+      baskets
+        .reject { |b| b.calculated_price_extra.zero? }
+        .group_by(&:calculated_price_extra)
+        .sort
+    grouped.map { |calculated_price_extra, bbs|
+        price_extra = bbs.first.price_extra
+        price = precise_cur(calculated_price_extra).strip
+        if !Current.acp.basket_price_extra_dynamic_pricing? && highlight_current && membership.basket_price_extra == price_extra && grouped.many?
+          price = content_tag(:strong, price)
+        end
+        info = "#{bbs.sum(&:quantity)}x #{price}"
+        if Current.acp.basket_price_extra_dynamic_pricing?
+          extra = price_extra.to_i
+          if highlight_current && membership.basket_price_extra == price_extra
+            extra = content_tag(:strong, extra)
+          end
+          info = "#{info} (#{extra})"
+        end
+        info
+      }.join(' + ').html_safe
   end
 
   def membership_basket_complements_price_info(membership)

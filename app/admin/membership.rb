@@ -487,11 +487,8 @@ ActiveAdmin.register Membership do
             }
             if Current.acp.feature?('basket_price_extra')
               row(:basket_price_extra_title) {
-                description = baskets_price_extra_info(m.baskets)
-                if Current.acp.basket_price_extra_dynamic_pricing?
-                  description = "#{display_basket_price_extra_raw(m)}, #{description}"
-                end
-                display_price_description(m.baskets_price_extra, description)
+                description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
+                display_price_description(m.baskets_price_extra, description).html_safe
               }
             end
             row(:baskets_annual_price_change) {
@@ -585,9 +582,6 @@ ActiveAdmin.register Membership do
     end
 
     f.inputs t('.billing') do
-      if Current.acp.feature?('basket_price_extra')
-        f.input :basket_price_extra, required: true, label: Current.acp.basket_price_extra_title
-      end
       f.input :baskets_annual_price_change, hint: true
       if BasketComplement.any?
         f.input :basket_complements_annual_price_change, hint: true
@@ -645,6 +639,9 @@ ActiveAdmin.register Membership do
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: 'input' } }
+      if Current.acp.feature?('basket_price_extra')
+        f.input :basket_price_extra, required: true, label: Current.acp.basket_price_extra_title
+      end
       f.input :basket_quantity
 
       if BasketComplement.any?

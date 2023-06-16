@@ -640,17 +640,30 @@ describe Membership do
     end
   end
 
-  specify 'updates baskets price_extre' do
+  specify 'updates future baskets price_extra when config change' do
     Current.acp.update! features: [:basket_price_extra]
-    membership = create(:membership,
-      basket_price_extra: 2,
-      deliveries_count: 2)
+    travel_to('2023-03-01') do
+      create(:delivery, date: '2023-03-01')
+      create(:delivery, date: '2023-06-15')
+      create(:delivery, date: '2023-07-05')
+      create(:delivery, date: '2023-08-01')
+      create(:delivery, date: '2023-09-01')
+    end
+    travel_to('2023-01-01') do
+      membership = create(:membership,
+        basket_price_extra: 2,
+        deliveries_count: 2)
 
-    expect {
-      expect { membership.update!(basket_price_extra: 3) }
-        .to change { membership.baskets.pluck(:price_extra).uniq }
-        .from([2]).to([3])
-    }.to change { membership.reload.baskets_price_extra }.from(4).to(6)
+      expect {
+        expect {
+          membership.update!(
+            new_config_from: '2023-07-01',
+            basket_price_extra: 3)
+        }
+          .to change { membership.baskets.pluck(:price_extra).uniq }
+          .from([2]).to([2, 3])
+      }.to change { membership.reload.baskets_price_extra }.from(5 * 2).to(2 * 2 + 3 * 3)
+    end
   end
 
   it 'updates baskets counts after commit' do
