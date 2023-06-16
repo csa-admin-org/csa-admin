@@ -218,8 +218,11 @@ describe Newsletter::Template do
     create(:basket_complement, id: 1, name: 'Pain')
     create(:basket_complement, id: 2, name: 'Oeufs')
 
-    membership = create(:membership,
-      basket_size: create(:basket_size, name: 'Petit'))
+    big = create(:basket_size, name: 'Grand')
+    small = create(:basket_size, name: 'Petit')
+
+
+    membership = create(:membership, basket_size: small)
     basket = membership.next_basket
     basket.update!(baskets_basket_complements_attributes: {
       '0' => { basket_complement_id: 1, quantity: 1 },
@@ -227,15 +230,18 @@ describe Newsletter::Template do
     })
 
     create(:basket_content,
-      basket_size_ids_percentages: { BasketSize.first.id => 100 },
+      basket_size_ids_percentages: { small.id => 100, big.id => 0 },
       product: create(:product, name: 'Carottes'))
     create(:basket_content,
-      basket_size_ids_percentages: { BasketSize.first.id => 100 },
+      basket_size_ids_percentages: { small.id => 100, big.id => 0 },
       product: create(:product, name: 'Choux-Fleur'))
     create(:basket_content,
-      basket_size_ids_percentages: { BasketSize.first.id => 100 },
+      basket_size_ids_percentages: { small.id => 100, big.id => 0},
       product: create(:product, name: 'Céleri'),
       depots: [create(:depot)])
+    create(:basket_content,
+      basket_size_ids_percentages: { small.id => 0, big.id => 100 },
+      product: create(:product, name: 'Salade'))
 
     newsletter = create(:newsletter,
       template: template,
@@ -256,6 +262,7 @@ describe Newsletter::Template do
     expect(mail_body).to include "Carottes (10.0kg)</li>"
     expect(mail_body).to include "Choux-Fleur (10.0kg)</li>"
     expect(mail_body).not_to include "Céleri"
+    expect(mail_body).not_to include "Salade"
 
     expect(mail_body).to include "Complément(s): 2 x Oeufs PUBLIC et Pain PUBLIC</p>"
   end
