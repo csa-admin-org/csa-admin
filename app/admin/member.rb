@@ -144,6 +144,7 @@ ActiveAdmin.register Member do
     end
     column(:food_note)
     column(:come_from)
+    column(:delivery_note)
     column(:note)
     column(:validated_at)
     column(:created_at)
@@ -438,6 +439,7 @@ ActiveAdmin.register Member do
         attributes_table title: t('.notes') do
           row :profession
           row(:come_from) { text_format(member.come_from) }
+          row :delivery_note
           row(:food_note) { text_format(member.food_note) }
           row(:note) { text_format(member.note) }
         end
@@ -553,6 +555,7 @@ ActiveAdmin.register Member do
     f.inputs t('active_admin.resource.show.notes') do
       f.input :profession
       f.input :come_from, input_html: { rows: 4 }
+      f.input :delivery_note
       f.input :food_note, input_html: { rows: 4 }
       f.input :note, input_html: { rows: 4 }, placeholder: false
     end
@@ -569,7 +572,7 @@ ActiveAdmin.register Member do
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_depot_id, :waiting_deliveries_cycle_id,
     :shop_depot_id,
-    :profession, :come_from, :food_note, :note,
+    :profession, :come_from, :delivery_note, :food_note, :note,
     :contact_sharing,
     waiting_alternative_depot_ids: [],
     members_basket_complements_attributes: [

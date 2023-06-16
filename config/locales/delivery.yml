@@ -20,6 +20,23 @@ _:
       _de: Bezahlte Depots
       _fr: Dépôts payants
       _it: Punto di ritiro a pagamento
+    sheets_mode:
+      home_delivery:
+        _de: Heimlieferung
+        _fr: Livraison à domicile
+        _it: Consegna a domicilio
+      home_delivery_hint:
+        _de: Liste der Depotmitglieder anpassbar sortiert (Drag & Drop) mit ihrer Lieferadresse.
+        _fr: Liste des membres du dépôt triée de manière personnalisable (glisser-déposer) avec leur adresse de livraison.
+        _it: Elenco dei membri del punto di ritiro ordinati in modo personalizzabile (drag & drop) con il loro indirizzo di consegna.
+      signature:
+        _de: Unterschrift
+        _fr: Signature
+        _it: Firma
+      signature_hint:
+        _de: Liste der Depotmitglieder alphabetisch sortiert mit einer Spalte für die Unterschrift der Mitglieder.
+        _fr: Liste des membres du dépôt triée par ordre alphabétique avec une colonne pour la signature des membres.
+        _it: Elenco dei membri del punto di ritiro ordinato in ordine alfabetico, con una colonna per le firme dei membri.
     summary:
       _de: Zusammenfassung
       _fr: Récapitulatif

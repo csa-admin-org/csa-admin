@@ -8,7 +8,7 @@ describe PDF::Delivery do
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
 
-  context 'Lumiere des Champs' do
+  context 'signature mode' do
     before {
       Current.acp.update!(
         name: 'ldc',
@@ -177,6 +177,28 @@ describe PDF::Delivery do
         .and contain_sequence('Membre', '2', '1', '2', '3', '2', 'Signature')
         .and contain_sequence('Alain Reymond', '1', '2', '1', 'X')
         .and contain_sequence('John Doe', '2', '2', 'X')
+    end
+  end
+
+  context 'home delivery mode' do
+    let(:depot) { create(:depot, delivery_sheets_mode: 'home_delivery') }
+
+    specify 'includes member addresses and delivery notes' do
+      delivery = create(:delivery)
+
+      member = create(:member,
+        name: 'Jane Doe',
+        address: 'Rue de la Gare 1',
+        zip: '2300',
+        city: 'La Chaux-de-Fonds',
+        delivery_address: 'Rue de la Tour 2',
+        delivery_note: 'Code 1234')
+      create(:membership, depot: depot, member: member)
+
+      pdf_strings = save_pdf_and_return_strings(delivery, depot)
+      expect(pdf_strings)
+        .to include('Membre', 'Adresse', 'Note')
+        .and include('Jane Doe', 'Rue de la Tour 2', '2300 La Chaux-de-Fonds', 'Code 1234')
     end
   end
 end

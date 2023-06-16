@@ -247,7 +247,7 @@ ActiveAdmin.register ACP do
 
     f.input :features,
       as: :check_boxes,
-      wrapper_html: { class: 'no-check-boxes-toggle-all' },
+      wrapper_html: { class: 'no-check-boxes-toggle-all detailed-option' },
       collection: ACP.features.map { |ff|
         [
           content_tag(:span) {

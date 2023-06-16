@@ -38,6 +38,15 @@ ActiveAdmin.register Depot do
     head :ok
   end
 
+  member_action :move_member_to, method: :patch do
+    authorize!(:update, Depot)
+    depot = Depot.find(params[:id])
+    member = Member.find(params[:member_id])
+    delivery = Delivery.find(params[:delivery_id])
+    depot.move_member_to(params[:position].to_i, member, delivery)
+    head :ok
+  end
+
   csv do
     column(:id)
     column(:name)
@@ -66,7 +75,16 @@ ActiveAdmin.register Depot do
             icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: '_blank')
           end
 
-          table_for(depot.baskets_for(next_delivery)) do
+          attrs = {}
+          if authorized?(:update, depot) && depot.delivery_sheets_mode == 'home_delivery'
+            attrs[:class] = 'sortable'
+            attrs[:tbody] = { 'data-controller' => 'sortable' }
+            attrs[:row_data] = ->(b) {
+              { 'data-sortable-update-url' => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
+            }
+          end
+
+          table_for(depot.baskets_for(next_delivery), **attrs) do
             column Member.model_name.human, -> (b) { auto_link b.member }
             column Basket.model_name.human, -> (b) { link_to(b.description, b.membership) }
           end
@@ -100,6 +118,10 @@ ActiveAdmin.register Depot do
           row(:price) { cur(depot.price) }
           row(:note) { text_format(depot.note) }
           row(:public_note) { depot.public_note if depot.public_note? }
+        end
+
+        attributes_table title: Delivery.human_attribute_name(:sheets_pdf) do
+          row(:delivery_sheets_mode) { t("delivery.sheets_mode.#{depot.delivery_sheets_mode}") }
         end
 
         attributes_table title: t('.member_new_form') do
@@ -138,6 +160,21 @@ ActiveAdmin.register Depot do
         as: :action_text,
         required: false,
         hint: t('formtastic.hints.depot.public_note'))
+    end
+
+    f.inputs Delivery.human_attribute_name(:sheets_pdf) do
+      f.input :delivery_sheets_mode,
+        as: :radio,
+        wrapper_html: { class: 'detailed-option' },
+        collection: Depot::DELIVERY_SHEETS_MODES.map { |mode|
+          [
+            content_tag(:span) {
+              content_tag(:span, t("delivery.sheets_mode.#{mode}")) +
+              content_tag(:span, t("delivery.sheets_mode.#{mode}_hint").html_safe, class: 'hint')
+            },
+            mode
+          ]
+        }
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
@@ -188,6 +225,7 @@ ActiveAdmin.register Depot do
       address_name address zip city
       contact_name emails phones
       member_order_priority
+      delivery_sheets_mode
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
