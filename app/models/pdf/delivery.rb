@@ -9,7 +9,6 @@ module PDF
       @baskets = delivery.baskets
       @shop_orders = @delivery.shop_orders.all_without_cart
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
-      members_per_page = Current.acp.delivery_pdf_show_phones? ? 15 : 22
 
       unless depot
         summary_page
@@ -21,11 +20,21 @@ module PDF
       depots = Array(depot || @depots)
       depots.each do |depot|
         baskets = @baskets.where(depot: depot)
+        if depot.delivery_sheets_mode == 'home_delivery'
+          baskets = baskets.not_absent
+        end
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = basket_sizes_for(baskets)
         member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+        members_per_page =
+          if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
+            16
+          else
+            22
+          end
         total_pages = (member_ids.count / members_per_page.to_f).ceil
-        member_ids.each_slice(members_per_page).with_index do |slice, i|
+        members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
+        members.each_slice(members_per_page).with_index do |slice, i|
           page_n = i + 1
           page(depot, slice, baskets, basket_sizes, shop_orders, page: page_n, total_pages: total_pages)
           start_new_page unless page_n == total_pages
@@ -79,31 +88,45 @@ module PDF
       offset_y = 12
 
       # Headers Basket Sizes and Complements
+      header_index = 0
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
         text_box '', width: depot_name_width, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
+          fill_color header_index.even? ? '999999' : '000000'
           text_box bs.public_name,
             rotate: total_rotate,
             at: [depot_name_width + i * number_width + offset_x, cursor + offset_y],
             valign: :center,
+            size: 8,
+            style: :bold,
             width: 150
+          header_index += 1
         end
         basket_complements.each_with_index do |bc, i|
+          fill_color header_index.even? ? '999999' : '000000'
           text_box bc.public_name,
             rotate: total_rotate,
             at: [depot_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y],
             valign: :center,
             overflow: :expand,
+            size: 8,
+            style: :bold,
             width: 150
+          header_index += 1
         end
         if @shop_orders.any?
+          fill_color header_index.even? ? '999999' : '000000'
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: total_rotate,
             at: [depot_name_width + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
             valign: :center,
+            size: 8,
+            style: :bold,
             width: 100
+          header_index += 1
         end
       end
+      fill_color '000000'
 
       move_up 0.4.cm
       data = []
@@ -164,11 +187,11 @@ module PDF
       cell_style =
         case @depots.size
         when 1..30
-          { size: 9, height: 18, padding: 4 }
+          { size: 10, height: 18, padding: 3 }
         when 30..37
-          { size: 8, height: 16, padding: 3 }
+          { size: 10, height: 16, padding: 2 }
         else
-          { size: 7, height: 12, padding: 2 }
+          { size: 9, height: 12, padding: 1 }
         end
 
       table(
@@ -188,23 +211,23 @@ module PDF
           t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
         end
 
-        t.row(0).height = 16
-        t.row(0).size = 9
+        t.row(0).height = 22
+        t.row(0).size = 10
         t.row(0).font_style = :bold
-        t.row(0).padding = [4, 2, 4, 2]
+        t.row(0).padding = [6, 2, 6, 2]
         t.row(0).background_color = 'FFFFFF'
 
         t.column(0).padding_right = 10
 
         t.cells.column_count.times do |i|
          if i%2 == 1
-           t.column(i).background_color = 'BBBBBB'
+           t.column(i).background_color = 'CCCCCC'
          end
         end
         if t.cells.row_count%2 == 0
           t.row(-1).borders = %i[bottom left]
           t.row(-1).border_bottom_width = 1
-          t.row(-1).border_bottom_color = 'BBBBBB'
+          t.row(-1).border_bottom_color = 'CCCCCC'
         end
 
         t.row(0).borders = %i[bottom right]
@@ -217,9 +240,9 @@ module PDF
       super.merge(Title: "#{::Delivery.human_attribute_name(:sheets)} #{delivery.date}")
     end
 
-    def page(depot, member_ids, baskets, basket_sizes, shop_orders, page:, total_pages:)
+    def page(depot, members, baskets, basket_sizes, shop_orders, page:, total_pages:)
       header(depot, page: page, total_pages: total_pages)
-      content(depot, member_ids, baskets, basket_sizes, shop_orders)
+      content(depot, members, baskets, basket_sizes, shop_orders)
       footer
     end
 
@@ -245,8 +268,7 @@ module PDF
       end
     end
 
-    def content(depot, member_ids, baskets, basket_sizes, shop_orders)
-      members = Member.where(id: member_ids).order(:name)
+    def content(depot, members, baskets, basket_sizes, shop_orders)
       basket_complements = basket_complements_for(baskets, shop_orders)
 
       font_size 11
@@ -259,33 +281,52 @@ module PDF
       page_border = 20
       width = bounds.width - 2 * page_border
       number_width = 25
-      signature_width = 125
-      member_name_width = width - (bs_size + bc_size) * number_width - signature_width
+      extra_width = 110
+      member_name_width = width - (bs_size + bc_size) * number_width - extra_width
+      address_width = depot.delivery_sheets_mode == 'home_delivery' ? (member_name_width / 2) : 0
       offset_x = 6
       offset_y = 12
 
       # Headers Basket Sizes and Complements
+      numbers_width_offset = member_name_width
+      header_index = 0
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
-        text_box '', width: member_name_width, at: [0, cursor]
+        text_box '', width: numbers_width_offset, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
+          fill_color header_index.even? ? '999999' : '000000'
           text_box bs.public_name,
             rotate: 45,
-            at: [member_name_width + i * number_width + offset_x, cursor + offset_y],
-            valign: :center
+            at: [numbers_width_offset + i * number_width + offset_x, cursor + offset_y],
+            valign: :center,
+            size: 10,
+            style: :bold,
+            width: 150
+          header_index += 1
         end
         basket_complements.each_with_index do |bc, i|
+          fill_color header_index.even? ? '999999' : '000000'
           text_box bc.public_name,
             rotate: 45,
-            at: [member_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y],
-            valign: :center
+            at: [numbers_width_offset + (bs_size + i) * number_width + offset_x, cursor + offset_y],
+            valign: :center,
+            overflow: :expand,
+            size: 10,
+            style: :bold,
+            width: 150
+          header_index += 1
         end
         if shop_orders.any?
+          fill_color header_index.even? ? '999999' : '000000'
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
-            at: [member_name_width + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
-            valign: :center
+            at: [numbers_width_offset + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
+            valign: :center,
+            size: 10,
+            style: :bold,
+            width: 100
         end
       end
+      fill_color "000000"
 
       move_up 0.4.cm
       font_size 12
@@ -294,9 +335,17 @@ module PDF
       # Depot Totals
       total_line = [
         content: Member.model_name.human,
-        width: member_name_width,
-        align: :right
+        width: (member_name_width - address_width),
+        height: 28,
+        align: depot.delivery_sheets_mode == 'home_delivery' ? :left : :right
       ]
+      if depot.delivery_sheets_mode == 'home_delivery'
+        total_line << {
+          content: ::Delivery.human_attribute_name(:address),
+          width: address_width,
+          align: :left
+        }
+      end
       all_baskets = baskets.not_absent
       basket_sizes.each do |bs|
         total_line << {
@@ -319,10 +368,15 @@ module PDF
           align: :center
         }
       end
+      extra_content =
+        case depot.delivery_sheets_mode
+        when 'signature'; ::Delivery.human_attribute_name(:signature)
+        when 'home_delivery'; ::Member.human_attribute_name(:note)
+        end
       total_line << {
-        content: ::Delivery.human_attribute_name(:signature),
+        content: extra_content,
         align: :right,
-        width: signature_width
+        width: extra_width
       }
       data << total_line
 
@@ -339,17 +393,31 @@ module PDF
           if phones.any?
             txt = phones.map { |p| display_phone(p) }.join(', ')
             column_content += "<font size='3'>\n\n</font>"
-            column_content += "<font size='10'><i><color rgb='666666'>#{txt}</color></i></font>"
+            column_content += "<font size='9'><i><color rgb='777777'>#{txt}</color></i></font>"
           end
         end
 
         line = [
           content: column_content,
-          width: member_name_width,
-          align: :right,
+          width: (member_name_width - address_width),
+          align: depot.delivery_sheets_mode == 'home_delivery' ? :left : :right,
+          size: depot.delivery_sheets_mode == 'home_delivery' ? 11 : 12,
+          padding: [4, 5, 8, 5],
           font_style: basket&.absent? ? :italic : nil,
           text_color: basket&.absent? ? '999999' : nil
         ]
+        if depot.delivery_sheets_mode == 'home_delivery'
+          content = <<~TEXT
+            <font size='10'>#{member.final_delivery_address}\n#{member.final_delivery_zip} #{member.final_delivery_city}</font>
+          TEXT
+          line << {
+            content: content,
+            align: :left,
+            valign: :center,
+            width: address_width,
+            padding_top: 1
+          }
+        end
         basket_sizes.each do |bs|
           line <<
             if basket&.absent?
@@ -379,10 +447,19 @@ module PDF
               shop_order ? 'X' : ''
             end
         end
+        extra_content =
+          case depot.delivery_sheets_mode
+          when 'signature'; basket&.absent? ? Basket.human_attribute_name(:absent).upcase : ''
+          when 'home_delivery'; member.delivery_note
+          end
         line << {
-          content: basket&.absent? ? Basket.human_attribute_name(:absent).upcase : '',
-          width: signature_width,
-          align: :center
+          content: extra_content,
+          width: extra_width,
+          align: :right,
+          valign: :center,
+          size: 9,
+          font_style: depot.delivery_sheets_mode == 'home_delivery' ? :italic : nil,
+          padding_top: 1
         }
         data << line
       end
@@ -390,15 +467,18 @@ module PDF
       table(
         data,
         row_colors: %w[DDDDDD FFFFFF],
-        cell_style: { border_width: 0, border_color: 'FFFFFF', inline_format: true },
+        cell_style: { border_width: 0, border_color: 'FFFFFF', inline_format: true, valign: :center },
         position: :center) do |t|
         t.cells.borders = []
-        t.cells.valign = :center if Current.acp.delivery_pdf_show_phones?
 
+        numbers_column_offset = depot.delivery_sheets_mode == 'home_delivery' ? 2 : 1
         (bs_size + bc_size).times do |i|
-          t.column(1 + i).width = number_width
-          t.column(1 + i).align = :center
-          t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
+          t.column(numbers_column_offset + i).width = number_width
+          t.column(numbers_column_offset + i).align = :center
+          # if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
+            t.column(numbers_column_offset + i).padding_top = -1
+          # end
+          t.column(numbers_column_offset + i).font_style = :light # Ensure number is well centered in the cell!
         end
 
         t.row(0).size = 11
@@ -409,20 +489,21 @@ module PDF
 
         t.column(0).padding_right = 10
 
+        colors_offset = depot.delivery_sheets_mode == 'home_delivery' ? 1 : 0
         t.cells.column_count.times do |i|
-         if i%2 == 1 && i != (t.cells.column_count - 1)
-           t.column(i).background_color = 'BBBBBB'
+         if i%2 == 1 && i != (t.cells.column_count - 1 - colors_offset)
+           t.column(i + colors_offset).background_color = 'CCCCCC'
          end
         end
         if t.cells.row_count%2 == 0
           t.row(-1).borders = %i[bottom left]
           t.row(-1).border_bottom_width = 1
-          t.row(-1).border_bottom_color = 'BBBBBB'
+          t.row(-1).border_bottom_color = 'CCCCCC'
         end
-        if t.cells.column_count%2 == 0
+        if t.cells.column_count%2 == colors_offset
           t.column(-1).borders = %i[bottom left]
           t.column(-1).border_left_width = 1
-          t.column(-1).border_left_color = 'BBBBBB'
+          t.column(-1).border_left_color = 'CCCCCC'
         end
 
         t.row(0).borders = %i[bottom left]

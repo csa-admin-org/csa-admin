@@ -521,6 +521,10 @@ _:
           _de: Blätter
           _fr: Fiches
           _it: Fogli
+        sheets_pdf:
+          _de: Blätter (PDF)
+          _fr: Fiches (PDF)
+          _it: Fogli (PDF)
         shop_open:
           _de: Offenes
           _fr: Ouverte
@@ -550,6 +554,10 @@ _:
           _de: Zyklen von Lieferungen
           _fr: Cycles de livraisons
           _it: Cicli di consegne
+        delivery_sheets_mode:
+          _de: Modus
+          _fr: Mode
+          _it: Modalità
         future_deliveries:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)
@@ -681,6 +689,10 @@ _:
           _de: Stadt (Lieferung)
           _fr: Ville (Livraison)
           _it: Città (Consegna)
+        delivery_note:
+          _de: Notiz Lieferung
+          _fr: Note livraison
+          _it: Note consegna
         delivery_zip:
           _de: PLZ (Lieferung)
           _fr: NPA (Livraison)

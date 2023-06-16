@@ -12,6 +12,11 @@ class Depot < ApplicationRecord
     price_desc
   ]
 
+  DELIVERY_SHEETS_MODES = %w[
+    signature
+    home_delivery
+  ]
+
   acts_as_list
 
   attribute :language, :string, default: -> { Current.acp.languages.first }
@@ -51,6 +56,7 @@ class Depot < ApplicationRecord
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :deliveries_cycles, presence: true
+  validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
 
   after_commit :update_baskets_async, on: :update
 
@@ -64,14 +70,39 @@ class Depot < ApplicationRecord
     insert_at(position)
   end
 
+  def move_member_to(position, member, delivery)
+    member_ids = baskets_for(delivery).map { |b| b.member.id }
+    member_ids_position = member_ids_position_for(delivery)
+    position = member_ids_position.index(member_ids[position - 1])
+    update_column(
+      :member_ids_position,
+      member_ids_position.insert(position, member_ids_position.delete(member.id)))
+  end
+
+  def member_ids_position_for(delivery)
+    member_ids = baskets_for(delivery).map { |b| b.member.id }
+    member_ids_position.map { |member_id|
+      member_ids.delete(member_id) || member_id
+    } + member_ids
+  end
+
   def baskets_for(delivery)
     baskets
       .not_absent
       .not_empty
-      .includes(:basket_size, :complements, :member, :baskets_basket_complements)
+      .includes(:basket_size, :complements, :member, :membership, :baskets_basket_complements)
       .where(delivery_id: delivery.id)
-      .order('members.name')
       .uniq
+      .sort_by { |basket| member_sorting(basket.member) }
+  end
+
+  def member_sorting(member)
+    position = []
+    if delivery_sheets_mode == 'home_delivery'
+      position << (member_ids_position.index(member.id) || 1000)
+    end
+    position << member.name
+    position
   end
 
   def baskets_count_for(delivery, basket_size)

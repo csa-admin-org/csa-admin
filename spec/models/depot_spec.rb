@@ -60,4 +60,56 @@ describe Depot do
         .to([2, 3, 1])
     end
   end
+
+  describe '#move_member_to' do
+    def depot_member_names(depot, delivery)
+      depot.baskets_for(delivery).map(&:member).map(&:name)
+    end
+
+    let(:depot) { create(:depot, delivery_sheets_mode: 'home_delivery') }
+    let(:alice) { create(:member, name: 'Alice') }
+    let(:bob) { create(:member, name: 'Bob') }
+    let(:charlie) { create(:member, name: 'Charlie') }
+
+    it 'moves member to a new position' do
+      create(:membership, depot: depot, member: alice)
+      create(:membership, depot: depot, member: bob)
+      create(:membership, depot: depot, member: charlie)
+
+      expect { depot.move_member_to(2, alice, Delivery.first) }
+        .to change { depot_member_names(depot, Delivery.first) }
+        .from(%w[Alice Bob Charlie])
+        .to(%w[Bob Alice Charlie])
+    end
+
+    it 'moves member to a new position with delivery context respected', freeze: '2023-01-01' do
+      delivery1 = create(:delivery, date: '2023-01-05')
+      delivery2 = create(:delivery, date: '2023-02-01')
+      create(:membership, depot: depot, member: alice, ended_on: '2023-01-31')
+      create(:membership, depot: depot, member: bob)
+      create(:membership, depot: depot, member: charlie)
+
+      expect { depot.move_member_to(1, charlie, delivery2) }
+        .to change { depot_member_names(depot, delivery2) }
+        .from(%w[Bob Charlie])
+        .to(%w[Charlie Bob])
+
+      # Alice has not been sorted explicitly, so it's sorted by name at the end
+      expect(depot_member_names(depot, delivery1)).to eq %w[Charlie Bob Alice]
+    end
+
+    specify 'signature sheets mode is always ordered by name' do
+      create(:membership, depot: depot, member: alice)
+      create(:membership, depot: depot, member: bob)
+      create(:membership, depot: depot, member: charlie)
+
+      depot.move_member_to(2, alice, Delivery.first)
+
+      expect(depot_member_names(depot, Delivery.first)).to eq %w[Bob Alice Charlie]
+
+      depot.update! delivery_sheets_mode: 'signature'
+
+      expect(depot_member_names(depot, Delivery.first)).to eq %w[Alice Bob Charlie]
+    end
+  end
 end

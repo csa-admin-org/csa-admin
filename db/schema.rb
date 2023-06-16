@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_03_081646) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_09_134906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -396,10 +396,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_081646) do
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
-    t.string "xlsx_worksheet_style", default: "default", null: false
     t.string "contact_name"
     t.integer "member_order_priority", default: 1, null: false
     t.integer "position"
+    t.integer "member_ids_position", default: [], array: true
+    t.string "delivery_sheets_mode", default: "signature", null: false
     t.index ["visible"], name: "index_depots_on_visible"
   end
 
@@ -514,6 +515,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_081646) do
     t.string "billing_email"
     t.integer "memberships_count", default: 0, null: false
     t.bigint "shop_depot_id"
+    t.string "delivery_note"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"

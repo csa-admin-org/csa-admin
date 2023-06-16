@@ -115,14 +115,14 @@ module XLSX
       baskets = @baskets.where(depot: depot).includes(:membership, :basket_size, :complements, baskets_basket_complements: :basket_complement)
       shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product: :basket_complement })
       member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
-      members = Member.where(id: member_ids).order(:name)
+      members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
       members.each do |member|
         member.basket = baskets.find { |b| b.membership.member_id == member.id }
         member.shop_order = shop_orders.find { |so| so.member_id == member.id }
       end
       basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size: bs).sum(:quantity) }
 
-      add_members_worksheet(depot.name, members, style: depot.xlsx_worksheet_style)
+      add_members_worksheet(depot.name, members, mode: depot.delivery_sheets_mode)
     end
 
     def build_absences_worksheet
@@ -136,13 +136,8 @@ module XLSX
       add_members_worksheet(Absence.model_name.human(count: 2), members)
     end
 
-    def add_members_worksheet(name, members, style: 'default')
-      if style == 'bike_delivery'
-        members = members.sort_by { |m|
-          [m.final_delivery_zip, m.final_delivery_city, m.final_delivery_address]
-        }
-      end
-      border = style == 'bike_delivery' ? 'thin' : 'none'
+    def add_members_worksheet(name, members, mode: 'signature')
+      border = mode == 'home_delivery' ? 'thin' : 'none'
 
       name = worksheet_name(name, members.size)
       add_worksheet(name)
@@ -155,7 +150,7 @@ module XLSX
         Member.human_attribute_name(:phones),
         members.map { |m| m.phones_array.map { |p| display_phone(p) }.join(', ') },
         border: border)
-      unless style == 'bike_delivery'
+      unless mode == 'home_delivery'
         add_column(
           Member.human_attribute_name(:emails),
           members.map { |m| m.emails_array.join(', ') },
@@ -165,7 +160,7 @@ module XLSX
         Member.human_attribute_name(:address),
         members.map { |m| m.final_delivery_address },
         border: border)
-      unless style == 'bike_delivery'
+      unless mode == 'home_delivery'
         add_column(
           Member.human_attribute_name(:zip),
           members.map { |m| m.final_delivery_zip },
@@ -195,17 +190,17 @@ module XLSX
             border: border)
         end
       end
-      unless style == 'bike_delivery'
-        add_column(
-          Member.human_attribute_name(:note),
-          members.map { |m| truncate(m.note, length: 160) },
-          border: border)
+      unless mode == 'home_delivery'
         add_column(
           Member.human_attribute_name(:food_note),
           members.map { |m| truncate(m.food_note, length: 80) },
           border: border)
       end
-      if style == 'bike_delivery'
+      if mode == 'home_delivery'
+        add_column(
+          Member.human_attribute_name(:note),
+          members.map { |m| truncate(m.delivery_note, length: 160) },
+          border: border)
         add_column(t('delivered_by'), members.map { |m| ' ' * 25 }, border: border)
       end
     end

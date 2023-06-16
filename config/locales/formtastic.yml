@@ -401,6 +401,10 @@ _:
           _de: Leer lassen, wenn gleich.
           _fr: Laisser vide si identique.
           _it: Lascia vuoto se identico.
+        delivery_note:
+          _de: Wird auf der Zusammenfassung (XLSX) und den Blättern (PDF) der Lieferungen angezeigt, wenn der Modus "Lieferung" auf dem Depot ausgewählt ist.
+          _fr: Sera affichée sur le récapitulatif (XLSX) et fiches (PDF) de livraisons quand le mode "livraison" est sélectionné sur le dépôt.
+          _it: Verrà visualizzato sul riepilogo di consegna (XLSX) e sui foglia (PDF) quando viene selezionata la modalità "consegna" nel punto di ritiro.
         delivery_zip:
           _de: Leer lassen, wenn gleich.
           _fr: Laisser vide si identique.
