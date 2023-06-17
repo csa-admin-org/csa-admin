@@ -87,6 +87,23 @@ describe Shop::Product do
 
       expect(Shop::Product.available_for(delivery, depot1))
         .to contain_exactly(product1)
+      expect(Shop::Product.available_for(delivery, depot2))
+        .to contain_exactly(product1, product2)
+    end
+
+    specify 'returns products that are available for the given delivery', freeze: '2023-01-01' do
+      delivery1 = create(:delivery, date: '2023-02-01')
+      delivery2 = create(:delivery, date: '2023-03-01')
+
+      product1 = create(:shop_product,
+        available_for_delivery_ids: [delivery1.id, delivery2.id])
+      product2 = create(:shop_product,
+        unavailable_for_delivery_ids: [delivery1.id])
+
+      expect(Shop::Product.available_for(delivery1))
+        .to contain_exactly(product1)
+      expect(Shop::Product.available_for(delivery2))
+        .to contain_exactly(product1, product2)
     end
   end
 
