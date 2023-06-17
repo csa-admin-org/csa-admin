@@ -34,6 +34,12 @@ module Shop
     scope :variant_name_contains, ->(str) {
       joins(:variants).merge(ProductVariant.name_contains(str))
     }
+    scope :depot_eq, ->(depot_id) {
+      where.not('? = ANY (unavailable_for_depot_ids)', depot_id)
+    }
+    scope :delivery_eq, ->(delivery_id) {
+      where.not('? = ANY (unavailable_for_delivery_ids)', delivery_id)
+    }
 
     validates :available, inclusion: [true, false]
     validates :variants, presence: true
@@ -43,13 +49,15 @@ module Shop
     def self.ransackable_scopes(_auth_object = nil)
       super + %i[name_contains variant_name_contains] +
         %i[price_equals price_greater_than price_less_than] +
-        %i[stock_equals stock_greater_than stock_less_than]
+        %i[stock_equals stock_greater_than stock_less_than] +
+        %i[depot_eq delivery_eq]
     end
 
     def self.available_for(delivery, depot = nil)
       products =
         available
           .left_joins(basket_complement: :deliveries)
+          .delivery_eq(delivery)
           .where('shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?', delivery)
       if depot
         products = products.where.not('? = ANY (unavailable_for_depot_ids)', depot)
@@ -62,7 +70,25 @@ module Shop
     end
 
     def available_for_depot_ids=(ids)
-      self[:unavailable_for_depot_ids] = Depot.pluck(:id) - ids.map(&:to_i)
+      self[:unavailable_for_depot_ids] =
+        if available?
+          Depot.pluck(:id) - ids.map(&:to_i)
+        else
+          []
+        end
+    end
+
+    def available_for_delivery_ids
+      Delivery.coming.shop_open.where.not(id: unavailable_for_delivery_ids).pluck(:id)
+    end
+
+    def available_for_delivery_ids=(ids)
+      self[:unavailable_for_delivery_ids] =
+        if available?
+          Delivery.coming.shop_open.pluck(:id) - ids.map(&:to_i)
+        else
+          []
+        end
     end
 
     def display_name(producer: false)

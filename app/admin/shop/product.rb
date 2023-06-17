@@ -28,6 +28,8 @@ ActiveAdmin.register Shop::Product do
     as: :select,
     collection: -> { Shop::Tag.all }
   filter :producer, as: :select
+  filter :depot, as: :select, collection: -> { Depot.all }
+  filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open.all }
   filter :variant_name_contains,
     label: -> { Shop::ProductVariant.model_name.human(count: 1) },
     as: :string
@@ -106,7 +108,6 @@ ActiveAdmin.register Shop::Product do
               form_checkbox_toggler_target: 'checkbox',
               action: 'form-checkbox-toggler#toggleInput'
             } }
-
           f.input :available_for_depot_ids,
             label: Depot.model_name.human(count: 2),
             as: :check_boxes,
@@ -114,6 +115,16 @@ ActiveAdmin.register Shop::Product do
             input_html: {
               data: { form_checkbox_toggler_target: 'input' }
             }
+          coming_deliveries = Delivery.coming.shop_open.all
+          if coming_deliveries.any?
+            f.input :available_for_delivery_ids,
+              label: Delivery.model_name.human(count: 2),
+              as: :check_boxes,
+              collection: coming_deliveries,
+              input_html: {
+                data: { form_checkbox_toggler_target: 'input' }
+              }
+          end
         end
       end
       tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
@@ -139,6 +150,7 @@ ActiveAdmin.register Shop::Product do
     *I18n.available_locales.map { |l| "description_#{l}" },
     tag_ids: [],
     available_for_depot_ids: [],
+    available_for_delivery_ids: [],
     variants_attributes: [
       :id,
       :price,

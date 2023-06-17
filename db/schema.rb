@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_16_122321) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_17_084752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -740,6 +740,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_16_122321) do
     t.boolean "available", default: true, null: false
     t.bigint "basket_complement_id"
     t.integer "unavailable_for_depot_ids", default: [], array: true
+    t.integer "unavailable_for_delivery_ids", default: [], null: false, array: true
     t.index ["available"], name: "index_shop_products_on_available"
     t.index ["basket_complement_id"], name: "index_shop_products_on_basket_complement_id", unique: true
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
