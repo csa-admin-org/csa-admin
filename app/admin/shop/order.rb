@@ -288,19 +288,19 @@ ActiveAdmin.register Shop::Order do
     redirect_back fallback_location: collection_path
   end
 
-  collection_action :delivery, method: :get, if: -> { params[:delivery_gid] } do
+  collection_action :delivery, method: :get, if: -> { params[:delivery_gid].present? } do
     delivery = GlobalID::Locator.locate(params[:delivery_gid])
-    depot = Depot.find(params[:depot_id]) if params[:depot_id]
+    depot = Depot.find(params[:depot_id]) if params[:depot_id].present?
     case params[:format]
     when 'pdf'
-      order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id]
+      order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id].present?
       pdf = PDF::Shop::Delivery.new(delivery, order: order, depot: depot)
       send_data pdf.render,
         content_type: pdf.content_type,
         filename: pdf.filename,
         disposition: 'inline'
     when 'xlsx'
-      producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id]
+      producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id].present?
       xlsx = XLSX::Shop::Delivery.new(delivery, producer, depot: depot)
       send_data xlsx.data,
         content_type: xlsx.content_type,

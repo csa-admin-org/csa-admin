@@ -175,7 +175,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
       respond_to do |format|
         format.html
         format.xlsx do
-          producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id]
+          producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id].present?
           xlsx = XLSX::Shop::Delivery.new(resource, producer)
           send_data xlsx.data,
             content_type: xlsx.content_type,
