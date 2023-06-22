@@ -92,7 +92,7 @@ module PDF
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
         text_box '', width: depot_name_width, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
-          fill_color header_index.even? ? '999999' : '000000'
+          fill_color header_index.even? ? '666666' : '000000'
           text_box bs.public_name,
             rotate: total_rotate,
             at: [depot_name_width + i * number_width + offset_x, cursor + offset_y],
@@ -103,7 +103,7 @@ module PDF
           header_index += 1
         end
         basket_complements.each_with_index do |bc, i|
-          fill_color header_index.even? ? '999999' : '000000'
+          fill_color header_index.even? ? '666666' : '000000'
           text_box bc.public_name,
             rotate: total_rotate,
             at: [depot_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y],
@@ -115,7 +115,7 @@ module PDF
           header_index += 1
         end
         if @shop_orders.any?
-          fill_color header_index.even? ? '999999' : '000000'
+          fill_color header_index.even? ? '666666' : '000000'
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: total_rotate,
             at: [depot_name_width + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
@@ -293,7 +293,7 @@ module PDF
       bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
         text_box '', width: numbers_width_offset, at: [0, cursor]
         basket_sizes.each_with_index do |bs, i|
-          fill_color header_index.even? ? '999999' : '000000'
+          fill_color header_index.even? ? '666666' : '000000'
           text_box bs.public_name,
             rotate: 45,
             at: [numbers_width_offset + i * number_width + offset_x, cursor + offset_y],
@@ -304,7 +304,7 @@ module PDF
           header_index += 1
         end
         basket_complements.each_with_index do |bc, i|
-          fill_color header_index.even? ? '999999' : '000000'
+          fill_color header_index.even? ? '666666' : '000000'
           text_box bc.public_name,
             rotate: 45,
             at: [numbers_width_offset + (bs_size + i) * number_width + offset_x, cursor + offset_y],
@@ -316,7 +316,7 @@ module PDF
           header_index += 1
         end
         if shop_orders.any?
-          fill_color header_index.even? ? '999999' : '000000'
+          fill_color header_index.even? ? '666666' : '000000'
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
             at: [numbers_width_offset + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
