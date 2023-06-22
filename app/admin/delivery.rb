@@ -214,7 +214,7 @@ ActiveAdmin.register Delivery do
     include TranslatedCSVFilename
 
     def show
-      depot = Depot.find(params[:depot_id]) if params[:depot_id]
+      depot = Depot.find(params[:depot_id]) if params[:depot_id].present?
       super do |success, _failure|
         success.html
         success.xlsx do
