@@ -283,7 +283,7 @@ ActiveAdmin.register Shop::Order do
   batch_action :invoice, if: ->(attr) { params[:scope].in?([nil, 'pending']) } do |selection|
     Shop::Order.where(id: selection).find_each do |order|
       order.admin = current_admin
-      order.invoice!
+      order.invoice! if order.can_invoice?
     end
     redirect_back fallback_location: collection_path
   end
