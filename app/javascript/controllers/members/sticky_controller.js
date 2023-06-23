@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   update() {
-    if (window.pageYOffset >= this.application.offset) {
+    if (window.scrollY >= this.application.offset) {
       this.containerTarget.classList.add(...this.stickyClasses)
     } else {
       this.containerTarget.classList.remove(...this.stickyClasses)
