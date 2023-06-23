@@ -5,8 +5,8 @@ html
     title = t('.title', acp: Current.acp.name)
     - ActiveAdmin.application.stylesheets.each do |style, options|
       = stylesheet_link_tag style, **options
-    - ActiveAdmin.application.javascripts.each do |path|
-      = javascript_include_tag path
+    - ActiveAdmin.application.javascripts.each do |path, options|
+      = javascript_include_tag path, **options
     - if ActiveAdmin.application.favicon
       = favicon_link_tag ActiveAdmin.application.favicon
     - ActiveAdmin.application.meta_tags_for_logged_out_pages.each do |name, content|
