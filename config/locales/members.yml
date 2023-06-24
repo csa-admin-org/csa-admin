@@ -462,6 +462,11 @@ _:
           _de: Anmeldeformular
           _fr: Formulaire d'inscription
           _it: Formulario d'iscrizione
+      pricing:
+        year:
+          _de: Jahr
+          _fr: an
+          _it: anno
       welcome:
         return_to_acp_website:
           _de: Zurück zu %{link}

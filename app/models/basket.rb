@@ -161,16 +161,10 @@ class Basket < ApplicationRecord
     return 0 unless Current.acp.feature?('basket_price_extra')
     return 0 if basket_price.zero?
 
-    if Current.acp.basket_price_extra_dynamic_pricing?
-      template = Liquid::Template.parse(Current.acp.basket_price_extra_dynamic_pricing)
-      template.render(
-        'basket_price' => basket_price.to_f,
-        'extra' => price_extra.to_f,
-        'basket_size_id' => basket_size_id,
-        'deliveries_count' => Current.acp.deliveries_count(membership.fy_year).to_f
-      ).to_f
-    else
-      price_extra
-    end
+    Current.acp.calculate_basket_price_extra(
+      price_extra,
+      basket_price,
+      basket_size_id,
+      Current.acp.deliveries_count(membership.fy_year))
   end
 end

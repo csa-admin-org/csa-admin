@@ -4,12 +4,17 @@ class Members::MembersController < Members::BaseController
 
   skip_before_action :authenticate_member!, only: %i[new create welcome]
   before_action :redirect_current_member!, only: %i[new create welcome]
-  invisible_captcha only: :create
+  invisible_captcha only: :create, if: -> { Rails.env.production? }
 
   # GET /new
   def new
     @member = Member.new(public_create: true)
     set_basket_complements
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   # GET /
@@ -91,6 +96,7 @@ class Members::MembersController < Members::BaseController
     permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
     permitted
   end
+  helper_method :member_params
 
   def shop_path
     if !current_shop_delivery&.shop_open? && next_shop_delivery

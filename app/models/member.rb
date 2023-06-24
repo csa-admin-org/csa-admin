@@ -84,6 +84,7 @@ class Member < ApplicationRecord
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :name, presence: true
   validates :emails, presence: true, if: :public_create
+  validates :phones, presence: true, if: :public_create
   validates :profession, presence: true,
     if: -> { public_create && Current.acp.member_profession_form_mode == 'required' }
   validates :come_from, presence: true,

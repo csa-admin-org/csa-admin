@@ -5,7 +5,7 @@ div class="mt-4 text-justify"
   p = t('.text')
 
 div class="mt-8"
-  = simple_form_for @member, url: members_member_path do |f|
+  = simple_form_for @member, url: members_member_path, data: { controller: 'form-pricing', turbo: false } do |f|
     = invisible_captcha
 
     div class="space-y-8"
@@ -44,3 +44,6 @@ div class="mt-8"
 
       div class='text-right'
         = f.button :submit, t('.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
+
+  = turbo_frame_tag 'pricing' do
+    = render partial: 'members/members/pricing'

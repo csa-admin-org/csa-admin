@@ -137,8 +137,10 @@ describe Basket do
 
   describe '#calculate_price_extra' do
     before { Current.acp.update! features: [:basket_price_extra] }
+    let(:membership) { create(:membership) }
     let(:basket) {
       basket = Basket.new(
+        membership: membership,
         quantity: 2,
         basket_price: 19,
         price_extra: 2.42)
@@ -176,7 +178,6 @@ describe Basket do
     end
 
     specify 'with dynamic pricing based on basket_size' do
-      membership = create(:membership)
       basket_1 = Basket.new(
         basket_size_id: 1,
         basket_price: 19,
