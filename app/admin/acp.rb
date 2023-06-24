@@ -310,7 +310,9 @@ ActiveAdmin.register ACP do
                 hint: t('formtastic.hints.acp.shop_terms_of_sale_url'))
               f.input :shop_order_maximum_weight_in_kg
               f.input :shop_order_minimal_amount
-              f.input :shop_member_percentages, as: :string
+              f.input :shop_member_percentages,
+                as: :string,
+                input_html: { value: f.object.shop_member_percentages }
               f.input :shop_delivery_open_delay_in_days
               f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
                 value: f.object.shop_delivery_open_last_day_end_time&.strftime('%H:%M')
@@ -336,7 +338,9 @@ ActiveAdmin.register ACP do
                 required: false,
                 as: :action_text,
                 input_html: { rows: 5 })
-              f.input :basket_price_extras, as: :string
+              f.input :basket_price_extras,
+                as: :string,
+                input_html: { value: f.object.basket_price_extras }
               translated_input(f, :basket_price_extra_labels,
                 as: :text,
                 hint: t('formtastic.hints.acp.basket_price_extra_labels_html'),
