@@ -482,10 +482,10 @@ describe Billing::Invoicer do
     specify 'support_annual_fee member' do
       member = create(:member, :support_annual_fee)
       travel_to '2021-01-01' do # Friday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-04' # Monday
       end
       travel_to '2021-01-04' do # Monday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-04' # Monday
       end
     end
 
@@ -493,17 +493,17 @@ describe Billing::Invoicer do
       member = create(:member, :support_annual_fee)
       travel_to '2021-01-01' do # Friday
         create(:invoice, :annual_fee, member: member)
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2022-01-03') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2022-01-03' # Monday
       end
     end
 
     specify 'support_annual_fee member' do
       member = create(:member, state: 'support', desired_acp_shares_number: 2)
       travel_to '2021-01-01' do # Friday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-04' # Monday
       end
       travel_to '2021-01-04' do # Monday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-04' # Monday
       end
     end
 
@@ -522,13 +522,13 @@ describe Billing::Invoicer do
         create(:member, :active)
       end
       travel_to '2021-01-01' do # Friday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-11' # Monday
       end
       travel_to '2021-01-11' do # Monday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-11' # Monday
       end
       travel_to '2021-01-12' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-18' # Monday
       end
     end
 
@@ -539,13 +539,13 @@ describe Billing::Invoicer do
         create(:member, :active)
       end
       travel_to '2021-01-01' do # Friday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-04') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-04' # Monday
       end
       travel_to '2021-01-11' do # Monday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-11') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-11' # Monday
       end
       travel_to '2021-01-12' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-01-18') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-01-18' # Monday
       end
     end
 
@@ -554,7 +554,7 @@ describe Billing::Invoicer do
         create(:member, :active)
       end
       travel_to '2021-12-28' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-12-28' # Tuesday
       end
     end
 
@@ -563,7 +563,7 @@ describe Billing::Invoicer do
         create(:member, :active, billing_year_division: 1)
       end
       travel_to '2021-05-03' do # Monday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-05-03') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-05-03' # Monday
         create(:invoice, :membership,
           member: member,
           object: member.current_membership)
@@ -579,21 +579,21 @@ describe Billing::Invoicer do
         create(:member, :active, billing_year_division: 4)
       end
       travel_to '2021-02-02' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-02-08') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-02-08' # Monday
         create(:invoice, :membership,
           member: member,
           object: member.current_membership,
           membership_amount_fraction: 3)
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-04-05') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-04-05' # Monday
       end
       travel_to '2021-03-01' do # Monday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-04-05') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-04-05' # Monday
       end
       travel_to '2021-05-01' do # Saturday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-05-03') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-05-03' # Monday
       end
       travel_to '2021-12-28' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-12-28' # Tuesday
       end
     end
 
@@ -602,21 +602,21 @@ describe Billing::Invoicer do
         create(:member, :active, billing_year_division: 12)
       end
       travel_to '2021-02-02' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-02-08') # Monday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-02-08' # Monday
         create(:invoice, :membership,
           member: member,
           object: member.current_membership,
           membership_amount_fraction: 10)
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-03-01') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-03-01' # Monday
       end
       travel_to '2021-03-01' do # Monday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-03-01') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-03-01' # Monday
       end
       travel_to '2021-09-01' do # Wednesday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-09-06') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-09-06' # Monday
       end
       travel_to '2021-12-28' do # Tuesday
-        expect(described_class.new(member).next_date).to eq Date.parse('2021-12-28') # Tuesday
+        expect(described_class.new(member).next_date.to_s).to eq '2021-12-28' # Tuesday
       end
     end
 
@@ -628,13 +628,13 @@ describe Billing::Invoicer do
           member: member,
           started_on: '2021-09-01') # Wednesday
       end
-      expect(membership.deliveries.first.date).to eq Date.parse('2021-09-07') # Tuesday
+      expect(membership.deliveries.first.date.to_s).to eq '2021-09-07' # Tuesday
 
       travel_to '2021-03-01' do # Monday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-09-13') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-09-13' # Monday
       end
       travel_to '2021-11-01' do # Monday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2021-11-01') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2021-11-01' # Monday
       end
     end
 
@@ -644,18 +644,22 @@ describe Billing::Invoicer do
         create(:delivery, date: '2022-01-04')
         create(:membership, member: member) # Wednesday
       end
-      expect(membership.deliveries.first.date).to eq Date.parse('2022-01-04') # Tuesday
+      expect(membership.deliveries.first.date.to_s).to eq '2022-01-04' # Tuesday
 
       travel_to '2021-03-01' do # Monday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2022-01-10') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2022-01-10' # Monday
       end
       travel_to '2021-11-01' do # Monday
-        expect(described_class.new(member.reload).next_date).to eq Date.parse('2022-01-10') # Monday
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2022-01-10' # Monday
       end
     end
 
     context 'with trial baskets' do
-      before { Current.acp.update!(trial_basket_count: 4) }
+      before {
+        Current.acp.update!(
+          trial_basket_count: 4,
+          billing_starts_after_first_delivery: false)
+      }
 
       specify 'membership, four trial baskets' do
         membership = travel_to '2021-01-01' do
@@ -666,17 +670,17 @@ describe Billing::Invoicer do
           create(:delivery, date: '2021-02-02')
           create(:membership) # Monday
         end
-        expect(membership.deliveries.first.date).to eq Date.parse('2021-01-05') # Tuesday
-        expect(membership.baskets.not_trial.first.delivery.date).to eq Date.parse('2021-02-02') # Tuesday
+        expect(membership.deliveries.first.date.to_s).to eq '2021-01-05' # Tuesday
+        expect(membership.baskets.trial.last.delivery.date.to_s).to eq '2021-01-08' # Tuesday
 
         travel_to '2021-01-01' do # Monday
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-02-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-01-11' # Monday
         end
         travel_to '2021-02-09' do # Tuesday
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-02-15') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-02-15' # Monday
         end
         travel_to '2021-11-02' do # Tuesday
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-11-08' # Monday
         end
       end
 
@@ -688,17 +692,17 @@ describe Billing::Invoicer do
           create(:membership, started_on: '2021-09-20') # Monday
         end
         expect(membership.deliveries.count).to eq 3
-        expect(membership.deliveries.first.date).to eq Date.parse('2021-09-21') # Tuesday
-        expect(membership.deliveries.last.date).to eq Date.parse('2021-10-05') # Tuesday
+        expect(membership.deliveries.first.date.to_s).to eq '2021-09-21' # Tuesday
+        expect(membership.deliveries.last.date.to_s).to eq '2021-10-05' # Tuesday
 
         travel_to '2021-03-01' do # Monday
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-10-11' # Monday
         end
         travel_to '2021-09-21' do # Tuesday
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-10-11' # Monday
         end
         travel_to '2021-11-02' do # Tuesday
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-11-08' # Monday
         end
       end
     end
@@ -713,16 +717,16 @@ describe Billing::Invoicer do
           create(:delivery, date: '2021-10-05')
           create(:membership, deliveries_cycle: dc)
         end
-        expect(membership.deliveries.first.date).to eq Date.parse('2021-10-05') # Tuesday
+        expect(membership.deliveries.first.date.to_s).to eq '2021-10-05' # Tuesday
 
         travel_to '2021-04-01' do
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-10-11' # Monday
         end
         travel_to '2021-09-09' do
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-10-11') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-10-11' # Monday
         end
         travel_to '2021-11-02' do
-          expect(described_class.new(membership.member.reload).next_date).to eq Date.parse('2021-11-08') # Monday
+          expect(described_class.new(membership.member.reload).next_date.to_s).to eq '2021-11-08' # Monday
         end
       end
     end

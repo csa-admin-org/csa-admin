@@ -40,7 +40,7 @@ module Billing
               else
                 next_billing_day(beginning_of_next_period)
               end
-            elsif Current.acp.billing_starts_after_first_delivery?
+            elsif Current.acp.billing_starts_after_first_delivery? || membership.trial?
               next_billing_day_after_first_billable_delivery
             else
               next_billing_day(membership.started_on)
@@ -131,7 +131,7 @@ module Billing
 
     def next_billing_day_after_first_billable_delivery
       baskets = membership.baskets.not_empty
-      basket = baskets.not_trial.first || baskets.trial.last || baskets.first
+      basket = baskets.trial.last || baskets.first
       next_billing_day(basket.delivery.date)
     end
 

@@ -55,16 +55,6 @@ describe ACP do
     expect(acp).not_to have_valid(:qr_iban)
   end
 
-  specify 'ensure billing_starts_after_first_delivery is enabled with_trial_baskets' do
-    acp = ACP.new(
-      trial_basket_count: 3,
-      billing_starts_after_first_delivery: false)
-
-    expect(acp).not_to have_valid(:billing_starts_after_first_delivery)
-    expect(acp.errors[:billing_starts_after_first_delivery])
-      .to include("ne peut pas être désactivé avec des paniers à l'essai")
-  end
-
   describe '#billing_year_divisions=' do
     it 'keeps only allowed divisions' do
       acp = ACP.new(billing_year_divisions: ['', '1', '6', '12'])
