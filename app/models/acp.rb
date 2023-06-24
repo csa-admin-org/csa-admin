@@ -94,7 +94,6 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :shop_order_minimal_amount,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
-  validate :ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
   validates :member_form_mode, presence: true, inclusion: { in: MEMBER_FORM_MODES }
   validates :member_profession_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
   validates :member_come_from_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
@@ -337,12 +336,6 @@ class ACP < ApplicationRecord
     Liquid::Template.parse(basket_price_extra_dynamic_pricing)
   rescue Liquid::SyntaxError => e
     errors.add(:basket_price_extra_dynamic_pricing, e.message)
-  end
-
-  def ensure_billing_starts_after_first_delivery_is_enabled_with_trial_baskets
-    if trial_basket_count.positive? && !billing_starts_after_first_delivery?
-      errors.add(:billing_starts_after_first_delivery, :enabled_with_trial_baskets)
-    end
   end
 
   def create_tenant!
