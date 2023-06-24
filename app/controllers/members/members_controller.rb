@@ -4,7 +4,6 @@ class Members::MembersController < Members::BaseController
 
   skip_before_action :authenticate_member!, only: %i[new create welcome]
   before_action :redirect_current_member!, only: %i[new create welcome]
-  invisible_captcha only: :create, if: -> { Rails.env.production? }
 
   # GET /new
   def new

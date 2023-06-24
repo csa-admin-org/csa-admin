@@ -6,8 +6,6 @@ div class="mt-4 text-justify"
 
 div class="mt-8"
   = simple_form_for @member, url: members_member_path, data: { controller: 'form-pricing' } do |f|
-    = invisible_captcha
-
     div class="space-y-8"
       div
         legend class="text-lg font-medium text-gray-700 dark:text-gray-300"

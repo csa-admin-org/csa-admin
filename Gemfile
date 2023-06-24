@@ -39,7 +39,6 @@ gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 
-gem 'invisible_captcha'
 gem 'cld'
 
 gem 'sidekiq'
