@@ -45,8 +45,8 @@ ActiveAdmin.register Shop::Order do
   includes :member, :depot, invoice: { pdf_file_attachment: :blob }
   index title: -> {
     title = Shop::Order.model_name.human(count: 2)
-    if params.dig(:q, :_delivery_gid_eq).present?
-      delivery = GlobalID::Locator.locate(params.dig(:q, :_delivery_gid_eq))
+    if params.dig(:q, :_delivery_gid_eq).present? &&
+        delivery = GlobalID::Locator.locate(params.dig(:q, :_delivery_gid_eq))
       title += " – #{delivery.display_name}"
     end
     title
@@ -290,6 +290,8 @@ ActiveAdmin.register Shop::Order do
 
   collection_action :delivery, method: :get, if: -> { params[:delivery_gid].present? } do
     delivery = GlobalID::Locator.locate(params[:delivery_gid])
+    raise ActiveRecord::RecordNotFound unless delivery
+
     depot = Depot.find(params[:depot_id]) if params[:depot_id].present?
     case params[:format]
     when 'pdf'
