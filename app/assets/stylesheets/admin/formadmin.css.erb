@@ -1681,24 +1681,24 @@ form.filter_form .filter_form_field.filter_date_range input[type="date"] {
   line-height: 13px;
 }
 
-form.import,
+form.sidebar_form,
 form.filter_form {
   margin: 20px;
 }
 
-form.import .buttons,
+form.sidebar_form .buttons,
 form.filter_form .buttons {
   margin: 20px 0;
 }
 
 button.clear_filters_btn,
-form.import .buttons a.clear_filters_btn,
+form.sidebar_form .buttons a.clear_filters_btn,
 form.filter_form .buttons a.clear_filters_btn {
   margin-left: 5px;
 }
 
-form.import .buttons input[type="submit"],
-form.import .buttons a.clear_filters_btn,
+form.sidebar_form .buttons input[type="submit"],
+form.sidebar_form .buttons a.clear_filters_btn,
 form.filter_form .buttons input[type="submit"],
 form.filter_form .buttons a.clear_filters_btn {
   padding: 5px 10px;
@@ -1714,9 +1714,18 @@ form.filter_form .buttons input[type="submit"] {
   display: none;
 }
 
-form.import input[type="file"] {
+form.sidebar_form input[type="file"] {
   margin: 0;
   font-size: 0.9em;
+}
+
+form.sidebar_form select {
+  padding: 5px 10px;
+  font-size: 0.9em;
+}
+
+form.sidebar_form .top_hint {
+  margin-bottom: 5px;
 }
 
 table.index_grid td {

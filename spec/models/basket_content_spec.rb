@@ -403,4 +403,91 @@ describe BasketContent do
         1002 => { DeliveriesCycle.first => 122.0 })
     end
   end
+
+  describe '.duplicate_all' do
+    before do
+      setup [
+        { id: 1001, quantity: 1, price: 20 },
+        { id: 1002, quantity: 1, price: 30 }
+      ]
+    end
+
+    specify 'copies all basket content from one delivery to another' do
+      from_delivery = create(:delivery)
+      to_delivery = create(:delivery)
+      create(:basket_content,
+        delivery: from_delivery,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
+        quantity: 100,
+        unit: 'kg',
+        unit_price: 1)
+      create(:basket_content,
+        delivery: from_delivery,
+        basket_size_ids_quantities: {
+          1001 => 75,
+          1002 => 75
+        },
+        quantity: 150,
+        unit: 'pc')
+
+      expect {
+        BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
+      }.to change { to_delivery.basket_contents.count }.by(2)
+
+      expect(to_delivery.basket_contents.first).to have_attributes(
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
+        quantity: 100,
+        unit: 'kg',
+        unit_price: 1)
+      expect(to_delivery.basket_contents.last).to have_attributes(
+        basket_size_ids_quantities: {
+          1001 => 75,
+          1002 => 75
+        },
+        quantity: 150,
+        unit: 'pc')
+    end
+
+    specify 'do nothing when deliveries has no contents' do
+      from_delivery = create(:delivery)
+      to_delivery = create(:delivery)
+
+      expect {
+        BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
+      }.not_to change { to_delivery.basket_contents.count }
+    end
+
+    specify 'do nothing when targer delivery has already a contents' do
+      from_delivery = create(:delivery)
+      to_delivery = create(:delivery)
+
+      create(:basket_content,
+        delivery: from_delivery,
+        basket_size_ids_percentages: {
+          1001 => 40,
+          1002 => 60
+        },
+        quantity: 100,
+        unit: 'kg',
+        unit_price: 1)
+      create(:basket_content,
+        delivery: to_delivery,
+        basket_size_ids_quantities: {
+          1001 => 75,
+          1002 => 75
+        },
+        quantity: 150,
+        unit: 'pc')
+
+      expect {
+        BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
+      }.not_to change { to_delivery.basket_contents.count }
+    end
+  end
 end

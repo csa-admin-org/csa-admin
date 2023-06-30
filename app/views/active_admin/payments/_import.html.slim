@@ -1,4 +1,4 @@
-= form_tag import_payments_path, multipart: true, class: 'import' do
+= form_tag import_payments_path, multipart: true, class: 'sidebar_form' do
   = label_tag :file, t('.file_label')
   = file_field_tag :file, accept: 'text/xml', required: true
   .buttons

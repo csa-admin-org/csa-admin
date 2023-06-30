@@ -1,0 +1,7 @@
+- deliveries = BasketContent.filled_deliveries
+= form_with url: duplicate_all_basket_contents_path, method: :post, class: 'sidebar_form' do |f|
+  = f.hidden_field :to_delivery_id, value: to_delivery.id
+  p.top_hint = t('.text')
+  = f.select :from_delivery_id, deliveries.map { |d| [I18n.l(d.date, format: :medium), d.id] }
+  .buttons
+    = f.submit t('.button')

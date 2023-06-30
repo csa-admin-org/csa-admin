@@ -95,6 +95,37 @@ ActiveAdmin.register BasketContent do
     column(:depots) { |bc| display_depots(bc.depots) }
   end
 
+  sidebar :duplicate_all_to, only: :index, if: -> {
+    authorized?(:create, BasketContent) &&
+      params.dig(:q, :delivery_id_eq).present? &&
+      collection.present? &&
+      (delivery = Delivery.find(params.dig(:q, :delivery_id_eq))) &&
+      BasketContent.coming_unfilled_deliveries(after_date: delivery.date).any?
+  } do
+    delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+    render partial: 'active_admin/basket_contents/duplicate_all_to',
+      locals: { from_delivery: delivery }
+  end
+
+  sidebar :duplicate_all_from, only: :index, if: -> {
+    authorized?(:create, BasketContent) &&
+      params.dig(:q, :delivery_id_eq).present? &&
+      collection.empty? &&
+      BasketContent.any?
+  } do
+    delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+    render partial: 'active_admin/basket_contents/duplicate_all_from',
+      locals: { to_delivery: delivery }
+  end
+
+  collection_action :duplicate_all, method: :post do
+    authorize!(:create, BasketContent)
+    from = params.require(:from_delivery_id)
+    to = params.require(:to_delivery_id)
+    BasketContent.duplicate_all(from, to)
+    redirect_to basket_contents_path(q: { delivery_id_eq: to })
+  end
+
   form do |f|
     f.inputs do
       f.input :delivery,
