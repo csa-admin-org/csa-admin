@@ -9,6 +9,25 @@ _:
       _de: Alle
       _fr: N'importe lequel
       _it: Tutti
+    basket_contents:
+      duplicate_all_from:
+        button:
+          _de: Importieren
+          _fr: Importer
+          _it: Importare
+        text:
+          _de: 'Importieren Sie alle Tascheninhalte von der folgenden Lieferung:'
+          _fr: 'Importer tous les contenus de la livraison suivante:'
+          _it: 'Importare tutti i contenuti della consegna seguente:'
+      duplicate_all_to:
+        button:
+          _de: Duplizieren
+          _fr: Dupliquer
+          _it: Duplicare
+        text:
+          _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
+          _fr: 'Dupliquer tous les contenus de cette livraison vers celle du:'
+          _it: 'Duplicare tutti i contenuti di questa consegna in quella di:'
     batch_actions:
       action_label:
         _de: "%{title} die ausgewählte Elemente"
@@ -1460,6 +1479,14 @@ _:
         _de: Kalender
         _fr: Calendrier
         _it: Calendario
+      duplicate_all_from:
+        _de: Import
+        _fr: Importation
+        _it: Importazione
+      duplicate_all_to:
+        _de: Duplizieren
+        _fr: Duplication
+        _it: Duplicazione
       edit_settings:
         _de: Einstellungen bearbeiten
         _fr: Modifier les paramètres

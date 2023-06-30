@@ -39,6 +39,42 @@ class BasketContent < ApplicationRecord
 
   after_commit :update_delivery_basket_content_avg_prices!
 
+  def self.duplicate_all(from_delivery_id, to_delivery_id)
+    contents = where(delivery_id: from_delivery_id)
+    return if contents.none?
+    return if where(delivery_id: to_delivery_id).any?
+
+    transaction do
+      contents.includes(:depots).find_each do |content|
+        attrs = content.attributes.slice(*%w[
+            product_id
+            quantity
+            unit
+            unit_price
+          ]).merge(
+            delivery_id: to_delivery_id,
+            depot_ids: content.depot_ids,
+            basket_size_ids_percentages: content.basket_size_ids_percentages,
+            basket_size_ids_quantities: content.basket_size_ids_quantities)
+        create(attrs)
+      end
+    end
+  end
+
+  def self.filled_deliveries
+    ids = distinct.pluck(:delivery_id)
+    Delivery.where(id: ids).reorder(date: :desc)
+  end
+
+  def self.coming_unfilled_deliveries(after_date:)
+    ids = distinct.pluck(:delivery_id)
+    Delivery.where.not(id: ids).where(date: after_date..)
+  end
+
+  def self.next_delivery
+    all.joins(:delivery).order(:date).first&.delivery
+  end
+
   def self.last_delivery
     all.joins(:delivery).order(:date).last&.delivery
   end
@@ -58,7 +94,7 @@ class BasketContent < ApplicationRecord
   def basket_size_ids_quantities
     return {} if distribution_mode == 'automatic'
 
-    basket_size_ids.map { |bs| [bs, basket_quantity(bs)] }.to_h
+    basket_size_ids.map { |bs| [bs, basket_size_ids_quantity(bs)] }.to_h
   end
 
   def basket_size_ids_percentages
