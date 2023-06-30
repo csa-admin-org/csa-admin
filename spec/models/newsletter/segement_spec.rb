@@ -73,6 +73,24 @@ describe Newsletter::Segment do
     expect(segment.members).to contain_exactly(member_1, member_2)
   end
 
+  specify 'segment by coming deliveries in days', freeze: '2023-01-01' do
+    create(:delivery, date: '2023-01-07')
+    create(:delivery, date: '2023-01-14')
+    create(:delivery, date: '2023-01-21')
+    cycle_1 = create(:deliveries_cycle)
+    depot_1 = create(:depot, deliveries_cycles: [cycle_1])
+    cycle_2 = create(:deliveries_cycle, results: :even)
+    depot_2 = create(:depot, deliveries_cycles: [cycle_2])
+    member_1 = create(:membership, depot: depot_1).member
+    member_2 = create(:membership, depot: depot_2).member
+
+    expect(member_1.next_basket.delivery.date.to_s).to eq '2023-01-07'
+    expect(member_2.next_basket.delivery.date.to_s).to eq '2023-01-14'
+
+    segment = create(:newsletter_segment, coming_deliveries_in_days: 10)
+    expect(segment.members).to contain_exactly(member_1)
+  end
+
   specify 'segment by renewal state' do
     member_1 = create(:membership).member
     member_2 = create(:membership).member

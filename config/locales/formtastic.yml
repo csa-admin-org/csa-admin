@@ -493,6 +493,10 @@ _:
           _de: Alle Warenkorbgrößen sind enthalten, wenn keine ausgewählt ist.
           _fr: Toutes les tailles de panier sont incluses si aucune n'est sélectionnée.
           _it: Tutte le dimensioni del cestino sono incluse se nessuna è selezionata.
+        coming_deliveries_in_days:
+          _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Taschenlieferung.
+          _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de panier
+          _it: Permette di differenziare i membri attivi in base alla data di consegna del prossimo carrello.
         deliveries_cycle_ids:
           _de: Alle Zyklen von Lieferungen sind enthalten, wenn keiner ausgewählt ist.
           _fr: Tous les cycles de livraison sont inclus si aucun n'est sélectionné.
