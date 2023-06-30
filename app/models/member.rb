@@ -42,6 +42,7 @@ class Member < ApplicationRecord
   has_one :current_year_membership, -> { current_year }, class_name: 'Membership'
   has_many :baskets, through: :memberships
   has_one :next_basket, through: :current_or_future_membership
+  has_one :next_delivery, through: :current_or_future_membership
   has_many :delivered_baskets,
     through: :memberships,
     source: :delivered_baskets,

@@ -1167,6 +1167,10 @@ _:
           _fr: Fichier
           _it: File
       newsletter/segment:
+        coming_deliveries_in_days:
+          _de: Nächste Tasche in mindestens (in Tagen)
+          _fr: Prochain panier dans au moins (en jours)
+          _it: Il prossimo cestino tra almeno (in giorni)
         first_membership:
           _de: Erstes Abonnement dieses Jahr
           _fr: Premier abonnement cette année

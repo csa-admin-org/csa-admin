@@ -10,6 +10,8 @@ class Newsletter
 
     validates :renewal_state,
       inclusion: { in: Membership::RENEWAL_STATES, allow_blank: true }
+    validates :coming_deliveries_in_days,
+      numericality: { only_integer: true, greater_than_or_equal_to: 0, allow_blank: true }
 
     def name; title end
 
@@ -21,6 +23,7 @@ class Newsletter
       members = by_deliveries_cycle(members)
       members = by_renewal_state(members)
       members = by_first_membership(members)
+      members = by_coming_deliveries_in_days(members)
       members
     end
 
@@ -66,6 +69,16 @@ class Newsletter
       else
         members.where(memberships_count: 2..)
       end
+    end
+
+    # TODO: Try to use an association here instead of select
+    def by_coming_deliveries_in_days(members)
+      return members unless coming_deliveries_in_days?
+
+      limit = coming_deliveries_in_days.days.from_now
+      members.includes(next_basket: :delivery).select { |m|
+        m.next_basket&.delivery&.date <= limit
+      }
     end
   end
 end
