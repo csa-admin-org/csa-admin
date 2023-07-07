@@ -36,9 +36,9 @@ pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.8/src
 pin "sortablejs", to: "https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js"
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.55.2/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.55.2/esm/index.js"
-pin "@sentry/replay", to: "https://ga.jspm.io/npm:@sentry/replay@7.55.2/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.55.2/esm/index.js"
-pin "@sentry-internal/tracing", to: "https://ga.jspm.io/npm:@sentry-internal/tracing@7.55.2/esm/index.js"
-pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.55.2/esm/buildPolyfills/index.js"
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.57.0/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.57.0/esm/index.js"
+pin "@sentry/replay", to: "https://ga.jspm.io/npm:@sentry/replay@7.57.0/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.57.0/esm/index.js"
+pin "@sentry-internal/tracing", to: "https://ga.jspm.io/npm:@sentry-internal/tracing@7.57.0/esm/index.js"
+pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.57.0/esm/buildPolyfills/index.js"
