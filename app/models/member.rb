@@ -321,9 +321,17 @@ class Member < ApplicationRecord
     existing_acp_shares_number.to_i + invoices.not_canceled.acp_share.sum(:acp_shares_number)
   end
 
+  def required_acp_shares_number=(value)
+    self[:required_acp_shares_number] = value.presence
+  end
+
   def required_acp_shares_number
     (self[:required_acp_shares_number] ||
-      current_or_future_membership&.basket_size&.acp_shares_number).to_i
+      default_required_acp_shares_number).to_i
+  end
+
+  def default_required_acp_shares_number
+    current_or_future_membership&.basket_size&.acp_shares_number.to_i
   end
 
   def missing_acp_shares_number

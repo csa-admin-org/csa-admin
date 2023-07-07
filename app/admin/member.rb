@@ -550,7 +550,10 @@ ActiveAdmin.register Member do
           f.input :desired_acp_shares_number
         end
         f.input :required_acp_shares_number,
-          input_html: { value: f.object[:required_acp_shares_number] }
+          input_html: {
+            value: f.object[:required_acp_shares_number],
+            placeholder: f.object.default_required_acp_shares_number
+          }
       end
       f.input :salary_basket
     end
