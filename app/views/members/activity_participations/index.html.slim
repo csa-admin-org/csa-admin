@@ -32,7 +32,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
           = f.input :carpooling_city, label: false, input_html: { placeholder: t('.carpooling_city'), data: { form_checkbox_toggler_target: 'input' }, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
 
         div class='text-right'
-          = f.button :submit, t('.activity_form_submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
+          = f.button :submit, t('.activity_form_submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 dark:disabled:border-gray-600 dark:disabled:bg-gray-600', data: { calendar_target: "submit" }
 
 - @coming_participations = current_member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc))
 - if @coming_participations.any?
