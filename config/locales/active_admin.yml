@@ -881,6 +881,19 @@ _:
               _de: "%{count} die in Rechnung gestellt werden"
               _fr: "%{count} qui seront facturées"
               _it: "%{count} che saranno fatturati"
+          required:
+            one:
+              _de: 1 benötigten
+              _fr: 1 requise
+              _it: 1 richiesto
+            other:
+              _de: "%{count} benötigte"
+              _fr: "%{count} requises"
+              _it: "%{count} richiesti"
+            zero:
+              _de: 0 benötigten
+              _fr: 0 requise
+              _it: 0 richiesto
         active_suppression_reasons:
           _de: Status (aktuell)
           _fr: Statut (actuel)

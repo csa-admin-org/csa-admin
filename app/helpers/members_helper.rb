@@ -230,7 +230,11 @@ module MembersHelper
     if member.missing_acp_shares_number.positive?
       parts << t('.acp_shares_number.missing', count: member.missing_acp_shares_number)
     end
-    parts.to_sentence.html_safe
+    txt = parts.to_sentence.html_safe
+    if member.acp_shares_number > member.required_acp_shares_number
+      txt += " (#{t('.acp_shares_number.required', count: member.required_acp_shares_number)})"
+    end
+    txt
   end
 
   def deliveries_based_price_info(price, d_counts = deliveries_counts)

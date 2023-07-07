@@ -708,7 +708,7 @@ _:
         existing_acp_shares_number:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes
-          _it: Numero di quote sociali coperative esistenti
+          _it: Numero di quote sociali cooperative esistenti
         food_note:
           _de: Notiz Lebensmittel
           _fr: Note alimentaire
@@ -729,6 +729,10 @@ _:
           _de: Beruf / Kompetenzen
           _fr: Profession / Compétences
           _it: Professione / Competenze
+        required_acp_shares_number:
+          _de: Anzahl der benötigten Anteilscheine
+          _fr: Nombre de parts sociales requises
+          _it: Numero di quote sociali cooperative richieste
         salary_basket:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire

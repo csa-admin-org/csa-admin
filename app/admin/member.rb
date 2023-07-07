@@ -549,6 +549,8 @@ ActiveAdmin.register Member do
         if member.acp_shares_number.zero? || member.desired_acp_shares_number.positive?
           f.input :desired_acp_shares_number
         end
+        f.input :required_acp_shares_number,
+          input_html: { value: f.object[:required_acp_shares_number] }
       end
       f.input :salary_basket
     end
@@ -568,7 +570,8 @@ ActiveAdmin.register Member do
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket,
     :billing_email, :billing_year_division,
-    :acp_shares_info, :existing_acp_shares_number, :desired_acp_shares_number,
+    :acp_shares_info, :existing_acp_shares_number,
+    :desired_acp_shares_number, :required_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_depot_id, :waiting_deliveries_cycle_id,
     :shop_depot_id,

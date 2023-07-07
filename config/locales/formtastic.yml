@@ -410,9 +410,9 @@ _:
           _fr: Laisser vide si identique.
           _it: Lascia vuoto se identico.
         desired_acp_shares_number:
-          _de: Sie werden automatisch in Rechnung gestellt.
-          _fr: Elles seront facturées automatiquement.
-          _it: Saranno fatturate automaticamente.
+          _de: Erlaubt dem Mitglied, mehr Anteilscheine zu haben als die erforderliche Anzahl. Sie werden automatisch in Rechnung gestellt.
+          _fr: Permet au membre d'avoir plus de parts sociales que celles requises. Elles seront facturées automatiquement.
+          _it: Consente al socio di avere più quote sociali cooperative di quelle richieste. Saranno fatturate automaticamente.
         emails:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
@@ -429,6 +429,10 @@ _:
           _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
+        required_acp_shares_number:
+          _de: Leer lassen für die Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
+          _fr: Laisser vide pour le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.
+          _it: Lasciare vuoto per il numero predefinito che dipende dalla dimensione del cestino dell'abbonamento corrente.
         shop_depot:
           _de: Ermöglicht es einem Mitglied ohne Abonnement, Produkte vom Hofladen zu bestellen.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.
