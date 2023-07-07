@@ -51,6 +51,6 @@ module BulkActivityIdsInsert
       part.carpooling = @carpooling ? '1' : nil
       part
     end
-    @participations.all?(&:valid?)
+    @participations.any? && @participations.all?(&:valid?)
   end
 end
