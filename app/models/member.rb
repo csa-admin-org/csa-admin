@@ -102,6 +102,7 @@ class Member < ApplicationRecord
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
   validates :existing_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :required_acp_shares_number, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :desired_acp_shares_number,
     numericality: { greater_than_or_equal_to: 1 },
@@ -320,9 +321,13 @@ class Member < ApplicationRecord
     existing_acp_shares_number.to_i + invoices.not_canceled.acp_share.sum(:acp_shares_number)
   end
 
+  def required_acp_shares_number
+    (self[:required_acp_shares_number] ||
+      current_or_future_membership&.basket_size&.acp_shares_number).to_i
+  end
+
   def missing_acp_shares_number
-    required = current_or_future_membership&.basket_size&.acp_shares_number.to_i
-    [[required, desired_acp_shares_number.to_i].max - acp_shares_number, 0].max
+    [[required_acp_shares_number, desired_acp_shares_number].max - acp_shares_number, 0].max
   end
 
   def handle_acp_shares_change!
