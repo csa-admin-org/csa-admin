@@ -430,9 +430,9 @@ _:
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
         required_acp_shares_number:
-          _de: Leer lassen für die Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
-          _fr: Laisser vide pour le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.
-          _it: Lasciare vuoto per il numero predefinito che dipende dalla dimensione del cestino dell'abbonamento corrente.
+          _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
+          _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.
+          _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cestino dell'abbonamento corrente.
         shop_depot:
           _de: Ermöglicht es einem Mitglied ohne Abonnement, Produkte vom Hofladen zu bestellen.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.
