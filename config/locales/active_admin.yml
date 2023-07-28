@@ -541,6 +541,10 @@ _:
           _de: Allgemeine
           _fr: Généraux
           _it: Generali
+        has_many_new_invoice_item:
+          _de: Einen Artikel hinzufügen
+          _fr: Ajouter un article
+          _it: Aggiungere un articolo
         invoice_qr:
           _de: QR-Rechnung
           _fr: Facture QR

@@ -1,6 +1,6 @@
 ActiveAdmin.register Invoice do
   menu parent: :billing, priority: 1
-  actions :all, except: %i[edit update]
+  actions :all
 
   breadcrumb do
     if params[:action] == 'new'
@@ -294,31 +294,33 @@ ActiveAdmin.register Invoice do
       end
     end
     tabs do
-      if Current.acp.feature?('activity')
-        tab activities_human_name, id: 'activity_participation' do
-          f.inputs do
-            if f.object.object.is_a?(ActivityParticipation)
-              li(class: 'refused_activity_participation') do
-                parts = []
-                parts << link_to(
-                  t('active_admin.resource.new.refused_activity_participation', date: f.object.object.activity.date),
-                  activity_participation_path(f.object.object_id))
-                parts << ' – '
-                parts << link_to(
-                  t('.erase').downcase,
-                  new_invoice_path(member_id: f.object.member_id))
-                parts.join.html_safe
+      unless f.object.persisted?
+        if Current.acp.feature?('activity')
+          tab activities_human_name, id: 'activity_participation' do
+            f.inputs do
+              if f.object.object.is_a?(ActivityParticipation)
+                li(class: 'refused_activity_participation') do
+                  parts = []
+                  parts << link_to(
+                    t('active_admin.resource.new.refused_activity_participation', date: f.object.object.activity.date),
+                    activity_participation_path(f.object.object_id))
+                  parts << ' – '
+                  parts << link_to(
+                    t('.erase').downcase,
+                    new_invoice_path(member_id: f.object.member_id))
+                  parts.join.html_safe
+                end
               end
+              f.input :paid_missing_activity_participations, as: :number, step: 1
+              f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
             end
-            f.input :paid_missing_activity_participations, as: :number, step: 1
-            f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
           end
         end
-      end
-      if Current.acp.share?
-        tab t_invoice_object_type('ACPShare'), id: 'acp_share' do
-          f.inputs do
-            f.input :acp_shares_number, as: :number, step: 1
+        if Current.acp.share?
+          tab t_invoice_object_type('ACPShare'), id: 'acp_share' do
+            f.inputs do
+              f.input :acp_shares_number, as: :number, step: 1
+            end
           end
         end
       end
@@ -328,7 +330,7 @@ ActiveAdmin.register Invoice do
           if Current.acp.vat_number?
             f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01
           end
-          f.has_many :items, new_record: t('.has_many_new_invoice_item') do |ff|
+          f.has_many :items, new_record: t('.has_many_new_invoice_item'), allow_destroy: true do |ff|
             ff.input :description
             ff.input :amount, as: :number, step: 0.05, min: 0, max: 99999.95
           end
@@ -348,7 +350,7 @@ ActiveAdmin.register Invoice do
     :activity_price,
     :acp_shares_number,
     :vat_rate,
-    items_attributes: %i[description amount]
+    items_attributes: %i[id description amount _destroy]
 
   before_build do |invoice|
     if params[:activity_participation_id]
@@ -391,6 +393,17 @@ ActiveAdmin.register Invoice do
 
     def apply_sorting(chain)
       super(chain).joins(:member).order('members.name', id: :desc)
+    end
+
+    after_action :refresh_invoice, only: :update
+
+    private
+
+    def refresh_invoice
+      if resource.valid?
+        resource.attach_pdf
+        Billing::PaymentsRedistributor.redistribute!(resource.member_id)
+      end
     end
   end
 
