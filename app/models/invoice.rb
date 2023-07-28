@@ -37,9 +37,9 @@ class Invoice < ApplicationRecord
   scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
   scope :unpaid, -> { not_canceled.where('paid_amount < amount') }
   scope :overpaid, -> { not_canceled.where('amount > 0 AND paid_amount > amount') }
-  scope :balance_equals, ->(amount) { where('(paid_amount - amount) = ?', amount) }
-  scope :balance_greater_than, ->(amount) { where('(paid_amount - amount) > ?', amount) }
-  scope :balance_less_than, ->(amount) { where('(paid_amount - amount) < ?', amount) }
+  scope :balance_eq, ->(amount) { where('(paid_amount - amount) = ?', amount) }
+  scope :balance_gt, ->(amount) { where('(paid_amount - amount) > ?', amount) }
+  scope :balance_lt, ->(amount) { where('(paid_amount - amount) < ?', amount) }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
   scope :shop_order_type, -> { where(object_type: 'Shop::Order') }
   scope :activity_participation_type, -> { where(object_type: 'ActivityParticipation') }
@@ -111,7 +111,7 @@ class Invoice < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[balance_equals balance_greater_than balance_less_than sent_eq]
+    super + %i[balance_eq balance_gt balance_lt sent_eq]
   end
 
   def display_name

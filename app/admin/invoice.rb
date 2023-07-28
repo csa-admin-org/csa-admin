@@ -153,7 +153,7 @@ ActiveAdmin.register Invoice do
   show do |invoice|
     columns do
       column do
-        panel link_to(t('.direct_payments'), payments_path(q: { invoice_id_equals: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
+        panel link_to(t('.direct_payments'), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
           payments = invoice.payments.order(:date)
           if payments.none?
             em t('.no_payments')

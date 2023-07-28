@@ -62,7 +62,7 @@ gem 'premailer-rails'
 gem 'liquid'
 
 gem 'camt_parser'
-gem 'epics', github: 'railslove/epics', branch: 'master'
+gem 'epics'
 gem 'rqrcode'
 gem 'countries'
 

@@ -14,7 +14,7 @@ class BasketContent
       links
     end
 
-    filter :name_contains,
+    filter :name_cont,
       label: -> { BasketContent::Product.human_attribute_name(:name) },
       as: :string
 

@@ -16,7 +16,7 @@ ActiveAdmin.register DeliveriesCycle do
   scope :visible
   scope :hidden
 
-  filter :name_contains,
+  filter :name_cont,
     label: -> { DeliveriesCycle.human_attribute_name(:name) },
     as: :string
   filter :depots, as: :select
