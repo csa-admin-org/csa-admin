@@ -241,7 +241,7 @@ class Invoice < ApplicationRecord
 
     super
     self[:object_type] = 'Other' unless object_type?
-    self[:amount] = items.sum(&:amount)
+    self[:amount] = items.reject(&:marked_for_destruction?).sum(&:amount)
   end
 
   def paid_missing_activity_participations=(number)
