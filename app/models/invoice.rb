@@ -21,7 +21,7 @@ class Invoice < ApplicationRecord
   has_many :items, class_name: 'InvoiceItem', dependent: :destroy
   has_many :payments, dependent: :destroy
 
-  accepts_nested_attributes_for :items
+  accepts_nested_attributes_for :items, allow_destroy: true
 
   has_one_attached :pdf_file
 
@@ -265,6 +265,10 @@ class Invoice < ApplicationRecord
 
   def sent?
     sent_at?
+  end
+
+  def can_update?
+    !sent? && other_type?
   end
 
   def can_destroy?
