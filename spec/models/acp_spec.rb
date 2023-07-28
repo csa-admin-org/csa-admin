@@ -47,6 +47,13 @@ describe ACP do
   specify 'validates QR IBAN' do
     acp = ACP.new(qr_iban: 'CH3230114A012B456789z')
     expect(acp).to have_valid(:qr_iban)
+    expect(acp.qr_iban).to eq 'CH3230114A012B456789Z'
+
+    acp = ACP.new(qr_iban: 'CH3231114A012B456789z')
+    expect(acp).to have_valid(:qr_iban)
+
+    acp = ACP.new(qr_iban: 'CH3232004A012B456789z')
+    expect(acp).not_to have_valid(:qr_iban)
 
     acp = ACP.new(qr_iban: 'CH 33 30767 000K 5510')
     expect(acp).not_to have_valid(:qr_iban)
