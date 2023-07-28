@@ -57,7 +57,7 @@ class ACP < ApplicationRecord
     :qr_creditor_city, :qr_creditor_zip,
     presence: true
   validates :qr_bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
-  validates :qr_iban, format: /\ACH\d{7}[a-z0-9]{12}\z/i
+  validates :qr_iban, format: /\ACH\d{2}3[01]\d{3}[a-z0-9]{12}\z/i
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
@@ -162,7 +162,7 @@ class ACP < ApplicationRecord
 
   def qr_iban=(iban)
     if iban.present?
-      super iban.gsub(/\s/, '')
+      super iban.gsub(/\s/, '').upcase
     end
   end
 
