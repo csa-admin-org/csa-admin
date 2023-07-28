@@ -21,7 +21,7 @@ ActiveAdmin.register Shop::Product do
   scope :available, default: true
   scope :unavailable
 
-  filter :name_contains,
+  filter :name_cont,
     label: -> { Shop::Product.human_attribute_name(:name) },
     as: :string
   filter :tags,
@@ -30,7 +30,7 @@ ActiveAdmin.register Shop::Product do
   filter :producer, as: :select
   filter :depot, as: :select, collection: -> { Depot.all }
   filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open.all }
-  filter :variant_name_contains,
+  filter :variant_name_cont,
     label: -> { Shop::ProductVariant.model_name.human(count: 1) },
     as: :string
   filter :price,

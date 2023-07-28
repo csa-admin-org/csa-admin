@@ -4,7 +4,7 @@ ActiveAdmin.register Newsletter do
   }
 
   filter :id
-  filter :subject_contains,
+  filter :subject_cont,
     label: -> { Newsletter.human_attribute_name(:subject) },
     as: :string
   filter :template

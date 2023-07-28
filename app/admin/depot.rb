@@ -5,10 +5,10 @@ ActiveAdmin.register Depot do
   scope :visible, default: true
   scope :hidden
 
-  filter :name_contains,
+  filter :name_cont,
     label: -> { Depot.human_attribute_name(:name) },
     as: :string
-  filter :city_contains,
+  filter :city_cont,
     label: -> { Depot.human_attribute_name(:city) },
     as: :string
   filter :deliveries_cycles, as: :select

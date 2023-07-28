@@ -40,7 +40,7 @@ module TranslatedAttributes
         scope "#{attr}_eq", ->(str) {
           where("#{table_name}.#{column}->>'#{I18n.locale}' = ?", str)
         }
-        scope "#{attr}_contains", ->(str) {
+        scope "#{attr}_cont", ->(str) {
           where("#{table_name}.#{column}->>'#{I18n.locale}' ILIKE ?", "%#{str}%")
         }
 
@@ -54,7 +54,7 @@ module TranslatedAttributes
       end
 
       define_singleton_method(:ransackable_scopes) do |_auth_object = nil|
-        super(_auth_object) + attrs.flat_map { |attr| ["#{attr}_eq", "#{attr}_contains"] }
+        super(_auth_object) + attrs.flat_map { |attr| ["#{attr}_eq", "#{attr}_cont"] }
       end
     end
   end

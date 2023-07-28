@@ -27,8 +27,8 @@ class PaymentTotal
           I18n.t('billing.scope.overpaid_amount', amount: cur(overpaid, format: '%n')),
           scope: :closed,
           q: {
-            amount_greater_than: 0,
-            balance_greater_than: 0
+            amount_gt: 0,
+            balance_gt: 0
           })
         txt += " (#{link})".html_safe
       end
@@ -39,7 +39,7 @@ class PaymentTotal
         link = link_to_invoices(
           I18n.t('billing.scope.overdue_notices', count: @invoices.with_overdue_notice.count),
           scope: :open,
-          q: { overdue_notices_count_greater_than: 0 })
+          q: { overdue_notices_count_gt: 0 })
         txt += " (#{link})".html_safe
       end
       txt

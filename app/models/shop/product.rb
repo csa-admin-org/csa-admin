@@ -25,14 +25,14 @@ module Shop
 
     scope :available, -> { where(available: true) }
     scope :unavailable, -> { where(available: false) }
-    scope :price_equals, ->(v) { joins(:variants).where('price = ?', v) }
-    scope :price_greater_than, ->(v) { joins(:variants).where('price > ?', v) }
-    scope :price_less_than, ->(v) { joins(:variants).where('price < ?', v) }
-    scope :stock_equals, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock = ?', v) }
-    scope :stock_greater_than, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock > ?', v) }
-    scope :stock_less_than, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock < ?', v) }
-    scope :variant_name_contains, ->(str) {
-      joins(:variants).merge(ProductVariant.name_contains(str))
+    scope :price_eq, ->(v) { joins(:variants).where('price = ?', v) }
+    scope :price_gt, ->(v) { joins(:variants).where('price > ?', v) }
+    scope :price_lt, ->(v) { joins(:variants).where('price < ?', v) }
+    scope :stock_eq, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock = ?', v) }
+    scope :stock_gt, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock > ?', v) }
+    scope :stock_lt, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock < ?', v) }
+    scope :variant_name_cont, ->(str) {
+      joins(:variants).merge(ProductVariant.name_cont(str))
     }
     scope :depot_eq, ->(depot_id) {
       where.not('? = ANY (unavailable_for_depot_ids)', depot_id)
@@ -47,9 +47,9 @@ module Shop
     validate :ensure_at_least_one_available_variant
 
     def self.ransackable_scopes(_auth_object = nil)
-      super + %i[name_contains variant_name_contains] +
-        %i[price_equals price_greater_than price_less_than] +
-        %i[stock_equals stock_greater_than stock_less_than] +
+      super + %i[name_cont variant_name_cont] +
+        %i[price_eq price_gt price_lt] +
+        %i[stock_eq stock_gt stock_lt] +
         %i[depot_eq delivery_eq]
     end
 
