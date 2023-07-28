@@ -114,6 +114,7 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0 }
 
   after_create :create_tenant!
+  after_save :apply_annual_fee_change
 
   def self.features
     (FEATURES | Current.acp.features)
@@ -344,5 +345,13 @@ class ACP < ApplicationRecord
     MailTemplate.create_all!
     Newsletter::Template.create_defaults!
     DeliveriesCycle.create_default!
+  end
+
+  def apply_annual_fee_change
+    return unless annual_fee_previously_changed?
+
+    Member
+      .where(annual_fee: annual_fee_previously_was)
+      .update_all(annual_fee: annual_fee)
   end
 end
