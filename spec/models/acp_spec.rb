@@ -82,4 +82,17 @@ describe ACP do
         'it' => 'Tutte'
       })
   end
+
+  specify 'apply_annual_fee_change' do
+    current_acp.update!(annual_fee: 30)
+
+    create(:member, annual_fee: 20)
+    create(:member, annual_fee: 30)
+    create(:member, annual_fee: 30)
+
+    expect { current_acp.update!(annual_fee: 40) }
+      .to change { Member.where(annual_fee: 40).count }.by(2)
+
+    expect(Member.pluck(:annual_fee)).to contain_exactly(20, 40, 40)
+  end
 end
