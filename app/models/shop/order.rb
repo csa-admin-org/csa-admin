@@ -94,6 +94,10 @@ module Shop
       shop_open?
     end
 
+    def empty?
+      items.none?
+    end
+
     def can_update?
       cart? || pending?
     end
