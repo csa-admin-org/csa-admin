@@ -46,6 +46,10 @@ FactoryBot.define do
       state { 'open' }
     end
 
+    trait :closed do
+      state { 'closed' }
+    end
+
     trait :canceled do
       state { 'canceled' }
       canceled_at { Time.current }

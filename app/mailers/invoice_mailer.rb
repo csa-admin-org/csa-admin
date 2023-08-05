@@ -11,6 +11,15 @@ class InvoiceMailer < ApplicationMailer
       'invoice' => Liquid::InvoiceDrop.new(invoice))
   end
 
+  def cancelled_email
+    invoice = params[:invoice]
+    member = invoice.member
+    template_mail(member,
+      to: member.billing_emails,
+      'member' => Liquid::MemberDrop.new(member),
+      'invoice' => Liquid::InvoiceDrop.new(invoice))
+  end
+
   def overdue_notice_email
     invoice = params[:invoice]
     member = invoice.member

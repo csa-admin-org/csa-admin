@@ -7,6 +7,12 @@ class InvoiceMailerPreview < ActionMailer::Preview
     InvoiceMailer.with(params).created_email
   end
 
+  def cancelled_email
+    params.merge!(cancelled_email_params)
+    params[:template] ||= MailTemplate.find_by!(title: :invoice_cancelled)
+    InvoiceMailer.with(params).cancelled_email
+  end
+
   def overdue_notice_email
     params.merge!(overdue_notice_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :invoice_overdue_notice)
@@ -16,6 +22,13 @@ class InvoiceMailerPreview < ActionMailer::Preview
   private
 
   def created_email_params
+    {
+      member: member,
+      invoice: invoice
+    }
+  end
+
+  def cancelled_email_params
     {
       member: member,
       invoice: invoice

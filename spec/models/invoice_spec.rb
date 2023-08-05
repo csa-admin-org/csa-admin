@@ -340,6 +340,38 @@ describe Invoice do
       invoice.cancel!
       expect(invoice.canceled_by).to eq admin
     end
+
+    specify 'send invoice_cancelled when the invoice was open' do
+      template = MailTemplate.find_by(title: 'invoice_cancelled')
+      template.update!(active: true)
+      invoice = create(:invoice, :annual_fee, :open)
+
+      expect { invoice.cancel! }
+        .to change { InvoiceMailer.deliveries.size }
+
+      mail = InvoiceMailer.deliveries.last
+      expect(mail.subject).to eq "Facture annulée ##{invoice.id}"
+      expect(mail.html_part.body)
+        .to include "Votre facture ##{invoice.id} du #{I18n.l(invoice.date)} vient d'être annulée."
+    end
+
+    specify 'does not send email when invoice is closed' do
+      template = MailTemplate.find_by(title: 'invoice_cancelled')
+      template.update!(active: true)
+      invoice = create(:invoice, :annual_fee, :closed)
+
+      expect { invoice.cancel! }
+        .not_to change { InvoiceMailer.deliveries.size }
+    end
+
+    specify 'does not send email when template is not active' do
+      template = MailTemplate.find_by(title: 'invoice_cancelled')
+      template.update!(active: false)
+      invoice = create(:invoice, :annual_fee, :open)
+
+      expect { invoice.cancel! }
+        .not_to change { InvoiceMailer.deliveries.size }
+    end
   end
 
   describe 'set_vat_rate_and_amount', freeze: '2023-01-01' do

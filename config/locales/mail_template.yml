@@ -17,6 +17,10 @@ _:
         _de: 'Neue Rechnung #{{ invoice.number }}'
         _fr: 'Nouvelle facture #{{ invoice.number }}'
         _it: 'Nuova fattura #{{ invoice.number }}'
+      invoice_cancelled:
+        _de: 'Stornierte Rechnung #{{ invoice.number }}'
+        _fr: 'Facture annulée #{{ invoice.number }}'
+        _it: 'Fattura annullata #{{ invoice.number }}'
       invoice_overdue_notice:
         _de: "Mahnung #{{ invoice.overdue_notices_count }} der Rechnung #{{ invoice.number }} \U0001F62C"
         _fr: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
@@ -58,6 +62,10 @@ _:
         _de: Wird gesendet, wenn eine Rechnung automatisch erstellt wird oder wenn die Schaltfläche "Senden" einer manuell erstellten Rechnung gedrückt wird.
         _fr: Envoyé lors de la création automatique d'une facture ou quand le bouton "Envoyer" d'une facture créée manuellement est pressé.
         _it: Inviato durante la creazione automatica di una fattura o quando si preme il pulsante "Invia" di una fattura creata manualmente.
+      invoice_cancelled:
+        _de: Wird gesendet, wenn eine noch offene Rechnung storniert wird.
+        _fr: Envoyé quand une facture encore ouverte est annulée.
+        _it: Inviato quando una fattura ancora aperta viene annullata.
       invoice_overdue_notice:
         _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.</br><i>Deaktiviert, wenn die Zahlungen nicht automatisch verarbeitet werden (EBICS).</i>
         _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.</br><i>Désactivé quand les paiements ne sont pas traités automatiquement (EBICS).</i>
@@ -99,6 +107,10 @@ _:
         _de: Neue Rechnung
         _fr: Nouvelle facture
         _it: Nuova fattura
+      invoice_cancelled:
+        _de: Stornierte Rechnung
+        _fr: Facture annulée
+        _it: Fattura annullata
       invoice_overdue_notice:
         _de: Mahnung der Rechnung
         _fr: Rappel facture
