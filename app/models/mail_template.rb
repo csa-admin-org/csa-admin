@@ -19,9 +19,15 @@ class MailTemplate < ApplicationRecord
   ].freeze
   INVOICE_TITLES = %w[
     invoice_created
+    invoice_cancelled
     invoice_overdue_notice
   ].freeze
   TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ACTIVITY_TITLES + INVOICE_TITLES
+  ALWAYS_ACTIVE_TITLES = %w[
+    invoice_created
+    invoice_overdue_notice
+    activity_participation_reminder
+  ]
 
   audited_attributes :subjects, :contents
 
@@ -127,7 +133,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def always_active?
-    title.in?(INVOICE_TITLES + ['activity_participation_reminder'])
+    title.in?(ALWAYS_ACTIVE_TITLES)
   end
 
   def active=(value)

@@ -161,11 +161,15 @@ class Invoice < ApplicationRecord
     invalid_transition(:cancel!) unless can_cancel?
 
     transaction do
+      @previous_state = state
       update!(
         canceled_at: Time.current,
         state: CANCELED_STATE)
       Billing::PaymentsRedistributor.redistribute!(member_id)
       handle_acp_shares_change!
+    end
+    if @previous_state == OPEN_STATE
+      MailTemplate.deliver_later(:invoice_cancelled, invoice: self)
     end
   end
 

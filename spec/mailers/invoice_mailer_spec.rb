@@ -121,6 +121,33 @@ describe InvoiceMailer do
     expect(attachment.content_type).to eq 'application/pdf'
   end
 
+  specify '#cancelled_email' do
+    template = MailTemplate.find_by(title: 'invoice_cancelled')
+    member = create(:member, emails: 'example@acp-admin.ch')
+    invoice = create(:invoice, :annual_fee, :open,
+      member: member,
+      id: 42,
+      date: '24.03.2020',
+      annual_fee: 62)
+
+    mail = InvoiceMailer.with(
+      template: template,
+      invoice: invoice,
+    ).cancelled_email
+
+    expect(mail.subject).to eq('Facture annulée #42')
+    expect(mail.to).to eq(['example@acp-admin.ch'])
+    body = mail.body
+    expect(body)
+      .to include "Votre facture ##{invoice.id} du #{I18n.l(invoice.date)} vient d'être annulée."
+    expect(body).to include('Accéder à ma page de membre')
+    expect(body).to include('https://membres.ragedevert.ch/billing')
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+    expect(mail[:message_stream].to_s).to eq 'outbound'
+
+    expect(mail.attachments.size).to be_zero
+  end
+
   specify '#overdue_notice_email' do
     template = MailTemplate.find_by(title: 'invoice_overdue_notice')
     member = create(:member, emails: 'example@acp-admin.ch')

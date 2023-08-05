@@ -1,0 +1,11 @@
+<p>Ihre Rechnung #{{ invoice.number }} vom {{ invoice.date }} wurde soeben storniert.</p>
+
+<p>Bitte zögern Sie nicht, uns zu kontaktieren, wenn Sie Fragen haben.</p>
+
+{% unless member.billing_email %}
+  <p>Schauen Sie Ihre Rechnungen und Einzahlungen auf Ihrer Mitgliederseite nach.</p>
+
+  {% button member.billing_url %}
+    Zugang zu meiner Mitgliederseite
+  {% endbutton %}
+{% endunless %}

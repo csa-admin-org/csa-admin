@@ -1,0 +1,11 @@
+<p>Votre facture #{{ invoice.number }} du {{ invoice.date }} vient d'être annulée.</p>
+
+<p>N'hésitez pas à nous contacter si vous avez des questions.</p>
+
+{% unless member.billing_email %}
+  <p>Vous pouvez consultez à tout moment vos factures et paiements depuis votre page de membre.</p>
+
+  {% button member.billing_url %}
+    Accéder à ma page de membre
+  {% endbutton %}
+{% endunless %}
