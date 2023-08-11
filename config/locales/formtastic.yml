@@ -178,6 +178,10 @@ _:
           _de: Durch Komma getrennt. Ermöglicht es Mitgliedern, den Endpreis seiner Bestellung selbst um die verfügbaren Prozentsätze zu erhöhen (Unterstützung) oder zu senken (Rabatt).
           _fr: Séparés par une virgule. Permet aux membres d'augmenter (soutien) ou de diminuer (rabais) lui-même le prix final de sa commande par les pourcentages disponibles.
           _it: Separati da una virgola. Consente ai soci di aumentare (supporto) o diminuire (sconto) il prezzo finale dell'ordine in base alle percentuali disponibili.
+        shop_order_automatic_invoicing_delay_in_days:
+          _de: Ermöglicht es Ihnen, die Bestellungen X Tage nach oder vor (-X) dem Lieferdatum automatisch zu fakturieren. Lassen Sie das Feld leer, um die Bestellungen manuell zu fakturieren.
+          _fr: Permet de facturer automatiquement, durant la nuit, les commandes X jours après ou avant (-X) la date de livraison. Laisser vide pour facturer manuellement les commandes.
+          _it: Permette di fatturare automaticamente, durante la notte, gli ordini X giorni dopo o prima (-X) la data di consegna. Lasciare vuoto per fatturare manualmente gli ordini.
         shop_order_maximum_weight_in_kg:
           _de: Leer lassen, wenn keine Begrenzung.
           _fr: Laisser vide si aucune limite.

@@ -110,9 +110,9 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  sidebar t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :delivery_id_eq).present? }, only: :index do
+  sidebar t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
     div class: 'content' do
-      delivery = Delivery.find(params[:q][:delivery_id_eq])
+      delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
       if delivery == Delivery.shop_open.next
         if delivery.shop_open?
           span t('active_admin.sidebars.shop_open_until_html', date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :long))
@@ -123,6 +123,22 @@ ActiveAdmin.register Shop::Order do
         span t('active_admin.sidebars.shop_closed_html', date: l(delivery.date, format: :long))
       else
         span t('active_admin.sidebars.shop_not_open_yet_html', date: l(delivery.date, format: :long))
+      end
+    end
+  end
+
+  sidebar t('active_admin.sidebars.billing'), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
+    div class: 'actions' do
+      handbook_icon_link('shop', anchor: 'facturation')
+    end
+
+    div class: 'content' do
+      if delay = Current.acp.shop_order_automatic_invoicing_delay_in_days
+        delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
+        date = delivery.date + delay.days
+        span t('shop.orders_automatic_invoicing', date: l(date, format: :long))
+      else
+        span t('shop.orders_manual_invoicing')
       end
     end
   end

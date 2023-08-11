@@ -309,6 +309,70 @@ describe Shop::Order do
     end
   end
 
+  describe '#auto_invoice!' do
+    specify 'auto invoice after delivery date' do
+      delivery = create(:delivery, date: 3.days.from_now)
+      order = create(:shop_order, :pending, delivery_gid: delivery.gid)
+      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 3)
+
+      travel 5.days do
+        expect { order.auto_invoice! }.not_to change { order.reload.state }
+      end
+
+      travel 6.days do
+        expect {
+          order.auto_invoice!
+        }.to change { order.reload.state }.from('pending').to('invoiced')
+      end
+    end
+
+    specify 'auto invoice before delivery date' do
+      delivery = create(:delivery, date: Date.today)
+      order = create(:shop_order, :pending, delivery_gid: delivery.gid)
+      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: -2)
+
+      travel -3.days do
+        expect { order.auto_invoice! }.not_to change { order.reload.state }
+      end
+
+      travel -2.days do
+        expect { order.auto_invoice! }
+          .to change { order.reload.state }.from('pending').to('invoiced')
+      end
+    end
+
+    specify 'auto invoice the delivery date' do
+      delivery = create(:delivery, date: Date.today)
+      order = create(:shop_order, :pending, delivery_gid: delivery.gid)
+      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 0)
+
+      expect { order.auto_invoice! }
+        .to change { order.reload.state }.from('pending').to('invoiced')
+    end
+
+    specify 'do nothing when no delay configured' do
+      delivery = create(:delivery, date: Date.today)
+      order = create(:shop_order, :pending, delivery_gid: delivery.gid)
+      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: nil)
+
+      expect { order.auto_invoice! }.not_to change { order.reload.state }
+    end
+
+    specify 'do nothing for cart order' do
+      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 0)
+
+      order = create(:shop_order, :cart)
+      expect { order.auto_invoice! }.not_to change { order.reload.state }
+    end
+
+    specify 'do nothing for invoiced order' do
+      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 0)
+
+      order = create(:shop_order, :invoiced)
+      expect { order.auto_invoice! }.not_to change { order.reload.state }
+    end
+  end
+
   describe '#invoice!' do
     specify 'create an invoice and set state to invoiced' do
       product = create(:shop_product,

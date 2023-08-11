@@ -1,5 +1,5 @@
 module Scheduled
-  class BillingInvoicerJob < BaseJob
+  class BillingMembersInvoicerJob < BaseJob
     def perform
       return unless Current.acp.recurring_billing_wday == Date.current.wday
 

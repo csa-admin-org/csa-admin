@@ -22,6 +22,14 @@ _:
         _de: keine Bestellung
         _fr: aucune commande
         _it: nessun ordine
+    orders_automatic_invoicing:
+      _de: Die zu bereitenden Bestellungen werden in der Nacht vom %{date} automatisch fakturiert.
+      _fr: Les commandes à préparer seront automatiquement facturées, durant la nuit, à partir du %{date}.
+      _it: Gli ordini da preparare verranno fatturati automaticamente, durante la notte, a partire dal %{date}.
+    orders_manual_invoicing:
+      _de: Automatische Rechnungsstellung ist nicht konfiguriert, Bestellungen müssen manuell fakturiert werden.
+      _fr: La facturation automatique n'est pas paramétrée, les commandes à préparer doivent être facturées manuellement.
+      _it: La fatturazione automatica non è configurata, gli ordini devono essere fatturati manualmente.
     percentage:
       negative:
         _de: Rabatt %{percentage}%
