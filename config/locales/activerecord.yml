@@ -259,6 +259,10 @@ _:
           _de: Verfügbare Prozentsätze für Mitglieder
           _fr: Pourcentages disponibles pour les membres
           _it: Percentuali disponibili per i soci
+        shop_order_automatic_invoicing_delay_in_days:
+          _de: Automatische Rechnungsstellung vor/nach der Lieferung (in Tagen)
+          _fr: Facturation automatique avant/après la livraison (en jours)
+          _it: Fatturazione automatica prima/dopo la consegna (in giorni)
         shop_order_maximum_weight_in_kg:
           _de: Maximales Gewicht einer Bestellung (in kg)
           _fr: Poids maximal d'une commande (en kg)

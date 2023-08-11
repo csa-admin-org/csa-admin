@@ -137,6 +137,16 @@ module Shop
       end
     end
 
+    def auto_invoice!
+      delay = Current.acp.shop_order_automatic_invoicing_delay_in_days
+      return unless delay
+      return unless can_invoice?
+
+      if (Date.today - delivery.date).to_i >= delay
+        invoice!
+      end
+    end
+
     def invoice!
       invalid_transition(:invoice!) unless can_invoice?
 

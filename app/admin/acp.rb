@@ -23,6 +23,7 @@ ActiveAdmin.register ACP do
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_member_percentages,
     :shop_delivery_open_delay_in_days, :shop_delivery_open_last_day_end_time,
+    :shop_order_automatic_invoicing_delay_in_days,
     :recurring_billing_wday, :currency_code,
     :send_closed_invoice,
     :open_renewal_reminder_sent_after_in_days,
@@ -317,6 +318,7 @@ ActiveAdmin.register ACP do
               f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
                 value: f.object.shop_delivery_open_last_day_end_time&.strftime('%H:%M')
               }
+              f.input :shop_order_automatic_invoicing_delay_in_days
               translated_input(f, :shop_invoice_infos,
                 hint: t('formtastic.hints.acp.shop_invoice_info'),
                 required: false)

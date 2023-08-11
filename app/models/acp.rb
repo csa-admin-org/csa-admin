@@ -94,6 +94,8 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :shop_order_minimal_amount,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
+  validates :shop_order_automatic_invoicing_delay_in_days,
+    numericality: { only_integer: true, allow_nil: true }
   validates :member_form_mode, presence: true, inclusion: { in: MEMBER_FORM_MODES }
   validates :member_profession_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }
   validates :member_come_from_form_mode, presence: true, inclusion: { in: INPUT_FORM_MODES }

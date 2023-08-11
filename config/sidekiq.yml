@@ -8,8 +8,14 @@
       cron: '0 0 5 * * *'
       queue: low
       class: ScheduledJob
-      args: Scheduled::BillingInvoicerJob
+      args: Scheduled::BillingMembersInvoicerJob
       description: "Automatically create and send new invoices"
+    billing_shop_orders:
+      cron: '0 45 4 * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::BillingShopOrdersAutoInvoicerJob
+      description: "Automatically invoice shop orders"
     billing_payments:
       cron: '0 30 4 * * *'
       queue: low

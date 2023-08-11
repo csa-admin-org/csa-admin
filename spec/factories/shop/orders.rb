@@ -19,5 +19,8 @@ FactoryBot.define do
     trait :pending do
       state { Shop::Order::PENDING_STATE }
     end
+    trait :invoiced do
+      state { Shop::Order::INVOICED_STATE }
+    end
   end
 end
