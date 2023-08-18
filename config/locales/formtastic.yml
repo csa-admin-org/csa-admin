@@ -330,9 +330,9 @@ _:
           _fr: Les paniers des dépôts seront automatiquement effacés ou créés en cas de changement.
           _it: Le ceste in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
         note:
-          _de: Information, die nur auf dem Administrations-Dashboard und nicht auf der Mitgliederseite angezeigt wird.
-          _fr: Information affichée sur le tableau de bord d'administration uniquement et non sur la page de membre.
-          _it: Informazioni visualizzate solo sulla dashboard di amministrazione e non sulla pagina dei soci.
+          _de: Information, die auf dem Administrations-Dashboard und der Zusammenfassungsseite angezeigt wird, aber nicht auf der Mitgliederseite.
+          _fr: Information affichée sur le tableau de bord d'administration et la fiche de récapitulatif et non sur la page de membre.
+          _it: Informazioni visualizzate sulla dashboard di amministrazione e sulla pagina di riepilogo e non sulla pagina del socio.
         shop_open:
           _de: Steuert, ob Mitglieder für diese Lieferung Bestellungen vom Hofladen aufgeben können oder nicht.
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
