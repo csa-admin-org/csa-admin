@@ -57,6 +57,7 @@ module PDF
     def summary_page
       summary_header
       summary_content
+      delivery_note
     end
 
     def summary_header
@@ -233,6 +234,42 @@ module PDF
         t.row(0).borders = %i[bottom right]
         t.row(0).border_bottom_width = 1
         t.row(0).border_bottom_color = '000000'
+      end
+    end
+
+    def delivery_note
+      return unless delivery.note?
+
+      move_down 1.cm
+      box_border = 70
+      bg_color = 'FFEDD5'
+      padding = 5
+
+      text = delivery.note.truncate(300)
+      text_color = '9A3413'
+      text_options = {
+        size: 10,
+        leading: 4,
+        valign: :center,
+        align: :center
+      }
+
+      box_height = height_of_formatted([text: text], text_options)
+
+      bounding_box [box_border, cursor], width: (bounds.width - 2*box_border), height: box_height + padding do
+        fill_color   bg_color
+        stroke_color bg_color
+        fill_and_stroke_rounded_rectangle(
+          [bounds.left - padding, cursor],
+          bounds.left + bounds.right + padding*2,
+          box_height + padding*2,
+          padding)
+        fill_color   text_color
+        stroke_color text_color
+
+        pad padding do
+          formatted_text([text: text], text_options)
+        end
       end
     end
 
