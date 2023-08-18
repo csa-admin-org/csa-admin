@@ -1,0 +1,9 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Es gibt noch <a href={{ action_url }}>{{ memberships.size }} Abonnement(e)</a>, die in diesem Jahr noch nicht verlängert oder gekündigt wurden.</p>
+
+<p>Bitte überprüfen Sie <u>vor</u> dem Ende Ihres Geschäftsjahres.</p>
+
+{% button action_url %}
+  Zugang zu Abonnements, die auf eine Verlängerung warten
+{% endbutton %}

@@ -4,6 +4,7 @@ module Notifier
   def send_all
     send_invoice_overdue_notice_emails
     send_admin_delivery_list_emails
+    send_admin_memberships_renewal_pending_emails
     send_membership_renewal_reminder_emails
     send_membership_last_trial_basket_emails
     send_activity_participation_reminder_emails
@@ -29,6 +30,28 @@ module Notifier
       ).depot_delivery_list_email.deliver_later
     end
     Admin.notify!(:delivery_list, delivery: next_delivery)
+  end
+
+  def send_admin_memberships_renewal_pending_emails
+    delays = [10, 4].map{ |d| d.days.from_now.to_date }
+    end_of_fiscal_year = Current.fiscal_year.end_of_year
+    return unless end_of_fiscal_year.in?(delays)
+
+    memberships = Membership.current_year.renewal_state_eq(:renewal_pending)
+    return if memberships.empty?
+
+    action_url =
+      Rails
+        .application
+        .routes
+        .url_helpers
+        .memberships_url(
+          q: { renewal_state_eq: 'renewal_pending', during_year: Current.fy_year },
+          scope: :all,
+          host: Current.acp.email_default_host)
+    Admin.notify!(:memberships_renewal_pending,
+      memberships: memberships.to_a,
+      action_url: action_url)
   end
 
   def send_membership_renewal_reminder_emails

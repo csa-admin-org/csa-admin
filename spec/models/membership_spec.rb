@@ -690,16 +690,16 @@ describe Membership do
     end
   end
 
-  describe '#enable_renewal!' do
+  describe '#mark_renewal_as_pending!' do
     it 'sets renew to true when previously canceled' do
       membership = create(:membership)
       membership.cancel!
 
       expect {
-        membership.enable_renewal!
+        membership.mark_renewal_as_pending!
       }.to change { membership.reload.renew }.from(false).to(true)
 
-      expect(membership).to be_renewal_enabled
+      expect(membership).to be_renewal_pending
     end
   end
 

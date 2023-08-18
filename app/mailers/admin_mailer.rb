@@ -128,4 +128,19 @@ class AdminMailer < ApplicationMailer
         subject: t('.subject'))
     end
   end
+
+  def memberships_renewal_pending_email
+    @admin = params[:admin]
+    @subject_class = 'alert'
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        'acp' => Liquid::ACPDrop.new(Current.acp),
+        'admin' => Liquid::AdminDrop.new(@admin),
+        'memberships' => params[:memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        'action_url' => params[:action_url])
+      content_mail(content,
+        to: @admin.email,
+        subject: t('.subject'))
+    end
+  end
 end

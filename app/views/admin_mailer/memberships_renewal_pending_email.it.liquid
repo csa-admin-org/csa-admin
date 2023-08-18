@@ -1,0 +1,9 @@
+<p>Ciao {{ admin.name }},</p>
+
+<p>Ci sono ancora <a href={{ action_url }}>{{ memberships.size }} abbonamenti</a> che non sono stati rinnovati o cancellati quest'anno.</p>
+
+<p>Si prega di controllare <u>prima</u> della fine dell'anno fiscale.</p>
+
+{% button action_url %}
+  Accedere agli abbonamenti in attesa di rinnovo
+{% endbutton %}

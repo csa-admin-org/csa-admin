@@ -78,7 +78,7 @@ class Ability
       can :renew_all, Membership
       can :open_renewal_all, Membership
       can :open_renewal, Membership, can_send_email?: true
-      can :enable_renewal, Membership
+      can :mark_renewal_as_pending, Membership
       can :renew, Membership
       can :cancel, Membership
     end
