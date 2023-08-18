@@ -45,6 +45,7 @@ class Admin < ApplicationRecord
       new_inscription
       invoice_overpaid
       invoice_third_overdue_notice
+      memberships_renewal_pending
     ]
     all << 'new_absence' if Current.acp.feature?('absence')
     all

@@ -970,10 +970,6 @@ _:
           _de: Email
           _fr: Email
           _it: E-mail
-        enable_renewal:
-          _de: Kündigung abbrechen
-          _fr: Annuler résiliation
-          _it: Annulla la decisione
         force_recurring_billing:
           _de: Rechnung sofort
           _fr: Facturer maintenant
@@ -998,6 +994,10 @@ _:
           _de: Als gesendet markieren
           _fr: Marquer comme envoyée
           _it: Contrassegnare come inviata
+        mark_renewal_as_pending:
+          _de: Kündigung abbrechen
+          _fr: Annuler résiliation
+          _it: Annulla la decisione
         member_new_form:
           _de: Registrierungsformular
           _fr: Formulaire d'inscription
@@ -1645,14 +1645,14 @@ _:
         _de: gekündigt
         _fr: résilié
         _it: terminato
-      renewal_enabled:
-        _de: warten
-        _fr: en attente
-        _it: in attesa
       renewal_opened:
         _de: offen
         _fr: ouvert
         _it: aperto
+      renewal_pending:
+        _de: warten
+        _fr: en attente
+        _it: in attesa
       renewed:
         _de: erneuert
         _fr: renouvelé

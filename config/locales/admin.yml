@@ -13,6 +13,10 @@ _:
         _de: Rechnung, 3. Mahnung gesendet
         _fr: Facture, 3ᵉ rappel envoyé
         _it: Fattura, 3° richiamo inviato
+      memberships_renewal_pending:
+        _de: Mitgliedschaft, wartende Verlängerungen
+        _fr: Abonnement, renouvellements en attente
+        _it: Abbonamento, rinnovi in attesa
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence

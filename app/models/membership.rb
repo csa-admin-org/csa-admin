@@ -4,7 +4,7 @@ class Membership < ApplicationRecord
   attr_accessor :renewal_decision
 
   RENEWAL_STATES = %w[
-    renewal_enabled
+    renewal_pending
     renewal_opened
     renewal_canceled
     renewed
@@ -95,7 +95,7 @@ class Membership < ApplicationRecord
   scope :not_renewed, -> { where(renewed_at: nil) }
   scope :renewal_state_eq, ->(state) {
     case state.to_sym
-    when :renewal_enabled
+    when :renewal_pending
       not_renewed.where(renew: true, renewal_opened_at: nil)
     when :renewal_opened
       not_renewed.where(renew: true).where.not(renewal_opened_at: nil)
@@ -206,13 +206,13 @@ class Membership < ApplicationRecord
     elsif renewal_opened?
       :renewal_opened
     else
-      :renewal_enabled
+      :renewal_pending
     end
   end
 
-  def enable_renewal!
-    raise 'cannot enable renewal on an already renewed membership' if renewed?
-    raise 'renewal already enabled' if renew?
+  def mark_renewal_as_pending!
+    raise 'cannot mark renewal as pending on an already renewed membership' if renewed?
+    raise 'renewal already pending' if renew?
 
     self[:renew] = true
     save!
@@ -234,7 +234,7 @@ class Membership < ApplicationRecord
     touch(:renewal_opened_at)
   end
 
-  def renewal_enabled?
+  def renewal_pending?
     renew? && !renewed? && !renewal_opened_at?
   end
 
@@ -533,7 +533,7 @@ class Membership < ApplicationRecord
   end
 
   def update_renewal_of_previous_membership_after_creation
-    if previous_membership&.renewal_state&.in?(%i[renewal_opened renewal_enabled])
+    if previous_membership&.renewal_state&.in?(%i[renewal_pending renewal_opened])
       previous_membership.update_columns(
         renewal_opened_at: nil,
         renewed_at: created_at,

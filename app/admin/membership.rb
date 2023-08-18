@@ -104,7 +104,7 @@ ActiveAdmin.register Membership do
               count: openable_count,
               count_link: link_to(
                 openable_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewal_enabled, during_year: Current.acp.current_fiscal_year.year }))
+                collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.acp.current_fiscal_year.year }))
             ).html_safe
           end
           if MailTemplate.active_template(:membership_renewal)
@@ -349,10 +349,10 @@ ActiveAdmin.register Membership do
                 }
               end
               row :renewal_note
-              if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:enable_renewal, m)
+              if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
                 div class: 'buttons-inline' do
                   div class: 'button-inline' do
-                    button_to t('.enable_renewal'), enable_renewal_membership_path(m),
+                    button_to t('.mark_renewal_as_pending'), mark_renewal_as_pending_membership_path(m),
                       form: {
                         data: { controller: 'disable', disable_with_value: t('formtastic.processing') },
                       },
@@ -689,8 +689,8 @@ ActiveAdmin.register Membership do
     redirect_to resource
   end
 
-  member_action :enable_renewal, method: :post do
-    resource.enable_renewal!
+  member_action :mark_renewal_as_pending, method: :post do
+    resource.mark_renewal_as_pending!
     redirect_to resource
   end
 

@@ -131,4 +131,19 @@ class AdminMailerPreview < ActionMailer::Preview
       member: member
     ).new_inscription_email
   end
+
+  def memberships_renewal_pending_email
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    membership_1 = Membership.new(id: 1)
+    membership_2 = Membership.new(id: 2)
+    AdminMailer.with(
+      admin: admin,
+      memberships: [membership_1, membership_2],
+      action_url: 'https://admin.example.com/memberships'
+    ).memberships_renewal_pending_email
+  end
 end

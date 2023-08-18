@@ -238,4 +238,29 @@ describe AdminMailer do
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
+
+  specify '#memberships_renewal_pending_email' do
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    membership_1 =  Membership.new(id: 1)
+    membership_2 =  Membership.new(id: 2)
+    mail = AdminMailer.with(
+      admin: admin,
+      memberships: [membership_1, membership_2],
+      action_url: 'https://admin.example.com/memberships'
+    ).memberships_renewal_pending_email
+
+    expect(mail.subject).to eq('⚠️ Abonnement(s) en attente de renouvellement!')
+    expect(mail.to).to eq(['admin@acp-admin.ch'])
+    expect(mail.body).to include('Salut John,')
+    expect(mail.body).to include('2 abonnement(s)</a>')
+    expect(mail.body).to include("Accéder aux abonnements en attente de renouvellement")
+    expect(mail.body).to include('https://admin.example.com/memberships')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+  end
 end

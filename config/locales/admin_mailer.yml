@@ -25,6 +25,11 @@ _:
         _de: 'Rechnung #%{number}, 3. Mahnung gesendet'
         _fr: 'Facture #%{number}, 3ᵉ rappel envoyé'
         _it: 'Fattura #%{number}, 3° richiamo inviato'
+    memberships_renewal_pending_email:
+      subject:
+        _de: "⚠️ Mitgliedschaft(en) wartet auf Verlängerung!"
+        _fr: "⚠️ Abonnement(s) en attente de renouvellement!"
+        _it: "⚠️ Abbonamento(i) in attesa di rinnovo!"
     new_absence_email:
       subject:
         _de: Neue Abwesenheit

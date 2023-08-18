@@ -1,0 +1,9 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Il reste encore <a href={{ action_url }}>{{ memberships.size }} abonnement(s)</a> qui n'ont pas encore été renouvelé(s) ou résilié(s) cette année.</p>
+
+<p>Merci de vérifier <u>avant</u> la fin de votre année fiscale.</p>
+
+{% button action_url %}
+  Accéder aux abonnements en attente de renouvellement
+{% endbutton %}

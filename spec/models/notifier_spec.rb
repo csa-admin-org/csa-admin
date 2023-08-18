@@ -1,6 +1,34 @@
 require 'rails_helper'
 
 describe Notifier do
+  specify '.send_admin_memberships_renewal_pending_emails' do
+    create(:admin, notifications: [])
+    create(:admin, notifications: ['memberships_renewal_pending'])
+    end_of_fiscal_year = Current.fiscal_year.end_of_year
+    create(:membership, renew: true, renewal_opened_at: nil, renewed_at: nil)
+
+    travel_to end_of_fiscal_year - 11.days do
+      expect { Notifier.send_admin_memberships_renewal_pending_emails }
+        .not_to change { AdminMailer.deliveries.size }
+    end
+    travel_to end_of_fiscal_year - 10.days do
+      expect { Notifier.send_admin_memberships_renewal_pending_emails }
+        .to change { AdminMailer.deliveries.size }.by(1)
+    end
+    travel_to end_of_fiscal_year - 7.days do
+      expect { Notifier.send_admin_memberships_renewal_pending_emails }
+        .not_to change { AdminMailer.deliveries.size }
+    end
+    travel_to end_of_fiscal_year - 4.days do
+      expect { Notifier.send_admin_memberships_renewal_pending_emails }
+        .to change { AdminMailer.deliveries.size }.by(1)
+    end
+    travel_to end_of_fiscal_year do
+      expect { Notifier.send_admin_memberships_renewal_pending_emails }
+        .not_to change { AdminMailer.deliveries.size }
+    end
+  end
+
   specify '.send_membership_renewal_reminder_emails' do
     Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
     MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
