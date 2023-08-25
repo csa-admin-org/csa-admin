@@ -492,6 +492,10 @@ _:
           _fr: Complément
           _it: Aggiunte
       deliveries_cycle:
+        minimum_gap_in_days:
+          _de: Minimale Lücke (in Tagen)
+          _fr: Écart minimum (en jours)
+          _it: Intervallo minimo (in giorni)
         months:
           _de: Monate
           _fr: Mois

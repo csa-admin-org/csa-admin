@@ -14,6 +14,7 @@ class DeliveriesCycle < ApplicationRecord
     all
     odd even
     quarter_1 quarter_2 quarter_3 quarter_4
+    all_but_first
   ], _suffix: true
 
   has_many :memberships
@@ -24,6 +25,13 @@ class DeliveriesCycle < ApplicationRecord
   translated_attributes :name, required: true
 
   default_scope { order_by_name }
+
+  validates :minimum_gap_in_days,
+    numericality: {
+      greater_than_or_equal_to: 1,
+      only_integer: true,
+      allow_nil: true
+  }
 
   after_save :reset_cache!
   after_commit :update_baskets_async, on: :update
@@ -141,7 +149,9 @@ class DeliveriesCycle < ApplicationRecord
     elsif even_week_numbers?
       scoped = scoped.where('EXTRACT(WEEK FROM date)::integer % 2 = ?', 0)
     end
-    if odd_results?
+    if all_but_first_results?
+      scoped = scoped.to_a[1..-1] || []
+    elsif odd_results?
       scoped = scoped.to_a.select.with_index { |_, i| (i + 1).odd? }
     elsif even_results?
       scoped = scoped.to_a.select.with_index { |_, i| (i + 1).even? }
@@ -154,6 +164,9 @@ class DeliveriesCycle < ApplicationRecord
     elsif quarter_4_results?
       scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 3 }
     end
+    if minimum_gap_in_days.present?
+      scoped = enforce_minimum_gap_in_days(scoped.to_a)
+    end
     scoped
   end
 
@@ -161,5 +174,15 @@ class DeliveriesCycle < ApplicationRecord
 
   def update_baskets_async
     DeliveriesCycleBasketsUpdaterJob.perform_later(self)
+  end
+
+  def enforce_minimum_gap_in_days(deliveries)
+    past_date = nil
+    deliveries.select { |d|
+      if past_date.nil? || (d.date - past_date) >= minimum_gap_in_days
+        past_date = d.date
+        true
+      end
+    }
   end
 end

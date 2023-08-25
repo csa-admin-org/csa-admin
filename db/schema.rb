@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_10_153313) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_25_070903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -373,6 +373,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_153313) do
     t.datetime "updated_at", null: false
     t.jsonb "deliveries_counts", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
+    t.integer "minimum_gap_in_days"
     t.index ["visible"], name: "index_deliveries_cycles_on_visible"
   end
 

@@ -16,9 +16,12 @@ module DeliveriesCyclesHelper
   end
 
   def results_collection
-    DeliveriesCycle.results.map { |enum, _|
+    col = DeliveriesCycle.results.map { |enum, _|
       [I18n.t("deliveries_cycle.results.#{enum}"), enum]
     }
+    # Move "all_but_first" just after "all"
+    col.insert(1, col.delete_at(7))
+    col
   end
 
   def depot_ids_with_only(delivery_cycle)

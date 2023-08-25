@@ -304,6 +304,10 @@ _:
           _de: Wenn ein Depot von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Depots, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
           _fr: Si un dépôt est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Les dépôts qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
           _it: Se un punto di ritiro viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). I punti di ritiro che hanno solo questa corsa di consegna non possono essere rimossi dalla lista.
+        minimum_gap_in_days:
+          _de: Ermöglicht es Ihnen, die Mindestanzahl von Tagen zwischen zwei Lieferungen festzulegen. Zum Beispiel 13 für eine Lieferung alle 2 Wochen.
+          _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
+          _it: Permette di definire il numero minimo di giorni tra due consegne. Ad esempio 13 per una consegna ogni 2 settimane.
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
           _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
