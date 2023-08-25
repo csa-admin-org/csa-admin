@@ -20,8 +20,8 @@ module Checker
       if diffs(before, after).any? { |d| d >= MAX_DIFF }
         Sentry.capture_message('Delivery basket content avg prices mismatch', extra: {
           delivery_id: @delivery.id,
-          previous: previous,
-          current: @delivery.basket_content_avg_prices
+          before: before,
+          after: after
         })
       end
     end
