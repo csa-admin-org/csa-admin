@@ -1,6 +1,13 @@
 class MembershipRenewal
   MissingDeliveriesError = Class.new(StandardError)
 
+  OPTIONAL_ATTRIBUTES = %w[
+    baskets_annual_price_change
+    basket_complements_annual_price_change
+    activity_participations_demanded_annualy
+    activity_participations_annual_price_change
+  ]
+
   attr_reader :membership, :fiscal_year
 
   def initialize(membership)
@@ -32,18 +39,14 @@ class MembershipRenewal
   def renewed_attrs(attrs = {})
     membership
       .attributes
-      .slice(*%w[
+      .slice(*(%w[
         member_id
         basket_size_id
         basket_quantity
         basket_price_extra
-        baskets_annual_price_change
         depot_id
         deliveries_cycle_id
-        activity_participations_demanded_annualy
-        activity_participations_annual_price_change
-        basket_complements_annual_price_change
-      ])
+      ] + (OPTIONAL_ATTRIBUTES & Current.acp.membership_renewed_attributes)))
       .symbolize_keys
       .merge(
         started_on: fiscal_year.beginning_of_year,

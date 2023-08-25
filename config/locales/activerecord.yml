@@ -187,6 +187,10 @@ _:
           _de: Erlauben Sie die Änderung das Depot
           _fr: Permettre le changement du dépôt
           _it: Permettere il cambiamento del punto di ritiro
+        membership_renewed_attributes:
+          _de: Übernommene Konfigurationen
+          _fr: Configurations reprises
+          _it: Configurazioni riprese
         membership_update_text:
           _de: Erläuterung
           _fr: Explication

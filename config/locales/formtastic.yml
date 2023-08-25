@@ -126,6 +126,14 @@ _:
           _de: Nur die Änderung zukünftiger Lieferungen ist erlaubt.
           _fr: Seule la modification des futures livraisons est autorisée.
           _it: È consentita solo la modifica delle consegne future.
+        membership_renewal_depot_update:
+          _de: Ermöglicht es Mitgliedern, das Depot bei der Verlängerung ihres Abonnements über das Formular zu ändern.
+          _fr: Permettre au membre de changer de dépôt lors du renouvellement de son abonnement via le formulaire.
+          _it: Permettere al socio di cambiare il punto di ritiro al momento del rinnovo dell'abbonamento tramite il modulo.
+        membership_renewed_attributes:
+          _de: Die ausgewählten Konfigurationen werden beim Verlängern des Abonnements automatisch übernommen. Wenn die Korbgröße oder die Zusätze vom Mitglied geändert werden, werden die entsprechenden Konfigurationen sowieso gelöscht.
+          _fr: Les configurations sélectionnées seront automatiquement reprises lors du renouvellement de l'abonnement tel quel. Si la taille du panier ou les compléments sont modifiés par le membre, alors les configurations correspondantes seront de toute façon effacées.
+          _it: Le configurazioni selezionate saranno automaticamente riprese al momento del rinnovo dell'abbonamento. Se la dimensione del cesto o gli extra vengono modificati dal socio, le configurazioni corrispondenti saranno comunque cancellate.
         membership_update_text:
           _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Tasche angezeigt wird.
           _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou du panier.
