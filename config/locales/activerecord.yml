@@ -1202,6 +1202,11 @@ _:
           _de: Zugriffsrechte
           _fr: Droits d'accès réservés aux Super Admins
           _it: Diritti di accesso
+      shop/order:
+        items:
+          _de: Produkte
+          _fr: Produits
+          _it: Prodotti
       shop/order_item:
         delivery:
           _de: Lieferung vom

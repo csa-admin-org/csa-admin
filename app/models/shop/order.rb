@@ -31,7 +31,7 @@ module Shop
 
     before_validation :set_amount
 
-    validates :items, presence: true, unless: :cart?
+    validates :items, presence: true, if: -> { !cart? || admin }
     validates :member_id, uniqueness: { scope: [:delivery_type, :delivery_id] }
     validates :amount, numericality: true, if: :admin
     validates :amount_percentage,

@@ -206,6 +206,7 @@ ActiveAdmin.register Shop::Order do
         step: 0.1, min: -100, max: 200,
         hint: I18n.t('formtastic.hints.shop/order.amount_percentage')
       f.has_many :items, allow_destroy: true do |ff|
+        f.semantic_errors :items
         ff.inputs class: 'blank', 'data-controller' => 'form-reset form-select-options-filter', 'data-form-select-options-filter-attribute-value' => 'data-product-id' do
           ff.input :product,
             collection: products_collection,
