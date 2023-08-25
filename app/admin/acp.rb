@@ -62,7 +62,8 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "member_information_text_#{l}" },
     billing_year_divisions: [],
     languages: [],
-    features: []
+    features: [],
+    membership_renewed_attributes: []
 
   form data: { controller: 'code-editor' } do |f|
     div do
@@ -218,6 +219,8 @@ ActiveAdmin.register ACP do
             required: false,
             hint: t('formtastic.hints.acp.open_renewal_text'))
           f.input :open_renewal_reminder_sent_after_in_days
+          f.input :membership_renewed_attributes, as: :check_boxes,
+            collection: membership_renewed_attributes_collection
           f.input :membership_renewal_depot_update
 
           handbook_button(self, 'membership_renewal')

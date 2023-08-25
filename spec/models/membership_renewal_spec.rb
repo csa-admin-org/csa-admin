@@ -146,4 +146,36 @@ describe MembershipRenewal do
       basket_complements_annual_price_change: 0)
     expect(renewed.memberships_basket_complements.count).to eq 1
   end
+
+  specify 'ignore optional attributes' do
+    create(:delivery, date: next_fy.beginning_of_year)
+    create(:basket_complement, id: 1, price: 3.2)
+    create(:basket_complement, id: 2, price: 4.5)
+    membership = create(:membership,
+      baskets_annual_price_change: 130,
+      activity_participations_demanded_annualy: 5,
+      activity_participations_annual_price_change: -60,
+      basket_complements_annual_price_change: -32,
+      memberships_basket_complements_attributes: {
+        '0' => { basket_complement_id: 1, quantity: 1 }
+      })
+
+    Current.acp.update!(membership_renewed_attributes: %w[
+      activity_participations_demanded_annualy
+    ])
+
+    expect {
+      MembershipRenewal.new(membership).renew!(
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, quantity: 1 },
+        }
+      )
+    }.to change(Membership, :count).by(1)
+
+    expect(membership.renewed_membership).to have_attributes(
+      baskets_annual_price_change: 0,
+      activity_participations_demanded_annualy: 5,
+      activity_participations_annual_price_change: 0,
+      basket_complements_annual_price_change: 0)
+  end
 end
