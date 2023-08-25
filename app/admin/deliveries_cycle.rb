@@ -89,6 +89,7 @@ ActiveAdmin.register DeliveriesCycle do
             end
           }
           row(:results) { t("deliveries_cycle.results.#{dc.results}") }
+          row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
         end
 
         panel Depot.model_name.human(count: 2) do
@@ -137,6 +138,7 @@ ActiveAdmin.register DeliveriesCycle do
         as: :select,
         collection: results_collection,
         include_blank: false
+      f.input :minimum_gap_in_days
     end
 
     f.inputs do
@@ -153,6 +155,7 @@ ActiveAdmin.register DeliveriesCycle do
     :member_order_priority,
     :week_numbers,
     :results,
+    :minimum_gap_in_days,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     wdays: [],

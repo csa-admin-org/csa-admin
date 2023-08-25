@@ -9,6 +9,10 @@ _:
         _de: Alle
         _fr: Tous
         _it: Tutti
+      all_but_first:
+        _de: Alle außer dem 1.
+        _fr: Tous sauf le 1er
+        _it: Tutti tranne il 1°
       even:
         _de: Geraden
         _fr: Pairs

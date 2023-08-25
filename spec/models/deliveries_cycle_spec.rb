@@ -69,6 +69,16 @@ describe DeliveriesCycle, freeze: '2022-01-01' do
     expect(cycle.current_deliveries.pluck(:date).map(&:cweek)).to eq [52, 2, 4, 6, 8]
   end
 
+  specify 'all but first results' do
+    Array(0..9).each do |i|
+      create(:delivery, date: Date.today + i.day)
+    end
+
+    cycle = create(:deliveries_cycle, results: :all_but_first)
+    expect(cycle.current_deliveries_count).to eq 9
+    expect(cycle.current_deliveries.pluck(:number)).to eq (2..10).to_a
+  end
+
   specify 'only odd results' do
     Array(0..9).each do |i|
       create(:delivery, date: Date.today + i.day)
@@ -127,6 +137,20 @@ describe DeliveriesCycle, freeze: '2022-01-01' do
     cycle = create(:deliveries_cycle, results: :quarter_4)
     expect(cycle.current_deliveries_count).to eq 2
     expect(cycle.current_deliveries.pluck(:number)).to eq [4, 8]
+  end
+
+  specify 'minimum 3 days gap' do
+    Array(0..9).each do |i|
+      create(:delivery, date: Date.today + i.day)
+    end
+
+    cycle = create(:deliveries_cycle, minimum_gap_in_days: 3)
+    expect(cycle.current_deliveries_count).to eq 4
+    expect(cycle.current_deliveries.pluck(:number)).to eq [1, 4, 7, 10]
+
+    cycle = create(:deliveries_cycle, minimum_gap_in_days: 3, results: :all_but_first)
+    expect(cycle.current_deliveries_count).to eq 3
+    expect(cycle.current_deliveries.pluck(:number)).to eq [2, 5, 8]
   end
 
   specify 'only Tuesday, in Janury, odd weeks, and even results' do
