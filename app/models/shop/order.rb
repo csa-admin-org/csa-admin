@@ -161,7 +161,7 @@ module Shop
       invalid_transition(:cancel!) unless can_cancel?
 
       transaction do
-        invoice.cancel!
+        invoice.destroy_or_cancel!
         update!(state: PENDING_STATE)
       end
     end
