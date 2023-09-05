@@ -29,7 +29,7 @@ module Checker
     def diffs(before, after)
       before = before.values.sort
       after = after.values.sort
-      before.zip(after).map { |b, a| (b - a).abs }
+      before.zip(after).map { |b, a| (b.to_f - a.to_f).abs }
     end
   end
 end
