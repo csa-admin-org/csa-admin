@@ -17,7 +17,7 @@
       args: Scheduled::BillingShopOrdersAutoInvoicerJob
       description: "Automatically invoice shop orders"
     billing_payments:
-      cron: '0 30 4 * * *'
+      cron: '0 0 4 * * *'
       queue: low
       class: ScheduledJob
       args: Scheduled::BillingPaymentsProcessorJob
