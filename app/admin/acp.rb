@@ -107,7 +107,8 @@ ActiveAdmin.register ACP do
             collection: wdays_collection(t('.recurring_billing_disabled')),
             include_blank: false,
             prompt: false,
-            required: false
+            required: false,
+            hint: t('formtastic.hints.acp.recurring_billing_wday_html')
           f.input :send_closed_invoice, as: :boolean
           f.input :trial_basket_count
           f.input :billing_starts_after_first_delivery, as: :boolean
