@@ -154,10 +154,10 @@ _:
           _de: Ohne Leerzeichen, 21 Zeichen in der Schweiz.
           _fr: Sans les espaces, 21 caractères en Suisse.
           _it: Senza spazi, 21 caratteri in Svizzera.
-        recurring_billing_wday:
-          _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet.
-          _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées.
-          _it: La fatturazione automatica è effettuata ogni settimana all'inizio del giorno scelto. Le fatture create sono inviate automaticamente.
+        recurring_billing_wday_html:
+          _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet. <u>Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen.</u>
+          _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées. <u>Il est préférable de choisir un jour différent de celui de la livraison.</u>
+          _it: La fatturazione automatica è effettuata ogni settimana all'inizio del giorno scelto. Le fatture create sono inviate automaticamente. <u>È consigliabile scegliere un giorno diverso da quello della consegna.</u>
         send_closed_invoice:
           _de: Wenn deaktiviert, werden neue Rechnungen, die aufgrund eines positiven Saldos als bereits bezahlt gelten, nicht über die automatische Rechnungsstellung versendet.
           _fr: Si désactivée, les nouvelles factures considérées comme déjà payées à cause d'une balance positive ne sont pas envoyées par la facturation automatique.
