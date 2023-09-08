@@ -4,7 +4,7 @@
       {
         "type": "startup",
         "name": "web check",
-        "initialDelay": 10,
+        "initialDelay": 20,
         "description": "Checking if the app responds to the /health/ready endpoint",
         "path": "/health/ready",
         "attempts": 3
