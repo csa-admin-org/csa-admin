@@ -11,6 +11,10 @@ class Liquid::AbsenceDrop < Liquid::Drop
     I18n.l(@absence.ended_on)
   end
 
+  def note
+    @absence.note.presence
+  end
+
   def admin_url
     Rails
       .application

@@ -21,6 +21,10 @@ _:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
         _it: Nuova assenza
+      new_absence_with_note:
+        _de: Neue Abwesenheit (nur mit Bemerkung)
+        _fr: Nouvelle absence (avec remarque uniquement)
+        _it: Nuova assenza (solo con nota)
       new_email_suppression:
         _de: Email abgelehnt
         _fr: Email rejeté
