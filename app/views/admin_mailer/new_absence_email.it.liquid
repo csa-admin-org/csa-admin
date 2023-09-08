@@ -2,6 +2,13 @@
 
 <p>Il socio <strong>{{ member.name }}</strong> sarà assente dal {{ absence.started_on }} al {{ absence.ended_on }}.</p>
 
+{% if absence.note %}
+<p>
+  Nota del membro:<br/>
+  <i>{{ absence.note }}</i>
+</p>
+{% endif %}
+
 {% button absence.admin_url %}
   Accedere alla pagina delle assenze
 {% endbutton %}

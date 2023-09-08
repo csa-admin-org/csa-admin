@@ -35,7 +35,7 @@ class Members::AbsencesController < Members::BaseController
   private
 
   def protected_params
-    params.require(:absence).permit(:started_on, :ended_on)
+    params.require(:absence).permit(:started_on, :ended_on, :note)
   end
 
   def ensure_absence_access

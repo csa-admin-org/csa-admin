@@ -1,4 +1,6 @@
 class Absence < ApplicationRecord
+  include HasNote
+
   attr_accessor :admin, :comment
 
   belongs_to :member
@@ -39,7 +41,7 @@ class Absence < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[including_date during_year]
+    super + %i[including_date during_year with_note]
   end
 
   private
@@ -66,5 +68,11 @@ class Absence < ApplicationRecord
       absence: self,
       member: member,
       skip: admin)
+    if note?
+      Admin.notify!(:new_absence_with_note,
+        absence: self,
+        member: member,
+        skip: admin)
+    end
   end
 end

@@ -89,7 +89,8 @@ class AdminMailerPreview < ActionMailer::Preview
     absence = Absence.new(
       id: 1,
       started_on: Date.new(2020, 11, 10),
-      ended_on: Date.new(2020, 11, 20))
+      ended_on: Date.new(2020, 11, 20),
+      note: 'Une Super Remarque!')
     AdminMailer.with(
       admin: admin,
       member: member,

@@ -24,19 +24,10 @@ ActiveAdmin.register Absence do
   scope :current
   scope :future
 
-  includes :member, :session
-  index do
-    column :member, ->(absence) {
-      link_with_session absence.member, absence.session
-    }, sortable: 'members.name'
-    column :started_on, ->(absence) { l absence.started_on }
-    column :ended_on, ->(absence) { l absence.ended_on }
-    actions class: 'col-actions-3'
-  end
-
   filter :member,
     as: :select,
     collection: -> { Member.joins(:absences).order(:name).distinct }
+  filter :with_note, as: :boolean
   filter :including_date,
     as: :select,
     collection: -> { Delivery.reorder(date: :desc).map { |d| [d.display_name, d.date] } },
@@ -45,11 +36,24 @@ ActiveAdmin.register Absence do
     as: :select,
     collection: -> { fiscal_years_collection }
 
+  includes :member, :session
+  index do
+    column :member, ->(absence) {
+      with_note_icon absence.note do
+        link_with_session absence.member, absence.session
+      end
+    }, sortable: 'members.name'
+    column :started_on, ->(absence) { l absence.started_on }
+    column :ended_on, ->(absence) { l absence.ended_on }
+    actions class: 'col-actions-3'
+  end
+
   show do |absence|
     attributes_table do
       row :id
       row :member
-      row(:email) { absence.session&.email }
+      row(:email_session) { absence.session&.email }
+      row :note
       row(:started_on) { l absence.started_on }
       row(:ended_on) { l absence.ended_on }
     end
@@ -58,24 +62,24 @@ ActiveAdmin.register Absence do
   end
 
   form do |f|
-    f.inputs Member.model_name.human do
+    f.inputs t('.details') do
       f.input :member,
         collection: Member.joins(:memberships).distinct.order(:name).map { |d| [d.name, d.id] },
         prompt: true
+      if f.object.persisted?
+        f.input :note, as: :text, input_html: { rows: 4 }
+      else
+        f.input :comment, as: :text, input_html: { rows: 4 }
+      end
     end
     f.inputs Absence.human_attribute_name(:dates) do
       f.input :started_on, as: :date_picker
       f.input :ended_on, as: :date_picker
     end
-    unless f.object.persisted?
-      f.inputs Absence.human_attribute_name(:comment) do
-        f.input :comment, as: :text, input_html: { rows: 4 }
-      end
-    end
     f.actions
   end
 
-  permit_params(*%i[member_id started_on ended_on comment])
+  permit_params(*%i[member_id started_on ended_on note comment])
 
   before_build do |absence|
     absence.started_on ||= Date.current.next_week

@@ -6,10 +6,18 @@ _:
           _de: Ende
           _fr: Fin
           _it: Fine
+        note:
+          _de: Bemerkung
+          _fr: Remarque
+          _it: Nota
         started_on:
           _de: Anfang
           _fr: Début
           _it: Inizio
+        with_note:
+          _de: Mit Bemerkung
+          _fr: Avec remarque
+          _it: Con nota
       acp:
         absence_extra_text:
           _de: Zusätzliche Erklärung
@@ -320,10 +328,6 @@ _:
           _de: Erstellt am
           _fr: Enregistrée à
           _it: Registrato a
-        email_session:
-          _de: Email-Session
-          _fr: Email Session
-          _it: Sessione e-mail
         invoiced_at:
           _de: In Rechnung gestellt am
           _fr: Facturée le

@@ -176,6 +176,10 @@ _:
       _de: Email
       _fr: Email
       _it: E-mail
+    email_session:
+      _de: Email (Session)
+      _fr: Email (session)
+      _it: E-mail (sessione)
     emails:
       _de: Email(s)
       _fr: Email(s)

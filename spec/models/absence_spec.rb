@@ -66,18 +66,40 @@ describe Absence, freeze: '2021-06-15' do
     it 'notifies admin with new_absence notifications on when created' do
       admin1 = create(:admin, notifications: ['new_absence'])
       admin2 = create(:admin, notifications: ['new_absence'])
+      create(:admin, notifications: ['new_absence_with_note'])
       create(:admin, notifications: [])
 
-      absence = create(:absence, admin: admin1)
+      absence = create(:absence, admin: admin1, note: ' ')
 
       expect(AdminMailer.deliveries.size).to eq 1
       mail = AdminMailer.deliveries.last
       expect(mail.subject).to eq 'Nouvelle absence'
       expect(mail.to).to eq [admin2.email]
-      expect(mail.html_part.body).to include admin2.name
-      expect(mail.html_part.body).to include absence.member.name
-      expect(mail.html_part.body).to include I18n.l(absence.started_on)
-      expect(mail.html_part.body).to include I18n.l(absence.ended_on)
+      body = mail.html_part.body
+      expect(body).to include admin2.name
+      expect(body).to include absence.member.name
+      expect(body).to include I18n.l(absence.started_on)
+      expect(body).to include I18n.l(absence.ended_on)
+      expect(body).not_to include 'Remarque du membre:'
+    end
+
+    specify 'only notifies admin with new_absence_with_note notifications when note is present' do
+      admin1 = create(:admin, notifications: ['new_absence_with_note'])
+      admin2 = create(:admin, notifications: ['new_absence_with_note'])
+      create(:admin, notifications: [])
+      absence = create(:absence, admin: admin1, note: 'Une Super Remarque!')
+
+      expect(AdminMailer.deliveries.size).to eq 1
+      mail = AdminMailer.deliveries.last
+      expect(mail.subject).to eq 'Nouvelle absence'
+      expect(mail.to).to eq [admin2.email]
+      body = mail.html_part.body
+      expect(body).to include admin2.name
+      expect(body).to include absence.member.name
+      expect(body).to include I18n.l(absence.started_on)
+      expect(body).to include I18n.l(absence.ended_on)
+      expect(body).to include 'Remarque du membre:'
+      expect(body).to include 'Une Super Remarque!'
     end
   end
 end

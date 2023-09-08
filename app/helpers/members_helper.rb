@@ -5,6 +5,20 @@ module MembersHelper
     link
   end
 
+  def with_note_icon(note)
+    text = yield
+    if note.present?
+      content_tag(:span, class: 'note-icon') {
+        content_tag(:span, text) +
+        content_tag(:span, class: 'inline-block tooltip-toggle', data: { tooltip: note }) {
+          inline_svg_tag 'members/chat-note.svg', size: '20'
+        }
+      }.html_safe
+    else
+      text
+    end
+  end
+
   def languages_collection
     Current.acp.languages.map { |l| [t("languages.#{l}"), l] }
   end

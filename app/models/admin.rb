@@ -30,10 +30,11 @@ class Admin < ApplicationRecord
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
       next if EmailSuppression.outbound.active.exists?(email: admin.email)
 
+      email = notification.to_s.delete_suffix('_with_note') + '_email'
       attrs[:admin] = admin
       AdminMailer
         .with(**attrs)
-        .send("#{notification}_email")
+        .send(email)
         .deliver_later
     end
   end
@@ -47,7 +48,10 @@ class Admin < ApplicationRecord
       invoice_third_overdue_notice
       memberships_renewal_pending
     ]
-    all << 'new_absence' if Current.acp.feature?('absence')
+    if Current.acp.feature?('absence')
+      all << 'new_absence'
+      all << 'new_absence_with_note' # only with note
+    end
     all
   end
 
