@@ -15,6 +15,7 @@ describe 'Activity Participation' do
 
     check "activity_participation_activity_ids_#{activity.id}"
     fill_in 'activity_participation_participants_count', with: 3
+    fill_in 'Remarque', with: 'Je viens avec mes enfants (3 et 5 ans)'
     click_button 'Inscription'
 
     expect(page).to have_content('Merci pour votre inscription!')
@@ -22,8 +23,14 @@ describe 'Activity Participation' do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
       expect(page).to have_content activity.period
       expect(page).not_to have_selector('span.carpooling svg')
+      note_tooltip = find('span.tooltip-toggle')['data-tooltip']
+      expect(note_tooltip).to eq('Je viens avec mes enfants (3 et 5 ans)')
     end
-    expect(member.activity_participations.last.session_id).to eq(member.sessions.last.id)
+    expect(member.activity_participations.last).to have_attributes(
+      note: 'Je viens avec mes enfants (3 et 5 ans)',
+      participants_count: 3,
+      carpooling_phone: nil,
+      session_id: member.sessions.last.id)
   end
 
   it 'adds new participation with carpooling' do
@@ -42,7 +49,7 @@ describe 'Activity Participation' do
     within('ul#coming_participations') do
       expect(page).to have_selector('span[title="Covoiturage: 077 447 58 31"] svg')
     end
-    expect(ActivityParticipation.last).to have_attributes(
+    expect(member.activity_participations.last).to have_attributes(
       carpooling_phone: '+41774475831',
       carpooling_city: 'La Chaux-de-Fonds')
   end

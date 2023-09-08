@@ -1,8 +1,14 @@
 module MembersHelper
   def link_with_session(member, session)
-    link = auto_link(member)
-    link += " (#{session.email})" if session&.email
-    link
+    content_tag(:span, class: 'link-with-session') {
+      link = auto_link(member).html_safe
+      if session&.email
+        link += content_tag(:span, class: 'session-email', title: Session.human_attribute_name(:email_session)) {
+          "(#{session.email})"
+        }
+      end
+      link
+    }
   end
 
   def with_note_icon(note)

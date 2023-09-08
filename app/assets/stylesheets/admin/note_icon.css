@@ -4,3 +4,8 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.note-icon svg {
+  margin-top: 2px;
+  margin-bottom: -2px;
+}

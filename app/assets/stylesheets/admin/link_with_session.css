@@ -1,0 +1,12 @@
+.link-with-session a {
+  margin-right: 5px;
+}
+
+.link-with-session span.session-email {
+  margin-right: 5px;
+  color: #666;
+  font-weight: 400;
+  font-size: 12px;
+  display: inline-block;
+  white-space: nowrap;
+}

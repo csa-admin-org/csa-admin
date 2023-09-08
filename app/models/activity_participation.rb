@@ -1,8 +1,11 @@
 class ActivityParticipation < ApplicationRecord
   include HasState # only partially
+  include HasNote
   include BulkActivityIdsInsert
 
+  attr_accessor :comment
   attr_reader :carpooling, :activity_ids
+
   delegate :missing_participants_count, to: :activity, allow_nil: true
 
   belongs_to :activity

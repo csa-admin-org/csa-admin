@@ -43,7 +43,7 @@ class Members::ActivityParticipationsController < Members::BaseController
   def protected_params
     params
       .require(:activity_participation)
-      .permit(%i[participants_count carpooling carpooling_phone carpooling_city], activity_ids: [])
+      .permit(%i[participants_count note carpooling carpooling_phone carpooling_city], activity_ids: [])
   end
 
   def ensure_activity_access
