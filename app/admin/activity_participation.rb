@@ -27,6 +27,7 @@ ActiveAdmin.register ActivityParticipation do
   filter :member,
     as: :select,
     collection: -> { Member.joins(:activity_participations).order(:name).distinct }
+  filter :with_note, as: :boolean
   filter :activity,
     as: :select,
     collection: -> { Activity.order(date: :desc, start_time: :desc) }
@@ -39,7 +40,9 @@ ActiveAdmin.register ActivityParticipation do
   index do
     selectable_column
     column :member, ->(ap) {
-      link_with_session ap.member, ap.session
+      with_note_icon ap.note do
+        link_with_session ap.member, ap.session
+      end
     }, sortable: 'members.name'
     column :activity, ->(ap) {
       link_to ap.activity.name(show_place: false), activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
@@ -60,6 +63,7 @@ ActiveAdmin.register ActivityParticipation do
     }
     column(:member_emails) { |ap| ap.member.emails_array.join(', ') }
     column(:email_session) { |ap| ap.session&.email }
+    column(:note)
     column(:participants_count)
     column(:carpooling_phone) { |ap| ap.carpooling_phone&.phony_formatted }
     column(:carpooling_city, &:carpooling_city)
@@ -140,11 +144,16 @@ ActiveAdmin.register ActivityParticipation do
         collection: Member.order(:name).distinct,
         prompt: true
       f.input :participants_count
+      if f.object.persisted?
+        f.input :note, as: :text, input_html: { rows: 4 }
+      else
+        f.input :comment, as: :text, input_html: { rows: 4 }
+      end
     end
     f.actions
   end
 
-  permit_params(*%i[activity_id member_id participants_count])
+  permit_params(*%i[activity_id member_id participants_count note comment])
 
   show do |ap|
     columns do
@@ -231,6 +240,16 @@ ActiveAdmin.register ActivityParticipation do
   before_build do |ap|
     ap.member_id ||= referer_filter(:member_id)
     ap.activity_id ||= referer_filter(:activity_id)
+  end
+
+  after_create do |ap|
+    if ap.persisted? && ap.comment.present?
+      ActiveAdmin::Comment.create!(
+        resource: ap,
+        body: ap.comment,
+        author: current_admin,
+        namespace: 'root')
+    end
   end
 
   controller do

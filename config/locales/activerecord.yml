@@ -352,6 +352,10 @@ _:
           _de: Telefon(e)
           _fr: Téléphone(s)
           _it: Telefono(i)
+        note:
+          _de: Bemerkung
+          _fr: Remarque
+          _it: Nota
         participants_count:
           _de: Teilnehmer
           _fr: Participants
@@ -372,6 +376,10 @@ _:
           _de: Bestätigt durch
           _fr: Validateur
           _it: Confermato da
+        with_note:
+          _de: Mit Bemerkung
+          _fr: Avec remarque
+          _it: Con nota
       admin:
         last_session_used_at:
           _de: Letzte Anmeldung

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_08_075232) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_08_121121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -198,6 +198,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_075232) do
     t.string "carpooling_city"
     t.bigint "session_id"
     t.datetime "review_sent_at", precision: nil
+    t.text "note"
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
     t.index ["state"], name: "index_activity_participations_on_state"

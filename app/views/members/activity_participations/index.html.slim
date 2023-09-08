@@ -19,6 +19,8 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
 
         = f.input :participants_count, as: :numeric, required: true, label:  t('.participants_count_label'), input_html: { step: 1, min: 1, class: 'mt-1 dark:bg-black w-16 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, label_html: { class: 'inline-block w-full text-sm font-medium text-gray-700 dark:text-gray-300' }
 
+        = f.input :note, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 3, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+
         div data-controller="form-checkbox-toggler"
           legend class="text-sm font-medium text-gray-700 dark:text-gray-300 "
             div class="flex flex-row flex-nowrap"
@@ -44,17 +46,17 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
         = render participation
 
     - if @coming_participations.any? { |p| !p.destroyable? }
-      p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+      p class="mt-2 pb-4 italic text-sm text-center text-gray-400 dark:text-gray-600"
         == t_activity('.coming_activity_participation_cannot_be_cancel_explanation', days_count: Current.acp.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.acp.email, t('.contact_link')))
     - else
-      p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+      p class="mt-2 pb-4 italic text-sm text-center text-gray-400 dark:text-gray-600"
         == t('.edit_activity_participation_explanation')
 
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t_activity('.past_activity_participations')
 - @past_participations = current_member.activity_participations.past_current_year.includes(:activity).merge(Activity.ordered(:desc))
 - if @past_participations.empty?
-  p class="mt-2 italic text-center text-gray-400 dark:text-gray-600"
+  p class="mt-2 pb-4 italic text-sm text-center text-gray-400 dark:text-gray-600"
     = t('.no_past_activity_participations')
 - else
   ul class="mt-2 space-y-4"

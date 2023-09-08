@@ -41,7 +41,7 @@ class Absence < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[including_date during_year with_note]
+    super + %i[including_date during_year]
   end
 
   private

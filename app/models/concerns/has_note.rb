@@ -11,6 +11,12 @@ module HasNote
     }
   end
 
+  class_methods do
+    def ransackable_scopes(_auth_object = nil)
+      super + %i[with_note]
+    end
+  end
+
   def note=(note)
     super note.presence
   end
