@@ -83,6 +83,13 @@ class Delivery < ApplicationRecord
     "##{number}"
   end
 
+  def used_depots
+    depot_ids =
+      baskets.not_absent.pluck(:depot_id) +
+      shop_orders.all_without_cart.pluck(:depot_id)
+    Depot.where(id: depot_ids.uniq)
+  end
+
   def basket_counts(scope: nil)
     BasketCounts.new(self, Depot.pluck(:id), scope: scope)
   end

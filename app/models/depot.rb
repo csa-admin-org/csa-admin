@@ -66,7 +66,7 @@ class Depot < ApplicationRecord
 
   def move_to(position, delivery)
     # Take over position within delivery context
-    position = delivery.depots[position - 1].position
+    position = delivery.used_depots[position - 1].position
     insert_at(position)
   end
 
