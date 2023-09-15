@@ -6,24 +6,40 @@ class ActivityParticipationGroup
   def self.group(participations)
     participations
       .group_by { |p| signature(p) }
-      .map { |_sign, parts| parts }
+      .map { |_sign, parts| new(parts) }
   end
 
   def self.signature(participation)
     activity = participation.activity
-    participation.member_id.to_s +
-      participation.participants_count.to_s +
-      activity.date.to_s +
-      activity.titles.to_s +
-      activity.places.to_s +
-      activity.place_urls.to_s +
-      activity.descriptions.to_s
+    [
+      participation.member_id,
+      participation.participants_count,
+      activity.date,
+      activity.titles,
+      activity.places,
+      activity.place_urls,
+      activity.descriptions
+    ].map(&:to_s).join(':')
   end
 
-  delegate :member, :member_id, :participants_count, to: :participation
+  delegate \
+    :member, :member_id,
+    :participants_count,
+    :note, :note?,
+    :carpooling_phone, :carpooling_city,
+    :session,
+    to: :participation
 
   def initialize(participations)
     @participations = participations
+  end
+
+  def ids
+    @participations.map(&:id)
+  end
+
+  def touch(*args)
+    @participations.each { |p| p.touch(*args) }
   end
 
   # Used for activity_participations_with_carpooling

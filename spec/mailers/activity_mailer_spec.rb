@@ -29,7 +29,7 @@ describe ActivityMailer do
 
     mail = ActivityMailer.with(
       template: template,
-      activity_participation_ids: group.map(&:id),
+      activity_participation_ids: group.ids,
     ).participation_reminder_email
 
     expect(mail.subject).to eq('Activité à venir (24 mars 2020)')

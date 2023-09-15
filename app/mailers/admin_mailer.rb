@@ -1,4 +1,6 @@
 class AdminMailer < ApplicationMailer
+  include ActivitiesHelper
+
   def depot_delivery_list_email
     depot = params[:depot]
     delivery = params[:delivery]
@@ -101,6 +103,27 @@ class AdminMailer < ApplicationMailer
       content_mail(content,
         to: @admin.email,
         subject: t('.subject'))
+    end
+  end
+
+  def new_activity_participation_email
+    @admin = params[:admin]
+    @participation =
+      if params[:activity_participation]
+        params[:activity_participation]
+      else
+        participations = ActivityParticipation.where(id: params[:activity_participation_ids])
+        ActivityParticipationGroup.new(participations)
+      end
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        'admin' => Liquid::AdminDrop.new(@admin),
+        'member' => Liquid::AdminMemberDrop.new(@participation.member),
+        'activity' => Liquid::ActivityDrop.new(@participation.activity),
+        'activity_participation' => Liquid::AdminActivityParticipationDrop.new(@participation))
+      content_mail(content,
+        to: @admin.email,
+        subject: t_activity('.subject'))
     end
   end
 

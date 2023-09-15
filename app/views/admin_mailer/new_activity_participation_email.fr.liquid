@@ -1,0 +1,32 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Le membre <strong>{{ member.name }}</strong> c'est inscrit à une activité.</p>
+
+{% highlight_list %}
+  <strong>Date:</strong> {{ activity.date_long }}
+  <strong>Horaire:</strong> {{ activity.period }}
+  <strong>Activité:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Description:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Lieu:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Lieu:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+  {% if activity_participation.carpooling %}
+    <strong>Covoiturage:</strong> {{ activity_participation.carpooling_phone }} {% if activity_participation.carpooling_city %}({{ activity_participation.carpooling_city }}){% endif %}
+  {% endif %}
+{% endhighlight_list %}
+
+{% if activity_participation.note %}
+<p>
+  Remarque du membre:<br/>
+  <i>{{ activity_participation.note }}</i>
+</p>
+{% endif %}
+
+{% button activity_participation.admin_url %}
+  Accéder à la page des participations de ce membre
+{% endbutton %}
