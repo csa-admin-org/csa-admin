@@ -117,7 +117,7 @@ describe AdminMailer do
     expect(mail.body).to include('Martha')
     expect(mail.body).to include('Accéder à la page du membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
@@ -144,7 +144,7 @@ describe AdminMailer do
     expect(mail.body).to include('Martha')
     expect(mail.body).to include('Accéder à la page du membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
@@ -175,7 +175,7 @@ describe AdminMailer do
     expect(mail.body).to include("Remarque du membre:<br/>\r\n  <i>Une Super Remarque!</i>")
     expect(mail.body).to include("Accéder à la page de l'absence")
     expect(mail.body).to include('https://admin.ragedevert.ch/absences/1')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
@@ -221,7 +221,7 @@ describe AdminMailer do
     expect(mail.body).to include("Remarque du membre:<br/>\r\n  <i>Une Super Remarque!</i>")
     expect(mail.body).to include('Accéder à la page des participations de ce membre')
     expect(mail.body).to include('https://admin.ragedevert.ch/activity_participations?q%5Bmember_id_eq%5D=1512&scope=future')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
@@ -257,7 +257,7 @@ describe AdminMailer do
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/4')
     expect(mail.body).to include('Membre: Martha')
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
@@ -282,7 +282,7 @@ describe AdminMailer do
     expect(mail.body).to include('Martha')
     expect(mail.body).to include("Accéder à la page du membre")
     expect(mail.body).to include('https://admin.ragedevert.ch/members/2')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
@@ -307,7 +307,7 @@ describe AdminMailer do
     expect(mail.body).to include('2 abonnement(s)</a>')
     expect(mail.body).to include("Accéder aux abonnements en attente de renouvellement")
     expect(mail.body).to include('https://admin.example.com/memberships')
-    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
   end
