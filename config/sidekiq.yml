@@ -28,22 +28,24 @@
       class: ScheduledJob
       args: Scheduled::BillingSnapshotJob
       description: "Create or update quarter billing snapshot during the last 15 minutes of each quarter"
-    daily:
+    chores:
       cron: '5 0 0 * * *'
       queue: low
       class: ScheduledJob
-      args: Scheduled::DailyJob
-      description: "Daily checks and updates"
+      args: Scheduled::ChoresJob
+      description: "Daily chores (checks and updates)"
     mailchimp_sync_list:
       cron: '0 0 1 * * *'
       queue: low
       class: ScheduledJob
       args: Scheduled::MailchimpSyncListJob
       description: "Sync members with Mailchimp audience list"
-    notifier:
+    notifier_daily:
       cron: '0 30 4 * * *'
       queue: low
       class: ScheduledJob
+      args: Scheduled::NotifierDailyJob
+      description: "Daily notifications handler"
       args: Scheduled::NotifierJob
       description: "Send notifications to members and admins"
     postmark_sync_suppressions:
