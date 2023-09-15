@@ -52,6 +52,10 @@ class Admin < ApplicationRecord
       all << 'new_absence'
       all << 'new_absence_with_note' # only with note
     end
+    if Current.acp.feature?('activity')
+      all << 'new_activity_participation'
+      all << 'new_activity_participation_with_note' # only with note
+    end
     all
   end
 

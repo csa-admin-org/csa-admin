@@ -160,7 +160,7 @@ ActiveAdmin.register ActivityParticipation do
       column do
         attributes_table title: ActivityParticipation.human_attribute_name(:contact) do
           row :member
-          row(:email) { ap.session&.email }
+          row(:email) { display_emails_with_link(self, ap.emails) }
           row(:phones) { display_phones_with_link(self, ap.member.phones_array) }
           if ap.carpooling?
             row(:carpooling_phone) { display_phones_with_link(self, ap.carpooling_phone) }
@@ -238,6 +238,7 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   before_build do |ap|
+    ap.session_id ||= session_id
     ap.member_id ||= referer_filter(:member_id)
     ap.activity_id ||= referer_filter(:activity_id)
   end

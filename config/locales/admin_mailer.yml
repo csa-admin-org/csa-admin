@@ -35,6 +35,23 @@ _:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
         _it: Nuova assenza
+    new_activity_participation_email:
+      subject/basket_preparation:
+        _de: Neue Teilnahme an einer Befüllung der Taschen
+        _fr: Nouvelle participation à une mise en panier
+        _it: Nuova partecipazione alla preparazione dei cesti
+      subject/day_work:
+        _de: Neue Teilnahme an einem Arbeitstag
+        _fr: Nouvelle participation à une journée de travail
+        _it: Nuova partecipazione ad una giornata di lavoro
+      subject/halfday_work:
+        _de: Neue Teilnahme an einem ½ Tag
+        _fr: Nouvelle participation à une ½ journée
+        _it: Nuova partecipazione ad una ½ giornata
+      subject/hour_work:
+        _de: Neue Teilnahme an einer Arbeitsstunde
+        _fr: Nouvelle participation à une heure de travail
+        _it: Nuova partecipazione ad un'ora di lavoro
     new_email_suppression_email:
       subject:
         _de: Email abgelehnt (%{reason})

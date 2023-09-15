@@ -159,7 +159,8 @@ describe AdminMailer do
     absence = Absence.new(
       id: 1,
       started_on: Date.new(2020, 11, 10),
-      ended_on: Date.new(2020, 11, 20))
+      ended_on: Date.new(2020, 11, 20),
+      note: 'Une Super Remarque!')
     mail = AdminMailer.with(
       admin: admin,
       member: member,
@@ -171,8 +172,55 @@ describe AdminMailer do
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include('Martha')
     expect(mail.body).to include('10 novembre 2020 au 20 novembre 2020')
+    expect(mail.body).to include("Remarque du membre:<br/>\r\n  <i>Une Super Remarque!</i>")
     expect(mail.body).to include("Accéder à la page de l'absence")
     expect(mail.body).to include('https://admin.ragedevert.ch/absences/1')
+    expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
+    expect(mail.body).to include('Gérer mes notifications')
+    expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+  end
+
+  specify '#new_activity_participation_email' do
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    member =  create(:member, name: 'Martha', id: 1512)
+    activity = create(:activity,
+      date: '24.03.2020',
+      start_time: Time.zone.parse('8:30'),
+      end_time: Time.zone.parse('12:00'),
+      place: 'Thielle',
+      title: 'Aide aux champs',
+      description: 'Que du bonheur')
+    participation = create(:activity_participation, :carpooling,
+      member: member,
+      activity: activity,
+      participants_count: 2,
+      note: 'Une Super Remarque!',
+      carpooling_phone: '+41765431243',
+      carpooling_city: 'La Chaux-de-Fonds')
+    group = ActivityParticipationGroup.group([participation]).first
+
+    mail = AdminMailer.with(
+      admin: admin,
+      activity_participation_ids: group.ids,
+    ).new_activity_participation_email
+
+    expect(mail.subject).to eq('Nouvelle participation à une ½ journée')
+    expect(mail.to).to eq(['admin@acp-admin.ch'])
+    expect(mail.body).to include('Salut John,')
+    expect(mail.body).to include('<strong>Date:</strong> mardi 24 mars 2020')
+    expect(mail.body).to include('<strong>Horaire:</strong> 8:30-12:00')
+    expect(mail.body).to include('<strong>Lieu:</strong> Thielle')
+    expect(mail.body).to include('<strong>Activité:</strong> Aide aux champs')
+    expect(mail.body).to include('<strong>Description:</strong> Que du bonheur')
+    expect(mail.body).to include('<strong>Participants:</strong> 2')
+    expect(mail.body).to include('<strong>Covoiturage:</strong> +41 76 543 12 43 (La Chaux-de-Fonds)')
+    expect(mail.body).to include("Remarque du membre:<br/>\r\n  <i>Une Super Remarque!</i>")
+    expect(mail.body).to include('Accéder à la page des participations de ce membre')
+    expect(mail.body).to include('https://admin.ragedevert.ch/activity_participations?q%5Bmember_id_eq%5D=1512&scope=future')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#admin_notifications_input')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'

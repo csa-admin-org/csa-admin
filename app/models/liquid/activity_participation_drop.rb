@@ -11,6 +11,10 @@ class Liquid::ActivityParticipationDrop < Liquid::Drop
     @activity_participation.participants_count
   end
 
+  def note
+    @activity_participation.note.presence
+  end
+
   def carpooling
     carpooling_participations.map { |p|
       {

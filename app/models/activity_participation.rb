@@ -121,6 +121,14 @@ class ActivityParticipation < ApplicationRecord
     member.emails?
   end
 
+  def emails
+    if session && !session.admin_id?
+      [session.email]
+    else
+      member.emails_array
+    end
+  end
+
   def reminderable?
     return if latest_reminder_sent_at?
 

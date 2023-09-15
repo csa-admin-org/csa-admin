@@ -1,7 +1,7 @@
 module Notifier
   extend self
 
-  def send_all
+  def send_all_daily
     send_invoice_overdue_notice_emails
     send_admin_delivery_list_emails
     send_admin_memberships_renewal_pending_emails
@@ -10,6 +10,10 @@ module Notifier
     send_activity_participation_reminder_emails
     send_activity_participation_validated_emails
     send_activity_participation_rejected_emails
+  end
+
+  def send_all_hourly
+    send_admin_new_activity_participation_emails
   end
 
   def send_invoice_overdue_notice_emails
@@ -106,10 +110,10 @@ module Notifier
         .select(&:reminderable?)
         .select(&:can_send_email?)
 
-    ActivityParticipationGroup.group(participations).each do |parts|
+    ActivityParticipationGroup.group(participations).each do |group|
       MailTemplate.deliver_later(:activity_participation_reminder,
-        activity_participation_ids: parts.map(&:id))
-      parts.each { |p| p.touch(:latest_reminder_sent_at) }
+        activity_participation_ids: group.ids)
+      group.touch(:latest_reminder_sent_at)
     end
   end
 
@@ -124,10 +128,10 @@ module Notifier
         .includes(:activity, :member)
         .select(&:can_send_email?)
 
-    ActivityParticipationGroup.group(participations).each do |parts|
+    ActivityParticipationGroup.group(participations).each do |group|
       MailTemplate.deliver_later(:activity_participation_validated,
-        activity_participation_ids: parts.map(&:id))
-      parts.each { |p| p.touch(:review_sent_at) }
+        activity_participation_ids: group.ids)
+      group.touch(:review_sent_at)
     end
   end
 
@@ -142,10 +146,29 @@ module Notifier
         .includes(:activity, :member)
         .select(&:can_send_email?)
 
-    ActivityParticipationGroup.group(participations).each do |parts|
+    ActivityParticipationGroup.group(participations).each do |group|
       MailTemplate.deliver_later(:activity_participation_rejected,
-        activity_participation_ids: parts.map(&:id))
-      parts.each { |p| p.touch(:review_sent_at) }
+        activity_participation_ids: group.ids)
+      group.touch(:review_sent_at)
+    end
+  end
+
+  def send_admin_new_activity_participation_emails
+    return unless Current.acp.feature?('activity')
+
+    participations =
+      ActivityParticipation
+        .where(created_at: 1.day.ago.., admins_notified_at: nil)
+        .includes(:activity, :member, :session)
+
+    ActivityParticipationGroup.group(participations).each do |group|
+      attrs = {
+        activity_participation_ids: group.ids,
+        skip: group.session&.admin
+      }
+      Admin.notify!(:new_activity_participation, **attrs)
+      Admin.notify!(:new_activity_participation_with_note, **attrs) if group.note?
+      group.touch(:admins_notified_at)
     end
   end
 end

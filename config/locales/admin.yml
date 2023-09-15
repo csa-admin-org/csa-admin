@@ -25,6 +25,14 @@ _:
         _de: Neue Abwesenheit (nur mit Bemerkung)
         _fr: Nouvelle absence (avec remarque uniquement)
         _it: Nuova assenza (solo con nota)
+      new_activity_participation:
+        _de: Neue Aktivitätsteilnahme
+        _fr: Nouvelle participation à une activité
+        _it: Nuova partecipazione ad un'attività
+      new_activity_participation_with_note:
+        _de: Neue Aktivitätsteilnahme (nur mit Bemerkung)
+        _fr: Nouvelle participation à une activité (avec remarque uniquement)
+        _it: Nuova partecipazione ad un'attività (solo con nota)
       new_email_suppression:
         _de: Email abgelehnt
         _fr: Email rejeté

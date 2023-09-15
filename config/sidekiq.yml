@@ -46,8 +46,12 @@
       class: ScheduledJob
       args: Scheduled::NotifierDailyJob
       description: "Daily notifications handler"
-      args: Scheduled::NotifierJob
-      description: "Send notifications to members and admins"
+    notifier_hourly:
+      cron: '0 0 * * * *'
+      queue: low
+      class: ScheduledJob
+      args: Scheduled::NotifierHourlyJob
+      description: "Hourly notifications handler"
     postmark_sync_suppressions:
       every: '1h'
       queue: low

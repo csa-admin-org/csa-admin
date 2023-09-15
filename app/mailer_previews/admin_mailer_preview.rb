@@ -1,4 +1,6 @@
 class AdminMailerPreview < ActionMailer::Preview
+  include SharedDataPreview
+
   def depot_delivery_list_email
     depot = Depot.new(
       name: 'Jardin de la Main',
@@ -96,6 +98,37 @@ class AdminMailerPreview < ActionMailer::Preview
       member: member,
       absence: absence
     ).new_absence_email
+  end
+
+  def new_activity_participation_email
+    admin = Admin.new(
+      id: 1,
+      name: 'John',
+      language: I18n.locale,
+      email: 'admin@acp-admin.ch')
+    member = Member.new(name: 'Martha')
+    act_preset = ActivityPreset.all.sample(random: random)
+    act = Activity.last(10).sample(random: random)
+    activity = OpenStruct.new(
+      title: act_preset&.title || 'Aide aux champs',
+      date: Date.today,
+      period: act&.period || '8:00-12:00',
+      description: nil,
+      place: act_preset&.title || 'Neuchâtel',
+      place_url: act_preset&.place_url || 'https://google.map/foo')
+    activity_participation = OpenStruct.new(
+      activity_id: 1,
+      member_id: 1,
+      member: member,
+      activity: activity,
+      participants_count: 2,
+      carpooling_phone: '077 231 123 43',
+      carpooling_city: 'La Chaux-de-Fonds',
+      note: 'Une Super Remarque!')
+    AdminMailer.with(
+      admin: admin,
+      activity_participation: activity_participation
+    ).new_activity_participation_email
   end
 
   def new_email_suppression_email

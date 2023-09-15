@@ -64,15 +64,12 @@ class Absence < ApplicationRecord
   end
 
   def notify_admins!
-    Admin.notify!(:new_absence,
+    attrs = {
       absence: self,
       member: member,
-      skip: admin)
-    if note?
-      Admin.notify!(:new_absence_with_note,
-        absence: self,
-        member: member,
-        skip: admin)
-    end
+      skip: admin
+    }
+    Admin.notify!(:new_absence, **attrs)
+    Admin.notify!(:new_absence_with_note, **attrs) if note?
   end
 end

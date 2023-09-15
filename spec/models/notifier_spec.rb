@@ -150,4 +150,91 @@ describe Notifier do
         .not_to change { ActivityMailer.deliveries.size }
     end
   end
+
+  describe '.send_admin_new_activity_participation_emails' do
+    let(:member) { create(:member) }
+
+    specify 'send email recently created participations in group' do
+      admin = create(:admin, notifications: ['new_activity_participation'])
+
+      date = 1.week.from_now.to_date
+      activity1 = create(:activity, date: date, start_time: '8:00', end_time: '9:00')
+      activity2 = create(:activity, date: date, start_time: '9:00', end_time: '10:00')
+
+      part1 = create(:activity_participation, member: member, activity: activity1)
+      part2 = create(:activity_participation, member: member, activity: activity2)
+
+      expect { Notifier.send_admin_new_activity_participation_emails }
+        .to change { ActivityMailer.deliveries.size }.by(1)
+
+      mail = ActivityMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle participation à une ½ journée"
+      expect(mail.html_part.body).to include "Horaire:</strong> 8:00-10:00"
+      expect(mail.to).to eq [admin.email]
+
+      expect(part1.reload.admins_notified_at).to be_present
+      expect(part2.reload.admins_notified_at).to be_present
+    end
+
+    specify 'ignore participations older than 1 day' do
+      create(:admin, notifications: ['new_activity_participation'])
+      create(:activity_participation, member: member, created_at: 25.hours.ago)
+
+      expect { Notifier.send_admin_new_activity_participation_emails }
+        .not_to change { ActivityMailer.deliveries.size }
+    end
+
+    specify 'ignores already notified participations' do
+      create(:admin, notifications: ['new_activity_participation'])
+      create(:activity_participation, member: member, admins_notified_at: 1.hour.ago)
+
+      expect { Notifier.send_admin_new_activity_participation_emails }
+        .not_to change { ActivityMailer.deliveries.size }
+    end
+
+    specify 'only notify participation with note' do
+      admin = create(:admin, notifications: ['new_activity_participation_with_note'])
+
+      activity1 = create(:activity, date: 1.weeks.from_now)
+      activity2 = create(:activity, date: 2.weeks.from_now)
+
+      part1 = create(:activity_participation, activity: activity1, member: member)
+      part2 = create(:activity_participation, :carpooling, activity: activity2, member: member,
+        note: 'Super Remarque')
+
+      expect { Notifier.send_admin_new_activity_participation_emails }
+        .to change { ActivityMailer.deliveries.size }.by(1)
+
+      mail = ActivityMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle participation à une ½ journée"
+      expect(mail.html_part.body).to include "Covoiturage"
+      expect(mail.html_part.body).to include "Super Remarque"
+      expect(mail.to).to eq [admin.email]
+
+      expect(part1.reload.admins_notified_at).to be_present
+      expect(part2.reload.admins_notified_at).to be_present
+    end
+
+    specify 'skip admin that created the participation' do
+      admin = create(:admin, notifications: ['new_activity_participation'])
+
+      activity1 = create(:activity, date: 1.weeks.from_now)
+      activity2 = create(:activity, date: 2.weeks.from_now)
+
+      part1 = create(:activity_participation, activity: activity1, member: member,
+        session: create(:session, admin: admin))
+      part2 = create(:activity_participation, :carpooling, activity: activity2, member: member)
+
+      expect { Notifier.send_admin_new_activity_participation_emails }
+        .to change { ActivityMailer.deliveries.size }.by(1)
+
+      mail = ActivityMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle participation à une ½ journée"
+      expect(mail.html_part.body).to include "Covoiturage"
+      expect(mail.to).to eq [admin.email]
+
+      expect(part1.reload.admins_notified_at).to be_present
+      expect(part2.reload.admins_notified_at).to be_present
+    end
+  end
 end

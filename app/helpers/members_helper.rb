@@ -2,7 +2,7 @@ module MembersHelper
   def link_with_session(member, session)
     content_tag(:span, class: 'link-with-session') {
       link = auto_link(member).html_safe
-      if session&.email
+      if session && (!session.admin_id? && session.email)
         link += content_tag(:span, class: 'session-email', title: Session.human_attribute_name(:email_session)) {
           "(#{session.email})"
         }
