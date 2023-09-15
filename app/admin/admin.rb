@@ -37,10 +37,19 @@ ActiveAdmin.register Admin do
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false
       end
     end
-    f.inputs do
+    f.inputs id: 'notifications' do
       f.input :notifications,
         as: :check_boxes,
-        collection: Admin.notifications.map { |n| [t("admin.notifications.#{n}"), n] }.sort
+        wrapper_html: { class: 'no-check-boxes-toggle-all detailed-option' },
+        collection: Admin.notifications.map { |n|
+          [
+            content_tag(:span) {
+              content_tag(:span, t("admin.notifications.#{n}")).html_safe +
+              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: 'hint')
+            },
+            n
+          ]
+        }.sort_by(&:first)
     end
     f.actions
   end

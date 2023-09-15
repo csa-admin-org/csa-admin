@@ -995,8 +995,11 @@ fieldset.inputs a.action svg {
   margin: 20px 0 0 0;
 }
 
+.detailed-option li.choice {
+  min-width: 100%;
+}
+
 .detailed-option li.choice:not(:last-child) {
-  width: 100%;
   margin-bottom: 12px;
 }
 
@@ -1173,6 +1176,10 @@ li.input.error textarea {
 
 .field_with_errors input[type="checkbox"]:after {
   height: 18px;
+}
+
+fieldset#notifications {
+  scroll-margin-top: 50px;
 }
 
 .panel em.show_more {
