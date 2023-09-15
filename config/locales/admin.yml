@@ -5,39 +5,79 @@ _:
         _de: Lieferungsliste (XLSX und PDF)
         _fr: Liste de livraison (XLSX et PDF)
         _it: Lista di consegna (XLSX e PDF)
+      delivery_list_hint:
+        _de: Erhalte die XLSX- und PDF-Listen am Tag vor jeder Lieferung.
+        _fr: Recevoir les listes XLSX et PDF le jour précédent chaque livraison.
+        _it: Ricevi le liste XLSX e PDF il giorno prima di ogni consegna.
       invoice_overpaid:
         _de: Überzahlte Rechnung
         _fr: Facture payée en trop
         _it: Fattura pagata in eccesso
+      invoice_overpaid_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine Rechnung überbezahlt wurde, z.B. wenn ein Mitglied zweimal bezahlt hat.
+        _fr: Recevoir une notification si une facture est payée en trop, par exemple si un membre a payé deux fois.
+        _it: Ricevi una notifica se una fattura è stata pagata in eccesso, ad esempio se un membro ha pagato due volte.
       invoice_third_overdue_notice:
         _de: Rechnung, 3. Mahnung gesendet
         _fr: Facture, 3ᵉ rappel envoyé
         _it: Fattura, 3° richiamo inviato
+      invoice_third_overdue_notice_hint:
+        _de: Erhalte eine Benachrichtigung, wenn die 3. Mahnung einer Rechnung an ein Mitglied gesendet wird.
+        _fr: Recevoir une notification lorsque le 3ᵉ rappel d'une facture est envoyée à un membre.
+        _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un membro.
       memberships_renewal_pending:
         _de: Mitgliedschaft, wartende Verlängerungen
         _fr: Abonnement, renouvellements en attente
         _it: Abbonamento, rinnovi in attesa
+      memberships_renewal_pending_hint:
+        _de: Erhalte eine Benachrichtigung, wenn die Verlängerung eines Abonnements am Ende des Geschäftsjahres noch aussteht.
+        _fr: Recevoir une notification lorsque des renouvellements d'abonnement sont toujours en attente à la fin de l'année fiscale.
+        _it: Ricevi una notifica quando il rinnovo di un abbonamento è ancora in attesa alla fine dell'anno fiscale.
       new_absence:
         _de: Neue Abwesenheit
         _fr: Nouvelle absence
         _it: Nuova assenza
+      new_absence_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine Abwesenheit erstellt wird (durch ein Mitglied oder einen anderen Admin).
+        _fr: Recevoir une notification lorsqu'une absence est créée (par un membre ou un autre admin).
+        _it: Ricevi una notifica quando viene creata un'assenza (da un membro o da un altro admin).
       new_absence_with_note:
-        _de: Neue Abwesenheit (nur mit Bemerkung)
-        _fr: Nouvelle absence (avec remarque uniquement)
-        _it: Nuova assenza (solo con nota)
+        _de: Neue Abwesenheit‏‏‎ ‎(nur mit Bemerkung)
+        _fr: Nouvelle absence‏‏‎ ‎(avec remarque uniquement)
+        _it: Nuova assenza‏‏‎ ‎(solo con nota)
+      new_absence_with_note_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine Abwesenheit erstellt wird, aber nur, wenn eine Bemerkung vorhanden ist.
+        _fr: Recevoir une notification lorsqu'une absence est créée, mais uniquement si une remarque est présente.
+        _it: Ricevi una notifica quando viene creata un'assenza, ma solo se è presente una nota.
       new_activity_participation:
         _de: Neue Aktivitätsteilnahme
         _fr: Nouvelle participation à une activité
         _it: Nuova partecipazione ad un'attività
+      new_activity_participation_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine Aktivitätsteilnahme erstellt wird (durch ein Mitglied oder einen anderen Admin).
+        _fr: Recevoir une notification lorsqu'une participation à une activité est créée (par un membre ou un autre admin).
+        _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività (da un membro o da un altro admin).
       new_activity_participation_with_note:
-        _de: Neue Aktivitätsteilnahme (nur mit Bemerkung)
-        _fr: Nouvelle participation à une activité (avec remarque uniquement)
-        _it: Nuova partecipazione ad un'attività (solo con nota)
+        _de: Neue Aktivitätsteilnahme‏‏‎ ‎(nur mit Bemerkung)
+        _fr: Nouvelle participation à une activité‏‏‎ ‎‎‎(avec remarque uniquement)
+        _it: Nuova partecipazione ad un'attività‏‏‎ ‎(solo con nota)
+      new_activity_participation_with_note_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine Aktivitätsteilnahme erstellt wird, aber nur, wenn eine Bemerkung vorhanden ist.
+        _fr: Recevoir une notification lorsqu'une participation à une activité est créée, mais uniquement si une remarque est présente.
+        _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività, ma solo se è presente una nota.
       new_email_suppression:
         _de: Email abgelehnt
         _fr: Email rejeté
         _it: E-mail rifiutata
+      new_email_suppression_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine E-Mail von Postmark abgelehnt und nicht zugestellt wurde.
+        _fr: Recevoir une notification lorsqu'un email est rejeté par Postmark et n'a pas pu être délivré.
+        _it: Ricevi una notifica quando un'e-mail viene rifiutata da Postmark e non può essere consegnata.
       new_inscription:
         _de: Neue Anmeldung
         _fr: Nouvelle inscription
         _it: Nuova iscrizione
+      new_inscription_hint:
+        _de: Erhalte eine Benachrichtigung, wenn eine Anmeldung eines Mitglieds erstellt und validiert werden muss.
+        _fr: Recevoir une notification lorsqu'une inscription d'un membre est créée et doit être validée.
+        _it: Ricevi una notifica quando viene creata un'iscrizione di un membro e deve essere validata.
