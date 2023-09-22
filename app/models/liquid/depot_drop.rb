@@ -10,4 +10,8 @@ class Liquid::DepotDrop < Liquid::Drop
   def name
     @depot.public_name
   end
+
+  def member_note
+    @depot.public_note&.html_safe.presence
+  end
 end

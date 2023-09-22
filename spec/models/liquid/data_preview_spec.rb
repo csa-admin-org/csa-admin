@@ -4,7 +4,7 @@ describe Liquid::DataPreview do
   specify 'recursively render drop data', freeze: '2020-01-01' do
     create(:delivery, date: '2020-01-07')
     create(:delivery, date: '2020-10-06')
-    depot = create(:depot, id: 12, name: 'Jardin de la main')
+    depot = create(:depot, id: 12, name: 'Jardin de la main', public_note: 'Ouverture 17h')
     basket_size = create(:basket_size, id: 33, name: 'Eveil')
     create(:membership, depot: depot, basket_size: basket_size)
 
@@ -28,6 +28,7 @@ describe Liquid::DataPreview do
         },
         'depot' => {
           'id' => 12,
+          'member_note' => "<div class=\"trix-content\">\n  Ouverture 17h\n</div>\n",
           'name' => 'Jardin de la main PUBLIC'
         },
         'description' => 'Eveil PUBLIC',
@@ -61,6 +62,7 @@ describe Liquid::DataPreview do
         },
         'depot' => {
           'id' => 12,
+          'member_note' => "<div class=\"trix-content\">\n  Ouverture 17h\n</div>\n",
           'name' => 'Jardin de la main PUBLIC'
         },
         'end_date' => '31 décembre 2020',
@@ -134,6 +136,7 @@ describe Liquid::DataPreview do
         },
         'depot' => {
           'id' => 12,
+          'member_note' => nil,
           'name' => 'Jardin de la main PUBLIC'
         },
         'description' => 'Eveil PUBLIC',
@@ -162,6 +165,7 @@ describe Liquid::DataPreview do
         },
         'depot' => {
           'id' => 12,
+          'member_note' => nil,
           'name' => 'Jardin de la main PUBLIC'
         },
         'end_date' => '31 décembre 2020',
