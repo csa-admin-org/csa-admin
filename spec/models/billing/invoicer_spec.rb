@@ -654,6 +654,25 @@ describe Billing::Invoicer do
       end
     end
 
+    specify 'past membership, last year' do
+      member = create(:member, billing_year_division: 3)
+      membership = travel_to '2020-01-01' do
+        create(:delivery, date: '2020-01-04')
+        create(:membership, member: member) # Wednesday
+      end
+      expect(membership.deliveries.first.date.to_s).to eq '2020-01-04' # Tuesday
+
+      travel_to '2020-12-21' do
+        expect(described_class.new(member.reload).next_date.to_s).to eq '2020-12-21' # Monday
+      end
+      travel_to '2021-12-29' do
+        expect(described_class.new(member.reload).next_date).to be_nil
+      end
+      travel_to '2022-01-01' do
+        expect(described_class.new(member.reload).next_date).to be_nil
+      end
+    end
+
     context 'with trial baskets' do
       before {
         Current.acp.update!(

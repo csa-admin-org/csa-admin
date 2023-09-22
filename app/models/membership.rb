@@ -123,7 +123,7 @@ class Membership < ApplicationRecord
   end
 
   def billable?
-    missing_invoices_amount.positive?
+    fy_year >= Current.fy_year && missing_invoices_amount.positive?
   end
 
   def trial?
