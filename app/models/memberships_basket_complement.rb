@@ -1,4 +1,6 @@
 class MembershipsBasketComplement < ApplicationRecord
+  include HasDescription
+
   belongs_to :membership, touch: true
   belongs_to :basket_complement
   belongs_to :deliveries_cycle, optional: true
@@ -13,5 +15,9 @@ class MembershipsBasketComplement < ApplicationRecord
 
   def delivery_price
     basket_complement.annual_price_type? ? 0 : price
+  end
+
+  def description(public_name: false)
+    describe(basket_complement, quantity, public_name: public_name)
   end
 end

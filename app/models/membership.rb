@@ -1,6 +1,8 @@
 require 'rounding'
 
 class Membership < ApplicationRecord
+  include HasDescription
+
   attr_accessor :renewal_decision
 
   RENEWAL_STATES = %w[
@@ -120,6 +122,10 @@ class Membership < ApplicationRecord
 
   def self.used_deliveries_cycle_ids_for(year)
     during_year(year).distinct.pluck(:deliveries_cycle_id)
+  end
+
+  def basket_description(public_name: false)
+    describe(basket_size, basket_quantity, public_name: public_name)
   end
 
   def billable?

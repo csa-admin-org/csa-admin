@@ -24,7 +24,7 @@ module PDF
           baskets = baskets.not_absent
         end
         shop_orders = @shop_orders.where(depot: depot)
-        basket_sizes = basket_sizes_for(baskets)
+        basket_sizes = BasketSize.for(baskets)
         member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
           if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
@@ -70,8 +70,8 @@ module PDF
     end
 
     def summary_content
-      basket_sizes = basket_sizes_for(@baskets)
-      basket_complements = basket_complements_for(@baskets, @shop_orders)
+      basket_sizes = BasketSize.for(@baskets)
+      basket_complements = BasketComplement.for(@baskets, @shop_orders)
 
       font_size 9
       move_down 1.cm
@@ -306,7 +306,7 @@ module PDF
     end
 
     def content(depot, members, baskets, basket_sizes, shop_orders)
-      basket_complements = basket_complements_for(baskets, shop_orders)
+      basket_complements = BasketComplement.for(baskets, shop_orders)
 
       font_size 11
       move_down 2.cm
@@ -572,25 +572,6 @@ module PDF
 
     def display_quantity(quantity)
       quantity.zero? ? '' : quantity.to_s
-    end
-
-    def basket_sizes_for(baskets)
-      basket_size_ids =
-        baskets.where('baskets.quantity > 0').pluck(:basket_size_id).uniq
-      BasketSize.where(id: basket_size_ids)
-    end
-
-    def basket_complements_for(baskets, shop_orders)
-      complement_ids =
-        baskets
-          .joins(:baskets_basket_complements)
-          .where('baskets_basket_complements.quantity > 0')
-          .pluck(:basket_complement_id)
-      complement_ids +=
-        shop_orders
-          .joins(:products)
-          .pluck('shop_products.basket_complement_id')
-      BasketComplement.where(id: complement_ids.uniq)
     end
   end
 end

@@ -34,7 +34,8 @@ ActiveAdmin.register Delivery do
     if Current.acp.feature?('shop')
       column :shop, ->(delivery) { status_tag(delivery.shop_open?) }
     end
-    actions defaults: true, class: 'col-actions-5' do |delivery|
+    actions defaults: true, class: 'col-actions-6' do |delivery|
+      link_to('CSV', baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), class: 'csv_link') +
       link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
         link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link', target: '_blank')
     end
@@ -80,6 +81,7 @@ ActiveAdmin.register Delivery do
       column do
         panel Basket.model_name.human(count: 2) do
           div class: 'actions' do
+            icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv)) +
             icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
             icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: '_blank')
           end

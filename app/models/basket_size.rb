@@ -48,6 +48,11 @@ class BasketSize < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1 },
     allow_nil: true
 
+  def self.for(baskets)
+    ids = baskets.where('baskets.quantity > 0').pluck(:basket_size_id).uniq
+    where(id: ids)
+  end
+
   def display_name; name end
 
   def public_name

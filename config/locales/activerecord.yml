@@ -402,10 +402,18 @@ _:
           _de: Grösse
           _fr: Taille
           _it: Dimensione
+        basket_size_id:
+          _de: Taschengrösse ID
+          _fr: Taille panier ID
+          _it: Dimensione cesta ID
         complement_ids:
           _de: Zusätze
           _fr: Compléments
           _it: Complementi
+        depot_id:
+          _de: Depot ID
+          _fr: Dépôt ID
+          _it: Punto di ritiro ID
         depot_price:
           _de: Preis Lieferung
           _fr: Prix dépôt
@@ -414,6 +422,14 @@ _:
           _de: Tasche
           _fr: Panier
           _it: Cesta
+        member_id:
+          _de: Mitglied ID
+          _fr: Membre ID
+          _it: Socio ID
+        membership_id:
+          _de: Abonnement ID
+          _fr: Abonnement ID
+          _it: Abbonamento ID
         trial:
           _de: probe
           _fr: essai
@@ -713,10 +729,6 @@ _:
           _de: Stadt (Lieferung)
           _fr: Ville (Livraison)
           _it: Città (Consegna)
-        delivery_note:
-          _de: Notiz Lieferung
-          _fr: Note livraison
-          _it: Note consegna
         delivery_zip:
           _de: PLZ (Lieferung)
           _fr: NPA (Livraison)
@@ -733,10 +745,6 @@ _:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes
           _it: Numero di quote sociali cooperative esistenti
-        food_note:
-          _de: Notiz Lebensmittel
-          _fr: Note alimentaire
-          _it: Note alimentari
         invoices_amount:
           _de: Rechnungen
           _fr: Factures

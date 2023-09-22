@@ -470,9 +470,10 @@ h3 span.link {
 h3 .xlsx_link,
 table .delete_link,
 table .edit_link,
-table .pdf_link,
 table .view_link,
 table .duplicate_link,
+table .csv_link,
+table .pdf_link,
 table .xlsx_link {
   background-repeat: no-repeat;
   background-position: center;
@@ -490,9 +491,10 @@ table .xlsx_link {
 h3 .xlsx_link:hover,
 table .delete_link:hover,
 table .edit_link:hover,
-table .pdf_link:hover,
 table .view_link:hover,
 table .duplicate_link:hover,
+table .csv_link:hover,
+table .pdf_link:hover,
 table .xlsx_link:hover {
   opacity: 1 !important;
   color: transparent;
@@ -502,16 +504,22 @@ table a.delete_link,
 table a.edit_link,
 table a.view_link,
 table a.duplicate_link,
+table a.csv_link,
 table a.pdf_link,
 table a.xlsx_link {
   opacity: 0.65 !important;
 }
 
+table a.csv_link,
 table a.pdf_link,
 table a.xlsx_link {
   height: 17px;
   width: 17px;
   margin: 1px 3px;
+}
+
+table a.csv_link {
+  background-image: url(<%=asset_data_uri"admin/csv_file.svg"%>);
 }
 
 table a.pdf_link {
@@ -628,6 +636,12 @@ table.index_table .col-actions-4 {
 table.index_table .col-actions-5 {
   width: 141px;
   min-width: 141px;
+  padding: 3px 10px;
+}
+
+table.index_table .col-actions-6 {
+  width: 164px;
+  min-width: 164px;
   padding: 3px 10px;
 }
 

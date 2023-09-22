@@ -59,6 +59,7 @@ ActiveAdmin.register_page 'Dashboard' do
           if next_delivery
             panel t('.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
               div class: 'actions' do
+                icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: next_delivery.id }, format: :csv)) +
                 icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx)) +
                 icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf), target: '_blank')
               end

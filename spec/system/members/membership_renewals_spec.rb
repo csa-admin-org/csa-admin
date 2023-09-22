@@ -45,7 +45,7 @@ describe 'Memberships Renewal' do
     within 'ul#2021' do
       expect(page).to have_content '1 janvier 2021 – 31 décembre 2021'
       expect(page).to have_content 'Grand PUBLIC'
-      expect(page).to have_content '2 x Oeufs'
+      expect(page).to have_content '2x Oeufs'
       expect(page).to have_content 'Nouveau Lieu'
       expect(page).to have_content '1 Livraison'
       expect(page).to have_content '½ Journées: 2 demandées'

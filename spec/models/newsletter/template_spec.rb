@@ -221,7 +221,6 @@ describe Newsletter::Template do
     big = create(:basket_size, name: 'Grand')
     small = create(:basket_size, name: 'Petit')
 
-
     membership = create(:membership, basket_size: small)
     basket = membership.next_basket
     basket.update!(baskets_basket_complements_attributes: {
@@ -264,6 +263,6 @@ describe Newsletter::Template do
     expect(mail_body).not_to include "Céleri"
     expect(mail_body).not_to include "Salade"
 
-    expect(mail_body).to include "Complément(s): 2 x Oeufs PUBLIC et Pain PUBLIC</p>"
+    expect(mail_body).to include "Complément(s): 2x Oeufs PUBLIC et Pain PUBLIC</p>"
   end
 end

@@ -14,18 +14,9 @@ module MembershipsHelper
   end
 
   def basket_size_description(object, text_only: false, public_name: true)
-    name = public_name ? object.basket_size.public_name : object.basket_size.name
     case object
-    when Basket
-      case object.quantity
-      when 1 then name
-      else "#{object.quantity}x #{name}"
-      end
-    when Membership
-      case object.basket_quantity
-      when 1 then name
-      else "#{object.basket_quantity}x #{name}"
-      end
+    when Basket, Membership
+      object.basket_description(public_name: public_name)
     else
       content_tag(:em, t('activerecord.models.basket_size.none'), class: 'empty') unless text_only
     end
@@ -35,18 +26,10 @@ module MembershipsHelper
     complements =
       Array(complements)
         .compact
-        .sort_by { |bbc|
-          [
-            public_name ? bbc.basket_complement.public_name : bbc.basket_complement.name
-          ]
+        .sort_by { |c|
+          public_name ? c.basket_complement.public_name : c.basket_complement.name
         }
-    names = complements.map do |complement|
-      name = public_name ? complement.basket_complement.public_name : complement.basket_complement.name
-      case complement.quantity
-      when 1 then name
-      else "#{complement.quantity} x #{name}"
-      end
-    end
+    names = complements.map { |c| c.description(public_name: public_name) }
     if names.present?
       names.to_sentence
     elsif !text_only

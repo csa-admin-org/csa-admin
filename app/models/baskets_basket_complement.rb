@@ -1,4 +1,6 @@
 class BasketsBasketComplement < ApplicationRecord
+  include HasDescription
+
   belongs_to :basket, touch: true
   belongs_to :basket_complement
   has_one :delivery, through: :basket
@@ -52,12 +54,8 @@ class BasketsBasketComplement < ApplicationRecord
     basket_complement&.annual_price_type?
   end
 
-  def description
-    case quantity
-    when 0 then nil
-    when 1 then basket_complement.name
-    else "#{quantity} x #{basket_complement.name}"
-    end
+  def description(public_name: false)
+    describe(basket_complement, quantity, public_name: public_name)
   end
 
   private

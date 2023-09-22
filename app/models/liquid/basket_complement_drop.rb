@@ -17,7 +17,7 @@ class Liquid::BasketComplementDrop < Liquid::Drop
   end
 
   def description
-    helpers.basket_complements_description(@config, text_only: true)
+    @config.description(public_name: true)
   end
 
   private

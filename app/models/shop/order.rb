@@ -2,6 +2,7 @@ module Shop
   class Order < ApplicationRecord
     include NumbersHelper
     include HasState
+    include HasDescription
 
     self.table_name = 'shop_orders'
 
@@ -166,14 +167,11 @@ module Shop
       end
     end
 
-    def complements_description
+    def complements_description(public_name: true)
       items.map { |item|
-        next unless item.product.basket_complement
+        next unless complement = item.product.basket_complement
 
-        case item.quantity
-        when 1 then item.product.basket_complement.public_name
-        else "#{item.quantity} x #{item.product.basket_complement.public_name}"
-        end
+        describe(complement, item.quantity, public_name: public_name)
       }.compact.to_sentence.presence
     end
 
