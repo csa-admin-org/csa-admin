@@ -56,7 +56,7 @@ describe 'Baskets' do
     click_on 'Livraisons'
 
     expect(current_path).to eq '/deliveries'
-    expect(page).to have_content '2 x Oeufs et Tofu'
+    expect(page).to have_content '2x Oeufs et Tofu'
 
     click_on 'Modifier'
 
@@ -74,7 +74,7 @@ describe 'Baskets' do
     }.to change { membership.reload.basket_complements_price }.from(4.4).to(9.9)
 
     expect(current_path).to eq '/deliveries'
-    expect(page).to have_content 'Pain et 3 x Tofu'
+    expect(page).to have_content 'Pain et 3x Tofu'
   end
 
   specify 'update not allowed', freeze: '2022-01-01' do

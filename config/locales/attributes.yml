@@ -152,6 +152,10 @@ _:
       _de: Lieferung
       _fr: Livraison
       _it: Consegna
+    delivery_note:
+      _de: Notiz Lieferung
+      _fr: Note livraison
+      _it: Note consegna
     depot:
       _de: Depot
       _fr: Dépôt
@@ -192,6 +196,10 @@ _:
       _de: Geschäftsjahr
       _fr: Année fiscale
       _it: Anno fiscale
+    food_note:
+      _de: Notiz Lebensmittel
+      _fr: Note alimentaire
+      _it: Note alimentari
     form_detail:
       _de: Beschreibung
       _fr: Description

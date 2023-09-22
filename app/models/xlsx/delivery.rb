@@ -5,14 +5,8 @@ module XLSX
       @baskets = @delivery.baskets.not_absent
       @shop_orders = @delivery.shop_orders.all_without_cart
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
-      basket_complement_ids =
-        @baskets
-          .joins(:baskets_basket_complements)
-          .pluck('baskets_basket_complements.basket_complement_id')
-          .uniq
-      @basket_complements = BasketComplement.find(basket_complement_ids)
-      basket_size_ids = @baskets.pluck(:basket_size_id).uniq
-      @basket_sizes = BasketSize.find(basket_size_ids)
+      @basket_complements = BasketComplement.for(@baskets, @shop_orders)
+      @basket_sizes = BasketSize.for(@baskets)
 
       build_summary_worksheet unless depot
 
@@ -179,14 +173,16 @@ module XLSX
           Basket.human_attribute_name(:complement_ids),
           members.map { |m| m.basket&.complements_description },
           border: border)
-        if Current.acp.feature?('shop')
+      end
+      if Current.acp.feature?('shop')
+        add_column(
+          I18n.t('shop.title_orders', count: 2),
+          members.map { |m| m.shop_order ? 'X' : '' },
+          border: border)
+        if @basket_complements.any?
           add_column(
             "#{Basket.human_attribute_name(:complement_ids)} (#{::Shop::Order.model_name.human(count: 1)})",
             members.map { |m| m.shop_order&.complements_description },
-            border: border)
-          add_column(
-            I18n.t('shop.title_orders', count: 2),
-            members.map { |m| m.shop_order ? 'X' : '' },
             border: border)
         end
       end

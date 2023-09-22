@@ -1,6 +1,58 @@
 ActiveAdmin.register Basket do
   menu false
-  actions :edit, :update
+  actions :index, :edit, :update
+
+  filter :delivery, as: :select
+
+  includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
+  csv do
+    delivery = Delivery.find(params[:q][:delivery_id_eq])
+    shop_orders =
+      if Current.acp.feature?('shop')
+        delivery.shop_orders.includes(:member, items: { product: :basket_complement })
+      else
+        Shop::Order.none
+      end
+
+    column(:membership_id) { |b| b.membership_id }
+    column(:member_id) { |b| b.member.id }
+    column(:name) { |b| b.member.name }
+    column(:emails) { |b| b.member.emails_array.join(', ') }
+    column(:phones) { |b| b.member.phones_array.map(&:phony_formatted).join(', ') }
+    column(:address) { |b| b.member.final_delivery_address }
+    column(:zip) { |b| b.member.final_delivery_zip }
+    column(:city) { |b| b.member.final_delivery_city }
+    column(:food_note) { |b| b.member.food_note }
+    column(:delivery_note) { |b| b.member.delivery_note }
+    column(:depot_id)
+    column(:depot) { |b| b.depot&.public_name }
+    column(:basket_size_id)
+    column(I18n.t('attributes.basket_size')) { |b| b.basket_size.name }
+    column(:quantity) { |b| b.quantity }
+    column(:description) { |b| b.basket_description(public_name: true) }
+    if BasketComplement.any?
+      shop_orders ||= Shop::Order.none
+      BasketComplement.for(collection, shop_orders).each do |c|
+        column(c.name) { |b|
+          b.baskets_basket_complements.select { |bc| bc.basket_complement_id == c.id }.sum(&:quantity) +
+            shop_orders.select { |o| o.member_id == b.member.id }.sum { |o| o.items.select { |i| i.product.basket_complement_id == c.id }.sum(&:quantity) }
+        }
+      end
+      column("#{Basket.human_attribute_name(:complement_ids)} (#{Basket.human_attribute_name(:description)})") { |b|
+        b.complements_description(public_name: true)
+      }
+    end
+    if Current.acp.feature?('shop')
+      column(I18n.t('shop.title_orders', count: 2)) { |b|
+        shop_orders.any? { |o| o.member_id == b.member.id } ? 'X' : nil
+      }
+      if BasketComplement.any?
+        column("#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})") { |b|
+          shop_orders.find { |o| o.member_id == b.member.id }&.complements_description
+        }
+      end
+    end
+  end
 
   breadcrumb do
     links = [
@@ -96,12 +148,27 @@ ActiveAdmin.register Basket do
     ]
 
   controller do
-    include TranslatedCSVFilename
-
     def update
       update! do |success, failure|
         success.html { redirect_to resource.membership }
       end
+    end
+
+    def scoped_collection
+      if params[:action] == 'index'
+        end_of_association_chain.not_absent.not_empty
+      else
+        super
+      end
+    end
+
+    def csv_filename
+      delivery = Delivery.find(params[:q][:delivery_id_eq])
+      [
+        t('delivery.delivery'),
+        delivery.display_number,
+        delivery.date.strftime('%Y%m%d')
+      ].join('-') + '.csv'
     end
   end
 end

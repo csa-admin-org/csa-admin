@@ -1,4 +1,6 @@
 class Basket < ApplicationRecord
+  include HasDescription
+
   default_scope { joins(:delivery).order('deliveries.date') }
 
   belongs_to :membership, counter_cache: true, touch: true
@@ -51,30 +53,27 @@ class Basket < ApplicationRecord
       .sum('baskets_basket_complements.quantity')
   end
 
-  def description
+  def description(public_name: false)
     [
-      basket_description,
-      complements_description
+      basket_description(public_name: public_name),
+      complements_description(public_name: public_name)
     ].compact.join(' + ').presence || '–'
   end
 
-  def basket_description
-    case quantity
-    when 0 then nil
-    when 1 then basket_size.name
-    else "#{quantity} x #{basket_size.name}"
-    end
+  def basket_description(public_name: false)
+    describe(basket_size, quantity, public_name: public_name)
   end
 
   def billable?
     !absent? || Current.acp.absences_billed?
   end
 
-  def complements_description
+  def complements_description(public_name: false)
     baskets_basket_complements
       .joins(:basket_complement)
       .merge(BasketComplement.order_by_name)
-      .map(&:description).compact.to_sentence.presence
+      .map { |bc| bc.description(public_name: public_name) }
+      .compact.to_sentence.presence
   end
 
   def complements_price

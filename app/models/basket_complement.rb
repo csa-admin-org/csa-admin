@@ -45,6 +45,19 @@ class BasketComplement < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_type, inclusion: { in: PRICE_TYPES }
 
+  def self.for(baskets, shop_orders)
+    ids =
+      baskets
+        .joins(:baskets_basket_complements)
+        .where('baskets_basket_complements.quantity > 0')
+        .pluck(:basket_complement_id)
+    ids +=
+      shop_orders
+        .joins(:products)
+        .pluck('shop_products.basket_complement_id')
+    where(id: ids.uniq)
+  end
+
   def self.member_ordered
     all.to_a.sort_by { |bc|
       clauses = [bc.member_order_priority]

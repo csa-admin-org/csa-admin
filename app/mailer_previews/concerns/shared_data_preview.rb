@@ -69,7 +69,7 @@ module SharedDataPreview
       .reorder(:id)
       .sample(2, random: random)
       .map { |bc|
-        OpenStruct.new(
+        MembershipsBasketComplement.new(
           quantity: 1,
           basket_complement: bc)
       }
