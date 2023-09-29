@@ -77,7 +77,7 @@ class Newsletter
 
       limit = coming_deliveries_in_days.days.from_now
       members.includes(next_basket: :delivery).select { |m|
-        m.next_basket&.delivery&.date <= limit
+        m.next_basket && m.next_basket.delivery.date <= limit
       }
     end
   end
