@@ -86,6 +86,19 @@ describe MembershipBasketsUpdater do
     ])
   end
 
+  specify 'leave untouched past baskets of ended membership' do
+    travel_to('2022-01-01') do
+      membership
+      membership.update!(ended_on: '2022-01-15')
+    end
+    travel_to '2022-01-16' do
+      delivery = Delivery.find_by(date: '2022-01-19')
+
+      expect { delivery.update!(date: '2022-02-02') }
+        .not_to change { membership.reload.baskets.count }.from(4)
+    end
+  end
+
   specify 'update when delivery is created', freeze: '2022-01-01' do
     membership
 
