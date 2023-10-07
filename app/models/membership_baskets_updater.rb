@@ -8,6 +8,8 @@ class MembershipBasketsUpdater
   end
 
   def perform!
+    return if @membership.past?
+
     @membership.transaction do
       ensure_valid_deliveries_cycle!
       baskets.where.not(delivery_id: future_deliveries).find_each(&:destroy!)
@@ -39,8 +41,6 @@ class MembershipBasketsUpdater
   end
 
   def future_deliveries
-    return [] unless range.min
-
     @future_deliveries ||= @membership.deliveries_cycle.deliveries_in(range)
   end
 end
