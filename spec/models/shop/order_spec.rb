@@ -236,25 +236,173 @@ describe Shop::Order do
   end
 
   describe '#confirm!' do
-    specify 'change state to pending and update product stock' do
+    specify 'change state to pending and decrement product stock' do
       product = create(:shop_product, variants_attributes: {
         '0' => {
           name: '5 kg',
           price: 16,
           stock: 2
         },
+        '1' => {
+          name: '10 kg',
+          price: 30,
+          stock: 4
+        }
       })
       order = create(:shop_order, :cart, items_attributes: {
         '0' => {
           product_id: product.id,
           product_variant_id: product.variants.first.id,
           quantity: 1
+        },
+        '1' => {
+          product_id: product.id,
+          product_variant_id: product.variants.last.id,
+          quantity: 2,
         }
       })
 
       expect { order.confirm! }
         .to change { product.variants.first.reload.stock }.from(2).to(1)
+        .and change { product.variants.last.reload.stock }.from(4).to(2)
         .and change { order.reload.state }.from('cart').to('pending')
+    end
+
+    specify 'persist the depot' do
+      member = create(:member, :active)
+      depot = member.current_membership.depot
+      order = create(:shop_order, :cart, member: member)
+
+      expect(order.depot).to eq(depot)
+
+      expect { order.confirm! }
+        .to change { order.reload.depot_id }.from(nil).to(depot.id)
+    end
+  end
+
+  describe '#update!' do
+    specify 'update product stock when pending order is changing' do
+      product = create(:shop_product, variants_attributes: {
+        '0' => {
+          name: '5 kg',
+          price: 16,
+          stock: 2
+        },
+        '1' => {
+          name: '10 kg',
+          price: 30,
+          stock: 4
+        },
+        '2' => {
+          name: '15 kg',
+          price: 35,
+          stock: 5
+        },
+        '3' => {
+          name: '20 kg',
+          price: 40,
+          stock: 4
+        }
+      })
+      order = create(:shop_order, :cart, items_attributes: {
+        '0' => {
+          product_id: product.id,
+          product_variant_id: product.variants.first.id,
+          quantity: 1
+        },
+        '1' => {
+          product_id: product.id,
+          product_variant_id: product.variants.second.id,
+          quantity: 2,
+        },
+        '2' => {
+          product_id: product.id,
+          product_variant_id: product.variants.third.id,
+          quantity: 3
+        },
+        '3' => {
+          product_id: product.id,
+          product_variant_id: product.variants.last.id,
+          quantity: 3
+        }
+      })
+      order.confirm!
+      order.reload
+
+      expect {
+        order.update!(items_attributes: {
+          '0' => {
+            id: order.items.first.id,
+            quantity: 2
+          },
+          '1' => {
+            id: order.items.second.id,
+            quantity: 1,
+          },
+          '2' => {
+            id: order.items.third.id,
+            quantity: 0
+          },
+          '3' => {
+            id: order.items.last.id,
+            quantity: 3,
+            _destroy: 1
+          }
+        })
+      }
+        .to change { product.variants.first.reload.stock }.from(1).to(0)
+        .and change { product.variants.second.reload.stock }.from(2).to(3)
+        .and change { product.variants.third.reload.stock }.from(2).to(5)
+        .and change { product.variants.last.reload.stock }.from(1).to(4)
+
+      expect(order.items.size).to eq(2)
+    end
+
+    specify 'persist the depot' do
+      member = create(:member, :active)
+      depot = member.current_membership.depot
+      order = create(:shop_order, :cart, member: member)
+
+      expect(order.depot).to eq(depot)
+
+      expect { order.confirm! }
+        .to change { order.reload.depot_id }.from(nil).to(depot.id)
+    end
+  end
+
+  describe '#unconfirm!' do
+    specify 'change state to pending and increment product stock' do
+      product = create(:shop_product, variants_attributes: {
+        '0' => {
+          name: '5 kg',
+          price: 16,
+          stock: 2
+        },
+        '1' => {
+          name: '10 kg',
+          price: 30,
+          stock: 4
+        }
+      })
+      order = create(:shop_order, :cart, items_attributes: {
+        '0' => {
+          product_id: product.id,
+          product_variant_id: product.variants.first.id,
+          quantity: 1
+        },
+        '1' => {
+          product_id: product.id,
+          product_variant_id: product.variants.last.id,
+          quantity: 4,
+        }
+      })
+      order.confirm!
+      order.reload
+
+      expect { order.unconfirm! }
+        .to change { product.variants.first.reload.stock }.from(1).to(2)
+        .and change { product.variants.last.reload.stock }.from(0).to(4)
+        .and change { order.reload.state }.from('pending').to('cart')
     end
 
     specify 'persist the depot' do

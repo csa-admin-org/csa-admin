@@ -4,7 +4,7 @@ module Shop
 
     self.table_name = 'shop_order_items'
 
-    belongs_to :order, class_name: 'Shop::Order', optional: false
+    belongs_to :order, class_name: 'Shop::Order', optional: false, inverse_of: :items
     belongs_to :product, class_name: 'Shop::Product', optional: false
     belongs_to :product_variant, class_name: 'Shop::ProductVariant', optional: false
     has_one :delivery, through: :order
@@ -15,7 +15,7 @@ module Shop
     validate :ensure_available_product_variant_stock
     validate :ensure_product_available_for_delivery
 
-    before_save :update_product_variant_stock!
+    before_save :update_product_variant_stock_of_pending_order!
     after_destroy :release_product_variant_stock!
     after_save :set_order_amount
 
@@ -48,7 +48,7 @@ module Shop
     end
 
     def quantity_was
-      persisted? ? super : 0
+      new_record? ? 0 : super
     end
 
     private
@@ -78,13 +78,12 @@ module Shop
       end
     end
 
-    def update_product_variant_stock!
-      if order_just_confirmed?
-        product_variant.decrement_stock! quantity
-      elsif order_just_unconfirmed?
-        product_variant.increment_stock! quantity
-      elsif order.pending? && quantity_changed?
-        change = quantity - quantity_was.to_i
+    def update_product_variant_stock_of_pending_order!
+      return if order.state_changed? # handled by order#(un)confirm!
+      return unless order.pending?
+
+      change = quantity - quantity_was
+      if change.nonzero?
         product_variant.decrement_stock! change
       end
     end
@@ -97,7 +96,7 @@ module Shop
     def release_product_variant_stock!
       return if order.cart?
 
-      product_variant.increment_stock! quantity
+      product_variant.increment_stock! quantity_was
     end
 
     def order_just_confirmed?
