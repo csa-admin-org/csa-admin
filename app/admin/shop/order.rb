@@ -366,6 +366,13 @@ ActiveAdmin.register Shop::Order do
     after_create do |order|
       order.confirm! if order.valid?
     end
+
+    def find_resource
+      scoped_collection
+        .where(id: params[:id])
+        .includes(items: [:product, :product_variant])
+        .first!
+    end
   end
 
   config.sort_order = 'created_at_desc'

@@ -46,7 +46,7 @@ module Shop
     validate :ensure_minimal_amount
 
     accepts_nested_attributes_for :items,
-      reject_if: ->(attrs) { attrs[:quantity].to_i.zero? },
+      reject_if: :reject_items,
       allow_destroy: true
 
     def self.ransackable_scopes(_auth_object = nil)
@@ -120,10 +120,10 @@ module Shop
 
       transaction do
         items.each(&:validate!)
+        items.each { |i| i.product_variant.decrement_stock!(i.quantity) }
         update!(
           state: PENDING_STATE,
           depot: depot)
-        items.each(&:save!) # update stocks
       end
     end
 
@@ -131,10 +131,10 @@ module Shop
       invalid_transition(:confirm!) unless pending?
 
       transaction do
+        items.each { |i| i.product_variant.increment_stock!(i.quantity) }
         update!(
           state: CART_STATE,
           depot: nil)
-        items.each { |i| i.save!(validate: false) } # update stocks
       end
     end
 
@@ -221,6 +221,17 @@ module Shop
 
       if amount < min
         errors.add(:base, :minimal_amount, min: cur(min))
+      end
+    end
+
+    def reject_items(attrs)
+      if attrs[:quantity].to_i.zero?
+        if attrs[:id].present?
+          attrs.merge!(_destroy: 1)
+          false
+        else
+          true
+        end
       end
     end
 

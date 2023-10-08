@@ -41,7 +41,6 @@ ActiveAdmin.register Shop::Product do
     as: :numeric
 
   includes :variants, :basket_complement
-
   index do
     selectable_column
     column :name, ->(product) { auto_link product }, sortable: :names
