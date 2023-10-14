@@ -111,10 +111,9 @@ ActiveAdmin.register Activity do
 
     def apply_sorting(chain)
       if params[:scope] == 'past' && !params[:order]
-        super(chain).reorder(date: :desc)
-      else
-        super(chain)
+        params[:order] = 'date_desc'
       end
+      super(chain)
     end
   end
 
