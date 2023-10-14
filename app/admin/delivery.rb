@@ -32,7 +32,7 @@ ActiveAdmin.register Delivery do
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
     if Current.acp.feature?('shop')
-      column :shop, ->(delivery) { status_tag(delivery.shop_open?) }
+      column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }
     end
     actions defaults: true, class: 'col-actions-6' do |delivery|
       link_to('CSV', baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), class: 'csv_link') +
@@ -214,6 +214,13 @@ ActiveAdmin.register Delivery do
 
   controller do
     include TranslatedCSVFilename
+
+    def apply_sorting(chain)
+      if params[:scope] == 'past' && !params[:order]
+        params[:order] = 'date_desc'
+      end
+      super(chain)
+    end
 
     def show
       depot = Depot.find(params[:depot_id]) if params[:depot_id].present?

@@ -119,10 +119,13 @@ class Delivery < ApplicationRecord
     limit = end_time.on(date - delay_in_days)
   end
 
+  def shop_configured_open?
+    shop_open && shop_open_for_depot_ids.any?
+  end
+
   def shop_open?(depot_id: nil, ignore_closing_at: false)
     return false unless Current.acp.feature?('shop')
-    return false unless shop_open
-    return false if shop_open_for_depot_ids.empty?
+    return false unless shop_configured_open?
 
     (ignore_closing_at || !shop_closing_at.past?) &&
       (!depot_id || shop_closed_for_depot_ids.exclude?(depot_id))
