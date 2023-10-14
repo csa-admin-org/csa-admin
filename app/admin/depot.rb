@@ -68,25 +68,34 @@ ActiveAdmin.register Depot do
   show do |depot|
     columns do
       column do
-        next_delivery = depot.next_delivery
-        panel t('active_admin.page.index.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
-          div class: 'actions' do
-            icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
-            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: '_blank')
-          end
+        if next_delivery = depot.next_delivery
+          panel t('active_admin.page.index.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
+            div class: 'actions' do
+              icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
+              icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: '_blank')
+            end
 
-          attrs = {}
-          if authorized?(:update, depot) && depot.delivery_sheets_mode == 'home_delivery'
-            attrs[:class] = 'sortable'
-            attrs[:tbody] = { 'data-controller' => 'sortable' }
-            attrs[:row_data] = ->(b) {
-              { 'data-sortable-update-url' => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
-            }
-          end
+            attrs = {}
+            if authorized?(:update, depot) && depot.delivery_sheets_mode == 'home_delivery'
+              attrs[:class] = 'sortable'
+              attrs[:tbody] = { 'data-controller' => 'sortable' }
+              attrs[:row_data] = ->(b) {
+                { 'data-sortable-update-url' => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
+              }
+            end
 
-          table_for(depot.baskets_for(next_delivery), **attrs) do
-            column Member.model_name.human, -> (b) { auto_link b.member }
-            column Basket.model_name.human, -> (b) { link_to(b.description, b.membership) }
+            table_for(depot.baskets_for(next_delivery), **attrs) do
+              column Member.model_name.human, -> (b) { auto_link b.member }
+              column Basket.model_name.human, -> (b) { link_to(b.description, b.membership) }
+            end
+          end
+        else
+          panel t('active_admin.page.index.no_next_delivery') do
+            div class: 'blank_slate_container' do
+              i do
+                link_to t('active_admin.page.index.no_next_deliveries'), deliveries_path
+              end
+            end
           end
         end
 
