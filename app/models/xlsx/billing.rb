@@ -1,6 +1,7 @@
 module XLSX
   class Billing < Base
     def initialize(year)
+      @year = year
       @invoices = Invoice.not_canceled.during_year(year)
       @payments = Payment.during_year(year)
       @memberships = Membership.during_year(year).includes(:member)
@@ -16,7 +17,8 @@ module XLSX
           .merge(Membership.during_year(year))
           .merge(Member.no_salary_basket)
 
-      build_worksheet(t('title'))
+      main_worksheet
+      shop_worksheet if Current.acp.feature?('shop')
     end
 
     def filename
@@ -29,8 +31,8 @@ module XLSX
 
     private
 
-    def build_worksheet(name)
-      worksheet = add_worksheet(name)
+    def main_worksheet
+      worksheet = add_worksheet(t('title'))
       add_headers(
         Invoice.human_attribute_name(:description),
         Invoice.human_attribute_name(:unit_price),
@@ -129,6 +131,48 @@ module XLSX
       @worksheet.add_cell(@line, 0, description)
       @worksheet.add_cell(@line, 1, price).set_number_format('0.000')
       @worksheet.add_cell(@line, 2, total).set_number_format('0.00')
+      @line += 1
+    end
+
+    def shop_worksheet
+      worksheet = add_worksheet(I18n.t('shop.title'))
+
+      add_headers(
+        ::Shop::Product.model_name.human(count: 1),
+        ::Shop::ProductVariant.model_name.human(count: 1),
+        ::Shop::Producer.model_name.human(count: 1),
+        ::Shop::Tag.model_name.human(count: 2),
+        ::Shop::OrderItem.human_attribute_name(:quantity),
+        Invoice.human_attribute_name(:total))
+
+      orders = ::Shop::Order.invoiced.during_year(@year).includes(items: [:product_variant, product: :producer])
+      variants = {}
+      orders.find_each do |order|
+        order.items.each do |item|
+          variants[item.product_variant] ||= { quantity: 0, amount: 0 }
+          variants[item.product_variant][:quantity] += item.quantity
+          variants[item.product_variant][:amount] += item.amount_after_percentage
+        end
+      end
+      variants.sort_by { |variant, _| variant.product.name }.each do |variant, data|
+        add_product_line(variant, data[:quantity], data[:amount])
+      end
+
+      worksheet.change_column_width(0, 35)
+      worksheet.change_column_width(1, 20)
+      worksheet.change_column_width(2, 35)
+      worksheet.change_column_width(3, 15)
+      worksheet.change_column_horizontal_alignment(4, 'right')
+      worksheet.change_column_horizontal_alignment(5, 'right')
+    end
+
+    def add_product_line(variant, quantity, total)
+      @worksheet.add_cell(@line, 0, variant.product.name)
+      @worksheet.add_cell(@line, 1, variant.name)
+      @worksheet.add_cell(@line, 2, variant.product.producer.name)
+      @worksheet.add_cell(@line, 3, variant.product.tags.map(&:name).join(', '))
+      @worksheet.add_cell(@line, 4, quantity).set_number_format('0')
+      @worksheet.add_cell(@line, 5, total).set_number_format('0.00')
       @line += 1
     end
 

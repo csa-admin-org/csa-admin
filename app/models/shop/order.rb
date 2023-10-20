@@ -33,6 +33,10 @@ module Shop
     scope :_delivery_gid_eq, ->(gid) {
       where(delivery: GlobalID::Locator.locate(gid))
     }
+    scope :during_year, ->(year) {
+      deliveries = Delivery.during_year(year) + Shop::SpecialDelivery.during_year(year)
+      where(delivery: deliveries)
+    }
 
     before_validation :set_amount
 
@@ -196,10 +200,11 @@ module Shop
     private
 
     def set_amount
-      raw_amount = items.reject(&:marked_for_destruction?).sum(&:amount)
+      kept_items = items.reject(&:marked_for_destruction?)
+      raw_amount = kept_items.sum(&:amount)
       if amount_percentage?
         self[:amount_before_percentage] = raw_amount
-        self[:amount] = (raw_amount * (1 + amount_percentage / 100.0)).round_to_five_cents
+        self[:amount] = kept_items.sum { |i| i.amount_after_percentage }
       else
         self[:amount_before_percentage] = nil
         self[:amount] = raw_amount
