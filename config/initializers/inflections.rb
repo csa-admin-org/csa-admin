@@ -24,4 +24,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'CSV'
   inflect.acronym 'QR'
   inflect.acronym 'EBICS'
+  inflect.acronym 'SLog'
 end
