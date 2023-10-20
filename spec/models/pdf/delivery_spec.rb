@@ -140,10 +140,20 @@ describe PDF::Delivery do
         })
       product2 = create(:shop_product,
         name: 'Farine',
+        display_in_delivery_sheets: false,
         variants_attributes: {
           '0' => {
             name: '500g',
             price: '4'
+          },
+        })
+      product3 = create(:shop_product,
+        name: 'Pain',
+        display_in_delivery_sheets: true,
+        variants_attributes: {
+          '0' => {
+            name: '500g',
+            price: '5'
           },
         })
       order = create(:shop_order, :pending,
@@ -156,6 +166,11 @@ describe PDF::Delivery do
           product_variant_id: product.variants.first.id,
           quantity: 2
         },
+        '1' => {
+          product_id: product3.id,
+          product_variant_id: product3.variants.first.id,
+          quantity: 1
+        },
       })
       order = create(:shop_order, :pending,
         delivery: delivery,
@@ -167,16 +182,22 @@ describe PDF::Delivery do
           product_variant_id: product2.variants.first.id,
           quantity: 2
         },
+        '1' => {
+          product_id: product3.id,
+          product_variant_id: product3.variants.first.id,
+          quantity: 3
+        },
       })
 
       pdf_strings = save_pdf_and_return_strings(delivery, depot)
       expect(pdf_strings)
         .to include('Fleurs Kissling PUBLIC')
         .and include(I18n.l delivery.date)
-        .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs PUBLIC', 'Tomme de Lavaux PUBLIC', "Commande d'épicerie")
-        .and contain_sequence('Membre', '2', '1', '2', '3', '2', 'Signature')
-        .and contain_sequence('Alain Reymond', '1', '2', '1', 'X')
-        .and contain_sequence('John Doe', '2', '2', 'X')
+        .and contain_sequence('Fleurs Kissling', '2', '1', '2', '3', '2', '4') # Recap
+        .and contain_sequence('Petit PUBLIC', 'Grand PUBLIC', 'Oeufs PUBLIC', 'Tomme de Lavaux PUBLIC', "Commande d'épicerie", "Pain (500g)")
+        .and contain_sequence('Membre', '2', '1', '2', '3', '2', '4', 'Signature')
+        .and contain_sequence('Alain Reymond', '1', '2', '1', 'X', '1')
+        .and contain_sequence('John Doe', '2', '2', 'X', '3')
     end
   end
 

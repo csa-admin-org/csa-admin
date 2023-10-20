@@ -22,6 +22,10 @@ module Shop
     has_many :products,
       class_name: 'Shop::Product',
       through: :items
+    has_many :products_displayed_in_delivery_sheets,
+      class_name: 'Shop::Product',
+      through: :items,
+      source: :product_displayed_in_delivery_sheet
     has_many :invoices, as: :object
     has_one :invoice, -> { not_canceled }, as: :object
 
@@ -56,6 +60,20 @@ module Shop
     def self.complement_count(complement)
       joins(items: :product)
         .where(shop_products: { basket_complement_id: complement.id })
+        .sum('shop_order_items.quantity')
+    end
+
+    def self.products_displayed_in_delivery_sheets
+      joins(:products_displayed_in_delivery_sheets)
+        .map(&:products_displayed_in_delivery_sheets)
+        .flatten
+        .uniq
+        .sort_by(&:name)
+    end
+
+    def self.quantity_for(product)
+      joins(:items)
+        .where(shop_order_items: { product_id: product.id })
         .sum('shop_order_items.quantity')
     end
 

@@ -72,18 +72,21 @@ module PDF
     def summary_content
       basket_sizes = BasketSize.for(@baskets)
       basket_complements = BasketComplement.for(@baskets, @shop_orders)
+      shop_products = @shop_orders.products_displayed_in_delivery_sheets
 
       font_size 9
       move_down 1.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
-      bc_size += 1 if @shop_orders.any?
+      sp_size = 0
+      sp_size += 1 if @shop_orders.any?
+      sp_size += shop_products.size
 
       page_border = 65
       width = bounds.width - 2 * page_border
       number_width = 25
-      depot_name_width = width - (bs_size + bc_size) * number_width
+      depot_name_width = width - (bs_size + bc_size + sp_size) * number_width
       total_rotate = 45
       offset_x = 8
       offset_y = 12
@@ -119,7 +122,18 @@ module PDF
           fill_color header_index.even? ? '666666' : '000000'
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: total_rotate,
-            at: [depot_name_width + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
+            at: [depot_name_width + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y],
+            valign: :center,
+            size: 8,
+            style: :bold,
+            width: 100
+          header_index += 1
+        end
+        shop_products.each_with_index do |product, i|
+          fill_color header_index.even? ? '666666' : '000000'
+          text_box product.name_with_single_variant,
+            rotate: total_rotate,
+            at: [depot_name_width + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y],
             valign: :center,
             size: 8,
             style: :bold,
@@ -160,6 +174,13 @@ module PDF
           align: :center
         }
       end
+      shop_products.each do |p|
+        total_line << {
+          content: @shop_orders.quantity_for(p).to_s,
+          width: number_width,
+          align: :center
+        }
+      end
       data << total_line
 
       # Depots
@@ -181,6 +202,9 @@ module PDF
         end
         if @shop_orders.any?
           line << display_quantity(shop_orders.count)
+        end
+        shop_products.each do |p|
+          line << display_quantity(shop_orders.quantity_for(p))
         end
         data << line
       end
@@ -206,7 +230,7 @@ module PDF
         position: :center) do |t|
         t.cells.borders = []
 
-        (bs_size + bc_size).times do |i|
+        (bs_size + bc_size + sp_size).times do |i|
           t.column(1 + i).width = number_width
           t.column(1 + i).align = :center
           t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
@@ -307,19 +331,22 @@ module PDF
 
     def content(depot, members, baskets, basket_sizes, shop_orders)
       basket_complements = BasketComplement.for(baskets, shop_orders)
+      shop_products = shop_orders.products_displayed_in_delivery_sheets
 
       font_size 11
       move_down 2.cm
 
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
-      bc_size += 1 if shop_orders.any?
+      sp_size = 0
+      sp_size += 1 if shop_orders.any?
+      sp_size += shop_products.size
 
       page_border = 20
       width = bounds.width - 2 * page_border
       number_width = 25
       extra_width = 110
-      member_name_width = width - (bs_size + bc_size) * number_width - extra_width
+      member_name_width = width - (bs_size + bc_size + sp_size) * number_width - extra_width
       address_width = depot.delivery_sheets_mode == 'home_delivery' ? (member_name_width / 2) : 0
       offset_x = 6
       offset_y = 12
@@ -356,11 +383,24 @@ module PDF
           fill_color header_index.even? ? '666666' : '000000'
           text_box I18n.t('shop.title_orders', count: 1),
             rotate: 45,
-            at: [numbers_width_offset + (bs_size + bc_size - 1) * number_width + offset_x, cursor + offset_y],
+            at: [numbers_width_offset + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y],
             valign: :center,
             size: 10,
             style: :bold,
-            width: 100
+            width: 150
+          header_index += 1
+        end
+        shop_products.each_with_index do |product, i|
+          fill_color header_index.even? ? '666666' : '000000'
+          text_box product.name_with_single_variant,
+            rotate: 45,
+            at: [numbers_width_offset + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y],
+            valign: :center,
+            overflow: :expand,
+            size: 10,
+            style: :bold,
+            width: 150
+          header_index += 1
         end
       end
       fill_color "000000"
@@ -401,6 +441,13 @@ module PDF
       if shop_orders.any?
         total_line << {
           content: shop_orders.count.to_s,
+          width: number_width,
+          align: :center
+        }
+      end
+      shop_products.each do |p|
+        total_line << {
+          content: shop_orders.quantity_for(p).to_s,
           width: number_width,
           align: :center
         }
@@ -484,6 +531,17 @@ module PDF
               shop_order ? 'X' : ''
             end
         end
+        shop_products.each do |p|
+          line <<
+            if basket&.absent?
+              '–'
+            elsif shop_order
+              shop_order_item = shop_order.items.find { |i| i.product_id == p.id }
+              display_quantity(shop_order_item&.quantity || 0)
+            else
+              ''
+            end
+        end
         extra_content =
           case depot.delivery_sheets_mode
           when 'signature'; basket&.absent? ? Basket.human_attribute_name(:absent).upcase : ''
@@ -509,7 +567,7 @@ module PDF
         t.cells.borders = []
 
         numbers_column_offset = depot.delivery_sheets_mode == 'home_delivery' ? 2 : 1
-        (bs_size + bc_size).times do |i|
+        (bs_size + bc_size + sp_size).times do |i|
           t.column(numbers_column_offset + i).width = number_width
           t.column(numbers_column_offset + i).align = :center
           # if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
