@@ -98,6 +98,8 @@ group :development do
   gem 'letter_opener'
 
   gem 'terminal-table'
+
+  gem 'ruby-lsp-rails'
 end
 
 group :test do
