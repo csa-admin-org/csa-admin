@@ -28,6 +28,12 @@ module Shop
       (item_price * quantity).round_to_five_cents
     end
 
+    def amount_after_percentage
+      return amount unless order.amount_percentage
+
+      (amount * (1 + order.amount_percentage / 100.0)).round_to_five_cents
+    end
+
     def weight_in_kg
       return 0 unless product_variant.weight_in_kg
 
