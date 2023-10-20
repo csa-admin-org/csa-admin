@@ -45,6 +45,25 @@ describe Shop::Product do
     expect(product.variants.available).to be_present
   end
 
+  specify 'validate only one variant when displayed in delivery sheets' do
+    product = build(:shop_product,
+      display_in_delivery_sheets: true,
+      variants_attributes: {
+        '0' => {
+          name: '100g',
+          price: 5
+        },
+        '1' => {
+          name: '200g',
+          price: 10
+        }
+      })
+
+    expect(product).not_to have_valid(:display_in_delivery_sheets)
+    expect(product.errors.messages[:display_in_delivery_sheets])
+      .to include('Ne peut pas être activé si le produit a plusieurs variantes')
+  end
+
   describe '.available_for' do
     specify 'returns products that are available' do
       delivery = create(:delivery)
@@ -110,5 +129,21 @@ describe Shop::Product do
   specify 'null producer' do
     product = create(:shop_product, producer: nil)
     expect(product.producer).to eq Shop::NullProducer.instance
+  end
+
+  specify '#display_in_delivery_sheets' do
+    product = build(:shop_product,
+      basket_complement: create(:basket_complement),
+      display_in_delivery_sheets: false)
+    expect(product.display_in_delivery_sheets).to eq true
+    expect(product).to be_display_in_delivery_sheets
+
+    product = build(:shop_product, display_in_delivery_sheets: false)
+    expect(product.display_in_delivery_sheets).to eq false
+    expect(product).not_to be_display_in_delivery_sheets
+
+    product.display_in_delivery_sheets = true
+    expect(product.display_in_delivery_sheets).to eq true
+    expect(product).to be_display_in_delivery_sheets
   end
 end

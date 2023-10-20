@@ -545,9 +545,13 @@ _:
           _it: Lasciare vuoto per il prezzo standard.
       shop/product:
         basket_complement:
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in der Zusammenfassung (XLSX) und den Blättern (PDF) der Taschenlieferung gezählt.
-          _fr: Gère le produit comme un complément panier, les commandes de ce produit seront alors comptées dans le récapitulatif (XLSX) et les fiches (PDF) de la livraison des paniers.
-          _it: Gestisce il prodotto come componente aggiuntivo del carrello. Gli ordini per questo prodotto saranno quindi conteggiati nel riepilogo delle consegne del carrello (XLSX) e nei fogli (PDF).
+          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Taschenlieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
+          _fr: Gère le produit comme un complément panier, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des paniers. Une seule variante par produit est autorisée.
+          _it: Gestisce il prodotto come componente aggiuntivo del carrello. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna del carrello (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
+        display_in_delivery_sheets:
+          _de: Nur möglich, wenn das Produkt nur eine Variante hat.
+          _fr: Uniquement possible si le produit n'a qu'une seule variante.
+          _it: Possibile solo se il prodotto ha una sola variante.
       shop/product_variant:
         stock:
           _de: Leer lassen, wenn der Lagerbestand nicht verwaltet wird.

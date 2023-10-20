@@ -7,6 +7,11 @@ module Shop
     belongs_to :order, class_name: 'Shop::Order', optional: false, inverse_of: :items
     belongs_to :product, class_name: 'Shop::Product', optional: false
     belongs_to :product_variant, class_name: 'Shop::ProductVariant', optional: false
+    belongs_to :product_displayed_in_delivery_sheet,
+      -> { displayed_in_delivery_sheets },
+      class_name: 'Shop::Product',
+      foreign_key: :product_id,
+      optional: true
     has_one :delivery, through: :order
 
     validates :item_price, presence: true, numericality: true

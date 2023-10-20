@@ -1265,6 +1265,10 @@ _:
           _de: Taschenzusatz
           _fr: Complément panier
           _it: Aggiunta cesta
+        display_in_delivery_sheets:
+          _de: In den Blättern (PDF) und der Zusammenfassung (XLSX) der Lieferung anzeigen
+          _fr: Afficher dans les fiches (PDF) et le récapitulatif (XLSX) de livraison
+          _it: Mostra nei fogli (PDF) e nel riepilogo (XLSX) di consegna
         variants:
           _de: Varianten
           _fr: Variantes
@@ -1350,6 +1354,11 @@ _:
                 _de: Mindestens eine Variante muss verfügbar sein
                 _fr: Au moins une variante doit être disponible
                 _it: Almeno una variante deve essere disponibile
+            display_in_delivery_sheets:
+              only_one_variant:
+                _de: Kann nicht aktiviert werden, wenn das Produkt mehrere Varianten hat
+                _fr: Ne peut pas être activé si le produit a plusieurs variantes
+                _it: Non può essere attivato se il prodotto ha più varianti
             variants:
               single_variant:
                 _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"

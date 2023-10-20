@@ -40,11 +40,17 @@ module Shop
     scope :delivery_eq, ->(delivery_id) {
       where.not('? = ANY (unavailable_for_delivery_ids)', delivery_id)
     }
+    scope :displayed_in_delivery_sheets, -> {
+      # Does not include product linked to a basket complement as they are
+      # always displayed in delivery sheets (see #display_in_delivery_sheets).
+      where(basket_complement_id: nil, display_in_delivery_sheets: true)
+    }
 
     validates :available, inclusion: [true, false]
     validates :variants, presence: true
     validates :variants, length: { is: 1, message: :single_variant }, if: :basket_complement_id?
     validate :ensure_at_least_one_available_variant
+    validate :display_in_delivery_sheets_only_one_variant
 
     def self.ransackable_scopes(_auth_object = nil)
       super + %i[name_cont variant_name_cont] +
@@ -98,6 +104,16 @@ module Shop
       txt
     end
 
+    def display_in_delivery_sheets
+      basket_complement_id? || super
+    end
+
+    def name_with_single_variant
+      raise 'Product has more than one variant' if variants.many?
+
+      "#{name} (#{variants.first.name})"
+    end
+
     def can_update?; true end
 
     def can_destroy?
@@ -113,6 +129,12 @@ module Shop
     def ensure_at_least_one_available_variant
       if available? && variants.none?(&:available?)
         self.errors.add(:base, :at_least_one_available_variant)
+      end
+    end
+
+    def display_in_delivery_sheets_only_one_variant
+      if display_in_delivery_sheets? && variants.many?
+        self.errors.add(:display_in_delivery_sheets, :only_one_variant)
       end
     end
   end

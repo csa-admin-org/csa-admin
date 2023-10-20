@@ -4,6 +4,7 @@ module XLSX
       @delivery = delivery
       @baskets = @delivery.baskets.not_absent
       @shop_orders = @delivery.shop_orders.all_without_cart
+      @shop_products = @shop_orders.products_displayed_in_delivery_sheets
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
       @basket_complements = BasketComplement.for(@baskets, @shop_orders)
       @basket_sizes = BasketSize.for(@baskets)
@@ -44,6 +45,11 @@ module XLSX
         cols << ''
         cols << I18n.t('shop.title_orders', count: 2)
       end
+      if @shop_products.any?
+        cols << ''
+        cols += @shop_products.map(&:name_with_single_variant)
+      end
+
       add_headers(*cols)
 
       @depots.each do |depot|
@@ -98,6 +104,14 @@ module XLSX
       if shop_orders.any?
         cols_count = 4 + @basket_sizes.count + @basket_complements.count
         @worksheet.add_cell(@line, cols_count, shop_orders.count).set_number_format('0')
+      end
+
+      if @shop_products.any?
+        cols_count += 2
+        @shop_products.each_with_index do |product, i|
+          amount = shop_orders.quantity_for(product)
+          @worksheet.add_cell(@line, cols_count + i, amount).set_number_format('0')
+        end
       end
 
       @worksheet.change_row_bold(@line, bold)
@@ -183,6 +197,17 @@ module XLSX
           add_column(
             "#{Basket.human_attribute_name(:complement_ids)} (#{::Shop::Order.model_name.human(count: 1)})",
             members.map { |m| m.shop_order&.complements_description },
+            border: border)
+        end
+        if @shop_products.any?
+          add_column(
+            "#{::Shop::Product.model_name.human(count: 2)} (#{I18n.t('shop.title')})",
+            members.map { |m|
+              @shop_products.map { |p|
+                quantity = m.shop_order&.items&.find { |i| i.product_id == p.id }&.quantity
+                quantity ? "#{quantity}x #{p.name_with_single_variant}" : nil
+              }.compact.join(', ')
+            },
             border: border)
         end
       end

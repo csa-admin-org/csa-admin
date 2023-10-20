@@ -13,6 +13,7 @@ ActiveAdmin.register Basket do
       else
         Shop::Order.none
       end
+    shop_products = shop_orders.products_displayed_in_delivery_sheets
 
     column(:membership_id) { |b| b.membership_id }
     column(:member_id) { |b| b.member.id }
@@ -49,6 +50,15 @@ ActiveAdmin.register Basket do
       if BasketComplement.any?
         column("#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})") { |b|
           shop_orders.find { |o| o.member_id == b.member.id }&.complements_description
+        }
+      end
+      if shop_products.any?
+        column("#{::Shop::Product.model_name.human(count: 2)} (#{I18n.t('shop.title')})") { |b|
+          order = shop_orders.find { |o| o.member_id == b.member.id }
+          shop_products.map { |p|
+            quantity = order&.items&.find { |i| i.product_id == p.id }&.quantity
+            quantity ? "#{quantity}x #{p.name_with_single_variant}" : nil
+          }.compact.join(', ')
         }
       end
     end
