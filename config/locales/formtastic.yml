@@ -138,6 +138,10 @@ _:
           _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Tasche angezeigt wird.
           _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou du panier.
           _it: Testo opzionale visualizzato nella pagina del socio sopra il modulo di iscrizione o di modifica del cestino.
+        new_member_fee_description:
+          _de: Titel des Artikels auf der Rechnung, die an neue Mitglieder gesendet wird.
+          _fr: Intitulé de l'article sur la facture envoyée aux nouveaux membres.
+          _it: Titolo dell'articolo sulla fattura inviata ai nuovi soci.
         open_renewal_reminder_sent_after_in_days:
           _de: Die Mahnung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Lassen Sie das Feld leer, wenn keine Mahnung erfolgt.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.

@@ -989,4 +989,23 @@ describe PDF::Invoice do
         .and contain_sequence('N° TVA CHE-123.456.789')
     end
   end
+
+  specify 'new member fee invoice', freeze: '2023-01-10' do
+    current_acp.update!(
+      features: ['new_member_fee'],
+      new_member_fee_description: 'Paniers vides',
+      trial_basket_count: 0,
+      new_member_fee: 42)
+
+    member = create(:member, :waiting)
+    create(:membership, member: member)
+
+    invoice = Billing::InvoicerNewMemberFee.invoice(member)
+
+    pdf_strings = save_pdf_and_return_strings(invoice)
+    expect(pdf_strings)
+      .to contain_sequence("Facture N° #{invoice.id}")
+      .and contain_sequence('Paniers vides', '42.00')
+      .and contain_sequence("Total", '42.00')
+  end
 end

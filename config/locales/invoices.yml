@@ -15,6 +15,10 @@ _:
         _de: Beitrag
         _fr: Cotisation
         _it: Quota annuale associativa
+      new_member_fee:
+        _de: Teilnahmegebühr
+        _fr: Frais d'adhésion
+        _it: Quota di iscrizione
       other:
         _de: Andere
         _fr: Autre

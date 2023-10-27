@@ -40,6 +40,14 @@ _:
       _de: Ermöglicht das Teilen von Kontaktdaten zwischen Mitgliedern desselben Depots.
       _fr: Rends possible le partage des coordonnées entre membres d'un même dépôt.
       _it: Rende possibile la condivisione dei dati di contatto tra i soci dello stesso punto di ritiro.
+    new_member_fee:
+      _de: Teilnahmegebühr
+      _fr: Frais d'adhésion
+      _it: Quota di iscrizione
+    new_member_fee_hint:
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Körbe/Taschen) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit). Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _fr: Permet de facturer un certain montant (par ex. pour des paniers/sacs réutilisables) aux nouveaux membres (après leur éventuelle période d'essai). Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _it: Permette di fatturare un importo fisso (ad es. per cestini/sacchetti riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova). Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
     shop:
       _de: Hofladen
       _fr: Épicerie

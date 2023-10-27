@@ -44,6 +44,7 @@ class Invoice < ApplicationRecord
   scope :shop_order_type, -> { where(object_type: 'Shop::Order') }
   scope :activity_participation_type, -> { where(object_type: 'ActivityParticipation') }
   scope :other_type, -> { where(object_type: 'Other') }
+  scope :new_member_fee_type, -> { where(object_type: 'NewMemberFee') }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -103,6 +104,7 @@ class Invoice < ApplicationRecord
     types << 'Shop::Order'
     types << 'AnnualFee'
     types << 'ACPShare'
+    types << 'NewMemberFee'
     types
   end
 
@@ -112,6 +114,7 @@ class Invoice < ApplicationRecord
     types << 'Shop::Order' if Current.acp.feature?('shop')
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
+    types << 'NewMemberFee' if Current.acp.feature?('new_member_fee')
     types += pluck(:object_type)
     types.uniq.sort
   end
@@ -322,6 +325,10 @@ class Invoice < ApplicationRecord
     object_type == 'Other'
   end
 
+  def new_member_fee_type?
+    object_type == 'NewMemberFee'
+  end
+
   def amount_with_vat
     memberships_amount || amount
   end
@@ -445,7 +452,7 @@ class Invoice < ApplicationRecord
       Current.acp.vat_activity_rate
     when 'Shop::Order'
       Current.acp.vat_shop_rate
-    when 'Other'
+    when 'Other', 'NewMemberFee'
       vat_rate
     end
   end
