@@ -1,0 +1,22 @@
+# Frais d'adhésion
+
+Cette fonctionnalité permet de facturer automatiquement des frais d'adhésion, par exemple pour des paniers/sacs réutilisables, à vos nouveaux membres.
+
+Une fois cette fonctionnalité supplémentaire activée, la description ainsi que le montant de vos frais d'adhésion doivent être définis dans [vos paramètres](/settings#new_member_fee).
+
+> Si vous facturiez déjà des frais d'adhésion manuellement (facture "Autre"), merci de [me contacter](mailto:info@acp-admin.ch) pour que je puisse m'occuper de leur migration, afin d'éviter de facturer inutilement deux fois ces frais à vos membres.
+
+### Facturation
+
+Le système se charge de facturer ces frais à chaque nouveau membre lors du jour de facturation automatique définis dans [vos paramètres](/settings#billing). Si vous avez des paniers à l'essai, ces frais seront uniquement facturés à la fin de la période d'essai, si le membre décide de continuer.
+
+Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle facture"](/mail_templates/invoice_created) à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
+
+~~~ liquid
+{% case invoice.object_type %}
+{% when 'NewMemberFee' %}
+  <p>Voici votre nouvelle facture concernant vos frais d'adhésion; tous les détails se trouvent dans le PDF ci-joint.</p>
+{% else %}
+  <p>Voici votre nouvelle facture; tous les détails se trouvent dans le PDF ci-joint.</p>
+{% endcase %}
+~~~

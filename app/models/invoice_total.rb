@@ -40,6 +40,8 @@ class InvoiceTotal
       link_to_invoices I18n.t('shop.title_orders', count: 2)
     when 'ActivityParticipation'
       link_to_invoices activities_human_name
+    when 'NewMemberFee'
+      link_to_invoices I18n.t('invoices.object_type.new_member_fee')
     when 'Other'
       link_to_invoices I18n.t('billing.other')
     end

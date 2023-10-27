@@ -39,6 +39,7 @@ ActiveAdmin.register ACP do
     :membership_depot_update_allowed, :membership_complements_update_allowed,
     :basket_update_limit_in_days,
     :basket_price_extra_dynamic_pricing,
+    :new_member_fee,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
@@ -60,6 +61,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "basket_price_extra_label_detail_#{l}" },
     *I18n.available_locales.map { |l| "membership_update_text_#{l}" },
     *I18n.available_locales.map { |l| "member_information_text_#{l}" },
+    *I18n.available_locales.map { |l| "new_member_fee_description_#{l}" },
     billing_year_divisions: [],
     languages: [],
     features: [],
@@ -332,6 +334,23 @@ ActiveAdmin.register ACP do
             end
           end
         end
+        if Current.acp.feature?('new_member_fee')
+          tab t('features.new_member_fee'), id: 'new_member_fee' do
+            f.inputs do
+              translated_input(f, :new_member_fee_descriptions,
+                required: true,
+                label: ->(_) { InvoiceItem.human_attribute_name(:description) },
+                hint: t('formtastic.hints.acp.new_member_fee_description'))
+              f.input :new_member_fee,
+                required: true,
+                min: 0,
+                step: 0.05,
+                label: InvoiceItem.human_attribute_name(:amount)
+
+              handbook_button(self, 'new_member_fee')
+            end
+          end
+        end
         if Current.acp.feature?('basket_price_extra')
           tab ACP.human_attribute_name(:basket_price_extra), id: 'basket_price_extra' do
             f.inputs do
@@ -395,8 +414,8 @@ ActiveAdmin.register ACP do
     def update
       update! do |success, failure|
         success.html do
-          if resource.features_previously_changed? && (resource.features - resource.features_previously_was).any?
-            new_feature = (resource.features - resource.features_previously_was).first
+          if resource.features_previously_changed? && (resource.features.map(&:to_s) - resource.features_previously_was).any?
+            new_feature = (resource.features.map(&:to_s) - resource.features_previously_was).first
             redirect_to "/settings##{new_feature}"
           else
             redirect_to "/"

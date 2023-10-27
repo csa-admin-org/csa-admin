@@ -11,6 +11,7 @@ class ACP < ApplicationRecord
     basket_content
     basket_price_extra
     contact_sharing
+    new_member_fee
     shop
   ]
   FEATURE_FLAGS = %i[]
@@ -40,6 +41,7 @@ class ACP < ApplicationRecord
   translated_rich_texts :membership_update_text
   translated_rich_texts :member_information_text
   translated_rich_texts :member_form_extra_text
+  translated_attributes :new_member_fee_description
 
   validates :name, presence: true
   validates :host, presence: true
@@ -114,6 +116,13 @@ class ACP < ApplicationRecord
   validates :basket_update_limit_in_days,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 }
+  validates :new_member_fee,
+    presence: true,
+    numericality: { greater_than_or_equal_to: 0 },
+    if: -> { feature?('new_member_fee') && new_member_fee_description? }
+  validates :new_member_fee_description,
+    presence: true,
+    if: -> { feature?('new_member_fee') && new_member_fee? }
 
   after_create :create_tenant!
   after_save :apply_annual_fee_change

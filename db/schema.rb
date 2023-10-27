@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_120839) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_21_082646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -112,6 +112,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_120839) do
     t.string "deliveries_cycles_member_order_mode", default: "deliveries_count_desc", null: false
     t.integer "shop_order_automatic_invoicing_delay_in_days"
     t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annualy", "activity_participations_annual_price_change"], array: true
+    t.decimal "new_member_fee", precision: 8, scale: 2
+    t.jsonb "new_member_fee_descriptions", default: {}, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
