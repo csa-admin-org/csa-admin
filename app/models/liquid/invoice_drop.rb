@@ -20,12 +20,22 @@ class Liquid::InvoiceDrop < Liquid::Drop
     @invoice.state
   end
 
+  # Backward compatibility with older mail templates
   def object_type
-    @invoice.object_type
+    @invoice.entity_type
   end
 
+  def entity_type
+    @invoice.entity_type
+  end
+
+  # Backward compatibility with older mail templates
   def object_number
-    @invoice.object_id
+    @invoice.entity_id
+  end
+
+  def entity_number
+    @invoice.entity_id
   end
 
   def only_partially_paid

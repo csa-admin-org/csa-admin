@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_21_082646) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_27_134358) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -461,8 +461,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_21_082646) do
     t.datetime "overdue_notice_sent_at", precision: nil
     t.datetime "canceled_at", precision: nil
     t.string "state", default: "processing", null: false
-    t.string "object_type", null: false
-    t.bigint "object_id"
+    t.string "entity_type", null: false
+    t.bigint "entity_id"
     t.integer "paid_missing_activity_participations"
     t.decimal "vat_amount", precision: 8, scale: 2
     t.integer "acp_shares_number"
@@ -470,8 +470,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_21_082646) do
     t.decimal "vat_rate", precision: 8, scale: 2
     t.decimal "amount_percentage", precision: 8, scale: 2
     t.decimal "amount_before_percentage", precision: 8, scale: 2
+    t.index ["entity_type", "entity_id"], name: "index_invoices_on_entity_type_and_entity_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
-    t.index ["object_type", "object_id"], name: "index_invoices_on_object_type_and_object_id"
     t.index ["state"], name: "index_invoices_on_state"
   end
 

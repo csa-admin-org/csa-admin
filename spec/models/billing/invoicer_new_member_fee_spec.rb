@@ -22,7 +22,7 @@ describe Billing::InvoicerNewMemberFee do
     invoice = member.invoices.last
     expect(invoice).to have_attributes(
       date: Date.current,
-      object_type: 'NewMemberFee',
+      entity_type: 'NewMemberFee',
       amount: 30)
     expect(invoice.items.count).to eq 1
     expect(invoice.items.first).to have_attributes(

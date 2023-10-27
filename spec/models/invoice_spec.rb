@@ -71,7 +71,7 @@ describe Invoice do
     let(:invoice) { create(:invoice, :annual_fee) }
 
     specify { expect(invoice.annual_fee).to be_present }
-    specify { expect(invoice.object_type).to eq 'AnnualFee' }
+    specify { expect(invoice.entity_type).to eq 'AnnualFee' }
     specify { expect(invoice.memberships_amount).to be_nil }
     specify { expect(invoice.amount).to eq invoice.annual_fee }
   end
@@ -81,7 +81,7 @@ describe Invoice do
     let(:amount) { invoice.member.memberships.first.price }
 
     specify { expect(invoice.annual_fee).to be_nil }
-    specify { expect(invoice.object_type).to eq 'Membership' }
+    specify { expect(invoice.entity_type).to eq 'Membership' }
     specify { expect(invoice.memberships_amount).to eq amount  }
     specify { expect(invoice.paid_memberships_amount).to be_zero }
     specify { expect(invoice.remaining_memberships_amount).to eq amount }
@@ -128,23 +128,23 @@ describe Invoice do
       expect(invoice).not_to have_valid(:activity_price)
     end
 
-    it 'sets object_type to ActivityParticipation with paid_missing_activity_participations' do
+    it 'sets entity_type to ActivityParticipation with paid_missing_activity_participations' do
       invoice = create(:invoice, :manual,
         paid_missing_activity_participations: 2,
         activity_price: 21)
 
-      expect(invoice.object_type).to eq 'ActivityParticipation'
+      expect(invoice.entity_type).to eq 'ActivityParticipation'
       expect(invoice.paid_missing_activity_participations).to eq 2
       expect(invoice.amount).to eq 42
     end
   end
 
   context 'when acp_share' do
-    it 'sets object_type to ACPShare with acp_shares_number' do
+    it 'sets entity_type to ACPShare with acp_shares_number' do
       Current.acp.update!(share_price: 250)
       invoice = create(:invoice, :manual, acp_shares_number: -2)
 
-      expect(invoice.object_type).to eq 'ACPShare'
+      expect(invoice.entity_type).to eq 'ACPShare'
       expect(invoice.acp_shares_number).to eq -2
       expect(invoice.amount).to eq -500
     end
@@ -159,7 +159,7 @@ describe Invoice do
           '2' => { description: 'Un truc cool plus cher', amount: '32.33' }
         })
 
-      expect(invoice.object_type).to eq 'Other'
+      expect(invoice.entity_type).to eq 'Other'
       expect(invoice.items.first.amount).to eq 10.1
       expect(invoice.items.last.amount).to eq 32.35
       expect(invoice.amount).to eq 42.45

@@ -26,8 +26,8 @@ module Shop
       class_name: 'Shop::Product',
       through: :items,
       source: :product_displayed_in_delivery_sheet
-    has_many :invoices, as: :object
-    has_one :invoice, -> { not_canceled }, as: :object
+    has_many :invoices, as: :entity
+    has_one :invoice, -> { not_canceled }, as: :entity
 
     scope :all_without_cart, -> { where.not(state: 'cart') }
     scope :_delivery_gid_eq, ->(gid) {

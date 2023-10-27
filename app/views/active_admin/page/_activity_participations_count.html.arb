@@ -6,7 +6,7 @@ ul class: 'counts' do
         when :missing then nil
         when :paid
           invoices_path(scope: :all_without_canceled, q: {
-            object_type_in: 'ActivityParticipation',
+            entity_type_in: 'ActivityParticipation',
             during_year: Current.acp.current_fiscal_year.year
           })
         else

@@ -13,7 +13,7 @@ Le système se charge de facturer ces frais à chaque nouveau membre lors du jou
 Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle facture"](/mail_templates/invoice_created) à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
 
 ~~~ liquid
-{% case invoice.object_type %}
+{% case invoice.entity_type %}
 {% when 'NewMemberFee' %}
   <p>Voici votre nouvelle facture concernant vos frais d'adhésion; tous les détails se trouvent dans le PDF ci-joint.</p>
 {% else %}

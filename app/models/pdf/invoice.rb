@@ -7,12 +7,12 @@ module PDF
     ITEMS_PER_PAGE = 40
     MAX_ITEMS_ON_LAST_PAGE = 10
 
-    attr_reader :invoice, :object
+    attr_reader :invoice, :entity
 
     def initialize(invoice)
       @invoice = invoice
-      @object = invoice.object
-      # Reload object to be sure that the balance is up-to-date
+      @entity = invoice.entity
+      # Reload entity to be sure that the balance is up-to-date
       @missing_amount = ::Invoice.find(invoice.id).missing_amount
       super
 
@@ -56,15 +56,15 @@ module PDF
         text "#{::Invoice.model_name.human} N° #{invoice.id}", style: :bold, size: 16
         move_down 5
         text I18n.l(invoice.date)
-        case invoice.object_type
+        case invoice.entity_type
         when 'Membership'
           move_down 5
-          text membership_short_period(object), size: 10
+          text membership_short_period(entity), size: 10
         when 'Shop::Order'
           move_down 12
-          text "#{::Shop::Order.model_name.human} N° #{object.id}"
+          text "#{::Shop::Order.model_name.human} N° #{entity.id}"
           move_down 5
-          text "#{::Delivery.model_name.human}: #{I18n.l(object.delivery.date)}"
+          text "#{::Delivery.model_name.human}: #{I18n.l(entity.delivery.date)}"
         end
       end
       member_address
@@ -105,47 +105,47 @@ module PDF
         "#{::Invoice.human_attribute_name(:amount)} (#{currency_symbol})"
       ]]
 
-      case invoice.object_type
+      case invoice.entity_type
       when 'Membership'
-        if object.basket_sizes_price.positive?
-          object.basket_sizes.uniq.each do |basket_size|
+        if entity.basket_sizes_price.positive?
+          entity.basket_sizes.uniq.each do |basket_size|
             data << [
               membership_basket_size_description(basket_size),
-              _cur(object.basket_size_price(basket_size))
+              _cur(entity.basket_size_price(basket_size))
             ]
           end
         end
-        if Current.acp.feature?('basket_price_extra') && !object.baskets_price_extra.zero?
+        if Current.acp.feature?('basket_price_extra') && !entity.baskets_price_extra.zero?
           data << [
             membership_baskets_price_extra_description,
-            _cur(object.baskets_price_extra)
+            _cur(entity.baskets_price_extra)
           ]
         end
-        unless object.baskets_annual_price_change.zero?
+        unless entity.baskets_annual_price_change.zero?
           data << [
             t('baskets_annual_price_change'),
-            _cur(object.baskets_annual_price_change)
+            _cur(entity.baskets_annual_price_change)
           ]
         end
-        if object.basket_complements_price.positive?
+        if entity.basket_complements_price.positive?
           basket_complements = (
-            object.basket_complements + object.subscribed_basket_complements
+            entity.basket_complements + entity.subscribed_basket_complements
           ).uniq
           basket_complements.each do |basket_complement|
             data << [
               membership_basket_complement_description(basket_complement),
-              _cur(object.basket_complement_total_price(basket_complement))
+              _cur(entity.basket_complement_total_price(basket_complement))
             ]
           end
         end
-        unless object.basket_complements_annual_price_change.zero?
+        unless entity.basket_complements_annual_price_change.zero?
           data << [
             t('basket_complements_annual_price_change'),
-            _cur(object.basket_complements_annual_price_change)
+            _cur(entity.basket_complements_annual_price_change)
           ]
         end
-        object.depots.uniq.each do |depot|
-          price = object.depot_total_price(depot)
+        entity.depots.uniq.each do |depot|
+          price = entity.depot_total_price(depot)
           if price.positive?
             data << [
               membership_depot_description(depot),
@@ -153,12 +153,12 @@ module PDF
             ]
           end
         end
-        unless object.activity_participations_annual_price_change.zero?
-          data << [activity_participations_annual_price_change_description, _cur(object.activity_participations_annual_price_change)]
+        unless entity.activity_participations_annual_price_change.zero?
+          data << [activity_participations_annual_price_change_description, _cur(entity.activity_participations_annual_price_change)]
         end
       when 'ActivityParticipation'
-        if object
-          str = t_activity('missed_activity_participation_with_date', date: I18n.l(object.activity.date))
+        if entity
+          str = t_activity('missed_activity_participation_with_date', date: I18n.l(entity.activity.date))
           if invoice.paid_missing_activity_participations > 1
             str += " (#{invoice.paid_missing_activity_participations} #{ActivityParticipation.human_attribute_name(:participants).downcase})"
           end
@@ -227,7 +227,7 @@ module PDF
           data << [t('missing_amount'), _cur(@missing_amount)]
         elsif invoice.memberships_amount? && invoice.annual_fee?
           data << [t('total'), _cur(invoice.amount)]
-        elsif invoice.object_type != 'Membership'
+        elsif invoice.entity_type != 'Membership'
           data << [t('total'), _cur_with_vat_appendice(invoice, invoice.amount)]
         end
       end
@@ -266,7 +266,7 @@ module PDF
             t.row(row - 1).padding_bottom = 10
           end
 
-          if invoice.amount.positive? && @missing_amount != invoice.amount && invoice.object_type != 'Membership'
+          if invoice.amount.positive? && @missing_amount != invoice.amount && invoice.entity_type != 'Membership'
             row -= 2
             t.columns(1).rows(row).borders = [:top]
             t.row(row).padding_top = 0
@@ -277,7 +277,7 @@ module PDF
           t.row(row).font_style = :bold
           if (@missing_amount != invoice.amount) || (invoice.memberships_amount? &&
               (invoice.annual_fee? || !invoice.memberships_amount_description?)) ||
-              invoice.object_type != 'Membership'
+              invoice.entity_type != 'Membership'
             t.columns(1).rows(row).borders = [:top]
             t.row(row).padding_top = 0
             t.row(row - 1).padding_bottom = 10
@@ -341,9 +341,9 @@ module PDF
 
       bounding_box [0, y - yy - 10], width: bounds.width - 24 do
         invoice_info =
-          if invoice.object_type == 'Shop::Order' && Current.acp.shop_invoice_info
+          if invoice.entity_type == 'Shop::Order' && Current.acp.shop_invoice_info
             Current.acp.shop_invoice_info % {
-              date: I18n.l(invoice.object.delivery.date)
+              date: I18n.l(invoice.entity.delivery.date)
             }
           else Current.acp.invoice_info
           end
@@ -514,32 +514,32 @@ module PDF
     end
 
     def membership_basket_size_description(basket_size)
-      baskets = object.baskets.where(basket_size: basket_size)
-      "#{Basket.model_name.human}: #{basket_size.public_name} #{basket_sizes_price_info(object, baskets)}"
+      baskets = entity.baskets.where(basket_size: basket_size)
+      "#{Basket.model_name.human}: #{basket_size.public_name} #{basket_sizes_price_info(entity, baskets)}"
     end
 
     def membership_baskets_price_extra_description
       title = Current.acp.basket_price_extra_public_title
-      "#{title}: #{baskets_price_extra_info(object, object.baskets)}"
+      "#{title}: #{baskets_price_extra_info(entity, entity.baskets)}"
     end
 
     def membership_basket_complement_description(basket_complement)
-      "#{basket_complement.public_name}: #{basket_complement_price_info(object, basket_complement)}"
+      "#{basket_complement.public_name}: #{basket_complement_price_info(entity, basket_complement)}"
     end
 
     def membership_depot_description(depot)
-      baskets = object.baskets.where(depot: depot)
+      baskets = entity.baskets.where(depot: depot)
       "#{Depot.model_name.human}: #{depot.public_name} #{depots_price_info(baskets)}"
     end
 
     def activity_participations_annual_price_change_description
       i18n_scope = Current.acp.activity_i18n_scope
-      diff = object.activity_participations_demanded_annualy - object.basket_size.activity_participations_demanded_annualy
+      diff = entity.activity_participations_demanded_annualy - entity.basket_size.activity_participations_demanded_annualy
       if diff.positive?
         Membership.human_attribute_name("activity_participations_annual_price_change_reduction/#{i18n_scope}", count: diff)
       elsif diff.negative?
         Membership.human_attribute_name("activity_participations_annual_price_change_negative/#{i18n_scope}", count: diff)
-      elsif object.activity_participations_annual_price_change.positive?
+      elsif entity.activity_participations_annual_price_change.positive?
         Membership.human_attribute_name("activity_participations_annual_price_change_positive/#{i18n_scope}")
       else
         Membership.human_attribute_name("activity_participations_annual_price_change_default/#{i18n_scope}")

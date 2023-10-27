@@ -41,7 +41,7 @@ class InvoiceTotal
     when 'ActivityParticipation'
       link_to_invoices activities_human_name
     when 'NewMemberFee'
-      link_to_invoices I18n.t('invoices.object_type.new_member_fee')
+      link_to_invoices I18n.t('invoices.entity_type.new_member_fee')
     when 'Other'
       link_to_invoices I18n.t('billing.other')
     end
@@ -59,19 +59,19 @@ class InvoiceTotal
       when 'AnnualFee'
         @invoices.sum(:annual_fee)
       else
-        @invoices.where(object_type: scope).sum(:amount)
+        @invoices.where(entity_type: scope).sum(:amount)
       end
   end
 
   private
 
-  def link_to_invoices(title, object_types = scope)
+  def link_to_invoices(title, entity_types = scope)
     fy = Current.fiscal_year
     url_helpers = Rails.application.routes.url_helpers
     link_to title, url_helpers.invoices_path(
       scope: :all_without_canceled,
       q: {
-        object_type_in: object_types,
+        entity_type_in: entity_types,
         during_year: fy.year
       })
   end

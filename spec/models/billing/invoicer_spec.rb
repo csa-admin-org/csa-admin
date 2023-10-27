@@ -33,8 +33,8 @@ describe Billing::Invoicer do
     member = create(:member, :support_annual_fee)
     invoice = create_invoice(member)
 
-    expect(invoice.object).to be_nil
-    expect(invoice.object_type).to eq 'AnnualFee'
+    expect(invoice.entity).to be_nil
+    expect(invoice.entity_type).to eq 'AnnualFee'
     expect(invoice.annual_fee).to be_present
     expect(invoice.memberships_amount).to be_nil
     expect(invoice.amount).to eq invoice.annual_fee
@@ -75,7 +75,7 @@ describe Billing::Invoicer do
       create_invoice(member)
     end
 
-    expect(invoice.object).to eq membership
+    expect(invoice.entity).to eq membership
     expect(invoice.annual_fee).to be_nil
     expect(invoice.memberships_amount).to eq membership.price
     expect(invoice.pdf_file).to be_attached
@@ -100,7 +100,7 @@ describe Billing::Invoicer do
     create(:invoice, :annual_fee, member: member, date: 1.year.ago)
     invoice = create_invoice(member)
 
-    expect(invoice.object).to be_nil
+    expect(invoice.entity).to be_nil
     expect(invoice.annual_fee).to be_present
     expect(invoice.memberships_amount).to be_nil
     expect(invoice.amount).to eq invoice.annual_fee
@@ -114,7 +114,7 @@ describe Billing::Invoicer do
     specify 'when not already billed' do
       invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
+      expect(invoice.entity).to eq membership
       expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq 30
@@ -128,7 +128,7 @@ describe Billing::Invoicer do
 
       invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
+      expect(invoice.entity).to eq membership
       expect(invoice.annual_fee).to be_nil
     end
 
@@ -149,7 +149,7 @@ describe Billing::Invoicer do
       }
       invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
+      expect(invoice.entity).to eq membership
       expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount)
@@ -163,7 +163,7 @@ describe Billing::Invoicer do
       member = create(:member, :support_annual_fee, salary_basket: true)
       invoice = create_invoice(member)
 
-      expect(invoice.object).to be_nil
+      expect(invoice.entity).to be_nil
       expect(invoice.annual_fee).to be_present
       expect(invoice.memberships_amount).to be_nil
       expect(invoice.pdf_file).to be_attached
@@ -187,8 +187,8 @@ describe Billing::Invoicer do
       }
       invoice = travel_to('2022-01-02') { create_invoice(member) }
 
-      expect(invoice.object).to eq membership
-      expect(invoice.object.baskets_count).to eq 2
+      expect(invoice.entity).to eq membership
+      expect(invoice.entity.baskets_count).to eq 2
       expect(invoice.annual_fee).to be_nil
       expect(invoice.paid_memberships_amount).to eq 60
       expect(invoice.memberships_amount_description).to be_present
@@ -203,7 +203,7 @@ describe Billing::Invoicer do
     specify 'when quarter #1', freeze: '2022-01-01' do
       invoice = create_invoice(member)
 
-      expect(invoice.object).to eq membership
+      expect(invoice.entity).to eq membership
       expect(invoice.annual_fee).to be_present
       expect(invoice.paid_memberships_amount).to be_zero
       expect(invoice.remaining_memberships_amount).to eq membership.price
@@ -221,7 +221,7 @@ describe Billing::Invoicer do
       travel_to('2022-04-01') {
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
         expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
@@ -244,7 +244,7 @@ describe Billing::Invoicer do
         create_invoice(member, send_email: true).reload.cancel!
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq membership.price / 4.0
         expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 4.0
@@ -259,7 +259,7 @@ describe Billing::Invoicer do
       travel_to('2022-07-01') {
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
         expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price / 2.0
@@ -325,7 +325,7 @@ describe Billing::Invoicer do
       travel_to('2022-10-01') {
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq membership.price * 3 / 4.0
         expect(invoice.remaining_memberships_amount).to eq membership.price - membership.price * 3 / 4.0
@@ -354,7 +354,7 @@ describe Billing::Invoicer do
         membership.baskets.last.update!(depot_price: 2)
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq 30
         expect(invoice.remaining_memberships_amount).to eq 1 * 2
@@ -373,7 +373,7 @@ describe Billing::Invoicer do
       travel_to('2022-01-01') {
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_present
         expect(invoice.paid_memberships_amount).to be_zero
         expect(invoice.remaining_memberships_amount).to eq membership.price
@@ -388,7 +388,7 @@ describe Billing::Invoicer do
       travel_to('2022-03-01') {
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq (membership.price / 12.0) * 2
         expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
@@ -407,7 +407,7 @@ describe Billing::Invoicer do
 
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
         expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
@@ -426,7 +426,7 @@ describe Billing::Invoicer do
 
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq((old_price / 12.0) * 2)
         expect(invoice.remaining_memberships_amount).to eq new_price - (old_price / 12.0) * 2
@@ -441,7 +441,7 @@ describe Billing::Invoicer do
       travel_to('2022-12-01') {
         invoice = create_invoice(member)
 
-        expect(invoice.object).to eq membership
+        expect(invoice.entity).to eq membership
         expect(invoice.annual_fee).to be_nil
         expect(invoice.paid_memberships_amount).to eq((membership.price / 12.0) * 2)
         expect(invoice.remaining_memberships_amount).to eq membership.price - (membership.price / 12.0) * 2
@@ -566,7 +566,7 @@ describe Billing::Invoicer do
         expect(described_class.new(member).next_date.to_s).to eq '2021-05-03' # Monday
         create(:invoice, :membership,
           member: member,
-          object: member.current_membership)
+          entity: member.current_membership)
         expect(described_class.new(member.reload).next_date).to be_nil
       end
       travel_to '2021-12-01' do
@@ -582,7 +582,7 @@ describe Billing::Invoicer do
         expect(described_class.new(member).next_date.to_s).to eq '2021-02-08' # Monday
         create(:invoice, :membership,
           member: member,
-          object: member.current_membership,
+          entity: member.current_membership,
           membership_amount_fraction: 3)
         expect(described_class.new(member.reload).next_date.to_s).to eq '2021-04-05' # Monday
       end
@@ -605,7 +605,7 @@ describe Billing::Invoicer do
         expect(described_class.new(member).next_date.to_s).to eq '2021-02-08' # Monday
         create(:invoice, :membership,
           member: member,
-          object: member.current_membership,
+          entity: member.current_membership,
           membership_amount_fraction: 10)
         expect(described_class.new(member.reload).next_date.to_s).to eq '2021-03-01' # Monday
       end

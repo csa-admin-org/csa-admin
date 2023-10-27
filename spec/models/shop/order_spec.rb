@@ -556,8 +556,8 @@ describe Shop::Order do
       end
 
       expect(order.invoice).to have_attributes(
-        object_id: order.id,
-        object_type: 'Shop::Order',
+        entity_id: order.id,
+        entity_type: 'Shop::Order',
         amount: BigDecimal(16 + 2 * 29.55, 3),
         date: Date.new(2021, 8, 21),
         sent_at: Time.zone.parse('2021-08-21 09:01:42 +02'))

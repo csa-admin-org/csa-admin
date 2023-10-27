@@ -220,14 +220,14 @@ _:
       _de: Rechnung Datum
       _fr: Facture Date
       _it: Data della fattura
+    invoice_entity:
+      _de: Rechnung Objekt
+      _fr: Facture Objet
+      _it: Oggetto Fattura
     invoice_id:
       _de: Rechnung ID
       _fr: Facture ID
       _it: ID Fattura
-    invoice_object:
-      _de: Rechnung Objekt
-      _fr: Facture Objet
-      _it: Oggetto Fattura
     language:
       _de: Sprache
       _fr: Langue

@@ -623,6 +623,14 @@ _:
           _de: Saldo
           _fr: Balance
           _it: Saldo
+        entity:
+          _de: Objekt
+          _fr: Objet
+          _it: Oggetto
+        entity_type:
+          _de: Objekt
+          _fr: Objet
+          _it: Oggetto
         items:
           _de: Artikel
           _fr: Articles
@@ -631,14 +639,6 @@ _:
           _de: Betrag Abonnement
           _fr: Montant abonnement
           _it: Importo abbonamento
-        object:
-          _de: Objekt
-          _fr: Objet
-          _it: Oggetto
-        object_type:
-          _de: Objekt
-          _fr: Objet
-          _it: Oggetto
         overdue_notice_sent_at:
           _de: Letzte Mahnung gesendet am
           _fr: Dernier rappel envoyé le

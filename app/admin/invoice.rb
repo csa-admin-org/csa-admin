@@ -28,9 +28,9 @@ ActiveAdmin.register Invoice do
   filter :member,
     as: :select,
     collection: -> { Member.order(:name) }
-  filter :object_type,
+  filter :entity_type,
     as: :check_boxes,
-    collection: -> { object_type_collection }
+    collection: -> { entity_type_collection }
   filter :sent, as: :boolean
   filter :amount
   filter :balance, as: :numeric
@@ -61,7 +61,7 @@ ActiveAdmin.register Invoice do
     column(:emails) { |i| i.member.emails_array.join(', ') }
     column(:last_membership_ended_on) { |i| i.member.last_membership&.ended_on }
     column :date
-    column(:object) { |i| t_invoice_object_type(i.object_type) }
+    column(:entity) { |i| t_invoice_entity_type(i.entity_type) }
     column :amount_before_percentage
     column :amount_percentage
     column :amount
@@ -84,7 +84,7 @@ ActiveAdmin.register Invoice do
   sidebar :total, only: :index do
     all = collection.unscope(:includes).offset(nil).limit(nil)
     div class: 'content' do
-      if Array(params.dig(:q, :object_type_in)).include?('Membership') && Current.acp.annual_fee?
+      if Array(params.dig(:q, :entity_type_in)).include?('Membership') && Current.acp.annual_fee?
         div class: 'total' do
           span Membership.model_name.human(count: 2)
           span cur(all.sum(:memberships_amount)), style: 'float: right'
@@ -179,7 +179,7 @@ ActiveAdmin.register Invoice do
         attributes_table do
           row :id
           row :member
-          row(:object) { display_object(invoice) }
+          row(:entity) { display_entity(invoice) }
           if invoice.acp_share_type?
             row(:acp_shares_number)
           end
@@ -224,8 +224,8 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  action_item :cancel_and_edit_shop_order, only: :show, if: -> { invoice.shop_order_type? && authorized?(:cancel, invoice.object) } do
-    button_to t('.cancel_and_edit_shop_order'), cancel_shop_order_path(invoice.object),
+  action_item :cancel_and_edit_shop_order, only: :show, if: -> { invoice.shop_order_type? && authorized?(:cancel, invoice.entity) } do
+    button_to t('.cancel_and_edit_shop_order'), cancel_shop_order_path(invoice.entity),
       form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
       data: { confirm: t('.cancel_action_confirm') }
   end
@@ -255,7 +255,7 @@ ActiveAdmin.register Invoice do
       form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
   end
 
-  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.object_type != 'Shop::Order' } do
+  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.entity_type != 'Shop::Order' } do
     button_to t('.cancel_invoice'), cancel_invoice_path(resource),
       form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
       data: { confirm: t('.link_confirm') }
@@ -292,8 +292,8 @@ ActiveAdmin.register Invoice do
         collection: Member.order(:name).distinct,
         prompt: true,
         input_html: { onchange: "self.location='#{new_invoice_path}?member_id='+$(this).val();" }
-      f.hidden_field :object_id
-      f.hidden_field :object_type
+      f.hidden_field :entity_id
+      f.hidden_field :entity_type
       f.input :date, as: :date_picker
       unless f.object.persisted?
         f.input :comment, as: :text, input_html: { rows: 4 }
@@ -304,12 +304,12 @@ ActiveAdmin.register Invoice do
         if Current.acp.feature?('activity')
           tab activities_human_name, id: 'activity_participation' do
             f.inputs do
-              if f.object.object.is_a?(ActivityParticipation)
+              if f.object.entity.is_a?(ActivityParticipation)
                 li(class: 'refused_activity_participation') do
                   parts = []
                   parts << link_to(
-                    t('active_admin.resource.new.refused_activity_participation', date: f.object.object.activity.date),
-                    activity_participation_path(f.object.object_id))
+                    t('active_admin.resource.new.refused_activity_participation', date: f.object.entity.activity.date),
+                    activity_participation_path(f.object.entity_id))
                   parts << ' – '
                   parts << link_to(
                     t('.erase').downcase,
@@ -323,14 +323,14 @@ ActiveAdmin.register Invoice do
           end
         end
         if Current.acp.share?
-          tab t_invoice_object_type('ACPShare'), id: 'acp_share' do
+          tab t_invoice_entity_type('ACPShare'), id: 'acp_share' do
             f.inputs do
               f.input :acp_shares_number, as: :number, step: 1
             end
           end
         end
       end
-      tab t_invoice_object_type('Other'), id: 'other' do
+      tab t_invoice_entity_type('Other'), id: 'other' do
         f.inputs do
           f.semantic_errors :items
           if Current.acp.vat_number?
@@ -348,8 +348,8 @@ ActiveAdmin.register Invoice do
 
   permit_params \
     :member_id,
-    :object_id,
-    :object_type,
+    :entity_id,
+    :entity_type,
     :date,
     :comment,
     :paid_missing_activity_participations,
@@ -362,7 +362,7 @@ ActiveAdmin.register Invoice do
     if params[:activity_participation_id]
       ap = ActivityParticipation.find(params[:activity_participation_id])
       invoice.member = ap.member
-      invoice.object = ap
+      invoice.entity = ap
       invoice.paid_missing_activity_participations = ap.participants_count
     elsif params[:member_id]
       member = Member.find(params[:member_id])

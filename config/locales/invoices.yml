@@ -6,7 +6,7 @@ _:
           _de: Stornierte Rechnung
           _fr: Facture annulée
           _it: Fattura annullata
-    object_type:
+    entity_type:
       acp_share:
         _de: Anteilschein
         _fr: Part sociale

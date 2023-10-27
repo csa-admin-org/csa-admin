@@ -245,7 +245,7 @@ module MembersHelper
     if invoiced_number.positive?
       parts << link_to(
         t('.acp_shares_number.invoiced', count: invoiced_number),
-        invoices_path(q: { member_id_eq: member.id, object_type_in: 'ACPShare' }, scope: :all))
+        invoices_path(q: { member_id_eq: member.id, entity_type_in: 'ACPShare' }, scope: :all))
     end
     if member.missing_acp_shares_number.positive?
       parts << t('.acp_shares_number.missing', count: member.missing_acp_shares_number)

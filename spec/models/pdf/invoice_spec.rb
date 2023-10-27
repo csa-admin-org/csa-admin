@@ -48,7 +48,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 4,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 42,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -74,7 +74,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 7,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 30,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -100,7 +100,7 @@ describe PDF::Invoice do
       invoice =  create(:invoice,
         id: 8,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 30,
         membership_amount_fraction: 4,
         memberships_amount_description: 'Montant trimestriel #1')
@@ -129,7 +129,7 @@ describe PDF::Invoice do
         deliveries_count: 2)
       invoice = create(:invoice,
         id: 4,
-        object: membership,
+        entity: membership,
         annual_fee: 42,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -155,7 +155,7 @@ describe PDF::Invoice do
         deliveries_count: 2)
       invoice = create(:invoice,
         id: 4,
-        object: membership,
+        entity: membership,
         memberships_amount_description: 'Facturation annuelle')
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -176,20 +176,20 @@ describe PDF::Invoice do
       create(:invoice,
         date: Time.current.beginning_of_year,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 4,
         memberships_amount_description: 'Facturation trimestrielle #1')
       create(:invoice,
         date: Time.current.beginning_of_year + 4.months,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 3,
         memberships_amount_description: 'Facturation trimestrielle #2')
       invoice = create(:invoice,
         id: 1001,
         date: Time.current.beginning_of_year + 8.months,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 2,
         memberships_amount_description: 'Facturation trimestrielle #3')
 
@@ -211,7 +211,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 2001,
         date: '2018-4-5',
-        object: rejected_participation,
+        entity: rejected_participation,
         paid_missing_activity_participations: 2)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -397,7 +397,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 122,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -442,7 +442,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 1220,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -494,7 +494,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 1220,
         member: member,
-        object: membership.reload,
+        entity: membership.reload,
         annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -527,7 +527,7 @@ describe PDF::Invoice do
       create(:invoice,
         date: Current.fy_range.min,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         membership_amount_fraction: 3,
         memberships_amount_description: 'Facturation quadrimestrielle #1')
@@ -535,7 +535,7 @@ describe PDF::Invoice do
         id: 125,
         date: Current.fy_range.min + 4.month,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 2,
         memberships_amount_description: 'Facturation quadrimestrielle #2')
 
@@ -573,14 +573,14 @@ describe PDF::Invoice do
       create(:invoice,
         date: Current.fy_range.min,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         membership_amount_fraction: 12,
         memberships_amount_description: 'Facturation mensuelle #1')
       create(:invoice,
         date: Current.fy_range.min + 1.month,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 11,
         memberships_amount_description: 'Facturation mensuelle #2')
 
@@ -588,7 +588,7 @@ describe PDF::Invoice do
         id: 127,
         date: Current.fy_range.min + 2.months,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 10,
         memberships_amount_description: 'Facturation mensuelle #3')
 
@@ -629,7 +629,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 123,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -671,7 +671,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 124,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -699,7 +699,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 242,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         memberships_amount_description: 'Facturation annuelle')
 
@@ -728,7 +728,7 @@ describe PDF::Invoice do
       create(:invoice,
         date: Current.fy_range.min,
         member: member,
-        object: membership,
+        entity: membership,
         annual_fee: 75,
         membership_amount_fraction: 12,
         memberships_amount_description: 'Facturation mensuelle #1')
@@ -736,7 +736,7 @@ describe PDF::Invoice do
         id: 243,
         date: Current.fy_range.min + 1.month,
         member: member,
-        object: membership,
+        entity: membership,
         membership_amount_fraction: 11,
         memberships_amount_description: 'Facturation mensuelle #2')
 
