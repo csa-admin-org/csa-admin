@@ -1,6 +1,6 @@
-{% case invoice.object_type %}
+{% case invoice.entity_type %}
 {% when 'Shop::Order' %}
-  <p>Hier finden Sie Ihre neue Rechnung, für Ihre Bestellnummer {{ invoice.object_number }}, Details finden Sie im angehängten PDF.</p>
+  <p>Hier finden Sie Ihre neue Rechnung, für Ihre Bestellnummer {{ invoice.entity_number }}, Details finden Sie im angehängten PDF.</p>
 {% else %}
   <p>Hier finden Sie Ihre neue Rechnung, Details finden Sie im angehängten PDF.</p>
 {% endcase %}

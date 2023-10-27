@@ -465,7 +465,7 @@ ActiveAdmin.register Membership do
                 m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations),
                 invoices_path(scope: :all_without_canceled, q: {
                   member_id_eq: resource.member_id,
-                  object_type_in: 'ActivityParticipation',
+                  entity_type_in: 'ActivityParticipation',
                   during_year: resource.fiscal_year.year
                 }))
             }
@@ -516,7 +516,7 @@ ActiveAdmin.register Membership do
                 cur(m.invoices_amount),
                 invoices_path(scope: :all_without_canceled, q: {
                   member_id_eq: resource.member_id,
-                  object_type_in: 'Membership',
+                  entity_type_in: 'Membership',
                   during_year: resource.fiscal_year.year
                 }))
             }

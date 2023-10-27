@@ -1,19 +1,19 @@
 module InvoicesHelper
-  def object_type_collection
-    Invoice.used_object_types.map { |type|
-      [t_invoice_object_type(type), type]
+  def entity_type_collection
+    Invoice.used_entity_types.map { |type|
+      [t_invoice_entity_type(type), type]
     }.sort_by { |a| a.first }
   end
 
-  def display_object(invoice, link: true)
-    if link && invoice.object
-      auto_link invoice.object, t_invoice_object_type(invoice.object_type)
+  def display_entity(invoice, link: true)
+    if link && invoice.entity
+      auto_link invoice.entity, t_invoice_entity_type(invoice.entity_type)
     else
-      t_invoice_object_type(invoice.object_type)
+      t_invoice_entity_type(invoice.entity_type)
     end
   end
 
-  def t_invoice_object_type(type)
+  def t_invoice_entity_type(type)
     case type
     when 'ActivityParticipation' then activity_human_name
     when 'Shop::Order' then I18n.t('shop.title_orders', count: 1)
@@ -21,7 +21,7 @@ module InvoicesHelper
       type.constantize.model_name.human
     end
   rescue NameError
-    I18n.t("invoices.object_type.#{type.underscore}")
+    I18n.t("invoices.entity_type.#{type.underscore}")
   end
 
   def link_to_invoice_pdf(invoice, title: 'PDF')

@@ -29,7 +29,7 @@ class Membership < ApplicationRecord
   has_many :subscribed_basket_complements,
     source: :basket_complement,
     through: :memberships_basket_complements
-  has_many :invoices, as: :object
+  has_many :invoices, as: :entity
 
   accepts_nested_attributes_for :memberships_basket_complements, allow_destroy: true
 

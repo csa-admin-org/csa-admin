@@ -16,7 +16,7 @@ describe Billing::InvoicerACPShare do
       .to change { member.invoices.count }.by(1)
       .and change { member.acp_shares_number }.from(0).to(3)
     invoice = member.invoices.last
-    expect(invoice.object_type).to eq 'ACPShare'
+    expect(invoice.entity_type).to eq 'ACPShare'
     expect(invoice.acp_shares_number).to eq 3
     expect(invoice.date).to eq Date.current
   end

@@ -42,9 +42,9 @@ ActiveAdmin.register Payment do
     column :member_id
     column :invoice_id
     column(:invoice_date) { |p| p.invoice&.date }
-    column(:invoice_object) { |p|
-      if type = p.invoice&.object_type
-        t_invoice_object_type(type)
+    column(:invoice_entity) { |p|
+      if type = p.invoice&.entity_type
+        t_invoice_entity_type(type)
       end
     }
     column :type

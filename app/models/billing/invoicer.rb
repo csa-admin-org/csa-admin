@@ -70,11 +70,11 @@ module Billing
     def build_invoice(**attrs)
       attrs[:date] = date
       if annual_fee_billable?
-        attrs[:object_type] = 'AnnualFee'
+        attrs[:entity_type] = 'AnnualFee'
         attrs[:annual_fee] = member.annual_fee
       end
       if membership&.billable?
-        attrs[:object] = membership
+        attrs[:entity] = membership
         attrs[:membership_amount_fraction] = membership_amount_fraction
         attrs[:memberships_amount_description] = membership_amount_description
       end
@@ -108,7 +108,7 @@ module Billing
     end
 
     def current_period_billed?
-      invoices.where(object: membership).any? { |i|
+      invoices.where(entity: membership).any? { |i|
         current_period.cover?(i.date)
       }
     end

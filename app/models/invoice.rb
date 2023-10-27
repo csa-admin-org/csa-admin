@@ -17,7 +17,7 @@ class Invoice < ApplicationRecord
   audited_attributes :state, :sent_at
 
   belongs_to :member
-  belongs_to :object, polymorphic: true, optional: true, touch: true
+  belongs_to :entity, polymorphic: true, optional: true, touch: true
   has_many :items, class_name: 'InvoiceItem', dependent: :destroy
   has_many :payments, dependent: :destroy
 
@@ -26,8 +26,8 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf_file
 
   scope :annual_fee, -> { where.not(annual_fee: nil) }
-  scope :membership, -> { where(object_type: 'Membership') }
-  scope :acp_share, -> { where(object_type: 'ACPShare') }
+  scope :membership, -> { where(entity_type: 'Membership') }
+  scope :acp_share, -> { where(entity_type: 'ACPShare') }
   scope :not_processing, -> { where.not(state: PROCESSING_STATE) }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
@@ -41,10 +41,10 @@ class Invoice < ApplicationRecord
   scope :balance_gt, ->(amount) { where('(paid_amount - amount) > ?', amount) }
   scope :balance_lt, ->(amount) { where('(paid_amount - amount) < ?', amount) }
   scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
-  scope :shop_order_type, -> { where(object_type: 'Shop::Order') }
-  scope :activity_participation_type, -> { where(object_type: 'ActivityParticipation') }
-  scope :other_type, -> { where(object_type: 'Other') }
-  scope :new_member_fee_type, -> { where(object_type: 'NewMemberFee') }
+  scope :shop_order_type, -> { where(entity_type: 'Shop::Order') }
+  scope :activity_participation_type, -> { where(entity_type: 'ActivityParticipation') }
+  scope :other_type, -> { where(entity_type: 'Other') }
+  scope :new_member_fee_type, -> { where(entity_type: 'NewMemberFee') }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -57,7 +57,7 @@ class Invoice < ApplicationRecord
   validates :member, presence: true
   validates :date, presence: true
   validates :membership_amount_fraction, inclusion: { in: 1..12 }
-  validates :object_type, inclusion: { in: proc { Invoice.object_types } }
+  validates :entity_type, inclusion: { in: proc { Invoice.entity_types } }
   validates :amount, presence: true
   validates :amount_percentage,
     numericality: {
@@ -98,7 +98,7 @@ class Invoice < ApplicationRecord
   after_commit :update_membership_activity_participations_accepted!
   after_destroy -> { Billing::PaymentsRedistributor.redistribute!(member_id) }
 
-  def self.object_types
+  def self.entity_types
     types = %w[Membership Other]
     types << 'ActivityParticipation'
     types << 'Shop::Order'
@@ -108,14 +108,14 @@ class Invoice < ApplicationRecord
     types
   end
 
-  def self.used_object_types
+  def self.used_entity_types
     types = %w[Membership Other]
     types << 'ActivityParticipation' if Current.acp.feature?('activity')
     types << 'Shop::Order' if Current.acp.feature?('shop')
     types << 'AnnualFee' if Current.acp.annual_fee?
     types << 'ACPShare' if Current.acp.share?
     types << 'NewMemberFee' if Current.acp.feature?('new_member_fee')
-    types += pluck(:object_type)
+    types += pluck(:entity_type)
     types.uniq.sort
   end
 
@@ -253,7 +253,7 @@ class Invoice < ApplicationRecord
     return if attrs.empty?
 
     super
-    self[:object_type] = 'Other' unless object_type?
+    self[:entity_type] = 'Other' unless entity_type?
     self[:amount] = items.reject(&:marked_for_destruction?).sum(&:amount)
   end
 
@@ -261,14 +261,14 @@ class Invoice < ApplicationRecord
     return if number.blank?
 
     super
-    self[:object_type] = 'ActivityParticipation' unless object_type?
+    self[:entity_type] = 'ActivityParticipation' unless entity_type?
   end
 
   def acp_shares_number=(number)
     return if number.to_i == 0
 
     super
-    self[:object_type] = 'ACPShare' unless object_type?
+    self[:entity_type] = 'ACPShare' unless entity_type?
     self[:amount] = number.to_i * Current.acp.share_price
   end
 
@@ -310,27 +310,27 @@ class Invoice < ApplicationRecord
   end
 
   def membership_type?
-    object_type == 'Membership'
+    entity_type == 'Membership'
   end
 
   def activity_participation_type?
-    object_type == 'ActivityParticipation'
+    entity_type == 'ActivityParticipation'
   end
 
   def acp_share_type?
-    object_type == 'ACPShare'
+    entity_type == 'ACPShare'
   end
 
   def shop_order_type?
-    object_type == 'Shop::Order'
+    entity_type == 'Shop::Order'
   end
 
   def other_type?
-    object_type == 'Other'
+    entity_type == 'Other'
   end
 
   def new_member_fee_type?
-    object_type == 'NewMemberFee'
+    entity_type == 'NewMemberFee'
   end
 
   def amount_with_vat
@@ -387,7 +387,7 @@ class Invoice < ApplicationRecord
 
   def validate_memberships_amount_for_current_year
     paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
-    if paid_invoices.sum(:memberships_amount) + memberships_amount > object.price
+    if paid_invoices.sum(:memberships_amount) + memberships_amount > entity.price
       errors.add(:base, 'Somme de la facturation des abonnements trop grande')
     end
   end
@@ -398,7 +398,7 @@ class Invoice < ApplicationRecord
   end
 
   def set_remaining_memberships_amount
-    self[:remaining_memberships_amount] ||= object.price - paid_memberships_amount
+    self[:remaining_memberships_amount] ||= entity.price - paid_memberships_amount
   end
 
   def set_memberships_amount
@@ -449,7 +449,7 @@ class Invoice < ApplicationRecord
   end
 
   def configured_vat_rate
-    case object_type
+    case entity_type
     when 'Membership'
       Current.acp.vat_membership_rate
     when 'ActivityParticipation'

@@ -347,7 +347,7 @@ describe Member do
       Current.acp.update!(share_price: 100, annual_fee: nil)
       member = create(:member, :active)
       member.membership.update_column(:ended_on, 1.day.ago)
-      create(:invoice, member: member, acp_shares_number: 1, object_type: 'ACPShare')
+      create(:invoice, member: member, acp_shares_number: 1, entity_type: 'ACPShare')
 
       expect(member.acp_shares_number).to eq 1
       expect { member.review_active_state! }

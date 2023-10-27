@@ -100,7 +100,7 @@ module XLSX
         add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
       end
       if Current.acp.feature?('new_member_fee')
-        add_line("#{t_invoice}: #{I18n.t('invoices.object_type.new_member_fee')}", @invoices.new_member_fee_type.sum(:amount))
+        add_line("#{t_invoice}: #{I18n.t('invoices.entity_type.new_member_fee')}", @invoices.new_member_fee_type.sum(:amount))
       end
       add_line("#{t_invoice}: #{t('other')}", @invoices.other_type.sum(:amount))
       add_line(t_invoice, invoices_total(:amount))

@@ -5,12 +5,12 @@ FactoryBot.define do
     sent_at { Time.current }
 
     trait :membership do
-      object { create(:membership, member: member, deliveries_count: 4) }
+      entity { create(:membership, member: member, deliveries_count: 4) }
       memberships_amount_description { 'Montant' }
     end
 
     trait :annual_fee do
-      object_type { 'AnnualFee' }
+      entity_type { 'AnnualFee' }
       annual_fee { member.annual_fee }
     end
 
@@ -24,7 +24,7 @@ FactoryBot.define do
         item_price { nil }
       end
 
-      object_type { '' }
+      entity_type { '' }
       after(:build) do |invoice, evaluator|
         if evaluator.item_price
           invoice.items_attributes = {

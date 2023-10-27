@@ -12,7 +12,7 @@ class ActivityParticipation < ApplicationRecord
   belongs_to :member
   belongs_to :session, optional: true
   belongs_to :validator, class_name: 'Admin', optional: true
-  has_many :invoices, as: :object
+  has_many :invoices, as: :entity
 
   scope :validated, -> { where(state: 'validated') }
   scope :rejected, -> { where(state: 'rejected') }

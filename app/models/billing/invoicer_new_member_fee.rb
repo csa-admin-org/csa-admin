@@ -17,7 +17,7 @@ module Billing
       return unless billable?
 
       attrs[:date] = Date.current
-      attrs[:object_type] = 'NewMemberFee'
+      attrs[:entity_type] = 'NewMemberFee'
       I18n.with_locale(member.language) do
         attrs[:items_attributes] = {
           '0' => {

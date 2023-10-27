@@ -32,8 +32,8 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
       member_id: membership.member_id,
       date: Date.today,
       paid_missing_activity_participations: 2,
-      object_type: 'ActivityParticipation',
-      object_id: nil,
+      entity_type: 'ActivityParticipation',
+      entity_id: nil,
       amount: 2 * 90)
     expect(invoice).to be_sent
   end

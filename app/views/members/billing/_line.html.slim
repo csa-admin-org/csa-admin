@@ -5,11 +5,11 @@ span class="order-2 md:order-1 flex-none w-24 mr-2"
   span class="order-1 md:order-2 w-full flex flex-grow justify-between items-center"
     span
       - if object.canceled?
-        == t('.canceled_invoice_info', id: object.id, type: display_object(object, link: false))
+        == t('.canceled_invoice_info', id: object.id, type: display_entity(object, link: false))
       - elsif object.open?
-        == t('.open_invoice_info', id: object.id, type: display_object(object, link: false))
+        == t('.open_invoice_info', id: object.id, type: display_entity(object, link: false))
       - else
-        == t('.invoice_info', id: object.id, type: display_object(object, link: false))
+        == t('.invoice_info', id: object.id, type: display_entity(object, link: false))
     span
       = link_to rails_blob_path(object.pdf_file, disposition: 'attachment') do
         = inline_svg_tag 'members/document_download.svg', class: 'h-6 w-6'

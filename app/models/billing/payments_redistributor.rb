@@ -14,7 +14,7 @@ module Billing
       @member.transaction do
         clear_all_paid_amount!
         pay_targeted_invoices_first!
-        pay_remaining_amounts_to_same_object_type_invoices!
+        pay_remaining_amounts_to_same_entity_type_invoices!
         pay_remaining_amount_chronogically!
       end
     end
@@ -31,11 +31,11 @@ module Billing
         if pm.invoice
           @remaining_amounts[pm.invoice.fy_year] ||= Hash.new(0)
           if pm.invoice.canceled?
-            @remaining_amounts[pm.invoice.fy_year][pm.invoice.object_type] += pm.amount
+            @remaining_amounts[pm.invoice.fy_year][pm.invoice.entity_type] += pm.amount
           else
             paid_amount = [[pm.amount, pm.invoice.missing_amount].min, 0].max
             pm.invoice.increment!(:paid_amount, paid_amount)
-            @remaining_amounts[pm.invoice.fy_year][pm.invoice.object_type] += pm.amount - paid_amount
+            @remaining_amounts[pm.invoice.fy_year][pm.invoice.entity_type] += pm.amount - paid_amount
           end
         else
           @remaining_amount += pm.amount
@@ -44,11 +44,11 @@ module Billing
     end
 
     # Split remaining amounts on other invoices of the same or previous fiscal years
-    # with the same object type chronogically.
-    def pay_remaining_amounts_to_same_object_type_invoices!
+    # with the same entity type chronogically.
+    def pay_remaining_amounts_to_same_entity_type_invoices!
       @remaining_amounts.each do |year, type_amounts|
-        type_amounts.each do |object_type, rem_amount|
-          invoices.before_or_during_year(year).where(object_type: object_type).each do |invoice|
+        type_amounts.each do |entity_type, rem_amount|
+          invoices.before_or_during_year(year).where(entity_type: entity_type).each do |invoice|
             if invoice.missing_amount.positive? && rem_amount.positive?
               paid_amount = [rem_amount, invoice.missing_amount].min
               invoice.increment!(:paid_amount, paid_amount)

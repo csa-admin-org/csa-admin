@@ -1,6 +1,6 @@
-{% case invoice.object_type %}
+{% case invoice.entity_type %}
 {% when 'Shop::Order' %}
-  <p>Voici votre nouvelle facture, pour votre commande N° {{ invoice.object_number }}, tous les détails se trouvent dans le PDF ci-joint.</p>
+  <p>Voici votre nouvelle facture, pour votre commande N° {{ invoice.entity_number }}, tous les détails se trouvent dans le PDF ci-joint.</p>
 {% else %}
   <p>Voici votre nouvelle facture, tous les détails se trouvent dans le PDF ci-joint.</p>
 {% endcase %}

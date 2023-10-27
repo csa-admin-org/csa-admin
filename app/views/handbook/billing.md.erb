@@ -85,7 +85,7 @@ Les factures sont ici automatiquement envoyées.
 Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle facture"](/mail_templates/invoice_created) pour les factures des <%= activities_human_name.downcase %> à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
 
 ~~~ liquid
-{% case invoice.object_type %}
+{% case invoice.entity_type %}
   {% when 'ActivityParticipation' %}
     <p>Mon texte spécial!</p>
   {% else %}
