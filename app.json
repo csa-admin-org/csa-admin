@@ -10,5 +10,11 @@
         "attempts": 3
       }
     ]
-  }
+  },
+  "cron": [
+    {
+      "command": "bin/rails sidekiq:check_health",
+      "schedule": "*/5 * * * *"
+    }
+  ]
 }
