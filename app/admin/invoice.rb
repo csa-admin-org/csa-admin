@@ -224,6 +224,12 @@ ActiveAdmin.register Invoice do
     end
   end
 
+  action_item :cancel_and_edit_shop_order, only: :show, if: -> { invoice.shop_order_type? && authorized?(:cancel, invoice.object) } do
+    button_to t('.cancel_and_edit_shop_order'), cancel_shop_order_path(invoice.object),
+      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
+      data: { confirm: t('.cancel_action_confirm') }
+  end
+
   action_item :pdf, only: :show, if: -> { !invoice.processing? } do
     link_to_invoice_pdf(resource)
   end

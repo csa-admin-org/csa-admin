@@ -321,6 +321,10 @@ class Invoice < ApplicationRecord
     object_type == 'ACPShare'
   end
 
+  def shop_order_type?
+    object_type == 'Shop::Order'
+  end
+
   def other_type?
     object_type == 'Other'
   end
