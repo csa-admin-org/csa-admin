@@ -922,6 +922,10 @@ _:
           _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
           _fr: Modifier une commande déjà facturée aura pour action d'annuler la facture existante. Êtes-vous sûr?
           _it: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
+        cancel_and_edit_shop_order:
+          _de: Bestellung bearbeiten (Abbrechen)
+          _fr: Modifier commande (Annuler)
+          _it: Modifica ordine (Annullare)
         cancel_invoice:
           _de: Stornieren
           _fr: Annuler
