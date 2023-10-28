@@ -7,14 +7,14 @@ class Newsletter
 
     def encrypt_email(email)
       cipher = OpenSSL::Cipher.new(CIPHER_KEY).encrypt
-      cipher.key = Digest::MD5.hexdigest(Rails.application.secrets.secret_key_base)
+      cipher.key = Digest::MD5.hexdigest(Rails.application.credentials.secret_key_base)
       s = cipher.update(email) + cipher.final
       s.unpack('H*')[0].downcase
     end
 
     def decrypt_email(email)
       cipher = OpenSSL::Cipher.new(CIPHER_KEY).decrypt
-      cipher.key = Digest::MD5.hexdigest(Rails.application.secrets.secret_key_base)
+      cipher.key = Digest::MD5.hexdigest(Rails.application.credentials.secret_key_base)
       s = [email].pack("H*").unpack("C*").pack("c*")
       cipher.update(s) + cipher.final
     rescue OpenSSL::Cipher::CipherError

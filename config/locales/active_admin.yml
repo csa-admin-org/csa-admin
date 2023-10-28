@@ -1204,6 +1204,10 @@ _:
             _de: In Rechnung gestellt
             _fr: Facturées
             _it: Fatturate
+          pending:
+            _de: Zu bestätigen
+            _fr: À valider
+            _it: Da confermare
           rejected:
             _de: Abgelehnte
             _fr: Refusées
