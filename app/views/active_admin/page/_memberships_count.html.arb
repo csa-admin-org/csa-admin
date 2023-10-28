@@ -7,8 +7,7 @@ ul class: 'counts' do
     fy = (scope == :future_next) ? Current.acp.next_fiscal_year : Current.fiscal_year
     scope = :future if scope == :future_next
     label =
-      I18n.t("active_admin.resources.membership.scopes.#{scope}",
-        default: I18n.t("active_admin.scopes.#{scope}")).capitalize
+      I18n.t("active_admin.resources.membership.scopes.#{scope}").capitalize
     label += " (#{fy})" if scope == :future && fy != Current.fiscal_year
     li do
       count = Membership.during_year(fy).send(scope).count

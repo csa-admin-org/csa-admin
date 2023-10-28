@@ -25,8 +25,7 @@ ul class: 'counts' do
         end
       content = span class: ('zero' if count.zero?) do
         span count.zero? ? '–' : count, class: 'count'
-        span I18n.t("active_admin.resources.activity_participation.scopes.#{scope}",
-          default: I18n.t("active_admin.scopes.#{scope}")).capitalize
+        span I18n.t("active_admin.resources.activity_participation.scopes.#{scope}").capitalize
       end
       case scope
       when :missing then content
