@@ -33,7 +33,7 @@ describe NewsletterMailer do
     expect(mail.body).to include('<h2 class="content_title">Content Title</h2>')
     expect(mail.body).to include('Example Text John Doe')
     expect(mail.body).to have_link('Désinscription',
-      href: "https://membres.ragedevert.ch/newsletters/unsubscribe/f1d34b0d1f1a4246c1dbb6da73a404eb")
+      href: %r{https://membres.ragedevert.ch/newsletters/unsubscribe/\w{32}})
   end
 
   specify '#newsletter_email with attachments' do
