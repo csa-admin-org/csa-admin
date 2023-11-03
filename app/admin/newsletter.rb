@@ -128,11 +128,16 @@ ActiveAdmin.register Newsletter do
   end
 
   form data: {
-    controller: 'code-editor form-select-hidder',
+    controller: 'code-editor form-select-hidder auto-save',
     code_editor_target: 'form',
-    code_editor_preview_path_value: '/newsletters/preview.js'
+    code_editor_preview_path_value: '/newsletters/preview.js',
+    auto_save_target: 'form',
+    action: 'change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage'
   } do |f|
     newsletter = f.object
+    div class: 'form-warning', data: { 'auto-save-target' => 'warningMessage' } do
+      span t('newsletters.auto_save_recovered')
+    end
     f.inputs t('.details') do
       f.input :id, as: :hidden
       translated_input(f, :subjects,
@@ -229,8 +234,11 @@ ActiveAdmin.register Newsletter do
               hint: t('formtastic.hints.liquid_data_preview'),
               wrapper_html: { class: 'ace-editor' },
               input_html: {
-                class: 'ace-edito',
-                data: { mode: 'yaml', code_editor_target: 'editor' },
+                class: 'ace-editor',
+                data: {
+                  mode: 'yaml',
+                  code_editor_target: 'editor'
+                },
                 name: "newsletter[liquid_data_preview_yamls][#{locale}]"
               })
           end
