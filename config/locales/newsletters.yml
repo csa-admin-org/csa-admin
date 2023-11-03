@@ -9,6 +9,10 @@ _:
         _de: Fehlende
         _fr: Manquantes
         _it: Mancanti
+    auto_save_recovered:
+      _de: Lokale automatische Sicherung wiederhergestellt, vergessen Sie nicht, Ihren Entwurf zu speichern!
+      _fr: Sauvegarde automatique locale récupérée, n'oubliez pas de sauver votre brouillon!
+      _it: Backup automatico locale recuperato, non dimenticare di salvare la tua bozza!
     member_state:
       all:
         _de: Alle
