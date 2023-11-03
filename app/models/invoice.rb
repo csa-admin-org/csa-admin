@@ -94,9 +94,9 @@ class Invoice < ApplicationRecord
     on: :create,
     if: :membership_type?
 
-  after_commit :enqueue_processing, on: :create
-  after_commit :update_membership_activity_participations_accepted!
   after_destroy -> { Billing::PaymentsRedistributor.redistribute!(member_id) }
+  after_commit :update_membership_activity_participations_accepted!
+  after_commit :enqueue_processing, on: :create
 
   def self.entity_types
     types = %w[Membership Other]

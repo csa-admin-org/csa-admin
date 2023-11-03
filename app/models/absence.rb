@@ -13,8 +13,8 @@ class Absence < ApplicationRecord
   }, unless: :admin
   validate :good_period_range
 
-  after_commit :update_memberships!
   after_create_commit :notify_admins!
+  after_commit :update_memberships!
 
   scope :past, -> { where('ended_on < ?', Time.current) }
   scope :future, -> { where('started_on > ?', Time.current) }

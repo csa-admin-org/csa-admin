@@ -1,7 +1,3 @@
-require 'current_context'
-
-module ActionMailer
-  class MailDeliveryJob < ActiveJob::Base
-    include CurrentContext
-  end
+Rails.application.config.after_initialize do
+  ActionMailer::MailDeliveryJob.send(:include, CurrentContext)
 end

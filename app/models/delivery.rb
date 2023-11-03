@@ -36,8 +36,9 @@ class Delivery < ApplicationRecord
     unless: :date?,
     on: :create
 
+  after_commit :reset_deliveries_cycle_cache!
+  after_commit :update_baskets_async
   after_commit -> { self.class.update_numbers(fiscal_year) }
-  after_commit :update_baskets_async, :reset_deliveries_cycle_cache!
 
   def self.next
     coming.order(:date).first
