@@ -26,8 +26,8 @@ Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifi
 
 - Une facture future doit encore être envoyée (c'est le milieu de l'année et le membre est facturé chaque trimestre); dans ce cas, le changement de prix (positif ou négatif) sera simplement appliqué à la prochaine facture.
 - La dernière facture a déjà été envoyée (c'est la fin de l'année ou le membre est facturé en une fois), il y a alors 2 possibilités:
-  - Le changement de prix est positif, la dernière facture de l'abonnement est alors automatiquement annulée et une nouvelle facture (avec un montant plus élevé) sera recréée le prochain jour de facturation.
-  - Le changement de prix est négatif, la dernière facture de l'abonnement est alors aussi automatiquement annulée et une nouvelle facture (avec un montant moins élevé) sera recréée le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée, alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
+  - Le changement de prix est positif, la dernière facture de l'abonnement sera alors automatiquement annulée et une nouvelle facture (avec un montant plus élevé) sera recréée le prochain jour de facturation.
+  - Le changement de prix est négatif, la dernière facture de l'abonnement sera alors aussi automatiquement annulée et une nouvelle facture (avec un montant moins élevé) sera recréée le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée, alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
 
 <% if Current.acp.annual_fee? %>
 ### Cotisation annuelle
