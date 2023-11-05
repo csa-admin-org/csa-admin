@@ -58,6 +58,7 @@ module Billing
     def invoice(**attrs)
       return unless billable?
 
+      membership&.cancel_overcharged_invoice!
       I18n.with_locale(member.language) do
         invoice = build_invoice(**attrs)
         invoice.save

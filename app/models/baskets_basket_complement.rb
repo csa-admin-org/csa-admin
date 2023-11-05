@@ -11,8 +11,6 @@ class BasketsBasketComplement < ApplicationRecord
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :basket_delivery_must_be_in_complement_deliveries
 
-  after_commit { basket.membership.cancel_outdated_invoice! }
-
   before_validation do
     self.price ||= basket_complement&.delivery_price
   end
