@@ -194,6 +194,24 @@ describe Billing::Invoicer do
       expect(invoice.memberships_amount_description).to be_present
       expect(invoice.memberships_amount).to eq 2 * 2
     end
+
+    specify 'when already billed, but with a membership change (overcharged)', freeze: '2022-01-01' do
+      create_deliveries(2)
+      overcharged_invoice = create_invoice(member, send_email: true)
+      membership.update!(basket_price: 20)
+
+      invoice = nil
+      expect {
+        invoice = create_invoice(member)
+      }.to change { overcharged_invoice.reload.state }.to('canceled')
+
+      expect(invoice.entity).to eq membership
+      expect(invoice.entity.baskets_count).to eq 2
+      expect(invoice.annual_fee).to eq 30
+      expect(invoice.paid_memberships_amount).to eq 0
+      expect(invoice.memberships_amount_description).to be_present
+      expect(invoice.memberships_amount).to eq 2 * 20
+    end
   end
 
   context 'when billed quarterly' do

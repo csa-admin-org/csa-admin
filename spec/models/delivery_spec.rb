@@ -78,10 +78,7 @@ describe Delivery do
 
     expect { delivery.update!(basket_complement_ids: [1]) }
       .to change { membership_1.reload.price }.by(-4.5)
-      .and change { invoice_1.reload.state }.to('canceled')
       .and change { membership_2.reload.price }.by(-4.5)
-
-    expect(invoice_2.reload.state).to eq('open')
 
     basket1 = delivery.baskets.find_by(membership: membership_1)
     expect(basket1.complement_ids).to match_array [1]

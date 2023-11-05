@@ -77,7 +77,7 @@ class Membership < ApplicationRecord
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
-  after_commit :update_member_and_baskets!, :update_activity_participations_demanded!, :cancel_outdated_invoice!
+  after_commit :update_member_and_baskets!, :update_activity_participations_demanded!
 
   scope :started, -> { where('started_on < ?', Time.current) }
   scope :past, -> { where('ended_on < ?', Time.current) }
@@ -129,7 +129,8 @@ class Membership < ApplicationRecord
   end
 
   def billable?
-    fy_year >= Current.fy_year && missing_invoices_amount.positive?
+    fy_year >= Current.fy_year &&
+      (missing_invoices_amount.positive? || overcharged_invoices_amount?)
   end
 
   def trial?
@@ -438,18 +439,21 @@ class Membership < ApplicationRecord
         baskets.between(absence.period).update_all(absent: true)
       end
       update_price_and_invoices_amount!
-      cancel_outdated_invoice!
     end
   end
 
-  def cancel_outdated_invoice!
+  def overcharged_invoices_amount?
+    invoices.not_canceled.any? && invoices_amount > price
+  end
+
+  def cancel_overcharged_invoice!
     return if destroyed?
     return unless current_year?
+    return unless overcharged_invoices_amount?
 
-    if invoices_amount > price && invoices.not_canceled.any?
-      invoices.not_canceled.order(:date).last.destroy_or_cancel!
-      update_price_and_invoices_amount!
-    end
+    invoices.not_canceled.order(:date).last.destroy_or_cancel!
+    update_price_and_invoices_amount!
+    cancel_overcharged_invoice!
   end
 
   private

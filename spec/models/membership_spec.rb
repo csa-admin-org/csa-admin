@@ -834,7 +834,7 @@ describe Membership do
     end
   end
 
-  describe '#cancel_outdated_invoice!' do
+  describe '#cancel_overcharged_invoice!' do
     before do
       Current.acp.update!(
         trial_basket_count: 0,
@@ -852,7 +852,8 @@ describe Membership do
       end
       travel_to '2022-05-01' do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-        expect { membership.update!(ended_on: '2022-05-01') }
+        membership.update!(ended_on: '2022-05-01')
+        expect { membership.cancel_overcharged_invoice! }
           .to change { invoice.reload.state }.from('open').to('canceled')
           .and change { membership.reload.invoices_amount }.to(0)
       end
@@ -871,8 +872,9 @@ describe Membership do
       end
       travel_to '2022-09-01' do
         invoice_3 = Billing::Invoicer.force_invoice!(member, send_email: true)
+        membership.update!(baskets_annual_price_change: -11)
         expect {
-          expect { membership.update!(baskets_annual_price_change: -11) }
+          expect { membership.cancel_overcharged_invoice! }
             .to change { invoice_3.reload.state }.from('open').to('canceled')
             .and change { invoice_2.reload.state }.from('open').to('canceled')
             .and change { membership.reload.invoices_amount }.to(10)
@@ -887,7 +889,8 @@ describe Membership do
       end
       travel_to '2022-02-01' do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-        expect { membership.baskets.first.update!(basket_price: 5) }
+        membership.baskets.first.update!(basket_price: 5)
+        expect { membership.cancel_overcharged_invoice! }
           .to change { invoice.reload.state }.from('open').to('canceled')
           .and change { membership.reload.invoices_amount }.to(0)
       end
@@ -904,12 +907,11 @@ describe Membership do
       end
       travel_to '2022-02-01' do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-        expect {
-          create(:absence,
-            member: member,
-            started_on: '2022-05-01',
-            ended_on: '2022-07-01')
-        }
+        create(:absence,
+          member: member,
+          started_on: '2022-05-01',
+          ended_on: '2022-07-01')
+        expect { membership.cancel_overcharged_invoice! }
           .to change { invoice.reload.state }.from('open').to('canceled')
           .and change { membership.reload.invoices_amount }.to(0)
       end
@@ -920,7 +922,8 @@ describe Membership do
       membership = create(:membership, member: member)
       invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
       travel_to(Date.new(Current.fy_year + 1, 12, 15)) do
-        expect { membership.baskets.first.update!(basket_price: 5) }
+        membership.baskets.first.update!(basket_price: 5)
+        expect { membership.cancel_overcharged_invoice! }
           .not_to change { membership.reload.invoices_amount }
         expect(invoice.reload.state).to eq('open')
       end
@@ -940,11 +943,11 @@ describe Membership do
       travel_to '2022-05-01' do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
         membership.reload
-        expect {
-          membership.update!(memberships_basket_complements_attributes: {
-            '0' => { basket_complement_id: 2, quantity: 1 }
-          })
-        }.not_to change { invoice.reload.state }.from('open')
+        membership.update!(memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 2, quantity: 1 }
+        })
+        expect { membership.cancel_overcharged_invoice! }
+          .not_to change { invoice.reload.state }.from('open')
       end
     end
   end
