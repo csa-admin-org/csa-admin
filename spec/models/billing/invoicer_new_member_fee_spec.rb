@@ -52,10 +52,11 @@ describe Billing::InvoicerNewMemberFee do
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
 
-  specify 'do nothing if member is still on trial basket', freeze: '2023-01-23' do
+  specify 'do nothing if member is still on trial basket', freeze: '2023-01-16' do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
+    expect(member.baskets.trial.not_empty.last.delivery.date.to_s).to eq '2023-01-17'
     expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq '2023-01-24'
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end

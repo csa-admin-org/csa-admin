@@ -34,12 +34,7 @@ module Billing
     def billable?
       member.active? &&
         member.invoices.new_member_fee_type.none? &&
-        recent_first_non_trial_basket?
-    end
-
-    def recent_first_non_trial_basket?
-      first_basket = member.baskets.not_trial.not_empty.first
-      first_basket && first_basket.delivery.date.in?(recent_window)
+        member.first_membership&.first_billable_delivery&.date&.in?(recent_window)
     end
 
     def recent_window

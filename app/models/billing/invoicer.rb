@@ -131,9 +131,7 @@ module Billing
     end
 
     def next_billing_day_after_first_billable_delivery
-      baskets = membership.baskets.not_empty
-      basket = baskets.trial.last || baskets.first
-      next_billing_day(basket.delivery.date)
+      next_billing_day(membership.first_billable_delivery.date)
     end
 
     def next_billing_day(day = date)
