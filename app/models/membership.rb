@@ -133,6 +133,11 @@ class Membership < ApplicationRecord
       (missing_invoices_amount.positive? || overcharged_invoices_amount?)
   end
 
+  def first_billable_delivery
+    rel = baskets.not_empty
+    (rel.trial.last || rel.first)&.delivery
+  end
+
   def trial?
     remaning_trial_baskets_count.positive?
   end
