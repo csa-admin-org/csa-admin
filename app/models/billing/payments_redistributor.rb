@@ -13,9 +13,12 @@ module Billing
     def redistribute!
       @member.transaction do
         clear_all_paid_amount!
-        pay_targeted_invoices_first!
-        pay_remaining_amounts_to_same_entity_type_invoices!
+        remove_payback_invoices_to_remaining_amount!
+        pay_targeted_invoices!
+        pay_remaining_amount_chronogically!(scope: :closed)
         pay_remaining_amount_chronogically!
+        pay_remaining_amount_on_last_invoice!
+        close_or_open_invoices!
       end
     end
 
@@ -25,17 +28,24 @@ module Billing
       @member.invoices.update_all(paid_amount: 0)
     end
 
-    # Use payment amount to targeted invoice first.
-    def pay_targeted_invoices_first!
+    def close_or_open_invoices!
+      invoices.find_each(&:close_or_open!)
+    end
+
+    def remove_payback_invoices_to_remaining_amount!
+      @remaining_amount -= invoices.where(amount: ...0).sum(:amount)
+    end
+
+    # Use payment amount to targeted invoice.
+    def pay_targeted_invoices!
       payments.each do |pm|
         if pm.invoice
-          @remaining_amounts[pm.invoice.fy_year] ||= Hash.new(0)
           if pm.invoice.canceled?
-            @remaining_amounts[pm.invoice.fy_year][pm.invoice.entity_type] += pm.amount
+            @remaining_amount += pm.amount
           else
             paid_amount = [[pm.amount, pm.invoice.missing_amount].min, 0].max
             pm.invoice.increment!(:paid_amount, paid_amount)
-            @remaining_amounts[pm.invoice.fy_year][pm.invoice.entity_type] += pm.amount - paid_amount
+            @remaining_amount += pm.amount - paid_amount
           end
         else
           @remaining_amount += pm.amount
@@ -43,40 +53,21 @@ module Billing
       end
     end
 
-    # Split remaining amounts on other invoices of the same or previous fiscal years
-    # with the same entity type chronogically.
-    def pay_remaining_amounts_to_same_entity_type_invoices!
-      @remaining_amounts.each do |year, type_amounts|
-        type_amounts.each do |entity_type, rem_amount|
-          invoices.before_or_during_year(year).where(entity_type: entity_type).each do |invoice|
-            if invoice.missing_amount.positive? && rem_amount.positive?
-              paid_amount = [rem_amount, invoice.missing_amount].min
-              invoice.increment!(:paid_amount, paid_amount)
-              rem_amount -= paid_amount
-            end
-            invoice.reload.close_or_open!
-          end
-          @remaining_amount += rem_amount
-        end
+    # Split remaining amount on invoices chronogically.
+    def pay_remaining_amount_chronogically!(scope: :all)
+      return if @remaining_amount.zero?
+
+      invoices.send(scope).each do |invoice|
+        paid_amount = [@remaining_amount, invoice.missing_amount].min
+        invoice.increment!(:paid_amount, paid_amount)
+        @remaining_amount -= paid_amount
       end
     end
 
-    # Split remaining amount on other invoices chronogically.
-    def pay_remaining_amount_chronogically!
-      # Add negative (payback) invoice to remaining_amount
-      @remaining_amount += -invoices.where('amount < 0').sum(:amount)
+    def pay_remaining_amount_on_last_invoice!
+      return if @remaining_amount.zero?
 
-      last_invoice = invoices.last
-      invoices.each do |invoice|
-        if invoice == last_invoice
-          invoice.increment!(:paid_amount, @remaining_amount)
-        elsif invoice.missing_amount.positive?
-          paid_amount = [@remaining_amount, invoice.missing_amount].min
-          invoice.increment!(:paid_amount, paid_amount)
-          @remaining_amount -= paid_amount
-        end
-        invoice.reload.close_or_open!
-      end
+      invoices.last&.increment!(:paid_amount, @remaining_amount)
     end
 
     def payments
