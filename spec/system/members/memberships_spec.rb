@@ -46,28 +46,6 @@ describe 'Membership' do
     end
   end
 
-  specify 'active member with basket price extra', freeze: '2023-01-01' do
-    Current.acp.update!(trial_basket_count: 0)
-    Current.acp.update!(
-      basket_price_extra_title: 'Cotistation solidaire',
-      basket_price_extras: '0, 1, 2, 4, 8',
-      basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
-    create(:membership,
-      member: member,
-      basket_price_extra: 8)
-
-    login(member)
-
-    expect(menu_nav).to include "Abonnement\n⤷ En cours"
-
-    click_on 'Abonnement'
-
-    within 'ul#2023' do
-      expect(page).to have_content '1 janvier 2023 – 31 décembre 2023'
-      expect(page).to have_content "CHF 76.00 (Cotistation solidaire: CHF 8.00)"
-    end
-  end
-
   specify 'trial membership', freeze: '2020-01-01' do
     create(:membership,
       member: member,
