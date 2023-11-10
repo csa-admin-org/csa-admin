@@ -115,12 +115,6 @@ module PDF
             ]
           end
         end
-        if Current.acp.feature?('basket_price_extra') && !entity.baskets_price_extra.zero?
-          data << [
-            membership_baskets_price_extra_description,
-            _cur(entity.baskets_price_extra)
-          ]
-        end
         unless entity.baskets_annual_price_change.zero?
           data << [
             t('baskets_annual_price_change'),
@@ -142,6 +136,12 @@ module PDF
           data << [
             t('basket_complements_annual_price_change'),
             _cur(entity.basket_complements_annual_price_change)
+          ]
+        end
+        if Current.acp.feature?('basket_price_extra') && !entity.baskets_price_extra.zero?
+          data << [
+            membership_baskets_price_extra_description,
+            _cur(entity.baskets_price_extra)
           ]
         end
         entity.depots.uniq.each do |depot|

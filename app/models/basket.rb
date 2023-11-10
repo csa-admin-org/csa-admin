@@ -76,8 +76,7 @@ class Basket < ApplicationRecord
   end
 
   def complements_price
-    baskets_basket_complements
-      .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
+    baskets_basket_complements.sum { |bbc| bbc.quantity * bbc.price }
   end
 
   def empty?
@@ -157,12 +156,13 @@ class Basket < ApplicationRecord
 
   def calculate_price_extra
     return 0 unless Current.acp.feature?('basket_price_extra')
-    return 0 if basket_price.zero?
+    return 0 if basket_price.zero? && complements_price.zero?
 
     Current.acp.calculate_basket_price_extra(
       price_extra,
       basket_price,
       basket_size_id,
+      complements_price,
       Current.acp.deliveries_count(membership.fy_year))
   end
 end

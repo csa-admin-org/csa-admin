@@ -24,5 +24,14 @@ FactoryBot.define do
     terms_of_service_url { 'https://www.ragedevert.ch/s/RageDeVert-Reglement-2015.pdf' }
     features { %w[absence activity basket_content basket_price_extra shop] }
     feature_flags { %w[] }
+    basket_price_extras { "0, 1, 2, 3" }
+    basket_price_extra_public_title { 'Soutien' }
+    basket_price_extra_label { <<~LIQUID }
+      {% if extra == 0 %}
+      Tarif de base
+      {% else %}
+      + {{ extra | ceil }}.-/panier
+      {% endif %}
+    LIQUID
   end
 end
