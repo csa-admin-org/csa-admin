@@ -203,6 +203,27 @@ describe Basket do
       expect(basket_2.send(:calculate_price_extra)).to eq 2.5
     end
 
+    specify 'with dynamic pricing based on basket_size and complements prices' do
+      Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
+        {% assign price = basket_price | plus: complements_price %}
+        {{ price | divided_by: 100.0 | times: extra }}
+      LIQUID
+
+      membership = create(:membership)
+      complement_1 = create(:basket_complement)
+      complement_2 = create(:basket_complement)
+      basket = membership.baskets.first
+      basket.update!(
+        basket_price: 20.5,
+        price_extra: -20,
+        baskets_basket_complements_attributes: {
+          '0' => { basket_complement_id: complement_1.id, quantity: 2, price: 3.3 },
+          '1' => { basket_complement_id: complement_2.id, quantity: 1, price: 4.2 }
+        })
+
+      expect(basket.calculated_price_extra).to eq ((20.5 + 2 * 3.3 + 1 * 4.2) / 100.0 * -20)
+    end
+
     specify 'with dynamic pricing based on deliveries count and extra', freeze: '2022-01-01' do
       create_deliveries(3)
       membership = create(:membership)

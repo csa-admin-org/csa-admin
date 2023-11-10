@@ -105,6 +105,15 @@ describe Member do
       expect(member).not_to have_valid(:waiting_basket_size_id)
     end
 
+    it 'validates waiting_basket_price_extra presence' do
+      member = build(:member,
+        waiting_depot: create(:depot),
+        waiting_basket_price_extra: nil)
+
+      expect(member).not_to be_valid
+      expect(member).not_to have_valid(:waiting_basket_price_extra)
+    end
+
     it 'validates waiting_depot presence' do
       member = build(:member,
         waiting_basket_size: create(:basket_size),

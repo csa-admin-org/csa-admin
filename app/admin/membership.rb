@@ -485,12 +485,6 @@ ActiveAdmin.register Membership do
             row(:basket_sizes_price) {
               display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
             }
-            if Current.acp.feature?('basket_price_extra')
-              row(:basket_price_extra_title) {
-                description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
-                display_price_description(m.baskets_price_extra, description).html_safe
-              }
-            end
             row(:baskets_annual_price_change) {
               cur(m.baskets_annual_price_change)
             }
@@ -502,6 +496,12 @@ ActiveAdmin.register Membership do
               }
               row(:basket_complements_annual_price_change) {
                 cur(m.basket_complements_annual_price_change)
+              }
+            end
+            if Current.acp.feature?('basket_price_extra')
+              row(:basket_price_extra_title) {
+                description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
+                display_price_description(m.baskets_price_extra, description).html_safe
               }
             end
             row(:depots_price) {

@@ -19,13 +19,16 @@ FactoryBot.define do
       validated_at { nil }
       validator { nil }
       waiting_basket_size { create(:basket_size) }
+      waiting_basket_price_extra { 0 }
       waiting_depot { create(:depot) }
+
     end
 
     trait :waiting do
       state { 'waiting' }
       waiting_started_at { Time.current }
       waiting_basket_size { create(:basket_size) }
+      waiting_basket_price_extra { 0 }
       waiting_depot { create(:depot) }
     end
 

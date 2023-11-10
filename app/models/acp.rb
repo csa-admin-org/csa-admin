@@ -324,7 +324,7 @@ class ACP < ApplicationRecord
     credentials(:mailchimp).present?
   end
 
-  def calculate_basket_price_extra(extra, basket_price, basket_size_id, deliveries_count)
+  def calculate_basket_price_extra(extra, basket_price, basket_size_id, complements_price, deliveries_count)
     return extra unless basket_price_extra_dynamic_pricing?
 
     template = Liquid::Template.parse(basket_price_extra_dynamic_pricing)
@@ -332,6 +332,7 @@ class ACP < ApplicationRecord
       'extra' => extra.to_f,
       'basket_price' => basket_price.to_f,
       'basket_size_id' => basket_size_id,
+      'complements_price' => complements_price.to_f,
       'deliveries_count' => deliveries_count.to_f
     ).to_f
   end

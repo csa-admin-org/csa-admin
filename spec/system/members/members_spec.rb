@@ -131,6 +131,8 @@ describe 'members page' do
 
       choose 'Eveil PUBLIC'
 
+      choose '2.-/panier'
+
       choose 'Vélo PUBLIC'
 
       choose 'Semaines impaires PUBLIC', visible: false
@@ -147,6 +149,7 @@ describe 'members page' do
       expect(member.waiting_basket_size.name).to eq 'Eveil'
       expect(member.waiting_depot.name).to eq 'Vélo'
       expect(member.waiting_deliveries_cycle.name).to eq 'Semaines impaires'
+      expect(member.waiting_basket_price_extra).to eq 2
     end
 
     it 'creates a new member with membership and alternative depots' do
@@ -186,6 +189,8 @@ describe 'members page' do
       fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
 
       choose 'Eveil PUBLIC'
+
+      choose 'Tarif de base'
 
       within '.member_waiting_depot_id' do
         choose 'Neuchâtel PUBLIC'

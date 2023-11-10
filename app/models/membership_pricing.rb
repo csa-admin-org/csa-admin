@@ -46,15 +46,20 @@ class MembershipPricing
 
   def baskets_price_extras
     extra = @params[:waiting_basket_price_extra].to_f
-    return [0, 0] unless extra.positive?
+    return [0, 0] if extra.zero?
+
+    comp_prices = [0, 0]
+    complements_prices.each { |p|
+      comp_prices = comp_prices.zip(p.map(&:round_to_five_cents)).map(&:sum)
+    }
 
     [
-      deliveries_counts.min * calculate_price_extra(extra, basket_size, deliveries_counts.min),
-      deliveries_counts.max * calculate_price_extra(extra, basket_size, deliveries_counts.max)
+      deliveries_counts.min * calculate_price_extra(extra, basket_size, comp_prices.min / deliveries_counts.min, deliveries_counts.min),
+      deliveries_counts.max * calculate_price_extra(extra, basket_size, comp_prices.max / deliveries_counts.max, deliveries_counts.max)
     ]
   end
 
-  def calculate_price_extra(extra, basket_size, deliveries_count)
+  def calculate_price_extra(extra, basket_size, complements_price, deliveries_count)
     return 0 unless Current.acp.feature?('basket_price_extra')
     return 0 unless basket_size
 
@@ -62,6 +67,7 @@ class MembershipPricing
       extra,
       basket_size.price,
       basket_size.id,
+      complements_price,
       deliveries_count)
   end
 
