@@ -57,8 +57,11 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
           span class="italic text-gray-400 dark:text-gray-600"
             = t('.price_salary_basket')
         - else
-          = link_to members_billing_path do
-            = cur(membership.price)
-            - if txt = display_basket_price_extra_raw(membership)
-              span class='italic text-sm text-gray-400 dark:text-gray-600'
-                = " (#{Current.acp.basket_price_extra_public_title}: #{txt})"
+          span class="flex flex-row items-center"
+            = link_to members_billing_path do
+              = cur(membership.price)
+            - if membership.invoices.any?
+              span class='m-0 flex items-center tooltip-toggle' onclick="" data-tooltip="#{t('.price_tooltip')}"
+                = inline_svg_tag 'members/info_circle.svg', class: 'ml-2 stroke-2'
+
+
