@@ -590,10 +590,6 @@ _:
           _de: Lieferungen
           _fr: Livraisons
           _it: Consegne
-        deliveries_cycles:
-          _de: Zyklen von Lieferungen
-          _fr: Cycles de livraisons
-          _it: Cicli di consegne
         delivery_sheets_mode:
           _de: Modus
           _fr: Mode
@@ -1480,7 +1476,7 @@ _:
         other:
           _de: Taschengrössen
           _fr: Tailles panier
-          _it: Dimensione cesta
+          _it: Dimensioni ceste
       baskets_basket_complement:
         one:
           _de: Zusatz

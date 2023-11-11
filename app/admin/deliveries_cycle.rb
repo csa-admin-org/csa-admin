@@ -19,9 +19,10 @@ ActiveAdmin.register DeliveriesCycle do
   filter :name_cont,
     label: -> { DeliveriesCycle.human_attribute_name(:name) },
     as: :string
+  filter :basket_sizes, as: :select
   filter :depots, as: :select
 
-  includes :depots, :memberships_basket_complements
+  includes :basket_sizes, :depots, :memberships_basket_complements
   index download_links: false do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
@@ -92,6 +93,13 @@ ActiveAdmin.register DeliveriesCycle do
           row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
         end
 
+        panel BasketSize.model_name.human(count: 2) do
+          table_for dc.basket_sizes, class: 'basket_sizes' do
+            column :name, ->(bs) { auto_link bs }
+            column :visible
+          end
+        end
+
         panel Depot.model_name.human(count: 2) do
           table_for dc.depots, class: 'depots' do
             column :name, ->(d) { auto_link d }
@@ -142,6 +150,12 @@ ActiveAdmin.register DeliveriesCycle do
     end
 
     f.inputs do
+      f.input :basket_sizes,
+        as: :check_boxes,
+        disabled: basket_sizes_with_only(f.object)
+    end
+
+    f.inputs do
       f.input :depots,
         as: :check_boxes,
         disabled: depot_ids_with_only(f.object)
@@ -160,7 +174,8 @@ ActiveAdmin.register DeliveriesCycle do
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     wdays: [],
     months: [],
-    depot_ids: [])
+    depot_ids: [],
+    basket_size_ids: [])
 
   controller do
     include DeliveriesCyclesHelper
@@ -168,6 +183,10 @@ ActiveAdmin.register DeliveriesCycle do
     private
 
     def assign_attributes(resource, attributes)
+      if attributes.first[:basket_size_ids]
+        attributes.first[:basket_size_ids] += basket_sizes_with_only(resource).map(&:to_s)
+        attributes.first[:basket_size_ids].uniq!
+      end
       if attributes.first[:depot_ids]
         attributes.first[:depot_ids] += depot_ids_with_only(resource).map(&:to_s)
         attributes.first[:depot_ids].uniq!

@@ -50,6 +50,7 @@ describe ActivityParticipationDemanded, freeze: '2022-01-01' do
     end
 
     specify '2/1 of the baskets' do
+      create(:basket_size)
       create(:delivery, date: '2022-01-01')
       create(:delivery, date: '2022-02-01')
       create(:delivery, date: '2022-03-01')

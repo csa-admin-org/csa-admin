@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_27_134358) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_11_103455) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -314,6 +314,12 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_27_134358) do
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.index ["visible"], name: "index_basket_sizes_on_visible"
+  end
+
+  create_table "basket_sizes_deliveries_cycles", force: :cascade do |t|
+    t.bigint "basket_size_id", null: false
+    t.bigint "deliveries_cycle_id", null: false
+    t.index ["basket_size_id", "deliveries_cycle_id"], name: "basket_sizes_deliveries_cycles_unique_index", unique: true
   end
 
   create_table "baskets", force: :cascade do |t|

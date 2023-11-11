@@ -25,8 +25,10 @@ class MembershipBasketsUpdater
   private
 
   def ensure_valid_deliveries_cycle!
-    unless @membership.depot.deliveries_cycles.include?(@membership.deliveries_cycle)
-      new_cycle = @membership.depot.main_deliveries_cycle
+    if !@membership.valid? && @membership.errors[:deliveries_cycle].any?
+      new_cycle = (
+        @membership.depot.deliveries_cycles & @membership.basket_size.deliveries_cycles
+      ).max_by(&:deliveries_count)
       @membership.update_column(:deliveries_cycle_id, new_cycle.id)
       @membership.reload
     end

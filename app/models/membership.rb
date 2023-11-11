@@ -55,6 +55,7 @@ class Membership < ApplicationRecord
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validates :deliveries_cycle, inclusion: { in: ->(m) { m.depot&.deliveries_cycles } }
+  validates :deliveries_cycle, inclusion: { in: ->(m) { m.basket_size&.deliveries_cycles } }
   validates :new_config_from,
     date: {
       after_or_equal_to: :started_on,

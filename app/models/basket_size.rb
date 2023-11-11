@@ -1,6 +1,7 @@
 class BasketSize < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
+  include HasDeliveriesCycles
 
   MEMBER_ORDER_MODES = %w[
     name_asc

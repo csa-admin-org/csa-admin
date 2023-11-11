@@ -290,6 +290,10 @@ _:
           _fr: Par exemple, une page référençant le prix de vente.
           _it: Per esempio, una pagina che fa riferimento al prezzo di vendita.
       basket_size:
+        deliveries_cycles:
+          _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieser Taschengröße, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieser Taschengröße (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
+          _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future avec cette taille de panier utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de cette taille de panier (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
+          _it: Se un ciclo di consegna viene rimosso dalla lista, gli abbonamenti attuali o futuri di questa dimensione del cestino che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questa dimensione del cestino (quello con più consegne). È richiesto almeno un ciclo di consegna.
         form_detail:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
@@ -312,6 +316,10 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
       deliveries_cycle:
+        basket_sizes:
+          _de: Wenn eine Taschengröße von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieser Taschengröße, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieser Taschengröße (dem mit den meisten Lieferungen) aktualisiert. Taschengrößen, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
+          _fr: Si une taille de panier est enlevée de la liste, les abonnements en cours ou future avec cette taille de panier utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de leur taille de panier (celui avec le plus de livraisons). Les tailles de panier qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
+          _it: Se una dimensione del cestino viene rimossa dall'elenco, gli abbonamenti attuali o futuri di questa dimensione del cestino che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questa dimensione del cestino (quello con più consegne). Le dimensioni del cestino che hanno solo questo ciclo di consegna non possono essere rimosse dall'elenco.
         depots:
           _de: Wenn ein Depot von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Depots, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
           _fr: Si un dépôt est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Les dépôts qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.

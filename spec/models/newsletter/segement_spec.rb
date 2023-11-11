@@ -56,6 +56,7 @@ describe Newsletter::Segment do
   end
 
   specify 'segment by deliveries cycle' do
+    create(:basket_size)
     cycle_1 = create(:deliveries_cycle)
     depot_1 = create(:depot, deliveries_cycles: [cycle_1])
     cycle_2 = create(:deliveries_cycle)
@@ -74,6 +75,7 @@ describe Newsletter::Segment do
   end
 
   specify 'segment by coming deliveries in days', freeze: '2023-01-01' do
+    create(:basket_size)
     create(:delivery, date: '2023-01-07')
     create(:delivery, date: '2023-01-14')
     create(:delivery, date: '2023-01-21')

@@ -52,6 +52,10 @@ _:
       _de: Taschengrösse
       _fr: Taille panier
       _it: Dimensione cesta
+    basket_sizes:
+      _de: Taschengrössen
+      _fr: Tailles de panier
+      _it: Dimensioni ceste
     baskets:
       _de: Taschen
       _fr: Paniers
@@ -140,6 +144,10 @@ _:
       _de: Zyklus von Lieferungen
       _fr: Cycle de livraisons
       _it: Ciclo di consegne
+    deliveries_cycles:
+      _de: Zyklen von Lieferungen
+      _fr: Cycles de livraisons
+      _it: Cicli di consegne
     delivery:
       _de: Lieferung
       _fr: Livraison

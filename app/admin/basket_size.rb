@@ -13,8 +13,13 @@ ActiveAdmin.register BasketSize do
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) {
       if bs.price.positive?
-        deliveries_based_price_info(bs.price).to_s + " (#{deliveries_count})"
+        deliveries_based_price_info(bs.price, bs.deliveries_counts(visible_only: false))
       end
+    }
+    column :deliveries_cycles, ->(bs) {
+      bs.deliveries_cycles.map { |cycle|
+        auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
+      }.join(', ').html_safe
     }
     if Current.acp.feature?('activity')
       column activities_human_name, ->(bs) { bs.activity_participations_demanded_annualy }
@@ -62,6 +67,23 @@ ActiveAdmin.register BasketSize do
         })
     end
 
+    f.inputs do
+      f.input :deliveries_cycles,
+        collection: deliveries_cycles_collection,
+        input_html: f.object.persisted? ? {} : { checked: true },
+        as: :check_boxes,
+        required: true
+
+      para class: 'actions' do
+        a href: handbook_page_path('deliveries', anchor: 'cycles-de-livraisons'), class: 'action' do
+          span do
+            span inline_svg_tag('admin/book-open.svg', size: '20', title: t('layouts.footer.handbook'))
+            span t('.check_handbook')
+          end
+        end.html_safe
+      end
+    end
+
     f.actions
   end
 
@@ -73,10 +95,12 @@ ActiveAdmin.register BasketSize do
     :member_order_priority,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
-    *I18n.available_locales.map { |l| "form_detail_#{l}" })
+    *I18n.available_locales.map { |l| "form_detail_#{l}" },
+    deliveries_cycle_ids: [])
 
   controller do
     include TranslatedCSVFilename
+    include DeliveriesCyclesHelper
   end
 
   config.filters = false
