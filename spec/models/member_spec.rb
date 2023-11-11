@@ -643,14 +643,17 @@ describe Member do
   end
 
   specify '#set_default_waiting_deliveries_cycle' do
-    visible_dc = create(:deliveries_cycle, visible: true)
+    visible_1_dc = create(:deliveries_cycle, visible: true)
+    visible_2_dc = create(:deliveries_cycle, visible: true)
     hidden_dc = create(:deliveries_cycle, visible: false)
-    depot = create(:depot, deliveries_cycles: [visible_dc, hidden_dc])
+    basket_size = create(:basket_size, deliveries_cycles: [visible_2_dc, hidden_dc])
+    depot = create(:depot, deliveries_cycles: [visible_1_dc, visible_2_dc, hidden_dc])
 
     member = create(:member, :waiting,
+      waiting_basket_size: basket_size,
       waiting_depot: depot,
       waiting_deliveries_cycle_id: nil)
 
-    expect(member.waiting_deliveries_cycle).to eq visible_dc
+    expect(member.waiting_deliveries_cycle).to eq visible_2_dc
   end
 end

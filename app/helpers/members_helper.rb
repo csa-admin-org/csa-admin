@@ -45,9 +45,9 @@ module MembersHelper
     @acp_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
     details = []
     if bs.price.positive?
-      details << "#{deliveries_based_price_info(bs.price)} (#{short_price(bs.price)} x #{deliveries_count(deliveries_counts)})"
+      details << "#{deliveries_based_price_info(bs.price, bs.deliveries_counts)} (#{short_price(bs.price)} x #{deliveries_count(bs.deliveries_counts)})"
     else
-      details << deliveries_count(deliveries_counts)
+      details << deliveries_count(bs.deliveries_counts)
     end
     details << activities_count(bs.activity_participations_demanded_annualy)
     if @acp_shares_numbers.size > 1
@@ -56,14 +56,14 @@ module MembersHelper
     details.compact.join(', ').html_safe
   end
 
-  def basket_sizes_collection(no_basket_option: true, data: {}, no_basket_data: {})
-    basket_sizes = BasketSize.visible.member_ordered
-    col = basket_sizes.map { |bs|
+  def basket_sizes_collection(membership: nil, no_basket_option: true, data: {}, no_basket_data: {})
+    col = visible_basket_sizes(membership).map { |bs|
       [
         collection_text(bs.public_name, details: basket_size_details(bs)),
         bs.id,
         data: {
-          form_min_value_enforcer_min_value_param: bs.acp_shares_number
+          form_min_value_enforcer_min_value_param: bs.acp_shares_number,
+          form_choices_limiter_values_param: bs.visible_deliveries_cycle_ids.join(',')
         }.merge(data)
       ]
     }
@@ -172,8 +172,15 @@ module MembersHelper
     }
   end
 
+  def show_deliveries_cycles?
+    BasketSize.includes(:visibe_deliveries_cycles).any? { |bs|
+      bs.visibe_deliveries_cycles.many?
+    }
+  end
+
   def visible_deliveries_cycles_collection(membership: nil, data: {})
-    ids = visible_depots(membership).flat_map(&:visible_deliveries_cycle_ids)
+    ids = visible_basket_sizes(membership).flat_map(&:visible_deliveries_cycle_ids)
+    ids += visible_depots(membership).flat_map(&:visible_deliveries_cycle_ids)
     ids << membership.deliveries_cycle_id if membership
     DeliveriesCycle
       .where(id: ids.uniq)
@@ -283,6 +290,16 @@ module MembersHelper
 
   private
 
+  def visible_basket_sizes(membership = nil)
+    ids = BasketSize.visible.pluck(:id)
+    ids << membership.basket_size_id if membership
+    BasketSize
+      .where(id: ids.uniq)
+      .includes(:deliveries_cycles, :visibe_deliveries_cycles)
+      .member_ordered
+      .to_a
+  end
+
   def visible_depots(membership = nil)
     ids = Depot.visible.pluck(:id)
     ids << membership.depot_id if membership
@@ -294,7 +311,8 @@ module MembersHelper
   end
 
   def deliveries_counts
-    @deliveries_counts ||= visible_depots.map(&:deliveries_counts).flatten.uniq.sort
+    @deliveries_counts ||=
+      (visible_basket_sizes + visible_depots).map(&:deliveries_counts).flatten.uniq.sort
   end
 
   def depots_delivery_ids

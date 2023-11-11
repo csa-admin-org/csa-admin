@@ -30,10 +30,10 @@ describe MembershipBasketsUpdater do
     # Update other membership to ensure it is not updated when depot is updated
     other_membership.update!(updated_at: '2022-01-02')
 
-    expect { depot.update!(deliveries_cycles: [cycle, other_cycle]) }
+    expect { depot.reload.update!(deliveries_cycles: [cycle, other_cycle]) }
       .not_to change { other_membership.reload.updated_at }
 
-    expect { depot.update!(deliveries_cycles: [other_cycle]) }
+    expect { depot.reload.update!(deliveries_cycles: [other_cycle]) }
       .to change { membership.reload.baskets.count }.from(6).to(3)
       .and change { membership.reload.price }.from(180).to(90)
       .and change { membership.reload.deliveries_cycle }.from(cycle).to(other_cycle)

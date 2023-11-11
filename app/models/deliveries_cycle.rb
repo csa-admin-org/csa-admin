@@ -20,6 +20,7 @@ class DeliveriesCycle < ApplicationRecord
 
   has_many :memberships
   has_many :memberships_basket_complements
+  has_and_belongs_to_many :basket_sizes
   has_and_belongs_to_many :depots
 
   translated_attributes :public_name
@@ -134,7 +135,8 @@ class DeliveriesCycle < ApplicationRecord
   end
 
   def can_destroy?
-    depots.empty? &&
+    basket_sizes.empty? &&
+      depots.empty? &&
       memberships_basket_complements.empty? &&
       DeliveriesCycle.where.not(id: id).exists?
   end

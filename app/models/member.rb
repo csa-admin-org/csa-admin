@@ -359,9 +359,11 @@ class Member < ApplicationRecord
   end
 
   def set_default_waiting_deliveries_cycle
+    return unless waiting_basket_size
     return unless waiting_depot
 
-    self[:waiting_deliveries_cycle_id] ||= waiting_depot.main_deliveries_cycle.id
+    self[:waiting_deliveries_cycle_id] ||=
+      (waiting_depot.deliveries_cycles & waiting_basket_size.deliveries_cycles).max_by(&:deliveries_count)&.id
   end
 
   def email_must_be_unique
