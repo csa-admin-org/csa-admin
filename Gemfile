@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
-gem 'rails', github: 'rails/rails', branch: '7-1-stable'
+gem 'rails', '7.1.2'
 
 gem 'bootsnap', require: false
 gem 'pg', '~> 1.4.6'
