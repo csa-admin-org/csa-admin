@@ -69,11 +69,12 @@ module MembershipsHelper
         end
         info = "#{bbs.sum(&:quantity)}x #{price}"
         if Current.acp.basket_price_extra_dynamic_pricing?
-          extra = price_extra.to_i
+          label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
+          extra = label_template.render('extra' => price_extra).strip
           if highlight_current && membership.basket_price_extra == price_extra
             extra = content_tag(:strong, extra)
           end
-          info = "#{info} (#{extra})"
+          info = "#{info}, #{extra}"
         end
         info
       }.join(' + ').html_safe
