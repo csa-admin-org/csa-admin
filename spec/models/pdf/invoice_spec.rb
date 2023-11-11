@@ -147,7 +147,9 @@ describe PDF::Invoice do
         features: ['basket_price_extra'],
         basket_price_extra_title: 'Classe',
         basket_price_extra_public_title: 'Classe salariale',
+        basket_price_extra_label: 'Classe {{ extra | floor }}',
         basket_price_extra_dynamic_pricing: "4.2")
+
       membership = create(:membership,
         basket_price_extra: 4,
         basket_size: create(:basket_size, :big),
@@ -162,7 +164,7 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
         .and contain_sequence('Panier: Abondance PUBLIC 2x 33.25', '66.50')
-        .and contain_sequence('Classe salariale: 2x 4.20 (4)', '8.40')
+        .and contain_sequence('Classe salariale: 2x 4.20, Classe 4', '8.40')
         .and contain_sequence('Montant annuel', '74.90')
     end
 

@@ -110,7 +110,7 @@ module MembersHelper
         'extra' => extra,
         'full_year_price' => full_year_price)
 
-      text = collection_text(label_template.render('extra' => extra), details: details)
+      text = collection_text(label_template.render('extra' => extra).strip, details: details)
       [text, extra, data: data]
     end
   end
