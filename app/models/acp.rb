@@ -41,6 +41,7 @@ class ACP < ApplicationRecord
   translated_rich_texts :membership_update_text
   translated_rich_texts :member_information_text
   translated_rich_texts :member_form_extra_text
+  translated_rich_texts :member_form_complements_text
   translated_attributes :new_member_fee_description
 
   validates :name, presence: true
