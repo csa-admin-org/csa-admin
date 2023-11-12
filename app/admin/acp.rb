@@ -48,6 +48,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "statutes_url_#{l}" },
     *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_form_complements_text_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_delivery_pdf_footer_#{l}" },
     *I18n.available_locales.map { |l| "shop_terms_of_sale_url_#{l}" },
@@ -151,6 +152,11 @@ ActiveAdmin.register ACP do
             as: :action_text,
             input_html: { rows: 5 })
           f.input :member_form_extra_text_only, as: :boolean
+          translated_input(f, :member_form_complements_texts,
+            hint: t('formtastic.hints.acp.member_form_complements_text'),
+            required: false,
+            as: :action_text,
+            input_html: { rows: 5 })
           f.input :basket_sizes_member_order_mode,
             as: :select,
             collection: member_order_modes_collection(BasketSize),

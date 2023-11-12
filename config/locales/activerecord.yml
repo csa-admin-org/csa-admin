@@ -171,6 +171,10 @@ _:
           _de: Logo URL
           _fr: Logo URL
           _it: Logo URL
+        member_form_complements_text:
+          _de: Erläuterung Zusätze
+          _fr: Explication compléments
+          _it: Spiegazione aggiunte
         member_form_extra_text:
           _de: Zusätzliche Erklärung
           _fr: Explication supplémentaire

@@ -98,6 +98,10 @@ _:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
+        member_form_complements_text:
+          _de: Dieser optionale Text wird vor der Liste der Taschenzusätze eingefügt.
+          _fr: Ce texte optionnel est inséré avant la liste des compléments panier.
+          _it: Questo testo opzionale è inserito prima dell'elenco degli extra cestino.
         member_form_extra_text:
           _de: Dieser optionale Text wird nach dem standardmäßig erzeugten Erklärungstext eingefügt.
           _fr: Ce texte optionnel est inséré après le texte d'explication généré par défaut.
