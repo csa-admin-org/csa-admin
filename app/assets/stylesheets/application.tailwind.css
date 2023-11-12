@@ -217,6 +217,26 @@ input[type="number"].controls-none {
   object-fit: contain;
 }
 
+.trix-content a {
+  @apply underline;
+}
+
+.trix-content ul li {
+  @apply list-disc list-outside ml-6;
+}
+
+.trix-content ol li {
+  @apply list-decimal list-outside ml-6;
+}
+
+.trix-content h1 {
+  @apply my-0 text-lg font-bold text-gray-900 dark:text-gray-100;
+}
+
+.trix-content strong {
+  @apply font-semibold text-gray-600 dark:text-gray-400;
+}
+
 @tailwind utilities;
 
 /**
@@ -245,25 +265,8 @@ input[type="number"].controls-none {
     @apply hover:text-white;
   }
 
-  p a,
-  .trix-content a {
+  p a {
     @apply underline;
-  }
-
-  .trix-content ul li {
-    @apply list-disc list-outside ml-6;
-  }
-
-  .trix-content ol li {
-    @apply list-decimal list-outside ml-6;
-  }
-
-  .trix-content h1 {
-    @apply my-0 text-lg font-bold text-gray-900 dark:text-gray-100;
-  }
-
-  .trix-content strong {
-    @apply font-semibold text-gray-600 dark:text-gray-400;
   }
 }
 
