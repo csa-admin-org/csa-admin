@@ -448,6 +448,28 @@ describe 'members page' do
 
       expect(page).to have_text('Comment avez-vous entendu parler de nous? * doit être rempli(e)')
     end
+
+    specify 'pre-populate basket size and complements' do
+      create_deliveries(2)
+      create(:basket_size, :small, id: 55)
+      create(:basket_size, :big, id: 66)
+
+      create(:basket_complement, public_name: 'Oeufs', id: 11)
+      create(:basket_complement, public_name: 'Pain', id: 22)
+      create(:basket_complement, public_name: 'Fromage', id: 33)
+
+      visit '/new?basket_size_id=55&basket_complements[11]=1&basket_complements[22]=2'
+
+      small_basket_input = find_field('Eveil PUBLIC')
+      expect(small_basket_input).to be_checked
+
+      eggs_comples_input = find_field('Oeufs')
+      expect(eggs_comples_input.value).to eq '1'
+      bread_comples_input = find_field('Pain')
+      expect(bread_comples_input.value).to eq '2'
+      cheese_comples_input = find_field('Fromage')
+      expect(cheese_comples_input.value).to eq '0'
+    end
   end
 
   context 'existing member token' do
