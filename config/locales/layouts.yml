@@ -24,10 +24,6 @@ _:
           _de: Kontakt
           _fr: Contact
           _it: Contatti
-        information:
-          _de: Informationen
-          _fr: Informations
-          _it: Informazioni
       header:
         absences_subtitle:
           _de: "⤷ Informieren Sie uns!"

@@ -61,6 +61,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "basket_price_extra_label_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_label_detail_#{l}" },
     *I18n.available_locales.map { |l| "membership_update_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_information_title_#{l}" },
     *I18n.available_locales.map { |l| "member_information_text_#{l}" },
     *I18n.available_locales.map { |l| "new_member_fee_description_#{l}" },
     billing_year_divisions: [],
@@ -204,6 +205,10 @@ ActiveAdmin.register ACP do
             required: false,
             as: :action_text,
             input_html: { class: 'long-text' })
+          translated_input(f, :member_information_titles,
+            hint: t('formtastic.hints.acp.member_information_title'),
+            required: false,
+            input_html: { placeholder: t('members.information.default_title') })
         end
       end
       tab Membership.model_name.human, id: 'membership' do

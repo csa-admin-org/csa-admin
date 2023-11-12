@@ -114,6 +114,10 @@ _:
           _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Sie können es z.B. verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
           _fr: Si présent, le contenu de ce champ sera affiché sur le compte du membre sous la section "Informations". Vous pouvez l'utiliser, par exemple, pour partager des informations confidentielles avec vos membres.
           _it: Se presente, il contenuto di questo campo verrà visualizzato sul conto del socio sotto la sezione "Informazioni". Puoi usarlo, ad esempio, per condividere informazioni riservate con i tuoi soci.
+        member_information_title:
+          _de: Lassen Sie es leer, um den Standardtitel zu verwenden.
+          _fr: Laisser blanc pour utiliser l'intitulé par défaut.
+          _it: Lasciare vuoto per utilizzare il titolo predefinito.
         member_order_priority_html:
           _de: Ermöglicht das Erzwingen der Position, bevor die in <a href='/settings#registration'>den Einstellungen</a> festgelegte Reihenfolge angewendet wird.
           _fr: Permet de forcer la position avant l'application de l'ordre défini dans <a href='/settings#registration'>les paramètres</a>.

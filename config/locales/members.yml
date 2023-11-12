@@ -386,12 +386,11 @@ _:
             _de: Vielen Dank, dass Sie sich wieder für unseren Newsletter angemeldet haben!
             _fr: Merci de vous être à nouveau inscrit à nos newsletters!
             _it: Grazie per esservi nuovamente iscritti alla nostra newsletter!
-    infos:
-      show:
-        title:
-          _de: Informationen
-          _fr: Informations
-          _it: Informazioni
+    information:
+      default_title:
+        _de: Informationen
+        _fr: Informations
+        _it: Informazioni
     members:
       form_modes:
         membership:

@@ -185,8 +185,12 @@ _:
           _it: Mostra solo spiegazioni supplementari
         member_information_text:
           _de: Informationsseite
-          _fr: Page d'informations
-          _it: Pagina di informazioni
+          _fr: Page d'information
+          _it: Pagina d'informazione
+        member_information_title:
+          _de: Titel der Informationsseite
+          _fr: Intitulé de la page d'information
+          _it: Titolo della pagina d'informazione
         membership_complements_update_allowed:
           _de: Änderung der Zusätze erlauben
           _fr: Permettre la modification des compléments
