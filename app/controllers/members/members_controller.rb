@@ -8,6 +8,9 @@ class Members::MembersController < Members::BaseController
   # GET /new
   def new
     @member = Member.new(public_create: true)
+    if params[:basket_size_id]
+      @member.waiting_basket_size_id = params[:basket_size_id]
+    end
     set_basket_complements
 
     respond_to do |format|
@@ -65,9 +68,10 @@ class Members::MembersController < Members::BaseController
     mbcs = @member.members_basket_complements.to_a
     @member.members_basket_complements.clear
     complement_ids.each do |id|
+      quantity_params = params.dig(:basket_complements, id.to_s)
       quantity = mbcs.find { |mbc| mbc.basket_complement_id == id }&.quantity
       @member.members_basket_complements.build(
-        quantity: quantity || 0,
+        quantity: quantity_params || quantity || 0,
         basket_complement_id: id)
     end
   end
