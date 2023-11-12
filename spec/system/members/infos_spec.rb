@@ -18,6 +18,23 @@ describe 'Info' do
     expect(page).to have_content('Some confidential infos')
   end
 
+  specify 'show informations with custom title' do
+    Current.acp.update!(
+      member_information_title: 'Archive',
+      member_information_text: 'Some confidential archive infos')
+    login(create(:member))
+
+    visit '/'
+
+    expect(page).to have_link('Archive')
+
+    click_on 'Archive'
+
+    expect(current_path).to eq('/info')
+    expect(page).to have_content('Archive')
+    expect(page).to have_content('Some confidential archive infos')
+  end
+
   specify 'do not show informations when not set' do
     Current.acp.update!(member_information_text: nil)
     login(create(:member))

@@ -383,4 +383,8 @@ module MembersHelper
     features << t('.features.billing_text')
     features.to_sentence
   end
+
+  def member_information_title
+    Current.acp.member_information_title.presence || t('members.information.default_title')
+  end
 end
