@@ -107,19 +107,19 @@ describe MembershipRenewal do
   it 'renews a membership with a new depot and deliveries cycle' do
     create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership)
-    new_deliveries_cycle = create(:deliveries_cycle)
-    new_depot = create(:depot, deliveries_cycles: [new_deliveries_cycle])
+    new_delivery_cycle = create(:delivery_cycle)
+    new_depot = create(:depot, delivery_cycles: [new_delivery_cycle])
 
     expect {
       MembershipRenewal.new(membership).renew!(
         depot_id: new_depot.id,
-        deliveries_cycle_id: new_deliveries_cycle.id,
+        delivery_cycle_id: new_delivery_cycle.id,
         renewal_note: 'Je suis super content')
     }.to change(Membership, :count).by(1)
 
     expect(membership.renewed_membership).to have_attributes(
       depot_id: new_depot.id,
-      deliveries_cycle_id: new_deliveries_cycle.id)
+      delivery_cycle_id: new_delivery_cycle.id)
   end
 
   it 'resets basket_complements_annual_price_change when complements changes' do

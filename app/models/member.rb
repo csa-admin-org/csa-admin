@@ -22,7 +22,7 @@ class Member < ApplicationRecord
   belongs_to :validator, class_name: 'Admin', optional: true
   belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
   belongs_to :waiting_depot, class_name: 'Depot', optional: true
-  belongs_to :waiting_deliveries_cycle, class_name: 'DeliveriesCycle', optional: true
+  belongs_to :waiting_delivery_cycle, class_name: 'DeliveryCycle', optional: true
   has_and_belongs_to_many :waiting_alternative_depots,
     class_name: 'Depot',
     join_table: 'members_waiting_alternative_depots',
@@ -72,7 +72,7 @@ class Member < ApplicationRecord
 
   after_initialize :set_defaults, unless: :persisted?
   before_validation :set_default_billing_year_division
-  before_validation :set_default_waiting_deliveries_cycle
+  before_validation :set_default_waiting_delivery_cycle
 
   validates_acceptance_of :terms_of_service
   validates :billing_year_division,
@@ -96,7 +96,7 @@ class Member < ApplicationRecord
   validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?('basket_price_extra') && waiting_depot }
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
-  validates :waiting_deliveries_cycle, inclusion: { in: ->(m) { m.waiting_depot&.deliveries_cycles } }, if: :waiting_depot, on: :create
+  validates :waiting_delivery_cycle, inclusion: { in: ->(m) { m.waiting_depot&.delivery_cycles } }, if: :waiting_depot, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :email_must_be_unique
@@ -358,12 +358,12 @@ class Member < ApplicationRecord
     end
   end
 
-  def set_default_waiting_deliveries_cycle
+  def set_default_waiting_delivery_cycle
     return unless waiting_basket_size
     return unless waiting_depot
 
-    self[:waiting_deliveries_cycle_id] ||=
-      (waiting_depot.deliveries_cycles & waiting_basket_size.deliveries_cycles).max_by(&:deliveries_count)&.id
+    self[:waiting_delivery_cycle_id] ||=
+      (waiting_depot.delivery_cycles & waiting_basket_size.delivery_cycles).max_by(&:deliveries_count)&.id
   end
 
   def email_must_be_unique

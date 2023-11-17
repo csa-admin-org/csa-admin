@@ -516,7 +516,7 @@ describe PDF::Invoice do
 
     it 'generates invoice with support ammount + four month membership + winter basket', freeze: '2019-04-01' do
       create(:delivery, date: '2019-10-01')
-      winter_dc = create(:deliveries_cycle, months: [1,2,3,10,11,12])
+      winter_dc = create(:delivery_cycle, months: [1,2,3,10,11,12])
       member = create(:member,
         name: 'Alain Reymond',
         address: 'Bd Plumhof 6',
@@ -524,7 +524,7 @@ describe PDF::Invoice do
         city: 'Vevey')
       membership = create(:membership,
         basket_size: create(:basket_size, name: 'Grand'),
-        depot: create(:depot, price: 0, deliveries_cycles: [winter_dc]),
+        depot: create(:depot, price: 0, delivery_cycles: [winter_dc]),
         basket_price: 30.5)
       create(:invoice,
         date: Current.fy_range.min,

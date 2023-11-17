@@ -1,4 +1,4 @@
-class DeliveriesCycle < ApplicationRecord
+class DeliveryCycle < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 
@@ -40,19 +40,19 @@ class DeliveriesCycle < ApplicationRecord
 
   def self.create_default!
     create!(names: ACP.languages.map { |l|
-      [l, I18n.t('deliveries_cycle.default_name', locale: l)]
+      [l, I18n.t('delivery_cycle.default_name', locale: l)]
     }.to_h)
   end
 
   def self.for(delivery)
-    DeliveriesCycle.all.select { |dc| dc.include_delivery?(delivery) }
+    DeliveryCycle.all.select { |dc| dc.include_delivery?(delivery) }
   end
 
   def self.member_ordered
     all.to_a.sort_by { |dc|
       clauses = [dc.member_order_priority]
       clauses <<
-        case Current.acp.deliveries_cycles_member_order_mode
+        case Current.acp.delivery_cycles_member_order_mode
         when 'deliveries_count_asc'; dc.deliveries_count
         when 'deliveries_count_desc'; -dc.deliveries_count
         when 'wdays_asc'; [dc.wdays.sort, -dc.deliveries_count]
@@ -138,7 +138,7 @@ class DeliveriesCycle < ApplicationRecord
     basket_sizes.empty? &&
       depots.empty? &&
       memberships_basket_complements.empty? &&
-      DeliveriesCycle.where.not(id: id).exists?
+      DeliveryCycle.where.not(id: id).exists?
   end
 
   def deliveries(year)
@@ -178,7 +178,7 @@ class DeliveriesCycle < ApplicationRecord
   private
 
   def update_baskets_async
-    DeliveriesCycleBasketsUpdaterJob.perform_later(self)
+    DeliveryCycleBasketsUpdaterJob.perform_later(self)
   end
 
   def enforce_minimum_gap_in_days(deliveries)

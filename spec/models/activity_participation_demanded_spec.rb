@@ -56,8 +56,8 @@ describe ActivityParticipationDemanded, freeze: '2022-01-01' do
       create(:delivery, date: '2022-03-01')
       create(:delivery, date: '2022-04-01')
       depot = create(:depot)
-      all_cycle = create(:deliveries_cycle, depots: [depot])
-      cycle = create(:deliveries_cycle, results: :odd, depots: [depot])
+      all_cycle = create(:delivery_cycle, depots: [depot])
+      cycle = create(:delivery_cycle, results: :odd, depots: [depot])
       membership = create(:membership,
         started_on: '2022-01-01',
         ended_on: '2022-05-01',
@@ -65,7 +65,7 @@ describe ActivityParticipationDemanded, freeze: '2022-01-01' do
         activity_participations_demanded_annualy: 2)
       membership.update!(
         new_config_from: '2022-05-01',
-        deliveries_cycle: cycle)
+        delivery_cycle: cycle)
 
       expect(demanded_for(membership)).to eq 2 # (4/[2,4].max×2).round
     end

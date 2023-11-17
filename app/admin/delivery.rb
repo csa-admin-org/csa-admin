@@ -61,8 +61,8 @@ ActiveAdmin.register Delivery do
       end
     end
 
-    DeliveriesCycle.all.each do |deliveries_cycle|
-      column(deliveries_cycle.name) { |d| deliveries_cycle.include_delivery?(d) }
+    DeliveryCycle.all.each do |delivery_cycle|
+      column(delivery_cycle.name) { |d| delivery_cycle.include_delivery?(d) }
     end
 
     if Current.acp.feature?('shop')
@@ -70,8 +70,8 @@ ActiveAdmin.register Delivery do
     end
   end
 
-  action_item :deliveries_cycle, only: :index do
-    link_to DeliveriesCycle.model_name.human(count: 2), deliveries_cycles_path
+  action_item :delivery_cycle, only: :index do
+    link_to DeliveryCycle.model_name.human(count: 2), delivery_cycles_path
   end
 
   sidebar_handbook_link('deliveries')

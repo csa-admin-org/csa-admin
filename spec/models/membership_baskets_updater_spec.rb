@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe MembershipBasketsUpdater do
-  let(:cycle) { create(:deliveries_cycle) }
-  let(:depot) { create(:depot, deliveries_cycles: [cycle]) }
+  let(:cycle) { create(:delivery_cycle) }
+  let(:depot) { create(:depot, delivery_cycles: [cycle]) }
   let(:membership) {
     create(:delivery, date: '2022-01-05') # Wednesday
     create(:delivery, date: '2022-01-06') # Thursday
@@ -18,25 +18,25 @@ describe MembershipBasketsUpdater do
 
   specify 'update membership cycle when removed from depot but not when added', freeze: '2022-01-01' do
     membership
-    other_cycle = create(:deliveries_cycle, wdays: [3])
+    other_cycle = create(:delivery_cycle, wdays: [3])
     expect(other_cycle.current_deliveries_count).to eq(3)
-    other_depot = create(:depot, deliveries_cycles: [other_cycle])
+    other_depot = create(:depot, delivery_cycles: [other_cycle])
     other_membership = create(:membership,
       depot: other_depot,
-      deliveries_cycle: other_cycle,
+      delivery_cycle: other_cycle,
       started_on: '2022-01-01',
       ended_on: '2022-01-31')
 
     # Update other membership to ensure it is not updated when depot is updated
     other_membership.update!(updated_at: '2022-01-02')
 
-    expect { depot.reload.update!(deliveries_cycles: [cycle, other_cycle]) }
+    expect { depot.reload.update!(delivery_cycles: [cycle, other_cycle]) }
       .not_to change { other_membership.reload.updated_at }
 
-    expect { depot.reload.update!(deliveries_cycles: [other_cycle]) }
+    expect { depot.reload.update!(delivery_cycles: [other_cycle]) }
       .to change { membership.reload.baskets.count }.from(6).to(3)
       .and change { membership.reload.price }.from(180).to(90)
-      .and change { membership.reload.deliveries_cycle }.from(cycle).to(other_cycle)
+      .and change { membership.reload.delivery_cycle }.from(cycle).to(other_cycle)
 
     expect(membership.deliveries.map(&:date).map(&:to_s)).to eq([
       '2022-01-05',
@@ -44,7 +44,7 @@ describe MembershipBasketsUpdater do
       '2022-01-19'
     ])
 
-    expect { depot.update!(deliveries_cycles: [cycle]) }
+    expect { depot.update!(delivery_cycles: [cycle]) }
       .to change { membership.reload.baskets.count }.from(3).to(6)
   end
 

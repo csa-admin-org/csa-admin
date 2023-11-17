@@ -65,7 +65,7 @@ describe 'Memberships Renewal' do
       ended_on: Date.parse('2021-12-31'),
       basket_size: big_basket,
       depot: new_depot,
-      deliveries_cycle: new_depot.main_deliveries_cycle)
+      delivery_cycle: new_depot.main_delivery_cycle)
     expect(membership.renewed_membership.memberships_basket_complements.first).to have_attributes(
       basket_complement_id: complement.id,
       quantity: 2)
@@ -77,8 +77,8 @@ describe 'Memberships Renewal' do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    depot.deliveries_cycles.update_all(visible: true)
-    new_cycle = create(:deliveries_cycle,
+    depot.delivery_cycles.update_all(visible: true)
+    new_cycle = create(:delivery_cycle,
       visible: true,
       public_name: 'Nouveau cycle',
       results: :odd,
@@ -121,7 +121,7 @@ describe 'Memberships Renewal' do
       started_on: Date.parse('2021-01-01'),
       ended_on: Date.parse('2021-12-31'),
       depot: depot,
-      deliveries_cycle: new_cycle)
+      delivery_cycle: new_cycle)
   end
 
   specify 'renew membership (with basket_price_extra)', freeze: '2020-09-30' do

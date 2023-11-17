@@ -86,7 +86,7 @@ _:
           _de: Wenn deaktiviert, erfolgt die Rechnungsstellung ab Beginn des Abonnements..
           _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
           _it: Se disattivato, la fatturazione avverrà dall'inizio dell'abbonamento..
-        deliveries_cycles_member_order_mode:
+        delivery_cycles_member_order_mode:
           _de: Legt die Reihenfolge der Lieferzyklen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _fr: Permet de définir l'ordre d'affichage des cycles de livraison dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
           _it: Permette di definire l'ordine di visualizzazione dei cicli di consegna nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
@@ -298,7 +298,7 @@ _:
           _fr: Par exemple, une page référençant le prix de vente.
           _it: Per esempio, una pagina che fa riferimento al prezzo di vendita.
       basket_size:
-        deliveries_cycles:
+        delivery_cycles:
           _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieser Taschengröße, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieser Taschengröße (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
           _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future avec cette taille de panier utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de cette taille de panier (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
           _it: Se un ciclo di consegna viene rimosso dalla lista, gli abbonamenti attuali o futuri di questa dimensione del cestino che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questa dimensione del cestino (quello con più consegne). È richiesto almeno un ciclo di consegna.
@@ -323,7 +323,7 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
-      deliveries_cycle:
+      delivery_cycle:
         basket_sizes:
           _de: Wenn eine Taschengröße von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieser Taschengröße, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieser Taschengröße (dem mit den meisten Lieferungen) aktualisiert. Taschengrößen, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
           _fr: Si une taille de panier est enlevée de la liste, les abonnements en cours ou future avec cette taille de panier utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de leur taille de panier (celui avec le plus de livraisons). Les tailles de panier qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
@@ -370,7 +370,7 @@ _:
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
           _it: Controlla se i soci possono fare ordini di alimentari per questa consegna o no.
       depot:
-        deliveries_cycles:
+        delivery_cycles:
           _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
           _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
           _it: Se un ciclo di consegna viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). È richiesto un minimo di un ciclo di consegna.
@@ -515,7 +515,7 @@ _:
           _fr: Laisser blanc si le membre ne désire pas continuer en tant que membre de soutien.
           _it: Lasciare vuoto se il membro non desidera continuare come membro sostenitore.
       memberships_basket_complement:
-        deliveries_cycle:
+        delivery_cycle:
           _de: Wenn ein Lieferzyklus ausgewählt ist, werden nur die Überschneidungen der Lieferungen des Abonnements, des Zusatzes und des Lieferzyklus berücksichtigt.
           _fr: Si un cycle de livraisons est sélectionné, seule l'intersection des livraisons de l'abonnement, du complément et de ce cycle seront considérées.
           _it: Se si seleziona un ciclo di consegna, verrà considerato solo l'incrocio delle consegne dell'abbonamento, della ricarica e di questo ciclo.
@@ -537,7 +537,7 @@ _:
           _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Taschenlieferung.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de panier
           _it: Permette di differenziare i membri attivi in base alla data di consegna del prossimo carrello.
-        deliveries_cycle_ids:
+        delivery_cycle_ids:
           _de: Alle Zyklen von Lieferungen sind enthalten, wenn keiner ausgewählt ist.
           _fr: Tous les cycles de livraison sont inclus si aucun n'est sélectionné.
           _it: Tutti i cicli di consegna sono inclusi se nessuno è selezionato.

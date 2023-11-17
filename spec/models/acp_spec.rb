@@ -81,8 +81,8 @@ describe ACP do
     create(:acp, tenant_name: 'test')
     Tenant.switch!('test')
 
-    expect(DeliveriesCycle.count).to eq 1
-    expect(DeliveriesCycle.first).to have_attributes(
+    expect(DeliveryCycle.count).to eq 1
+    expect(DeliveryCycle.first).to have_attributes(
       names: {
         'de' => 'Alle',
         'fr' => 'Toutes',

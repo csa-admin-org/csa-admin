@@ -123,14 +123,14 @@ describe Member do
       expect(member).not_to have_valid(:waiting_depot_id)
     end
 
-    it 'validates waiting_deliveries_cycle presence' do
+    it 'validates waiting_delivery_cycle presence' do
       member = build(:member,
         waiting_basket_size: create(:basket_size),
         waiting_depot: create(:depot),
-        waiting_deliveries_cycle: create(:deliveries_cycle))
+        waiting_delivery_cycle: create(:delivery_cycle))
 
       expect(member).not_to be_valid
-      expect(member).not_to have_valid(:waiting_deliveries_cycle)
+      expect(member).not_to have_valid(:waiting_delivery_cycle)
     end
 
     it 'validates desired_acp_shares_number >= 1 on public create' do
@@ -642,18 +642,18 @@ describe Member do
     end
   end
 
-  specify '#set_default_waiting_deliveries_cycle' do
-    visible_1_dc = create(:deliveries_cycle, visible: true)
-    visible_2_dc = create(:deliveries_cycle, visible: true)
-    hidden_dc = create(:deliveries_cycle, visible: false)
-    basket_size = create(:basket_size, deliveries_cycles: [visible_2_dc, hidden_dc])
-    depot = create(:depot, deliveries_cycles: [visible_1_dc, visible_2_dc, hidden_dc])
+  specify '#set_default_waiting_delivery_cycle' do
+    visible_1_dc = create(:delivery_cycle, visible: true)
+    visible_2_dc = create(:delivery_cycle, visible: true)
+    hidden_dc = create(:delivery_cycle, visible: false)
+    basket_size = create(:basket_size, delivery_cycles: [visible_2_dc, hidden_dc])
+    depot = create(:depot, delivery_cycles: [visible_1_dc, visible_2_dc, hidden_dc])
 
     member = create(:member, :waiting,
       waiting_basket_size: basket_size,
       waiting_depot: depot,
-      waiting_deliveries_cycle_id: nil)
+      waiting_delivery_cycle_id: nil)
 
-    expect(member.waiting_deliveries_cycle).to eq visible_2_dc
+    expect(member.waiting_delivery_cycle).to eq visible_2_dc
   end
 end

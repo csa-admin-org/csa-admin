@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   MODELS_MAPPING = {
-    delivery: [Delivery, DeliveriesCycle],
+    delivery: [Delivery, DeliveryCycle],
     membership: [Membership, Basket],
     billing: [Invoice, Payment],
     activity: [Activity, ActivityParticipation, ActivityPreset],

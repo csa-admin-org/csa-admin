@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_17_125045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -109,7 +109,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
     t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
     t.string "depots_member_order_mode", default: "price_asc", null: false
-    t.string "deliveries_cycles_member_order_mode", default: "deliveries_count_desc", null: false
+    t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
     t.integer "shop_order_automatic_invoicing_delay_in_days"
     t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annualy", "activity_participations_annual_price_change"], array: true
     t.decimal "new_member_fee", precision: 8, scale: 2
@@ -317,10 +317,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 
-  create_table "basket_sizes_deliveries_cycles", force: :cascade do |t|
+  create_table "basket_sizes_delivery_cycles", force: :cascade do |t|
     t.bigint "basket_size_id", null: false
-    t.bigint "deliveries_cycle_id", null: false
-    t.index ["basket_size_id", "deliveries_cycle_id"], name: "basket_sizes_deliveries_cycles_unique_index", unique: true
+    t.bigint "delivery_cycle_id", null: false
+    t.index ["basket_size_id", "delivery_cycle_id"], name: "idx_on_basket_size_id_delivery_cycle_id_0b4a00d756", unique: true
   end
 
   create_table "baskets", force: :cascade do |t|
@@ -372,7 +372,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.index ["shop_open"], name: "index_deliveries_on_shop_open"
   end
 
-  create_table "deliveries_cycles", force: :cascade do |t|
+  create_table "delivery_cycles", force: :cascade do |t|
     t.jsonb "names", default: {}, null: false
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
@@ -386,13 +386,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.jsonb "deliveries_counts", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.integer "minimum_gap_in_days"
-    t.index ["visible"], name: "index_deliveries_cycles_on_visible"
+    t.index ["visible"], name: "index_delivery_cycles_on_visible"
   end
 
-  create_table "deliveries_cycles_depots", force: :cascade do |t|
+  create_table "delivery_cycles_depots", force: :cascade do |t|
     t.bigint "depot_id", null: false
-    t.bigint "deliveries_cycle_id", null: false
-    t.index ["depot_id", "deliveries_cycle_id"], name: "deliveries_cycles_depots_unique_index", unique: true
+    t.bigint "delivery_cycle_id", null: false
+    t.index ["depot_id", "delivery_cycle_id"], name: "index_delivery_cycles_depots_on_depot_id_and_delivery_cycle_id", unique: true
   end
 
   create_table "depots", id: :serial, force: :cascade do |t|
@@ -526,7 +526,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.string "country_code", limit: 2
     t.boolean "contact_sharing", default: false, null: false
     t.integer "desired_acp_shares_number", default: 0, null: false
-    t.bigint "waiting_deliveries_cycle_id"
+    t.bigint "waiting_delivery_cycle_id"
     t.string "billing_email"
     t.integer "memberships_count", default: 0, null: false
     t.bigint "shop_depot_id"
@@ -583,9 +583,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.datetime "renewal_reminder_sent_at", precision: nil
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "last_trial_basket_sent_at", precision: nil
-    t.bigint "deliveries_cycle_id", null: false
+    t.bigint "delivery_cycle_id", null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
-    t.index ["deliveries_cycle_id"], name: "index_memberships_on_deliveries_cycle_id"
+    t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"
     t.index ["ended_on"], name: "index_memberships_on_ended_on"
     t.index ["member_id"], name: "index_memberships_on_member_id"
@@ -599,7 +599,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.integer "quantity", default: 1, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "deliveries_cycle_id"
+    t.bigint "delivery_cycle_id"
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
   end
 
@@ -638,7 +638,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
     t.integer "depot_ids", default: [], null: false, array: true
     t.integer "basket_size_ids", default: [], null: false, array: true
     t.integer "basket_complement_ids", default: [], null: false, array: true
-    t.integer "deliveries_cycle_ids", default: [], null: false, array: true
+    t.integer "delivery_cycle_ids", default: [], null: false, array: true
     t.string "renewal_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -808,9 +808,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_095735) do
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
-  add_foreign_key "memberships", "deliveries_cycles"
+  add_foreign_key "memberships", "delivery_cycles"
   add_foreign_key "memberships", "depots"
-  add_foreign_key "memberships_basket_complements", "deliveries_cycles"
+  add_foreign_key "memberships_basket_complements", "delivery_cycles"
   add_foreign_key "newsletter_attachments", "newsletters"
   add_foreign_key "newsletter_blocks", "newsletters"
   add_foreign_key "newsletter_deliveries", "members"

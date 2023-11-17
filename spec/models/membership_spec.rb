@@ -342,13 +342,13 @@ describe Membership do
   end
 
   specify 'with basket complement with deliveries cycle' do
-    create(:deliveries_cycle, results: :all)
-    cycle = create(:deliveries_cycle, results: :quarter_1)
+    create(:delivery_cycle, results: :all)
+    cycle = create(:delivery_cycle, results: :quarter_1)
     create_deliveries(40)
     create(:basket_complement, id: 1, price: 2.20)
     membership = create(:membership,
       memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, quantity: 1, deliveries_cycle: cycle }
+        '0' => { basket_complement_id: 1, quantity: 1, delivery_cycle: cycle }
       })
 
     expect(membership.baskets.size).to eq 40
@@ -616,7 +616,7 @@ describe Membership do
      .to change { member.waiting_started_at }.to(nil)
      .and change { member.waiting_basket_size_id }.to(nil)
      .and change { member.waiting_depot_id }.to(nil)
-     .and change { member.waiting_deliveries_cycle_id }.to(nil)
+     .and change { member.waiting_delivery_cycle_id }.to(nil)
      .and change { member.waiting_basket_complement_ids }.to([])
   end
 

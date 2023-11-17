@@ -39,8 +39,8 @@ describe Basket do
   it 'validates delivery is in membership date range', freeze: '2022-01-01' do
     delivery1 = create(:delivery, date: '2022-01-03') # Monday
     delivery2 = create(:delivery, date: '2022-01-04')
-    depot = create(:depot, deliveries_cycles: [
-      create(:deliveries_cycle, wdays: [1])
+    depot = create(:depot, delivery_cycles: [
+      create(:delivery_cycle, wdays: [1])
     ])
 
     basket = build(:basket, depot: depot, delivery: delivery2)

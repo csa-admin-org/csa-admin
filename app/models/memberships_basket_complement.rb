@@ -3,7 +3,7 @@ class MembershipsBasketComplement < ApplicationRecord
 
   belongs_to :membership, touch: true
   belongs_to :basket_complement
-  belongs_to :deliveries_cycle, optional: true
+  belongs_to :delivery_cycle, optional: true
 
   validates :basket_complement_id, uniqueness: { scope: :membership_id }
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true

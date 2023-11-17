@@ -30,9 +30,9 @@ describe 'Shop::Order' do
   specify 'shop delivery for next delivery of member with a shop depot', freeze: '2023-05-01' do
     create(:delivery, shop_open: true, date: '2023-05-15')
     create(:delivery, shop_open: true, date: '2023-06-15')
-    deliveries_cycle = create(:deliveries_cycle, months: [6])
-    depot = create(:depot, id: 1, deliveries_cycles: [deliveries_cycle])
-    create(:depot, id: 2, deliveries_cycles: [deliveries_cycle])
+    delivery_cycle = create(:delivery_cycle, months: [6])
+    depot = create(:depot, id: 1, delivery_cycles: [delivery_cycle])
+    create(:depot, id: 2, delivery_cycles: [delivery_cycle])
     create(:delivery, shop_open: true, shop_open_for_depot_ids: [2], date: '2023-06-14')
     member.update!(shop_depot: depot)
     member.activate!

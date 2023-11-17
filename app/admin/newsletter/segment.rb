@@ -47,12 +47,12 @@ ActiveAdmin.register Newsletter::Segment do
         as: :check_boxes,
         label: Depot.model_name.human(count: 2),
         hint: t('formtastic.hints.newsletter/segment.depot_ids')
-      if DeliveriesCycle.many?
-        f.input :deliveries_cycle_ids,
-          collection: DeliveriesCycle.all,
+      if DeliveryCycle.many?
+        f.input :delivery_cycle_ids,
+          collection: DeliveryCycle.all,
           as: :check_boxes,
-          label: DeliveriesCycle.model_name.human(count: 2),
-          hint: t('formtastic.hints.newsletter/segment.deliveries_cycle_ids')
+          label: DeliveryCycle.model_name.human(count: 2),
+          hint: t('formtastic.hints.newsletter/segment.delivery_cycle_ids')
       end
       f.input :first_membership,
         as: :select,
@@ -79,7 +79,7 @@ ActiveAdmin.register Newsletter::Segment do
     basket_size_ids: [],
     basket_complement_ids: [],
     depot_ids: [],
-    deliveries_cycle_ids: [])
+    delivery_cycle_ids: [])
 
   config.filters = false
   config.sort_order = :default_scope

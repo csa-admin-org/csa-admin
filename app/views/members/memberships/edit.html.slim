@@ -14,7 +14,7 @@ section class="mt-4 w-full"
 
     - if Current.acp.membership_depot_update_allowed?
       div class='space-y-8'
-        = f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, deliveries_cycle: @membership.deliveries_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }
+        = f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, delivery_cycle: @membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }
 
     div class="mt-16"
       p class="mt-8 italic text-justify md:text-right text-sm text-gray-500 dark:text-gray-400"

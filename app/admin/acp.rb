@@ -32,7 +32,7 @@ ActiveAdmin.register ACP do
     :allow_alternative_depots,
     :member_form_extra_text_only,
     :basket_sizes_member_order_mode, :basket_complements_member_order_mode,
-    :depots_member_order_mode, :deliveries_cycles_member_order_mode,
+    :depots_member_order_mode, :delivery_cycles_member_order_mode,
     :basket_price_extras,
     :absence_extra_text_only,
     :member_profession_form_mode, :member_come_from_form_mode,
@@ -170,9 +170,9 @@ ActiveAdmin.register ACP do
             as: :select,
             collection: member_order_modes_collection(Depot),
             prompt: true
-          f.input :deliveries_cycles_member_order_mode,
+          f.input :delivery_cycles_member_order_mode,
             as: :select,
-            collection: member_order_modes_collection(DeliveriesCycle),
+            collection: member_order_modes_collection(DeliveryCycle),
             prompt: true
           f.input :allow_alternative_depots, as: :boolean
           f.input :member_profession_form_mode,

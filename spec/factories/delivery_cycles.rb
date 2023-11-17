@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :deliveries_cycle do
+  factory :delivery_cycle do
     sequence(:name) { |n| "Cycle #{n}" }
     public_name { "#{name} PUBLIC" }
 
