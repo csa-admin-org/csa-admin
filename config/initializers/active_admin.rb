@@ -586,4 +586,24 @@ ActiveAdmin.after_load do |app|
   app.namespaces.each do |namespace|
     namespace.fetch_menu(ActiveAdmin::DEFAULT_MENU)
   end
+
+  # https://github.com/activeadmin/activeadmin/pull/7437/files
+  module ActiveAdmin
+    class ResourceController < BaseController
+      module DataAccess
+        def update_resource(object, attributes)
+          status = nil
+          ActiveRecord::Base.transaction do
+            object = assign_attributes(object, attributes)
+
+            run_update_callbacks object do
+              status = save_resource(object)
+              raise ActiveRecord::Rollback unless status
+            end
+          end
+          status
+        end
+      end
+    end
+  end
 end
