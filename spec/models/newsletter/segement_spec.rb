@@ -57,20 +57,20 @@ describe Newsletter::Segment do
 
   specify 'segment by deliveries cycle' do
     create(:basket_size)
-    cycle_1 = create(:deliveries_cycle)
-    depot_1 = create(:depot, deliveries_cycles: [cycle_1])
-    cycle_2 = create(:deliveries_cycle)
-    depot_2 = create(:depot, deliveries_cycles: [cycle_2])
+    cycle_1 = create(:delivery_cycle)
+    depot_1 = create(:depot, delivery_cycles: [cycle_1])
+    cycle_2 = create(:delivery_cycle)
+    depot_2 = create(:depot, delivery_cycles: [cycle_2])
     member_1 = create(:membership, depot: depot_1).member
     member_2 = create(:membership, depot: depot_2).member
 
-    segment = create(:newsletter_segment, deliveries_cycle_ids: [cycle_1.id])
+    segment = create(:newsletter_segment, delivery_cycle_ids: [cycle_1.id])
     expect(segment.members).to contain_exactly(member_1)
 
-    segment = create(:newsletter_segment, deliveries_cycle_ids: [])
+    segment = create(:newsletter_segment, delivery_cycle_ids: [])
     expect(segment.members).to contain_exactly(member_1, member_2)
 
-    segment = create(:newsletter_segment, deliveries_cycle_ids: [cycle_1.id, cycle_2.id])
+    segment = create(:newsletter_segment, delivery_cycle_ids: [cycle_1.id, cycle_2.id])
     expect(segment.members).to contain_exactly(member_1, member_2)
   end
 
@@ -79,10 +79,10 @@ describe Newsletter::Segment do
     create(:delivery, date: '2023-01-07')
     create(:delivery, date: '2023-01-14')
     create(:delivery, date: '2023-01-21')
-    cycle_1 = create(:deliveries_cycle)
-    depot_1 = create(:depot, deliveries_cycles: [cycle_1])
-    cycle_2 = create(:deliveries_cycle, results: :even)
-    depot_2 = create(:depot, deliveries_cycles: [cycle_2])
+    cycle_1 = create(:delivery_cycle)
+    depot_1 = create(:depot, delivery_cycles: [cycle_1])
+    cycle_2 = create(:delivery_cycle, results: :even)
+    depot_2 = create(:depot, delivery_cycles: [cycle_2])
     member_1 = create(:membership, depot: depot_1).member
     member_2 = create(:membership, depot: depot_2).member
 

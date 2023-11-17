@@ -1,4 +1,4 @@
-used_cycles = Membership.used_deliveries_cycle_ids_for(delivery.fy_year)
+used_cycles = Membership.used_delivery_cycle_ids_for(delivery.fy_year)
 delivery.basket_content_prices.each do |basket_size, depot_prices|
   prices = [depot_prices.values.min, depot_prices.values.max].uniq.compact
   if prices.any?

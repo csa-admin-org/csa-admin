@@ -91,20 +91,20 @@ describe 'members page' do
       expect(member.billing_year_division).to eq 4
     end
 
-    it 'creates a new member with deliveries_cycle' do
+    it 'creates a new member with delivery_cycle' do
       create_deliveries(2)
       create(:basket_size, :small)
       create(:basket_size, :big)
 
-      create(:deliveries_cycle, id: 10, visible: true, name: 'Toutes les semaines')
-      create(:deliveries_cycle, id: 20, visible: true, week_numbers: :odd, name: 'Semaines paires')
-      create(:deliveries_cycle, id: 30, visible: true, week_numbers: :even, name: 'Semaines impaires')
-      create(:deliveries_cycle, id: 40, visible: true, week_numbers: :odd, name: 'Semaines paires')
-      create(:deliveries_cycle, id: 50, visible: false, months: 1..4, name: 'Hiver')
+      create(:delivery_cycle, id: 10, visible: true, name: 'Toutes les semaines')
+      create(:delivery_cycle, id: 20, visible: true, week_numbers: :odd, name: 'Semaines paires')
+      create(:delivery_cycle, id: 30, visible: true, week_numbers: :even, name: 'Semaines impaires')
+      create(:delivery_cycle, id: 40, visible: true, week_numbers: :odd, name: 'Semaines paires')
+      create(:delivery_cycle, id: 50, visible: false, months: 1..4, name: 'Hiver')
 
-      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil, deliveries_cycle_ids: [10])
-      create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil, deliveries_cycle_ids: [10, 30])
-      create(:depot, name: 'Domicile', visible: false, deliveries_cycle_ids: [10, 20])
+      create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil, delivery_cycle_ids: [10])
+      create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil, delivery_cycle_ids: [10, 30])
+      create(:depot, name: 'Domicile', visible: false, delivery_cycle_ids: [10, 20])
 
       visit '/new'
 
@@ -148,7 +148,7 @@ describe 'members page' do
       member = Member.last
       expect(member.waiting_basket_size.name).to eq 'Eveil'
       expect(member.waiting_depot.name).to eq 'Vélo'
-      expect(member.waiting_deliveries_cycle.name).to eq 'Semaines impaires'
+      expect(member.waiting_delivery_cycle.name).to eq 'Semaines impaires'
       expect(member.waiting_basket_price_extra).to eq 2
     end
 

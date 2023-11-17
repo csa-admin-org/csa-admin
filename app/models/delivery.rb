@@ -36,7 +36,7 @@ class Delivery < ApplicationRecord
     unless: :date?,
     on: :create
 
-  after_commit :reset_deliveries_cycle_cache!
+  after_commit :reset_delivery_cycle_cache!
   after_commit :update_baskets_async
   after_commit -> { self.class.update_numbers(fiscal_year) }
 
@@ -154,9 +154,9 @@ class Delivery < ApplicationRecord
 
   def basket_content_yearly_price_diffs
     @basket_content_yearly_price_diffs ||= begin
-      used_deliveries_cycle_ids = Membership.used_deliveries_cycle_ids_for(fy_year)
-      cycles = DeliveriesCycle.for(self)
-      cycles.select! { |c| used_deliveries_cycle_ids.include?(c.id) }
+      used_delivery_cycle_ids = Membership.used_delivery_cycle_ids_for(fy_year)
+      cycles = DeliveryCycle.for(self)
+      cycles.select! { |c| used_delivery_cycle_ids.include?(c.id) }
       cycles.each_with_object({}) do |cycle, h|
         range = fiscal_year.beginning_of_year..date
         avg_prices = cycle.deliveries_in(range).map(&:basket_content_avg_prices)
@@ -217,9 +217,9 @@ class Delivery < ApplicationRecord
     BasketsBasketComplement.handle_deliveries_removal!(self, complement)
   end
 
-  def reset_deliveries_cycle_cache!
+  def reset_delivery_cycle_cache!
     if saved_change_to_date? || destroyed?
-      DeliveriesCycle.reset_cache!
+      DeliveryCycle.reset_cache!
     end
   end
 

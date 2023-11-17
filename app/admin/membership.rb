@@ -35,7 +35,7 @@ ActiveAdmin.register Membership do
     label: proc { BasketComplement.model_name.human },
     if: :any_basket_complements?
   filter :depot, as: :select
-  filter :deliveries_cycle, as: :select
+  filter :delivery_cycle, as: :select
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
@@ -54,7 +54,7 @@ ActiveAdmin.register Membership do
     label: proc { t_activity('active_admin.resource.index.activity_participations_demanded') },
     if: proc { Current.acp.feature?('activity') }
 
-  includes :member, :baskets, :deliveries_cycle
+  includes :member, :baskets, :delivery_cycle
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: 'members.name'
@@ -256,7 +256,7 @@ ActiveAdmin.register Membership do
     end
     column(:depot) { |m| m.depot.name }
     column(:depot_price) { |m| cur(m.depot_price) }
-    column(:deliveries_cycle) { |m| m.deliveries_cycle.name }
+    column(:delivery_cycle) { |m| m.delivery_cycle.name }
     if Current.acp.feature?('activity')
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:activity_participations_accepted), &:activity_participations_accepted)
@@ -327,7 +327,7 @@ ActiveAdmin.register Membership do
               }
             end
           row :depot
-          row :deliveries_cycle
+          row :delivery_cycle
         end
 
         if Current.fiscal_year >= m.fiscal_year
@@ -599,7 +599,7 @@ ActiveAdmin.register Membership do
     end
     f.inputs [
       Depot.model_name.human(count: 1),
-      DeliveriesCycle.model_name.human(count: 1)
+      DeliveryCycle.model_name.human(count: 1)
     ].to_sentence, 'data-controller' => 'form-reset' do
       f.input :depot,
         prompt: true,
@@ -607,14 +607,14 @@ ActiveAdmin.register Membership do
           data: {
             controller: 'form-select-options',
             action: 'form-select-options#update form-reset#reset',
-            form_select_options_target_param: 'membership_deliveries_cycle_id'
+            form_select_options_target_param: 'membership_delivery_cycle_id'
           }
         },
         collection: Depot.all.map { |d|
           [
             d.name, d.id,
             data: {
-              form_select_options_values_param: d.deliveries_cycle_ids.join(',')
+              form_select_options_values_param: d.delivery_cycle_ids.join(',')
             }
           ]
         }
@@ -622,10 +622,10 @@ ActiveAdmin.register Membership do
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: 'input' } }
-      f.input :deliveries_cycle,
+      f.input :delivery_cycle,
         as: :select,
-        collection: deliveries_cycles_collection,
-        disabled: f.object.depot ? (DeliveriesCycle.pluck(:id) - f.object.depot.deliveries_cycle_ids) : [],
+        collection: delivery_cycles_collection,
+        disabled: f.object.depot ? (DeliveryCycle.pluck(:id) - f.object.depot.delivery_cycle_ids) : [],
         prompt: true
     end
     f.inputs [
@@ -657,9 +657,9 @@ ActiveAdmin.register Membership do
               required: false,
               input_html: { data: { form_reset_target: 'input' } }
             ff.input :quantity
-            ff.input :deliveries_cycle,
+            ff.input :delivery_cycle,
               as: :select,
-              collection: deliveries_cycles_collection,
+              collection: delivery_cycles_collection,
               include_blank: true,
               hint: true
           end
@@ -672,7 +672,7 @@ ActiveAdmin.register Membership do
   permit_params \
     :member_id,
     :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
-    :depot_id, :depot_price, :deliveries_cycle_id,
+    :depot_id, :depot_price, :delivery_cycle_id,
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,
@@ -680,7 +680,7 @@ ActiveAdmin.register Membership do
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,
-      :deliveries_cycle_id,
+      :delivery_cycle_id,
       :_destroy
     ]
 
@@ -712,7 +712,7 @@ ActiveAdmin.register Membership do
         membership.basket_price_extra = member.waiting_basket_price_extra
       end
       membership.depot_id ||= member.waiting_depot&.id
-      membership.deliveries_cycle_id ||= member.waiting_deliveries_cycle&.id
+      membership.delivery_cycle_id ||= member.waiting_delivery_cycle&.id
       member.members_basket_complements.each do |mbc|
         membership.memberships_basket_complements.build(
           basket_complement_id: mbc.basket_complement_id,

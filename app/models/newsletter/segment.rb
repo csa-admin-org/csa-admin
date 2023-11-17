@@ -20,7 +20,7 @@ class Newsletter
       members = by_basket_size(members)
       members = by_basket_complement(members)
       members = by_depot(members)
-      members = by_deliveries_cycle(members)
+      members = by_delivery_cycle(members)
       members = by_renewal_state(members)
       members = by_first_membership(members)
       members = by_coming_deliveries_in_days(members)
@@ -49,10 +49,10 @@ class Newsletter
       members.where(memberships: { depot_id: depot_ids })
     end
 
-    def by_deliveries_cycle(members)
-      return members unless deliveries_cycle_ids.any?
+    def by_delivery_cycle(members)
+      return members unless delivery_cycle_ids.any?
 
-      members.where(memberships: { deliveries_cycle_id: deliveries_cycle_ids })
+      members.where(memberships: { delivery_cycle_id: delivery_cycle_ids })
     end
 
     def by_renewal_state(members)

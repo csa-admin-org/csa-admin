@@ -7,6 +7,6 @@ FactoryBot.define do
     zip { Faker::Address.zip }
     price { 0 }
 
-    deliveries_cycles { [DeliveriesCycle.first || create(:deliveries_cycle)] }
+    delivery_cycles { [DeliveryCycle.first || create(:delivery_cycle)] }
   end
 end

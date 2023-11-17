@@ -16,8 +16,8 @@ ActiveAdmin.register BasketSize do
         deliveries_based_price_info(bs.price, bs.deliveries_counts(visible_only: false))
       end
     }
-    column :deliveries_cycles, ->(bs) {
-      bs.deliveries_cycles.map { |cycle|
+    column :delivery_cycles, ->(bs) {
+      bs.delivery_cycles.map { |cycle|
         auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
       }.join(', ').html_safe
     }
@@ -70,8 +70,8 @@ ActiveAdmin.register BasketSize do
     end
 
     f.inputs do
-      f.input :deliveries_cycles,
-        collection: deliveries_cycles_collection,
+      f.input :delivery_cycles,
+        collection: delivery_cycles_collection,
         input_html: f.object.persisted? ? {} : { checked: true },
         as: :check_boxes,
         required: true
@@ -98,11 +98,11 @@ ActiveAdmin.register BasketSize do
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
-    deliveries_cycle_ids: [])
+    delivery_cycle_ids: [])
 
   controller do
     include TranslatedCSVFilename
-    include DeliveriesCyclesHelper
+    include DeliveryCyclesHelper
   end
 
   config.filters = false

@@ -115,7 +115,7 @@ _:
           _de: Währung
           _fr: Monnaie
           _it: Valuta
-        deliveries_cycles_member_order_mode:
+        delivery_cycles_member_order_mode:
           _de: Reihenfolge der Lieferzyklen
           _fr: Ordre des cycles de livraisons
           _it: Ordine dei cicli di consegna
@@ -531,7 +531,7 @@ _:
           _de: Zusatz
           _fr: Complément
           _it: Aggiunte
-      deliveries_cycle:
+      delivery_cycle:
         minimum_gap_in_days:
           _de: Minimale Lücke (in Tagen)
           _fr: Écart minimum (en jours)
@@ -801,7 +801,7 @@ _:
           _de: Taschengrösse (Warteliste)
           _fr: Taille panier (en attente)
           _it: Dimensione cesta (in lista d'attesa)
-        waiting_deliveries_cycle:
+        waiting_delivery_cycle:
           _de: Zyklus von Lieferungen (Warteliste)
           _fr: Cycle de livraisons (en attente)
           _it: Ciclo di consegne (in lista d'attesa)
@@ -1499,7 +1499,7 @@ _:
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
           _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
           _it: Condivisione dei contatti (tra soci di un punto di ritiro)
-      deliveries_cycle:
+      delivery_cycle:
         one:
           _de: Zyklus von Lieferungen
           _fr: Cycle de livraisons

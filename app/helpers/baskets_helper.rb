@@ -11,7 +11,7 @@ module BasketsHelper
   end
 
   def basket_depots_collection(basket)
-    Depot.includes(:deliveries_cycles).map do |depot|
+    Depot.includes(:delivery_cycles).map do |depot|
       [depot.name, depot.id,
         disabled: depot.current_and_future_delivery_ids.exclude?(basket.delivery_id),
         data: {

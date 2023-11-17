@@ -157,8 +157,8 @@ describe Delivery do
       absent: true)
   end
 
-  specify 'reset deliveries_cycle cache after date change', freeze: '2023-01-01' do
-    cycle = create(:deliveries_cycle, wdays: [0])
+  specify 'reset delivery_cycle cache after date change', freeze: '2023-01-01' do
+    cycle = create(:delivery_cycle, wdays: [0])
 
     expect { create(:delivery, date: '2023-01-01') }
       .to change { cycle.reload.deliveries_counts }
@@ -171,8 +171,8 @@ describe Delivery do
       .to('2023' => 0, '2024' => 0)
   end
 
-  specify 'reset deliveries_cycle cache after destroy', freeze: '2023-01-01' do
-    cycle = create(:deliveries_cycle, wdays: [0])
+  specify 'reset delivery_cycle cache after destroy', freeze: '2023-01-01' do
+    cycle = create(:delivery_cycle, wdays: [0])
     delivery = create(:delivery, date: '2023-01-01')
 
     expect { delivery.destroy! }

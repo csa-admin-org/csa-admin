@@ -112,9 +112,9 @@ class ACP < ApplicationRecord
   validates :depots_member_order_mode,
     presence: true,
     inclusion: { in: Depot::MEMBER_ORDER_MODES }
-  validates :deliveries_cycles_member_order_mode,
+  validates :delivery_cycles_member_order_mode,
     presence: true,
-    inclusion: { in: DeliveriesCycle::MEMBER_ORDER_MODES }
+    inclusion: { in: DeliveryCycle::MEMBER_ORDER_MODES }
   validates :basket_update_limit_in_days,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 }
@@ -316,7 +316,7 @@ class ACP < ApplicationRecord
 
   def deliveries_count(year)
     @max_deliveries_counts ||=
-      DeliveriesCycle
+      DeliveryCycle
         .pluck(:deliveries_counts)
         .reduce({}) { |h, i| h.merge(i) { |k, old, new| [old, new].flatten.max } }
     @max_deliveries_counts[year.to_s]
@@ -374,7 +374,7 @@ class ACP < ApplicationRecord
     Permission.create_superadmin!
     MailTemplate.create_all!
     Newsletter::Template.create_defaults!
-    DeliveriesCycle.create_default!
+    DeliveryCycle.create_default!
   end
 
   def apply_annual_fee_change

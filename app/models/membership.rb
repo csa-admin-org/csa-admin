@@ -17,7 +17,7 @@ class Membership < ApplicationRecord
   belongs_to :member, counter_cache: true
   belongs_to :basket_size
   belongs_to :depot
-  belongs_to :deliveries_cycle
+  belongs_to :delivery_cycle
   has_many :baskets, dependent: :destroy
   has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: 'Basket'
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
@@ -54,8 +54,8 @@ class Membership < ApplicationRecord
   validates :basket_price_extra, numericality: true, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
-  validates :deliveries_cycle, inclusion: { in: ->(m) { m.depot&.deliveries_cycles } }
-  validates :deliveries_cycle, inclusion: { in: ->(m) { m.basket_size&.deliveries_cycles } }
+  validates :delivery_cycle, inclusion: { in: ->(m) { m.depot&.delivery_cycles } }
+  validates :delivery_cycle, inclusion: { in: ->(m) { m.basket_size&.delivery_cycles } }
   validates :new_config_from,
     date: {
       after_or_equal_to: :started_on,
@@ -121,8 +121,8 @@ class Membership < ApplicationRecord
     end
   end
 
-  def self.used_deliveries_cycle_ids_for(year)
-    during_year(year).distinct.pluck(:deliveries_cycle_id)
+  def self.used_delivery_cycle_ids_for(year)
+    during_year(year).distinct.pluck(:delivery_cycle_id)
   end
 
   def basket_description(public_name: false)
@@ -499,7 +499,7 @@ class Membership < ApplicationRecord
   def attributes_config_changed?
     tracked_attributes = %w[
       basket_size_id basket_price basket_price_extra basket_quantity
-      depot_id depot_price deliveries_cycle_id
+      depot_id depot_price delivery_cycle_id
     ]
     (saved_changes.keys & tracked_attributes).any?
   end
@@ -511,7 +511,7 @@ class Membership < ApplicationRecord
   end
 
   def create_baskets!(range = date_range)
-    deliveries_cycle.deliveries_in(range).each do |delivery|
+    delivery_cycle.deliveries_in(range).each do |delivery|
       create_basket!(delivery)
     end
   end
@@ -525,7 +525,7 @@ class Membership < ApplicationRecord
       waiting_started_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
-      waiting_deliveries_cycle: nil,
+      waiting_delivery_cycle: nil,
       waiting_basket_complement_ids: nil)
   end
 
@@ -585,7 +585,7 @@ class Membership < ApplicationRecord
   end
 
   def at_least_one_basket
-    if date_range && date_range.min && deliveries_cycle&.deliveries_in(date_range).none?
+    if date_range && date_range.min && delivery_cycle&.deliveries_in(date_range).none?
       errors.add(:started_on, :invalid)
       errors.add(:ended_on, :invalid)
     end

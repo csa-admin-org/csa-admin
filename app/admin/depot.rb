@@ -11,9 +11,9 @@ ActiveAdmin.register Depot do
   filter :city_cont,
     label: -> { Depot.human_attribute_name(:city) },
     as: :string
-  filter :deliveries_cycles, as: :select
+  filter :delivery_cycles, as: :select
 
-  includes :memberships, :deliveries_cycles
+  includes :memberships, :delivery_cycles
   index do
     column :id, ->(d) { auto_link d, d.id }
     column :name, ->(d) { auto_link d }
@@ -21,8 +21,8 @@ ActiveAdmin.register Depot do
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
-    column :deliveries_cycles, ->(d) {
-      d.deliveries_cycles.map { |cycle|
+    column :delivery_cycles, ->(d) {
+      d.delivery_cycles.map { |cycle|
         auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
       }.join(', ').html_safe
     }
@@ -99,12 +99,12 @@ ActiveAdmin.register Depot do
           end
         end
 
-        all_deliveries_cycles_path = deliveries_cycles_path(q: { depots_id_eq: depot.id }, scope: :all)
-        panel link_to(DeliveriesCycle.model_name.human(count: 2), all_deliveries_cycles_path) do
+        all_delivery_cycles_path = delivery_cycles_path(q: { depots_id_eq: depot.id }, scope: :all)
+        panel link_to(DeliveryCycle.model_name.human(count: 2), all_delivery_cycles_path) do
           div class: 'actions' do
             handbook_icon_link('deliveries', anchor: 'cycles-de-livraisons')
           end
-          table_for depot.deliveries_cycles, class: 'deliveries_cycles' do
+          table_for depot.delivery_cycles, class: 'delivery_cycles' do
             column :name, ->(dc) { auto_link dc }
             column Current.acp.current_fiscal_year, ->(dc) {
               auto_link dc, dc.current_deliveries_count
@@ -196,8 +196,8 @@ ActiveAdmin.register Depot do
     end
 
     f.inputs do
-      f.input :deliveries_cycles,
-        collection: deliveries_cycles_collection,
+      f.input :delivery_cycles,
+        collection: delivery_cycles_collection,
         input_html: f.object.persisted? ? {} : { checked: true },
         as: :check_boxes,
         required: true
@@ -238,7 +238,7 @@ ActiveAdmin.register Depot do
     ],
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
-    deliveries_cycle_ids: [])
+    delivery_cycle_ids: [])
 
   before_build do |depot|
     depot.price ||= 0.0
@@ -246,7 +246,7 @@ ActiveAdmin.register Depot do
 
   controller do
     include TranslatedCSVFilename
-    include DeliveriesCyclesHelper
+    include DeliveryCyclesHelper
   end
 
   config.sort_order = 'name_asc'

@@ -748,11 +748,11 @@ describe Billing::Invoicer do
       before { Current.acp.update!(fiscal_year_start_month: 4) }
 
       specify 'membership, with only winter baskets' do
-        dc = create(:deliveries_cycle, months: [1,2,3,10,11,12])
+        dc = create(:delivery_cycle, months: [1,2,3,10,11,12])
         membership = travel_to '2021-04-01' do
           create(:delivery, date: '2021-04-01')
           create(:delivery, date: '2021-10-05')
-          create(:membership, deliveries_cycle: dc)
+          create(:membership, delivery_cycle: dc)
         end
         expect(membership.deliveries.first.date.to_s).to eq '2021-10-05' # Tuesday
 

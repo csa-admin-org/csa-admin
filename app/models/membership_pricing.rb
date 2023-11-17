@@ -88,7 +88,7 @@ class MembershipPricing
     if complement.annual_price_type?
       [complement.price * quantity] * 2
     else
-      deliveries_counts = deliveries_cycles.map { |dc|
+      deliveries_counts = delivery_cycles.map { |dc|
         (complement.delivery_ids & dc.current_and_future_delivery_ids).size
       }.uniq
       [
@@ -108,33 +108,33 @@ class MembershipPricing
   end
 
   def deliveries_counts
-    return [0] unless deliveries_cycles.any?
+    return [0] unless delivery_cycles.any?
 
-    @deliveries_counts ||= deliveries_cycles.map(&:deliveries_count).flatten.uniq.sort
+    @deliveries_counts ||= delivery_cycles.map(&:deliveries_count).flatten.uniq.sort
   end
 
-  def deliveries_cycles
-    return [deliveries_cycle] if deliveries_cycle
+  def delivery_cycles
+    return [delivery_cycle] if delivery_cycle
 
-    @deliveries_cycle_ids ||=
+    @delivery_cycle_ids ||=
       if basket_size
-        basket_size.visible_deliveries_cycle_ids & depots.map(&:visible_deliveries_cycle_ids).flatten.uniq
+        basket_size.visible_delivery_cycle_ids & depots.map(&:visible_delivery_cycle_ids).flatten.uniq
       else
-        depots.map(&:visible_deliveries_cycle_ids).flatten.uniq
+        depots.map(&:visible_delivery_cycle_ids).flatten.uniq
       end
-    @deliveries_cycles ||= DeliveriesCycle.find(@deliveries_cycle_ids).to_a
+    @delivery_cycles ||= DeliveryCycle.find(@delivery_cycle_ids).to_a
   end
 
-  def deliveries_cycle
-    @deliveries_cycle ||=
-      DeliveriesCycle.find_by(id: @params[:waiting_deliveries_cycle_id])
+  def delivery_cycle
+    @delivery_cycle ||=
+      DeliveryCycle.find_by(id: @params[:waiting_delivery_cycle_id])
   end
 
   def depots
     return [depot] if depot
 
     @depots ||=
-      Depot.visible.includes(:deliveries_cycles, :visibe_deliveries_cycles).to_a
+      Depot.visible.includes(:delivery_cycles, :visibe_delivery_cycles).to_a
   end
 
   def depot

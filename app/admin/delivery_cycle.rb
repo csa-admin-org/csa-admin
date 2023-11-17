@@ -1,10 +1,10 @@
-ActiveAdmin.register DeliveriesCycle do
+ActiveAdmin.register DeliveryCycle do
   menu false
 
   breadcrumb do
     links = [link_to(Delivery.model_name.human(count: 2), deliveries_path)]
     if params[:action] != 'index'
-      links << link_to(DeliveriesCycle.model_name.human(count: 2), deliveries_cycles_path)
+      links << link_to(DeliveryCycle.model_name.human(count: 2), delivery_cycles_path)
     end
     if params['action'].in? %W[edit]
       links << auto_link(resource)
@@ -17,12 +17,12 @@ ActiveAdmin.register DeliveriesCycle do
   scope :hidden
 
   filter :name_cont,
-    label: -> { DeliveriesCycle.human_attribute_name(:name) },
+    label: -> { DeliveryCycle.human_attribute_name(:name) },
     as: :string
   filter :basket_sizes, as: :select
   filter :depots, as: :select
 
-  includes :basket_sizes, :depots, :memberships_basket_complements
+  includes :basket_sizes, :depots
   index download_links: false do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
@@ -73,7 +73,7 @@ ActiveAdmin.register DeliveriesCycle do
           row :visible
         end
 
-        attributes_table title: t('deliveries_cycle.settings') do
+        attributes_table title: t('delivery_cycle.settings') do
           row(:wdays) {
             if dc.wdays.size == 7
               t('active_admin.scopes.all')
@@ -81,7 +81,7 @@ ActiveAdmin.register DeliveriesCycle do
               dc.wdays.map { |d| t('date.day_names')[d].capitalize }.to_sentence
             end
           }
-          row(:week_numbers) { t("deliveries_cycle.week_numbers.#{dc.week_numbers}") }
+          row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
           row(:months) {
             if dc.months.size == 12
               t('active_admin.scopes.all')
@@ -89,7 +89,7 @@ ActiveAdmin.register DeliveriesCycle do
               dc.months.map { |m| t('date.month_names')[m].capitalize }.to_sentence
             end
           }
-          row(:results) { t("deliveries_cycle.results.#{dc.results}") }
+          row(:results) { t("delivery_cycle.results.#{dc.results}") }
           row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
         end
 
@@ -117,7 +117,7 @@ ActiveAdmin.register DeliveriesCycle do
       translated_input(f, :names, required: true)
       translated_input(f, :public_names,
         required: false,
-        hint: t('formtastic.hints.deliveries_cycle.public_name'))
+        hint: t('formtastic.hints.delivery_cycle.public_name'))
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
@@ -129,7 +129,7 @@ ActiveAdmin.register DeliveriesCycle do
       f.input :visible, as: :select, include_blank: false
     end
 
-    f.inputs t('deliveries_cycle.settings') do
+    f.inputs t('delivery_cycle.settings') do
       f.input :wdays,
         as: :check_boxes,
         collection: wdays_collection,
@@ -178,7 +178,7 @@ ActiveAdmin.register DeliveriesCycle do
     basket_size_ids: [])
 
   controller do
-    include DeliveriesCyclesHelper
+    include DeliveryCyclesHelper
 
     private
 

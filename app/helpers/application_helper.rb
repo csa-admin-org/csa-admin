@@ -102,8 +102,8 @@ module ApplicationHelper
     }
   end
 
-  def deliveries_cycles_collection
-    DeliveriesCycle.all.map { |cycle|
+  def delivery_cycles_collection
+    DeliveryCycle.all.map { |cycle|
       [
         "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
         cycle.id
