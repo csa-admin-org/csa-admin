@@ -73,13 +73,7 @@ ActiveAdmin.register Shop::Product do
 
   form do |f|
     f.semantic_errors :base
-    if f.object.errors[:variants].present?
-      ul class: 'errors' do
-        f.object.errors.full_messages.each do |msg|
-          li msg
-        end
-      end
-    end
+    errors_on(self, f, :variants)
     tabs do
       tab t('.details') do
         f.inputs nil do

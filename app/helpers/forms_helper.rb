@@ -72,4 +72,14 @@ module FormsHelper
       [t("member_order.modes.#{mode}"), mode]
     }
   end
+
+  def errors_on(arbre, form, attribute)
+    if form.object.errors[attribute].present?
+      arbre.ul class: 'errors' do
+        form.object.errors[attribute].uniq.each do |msg|
+          arbre.li msg
+        end
+      end
+    end
+  end
 end
