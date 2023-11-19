@@ -62,8 +62,7 @@ module MembersHelper
         collection_text(bs.public_name, details: basket_size_details(bs)),
         bs.id,
         data: {
-          form_min_value_enforcer_min_value_param: bs.acp_shares_number,
-          form_choices_limiter_values_param: bs.visible_delivery_cycle_ids.join(',')
+          form_min_value_enforcer_min_value_param: bs.acp_shares_number
         }.merge(data)
       ]
     }
@@ -265,6 +264,7 @@ module MembersHelper
   end
 
   def deliveries_based_price_info(price, d_counts = deliveries_counts)
+    d_counts.select!(&:positive?)
     if d_counts.many?
       [
         price_info(d_counts.min * price),

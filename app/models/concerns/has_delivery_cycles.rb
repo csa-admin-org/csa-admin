@@ -39,10 +39,8 @@ module HasDeliveryCycles
     end
   end
 
-  def deliveries_counts(visible_only: true)
-    if !visible_only
-      delivery_cycles.map(&:deliveries_count).uniq.sort
-    elsif visibe_delivery_cycles.none?
+  def deliveries_counts
+    if visibe_delivery_cycles.none?
       [main_delivery_cycle.deliveries_count]
     else
       visibe_delivery_cycles.map(&:deliveries_count).uniq.sort
