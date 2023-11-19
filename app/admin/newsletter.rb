@@ -146,13 +146,7 @@ ActiveAdmin.register Newsletter do
           data: { action: 'code-editor#updatePreview' }
         })
       f.input :audience, collection: newsletter_audience_collection, prompt: true
-      if f.object.errors[:attachments].present?
-        ul class: 'errors' do
-          f.object.errors[:attachments].uniq.each do |msg|
-            li msg
-          end
-        end
-      end
+      errors_on(self, f, :attachments)
 
       f.input :from,
         as: :string,
@@ -175,14 +169,8 @@ ActiveAdmin.register Newsletter do
         input_html: {
           data: { action: 'form-select-hidder#toggle code-editor#updatePreview' }
         }
-      if f.object.errors[:blocks].present?
-        ul class: 'errors' do
-          f.object.errors[:blocks].uniq.each do |msg|
-            li msg
-          end
-        end
-      end
 
+      errors_on(self, f, :blocks)
       f.semantic_fields_for :blocks do |b|
         b.input :id, as: :hidden
         b.input :block_id, as: :hidden
