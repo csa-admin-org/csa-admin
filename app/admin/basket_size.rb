@@ -16,10 +16,8 @@ ActiveAdmin.register BasketSize do
         deliveries_based_price_info(bs.price, bs.deliveries_counts)
       end
     }
-    column :delivery_cycles, ->(bs) {
-      bs.delivery_cycles.map { |cycle|
-        auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
-      }.join(', ').html_safe
+    column :deliveries, ->(bs) {
+      deliveries_count_range(bs.deliveries_counts)
     }
     if Current.acp.feature?('activity')
       column activities_human_name, ->(bs) { bs.activity_participations_demanded_annualy }

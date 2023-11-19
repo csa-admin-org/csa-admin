@@ -263,15 +263,22 @@ module MembersHelper
     txt
   end
 
-  def deliveries_based_price_info(price, d_counts = deliveries_counts)
-    d_counts.select!(&:positive?)
-    if d_counts.many?
+  def deliveries_based_price_info(price, counts = deliveries_counts)
+    if counts.many?
       [
-        price_info(d_counts.min * price),
-        price_info(d_counts.max * price, format: '%n')
+        price_info(counts.min * price),
+        price_info(counts.max * price, format: '%n')
       ].compact.join('-')
     else
-      price_info(d_counts.first.to_i * price)
+      price_info(counts.first.to_i * price)
+    end
+  end
+
+  def deliveries_count_range(counts = deliveries_counts)
+    if counts.many?
+      [counts.min, counts.max].uniq.join('-')
+    else
+      counts.first.to_i
     end
   end
 
