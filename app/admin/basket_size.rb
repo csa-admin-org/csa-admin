@@ -13,7 +13,7 @@ ActiveAdmin.register BasketSize do
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) {
       if bs.price.positive?
-        deliveries_based_price_info(bs.price, bs.deliveries_counts(visible_only: false))
+        deliveries_based_price_info(bs.price, bs.deliveries_counts)
       end
     }
     column :delivery_cycles, ->(bs) {
@@ -103,6 +103,7 @@ ActiveAdmin.register BasketSize do
   controller do
     include TranslatedCSVFilename
     include DeliveryCyclesHelper
+    include MembersHelper
   end
 
   config.filters = false
