@@ -43,7 +43,7 @@ class Newsletter
 
     class Segment < Struct.new(:key, :value, :name)
       def self.parse(audience)
-        key, value = audience.split('::')
+        key, value = audience.split('::', 2)
         Segment.new(key.to_sym, value)
       end
 
