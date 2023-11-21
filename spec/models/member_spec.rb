@@ -123,16 +123,6 @@ describe Member do
       expect(member).not_to have_valid(:waiting_depot_id)
     end
 
-    it 'validates waiting_delivery_cycle presence' do
-      member = build(:member,
-        waiting_basket_size: create(:basket_size),
-        waiting_depot: create(:depot),
-        waiting_delivery_cycle: create(:delivery_cycle))
-
-      expect(member).not_to be_valid
-      expect(member).not_to have_valid(:waiting_delivery_cycle)
-    end
-
     it 'validates desired_acp_shares_number >= 1 on public create' do
       Current.acp.update!(annual_fee: 50, share_price: nil)
       member = build(:member, desired_acp_shares_number: 0)
@@ -642,18 +632,33 @@ describe Member do
     end
   end
 
-  specify '#set_default_waiting_delivery_cycle' do
-    visible_1_dc = create(:delivery_cycle, visible: true)
-    visible_2_dc = create(:delivery_cycle, visible: true)
-    hidden_dc = create(:delivery_cycle, visible: false)
-    basket_size = create(:basket_size, delivery_cycles: [visible_2_dc, hidden_dc])
-    depot = create(:depot, delivery_cycles: [visible_1_dc, visible_2_dc, hidden_dc])
+  describe '#set_default_waiting_delivery_cycle' do
+    specify 'when basket_size has a delivery_cycle' do
+      dc_1 = create(:delivery_cycle)
+      dc_2 = create(:delivery_cycle)
+      basket_size = create(:basket_size, delivery_cycle: dc_2)
+      depot = create(:depot, delivery_cycles: [dc_1])
 
-    member = create(:member, :waiting,
-      waiting_basket_size: basket_size,
-      waiting_depot: depot,
-      waiting_delivery_cycle_id: nil)
+      member = create(:member, :waiting,
+        waiting_basket_size: basket_size,
+        waiting_depot: depot,
+        waiting_delivery_cycle_id: nil)
 
-    expect(member.waiting_delivery_cycle).to eq visible_2_dc
+      expect(member.waiting_delivery_cycle).to eq dc_2
+    end
+
+    specify 'when basket_size has no delivery_cycle' do
+      create_deliveries(2)
+      dc_1 = create(:delivery_cycle, results: :odd)
+      dc_2 = create(:delivery_cycle)
+      dc_3 = create(:delivery_cycle) # max deliveries count
+      depot = create(:depot, delivery_cycles: [dc_1, dc_3])
+
+      member = create(:member, :waiting,
+        waiting_depot: depot,
+        waiting_delivery_cycle_id: nil)
+
+      expect(member.waiting_delivery_cycle).to eq dc_3
+    end
   end
 end

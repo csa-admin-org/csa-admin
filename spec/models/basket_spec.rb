@@ -36,19 +36,6 @@ describe Basket do
     expect(basket.errors[:delivery]).to be_present
   end
 
-  it 'validates delivery is in membership date range', freeze: '2022-01-01' do
-    delivery1 = create(:delivery, date: '2022-01-03') # Monday
-    delivery2 = create(:delivery, date: '2022-01-04')
-    depot = create(:depot, delivery_cycles: [
-      create(:delivery_cycle, wdays: [1])
-    ])
-
-    basket = build(:basket, depot: depot, delivery: delivery2)
-    basket.validate
-
-    expect(basket.errors[:depot]).to be_present
-  end
-
   it 'updates basket complement_prices when created' do
     basket = create(:membership).baskets.first
     create(:basket_complement, id: 42, price: 3.2)

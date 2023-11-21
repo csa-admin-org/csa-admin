@@ -298,10 +298,10 @@ _:
           _fr: Par exemple, une page référençant le prix de vente.
           _it: Per esempio, una pagina che fa riferimento al prezzo di vendita.
       basket_size:
-        delivery_cycles:
-          _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieser Taschengröße, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieser Taschengröße (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
-          _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future avec cette taille de panier utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de cette taille de panier (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
-          _it: Se un ciclo di consegna viene rimosso dalla lista, gli abbonamenti attuali o futuri di questa dimensione del cestino che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questa dimensione del cestino (quello con più consegne). È richiesto almeno un ciclo di consegna.
+        delivery_cycle:
+          _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Taschengröße zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille de panier. Le choix ne sera pas proposé aux membres lors de l'inscription.
+          _it: Permette di forzare un ciclo di consegna specifico per questa dimensione del cestino. La scelta non verrà proposta ai soci durante la registrazione.
         form_detail:
           _de: Leer lassen für den Standardtext.
           _fr: Laisser blanc pour le texte par défaut.
@@ -323,31 +323,6 @@ _:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
-      delivery_cycle:
-        basket_sizes:
-          _de: Wenn eine Taschengröße von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieser Taschengröße, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieser Taschengröße (dem mit den meisten Lieferungen) aktualisiert. Taschengrößen, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
-          _fr: Si une taille de panier est enlevée de la liste, les abonnements en cours ou future avec cette taille de panier utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de leur taille de panier (celui avec le plus de livraisons). Les tailles de panier qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
-          _it: Se una dimensione del cestino viene rimossa dall'elenco, gli abbonamenti attuali o futuri di questa dimensione del cestino che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questa dimensione del cestino (quello con più consegne). Le dimensioni del cestino che hanno solo questo ciclo di consegna non possono essere rimosse dall'elenco.
-        depots:
-          _de: Wenn ein Depot von der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Depots, die nur diesen einen Lieferzyklus haben, können nicht von der Liste entfernt werden.
-          _fr: Si un dépôt est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Les dépôts qui n'ont que ce cycle de livraisons ne peuvent pas être enlevés de la liste.
-          _it: Se un punto di ritiro viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). I punti di ritiro che hanno solo questa corsa di consegna non possono essere rimossi dalla lista.
-        minimum_gap_in_days:
-          _de: Ermöglicht es Ihnen, die Mindestanzahl von Tagen zwischen zwei Lieferungen festzulegen. Zum Beispiel 13 für eine Lieferung alle 2 Wochen.
-          _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
-          _it: Permette di definire il numero minimo di giorni tra due consegne. Ad esempio 13 per una consegna ogni 2 settimane.
-        public_name:
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione).
-        results:
-          _de: Nachdem Sie die Konfiguration für Tage, Wochen und Monate angewendet haben, behalten Sie nur die resultierenden Lieferungen nach dem letztgenannten Kriterium.
-          _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
-          _it: Una volta che la configurazione di giorni, settimane e mesi è stata applicata, conserva solo le consegne risultanti secondo quest'ultimo criterio.
-        visible:
-          _de: Wird auf jeden Fall sichtbar sein, wenn nur eine Depot ausgewählt wurde.
-          _fr: Sera de toute façon visible si un seul dépôt est sélectionné.
-          _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
       delivery:
         basket_complements:
           _de: Alle Abonnements, die diese Zusätze abonniert haben und diese/n neue/n Datum/Daten beinhalten, werden automatisch aktualisiert.
@@ -369,11 +344,32 @@ _:
           _de: Steuert, ob Mitglieder für diese Lieferung Bestellungen vom Hofladen aufgeben können oder nicht.
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
           _it: Controlla se i soci possono fare ordini di alimentari per questa consegna o no.
+      delivery_cycle:
+        depots:
+          _de: Depots, für die dieser Lieferzyklus bei der Anmeldung für Mitglieder verfügbar ist. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
+          _fr: Dépôts pour lesquels ce cycle de livraisons est disponible pour les membres lors de l'inscription. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons différents sont disponibles pour un dépôt.
+          _it: Punti di ritiro per i quali questo ciclo di consegna è disponibile per i soci al momento della registrazione. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
+        minimum_gap_in_days:
+          _de: Ermöglicht es Ihnen, die Mindestanzahl von Tagen zwischen zwei Lieferungen festzulegen. Zum Beispiel 13 für eine Lieferung alle 2 Wochen.
+          _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
+          _it: Permette di definire il numero minimo di giorni tra due consegne. Ad esempio 13 per una consegna ogni 2 settimane.
+        public_name:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione).
+        results:
+          _de: Nachdem Sie die Konfiguration für Tage, Wochen und Monate angewendet haben, behalten Sie nur die resultierenden Lieferungen nach dem letztgenannten Kriterium.
+          _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
+          _it: Una volta che la configurazione di giorni, settimane e mesi è stata applicata, conserva solo le consegne risultanti secondo quest'ultimo criterio.
+        visible:
+          _de: Wird auf jeden Fall sichtbar sein, wenn nur eine Depot ausgewählt wurde.
+          _fr: Sera de toute façon visible si un seul dépôt est sélectionné.
+          _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
       depot:
         delivery_cycles:
-          _de: Wenn ein Lieferungszyklus aus der Liste entfernt wird, werden laufende oder zukünftige Abonnements dieses Depots, die diesen Lieferungszyklus verwenden, automatisch mit einem anderen Lieferungszyklus dieses Depots (dem mit den meisten Lieferungen) aktualisiert. Mindestens ein Lieferungszyklus ist erforderlich.
-          _fr: Si un cycle de livraisons est enlevé de la liste, les abonnements en cours ou future de ce dépôt utilisant ce cycle de livraisons seront automatiquement mis à jour avec un autre cycle de livraisons de ce dépôt (celui avec le plus de livraisons). Un cycle de livraisons au minimum est requis.
-          _it: Se un ciclo di consegna viene rimosso dalla lista, gli abbonamenti attuali o futuri di questo punto di ritiro che utilizzano questo ciclo di consegna saranno automaticamente aggiornati con un altro ciclo di consegna di questo punto di ritiro (quello con più consegne). È richiesto un minimo di un ciclo di consegna.
+          _de: Lieferzyklen, die bei der Anmeldung für Mitglieder für dieses Depot verfügbar sind. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei Lieferzyklen für ein Depot verfügbar sind.
+          _fr: Cycles de livraisons disponibles aux membres les membres lors de l'inscription pour ce dépôt. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons sont disponibles pour un dépôt.
+          _it: Cicli di consegna disponibili per i soci al momento della registrazione per questo punto di ritiro. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna per un punto di ritiro.
         emails:
           _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.

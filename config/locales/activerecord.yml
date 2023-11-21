@@ -531,31 +531,6 @@ _:
           _de: Zusatz
           _fr: Complément
           _it: Aggiunte
-      delivery_cycle:
-        minimum_gap_in_days:
-          _de: Minimale Lücke (in Tagen)
-          _fr: Écart minimum (en jours)
-          _it: Intervallo minimo (in giorni)
-        months:
-          _de: Monate
-          _fr: Mois
-          _it: Mesi
-        next_delivery:
-          _de: Nächste Lieferung
-          _fr: Prochaine livraison
-          _it: Prossime consegne
-        results:
-          _de: Resultate
-          _fr: Résultats
-          _it: Risultati
-        wdays:
-          _de: Tage
-          _fr: Jours
-          _it: Giorni
-        week_numbers:
-          _de: Wochen
-          _fr: Semaines
-          _it: Settimane
       delivery:
         basket_complements:
           _de: Taschenzusätze
@@ -581,6 +556,31 @@ _:
           _de: Unterschrift
           _fr: Signature
           _it: Firma
+      delivery_cycle:
+        minimum_gap_in_days:
+          _de: Minimale Lücke (in Tagen)
+          _fr: Écart minimum (en jours)
+          _it: Intervallo minimo (in giorni)
+        months:
+          _de: Monate
+          _fr: Mois
+          _it: Mesi
+        next_delivery:
+          _de: Nächste Lieferung
+          _fr: Prochaine livraison
+          _it: Prossime consegne
+        results:
+          _de: Resultate
+          _fr: Résultats
+          _it: Risultati
+        wdays:
+          _de: Tage
+          _fr: Jours
+          _it: Giorni
+        week_numbers:
+          _de: Wochen
+          _fr: Semaines
+          _it: Settimane
       depot:
         address_name:
           _de: Name
@@ -1499,15 +1499,6 @@ _:
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
           _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
           _it: Condivisione dei contatti (tra soci di un punto di ritiro)
-      delivery_cycle:
-        one:
-          _de: Zyklus von Lieferungen
-          _fr: Cycle de livraisons
-          _it: Ciclo di consegne
-        other:
-          _de: Zyklen von Lieferungen
-          _fr: Cycles de livraisons
-          _it: Cicli di consegne
       delivery:
         one:
           _de: Lieferung
@@ -1517,6 +1508,15 @@ _:
           _de: Lieferungen
           _fr: Livraisons
           _it: Consegne
+      delivery_cycle:
+        one:
+          _de: Zyklus von Lieferungen
+          _fr: Cycle de livraisons
+          _it: Ciclo di consegne
+        other:
+          _de: Zyklen von Lieferungen
+          _fr: Cycles de livraisons
+          _it: Cicli di consegne
       depot:
         one:
           _de: Depot

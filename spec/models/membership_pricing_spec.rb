@@ -65,8 +65,8 @@ describe MembershipPricing do
     depot = create(:depot, id: 1)
     create(:depot, id: 2)
 
-    create(:delivery_cycle, :visible, id: 2, results: :odd, depots: [depot])
-    create(:delivery_cycle, :visible, id: 3, results: :all, depots: Depot.all)
+    create(:delivery_cycle, id: 2, results: :odd, depots: [depot])
+    create(:delivery_cycle, id: 3, results: :all, depots: Depot.all)
 
     pricing = pricing(waiting_basket_size_id: 1)
     expect(pricing.prices).to eq [3 * 10, 5 * 10]
@@ -118,8 +118,8 @@ describe MembershipPricing do
     })
     expect(pricing.prices).to eq [2 * 100]
 
-    create(:delivery_cycle, :visible, id: 2, results: :odd, depots: Depot.all)
-    create(:delivery_cycle, :visible, id: 3, results: :all, depots: Depot.all)
+    create(:delivery_cycle, id: 2, results: :odd, depots: Depot.all)
+    create(:delivery_cycle, id: 3, results: :all, depots: Depot.all)
 
     pricing = pricing(members_basket_complements_attributes: {
       '0' => { basket_complement_id: 1, quantity: 1 },

@@ -79,7 +79,7 @@ ActiveAdmin.register Basket do
     links
   end
 
-  form data: { controller: 'form-select-options-filter', form_select_options_filter_attribute_value: 'data-delivery-ids' } do |f|
+  form do |f|
     delivery_collection = basket_deliveries_collection(f.object)
     f.inputs [
       delivery_collection.many? ? Delivery.model_name.human(count: 1) : nil,
@@ -88,18 +88,11 @@ ActiveAdmin.register Basket do
       if delivery_collection.many?
         f.input :delivery,
           collection: delivery_collection,
-          prompt: true,
-          input_html: { data: { action: 'form-select-options-filter#filter' } }
+          prompt: true
       end
       f.input :depot,
-        collection: basket_depots_collection(f.object),
         prompt: true,
-        input_html: {
-          data: {
-            action: 'form-reset#reset',
-            form_select_options_filter_target: 'select'
-          }
-        }
+        input_html: { data: { action: 'form-reset#reset' } }
       f.input :depot_price,
         hint: true,
         required: false,

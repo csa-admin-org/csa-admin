@@ -140,6 +140,10 @@ _:
       _de: Lieferungen
       _fr: Livraisons
       _it: Consegne
+    delivery:
+      _de: Lieferung
+      _fr: Livraison
+      _it: Consegna
     delivery_cycle:
       _de: Zyklus von Lieferungen
       _fr: Cycle de livraisons
@@ -148,10 +152,6 @@ _:
       _de: Zyklen von Lieferungen
       _fr: Cycles de livraisons
       _it: Cicli di consegne
-    delivery:
-      _de: Lieferung
-      _fr: Livraison
-      _it: Consegna
     delivery_date:
       _de: Lieferdatum
       _fr: Date de livraison

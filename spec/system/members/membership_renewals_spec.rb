@@ -65,7 +65,7 @@ describe 'Memberships Renewal' do
       ended_on: Date.parse('2021-12-31'),
       basket_size: big_basket,
       depot: new_depot,
-      delivery_cycle: new_depot.main_delivery_cycle)
+      delivery_cycle: new_depot.delivery_cycles.greatest)
     expect(membership.renewed_membership.memberships_basket_complements.first).to have_attributes(
       basket_complement_id: complement.id,
       quantity: 2)
@@ -77,9 +77,7 @@ describe 'Memberships Renewal' do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    depot.delivery_cycles.update_all(visible: true)
     new_cycle = create(:delivery_cycle,
-      visible: true,
       public_name: 'Nouveau cycle',
       results: :odd,
       depots: [depot])

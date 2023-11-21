@@ -96,7 +96,6 @@ class Member < ApplicationRecord
   validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?('basket_price_extra') && waiting_depot }
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
-  validates :waiting_delivery_cycle, inclusion: { in: ->(m) { m.waiting_depot&.delivery_cycles } }, if: :waiting_depot, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :email_must_be_unique
@@ -362,8 +361,8 @@ class Member < ApplicationRecord
     return unless waiting_basket_size
     return unless waiting_depot
 
-    self[:waiting_delivery_cycle_id] ||=
-      (waiting_depot.delivery_cycles & waiting_basket_size.delivery_cycles).max_by(&:deliveries_count)&.id
+    self.waiting_delivery_cycle ||=
+      waiting_basket_size.delivery_cycle || waiting_depot.delivery_cycles.greatest
   end
 
   def email_must_be_unique

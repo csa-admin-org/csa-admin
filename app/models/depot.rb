@@ -5,7 +5,6 @@ class Depot < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
   include HasVisibility
-  include HasDeliveryCycles
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -29,6 +28,7 @@ class Depot < ApplicationRecord
   has_many :memberships
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
+  has_and_belongs_to_many :delivery_cycles # Visibility
 
   default_scope { order(:position) }
   scope :member_ordered, -> {
@@ -50,8 +50,11 @@ class Depot < ApplicationRecord
       .distinct
   }
 
+  before_validation :set_default_delivery_cycle, on: :create
+
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
+  validates :delivery_cycles, presence: true
 
   def public_name
     self[:public_names][I18n.locale.to_s].presence || name
@@ -126,5 +129,27 @@ class Depot < ApplicationRecord
 
   def can_destroy?
     memberships.none? && baskets.none? && basket_contents.none?
+  end
+
+  def include_delivery?(delivery)
+    delivery_cycles.any? { |dc| dc.include_delivery?(delivery) }
+  end
+
+  def deliveries_counts
+    if DeliveryCycle.visible?
+      delivery_cycles.map(&:deliveries_count).uniq.sort
+    else
+      DeliveryCycle.deliveries_counts
+    end
+  end
+
+  def next_delivery
+    baskets.coming.first&.delivery
+  end
+
+  private
+
+  def set_default_delivery_cycle
+    self.delivery_cycles << DeliveryCycle.greatest if delivery_cycles.empty?
   end
 end

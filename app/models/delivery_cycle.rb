@@ -1,12 +1,18 @@
 class DeliveryCycle < ApplicationRecord
   include TranslatedAttributes
-  include HasVisibility
 
   MEMBER_ORDER_MODES = %w[
     name_asc
     deliveries_count_asc
     deliveries_count_desc
     wdays_asc
+  ]
+  CONFIGURATION_ATTRIBUTES = %w[
+    wdays
+    months
+    week_numbers
+    results
+    minimum_gap_in_days
   ]
 
   enum week_numbers: %i[all odd even], _suffix: true
@@ -20,13 +26,18 @@ class DeliveryCycle < ApplicationRecord
 
   has_many :memberships
   has_many :memberships_basket_complements
-  has_and_belongs_to_many :basket_sizes
-  has_and_belongs_to_many :depots
+  has_many :basket_sizes
+
+  has_and_belongs_to_many :depots # Visibility
 
   translated_attributes :public_name
   translated_attributes :name, required: true
 
   default_scope { order_by_name }
+
+  scope :visible, -> {
+    unscoped.joins(:depots).merge(Depot.unscoped.visible).distinct
+  }
 
   validates :minimum_gap_in_days,
     numericality: {
@@ -46,6 +57,26 @@ class DeliveryCycle < ApplicationRecord
 
   def self.for(delivery)
     DeliveryCycle.all.select { |dc| dc.include_delivery?(delivery) }
+  end
+
+  def self.deliveries_counts
+    if visible?
+      visible.map(&:deliveries_count).uniq.sort
+    else
+      [greatest.deliveries_count]
+    end
+  end
+
+  def self.basket_size_config?
+    BasketSize.visible.where.not(delivery_cycle_id: nil).any?
+  end
+
+  def self.visible?
+    !basket_size_config? && visible.many?
+  end
+
+  def self.greatest
+    all.max_by(&:deliveries_count)
   end
 
   def self.member_ordered
@@ -78,6 +109,10 @@ class DeliveryCycle < ApplicationRecord
 
   def public_name
     self[:public_names][I18n.locale.to_s].presence || name
+  end
+
+  def visible?
+    depots.visible.any?
   end
 
   def next_delivery
@@ -135,9 +170,9 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def can_destroy?
-    basket_sizes.empty? &&
-      depots.empty? &&
-      memberships_basket_complements.empty? &&
+    memberships.none? &&
+      memberships_basket_complements.none? &&
+      basket_sizes.none? &&
       DeliveryCycle.where.not(id: id).exists?
   end
 
@@ -178,7 +213,9 @@ class DeliveryCycle < ApplicationRecord
   private
 
   def update_baskets_async
-    DeliveryCycleBasketsUpdaterJob.perform_later(self)
+    if (CONFIGURATION_ATTRIBUTES & saved_changes.keys).any?
+      DeliveryCycleBasketsUpdaterJob.perform_later(self)
+    end
   end
 
   def enforce_minimum_gap_in_days(deliveries)
