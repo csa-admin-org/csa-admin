@@ -50,12 +50,12 @@ ActiveAdmin.register BasketSize do
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
+      f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
         hint: t('formtastic.hints.acp.member_order_priority_html')
-      f.input :visible, as: :select, include_blank: false
       translated_input(f, :form_details,
         hint: t('formtastic.hints.basket_size.form_detail'),
         placeholder: ->(locale) {
@@ -65,22 +65,8 @@ ActiveAdmin.register BasketSize do
             }
           end
         })
-    end
-
-    f.inputs do
-      f.input :delivery_cycles,
-        collection: delivery_cycles_collection,
-        input_html: f.object.persisted? ? {} : { checked: true },
-        as: :check_boxes,
-        required: true
-
-      para class: 'actions' do
-        a href: handbook_page_path('deliveries', anchor: 'cycles-de-livraisons'), class: 'action' do
-          span do
-            span inline_svg_tag('admin/book-open.svg', size: '20', title: t('layouts.footer.handbook'))
-            span t('.check_handbook')
-          end
-        end.html_safe
+      if !DeliveryCycle.visible? && DeliveryCycle.many?
+        f.input :delivery_cycle, collection: delivery_cycles_collection
       end
     end
 
@@ -93,10 +79,10 @@ ActiveAdmin.register BasketSize do
     :acp_shares_number,
     :activity_participations_demanded_annualy,
     :member_order_priority,
+    :delivery_cycle_id,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
-    *I18n.available_locales.map { |l| "form_detail_#{l}" },
-    delivery_cycle_ids: [])
+    *I18n.available_locales.map { |l| "form_detail_#{l}" })
 
   controller do
     include TranslatedCSVFilename

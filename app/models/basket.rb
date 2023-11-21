@@ -44,7 +44,6 @@ class Basket < ApplicationRecord
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :unique_basket_complement_id
   validate :delivery_must_be_in_membership_date_range
-  validate :delivery_must_be_in_depot_deliveries
 
   def self.complement_count(complement)
     joins(:baskets_basket_complements)
@@ -141,12 +140,6 @@ class Basket < ApplicationRecord
   def delivery_must_be_in_membership_date_range
     if delivery && membership && !delivery.date.in?(membership.date_range)
       errors.add(:delivery, :exclusion)
-    end
-  end
-
-  def delivery_must_be_in_depot_deliveries
-    if delivery && depot && !depot.include_delivery?(delivery)
-      errors.add(:depot, :exclusion)
     end
   end
 

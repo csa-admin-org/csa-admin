@@ -21,11 +21,13 @@ ActiveAdmin.register Depot do
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
-    column :delivery_cycles, ->(d) {
-      d.delivery_cycles.map { |cycle|
-        auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
-      }.join(', ').html_safe
-    }
+    if DeliveryCycle.visible?
+      column :delivery_cycles, ->(d) {
+        d.delivery_cycles.map { |cycle|
+          auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
+        }.join(', ').html_safe
+      }
+    end
     column :visible
     actions class: 'col-actions-3'
   end
@@ -98,23 +100,6 @@ ActiveAdmin.register Depot do
             end
           end
         end
-
-        all_delivery_cycles_path = delivery_cycles_path(q: { depots_id_eq: depot.id }, scope: :all)
-        panel link_to(DeliveryCycle.model_name.human(count: 2), all_delivery_cycles_path) do
-          div class: 'actions' do
-            handbook_icon_link('deliveries', anchor: 'cycles-de-livraisons')
-          end
-          table_for depot.delivery_cycles, class: 'delivery_cycles' do
-            column :name, ->(dc) { auto_link dc }
-            column Current.acp.current_fiscal_year, ->(dc) {
-              auto_link dc, dc.current_deliveries_count
-            }
-            column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
-              auto_link dc, dc.future_deliveries_count
-            }
-            column :visible
-          end
-        end
       end
       column do
         attributes_table do
@@ -135,6 +120,17 @@ ActiveAdmin.register Depot do
 
         attributes_table title: t('.member_new_form') do
           row :visible
+          if DeliveryCycle.visible?
+            table_for depot.delivery_cycles, class: 'delivery_cycles' do
+              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
+              column Current.acp.current_fiscal_year, ->(dc) {
+                auto_link dc, dc.current_deliveries_count
+              }
+              column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
+                auto_link dc, dc.future_deliveries_count
+              }
+            end
+          end
         end
 
         attributes_table title: Depot.human_attribute_name(:address) do
@@ -187,28 +183,18 @@ ActiveAdmin.register Depot do
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
+      f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
         hint: t('formtastic.hints.acp.member_order_priority_html')
-      f.input :visible, as: :select, include_blank: false
-    end
-
-    f.inputs do
-      f.input :delivery_cycles,
-        collection: delivery_cycles_collection,
-        input_html: f.object.persisted? ? {} : { checked: true },
-        as: :check_boxes,
-        required: true
-
-      para class: 'actions' do
-        a href: handbook_page_path('deliveries', anchor: 'cycles-de-livraisons'), class: 'action' do
-          span do
-            span inline_svg_tag('admin/book-open.svg', size: '20', title: t('layouts.footer.handbook'))
-            span t('.check_handbook')
-          end
-        end.html_safe
+      unless DeliveryCycle.basket_size_config?
+        f.input :delivery_cycles,
+          collection: delivery_cycles_collection,
+          input_html: f.object.persisted? ? {} : { checked: true },
+          as: :check_boxes,
+          required: true
       end
     end
 

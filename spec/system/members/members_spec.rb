@@ -96,11 +96,11 @@ describe 'members page' do
       create(:basket_size, :small)
       create(:basket_size, :big)
 
-      create(:delivery_cycle, id: 10, visible: true, name: 'Toutes les semaines')
-      create(:delivery_cycle, id: 20, visible: true, week_numbers: :odd, name: 'Semaines paires')
-      create(:delivery_cycle, id: 30, visible: true, week_numbers: :even, name: 'Semaines impaires')
-      create(:delivery_cycle, id: 40, visible: true, week_numbers: :odd, name: 'Semaines paires')
-      create(:delivery_cycle, id: 50, visible: false, months: 1..4, name: 'Hiver')
+      create(:delivery_cycle, id: 10, name: 'Toutes les semaines')
+      create(:delivery_cycle, id: 20, week_numbers: :odd, name: 'Semaines paires')
+      create(:delivery_cycle, id: 30, week_numbers: :even, name: 'Semaines impaires')
+      create(:delivery_cycle, id: 40, week_numbers: :odd, name: 'Semaines paires')
+      create(:delivery_cycle, id: 50, months: 1..4, name: 'Hiver')
 
       create(:depot, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil, delivery_cycle_ids: [10])
       create(:depot, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil, delivery_cycle_ids: [10, 30])

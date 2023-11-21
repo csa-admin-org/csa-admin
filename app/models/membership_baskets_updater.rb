@@ -11,7 +11,6 @@ class MembershipBasketsUpdater
     return if @membership.past?
 
     @membership.transaction do
-      ensure_valid_delivery_cycle!
       baskets.where.not(delivery_id: future_deliveries).find_each(&:destroy!)
       future_deliveries.each do |delivery|
         unless baskets.exists?(delivery_id: delivery.id)
@@ -23,16 +22,6 @@ class MembershipBasketsUpdater
   end
 
   private
-
-  def ensure_valid_delivery_cycle!
-    if !@membership.valid? && @membership.errors[:delivery_cycle].any?
-      new_cycle = (
-        @membership.depot.delivery_cycles & @membership.basket_size.delivery_cycles
-      ).max_by(&:deliveries_count)
-      @membership.update_column(:delivery_cycle_id, new_cycle.id)
-      @membership.reload
-    end
-  end
 
   def range
     [Date.today, @membership.started_on].max..@membership.ended_on

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_17_125045) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_19_152212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -314,13 +314,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_125045) do
     t.integer "form_priority", default: 0, null: false
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
+    t.bigint "delivery_cycle_id"
+    t.index ["delivery_cycle_id"], name: "index_basket_sizes_on_delivery_cycle_id"
     t.index ["visible"], name: "index_basket_sizes_on_visible"
-  end
-
-  create_table "basket_sizes_delivery_cycles", force: :cascade do |t|
-    t.bigint "basket_size_id", null: false
-    t.bigint "delivery_cycle_id", null: false
-    t.index ["basket_size_id", "delivery_cycle_id"], name: "idx_on_basket_size_id_delivery_cycle_id_0b4a00d756", unique: true
   end
 
   create_table "baskets", force: :cascade do |t|
@@ -801,6 +797,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_17_125045) do
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents_depots", "basket_contents"
   add_foreign_key "basket_contents_depots", "depots"
+  add_foreign_key "basket_sizes", "delivery_cycles"
   add_foreign_key "baskets", "basket_sizes"
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "depots"

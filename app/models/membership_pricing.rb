@@ -115,13 +115,9 @@ class MembershipPricing
 
   def delivery_cycles
     return [delivery_cycle] if delivery_cycle
+    return [basket_size.delivery_cycle] if basket_size&.delivery_cycle
 
-    @delivery_cycle_ids ||=
-      if basket_size
-        basket_size.visible_delivery_cycle_ids & depots.map(&:visible_delivery_cycle_ids).flatten.uniq
-      else
-        depots.map(&:visible_delivery_cycle_ids).flatten.uniq
-      end
+    @delivery_cycle_ids ||= depots.map(&:delivery_cycle_ids).flatten.uniq
     @delivery_cycles ||= DeliveryCycle.find(@delivery_cycle_ids).to_a
   end
 
@@ -133,8 +129,7 @@ class MembershipPricing
   def depots
     return [depot] if depot
 
-    @depots ||=
-      Depot.visible.includes(:delivery_cycles, :visibe_delivery_cycles).to_a
+    @depots ||= Depot.visible.includes(:delivery_cycles).to_a
   end
 
   def depot

@@ -1,7 +1,6 @@
 class BasketSize < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
-  include HasDeliveryCycles
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -13,6 +12,7 @@ class BasketSize < ApplicationRecord
   translated_attributes :public_name
   translated_attributes :form_detail
 
+  belongs_to :delivery_cycle, optional: true
   has_many :memberships
   has_many :members, through: :memberships
   has_many :baskets, through: :memberships
@@ -72,5 +72,13 @@ class BasketSize < ApplicationRecord
       .group_by(&:itself)
       .max_by(&:size)
       &.first || 0
+  end
+
+  def deliveries_counts
+    if delivery_cycle
+      [delivery_cycle.deliveries_count]
+    else
+      DeliveryCycle.deliveries_counts
+    end
   end
 end

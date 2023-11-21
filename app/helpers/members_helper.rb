@@ -165,21 +165,15 @@ module MembersHelper
           icon: icon),
         d.id,
         data: {
-          form_choices_limiter_values_param: d.visible_delivery_cycle_ids.join(',')
+          form_choices_limiter_values_param: d.delivery_cycle_ids.join(',')
         }.merge(data)
       ]
     }
   end
 
-  def show_delivery_cycles?
-    BasketSize.includes(:visibe_delivery_cycles).any? { |bs|
-      bs.visibe_delivery_cycles.many?
-    }
-  end
-
   def visible_delivery_cycles_collection(membership: nil, data: {})
-    ids = visible_basket_sizes(membership).flat_map(&:visible_delivery_cycle_ids)
-    ids += visible_depots(membership).flat_map(&:visible_delivery_cycle_ids)
+    ids = visible_basket_sizes(membership).map(&:delivery_cycle_id).compact
+    ids += visible_depots(membership).flat_map(&:delivery_cycle_ids)
     ids << membership.delivery_cycle_id if membership
     DeliveryCycle
       .where(id: ids.uniq)
@@ -302,7 +296,7 @@ module MembersHelper
     ids << membership.basket_size_id if membership
     BasketSize
       .where(id: ids.uniq)
-      .includes(:delivery_cycles, :visibe_delivery_cycles)
+      .includes(:delivery_cycle)
       .member_ordered
       .to_a
   end
@@ -312,7 +306,7 @@ module MembersHelper
     ids << membership.depot_id if membership
     Depot
       .where(id: ids.uniq)
-      .includes(:delivery_cycles, :visibe_delivery_cycles)
+      .includes(:delivery_cycles)
       .member_ordered
       .to_a
   end
@@ -323,7 +317,9 @@ module MembersHelper
   end
 
   def depots_delivery_ids
-    @depots_delivery_ids ||= visible_depots.map(&:current_and_future_delivery_ids)
+    @depots_delivery_ids ||= visible_depots.flat_map { |d|
+      d.delivery_cycles.map(&:current_and_future_delivery_ids)
+    }.uniq
   end
 
   def short_price(price)

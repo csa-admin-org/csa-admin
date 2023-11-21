@@ -12,17 +12,12 @@ ActiveAdmin.register DeliveryCycle do
     links
   end
 
-  scope :all, default: true
-  scope :visible
-  scope :hidden
-
   filter :name_cont,
     label: -> { DeliveryCycle.human_attribute_name(:name) },
     as: :string
-  filter :basket_sizes, as: :select
   filter :depots, as: :select
 
-  includes :basket_sizes, :depots
+  includes :depots
   index download_links: false do
     column :name, ->(dc) { auto_link dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
@@ -32,7 +27,9 @@ ActiveAdmin.register DeliveryCycle do
     column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
       auto_link dc, dc.future_deliveries_count
     }
-    column :visible
+    if DeliveryCycle.visible?
+      column :visible, ->(dc) { status_tag dc.visible? }
+    end
     actions class: 'col-actions-3'
   end
 
@@ -69,8 +66,16 @@ ActiveAdmin.register DeliveryCycle do
           row :public_name
         end
 
-        attributes_table title: t('.member_new_form') do
-          row :visible
+        if DeliveryCycle.visible?
+          attributes_table title: t('.member_new_form') do
+            row(:visible) { status_tag(dc.visible?) }
+            if dc.visible?
+              table_for dc.depots, class: 'depots' do
+                column Depot.model_name.human, ->(d) { auto_link d }
+                column :visible
+              end
+            end
+          end
         end
 
         attributes_table title: t('delivery_cycle.settings') do
@@ -93,20 +98,6 @@ ActiveAdmin.register DeliveryCycle do
           row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
         end
 
-        panel BasketSize.model_name.human(count: 2) do
-          table_for dc.basket_sizes, class: 'basket_sizes' do
-            column :name, ->(bs) { auto_link bs }
-            column :visible
-          end
-        end
-
-        panel Depot.model_name.human(count: 2) do
-          table_for dc.depots, class: 'depots' do
-            column :name, ->(d) { auto_link d }
-            column :visible
-          end
-        end
-
         active_admin_comments
       end
     end
@@ -120,13 +111,17 @@ ActiveAdmin.register DeliveryCycle do
         hint: t('formtastic.hints.delivery_cycle.public_name'))
     end
 
-    f.inputs t('active_admin.resource.show.member_new_form') do
-      f.input :member_order_priority,
-        collection: member_order_priorities_collection,
-        as: :select,
-        prompt: true,
-        hint: t('formtastic.hints.acp.member_order_priority_html')
-      f.input :visible, as: :select, include_blank: false
+    unless DeliveryCycle.basket_size_config?
+      f.inputs t('active_admin.resource.show.member_new_form') do
+        f.input :member_order_priority,
+          collection: member_order_priorities_collection,
+          as: :select,
+          prompt: true,
+          hint: t('formtastic.hints.acp.member_order_priority_html')
+        f.input :depots,
+          as: :check_boxes,
+          disabled: depot_ids_with_only(f.object)
+      end
     end
 
     f.inputs t('delivery_cycle.settings') do
@@ -149,18 +144,6 @@ ActiveAdmin.register DeliveryCycle do
       f.input :minimum_gap_in_days
     end
 
-    f.inputs do
-      f.input :basket_sizes,
-        as: :check_boxes,
-        disabled: basket_sizes_with_only(f.object)
-    end
-
-    f.inputs do
-      f.input :depots,
-        as: :check_boxes,
-        disabled: depot_ids_with_only(f.object)
-    end
-
     f.actions
   end
 
@@ -174,8 +157,7 @@ ActiveAdmin.register DeliveryCycle do
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     wdays: [],
     months: [],
-    depot_ids: [],
-    basket_size_ids: [])
+    depot_ids: [])
 
   controller do
     include DeliveryCyclesHelper
@@ -183,10 +165,6 @@ ActiveAdmin.register DeliveryCycle do
     private
 
     def assign_attributes(resource, attributes)
-      if attributes.first[:basket_size_ids]
-        attributes.first[:basket_size_ids] += basket_sizes_with_only(resource).map(&:to_s)
-        attributes.first[:basket_size_ids].uniq!
-      end
       if attributes.first[:depot_ids]
         attributes.first[:depot_ids] += depot_ids_with_only(resource).map(&:to_s)
         attributes.first[:depot_ids].uniq!

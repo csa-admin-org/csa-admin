@@ -4,7 +4,6 @@ FactoryBot.define do
     public_name { "#{name} PUBLIC" }
     price { 30 }
     activity_participations_demanded_annualy { 2 }
-    delivery_cycles { [DeliveryCycle.first || create(:delivery_cycle)] }
 
     trait :small do
       name { 'Eveil' }

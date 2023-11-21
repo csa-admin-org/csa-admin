@@ -75,8 +75,8 @@ class Members::BaseController < ApplicationController
 
   def coming_delivery_ids
     if depot = current_member.shop_depot
-      depot
-        .coming_deliveries
+      Delivery
+        .coming
         .select { |delivery|
           delivery.shop_open?(depot_id: depot.id, ignore_closing_at: true)
         }
