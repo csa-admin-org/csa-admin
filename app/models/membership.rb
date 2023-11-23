@@ -90,7 +90,7 @@ class Membership < ApplicationRecord
   scope :current_year, -> { during_year(Current.fy_year) }
   scope :during_year, ->(year) {
     fy = Current.acp.fiscal_year_for(year)
-    where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
+    where(started_on: fy.range.min.., ended_on: ..fy.range.max)
   }
   scope :renewed, -> { where.not(renewed_at: nil) }
   scope :not_renewed, -> { where(renewed_at: nil) }
@@ -106,9 +106,13 @@ class Membership < ApplicationRecord
       renewed
     end
   }
+  scope :with_memberships_basket_complement, ->(id) {
+    left_joins(:memberships_basket_complements)
+      .where(memberships_basket_complements: { basket_complement_id: id })
+  }
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year renewal_state_eq]
+    super + %i[during_year renewal_state_eq with_memberships_basket_complement]
   end
 
   def self.human_attribute_name(attr, *args)
