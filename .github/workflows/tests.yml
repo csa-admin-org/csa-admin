@@ -24,8 +24,6 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install libvips
-      env:
-        DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt-get update -qq -o Acquire::Retries=3
         sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips
