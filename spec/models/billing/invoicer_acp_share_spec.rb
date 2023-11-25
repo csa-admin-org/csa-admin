@@ -21,7 +21,7 @@ describe Billing::InvoicerACPShare do
     expect(invoice.date).to eq Date.current
   end
 
-  it 'sends emails directly when the send_email attribute is set', freeze: '2023-01-01' do
+  it 'sends emails directly when the send_email attribute is set', freeze: '2023-01-01', sidekiq: :inline do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member

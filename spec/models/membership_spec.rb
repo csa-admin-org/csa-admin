@@ -726,7 +726,7 @@ describe Membership do
       expect(membership).to be_renewal_opened
     end
 
-    it 'sends member-renewal email template' do
+    it 'sends member-renewal email template', sidekiq: :inline do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -843,7 +843,7 @@ describe Membership do
         billing_year_divisions: [1, 3])
     end
 
-    specify 'membership period is reduced' do
+    specify 'membership period is reduced', sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
       membership = travel_to '2022-01-01' do
         create(:delivery, date: '2022-01-01')
@@ -859,7 +859,7 @@ describe Membership do
       end
     end
 
-    specify 'only cancel the over-paid invoices' do
+    specify 'only cancel the over-paid invoices', sidekiq: :inline do
       member = create(:member, billing_year_division: 3)
       membership = travel_to '2022-01-01' do
         create(:membership, member: member)
@@ -882,7 +882,7 @@ describe Membership do
       end
     end
 
-    specify 'membership basket price is reduced' do
+    specify 'membership basket price is reduced', sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
       membership = travel_to '2022-01-01' do
         create(:membership, member: member)
@@ -896,7 +896,7 @@ describe Membership do
       end
     end
 
-    specify 'new absent basket not billed are updated' do
+    specify 'new absent basket not billed are updated', sidekiq: :inline do
       Current.acp.update!(absences_billed: false)
 
       member = create(:member, billing_year_division: 1)
@@ -917,7 +917,7 @@ describe Membership do
       end
     end
 
-    specify 'past membership period is not reduced' do
+    specify 'past membership period is not reduced', sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
       membership = create(:membership, member: member)
       invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
@@ -929,7 +929,7 @@ describe Membership do
       end
     end
 
-    specify 'basket complement is added' do
+    specify 'basket complement is added', sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
       membership = travel_to '2022-01-01' do
         create(:delivery, date: '2022-01-01')
@@ -953,7 +953,7 @@ describe Membership do
   end
 
   describe '#destroy_or_cancel_invoices!' do
-    specify 'cancel or destroy membership invoices on destroy' do
+    specify 'cancel or destroy membership invoices on destroy', sidekiq: :inline do
       Current.acp.update!(
         trial_basket_count: 0,
         fiscal_year_start_month: 1,

@@ -50,7 +50,7 @@ describe BasketComplement do
     end
   end
 
-  it 'adds basket_complement on subscribed baskets', freeze: '2022-01-01' do
+  it 'adds basket_complement on subscribed baskets', freeze: '2022-01-01', sidekiq: :inline do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -80,7 +80,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-  it 'adds basket_complement with annual price type on subscribed baskets', freeze: '2022-01-01' do
+  it 'adds basket_complement with annual price type on subscribed baskets', freeze: '2022-01-01', sidekiq: :inline do
     basket_complement1 = create(:basket_complement, :annual_price_type, id: 1)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -110,7 +110,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 4.5
   end
 
-  it 'removes basket_complement on baskets', freeze: '2022-01-01' do
+  it 'removes basket_complement on baskets', freeze: '2022-01-01', sidekiq: :inline do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -139,7 +139,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 3.2
   end
 
-  it 'does not modify basket_complement on subscribed baskets for past deliveries' do
+  it 'does not modify basket_complement on subscribed baskets for past deliveries', sidekiq: :inline do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 

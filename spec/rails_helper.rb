@@ -6,9 +6,7 @@ require 'super_diff/rspec-rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/email/rspec'
-
 require 'sidekiq/testing'
-Sidekiq::Testing.inline!
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
@@ -43,5 +41,9 @@ RSpec.configure do |config|
 
   config.after(:each) do
     FactoryBot.rewind_sequences
+  end
+
+  shared_context 'sidekiq:inline', sidekiq: :inline do
+    around(:each) { |ex| Sidekiq::Testing.inline!(&ex) }
   end
 end

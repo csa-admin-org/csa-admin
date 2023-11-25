@@ -107,4 +107,5 @@ group :test do
   gem 'capybara'
   gem 'capybara-email'
   gem 'super_diff'
+  gem 'test-prof'
 end

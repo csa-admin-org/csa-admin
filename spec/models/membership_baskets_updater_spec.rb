@@ -16,7 +16,7 @@ describe MembershipBasketsUpdater do
       ended_on: '2022-01-31')
   }
 
-  specify 'update membership when cycle updated', freeze: '2022-01-01' do
+  specify 'update membership when cycle updated', freeze: '2022-01-01', sidekiq: :inline do
     expect { cycle.update!(wdays: [3]) }
       .to change { membership.reload.baskets.count }.from(6).to(3)
       .and change { membership.reload.price }.from(180).to(90)
@@ -40,7 +40,7 @@ describe MembershipBasketsUpdater do
       .to change { membership.reload.baskets.count }.from(3).to(6)
   end
 
-  specify 'only change future baskets' do
+  specify 'only change future baskets', sidekiq: :inline do
     travel_to('2022-01-01') { membership }
     travel_to '2022-01-07' do
       expect { cycle.update!(wdays: [3]) }
@@ -67,7 +67,7 @@ describe MembershipBasketsUpdater do
     end
   end
 
-  specify 'update when delivery is created', freeze: '2022-01-01' do
+  specify 'update when delivery is created', freeze: '2022-01-01', sidekiq: :inline do
     membership
 
     expect { create(:delivery, date: '2022-01-31') }
@@ -85,7 +85,7 @@ describe MembershipBasketsUpdater do
     ])
   end
 
-  specify 'update when delivery date is changing', freeze: '2022-01-01' do
+  specify 'update when delivery date is changing', freeze: '2022-01-01', sidekiq: :inline do
     membership
     delivery = Delivery.find_by(date: '2022-01-12')
 
@@ -102,7 +102,7 @@ describe MembershipBasketsUpdater do
     ])
   end
 
-  specify 'update when delivery date is destroyed', freeze: '2022-01-01' do
+  specify 'update when delivery date is destroyed', freeze: '2022-01-01', sidekiq: :inline do
     membership
     delivery = Delivery.find_by(date: '2022-01-12')
 

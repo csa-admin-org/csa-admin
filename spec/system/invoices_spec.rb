@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Invoices' do
-  it 'creates an invoice for a rejected activity participation' do
+  it 'creates an invoice for a rejected activity participation', sidekiq: :inline do
     member = create(:member, name: 'Jean Paul')
     create(:membership, id: 42, member: member)
     create(:activity_participation, :rejected,

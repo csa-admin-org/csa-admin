@@ -131,7 +131,7 @@ describe Newsletter::Template do
     expect(mail).to include 'bla bla</p>'
   end
 
-  specify 'send default simple template' do
+  specify 'send default simple template', sidekiq: :inline do
     template = Newsletter::Template.find_by(title: 'Texte simple')
     member = create(:member,
       name: 'John Doe',
@@ -153,7 +153,7 @@ describe Newsletter::Template do
     expect(mail_body).to include "Hello John Doe"
   end
 
-  specify 'send default next delivery template' do
+  specify 'send default next delivery template', sidekiq: :inline do
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
     member = create(:member, :active, name: 'John Doe')
     create(:activity, date: 1.week.from_now)
@@ -186,7 +186,7 @@ describe Newsletter::Template do
     expect(mail_body).to include "En tenant compte de vos inscriptions actuelles"
   end
 
-  specify 'send default next delivery template (without ativities)' do
+  specify 'send default next delivery template (without ativities)', sidekiq: :inline do
     Current.acp.update!(features: [])
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
     create(:membership)
@@ -209,7 +209,7 @@ describe Newsletter::Template do
     expect(mail_body).not_to include "Voici les activités à venir pour lesquelles nous avons encore besoin de monde:"
   end
 
-  specify 'send default next delivery template (with basket content)', freeze: '2023-01-01' do
+  specify 'send default next delivery template (with basket content)', freeze: '2023-01-01', sidekiq: :inline do
     Current.acp.update!(features: [])
     template = Newsletter::Template.find_by(title: 'Prochaine livraison')
 

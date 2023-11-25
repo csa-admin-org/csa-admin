@@ -3,7 +3,7 @@ require 'rails_helper'
 describe MembershipRenewalJob, freeze: '2022-01-01' do
   let(:next_fy) { Current.acp.fiscal_year_for(Date.today.year + 1) }
 
-  it 'raises when no next year deliveries' do
+  it 'raises when no next year deliveries', sidekiq: :inline do
     membership = create(:membership)
 
     expect(Delivery.between(next_fy.range).count).to be_zero
@@ -11,7 +11,7 @@ describe MembershipRenewalJob, freeze: '2022-01-01' do
       .to raise_error(MembershipRenewal::MissingDeliveriesError)
   end
 
-  it 'renews a membership without complements' do
+  it 'renews a membership without complements', sidekiq: :inline do
     create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership,
       basket_quantity: 2,
