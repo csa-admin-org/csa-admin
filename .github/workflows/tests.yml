@@ -22,7 +22,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - run: sudo apt-get update && sudo apt-get install -y libvips
+
+    - name: Install libvips
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt-get update -qq -o Acquire::Retries=3
+        sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips
 
     - name: Install Ruby and run Bundler install with cache
       uses: ruby/setup-ruby@v1
