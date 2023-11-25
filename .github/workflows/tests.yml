@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - run: sudo apt-get install -y libvips
+    - run: sudo apt-get update && sudo apt-get install -y libvips
 
     - name: Install Ruby and run Bundler install with cache
       uses: ruby/setup-ruby@v1
