@@ -67,58 +67,54 @@ describe Invoice do
     expect { invoice.reload.cancel! }.to change { membership.reload.activity_participations_accepted }.by(-2)
   end
 
-  context 'when annual fee only' do
-    let(:invoice) { create(:invoice, :annual_fee) }
+  specify 'when annual fee only' do
+    invoice = create(:invoice, :annual_fee)
 
-    specify { expect(invoice.annual_fee).to be_present }
-    specify { expect(invoice.entity_type).to eq 'AnnualFee' }
-    specify { expect(invoice.memberships_amount).to be_nil }
-    specify { expect(invoice.amount).to eq invoice.annual_fee }
+    expect(invoice.annual_fee).to be_present
+    expect(invoice.entity_type).to eq 'AnnualFee'
+    expect(invoice.memberships_amount).to be_nil
+    expect(invoice.amount).to eq invoice.annual_fee
   end
 
   context 'when membership' do
-    let(:invoice) { create(:invoice, :membership) }
-    let(:amount) { invoice.member.memberships.first.price }
+    specify 'default values' do
+      invoice = create(:invoice, :membership)
+      amount = invoice.member.memberships.first.price
 
-    specify { expect(invoice.annual_fee).to be_nil }
-    specify { expect(invoice.entity_type).to eq 'Membership' }
-    specify { expect(invoice.memberships_amount).to eq amount  }
-    specify { expect(invoice.paid_memberships_amount).to be_zero }
-    specify { expect(invoice.remaining_memberships_amount).to eq amount }
-    specify { expect(invoice.amount).to eq invoice.memberships_amount }
-
-    context 'when paid_memberships_amount set' do
-      let(:invoice) do
-        create(:invoice, :membership, paid_memberships_amount: 99)
-      end
-
-      specify { expect(invoice.memberships_amount).to eq amount - 99 }
-      specify { expect(invoice.paid_memberships_amount).to eq 99 }
-      specify { expect(invoice.remaining_memberships_amount).to eq amount - 99 }
-      specify { expect(invoice.amount).to eq invoice.memberships_amount }
+      expect(invoice.annual_fee).to be_nil
+      expect(invoice.entity_type).to eq 'Membership'
+      expect(invoice.memberships_amount).to eq amount
+      expect(invoice.paid_memberships_amount).to be_zero
+      expect(invoice.remaining_memberships_amount).to eq amount
+      expect(invoice.amount).to eq invoice.memberships_amount
     end
 
-    context 'when membership_amount_fraction set' do
-      let(:invoice) do
-        create(:invoice, :membership, membership_amount_fraction: 3)
-      end
+    specify 'when paid_memberships_amount set' do
+      invoice = create(:invoice, :membership, paid_memberships_amount: 99)
+      amount = invoice.member.memberships.first.price
 
-      specify { expect(invoice.memberships_amount).to eq amount / 3.0 }
-      specify { expect(invoice.paid_memberships_amount).to be_zero }
-      specify { expect(invoice.remaining_memberships_amount).to eq amount }
-      specify { expect(invoice.amount).to eq invoice.memberships_amount }
+      expect(invoice.memberships_amount).to eq amount - 99
+      expect(invoice.paid_memberships_amount).to eq 99
+      expect(invoice.remaining_memberships_amount).to eq amount - 99
+      expect(invoice.amount).to eq invoice.memberships_amount
     end
 
-    context 'when annual_fee present as well' do
-      let(:invoice) do
-        create(:invoice, :annual_fee, :membership)
-      end
+    specify 'when membership_amount_fraction set' do
+      invoice = create(:invoice, :membership, membership_amount_fraction: 3)
+      amount = invoice.member.memberships.first.price
 
-      specify { expect(invoice.annual_fee).to be_present }
-      specify do
-        expect(invoice.amount)
-          .to eq invoice.memberships_amount + invoice.annual_fee
-      end
+      expect(invoice.memberships_amount).to eq amount / 3.0
+      expect(invoice.paid_memberships_amount).to be_zero
+      expect(invoice.remaining_memberships_amount).to eq amount
+      expect(invoice.amount).to eq invoice.memberships_amount
+    end
+
+    specify 'when annual_fee present as well' do
+      invoice = create(:invoice, :annual_fee, :membership)
+
+      expect(invoice.annual_fee).to be_present
+      expect(invoice.amount)
+        .to eq invoice.memberships_amount + invoice.annual_fee
     end
   end
 
