@@ -27,7 +27,7 @@ describe Delivery do
     expect(Delivery.all.map(&:basket_complement_ids)).to eq [[1], [1], [1]]
   end
 
-  it 'adds basket_complement on subscribed baskets', freeze: '2022-01-01' do
+  it 'adds basket_complement on subscribed baskets', freeze: '2022-01-01', sidekiq: :inline do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
@@ -52,7 +52,7 @@ describe Delivery do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-  it 'removes basket_complement on subscribed baskets', freeze: '2022-01-01' do
+  it 'removes basket_complement on subscribed baskets', freeze: '2022-01-01', sidekiq: :inline do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
@@ -93,7 +93,7 @@ describe Delivery do
     expect(basket3.complements_price).to eq 3.2
   end
 
-  it 'updated membership price when destroy', freeze: '2022-01-01' do
+  it 'updated membership price when destroy', freeze: '2022-01-01', sidekiq: :inline do
     basket_size = create(:basket_size, price: 42)
     membership = create(:membership, basket_size: basket_size, deliveries_count: 2)
     delivery = membership.deliveries.last
@@ -123,7 +123,7 @@ describe Delivery do
     expect(last.reload.number).to eq 3
   end
 
-  it 'handles date change', freeze: '2020-01-01' do
+  it 'handles date change', freeze: '2020-01-01', sidekiq: :inline do
     delivery_1 = create(:delivery, date: '2020-02-01')
     delivery_2 = create(:delivery, date: '2020-04-01')
 
@@ -137,7 +137,7 @@ describe Delivery do
       .and change { membership2.reload.price }.from(30).to(60)
   end
 
-  it 'flags basket when creating them', freeze: '2020-01-01' do
+  it 'flags basket when creating them', freeze: '2020-01-01', sidekiq: :inline do
     create(:delivery, date: '2020-02-01')
     membership = create(:membership, started_on: '2020-01-01', ended_on: '2020-06-01')
     create(:absence,

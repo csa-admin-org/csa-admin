@@ -22,7 +22,7 @@ describe Newsletter::Delivery do
     expect(delivery.suppressed_emails).to eq %w[john@bob.com]
   end
 
-  specify 'deliver newsletter' do
+  specify 'deliver newsletter', sidekiq: :inline do
     # simulate newsletter sent
     newsletter.update!(template_contents: template.contents)
 
@@ -49,7 +49,7 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Au plaisir,\r\n<br />Rage de Vert</p>"
   end
 
-  specify 'deliver newsletter with custom from' do
+  specify 'deliver newsletter with custom from', sidekiq: :inline do
     newsletter.update!(
       # simulate newsletter sent
       template_contents: template.contents,
@@ -65,7 +65,7 @@ describe Newsletter::Delivery do
     expect(email.from).to eq ['contact@ragedevert.ch']
   end
 
-  specify 'deliver newsletter with custom signature' do
+  specify 'deliver newsletter with custom signature', sidekiq: :inline do
     Current.acp.update! email_signature: 'Signature'
     newsletter.update!(
       # simulate newsletter sent
@@ -84,7 +84,7 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Au plaisir</p>"
   end
 
-  specify 'deliver newsletter with attachments' do
+  specify 'deliver newsletter with attachments', sidekiq: :inline do
     attachment = Newsletter::Attachment.new
     attachment.file.attach(
       io: File.open(file_fixture('qrcode-test.png')),

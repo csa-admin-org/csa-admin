@@ -27,7 +27,7 @@ FactoryBot.define do
         evaluator.fiscal_year)
     end
     after :create do |membership, _|
-      membership.reload # reset new_config_from
+      membership.reload
     end
   end
 end

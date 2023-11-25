@@ -19,14 +19,14 @@ describe Invoice do
       .to raise_error(NoMethodError)
   end
 
-  it 'generates and sets pdf after creation' do
+  it 'generates and sets pdf after creation', sidekiq: :inline do
     invoice = create(:invoice, :annual_fee)
     expect(invoice.pdf_file).to be_attached
     expect(invoice.pdf_file.byte_size).to be_positive
   end
 
   context 'with mail template' do
-    it 'sends email when send_email is true on creation' do
+    it 'sends email when send_email is true on creation', sidekiq: :inline do
       expect { create(:invoice, :annual_fee, :unprocessed) }
         .not_to change { InvoiceMailer.deliveries.size }
 
@@ -43,7 +43,7 @@ describe Invoice do
       }.not_to change { InvoiceMailer.deliveries.size }
     end
 
-    it 'closes invoice before sending email' do
+    it 'closes invoice before sending email', sidekiq: :inline do
       Current.acp.update!(send_closed_invoice: true)
       member = create(:member, annual_fee: 42)
       create(:payment, amount: 100, member: member)
@@ -55,7 +55,7 @@ describe Invoice do
     end
   end
 
-  it 'updates membership activity_participations_accepted' do
+  it 'updates membership activity_participations_accepted', sidekiq: :inline do
     member = create(:member)
     membership = create(:membership, member: member)
     invoice = build(:invoice,
@@ -244,7 +244,7 @@ describe Invoice do
   describe '#send!' do
     let(:invoice) { create(:invoice, :annual_fee, :open, :not_sent) }
 
-    it 'delivers email' do
+    it 'delivers email', sidekiq: :inline do
       expect { invoice.send! }
         .to change { InvoiceMailer.deliveries.size }.by(1)
       mail = InvoiceMailer.deliveries.last
@@ -341,7 +341,7 @@ describe Invoice do
       expect(invoice.canceled_by).to eq admin
     end
 
-    specify 'send invoice_cancelled when the invoice was open' do
+    specify 'send invoice_cancelled when the invoice was open', sidekiq: :inline do
       template = MailTemplate.find_by(title: 'invoice_cancelled')
       template.update!(active: true)
       invoice = create(:invoice, :annual_fee, :open)
@@ -427,13 +427,13 @@ describe Invoice do
   describe '#handle_acp_shares_change!' do
     before { Current.acp.update!(share_price: 250) }
 
-    it 'changes inactive member state to support' do
+    it 'changes inactive member state to support', sidekiq: :inline do
       member = create(:member, :inactive)
       expect { create(:invoice, member: member, acp_shares_number: 1) }
         .to change { member.reload.state }.from('inactive').to('support')
     end
 
-    it 'changes support member state to inactive' do
+    it 'changes support member state to inactive', sidekiq: :inline do
       member = create(:member, :support_acp_share, acp_shares_number: 1)
       expect { create(:invoice, member: member, acp_shares_number: -1) }
         .to change { member.reload.state }.from('support').to('inactive')
@@ -487,7 +487,7 @@ describe Invoice do
         })
     }
 
-    specify 'send notification and touch overpaid_notification_sent_at' do
+    specify 'send notification and touch overpaid_notification_sent_at', sidekiq: :inline do
       create(:payment, invoice: invoice, amount: 110)
       admin = create(:admin, name: 'John', notifications: %w[invoice_overpaid])
 
@@ -510,7 +510,7 @@ describe Invoice do
       expect(AdminMailer.deliveries.size).to be_zero
     end
 
-    specify 'when already notified' do
+    specify 'when already notified', sidekiq: :inline do
       create(:payment, invoice: invoice, amount: 110)
       admin = create(:admin, notifications: %w[invoice_overpaid])
 
@@ -525,7 +525,7 @@ describe Invoice do
     end
   end
 
-  specify 'redistribute payments after destroy' do
+  specify 'redistribute payments after destroy', sidekiq: :inline do
     member = create(:member)
     invoice1 = create(:invoice, :manual, member: member, item_price: 10, date: '2022-01-01')
     invoice2 = create(:invoice, :manual, member: member,item_price: 10, date: '2022-01-02')
@@ -537,7 +537,7 @@ describe Invoice do
     }.to change { invoice2.reload.state }.from('open').to('closed')
   end
 
-  specify 'set creator once processed' do
+  specify 'set creator once processed', sidekiq: :inline do
     admin = create(:admin)
     Current.session = create(:session, admin: admin)
     invoice = create(:invoice, :annual_fee, :unprocessed)

@@ -407,7 +407,7 @@ describe Member do
   describe '#activate!' do
     before { MailTemplate.find_by(title: :member_activated).update!(active: true) }
 
-    it 'activates new active member and sent member-activated email' do
+    it 'activates new active member and sent member-activated email', sidekiq: :inline do
       travel_to(Date.new(Current.fy_year, 1, 15)) do
         member = create(:member, :inactive, activated_at: nil)
         membership = create(:membership,
@@ -479,7 +479,7 @@ describe Member do
   end
 
   describe 'notify_new_inscription_to_admins' do
-    it 'notifies admin with new_inscription notifications on when publicly created' do
+    it 'notifies admin with new_inscription notifications on when publicly created', sidekiq: :inline do
       admin1 = create(:admin, notifications: ['new_inscription'])
       admin2 = create(:admin, notifications: [])
 

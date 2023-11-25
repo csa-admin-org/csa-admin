@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Admin sessions' do
-  it 'creates a new session from email' do
+  it 'creates a new session from email', sidekiq: :inline do
     admin = create(:admin, email: 'thibaud@thibaud.gg')
 
     visit '/'

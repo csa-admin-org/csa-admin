@@ -158,7 +158,7 @@ describe Newsletter do
       )
     }
 
-    specify 'send newsletter' do
+    specify 'send newsletter', sidekiq: :inline do
       create(:member, name: 'Doe', emails: 'john@doe.com, jane@doe.com')
       create(:member, name: 'Bob', emails: 'john@bob.com, jane@bob.com')
       create(:email_suppression, email: 'john@bob.com', stream_id: 'broadcast')

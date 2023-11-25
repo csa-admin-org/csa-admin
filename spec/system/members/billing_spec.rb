@@ -8,7 +8,7 @@ describe 'Billing' do
     login(member)
   end
 
-  it 'list open invoices' do
+  it 'list open invoices', sidekiq: :inline do
     create(:invoice, :annual_fee, id: 4242,
       member: member, date: '2018-2-1', annual_fee: 42)
 
@@ -23,7 +23,7 @@ describe 'Billing' do
     expect(page).to have_content(['Intervalle de paiement', 'Trimestriel'].join)
   end
 
-  it 'list invoices and payments history' do
+  it 'list invoices and payments history', sidekiq: :inline do
     member.update!(billing_year_division: 1)
     closed_invoice = create(:invoice, :annual_fee, id: 103,
       member: member, date: '2017-03-19', sent_at: nil)

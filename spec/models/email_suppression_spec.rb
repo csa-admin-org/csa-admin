@@ -100,7 +100,7 @@ describe EmailSuppression do
     end
   end
 
-  specify 'notifies admins when created' do
+  specify 'notifies admins when created', sidekiq: :inline do
     admin = create(:admin, notifications: ['new_email_suppression'])
     create(:admin, notifications: [])
 

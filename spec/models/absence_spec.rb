@@ -63,7 +63,7 @@ describe Absence, freeze: '2021-06-15' do
   end
 
   describe 'notify_new_absence_to_admins' do
-    it 'notifies admin with new_absence notifications on when created' do
+    it 'notifies admin with new_absence notifications on when created', sidekiq: :inline do
       admin1 = create(:admin, notifications: ['new_absence'])
       admin2 = create(:admin, notifications: ['new_absence'])
       create(:admin, notifications: ['new_absence_with_note'])
@@ -83,7 +83,7 @@ describe Absence, freeze: '2021-06-15' do
       expect(body).not_to include 'Remarque du membre:'
     end
 
-    specify 'only notifies admin with new_absence_with_note notifications when note is present' do
+    specify 'only notifies admin with new_absence_with_note notifications when note is present', sidekiq: :inline do
       admin1 = create(:admin, notifications: ['new_absence_with_note'])
       admin2 = create(:admin, notifications: ['new_absence_with_note'])
       create(:admin, notifications: [])

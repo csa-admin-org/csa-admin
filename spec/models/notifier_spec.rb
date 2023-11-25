@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Notifier do
-  specify '.send_admin_memberships_renewal_pending_emails' do
+  specify '.send_admin_memberships_renewal_pending_emails', sidekiq: :inline do
     create(:admin, notifications: [])
     create(:admin, notifications: ['memberships_renewal_pending'])
     end_of_fiscal_year = Current.fiscal_year.end_of_year
@@ -29,7 +29,7 @@ describe Notifier do
     end
   end
 
-  specify '.send_membership_renewal_reminder_emails' do
+  specify '.send_membership_renewal_reminder_emails', sidekiq: :inline do
     Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
     MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
     next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
@@ -50,7 +50,7 @@ describe Notifier do
     expect(mail.to).to eq ['john@doe.com']
   end
 
-  specify '.send_membership_last_trial_basket_emails' do
+  specify '.send_membership_last_trial_basket_emails', sidekiq: :inline do
     Current.acp.update!(trial_basket_count: 2)
     MailTemplate.find_by(title: :membership_last_trial_basket).update!(active: true)
     travel_to '2021-05-01' do
@@ -78,7 +78,7 @@ describe Notifier do
   end
 
   describe '.send_activity_participation_validated_emails' do
-    specify 'send email for recently validated participation' do
+    specify 'send email for recently validated participation', sidekiq: :inline do
       MailTemplate.find_by(title: :activity_participation_validated).update!(active: true)
 
       create(:activity_participation, :validated,
@@ -115,7 +115,7 @@ describe Notifier do
   end
 
   describe '.send_activity_participation_rejected_emails' do
-    specify 'send email for recently rejected participation' do
+    specify 'send email for recently rejected participation', sidekiq: :inline do
       MailTemplate.find_by(title: :activity_participation_rejected).update!(active: true)
 
       create(:activity_participation, :rejected,
@@ -154,7 +154,7 @@ describe Notifier do
   describe '.send_admin_new_activity_participation_emails' do
     let(:member) { create(:member) }
 
-    specify 'send email recently created participations in group' do
+    specify 'send email recently created participations in group', sidekiq: :inline do
       admin = create(:admin, notifications: ['new_activity_participation'])
 
       date = 1.week.from_now.to_date
@@ -192,7 +192,7 @@ describe Notifier do
         .not_to change { ActivityMailer.deliveries.size }
     end
 
-    specify 'only notify participation with note' do
+    specify 'only notify participation with note', sidekiq: :inline do
       admin = create(:admin, notifications: ['new_activity_participation_with_note'])
 
       activity1 = create(:activity, date: 1.weeks.from_now)
@@ -215,7 +215,7 @@ describe Notifier do
       expect(part2.reload.admins_notified_at).to be_present
     end
 
-    specify 'skip admin that created the participation' do
+    specify 'skip admin that created the participation', sidekiq: :inline do
       admin = create(:admin, notifications: ['new_activity_participation'])
 
       activity1 = create(:activity, date: 1.weeks.from_now)

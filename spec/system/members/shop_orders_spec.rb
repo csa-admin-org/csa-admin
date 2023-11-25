@@ -227,7 +227,7 @@ describe 'Shop::Order' do
     end
   end
 
-  specify 'invoiced order' do
+  specify 'invoiced order', sidekiq: :inline do
     travel_to '2021-11-08 12:01 +01' do
       Current.acp.update!(
         shop_delivery_open_delay_in_days: 2,

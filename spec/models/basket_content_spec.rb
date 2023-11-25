@@ -300,7 +300,7 @@ describe BasketContent do
     let(:basket_size_1) { BasketSize.find(1001) }
     let(:basket_size_2) { BasketSize.find(1002) }
 
-    specify 'with all depots content' do
+    specify 'with all depots content', sidekiq: :inline do
       expect {
         create(:basket_content,
           basket_size_ids_percentages: {
@@ -324,7 +324,7 @@ describe BasketContent do
         basket_size_2 => { depot => 122.0 })
     end
 
-    specify 'with different depots content' do
+    specify 'with different depots content', sidekiq: :inline do
       other_depot = create(:depot)
       create(:basket_content,
         basket_size_ids_percentages: {
@@ -348,7 +348,7 @@ describe BasketContent do
         })
     end
 
-    specify 'with all in one basket_size' do
+    specify 'with all in one basket_size', sidekiq: :inline do
       create(:basket_content,
         delivery: delivery,
         basket_size_ids_percentages: {
@@ -366,7 +366,7 @@ describe BasketContent do
         basket_size_2 => { depot => 200.0 })
     end
 
-    specify 'with other delivery basket content' do
+    specify 'with other delivery basket content', sidekiq: :inline do
       other_delivery = create(:delivery)
       create(:basket_content,
         basket_size_ids_percentages: {
