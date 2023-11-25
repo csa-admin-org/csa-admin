@@ -20,18 +20,9 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
 
   config.before(:suite) do
-    FactoryBot.reload
     unless ACP.exists?(host: 'ragedevert')
       FactoryBot.create(:acp, host: 'ragedevert', tenant_name: 'ragedevert')
     end
-  end
-
-  config.around(:each) do |example|
-    Tenant.switch('ragedevert') do
-      example.run
-    end
-    Current.reset!
-    Faker::UniqueGenerator.clear
   end
 
   config.before(:each, type: :system) do
@@ -39,8 +30,16 @@ RSpec.configure do |config|
     Capybara.app_host = 'http://admin.ragedevert.test'
   end
 
+  config.around(:each) do |example|
+    Tenant.switch('ragedevert') do
+      example.run
+    end
+  end
+
   config.after(:each) do
     FactoryBot.rewind_sequences
+    Current.reset!
+    Faker::UniqueGenerator.clear
   end
 
   shared_context 'sidekiq:inline', sidekiq: :inline do
