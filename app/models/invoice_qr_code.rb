@@ -1,3 +1,5 @@
+require 'image_processing/vips'
+
 # QR Payload specification: https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf
 # QR Validator: https://www.swiss-qr-invoice.org/validator/?lang=fr
 
@@ -48,10 +50,7 @@ class InvoiceQRCode
     if rails_env == 'test'
       File.new(Rails.root.join('spec', 'fixtures', 'files', 'qrcode-test.png'))
     else
-      qrcode_image.composite(logo_image) do |c|
-        c.compose 'Over'
-        c.gravity 'center'
-      end
+      qrcode_image.composite(logo_image, gravity: :centre).convert(:png).call
     end
   end
 
@@ -96,20 +95,22 @@ class InvoiceQRCode
   private
 
   def qrcode_image
-    MiniMagick::Image.create { |f| f.write(qrcode_png) }
+    vips_image = Vips::Image.new_from_buffer(qrcode_png_blob, '')
+    ImageProcessing::Vips.source(vips_image)
   end
 
-  def qrcode_png
+  def qrcode_png_blob
     qrcode = RQRCode::QRCode.new(payload, level: :m)
     qrcode.as_png(
       border_modules: 0,
       module_px_size: 6,
-      size: 1024)
+      size: 1024
+    ).to_blob
   end
 
   def logo_image
     path = "#{Rails.root}/lib/assets/images/swiss_cross.png"
-    image = MiniMagick::Image.open(path)
-    image.resize('166x166')
+    ImageProcessing::Vips.source(path)
+      .resize_to_limit!(166, 166)
   end
 end

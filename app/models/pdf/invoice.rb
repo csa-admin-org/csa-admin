@@ -434,7 +434,7 @@ module PDF
       bounding_box [176.66 + border, 298 - border], width: 390, height: 298 - 2 * border do
         qr_text_main_title t('qr_bill.payment_part')
 
-        image InvoiceQRCode.new(invoice).generate_qr_image.path,
+        image InvoiceQRCode.new(invoice).generate_qr_image,
           at: [-2.5, 252],
           width: 137
 
