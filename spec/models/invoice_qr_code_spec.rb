@@ -62,10 +62,11 @@ describe InvoiceQRCode do
   end
 
   specify '#generate_qr_image' do
-    expected = MiniMagick::Image.open file_fixture('qrcode-706.png')
+    expected = Vips::Image.new_from_file(file_fixture('qrcode-706.png').to_s)
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
-    result = InvoiceQRCode.new(invoice).generate_qr_image(rails_env: 'not_test')
-    # result.write("#{Rails.root}/tmp/qrcode-#{invoice.id}.png")
-    expect(result).to eq expected
+    qr_image = InvoiceQRCode.new(invoice).generate_qr_image(rails_env: 'not_test')
+    result = Vips::Image.new_from_file(qr_image.path)
+    diff = (result - expected).abs.max
+    expect(diff).to eq 0
   end
 end
