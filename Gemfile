@@ -98,7 +98,8 @@ group :development do
 
   gem 'terminal-table'
 
-  gem 'ruby-lsp-rails'
+  gem 'ruby-lsp-rails', require: false
+  gem 'ruby-lsp-rspec', require: false
 end
 
 group :test do
