@@ -46,7 +46,7 @@ class FiscalYear
     if range.min.year == range.max.year
       range.min.year.to_s
     else
-      [range.min.year, range.max.year].join('-')
+      [range.min.year, range.max.year.to_s.last(2)].join('-')
     end
   end
 

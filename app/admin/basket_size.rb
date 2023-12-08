@@ -20,7 +20,9 @@ ActiveAdmin.register BasketSize do
       deliveries_count_range(bs.deliveries_counts)
     }
     if Current.acp.feature?('activity')
-      column activities_human_name, ->(bs) { bs.activity_participations_demanded_annualy }
+      column activities_human_name,
+        ->(bs) { bs.activity_participations_demanded_annualy },
+        class: 'col-activities'
     end
     if Current.acp.share?
       column t('billing.acp_shares'), ->(bs) { bs.acp_shares_number }
