@@ -26,8 +26,8 @@ ActiveAdmin.register Delivery do
     if Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming')
       selectable_column
     end
-    column '#', ->(delivery) { auto_link delivery, delivery.number }
-    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium_long).capitalize }
+    column '#', ->(delivery) { auto_link delivery, delivery.number }, class: 'col-number'
+    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium).capitalize }
     if BasketComplement.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end

@@ -622,15 +622,44 @@ table.index_table .col span.url svg {
   margin-left: 5px;
 }
 
+table.index_table .col-date,
+table.index_table .col-started_on,
+table.index_table .col-ended_on,
+table.index_table .col-id,
 table.index_table .col-activity,
 table.index_table .col-period,
 table.index_table .col-date,
 table.index_table .col-delivery,
+table.index_table .col-activity,
+table.index_table .col-amount,
+table.index_table .col-price,
+table.index_table .col-annual_price,
+table.index_table .col-paid_amount,
+table.index_table .col-sent_at,
+table.index_table .col-created_at,
+table.index_table .col-number,
+table.index_table .col-active,
+table.index_table .col-last_session_used_at {
+  white-space: nowrap;
+}
+
+table.index_table .col-date,
+table.index_table .col-started_on,
+table.index_table .col-ended_on,
+table.index_table .col-id,
+table.index_table .col-deliveries,
+table.index_table .col-activity,
+table.index_table .col-activities,
+table.index_table .col-price,
+table.index_table .col-annual_price,
 table.index_table .col-amount,
 table.index_table .col-paid_amount,
 table.index_table .col-sent_at,
-table.index_table .col-ended_on {
-  white-space: nowrap;
+table.index_table .col-created_at,
+table.index_table .col-number,
+table.index_table .col-active,
+table.index_table .col-last_session_used_at {
+  text-align: right;
 }
 
 table.index_table .col-actions-2 {
@@ -663,12 +692,6 @@ table.index_table .col-actions-6 {
   padding: 3px 10px;
 }
 
-table#index_table_invoices .col-amount,
-table#index_table_invoices .col-paid_amount,
-table#index_table_payments .col-amount,
-table#index_table_payments .col-paid_amount {
-  text-align: right;
-}
 
 table#index_table_deliveries .col- {
   width: 40px;
@@ -753,7 +776,6 @@ table.table-baskets tr.next {
 }
 
 table.table-shop_orders .col-amount,
-table.table-shop_orders .col-price,
 table.table-shop_orders .col-item_price,
 table.table-shop_orders .col-quantity {
   text-align: right;

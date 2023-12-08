@@ -23,7 +23,7 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.acp.current_fiscal_year.year
         },
         scope: :all)
-    }
+    }, class: 'col-deliveries'
     column deliveries_next_year_title, ->(bc) {
       link_to bc.future_deliveries.size, deliveries_path(
         q: {
@@ -31,7 +31,7 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.acp.current_fiscal_year.year + 1
         },
         scope: :all)
-    }
+    }, class: 'col-deliveries'
     column :visible
     if authorized?(:update, BasketComplement)
       actions class: 'col-actions-2'

@@ -43,8 +43,8 @@ ActiveAdmin.register Absence do
         link_with_session absence.member, absence.session
       end
     }, sortable: 'members.name'
-    column :started_on, ->(absence) { l absence.started_on }
-    column :ended_on, ->(absence) { l absence.ended_on }
+    column :started_on, ->(absence) { l absence.started_on, format: :medium_long }
+    column :ended_on, ->(absence) { l absence.ended_on, format: :medium_long }
     actions class: 'col-actions-3'
   end
 
