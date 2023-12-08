@@ -117,9 +117,7 @@ module MembersHelper
   def basket_complement_details(bc, force_default: false, only_price_per_delivery: false)
     return bc.form_detail if !force_default && bc.form_detail?
 
-    if bc.annual_price_type?
-      "#{price_info(bc.price)} (#{deliveries_count(bc.deliveries_count)})".html_safe
-    elsif only_price_per_delivery
+    if only_price_per_delivery
       t('helpers.price_per_delivery', price: short_price(bc.price))
     else
       d_counts = depots_delivery_ids.map { |d_ids|

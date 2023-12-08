@@ -93,10 +93,6 @@ describe MembershipPricing do
       id: 2,
       price: 4,
       delivery_ids: Delivery.limit(2).pluck(:id))
-    create(:basket_complement, :annual_price_type,
-      id: 3,
-      price: 100,
-      delivery_ids: Delivery.all.pluck(:id))
 
     pricing = pricing(members_basket_complements_attributes: {
       '0' => { basket_complement_id: 1, quantity: 1 },
@@ -112,11 +108,6 @@ describe MembershipPricing do
       '0' => { basket_complement_id: 2, quantity: 1 },
     })
     expect(pricing.prices).to eq [2 * 4]
-
-    pricing = pricing(members_basket_complements_attributes: {
-      '0' => { basket_complement_id: 3, quantity: 2 },
-    })
-    expect(pricing.prices).to eq [2 * 100]
 
     create(:delivery_cycle, id: 2, results: :odd, depots: Depot.all)
     create(:delivery_cycle, id: 3, results: :all, depots: Depot.all)

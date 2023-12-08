@@ -7,12 +7,11 @@ class BasketsBasketComplement < ApplicationRecord
 
   validates :basket_complement_id, uniqueness: { scope: :basket_id }
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :price, numericality: { equal_to: 0 }, if: :basket_complement_annual_price_type?
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :basket_delivery_must_be_in_complement_deliveries
 
   before_validation do
-    self.price ||= basket_complement&.delivery_price
+    self.price ||= basket_complement&.price
   end
 
   def self.handle_deliveries_addition!(delivery, complement)
@@ -34,7 +33,7 @@ class BasketsBasketComplement < ApplicationRecord
           basket_id: basket.id,
           basket_complement_id: complement.id,
           quantity: membership_subscription.quantity,
-          price: membership_subscription.delivery_price)
+          price: membership_subscription.price)
       end
     end
   end
@@ -46,10 +45,6 @@ class BasketsBasketComplement < ApplicationRecord
         baskets: { delivery_id: delivery.id },
         basket_complement_id: complement.id)
       .destroy_all
-  end
-
-  def basket_complement_annual_price_type?
-    basket_complement&.annual_price_type?
   end
 
   def description(public_name: false)

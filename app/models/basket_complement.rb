@@ -2,7 +2,6 @@ class BasketComplement < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
 
-  PRICE_TYPES = %w[delivery annual]
   MEMBER_ORDER_MODES = %w[
     name_asc
     price_asc
@@ -32,7 +31,6 @@ class BasketComplement < ApplicationRecord
 
   default_scope { order_by_name }
 
-  scope :annual_price_type, -> { where(price_type: 'annual') }
   scope :used, -> {
     ids = BasketsBasketComplement
       .joins(:delivery)
@@ -43,7 +41,6 @@ class BasketComplement < ApplicationRecord
   }
 
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :price_type, inclusion: { in: PRICE_TYPES }
 
   def self.for(baskets, shop_orders)
     ids =
@@ -91,20 +88,8 @@ class BasketComplement < ApplicationRecord
     @current_and_future_delivery_ids ||= deliveries.current_and_future_year.pluck(:id)
   end
 
-  def annual_price_type?
-    price_type == 'annual'
-  end
-
   def annual_price
-    if annual_price_type?
-      price
-    else
-      (price * deliveries_count).round_to_five_cents
-    end
-  end
-
-  def delivery_price
-    annual_price_type? ? 0 : price
+    (price * deliveries_count).round_to_five_cents
   end
 
   def display_name; name end
