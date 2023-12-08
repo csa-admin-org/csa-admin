@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_21_174556) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_08_102750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -254,7 +254,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_21_174556) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.jsonb "names", default: {}, null: false
-    t.string "price_type", default: "delivery", null: false
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
     t.integer "form_priority", default: 0, null: false
