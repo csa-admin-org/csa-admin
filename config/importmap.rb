@@ -6,13 +6,13 @@
 pin "trix", to: "trix.js"
 pin "@rails/actiontext", to: "actiontext.js"
 
-pin "@hotwired/stimulus", to: "stimulus.js"
-pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
+pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
+pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.0
 
 pin "members"
-pin "@hotwired/turbo-rails", to: "turbo.js"
+pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin_all_from "app/javascript/controllers/members", under: "controllers/members"
 pin "flatpickr" # @4.6.13
 pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js" # @4.6.13
@@ -31,14 +31,14 @@ pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode
 pin "ace-builds/src-noconflict/theme-dreamweaver", to: "ace-builds--src-noconflict--theme-dreamweaver.js" # @1.9.6
 # Don't forget to update vendor/assets/stylesheets/tom-select/dist/css/tom-select.css too
 pin "tom-select" # @2.1.0
-pin "stimulus-sortable", to: "https://ga.jspm.io/npm:stimulus-sortable@4.1.0/dist/stimulus-sortable.mjs"
-pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.8/src/index.js"
-pin "sortablejs", to: "https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js"
+pin "stimulus-sortable", to: "https://ga.jspm.io/npm:stimulus-sortable@4.1.1/dist/stimulus-sortable.mjs"
+pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.9/src/index.js"
+pin "sortablejs", to: "https://ga.jspm.io/npm:sortablejs@1.15.1/modular/sortable.esm.js"
 
 # Sentry
-pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.60.0/esm/index.js"
-pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.60.0/esm/index.js"
-pin "@sentry/replay", to: "https://ga.jspm.io/npm:@sentry/replay@7.60.0/esm/index.js"
-pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.60.0/esm/index.js"
-pin "@sentry-internal/tracing", to: "https://ga.jspm.io/npm:@sentry-internal/tracing@7.60.0/esm/index.js"
-pin "@sentry/utils/esm/buildPolyfills", to: "https://ga.jspm.io/npm:@sentry/utils@7.60.0/esm/buildPolyfills/index.js"
+pin "@sentry/browser", to: "https://ga.jspm.io/npm:@sentry/browser@7.85.0/esm/index.js"
+pin "@sentry-internal/feedback", to: "https://ga.jspm.io/npm:@sentry-internal/feedback@7.85.0/esm/index.js"
+pin "@sentry-internal/tracing", to: "https://ga.jspm.io/npm:@sentry-internal/tracing@7.85.0/esm/index.js"
+pin "@sentry/core", to: "https://ga.jspm.io/npm:@sentry/core@7.85.0/esm/index.js"
+pin "@sentry/replay", to: "https://ga.jspm.io/npm:@sentry/replay@7.85.0/esm/index.js"
+pin "@sentry/utils", to: "https://ga.jspm.io/npm:@sentry/utils@7.85.0/esm/index.js"
