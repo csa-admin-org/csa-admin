@@ -10,16 +10,7 @@ ActiveAdmin.register BasketComplement do
   index download_links: false do
     column :id
     column :name
-    column :price_type, -> (bc) {
-      BasketComplement.human_attribute_name("price_type/#{bc.price_type}")
-    }
-    column :price, ->(bc) {
-      if bc.annual_price_type?
-        cur(bc.annual_price)
-      else
-        cur(bc.delivery_price)
-      end
-    }
+    column :price, ->(bc) { cur(bc.price) }
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
         cur(bc.annual_price)
@@ -52,12 +43,6 @@ ActiveAdmin.register BasketComplement do
       translated_input(f, :names)
       translated_input(f, :public_names,
         hint: t('formtastic.hints.basket_complement.public_name'))
-      f.input :price_type,
-        as: :select,
-        prompt: true,
-        collection: BasketComplement::PRICE_TYPES.map { |type|
-          [BasketComplement.human_attribute_name("price_type/#{type}"), type]
-        }
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
     end
 
@@ -108,7 +93,6 @@ ActiveAdmin.register BasketComplement do
 
   permit_params(
     :price,
-    :price_type,
     :visible,
     :member_order_priority,
     *I18n.available_locales.map { |l| "name_#{l}" },

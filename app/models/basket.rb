@@ -114,10 +114,11 @@ class Basket < ApplicationRecord
       .where(basket_complement_id: complement_ids).each do |mbc|
         next if mbc.delivery_cycle && !mbc.delivery_cycle.include_delivery?(delivery)
 
-        baskets_basket_complements.build(
-          basket_complement_id: mbc.basket_complement_id,
-          quantity: mbc.quantity,
-          price: mbc.delivery_price)
+        baskets_basket_complements.build(mbc.attributes.slice(*%w[
+          basket_complement_id
+          quantity
+          price
+        ]))
       end
   end
 

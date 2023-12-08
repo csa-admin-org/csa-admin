@@ -50,16 +50,10 @@ module XLSX
       if BasketComplement.any?
         BasketComplement.all.each do |basket_complement|
           total =
-            if basket_complement.annual_price_type?
-              @memberships_basket_complements
-                .where(memberships_basket_complements: { basket_complement: basket_complement })
-                .sum('memberships_basket_complements.quantity * memberships_basket_complements.price')
-            else
-              @baskets
-                .joins(:baskets_basket_complements)
-                .where(baskets_basket_complements: { basket_complement: basket_complement })
-                .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
-            end
+            @baskets
+              .joins(:baskets_basket_complements)
+              .where(baskets_basket_complements: { basket_complement: basket_complement })
+              .sum('baskets_basket_complements.quantity * baskets_basket_complements.price')
           add_line("#{BasketComplement.model_name.human}: #{basket_complement.name}", total, basket_complement.price)
         end
         add_empty_line

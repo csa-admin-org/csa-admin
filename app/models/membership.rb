@@ -348,19 +348,12 @@ class Membership < ApplicationRecord
   end
 
   def basket_complement_total_price(basket_complement)
-    if basket_complement.annual_price_type?
-      rounded_price(
-        memberships_basket_complements
-          .where(basket_complement: basket_complement)
-          .sum('memberships_basket_complements.quantity * memberships_basket_complements.price'))
-    else
-      rounded_price(
-        baskets
-          .billable
-          .joins(:baskets_basket_complements)
-          .where(baskets_basket_complements: { basket_complement: basket_complement })
-          .sum('baskets_basket_complements.quantity * baskets_basket_complements.price'))
-    end
+    rounded_price(
+      baskets
+        .billable
+        .joins(:baskets_basket_complements)
+        .where(baskets_basket_complements: { basket_complement: basket_complement })
+        .sum('baskets_basket_complements.quantity * baskets_basket_complements.price'))
   end
 
   def depots_price

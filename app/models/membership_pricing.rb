@@ -85,17 +85,13 @@ class MembershipPricing
     return [0, 0] unless complement
     return [0, 0] if quantity.zero?
 
-    if complement.annual_price_type?
-      [complement.price * quantity] * 2
-    else
-      deliveries_counts = delivery_cycles.map { |dc|
-        (complement.delivery_ids & dc.current_and_future_delivery_ids).size
-      }.uniq
-      [
-        deliveries_counts.min * complement.price * quantity,
-        deliveries_counts.max * complement.price * quantity
-      ]
-    end
+    deliveries_counts = delivery_cycles.map { |dc|
+      (complement.delivery_ids & dc.current_and_future_delivery_ids).size
+    }.uniq
+    [
+      deliveries_counts.min * complement.price * quantity,
+      deliveries_counts.max * complement.price * quantity
+    ]
   end
 
   def depot_prices

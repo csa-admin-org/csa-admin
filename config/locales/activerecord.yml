@@ -442,19 +442,6 @@ _:
           _de: probe
           _fr: essai
           _it: prova
-      basket_complement:
-        price_type:
-          _de: Preis pro
-          _fr: Prix par
-          _it: Prezzo per
-        price_type/annual:
-          _de: Jahr
-          _fr: Année
-          _it: Anno
-        price_type/delivery:
-          _de: Lieferung
-          _fr: Livraison
-          _it: Consegna
       basket_content:
         basket_percentages:
           _de: Prozentuale Verteilung
