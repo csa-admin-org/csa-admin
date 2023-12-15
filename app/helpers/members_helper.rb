@@ -353,7 +353,7 @@ module MembersHelper
     end
     txts << "</div>"
     if icon
-      txts << "<div class='flex-none ml-2'>#{icon}</div>"
+      txts << "<div class='flex-none ml-2 print:hidden'>#{icon}</div>"
     end
     txts.join.html_safe
   end
