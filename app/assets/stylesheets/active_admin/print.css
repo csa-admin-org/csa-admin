@@ -7,11 +7,17 @@ html {
 
 article,
 aside,
-footer,
-header,
 nav,
 section {
   display: block;
+}
+
+#title_bar {
+  margin-top: 10px;
+}
+
+#page_title {
+  font-size: 2.5em !important;
 }
 
 h1 {
@@ -399,6 +405,24 @@ th {
   padding: 4px 10px 4px 5px;
 }
 
+table.index_table {
+  width: 100%;
+}
+
+table.index_table thead th {
+  border-bottom: 1px solid #e2e4e8;
+}
+
+table.index_table th:last-child,
+table.index_table td:last-child {
+  display: none;
+}
+
+table.index_table td span.price {
+  color: #555;
+}
+
+
 .small {
   font-size: 0.8em;
   margin-bottom: 1.875em;
@@ -482,18 +506,18 @@ h3 {
 }
 
 #header {
-  float: left;
+  display: none !important;
 }
 
-#header #tabs,
+/* #header #tabs,
 #header #utility_nav,
 #header .tabs {
   display: none;
-}
+} */
 
-#header h1 {
+/* #header h1 {
   font-weight: 700;
-}
+} */
 
 .flashes {
   display: none;
@@ -505,6 +529,7 @@ h3 {
 
 #title_bar h2 {
   line-height: 2em;
+  font-size: 2.5em;
   margin: 0;
 }
 
@@ -513,11 +538,8 @@ h3 {
   display: none;
 }
 
-#active_admin_content {
-  border-top: thick solid #000;
-  clear: both;
-  margin-top: 2em;
-  padding-top: 3em;
+#active_admin_content.with_sidebar #main_content {
+  margin: 0
 }
 
 #footer {
@@ -668,7 +690,7 @@ table tr {
   max-width: 6in;
 }
 
-#filters_sidebar_section {
+#sidebar {
   display: none;
 }
 
@@ -721,5 +743,10 @@ form ol li textarea {
 
 .unsupported_browser,
 form ol li input[type="file"] {
+  display: none;
+}
+
+
+.basket_prices.panel {
   display: none;
 }
