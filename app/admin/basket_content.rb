@@ -169,7 +169,7 @@ ActiveAdmin.register BasketContent do
         label: BasketContent.human_attribute_name(:price),
         as: :number,
         min: 0,
-        step: 0.05,
+        step: 0.01,
         input_html: {
           data: {
             'basket-content-products-select-target' => 'unitPriceInput'
