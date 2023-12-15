@@ -605,20 +605,9 @@ ActiveAdmin.register Membership do
       f.input :depot,
         prompt: true,
         input_html: {
-          data: {
-            controller: 'form-select-options',
-            action: 'form-select-options#update form-reset#reset',
-            form_select_options_target_param: 'membership_delivery_cycle_id'
-          }
+          data: { action: 'form-reset#reset' }
         },
-        collection: Depot.all.map { |d|
-          [
-            d.name, d.id,
-            data: {
-              form_select_options_values_param: d.delivery_cycle_ids.join(',')
-            }
-          ]
-        }
+        collection: Depot.all.map { |d| [d.name, d.id] }
       f.input :depot_price,
         hint: true,
         required: false,
@@ -626,7 +615,6 @@ ActiveAdmin.register Membership do
       f.input :delivery_cycle,
         as: :select,
         collection: delivery_cycles_collection,
-        disabled: f.object.depot ? (DeliveryCycle.pluck(:id) - f.object.depot.delivery_cycle_ids) : [],
         prompt: true
     end
     f.inputs [
