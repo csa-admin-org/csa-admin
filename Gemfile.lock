@@ -63,6 +63,9 @@ GEM
     activejob (7.1.2)
       activesupport (= 7.1.2)
       globalid (>= 0.3.6)
+    activejob-uniqueness (0.3.1)
+      activejob (>= 4.2, < 7.2)
+      redlock (>= 2.0, < 3)
     activemodel (7.1.2)
       activesupport (= 7.1.2)
     activerecord (7.1.2)
@@ -397,6 +400,8 @@ GEM
       redis-client (>= 0.17.0)
     redis-client (0.19.0)
       connection_pool
+    redlock (2.0.6)
+      redis-client (>= 0.14.1, < 1.0.0)
     regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
@@ -537,6 +542,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin
+  activejob-uniqueness
   acts_as_list
   aws-sdk-s3
   bcrypt
