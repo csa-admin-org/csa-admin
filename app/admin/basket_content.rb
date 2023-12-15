@@ -42,23 +42,32 @@ ActiveAdmin.register BasketContent do
         display_with_external_url(bc.product.name, bc.product.url)
       }
     }
-    column :qt, ->(bc) {
-      display_with_price(bc.unit_price, bc.quantity) {
-        display_quantity(bc.quantity, bc.unit)
+    unless params.dig(:q, :basket_size_eq).present?
+      column :qt, ->(bc) {
+        display_with_price(bc.unit_price, bc.quantity) {
+          display_quantity(bc.quantity, bc.unit)
+        }
       }
-    }
-    BasketSize.paid.each do |basket_size|
+    end
+    basket_sizes = if params.dig(:q, :basket_size_eq).present?
+      BasketSize.where(id: params.dig(:q, :basket_size_eq))
+    else
+      BasketSize.paid
+    end
+    basket_sizes.each do |basket_size|
       column basket_size.name, ->(bc) {
         display_with_price(bc.unit_price, bc.basket_quantity(basket_size)) {
           display_basket_quantity(bc, basket_size)
         }
       }, class: 'nowrap'
     end
-    column :surplus, ->(bc) {
-      display_with_price(bc.unit_price, bc.surplus_quantity) {
-        display_surplus_quantity(bc)
+    unless params.dig(:q, :basket_size_eq).present?
+      column :surplus, ->(bc) {
+        display_with_price(bc.unit_price, bc.surplus_quantity) {
+          display_surplus_quantity(bc)
+        }
       }
-    }
+    end
     column :depots, ->(bc) { display_depots(bc.depots) }
     if authorized?(:update, BasketContent)
       actions class: 'col-actions-2'
