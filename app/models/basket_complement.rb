@@ -99,7 +99,7 @@ class BasketComplement < ApplicationRecord
   end
 
   def can_destroy?
-    memberships_basket_complements.none? && baskets_basket_complement.none?
+    memberships_basket_complements.none? && baskets_basket_complement.none? && !shop_product
   end
 
   private
