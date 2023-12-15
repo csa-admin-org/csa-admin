@@ -43,6 +43,7 @@ gem 'cld'
 
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+gem 'activejob-uniqueness'
 
 gem 'faraday'
 gem 'faraday-cookie_jar'
