@@ -57,7 +57,7 @@ module MembersHelper
   end
 
   def basket_sizes_collection(membership: nil, no_basket_option: true, data: {}, no_basket_data: {})
-    col = visible_basket_sizes(membership).map { |bs|
+    col = visible_basket_sizes(object: membership).map { |bs|
       [
         collection_text(bs.public_name, details: basket_size_details(bs)),
         bs.id,
@@ -131,10 +131,12 @@ module MembersHelper
     collection_text(bc.public_name, details: basket_complement_details(bc, only_price_per_delivery: only_price_per_delivery))
   end
 
-  def depots_collection(membership: nil, delivery_cycle: nil, show_price: true, only_price_per_delivery: false, data: {})
-    visible_depots(membership).select { |d|
-      !delivery_cycle || delivery_cycle.in?(d.delivery_cycles)
-    }.map { |d|
+  def depots_collection(membership: nil, basket: nil, delivery_cycle: nil, only_with_future_deliveries: false, show_price: true, only_price_per_delivery: false, data: {})
+    visible_depots(
+      object: membership || basket,
+      delivery_cycle: delivery_cycle,
+      only_with_future_deliveries: only_with_future_deliveries
+    ).map { |d|
       details = []
       if show_price
         if only_price_per_delivery
@@ -169,21 +171,27 @@ module MembersHelper
     }
   end
 
-  def visible_delivery_cycles_collection(membership: nil, data: {})
-    ids = visible_basket_sizes(membership).map(&:delivery_cycle_id).compact
-    ids += visible_depots(membership).flat_map(&:delivery_cycle_ids)
+  def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})
+    ids = visible_basket_sizes(object: membership).map(&:delivery_cycle_id).compact
+    ids += visible_depots(object: membership).flat_map(&:delivery_cycle_ids)
     ids << membership.delivery_cycle_id if membership
-    DeliveryCycle
+    cycles = DeliveryCycle
       .where(id: ids.uniq)
       .member_ordered
-      .map { |dc|
-        [
-          collection_text(dc.public_name,
-            details: deliveries_count(dc.deliveries_count)),
-          dc.id,
-          data: data
-        ]
-      }
+      .to_a
+
+    if only_with_future_deliveries
+      cycles = cycles.select { |d| d.future_deliveries_count.positive? }
+    end
+
+    cycles.map { |dc|
+      [
+        collection_text(dc.public_name,
+          details: deliveries_count(dc.deliveries_count)),
+        dc.id,
+        data: data
+      ]
+    }
   end
 
   def terms_of_service_label
@@ -289,9 +297,9 @@ module MembersHelper
 
   private
 
-  def visible_basket_sizes(membership = nil)
+  def visible_basket_sizes(object: nil)
     ids = BasketSize.visible.pluck(:id)
-    ids << membership.basket_size_id if membership
+    ids << object.basket_size_id if object
     BasketSize
       .where(id: ids.uniq)
       .includes(:delivery_cycle)
@@ -299,14 +307,29 @@ module MembersHelper
       .to_a
   end
 
-  def visible_depots(membership = nil)
+  def visible_depots(object: nil, delivery_cycle: nil, only_with_future_deliveries: false)
     ids = Depot.visible.pluck(:id)
-    ids << membership.depot_id if membership
-    Depot
+    ids << object.depot_id if object
+    depots = Depot
       .where(id: ids.uniq)
       .includes(:delivery_cycles)
       .member_ordered
       .to_a
+
+    if delivery_cycle
+      new_depots = depots.select { |d| delivery_cycle.in?(d.delivery_cycles) }
+      if new_depots.empty?
+        depots = [object&.depot || depots.first]
+      else
+        depots = new_depots
+      end
+    end
+
+    if only_with_future_deliveries
+      depots = depots.select { |d| d.future_deliveries_counts.any?(&:positive?) }
+    end
+
+    depots
   end
 
   def deliveries_counts

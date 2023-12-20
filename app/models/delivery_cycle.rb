@@ -67,6 +67,14 @@ class DeliveryCycle < ApplicationRecord
     end
   end
 
+  def self.future_deliveries_counts
+    if visible?
+      visible.map(&:future_deliveries_count).uniq.sort
+    else
+      [greatest.future_deliveries_count]
+    end
+  end
+
   def self.basket_size_config?
     BasketSize.visible.where.not(delivery_cycle_id: nil).any?
   end

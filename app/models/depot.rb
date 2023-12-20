@@ -143,6 +143,14 @@ class Depot < ApplicationRecord
     end
   end
 
+  def future_deliveries_counts
+    if DeliveryCycle.visible?
+      delivery_cycles.map(&:future_deliveries_count).uniq.sort
+    else
+      DeliveryCycle.future_deliveries_counts
+    end
+  end
+
   def next_delivery
     baskets.coming.first&.delivery
   end
