@@ -486,6 +486,10 @@ _:
             _de: Ihr Abonnement wurde gekündigt.
             _fr: Votre abonnement a été résilié.
             _it: Il tuo abbonamento è stato annullato.
+          error:
+            _de: Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.
+            _fr: Une erreur est survenue. Merci de réessayer ou de nous contacter.
+            _it: Si è verificato un errore. Riprova o contattaci.
           renewed:
             _de: Ihr Abonnement wurde erneuert. Vielen Dank!
             _fr: Votre abonnement a été renouvelé. Merci!
