@@ -51,7 +51,7 @@ describe Newsletter::Audience do
     expect(segment.members).to contain_exactly(inactive)
   end
 
-  specify 'activity_state' do
+  specify 'activity_state', freeze: '2023-01-01' do
     create(:membership, activity_participations_demanded_annualy: 0)
     demanded = create(:member)
     create(:membership, member: demanded, activity_participations_demanded_annualy: 1)
