@@ -19,7 +19,7 @@ ActiveAdmin.register DeliveryCycle do
 
   includes :depots
   index download_links: false do
-    column :name, ->(dc) { auto_link dc }
+    column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
     column Current.acp.current_fiscal_year, ->(dc) {
       auto_link dc, dc.current_deliveries_count

@@ -58,7 +58,7 @@ module BasketContentsHelper
   def display_basket_price_with_diff(base_price, prices)
     prices.map { |price|
       content_tag(:div, class: 'price-diff') {
-        (content_tag(:span, cur(price, unit: false, format: '%n'), class: 'price') +
+        (content_tag(:span, cur(price, unit: false, format: '%n'), class: 'subtitle') +
           display_basket_price_diff(base_price, price - base_price))
       }
     }.join(content_tag(:span, '-', class: 'main-divider')).html_safe
@@ -88,7 +88,7 @@ module BasketContentsHelper
 
     (
       yield +
-      content_tag(:span, cur(price * quantity.to_f), class: 'price')
+      content_tag(:span, cur(price * quantity.to_f), class: 'subtitle')
     ).html_safe
   end
 

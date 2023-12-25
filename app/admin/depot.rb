@@ -16,7 +16,7 @@ ActiveAdmin.register Depot do
   includes :memberships, :delivery_cycles
   index do
     column :id, ->(d) { auto_link d, d.id }
-    column :name, ->(d) { auto_link d }
+    column :name, ->(d) { link_to display_name_with_public_name(d), d }
     column :city
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
