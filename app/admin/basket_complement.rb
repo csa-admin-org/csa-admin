@@ -9,7 +9,7 @@ ActiveAdmin.register BasketComplement do
   includes :memberships_basket_complements, :current_deliveries, :future_deliveries
   index download_links: false do
     column :id
-    column :name
+    column :name, ->(bc) { display_name_with_public_name(bc) }
     column :price, ->(bc) { cur(bc.price) }
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?

@@ -9,7 +9,7 @@ ActiveAdmin.register BasketSize do
   includes :memberships
   index download_links: false do
     column :id
-    column :name
+    column :name, ->(bs) { display_name_with_public_name(bs) }
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) {
       if bs.price.positive?

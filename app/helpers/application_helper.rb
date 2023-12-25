@@ -23,6 +23,14 @@ module ApplicationHelper
     end
   end
 
+  def display_name_with_public_name(object)
+    txt = object.display_name
+    if object.public_name != txt
+      txt += content_tag(:span, object.public_name, class: 'subtitle')
+    end
+    txt.html_safe
+  end
+
   def display_email_with_link(arbre, email)
     suppressions =
       EmailSuppression

@@ -56,6 +56,8 @@ class Depot < ApplicationRecord
   validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
   validates :delivery_cycles, presence: true
 
+  def display_name; name end
+
   def public_name
     self[:public_names][I18n.locale.to_s].presence || name
   end
