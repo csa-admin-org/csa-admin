@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_08_102750) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -259,6 +259,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_08_102750) do
     t.integer "form_priority", default: 0, null: false
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
+    t.integer "activity_participations_demanded_annualy", default: 0, null: false
     t.index ["visible"], name: "index_basket_complements_on_visible"
   end
 

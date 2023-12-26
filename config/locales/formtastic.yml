@@ -259,6 +259,10 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
       basket_complement:
+        activity_participations_demanded_annualy:
+          _de: Werden zu denen der Korbgröße hinzugefügt.
+          _fr: Seront ajoutées à celles de la taille de panier.
+          _it: Saranno aggiunti a quelli della dimensione del cestino.
         current_deliveries_html:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnungung dieser Abonnements kann beeinflusst werden.</a></b>
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>

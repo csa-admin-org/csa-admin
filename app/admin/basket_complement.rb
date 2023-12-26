@@ -32,6 +32,11 @@ ActiveAdmin.register BasketComplement do
         },
         scope: :all)
     }, class: 'col-deliveries'
+    if Current.acp.feature?('activity')
+      column activities_human_name,
+        ->(bc) { bc.activity_participations_demanded_annualy },
+        class: 'col-activities'
+    end
     column :visible
     if authorized?(:update, BasketComplement)
       actions class: 'col-actions-2'
@@ -44,6 +49,13 @@ ActiveAdmin.register BasketComplement do
       translated_input(f, :public_names,
         hint: t('formtastic.hints.basket_complement.public_name'))
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
+      if Current.acp.feature?('activity')
+        f.input :activity_participations_demanded_annualy,
+          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy)),
+          as: :number,
+          step: 1,
+          min: 0
+      end
     end
 
     f.inputs t('active_admin.resource.show.member_new_form') do
@@ -93,6 +105,7 @@ ActiveAdmin.register BasketComplement do
 
   permit_params(
     :price,
+    :activity_participations_demanded_annualy,
     :visible,
     :member_order_priority,
     *I18n.available_locales.map { |l| "name_#{l}" },

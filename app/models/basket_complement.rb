@@ -40,7 +40,12 @@ class BasketComplement < ApplicationRecord
     where(id: ids)
   }
 
-  validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :price,
+    numericality: { greater_than_or_equal_to: 0 },
+    presence: true
+  validates :activity_participations_demanded_annualy,
+    numericality: { greater_than_or_equal_to: 0 },
+    presence: true
 
   def self.for(baskets, shop_orders)
     ids =
