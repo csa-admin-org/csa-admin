@@ -42,6 +42,9 @@ class Membership < ApplicationRecord
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
     self.activity_participations_demanded_annualy ||= basket_quantity * basket_size&.activity_participations_demanded_annualy
+    memberships_basket_complements.each do |mbc|
+      self.activity_participations_demanded_annualy += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annualy
+    end
   end
 
   validates :member, presence: true

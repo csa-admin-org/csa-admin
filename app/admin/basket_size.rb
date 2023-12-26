@@ -77,9 +77,9 @@ ActiveAdmin.register BasketSize do
 
   permit_params(
     :price,
-    :visible,
     :acp_shares_number,
     :activity_participations_demanded_annualy,
+    :visible,
     :member_order_priority,
     :delivery_cycle_id,
     *I18n.available_locales.map { |l| "name_#{l}" },

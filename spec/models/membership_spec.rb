@@ -1,20 +1,38 @@
 require 'rails_helper'
 
 describe Membership do
-  it 'sets activity_participations_demanded_annualy default' do
-    basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
-    membership = create(:membership, basket_size_id: basket_size.id)
+  describe 'set activity_participations_demanded_annualy' do
+    specify 'by default' do
+      basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
+      membership = create(:membership, basket_size_id: basket_size.id)
 
-    expect(membership.activity_participations_demanded_annualy).to eq 3
-  end
+      expect(membership.activity_participations_demanded_annualy).to eq 3
+    end
 
-  it 'sets activity_participations_demanded_annualy default using basket quantity' do
-    basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
-    membership = create(:membership,
-      basket_quantity: 2,
-      basket_size_id: basket_size.id)
+    specify 'using basket quantity' do
+      basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
+      membership = create(:membership,
+        basket_quantity: 2,
+        basket_size_id: basket_size.id)
 
-    expect(membership.activity_participations_demanded_annualy).to eq 2 * 3
+      expect(membership.activity_participations_demanded_annualy).to eq 2 * 3
+    end
+
+    specify 'using basket_size and complements' do
+      create_deliveries(3)
+      basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
+      complement_1 = create(:basket_complement, id: 1, activity_participations_demanded_annualy: 1)
+      complement_2 = create(:basket_complement, id: 2, activity_participations_demanded_annualy: 2)
+
+      membership = create(:membership,
+        basket_size_id: basket_size.id,
+        memberships_basket_complements_attributes: {
+          '0' => { basket_complement_id: 1, quantity: 3 },
+          '1' => { basket_complement_id: 2, quantity: 2 },
+        })
+
+      expect(membership.activity_participations_demanded_annualy).to eq 3 + 3 * 1 + 2 * 2
+    end
   end
 
   describe 'validations' do

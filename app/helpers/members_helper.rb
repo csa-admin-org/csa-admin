@@ -117,14 +117,19 @@ module MembersHelper
   def basket_complement_details(bc, force_default: false, only_price_per_delivery: false)
     return bc.form_detail if !force_default && bc.form_detail?
 
+    details = []
     if only_price_per_delivery
-      t('helpers.price_per_delivery', price: short_price(bc.price))
+      details << t('helpers.price_per_delivery', price: short_price(bc.price))
     else
       d_counts = depots_delivery_ids.map { |d_ids|
         (d_ids & bc.delivery_ids).size
       }.uniq
-      "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})".html_safe
+      details << "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})".html_safe
     end
+    if bc.activity_participations_demanded_annualy.positive?
+      details << activities_count(bc.activity_participations_demanded_annualy)
+    end
+    details.compact.join(', ').html_safe
   end
 
   def basket_complement_label(bc, only_price_per_delivery: false)
