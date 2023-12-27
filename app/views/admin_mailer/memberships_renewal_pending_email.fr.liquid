@@ -1,9 +1,23 @@
 <p>Salut {{ admin.name }},</p>
 
-<p>Il reste encore <a href={{ action_url }}>{{ memberships.size }} abonnement(s)</a> qui n'ont pas encore été renouvelé(s) ou résilié(s) cette année.</p>
+<p>Il reste encore:</p>
+<ul>
+  {% if pending_memberships.size > 0 %}
+  <li>
+    <a href={{ pending_action_url }}>{{ pending_memberships.size }} abonnement(s)</a> qui n'ont pas encore été renouvelé(s) ou résilié(s).</p>
+  </li>
+  {% endif %}
 
+  {% if opened_memberships.size > 0 %}
+  <li>
+    <a href={{ opened_action_url }}>{{ opened_memberships.size }} demande(s)</a> de renouvellement ouverte(s) qui n'ont pas encore été finalisée(s).</p>
+  </li>
+  {% endif %}
+</ul>
+
+<br/>
 <p>Merci de vérifier <u>avant</u> la fin de votre année fiscale.</p>
 
 {% button action_url %}
-  Accéder aux abonnements en attente de renouvellement
+  Accéder aux abonnements
 {% endbutton %}

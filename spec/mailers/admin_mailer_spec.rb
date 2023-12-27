@@ -295,9 +295,13 @@ describe AdminMailer do
       email: 'admin@acp-admin.ch')
     membership_1 =  Membership.new(id: 1)
     membership_2 =  Membership.new(id: 2)
+    membership_3 = Membership.new(id: 3)
     mail = AdminMailer.with(
       admin: admin,
-      memberships: [membership_1, membership_2],
+      pending_memberships: [membership_1, membership_2],
+      opened_memberships: [membership_3],
+      pending_action_url: 'https://admin.example.com/memberships/pending',
+      opened_action_url: 'https://admin.example.com/memberships/opened',
       action_url: 'https://admin.example.com/memberships'
     ).memberships_renewal_pending_email
 
@@ -305,10 +309,53 @@ describe AdminMailer do
     expect(mail.to).to eq(['admin@acp-admin.ch'])
     expect(mail.body).to include('Salut John,')
     expect(mail.body).to include('2 abonnement(s)</a>')
-    expect(mail.body).to include("Accéder aux abonnements en attente de renouvellement")
+    expect(mail.body).to include('https://admin.example.com/memberships/pending')
+    expect(mail.body).to include('1 demande(s)</a>')
+    expect(mail.body).to include('https://admin.example.com/memberships/opened')
+    expect(mail.body).to include("Accéder aux abonnements")
     expect(mail.body).to include('https://admin.example.com/memberships')
     expect(mail.body).to include('https://admin.ragedevert.ch/admins/1/edit#notifications')
     expect(mail.body).to include('Gérer mes notifications')
     expect(mail[:from].decoded).to eq 'Rage de Vert <info@ragedevert.ch>'
+  end
+
+  specify '#memberships_renewal_pending_email (pending only)' do
+    admin = Admin.new(id: 1, language: I18n.locale, email: 'admin@acp-admin.ch')
+    membership_1 =  Membership.new(id: 1)
+    membership_2 =  Membership.new(id: 2)
+    mail = AdminMailer.with(
+      admin: admin,
+      pending_memberships: [membership_1, membership_2],
+      opened_memberships: [],
+      pending_action_url: 'https://admin.example.com/memberships/pending',
+      opened_action_url: 'https://admin.example.com/memberships/opened',
+      action_url: 'https://admin.example.com/memberships'
+    ).memberships_renewal_pending_email
+
+    expect(mail.subject).to eq('⚠️ Abonnement(s) en attente de renouvellement!')
+    expect(mail.body).to include('2 abonnement(s)</a>')
+    expect(mail.body).to include('https://admin.example.com/memberships/pending')
+    expect(mail.body).not_to include('demande(s)</a>')
+    expect(mail.body).not_to include('https://admin.example.com/memberships/opened')
+  end
+
+  specify '#memberships_renewal_pending_email (opened only)' do
+    admin = Admin.new(id: 1, language: I18n.locale, email: 'admin@acp-admin.ch')
+    membership_1 =  Membership.new(id: 1)
+    membership_2 =  Membership.new(id: 2)
+    mail = AdminMailer.with(
+      admin: admin,
+      pending_memberships: [],
+      opened_memberships: [membership_1, membership_2],
+      pending_action_url: 'https://admin.example.com/memberships/pending',
+      opened_action_url: 'https://admin.example.com/memberships/opened',
+      action_url: 'https://admin.example.com/memberships'
+    ).memberships_renewal_pending_email
+
+    expect(mail.subject).to eq('⚠️ Abonnement(s) en attente de renouvellement!')
+    expect(mail.body).not_to include('abonnement(s)</a>')
+    expect(mail.body).not_to include('https://admin.example.com/memberships/pending')
+    expect(mail.body).to include('2 demande(s)</a>')
+    expect(mail.body).to include('https://admin.example.com/memberships/opened')
   end
 end

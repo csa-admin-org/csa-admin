@@ -1,9 +1,24 @@
 <p>Ciao {{ admin.name }},</p>
 
-<p>Ci sono ancora <a href={{ action_url }}>{{ memberships.size }} abbonamenti</a> che non sono stati rinnovati o cancellati quest'anno.</p>
+<p>Ci sono ancora:</p>
+<ul>
+  {% if pending_memberships.size > 0 %}
+  <li>
+    <a href={{ pending_action_url }}>{{ pending_memberships.size }} abbonamenti</a> non ancora rinnovati o annullati.</p>
+  </li>
+  {% endif %}
 
+  {% if opened_memberships.size > 0 %}
+  <li>
+    <a href={{ opened_action_url }}>{{ opened_memberships.size }} richiesta</a> di rinnovo aperta che non è stata ancora finalizzata.</p>
+  </li>
+  {% endif %}
+</ul>
+
+
+<br/>
 <p>Si prega di controllare <u>prima</u> della fine dell'anno fiscale.</p>
 
 {% button action_url %}
-  Accedere agli abbonamenti in attesa di rinnovo
+  Accedere agli abbonamenti
 {% endbutton %}
