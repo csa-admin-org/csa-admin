@@ -1,9 +1,23 @@
 <p>Hallo {{ admin.name }},</p>
 
-<p>Es gibt noch <a href={{ action_url }}>{{ memberships.size }} Abonnement(e)</a>, die in diesem Jahr noch nicht verlängert oder gekündigt wurden.</p>
+<p>Es bleiben noch übrig:/p>
+<ul>
+  {% if pending_memberships.size > 0 %}
+  <li>
+    <a href={{ pending_action_url }}>{{ pending_memberships.size }} Abonnement(e)</a> das/die noch nicht verlängert oder gekündigt wurde(n).</p>
+  </li>
+  {% endif %}
 
+  {% if opened_memberships.size > 0 %}
+  <li>
+    <a href={{ opened_action_url }}>{{ opened_memberships.size }} offene(r)</a> Verlängerungsantrag(e), der/die noch nicht abgeschlossen wurde(n).</p>
+  </li>
+  {% endif %}
+</ul>
+
+<br/>
 <p>Bitte überprüfen Sie <u>vor</u> dem Ende Ihres Geschäftsjahres.</p>
 
 {% button action_url %}
-  Zugang zu Abonnements, die auf eine Verlängerung warten
+  Zugang zu Abonnements
 {% endbutton %}

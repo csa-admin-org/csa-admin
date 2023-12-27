@@ -159,7 +159,10 @@ class AdminMailer < ApplicationMailer
       content = liquid_template.render(
         'acp' => Liquid::ACPDrop.new(Current.acp),
         'admin' => Liquid::AdminDrop.new(@admin),
-        'memberships' => params[:memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        'pending_memberships' => params[:pending_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        'opened_memberships' => params[:opened_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        'pending_action_url' => params[:pending_action_url],
+        'opened_action_url' => params[:opened_action_url],
         'action_url' => params[:action_url])
       content_mail(content,
         to: @admin.email,

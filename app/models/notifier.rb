@@ -41,21 +41,27 @@ module Notifier
     end_of_fiscal_year = Current.fiscal_year.end_of_year
     return unless end_of_fiscal_year.in?(delays)
 
-    memberships = Membership.current_year.renewal_state_eq(:renewal_pending)
-    return if memberships.empty?
+    pending_memberships = Membership.current_year.renewal_state_eq(:renewal_pending)
+    opened_memberships = Membership.current_year.renewal_state_eq(:renewal_opened)
+    return unless pending_memberships.any? || opened_memberships.any?
 
-    action_url =
-      Rails
-        .application
-        .routes
-        .url_helpers
-        .memberships_url(
-          q: { renewal_state_eq: 'renewal_pending', during_year: Current.fy_year },
-          scope: :all,
-          host: Current.acp.email_default_host)
     Admin.notify!(:memberships_renewal_pending,
-      memberships: memberships.to_a,
-      action_url: action_url)
+      pending_memberships: pending_memberships.to_a,
+      opened_memberships: opened_memberships.to_a,
+      pending_action_url: memberships_url(renewal_state_eq: :renewal_pending),
+      opened_action_url: memberships_url(renewal_state_eq: :renewal_opened),
+      action_url: memberships_url)
+  end
+
+  def memberships_url(**options)
+    Rails
+      .application
+      .routes
+      .url_helpers
+      .memberships_url(
+        q: { during_year: Current.fy_year }.merge(options),
+        scope: :all,
+        host: Current.acp.email_default_host)
   end
 
   def send_membership_renewal_reminder_emails

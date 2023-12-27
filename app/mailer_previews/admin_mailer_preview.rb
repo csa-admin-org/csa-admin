@@ -174,9 +174,13 @@ class AdminMailerPreview < ActionMailer::Preview
       email: 'admin@acp-admin.ch')
     membership_1 = Membership.new(id: 1)
     membership_2 = Membership.new(id: 2)
+    membership_3 = Membership.new(id: 3)
     AdminMailer.with(
       admin: admin,
-      memberships: [membership_1, membership_2],
+      pending_memberships: [membership_1, membership_2],
+      opened_memberships: [membership_3],
+      pending_action_url: 'https://admin.example.com/memberships',
+      opened_action_url: 'https://admin.example.com/memberships',
       action_url: 'https://admin.example.com/memberships'
     ).memberships_renewal_pending_email
   end
