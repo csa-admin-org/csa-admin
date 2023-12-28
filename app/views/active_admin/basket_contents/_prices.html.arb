@@ -14,7 +14,7 @@ delivery.basket_content_prices.each do |basket_size, depot_prices|
         else
           title = delivery.fiscal_year
         end
-        span title, class: 'sub-title'
+        span title, class: 'subtitle'
         span display_basket_price_diff(baskets_price_total, diff), class: 'avg_diff'
       end
     end
