@@ -9,7 +9,7 @@ describe Membership do
       expect(membership.activity_participations_demanded_annualy).to eq 3
     end
 
-    specify 'using basket quantity' do
+    specify 'using basket quantity', freeze: '2023-01-01' do
       basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
       membership = create(:membership,
         basket_quantity: 2,
@@ -121,7 +121,7 @@ describe Membership do
     expect(membership.baskets.pluck(:depot_id).uniq).to eq [depot.id]
   end
 
-  it 'creates baskets with complements on creation' do
+  it 'creates baskets with complements on creation', freeze: '2023-01-01' do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
     delivery = create(:delivery, basket_complement_ids: [1, 2])

@@ -268,7 +268,7 @@ describe Shop::Order do
         .and change { order.reload.state }.from('cart').to('pending')
     end
 
-    specify 'persist the depot', sidekiq: :inline do
+    specify 'persist the depot', sidekiq: :inline, freeze: '2023-01-01' do
       member = create(:member, :active)
       depot = member.current_membership.depot
       order = create(:shop_order, :cart, member: member)
@@ -358,7 +358,7 @@ describe Shop::Order do
       expect(order.items.size).to eq(2)
     end
 
-    specify 'persist the depot', sidekiq: :inline do
+    specify 'persist the depot', sidekiq: :inline, freeze: '2023-01-01' do
       member = create(:member, :active)
       depot = member.current_membership.depot
       order = create(:shop_order, :cart, member: member)
@@ -405,7 +405,7 @@ describe Shop::Order do
         .and change { order.reload.state }.from('pending').to('cart')
     end
 
-    specify 'persist the depot', sidekiq: :inline do
+    specify 'persist the depot', sidekiq: :inline, freeze: '2023-01-01' do
       member = create(:member, :active)
       depot = member.current_membership.depot
       order = create(:shop_order, :cart, member: member)

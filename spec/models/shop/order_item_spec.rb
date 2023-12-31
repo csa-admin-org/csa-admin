@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Shop::OrderItem do
+describe Shop::OrderItem, freeze: '2023-01-01' do
   specify 'set product variant price by default' do
     product = create(:shop_product, variants_attributes: {
       '0' => {
