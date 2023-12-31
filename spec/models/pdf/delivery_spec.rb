@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PDF::Delivery do
+describe PDF::Delivery, freeze: '2023-01-01' do
   def save_pdf_and_return_strings(delivery, depot)
     pdf = PDF::Delivery.new(delivery)
     # pdf_path = "tmp/delivery-#{Current.acp.name}-#{delivery.date}-#{depot.name}.pdf"
