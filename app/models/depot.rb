@@ -29,6 +29,7 @@ class Depot < ApplicationRecord
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
   has_and_belongs_to_many :delivery_cycles # Visibility
+  belongs_to :group, class_name: 'DepotGroup', optional: true
 
   default_scope { order(:position) }
   scope :member_ordered, -> {

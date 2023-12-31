@@ -136,12 +136,12 @@ module MembersHelper
     collection_text(bc.public_name, details: basket_complement_details(bc, only_price_per_delivery: only_price_per_delivery))
   end
 
-  def depots_collection(membership: nil, basket: nil, delivery_cycle: nil, only_with_future_deliveries: false, show_price: true, only_price_per_delivery: false, data: {})
-    visible_depots(
+  def depots_collection(depots: nil, membership: nil, basket: nil, delivery_cycle: nil, only_with_future_deliveries: false, show_price: true, only_price_per_delivery: false, data: {})
+    (depots || visible_depots(
       object: membership || basket,
       delivery_cycle: delivery_cycle,
       only_with_future_deliveries: only_with_future_deliveries
-    ).map { |d|
+    )).map { |d|
       details = []
       if show_price
         if only_price_per_delivery
@@ -317,7 +317,7 @@ module MembersHelper
     ids << object.depot_id if object
     depots = Depot
       .where(id: ids.uniq)
-      .includes(:delivery_cycles)
+      .includes(:group, :delivery_cycles)
       .member_ordered
       .to_a
 
