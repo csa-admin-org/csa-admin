@@ -24,7 +24,7 @@ class MembershipBasketsUpdater
   private
 
   def range
-    [Date.today, @membership.started_on].max..@membership.ended_on
+    [ Date.today, @membership.started_on ].max..@membership.ended_on
   end
 
   def baskets

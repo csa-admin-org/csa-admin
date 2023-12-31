@@ -37,7 +37,7 @@ class MembershipsRenewal
 
   def renew_all!
     unless Delivery.any_next_year?
-      raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
+      raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
 
     renewable.find_each do |membership|
@@ -47,7 +47,7 @@ class MembershipsRenewal
 
   def open_all!
     unless Delivery.any_next_year?
-      raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
+      raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
 
     openable.find_each do |membership|

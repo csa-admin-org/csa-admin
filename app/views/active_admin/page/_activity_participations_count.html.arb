@@ -1,4 +1,4 @@
-ul class: 'counts' do
+ul class: "counts" do
   %i[future pending validated paid missing].each do |scope|
     li do
       path =
@@ -6,7 +6,7 @@ ul class: 'counts' do
         when :missing then nil
         when :paid
           invoices_path(scope: :all_without_canceled, q: {
-            entity_type_in: 'ActivityParticipation',
+            entity_type_in: "ActivityParticipation",
             during_year: Current.acp.current_fiscal_year.year
           })
         else
@@ -23,8 +23,8 @@ ul class: 'counts' do
         else
           ActivityParticipation.current_year.send(scope).sum(:participants_count)
         end
-      content = span class: ('zero' if count.zero?) do
-        span count.zero? ? '–' : count, class: 'count'
+      content = span class: ("zero" if count.zero?) do
+        span count.zero? ? "–" : count, class: "count"
         span I18n.t("active_admin.resources.activity_participation.scopes.#{scope}").capitalize
       end
       case scope

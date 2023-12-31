@@ -9,7 +9,7 @@ class Members::BasketsController < Members::BaseController
   # PATCH /baskets/:id
   def update
     @basket.member_update!(basket_params)
-    redirect_to members_deliveries_path, notice: t('flash.actions.update.notice')
+    redirect_to members_deliveries_path, notice: t("flash.actions.update.notice")
   end
 
   private
@@ -32,7 +32,7 @@ class Members::BasketsController < Members::BaseController
             :id, :basket_complement_id, :quantity
           ])
     permitted[:baskets_basket_complements_attributes]&.each { |i, attrs|
-      attrs['_destroy'] = true if attrs['quantity'].to_i.zero?
+      attrs["_destroy"] = true if attrs["quantity"].to_i.zero?
     }
     permitted
   end

@@ -37,7 +37,7 @@ class ActivityParticipationDemanded
 
   def count
     @liquid_template.render(
-      'member' => MemberDrop.new(@membership.member),
-      'membership' => MembershipDrop.new(@membership)).to_i
+      "member" => MemberDrop.new(@membership.member),
+      "membership" => MembershipDrop.new(@membership)).to_i
   end
 end

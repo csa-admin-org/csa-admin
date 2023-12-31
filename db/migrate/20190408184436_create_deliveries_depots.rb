@@ -4,7 +4,7 @@ class CreateDeliveriesDepots < ActiveRecord::Migration[5.2]
       t.references :depot, null: false, index: false
       t.references :delivery, null: false, index: false
     end
-    add_index :deliveries_depots, [:depot_id, :delivery_id],
+    add_index :deliveries_depots, [ :depot_id, :delivery_id ],
       unique: true, name: 'deliveries_depots_unique_index'
 
     delivery_ids = Delivery.pluck(:id)

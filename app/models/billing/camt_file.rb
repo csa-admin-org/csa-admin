@@ -32,11 +32,11 @@ module Billing
                       date: date,
                       fingerprint: "#{date}-#{bank_ref}-#{ref}")
                   else
-                    Sentry.capture_message('Invalid payment referrence', extra: {
+                    Sentry.capture_message("Invalid payment referrence", extra: {
                       ref: ref,
                       bank_ref: bank_ref,
                       amount: transaction.amount,
-                      date: date,
+                      date: date
                     })
                     nil
                   end
@@ -47,7 +47,7 @@ module Billing
         else
           raise UnsupportedFileError, "Invalid format: #{camt54.class.name}"
         end
-      # Handle identical payment (same date, same ref, same amount)
+        # Handle identical payment (same date, same ref, same amount)
       }.group_by(&:fingerprint).flat_map { |_, dd|
         amounts_count = dd.map(&:amount).uniq.size
         dd.each_with_index.map { |d, i|

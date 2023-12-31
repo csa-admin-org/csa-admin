@@ -1,7 +1,7 @@
 class Basket < ApplicationRecord
   include HasDescription
 
-  default_scope { joins(:delivery).order('deliveries.date') }
+  default_scope { joins(:delivery).order("deliveries.date") }
 
   belongs_to :membership, counter_cache: true, touch: true
   belongs_to :delivery
@@ -30,7 +30,7 @@ class Basket < ApplicationRecord
   scope :not_absent, -> { where(absent: false) }
   scope :not_empty, -> {
     left_outer_joins(:baskets_basket_complements)
-      .where('baskets.quantity > 0 OR baskets_basket_complements.quantity > 0')
+      .where("baskets.quantity > 0 OR baskets_basket_complements.quantity > 0")
   }
   scope :billable, -> {
     unless Current.acp.absences_billed?
@@ -48,14 +48,14 @@ class Basket < ApplicationRecord
   def self.complement_count(complement)
     joins(:baskets_basket_complements)
       .where(baskets_basket_complements: { basket_complement_id: complement.id })
-      .sum('baskets_basket_complements.quantity')
+      .sum("baskets_basket_complements.quantity")
   end
 
   def description(public_name: false)
     [
       basket_description(public_name: public_name),
       complements_description(public_name: public_name)
-    ].compact.join(' + ').presence || '–'
+    ].compact.join(" + ").presence || "–"
   end
 
   def basket_description(public_name: false)
@@ -95,7 +95,7 @@ class Basket < ApplicationRecord
   end
 
   def member_update!(params)
-    raise 'update not allowed' unless can_member_update?
+    raise "update not allowed" unless can_member_update?
 
     if params.key?(:depot_id)
       self.depot_price = nil
@@ -149,7 +149,7 @@ class Basket < ApplicationRecord
   end
 
   def calculate_price_extra
-    return 0 unless Current.acp.feature?('basket_price_extra')
+    return 0 unless Current.acp.feature?("basket_price_extra")
     return 0 if basket_price.zero? && complements_price.zero?
 
     Current.acp.calculate_basket_price_extra(

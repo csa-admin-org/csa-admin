@@ -1,5 +1,4 @@
 class Liquid::BasketContentDrop < Liquid::Drop
-
   def initialize(basket, basket_content)
     @basket = basket
     @basket_content = basket_content

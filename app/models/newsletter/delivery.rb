@@ -1,6 +1,6 @@
 class Newsletter
   class Delivery < ApplicationRecord
-    self.table_name = 'newsletter_deliveries'
+    self.table_name = "newsletter_deliveries"
 
     belongs_to :newsletter
     belongs_to :member
@@ -15,7 +15,7 @@ class Newsletter
     end
 
     def deliver!
-      raise 'Already delivered!' if delivered?
+      raise "Already delivered!" if delivered?
 
       transaction do
         emails.each { |email|

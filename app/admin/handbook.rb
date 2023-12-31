@@ -1,10 +1,10 @@
-ActiveAdmin.register_page 'Handbook' do
+ActiveAdmin.register_page "Handbook" do
   menu false
 
-  content title: proc { t('layouts.footer.handbook') } do
+  content title: proc { t("layouts.footer.handbook") } do
     columns do
       column do
-        div class: 'content' do
+        div class: "content" do
           handbook = Handbook.new(params[:id], binding)
           handbook.body
         end
@@ -13,12 +13,12 @@ ActiveAdmin.register_page 'Handbook' do
   end
 
   sidebar :pages do
-    ul class: 'handbook-toc' do
+    ul class: "handbook-toc" do
       Handbook.all(binding).each do |handbook|
-        li class: (handbook.name == params[:id] ? 'active' : '') do
+        li class: (handbook.name == params[:id] ? "active" : "") do
           if handbook.name == params[:id]
-            span class: 'active' do
-              span inline_svg_tag('admin/chevron-down.svg', size: '12')
+            span class: "active" do
+              span inline_svg_tag("admin/chevron-down.svg", size: "12")
               span handbook.title
             end
             ul do
@@ -32,7 +32,7 @@ ActiveAdmin.register_page 'Handbook' do
             end
           else
             a href: handbook_page_path(handbook.name) do
-              span inline_svg_tag('admin/chevron-right.svg', size: '12')
+              span inline_svg_tag("admin/chevron-right.svg", size: "12")
               span handbook.title
             end
           end
@@ -42,8 +42,8 @@ ActiveAdmin.register_page 'Handbook' do
   end
 
   sidebar :help, if: -> { params[:id] } do
-    div class: 'content' do
-      para t('.handbook_questions_html')
+    div class: "content" do
+      para t(".handbook_questions_html")
     end
   end
 

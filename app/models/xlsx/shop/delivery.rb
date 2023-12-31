@@ -13,7 +13,7 @@ module XLSX
           ::Shop::OrderItem
             .joins(:order)
             .merge(orders)
-            .eager_load(:product_variant, product: :producer, order: [:invoice, :member, :depot])
+            .eager_load(:product_variant, product: :producer, order: [ :invoice, :member, :depot ])
             .order(Arel.sql("members.name, shop_products.names->>'#{I18n.locale}', shop_product_variants.names->>'#{I18n.locale}'"))
         @producers = @order_items.map { |i| i.product.producer }.uniq
 
@@ -25,17 +25,17 @@ module XLSX
 
       def filename
         [
-          I18n.t('shop.title').parameterize,
+          I18n.t("shop.title").parameterize,
           ::Delivery.model_name.human.parameterize,
           @delivery.display_number,
-          @delivery.date.strftime('%Y%m%d')
-        ].join('-') + '.xlsx'
+          @delivery.date.strftime("%Y%m%d")
+        ].join("-") + ".xlsx"
       end
 
       private
 
       def build_all_producers_worksheet
-        worksheet_name = I18n.t('shop.producers.all')
+        worksheet_name = I18n.t("shop.producers.all")
         add_order_items_worksheet(worksheet_name, @order_items)
       end
 
@@ -52,7 +52,7 @@ module XLSX
         add_column(
           ::Shop::Order.model_name.human,
           order_items.map { |i| i.order.id },
-          align: 'right',
+          align: "right",
           min_width: 12)
         add_column(
           Member.human_attribute_name(:name),
@@ -74,17 +74,17 @@ module XLSX
         add_column(
           ::Shop::OrderItem.human_attribute_name(:quantity),
           order_items.map(&:quantity),
-          align: 'right',
+          align: "right",
           min_width: 8)
         add_column(
           ::Shop::OrderItem.human_attribute_name(:price),
           order_items.map(&:item_price),
-          align: 'right',
+          align: "right",
           min_width: 8)
         add_column(
           ::Shop::OrderItem.human_attribute_name(:amount),
           order_items.map(&:amount),
-          align: 'right',
+          align: "right",
           min_width: 8)
       end
     end

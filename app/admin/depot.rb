@@ -26,11 +26,11 @@ ActiveAdmin.register Depot do
       column :delivery_cycles, ->(d) {
         d.delivery_cycles.map { |cycle|
           auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
-        }.join(', ').html_safe
+        }.join(", ").html_safe
       }
     end
     column :visible
-    actions class: 'col-actions-3'
+    actions class: "col-actions-3"
   end
 
   member_action :move_to, method: :patch do
@@ -65,8 +65,8 @@ ActiveAdmin.register Depot do
     column(:zip)
     column(:visible)
     column(:contact_name)
-    column(:emails) { |d| d.emails_array.join(', ') }
-    column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(', ') }
+    column(:emails) { |d| d.emails_array.join(", ") }
+    column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(", ") }
   end
 
   action_item :depot_group, only: :index do
@@ -77,31 +77,31 @@ ActiveAdmin.register Depot do
     columns do
       column do
         if next_delivery = depot.next_delivery
-          panel t('active_admin.page.index.next_delivery', delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
-            div class: 'actions' do
+          panel t("active_admin.page.index.next_delivery", delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
+            div class: "actions" do
               icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
-              icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: '_blank')
+              icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: "_blank")
             end
 
             attrs = {}
-            if authorized?(:update, depot) && depot.delivery_sheets_mode == 'home_delivery'
-              attrs[:class] = 'sortable'
-              attrs[:tbody] = { 'data-controller' => 'sortable' }
+            if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
+              attrs[:class] = "sortable"
+              attrs[:tbody] = { "data-controller" => "sortable" }
               attrs[:row_data] = ->(b) {
-                { 'data-sortable-update-url' => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
+                { "data-sortable-update-url" => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
               }
             end
 
             table_for(depot.baskets_for(next_delivery), **attrs) do
-              column Member.model_name.human, -> (b) { auto_link b.member }
-              column Basket.model_name.human, -> (b) { link_to(b.description, b.membership) }
+              column Member.model_name.human, ->(b) { auto_link b.member }
+              column Basket.model_name.human, ->(b) { link_to(b.description, b.membership) }
             end
           end
         else
-          panel t('active_admin.page.index.no_next_delivery') do
-            div class: 'blank_slate_container' do
+          panel t("active_admin.page.index.no_next_delivery") do
+            div class: "blank_slate_container" do
               i do
-                link_to t('active_admin.page.index.no_next_deliveries'), deliveries_path
+                link_to t("active_admin.page.index.no_next_deliveries"), deliveries_path
               end
             end
           end
@@ -125,10 +125,10 @@ ActiveAdmin.register Depot do
           row(:delivery_sheets_mode) { t("delivery.sheets_mode.#{depot.delivery_sheets_mode}") }
         end
 
-        attributes_table title: t('.member_new_form') do
+        attributes_table title: t(".member_new_form") do
           row :visible
           if DeliveryCycle.visible?
-            table_for depot.delivery_cycles, class: 'delivery_cycles' do
+            table_for depot.delivery_cycles, class: "delivery_cycles" do
               column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
               column Current.acp.current_fiscal_year, ->(dc) {
                 auto_link dc, dc.current_deliveries_count
@@ -164,41 +164,41 @@ ActiveAdmin.register Depot do
       f.input :name
       translated_input(f, :public_names,
         required: false,
-        hint: t('formtastic.hints.depot.public_name'))
+        hint: t("formtastic.hints.depot.public_name"))
       f.input :group,
         as: :select,
-        hint: t('formtastic.hints.depot.group_html')
+        hint: t("formtastic.hints.depot.group_html")
       language_input(f)
       f.input :price, hint: true
       f.input :note, input_html: { rows: 3 }
       translated_input(f, :public_notes,
         as: :action_text,
         required: false,
-        hint: t('formtastic.hints.depot.public_note'))
+        hint: t("formtastic.hints.depot.public_note"))
     end
 
     f.inputs Delivery.human_attribute_name(:sheets_pdf) do
       f.input :delivery_sheets_mode,
         as: :radio,
-        wrapper_html: { class: 'detailed-option' },
+        wrapper_html: { class: "detailed-option" },
         collection: Depot::DELIVERY_SHEETS_MODES.map { |mode|
           [
             content_tag(:span) {
               content_tag(:span, t("delivery.sheets_mode.#{mode}")) +
-              content_tag(:span, t("delivery.sheets_mode.#{mode}_hint").html_safe, class: 'hint')
+              content_tag(:span, t("delivery.sheets_mode.#{mode}_hint").html_safe, class: "hint")
             },
             mode
           ]
         }
     end
 
-    f.inputs t('active_admin.resource.show.member_new_form') do
+    f.inputs t("active_admin.resource.show.member_new_form") do
       f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
-        hint: t('formtastic.hints.acp.member_order_priority_html')
+        hint: t("formtastic.hints.acp.member_order_priority_html")
       unless DeliveryCycle.basket_size_config?
         f.input :delivery_cycles,
           collection: delivery_cycles_collection,
@@ -247,6 +247,6 @@ ActiveAdmin.register Depot do
     include DeliveryCyclesHelper
   end
 
-  config.sort_order = 'name_asc'
+  config.sort_order = "name_asc"
   config.paginate = false
 end

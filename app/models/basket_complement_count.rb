@@ -25,7 +25,7 @@ class BasketComplementCount
   end
 
   def shop_orders_count
-    return 0 unless Current.acp.feature?('shop')
+    return 0 unless Current.acp.feature?("shop")
     return 0 if @scope == :absent
 
     @shop_orders_count ||= @delivery.shop_orders.all_without_cart.complement_count(@complement)

@@ -1,14 +1,14 @@
-ENV['RAILS_ENV'] ||= 'test'
-require 'spec_helper'
-require File.dirname(__FILE__) + '/../config/environment'
-require 'rspec/rails'
-require 'super_diff/rspec-rails'
-require 'capybara/rails'
-require 'capybara/rspec'
-require 'capybara/email/rspec'
-require 'sidekiq/testing'
+ENV["RAILS_ENV"] ||= "test"
+require "spec_helper"
+require File.dirname(__FILE__) + "/../config/environment"
+require "rspec/rails"
+require "super_diff/rspec-rails"
+require "capybara/rails"
+require "capybara/rspec"
+require "capybara/email/rspec"
+require "sidekiq/testing"
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 ActiveJob::Uniqueness.test_mode!
 
@@ -21,18 +21,18 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
 
   config.before(:suite) do
-    unless ACP.exists?(host: 'ragedevert')
-      FactoryBot.create(:acp, host: 'ragedevert', tenant_name: 'ragedevert')
+    unless ACP.exists?(host: "ragedevert")
+      FactoryBot.create(:acp, host: "ragedevert", tenant_name: "ragedevert")
     end
   end
 
   config.before(:each, type: :system) do
     driven_by :rack_test
-    Capybara.app_host = 'http://admin.ragedevert.test'
+    Capybara.app_host = "http://admin.ragedevert.test"
   end
 
   config.around(:each) do |example|
-    Tenant.switch('ragedevert') do
+    Tenant.switch("ragedevert") do
       example.run
     end
   end
@@ -43,7 +43,7 @@ RSpec.configure do |config|
     Faker::UniqueGenerator.clear
   end
 
-  shared_context 'sidekiq:inline', sidekiq: :inline do
+  shared_context "sidekiq:inline", sidekiq: :inline do
     around(:each) { |ex| Sidekiq::Testing.inline!(&ex) }
   end
 end

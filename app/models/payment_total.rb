@@ -21,10 +21,10 @@ class PaymentTotal
     case scope
     when :paid
       txt = link_to_payments I18n.t("billing.scope.#{scope}")
-      overpaid = @invoices.overpaid.sum('paid_amount - amount')
+      overpaid = @invoices.overpaid.sum("paid_amount - amount")
       if overpaid.positive?
         link = link_to_invoices(
-          I18n.t('billing.scope.overpaid_amount', amount: cur(overpaid, format: '%n')),
+          I18n.t("billing.scope.overpaid_amount", amount: cur(overpaid, format: "%n")),
           scope: :closed,
           q: {
             amount_gt: 0,
@@ -37,7 +37,7 @@ class PaymentTotal
       txt = link_to_invoices I18n.t("billing.scope.#{scope}"), scope: :open
       if @invoices.with_overdue_notice.any?
         link = link_to_invoices(
-          I18n.t('billing.scope.overdue_notices', count: @invoices.with_overdue_notice.count),
+          I18n.t("billing.scope.overdue_notices", count: @invoices.with_overdue_notice.count),
           scope: :open,
           q: { overdue_notices_count_gt: 0 })
         txt += " (#{link})".html_safe
@@ -52,7 +52,7 @@ class PaymentTotal
       when :paid
         @payments.sum(:amount)
       when :missing
-        @invoices.open.sum('amount - paid_amount')
+        @invoices.open.sum("amount - paid_amount")
       end
   end
 

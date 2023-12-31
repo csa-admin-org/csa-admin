@@ -4,14 +4,14 @@ class InvoiceTotal
 
   def self.all(year)
     scopes = %w[Membership]
-    scopes << 'AnnualFee' if Current.acp.annual_fee?
-    scopes << 'ACPShare' if Current.acp.share?
-    scopes << 'Shop::Order' if Current.acp.feature?('shop')
-    scopes << 'ActivityParticipation' if Current.acp.feature?('activity')
-    scopes << 'Other' if Invoice.current_year.not_canceled.other_type.any?
+    scopes << "AnnualFee" if Current.acp.annual_fee?
+    scopes << "ACPShare" if Current.acp.share?
+    scopes << "Shop::Order" if Current.acp.feature?("shop")
+    scopes << "ActivityParticipation" if Current.acp.feature?("activity")
+    scopes << "Other" if Invoice.current_year.not_canceled.other_type.any?
     all = scopes.flatten.map { |scope| new(scope, year) }
     sum = all.sum(&:price)
-    remaining = new('RemainingMembership', year)
+    remaining = new("RemainingMembership", year)
 
     all << OpenStruct.new(price: sum)
     all << remaining
@@ -28,35 +28,35 @@ class InvoiceTotal
 
   def title
     case scope
-    when 'Membership'
+    when "Membership"
       link_to_invoices Membership.model_name.human(count: 2)
-    when 'RemainingMembership'
-      I18n.t('billing.remaining_memberships')
-    when 'AnnualFee'
-      link_to_invoices(I18n.t('billing.annual_fees'), %w[Membership AnnualFee])
-    when 'ACPShare'
-      link_to_invoices I18n.t('billing.acp_shares')
-    when 'Shop::Order'
-      link_to_invoices I18n.t('shop.title_orders', count: 2)
-    when 'ActivityParticipation'
+    when "RemainingMembership"
+      I18n.t("billing.remaining_memberships")
+    when "AnnualFee"
+      link_to_invoices(I18n.t("billing.annual_fees"), %w[Membership AnnualFee])
+    when "ACPShare"
+      link_to_invoices I18n.t("billing.acp_shares")
+    when "Shop::Order"
+      link_to_invoices I18n.t("shop.title_orders", count: 2)
+    when "ActivityParticipation"
       link_to_invoices activities_human_name
-    when 'NewMemberFee'
-      link_to_invoices I18n.t('invoices.entity_type.new_member_fee')
-    when 'Other'
-      link_to_invoices I18n.t('billing.other')
+    when "NewMemberFee"
+      link_to_invoices I18n.t("invoices.entity_type.new_member_fee")
+    when "Other"
+      link_to_invoices I18n.t("billing.other")
     end
   end
 
   def price
     @price ||=
       case scope
-      when 'Membership'
+      when "Membership"
         @invoices.sum(:memberships_amount)
-      when 'RemainingMembership'
+      when "RemainingMembership"
         invoices_total = @invoices.sum(:memberships_amount)
         memberships_total = @memberships.sum(:price)
-        [memberships_total - invoices_total, 0].max
-      when 'AnnualFee'
+        [ memberships_total - invoices_total, 0 ].max
+      when "AnnualFee"
         @invoices.sum(:annual_fee)
       else
         @invoices.where(entity_type: scope).sum(:amount)

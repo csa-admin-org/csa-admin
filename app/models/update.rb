@@ -2,7 +2,7 @@ class Update
   include Comparable
 
   def self.all
-    path = Rails.root.join('app/views/updates', '*.md.erb')
+    path = Rails.root.join("app/views/updates", "*.md.erb")
     Dir.glob(path).map { |path|
       new(path)
     }.sort.reverse
@@ -31,7 +31,7 @@ class Update
   end
 
   def name
-    @name ||= filename.sub(/\A_\d{8}_/, '')
+    @name ||= filename.sub(/\A_\d{8}_/, "")
   end
 
   def date
@@ -45,6 +45,6 @@ class Update
   private
 
   def filename
-    @filename ||= File.basename(@filepath, '.md.erb')
+    @filename ||= File.basename(@filepath, ".md.erb")
   end
 end

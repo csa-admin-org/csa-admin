@@ -10,7 +10,7 @@ module HasState
         define_method("#{state}?") { self.state == state_string }
       end
 
-      const_set('STATES', states.map(&:to_s).freeze)
+      const_set("STATES", states.map(&:to_s).freeze)
     end
   end
 

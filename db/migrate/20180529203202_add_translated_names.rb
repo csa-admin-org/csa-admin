@@ -6,15 +6,15 @@ class AddTranslatedNames < ActiveRecord::Migration[5.2]
 
     acp = Current.acp
     BasketSize.find_each do |basket_size|
-      names = acp.languages.map { |l| [l, basket_size[:name]] }.to_h
+      names = acp.languages.map { |l| [ l, basket_size[:name] ] }.to_h
       basket_size.update!(names: names)
     end
     BasketComplement.find_each do |basket_complement|
-      names = acp.languages.map { |l| [l, basket_complement[:name]] }.to_h
+      names = acp.languages.map { |l| [ l, basket_complement[:name] ] }.to_h
       basket_complement.update!(names: names)
     end
     Vegetable.find_each do |vegetable|
-      names = acp.languages.map { |l| [l, vegetable[:name]] }.to_h
+      names = acp.languages.map { |l| [ l, vegetable[:name] ] }.to_h
       vegetable.update!(names: names)
     end
 

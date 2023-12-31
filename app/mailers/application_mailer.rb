@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   default from: -> { Current.acp.email_from }
-  layout 'mailer'
+  layout "mailer"
 
   attr_reader :content
 
@@ -13,8 +13,8 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def content_mail(content, **args)
-    args[:template_name] = 'content'
-    args[:template_path] = 'mailers'
+    args[:template_name] = "content"
+    args[:template_path] = "mailers"
     @subject = args[:subject]
     @content = content
     mail(**args)
@@ -26,10 +26,9 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def liquid_template
-    mailer_method = caller_locations(1,1)[0].label.gsub('block in ', '')
-    name = [mailer_method, I18n.locale, 'liquid'].join('.')
-    path = Rails.root.join('app/views', self.class.name.underscore, name)
+    mailer_method = caller_locations(1, 1)[0].label.gsub("block in ", "")
+    name = [ mailer_method, I18n.locale, "liquid" ].join(".")
+    path = Rails.root.join("app/views", self.class.name.underscore, name)
     Liquid::Template.parse(File.read(path))
   end
 end
-

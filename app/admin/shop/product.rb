@@ -1,16 +1,16 @@
 ActiveAdmin.register Shop::Product do
   menu parent: :shop, priority: 2
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   breadcrumb do
-    if params['action'] == 'index'
-      [t('active_admin.menu.shop')]
+    if params["action"] == "index"
+      [ t("active_admin.menu.shop") ]
     else
       links = [
-        t('active_admin.menu.shop'),
+        t("active_admin.menu.shop"),
         link_to(Shop::Product.model_name.human(count: 2), shop_products_path)
       ]
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << shop_product.name
       end
       links
@@ -48,7 +48,7 @@ ActiveAdmin.register Shop::Product do
       display_variants(self, product)
     }
     if authorized?(:update, Shop::Product)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -62,55 +62,55 @@ ActiveAdmin.register Shop::Product do
     column(:name)
     column(:basket_complement) { |p| p.basket_complement&.name }
     column(:product_variant)  { |p| p[:variant_name] }
-    column(:price) { |p| p['variant_price'] }
-    column(:weight_in_kg) { |p| p['variant_weight_in_kg'] }
-    column(:stock) { |p| p['variant_stock'] }
+    column(:price) { |p| p["variant_price"] }
+    column(:weight_in_kg) { |p| p["variant_weight_in_kg"] }
+    column(:stock) { |p| p["variant_stock"] }
     column(:available)
   end
 
   sidebar_shop_admin_only_warning
-  sidebar_handbook_link('shop#produits')
+  sidebar_handbook_link("shop#produits")
 
   form do |f|
     f.semantic_errors :base
     errors_on(self, f, :variants)
     tabs do
-      tab t('.details') do
+      tab t(".details") do
         f.inputs nil do
           translated_input(f, :names)
           translated_input(f, :descriptions, as: :action_text)
           f.input :tags,
             as: :select,
-            collection: Shop::Tag.all.map { |t| [t.display_name, t.id] },
-            wrapper_html: { class: 'select-tags' },
-            input_html: { multiple: true, data: { controller: 'select-tags' } }
+            collection: Shop::Tag.all.map { |t| [ t.display_name, t.id ] },
+            wrapper_html: { class: "select-tags" },
+            input_html: { multiple: true, data: { controller: "select-tags" } }
           f.input :producer
           f.input :basket_complement,
             collection: BasketComplement.includes(:shop_product).map { |bc|
-              [bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object]
+              [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
             },
-            hint: t('formtastic.hints.shop/product.basket_complement')
+            hint: t("formtastic.hints.shop/product.basket_complement")
           f.input :display_in_delivery_sheets,
             as: :boolean,
             input_html: { disabled: f.object.basket_complement_id? },
-            hint: t('formtastic.hints.shop/product.display_in_delivery_sheets')
+            hint: t("formtastic.hints.shop/product.display_in_delivery_sheets")
         end
       end
-      tab t('.availability'), id: :availability do
-        f.inputs nil, 'data-controller' => 'form-checkbox-toggler' do
+      tab t(".availability"), id: :availability do
+        f.inputs nil, "data-controller" => "form-checkbox-toggler" do
           f.input :available,
             as: :boolean,
             required: false,
             input_html: { data: {
-              form_checkbox_toggler_target: 'checkbox',
-              action: 'form-checkbox-toggler#toggleInput'
+              form_checkbox_toggler_target: "checkbox",
+              action: "form-checkbox-toggler#toggleInput"
             } }
           f.input :available_for_depot_ids,
             label: Depot.model_name.human(count: 2),
             as: :check_boxes,
             collection: Depot.all,
             input_html: {
-              data: { form_checkbox_toggler_target: 'input' }
+              data: { form_checkbox_toggler_target: "input" }
             }
           coming_deliveries = Delivery.coming.shop_open.all
           if coming_deliveries.any?
@@ -119,14 +119,14 @@ ActiveAdmin.register Shop::Product do
               as: :check_boxes,
               collection: coming_deliveries,
               input_html: {
-                data: { form_checkbox_toggler_target: 'input' }
+                data: { form_checkbox_toggler_target: "input" }
               }
           end
         end
       end
       tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
         f.inputs nil do
-          f.has_many :variants, allow_destroy: -> (pv) { pv.can_destroy? }, heading: nil do |ff|
+          f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
             translated_input(ff, :names)
             ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95
             ff.input :weight_in_kg, as: :number, step: 0.005, min: 0, required: false
@@ -160,18 +160,18 @@ ActiveAdmin.register Shop::Product do
     ])
 
   before_build do |product|
-    if params[:action] == 'new'
+    if params[:action] == "new"
       product.available ||= true
       product.variants << Shop::ProductVariant.new if product.variants.none?
     end
   end
 
-  batch_action :make_available, if: ->(attr) { params[:scope] == 'unavailable' } do |selection|
+  batch_action :make_available, if: ->(attr) { params[:scope] == "unavailable" } do |selection|
     Shop::Product.where(id: selection).update_all(available: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :make_unavailable, if: ->(attr) { !params[:scope] || params[:scope] == 'available' } do |selection|
+  batch_action :make_unavailable, if: ->(attr) { !params[:scope] || params[:scope] == "available" } do |selection|
     Shop::Product.where(id: selection).update_all(available: false)
     redirect_back fallback_location: collection_path
   end
@@ -182,7 +182,7 @@ ActiveAdmin.register Shop::Product do
 
     def find_collection(options = {})
       collection = super
-      if params[:format] == 'csv'
+      if params[:format] == "csv"
         collection = collection.left_joins(:variants).select(<<-SQL)
           shop_products.*,
           shop_product_variants.names->>'#{I18n.locale}' as variant_name,

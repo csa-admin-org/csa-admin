@@ -26,7 +26,7 @@ module ApplicationHelper
   def display_name_with_public_name(object)
     txt = object.display_name
     if object.public_name != txt
-      txt += content_tag(:span, object.public_name, class: 'subtitle')
+      txt += content_tag(:span, object.public_name, class: "subtitle")
     end
     txt.html_safe
   end
@@ -36,17 +36,17 @@ module ApplicationHelper
       EmailSuppression
         .active
         .where(email: email)
-        .where.not(reason: 'ManualSuppression')
+        .where.not(reason: "ManualSuppression")
     if suppressions.any?
       arbre.s(email)
       suppressions.each do |suppression|
         arbre.status_tag suppression.reason.underscore
         if suppression.unsuppressable?
           arbre.span do
-            link_to(t('helpers.email_suppressions.destroy'), suppression,
+            link_to(t("helpers.email_suppressions.destroy"), suppression,
               method: :delete,
-              class: 'button',
-              data: { confirm: t('helpers.email_suppressions.destroy_confirm') })
+              class: "button",
+              data: { confirm: t("helpers.email_suppressions.destroy_confirm") })
           end
         end
       end
@@ -68,12 +68,12 @@ module ApplicationHelper
   def display_attachment(attachment)
     link_to(
       "#{attachment.filename} (#{number_to_human_size(attachment.byte_size)})",
-      rails_blob_path(attachment, disposition: 'attachment'))
+      rails_blob_path(attachment, disposition: "attachment"))
   end
 
   def phone_link(phone)
     phone_to(
-      phone.phony_formatted(spaces: '', format: :international),
+      phone.phony_formatted(spaces: "", format: :international),
       display_phone(phone))
   end
 
@@ -100,13 +100,13 @@ module ApplicationHelper
     max_year = Delivery.maximum(:date)&.year || Date.today.year
     (min_year..max_year).map { |year|
       fy = Current.acp.fiscal_year_for(year)
-      [fy.to_s, fy.year]
+      [ fy.to_s, fy.year ]
     }.reverse
   end
 
   def renewal_states_collection
     Membership::RENEWAL_STATES.map { |state|
-      [I18n.t("active_admin.status_tag.#{state}").capitalize, state]
+      [ I18n.t("active_admin.status_tag.#{state}").capitalize, state ]
     }
   end
 
@@ -120,14 +120,14 @@ module ApplicationHelper
   end
 
   def wdays_collection(novalue = nil)
-    col = Array(0..6).rotate.map { |d| [I18n.t('date.day_names')[d].capitalize, d] }
-    col = [[novalue, nil]] + col if novalue
+    col = Array(0..6).rotate.map { |d| [ I18n.t("date.day_names")[d].capitalize, d ] }
+    col = [ [ novalue, nil ] ] + col if novalue
     col
   end
 
   def months_collection
     Array(1..12).rotate(Current.fiscal_year.range.min.month - 1).map { |d|
-      [I18n.t('date.month_names')[d].capitalize, d]
+      [ I18n.t("date.month_names")[d].capitalize, d ]
     }
   end
 
@@ -135,17 +135,17 @@ module ApplicationHelper
     return unless request&.referer
 
     query = URI(request.referer).query
-    Rack::Utils.parse_nested_query(query).dig('q', "#{attr}_eq")
+    Rack::Utils.parse_nested_query(query).dig("q", "#{attr}_eq")
   end
 
-  def postmark_url(path = 'streams')
+  def postmark_url(path = "streams")
     server_id = Current.acp.credentials(:postmark, :server_id)
     "https://account.postmarkapp.com/servers/#{server_id}/#{path}"
   end
 
   def handbook_icon_link(*args)
-    link_to(handbook_page_path(*args), title: I18n.t('layouts.footer.handbook'), class: 'color-light') do
-      inline_svg_tag('admin/book-open.svg', size: '24')
+    link_to(handbook_page_path(*args), title: I18n.t("layouts.footer.handbook"), class: "color-light") do
+      inline_svg_tag("admin/book-open.svg", size: "24")
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'image_processing/vips'
+require "image_processing/vips"
 
 # QR Payload specification: https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf
 # QR Validator: https://www.swiss-qr-invoice.org/validator/?lang=fr
@@ -47,8 +47,8 @@ class InvoiceQRCode
   def generate_qr_image(rails_env: Rails.env)
     # Generating the QR code image is slow so we skip it for performance reasons
     # in the test env.
-    if rails_env == 'test'
-      File.new(Rails.root.join('spec', 'fixtures', 'files', 'qrcode-test.png'))
+    if rails_env == "test"
+      File.new(Rails.root.join("spec", "fixtures", "files", "qrcode-test.png"))
     else
       qrcode_image.composite(logo_image, gravity: :centre).convert(:png).call
     end
@@ -56,46 +56,46 @@ class InvoiceQRCode
 
   def payload
     [
-      'SPC',
-      '0200',
-      '1',
+      "SPC",
+      "0200",
+      "1",
       @acp.qr_iban,
-      'S',
+      "S",
       @acp.qr_creditor_name,
       @acp.qr_creditor_address,
-      '',
+      "",
       @acp.qr_creditor_zip,
       @acp.qr_creditor_city,
       @acp.country_code,
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      sprintf('%.2f', @invoice.missing_amount),
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      sprintf("%.2f", @invoice.missing_amount),
       @acp.currency_code,
-      'S',
+      "S",
       @member.name.truncate(70),
       @member.address.truncate(70),
-      '',
+      "",
       @member.zip,
       @member.city,
       @member.country_code,
-      'QRR',
+      "QRR",
       QRReferenceNumber.new(@invoice).ref,
       "#{Invoice.model_name.human} #{@invoice.id}",
-      'EPD',
-      '',
-      ''
+      "EPD",
+      "",
+      ""
     ].join("\r\n")
   end
 
   private
 
   def qrcode_image
-    vips_image = Vips::Image.new_from_buffer(qrcode_png_blob, '')
+    vips_image = Vips::Image.new_from_buffer(qrcode_png_blob, "")
     ImageProcessing::Vips.source(vips_image)
   end
 

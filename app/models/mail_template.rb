@@ -87,7 +87,7 @@ class MailTemplate < ApplicationRecord
         YAML.load("---\n#{yaml}")
       rescue
       end
-      [locale, data]
+      [ locale, data ]
     }.to_h
   end
 
@@ -96,7 +96,7 @@ class MailTemplate < ApplicationRecord
       data =
         @liquid_data_previews&.dig(locale) ||
           I18n.with_locale(locale) { Liquid::DataPreview.for(self) }
-      [locale, data.to_yaml(line_width: -1).gsub("---\n", '')]
+      [ locale, data.to_yaml(line_width: -1).gsub("---\n", "") ]
     }.to_h
   end
 
@@ -145,7 +145,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def active
-    if title == 'invoice_overdue_notice' && !Current.acp.send_invoice_overdue_notice?
+    if title == "invoice_overdue_notice" && !Current.acp.send_invoice_overdue_notice?
       false
     else
       super

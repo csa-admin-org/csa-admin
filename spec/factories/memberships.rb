@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :membership do
-    member { create(:member, state: 'active', activated_at: Time.current) }
+    member { create(:member, state: "active", activated_at: Time.current) }
     basket_size { BasketSize.first || create(:basket_size) }
     depot { create(:depot) }
     delivery_cycle { depot.delivery_cycles.first }

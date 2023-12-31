@@ -1,6 +1,6 @@
 module Billing
   class Snapshot < ApplicationRecord
-    self.table_name = 'billing_snapshots'
+    self.table_name = "billing_snapshots"
 
     TIME_WINDOW = 15.minutes
 

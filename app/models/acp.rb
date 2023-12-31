@@ -1,6 +1,6 @@
 class ACP < ApplicationRecord
-  self.table_name = 'public.acps'
-  self.sequence_name = 'public.acps_id_seq'
+  self.table_name = "public.acps"
+  self.sequence_name = "public.acps_id_seq"
 
   include TranslatedAttributes
   include TranslatedRichTexts
@@ -17,7 +17,7 @@ class ACP < ApplicationRecord
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it]
   CURRENCIES = %w[CHF EUR]
-  BILLING_YEAR_DIVISIONS = [1, 2, 3, 4, 12]
+  BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]
   EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
   MEMBER_FORM_MODES = %w[membership shop]
@@ -56,7 +56,7 @@ class ACP < ApplicationRecord
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: EMAIL_REGEXP }
   validates :email_default_from, format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
-  validates :activity_phone, presence: true, if: -> { feature?('activity') }
+  validates :activity_phone, presence: true, if: -> { feature?("activity") }
   validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
     :qr_creditor_city, :qr_creditor_zip,
     presence: true
@@ -121,10 +121,10 @@ class ACP < ApplicationRecord
   validates :new_member_fee,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 },
-    if: -> { feature?('new_member_fee') && new_member_fee_description? }
+    if: -> { feature?("new_member_fee") && new_member_fee_description? }
   validates :new_member_fee_description,
     presence: true,
-    if: -> { feature?('new_member_fee') && new_member_fee? }
+    if: -> { feature?("new_member_fee") && new_member_fee? }
 
   after_create :create_tenant!
   after_save :apply_annual_fee_change
@@ -166,7 +166,7 @@ class ACP < ApplicationRecord
   end
 
   def send_invoice_overdue_notice?
-    [credentials(:ebics), credentials(:bas)].any?(&:present?)
+    [ credentials(:ebics), credentials(:bas) ].any?(&:present?)
   end
 
   def billing_year_divisions=(divisions)
@@ -175,7 +175,7 @@ class ACP < ApplicationRecord
 
   def qr_iban=(iban)
     if iban.present?
-      super iban.gsub(/\s/, '').upcase
+      super iban.gsub(/\s/, "").upcase
     end
   end
 
@@ -204,20 +204,20 @@ class ACP < ApplicationRecord
 
   def email_host
     if Rails.env.development?
-      email_default_host.gsub(/\.\w+\z/, '.test')
+      email_default_host.gsub(/\.\w+\z/, ".test")
     else
       email_default_host
     end
   end
 
   def members_subdomain
-    URI.parse(email_default_host).host.split('.').first
+    URI.parse(email_default_host).host.split(".").first
   end
 
   def email_hostname
     return unless email_default_host
 
-    URI.parse(email_default_host).host.gsub(/\A#{members_subdomain}./,"")
+    URI.parse(email_default_host).host.gsub(/\A#{members_subdomain}./, "")
   end
 
   def url=(url)
@@ -254,11 +254,11 @@ class ACP < ApplicationRecord
   end
 
   def basket_price_extras
-    self[:basket_price_extras].join(', ')
+    self[:basket_price_extras].join(", ")
   end
 
   def basket_price_extras=(string)
-    self[:basket_price_extras] = string.split(',').map(&:presence).compact
+    self[:basket_price_extras] = string.split(",").map(&:presence).compact
   end
 
   def shop_member_percentages?
@@ -266,13 +266,13 @@ class ACP < ApplicationRecord
   end
 
   def shop_member_percentages
-    self[:shop_member_percentages].join(', ')
+    self[:shop_member_percentages].join(", ")
   end
 
   def shop_member_percentages=(string)
     self[:shop_member_percentages] =
       string
-        .split(',')
+        .split(",")
         .map(&:presence)
         .compact
         .map(&:to_i)
@@ -318,7 +318,7 @@ class ACP < ApplicationRecord
     @max_deliveries_counts ||=
       DeliveryCycle
         .pluck(:deliveries_counts)
-        .reduce({}) { |h, i| h.merge(i) { |k, old, new| [old, new].flatten.max } }
+        .reduce({}) { |h, i| h.merge(i) { |k, old, new| [ old, new ].flatten.max } }
     @max_deliveries_counts[year.to_s]
   end
 
@@ -331,17 +331,17 @@ class ACP < ApplicationRecord
 
     template = Liquid::Template.parse(basket_price_extra_dynamic_pricing)
     template.render(
-      'extra' => extra.to_f,
-      'basket_price' => basket_price.to_f,
-      'basket_size_id' => basket_size_id,
-      'complements_price' => complements_price.to_f,
-      'deliveries_count' => deliveries_count.to_f
+      "extra" => extra.to_f,
+      "basket_price" => basket_price.to_f,
+      "basket_size_id" => basket_size_id,
+      "complements_price" => complements_price.to_f,
+      "deliveries_count" => deliveries_count.to_f
     ).to_f
   end
 
   def membership_renewed_attributes=(attrs)
     super
-    unless feature?('activity')
+    unless feature?("activity")
       self[:membership_renewed_attributes] += %w[
         activity_participations_demanded_annualy
         activity_participations_annual_price_change

@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Tenant do
-  specify '.inside? / .outside?' do
-    expect(Tenant.current).to eq 'ragedevert'
+  specify ".inside? / .outside?" do
+    expect(Tenant.current).to eq "ragedevert"
     expect(Tenant).to be_inside
     expect(Tenant).not_to be_outside
 
@@ -12,13 +12,13 @@ describe Tenant do
     expect(Tenant).to be_outside
   end
 
-  specify '.switch' do
+  specify ".switch" do
     Tenant.reset
 
     expect(Tenant.current).to eq Tenant.default
-    expect(Tenant.current).not_to eq 'ragedevert'
-    Tenant.switch('ragedevert') do
-      expect(Tenant.current).to eq 'ragedevert'
+    expect(Tenant.current).not_to eq "ragedevert"
+    Tenant.switch("ragedevert") do
+      expect(Tenant.current).to eq "ragedevert"
     end
     expect(Tenant.current).to eq Tenant.default
   end

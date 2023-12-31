@@ -25,7 +25,7 @@ module Tenant
     private
 
     def preserving_search_path
-      search_path = @connection.execute('show search_path').first['search_path']
+      search_path = @connection.execute("show search_path").first["search_path"]
       yield
       @connection.execute("set search_path = #{search_path}")
     end
@@ -49,22 +49,22 @@ module Tenant
     end
 
     def with_pg_env
-      pghost = ENV['PGHOST']
-      pgport = ENV['PGPORT']
-      pguser = ENV['PGUSER']
-      pgpassword = ENV['PGPASSWORD']
+      pghost = ENV["PGHOST"]
+      pgport = ENV["PGPORT"]
+      pguser = ENV["PGUSER"]
+      pgpassword = ENV["PGPASSWORD"]
 
-      ENV['PGHOST'] = @config[:host] if @config[:host]
-      ENV['PGPORT'] = @config[:port].to_s if @config[:port]
-      ENV['PGUSER'] = @config[:username].to_s if @config[:username]
-      ENV['PGPASSWORD'] = @config[:password].to_s if @config[:password]
+      ENV["PGHOST"] = @config[:host] if @config[:host]
+      ENV["PGPORT"] = @config[:port].to_s if @config[:port]
+      ENV["PGUSER"] = @config[:username].to_s if @config[:username]
+      ENV["PGPASSWORD"] = @config[:password].to_s if @config[:password]
 
       yield
     ensure
-      ENV['PGHOST'] = pghost
-      ENV['PGPORT'] = pgport
-      ENV['PGUSER'] = pguser
-      ENV['PGPASSWORD'] = pgpassword
+      ENV["PGHOST"] = pghost
+      ENV["PGPORT"] = pgport
+      ENV["PGUSER"] = pguser
+      ENV["PGPASSWORD"] = pgpassword
     end
 
     def patch_search_path(sql)

@@ -1,10 +1,10 @@
 ActiveAdmin.register Permission do
   menu false
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   breadcrumb do
-    links = [link_to(Admin.model_name.human(count: 2), admins_path)]
-    if params[:action] != 'index'
+    links = [ link_to(Admin.model_name.human(count: 2), admins_path) ]
+    if params[:action] != "index"
       links << link_to(Permission.model_name.human(count: 2), permissions_path)
     end
     links
@@ -13,17 +13,17 @@ ActiveAdmin.register Permission do
   includes :admins
   index download_links: false do
     column :name
-    column [Permission.human_attribute_name(:rights), t('permissions.rights.write')].join(' – '), ->(p) { display_rights(p) }
+    column [ Permission.human_attribute_name(:rights), t("permissions.rights.write") ].join(" – "), ->(p) { display_rights(p) }
     column :admins, ->(p) {
-      link_to p.admins_count, admins_path(q: { permission_id_eq: p.id, }, scope: :all)
-    }, class: 'align-right'
+      link_to p.admins_count, admins_path(q: { permission_id_eq: p.id }, scope: :all)
+    }, class: "align-right"
     if authorized?(:update, Permission)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       translated_input(f, :names)
     end
 
@@ -49,7 +49,7 @@ ActiveAdmin.register Permission do
             input_html: { disabled: true },
             collection: [
               [
-                t('permissions.rights.read'),
+                t("permissions.rights.read"),
                 :read,
                 { selected: true }
               ]

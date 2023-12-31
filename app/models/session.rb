@@ -11,7 +11,7 @@ class Session < ApplicationRecord
 
   before_validation :set_unique_token
 
-  scope :expired, -> { where('created_at > ?', EXPIRATION.ago) }
+  scope :expired, -> { where("created_at > ?", EXPIRATION.ago) }
   scope :admin, -> { where.not(admin_id: nil) }
   scope :member, -> { where.not(member_id: nil) }
 
@@ -33,7 +33,7 @@ class Session < ApplicationRecord
 
   def request=(request)
     self[:remote_addr] = request.remote_addr
-    self[:user_agent] = request.env.fetch('HTTP_USER_AGENT', '-')
+    self[:user_agent] = request.env.fetch("HTTP_USER_AGENT", "-")
   end
 
   def timeout?

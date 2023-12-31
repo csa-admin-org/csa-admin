@@ -1,15 +1,15 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Membership do
-  describe 'set activity_participations_demanded_annualy' do
-    specify 'by default' do
+  describe "set activity_participations_demanded_annualy" do
+    specify "by default" do
       basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
       membership = create(:membership, basket_size_id: basket_size.id)
 
       expect(membership.activity_participations_demanded_annualy).to eq 3
     end
 
-    specify 'using basket quantity', freeze: '2023-01-01' do
+    specify "using basket quantity", freeze: "2023-01-01" do
       basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
       membership = create(:membership,
         basket_quantity: 2,
@@ -18,7 +18,7 @@ describe Membership do
       expect(membership.activity_participations_demanded_annualy).to eq 2 * 3
     end
 
-    specify 'using basket_size and complements' do
+    specify "using basket_size and complements" do
       create_deliveries(3)
       basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
       complement_1 = create(:basket_complement, id: 1, activity_participations_demanded_annualy: 1)
@@ -27,31 +27,31 @@ describe Membership do
       membership = create(:membership,
         basket_size_id: basket_size.id,
         memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1, quantity: 3 },
-          '1' => { basket_complement_id: 2, quantity: 2 },
+          "0" => { basket_complement_id: 1, quantity: 3 },
+          "1" => { basket_complement_id: 2, quantity: 2 }
         })
 
       expect(membership.activity_participations_demanded_annualy).to eq 3 + 3 * 1 + 2 * 2
     end
   end
 
-  describe 'validations' do
+  describe "validations" do
     let(:membership) { create(:membership) }
 
-    it 'allows only one current memberships per member' do
-      new_membership = Membership.new(membership.attributes.except('id'))
+    it "allows only one current memberships per member" do
+      new_membership = Membership.new(membership.attributes.except("id"))
       new_membership.validate
       expect(new_membership.errors[:member]).to include "n'est pas disponible"
     end
 
-    it 'allows valid attributes' do
-      new_membership = Membership.new(membership.attributes.except('id'))
+    it "allows valid attributes" do
+      new_membership = Membership.new(membership.attributes.except("id"))
       new_membership.member = create(:member)
 
       expect(new_membership).to be_valid
     end
 
-    it 'allows started_on to be only smaller than ended_on' do
+    it "allows started_on to be only smaller than ended_on" do
       membership.started_on = Date.new(2015, 2)
       membership.ended_on = Date.new(2015, 1)
 
@@ -59,7 +59,7 @@ describe Membership do
       expect(membership).not_to have_valid(:ended_on)
     end
 
-    it 'allows started_on to be only on the same year than ended_on' do
+    it "allows started_on to be only on the same year than ended_on" do
       membership.started_on = Date.new(2014, 1)
       membership.ended_on = Date.new(2015, 12)
 
@@ -67,13 +67,13 @@ describe Membership do
       expect(membership).not_to have_valid(:ended_on)
     end
 
-    it 'validates basket_complement_id uniqueness' do
+    it "validates basket_complement_id uniqueness" do
       create(:basket_complement, id: 1)
 
       membership = build(:membership,
         memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1 },
-          '1' => { basket_complement_id: 1 }
+          "0" => { basket_complement_id: 1 },
+          "1" => { basket_complement_id: 1 }
         })
       membership.validate
       mbc = membership.memberships_basket_complements.last
@@ -81,7 +81,7 @@ describe Membership do
       expect(mbc.errors[:basket_complement_id]).to be_present
     end
 
-    it 'prevents date modification when renewed' do
+    it "prevents date modification when renewed" do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -92,22 +92,22 @@ describe Membership do
       expect(membership).not_to have_valid(:ended_on)
     end
 
-    it 'validates that new_config_from must be in period', freeze: '2022-01-01' do
+    it "validates that new_config_from must be in period", freeze: "2022-01-01" do
       membership = create(:membership)
 
-      membership.new_config_from = '2021-12-31'
+      membership.new_config_from = "2021-12-31"
       expect(membership).not_to have_valid(:new_config_from)
-      membership.new_config_from = '2022-01-01'
+      membership.new_config_from = "2022-01-01"
       expect(membership).to have_valid(:new_config_from)
 
-      membership.new_config_from = '2023-01-01'
+      membership.new_config_from = "2023-01-01"
       expect(membership).not_to have_valid(:new_config_from)
-      membership.new_config_from = '2022-12-31'
+      membership.new_config_from = "2022-12-31"
       expect(membership).to have_valid(:new_config_from)
     end
   end
 
-  it 'creates baskets on creation' do
+  it "creates baskets on creation" do
     basket_size = create(:basket_size)
     depot = create(:depot)
 
@@ -117,14 +117,14 @@ describe Membership do
       deliveries_count: 2)
 
     expect(membership.baskets.count).to eq(2)
-    expect(membership.baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
-    expect(membership.baskets.pluck(:depot_id).uniq).to eq [depot.id]
+    expect(membership.baskets.pluck(:basket_size_id).uniq).to eq [ basket_size.id ]
+    expect(membership.baskets.pluck(:depot_id).uniq).to eq [ depot.id ]
   end
 
-  it 'creates baskets with complements on creation', freeze: '2023-01-01' do
+  it "creates baskets with complements on creation", freeze: "2023-01-01" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
-    delivery = create(:delivery, basket_complement_ids: [1, 2])
+    delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
 
     basket_size = create(:basket_size)
     depot = create(:depot)
@@ -133,17 +133,17 @@ describe Membership do
       basket_size_id: basket_size.id,
       depot_id: depot.id,
       memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: '', quantity: 1 },
-        '1' => { basket_complement_id: 2, price: '4.4', quantity: 2 }
+        "0" => { basket_complement_id: 1, price: "", quantity: 1 },
+        "1" => { basket_complement_id: 2, price: "4.4", quantity: 2 }
       })
 
     expect(membership.baskets.count).to eq(1)
     basket = membership.baskets.where(delivery: delivery).first
-    expect(basket.complement_ids).to match_array [1, 2]
+    expect(basket.complement_ids).to match_array [ 1, 2 ]
     expect(basket.complements_price).to eq 3.2 + 2 * 4.4
   end
 
-  it 'deletes baskets when started_on and ended_on changes' do
+  it "deletes baskets when started_on and ended_on changes" do
     create_deliveries(3)
     create(:delivery, date: Current.fiscal_year.end_of_year)
     membership = create(:membership)
@@ -165,7 +165,7 @@ describe Membership do
     expect { last_basket.reload }.to raise_error ActiveRecord::RecordNotFound
   end
 
-  it 'creates new baskets when started_on and ended_on changes' do
+  it "creates new baskets when started_on and ended_on changes" do
     membership = create(:membership, deliveries_count: 3)
     baskets = membership.baskets
     first_basket = baskets.first
@@ -192,10 +192,10 @@ describe Membership do
     expect(new_last_basket.depot).to eq membership.depot
   end
 
-  it 're-creates future baskets by default' do
-    membership = travel_to '2022-01-01' do
-      create(:delivery, date: '2022-02-01')
-      create(:delivery, date: '2022-10-01')
+  it "re-creates future baskets by default" do
+    membership = travel_to "2022-01-01" do
+      create(:delivery, date: "2022-02-01")
+      create(:delivery, date: "2022-10-01")
       create(:membership)
     end
       basket_size = membership.basket_size
@@ -220,16 +220,16 @@ describe Membership do
     second_half_baskets = membership.baskets.between(middle_of_year..end_of_year)
 
     expect(membership.baskets_count).to eq(2)
-    expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
-    expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [new_basket_size.id]
-    expect(first_half_baskets.pluck(:depot_id).uniq).to eq [depot.id]
-    expect(second_half_baskets.pluck(:depot_id).uniq).to eq [new_depot.id]
+    expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [ basket_size.id ]
+    expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [ new_basket_size.id ]
+    expect(first_half_baskets.pluck(:depot_id).uniq).to eq [ depot.id ]
+    expect(second_half_baskets.pluck(:depot_id).uniq).to eq [ new_depot.id ]
   end
 
-  it 're-creates baskets from a given date' do
-    membership = travel_to '2022-01-01' do
-      create(:delivery, date: '2022-02-01')
-      create(:delivery, date: '2022-10-01')
+  it "re-creates baskets from a given date" do
+    membership = travel_to "2022-01-01" do
+      create(:delivery, date: "2022-02-01")
+      create(:delivery, date: "2022-10-01")
       create(:membership)
     end
       basket_size = membership.basket_size
@@ -253,13 +253,13 @@ describe Membership do
     second_half_baskets = membership.baskets.between(middle_of_year..end_of_year)
 
     expect(membership.baskets_count).to eq(2)
-    expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [basket_size.id]
-    expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [new_basket_size.id]
-    expect(first_half_baskets.pluck(:depot_id).uniq).to eq [depot.id]
-    expect(second_half_baskets.pluck(:depot_id).uniq).to eq [new_depot.id]
+    expect(first_half_baskets.pluck(:basket_size_id).uniq).to eq [ basket_size.id ]
+    expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [ new_basket_size.id ]
+    expect(first_half_baskets.pluck(:depot_id).uniq).to eq [ depot.id ]
+    expect(second_half_baskets.pluck(:depot_id).uniq).to eq [ new_depot.id ]
   end
 
-  specify 'with standard basket_size' do
+  specify "with standard basket_size" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id)
 
@@ -270,7 +270,7 @@ describe Membership do
     expect(membership.price).to eq membership.basket_sizes_price
   end
 
-  specify 'with paid depot' do
+  specify "with paid depot" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id)
@@ -283,7 +283,7 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.depots_price
   end
 
-  specify 'with paid depot' do
+  specify "with paid depot" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id)
@@ -296,7 +296,7 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.depots_price
   end
 
-  specify 'with custom prices and quantity' do
+  specify "with custom prices and quantity" do
     membership = create(:membership,
       depot_price: 3.2,
       basket_price: 42,
@@ -310,7 +310,7 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.depots_price
   end
 
-  specify 'with baskets_annual_price_change price' do
+  specify "with baskets_annual_price_change price" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id,
@@ -323,9 +323,9 @@ describe Membership do
       .to eq(membership.basket_sizes_price + membership.depots_price - 11)
   end
 
-  specify 'with custom basket dynamic extra price' do
+  specify "with custom basket dynamic extra price" do
     Current.acp.update!(
-      features: [:basket_price_extra],
+      features: [ :basket_price_extra ],
       basket_price_extra_dynamic_pricing: <<~LIQUID)
         {{ extra | divided_by: 2.0 }}
       LIQUID
@@ -339,17 +339,17 @@ describe Membership do
     expect(membership.baskets_price_extra).to eq 2 * 3 / 2.0
   end
 
-  specify 'with basket complements' do
+  specify "with basket complements" do
     membership = create(:membership, basket_price: 31, deliveries_count: 40)
     create(:basket_complement, id: 1, price: 2.20)
     create(:basket_complement, id: 2, price: 3.30)
 
-    membership.baskets.first.update!(complement_ids: [1, 2])
+    membership.baskets.first.update!(complement_ids: [ 1, 2 ])
     membership.baskets.second.update!(baskets_basket_complements_attributes: {
-      '0' => { basket_complement_id: 1, price: '', quantity: 2 },
-      '1' => { basket_complement_id: 2, price: 4, quantity: 3 }
+      "0" => { basket_complement_id: 1, price: "", quantity: 2 },
+      "1" => { basket_complement_id: 2, price: 4, quantity: 3 }
     })
-    membership.baskets.third.update!(complement_ids: [2])
+    membership.baskets.third.update!(complement_ids: [ 2 ])
 
     expect(membership.basket_sizes_price).to eq 40 * 31
     expect(membership.depots_price).to be_zero
@@ -359,32 +359,32 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.basket_complements_price
   end
 
-  specify 'with basket complement with deliveries cycle' do
+  specify "with basket complement with deliveries cycle" do
     create(:delivery_cycle, results: :all)
     cycle = create(:delivery_cycle, results: :quarter_1)
     create_deliveries(40)
     create(:basket_complement, id: 1, price: 2.20)
     membership = create(:membership,
       memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, quantity: 1, delivery_cycle: cycle }
+        "0" => { basket_complement_id: 1, quantity: 1, delivery_cycle: cycle }
       })
 
     expect(membership.baskets.size).to eq 40
     expect(membership.baskets.map(&:complement_ids).flatten.size).to eq 10
   end
 
-  specify 'with basket_complements_annual_price_change price' do
+  specify "with basket_complements_annual_price_change price" do
     membership = create(:membership, basket_price: 31, deliveries_count: 40,
       basket_complements_annual_price_change: -12.35)
     create(:basket_complement, id: 1, price: 2.20)
     create(:basket_complement, id: 2, price: 3.30)
 
-    membership.baskets.first.update!(complement_ids: [1, 2])
+    membership.baskets.first.update!(complement_ids: [ 1, 2 ])
     membership.baskets.second.update!(baskets_basket_complements_attributes: {
-      '0' => { basket_complement_id: 1, price: '', quantity: 2 },
-      '1' => { basket_complement_id: 2, price: 4, quantity: 3 }
+      "0" => { basket_complement_id: 1, price: "", quantity: 2 },
+      "1" => { basket_complement_id: 2, price: 4, quantity: 3 }
     })
-    membership.baskets.third.update!(complement_ids: [2])
+    membership.baskets.third.update!(complement_ids: [ 2 ])
 
     expect(membership.basket_sizes_price).to eq 40 * 31
     expect(membership.depots_price).to be_zero
@@ -394,7 +394,7 @@ describe Membership do
       .to eq membership.basket_sizes_price + membership.basket_complements_price - 12.35
   end
 
-  specify 'with activity_participations_annual_price_change price' do
+  specify "with activity_participations_annual_price_change price" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id,
@@ -407,27 +407,27 @@ describe Membership do
       .to eq(membership.basket_sizes_price + membership.depots_price - 20)
   end
 
-  specify 'salary basket prices' do
+  specify "salary basket prices" do
     create_deliveries(3)
     create(:basket_complement, id: 1, price: 4.20)
     create(:basket_complement, id: 2, price: 3.30)
     membership = create(:membership, basket_price: 31,
       member: create(:member, salary_basket: true),
       memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: '', quantity: 1 }
+        "0" => { basket_complement_id: 1, price: "", quantity: 1 }
       })
 
-    membership.baskets.first.update!(complement_ids: [1, 2])
+    membership.baskets.first.update!(complement_ids: [ 1, 2 ])
     membership.baskets.second.update!(baskets_basket_complements_attributes: {
-      '0' => {
+      "0" => {
         id: membership.baskets.second.baskets_basket_complements.first.id,
         basket_complement_id: 1,
-        price: '',
+        price: "",
         quantity: 2
       },
-      '1' => { basket_complement_id: 2, price: 4, quantity: 3 }
+      "1" => { basket_complement_id: 2, price: 4, quantity: 3 }
     })
-    membership.baskets.third.update!(complement_ids: [2])
+    membership.baskets.third.update!(complement_ids: [ 2 ])
 
     expect(membership.basket_sizes_price).to be_zero
     expect(membership.basket_complements_price).to be_zero
@@ -436,47 +436,47 @@ describe Membership do
     expect(membership.price).to be_zero
   end
 
-  describe 'renew update' do
-    it 'sets renew to true on creation when ended_on is end of year' do
+  describe "renew update" do
+    it "sets renew to true on creation when ended_on is end of year" do
       membership = create(:membership, ended_on: Date.current.end_of_year)
       expect(membership.renew).to eq true
     end
 
-    it 'leaves renew to false on creation when ended_on is not end of year' do
+    it "leaves renew to false on creation when ended_on is not end of year" do
       membership = create(:membership, ended_on: Date.current.end_of_year - 1.day)
       expect(membership.renew).to eq false
     end
 
-    it 'sets renew to true when ended_on is changed to end of year' do
+    it "sets renew to true when ended_on is changed to end of year" do
       membership = create(:membership, ended_on: Date.current.end_of_year - 1.day)
       membership.update!(ended_on: Date.current.end_of_year)
       expect(membership.renew).to eq true
     end
 
-    it 'sets renew to false when ended_on is not changed to end of year' do
+    it "sets renew to false when ended_on is not changed to end of year" do
       membership = create(:membership, ended_on: Date.current.end_of_year)
       membership.update!(ended_on: Date.current.end_of_year - 1.day)
       expect(membership.renew).to eq false
     end
 
-    it 'sets renew to false when changed manually' do
+    it "sets renew to false when changed manually" do
       membership = create(:membership, ended_on: Date.current.end_of_year)
       membership.update!(renew: false)
       expect(membership.renew).to eq false
     end
   end
 
-  it 'adds basket_complement to coming baskets when subscription is added' do
+  it "adds basket_complement to coming baskets when subscription is added" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
-    delivery_1 = travel_to '2017-01-01' do
-      create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
+    delivery_1 = travel_to "2017-01-01" do
+      create(:delivery, basket_complement_ids: [ 1 ], date: "2017-03-01")
     end
-    travel_to '2017-06-01' do
-      delivery_2 = create(:delivery, basket_complement_ids: [2], date: '2017-07-01')
-      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
-      delivery_4 = create(:delivery, basket_complement_ids: [1], date: '2017-08-02')
+    travel_to "2017-06-01" do
+      delivery_2 = create(:delivery, basket_complement_ids: [ 2 ], date: "2017-07-01")
+      delivery_3 = create(:delivery, basket_complement_ids: [ 1, 2 ], date: "2017-08-01")
+      delivery_4 = create(:delivery, basket_complement_ids: [ 1 ], date: "2017-08-02")
 
       membership = create(:membership)
 
@@ -488,7 +488,7 @@ describe Membership do
 
       membership.reload # reset subscribed_basket_complements
       membership.update!(memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: '2.9', quantity: 2 }
+        "0" => { basket_complement_id: 1, price: "2.9", quantity: 2 }
       })
 
       basket1.reload
@@ -500,47 +500,47 @@ describe Membership do
       expect(basket2.complements_price).to be_zero
 
       basket3 = membership.baskets.where(delivery: delivery_3).first
-      expect(basket3.complement_ids).to match_array [1]
+      expect(basket3.complement_ids).to match_array [ 1 ]
       expect(basket3.complements_price).to eq 2.9 * 2
 
       basket4 = membership.baskets.where(delivery: delivery_4).first
-      expect(basket4.complement_ids).to match_array [1]
+      expect(basket4.complement_ids).to match_array [ 1 ]
       expect(basket4.complements_price).to eq 2.9 * 2
 
       expect(membership.basket_complements_price).to eq 2.9 * 2 + 2.9 * 2
     end
   end
 
-  it 'removes basket_complement to coming baskets when subscription is removed' do
+  it "removes basket_complement to coming baskets when subscription is removed" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
-    delivery_1 = travel_to '2017-03-01' do
-       create(:delivery, basket_complement_ids: [1], date: '2017-03-01')
+    delivery_1 = travel_to "2017-03-01" do
+       create(:delivery, basket_complement_ids: [ 1 ], date: "2017-03-01")
     end
-    travel_to '2017-05-01' do
-      delivery_2 = create(:delivery, basket_complement_ids: [1], date: '2017-07-01')
-      delivery_3 = create(:delivery, basket_complement_ids: [1, 2], date: '2017-08-01')
-      delivery_4 = create(:delivery, basket_complement_ids: [2], date: '2017-08-02')
+    travel_to "2017-05-01" do
+      delivery_2 = create(:delivery, basket_complement_ids: [ 1 ], date: "2017-07-01")
+      delivery_3 = create(:delivery, basket_complement_ids: [ 1, 2 ], date: "2017-08-01")
+      delivery_4 = create(:delivery, basket_complement_ids: [ 2 ], date: "2017-08-02")
 
       membership = create(:membership,
         memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 1, price: '', quantity: 1 },
-          '1' => { basket_complement_id: 2, price: '', quantity: 1 }
+          "0" => { basket_complement_id: 1, price: "", quantity: 1 },
+          "1" => { basket_complement_id: 2, price: "", quantity: 1 }
         })
 
       basket4 = membership.baskets.find_by(delivery: delivery_4)
-      basket4.update!(complement_ids: [2])
+      basket4.update!(complement_ids: [ 2 ])
 
       membership.reload # reset subscribed_basket_complements
       complements = membership.memberships_basket_complements
       membership.update!(memberships_basket_complements_attributes: {
-        '0' => { basket_complement_id: 1, price: '', quantity: 1, id: complements.first.id, _destroy: complements.first.id },
-        '1' => { basket_complement_id: 2, price: '', quantity: 2, id: complements.last.id }
+        "0" => { basket_complement_id: 1, price: "", quantity: 1, id: complements.first.id, _destroy: complements.first.id },
+        "1" => { basket_complement_id: 2, price: "", quantity: 2, id: complements.last.id }
       })
 
       basket1 = membership.baskets.find_by(delivery: delivery_1)
-      expect(basket1.complement_ids).to match_array [1]
+      expect(basket1.complement_ids).to match_array [ 1 ]
       expect(basket1.complements_price).to eq 3.2
 
       basket2 = membership.baskets.find_by(delivery: delivery_2)
@@ -551,16 +551,16 @@ describe Membership do
       expect(basket3.complements_price).to eq 2 * 4.5
 
       basket4 = membership.baskets.find_by(delivery: delivery_4)
-      expect(basket4.complement_ids).to match_array [2]
+      expect(basket4.complement_ids).to match_array [ 2 ]
       expect(basket4.complements_price).to eq 2 * 4.5
 
       expect(membership.basket_complements_price).to eq 3.2 + 2 * 4.5 + 2 * 4.5
     end
   end
 
-  it 'clears member waiting info after creation' do
+  it "clears member waiting info after creation" do
     create(:basket_complement, id: 1)
-    member = create(:member, :waiting, waiting_basket_complement_ids: [1])
+    member = create(:member, :waiting, waiting_basket_complement_ids: [ 1 ])
 
     expect { create(:membership, member: member) }
      .to change { member.waiting_started_at }.to(nil)
@@ -570,36 +570,36 @@ describe Membership do
      .and change { member.waiting_basket_complement_ids }.to([])
   end
 
-  it 'updates futures basket when subscription change' do
-    travel_to('2017-03-01') do
-      create(:delivery, date: '2017-03-01')
-      create(:delivery, date: '2017-06-15')
-      create(:delivery, date: '2017-07-05')
-      create(:delivery, date: '2017-08-01')
-      create(:delivery, date: '2017-09-01')
+  it "updates futures basket when subscription change" do
+    travel_to("2017-03-01") do
+      create(:delivery, date: "2017-03-01")
+      create(:delivery, date: "2017-06-15")
+      create(:delivery, date: "2017-07-05")
+      create(:delivery, date: "2017-08-01")
+      create(:delivery, date: "2017-09-01")
     end
-    travel_to('2017-06-01') do
+    travel_to("2017-06-01") do
       membership = create(:membership,
-        started_on: '2017-07-01',
-        ended_on: '2017-12-01',
+        started_on: "2017-07-01",
+        ended_on: "2017-12-01",
         basket_price: 12)
 
       expect { membership.update!(basket_price: 13) }
         .to change { membership.reload.baskets.map(&:basket_price) }
-        .from([12, 12, 12]).to([13, 13, 13])
+        .from([ 12, 12, 12 ]).to([ 13, 13, 13 ])
     end
   end
 
-  specify 'updates future baskets price_extra when config change' do
-    Current.acp.update! features: [:basket_price_extra]
-    travel_to('2023-03-01') do
-      create(:delivery, date: '2023-03-01')
-      create(:delivery, date: '2023-06-15')
-      create(:delivery, date: '2023-07-05')
-      create(:delivery, date: '2023-08-01')
-      create(:delivery, date: '2023-09-01')
+  specify "updates future baskets price_extra when config change" do
+    Current.acp.update! features: [ :basket_price_extra ]
+    travel_to("2023-03-01") do
+      create(:delivery, date: "2023-03-01")
+      create(:delivery, date: "2023-06-15")
+      create(:delivery, date: "2023-07-05")
+      create(:delivery, date: "2023-08-01")
+      create(:delivery, date: "2023-09-01")
     end
-    travel_to('2023-01-01') do
+    travel_to("2023-01-01") do
       membership = create(:membership,
         basket_price_extra: 2,
         deliveries_count: 2)
@@ -607,31 +607,31 @@ describe Membership do
       expect {
         expect {
           membership.update!(
-            new_config_from: '2023-07-01',
+            new_config_from: "2023-07-01",
             basket_price_extra: 3)
         }
           .to change { membership.baskets.pluck(:price_extra).uniq }
-          .from([2]).to([2, 3])
+          .from([ 2 ]).to([ 2, 3 ])
       }.to change { membership.reload.baskets_price_extra }.from(5 * 2).to(2 * 2 + 3 * 3)
     end
   end
 
-  it 'updates baskets counts after commit' do
+  it "updates baskets counts after commit" do
     Current.acp.update!(trial_basket_count: 3)
 
-    travel_to '2017-01-01' do
-      create(:delivery, date: '2017-01-01')
-      create(:delivery, date: '2017-02-01')
-      create(:delivery, date: '2017-03-01')
-      create(:delivery, date: '2017-04-01')
-      create(:delivery, date: '2017-05-01')
-      create(:delivery, date: '2017-06-01')
-      create(:delivery, date: '2017-07-01')
+    travel_to "2017-01-01" do
+      create(:delivery, date: "2017-01-01")
+      create(:delivery, date: "2017-02-01")
+      create(:delivery, date: "2017-03-01")
+      create(:delivery, date: "2017-04-01")
+      create(:delivery, date: "2017-05-01")
+      create(:delivery, date: "2017-06-01")
+      create(:delivery, date: "2017-07-01")
     end
-    travel_to '2017-02-15' do
+    travel_to "2017-02-15" do
       membership = create(:membership,
-        started_on: '2017-01-01',
-        ended_on: '2017-12-01')
+        started_on: "2017-01-01",
+        ended_on: "2017-12-01")
 
       expect(membership.baskets_count).to eq 7
       expect(membership.delivered_baskets_count).to eq 2
@@ -640,8 +640,8 @@ describe Membership do
     end
   end
 
-  describe '#mark_renewal_as_pending!' do
-    it 'sets renew to true when previously canceled' do
+  describe "#mark_renewal_as_pending!" do
+    it "sets renew to true when previously canceled" do
       membership = create(:membership)
       membership.cancel!
 
@@ -653,10 +653,10 @@ describe Membership do
     end
   end
 
-  describe '#open_renewal!' do
+  describe "#open_renewal!" do
     before { MailTemplate.find_by(title: :membership_renewal).update!(active: true) }
 
-    it 'requires future deliveries to be present' do
+    it "requires future deliveries to be present" do
       membership = create(:membership)
 
       expect {
@@ -664,7 +664,7 @@ describe Membership do
       }.to raise_error(MembershipRenewal::MissingDeliveriesError)
     end
 
-    it 'sets renewal_opened_at' do
+    it "sets renewal_opened_at" do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -676,7 +676,7 @@ describe Membership do
       expect(membership).to be_renewal_opened
     end
 
-    it 'sends member-renewal email template', sidekiq: :inline do
+    it "sends member-renewal email template", sidekiq: :inline do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -685,28 +685,28 @@ describe Membership do
         membership.open_renewal!
       }.to change { MembershipMailer.deliveries.size }.by(1)
       mail = MembershipMailer.deliveries.last
-      expect(mail.subject).to eq 'Renouvellement de votre abonnement'
+      expect(mail.subject).to eq "Renouvellement de votre abonnement"
     end
   end
 
-  describe '#renew' do
-    it 'sets renewal_note attrs' do
+  describe "#renew" do
+    it "sets renewal_note attrs" do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
       expect {
-        membership.renew!(renewal_note: 'Je suis super content')
+        membership.renew!(renewal_note: "Je suis super content")
       }.to change(Membership, :count)
 
       membership.reload
       expect(membership).to be_renewed
-      expect(membership.renewal_note).to eq 'Je suis super content'
+      expect(membership.renewal_note).to eq "Je suis super content"
     end
   end
 
-  describe '#cancel' do
-    it 'sets the membership renew to false' do
+  describe "#cancel" do
+    it "sets the membership renew to false" do
       membership = create(:membership)
       membership.update_column(:renewal_opened_at, Time.current)
 
@@ -721,23 +721,23 @@ describe Membership do
       expect(membership.renewed_at).to be_nil
     end
 
-    it 'cancels the membership with a renewal_note' do
+    it "cancels the membership with a renewal_note" do
       membership = create(:membership)
 
       expect {
-        membership.cancel!(renewal_note: 'Je suis pas content')
+        membership.cancel!(renewal_note: "Je suis pas content")
       }.not_to change(Membership, :count)
 
       membership.reload
       expect(membership).to be_canceled
-      expect(membership.renewal_note).to eq 'Je suis pas content'
+      expect(membership.renewal_note).to eq "Je suis pas content"
     end
 
-    it 'cancels the membership with a renewal_annual_fee' do
+    it "cancels the membership with a renewal_annual_fee" do
       membership = create(:membership)
 
       expect {
-        membership.cancel!(renewal_annual_fee: '1')
+        membership.cancel!(renewal_annual_fee: "1")
       }.not_to change(Membership, :count)
 
       membership.reload
@@ -746,7 +746,7 @@ describe Membership do
     end
   end
 
-  specify 'update_renewal_of_previous_membership_after_creation' do
+  specify "update_renewal_of_previous_membership_after_creation" do
     membership = create(:membership, :last_year)
     membership.update!(renew: true, renewal_opened_at: 1.year.ago)
 
@@ -754,8 +754,8 @@ describe Membership do
       .to change { membership.reload.renewal_state }.from(:renewal_opened).to(:renewed)
   end
 
-  describe '#update_renewal_of_previous_membership_after_deletion' do
-    it 'clears renewed_at when renewed membership is destroyed' do
+  describe "#update_renewal_of_previous_membership_after_deletion" do
+    it "clears renewed_at when renewed membership is destroyed" do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -767,7 +767,7 @@ describe Membership do
       }.to change { membership.reload.renewed_at }.to(nil)
     end
 
-    it 'cancels previous membership when renewed membership is destroyed and in new fiscal' do
+    it "cancels previous membership when renewed membership is destroyed and in new fiscal" do
       next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
@@ -784,90 +784,90 @@ describe Membership do
     end
   end
 
-  describe '#cancel_overcharged_invoice!' do
+  describe "#cancel_overcharged_invoice!" do
     before do
       Current.acp.update!(
         trial_basket_count: 0,
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
-        billing_year_divisions: [1, 3])
+        billing_year_divisions: [ 1, 3 ])
     end
 
-    specify 'membership period is reduced', sidekiq: :inline do
+    specify "membership period is reduced", sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
-      membership = travel_to '2022-01-01' do
-        create(:delivery, date: '2022-01-01')
-        create(:delivery, date: '2022-06-01')
+      membership = travel_to "2022-01-01" do
+        create(:delivery, date: "2022-01-01")
+        create(:delivery, date: "2022-06-01")
         create(:membership, member: member)
       end
-      travel_to '2022-05-01' do
+      travel_to "2022-05-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-        membership.update!(ended_on: '2022-05-01')
+        membership.update!(ended_on: "2022-05-01")
         expect { membership.cancel_overcharged_invoice! }
-          .to change { invoice.reload.state }.from('open').to('canceled')
+          .to change { invoice.reload.state }.from("open").to("canceled")
           .and change { membership.reload.invoices_amount }.to(0)
       end
     end
 
-    specify 'only cancel the over-paid invoices', sidekiq: :inline do
+    specify "only cancel the over-paid invoices", sidekiq: :inline do
       member = create(:member, billing_year_division: 3)
-      membership = travel_to '2022-01-01' do
+      membership = travel_to "2022-01-01" do
         create(:membership, member: member)
       end
-      invoice_1 = travel_to '2022-01-01' do
+      invoice_1 = travel_to "2022-01-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
       end
-      invoice_2 = travel_to '2022-05-01' do
+      invoice_2 = travel_to "2022-05-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
       end
-      travel_to '2022-09-01' do
+      travel_to "2022-09-01" do
         invoice_3 = Billing::Invoicer.force_invoice!(member, send_email: true)
         membership.update!(baskets_annual_price_change: -11)
         expect {
           expect { membership.cancel_overcharged_invoice! }
-            .to change { invoice_3.reload.state }.from('open').to('canceled')
-            .and change { invoice_2.reload.state }.from('open').to('canceled')
+            .to change { invoice_3.reload.state }.from("open").to("canceled")
+            .and change { invoice_2.reload.state }.from("open").to("canceled")
             .and change { membership.reload.invoices_amount }.to(10)
-        }.not_to change { invoice_1.reload.state }.from('open')
+        }.not_to change { invoice_1.reload.state }.from("open")
       end
     end
 
-    specify 'membership basket price is reduced', sidekiq: :inline do
+    specify "membership basket price is reduced", sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
-      membership = travel_to '2022-01-01' do
+      membership = travel_to "2022-01-01" do
         create(:membership, member: member)
       end
-      travel_to '2022-02-01' do
+      travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
         membership.baskets.first.update!(basket_price: 5)
         expect { membership.cancel_overcharged_invoice! }
-          .to change { invoice.reload.state }.from('open').to('canceled')
+          .to change { invoice.reload.state }.from("open").to("canceled")
           .and change { membership.reload.invoices_amount }.to(0)
       end
     end
 
-    specify 'new absent basket not billed are updated', sidekiq: :inline do
+    specify "new absent basket not billed are updated", sidekiq: :inline do
       Current.acp.update!(absences_billed: false)
 
       member = create(:member, billing_year_division: 1)
-      membership = travel_to '2022-01-01' do
-        create(:delivery, date: '2022-01-01')
-        create(:delivery, date: '2022-06-01')
+      membership = travel_to "2022-01-01" do
+        create(:delivery, date: "2022-01-01")
+        create(:delivery, date: "2022-06-01")
         create(:membership, member: member)
       end
-      travel_to '2022-02-01' do
+      travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
         create(:absence,
           member: member,
-          started_on: '2022-05-01',
-          ended_on: '2022-07-01')
+          started_on: "2022-05-01",
+          ended_on: "2022-07-01")
         expect { membership.cancel_overcharged_invoice! }
-          .to change { invoice.reload.state }.from('open').to('canceled')
+          .to change { invoice.reload.state }.from("open").to("canceled")
           .and change { membership.reload.invoices_amount }.to(0)
       end
     end
 
-    specify 'past membership period is not reduced', sidekiq: :inline do
+    specify "past membership period is not reduced", sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
       membership = create(:membership, member: member)
       invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
@@ -875,106 +875,106 @@ describe Membership do
         membership.baskets.first.update!(basket_price: 5)
         expect { membership.cancel_overcharged_invoice! }
           .not_to change { membership.reload.invoices_amount }
-        expect(invoice.reload.state).to eq('open')
+        expect(invoice.reload.state).to eq("open")
       end
     end
 
-    specify 'basket complement is added', sidekiq: :inline do
+    specify "basket complement is added", sidekiq: :inline do
       member = create(:member, billing_year_division: 1)
-      membership = travel_to '2022-01-01' do
-        create(:delivery, date: '2022-01-01')
-        create(:delivery, date: '2022-06-01')
+      membership = travel_to "2022-01-01" do
+        create(:delivery, date: "2022-01-01")
+        create(:delivery, date: "2022-06-01")
         create(:basket_complement, id: 1, price: 4)
         create(:membership, member: member, memberships_basket_complements_attributes: {
-            '0' => { basket_complement_id: 1, quantity: 1 }
+            "0" => { basket_complement_id: 1, quantity: 1 }
           })
       end
       create(:basket_complement, id: 2, price: 4)
-      travel_to '2022-05-01' do
+      travel_to "2022-05-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
         membership.reload
         membership.update!(memberships_basket_complements_attributes: {
-          '0' => { basket_complement_id: 2, quantity: 1 }
+          "0" => { basket_complement_id: 2, quantity: 1 }
         })
         expect { membership.cancel_overcharged_invoice! }
-          .not_to change { invoice.reload.state }.from('open')
+          .not_to change { invoice.reload.state }.from("open")
       end
     end
   end
 
-  describe '#destroy_or_cancel_invoices!' do
-    specify 'cancel or destroy membership invoices on destroy', sidekiq: :inline do
+  describe "#destroy_or_cancel_invoices!" do
+    specify "cancel or destroy membership invoices on destroy", sidekiq: :inline do
       Current.acp.update!(
         trial_basket_count: 0,
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
-        billing_year_divisions: [12])
+        billing_year_divisions: [ 12 ])
       member = create(:member, billing_year_division: 12)
-      membership = travel_to '2022-01-01' do
+      membership = travel_to "2022-01-01" do
         create(:membership, member: member)
       end
-      sent_invoice = travel_to '2022-02-01' do
+      sent_invoice = travel_to "2022-02-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
       end
-      not_sent_invoice = travel_to '2022-03-01' do
+      not_sent_invoice = travel_to "2022-03-01" do
         Billing::Invoicer.force_invoice!(member, send_email: false)
       end
 
       expect { membership.destroy }
         .to change { Invoice.not_canceled.reload.count }.by(-2)
-        .and change { sent_invoice.reload.state }.from('open').to('canceled')
+        .and change { sent_invoice.reload.state }.from("open").to("canceled")
       expect { not_sent_invoice.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
-  specify '#can_member_update?' do
+  specify "#can_member_update?" do
     Current.acp.update!(membership_depot_update_allowed: false)
 
-    membership = travel_to '2022-12-01' do
-      create(:delivery, date: '2022-12-15')
+    membership = travel_to "2022-12-01" do
+      create(:delivery, date: "2022-12-15")
       create(:membership)
     end
 
-    travel_to '2022-12-01' do
+    travel_to "2022-12-01" do
       expect(membership.can_member_update?).to be false
     end
 
     Current.acp.update!(membership_depot_update_allowed: true)
     Current.acp.update!(basket_update_limit_in_days: 5)
 
-    travel_to '2022-12-10' do
+    travel_to "2022-12-10" do
       expect(membership.can_member_update?).to be true
     end
-    travel_to '2022-12-11' do
+    travel_to "2022-12-11" do
       expect(membership.can_member_update?).to be false
     end
 
     Current.acp.update!(basket_update_limit_in_days: 0)
 
-    travel_to '2022-12-15' do
+    travel_to "2022-12-15" do
       expect(membership.can_member_update?).to be true
     end
-    travel_to '2022-12-16' do
+    travel_to "2022-12-16" do
       expect(membership.can_member_update?).to be false
     end
   end
 
-  specify '#member_update!' do
+  specify "#member_update!" do
     depot = create(:depot, price: 2)
     new_depot = create(:depot, price: 3)
 
-    membership = travel_to '2022-01-01' do
-      create(:delivery, date: '2022-02-01')
-      create(:delivery, date: '2022-03-01')
-      create(:delivery, date: '2022-04-01')
+    membership = travel_to "2022-01-01" do
+      create(:delivery, date: "2022-02-01")
+      create(:delivery, date: "2022-03-01")
+      create(:delivery, date: "2022-04-01")
       create(:membership, depot: depot)
     end
 
     Current.acp.update!(membership_depot_update_allowed: false)
     expect { membership.member_update!(depot_id: new_depot.id) }
-      .to raise_error(RuntimeError, 'update not allowed')
+      .to raise_error(RuntimeError, "update not allowed")
 
-    travel_to '2022-02-01' do
+    travel_to "2022-02-01" do
       Current.acp.update!(
         membership_depot_update_allowed: true,
         basket_update_limit_in_days: 1)
@@ -989,11 +989,11 @@ describe Membership do
     end
   end
 
-  specify 'activates pending member on creation' do
+  specify "activates pending member on creation" do
     member = create(:member, :waiting)
 
     expect {
       create(:membership, member: member)
-    }.to change { member.reload.state }.from('waiting').to('active')
+    }.to change { member.reload.state }.from("waiting").to("active")
   end
 end

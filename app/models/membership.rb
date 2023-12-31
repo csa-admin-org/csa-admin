@@ -1,4 +1,4 @@
-require 'rounding'
+require "rounding"
 
 class Membership < ApplicationRecord
   include HasDescription
@@ -19,12 +19,12 @@ class Membership < ApplicationRecord
   belongs_to :depot
   belongs_to :delivery_cycle
   has_many :baskets, dependent: :destroy
-  has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: 'Basket'
+  has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: "Basket"
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
   has_many :depots, -> { distinct.reorder(:position) }, through: :baskets
   has_many :deliveries, through: :baskets
   has_many :basket_complements, -> { reorder_by_name }, source: :complements, through: :baskets
-  has_many :delivered_baskets, -> { delivered }, class_name: 'Basket'
+  has_many :delivered_baskets, -> { delivered }, class_name: "Basket"
   has_many :memberships_basket_complements, dependent: :destroy, validate: true
   has_many :subscribed_basket_complements,
     source: :basket_complement,
@@ -35,7 +35,7 @@ class Membership < ApplicationRecord
 
   after_initialize do
     unless new_record?
-      self.new_config_from ||= [[Date.today, started_on].max, ended_on].min
+      self.new_config_from ||= [ [ Date.today, started_on ].max, ended_on ].min
     end
   end
   before_validation do
@@ -81,14 +81,14 @@ class Membership < ApplicationRecord
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
   after_commit :update_member_and_baskets!, :update_activity_participations_demanded!
 
-  scope :started, -> { where('started_on < ?', Time.current) }
-  scope :past, -> { where('ended_on < ?', Time.current) }
-  scope :future, -> { where('started_on > ?', Time.current) }
-  scope :trial, -> { current.where('remaning_trial_baskets_count > 0') }
+  scope :started, -> { where("started_on < ?", Time.current) }
+  scope :past, -> { where("ended_on < ?", Time.current) }
+  scope :future, -> { where("started_on > ?", Time.current) }
+  scope :trial, -> { current.where("remaning_trial_baskets_count > 0") }
   scope :ongoing, -> { current.where(remaning_trial_baskets_count: 0) }
   scope :current, -> { including_date(Date.current) }
   scope :current_or_future, -> { current.or(future).order(:started_on) }
-  scope :including_date, ->(date) { where('started_on <= ? AND ended_on >= ?', date, date) }
+  scope :including_date, ->(date) { where("started_on <= ? AND ended_on >= ?", date, date) }
   scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
   scope :current_year, -> { during_year(Current.fy_year) }
   scope :during_year, ->(year) {
@@ -203,7 +203,7 @@ class Membership < ApplicationRecord
   end
 
   def member_update!(params)
-    raise 'update not allowed' unless can_member_update?
+    raise "update not allowed" unless can_member_update?
     return unless params.key?(:depot_id)
 
     depot = Depot.find(params[:depot_id])
@@ -229,8 +229,8 @@ class Membership < ApplicationRecord
   end
 
   def mark_renewal_as_pending!
-    raise 'cannot mark renewal as pending on an already renewed membership' if renewed?
-    raise 'renewal already pending' if renew?
+    raise "cannot mark renewal as pending on an already renewed membership" if renewed?
+    raise "renewal already pending" if renew?
 
     self[:renew] = true
     save!
@@ -238,12 +238,12 @@ class Membership < ApplicationRecord
 
   def open_renewal!
     unless MailTemplate.active_template(:membership_renewal)
-      raise 'membership_renewal mail template not active'
+      raise "membership_renewal mail template not active"
     end
-    raise 'already renewed' if renewed?
-    raise '`renew` must be true before opening renewal' unless renew?
+    raise "already renewed" if renewed?
+    raise "`renew` must be true before opening renewal" unless renew?
     unless Delivery.any_next_year?
-      raise MembershipRenewal::MissingDeliveriesError, 'Deliveries for next fiscal year are missing.'
+      raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
     return unless can_send_email?
 
@@ -262,7 +262,7 @@ class Membership < ApplicationRecord
 
   def renew!(attrs = {})
     return if renewed?
-    raise '`renew` must be true for renewing' unless renew?
+    raise "`renew` must be true for renewing" unless renew?
 
     renewal = MembershipRenewal.new(self)
     transaction do
@@ -287,7 +287,7 @@ class Membership < ApplicationRecord
 
   def cancel!(attrs = {})
     return if canceled?
-    raise 'cannot cancel an already renewed membership' if renewed?
+    raise "cannot cancel an already renewed membership" if renewed?
 
     if Current.acp.annual_fee?
       if ActiveRecord::Type::Boolean.new.cast(attrs[:renewal_annual_fee])
@@ -327,7 +327,7 @@ class Membership < ApplicationRecord
     rounded_price(
       baskets
         .billable
-        .sum('quantity * basket_price'))
+        .sum("quantity * basket_price"))
   end
 
   def basket_size_price(basket_size_id)
@@ -335,14 +335,14 @@ class Membership < ApplicationRecord
       baskets
         .billable
         .where(basket_size_id: basket_size_id)
-        .sum('quantity * basket_price'))
+        .sum("quantity * basket_price"))
   end
 
   def baskets_price_extra
     rounded_price(
       baskets
         .billable
-        .sum('quantity * calculated_price_extra'))
+        .sum("quantity * calculated_price_extra"))
   end
 
   def basket_complements_price
@@ -356,7 +356,7 @@ class Membership < ApplicationRecord
         .billable
         .joins(:baskets_basket_complements)
         .where(baskets_basket_complements: { basket_complement: basket_complement })
-        .sum('baskets_basket_complements.quantity * baskets_basket_complements.price'))
+        .sum("baskets_basket_complements.quantity * baskets_basket_complements.price"))
   end
 
   def depots_price
@@ -368,11 +368,11 @@ class Membership < ApplicationRecord
       baskets
         .billable
         .where(depot_id: depot_id)
-        .sum('quantity * depot_price'))
+        .sum("quantity * depot_price"))
   end
 
   def missing_invoices_amount
-    [price - invoices_amount, 0].max
+    [ price - invoices_amount, 0 ].max
   end
 
   def first_delivery
@@ -396,7 +396,7 @@ class Membership < ApplicationRecord
   end
 
   def missing_activity_participations
-    [activity_participations_demanded - activity_participations_accepted, 0].max
+    [ activity_participations_demanded - activity_participations_accepted, 0 ].max
   end
 
   def update_activity_participations_demanded!

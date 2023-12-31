@@ -1,14 +1,14 @@
 class BasketContent
   ActiveAdmin.register Product do
     menu false
-    actions :all, except: [:show]
+    actions :all, except: [ :show ]
 
     breadcrumb do
-      links = [link_to(BasketContent.model_name.human(count: 2), basket_contents_path)]
-      if params[:action] != 'index'
+      links = [ link_to(BasketContent.model_name.human(count: 2), basket_contents_path) ]
+      if params[:action] != "index"
         links << link_to(Product.model_name.human(count: 2), basket_content_products_path)
       end
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << resource.name
       end
       links
@@ -32,7 +32,7 @@ class BasketContent
         end
       }
       if authorized?(:update, Product)
-        actions class: 'col-actions-2'
+        actions class: "col-actions-2"
       end
     end
 
@@ -62,7 +62,7 @@ class BasketContent
     form do |f|
       f.inputs do
         translated_input(f, :names)
-        f.input :url, hint: t('formtastic.hints.basket_content/product.url')
+        f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end
       f.actions
     end

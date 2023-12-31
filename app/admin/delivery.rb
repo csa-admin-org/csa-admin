@@ -12,7 +12,7 @@ ActiveAdmin.register Delivery do
   filter :note, as: :string
   filter :shop_open,
     as: :boolean,
-    if: -> proc { Current.acp.feature?('shop') }
+    if: ->(proc) { Current.acp.feature?("shop") }
   filter :date
   filter :during_year,
     as: :select,
@@ -22,22 +22,22 @@ ActiveAdmin.register Delivery do
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
-  index download_links: -> { params[:action] == 'show' ? [:xlsx, :pdf] : [:csv] } do
-    if Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming')
+  index download_links: -> { params[:action] == "show" ? [ :xlsx, :pdf ] : [ :csv ] } do
+    if Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming")
       selectable_column
     end
-    column '#', ->(delivery) { auto_link delivery, delivery.number }, class: 'col-number'
+    column "#", ->(delivery) { auto_link delivery, delivery.number }, class: "col-number"
     column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium).capitalize }
     if BasketComplement.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
-    if Current.acp.feature?('shop')
+    if Current.acp.feature?("shop")
       column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }
     end
-    actions defaults: true, class: 'col-actions-6' do |delivery|
-      link_to('CSV', baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), class: 'csv_link') +
-      link_to('XLSX', delivery_path(delivery, format: :xlsx), class: 'xlsx_link') +
-        link_to('PDF', delivery_path(delivery, format: :pdf), class: 'pdf_link', target: '_blank')
+    actions defaults: true, class: "col-actions-6" do |delivery|
+      link_to("CSV", baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), class: "csv_link") +
+      link_to("XLSX", delivery_path(delivery, format: :xlsx), class: "xlsx_link") +
+        link_to("PDF", delivery_path(delivery, format: :pdf), class: "pdf_link", target: "_blank")
     end
   end
 
@@ -65,7 +65,7 @@ ActiveAdmin.register Delivery do
       column(delivery_cycle.name) { |d| delivery_cycle.include_delivery?(d) }
     end
 
-    if Current.acp.feature?('shop')
+    if Current.acp.feature?("shop")
       column(:shop_open)
     end
   end
@@ -74,34 +74,34 @@ ActiveAdmin.register Delivery do
     link_to DeliveryCycle.model_name.human(count: 2), delivery_cycles_path
   end
 
-  sidebar_handbook_link('deliveries')
+  sidebar_handbook_link("deliveries")
 
   show title: ->(d) { d.display_name(format: :long).capitalize } do |delivery|
     columns do
       column do
         panel Basket.model_name.human(count: 2) do
-          div class: 'actions' do
+          div class: "actions" do
             icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv)) +
             icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
-            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: '_blank')
+            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: "_blank")
           end
 
           counts = delivery.basket_counts
           if counts.present?
-            render partial: 'active_admin/deliveries/baskets',
+            render partial: "active_admin/deliveries/baskets",
               locals: { delivery: delivery, scope: :not_absent }
           end
         end
 
-        if Current.acp.feature?('absence')
+        if Current.acp.feature?("absence")
           absences = Absence.including_date(delivery.date).includes(:member)
           panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
             absent_counts = delivery.basket_counts(scope: :absent)
             if absent_counts.present?
-              render partial: 'active_admin/deliveries/baskets',
+              render partial: "active_admin/deliveries/baskets",
                 locals: { delivery: delivery, scope: :absent }
             else
-              content_tag :span, t('active_admin.empty'), class: 'empty'
+              content_tag :span, t("active_admin.empty"), class: "empty"
             end
           end
         end
@@ -109,14 +109,14 @@ ActiveAdmin.register Delivery do
 
       column do
         attributes_table do
-          row('#') { delivery.number }
+          row("#") { delivery.number }
           row(:date) { l(delivery.date, format: :long) }
           row(:note) { text_format(delivery.note) }
         end
 
-        if Current.acp.feature?('shop')
-          attributes_table title: t('shop.title') do
-            row(t('shop.open')) { status_tag(delivery.shop_open?) }
+        if Current.acp.feature?("shop")
+          attributes_table title: t("shop.title") do
+            row(t("shop.open")) { status_tag(delivery.shop_open?) }
             if delivery.shop_open
               row(:depots) { display_depots(delivery.shop_open_for_depots) }
             end
@@ -125,19 +125,19 @@ ActiveAdmin.register Delivery do
               if orders_count.positive?
                 link_to(orders_count, shop_orders_path(q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
               else
-                content_tag :span, t('active_admin.empty'), class: 'empty'
+                content_tag :span, t("active_admin.empty"), class: "empty"
               end
             }
           end
         end
 
-        if Current.acp.feature?('basket_content')
+        if Current.acp.feature?("basket_content")
           basket_contents = delivery.basket_contents.includes(:product)
           panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
             if basket_contents.any?
               basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe
             else
-              content_tag :span, t('active_admin.empty'), class: 'empty'
+              content_tag :span, t("active_admin.empty"), class: "empty"
             end
           end
         end
@@ -148,7 +148,7 @@ ActiveAdmin.register Delivery do
   end
 
   form do |f|
-    render partial: 'bulk_dates', locals: { f: f, resource: resource, context: self }
+    render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
     if f.object.new_record? && BasketComplement.any?
       f.inputs do
         f.input :basket_complements,
@@ -156,11 +156,11 @@ ActiveAdmin.register Delivery do
           collection: BasketComplement.all,
           hint: true
 
-        para class: 'actions' do
-          a href: handbook_page_path('deliveries', anchor: 'complments-de-panier'), class: 'action' do
+        para class: "actions" do
+          a href: handbook_page_path("deliveries", anchor: "complments-de-panier"), class: "action" do
             span do
-              span inline_svg_tag('admin/book-open.svg', size: '20', title: t('layouts.footer.handbook'))
-              span t('.check_handbook')
+              span inline_svg_tag("admin/book-open.svg", size: "20", title: t("layouts.footer.handbook"))
+              span t(".check_handbook")
             end
           end.html_safe
         end
@@ -169,13 +169,13 @@ ActiveAdmin.register Delivery do
     f.inputs do
       f.input :note, as: :text, input_html: { rows: 3 }
     end
-    if Current.acp.feature?('shop')
-      f.inputs t('shop.title'), 'data-controller' => 'form-checkbox-toggler' do
+    if Current.acp.feature?("shop")
+      f.inputs t("shop.title"), "data-controller" => "form-checkbox-toggler" do
         f.input :shop_open,
           as: :boolean,
           input_html: { data: {
-            form_checkbox_toggler_target: 'checkbox',
-            action: 'form-checkbox-toggler#toggleInput'
+            form_checkbox_toggler_target: "checkbox",
+            action: "form-checkbox-toggler#toggleInput"
           } }
         f.input :shop_open_for_depot_ids,
           label: Depot.model_name.human(count: 2),
@@ -183,7 +183,7 @@ ActiveAdmin.register Delivery do
           required: false,
           collection: Depot.all.map,
           input_html: {
-            data: { form_checkbox_toggler_target: 'input' }
+            data: { form_checkbox_toggler_target: "input" }
           }
       end
     end
@@ -202,12 +202,12 @@ ActiveAdmin.register Delivery do
 
   batch_action :destroy, false
 
-  batch_action :open_shop, if: ->(attr) { Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming') } do |selection|
+  batch_action :open_shop, if: ->(attr) { Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
     Delivery.where(id: selection).update_all(shop_open: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :close_shop, if: ->(attr) { Current.acp.feature?('shop') && (!params[:scope] || params[:scope] == 'coming') } do |selection|
+  batch_action :close_shop, if: ->(attr) { Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
     Delivery.where(id: selection).update_all(shop_open: false)
     redirect_back fallback_location: collection_path
   end
@@ -216,8 +216,8 @@ ActiveAdmin.register Delivery do
     include TranslatedCSVFilename
 
     def apply_sorting(chain)
-      if params[:scope] == 'past' && !params[:order]
-        params[:order] = 'date_desc'
+      if params[:scope] == "past" && !params[:order]
+        params[:order] = "date_desc"
       end
       super(chain)
     end
@@ -242,13 +242,13 @@ ActiveAdmin.register Delivery do
           send_data pdf.render,
             content_type: pdf.content_type,
             filename: pdf.filename,
-            disposition: 'inline'
+            disposition: "inline"
         end
       end
     end
   end
 
   config.batch_actions = true
-  config.sort_order = 'date_asc'
+  config.sort_order = "date_asc"
   config.per_page = 52
 end

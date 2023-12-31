@@ -16,13 +16,13 @@
 # end
 
 ActiveSupport::Inflector.inflections do |inflect|
-  inflect.acronym 'ACP'
-  inflect.acronym 'API'
-  inflect.acronym 'BAS'
-  inflect.acronym 'PDF'
-  inflect.acronym 'XLSX'
-  inflect.acronym 'CSV'
-  inflect.acronym 'QR'
-  inflect.acronym 'EBICS'
-  inflect.acronym 'SLog'
+  inflect.acronym "ACP"
+  inflect.acronym "API"
+  inflect.acronym "BAS"
+  inflect.acronym "PDF"
+  inflect.acronym "XLSX"
+  inflect.acronym "CSV"
+  inflect.acronym "QR"
+  inflect.acronym "EBICS"
+  inflect.acronym "SLog"
 end

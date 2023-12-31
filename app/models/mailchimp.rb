@@ -1,4 +1,4 @@
-require 'rubygems/package'
+require "rubygems/package"
 
 class Mailchimp
   include ActivitiesHelper
@@ -38,9 +38,9 @@ class Mailchimp
           email_address: email,
           merge_fields: member_merge_fields(member)
         }
-        body[:status] = 'subscribed' unless hash_id.in?(hash_ids)
+        body[:status] = "subscribed" unless hash_id.in?(hash_ids)
         operations << {
-          method: 'PUT',
+          method: "PUT",
           path: "lists/#{@list_id}/members/#{hash_id}",
           body: JSON(body)
         }
@@ -56,7 +56,7 @@ class Mailchimp
     mailchimp_hash_ids_and_emails = get_hash_ids_and_emails
     hash_ids_to_delete = mailchimp_hash_ids_and_emails.keys - hash_ids_and_emails.keys
     hash_ids_to_delete.each do |hash_id|
-      client.lists(@list_id).members(hash_id).update(body: { status: 'unsubscribed' })
+      client.lists(@list_id).members(hash_id).update(body: { status: "unsubscribed" })
     rescue Gibbon::MailChimpError => e
       Sentry.capture_exception(e, extra: {
         email: mailchimp_hash_ids_and_emails[hash_id],
@@ -67,13 +67,13 @@ class Mailchimp
 
   def sync_unsubscribed_members(members)
     hash_ids_and_emails = hash_ids_and_emails(members)
-    mailchimp_hash_ids_and_emails = get_hash_ids_and_emails(status: 'unsubscribed')
+    mailchimp_hash_ids_and_emails = get_hash_ids_and_emails(status: "unsubscribed")
     unsubscribed_hash_ids = mailchimp_hash_ids_and_emails.keys & hash_ids_and_emails.keys
-    context = { stream_id: 'broadcast', origin: 'Mailchimp' }
+    context = { stream_id: "broadcast", origin: "Mailchimp" }
     unsuppressable_emails = EmailSuppression.unsuppressable.where(context).pluck(:email)
     hash_ids_and_emails.each do |hash_id, email|
       if unsubscribed_hash_ids.include?(hash_id)
-        EmailSuppression.suppress!(email, **context.merge(reason: 'ManualSuppression'))
+        EmailSuppression.suppress!(email, **context.merge(reason: "ManualSuppression"))
       elsif unsuppressable_emails.include?(email)
         EmailSuppression.unsuppress!(email, **context)
       end
@@ -82,33 +82,33 @@ class Mailchimp
 
   def upsert_merge_fields
     fields = {
-      MEMB_ID:   { name: 'ID', type: 'number', required: false },
-      MEMB_NAME: { name: t('name'), type: 'text', required: false },
-      MEMB_LANG: { name: t('language'), type: 'text', required: false },
-      MEMB_STAT: { name: t('status'), type: 'dropdown', required: false, options: { choices: Member::STATES } },
-      CURR_MEMB: { name: t('membership_ongoing'), type: 'dropdown', required: false, options: { choices: %w[yes no] } },
-      MEMB_RNEW: { name: t('membership_renewed'), type: 'dropdown', required: false, options: { choices: %w[yes no –] } },
-      BASK_FIRS: { name: t('first_basket_date'), type: 'text', required: false },
-      BASK_DATE: { name: t('next_basket_date'), type: 'text', required: false },
-      BASK_DELI: { name: t('next_basket_delivered'), type: 'dropdown', required: false, options: { choices: %w[yes no] } },
-      BASK_SIZE: { name: t('basket_size'), type: 'dropdown', required: false, options: { choices: BasketSize.all.map(&:name) } },
-      BASK_DIST: { name: t('depot'), type: 'dropdown', required: false, options: { choices: Depot.order(:name).pluck(:name) } }
+      MEMB_ID:   { name: "ID", type: "number", required: false },
+      MEMB_NAME: { name: t("name"), type: "text", required: false },
+      MEMB_LANG: { name: t("language"), type: "text", required: false },
+      MEMB_STAT: { name: t("status"), type: "dropdown", required: false, options: { choices: Member::STATES } },
+      CURR_MEMB: { name: t("membership_ongoing"), type: "dropdown", required: false, options: { choices: %w[yes no] } },
+      MEMB_RNEW: { name: t("membership_renewed"), type: "dropdown", required: false, options: { choices: %w[yes no –] } },
+      BASK_FIRS: { name: t("first_basket_date"), type: "text", required: false },
+      BASK_DATE: { name: t("next_basket_date"), type: "text", required: false },
+      BASK_DELI: { name: t("next_basket_delivered"), type: "dropdown", required: false, options: { choices: %w[yes no] } },
+      BASK_SIZE: { name: t("basket_size"), type: "dropdown", required: false, options: { choices: BasketSize.all.map(&:name) } },
+      BASK_DIST: { name: t("depot"), type: "dropdown", required: false, options: { choices: Depot.order(:name).pluck(:name) } }
     }
     if Current.acp.feature?(:activity)
-      fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: 'number', required: false }
-      fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: 'number', required: false }
-      fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: 'number', required: false }
+      fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: "number", required: false }
+      fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: "number", required: false }
+      fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: "number", required: false }
     end
     if BasketComplement.any?
-      fields[:BASK_COMP] = { name: 'Compléments panier', type: 'text', required: false }
+      fields[:BASK_COMP] = { name: "Compléments panier", type: "text", required: false }
     end
     if Current.acp.trial_basket_count.positive?
-      fields[:BASK_TRIA] = { name: "Nombre de paniers à l'essai restant", type: 'number', required: false }
+      fields[:BASK_TRIA] = { name: "Nombre de paniers à l'essai restant", type: "number", required: false }
     end
     exiting_fields =
       client.lists(@list_id).merge_fields
-        .retrieve(params: { fields: 'merge_fields.tag,merge_fields.merge_id', count: 100 })
-        .body[:merge_fields].map { |m| [m[:tag], m[:merge_id]] }.to_h
+        .retrieve(params: { fields: "merge_fields.tag,merge_fields.merge_id", count: 100 })
+        .body[:merge_fields].map { |m| [ m[:tag], m[:merge_id] ] }.to_h
     fields.each do |tag, attrs|
       attrs[:tag] = tag.to_s
       attrs[:public] = false
@@ -139,7 +139,7 @@ class Mailchimp
 
   def hash_ids_and_emails(members)
     members.select(:emails).flat_map(&:emails_array).map { |e|
-      [hash_id(e), e]
+      [ hash_id(e), e ]
     }.to_h
   end
 
@@ -148,10 +148,10 @@ class Mailchimp
   end
 
   def get_hash_ids_and_emails(status: nil)
-    params = { fields: 'members.email_address,members.id', count: 2000 }
+    params = { fields: "members.email_address,members.id", count: 2000 }
     params[:status] = status if status
     client.lists(@list_id).members.retrieve(params: params).body[:members].map { |m|
-      [m[:id], m[:email_address]]
+      [ m[:id], m[:email_address] ]
     }.to_h
   end
 
@@ -165,11 +165,11 @@ class Mailchimp
       MEMB_NAME: member.name,
       MEMB_LANG: member.language,
       MEMB_STAT: member.state,
-      CURR_MEMB: member.current_membership ? 'yes' : 'no',
-      MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? 'yes' : 'no') : '–',
+      CURR_MEMB: member.current_membership ? "yes" : "no",
+      MEMB_RNEW: current_year_membership ? (current_year_membership.renew? ? "yes" : "no") : "–",
       BASK_FIRS: (first_basket && I18n.l(first_basket&.delivery&.date, locale: member.language)).to_s,
       BASK_DATE: (next_basket && I18n.l(next_basket&.delivery&.date, locale: member.language)).to_s,
-      BASK_DELI: @next_delivery && next_basket && !next_basket.absent? && next_basket.delivery == @next_delivery ? 'yes' : 'no',
+      BASK_DELI: @next_delivery && next_basket && !next_basket.absent? && next_basket.delivery == @next_delivery ? "yes" : "no",
       BASK_SIZE: next_basket&.basket_size&.name.to_s,
       BASK_DIST: next_basket&.depot&.name.to_s
     }
@@ -180,7 +180,7 @@ class Mailchimp
     end
     if BasketComplement.any?
       fields[:BASK_COMP] =
-        next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(', ').to_s
+        next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(", ").to_s
     end
     if Current.acp.trial_basket_count.positive?
       fields[:BASK_TRIA] = current_year_membership&.remaning_trial_baskets_count.to_i
@@ -192,7 +192,7 @@ class Mailchimp
     error = nil
     sleep 10
     res = client.batches(batch_id).retrieve
-    if res.body[:status] != 'finished'
+    if res.body[:status] != "finished"
       if retry_count > 0
         ensure_batch_succeed!(res.body[:id], retry_count: retry_count - 1)
         Rails.logger.info "Mailchimp batch #{batch_id} finished"
@@ -207,23 +207,23 @@ class Mailchimp
   def suppress_emails(res)
     results = get_batch_results(res)
     results.each do |r|
-      if r['status_code'] == 400
-        json = JSON.load(r['response'])
-        if json['title'] == 'Forgotten Email Not Subscribed'
-          email = json['detail'].split(' ').first
+      if r["status_code"] == 400
+        json = JSON.load(r["response"])
+        if json["title"] == "Forgotten Email Not Subscribed"
+          email = json["detail"].split(" ").first
           EmailSuppression.suppress!(email,
-            stream_id: 'broadcast',
-            origin: 'Mailchimp',
-            reason: 'Forgotten')
+            stream_id: "broadcast",
+            origin: "Mailchimp",
+            reason: "Forgotten")
         else
-          Sentry.capture_message('Unknown Mailchimp batch error (400) title', extra: {
-            title: json['title'],
+          Sentry.capture_message("Unknown Mailchimp batch error (400) title", extra: {
+            title: json["title"],
             json: json
           })
         end
-      elsif r['status_code'] != 200
-        Sentry.capture_message('Unknown Mailchimp batch status_code', extra: {
-          status_code: r['status_code'],
+      elsif r["status_code"] != 200
+        Sentry.capture_message("Unknown Mailchimp batch status_code", extra: {
+          status_code: r["status_code"],
           result: r
         })
       end
@@ -243,6 +243,6 @@ class Mailchimp
   end
 
   def t(key)
-    I18n.t(key, scope: 'mailchimp.merge_fields')
+    I18n.t(key, scope: "mailchimp.merge_fields")
   end
 end

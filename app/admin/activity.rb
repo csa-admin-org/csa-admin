@@ -1,12 +1,12 @@
 ActiveAdmin.register Activity do
   menu parent: :activities_human_name, priority: 2
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   breadcrumb do
-    links = [activities_human_name]
-    unless params['action'] == 'index'
+    links = [ activities_human_name ]
+    unless params["action"] == "index"
       links << link_to(Activity.model_name.human(count: 2), activities_path)
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << activity.name
       end
     end
@@ -34,11 +34,11 @@ ActiveAdmin.register Activity do
     column :place, ->(a) { display_place(a) }
     column :title, ->(a) { a.title }
     column :participants_short, ->(a) {
-      text = [a.participations.sum(&:participants_count), a.participants_limit || '∞'].join("&nbsp;/&nbsp;").html_safe
+      text = [ a.participations.sum(&:participants_count), a.participants_limit || "∞" ].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
-    }, class: 'align-right'
+    }, class: "align-right"
     if authorized?(:update, Activity)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -47,7 +47,7 @@ ActiveAdmin.register Activity do
   end
 
   order_by(:date) do |order_clause|
-    [order_clause.to_sql, "activities.start_time #{order_clause.order}"].join(', ')
+    [ order_clause.to_sql, "activities.start_time #{order_clause.order}" ].join(", ")
   end
 
   csv do
@@ -62,29 +62,29 @@ ActiveAdmin.register Activity do
   end
 
   form do |f|
-    render partial: 'bulk_dates', locals: { f: f, resource: resource, context: self }
+    render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
 
-    f.inputs t('formtastic.inputs.period') do
+    f.inputs t("formtastic.inputs.period") do
       f.input :start_time, as: :time_picker, input_html: {
-        value: f.object.start_time&.strftime('%H:%M') || '08:00'
+        value: f.object.start_time&.strftime("%H:%M") || "08:00"
       }
       f.input :end_time, as: :time_picker, input_html: {
-        value: f.object.end_time&.strftime('%H:%M') || '12:00'
+        value: f.object.end_time&.strftime("%H:%M") || "12:00"
       }
     end
-    f.inputs t('formtastic.inputs.place_and_title'), 'data-controller' => 'preset' do
+    f.inputs t("formtastic.inputs.place_and_title"), "data-controller" => "preset" do
       if f.object.new_record? && ActivityPreset.any?
         f.input :preset_id,
-          collection: ActivityPreset.all + [ActivityPreset.new(id: 0, place: ActivityPreset.human_attribute_name(:other))],
+          collection: ActivityPreset.all + [ ActivityPreset.new(id: 0, place: ActivityPreset.human_attribute_name(:other)) ],
           include_blank: false,
-          input_html: { data: { action: 'preset#change' } }
+          input_html: { data: { action: "preset#change" } }
       end
       preset_present = f.object.preset.present?
-      translated_input(f, :places, input_html: { disabled: preset_present, data: { preset_target: 'input' } })
-      translated_input(f, :place_urls, input_html: { disabled: preset_present, data: { preset_target: 'input' } })
-      translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: 'input' } })
+      translated_input(f, :places, input_html: { disabled: preset_present, data: { preset_target: "input" } })
+      translated_input(f, :place_urls, input_html: { disabled: preset_present, data: { preset_target: "input" } })
+      translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: "input" } })
     end
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 4 })
       f.input :participants_limit, as: :number
     end
@@ -110,13 +110,13 @@ ActiveAdmin.register Activity do
     include TranslatedCSVFilename
 
     def apply_sorting(chain)
-      if params[:scope] == 'past' && !params[:order]
-        params[:order] = 'date_desc'
+      if params[:scope] == "past" && !params[:order]
+        params[:order] = "date_desc"
       end
       super(chain)
     end
   end
 
-  config.sort_order = 'date_asc'
+  config.sort_order = "date_asc"
   config.batch_actions = true
 end

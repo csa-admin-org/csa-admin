@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Billing::InvoicerNewMemberFee do
   before do
     current_acp.update!(
-      features: ['new_member_fee'],
-      new_member_fee_description: 'Paniers vides',
+      features: [ "new_member_fee" ],
+      new_member_fee_description: "Paniers vides",
       trial_basket_count: 3,
       new_member_fee: 30)
   end
@@ -13,7 +13,7 @@ describe Billing::InvoicerNewMemberFee do
     described_class.invoice(member, **attrs)
   end
 
-  specify 'create invoice for recent new member', freeze: '2023-02-01' do
+  specify "create invoice for recent new member", freeze: "2023-02-01" do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
@@ -22,15 +22,15 @@ describe Billing::InvoicerNewMemberFee do
     invoice = member.invoices.last
     expect(invoice).to have_attributes(
       date: Date.current,
-      entity_type: 'NewMemberFee',
+      entity_type: "NewMemberFee",
       amount: 30)
     expect(invoice.items.count).to eq 1
     expect(invoice.items.first).to have_attributes(
-      description: 'Paniers vides',
+      description: "Paniers vides",
       amount: 30)
   end
 
-  specify 'do nothing if new_member_fee is not enabled', freeze: '2023-02-01' do
+  specify "do nothing if new_member_fee is not enabled", freeze: "2023-02-01" do
     current_acp.update!(features: [])
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
@@ -38,13 +38,13 @@ describe Billing::InvoicerNewMemberFee do
     expect { invoice(member) }.not_to change { member.invoices.count }
   end
 
-  specify 'do nothing if member is not active' do
+  specify "do nothing if member is not active" do
     member = create(:member, :waiting)
 
     expect { invoice(member) }.not_to change { member.invoices.count }
   end
 
-  specify 'do nothing if member already has a new_member_fee invoice', freeze: '2023-02-01' do
+  specify "do nothing if member already has a new_member_fee invoice", freeze: "2023-02-01" do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
@@ -52,20 +52,20 @@ describe Billing::InvoicerNewMemberFee do
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
 
-  specify 'do nothing if member is still on trial basket', freeze: '2023-01-16' do
+  specify "do nothing if member is still on trial basket", freeze: "2023-01-16" do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
-    expect(member.baskets.trial.not_empty.last.delivery.date.to_s).to eq '2023-01-17'
-    expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq '2023-01-24'
+    expect(member.baskets.trial.not_empty.last.delivery.date.to_s).to eq "2023-01-17"
+    expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq "2023-01-24"
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
 
-  specify 'do nothing if member first non-trial basket is no more recent', freeze: '2023-02-15' do
+  specify "do nothing if member first non-trial basket is no more recent", freeze: "2023-02-15" do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
-    expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq '2023-01-24'
+    expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq "2023-01-24"
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
 end

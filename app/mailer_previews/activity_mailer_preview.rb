@@ -50,12 +50,12 @@ class ActivityMailerPreview < ActionMailer::Preview
     activity = Activity.last(10).sample(random: random)
 
     OpenStruct.new(
-      title: activity_preset&.title || 'Aide aux champs',
+      title: activity_preset&.title || "Aide aux champs",
       date: Date.today,
-      period: activity&.period || '8:00-12:00',
+      period: activity&.period || "8:00-12:00",
       description: nil,
-      place: activity_preset&.title || 'Neuchâtel',
-      place_url: activity_preset&.place_url || 'https://google.map/foo')
+      place: activity_preset&.title || "Neuchâtel",
+      place_url: activity_preset&.place_url || "https://google.map/foo")
   end
 
   def activity_participation
@@ -66,8 +66,8 @@ class ActivityMailerPreview < ActionMailer::Preview
       activity: activity,
       participants_count: 2,
       carpooling_participations: [
-        carpooling('Joe', '077 231 123 43', nil),
-        carpooling('Eva', '076 131 123 41', 'La Chaux-de-Fonds')
+        carpooling("Joe", "077 231 123 43", nil),
+        carpooling("Eva", "076 131 123 41", "La Chaux-de-Fonds")
       ])
   end
 
@@ -78,5 +78,3 @@ class ActivityMailerPreview < ActionMailer::Preview
       carpooling_city: city)
   end
 end
-
-

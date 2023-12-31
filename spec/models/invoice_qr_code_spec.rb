@@ -1,28 +1,28 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe InvoiceQRCode do
   before {
     Current.acp.update!(
-      country_code: 'CH',
-      qr_iban: 'CH4431999123000889012',
-      qr_creditor_name: 'Robert Schneider AG',
-      qr_creditor_address: 'Rue du Lac 1268',
-      qr_creditor_city: 'Biel',
-      qr_creditor_zip: '2501',
-      invoice_info: 'Payable dans les 30 jours, avec nos remerciements.',
-      invoice_footer: '<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84')
+      country_code: "CH",
+      qr_iban: "CH4431999123000889012",
+      qr_creditor_name: "Robert Schneider AG",
+      qr_creditor_address: "Rue du Lac 1268",
+      qr_creditor_city: "Biel",
+      qr_creditor_zip: "2501",
+      invoice_info: "Payable dans les 30 jours, avec nos remerciements.",
+      invoice_footer: "<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84")
   }
   let(:member) {
     create(:member,
       id: 1234,
-      name: 'Pia-Maria Rutschmann-Schnyder',
-      address: 'Grosse Marktgasse 28',
-      zip: '9400',
-      city: 'Rorschach',
-      country_code: 'CH')
+      name: "Pia-Maria Rutschmann-Schnyder",
+      address: "Grosse Marktgasse 28",
+      zip: "9400",
+      city: "Rorschach",
+      country_code: "CH")
   }
 
-  specify '#payload' do
+  specify "#payload" do
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
     invoice.payments.create!(amount: 10, date: Date.today)
     payload = InvoiceQRCode.new(invoice.reload).payload
@@ -61,10 +61,10 @@ describe InvoiceQRCode do
       "\r\n")
   end
 
-  specify '#generate_qr_image' do
-    expected = Vips::Image.new_from_file(file_fixture('qrcode-706.png').to_s)
+  specify "#generate_qr_image" do
+    expected = Vips::Image.new_from_file(file_fixture("qrcode-706.png").to_s)
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
-    qr_image = InvoiceQRCode.new(invoice).generate_qr_image(rails_env: 'not_test')
+    qr_image = InvoiceQRCode.new(invoice).generate_qr_image(rails_env: "not_test")
     result = Vips::Image.new_from_file(qr_image.path)
     diff = (result - expected).abs.max
     expect(diff).to eq 0

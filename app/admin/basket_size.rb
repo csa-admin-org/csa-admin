@@ -1,6 +1,6 @@
 ActiveAdmin.register BasketSize do
-  menu parent: :other, priority: 10, label: -> { t('active_admin.menu.basket_sizes') }
-  actions :all, except: [:show]
+  menu parent: :other, priority: 10, label: -> { t("active_admin.menu.basket_sizes") }
+  actions :all, except: [ :show ]
 
   scope :all
   scope :visible, default: true
@@ -19,17 +19,17 @@ ActiveAdmin.register BasketSize do
     column :deliveries, ->(bs) {
       deliveries_count_range(bs.deliveries_counts)
     }
-    if Current.acp.feature?('activity')
+    if Current.acp.feature?("activity")
       column activities_human_name,
         ->(bs) { bs.activity_participations_demanded_annualy },
-        class: 'col-activities'
+        class: "col-activities"
     end
     if Current.acp.share?
-      column t('billing.acp_shares'), ->(bs) { bs.acp_shares_number }
+      column t("billing.acp_shares"), ->(bs) { bs.acp_shares_number }
     end
     column :visible
     if authorized?(:update, BasketSize)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -37,9 +37,9 @@ ActiveAdmin.register BasketSize do
     f.inputs do
       translated_input(f, :names)
       translated_input(f, :public_names,
-        hint: t('formtastic.hints.basket_size.public_name'))
+        hint: t("formtastic.hints.basket_size.public_name"))
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
-      if Current.acp.feature?('activity')
+      if Current.acp.feature?("activity")
         f.input :activity_participations_demanded_annualy,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy)),
           as: :number,
@@ -51,15 +51,15 @@ ActiveAdmin.register BasketSize do
       end
     end
 
-    f.inputs t('active_admin.resource.show.member_new_form') do
+    f.inputs t("active_admin.resource.show.member_new_form") do
       f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
-        hint: t('formtastic.hints.acp.member_order_priority_html')
+        hint: t("formtastic.hints.acp.member_order_priority_html")
       translated_input(f, :form_details,
-        hint: t('formtastic.hints.basket_size.form_detail'),
+        hint: t("formtastic.hints.basket_size.form_detail"),
         placeholder: ->(locale) {
           if f.object.persisted?
             I18n.with_locale(locale) {
@@ -93,6 +93,6 @@ ActiveAdmin.register BasketSize do
   end
 
   config.filters = false
-  config.sort_order = 'price_asc'
+  config.sort_order = "price_asc"
   config.paginate = false
 end

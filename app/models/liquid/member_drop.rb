@@ -24,13 +24,13 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def activities_url
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
     url(:members_activity_participations)
   end
 
   def membership_renewal_url
-    url(:members_memberships, anchor: 'renewal')
+    url(:members_memberships, anchor: "renewal")
   end
 
   def billing_email
@@ -49,6 +49,6 @@ class Liquid::MemberDrop < Liquid::Drop
     helper = Rails.application.routes.url_helpers
     helper.send("#{name}_url",
       { host: Current.acp.email_default_host }.merge(**options)
-    ).gsub(/\/+\z/, '')
+    ).gsub(/\/+\z/, "")
   end
 end

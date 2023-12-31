@@ -2,7 +2,7 @@ module HasPhones
   extend ActiveSupport::Concern
 
   included do
-    scope :with_phone, ->(phone) { where('phones ILIKE ?', "%#{phone}%") }
+    scope :with_phone, ->(phone) { where("phones ILIKE ?", "%#{phone}%") }
     before_validation :normalize_phones
   end
 
@@ -18,7 +18,7 @@ module HasPhones
     self[:phones] = phones_array.map { |phone|
       PhonyRails.normalize_number(phone,
         default_country_code: phone_country_code)
-    }.join(', ')
+    }.join(", ")
   end
 
   def phone_country_code
@@ -30,12 +30,12 @@ module HasPhones
     str
       .presence
       .to_s
-      .gsub(/[[:space:]]/, '')
-      .gsub(/\[/, '')
-      .gsub(/\]/, '')
-      .gsub(/\"/, '')
-      .split(',')
-      .map { |s| s.gsub(/[[:space:]]/, '').presence }
+      .gsub(/[[:space:]]/, "")
+      .gsub(/\[/, "")
+      .gsub(/\]/, "")
+      .gsub(/\"/, "")
+      .split(",")
+      .map { |s| s.gsub(/[[:space:]]/, "").presence }
       .compact
   end
 end

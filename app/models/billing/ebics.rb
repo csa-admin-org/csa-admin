@@ -50,10 +50,10 @@ class Epics::Z54 < Epics::GenericRequest
           xml.Timestamp timestamp
           xml.PartnerID partner_id
           xml.UserID user_id
-          xml.Product('EPICS - a ruby ebics kernel', 'Language' => 'fr')
+          xml.Product("EPICS - a ruby ebics kernel", "Language" => "fr")
           xml.OrderDetails {
-            xml.OrderType 'Z54'
-            xml.OrderAttribute 'DZHNN'
+            xml.OrderType "Z54"
+            xml.OrderAttribute "DZHNN"
             xml.StandardOrderParams {
               xml.DateRange {
                 xml.Start from
@@ -63,16 +63,16 @@ class Epics::Z54 < Epics::GenericRequest
           }
           xml.BankPubKeyDigests {
             xml.Authentication(client.bank_x.public_digest,
-              Version: 'X002',
-              Algorithm: 'http://www.w3.org/2001/04/xmlenc#sha256')
+              Version: "X002",
+              Algorithm: "http://www.w3.org/2001/04/xmlenc#sha256")
             xml.Encryption(client.bank_e.public_digest,
-              Version: 'E002',
-              Algorithm: 'http://www.w3.org/2001/04/xmlenc#sha256')
+              Version: "E002",
+              Algorithm: "http://www.w3.org/2001/04/xmlenc#sha256")
           }
-          xml.SecurityMedium '0000'
+          xml.SecurityMedium "0000"
         }
         xml.mutable {
-          xml.TransactionPhase 'Initialisation'
+          xml.TransactionPhase "Initialisation"
         }
       }
     end.doc.root
@@ -83,7 +83,7 @@ class Epics::Client
   def Z54(from, to)
     download_and_unzip(Epics::Z54, from, to)
   rescue Epics::Error::BusinessError => e
-    if e.message.include?('EBICS_NO_DOWNLOAD_DATA_AVAILABLE')
+    if e.message.include?("EBICS_NO_DOWNLOAD_DATA_AVAILABLE")
       []
     else
       raise e

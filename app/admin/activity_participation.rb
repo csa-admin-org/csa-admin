@@ -2,16 +2,16 @@ ActiveAdmin.register ActivityParticipation do
   menu parent: :activities_human_name, priority: 1
 
   breadcrumb do
-    links = [activities_human_name]
-    if params[:action] == 'new'
+    links = [ activities_human_name ]
+    if params[:action] == "new"
       links << link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path)
-    elsif params['action'] != 'index'
+    elsif params["action"] != "index"
       links << link_to(Activity.model_name.human(count: 2), activities_path)
       links << auto_link(activity_participation.activity)
       links << link_to(
         ActivityParticipation.model_name.human(count: 2),
         activity_participations_path(q: { activity_id_eq: activity_participation.activity_id }, scope: :all))
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << auto_link(activity_participation)
       end
     end
@@ -43,15 +43,15 @@ ActiveAdmin.register ActivityParticipation do
       with_note_icon ap.note do
         link_with_session ap.member, ap.session
       end
-    }, sortable: 'members.name'
+    }, sortable: "members.name"
     column :activity, ->(ap) {
       link_to ap.activity.name(show_place: false), activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
-    }, sortable: 'activities.date'
+    }, sortable: "activities.date"
     column :participants_short, ->(ap) {
       ap.participants_count
-    }, sortable: 'participants_count', class: 'align-right'
+    }, sortable: "participants_count", class: "align-right"
     column :state, ->(ap) { status_tag ap.state }
-    actions class: 'col-actions-3'
+    actions class: "col-actions-3"
   end
 
   csv do
@@ -59,9 +59,9 @@ ActiveAdmin.register ActivityParticipation do
     column(:member_id, &:member_id)
     column(:member_name) { |ap| ap.member.name }
     column(:member_phones) { |ap|
-      ap.member.phones_array.map { |p| display_phone(p) }.join(', ')
+      ap.member.phones_array.map { |p| display_phone(p) }.join(", ")
     }
-    column(:member_emails) { |ap| ap.member.emails_array.join(', ') }
+    column(:member_emails) { |ap| ap.member.emails_array.join(", ") }
     column(:email_session) { |ap| ap.session&.email }
     column(:note)
     column(:participants_count)
@@ -76,43 +76,43 @@ ActiveAdmin.register ActivityParticipation do
 
   sidebar :total, only: :index do
     all = collection.unscope(:includes).offset(nil).limit(nil)
-    div class: 'content' do
-      div class: 'total' do
+    div class: "content" do
+      div class: "total" do
         span activities_human_name + ":"
-        span all.sum(:participants_count), style: 'float: right; font-weight: bold;'
+        span all.sum(:participants_count), style: "float: right; font-weight: bold;"
       end
     end
   end
 
   sidebar :billing, only: :index, if: -> { Current.acp.activity_price.positive? } do
-    div class: 'actions' do
-      handbook_icon_link('billing', anchor: 'activity')
+    div class: "actions" do
+      handbook_icon_link("billing", anchor: "activity")
     end
 
-    div class: 'content' do
+    div class: "content" do
       no_counts = true
-      [Current.fy_year - 1, Current.fy_year].each do |year|
+      [ Current.fy_year - 1, Current.fy_year ].each do |year|
         fy = Current.acp.fiscal_year_for(year)
         missing_count = Membership.during_year(fy).sum(&:missing_activity_participations)
         if missing_count.positive?
           no_counts = false
-          div class: 'top-spacing' do
-            span t('.missing_activity_participations_count_html', year: fy.to_s, count: missing_count)
+          div class: "top-spacing" do
+            span t(".missing_activity_participations_count_html", year: fy.to_s, count: missing_count)
           end
           if authorized?(:invoice_all, ActivityParticipation)
-            div class: 'top-small-spacing' do
-              button_to t('.invoice_all'), invoice_all_activity_participations_path,
+            div class: "top-small-spacing" do
+              button_to t(".invoice_all"), invoice_all_activity_participations_path,
                 params: { year: fy.year },
-                form: { data: { controller: 'disable', disable_with_value: t('.invoicing') } },
-                data: { confirm: t('.invoice_all_confirm', year: fy.to_s, count: missing_count, activity_price: cur(Current.acp.activity_price)) },
-                class: 'full-width'
+                form: { data: { controller: "disable", disable_with_value: t(".invoicing") } },
+                data: { confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.acp.activity_price)) },
+                class: "full-width"
             end
           end
         end
       end
       if no_counts
-        div class: 'content' do
-          span t('.no_missing_activity_participations'), class: 'empty'
+        div class: "content" do
+          span t(".no_missing_activity_participations"), class: "empty"
         end
       end
     end
@@ -121,22 +121,22 @@ ActiveAdmin.register ActivityParticipation do
   collection_action :invoice_all, method: :post do
     authorize!(:invoice_all, ActivityParticipation)
     ActivityParticipation.invoice_all_missing(params[:year])
-    redirect_to collection_path, notice: t('active_admin.resource.index.invoicing')
+    redirect_to collection_path, notice: t("active_admin.resource.index.invoicing")
   end
 
   sidebar :calendar, if: -> { Current.acp.icalendar_auth_token? }, only: :index do
-    div class: 'content' do
-      para t('.activity_participation_ical_text_html')
+    div class: "content" do
+      para t(".activity_participation_ical_text_html")
       div do
-        link_to t('.subscribe_ical_link'), activity_participations_calendar_url(auth_token: Current.acp.icalendar_auth_token).gsub(/^https/, 'webcal'),
+        link_to t(".subscribe_ical_link"), activity_participations_calendar_url(auth_token: Current.acp.icalendar_auth_token).gsub(/^https/, "webcal"),
           data: { turbolinks: false },
-          class: 'button full-width'
+          class: "button full-width"
       end
     end
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :activity,
         collection: Activity.order(date: :desc),
         prompt: true
@@ -169,7 +169,7 @@ ActiveAdmin.register ActivityParticipation do
         end
 
         if ap.invoices.any?
-          attributes_table title: t('.billing') do
+          attributes_table title: t(".billing") do
             row(:invoiced_at) { auto_link ap.invoices.first, l(ap.invoices.first.date) }
           end
         end
@@ -204,28 +204,28 @@ ActiveAdmin.register ActivityParticipation do
 
   batch_action :validate, if: ->(_) {
     authorized?(:update, ActivityParticipation) &&
-      params[:scope].in?([nil, 'pending', 'rejected'])
+      params[:scope].in?([ nil, "pending", "rejected" ])
   } do |selection|
     participations = ActivityParticipation.includes(:activity).where(id: selection)
     participations.find_each do |participation|
       participation.validate!(current_admin)
     end
     if participations.future.any?
-      flash[:alert] = t('.validate.flash.alert')
+      flash[:alert] = t(".validate.flash.alert")
     end
     redirect_back fallback_location: collection_path
   end
 
   batch_action :reject, if: ->(_) {
     authorized?(:update, ActivityParticipation) &&
-      params[:scope].in?([nil, 'pending', 'validated'])
+      params[:scope].in?([ nil, "pending", "validated" ])
   } do |selection|
     participations = ActivityParticipation.includes(:activity).where(id: selection)
     participations.find_each do |participation|
       participation.reject!(current_admin)
     end
     if participations.future.any?
-      flash[:alert] = t('.reject.flash.alert')
+      flash[:alert] = t(".reject.flash.alert")
     end
     redirect_back fallback_location: collection_path
   end
@@ -233,8 +233,8 @@ ActiveAdmin.register ActivityParticipation do
   action_item :invoice, only: :show, if: -> {
     authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
   } do
-    link_to t('.invoice_action'),
-      new_invoice_path(activity_participation_id: resource.id, anchor: 'activity_participation')
+    link_to t(".invoice_action"),
+      new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation")
   end
 
   before_build do |ap|
@@ -249,7 +249,7 @@ ActiveAdmin.register ActivityParticipation do
         resource: ap,
         body: ap.comment,
         author: current_admin,
-        namespace: 'root')
+        namespace: "root")
     end
   end
 
@@ -259,9 +259,9 @@ ActiveAdmin.register ActivityParticipation do
 
     def apply_sorting(chain)
       if params[:scope].in?(%w[validated rejected]) && !params[:order]
-        super(chain).joins(:member).reorder('activities.date DESC, members.name', id: :desc)
+        super(chain).joins(:member).reorder("activities.date DESC, members.name", id: :desc)
       else
-        super(chain).joins(:member).order('members.name', id: :desc)
+        super(chain).joins(:member).order("members.name", id: :desc)
       end
     end
 
@@ -285,6 +285,6 @@ ActiveAdmin.register ActivityParticipation do
     end
   end
 
-  config.sort_order = 'activities.date_asc'
+  config.sort_order = "activities.date_asc"
   config.batch_actions = true
 end

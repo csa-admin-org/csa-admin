@@ -16,15 +16,15 @@ class BasketComplement < ApplicationRecord
 
   has_many :baskets_basket_complement, dependent: :destroy
   has_many :memberships_basket_complements, dependent: :destroy
-  has_one :shop_product, class_name: 'Shop::Product'
+  has_one :shop_product, class_name: "Shop::Product"
   has_and_belongs_to_many :deliveries, validate: false
   has_and_belongs_to_many :current_deliveries, -> { current_year },
-    class_name: 'Delivery',
+    class_name: "Delivery",
     validate: false,
     after_add: :after_add_delivery!,
     after_remove: :after_remove_delivery!
   has_and_belongs_to_many :future_deliveries, -> { future_year },
-    class_name: 'Delivery',
+    class_name: "Delivery",
     validate: false,
     after_add: :after_add_delivery!,
     after_remove: :after_remove_delivery!
@@ -51,24 +51,24 @@ class BasketComplement < ApplicationRecord
     ids =
       baskets
         .joins(:baskets_basket_complements)
-        .where('baskets_basket_complements.quantity > 0')
+        .where("baskets_basket_complements.quantity > 0")
         .pluck(:basket_complement_id)
     ids +=
       shop_orders
         .joins(:products)
-        .pluck('shop_products.basket_complement_id')
+        .pluck("shop_products.basket_complement_id")
     where(id: ids.uniq)
   end
 
   def self.member_ordered
     all.to_a.sort_by { |bc|
-      clauses = [bc.member_order_priority]
+      clauses = [ bc.member_order_priority ]
       clauses <<
         case Current.acp.basket_complements_member_order_mode
-        when 'price_asc'; bc.price
-        when 'price_desc'; -bc.price
-        when 'deliveries_count_asc'; bc.deliveries_count
-        when 'deliveries_count_desc'; -bc.deliveries_count
+        when "price_asc"; bc.price
+        when "price_desc"; -bc.price
+        when "deliveries_count_asc"; bc.deliveries_count
+        when "deliveries_count_desc"; -bc.deliveries_count
         end
       clauses << bc.public_name
       clauses

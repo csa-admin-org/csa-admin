@@ -1,27 +1,27 @@
 namespace :postmark do
-  desc 'Create/update message streams'
+  desc "Create/update message streams"
   task message_streams_setup: :environment do
     ACP.switch_each do |acp|
       if api_token = acp.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
 
-        outbound = client.get_message_stream('outbound')
-        unless outbound[:name] == 'Transactional Stream'
-          client.update_message_stream('outbound', name: 'Transactional Stream')
+        outbound = client.get_message_stream("outbound")
+        unless outbound[:name] == "Transactional Stream"
+          client.update_message_stream("outbound", name: "Transactional Stream")
         end
 
-        inbound = client.get_message_stream('inbound')
-        unless inbound[:name] == 'Inbound Stream'
-          client.update_message_stream('inbound', name: 'Inbound Stream')
+        inbound = client.get_message_stream("inbound")
+        unless inbound[:name] == "Inbound Stream"
+          client.update_message_stream("inbound", name: "Inbound Stream")
         end
 
-        brodcast = client.get_message_stream('broadcast')
-        unless brodcast[:name] == 'Broadcasts Stream'
-          client.update_message_stream('broadcast', name: 'Broadcasts Stream')
+        brodcast = client.get_message_stream("broadcast")
+        unless brodcast[:name] == "Broadcasts Stream"
+          client.update_message_stream("broadcast", name: "Broadcasts Stream")
         end
-        unless brodcast.dig(:subscription_management_configuration, 'UnsubscribeHandlingType') == 'Custom'
-          client.update_message_stream('broadcast',
-            subscription_management_configuration: { UnsubscribeHandlingType: 'Custom' })
+        unless brodcast.dig(:subscription_management_configuration, "UnsubscribeHandlingType") == "Custom"
+          client.update_message_stream("broadcast",
+            subscription_management_configuration: { UnsubscribeHandlingType: "Custom" })
         end
       end
     end

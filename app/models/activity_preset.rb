@@ -7,6 +7,6 @@ class ActivityPreset < ApplicationRecord
   translated_attributes :place_url
 
   def name
-    [place, title].compact.join(', ')
+    [ place, title ].compact.join(", ")
   end
 end

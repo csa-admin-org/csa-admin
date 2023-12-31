@@ -12,13 +12,13 @@ module CurrentContext
 
   def serialize
     super.merge(
-      'tenant' => Tenant.current,
-      'current' => ActiveJob::Arguments.serialize(Current.attributes))
+      "tenant" => Tenant.current,
+      "current" => ActiveJob::Arguments.serialize(Current.attributes))
   end
 
   def deserialize(data)
-    @tenant = data['tenant']
-    @current = data['current']
+    @tenant = data["tenant"]
+    @current = data["current"]
     super
   end
 

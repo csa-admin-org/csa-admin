@@ -6,7 +6,7 @@ module HasEmails
 
     validate :emails_must_be_valid
 
-    scope :with_email, ->(email) { where('emails ILIKE ?', "%#{email}%") }
+    scope :with_email, ->(email) { where("emails ILIKE ?", "%#{email}%") }
     scope :including_email, ->(email) {
       where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", Regexp.escape(email))
     }
@@ -21,7 +21,7 @@ module HasEmails
   end
 
   def emails=(emails)
-    super string_to_a(emails.downcase).join(', ')
+    super string_to_a(emails.downcase).join(", ")
   end
 
   def emails_array
@@ -48,6 +48,6 @@ module HasEmails
   end
 
   def string_to_a(str)
-    str.to_s.split(',').map { |s| s.gsub(/[[:space:]]/, '') }
+    str.to_s.split(",").map { |s| s.gsub(/[[:space:]]/, "") }
   end
 end

@@ -7,7 +7,7 @@ class BasketContent
     has_many :basket_contents
     has_many :deliveries, through: :basket_contents
 
-    with_options class_name: 'BasketContent' do
+    with_options class_name: "BasketContent" do
       has_one :latest_basket_content, -> {
         joins(:delivery).merge(Delivery.unscoped.order(date: :desc))
       }

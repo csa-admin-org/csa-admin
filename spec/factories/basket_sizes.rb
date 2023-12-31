@@ -6,12 +6,12 @@ FactoryBot.define do
     activity_participations_demanded_annualy { 2 }
 
     trait :small do
-      name { 'Eveil' }
+      name { "Eveil" }
       price { 925 / 40.0 }
     end
 
     trait :big do
-      name { 'Abondance' }
+      name { "Abondance" }
       price { 1330 / 40.0 }
     end
   end

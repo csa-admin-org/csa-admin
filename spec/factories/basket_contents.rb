@@ -3,7 +3,7 @@ FactoryBot.define do
     product
     delivery { Delivery.first || create(:delivery) }
     quantity { 10 }
-    unit { 'kg' }
-    depots { [Depot.first || create(:depot)] }
+    unit { "kg" }
+    depots { [ Depot.first || create(:depot) ] }
   end
 end

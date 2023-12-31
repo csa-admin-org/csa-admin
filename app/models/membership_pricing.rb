@@ -1,4 +1,4 @@
-require 'rounding'
+require "rounding"
 
 class MembershipPricing
   def initialize(params = {})
@@ -14,7 +14,7 @@ class MembershipPricing
       add(depot_prices)
       complements_prices.each { |prices| add(prices) }
 
-      [@min, @max].uniq
+      [ @min, @max ].uniq
     end
   end
 
@@ -28,7 +28,7 @@ class MembershipPricing
     Depot.visible.sum(:price).zero? &&
       BasketComplement.visible.sum(:price).zero? &&
       deliveries_counts.one? &&
-      !Current.acp.feature?('basket_price_extra')
+      !Current.acp.feature?("basket_price_extra")
   end
 
   def basket_size
@@ -36,7 +36,7 @@ class MembershipPricing
   end
 
   def baskets_prices
-    return [0, 0] unless basket_size
+    return [ 0, 0 ] unless basket_size
 
     [
       deliveries_counts.min * basket_size.price,
@@ -46,9 +46,9 @@ class MembershipPricing
 
   def baskets_price_extras
     extra = @params[:waiting_basket_price_extra].to_f
-    return [0, 0] if extra.zero?
+    return [ 0, 0 ] if extra.zero?
 
-    comp_prices = [0, 0]
+    comp_prices = [ 0, 0 ]
     complements_prices.each { |p|
       comp_prices = comp_prices.zip(p.map(&:round_to_five_cents)).map(&:sum)
     }
@@ -60,7 +60,7 @@ class MembershipPricing
   end
 
   def calculate_price_extra(extra, basket_size, complements_price, deliveries_count)
-    return 0 unless Current.acp.feature?('basket_price_extra')
+    return 0 unless Current.acp.feature?("basket_price_extra")
     return 0 unless basket_size
 
     Current.acp.calculate_basket_price_extra(
@@ -73,7 +73,7 @@ class MembershipPricing
 
   def complements_prices
     attrs = @params[:members_basket_complements_attributes].to_h
-    return [[0, 0]] unless attrs.present?
+    return [ [ 0, 0 ] ] unless attrs.present?
 
     attrs.map { |_, attrs|
       complement_prices(attrs[:basket_complement_id], attrs[:quantity].to_i)
@@ -82,8 +82,8 @@ class MembershipPricing
 
   def complement_prices(complement_id, quantity)
     complement = BasketComplement.find_by(id: complement_id)
-    return [0, 0] unless complement
-    return [0, 0] if quantity.zero?
+    return [ 0, 0 ] unless complement
+    return [ 0, 0 ] if quantity.zero?
 
     deliveries_counts = delivery_cycles.map { |dc|
       (complement.delivery_ids & dc.current_and_future_delivery_ids).size
@@ -95,7 +95,7 @@ class MembershipPricing
   end
 
   def depot_prices
-    return [0, 0] unless depot
+    return [ 0, 0 ] unless depot
 
     [
       deliveries_counts.min * depot.price,
@@ -104,14 +104,14 @@ class MembershipPricing
   end
 
   def deliveries_counts
-    return [0] unless delivery_cycles.any?
+    return [ 0 ] unless delivery_cycles.any?
 
     @deliveries_counts ||= delivery_cycles.map(&:deliveries_count).flatten.uniq.sort
   end
 
   def delivery_cycles
-    return [delivery_cycle] if delivery_cycle
-    return [basket_size.delivery_cycle] if basket_size&.delivery_cycle
+    return [ delivery_cycle ] if delivery_cycle
+    return [ basket_size.delivery_cycle ] if basket_size&.delivery_cycle
 
     @delivery_cycle_ids ||= depots.map(&:delivery_cycle_ids).flatten.uniq
     @delivery_cycles ||= DeliveryCycle.find(@delivery_cycle_ids).to_a
@@ -123,7 +123,7 @@ class MembershipPricing
   end
 
   def depots
-    return [depot] if depot
+    return [ depot ] if depot
 
     @depots ||= Depot.visible.includes(:delivery_cycles).to_a
   end
@@ -134,6 +134,6 @@ class MembershipPricing
 
   def add(prices)
     @min, @max =
-      [@min, @max].zip(prices.map(&:round_to_five_cents)).map(&:sum)
+      [ @min, @max ].zip(prices.map(&:round_to_five_cents)).map(&:sum)
   end
 end

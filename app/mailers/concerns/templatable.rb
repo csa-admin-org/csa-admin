@@ -3,7 +3,7 @@ module Templatable
 
   private
 
-  def template_mail(member, from: nil, to: nil, stream: 'outbound', **data)
+  def template_mail(member, from: nil, to: nil, stream: "outbound", **data)
     render_template(member, **data) do |subject, content|
       content_mail(content, **{
         from: from,
@@ -24,9 +24,9 @@ module Templatable
   def set_data(data)
     @data = data.dup
     @template = params[:template]
-    @data['acp'] = Liquid::ACPDrop.new(Current.acp)
+    @data["acp"] = Liquid::ACPDrop.new(Current.acp)
     @data.merge!(@template.liquid_data_preview) if @template.liquid_data_preview
-    @data['subject'] = data['subject'] || @data['subject'] || @template.subject
+    @data["subject"] = data["subject"] || @data["subject"] || @template.subject
     set_template_content_blocks_data
   end
 
@@ -34,13 +34,13 @@ module Templatable
     return unless blocks = params.delete(:blocks)
 
     blocks.each do |b|
-      content = b.content_as_plain_text.present? ? b.content : ''
+      content = b.content_as_plain_text.present? ? b.content : ""
       @data[b.data_name] = Liquid::Template.parse(content).render(**@data)
     end
   end
 
   def render_subjet
-    Liquid::Template.parse(@data['subject']).render(**@data)
+    Liquid::Template.parse(@data["subject"]).render(**@data)
   end
 
   def render_content

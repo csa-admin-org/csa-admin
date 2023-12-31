@@ -10,6 +10,6 @@ class DeliveryBasketsUpdaterJob < ApplicationJob
   private
 
   def lock_key_arguments
-    [Current.acp.tenant_name] + arguments
+    [ Current.acp.tenant_name ] + arguments
   end
 end

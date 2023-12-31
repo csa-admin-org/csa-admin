@@ -32,7 +32,7 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
   # POST /shop/orders/:id/confirm
   def confirm
     @order.confirm!
-    redirect_to members_shop_order_path(@order), notice: t('.notice')
+    redirect_to members_shop_order_path(@order), notice: t(".notice")
   rescue InvalidTransitionError, ActiveRecord::RecordInvalid
     render :show, status: :unprocessable_entity
   end
@@ -56,9 +56,9 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
   def find_order
     @order ||=
       Shop::Order
-        .where(delivery: [current_shop_delivery, next_shop_delivery, *shop_special_deliveries].compact)
+        .where(delivery: [ current_shop_delivery, next_shop_delivery, *shop_special_deliveries ].compact)
         .where(member_id: current_member.id)
-        .includes(items: [:product, :product_variant])
+        .includes(items: [ :product, :product_variant ])
         .find(params[:id])
   end
 
@@ -88,7 +88,7 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
           whitelisted[:amount_percentage] = nil
         end
         whitelisted[:items_attributes].each do |_, item|
-          if item[:quantity] == '0'
+          if item[:quantity] == "0"
             item.delete(:quantity)
             item[:_destroy] = true
           end

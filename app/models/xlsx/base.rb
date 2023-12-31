@@ -1,4 +1,4 @@
-require 'rubyXL/convenience_methods'
+require "rubyXL/convenience_methods"
 
 module XLSX
   class Base
@@ -31,7 +31,7 @@ module XLSX
     end
 
     def add_worksheet(name)
-      name.gsub!(RubyXL::Workbook::SHEET_NAME_FORBIDDEN_CHARS, ' ')
+      name.gsub!(RubyXL::Workbook::SHEET_NAME_FORBIDDEN_CHARS, " ")
       if !@first_worksheet_used
         @worksheet = workbook.worksheets[0]
         @worksheet.sheet_name = name
@@ -51,7 +51,7 @@ module XLSX
       @worksheet.change_row_bold(0, true)
     end
 
-    def add_column(header, values, border: 'none', align: 'left', max_width: nil, min_width: 5)
+    def add_column(header, values, border: "none", align: "left", max_width: nil, min_width: 5)
       @worksheet.add_cell(0, @column, header)
       @worksheet.sheet_data[0][@column].change_font_bold(true)
 
@@ -59,10 +59,10 @@ module XLSX
         @worksheet.add_cell(i + 1, @column, val)
       end
 
-      max_width ||= ([header] + Array(values)).map { |v| v.to_s.length }.max.to_i + 2
-      @worksheet.change_column_width(@column, [min_width, max_width].max)
+      max_width ||= ([ header ] + Array(values)).map { |v| v.to_s.length }.max.to_i + 2
+      @worksheet.change_column_width(@column, [ min_width, max_width ].max)
 
-      if border != 'none'
+      if border != "none"
         @worksheet.change_column_border(@column, :top, border)
         @worksheet.change_column_border(@column, :bottom, border)
         @worksheet.change_column_border(@column, :left, border)

@@ -5,7 +5,7 @@ class Members::Shop::BaseController < Members::BaseController
   private
 
   def ensure_shop_feature
-    redirect_to members_member_path unless Current.acp.feature?('shop')
+    redirect_to members_member_path unless Current.acp.feature?("shop")
   end
 
   def ensure_delivery
@@ -34,7 +34,7 @@ class Members::Shop::BaseController < Members::BaseController
         .map(&:producer)
         .compact
         .uniq
-        .sort_by(&:name) - [Shop::NullProducer.instance]
+        .sort_by(&:name) - [ Shop::NullProducer.instance ]
   end
   helper_method :available_producers
 
@@ -62,4 +62,3 @@ class Members::Shop::BaseController < Members::BaseController
     products
   end
 end
-

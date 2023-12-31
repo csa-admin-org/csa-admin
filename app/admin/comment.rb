@@ -1,4 +1,4 @@
-ActiveAdmin.register ActiveAdmin::Comment, :as => "Comment" do
+ActiveAdmin.register ActiveAdmin::Comment, as: "Comment" do
   controller do
     def destroy
       resource.destroy

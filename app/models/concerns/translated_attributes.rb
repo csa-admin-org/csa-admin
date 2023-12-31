@@ -54,7 +54,7 @@ module TranslatedAttributes
       end
 
       define_singleton_method(:ransackable_scopes) do |_auth_object = nil|
-        super(_auth_object) + attrs.flat_map { |attr| ["#{attr}_eq", "#{attr}_cont"] }
+        super(_auth_object) + attrs.flat_map { |attr| [ "#{attr}_eq", "#{attr}_cont" ] }
       end
     end
   end

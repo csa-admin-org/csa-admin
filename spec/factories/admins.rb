@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :admin do
-    name { 'Bob' }
+    name { "Bob" }
     email { Faker::Internet.unique.email }
     permission { Permission.superadmin }
   end

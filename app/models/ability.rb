@@ -2,12 +2,12 @@ class Ability
   include CanCan::Ability
 
   MODELS_MAPPING = {
-    delivery: [Delivery, DeliveryCycle],
-    depot: [Depot, DepotGroup],
-    membership: [Membership, Basket],
-    billing: [Invoice, Payment],
-    activity: [Activity, ActivityParticipation, ActivityPreset],
-    basket_content: [BasketContent, BasketContent::Product],
+    delivery: [ Delivery, DeliveryCycle ],
+    depot: [ Depot, DepotGroup ],
+    membership: [ Membership, Basket ],
+    billing: [ Invoice, Payment ],
+    activity: [ Activity, ActivityParticipation, ActivityPreset ],
+    basket_content: [ BasketContent, BasketContent::Product ],
     shop: [
       Shop::Order,
       Shop::OrderItem,
@@ -16,11 +16,11 @@ class Ability
       Shop::SpecialDelivery,
       Shop::Tag
     ],
-    newsletter: [Newsletter, Newsletter::Segment, Newsletter::Template]
+    newsletter: [ Newsletter, Newsletter::Segment, Newsletter::Template ]
   }
 
   def initialize(admin)
-    can :read, [ActiveAdmin::Page, ActiveAdmin::Comment]
+    can :read, [ ActiveAdmin::Page, ActiveAdmin::Comment ]
     can :read, available_models
     can :pdf, Invoice
 
@@ -125,7 +125,7 @@ class Ability
     if admin.permission.can_write?(:newsletter)
       writable_models += models_for(:newsletter)
 
-      can :preview, [Newsletter, Newsletter::Template]
+      can :preview, [ Newsletter, Newsletter::Template ]
       can :send_email, Newsletter, can_send_email?: true
     end
 
@@ -146,6 +146,6 @@ class Ability
   end
 
   def models_mapping(feature)
-    MODELS_MAPPING[feature] || [feature.to_s.classify.constantize]
+    MODELS_MAPPING[feature] || [ feature.to_s.classify.constantize ]
   end
 end

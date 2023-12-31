@@ -1,9 +1,9 @@
 module MembersHelper
   def link_with_session(member, session)
-    content_tag(:span, class: 'link-with-session') {
+    content_tag(:span, class: "link-with-session") {
       link = auto_link(member).html_safe
       if session && (!session.admin_id? && session.email)
-        link += content_tag(:span, class: 'session-email', title: Session.human_attribute_name(:email_session)) {
+        link += content_tag(:span, class: "session-email", title: Session.human_attribute_name(:email_session)) {
           "(#{session.email})"
         }
       end
@@ -14,10 +14,10 @@ module MembersHelper
   def with_note_icon(note)
     text = yield
     if note.present?
-      content_tag(:span, class: 'note-icon') {
+      content_tag(:span, class: "note-icon") {
         content_tag(:span, text) +
-        content_tag(:span, class: 'inline-block tooltip-toggle', data: { tooltip: note }) {
-          inline_svg_tag 'members/chat-note.svg', size: '20'
+        content_tag(:span, class: "inline-block tooltip-toggle", data: { tooltip: note }) {
+          inline_svg_tag "members/chat-note.svg", size: "20"
         }
       }.html_safe
     else
@@ -26,7 +26,7 @@ module MembersHelper
   end
 
   def languages_collection
-    Current.acp.languages.map { |l| [t("languages.#{l}"), l] }
+    Current.acp.languages.map { |l| [ t("languages.#{l}"), l ] }
   end
 
   def billing_year_divisions_collection(data: {})
@@ -53,7 +53,7 @@ module MembersHelper
     if @acp_shares_numbers.size > 1
       details << acp_shares_number(bs.acp_shares_number)
     end
-    details.compact.join(', ').html_safe
+    details.compact.join(", ").html_safe
   end
 
   def basket_sizes_collection(membership: nil, no_basket_option: true, data: {}, no_basket_data: {})
@@ -68,12 +68,12 @@ module MembersHelper
     }
     if no_basket_option && (Current.acp.member_support?)
       col << [
-        collection_text(t('helpers.no_basket_size'),
+        collection_text(t("helpers.no_basket_size"),
           details:
             if Current.acp.annual_fee
-              t('helpers.no_basket_size_annual_fee')
+              t("helpers.no_basket_size_annual_fee")
             elsif Current.acp.share?
-              t('helpers.no_basket_size_acp_share')
+              t("helpers.no_basket_size_acp_share")
             end
         ),
         0,
@@ -106,11 +106,11 @@ module MembersHelper
     Current.acp[:basket_price_extras].map do |extra|
       full_year_price = deliveries_based_price_info(extra) if extra.positive?
       details = details_template.render(
-        'extra' => extra,
-        'full_year_price' => full_year_price)
+        "extra" => extra,
+        "full_year_price" => full_year_price)
 
-      text = collection_text(label_template.render('extra' => extra).strip, details: details)
-      [text, extra, data: data]
+      text = collection_text(label_template.render("extra" => extra).strip, details: details)
+      [ text, extra, data: data ]
     end
   end
 
@@ -119,7 +119,7 @@ module MembersHelper
 
     details = []
     if only_price_per_delivery
-      details << t('helpers.price_per_delivery', price: short_price(bc.price))
+      details << t("helpers.price_per_delivery", price: short_price(bc.price))
     else
       d_counts = depots_delivery_ids.map { |d_ids|
         (d_ids & bc.delivery_ids).size
@@ -129,7 +129,7 @@ module MembersHelper
     if bc.activity_participations_demanded_annualy.positive?
       details << activities_count(bc.activity_participations_demanded_annualy)
     end
-    details.compact.join(', ').html_safe
+    details.compact.join(", ").html_safe
   end
 
   def basket_complement_label(bc, only_price_per_delivery: false)
@@ -166,11 +166,11 @@ module MembersHelper
       end
       [
         collection_text(d.public_name,
-          details: details.compact.join(', '),
+          details: details.compact.join(", "),
           icon: icon),
         d.id,
         data: {
-          form_choices_limiter_values_param: d.delivery_cycle_ids.join(',')
+          form_choices_limiter_values_param: d.delivery_cycle_ids.join(",")
         }.merge(data)
       ]
     }
@@ -202,14 +202,14 @@ module MembersHelper
   def terms_of_service_label
     text =
       if Current.acp.terms_of_service_url && Current.acp.statutes_url
-        t('.terms_of_service_with_statutes',
+        t(".terms_of_service_with_statutes",
           terms_url: Current.acp.terms_of_service_url,
           statutes_url: Current.acp.statutes_url).html_safe
       elsif Current.acp.terms_of_service_url
-        t('.terms_of_service',
+        t(".terms_of_service",
           terms_url: Current.acp.terms_of_service_url).html_safe
       elsif Current.acp.statutes_url
-        t('.terms_of_service_with_only_statutes',
+        t(".terms_of_service_with_only_statutes",
           statutes_url: Current.acp.statutes_url).html_safe
       end
     "<span class='flex-grow font-normal'>#{text}</span>".html_safe
@@ -218,17 +218,17 @@ module MembersHelper
   def display_address(member, country: true)
     parts = [
       member.address,
-      "#{member.zip} #{member.city}",
+      "#{member.zip} #{member.city}"
     ]
     parts << member.country.translations[I18n.locale.to_s] if country
     parts.join("</br>").html_safe
   end
 
   def display_emails(member)
-    emails = member.emails_array - [current_session.email]
+    emails = member.emails_array - [ current_session.email ]
     parts = emails
     parts << content_tag(:i, current_session.email) unless current_session.admin_originated?
-    parts.join(', ').html_safe
+    parts.join(", ").html_safe
   end
 
   def display_phones(member)
@@ -236,13 +236,13 @@ module MembersHelper
     member.phones_array.each do |phone|
       parts << phone_link(phone)
     end
-    parts.join(', ').html_safe
+    parts.join(", ").html_safe
   end
 
   def newsletter_unsubscribed?
     suppressions = EmailSuppression.unsuppressable.broadcast
     if Current.acp.mailchimp?
-      suppressions = suppressions.where.not(origin: 'Mailchimp')
+      suppressions = suppressions.where.not(origin: "Mailchimp")
     end
     suppressions.where(email: current_session.email).any?
   end
@@ -250,16 +250,16 @@ module MembersHelper
   def display_acp_shares_number(member)
     parts = []
     if member.existing_acp_shares_number&.positive?
-      parts << t('.acp_shares_number.existing', count: member.existing_acp_shares_number)
+      parts << t(".acp_shares_number.existing", count: member.existing_acp_shares_number)
     end
     invoiced_number = member.invoices.not_canceled.acp_share.sum(:acp_shares_number)
     if invoiced_number.positive?
       parts << link_to(
-        t('.acp_shares_number.invoiced', count: invoiced_number),
-        invoices_path(q: { member_id_eq: member.id, entity_type_in: 'ACPShare' }, scope: :all))
+        t(".acp_shares_number.invoiced", count: invoiced_number),
+        invoices_path(q: { member_id_eq: member.id, entity_type_in: "ACPShare" }, scope: :all))
     end
     if member.missing_acp_shares_number.positive?
-      parts << t('.acp_shares_number.missing', count: member.missing_acp_shares_number)
+      parts << t(".acp_shares_number.missing", count: member.missing_acp_shares_number)
     end
     txt = parts.to_sentence.html_safe
     if member.acp_shares_number > member.required_acp_shares_number
@@ -272,8 +272,8 @@ module MembersHelper
     if counts.many?
       [
         price_info(counts.min * price),
-        price_info(counts.max * price, format: '%n')
-      ].compact.join('-')
+        price_info(counts.max * price, format: "%n")
+      ].compact.join("-")
     else
       price_info(counts.first.to_i * price)
     end
@@ -281,7 +281,7 @@ module MembersHelper
 
   def deliveries_count_range(counts = deliveries_counts)
     if counts.many?
-      [counts.min, counts.max].uniq.join('-')
+      [ counts.min, counts.max ].uniq.join("-")
     else
       counts.first.to_i
     end
@@ -291,12 +291,12 @@ module MembersHelper
     case counts
     when Array
       if counts.many?
-        t('helpers.deliveries_counts_range', range: "#{counts.min}-#{counts.max}")
+        t("helpers.deliveries_counts_range", range: "#{counts.min}-#{counts.max}")
       else
-        t('helpers.deliveries_count', count: counts.first.to_i)
+        t("helpers.deliveries_count", count: counts.first.to_i)
       end
     when Integer
-      t('helpers.deliveries_count', count: counts)
+      t("helpers.deliveries_count", count: counts)
     end
   end
 
@@ -324,7 +324,7 @@ module MembersHelper
     if delivery_cycle
       new_depots = depots.select { |d| delivery_cycle.in?(d.delivery_cycles) }
       if new_depots.empty?
-        depots = [object&.depot || depots.first]
+        depots = [ object&.depot || depots.first ]
       else
         depots = new_depots
       end
@@ -364,17 +364,17 @@ module MembersHelper
   end
 
   def price_precision(price)
-    splitted = price.to_s.split('.')
+    splitted = price.to_s.split(".")
     if splitted.many?
       decimals = splitted.last
-      decimals.to_i == 0 ? 0 : [decimals.length, 2].max
+      decimals.to_i == 0 ? 0 : [ decimals.length, 2 ].max
     else
       0
     end
   end
 
   def collection_text(text, details: nil, icon: nil)
-    txts = ["<div class='flex-grow flex flex-col'>"]
+    txts = [ "<div class='flex-grow flex flex-col'>" ]
     txts << "<span class='text-sm font-medium text-gray-700 dark:text-gray-300'>#{text}</span>"
     if details.present?
       txts << "<span class='text-sm'>#{details}</span>"
@@ -387,33 +387,33 @@ module MembersHelper
   end
 
   def map_icon(location)
-    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: 'text-gray-300 dark:text-gray-700 hover:text-green-500' do
-      inline_svg_tag 'members/map.svg', class: 'inline-block'
+    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: "text-gray-300 dark:text-gray-700 hover:text-green-500" do
+      inline_svg_tag "members/map.svg", class: "inline-block"
     end
   end
 
   def activities_count(count)
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
-    t_activity('helpers.activities_count_per_year', count: count).gsub(/\s/, '&nbsp;')
+    t_activity("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
   end
 
   def acp_shares_number(number)
     return unless number
 
-    t('helpers.acp_shares_number', count: number)
+    t("helpers.acp_shares_number", count: number)
   end
 
   def member_features_sentence
     features = []
-    features << t_activity('.features.activity_text') if Current.acp.feature?('activity')
-    features << t('.features.absence_text') if Current.acp.feature?('absence')
-    features << t('.features.deliveries_text')
-    features << t('.features.billing_text')
+    features << t_activity(".features.activity_text") if Current.acp.feature?("activity")
+    features << t(".features.absence_text") if Current.acp.feature?("absence")
+    features << t(".features.deliveries_text")
+    features << t(".features.billing_text")
     features.to_sentence
   end
 
   def member_information_title
-    Current.acp.member_information_title.presence || t('members.information.default_title')
+    Current.acp.member_information_title.presence || t("members.information.default_title")
   end
 end

@@ -3,7 +3,7 @@ module NewslettersHelper
     Newsletter::Audience.segments.map { |key, segments|
       [
         Newsletter::Audience.segment_name(key),
-        segments.map { |s| [s.name, s.id] }
+        segments.map { |s| [ s.name, s.id ] }
       ]
     }.to_h
   end
@@ -11,7 +11,7 @@ module NewslettersHelper
   def ellipsisize(email)
     return unless email
 
-    email.split('@').map { |part|
+    email.split("@").map { |part|
       case part.length
       when 0..5
         part.gsub(%r{(.).+(.)}, '\1...\2')
@@ -20,6 +20,6 @@ module NewslettersHelper
       else
         part.gsub(%r{(.{3}).{3,}(.{3})}, '\1...\2')
       end
-    }.join('@')
+    }.join("@")
   end
 end

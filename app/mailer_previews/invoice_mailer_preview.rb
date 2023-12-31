@@ -49,7 +49,7 @@ class InvoiceMailerPreview < ActionMailer::Preview
       member: member,
       id: 42,
       date: Date.today,
-      state: 'open',
+      state: "open",
       entity_type: Invoice.used_entity_types.sample(random: random),
       entity_number: 33,
       amount: 990,
@@ -59,5 +59,3 @@ class InvoiceMailerPreview < ActionMailer::Preview
     }.merge(**extra))
   end
 end
-
-

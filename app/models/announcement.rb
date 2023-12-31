@@ -13,10 +13,10 @@ class Announcement < ApplicationRecord
   validate :must_be_unique_per_depot_and_delivery
 
   scope :depots_eq, ->(id) {
-    where('depot_ids @> ?', "{#{id}}")
+    where("depot_ids @> ?", "{#{id}}")
   }
   scope :deliveries_eq, ->(id) {
-    where('delivery_ids @> ?', "{#{id}}")
+    where("delivery_ids @> ?", "{#{id}}")
   }
 
   def self.for(delivery, depot)
@@ -56,7 +56,7 @@ class Announcement < ApplicationRecord
         if announcement && announcement.id != id
           errors.add(
             :base,
-            I18n.t('errors.messages.announcement_not_unique',
+            I18n.t("errors.messages.announcement_not_unique",
               delivery: delivery.display_name,
               depot: depot.name,
               other_text: announcement.text.truncate(30)))

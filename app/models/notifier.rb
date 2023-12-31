@@ -37,7 +37,7 @@ module Notifier
   end
 
   def send_admin_memberships_renewal_pending_emails
-    delays = [10, 4].map{ |d| d.days.from_now.to_date }
+    delays = [ 10, 4 ].map { |d| d.days.from_now.to_date }
     end_of_fiscal_year = Current.fiscal_year.end_of_year
     return unless end_of_fiscal_year.in?(delays)
 
@@ -76,7 +76,7 @@ module Notifier
         .not_renewed
         .where(renew: true)
         .where(renewal_reminder_sent_at: nil)
-        .where('renewal_opened_at <= ?', in_days.days.ago)
+        .where("renewal_opened_at <= ?", in_days.days.ago)
         .includes(:member)
         .select(&:can_send_email?)
 
@@ -107,7 +107,7 @@ module Notifier
   end
 
   def send_activity_participation_reminder_emails
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
     participations =
       ActivityParticipation
@@ -124,12 +124,12 @@ module Notifier
   end
 
   def send_activity_participation_validated_emails
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
     return unless MailTemplate.active_template(:activity_participation_validated)
 
     participations =
       ActivityParticipation
-        .where('validated_at >= ?', 3.days.ago)
+        .where("validated_at >= ?", 3.days.ago)
         .review_not_sent
         .includes(:activity, :member)
         .select(&:can_send_email?)
@@ -142,12 +142,12 @@ module Notifier
   end
 
   def send_activity_participation_rejected_emails
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
     return unless MailTemplate.active_template(:activity_participation_rejected)
 
     participations =
       ActivityParticipation
-        .where('rejected_at >= ?', 3.days.ago)
+        .where("rejected_at >= ?", 3.days.ago)
         .review_not_sent
         .includes(:activity, :member)
         .select(&:can_send_email?)
@@ -160,7 +160,7 @@ module Notifier
   end
 
   def send_admin_new_activity_participation_emails
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
     participations =
       ActivityParticipation

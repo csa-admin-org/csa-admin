@@ -3,10 +3,10 @@ class SessionMailer < ApplicationMailer
     session = params[:session]
     I18n.with_locale(session.member.language) do
       content = liquid_template.render(
-        'session_url' => params[:session_url])
+        "session_url" => params[:session_url])
       content_mail(content,
         to: session.email,
-        subject: t('.subject'))
+        subject: t(".subject"))
     end
   end
 
@@ -14,10 +14,10 @@ class SessionMailer < ApplicationMailer
     session = params[:session]
     I18n.with_locale(session.admin.language) do
       content = liquid_template.render(
-        'session_url' => params[:session_url])
+        "session_url" => params[:session_url])
       content_mail(content,
         to: session.email,
-        subject: t('.subject'))
+        subject: t(".subject"))
     end
   end
 end

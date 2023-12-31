@@ -3,19 +3,19 @@ class Newsletter
     include ActivitiesHelper
 
     extend self
-    CIPHER_KEY = 'aes-256-cbc'
+    CIPHER_KEY = "aes-256-cbc"
 
     def encrypt_email(email)
       cipher = OpenSSL::Cipher.new(CIPHER_KEY).encrypt
       cipher.key = Digest::MD5.hexdigest(Rails.application.secret_key_base)
       s = cipher.update(email) + cipher.final
-      s.unpack('H*')[0].downcase
+      s.unpack("H*")[0].downcase
     end
 
     def decrypt_email(email)
       cipher = OpenSSL::Cipher.new(CIPHER_KEY).decrypt
       cipher.key = Digest::MD5.hexdigest(Rails.application.secret_key_base)
-      s = [email].pack("H*").unpack("C*").pack("c*")
+      s = [ email ].pack("H*").unpack("C*").pack("c*")
       cipher.update(s) + cipher.final
     rescue OpenSSL::Cipher::CipherError
       nil
@@ -27,7 +27,7 @@ class Newsletter
 
     def segment_name(key)
       case key
-      when :segment_id; I18n.t('newsletters.segment.title')
+      when :segment_id; I18n.t("newsletters.segment.title")
       when :basket_size_id; BasketSize.model_name.human
       when :basket_complement_id; BasketComplement.model_name.human
       when :depot_id; Depot.model_name.human
@@ -43,7 +43,7 @@ class Newsletter
 
     class Segment < Struct.new(:key, :value, :name)
       def self.parse(audience)
-        key, value = audience.split('::', 2)
+        key, value = audience.split("::", 2)
         Segment.new(key.to_sym, value)
       end
 
@@ -52,7 +52,7 @@ class Newsletter
       end
 
       def name
-        super || record&.name || I18n.t('newsletters.segment_unknown')
+        super || record&.name || I18n.t("newsletters.segment_unknown")
       end
 
       def id
@@ -95,28 +95,28 @@ class Newsletter
           Member.where(id: value)
         when :member_state
           case value
-          when 'all'; Member.not_pending
-          when 'not_inactive'; Member.not_pending.not_inactive
+          when "all"; Member.not_pending
+          when "not_inactive"; Member.not_pending.not_inactive
           else; Member.where(state: value)
           end
         when :invoice_state
           case value
-          when 'open'
+          when "open"
             Member.joins(:invoices).merge(Invoice.open.sent).distinct
-          when 'open_with_overdue_notice'
+          when "open_with_overdue_notice"
             Member.joins(:invoices).merge(Invoice.sent.with_overdue_notice).distinct
           end
         when :activity_state
           case value
-          when 'demanded'
+          when "demanded"
             Member
               .joins(:current_year_membership)
-              .where(memberships: { activity_participations_demanded: 1..})
-          when 'missing'
+              .where(memberships: { activity_participations_demanded: 1.. })
+          when "missing"
             Member
               .joins(:current_year_membership)
-              .where(memberships: { activity_participations_demanded: 1..})
-              .where('activity_participations_demanded > activity_participations_accepted')
+              .where(memberships: { activity_participations_demanded: 1.. })
+              .where("activity_participations_demanded > activity_participations_accepted")
           end
         when :activity_id
           Member
@@ -170,13 +170,13 @@ class Newsletter
         member_state: member_state_records.sort_by(&:name),
         delivery_id: ::Delivery.between(1.week.ago..).limit(8),
         depot_id: Depot.used.reorder(:name),
-        basket_size_id: BasketSize.used,
+        basket_size_id: BasketSize.used
       }
       if BasketComplement.any?
         base[:basket_complement_id] = BasketComplement.used
       end
       base[:invoice_state] = invoice_state_records.sort_by(&:name)
-      if Current.acp.feature?('shop')
+      if Current.acp.feature?("shop")
         base[:shop_delivery_gid] = (
           ::Delivery
             .between(1.week.ago..)
@@ -192,7 +192,7 @@ class Newsletter
             .limit(8)
         ).sort_by(&:date).first(8)
       end
-      if Current.acp.feature?('activity')
+      if Current.acp.feature?("activity")
         base[:activity_state] = activity_state_records
         base[:activity_id] =
           Activity.joins(:participations).coming.limit(12).distinct.order(:date)

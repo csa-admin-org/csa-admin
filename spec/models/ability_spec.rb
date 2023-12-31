@@ -1,9 +1,9 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Ability do
   let(:ability) { Ability.new(admin) }
 
-  context 'superadmin' do
+  context "superadmin" do
     let(:admin) { create(:admin, permission: Permission.superadmin) }
 
     specify { expect(ability.can?(:read, ACP)).to be_truthy }
@@ -15,13 +15,13 @@ describe Ability do
     specify { expect(ability.can?(:manage, ActiveAdmin::Comment)).to be_truthy }
 
     specify { expect(ability.can?(:create, Absence)).to be_truthy }
-    context 'without absence feature' do
+    context "without absence feature" do
       before { Current.acp.update! features: [] }
       specify { expect(ability.can?(:create, Absence)).to be_falsey }
     end
   end
 
-  context 'read-only' do
+  context "read-only" do
     let(:admin) { create(:admin, permission: create(:permission, rights: {})) }
 
     specify { expect(ability.can?(:read, ActiveAdmin::Page)).to be_truthy }
@@ -40,7 +40,7 @@ describe Ability do
     specify { expect(ability.can?(:batch_action, Shop::Product)).to be_falsey }
   end
 
-  context 'with member write permission' do
+  context "with member write permission" do
     let(:admin) { create(:admin, permission: create(:permission, rights: { member: :write })) }
 
     specify { expect(ability.can?(:create, Member)).to be_truthy }
@@ -48,10 +48,10 @@ describe Ability do
     specify { expect(ability.can?(:batch_action, Member)).to be_truthy }
 
     specify { expect(ability.can?(:become, Member)).to be_truthy }
-    specify { expect(ability.can?(:validate, Member.new(state: 'pending'))).to be_truthy }
+    specify { expect(ability.can?(:validate, Member.new(state: "pending"))).to be_truthy }
   end
 
-  context 'with membership write permission' do
+  context "with membership write permission" do
     let(:admin) { create(:admin, permission: create(:permission, rights: { membership: :write })) }
 
     specify { expect(ability.can?(:create, Membership)).to be_truthy }
@@ -67,7 +67,7 @@ describe Ability do
     specify { expect(ability.can?(:cancel, Membership)).to be_truthy }
   end
 
-  context 'with billing write permission' do
+  context "with billing write permission" do
     let(:admin) { create(:admin, permission: create(:permission, rights: { billing: :write })) }
 
     specify { expect(ability.can?(:create, Invoice)).to be_truthy }
@@ -81,20 +81,20 @@ describe Ability do
     specify { expect(ability.can?(:send_email, Invoice)).to be_truthy }
     specify { expect(ability.can?(:cancel, Invoice)).to be_truthy }
     specify { expect(ability.can?(:import, Payment)).to be_truthy }
-    specify 'cannot send invoice when member has no emails' do
+    specify "cannot send invoice when member has no emails" do
       invoice = create(:invoice, :annual_fee, :open, :not_sent,
-        member: create(:member, emails: ''))
+        member: create(:member, emails: ""))
       expect(ability.can?(:send_email, invoice)).to be_falsy
     end
-    specify 'can send invoice when member has only billing email' do
+    specify "can send invoice when member has only billing email" do
       invoice = create(:invoice, :annual_fee, :open, :not_sent,
-        member: create(:member, emails: '', billing_email: 'john@doe.com'))
+        member: create(:member, emails: "", billing_email: "john@doe.com"))
       expect(ability.can?(:send_email, invoice)).to be_truthy
     end
   end
 
-  context 'with billing shop permission' do
-    before { Current.acp.update! features: [:shop] }
+  context "with billing shop permission" do
+    before { Current.acp.update! features: [ :shop ] }
     let(:admin) { create(:admin, permission: create(:permission, rights: { shop: :write })) }
 
     specify { expect(ability.can?(:create, Shop::Order)).to be_truthy }

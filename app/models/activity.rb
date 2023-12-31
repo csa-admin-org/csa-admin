@@ -11,7 +11,7 @@ class Activity < ApplicationRecord
   translated_attributes :place_url, :description
   translated_attributes :place, :title, required: true
 
-  has_many :participations, class_name: 'ActivityParticipation'
+  has_many :participations, class_name: "ActivityParticipation"
 
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
   scope :between, ->(range) { where(date: range) }
@@ -30,14 +30,14 @@ class Activity < ApplicationRecord
   validate :period_duration_must_one_hour
 
   def self.available_for(member)
-    where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
+    where("date >= ?", Current.acp.activity_availability_limit_in_days.days.from_now)
       .ordered(:asc)
       .includes(:participations)
       .reject { |hd| hd.participant?(member) }
   end
 
   def self.available
-    where('date >= ?', Current.acp.activity_availability_limit_in_days.days.from_now)
+    where("date >= ?", Current.acp.activity_availability_limit_in_days.days.from_now)
       .ordered(:asc)
       .includes(:participations)
       .reject(&:full?)
@@ -72,18 +72,18 @@ class Activity < ApplicationRecord
   end
 
   def name(show_place: true)
-    parts = [I18n.l(date, format: :medium), period]
+    parts = [ I18n.l(date, format: :medium), period ]
     parts << place if show_place
-    parts.join(', ')
+    parts.join(", ")
   end
 
   def period
-    [start_time, end_time].map { |t| t.strftime('%-k:%M') }.join('-')
+    [ start_time, end_time ].map { |t| t.strftime("%-k:%M") }.join("-")
   end
 
   %i[places place_urls titles].each do |attr|
     define_method attr do
-      @preset ? Hash.new('preset') : self[attr]
+      @preset ? Hash.new("preset") : self[attr]
     end
   end
 
@@ -109,7 +109,7 @@ class Activity < ApplicationRecord
   end
 
   def period_duration_must_one_hour
-    if Current.acp.activity_i18n_scope == 'hour_work' &&
+    if Current.acp.activity_i18n_scope == "hour_work" &&
         (end_time - start_time).to_i != 1.hour
       errors.add(:end_time, :must_be_one_hour)
     end

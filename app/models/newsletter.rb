@@ -11,11 +11,11 @@ class Newsletter < ApplicationRecord
   audited_attributes :sent_at
 
   belongs_to :template,
-    class_name: 'Newsletter::Template',
-    foreign_key: 'newsletter_template_id'
-  has_many :blocks, class_name: 'Newsletter::Block', dependent: :destroy
-  has_many :attachments, class_name: 'Newsletter::Attachment', dependent: :destroy
-  has_many :deliveries, class_name: 'Newsletter::Delivery', dependent: :destroy
+    class_name: "Newsletter::Template",
+    foreign_key: "newsletter_template_id"
+  has_many :blocks, class_name: "Newsletter::Block", dependent: :destroy
+  has_many :attachments, class_name: "Newsletter::Attachment", dependent: :destroy
+  has_many :deliveries, class_name: "Newsletter::Delivery", dependent: :destroy
   has_many :members, through: :deliveries
 
   accepts_nested_attributes_for :blocks, :attachments, allow_destroy: true
@@ -97,7 +97,7 @@ class Newsletter < ApplicationRecord
   end
 
   def send!
-    raise 'Already sent!' if sent?
+    raise "Already sent!" if sent?
 
     transaction do
       self[:liquid_data_preview_yamls] = liquid_data_preview_yamls
@@ -136,7 +136,7 @@ class Newsletter < ApplicationRecord
         YAML.load("---\n#{yaml}")
       rescue
       end
-      [locale, data]
+      [ locale, data ]
     }.to_h
   end
 
@@ -145,7 +145,7 @@ class Newsletter < ApplicationRecord
       data =
         @liquid_data_previews&.dig(locale) ||
           I18n.with_locale(locale) { Liquid::DataPreview.for(self) }
-      [locale, data.to_yaml(line_width: -1).gsub("---\n", '')]
+      [ locale, data.to_yaml(line_width: -1).gsub("---\n", "") ]
     }.to_h
   end
 

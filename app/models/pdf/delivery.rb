@@ -15,19 +15,19 @@ module PDF
         start_new_page
       end
 
-      @baskets = @baskets.joins(:member).order('members.name')
+      @baskets = @baskets.joins(:member).order("members.name")
 
       depots = Array(depot || @depots)
       depots.each do |depot|
         baskets = @baskets.where(depot: depot)
-        if depot.delivery_sheets_mode == 'home_delivery'
+        if depot.delivery_sheets_mode == "home_delivery"
           baskets = baskets.not_absent
         end
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = BasketSize.for(baskets)
         member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
-          if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
+          if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == "home_delivery"
             16
           else
             22
@@ -48,8 +48,8 @@ module PDF
         ::Delivery.human_attribute_name(:sheets).parameterize,
         ::Delivery.model_name.human.parameterize,
         delivery.display_number,
-        delivery.date.strftime('%Y%m%d')
-      ].join('-') + '.pdf'
+        delivery.date.strftime("%Y%m%d")
+      ].join("-") + ".pdf"
     end
 
     private
@@ -61,9 +61,9 @@ module PDF
     end
 
     def summary_header
-      image acp_logo_io, at: [15, bounds.height - 20], width: 110
-      bounding_box [bounds.width - 370, bounds.height - 20], width: 350, height: 120 do
-        text I18n.t('delivery.summary'), size: 24, align: :right
+      image acp_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+      bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
+        text I18n.t("delivery.summary"), size: 24, align: :right
         move_down 5
         text I18n.l(delivery.date), size: 24, align: :right
       end
@@ -93,13 +93,13 @@ module PDF
 
       # Headers Basket Sizes and Complements
       header_index = 0
-      bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
-        text_box '', width: depot_name_width, at: [0, cursor]
+      bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
+        text_box "", width: depot_name_width, at: [ 0, cursor ]
         basket_sizes.each_with_index do |bs, i|
-          fill_color header_index.even? ? '666666' : '000000'
+          fill_color header_index.even? ? "666666" : "000000"
           text_box bs.public_name,
             rotate: total_rotate,
-            at: [depot_name_width + i * number_width + offset_x, cursor + offset_y],
+            at: [ depot_name_width + i * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             size: 8,
             style: :bold,
@@ -107,10 +107,10 @@ module PDF
           header_index += 1
         end
         basket_complements.each_with_index do |bc, i|
-          fill_color header_index.even? ? '666666' : '000000'
+          fill_color header_index.even? ? "666666" : "000000"
           text_box bc.public_name,
             rotate: total_rotate,
-            at: [depot_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y],
+            at: [ depot_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             overflow: :expand,
             size: 8,
@@ -119,10 +119,10 @@ module PDF
           header_index += 1
         end
         if @shop_orders.any?
-          fill_color header_index.even? ? '666666' : '000000'
-          text_box I18n.t('shop.title_orders', count: 1),
+          fill_color header_index.even? ? "666666" : "000000"
+          text_box I18n.t("shop.title_orders", count: 1),
             rotate: total_rotate,
-            at: [depot_name_width + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y],
+            at: [ depot_name_width + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             size: 8,
             style: :bold,
@@ -130,10 +130,10 @@ module PDF
           header_index += 1
         end
         shop_products.each_with_index do |product, i|
-          fill_color header_index.even? ? '666666' : '000000'
+          fill_color header_index.even? ? "666666" : "000000"
           text_box product.name_with_single_variant,
             rotate: total_rotate,
-            at: [depot_name_width + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y],
+            at: [ depot_name_width + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             size: 8,
             style: :bold,
@@ -141,7 +141,7 @@ module PDF
           header_index += 1
         end
       end
-      fill_color '000000'
+      fill_color "000000"
 
       move_up 0.4.cm
       data = []
@@ -224,8 +224,8 @@ module PDF
         row_colors: %w[DDDDDD FFFFFF],
         cell_style: {
           border_width: 0,
-          border_color: 'FFFFFF',
-          inline_format: true,
+          border_color: "FFFFFF",
+          inline_format: true
         }.merge(cell_style),
         position: :center) do |t|
         t.cells.borders = []
@@ -239,25 +239,25 @@ module PDF
         t.row(0).height = 22
         t.row(0).size = 10
         t.row(0).font_style = :bold
-        t.row(0).padding = [6, 2, 6, 2]
-        t.row(0).background_color = 'FFFFFF'
+        t.row(0).padding = [ 6, 2, 6, 2 ]
+        t.row(0).background_color = "FFFFFF"
 
         t.column(0).padding_right = 10
 
         t.cells.column_count.times do |i|
          if i%2 == 1
-           t.column(i).background_color = 'CCCCCC'
+           t.column(i).background_color = "CCCCCC"
          end
         end
         if t.cells.row_count%2 == 0
           t.row(-1).borders = %i[bottom left]
           t.row(-1).border_bottom_width = 1
-          t.row(-1).border_bottom_color = 'CCCCCC'
+          t.row(-1).border_bottom_color = "CCCCCC"
         end
 
         t.row(0).borders = %i[bottom right]
         t.row(0).border_bottom_width = 1
-        t.row(0).border_bottom_color = '000000'
+        t.row(0).border_bottom_color = "000000"
       end
     end
 
@@ -266,11 +266,11 @@ module PDF
 
       move_down 1.cm
       box_border = 70
-      bg_color = 'FFEDD5'
+      bg_color = "FFEDD5"
       padding = 5
 
       text = delivery.note.truncate(300)
-      text_color = '9A3413'
+      text_color = "9A3413"
       text_options = {
         size: 10,
         leading: 4,
@@ -278,13 +278,13 @@ module PDF
         align: :center
       }
 
-      box_height = height_of_formatted([text: text], text_options)
+      box_height = height_of_formatted([ text: text ], text_options)
 
-      bounding_box [box_border, cursor], width: (bounds.width - 2*box_border), height: box_height + padding do
+      bounding_box [ box_border, cursor ], width: (bounds.width - 2*box_border), height: box_height + padding do
         fill_color   bg_color
         stroke_color bg_color
         fill_and_stroke_rounded_rectangle(
-          [bounds.left - padding, cursor],
+          [ bounds.left - padding, cursor ],
           bounds.left + bounds.right + padding*2,
           box_height + padding*2,
           padding)
@@ -292,7 +292,7 @@ module PDF
         stroke_color text_color
 
         pad padding do
-          formatted_text([text: text], text_options)
+          formatted_text([ text: text ], text_options)
         end
       end
     end
@@ -308,9 +308,9 @@ module PDF
     end
 
     def header(depot, page:, total_pages:)
-      image acp_logo_io, at: [15, bounds.height - 20], width: 110
+      image acp_logo_io, at: [ 15, bounds.height - 20 ], width: 110
       if announcement = Announcement.for(delivery, depot)
-        bounding_box [20, bounds.height - 130], width: 290, height: 70 do
+        bounding_box [ 20, bounds.height - 130 ], width: 290, height: 70 do
           text announcement.text,
             size: 13,
             style: :bold,
@@ -318,7 +318,7 @@ module PDF
             valign: :center
         end
       end
-      bounding_box [bounds.width - 370, bounds.height - 20], width: 350, height: 120 do
+      bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
         text depot.public_name, size: 24, align: :right
         move_down 5
         text I18n.l(delivery.date), size: 24, align: :right
@@ -347,20 +347,20 @@ module PDF
       number_width = 25
       extra_width = 110
       member_name_width = width - (bs_size + bc_size + sp_size) * number_width - extra_width
-      address_width = depot.delivery_sheets_mode == 'home_delivery' ? (member_name_width / 2) : 0
+      address_width = depot.delivery_sheets_mode == "home_delivery" ? (member_name_width / 2) : 0
       offset_x = 6
       offset_y = 12
 
       # Headers Basket Sizes and Complements
       numbers_width_offset = member_name_width
       header_index = 0
-      bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
-        text_box '', width: numbers_width_offset, at: [0, cursor]
+      bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
+        text_box "", width: numbers_width_offset, at: [ 0, cursor ]
         basket_sizes.each_with_index do |bs, i|
-          fill_color header_index.even? ? '666666' : '000000'
+          fill_color header_index.even? ? "666666" : "000000"
           text_box bs.public_name,
             rotate: 45,
-            at: [numbers_width_offset + i * number_width + offset_x, cursor + offset_y],
+            at: [ numbers_width_offset + i * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             size: 10,
             style: :bold,
@@ -368,10 +368,10 @@ module PDF
           header_index += 1
         end
         basket_complements.each_with_index do |bc, i|
-          fill_color header_index.even? ? '666666' : '000000'
+          fill_color header_index.even? ? "666666" : "000000"
           text_box bc.public_name,
             rotate: 45,
-            at: [numbers_width_offset + (bs_size + i) * number_width + offset_x, cursor + offset_y],
+            at: [ numbers_width_offset + (bs_size + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             overflow: :expand,
             size: 10,
@@ -380,10 +380,10 @@ module PDF
           header_index += 1
         end
         if shop_orders.any?
-          fill_color header_index.even? ? '666666' : '000000'
-          text_box I18n.t('shop.title_orders', count: 1),
+          fill_color header_index.even? ? "666666" : "000000"
+          text_box I18n.t("shop.title_orders", count: 1),
             rotate: 45,
-            at: [numbers_width_offset + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y],
+            at: [ numbers_width_offset + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             size: 10,
             style: :bold,
@@ -391,10 +391,10 @@ module PDF
           header_index += 1
         end
         shop_products.each_with_index do |product, i|
-          fill_color header_index.even? ? '666666' : '000000'
+          fill_color header_index.even? ? "666666" : "000000"
           text_box product.name_with_single_variant,
             rotate: 45,
-            at: [numbers_width_offset + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y],
+            at: [ numbers_width_offset + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             overflow: :expand,
             size: 10,
@@ -414,9 +414,9 @@ module PDF
         content: Member.model_name.human,
         width: (member_name_width - address_width),
         height: 28,
-        align: depot.delivery_sheets_mode == 'home_delivery' ? :left : :right
+        align: depot.delivery_sheets_mode == "home_delivery" ? :left : :right
       ]
-      if depot.delivery_sheets_mode == 'home_delivery'
+      if depot.delivery_sheets_mode == "home_delivery"
         total_line << {
           content: ::Delivery.human_attribute_name(:address),
           width: address_width,
@@ -454,8 +454,8 @@ module PDF
       end
       extra_content =
         case depot.delivery_sheets_mode
-        when 'signature'; ::Delivery.human_attribute_name(:signature)
-        when 'home_delivery'; ::Member.human_attribute_name(:note)
+        when "signature"; ::Delivery.human_attribute_name(:signature)
+        when "home_delivery"; ::Member.human_attribute_name(:note)
         end
       total_line << {
         content: extra_content,
@@ -475,7 +475,7 @@ module PDF
         if Current.acp.delivery_pdf_show_phones?
           phones = member.phones_array
           if phones.any?
-            txt = phones.map { |p| display_phone(p) }.join(', ')
+            txt = phones.map { |p| display_phone(p) }.join(", ")
             column_content += "<font size='3'>\n\n</font>"
             column_content += "<font size='9'><i><color rgb='777777'>#{txt}</color></i></font>"
           end
@@ -484,13 +484,13 @@ module PDF
         line = [
           content: column_content,
           width: (member_name_width - address_width),
-          align: depot.delivery_sheets_mode == 'home_delivery' ? :left : :right,
-          size: depot.delivery_sheets_mode == 'home_delivery' ? 11 : 12,
-          padding: [4, 5, 8, 5],
+          align: depot.delivery_sheets_mode == "home_delivery" ? :left : :right,
+          size: depot.delivery_sheets_mode == "home_delivery" ? 11 : 12,
+          padding: [ 4, 5, 8, 5 ],
           font_style: basket&.absent? ? :italic : nil,
-          text_color: basket&.absent? ? '999999' : nil
+          text_color: basket&.absent? ? "999999" : nil
         ]
-        if depot.delivery_sheets_mode == 'home_delivery'
+        if depot.delivery_sheets_mode == "home_delivery"
           content = <<~TEXT
             <font size='10'>#{member.final_delivery_address}\n#{member.final_delivery_zip} #{member.final_delivery_city}</font>
           TEXT
@@ -505,15 +505,15 @@ module PDF
         basket_sizes.each do |bs|
           line <<
             if basket&.absent?
-              '–'
+              "–"
             else
-              basket && basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ''
+              basket && basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ""
             end
         end
         basket_complements.each do |c|
           line <<
             if basket&.absent?
-              '–'
+              "–"
             else
               quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
               if shop_order
@@ -526,26 +526,26 @@ module PDF
         if shop_orders.any?
           line <<
             if basket&.absent?
-              '–'
+              "–"
             else
-              shop_order ? 'X' : ''
+              shop_order ? "X" : ""
             end
         end
         shop_products.each do |p|
           line <<
             if basket&.absent?
-              '–'
+              "–"
             elsif shop_order
               shop_order_item = shop_order.items.find { |i| i.product_id == p.id }
               display_quantity(shop_order_item&.quantity || 0)
             else
-              ''
+              ""
             end
         end
         extra_content =
           case depot.delivery_sheets_mode
-          when 'signature'; basket&.absent? ? Basket.human_attribute_name(:absent).upcase : ''
-          when 'home_delivery'; member.delivery_note
+          when "signature"; basket&.absent? ? Basket.human_attribute_name(:absent).upcase : ""
+          when "home_delivery"; member.delivery_note
           end
         line << {
           content: extra_content,
@@ -553,7 +553,7 @@ module PDF
           align: :right,
           valign: :center,
           size: 9,
-          font_style: depot.delivery_sheets_mode == 'home_delivery' ? :italic : nil,
+          font_style: depot.delivery_sheets_mode == "home_delivery" ? :italic : nil,
           padding_top: 1
         }
         data << line
@@ -562,15 +562,15 @@ module PDF
       table(
         data,
         row_colors: %w[DDDDDD FFFFFF],
-        cell_style: { border_width: 0, border_color: 'FFFFFF', inline_format: true, valign: :center },
+        cell_style: { border_width: 0, border_color: "FFFFFF", inline_format: true, valign: :center },
         position: :center) do |t|
         t.cells.borders = []
 
-        numbers_column_offset = depot.delivery_sheets_mode == 'home_delivery' ? 2 : 1
+        numbers_column_offset = depot.delivery_sheets_mode == "home_delivery" ? 2 : 1
         (bs_size + bc_size + sp_size).times do |i|
           t.column(numbers_column_offset + i).width = number_width
           t.column(numbers_column_offset + i).align = :center
-          # if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
+            # if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
             t.column(numbers_column_offset + i).padding_top = -1
           # end
           t.column(numbers_column_offset + i).font_style = :light # Ensure number is well centered in the cell!
@@ -578,41 +578,41 @@ module PDF
 
         t.row(0).size = 11
         t.row(0).font_style = :bold
-        t.row(0).padding = [4, 5, 8, 5]
+        t.row(0).padding = [ 4, 5, 8, 5 ]
         t.row(0).valign = :center
-        t.row(0).background_color = 'FFFFFF'
+        t.row(0).background_color = "FFFFFF"
 
         t.column(0).padding_right = 10
 
-        colors_offset = depot.delivery_sheets_mode == 'home_delivery' ? 1 : 0
+        colors_offset = depot.delivery_sheets_mode == "home_delivery" ? 1 : 0
         t.cells.column_count.times do |i|
          if i%2 == 1 && i != (t.cells.column_count - 1 - colors_offset)
-           t.column(i + colors_offset).background_color = 'CCCCCC'
+           t.column(i + colors_offset).background_color = "CCCCCC"
          end
         end
         if t.cells.row_count%2 == 0
           t.row(-1).borders = %i[bottom left]
           t.row(-1).border_bottom_width = 1
-          t.row(-1).border_bottom_color = 'CCCCCC'
+          t.row(-1).border_bottom_color = "CCCCCC"
         end
         if t.cells.column_count%2 == colors_offset
           t.column(-1).borders = %i[bottom left]
           t.column(-1).border_left_width = 1
-          t.column(-1).border_left_color = 'CCCCCC'
+          t.column(-1).border_left_color = "CCCCCC"
         end
 
         t.row(0).borders = %i[bottom left]
         t.row(0).border_bottom_width = 1
-        t.row(0).border_bottom_color = '000000'
+        t.row(0).border_bottom_color = "000000"
       end
     end
 
     def footer
-      bounding_box [20, 80], width: (bounds.width - 40) do
+      bounding_box [ 20, 80 ], width: (bounds.width - 40) do
         footer_text = Current.acp.delivery_pdf_footer
         if footer_text.present?
           text_box footer_text,
-            at: [0, 0],
+            at: [ 0, 0 ],
             height: 50,
             width: bounds.width,
             valign: :center,
@@ -620,7 +620,7 @@ module PDF
             size: 11
         end
         text_box "– #{I18n.l(current_time, format: :short)} –",
-          at: [0, -60],
+          at: [ 0, -60 ],
           width: bounds.width,
           inline_format: true,
           align: :center,
@@ -629,7 +629,7 @@ module PDF
     end
 
     def display_quantity(quantity)
-      quantity.zero? ? '' : quantity.to_s
+      quantity.zero? ? "" : quantity.to_s
     end
   end
 end

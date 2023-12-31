@@ -1,6 +1,6 @@
 module Shop
   class ProductVariant < ApplicationRecord
-    self.table_name = 'shop_product_variants'
+    self.table_name = "shop_product_variants"
 
     include TranslatedAttributes
 
@@ -8,13 +8,13 @@ module Shop
 
     default_scope { order(:price).order_by_name }
 
-    belongs_to :product, class_name: 'Shop::Product', optional: true
-    has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product_variant
+    belongs_to :product, class_name: "Shop::Product", optional: true
+    has_many :order_items, class_name: "Shop::OrderItem", inverse_of: :product_variant
 
     scope :available, -> { where(available: true) }
     scope :unavailable, -> { where(available: false) }
 
-    validates :available, inclusion: [true, false]
+    validates :available, inclusion: [ true, false ]
     validates :price,
       presence: true,
       numericality: { greater_than_or_equal_to: 0 }

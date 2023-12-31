@@ -13,7 +13,7 @@ class Members::ContactSharingsController < Members::BaseController
         .joins(:baskets)
         .where(baskets: {
           depot_id: next_basket.depot_id,
-          delivery_id: next_basket.delivery_id,
+          delivery_id: next_basket.delivery_id
         })
         .order(:name)
   end
@@ -21,7 +21,7 @@ class Members::ContactSharingsController < Members::BaseController
   # POST /contact_sharing
   def create
     if current_member.update(member_params)
-      redirect_to members_contact_sharing_path, notice: t('members.contact_sharings.flash.joined')
+      redirect_to members_contact_sharing_path, notice: t("members.contact_sharings.flash.joined")
     else
       @depot = current_member.next_basket.depot
       render :show, status: :unprocessable_entity
@@ -31,7 +31,7 @@ class Members::ContactSharingsController < Members::BaseController
   private
 
   def ensure_contact_sharing_feature
-    redirect_to members_member_path unless Current.acp.feature?('contact_sharing')
+    redirect_to members_member_path unless Current.acp.feature?("contact_sharing")
   end
 
   def ensure_member_next_basket_presence

@@ -3,20 +3,20 @@ class AdminMailerPreview < ActionMailer::Preview
 
   def depot_delivery_list_email
     depot = Depot.new(
-      name: 'Jardin de la Main',
+      name: "Jardin de la Main",
       language: I18n.locale,
-      emails: 'respondent1@acp-admin.ch, respondent2@acp-admin.ch')
+      emails: "respondent1@acp-admin.ch, respondent2@acp-admin.ch")
     delivery = Delivery.new(date: Date.new(2020, 11, 10))
     baskets = [
       OpenStruct.new(
-        member: Member.new(name: 'Martha'),
-        description: 'Petit Panier'),
+        member: Member.new(name: "Martha"),
+        description: "Petit Panier"),
       OpenStruct.new(
-        member: Member.new(name: 'Bob'),
-        description: 'Grand Panier'),
+        member: Member.new(name: "Bob"),
+        description: "Grand Panier"),
       OpenStruct.new(
-        member: Member.new(name: 'Josh'),
-        description: 'Petit Panier')
+        member: Member.new(name: "Josh"),
+        description: "Petit Panier")
     ]
     AdminMailer.with(
       depot: depot,
@@ -27,9 +27,9 @@ class AdminMailerPreview < ActionMailer::Preview
 
   def delivery_list_email
     admin = Admin.new(
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     delivery = Delivery.new(id: 1, date: Date.new(2020, 11, 10))
     AdminMailer.with(
       admin: admin,
@@ -39,24 +39,24 @@ class AdminMailerPreview < ActionMailer::Preview
 
   def invitation_email
     admin = Admin.new(
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     AdminMailer.with(
       admin: admin,
-      action_url: 'https://admin.example.com',
+      action_url: "https://admin.example.com",
     ).invitation_email
   end
 
   def invoice_overpaid_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     member =  Member.new(
       id: 2,
-      name: 'Martha')
+      name: "Martha")
     invoice = Invoice.new(id: 42)
     AdminMailer.with(
       admin: admin,
@@ -68,12 +68,12 @@ class AdminMailerPreview < ActionMailer::Preview
   def invoice_third_overdue_notice_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     member =  Member.new(
       id: 2,
-      name: 'Martha')
+      name: "Martha")
     invoice = Invoice.new(id: 42, member: member)
     AdminMailer.with(
       admin: admin,
@@ -84,15 +84,15 @@ class AdminMailerPreview < ActionMailer::Preview
   def new_absence_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
-    member = Member.new(name: 'Martha')
+      email: "admin@acp-admin.ch")
+    member = Member.new(name: "Martha")
     absence = Absence.new(
       id: 1,
       started_on: Date.new(2020, 11, 10),
       ended_on: Date.new(2020, 11, 20),
-      note: 'Une Super Remarque!')
+      note: "Une Super Remarque!")
     AdminMailer.with(
       admin: admin,
       member: member,
@@ -103,28 +103,28 @@ class AdminMailerPreview < ActionMailer::Preview
   def new_activity_participation_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
-    member = Member.new(name: 'Martha')
+      email: "admin@acp-admin.ch")
+    member = Member.new(name: "Martha")
     act_preset = ActivityPreset.all.sample(random: random)
     act = Activity.last(10).sample(random: random)
     activity = OpenStruct.new(
-      title: act_preset&.title || 'Aide aux champs',
+      title: act_preset&.title || "Aide aux champs",
       date: Date.today,
-      period: act&.period || '8:00-12:00',
+      period: act&.period || "8:00-12:00",
       description: nil,
-      place: act_preset&.title || 'Neuchâtel',
-      place_url: act_preset&.place_url || 'https://google.map/foo')
+      place: act_preset&.title || "Neuchâtel",
+      place_url: act_preset&.place_url || "https://google.map/foo")
     activity_participation = OpenStruct.new(
       activity_id: 1,
       member_id: 1,
       member: member,
       activity: activity,
       participants_count: 2,
-      carpooling_phone: '077 231 123 43',
-      carpooling_city: 'La Chaux-de-Fonds',
-      note: 'Une Super Remarque!')
+      carpooling_phone: "077 231 123 43",
+      carpooling_city: "La Chaux-de-Fonds",
+      note: "Une Super Remarque!")
     AdminMailer.with(
       admin: admin,
       activity_participation: activity_participation
@@ -134,16 +134,16 @@ class AdminMailerPreview < ActionMailer::Preview
   def new_email_suppression_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     email_suppression = OpenStruct.new(
-      reason: 'HardBounce',
-      email: 'john@doe.com',
+      reason: "HardBounce",
+      email: "john@doe.com",
       owners: [
         Member.new(
           id: 2,
-          name: 'Martha')
+          name: "Martha")
       ])
     AdminMailer.with(
       admin: admin,
@@ -154,12 +154,12 @@ class AdminMailerPreview < ActionMailer::Preview
   def new_inscription_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     member =  Member.new(
       id: 2,
-      name: 'Martha')
+      name: "Martha")
     AdminMailer.with(
       admin: admin,
       member: member
@@ -169,19 +169,19 @@ class AdminMailerPreview < ActionMailer::Preview
   def memberships_renewal_pending_email
     admin = Admin.new(
       id: 1,
-      name: 'John',
+      name: "John",
       language: I18n.locale,
-      email: 'admin@acp-admin.ch')
+      email: "admin@acp-admin.ch")
     membership_1 = Membership.new(id: 1)
     membership_2 = Membership.new(id: 2)
     membership_3 = Membership.new(id: 3)
     AdminMailer.with(
       admin: admin,
-      pending_memberships: [membership_1, membership_2],
-      opened_memberships: [membership_3],
-      pending_action_url: 'https://admin.example.com/memberships',
-      opened_action_url: 'https://admin.example.com/memberships',
-      action_url: 'https://admin.example.com/memberships'
+      pending_memberships: [ membership_1, membership_2 ],
+      opened_memberships: [ membership_3 ],
+      pending_action_url: "https://admin.example.com/memberships",
+      opened_action_url: "https://admin.example.com/memberships",
+      action_url: "https://admin.example.com/memberships"
     ).memberships_renewal_pending_email
   end
 end

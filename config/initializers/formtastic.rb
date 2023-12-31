@@ -127,8 +127,8 @@ module Formtastic
     class CheckBoxesInput
       def choices_wrapping_html_options
         {
-          class: 'choices',
-          data: { controller: 'check-boxes-toggle-all' }
+          class: "choices",
+          data: { controller: "check-boxes-toggle-all" }
         }
       end
 
@@ -136,7 +136,7 @@ module Formtastic
         input_html_options
           .merge(custom_choice_html_options(choice))
           .merge(data: {
-            check_boxes_toggle_all_target: 'input',
+            check_boxes_toggle_all_target: "input",
             action: "check-boxes-toggle-all#updateToggle"
           }.merge(input_html_options[:data] || {}))
       end
@@ -144,14 +144,14 @@ module Formtastic
       def legend_html
         if render_label?
           legend = template.content_tag(:label, label_text)
-          legend += template.content_tag(:input, nil, type: 'checkbox', data: {
-            check_boxes_toggle_all_target: 'toggle',
-            form_checkbox_toggler_target: 'input',
+          legend += template.content_tag(:input, nil, type: "checkbox", data: {
+            check_boxes_toggle_all_target: "toggle",
+            form_checkbox_toggler_target: "input",
             action: "check-boxes-toggle-all#toggleAll"
           })
           template.content_tag(:legend,
-            template.content_tag(:div, legend, class: 'checkbox-legend'),
-            label_html_options.merge(:class => "label"))
+            template.content_tag(:div, legend, class: "checkbox-legend"),
+            label_html_options.merge(class: "label"))
         else
           "".html_safe
         end

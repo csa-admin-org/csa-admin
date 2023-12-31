@@ -25,6 +25,6 @@ class AddNewsletters < ActiveRecord::Migration[7.0]
       t.string :block_id, null: false
       t.timestamps
     end
-    add_index :newsletter_blocks, [:newsletter_id, :block_id], unique: true
+    add_index :newsletter_blocks, [ :newsletter_id, :block_id ], unique: true
   end
 end

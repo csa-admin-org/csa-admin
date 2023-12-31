@@ -1,7 +1,7 @@
-require 'tenant/migration_context'
-require 'tenant/schema_creator'
-require 'tenant/pg_adapter_patch'
-require 'tenant/active_record_signed_id_acp'
+require "tenant/migration_context"
+require "tenant/schema_creator"
+require "tenant/pg_adapter_patch"
+require "tenant/active_record_signed_id_acp"
 
 module Tenant
   extend self
@@ -19,7 +19,7 @@ module Tenant
   end
 
   def default
-    'public'
+    "public"
   end
 
   def switch(tenant)
@@ -34,7 +34,7 @@ module Tenant
     return reset if tenant.nil?
 
     unless to_or_from_public?(tenant.to_s)
-      Sentry.capture_message('Illegal tenant switch', extra: {
+      Sentry.capture_message("Illegal tenant switch", extra: {
         current: current,
         target: tenant,
         search_path: ActiveRecord::Base.connection.schema_search_path.inspect
@@ -75,14 +75,14 @@ module Tenant
   end
 
   def neutral_search_path
-    [default_tenant, *persistent_schemas].map(&:inspect).join(', ')
+    [ default_tenant, *persistent_schemas ].map(&:inspect).join(", ")
   end
 
   def full_search_path
-    [current, *persistent_schemas].map(&:inspect).join(', ')
+    [ current, *persistent_schemas ].map(&:inspect).join(", ")
   end
 
   def persistent_schemas
-    ['extensions']
+    [ "extensions" ]
   end
 end

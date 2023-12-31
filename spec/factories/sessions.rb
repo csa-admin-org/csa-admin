@@ -8,7 +8,7 @@ FactoryBot.define do
       admin
     end
 
-    remote_addr { '127.0.0.1' }
-    user_agent { 'a browser user agent' }
+    remote_addr { "127.0.0.1" }
+    user_agent { "a browser user agent" }
   end
 end

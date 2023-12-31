@@ -1,4 +1,4 @@
-ul class: 'counts' do
+ul class: "counts" do
   scopes = %i[trial ongoing future]
   scopes.delete(:trial) unless Current.acp.trial_basket_count.positive?
   scopes << :future_next if Delivery.any_next_year?
@@ -12,8 +12,8 @@ ul class: 'counts' do
     li do
       count = Membership.during_year(fy).send(scope).count
       a href: memberships_path(scope: scope, q: { during_year: fy.year }) do
-        span class: ('zero' if count.zero?) do
-          span count.zero? ? '–' : count, class: 'count'
+        span class: ("zero" if count.zero?) do
+          span count.zero? ? "–" : count, class: "count"
           span label
         end
       end

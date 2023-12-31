@@ -51,7 +51,7 @@ class DeliveryCycle < ApplicationRecord
 
   def self.create_default!
     create!(names: ACP.languages.map { |l|
-      [l, I18n.t('delivery_cycle.default_name', locale: l)]
+      [ l, I18n.t("delivery_cycle.default_name", locale: l) ]
     }.to_h)
   end
 
@@ -63,7 +63,7 @@ class DeliveryCycle < ApplicationRecord
     if visible?
       visible.map(&:deliveries_count).uniq.sort
     else
-      [greatest.deliveries_count]
+      [ greatest.deliveries_count ]
     end
   end
 
@@ -71,7 +71,7 @@ class DeliveryCycle < ApplicationRecord
     if visible?
       visible.map(&:future_deliveries_count).uniq.sort
     else
-      [greatest.future_deliveries_count]
+      [ greatest.future_deliveries_count ]
     end
   end
 
@@ -89,12 +89,12 @@ class DeliveryCycle < ApplicationRecord
 
   def self.member_ordered
     all.to_a.sort_by { |dc|
-      clauses = [dc.member_order_priority]
+      clauses = [ dc.member_order_priority ]
       clauses <<
         case Current.acp.delivery_cycles_member_order_mode
-        when 'deliveries_count_asc'; dc.deliveries_count
-        when 'deliveries_count_desc'; -dc.deliveries_count
-        when 'wdays_asc'; [dc.wdays.sort, -dc.deliveries_count]
+        when "deliveries_count_asc"; dc.deliveries_count
+        when "deliveries_count_desc"; -dc.deliveries_count
+        when "wdays_asc"; [ dc.wdays.sort, -dc.deliveries_count ]
         end
       clauses << dc.public_name
       clauses
@@ -108,7 +108,7 @@ class DeliveryCycle < ApplicationRecord
   def reset_cache!
     min = Current.acp.fiscal_year_for(Delivery.minimum(:date))&.year || Current.fy_year
     max = Current.acp.next_fiscal_year.year
-    counts = (min..max).map { |y| [y.to_s, deliveries(y).count] }.to_h
+    counts = (min..max).map { |y| [ y.to_s, deliveries(y).count ] }.to_h
 
     update_column(:deliveries_counts, counts)
   end
@@ -187,13 +187,13 @@ class DeliveryCycle < ApplicationRecord
   def deliveries(year)
     scoped =
       Delivery
-        .where('EXTRACT(DOW FROM date) IN (?)', wdays)
-        .where('EXTRACT(MONTH FROM date) IN (?)', months)
+        .where("EXTRACT(DOW FROM date) IN (?)", wdays)
+        .where("EXTRACT(MONTH FROM date) IN (?)", months)
         .during_year(year)
     if odd_week_numbers?
-      scoped = scoped.where('EXTRACT(WEEK FROM date)::integer % 2 = ?', 1)
+      scoped = scoped.where("EXTRACT(WEEK FROM date)::integer % 2 = ?", 1)
     elsif even_week_numbers?
-      scoped = scoped.where('EXTRACT(WEEK FROM date)::integer % 2 = ?', 0)
+      scoped = scoped.where("EXTRACT(WEEK FROM date)::integer % 2 = ?", 0)
     end
     if all_but_first_results?
       scoped = scoped.to_a[1..-1] || []

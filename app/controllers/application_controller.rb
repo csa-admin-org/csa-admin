@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::InvalidForeignKey do
     redirect_back(
       fallback_location: root_path,
-      alert: t('active_admin.flash.invalid_foreign_key_alert'))
+      alert: t("active_admin.flash.invalid_foreign_key_alert"))
   end
 
   def access_denied(exception)
@@ -21,10 +21,10 @@ class ApplicationController < ActionController::Base
   def authenticate_admin!
     if !current_admin
       cookies.delete(:session_id)
-      redirect_to login_path, alert: t('sessions.flash.required')
+      redirect_to login_path, alert: t("sessions.flash.required")
     elsif current_session&.expired?
       cookies.delete(:session_id)
-      redirect_to login_path, alert: t('sessions.flash.expired')
+      redirect_to login_path, alert: t("sessions.flash.expired")
     else
       set_sentry_user
       update_last_usage(current_session)
@@ -37,9 +37,9 @@ class ApplicationController < ActionController::Base
 
   def auto_sign_in_admin_in_dev
     return unless Rails.env.development?
-    return unless ENV['AUTO_SIGN_IN_ADMIN_EMAIL']
+    return unless ENV["AUTO_SIGN_IN_ADMIN_EMAIL"]
 
-    admin = Admin.find_by!(email: ENV['AUTO_SIGN_IN_ADMIN_EMAIL'])
+    admin = Admin.find_by!(email: ENV["AUTO_SIGN_IN_ADMIN_EMAIL"])
     session = create_session!(admin)
     cookies.encrypted.permanent[:session_id] = session.id
     session.admin
@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
     session.update_columns(
       last_used_at: Time.current,
       last_remote_addr: request.remote_addr,
-      last_user_agent: request.env.fetch('HTTP_USER_AGENT', '-'))
+      last_user_agent: request.env.fetch("HTTP_USER_AGENT", "-"))
   end
 
   def set_sentry_user
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
   def create_session!(admin)
     Session.create!(
       remote_addr: request.remote_addr,
-      user_agent: request.env.fetch('HTTP_USER_AGENT', '-'),
+      user_agent: request.env.fetch("HTTP_USER_AGENT", "-"),
       admin_email: admin.email)
   end
 end

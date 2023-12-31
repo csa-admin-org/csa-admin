@@ -3,6 +3,6 @@ FactoryBot.define do
     association :author, factory: :admin
     association :resource, factory: :member
     body { Faker::Lorem.paragraph }
-    namespace { 'root' }
+    namespace { "root" }
   end
 end

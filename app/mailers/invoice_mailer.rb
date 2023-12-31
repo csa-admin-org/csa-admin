@@ -7,8 +7,8 @@ class InvoiceMailer < ApplicationMailer
     attach_invoice_pdf!
     template_mail(member,
       to: member.billing_emails,
-      'member' => Liquid::MemberDrop.new(member),
-      'invoice' => Liquid::InvoiceDrop.new(invoice))
+      "member" => Liquid::MemberDrop.new(member),
+      "invoice" => Liquid::InvoiceDrop.new(invoice))
   end
 
   def cancelled_email
@@ -16,19 +16,19 @@ class InvoiceMailer < ApplicationMailer
     member = invoice.member
     template_mail(member,
       to: member.billing_emails,
-      'member' => Liquid::MemberDrop.new(member),
-      'invoice' => Liquid::InvoiceDrop.new(invoice))
+      "member" => Liquid::MemberDrop.new(member),
+      "invoice" => Liquid::InvoiceDrop.new(invoice))
   end
 
   def overdue_notice_email
     invoice = params[:invoice]
     member = invoice.member
     attach_invoice_pdf!
-    @subject_class = 'warning'
+    @subject_class = "warning"
     template_mail(member,
       to: member.billing_emails,
-      'member' => Liquid::MemberDrop.new(member),
-      'invoice' => Liquid::InvoiceDrop.new(invoice))
+      "member" => Liquid::MemberDrop.new(member),
+      "invoice" => Liquid::InvoiceDrop.new(invoice))
   end
 
   private
@@ -39,9 +39,9 @@ class InvoiceMailer < ApplicationMailer
       Invoice.model_name.human.downcase.parameterize,
       Current.acp.tenant_name,
       invoice.id
-    ].join('-') + '.pdf'
+    ].join("-") + ".pdf"
     attachments[filename] = {
-      mime_type: 'application/pdf',
+      mime_type: "application/pdf",
       content: invoice.pdf_file.download
     }
   end

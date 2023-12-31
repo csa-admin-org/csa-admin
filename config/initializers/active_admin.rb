@@ -1,4 +1,4 @@
-require 'sane_patch'
+require "sane_patch"
 
 ActiveAdmin.setup do |config|
   # == Site Title
@@ -73,7 +73,7 @@ ActiveAdmin.setup do |config|
   # config.pundit_default_policy = "MyDefaultPunditPolicy"
 
   # You can customize your CanCan Ability class name here.
-  config.cancan_ability_class = 'Ability'
+  config.cancan_ability_class = "Ability"
 
   # You can specify a method to be called on unauthorized access.
   # This is necessary in order to prevent a redirect loop which happens
@@ -115,7 +115,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  config.root_to = 'dashboard#index'
+  config.root_to = "dashboard#index"
 
   # == Admin Comments
   #
@@ -201,7 +201,7 @@ ActiveAdmin.setup do |config|
   #   config.register_stylesheet 'my_stylesheet.css'
   #
   # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
-  config.register_stylesheet 'active_admin/print.css', media: :print
+  config.register_stylesheet "active_admin/print.css", media: :print
 
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
@@ -234,10 +234,10 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu do |menu|
-      menu.add label: -> { I18n.t('active_admin.menu.shop') }, priority: 6, id: :shop
+      menu.add label: -> { I18n.t("active_admin.menu.shop") }, priority: 6, id: :shop
       menu.add label: :activities_human_name, priority: 7
-      menu.add label: -> { I18n.t('active_admin.menu.billing') }, priority: 9, id: :billing
-      menu.add label: -> { I18n.t('active_admin.menu.other') }, priority: 10, id: :other, html_options: { data: { controller: 'menu-sorting' } }
+      menu.add label: -> { I18n.t("active_admin.menu.billing") }, priority: 9, id: :billing
+      menu.add label: -> { I18n.t("active_admin.menu.other") }, priority: 10, id: :other, html_options: { data: { controller: "menu-sorting" } }
     end
 
     admin.build_menu :utility_navigation do |menu|
@@ -267,7 +267,7 @@ ActiveAdmin.setup do |config|
   #     admin.download_links = proc { can?(:view_download_links) }
   #
   #   end
-  config.download_links = [:csv]
+  config.download_links = [ :csv ]
   # Streaming is causing issue with apartment DB schema.
   config.disable_streaming_in = %w[production development test]
 
@@ -310,7 +310,7 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-  config.footer = ->(footer) { render(partial: 'layouts/footer') }
+  config.footer = ->(footer) { render(partial: "layouts/footer") }
 
   # == Sorting
   #
@@ -343,7 +343,7 @@ module ActiveAdmin
         private
         def build_active_admin_head
           within head do
-            html_title [title, helpers.active_admin_namespace.site_title(self)].compact.join(" | ")
+            html_title [ title, helpers.active_admin_namespace.site_title(self) ].compact.join(" | ")
 
             text_node(active_admin_namespace.head)
 
@@ -362,7 +362,7 @@ module ActiveAdmin
             end
 
             # Inject Importmap
-            text_node(javascript_importmap_tags 'admin')
+            text_node(javascript_importmap_tags "admin")
 
             if active_admin_namespace.favicon
               favicon = active_admin_namespace.favicon
@@ -381,7 +381,7 @@ end
 
 # Imported from https://github.com/formaweb/formadmin
 module ActiveAdmin
-  responsive_viewport = { viewport: 'width=device-width, initial-scale=1' }
+  responsive_viewport = { viewport: "width=device-width, initial-scale=1" }
 
   ActiveAdmin.application.meta_tags.merge! responsive_viewport
   ActiveAdmin.application.meta_tags_for_logged_out_pages.merge! responsive_viewport
@@ -390,13 +390,13 @@ module ActiveAdmin
     class Header < Component
       alias_method :_build, :build
 
-      def build namespace, menu
+      def build(namespace, menu)
         _build namespace, menu
         build_responsive_menu
       end
 
       def build_responsive_menu
-        button '<i></i>'.html_safe, type: 'button', class: 'menu-button', onclick: 'document.body.classList.toggle("opened-menu")'
+        button "<i></i>".html_safe, type: "button", class: "menu-button", onclick: 'document.body.classList.toggle("opened-menu")'
       end
     end
   end
@@ -407,11 +407,11 @@ module ActiveAdmin
   class Namespace
     def add_updates_notice_to_menu(menu, priority = 10, html_options = {})
       menu.add \
-        id: 'updates', priority: priority, html_options: html_options,
+        id: "updates", priority: priority, html_options: html_options,
         label: -> {
           content_tag(:span) {
-            inline_svg_tag('admin/gift.svg', size: '20') +
-            content_tag(:span, '', class: 'badge')
+            inline_svg_tag("admin/gift.svg", size: "20") +
+            content_tag(:span, "", class: "badge")
           }
         },
         url: -> { updates_path },
@@ -422,8 +422,8 @@ module ActiveAdmin
       if logout_link_path
         html_options = html_options.reverse_merge(method: logout_link_method || :get)
         menu.add \
-          id: 'logout', priority: priority, html_options: html_options,
-          label: -> { inline_svg_tag('admin/sign-out.svg', size: '20') },
+          id: "logout", priority: priority, html_options: html_options,
+          label: -> { inline_svg_tag("admin/sign-out.svg", size: "20") },
           url: -> { render_or_call_method_or_proc_on self, active_admin_namespace.logout_link_path },
           if: :current_active_admin_user?
       end
@@ -438,8 +438,8 @@ module ActiveAdmin
         ActiveAdmin::SidebarSection.new :filters, only: :index, if: -> { active_admin_config.filters.any? } do
           active_admin_filters_form_for assigns[:search], active_admin_config.filters,
             data: {
-              controller: 'filters',
-              action: 'change->filters#submit'
+              controller: "filters",
+              action: "change->filters#submit"
             }
         end
       end
@@ -452,7 +452,7 @@ module ActiveAdmin
         def input_html_options
           {
             size: 12,
-            type: 'date'
+            type: "date"
            }.merge(options[:input_html] || {})
         end
       end
@@ -465,7 +465,7 @@ module ActiveAdmin
   class SidebarSection
     def title
       case name
-      when 'basket_price_extra_title'
+      when "basket_price_extra_title"
         Current.acp.basket_price_extra_title
       else
         I18n.t("active_admin.sidebars.#{name}", default: name.titleize)
@@ -479,8 +479,8 @@ module ActiveAdmin
     def sidebar_handbook_link(page, only: :index)
       section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
         a href: "/handbook/#{page}" do
-          span inline_svg_tag('admin/book-open.svg', size: '20')
-          span t('layouts.footer.handbook')
+          span inline_svg_tag("admin/book-open.svg", size: "20")
+          span t("layouts.footer.handbook")
         end
       end
       config.sidebar_sections << section
@@ -491,13 +491,13 @@ module ActiveAdmin
         :shop_admin_only,
         if: -> { Current.acp.shop_admin_only },
         only: :index,
-        class: 'warning'
+        class: "warning"
       ) do
-        div class: 'content' do
-          span t('active_admin.sidebars.shop_admin_only_text_html')
+        div class: "content" do
+          span t("active_admin.sidebars.shop_admin_only_text_html")
           if authorized?(:read, Current.acp)
-            para class: 'text-center' do
-              a(href: '/settings#shop') { t('active_admin.sidebars.edit_settings') }
+            para class: "text-center" do
+              a(href: "/settings#shop") { t("active_admin.sidebars.edit_settings") }
             end
           end
         end
@@ -511,7 +511,6 @@ end
 module ActiveAdmin
   module Views
     class IndexAsTable < ActiveAdmin::Component
-
       def build(page_presenter, collection)
         table_options = {
           id: "index_table_#{active_admin_config.resource_name.plural}",
@@ -537,7 +536,7 @@ module ActiveAdmin
       def build(obj, *attrs)
         options = attrs.extract_options!
         @sortable = options.delete(:sortable)
-        @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [obj]
+        @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [ obj ]
         @resource_class = options.delete(:i18n)
         @resource_class ||= @collection.klass if @collection.respond_to? :klass
 
@@ -560,7 +559,7 @@ module ActiveAdmin
         @tbody = tbody @tbody_options do
           # Build enough rows for our collection
           @collection.each do |elem|
-            classes = [helpers.cycle("odd", "even")]
+            classes = [ helpers.cycle("odd", "even") ]
 
             if @row_class
               classes << @row_class.call(elem)
@@ -576,7 +575,7 @@ module ActiveAdmin
   end
 end
 
-require 'active_admin/filter_saver'
+require "active_admin/filter_saver"
 ActiveAdmin.before_load do |app|
   ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver
 end

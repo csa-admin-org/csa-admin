@@ -1,44 +1,44 @@
-columns class: 'onboarding' do
+columns class: "onboarding" do
   column do
-    h1 t('.welcome')
-    panel t('.getting_started') do
-      div class: 'actions' do
-        handbook_icon_link('getting_started')
+    h1 t(".welcome")
+    panel t(".getting_started") do
+      div class: "actions" do
+        handbook_icon_link("getting_started")
       end
-      para t('.intro_html')
+      para t(".intro_html")
 
       ul do
         li do
           if Delivery.any?
             a href: deliveries_path do
-              span class: 'checked' do
-                span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                span t('.create_deliveries')
+              span class: "checked" do
+                span inline_svg_tag("admin/clipboard-check.svg", size: "40")
+                span t(".create_deliveries")
               end
             end
           else
             a href: new_delivery_path do
               span do
-                span inline_svg_tag('admin/clipboard.svg', size: '40')
-                span t('.create_deliveries')
+                span inline_svg_tag("admin/clipboard.svg", size: "40")
+                span t(".create_deliveries")
               end
             end
           end
         end
-        if Current.acp.member_form_mode == 'membership'
+        if Current.acp.member_form_mode == "membership"
           li do
             if BasketSize.any?
               a href: basket_sizes_path do
-                span class: 'checked' do
-                  span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                  span t('.create_basket_sizes')
+                span class: "checked" do
+                  span inline_svg_tag("admin/clipboard-check.svg", size: "40")
+                  span t(".create_basket_sizes")
                 end
               end
             else
               a href: new_basket_size_path do
                 span do
-                  span inline_svg_tag('admin/clipboard.svg', size: '40')
-                  span t('.create_basket_sizes')
+                  span inline_svg_tag("admin/clipboard.svg", size: "40")
+                  span t(".create_basket_sizes")
                 end
               end
             end
@@ -47,16 +47,16 @@ columns class: 'onboarding' do
         li do
           if Depot.any?
             a href: depots_path do
-              span class: 'checked' do
-                span inline_svg_tag('admin/clipboard-check.svg', size: '40')
-                span t('.create_depots')
+              span class: "checked" do
+                span inline_svg_tag("admin/clipboard-check.svg", size: "40")
+                span t(".create_depots")
               end
             end
           else
             a href: new_depot_path do
               span do
-                span inline_svg_tag('admin/clipboard.svg', size: '40')
-                span t('.create_depots')
+                span inline_svg_tag("admin/clipboard.svg", size: "40")
+                span t(".create_depots")
               end
             end
           end

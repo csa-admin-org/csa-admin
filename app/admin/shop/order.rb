@@ -2,18 +2,18 @@ ActiveAdmin.register Shop::Order do
   menu parent: :shop, priority: 1
 
   breadcrumb do
-    if params['action'] == 'index'
-      [t('active_admin.menu.shop')]
+    if params["action"] == "index"
+      [ t("active_admin.menu.shop") ]
     else
       links = [
-        t('active_admin.menu.shop'),
+        t("active_admin.menu.shop"),
         link_to(Shop::Order.model_name.human(count: 2), shop_orders_path)
       ]
-      if params['action'].in? %W[show edit]
+      if params["action"].in? %W[show edit]
         links << link_to(
           shop_order.delivery.display_name,
           shop_orders_path(q: { _delivery_gid_eq: shop_order.delivery_gid }, scope: :all_without_cart))
-        if params['action'].in? %W[edit]
+        if params["action"].in? %W[edit]
           links << auto_link(shop_order, shop_order.id)
         end
       end
@@ -51,18 +51,18 @@ ActiveAdmin.register Shop::Order do
     end
     title
   } do
-    selectable_column if params[:scope].in?([nil, 'pending'])
+    selectable_column if params[:scope].in?([ nil, "pending" ])
     column :id, ->(order) { auto_link order, order.id }
     column :created_at, ->(order) { l(order.date, format: :number) }
-    column :member, sortable: 'members.name'
+    column :member, sortable: "members.name"
     if params.dig(:q, :_delivery_gid_eq).present?
-      column :depot, sortable: 'depots.name'
+      column :depot, sortable: "depots.name"
     else
-      column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: 'delivery_id'
+      column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: "delivery_id"
     end
     column :amount, ->(order) { cur(order.amount) }
     column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
-    actions defaults: true, class: 'col-actions-3' do |order|
+    actions defaults: true, class: "col-actions-3" do |order|
       link_to_invoice_pdf(order.invoice)
     end
   end
@@ -71,7 +71,7 @@ ActiveAdmin.register Shop::Order do
     column :id
     column :member_id
     column(:name) { |o| o.member.name }
-    column(:emails) { |o| o.member.emails_array.join(', ') }
+    column(:emails) { |o| o.member.emails_array.join(", ") }
     column(:delivery) { |o| o.delivery.display_name }
     column(:delivery_date) { |o| o.delivery.date }
     column(:depot) { |o| o.depot&.name }
@@ -85,72 +85,72 @@ ActiveAdmin.register Shop::Order do
 
   sidebar_shop_admin_only_warning
 
-  sidebar t('active_admin.sidebars.total'), only: :index do
+  sidebar t("active_admin.sidebars.total"), only: :index do
     all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
-    div class: 'content' do
-      if params[:scope].in? ['invoiced', nil]
-        div class: 'total' do
-          span t('billing.scope.paid')
-          span cur(all.sum('invoices.paid_amount')), style: 'float: right;'
+    div class: "content" do
+      if params[:scope].in? [ "invoiced", nil ]
+        div class: "total" do
+          span t("billing.scope.paid")
+          span cur(all.sum("invoices.paid_amount")), style: "float: right;"
         end
-        div class: 'total' do
-          span t('billing.scope.missing')
-          span cur(all.sum('invoices.amount - invoices.paid_amount')), style: 'float: right'
+        div class: "total" do
+          span t("billing.scope.missing")
+          span cur(all.sum("invoices.amount - invoices.paid_amount")), style: "float: right"
         end
-        div class: 'totals' do
-          span t('active_admin.sidebars.amount')
-          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+        div class: "totals" do
+          span t("active_admin.sidebars.amount")
+          span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
         end
       else
         div do
-          span t('active_admin.sidebars.amount')
-          span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+          span t("active_admin.sidebars.amount")
+          span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
         end
       end
     end
   end
 
-  sidebar t('active_admin.sidebars.shop_status'), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
-    div class: 'content' do
+  sidebar t("active_admin.sidebars.shop_status"), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
+    div class: "content" do
       delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
       if delivery == Delivery.shop_open.next
         if delivery.shop_open?
-          span t('active_admin.sidebars.shop_open_until_html', date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :long))
+          span t("active_admin.sidebars.shop_open_until_html", date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :long))
         else
-          span t('active_admin.sidebars.shop_closed_html', date: l(delivery.date, format: :long))
+          span t("active_admin.sidebars.shop_closed_html", date: l(delivery.date, format: :long))
         end
       elsif delivery.date.past?
-        span t('active_admin.sidebars.shop_closed_html', date: l(delivery.date, format: :long))
+        span t("active_admin.sidebars.shop_closed_html", date: l(delivery.date, format: :long))
       else
-        span t('active_admin.sidebars.shop_not_open_yet_html', date: l(delivery.date, format: :long))
+        span t("active_admin.sidebars.shop_not_open_yet_html", date: l(delivery.date, format: :long))
       end
     end
   end
 
-  sidebar t('active_admin.sidebars.billing'), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
-    div class: 'actions' do
-      handbook_icon_link('shop', anchor: 'facturation')
+  sidebar t("active_admin.sidebars.billing"), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
+    div class: "actions" do
+      handbook_icon_link("shop", anchor: "facturation")
     end
 
-    div class: 'content' do
+    div class: "content" do
       if delay = Current.acp.shop_order_automatic_invoicing_delay_in_days
         delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
         date = delivery.date + delay.days
-        span t('shop.orders_automatic_invoicing', date: l(date, format: :long))
+        span t("shop.orders_automatic_invoicing", date: l(date, format: :long))
       else
-        span t('shop.orders_manual_invoicing')
+        span t("shop.orders_manual_invoicing")
       end
     end
   end
 
-  sidebar_handbook_link('shop#commandes')
+  sidebar_handbook_link("shop#commandes")
 
   show do |order|
     columns do
       column do
         panel "#{order.items.size} #{Shop::Product.model_name.human(count: order.items.size)}" do
-          table_for order.items.includes(:product, :product_variant), class: 'table-shop_orders' do
-            column(:product) { |i| link_to "#{i.product.name}, #{i.product_variant.name}", [:edit, i.product] }
+          table_for order.items.includes(:product, :product_variant), class: "table-shop_orders" do
+            column(:product) { |i| link_to "#{i.product.name}, #{i.product_variant.name}", [ :edit, i.product ] }
             column(:item_price) { |i| cur(i.item_price) }
             column(:quantity)
             column(:amount) { |i| cur(i.amount) }
@@ -169,7 +169,7 @@ ActiveAdmin.register Shop::Order do
           row(:updated_at) { l(order.updated_at, format: :long) }
         end
 
-        attributes_table title: t('billing.title') do
+        attributes_table title: t("billing.title") do
           if order.amount_percentage?
             row(:amount_before_percentage) { cur(order.amount_before_percentage) }
             row(:amount_percentage) { number_to_percentage(order.amount_percentage, precision: 1) }
@@ -191,7 +191,7 @@ ActiveAdmin.register Shop::Order do
   form do |f|
     f.semantic_errors :base
     f.semantic_errors :amount
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :member, collection: Member.reorder(:name), prompt: true
       f.input :delivery_gid,
         label: Delivery.model_name.human,
@@ -204,31 +204,31 @@ ActiveAdmin.register Shop::Order do
       end
       f.input :amount_percentage,
         step: 0.1, min: -100, max: 200,
-        hint: I18n.t('formtastic.hints.shop/order.amount_percentage')
+        hint: I18n.t("formtastic.hints.shop/order.amount_percentage")
       f.has_many :items, allow_destroy: true do |ff|
         f.semantic_errors :items
-        ff.inputs class: 'blank', 'data-controller' => 'form-reset form-select-options-filter', 'data-form-select-options-filter-attribute-value' => 'data-product-id' do
+        ff.inputs class: "blank", "data-controller" => "form-reset form-select-options-filter", "data-form-select-options-filter-attribute-value" => "data-product-id" do
           ff.input :product,
             collection: products_collection,
             prompt: true,
             input_html: {
-              data: { action: 'form-reset#reset form-select-options-filter#filter' }
+              data: { action: "form-reset#reset form-select-options-filter#filter" }
             }
           ff.input :product_variant,
             collection: product_variants_collection(ff.object.product_id),
             input_html: {
-              class: 'hide-disabled-options',
+              class: "hide-disabled-options",
               disabled: ff.object.product_variant_id.blank?,
               data: {
-                action: 'form-reset#reset',
-                form_select_options_filter_target: 'select'
+                action: "form-reset#reset",
+                form_select_options_filter_target: "select"
               }
             }
           ff.input :quantity, as: :number, step: 1, min: 1
           ff.input :item_price,
             hint: true,
             required: false,
-            input_html: { data: { form_reset_target: 'input' } }
+            input_html: { data: { form_reset_target: "input" } }
         end
       end
     end
@@ -250,54 +250,54 @@ ActiveAdmin.register Shop::Order do
     ])
 
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
-    button_to t('.cancel_action'), cancel_shop_order_path(resource),
-      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
-      data: { confirm: t('.cancel_action_confirm') }
+    button_to t(".cancel_action"), cancel_shop_order_path(resource),
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      data: { confirm: t(".cancel_action_confirm") }
   end
 
   member_action :cancel, method: :post, only: :show, if: -> { resource.can_cancel? } do
     resource.admin = current_admin
     resource.cancel!
-    redirect_to edit_shop_order_path(resource), notice: t('.flash.notice')
+    redirect_to edit_shop_order_path(resource), notice: t(".flash.notice")
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) && resource.invoice } do
-    link_to t('.new_payment'), new_payment_path(
-      invoice_id: resource.invoice.id, amount: [resource.invoice.amount, resource.invoice.missing_amount].min)
+    link_to t(".new_payment"), new_payment_path(
+      invoice_id: resource.invoice.id, amount: [ resource.invoice.amount, resource.invoice.missing_amount ].min)
   end
 
   action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
-    link_to_invoice_pdf(resource.invoice, title: t('.invoice_pdf'))
+    link_to_invoice_pdf(resource.invoice, title: t(".invoice_pdf"))
   end
 
   action_item :delivery_pdf, only: :show do
-    link_to t('.delivery_order_pdf'), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: '_blank'
+    link_to t(".delivery_order_pdf"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: "_blank"
   end
 
-  action_item :invoice, class: 'left-margin', only: :show, if: -> { resource.can_invoice? } do
-    button_to t('.invoice_action'), invoice_shop_order_path(resource),
-      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } }
+  action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? } do
+    button_to t(".invoice_action"), invoice_shop_order_path(resource),
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
     resource.admin = current_admin
     resource.invoice!
-    redirect_to resource_path, notice: t('.flash.notice')
+    redirect_to resource_path, notice: t(".flash.notice")
   end
 
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    link_to t('.delivery_orders_pdf'), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), target: '_blank'
+    link_to t(".delivery_orders_pdf"), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), target: "_blank"
   end
 
   action_item :delivery_xlsx, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    link_to 'XLSX', delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), target: '_blank'
+    link_to "XLSX", delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), target: "_blank"
   end
 
-  batch_action :invoice, if: ->(attr) { params[:scope].in?([nil, 'pending']) } do |selection|
+  batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) } do |selection|
     Shop::Order.where(id: selection).find_each do |order|
       order.admin = current_admin
       order.invoice! if order.can_invoice?
@@ -311,14 +311,14 @@ ActiveAdmin.register Shop::Order do
 
     depot = Depot.find(params[:depot_id]) if params[:depot_id].present?
     case params[:format]
-    when 'pdf'
+    when "pdf"
       order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id].present?
       pdf = PDF::Shop::Delivery.new(delivery, order: order, depot: depot)
       send_data pdf.render,
         content_type: pdf.content_type,
         filename: pdf.filename,
-        disposition: 'inline'
-    when 'xlsx'
+        disposition: "inline"
+    when "xlsx"
       producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id].present?
       xlsx = XLSX::Shop::Delivery.new(delivery, producer, depot: depot)
       send_data xlsx.data,
@@ -335,7 +335,7 @@ ActiveAdmin.register Shop::Order do
           Shop::SpecialDelivery.next ||
           Delivery.shop_open.last ||
           Shop::SpecialDelivery.last
-      redirect_to q: { _delivery_gid_eq: next_delivery.gid }, utf8: '✓'
+      redirect_to q: { _delivery_gid_eq: next_delivery.gid }, utf8: "✓"
     end
   end
 
@@ -370,11 +370,11 @@ ActiveAdmin.register Shop::Order do
     def find_resource
       scoped_collection
         .where(id: params[:id])
-        .includes(items: [:product, :product_variant])
+        .includes(items: [ :product, :product_variant ])
         .first!
     end
   end
 
-  config.sort_order = 'created_at_desc'
+  config.sort_order = "created_at_desc"
   config.batch_actions = true
 end

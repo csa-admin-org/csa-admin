@@ -1,16 +1,16 @@
 ActiveAdmin.register Shop::Producer do
   menu parent: :shop, priority: 3
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   breadcrumb do
-    if params['action'] == 'index'
-      [t('active_admin.menu.shop')]
+    if params["action"] == "index"
+      [ t("active_admin.menu.shop") ]
     else
       links = [
-        t('active_admin.menu.shop'),
+        t("active_admin.menu.shop"),
         link_to(Shop::Producer.model_name.human(count: 2), shop_producers_path)
       ]
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << shop_producer.name
       end
       links
@@ -30,15 +30,15 @@ ActiveAdmin.register Shop::Producer do
           q: { producer_id_eq: producer.id }))
     }
     if authorized?(:update, Shop::Producer)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
   sidebar_shop_admin_only_warning
-  sidebar_handbook_link('shop#producteurs')
+  sidebar_handbook_link("shop#producteurs")
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :name
       f.input :website_url
       translated_input(f, :descriptions,
@@ -53,5 +53,5 @@ ActiveAdmin.register Shop::Producer do
     :website_url,
     *I18n.available_locales.map { |l| "description_#{l}" })
 
-  config.sort_order = 'name_asc'
+  config.sort_order = "name_asc"
 end
