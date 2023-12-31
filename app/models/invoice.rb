@@ -1,5 +1,5 @@
-require 'rounding'
-require 'bigdecimal'
+require "rounding"
+require "bigdecimal"
 
 class Invoice < ApplicationRecord
   include HasFiscalYearScopes
@@ -18,7 +18,7 @@ class Invoice < ApplicationRecord
 
   belongs_to :member
   belongs_to :entity, polymorphic: true, optional: true, touch: true
-  has_many :items, class_name: 'InvoiceItem', dependent: :destroy
+  has_many :items, class_name: "InvoiceItem", dependent: :destroy
   has_many :payments, dependent: :destroy
 
   accepts_nested_attributes_for :items, allow_destroy: true
@@ -26,8 +26,8 @@ class Invoice < ApplicationRecord
   has_one_attached :pdf_file
 
   scope :annual_fee, -> { where.not(annual_fee: nil) }
-  scope :membership, -> { where(entity_type: 'Membership') }
-  scope :acp_share, -> { where(entity_type: 'ACPShare') }
+  scope :membership, -> { where(entity_type: "Membership") }
+  scope :acp_share, -> { where(entity_type: "ACPShare") }
   scope :not_processing, -> { where.not(state: PROCESSING_STATE) }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
@@ -35,16 +35,16 @@ class Invoice < ApplicationRecord
   scope :sent_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sent : not_sent }
   scope :all_without_canceled, -> { not_processing.not_canceled }
   scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
-  scope :unpaid, -> { not_canceled.where('paid_amount < amount') }
-  scope :overpaid, -> { not_canceled.where('amount > 0 AND paid_amount > amount') }
-  scope :balance_eq, ->(amount) { where('(paid_amount - amount) = ?', amount) }
-  scope :balance_gt, ->(amount) { where('(paid_amount - amount) > ?', amount) }
-  scope :balance_lt, ->(amount) { where('(paid_amount - amount) < ?', amount) }
-  scope :with_overdue_notice, -> { unpaid.where('overdue_notices_count > 0') }
-  scope :shop_order_type, -> { where(entity_type: 'Shop::Order') }
-  scope :activity_participation_type, -> { where(entity_type: 'ActivityParticipation') }
-  scope :other_type, -> { where(entity_type: 'Other') }
-  scope :new_member_fee_type, -> { where(entity_type: 'NewMemberFee') }
+  scope :unpaid, -> { not_canceled.where("paid_amount < amount") }
+  scope :overpaid, -> { not_canceled.where("amount > 0 AND paid_amount > amount") }
+  scope :balance_eq, ->(amount) { where("(paid_amount - amount) = ?", amount) }
+  scope :balance_gt, ->(amount) { where("(paid_amount - amount) > ?", amount) }
+  scope :balance_lt, ->(amount) { where("(paid_amount - amount) < ?", amount) }
+  scope :with_overdue_notice, -> { unpaid.where("overdue_notices_count > 0") }
+  scope :shop_order_type, -> { where(entity_type: "Shop::Order") }
+  scope :activity_participation_type, -> { where(entity_type: "ActivityParticipation") }
+  scope :other_type, -> { where(entity_type: "Other") }
+  scope :new_member_fee_type, -> { where(entity_type: "NewMemberFee") }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -100,21 +100,21 @@ class Invoice < ApplicationRecord
 
   def self.entity_types
     types = %w[Membership Other]
-    types << 'ActivityParticipation'
-    types << 'Shop::Order'
-    types << 'AnnualFee'
-    types << 'ACPShare'
-    types << 'NewMemberFee'
+    types << "ActivityParticipation"
+    types << "Shop::Order"
+    types << "AnnualFee"
+    types << "ACPShare"
+    types << "NewMemberFee"
     types
   end
 
   def self.used_entity_types
     types = %w[Membership Other]
-    types << 'ActivityParticipation' if Current.acp.feature?('activity')
-    types << 'Shop::Order' if Current.acp.feature?('shop')
-    types << 'AnnualFee' if Current.acp.annual_fee?
-    types << 'ACPShare' if Current.acp.share?
-    types << 'NewMemberFee' if Current.acp.feature?('new_member_fee')
+    types << "ActivityParticipation" if Current.acp.feature?("activity")
+    types << "Shop::Order" if Current.acp.feature?("shop")
+    types << "AnnualFee" if Current.acp.annual_fee?
+    types << "ACPShare" if Current.acp.share?
+    types << "NewMemberFee" if Current.acp.feature?("new_member_fee")
     types += pluck(:entity_type)
     types.uniq.sort
   end
@@ -234,26 +234,26 @@ class Invoice < ApplicationRecord
   end
 
   def amount=(*_args)
-    raise NoMethodError, 'is set automaticaly.'
+    raise NoMethodError, "is set automaticaly."
   end
 
   def paid_amount=(*_args)
-    raise NoMethodError, 'is set automaticaly.'
+    raise NoMethodError, "is set automaticaly."
   end
 
   def memberships_amount=(*_args)
-    raise NoMethodError, 'is set automaticaly.'
+    raise NoMethodError, "is set automaticaly."
   end
 
   def remaining_memberships_amount=(*_args)
-    raise NoMethodError, 'is set automaticaly.'
+    raise NoMethodError, "is set automaticaly."
   end
 
   def items_attributes=(attrs)
     return if attrs.empty?
 
     super
-    self[:entity_type] = 'Other' unless entity_type?
+    self[:entity_type] = "Other" unless entity_type?
     self[:amount] = items.reject(&:marked_for_destruction?).sum(&:amount)
   end
 
@@ -261,14 +261,14 @@ class Invoice < ApplicationRecord
     return if number.blank?
 
     super
-    self[:entity_type] = 'ActivityParticipation' unless entity_type?
+    self[:entity_type] = "ActivityParticipation" unless entity_type?
   end
 
   def acp_shares_number=(number)
     return if number.to_i == 0
 
     super
-    self[:entity_type] = 'ACPShare' unless entity_type?
+    self[:entity_type] = "ACPShare" unless entity_type?
     self[:amount] = number.to_i * Current.acp.share_price
   end
 
@@ -310,27 +310,27 @@ class Invoice < ApplicationRecord
   end
 
   def membership_type?
-    entity_type == 'Membership'
+    entity_type == "Membership"
   end
 
   def activity_participation_type?
-    entity_type == 'ActivityParticipation'
+    entity_type == "ActivityParticipation"
   end
 
   def acp_share_type?
-    entity_type == 'ACPShare'
+    entity_type == "ACPShare"
   end
 
   def shop_order_type?
-    entity_type == 'Shop::Order'
+    entity_type == "Shop::Order"
   end
 
   def other_type?
-    entity_type == 'Other'
+    entity_type == "Other"
   end
 
   def new_member_fee_type?
-    entity_type == 'NewMemberFee'
+    entity_type == "NewMemberFee"
   end
 
   def amount_with_vat
@@ -373,7 +373,7 @@ class Invoice < ApplicationRecord
       pdf_file.attach(
         io: StringIO.new(invoice_pdf.render),
         filename: "invoice-#{id}.pdf",
-        content_type: 'application/pdf')
+        content_type: "application/pdf")
     end
   end
 
@@ -388,7 +388,7 @@ class Invoice < ApplicationRecord
   def validate_memberships_amount_for_current_year
     paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
     if paid_invoices.sum(:memberships_amount) + memberships_amount > entity.price
-      errors.add(:base, 'Somme de la facturation des abonnements trop grande')
+      errors.add(:base, "Somme de la facturation des abonnements trop grande")
     end
   end
 
@@ -450,13 +450,13 @@ class Invoice < ApplicationRecord
 
   def configured_vat_rate
     case entity_type
-    when 'Membership'
+    when "Membership"
       Current.acp.vat_membership_rate
-    when 'ActivityParticipation'
+    when "ActivityParticipation"
       Current.acp.vat_activity_rate
-    when 'Shop::Order'
+    when "Shop::Order"
       Current.acp.vat_shop_rate
-    when 'Other', 'NewMemberFee'
+    when "Other", "NewMemberFee"
       vat_rate
     end
   end

@@ -29,7 +29,7 @@ module API
           basket_content_products: @basket_content_products.select(:id, :names).map { |product|
             product
               .as_json(only: %i[id])
-              .merge(names: all_locales { |l| [l, product.name] })
+              .merge(names: all_locales { |l| [ l, product.name ] })
           }
         }
       end
@@ -40,7 +40,7 @@ module API
           .map { |basket_size|
             basket_size
               .as_json(only: %i[id visible])
-              .merge(names: all_locales { |l| [l, basket_size.public_name] })
+              .merge(names: all_locales { |l| [ l, basket_size.public_name ] })
           }
       end
 
@@ -50,7 +50,7 @@ module API
           .map { |depot|
             depot
               .as_json(only: %i[id visible])
-              .merge(names: all_locales { |l| [l, depot.public_name] })
+              .merge(names: all_locales { |l| [ l, depot.public_name ] })
           }
       end
 

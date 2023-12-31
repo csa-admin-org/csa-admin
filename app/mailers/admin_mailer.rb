@@ -17,12 +17,12 @@ class AdminMailer < ApplicationMailer
         content: pdf.render
       }
       content = liquid_template.render(
-        'depot' => Liquid::DepotDrop.new(depot),
-        'baskets' => baskets.map { |b| Liquid::AdminBasketDrop.new(b) },
-        'delivery' => Liquid::DeliveryDrop.new(delivery))
+        "depot" => Liquid::DepotDrop.new(depot),
+        "baskets" => baskets.map { |b| Liquid::AdminBasketDrop.new(b) },
+        "delivery" => Liquid::DeliveryDrop.new(delivery))
       content_mail(content,
         to: depot.emails_array,
-        subject: t('.subject',
+        subject: t(".subject",
           date: I18n.l(delivery.date),
           depot: depot.name))
     end
@@ -43,11 +43,11 @@ class AdminMailer < ApplicationMailer
         content: pdf.render
       }
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'delivery' => Liquid::AdminDeliveryDrop.new(delivery))
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "delivery" => Liquid::AdminDeliveryDrop.new(delivery))
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject', date: I18n.l(delivery.date)))
+        subject: t(".subject", date: I18n.l(delivery.date)))
     end
   end
 
@@ -55,12 +55,12 @@ class AdminMailer < ApplicationMailer
     admin = params[:admin]
     I18n.with_locale(admin.language) do
       content = liquid_template.render(
-        'acp' => Liquid::ACPDrop.new(Current.acp),
-        'admin' => Liquid::AdminDrop.new(admin),
-        'action_url' => params[:action_url])
+        "acp" => Liquid::ACPDrop.new(Current.acp),
+        "admin" => Liquid::AdminDrop.new(admin),
+        "action_url" => params[:action_url])
       content_mail(content,
         to: admin.email,
-        subject: t('.subject', acp: Current.acp.name))
+        subject: t(".subject", acp: Current.acp.name))
     end
   end
 
@@ -69,12 +69,12 @@ class AdminMailer < ApplicationMailer
     I18n.with_locale(@admin.language) do
       invoice = Liquid::InvoiceDrop.new(params[:invoice])
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::AdminMemberDrop.new(params[:member]),
-        'invoice' => invoice)
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(params[:member]),
+        "invoice" => invoice)
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject', number: invoice.number))
+        subject: t(".subject", number: invoice.number))
     end
   end
 
@@ -84,12 +84,12 @@ class AdminMailer < ApplicationMailer
     I18n.with_locale(@admin.language) do
       invoice = Liquid::InvoiceDrop.new(@invoice)
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::AdminMemberDrop.new(@invoice.member),
-        'invoice' => invoice)
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(@invoice.member),
+        "invoice" => invoice)
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject', number: invoice.number))
+        subject: t(".subject", number: invoice.number))
     end
   end
 
@@ -97,12 +97,12 @@ class AdminMailer < ApplicationMailer
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::AdminMemberDrop.new(params[:member]),
-        'absence' => Liquid::AbsenceDrop.new(params[:absence]))
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(params[:member]),
+        "absence" => Liquid::AbsenceDrop.new(params[:absence]))
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject'))
+        subject: t(".subject"))
     end
   end
 
@@ -117,13 +117,13 @@ class AdminMailer < ApplicationMailer
       end
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::AdminMemberDrop.new(@participation.member),
-        'activity' => Liquid::ActivityDrop.new(@participation.activity),
-        'activity_participation' => Liquid::AdminActivityParticipationDrop.new(@participation))
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(@participation.member),
+        "activity" => Liquid::ActivityDrop.new(@participation.activity),
+        "activity_participation" => Liquid::AdminActivityParticipationDrop.new(@participation))
       content_mail(content,
         to: @admin.email,
-        subject: t_activity('.subject'))
+        subject: t_activity(".subject"))
     end
   end
 
@@ -132,11 +132,11 @@ class AdminMailer < ApplicationMailer
     @email_suppression = params[:email_suppression]
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'email_suppression' => Liquid::EmailSuppressionDrop.new(@email_suppression))
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "email_suppression" => Liquid::EmailSuppressionDrop.new(@email_suppression))
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject', reason: @email_suppression.reason))
+        subject: t(".subject", reason: @email_suppression.reason))
     end
   end
 
@@ -144,29 +144,29 @@ class AdminMailer < ApplicationMailer
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'member' => Liquid::AdminMemberDrop.new(params[:member]))
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(params[:member]))
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject'))
+        subject: t(".subject"))
     end
   end
 
   def memberships_renewal_pending_email
     @admin = params[:admin]
-    @subject_class = 'alert'
+    @subject_class = "alert"
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
-        'acp' => Liquid::ACPDrop.new(Current.acp),
-        'admin' => Liquid::AdminDrop.new(@admin),
-        'pending_memberships' => params[:pending_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
-        'opened_memberships' => params[:opened_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
-        'pending_action_url' => params[:pending_action_url],
-        'opened_action_url' => params[:opened_action_url],
-        'action_url' => params[:action_url])
+        "acp" => Liquid::ACPDrop.new(Current.acp),
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "pending_memberships" => params[:pending_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        "opened_memberships" => params[:opened_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        "pending_action_url" => params[:pending_action_url],
+        "opened_action_url" => params[:opened_action_url],
+        "action_url" => params[:action_url])
       content_mail(content,
         to: @admin.email,
-        subject: t('.subject'))
+        subject: t(".subject"))
     end
   end
 end

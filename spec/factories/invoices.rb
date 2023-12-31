@@ -6,11 +6,11 @@ FactoryBot.define do
 
     trait :membership do
       entity { create(:membership, member: member, deliveries_count: 4) }
-      memberships_amount_description { 'Montant' }
+      memberships_amount_description { "Montant" }
     end
 
     trait :annual_fee do
-      entity_type { 'AnnualFee' }
+      entity_type { "AnnualFee" }
       annual_fee { member.annual_fee }
     end
 
@@ -24,11 +24,11 @@ FactoryBot.define do
         item_price { nil }
       end
 
-      entity_type { '' }
+      entity_type { "" }
       after(:build) do |invoice, evaluator|
         if evaluator.item_price
           invoice.items_attributes = {
-            '0' => { description: 'Un truc', amount: evaluator.item_price }
+            "0" => { description: "Un truc", amount: evaluator.item_price }
           }
         end
       end
@@ -43,15 +43,15 @@ FactoryBot.define do
     end
 
     trait :open do
-      state { 'open' }
+      state { "open" }
     end
 
     trait :closed do
-      state { 'closed' }
+      state { "closed" }
     end
 
     trait :canceled do
-      state { 'canceled' }
+      state { "canceled" }
       canceled_at { Time.current }
     end
   end

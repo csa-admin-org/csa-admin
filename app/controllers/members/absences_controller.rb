@@ -17,7 +17,7 @@ class Members::AbsencesController < Members::BaseController
     @absence.session_id = session_id
 
     if @absence.save
-      flash[:notice] = t('.flash.notice')
+      flash[:notice] = t(".flash.notice")
       redirect_to members_absences_path
     else
       render :index, status: :unprocessable_entity

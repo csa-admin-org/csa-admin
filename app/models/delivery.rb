@@ -8,7 +8,7 @@ class Delivery < ApplicationRecord
   has_many :depots, -> { distinct.reorder(:position) }, through: :baskets
   has_many :basket_contents, dependent: :destroy
   has_many :shop_orders,
-    class_name: 'Shop::Order',
+    class_name: "Shop::Order",
     dependent: :destroy,
     as: :delivery
   has_and_belongs_to_many :basket_complements,
@@ -45,7 +45,7 @@ class Delivery < ApplicationRecord
   end
 
   def self.current
-    where('date <= ?', Date.current).order(:date).last
+    where("date <= ?", Date.current).order(:date).last
   end
 
   def self.any_in_year?(year)
@@ -116,7 +116,7 @@ class Delivery < ApplicationRecord
     return nil unless shop_open
 
     delay_in_days = Current.acp.shop_delivery_open_delay_in_days.to_i.days
-    end_time = Current.acp.shop_delivery_open_last_day_end_time || Tod::TimeOfDay.parse('23:59:59')
+    end_time = Current.acp.shop_delivery_open_last_day_end_time || Tod::TimeOfDay.parse("23:59:59")
     limit = end_time.on(date - delay_in_days)
   end
 
@@ -125,7 +125,7 @@ class Delivery < ApplicationRecord
   end
 
   def shop_open?(depot_id: nil, ignore_closing_at: false)
-    return false unless Current.acp.feature?('shop')
+    return false unless Current.acp.feature?("shop")
     return false unless shop_configured_open?
 
     (ignore_closing_at || !shop_closing_at.past?) &&
@@ -182,7 +182,7 @@ class Delivery < ApplicationRecord
           bcs.sum { |bc| bc.price_for(basket_size, depot) || 0 }.round_to_five_cents
         ]
       end.to_h.select { |_, price| price.positive? } # ignore depot with zero price
-      [basket_size, depot_prices]
+      [ basket_size, depot_prices ]
     end.to_h
   end
 

@@ -24,8 +24,8 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
   config.public_file_server.headers = {
-    'Cache-Control' => 'public, max-age=31536000',
-    'Expires' => 1.year.from_now.to_formatted_s(:rfc822)
+    "Cache-Control" => "public, max-age=31536000",
+    "Expires" => 1.year.from_now.to_formatted_s(:rfc822)
   }
 
   # Compress CSS using a preprocessor.
@@ -35,7 +35,7 @@ Rails.application.configure do
   config.assets.compile = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.asset_host = ENV['ASSET_HOST']
+  config.asset_host = ENV["ASSET_HOST"]
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
@@ -54,7 +54,7 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = ENV['DOKKU_APP_PROXY_TYPE'] != 'caddy'
+  config.force_ssl = ENV["DOKKU_APP_PROXY_TYPE"] != "caddy"
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)

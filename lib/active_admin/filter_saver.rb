@@ -25,11 +25,11 @@ module ActiveAdmin
     end
 
     def persist_request_method
-      session[:last_request_method] = request.env['REQUEST_METHOD']
+      session[:last_request_method] = request.env["REQUEST_METHOD"]
     end
 
     def from_non_get_request?
-      session[:last_request_method] && session[:last_request_method] != 'GET'
+      session[:last_request_method] && session[:last_request_method] != "GET"
     end
 
     def filter_params

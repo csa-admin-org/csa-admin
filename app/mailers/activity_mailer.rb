@@ -5,25 +5,25 @@ class ActivityMailer < ApplicationMailer
 
   def participation_reminder_email
     template_mail(@participation.member,
-      'member' => Liquid::MemberDrop.new(@participation.member),
-      'activity' => Liquid::ActivityDrop.new(@participation.activity),
-      'activity_participation' => Liquid::ActivityParticipationDrop.new(@participation))
+      "member" => Liquid::MemberDrop.new(@participation.member),
+      "activity" => Liquid::ActivityDrop.new(@participation.activity),
+      "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
   end
 
   def participation_validated_email
-    @subject_class = 'notice'
+    @subject_class = "notice"
     template_mail(@participation.member,
-      'member' => Liquid::MemberDrop.new(@participation.member),
-      'activity' => Liquid::ActivityDrop.new(@participation.activity),
-      'activity_participation' => Liquid::ActivityParticipationDrop.new(@participation))
+      "member" => Liquid::MemberDrop.new(@participation.member),
+      "activity" => Liquid::ActivityDrop.new(@participation.activity),
+      "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
   end
 
   def participation_rejected_email
-    @subject_class = 'alert'
+    @subject_class = "alert"
     template_mail(@participation.member,
-      'member' => Liquid::MemberDrop.new(@participation.member),
-      'activity' => Liquid::ActivityDrop.new(@participation.activity),
-      'activity_participation' => Liquid::ActivityParticipationDrop.new(@participation))
+      "member" => Liquid::MemberDrop.new(@participation.member),
+      "activity" => Liquid::ActivityDrop.new(@participation.activity),
+      "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
   end
 
   private

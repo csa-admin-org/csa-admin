@@ -1,4 +1,4 @@
-require 'postmark_wrapper'
+require "postmark_wrapper"
 
 class EmailSuppression < ApplicationRecord
   STREAM_IDS = %w[outbound broadcast]
@@ -6,9 +6,9 @@ class EmailSuppression < ApplicationRecord
   ORIGINS = %w[Recipient Customer Admin Sync Mailchimp]
 
   scope :active, -> { where(unsuppressed_at: nil) }
-  scope :outbound, -> { where(stream_id: 'outbound') }
-  scope :broadcast, -> { where(stream_id: 'broadcast') }
-  scope :unsuppressable, -> { active.where.not(reason: 'SpamComplaint') }
+  scope :outbound, -> { where(stream_id: "outbound") }
+  scope :broadcast, -> { where(stream_id: "broadcast") }
+  scope :unsuppressable, -> { active.where.not(reason: "SpamComplaint") }
 
   validates :email, presence: true
   validates :stream_id, presence: true, inclusion: { in: STREAM_IDS }
@@ -67,15 +67,15 @@ class EmailSuppression < ApplicationRecord
   end
 
   def broadcast?
-    stream_id == 'broadcast'
+    stream_id == "broadcast"
   end
 
   def manual_suppression?
-    reason == 'ManualSuppression'
+    reason == "ManualSuppression"
   end
 
   def spam_complaint?
-    reason == 'SpamComplaint'
+    reason == "SpamComplaint"
   end
 
   private

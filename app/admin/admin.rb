@@ -1,6 +1,6 @@
 ActiveAdmin.register Admin do
   menu parent: :other, priority: 2
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   filter :name
   filter :email
@@ -17,7 +17,7 @@ ActiveAdmin.register Admin do
       link_to a.permission&.name, permissions_path
     }
     if authorized?(:manage, Admin)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -26,26 +26,26 @@ ActiveAdmin.register Admin do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :name
       f.input :email
       f.input :language,
         as: :select,
-        collection: ACP.languages.map { |l| [t("languages.#{l}"), l] },
+        collection: ACP.languages.map { |l| [ t("languages.#{l}"), l ] },
         prompt: true
       if authorized?(:manage, Admin) && f.object != current_admin
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false
       end
     end
-    f.inputs id: 'notifications' do
+    f.inputs id: "notifications" do
       f.input :notifications,
         as: :check_boxes,
-        wrapper_html: { class: 'no-check-boxes-toggle-all detailed-option' },
+        wrapper_html: { class: "no-check-boxes-toggle-all detailed-option" },
         collection: Admin.notifications.map { |n|
           [
             content_tag(:span) {
               content_tag(:span, t("admin.notifications.#{n}")).html_safe +
-              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: 'hint')
+              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: "hint")
             },
             n
           ]
@@ -70,7 +70,7 @@ ActiveAdmin.register Admin do
 
   controller do
     def scoped_collection
-      if master_email = ENV['MASTER_ADMIN_EMAIL']
+      if master_email = ENV["MASTER_ADMIN_EMAIL"]
         end_of_association_chain.where.not(email: master_email)
       else
         super
@@ -82,5 +82,5 @@ ActiveAdmin.register Admin do
     end
   end
 
-  config.sort_order = 'name_asc'
+  config.sort_order = "name_asc"
 end

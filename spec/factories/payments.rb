@@ -5,7 +5,7 @@ FactoryBot.define do
     amount { 1000 }
 
     trait :qr do
-      fingerprint { 'fingerprint' }
+      fingerprint { "fingerprint" }
     end
   end
 end

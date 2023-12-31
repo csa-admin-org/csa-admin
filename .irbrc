@@ -3,7 +3,7 @@ return unless $stdout.tty?
 
 # Helper available in IRB, which helps choosing a ACP to enter.
 def enter
-  acps = ACP.where('id < 100').order(:id)
+  acps = ACP.where("id < 100").order(:id)
   options = acps.map { |acp| "#{acp.id.to_s.rjust(2)}: #{acp.name}" }
 
   puts "Select ACP context: (empty for no ACP)"
@@ -17,11 +17,11 @@ def enter
     Tenant.switch!(acp.tenant_name)
     puts "Entered #{acp.name} (#{acp.tenant_name}) context."
   else
-    puts 'No ACP selected.'
+    puts "No ACP selected."
   end
 end
 
 if Tenant.outside?
   # Show ACPs upon start. Prevent output of return value with `;`.
-  enter;
+  enter
 end

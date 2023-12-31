@@ -43,5 +43,3 @@ class MembershipMailerPreview < ActionMailer::Preview
     }
   end
 end
-
-

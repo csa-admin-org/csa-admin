@@ -43,7 +43,7 @@ module Billing
           if pm.invoice.canceled?
             @remaining_amount += pm.amount
           else
-            paid_amount = [[pm.amount, pm.invoice.missing_amount].min, 0].max
+            paid_amount = [ [ pm.amount, pm.invoice.missing_amount ].min, 0 ].max
             pm.invoice.increment!(:paid_amount, paid_amount)
             @remaining_amount += pm.amount - paid_amount
           end
@@ -58,7 +58,7 @@ module Billing
       return if @remaining_amount.zero?
 
       invoices.send(scope).each do |invoice|
-        paid_amount = [@remaining_amount, invoice.missing_amount].min
+        paid_amount = [ @remaining_amount, invoice.missing_amount ].min
         invoice.increment!(:paid_amount, paid_amount)
         @remaining_amount -= paid_amount
       end

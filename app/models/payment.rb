@@ -13,7 +13,7 @@ class Payment < ApplicationRecord
 
   scope :qr, -> { where.not(fingerprint: nil) }
   scope :manual, -> { where(fingerprint: nil) }
-  scope :refund, -> { where('amount < 0') }
+  scope :refund, -> { where("amount < 0") }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true
@@ -33,15 +33,15 @@ class Payment < ApplicationRecord
   end
 
   def type
-    fingerprint? ? 'qr' : 'manual'
+    fingerprint? ? "qr" : "manual"
   end
 
   def qr?
-    type == 'qr'
+    type == "qr"
   end
 
   def manual?
-    type == 'manual'
+    type == "manual"
   end
 
   def self.ransackable_scopes(_auth_object = nil)

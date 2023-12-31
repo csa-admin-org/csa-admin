@@ -1,5 +1,5 @@
 class Members::BaseController < ApplicationController
-  layout 'members'
+  layout "members"
   before_action :authenticate_member!
 
   helper_method :current_member
@@ -9,10 +9,10 @@ class Members::BaseController < ApplicationController
   def authenticate_member!
     if !current_member
       cookies.delete(:session_id)
-      redirect_to members_login_path, alert: t('sessions.flash.required')
+      redirect_to members_login_path, alert: t("sessions.flash.required")
     elsif current_session&.expired?
       cookies.delete(:session_id)
-      redirect_to members_login_path, alert: t('sessions.flash.expired')
+      redirect_to members_login_path, alert: t("sessions.flash.expired")
     else
       set_sentry_user
       update_last_usage(current_session)
@@ -43,7 +43,7 @@ class Members::BaseController < ApplicationController
   end
 
   def current_shop_delivery
-    return unless Current.acp.feature?('shop')
+    return unless Current.acp.feature?("shop")
 
     @current_shop_delivery ||=
       Delivery
@@ -54,7 +54,7 @@ class Members::BaseController < ApplicationController
   helper_method :current_shop_delivery
 
   def next_shop_delivery
-    return unless Current.acp.feature?('shop')
+    return unless Current.acp.feature?("shop")
     return unless current_shop_delivery
 
     @next_shop_delivery ||=
@@ -67,7 +67,7 @@ class Members::BaseController < ApplicationController
   helper_method :next_shop_delivery
 
   def shop_special_deliveries
-    return unless Current.acp.feature?('shop')
+    return unless Current.acp.feature?("shop")
 
     @shop_special_deliveries ||= Shop::SpecialDelivery.coming.open.select(&:shop_open?)
   end

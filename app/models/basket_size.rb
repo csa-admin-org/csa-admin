@@ -19,17 +19,17 @@ class BasketSize < ApplicationRecord
 
   default_scope { order(:price) }
   scope :member_ordered, -> {
-    order_clauses = ['member_order_priority']
+    order_clauses = [ "member_order_priority" ]
     order_clauses <<
       case Current.acp.basket_sizes_member_order_mode
-      when 'price_asc'; 'price ASC'
-      when 'price_desc'; 'price DESC'
+      when "price_asc"; "price ASC"
+      when "price_desc"; "price DESC"
       end
     order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), names->>'#{I18n.locale}')"
-    reorder(Arel.sql(order_clauses.compact.join(', ')))
+    reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
-  scope :free, -> { where('price = 0') }
-  scope :paid, -> { where('price > 0') }
+  scope :free, -> { where("price = 0") }
+  scope :paid, -> { where("price > 0") }
   scope :used, -> {
     ids = Basket
       .joins(:delivery)
@@ -50,7 +50,7 @@ class BasketSize < ApplicationRecord
     allow_nil: true
 
   def self.for(baskets)
-    ids = baskets.where('baskets.quantity > 0').pluck(:basket_size_id).uniq
+    ids = baskets.where("baskets.quantity > 0").pluck(:basket_size_id).uniq
     where(id: ids)
   end
 
@@ -76,7 +76,7 @@ class BasketSize < ApplicationRecord
 
   def deliveries_counts
     if delivery_cycle
-      [delivery_cycle.deliveries_count]
+      [ delivery_cycle.deliveries_count ]
     else
       DeliveryCycle.deliveries_counts
     end

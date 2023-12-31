@@ -20,6 +20,6 @@ class CreateGroupBuyingOrders < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
-    add_index :group_buying_order_items, [:order_id, :product_id], unique: true
+    add_index :group_buying_order_items, [ :order_id, :product_id ], unique: true
   end
 end

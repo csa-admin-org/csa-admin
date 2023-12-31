@@ -4,7 +4,7 @@ module Shop
     include HasState
     include HasDescription
 
-    self.table_name = 'shop_orders'
+    self.table_name = "shop_orders"
 
     attr_accessor :admin
 
@@ -16,20 +16,20 @@ module Shop
       polymorphic: true,
       optional: false
     has_many :items,
-      class_name: 'Shop::OrderItem',
+      class_name: "Shop::OrderItem",
       inverse_of: :order,
       dependent: :destroy
     has_many :products,
-      class_name: 'Shop::Product',
+      class_name: "Shop::Product",
       through: :items
     has_many :products_displayed_in_delivery_sheets,
-      class_name: 'Shop::Product',
+      class_name: "Shop::Product",
       through: :items,
       source: :product_displayed_in_delivery_sheet
     has_many :invoices, as: :entity
     has_one :invoice, -> { not_canceled }, as: :entity
 
-    scope :all_without_cart, -> { where.not(state: 'cart') }
+    scope :all_without_cart, -> { where.not(state: "cart") }
     scope :_delivery_gid_eq, ->(gid) {
       where(delivery: GlobalID::Locator.locate(gid))
     }
@@ -41,7 +41,7 @@ module Shop
     before_validation :set_amount
 
     validates :items, presence: true, if: -> { !cart? || admin }
-    validates :member_id, uniqueness: { scope: [:delivery_type, :delivery_id] }
+    validates :member_id, uniqueness: { scope: [ :delivery_type, :delivery_id ] }
     validates :amount, numericality: true, if: :admin
     validates :amount_percentage,
       numericality: {
@@ -64,7 +64,7 @@ module Shop
     def self.complement_count(complement)
       joins(items: :product)
         .where(shop_products: { basket_complement_id: complement.id })
-        .sum('shop_order_items.quantity')
+        .sum("shop_order_items.quantity")
     end
 
     def self.products_displayed_in_delivery_sheets
@@ -78,7 +78,7 @@ module Shop
     def self.quantity_for(product)
       joins(:items)
         .where(shop_order_items: { product_id: product.id })
-        .sum('shop_order_items.quantity')
+        .sum("shop_order_items.quantity")
     end
 
     def depot
@@ -214,7 +214,7 @@ module Shop
     def unique_items
       used_items = []
       items.each do |item|
-        item_sign = [item.product_id, item.product_variant_id]
+        item_sign = [ item.product_id, item.product_variant_id ]
         if item_sign.in?(used_items)
           item.errors.add(:product_variant_id, :taken)
           errors.add(:items, :taken) # required to show item error on form
@@ -265,10 +265,10 @@ module Shop
         date: Date.today,
         amount_percentage: amount_percentage,
         items_attributes: items.map.with_index { |item, index|
-          [index.to_s, {
+          [ index.to_s, {
             description: item.description,
             amount: item.amount
-          }]
+          } ]
         }.to_h)
     end
   end

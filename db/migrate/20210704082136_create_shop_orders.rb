@@ -9,7 +9,7 @@ class CreateShopOrders < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :shop_orders, [:member_id, :delivery_id], unique: true
+    add_index :shop_orders, [ :member_id, :delivery_id ], unique: true
 
     create_table :shop_order_items do |t|
       t.references :order, foreign_key: { to_table: :shop_orders }, null: false, index: false
@@ -21,6 +21,6 @@ class CreateShopOrders < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :shop_order_items, [:order_id, :product_id, :product_variant_id], unique: true, name: 'shop_order_items_unique_index'
+    add_index :shop_order_items, [ :order_id, :product_id, :product_variant_id ], unique: true, name: 'shop_order_items_unique_index'
   end
 end

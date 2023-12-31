@@ -10,9 +10,9 @@ class DepotGroup < ApplicationRecord
   default_scope { order_by_name }
 
   scope :member_ordered, -> {
-    order_clauses = ['member_order_priority']
+    order_clauses = [ "member_order_priority" ]
     order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), name)"
-    reorder(Arel.sql(order_clauses.compact.join(', ')))
+    reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
 
   def display_name; name end

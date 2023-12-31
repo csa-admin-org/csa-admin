@@ -3,9 +3,9 @@ ActiveAdmin.register Payment do
   actions :all
 
   breadcrumb do
-    if params[:action] == 'new'
-      [link_to(Payment.model_name.human(count: 2), payments_path)]
-    elsif params['action'] != 'index'
+    if params[:action] == "new"
+      [ link_to(Payment.model_name.human(count: 2), payments_path) ]
+    elsif params["action"] != "index"
       links = [
         link_to(Member.model_name.human(count: 2), members_path),
         auto_link(payment.member),
@@ -13,7 +13,7 @@ ActiveAdmin.register Payment do
           Payment.model_name.human(count: 2),
           payments_path(q: { member_id_eq: payment.member_id }, scope: :all))
       ]
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << auto_link(payment)
       end
       links
@@ -28,11 +28,11 @@ ActiveAdmin.register Payment do
   index do
     column :id, ->(p) { auto_link p, p.id }
     column :date, ->(p) { l p.date, format: :number }
-    column :member, sortable: 'members.name'
-    column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : '–' }
+    column :member, sortable: "members.name"
+    column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
     column :amount, ->(p) { cur(p.amount) }
     column :type, ->(p) { status_tag p.type }
-    actions class: 'col-actions-3'
+    actions class: "col-actions-3"
   end
 
   csv do
@@ -63,24 +63,24 @@ ActiveAdmin.register Payment do
 
   sidebar :total, only: :index do
     all = collection.unscope(:includes).offset(nil).limit(nil)
-    div class: 'content' do
-      span t('active_admin.sidebars.amount')
-      span cur(all.sum(:amount)), style: 'float: right; font-weight: bold;'
+    div class: "content" do
+      span t("active_admin.sidebars.amount")
+      span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
     end
   end
 
   sidebar :import, only: :index, if: -> { authorized?(:import, Payment) } do
-    render('active_admin/payments/import')
+    render("active_admin/payments/import")
   end
 
-  sidebar_handbook_link('billing#paiements')
+  sidebar_handbook_link("billing#paiements")
 
   collection_action :import, method: :post do
     authorize!(:import, Payment)
     Billing::CamtFile.process!(params.require(:file))
-    redirect_to collection_path, notice: t('.flash.notice')
+    redirect_to collection_path, notice: t(".flash.notice")
   rescue Billing::CamtFile::UnsupportedFileError
-    redirect_to collection_path, alert: t('.flash.alert')
+    redirect_to collection_path, alert: t(".flash.alert")
   end
 
   show do |payement|
@@ -102,7 +102,7 @@ ActiveAdmin.register Payment do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :member,
         collection: Member.order(:name).distinct,
         prompt: true,
@@ -140,7 +140,7 @@ ActiveAdmin.register Payment do
         resource: payment,
         body: payment.comment,
         author: current_admin,
-        namespace: 'root')
+        namespace: "root")
     end
   end
 
@@ -149,9 +149,9 @@ ActiveAdmin.register Payment do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name', id: :desc)
+      super(chain).joins(:member).order("members.name", id: :desc)
     end
   end
 
-  config.sort_order = 'date_desc'
+  config.sort_order = "date_desc"
 end

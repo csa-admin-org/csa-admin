@@ -24,9 +24,9 @@ class Liquid::DataPreview
           else
             drop_hash(drop_class.new(object))
           end
-        [key, data]
+        [ key, data ]
       else
-        [key, object]
+        [ key, object ]
       end
     }.sort.to_h.deep_stringify_keys!
   end
@@ -36,7 +36,7 @@ class Liquid::DataPreview
   def drop_hash(drop)
     invokable_methods(drop).map { |method|
       value = drop.send(method)
-      [method, handle_value(value)]
+      [ method, handle_value(value) ]
     }.sort.to_h
   end
 

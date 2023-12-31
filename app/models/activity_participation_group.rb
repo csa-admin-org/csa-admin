@@ -19,7 +19,7 @@ class ActivityParticipationGroup
       activity.places,
       activity.place_urls,
       activity.descriptions
-    ].map(&:to_s).join(':')
+    ].map(&:to_s).join(":")
   end
 
   delegate \
@@ -44,7 +44,7 @@ class ActivityParticipationGroup
 
   # Used for activity_participations_with_carpooling
   def activity_id
-    [activities.first.id, activities.last.id].uniq
+    [ activities.first.id, activities.last.id ].uniq
   end
 
   def activity
@@ -68,8 +68,8 @@ class ActivityParticipationGroup
       end
       periods << activity.end_time
     }.each_slice(2).to_a.map { |period|
-      period.map { |t| t.strftime('%-k:%M') }.join('-')
-    }.join(', ')
+      period.map { |t| t.strftime("%-k:%M") }.join("-")
+    }.join(", ")
   end
 
   # Used for delegation

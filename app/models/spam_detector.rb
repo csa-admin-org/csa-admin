@@ -9,7 +9,7 @@ class SpamDetector
   end
 
   def self.notify!(member)
-    Sentry.capture_message('Spam detected', extra: member.attributes)
+    Sentry.capture_message("Spam detected", extra: member.attributes)
   end
 
   def initialize(member)
@@ -29,7 +29,7 @@ class SpamDetector
   end
 
   def non_allowed_country?
-    allowed_country_codes = ENV['ALLOWED_COUNTRY_CODES'].to_s.split(',')
+    allowed_country_codes = ENV["ALLOWED_COUNTRY_CODES"].to_s.split(",")
     return false unless allowed_country_codes.any?
 
     allowed_country_codes.exclude?(@member.country_code)
@@ -37,7 +37,7 @@ class SpamDetector
 
   def non_native_language?
     languages = I18n.available_locales.map(&:to_s)
-    languages << 'un' # Unknown CLD language
+    languages << "un" # Unknown CLD language
     TEXTS_COLUMNS.any? { |attr|
       text = @member.send(attr).dup
       if text && text.size > 100
@@ -51,7 +51,7 @@ class SpamDetector
     texts = TEXTS_COLUMNS.map { |attr|
       text = @member.send(attr).dup
       if text.present? && text.size > 40
-        text.gsub!(/\s/, '')
+        text.gsub!(/\s/, "")
       end
     }.compact
     texts.any? { |t| texts.count(t) > 1 }

@@ -1,11 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
-describe 'Newsletter subscriptions' do
-  before { Capybara.app_host = 'http://membres.ragedevert.test' }
+describe "Newsletter subscriptions" do
+  before { Capybara.app_host = "http://membres.ragedevert.test" }
 
-  describe 'unsubscribe' do
-    specify 'with valid token' do
-      email = 'johnnyjames@gmail.com'
+  describe "unsubscribe" do
+    specify "with valid token" do
+      email = "johnnyjames@gmail.com"
       member = create(:member, emails: email)
       token = Newsletter::Audience.encrypt_email(email)
 
@@ -14,18 +14,18 @@ describe 'Newsletter subscriptions' do
       }.to change { EmailSuppression.active.count }.by(1)
       expect(EmailSuppression.active.last).to have_attributes(
         email: email,
-        reason: 'ManualSuppression',
-        origin: 'Customer')
+        reason: "ManualSuppression",
+        origin: "Customer")
 
       expect(page)
-        .to have_content 'Votre email (joh...mes@gma...com) a été supprimé de la liste de diffusion.'
+        .to have_content "Votre email (joh...mes@gma...com) a été supprimé de la liste de diffusion."
       expect(postmark_client.calls).to eq [
-        [:create_suppressions, 'broadcast', email]
+        [ :create_suppressions, "broadcast", email ]
       ]
     end
 
-    specify 'with valid token (short email)' do
-      email = 'joe@do.com'
+    specify "with valid token (short email)" do
+      email = "joe@do.com"
       member = create(:member, emails: email)
       token = Newsletter::Audience.encrypt_email(email)
 
@@ -33,10 +33,10 @@ describe 'Newsletter subscriptions' do
         visit "/newsletters/unsubscribe/#{token}"
       }.to change { EmailSuppression.active.count }.by(1)
 
-      expect(page).to have_content '(j...e@do...om)'
+      expect(page).to have_content "(j...e@do...om)"
     end
 
-    specify 'with invalid token' do
+    specify "with invalid token" do
       expect {
         visit "/newsletters/unsubscribe/foo"
       }.not_to change { EmailSuppression.active.count }
@@ -45,8 +45,8 @@ describe 'Newsletter subscriptions' do
       expect(page).to have_content "Ce lien a expiré ou n'est pas valide."
     end
 
-    specify 'with email no more link to a member' do
-      email = 'unknown@gmail.com'
+    specify "with email no more link to a member" do
+      email = "unknown@gmail.com"
       token = Newsletter::Audience.encrypt_email(email)
 
       expect {
@@ -58,8 +58,8 @@ describe 'Newsletter subscriptions' do
     end
   end
 
-  specify 're-subscribe' do
-    email = 'johnnyjames@gmail.com'
+  specify "re-subscribe" do
+    email = "johnnyjames@gmail.com"
     member = create(:member, emails: email)
     token = Newsletter::Audience.encrypt_email(email)
 
@@ -70,8 +70,8 @@ describe 'Newsletter subscriptions' do
     suppression = EmailSuppression.active.last
     expect(suppression).to have_attributes(
       email: email,
-      reason: 'ManualSuppression',
-      origin: 'Customer',
+      reason: "ManualSuppression",
+      origin: "Customer",
       unsuppressed_at: nil)
 
     expect {
@@ -80,11 +80,11 @@ describe 'Newsletter subscriptions' do
     expect(suppression.reload.unsuppressed_at).to be_present
 
     expect(page)
-      .to have_content 'Votre email (joh...mes@gma...com) est à nouveau inscrit à la liste de diffusion.'
+      .to have_content "Votre email (joh...mes@gma...com) est à nouveau inscrit à la liste de diffusion."
 
     expect(postmark_client.calls).to eq [
-      [:create_suppressions, 'broadcast', email],
-      [:delete_suppressions, 'broadcast', email]
+      [ :create_suppressions, "broadcast", email ],
+      [ :delete_suppressions, "broadcast", email ]
     ]
   end
 end

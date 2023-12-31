@@ -1,6 +1,6 @@
 module Shop
   class Product < ApplicationRecord
-    self.table_name = 'shop_products'
+    self.table_name = "shop_products"
 
     include TranslatedAttributes
     include TranslatedRichTexts
@@ -10,35 +10,35 @@ module Shop
 
     default_scope { order_by_name }
 
-    belongs_to :producer, class_name: 'Shop::Producer', optional: true
+    belongs_to :producer, class_name: "Shop::Producer", optional: true
     belongs_to :basket_complement, optional: true
     has_many :variants,
-      class_name: 'Shop::ProductVariant',
+      class_name: "Shop::ProductVariant",
       dependent: :delete_all
-    has_many :order_items, class_name: 'Shop::OrderItem', inverse_of: :product
-    has_and_belongs_to_many :tags, class_name: 'Shop::Tag'
+    has_many :order_items, class_name: "Shop::OrderItem", inverse_of: :product
+    has_and_belongs_to_many :tags, class_name: "Shop::Tag"
     has_and_belongs_to_many :special_deliveries,
-      class_name: 'Shop::SpecialDelivery',
-      counter_cache: 'shop_products_count'
+      class_name: "Shop::SpecialDelivery",
+      counter_cache: "shop_products_count"
 
     accepts_nested_attributes_for :variants, allow_destroy: true
 
     scope :available, -> { where(available: true) }
     scope :unavailable, -> { where(available: false) }
-    scope :price_eq, ->(v) { joins(:variants).where('price = ?', v) }
-    scope :price_gt, ->(v) { joins(:variants).where('price > ?', v) }
-    scope :price_lt, ->(v) { joins(:variants).where('price < ?', v) }
-    scope :stock_eq, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock = ?', v) }
-    scope :stock_gt, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock > ?', v) }
-    scope :stock_lt, ->(v) { joins(:variants).where('stock IS NOT NULL AND stock < ?', v) }
+    scope :price_eq, ->(v) { joins(:variants).where("price = ?", v) }
+    scope :price_gt, ->(v) { joins(:variants).where("price > ?", v) }
+    scope :price_lt, ->(v) { joins(:variants).where("price < ?", v) }
+    scope :stock_eq, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock = ?", v) }
+    scope :stock_gt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock > ?", v) }
+    scope :stock_lt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock < ?", v) }
     scope :variant_name_cont, ->(str) {
       joins(:variants).merge(ProductVariant.name_cont(str))
     }
     scope :depot_eq, ->(depot_id) {
-      where.not('? = ANY (unavailable_for_depot_ids)', depot_id)
+      where.not("? = ANY (unavailable_for_depot_ids)", depot_id)
     }
     scope :delivery_eq, ->(delivery_id) {
-      where.not('? = ANY (unavailable_for_delivery_ids)', delivery_id)
+      where.not("? = ANY (unavailable_for_delivery_ids)", delivery_id)
     }
     scope :displayed_in_delivery_sheets, -> {
       # Does not include product linked to a basket complement as they are
@@ -46,7 +46,7 @@ module Shop
       where(basket_complement_id: nil, display_in_delivery_sheets: true)
     }
 
-    validates :available, inclusion: [true, false]
+    validates :available, inclusion: [ true, false ]
     validates :variants, presence: true
     validates :variants, length: { is: 1, message: :single_variant }, if: :basket_complement_id?
     validate :ensure_at_least_one_available_variant
@@ -64,9 +64,9 @@ module Shop
         available
           .left_joins(basket_complement: :deliveries)
           .delivery_eq(delivery)
-          .where('shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?', delivery)
+          .where("shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?", delivery)
       if depot
-        products = products.where.not('? = ANY (unavailable_for_depot_ids)', depot)
+        products = products.where.not("? = ANY (unavailable_for_depot_ids)", depot)
       end
       products.order_by_name
     end
@@ -109,7 +109,7 @@ module Shop
     end
 
     def name_with_single_variant
-      raise 'Product has more than one variant' if variants.many?
+      raise "Product has more than one variant" if variants.many?
 
       "#{name} (#{variants.first.name})"
     end

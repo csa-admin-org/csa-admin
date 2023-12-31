@@ -10,7 +10,7 @@ module SharedDataPreview
   def member
     OpenStruct.new(
       id: 1,
-      name: ['Jane Doe', 'John Doe'].sample(random: random),
+      name: [ "Jane Doe", "John Doe" ].sample(random: random),
       language: params[:locale] || I18n.locale,
       current_or_future_membership: membership,
       waiting_basket_size_id: basket_size&.id,
@@ -22,7 +22,7 @@ module SharedDataPreview
     return unless basket
 
     participations_demanded = basket_size&.activity_participations_demanded_annualy || 0
-    participations_accepted = [participations_demanded, 0].sample(random: random)
+    participations_accepted = [ participations_demanded, 0 ].sample(random: random)
     OpenStruct.new(
       started_on: started_on,
       ended_on: ended_on,

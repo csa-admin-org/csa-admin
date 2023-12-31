@@ -1,13 +1,13 @@
 ActiveAdmin.register DepotGroup do
   menu false
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   breadcrumb do
-    links = [link_to(Depot.model_name.human(count: 2), depots_path)]
-    if params[:action] != 'index'
+    links = [ link_to(Depot.model_name.human(count: 2), depots_path) ]
+    if params[:action] != "index"
       links << link_to(DepotGroup.model_name.human(count: 2), depots_path)
     end
-    if params['action'].in? %W[edit]
+    if params["action"].in? %W[edit]
       links << auto_link(resource)
     end
     links
@@ -17,7 +17,7 @@ ActiveAdmin.register DepotGroup do
   index download_links: false do
     column :name, ->(dg) { display_name_with_public_name(dg) }
     column :depots, ->(dg) { dg.depots.reorder(:name).map { |d| auto_link d }.to_sentence.html_safe }
-    actions class: 'col-actions-2'
+    actions class: "col-actions-2"
   end
 
   form do |f|
@@ -25,14 +25,14 @@ ActiveAdmin.register DepotGroup do
       translated_input(f, :names, required: true)
       translated_input(f, :public_names,
         required: false,
-        hint: t('formtastic.hints.depot_group.public_name'))
+        hint: t("formtastic.hints.depot_group.public_name"))
     end
 
-    f.inputs t('active_admin.resource.show.member_new_form') do
+    f.inputs t("active_admin.resource.show.member_new_form") do
       translated_input(f, :information_texts,
         as: :action_text,
         required: false,
-        hint: t('formtastic.hints.depot_group.information_text'))
+        hint: t("formtastic.hints.depot_group.information_text"))
 
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
@@ -41,7 +41,7 @@ ActiveAdmin.register DepotGroup do
     end
 
     f.inputs do
-      other_group_ids = DepotGroup.pluck(:id) - [f.object.id]
+      other_group_ids = DepotGroup.pluck(:id) - [ f.object.id ]
       f.input :depots,
         collection: Depot.reorder(:name),
         as: :check_boxes

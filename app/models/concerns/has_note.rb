@@ -3,10 +3,10 @@ module HasNote
 
   included do
     scope :with_note, ->(bool) {
-      if bool == 'true'
-        where.not(note: [nil, ''])
+      if bool == "true"
+        where.not(note: [ nil, "" ])
       else
-        where(note: [nil, ''])
+        where(note: [ nil, "" ])
       end
     }
   end

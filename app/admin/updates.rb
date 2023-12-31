@@ -1,14 +1,14 @@
-ActiveAdmin.register_page 'Updates' do
+ActiveAdmin.register_page "Updates" do
   menu false
 
-  content title: proc { t('layouts.footer.updates') } do
+  content title: proc { t("layouts.footer.updates") } do
     columns do
       column do
-        div class: 'content' do
-          para t('.updates_explanation_html'), class: 'notice'
+        div class: "content" do
+          para t(".updates_explanation_html"), class: "notice"
         end
         Update.all.first(20).each_with_index do |update, i|
-          panel l(update.date), class: unread_count > i ? 'unread' : '', id: update.name do
+          panel l(update.date), class: unread_count > i ? "unread" : "", id: update.name do
             update.body(binding)
           end
         end

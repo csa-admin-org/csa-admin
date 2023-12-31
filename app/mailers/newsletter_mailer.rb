@@ -7,7 +7,7 @@ class NewsletterMailer < ApplicationMailer
     template_mail(params[:member],
       from: params[:from],
       to: params[:to],
-      stream: 'broadcast',
+      stream: "broadcast",
       **prepared_data)
   end
 
@@ -50,15 +50,15 @@ class NewsletterMailer < ApplicationMailer
       @signature = signature
     end
     {
-      'today' => today,
-      'subject' => params[:subject],
-      'member' => Liquid::MemberDrop.new(member, email: params[:to]),
-      'membership' => Liquid::MembershipDrop.new(membership),
-      'basket' => Liquid::BasketDrop.new(basket),
-      'future_activities' => Activity.available.first(10).map { |a|
+      "today" => today,
+      "subject" => params[:subject],
+      "member" => Liquid::MemberDrop.new(member, email: params[:to]),
+      "membership" => Liquid::MembershipDrop.new(membership),
+      "basket" => Liquid::BasketDrop.new(basket),
+      "future_activities" => Activity.available.first(10).map { |a|
         Liquid::ActivityDrop.new(a)
       },
-      'coming_activity_participations' => member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc)).map { |p|
+      "coming_activity_participations" => member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc)).map { |p|
         Liquid::ActivityParticipationDrop.new(p)
       }
     }

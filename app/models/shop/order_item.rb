@@ -2,14 +2,14 @@ module Shop
   class OrderItem < ApplicationRecord
     include NumbersHelper
 
-    self.table_name = 'shop_order_items'
+    self.table_name = "shop_order_items"
 
-    belongs_to :order, class_name: 'Shop::Order', optional: false, inverse_of: :items
-    belongs_to :product, class_name: 'Shop::Product', optional: false
-    belongs_to :product_variant, class_name: 'Shop::ProductVariant', optional: false
+    belongs_to :order, class_name: "Shop::Order", optional: false, inverse_of: :items
+    belongs_to :product, class_name: "Shop::Product", optional: false
+    belongs_to :product_variant, class_name: "Shop::ProductVariant", optional: false
     belongs_to :product_displayed_in_delivery_sheet,
       -> { displayed_in_delivery_sheets },
-      class_name: 'Shop::Product',
+      class_name: "Shop::Product",
       foreign_key: :product_id,
       optional: true
     has_one :delivery, through: :order
@@ -55,7 +55,7 @@ module Shop
         product.name,
         product_variant.name,
         "#{quantity}x#{cur(item_price, format: '%n')}"
-      ].join(', ')
+      ].join(", ")
     end
 
     def quantity_was

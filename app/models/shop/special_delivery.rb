@@ -3,18 +3,18 @@ module Shop
     include HasFiscalYearScopes
     include TranslatedRichTexts
 
-    self.table_name = 'shop_special_deliveries'
+    self.table_name = "shop_special_deliveries"
 
     attribute :open_last_day_end_time, :time_only
 
     translated_rich_texts :shop_text
 
     has_many :shop_orders,
-      class_name: 'Shop::Order',
+      class_name: "Shop::Order",
       dependent: :destroy,
       as: :delivery
     has_and_belongs_to_many :products,
-      class_name: 'Shop::Product'
+      class_name: "Shop::Product"
 
     default_scope { order(:date) }
 
@@ -47,26 +47,26 @@ module Shop
     def name; display_name; end
 
     def display_number
-      I18n.t 'activerecord.attributes.shop/special_delivery.special'
+      I18n.t "activerecord.attributes.shop/special_delivery.special"
     end
 
     def shop_closing_at
       return unless open
 
       delay_in_days = open_delay_in_days.to_i.days
-      end_time = open_last_day_end_time || Tod::TimeOfDay.parse('23:59:59')
+      end_time = open_last_day_end_time || Tod::TimeOfDay.parse("23:59:59")
       limit = end_time.on(date - delay_in_days)
     end
 
     def shop_open?(depot_id: nil, ignore_closing_at: false)
-      return false unless Current.acp.feature?('shop')
+      return false unless Current.acp.feature?("shop")
       return false unless open
 
       ignore_closing_at || !shop_closing_at.past?
     end
 
     def shop_orders_count
-      shop_orders.select { |o| o.state != 'cart' }.size
+      shop_orders.select { |o| o.state != "cart" }.size
     end
 
     def available_shop_products(_depot)

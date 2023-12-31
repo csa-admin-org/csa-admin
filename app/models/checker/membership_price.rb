@@ -20,7 +20,7 @@ module Checker
         depots_price +
         activity_participations_annual_price_change
       if price != expected_price
-        Sentry.capture_message('Membership price cache error', extra: {
+        Sentry.capture_message("Membership price cache error", extra: {
           membership_id: id,
           price: price,
           expected_price: expected_price,

@@ -1,6 +1,6 @@
 module Shop
   class Producer < ApplicationRecord
-    self.table_name = 'shop_producers'
+    self.table_name = "shop_producers"
 
     include TranslatedRichTexts
 
@@ -8,7 +8,7 @@ module Shop
 
     translated_rich_texts :description
 
-    has_many :products, class_name: 'Shop::Product'
+    has_many :products, class_name: "Shop::Product"
 
     validates :name, presence: true
     validates :website_url, format: {
@@ -17,7 +17,7 @@ module Shop
     }
 
     def self.find(*args)
-      return NullProducer.instance if args.first == 'null'
+      return NullProducer.instance if args.first == "null"
 
       super
     end

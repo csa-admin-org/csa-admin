@@ -11,14 +11,14 @@ class ActivityParticipation < ApplicationRecord
   belongs_to :activity
   belongs_to :member
   belongs_to :session, optional: true
-  belongs_to :validator, class_name: 'Admin', optional: true
+  belongs_to :validator, class_name: "Admin", optional: true
   has_many :invoices, as: :entity
 
-  scope :validated, -> { where(state: 'validated') }
-  scope :rejected, -> { where(state: 'rejected') }
+  scope :validated, -> { where(state: "validated") }
+  scope :rejected, -> { where(state: "rejected") }
   scope :review_not_sent, -> { where(review_sent_at: nil) }
-  scope :not_rejected, -> { where.not(state: 'rejected') }
-  scope :pending, -> { joins(:activity).merge(Activity.past).where(state: 'pending') }
+  scope :not_rejected, -> { where.not(state: "rejected") }
+  scope :pending, -> { joins(:activity).merge(Activity.past).where(state: "pending") }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
   scope :future, -> { joins(:activity).merge(Activity.future) }
   scope :past_current_year, -> { joins(:activity).merge(Activity.past_current_year) }
@@ -29,7 +29,7 @@ class ActivityParticipation < ApplicationRecord
   before_validation :reset_carpooling_data, on: :create, unless: :carpooling
 
   with_options on: :create, if: :carpooling do
-    validates_plausible_phone :carpooling_phone, country_code: 'CH'
+    validates_plausible_phone :carpooling_phone, country_code: "CH"
     validates :carpooling_phone, presence: true
     validates :carpooling_city, presence: true
   end
@@ -64,7 +64,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def state
-    future? ? 'future' : super
+    future? ? "future" : super
   end
 
   %w[validated rejected pending].each do |state|
@@ -99,7 +99,7 @@ class ActivityParticipation < ApplicationRecord
     return if future? || validated?
 
     update!(
-      state: 'validated',
+      state: "validated",
       validated_at: Time.current,
       validator: validator,
       rejected_at: nil,
@@ -110,7 +110,7 @@ class ActivityParticipation < ApplicationRecord
     return if future? || rejected?
 
     update!(
-      state: 'rejected',
+      state: "rejected",
       rejected_at: Time.current,
       validator: validator,
       validated_at: nil,
@@ -123,7 +123,7 @@ class ActivityParticipation < ApplicationRecord
 
   def emails
     if session && !session.admin_id?
-      [session.email]
+      [ session.email ]
     else
       member.emails_array
     end

@@ -16,16 +16,16 @@ class Absence < ApplicationRecord
   after_create_commit :notify_admins!
   after_commit :update_memberships!
 
-  scope :past, -> { where('ended_on < ?', Time.current) }
-  scope :future, -> { where('started_on > ?', Time.current) }
-  scope :present_or_future, -> { where('ended_on > ?', Time.current) }
+  scope :past, -> { where("ended_on < ?", Time.current) }
+  scope :future, -> { where("started_on > ?", Time.current) }
+  scope :present_or_future, -> { where("ended_on > ?", Time.current) }
   scope :current, -> { including_date(Date.current) }
   scope :including_date, ->(date) {
-    where('started_on <= ? AND ended_on >= ?', date, date)
+    where("started_on <= ? AND ended_on >= ?", date, date)
   }
   scope :during_year, ->(year) {
     fy = Current.acp.fiscal_year_for(year)
-    where('started_on >= ? AND ended_on <= ?', fy.range.min, fy.range.max)
+    where("started_on >= ? AND ended_on <= ?", fy.range.min, fy.range.max)
   }
 
   def self.min_started_on
@@ -55,7 +55,7 @@ class Absence < ApplicationRecord
   def update_memberships!
     member
       .memberships
-      .where('(started_on <= ? AND ended_on >= ?) OR (started_on <= ? AND ended_on >= ?)',
+      .where("(started_on <= ? AND ended_on >= ?) OR (started_on <= ? AND ended_on >= ?)",
         started_on,
         started_on,
         ended_on,

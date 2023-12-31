@@ -8,7 +8,7 @@ ActiveAdmin.register Basket do
   csv do
     delivery = Delivery.find(params[:q][:delivery_id_eq])
     shop_orders =
-      if Current.acp.feature?('shop')
+      if Current.acp.feature?("shop")
         delivery.shop_orders.includes(:member, items: { product: :basket_complement })
       else
         Shop::Order.none
@@ -18,8 +18,8 @@ ActiveAdmin.register Basket do
     column(:membership_id) { |b| b.membership_id }
     column(:member_id) { |b| b.member.id }
     column(:name) { |b| b.member.name }
-    column(:emails) { |b| b.member.emails_array.join(', ') }
-    column(:phones) { |b| b.member.phones_array.map(&:phony_formatted).join(', ') }
+    column(:emails) { |b| b.member.emails_array.join(", ") }
+    column(:phones) { |b| b.member.phones_array.map(&:phony_formatted).join(", ") }
     column(:address) { |b| b.member.final_delivery_address }
     column(:zip) { |b| b.member.final_delivery_zip }
     column(:city) { |b| b.member.final_delivery_city }
@@ -28,7 +28,7 @@ ActiveAdmin.register Basket do
     column(:depot_id)
     column(:depot) { |b| b.depot&.public_name }
     column(:basket_size_id)
-    column(I18n.t('attributes.basket_size')) { |b| b.basket_size.name }
+    column(I18n.t("attributes.basket_size")) { |b| b.basket_size.name }
     column(:quantity) { |b| b.quantity }
     column(:description) { |b| b.basket_description(public_name: true) }
     if BasketComplement.any?
@@ -43,9 +43,9 @@ ActiveAdmin.register Basket do
         b.complements_description(public_name: true)
       }
     end
-    if Current.acp.feature?('shop')
-      column(I18n.t('shop.title_orders', count: 2)) { |b|
-        shop_orders.any? { |o| o.member_id == b.member.id } ? 'X' : nil
+    if Current.acp.feature?("shop")
+      column(I18n.t("shop.title_orders", count: 2)) { |b|
+        shop_orders.any? { |o| o.member_id == b.member.id } ? "X" : nil
       }
       if BasketComplement.any?
         column("#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})") { |b|
@@ -58,7 +58,7 @@ ActiveAdmin.register Basket do
           shop_products.map { |p|
             quantity = order&.items&.find { |i| i.product_id == p.id }&.quantity
             quantity ? "#{quantity}x #{p.name_with_single_variant}" : nil
-          }.compact.join(', ')
+          }.compact.join(", ")
         }
       end
     end
@@ -73,8 +73,8 @@ ActiveAdmin.register Basket do
         memberships_path(q: { member_id_eq: basket.membership.member_id }, scope: :all)),
       auto_link(basket.membership)
     ]
-    if params['action'].in? %W[edit]
-      links << [Basket.model_name.human, basket.delivery.display_name(format: :number)].join(' ')
+    if params["action"].in? %W[edit]
+      links << [ Basket.model_name.human, basket.delivery.display_name(format: :number) ].join(" ")
     end
     links
   end
@@ -84,7 +84,7 @@ ActiveAdmin.register Basket do
     f.inputs [
       delivery_collection.many? ? Delivery.model_name.human(count: 1) : nil,
       Depot.model_name.human(count: 1)
-    ].compact.to_sentence, 'data-controller' => 'form-reset' do
+    ].compact.to_sentence, "data-controller" => "form-reset" do
       if delivery_collection.many?
         f.input :delivery,
           collection: delivery_collection,
@@ -92,43 +92,43 @@ ActiveAdmin.register Basket do
       end
       f.input :depot,
         prompt: true,
-        input_html: { data: { action: 'form-reset#reset' } }
+        input_html: { data: { action: "form-reset#reset" } }
       f.input :depot_price,
         hint: true,
         required: false,
-        input_html: { data: { form_reset_target: 'input' } }
+        input_html: { data: { form_reset_target: "input" } }
     end
     f.inputs [
       Basket.model_name.human(count: 1),
       BasketComplement.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-    ].compact.to_sentence, 'data-controller' => 'form-reset' do
+    ].compact.to_sentence, "data-controller" => "form-reset" do
       f.input :basket_size,
         prompt: true,
-        input_html: { data: { action: 'form-reset#reset' } }
+        input_html: { data: { action: "form-reset#reset" } }
       f.input :basket_price,
         hint: true,
         required: false,
-        input_html: { data: { form_reset_target: 'input' } }
-      if Current.acp.feature?('basket_price_extra')
+        input_html: { data: { form_reset_target: "input" } }
+      if Current.acp.feature?("basket_price_extra")
         f.input :price_extra, required: true, label: Current.acp.basket_price_extra_title
       end
       f.input :quantity
       if BasketComplement.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
-          ff.inputs class: 'blank', 'data-controller' => 'form-reset' do
+          ff.inputs class: "blank", "data-controller" => "form-reset" do
             ff.input :basket_complement,
               collection: basket_complements_collection(f.object),
               prompt: true,
               input_html: {
                 data: {
-                  action: 'form-reset#reset',
-                  form_select_options_filter_target: 'select'
+                  action: "form-reset#reset",
+                  form_select_options_filter_target: "select"
                 }
               }
             ff.input :price,
               hint: true,
               required: false,
-              input_html: { data: { form_reset_target: 'input' } }
+              input_html: { data: { form_reset_target: "input" } }
             ff.input :quantity
           end
         end
@@ -158,7 +158,7 @@ ActiveAdmin.register Basket do
     end
 
     def scoped_collection
-      if params[:action] == 'index'
+      if params[:action] == "index"
         end_of_association_chain.not_absent.not_empty
       else
         super
@@ -168,10 +168,10 @@ ActiveAdmin.register Basket do
     def csv_filename
       delivery = Delivery.find(params[:q][:delivery_id_eq])
       [
-        t('delivery.delivery'),
+        t("delivery.delivery"),
         delivery.display_number,
-        delivery.date.strftime('%Y%m%d')
-      ].join('-') + '.csv'
+        delivery.date.strftime("%Y%m%d")
+      ].join("-") + ".csv"
     end
   end
 end

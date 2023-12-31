@@ -5,7 +5,7 @@ FactoryBot.define do
     items_attributes {
       product = create(:shop_product)
       {
-        '0' => {
+        "0" => {
           product_id: product.id,
           product_variant_id: product.variants.first.id,
           quantity: 1

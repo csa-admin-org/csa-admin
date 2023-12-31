@@ -15,7 +15,7 @@ class Permission < ApplicationRecord
     create!(
       id: SUPERADMIN_ID,
       names: ACP.languages.map { |l|
-        [l, I18n.t("permissions.superadmin.name", locale: l)]
+        [ l, I18n.t("permissions.superadmin.name", locale: l) ]
       }.to_h)
     connection.reset_pk_sequence!(table_name)
   end
@@ -81,7 +81,7 @@ class Permission < ApplicationRecord
 
   def admins_count
     # Do no count master admin
-    if superadmin? && ENV['MASTER_ADMIN_EMAIL']
+    if superadmin? && ENV["MASTER_ADMIN_EMAIL"]
       admins.count - 1
     else
       admins.count

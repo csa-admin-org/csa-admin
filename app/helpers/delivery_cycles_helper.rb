@@ -11,13 +11,13 @@ module DeliveryCyclesHelper
 
   def week_numbers_collection
     DeliveryCycle.week_numbers.map { |enum, _|
-      [I18n.t("delivery_cycle.week_numbers.#{enum}"), enum]
+      [ I18n.t("delivery_cycle.week_numbers.#{enum}"), enum ]
     }
   end
 
   def results_collection
     col = DeliveryCycle.results.map { |enum, _|
-      [I18n.t("delivery_cycle.results.#{enum}"), enum]
+      [ I18n.t("delivery_cycle.results.#{enum}"), enum ]
     }
     # Move "all_but_first" just after "all"
     col.insert(1, col.delete_at(7))

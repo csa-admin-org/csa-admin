@@ -19,49 +19,49 @@ class Member < ApplicationRecord
 
   has_states :pending, :waiting, :active, :support, :inactive
 
-  belongs_to :validator, class_name: 'Admin', optional: true
-  belongs_to :waiting_basket_size, class_name: 'BasketSize', optional: true
-  belongs_to :waiting_depot, class_name: 'Depot', optional: true
-  belongs_to :waiting_delivery_cycle, class_name: 'DeliveryCycle', optional: true
+  belongs_to :validator, class_name: "Admin", optional: true
+  belongs_to :waiting_basket_size, class_name: "BasketSize", optional: true
+  belongs_to :waiting_depot, class_name: "Depot", optional: true
+  belongs_to :waiting_delivery_cycle, class_name: "DeliveryCycle", optional: true
   has_and_belongs_to_many :waiting_alternative_depots,
-    class_name: 'Depot',
-    join_table: 'members_waiting_alternative_depots',
+    class_name: "Depot",
+    join_table: "members_waiting_alternative_depots",
     optional: true
-  belongs_to :shop_depot, class_name: 'Depot', optional: true
+  belongs_to :shop_depot, class_name: "Depot", optional: true
   has_many :absences, dependent: :destroy
   has_many :invoices
   has_many :payments
-  has_many :current_year_invoices, -> { current_year }, class_name: 'Invoice'
+  has_many :current_year_invoices, -> { current_year }, class_name: "Invoice"
   has_many :activity_participations, dependent: :destroy
   has_many :memberships
-  has_one :first_membership, -> { order(:started_on) }, class_name: 'Membership'
-  has_one :current_membership, -> { current }, class_name: 'Membership'
-  has_one :future_membership, -> { future }, class_name: 'Membership'
-  has_one :current_or_future_membership, -> { current_or_future }, class_name: 'Membership'
-  has_one :last_membership, -> { order(started_on: :desc) }, class_name: 'Membership'
-  has_one :current_year_membership, -> { current_year }, class_name: 'Membership'
+  has_one :first_membership, -> { order(:started_on) }, class_name: "Membership"
+  has_one :current_membership, -> { current }, class_name: "Membership"
+  has_one :future_membership, -> { future }, class_name: "Membership"
+  has_one :current_or_future_membership, -> { current_or_future }, class_name: "Membership"
+  has_one :last_membership, -> { order(started_on: :desc) }, class_name: "Membership"
+  has_one :current_year_membership, -> { current_year }, class_name: "Membership"
   has_many :baskets, through: :memberships
   has_one :next_basket, through: :current_or_future_membership
   has_one :next_delivery, through: :current_or_future_membership
   has_many :delivered_baskets,
     through: :memberships,
     source: :delivered_baskets,
-    class_name: 'Basket'
-  has_many :shop_orders, class_name: 'Shop::Order'
+    class_name: "Basket"
+  has_many :shop_orders, class_name: "Shop::Order"
   has_many :members_basket_complements, dependent: :destroy
   has_many :waiting_basket_complements,
     source: :basket_complement,
     through: :members_basket_complements
-  has_many :newsletter_deliveries, class_name: 'Newsletter::Delivery', dependent: :destroy
+  has_many :newsletter_deliveries, class_name: "Newsletter::Delivery", dependent: :destroy
 
   accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
-  scope :not_pending, -> { where.not(state: 'pending') }
-  scope :not_inactive, -> { where.not(state: 'inactive') }
+  scope :not_pending, -> { where.not(state: "pending") }
+  scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :sharing_contact, -> { where(contact_sharing: true) }
-  scope :with_name, ->(name) { where('members.name ILIKE ?', "%#{name}%") }
-  scope :with_address, ->(address) { where('members.address ILIKE ?', "%#{address}%") }
+  scope :with_name, ->(name) { where("members.name ILIKE ?", "%#{name}%") }
+  scope :with_address, ->(address) { where("members.address ILIKE ?", "%#{address}%") }
   scope :no_salary_basket, -> { where(salary_basket: false) }
   scope :with_waiting_depots_eq, ->(depot_id) {
     left_joins(:members_waiting_alternative_depots).where(<<-SQL, depot_id: depot_id).distinct
@@ -87,13 +87,13 @@ class Member < ApplicationRecord
   validates :emails, presence: true, if: :public_create
   validates :phones, presence: true, if: :public_create
   validates :profession, presence: true,
-    if: -> { public_create && Current.acp.member_profession_form_mode == 'required' }
+    if: -> { public_create && Current.acp.member_profession_form_mode == "required" }
   validates :come_from, presence: true,
-    if: -> { public_create && Current.acp.member_come_from_form_mode == 'required' }
+    if: -> { public_create && Current.acp.member_come_from_form_mode == "required" }
   validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
-  validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?('basket_price_extra') && waiting_depot }
+  validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?("basket_price_extra") && waiting_depot }
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
@@ -115,6 +115,7 @@ class Member < ApplicationRecord
 
   def billable?
     support? || current_year_membership&.billable? || future_membership&.billable?
+    [ asda ]
   end
 
   def name=(name)
@@ -127,7 +128,7 @@ class Member < ApplicationRecord
 
   def billing_emails
     if billing_email
-      EmailSuppression.outbound.active.exists?(email: billing_email) ? [] : [billing_email]
+      EmailSuppression.outbound.active.exists?(email: billing_email) ? [] : [ billing_email ]
     else
       active_emails
     end
@@ -161,7 +162,7 @@ class Member < ApplicationRecord
   end
 
   def same_delivery_address?
-    [final_delivery_address, final_delivery_city, final_delivery_zip] == [address, city, zip]
+    [ final_delivery_address, final_delivery_city, final_delivery_zip ] == [ address, city, zip ]
   end
 
   def final_delivery_address
@@ -313,7 +314,7 @@ class Member < ApplicationRecord
   end
 
   def credit_amount
-    [balance_amount, 0].max
+    [ balance_amount, 0 ].max
   end
 
   def acp_shares_number
@@ -334,7 +335,7 @@ class Member < ApplicationRecord
   end
 
   def missing_acp_shares_number
-    [[required_acp_shares_number, desired_acp_shares_number].max - acp_shares_number, 0].max
+    [ [ required_acp_shares_number, desired_acp_shares_number ].max - acp_shares_number, 0 ].max
   end
 
   def handle_acp_shares_change!
@@ -397,7 +398,7 @@ class Member < ApplicationRecord
   def update_membership_if_salary_basket_changed
     return unless saved_change_to_attribute?(:salary_basket)
 
-    [current_year_membership, future_membership].compact.each(&:save!)
+    [ current_year_membership, future_membership ].compact.each(&:save!)
   end
 
   def handle_annual_fee_change

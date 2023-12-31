@@ -19,7 +19,7 @@ class Members::MembershipsController < Members::BaseController
   # PATCH /memberships/:id
   def update
     @membership.member_update!(membership_params)
-    redirect_to members_memberships_path, notice: t('flash.actions.update.notice')
+    redirect_to members_memberships_path, notice: t("flash.actions.update.notice")
   end
 
   def load_membership

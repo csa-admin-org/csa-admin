@@ -1,13 +1,13 @@
 ActiveAdmin.register Shop::Tag do
   menu false
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   breadcrumb do
     links = [
-      t('active_admin.menu.shop'),
+      t("active_admin.menu.shop"),
       link_to(Shop::Product.model_name.human(count: 2), shop_products_path)
     ]
-    unless params['action'] == 'index'
+    unless params["action"] == "index"
       links << link_to(Shop::Tag.model_name.human(count: 2), shop_tags_path)
     end
     links
@@ -16,7 +16,7 @@ ActiveAdmin.register Shop::Tag do
   includes :products
 
   index download_links: false do
-    column :name, ->(tag) { link_to tag.display_name, [:edit, tag] }
+    column :name, ->(tag) { link_to tag.display_name, [ :edit, tag ] }
     column :products, ->(tag) {
       link_to(
         tag.products.size,
@@ -24,14 +24,14 @@ ActiveAdmin.register Shop::Tag do
           q: { tags_id_eq: tag.id }))
     }
     if authorized?(:update, Shop::Tag)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       translated_input(f, :names)
-      f.input :emoji, input_html: { data: { controller: 'emoji-button', emoji_button_target: 'button', action: "click->emoji-button#toggle" }, class: 'emoji-button', size: 1 }
+      f.input :emoji, input_html: { data: { controller: "emoji-button", emoji_button_target: "button", action: "click->emoji-button#toggle" }, class: "emoji-button", size: 1 }
     end
     f.actions
   end

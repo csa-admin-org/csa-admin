@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :member do
     name { Faker::Name.unique.name }
-    emails { [Faker::Internet.unique.email, Faker::Internet.unique.email].join(', ') }
-    phones { Faker::Base.unique.numerify('+41 ## ### ## ##') }
+    emails { [ Faker::Internet.unique.email, Faker::Internet.unique.email ].join(", ") }
+    phones { Faker::Base.unique.numerify("+41 ## ### ## ##") }
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
@@ -15,17 +15,16 @@ FactoryBot.define do
     created_at { Time.utc(2014) } # no trial by default
 
     trait :pending do
-      state { 'pending' }
+      state { "pending" }
       validated_at { nil }
       validator { nil }
       waiting_basket_size { create(:basket_size) }
       waiting_basket_price_extra { 0 }
       waiting_depot { create(:depot) }
-
     end
 
     trait :waiting do
-      state { 'waiting' }
+      state { "waiting" }
       waiting_started_at { Time.current }
       waiting_basket_size { create(:basket_size) }
       waiting_basket_price_extra { 0 }
@@ -33,18 +32,18 @@ FactoryBot.define do
     end
 
     trait :trial do
-      state { 'active' }
+      state { "active" }
       created_at { Time.current.beginning_of_year }
       after :create do |member|
         DeliveriesHelper.create_deliveries(1)
         create(:membership,
           member: member,
-          started_on: [Time.current.beginning_of_year, Delivery.last.date - 3.weeks].max)
+          started_on: [ Time.current.beginning_of_year, Delivery.last.date - 3.weeks ].max)
       end
     end
 
     trait :active do
-      state { 'active' }
+      state { "active" }
       activated_at { Time.current }
       after :create do |member, evaluator|
         unless evaluator.shop_depot
@@ -55,13 +54,13 @@ FactoryBot.define do
     end
 
     trait :support_annual_fee do
-      state { 'support' }
+      state { "support" }
       billing_year_division { 1 }
       annual_fee { Current.acp.annual_fee }
     end
 
     trait :support_acp_share do
-      state { 'support' }
+      state { "support" }
       billing_year_division { 1 }
 
       transient do
@@ -75,7 +74,7 @@ FactoryBot.define do
     end
 
     trait :inactive do
-      state { 'inactive' }
+      state { "inactive" }
       annual_fee { nil }
     end
   end

@@ -1,4 +1,4 @@
-require 'rounding'
+require "rounding"
 
 class InvoiceItem < ApplicationRecord
   belongs_to :invoice

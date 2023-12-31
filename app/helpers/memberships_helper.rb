@@ -1,16 +1,16 @@
 module MembershipsHelper
   def basket_description(basket, text_only: false)
-    parts = [basket_size_description(basket, text_only: text_only)]
+    parts = [ basket_size_description(basket, text_only: text_only) ]
     if basket.baskets_basket_complements.any?
       parts << basket_complements_description(basket.baskets_basket_complements, text_only: text_only)
     end
-    parts.join(', ')
+    parts.join(", ")
   end
 
   def membership_short_period(membership)
     %i[started_on ended_on].map { |d|
       I18n.l(membership.send(d), format: :number)
-    }.join(' – ')
+    }.join(" – ")
   end
 
   def basket_size_description(object, text_only: false, public_name: true)
@@ -18,7 +18,7 @@ module MembershipsHelper
     when Basket, Membership
       object.basket_description(public_name: public_name)
     else
-      content_tag(:em, t('activerecord.models.basket_size.none'), class: 'empty') unless text_only
+      content_tag(:em, t("activerecord.models.basket_size.none"), class: "empty") unless text_only
     end
   end
 
@@ -33,7 +33,7 @@ module MembershipsHelper
     if names.present?
       names.to_sentence
     elsif !text_only
-      content_tag :em, t('activerecord.models.basket_complement.none'), class: 'empty'
+      content_tag :em, t("activerecord.models.basket_complement.none"), class: "empty"
     end
   end
 
@@ -46,11 +46,11 @@ module MembershipsHelper
       .sort
       .map { |price, bbs|
         "#{bbs.sum { |q, _| q }}x #{precise_cur(price).strip}"
-      }.join(' + ')
+      }.join(" + ")
   end
 
   def show_basket_price_extras?
-    Current.acp.feature?('basket_price_extra') &&
+    Current.acp.feature?("basket_price_extra") &&
       Current.acp.basket_price_extra_public_title.present? &&
       Current.acp.basket_price_extras?
   end
@@ -70,26 +70,26 @@ module MembershipsHelper
         info = "#{bbs.sum(&:quantity)}x #{price}"
         if Current.acp.basket_price_extra_dynamic_pricing?
           label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
-          extra = label_template.render('extra' => price_extra).strip
+          extra = label_template.render("extra" => price_extra).strip
           if highlight_current && membership.basket_price_extra == price_extra
             extra = content_tag(:strong, extra)
           end
           info = "#{info}, #{extra}"
         end
         info
-      }.join(' + ').html_safe
+      }.join(" + ").html_safe
   end
 
   def membership_basket_complements_price_info(membership)
     membership.baskets
       .billable
       .joins(baskets_basket_complements: :basket_complement)
-      .pluck('baskets_basket_complements.quantity', 'baskets_basket_complements.price')
+      .pluck("baskets_basket_complements.quantity", "baskets_basket_complements.price")
       .group_by { |_, price| price }
       .sort
       .map { |price, bbcs|
         "#{bbcs.sum { |q, _| q }}x#{precise_cur(price)}"
-      }.join(' + ')
+      }.join(" + ")
   end
 
   def basket_complement_price_info(membership, basket_complement)
@@ -97,12 +97,12 @@ module MembershipsHelper
       .billable
       .joins(baskets_basket_complements: :basket_complement)
       .where(baskets_basket_complements: { basket_complement: basket_complement })
-      .pluck('baskets_basket_complements.quantity', 'baskets_basket_complements.price')
+      .pluck("baskets_basket_complements.quantity", "baskets_basket_complements.price")
       .group_by { |_, price| price }
       .sort
       .map { |price, bbcs|
         "#{bbcs.sum { |q, _| q }}x#{precise_cur(price)}"
-      }.join(' + ')
+      }.join(" + ")
   end
 
   def depots_price_info(baskets)
@@ -114,21 +114,21 @@ module MembershipsHelper
       .sort
       .map { |price, bbs|
         "#{bbs.sum { |q, _| q }}x#{precise_cur(price)}"
-      }.join(' + ')
+      }.join(" + ")
   end
 
   def renewal_decisions_collection
     [
       [
-        content_tag(:span, class: 'flex flex-col') {
+        content_tag(:span, class: "flex flex-col") {
           content_tag(:span, t(".renewal.options.renew"),
-            class: '') +
+            class: "") +
           content_tag(:span, t(".renewal.options.renew_hint"),
-            class: 'hint text-sm italic text-gray-400 dark:text-gray-600')
+            class: "hint text-sm italic text-gray-400 dark:text-gray-600")
         }.html_safe,
         :renew
       ],
-      [t(".renewal.options.cancel"), :cancel]
+      [ t(".renewal.options.cancel"), :cancel ]
     ]
   end
 
@@ -145,7 +145,7 @@ module MembershipsHelper
   private
 
   def precise_cur(number)
-    precision = number.to_s.split('.').last.size > 2 ? 3 : 2
+    precision = number.to_s.split(".").last.size > 2 ? 3 : 2
     cur(number, unit: false, precision: precision)
   end
 end

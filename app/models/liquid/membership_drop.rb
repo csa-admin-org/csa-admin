@@ -28,19 +28,19 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def activity_participations_demanded_count
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
     @membership.activity_participations_demanded
   end
 
   def activity_participations_accepted_count
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
     @membership.activity_participations_accepted
   end
 
   def activity_participations_missing_count
-    return unless Current.acp.feature?('activity')
+    return unless Current.acp.feature?("activity")
 
     @membership.missing_activity_participations
   end

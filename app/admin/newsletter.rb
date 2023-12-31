@@ -1,6 +1,6 @@
 ActiveAdmin.register Newsletter do
   menu priority: 99, label: -> {
-    inline_svg_tag('admin/envelope.svg', size: '20', title: Newsletter.model_name.human)
+    inline_svg_tag("admin/envelope.svg", size: "20", title: Newsletter.model_name.human)
   }
 
   filter :id
@@ -33,12 +33,12 @@ ActiveAdmin.register Newsletter do
         status_tag :draft
       end
     }
-    actions defaults: true, class: 'col-actions-4' do |newsletter|
-      link_to(t('.duplicate'), new_newsletter_path(newsletter_id: newsletter.id), class: 'duplicate_link', title: t('.duplicate'))
+    actions defaults: true, class: "col-actions-4" do |newsletter|
+      link_to(t(".duplicate"), new_newsletter_path(newsletter_id: newsletter.id), class: "duplicate_link", title: t(".duplicate"))
     end
   end
 
-  sidebar_handbook_link('newsletters')
+  sidebar_handbook_link("newsletters")
 
   show title: ->(n) { n.subject.truncate(40) } do |newsletter|
     columns do
@@ -55,7 +55,7 @@ ActiveAdmin.register Newsletter do
           row(:template)
           row(:status) {
             if newsletter.ongoing_delivery?
-              status_tag t('.ongoing_delivery')
+              status_tag t(".ongoing_delivery")
             else
               status_tag newsletter.sent_at? ? :sent : :draft
             end
@@ -69,7 +69,7 @@ ActiveAdmin.register Newsletter do
         end
       end
       column do
-        panel t('.suppressed_emails', count: newsletter.suppressed_emails.size) do
+        panel t(".suppressed_emails", count: newsletter.suppressed_emails.size) do
           if newsletter.suppressed_emails.any?
             members = newsletter.all_members
             active_suppressions = EmailSuppression.active.where(email: newsletter.suppressed_emails)
@@ -82,7 +82,7 @@ ActiveAdmin.register Newsletter do
                   content_tag :strike, email
                 end
               }
-              column(t('.active_suppression_reasons')) { |email|
+              column(t(".active_suppression_reasons")) { |email|
                 member = members.find { |m| m.emails_array.include?(email) }
                 reasons = active_suppressions.select { |s| s.email == email }.map(&:reason).uniq
                 if member
@@ -99,28 +99,28 @@ ActiveAdmin.register Newsletter do
               }
             end
             if newsletter.sent?
-              para(em t('.suppressed_emails_sent_description'))
+              para(em t(".suppressed_emails_sent_description"))
             else
-              para(em t('.suppressed_emails_description'))
+              para(em t(".suppressed_emails_description"))
             end
           else
-            em t('.none')
+            em t(".none")
           end
         end
       end
     end
-    columns 'data-controller' => 'iframe-resize' do
+    columns "data-controller" => "iframe-resize" do
       Current.acp.languages.each do |locale|
         column do
-          title = t('.preview')
+          title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           panel title do
             iframe(
               srcdoc: newsletter.mail_preview(locale),
-              scrolling: 'no',
-              class: 'mail_preview',
+              scrolling: "no",
+              class: "mail_preview",
               id: "mail_preview_#{locale}",
-              'data-iframe-resize-target' => 'iframe')
+              "data-iframe-resize-target" => "iframe")
           end
         end
       end
@@ -128,22 +128,22 @@ ActiveAdmin.register Newsletter do
   end
 
   form data: {
-    controller: 'code-editor form-select-hidder auto-save',
-    code_editor_target: 'form',
-    code_editor_preview_path_value: '/newsletters/preview.js',
-    auto_save_target: 'form',
-    action: 'change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage'
+    controller: "code-editor form-select-hidder auto-save",
+    code_editor_target: "form",
+    code_editor_preview_path_value: "/newsletters/preview.js",
+    auto_save_target: "form",
+    action: "change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage"
   } do |f|
     newsletter = f.object
-    div class: 'form-warning', data: { 'auto-save-target' => 'warningMessage' } do
-      span t('newsletters.auto_save_recovered')
+    div class: "form-warning", data: { "auto-save-target" => "warningMessage" } do
+      span t("newsletters.auto_save_recovered")
     end
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :id, as: :hidden
       translated_input(f, :subjects,
-        hint: t('formtastic.hints.liquid').html_safe,
+        hint: t("formtastic.hints.liquid").html_safe,
         input_html: {
-          data: { action: 'code-editor#updatePreview' }
+          data: { action: "code-editor#updatePreview" }
         })
       f.input :audience, collection: newsletter_audience_collection, prompt: true
       errors_on(self, f, :attachments)
@@ -151,23 +151,23 @@ ActiveAdmin.register Newsletter do
       f.input :from,
         as: :string,
         placeholder: Current.acp.email_default_from.html_safe,
-        hint: t('formtastic.hints.newsletter.from_html', hostname: Current.acp.email_hostname)
+        hint: t("formtastic.hints.newsletter.from_html", hostname: Current.acp.email_hostname)
 
       f.has_many :attachments, allow_destroy: true do |a|
         if a.object.persisted?
-          content_tag :span, display_attachment(a.object.file), class: 'filename'
+          content_tag :span, display_attachment(a.object.file), class: "filename"
         else
           a.input :file, as: :file
         end
       end
     end
 
-    f.inputs t('.content') do
+    f.inputs t(".content") do
       f.input :template,
         prompt: true,
         include_blank: false,
         input_html: {
-          data: { action: 'form-select-hidder#toggle code-editor#updatePreview' }
+          data: { action: "form-select-hidder#toggle code-editor#updatePreview" }
         }
 
       errors_on(self, f, :blocks)
@@ -181,16 +181,16 @@ ActiveAdmin.register Newsletter do
             b.object.titles[locale] ||
               label_with_language(b.object.block_id.titleize, locale)
           },
-          hint: t('formtastic.hints.liquid').html_safe,
+          hint: t("formtastic.hints.liquid").html_safe,
           wrapper_html: {
             data: {
-              form_select_hidder_target: 'element',
+              form_select_hidder_target: "element",
               element_id: b.object.template_id
             },
-            style: ('display: none' unless b.object.template_id == f.object.template.id)
+            style: ("display: none" unless b.object.template_id == f.object.template.id)
           },
           input_html: {
-            data: { action: 'trix-change->code-editor#updatePreview' }
+            data: { action: "trix-change->code-editor#updatePreview" }
           })
       end
 
@@ -199,33 +199,33 @@ ActiveAdmin.register Newsletter do
         placeholder: ->(locale) { Current.acp.email_signatures[locale]&.html_safe },
         input_html: {
           rows: 3,
-          data: { action: 'code-editor#updatePreview' }
+          data: { action: "code-editor#updatePreview" }
         })
     end
-    columns 'data-controller' => 'iframe-resize' do
+    columns "data-controller" => "iframe-resize" do
       Current.acp.languages.each do |locale|
         column do
-          title = t('.preview')
+          title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           f.inputs title do
-            div class: 'iframe-wrapper' do
+            div class: "iframe-wrapper" do
               iframe(
                 srcdoc: newsletter.mail_preview(locale),
-                scrolling: 'no',
-                class: 'mail_preview',
+                scrolling: "no",
+                class: "mail_preview",
                 id: "mail_preview_#{locale}",
-                'data-iframe-resize-target' => 'iframe')
+                "data-iframe-resize-target" => "iframe")
             end
             translated_input(f, :liquid_data_preview_yamls,
               locale: locale,
               as: :text,
-              hint: t('formtastic.hints.liquid_data_preview'),
-              wrapper_html: { class: 'ace-editor' },
+              hint: t("formtastic.hints.liquid_data_preview"),
+              wrapper_html: { class: "ace-editor" },
               input_html: {
-                class: 'ace-editor',
+                class: "ace-editor",
                 data: {
-                  mode: 'yaml',
-                  code_editor_target: 'editor'
+                  mode: "yaml",
+                  code_editor_target: "editor"
                 },
                 name: "newsletter[liquid_data_preview_yamls][#{locale}]"
               })
@@ -234,7 +234,7 @@ ActiveAdmin.register Newsletter do
       end
     end
     f.actions do
-      action(:submit, label: t('.submit_newsletter'))
+      action(:submit, label: t(".submit_newsletter"))
       cancel_link
     end
   end
@@ -246,7 +246,7 @@ ActiveAdmin.register Newsletter do
     *I18n.available_locales.map { |l| "subject_#{l}" },
     *I18n.available_locales.map { |l| "signature_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,
-    attachments_attributes: [:id, :file, :_destroy],
+    attachments_attributes: [ :id, :file, :_destroy ],
     blocks_attributes: [
       :id,
       :block_id,
@@ -257,22 +257,22 @@ ActiveAdmin.register Newsletter do
   collection_action :preview, method: :post do
     @newsletter = resource_class.new
     assign_attributes(resource, permitted_params[:newsletter])
-    render 'mail_templates/preview'
+    render "mail_templates/preview"
   end
 
   action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
-    link_to(t('.duplicate'), new_newsletter_path(newsletter_id: resource.id), class: 'duplicate_link')
+    link_to(t(".duplicate"), new_newsletter_path(newsletter_id: resource.id), class: "duplicate_link")
   end
 
-  action_item :send_email, class: 'left-margin', only: :show, if: -> { authorized?(:send_email, resource) } do
-    button_to t('.send_email'), send_email_newsletter_path(resource),
-      form: { data: { controller: 'disable', disable_with_value: t('formtastic.processing') } },
-      data: { confirm: t('.newsletter.confirm', members_count: resource.members_count) }
+  action_item :send_email, class: "left-margin", only: :show, if: -> { authorized?(:send_email, resource) } do
+    button_to t(".send_email"), send_email_newsletter_path(resource),
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      data: { confirm: t(".newsletter.confirm", members_count: resource.members_count) }
   end
 
   member_action :send_email, method: :post do
     resource.send!
-    redirect_to resource_path, notice: t('.flash.notice')
+    redirect_to resource_path, notice: t(".flash.notice")
   end
 
   controller do
@@ -290,7 +290,7 @@ ActiveAdmin.register Newsletter do
     end
 
     def apply_sorting(chain)
-      params[:order] ||= 'sent_at_desc' if params[:scope].in?(%w[all sent])
+      params[:order] ||= "sent_at_desc" if params[:scope].in?(%w[all sent])
       super
     end
 
@@ -298,7 +298,7 @@ ActiveAdmin.register Newsletter do
       attrs = Array(attributes).first
       template_id = attrs[:newsletter_template_id]
       if attrs[:blocks_attributes]
-        if params[:action] == 'preview'
+        if params[:action] == "preview"
           attrs[:blocks_attributes].select! { |_, v| v[:template_id] == template_id }
           attrs[:blocks_attributes].each { |_, v| v.delete(:id) }
         else
@@ -309,7 +309,7 @@ ActiveAdmin.register Newsletter do
           end
         end
       end
-      super resource, [attrs]
+      super resource, [ attrs ]
     end
   end
 end

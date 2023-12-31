@@ -19,7 +19,7 @@ module API
 
       def payload
         {
-          delivery: @delivery.as_json(only: [:id, :date]),
+          delivery: @delivery.as_json(only: [ :id, :date ]),
           products: @basket_contents.map { |content|
             {
               id: content.product_id,

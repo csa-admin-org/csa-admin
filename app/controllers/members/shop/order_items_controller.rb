@@ -15,7 +15,7 @@ class Members::Shop::OrderItemsController < Members::Shop::BaseController
         format.html { redirect_to shop_path }
         format.turbo_stream
       else
-        format.html { render 'members/shop/products/index', status: :unprocessable_entity }
+        format.html { render "members/shop/products/index", status: :unprocessable_entity }
       end
     end
   end
@@ -25,9 +25,9 @@ class Members::Shop::OrderItemsController < Members::Shop::BaseController
   def find_order
     @order ||=
       Shop::Order
-      .where(delivery: [current_shop_delivery, next_shop_delivery, *shop_special_deliveries].compact)
+      .where(delivery: [ current_shop_delivery, next_shop_delivery, *shop_special_deliveries ].compact)
       .where(member_id: current_member.id)
-        .includes(items: [:product, :product_variant])
+        .includes(items: [ :product, :product_variant ])
         .find(params[:order_id])
   end
 

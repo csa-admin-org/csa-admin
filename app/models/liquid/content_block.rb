@@ -17,7 +17,7 @@ class Liquid::ContentBlock < Liquid::Block
 
   def render(context)
     content = (context["#{@id}_content"] || super).strip
-    return '' if content.blank?
+    return "" if content.blank?
 
     <<-HTML
       <div class="content-block" id="#{ @id }">
@@ -31,8 +31,8 @@ class Liquid::ContentBlock < Liquid::Block
 
   def parse_markup(markup)
     markup.scan(Liquid::TagAttributes).map do |key, value|
-      value = value.gsub(/\A['":]|['"]\z/, '').strip if value
-      [key, value]
+      value = value.gsub(/\A['":]|['"]\z/, "").strip if value
+      [ key, value ]
     end.to_h.symbolize_keys
   end
 

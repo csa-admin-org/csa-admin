@@ -18,6 +18,6 @@ class CreatePayments < ActiveRecord::Migration[5.1]
     add_column :invoices, :canceled_at, :datetime
     add_column :invoices, :state, :string, default: 'not_sent', null: false
     add_index :invoices, :state
-    add_index :invoices, [:date, :member_id], unique: true
+    add_index :invoices, [ :date, :member_id ], unique: true
   end
 end

@@ -71,7 +71,7 @@ module Billing
     def build_invoice(**attrs)
       attrs[:date] = date
       if annual_fee_billable?
-        attrs[:entity_type] = 'AnnualFee'
+        attrs[:entity_type] = "AnnualFee"
         attrs[:annual_fee] = member.annual_fee
       end
       if membership&.billable?
@@ -91,7 +91,7 @@ module Billing
 
     def membership_amount_fraction
       membership_end_fy_month = Current.acp.fy_month_for(membership.ended_on)
-      remaining_months = [membership_end_fy_month, fy_month].max - fy_month + 1
+      remaining_months = [ membership_end_fy_month, fy_month ].max - fy_month + 1
       (remaining_months / period_length_in_months.to_f).ceil
     end
 
@@ -135,7 +135,7 @@ module Billing
     end
 
     def next_billing_day(day = date)
-      day = [day, date].compact.max.to_date
+      day = [ day, date ].compact.max.to_date
       day + ((Current.acp.recurring_billing_wday - day.wday) % 7).days
     end
   end

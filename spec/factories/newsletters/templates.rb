@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :newsletter_template, class: Newsletter::Template do
-    title { 'newsletter' }
+    title { "newsletter" }
     content { <<~LIQUID }
       Salut {{ member.name }},
 

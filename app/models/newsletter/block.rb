@@ -3,7 +3,7 @@ class Newsletter
     include TranslatedRichTexts
     attr_accessor :titles, :template_id
 
-    self.table_name = 'newsletter_blocks'
+    self.table_name = "newsletter_blocks"
 
     belongs_to :newsletter
 

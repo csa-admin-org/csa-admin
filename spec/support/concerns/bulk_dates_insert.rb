@@ -1,15 +1,15 @@
-require 'spec_helper'
+require "spec_helper"
 
-shared_examples_for 'bulk_dates_insert' do
+shared_examples_for "bulk_dates_insert" do
   let(:model) { build(described_class.to_s.underscore, date: nil) }
 
-  describe '#bulk_dates' do
-    it 'is nil with a date set' do
+  describe "#bulk_dates" do
+    it "is nil with a date set" do
       model.date = Date.today
       expect(model.bulk_dates).to be_nil
     end
 
-    it 'includes all the days between starts and ends dates' do
+    it "includes all the days between starts and ends dates" do
       model.bulk_dates_starts_on = Date.today
       model.bulk_dates_ends_on = Date.tomorrow
       model.bulk_dates_weeks_frequency = 1
@@ -21,11 +21,11 @@ shared_examples_for 'bulk_dates_insert' do
       ]
     end
 
-    it 'includes all the days between starts and ends dates following wdays' do
+    it "includes all the days between starts and ends dates following wdays" do
       model.bulk_dates_starts_on = Date.today.monday
       model.bulk_dates_ends_on = Date.today.sunday
       model.bulk_dates_weeks_frequency = 1
-      model.bulk_dates_wdays = [0, 1, 2]
+      model.bulk_dates_wdays = [ 0, 1, 2 ]
 
       expect(model.bulk_dates).to eq [
         Date.today.monday,
@@ -34,11 +34,11 @@ shared_examples_for 'bulk_dates_insert' do
       ]
     end
 
-    it 'includes all the days between starts and ends dates following wdays' do
+    it "includes all the days between starts and ends dates following wdays" do
       model.bulk_dates_starts_on = Date.today.monday
       model.bulk_dates_ends_on = Date.today.sunday + 1.month
       model.bulk_dates_weeks_frequency = 2
-      model.bulk_dates_wdays = [1]
+      model.bulk_dates_wdays = [ 1 ]
 
       expect(model.bulk_dates).to eq [
         Date.today.monday,
@@ -48,10 +48,10 @@ shared_examples_for 'bulk_dates_insert' do
     end
   end
 
-  describe '#save' do
-    it 'includes all the days between starts and ends dates following wdays', freeze: '2018-01-01' do
-      model.bulk_dates_starts_on = Date.parse('2018-11-05')
-      model.bulk_dates_ends_on = Date.parse('2018-11-11') + 1.month
+  describe "#save" do
+    it "includes all the days between starts and ends dates following wdays", freeze: "2018-01-01" do
+      model.bulk_dates_starts_on = Date.parse("2018-11-05")
+      model.bulk_dates_ends_on = Date.parse("2018-11-11") + 1.month
       model.bulk_dates_weeks_frequency = 2
       model.bulk_dates_wdays = Array(0..6)
 

@@ -29,21 +29,21 @@ class Depot < ApplicationRecord
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
   has_and_belongs_to_many :delivery_cycles # Visibility
-  belongs_to :group, class_name: 'DepotGroup', optional: true
+  belongs_to :group, class_name: "DepotGroup", optional: true
 
   default_scope { order(:position) }
   scope :member_ordered, -> {
-    order_clauses = ['member_order_priority']
+    order_clauses = [ "member_order_priority" ]
     order_clauses <<
       case Current.acp.depots_member_order_mode
-      when 'price_asc'; 'price ASC'
-      when 'price_desc'; 'price DESC'
+      when "price_asc"; "price ASC"
+      when "price_desc"; "price DESC"
       end
     order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), name)"
-    reorder(Arel.sql(order_clauses.compact.join(', ')))
+    reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
-  scope :free, -> { where('price = 0') }
-  scope :paid, -> { where('price > 0') }
+  scope :free, -> { where("price = 0") }
+  scope :paid, -> { where("price > 0") }
   scope :used, -> {
     joins(:memberships)
       .merge(Membership.current_or_future)
@@ -97,7 +97,7 @@ class Depot < ApplicationRecord
 
   def member_sorting(member)
     position = []
-    if delivery_sheets_mode == 'home_delivery'
+    if delivery_sheets_mode == "home_delivery"
       position << (member_ids_position.index(member.id) || 1000)
     end
     position << member.name
@@ -125,9 +125,9 @@ class Depot < ApplicationRecord
   end
 
   def full_address
-    return unless [address, zip, city].all?(&:present?)
+    return unless [ address, zip, city ].all?(&:present?)
 
-    [address, "#{zip} #{city}"].compact.join(', ')
+    [ address, "#{zip} #{city}" ].compact.join(", ")
   end
 
   def can_destroy?

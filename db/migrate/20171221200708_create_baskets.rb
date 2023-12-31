@@ -14,7 +14,7 @@ class CreateBaskets < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :baskets, [:membership_id, :delivery_id], unique: true
+    add_index :baskets, [ :membership_id, :delivery_id ], unique: true
 
     add_column :memberships, :baskets_count, :integer, default: 0, null: false
 

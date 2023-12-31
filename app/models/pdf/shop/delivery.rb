@@ -9,16 +9,16 @@ module PDF
         @delivery = delivery
         @orders =
           if order
-            [order]
+            [ order ]
           else
             orders =
               delivery.shop_orders
                 .all_without_cart
-                .includes(:member, :depot, items: [:product_variant, product: :producer])
+                .includes(:member, :depot, items: [ :product_variant, product: :producer ])
             if depot
               orders = orders.where(depot: depot)
             end
-            orders.sort_by { |order| [order.depot&.name.to_s, order.member] }
+            orders.sort_by { |order| [ order.depot&.name.to_s, order.member ] }
           end
         super
         @current_time = Time.current
@@ -31,11 +31,11 @@ module PDF
 
       def filename
         [
-          I18n.t('shop.title').parameterize,
+          I18n.t("shop.title").parameterize,
           ::Delivery.model_name.human.parameterize,
           delivery.display_number,
-          delivery.date.strftime('%Y%m%d')
-        ].join('-') + '.pdf'
+          delivery.date.strftime("%Y%m%d")
+        ].join("-") + ".pdf"
       end
 
       private
@@ -52,8 +52,8 @@ module PDF
       end
 
       def header(member, depot = nil, page:, total_pages:)
-        image acp_logo_io, at: [15, bounds.height - 20], width: 110
-        bounding_box [bounds.width - 450, bounds.height - 20], width: 430, height: 120 do
+        image acp_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+        bounding_box [ bounds.width - 450, bounds.height - 20 ], width: 430, height: 120 do
           text member.name, size: 22, align: :right
           move_down 10
           if depot
@@ -67,8 +67,8 @@ module PDF
           end
         end
 
-        bounding_box [20, cursor - 15], width: 430, height: 15 do
-          text I18n.t('shop.delivery.title'), size: 11
+        bounding_box [ 20, cursor - 15 ], width: 430, height: 15 do
+          text I18n.t("shop.delivery.title"), size: 11
         end
       end
 
@@ -82,9 +82,9 @@ module PDF
         order_items_width = width - quantity_width
 
         # Headers
-        bounding_box [page_border, cursor], width: width, height: 25, position: :bottom do
-          text_box ::Shop::OrderItem.human_attribute_name(:quantity), at: [0, cursor], style: :bold
-          text_box ::Shop::Product.model_name.human, at: [quantity_width, cursor], style: :bold
+        bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
+          text_box ::Shop::OrderItem.human_attribute_name(:quantity), at: [ 0, cursor ], style: :bold
+          text_box ::Shop::Product.model_name.human, at: [ quantity_width, cursor ], style: :bold
         end
 
         move_up 0.2.cm
@@ -96,9 +96,9 @@ module PDF
           item_description = [
             item.product.name,
             item.product_variant.name,
-            item.product.producer&.name,
-          ].compact.join(', ')
-          [item_description, item.quantity]
+            item.product.producer&.name
+          ].compact.join(", ")
+          [ item_description, item.quantity ]
         }.sort_by { |(desc, q)| desc }
 
         items.each do |item_description, quantity|
@@ -121,7 +121,7 @@ module PDF
         table(
           data,
           row_colors: %w[DDDDDD FFFFFF],
-          cell_style: { border_width: 0.5, border_color: 'AAAAAA', inline_format: true },
+          cell_style: { border_width: 0.5, border_color: "AAAAAA", inline_format: true },
           position: :center) do |t|
             t.cells.borders = []
           end
@@ -129,7 +129,7 @@ module PDF
 
       def footer
         font_size 11
-        bounding_box [0, 60], width: bounds.width do
+        bounding_box [ 0, 60 ], width: bounds.width do
           footer_text = Current.acp.shop_delivery_pdf_footer
           if footer_text.present?
             text footer_text, align: :center

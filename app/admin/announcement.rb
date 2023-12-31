@@ -1,13 +1,13 @@
 ActiveAdmin.register Announcement do
   menu parent: :other, priority: 3
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   filter :depots, as: :select, collection: -> { Depot.all }
   filter :deliveries, as: :select, collection: -> { Delivery.all }
 
   index(
     download_links: false,
-    title: -> { "#{Announcement.model_name.human(count: 2)} (#{Delivery.human_attribute_name(:sheets)})" })do
+    title: -> { "#{Announcement.model_name.human(count: 2)} (#{Delivery.human_attribute_name(:sheets)})" }) do
     column :text, ->(a) { a.text }
     column :depots, ->(a) {
       truncate(
@@ -23,10 +23,10 @@ ActiveAdmin.register Announcement do
           link_to(d.display_name, d)
         }.to_sentence.html_safe,
         length: 250,
-        escape: false).presence || '–'
+        escape: false).presence || "–"
     }
     if authorized?(:update, Announcement)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -34,7 +34,7 @@ ActiveAdmin.register Announcement do
     f.semantic_errors :base
     f.inputs do
       translated_input(f, :texts,
-        hint: t('formtastic.hints.announcement.text'))
+        hint: t("formtastic.hints.announcement.text"))
       f.input :depot_ids,
         collection: Depot.all,
         as: :check_boxes,

@@ -1,7 +1,7 @@
 Rails.application.configure do
   config.lograge.base_controller_class = [
-    'ActionController::Base',
-    'ActiveAdmin::BaseController'
+    "ActionController::Base",
+    "ActiveAdmin::BaseController"
   ]
 
   config.lograge.custom_payload do |controller|

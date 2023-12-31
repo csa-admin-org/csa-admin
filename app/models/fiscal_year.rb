@@ -13,7 +13,7 @@ class FiscalYear
       new(Date.new(date_or_year.to_i, start_month), start_month: start_month)
     when FiscalYear then date_or_year
     else
-      raise ArgumentError, 'invalid date or year'
+      raise ArgumentError, "invalid date or year"
     end
   end
 
@@ -46,7 +46,7 @@ class FiscalYear
     if range.min.year == range.max.year
       range.min.year.to_s
     else
-      [range.min.year, range.max.year.to_s.last(2)].join('-')
+      [ range.min.year, range.max.year.to_s.last(2) ].join("-")
     end
   end
 
@@ -59,7 +59,7 @@ class FiscalYear
   end
 
   def month(date)
-    raise ArgumentError, 'date outside fiscal year' unless range.cover?(date)
+    raise ArgumentError, "date outside fiscal year" unless range.cover?(date)
     (date.year * 12 + date.month) - (beginning_of_year.year * 12 + beginning_of_year.month) + 1
   end
 

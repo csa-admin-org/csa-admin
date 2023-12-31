@@ -1,17 +1,17 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Permission do
-  describe 'rights=' do
-    specify 'can only writes editable features' do
+  describe "rights=" do
+    specify "can only writes editable features" do
       permission = Permission.new(rights: {
         admin: :write,
         member: :write
       })
-      expect(permission.rights).to eq('member' => 'write')
+      expect(permission.rights).to eq("member" => "write")
     end
   end
 
-  specify 'superadmin' do
+  specify "superadmin" do
     permission = Permission.superadmin
     expect(permission.rights).to be_empty
     expect(permission.superadmin?).to be_truthy

@@ -1,13 +1,13 @@
 class Handbook
   include Comparable
 
-  DIR_PATH = 'app/views/handbook'
+  DIR_PATH = "app/views/handbook"
   attr_reader :name
 
   def self.all(context)
-    path = Rails.root.join(DIR_PATH, '*.md.erb')
+    path = Rails.root.join(DIR_PATH, "*.md.erb")
     Dir.glob(path).map { |path|
-      name = File.basename(path, '.md.erb')
+      name = File.basename(path, ".md.erb")
       new(name, context)
     }.sort
   end
@@ -34,11 +34,11 @@ class Handbook
   end
 
   def title
-    @title ||= doc.css('h1').map(&:text).first
+    @title ||= doc.css("h1").map(&:text).first
   end
 
   def subtitles
-    @subtitles ||= doc.css('h2').map { |h2| [h2.text, h2[:id]] }
+    @subtitles ||= doc.css("h2").map { |h2| [ h2.text, h2[:id] ] }
   end
 
   def <=>(other)

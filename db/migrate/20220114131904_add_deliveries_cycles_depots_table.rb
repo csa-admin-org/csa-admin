@@ -4,7 +4,7 @@ class AddDeliveriesCyclesDepotsTable < ActiveRecord::Migration[6.1]
       t.references :depot, null: false, index: false
       t.references :deliveries_cycle, null: false, index: false
     end
-    add_index :deliveries_cycles_depots, [:depot_id, :deliveries_cycle_id],
+    add_index :deliveries_cycles_depots, [ :depot_id, :deliveries_cycle_id ],
       unique: true, name: 'deliveries_cycles_depots_unique_index'
 
     cycles = DeliveriesCycle.all

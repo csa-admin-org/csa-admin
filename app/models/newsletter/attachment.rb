@@ -1,6 +1,6 @@
 class Newsletter
   class Attachment < ApplicationRecord
-    self.table_name = 'newsletter_attachments'
+    self.table_name = "newsletter_attachments"
 
     belongs_to :newsletter
 

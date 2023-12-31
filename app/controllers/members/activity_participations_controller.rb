@@ -18,7 +18,7 @@ class Members::ActivityParticipationsController < Members::BaseController
     @activity_participation.session_id = session_id
 
     if @activity_participation.save
-      flash[:notice] = t('.flash.notice')
+      flash[:notice] = t(".flash.notice")
       redirect_to members_activity_participations_path
     else
       @activities = Activity.available_for(current_member)

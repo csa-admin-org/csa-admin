@@ -13,14 +13,14 @@ module Billing
     end
 
     def invoice(**attrs)
-      return unless Current.acp.feature?('new_member_fee')
+      return unless Current.acp.feature?("new_member_fee")
       return unless billable?
 
       attrs[:date] = Date.current
-      attrs[:entity_type] = 'NewMemberFee'
+      attrs[:entity_type] = "NewMemberFee"
       I18n.with_locale(member.language) do
         attrs[:items_attributes] = {
-          '0' => {
+          "0" => {
             description: Current.acp.new_member_fee_description,
             amount: Current.acp.new_member_fee
           }

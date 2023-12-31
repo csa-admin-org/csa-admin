@@ -7,10 +7,10 @@ class TranslateAcpsColumns < ActiveRecord::Migration[5.2]
 
     if Tenant.outside?
       ACP.find_each do |acp|
-        invoice_infos = acp.languages.map { |l| [l, acp[:invoice_info]] }.to_h
-        invoice_footers = acp.languages.map { |l| [l, acp[:invoice_footer]] }.to_h
-        delivery_pdf_footers = acp.languages.map { |l| [l, acp[:delivery_pdf_footer]] }.to_h
-        terms_of_service_urls = acp.languages.map { |l| [l, acp[:terms_of_service_url]] }.to_h
+        invoice_infos = acp.languages.map { |l| [ l, acp[:invoice_info] ] }.to_h
+        invoice_footers = acp.languages.map { |l| [ l, acp[:invoice_footer] ] }.to_h
+        delivery_pdf_footers = acp.languages.map { |l| [ l, acp[:delivery_pdf_footer] ] }.to_h
+        terms_of_service_urls = acp.languages.map { |l| [ l, acp[:terms_of_service_url] ] }.to_h
         acp.update_columns(
           invoice_infos: invoice_infos,
           invoice_footers: invoice_footers,

@@ -2,7 +2,7 @@ class Members::DeliveriesController < Members::BaseController
   # GET /deliveries
   def index
     if @next_basket = current_member.next_basket
-      membership_ids = [@next_basket.membership_id]
+      membership_ids = [ @next_basket.membership_id ]
       if current_member.future_membership
         membership_ids << current_member.future_membership.id
       end

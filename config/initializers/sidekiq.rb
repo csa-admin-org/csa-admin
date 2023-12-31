@@ -2,8 +2,8 @@ module Sidekiq::Middleware::Tenant
   class Client
     def call(_worker_class, msg, _queue, _redis_pool)
       unless Tenant.outside?
-        msg['tags'] ||= []
-        msg['tags'] << Tenant.current
+        msg["tags"] ||= []
+        msg["tags"] << Tenant.current
       end
       yield
     end

@@ -1,6 +1,6 @@
 class Newsletter
   class Segment < ApplicationRecord
-    self.table_name = 'newsletter_segments'
+    self.table_name = "newsletter_segments"
 
     include TranslatedAttributes
 

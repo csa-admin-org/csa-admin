@@ -6,6 +6,6 @@ class CreateHalfdayPresets < ActiveRecord::Migration[5.2]
       t.string :activity, null: false
     end
 
-    add_index :halfday_presets, [:place, :activity], unique: true
+    add_index :halfday_presets, [ :place, :activity ], unique: true
   end
 end

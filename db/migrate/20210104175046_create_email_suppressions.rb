@@ -9,6 +9,6 @@ class CreateEmailSuppressions < ActiveRecord::Migration[6.1]
       t.datetime :created_at
     end
 
-    add_index :email_suppressions, [:stream_id, :email, :reason, :origin, :created_at], unique: true, name: 'email_suppressions_unique_index'
+    add_index :email_suppressions, [ :stream_id, :email, :reason, :origin, :created_at ], unique: true, name: 'email_suppressions_unique_index'
   end
 end

@@ -30,6 +30,6 @@ class AddShopModels < ActiveRecord::Migration[6.1]
       t.references :product, foreign_key: { to_table: :shop_products }, null: false, index: false
       t.references :tag, foreign_key: { to_table: :shop_tags }, null: false, index: false
     end
-    add_index :shop_products_tags, [:product_id, :tag_id], unique: true, name: 'index_shop_products_tags_unique'
+    add_index :shop_products_tags, [ :product_id, :tag_id ], unique: true, name: 'index_shop_products_tags_unique'
   end
 end

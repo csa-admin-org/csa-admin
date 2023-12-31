@@ -1,4 +1,4 @@
-require 'bcrypt'
+require "bcrypt"
 
 class SessionsController < ApplicationController
   helper ActiveAdmin::ViewHelpers
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
         session_url: session_url(@session.token)
       ).new_admin_session_email.deliver_later(queue: :critical)
       I18n.locale = @session.admin.language
-      redirect_to login_path(locale: I18n.locale), notice: t('sessions.flash.initiated')
+      redirect_to login_path(locale: I18n.locale), notice: t("sessions.flash.initiated")
     else
       render :new
     end
@@ -37,17 +37,17 @@ class SessionsController < ApplicationController
 
     if !@session.timeout?
       cookies.encrypted.permanent[:session_id] = @session.id
-      redirect_to root_path, notice: t('sessions.flash.created')
+      redirect_to root_path, notice: t("sessions.flash.created")
     elsif current_admin&.id == @session.admin_id
-      redirect_to root_path, notice: t('sessions.flash.already_exists')
+      redirect_to root_path, notice: t("sessions.flash.already_exists")
     else
-      redirect_to login_path, alert: t('sessions.flash.timeout')
+      redirect_to login_path, alert: t("sessions.flash.timeout")
     end
   end
 
   # DELETE /logout
   def destroy
     cookies.delete(:session_id)
-    redirect_to login_path, notice: t('sessions.flash.deleted')
+    redirect_to login_path, notice: t("sessions.flash.deleted")
   end
 end

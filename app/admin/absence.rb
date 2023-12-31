@@ -2,9 +2,9 @@ ActiveAdmin.register Absence do
   menu parent: :other, priority: 1
 
   breadcrumb do
-    if params[:action] == 'new'
-      [link_to(Absence.model_name.human(count: 2), absences_path)]
-    elsif params['action'] != 'index'
+    if params[:action] == "new"
+      [ link_to(Absence.model_name.human(count: 2), absences_path) ]
+    elsif params["action"] != "index"
       links = [
         link_to(Member.model_name.human(count: 2), members_path),
         auto_link(absence.member),
@@ -12,7 +12,7 @@ ActiveAdmin.register Absence do
           Absence.model_name.human(count: 2),
           absences_path(q: { member_id_eq: absence.member_id }, scope: :all))
       ]
-      if params['action'].in? %W[edit]
+      if params["action"].in? %W[edit]
         links << auto_link(absence)
       end
       links
@@ -30,7 +30,7 @@ ActiveAdmin.register Absence do
   filter :with_note, as: :boolean
   filter :including_date,
     as: :select,
-    collection: -> { Delivery.reorder(date: :desc).map { |d| [d.display_name, d.date] } },
+    collection: -> { Delivery.reorder(date: :desc).map { |d| [ d.display_name, d.date ] } },
     label: -> { Delivery.model_name.human }
   filter :during_year,
     as: :select,
@@ -42,10 +42,10 @@ ActiveAdmin.register Absence do
       with_note_icon absence.note do
         link_with_session absence.member, absence.session
       end
-    }, sortable: 'members.name'
+    }, sortable: "members.name"
     column :started_on, ->(absence) { l absence.started_on, format: :medium_long }
     column :ended_on, ->(absence) { l absence.ended_on, format: :medium_long }
-    actions class: 'col-actions-3'
+    actions class: "col-actions-3"
   end
 
   show do |absence|
@@ -62,9 +62,9 @@ ActiveAdmin.register Absence do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :member,
-        collection: Member.joins(:memberships).distinct.order(:name).map { |d| [d.name, d.id] },
+        collection: Member.joins(:memberships).distinct.order(:name).map { |d| [ d.name, d.id ] },
         prompt: true
       if f.object.persisted?
         f.input :note, as: :text, input_html: { rows: 4 }
@@ -98,7 +98,7 @@ ActiveAdmin.register Absence do
         resource: absence,
         body: absence.comment,
         author: current_admin,
-        namespace: 'root')
+        namespace: "root")
     end
   end
 
@@ -107,7 +107,7 @@ ActiveAdmin.register Absence do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order('members.name', id: :desc)
+      super(chain).joins(:member).order("members.name", id: :desc)
     end
 
     def create
@@ -123,5 +123,5 @@ ActiveAdmin.register Absence do
     end
   end
 
-  config.sort_order = 'started_on_desc'
+  config.sort_order = "started_on_desc"
 end

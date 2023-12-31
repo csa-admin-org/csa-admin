@@ -85,6 +85,6 @@ module BulkDatesInsert
         v.is_a?(Tod::TimeOfDay) ? v.to_s : v
       ]
     }.to_h
-    bulk_dates.map { |date| attrs.merge('date' => date) }
+    bulk_dates.map { |date| attrs.merge("date" => date) }
   end
 end

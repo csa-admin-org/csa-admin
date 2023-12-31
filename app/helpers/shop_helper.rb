@@ -1,6 +1,6 @@
 module ShopHelper
   def show_shop_menu?
-    return unless Current.acp.feature?('shop')
+    return unless Current.acp.feature?("shop")
     return unless current_shop_delivery || shop_special_deliveries.any?
 
     !Current.acp.shop_admin_only || current_session.admin_originated?
@@ -19,13 +19,13 @@ module ShopHelper
   def display_variants(arbre, product)
     arbre.ul do
       product.variants.each do |variant|
-        arbre.li class: ('unavailable' unless variant.available?) do
+        arbre.li class: ("unavailable" unless variant.available?) do
           arbre.span do
             link_to edit_shop_product_path(product, anchor: :variants) do
-              parts = [variant.name]
+              parts = [ variant.name ]
               parts << cur(variant.price)
               parts << "<b>#{variant.stock}x</b>" unless variant.stock.nil?
-              parts.join(', ').html_safe
+              parts.join(", ").html_safe
             end
           end
         end
@@ -35,7 +35,7 @@ module ShopHelper
 
   def products_collection
     Shop::Product.all.includes(:variants).order_by_name.map do |product|
-      [product.name, product.id, disabled: product.variants.all?(&:out_of_stock?)]
+      [ product.name, product.id, disabled: product.variants.all?(&:out_of_stock?) ]
     end
   end
 
@@ -43,31 +43,31 @@ module ShopHelper
     options = Current.acp[:shop_member_percentages].reverse.map do |percentage|
       text =
         if percentage.positive?
-          t('shop.percentage.positive', percentage: percentage)
+          t("shop.percentage.positive", percentage: percentage)
         else
-          t('shop.percentage.negative', percentage: percentage)
+          t("shop.percentage.negative", percentage: percentage)
         end
-      [text, percentage]
+      [ text, percentage ]
     end
   end
 
   def shop_member_percentages_label(order)
     if order.amount_percentage.in?(Current.acp[:shop_member_percentages])
-      return t('shop.percentages_title.remove')
+      return t("shop.percentages_title.remove")
     end
 
     if Current.acp[:shop_member_percentages].all?(&:positive?)
-      t('shop.percentages_title.positive')
+      t("shop.percentages_title.positive")
     elsif Current.acp[:shop_member_percentages].all?(&:negative?)
-      t('shop.percentages_title.negative')
+      t("shop.percentages_title.negative")
     else
-      t('shop.percentages_title.mixed')
+      t("shop.percentages_title.mixed")
     end
   end
 
   def shop_deliveries_collection
     (Delivery.shop_open + Shop::SpecialDelivery.all).sort_by(&:date).map do |delivery|
-      [delivery.display_name, delivery.to_global_id]
+      [ delivery.display_name, delivery.to_global_id ]
     end
   end
 
@@ -86,9 +86,9 @@ module ShopHelper
 
   def delivery_title(delivery)
     if @order.delivery.is_a?(Shop::SpecialDelivery)
-      t('members.shop.products.index.special_delivery', date: l(@order.delivery.date, format: :long))
+      t("members.shop.products.index.special_delivery", date: l(@order.delivery.date, format: :long))
     else
-      t('members.shop.products.index.delivery', date: l(@order.delivery.date, format: :long))
+      t("members.shop.products.index.delivery", date: l(@order.delivery.date, format: :long))
     end
   end
 end

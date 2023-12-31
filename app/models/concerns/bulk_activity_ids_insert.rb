@@ -20,7 +20,7 @@ module BulkActivityIdsInsert
     else
       @participations.each do |participation|
         participation.errors.messages.each do |attr, message|
-          errors.add attr, message.join(', ')
+          errors.add attr, message.join(", ")
         end
       end
       false
@@ -48,7 +48,7 @@ module BulkActivityIdsInsert
     @participations = activity_ids.map do |activity_id|
       part = self.class.new(attributes)
       part.activity_id = activity_id
-      part.carpooling = @carpooling ? '1' : nil
+      part.carpooling = @carpooling ? "1" : nil
       part
     end
     @participations.any? && @participations.all?(&:valid?)

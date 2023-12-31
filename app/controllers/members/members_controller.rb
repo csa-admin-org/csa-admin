@@ -94,7 +94,7 @@ class Members::MembersController < Members::BaseController
           :basket_complement_id, :quantity
         ])
     permitted[:members_basket_complements_attributes]&.select! { |i, attrs|
-      attrs['quantity'].to_i > 0
+      attrs["quantity"].to_i > 0
     }
     permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
     permitted

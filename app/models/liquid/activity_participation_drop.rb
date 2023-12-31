@@ -18,9 +18,9 @@ class Liquid::ActivityParticipationDrop < Liquid::Drop
   def carpooling
     carpooling_participations.map { |p|
       {
-        'member_name' => p.member.name,
-        'member_phone' => p.carpooling_phone&.phony_formatted(normalize: Current.acp.country_code, format: :international),
-        'leaving_from_city' => p.carpooling_city
+        "member_name" => p.member.name,
+        "member_phone" => p.carpooling_phone&.phony_formatted(normalize: Current.acp.country_code, format: :international),
+        "leaving_from_city" => p.carpooling_city
       }
     }
   end

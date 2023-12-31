@@ -6,7 +6,7 @@ class Liquid::HighlightListBlock < Liquid::Block
   def render(context)
     lines =
       super.lines.map(&:chomp).map { |l|
-        l.gsub('<div>', '').gsub('</div>', '').strip.presence
+        l.gsub("<div>", "").gsub("</div>", "").strip.presence
       }.compact
     lines.map! do |line|
       <<-HTML

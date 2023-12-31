@@ -24,14 +24,14 @@ module XLSX
       [
         ::BasketContent.model_name.human(count: 2),
         @delivery.display_number,
-        @delivery.date.strftime('%Y%m%d')
-      ].join('-') + '.xlsx'
+        @delivery.date.strftime("%Y%m%d")
+      ].join("-") + ".xlsx"
     end
 
     private
 
     def build_summary_worksheet
-      add_worksheet I18n.t('delivery.summary')
+      add_worksheet I18n.t("delivery.summary")
 
       add_product_columns(@basket_contents)
       add_unit_columns(@basket_contents)
@@ -45,7 +45,7 @@ module XLSX
           @basket_contents.map { |bc| bc.baskets_count(basket_size) })
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:quantity)}",
-          @basket_contents.map { |bc| bc.basket_quantity(basket_size) } )
+          @basket_contents.map { |bc| bc.basket_quantity(basket_size) })
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
           @basket_contents.map { |bc|

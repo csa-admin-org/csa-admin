@@ -16,7 +16,7 @@ module TranslatedRichTexts
         }
         define_method(plural) {
           Current.acp.languages.map { |locale|
-            [locale, send("#{text}_#{locale}")]
+            [ locale, send("#{text}_#{locale}") ]
           }.to_h
         }
         define_method("all_#{plural}?") {

@@ -13,12 +13,12 @@ class CreateBasketContents < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_index :basket_contents, [:vegetable_id, :delivery_id], unique: true
+    add_index :basket_contents, [ :vegetable_id, :delivery_id ], unique: true
 
     create_table :basket_contents_distributions, id: false do |t|
       t.references :basket_content, foreign_key: true, null: false, index: true
       t.references :distribution, foreign_key: true, null: false, index: true
     end
-    add_index :basket_contents_distributions, [:basket_content_id, :distribution_id], unique: true, name: 'index_basket_contents_distributions_unique'
+    add_index :basket_contents_distributions, [ :basket_content_id, :distribution_id ], unique: true, name: 'index_basket_contents_distributions_unique'
   end
 end

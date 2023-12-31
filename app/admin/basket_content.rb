@@ -1,6 +1,6 @@
 ActiveAdmin.register BasketContent do
   menu priority: 5
-  actions :all, except: [:show]
+  actions :all, except: [ :show ]
 
   filter :delivery, as: :select
   filter :product, as: :select
@@ -16,8 +16,8 @@ ActiveAdmin.register BasketContent do
     def build(_page_presenter, collection)
       if params.dig(:q, :delivery_id_eq).present? && collection.with_unit_price.any?
         delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-        panel t('.basket_prices', currency: currency_symbol), class: 'basket_prices' do
-          render partial: 'active_admin/basket_contents/prices', locals: { delivery: delivery, context: self }
+        panel t(".basket_prices", currency: currency_symbol), class: "basket_prices" do
+          render partial: "active_admin/basket_contents/prices", locals: { delivery: delivery, context: self }
         end
       end
       super
@@ -25,7 +25,7 @@ ActiveAdmin.register BasketContent do
   end
 
   index as: BasketContentIndex, download_links: -> {
-    params.dig(:q, :delivery_id_eq).present? ? [:csv, :xlsx] : [:csv]
+    params.dig(:q, :delivery_id_eq).present? ? [ :csv, :xlsx ] : [ :csv ]
   }, title: -> {
     title = BasketContent.model_name.human(count: 2)
     if params.dig(:q, :delivery_id_eq).present?
@@ -35,7 +35,7 @@ ActiveAdmin.register BasketContent do
     title
   } do
     unless params.dig(:q, :delivery_id_eq).present?
-      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: 'nowrap'
+      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "nowrap"
     end
     column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
@@ -59,7 +59,7 @@ ActiveAdmin.register BasketContent do
         display_with_price(bc.unit_price, bc.basket_quantity(basket_size)) {
           display_basket_quantity(bc, basket_size)
         }
-      }, class: 'nowrap'
+      }, class: "nowrap"
     end
     unless params.dig(:q, :basket_size_eq).present?
       column :surplus, ->(bc) {
@@ -70,7 +70,7 @@ ActiveAdmin.register BasketContent do
     end
     column :depots, ->(bc) { display_depots(bc.depots) }
     if authorized?(:update, BasketContent)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -80,8 +80,8 @@ ActiveAdmin.register BasketContent do
 
   csv do
     column(:date) { |bc| bc.delivery.date.to_s }
-    column(:month) { |bc| I18n.t('date.month_names')[bc.delivery.date.month] }
-    column(:wday) { |bc| I18n.t('date.day_names')[bc.delivery.date.wday] }
+    column(:month) { |bc| I18n.t("date.month_names")[bc.delivery.date.month] }
+    column(:wday) { |bc| I18n.t("date.day_names")[bc.delivery.date.wday] }
     column(:product) { |bc| bc.product.name }
     column(:unit) { |bc| t("units.#{bc.unit}") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
@@ -112,7 +112,7 @@ ActiveAdmin.register BasketContent do
       BasketContent.coming_unfilled_deliveries(after_date: delivery.date).any?
   } do
     delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-    render partial: 'active_admin/basket_contents/duplicate_all_to',
+    render partial: "active_admin/basket_contents/duplicate_all_to",
       locals: { from_delivery: delivery }
   end
 
@@ -123,7 +123,7 @@ ActiveAdmin.register BasketContent do
       BasketContent.any?
   } do
     delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-    render partial: 'active_admin/basket_contents/duplicate_all_from',
+    render partial: "active_admin/basket_contents/duplicate_all_from",
       locals: { to_delivery: delivery }
   end
 
@@ -142,36 +142,36 @@ ActiveAdmin.register BasketContent do
         required: true,
         prompt: true
     end
-    f.inputs BasketContent.human_attribute_name(:content), 'data-controller' => 'basket-content-products-select' do
+    f.inputs BasketContent.human_attribute_name(:content), "data-controller" => "basket-content-products-select" do
       f.input :product,
         input_html: {
           data: {
-            action: 'basket-content-products-select#productChange form-hint-url#change',
-            'basket-content-products-select-target' => 'productSelect'
+            action: "basket-content-products-select#productChange form-hint-url#change",
+            "basket-content-products-select-target" => "productSelect"
           }
         },
         wrapper_html: {
           data: {
-            controller: 'form-hint-url',
+            controller: "form-hint-url"
           }
         },
         collection: basket_content_products_collection,
         required: true,
         prompt: true,
-        hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: '_blank', data: { 'form-hint-url-target' => 'link' })
+        hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: "_blank", data: { "form-hint-url-target" => "link" })
       f.input :unit,
         collection: units_collection,
         prompt: true,
         input_html: {
           data: {
-            action: 'basket-content-products-select#unitChange',
-            'basket-content-products-select-target' => 'unitSelect'
+            action: "basket-content-products-select#unitChange",
+            "basket-content-products-select-target" => "unitSelect"
           }
         }
       f.input :quantity,
         input_html: {
           data: {
-            'basket-content-products-select-target' => 'quantityInput'
+            "basket-content-products-select-target" => "quantityInput"
           }
         }
       f.input :unit_price,
@@ -181,14 +181,14 @@ ActiveAdmin.register BasketContent do
         step: 0.01,
         input_html: {
           data: {
-            'basket-content-products-select-target' => 'unitPriceInput'
+            "basket-content-products-select-target" => "unitPriceInput"
           }
         }
     end
-    div 'data-controller' => 'basket-content-distribution' do
-      h2 t('basket_content.distribution')
+    div "data-controller" => "basket-content-distribution" do
+      h2 t("basket_content.distribution")
       tabs  do
-        tab t('basket_content.distribution_mode.automatic'), id: 'automatic', html_options: { class: ('ui-tabs-active' if f.object.distribution_automatic?), 'data-action' => 'click->basket-content-distribution#automaticMode' } do
+        tab t("basket_content.distribution_mode.automatic"), id: "automatic", html_options: { class: ("ui-tabs-active" if f.object.distribution_automatic?), "data-action" => "click->basket-content-distribution#automaticMode" } do
           f.inputs do
             f.semantic_errors :basket_percentages
             BasketSize.paid.each do |basket_size|
@@ -201,50 +201,50 @@ ActiveAdmin.register BasketContent do
                 required: true,
                 wrapper_html: {
                   id: nil,
-                  class: 'basket_content_distribution_wrapper'
+                  class: "basket_content_distribution_wrapper"
                 },
-                hint: '%',
+                hint: "%",
                 input_html: {
                   id: "basket_size_ids_percentages_#{basket_size.id}",
                   value: f.object.basket_percentage(basket_size),
                   name: "basket_content[basket_size_ids_percentages][#{basket_size.id}]",
                   data: {
-                    'basket-content-distribution-target' => 'input',
-                    'action' => 'blur->basket-content-distribution#change'
+                    "basket-content-distribution-target" => "input",
+                    "action" => "blur->basket-content-distribution#change"
                   }
                 },
                 range_html: {
                   id: "basket_size_ids_percentages_#{basket_size.id}_range",
                   name: "basket_content[basket_size_ids_percentages_range][#{basket_size.id}]",
                   data: {
-                    'basket-content-distribution-target' => 'range',
-                    'action' => 'basket-content-distribution#change'
+                    "basket-content-distribution-target" => "range",
+                    "action" => "basket-content-distribution#change"
                   }
                 }
             end
-            span class: 'basket_size_ids_percentages_sum',
-              style: 'display: none;',
-              'data-basket-content-distribution-target' => 'sum'
-            div class: 'basket_size_ids_percentages_presets' do
-              a class: 'button',
-                  'data-basket-content-distribution-target' => 'preset',
-                  'data-action' => 'basket-content-distribution#applyPreset',
-                  'data-preset' => f.object.basket_size_ids_percentages_pro_rated.to_json do
-                t('basket_content.preset.basket_content_percentages_pro_rated')
+            span class: "basket_size_ids_percentages_sum",
+              style: "display: none;",
+              "data-basket-content-distribution-target" => "sum"
+            div class: "basket_size_ids_percentages_presets" do
+              a class: "button",
+                  "data-basket-content-distribution-target" => "preset",
+                  "data-action" => "basket-content-distribution#applyPreset",
+                  "data-preset" => f.object.basket_size_ids_percentages_pro_rated.to_json do
+                t("basket_content.preset.basket_content_percentages_pro_rated")
               end
-              a class: 'button',
-                  'data-basket-content-distribution-target' => 'preset',
-                  'data-action' => 'basket-content-distribution#applyPreset',
-                  'data-preset' => f.object.basket_size_ids_percentages_even.to_json do
-                t('basket_content.preset.basket_content_percentages_even')
+              a class: "button",
+                  "data-basket-content-distribution-target" => "preset",
+                  "data-action" => "basket-content-distribution#applyPreset",
+                  "data-preset" => f.object.basket_size_ids_percentages_even.to_json do
+                t("basket_content.preset.basket_content_percentages_even")
               end
             end
-            para class: 'basket_content_distribution_wrapper_hint inline-hints' do
-              t('basket_content.percentages_hint')
+            para class: "basket_content_distribution_wrapper_hint inline-hints" do
+              t("basket_content.percentages_hint")
             end
           end
         end
-        tab t('basket_content.distribution_mode.manual'), id: 'manual', html_options: { class: ('ui-tabs-active' if f.object.distribution_manual?), 'data-action' => 'click->basket-content-distribution#manualMode' } do
+        tab t("basket_content.distribution_mode.manual"), id: "manual", html_options: { class: ("ui-tabs-active" if f.object.distribution_manual?), "data-action" => "click->basket-content-distribution#manualMode" } do
           f.inputs do
             f.semantic_errors :basket_quantities
             BasketSize.paid.each do |basket_size|
@@ -259,7 +259,7 @@ ActiveAdmin.register BasketContent do
                   value: f.object.basket_size_ids_quantity(basket_size),
                   name: "basket_content[basket_size_ids_quantities][#{basket_size.id}]",
                   data: {
-                    'basket-content-distribution-target' => 'quantityInput'
+                    "basket-content-distribution-target" => "quantityInput"
                   }
                 }
             end
@@ -284,7 +284,7 @@ ActiveAdmin.register BasketContent do
     if params.except(:subdomain, :controller, :action).empty? &&
         params[:q].blank? &&
         (delivery = BasketContent.last_delivery || Delivery.next || Delivery.last)
-      redirect_to q: { delivery_id_eq: delivery.id }, utf8: '✓'
+      redirect_to q: { delivery_id_eq: delivery.id }, utf8: "✓"
     end
   end
 

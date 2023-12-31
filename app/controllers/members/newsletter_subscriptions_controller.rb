@@ -1,23 +1,23 @@
-require 'bcrypt'
+require "bcrypt"
 
 class Members::NewsletterSubscriptionsController < Members::BaseController
-  layout 'members'
+  layout "members"
   skip_before_action :authenticate_member!
   before_action :ensure_valid_token
 
   # POST /newsletters/subscribe/:token
   def create
     EmailSuppression.unsuppress!(email,
-      stream_id: 'broadcast',
-      origin: 'Customer')
+      stream_id: "broadcast",
+      origin: "Customer")
   end
 
   # GET /newsletters/unsubscribe/:token
   def destroy
     EmailSuppression.suppress!(email,
-      stream_id: 'broadcast',
-      reason: 'ManualSuppression',
-      origin: 'Customer')
+      stream_id: "broadcast",
+      reason: "ManualSuppression",
+      origin: "Customer")
   end
 
   private

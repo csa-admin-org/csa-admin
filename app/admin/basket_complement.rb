@@ -1,6 +1,6 @@
 ActiveAdmin.register BasketComplement do
-  menu parent: :other, priority: 9, label: -> { t('active_admin.menu.basket_complements') }
-  actions :all, except: [:show]
+  menu parent: :other, priority: 9, label: -> { t("active_admin.menu.basket_complements") }
+  actions :all, except: [ :show ]
 
   scope :all
   scope :visible, default: true
@@ -23,7 +23,7 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.acp.current_fiscal_year.year
         },
         scope: :all)
-    }, class: 'col-deliveries'
+    }, class: "col-deliveries"
     column deliveries_next_year_title, ->(bc) {
       link_to bc.future_deliveries.size, deliveries_path(
         q: {
@@ -31,15 +31,15 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.acp.current_fiscal_year.year + 1
         },
         scope: :all)
-    }, class: 'col-deliveries'
-    if Current.acp.feature?('activity')
+    }, class: "col-deliveries"
+    if Current.acp.feature?("activity")
       column activities_human_name,
         ->(bc) { bc.activity_participations_demanded_annualy },
-        class: 'col-activities'
+        class: "col-activities"
     end
     column :visible
     if authorized?(:update, BasketComplement)
-      actions class: 'col-actions-2'
+      actions class: "col-actions-2"
     end
   end
 
@@ -47,9 +47,9 @@ ActiveAdmin.register BasketComplement do
     f.inputs do
       translated_input(f, :names)
       translated_input(f, :public_names,
-        hint: t('formtastic.hints.basket_complement.public_name'))
+        hint: t("formtastic.hints.basket_complement.public_name"))
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
-      if Current.acp.feature?('activity')
+      if Current.acp.feature?("activity")
         f.input :activity_participations_demanded_annualy,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy)),
           as: :number,
@@ -58,15 +58,15 @@ ActiveAdmin.register BasketComplement do
       end
     end
 
-    f.inputs t('active_admin.resource.show.member_new_form') do
+    f.inputs t("active_admin.resource.show.member_new_form") do
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
-        hint: t('formtastic.hints.acp.member_order_priority_html')
+        hint: t("formtastic.hints.acp.member_order_priority_html")
       f.input :visible, as: :select, include_blank: false
       translated_input(f, :form_details,
-        hint: t('formtastic.hints.basket_complement.form_detail'),
+        hint: t("formtastic.hints.basket_complement.form_detail"),
         placeholder: ->(locale) {
           I18n.with_locale(locale) {
             basket_complement_details(f.object, force_default: true)
@@ -80,7 +80,7 @@ ActiveAdmin.register BasketComplement do
           label: deliveries_current_year_title,
           as: :check_boxes,
           collection: Delivery.current_year,
-          hint: f.object.persisted? ? t('formtastic.hints.basket_complement.current_deliveries_html') : nil
+          hint: f.object.persisted? ? t("formtastic.hints.basket_complement.current_deliveries_html") : nil
       end
       if Delivery.future_year.any?
         f.input :future_deliveries,
@@ -90,11 +90,11 @@ ActiveAdmin.register BasketComplement do
           hint: f.object.persisted?
       end
 
-      para class: 'actions' do
-        a href: handbook_page_path('deliveries', anchor: 'complments-de-panier'), class: 'action' do
+      para class: "actions" do
+        a href: handbook_page_path("deliveries", anchor: "complments-de-panier"), class: "action" do
           span do
-            span inline_svg_tag('admin/book-open.svg', size: '20', title: t('layouts.footer.handbook'))
-            span t('.check_handbook')
+            span inline_svg_tag("admin/book-open.svg", size: "20", title: t("layouts.footer.handbook"))
+            span t(".check_handbook")
           end
         end.html_safe
       end

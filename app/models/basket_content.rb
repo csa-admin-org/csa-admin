@@ -7,16 +7,16 @@ class BasketContent < ApplicationRecord
   attribute :distribution_mode, :string, default: -> { last&.distribution_mode }
 
   belongs_to :delivery
-  belongs_to :product, class_name: 'BasketContent::Product'
+  belongs_to :product, class_name: "BasketContent::Product"
   has_and_belongs_to_many :depots
 
-  scope :basket_size_eq, ->(id) { where('basket_size_ids @> ?', "{#{id}}") }
+  scope :basket_size_eq, ->(id) { where("basket_size_ids @> ?", "{#{id}}") }
   scope :for_depot, ->(depot) {
-    joins(:depots).where('basket_contents_depots.depot_id = ?', depot)
+    joins(:depots).where("basket_contents_depots.depot_id = ?", depot)
   }
   scope :with_unit_price, -> { where.not(unit_price: nil) }
-  scope :in_kg, -> { where(unit: 'kg') }
-  scope :in_pc, -> { where(unit: 'pc') }
+  scope :in_kg, -> { where(unit: "kg") }
+  scope :in_pc, -> { where(unit: "pc") }
   scope :during_year, ->(year) {
     joins(:delivery)
       .where(deliveries: { date: Current.acp.fiscal_year_for(year).range })
@@ -84,31 +84,31 @@ class BasketContent < ApplicationRecord
   end
 
   def distribution_automatic?
-    distribution_mode == 'automatic'
+    distribution_mode == "automatic"
   end
 
   def distribution_manual?
-    distribution_mode == 'manual'
+    distribution_mode == "manual"
   end
 
   def basket_size_ids_quantities
-    return {} if distribution_mode == 'automatic'
+    return {} if distribution_mode == "automatic"
 
-    basket_size_ids.map { |bs| [bs, basket_size_ids_quantity(bs)] }.to_h
+    basket_size_ids.map { |bs| [ bs, basket_size_ids_quantity(bs) ] }.to_h
   end
 
   def basket_size_ids_percentages
-    basket_size_ids.map { |bs| [bs, basket_percentage(bs)] }.to_h
+    basket_size_ids.map { |bs| [ bs, basket_percentage(bs) ] }.to_h
   end
 
   def basket_size_ids_percentages_pro_rated
     pcts = basket_percentages_pro_rated
-    default_basket_sizes.map.with_index { |bs, i| [bs.id, pcts[i]] }.to_h
+    default_basket_sizes.map.with_index { |bs, i| [ bs.id, pcts[i] ] }.to_h
   end
 
   def basket_size_ids_percentages_even
     pcts = basket_percentages_even
-    default_basket_sizes.map.with_index { |bs, i| [bs.id, pcts[i]] }.to_h
+    default_basket_sizes.map.with_index { |bs, i| [ bs.id, pcts[i] ] }.to_h
   end
 
   def basket_size_ids_percentages=(percentages)
@@ -126,8 +126,8 @@ class BasketContent < ApplicationRecord
   def basket_percentage(basket_size)
     i =
       case distribution_mode
-      when 'automatic'; basket_size_index(basket_size)
-      when 'manual'; default_basket_size_index(basket_size)
+      when "automatic"; basket_size_index(basket_size)
+      when "manual"; default_basket_size_index(basket_size)
       end
     (i && basket_percentages[i]) || 0
   end
@@ -149,8 +149,8 @@ class BasketContent < ApplicationRecord
 
     quantity = basket_quantity(basket_size)
     case unit
-    when 'kg'; (quantity.to_f * 1000).to_i
-    when 'pc'; quantity.to_i
+    when "kg"; (quantity.to_f * 1000).to_i
+    when "pc"; quantity.to_i
     else
       0
     end
@@ -260,15 +260,15 @@ class BasketContent < ApplicationRecord
 
   def set_distribution_mode
     self.distribution_mode =
-      @quantities.values.any?(&:present?) ? 'manual' : 'automatic'
+      @quantities.values.any?(&:present?) ? "manual" : "automatic"
   end
 
   def set_basket_quantities
     return unless quantity
 
     case distribution_mode
-    when 'automatic'; set_basket_quantities_automatically
-    when 'manual'; set_basket_quantities_manually
+    when "automatic"; set_basket_quantities_automatically
+    when "manual"; set_basket_quantities_manually
     end
 
     self[:surplus_quantity] = quantity - total_quantities(basket_quantities)
@@ -303,8 +303,8 @@ class BasketContent < ApplicationRecord
     self[:basket_size_ids] = non_zero_qts.keys
     self[:basket_quantities] =
       case unit
-      when 'kg'; non_zero_qts.values.map { |q| q.to_f / 1000.0 }
-      when 'pc'; non_zero_qts.values.map(&:to_i)
+      when "kg"; non_zero_qts.values.map { |q| q.to_f / 1000.0 }
+      when "pc"; non_zero_qts.values.map(&:to_i)
       end
     set_baskets_counts
   end
@@ -338,8 +338,8 @@ class BasketContent < ApplicationRecord
 
   def round_unit(quantity, method, diff)
     case unit
-    when 'kg'; ((quantity * 1000).send(method) + diff) / 1000.0
-    when 'pc'; quantity.send(method) + diff
+    when "kg"; ((quantity * 1000).send(method) + diff) / 1000.0
+    when "pc"; quantity.send(method) + diff
     end
   end
 

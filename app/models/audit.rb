@@ -6,7 +6,7 @@ class Audit < ApplicationRecord
 
   def self.find_change_of(attr, **opts)
     all
-      .includes(session: [:member, :admin])
+      .includes(session: [ :member, :admin ])
       .find { |audit|
         next unless change = audit.changes[attr]
 

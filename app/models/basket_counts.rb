@@ -26,7 +26,7 @@ class BasketCounts
   end
 
   def sum_detail
-    @basket_size_ids.map { |id| sum_basket_size(id) }.join(' / ')
+    @basket_size_ids.map { |id| sum_basket_size(id) }.join(" / ")
   end
 
   def sum_basket_size(basket_size_id)
@@ -66,7 +66,7 @@ class BasketCounts
     end
 
     def baskets_count
-      @baskets_count ||= basket_sizes_count.join(' / ')
+      @baskets_count ||= basket_sizes_count.join(" / ")
     end
 
     def basket_sizes_count

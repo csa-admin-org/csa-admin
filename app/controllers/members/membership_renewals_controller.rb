@@ -15,21 +15,21 @@ class Members::MembershipRenewalsController < Members::BaseController
   def create
     membership = current_member.current_year_membership
     case params.require(:membership).require(:renewal_decision)
-    when 'cancel'
+    when "cancel"
       membership.cancel!(renewal_params)
-      flash[:notice] = t('.flash.canceled')
-    when 'renew'
+      flash[:notice] = t(".flash.canceled")
+    when "renew"
       membership.renew!(renewal_params)
-      flash[:notice] = t('.flash.renewed')
+      flash[:notice] = t(".flash.renewed")
     end
 
     redirect_to members_memberships_path
   rescue => e
     Sentry.capture_exception(e, extra: {
       member_id: current_member.id,
-      membership_id: membership&.id,
+      membership_id: membership&.id
     })
-    redirect_back fallback_location: members_memberships_path, alert: t('.flash.error')
+    redirect_back fallback_location: members_memberships_path, alert: t(".flash.error")
   end
 
   private
@@ -74,7 +74,7 @@ class Members::MembershipRenewalsController < Members::BaseController
         :basket_complement_id, :quantity
       ])
       permitted[:memberships_basket_complements_attributes]&.select! { |i, attrs|
-        attrs['quantity'].to_i > 0
+        attrs["quantity"].to_i > 0
       }
       permitted
   end

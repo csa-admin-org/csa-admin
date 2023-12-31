@@ -9,7 +9,7 @@ class UpdateMembershipsAndBasketComplements < ActiveRecord::Migration[5.2]
       t.integer :quantity, default: 1, null: false
       t.timestamps
     end
-    add_index :memberships_basket_complements, [:basket_complement_id, :membership_id], unique: true, name: 'memberships_basket_complements_unique_index'
+    add_index :memberships_basket_complements, [ :basket_complement_id, :membership_id ], unique: true, name: 'memberships_basket_complements_unique_index'
 
     add_reference :memberships, :basket_size
     add_reference :memberships, :distribution

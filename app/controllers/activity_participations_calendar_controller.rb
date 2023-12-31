@@ -7,7 +7,7 @@ class ActivityParticipationsCalendarController < ApplicationController
       ActivityParticipation
         .joins(:activity)
         .includes(:member)
-        .where('activities.date >= ?', 1.month.ago)
+        .where("activities.date >= ?", 1.month.ago)
   end
 
   private
@@ -16,7 +16,7 @@ class ActivityParticipationsCalendarController < ApplicationController
     token = Current.acp.icalendar_auth_token
 
     if !token || params[:auth_token] != token
-      render plain: 'unauthorized', status: :unauthorized
+      render plain: "unauthorized", status: :unauthorized
     end
   end
 end

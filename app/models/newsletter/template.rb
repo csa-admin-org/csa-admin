@@ -1,6 +1,6 @@
 class Newsletter
   class Template < ApplicationRecord
-    self.table_name = 'newsletter_templates'
+    self.table_name = "newsletter_templates"
 
     DEFAULTS = %w[simple next_delivery].freeze
 
@@ -10,7 +10,7 @@ class Newsletter
 
     attr_accessor :no_preview
 
-    has_many :newsletters, foreign_key: 'newsletter_template_id'
+    has_many :newsletters, foreign_key: "newsletter_template_id"
 
     audited_attributes :contents
 
@@ -51,7 +51,7 @@ class Newsletter
           YAML.load("---\n#{yaml}")
         rescue
         end
-        [locale, data]
+        [ locale, data ]
       }.to_h
     end
 
@@ -61,9 +61,9 @@ class Newsletter
           @liquid_data_previews&.dig(locale) ||
             I18n.with_locale(locale) {
               Liquid::DataPreview.for(self).merge(
-                'subject' => I18n.t('newsletters.template.subject'))
+                "subject" => I18n.t("newsletters.template.subject"))
             }
-        [locale, data.to_yaml(line_width: -1).gsub("---\n", '')]
+        [ locale, data.to_yaml(line_width: -1).gsub("---\n", "") ]
       }.to_h
     end
 
@@ -80,10 +80,10 @@ class Newsletter
       Current.acp.languages.map { |locale|
         blocks = I18n.with_locale(locale) {
           Liquid::Template.parse(content).root.nodelist.select { |node|
-            node.class.to_s == 'Liquid::ContentBlock'
+            node.class.to_s == "Liquid::ContentBlock"
           }
         }
-        [locale, blocks]
+        [ locale, blocks ]
       }.to_h
     end
 
@@ -99,11 +99,11 @@ class Newsletter
           template_id: id,
           contents: content_blocks.map { |locale, blocks|
             block = blocks.find { |b| b.id == block_id }
-            [locale, block.raw_body]
+            [ locale, block.raw_body ]
           }.to_h,
           titles: content_blocks.map { |locale, blocks|
             block = blocks.find { |b| b.id == block_id }
-            [locale, block.title]
+            [ locale, block.title ]
           }.to_h)
       }
     end
