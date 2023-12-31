@@ -378,6 +378,10 @@ _:
           _de: Jede Emailadresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
           _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cesta.
+        group_html:
+          _de: Ermöglicht es Ihnen, die Depots nach <a href='/depot_groups'>Gruppe</a> im Anmeldeformular anzuzeigen.
+          _fr: Permet d'afficher les dépôts par <a href='/depot_groups'>groupe</a> sur le formulaire d'inscription.
+          _it: Permette di visualizzare i punti di ritiro per <a href='/depot_groups'>gruppo</a> nel modulo di registrazione.
         phones:
           _de: Durch Komma getrennt.
           _fr: Séparés par une virgule.
@@ -398,6 +402,19 @@ _:
           _de: '"Nein" auswählen, wenn das Depot nicht mehr vorhanden ist bei der Anmeldung.'
           _fr: Sélectionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
           _it: Seleziona "No" se il punto di ritiro non è più disponibile durante la registrazione.
+      depot_group:
+        information_text:
+          _de: Information, die unter dem Namen der Gruppe auf dem Anmeldeformular angezeigt wird.
+          _fr: Information affichée en dessous du nom du groupe sur le formulaire d'inscription.
+          _it: Informazioni visualizzate sotto il nome del gruppo sul modulo di registrazione.
+        member_order_priority:
+          _de: Sortiert standardmäßig alphabetisch.
+          _fr: Trié par ordre alphabétique par défaut.
+          _it: Ordinato per impostazione predefinita in ordine alfabetico.
+        public_name:
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione).
       invoice:
         activity_price:
           _de: Betrag für eine einmalige Teilnahme.

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_28_093532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -256,7 +256,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
     t.jsonb "names", default: {}, null: false
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
-    t.integer "form_priority", default: 0, null: false
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.integer "activity_participations_demanded_annualy", default: 0, null: false
@@ -311,7 +310,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
     t.integer "acp_shares_number"
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
-    t.integer "form_priority", default: 0, null: false
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.bigint "delivery_cycle_id"
@@ -371,7 +369,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
   create_table "delivery_cycles", force: :cascade do |t|
     t.jsonb "names", default: {}, null: false
     t.jsonb "public_names", default: {}, null: false
-    t.integer "form_priority", default: 0, null: false
     t.integer "wdays", default: [0, 1, 2, 3, 4, 5, 6], null: false, array: true
     t.integer "months", default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false, array: true
     t.integer "week_numbers", default: 0, null: false
@@ -389,6 +386,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
     t.index ["depot_id", "delivery_cycle_id"], name: "index_delivery_cycles_depots_on_depot_id_and_delivery_cycle_id", unique: true
   end
 
+  create_table "depot_groups", force: :cascade do |t|
+    t.jsonb "names", default: {}, null: false
+    t.jsonb "public_names", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "depots", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
     t.string "address", limit: 255
@@ -404,12 +409,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
     t.string "language", default: "fr", null: false
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
-    t.integer "form_priority", default: 0, null: false
     t.string "contact_name"
     t.integer "member_order_priority", default: 1, null: false
     t.integer "position"
     t.integer "member_ids_position", default: [], array: true
     t.string "delivery_sheets_mode", default: "signature", null: false
+    t.bigint "group_id"
+    t.index ["group_id"], name: "index_depots_on_group_id"
     t.index ["visible"], name: "index_depots_on_visible"
   end
 
@@ -800,6 +806,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_150148) do
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
+  add_foreign_key "depots", "depot_groups", column: "group_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"

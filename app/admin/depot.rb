@@ -8,6 +8,7 @@ ActiveAdmin.register Depot do
   filter :name_cont,
     label: -> { Depot.human_attribute_name(:name) },
     as: :string
+  filter :group, as: :select
   filter :city_cont,
     label: -> { Depot.human_attribute_name(:city) },
     as: :string
@@ -17,7 +18,7 @@ ActiveAdmin.register Depot do
   index do
     column :id, ->(d) { auto_link d, d.id }
     column :name, ->(d) { link_to display_name_with_public_name(d), d }
-    column :city
+    column :group
     if Depot.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
@@ -56,6 +57,7 @@ ActiveAdmin.register Depot do
     if Current.acp.languages.many?
       column(:language) { |d| t("languages.#{d.language}") }
     end
+    column(:group) { |d| d.depot_group&.name }
     column(:price) { |d| cur(d.price) }
     column(:note)
     column(:address_name)
@@ -65,6 +67,10 @@ ActiveAdmin.register Depot do
     column(:contact_name)
     column(:emails) { |d| d.emails_array.join(', ') }
     column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(', ') }
+  end
+
+  action_item :depot_group, only: :index do
+    link_to DepotGroup.model_name.human(count: 2), depot_groups_path
   end
 
   show do |depot|
@@ -106,6 +112,7 @@ ActiveAdmin.register Depot do
           row :id
           row :name
           row :public_name
+          row(:group)
           if Current.acp.languages.many?
             row(:language) { t("languages.#{depot.language}") }
           end
@@ -158,6 +165,9 @@ ActiveAdmin.register Depot do
       translated_input(f, :public_names,
         required: false,
         hint: t('formtastic.hints.depot.public_name'))
+      f.input :group,
+        as: :select,
+        hint: t('formtastic.hints.depot.group_html')
       language_input(f)
       f.input :price, hint: true
       f.input :note, input_html: { rows: 3 }
@@ -216,7 +226,9 @@ ActiveAdmin.register Depot do
 
   permit_params(
     *%i[
-      name language price visible note
+      name language
+      group_id
+      price visible note
       address_name address zip city
       contact_name emails phones
       member_order_priority

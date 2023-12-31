@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'rails_helper'
 
 describe 'members page' do
   let(:member) { create(:member, :active, phones: '76 332 33 11') }
@@ -41,6 +42,98 @@ describe 'members page' do
         text: "Jardin de la main PUBLICRue de la main 6-7")
       expect(page).to have_selector('span',
         text: "Vélo PUBLICCHF 16 (8.-/livraison), Uniquement à Neuchâtel")
+
+      fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
+      fill_in 'Adresse', with: 'Nowhere srteet 2'
+      fill_in 'NPA', with: '2042'
+      fill_in 'Ville', with: 'Moon City'
+      select 'Suisse', from: 'Pays'
+
+      fill_in 'Email(s)', with: 'john@doe.com, jane@doe.com'
+      fill_in 'Téléphone(s)', with: '077 142 42 42, 077 143 44 44'
+
+      choose 'Eveil PUBLIC'
+      choose "+ 4.-/panier"
+      fill_in 'Oeufs PUBLIC', with: '1'
+      fill_in 'Pain PUBLIC', with: '2'
+      choose 'Vélo PUBLIC'
+
+      choose 'Trimestriel'
+
+      fill_in 'Profession', with: 'Pompier'
+      fill_in 'Comment avez-vous entendu parler de nous?', with: 'Bouche à oreille'
+      fill_in 'Remarque(s)', with: 'Vive Rage de Vert!'
+
+      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+
+      click_button 'Envoyer'
+
+      expect(page).to have_content 'Merci pour votre inscription!'
+
+      member = Member.last
+      expect(member).to have_attributes(
+        name: 'John et Jame Doe',
+        address: 'Nowhere srteet 2',
+        country_code: 'CH',
+        zip: '2042',
+        city: 'Moon City',
+        emails: 'john@doe.com, jane@doe.com',
+        phones: '+41771424242, +41771434444',
+        language: 'fr',
+        profession: 'Pompier',
+        come_from: 'Bouche à oreille',
+        note: 'Vive Rage de Vert!')
+      expect(member.waiting_basket_size.name).to eq 'Eveil'
+      expect(member.waiting_basket_price_extra).to eq 4
+      expect(member.waiting_depot.name).to eq 'Vélo'
+      expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
+      expect(member.members_basket_complements.map(&:quantity)).to eq [1, 2]
+      expect(member.annual_fee).to eq Current.acp.annual_fee
+      expect(member.billing_year_division).to eq 4
+    end
+
+    specify 'create a new member with membership and depot group' do
+      Current.acp.update!(
+        languages: %w[fr de],
+        basket_price_extra_title: 'Cotistation solidaire',
+        basket_price_extras: '0, 1, 2, 4, 8',
+        basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
+      create_deliveries(2)
+      create(:basket_size, :small)
+      create(:basket_size, :big, form_detail: "Super Grand Panier, 66.50 CHF")
+
+      create(:basket_complement, name: 'Oeufs', price: 4.8, form_detail: "Seulement 9.60 CHF")
+      create(:basket_complement, name: 'Pain', price: 6.5, delivery_ids: Delivery.pluck(:id).select(&:odd?))
+
+      group_1 = create(:depot_group, name: 'Self-service', information_text: '<b>Ouvert 24/7</b>')
+      group_2 = create(:depot_group, name: 'A Domicile')
+      create(:depot, group: group_1, name: 'Jardin de la main', price: 0, address: 'Rue de la main 6-7', zip: nil)
+      create(:depot, group: group_2, name: 'Vélo', price: 8, address: 'Uniquement à Neuchâtel', zip: nil)
+      create(:depot, name: 'Domicile', visible: false)
+
+      visit '/new'
+
+      expect(page).to have_selector('span',
+        text: "Abondance PUBLICSuper Grand Panier, 66.50 CHF")
+      expect(page).to have_selector('span',
+        text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
+      expect(page).to have_selector('span',
+        text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
+
+      expect(page).to have_selector('label',
+        text: "Oeufs PUBLICSeulement 9.60 CHF")
+      expect(page).to have_selector('label',
+        text: "Pain PUBLICCHF 6.50 (6.50 x 1 livraison)")
+
+      expect(page).to have_selector('label', text: 'Self-service')
+      expect(page).to have_selector('.trix-content b', text: 'Ouvert 24/7')
+      expect(page).to have_selector('span',
+        text: "Jardin de la main PUBLICRue de la main 6-7")
+      expect(page).to have_selector('label', text: 'A Domicile')
+      expect(page).to have_selector('span',
+        text: "Vélo PUBLICCHF 16 (8.-/livraison), Uniquement à Neuchâtel")
+
+      save_and_open_page
 
       fill_in 'Nom(s) de famille et prénom(s)', with: 'John et Jame Doe'
       fill_in 'Adresse', with: 'Nowhere srteet 2'

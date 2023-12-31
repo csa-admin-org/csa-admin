@@ -593,6 +593,10 @@ _:
           _de: Lieferungen (zukünftige)
           _fr: Livraisons (future)
           _it: Consegne (future)
+        group:
+          _de: Gruppe
+          _fr: Groupe
+          _it: Gruppo
         price:
           _de: Preis/Tasche
           _fr: Prix/panier
@@ -1513,6 +1517,15 @@ _:
           _de: Depots
           _fr: Dépôts
           _it: Punti di ritiro
+      depot_group:
+        one:
+          _de: Depot-Gruppe
+          _fr: Groupe de dépôts
+          _it: Gruppo di punti di ritiro
+        other:
+          _de: Depot-Gruppen
+          _fr: Groupes de dépôts
+          _it: Gruppi di punti di ritiro
       invoice:
         one:
           _de: Rechnung

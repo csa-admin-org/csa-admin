@@ -3,6 +3,7 @@ class Ability
 
   MODELS_MAPPING = {
     delivery: [Delivery, DeliveryCycle],
+    depot: [Depot, DepotGroup],
     membership: [Membership, Basket],
     billing: [Invoice, Payment],
     activity: [Activity, ActivityParticipation, ActivityPreset],
