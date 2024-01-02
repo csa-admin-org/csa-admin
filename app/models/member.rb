@@ -115,7 +115,6 @@ class Member < ApplicationRecord
 
   def billable?
     support? || current_year_membership&.billable? || future_membership&.billable?
-    [ asda ]
   end
 
   def name=(name)
