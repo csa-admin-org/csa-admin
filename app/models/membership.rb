@@ -277,6 +277,10 @@ class Membership < ApplicationRecord
     renewed_at?
   end
 
+  def can_renew?
+    delivery_cycle&.future_deliveries&.any?
+  end
+
   def renewed_membership
     @renewed_membership ||= member.memberships.during_year(fy_year + 1).first
   end
