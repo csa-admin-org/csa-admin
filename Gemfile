@@ -34,7 +34,7 @@ gem "slim"
 # Admin section
 gem "turbolinks"
 # Members section
-gem "importmap-rails"
+gem "importmap-rails", "~> 1.2"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
