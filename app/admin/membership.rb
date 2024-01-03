@@ -377,7 +377,8 @@ ActiveAdmin.register Membership do
                       form: {
                         data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                       },
-                      data: { confirm: t(".confirm") }
+                      data: { confirm: t(".confirm") },
+                      disabled: !m.can_renew?
                   end
                 end
                 if authorized?(:cancel, m)
@@ -408,8 +409,9 @@ ActiveAdmin.register Membership do
                         form: {
                           data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                         },
-                        data: { confirm: t(".confirm") }
-                      end
+                        data: { confirm: t(".confirm") },
+                        disabled: !m.can_renew?
+                    end
                   end
                 end
                 if authorized?(:cancel, m)
