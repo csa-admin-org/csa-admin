@@ -504,8 +504,12 @@ p {
   .email-wrapper,
   .email-masthead,
   .email-footer {
+    background-color: #000000 !important;
+    color: #eee !important;
+  }
+
+  .email-body_inner {
     background-color: #333333 !important;
-    color: #fff !important;
   }
 
   p,
@@ -515,11 +519,11 @@ p {
   h1,
   h2,
   h3 {
-    color: #fff !important;
+    color: #eee !important;
   }
 
   .email-masthead img {
-    filter: invert(0.8) hue-rotate(180deg);
+    filter: invert(1) hue-rotate(180deg) !important;
   }
 
   .attributes_highlight,
