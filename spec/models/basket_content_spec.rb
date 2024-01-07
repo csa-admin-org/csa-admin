@@ -412,7 +412,7 @@ describe BasketContent do
       ]
     end
 
-    specify "copies all basket content from one delivery to another" do
+    specify "copies all basket content from one delivery to another", freeze: "2024-02-01" do
       from_delivery = create(:delivery)
       to_delivery = create(:delivery)
       create(:basket_content,
@@ -454,7 +454,7 @@ describe BasketContent do
         unit: "pc")
     end
 
-    specify "do nothing when deliveries has no contents" do
+    specify "do nothing when deliveries has no contents", freeze: "2024-02-01" do
       from_delivery = create(:delivery)
       to_delivery = create(:delivery)
 
@@ -463,7 +463,7 @@ describe BasketContent do
       }.not_to change { to_delivery.basket_contents.count }
     end
 
-    specify "do nothing when targer delivery has already a contents" do
+    specify "do nothing when targer delivery has already a contents", freeze: "2024-02-01" do
       from_delivery = create(:delivery)
       to_delivery = create(:delivery)
 
