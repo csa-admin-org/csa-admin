@@ -41,3 +41,6 @@ workers ENV.fetch("WEB_CONCURRENCY") { 0 }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+# https://github.com/rails/tailwindcss-rails#puma-plugin
+plugin :tailwindcss if ENV.fetch("RAILS_ENV", "development") == "development"
