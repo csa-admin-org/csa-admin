@@ -303,7 +303,7 @@ GEM
       racc (~> 1.4)
     optimist (3.1.0)
     parallel (1.24.0)
-    parser (3.3.0.0)
+    parser (3.3.0.2)
       ast (~> 2.4.1)
       racc
     patience_diff (1.2.0)
@@ -344,7 +344,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (5.0.4)
-    puma (6.4.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.7.3)
@@ -408,7 +408,7 @@ GEM
       connection_pool
     redlock (2.0.6)
       redis-client (>= 0.14.1, < 1.0.0)
-    regexp_parser (2.8.3)
+    regexp_parser (2.9.0)
     reline (0.4.2)
       io-console (~> 0.5)
     request_store (1.5.1)
@@ -454,7 +454,7 @@ GEM
     rubocop-minitest (0.34.3)
       rubocop (>= 1.39, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-performance (1.20.1)
+    rubocop-performance (1.20.2)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
     rubocop-rails (2.23.1)
@@ -528,13 +528,13 @@ GEM
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
-    tailwindcss-rails (2.2.0)
+    tailwindcss-rails (2.2.1)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.2.0-arm64-darwin)
+    tailwindcss-rails (2.2.1-arm64-darwin)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.2.0-x86_64-darwin)
+    tailwindcss-rails (2.2.1-x86_64-darwin)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.2.0-x86_64-linux)
+    tailwindcss-rails (2.2.1-x86_64-linux)
       railties (>= 6.0.0)
     temple (0.10.3)
     terminal-table (3.0.2)
