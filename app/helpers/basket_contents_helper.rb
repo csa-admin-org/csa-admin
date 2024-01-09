@@ -102,7 +102,7 @@ module BasketContentsHelper
     return yield unless price.present?
 
     unit_price = I18n.t("units.#{unit}_quantity", quantity: "#{cur(price)}/")
-    (yield + content_tag(:span, unit_price, class: "price")).html_safe
+    (yield + content_tag(:span, unit_price, class: "subtitle")).html_safe
   end
 
   def units_collection
