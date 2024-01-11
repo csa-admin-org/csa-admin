@@ -19,7 +19,7 @@ class InvoiceOverdueNoticer
     invoice.save!
 
     # Leave some time for the new invoice PDF to be uploaded
-    MailTemplate.deliver_later(:invoice_overdue_notice, invoice: invoice, wait: 5.seconds)
+    MailTemplate.deliver_later(:invoice_overdue_notice, invoice: invoice)
 
     if invoice.overdue_notices_count == 3
       Admin.notify!(:invoice_third_overdue_notice, invoice: invoice)

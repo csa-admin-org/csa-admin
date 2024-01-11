@@ -51,7 +51,7 @@ class MailTemplate < ApplicationRecord
     active_template(title)&.mail(**args)&.deliver_now
   end
 
-  def self.deliver_later(title, wait: nil, **args)
+  def self.deliver_later(title, wait: 5.seconds, **args)
     later_args = {}
     later_args[:wait] = wait if wait
     active_template(title)&.mail(**args)&.deliver_later(**later_args)
