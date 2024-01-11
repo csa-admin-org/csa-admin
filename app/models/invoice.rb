@@ -147,7 +147,7 @@ class Invoice < ApplicationRecord
     raise UnprocessedError if processing?
 
     # Leave some time for the invoice PDF to be uploaded
-    MailTemplate.deliver_later(:invoice_created, invoice: self, wait: 5.seconds)
+    MailTemplate.deliver_later(:invoice_created, invoice: self)
     update!(sent_at: Time.current)
     close_or_open!
   rescue => e
