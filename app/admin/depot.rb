@@ -57,7 +57,7 @@ ActiveAdmin.register Depot do
     if Current.acp.languages.many?
       column(:language) { |d| t("languages.#{d.language}") }
     end
-    column(:group) { |d| d.depot_group&.name }
+    column(:group) { |d| d.group&.name }
     column(:price) { |d| cur(d.price) }
     column(:note)
     column(:address_name)
