@@ -380,6 +380,20 @@ describe Billing::Invoicer do
         expect(invoice.memberships_amount_description).to eq "Facturation trimestrielle #4"
       }
     end
+
+    specify "when quarter #4 does not include any delivery and billing_ends_on_last_delivery_fy_month is true" do
+      Current.acp.update!(billing_ends_on_last_delivery_fy_month: true)
+      travel_to("2022-01-01") {
+        create(:delivery, date: "2022-01-01")
+        create(:delivery, date: "2022-09-30")
+        create_invoice(member)
+      }
+      travel_to("2022-04-01") { create_invoice(member) }
+      travel_to("2022-07-01") {
+        create_invoice(member)
+        expect(membership.missing_invoices_amount).to eq 0
+      }
+    end
   end
 
   context "when billed mensualy" do
@@ -479,6 +493,19 @@ describe Billing::Invoicer do
         expect(described_class.new(member.reload)).not_to be_billable
       }
     end
+
+    specify "when month #10 does not include any delivery and billing_ends_on_last_delivery_fy_month is true" do
+      Current.acp.update!(billing_ends_on_last_delivery_fy_month: true)
+      travel_to("2022-01-01") {
+        create(:delivery, date: "2022-01-01")
+        create(:delivery, date: "2022-09-30")
+        create_invoice(member)
+      }
+      travel_to("2022-09-01") {
+        create_invoice(member)
+        expect(membership.missing_invoices_amount).to eq 0
+      }
+    end
   end
 
   describe "#next_date" do
@@ -532,7 +559,6 @@ describe Billing::Invoicer do
         expect(described_class.new(member.reload).next_date).to be_nil
       end
     end
-
 
     specify "membership beginning of the year, wait after first delivery" do
       member = travel_to "2021-01-01" do # Friday

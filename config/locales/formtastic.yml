@@ -82,10 +82,14 @@ _:
           _de: Nach Ablauf dieser Frist ist eine Änderung nicht mehr möglich. Null bedeutet, dass die Änderung noch am Tag der Lieferung möglich ist.
           _fr: Passé ce délai, la modification n'est plus possible. Zéro signifie que la modification est toujours possible le jour même de la livraison.
           _it: Dopo questo periodo, la modifica non è più possibile. Zero significa che la modifica è ancora possibile il giorno della consegna.
+        billing_ends_on_last_delivery_fy_month:
+          _de: Wenn deaktiviert, erstreckt sich die Rechnungsstellung bis zum Ende des Abonnements.
+          _fr: Si désactivée, la facturation s'étend jusqu'à la date de fin de l'abonnement.
+          _it: Se disattivato, la fatturazione si estende fino alla data di fine dell'abbonamento.
         billing_starts_after_first_delivery:
-          _de: Wenn deaktiviert, erfolgt die Rechnungsstellung ab Beginn des Abonnements..
-          _fr: Si désactivée, la facturation aura lieu dès le début de l'abonnement.
-          _it: Se disattivato, la fatturazione avverrà dall'inizio dell'abbonamento..
+          _de: Wenn deaktiviert, beginnt die Rechnungsstellung mit dem Beginn des Abonnements.
+          _fr: Si désactivée, la facturation commence dès la date du début de l'abonnement.
+          _it: Se disattivato, la fatturazione inizia con l'inizio dell'abbonamento.
         delivery_cycles_member_order_mode:
           _de: Legt die Reihenfolge der Lieferzyklen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _fr: Permet de définir l'ordre d'affichage des cycles de livraison dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.

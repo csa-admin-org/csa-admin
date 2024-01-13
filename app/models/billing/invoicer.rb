@@ -90,9 +90,16 @@ module Billing
     end
 
     def membership_amount_fraction
-      membership_end_fy_month = Current.acp.fy_month_for(membership.ended_on)
-      remaining_months = [ membership_end_fy_month, fy_month ].max - fy_month + 1
+      remaining_months = [ fy_month, last_fy_month ].max - fy_month + 1
       (remaining_months / period_length_in_months.to_f).ceil
+    end
+
+    def last_fy_month
+      end_dates = [ membership.ended_on ]
+      if Current.acp.billing_ends_on_last_delivery_fy_month?
+        end_dates << membership.deliveries.last.date
+      end
+      Current.acp.fy_month_for(end_dates.min)
     end
 
     def membership_amount_description

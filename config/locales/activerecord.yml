@@ -103,6 +103,10 @@ _:
           _de: Änderungen vor der Lieferung erlauben (in Tagen)
           _fr: Délai de modification avant la livraison (en jours)
           _it: Permettere la modifica prima della consegna (in giorni)
+        billing_ends_on_last_delivery_fy_month:
+          _de: Abonnements nur bis zu ihrer letzten Lieferung in Rechnung stellen
+          _fr: Facturer les abonnements jusqu'à leur dernière livraison uniquement
+          _it: Fatturare gli abbonamenti solo fino all'ultima consegna
         billing_starts_after_first_delivery:
           _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
           _fr: Facturer les abonnements seulement après leur première livraison
