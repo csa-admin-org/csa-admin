@@ -7,7 +7,7 @@ module InvoicesHelper
 
   def display_entity(invoice, link: true)
     if link && invoice.entity
-      auto_link invoice.entity, t_invoice_entity_type(invoice.entity_type)
+      auto_link invoice.entity
     else
       t_invoice_entity_type(invoice.entity_type)
     end
