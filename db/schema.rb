@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_28_093532) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_13_104030) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_28_093532) do
     t.decimal "new_member_fee", precision: 8, scale: 2
     t.jsonb "new_member_fee_descriptions", default: {}, null: false
     t.jsonb "member_information_titles", default: {}, null: false
+    t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

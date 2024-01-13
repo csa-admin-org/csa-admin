@@ -53,6 +53,7 @@ ActiveAdmin.register ACP do
           f.input :send_closed_invoice, as: :boolean
           f.input :trial_basket_count
           f.input :billing_starts_after_first_delivery, as: :boolean
+          f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
           f.input :annual_fee, as: :number
           f.input :share_price, as: :number
           f.input :vat_number
@@ -377,7 +378,7 @@ ActiveAdmin.register ACP do
     :send_closed_invoice,
     :open_renewal_reminder_sent_after_in_days,
     :membership_renewal_depot_update,
-    :billing_starts_after_first_delivery,
+    :billing_starts_after_first_delivery, :billing_ends_on_last_delivery_fy_month,
     :allow_alternative_depots,
     :member_form_extra_text_only,
     :basket_sizes_member_order_mode, :basket_complements_member_order_mode,
