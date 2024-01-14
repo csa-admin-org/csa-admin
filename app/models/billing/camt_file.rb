@@ -31,8 +31,8 @@ module Billing
                       amount: transaction.amount,
                       date: date,
                       fingerprint: "#{date}-#{bank_ref}-#{ref}")
-                  else
-                    Sentry.capture_message("Invalid payment referrence", extra: {
+                  elsif unknown_ref?(ref)
+                    Sentry.capture_message("Unknown payment referrence", extra: {
                       ref: ref,
                       bank_ref: bank_ref,
                       amount: transaction.amount,
@@ -63,6 +63,10 @@ module Billing
     # Only validate ref with numbers
     def valid_ref?(ref)
       ref.present? && ref =~ /\A\d+\z/ && ref.length == QRReferenceNumber::LENGTH
+    end
+
+    def unknown_ref?(ref)
+      ref.present? && !ref.start_with?("RF")
     end
   end
 end
