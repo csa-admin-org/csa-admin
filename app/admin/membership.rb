@@ -699,7 +699,7 @@ ActiveAdmin.register Membership do
     if member = Member.find_by(id: params[:member_id])
       membership.member_id ||= member.id
       membership.basket_size_id ||= member.waiting_basket_size&.id
-      if member.waiting_basket_price_extra&.positive?
+      if member.waiting_basket_price_extra
         membership.basket_price_extra = member.waiting_basket_price_extra
       end
       membership.depot_id ||= member.waiting_depot&.id
