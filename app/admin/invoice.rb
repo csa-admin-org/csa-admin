@@ -41,7 +41,13 @@ ActiveAdmin.register Invoice do
     collection: -> { fiscal_years_collection }
 
   includes :payments, pdf_file_attachment: :blob, member: :last_membership
-  index do
+  index download_links: -> {
+    if !collection.respond_to?(:total_count) || collection.total_count <= ENV.fetch("INVOICE_PDFS_MAX_LIMIT", 500)
+      [ :csv, :zip ]
+    else
+      [ :csv ]
+    end
+   } do
     column :id, ->(i) { auto_link i, i.id }
     column :date, ->(i) { l i.date, format: :number }
     column :member, sortable: "members.name"
@@ -397,13 +403,31 @@ ActiveAdmin.register Invoice do
     include TranslatedCSVFilename
     include ApplicationHelper
 
+    after_action :refresh_invoice, only: :update
+
+    def index
+      super do |format|
+        format.zip do
+          zip = InvoicesPDFZipper.zip(collection)
+          send_file zip.path,
+            type: "application/zip",
+            filename: "invoices-#{Date.current}.zip"
+        end
+      end
+    end
+
+    private
+
+    # Skip pagination when downloading a zip file
+    def apply_pagination(chain)
+      return chain if params["format"] == "zip"
+
+      super
+    end
+
     def apply_sorting(chain)
       super(chain).joins(:member).order("members.name", id: :desc)
     end
-
-    after_action :refresh_invoice, only: :update
-
-    private
 
     def refresh_invoice
       if resource.valid?

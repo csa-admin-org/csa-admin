@@ -615,6 +615,7 @@ DEPENDENCIES
   lograge
   matrix
   nokogiri
+  parallel
   pdf-inspector
   pg
   phony_rails
@@ -636,6 +637,7 @@ DEPENDENCIES
   ruby-lsp-rails
   ruby-lsp-rspec
   rubyXL
+  rubyzip
   sentry-rails
   sentry-ruby
   sentry-sidekiq

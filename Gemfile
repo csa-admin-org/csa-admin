@@ -56,6 +56,8 @@ gem "prawn-table"
 gem "public_suffix"
 gem "rubyXL"
 gem "rexml"
+gem "rubyzip", require: "zip"
+gem "parallel"
 
 gem "postmark-rails"
 gem "premailer-rails"
