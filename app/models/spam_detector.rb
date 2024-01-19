@@ -9,7 +9,7 @@ class SpamDetector
   end
 
   def self.notify!(member)
-    return if non_allowed_country?
+    return if new(member).non_allowed_country?
 
     Sentry.capture_message("Spam detected", extra: member.attributes)
   end
