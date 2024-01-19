@@ -9,6 +9,8 @@ module Tenant
         Tenant.connect(Tenant.current)
         find(id)
       end
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      raise ActiveRecord::RecordNotFound
     end
   end
 end
