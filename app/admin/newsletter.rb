@@ -69,11 +69,14 @@ ActiveAdmin.register Newsletter do
         end
       end
       column do
-        panel t(".suppressed_emails", count: newsletter.suppressed_emails.size) do
+        panel t(".suppressed_emails", count: newsletter.suppressed_emails.size), data: { controller: "show-all" } do
           if newsletter.suppressed_emails.any?
             members = newsletter.all_members
             active_suppressions = EmailSuppression.active.where(email: newsletter.suppressed_emails)
-            table_for(newsletter.suppressed_emails) do
+            newsletter.suppressed_emails.sort_by! { |email|
+              active_suppressions.find { |s| s.email == email }&.created_at || 10.years.ago
+            }&.reverse!
+            table_for(newsletter.suppressed_emails, class: "partially-hidden", data: { "show-all-target" => "elements" }) do
               column(:email) { |email|
                 member = members.find { |m| m.emails_array.include?(email) }
                 if member
@@ -98,10 +101,17 @@ ActiveAdmin.register Newsletter do
                 end
               }
             end
-            if newsletter.sent?
-              para(em t(".suppressed_emails_sent_description"))
-            else
-              para(em t(".suppressed_emails_description"))
+            if newsletter.suppressed_emails.size > 6
+              em link_to(t(".show_all")), class: "show_more", data: { action: "click->show-all#showAll" }
+            end
+            para class: "bottom-text" do
+              em do
+                if newsletter.sent?
+                  t(".suppressed_emails_sent_description")
+                else
+                  t(".suppressed_emails_description")
+                end
+              end
             end
           else
             em t(".none")
