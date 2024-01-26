@@ -257,10 +257,10 @@ _:
         _fr: Laisser vide si inchangé.
         _it: Lasciare vuoto se invariato.
       announcement:
-        text:
-          _de: Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
-          _fr: L'annonce sera affichée sur les fiches (PDF) des paires dépôts/livraisons ci-dessous.
-          _it: L'annuncio verrà visualizzato sulla coppia di fogli punti di ritiro/consegne (PDF) qui sotto.
+        text_html:
+          _de: Bitte überprüfen Sie, dass die Anzeige auf den Blättern nicht überläuft.<br/>Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
+          _fr: Merci de vérifier que l'affichage sur les fiches ne déborde pas.<br/>L'annonce sera affichée sur les fiches (PDF) des paires dépôts/livraisons ci-dessous.
+          _it: Controlla che l'annuncio non esca dal foglio.<br/>L'annuncio verrà visualizzato sulla coppia di fogli punti di ritiro/consegne (PDF) qui sotto.
       basket:
         basket_price:
           _de: Leer lassen für den Standardpreis.

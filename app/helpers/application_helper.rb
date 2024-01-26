@@ -119,6 +119,17 @@ module ApplicationHelper
     }
   end
 
+  def display_objects(objects, limit: 5)
+    return "–" if objects.empty?
+
+    links = objects.first(limit).map { |o| auto_link(o) }
+    if objects.size > limit
+      links.join(", ").html_safe + ", ..."
+    else
+      links.to_sentence.html_safe
+    end
+  end
+
   def wdays_collection(novalue = nil)
     col = Array(0..6).rotate.map { |d| [ I18n.t("date.day_names")[d].capitalize, d ] }
     col = [ [ novalue, nil ] ] + col if novalue
