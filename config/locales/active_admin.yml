@@ -663,6 +663,10 @@ _:
           _de: Verlangte Arbeitsstunden
           _fr: Heures de travail demandées
           _it: Ore di lavoro richieste
+        announcement_info:
+          _de: Ankündigungen ermöglichen es, eine kurze Information auf den Lieferblättern anzuzeigen, oben rechts auf diesen.
+          _fr: Les annonces permettent d'afficher une information succincte sur les fiches de livraison, en haut à droite de celles-ci.
+          _it: Gli annunci consentono di visualizzare un'informazione sintetica sulle schede di consegna, in alto a destra di queste ultime.
         basket_prices:
           _de: Wert der Taschen (%{currency})
           _fr: Valeur des paniers (%{currency})

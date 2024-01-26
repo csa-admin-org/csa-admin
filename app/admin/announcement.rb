@@ -8,25 +8,19 @@ ActiveAdmin.register Announcement do
   index(
     download_links: false,
     title: -> { "#{Announcement.model_name.human(count: 2)} (#{Delivery.human_attribute_name(:sheets)})" }) do
-    column :text, ->(a) { a.text }
-    column :depots, ->(a) {
-      truncate(
-        a.depots.map { |d|
-          link_to(d.name, d)
-        }.to_sentence.html_safe,
-        length: 250,
-        escape: false)
-    }
+    column :text, ->(a) { simple_format(a.text) }
+    column :depots, ->(a) { display_objects(a.depots) }
     column Announcement.human_attribute_name(:future_deliveries), ->(a) {
-      truncate(
-        a.coming_deliveries.map { |d|
-          link_to(d.display_name, d)
-        }.to_sentence.html_safe,
-        length: 250,
-        escape: false).presence || "–"
+      display_objects(a.coming_deliveries)
     }
     if authorized?(:update, Announcement)
       actions class: "col-actions-2"
+    end
+  end
+
+  sidebar :info, only: :index do
+    div class: "content" do
+      t(".announcement_info")
     end
   end
 
@@ -34,7 +28,9 @@ ActiveAdmin.register Announcement do
     f.semantic_errors :base
     f.inputs do
       translated_input(f, :texts,
-        hint: t("formtastic.hints.announcement.text"))
+        as: :text,
+        input_html: { rows: 4, cols: 32 } ,
+        hint: t("formtastic.hints.announcement.text_html"))
       f.input :depot_ids,
         collection: Depot.all,
         as: :check_boxes,
