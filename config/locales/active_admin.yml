@@ -1108,6 +1108,10 @@ _:
           _de: Senden
           _fr: Envoyer
           _it: Inviare
+        show_all:
+          _de: alles anzeigen
+          _fr: tout afficher
+          _it: mostra tutto
         show_more:
           _de: mehr anzeigen
           _fr: voir plus
