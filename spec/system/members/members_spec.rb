@@ -31,7 +31,7 @@ describe "members page" do
       expect(page).to have_selector("span",
         text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
-        text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
+        text: "Devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector("label",
         text: "Oeufs PUBLICSeulement 9.60 CHF")
@@ -118,7 +118,7 @@ describe "members page" do
       expect(page).to have_selector("span",
         text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
-        text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
+        text: "Devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector("label",
         text: "Oeufs PUBLICSeulement 9.60 CHF")
@@ -204,7 +204,7 @@ describe "members page" do
       expect(page).to have_selector("span",
         text: "Eveil PUBLICCHF 23.15-46.25 (~23.15 x 1-2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
-        text: "Aucun, devenir membre de soutienCotisation annuelle uniquement")
+        text: "Devenir membre de soutienCotisation annuelle uniquement")
 
       expect(page).to have_selector("span",
         text: "Jardin de la main PUBLIC2 livraisons, Rue de la main 6-7")
@@ -377,7 +377,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Aucun, devenir membre de soutien"
+      choose "Devenir membre de soutien"
 
       click_button "Envoyer"
 
@@ -423,7 +423,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Aucun, devenir membre de soutien"
+      choose "Devenir membre de soutien"
       fill_in "Nombre de parts sociales désiré", with: "3"
 
       check "J'ai lu attentivement et accepte avec plaisir les statuts et le règlement."
@@ -505,7 +505,7 @@ describe "members page" do
 
       fill_in "Email(s)", with: "john@doe.com"
 
-      choose "Aucun, devenir membre de soutien"
+      choose "Devenir membre de soutien"
 
       click_button "Envoyer"
 
@@ -520,9 +520,9 @@ describe "members page" do
       visit "/new"
 
       expect(page).not_to have_selector("span",
-        text: "Aucun, devenir membre de soutien(cotisation annuelle uniquement)")
+        text: "Devenir membre de soutien(cotisation annuelle uniquement)")
       expect(page).not_to have_selector("span",
-        text: "Aucun, devenir membre de soutien")
+        text: "Devenir membre de soutien")
     end
 
     specify "with different form modes" do
