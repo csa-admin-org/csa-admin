@@ -99,13 +99,13 @@ _:
           _fr: Permet de définir l'ordre d'affichage des dépôts dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
           _it: Permette di definire l'ordine di visualizzazione dei punti di ritiro nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
         fiscal_year_start_month:
-          _de: Bitte kontaktieren Sie uns für Änderungen.
-          _fr: Merci de contacter pour tout changement.
-          _it: Grazie di contattare per qualsiasi modifica.
+          _de: Bitte kontaktieren Sie mich für Änderungen.
+          _fr: Merci de me contacter pour tout changement.
+          _it: Grazie di contattarmi per qualsiasi modifica.
         languages:
-          _de: Bitte kontaktieren Sie uns für Änderungen.
-          _fr: Merci de contacter pour tout changement.
-          _it: Grazie di contattare per qualsiasi modifica.
+          _de: Bitte kontaktieren Sie mich für Änderungen.
+          _fr: Merci de me contacter pour tout changement.
+          _it: Grazie di contattarmi per qualsiasi modifica.
         member_come_from_form_mode:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
