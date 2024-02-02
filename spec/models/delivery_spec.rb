@@ -137,6 +137,20 @@ describe Delivery do
       .and change { membership2.reload.price }.from(30).to(60)
   end
 
+  specify "handles new delivery change", freeze: "2020-01-01", sidekiq: :inline do
+    create(:delivery, date: "2020-02-01")
+    create(:delivery, date: "2020-04-01")
+
+    membership1 = create(:membership, started_on: "2020-01-01", ended_on: "2020-05-01")
+    membership2 = create(:membership, started_on: "2020-03-01", ended_on: "2020-08-01")
+
+    expect {
+      expect { create(:delivery, date: "2020-06-01") }
+        .to change { membership2.reload.baskets.size }.from(1).to(2)
+        .and change { membership2.reload.price }.from(30).to(60)
+    }.not_to change { membership1.reload.baskets.size }
+  end
+
   it "flags basket when creating them", freeze: "2020-01-01", sidekiq: :inline do
     create(:delivery, date: "2020-02-01")
     membership = create(:membership, started_on: "2020-01-01", ended_on: "2020-06-01")
