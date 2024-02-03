@@ -60,6 +60,10 @@ _:
       _de: Taschen
       _fr: Paniers
       _it: Ceste
+    billing_year_division:
+      _de: Einzahlungsintervall
+      _fr: Intervalle de paiement
+      _it: Intervallo di pagamento
     bulk_dates_ends_on:
       _de: Ende
       _fr: Fin
