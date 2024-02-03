@@ -671,6 +671,7 @@ describe PDF::Invoice do
         name: "tap",
         logo_url: "https://d2ibcm5tv7rtdh.cloudfront.net/tapatate/logo.jpg",
         share_price: 250,
+        shares_number: 1,
         fiscal_year_start_month: 4,
         invoice_info: "Payable dans les 30 jours, avec nos remerciements.",
         invoice_footer: "<b>TaPatate!<b>, c/o Danielle Huser, Dunantstrasse 6, 3006 Bern /// info@tapatate.ch")
@@ -732,6 +733,7 @@ describe PDF::Invoice do
         invoice_info: "Payable dans les 30 jours, avec nos remerciements.",
         invoice_footer: "<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84",
         share_price: 250,
+        shares_number: 1,
         fiscal_year_start_month: 4)
     }
     let(:member) {

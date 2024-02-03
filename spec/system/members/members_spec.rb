@@ -404,7 +404,8 @@ describe "members page" do
         terms_of_service_url: "https://terms_of_service.com",
         statutes_url: "https://statutes.com",
         annual_fee: nil,
-        share_price: 250)
+        share_price: 250,
+        shares_number: 2)
       create_deliveries(1)
       create(:basket_size, :small)
       create(:basket_size, :big)

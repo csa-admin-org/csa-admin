@@ -259,6 +259,10 @@ _:
           _de: Betrag Anteilschein
           _fr: Montant part sociale
           _it: Importo quota sociale cooperativa
+        shares_number:
+          _de: Anzahl Anteilscheine
+          _fr: Nombre de parts sociales
+          _it: Numero di quote sociali della cooperativa
         shop_admin_only:
           _de: Den Zugriff nur auf Admins beschränken
           _fr: Limiter l'accès uniquement aux admins

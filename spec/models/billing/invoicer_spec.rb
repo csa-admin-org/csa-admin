@@ -553,7 +553,7 @@ describe Billing::Invoicer do
     end
 
     specify "support_annual_fee member already invoiced" do
-      Current.acp.update!(annual_fee: nil, share_price: 100)
+      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 1)
       member = create(:member, :support_acp_share)
       travel_to "2021-01-01" do # Friday
         expect(described_class.new(member.reload).next_date).to be_nil

@@ -8,6 +8,7 @@ class Members::MembersController < Members::BaseController
   # GET /new
   def new
     @member = Member.new(public_create: true)
+    @member.desired_acp_shares_number = Current.acp.shares_number
     if params[:basket_size_id]
       @member.waiting_basket_size_id = params[:basket_size_id]
     end

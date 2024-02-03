@@ -55,7 +55,8 @@ ActiveAdmin.register ACP do
           f.input :billing_starts_after_first_delivery, as: :boolean
           f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
           f.input :annual_fee, as: :number
-          f.input :share_price, as: :number
+          f.input :share_price, as: :number, required: false
+          f.input :shares_number, as: :number, required: false
           f.input :vat_number
           f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01,
             label: t(".vat_rate", type: Membership.model_name.human(count: 2))
@@ -361,7 +362,7 @@ ActiveAdmin.register ACP do
     :trial_basket_count,
     :qr_iban, :qr_bank_reference, :qr_creditor_name,
     :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
-    :annual_fee, :share_price,
+    :annual_fee, :share_price, :shares_number,
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,

@@ -124,7 +124,7 @@ describe Member do
     end
 
     it "validates desired_acp_shares_number >= 1 on public create" do
-      Current.acp.update!(annual_fee: 50, share_price: nil)
+      Current.acp.update!(annual_fee: 50, share_price: nil, shares_number: nil)
       member = build(:member, desired_acp_shares_number: 0)
 
       member.public_create = nil
@@ -132,7 +132,7 @@ describe Member do
       member.public_create = true
       expect(member).to have_valid(:desired_acp_shares_number)
 
-      Current.acp.update!(annual_fee: nil, share_price: 100)
+      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 1)
 
       member.public_create = nil
       expect(member).to have_valid(:desired_acp_shares_number)
@@ -253,7 +253,7 @@ describe Member do
     end
 
     it "sets state to support if desired_acp_shares_number is present" do
-      Current.acp.update!(annual_fee: nil, share_price: 100)
+      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 1)
       member = create(:member, :pending,
         desired_acp_shares_number: 10,
         waiting_basket_size: nil,
@@ -343,7 +343,7 @@ describe Member do
     end
 
     it "sets state to support when user still has acp_shares", freeze: "2021-06-15" do
-      Current.acp.update!(share_price: 100, annual_fee: nil)
+      Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil)
       member = create(:member, :active)
       member.membership.update_column(:ended_on, 1.day.ago)
       create(:invoice, member: member, acp_shares_number: 1, entity_type: "ACPShare")
@@ -355,7 +355,7 @@ describe Member do
     end
 
     it "sets state to inactive and desired_acp_shares_number to 0 when membership ended", freeze: "2021-06-15" do
-      Current.acp.update!(share_price: 100, annual_fee: nil)
+      Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil)
       member = create(:member, :trial)
       member.update!(desired_acp_shares_number: 1)
       member.membership.update_column(:ended_on, 1.day.ago)

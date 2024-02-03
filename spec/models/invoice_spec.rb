@@ -137,7 +137,7 @@ describe Invoice do
 
   context "when acp_share" do
     it "sets entity_type to ACPShare with acp_shares_number" do
-      Current.acp.update!(share_price: 250)
+      Current.acp.update!(share_price: 250, shares_number: 1)
       invoice = create(:invoice, :manual, acp_shares_number: -2)
 
       expect(invoice.entity_type).to eq "ACPShare"
@@ -421,7 +421,7 @@ describe Invoice do
   end
 
   describe "#handle_acp_shares_change!" do
-    before { Current.acp.update!(share_price: 250) }
+    before { Current.acp.update!(share_price: 250, shares_number: 1) }
 
     it "changes inactive member state to support", sidekiq: :inline do
       member = create(:member, :inactive)
