@@ -566,6 +566,10 @@ _:
           _de: Alle Warenkorbgrößen sind enthalten, wenn keine ausgewählt ist.
           _fr: Toutes les tailles de panier sont incluses si aucune n'est sélectionnée.
           _it: Tutte le dimensioni del cestino sono incluse se nessuna è selezionata.
+        billing_year_division:
+          _de: Unterscheidet aktive Mitglieder anhand ihres Zahlungsintervalls.
+          _fr: Permet de différencier les membres actifs par leur intervalle de paiement.
+          _it: Permette di differenziare i membri attivi in base al loro intervallo di pagamento.
         coming_deliveries_in_days:
           _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Taschenlieferung.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de panier

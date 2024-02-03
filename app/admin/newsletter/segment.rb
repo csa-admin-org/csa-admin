@@ -71,7 +71,8 @@ ActiveAdmin.register Newsletter::Segment do
         collection: Current.acp.billing_year_divisions.sort.map { |i|
           [ t("billing.year_division.x#{i}"), i ]
         },
-        include_blank: true
+        include_blank: true,
+        hint: t("formtastic.hints.newsletter/segment.billing_year_division")
     end
 
     f.actions
