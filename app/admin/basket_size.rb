@@ -86,6 +86,10 @@ ActiveAdmin.register BasketSize do
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" })
 
+  before_build do |basket_size|
+    basket_size.acp_shares_number ||= Current.acp.shares_number
+  end
+
   controller do
     include TranslatedCSVFilename
     include DeliveryCyclesHelper

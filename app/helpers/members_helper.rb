@@ -78,7 +78,7 @@ module MembersHelper
         ),
         0,
         data: {
-          form_min_value_enforcer_min_value_param: 1
+          form_min_value_enforcer_min_value_param: Current.acp.shares_number
         }.merge(no_basket_data)
       ]
     end

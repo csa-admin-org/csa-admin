@@ -70,6 +70,9 @@ class ACP < ApplicationRecord
   validates :trial_basket_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
   validates :share_price, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
+  validates :share_price, presence: true, if: :shares_number?
+  validates :shares_number, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
+  validates :shares_number, presence: true, if: :share_price?
   validates :absence_notice_period_in_days,
     numericality: { greater_than_or_equal_to: 1 }
   validates :activity_i18n_scope, inclusion: { in: ACTIVITY_I18N_SCOPES }

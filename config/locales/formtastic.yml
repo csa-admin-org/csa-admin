@@ -187,9 +187,13 @@ _:
           _fr: Si désactivée, les nouvelles factures considérées comme déjà payées à cause d'une balance positive ne sont pas envoyées par la facturation automatique.
           _it: Se disattivato, le nuove fatture considerate già pagate a causa di un saldo positivo non vengono inviate dalla fatturazione automatica.
         share_price:
-          _de: Leer lassen, wenn kein Anteilschein.
+          _de: Leer lassen, wenn keine Anteilscheine.
           _fr: Laisser vide si pas de part sociale.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
+        shares_number:
+          _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Korbgröße angepasst werden. Leer lassen, wenn keine Anteilscheine.
+          _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille de panier. Laisser vide si pas de part sociale.
+          _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione del cesto. Lasciare vuoto se non ci sono quote sociali.
         shop_admin_only:
           _de: Ermöglicht es Ihnen, das Hofladen vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können das Hofladen im Menü sehen.
           _fr: Permet de cacher l'épicerie aux membres pendant la mise en place des produits. Seuls les admins accédant au compte d'un membre peuvent voir l'épicerie dans le menu.

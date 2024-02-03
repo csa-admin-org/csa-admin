@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Billing::InvoicerACPShare do
-  before { current_acp.update!(share_price: 250, trial_basket_count: 0) }
+  before { current_acp.update!(share_price: 250, shares_number: 1, trial_basket_count: 0) }
 
   def invoice(member, **attrs)
     described_class.invoice(member, **attrs)

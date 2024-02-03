@@ -44,6 +44,18 @@ describe ACP do
       .to include("Liquid syntax error: 'if' tag was never closed")
   end
 
+  specify "validate share related attribute presence" do
+    acp = ACP.new(share_price: 50, shares_number: nil)
+    expect(acp).not_to have_valid(:shares_number)
+
+    acp = ACP.new(share_price: nil, shares_number: 1)
+    expect(acp).not_to have_valid(:share_price)
+
+    acp = ACP.new(share_price: 50, shares_number: 1)
+    expect(acp).to have_valid(:share_price)
+    expect(acp).to have_valid(:shares_number)
+  end
+
   specify "validates QR IBAN" do
     acp = ACP.new(qr_iban: "CH3230114A012B456789z")
     expect(acp).to have_valid(:qr_iban)
