@@ -66,6 +66,12 @@ ActiveAdmin.register Newsletter::Segment do
         collection: renewal_states_collection,
         include_blank: true,
         hint: t("formtastic.hints.newsletter/segment.renewal_state")
+      f.input :billing_year_division,
+        as: :select,
+        collection: Current.acp.billing_year_divisions.sort.map { |i|
+          [ t("billing.year_division.x#{i}"), i ]
+        },
+        include_blank: true
     end
 
     f.actions
@@ -75,6 +81,7 @@ ActiveAdmin.register Newsletter::Segment do
     :renewal_state,
     :first_membership,
     :coming_deliveries_in_days,
+    :billing_year_division,
     *I18n.available_locales.map { |l| "title_#{l}" },
     basket_size_ids: [],
     basket_complement_ids: [],

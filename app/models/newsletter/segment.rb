@@ -24,6 +24,7 @@ class Newsletter
       members = by_renewal_state(members)
       members = by_first_membership(members)
       members = by_coming_deliveries_in_days(members)
+      members = by_billing_year_division(members)
       members
     end
 
@@ -79,6 +80,12 @@ class Newsletter
       members.includes(next_basket: :delivery).select { |m|
         m.next_basket && m.next_basket.delivery.date <= limit
       }
+    end
+
+    def by_billing_year_division(members)
+      return members unless billing_year_division?
+
+      members.where(billing_year_division: billing_year_division)
     end
   end
 end

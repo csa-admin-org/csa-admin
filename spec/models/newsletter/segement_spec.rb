@@ -124,4 +124,21 @@ describe Newsletter::Segment do
     segment = create(:newsletter_segment, first_membership: nil)
     expect(segment.members).to contain_exactly(member_1, member_2)
   end
+
+  specify "segment by billing_year_division" do
+    Current.acp.update!(billing_year_divisions: [ 1, 4 ])
+    member_1 = create(:membership).member
+    member_2 = create(:membership).member
+    member_1.update!(billing_year_division: 1)
+    member_2.update!(billing_year_division: 4)
+
+    segment = create(:newsletter_segment, billing_year_division: 1)
+    expect(segment.members).to contain_exactly(member_1)
+
+    segment = create(:newsletter_segment, billing_year_division: 4)
+    expect(segment.members).to contain_exactly(member_2)
+
+    segment = create(:newsletter_segment, billing_year_division: nil)
+    expect(segment.members).to contain_exactly(member_1, member_2)
+  end
 end

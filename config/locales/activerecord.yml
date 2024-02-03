@@ -704,10 +704,6 @@ _:
           _de: Email (Rechnung)
           _fr: Email (facturation)
           _it: E-mail (fatturazione)
-        billing_year_division:
-          _de: Einzahlungsintervall
-          _fr: Intervalle de paiement
-          _it: Intervallo di pagamento
         come_from:
           _de: Wie haben Sie von uns gehört?
           _fr: Comment avez-vous entendu parler de nous?
