@@ -28,7 +28,7 @@ class ACP < ApplicationRecord
 
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
-  translated_attributes :terms_of_service_url, :statutes_url
+  translated_attributes :charter_url, :statutes_url, :terms_of_service_url, :privacy_policy_url
   translated_attributes :shop_invoice_info
   translated_attributes :shop_delivery_pdf_footer
   translated_attributes :shop_terms_of_sale_url
@@ -162,6 +162,10 @@ class ACP < ApplicationRecord
 
   def feature_flag?(feature)
     feature_flags.include?(feature.to_sym)
+  end
+
+  def terms_of_service?
+    charter_url || statutes_url || terms_of_service_url || privacy_policy_url
   end
 
   def recurring_billing?

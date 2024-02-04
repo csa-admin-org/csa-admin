@@ -84,8 +84,6 @@ ActiveAdmin.register ACP do
       end
       tab t(".registration"), id: "registration" do
         f.inputs do
-          translated_input(f, :terms_of_service_urls, required: false)
-          translated_input(f, :statutes_urls, required: false)
           translated_input(f, :member_form_extra_texts,
             hint: t("formtastic.hints.acp.member_form_extra_text"),
             required: false,
@@ -126,6 +124,18 @@ ActiveAdmin.register ACP do
             collection: form_modes_collection,
             include_blank: false,
             required: false
+          translated_input(f, :charter_urls,
+            required: false,
+            hint: t("formtastic.hints.acp.registration_url"))
+          translated_input(f, :statutes_urls,
+            required: false,
+            hint: t("formtastic.hints.acp.registration_url"))
+          translated_input(f, :terms_of_service_urls,
+            required: false,
+            hint: t("formtastic.hints.acp.registration_url"))
+          translated_input(f, :privacy_policy_urls,
+            required: false,
+            hint: t("formtastic.hints.acp.registration_url"))
 
           para class: "actions" do
             a href: new_members_member_url(subdomain: Current.acp.members_subdomain), class: "action" do
@@ -396,8 +406,10 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
     *I18n.available_locales.map { |l| "email_footer_#{l}" },
     *I18n.available_locales.map { |l| "delivery_pdf_footer_#{l}" },
-    *I18n.available_locales.map { |l| "terms_of_service_url_#{l}" },
+    *I18n.available_locales.map { |l| "charter_url_#{l}" },
     *I18n.available_locales.map { |l| "statutes_url_#{l}" },
+    *I18n.available_locales.map { |l| "terms_of_service_url_#{l}" },
+    *I18n.available_locales.map { |l| "privacy_policy_url_#{l}" },
     *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "member_form_complements_text_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
