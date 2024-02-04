@@ -425,6 +425,23 @@ _:
             _fr: Merci de choisir un dépôt pour vos commandes.
             _it: Scegliete un punto di ritiro per i vostri ordini.
       new:
+        documents:
+          charter:
+            _de: die Statzung
+            _fr: la charte
+            _it: la carta
+          privacy_policy:
+            _de: die Datenschutzrichtlinie
+            _fr: la politique de confidentialité
+            _it: la politica sulla privacy
+          statutes:
+            _de: die Statuten
+            _fr: les statuts
+            _it: gli statuti
+          terms_of_service:
+            _de: die Regeln
+            _fr: le règlement
+            _it: le regolamento
         more_info:
           _de: Zusatzinformationen
           _fr: Infos complémentaires
@@ -441,18 +458,10 @@ _:
           _de: Senden
           _fr: Envoyer
           _it: Inviare
-        terms_of_service:
-          _de: Ich habe die Statuten und <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">le règlement</a>.
-          _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">il regolamento</a>.
-        terms_of_service_with_only_statutes:
-          _de: Ich habe <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">die Statuten</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">les statuts</a>.
-          _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">gli statuti</a>.
-        terms_of_service_with_statutes:
-          _de: Ich habe <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">die Statuten</a> und <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">das Reglement</a> gelesen und bin mit diesen einverstanden.
-          _fr: J'ai lu attentivement et accepte avec plaisir <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">les statuts</a> et <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">le règlement</a>.
-          _it: Ho letto attentamente e accetto <a class="underline hover:text-green-500" href="%{statutes_url}" target="_blank">gli statuti</a> e <a class="underline hover:text-green-500" href="%{terms_url}" target="_blank">il regolamento</a>.
+        terms_of_service_html:
+          _de: Ich habe %{documents} gelesen und bin mit diesen einverstanden.
+          _fr: J'ai lu attentivement et accepte avec plaisir %{documents}.
+          _it: Ho letto attentamente e accetto %{documents}.
         text:
           _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez pas à nous contacter pour tout renseignement complémentaire.

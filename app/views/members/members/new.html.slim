@@ -37,7 +37,7 @@ div class="mt-8"
             = f.input :come_from, as: :text, required: (Current.acp.member_come_from_form_mode == 'required'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 1, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
           = f.input :note, as: :text, label: t('.note'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 3, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
 
-      - if Current.acp.terms_of_service_url || Current.acp.statutes_url
+      - if Current.acp.terms_of_service?
         = f.input :terms_of_service, as: :boolean, label: terms_of_service_label, input_html: { class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, label_html: { class: 'text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer' }, wrapper_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-4'
 
       div class='text-right print:hidden'

@@ -200,19 +200,27 @@ module MembersHelper
   end
 
   def terms_of_service_label
-    text =
-      if Current.acp.terms_of_service_url && Current.acp.statutes_url
-        t(".terms_of_service_with_statutes",
-          terms_url: Current.acp.terms_of_service_url,
-          statutes_url: Current.acp.statutes_url).html_safe
-      elsif Current.acp.terms_of_service_url
-        t(".terms_of_service",
-          terms_url: Current.acp.terms_of_service_url).html_safe
-      elsif Current.acp.statutes_url
-        t(".terms_of_service_with_only_statutes",
-          statutes_url: Current.acp.statutes_url).html_safe
-      end
-    "<span class='flex-grow font-normal'>#{text}</span>".html_safe
+    docs = []
+    if Current.acp.charter_url
+      docs << document_link(:charter, Current.acp.charter_url)
+    end
+    if Current.acp.statutes_url
+      docs << document_link(:statutes, Current.acp.statutes_url)
+    end
+    if Current.acp.terms_of_service_url
+      docs << document_link(:terms_of_service, Current.acp.terms_of_service_url)
+    end
+    if Current.acp.privacy_policy_url
+      docs << document_link(:privacy_policy, Current.acp.privacy_policy_url)
+    end
+
+    content_tag :span, class: "flex-grow font-normal" do
+      t(".terms_of_service_html", documents: docs.to_sentence.html_safe)
+    end
+  end
+
+  def document_link(type, url)
+    link_to t(".documents.#{type}"), url, target: "_blank", class: "underline hover:text-green-500"
   end
 
   def display_address(member, country: true)

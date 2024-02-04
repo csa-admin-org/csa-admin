@@ -115,6 +115,10 @@ _:
           _de: Zahlungsintervall
           _fr: Intervalle de paiement
           _it: Intervallo di pagamento
+        charter_url:
+          _de: Satzung (URL)
+          _fr: Charte (URL)
+          _it: Carta (URL)
         currency_code:
           _de: Währung
           _fr: Monnaie
@@ -227,6 +231,10 @@ _:
           _de: Telefon
           _fr: Téléphone
           _it: Telefono
+        privacy_policy_url:
+          _de: Datenschutzerklärung (URL)
+          _fr: Politique de confidentialité (URL)
+          _it: Politica sulla privacy (URL)
         qr_bank_reference:
           _de: QR-Bankreferenz
           _fr: Référence bancaire QR
@@ -300,21 +308,21 @@ _:
           _fr: Montant minimal d'une commande
           _it: Valore minimo dell'ordine
         shop_terms_of_sale_url:
-          _de: Verkaufsbedingungen URL
-          _fr: Conditions de vente URL
-          _it: Condizioni di vendita URL
+          _de: Verkaufsbedingungen (URL)
+          _fr: Conditions de vente (URL)
+          _it: Condizioni di vendita (URL)
         shop_text:
           _de: Erläuterung
           _fr: Explication
           _it: Spiegazione
         statutes_url:
-          _de: Statuten URL
-          _fr: Statuts URL
-          _it: Statuts URL
+          _de: Statuten (URL)
+          _fr: Statuts (URL)
+          _it: Statuto (URL)
         terms_of_service_url:
-          _de: URL-Regeln
-          _fr: Règlement URL
-          _it: Regolamento URL
+          _de: Regeln (URL)
+          _fr: Règlement (URL)
+          _it: Regolamento (URL)
         trial_basket_count:
           _de: Probetaschen
           _fr: Paniers à l'essai
