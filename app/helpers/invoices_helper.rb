@@ -24,14 +24,20 @@ module InvoicesHelper
     I18n.t("invoices.entity_type.#{type.underscore}")
   end
 
-  def link_to_invoice_pdf(invoice, title: "PDF")
+  def link_to_invoice_pdf(invoice, title: "PDF", &block)
     return unless invoice
     return if invoice.processing?
 
+    link_to invoice_pdf_url(invoice), class: "pdf_link", target: "_blank" do
+      block ? block.call : title
+    end
+  end
+
+  def invoice_pdf_url(invoice)
     if Rails.env.development?
-      link_to title, pdf_invoice_path(invoice), class: "pdf_link", target: "_blank"
+      pdf_invoice_path(invoice)
     else
-      link_to title, rails_blob_path(invoice.pdf_file, disposition: "attachment"), class: "pdf_link"
+      rails_blob_path(invoice.pdf_file, disposition: "attachment")
     end
   end
 end

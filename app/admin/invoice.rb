@@ -179,6 +179,18 @@ ActiveAdmin.register Invoice do
             end
           end
         end
+        if Rails.env.production? && !invoice.processing?
+          panel "PDF" do
+            div class: "actions" do
+              icon_link(:pdf_file, "PDF", invoice_pdf_url(invoice), target: "_blank")
+            end
+            div do
+              link_to_invoice_pdf(invoice) do
+                image_tag invoice.pdf_file.representation(resize_to_limit: [ 1000, 1000 ]), width: "100%"
+              end
+            end
+          end
+        end
       end
 
       column do
