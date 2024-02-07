@@ -37,9 +37,9 @@ class Invoice < ApplicationRecord
   scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
   scope :unpaid, -> { not_canceled.where("paid_amount < amount") }
   scope :overpaid, -> { not_canceled.where("amount > 0 AND paid_amount > amount") }
-  scope :balance_eq, ->(amount) { where("(paid_amount - amount) = ?", amount) }
-  scope :balance_gt, ->(amount) { where("(paid_amount - amount) > ?", amount) }
-  scope :balance_lt, ->(amount) { where("(paid_amount - amount) < ?", amount) }
+  scope :balance_eq, ->(amount) { where("(paid_amount - amount) = ?", amount.to_f) }
+  scope :balance_gt, ->(amount) { where("(paid_amount - amount) > ?", amount.to_f) }
+  scope :balance_lt, ->(amount) { where("(paid_amount - amount) < ?", amount.to_f) }
   scope :with_overdue_notice, -> { unpaid.where("overdue_notices_count > 0") }
   scope :shop_order_type, -> { where(entity_type: "Shop::Order") }
   scope :activity_participation_type, -> { where(entity_type: "ActivityParticipation") }
