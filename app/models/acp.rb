@@ -247,9 +247,7 @@ class ACP < ApplicationRecord
   end
 
   def basket_price_extra_label_detail_default
-    <<~LIQUID
-      {% if extra != 0 %}{{ full_year_price }}{% endif %}
-    LIQUID
+    "{% if extra != 0 %}{{ full_year_price }}{% endif %}"
   end
 
   def basket_price_extra_label_detail_or_default
