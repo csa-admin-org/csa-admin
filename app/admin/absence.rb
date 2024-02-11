@@ -49,16 +49,28 @@ ActiveAdmin.register Absence do
   end
 
   show do |absence|
-    attributes_table do
-      row :id
-      row :member
-      row(:email_session) { absence.session&.email }
-      row :note
-      row(:started_on) { l absence.started_on }
-      row(:ended_on) { l absence.ended_on }
-    end
+    columns do
+      column do
+        panel "#{absence.baskets.count} #{Basket.model_name.human(count: absence.baskets.count)}" do
+          table_for absence.baskets.includes(:membership, :delivery) do
+            column(:delivery) { |b| auto_link(b.delivery) }
+            column(:membership) { |b| auto_link(b.membership) }
+          end
+        end
+      end
+      column do
+        attributes_table do
+          row :id
+          row :member
+          row(:email_session) { absence.session&.email }
+          row :note
+          row(:started_on) { l absence.started_on }
+          row(:ended_on) { l absence.ended_on }
+        end
 
-    active_admin_comments
+        active_admin_comments
+      end
+    end
   end
 
   form do |f|
