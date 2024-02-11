@@ -1,4 +1,18 @@
 module BasketsHelper
+  def display_basket_state(basket)
+    if basket.trial?
+      content_tag(:span, t("active_admin.status_tag.trial"), class: "status_tag trial")
+    elsif basket.absent?
+      if basket.absence
+        link_to basket.absence do
+          content_tag(:span, t("active_admin.status_tag.absent"), class: "status_tag absent")
+        end
+      else
+        content_tag(:span, t("active_admin.status_tag.absent"), class: "status_tag absent")
+      end
+    end
+  end
+
   def basket_deliveries_collection(basket)
     membership = basket.membership
     unused_deliveries =

@@ -1593,6 +1593,10 @@ _:
         _fr: Total
         _it: Totale
     status_tag:
+      absent:
+        _de: abwesend
+        _fr: absent
+        _it: assente
       active:
         _de: aktiv
         _fr: actif

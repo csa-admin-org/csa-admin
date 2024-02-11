@@ -287,6 +287,7 @@ ActiveAdmin.register Membership do
             :basket_size,
             :depot,
             :complements,
+            :absence,
             baskets_basket_complements: :basket_complement
           ),
             row_class: ->(b) { "next" if b == next_basket },
@@ -295,11 +296,8 @@ ActiveAdmin.register Membership do
             column(:delivery) { |b| link_to b.delivery.display_name(format: :number), b.delivery }
             column(:description)
             column(:depot)
-            if m.baskets.trial.any? || m.baskets.absent.any?
-              column(class: "col-status") { |b|
-                status_tag(:trial) if b.trial?
-                status_tag(:absent) if b.absent?
-              }
+            if m.baskets.where(state: [:absent, :trial]).any?
+              column(class: "col-status") { |b| display_basket_state(b) }
             end
             column(class: "col-actions-1") { |b|
               if authorized?(:update, b)
