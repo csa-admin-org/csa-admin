@@ -252,7 +252,7 @@ class BasketContent < ApplicationRecord
     return unless delivery
 
     self[:baskets_counts] = []
-    baskets = delivery.baskets.not_absent.where(depot_id: depot_ids)
+    baskets = delivery.baskets.active.where(depot_id: depot_ids)
     basket_size_ids.each do |id|
       self[:baskets_counts] << baskets.where(basket_size_id: id).sum(:quantity)
     end

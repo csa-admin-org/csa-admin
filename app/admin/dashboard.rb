@@ -67,7 +67,7 @@ ActiveAdmin.register_page "Dashboard" do
               counts = next_delivery.basket_counts
               if counts.present?
                 render partial: "active_admin/deliveries/baskets",
-                  locals: { delivery: next_delivery, scope: :not_absent }
+                  locals: { delivery: next_delivery, scope: :active }
 
                 if next_delivery.note?
                   div class: "delivery-note" do

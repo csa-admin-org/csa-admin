@@ -87,8 +87,7 @@ class Depot < ApplicationRecord
 
   def baskets_for(delivery)
     baskets
-      .not_absent
-      .not_empty
+      .deliverable
       .includes(:basket_size, :complements, :member, :membership, :baskets_basket_complements)
       .where(delivery_id: delivery.id)
       .uniq
@@ -106,8 +105,7 @@ class Depot < ApplicationRecord
 
   def baskets_count_for(delivery, basket_size)
     baskets
-      .not_absent
-      .not_empty
+      .deliverable
       .where(delivery_id: delivery.id, basket_size_id: basket_size.id)
       .count
   end

@@ -9,7 +9,7 @@ class BasketComplementCount
   def initialize(complement, delivery, scope: nil)
     @complement = complement
     @delivery = delivery
-    @scope = scope || :not_absent
+    @scope = scope || :active
   end
 
   def title

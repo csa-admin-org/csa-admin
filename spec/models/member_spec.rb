@@ -207,6 +207,29 @@ describe Member do
     it { is_expected.to eq Membership.last }
   end
 
+  describe "#update_trial_basket_count", freeze: "2024-01-01" do
+    specify "ignore absent basket" do
+      Current.acp.update!(trial_basket_count: 2)
+
+      create(:delivery, date: "2024-11-01")
+      create(:delivery, date: "2024-12-01")
+      create(:delivery, date: "2025-01-01")
+      create(:delivery, date: "2025-02-01")
+
+      member = create(:member)
+      create(:membership, member: member, started_on: "2024-11-01", ended_on: "2024-12-31")
+      create(:membership, member: member, started_on: "2025-01-01", ended_on: "2025-12-31")
+      create(:absence, member: member, started_on: "2024-11-30", ended_on: "2024-12-10")
+
+      expect(member.baskets.map { |b| [ b.delivery.date.to_s, b.trial? ] }).to eq [
+        [ "2024-11-01", true ],
+        [ "2024-12-01", false ],
+        [ "2025-01-01", true ],
+        [ "2025-02-01", false ]
+      ]
+    end
+  end
+
   describe "#validate!" do
     let(:admin) { create(:admin) }
 

@@ -1,5 +1,8 @@
 class Basket < ApplicationRecord
   include HasDescription
+  include HasState
+
+  has_states :normal, :absent, :trial
 
   default_scope { joins(:delivery).order("deliveries.date") }
 
@@ -7,6 +10,7 @@ class Basket < ApplicationRecord
   belongs_to :delivery
   belongs_to :basket_size
   belongs_to :depot
+  belongs_to :absence, optional: true
   has_one :member, through: :membership
   has_many :baskets_basket_complements, dependent: :destroy
   has_many :complements,
@@ -21,20 +25,18 @@ class Basket < ApplicationRecord
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
   scope :during_year, ->(year) { joins(:delivery).merge(Delivery.during_year(year)) }
-  scope :delivered, -> { joins(:delivery).merge(Delivery.past) }
+  scope :past, -> { joins(:delivery).merge(Delivery.past) }
   scope :coming, -> { joins(:delivery).merge(Delivery.coming) }
   scope :between, ->(range) { joins(:delivery).merge(Delivery.between(range)) }
-  scope :trial, -> { where(trial: true) }
-  scope :not_trial, -> { where(trial: false) }
-  scope :absent, -> { where(absent: true) }
-  scope :not_absent, -> { where(absent: false) }
-  scope :not_empty, -> {
+  scope :deliverable, -> { active.filled }
+  scope :active, -> { where(state: %i[normal trial]) }
+  scope :filled, -> {
     left_outer_joins(:baskets_basket_complements)
       .where("baskets.quantity > 0 OR baskets_basket_complements.quantity > 0")
   }
   scope :billable, -> {
     unless Current.acp.absences_billed?
-      not_absent
+      active
     end
   }
 
@@ -43,7 +45,7 @@ class Basket < ApplicationRecord
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :unique_basket_complement_id
-  validate :delivery_must_be_in_membership_date_range
+  validate :delivery_must_be_in_membership_period
 
   def self.complement_count(complement)
     joins(:baskets_basket_complements)
@@ -138,8 +140,8 @@ class Basket < ApplicationRecord
     end
   end
 
-  def delivery_must_be_in_membership_date_range
-    if delivery && membership && !delivery.date.in?(membership.date_range)
+  def delivery_must_be_in_membership_period
+    if delivery && membership && !delivery.date.in?(membership.period)
       errors.add(:delivery, :exclusion)
     end
   end

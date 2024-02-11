@@ -5,6 +5,7 @@ class Absence < ApplicationRecord
 
   belongs_to :member
   belongs_to :session, optional: true
+  has_many :baskets
 
   validates :member, :started_on, :ended_on, presence: true
   validates :started_on, :ended_on, date: {
@@ -26,6 +27,9 @@ class Absence < ApplicationRecord
   scope :during_year, ->(year) {
     fy = Current.acp.fiscal_year_for(year)
     where("started_on >= ? AND ended_on <= ?", fy.range.min, fy.range.max)
+  }
+  scope :overlaps, ->(period) {
+    where("(started_on, ended_on) OVERLAPS (?, ?)", period.min, period.max)
   }
 
   def self.min_started_on
@@ -53,14 +57,7 @@ class Absence < ApplicationRecord
   end
 
   def update_memberships!
-    member
-      .memberships
-      .where("(started_on <= ? AND ended_on >= ?) OR (started_on <= ? AND ended_on >= ?)",
-        started_on,
-        started_on,
-        ended_on,
-        ended_on)
-      .find_each(&:update_absent_baskets!)
+    member.memberships.overlaps(period).find_each(&:save!)
   end
 
   def notify_admins!

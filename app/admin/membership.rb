@@ -72,7 +72,7 @@ ActiveAdmin.register Membership do
       }, sortable: "activity_participations_demanded", class: "col-activity_participations_demanded"
     end
     column :baskets_count,
-      ->(m) { auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}" }
+      ->(m) { auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}" }
     actions defaults: false, class: "col-actions-2" do |resource|
       localizer = ActiveAdmin::Localizers.resource(active_admin_config)
       if authorized?(ActiveAdmin::Auth::READ, resource)
@@ -230,10 +230,10 @@ ActiveAdmin.register Membership do
     column(:ended_on)
     column(:baskets_count)
     if Current.acp.trial_basket_count.positive?
-      column(:baskets_trial_count) { |m| m.baskets.select(&:trial?).size }
+      column(:baskets_trial_count) { |m| m.baskets.count(&:trial?) }
     end
     if Current.acp.feature?("absence")
-      column(:baskets_absent_count) { |m| m.baskets.select(&:absent?).size }
+      column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_price) { |m| cur(m.basket_price) }

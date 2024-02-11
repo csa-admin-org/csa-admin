@@ -9,15 +9,15 @@ class Members::DeliveriesController < Members::BaseController
       @future_baskets =
         Basket
           .where(membership_id: membership_ids)
-          .not_empty
+          .filled
           .coming
           .includes(:delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement)
       @past_baskets =
         @next_basket
           .membership
           .baskets
-          .not_empty
-          .delivered
+          .filled
+          .past
           .includes(:delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement)
     else
       redirect_to members_login_path

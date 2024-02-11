@@ -159,7 +159,7 @@ ActiveAdmin.register Basket do
 
     def scoped_collection
       if params[:action] == "index"
-        end_of_association_chain.not_absent.not_empty
+        end_of_association_chain.deliverable
       else
         super
       end

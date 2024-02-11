@@ -4,7 +4,7 @@ class BasketCounts
   def initialize(delivery, depot_ids, scope: nil)
     @delivery = delivery
     @basket_size_ids = @delivery.basket_sizes.pluck(:id)
-    @baskets = @delivery.baskets.send(scope || :not_absent).to_a
+    @baskets = @delivery.baskets.send(scope || :active).to_a
     @shop_orders = @delivery.shop_orders.all_without_cart.to_a
     used_depot_ids = (@baskets.map(&:depot_id) + @shop_orders.map(&:depot_id)).uniq
     @depots = Depot.where(id: (Array(depot_ids) & used_depot_ids))

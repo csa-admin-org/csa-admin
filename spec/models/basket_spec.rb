@@ -156,7 +156,7 @@ describe Basket do
 
     specify "when non billable basket" do
       Current.acp.update!(absences_billed: false)
-      basket.absent = true
+      basket.state = "absent"
       expect(basket.send(:calculate_price_extra)).to eq 2.42
     end
 

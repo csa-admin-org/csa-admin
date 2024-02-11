@@ -56,8 +56,8 @@ describe Billing::InvoicerNewMemberFee do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
-    expect(member.baskets.trial.not_empty.last.delivery.date.to_s).to eq "2023-01-17"
-    expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq "2023-01-24"
+    expect(member.baskets.trial.last.delivery.date.to_s).to eq "2023-01-17"
+    expect(member.baskets.normal.first.delivery.date.to_s).to eq "2023-01-24"
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
 
@@ -65,7 +65,7 @@ describe Billing::InvoicerNewMemberFee do
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
-    expect(member.baskets.not_trial.not_empty.first.delivery.date.to_s).to eq "2023-01-24"
+    expect(member.baskets.normal.first.delivery.date.to_s).to eq "2023-01-24"
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
 end

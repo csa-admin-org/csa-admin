@@ -3,7 +3,7 @@ module BasketsHelper
     membership = basket.membership
     unused_deliveries =
       Delivery
-        .between(membership.date_range)
+        .between(membership.period)
         .where.not(id: (membership.deliveries.pluck(:id) - [ basket.delivery_id ]))
     unused_deliveries.map do |delivery|
       [ delivery.display_name(format: :long), delivery.id ]
