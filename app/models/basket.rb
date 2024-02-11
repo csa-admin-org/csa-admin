@@ -28,16 +28,12 @@ class Basket < ApplicationRecord
   scope :past, -> { joins(:delivery).merge(Delivery.past) }
   scope :coming, -> { joins(:delivery).merge(Delivery.coming) }
   scope :between, ->(range) { joins(:delivery).merge(Delivery.between(range)) }
+  scope :billable, -> { where(billable: true) }
   scope :deliverable, -> { active.filled }
   scope :active, -> { where(state: %i[normal trial]) }
   scope :filled, -> {
     left_outer_joins(:baskets_basket_complements)
       .where("baskets.quantity > 0 OR baskets_basket_complements.quantity > 0")
-  }
-  scope :billable, -> {
-    unless Current.acp.absences_billed?
-      active
-    end
   }
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -64,10 +60,6 @@ class Basket < ApplicationRecord
     describe(basket_size, quantity, public_name: public_name)
   end
 
-  def billable?
-    !absent? || Current.acp.absences_billed?
-  end
-
   def complements_description(public_name: false)
     baskets_basket_complements
       .joins(:basket_complement)
@@ -85,10 +77,11 @@ class Basket < ApplicationRecord
   end
 
   def can_update?
-    membership.can_update?
+    membership.can_update? && billable?
   end
 
   def can_member_update?
+    return false if absent?
     return false unless Current.acp.membership_depot_update_allowed? ||
                         Current.acp.membership_complements_update_allowed?
     return false unless Current.acp.basket_update_limit_in_days

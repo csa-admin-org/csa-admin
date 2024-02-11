@@ -857,10 +857,13 @@ describe Membership do
       end
       travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
-        create(:absence,
-          member: member,
-          started_on: "2022-05-01",
-          ended_on: "2022-07-01")
+        expect {
+          create(:absence,
+            member: member,
+            started_on: "2022-05-01",
+            ended_on: "2022-07-01")
+        }.to change { membership.baskets.billable.count }.by(-1)
+        expect(membership.baskets.last).not_to be_billable
         expect { membership.cancel_overcharged_invoice! }
           .to change { invoice.reload.state }.from("open").to("canceled")
           .and change { membership.reload.invoices_amount }.to(0)

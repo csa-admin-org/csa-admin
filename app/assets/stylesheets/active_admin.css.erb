@@ -571,6 +571,7 @@ table a.xlsx_link {
   white-space: nowrap;
 }
 
+.status_tag.absent,
 .status_tag.canceled,
 .status_tag.inactive {
   background-color: #bfbfbf;
@@ -778,6 +779,14 @@ table.table-baskets .col-actions-1 {
 
 table.table-baskets tr.next {
   background-color: #ddd;
+}
+
+table.table-baskets tr.absent {
+  color: #bfbfbf;
+}
+
+table.table-baskets tr.not-billable {
+  text-decoration: line-through;
 }
 
 table.table-shop_orders .col-amount,
