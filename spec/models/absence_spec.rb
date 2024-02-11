@@ -34,14 +34,23 @@ describe Absence, freeze: "2021-06-15" do
       expect(future_membership.baskets.absent.count).to eq 0
 
       end_of_year = Date.today.end_of_year
-      create(:absence,
+      absence = create(:absence,
         admin: Admin.new,
         member: member,
         started_on: end_of_year - 4.months,
         ended_on: end_of_year + 1.month)
 
+      expect(absence.baskets.count).to eq 10
       expect(current_membership.reload.baskets.absent.count).to eq 6
       expect(future_membership.reload.baskets.absent.count).to eq 4
+
+      absence.update!(
+        started_on: end_of_year + 1.day,
+        ended_on: end_of_year + 15.days)
+
+      expect(absence.baskets.count).to eq 2
+      expect(current_membership.reload.baskets.absent.count).to eq 0
+      expect(future_membership.reload.baskets.absent.count).to eq 2
     end
 
     it "updates membership price when absent baskets are not billed" do

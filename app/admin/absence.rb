@@ -121,18 +121,6 @@ ActiveAdmin.register Absence do
     def apply_sorting(chain)
       super(chain).joins(:member).order("members.name", id: :desc)
     end
-
-    def create
-      create! do |success, failure|
-        success.html { redirect_to collection_url }
-      end
-    end
-
-    def update
-      update! do |success, failure|
-        success.html { redirect_to collection_url }
-      end
-    end
   end
 
   config.sort_order = "started_on_desc"
