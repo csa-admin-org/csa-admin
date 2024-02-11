@@ -89,7 +89,7 @@ class Newsletter
           delivery_id = GlobalID.new(value).model_id
           Member
             .joins(:baskets)
-            .merge(Basket.unscoped.not_absent.not_empty)
+            .merge(Basket.unscoped.deliverable)
             .where(baskets: { delivery_id: delivery_id })
         when :member_id
           Member.where(id: value)

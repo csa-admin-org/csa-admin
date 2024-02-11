@@ -67,7 +67,7 @@ class Delivery < ApplicationRecord
   end
 
   def basket_sizes
-    @basket_sizes ||= BasketSize.find(baskets.not_absent.pluck(:basket_size_id))
+    @basket_sizes ||= BasketSize.find(baskets.active.pluck(:basket_size_id))
   end
 
   def delivered?
@@ -86,7 +86,7 @@ class Delivery < ApplicationRecord
 
   def used_depots
     depot_ids =
-      baskets.not_absent.pluck(:depot_id) +
+      baskets.active.pluck(:depot_id) +
       shop_orders.all_without_cart.pluck(:depot_id)
     Depot.where(id: depot_ids.uniq)
   end

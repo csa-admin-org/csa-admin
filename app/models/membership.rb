@@ -19,12 +19,11 @@ class Membership < ApplicationRecord
   belongs_to :depot
   belongs_to :delivery_cycle
   has_many :baskets, dependent: :destroy
-  has_one :next_basket, -> { merge(Basket.not_empty.coming.not_absent) }, class_name: "Basket"
+  has_one :next_basket, -> { merge(Basket.deliverable.coming) }, class_name: "Basket"
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
   has_many :depots, -> { distinct.reorder(:position) }, through: :baskets
   has_many :deliveries, through: :baskets
   has_many :basket_complements, -> { reorder_by_name }, source: :complements, through: :baskets
-  has_many :delivered_baskets, -> { delivered }, class_name: "Basket"
   has_many :memberships_basket_complements, dependent: :destroy, validate: true
   has_many :subscribed_basket_complements,
     source: :basket_complement,
@@ -78,8 +77,9 @@ class Membership < ApplicationRecord
   after_update :handle_config_change!
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
+  after_commit :update_member_and_baskets!
+  after_commit :update_activity_participations_demanded!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
-  after_commit :update_member_and_baskets!, :update_activity_participations_demanded!
 
   scope :started, -> { where("started_on < ?", Time.current) }
   scope :past, -> { where("ended_on < ?", Time.current) }
@@ -94,6 +94,9 @@ class Membership < ApplicationRecord
   scope :during_year, ->(year) {
     fy = Current.acp.fiscal_year_for(year)
     where(started_on: fy.range.min.., ended_on: ..fy.range.max)
+  }
+  scope :overlaps, ->(period) {
+    where("(started_on, ended_on) OVERLAPS (?, ?)", period.min, period.max)
   }
   scope :renewed, -> { where.not(renewed_at: nil) }
   scope :not_renewed, -> { where(renewed_at: nil) }
@@ -140,7 +143,7 @@ class Membership < ApplicationRecord
   end
 
   def first_billable_delivery
-    rel = baskets.not_empty
+    rel = baskets.filled
     (rel.trial.last || rel.first)&.delivery
   end
 
@@ -383,7 +386,7 @@ class Membership < ApplicationRecord
     baskets.first&.delivery
   end
 
-  def date_range
+  def period
     started_on..ended_on
   end
 
@@ -421,7 +424,7 @@ class Membership < ApplicationRecord
   def update_baskets_counts!
     return if destroyed?
 
-    cols = { delivered_baskets_count: baskets.delivered.count }
+    cols = { past_baskets_count: baskets.past.count }
     if Current.acp.trial_basket_count.positive?
       cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
     end
@@ -436,18 +439,7 @@ class Membership < ApplicationRecord
       price_extra: basket_price_extra,
       quantity: basket_quantity,
       depot_id: depot_id,
-      depot_price: depot_price,
-      absent: member.absences.including_date(delivery.date).any?)
-  end
-
-  def update_absent_baskets!
-    transaction do
-      baskets.absent.update_all(absent: false)
-      member.absences.each do |absence|
-        baskets.between(absence.period).update_all(absent: true)
-      end
-      update_price_and_invoices_amount!
-    end
+      depot_price: depot_price)
   end
 
   def overcharged_invoices_amount?
@@ -512,7 +504,7 @@ class Membership < ApplicationRecord
         memberships_basket_complements.map(&:attributes)
   end
 
-  def create_baskets!(range = date_range)
+  def create_baskets!(range = period)
     delivery_cycle.deliveries_in(range).each do |delivery|
       create_basket!(delivery)
     end
@@ -532,10 +524,22 @@ class Membership < ApplicationRecord
   end
 
   def update_member_and_baskets!
+    update_absent_baskets!
     member.reload
     member.update_trial_baskets!
     update_baskets_counts!
     member.review_active_state!
+  end
+
+  def update_absent_baskets!
+    transaction do
+      baskets.absent.update_all(state: "normal")
+      member.absences.overlaps(period).each do |absence|
+        baskets
+          .between(absence.period)
+          .update_all(state: "absent", absence_id: absence.id)
+      end
+    end
   end
 
   def update_price_and_invoices_amount!
@@ -587,7 +591,7 @@ class Membership < ApplicationRecord
   end
 
   def at_least_one_basket
-    if date_range && date_range.min && delivery_cycle&.deliveries_in(date_range).none?
+    if period && period.min && delivery_cycle&.deliveries_in(period).none?
       errors.add(:started_on, :invalid)
       errors.add(:ended_on, :invalid)
     end

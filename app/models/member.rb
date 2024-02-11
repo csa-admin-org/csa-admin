@@ -43,10 +43,6 @@ class Member < ApplicationRecord
   has_many :baskets, through: :memberships
   has_one :next_basket, through: :current_or_future_membership
   has_one :next_delivery, through: :current_or_future_membership
-  has_many :delivered_baskets,
-    through: :memberships,
-    source: :delivered_baskets,
-    class_name: "Basket"
   has_many :shop_orders, class_name: "Shop::Order"
   has_many :members_basket_complements, dependent: :destroy
   has_many :waiting_basket_complements,
@@ -188,8 +184,8 @@ class Member < ApplicationRecord
     return if Current.acp.trial_basket_count.zero?
 
     transaction do
-      baskets.update_all(trial: false)
-      baskets.limit(Current.acp.trial_basket_count).update_all(trial: true)
+      baskets.trial.update_all(state: "normal")
+      baskets.normal.limit(Current.acp.trial_basket_count).update_all(state: "trial")
     end
   end
 
@@ -387,11 +383,6 @@ class Member < ApplicationRecord
 
   def public_create_and_not_support?
     public_create && !support?
-  end
-
-  def baskets_in_trial?
-    Current.acp.trial_basket_count.positive? &&
-      delivered_baskets.count <= Current.acp.trial_basket_count
   end
 
   def update_membership_if_salary_basket_changed

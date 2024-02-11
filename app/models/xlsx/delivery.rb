@@ -2,7 +2,7 @@ module XLSX
   class Delivery < Base
     def initialize(delivery, depot = nil)
       @delivery = delivery
-      @baskets = @delivery.baskets.not_absent
+      @baskets = @delivery.baskets.active
       @shop_orders = @delivery.shop_orders.all_without_cart
       @shop_products = @shop_orders.products_displayed_in_delivery_sheets
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
@@ -122,7 +122,7 @@ module XLSX
     def build_depot_worksheet(depot)
       baskets = @baskets.where(depot: depot).includes(:membership, :basket_size, :complements, baskets_basket_complements: :basket_complement)
       shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product: :basket_complement })
-      member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+      member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
       members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
       members.each do |member|
         member.basket = baskets.find { |b| b.membership.member_id == member.id }

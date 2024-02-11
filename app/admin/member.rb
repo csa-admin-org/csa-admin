@@ -218,7 +218,7 @@ ActiveAdmin.register Member do
                 }
               end
               column(:baskets_count) { |m|
-                auto_link m, "#{m.delivered_baskets_count} / #{m.baskets_count}"
+                auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}"
               }
             end
             if memberships_count > 3

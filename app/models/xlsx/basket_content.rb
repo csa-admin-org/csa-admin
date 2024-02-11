@@ -13,7 +13,7 @@ module XLSX
 
       build_summary_worksheet
       Depot.all.each do |depot|
-        baskets = depot.baskets.not_absent.where(delivery_id: @delivery)
+        baskets = depot.baskets.active.where(delivery_id: @delivery)
         if baskets.sum(:quantity) > 0
           build_depot_worksheet(depot, baskets)
         end

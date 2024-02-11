@@ -634,7 +634,7 @@ describe Membership do
         ended_on: "2017-12-01")
 
       expect(membership.baskets_count).to eq 7
-      expect(membership.delivered_baskets_count).to eq 2
+      expect(membership.past_baskets_count).to eq 2
       expect(membership.remaning_trial_baskets_count).to eq 1
       expect(membership).to be_trial
     end

@@ -89,7 +89,7 @@ ActiveAdmin.register Delivery do
           counts = delivery.basket_counts
           if counts.present?
             render partial: "active_admin/deliveries/baskets",
-              locals: { delivery: delivery, scope: :not_absent }
+              locals: { delivery: delivery, scope: :active }
           end
         end
 

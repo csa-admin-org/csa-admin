@@ -154,7 +154,7 @@ describe Delivery do
   it "flags basket when creating them", freeze: "2020-01-01", sidekiq: :inline do
     create(:delivery, date: "2020-02-01")
     membership = create(:membership, started_on: "2020-01-01", ended_on: "2020-06-01")
-    create(:absence,
+    absence = create(:absence,
       member: membership.member,
       started_on: "2020-01-15",
       ended_on: "2020-02-15")
@@ -167,8 +167,9 @@ describe Delivery do
 
     expect(membership.baskets_count).to eq 2
     expect(membership.baskets.last).to have_attributes(
+      state: "absent",
       delivery_id: delivery.id,
-      absent: true)
+      absence: absence)
   end
 
   specify "reset delivery_cycle cache after date change", freeze: "2023-01-01" do

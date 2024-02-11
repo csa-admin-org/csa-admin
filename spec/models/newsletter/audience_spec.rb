@@ -130,7 +130,7 @@ describe Newsletter::Audience do
 
     delivery = Delivery.first
 
-    member3.baskets.update_all(absent: true)
+    member3.baskets.update_all(state: "absent")
     member4.baskets.update_all(quantity: 0)
 
     segment = segment_for("delivery_id::#{delivery.gid}")

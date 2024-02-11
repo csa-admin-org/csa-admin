@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_04_100708) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_11_083110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -328,13 +328,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_04_100708) do
     t.bigint "depot_id", null: false
     t.decimal "basket_price", precision: 8, scale: 3, null: false
     t.decimal "depot_price", precision: 8, scale: 2, null: false
-    t.boolean "trial", default: false, null: false
-    t.boolean "absent", default: false, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "quantity", default: 1, null: false
     t.decimal "calculated_price_extra", precision: 8, scale: 3, default: "0.0", null: false
     t.decimal "price_extra", precision: 8, scale: 2, default: "0.0", null: false
+    t.string "state", default: "normal", null: false
+    t.bigint "absence_id"
+    t.index ["absence_id"], name: "index_baskets_on_absence_id"
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id", "membership_id"], name: "index_baskets_on_delivery_id_and_membership_id", unique: true
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
@@ -576,7 +577,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_04_100708) do
     t.decimal "depot_price", precision: 8, scale: 3, null: false
     t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "delivered_baskets_count", default: 0, null: false
+    t.integer "past_baskets_count", default: 0, null: false
     t.integer "remaning_trial_baskets_count", default: 0, null: false
     t.decimal "price", precision: 8, scale: 2
     t.decimal "invoices_amount", precision: 8, scale: 2
@@ -807,6 +808,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_04_100708) do
   add_foreign_key "basket_contents_depots", "basket_contents"
   add_foreign_key "basket_contents_depots", "depots"
   add_foreign_key "basket_sizes", "delivery_cycles"
+  add_foreign_key "baskets", "absences"
   add_foreign_key "baskets", "basket_sizes"
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "depots"

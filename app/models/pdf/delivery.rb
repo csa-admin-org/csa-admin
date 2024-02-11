@@ -21,11 +21,11 @@ module PDF
       depots.each do |depot|
         baskets = @baskets.where(depot: depot)
         if depot.delivery_sheets_mode == "home_delivery"
-          baskets = baskets.not_absent
+          baskets = baskets.active
         end
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = BasketSize.for(baskets)
-        member_ids = (baskets.not_empty.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+        member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
           if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == "home_delivery"
             16
@@ -152,7 +152,7 @@ module PDF
         width: depot_name_width,
         align: :right
       ]
-      all_baskets = @baskets.not_absent
+      all_baskets = @baskets.active
       basket_sizes.each do |bs|
         total_line << {
           content: all_baskets.where(basket_size: bs).sum(:quantity).to_s,
@@ -186,7 +186,7 @@ module PDF
       # Depots
       @depots.each do |depot|
         column_content = depot.name
-        baskets = @baskets.not_absent.where(depot: depot)
+        baskets = @baskets.active.where(depot: depot)
         shop_orders = @shop_orders.where(depot: depot)
 
         line = [
@@ -423,7 +423,7 @@ module PDF
           align: :left
         }
       end
-      all_baskets = baskets.not_absent
+      all_baskets = baskets.active
       basket_sizes.each do |bs|
         total_line << {
           content: all_baskets.where(basket_size: bs).sum(:quantity).to_s,
