@@ -58,7 +58,9 @@ describe Absence, freeze: "2021-06-15" do
           member: member,
           started_on: end_of_year - 4.months,
           ended_on: end_of_year)
-      }.to change { membership.reload.price }.from(40 * 10).to(34 * 10)
+      }
+        .to change { membership.reload.price }.from(40 * 10).to(34 * 10)
+        .and change { membership.baskets.billable.count }.from(40).to(34)
     end
   end
 

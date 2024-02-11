@@ -102,6 +102,11 @@ describe Basket do
     travel_to "2022-12-16" do
       expect(basket.can_member_update?).to be false
     end
+
+    travel_to "2022-12-15" do
+      basket.state = "absent"
+      expect(basket.can_member_update?).to be false
+    end
   end
 
   specify "#member_update!" do

@@ -290,7 +290,13 @@ ActiveAdmin.register Membership do
             :absence,
             baskets_basket_complements: :basket_complement
           ),
-            row_class: ->(b) { "next" if b == next_basket },
+            row_class: ->(b) {
+              classes = []
+              classes << "next" if b == next_basket
+              classes << "absent" if b.absent?
+              classes << "not-billable" unless b.billable?
+              classes.join(" ")
+            },
             class: "table-baskets"
           ) do
             column(:delivery) { |b| link_to b.delivery.display_name(format: :number), b.delivery }

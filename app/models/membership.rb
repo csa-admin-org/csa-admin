@@ -143,7 +143,7 @@ class Membership < ApplicationRecord
   end
 
   def first_billable_delivery
-    rel = baskets.filled
+    rel = baskets.filled.billable
     (rel.trial.last || rel.first)&.delivery
   end
 
@@ -525,6 +525,7 @@ class Membership < ApplicationRecord
 
   def update_member_and_baskets!
     update_absent_baskets!
+    update_billable_baskets!
     member.reload
     member.update_trial_baskets!
     update_baskets_counts!
@@ -538,6 +539,15 @@ class Membership < ApplicationRecord
         baskets
           .between(absence.period)
           .update_all(state: "absent", absence_id: absence.id)
+      end
+    end
+  end
+
+  def update_billable_baskets!
+    transaction do
+      baskets.where(billable: false).update_all(billable: true)
+      unless Current.acp.absences_billed?
+        baskets.absent.update_all(billable: false)
       end
     end
   end
