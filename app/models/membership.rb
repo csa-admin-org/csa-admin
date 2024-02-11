@@ -534,7 +534,7 @@ class Membership < ApplicationRecord
 
   def update_absent_baskets!
     transaction do
-      baskets.absent.update_all(state: "normal")
+      baskets.absent.update_all(state: "normal", absence_id: nil)
       member.absences.overlaps(period).each do |absence|
         baskets
           .between(absence.period)

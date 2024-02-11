@@ -57,7 +57,9 @@ class Absence < ApplicationRecord
   end
 
   def update_memberships!
-    member.memberships.overlaps(period).find_each(&:save!)
+    min = [started_on_previously_was, started_on].compact.min
+    max = [ended_on_previously_was, ended_on].compact.max
+    member.memberships.overlaps(min..max).find_each(&:save!)
   end
 
   def notify_admins!
