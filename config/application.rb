@@ -40,7 +40,6 @@ module ACPAdmin
       load File.expand_path("../.irbrc", __dir__)
     end
 
-    config.active_job.queue_adapter = :sidekiq
     config.action_mailer.preview_paths = [ "#{Rails.root}/app/mailer_previews" ]
   end
 end
