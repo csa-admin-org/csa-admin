@@ -279,7 +279,7 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
       basket_complement:
-        activity_participations_demanded_annualy:
+        activity_participations_demanded_annually:
           _de: Werden zu denen der Korbgröße hinzugefügt.
           _fr: Seront ajoutées à celles de la taille de panier.
           _it: Saranno aggiunti a quelli della dimensione del cestino.
@@ -527,7 +527,7 @@ _:
           _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
           _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
           _it: Aumento o riduzione del prezzo dell'abbonamento a seconda del servizio reso o meno.
-        activity_participations_demanded_annualy_html:
+        activity_participations_demanded_annually_html:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
           _fr: Laisser blanc pour le nombre par défaut.<br/>Le nombre final sera calculé automatiquement en fonction de <a href='/settings#activity'>la logique définie dans les paramètres</a>, par défaut au prorata du nombre de paniers.
           _it: Lasciare vuoto il campo per il numero predefinito.<br/>Il numero finale sarà calcolato automaticamente secondo <a href='/settings#activity'>la logica definita nei parametri</a>, di default in proporzione al numero di cesti.

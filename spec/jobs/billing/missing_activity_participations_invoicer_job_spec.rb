@@ -6,21 +6,21 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
   specify "noop if no activty price" do
     Current.acp.update!(activity_price: 0)
 
-    membership = create(:membership, activity_participations_demanded_annualy: 2)
+    membership = create(:membership, activity_participations_demanded_annually: 2)
 
     expect { described_class.perform_later(membership) }
       .not_to change(Invoice, :count)
   end
 
   specify "noop if no missing activity participations" do
-    membership = create(:membership, activity_participations_demanded_annualy: 0)
+    membership = create(:membership, activity_participations_demanded_annually: 0)
 
     expect { described_class.perform_later(membership) }
       .not_to change(Invoice, :count)
   end
 
   specify "create invoice and send invoice", sidekiq: :inline do
-    membership = create(:membership, activity_participations_demanded_annualy: 2)
+    membership = create(:membership, activity_participations_demanded_annually: 2)
 
     expect { described_class.perform_later(membership) }
       .to change(Invoice, :count).by(1)
@@ -41,7 +41,7 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
   specify "create invoice for previous year membership", sidekiq: :inline do
     Current.acp.update!(fiscal_year_start_month: 5)
     membership = travel_to "2021-01-06" do
-      create(:membership, activity_participations_demanded_annualy: 2)
+      create(:membership, activity_participations_demanded_annually: 2)
     end
 
     expect { described_class.perform_later(membership) }

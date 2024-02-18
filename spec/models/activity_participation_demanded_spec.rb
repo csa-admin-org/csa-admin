@@ -17,7 +17,7 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
 
     specify "all deliveries baskets" do
       create_deliveries(3)
-      membership = create(:membership, activity_participations_demanded_annualy: 2)
+      membership = create(:membership, activity_participations_demanded_annually: 2)
 
       expect(demanded_for(membership)).to eq 2 # (3/3.0×2).round
     end
@@ -30,7 +30,7 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
       membership = create(:membership,
         started_on: "2022-01-01",
         ended_on: "2022-02-01",
-        activity_participations_demanded_annualy: 2)
+        activity_participations_demanded_annually: 2)
 
       expect(demanded_for(membership)).to eq 1 # (2/4.0×2).round
     end
@@ -44,7 +44,7 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
       membership = create(:membership,
         started_on: "2022-01-01",
         ended_on: "2022-01-31",
-        activity_participations_demanded_annualy: 2)
+        activity_participations_demanded_annually: 2)
 
       expect(demanded_for(membership)).to eq 0 # (1/5.0×2).round
     end
@@ -62,7 +62,7 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
         started_on: "2022-01-01",
         ended_on: "2022-05-01",
         depot: depot,
-        activity_participations_demanded_annualy: 2)
+        activity_participations_demanded_annually: 2)
       membership.update!(
         new_config_from: "2022-05-01",
         delivery_cycle: cycle)
@@ -94,21 +94,21 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
 
     specify "1 basket" do
       create_deliveries(1)
-      membership = create(:membership, activity_participations_demanded_annualy: 2)
+      membership = create(:membership, activity_participations_demanded_annually: 2)
 
       expect(demanded_for(membership)).to eq 0
     end
 
     specify "2 baskets" do
       create_deliveries(2)
-      membership = create(:membership, activity_participations_demanded_annualy: 2)
+      membership = create(:membership, activity_participations_demanded_annually: 2)
 
       expect(demanded_for(membership)).to eq 1
     end
 
     specify "3 baskets" do
       create_deliveries(3)
-      membership = create(:membership, activity_participations_demanded_annualy: 2)
+      membership = create(:membership, activity_participations_demanded_annually: 2)
 
       expect(demanded_for(membership)).to eq 2
     end

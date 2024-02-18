@@ -61,9 +61,9 @@ describe ActivityParticipation, freeze: "2021-06-15" do
   describe ".invoice_all_missing" do
     before do
       Current.acp.update!(activity_price: 90)
-      create(:membership, activity_participations_demanded_annualy: 0)
-      create(:membership, activity_participations_demanded_annualy: 1)
-      create(:membership, activity_participations_demanded_annualy: 2)
+      create(:membership, activity_participations_demanded_annually: 0)
+      create(:membership, activity_participations_demanded_annually: 1)
+      create(:membership, activity_participations_demanded_annually: 2)
     end
 
     specify "noop if no activty price" do

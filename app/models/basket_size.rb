@@ -42,7 +42,7 @@ class BasketSize < ApplicationRecord
   validates :price,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
-  validates :activity_participations_demanded_annualy,
+  validates :activity_participations_demanded_annually,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
   validates :acp_shares_number,

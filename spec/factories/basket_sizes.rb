@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Basket Size #{n}" }
     public_name { "#{name} PUBLIC" }
     price { 30 }
-    activity_participations_demanded_annualy { 2 }
+    activity_participations_demanded_annually { 2 }
 
     trait :small do
       name { "Eveil" }

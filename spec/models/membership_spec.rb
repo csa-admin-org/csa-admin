@@ -1,28 +1,28 @@
 require "rails_helper"
 
 describe Membership do
-  describe "set activity_participations_demanded_annualy" do
+  describe "set activity_participations_demanded_annually" do
     specify "by default" do
-      basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
+      basket_size = create(:basket_size, activity_participations_demanded_annually: 3)
       membership = create(:membership, basket_size_id: basket_size.id)
 
-      expect(membership.activity_participations_demanded_annualy).to eq 3
+      expect(membership.activity_participations_demanded_annually).to eq 3
     end
 
     specify "using basket quantity", freeze: "2023-01-01" do
-      basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
+      basket_size = create(:basket_size, activity_participations_demanded_annually: 3)
       membership = create(:membership,
         basket_quantity: 2,
         basket_size_id: basket_size.id)
 
-      expect(membership.activity_participations_demanded_annualy).to eq 2 * 3
+      expect(membership.activity_participations_demanded_annually).to eq 2 * 3
     end
 
     specify "using basket_size and complements" do
       create_deliveries(3)
-      basket_size = create(:basket_size, activity_participations_demanded_annualy: 3)
-      complement_1 = create(:basket_complement, id: 1, activity_participations_demanded_annualy: 1)
-      complement_2 = create(:basket_complement, id: 2, activity_participations_demanded_annualy: 2)
+      basket_size = create(:basket_size, activity_participations_demanded_annually: 3)
+      complement_1 = create(:basket_complement, id: 1, activity_participations_demanded_annually: 1)
+      complement_2 = create(:basket_complement, id: 2, activity_participations_demanded_annually: 2)
 
       membership = create(:membership,
         basket_size_id: basket_size.id,
@@ -31,7 +31,7 @@ describe Membership do
           "1" => { basket_complement_id: 2, quantity: 2 }
         })
 
-      expect(membership.activity_participations_demanded_annualy).to eq 3 + 3 * 1 + 2 * 2
+      expect(membership.activity_participations_demanded_annually).to eq 3 + 3 * 1 + 2 * 2
     end
   end
 

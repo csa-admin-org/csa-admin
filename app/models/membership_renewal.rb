@@ -4,7 +4,7 @@ class MembershipRenewal
   OPTIONAL_ATTRIBUTES = %w[
     baskets_annual_price_change
     basket_complements_annual_price_change
-    activity_participations_demanded_annualy
+    activity_participations_demanded_annually
     activity_participations_annual_price_change
     absences_included_annually
   ]
@@ -26,7 +26,7 @@ class MembershipRenewal
     renew_complements(new_membership, attrs)
     if membership.basket_size_id != new_membership.basket_size_id
       new_membership.baskets_annual_price_change = nil
-      new_membership.activity_participations_demanded_annualy = nil
+      new_membership.activity_participations_demanded_annually = nil
       new_membership.activity_participations_annual_price_change = nil
     end
     if basket_complements_changed?(new_membership)

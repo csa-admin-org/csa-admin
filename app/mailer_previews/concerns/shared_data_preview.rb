@@ -21,7 +21,7 @@ module SharedDataPreview
   def membership
     return unless basket
 
-    participations_demanded = basket_size&.activity_participations_demanded_annualy || 0
+    participations_demanded = basket_size&.activity_participations_demanded_annually || 0
     participations_accepted = [ participations_demanded, 0 ].sample(random: random)
     OpenStruct.new(
       started_on: started_on,
