@@ -6,17 +6,20 @@ ActiveAdmin.register BasketComplement do
   scope :visible, default: true
   scope :hidden
 
-  includes :memberships_basket_complements, :current_deliveries, :future_deliveries
+  includes :memberships_basket_complements, :baskets_basket_complement, :shop_product
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }
     column :price, ->(bc) { cur(bc.price) }
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
-        cur(bc.annual_price)
+        deliveries_based_price_info(bc.price, bc.billable_deliveries_counts)
       end
     }
-    column deliveries_current_year_title, ->(bc) {
+    column :deliveries, ->(bc) {
+      deliveries_count_range(bc.billable_deliveries_counts)
+    }
+    column Current.acp.current_fiscal_year, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {
           basket_complements_id_eq: bc.id,
@@ -24,7 +27,7 @@ ActiveAdmin.register BasketComplement do
         },
         scope: :all)
     }, class: "col-deliveries"
-    column deliveries_next_year_title, ->(bc) {
+    column Current.acp.fiscal_year_for(1.year.from_now), ->(bc) {
       link_to bc.future_deliveries.size, deliveries_path(
         q: {
           basket_complements_id_eq: bc.id,

@@ -75,6 +75,10 @@ class BasketComplement < ApplicationRecord
     }
   end
 
+  def billable_deliveries_counts
+    DeliveryCycle.billable_deliveries_count_for(self)
+  end
+
   def deliveries_count
     @deliveries_count ||= begin
       future_count = future_deliveries.count
@@ -91,10 +95,6 @@ class BasketComplement < ApplicationRecord
 
   def current_and_future_delivery_ids
     @current_and_future_delivery_ids ||= deliveries.current_and_future_year.pluck(:id)
-  end
-
-  def annual_price
-    (price * deliveries_count).round_to_five_cents
   end
 
   def display_name; name end
