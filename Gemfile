@@ -87,6 +87,7 @@ group :development, :test do
   gem "pdf-inspector", require: "pdf/inspector"
   gem "rspec-rails"
   gem "faker"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -109,7 +110,6 @@ end
 
 group :test do
   gem "launchy"
-  gem "factory_bot_rails"
   gem "capybara"
   gem "capybara-email"
   gem "super_diff"

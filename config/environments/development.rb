@@ -91,4 +91,6 @@ Rails.application.configure do
     Bullet.add_footer = true
     Bullet.unused_eager_loading_enable = false
   end
+
+  config.active_job.queue_adapter = :inline
 end

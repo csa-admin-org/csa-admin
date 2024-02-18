@@ -66,4 +66,6 @@ Rails.application.configure do
     config.logger = Logger.new(nil)
     config.log_level = :fatal
   end
+
+  config.active_job.queue_adapter = :sidekiq
 end
