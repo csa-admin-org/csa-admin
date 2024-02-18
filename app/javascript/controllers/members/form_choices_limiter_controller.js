@@ -16,8 +16,8 @@ export default class extends Controller {
   }
 
   limitChoices(event) {
-    const values = event.params.values.toString().split(',')
-    if(this.hasInputTarget) {
+    if (this.hasInputTarget && event.params.values) {
+      const values = event.params.values.toString().split(',')
       for (const input of this.inputTargets) {
         const label = `label[for='${input.id}']`
         if (values.includes(input.value)) {

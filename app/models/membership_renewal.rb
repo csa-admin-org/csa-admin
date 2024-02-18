@@ -6,6 +6,7 @@ class MembershipRenewal
     basket_complements_annual_price_change
     activity_participations_demanded_annualy
     activity_participations_annual_price_change
+    absences_included_annually
   ]
 
   attr_reader :membership, :fiscal_year

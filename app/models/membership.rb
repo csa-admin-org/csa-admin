@@ -44,6 +44,7 @@ class Membership < ApplicationRecord
     memberships_basket_complements.each do |mbc|
       self.activity_participations_demanded_annualy += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annualy
     end
+    self.absences_included_annually ||= delivery_cycle&.absences_included_annually
   end
 
   validates :member, presence: true
@@ -56,6 +57,7 @@ class Membership < ApplicationRecord
   validates :basket_price_extra, numericality: true, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
+  validates :absences_included_annually, numericality: true
   validates :new_config_from,
     date: {
       after_or_equal_to: :started_on,
@@ -77,8 +79,9 @@ class Membership < ApplicationRecord
   after_update :handle_config_change!
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
-  after_commit :update_member_and_baskets!
   after_commit :update_activity_participations_demanded!
+  after_commit :update_absences_included!
+  after_commit :update_member_and_baskets!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
 
   scope :started, -> { where("started_on < ?", Time.current) }
@@ -309,7 +312,7 @@ class Membership < ApplicationRecord
   end
 
   def canceled?
-    !renew?
+    persisted? && !renew?
   end
 
   def memberships_basket_complements_attributes=(*args)
@@ -404,13 +407,6 @@ class Membership < ApplicationRecord
 
   def missing_activity_participations
     [ activity_participations_demanded - activity_participations_accepted, 0 ].max
-  end
-
-  def update_activity_participations_demanded!
-    demanded = ActivityParticipationDemanded.new(self, Current.acp.activity_participations_demanded_logic).count
-    if activity_participations_demanded != demanded
-      update_column(:activity_participations_demanded, demanded)
-    end
   end
 
   def update_activity_participations_accepted!
@@ -523,9 +519,26 @@ class Membership < ApplicationRecord
       waiting_basket_complement_ids: nil)
   end
 
+  def update_absences_included!
+    return unless Current.acp.feature?("absence")
+
+    full_year = delivery_cycle.deliveries_in(fiscal_year.range).size.to_f
+    total = (baskets.count / full_year * absences_included_annually).round
+    unless total == absences_included
+      update_column(:absences_included, total)
+    end
+  end
+
+  def update_activity_participations_demanded!
+    demanded = ActivityParticipationDemanded.new(self, Current.acp.activity_participations_demanded_logic).count
+    if activity_participations_demanded != demanded
+      update_column(:activity_participations_demanded, demanded)
+    end
+  end
+
   def update_member_and_baskets!
     update_absent_baskets!
-    update_billable_baskets!
+    update_not_billable_baskets!
     member.reload
     member.update_trial_baskets!
     update_baskets_counts!
@@ -533,22 +546,38 @@ class Membership < ApplicationRecord
   end
 
   def update_absent_baskets!
+    return unless Current.acp.feature?("absence")
+
     transaction do
+      # Real absences
       baskets.absent.update_all(state: "normal", absence_id: nil)
       member.absences.overlaps(period).each do |absence|
         baskets
           .between(absence.period)
           .update_all(state: "absent", absence_id: absence.id)
       end
+      # Provisional absences (included)
+      remaining = absences_included - baskets.absent.count
+      if remaining.positive?
+        baskets
+          .not_absent
+          .reorder("deliveries.date DESC")
+          .limit(remaining)
+          .update_all(state: "absent")
+      end
     end
   end
 
-  def update_billable_baskets!
+  def update_not_billable_baskets!
+    return unless Current.acp.feature?("absence")
+
     transaction do
-      baskets.where(billable: false).update_all(billable: true)
-      unless Current.acp.absences_billed?
-        baskets.absent.update_all(billable: false)
+      baskets.not_billable.update_all(billable: true)
+      absent_baskets = baskets.absent
+      if Current.acp.absences_billed?
+        absent_baskets = absent_baskets.limit(absences_included)
       end
+      absent_baskets.update_all(billable: false)
     end
   end
 

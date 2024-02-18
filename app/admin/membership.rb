@@ -232,7 +232,8 @@ ActiveAdmin.register Membership do
     if Current.acp.trial_basket_count.positive?
       column(:baskets_trial_count) { |m| m.baskets.count(&:trial?) }
     end
-    if Current.acp.feature?("absence")
+    if feature?("absence")
+      column(:absences_included)
       column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
@@ -312,6 +313,11 @@ ActiveAdmin.register Membership do
             }
           end
         end
+        if feature?("absence") && m.baskets.provisionally_absent.any?
+          div class: "footnote" do
+            content_tag(:span, "*") + t(".provisional_absences")
+          end
+        end
       end
 
       column do
@@ -332,7 +338,18 @@ ActiveAdmin.register Membership do
               }
           end
           row :depot
-          row :delivery_cycle
+          row(:delivery_cycle) {
+            cycle = m.delivery_cycle
+            link_to "#{cycle.display_name} (#{cycle.deliveries_count_for(m.fy_year)})", cycle
+          }
+          if feature?("absence") && m.absences_included_annually.positive?
+            row(:absences_included) {
+              used = m.baskets.definitely_absent.count
+              link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
+                t(".absences_used", used: used, count: m.absences_included)
+              end
+            }
+          end
         end
 
         if Current.fiscal_year >= m.fiscal_year
@@ -581,17 +598,18 @@ ActiveAdmin.register Membership do
       f.inputs activities_human_name do
         f.input :activity_participations_demanded_annualy,
           label: "#{activities_human_name} (#{t('.full_year')})",
+          input_html: {
+            data: { "1p_ignore": true }
+          },
           hint: t("formtastic.hints.membership.activity_participations_demanded_annualy_html")
-        f.input :activity_participations_annual_price_change,
-          label: true,
-          hint: true
+        f.input :activity_participations_annual_price_change
       end
     end
 
     f.inputs t(".billing") do
-      f.input :baskets_annual_price_change, hint: true
+      f.input :baskets_annual_price_change
       if BasketComplement.any?
-        f.input :basket_complements_annual_price_change, hint: true
+        f.input :basket_complements_annual_price_change
       end
     end
 
@@ -607,21 +625,38 @@ ActiveAdmin.register Membership do
     f.inputs [
       Depot.model_name.human(count: 1),
       DeliveryCycle.model_name.human(count: 1)
-    ].to_sentence, "data-controller" => "form-reset" do
-      f.input :depot,
-        prompt: true,
-        input_html: {
-          data: { action: "form-reset#reset" }
-        },
-        collection: Depot.all.map { |d| [ d.name, d.id ] }
-      f.input :depot_price,
-        hint: true,
-        required: false,
-        input_html: { data: { form_reset_target: "input" } }
-      f.input :delivery_cycle,
-        as: :select,
-        collection: delivery_cycles_collection,
-        prompt: true
+    ].to_sentence do
+       ol "data-controller" => "form-reset" do
+        f.input :depot,
+          collection: Depot.all.map { |d| [ d.name, d.id ] },
+          prompt: true,
+          input_html: {
+            data: { action: "form-reset#reset" }
+          }
+        f.input :depot_price,
+          required: false,
+          input_html: { data: { form_reset_target: "input" } }
+      end
+      ol "data-controller" => "form-reset" do
+        f.input :delivery_cycle,
+          collection: delivery_cycles_collection,
+          as: :select,
+          prompt: true,
+          input_html: {
+            data: { action: "form-reset#reset" }
+          }
+        if feature?("absence")
+          f.input :absences_included_annually,
+            required: false,
+            step: 1,
+            input_html: {
+              data: { form_reset_target: "input", "1p_ignore": true }
+            },
+            hint: t("formtastic.hints.membership.absences_included_annually_html")
+
+          handbook_button(self, "absences", anchor: "absences-incluses")
+        end
+      end
     end
     f.inputs [
       Basket.model_name.human(count: 1),
@@ -671,6 +706,7 @@ ActiveAdmin.register Membership do
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
     :basket_complements_annual_price_change,
+    :absences_included_annually,
     :new_config_from,
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,

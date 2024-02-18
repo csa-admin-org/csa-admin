@@ -19,6 +19,8 @@ ul class="relative my-2 md:mr-4 -mx-2 p-2 rounded hover:bg-gray-100 dark:hover:b
         - if basket.absent?
           span class='ml-2 px-2 border border-gray-300 dark:border-gray-700 bg-gray-300 dark:bg-gray-700 text-gray-500 font-medium rounded-full text-sm'
             = Basket.human_attribute_name(:absent)
+            - unless basket.absence_id?
+              = " *"
 
   li class='mt-1 flex flex-row items-center'
     = inline_svg_tag 'members/map.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'

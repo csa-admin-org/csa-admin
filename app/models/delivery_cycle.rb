@@ -44,7 +44,12 @@ class DeliveryCycle < ApplicationRecord
       greater_than_or_equal_to: 1,
       only_integer: true,
       allow_nil: true
-  }
+    }
+  validates :absences_included_annually,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      only_integer: true
+    }
 
   after_save :reset_cache!
   after_commit :update_baskets_async, on: :update
@@ -59,11 +64,11 @@ class DeliveryCycle < ApplicationRecord
     DeliveryCycle.all.select { |dc| dc.include_delivery?(delivery) }
   end
 
-  def self.deliveries_counts
+  def self.billable_deliveries_counts
     if visible?
-      visible.map(&:deliveries_count).uniq.sort
+      visible.map(&:billable_deliveries_count).uniq.sort
     else
-      [ greatest.deliveries_count ]
+      [ greatest.billable_deliveries_count ]
     end
   end
 
@@ -84,7 +89,7 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def self.greatest
-    all.max_by(&:deliveries_count)
+    all.max_by(&:billable_deliveries_count)
   end
 
   def self.member_ordered
@@ -92,9 +97,9 @@ class DeliveryCycle < ApplicationRecord
       clauses = [ dc.member_order_priority ]
       clauses <<
         case Current.acp.delivery_cycles_member_order_mode
-        when "deliveries_count_asc"; dc.deliveries_count
-        when "deliveries_count_desc"; -dc.deliveries_count
-        when "wdays_asc"; [ dc.wdays.sort, -dc.deliveries_count ]
+        when "deliveries_count_asc"; dc.billable_deliveries_count
+        when "deliveries_count_desc"; -dc.billable_deliveries_count
+        when "wdays_asc"; [ dc.wdays.sort, -dc.billable_deliveries_count ]
         end
       clauses << dc.public_name
       clauses
@@ -129,6 +134,20 @@ class DeliveryCycle < ApplicationRecord
 
   def deliveries_count
     future_deliveries_count.positive? ? future_deliveries_count : current_deliveries_count
+  end
+
+  def billable_deliveries_count
+    deliveries_count - absences_included_annually
+  end
+
+  # Pro-rate included absences removal
+  def billable_deliveries_count_for(basket_complement)
+    count = (basket_complement.delivery_ids & current_and_future_delivery_ids).size
+    if absences_included_annually.positive?
+      full_year = deliveries_count.to_f
+      count -= (count / full_year * absences_included_annually).round
+    end
+    count
   end
 
   def current_deliveries_count

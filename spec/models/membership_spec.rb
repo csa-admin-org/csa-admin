@@ -570,7 +570,7 @@ describe Membership do
      .and change { member.waiting_basket_complement_ids }.to([])
   end
 
-  it "updates futures basket when subscription change" do
+  it "updates futures basket when configuration change" do
     travel_to("2017-03-01") do
       create(:delivery, date: "2017-03-01")
       create(:delivery, date: "2017-06-15")
@@ -639,6 +639,200 @@ describe Membership do
       expect(membership).to be_trial
     end
   end
+
+  describe "#update_member_and_baskets" do
+    before do
+      Current.acp.update!(
+        trial_basket_count: 0,
+        absences_billed: true)
+    end
+    specify "updates absent baskets", freeze: "2024-01-01" do
+      delivery1 = create(:delivery, date: "2024-01-01")
+      delivery2 = create(:delivery, date: "2024-02-01")
+      member = create(:member)
+      absence = create(:absence,
+        member: member,
+        started_on: "2024-01-15",
+        ended_on: "2024-02-15")
+      create(:membership, member: member, started_on: "2024-01-01", ended_on: "2024-12-01")
+
+      expect(member.baskets.first).to have_attributes(
+        delivery: delivery1,
+        state: "normal",
+        billable: true)
+      expect(member.baskets.second).to have_attributes(
+        delivery: delivery2,
+        absence: absence,
+        state: "absent",
+        billable: true)
+    end
+
+    specify "updates trial and absent baskets", freeze: "2024-01-01" do
+      Current.acp.update!(trial_basket_count: 2)
+      delivery1 = create(:delivery, date: "2024-01-01")
+      delivery2 = create(:delivery, date: "2024-02-01")
+      delivery3 = create(:delivery, date: "2024-03-01")
+      delivery4 = create(:delivery, date: "2024-04-01")
+      member = create(:member)
+      absence = create(:absence,
+        member: member,
+        started_on: "2024-01-15",
+        ended_on: "2024-02-15")
+      create(:membership, member: member, started_on: "2024-01-01", ended_on: "2024-12-01")
+
+      expect(member.baskets.first).to have_attributes(
+        delivery: delivery1,
+        state: "trial",
+        billable: true)
+      expect(member.baskets.second).to have_attributes(
+        delivery: delivery2,
+        absence: absence,
+        state: "absent",
+        billable: true)
+      expect(member.baskets.third).to have_attributes(
+        delivery: delivery3,
+        state: "trial",
+        billable: true)
+      expect(member.baskets.fourth).to have_attributes(
+        delivery: delivery4,
+        state: "normal",
+        billable: true)
+    end
+
+    specify "marks absent baskets as not billable", freeze: "2024-01-01" do
+      Current.acp.update!(absences_billed: false)
+      delivery1 = create(:delivery, date: "2024-01-01")
+      delivery2 = create(:delivery, date: "2024-02-01")
+      member = create(:member)
+      absence = create(:absence,
+        member: member,
+        started_on: "2024-01-15",
+        ended_on: "2024-02-15")
+      create(:membership, member: member, started_on: "2024-01-01", ended_on: "2024-12-01")
+
+      expect(member.baskets.first).to have_attributes(
+        delivery: delivery1,
+        state: "normal",
+        billable: true)
+      expect(member.baskets.second).to have_attributes(
+        delivery: delivery2,
+        absence: absence,
+        state: "absent",
+        billable: false)
+    end
+
+    specify "mark last baskets are absent when all included absence aren't used yet", freeze: "2024-01-01" do
+      Current.acp.update!(absences_billed: true)
+      delivery1 = create(:delivery, date: "2024-01-01")
+      delivery2 = create(:delivery, date: "2024-02-01")
+      delivery3 = create(:delivery, date: "2024-03-01")
+      delivery4 = create(:delivery, date: "2024-04-01")
+      delivery5 = create(:delivery, date: "2024-05-01")
+      member = create(:member)
+      absence = create(:absence,
+        member: member,
+        started_on: "2024-01-15",
+        ended_on: "2024-02-15")
+      create(:membership,
+        member: member,
+        started_on: "2024-01-01",
+        ended_on: "2024-12-01",
+        absences_included_annually: 3)
+
+      expect(member.baskets.first).to have_attributes(
+        delivery: delivery1,
+        state: "normal",
+        billable: true)
+      expect(member.baskets.second).to have_attributes(
+        delivery: delivery2,
+        absence: absence,
+        state: "absent",
+        billable: false)
+      expect(member.baskets.third).to have_attributes(
+        delivery: delivery3,
+        state: "normal",
+        billable: true)
+      expect(member.baskets.fourth).to have_attributes(
+        delivery: delivery4,
+        absence: nil,
+        state: "absent",
+        billable: false)
+      expect(member.baskets.fifth).to have_attributes(
+        delivery: delivery5,
+        absence: nil,
+        state: "absent",
+        billable: false)
+    end
+
+    specify "mark last baskets are absent when all included absence aren't used yet", freeze: "2024-01-01" do
+      Current.acp.update!(absences_billed: true)
+      delivery1 = create(:delivery, date: "2024-01-01")
+      delivery2 = create(:delivery, date: "2024-02-01")
+      delivery3 = create(:delivery, date: "2024-03-01")
+      delivery4 = create(:delivery, date: "2024-04-01")
+      delivery5 = create(:delivery, date: "2024-05-01")
+      member = create(:member)
+      absence = create(:absence,
+        member: member,
+        started_on: "2024-01-15",
+        ended_on: "2024-05-15")
+      create(:membership,
+        member: member,
+        started_on: "2024-01-01",
+        ended_on: "2024-12-01",
+        absences_included_annually: 3)
+
+      expect(member.baskets.first).to have_attributes(
+        delivery: delivery1,
+        state: "normal",
+        billable: true)
+      expect(member.baskets.second).to have_attributes(
+        delivery: delivery2,
+        absence: absence,
+        state: "absent",
+        billable: false)
+      expect(member.baskets.third).to have_attributes(
+        delivery: delivery3,
+        absence: absence,
+        state: "absent",
+        billable: false)
+      expect(member.baskets.fourth).to have_attributes(
+        delivery: delivery4,
+        absence: absence,
+        state: "absent",
+        billable: false)
+      expect(member.baskets.fifth).to have_attributes(
+        delivery: delivery5,
+        absence: absence,
+        state: "absent",
+        billable: true)
+    end
+
+    specify "update baskets counts after commit" do
+      Current.acp.update!(trial_basket_count: 3)
+
+      travel_to "2017-01-01" do
+        create(:delivery, date: "2017-01-01")
+        create(:delivery, date: "2017-02-01")
+        create(:delivery, date: "2017-03-01")
+        create(:delivery, date: "2017-04-01")
+        create(:delivery, date: "2017-05-01")
+        create(:delivery, date: "2017-06-01")
+        create(:delivery, date: "2017-07-01")
+      end
+      travel_to "2017-02-15" do
+        membership = create(:membership,
+          started_on: "2017-01-01",
+          ended_on: "2017-12-01")
+
+        expect(membership.baskets_count).to eq 7
+        expect(membership.past_baskets_count).to eq 2
+        expect(membership.remaning_trial_baskets_count).to eq 1
+        expect(membership).to be_trial
+      end
+    end
+  end
+
 
   describe "#mark_renewal_as_pending!" do
     it "sets renew to true when previously canceled" do

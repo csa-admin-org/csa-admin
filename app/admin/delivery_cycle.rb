@@ -22,10 +22,18 @@ ActiveAdmin.register DeliveryCycle do
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }
     column Current.acp.current_fiscal_year, ->(dc) {
-      auto_link dc, dc.current_deliveries_count
+      txt = dc.current_deliveries_count.to_s
+      if dc.current_deliveries_count.positive? && dc.absences_included_annually.positive?
+        txt += " (-#{dc.absences_included_annually})"
+      end
+      auto_link dc, txt
     }
     column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
-      auto_link dc, dc.future_deliveries_count
+      txt = dc.future_deliveries_count.to_s
+      if dc.future_deliveries_count.positive? && dc.absences_included_annually.positive?
+        txt += " (-#{dc.absences_included_annually})"
+      end
+      auto_link dc, txt
     }
     if DeliveryCycle.visible?
       column :visible, ->(dc) { status_tag dc.visible? }
@@ -78,6 +86,12 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
+        if feature?("absence")
+          attributes_table title: t(".billing") do
+            row :absences_included_annually
+          end
+        end
+
         attributes_table title: t("delivery_cycle.settings") do
           row(:wdays) {
             if dc.wdays.size == 7
@@ -124,6 +138,14 @@ ActiveAdmin.register DeliveryCycle do
       end
     end
 
+    if feature?("absence")
+      f.inputs t(".billing") do
+        f.input :absences_included_annually
+
+        handbook_button(self, "absences", anchor: "absences-incluses")
+      end
+    end
+
     f.inputs t("delivery_cycle.settings") do
       f.input :wdays,
         as: :check_boxes,
@@ -150,6 +172,7 @@ ActiveAdmin.register DeliveryCycle do
   permit_params(
     :visible,
     :member_order_priority,
+    :absences_included_annually,
     :week_numbers,
     :results,
     :minimum_gap_in_days,

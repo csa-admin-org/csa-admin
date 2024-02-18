@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_11_113111) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_11_123703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_113111) do
     t.string "depots_member_order_mode", default: "price_asc", null: false
     t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
     t.integer "shop_order_automatic_invoicing_delay_in_days"
-    t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annualy", "activity_participations_annual_price_change"], array: true
+    t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annualy", "activity_participations_annual_price_change", "absences_included_annually"], array: true
     t.decimal "new_member_fee", precision: 8, scale: 2
     t.jsonb "new_member_fee_descriptions", default: {}, null: false
     t.jsonb "member_information_titles", default: {}, null: false
@@ -384,6 +384,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_113111) do
     t.jsonb "deliveries_counts", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.integer "minimum_gap_in_days"
+    t.integer "absences_included_annually", default: 0, null: false
   end
 
   create_table "delivery_cycles_depots", force: :cascade do |t|
@@ -590,6 +591,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_113111) do
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "last_trial_basket_sent_at", precision: nil
     t.bigint "delivery_cycle_id", null: false
+    t.integer "absences_included_annually", default: 0, null: false
+    t.integer "absences_included", default: 0, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

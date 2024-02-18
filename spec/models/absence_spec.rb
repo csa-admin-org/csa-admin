@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe Absence, freeze: "2021-06-15" do
+  before { current_acp.update!(features: %w[absence]) }
+
   describe "validations" do
     it "validates started_on and ended_on dates when submited by member" do
       absence = Absence.new(

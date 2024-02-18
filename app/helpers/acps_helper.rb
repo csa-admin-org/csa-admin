@@ -25,6 +25,12 @@ module AcpsHelper
         "basket_complements_annual_price_change"
       ]
     end
+    if feature?("absence")
+      col << [
+        Membership.human_attribute_name(:absences_included_annually),
+        "absences_included_annually"
+      ]
+    end
     if feature?("activity")
       col <<  [
         "#{t('formtastic.labels.membership.activity_participations_annual_price_change')} (#{activities_human_name})",

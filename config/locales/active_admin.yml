@@ -861,6 +861,15 @@ _:
           _fr: Créer Brouillon
           _it: Crea Bozza
       show:
+        absences_used:
+          one:
+            _de: "%{used} von %{count} gemeldet"
+            _fr: "%{used} sur %{count} annoncée"
+            _it: "%{used} su %{count} annunciata"
+          other:
+            _de: "%{used} von %{count} gemeldet"
+            _fr: "%{used} sur %{count} annoncées"
+            _it: "%{used} su %{count} annunciate"
         acp_shares_number:
           existing:
             one:
@@ -1088,6 +1097,10 @@ _:
           _de: Vorschau
           _fr: Prévisualisation
           _it: Anteprima
+        provisional_absences:
+          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat.
+          _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences.
+          _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il membro non ha annunciato tutte le sue assenze.
         recurring_billing_disabled:
           _de: Automatische Rechnungsstellung Deaktiviert
           _fr: Facturation automatique désactivée

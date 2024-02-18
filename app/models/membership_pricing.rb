@@ -27,6 +27,7 @@ class MembershipPricing
   def simple_pricing?
     Depot.visible.sum(:price).zero? &&
       BasketComplement.visible.sum(:price).zero? &&
+      DeliveryCycle.visible.map(&:billable_deliveries_count).uniq.one? &&
       deliveries_counts.one? &&
       !Current.acp.feature?("basket_price_extra")
   end
@@ -86,7 +87,7 @@ class MembershipPricing
     return [ 0, 0 ] if quantity.zero?
 
     deliveries_counts = delivery_cycles.map { |dc|
-      (complement.delivery_ids & dc.current_and_future_delivery_ids).size
+      dc.billable_deliveries_count_for(complement)
     }.uniq
     [
       deliveries_counts.min * complement.price * quantity,
@@ -106,7 +107,7 @@ class MembershipPricing
   def deliveries_counts
     return [ 0 ] unless delivery_cycles.any?
 
-    @deliveries_counts ||= delivery_cycles.map(&:deliveries_count).flatten.uniq.sort
+    @deliveries_counts ||= delivery_cycles.map(&:billable_deliveries_count).flatten.uniq.sort
   end
 
   def delivery_cycles

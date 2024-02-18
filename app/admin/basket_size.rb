@@ -13,11 +13,11 @@ ActiveAdmin.register BasketSize do
     column :price, ->(bs) { cur(bs.price, precision: 3) }
     column :annual_price, ->(bs) {
       if bs.price.positive?
-        deliveries_based_price_info(bs.price, bs.deliveries_counts)
+        deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)
       end
     }
     column :deliveries, ->(bs) {
-      deliveries_count_range(bs.deliveries_counts)
+      deliveries_count_range(bs.billable_deliveries_counts)
     }
     if Current.acp.feature?("activity")
       column activities_human_name,

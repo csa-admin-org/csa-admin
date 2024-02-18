@@ -10,7 +10,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
 
 - unless Current.acp.absence_extra_text_only?
   - if Current.acp.absences_billed?
-    p class='mt-2'
+    p class='mt-2 text-justify'
       = t('.explanation_billed')
 
 div class='mb-12'
@@ -26,7 +26,12 @@ div class='mb-12'
       div class='flex-none w-full'
         = f.button :submit, t('.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
 
-- @present_or_future_absences = current_member.absences.present_or_future
+  - absences_included = current_member.current_or_future_membership&.absences_included
+  - if absences_included&.positive?
+    p class='mt-8 text-sm text-gray-400 dark:text-gray-600'
+      = t('.absences_included_explanation_html', count: absences_included)
+
+- @present_or_future_absences = current_member.absences.present_or_future.includes(:baskets)
 - if @present_or_future_absences.any?
   h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
     = t('.present_or_future_absences')
@@ -35,6 +40,7 @@ div class='mb-12'
       li class='space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded p-1 -m-1'
         span class='min-w-fit flex flex-row items-center'
           = "#{l(absence.started_on)} – #{l(absence.ended_on)}"
+          = " (#{t('.deliveries_count', count: absence.baskets.size)})"
 
         - if absence.note?
           span class='m-0 flex items-center tooltip-toggle' onclick="" data-tooltip="#{absence.note}"
@@ -53,6 +59,8 @@ div class='mb-12'
         li class='space-y-px flex flex-wrap md:flex-nowrap flex-row justify-between items-center align-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded p-1 -m-1'
           span class='min-w-fit flex flex-row items-center'
             = "#{l(absence.started_on)} – #{l(absence.ended_on)}"
+            = " (#{t('.deliveries_count', count: absence.baskets.size)})"
+
           - if absence.note?
             span class='m-0 flex items-center tooltip-toggle' onclick="" data-tooltip="#{absence.note}"
               = inline_svg_tag 'members/chat-note.svg', class: 'stroke-2 mt-px -mb-px'

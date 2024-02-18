@@ -243,6 +243,45 @@ describe "members page" do
       expect(member.waiting_basket_price_extra).to eq 2
     end
 
+    specify "delivery cycles with absenses included" do
+      create_deliveries(4)
+      create(:basket_size, :small)
+      create(:basket_size, :big)
+
+      create(:delivery_cycle, id: 10, name: "Toutes les semaines")
+      create(:delivery_cycle, id: 20, name: "Absences incluses", absences_included_annually: 2)
+
+      create(:depot, name: "Jardin de la main", price: 0, address: "Rue de la main 6-7", zip: nil, delivery_cycle_ids: [ 10 ])
+      create(:depot, name: "Vélo", price: 8, address: "Uniquement à Neuchâtel", zip: nil, delivery_cycle_ids: [ 10, 20 ])
+      create(:depot, name: "Domicile", price: 10, address: nil, delivery_cycle_ids: [ 20 ])
+
+      create(:basket_complement, public_name: "Oeufs", id: 11, price: 6)
+      create(:basket_complement, public_name: "Pain", id: 22, price: 5,
+        delivery_ids: Delivery.pluck(:id).select(&:odd?))
+
+      visit "/new"
+
+      expect(page).to have_selector("span",
+        text: "Abondance PUBLICCHF 66.50-133 (33.25 x 2-4 livraisons), 2 ½ journées")
+      expect(page).to have_selector("span",
+        text: "Eveil PUBLICCHF 46.25-92.50 (~23.15 x 2-4 livraisons), 2 ½ journées")
+
+      expect(page).to have_selector("span", text: "Oeufs")
+      expect(page).to have_selector("span", text: "CHF 12-24 (6.- x 2-4 livraisons)")
+      expect(page).to have_selector("span", text: "Pain")
+      expect(page).to have_selector("span", text: "CHF 5-10 (5.- x 1-2 livraisons)")
+
+      expect(page).to have_selector("span",
+        text: "Jardin de la main PUBLIC4 livraisons, Rue de la main 6-7")
+      expect(page).to have_selector("span",
+        text: "Vélo PUBLICCHF 16-32 (8.- x 2-4 livraisons), Uniquement à Neuchâtel")
+      expect(page).to have_selector("span",
+        text: "Domicile PUBLICCHF 20 (10.- x 2 livraisons)")
+
+      expect(page).to have_selector("span", text: "Toutes les semaines PUBLIC4 livraisons")
+      expect(page).to have_selector("span", text: "Absences incluses PUBLIC2 livraisons")
+    end
+
     it "creates a new member with membership and alternative depots" do
       Current.acp.update!(allow_alternative_depots: true)
 
