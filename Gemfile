@@ -82,7 +82,7 @@ group :production do
 end
 
 group :development, :test do
-  gem "dotenv-rails"
+  gem "dotenv"
   gem "byebug"
   gem "pdf-inspector", require: "pdf/inspector"
   gem "rspec-rails"
