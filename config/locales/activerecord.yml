@@ -513,19 +513,19 @@ _:
           _fr: Lien externe
           _it: Link esterno
       basket_size:
-        activity_participations_demanded_annualy/basket_preparation:
+        activity_participations_demanded_annually/basket_preparation:
           _de: Taschen befüllung pro Jahr
           _fr: Mises en panier par année
           _it: Ceste riempite all'anno
-        activity_participations_demanded_annualy/day_work:
+        activity_participations_demanded_annually/day_work:
           _de: Arbeitstage pro Jahr
           _fr: Journées de travail par année
           _it: Giorni di lavoro all'anno
-        activity_participations_demanded_annualy/halfday_work:
+        activity_participations_demanded_annually/halfday_work:
           _de: "½ Arbeitstage pro Jahr"
           _fr: "½ journées de travail par année"
           _it: "½ giornate di lavoro all'anno"
-        activity_participations_demanded_annualy/hour_work:
+        activity_participations_demanded_annually/hour_work:
           _de: Arbeitsstunden pro Jahr
           _fr: Heures de travail par année
           _it: Ore di lavoro all'anno

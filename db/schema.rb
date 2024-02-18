@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_11_123703) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_094111) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_123703) do
     t.string "depots_member_order_mode", default: "price_asc", null: false
     t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
     t.integer "shop_order_automatic_invoicing_delay_in_days"
-    t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annualy", "activity_participations_annual_price_change", "absences_included_annually"], array: true
+    t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annually", "activity_participations_annual_price_change", "absences_included_annually"], array: true
     t.decimal "new_member_fee", precision: 8, scale: 2
     t.jsonb "new_member_fee_descriptions", default: {}, null: false
     t.jsonb "member_information_titles", default: {}, null: false
@@ -262,7 +262,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_123703) do
     t.jsonb "public_names", default: {}, null: false
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
-    t.integer "activity_participations_demanded_annualy", default: 0, null: false
+    t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.index ["visible"], name: "index_basket_complements_on_visible"
   end
 
@@ -309,7 +309,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_123703) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
-    t.integer "activity_participations_demanded_annualy", default: 0, null: false
+    t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.jsonb "names", default: {}, null: false
     t.integer "acp_shares_number"
     t.boolean "visible", default: true, null: false
@@ -563,7 +563,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_11_123703) do
   create_table "memberships", id: :serial, force: :cascade do |t|
     t.integer "member_id", null: false
     t.decimal "activity_participations_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "activity_participations_demanded_annualy", null: false
+    t.integer "activity_participations_demanded_annually", null: false
     t.date "started_on", null: false
     t.date "ended_on", null: false
     t.datetime "created_at", precision: nil

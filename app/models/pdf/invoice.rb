@@ -534,7 +534,7 @@ module PDF
 
     def activity_participations_annual_price_change_description
       i18n_scope = Current.acp.activity_i18n_scope
-      diff = entity.activity_participations_demanded_annualy - entity.basket_size.activity_participations_demanded_annualy
+      diff = entity.activity_participations_demanded_annually - entity.basket_size.activity_participations_demanded_annually
       if diff.positive?
         Membership.human_attribute_name("activity_participations_annual_price_change_reduction/#{i18n_scope}", count: diff)
       elsif diff.negative?

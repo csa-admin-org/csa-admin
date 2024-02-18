@@ -9,7 +9,7 @@ describe "members page" do
       member = create(:member, :active)
       create(:basket_complement, id: 1, name: "Oeufs")
       member.current_year_membership.update!(
-        activity_participations_demanded_annualy: 3,
+        activity_participations_demanded_annually: 3,
         basket_size: create(:basket_size, name: "Petit"),
         depot: create(:depot, name: "Jardin de la main"),
         memberships_basket_complements_attributes: {

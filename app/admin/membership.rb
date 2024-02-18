@@ -596,12 +596,12 @@ ActiveAdmin.register Membership do
 
     if Current.acp.feature?("activity")
       f.inputs activities_human_name do
-        f.input :activity_participations_demanded_annualy,
+        f.input :activity_participations_demanded_annually,
           label: "#{activities_human_name} (#{t('.full_year')})",
           input_html: {
             data: { "1p_ignore": true }
           },
-          hint: t("formtastic.hints.membership.activity_participations_demanded_annualy_html")
+          hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html")
         f.input :activity_participations_annual_price_change
       end
     end
@@ -704,7 +704,7 @@ ActiveAdmin.register Membership do
     :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price, :delivery_cycle_id,
     :started_on, :ended_on, :renew, :renewal_annual_fee,
-    :activity_participations_annual_price_change, :activity_participations_demanded_annualy,
+    :activity_participations_annual_price_change, :activity_participations_demanded_annually,
     :basket_complements_annual_price_change,
     :absences_included_annually,
     :new_config_from,

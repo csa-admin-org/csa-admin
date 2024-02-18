@@ -22,7 +22,7 @@ class ActivityParticipationDemanded
     end
 
     def full_year_activity_participations
-      @membership.activity_participations_demanded_annualy.to_f
+      @membership.activity_participations_demanded_annually.to_f
     end
 
     def baskets

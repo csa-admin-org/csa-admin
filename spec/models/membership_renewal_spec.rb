@@ -19,7 +19,7 @@ describe MembershipRenewal do
       basket_price_extra: 1,
       baskets_annual_price_change: 130,
       depot_price: 3,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60)
 
     membership.basket_size.update!(price: 41)
@@ -39,7 +39,7 @@ describe MembershipRenewal do
       baskets_annual_price_change: 130,
       depot_id: membership.depot_id,
       depot_price: 4,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60,
       started_on: next_fy.beginning_of_year,
       ended_on: next_fy.end_of_year)
@@ -52,12 +52,12 @@ describe MembershipRenewal do
       basket_price: 22,
       basket_price_extra: 1,
       baskets_annual_price_change: 130,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60)
 
     big = create(:basket_size, :big,
       price: 33,
-      activity_participations_demanded_annualy: 6)
+      activity_participations_demanded_annually: 6)
 
     expect {
       MembershipRenewal.new(membership).renew!(basket_size_id: big.id)
@@ -70,7 +70,7 @@ describe MembershipRenewal do
       basket_price: 33,
       basket_price_extra: 1,
       baskets_annual_price_change: 0,
-      activity_participations_demanded_annualy: 12,
+      activity_participations_demanded_annually: 12,
       activity_participations_annual_price_change: 0,
       started_on: next_fy.beginning_of_year,
       ended_on: next_fy.end_of_year)
@@ -83,7 +83,7 @@ describe MembershipRenewal do
       basket_price: 42,
       basket_price_extra: 1,
       baskets_annual_price_change: 130,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60)
     big = create(:basket_size, :big)
 
@@ -98,7 +98,7 @@ describe MembershipRenewal do
       basket_quantity: 2,
       baskets_annual_price_change: 130,
       depot_id: membership.depot_id,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60,
       started_on: next_fy.beginning_of_year,
       ended_on: next_fy.end_of_year)
@@ -153,7 +153,7 @@ describe MembershipRenewal do
     create(:basket_complement, id: 2, price: 4.5)
     membership = create(:membership,
       baskets_annual_price_change: 130,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60,
       basket_complements_annual_price_change: -32,
       memberships_basket_complements_attributes: {
@@ -161,7 +161,7 @@ describe MembershipRenewal do
       })
 
     Current.acp.update!(membership_renewed_attributes: %w[
-      activity_participations_demanded_annualy
+      activity_participations_demanded_annually
     ])
 
     expect {
@@ -174,7 +174,7 @@ describe MembershipRenewal do
 
     expect(membership.renewed_membership).to have_attributes(
       baskets_annual_price_change: 0,
-      activity_participations_demanded_annualy: 5,
+      activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: 0,
       basket_complements_annual_price_change: 0)
   end

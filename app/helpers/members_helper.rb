@@ -49,7 +49,7 @@ module MembersHelper
     else
       details << deliveries_count(bs.billable_deliveries_counts)
     end
-    details << activities_count(bs.activity_participations_demanded_annualy)
+    details << activities_count(bs.activity_participations_demanded_annually)
     if @acp_shares_numbers.size > 1
       details << acp_shares_number(bs.acp_shares_number)
     end
@@ -124,8 +124,8 @@ module MembersHelper
       counts = depots_delivery_cycles.map { |dc| dc.billable_deliveries_count_for(bc) }.uniq
       details << "#{deliveries_based_price_info(bc.price, counts)} (#{short_price(bc.price)} x #{deliveries_count(counts)})".html_safe
     end
-    if bc.activity_participations_demanded_annualy.positive?
-      details << activities_count(bc.activity_participations_demanded_annualy)
+    if bc.activity_participations_demanded_annually.positive?
+      details << activities_count(bc.activity_participations_demanded_annually)
     end
     details.compact.join(", ").html_safe
   end

@@ -38,7 +38,7 @@ module AcpsHelper
       ]
       col <<  [
         "#{activities_human_name} (#{t('active_admin.resource.edit.full_year')})",
-        "activity_participations_demanded_annualy"
+        "activity_participations_demanded_annually"
       ]
     end
     col

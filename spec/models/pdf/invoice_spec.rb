@@ -68,7 +68,7 @@ describe PDF::Invoice do
         member: member,
         basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
-        activity_participations_demanded_annualy: 8,
+        activity_participations_demanded_annually: 8,
         activity_participations_annual_price_change: -20.50,
         deliveries_count: 2)
       invoice = create(:invoice,

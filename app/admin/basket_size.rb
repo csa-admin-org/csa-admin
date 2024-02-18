@@ -21,7 +21,7 @@ ActiveAdmin.register BasketSize do
     }
     if Current.acp.feature?("activity")
       column activities_human_name,
-        ->(bs) { bs.activity_participations_demanded_annualy },
+        ->(bs) { bs.activity_participations_demanded_annually },
         class: "col-activities"
     end
     if Current.acp.share?
@@ -40,8 +40,8 @@ ActiveAdmin.register BasketSize do
         hint: t("formtastic.hints.basket_size.public_name"))
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
       if Current.acp.feature?("activity")
-        f.input :activity_participations_demanded_annualy,
-          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annualy)),
+        f.input :activity_participations_demanded_annually,
+          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annually)),
           as: :number,
           step: 1,
           min: 0
@@ -78,7 +78,7 @@ ActiveAdmin.register BasketSize do
   permit_params(
     :price,
     :acp_shares_number,
-    :activity_participations_demanded_annualy,
+    :activity_participations_demanded_annually,
     :visible,
     :member_order_priority,
     :delivery_cycle_id,

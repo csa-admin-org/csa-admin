@@ -40,15 +40,15 @@ class Membership < ApplicationRecord
   before_validation do
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
-    self.activity_participations_demanded_annualy ||= basket_quantity * basket_size&.activity_participations_demanded_annualy
+    self.activity_participations_demanded_annually ||= basket_quantity * basket_size&.activity_participations_demanded_annually
     memberships_basket_complements.each do |mbc|
-      self.activity_participations_demanded_annualy += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annualy
+      self.activity_participations_demanded_annually += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annually
     end
     self.absences_included_annually ||= delivery_cycle&.absences_included_annually
   end
 
   validates :member, presence: true
-  validates :activity_participations_demanded_annualy, numericality: true
+  validates :activity_participations_demanded_annually, numericality: true
   validates :activity_participations_annual_price_change, numericality: true
   validates :started_on, :ended_on, presence: true
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true

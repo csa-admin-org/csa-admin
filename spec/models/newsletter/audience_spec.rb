@@ -52,12 +52,12 @@ describe Newsletter::Audience do
   end
 
   specify "activity_state", freeze: "2023-01-01" do
-    create(:membership, activity_participations_demanded_annualy: 0)
+    create(:membership, activity_participations_demanded_annually: 0)
     demanded = create(:member)
-    create(:membership, member: demanded, activity_participations_demanded_annualy: 1)
+    create(:membership, member: demanded, activity_participations_demanded_annually: 1)
     create(:activity_participation, member: demanded)
     missing = create(:member)
-    create(:membership, member: missing, activity_participations_demanded_annualy: 1)
+    create(:membership, member: missing, activity_participations_demanded_annually: 1)
 
     segment = segment_for("activity_state::demanded")
     expect(segment.members).to contain_exactly(demanded, missing)
