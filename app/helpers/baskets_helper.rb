@@ -8,7 +8,7 @@ module BasketsHelper
           content_tag(:span, t("active_admin.status_tag.absent"), class: "status_tag absent")
         end
       else
-        content_tag(:span, t("active_admin.status_tag.absent"), class: "status_tag absent")
+        content_tag(:span, t("active_admin.status_tag.absent") + " *", class: "status_tag absent provisional")
       end
     end
   end

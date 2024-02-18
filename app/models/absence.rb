@@ -26,7 +26,7 @@ class Absence < ApplicationRecord
   }
   scope :during_year, ->(year) {
     fy = Current.acp.fiscal_year_for(year)
-    where("started_on >= ? AND ended_on <= ?", fy.range.min, fy.range.max)
+    where(started_on: fy.range).or(where(ended_on: fy.range))
   }
   scope :overlaps, ->(period) {
     where("(started_on, ended_on) OVERLAPS (?, ?)", period.min, period.max)

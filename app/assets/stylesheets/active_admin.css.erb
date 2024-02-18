@@ -577,6 +577,10 @@ table a.xlsx_link {
   background-color: #bfbfbf;
 }
 
+.status_tag.absent.provisional {
+  font-style: italic;
+}
+
 .status_tag.coming,
 .status_tag.draft,
 .status_tag.manual,
@@ -759,6 +763,7 @@ table.table-baskets .col-delivery {
 
 table.table-baskets .col-status {
   width: 80px;
+  text-align: right;
 }
 
 table.table-baskets .col-description {
@@ -995,6 +1000,10 @@ form .check_boxes legend.label .checkbox-legend input {
   clear: both;
   float: left;
   margin-top: 8px;
+}
+
+form.membership ol > ol:first-of-type {
+  border-bottom: 1px solid #f3f4f6;
 }
 
 li.check_boxes ol.choices-group {
@@ -1548,6 +1557,10 @@ select option[hidden] {
   color: #888;
 }
 
+a .status_tag:hover {
+  filter: opacity(80%);
+}
+
 .text-center {
   text-align: center;
 }
@@ -1565,6 +1578,18 @@ a.color-light svg {
   .index.updates #main_content img {
     width: 100%;
   }
+}
+
+#main_content .footnote {
+  position: relative;
+  font-style: italic;
+  color: #A0A0A0;
+  margin: 0 20px;
+}
+
+#main_content .footnote span {
+  position: absolute;
+  left: -15px;
 }
 
 .onboarding {

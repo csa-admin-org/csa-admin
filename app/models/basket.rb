@@ -29,8 +29,12 @@ class Basket < ApplicationRecord
   scope :coming, -> { joins(:delivery).merge(Delivery.coming) }
   scope :between, ->(range) { joins(:delivery).merge(Delivery.between(range)) }
   scope :billable, -> { where(billable: true) }
+  scope :not_billable, -> { where(billable: false) }
   scope :deliverable, -> { active.filled }
   scope :active, -> { where(state: %i[normal trial]) }
+  scope :definitely_absent, -> { absent.where.not(absence_id: nil) }
+  scope :provisionally_absent, -> { absent.where(absence_id: nil) }
+  scope :not_absent, -> { where.not(state: :absent) }
   scope :filled, -> {
     left_outer_joins(:baskets_basket_complements)
       .where("baskets.quantity > 0 OR baskets_basket_complements.quantity > 0")

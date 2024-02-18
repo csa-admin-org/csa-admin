@@ -36,17 +36,26 @@ ActiveAdmin.register Absence do
     as: :select,
     collection: -> { fiscal_years_collection }
 
-  includes :member, :session
+  includes :member, :session, :baskets
   index do
     column :member, ->(absence) {
       with_note_icon absence.note do
         link_with_session absence.member, absence.session
       end
     }, sortable: "members.name"
-    column :started_on, ->(absence) { l absence.started_on, format: :medium_long }
-    column :ended_on, ->(absence) { l absence.ended_on, format: :medium_long }
+    column :started_on, ->(absence) {
+      link_to l(absence.started_on, format: :medium_long), absence
+    }
+    column :ended_on, ->(absence) {
+      link_to l(absence.ended_on, format: :medium_long), absence
+    }
+    column :deliveries, ->(absence) {
+      link_to absence.baskets.size, absence
+    }
     actions class: "col-actions-3"
   end
+
+  sidebar_handbook_link("absences")
 
   show do |absence|
     columns do

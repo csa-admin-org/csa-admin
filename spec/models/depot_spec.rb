@@ -28,7 +28,7 @@ describe Depot do
       depot = create(:depot)
 
       expect { create(:delivery, date: 1.year.from_now) }
-        .to change { depot.reload.deliveries_counts }.from([ 2 ]).to([ 1 ])
+        .to change { depot.reload.billable_deliveries_counts }.from([ 2 ]).to([ 1 ])
     end
   end
 

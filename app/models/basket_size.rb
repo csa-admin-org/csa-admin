@@ -74,11 +74,11 @@ class BasketSize < ApplicationRecord
       &.first || 0
   end
 
-  def deliveries_counts
+  def billable_deliveries_counts
     if delivery_cycle
-      [ delivery_cycle.deliveries_count ]
+      [ delivery_cycle.billable_deliveries_count ]
     else
-      DeliveryCycle.deliveries_counts
+      DeliveryCycle.billable_deliveries_counts
     end
   end
 end

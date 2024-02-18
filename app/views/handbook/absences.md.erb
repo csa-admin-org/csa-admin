@@ -1,0 +1,17 @@
+# Absences
+
+Cette fonctionnalité permet de gérer les absences de vos membres et d'automatiquement déduire les paniers absents de vos livraisons. Vos membres peuvent annoncer leurs absences directement depuis leur espace membre. Vous pouvez également ajouter des absences pour vos membres en tant qu'admin ([Autre > Absences](/absences)).
+
+## Configuration
+
+Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings#acp_features_input), [plusieurs réglages](/settings#absence) vous permettent de configurer le texte d'explication ainsi que le délai de préavis.
+
+## Facturation
+
+Par défaut, les paniers marqués comme absent et non-délivrés sont facturés et il est conseillé aux membres de trouver une connaissance pour récupérer leur panier à leur place. Dans [les paramètres](/settings#absence), vous pouvez également choisir de ne pas les facturer. Le système s'occupera alors automatiquement d'[ajuster la facturation](/handbook/billing#price-change) de l'abonnement.
+
+## Absences incluses
+
+Il est également possible de configurer un nombre d'absences incluses dans l'abonnement. Ces absences sont alors automatiquement déduites et non-facturées dès le début de l'abonnement. Le système marquera provisoirement les dernières livraisons de l'abonnement comme absentes, jusqu'à ce que le nombre d'absences incluses soit annoncé par le membre. Les absences supplémentaires seront facturées ou non selon [vos paramètres](/settings#absence).
+
+> Le nombre d'absences incluses peut être également paramétré au niveau d'un [cycle de livraison](/handbook/deliveries#cycles-de-livraisons), afin de proposer des abonnements avec un nombre d'absences incluses (et donc de livraisons) sur [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.acp.members_subdomain) %>).

@@ -60,7 +60,7 @@ describe MembershipPricing do
     expect(pricing.prices).to eq [ 3 * (10 + 2) ]
   end
 
-  specify "with multiple deliveries cycles" do
+  specify "with multiple delivery cycles" do
     create_deliveries(5)
     depot = create(:depot, id: 1)
     create(:depot, id: 2)
@@ -79,6 +79,64 @@ describe MembershipPricing do
       waiting_depot_id: 1,
       waiting_delivery_cycle_id: 2)
     expect(pricing.prices).to eq [ 3 * 10 ]
+  end
+
+  specify "with multiple delivery cycles (absences included)" do
+    create_deliveries(5)
+    depot = create(:depot, id: 1)
+    create(:depot, id: 2)
+
+    create(:delivery_cycle, id: 2, absences_included_annually: 0)
+    create(:delivery_cycle, id: 3, absences_included_annually: 2)
+
+    pricing = pricing(waiting_basket_size_id: 1)
+    expect(pricing.prices).to eq [ 3 * 10, 5 * 10 ]
+
+    pricing = pricing(waiting_basket_size_id: 1, waiting_depot_id: 2)
+    expect(pricing.prices).to eq [ 3 * 10, 5 * 10 ]
+
+    pricing = pricing(
+      waiting_basket_size_id: 1,
+      waiting_depot_id: 1,
+      waiting_delivery_cycle_id: 3)
+    expect(pricing.prices).to eq [ 3 * 10 ]
+  end
+
+  specify "with multiple delivery cycles (absences included) and complements" do
+    create_deliveries(4)
+    depot = create(:depot, id: 1)
+    create(:depot, id: 2)
+
+    create(:basket_complement,
+      id: 1,
+      price: 3,
+      delivery_ids: Delivery.all.pluck(:id))
+    create(:basket_complement,
+      id: 2,
+      price: 4,
+      delivery_ids: Delivery.limit(2).pluck(:id))
+
+    create(:delivery_cycle, id: 2, absences_included_annually: 0)
+    create(:delivery_cycle, id: 3, absences_included_annually: 2)
+
+    pricing = pricing(members_basket_complements_attributes: {
+      "0" => { basket_complement_id: 1, quantity: 1 }
+    })
+    expect(pricing.prices).to eq [ 2 * 3, 4 * 3 ]
+
+    pricing = pricing(
+      waiting_delivery_cycle_id: 2,
+      members_basket_complements_attributes: {
+        "0" => { basket_complement_id: 1, quantity: 1 }
+      })
+    expect(pricing.prices).to eq [ 4 * 3 ]
+
+    pricing = pricing(
+      waiting_delivery_cycle_id: 3,
+      members_basket_complements_attributes: {
+        "0" => { basket_complement_id: 1, quantity: 1 }
+      })
+    expect(pricing.prices).to eq [ 2 * 3 ]
   end
 
   specify "complements pricing" do

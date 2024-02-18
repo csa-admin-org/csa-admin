@@ -8,16 +8,37 @@ _:
             _fr: Merci de nous avoir prévenus!
             _it: Grazie per averci informato!
       index:
+        absences_included_explanation_html:
+          one:
+            _de: Ihr Abonnement beinhaltet <b>1 Abwesenheit</b>. Wenn die Abwesenheit nicht gemeldet wird, wird sie provisorisch auf die letzte Lieferung angewendet.
+            _fr: Votre abonnement prévoit <b>1 absence</b>. Si l'absence n'est pas annoncée elle est appliquée provisoirement sur la dernière livraison.
+            _it: Il tuo abbonamento prevede <b>1 assenza</b>. Se l'assenza non è annunciata, viene applicata provvisoriamente all'ultima consegna.
+          other:
+            _de: Ihr Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Die Abwesenheiten, die noch nicht gemeldet wurden, werden provisorisch auf die letzten Lieferungen angewendet.
+            _fr: Votre abonnement prévoit <b>%{count} absences</b>. Les absences qui ne sont pas encore annoncées sont appliquées provisoirement sur les dernières livraisons.
+            _it: Il tuo abbonamento prevede <b>%{count} assenze</b>. Le assenze non ancora annunciate vengono applicate provvisoriamente alle ultime consegne.
         cancel_link:
           _de: abbrechen
           _fr: annuler
           _it: annullare
+        deliveries_count:
+          one:
+            _de: 1 Lieferung
+            _fr: 1 livraison
+            _it: 1 consegna
+          other:
+            _de: "%{count} Lieferungen"
+            _fr: "%{count} livraisons"
+            _it: "%{count} consegne"
+          zero:
+            _de: keine Lieferung
+            _fr: aucune livraison
+            _it: nessuna consegna
         explanation_billed:
           _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua cesta ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua cesta non verra sprecata. Queste ceste non saranno rimborsate.
         form_title:
-          _de: Abwesenheit melden
           _fr: Annoncer une absence
           _it: Annunciare un'assenza
         past_absences:
@@ -379,6 +400,10 @@ _:
           _de: Alte Lieferungen (%{count})
           _fr: Anciennes livraisons (%{count})
           _it: Vecchie consegne(%{count})
+        provisionally_absent_explanation_html:
+          _de: Die letzten Lieferungen sind provisorisch als abwesend markiert, bis Sie <a href="/absences">Ihre endgültige Abwesenheit</a> melden.
+          _fr: Les dernières livraisons sont provisoirement marquées comme absentes jusqu'à ce que <a href="/absences">vous annonciez vos absences</a> définitives.
+          _it: Le ultime consegne sono provvisoriamente marcate come assenti fino a quando <a href="/absences">non annuncerai le tue assenze</a> definitive.
     email_suppressions:
       destroy:
         flash:

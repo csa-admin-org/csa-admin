@@ -838,6 +838,10 @@ _:
           _fr: Complément
           _it: Aggiunte
       membership:
+        absences_included:
+          _de: Abwesenheiten inklusive
+          _fr: Absences incluses
+          _it: Assenze incluse
         activity_participations_accepted/basket_preparation:
           _de: Verlangte Taschen akzeptiert
           _fr: Mises en panier acceptées

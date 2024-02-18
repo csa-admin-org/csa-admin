@@ -74,4 +74,17 @@ describe "Absences", freeze: "2021-06-15" do
 
     expect(current_path).to eq "/billing"
   end
+
+  specify "list included absences in menu", freeze: "2024-01-01" do
+    visit "/absences"
+    expect(menu_nav).to include "Absences\n⤷ Prévenez-nous!"
+
+    member.current_membership.update!(absences_included_annually: 4)
+    visit "/absences"
+    expect(menu_nav).to include "Absences\n⤷ 0 sur 4 annoncées"
+
+    create(:absence, member: member, started_on: "2024-01-08", ended_on: "2024-01-14")
+    visit "/absences"
+    expect(menu_nav).to include "Absences\n⤷ 1 sur 4 annoncées"
+  end
 end

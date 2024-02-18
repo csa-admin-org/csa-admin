@@ -45,9 +45,9 @@ module MembersHelper
     @acp_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
     details = []
     if bs.price.positive?
-      details << "#{deliveries_based_price_info(bs.price, bs.deliveries_counts)} (#{short_price(bs.price)} x #{deliveries_count(bs.deliveries_counts)})"
+      details << "#{deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)} (#{short_price(bs.price)} x #{deliveries_count(bs.billable_deliveries_counts)})"
     else
-      details << deliveries_count(bs.deliveries_counts)
+      details << deliveries_count(bs.billable_deliveries_counts)
     end
     details << activities_count(bs.activity_participations_demanded_annualy)
     if @acp_shares_numbers.size > 1
@@ -121,10 +121,8 @@ module MembersHelper
     if only_price_per_delivery
       details << t("helpers.price_per_delivery", price: short_price(bc.price))
     else
-      d_counts = depots_delivery_ids.map { |d_ids|
-        (d_ids & bc.delivery_ids).size
-      }.uniq
-      details << "#{deliveries_based_price_info(bc.price, d_counts)} (#{short_price(bc.price)} x #{deliveries_count(d_counts)})".html_safe
+      counts = depots_delivery_cycles.map { |dc| dc.billable_deliveries_count_for(bc) }.uniq
+      details << "#{deliveries_based_price_info(bc.price, counts)} (#{short_price(bc.price)} x #{deliveries_count(counts)})".html_safe
     end
     if bc.activity_participations_demanded_annualy.positive?
       details << activities_count(bc.activity_participations_demanded_annualy)
@@ -148,14 +146,14 @@ module MembersHelper
           if d.price.positive?
             details << "#{t('helpers.price_per_delivery', price: short_price(d.price))}"
           end
-        elsif deliveries_counts.many?
+        elsif billable_deliveries_counts.many?
           if d.price.positive?
-            details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.deliveries_counts)})"
-          else
-            details << deliveries_count(d.deliveries_counts)
+            details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.billable_deliveries_counts)})"
+          elsif d.delivery_cycles != depots_delivery_cycles
+            details << deliveries_count(d.billable_deliveries_counts)
           end
         elsif d.price.positive?
-          details << "#{deliveries_based_price_info(d.price, d.deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
+          details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
         end
       end
       if address = d.full_address
@@ -192,7 +190,7 @@ module MembersHelper
     cycles.map { |dc|
       [
         collection_text(dc.public_name,
-          details: deliveries_count(dc.deliveries_count)),
+          details: deliveries_count(dc.billable_deliveries_count)),
         dc.id,
         data: data
       ]
@@ -276,7 +274,7 @@ module MembersHelper
     txt
   end
 
-  def deliveries_based_price_info(price, counts = deliveries_counts)
+  def deliveries_based_price_info(price, counts = billable_deliveries_counts)
     if counts.many?
       [
         price_info(counts.min * price),
@@ -287,7 +285,7 @@ module MembersHelper
     end
   end
 
-  def deliveries_count_range(counts = deliveries_counts)
+  def deliveries_count_range(counts = billable_deliveries_counts)
     if counts.many?
       [ counts.min, counts.max ].uniq.join("-")
     else
@@ -295,7 +293,9 @@ module MembersHelper
     end
   end
 
-  def deliveries_count(counts = deliveries_counts)
+  private
+
+  def deliveries_count(counts = billable_deliveries_counts)
     case counts
     when Array
       if counts.many?
@@ -307,8 +307,6 @@ module MembersHelper
       t("helpers.deliveries_count", count: counts)
     end
   end
-
-  private
 
   def visible_basket_sizes(object: nil)
     ids = BasketSize.visible.pluck(:id)
@@ -345,15 +343,13 @@ module MembersHelper
     depots
   end
 
-  def deliveries_counts
-    @deliveries_counts ||=
-      (visible_basket_sizes + visible_depots).map(&:deliveries_counts).flatten.uniq.sort
+  def billable_deliveries_counts
+    @billable_deliveries_counts ||=
+      (visible_basket_sizes + visible_depots).map(&:billable_deliveries_counts).flatten.uniq.sort
   end
 
-  def depots_delivery_ids
-    @depots_delivery_ids ||= visible_depots.flat_map { |d|
-      d.delivery_cycles.map(&:current_and_future_delivery_ids)
-    }.uniq
+  def depots_delivery_cycles
+    @depots_delivery_cycles ||= visible_depots.flat_map(&:delivery_cycles).uniq
   end
 
   def short_price(price)

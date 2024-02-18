@@ -1,5 +1,9 @@
 _:
   attributes:
+    absences_included_annually:
+      _de: Abwesenheiten inklusive (ganzes Jahr)
+      _fr: Absences incluses (année complète)
+      _it: Assenze incluse (anno completo)
     absent_baskets:
       _de: Taschen (Abwesend)
       _fr: Paniers (absents)

@@ -344,22 +344,6 @@ class ACP < ApplicationRecord
     ).to_f
   end
 
-  def membership_renewed_attributes=(attrs)
-    super
-    unless feature?("activity")
-      self[:membership_renewed_attributes] += %w[
-        activity_participations_demanded_annualy
-        activity_participations_annual_price_change
-      ]
-    end
-    unless BasketComplement.any?
-      self[:membership_renewed_attributes] += %w[
-        basket_complements_annual_price_change
-      ]
-    end
-    self[:membership_renewed_attributes].uniq!
-  end
-
   private
 
   def activity_participations_demanded_logic_must_be_valid

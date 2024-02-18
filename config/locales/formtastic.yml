@@ -369,6 +369,10 @@ _:
           _fr: Permet de contrôler si les membres peuvent passer des commandes d'épicerie pour cette livraison ou non.
           _it: Controlla se i soci possono fare ordini di alimentari per questa consegna o no.
       delivery_cycle:
+        absences_included_annually:
+          _de: Ermöglicht es Ihnen, eine bestimmte Anzahl von Lieferungen automatisch auszuschließen, wodurch den Mitgliedern die Planung einer begrenzten Anzahl von nicht in Rechnung gestellten Abwesenheiten ermöglicht wird.
+          _fr: Permet d'exclure automatiquement un certain nombre de livraisons, laissant aux membres la planification d'un nombre limité d'absences non-facturées.
+          _it: Consente di escludere automaticamente un certo numero di consegne, consentendo ai soci di pianificare un numero limitato di assenze non fatturate.
         depots:
           _de: Depots, für die dieser Lieferzyklus bei der Anmeldung für Mitglieder verfügbar ist. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
           _fr: Dépôts pour lesquels ce cycle de livraisons est disponible pour les membres lors de l'inscription. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons différents sont disponibles pour un dépôt.
@@ -515,6 +519,10 @@ _:
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos paniers dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre ceste in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
       membership:
+        absences_included_annually_html:
+          _de: Leer lassen für die Standaranzahl des Lieferzyklus.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#delivery_cycle'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
+          _fr: Laisser blanc pour le nombre par défaut du cycle de livraisons.<br/>Le nombre final sera calculé automatiquement au prorata du nombre de paniers.
+          _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
         activity_participations_annual_price_change:
           _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
           _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.

@@ -239,6 +239,8 @@ ActiveAdmin.register ACP do
 
               f.input :absences_billed
               f.input :absence_notice_period_in_days, min: 1, required: true
+
+              handbook_button(self, "absences")
             end
           end
         end

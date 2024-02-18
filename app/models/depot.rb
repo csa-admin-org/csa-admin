@@ -136,11 +136,11 @@ class Depot < ApplicationRecord
     delivery_cycles.any? { |dc| dc.include_delivery?(delivery) }
   end
 
-  def deliveries_counts
+  def billable_deliveries_counts
     if DeliveryCycle.visible?
-      delivery_cycles.map(&:deliveries_count).uniq.sort
+      delivery_cycles.map(&:billable_deliveries_count).uniq.sort
     else
-      DeliveryCycle.deliveries_counts
+      DeliveryCycle.billable_deliveries_counts
     end
   end
 

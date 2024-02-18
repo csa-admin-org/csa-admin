@@ -77,7 +77,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
                 = activities_human_name
               span
                 - if membership
-                  = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, demanded: membership.activity_participations_demanded, count: membership.activity_participations_demanded)
+                  = t('.activity_participations_accepted', accepted: membership.activity_participations_accepted, count: membership.activity_participations_demanded)
                 - else
                   = t('.no_activity_participations_demanded')
 
@@ -97,7 +97,11 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
             = link_to members_absences_path, class: 'block py-2 px-8' do
               h2 class='font-medium text-gray-700 dark:text-gray-400'
                 = Absence.model_name.human(count: 2)
-              span = t('.absences_subtitle')
+              span
+                - if membership.absences_included.positive?
+                  = t('.absences_used', used: membership.baskets.definitely_absent.count, count: membership.absences_included)
+                - else
+                  = t('.absences_subtitle')
 
         li class='mt-12'
           = link_to members_account_path, class: 'block py-2 px-8 flex items-center' do

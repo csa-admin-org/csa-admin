@@ -29,15 +29,24 @@ _:
           _de: "⤷ Informieren Sie uns!"
           _fr: "⤷ Prévenez-nous!"
           _it: "⤷ Facci sapere!"
+        absences_used:
+          one:
+            _de: "⤷ %{used} von %{count} gemeldet"
+            _fr: "⤷ %{used} sur %{count} annoncée"
+            _it: "⤷ %{used} su %{count} annunciata"
+          other:
+            _de: "⤷ %{used} von %{count} gemeldet"
+            _fr: "⤷ %{used} sur %{count} annoncées"
+            _it: "⤷ %{used} su %{count} annunciate"
         activity_participations_accepted:
           one:
-            _de: "⤷ %{accepted} von %{demanded} angefordert"
-            _fr: "⤷ %{accepted} sur %{demanded} demandée"
-            _it: "⤷ %{accepted} su %{demanded} richiesta"
+            _de: "⤷ %{accepted} von %{count} angefordert"
+            _fr: "⤷ %{accepted} sur %{count} demandée"
+            _it: "⤷ %{accepted} su %{count} richiesta"
           other:
-            _de: "⤷ %{accepted} von %{demanded} angefordert"
-            _fr: "⤷ %{accepted} sur %{demanded} demandées"
-            _it: "⤷ %{accepted} su %{demanded} richieste"
+            _de: "⤷ %{accepted} von %{count} angefordert"
+            _fr: "⤷ %{accepted} sur %{count} demandées"
+            _it: "⤷ %{accepted} su %{count} richieste"
         billing:
           _de: Rechnungsstellung
           _fr: Facturation
