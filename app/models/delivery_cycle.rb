@@ -72,6 +72,14 @@ class DeliveryCycle < ApplicationRecord
     end
   end
 
+  def self.billable_deliveries_count_for(basket_complement)
+    if visible?
+      visible.map { |dc| dc.billable_deliveries_count_for(basket_complement) }.uniq.sort
+    else
+      [ greatest.billable_deliveries_count_for(basket_complement) ]
+    end
+  end
+
   def self.future_deliveries_counts
     if visible?
       visible.map(&:future_deliveries_count).uniq.sort
