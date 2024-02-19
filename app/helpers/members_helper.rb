@@ -276,10 +276,11 @@ module MembersHelper
 
   def deliveries_based_price_info(price, counts = billable_deliveries_counts)
     if counts.many?
-      [
-        price_info(counts.min * price),
-        price_info(counts.max * price, format: "%n")
-      ].compact.join("-")
+      range = [
+        counts.min * price,
+        counts.max * price
+      ].map { |p| price_info(p, format: "%n") }
+      cur(range.compact.join("-"))
     else
       price_info(counts.first.to_i * price)
     end
