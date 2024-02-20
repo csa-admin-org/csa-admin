@@ -979,7 +979,7 @@ _:
             _fr: Réduction pour %{count} heures de travail supplémentaires
             _it: Riduzione per %{count} ore di lavoro supplementari
         activity_participations_demanded:
-          _de: Zu leisten
+          _de: Verlangte
           _fr: Demandées
           _it: Richieste
         activity_participations_demanded/basket_preparation:
@@ -999,11 +999,11 @@ _:
           _fr: Heures de travail demandées
           _it: Ore di lavoro richieste
         activity_participations_future:
-          _de: Kommend
+          _de: Kommende
           _fr: À venir
           _it: Venendo
         activity_participations_paid:
-          _de: In Rechnung gestellt
+          _de: Abgerechnete
           _fr: Facturées
           _it: Fatturate
         activity_participations_pending:
