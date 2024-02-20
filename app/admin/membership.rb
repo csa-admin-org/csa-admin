@@ -450,49 +450,30 @@ ActiveAdmin.register Membership do
         end
 
         if Current.acp.feature?("activity")
-          attributes_table title: activities_human_name do
-            row(:activity_participations_demanded) { m.activity_participations_demanded }
-            row(:activity_participations_future) {
-              link_to(
-                m.member.activity_participations.future.during_year(m.fiscal_year).sum(:participants_count),
-                activity_participations_path(scope: :future, q: {
-                  member_id_eq: resource.member_id,
-                  during_year: resource.fiscal_year.year
-                }))
-            }
-            row(:activity_participations_pending) {
-              link_to(
-                m.member.activity_participations.pending.during_year(m.fiscal_year).sum(:participants_count),
-                activity_participations_path(scope: :pending, q: {
-                  member_id_eq: resource.member_id,
-                  during_year: resource.fiscal_year.year
-                }))
-            }
-            row(:activity_participations_validated) {
-              link_to(
-                m.member.activity_participations.validated.during_year(m.fiscal_year).sum(:participants_count),
-                activity_participations_path(scope: :validated, q: {
-                  member_id_eq: resource.member_id,
-                  during_year: resource.fiscal_year.year
-                }))
-            }
-            row(:activity_participations_rejected) {
-              link_to(
-                m.member.activity_participations.rejected.during_year(m.fiscal_year).sum(:participants_count),
-                activity_participations_path(scope: :rejected, q: {
-                  member_id_eq: resource.member_id,
-                  during_year: resource.fiscal_year.year
-                }))
-            }
-            row(:activity_participations_paid) {
-              link_to(
-                m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations),
-                invoices_path(scope: :all_without_canceled, q: {
-                  member_id_eq: resource.member_id,
-                  entity_type_in: "ActivityParticipation",
-                  during_year: resource.fiscal_year.year
-                }))
-            }
+          panel activities_human_name do
+            ul class: "counts" do
+              li do
+                counter_tag(
+                  Membership.human_attribute_name(:activity_participations_demanded),
+                  m.activity_participations_demanded)
+              end
+              %i[future pending validated rejected].each do |scope|
+                li do
+                  link_to activity_participations_path(scope: scope, q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
+                    counter_tag(
+                      Membership.human_attribute_name("activity_participations_#{scope}"),
+                      m.member.activity_participations.during_year(m.fiscal_year).send(scope).sum(:participants_count))
+                  end
+                end
+              end
+              li do
+                link_to activity_participations_path(scope: :all_without_canceled, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
+                  counter_tag(
+                    Membership.human_attribute_name(:activity_participations_paid),
+                    m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations))
+                end
+              end
+            end
           end
         end
 

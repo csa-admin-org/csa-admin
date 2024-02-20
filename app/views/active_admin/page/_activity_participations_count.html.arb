@@ -23,10 +23,9 @@ ul class: "counts" do
         else
           ActivityParticipation.current_year.send(scope).sum(:participants_count)
         end
-      content = span class: ("zero" if count.zero?) do
-        span count.zero? ? "–" : count, class: "count"
-        span I18n.t("active_admin.resources.activity_participation.scopes.#{scope}").capitalize
-      end
+      content = counter_tag(
+        I18n.t("active_admin.resources.activity_participation.scopes.#{scope}").capitalize,
+        count)
       case scope
       when :missing then content
       else
