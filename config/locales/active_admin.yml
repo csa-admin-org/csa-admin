@@ -1214,7 +1214,7 @@ _:
             _fr: Toutes
             _it: Tutto
           future:
-            _de: Kommend
+            _de: Kommende
             _fr: À venir
             _it: Venendo
           missing:
@@ -1222,7 +1222,7 @@ _:
             _fr: Manquantes
             _it: Mancanti
           paid:
-            _de: In Rechnung gestellt
+            _de: Abgerechnete
             _fr: Facturées
             _it: Fatturate
           pending:
