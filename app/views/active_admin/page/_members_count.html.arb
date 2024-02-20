@@ -5,10 +5,7 @@ ul class: "counts" do
     li do
       count = Member.send(scope).count
       a href: members_path(scope: scope) do
-        span class: ("zero" if count.zero?) do
-          span count.zero? ? "–" : count, class: "count"
-          span I18n.t("active_admin.scopes.#{scope}").capitalize
-        end
+        counter_tag(I18n.t("active_admin.scopes.#{scope}").capitalize, count)
       end
     end
   end

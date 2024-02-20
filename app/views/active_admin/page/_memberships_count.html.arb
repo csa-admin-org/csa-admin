@@ -6,16 +6,13 @@ ul class: "counts" do
   scopes.each do |scope|
     fy = (scope == :future_next) ? Current.acp.next_fiscal_year : Current.fiscal_year
     scope = :future if scope == :future_next
-    label =
+    title =
       I18n.t("active_admin.resources.membership.scopes.#{scope}").capitalize
-    label += " (#{fy})" if scope == :future && fy != Current.fiscal_year
+    title += " (#{fy})" if scope == :future && fy != Current.fiscal_year
     li do
       count = Membership.during_year(fy).send(scope).count
       a href: memberships_path(scope: scope, q: { during_year: fy.year }) do
-        span class: ("zero" if count.zero?) do
-          span count.zero? ? "–" : count, class: "count"
-          span label
-        end
+        counter_tag(title, count)
       end
     end
   end
