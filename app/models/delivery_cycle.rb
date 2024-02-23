@@ -22,6 +22,7 @@ class DeliveryCycle < ApplicationRecord
     quarter_1 quarter_2 quarter_3 quarter_4
     all_but_first
     first_of_each_month
+    last_of_each_month
   ], _suffix: true
 
   has_many :memberships
@@ -238,6 +239,8 @@ class DeliveryCycle < ApplicationRecord
       scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 3 }
     elsif first_of_each_month_results?
       scoped = scoped.to_a.group_by { |d| d.date.mon }.map { |_, ds| ds.first }
+    elsif last_of_each_month_results?
+      scoped = scoped.to_a.group_by { |d| d.date.mon }.map { |_, ds| ds.last }
     end
     if minimum_gap_in_days.present?
       scoped = enforce_minimum_gap_in_days(scoped.to_a)
