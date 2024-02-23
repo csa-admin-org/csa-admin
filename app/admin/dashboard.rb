@@ -83,6 +83,16 @@ ActiveAdmin.register_page "Dashboard" do
                     end
                   end
                 end
+              else
+                div class: "blank_slate_container" do
+                  i do
+                    if feature?("shop")
+                      t(".no_baskets_or_shop_orders")
+                    else
+                      t(".no_baskets")
+                    end
+                  end
+                end
               end
             end
           else
