@@ -369,6 +369,14 @@ _:
           _de: Lieferung vom %{delivery}
           _fr: Livraison du %{delivery}
           _it: Consegna %{delivery}
+        no_baskets:
+          _de: Keine Taschen für diese Lieferung
+          _fr: Aucun panier pour cette livraison
+          _it: Nessun cestino per questa consegna
+        no_baskets_or_shop_orders:
+          _de: Keine Taschen oder Bestellungen für diese Lieferung
+          _fr: Aucun panier ou commande pour cette livraison
+          _it: Nessun cestino o ordine per questa consegna
         no_next_deliveries:
           _de: Nächste Lieferung
           _fr: Aucune livraison à venir
