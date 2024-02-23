@@ -152,6 +152,19 @@ describe DeliveryCycle, freeze: "2022-01-01" do
       .to eq [ 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 ]
   end
 
+  specify "only last of each month results" do
+    Array(0..11).each do |i|
+      create(:delivery, date: Date.today.beginning_of_month + i.month)
+      create(:delivery, date: Date.today.beginning_of_month + 2.days + i.month)
+      create(:delivery, date: Date.today.beginning_of_month + 17.days + i.month)
+    end
+
+    cycle = create(:delivery_cycle, results: :last_of_each_month)
+    expect(cycle.current_deliveries_count).to eq 12
+    expect(cycle.current_deliveries.pluck(:number))
+      .to eq [ 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36 ]
+  end
+
   specify "minimum 3 days gap" do
     Array(0..9).each do |i|
       create(:delivery, date: Date.today + i.day)

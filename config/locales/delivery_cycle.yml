@@ -18,9 +18,13 @@ _:
         _fr: Pairs
         _it: Pari
       first_of_each_month:
-        _de: 1. jedes Monats
-        _fr: 1er de chaque mois
-        _it: 1° di ogni mese
+        _de: Erster jedes Monats
+        _fr: Premier de chaque mois
+        _it: Primo di ogni mese
+      last_of_each_month:
+        _de: Letzter jedes Monats
+        _fr: Dernier de chaque mois
+        _it: Ultimo di ogni mese
       odd:
         _de: Ungeraden
         _fr: Impairs
