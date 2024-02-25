@@ -126,9 +126,7 @@ module MembersHelper
       counts = depots_delivery_cycles.map { |dc| dc.billable_deliveries_count_for(bc) }.uniq
       details << "#{deliveries_based_price_info(bc.price, counts)} (#{short_price(bc.price)} x #{deliveries_count(counts)})".html_safe
     end
-    if bc.activity_participations_demanded_annually.positive?
-      details << activities_count(bc.activity_participations_demanded_annually)
-    end
+    details << activities_count(bc.activity_participations_demanded_annually)
     details.compact.join(", ").html_safe
   end
 
@@ -401,6 +399,7 @@ module MembersHelper
 
   def activities_count(count)
     return unless Current.acp.feature?("activity")
+    return if count.zero?
 
     t_activity("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
   end
