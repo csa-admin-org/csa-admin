@@ -2,10 +2,7 @@ require "rails_helper"
 
 describe ActivityParticipationDemanded, freeze: "2022-01-01" do
   def demanded_for(membership)
-    described_class.new(
-      membership,
-      Current.acp.activity_participations_demanded_logic
-    ).count
+    described_class.new(membership).count
   end
 
   context "default logic" do

@@ -78,6 +78,10 @@ trix-editor.long-text {
   min-height: 15rem;
 }
 
+trix-editor.singleline-text {
+  min-height: 2rem;
+}
+
 .error trix-editor {
   border-width: 2px;
   border-color: #ff2600;

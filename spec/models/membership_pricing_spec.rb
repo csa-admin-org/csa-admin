@@ -182,4 +182,43 @@ describe MembershipPricing do
       })
     expect(pricing.prices).to eq [ 2 * 3 ]
   end
+
+  specify "with activity_participations_demanded_annually" do
+    Current.acp.update!(
+      activity_participations_form_min: 0,
+      activity_participations_form_max: 10,
+      activity_price: 5)
+    create_deliveries(4)
+    create(:depot)
+
+    BasketSize.find(1).update!(activity_participations_demanded_annually: 2)
+    create(:basket_complement,
+      id: 1,
+      price: 2,
+      activity_participations_demanded_annually: 1,
+      delivery_ids: Delivery.all.pluck(:id))
+
+    pricing = pricing(
+      waiting_basket_size_id: 1,
+      members_basket_complements_attributes: {
+        "0" => { basket_complement_id: 1, quantity: 1 }
+      })
+    expect(pricing.prices).to eq [ 4 * (10 + 2) ]
+
+    pricing = pricing(
+      waiting_basket_size_id: 1,
+      members_basket_complements_attributes: {
+        "0" => { basket_complement_id: 1, quantity: 1 }
+      },
+      waiting_activity_participations_demanded_annually: 5)
+    expect(pricing.prices).to eq [ 4 * (10 + 2) - 2 * 5]
+
+    pricing = pricing(
+      waiting_basket_size_id: 1,
+      members_basket_complements_attributes: {
+        "0" => { basket_complement_id: 1, quantity: 1 }
+      },
+      waiting_activity_participations_demanded_annually: 0)
+    expect(pricing.prices).to eq [ 4 * (10 + 2) + 3 * 5]
+  end
 end

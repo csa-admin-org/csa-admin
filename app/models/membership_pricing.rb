@@ -13,6 +13,7 @@ class MembershipPricing
       add(baskets_price_extras)
       add(depot_prices)
       complements_prices.each { |prices| add(prices) }
+      add(activity_participations_prices)
 
       [ @min, @max ].uniq
     end
@@ -93,6 +94,28 @@ class MembershipPricing
       deliveries_counts.min * complement.price * quantity,
       deliveries_counts.max * complement.price * quantity
     ]
+  end
+
+  def activity_participations_prices
+    return [0, 0] unless @params[:waiting_activity_participations_demanded_annually]
+    return [0, 0] unless basket_size
+
+    counts = delivery_cycles.map { |dc|
+      m = Membership.new(
+        started_on: Current.fiscal_year.beginning_of_year,
+        ended_on: Current.fiscal_year.end_of_year,
+        member: Member.new(salary_basket: false),
+        basket_size: basket_size,
+        delivery_cycle: dc,
+        memberships_basket_complements_attributes: @params[:members_basket_complements_attributes].to_h,
+        activity_participations_annual_price_change: nil)
+      m.activity_participations_demanded_annually = m.activity_participations_demanded_annually_by_default
+      default = ActivityParticipationDemanded.new(m).count
+      m.activity_participations_demanded_annually = @params[:waiting_activity_participations_demanded_annually]
+      demanded = ActivityParticipationDemanded.new(m).count
+      -1 * (demanded - default)  * Current.acp.activity_price
+    }
+    [counts.min, counts.max]
   end
 
   def depot_prices

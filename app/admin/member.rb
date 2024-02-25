@@ -116,17 +116,22 @@ ActiveAdmin.register Member do
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
-    if Current.acp.feature?("basket_price_extra")
-      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: Current.acp.basket_price_extra_title)) { |m|
-        cur(m.waiting_basket_price_extra)
-      }
-    end
     if BasketComplement.any?
       column(:waiting_basket_complements) { |m|
         basket_complements_description(
           m.members_basket_complements.includes(:basket_complement),
           text_only: true,
           public_name: false)
+      }
+    end
+    if feature?("activity")
+      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: activities_human_name)) { |m|
+        cur(m.waiting_activity_participations_demanded_annually)
+      }
+    end
+    if feature?("basket_price_extra")
+      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: Current.acp.basket_price_extra_title)) { |m|
+        cur(m.waiting_basket_price_extra)
       }
     end
     column(:waiting_depot) { |m| m.waiting_depot&.name }
@@ -136,10 +141,10 @@ ActiveAdmin.register Member do
         m.waiting_alternative_depots.map(&:name).to_sentence
       }
     end
-    if Current.acp.feature?("contact_sharing")
+    if feature?("contact_sharing")
       column(:contact_sharing)
     end
-    if Current.acp.feature?("shop")
+    if feature?("shop")
       column(:shop_depot) { |m| m.shop_depot&.name }
     end
     column(:food_note)
@@ -181,14 +186,17 @@ ActiveAdmin.register Member do
         if member.pending? || member.waiting?
           attributes_table title: t(".waiting_membership") do
             row(:basket_size) { member.waiting_basket_size&.name }
-            if Current.acp.feature?("basket_price_extra")
-              row(Current.acp.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
-            end
             if BasketComplement.any?
               row(Membership.human_attribute_name(:memberships_basket_complements)) {
                 basket_complements_description(
                   member.members_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
               }
+            end
+            if feature?("activity")
+              row(activities_human_name) { member.waiting_activity_participations_demanded_annually }
+            end
+            if feature?("basket_price_extra")
+              row(Current.acp.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
             end
             row(:depot) { member.waiting_depot&.name }
             row(:delivery_cycle) { member.waiting_delivery_cycle&.name }
@@ -465,6 +473,13 @@ ActiveAdmin.register Member do
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
           required: false
+        if feature?("activity")
+          f.input :waiting_activity_participations_demanded_annually,
+            label: "#{activities_human_name} (#{t('.full_year')})",
+            min: 0,
+            hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html"),
+            required: false
+        end
         if Current.acp.feature?("basket_price_extra")
           f.input :waiting_basket_price_extra,
             label: Current.acp.basket_price_extra_title,
@@ -576,6 +591,7 @@ ActiveAdmin.register Member do
     :acp_shares_info, :existing_acp_shares_number,
     :desired_acp_shares_number, :required_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
+    :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
     :shop_depot_id,
     :profession, :come_from, :delivery_note, :food_note, :note,

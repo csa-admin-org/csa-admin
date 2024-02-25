@@ -30,14 +30,26 @@ _:
           _de: Leer lassen wenn keinen Frist gewünscht ist, eine Abmeldung während der ersten 24h ist in jedem Fall möglich.
           _fr: Laisser vide si aucun délai, dans tous les cas la désinscription est possible pendant les premières 24h.
           _it: Lasciare vuoto se non vuoi una scadenza, in ogni caso la disiscrizione è possibile nelle prime 24h.
+        activity_participations_demanded_annually_form_detail:
+          _de: Text, der im Anmelde-/Verlängerungsformular angezeigt wird, wenn die Min/Max Anzahl der Teilnahmen vom Mitglied geändert werden kann. Leer lassen für den Standardtext.
+          _fr: Texte affiché dans le formulaire d'inscription/renouvellement si le nombre min/max de participation peut être modifié par le membre. Laisser blanc pour le texte par défaut.
+          _it: Testo visualizzato nel modulo di registrazione/rinnovo se il numero min/max di partecipazioni può essere modificato dal socio. Lasciare vuoto per il testo predefinito.
         activity_participations_demanded_logic_html:
           _de: 'Logik, welche <a href=''https://shopify.github.io/liquid/'' target=''_blank''>die Liquid-Syntax</a> verwendet, um die Anzahl der für ein Abonnement benötigten Teilnahmen zu berechnen.</br>Die folgenden Variablen sind verfügbar:</br>– <b>member.salary_basket</b>: Mitglied mit Lohnkorb</br>– <b>membership.full_year_deliveries</b>: Anzahl der Lieferungen für ein ganzes Jahr.</br>– <b>membership.baskets</b>: Anzahl der Taschen des Abonnements</br>– <b>member.full_year_activity_participations</b>: Anzahl der beantragten Teilnahmen des Abonnements für ein ganzes Jahr'
           _fr: 'Logique utilisant <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la syntaxe Liquid</a> qui permet de calculer le nombre de participations demandées pour un abonnement.</br>Les variables suivantes sont disponibles:</br>– <b>member.salary_basket</b>: Membre avec panier-salaire</br>– <b>membership.full_year_deliveries</b>: Nombre de livraisons pour une année complète</br>– <b>membership.baskets</b>: Nombre de paniers de l''abonnement</br>– <b>member.full_year_activity_participations</b>: Nombre de participations demandées de l''abonnement pour une année complète'
           _it: 'Logica che utilizza <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la sintassi Liquid</a> che calcola il numero di voci necessarie per un abbonamento.</br>Sono disponibili le seguenti variabili:</br>– <b>member.salary_basket</b>: membro con paniere salariale</br>– <b>membership.full_year_deliveries</b>: Numero di consegne per un anno intero</br>– <b>membership.baskets</b>: numero di cesti nella membership</br>– <b>member.full_year_activity_participations</b>: numero di partecipazioni richieste ai soci per un anno intero'
+        activity_participations_form_max:
+          _de: Leer lassen, wenn das Mitglied die Anzahl der Teilnahmen nicht über das Anmelde-/Verlängerungsformular erhöhen kann.
+          _fr: Laissez blanc si le membre ne peux pas augmenter le nombre de participation via le formulaire d'inscription/renouvellement.
+          _it: Lasciare vuoto se il socio non può aumentare il numero di partecipazioni tramite il modulo di registrazione/rinnovo.
+        activity_participations_form_min:
+          _de: Leer lassen, wenn das Mitglied die Anzahl der Teilnahmen nicht über das Anmelde-/Verlängerungsformular reduzieren kann.
+          _fr: Laissez blanc si le membre ne peux pas réduire le nombre de participation via le formulaire d'inscription/renouvellement.
+          _it: Lasciare vuoto se il socio non può ridurre il numero di partecipazioni tramite il modulo di registrazione/rinnovo.
         activity_price:
-          _de: Belassen Sie es bei 0, wenn die fehlende Teilnahme nicht berechnet wird.
-          _fr: Laisser à zéro si le manque de participation n'est pas facturé.
-          _it: Lasciare a zero se la mancanza di partecipazione non è fatturata.
+          _de: Lassen Sie es auf Null, wenn fehlende oder überschüssige Teilnahmen nicht in Rechnung gestellt werden.
+          _fr: Laisser à zéro si les participations manquantes ou excédentaires ne sont pas facturées.
+          _it: Lasciare a zero se le partecipazioni mancanti o eccedenti non vengono fatturate.
         allow_alternative_depots:
           _de: Ermöglicht es Ihnen, bei der Registrierung eine oder mehrere alternative Depots zu wählen. Nützlich, wenn die erste Auswahl bereits voll ist.
           _fr: Permet de choisir un ou plusieurs dépôts alternatifs lors de l'inscription. Utile si le premier choix est déjà complet.
@@ -523,9 +535,9 @@ _:
           _de: Leer lassen für die Standaranzahl des Lieferzyklus.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#delivery_cycle'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
           _fr: Laisser blanc pour le nombre par défaut du cycle de livraisons.<br/>Le nombre final sera calculé automatiquement au prorata du nombre de paniers.
           _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
-        activity_participations_annual_price_change:
+        activity_participations_annual_price_change_html:
           _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
-          _fr: Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
+          _fr: Laisser blanc pour que le système calcule le montant automatiquement.<br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
           _it: Aumento o riduzione del prezzo dell'abbonamento a seconda del servizio reso o meno.
         activity_participations_demanded_annually_html:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.

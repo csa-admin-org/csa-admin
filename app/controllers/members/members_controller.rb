@@ -9,6 +9,7 @@ class Members::MembersController < Members::BaseController
   def new
     @member = Member.new(public_create: true)
     @member.desired_acp_shares_number = Current.acp.shares_number
+    @member.waiting_activity_participations_demanded_annually = Current.acp.activity_participations_form_min.to_i
     if params[:basket_size_id]
       @member.waiting_basket_size_id = params[:basket_size_id]
     end
@@ -84,6 +85,7 @@ class Members::MembersController < Members::BaseController
         :name, :address, :zip, :city, :country_code,
         :emails, :phones,
         :waiting_basket_size_id, :waiting_basket_price_extra,
+        :waiting_activity_participations_demanded_annually,
         :waiting_depot_id, :waiting_delivery_cycle_id,
         :desired_acp_shares_number,
         :billing_year_division,

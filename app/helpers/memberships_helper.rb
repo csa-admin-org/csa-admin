@@ -55,6 +55,22 @@ module MembershipsHelper
       Current.acp.basket_price_extras?
   end
 
+  def show_activity_participations?
+    Current.acp.feature?("activity") && Current.acp.activity_participations_form?
+  end
+
+  def activity_participations_form_detail(force_default: false)
+    if !force_default && Current.acp.activity_participations_form_detail?
+      Current.acp.activity_participations_form_detail
+    elsif Current.acp.activity_participations_form_min && Current.acp.activity_participations_form_max
+      t("activity_participations.form_detail.min_max", price: cur(Current.acp.activity_price))
+    elsif Current.acp.activity_participations_form_min
+      t("activity_participations.form_detail.min", price: cur(Current.acp.activity_price))
+    elsif Current.acp.activity_participations_form_max
+      t("activity_participations.form_detail.max", price: cur(Current.acp.activity_price))
+    end
+  end
+
   def baskets_price_extra_info(membership, baskets, highlight_current: false)
     grouped =
       baskets

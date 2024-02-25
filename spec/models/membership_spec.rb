@@ -33,6 +33,11 @@ describe Membership do
 
       expect(membership.activity_participations_demanded_annually).to eq 3 + 3 * 1 + 2 * 2
     end
+
+    specify "when overriden" do
+      membership = create(:membership, activity_participations_demanded_annually: 42)
+      expect(membership.activity_participations_demanded_annually).to eq 42
+    end
   end
 
   describe "validations" do
@@ -398,13 +403,13 @@ describe Membership do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id,
-      activity_participations_annual_price_change: -20)
+      activity_participations_annual_price_change: -90)
 
     expect(membership.basket_sizes_price).to eq 1 * 23.15
     expect(membership.depots_price).to eq 1 * 2
-    expect(membership.activity_participations_annual_price_change).to eq(-20)
+    expect(membership.activity_participations_annual_price_change).to eq(-90)
     expect(membership.price)
-      .to eq(membership.basket_sizes_price + membership.depots_price - 20)
+      .to eq(membership.basket_sizes_price + membership.depots_price - 90)
   end
 
   specify "salary basket prices" do
@@ -436,7 +441,7 @@ describe Membership do
     expect(membership.price).to be_zero
   end
 
-  describe "renew update" do
+  describe "set_renew" do
     it "sets renew to true on creation when ended_on is end of year" do
       membership = create(:membership, ended_on: Date.current.end_of_year)
       expect(membership.renew).to eq true
@@ -463,6 +468,62 @@ describe Membership do
       membership = create(:membership, ended_on: Date.current.end_of_year)
       membership.update!(renew: false)
       expect(membership.renew).to eq false
+    end
+  end
+
+  describe "set_activity_participations" do
+    before { Current.acp.update!(activity_price: 90) }
+
+    specify "when overriden" do
+      membership = create(:membership,
+        activity_participations_demanded_annually: 0,
+        activity_participations_annual_price_change: 180)
+
+      expect(membership).to have_attributes(
+        activity_participations_demanded: 0,
+        activity_participations_annual_price_change: 180)
+    end
+
+    specify "when default" do
+      membership = create(:membership)
+
+      expect(membership.activity_participations_demanded_diff_from_default).to eq 0
+      expect(membership).to have_attributes(
+        activity_participations_demanded: 2,
+        activity_participations_annual_price_change: 0)
+    end
+
+    specify "when doing more than demanded" do
+      membership = create(:membership,
+        activity_participations_demanded_annually: 5,
+        activity_participations_annual_price_change: nil)
+
+      expect(membership.activity_participations_demanded_diff_from_default).to eq 3
+      expect(membership).to have_attributes(
+        activity_participations_demanded: 5,
+        activity_participations_annual_price_change: -270)
+    end
+
+    specify "when doing less than demanded" do
+      membership = create(:membership,
+        activity_participations_demanded_annually: 1,
+        activity_participations_annual_price_change: nil)
+
+      expect(membership.activity_participations_demanded_diff_from_default).to eq -1
+      expect(membership).to have_attributes(
+        activity_participations_demanded: 1,
+        activity_participations_annual_price_change: 90)
+    end
+
+    specify "with a diff from default but price change overriden" do
+      membership = create(:membership,
+        activity_participations_demanded_annually: 6,
+        activity_participations_annual_price_change: -100)
+
+      expect(membership.activity_participations_demanded_diff_from_default).to eq 4
+      expect(membership).to have_attributes(
+        activity_participations_demanded: 6,
+        activity_participations_annual_price_change: -100)
     end
   end
 

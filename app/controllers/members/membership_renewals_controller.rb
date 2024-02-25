@@ -68,6 +68,7 @@ class Members::MembershipRenewalsController < Members::BaseController
         renewal_note
         basket_size_id
         basket_price_extra
+        activity_participations_demanded_annually
         depot_id
         delivery_cycle_id
       ], memberships_basket_complements_attributes: [
