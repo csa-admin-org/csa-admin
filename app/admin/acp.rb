@@ -253,8 +253,18 @@ ActiveAdmin.register ACP do
                 prompt: true
               f.input :activity_participation_deletion_deadline_in_days
               f.input :activity_availability_limit_in_days, required: true
-              f.input :activity_price
               f.input :activity_phone, as: :phone
+              f.input :activity_price
+              f.input :activity_participations_form_min
+              f.input :activity_participations_form_max
+              translated_input(f, :activity_participations_form_details,
+                hint: t("formtastic.hints.acp.activity_participations_demanded_annually_form_detail"),
+                required: false,
+                placeholder: ->(locale) {
+                  I18n.with_locale(locale) {
+                    activity_participations_form_detail(force_default: true)
+                  }
+                })
               f.input :activity_participations_demanded_logic,
                 as: :text,
                 hint: t("formtastic.hints.acp.activity_participations_demanded_logic_html"),
@@ -378,6 +388,7 @@ ActiveAdmin.register ACP do
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
+    :activity_participations_form_min, :activity_participations_form_max,
     :activity_participations_demanded_logic,
     :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
     :absences_billed,
@@ -429,6 +440,7 @@ ActiveAdmin.register ACP do
     *I18n.available_locales.map { |l| "member_information_title_#{l}" },
     *I18n.available_locales.map { |l| "member_information_text_#{l}" },
     *I18n.available_locales.map { |l| "new_member_fee_description_#{l}" },
+    *I18n.available_locales.map { |l| "activity_participations_form_detail_#{l}" },
     billing_year_divisions: [],
     features: [],
     membership_renewed_attributes: []

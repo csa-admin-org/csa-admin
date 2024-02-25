@@ -182,6 +182,61 @@ describe "members page" do
       expect(member.billing_year_division).to eq 4
     end
 
+    specify "creates a new member with custom activity participations" do
+      Current.acp.update!(
+        features: %w[activity],
+        activity_participations_form_min: 0)
+      create_deliveries(2)
+      create(:basket_size, :small)
+      create(:basket_size, :big, activity_participations_demanded_annually: 3)
+
+      create(:basket_complement, public_name: "Fruits",
+        activity_participations_demanded_annually: 1)
+
+      create(:depot, name: "Jardin de la main")
+
+      visit "/new"
+
+      expect(page).to have_selector("span",
+        text: "Abondance PUBLICCHF 66.50 (33.25 x 2 livraisons), 3 ½ journées")
+
+      expect(page).to have_selector("span", text: "Fruits")
+      expect(page).to have_selector("span", text: "CHF 8.40 (4.20 x 2 livraisons), 1 ½ journée")
+
+      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Adresse", with: "Nowhere srteet 2"
+      fill_in "NPA", with: "2042"
+      fill_in "Ville", with: "Moon City"
+      select "Suisse", from: "Pays"
+
+      fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
+      fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
+
+      choose "Abondance PUBLIC"
+      fill_in "Fruits", with: "2"
+
+      fill_in "½ Journées", with: 1
+
+      choose "Jardin de la main PUBLIC"
+
+      choose "Trimestriel"
+
+      fill_in "Profession", with: "Pompier"
+      fill_in "Comment avez-vous entendu parler de nous?", with: "Bouche à oreille"
+      fill_in "Remarque(s)", with: "Vive Rage de Vert!"
+
+      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+
+      click_button "Envoyer"
+
+      expect(page).to have_content "Merci pour votre inscription!"
+
+      member = Member.last
+      expect(member).to have_attributes(
+        name: "John et Jame Doe",
+        waiting_activity_participations_demanded_annually: 1)
+    end
+
     it "creates a new member with delivery_cycle" do
       create_deliveries(2)
       create(:basket_size, :small)
@@ -464,7 +519,7 @@ describe "members page" do
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
       choose "Devenir membre de soutien"
-      fill_in "Nombre de parts sociales désiré", with: "3"
+      fill_in "Parts sociales", with: "3"
 
       check "J'ai lu attentivement et accepte avec plaisir les statuts et le règlement."
 

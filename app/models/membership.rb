@@ -40,16 +40,13 @@ class Membership < ApplicationRecord
   before_validation do
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
-    self.activity_participations_demanded_annually ||= basket_quantity * basket_size&.activity_participations_demanded_annually
-    memberships_basket_complements.each do |mbc|
-      self.activity_participations_demanded_annually += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annually
-    end
+    self.activity_participations_demanded_annually ||= activity_participations_demanded_annually_by_default
     self.absences_included_annually ||= delivery_cycle&.absences_included_annually
   end
 
   validates :member, presence: true
   validates :activity_participations_demanded_annually, numericality: true
-  validates :activity_participations_annual_price_change, numericality: true
+  validates :activity_participations_annual_price_change, numericality: true, allow_nil: true
   validates :started_on, :ended_on, presence: true
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -72,6 +69,7 @@ class Membership < ApplicationRecord
   validate :at_least_one_basket
 
   before_save :set_renew
+  before_save :set_activity_participations
   after_create :create_baskets!
   after_create :clear_member_waiting_info!
   after_update :handle_started_on_change!
@@ -79,7 +77,6 @@ class Membership < ApplicationRecord
   after_update :handle_config_change!
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
-  after_commit :update_activity_participations_demanded!
   after_commit :update_absences_included!
   after_commit :update_member_and_baskets!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
@@ -330,7 +327,21 @@ class Membership < ApplicationRecord
   end
 
   def activity_participations_annual_price_change=(price)
-    super rounded_price(price.to_f)
+    super price.presence && rounded_price(price.to_f)
+  end
+
+  def activity_participations_demanded_annually_by_default
+    count = basket_quantity * basket_size&.activity_participations_demanded_annually
+    memberships_basket_complements.each do |mbc|
+      count += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annually
+    end
+    count
+  end
+
+  def activity_participations_demanded_diff_from_default
+    copy = dup
+    copy.activity_participations_demanded_annually = activity_participations_demanded_annually_by_default
+    activity_participations_demanded - ActivityParticipationDemanded.new(copy).count
   end
 
   def basket_sizes_price
@@ -460,6 +471,14 @@ class Membership < ApplicationRecord
     end
   end
 
+  def set_activity_participations
+    return unless Current.acp.feature?("activity")
+
+    self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
+    self.activity_participations_annual_price_change ||=
+      -1 * activity_participations_demanded_diff_from_default * Current.acp.activity_price
+  end
+
   def handle_started_on_change!
     if saved_change_to_attribute?(:started_on) && attribute_before_last_save(:started_on)
       destroy_baskets!(fiscal_year.range.min...started_on)
@@ -526,13 +545,6 @@ class Membership < ApplicationRecord
     total = (baskets.count / full_year * absences_included_annually).round
     unless total == absences_included
       update_column(:absences_included, total)
-    end
-  end
-
-  def update_activity_participations_demanded!
-    demanded = ActivityParticipationDemanded.new(self, Current.acp.activity_participations_demanded_logic).count
-    if activity_participations_demanded != demanded
-      update_column(:activity_participations_demanded, demanded)
     end
   end
 

@@ -13,3 +13,16 @@ _:
             _de: Die künftige Teilnahmen können noch nicht bestätigt werden
             _fr: Les participations à venir ne peuvent pas encore être validées
             _it: Le partecipazioni future non possono ancora essere confermate
+    form_detail:
+      max:
+        _de: Anzahl erhöhen (-%{price}/Partizipation).
+        _fr: Augmenter le nombre demandées (-%{price}/participation).
+        _it: Aumentare il numero richiesto (-%{price}/partecipazione).
+      min:
+        _de: Anzahl reduzieren (+%{price}/Partizipation).
+        _fr: Réduire le nombre demandées (+%{price}/participation).
+        _it: Ridurre il numero richiesto (+%{price}/partecipazione).
+      min_max:
+        _de: Anzahl anpassen (+/- %{price}/Partizipation).
+        _fr: Ajuster le nombre demandées (+/- %{price}/participation).
+        _it: Regolare il numero richiesto (+/- %{price}/partecipazione).

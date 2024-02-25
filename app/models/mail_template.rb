@@ -53,7 +53,7 @@ class MailTemplate < ApplicationRecord
 
   def self.deliver_later(title, wait: 5.seconds, **args)
     later_args = {}
-    later_args[:wait] = wait if wait
+    later_args[:wait] = wait if wait && Rails.env.production?
     active_template(title)&.mail(**args)&.deliver_later(**later_args)
   end
 

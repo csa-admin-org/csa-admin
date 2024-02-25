@@ -576,14 +576,16 @@ ActiveAdmin.register Membership do
     end
 
     if Current.acp.feature?("activity")
-      f.inputs activities_human_name do
+      f.inputs activities_human_name, "data-controller" => "form-reset" do
         f.input :activity_participations_demanded_annually,
           label: "#{activities_human_name} (#{t('.full_year')})",
           input_html: {
-            data: { "1p_ignore": true }
+            data: { "1p_ignore": true, action: "form-reset#reset" }
           },
           hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html")
-        f.input :activity_participations_annual_price_change
+        f.input :activity_participations_annual_price_change,
+          input_html: { data: { form_reset_target: "input" } },
+          hint: t("formtastic.hints.membership.activity_participations_annual_price_change_html")
       end
     end
 
@@ -717,11 +719,15 @@ ActiveAdmin.register Membership do
   end
 
   before_build do |membership|
+    membership.activity_participations_annual_price_change = nil
     if member = Member.find_by(id: params[:member_id])
       membership.member_id ||= member.id
       membership.basket_size_id ||= member.waiting_basket_size&.id
       if member.waiting_basket_price_extra
         membership.basket_price_extra = member.waiting_basket_price_extra
+      end
+      if member.waiting_activity_participations_demanded_annually
+        membership.activity_participations_demanded_annually = member.waiting_activity_participations_demanded_annually
       end
       membership.depot_id ||= member.waiting_depot&.id
       membership.delivery_cycle_id ||= member.waiting_delivery_cycle&.id

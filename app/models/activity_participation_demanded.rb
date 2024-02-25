@@ -16,8 +16,8 @@ class ActivityParticipationDemanded
 
     def full_year_deliveries
       [
-        @membership.delivery_cycle.deliveries_in(@membership.fiscal_year.range).size.to_f,
-        @membership.baskets_count.to_f
+        deliveries_count(@membership.fiscal_year.range),
+        baskets
       ].max
     end
 
@@ -26,12 +26,19 @@ class ActivityParticipationDemanded
     end
 
     def baskets
-      @membership.baskets_count.to_f
+      @baskets ||= deliveries_count(@membership.period)
+    end
+
+    private
+
+    def deliveries_count(range)
+      @membership.delivery_cycle.deliveries_in(range).size.to_f
     end
   end
 
-  def initialize(membership, liquid_logic)
+  def initialize(membership)
     @membership = membership
+    liquid_logic = Current.acp.activity_participations_demanded_logic
     @liquid_template = Liquid::Template.parse(liquid_logic)
   end
 

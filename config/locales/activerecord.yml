@@ -51,14 +51,26 @@ _:
           _de: Logik zur Berechnung der verlangten Beteiligungen
           _fr: Logique de calcul des participations demandées
           _it: Logica di calcolo delle partecipazioni richieste
+        activity_participations_form_detail:
+          _de: Beschreibung
+          _fr: Description
+          _it: Descrizione
+        activity_participations_form_max:
+          _de: Maximale Beteiligung
+          _fr: Participations maximales
+          _it: Partecipazioni massime
+        activity_participations_form_min:
+          _de: Minimale Beteiligung
+          _fr: Participations minimales
+          _it: Partecipazioni minime
         activity_phone:
           _de: Telefon
           _fr: Téléphone
           _it: Telefono
         activity_price:
-          _de: Rechnungsbetrag
-          _fr: Montant facturé
-          _it: Importo della fattura
+          _de: Preis der Beteiligung
+          _fr: Prix de la participation
+          _it: Prezzo della partecipazione
         allow_alternative_depots:
           _de: Auswahl an alternativen Depots
           _fr: Choix de dépôts alternatifs
@@ -745,9 +757,9 @@ _:
           _fr: Dépôt
           _it: Punto di ritiro
         desired_acp_shares_number:
-          _de: Anzahl der gewünschten Anteilscheine
-          _fr: Nombre de parts sociales désiré
-          _it: Numero di quote della cooperativa desiderate
+          _de: Anteilscheine
+          _fr: Parts sociales
+          _it: Quote sociali della cooperativa
         existing_acp_shares_number:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes

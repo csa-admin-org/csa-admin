@@ -43,6 +43,7 @@ class ACP < ApplicationRecord
   translated_attributes :member_information_title
   translated_rich_texts :member_form_extra_text
   translated_rich_texts :member_form_complements_text
+  translated_attributes :activity_participations_form_detail
   translated_attributes :new_member_fee_description
 
   validates :name, presence: true
@@ -82,6 +83,8 @@ class ACP < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0 }
   validates :activity_price,
     numericality: { greater_than_or_equal_to: 0 }
+  validates :activity_participations_form_min, :activity_participations_form_max,
+    numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validate :activity_participations_demanded_logic_must_be_valid
   validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
   validates :open_renewal_reminder_sent_after_in_days,
@@ -230,6 +233,10 @@ class ACP < ApplicationRecord
   def url=(url)
     super
     self.host ||= PublicSuffix.parse(URI(url).host).sld
+  end
+
+  def activity_participations_form?
+    activity_participations_form_min || activity_participations_form_max
   end
 
   def activity_phone

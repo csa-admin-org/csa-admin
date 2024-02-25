@@ -26,11 +26,14 @@ class MembershipRenewal
     renew_complements(new_membership, attrs)
     if membership.basket_size_id != new_membership.basket_size_id
       new_membership.baskets_annual_price_change = nil
-      new_membership.activity_participations_demanded_annually = nil
-      new_membership.activity_participations_annual_price_change = nil
     end
     if basket_complements_changed?(new_membership)
       new_membership.basket_complements_annual_price_change = nil
+    end
+    if activity_participations_demanded_annually_changed?(new_membership)
+      new_membership.activity_participations_demanded_annually =
+        attrs[:activity_participations_demanded_annually]
+      new_membership.activity_participations_annual_price_change = nil
     end
     new_membership.save!
   end
@@ -58,6 +61,7 @@ class MembershipRenewal
           basket_price_extra
           depot_id
           delivery_cycle_id
+          activity_participations_demanded_annually
         ]))
   end
 
@@ -94,5 +98,10 @@ class MembershipRenewal
   def basket_complements_changed?(new_membership)
     membership.memberships_basket_complements.pluck(:basket_complement_id).sort !=
       new_membership.memberships_basket_complements.map(&:basket_complement_id).sort
+  end
+
+  def activity_participations_demanded_annually_changed?(new_membership)
+    membership.activity_participations_demanded_annually != new_membership.activity_participations_demanded_annually ||
+      membership.activity_participations_demanded_annually_by_default != new_membership.activity_participations_demanded_annually_by_default
   end
 end

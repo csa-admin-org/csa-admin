@@ -89,7 +89,8 @@ class Member < ApplicationRecord
   validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
-  validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?("basket_price_extra") && waiting_depot }
+  validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
+  validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?("basket_price_extra") && waiting_depot }, on: :create
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
