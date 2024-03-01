@@ -45,6 +45,15 @@ class ActivityParticipationDemanded
   def count
     @liquid_template.render(
       "member" => MemberDrop.new(@membership.member),
-      "membership" => MembershipDrop.new(@membership)).to_i
+      "membership" => MembershipDrop.new(@membership),
+      "full_year_max_deliveries" => full_year_max_deliveries).to_i
+  end
+
+  private
+
+  def full_year_max_deliveries
+    DeliveryCycle.all.map { |dc|
+      dc.deliveries_count_for(@membership.fiscal_year)
+    }.max
   end
 end
