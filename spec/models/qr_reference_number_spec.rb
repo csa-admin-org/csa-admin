@@ -7,14 +7,14 @@ describe QRReferenceNumber do
   end
 
   specify "with no bank reference" do
-    Current.acp.update!(qr_bank_reference: "")
+    Current.acp.update!(bank_reference: "")
 
     expect(instance.ref).to eq "000000000000000420000007068"
     expect(instance.formatted_ref).to eq "00 00000 00000 00042 00000 07068"
   end
 
   specify "with a bank reference" do
-    Current.acp.update!(qr_bank_reference: 123456)
+    Current.acp.update!(bank_reference: 123456)
 
     expect(instance.ref).to eq "123456000000000420000007063"
     expect(instance.formatted_ref).to eq "12 34560 00000 00042 00000 07063"

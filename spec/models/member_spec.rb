@@ -182,7 +182,9 @@ describe Member do
 
   it "initializes with ACP country code" do
     expect(Member.new.country_code).to eq "CH"
-    Current.acp.update!(country_code: "DE")
+    Current.acp.update!(
+      country_code: "DE",
+      iban: "DE89370400440532013000")
     expect(Member.new.country_code).to eq "DE"
   end
 
@@ -391,29 +393,38 @@ describe Member do
     end
   end
 
-  describe "#emails= / #emails" do
-    subject { Member.new(emails: "john@doe.com, foo@bar.com").emails }
-    it { is_expected.to eq "john@doe.com, foo@bar.com" }
+  specify "#emails= / #emails" do
+    member = Member.new(emails: "john@doe.com, foo@bar.com")
+    expect(member.emails).to eq "john@doe.com, foo@bar.com"
   end
 
   describe "#phones= / #phones" do
-    describe "two phones" do
-      subject { create(:member, phones: "123456789, 987654321, ").phones }
-      it { is_expected.to eq "+41123456789, +41987654321" }
+    specify "two phones" do
+      member = create(:member, phones: "123456789, 987654321, ")
+      expect(member.phones).to eq "+41123456789, +41987654321"
     end
-    describe "two phones with spaces and dots" do
-      subject { create(:member, phones: "+41.12.345/67 89, 987/6543 21, ").phones }
-      it { is_expected.to eq "+41123456789, +41987654321" }
+
+    specify "two phones with spaces and dots" do
+      member = create(:member, phones: "+41.12.345/67 89, 987/6543 21, ")
+      expect(member.phones).to eq "+41123456789, +41987654321"
     end
-    describe "use member country code" do
-      before { Current.acp.update!(country_code: "DE") }
-      subject { create(:member, phones: "987 6543 21, ", country_code: "FR").phones }
-      it { is_expected.to eq "+33987654321" }
-    end
-    describe "use ACP country code" do
-      before { Current.acp.update!(country_code: "DE") }
-      subject { create(:member, :inactive, phones: "987 6543 21, ", country_code: nil).phones }
-      it { is_expected.to eq "+49987654321" }
+
+    context "other country phone" do
+      before do
+        Current.acp.update!(
+          country_code: "DE",
+          iban: "DE89370400440532013000")
+      end
+
+      specify "use member country code" do
+        member = create(:member, phones: "987 6543 21, ", country_code: "FR")
+        expect(member.phones).to eq "+33987654321"
+      end
+
+      specify "use ACP country code" do
+        member = create(:member, :inactive, phones: "987 6543 21, ", country_code: nil)
+        expect(member.phones).to eq "+49987654321"
+      end
     end
   end
 

@@ -21,7 +21,7 @@ ActiveAdmin.register Payment do
   end
 
   scope :all, default: true
-  scope :qr
+  scope :auto
   scope :manual
 
   includes :member, :invoice

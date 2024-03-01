@@ -58,11 +58,11 @@ class ACP < ApplicationRecord
   validates :email_default_from, format: { with: EMAIL_REGEXP }
   validates :email_default_from, format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
   validates :activity_phone, presence: true, if: -> { feature?("activity") }
-  validates :qr_iban, :qr_creditor_name, :qr_creditor_address,
-    :qr_creditor_city, :qr_creditor_zip,
+  validates :iban, :creditor_name, :creditor_address,
+    :creditor_city, :creditor_zip,
     presence: true
-  validates :qr_bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
-  validates :qr_iban, format: /\ACH\d{2}3[01]\d{3}[a-z0-9]{12}\z/i
+  validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
+  validates :iban, format: ->(acp) { Billing.iban_format(acp.country_code) }, if: :country_code?
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
@@ -183,10 +183,12 @@ class ACP < ApplicationRecord
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end
 
-  def qr_iban=(iban)
-    if iban.present?
-      super iban.gsub(/\s/, "").upcase
-    end
+  def iban=(iban)
+    super iban.presence&.gsub(/\s/, "")&.upcase
+  end
+
+  def iban_formatted
+    iban&.scan(/.{1,4}/)&.join(" ")
   end
 
   def languages=(languages)

@@ -56,22 +56,57 @@ describe ACP do
     expect(acp).to have_valid(:shares_number)
   end
 
-  specify "validates QR IBAN" do
-    acp = ACP.new(qr_iban: "CH3230114A012B456789z")
-    expect(acp).to have_valid(:qr_iban)
-    expect(acp.qr_iban).to eq "CH3230114A012B456789Z"
+  describe "validates IBAN format" do
+    specify "with CH QR IBAN" do
+      acp = ACP.new(country_code: "CH")
 
-    acp = ACP.new(qr_iban: "CH3231114A012B456789z")
-    expect(acp).to have_valid(:qr_iban)
+      acp.iban = "CH3230114A012B456789z"
+      expect(acp).to have_valid(:iban)
+      expect(acp.iban).to eq "CH3230114A012B456789Z"
+      expect(acp.iban_formatted).to eq "CH32 3011 4A01 2B45 6789 Z"
 
-    acp = ACP.new(qr_iban: "CH3232004A012B456789z")
-    expect(acp).not_to have_valid(:qr_iban)
+      acp.iban = "CH3231114A012B456789z"
+      expect(acp).to have_valid(:iban)
 
-    acp = ACP.new(qr_iban: "CH 33 30767 000K 5510")
-    expect(acp).not_to have_valid(:qr_iban)
+      acp.iban = "CH3232004A012B456789z"
+      expect(acp).not_to have_valid(:iban)
 
-    acp = ACP.new(qr_iban: "")
-    expect(acp).not_to have_valid(:qr_iban)
+      acp.iban = "CH 33 30767 000K 5510"
+      expect(acp).not_to have_valid(:iban)
+
+      acp.iban = ""
+      expect(acp).not_to have_valid(:iban)
+    end
+
+    specify "with FR IBAN" do
+      acp = ACP.new(country_code: "FR")
+
+      acp.iban = "FR7630006000011234567890189"
+      expect(acp).to have_valid(:iban)
+      expect(acp.iban).to eq "FR7630006000011234567890189"
+      expect(acp.iban_formatted).to eq "FR76 3000 6000 0112 3456 7890 189"
+
+      acp.iban = "FR763000600001123456789018"
+      expect(acp).not_to have_valid(:iban)
+
+      acp.iban = "DE89370400440532013000"
+      expect(acp).not_to have_valid(:iban)
+    end
+
+    specify "with DE IBAN" do
+      acp = ACP.new(country_code: "DE")
+
+      acp.iban = "DE89370400440532013000"
+      expect(acp).to have_valid(:iban)
+      expect(acp.iban).to eq "DE89370400440532013000"
+      expect(acp.iban_formatted).to eq "DE89 3704 0044 0532 0130 00"
+
+      acp.iban = "DE8937040044053201300"
+      expect(acp).not_to have_valid(:iban)
+
+      acp.iban = "FR7630006000011234567890189"
+      expect(acp).not_to have_valid(:iban)
+    end
   end
 
   describe "#billing_year_divisions=" do

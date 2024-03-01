@@ -38,7 +38,7 @@ class QRReferenceNumber
   end
 
   def bank_ref
-    Current.acp.qr_bank_reference
+    Current.acp.bank_reference
   end
 
   def format_ref(ref)
