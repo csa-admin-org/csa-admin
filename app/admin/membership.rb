@@ -451,6 +451,10 @@ ActiveAdmin.register Membership do
 
         if Current.acp.feature?("activity")
           panel activities_human_name do
+            div class: "actions" do
+              handbook_icon_link("activity")
+            end
+
             ul class: "counts" do
               li do
                 counter_tag(
@@ -577,6 +581,10 @@ ActiveAdmin.register Membership do
 
     if Current.acp.feature?("activity")
       f.inputs activities_human_name, "data-controller" => "form-reset" do
+        div class: "actions" do
+          handbook_icon_link("activity")
+        end
+
         f.input :activity_participations_demanded_annually,
           label: "#{activities_human_name} (#{t('.full_year')})",
           input_html: {
