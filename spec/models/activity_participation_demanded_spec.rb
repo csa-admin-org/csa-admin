@@ -110,4 +110,24 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
       expect(demanded_for(membership)).to eq 2
     end
   end
+
+  context "custom logic with full_year_max_deliveries" do
+    before do
+      Current.acp.update!(activity_participations_demanded_logic: <<~LIQUID)
+        {{ membership.baskets | divided_by: full_year_max_deliveries | times: membership.full_year_activity_participations | round }}
+      LIQUID
+    end
+
+    specify "4 baskets" do
+      create_deliveries(4)
+      create(:delivery_cycle)
+      odd = create(:delivery_cycle, results: :odd)
+
+      membership = create(:membership,
+        activity_participations_demanded_annually: 2,
+        delivery_cycle: odd)
+
+      expect(demanded_for(membership)).to eq 1
+    end
+  end
 end
