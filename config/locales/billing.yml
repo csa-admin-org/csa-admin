@@ -20,6 +20,10 @@ _:
       _de: Beiträge
       _fr: Cotisations
       _it: Contributi
+    auto:
+      _de: Automatisch importiert
+      _fr: Importés automatiquement
+      _it: Importati automaticamente
     manual:
       _de: Manuell
       _fr: Manuel
@@ -57,10 +61,6 @@ _:
       _de: Weiteres
       _fr: Autre
       _it: Altro
-    qr:
-      _de: QR
-      _fr: QR
-      _it: QR
     refund:
       _de: Erstattung
       _fr: Remboursement

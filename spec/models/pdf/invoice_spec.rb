@@ -6,8 +6,8 @@ describe PDF::Invoice do
     before {
       Current.acp.update!(
         name: "rdv",
-        qr_iban: "CH44 3199 9123 0008 8901 2",
-        qr_bank_reference: "11041",
+        iban: "CH44 3199 9123 0008 8901 2",
+        bank_reference: "11041",
         invoice_info: "Payable dans les 30 jours, avec nos remerciements.",
         invoice_footer: "<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84")
     }
@@ -365,7 +365,7 @@ describe PDF::Invoice do
         fiscal_year_start_month: 4,
         vat_membership_rate: 0.1,
         vat_number: "CHE-273.220.900",
-        qr_bank_reference: "800250",
+        bank_reference: "800250",
         invoice_info: "Payable dans les 30 jours, avec nos remerciements.",
         invoice_footer: "<b>Association Lumière des Champs</b>, Bd Paderewski 28, 1800 Vevey – comptabilite@lumiere-des-champs.ch")
       create_deliveries(4)
@@ -725,11 +725,11 @@ describe PDF::Invoice do
       Current.acp.update!(
         name: "qrcode",
         country_code: "CH",
-        qr_iban: "CH4431999123000889012",
-        qr_creditor_name: "Robert Schneider AG",
-        qr_creditor_address: "Rue du Lac 1268",
-        qr_creditor_city: "Biel",
-        qr_creditor_zip: "2501",
+        iban: "CH4431999123000889012",
+        creditor_name: "Robert Schneider AG",
+        creditor_address: "Rue du Lac 1268",
+        creditor_city: "Biel",
+        creditor_zip: "2501",
         invoice_info: "Payable dans les 30 jours, avec nos remerciements.",
         invoice_footer: "<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84",
         share_price: 250,
@@ -783,11 +783,11 @@ describe PDF::Invoice do
         name: "p2r",
         logo_url: "https://d2ibcm5tv7rtdh.cloudfront.net/p2r/logo.jpg",
         fiscal_year_start_month: 1,
-        qr_iban: "CH1830123031135810006",
-        qr_creditor_name: "Le Panier Bio à 2 Roues",
-        qr_creditor_address: "Route de Cery 33",
-        qr_creditor_city: "Prilly",
-        qr_creditor_zip: "1008",
+        iban: "CH1830123031135810006",
+        creditor_name: "Le Panier Bio à 2 Roues",
+        creditor_address: "Route de Cery 33",
+        creditor_city: "Prilly",
+        creditor_zip: "1008",
         country_code: "CH",
         currency_code: "CHF",
         invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.",

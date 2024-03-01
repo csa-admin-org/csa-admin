@@ -505,6 +505,10 @@ _:
           _fr: Toutes les quatre semaines
           _it: Ogni quattro settimane
       edit:
+        annual_fee:
+          _de: Jährlicher Vereinsbeitrag
+          _fr: Cotisation annuelle association
+          _it: Quota annuale associativa
         availability:
           _de: Verfügbarkeit
           _fr: Disponibilité
@@ -553,10 +557,14 @@ _:
           _de: Einen Artikel hinzufügen
           _fr: Ajouter un article
           _it: Aggiungere un articolo
-        invoice_qr:
-          _de: QR-Rechnung
-          _fr: Facture QR
-          _it: Fattura QR
+        if_applicable:
+          _de: Falls zutreffend
+          _fr: Si applicable
+          _it: Se applicabile
+        invoice:
+          _de: Rechnung
+          _fr: Facture
+          _it: Fattura
         mailer:
           _de: Email
           _fr: Email
@@ -609,6 +617,10 @@ _:
           _de: Einstellungen
           _fr: Paramètres
           _it: Impostazioni
+        shares:
+          _de: Anteilscheine
+          _fr: Parts sociales
+          _it: Quote sociali della cooperativa
         shop:
           _de: Hofladen
           _fr: Épicerie
@@ -630,10 +642,14 @@ _:
           _de: Entwurf aktualisieren
           _fr: Mettre à jour Brouillon
           _it: Aggiorna bozza
+        vat:
+          _de: MwSt
+          _fr: TVA
+          _it: IVA
         vat_rate:
-          _de: 'MwSt: %{type} (in %)'
-          _fr: 'TVA: %{type} (en %)'
-          _it: 'IVA: %{type} (en %)'
+          _de: "%{type} (in %)"
+          _fr: "%{type} (en %)"
+          _it: "%{type} (en %)"
       index:
         activity_participation_ical_text_html:
           _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
@@ -1431,6 +1447,10 @@ _:
         _de: Alle
         _fr: Tous
         _it: Tutto
+      auto:
+        _de: Auto
+        _fr: Auto
+        _it: Auto
       coming:
         _de: Künftige
         _fr: Futures
@@ -1479,10 +1499,6 @@ _:
         _de: Zu bestätigen
         _fr: À valider
         _it: Da confermare
-      qr:
-        _de: QR
-        _fr: QR
-        _it: QR
       support:
         _de: Support
         _fr: Soutien
@@ -1622,6 +1638,10 @@ _:
         _de: aktiv
         _fr: actif
         _it: attivo
+      auto:
+        _de: Auto
+        _fr: Auto
+        _it: Auto
       canceled:
         _de: stornierte
         _fr: annulée
@@ -1674,10 +1694,6 @@ _:
         _de: in Bearbeitung
         _fr: en traitement
         _it: elaborazione
-      qr:
-        _de: QR
-        _fr: QR
-        _it: QR
       rejected:
         _de: abgelehnte
         _fr: refusée

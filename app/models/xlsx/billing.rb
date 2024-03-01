@@ -112,7 +112,7 @@ module XLSX
       add_empty_line
 
       t_payment = Payment.model_name.human(count: 2)
-      add_line("#{t_payment}: #{t('qr')}", @payments.qr.sum(:amount))
+      add_line("#{t_payment}: #{t('auto')}", @payments.auto.sum(:amount))
       add_line("#{t_payment}: #{t('manual')}", @payments.manual.where("amount > 0").sum(:amount))
       add_line("#{t_payment}: #{t('refund')}", @payments.refund.sum(:amount))
       add_line(t_payment, @payments.sum(:amount))

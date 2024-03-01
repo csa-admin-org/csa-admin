@@ -400,10 +400,10 @@ module PDF
         move_down border
 
         qr_text_title t("qr_bill.payable_to"), size: 6
-        qr_text format_iban(Current.acp.qr_iban), size: 8
-        qr_text Current.acp.qr_creditor_name, size: 8
-        qr_text Current.acp.qr_creditor_address, size: 8
-        qr_text Current.acp.qr_creditor_zip + " " + Current.acp.qr_creditor_city, size: 8
+        qr_text Current.acp.iban_formatted, size: 8
+        qr_text Current.acp.creditor_name, size: 8
+        qr_text Current.acp.creditor_address, size: 8
+        qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city, size: 8
         move_down border
 
         qr_text_title t("qr_bill.reference"), size: 6
@@ -449,10 +449,10 @@ module PDF
 
         bounding_box [ 146, 270 ], width: 230 do
           qr_text_title t("qr_bill.payable_to")
-          qr_text format_iban(Current.acp.qr_iban)
-          qr_text Current.acp.qr_creditor_name
-          qr_text Current.acp.qr_creditor_address
-          qr_text Current.acp.qr_creditor_zip + " " + Current.acp.qr_creditor_city
+          qr_text Current.acp.iban_formatted
+          qr_text Current.acp.creditor_name
+          qr_text Current.acp.creditor_address
+          qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city
           move_down border
 
           qr_text_title t("qr_bill.reference")
@@ -501,12 +501,6 @@ module PDF
       @stars_count ||= 0
       @stars_count += 1
       "*" * @stars_count
-    end
-
-    def format_iban(iban)
-      iban
-        .delete(" ")
-        .gsub(/(.{4})(?=.)/, '\1 \2')
     end
 
     def reset_appendice_star

@@ -31,18 +31,6 @@ ActiveAdmin.register ACP do
       end
       tab t(".billing"), id: "billing" do
         f.inputs do
-          f.input :fiscal_year_start_month,
-            as: :select,
-            collection: (1..12).map { |m| [ t("date.month_names")[m], m ] },
-            input_html: { disabled: true }
-          f.input :billing_year_divisions,
-            as: :check_boxes,
-            collection: ACP.billing_year_divisions.map { |i| [ t("billing.year_division.x#{i}"), i ] },
-            required: true
-          f.input :currency_code,
-            as: :select,
-            collection: ACP::CURRENCIES,
-            input_html: { disabled: true }
           f.input :recurring_billing_wday,
             as: :select,
             collection: wdays_collection(t(".recurring_billing_disabled")),
@@ -50,13 +38,45 @@ ActiveAdmin.register ACP do
             prompt: false,
             required: false,
             hint: t("formtastic.hints.acp.recurring_billing_wday_html")
-          f.input :send_closed_invoice, as: :boolean
+          f.input :billing_year_divisions,
+            as: :check_boxes,
+            collection: ACP.billing_year_divisions.map { |i| [ t("billing.year_division.x#{i}"), i ] },
+            required: true
+          f.input :fiscal_year_start_month,
+            as: :select,
+            collection: (1..12).map { |m| [ t("date.month_names")[m], m ] },
+            input_html: { disabled: true }
+          f.input :currency_code,
+            as: :select,
+            collection: ACP::CURRENCIES,
+            input_html: { disabled: true }
           f.input :trial_basket_count
+          f.input :send_closed_invoice, as: :boolean
           f.input :billing_starts_after_first_delivery, as: :boolean
           f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
-          f.input :annual_fee, as: :number
-          f.input :share_price, as: :number, required: false
-          f.input :shares_number, as: :number, required: false
+
+          li class: "subtitle" do
+            h2 t(".invoice")
+          end
+          f.input :iban,
+            placeholder: Billing.iban_placeholder(f.object.country_code),
+            input_html: { value: f.object.iban_formatted }
+          if f.object.country_code == "CH"
+            f.input :bank_reference, input_html: { maxlength: 16 }
+          end
+          f.input :creditor_name, input_html: { maxlength: 70 }
+          f.input :creditor_address, input_html: { maxlength: 70 }
+          f.input :creditor_city, input_html: { maxlength: 35 }
+          f.input :creditor_zip, input_html: { maxlength: 16 }
+          translated_input(f, :invoice_infos,
+            hint: t("formtastic.hints.acp.invoice_info"))
+          translated_input(f, :invoice_footers,
+            hint: t("formtastic.hints.acp.invoice_footer"))
+
+          li class: "subtitle" do
+            h2 t(".vat")
+            span t(".if_applicable"), class: "optional"
+          end
           f.input :vat_number
           f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01,
             label: t(".vat_rate", type: Membership.model_name.human(count: 2))
@@ -68,16 +88,19 @@ ActiveAdmin.register ACP do
             f.input :vat_shop_rate, as: :number, min: 0, max: 100, step: 0.01,
               label: t(".vat_rate", type: t("shop.title"))
           end
-          translated_input(f, :invoice_infos)
-          translated_input(f, :invoice_footers)
 
-          li { h1 t(".invoice_qr") }
-          f.input :qr_iban, required: false
-          f.input :qr_bank_reference, required: false, input_html: { maxlength: 16 }
-          f.input :qr_creditor_name, required: false, input_html: { maxlength: 70 }
-          f.input :qr_creditor_address, required: false, input_html: { maxlength: 70 }
-          f.input :qr_creditor_city, required: false, input_html: { maxlength: 35 }
-          f.input :qr_creditor_zip, required: false, input_html: { maxlength: 16 }
+          li class: "subtitle" do
+            h2 t(".annual_fee")
+            span t(".if_applicable"), class: "optional"
+          end
+          f.input :annual_fee, as: :number
+
+          li class: "subtitle" do
+            h2 t(".shares")
+            span t(".if_applicable"), class: "optional"
+          end
+          f.input :share_price, as: :number, required: false
+          f.input :shares_number, as: :number, required: false
 
           handbook_button(self, "billing")
         end
@@ -385,8 +408,8 @@ ActiveAdmin.register ACP do
     :url, :email, :phone,
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
-    :qr_iban, :qr_bank_reference, :qr_creditor_name,
-    :qr_creditor_address, :qr_creditor_city, :qr_creditor_zip,
+    :iban, :bank_reference, :creditor_name,
+    :creditor_address, :creditor_city, :creditor_zip,
     :annual_fee, :share_price, :shares_number,
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,

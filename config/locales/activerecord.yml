@@ -75,6 +75,14 @@ _:
           _de: Auswahl an alternativen Depots
           _fr: Choix de dépôts alternatifs
           _it: Scelta di un punto di ritiro alternativo
+        annual_fee:
+          _de: Betrag
+          _fr: Montant
+          _it: Importo
+        bank_reference:
+          _de: Bankreferenz
+          _fr: Référence bancaire
+          _it: Riferimento bancario
         basket_complements_member_order_mode:
           _de: Reihenfolge der Zusätze
           _fr: Ordre des compléments
@@ -131,6 +139,22 @@ _:
           _de: Satzung (URL)
           _fr: Charte (URL)
           _it: Carta (URL)
+        creditor_address:
+          _de: Adresse
+          _fr: Adresse
+          _it: Indirizzo
+        creditor_city:
+          _de: Stadt
+          _fr: Ville
+          _it: Citta
+        creditor_name:
+          _de: Name
+          _fr: Nom
+          _it: Nome
+        creditor_zip:
+          _de: PLZ
+          _fr: NPA
+          _it: CAP
         currency_code:
           _de: Währung
           _fr: Monnaie
@@ -175,14 +199,18 @@ _:
           _de: 1. Monat vom Geschäftsjahr
           _fr: 1er mois de l'année fiscale
           _it: 1° mese dell'anno fiscale
+        iban:
+          _de: IBAN
+          _fr: IBAN
+          _it: IBAN
         invoice_footer:
-          _de: Fusszeile Rechnung
-          _fr: Facture bas de page
-          _it: Piè di pagina della fattura
+          _de: Fußzeile
+          _fr: Bas de page
+          _it: Piè di pagina
         invoice_info:
-          _de: Informationszeile Rechnung
-          _fr: Facture ligne info
-          _it: Riga d'informazione della fattura
+          _de: Informationszeile
+          _fr: Texte d'information
+          _it: Riga d'informazione
         languages:
           _de: Sprachen
           _fr: Languages
@@ -247,42 +275,18 @@ _:
           _de: Datenschutzerklärung (URL)
           _fr: Politique de confidentialité (URL)
           _it: Politica sulla privacy (URL)
-        qr_bank_reference:
-          _de: QR-Bankreferenz
-          _fr: Référence bancaire QR
-          _it: Riferimento bancario QR
-        qr_creditor_address:
-          _de: Adresse
-          _fr: Adresse
-          _it: Indirizzo
-        qr_creditor_city:
-          _de: Stadt
-          _fr: Ville
-          _it: Citta
-        qr_creditor_name:
-          _de: Name
-          _fr: Nom
-          _it: Nome
-        qr_creditor_zip:
-          _de: PLZ
-          _fr: NPA
-          _it: CAP
-        qr_iban:
-          _de: QR-IBAN
-          _fr: QR-IBAN
-          _it: QR-IBAN
         send_closed_invoice:
           _de: Versenden neuer Rechnungen, die als bereits bezahlt gelten
           _fr: Envoyer les nouvelles factures considérées comme déjà payées
           _it: Inviare nuove fatture considerate già pagate
         share_price:
-          _de: Betrag Anteilschein
-          _fr: Montant part sociale
-          _it: Importo quota sociale cooperativa
+          _de: Betrag
+          _fr: Prix
+          _it: Importo
         shares_number:
-          _de: Anzahl Anteilscheine
-          _fr: Nombre de parts sociales
-          _it: Numero di quote sociali della cooperativa
+          _de: Anzahl
+          _fr: Nombre
+          _it: Numero
         shop_admin_only:
           _de: Den Zugriff nur auf Admins beschränken
           _fr: Limiter l'accès uniquement aux admins
@@ -344,9 +348,9 @@ _:
           _fr: Site URL
           _it: URL del sito
         vat_number:
-          _de: Mehrwertsteuernummer
-          _fr: Numéro TVA
-          _it: Numero IVA
+          _de: Nummer
+          _fr: Numéro
+          _it: Numero
       activity_participation:
         activity:
           _de: Aktivität
@@ -708,10 +712,6 @@ _:
           _de: N° Anteilschein
           _fr: N° part sociale
           _it: N° quote sociali cooperative
-        annual_fee:
-          _de: Jährlicher Beitrag
-          _fr: Cotisation annuelle
-          _it: Quota associativa annuale
         basket_complements:
           _de: Taschenzusätze
           _fr: Compléments panier

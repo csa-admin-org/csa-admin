@@ -11,7 +11,7 @@ class Payment < ApplicationRecord
   belongs_to :member
   belongs_to :invoice, optional: true
 
-  scope :qr, -> { where.not(fingerprint: nil) }
+  scope :auto, -> { where.not(fingerprint: nil) }
   scope :manual, -> { where(fingerprint: nil) }
   scope :refund, -> { where("amount < 0") }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
@@ -33,11 +33,7 @@ class Payment < ApplicationRecord
   end
 
   def type
-    fingerprint? ? "qr" : "manual"
-  end
-
-  def qr?
-    type == "qr"
+    fingerprint? ? "auto" : "manual"
   end
 
   def manual?

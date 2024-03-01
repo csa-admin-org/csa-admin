@@ -58,6 +58,10 @@ _:
           _de: Leer lassen bei Null, wenn kein jährlicher Beitrag. Jede Änderung wird automatisch auf alle bestehenden Mitglieder angewendet, aber nur auf diejenigen, die genau den vorherigen Betrag haben.
           _fr: Laisser vide si aucune cotisation annuelle. Tout changement sera automatiquement appliqué aux membres existants, mais uniquement à ceux qui ont exactement le montant précédent.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa. Qualsiasi modifica verrà automaticamente applicata ai soci esistenti, ma solo a quelli che hanno lo stesso importo precedente.
+        bank_reference:
+          _de: Lassen Sie es leer, wenn Ihre Bank keine bereitstellt, wird in die Rechnungsreferenznummer aufgenommen.
+          _fr: Laisser vide si votre banque n'en fournit pas, sera inclus dans le numéro de référence de la facture.
+          _it: Lasciare vuoto se la tua banca non ne fornisce, sarà incluso nel numero di riferimento della fattura.
         basket_complements_member_order_mode:
           _de: Legt die Reihenfolge der Taschenzusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _fr: Permet de définir l'ordre d'affichage des compléments de paniers dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
@@ -114,6 +118,14 @@ _:
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _fr: Merci de me contacter pour tout changement.
           _it: Grazie di contattarmi per qualsiasi modifica.
+        invoice_footer:
+          _de: Text, der am Ende der Rechnung, vor dem Abschnitt über die Zahlung, angezeigt wird.
+          _fr: Texte affiché en bas de la facture, avant la section concernant son paiement.
+          _it: Testo visualizzato in fondo alla fattura, prima della sezione relativa al pagamento.
+        invoice_info:
+          _de: Text, der kursiv nach dem Rechnungsbetrag angezeigt wird.
+          _fr: Texte affiché en italique après le montant de la facture.
+          _it: Testo visualizzato in corsivo dopo l'importo della fattura.
         languages:
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _fr: Merci de me contacter pour tout changement.
@@ -182,14 +194,6 @@ _:
           _de: Text, der auf der Mitgliederseite oberhalb des Verlängerungsantragsformulars angezeigt wird.
           _fr: Texte affiché sur la page de membre au-dessus du formulaire de demande du renouvellement.
           _it: Testo visibile sulla pagina dei soci sotto il formulario con la domanda di rinnovo.
-        qr_bank_reference:
-          _de: Leer lassen, wenn Ihre Bank keine zur Verfügung stellt.
-          _fr: Laisser vide si votre banque n'en fournit pas.
-          _it: Lascia in vuoto se la tua banca non ne fornisce uno.
-        qr_iban:
-          _de: Ohne Leerzeichen, 21 Zeichen in der Schweiz.
-          _fr: Sans les espaces, 21 caractères en Suisse.
-          _it: Senza spazi, 21 caratteri in Svizzera.
         recurring_billing_wday_html:
           _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet. <u>Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen.</u>
           _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées. <u>Il est préférable de choisir un jour différent de celui de la livraison.</u>

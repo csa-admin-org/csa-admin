@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_23_142034) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_01_130859) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -63,11 +63,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_23_142034) do
     t.string "email_notifications", default: [], null: false, array: true
     t.string "feature_flags", default: [], null: false, array: true
     t.integer "open_renewal_reminder_sent_after_in_days"
-    t.string "qr_iban"
-    t.string "qr_creditor_name", limit: 70
-    t.string "qr_creditor_address", limit: 70
-    t.string "qr_creditor_city", limit: 35
-    t.string "qr_creditor_zip", limit: 16
+    t.string "iban"
+    t.string "creditor_name", limit: 70
+    t.string "creditor_address", limit: 70
+    t.string "creditor_city", limit: 35
+    t.string "creditor_zip", limit: 16
     t.string "country_code", limit: 2, default: "CH", null: false
     t.string "currency_code", limit: 3, default: "CHF"
     t.jsonb "email_signatures", default: {}, null: false
@@ -93,7 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_23_142034) do
     t.boolean "shop_admin_only", default: true, null: false
     t.jsonb "basket_price_extra_public_titles", default: {}, null: false
     t.string "icalendar_auth_token"
-    t.string "qr_bank_reference"
+    t.string "bank_reference"
     t.text "activity_participations_demanded_logic", default: "{% if member.salary_basket %}\n  0\n{% else %}\n  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}\n{% endif %}\n", null: false
     t.boolean "send_closed_invoice", default: false, null: false
     t.string "member_profession_form_mode", default: "visible", null: false
