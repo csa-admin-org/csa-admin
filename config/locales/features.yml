@@ -13,9 +13,9 @@ _:
       _fr: Participation des membres
       _it: Partecipazione dei soci
     activity_hint:
-      _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.
-      _fr: Permet de gérer des activités effectuées par les membres.
-      _it: Permette di gestire le attività svolte dai soci
+      _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.<br/>Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _fr: Permet de gérer des activités effectuées par les membres.<br/>Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations.
+      _it: Permette di gestire le attività svolte dai soci.<br/>Si prega <a href="/handbook/activity">di consultare il manuale</a> per ulteriori informazioni.
     basket_content:
       _de: Tascheninhalt
       _fr: Contenu Panier

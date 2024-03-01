@@ -251,9 +251,6 @@ ActiveAdmin.register ACP do
                 as: :select,
                 collection: ACP.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
                 prompt: true
-              f.input :activity_participation_deletion_deadline_in_days
-              f.input :activity_availability_limit_in_days, required: true
-              f.input :activity_phone, as: :phone
               f.input :activity_price
               f.input :activity_participations_form_min
               f.input :activity_participations_form_max
@@ -273,6 +270,12 @@ ActiveAdmin.register ACP do
                   class: "ace-editor",
                   data: { mode: "liquid", code_editor_target: "editor" }
                 }
+
+              f.input :activity_availability_limit_in_days, required: true
+              f.input :activity_participation_deletion_deadline_in_days
+              f.input :activity_phone, as: :phone
+
+              handbook_button(self, "activity")
             end
           end
         end

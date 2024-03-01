@@ -1541,7 +1541,7 @@ select option[hidden] {
   appearance: none;
 }
 
-.panel {
+.panel, fieldset legend {
   position: relative;
 }
 
@@ -1551,7 +1551,13 @@ select option[hidden] {
   right: 12px;
 }
 
-.panel div.actions a {
+fieldset div.actions {
+  position: absolute;
+  top: -32px;
+  right: 12px;
+}
+
+.panel div.actions a, fieldset div.actions a {
   text-decoration: none;
   margin-left: 6px;
   color: #888;

@@ -135,6 +135,8 @@ ActiveAdmin.register ActivityParticipation do
     end
   end
 
+  sidebar_handbook_link("activity#participations")
+
   form do |f|
     f.inputs t(".details") do
       f.input :activity,

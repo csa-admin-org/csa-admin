@@ -1,0 +1,52 @@
+# Participation des membres
+
+Cette fonctionnalité permet de gérer des activités ainsi que leurs participations par les membres. Ces participations peuvent être optionnelles ou obligatoires et peuvent être facturées ou non.
+
+## Configuration
+
+Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings#acp_features_input), plusieurs réglages vous permettent de [configurer](/settings#activity) le fonctionnement des activités et participations.
+
+### Formulaire d'inscription et renouvellement
+
+Le nombre de participations demandées par défaut dépendra du nombre configuré pour la taille de panier ainsi que des compléments de l'abonnement.
+
+Il est cependant possible de laisser le choix aux membres de choisir le nombre de participations qu'ils souhaitent lors de leur inscription ou [renouvellement](/handbook/membership_renewal). Pour cela, il suffit de configurer un nombre minimal (permettant au membre de réduire le nombre demandé) et/ou un nombre maximal (permettant au membre d'augmenter le nombre demandé) de participations.
+
+> Si un prix de la participation est défini, la différence entre le nombre par défaut et le nombre choisi sera alors ajoutée ou soustraite du montant total de l'abonnement automatiquement (champs "Ajustement du prix de l'abonnement").
+
+
+### Logique de calcul des participations demandées
+
+La configuration du nombre de participations demandées s'entend toujours pour une année fiscale complète, par défaut, le nombre final demandé sera calculé au prorata du nombre de livraisons de l'abonnement.
+
+Cette logique peut être modifiée en utilisant [la syntaxe Liquid](https://shopify.github.io/liquid)dans le champ "Logique de calcul des participations demandées" dans [les paramètres](/settings#activity).
+
+
+### Inscription aux activités
+
+Les membres peuvent s'inscrire à des activités depuis leur compte membre. Ils peuvent également voir les activités auxquelles ils/elles sont inscrit(e)s, ainsi que les participations qu'ils/elles ont effectuées et ainsi que leurs validations.
+
+Lors de l'inscription, le membre peut spécifier le nombre de participants (chaque participant comptant pour une participation), une remarque et choisir de partager leur numéro de téléphone ainsi que son lieu de départ pour le covoiturage. Leur contact sera alors partagé avec les autres membres inscrits à la même activité dans [l'email de rappel envoyé 3 jours avant l'activité](/mail_templates/activity_participation_reminder).
+
+Une limite (en jours) d'inscription avant la date de l'activité peut être définie depuis [les paramètres](/settings#activity) pour éviter les inscriptions de dernière minute.
+
+Un délai (en jours) pour annuler une inscription peut aussi être défini depuis [les paramètres](/settings#activity). Passé ce délai, les membres ne pourront plus annuler leur inscription.
+
+## Activités
+
+Vous pouvez créer des activités depuis [la liste des activités](/activities) en cliquant sur "Nouvelle activité". Comme pour les livraisons, vous pouvez facilement créer des activités en lot à l'aide de l'onglet "Dates multiples" dans [le formulaire de création](/activities/new).
+
+> Si vous proposez souvent des activités similaires au même lieu, pensez à créer des ["presets" d'activités](/activity_presets) pour gagner du temps.
+
+## Participations
+
+Les inscriptions aux activités faites par les membres sont visibles depuis [la liste des participations](/activity_participations). Les admins peuvent également y inscrire des membres manuellement ou modifier/supprimer des participations existantes.
+
+Les participations aux activités (du même jour ou passées) peuvent être validées ou refusées par les admins. Les membres recevront alors un email [de confirmation](/mail_templates/activity_participation_validated) ou [de refus](/mail_templates/activity_participation_rejected) de leur participation.
+
+
+## Facturation
+
+Si un prix est défini pour une participation, vous pouvez simplement facturer toutes les participations manquantes depuis [la liste des participations](/activity_participations). Chaque participation facturée sera automatiquement considérée comme une participation validée.
+
+Plus d'informations sur la [facturation des participations](/handbook/billing#activity) sont disponibles dans la page du manuel dédiée à la facturation.
