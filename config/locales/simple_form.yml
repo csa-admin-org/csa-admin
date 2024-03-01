@@ -20,6 +20,6 @@ _:
         _fr: "*"
         _it: "*"
       text:
-        _de: requirieren
+        _de: Pflichtfeld
         _fr: requis
         _it: requisito
