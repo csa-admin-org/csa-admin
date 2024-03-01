@@ -331,6 +331,8 @@ class Membership < ApplicationRecord
   end
 
   def activity_participations_demanded_annually_by_default
+    return 0 unless Current.acp.feature?("activity")
+
     count = basket_quantity * basket_size&.activity_participations_demanded_annually
     memberships_basket_complements.each do |mbc|
       count += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annually
@@ -472,11 +474,14 @@ class Membership < ApplicationRecord
   end
 
   def set_activity_participations
-    return unless Current.acp.feature?("activity")
-
-    self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
-    self.activity_participations_annual_price_change ||=
-      -1 * activity_participations_demanded_diff_from_default * Current.acp.activity_price
+    if Current.acp.feature?("activity")
+      self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
+      self.activity_participations_annual_price_change ||=
+        -1 * activity_participations_demanded_diff_from_default * Current.acp.activity_price
+    else
+      self.activity_participations_demanded = 0
+      self.activity_participations_annual_price_change = 0
+    end
   end
 
   def handle_started_on_change!

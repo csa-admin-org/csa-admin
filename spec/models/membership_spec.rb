@@ -525,6 +525,19 @@ describe Membership do
         activity_participations_demanded: 6,
         activity_participations_annual_price_change: -100)
     end
+
+    specify "when activity feature is disabled" do
+      Current.acp.update!(features: [])
+
+      membership = create(:membership,
+        activity_participations_annual_price_change: nil,
+        activity_participations_demanded: nil)
+
+      expect(membership.activity_participations_demanded_diff_from_default).to eq 0
+      expect(membership).to have_attributes(
+        activity_participations_demanded: 0,
+        activity_participations_annual_price_change: 0)
+    end
   end
 
   it "adds basket_complement to coming baskets when subscription is added" do
