@@ -4,12 +4,10 @@ module PDF
     include MembershipsHelper
     include NumbersHelper
 
-    ITEMS_PER_PAGE = 40
-    MAX_ITEMS_ON_LAST_PAGE = 10
-
-    attr_reader :invoice, :entity
+    attr_reader :country_code, :invoice, :entity
 
     def initialize(invoice)
+      @country_code = Current.acp.country_code
       @invoice = invoice
       @entity = invoice.entity
       # Reload entity to be sure that the balance is up-to-date
@@ -22,16 +20,19 @@ module PDF
     private
 
     def smart_pages(items)
-      if items.size > MAX_ITEMS_ON_LAST_PAGE
-        first_items = items.first(items.size - MAX_ITEMS_ON_LAST_PAGE)
-        first_total_pages = (first_items.size / ITEMS_PER_PAGE.to_f).ceil
+      items_per_full_page = 40.0
+      max_items_on_last_page = country_code == "CH" ? 10 : 15
+
+      if items.size > max_items_on_last_page
+        first_items = items.first(items.size - max_items_on_last_page)
+        first_total_pages = (first_items.size / items_per_full_page.to_f).ceil
         items_per_page = (first_items.size / (first_total_pages).to_f).ceil
         first_items.each_slice(items_per_page).with_index do |items_slice, i|
           page(items_slice, page: i + 1, total_pages: first_total_pages + 1)
         end
 
         total_pages = first_total_pages + 1
-        last_items = items.last(MAX_ITEMS_ON_LAST_PAGE)
+        last_items = items.last(max_items_on_last_page)
         page(last_items, page: total_pages, total_pages: total_pages)
       else
         page(items, page: 1, total_pages: 1)
@@ -43,7 +44,7 @@ module PDF
       header(page: page, total_pages: total_pages)
       content(items, last_page: last_page)
       footer(last_page: last_page)
-      last_page ? qr : start_new_page
+      last_page ? payment_section : start_new_page
     end
 
     def info
@@ -352,25 +353,41 @@ module PDF
     end
 
     def footer(last_page:)
-      y = last_page ? 320 : 40
+      y = last_page ? payment_section_y : 40
       font_size 10
       bounding_box [ 0, y ], width: bounds.width, height: 50 do
         text Current.acp.invoice_footer, inline_format: true, align: :center
       end
     end
 
-    def qr
-      y = 320
+    def payment_section
+      y = payment_section_y
       border = 13
       font_size 8
       bounding_box [ 0, y ], width: bounds.width - border, height: y do
-        qr_borders
-        qr_receipt(border)
-        qr_payment_part(border)
+        case country_code
+        when "CH"; swiss_qr(border)
+        else payment_info(border)
+        end
       end
     end
 
-    def qr_borders
+    def payment_section_y
+      case country_code
+      when "CH"; 320
+      else 220
+      end
+    end
+
+    ## Swiss QR
+
+    def swiss_qr(border)
+      swiss_qr_borders
+      swiss_qr_receipt(border)
+      swiss_qr_payment_part(border)
+    end
+
+    def swiss_qr_borders
       stroke do
         move_down 22
         dash(1, space: 2.6, phase: 0)
@@ -394,84 +411,84 @@ module PDF
       end
     end
 
-    def qr_receipt(border)
+    def swiss_qr_receipt(border)
       bounding_box [ border, 298 - border ], width: 145, height: 298 - 2 * border do
-        qr_text_main_title t("qr_bill.receipt")
+        swiss_qr_text_main_title t("payment.receipt")
         move_down border
 
-        qr_text_title t("qr_bill.payable_to"), size: 6
-        qr_text Current.acp.iban_formatted, size: 8
-        qr_text Current.acp.creditor_name, size: 8
-        qr_text Current.acp.creditor_address, size: 8
-        qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city, size: 8
+        swiss_qr_text_title t("payment.payable_to"), size: 6
+        swiss_qr_text Current.acp.iban_formatted, size: 8
+        swiss_qr_text Current.acp.creditor_name, size: 8
+        swiss_qr_text Current.acp.creditor_address, size: 8
+        swiss_qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city, size: 8
         move_down border
 
-        qr_text_title t("qr_bill.reference"), size: 6
-        qr_text QRReferenceNumber.new(invoice).formatted_ref, size: 8
+        swiss_qr_text_title t("payment.reference"), size: 6
+        swiss_qr_text QRReferenceNumber.new(invoice).formatted_ref, size: 8
         move_down border
 
-        qr_text_title t("qr_bill.payable_by"), size: 6
-        qr_text invoice.member.name.truncate(70), size: 8
-        qr_text invoice.member.address.truncate(70), size: 8
-        qr_text invoice.member.zip + " " + invoice.member.city, size: 8
+        swiss_qr_text_title t("payment.payable_by"), size: 6
+        swiss_qr_text invoice.member.name.truncate(70), size: 8
+        swiss_qr_text invoice.member.address.truncate(70), size: 8
+        swiss_qr_text invoice.member.zip + " " + invoice.member.city, size: 8
 
         bounding_box [ 0, 98 ], width: 200 do
-          qr_text_title t("qr_bill.currency"), size: 6
-          qr_text Current.acp.currency_code, size: 8
+          swiss_qr_text_title t("payment.currency"), size: 6
+          swiss_qr_text Current.acp.currency_code, size: 8
         end
         bounding_box [ 65, 98 ], width: 200 do
-          qr_text_title t("qr_bill.amount"), size: 6
-          qr_text _cur(@missing_amount, delimiter: " "), size: 8
+          swiss_qr_text_title t("payment.amount"), size: 6
+          swiss_qr_text _cur(@missing_amount, delimiter: " "), size: 8
         end
 
         bounding_box [ 105, 48 ], width: 200 do
-          qr_text_title t("qr_bill.acceptance_point"), size: 6
+          swiss_qr_text_title t("payment.acceptance_point"), size: 6
         end
       end
     end
 
-    def qr_payment_part(border)
+    def swiss_qr_payment_part(border)
       bounding_box [ 176.66 + border, 298 - border ], width: 390, height: 298 - 2 * border do
-        qr_text_main_title t("qr_bill.payment_part")
+        swiss_qr_text_main_title t("payment.payment_part")
 
         image InvoiceQRCode.new(invoice).generate_qr_image,
           at: [ -2.5, 252 ],
           width: 137
 
         bounding_box [ 0, 100 ], width: 200 do
-          qr_text_title t("qr_bill.currency")
-          qr_text Current.acp.currency_code
+          swiss_qr_text_title t("payment.currency")
+          swiss_qr_text Current.acp.currency_code
         end
         bounding_box [ 65, 100 ], width: 200 do
-          qr_text_title t("qr_bill.amount")
-          qr_text _cur(@missing_amount, delimiter: " ")
+          swiss_qr_text_title t("payment.amount")
+          swiss_qr_text _cur(@missing_amount, delimiter: " ")
         end
 
         bounding_box [ 146, 270 ], width: 230 do
-          qr_text_title t("qr_bill.payable_to")
-          qr_text Current.acp.iban_formatted
-          qr_text Current.acp.creditor_name
-          qr_text Current.acp.creditor_address
-          qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city
+          swiss_qr_text_title t("payment.payable_to")
+          swiss_qr_text Current.acp.iban_formatted
+          swiss_qr_text Current.acp.creditor_name
+          swiss_qr_text Current.acp.creditor_address
+          swiss_qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city
           move_down border
 
-          qr_text_title t("qr_bill.reference")
-          qr_text QRReferenceNumber.new(invoice).formatted_ref
+          swiss_qr_text_title t("payment.reference")
+          swiss_qr_text QRReferenceNumber.new(invoice).formatted_ref
           move_down border
 
-          qr_text_title t("qr_bill.further_information")
-          qr_text "#{::Invoice.model_name.human} #{invoice.id}"
+          swiss_qr_text_title t("payment.further_information")
+          swiss_qr_text "#{::Invoice.model_name.human} #{invoice.id}"
           move_down border
 
-          qr_text_title t("qr_bill.payable_by")
-          qr_text invoice.member.name.truncate(70)
-          qr_text invoice.member.address.truncate(70)
-          qr_text invoice.member.zip + " " + invoice.member.city
+          swiss_qr_text_title t("payment.payable_by")
+          swiss_qr_text invoice.member.name.truncate(70)
+          swiss_qr_text invoice.member.address.truncate(70)
+          swiss_qr_text invoice.member.zip + " " + invoice.member.city
         end
       end
     end
 
-    def qr_text_main_title(txt, **options)
+    def swiss_qr_text_main_title(txt, **options)
       text txt, {
         size: 11,
         character_spacing: 0.4,
@@ -479,7 +496,7 @@ module PDF
       }.merge(options)
     end
 
-    def qr_text_title(txt, **options)
+    def swiss_qr_text_title(txt, **options)
       text txt, {
         size: 8,
         character_spacing: 0.4,
@@ -488,7 +505,7 @@ module PDF
       move_down 3
     end
 
-    def qr_text(txt, **options)
+    def swiss_qr_text(txt, **options)
       text txt, {
         size: 10,
         character_spacing: 0.4,
@@ -496,6 +513,74 @@ module PDF
       }.merge(options)
       move_down 1.5
     end
+
+    ## Other countries
+
+    def payment_info(border)
+      border = 2 * border
+      payment_info_border(border)
+      bounding_box [ border, payment_section_y - 40 ], width: 570, height: payment_section_y do
+        payment_info_text t("payment.payment_part"), size: 12, style: :bold
+        y_start = bounds.height - 28
+        x_split = bounds.width / 2
+
+        bounding_box [ 0, y_start ], width: x_split - 30 do
+          payment_info_title t("payment.amount")
+          payment_info_text cur(@missing_amount, delimiter: " "), size: 14
+          move_down 10
+
+          payment_info_title t("payment.payable_to")
+          payment_info_text Current.acp.creditor_name
+          payment_info_text Current.acp.creditor_address
+          payment_info_text Current.acp.creditor_zip + " " + Current.acp.creditor_city
+          move_down 5
+          payment_info_text "IBAN: <b>#{Current.acp.iban_formatted}</b>"
+          if Current.acp.sepa_creditor_identifier?
+            payment_info_text "#{t("payment.sepa_creditor_identifier")}: <b>#{Current.acp.sepa_creditor_identifier}</b>"
+          end
+        end
+        bounding_box [ x_split, y_start ], width: x_split do
+          payment_info_title "#{t("payment.invoice_number")} / #{t("payment.reference")}"
+          payment_info_text invoice.id.to_s, size: 14
+          move_down 10
+
+          payment_info_title t("payment.payable_by")
+          payment_info_text invoice.member.name.truncate(70)
+          payment_info_text invoice.member.address.truncate(70)
+          payment_info_text invoice.member.zip + " " + invoice.member.city
+          if invoice.member.iban? && invoice.member.sepa_mandate_id?
+            move_down 5
+            payment_info_text "IBAN: <b>#{invoice.member.iban_formatted}</b>"
+            payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.member.sepa_mandate_id}</b> (#{I18n.l(invoice.member.sepa_mandate_signed_on)})"
+          end
+        end
+      end
+    end
+
+    def payment_info_border(border)
+      stroke do
+        move_down 22
+        line_width 0.5
+        horizontal_line(border, 570)
+      end
+    end
+
+    def payment_info_title(txt)
+      payment_info_text(txt, size: 9, style: :bold, down: 7)
+    end
+
+    def payment_info_text(txt, **options)
+      down = options.delete(:down) || 3
+      text txt, {
+        size: 10,
+        character_spacing: 0.4,
+        style: :normal,
+        inline_format: true
+      }.merge(options)
+      move_down down
+    end
+
+    ## Common
 
     def appendice_star
       @stars_count ||= 0

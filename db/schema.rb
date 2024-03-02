@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_01_130859) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_02_123135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_01_130859) do
     t.integer "activity_participations_form_min"
     t.integer "activity_participations_form_max"
     t.jsonb "activity_participations_form_details", default: {}, null: false
+    t.string "sepa_creditor_identifier"
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
@@ -543,6 +544,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_01_130859) do
     t.string "delivery_note"
     t.integer "required_acp_shares_number"
     t.integer "waiting_activity_participations_demanded_annually"
+    t.string "iban"
+    t.string "sepa_mandate_id"
+    t.date "sepa_mandate_signed_on"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"

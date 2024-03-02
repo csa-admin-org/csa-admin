@@ -136,7 +136,7 @@ _:
         _de: Bereits in Rechnung gestellt
         _fr: Déjà facturé
         _it: Già fatturato
-      qr_bill:
+      payment:
         acceptance_point:
           _de: Annahmestelle
           _fr: Point de dépôt
@@ -153,6 +153,10 @@ _:
           _de: Zusätzliche Informationen
           _fr: Informations supplémentaires
           _it: Informazioni supplementari
+        invoice_number:
+          _de: Rechnungsnummer
+          _fr: Numéro de facture
+          _it: Numero fattura
         payable_by:
           _de: Zahlbar durch
           _fr: Payable par
@@ -173,6 +177,14 @@ _:
           _de: Referenz
           _fr: Référence
           _it: Referenza
+        sepa_creditor_identifier:
+          _de: Gläubiger-ID
+          _fr: ID créancier
+          _it: ID creditore
+        sepa_mandate_id:
+          _de: Mandatsreferenz
+          _fr: Référence du mandat
+          _it: Riferimento del mandato
       remaining_annual_memberships_amount:
         _de: Jährlicher Betrag noch offen
         _fr: Montant annuel restant

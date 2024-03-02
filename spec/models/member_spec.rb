@@ -167,6 +167,30 @@ describe Member do
 
       expect(member).not_to have_valid(:come_from)
     end
+
+    context "with SEPA" do
+      before do
+        Current.acp.update!(
+          country_code: "DE",
+          iban: "DE89370400440532013000")
+      end
+
+      specify "validates mandate signed on presence" do
+        member = Member.new(sepa_mandate_id: "123", sepa_mandate_signed_on: nil)
+        expect(member).not_to have_valid(:sepa_mandate_signed_on)
+      end
+
+      specify "validates IBAN" do
+        member = Member.new(sepa_mandate_id: "123", iban: nil)
+        expect(member).not_to have_valid(:iban)
+
+        member.iban = "CH9300762011623852957"
+        expect(member).not_to have_valid(:iban)
+
+        member.iban = "DE89370400440532013333"
+        expect(member).to have_valid(:iban)
+      end
+    end
   end
 
   it "strips whitespaces from emails and downcase" do

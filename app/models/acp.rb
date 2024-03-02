@@ -4,6 +4,7 @@ class ACP < ApplicationRecord
 
   include TranslatedAttributes
   include TranslatedRichTexts
+  include HasIBAN
 
   FEATURES = %i[
     absence
@@ -181,14 +182,6 @@ class ACP < ApplicationRecord
 
   def billing_year_divisions=(divisions)
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
-  end
-
-  def iban=(iban)
-    super iban.presence&.gsub(/\s/, "")&.upcase
-  end
-
-  def iban_formatted
-    iban&.scan(/.{1,4}/)&.join(" ")
   end
 
   def languages=(languages)

@@ -777,6 +777,104 @@ describe PDF::Invoice do
     end
   end
 
+  context "France payment section" do
+    before {
+      Current.acp.update!(
+        name: "france",
+        country_code: "FR",
+        currency_code: "EUR",
+        languages: %w[ fr ],
+        iban: "FR1420041010050500013M02606",
+        sepa_creditor_identifier: nil,
+        creditor_name: "Jardin Réunis",
+        creditor_address: "1 rue de la Paix",
+        creditor_city: "Paris",
+        creditor_zip: "75000",
+        share_price: 250,
+        shares_number: 1)
+    }
+    let(:member) {
+      create(:member,
+        id: 424242,
+        name: "Jean-Pierre Dupont",
+        address: "42 rue de la Liberté",
+        city: "Paris",
+        zip: "75001",
+        country_code: "FR",
+        language: "fr",
+        iban: nil,
+        sepa_mandate_id: nil,
+        sepa_mandate_signed_on: nil)
+    }
+
+    specify "invoice without SEPA payment section", sidekiq: :inline do
+      invoice = create(:invoice,
+        id: 8001,
+        member: member,
+        acp_shares_number: 5)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence("Section paiement")
+        .and contain_sequence("Montant", "1 250.00 ", "€")
+        .and contain_sequence("Compte / Payable à", "Jardin Réunis", "1 rue de la Paix", "75000 Paris")
+        .and contain_sequence("IBAN: ", "FR14 2004 1010 0505 0001 3M02 606")
+        .and contain_sequence("Numéro de facture / Référence", "8001")
+        .and contain_sequence("Payable par", "Jean-Pierre Dupont", "42 rue de la Liberté", "75001 Paris")
+    end
+  end
+
+  context "German SEPA payment section" do
+    before {
+      Current.acp.update!(
+        name: 'sepa',
+        country_code: "DE",
+        currency_code: "EUR",
+        languages: %w[ de ],
+        iban: "DE87200500001234567890",
+        sepa_creditor_identifier: "DE98ZZZ09999999999",
+        creditor_name: "Gläubiger GmbH",
+        creditor_address: "Sonnenallee 1",
+        creditor_city: "Hannover",
+        creditor_zip: "30159",
+        share_price: 250,
+        shares_number: 1,
+        fiscal_year_start_month: 4)
+    }
+    let(:member) {
+      create(:member,
+        id: 424242,
+        name: "Pia-Maria Rutschmann-Schnyder",
+        address: "Grosse Marktgasse 28",
+        zip: "30952",
+        city: "Ronnenberg",
+        country_code: "DE",
+        language: "de",
+        iban: "DE21500500009876543210",
+        sepa_mandate_id: "42",
+        sepa_mandate_signed_on: "2024-03-02")
+    }
+
+    specify "invoice with SEPA payment section", sidekiq: :inline do
+      invoice = create(:invoice,
+        id: 9001,
+        member: member,
+        acp_shares_number: 5)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence("Zahlteil")
+        .and contain_sequence("Betrag", "1 250.00 ", "€")
+        .and contain_sequence("Konto / Zahlbar an", "Gläubiger GmbH", "Sonnenallee 1", "30159 Hannover")
+        .and contain_sequence("IBAN: ", "DE87 2005 0000 1234 5678 90")
+        .and contain_sequence("Gla", "̈", "ubiger-ID: ", "DE98ZZZ09999999999")
+        .and contain_sequence("Rechnungsnummer / Referenz", "9001")
+        .and contain_sequence("Zahlbar durch", "Pia-Maria Rutschmann-Schnyder", "Grosse Marktgasse 28", "30952 Ronnenberg")
+        .and contain_sequence("IBAN: ", "DE21 5005 0000 9876 5432 10")
+        .and contain_sequence("Mandatsreferenz: ", "42", " (2. März 2024)")
+    end
+  end
+
   context "P2R settings" do
     before {
       Current.acp.update!(
