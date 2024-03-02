@@ -43,7 +43,7 @@ describe "members page" do
       expect(page).to have_selector("span",
         text: "Vélo PUBLICCHF 16 (8.-/livraison), Uniquement à Neuchâtel")
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -133,7 +133,7 @@ describe "members page" do
       expect(page).to have_selector("span",
         text: "Vélo PUBLICCHF 16 (8.-/livraison), Uniquement à Neuchâtel")
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -203,7 +203,7 @@ describe "members page" do
       expect(page).to have_selector("span", text: "Fruits")
       expect(page).to have_selector("span", text: "CHF 8.40 (4.20 x 2 livraisons), 1 ½ journée")
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -266,7 +266,7 @@ describe "members page" do
       expect(page).to have_selector("span",
         text: "Vélo PUBLICCHF 8-16 (8.- x 1-2 livraisons), Uniquement à Neuchâtel")
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -364,7 +364,7 @@ describe "members page" do
       expect(page).to have_selector("label",
         text: "Dépôt(s) alternatifs(s)")
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -417,7 +417,7 @@ describe "members page" do
       expect(page).not_to have_content "Abonnement"
       expect(page).to have_content "Merci de choisir un dépôt pour vos commandes."
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -463,7 +463,7 @@ describe "members page" do
 
       expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation annuelle de CHF 42 en plus de l'abonnement à son panier."
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -510,7 +510,7 @@ describe "members page" do
 
       expect(page).to have_content "Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (CHF 250/part)."
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "John et Jame Doe"
+      fill_in "Nom et prénom", with: "John et Jame Doe"
       fill_in "Adresse", with: "Nowhere srteet 2"
       fill_in "NPA", with: "2042"
       fill_in "Ville", with: "Moon City"
@@ -593,7 +593,7 @@ describe "members page" do
 
       expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation annuelle de CHF 42 en plus de l'abonnement à son panier."
 
-      fill_in "Nom(s) de famille et prénom(s)", with: "Р РѕСЃСЃРёСЏ"
+      fill_in "Nom et prénom", with: "Р РѕСЃСЃРёСЏ"
       fill_in "Adresse", with: "Р РѕСЃСЃРёСЏ"
       fill_in "NPA", with: "999999"
       fill_in "Ville", with: "Р РѕСЃСЃРёСЏ"

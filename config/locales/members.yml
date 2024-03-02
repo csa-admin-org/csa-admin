@@ -472,9 +472,9 @@ _:
           _fr: Infos complémentaires
           _it: Info supplementari
         name:
-          _de: Name(n) und Vorname(n)
-          _fr: Nom(s) de famille et prénom(s)
-          _it: Cognome/i e nome/i
+          _de: Name und Vorname
+          _fr: Nom et prénom
+          _it: Nome e cognome
         note:
           _de: Bemerkung(en)
           _fr: Remarque(s)
