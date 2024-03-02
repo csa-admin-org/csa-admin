@@ -77,7 +77,7 @@ class Membership < ApplicationRecord
   after_update :handle_config_change!
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
-  after_commit :update_absences_included!
+  after_commit :update_absences_included!, on: %i[create update]
   after_commit :update_member_and_baskets!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
 
@@ -564,6 +564,7 @@ class Membership < ApplicationRecord
 
   def update_absent_baskets!
     return unless Current.acp.feature?("absence")
+    return if destroyed?
 
     transaction do
       # Real absences
@@ -587,6 +588,7 @@ class Membership < ApplicationRecord
 
   def update_not_billable_baskets!
     return unless Current.acp.feature?("absence")
+    return if destroyed?
 
     transaction do
       baskets.not_billable.update_all(billable: true)

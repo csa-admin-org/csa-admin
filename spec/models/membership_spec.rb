@@ -1267,4 +1267,13 @@ describe Membership do
       create(:membership, member: member)
     }.to change { member.reload.state }.from("waiting").to("active")
   end
+
+  specify "can be destroyed" do
+    Current.acp.update!(features: %w[absence activity])
+    membership = create(:membership, absences_included_annually: 3)
+
+    expect {
+      membership.destroy
+    }.to change { Membership.count }.by(-1)
+  end
 end
