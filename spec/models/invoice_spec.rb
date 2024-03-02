@@ -452,6 +452,14 @@ describe Invoice do
       invoice = create(:invoice, :annual_fee, :open)
       expect(invoice.can_destroy?).to eq false
     end
+
+    specify "only CH country code" do
+      Current.acp.update!(
+        country_code: "FR",
+        iban: "FR7630006000011234567890189")
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      expect(invoice.can_destroy?).to eq false
+    end
   end
 
   specify "#overpaid?" do
