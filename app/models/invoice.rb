@@ -285,7 +285,10 @@ class Invoice < ApplicationRecord
   end
 
   def can_destroy?
-    !processing? && !sent_at? && payments.none?
+    Current.acp.country_code == "CH" &&
+      !processing? &&
+      !sent_at? &&
+      payments.none?
   end
 
   def can_cancel?
