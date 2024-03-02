@@ -396,10 +396,6 @@ ActiveAdmin.register Member do
           if Current.acp.annual_fee
             row(:annual_fee) { cur member.annual_fee }
           end
-          if Current.acp.share?
-            row(:acp_shares_number) { display_acp_shares_number(member) }
-            row(:acp_shares_info) { member.acp_shares_info }
-          end
           row(:invoices_amount) {
             link_to(
               cur(member.invoices_amount),
@@ -444,6 +440,23 @@ ActiveAdmin.register Member do
             end
           }
         end
+
+        attributes_table title: t(".billing") + " (SEPA)" do
+          row(:iban) { member.iban_formatted }
+          row(:sepa_mandate_id) {
+            if member.sepa_mandate_id?
+              member.sepa_mandate_id + " (#{l(member.sepa_mandate_signed_on)})"
+            end
+          }
+        end
+
+        if Current.acp.share?
+          attributes_table title: t("active_admin.resource.edit.shares") do
+            row(ACP.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
+            row(:acp_shares_info) { member.acp_shares_info }
+          end
+        end
+
         attributes_table title: t(".notes") do
           row :profession
           row(:come_from) { text_format(member.come_from) }
@@ -546,8 +559,8 @@ ActiveAdmin.register Member do
       f.input :delivery_city
       f.input :delivery_zip
     end
+
     f.inputs t("active_admin.resource.show.billing") do
-      f.input :billing_email, type: :email, label: t(".email")
       f.input :billing_year_division,
         as: :select,
         collection: (
@@ -555,11 +568,28 @@ ActiveAdmin.register Member do
           Current.acp.billing_year_divisions
         ).compact.uniq.sort.map { |i| [ t("billing.year_division.x#{i}"), i ] },
         prompt: true
-      if Current.acp.annual_fee
-        f.input :annual_fee
+      f.input :billing_email, type: :email, label: t(".email")
+      f.input :salary_basket
+    end
+
+    if Current.acp.country_code == "DE"
+      f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
+        f.input :iban,
+          placeholder: Billing.iban_placeholder(Current.acp.country_code),
+          input_html: { value: f.object.iban_formatted }
+        f.input :sepa_mandate_id
+        f.input :sepa_mandate_signed_on, as: :date_picker
       end
-      if Current.acp.share?
-        f.input :acp_shares_info
+    end
+
+    if Current.acp.annual_fee
+      f.inputs t(".annual_fee") do
+        f.input :annual_fee, label: ACP.human_attribute_name(:annual_fee)
+      end
+    end
+
+    if Current.acp.share?
+      f.inputs t(".shares") do
         f.input :existing_acp_shares_number
         if member.acp_shares_number.zero? || member.desired_acp_shares_number.positive?
           f.input :desired_acp_shares_number
@@ -569,9 +599,10 @@ ActiveAdmin.register Member do
             value: f.object[:required_acp_shares_number],
             placeholder: f.object.default_required_acp_shares_number
           }
+        f.input :acp_shares_info
       end
-      f.input :salary_basket
     end
+
     f.inputs t("active_admin.resource.show.notes") do
       f.input :profession
       f.input :come_from, input_html: { rows: 4 }
@@ -588,6 +619,7 @@ ActiveAdmin.register Member do
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket,
     :billing_email, :billing_year_division,
+    :iban, :sepa_mandate_id, :sepa_mandate_signed_on,
     :acp_shares_info, :existing_acp_shares_number,
     :desired_acp_shares_number, :required_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,

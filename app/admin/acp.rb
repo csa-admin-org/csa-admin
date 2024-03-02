@@ -61,6 +61,9 @@ ActiveAdmin.register ACP do
           f.input :iban,
             placeholder: Billing.iban_placeholder(f.object.country_code),
             input_html: { value: f.object.iban_formatted }
+          if f.object.country_code == "DE"
+            f.input :sepa_creditor_identifier, input_html: { maxlength: 35 }
+          end
           if f.object.country_code == "CH"
             f.input :bank_reference, input_html: { maxlength: 16 }
           end
@@ -408,7 +411,7 @@ ActiveAdmin.register ACP do
     :url, :email, :phone,
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
-    :iban, :bank_reference, :creditor_name,
+    :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :creditor_address, :creditor_city, :creditor_zip,
     :annual_fee, :share_price, :shares_number,
     :absence_notice_period_in_days,

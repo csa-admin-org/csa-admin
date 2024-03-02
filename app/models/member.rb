@@ -4,6 +4,7 @@ class Member < ApplicationRecord
   include HasPhones
   include HasLanguage
   include HasSessions
+  include HasIBAN
   include Auditable
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
@@ -15,7 +16,9 @@ class Member < ApplicationRecord
   attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
   attribute :language, :string, default: -> { Current.acp.languages.first }
 
-  audited_attributes :state, :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing
+  audited_attributes \
+    :state, :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing, \
+    :iban, :sepa_mandate_id, :sepa_mandate_signed_on
 
   has_states :pending, :waiting, :active, :support, :inactive
 
@@ -104,6 +107,10 @@ class Member < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1 },
     if: -> { public_create && Current.acp.share? }
   validates :billing_email, format: { with: ACP::EMAIL_REGEXP, allow_nil: true }
+  validates :iban, presence: true, if: :sepa_mandate_id?
+  validates :iban, format: -> { Billing.iban_format(Current.acp.country_code) }, allow_nil: :true
+  validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
+  validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed

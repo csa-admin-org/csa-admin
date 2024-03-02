@@ -279,6 +279,10 @@ _:
           _de: Versenden neuer Rechnungen, die als bereits bezahlt gelten
           _fr: Envoyer les nouvelles factures considérées comme déjà payées
           _it: Inviare nuove fatture considerate già pagate
+        sepa_creditor_identifier:
+          _de: Gläubiger-ID (SEPA)
+          _fr: ID du créancier (SEPA)
+          _it: ID del creditore (SEPA)
         share_price:
           _de: Betrag
           _fr: Prix
@@ -764,6 +768,10 @@ _:
           _de: Anzahl der bestehenden Anteilscheine
           _fr: Nombre de parts sociales existantes
           _it: Numero di quote sociali cooperative esistenti
+        iban:
+          _de: IBAN
+          _fr: IBAN
+          _it: IBAN
         invoices_amount:
           _de: Rechnungen
           _fr: Factures
@@ -788,6 +796,14 @@ _:
           _de: Lohntasche(n)
           _fr: Panier(s) salaire
           _it: Ceste-compenso
+        sepa_mandate_id:
+          _de: Mandatsreferenz
+          _fr: Référence du mandat
+          _it: Riferimento del mandato
+        sepa_mandate_signed_on:
+          _de: Mandat unterschrieben am
+          _fr: Mandat signé le
+          _it: Mandato firmato il
         shop_depot:
           _de: Depot (Hofladen)
           _fr: Dépôt (épicerie)
