@@ -25,7 +25,7 @@ module Billing
     end
 
     def billable?
-      next_date && current_period.cover?(next_date)
+      @member.billable? && next_date && current_period.cover?(next_date)
     end
 
     def next_date

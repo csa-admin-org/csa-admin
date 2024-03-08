@@ -77,5 +77,11 @@ FactoryBot.define do
       state { "inactive" }
       annual_fee { nil }
     end
+
+    trait :with_sepa do
+      iban { "DE89370400440532013333" }
+      sepa_mandate_id { "123" }
+      sepa_mandate_signed_on { 1.day.ago }
+    end
   end
 end

@@ -109,4 +109,14 @@ describe Billing::InvoicerACPShare do
       expect { invoice(member) }.to change { member.invoices.count }.by(1)
     end
   end
+
+  specify "ignore member not billable (SEPA)" do
+    Current.acp.update!(country_code: "DE", iban: "DE89370400440532013000")
+    member = create(:member,
+      state: "support",
+      desired_acp_shares_number: 2,
+      iban: nil)
+
+    expect { invoice(member) }.not_to change { member.invoices.count }
+  end
 end

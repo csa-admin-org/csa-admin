@@ -68,4 +68,12 @@ describe Billing::InvoicerNewMemberFee do
     expect(member.baskets.normal.first.delivery.date.to_s).to eq "2023-01-24"
     expect { invoice(member) }.to change { member.invoices.count }.by(0)
   end
+
+  specify "ignore member not billable (SEPA)" do
+    Current.acp.update!(country_code: "DE", iban: "DE89370400440532013000")
+    member = create(:member, :waiting, iban: nil)
+    create(:membership, member: member, deliveries_count: 4)
+
+    expect { invoice(member) }.not_to change { member.invoices.count }
+  end
 end

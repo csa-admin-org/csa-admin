@@ -21,7 +21,9 @@ module Billing
     private
 
     def billable?
-      (ongoing_membership || member.support?) && member.missing_acp_shares_number.positive?
+      (ongoing_membership || member.support?) &&
+        member.billable? &&
+        member.missing_acp_shares_number.positive?
     end
 
     def ongoing_membership

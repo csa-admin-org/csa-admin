@@ -118,7 +118,8 @@ class Member < ApplicationRecord
   after_create_commit :notify_admins!, if: :public_create
 
   def billable?
-    support? || current_year_membership&.billable? || future_membership&.billable?
+    (support? || current_year_membership&.billable? || future_membership&.billable?) &&
+      (!Current.acp.sepa? || sepa?)
   end
 
   def name=(name)
@@ -153,6 +154,10 @@ class Member < ApplicationRecord
 
   def country
     ISO3166::Country.new(country_code)
+  end
+
+  def sepa?
+    iban? && sepa_mandate_id? && sepa_mandate_signed_on?
   end
 
   def display_delivery_address
