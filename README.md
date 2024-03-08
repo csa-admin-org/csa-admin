@@ -48,6 +48,7 @@ Utilisé actuellement par les ACP suivantes:
 - [Les Potagers de Gaïa](https://www.potagersdegaia.ch)
 - [La Touvière](https://www.latouviere.ch)
 - [Alp Grava](https://alpgrava.ch)
+- [Les Paniers Locali](https://panier-locali.ch)
 
 ## Développement et support
 
