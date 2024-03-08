@@ -233,6 +233,45 @@ describe Member do
     it { is_expected.to eq Membership.last }
   end
 
+  describe "#billable?" do
+    specify "support member" do
+      member = create(:member, :support_annual_fee)
+      expect(member).to be_billable
+    end
+
+    specify "inactive member" do
+      member = create(:member, :inactive)
+      expect(member).not_to be_billable
+    end
+
+    specify "past membership" do
+      member = create(:member, :inactive)
+      create(:membership, :last_year, member: member)
+      expect(member).not_to be_billable
+    end
+
+    specify "ongoing membership" do
+      member = create(:member, :inactive)
+      create(:membership, member: member)
+      expect(member).to be_billable
+    end
+
+    specify "future membership" do
+      member = create(:member, :inactive)
+      create(:membership, :next_year, member: member)
+      expect(member).to be_billable
+    end
+
+    specify "without SEPA information" do
+      Current.acp.update!(country_code: "DE", iban: "DE89370400440532013000")
+      member = create(:member, :active)
+      expect(member).not_to be_billable
+
+      member = create(:member, :active, :with_sepa)
+      expect(member).to be_billable
+    end
+  end
+
   describe "#update_trial_basket_count", freeze: "2024-01-01" do
     specify "ignore absent basket" do
       Current.acp.update!(trial_basket_count: 2)

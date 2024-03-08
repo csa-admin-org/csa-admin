@@ -200,6 +200,10 @@ class ACP < ApplicationRecord
     end
   end
 
+  def sepa?
+    country_code == "DE"
+  end
+
   def email_from
     Mail::Address.new.tap { |builder|
       builder.address = email_default_from

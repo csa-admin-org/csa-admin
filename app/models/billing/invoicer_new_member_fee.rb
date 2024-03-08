@@ -33,6 +33,7 @@ module Billing
 
     def billable?
       member.active? &&
+        member.billable? &&
         member.invoices.new_member_fee_type.none? &&
         member.first_membership&.first_billable_delivery&.date&.in?(recent_window)
     end

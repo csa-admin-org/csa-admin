@@ -572,7 +572,7 @@ ActiveAdmin.register Member do
       f.input :salary_basket
     end
 
-    if Current.acp.country_code == "DE"
+    if Current.acp.sepa?
       f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
         f.input :iban,
           placeholder: Billing.iban_placeholder(Current.acp.country_code),
