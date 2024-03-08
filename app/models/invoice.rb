@@ -94,6 +94,8 @@ class Invoice < ApplicationRecord
     on: :create,
     if: :membership_type?
 
+  before_destroy :ensure_latest_invoice!
+  after_destroy -> { self.class.reset_pk_sequence! }
   after_destroy -> { Billing::PaymentsRedistributor.redistribute!(member_id) }
   after_commit :update_membership_activity_participations_accepted!
   after_commit :enqueue_processing, on: :create
@@ -280,15 +282,16 @@ class Invoice < ApplicationRecord
     sent_at?
   end
 
+  def latest?
+    id == self.class.maximum(:id)
+  end
+
   def can_update?
     !sent? && other_type?
   end
 
   def can_destroy?
-    Current.acp.country_code == "CH" &&
-      !processing? &&
-      !sent_at? &&
-      payments.none?
+    latest? && !processing? && !sent_at? && payments.none?
   end
 
   def can_cancel?
@@ -449,6 +452,10 @@ class Invoice < ApplicationRecord
     if activity_participation_type?
       member.membership(fy_year)&.update_activity_participations_accepted!
     end
+  end
+
+  def ensure_latest_invoice!
+    throw :abort unless latest?
   end
 
   def configured_vat_rate

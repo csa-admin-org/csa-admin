@@ -437,6 +437,15 @@ describe Invoice do
   end
 
   describe "#can_destroy?" do
+    specify "only if latest invoice id/number" do
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      expect(invoice.can_destroy?).to eq true
+
+      new_invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      expect(invoice.can_destroy?).to eq false
+      expect(new_invoice.can_destroy?).to eq true
+    end
+
     it "can destroy not sent invoice" do
       invoice = create(:invoice, :annual_fee, :open, :not_sent)
       expect(invoice.can_destroy?).to eq true
@@ -450,14 +459,6 @@ describe Invoice do
 
     it "can not destroy open invoice" do
       invoice = create(:invoice, :annual_fee, :open)
-      expect(invoice.can_destroy?).to eq false
-    end
-
-    specify "only CH country code" do
-      Current.acp.update!(
-        country_code: "FR",
-        iban: "FR7630006000011234567890189")
-      invoice = create(:invoice, :annual_fee, :open, :not_sent)
       expect(invoice.can_destroy?).to eq false
     end
   end
@@ -533,12 +534,12 @@ describe Invoice do
     member = create(:member)
     invoice1 = create(:invoice, :manual, member: member, item_price: 10, date: "2022-01-01")
     invoice2 = create(:invoice, :manual, member: member, item_price: 10, date: "2022-01-02")
-    create(:payment, member: member, amount: 10)
+    create(:payment, member: member, amount: 15)
 
     expect(invoice1.reload).to be_closed
     expect {
-      invoice1.destroy!
-    }.to change { invoice2.reload.state }.from("open").to("closed")
+      invoice2.destroy!
+    }.to change { invoice1.reload.paid_amount }.from(10).to(15)
   end
 
   specify "set creator once processed", sidekiq: :inline do
@@ -566,5 +567,26 @@ describe Invoice do
     invoice.reload
     expect(invoice.closed_by).to eq admin
     expect(invoice.closed_at).to eq invoice.audits.last.created_at
+  end
+
+  describe "#destroy!" do
+    specify "destroy is resetting the pk sequence" do
+      create(:invoice, :annual_fee, :open, :not_sent)
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      current_id = invoice.id
+      invoice.destroy!
+
+      new_invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      expect(new_invoice.id).to eq current_id
+    end
+
+    specify "ensure latest invoice" do
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      new_invoice = create(:invoice, :annual_fee, :open, :not_sent)
+
+      expect {
+        invoice.destroy!
+      }.to raise_error(ActiveRecord::RecordNotDestroyed)
+    end
   end
 end
