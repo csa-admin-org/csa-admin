@@ -21,19 +21,19 @@ _:
       canceled:
         _de: stornierte
         _fr: annulée
-        _it: annullato
+        _it: annullata
       closed:
         _de: geschlossen
         _fr: fermée
-        _it: chiuso
+        _it: chiusa
       open:
         _de: offen
         _fr: ouverte
-        _it: aperto
+        _it: aperta
       open_with_overdue_notice:
         _de: offen mit Mahnung(en)
         _fr: ouverte avec rappel(s)
-        _it: aperto con richiamo(i)
+        _it: aperta con richiamo(i)
       processing:
         _de: in Bearbeitung
         _fr: en traitement
