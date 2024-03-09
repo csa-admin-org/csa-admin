@@ -1314,23 +1314,23 @@ _:
           all_without_canceled:
             _de: Alle
             _fr: Toutes
-            _it: Tutto
+            _it: Tutte
           canceled:
-            _de: Stornierte
+            _de: Stornierten
             _fr: Annulées
-            _it: Annullato
+            _it: Annullate
           closed:
-            _de: Geschlossene
+            _de: Geschlossen
             _fr: Fermées
-            _it: Chiuso
+            _it: Chiuse
           open:
-            _de: Offene
+            _de: Offenen
             _fr: Ouvertes
-            _it: Aperto
+            _it: Aperte
           open_and_not_sent:
-            _de: Offene (nicht Gesendete)
+            _de: Offenen (nicht gesendeten)
             _fr: Ouvertes (non-envoyées)
-            _it: Aperto (non inviato)
+            _it: Aperte (non inviate)
       mail_template:
         scopes:
           invoice:
@@ -1645,11 +1645,11 @@ _:
       canceled:
         _de: stornierte
         _fr: annulée
-        _it: annullato
+        _it: annullata
       closed:
         _de: geschlossene
         _fr: fermée
-        _it: chiuso
+        _it: chiusa
       deleted:
         _de: gelöscht
         _fr: supprimé
@@ -1685,7 +1685,7 @@ _:
       open:
         _de: offene
         _fr: ouverte
-        _it: aperto
+        _it: aperta
       pending:
         _de: zu bestätigen
         _fr: à valider
