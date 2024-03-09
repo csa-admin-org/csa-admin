@@ -19,7 +19,7 @@ _:
         _it: confermato
     invoice:
       canceled:
-        _de: stornierte
+        _de: storniert
         _fr: annulée
         _it: annullata
       closed:
