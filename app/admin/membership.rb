@@ -471,7 +471,7 @@ ActiveAdmin.register Membership do
                 end
               end
               li do
-                link_to activity_participations_path(scope: :all_without_canceled, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
+                link_to invoices_path(scope: :all, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
                   counter_tag(
                     Membership.human_attribute_name(:activity_participations_paid),
                     m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations))
@@ -523,7 +523,7 @@ ActiveAdmin.register Membership do
             row(:invoices_amount) {
               link_to(
                 cur(m.invoices_amount),
-                invoices_path(scope: :all_without_canceled, q: {
+                invoices_path(scope: :all, q: {
                   member_id_eq: resource.member_id,
                   entity_type_in: "Membership",
                   during_year: resource.fiscal_year.year

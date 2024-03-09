@@ -69,7 +69,7 @@ class InvoiceTotal
     fy = Current.fiscal_year
     url_helpers = Rails.application.routes.url_helpers
     link_to title, url_helpers.invoices_path(
-      scope: :all_without_canceled,
+      scope: :all,
       q: {
         entity_type_in: entity_types,
         during_year: fy.year
