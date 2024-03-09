@@ -1311,7 +1311,7 @@ _:
           _fr: Nouvelle %{model}
           _it: Nuovo %{model}
         scopes:
-          all_without_canceled:
+          all:
             _de: Alle
             _fr: Toutes
             _it: Tutte

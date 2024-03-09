@@ -16,7 +16,9 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  scope :all_without_canceled
+  scope :all do |scope|
+    scope.not_processing
+  end
   scope :open_and_not_sent do |scope|
     scope.open.not_sent
   end
@@ -93,17 +95,17 @@ ActiveAdmin.register Invoice do
       if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.acp.annual_fee?
         div class: "total" do
           span Membership.model_name.human(count: 2)
-          span cur(all.sum(:memberships_amount)), style: "float: right"
+          span cur(all.not_canceled.sum(:memberships_amount)), style: "float: right"
         end
         div class: "total" do
           span t("billing.annual_fees")
-          span cur(all.sum(:annual_fee)), style: "float: right;"
+          span cur(all.not_canceled.sum(:annual_fee)), style: "float: right;"
         end
         div class: "totals" do
           span t("active_admin.sidebars.amount")
-          span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
+          span cur(all.not_canceled.sum(:amount)), style: "float: right; font-weight: bold;"
         end
-      elsif params[:scope].in? [ "open", "all_without_canceled", "all", "closed", nil ]
+      elsif params[:scope].in? [ "open", "all", "closed", nil ]
         div class: "total" do
           span t("billing.scope.paid") + ":"
           span cur(all.not_canceled.sum(:paid_amount)), style: "float: right;"
