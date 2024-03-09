@@ -1316,7 +1316,7 @@ _:
             _fr: Toutes
             _it: Tutte
           canceled:
-            _de: Stornierten
+            _de: Storniert
             _fr: Annulées
             _it: Annullate
           closed:
@@ -1324,11 +1324,11 @@ _:
             _fr: Fermées
             _it: Chiuse
           open:
-            _de: Offenen
+            _de: Offen
             _fr: Ouvertes
             _it: Aperte
           open_and_not_sent:
-            _de: Offenen (nicht gesendeten)
+            _de: Offen (nicht gesendeten)
             _fr: Ouvertes (non-envoyées)
             _it: Aperte (non inviate)
       mail_template:
@@ -1643,11 +1643,11 @@ _:
         _fr: Auto
         _it: Auto
       canceled:
-        _de: stornierte
+        _de: storniert
         _fr: annulée
         _it: annullata
       closed:
-        _de: geschlossene
+        _de: geschlossen
         _fr: fermée
         _it: chiusa
       deleted:
@@ -1683,7 +1683,7 @@ _:
         _fr: désinscrit
         _it: disiscritto
       open:
-        _de: offene
+        _de: offen
         _fr: ouverte
         _it: aperta
       pending:
