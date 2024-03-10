@@ -189,6 +189,14 @@ _:
         _de: Jährlicher Betrag noch offen
         _fr: Montant annuel restant
         _it: Montante annuale residuo
+      replacing_invoice:
+        _de: Diese Berichtigungsrechnung ersetzt die stornierte Rechnung Nr. %{id}.
+        _fr: Cette facture rectificative remplace la facture annulée n° %{id}.
+        _it: Questa fattura rettificativa sostituisce la fattura annullata n° %{id}.
+      replacing_invoices:
+        _de: Diese Berichtigungsrechnung ersetzt die stornierten Rechnungen Nr. %{ids}.
+        _fr: Cette facture rectificative remplace les factures annulées n° %{ids}.
+        _it: Questa fattura rettificativa sostituisce le fatture annullate n° %{ids}.
       total:
         _de: Gesamt
         _fr: Total

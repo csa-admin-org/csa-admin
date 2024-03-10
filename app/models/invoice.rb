@@ -44,6 +44,7 @@ class Invoice < ApplicationRecord
   scope :activity_participation_type, -> { where(entity_type: "ActivityParticipation") }
   scope :other_type, -> { where(entity_type: "Other") }
   scope :new_member_fee_type, -> { where(entity_type: "NewMemberFee") }
+  scope :same_entity, ->(invoice) { where(member_id: invoice.member_id, entity: invoice.entity) }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -325,7 +326,22 @@ class Invoice < ApplicationRecord
   def entity_latest?
     return false unless entity_id?
 
-    id == self.class.not_canceled.where(member_id: member_id, entity: entity).maximum(:id)
+    id == self.class.not_canceled.same_entity(self).maximum(:id)
+  end
+
+  def previously_canceled_entity_invoice_ids
+    return [] unless entity_id?
+
+    ids = []
+    invoices = self.class.same_entity(self).where(id: ...id).order(id: :desc)
+    invoices.each do |invoice|
+      if invoice.canceled?
+        ids << invoice.id
+      else
+        break
+      end
+    end
+    ids.sort
   end
 
   def can_be_mark_as_sent?
