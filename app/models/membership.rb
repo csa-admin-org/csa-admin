@@ -460,7 +460,7 @@ class Membership < ApplicationRecord
     return unless current_year?
     return unless overcharged_invoices_amount?
 
-    invoices.not_canceled.order(:date).last.destroy_or_cancel!
+    invoices.not_canceled.order(:id).last.destroy_or_cancel!
     update_price_and_invoices_amount!
     cancel_overcharged_invoice!
   end
@@ -637,7 +637,7 @@ class Membership < ApplicationRecord
   end
 
   def destroy_or_cancel_invoices!
-    invoices.not_canceled.each(&:destroy_or_cancel!)
+    invoices.not_canceled.order(id: :desc).each(&:destroy_or_cancel!)
   end
 
   def only_one_per_year

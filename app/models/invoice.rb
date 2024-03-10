@@ -281,27 +281,35 @@ class Invoice < ApplicationRecord
     sent_at?
   end
 
-  def latest?
-    id == self.class.maximum(:id)
-  end
-
   def can_update?
     !sent? && other_type?
   end
 
   def can_destroy?
-    latest? && !processing? && !sent_at? && payments.none?
+    latest? && !processing? && !sent? && payments.none?
   end
 
   def can_cancel?
     !can_destroy? &&
       !processing? &&
       !canceled? &&
-      (open? || current_year? || other_type?)
+      current_year? &&
+      !acp_share_type? &&
+      (!entity_id? || entity_latest?)
   end
 
   def can_send_email?
     can_be_mark_as_sent? && member.billing_emails?
+  end
+
+  def latest?
+    id == self.class.maximum(:id)
+  end
+
+  def entity_latest?
+    return false unless entity_id?
+
+    id == self.class.not_canceled.where(member_id: member_id, entity: entity).maximum(:id)
   end
 
   def can_be_mark_as_sent?

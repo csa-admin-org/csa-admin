@@ -1191,10 +1191,12 @@ describe Membership do
         Billing::Invoicer.force_invoice!(member, send_email: false)
       end
 
-      expect { membership.destroy }
-        .to change { Invoice.not_canceled.reload.count }.by(-2)
-        .and change { sent_invoice.reload.state }.from("open").to("canceled")
-      expect { not_sent_invoice.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      travel_to "2022-04-01" do
+        expect { membership.destroy }
+          .to change { Invoice.not_canceled.reload.count }.by(-2)
+          .and change { sent_invoice.reload.state }.from("open").to("canceled")
+        expect { not_sent_invoice.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 
