@@ -27,10 +27,10 @@ describe Invoice do
 
   context "with mail template" do
     it "sends email when send_email is true on creation", sidekiq: :inline do
-      expect { create(:invoice, :annual_fee, :unprocessed) }
+      expect { create(:invoice, :annual_fee, :processing) }
         .not_to change { InvoiceMailer.deliveries.size }
 
-      expect { create(:invoice, :annual_fee, :unprocessed, send_email: true) }
+      expect { create(:invoice, :annual_fee, :processing, send_email: true) }
         .to change { InvoiceMailer.deliveries.size }.by(1)
     end
 
@@ -39,7 +39,7 @@ describe Invoice do
       create(:payment, amount: 100, member: member)
 
       expect {
-        create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
+        create(:invoice, :processing, :annual_fee, member: member, send_email: true)
       }.not_to change { InvoiceMailer.deliveries.size }
     end
 
@@ -47,7 +47,7 @@ describe Invoice do
       Current.acp.update!(send_closed_invoice: true)
       member = create(:member, annual_fee: 42)
       create(:payment, amount: 100, member: member)
-      invoice = create(:invoice, :unprocessed, :annual_fee, member: member, send_email: true)
+      invoice = create(:invoice, :processing, :annual_fee, member: member, send_email: true)
 
       mail = InvoiceMailer.deliveries.last
       expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
@@ -463,6 +463,48 @@ describe Invoice do
     end
   end
 
+  describe "#can_cancel?" do
+    specify "without entity id and current year" do
+      invoice = create(:invoice, :annual_fee, :open)
+      expect(invoice.can_cancel?).to eq true
+    end
+
+    specify "with entity id, only latest", freeze: "2024-03-01" do
+      part = create(:activity_participation)
+      first = create(:invoice, :activity_participation, :open, entity: part, id: 1)
+      last = create(:invoice, :activity_participation, :open, member: first.member, entity: part, id: 2)
+      expect(first.can_cancel?).to eq false
+      expect(last.can_cancel?).to eq true
+    end
+
+    specify "when not current year" do
+      invoice = create(:invoice, :annual_fee, :open, date: 13.months.ago)
+      expect(invoice.can_cancel?).to eq false
+    end
+
+    specify "when can be destroyed" do
+      invoice = create(:invoice, :annual_fee, :open, :not_sent)
+      expect(invoice.can_destroy?).to eq true
+      expect(invoice.can_cancel?).to eq false
+    end
+
+    specify "when processing" do
+      invoice = create(:invoice, :annual_fee, :processing)
+      expect(invoice.can_cancel?).to eq false
+    end
+
+    specify "when already canceled" do
+      invoice = create(:invoice, :annual_fee, :canceled)
+      expect(invoice.can_cancel?).to eq false
+    end
+
+    specify "when acp_shares type" do
+      Current.acp.update!(share_price: 250, shares_number: 1)
+      invoice = create(:invoice, :acp_share, :open)
+      expect(invoice.can_cancel?).to eq false
+    end
+  end
+
   specify "#overpaid?" do
     invoice = create(:invoice, :manual,
       items_attributes: {
@@ -545,10 +587,11 @@ describe Invoice do
   specify "set creator once processed", sidekiq: :inline do
     admin = create(:admin)
     Current.session = create(:session, admin: admin)
-    invoice = create(:invoice, :annual_fee, :unprocessed)
+    invoice = create(:invoice, :annual_fee, :processing)
 
     invoice.reload
     expect(invoice).to be_processed
+    expect(invoice.created_by).to eq admin
     expect(invoice.created_by).to eq admin
   end
 

@@ -14,6 +14,11 @@ FactoryBot.define do
       annual_fee { member.annual_fee }
     end
 
+    trait :acp_share do
+      entity_type { "ACPShare" }
+      acp_shares_number { 1 }
+    end
+
     trait :activity_participation do
       paid_missing_activity_participations { 1 }
       activity_price { Current.acp.activity_price }
@@ -34,7 +39,8 @@ FactoryBot.define do
       end
     end
 
-    trait :unprocessed do
+    trait :processing do
+      state { "processing" }
       sent_at { nil }
     end
 
