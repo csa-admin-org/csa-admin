@@ -282,9 +282,13 @@ ActiveAdmin.register Invoice do
   end
 
   member_action :pdf, method: :get, if: -> { Rails.env.development? } do
-    I18n.with_locale(resource.member.language) do
-      pdf = PDF::Invoice.new(resource)
-      send_data pdf.render,
+    Tempfile.open do |file|
+      I18n.with_locale(resource.member.language) do
+        pdf = PDF::Invoice.new(resource)
+        pdf.render_file(file.path)
+        PDF::InvoiceCancellationStamp.stamp!(file.path)
+      end
+      send_file file,
         filename: "invoice-#{resource.id}.pdf",
         type: "application/pdf",
         disposition: "inline"

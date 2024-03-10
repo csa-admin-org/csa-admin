@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_02_123135) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_10_105635) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -488,6 +488,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_123135) do
     t.decimal "vat_rate", precision: 8, scale: 2
     t.decimal "amount_percentage", precision: 8, scale: 2
     t.decimal "amount_before_percentage", precision: 8, scale: 2
+    t.datetime "stamped_at"
     t.index ["entity_type", "entity_id"], name: "index_invoices_on_entity_type_and_entity_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["state"], name: "index_invoices_on_state"

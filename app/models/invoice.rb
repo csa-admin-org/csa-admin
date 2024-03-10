@@ -178,9 +178,25 @@ class Invoice < ApplicationRecord
       Billing::PaymentsRedistributor.redistribute!(member_id)
       handle_acp_shares_change!
     end
-    if @previous_state == OPEN_STATE
-      MailTemplate.deliver_later(:invoice_cancelled, invoice: self)
+    Billing::InvoiceCancellationJob.perform_later(self,
+      send_email: @previous_state == OPEN_STATE)
+  end
+
+  def stamp_pdf_as_canceled!
+    raise "invoice #{id} not canceled!" unless canceled?
+    raise "invoice #{id} already stamped!" if stamped_at?
+
+    pdf_file.open do |file|
+      I18n.with_locale(member.language) do
+        PDF::InvoiceCancellationStamp.stamp!(file.path)
+      end
+      pdf_file.attach(
+        io: File.open(file.path),
+        filename: "invoice-#{id}.pdf",
+        content_type: "application/pdf")
     end
+    touch(:stamped_at)
+    SLog.log(:invoice_cancellation_stamped, invoice_id: id)
   end
 
   def destroy_or_cancel!

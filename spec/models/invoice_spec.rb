@@ -351,7 +351,7 @@ describe Invoice do
         .to include "Votre facture ##{invoice.id} du #{I18n.l(invoice.date)} vient d'être annulée."
     end
 
-    specify "does not send email when invoice is closed" do
+    specify "does not send email when invoice is closed", sidekiq: :inline do
       template = MailTemplate.find_by(title: "invoice_cancelled")
       template.update!(active: true)
       invoice = create(:invoice, :annual_fee, :closed)
@@ -360,13 +360,20 @@ describe Invoice do
         .not_to change { InvoiceMailer.deliveries.size }
     end
 
-    specify "does not send email when template is not active" do
+    specify "does not send email when template is not active", sidekiq: :inline do
       template = MailTemplate.find_by(title: "invoice_cancelled")
       template.update!(active: false)
       invoice = create(:invoice, :annual_fee, :open)
 
       expect { invoice.cancel! }
         .not_to change { InvoiceMailer.deliveries.size }
+    end
+
+    specify "stamp the pdf", sidekiq: :inline do
+      invoice = create(:invoice, :annual_fee, :open)
+
+      expect { invoice.cancel! }
+        .to change { invoice.reload.stamped_at }.from(nil)
     end
   end
 
