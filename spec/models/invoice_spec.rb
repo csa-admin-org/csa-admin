@@ -639,4 +639,26 @@ describe Invoice do
       }.to raise_error(ActiveRecord::RecordNotDestroyed)
     end
   end
+
+  describe "#previously_canceled_entity_invoice_ids" do
+    specify "when no entity" do
+      invoice = create(:invoice, :annual_fee)
+      expect(invoice.previously_canceled_entity_invoice_ids).to eq []
+    end
+
+    specify "whit one previous cancel invoiced" do
+      p = create(:activity_participation)
+      m = p.member
+      i1 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 1)
+      i2 = create(:invoice, :activity_participation, :canceled, member: m, entity: p, id: 2)
+      i3 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 3)
+      i4 = create(:invoice, :activity_participation, :canceled, member: m, entity: p, id: 4)
+      i5 = create(:invoice, :activity_participation, :canceled, member: m, entity: p, id: 5)
+      i6 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 6)
+
+      expect(i1.previously_canceled_entity_invoice_ids).to eq []
+      expect(i3.previously_canceled_entity_invoice_ids).to eq [ 2 ]
+      expect(i6.previously_canceled_entity_invoice_ids).to eq [ 4, 5 ]
+    end
+  end
 end

@@ -1014,4 +1014,22 @@ describe PDF::Invoice do
       .and contain_sequence("Paniers vides", "42.00")
       .and contain_sequence("Total", "42.00")
   end
+
+  specify "includes previous cancelled invoices references", sidekiq: :inline do
+    p = create(:activity_participation)
+    m = p.member
+    i1 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 1)
+    i2 = create(:invoice, :activity_participation, :canceled, member: m, entity: p, id: 2)
+    i3 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 3)
+    i4 = create(:invoice, :activity_participation, :canceled, member: m, entity: p, id: 4)
+    i5 = create(:invoice, :activity_participation, :canceled, member: m, entity: p, id: 5)
+    i6 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 6)
+
+    expect(save_pdf_and_return_strings(i2).join)
+      .not_to include("Cette facture rectificative remplace")
+    expect(save_pdf_and_return_strings(i3))
+      .to contain_sequence("Cette facture rectificative remplace la facture annulée n° 2.")
+    expect(save_pdf_and_return_strings(i6))
+      .to contain_sequence("Cette facture rectificative remplace les factures annulées n° 4 et 5.")
+  end
 end

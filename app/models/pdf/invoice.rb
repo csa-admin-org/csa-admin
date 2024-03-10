@@ -320,24 +320,38 @@ module PDF
       if invoice.vat_amount&.positive?
         membership_vat_text = [
           "#{appendice_star} #{t('all_taxes_included')}",
-          "#{_cur(invoice.amount_without_vat, unit: true)} #{t('without_taxes')}",
-          "#{_cur(invoice.vat_amount, unit: true)} #{t('vat')} (#{invoice.vat_rate}%)"
+          "#{_cur(invoice.amount_without_vat, unit: true)} #{t("without_taxes")}",
+          "#{_cur(invoice.vat_amount, unit: true)} #{t("vat")} (#{invoice.vat_rate}%)"
         ].join(", ")
         bounding_box [ 0, y - 25 ], width: bounds.width - 24 do
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
         end
         bounding_box [ 0, y - 5 ], width: bounds.width - 24 do
-          text "N° #{t('vat')} #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
+          text "N° #{t("vat")} #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
         end
         yy = 10
       end
 
       if invoice.amount.positive? && @missing_amount != invoice.amount
-        credit_amount_text = "#{appendice_star} #{t('credit_amount_text')}"
+        credit_amount_text = "#{appendice_star} #{t("credit_amount_text")}"
         bounding_box [ 0, y - yy ], width: bounds.width - 24 do
           text credit_amount_text, width: 200, align: :right, style: :italic, size: 9, leading: 1.5
         end
         yy = 10
+      end
+
+      replacing_ids = invoice.previously_canceled_entity_invoice_ids
+      if replacing_ids.present?
+        replacing_text = if replacing_ids.many?
+          t("replacing_invoices", ids: replacing_ids.to_sentence)
+        else
+          t("replacing_invoice", id: replacing_ids.first)
+        end
+
+        bounding_box [ 0, y - yy - 10 ], width: bounds.width - 24 do
+          text replacing_text, width: 200, align: :right, style: :italic, size: 9
+        end
+        yy = 0
       end
 
       bounding_box [ 0, y - yy - 10 ], width: bounds.width - 24 do
