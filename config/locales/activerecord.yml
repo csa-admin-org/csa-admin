@@ -40,9 +40,9 @@ _:
           _fr: Limite d'inscription à l'avance (en jours)
           _it: Limite d'iscrizione in anticipo (in giorni)
         activity_i18n_scope:
-          _de: Mehrwertsteuernummer
+          _de: Bezeichnung
           _fr: Appellation
-          _it: Appellation
+          _it: Designazione
         activity_participation_deletion_deadline_in_days:
           _de: Abmeldungsfrist (in Tagen)
           _fr: Délai de désinscription (en jours)
