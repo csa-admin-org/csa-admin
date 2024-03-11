@@ -53,7 +53,7 @@ class ActivityParticipationDemanded
 
   def full_year_max_deliveries
     DeliveryCycle.all.map { |dc|
-      dc.deliveries_count_for(@membership.fiscal_year)
+      dc.deliveries_count_for(@membership.fy_year)
     }.max
   end
 end
