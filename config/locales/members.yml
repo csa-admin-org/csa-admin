@@ -698,9 +698,9 @@ _:
     sessions:
       new:
         email_input:
-          _de: Ihres Email
+          _de: Ihres E-Mail
           _fr: Votre email
-          _it: Vostra email
+          _it: Vostra e-mail
         email_placeholder:
           _de: ihre@email.com
           _fr: votre@email.com
@@ -735,7 +735,7 @@ _:
             _fr: voir ses prochaines livraisons
             _it: vedere le prossime consegne
         form_text:
-          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
+          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per E-Mail zugestellt.
           _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
           _it: La connessione non richiede una password. Puoi connetterti richiedendo il link di connessione con il modulo sottostante (che verrà inviato al tuo indirizzo email).
         submit:

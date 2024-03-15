@@ -176,7 +176,7 @@ _:
           _fr: Ordre des dépôts
           _it: Ordine dei punti di ritiro
         email:
-          _de: Email
+          _de: E-Mail
           _fr: Email
           _it: E-mail
         email_default_from:
@@ -381,9 +381,9 @@ _:
           _fr: Dernière rappel envoyé à
           _it: Ultimo promemoria inviato a
         member_emails:
-          _de: Email(s)
           _fr: Email(s)
           _it: E-mail
+          _de: E-Mail(s)
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
@@ -725,7 +725,7 @@ _:
           _fr: Taille panier
           _it: Dimensione della cesta
         billing_email:
-          _de: Email (Rechnung)
+          _de: E-Mail (Rechnung)
           _fr: Email (facturation)
           _it: E-mail (fatturazione)
         come_from:
@@ -849,7 +849,7 @@ _:
           _fr: Adresse
           _it: Indirizzo
         with_email:
-          _de: Email
+          _de: E-Mail
           _fr: Email
           _it: E-mail
         with_name:
@@ -1365,7 +1365,7 @@ _:
           attributes:
             email:
               unknown:
-                _de: Email unbekannt
+                _de: E-Mail unbekannt
                 _fr: Email inconnu
                 _it: E-mail sconosciuta
         shop/order:
@@ -1590,11 +1590,11 @@ _:
           _it: Articoli
       mail_template:
         one:
-          _de: Email-Vorlage
+          _de: E-Mail-Vorlage
           _fr: Template Email
           _it: Template E-mail
         other:
-          _de: Email-Vorlagen
+          _de: E-Mail-Vorlagen
           _fr: Templates Email
           _it: Templates E-mail
       member:

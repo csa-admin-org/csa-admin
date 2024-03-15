@@ -66,7 +66,7 @@ _:
         _fr: Recevoir une notification lorsqu'une participation à une activité est créée, mais uniquement si une remarque est présente.
         _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività, ma solo se è presente una nota.
       new_email_suppression:
-        _de: Email abgelehnt
+        _de: E-Mail abgelehnt
         _fr: Email rejeté
         _it: E-mail rifiutata
       new_email_suppression_hint:

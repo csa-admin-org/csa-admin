@@ -216,6 +216,6 @@ _:
     send_email:
       flash:
         notice:
-          _de: Email gesendet
+          _de: E-Mail gesendet
           _fr: Email envoyé
           _it: E-mail inviata
