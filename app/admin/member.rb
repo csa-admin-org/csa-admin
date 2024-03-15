@@ -21,7 +21,7 @@ ActiveAdmin.register Member do
   filter :shop_depot,
     as: :select,
     collection: -> { Depot.visible },
-    if: proc { params[:scope] != "inactive" && Current.acp.member_form_mode == "shop" }
+    if: proc { params[:scope] != "inactive" && feature?("shop") }
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   }
