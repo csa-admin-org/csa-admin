@@ -193,15 +193,15 @@ _:
       _fr: Année fiscale
       _it: Anno fiscale
     email:
-      _de: Email
+      _de: E-Mail
       _fr: Email
       _it: E-mail
     email_session:
-      _de: Email (Session)
+      _de: E-Mail (Session)
       _fr: Email (session)
       _it: E-mail (sessione)
     emails:
-      _de: Email(s)
+      _de: E-Mail(s)
       _fr: Email(s)
       _it: E-mail
     end_time:

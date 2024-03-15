@@ -54,7 +54,7 @@ _:
         _it: Nuova partecipazione ad un'ora di lavoro
     new_email_suppression_email:
       subject:
-        _de: Email abgelehnt (%{reason})
+        _de: E-Mail abgelehnt (%{reason})
         _fr: Email rejeté (%{reason})
         _it: E-mail rifiutatata (%{reason})
     new_inscription_email:

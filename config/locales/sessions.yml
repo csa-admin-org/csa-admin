@@ -18,7 +18,7 @@ _:
         _fr: Votre session a expirée, merci de vous authentifier à nouveau.
         _it: La vostra sessione è scaduta, per favore autenticatevi di nuovo.
       initiated:
-        _de: Vielen Dank! Eine Email wurde soeben an Sie gesendet.
+        _de: Vielen Dank! Eine E-Mail wurde soeben an Sie gesendet.
         _fr: Merci! Un email vient de vous être envoyé.
         _it: Grazie! Vi è stata inviata un'e-mail.
       required:
@@ -31,11 +31,11 @@ _:
         _it: Il vostro link di connessione non è più valido, richiedetene uno nuovo.
     new:
       email_input:
-        _de: Email
+        _de: E-Mail
         _fr: Email
         _it: E-mail
       form_text:
-        _de: Der Zugang zu Ihrem Admin-Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per Email zugestellt.
+        _de: Der Zugang zu Ihrem Admin-Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per E-Mail zugestellt.
         _fr: La connexion à votre compte admin ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
         _it: La connessione al vostro account amministratore non richiede una password e viene eseguita ricevendo un link di connessione tramite e-mail utilizzando il modulo sottostante.
       submit:

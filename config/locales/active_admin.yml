@@ -566,11 +566,11 @@ _:
           _fr: Facture
           _it: Fattura
         mailer:
-          _de: Email
+          _de: E-Mail
           _fr: Email
           _it: E-mail
         mailer_text_html:
-          _de: Diese Einstellungen werden von <a href="/mail_templates">Email-Vorlagen</a> und <a href="/newsletters">Newsletter</a> verwendet.
+          _de: Diese Einstellungen werden von <a href="/mail_templates">E-Mail-Vorlagen</a> und <a href="/newsletters">Newsletter</a> verwendet.
           _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a> et <a href="/newsletters">les newsletters</a>.
           _it: Queste impostazioni sono utilizzate dai <a href="/mail_templates">modelli email</a> e dalle <a href="/newsletters">newsletter</a>.
         member_account:
@@ -853,7 +853,7 @@ _:
           _fr: Détails
           _it: Dettagli
         email:
-          _de: Email
+          _de: E-Mail
           _fr: Email
           _it: E-mail
         erase:
@@ -1008,7 +1008,7 @@ _:
           _fr: Modifier
           _it: Modificare
         email:
-          _de: Email
+          _de: E-Mail
           _fr: Email
           _it: E-mail
         force_recurring_billing:
@@ -1154,19 +1154,19 @@ _:
           _fr: voir plus
           _it: vedi altro
         subscribed_emails:
-          _de: aktive emails
+          _de: aktive E-Mail
           _fr: emails actifs
           _it: email attive
         suppressed_emails:
-          _de: Ignorierte Emails (%{count})
+          _de: Ignorierte E-Mails (%{count})
           _fr: Emails ignorés (%{count})
           _it: Email ignorate (%{count})
         suppressed_emails_description:
-          _de: Die folgenden Emails werden beim Versand der Newsletter ignoriert.
+          _de: Die folgenden E-Mails werden beim Versand der Newsletter ignoriert.
           _fr: Les emails suivants seront ignorés lors de l'envoi de la newsletter.
           _it: Le seguenti email saranno ignorate durante l'invio della newsletter.
         suppressed_emails_sent_description:
-          _de: Die folgenden Emails wurden beim Versand der Newsletter ignoriert.
+          _de: Die folgenden E-Mails wurden beim Versand der Newsletter ignoriert.
           _fr: Les emails suivants ont été ignorés lors de l'envoi de la newsletter.
           _it: Le seguenti email sono state ignorate durante l'invio della newsletter.
         total:
