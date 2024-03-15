@@ -824,6 +824,10 @@ _:
           _fr: "%{attribute} (en attente)"
           _it: "%{attribute} (in lista d'attesa)"
       new:
+        annual_fee:
+          _de: Jährlicher Vereinsbeitrag
+          _fr: Cotisation annuelle association
+          _it: Quota annuale associativa
         availability:
           _de: Verfügbarkeit
           _fr: Disponibilité
@@ -880,6 +884,10 @@ _:
           _de: Abgelehnte Mitarbeit vom %{date}
           _fr: Participation refusée du %{date}
           _it: Collaborazione rifiutata da %{date}
+        shares:
+          _de: Anteilscheine
+          _fr: Parts sociales
+          _it: Quote sociali della cooperativa
         submit_newsletter:
           _de: Entwurf erstellen
           _fr: Créer Brouillon
