@@ -20,11 +20,10 @@ describe "Billing" do
     expect(page).to have_content(
       [ "01.02.2018", "Facture ouverte #4242 (Cotisation)", " CHF 42.00" ].join)
     expect(page).to have_content([ "Montant restant à payer", "CHF 42.00" ].join)
-    expect(page).to have_content([ "Intervalle de paiement", "Trimestriel" ].join)
+    expect(page).to have_content([ "Intervalle de paiement", "Annuel" ].join)
   end
 
   it "list invoices and payments history", sidekiq: :inline do
-    member.update!(billing_year_division: 1)
     closed_invoice = create(:invoice, :annual_fee, id: 103,
       member: member, date: "2017-03-19", sent_at: nil)
     closed_invoice.update_column(:state, "closed")
@@ -44,5 +43,13 @@ describe "Billing" do
 
     expect(page).to have_content([ "Avoir", "CHF 12.00" ].join)
     expect(page).to have_content([ "Intervalle de paiement", "Annuel" ].join)
+  end
+
+  specify "show membership billing year division" do
+    create(:membership, member: member, billing_year_division: 12)
+
+    visit "/billing"
+
+    expect(page).to have_content([ "Intervalle de paiement", "Mensuel" ].join)
   end
 end

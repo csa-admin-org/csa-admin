@@ -14,6 +14,7 @@ describe MembershipRenewal do
   it "renews a membership without complements" do
     create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership,
+      billing_year_division: 4,
       basket_quantity: 2,
       basket_price: 42,
       basket_price_extra: 1,
@@ -30,7 +31,8 @@ describe MembershipRenewal do
         renewal_note: "Je suis content")
     }.to change(Membership, :count).by(1)
 
-    expect(membership.renewed_membership).to have_attributes(
+    expect(membership.reload.renewed_membership).to have_attributes(
+      billing_year_division: 4,
       member_id: membership.member_id,
       basket_size_id: membership.basket_size_id,
       basket_quantity: 2,
@@ -63,7 +65,7 @@ describe MembershipRenewal do
       MembershipRenewal.new(membership).renew!(basket_size_id: big.id)
     }.to change(Membership, :count).by(1)
 
-    expect(membership.renewed_membership).to have_attributes(
+    expect(membership.reload.renewed_membership).to have_attributes(
       member_id: membership.member_id,
       basket_size_id: big.id,
       basket_quantity: 2,
@@ -93,7 +95,7 @@ describe MembershipRenewal do
         renewal_note: "Je suis super content")
     }.to change(Membership, :count).by(1)
 
-    expect(membership.renewed_membership).to have_attributes(
+    expect(membership.reload.renewed_membership).to have_attributes(
       basket_price_extra: 4,
       basket_quantity: 2,
       baskets_annual_price_change: 130,
@@ -117,7 +119,7 @@ describe MembershipRenewal do
         renewal_note: "Je suis super content")
     }.to change(Membership, :count).by(1)
 
-    expect(membership.renewed_membership).to have_attributes(
+    expect(membership.reload.renewed_membership).to have_attributes(
       depot_id: new_depot.id,
       delivery_cycle_id: new_delivery_cycle.id)
   end
@@ -145,7 +147,7 @@ describe MembershipRenewal do
       )
     }.to change(Membership, :count).by(1)
 
-    renewed = membership.renewed_membership
+    renewed = membership.reload.renewed_membership
     expect(renewed).to have_attributes(
       basket_complements_annual_price_change: 0,
       activity_participations_demanded_annually: 2,
@@ -178,7 +180,7 @@ describe MembershipRenewal do
       )
     }.to change(Membership, :count).by(1)
 
-    renewed = membership.renewed_membership
+    renewed = membership.reload.renewed_membership
     expect(renewed).to have_attributes(
       activity_participations_demanded_annually: 6,
       activity_participations_annual_price_change: -200)
@@ -199,10 +201,23 @@ describe MembershipRenewal do
         activity_participations_demanded_annually: 5)
     }.to change(Membership, :count).by(1)
 
-    renewed = membership.renewed_membership
+    renewed = membership.reload.renewed_membership
     expect(renewed).to have_attributes(
       activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -50)
+  end
+
+  specify "with billing year division change" do
+    create(:delivery, date: next_fy.beginning_of_year)
+    membership = create(:membership, billing_year_division: 4)
+
+    expect {
+      MembershipRenewal.new(membership).renew!(
+        billing_year_division: 1)
+    }.to change(Membership, :count).by(1)
+
+    expect(membership.reload.renewed_membership).to have_attributes(
+      billing_year_division: 1)
   end
 
   specify "ignore optional attributes" do
@@ -230,7 +245,7 @@ describe MembershipRenewal do
       )
     }.to change(Membership, :count).by(1)
 
-    expect(membership.renewed_membership).to have_attributes(
+    expect(membership.reload.renewed_membership).to have_attributes(
       baskets_annual_price_change: 0,
       activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: 0,

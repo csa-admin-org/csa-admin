@@ -50,6 +50,7 @@ class MembershipRenewal
         basket_price_extra
         depot_id
         delivery_cycle_id
+        billing_year_division
       ] + (OPTIONAL_ATTRIBUTES & Current.acp.membership_renewed_attributes)))
       .symbolize_keys
       .merge(
@@ -62,6 +63,7 @@ class MembershipRenewal
           depot_id
           delivery_cycle_id
           activity_participations_demanded_annually
+          billing_year_division
         ]))
   end
 

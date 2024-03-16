@@ -563,6 +563,8 @@ _:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Taschen.
           _fr: Modifie le montant final, peu importe le nombre de paniers.
           _it: Modifica l'importo finale indipendentemente dal numero di ceste.
+        billing_year_division:
+          _fr: L'intervalle de l'abonnement renouvelé sera également automatiquement mis à jour.
         depot_price:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
@@ -595,9 +597,9 @@ _:
           _fr: Toutes les tailles de panier sont incluses si aucune n'est sélectionnée.
           _it: Tutte le dimensioni del cestino sono incluse se nessuna è selezionata.
         billing_year_division:
-          _de: Unterscheidet aktive Mitglieder anhand ihres Zahlungsintervalls.
-          _fr: Permet de différencier les membres actifs par leur intervalle de paiement.
-          _it: Permette di differenziare i membri attivi in base al loro intervallo di pagamento.
+          _de: Unterscheidet aktive Mitglieder anhand des Zeitraums, in dem sie ihre Rechnungen erhalten.
+          _fr: Permet de différencier les membres actifs par l'intervalle de paiement de leur abonnement.
+          _it: Permette di differenziare i soci attivi in base all'intervallo di pagamento del loro abbonamento.
         coming_deliveries_in_days:
           _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Taschenlieferung.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de panier

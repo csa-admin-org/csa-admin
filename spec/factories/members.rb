@@ -6,7 +6,6 @@ FactoryBot.define do
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
-    billing_year_division { 4 }
     annual_fee { Current.acp.annual_fee }
 
     validated_at { Time.current }
@@ -21,6 +20,7 @@ FactoryBot.define do
       waiting_basket_size { create(:basket_size) }
       waiting_basket_price_extra { 0 }
       waiting_depot { create(:depot) }
+      waiting_billing_year_division { 1 }
     end
 
     trait :waiting do
@@ -29,6 +29,7 @@ FactoryBot.define do
       waiting_basket_size { create(:basket_size) }
       waiting_basket_price_extra { 0 }
       waiting_depot { create(:depot) }
+      waiting_billing_year_division { 1 }
     end
 
     trait :trial do
@@ -45,23 +46,27 @@ FactoryBot.define do
     trait :active do
       state { "active" }
       activated_at { Time.current }
+      transient do
+        billing_year_division { 1 }
+      end
       after :create do |member, evaluator|
         unless evaluator.shop_depot
-          create(:membership, :last_year, member: member)
-          create(:membership, member: member)
+          create(:membership, :last_year,
+            member: member,
+            billing_year_division: evaluator.billing_year_division)
+          create(:membership, member: member,
+            billing_year_division: evaluator.billing_year_division)
         end
       end
     end
 
     trait :support_annual_fee do
       state { "support" }
-      billing_year_division { 1 }
       annual_fee { Current.acp.annual_fee }
     end
 
     trait :support_acp_share do
       state { "support" }
-      billing_year_division { 1 }
 
       transient do
         acp_shares_number { 1 }

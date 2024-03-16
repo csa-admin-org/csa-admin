@@ -7,6 +7,7 @@ FactoryBot.define do
 
     started_on { fiscal_year.range.min }
     ended_on { fiscal_year.range.max }
+    billing_year_division { 1 }
 
     transient do
       fiscal_year { Current.fiscal_year }

@@ -85,7 +85,7 @@ class Newsletter
     def by_billing_year_division(members)
       return members unless billing_year_division?
 
-      members.where(billing_year_division: billing_year_division)
+      members.where(memberships: { billing_year_division: billing_year_division })
     end
   end
 end

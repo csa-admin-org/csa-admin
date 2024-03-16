@@ -381,9 +381,9 @@ _:
           _fr: Dernière rappel envoyé à
           _it: Ultimo promemoria inviato a
         member_emails:
+          _de: E-Mail(s)
           _fr: Email(s)
           _it: E-mail
-          _de: E-Mail(s)
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
@@ -1119,9 +1119,9 @@ _:
           _fr: Fin
           _it: Fine
         invoices_amount:
-          _de: Gesamt (Rechnung)
-          _fr: Total (Facturé)
-          _it: Totale (Fattura)
+          _de: Rechnung
+          _fr: Facturé
+          _it: Fattura
         member_id:
           _de: Mitglied ID
           _fr: Membre ID
@@ -1151,9 +1151,9 @@ _:
           _fr: Heures de travail manquantes
           _it: Ore di lavoro mancanti
         missing_invoices_amount:
-          _de: Noch zu fakturierende Beträge
+          _de: Noch zu verrechnen
           _fr: Restant à facturer
-          _it: Importi ancora da fatturare
+          _it: Fatturazione mancante
         new_config_from:
           _de: Änderung seit dem
           _fr: Modification à partir du

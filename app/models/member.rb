@@ -70,16 +70,13 @@ class Member < ApplicationRecord
   }
 
   after_initialize :set_defaults, unless: :persisted?
-  before_validation :set_default_billing_year_division
+  before_validation :set_default_waiting_billing_year_division
   before_validation :set_default_waiting_delivery_cycle
 
   validates_acceptance_of :terms_of_service
-  validates :billing_year_division,
-    inclusion: { in: proc { Current.acp.billing_year_divisions } },
+  validates :waiting_billing_year_division,
+    inclusion: { in: proc { Current.acp.billing_year_divisions }, allow_nil: true },
     on: :create
-  validates :billing_year_division,
-    presence: true,
-    inclusion: { in: ACP.billing_year_divisions }
   validates :country_code,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :name, presence: true
@@ -360,9 +357,10 @@ class Member < ApplicationRecord
     self[:country_code] ||= Current.acp.country_code
   end
 
-  def set_default_billing_year_division
-    unless self[:billing_year_division].in?(Current.acp.billing_year_divisions)
-      self[:billing_year_division] = Current.acp.billing_year_divisions.last
+  def set_default_waiting_billing_year_division
+    if (waiting_basket_size_id? && !waiting_billing_year_division?) ||
+        (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.acp.billing_year_divisions))
+      self[:waiting_billing_year_division] = Current.acp.billing_year_divisions.last
     end
   end
 
