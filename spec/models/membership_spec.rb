@@ -1052,6 +1052,18 @@ describe Membership do
     end
   end
 
+  specify "#keep_renewed_membership_up_to_date!" do
+    next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+    create(:delivery, date: next_fy.beginning_of_year)
+    membership = create(:membership)
+    membership.renew!
+    renewed_membership = membership.renewed_membership
+
+    expect {
+      membership.update!(billing_year_division: 4)
+    }.to change { renewed_membership.reload.billing_year_division }.from(1).to(4)
+  end
+
   describe "#cancel_overcharged_invoice!" do
     before do
       Current.acp.update!(
@@ -1062,11 +1074,11 @@ describe Membership do
     end
 
     specify "membership period is reduced", sidekiq: :inline do
-      member = create(:member, billing_year_division: 1)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:delivery, date: "2022-01-01")
         create(:delivery, date: "2022-06-01")
-        create(:membership, member: member)
+        create(:membership, member: member, billing_year_division: 1)
       end
       travel_to "2022-05-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
@@ -1078,9 +1090,9 @@ describe Membership do
     end
 
     specify "only cancel the over-paid invoices", sidekiq: :inline do
-      member = create(:member, billing_year_division: 3)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
-        create(:membership, member: member)
+        create(:membership, member: member, billing_year_division: 3)
       end
       invoice_1 = travel_to "2022-01-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
@@ -1101,9 +1113,9 @@ describe Membership do
     end
 
     specify "membership basket price is reduced", sidekiq: :inline do
-      member = create(:member, billing_year_division: 1)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
-        create(:membership, member: member)
+        create(:membership, member: member, billing_year_division: 1)
       end
       travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
@@ -1117,11 +1129,11 @@ describe Membership do
     specify "new absent basket not billed are updated", sidekiq: :inline do
       Current.acp.update!(absences_billed: false)
 
-      member = create(:member, billing_year_division: 1)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:delivery, date: "2022-01-01")
         create(:delivery, date: "2022-06-01")
-        create(:membership, member: member)
+        create(:membership, member: member, billing_year_division: 1)
       end
       travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
@@ -1139,8 +1151,8 @@ describe Membership do
     end
 
     specify "past membership period is not reduced", sidekiq: :inline do
-      member = create(:member, billing_year_division: 1)
-      membership = create(:membership, member: member)
+      member = create(:member)
+      membership = create(:membership, member: member, billing_year_division: 1)
       invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
       travel_to(Date.new(Current.fy_year + 1, 12, 15)) do
         membership.baskets.first.update!(basket_price: 5)
@@ -1151,12 +1163,15 @@ describe Membership do
     end
 
     specify "basket complement is added", sidekiq: :inline do
-      member = create(:member, billing_year_division: 1)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:delivery, date: "2022-01-01")
         create(:delivery, date: "2022-06-01")
         create(:basket_complement, id: 1, price: 4)
-        create(:membership, member: member, memberships_basket_complements_attributes: {
+        create(:membership,
+          member: member,
+          billing_year_division: 1,
+          memberships_basket_complements_attributes: {
             "0" => { basket_complement_id: 1, quantity: 1 }
           })
       end
@@ -1180,9 +1195,9 @@ describe Membership do
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
         billing_year_divisions: [ 12 ])
-      member = create(:member, billing_year_division: 12)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
-        create(:membership, member: member)
+        create(:membership, member: member, billing_year_division: 12)
       end
       sent_invoice = travel_to "2022-02-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)

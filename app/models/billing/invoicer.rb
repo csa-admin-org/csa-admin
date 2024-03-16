@@ -104,11 +104,11 @@ module Billing
 
     def membership_amount_description
       fraction_number = (fy_month / period_length_in_months.to_f).ceil
-      I18n.t("billing.membership_amount_description.x#{member.billing_year_division}", number: fraction_number)
+      I18n.t("billing.membership_amount_description.x#{billing_year_division}", number: fraction_number)
     end
 
     def period_length_in_months
-      @period_length_in_months ||= 12 / member.billing_year_division
+      @period_length_in_months ||= 12 / (billing_year_division)
     end
 
     def current_period
@@ -128,13 +128,17 @@ module Billing
     def periods
       @periods ||= begin
         min = Current.acp.fiscal_year_for(date).beginning_of_year
-        member.billing_year_division.times.map do |i|
+        billing_year_division.times.map do |i|
           old_min = min
           max = min + period_length_in_months.months
           min = max
           old_min...max
         end
       end
+    end
+
+    def billing_year_division
+      membership&.billing_year_division || 1
     end
 
     def next_billing_day_after_first_billable_delivery

@@ -89,7 +89,7 @@ describe "members page" do
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
       expect(member.members_basket_complements.map(&:quantity)).to eq [ 1, 2 ]
       expect(member.annual_fee).to eq Current.acp.annual_fee
-      expect(member.billing_year_division).to eq 4
+      expect(member.waiting_billing_year_division).to eq 4
     end
 
     specify "create a new member with membership and depot group" do
@@ -179,7 +179,7 @@ describe "members page" do
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
       expect(member.members_basket_complements.map(&:quantity)).to eq [ 1, 2 ]
       expect(member.annual_fee).to eq Current.acp.annual_fee
-      expect(member.billing_year_division).to eq 4
+      expect(member.waiting_billing_year_division).to eq 4
     end
 
     specify "creates a new member with custom activity participations" do
@@ -446,7 +446,7 @@ describe "members page" do
       expect(member.waiting_depot).to be_nil
       expect(member.shop_depot).to eq depot
       expect(member.annual_fee).to be_nil
-      expect(member.billing_year_division).to eq 1
+      expect(member.waiting_billing_year_division).to be_nil
     end
 
     it "creates a new support member (annual fee)" do
@@ -489,7 +489,7 @@ describe "members page" do
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to eq Current.acp.annual_fee
-      expect(member.billing_year_division).to eq 1
+      expect(member.waiting_billing_year_division).to be_nil
     end
 
     it "creates a new support member (acp_share)" do
@@ -540,16 +540,16 @@ describe "members page" do
       expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to be_nil
       expect(member.desired_acp_shares_number).to eq 3
-      expect(member.billing_year_division).to eq 1
+      expect(member.waiting_billing_year_division).to be_nil
     end
 
-    it "hides billing_year_division when only one is configured" do
+    it "hides waiting_billing_year_division when only one is configured" do
       Current.acp.update!(billing_year_divisions: [ 12 ])
 
       visit "/new"
 
       expect(page).not_to have_content "Facturation"
-      expect(page).not_to have_selector "#member_billing_year_division_input"
+      expect(page).not_to have_selector "#member_waiting_billing_year_division_input"
     end
 
     it "shows only membership extra text" do

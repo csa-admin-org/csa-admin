@@ -67,11 +67,11 @@ describe Delivery do
     basket3.update!(complement_ids: [ 1, 2 ])
 
     Current.acp.update!(recurring_billing_wday: 1)
-    membership_1.member.update!(billing_year_division: 1)
+    membership_1.update!(billing_year_division: 1)
     invoice_1 = Billing::Invoicer.force_invoice!(membership_1.member)
     invoice_1.process!
     invoice_1.mark_as_sent!
-    membership_2.member.update!(billing_year_division: 4)
+    membership_2.update!(billing_year_division: 4)
     invoice_2 = Billing::Invoicer.force_invoice!(membership_2.member)
     invoice_2.process!
     invoice_2.mark_as_sent!

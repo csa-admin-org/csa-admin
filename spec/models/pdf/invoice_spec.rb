@@ -91,9 +91,10 @@ describe PDF::Invoice do
     end
 
     it "generates invoice with support ammount + quarter membership", sidekiq: :inline do
-      member = create(:member, id: 4444, billing_year_division: 4)
+      member = create(:member, id: 4444)
       membership = create(:membership,
         member: member,
+        billing_year_division: 4,
         basket_size: create(:basket_size, :small, price: "23.125"),
         depot: create(:depot, name: "La Chaux-de-Fonds", price: 4),
         deliveries_count: 2)
@@ -169,9 +170,10 @@ describe PDF::Invoice do
     end
 
     it "generates invoice with quarter menbership and paid amount", sidekiq: :inline do
-      member = create(:member, id: 42, billing_year_division: 4)
+      member = create(:member, id: 42)
       membership = create(:membership,
         member: member,
+        billing_year_division: 4,
         basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         deliveries_count: 2)

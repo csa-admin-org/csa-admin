@@ -127,10 +127,8 @@ describe Newsletter::Segment do
 
   specify "segment by billing_year_division" do
     Current.acp.update!(billing_year_divisions: [ 1, 4 ])
-    member_1 = create(:membership).member
-    member_2 = create(:membership).member
-    member_1.update!(billing_year_division: 1)
-    member_2.update!(billing_year_division: 4)
+    member_1 = create(:membership, billing_year_division: 1).member
+    member_2 = create(:membership, billing_year_division: 4).member
 
     segment = create(:newsletter_segment, billing_year_division: 1)
     expect(segment.members).to contain_exactly(member_1)

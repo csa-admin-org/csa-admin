@@ -71,6 +71,7 @@ class Members::MembershipRenewalsController < Members::BaseController
         activity_participations_demanded_annually
         depot_id
         delivery_cycle_id
+        billing_year_division
       ], memberships_basket_complements_attributes: [
         :basket_complement_id, :quantity
       ])

@@ -39,24 +39,24 @@ describe Member do
 
     it "sets first ACP billing_year_divisions by default" do
       Current.acp.billing_year_divisions = [ 4, 12 ]
-      member = create(:member, billing_year_division: nil)
-      expect(member.billing_year_division).to eq 12
+      member = create(:member, :waiting, waiting_billing_year_division: nil)
+      expect(member.waiting_billing_year_division).to eq 12
     end
 
     it "sets last ACP billing_year_divisions by default " do
       Current.acp.billing_year_divisions = [ 4, 12 ]
-      member = create(:member, billing_year_division: 1)
-      expect(member.billing_year_division).to eq 12
+      member = create(:member, :waiting, waiting_billing_year_division: 1)
+      expect(member.waiting_billing_year_division).to eq 12
     end
 
     it "only accepts ACP billing_year_divisions" do
       Current.acp.billing_year_divisions = [ 1, 12 ]
-      member = build(:member, billing_year_division: 3)
+      member = build(:member, :waiting, waiting_billing_year_division: 3)
 
       member.validate
-      expect(member.billing_year_division).to eq 12
+      expect(member.waiting_billing_year_division).to eq 12
 
-      member.billing_year_division = 1
+      member.waiting_billing_year_division = 1
       member.save!
     end
 

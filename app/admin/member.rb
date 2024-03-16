@@ -29,12 +29,6 @@ ActiveAdmin.register Member do
     country_codes = Member.pluck(:country_code).uniq.map(&:presence).compact.sort
     countries_collection(country_codes)
   }
-  filter :billing_year_division,
-    as: :select,
-    collection: -> {
-      divisions = Member.pluck(:billing_year_division).uniq.sort
-      divisions.map { |i| [ t("billing.year_division.x#{i}"), i ] }
-    }
   filter :salary_basket,
     as: :boolean,
     if: proc { params[:scope].in? [ "active", nil ] }
@@ -106,7 +100,6 @@ ActiveAdmin.register Member do
     column(:delivery_city)
     column(:profession)
     column(:billing_email)
-    column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     if Current.acp.annual_fee
       column(:annual_fee) { |m| cur(m.annual_fee) }
     end
@@ -203,6 +196,11 @@ ActiveAdmin.register Member do
             if Current.acp.allow_alternative_depots?
               row(:waiting_alternative_depot_ids) {
                 member.waiting_alternative_depots.map(&:name).to_sentence
+              }
+            end
+            if member.waiting_billing_year_division?
+              row(:billing_year_division) {
+                t("billing.year_division.x#{member.waiting_billing_year_division}")
               }
             end
             if member.waiting?
@@ -391,8 +389,9 @@ ActiveAdmin.register Member do
           if member.billing_email?
             row(t(".email")) { display_email_with_link(self, member.billing_email) }
           end
-          row(:billing_year_division) { t("billing.year_division.x#{member.billing_year_division}") }
-          row(:salary_basket) { status_tag(member.salary_basket) }
+          if member.salary_basket?
+            row(:salary_basket) { status_tag(member.salary_basket) }
+          end
           if Current.acp.annual_fee
             row(:annual_fee) { cur member.annual_fee }
           end
@@ -521,6 +520,13 @@ ActiveAdmin.register Member do
           as: :select,
           collection: delivery_cycles_collection,
           disabled: f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - f.object.waiting_depot.delivery_cycle_ids) : []
+        f.input :waiting_billing_year_division,
+          label: Membership.human_attribute_name(:billing_year_division),
+          as: :select,
+          collection: Current.acp.billing_year_divisions.compact.uniq.sort.map { |i|
+            [ t("billing.year_division.x#{i}"), i ]
+          },
+          prompt: true
         if Depot.many?
           f.input :waiting_alternative_depot_ids,
             collection: Depot.all,
@@ -561,13 +567,6 @@ ActiveAdmin.register Member do
     end
 
     f.inputs t("active_admin.resource.show.billing") do
-      f.input :billing_year_division,
-        as: :select,
-        collection: (
-          Array(f.object.persisted? ? f.object.billing_year_division : nil) +
-          Current.acp.billing_year_divisions
-        ).compact.uniq.sort.map { |i| [ t("billing.year_division.x#{i}"), i ] },
-        prompt: true
       f.input :billing_email, type: :email, label: t(".email")
       f.input :salary_basket
     end
@@ -618,13 +617,14 @@ ActiveAdmin.register Member do
     :address, :city, :zip, :country_code,
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket,
-    :billing_email, :billing_year_division,
+    :billing_email,
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on,
     :acp_shares_info, :existing_acp_shares_number,
     :desired_acp_shares_number, :required_acp_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
+    :waiting_billing_year_division,
     :shop_depot_id,
     :profession, :come_from, :delivery_note, :food_note, :note,
     :contact_sharing,

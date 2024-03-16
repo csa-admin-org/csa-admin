@@ -55,6 +55,7 @@ class Membership < ApplicationRecord
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validates :absences_included_annually, numericality: true
+  validates :billing_year_division, presence: true, inclusion: { in: ACP.billing_year_divisions }
   validates :new_config_from,
     date: {
       after_or_equal_to: :started_on,
@@ -75,6 +76,7 @@ class Membership < ApplicationRecord
   after_update :handle_started_on_change!
   after_update :handle_ended_on_change!
   after_update :handle_config_change!
+  after_update :keep_renewed_membership_up_to_date!
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
   after_commit :update_absences_included!, on: %i[create update]
@@ -285,6 +287,8 @@ class Membership < ApplicationRecord
   end
 
   def renewed_membership
+    return unless renewed?
+
     @renewed_membership ||= member.memberships.during_year(fy_year + 1).first
   end
 
@@ -508,6 +512,13 @@ class Membership < ApplicationRecord
     range = new_config_from..ended_on
     destroy_baskets!(range)
     create_baskets!(range)
+  end
+
+  def keep_renewed_membership_up_to_date!
+    return unless renewed_membership
+    return unless saved_change_to_attribute?(:billing_year_division)
+
+    renewed_membership.update_column(:billing_year_division, billing_year_division)
   end
 
   def attributes_config_changed?

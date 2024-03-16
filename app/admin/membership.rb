@@ -45,6 +45,12 @@ ActiveAdmin.register Membership do
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :billing_year_division,
+    as: :select,
+    collection: -> {
+      divisions = Membership.pluck(:billing_year_division).uniq.sort
+      divisions.map { |i| [ t("billing.year_division.x#{i}"), i ] }
+    }
   filter :basket_price_extra,
     label: proc { Current.acp.basket_price_extra_title },
     if: proc { Current.acp.feature?("basket_price_extra") }
@@ -268,6 +274,7 @@ ActiveAdmin.register Membership do
     column(:renewed_at)
     column(:renewal_note)
     column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }
+    column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     column(:baskets_annual_price_change) { |m| cur(m.baskets_annual_price_change) }
     if BasketComplement.any?
       column(:basket_complements_annual_price_change) { |m| cur(m.basket_complements_annual_price_change) }
@@ -481,80 +488,88 @@ ActiveAdmin.register Membership do
           end
         end
 
+        div class: "amount" do
+          attributes_table title: Membership.human_attribute_name(:amount) do
+            if m.member.salary_basket?
+              em t(".salary_basket")
+            elsif m.baskets_count.zero?
+              em t(".no_baskets")
+            else
+              row(Basket.model_name.human(count: m.baskets_count)) {
+                display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
+              }
+              row(t(".baskets_annual_price_change")) {
+                cur(m.baskets_annual_price_change, unit: false)
+              }
+              if m.basket_complements.any?
+                row(BasketComplement.model_name.human(count: m.basket_complements.count)) {
+                  display_price_description(
+                    m.basket_complements_price,
+                    membership_basket_complements_price_info(m))
+                }
+                row(t(".basket_complements_annual_price_change")) {
+                  cur(m.basket_complements_annual_price_change, unit: false)
+                }
+              end
+              if Current.acp.feature?("basket_price_extra")
+                row(:basket_price_extra_title) {
+                  description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
+                  display_price_description(m.baskets_price_extra, description)
+                }
+              end
+              row(Depot.model_name.human(count: m.baskets_count)) {
+                display_price_description(m.depots_price, depots_price_info(m.baskets))
+              }
+              if Current.acp.feature?("activity")
+                row(t_activity(".activity_participations_annual_price_change")) {
+                  cur(m.activity_participations_annual_price_change, unit: false)
+                }
+              end
+              row(:price) { cur(m.price, format: "%u %n") }
+            end
+          end
+        end
+
         attributes_table title: t(".billing") do
           div class: "actions" do
             handbook_icon_link("billing", anchor: "abonnements")
           end
 
-          if m.member.salary_basket?
-            em t(".salary_basket")
-          elsif m.baskets_count.zero?
-            em t(".no_baskets")
-          else
-            row(:basket_sizes_price) {
-              display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
-            }
-            row(:baskets_annual_price_change) {
-              cur(m.baskets_annual_price_change)
-            }
-            if m.basket_complements.any?
-              row(:basket_complements_price) {
-                display_price_description(
-                  m.basket_complements_price,
-                  membership_basket_complements_price_info(m))
-              }
-              row(:basket_complements_annual_price_change) {
-                cur(m.basket_complements_annual_price_change)
-              }
-            end
-            if Current.acp.feature?("basket_price_extra")
-              row(:basket_price_extra_title) {
-                description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
-                display_price_description(m.baskets_price_extra, description).html_safe
-              }
-            end
-            row(:depots_price) {
-              display_price_description(m.depots_price, depots_price_info(m.baskets))
-            }
-            if Current.acp.feature?("activity")
-              row(activity_scoped_attribute(:activity_participations_annual_price_change)) { cur(m.activity_participations_annual_price_change) }
-            end
-            row(:price) { cur(m.price) }
-            row(:invoices_amount) {
-              link_to(
-                cur(m.invoices_amount),
-                invoices_path(scope: :all, q: {
-                  member_id_eq: resource.member_id,
-                  entity_type_in: "Membership",
-                  during_year: resource.fiscal_year.year
-                }))
-            }
-            row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
-            row(:next_invoice_on) {
-              if resource.billable?
-                if Current.acp.recurring_billing?
-                  invoicer = Billing::Invoicer.new(resource.member, resource)
-                  if invoicer.next_date
-                    span class: "next_date" do
-                      l(invoicer.next_date, format: :long_medium)
-                    end
-                    if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
-                      button_to t(".force_recurring_billing"), force_recurring_billing_member_path(resource.member),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                          class: "inline"
-                        },
-                        data: { confirm: t(".force_recurring_billing_confirm") }
-                    end
+          row(:billing_year_division) { t("billing.year_division.x#{m.billing_year_division}") }
+          row(:invoices_amount) {
+            link_to(
+              cur(m.invoices_amount),
+              invoices_path(scope: :all, q: {
+                member_id_eq: resource.member_id,
+                entity_type_in: "Membership",
+                during_year: resource.fiscal_year.year
+              }))
+          }
+          row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
+          row(:next_invoice_on) {
+            if resource.billable?
+              if Current.acp.recurring_billing?
+                invoicer = Billing::Invoicer.new(resource.member, resource)
+                if invoicer.next_date
+                  span class: "next_date" do
+                    l(invoicer.next_date, format: :long_medium)
                   end
-                else
-                  span class: "empty" do
-                    t(".recurring_billing_disabled")
+                  if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
+                    button_to t(".force_recurring_billing"), force_recurring_billing_member_path(resource.member),
+                      form: {
+                        data: { controller: "disable", disable_with_value: t("formtastic.processing") },
+                        class: "inline"
+                      },
+                      data: { confirm: t(".force_recurring_billing_confirm") }
                   end
                 end
+              else
+                span class: "empty" do
+                  t(".recurring_billing_disabled")
+                end
               end
-            }
-          end
+            end
+          }
         end
 
         active_admin_comments
@@ -598,6 +613,13 @@ ActiveAdmin.register Membership do
     end
 
     f.inputs t(".billing") do
+      f.input :billing_year_division,
+        as: :select,
+        collection: Current.acp.billing_year_divisions.compact.uniq.sort.map { |i|
+          [ t("billing.year_division.x#{i}"), i ]
+        },
+        prompt: true,
+        hint: f.object.renewed?
       f.input :baskets_annual_price_change
       if BasketComplement.any?
         f.input :basket_complements_annual_price_change
@@ -694,6 +716,7 @@ ActiveAdmin.register Membership do
     :member_id,
     :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price, :delivery_cycle_id,
+    :billing_year_division,
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annually,
     :basket_complements_annual_price_change,
@@ -744,6 +767,7 @@ ActiveAdmin.register Membership do
           basket_complement_id: mbc.basket_complement_id,
           quantity: mbc.quantity)
       end
+      membership.billing_year_division = member.waiting_billing_year_division
     end
     if next_delivery = Delivery.next
       membership.started_on ||= [

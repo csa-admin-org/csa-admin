@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_10_105635) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_15_144554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -548,6 +548,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_10_105635) do
     t.string "iban"
     t.string "sepa_mandate_id"
     t.date "sepa_mandate_signed_on"
+    t.integer "waiting_billing_year_division"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
@@ -602,6 +603,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_10_105635) do
     t.bigint "delivery_cycle_id", null: false
     t.integer "absences_included_annually", null: false
     t.integer "absences_included", default: 0, null: false
+    t.integer "billing_year_division", default: 1, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

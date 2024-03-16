@@ -34,9 +34,9 @@ describe Billing::Invoicer do
 
   it "does not create an invoice for member with future membership", freeze: "2022-01-01" do
     Current.acp.update!(trial_basket_count: 0)
-    member = create(:member, billing_year_division: 12)
+    member = create(:member)
     create(:delivery, date: "2022-02-01")
-    create(:membership, member: member)
+    create(:membership, member: member, billing_year_division: 12)
 
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
@@ -73,14 +73,17 @@ describe Billing::Invoicer do
     Current.acp.update!(
       billing_year_divisions: [ 12 ],
       trial_basket_count: 4)
-    member = create(:member, :inactive, billing_year_division: 12)
+    member = create(:member, :inactive)
 
     travel_to "2021-01-01" do
       create(:delivery, date: "2021-01-01")
       create(:delivery, date: "2021-01-02")
     end
     membership =  travel_to "2021-03-01" do
-      create(:membership, member: member, ended_on: "2021-02-01")
+      create(:membership,
+        member: member,
+        billing_year_division: 12,
+        ended_on: "2021-02-01")
     end
     expect(membership.baskets_count).to eq 2
     invoice = travel_to "2021-04-01" do
@@ -120,7 +123,7 @@ describe Billing::Invoicer do
   end
 
   context "when billed yearly" do
-    let(:member) { create(:member, :active, billing_year_division: 1) }
+    let(:member) { create(:member, :active) }
     let(:membership) { member.current_membership }
 
     specify "when not already billed", sidekiq: :inline do

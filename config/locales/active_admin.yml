@@ -947,6 +947,30 @@ _:
           _de: Status (aktuell)
           _fr: Statut (actuel)
           _it: Stato (attuale)
+        activity_participations_annual_price_change/basket_preparation:
+          _de: Anpassung Taschen befüllung
+          _fr: Ajustement mise en panier
+          _it: Correzione preparazione cestini
+        activity_participations_annual_price_change/day_work:
+          _de: Anpassung Arbeitstage
+          _fr: Ajustement journées de travail
+          _it: Correzione giorni di lavoro
+        activity_participations_annual_price_change/halfday_work:
+          _de: Anpassung ½ Tage
+          _fr: Ajustement ½ journées
+          _it: Correzione ½ giornate
+        activity_participations_annual_price_change/hour_work:
+          _de: Anpassung Arbeitsstunden
+          _fr: Ajustement heures de travail
+          _it: Correzione ore di lavoro
+        basket_complements_annual_price_change:
+          _de: Anpassung Zusätze
+          _fr: Ajustement compléments
+          _it: Correzione aggiunte
+        baskets_annual_price_change:
+          _de: Anpassung Taschen
+          _fr: Ajustement paniers
+          _it: Correzione cesto
         become_member:
           _de: Zugang zum Konto
           _fr: Accéder au compte

@@ -28,9 +28,9 @@ ul class="flex flex-row -m-2 flex-wrap justify-center"
   li class="flex-1 flex text-center p-2 m-2 flex-col rounded border dark:border-gray-700"
       span class='flex flex-col my-auto'
         span class='text-sm text-gray-400'
-          = Member.human_attribute_name(:billing_year_division)
+          = Membership.human_attribute_name(:billing_year_division)
         span class='text-xl whitespace-nowrap font-medium'
-          = t("billing.year_division.x#{current_member.billing_year_division}")
+          = t("billing.year_division.x#{@membership&.billing_year_division || 1}")
 
 - if @open_invoices.any?
   h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"

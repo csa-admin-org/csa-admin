@@ -6,6 +6,7 @@ describe "Memberships Renewal" do
   let(:member) { create(:member) }
 
   before do
+    Current.acp.update!(billing_year_divisions: [ 1, 4, 12 ])
     MailTemplate.find_by(title: :membership_renewal).update!(active: true)
     Capybara.app_host = "http://membres.ragedevert.test"
   end
@@ -14,6 +15,7 @@ describe "Memberships Renewal" do
     big_basket = create(:basket_size, name: "Grand")
     membership = create(:membership,
       member: member,
+      billing_year_division: 4,
       basket_size: basket_size,
       depot: depot)
     create_deliveries(1, Current.acp.fiscal_year_for(2021))
@@ -34,6 +36,9 @@ describe "Memberships Renewal" do
     choose "Nouveau Lieu"
     choose "Grand PUBLIC"
     fill_in "Oeufs", with: "2"
+
+    choose "Mensuel"
+
     fill_in "Remarque(s)", with: "Plus d'épinards!"
 
     click_on "Confirmer"
@@ -52,6 +57,7 @@ describe "Memberships Renewal" do
       expect(page).to have_content "CHF 38.40"
     end
     expect(membership.reload).to have_attributes(
+      billing_year_division: 4,
       depot: depot,
       renew: true,
       renewal_annual_fee: nil,
@@ -60,6 +66,7 @@ describe "Memberships Renewal" do
       renewal_note: "Plus d'épinards!")
     expect(membership).to be_renewed
     expect(membership.renewed_membership).to have_attributes(
+      billing_year_division: 12,
       renew: true,
       started_on: Date.parse("2021-01-01"),
       ended_on: Date.parse("2021-12-31"),
