@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_15_144554) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_16_111947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -529,7 +529,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_15_144554) do
     t.string "profession"
     t.text "come_from"
     t.decimal "annual_fee", precision: 8, scale: 2
-    t.integer "billing_year_division", default: 1, null: false
     t.string "language", default: "fr", null: false
     t.string "acp_shares_info"
     t.integer "existing_acp_shares_number", default: 0, null: false
