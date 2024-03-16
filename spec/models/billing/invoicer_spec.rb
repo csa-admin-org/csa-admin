@@ -680,11 +680,12 @@ describe Billing::Invoicer do
     end
 
     specify "future membership, current year" do
-      member = create(:member, billing_year_division: 3)
+      member = create(:member)
       membership = travel_to "2021-01-01" do
         create(:delivery, date: "2021-09-07")
         create(:membership,
           member: member,
+          billing_year_division: 3,
           started_on: "2021-09-01") # Wednesday
       end
       expect(membership.deliveries.first.date.to_s).to eq "2021-09-07" # Tuesday
@@ -698,10 +699,10 @@ describe Billing::Invoicer do
     end
 
     specify "future membership, next year" do
-      member = create(:member, billing_year_division: 3)
+      member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:delivery, date: "2022-01-04")
-        create(:membership, member: member) # Wednesday
+        create(:membership, member: member, billing_year_division: 3) # Wednesday
       end
       expect(membership.deliveries.first.date.to_s).to eq "2022-01-04" # Tuesday
 
@@ -714,10 +715,10 @@ describe Billing::Invoicer do
     end
 
     specify "past membership, last year" do
-      member = create(:member, billing_year_division: 3)
+      member = create(:member)
       membership = travel_to "2020-01-01" do
         create(:delivery, date: "2020-01-04")
-        create(:membership, member: member) # Wednesday
+        create(:membership, member: member, billing_year_division: 3) # Wednesday
       end
       expect(membership.deliveries.first.date.to_s).to eq "2020-01-04" # Tuesday
 
