@@ -42,6 +42,17 @@ module ActivitiesHelper
     end
   end
 
+  def activities_titles_options(activities)
+    titles = [ [ t("activities.all_titles"), nil ] ]
+    activities.sort_by(&:title).group_by(&:title).each { |title, activities|
+      titles << [
+        truncate(title, length: 60),
+        activities.map { |a| a.date.to_s }.uniq.sort.join(", ")
+      ]
+    }
+    options_for_select(titles)
+  end
+
   def activity_label(activity, date: false, date_format: :medium, description: true)
     labels = [
       content_tag(:span, activity.period, class: "whitespace-nowrap"),

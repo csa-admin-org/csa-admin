@@ -10,8 +10,12 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
 - else
   .activities-form data-controller="calendar" data-calendar-dates-value="#{@activities.map(&:date).uniq.as_json}" data-calendar-non-full-dates-value="#{@activities.select(&:missing_participants?).map(&:date).uniq.as_json}" data-calendar-default-date-value="#{@activity_participation.date}"
     = simple_form_for @activity_participation, url: [:members, @activity_participation] do |f|
+      - if @activities.map(&:title).uniq.many?
+        div class='my-2'
+          = select_tag :activity_title, activities_titles_options(@activities), class: 'mt-1 dark:bg-black pl-2 pr-8 py-1 border border-green-500 text-sm text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 max-w-full min-w-72',
+            data: { action: 'calendar#filterDates' }
       div class='mt-2 mb-6'
-        div.calendar-wrapper class=''
+        div.calendar-wrapper
           #calendar.calendar data-calendar-target="calendar"
 
       div class='space-y-6'
