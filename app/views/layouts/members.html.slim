@@ -29,9 +29,9 @@ html lang=I18n.locale
         div class="flex flex-grow flex-col"
           div class="my-auto"
             header class='flex'
-              div class='mx-auto my-8 md:my-12 print:!my-6'
+              div class='mx-auto my-8 md:my-16 print:!my-6'
                 = link_to Current.acp.url do
-                  = image_tag(Current.acp.logo_url, alt: "#{Current.acp.name} Logo", class: 'h-32 w-32 md:h-44 md:w-44 print:!h-16 print:!w-16')
+                  = image_tag(Current.acp.logo_url, alt: "#{Current.acp.name} Logo", class: 'h-32 w-32 md:h-60 md:w-60 print:!h-16 print:!w-16')
             main class="w-full" data-menu-target='body'
               section class="w-full"
                 = render 'layouts/flashes'
