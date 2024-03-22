@@ -37,7 +37,7 @@ export default class extends Controller {
       },
       onDayCreate: (dObj, dStr, fp, dayElem) => {
         var dateStr = this._dateToISO(dayElem.dateObj)
-        if (this.nonFullDatesValue.find(e => e === dateStr)) {
+        if (this.nonFullDatesValue.includes(dateStr)) {
           dayElem.className += ' not-full'
         }
       }
@@ -46,6 +46,28 @@ export default class extends Controller {
 
   disconnect() {
     this.application.calendar.destroy()
+  }
+
+  filterDates(event) {
+    var dates = event.target.value ? event.target.value.split(", ") : this.datesValue
+    this.application.calendar.set("enable", dates)
+    this.application.calendar.set("minDate", dates[0])
+    this.application.calendar.set("maxDate", dates[dates.length - 1])
+    this.application.calendar.set("onDayCreate", (dObj, dStr, fp, dayElem) => {
+      var dateStr = this._dateToISO(dayElem.dateObj)
+      if (this.nonFullDatesValue.includes(dateStr) && dates.includes(dateStr)) {
+        dayElem.className += ' not-full'
+      }
+    })
+    this.application.calendar.set("onMonthChange", (selectedDates, dateStr, instance) => {
+      this._monthOrYearChanged(selectedDates, dates, instance)
+    })
+    this.application.calendar.set("onYearChange", (selectedDates, dateStr, instance) => {
+      this._monthOrYearChanged(selectedDates, dates, instance)
+    })
+    this.application.calendar.set("defaultDate", dates[0])
+    this.application.calendar.setDate(dates[0])
+    this._selectDate(dates[0])
   }
 
   _selectDate(dateText) {

@@ -1,5 +1,9 @@
 _:
   activities:
+    all_titles:
+      _de: Alle
+      _fr: Toutes
+      _it: Tutto
     basket_preparation:
       one:
         _de: Taschen befüllung
