@@ -5,7 +5,7 @@ class Absence < ApplicationRecord
 
   belongs_to :member
   belongs_to :session, optional: true
-  has_many :baskets
+  has_many :baskets, dependent: :nullify
 
   validates :member, :started_on, :ended_on, presence: true
   validates :started_on, :ended_on, date: {
