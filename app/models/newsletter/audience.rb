@@ -77,20 +77,24 @@ class Newsletter
           Member
             .joins(:current_or_future_membership)
             .where(memberships: { basket_size_id: value })
+            .distinct
         when :basket_complement_id
           Member
             .joins(current_or_future_membership: :memberships_basket_complements)
             .where(memberships_basket_complements: { basket_complement_id: value })
+            .distinct
         when :depot_id
           Member
             .joins(:current_or_future_membership)
             .where(memberships: { depot_id: value })
+            .distinct
         when :delivery_id
           delivery_id = GlobalID.new(value).model_id
           Member
             .joins(:baskets)
             .merge(Basket.unscoped.deliverable)
             .where(baskets: { delivery_id: delivery_id })
+            .distinct
         when :member_id
           Member.where(id: value)
         when :member_state
@@ -112,20 +116,24 @@ class Newsletter
             Member
               .joins(:current_year_membership)
               .where(memberships: { activity_participations_demanded: 1.. })
+              .distinct
           when "missing"
             Member
               .joins(:current_year_membership)
               .where(memberships: { activity_participations_demanded: 1.. })
               .where("activity_participations_demanded > activity_participations_accepted")
+              .distinct
           end
         when :activity_id
           Member
             .joins(:activity_participations)
             .where(activity_participations: { activity_id: value })
+            .distinct
         when :shop_delivery_gid
           Member
             .joins(:shop_orders)
             .merge(Shop::Order.all_without_cart._delivery_gid_eq(value))
+            .distinct
         end
       end
 
