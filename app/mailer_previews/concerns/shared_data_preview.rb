@@ -39,11 +39,11 @@ module SharedDataPreview
   end
 
   def started_on
-    Current.fiscal_year.beginning_of_year
+    fiscal_year.beginning_of_year
   end
 
   def ended_on
-    Current.fiscal_year.end_of_year
+    fiscal_year.end_of_year
   end
 
   def deliveries
@@ -73,5 +73,10 @@ module SharedDataPreview
           quantity: 1,
           basket_complement: bc)
       }
+  end
+
+  def fiscal_year
+    @fiscal_year ||=
+      (Delivery.next || Delivery.last)&.fiscal_year || Current.fiscal_year
   end
 end
