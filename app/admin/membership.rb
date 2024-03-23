@@ -495,32 +495,40 @@ ActiveAdmin.register Membership do
             elsif m.baskets_count.zero?
               em t(".no_baskets")
             else
-              row(Basket.model_name.human(count: m.baskets_count)) {
-                display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
-              }
-              row(t(".baskets_annual_price_change")) {
-                cur(m.baskets_annual_price_change, unit: false)
-              }
-              if m.basket_complements.any?
+              if m.basket_sizes_price.nonzero?
+                row(Basket.model_name.human(count: m.baskets_count)) {
+                  display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
+                }
+              end
+              if m.baskets_annual_price_change.nonzero?
+                row(t(".baskets_annual_price_change")) {
+                  cur(m.baskets_annual_price_change, unit: false)
+                }
+              end
+              if m.basket_complements.any? && m.basket_complements_price.nonzero?
                 row(BasketComplement.model_name.human(count: m.basket_complements.count)) {
                   display_price_description(
                     m.basket_complements_price,
                     membership_basket_complements_price_info(m))
                 }
-                row(t(".basket_complements_annual_price_change")) {
-                  cur(m.basket_complements_annual_price_change, unit: false)
-                }
+                if m.basket_complements_annual_price_change.nonzero?
+                  row(t(".basket_complements_annual_price_change")) {
+                    cur(m.basket_complements_annual_price_change, unit: false)
+                  }
+                end
               end
-              if Current.acp.feature?("basket_price_extra")
+              if Current.acp.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
                 row(:basket_price_extra_title) {
                   description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
                   display_price_description(m.baskets_price_extra, description)
                 }
               end
-              row(Depot.model_name.human(count: m.baskets_count)) {
-                display_price_description(m.depots_price, depots_price_info(m.baskets))
-              }
-              if Current.acp.feature?("activity")
+              if m.depots_price.nonzero?
+                row(Depot.model_name.human(count: m.baskets_count)) {
+                  display_price_description(m.depots_price, depots_price_info(m.baskets))
+                }
+              end
+              if Current.acp.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
                 row(t_activity(".activity_participations_annual_price_change")) {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
