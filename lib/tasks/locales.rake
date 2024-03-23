@@ -73,7 +73,6 @@ namespace :locales do
 
   def convert_and_write_to_config(translations)
     translations = used_locales.each_with_object({}) do |locale, h|
-      convert(translations[locale.to_s], "_#{locale}")
       h.deep_merge!(convert(translations[locale.to_s], "_#{locale}"))
     end
     write_to_config_locales(translations)
