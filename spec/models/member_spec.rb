@@ -123,7 +123,7 @@ describe Member do
       expect(member).not_to have_valid(:waiting_depot_id)
     end
 
-    it "validates desired_acp_shares_number >= 1 on public create" do
+    it "validates desired_acp_shares_number on public create" do
       Current.acp.update!(annual_fee: 50, share_price: nil, shares_number: nil)
       member = build(:member, desired_acp_shares_number: 0)
 
@@ -140,6 +140,39 @@ describe Member do
       expect(member).not_to have_valid(:desired_acp_shares_number)
       member.desired_acp_shares_number = 1
       expect(member).to have_valid(:desired_acp_shares_number)
+
+      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 2)
+      expect(member).not_to have_valid(:desired_acp_shares_number)
+      member.desired_acp_shares_number = 2
+      expect(member).to have_valid(:desired_acp_shares_number)
+
+      basket_size = create(:basket_size, acp_shares_number: 3)
+      member.waiting_basket_size_id = basket_size.id
+      expect(member).not_to have_valid(:desired_acp_shares_number)
+      member.desired_acp_shares_number = 3
+      expect(member).to have_valid(:desired_acp_shares_number)
+    end
+
+    specify "validates waiting_activity_participations_demanded_annually on public create" do
+      Current.acp.update!(features: [ "activity" ])
+      member = build(:member, waiting_activity_participations_demanded_annually: nil)
+
+      member.public_create = true
+
+      Current.acp.update!(activity_participations_form_min: 2)
+      member.waiting_activity_participations_demanded_annually = 1
+      expect(member).not_to have_valid(:waiting_activity_participations_demanded_annually)
+      member.waiting_activity_participations_demanded_annually = 2
+      expect(member).to have_valid(:waiting_activity_participations_demanded_annually)
+
+      Current.acp.update!(activity_participations_form_max: 4)
+      member.waiting_activity_participations_demanded_annually = 5
+      expect(member).not_to have_valid(:waiting_activity_participations_demanded_annually)
+      member.waiting_activity_participations_demanded_annually = 4
+      expect(member).to have_valid(:waiting_activity_participations_demanded_annually)
+
+      member.waiting_activity_participations_demanded_annually = 3
+      expect(member).to have_valid(:waiting_activity_participations_demanded_annually)
     end
 
     specify "required profession mode on public create" do

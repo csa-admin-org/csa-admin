@@ -62,7 +62,7 @@ module MembersHelper
         collection_text(bs.public_name, details: basket_size_details(bs)),
         bs.id,
         data: {
-          form_min_value_enforcer_min_value_param: bs.acp_shares_number,
+          form_min_value_min_value_param: bs.acp_shares_number,
           activity: bs.activity_participations_demanded_annually
         }.merge(data)
       ]
@@ -79,7 +79,7 @@ module MembersHelper
         ),
         0,
         data: {
-          form_min_value_enforcer_min_value_param: Current.acp.shares_number,
+          form_min_value_min_value_param: Current.acp.shares_number,
           activity: 0
         }.merge(no_basket_data)
       ]

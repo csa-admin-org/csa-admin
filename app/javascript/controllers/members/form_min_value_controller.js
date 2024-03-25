@@ -5,7 +5,7 @@ export default class extends Controller {
     return ["input"]
   }
 
-  enforceMinValue({ params: { minValue } }) {
+  setMinValue({ params: { minValue } }) {
     if (!this.hasInputTarget) return
 
     if (this.inputTarget.getAttribute("min") != minValue) {
