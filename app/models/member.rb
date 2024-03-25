@@ -90,6 +90,13 @@ class Member < ApplicationRecord
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
   validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
+  validates :waiting_activity_participations_demanded_annually,
+    numericality: {
+      greater_than_or_equal_to: -> { Current.acp.activity_participations_form_min || 0 },
+      less_than_or_equal_to: -> { Current.acp.activity_participations_form_max || 1000 },
+      allow_nil: true
+    },
+    if: -> { public_create && Current.acp.feature?("activity") }
   validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?("basket_price_extra") && waiting_depot }, on: :create
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
@@ -101,7 +108,9 @@ class Member < ApplicationRecord
   validates :required_acp_shares_number, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :desired_acp_shares_number,
-    numericality: { greater_than_or_equal_to: 1 },
+    numericality: {
+      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.acp.shares_number || 0 },
+    },
     if: -> { public_create && Current.acp.share? }
   validates :billing_email, format: { with: ACP::EMAIL_REGEXP, allow_nil: true }
   validates :iban, presence: true, if: :sepa_mandate_id?
