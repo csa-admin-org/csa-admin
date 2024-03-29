@@ -53,6 +53,7 @@ gem "icalendar"
 gem "image_processing"
 gem "prawn"
 gem "prawn-table"
+gem "prawn-svg"
 gem "hexapdf"
 gem "public_suffix"
 gem "rubyXL"
@@ -66,6 +67,7 @@ gem "liquid"
 
 gem "camt_parser"
 gem "epics"
+gem "girocode" # EPC QR code
 gem "rqrcode"
 gem "countries"
 

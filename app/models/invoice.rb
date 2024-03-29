@@ -183,6 +183,10 @@ class Invoice < ApplicationRecord
       send_email: @previous_state == OPEN_STATE)
   end
 
+  def reference
+    Billing.reference.new(self)
+  end
+
   def stamp_pdf_as_canceled!
     raise "invoice #{id} not canceled!" unless canceled?
     raise "invoice #{id} already stamped!" if stamped_at?

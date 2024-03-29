@@ -819,17 +819,17 @@ describe PDF::Invoice do
       expect(pdf_strings)
         .to contain_sequence("Section paiement")
         .and contain_sequence("Montant", "1 250.00 ", "€")
-        .and contain_sequence("Compte / Payable à", "Jardin Réunis", "1 rue de la Paix", "75000 Paris")
+        .and contain_sequence("Payable à", "Jardin Réunis", "1 rue de la Paix", "75000 Paris")
         .and contain_sequence("IBAN: ", "FR14 2004 1010 0505 0001 3M02 606")
         .and contain_sequence("Numéro de facture / Référence", "8001")
         .and contain_sequence("Payable par", "Jean-Pierre Dupont", "42 rue de la Liberté", "75001 Paris")
     end
   end
 
-  context "German SEPA payment section" do
+  context "German EPC QR Code payment section" do
     before {
       Current.acp.update!(
-        name: 'sepa',
+        name: "epc-qr",
         country_code: "DE",
         currency_code: "EUR",
         languages: %w[ de ],
@@ -866,14 +866,12 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to contain_sequence("Zahlteil")
-        .and contain_sequence("Betrag", "1 250.00 ", "€")
-        .and contain_sequence("Konto / Zahlbar an", "Gläubiger GmbH", "Sonnenallee 1", "30159 Hannover")
-        .and contain_sequence("IBAN: ", "DE87 2005 0000 1234 5678 90")
-        .and contain_sequence("Gla", "̈", "ubiger-ID: ", "DE98ZZZ09999999999")
-        .and contain_sequence("Rechnungsnummer / Referenz", "9001")
-        .and contain_sequence("Zahlbar durch", "Pia-Maria Rutschmann-Schnyder", "Grosse Marktgasse 28", "30952 Ronnenberg")
-        .and contain_sequence("IBAN: ", "DE21 5005 0000 9876 5432 10")
-        .and contain_sequence("Mandatsreferenz: ", "42", " (2. März 2024)")
+        .and contain_sequence("Zahlen mit Code")
+        .and contain_sequence("IBAN", "DE87 2005 0000 1234 5678 90")
+        .and contain_sequence("Zahlbar an", "Gläubiger GmbH")
+        .and contain_sequence("Referenz", "RF27 0042 4242 0000 9001")
+        .and contain_sequence("Referenz", "RF27 0042 4242 0000 9001")
+        .and contain_sequence("Betrag", "EUR 1 250.00")
     end
   end
 

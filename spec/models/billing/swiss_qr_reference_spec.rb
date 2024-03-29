@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe QRReferenceNumber do
+describe Billing::SwissQRReference do
   def instance(member_id = 42, invoice_id = 706)
     invoice = Invoice.new(id: invoice_id, member_id: member_id)
     described_class.new(invoice)
@@ -9,15 +9,15 @@ describe QRReferenceNumber do
   specify "with no bank reference" do
     Current.acp.update!(bank_reference: "")
 
-    expect(instance.ref).to eq "000000000000000420000007068"
-    expect(instance.formatted_ref).to eq "00 00000 00000 00042 00000 07068"
+    expect(instance.to_s).to eq "000000000000000420000007068"
+    expect(instance.formatted).to eq "00 00000 00000 00042 00000 07068"
   end
 
   specify "with a bank reference" do
     Current.acp.update!(bank_reference: 123456)
 
-    expect(instance.ref).to eq "123456000000000420000007063"
-    expect(instance.formatted_ref).to eq "12 34560 00000 00042 00000 07063"
+    expect(instance.to_s).to eq "123456000000000420000007063"
+    expect(instance.formatted).to eq "12 34560 00000 00042 00000 07063"
   end
 
   describe "checksum_digit" do
@@ -25,7 +25,7 @@ describe QRReferenceNumber do
       obj = instance(
         member_id.gsub(/\D/, "").to_i,
         invoice_id.gsub(/\D/, "").to_i
-      ).ref.last.to_i
+      ).to_s.last.to_i
     end
 
     specify { expect(checkum("11041 90802 41000", "00000 0001")).to eq 6 }

@@ -574,7 +574,7 @@ ActiveAdmin.register Member do
     if Current.acp.sepa?
       f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
         f.input :iban,
-          placeholder: Billing.iban_placeholder(Current.acp.country_code),
+          placeholder: Billing.iban_placeholder,
           input_html: { value: f.object.iban_formatted }
         f.input :sepa_mandate_id
         f.input :sepa_mandate_signed_on, as: :date_picker
