@@ -440,13 +440,15 @@ ActiveAdmin.register Member do
           }
         end
 
-        attributes_table title: t(".billing") + " (SEPA)" do
-          row(:iban) { member.iban_formatted }
-          row(:sepa_mandate_id) {
-            if member.sepa_mandate_id?
-              member.sepa_mandate_id + " (#{l(member.sepa_mandate_signed_on)})"
-            end
-          }
+        if Current.acp.sepa?
+          attributes_table title: t(".billing") + " (SEPA)" do
+            row(:iban) { member.iban_formatted }
+            row(:sepa_mandate_id) {
+              if member.sepa_mandate_id?
+                member.sepa_mandate_id + " (#{l(member.sepa_mandate_signed_on)})"
+              end
+            }
+          end
         end
 
         if Current.acp.share?
