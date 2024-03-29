@@ -22,6 +22,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym "PDF"
   inflect.acronym "XLSX"
   inflect.acronym "CSV"
+  inflect.acronym "EPC"
   inflect.acronym "QR"
   inflect.acronym "EBICS"
   inflect.acronym "SLog"

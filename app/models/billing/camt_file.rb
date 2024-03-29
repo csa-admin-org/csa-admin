@@ -23,15 +23,15 @@ module Billing
                 ref = transaction.creditor_reference
                 if transaction.credit?
                   bank_ref = transaction.bank_reference
-                  if valid_ref?(ref)
-                    member_id = ref.last(20).first(10).to_i
+                  if Billing.reference.valid?(ref)
+                    payload = Billing.reference.payload(ref)
                     PaymentData.new(
-                      member_id: member_id.zero? ? nil : member_id,
-                      invoice_id: ref.last(10).first(9).to_i,
+                      member_id: payload[:member_id],
+                      invoice_id: payload[:invoice_id],
                       amount: transaction.amount,
                       date: date,
                       fingerprint: "#{date}-#{bank_ref}-#{ref}")
-                  elsif unknown_ref?(ref)
+                  elsif Billing.reference.unknown?(ref)
                     Sentry.capture_message("Unknown payment referrence", extra: {
                       ref: ref,
                       bank_ref: bank_ref,
@@ -58,15 +58,6 @@ module Billing
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
       Sentry.capture_exception(e, extra: { file: @files.first.read })
       raise UnsupportedFileError, e.message
-    end
-
-    # Only validate ref with numbers
-    def valid_ref?(ref)
-      ref.present? && ref =~ /\A\d+\z/ && ref.length == QRReferenceNumber::LENGTH
-    end
-
-    def unknown_ref?(ref)
-      ref.present? && !ref.start_with?("RF")
     end
   end
 end

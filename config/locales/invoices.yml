@@ -157,11 +157,19 @@ _:
           _de: Rechnungsnummer
           _fr: Numéro de facture
           _it: Numero fattura
+        pay_with_code:
+          _de: Zahlen mit Code
+          _fr: Payer avec un code
+          _it: Pagare con codice
         payable_by:
           _de: Zahlbar durch
           _fr: Payable par
           _it: Pagabile tramite
         payable_to:
+          _de: Zahlbar an
+          _fr: Payable à
+          _it: Pagabile a
+        payable_to_account:
           _de: Konto / Zahlbar an
           _fr: Compte / Payable à
           _it: Contro / Pagabile a

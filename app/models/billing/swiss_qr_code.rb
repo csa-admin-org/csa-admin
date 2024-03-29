@@ -37,80 +37,86 @@ require "image_processing/vips"
 # //S1/10/10201409/11/181105/40/0:30 # bill information coded for automated booking of payment, data is not forwarded with the payment
 # eBill/B/41010560425                # alternative scheme paramaters, max 100 chars
 
-class InvoiceQRCode
-  def initialize(invoice)
-    @invoice = invoice
-    @member = invoice.member
-    @acp = Current.acp
-  end
-
-  def generate_qr_image(rails_env: Rails.env)
-    # Generating the QR code image is slow so we skip it for performance reasons
-    # in the test env.
-    if rails_env == "test"
-      File.new(Rails.root.join("spec", "fixtures", "files", "qrcode-test.png"))
-    else
-      qrcode_image.composite(logo_image, gravity: :centre).convert(:png).call
+module Billing
+  class SwissQRCode
+    def self.generate(invoice)
+      new(invoice).generate
     end
-  end
 
-  def payload
-    [
-      "SPC",
-      "0200",
-      "1",
-      @acp.iban,
-      "S",
-      @acp.creditor_name,
-      @acp.creditor_address,
-      "",
-      @acp.creditor_zip,
-      @acp.creditor_city,
-      @acp.country_code,
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      sprintf("%.2f", @invoice.missing_amount),
-      @acp.currency_code,
-      "S",
-      @member.name.truncate(70),
-      @member.address.truncate(70),
-      "",
-      @member.zip,
-      @member.city,
-      @member.country_code,
-      "QRR",
-      QRReferenceNumber.new(@invoice).ref,
-      "#{Invoice.model_name.human} #{@invoice.id}",
-      "EPD",
-      "",
-      ""
-    ].join("\r\n")
-  end
+    def initialize(invoice)
+      @invoice = invoice
+      @member = invoice.member
+      @acp = Current.acp
+    end
 
-  private
+    def generate(rails_env: Rails.env)
+      # Generating the QR code image is slow so we skip it for performance reasons
+      # in the test env.
+      if rails_env == "test"
+        File.new(Rails.root.join("spec", "fixtures", "files", "qrcode-test.png"))
+      else
+        qrcode_image.composite(logo_image, gravity: :centre).convert(:png).call
+      end
+    end
 
-  def qrcode_image
-    vips_image = Vips::Image.new_from_buffer(qrcode_png_blob, "")
-    ImageProcessing::Vips.source(vips_image)
-  end
+    def payload
+      [
+        "SPC",
+        "0200",
+        "1",
+        @acp.iban,
+        "S",
+        @acp.creditor_name,
+        @acp.creditor_address,
+        "",
+        @acp.creditor_zip,
+        @acp.creditor_city,
+        @acp.country_code,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        sprintf("%.2f", @invoice.missing_amount),
+        @acp.currency_code,
+        "S",
+        @member.name.truncate(70),
+        @member.address.truncate(70),
+        "",
+        @member.zip,
+        @member.city,
+        @member.country_code,
+        "QRR",
+        @invoice.reference,
+        "#{Invoice.model_name.human} #{@invoice.id}",
+        "EPD",
+        "",
+        ""
+      ].join("\r\n")
+    end
 
-  def qrcode_png_blob
-    qrcode = RQRCode::QRCode.new(payload, level: :m)
-    qrcode.as_png(
-      border_modules: 0,
-      module_px_size: 6,
-      size: 1024
-    ).to_blob
-  end
+    private
 
-  def logo_image
-    path = "#{Rails.root}/lib/assets/images/swiss_cross.png"
-    ImageProcessing::Vips.source(path)
-      .resize_to_limit!(166, 166)
+    def qrcode_image
+      vips_image = Vips::Image.new_from_buffer(qrcode_png_blob, "")
+      ImageProcessing::Vips.source(vips_image)
+    end
+
+    def qrcode_png_blob
+      qrcode = RQRCode::QRCode.new(payload, level: :m)
+      qrcode.as_png(
+        border_modules: 0,
+        module_px_size: 6,
+        size: 1024
+      ).to_blob
+    end
+
+    def logo_image
+      path = "#{Rails.root}/lib/assets/images/swiss_cross.png"
+      ImageProcessing::Vips.source(path)
+        .resize_to_limit!(166, 166)
+    end
   end
 end

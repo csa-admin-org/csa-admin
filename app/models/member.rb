@@ -114,7 +114,7 @@ class Member < ApplicationRecord
     if: -> { public_create && Current.acp.share? }
   validates :billing_email, format: { with: ACP::EMAIL_REGEXP, allow_nil: true }
   validates :iban, presence: true, if: :sepa_mandate_id?
-  validates :iban, format: -> { Billing.iban_format(Current.acp.country_code) }, allow_nil: :true
+  validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
   validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 

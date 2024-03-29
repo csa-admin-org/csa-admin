@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe InvoiceQRCode do
+describe Billing::SwissQRCode do
   before {
     Current.acp.update!(
       country_code: "CH",
@@ -25,7 +25,7 @@ describe InvoiceQRCode do
   specify "#payload" do
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
     invoice.payments.create!(amount: 10, date: Date.today)
-    payload = InvoiceQRCode.new(invoice.reload).payload
+    payload = Billing::SwissQRCode.new(invoice.reload).payload
     expect(payload).to eq(
       "SPC\r\n" +
       "0200\r\n" +
@@ -61,10 +61,10 @@ describe InvoiceQRCode do
       "\r\n")
   end
 
-  specify "#generate_qr_image" do
+  specify "#generate" do
     expected = Vips::Image.new_from_file(file_fixture("qrcode-706.png").to_s)
     invoice = create(:invoice, :annual_fee, id: 706, member: member)
-    qr_image = InvoiceQRCode.new(invoice).generate_qr_image(rails_env: "not_test")
+    qr_image = Billing::SwissQRCode.new(invoice).generate(rails_env: "not_test")
     result = Vips::Image.new_from_file(qr_image.path)
     diff = (result - expected).abs.max
     expect(diff).to eq 0
