@@ -1043,18 +1043,18 @@ _:
           _de: E-Mail
           _fr: Email
           _it: E-mail
-        force_recurring_billing:
-          _de: Rechnung sofort
-          _fr: Facturer maintenant
-          _it: Fatturare ora
-        force_recurring_billing_confirm:
-          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
-          _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
-          _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
         invoice_action:
           _de: Rechnung stellen
           _fr: Facturer
           _it: Fatturare
+        invoice_now:
+          _de: Rechnung sofort
+          _fr: Facturer maintenant
+          _it: Fatturare ora
+        invoice_now_confirm:
+          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
+          _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
         invoice_pdf:
           _de: Rechnung (PDF)
           _fr: Facture (PDF)

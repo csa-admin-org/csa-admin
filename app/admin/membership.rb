@@ -554,8 +554,8 @@ ActiveAdmin.register Membership do
               }))
           }
           row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
-          row(:next_invoice_on) {
-            if resource.billable?
+          if resource.billable?
+            row(:next_invoice_on) {
               if Current.acp.recurring_billing?
                 invoicer = Billing::Invoicer.new(resource.member, resource)
                 if invoicer.next_date
@@ -563,12 +563,12 @@ ActiveAdmin.register Membership do
                     l(invoicer.next_date, format: :long_medium)
                   end
                   if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
-                    button_to t(".force_recurring_billing"), force_recurring_billing_member_path(resource.member),
+                    button_to t(".invoice_now"), force_recurring_billing_member_path(resource.member),
                       form: {
                         data: { controller: "disable", disable_with_value: t("formtastic.processing") },
                         class: "inline"
                       },
-                      data: { confirm: t(".force_recurring_billing_confirm") }
+                      data: { confirm: t(".invoice_now_confirm") }
                   end
                 end
               else
@@ -576,8 +576,8 @@ ActiveAdmin.register Membership do
                   t(".recurring_billing_disabled")
                 end
               end
-            end
-          }
+            }
+          end
         end
 
         active_admin_comments
