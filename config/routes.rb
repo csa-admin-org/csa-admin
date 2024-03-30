@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       delete "/logout" => "sessions#destroy", as: :logout
 
       get "/newsletters/unsubscribe/:token" => "newsletter_subscriptions#destroy", as: "unsubscribe_newsletter"
+      #  List-Unsubscribe-Post
+      post "/newsletters/unsubscribe/:token/post" => "newsletter_subscriptions#destroy", as: "unsubscribe_newsletter_post"
       post "/newsletters/subscribe/:token" => "newsletter_subscriptions#create", as: "subscribe_newsletter"
 
       get "/membership", to: redirect("/memberships")

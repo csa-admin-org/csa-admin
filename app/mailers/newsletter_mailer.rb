@@ -3,11 +3,16 @@ class NewsletterMailer < ApplicationMailer
   EmailRender = Struct.new(:subject, :content)
 
   def newsletter_email
+    set_unsubscribe_token
     attach_attchments!
     template_mail(params[:member],
       from: params[:from],
       to: params[:to],
       stream: "broadcast",
+      headers: {
+        "List-Unsubscribe-Post" => "List-Unsubscribe=One-Click",
+        "List-Unsubscribe" => "<#{members_unsubscribe_newsletter_post_url}>"
+      },
       **prepared_data)
   end
 
@@ -19,6 +24,19 @@ class NewsletterMailer < ApplicationMailer
   end
 
   private
+
+  def set_unsubscribe_token
+    return unless params[:to]
+
+    @unsubscribe_token = Newsletter::Audience.encrypt_email(params[:to])
+  end
+
+  def members_unsubscribe_newsletter_post_url
+    helper = Rails.application.routes.url_helpers
+    helper.members_unsubscribe_newsletter_post_url(
+      host: Current.acp.email_default_host,
+      token: @unsubscribe_token)
+  end
 
   def attach_attchments!
     return unless params[:attachments].present?
@@ -42,9 +60,6 @@ class NewsletterMailer < ApplicationMailer
     end
     if contents = params.delete(:template_contents)
       params[:template] = Newsletter::Template.new(contents: contents, no_preview: true)
-    end
-    if params[:to]
-      @unsubscribe_token = Newsletter::Audience.encrypt_email(params[:to])
     end
     if signature = params.delete(:signature)
       @signature = signature
