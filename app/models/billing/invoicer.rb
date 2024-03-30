@@ -47,7 +47,7 @@ module Billing
             end
           n_date >= membership.fiscal_year.end_of_year ? date : n_date
         elsif member.support?
-          if annual_fee_billable? || member.missing_acp_shares_number&.positive?
+          if annual_fee_billable?
             next_billing_day
           elsif Current.acp.annual_fee?
             next_billing_day(Current.fiscal_year.end_of_year + 1.day)

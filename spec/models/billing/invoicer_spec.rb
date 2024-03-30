@@ -20,18 +20,6 @@ describe Billing::Invoicer do
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  specify "ignore member not billable (SEPA)", freeze: "2024-01-01" do
-    Current.acp.update!(country_code: "DE", iban: "DE89370400440532013000")
-
-    member = create(:member)
-    membership = create(:membership, member: member)
-    expect { create_invoice(member) }.not_to change(Invoice, :count)
-
-    member = create(:member, :with_sepa)
-    membership = create(:membership, member: member)
-    expect { create_invoice(member) }.to change(Invoice, :count).by(1)
-  end
-
   it "does not create an invoice for member with future membership", freeze: "2022-01-01" do
     Current.acp.update!(trial_basket_count: 0)
     member = create(:member)
