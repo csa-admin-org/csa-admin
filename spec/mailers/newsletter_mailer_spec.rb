@@ -34,6 +34,9 @@ describe NewsletterMailer do
     expect(mail.body).to include("Example Text John Doe")
     expect(mail.body).to have_link("Désinscription",
       href: %r{https://membres.ragedevert.ch/newsletters/unsubscribe/\w{32}})
+    expect(mail["List-Unsubscribe-Post"].to_s).to eq "List-Unsubscribe=One-Click"
+    expect(mail["List-Unsubscribe"].to_s)
+      .to match %r{<https://membres.ragedevert.ch/newsletters/unsubscribe/\w{32}/post>}
   end
 
   specify "#newsletter_email with attachments" do
