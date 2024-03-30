@@ -414,21 +414,21 @@ ActiveAdmin.register Member do
               end
             end
           }
-          row(:next_invoice_on) {
-            if member.billable?
+          invoicer = Billing::Invoicer.new(member)
+          if invoicer.next_date
+            row(:next_invoice_on) {
               if Current.acp.recurring_billing?
-                invoicer = Billing::Invoicer.new(member)
                 if invoicer.next_date
                   span class: "next_date" do
                     l(invoicer.next_date, format: :long_medium)
                   end
                   if authorized?(:force_recurring_billing, member) && invoicer.billable?
-                    button_to t(".force_recurring_billing"), force_recurring_billing_member_path(member),
+                    button_to t(".invoice_now"), force_recurring_billing_member_path(member),
                       form: {
                         data: { controller: "disable", disable_with_value: t("formtastic.processing") },
                         class: "inline"
                       },
-                      data: { confirm: t(".force_recurring_billing_confirm") }
+                      data: { confirm: t(".invoice_now_confirm") }
                   end
                 end
               else
@@ -436,8 +436,8 @@ ActiveAdmin.register Member do
                   t(".recurring_billing_disabled")
                 end
               end
-            end
-          }
+            }
+          end
         end
 
         if Current.acp.sepa?
@@ -455,6 +455,30 @@ ActiveAdmin.register Member do
           attributes_table title: t("active_admin.resource.edit.shares") do
             row(ACP.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
             row(:acp_shares_info) { member.acp_shares_info }
+            invoicer = Billing::InvoicerACPShare.new(member)
+            if invoicer.billable?
+              row(:next_invoice_on) {
+                if Current.acp.recurring_billing?
+                  if invoicer.next_date
+                    span class: "next_date" do
+                      l(invoicer.next_date, format: :long_medium)
+                    end
+                    if authorized?(:force_acp_share_billing, member)
+                      button_to t(".invoice_now"), force_acp_share_billing_member_path(member),
+                        form: {
+                          data: { controller: "disable", disable_with_value: t("formtastic.processing") },
+                          class: "inline"
+                        },
+                        data: { confirm: t(".invoice_now_confirm") }
+                    end
+                  end
+                else
+                  span class: "empty" do
+                    t(".recurring_billing_disabled")
+                  end
+                end
+              }
+            end
           end
         end
 
@@ -680,6 +704,14 @@ ActiveAdmin.register Member do
 
   member_action :force_recurring_billing, method: :post do
     if invoice = Billing::Invoicer.force_invoice!(resource)
+      redirect_to invoice
+    else
+      redirect_back fallback_location: resource
+    end
+  end
+
+  member_action :force_acp_share_billing, method: :post do
+    if invoice = Billing::InvoicerACPShare.invoice(resource)
       redirect_to invoice
     else
       redirect_back fallback_location: resource

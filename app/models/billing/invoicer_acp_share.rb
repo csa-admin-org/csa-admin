@@ -18,13 +18,20 @@ module Billing
       member.invoices.create!(attrs)
     end
 
-    private
-
     def billable?
       (ongoing_membership || member.support?) &&
         member.billable? &&
         member.missing_acp_shares_number.positive?
     end
+
+    def next_date
+      return unless Current.acp.recurring_billing?
+
+      today = Date.current
+      today + ((Current.acp.recurring_billing_wday - today.wday) % 7).days
+    end
+
+    private
 
     def ongoing_membership
       member.memberships.ongoing.first

@@ -88,6 +88,7 @@ class Ability
       writable_models += models_for(:billing)
 
       can :force_recurring_billing, Member
+      can :force_acp_share_billing, Member
       can :send_email, Invoice, can_send_email?: true
       can :mark_as_sent, Invoice, can_be_mark_as_sent?: true
       can :cancel, Invoice, can_cancel?: true
