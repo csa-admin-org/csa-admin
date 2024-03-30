@@ -124,12 +124,10 @@ class Member < ApplicationRecord
   after_create_commit :notify_admins!, if: :public_create
 
   def billable?
-    (
-      support? ||
+    support? ||
       missing_acp_shares_number.positive? ||
       current_year_membership&.billable? ||
       future_membership&.billable?
-    ) && (!Current.acp.sepa? || sepa?)
   end
 
   def name=(name)

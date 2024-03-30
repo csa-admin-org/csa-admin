@@ -294,15 +294,6 @@ describe Member do
       create(:membership, :next_year, member: member)
       expect(member).to be_billable
     end
-
-    specify "without SEPA information" do
-      Current.acp.update!(country_code: "DE", iban: "DE89370400440532013000")
-      member = create(:member, :active)
-      expect(member).not_to be_billable
-
-      member = create(:member, :active, :with_sepa)
-      expect(member).to be_billable
-    end
   end
 
   describe "#update_trial_basket_count", freeze: "2024-01-01" do
