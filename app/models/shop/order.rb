@@ -117,6 +117,10 @@ module Shop
       shop_open?
     end
 
+    def stale?
+      cart? && (empty? || delivery.date < 1.week.ago)
+    end
+
     def empty?
       items.none?
     end

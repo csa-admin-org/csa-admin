@@ -5,7 +5,7 @@ module Scheduled
       review_active_state!
       Checker::MembershipPrice.check_all!
       Checker::DeliveryBasketContentAvgPrices.check_all!
-      clear_stale_and_empty_cart_shop_orders!
+      clear_stale_cart_shop_orders!
     end
 
     private
@@ -22,13 +22,12 @@ module Scheduled
         .find_each(&:review_active_state!)
     end
 
-    def clear_stale_and_empty_cart_shop_orders!
+    def clear_stale_cart_shop_orders!
       Shop::Order
         .cart
+        .includes(:depot, :items, :delivery)
         .find_each do |order|
-          if !order.can_member_update? && order.empty?
-            order.destroy!
-          end
+          order.destroy! if order.stale?
         end
     end
   end
