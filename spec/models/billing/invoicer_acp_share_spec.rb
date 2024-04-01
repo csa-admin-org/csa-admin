@@ -54,6 +54,18 @@ describe Billing::InvoicerACPShare do
       .and change { member.acp_shares_number }.from(0).to(2)
   end
 
+  specify "create invoice when ACP shares desired and active with an shop depot", freeze: "2023-01-01" do
+    depot = create(:depot)
+    member = create(:member,
+      state: "active",
+      shop_depot: depot,
+      desired_acp_shares_number: 2)
+
+    expect { invoice(member) }
+      .to change { member.invoices.count }.by(1)
+      .and change { member.acp_shares_number }.from(0).to(2)
+  end
+
   it "does nothing when ACP shares already billed", freeze: "2023-01-01" do
     basket_size = create(:basket_size, acp_shares_number: 3)
     membership = create(:membership, basket_size: basket_size)

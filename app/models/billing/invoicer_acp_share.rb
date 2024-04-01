@@ -19,7 +19,7 @@ module Billing
     end
 
     def billable?
-      (ongoing_membership || member.support?) &&
+      (ongoing_membership || member.support? || member.shop_depot_id?) &&
         member.billable? &&
         member.missing_acp_shares_number.positive?
     end
