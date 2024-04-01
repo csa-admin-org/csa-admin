@@ -104,7 +104,7 @@ module MembershipsHelper
       .group_by { |_, price| price }
       .sort
       .map { |price, bbcs|
-        "#{bbcs.sum { |q, _| q }}x#{precise_cur(price)}"
+        "#{bbcs.sum { |q, _| q }}x #{precise_cur(price)}"
       }.join(" + ")
   end
 
@@ -117,7 +117,7 @@ module MembershipsHelper
       .group_by { |_, price| price }
       .sort
       .map { |price, bbcs|
-        "#{bbcs.sum { |q, _| q }}x#{precise_cur(price)}"
+        "#{bbcs.sum { |q, _| q }}x #{precise_cur(price)}"
       }.join(" + ")
   end
 
@@ -129,7 +129,7 @@ module MembershipsHelper
       .group_by { |_, p| p }
       .sort
       .map { |price, bbs|
-        "#{bbs.sum { |q, _| q }}x#{precise_cur(price)}"
+        "#{bbs.sum { |q, _| q }}x #{precise_cur(price)}"
       }.join(" + ")
   end
 
@@ -162,6 +162,6 @@ module MembershipsHelper
 
   def precise_cur(number)
     precision = number.to_s.split(".").last.size > 2 ? 3 : 2
-    cur(number, unit: false, precision: precision)
+    cur(number, unit: false, precision: precision).strip
   end
 end

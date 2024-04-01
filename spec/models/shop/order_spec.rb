@@ -564,10 +564,10 @@ describe Shop::Order do
 
       expect(order.invoice.items.first).to have_attributes(
         amount: 16,
-        description: "Courge, 5 kg, 1x16.00")
+        description: "Courge, 5 kg, 1x 16.00")
       expect(order.invoice.items.last).to have_attributes(
         amount: BigDecimal(2 * 29.55, 3),
-        description: "Courge, 10 kg, 2x29.55")
+        description: "Courge, 10 kg, 2x 29.55")
     end
   end
 
