@@ -85,7 +85,7 @@ ActiveAdmin.register Shop::Order do
 
   sidebar_shop_admin_only_warning
 
-  sidebar t("active_admin.sidebars.total"), only: :index do
+  sidebar :total, only: :index do
     all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
     div class: "content" do
       if params[:scope].in? [ "invoiced", nil ]
@@ -110,7 +110,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  sidebar t("active_admin.sidebars.shop_status"), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
+  sidebar :shop_status, if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
     div class: "content" do
       delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
       if delivery == Delivery.shop_open.next
@@ -127,7 +127,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  sidebar t("active_admin.sidebars.billing"), if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
+  sidebar :billing, if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
     div class: "actions" do
       handbook_icon_link("shop", anchor: "facturation")
     end
