@@ -54,7 +54,7 @@ module Shop
       [
         product.name,
         product_variant.name,
-        "#{quantity}x#{cur(item_price, format: '%n')}"
+        "#{quantity}x #{cur(item_price, format: '%n')}"
       ].join(", ")
     end
 

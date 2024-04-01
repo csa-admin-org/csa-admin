@@ -937,8 +937,8 @@ describe PDF::Invoice do
         .to contain_sequence("Facture N° #{invoice.id}")
         .and contain_sequence("Commande N° #{order.id}")
         .and contain_sequence("Livraison: 26 août 2021")
-        .and contain_sequence("Courge, 5 kg, 1x16.00")
-        .and contain_sequence("Courge, 10 kg, 2x29.55")
+        .and contain_sequence("Courge, 5 kg, 1x 16.00")
+        .and contain_sequence("Courge, 10 kg, 2x 29.55")
         .and contain_sequence("Total", "75.10")
         .and contain_sequence("Payable jusqu'au 26 août 2021, avec nos remerciements.")
       expect(pdf_strings).not_to include "Cotisation annuelle association"
