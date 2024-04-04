@@ -99,6 +99,7 @@ class Invoice < ApplicationRecord
   after_destroy -> { Billing::PaymentsRedistributor.redistribute!(member_id) }
   after_commit :update_membership_activity_participations_accepted!
   after_commit :enqueue_processing, on: :create
+  after_commit :enqueue_cancellation, on: :update
 
   def self.entity_types
     types = %w[Membership Other]
@@ -179,8 +180,6 @@ class Invoice < ApplicationRecord
       Billing::PaymentsRedistributor.redistribute!(member_id)
       handle_acp_shares_change!
     end
-    Billing::InvoiceCancellationJob.perform_later(self,
-      send_email: @previous_state == OPEN_STATE)
   end
 
   def reference
@@ -485,6 +484,14 @@ class Invoice < ApplicationRecord
 
   def enqueue_processing
     Billing::InvoiceProcessorJob.perform_later(self, send_email: @send_email)
+  end
+
+  def enqueue_cancellation
+    return unless saved_change_to_state?
+    return unless canceled?
+
+    Billing::InvoiceCancellationJob.perform_later(self,
+      send_email: @previous_state == OPEN_STATE)
   end
 
   def handle_acp_shares_change!
