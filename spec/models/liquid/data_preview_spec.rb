@@ -65,6 +65,10 @@ describe Liquid::DataPreview do
           "member_note" => "<div class=\"trix-content\">\n  Ouverture 17h\n</div>\n",
           "name" => "Jardin de la main PUBLIC"
         },
+        "delivery_cycle" => {
+          "id" => 1,
+          "name" => "Mardi"
+        },
         "end_date" => "31 décembre 2020",
         "start_date" => "1 janvier 2020",
         "first_delivery" => {
@@ -167,6 +171,10 @@ describe Liquid::DataPreview do
           "id" => 12,
           "member_note" => nil,
           "name" => "Jardin de la main PUBLIC"
+        },
+        "delivery_cycle" => {
+          "id" => 1,
+          "name" => "Mardi"
         },
         "end_date" => "31 décembre 2020",
         "start_date" => "1 janvier 2020",

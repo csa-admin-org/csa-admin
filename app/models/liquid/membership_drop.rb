@@ -77,6 +77,10 @@ class Liquid::MembershipDrop < Liquid::Drop
     Liquid::DepotDrop.new(@membership.depot)
   end
 
+  def delivery_cycle
+    Liquid::DeliveryCycleDrop.new(@membership.delivery_cycle)
+  end
+
   private
 
   def helpers

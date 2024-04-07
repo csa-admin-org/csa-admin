@@ -29,6 +29,7 @@ module SharedDataPreview
       basket_size: basket_size,
       deliveries: deliveries,
       depot: depot,
+      delivery_cycle: delivery_cycle,
       next_basket: basket,
       basket_quantity: 1,
       remaning_trial_baskets_count: Current.acp.trial_basket_count,
@@ -62,6 +63,12 @@ module SharedDataPreview
 
   def depot
     basket&.depot
+  end
+
+  def delivery_cycle
+    OpenStruct.new(
+      id: 1,
+      public_name: I18n.t('date.day_names')[deliveries.first.date.wday].titleize)
   end
 
   def memberships_basket_complements
