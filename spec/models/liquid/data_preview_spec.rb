@@ -67,7 +67,7 @@ describe Liquid::DataPreview do
         },
         "delivery_cycle" => {
           "id" => 1,
-          "name" => "Mardi"
+          "name" => "Mardis"
         },
         "end_date" => "31 décembre 2020",
         "start_date" => "1 janvier 2020",
@@ -174,7 +174,7 @@ describe Liquid::DataPreview do
         },
         "delivery_cycle" => {
           "id" => 1,
-          "name" => "Mardi"
+          "name" => "Mardis"
         },
         "end_date" => "31 décembre 2020",
         "start_date" => "1 janvier 2020",

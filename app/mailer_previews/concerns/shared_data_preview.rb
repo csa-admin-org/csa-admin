@@ -66,9 +66,10 @@ module SharedDataPreview
   end
 
   def delivery_cycle
+    wday = deliveries.first.date.wday
     OpenStruct.new(
       id: 1,
-      public_name: I18n.t('date.day_names')[deliveries.first.date.wday].titleize)
+      public_name: I18n.t('date.day_names')[wday].titleize.pluralize)
   end
 
   def memberships_basket_complements
