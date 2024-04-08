@@ -32,6 +32,8 @@ ActiveAdmin.register Member do
   filter :salary_basket,
     as: :boolean,
     if: proc { params[:scope].in? [ "active", nil ] }
+  filter :annual_fee,
+    if: proc { Current.acp.annual_fee? }
 
   includes :shop_depot, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do
