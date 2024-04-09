@@ -564,7 +564,9 @@ _:
           _fr: Modifie le montant final, peu importe le nombre de paniers.
           _it: Modifica l'importo finale indipendentemente dal numero di ceste.
         billing_year_division:
+          _de: Der Zeitraum des erneuerten Abonnements wird ebenfalls automatisch aktualisiert.
           _fr: L'intervalle de l'abonnement renouvelé sera également automatiquement mis à jour.
+          _it: Anche l'intervallo dell'abbonamento rinnovato verrà aggiornato automaticamente.
         depot_price:
           _de: Leer lassen für den Standardpreis.
           _fr: Laisser blanc pour le prix par défaut.
