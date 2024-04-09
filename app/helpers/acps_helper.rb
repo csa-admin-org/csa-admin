@@ -43,4 +43,13 @@ module AcpsHelper
     end
     col
   end
+
+  def billing_year_divisions_collection
+    ACP.billing_year_divisions.map { |i|
+      [
+        I18n.t("billing.year_division.x#{i}"),
+        i
+      ]
+    }
+  end
 end

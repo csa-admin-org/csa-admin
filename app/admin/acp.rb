@@ -40,7 +40,7 @@ ActiveAdmin.register ACP do
             hint: t("formtastic.hints.acp.recurring_billing_wday_html")
           f.input :billing_year_divisions,
             as: :check_boxes,
-            collection: ACP.billing_year_divisions.map { |i| [ t("billing.year_division.x#{i}"), i ] },
+            collection: billing_year_divisions_collection,
             required: true
           f.input :fiscal_year_start_month,
             as: :select,

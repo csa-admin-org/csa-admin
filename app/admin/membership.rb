@@ -623,9 +623,7 @@ ActiveAdmin.register Membership do
     f.inputs t(".billing") do
       f.input :billing_year_division,
         as: :select,
-        collection: Current.acp.billing_year_divisions.compact.uniq.sort.map { |i|
-          [ t("billing.year_division.x#{i}"), i ]
-        },
+        collection: billing_year_divisions_collection,
         prompt: true,
         hint: f.object.renewed?
       f.input :baskets_annual_price_change

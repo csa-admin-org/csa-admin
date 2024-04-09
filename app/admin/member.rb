@@ -551,9 +551,7 @@ ActiveAdmin.register Member do
         f.input :waiting_billing_year_division,
           label: Membership.human_attribute_name(:billing_year_division),
           as: :select,
-          collection: Current.acp.billing_year_divisions.compact.uniq.sort.map { |i|
-            [ t("billing.year_division.x#{i}"), i ]
-          },
+          collection: billing_year_divisions_collection,
           prompt: true
         if Depot.many?
           f.input :waiting_alternative_depot_ids,
