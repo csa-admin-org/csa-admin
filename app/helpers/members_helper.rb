@@ -29,8 +29,8 @@ module MembersHelper
     Current.acp.languages.map { |l| [ t("languages.#{l}"), l ] }
   end
 
-  def billing_year_divisions_collection(data: {})
-    Current.acp.billing_year_divisions.map { |i|
+  def acp_billing_year_divisions_collection(data: {})
+    Current.acp.billing_year_divisions.sort.map { |i|
       [
         I18n.t("billing.year_division.x#{i}"),
         i,

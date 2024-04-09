@@ -106,6 +106,10 @@ _:
           _de: Wenn deaktiviert, beginnt die Rechnungsstellung mit dem Beginn des Abonnements.
           _fr: Si désactivée, la facturation commence dès la date du début de l'abonnement.
           _it: Se disattivato, la fatturazione inizia con l'inizio dell'abbonamento.
+        billing_year_divisions:
+          _de: Zahlungsintervall(e), das/die Mitgliedern im Anmelde- oder Verlängerungsformular angeboten wird/werden.
+          _fr: Intervalle(s) de paiement proposé(s) aux membres dans le formulaire d'inscription ou de renouvellement.
+          _it: Intervallo(i) di pagamento proposto(i) ai soci nel modulo di registrazione o di rinnovo.
         delivery_cycles_member_order_mode:
           _de: Legt die Reihenfolge der Lieferzyklen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _fr: Permet de définir l'ordre d'affichage des cycles de livraison dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.

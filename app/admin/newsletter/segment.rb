@@ -68,9 +68,7 @@ ActiveAdmin.register Newsletter::Segment do
         hint: t("formtastic.hints.newsletter/segment.renewal_state")
       f.input :billing_year_division,
         as: :select,
-        collection: Current.acp.billing_year_divisions.sort.map { |i|
-          [ t("billing.year_division.x#{i}"), i ]
-        },
+        collection: billing_year_divisions_collection,
         include_blank: true,
         hint: t("formtastic.hints.newsletter/segment.billing_year_division")
     end
