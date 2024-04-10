@@ -9,18 +9,26 @@
   content: attr(data-tooltip);
   text-transform: none;
   transition: all 0.25s ease;
-  position: fixed;
+  position: absolute;
+  width: 340px;
+  right: 1;
   top: 1;
-  left: 1;
-  margin-left: -110px;
-  margin-top: -20px;
+  margin-left: -170px;
+  margin-top: 25px;
   padding: 10px;
   border-radius: 6px;
   cursor: pointer;
   background-color: rgb(31 41 55);
-  white-space: pre;
   z-index: 10000;
 }
+
+@media only screen and (max-width: 480px) {
+  #index_table_activity_participations .tooltip-toggle::before {
+    width: 340px;
+    margin-left: -340px;
+  }
+}
+
 
 /* Setting up the transition */
 .tooltip-toggle::after,
