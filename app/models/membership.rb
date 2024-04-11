@@ -45,6 +45,7 @@ class Membership < ApplicationRecord
   end
 
   validates :member, presence: true
+  validates :delivery_cycle, presence: true
   validates :activity_participations_demanded_annually, numericality: true
   validates :activity_participations_annual_price_change, numericality: true, allow_nil: true
   validates :started_on, :ended_on, presence: true
@@ -660,7 +661,7 @@ class Membership < ApplicationRecord
   end
 
   def at_least_one_basket
-    if period && period.min && delivery_cycle&.deliveries_in(period).none?
+    if period && period.min && delivery_cycle&.deliveries_in(period)&.none?
       errors.add(:started_on, :invalid)
       errors.add(:ended_on, :invalid)
     end
