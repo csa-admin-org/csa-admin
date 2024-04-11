@@ -180,11 +180,16 @@ module MembersHelper
     ids << membership.delivery_cycle_id if membership
     cycles = DeliveryCycle
       .where(id: ids.uniq)
+      .includes(:depots)
       .member_ordered
       .to_a
 
     if only_with_future_deliveries
       cycles = cycles.select { |d| d.future_deliveries_count.positive? }
+      checked_id =
+        cycles.find { |dc| dc.id == membership&.delivery_cycle_id }&.id ||
+        cycles.find { |dc| dc.depots.include?(membership&.depot) }&.id ||
+        cycles.first&.id
     end
 
     cycles.map { |dc|
@@ -192,7 +197,8 @@ module MembersHelper
         collection_text(dc.public_name,
           details: deliveries_count(dc.billable_deliveries_count)),
         dc.id,
-        data: data
+        data: data,
+        checked: dc.id == checked_id
       ]
     }
   end
