@@ -85,10 +85,13 @@ module ShopHelper
   end
 
   def delivery_title(delivery)
-    if @order.delivery.is_a?(Shop::SpecialDelivery)
-      t("members.shop.products.index.special_delivery", date: l(@order.delivery.date, format: :long))
-    else
-      t("members.shop.products.index.delivery", date: l(@order.delivery.date, format: :long))
-    end
+    title =
+      case delivery
+      when Delivery; Delivery.model_name.human
+      when Shop::SpecialDelivery; delivery.title
+      end
+    t("members.shop.products.index.delivery_title",
+      title: title,
+      date: l(@order.delivery.date, format: :long))
   end
 end
