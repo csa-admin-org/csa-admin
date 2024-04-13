@@ -40,6 +40,12 @@ ActiveAdmin.register Shop::Tag do
     :emoji,
     *I18n.available_locales.map { |l| "name_#{l}" })
 
+  controller do
+    def find_collection(*)
+      super.kept
+    end
+  end
+
   config.filters = false
   config.sort_order = :default_scope
 end

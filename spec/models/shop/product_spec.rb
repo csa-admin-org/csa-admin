@@ -124,6 +124,16 @@ describe Shop::Product do
       expect(Shop::Product.available_for(delivery2))
         .to contain_exactly(product1, product2)
     end
+
+    specify "ignore discarded products" do
+      delivery = create(:delivery)
+      product1 = create(:shop_product, available: true)
+      product2 = create(:shop_product, available: true)
+      product2.discard
+
+      expect(Shop::Product.available_for(delivery))
+        .to contain_exactly(product1)
+    end
   end
 
   specify "null producer" do
@@ -145,5 +155,33 @@ describe Shop::Product do
     product.display_in_delivery_sheets = true
     expect(product.display_in_delivery_sheets).to eq true
     expect(product).to be_display_in_delivery_sheets
+  end
+
+  specify "discard variants when product is destroyed/discarded" do
+    product = create(:shop_product,
+      variants_attributes: {
+        "0" => {
+          name: "100g",
+          price: 5
+        },
+        "1" => {
+          name: "250g",
+          price: 10
+        }
+      })
+    create(:shop_order, :invoiced, items_attributes: {
+      "0" => {
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 1
+      }
+    })
+
+    expect {
+      product.destroy
+    }.to change { product.discarded_at }.from(nil)
+    expect(product.reload).not_to be_destroyed
+    expect(product.reload).to be_discarded
+    expect(product.all_variants.discarded.count).to eq 2
   end
 end

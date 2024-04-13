@@ -30,6 +30,7 @@ module Shop
     has_one :invoice, -> { not_canceled }, as: :entity
 
     scope :all_without_cart, -> { where.not(state: "cart") }
+    scope :uninvoiced, -> { where.not(state: "invoiced") }
     scope :_delivery_gid_eq, ->(gid) {
       where(delivery: GlobalID::Locator.locate(gid))
     }

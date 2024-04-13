@@ -4,6 +4,7 @@ module Shop
 
     include TranslatedAttributes
     include TranslatedRichTexts
+    include Discardable
 
     translated_attributes :name, required: true
     translated_rich_texts :description
@@ -13,9 +14,14 @@ module Shop
     belongs_to :producer, class_name: "Shop::Producer", optional: true
     belongs_to :basket_complement, optional: true
     has_many :variants,
+      -> { kept },
+      class_name: "Shop::ProductVariant"
+    has_many :all_variants,
       class_name: "Shop::ProductVariant",
       dependent: :delete_all
     has_many :order_items, class_name: "Shop::OrderItem", inverse_of: :product
+    has_many :orders, through: :order_items
+    has_many :uninvoiced_orders, -> { uninvoiced }, through: :order_items, source: :order
     has_and_belongs_to_many :tags, class_name: "Shop::Tag"
     has_and_belongs_to_many :special_deliveries,
       class_name: "Shop::SpecialDelivery",
@@ -23,7 +29,7 @@ module Shop
 
     accepts_nested_attributes_for :variants, allow_destroy: true
 
-    scope :available, -> { where(available: true) }
+    scope :available, -> { kept.where(available: true) }
     scope :unavailable, -> { where(available: false) }
     scope :price_eq, ->(v) { joins(:variants).where("price = ?", v) }
     scope :price_gt, ->(v) { joins(:variants).where("price > ?", v) }
@@ -116,7 +122,11 @@ module Shop
 
     def can_update?; true end
 
-    def can_destroy?
+    def can_discard?
+      uninvoiced_orders.none?
+    end
+
+    def can_delete?
       order_items.none?
     end
 
@@ -136,6 +146,10 @@ module Shop
       if display_in_delivery_sheets? && variants.many?
         self.errors.add(:display_in_delivery_sheets, :only_one_variant)
       end
+    end
+
+    after_discard do
+      variants.discard_all
     end
   end
 end

@@ -3,6 +3,7 @@ module Shop
     self.table_name = "shop_producers"
 
     include TranslatedRichTexts
+    include Discardable
 
     default_scope { order(:name) }
 
@@ -24,7 +25,11 @@ module Shop
 
     def can_update?; true end
 
-    def can_destroy?
+    def can_discard?
+      products.any?(&:discarded?) && products.none?(&:kept?)
+    end
+
+    def can_delete?
       products.none?
     end
   end

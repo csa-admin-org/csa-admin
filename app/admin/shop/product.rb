@@ -24,10 +24,8 @@ ActiveAdmin.register Shop::Product do
   filter :name_cont,
     label: -> { Shop::Product.human_attribute_name(:name) },
     as: :string
-  filter :tags,
-    as: :select,
-    collection: -> { Shop::Tag.all }
-  filter :producer, as: :select
+  filter :tags, as: :select, collection: -> { Shop::Tag.kept }
+  filter :producer, as: :select, collection: -> { Shop::Producer.kept }
   filter :depot, as: :select, collection: -> { Depot.all }
   filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open.all }
   filter :variant_name_cont,
@@ -40,7 +38,7 @@ ActiveAdmin.register Shop::Product do
     label: -> { Shop::ProductVariant.human_attribute_name(:stock) },
     as: :numeric
 
-  includes :variants, :basket_complement
+  includes :variants, :basket_complement, :uninvoiced_orders, :order_items
   index do
     selectable_column
     column :name, ->(product) { auto_link product }, sortable: :names
@@ -81,10 +79,10 @@ ActiveAdmin.register Shop::Product do
           translated_input(f, :descriptions, as: :action_text)
           f.input :tags,
             as: :select,
-            collection: Shop::Tag.all.map { |t| [ t.display_name, t.id ] },
+            collection: Shop::Tag.kept.map { |t| [ t.display_name, t.id ] },
             wrapper_html: { class: "select-tags" },
             input_html: { multiple: true, data: { controller: "select-tags" } }
-          f.input :producer
+          f.input :producer, collection: Shop::Producer.kept
           f.input :basket_complement,
             collection: BasketComplement.includes(:shop_product).map { |bc|
               [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
@@ -181,7 +179,7 @@ ActiveAdmin.register Shop::Product do
     include ShopHelper
 
     def find_collection(options = {})
-      collection = super
+      collection = super.kept
       if params[:format] == "csv"
         collection = collection.left_joins(:variants).select(<<-SQL)
           shop_products.*,

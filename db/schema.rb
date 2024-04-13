@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_16_111947) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_10_140253) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -757,6 +757,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_16_111947) do
   create_table "shop_producers", force: :cascade do |t|
     t.string "name", null: false
     t.string "website_url"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_shop_producers_on_discarded_at"
   end
 
   create_table "shop_product_variants", force: :cascade do |t|
@@ -766,7 +768,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_16_111947) do
     t.decimal "weight_in_kg", precision: 8, scale: 3
     t.integer "stock"
     t.boolean "available", default: true, null: false
+    t.datetime "discarded_at"
     t.index ["available"], name: "index_shop_product_variants_on_available"
+    t.index ["discarded_at"], name: "index_shop_product_variants_on_discarded_at"
     t.index ["product_id"], name: "index_shop_product_variants_on_product_id"
   end
 
@@ -778,8 +782,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_16_111947) do
     t.integer "unavailable_for_depot_ids", default: [], array: true
     t.integer "unavailable_for_delivery_ids", default: [], null: false, array: true
     t.boolean "display_in_delivery_sheets", default: false, null: false
+    t.datetime "discarded_at"
     t.index ["available"], name: "index_shop_products_on_available"
     t.index ["basket_complement_id"], name: "index_shop_products_on_basket_complement_id", unique: true
+    t.index ["discarded_at"], name: "index_shop_products_on_discarded_at"
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
   end
 
@@ -809,6 +815,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_16_111947) do
   create_table "shop_tags", force: :cascade do |t|
     t.jsonb "names", default: {}, null: false
     t.string "emoji"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_shop_tags_on_discarded_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

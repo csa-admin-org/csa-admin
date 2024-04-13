@@ -21,6 +21,7 @@ gem "rack-cors"
 
 gem "phony_rails"
 gem "tod"
+gem "discard"
 
 gem "activeadmin"
 gem "sprockets-rails"
