@@ -884,6 +884,10 @@ _:
             _de: Lieferung von %{date}
             _fr: Livraison du %{date}
             _it: Consegna del %{date}
+          delivery_title:
+            _de: "%{title} vom %{date}"
+            _fr: "%{title} du %{date}"
+            _it: "%{title} del %{date}"
           next_delivery_html:
             _de: Die Bestellung für Ihre nächste Lieferung am <u>%{date}</u> kann vom <u>%{start_date}</u> bis zum <u>%{end_date}</u> aufgegeben werden.
             _fr: La commande pour votre prochaine livraison du <u>%{date}</u> pourra être passée à partir du <u>%{start_date}</u> jusqu'au <u>%{end_date}</u>.
@@ -892,14 +896,6 @@ _:
             _de: Lieferung am %{date}
             _fr: Livraison du %{date}
             _it: Consegna il %{date}
-          special_delivery:
-            _de: Sonderlieferung vom %{date}
-            _fr: Livraison spéciale du %{date}
-            _it: Consegna speciale del %{date}
-          delivery_title:
-            _de: "%{title} vom %{date}"
-            _fr: "%{title} du %{date}"
-            _it: "%{title} del %{date}"
         variant:
           add_to_basket:
             _de: In den Warenkorb legen
