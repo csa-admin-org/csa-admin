@@ -84,6 +84,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
       end
       column do
         attributes_table do
+          row(:title)
           row(:date) { l(delivery.date, format: :medium_long) }
           row(:open) { status_tag(delivery.shop_open?) }
           if delivery.shop_open?
@@ -124,6 +125,11 @@ ActiveAdmin.register Shop::SpecialDelivery do
   form do |f|
     f.inputs t(".details") do
       f.input :open
+      translated_input(f, :titles,
+        required: false,
+        placeholder: ->(locale) {
+          I18n.with_locale(locale) { f.object.class.model_name.human }
+        })
       f.input :date, as: :date_picker
       f.input :open_delay_in_days, hint: t("formtastic.hints.acp.shop_delivery_open_delay_in_days")
       f.input :open_last_day_end_time,
@@ -160,6 +166,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
     :date,
     :open_delay_in_days, :open_last_day_end_time,
     :open,
+    *I18n.available_locales.map { |l| "title_#{l}" },
     *I18n.available_locales.map { |l| "shop_text_#{l}" },
     product_ids: []
 

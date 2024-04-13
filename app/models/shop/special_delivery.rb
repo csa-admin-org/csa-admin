@@ -2,11 +2,13 @@ module Shop
   class SpecialDelivery < ApplicationRecord
     include HasFiscalYearScopes
     include TranslatedRichTexts
+    include TranslatedAttributes
 
     self.table_name = "shop_special_deliveries"
 
     attribute :open_last_day_end_time, :time_only
 
+    translated_attributes :title
     translated_rich_texts :shop_text
 
     has_many :shop_orders,
@@ -48,6 +50,10 @@ module Shop
 
     def display_number
       I18n.t "activerecord.attributes.shop/special_delivery.special"
+    end
+
+    def title
+      title_with_fallback.presence || self.class.model_name.human
     end
 
     def shop_closing_at

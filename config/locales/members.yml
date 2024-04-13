@@ -896,6 +896,10 @@ _:
             _de: Sonderlieferung vom %{date}
             _fr: Livraison spéciale du %{date}
             _it: Consegna speciale del %{date}
+          delivery_title:
+            _de: "%{title} vom %{date}"
+            _fr: "%{title} du %{date}"
+            _it: "%{title} del %{date}"
         variant:
           add_to_basket:
             _de: In den Warenkorb legen

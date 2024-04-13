@@ -219,4 +219,21 @@ describe "Shop::Order" do
       end
     end
   end
+
+  specify "shop special delivery with custom title" do
+    create(:shop_special_delivery, date: "2024-04-24", title: "Fête du village")
+
+    travel_to "2024-01-04" do
+      visit "/shop"
+      expect(current_path).not_to eq "/shop"
+
+      expect(page).to have_content "Épicerie"
+      expect(page).to have_content "⤷ 24 avril 2024"
+
+      click_link "⤷ 24 avril 2024"
+
+      expect(current_path).to eq "/shop/special/2024-04-24"
+      expect(page).to have_content "Fête du village du mercredi 24 avril 2024"
+    end
+  end
 end
