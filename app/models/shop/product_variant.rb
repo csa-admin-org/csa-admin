@@ -3,6 +3,7 @@ module Shop
     self.table_name = "shop_product_variants"
 
     include TranslatedAttributes
+    include Discardable
 
     translated_attributes :name, required: true
 
@@ -10,6 +11,8 @@ module Shop
 
     belongs_to :product, class_name: "Shop::Product", optional: true
     has_many :order_items, class_name: "Shop::OrderItem", inverse_of: :product_variant
+    has_many :orders, through: :order_items
+    has_many :uninvoiced_orders, -> { uninvoiced }, through: :order_items, source: :order
 
     scope :available, -> { where(available: true) }
     scope :unavailable, -> { where(available: false) }
@@ -49,7 +52,11 @@ module Shop
       increment! :stock, by
     end
 
-    def can_destroy?
+    def can_discard?
+      uninvoiced_orders.none?
+    end
+
+    def can_delete?
       order_items.none?
     end
   end

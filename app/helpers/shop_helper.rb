@@ -34,7 +34,7 @@ module ShopHelper
   end
 
   def products_collection
-    Shop::Product.all.includes(:variants).order_by_name.map do |product|
+    Shop::Product.kept.includes(:variants).order_by_name.map do |product|
       [ product.name, product.id, disabled: product.variants.all?(&:out_of_stock?) ]
     end
   end

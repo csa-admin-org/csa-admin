@@ -73,6 +73,10 @@ module Shop
       products
     end
 
+    def can_destroy?
+      shop_orders.none?
+    end
+
     private
 
     def update_shop_products_count

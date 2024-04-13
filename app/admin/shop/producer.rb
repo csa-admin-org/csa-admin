@@ -53,5 +53,11 @@ ActiveAdmin.register Shop::Producer do
     :website_url,
     *I18n.available_locales.map { |l| "description_#{l}" })
 
+  controller do
+    def find_collection(*)
+      super.kept
+    end
+  end
+
   config.sort_order = "name_asc"
 end
