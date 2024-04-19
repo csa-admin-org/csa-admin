@@ -41,14 +41,28 @@
 .trix-button--icon-heading-1 {
   display: none !important;
 }
+.trix-button--icon-bullet-list {
+  border-left-width: 0 !important;
+}
+
+body.newsletters .trix-button--icon-heading-1 {
+  display: block !important;
+}
+body.newsletters .trix-content h1 {
+  font-size: 20px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 10px;
+}
+body.newsletters .trix-button--icon-bullet-list {
+  border-left-width: 1px !important;
+}
+
 .trix-button--icon-quote {
   display: none !important;
 }
 .trix-button--icon-code {
   display: none !important;
-}
-.trix-button--icon-bullet-list {
-  border-left-width: 0 !important;
 }
 
 trix-toolbar .trix-button--icon-attach::before {
