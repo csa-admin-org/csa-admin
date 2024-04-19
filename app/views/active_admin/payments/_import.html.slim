@@ -1,5 +1,10 @@
 = form_tag import_payments_path, multipart: true, class: 'sidebar_form' do
-  = label_tag :file, t('.file_label')
-  = file_field_tag :file, accept: 'text/xml', required: true
+  - case Current.acp.country_code
+  - when 'DE'
+    = label_tag :file, t('.file_label_de')
+    = file_field_tag :file, accept: 'text/xml, .mta', required: true
+  - else
+    = label_tag :file, t('.file_label')
+    = file_field_tag :file, accept: 'text/xml', required: true
   .buttons
     = submit_tag t('.submit')

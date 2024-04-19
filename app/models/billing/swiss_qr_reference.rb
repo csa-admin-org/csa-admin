@@ -24,7 +24,14 @@ module Billing
     end
 
     def self.valid?(ref)
-      ref.present? && ref =~ /\A\d+\z/ && ref.length == LENGTH
+      ref = ref.upcase.gsub(/\W/, "")
+      return unless ref.present? && ref =~ /\A\d+\z/ && ref.length == LENGTH
+
+      payload = payload(ref)
+      invoice = OpenStruct.new(
+        id: payload[:invoice_id],
+        member_id: payload[:member_id])
+      new(invoice).to_s.upcase == ref
     end
 
     def self.unknown?(ref)
@@ -32,6 +39,7 @@ module Billing
     end
 
     def self.payload(ref)
+      ref = ref.upcase.gsub(/\W/, "")
       member_id = ref.last(20).first(10).to_i
       {
         member_id: member_id.zero? ? nil : member_id,

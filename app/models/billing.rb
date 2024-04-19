@@ -26,4 +26,16 @@ module Billing
     else ScorReference
     end
   end
+
+  def import_payments(file)
+    Rails.logger.debug "IMPORT PAYMENTS"
+    Rails.logger.debug file.content_type
+    if file.content_type == "text/xml"
+      CamtFile.process!(file)
+    else
+      MtFile.process!(file)
+    end
+  rescue CamtFile::UnsupportedFileError, MtFile::UnsupportedFileError
+    false
+  end
 end

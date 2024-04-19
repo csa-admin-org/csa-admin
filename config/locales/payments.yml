@@ -7,6 +7,6 @@ _:
           _fr: Le fichier n'est pas valide.
           _it: Il file non è valido.
         notice:
-          _de: Die Zahlungen wurden erfolgreich importiert.
-          _fr: Les paiements ont été importés avec succès.
-          _it: I pagamenti sono stati importati con successo.
+          _de: Neue Zahlungen mit gültiger Referenznummer wurden erfolgreich importiert.
+          _fr: Les nouveaux paiements avec un numéro de référence valide ont été importés avec succès.
+          _it: I nuovi pagamenti con un numero di riferimento valido sono stati importati con successo.

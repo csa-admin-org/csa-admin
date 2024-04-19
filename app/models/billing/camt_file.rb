@@ -32,7 +32,7 @@ module Billing
                       date: date,
                       fingerprint: "#{date}-#{bank_ref}-#{ref}")
                   elsif Billing.reference.unknown?(ref)
-                    Sentry.capture_message("Unknown payment referrence", extra: {
+                    Sentry.capture_message("Unknown payment reference", extra: {
                       ref: ref,
                       bank_ref: bank_ref,
                       amount: transaction.amount,

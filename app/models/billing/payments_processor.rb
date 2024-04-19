@@ -29,6 +29,7 @@ module Billing
         create_payment!(payment_data)
       end
       ensure_recent_payments!
+      true
     end
 
     private

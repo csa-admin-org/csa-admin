@@ -44,4 +44,9 @@ describe Billing::ScorReference do
       member_id: 99_999_999,
       invoice_id: 99_999_999)
   end
+
+  specify "#valid? with checksum invalid" do
+    expect(described_class.valid?("RF19 0000 0109 0000 0116")).to eq true
+    expect(described_class.valid?("RF14 0000 0109 0000 0116")).to eq false
+  end
 end

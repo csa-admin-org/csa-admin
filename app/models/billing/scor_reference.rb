@@ -24,7 +24,13 @@ module Billing
     end
 
     def self.valid?(ref)
-      ref.present? && ref.match?(REGEPX)
+      return unless ref.present? && ref.match?(REGEPX)
+
+      payload = payload(ref)
+      invoice = OpenStruct.new(
+        id: payload[:invoice_id],
+        member_id: payload[:member_id])
+      new(invoice).to_s.upcase == ref.upcase.gsub(/\W/, "")
     end
 
     def self.unknown?(ref)

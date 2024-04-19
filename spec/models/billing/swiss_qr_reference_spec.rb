@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Billing::SwissQRReference do
-  def instance(member_id = 42, invoice_id = 706)
+  def ref(member_id = 42, invoice_id = 706)
     invoice = Invoice.new(id: invoice_id, member_id: member_id)
     described_class.new(invoice)
   end
@@ -9,20 +9,34 @@ describe Billing::SwissQRReference do
   specify "with no bank reference" do
     Current.acp.update!(bank_reference: "")
 
-    expect(instance.to_s).to eq "000000000000000420000007068"
-    expect(instance.formatted).to eq "00 00000 00000 00042 00000 07068"
+    expect(ref.to_s).to eq "000000000000000420000007068"
+    expect(ref.formatted).to eq "00 00000 00000 00042 00000 07068"
+
+    expect(described_class.valid?(ref.to_s)).to eq true
+    expect(described_class.valid?(ref.formatted)).to eq true
+
+    expect(described_class.payload(ref.formatted)).to eq(
+      member_id: 42,
+      invoice_id: 706)
   end
 
   specify "with a bank reference" do
     Current.acp.update!(bank_reference: 123456)
 
-    expect(instance.to_s).to eq "123456000000000420000007063"
-    expect(instance.formatted).to eq "12 34560 00000 00042 00000 07063"
+    expect(ref.to_s).to eq "123456000000000420000007063"
+    expect(ref.formatted).to eq "12 34560 00000 00042 00000 07063"
+
+    expect(described_class.valid?(ref.to_s)).to eq true
+    expect(described_class.valid?(ref.formatted)).to eq true
+
+    expect(described_class.payload(ref.formatted)).to eq(
+      member_id: 42,
+      invoice_id: 706)
   end
 
   describe "checksum_digit" do
     def checkum(member_id, invoice_id)
-      obj = instance(
+      obj = ref(
         member_id.gsub(/\D/, "").to_i,
         invoice_id.gsub(/\D/, "").to_i
       ).to_s.last.to_i
