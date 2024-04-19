@@ -77,10 +77,11 @@ ActiveAdmin.register Payment do
 
   collection_action :import, method: :post do
     authorize!(:import, Payment)
-    Billing::CamtFile.process!(params.require(:file))
-    redirect_to collection_path, notice: t(".flash.notice")
-  rescue Billing::CamtFile::UnsupportedFileError
-    redirect_to collection_path, alert: t(".flash.alert")
+    if Billing.import_payments(params.require(:file))
+      redirect_to collection_path, notice: t(".flash.notice")
+    else
+      redirect_to collection_path, alert: t(".flash.alert")
+    end
   end
 
   show do |payement|

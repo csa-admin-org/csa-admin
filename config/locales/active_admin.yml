@@ -470,6 +470,10 @@ _:
           _de: camt.054 XML-Datei
           _fr: Fichier XML camt.054
           _it: File XML camt.054
+        file_label_de:
+          _de: camt.054 XML-Datei oder MT940
+          _fr: Fichier XML camt.054 ou MT940
+          _it: File XML camt.054 o MT940
         submit:
           _de: Importieren
           _fr: Importer

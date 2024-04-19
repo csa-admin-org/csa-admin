@@ -67,6 +67,7 @@ gem "premailer-rails"
 gem "liquid"
 
 gem "camt_parser"
+gem "cmxl"
 gem "epics"
 gem "girocode" # EPC QR code
 gem "rqrcode"
