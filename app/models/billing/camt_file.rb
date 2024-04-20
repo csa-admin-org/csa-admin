@@ -32,12 +32,11 @@ module Billing
                       date: date,
                       fingerprint: "#{date}-#{bank_ref}-#{ref}")
                   elsif Billing.reference.unknown?(ref)
-                    Sentry.capture_message("Unknown payment reference", extra: {
+                    SLog.log(:unknown_payment_reference,
                       ref: ref,
                       bank_ref: bank_ref,
                       amount: transaction.amount,
-                      date: date
-                    })
+                      date: date)
                     nil
                   end
                 end
