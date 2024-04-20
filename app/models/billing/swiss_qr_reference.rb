@@ -50,14 +50,14 @@ module Billing
     private
 
     def member_ref
-      ref = @invoice.member_id.to_s
+      ref = (@invoice.member_id || 0).to_s
       ref.prepend("0") until ref.length == member_ref_length
       ref
     end
 
     def invoice_ref
       @invoice_ref ||= begin
-        ref = @invoice.id.to_s
+        ref = (@invoice.id || 0).to_s
         ref.prepend("0") until ref.length >= INVOICE_REF_LENGTH
         ref
       end
