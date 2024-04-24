@@ -696,9 +696,9 @@ _:
           _it: Tasso IVA
       mail_template:
         active:
-          _de: Gesendet
-          _fr: Envoyé
-          _it: Inviato
+          _de: Versenden
+          _fr: Envoi
+          _it: Invio
         content:
           _de: Inhalt
           _fr: Contenu
