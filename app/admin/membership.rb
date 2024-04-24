@@ -183,10 +183,11 @@ ActiveAdmin.register Membership do
     end
 
     coll =
-      collection.unscope(:includes, :joins, :order)
-      .limit(nil)
-      .joins(:member)
-      .merge(Member.no_salary_basket)
+      collection
+        .unscope(:includes, :joins, :order)
+        .offset(nil).limit(nil)
+        .joins(:member)
+        .merge(Member.no_salary_basket)
     baskets = Basket.billable.where(membership: coll)
     div class: "content" do
       if coll.where("basket_price_extra < 0").any?
