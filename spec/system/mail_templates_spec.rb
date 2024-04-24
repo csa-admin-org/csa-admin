@@ -16,7 +16,7 @@ describe "Mail Templates" do
     visit mail_template_path(mail_template)
     click_link "Modifier"
 
-    check "Envoyé"
+    check "Envoi"
     fill_in "Sujet", with: "Bienvenue {{ member.name }}!!"
     fill_in "Contenu", with: "<p>Panier:: {{ membership.basket_size.name }}</p>"
 
@@ -27,7 +27,7 @@ describe "Mail Templates" do
     click_link "Membre activé"
 
     expect(page).to have_selector "h2#page_title", text: "Membre activé"
-    expect(page).to have_content("Envoyé Oui")
+    expect(page).to have_content("Envoi Oui")
     expect(iframe).to have_selector "h1", text: "Bienvenue Jane Doe!!"
     expect(iframe).to have_selector "p", text: "Panier:: Eveil"
   end
