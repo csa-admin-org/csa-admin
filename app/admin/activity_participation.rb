@@ -31,7 +31,17 @@ ActiveAdmin.register ActivityParticipation do
   filter :activity,
     as: :select,
     collection: -> { Activity.order(date: :desc, start_time: :desc) }
-  filter :activity_date, label: -> { Activity.human_attribute_name(:date) }, as: :date_range
+  filter :activity_date,
+    label: -> { Activity.human_attribute_name(:date) },
+    as: :date_range
+  filter :activity_wday,
+    label: -> { Activity.human_attribute_name(:wday) },
+    as: :select,
+    collection: -> { wdays_collection }
+  filter :activity_month,
+    label: -> { Activity.human_attribute_name(:month) },
+    as: :select,
+    collection: -> { months_collection }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }

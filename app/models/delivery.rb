@@ -1,4 +1,5 @@
 class Delivery < ApplicationRecord
+  include HasDate
   include HasFiscalYearScopes
   include BulkDatesInsert
 
@@ -15,9 +16,6 @@ class Delivery < ApplicationRecord
     after_add: :add_subscribed_baskets_complement!,
     after_remove: :remove_subscribed_baskets_complement!
 
-  scope :between, ->(range) { where(date: range) }
-  scope :past, -> { between(...Date.current) }
-  scope :coming, -> { between(Date.current..) }
   scope :shop_open, -> { where(shop_open: true) }
 
   validates :date, uniqueness: true
@@ -71,7 +69,7 @@ class Delivery < ApplicationRecord
   end
 
   def delivered?
-    date.past?
+    past?
   end
 
   def display_name(format: :medium_long)
@@ -141,11 +139,11 @@ class Delivery < ApplicationRecord
   end
 
   def can_destroy?
-    date >= Date.today
+    future?
   end
 
   def can_update?
-    date >= Date.today
+    future?
   end
 
   def basket_content_yearly_price_diff(basket_size)
