@@ -49,7 +49,7 @@ class ACP < ApplicationRecord
 
   validates :name, presence: true
   validates :host, presence: true
-  validates :url, presence: true, format: { with: %r{\Ahttps?://.*\z} }
+  validates :url, presence: true, format: { with: %r{\Ahttps://.*\z} }
   validates :logo_url, presence: true
   validates :email, presence: true
   validates :email_default_host,
