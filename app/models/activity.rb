@@ -1,4 +1,5 @@
 class Activity < ApplicationRecord
+  include HasDate
   include TranslatedAttributes
   include HasFiscalYearScopes
   include BulkDatesInsert
@@ -14,10 +15,6 @@ class Activity < ApplicationRecord
   has_many :participations, class_name: "ActivityParticipation"
 
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
-  scope :between, ->(range) { where(date: range) }
-  scope :coming, -> { between(Date.current..) }
-  scope :future, -> { between(Date.tomorrow..) }
-  scope :past, -> { between(..Date.current) }
   scope :past_current_year, -> { between(Current.fy_range.min...Date.current) }
   scope :without_participations, -> {
     includes(:participations).where(participations: { id: nil })
@@ -41,14 +38,6 @@ class Activity < ApplicationRecord
       .ordered(:asc)
       .includes(:participations)
       .reject(&:full?)
-  end
-
-  def future?
-    date.future?
-  end
-
-  def coming?
-    date.today? || future?
   end
 
   def full?

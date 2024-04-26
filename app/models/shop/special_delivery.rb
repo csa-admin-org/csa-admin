@@ -1,5 +1,6 @@
 module Shop
   class SpecialDelivery < ApplicationRecord
+    include HasDate
     include HasFiscalYearScopes
     include TranslatedRichTexts
     include TranslatedAttributes
@@ -20,9 +21,6 @@ module Shop
 
     default_scope { order(:date) }
 
-    scope :between, ->(range) { where(date: range) }
-    scope :past, -> { between(...Date.current) }
-    scope :coming, -> { between(Date.current..) }
     scope :open, -> { where(open: true) }
 
     validates :date, uniqueness: true

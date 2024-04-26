@@ -141,8 +141,12 @@ module ApplicationHelper
     col
   end
 
-  def months_collection
-    Array(1..12).rotate(Current.fiscal_year.range.min.month - 1).map { |d|
+  def months_collection(fiscal_year_order: false)
+    months = Array(1..12)
+    if fiscal_year_order
+      months = months.rotate(Current.fiscal_year.range.min.month - 1)
+    end
+    months.map { |d|
       [ I18n.t("date.month_names")[d].capitalize, d ]
     }
   end

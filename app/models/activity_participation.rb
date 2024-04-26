@@ -21,6 +21,8 @@ class ActivityParticipation < ApplicationRecord
   scope :pending, -> { joins(:activity).merge(Activity.past).where(state: "pending") }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
   scope :future, -> { joins(:activity).merge(Activity.future) }
+  scope :activity_wday, ->(wday) { joins(:activity).merge(Activity.wday(wday)) }
+  scope :activity_month, ->(month) { joins(:activity).merge(Activity.month(month)) }
   scope :past_current_year, -> { joins(:activity).merge(Activity.past_current_year) }
   scope :current_year, -> { joins(:activity).merge(Activity.current_year) }
   scope :during_year, ->(year) { joins(:activity).merge(Activity.during_year(year)) }
@@ -46,7 +48,7 @@ class ActivityParticipation < ApplicationRecord
   after_commit :update_membership_activity_participations_accepted!
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year]
+    super + %i[ activity_wday activity_month during_year ]
   end
 
   def self.invoice_all_missing(year)

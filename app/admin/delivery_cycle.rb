@@ -157,7 +157,7 @@ ActiveAdmin.register DeliveryCycle do
         include_blank: false
       f.input :months,
         as: :check_boxes,
-        collection: months_collection,
+        collection: months_collection(fiscal_year_order: true),
         required: true
       f.input :results,
         as: :select,

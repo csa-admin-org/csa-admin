@@ -14,6 +14,8 @@ ActiveAdmin.register Delivery do
     as: :boolean,
     if: ->(proc) { Current.acp.feature?("shop") }
   filter :date
+  filter :wday, as: :select, collection: -> { wdays_collection }
+  filter :month, as: :select, collection: -> { months_collection }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
