@@ -26,16 +26,21 @@
   object-fit: contain;
 }
 
+.trix-content ul,
+.trix-content ol {
+  margin: 0.4em 0;
+}
+
 .trix-content ul li {
   list-style: disc outside none !important;
   border: none !important;
-  margin-left: 1.25em !important;
+  margin-left: 1.6em !important;
 }
 
 .trix-content ol li {
   list-style: decimal outside none !important;
   border: none !important;
-  margin-left: 1.25em !important;
+  margin-left: 1.6em !important;
 }
 
 .trix-button--icon-heading-1 {

@@ -221,6 +221,11 @@ input[type="number"].controls-none {
   @apply underline;
 }
 
+.trix-content ul,
+.trix-content ol {
+  margin: 0.4em 0;
+}
+
 .trix-content ul li {
   @apply list-disc list-outside ml-6;
 }

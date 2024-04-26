@@ -490,10 +490,13 @@ p {
     border-right-width: 0.3em;
     margin-right: 0.3em;
     padding-right: 0.6em; }
+  .trix-content ul,
+  .trix-content ol {
+    margin: 0.4em 0; }
   .trix-content li {
-    margin-left: 1em; }
+    margin-left: 1.6em; }
   .trix-content [dir=rtl] li {
-    margin-right: 1em; }
+    margin-right: 1.6em; }
   .trix-content pre {
     display: inline-block;
     width: 100%;
