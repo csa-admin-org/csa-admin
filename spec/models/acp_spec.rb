@@ -1,6 +1,14 @@
 require "rails_helper"
 
 describe ACP do
+  specify "validate url https" do
+    acp = ACP.new(url: "http://www.ragedevert.ch")
+    expect(acp).not_to have_valid(:url)
+
+    acp = ACP.new(url: "https://www.ragedevert.ch")
+    expect(acp).to have_valid(:url)
+  end
+
   specify "validates email_default_from format" do
     acp = ACP.new(email_default_host: "https://membres.ragedevert.ch")
 
