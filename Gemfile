@@ -24,6 +24,7 @@ gem "tod"
 gem "discard"
 
 gem "activeadmin"
+gem "csv"
 gem "sprockets-rails"
 gem "cancancan"
 gem "acts_as_list"
