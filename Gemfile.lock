@@ -155,6 +155,7 @@ GEM
     crass (1.0.6)
     css_parser (1.17.1)
       addressable
+    csv (3.3.0)
     date (3.3.4)
     date_validator (0.12.0)
       activemodel (>= 3)
@@ -613,6 +614,7 @@ DEPENDENCIES
   cld
   cmxl
   countries
+  csv
   date_validator
   discard
   dotenv
@@ -681,7 +683,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.3.0p0
+   ruby 3.3.1p55
 
 BUNDLED WITH
-   2.5.3
+   2.5.9
