@@ -19,7 +19,7 @@ module AcpsHelper
       Membership.human_attribute_name(:baskets_annual_price_change),
       "baskets_annual_price_change"
     ] ]
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       col << [
         Membership.human_attribute_name(:basket_complements_annual_price_change),
         "basket_complements_annual_price_change"

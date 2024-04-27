@@ -59,7 +59,7 @@ table_for nil, class: "next-delivery next-delivery-total" do
   end
 end
 
-if BasketComplement.any?
+if BasketComplement.kept.any?
   counts = delivery.basket_complement_counts(scope: scope)
   div id: "basket-complements-table" do
     if counts.any?

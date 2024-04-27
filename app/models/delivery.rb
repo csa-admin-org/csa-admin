@@ -7,6 +7,7 @@ class Delivery < ApplicationRecord
 
   has_many :baskets, dependent: :destroy
   has_many :depots, -> { distinct.reorder(:position) }, through: :baskets
+  has_many :basket_sizes, -> { distinct.reorder(:price) }, through: :baskets
   has_many :basket_contents, dependent: :destroy
   has_many :shop_orders,
     class_name: "Shop::Order",
@@ -62,10 +63,6 @@ class Delivery < ApplicationRecord
 
   def gid
     to_global_id.to_s
-  end
-
-  def basket_sizes
-    @basket_sizes ||= BasketSize.find(baskets.active.pluck(:basket_size_id))
   end
 
   def delivered?
@@ -173,8 +170,8 @@ class Delivery < ApplicationRecord
     bcs = basket_contents.with_unit_price.includes(:depots)
     return {} if bcs.empty?
 
-    BasketSize.paid.map do |basket_size|
-      depot_prices = Depot.all.map do |depot|
+    basket_sizes.paid.map do |basket_size|
+      depot_prices = depots.map do |depot|
         [
           depot,
           bcs.sum { |bc| bc.price_for(basket_size, depot) || 0 }.round_to_five_cents

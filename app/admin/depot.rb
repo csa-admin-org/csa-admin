@@ -12,14 +12,16 @@ ActiveAdmin.register Depot do
   filter :city_cont,
     label: -> { Depot.human_attribute_name(:city) },
     as: :string
-  filter :delivery_cycles, as: :select
+  filter :delivery_cycles,
+    as: :select,
+    collection: -> { admin_delivery_cycles_collection }
 
   includes :memberships, :delivery_cycles
   index do
     column :id, ->(d) { auto_link d, d.id }
     column :name, ->(d) { link_to display_name_with_public_name(d), d }
     column :group
-    if Depot.pluck(:price).any?(&:positive?)
+    if Depot.kept.pluck(:price).any?(&:positive?)
       column :price, ->(d) { cur(d.price) }
     end
     if DeliveryCycle.visible?
@@ -201,7 +203,7 @@ ActiveAdmin.register Depot do
         hint: t("formtastic.hints.acp.member_order_priority_html")
       unless DeliveryCycle.basket_size_config?
         f.input :delivery_cycles,
-          collection: delivery_cycles_collection,
+          collection: admin_delivery_cycles_collection,
           input_html: f.object.persisted? ? {} : { checked: true },
           as: :check_boxes,
           required: true
@@ -245,6 +247,10 @@ ActiveAdmin.register Depot do
   controller do
     include TranslatedCSVFilename
     include DeliveryCyclesHelper
+
+    def scoped_collection
+      super.kept
+    end
   end
 
   config.sort_order = "name_asc"

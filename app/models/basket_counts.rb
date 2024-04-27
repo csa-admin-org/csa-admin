@@ -3,7 +3,7 @@ class BasketCounts
 
   def initialize(delivery, depot_ids, scope: nil)
     @delivery = delivery
-    @basket_size_ids = @delivery.basket_sizes.pluck(:id)
+    @basket_size_ids = @delivery.basket_sizes.map(&:id)
     @baskets = @delivery.baskets.send(scope || :active).to_a
     @shop_orders = @delivery.shop_orders.all_without_cart.to_a
     used_depot_ids = (@baskets.map(&:depot_id) + @shop_orders.map(&:depot_id)).uniq
@@ -12,7 +12,6 @@ class BasketCounts
 
   def all
     @all ||= @depots
-      .select(:name, :id)
       .map { |depot| BasketCount.new(depot, @baskets, @basket_size_ids, @shop_orders) }
       .select { |c| c.count.positive? || c.shop_orders_count.positive? }
   end
@@ -41,8 +40,6 @@ class BasketCounts
   end
 
   class BasketCount
-    include ActionView::Helpers::UrlHelper
-
     attr_reader :depot
 
     def initialize(depot, baskets, basket_size_ids, shop_orders)
@@ -53,8 +50,7 @@ class BasketCounts
     end
 
     def title
-      url_helpers = Rails.application.routes.url_helpers
-      link_to @depot.name, url_helpers.depot_path(@depot)
+      @depot
     end
 
     def depot_id

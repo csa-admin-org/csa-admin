@@ -11,6 +11,7 @@ module XLSX
           .billable
           .joins(membership: :member)
           .merge(Member.no_salary_basket)
+      @basket_sizes = BasketSize.where(id: @baskets.pluck(:basket_size_id))
       @memberships_basket_complements =
         MembershipsBasketComplement
           .joins(membership: :member)
@@ -37,7 +38,7 @@ module XLSX
         Invoice.human_attribute_name(:description),
         Invoice.human_attribute_name(:unit_price),
         Invoice.human_attribute_name(:total))
-      BasketSize.all.each do |basket_size|
+      @basket_sizes.each do |basket_size|
         total = @baskets.where(baskets: { basket_size_id: basket_size.id }).sum("baskets.quantity * baskets.basket_price")
         add_line("#{Basket.model_name.human}: #{basket_size.name}", total, basket_size.price)
       end
@@ -47,8 +48,9 @@ module XLSX
       end
       add_empty_line
 
-      if BasketComplement.any?
-        BasketComplement.all.each do |basket_complement|
+      basket_complements = BasketComplement.for(@baskets)
+      if basket_complements.any?
+        basket_complements.each do |basket_complement|
           total =
             @baskets
               .joins(:baskets_basket_complements)
@@ -68,7 +70,7 @@ module XLSX
       end
 
       add_line("#{t('adjustments')}: #{Basket.model_name.human(count: 2)}", @memberships.sum(:baskets_annual_price_change))
-      if BasketComplement.any?
+      if basket_complements.any?
         add_line("#{t('adjustments')}: #{BasketComplement.model_name.human}", @memberships.sum(:basket_complements_annual_price_change))
       end
       add_line("#{t('adjustments')}: #{ApplicationController.helpers.activities_human_name}", @memberships.sum(:activity_participations_annual_price_change))

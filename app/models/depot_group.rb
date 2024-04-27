@@ -5,7 +5,7 @@ class DepotGroup < ApplicationRecord
   translated_attributes :name, :public_name
   translated_rich_texts :information_text
 
-  has_many :depots, inverse_of: :group
+  has_many :depots, -> { kept }, inverse_of: :group
 
   default_scope { order_by_name }
 

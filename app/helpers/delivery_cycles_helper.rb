@@ -24,14 +24,8 @@ module DeliveryCyclesHelper
     col
   end
 
-  def basket_sizes_with_only(delivery_cycle)
-    BasketSize.includes(:delivery_cycles).select { |bs|
-      bs.delivery_cycle_ids.one? && bs.delivery_cycle_ids.first == delivery_cycle.id
-    }.map(&:id)
-  end
-
   def depot_ids_with_only(delivery_cycle)
-    Depot.includes(:delivery_cycles).select { |d|
+    Depot.kept.includes(:delivery_cycles).select { |d|
       d.delivery_cycle_ids.one? && d.delivery_cycle_ids.first == delivery_cycle.id
     }.map(&:id)
   end

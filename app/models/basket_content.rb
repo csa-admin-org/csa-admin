@@ -162,6 +162,14 @@ class BasketContent < ApplicationRecord
     basket_quantity(basket_size).to_f * unit_price
   end
 
+  def can_update?
+    delivery.date >= 6.months.ago
+  end
+
+  def can_destroy?
+    delivery.date >= 6.months.ago
+  end
+
   private
 
   def set_defaults

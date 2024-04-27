@@ -180,6 +180,7 @@ module MembersHelper
     ids << membership.delivery_cycle_id if membership
     cycles = DeliveryCycle
       .where(id: ids.uniq)
+      .kept
       .includes(:depots)
       .member_ordered
       .to_a

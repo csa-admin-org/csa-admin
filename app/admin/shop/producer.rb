@@ -54,7 +54,7 @@ ActiveAdmin.register Shop::Producer do
     *I18n.available_locales.map { |l| "description_#{l}" })
 
   controller do
-    def find_collection(*)
+    def scoped_collection
       super.kept
     end
   end

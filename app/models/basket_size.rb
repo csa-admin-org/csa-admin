@@ -1,6 +1,8 @@
 class BasketSize < ApplicationRecord
   include TranslatedAttributes
+  include HasPrice
   include HasVisibility
+  include Discardable
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -28,8 +30,6 @@ class BasketSize < ApplicationRecord
     order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), names->>'#{I18n.locale}')"
     reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
-  scope :free, -> { where("price = 0") }
-  scope :paid, -> { where("price > 0") }
   scope :used, -> {
     ids = Basket
       .joins(:delivery)
@@ -39,9 +39,6 @@ class BasketSize < ApplicationRecord
     where(id: ids)
   }
 
-  validates :price,
-    numericality: { greater_than_or_equal_to: 0 },
-    presence: true
   validates :activity_participations_demanded_annually,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
@@ -60,8 +57,12 @@ class BasketSize < ApplicationRecord
     self[:public_names][I18n.locale.to_s].presence || name
   end
 
-  def can_destroy?
+  def can_delete?
     memberships.none? && baskets.none?
+  end
+
+  def can_discard?
+    memberships.current_and_future_year.none? && baskets.current_and_future_year.none?
   end
 
   def price_for(year)

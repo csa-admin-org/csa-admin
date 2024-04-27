@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_13_083514) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_24_135228) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -267,6 +267,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_13_083514) do
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.integer "activity_participations_demanded_annually", default: 0, null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_basket_complements_on_discarded_at"
     t.index ["visible"], name: "index_basket_complements_on_visible"
   end
 
@@ -321,7 +323,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_13_083514) do
     t.jsonb "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.bigint "delivery_cycle_id"
+    t.datetime "discarded_at"
     t.index ["delivery_cycle_id"], name: "index_basket_sizes_on_delivery_cycle_id"
+    t.index ["discarded_at"], name: "index_basket_sizes_on_discarded_at"
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 
@@ -389,6 +393,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_13_083514) do
     t.integer "member_order_priority", default: 1, null: false
     t.integer "minimum_gap_in_days"
     t.integer "absences_included_annually", default: 0, null: false
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_delivery_cycles_on_discarded_at"
   end
 
   create_table "delivery_cycles_depots", force: :cascade do |t|
@@ -426,6 +432,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_13_083514) do
     t.integer "member_ids_position", default: [], array: true
     t.string "delivery_sheets_mode", default: "signature", null: false
     t.bigint "group_id"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_depots_on_discarded_at"
     t.index ["group_id"], name: "index_depots_on_group_id"
     t.index ["visible"], name: "index_depots_on_visible"
   end

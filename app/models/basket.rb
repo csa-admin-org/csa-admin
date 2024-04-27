@@ -24,6 +24,7 @@ class Basket < ApplicationRecord
   before_save :set_calculated_price_extra
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
+  scope :current_and_future_year, -> { joins(:delivery).merge(Delivery.current_and_future_year) }
   scope :during_year, ->(year) { joins(:delivery).merge(Delivery.during_year(year)) }
   scope :past, -> { joins(:delivery).merge(Delivery.past) }
   scope :coming, -> { joins(:delivery).merge(Delivery.coming) }

@@ -15,7 +15,7 @@ ActiveAdmin.register DeliveryCycle do
   filter :name_cont,
     label: -> { DeliveryCycle.human_attribute_name(:name) },
     as: :string
-  filter :depots, as: :select
+  filter :depots, as: :select,  collection: -> { admin_depots_collection }
 
   includes :depots
   index download_links: false do
@@ -184,6 +184,10 @@ ActiveAdmin.register DeliveryCycle do
 
   controller do
     include DeliveryCyclesHelper
+
+    def scoped_collection
+      super.kept
+    end
 
     private
 

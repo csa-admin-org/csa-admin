@@ -5,7 +5,7 @@ ActiveAdmin.register BasketContent do
   filter :delivery, as: :select
   filter :product, as: :select
   filter :basket_size, as: :select, collection: -> { BasketSize.paid }
-  filter :depots, as: :select
+  filter :depots, as: :select, collection: -> { admin_depots_collection }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
@@ -269,7 +269,7 @@ ActiveAdmin.register BasketContent do
     end
     f.inputs do
       f.input :depots,
-        collection: Depot.all,
+        collection: admin_depots_collection,
         as: :check_boxes
     end
     f.actions
@@ -291,7 +291,7 @@ ActiveAdmin.register BasketContent do
   before_build do |basket_content|
     basket_content.delivery_id ||= referer_filter(:delivery_id) || Delivery.next&.id
     if basket_content.depots.empty?
-      basket_content.depots = Depot.all
+      basket_content.depots = Depot.kept
     end
   end
 

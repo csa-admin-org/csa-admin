@@ -29,14 +29,18 @@ ActiveAdmin.register Membership do
   filter :member,
     as: :select,
     collection: -> { Member.joins(:memberships).order(:name).distinct }
-  filter :basket_size, as: :select
+  filter :basket_size,
+    as: :select,
+    collection: -> { admin_basket_sizes_collection }
   filter :with_memberships_basket_complement,
     as: :select,
-    collection: -> { BasketComplement.all },
+    collection: -> { admin_basket_complements_collection },
     label: proc { BasketComplement.model_name.human },
     if: :any_basket_complements?
-  filter :depot, as: :select
-  filter :delivery_cycle, as: :select
+  filter :depot, as: :select, collection: -> { admin_depots_collection }
+  filter :delivery_cycle,
+    as: :select,
+    collection: -> { admin_delivery_cycles_collection }
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
@@ -256,7 +260,7 @@ ActiveAdmin.register Membership do
       column("#{Current.acp.basket_price_extra_title} - #{Membership.human_attribute_name(:total)}") { |m| cur(m.baskets_price_extra) }
     end
     column(:basket_quantity)
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       column(:basket_complements) { |m|
         basket_complements_description(m.memberships_basket_complements.includes(:basket_complement),
           text_only: true,
@@ -277,7 +281,7 @@ ActiveAdmin.register Membership do
     column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }
     column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     column(:baskets_annual_price_change) { |m| cur(m.baskets_annual_price_change) }
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       column(:basket_complements_annual_price_change) { |m| cur(m.basket_complements_annual_price_change) }
     end
     column(:price) { |m| cur(m.price) }
@@ -339,7 +343,7 @@ ActiveAdmin.register Membership do
 
         attributes_table title: t(".config") do
           row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
-          if BasketComplement.any?
+          if BasketComplement.kept.any?
             row(:memberships_basket_complements) {
               basket_complements_description(
                 m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
@@ -348,7 +352,7 @@ ActiveAdmin.register Membership do
           row :depot
           row(:delivery_cycle) {
             cycle = m.delivery_cycle
-            link_to "#{cycle.display_name} (#{cycle.deliveries_count_for(m.fy_year)})", cycle
+            auto_link cycle, "#{cycle.display_name} (#{cycle.deliveries_count_for(m.fy_year)})"
           }
           if feature?("absence") && m.absences_included_annually.positive?
             row(:absences_included) {
@@ -628,7 +632,7 @@ ActiveAdmin.register Membership do
         prompt: true,
         hint: f.object.renewed?
       f.input :baskets_annual_price_change
-      if BasketComplement.any?
+      if BasketComplement.kept.any?
         f.input :basket_complements_annual_price_change
       end
     end
@@ -648,7 +652,7 @@ ActiveAdmin.register Membership do
     ].to_sentence do
        ol "data-controller" => "form-reset" do
         f.input :depot,
-          collection: Depot.all.map { |d| [ d.name, d.id ] },
+          collection: admin_depots_collection,
           prompt: true,
           input_html: {
             data: { action: "form-reset#reset" }
@@ -659,7 +663,7 @@ ActiveAdmin.register Membership do
       end
       ol "data-controller" => "form-reset" do
         f.input :delivery_cycle,
-          collection: delivery_cycles_collection,
+          collection: admin_delivery_cycles_collection,
           as: :select,
           prompt: true,
           input_html: {
@@ -680,7 +684,7 @@ ActiveAdmin.register Membership do
     end
     f.inputs [
       Basket.model_name.human(count: 1),
-      BasketComplement.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
+      BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
     ].compact.to_sentence, "data-controller" => "form-reset" do
       f.input :basket_size,
         prompt: true,
@@ -694,12 +698,11 @@ ActiveAdmin.register Membership do
       end
       f.input :basket_quantity
 
-      if BasketComplement.any?
-        complements = BasketComplement.all
+      if BasketComplement.kept.any?
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
           ff.inputs class: "blank", "data-controller" => "form-reset" do
             ff.input :basket_complement,
-              collection: complements,
+              collection: admin_basket_complements_collection,
               prompt: true,
               input_html: { data: { action: "form-reset#reset" } }
             ff.input :price,
@@ -709,7 +712,7 @@ ActiveAdmin.register Membership do
             ff.input :quantity
             ff.input :delivery_cycle,
               as: :select,
-              collection: delivery_cycles_collection,
+              collection: admin_delivery_cycles_collection,
               include_blank: true,
               hint: true
           end

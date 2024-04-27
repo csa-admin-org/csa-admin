@@ -25,7 +25,7 @@ module BasketsHelper
   end
 
   def basket_complements_collection(basket)
-    BasketComplement.all.map do |complement|
+    BasketComplement.kept.map do |complement|
       [ complement.name, complement.id,
         disabled: complement.current_and_future_delivery_ids.exclude?(basket.delivery_id),
         data: {

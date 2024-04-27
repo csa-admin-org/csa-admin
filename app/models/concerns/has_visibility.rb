@@ -2,7 +2,7 @@ module HasVisibility
   extend ActiveSupport::Concern
 
   included do
-    scope :visible, -> { where(visible: true) }
-    scope :hidden, -> { where(visible: false) }
+    scope :visible, -> { kept.where(visible: true) }
+    scope :hidden, -> { kept.where(visible: false) }
   end
 end

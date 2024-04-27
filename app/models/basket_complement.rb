@@ -1,6 +1,8 @@
 class BasketComplement < ApplicationRecord
   include TranslatedAttributes
   include HasVisibility
+  include HasPrice
+  include Discardable
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -15,7 +17,9 @@ class BasketComplement < ApplicationRecord
   translated_attributes :form_detail
 
   has_many :baskets_basket_complement, dependent: :destroy
+  has_many :baskets, through: :baskets_basket_complement
   has_many :memberships_basket_complements, dependent: :destroy
+  has_many :memberships, through: :memberships_basket_complements
   has_one :shop_product, class_name: "Shop::Product"
   has_and_belongs_to_many :deliveries, validate: false
   has_and_belongs_to_many :current_deliveries, -> { current_year },
@@ -40,14 +44,11 @@ class BasketComplement < ApplicationRecord
     where(id: ids)
   }
 
-  validates :price,
-    numericality: { greater_than_or_equal_to: 0 },
-    presence: true
   validates :activity_participations_demanded_annually,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
 
-  def self.for(baskets, shop_orders)
+  def self.for(baskets, shop_orders = Shop::Order.none)
     ids =
       baskets
         .joins(:baskets_basket_complements)
@@ -103,8 +104,12 @@ class BasketComplement < ApplicationRecord
     self[:public_names][I18n.locale.to_s].presence || name
   end
 
-  def can_destroy?
+  def can_delete?
     memberships_basket_complements.none? && baskets_basket_complement.none? && !shop_product
+  end
+
+  def can_discard?
+    memberships.current_and_future_year.none? && baskets.current_and_future_year.none? && !shop_product
   end
 
   private
