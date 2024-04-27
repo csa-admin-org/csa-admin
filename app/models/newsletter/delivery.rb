@@ -42,6 +42,7 @@ class Newsletter
 
     def mailer_params
       {
+        newsletter_id: newsletter_id,
         from: newsletter.from.presence,
         member: member,
         subject: newsletter.subject(member.language).to_s,

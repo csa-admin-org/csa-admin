@@ -22,6 +22,7 @@ describe MemberMailer do
 
     expect(mail.subject).to eq("Bienvenue!")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("member-activated")
     expect(mail.body).to include("<strong>Dépôt:</strong> Jardin de la main")
     expect(mail.body).to include("<strong>Taille panier:</strong> Eveil")
     expect(mail.body).to include("<strong>Compléments:</strong> Oeuf et Pain")
@@ -41,6 +42,7 @@ describe MemberMailer do
 
     expect(mail.subject).to eq("Inscription validée!")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("member-validated")
     expect(mail.body).to include("Position sur la liste d'attente: <strong>1</strong>")
     expect(mail.body).to include("Accéder à ma page de membre")
     expect(mail.body).to include("https://membres.ragedevert.ch")

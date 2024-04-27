@@ -18,6 +18,7 @@ describe NewsletterMailer do
       emails: "john@doe.com, jane@doe.com")
     membership = create(:membership, member: member)
     mail = NewsletterMailer.with(
+      newsletter_id: 42,
       template: template,
       subject: "Ma Newsletter",
       member: member,
@@ -28,6 +29,7 @@ describe NewsletterMailer do
     expect(mail.to).to eq [ "john@doe.com" ]
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
     expect(mail[:message_stream].to_s).to eq "broadcast"
+    expect(mail[:tag].to_s).to eq "newsletter-42"
 
     expect(mail.body).to include("Salut John Doe,")
     expect(mail.body).to include('<h2 class="content_title">Content Title</h2>')

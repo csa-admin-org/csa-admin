@@ -6,7 +6,8 @@ class SessionMailer < ApplicationMailer
         "session_url" => params[:session_url])
       content_mail(content,
         to: session.email,
-        subject: t(".subject"))
+        subject: t(".subject"),
+        tag: "session-member")
     end
   end
 
@@ -17,7 +18,8 @@ class SessionMailer < ApplicationMailer
         "session_url" => params[:session_url])
       content_mail(content,
         to: session.email,
-        subject: t(".subject"))
+        subject: t(".subject"),
+        tag: "session-admin")
     end
   end
 end
