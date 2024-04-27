@@ -2,8 +2,8 @@ module API
   module V1
     class ConfigurationsController < BaseController
       def show
-        @basket_sizes = BasketSize.all
-        @depots = Depot.used.all
+        @basket_sizes = BasketSize.kept
+        @depots = Depot.used.kept
         @basket_content_products = BasketContent::Product.all
 
         if stale?(cache_object)

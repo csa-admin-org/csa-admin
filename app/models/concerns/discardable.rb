@@ -5,7 +5,15 @@ module Discardable
     include Discard::Model
   end
 
+  def can_update?
+    return false if discarded?
+
+    super
+  end
+
   def can_destroy?
+    return false if discarded?
+
     can_discard? || can_delete?
   end
 

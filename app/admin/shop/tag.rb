@@ -41,7 +41,7 @@ ActiveAdmin.register Shop::Tag do
     *I18n.available_locales.map { |l| "name_#{l}" })
 
   controller do
-    def find_collection(*)
+    def scoped_collection
       super.kept
     end
   end

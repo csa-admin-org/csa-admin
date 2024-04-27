@@ -13,7 +13,7 @@ class BasketComplementCount
   end
 
   def title
-    @complement.name
+    @complement
   end
 
   def memberships_count

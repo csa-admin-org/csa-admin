@@ -27,7 +27,7 @@ columns class: "onboarding" do
         end
         if Current.acp.member_form_mode == "membership"
           li do
-            if BasketSize.any?
+            if BasketSize.kept.any?
               a href: basket_sizes_path do
                 span class: "checked" do
                   span inline_svg_tag("admin/clipboard-check.svg", size: "40")
@@ -45,7 +45,7 @@ columns class: "onboarding" do
           end
         end
         li do
-          if Depot.any?
+          if Depot.kept.any?
             a href: depots_path do
               span class: "checked" do
                 span inline_svg_tag("admin/clipboard-check.svg", size: "40")

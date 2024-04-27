@@ -98,6 +98,7 @@ class Membership < ApplicationRecord
     fy = Current.acp.fiscal_year_for(year)
     where(started_on: fy.range.min.., ended_on: ..fy.range.max)
   }
+  scope :current_and_future_year, -> { where(started_on: Current.fy_range.min..) }
   scope :overlaps, ->(period) {
     where("(started_on, ended_on) OVERLAPS (?, ?)", period.min, period.max)
   }

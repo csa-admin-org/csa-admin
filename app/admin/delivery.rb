@@ -7,7 +7,7 @@ ActiveAdmin.register Delivery do
 
   filter :basket_complements,
     as: :select,
-    collection: -> { BasketComplement.all },
+    collection: -> { admin_basket_complements_collection },
     if: :any_basket_complements?
   filter :note, as: :string
   filter :shop_open,
@@ -30,7 +30,7 @@ ActiveAdmin.register Delivery do
     end
     column "#", ->(delivery) { auto_link delivery, delivery.number }, class: "col-number"
     column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium).capitalize }
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
     if Current.acp.feature?("shop")
@@ -49,21 +49,22 @@ ActiveAdmin.register Delivery do
     column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
     column(:absent_baskets) { |d| d.basket_counts(scope: :absent).all.sum(&:count) }
 
-    Depot.all.each do |depot|
+    resource.depots.each do |depot|
       column(depot.name) { |d| BasketCounts.new(d, depot.id).sum }
     end
 
-    BasketSize.all.each do |basket_size|
+    resource.basket_sizes.each do |basket_size|
       column(basket_size.name) { |d| d.basket_counts.sum_basket_size(basket_size.id) }
     end
 
-    if BasketComplement.any?
-      BasketComplement.all.each do |basket_complement|
+    basket_complements = BasketComplement.for(resource.baskets)
+    if basket_complements.any?
+      basket_complements.each do |basket_complement|
         column(basket_complement.name) { |d| BasketComplementCount.new(basket_complement, d).count }
       end
     end
 
-    DeliveryCycle.all.each do |delivery_cycle|
+    DeliveryCycle.for(resource).each do |delivery_cycle|
       column(delivery_cycle.name) { |d| delivery_cycle.include_delivery?(d) }
     end
 
@@ -151,11 +152,11 @@ ActiveAdmin.register Delivery do
 
   form do |f|
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
-    if f.object.new_record? && BasketComplement.any?
+    if f.object.new_record? && BasketComplement.kept.any?
       f.inputs do
         f.input :basket_complements,
           as: :check_boxes,
-          collection: BasketComplement.all,
+          collection: admin_basket_complements_collection,
           hint: true
 
         para class: "actions" do
@@ -183,7 +184,7 @@ ActiveAdmin.register Delivery do
           label: Depot.model_name.human(count: 2),
           as: :check_boxes,
           required: false,
-          collection: Depot.all.map,
+          collection: admin_depot_collection,
           input_html: {
             data: { form_checkbox_toggler_target: "input" }
           }

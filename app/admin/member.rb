@@ -16,11 +16,11 @@ ActiveAdmin.register Member do
   filter :with_waiting_depots,
     label: -> { Member.human_attribute_name(:waiting_depot) },
     as: :select,
-    collection: -> { Depot.visible },
+    collection: -> { admin_depots_collection },
     if: proc { params[:scope] == "waiting" && Current.acp.member_form_mode == "membership" }
   filter :shop_depot,
     as: :select,
-    collection: -> { Depot.visible },
+    collection: -> { admin_depots_collection },
     if: proc { params[:scope] != "inactive" && feature?("shop") }
   filter :city, as: :select, collection: -> {
     Member.pluck(:city).uniq.map(&:presence).compact.sort
@@ -111,7 +111,7 @@ ActiveAdmin.register Member do
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       column(:waiting_basket_complements) { |m|
         basket_complements_description(
           m.members_basket_complements.includes(:basket_complement),
@@ -162,7 +162,7 @@ ActiveAdmin.register Member do
               row(:state) { status_tag(:trial) }
             end
             row(:basket_size) { basket_size_description(member.next_basket, text_only: true, public_name: false) }
-            if BasketComplement.any?
+            if BasketComplement.kept.any?
               row(Membership.human_attribute_name(:memberships_basket_complements)) {
                 basket_complements_description(member.next_basket.baskets_basket_complements, text_only: true, public_name: false)
               }
@@ -181,7 +181,7 @@ ActiveAdmin.register Member do
         if member.pending? || member.waiting?
           attributes_table title: t(".waiting_membership") do
             row(:basket_size) { member.waiting_basket_size&.name }
-            if BasketComplement.any?
+            if BasketComplement.kept.any?
               row(Membership.human_attribute_name(:memberships_basket_complements)) {
                 basket_complements_description(
                   member.members_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
@@ -535,7 +535,7 @@ ActiveAdmin.register Member do
               form_select_options_target_param: "member_waiting_delivery_cycle_id"
             }
           },
-          collection: Depot.all.map { |d|
+          collection: admin_depots_collection.map { |d|
             [
               d.name, d.id,
               data: {
@@ -546,24 +546,23 @@ ActiveAdmin.register Member do
         f.input :waiting_delivery_cycle,
           label: DeliveryCycle.model_name.human,
           as: :select,
-          collection: delivery_cycles_collection,
+          collection: admin_delivery_cycles_collection,
           disabled: f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - f.object.waiting_depot.delivery_cycle_ids) : []
         f.input :waiting_billing_year_division,
           label: Membership.human_attribute_name(:billing_year_division),
           as: :select,
           collection: billing_year_divisions_collection,
           prompt: true
-        if Depot.many?
+        if admin_depots_collection.many?
           f.input :waiting_alternative_depot_ids,
-            collection: Depot.all,
+            collection: admin_depots_collection,
             as: :check_boxes,
             hint: false
         end
-        if BasketComplement.any?
-          complements = BasketComplement.all
+        if BasketComplement.kept.any?
           f.has_many :members_basket_complements, allow_destroy: true do |ff|
             ff.input :basket_complement,
-              collection: complements,
+              collection: admin_basket_complements_collection,
               prompt: true
             ff.input :quantity
           end
@@ -575,7 +574,7 @@ ActiveAdmin.register Member do
         f.input :shop_depot,
           label: Depot.model_name.human,
           required: false,
-          collection: Depot.all
+          collection: admin_depots_collection
       end
     end
     f.inputs Member.human_attribute_name(:address) do

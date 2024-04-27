@@ -97,7 +97,7 @@ module ApplicationHelper
   end
 
   def any_basket_complements?
-    BasketComplement.any?
+    BasketComplement.kept.any?
   end
 
   def fiscal_years_collection
@@ -112,15 +112,6 @@ module ApplicationHelper
   def renewal_states_collection
     Membership::RENEWAL_STATES.map { |state|
       [ I18n.t("active_admin.status_tag.#{state}").capitalize, state ]
-    }
-  end
-
-  def delivery_cycles_collection
-    DeliveryCycle.all.map { |cycle|
-      [
-        "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
-        cycle.id
-      ]
     }
   end
 

@@ -38,7 +38,7 @@ ActiveAdmin.register Shop::Order do
     as: :select,
     collection: -> { shop_deliveries_collection },
     label: -> { Delivery.model_name.human }
-  filter :depot, as: :select
+  filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :amount
   filter :created_at
 
@@ -200,7 +200,7 @@ ActiveAdmin.register Shop::Order do
       unless f.object.new_record?
         f.input :depot,
           prompt: true,
-          collection: Depot.all
+          collection: admin_depots_collection
       end
       f.input :amount_percentage,
         step: 0.1, min: -100, max: 200,

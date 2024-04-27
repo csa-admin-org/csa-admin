@@ -119,6 +119,10 @@ ActiveAdmin.register BasketComplement do
 
   controller do
     include TranslatedCSVFilename
+
+    def scoped_collection
+      super.kept
+    end
   end
 
   config.filters = false

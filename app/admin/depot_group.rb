@@ -43,7 +43,7 @@ ActiveAdmin.register DepotGroup do
     f.inputs do
       other_group_ids = DepotGroup.pluck(:id) - [ f.object.id ]
       f.input :depots,
-        collection: Depot.reorder(:name),
+        collection: admin_depots_collection,
         as: :check_boxes
     end
 

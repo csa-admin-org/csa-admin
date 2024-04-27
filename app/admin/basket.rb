@@ -31,7 +31,7 @@ ActiveAdmin.register Basket do
     column(I18n.t("attributes.basket_size")) { |b| b.basket_size.name }
     column(:quantity) { |b| b.quantity }
     column(:description) { |b| b.basket_description(public_name: true) }
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       shop_orders ||= Shop::Order.none
       BasketComplement.for(collection, shop_orders).each do |c|
         column(c.name) { |b|
@@ -47,7 +47,7 @@ ActiveAdmin.register Basket do
       column(I18n.t("shop.title_orders", count: 2)) { |b|
         shop_orders.any? { |o| o.member_id == b.member.id } ? "X" : nil
       }
-      if BasketComplement.any?
+      if BasketComplement.kept.any?
         column("#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})") { |b|
           shop_orders.find { |o| o.member_id == b.member.id }&.complements_description
         }
@@ -100,7 +100,7 @@ ActiveAdmin.register Basket do
     end
     f.inputs [
       Basket.model_name.human(count: 1),
-      BasketComplement.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
+      BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
     ].compact.to_sentence, "data-controller" => "form-reset" do
       f.input :basket_size,
         prompt: true,
@@ -113,7 +113,7 @@ ActiveAdmin.register Basket do
         f.input :price_extra, required: true, label: Current.acp.basket_price_extra_title
       end
       f.input :quantity
-      if BasketComplement.any?
+      if BasketComplement.kept.any?
         f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
           ff.inputs class: "blank", "data-controller" => "form-reset" do
             ff.input :basket_complement,

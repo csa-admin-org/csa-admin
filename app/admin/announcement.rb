@@ -2,7 +2,7 @@ ActiveAdmin.register Announcement do
   menu parent: :other, priority: 3
   actions :all, except: [ :show ]
 
-  filter :depots, as: :select, collection: -> { Depot.all }
+  filter :depots, as: :select, collection: -> { admin_depots_collection }
   filter :deliveries, as: :select, collection: -> { Delivery.all }
 
   index(
@@ -32,7 +32,7 @@ ActiveAdmin.register Announcement do
         input_html: { rows: 4, cols: 32 } ,
         hint: t("formtastic.hints.announcement.text_html"))
       f.input :depot_ids,
-        collection: Depot.all,
+        collection: admin_depots_collection,
         as: :check_boxes,
         required: true,
         label: Depot.model_name.human(count: 2)

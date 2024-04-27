@@ -1,5 +1,6 @@
 class DeliveryCycle < ApplicationRecord
   include TranslatedAttributes
+  include Discardable
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -27,9 +28,9 @@ class DeliveryCycle < ApplicationRecord
 
   has_many :memberships
   has_many :memberships_basket_complements
-  has_many :basket_sizes
+  has_many :basket_sizes, -> { kept }
 
-  has_and_belongs_to_many :depots # Visibility
+  has_and_belongs_to_many :depots, -> { kept } # Visibility
 
   translated_attributes :public_name
   translated_attributes :name, required: true
@@ -37,7 +38,7 @@ class DeliveryCycle < ApplicationRecord
   default_scope { order_by_name }
 
   scope :visible, -> {
-    unscoped.joins(:depots).merge(Depot.unscoped.visible).distinct
+    unscoped.kept.joins(:depots).merge(Depot.unscoped.visible).distinct
   }
 
   validates :minimum_gap_in_days,
@@ -62,7 +63,7 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def self.for(delivery)
-    DeliveryCycle.all.select { |dc| dc.include_delivery?(delivery) }
+    DeliveryCycle.kept.select { |dc| dc.include_delivery?(delivery) }
   end
 
   def self.billable_deliveries_counts
@@ -98,11 +99,11 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def self.greatest
-    all.max_by(&:billable_deliveries_count)
+    kept.max_by(&:billable_deliveries_count)
   end
 
   def self.member_ordered
-    all.to_a.sort_by { |dc|
+    kept.to_a.sort_by { |dc|
       clauses = [ dc.member_order_priority ]
       clauses <<
         case Current.acp.delivery_cycles_member_order_mode
@@ -205,9 +206,16 @@ class DeliveryCycle < ApplicationRecord
     super months.map(&:to_s) & Array(1..12).map(&:to_s)
   end
 
-  def can_destroy?
+  def can_delete?
     memberships.none? &&
       memberships_basket_complements.none? &&
+      basket_sizes.none? &&
+      DeliveryCycle.where.not(id: id).exists?
+  end
+
+  def can_discard?
+    memberships.current_and_future_year.none? &&
+      memberships_basket_complements.current_and_future_year.none? &&
       basket_sizes.none? &&
       DeliveryCycle.where.not(id: id).exists?
   end

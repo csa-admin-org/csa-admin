@@ -67,8 +67,8 @@ ActiveAdmin.register BasketSize do
             }
           end
         })
-      if !DeliveryCycle.visible? && DeliveryCycle.many?
-        f.input :delivery_cycle, collection: delivery_cycles_collection
+      if !DeliveryCycle.visible? && DeliveryCycle.kept.many?
+        f.input :delivery_cycle, collection: admin_delivery_cycles_collection
       end
     end
 
@@ -94,6 +94,10 @@ ActiveAdmin.register BasketSize do
     include TranslatedCSVFilename
     include DeliveryCyclesHelper
     include MembersHelper
+
+    def scoped_collection
+      super.kept
+    end
   end
 
   config.filters = false

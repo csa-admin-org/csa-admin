@@ -2,9 +2,11 @@ class Depot < ApplicationRecord
   include HasEmails
   include HasPhones
   include HasLanguage
+  include HasPrice
   include TranslatedAttributes
   include TranslatedRichTexts
   include HasVisibility
+  include Discardable
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -28,7 +30,7 @@ class Depot < ApplicationRecord
   has_many :memberships
   has_many :members, through: :memberships
   has_and_belongs_to_many :basket_contents
-  has_and_belongs_to_many :delivery_cycles # Visibility
+  has_and_belongs_to_many :delivery_cycles, -> { kept } # Visibility
   belongs_to :group, class_name: "DepotGroup", optional: true
 
   default_scope { order(:position) }
@@ -42,8 +44,6 @@ class Depot < ApplicationRecord
     order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), name)"
     reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
-  scope :free, -> { where("price = 0") }
-  scope :paid, -> { where("price > 0") }
   scope :used, -> {
     joins(:memberships)
       .merge(Membership.current_or_future)
@@ -53,7 +53,6 @@ class Depot < ApplicationRecord
 
   before_validation :set_default_delivery_cycle, on: :create
 
-  validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
   validates :delivery_cycles, presence: true
 
@@ -110,14 +109,6 @@ class Depot < ApplicationRecord
       .count
   end
 
-  def free?
-    price.zero?
-  end
-
-  def paid?
-    price.positive?
-  end
-
   def require_delivery_address?
     address.blank?
   end
@@ -128,8 +119,12 @@ class Depot < ApplicationRecord
     [ address, "#{zip} #{city}" ].compact.join(", ")
   end
 
-  def can_destroy?
+  def can_delete?
     memberships.none? && baskets.none? && basket_contents.none?
+  end
+
+  def can_discard?
+    memberships.current_and_future_year.none? && baskets.current_and_future_year.none?
   end
 
   def include_delivery?(delivery)

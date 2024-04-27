@@ -91,15 +91,15 @@ class Mailchimp
       BASK_FIRS: { name: t("first_basket_date"), type: "text", required: false },
       BASK_DATE: { name: t("next_basket_date"), type: "text", required: false },
       BASK_DELI: { name: t("next_basket_delivered"), type: "dropdown", required: false, options: { choices: %w[yes no] } },
-      BASK_SIZE: { name: t("basket_size"), type: "dropdown", required: false, options: { choices: BasketSize.all.map(&:name) } },
-      BASK_DIST: { name: t("depot"), type: "dropdown", required: false, options: { choices: Depot.order(:name).pluck(:name) } }
+      BASK_SIZE: { name: t("basket_size"), type: "dropdown", required: false, options: { choices: BasketSize.kept.map(&:name) } },
+      BASK_DIST: { name: t("depot"), type: "dropdown", required: false, options: { choices: Depot.kept.order(:name).pluck(:name) } }
     }
     if Current.acp.feature?(:activity)
       fields[:HALF_ASKE] = { name: "#{activities_human_name} demandées", type: "number", required: false }
       fields[:HALF_ACPT] = { name: "#{activities_human_name} acceptées", type: "number", required: false }
       fields[:HALF_MISS] = { name: "#{activities_human_name} manquantes", type: "number", required: false }
     end
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       fields[:BASK_COMP] = { name: "Compléments panier", type: "text", required: false }
     end
     if Current.acp.trial_basket_count.positive?
@@ -178,7 +178,7 @@ class Mailchimp
       fields[:HALF_ACPT] = current_year_membership&.activity_participations_accepted.to_i
       fields[:HALF_MISS] = current_year_membership&.missing_activity_participations.to_i
     end
-    if BasketComplement.any?
+    if BasketComplement.kept.any?
       fields[:BASK_COMP] =
         next_basket&.membership&.subscribed_basket_complements&.map(&:name)&.join(", ").to_s
     end

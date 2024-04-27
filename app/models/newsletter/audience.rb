@@ -180,7 +180,7 @@ class Newsletter
         depot_id: Depot.used.reorder(:name),
         basket_size_id: BasketSize.used
       }
-      if BasketComplement.any?
+      if BasketComplement.kept.any?
         base[:basket_complement_id] = BasketComplement.used
       end
       base[:invoice_state] = invoice_state_records.sort_by(&:name)

@@ -26,7 +26,7 @@ ActiveAdmin.register Shop::Product do
     as: :string
   filter :tags, as: :select, collection: -> { Shop::Tag.kept }
   filter :producer, as: :select, collection: -> { Shop::Producer.kept }
-  filter :depot, as: :select, collection: -> { Depot.all }
+  filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open.all }
   filter :variant_name_cont,
     label: -> { Shop::ProductVariant.model_name.human(count: 1) },
@@ -106,7 +106,7 @@ ActiveAdmin.register Shop::Product do
           f.input :available_for_depot_ids,
             label: Depot.model_name.human(count: 2),
             as: :check_boxes,
-            collection: Depot.all,
+            collection: admin_depots_collection,
             input_html: {
               data: { form_checkbox_toggler_target: "input" }
             }
@@ -179,7 +179,7 @@ ActiveAdmin.register Shop::Product do
     include ShopHelper
 
     def find_collection(options = {})
-      collection = super.kept
+      collection = super
       if params[:format] == "csv"
         collection = collection.left_joins(:variants).select(<<-SQL)
           shop_products.*,
@@ -190,6 +190,10 @@ ActiveAdmin.register Shop::Product do
         SQL
       end
       collection
+    end
+
+    def scoped_collection
+      super.kept
     end
   end
 
