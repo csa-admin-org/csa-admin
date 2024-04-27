@@ -9,6 +9,7 @@ class NewsletterMailer < ApplicationMailer
       from: params[:from],
       to: params[:to],
       stream: "broadcast",
+      tag: "newsletter-#{params[:newsletter_id]}",
       headers: {
         "List-Unsubscribe-Post" => "List-Unsubscribe=One-Click",
         "List-Unsubscribe" => "<#{members_unsubscribe_newsletter_post_url}>"

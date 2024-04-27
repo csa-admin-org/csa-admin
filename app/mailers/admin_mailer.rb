@@ -24,7 +24,8 @@ class AdminMailer < ApplicationMailer
         to: depot.emails_array,
         subject: t(".subject",
           date: I18n.l(delivery.date),
-          depot: depot.name))
+          depot: depot.name),
+        tag: "admin-depot-delivery-list")
     end
   end
 
@@ -47,7 +48,8 @@ class AdminMailer < ApplicationMailer
         "delivery" => Liquid::AdminDeliveryDrop.new(delivery))
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject", date: I18n.l(delivery.date)))
+        subject: t(".subject", date: I18n.l(delivery.date)),
+        tag: "admin-delivery-list")
     end
   end
 
@@ -60,7 +62,8 @@ class AdminMailer < ApplicationMailer
         "action_url" => params[:action_url])
       content_mail(content,
         to: admin.email,
-        subject: t(".subject", acp: Current.acp.name))
+        subject: t(".subject", acp: Current.acp.name),
+        tag: "admin-invitation")
     end
   end
 
@@ -74,7 +77,8 @@ class AdminMailer < ApplicationMailer
         "invoice" => invoice)
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject", number: invoice.number))
+        subject: t(".subject", number: invoice.number),
+        tag: "admin-invoice-overpaid")
     end
   end
 
@@ -89,7 +93,8 @@ class AdminMailer < ApplicationMailer
         "invoice" => invoice)
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject", number: invoice.number))
+        subject: t(".subject", number: invoice.number),
+        tag: "admin-invoice-third-overdue-notice")
     end
   end
 
@@ -102,7 +107,8 @@ class AdminMailer < ApplicationMailer
         "absence" => Liquid::AbsenceDrop.new(params[:absence]))
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject"))
+        subject: t(".subject"),
+        tag: "admin-absence-created")
     end
   end
 
@@ -123,7 +129,8 @@ class AdminMailer < ApplicationMailer
         "activity_participation" => Liquid::AdminActivityParticipationDrop.new(@participation))
       content_mail(content,
         to: @admin.email,
-        subject: t_activity(".subject"))
+        subject: t_activity(".subject"),
+        tag: "admin-activity-participation-created")
     end
   end
 
@@ -136,7 +143,8 @@ class AdminMailer < ApplicationMailer
         "email_suppression" => Liquid::EmailSuppressionDrop.new(@email_suppression))
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject", reason: @email_suppression.reason))
+        subject: t(".subject", reason: @email_suppression.reason),
+        tag: "admin-email-suppression-created")
     end
   end
 
@@ -148,7 +156,8 @@ class AdminMailer < ApplicationMailer
         "member" => Liquid::AdminMemberDrop.new(params[:member]))
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject"))
+        subject: t(".subject"),
+        tag: "admin-member-created")
     end
   end
 
@@ -166,7 +175,8 @@ class AdminMailer < ApplicationMailer
         "action_url" => params[:action_url])
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject"))
+        subject: t(".subject"),
+        tag: "admin-memberships-renewal-pending")
     end
   end
 end

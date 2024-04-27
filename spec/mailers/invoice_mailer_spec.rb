@@ -21,6 +21,7 @@ describe InvoiceMailer do
     expect(body).to include("Voici votre nouvelle facture")
     expect(body).to include("Accéder à ma page de membre")
     expect(body).to include("https://membres.ragedevert.ch/billing")
+    expect(mail.tag).to eq("invoice-created")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
     expect(mail[:message_stream].to_s).to eq "outbound"
 
@@ -109,6 +110,7 @@ describe InvoiceMailer do
 
     expect(mail.subject).to eq("Nouvelle facture #42")
     expect(mail.to).to eq([ "john@doe.com" ])
+    expect(mail.tag).to eq("invoice-created")
     body = mail.html_part.body
     expect(body).to include("Voici votre nouvelle facture")
     expect(body).not_to include("Accéder à ma page de membre")
@@ -137,6 +139,7 @@ describe InvoiceMailer do
 
     expect(mail.subject).to eq("Facture annulée #42")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("invoice-cancelled")
     body = mail.body
     expect(body)
       .to include "Votre facture ##{invoice.id} du #{I18n.l(invoice.date)} vient d'être annulée."
@@ -165,6 +168,7 @@ describe InvoiceMailer do
 
     expect(mail.subject).to eq("Rappel #2 de la facture #42 😬")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("invoice-overdue-notice")
     body = mail.html_part.body
     expect(body).to include("Le montant restant à payer est de: CHF 62")
     expect(body).to include("Accéder à ma page de membre")
@@ -196,6 +200,7 @@ describe InvoiceMailer do
 
     expect(mail.subject).to eq("Rappel #2 de la facture #42 😬")
     expect(mail.to).to eq([ "john@doe.com" ])
+    expect(mail.tag).to eq("invoice-overdue-notice")
     body = mail.html_part.body
     expect(body).to include("Le montant restant à payer est de: CHF 62")
     expect(body).not_to include("Accéder à ma page de membre")

@@ -22,6 +22,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Liste livraison du 6 novembre 2020 (Jardin de la Main)")
     expect(mail.to).to eq([ "respondent1@acp-admin.ch", "respondent2@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-depot-delivery-list")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
 
     body = mail.html_part.body
@@ -56,6 +57,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Liste livraison du 6 novembre 2023")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-delivery-list")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
 
     body = mail.html_part.body
@@ -86,6 +88,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Invitation à l'admin de Rage de Vert")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-invitation")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("admin@acp-admin.ch")
     expect(mail.body).to include("Accéder à l'admin de Rage de Vert")
@@ -112,6 +115,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Facture #42 payée en trop")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-invoice-overpaid")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Facture #42")
     expect(mail.body).to include("Martha")
@@ -139,6 +143,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Facture #42, 3ᵉ rappel envoyé")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-invoice-third-overdue-notice")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Le 3ᵉ rappel vient d'être envoyé pour la facture #42")
     expect(mail.body).to include("Martha")
@@ -169,6 +174,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Nouvelle absence")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-absence-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Martha")
     expect(mail.body).to include("10 novembre 2020 au 20 novembre 2020")
@@ -210,6 +216,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Nouvelle participation à une ½ journée")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-activity-participation-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
@@ -251,6 +258,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Email rejeté (HardBounce)")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-email-suppression-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("L'email <strong>john@doe.com</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>HardBounce</strong>.")
     expect(mail.body).to include("Admin: Martha")
@@ -278,6 +286,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("Nouvelle inscription")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-member-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Martha")
     expect(mail.body).to include("Accéder à la page du membre")
@@ -307,6 +316,7 @@ describe AdminMailer do
 
     expect(mail.subject).to eq("⚠️ Abonnement(s) en attente de renouvellement!")
     expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.tag).to eq("admin-memberships-renewal-pending")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("2 abonnement(s)</a>")
     expect(mail.body).to include("https://admin.example.com/memberships/pending")

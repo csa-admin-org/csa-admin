@@ -34,6 +34,7 @@ describe ActivityMailer do
 
     expect(mail.subject).to eq("Activité à venir (24 mars 2020)")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("activity-participation-reminder")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
     expect(mail.body).to include("<strong>Lieu:</strong> Thielle")
@@ -56,6 +57,7 @@ describe ActivityMailer do
 
     expect(mail.subject).to eq("Activité validée 🎉")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("activity-participation-validated")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
     expect(mail.body).to include("<strong>Lieu:</strong> Thielle")
@@ -77,6 +79,7 @@ describe ActivityMailer do
 
     expect(mail.subject).to eq("Activité refusée 😬")
     expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.tag).to eq("activity-participation-rejected")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
     expect(mail.body).to include("<strong>Lieu:</strong> Thielle")
