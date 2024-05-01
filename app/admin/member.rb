@@ -140,7 +140,7 @@ ActiveAdmin.register Member do
       column(:contact_sharing)
     end
     if feature?("shop")
-      column(:shop_depot) { |m| m.shop_depot&.name }
+      column(:shop_depot) { |m| m.use_shop_depot? && m.shop_depot&.name }
     end
     column(:food_note)
     column(:come_from)
