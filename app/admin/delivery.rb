@@ -184,7 +184,7 @@ ActiveAdmin.register Delivery do
           label: Depot.model_name.human(count: 2),
           as: :check_boxes,
           required: false,
-          collection: admin_depot_collection,
+          collection: admin_depots_collection,
           input_html: {
             data: { form_checkbox_toggler_target: "input" }
           }
