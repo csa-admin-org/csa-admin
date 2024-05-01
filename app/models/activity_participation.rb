@@ -18,7 +18,7 @@ class ActivityParticipation < ApplicationRecord
   scope :rejected, -> { where(state: "rejected") }
   scope :review_not_sent, -> { where(review_sent_at: nil) }
   scope :not_rejected, -> { where.not(state: "rejected") }
-  scope :pending, -> { joins(:activity).merge(Activity.past).where(state: "pending") }
+  scope :pending, -> { joins(:activity).merge(Activity.past_and_today).where(state: "pending") }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
   scope :future, -> { joins(:activity).merge(Activity.future) }
   scope :activity_wday, ->(wday) { joins(:activity).merge(Activity.wday(wday)) }
