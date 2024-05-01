@@ -5,6 +5,7 @@ module HasDate
     scope :between, ->(range) { where(date: range) }
     scope :coming, -> { between(Date.current..) }
     scope :future, -> { between(Date.tomorrow..) }
+    scope :past_and_today, -> { between(..Date.current) }
     scope :past, -> { between(...Date.current) }
     scope :wday, ->(wday) { where("EXTRACT(DOW FROM date) = ?", wday) }
     scope :month, ->(month) { where("EXTRACT(MONTH FROM date) = ?", month) }
