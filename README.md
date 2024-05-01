@@ -49,6 +49,10 @@ Utilisé actuellement par les ACP suivantes:
 - [La Touvière](https://www.latouviere.ch)
 - [Alp Grava](https://alpgrava.ch)
 - [Les Paniers Locali](https://panier-locali.ch)
+- [Wurzel Kollektiv](https://wurzelkollektiv.de)
+- [Ferme des Verpillères](https://ferme-des-verpilleres.ch)
+- [Hof Narr](https://www.hof-narr.ch)
+- [Le Jardin de Max](https://lejardindemax.ch)
 
 ## Développement et support
 
