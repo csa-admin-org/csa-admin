@@ -40,6 +40,29 @@ describe "Shop::Order" do
     expect(page).to have_content "Livraison du jeudi 15 juin 2023"
   end
 
+  specify "shop delivery for next delivery of member with a shop depot (match depot / cycle)", freeze: "2023-05-01" do
+    depot1 = create(:depot, id: 1)
+    depot2 = create(:depot, id: 2)
+    create(:delivery,
+      date: "2023-06-14", # Wednesday
+      shop_open: true,
+      shop_open_for_depot_ids: [ 1, 2 ])
+    create(:delivery,
+      date: "2023-06-15", # Thursday
+      shop_open: true,
+      shop_open_for_depot_ids: [ 1, 2 ])
+    DeliveryCycle.delete_all
+    create(:delivery_cycle, depots: [ depot1 ], wdays: [ 3 ])
+    create(:delivery_cycle, depots: [ depot2 ], wdays: [ 4 ])
+
+    member.update!(shop_depot: depot2)
+    member.activate!
+
+    visit "/shop"
+    expect(current_path).to eq "/shop"
+    expect(page).to have_content "Livraison du jeudi 15 juin 2023"
+  end
+
   specify "shop delivery open/closed depending date" do
     Current.acp.update!(
       shop_delivery_open_delay_in_days: 2,
