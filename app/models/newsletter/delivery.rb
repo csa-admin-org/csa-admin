@@ -2,15 +2,14 @@ class Newsletter
   class Delivery < ApplicationRecord
     self.table_name = "newsletter_deliveries"
 
+    include HasState
+
+    has_states :pending, :ignored, :delivered
+
     belongs_to :newsletter
     belongs_to :member
 
-    scope :deliverable, -> {
-      where.not(email: nil).where(email_suppression_ids: [])
-    }
-    scope :suppressed, -> { where.not(email_suppression_ids: []) }
-    scope :processed, -> { where.not(delivered_at: nil) } # TODO: rename to processed_at
-    scope :unprocessed, -> { where(delivered_at: nil) } # TODO: rename to processed_at
+    scope :with_email, -> { where.not(email: nil) }
 
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job
@@ -19,16 +18,14 @@ class Newsletter
       emails = member.emails_array
       # keep trace of the "delivery" even for members without email
       emails << nil if emails.empty?
-      emails.each do |email|
-        create!(
-          newsletter: newsletter,
-          member: member,
-          email: email)
+      transaction do
+        emails.each do |email|
+          create!(
+            newsletter: newsletter,
+            member: member,
+            email: email)
+        end
       end
-    end
-
-    def processed?
-      delivered_at? # TODO: rename to processed_at
     end
 
     def deliverable?
@@ -36,17 +33,23 @@ class Newsletter
     end
 
     def process!
-      raise "Already processed!" if processed?
+      raise "Already processed!" if processed_at?
 
-      transaction do
-        if deliverable?
-          mailer.newsletter_email.deliver_later(queue: :low)
-        end
-        update!(
-          delivered_at: Time.current, # TODO: rename to processed_at
-          subject: email_render.subject,
-          content: email_render.content)
+      attrs = {
+        subject: email_render.subject,
+        content: email_render.content,
+        processed_at: Time.current
+      }
+
+      if deliverable?
+        mailer.newsletter_email.deliver_later(queue: :low)
+        attrs[:delivered_at] = Time.current # TODO: wait for webhook to confirm delivery
+        attrs[:state] = DELIVERED_STATE # TODO: wait for webhook to confirm delivery
+      else
+        attrs[:state] = IGNORED_STATE
       end
+
+      update!(attrs)
     end
 
     private

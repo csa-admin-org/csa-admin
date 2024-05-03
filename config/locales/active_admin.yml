@@ -1136,10 +1136,6 @@ _:
           _de: Notizen
           _fr: Notes
           _it: Note
-        ongoing_delivery:
-          _de: Lieferung in Bearbeitung...
-          _fr: Envoi en cours...
-          _it: Spedizione in corso...
         open_renewal:
           _de: Anfrage senden
           _fr: Envoyer la demande
@@ -1153,6 +1149,10 @@ _:
             _de: "%{count} stornierte"
             _fr: "%{count} annulées"
             _it: "%{count} annullati"
+        pending_delivery:
+          _de: Lieferung in Bearbeitung...
+          _fr: Envoi en cours...
+          _it: Spedizione in corso...
         preview:
           _de: Vorschau
           _fr: Prévisualisation

@@ -13,7 +13,7 @@ describe Newsletter::Delivery do
     )
   }
 
-  specify "store emails on creation" do
+  specify "store emails on creation", sidekiq: :inline do
     member = create(:member, emails: "john@bob.com, jane@bob.com")
     create(:email_suppression,
       id: 512312,
@@ -30,16 +30,31 @@ describe Newsletter::Delivery do
       Newsletter::Delivery.create_for!(newsletter, member)
     }.to change(Newsletter::Delivery, :count).by(2)
 
-    expect(Newsletter::Delivery.deliverable.first).to have_attributes(
+    expect(Newsletter::Delivery.delivered.first).to have_attributes(
       email: "jane@bob.com",
       email_suppression_ids: [])
-    expect(Newsletter::Delivery.suppressed.first).to have_attributes(
+    expect(Newsletter::Delivery.ignored.first).to have_attributes(
       email: "john@bob.com",
       email_suppression_ids: [512312, 153123],
       email_suppression_reasons: ["ManualSuppression", "HardBounce"])
 
     expect(newsletter.emails).to eq %w[jane@bob.com]
     expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
+  end
+
+  specify "store delivery even for members without email" do
+    member = create(:member, emails: "")
+
+    expect {
+      Newsletter::Delivery.create_for!(newsletter, member)
+    }.to change(Newsletter::Delivery, :count).by(1)
+
+    expect(Newsletter::Delivery.first).to have_attributes(
+      email: nil,
+      email_suppression_ids: [])
+
+    expect(newsletter.emails).to be_empty
+    expect(newsletter.suppressed_emails).to be_empty
   end
 
   specify "deliver newsletter", sidekiq: :inline do
