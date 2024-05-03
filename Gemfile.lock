@@ -51,8 +51,9 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activeadmin (3.2.0)
+    activeadmin (3.2.1)
       arbre (~> 1.2, >= 1.2.1)
+      csv
       formtastic (>= 3.1)
       formtastic_i18n (>= 0.4)
       inherited_resources (~> 1.7)
@@ -99,7 +100,7 @@ GEM
     ast (2.4.2)
     attr_extras (7.1.0)
     aws-eventstream (1.3.0)
-    aws-partitions (1.922.0)
+    aws-partitions (1.923.0)
     aws-sdk-core (3.194.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -239,8 +240,8 @@ GEM
       activesupport (>= 3.0)
       nokogiri (>= 1.6)
     io-console (0.7.2)
-    irb (1.12.0)
-      rdoc
+    irb (1.13.0)
+      rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
     jquery-rails (4.6.0)
@@ -263,7 +264,7 @@ GEM
     kramdown (2.4.0)
       rexml
     language_server-protocol (3.17.0.3)
-    launchy (3.0.0)
+    launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
     letter_opener (1.10.0)
@@ -431,9 +432,9 @@ GEM
     redlock (2.0.6)
       redis-client (>= 0.14.1, < 1.0.0)
     regexp_parser (2.9.0)
-    reline (0.5.4)
+    reline (0.5.5)
       io-console (~> 0.5)
-    request_store (1.6.0)
+    request_store (1.7.0)
       rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -533,7 +534,7 @@ GEM
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
-    sorbet-runtime (0.5.11366)
+    sorbet-runtime (0.5.11368)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -614,7 +615,6 @@ DEPENDENCIES
   cld
   cmxl
   countries
-  csv
   date_validator
   discard
   dotenv
