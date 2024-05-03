@@ -69,16 +69,16 @@ class Newsletter < ApplicationRecord
   end
 
   def emails
-    @member_emails ||= if sent?
-      deliveries.deliverable.pluck(:email)
+    @member_emails ||= if sent? && !pending_delivery?
+      deliveries.delivered.pluck(:email)
     else
       audience_segment.emails
     end
   end
 
   def suppressed_emails
-    @suppressed_emails ||= if sent?
-      deliveries.suppressed.pluck(:email)
+    @suppressed_emails ||= if sent? && !pending_delivery?
+      deliveries.ignored.with_email.pluck(:email)
     else
       audience_segment.suppressed_emails
     end
@@ -92,8 +92,8 @@ class Newsletter < ApplicationRecord
     audits.find_change_of(:sent_at, from: nil)&.actor
   end
 
-  def ongoing_delivery?
-    deliveries.unprocessed.any?
+  def pending_delivery?
+    deliveries.pending.any?
   end
 
   def send!

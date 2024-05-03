@@ -54,13 +54,13 @@ ActiveAdmin.register Newsletter do
           row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           row(:template)
           row(:status) {
-            if newsletter.ongoing_delivery?
-              status_tag t(".ongoing_delivery")
+            if newsletter.pending_delivery?
+              status_tag t(".pending_delivery")
             else
               status_tag newsletter.sent_at? ? :sent : :draft
             end
           }
-          if newsletter.sent_at? && !newsletter.ongoing_delivery?
+          if newsletter.sent_at? && !newsletter.pending_delivery?
             row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
             row(:sent_by)
           end

@@ -184,8 +184,8 @@ describe Newsletter do
         .and change { newsletter.sent_at }.from(nil)
         .and change { ActionMailer::Base.deliveries.count }.by(3)
 
-      expect(newsletter.deliveries.suppressed.count).to eq 1
-      expect(newsletter.deliveries.suppressed.first).to have_attributes(
+      expect(newsletter.deliveries.ignored.count).to eq 1
+      expect(newsletter.deliveries.ignored.first).to have_attributes(
         email: "john@bob.com",
         email_suppression_ids: [123],
         email_suppression_reasons: ["HardBounce"])
