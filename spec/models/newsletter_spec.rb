@@ -161,7 +161,11 @@ describe Newsletter do
     specify "send newsletter", sidekiq: :inline do
       create(:member, name: "Doe", emails: "john@doe.com, jane@doe.com")
       create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
-      create(:email_suppression, email: "john@bob.com", stream_id: "broadcast")
+      create(:email_suppression,
+        id: 123,
+        email: "john@bob.com",
+        stream_id: "broadcast",
+        reason: "HardBounce")
 
       expect(newsletter.members_count).to eq 2
       expect(newsletter.members.count).to eq 0
@@ -176,9 +180,15 @@ describe Newsletter do
       expect(newsletter.audience_names).to be_empty
 
       expect { newsletter.send! }
-        .to change { newsletter.deliveries.count }.by(2)
+        .to change { newsletter.deliveries.count }.by(4)
         .and change { newsletter.sent_at }.from(nil)
         .and change { ActionMailer::Base.deliveries.count }.by(3)
+
+      expect(newsletter.deliveries.suppressed.count).to eq 1
+      expect(newsletter.deliveries.suppressed.first).to have_attributes(
+        email: "john@bob.com",
+        email_suppression_ids: [123],
+        email_suppression_reasons: ["HardBounce"])
 
       newsletter = Newsletter.last # hard reload
       expect(newsletter).to be_sent

@@ -28,14 +28,9 @@ namespace :anonymizer do
           profession: nil)
         member.sessions.update_all(email: member.emails_array.first)
       end
-      Newsletter::Delivery.find_each do |delivery|
+      Newsletter::Delivery.where.not(email: nil).find_each do |delivery|
         delivery.update_columns(
-          emails: delivery.emails.map { |email|
-            emails_mapping[email.downcase] || Faker::Internet.unique.email.downcase
-          },
-          suppressed_emails: delivery.suppressed_emails.map { |email|
-            emails_mapping[email.downcase] || Faker::Internet.unique.email.downcase
-          })
+          email: emails_mapping[email.downcase] || Faker::Internet.unique.email.downcase)
       end
       EmailSuppression.find_each do |suppression|
         suppression.update_column(
