@@ -15,24 +15,42 @@ describe Newsletter::Delivery do
 
   specify "store emails on creation" do
     member = create(:member, emails: "john@bob.com, jane@bob.com")
-    create(:email_suppression, email: "john@bob.com", stream_id: "broadcast")
+    create(:email_suppression,
+      id: 512312,
+      email: "john@bob.com",
+      stream_id: "broadcast",
+      reason: "ManualSuppression")
+    create(:email_suppression,
+      id: 153123,
+      email: "john@bob.com",
+      stream_id: "broadcast",
+      reason: "HardBounce")
 
-    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
-    expect(delivery.emails).to eq %w[jane@bob.com]
-    expect(delivery.suppressed_emails).to eq %w[john@bob.com]
+    expect {
+      Newsletter::Delivery.create_for!(newsletter, member)
+    }.to change(Newsletter::Delivery, :count).by(2)
+
+    expect(Newsletter::Delivery.deliverable.first).to have_attributes(
+      email: "jane@bob.com",
+      email_suppression_ids: [])
+    expect(Newsletter::Delivery.suppressed.first).to have_attributes(
+      email: "john@bob.com",
+      email_suppression_ids: [512312, 153123],
+      email_suppression_reasons: ["ManualSuppression", "HardBounce"])
+
+    expect(newsletter.emails).to eq %w[jane@bob.com]
+    expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
   end
 
   specify "deliver newsletter", sidekiq: :inline do
     # simulate newsletter sent
     newsletter.update!(template_contents: template.contents)
-
     member = create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
-    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
 
-    expect { delivery.deliver! }
+    expect { Newsletter::Delivery.create_for!(newsletter, member) }
       .to change { ActionMailer::Base.deliveries.count }.by(2)
-      .and change { delivery.reload.delivered_at }.from(nil)
 
+    delivery = Newsletter::Delivery.first
     expect(delivery.subject).to eq "Subject Bob"
     expect(delivery.content).to include "Salut Bob,"
     expect(delivery.content).to include "Block Bob"
@@ -54,11 +72,9 @@ describe Newsletter::Delivery do
       # simulate newsletter sent
       template_contents: template.contents,
       from: "contact@ragedevert.ch")
-
     member = create(:member)
-    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
 
-    expect { delivery.reload.deliver! }
+    expect { Newsletter::Delivery.create_for!(newsletter, member) }
       .to change { ActionMailer::Base.deliveries.count }
 
     email = ActionMailer::Base.deliveries.first
@@ -71,11 +87,9 @@ describe Newsletter::Delivery do
       # simulate newsletter sent
       template_contents: template.contents,
       signature: "Au plaisir")
-
     member = create(:member, emails: "john@doe.com")
-    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
 
-    expect { delivery.reload.deliver! }
+    expect { Newsletter::Delivery.create_for!(newsletter, member) }
       .to change { ActionMailer::Base.deliveries.count }
 
     email = ActionMailer::Base.deliveries.first
@@ -95,11 +109,9 @@ describe Newsletter::Delivery do
     newsletter.update!(template_contents: template.contents)
 
     member = create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
-    delivery = Newsletter::Delivery.create!(newsletter: newsletter, member: member)
 
-    expect { delivery.deliver! }
+    expect { Newsletter::Delivery.create_for!(newsletter, member) }
       .to change { ActionMailer::Base.deliveries.count }.by(2)
-      .and change { delivery.reload.delivered_at }.from(nil)
 
     mail = ActionMailer::Base.deliveries.first
     expect(mail[:message_stream].to_s).to eq "broadcast"

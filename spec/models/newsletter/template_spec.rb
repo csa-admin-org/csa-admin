@@ -170,7 +170,7 @@ describe Newsletter::Template do
       })
 
     expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(1)
+      .to change { newsletter.deliveries.count }.by(2)
 
     email = ActionMailer::Base.deliveries.first
     expect(email.subject).to eq "Prochaine livraison test"
@@ -202,7 +202,7 @@ describe Newsletter::Template do
       })
 
     expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(1)
+      .to change { newsletter.deliveries.count }.by(2)
 
     email = ActionMailer::Base.deliveries.first
     mail_body = email.parts.map(&:body).join
@@ -253,7 +253,7 @@ describe Newsletter::Template do
       })
 
     expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(1)
+      .to change { newsletter.deliveries.count }.by(2)
 
     email = ActionMailer::Base.deliveries.first
     mail_body = email.parts.map(&:body).join

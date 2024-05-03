@@ -5,24 +5,45 @@ class Newsletter
     belongs_to :newsletter
     belongs_to :member
 
-    scope :delivered, -> { where.not(delivered_at: nil) }
-    scope :undelivered, -> { where(delivered_at: nil) }
+    scope :deliverable, -> {
+      where.not(email: nil).where(email_suppression_ids: [])
+    }
+    scope :suppressed, -> { where.not(email_suppression_ids: []) }
+    scope :processed, -> { where.not(delivered_at: nil) } # TODO: rename to processed_at
+    scope :unprocessed, -> { where(delivered_at: nil) } # TODO: rename to processed_at
 
-    before_create :store_emails
+    before_create :check_email_suppressions
+    after_create_commit :enqueue_delivery_process_job
 
-    def delivered?
-      delivered_at?
+    def self.create_for!(newsletter, member)
+      emails = member.emails_array
+      # keep trace of the "delivery" even for members without email
+      emails << nil if emails.empty?
+      emails.each do |email|
+        create!(
+          newsletter: newsletter,
+          member: member,
+          email: email)
+      end
     end
 
-    def deliver!
-      raise "Already delivered!" if delivered?
+    def processed?
+      delivered_at? # TODO: rename to processed_at
+    end
+
+    def deliverable?
+      email? && email_suppression_ids.empty?
+    end
+
+    def process!
+      raise "Already processed!" if processed?
 
       transaction do
-        emails.each { |email|
-          mailer(email).newsletter_email.deliver_later(queue: :low)
-        }
+        if deliverable?
+          mailer.newsletter_email.deliver_later(queue: :low)
+        end
         update!(
-          delivered_at: Time.current,
+          delivered_at: Time.current, # TODO: rename to processed_at
           subject: email_render.subject,
           content: email_render.content)
       end
@@ -30,13 +51,18 @@ class Newsletter
 
     private
 
-    def store_emails
-      self.suppressed_emails =
-        EmailSuppression.active.where(email: member.emails_array).pluck(:email).uniq
-      self.emails = member.emails_array - suppressed_emails
+    def check_email_suppressions
+      suppressions = EmailSuppression.active.where(email: email).select(:id, :reason)
+
+      self.email_suppression_ids = suppressions.map(&:id)
+      self.email_suppression_reasons = suppressions.map(&:reason).uniq
     end
 
-    def mailer(email)
+    def enqueue_delivery_process_job
+      DeliveryProcessJob.perform_later(self)
+    end
+
+    def mailer
       NewsletterMailer.with(mailer_params.merge(to: email))
     end
 

@@ -16,7 +16,7 @@ class Newsletter < ApplicationRecord
   has_many :blocks, class_name: "Newsletter::Block", dependent: :destroy
   has_many :attachments, class_name: "Newsletter::Attachment", dependent: :destroy
   has_many :deliveries, class_name: "Newsletter::Delivery", dependent: :destroy
-  has_many :members, through: :deliveries
+  has_many :members, -> { distinct }, through: :deliveries
 
   accepts_nested_attributes_for :blocks, :attachments, allow_destroy: true
 
@@ -70,7 +70,7 @@ class Newsletter < ApplicationRecord
 
   def emails
     @member_emails ||= if sent?
-      deliveries.pluck(:emails).flatten.uniq
+      deliveries.deliverable.pluck(:email)
     else
       audience_segment.emails
     end
@@ -78,7 +78,7 @@ class Newsletter < ApplicationRecord
 
   def suppressed_emails
     @suppressed_emails ||= if sent?
-      deliveries.pluck(:suppressed_emails).flatten.uniq
+      deliveries.suppressed.pluck(:email)
     else
       audience_segment.suppressed_emails
     end
@@ -93,7 +93,7 @@ class Newsletter < ApplicationRecord
   end
 
   def ongoing_delivery?
-    deliveries.undelivered.any?
+    deliveries.unprocessed.any?
   end
 
   def send!
@@ -106,10 +106,9 @@ class Newsletter < ApplicationRecord
       self.sent_at = Time.current
       save!
       audience_segment.members.each do |member|
-        deliveries.create!(member: member)
+        Delivery.create_for!(self, member)
       end
     end
-    Newsletter::DeliveryJob.set(wait: 10).perform_later(self)
   end
 
   def mail_preview(locale)
