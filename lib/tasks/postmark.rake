@@ -26,4 +26,86 @@ namespace :postmark do
       end
     end
   end
+
+  desc "Create/update postmark webhook"
+  task webhook_setup: :environment do
+    ACP.switch_each do |acp|
+      if api_token = acp.credentials(:postmark, :api_token)
+        client = Postmark::ApiClient.new(api_token)
+
+        attrs = {
+          url: Postmark.webhook_url,
+          message_stream: "broadcast",
+          http_headers: [
+            name: "Authorization",
+            value: ActionController::HttpAuthentication::Token.encode_credentials(Postmark.webhook_token)
+          ],
+          triggers: {
+            delivery: { enabled: true },
+            bounce: { enabled: true, include_content: false },
+          }
+        }
+
+        webhooks = client.get_webhooks
+        if webhook = webhooks.find { |wh| wh[:message_stream] == "broadcast" }
+          client.update_webhook(webhook[:id], attrs)
+          puts "#{acp.name} - Webhook updated"
+        else
+          client.create_webhook(attrs)
+          puts "#{acp.name} - Webhook created"
+        end
+      end
+    end
+  end
+
+  desc "Sync newsletter deliveries status"
+  task sync_newsletter_deliveries: :environment do
+    ACP.switch_each do |acp|
+      if api_token = acp.credentials(:postmark, :api_token)
+        client = Postmark::ApiClient.new(api_token)
+        pp "Syncing newsletter deliveries for #{acp.name}"
+
+        Newsletter.where(sent_at: 2.weeks.ago..).each do |newsletter|
+          messages = client.get_messages(
+            count: 500,
+            tag: newsletter.tag,
+            messagestream: "broadcast")
+          pp "#{newsletter.tag} - #{messages.size} messages found"
+          messages.each do |message|
+            email = message[:recipients].first
+            delivery = newsletter.deliveries.find_by(email: email)
+            unless delivery.postmark_message_id?
+              details = client.get_message(message[:message_id])
+              if details[:status] == "Sent"
+                if event = details[:message_events].find { |e| e["Type"] == "Delivered" && e["Recipient"] == email }
+                  delivery.transaction do
+                    delivery.update_column(:state, "pending")
+                    delivery.delivered!(
+                      at: event["ReceivedAt"],
+                      postmark_message_id: message[:message_id],
+                      postmark_details: details.dig("Details", "DeliveryMessage"))
+                  end
+                  pp "#{newsletter.tag} - delivered - #{delivery.id}"
+                elsif event = details[:message_events].find { |e| e["Type"] == "Bounced" && e["Recipient"] == email }
+                  bounce_id = event.dig("Details", "BounceID")
+                  bounce = client.get_bounce(bounce_id)
+                  delivery.transaction do
+                    delivery.update_column(:state, "pending")
+                    delivery.bounced!(
+                      at: bounce[:bounced_at],
+                      postmark_message_id: bounce[:message_id],
+                      postmark_details: bounce[:details],
+                      bounce_type: bounce[:type],
+                      bounce_type_code: bounce[:type_code],
+                      bounce_description: bounce[:description])
+                  end
+                  pp "#{newsletter.tag} - bounced - #{delivery.id}"
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
 end

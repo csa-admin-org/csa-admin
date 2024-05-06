@@ -10,7 +10,7 @@ describe "Configurations V1 API" do
         ActionController::HttpAuthentication::Token.encode_credentials(api_token)
       headers = {
         "ACCEPT" => "application/json",
-        "HTTP_AUTHORIZATION" => authorization
+        "AUTHORIZATION" => authorization
       }
       get "/api/v1/configuration", headers: headers
     end

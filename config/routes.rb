@@ -39,6 +39,10 @@ Rails.application.routes.draw do
         get "basket_contents/current" => "basket_contents#index"
       end
     end
+
+    namespace :postmark do
+      resources :webhooks, only: :create
+    end
   end
 
   scope module: "members", as: "members" do

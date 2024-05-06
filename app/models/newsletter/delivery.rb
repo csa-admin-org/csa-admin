@@ -4,7 +4,7 @@ class Newsletter
 
     include HasState
 
-    has_states :pending, :ignored, :delivered
+    has_states :pending, :ignored, :delivered, :bounced
 
     belongs_to :newsletter
     belongs_to :member
@@ -28,12 +28,21 @@ class Newsletter
       end
     end
 
+    def self.find_by_email_and_tag(email, tag)
+      newsletter_id = tag.to_s.split("-").last
+      find_by(email: email, newsletter_id: newsletter_id)
+    end
+
+    def tag
+      "newsletter-#{newsletter_id}"
+    end
+
     def deliverable?
       email? && email_suppression_ids.empty?
     end
 
     def process!
-      raise "Already processed!" if processed_at?
+      return if processed_at?
 
       attrs = {
         subject: email_render.subject,
@@ -43,13 +52,29 @@ class Newsletter
 
       if deliverable?
         mailer.newsletter_email.deliver_later(queue: :low)
-        attrs[:delivered_at] = Time.current # TODO: wait for webhook to confirm delivery
-        attrs[:state] = DELIVERED_STATE # TODO: wait for webhook to confirm delivery
       else
         attrs[:state] = IGNORED_STATE
       end
 
       update!(attrs)
+    end
+
+    def delivered!(at:, **attrs)
+      raise invalid_transition(:delivered) unless pending?
+
+      update!({
+        state: DELIVERED_STATE,
+        delivered_at: at,
+      }.merge(attrs))
+    end
+
+    def bounced!(at:, **attrs)
+      raise invalid_transition(:bounced) unless pending?
+
+      update!({
+        state: BOUNCED_STATE,
+        bounced_at: at,
+      }.merge(attrs))
     end
 
     private
@@ -71,7 +96,7 @@ class Newsletter
 
     def mailer_params
       {
-        newsletter_id: newsletter_id,
+        tag: tag,
         from: newsletter.from.presence,
         member: member,
         subject: newsletter.subject(member.language).to_s,

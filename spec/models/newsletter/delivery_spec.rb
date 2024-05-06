@@ -30,7 +30,7 @@ describe Newsletter::Delivery do
       Newsletter::Delivery.create_for!(newsletter, member)
     }.to change(Newsletter::Delivery, :count).by(2)
 
-    expect(Newsletter::Delivery.delivered.first).to have_attributes(
+    expect(Newsletter::Delivery.pending.first).to have_attributes(
       email: "jane@bob.com",
       email_suppression_ids: [])
     expect(Newsletter::Delivery.ignored.first).to have_attributes(
@@ -57,7 +57,7 @@ describe Newsletter::Delivery do
     expect(newsletter.suppressed_emails).to be_empty
   end
 
-  specify "deliver newsletter", sidekiq: :inline do
+  specify "send newsletter", sidekiq: :inline do
     # simulate newsletter sent
     newsletter.update!(template_contents: template.contents)
     member = create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
@@ -82,7 +82,7 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Au plaisir,\r\n<br />Rage de Vert</p>"
   end
 
-  specify "deliver newsletter with custom from", sidekiq: :inline do
+  specify "send newsletter with custom from", sidekiq: :inline do
     newsletter.update!(
       # simulate newsletter sent
       template_contents: template.contents,
@@ -96,7 +96,7 @@ describe Newsletter::Delivery do
     expect(email.from).to eq [ "contact@ragedevert.ch" ]
   end
 
-  specify "deliver newsletter with custom signature", sidekiq: :inline do
+  specify "send newsletter with custom signature", sidekiq: :inline do
     Current.acp.update! email_signature: "Signature"
     newsletter.update!(
       # simulate newsletter sent
@@ -113,7 +113,7 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Au plaisir</p>"
   end
 
-  specify "deliver newsletter with attachments", sidekiq: :inline do
+  specify "send newsletter with attachments", sidekiq: :inline do
     attachment = Newsletter::Attachment.new
     attachment.file.attach(
       io: File.open(file_fixture("qrcode-test.png")),

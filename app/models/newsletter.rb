@@ -36,6 +36,10 @@ class Newsletter < ApplicationRecord
     self[:from] = value.presence
   end
 
+  def tag
+    "newsletter-#{id}"
+  end
+
   def audience_segment
     @audience_segment ||= Audience::Segment.parse(audience)
   end
@@ -70,7 +74,8 @@ class Newsletter < ApplicationRecord
 
   def emails
     @member_emails ||= if sent? && !pending_delivery?
-      deliveries.delivered.pluck(:email)
+      deliveries.delivered.pluck(:email) +
+        deliveries.bounced.pluck(:email) # TODO: remove once UI is updated
     else
       audience_segment.emails
     end
