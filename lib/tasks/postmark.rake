@@ -74,34 +74,38 @@ namespace :postmark do
           messages.each do |message|
             email = message[:recipients].first
             delivery = newsletter.deliveries.find_by(email: email)
-            unless delivery.postmark_message_id?
-              details = client.get_message(message[:message_id])
-              if details[:status] == "Sent"
-                if event = details[:message_events].find { |e| e["Type"] == "Delivered" && e["Recipient"] == email }
-                  delivery.transaction do
-                    delivery.update_column(:state, "pending")
-                    delivery.delivered!(
-                      at: event["ReceivedAt"],
-                      postmark_message_id: message[:message_id],
-                      postmark_details: details.dig("Details", "DeliveryMessage"))
+            if delivery
+              if delivery.postmark_message_id.nil?
+                details = client.get_message(message[:message_id])
+                if details[:status] == "Sent"
+                  if event = details[:message_events].find { |e| e["Type"] == "Delivered" && e["Recipient"] == email }
+                    delivery.transaction do
+                      delivery.update_column(:state, "pending")
+                      delivery.delivered!(
+                        at: event["ReceivedAt"],
+                        postmark_message_id: message[:message_id],
+                        postmark_details: details.dig("Details", "DeliveryMessage"))
+                    end
+                    pp "#{newsletter.tag} - delivered - #{delivery.id}"
+                  elsif event = details[:message_events].find { |e| e["Type"] == "Bounced" && e["Recipient"] == email }
+                    bounce_id = event.dig("Details", "BounceID")
+                    bounce = client.get_bounce(bounce_id)
+                    delivery.transaction do
+                      delivery.update_column(:state, "pending")
+                      delivery.bounced!(
+                        at: bounce[:bounced_at],
+                        postmark_message_id: bounce[:message_id],
+                        postmark_details: bounce[:details],
+                        bounce_type: bounce[:type],
+                        bounce_type_code: bounce[:type_code],
+                        bounce_description: bounce[:description])
+                    end
+                    pp "#{newsletter.tag} - bounced - #{delivery.id}"
                   end
-                  pp "#{newsletter.tag} - delivered - #{delivery.id}"
-                elsif event = details[:message_events].find { |e| e["Type"] == "Bounced" && e["Recipient"] == email }
-                  bounce_id = event.dig("Details", "BounceID")
-                  bounce = client.get_bounce(bounce_id)
-                  delivery.transaction do
-                    delivery.update_column(:state, "pending")
-                    delivery.bounced!(
-                      at: bounce[:bounced_at],
-                      postmark_message_id: bounce[:message_id],
-                      postmark_details: bounce[:details],
-                      bounce_type: bounce[:type],
-                      bounce_type_code: bounce[:type_code],
-                      bounce_description: bounce[:description])
-                  end
-                  pp "#{newsletter.tag} - bounced - #{delivery.id}"
                 end
               end
+            else
+              pp "#{newsletter.tag} - delivery not found for #{email}"
             end
           end
         end
