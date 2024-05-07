@@ -30,7 +30,7 @@ namespace :anonymizer do
       end
       Newsletter::Delivery.where.not(email: nil).find_each do |delivery|
         delivery.update_columns(
-          email: emails_mapping[email.downcase] || Faker::Internet.unique.email.downcase)
+          email: emails_mapping[delivery.email.downcase] || Faker::Internet.unique.email.downcase)
       end
       EmailSuppression.find_each do |suppression|
         suppression.update_column(
