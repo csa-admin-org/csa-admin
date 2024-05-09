@@ -36,6 +36,14 @@ _:
       _de: Jährlicher Preis
       _fr: Prix annuel
       _it: Prezzo annuale
+    attachments:
+      _de: Anhänge
+      _fr: Pièces jointes
+      _it: Allegati
+    audience:
+      _de: Audienz
+      _fr: Audience
+      _it: Pubblico
     available:
       _de: Verfügbar
       _fr: Disponible
@@ -220,6 +228,10 @@ _:
       _de: Beschreibung
       _fr: Description
       _it: Descrizione
+    from:
+      _de: Absender-Adresse
+      _fr: Adresse d'envoi
+      _it: Indirizzo di spedizione
     future_deliveries:
       _de: Lieferungen (zukünftige)
       _fr: Livraisons (future)
@@ -468,6 +480,10 @@ _:
       _de: Gewicht (in kg)
       _fr: Poids (en kg)
       _it: Peso (in kg)
+    with_email:
+      _de: E-Mail
+      _fr: Email
+      _it: E-mail
     zip:
       _de: PLZ
       _fr: NPA

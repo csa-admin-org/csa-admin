@@ -36,6 +36,10 @@ class Newsletter < ApplicationRecord
     self[:from] = value.presence
   end
 
+  def display_name
+    "##{id} #{subject}"
+  end
+
   def tag
     "newsletter-#{id}"
   end
@@ -54,39 +58,6 @@ class Newsletter < ApplicationRecord
 
   def signatures
     self[:signatures].presence || Current.acp.email_signatures
-  end
-
-  def members_count
-    @members_count ||= if sent?
-      members.count
-    else
-      audience_segment.members.count
-    end
-  end
-
-  def all_members
-    @all_members ||= if sent?
-      members
-    else
-      audience_segment.members
-    end
-  end
-
-  def emails
-    @member_emails ||= if sent? && !pending_delivery?
-      deliveries.delivered.pluck(:email) +
-        deliveries.bounced.pluck(:email) # TODO: remove once UI is updated
-    else
-      audience_segment.emails
-    end
-  end
-
-  def suppressed_emails
-    @suppressed_emails ||= if sent? && !pending_delivery?
-      deliveries.ignored.with_email.pluck(:email)
-    else
-      audience_segment.suppressed_emails
-    end
   end
 
   def sent?
@@ -191,7 +162,7 @@ class Newsletter < ApplicationRecord
   end
 
   def can_send_email?
-    !sent? && emails.size.positive?
+    !sent? && audience_segment.emails.size.positive?
   end
 
   private

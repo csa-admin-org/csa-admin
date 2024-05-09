@@ -947,10 +947,6 @@ _:
               _de: 0 benötigten
               _fr: 0 requise
               _it: 0 richiesto
-        active_suppression_reasons:
-          _de: Status (aktuell)
-          _fr: Statut (actuel)
-          _it: Stato (attuale)
         activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Taschen befüllung
           _fr: Ajustement mise en panier
@@ -983,6 +979,15 @@ _:
           _de: Rechnungsstellung
           _fr: Facturation
           _it: Fatturazione
+        bounced_emails:
+          one:
+            _de: Abgelehnte E-Mail
+            _fr: Email rejeté
+            _it: Email respinto
+          other:
+            _de: Abgelehnte E-Mails
+            _fr: Emails rejetés
+            _it: Email respinte
         cancel:
           _de: Abbrechen
           _fr: Annuler
@@ -1023,6 +1028,15 @@ _:
           _de: Inatkiv setzen
           _fr: Rendre inactif
           _it: Disattivare
+        delivered_emails:
+          one:
+            _de: Verteilte E-Mail
+            _fr: Email distribué
+            _it: Email distribuita
+          other:
+            _de: Verteilte E-Mails
+            _fr: Emails distribués
+            _it: Email distribuite
         delivery_order_pdf:
           _de: Lieferschein (PDF)
           _fr: Bulletin de livraison (PDF)
@@ -1047,6 +1061,15 @@ _:
           _de: E-Mail
           _fr: Email
           _it: E-mail
+        emails:
+          one:
+            _de: E-Mail
+            _fr: Email
+            _it: Email
+          other:
+            _de: E-Mails
+            _fr: Emails
+            _it: Email
         invoice_action:
           _de: Rechnung stellen
           _fr: Facturer
@@ -1194,17 +1217,18 @@ _:
           _fr: emails actifs
           _it: email attive
         suppressed_emails:
-          _de: Ignorierte E-Mails (%{count})
-          _fr: Emails ignorés (%{count})
-          _it: Email ignorate (%{count})
+          one:
+            _de: Ignorierte E-Mail
+            _fr: Email ignoré
+            _it: Email ignorata
+          other:
+            _de: Ignorierte E-Mails
+            _fr: Emails ignorés
+            _it: Email ignorate
         suppressed_emails_description:
           _de: Die folgenden E-Mails werden beim Versand der Newsletter ignoriert.
           _fr: Les emails suivants seront ignorés lors de l'envoi de la newsletter.
           _it: Le seguenti email saranno ignorate durante l'invio della newsletter.
-        suppressed_emails_sent_description:
-          _de: Die folgenden E-Mails wurden beim Versand der Newsletter ignoriert.
-          _fr: Les emails suivants ont été ignorés lors de l'envoi de la newsletter.
-          _it: Le seguenti email sono state ignorate durante l'invio della newsletter.
         total:
           _de: Gesamt %{number}
           _fr: Total %{number}
@@ -1422,6 +1446,24 @@ _:
             _de: Gesendete
             _fr: Envoyées
             _it: Inviato
+      newsletter/delivery:
+        scopes:
+          all:
+            _de: Alle
+            _fr: Toutes
+            _it: Tutto
+          bounced:
+            _de: Abgelehnte
+            _fr: Rejetées
+            _it: Respinto
+          delivered:
+            _de: Verteilte
+            _fr: Distribuées
+            _it: Distribuito
+          ignored:
+            _de: Ignorierte
+            _fr: Ignorées
+            _it: Ignorato
       payment:
         new_model:
           _de: Neue %{model}
@@ -1678,6 +1720,10 @@ _:
         _de: Auto
         _fr: Auto
         _it: Auto
+      bounced:
+        _de: abgelehnte
+        _fr: rejetée
+        _it: respinto
       canceled:
         _de: storniert
         _fr: annulée
@@ -1690,6 +1736,10 @@ _:
         _de: gelöscht
         _fr: supprimé
         _it: eliminato
+      delivered:
+        _de: verteilte
+        _fr: distribuée
+        _it: distribuito
       draft:
         _de: Entwurf
         _fr: Brouillon
@@ -1706,6 +1756,10 @@ _:
         _de: ungültig (hard bounce)
         _fr: invalide (hard bounce)
         _it: non valido (hard bounce)
+      ignored:
+        _de: ignorierte
+        _fr: ignorée
+        _it: ignorato
       inactive:
         _de: inaktiv
         _fr: inactif
@@ -1718,6 +1772,10 @@ _:
         _de: abgemeldet
         _fr: désinscrit
         _it: disiscritto
+      no_email:
+        _de: keine E-Mail
+        _fr: pas d'email
+        _it: nessuna email
       open:
         _de: offen
         _fr: ouverte
