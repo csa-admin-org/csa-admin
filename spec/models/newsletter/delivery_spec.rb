@@ -37,9 +37,6 @@ describe Newsletter::Delivery do
       email: "john@bob.com",
       email_suppression_ids: [512312, 153123],
       email_suppression_reasons: ["ManualSuppression", "HardBounce"])
-
-    expect(newsletter.emails).to eq %w[jane@bob.com]
-    expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
   end
 
   specify "store delivery even for members without email" do
@@ -52,9 +49,6 @@ describe Newsletter::Delivery do
     expect(Newsletter::Delivery.first).to have_attributes(
       email: nil,
       email_suppression_ids: [])
-
-    expect(newsletter.emails).to be_empty
-    expect(newsletter.suppressed_emails).to be_empty
   end
 
   specify "send newsletter", sidekiq: :inline do

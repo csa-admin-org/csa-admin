@@ -16,7 +16,12 @@ class Ability
       Shop::SpecialDelivery,
       Shop::Tag
     ],
-    newsletter: [ Newsletter, Newsletter::Segment, Newsletter::Template ]
+    newsletter: [
+      Newsletter,
+      Newsletter::Delivery,
+      Newsletter::Segment,
+      Newsletter::Template
+    ]
   }
 
   def initialize(admin)

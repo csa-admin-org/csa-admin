@@ -589,6 +589,8 @@ table a.xlsx_link {
 }
 
 .status_tag.absent,
+.status_tag.processing,
+.status_tag.no_email,
 .status_tag.canceled,
 .status_tag.inactive {
   background-color: #bfbfbf;
@@ -598,6 +600,7 @@ table a.xlsx_link {
   font-style: italic;
 }
 
+.status_tag.ignored,
 .status_tag.coming,
 .status_tag.draft,
 .status_tag.manual,
@@ -609,6 +612,7 @@ table a.xlsx_link {
 
 .status_tag.renewal_canceled,
 .status_tag.hard_bounce,
+.status_tag.bounced,
 .status_tag.spam_complaint,
 .status_tag.no,
 .status_tag.open,
@@ -617,6 +621,7 @@ table a.xlsx_link {
 }
 
 .status_tag.renewed,
+.status_tag.delivered,
 .status_tag.active,
 .status_tag.closed,
 .status_tag.auto,
@@ -688,6 +693,12 @@ table.index_table .col-number,
 table.index_table .col-active,
 table.index_table .col-last_session_used_at {
   text-align: right;
+}
+
+table.index_table .col-actions-1 {
+  width: 45px;
+  min-width: 45px;
+  padding: 3px 10px;
 }
 
 table.index_table .col-actions-2 {
@@ -1668,7 +1679,7 @@ ul.counts {
   justify-content: space-evenly;
   flex-wrap: wrap;
   list-style: none;
-  padding: 0;
+  padding: 2px 0;
   margin: 0;
 }
 
@@ -1804,7 +1815,7 @@ ul.counts li span.zero span.count {
   white-space: nowrap;
 }
 
-table.partially-hidden tr:nth-child(n+7) {
+table.partially-hidden tr:nth-child(n+11) {
   display: none;
 }
 

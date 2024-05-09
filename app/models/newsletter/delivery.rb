@@ -9,7 +9,7 @@ class Newsletter
     belongs_to :newsletter
     belongs_to :member
 
-    scope :with_email, -> { where.not(email: nil) }
+    scope :with_email, ->(email) { where("email ILIKE ?", "%#{email}%") }
 
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job
@@ -31,6 +31,10 @@ class Newsletter
     def self.find_by_email_and_tag(email, tag)
       newsletter_id = tag.to_s.split("-").last
       find_by(email: email, newsletter_id: newsletter_id)
+    end
+
+    def self.ransackable_scopes(_auth_object = nil)
+      %i[with_email]
     end
 
     def tag
@@ -75,6 +79,11 @@ class Newsletter
         state: BOUNCED_STATE,
         bounced_at: at,
       }.merge(attrs))
+    end
+
+    def mail_preview
+      mailer = NewsletterMailer.new
+      mailer.send(:content_mail, content, subject: subject).body
     end
 
     private

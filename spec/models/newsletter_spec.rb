@@ -167,14 +167,13 @@ describe Newsletter do
         stream_id: "broadcast",
         reason: "HardBounce")
 
-      expect(newsletter.members_count).to eq 2
-      expect(newsletter.members.count).to eq 0
-      expect(newsletter.emails).to contain_exactly *%w[
+      expect(newsletter.audience_segment.members.count).to eq 2
+      expect(newsletter.audience_segment.emails).to contain_exactly *%w[
         jane@doe.com
         john@doe.com
         jane@bob.com
       ]
-      expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
+      expect(newsletter.audience_segment.suppressed_emails).to eq %w[john@bob.com]
       expect(newsletter.template_contents).to be_empty
       expect(newsletter[:liquid_data_preview_yamls]).to be_empty
       expect(newsletter.audience_names).to be_empty
@@ -192,14 +191,13 @@ describe Newsletter do
 
       newsletter = Newsletter.last # hard reload
       expect(newsletter).to be_sent
-      expect(newsletter.members_count).to eq 2
       expect(newsletter.members.count).to eq 2
-      expect(newsletter.emails).to contain_exactly *%w[
+      expect(newsletter.deliveries.pending.pluck(:email)).to contain_exactly *%w[
         jane@doe.com
         john@doe.com
         jane@bob.com
       ]
-      expect(newsletter.suppressed_emails).to eq %w[john@bob.com]
+      expect(newsletter.deliveries.ignored.pluck(:email)).to eq %w[john@bob.com]
       expect(newsletter.template_contents).to eq newsletter.template.contents
       expect(newsletter[:liquid_data_preview_yamls]).not_to be_empty
       expect(newsletter.audience_names).to eq(

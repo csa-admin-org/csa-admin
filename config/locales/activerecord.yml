@@ -848,10 +848,6 @@ _:
           _de: Adresse
           _fr: Adresse
           _it: Indirizzo
-        with_email:
-          _de: E-Mail
-          _fr: Email
-          _it: E-mail
         with_name:
           _de: Name
           _fr: Nom
@@ -1216,18 +1212,6 @@ _:
           _fr: Complément
           _it: Aggiunte
       newsletter:
-        attachments:
-          _de: Anhänge
-          _fr: Pièces jointes
-          _it: Allegati
-        audience:
-          _de: Audienz
-          _fr: Audience
-          _it: Pubblico
-        from:
-          _de: Absender-Adresse
-          _fr: Adresse d'envoi
-          _it: Indirizzo di spedizione
         signature:
           _de: Signatur
           _fr: Signature
@@ -1241,6 +1225,31 @@ _:
           _de: Datei
           _fr: Fichier
           _it: File
+      newsletter/delivery:
+        bounce_description:
+          _de: Beschreibung der Ablehnung
+          _fr: Description du rejet
+          _it: Descrizione del respinta
+        bounce_type:
+          _de: Art der Ablehnung
+          _fr: Type de rejet
+          _it: Tipo di respinta
+        bounced_at:
+          _de: Abgelehnt am
+          _fr: Rejeté le
+          _it: Respinto il
+        delivered_at:
+          _de: Verteiltet am
+          _fr: Distribué le
+          _it: Distribuito il
+        email_suppression_reasons:
+          _de: Gründe
+          _fr: Raisons
+          _it: Motivi
+        processed_at:
+          _de: Verarbeitet am
+          _fr: Traitée le
+          _it: Elaborato il
       newsletter/segment:
         coming_deliveries_in_days:
           _de: Nächste Tasche in mindestens (in Tagen)
@@ -1651,6 +1660,15 @@ _:
           _de: Anhänge
           _fr: Pièces jointes
           _it: Allegati
+      newsletter/delivery:
+        one:
+          _de: Verteilung
+          _fr: Distribution
+          _it: Distribuzione
+        other:
+          _de: Verteilungen
+          _fr: Distributions
+          _it: Distribuzioni
       newsletter/segment:
         one:
           _de: Audienzsegment
