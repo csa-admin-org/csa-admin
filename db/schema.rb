@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_09_140829) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_10_085438) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -123,6 +123,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_140829) do
     t.integer "activity_participations_form_max"
     t.jsonb "activity_participations_form_details", default: {}, null: false
     t.string "sepa_creditor_identifier"
+    t.string "delivery_pdf_member_info", default: "none", null: false
     t.index ["host"], name: "index_acps_on_host"
     t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end

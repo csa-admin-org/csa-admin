@@ -1,0 +1,15 @@
+_:
+  acp:
+    delivery_pdf_member_info:
+      none:
+        _de: Keine
+        _fr: Aucune
+        _it: Nessuna
+      phones:
+        _de: Telefonnummern
+        _fr: Numéros de téléphone
+        _it: Numeri di telefono
+      food_note:
+        _de: Lebensmittelhinweis
+        _fr: Note alimentaire
+        _it: Nota alimentare

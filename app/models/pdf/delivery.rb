@@ -27,8 +27,10 @@ module PDF
         basket_sizes = BasketSize.for(baskets)
         member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
-          if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == "home_delivery"
+          if Current.acp.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
             16
+          elsif Current.acp.delivery_pdf_member_info == "food_note"
+            19
           else
             22
           end
@@ -472,13 +474,20 @@ module PDF
         basket = baskets.find { |b| b.membership.member_id == member.id }
         shop_order = shop_orders.find { |so| so.member_id == member.id }
 
-        if Current.acp.delivery_pdf_show_phones?
+        case Current.acp.delivery_pdf_member_info
+        when "phones"
           phones = member.phones_array
           if phones.any?
-            txt = phones.map { |p| display_phone(p) }.join(", ")
-            column_content += "<font size='3'>\n\n</font>"
-            column_content += "<font size='9'><i><color rgb='777777'>#{txt}</color></i></font>"
+            info_txt = phones.map { |p| display_phone(p) }.join(", ")
           end
+        when "food_note"
+          if member.food_note?
+            info_txt = member.food_note.truncate(90)
+          end
+        end
+        if info_txt
+          column_content += "<font size='3'>\n\n</font>"
+          column_content += "<font size='9'><i><color rgb='777777'>#{info_txt}</color></i></font>"
         end
 
         line = [
@@ -570,9 +579,7 @@ module PDF
         (bs_size + bc_size + sp_size).times do |i|
           t.column(numbers_column_offset + i).width = number_width
           t.column(numbers_column_offset + i).align = :center
-            # if Current.acp.delivery_pdf_show_phones? || depot.delivery_sheets_mode == 'home_delivery'
-            t.column(numbers_column_offset + i).padding_top = -1
-          # end
+          t.column(numbers_column_offset + i).padding_top = -1
           t.column(numbers_column_offset + i).font_style = :light # Ensure number is well centered in the cell!
         end
 
