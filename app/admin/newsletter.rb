@@ -11,8 +11,8 @@ ActiveAdmin.register Newsletter do
   filter :members_segmemt
   filter :sent_at
 
-  scope :all
-  scope :draft, default: true
+  scope :all, default: true
+  scope :draft
   scope :sent
 
   action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
