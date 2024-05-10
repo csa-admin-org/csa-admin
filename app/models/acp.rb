@@ -23,6 +23,7 @@ class ACP < ApplicationRecord
   EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
   MEMBER_FORM_MODES = %w[membership shop]
   INPUT_FORM_MODES = %w[hidden visible required]
+  DELIVERY_PDF_MEMBER_INFOS = %w[none phones food_note]
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
@@ -122,6 +123,9 @@ class ACP < ApplicationRecord
   validates :delivery_cycles_member_order_mode,
     presence: true,
     inclusion: { in: DeliveryCycle::MEMBER_ORDER_MODES }
+  validates :delivery_pdf_member_info,
+    presence: true,
+    inclusion: { in: DELIVERY_PDF_MEMBER_INFOS }
   validates :basket_update_limit_in_days,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 }

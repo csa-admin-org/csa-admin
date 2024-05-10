@@ -167,10 +167,10 @@ _:
           _de: Fußzeile
           _fr: Bas de page
           _it: Piè di pagina
-        delivery_pdf_show_phones:
-          _de: Telefonnummern einbeziehen
-          _fr: Inclure les numéros de téléphone
-          _it: Includere il numero di telefono
+        delivery_pdf_member_info:
+          _de: Zusätzliche Informationen
+          _fr: Information supplémentaire
+          _it: Informazioni aggiuntive
         depots_member_order_mode:
           _de: Reihenfolge der Depots
           _fr: Ordre des dépôts

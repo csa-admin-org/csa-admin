@@ -219,7 +219,16 @@ ActiveAdmin.register ACP do
         f.inputs do
           para t(".delivery_sheets_text_html"), class: "description"
           translated_input(f, :delivery_pdf_footers, required: false)
-          f.input :delivery_pdf_show_phones, as: :boolean
+
+
+          f.input :delivery_pdf_member_info,
+            as: :radio,
+            collection: ACP::DELIVERY_PDF_MEMBER_INFOS.map { |info|
+              [
+                content_tag(:span, t("acp.delivery_pdf_member_info.#{info}")),
+                info
+              ]
+            }
         end
       end
       tab t(".mailer"), id: "mail"  do
@@ -421,7 +430,7 @@ ActiveAdmin.register ACP do
     :activity_participations_demanded_logic,
     :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
     :absences_billed,
-    :delivery_pdf_show_phones,
+    :delivery_pdf_member_info,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_member_percentages,

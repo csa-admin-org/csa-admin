@@ -221,9 +221,9 @@ _:
       _fr: Année fiscale
       _it: Anno fiscale
     food_note:
-      _de: Notiz Lebensmittel
+      _de: Lebensmittelhinweis
       _fr: Note alimentaire
-      _it: Note alimentari
+      _it: Nota alimentare
     form_detail:
       _de: Beschreibung
       _fr: Description

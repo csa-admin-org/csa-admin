@@ -155,7 +155,6 @@ ActiveAdmin.register Depot do
           row(:phones) { display_phones_with_link(self, depot.phones_array) }
         end
 
-
         active_admin_comments
       end
     end
