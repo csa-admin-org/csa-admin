@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_04_081225) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_09_140829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -649,8 +649,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_04_081225) do
   create_table "newsletter_deliveries", force: :cascade do |t|
     t.bigint "newsletter_id", null: false
     t.bigint "member_id", null: false
-    t.string "emails", default: [], null: false, array: true
-    t.string "suppressed_emails", default: [], null: false, array: true
     t.string "subject"
     t.text "content"
     t.datetime "processed_at"
