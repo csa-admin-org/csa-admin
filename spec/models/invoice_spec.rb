@@ -484,9 +484,14 @@ describe Invoice do
       expect(last.can_cancel?).to eq true
     end
 
-    specify "when not current year" do
-      invoice = create(:invoice, :annual_fee, :open, date: 13.months.ago)
+    specify "when not current year but closed" do
+      invoice = create(:invoice, :annual_fee, :closed, date: 13.months.ago)
       expect(invoice.can_cancel?).to eq false
+    end
+
+    specify "when not current year but open" do
+      invoice = create(:invoice, :annual_fee, :open, date: 13.months.ago)
+      expect(invoice.can_cancel?).to eq true
     end
 
     specify "when can be destroyed" do

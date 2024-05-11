@@ -313,7 +313,7 @@ class Invoice < ApplicationRecord
     !can_destroy? &&
       !processing? &&
       !canceled? &&
-      current_year? &&
+      (current_year? || open?) &&
       !acp_share_type? &&
       (!entity_id? || entity_latest?)
   end
