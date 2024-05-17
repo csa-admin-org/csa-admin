@@ -45,32 +45,18 @@ ActiveAdmin.register Delivery do
 
   csv do
     column(:id)
+    column(:fiscal_year)
     column(:date)
+    column(:number)
     column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
     column(:absent_baskets) { |d| d.basket_counts(scope: :absent).all.sum(&:count) }
-
-    resource.depots.each do |depot|
-      column(depot.name) { |d| BasketCounts.new(d, depot.id).sum }
+    if BasketComplement.kept.any?
+      column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
-
-    resource.basket_sizes.each do |basket_size|
-      column(basket_size.name) { |d| d.basket_counts.sum_basket_size(basket_size.id) }
-    end
-
-    basket_complements = BasketComplement.for(resource.baskets)
-    if basket_complements.any?
-      basket_complements.each do |basket_complement|
-        column(basket_complement.name) { |d| BasketComplementCount.new(basket_complement, d).count }
-      end
-    end
-
-    DeliveryCycle.for(resource).each do |delivery_cycle|
-      column(delivery_cycle.name) { |d| delivery_cycle.include_delivery?(d) }
-    end
-
     if Current.acp.feature?("shop")
-      column(:shop_open)
+      column("#{t("shop.title")}: #{Delivery.human_attribute_name(:shop_open)}") { |d| d.shop_configured_open? }
     end
+    column(:note)
   end
 
   action_item :delivery_cycle, only: :index do
