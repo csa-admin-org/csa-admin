@@ -563,6 +563,10 @@ _:
           _de: Notiz (Admin)
           _fr: Note (Admin)
           _it: Nota (Admin)
+        number:
+          _de: Nummer
+          _fr: Numéro
+          _it: Numero
         sheets:
           _de: Blätter
           _fr: Fiches
