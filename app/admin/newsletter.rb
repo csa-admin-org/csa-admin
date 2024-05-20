@@ -337,7 +337,7 @@ ActiveAdmin.register Newsletter do
     end
 
     def apply_sorting(chain)
-      params[:order] ||= "sent_at_desc" if params[:scope].in?(%w[all sent])
+      params[:order] ||= "sent_at_desc" if params[:scope].in?([nil, "all", "sent"])
       super
     end
 
