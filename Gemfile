@@ -49,7 +49,6 @@ gem "activejob-uniqueness"
 gem "faraday"
 gem "faraday-cookie_jar"
 
-gem "gibbon"
 gem "icalendar"
 gem "image_processing"
 gem "prawn"

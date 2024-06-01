@@ -25,17 +25,4 @@ describe "Email Suppressions" do
       text: "Merci de vous être à nouveau inscrit à nos newsletters!")
     expect(page).not_to have_content("Je souhaite à nouveau m'inscrire aux newsletters")
   end
-
-  specify "do not allow Mailchimp only origin re-subscription" do
-    suppression = EmailSuppression.suppress!(member.emails_array.first,
-      stream_id: "broadcast",
-      origin: "Mailchimp",
-      reason: "Forgotten")
-    expect(Rails.application).to receive(:credentials).and_return(
-      ragedevert: { mailchimp: { foo: :bar } })
-
-    visit "/account"
-
-    expect(page).not_to have_content("Je souhaite à nouveau m'inscrire aux newsletters")
-  end
 end

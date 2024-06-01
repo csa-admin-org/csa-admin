@@ -34,12 +34,6 @@
       class: ScheduledJob
       args: Scheduled::ChoresJob
       description: "Daily chores (checks and updates)"
-    mailchimp_sync_list:
-      cron: '0 0 1 * * *'
-      queue: low
-      class: ScheduledJob
-      args: Scheduled::MailchimpSyncListJob
-      description: "Sync members with Mailchimp audience list"
     notifier_daily:
       cron: '0 30 4 * * *'
       queue: low

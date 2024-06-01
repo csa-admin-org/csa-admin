@@ -337,10 +337,6 @@ class ACP < ApplicationRecord
     @max_deliveries_counts[year.to_s]
   end
 
-  def mailchimp?
-    credentials(:mailchimp).present?
-  end
-
   def calculate_basket_price_extra(extra, basket_price, basket_size_id, complements_price, deliveries_count)
     return extra unless basket_price_extra_dynamic_pricing?
 

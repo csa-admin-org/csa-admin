@@ -197,9 +197,6 @@ GEM
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     geom2d (0.4.1)
-    gibbon (3.5.0)
-      faraday (>= 1.0)
-      multi_json (>= 1.11.0)
     girocode (0.2.0)
       bank-contact
       rqrcode
@@ -293,7 +290,6 @@ GEM
     mini_portile2 (2.8.6)
     minitest (5.23.1)
     msgpack (1.7.2)
-    multi_json (1.15.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
@@ -625,7 +621,6 @@ DEPENDENCIES
   faker
   faraday
   faraday-cookie_jar
-  gibbon
   girocode
   hexapdf
   i18n
