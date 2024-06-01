@@ -253,11 +253,11 @@ module MembersHelper
   end
 
   def newsletter_unsubscribed?
-    suppressions = EmailSuppression.unsuppressable.broadcast
-    if Current.acp.mailchimp?
-      suppressions = suppressions.where.not(origin: "Mailchimp")
-    end
-    suppressions.where(email: current_session.email).any?
+    EmailSuppression
+      .unsuppressable
+      .broadcast
+      .where(email: current_session.email)
+      .any?
   end
 
   def display_acp_shares_number(member)
