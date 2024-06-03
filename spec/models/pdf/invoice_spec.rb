@@ -870,8 +870,24 @@ describe PDF::Invoice do
         .and contain_sequence("IBAN", "DE87 2005 0000 1234 5678 90")
         .and contain_sequence("Zahlbar an", "Gläubiger GmbH")
         .and contain_sequence("Referenz", "RF27 0042 4242 0000 9001")
-        .and contain_sequence("Referenz", "RF27 0042 4242 0000 9001")
         .and contain_sequence("Betrag", "EUR 1 250.00")
+    end
+
+    specify "invoice with zero-amount SEPA payment section", sidekiq: :inline do
+      create(:payment, member: member, amount: 250)
+      invoice = create(:invoice,
+        id: 9002,
+        member: member,
+        acp_shares_number: 1)
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to contain_sequence("Zahlteil")
+        .and contain_sequence("Zahlen mit Code")
+        .and contain_sequence("IBAN", "DE87 2005 0000 1234 5678 90")
+        .and contain_sequence("Zahlbar an", "Gläubiger GmbH")
+        .and contain_sequence("Referenz", "RF97 0042 4242 0000 9002")
+        .and contain_sequence("Betrag", "EUR 0.00")
     end
   end
 

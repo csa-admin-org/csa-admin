@@ -20,12 +20,16 @@ module Billing
     private
 
     def build_code
-      Girocode.new(
+      attrs = {
         iban: @acp.iban,
         name: @acp.creditor_name,
         currency: @acp.currency_code,
-        amount: @invoice.missing_amount,
-        reference: @invoice.reference.to_s)
+        reference: @invoice.reference.to_s
+      }
+      unless @invoice.missing_amount.zero?
+        attrs[:amount] = @invoice.missing_amount
+      end
+      Girocode.new(**attrs)
     end
   end
 end
