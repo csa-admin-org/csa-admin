@@ -510,10 +510,16 @@ describe Invoice do
       expect(invoice.can_cancel?).to eq false
     end
 
-    specify "when acp_shares type" do
+    specify "when acp_shares type and closed" do
+      Current.acp.update!(share_price: 250, shares_number: 1)
+      invoice = create(:invoice, :acp_share, :closed)
+      expect(invoice.can_cancel?).to eq false
+    end
+
+    specify "when acp_shares type and open" do
       Current.acp.update!(share_price: 250, shares_number: 1)
       invoice = create(:invoice, :acp_share, :open)
-      expect(invoice.can_cancel?).to eq false
+      expect(invoice.can_cancel?).to eq true
     end
   end
 
