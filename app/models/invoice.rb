@@ -314,7 +314,7 @@ class Invoice < ApplicationRecord
       !processing? &&
       !canceled? &&
       (current_year? || open?) &&
-      !acp_share_type? &&
+      (!acp_share_type? || open?) &&
       (!entity_id? || entity_latest?)
   end
 
