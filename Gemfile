@@ -110,6 +110,8 @@ group :development do
   gem "ruby-lsp-rspec", require: false
 
   gem "rubocop-rails-omakase", require: false
+
+  gem 'stringio', '3.1.0' # 3.1.1. Issue with puma-dev
 end
 
 group :test do
