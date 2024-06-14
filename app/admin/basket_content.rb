@@ -311,6 +311,18 @@ ActiveAdmin.register BasketContent do
       end
     end
 
+    def create
+      create! do |success, failure|
+        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id }) }
+      end
+    end
+
+    def update
+      update! do |success, failure|
+        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id }) }
+      end
+    end
+
     def collection
       super
         .joins(:delivery, :product)
