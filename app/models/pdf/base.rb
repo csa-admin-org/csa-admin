@@ -34,9 +34,6 @@ module PDF
           italic: font_path + "HelveticaOblique.ttf",
           bold: font_path + "HelveticaBold.ttf",
           bold_italic: font_path + "HelveticaBoldOblique.ttf"
-        },
-        "OcrB" => {
-          normal: font_path + "OcrB.ttf"
         }
       )
       font(name)
