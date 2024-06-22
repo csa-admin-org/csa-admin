@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SidePanel < ActiveAdmin::Component
   builder_method :side_panel
 

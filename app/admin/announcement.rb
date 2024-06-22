@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Announcement do
   menu parent: :other, priority: 3
   actions :all, except: [ :show ]
@@ -27,7 +29,7 @@ ActiveAdmin.register Announcement do
     f.inputs t(".details") do
       translated_input(f, :texts,
         as: :text,
-        input_html: { rows: 4, cols: 32 } ,
+        input_html: { rows: 4, cols: 32 },
         hint: t("formtastic.hints.announcement.text_html"))
       f.input :depot_ids,
         collection: admin_depots_collection,

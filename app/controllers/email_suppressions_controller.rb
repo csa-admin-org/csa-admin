@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmailSuppressionsController < ApplicationController
   before_action :authenticate_admin!
 

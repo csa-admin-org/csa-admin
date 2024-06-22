@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivityParticipation < ApplicationRecord
   include HasState # only partially
   include HasNote

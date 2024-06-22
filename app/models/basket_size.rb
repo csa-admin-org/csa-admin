@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasketSize < ApplicationRecord
   include TranslatedAttributes
   include HasPrice

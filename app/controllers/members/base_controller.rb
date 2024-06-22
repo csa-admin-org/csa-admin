@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::BaseController < ApplicationController
   layout "members"
   before_action :authenticate_member!

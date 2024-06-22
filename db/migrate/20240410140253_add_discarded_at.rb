@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDiscardedAt < ActiveRecord::Migration[7.1]
   def change
     add_column :shop_product_variants, :discarded_at, :datetime

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Postmark
   class WebhooksController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods

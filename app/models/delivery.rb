@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Delivery < ApplicationRecord
   include HasDate
   include HasFiscalYearScopes

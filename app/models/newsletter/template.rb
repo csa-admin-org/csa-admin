@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Newsletter
   class Template < ApplicationRecord
     self.table_name = "newsletter_templates"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::DataPreview
   def self.for(mail_template, random: nil)
     new(

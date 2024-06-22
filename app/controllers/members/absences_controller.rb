@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::AbsencesController < Members::BaseController
   include AbsencesHelper
 

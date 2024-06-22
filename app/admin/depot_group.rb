@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register DepotGroup do
   menu false
   actions :all, except: [ :show ]

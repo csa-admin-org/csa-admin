@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddResponsibleMemberIdToDistributions < ActiveRecord::Migration[5.2]
   def change
     add_reference :distributions, :responsible_member, foreign_key: { to_table: :members }

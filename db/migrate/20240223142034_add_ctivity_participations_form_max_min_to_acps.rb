@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCtivityParticipationsFormMaxMinToAcps < ActiveRecord::Migration[7.1]
   def change
     add_column :acps, :activity_participations_form_min, :integer

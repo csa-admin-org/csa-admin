@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpamDetector
   MAX_SIZE = 5000
   ZIP_REGEXP = /\A\d{6}\z/

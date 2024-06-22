@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddACPShares < ActiveRecord::Migration[5.2]
   def change
     add_column :acps, :share_price, :decimal, precision: 8, scale: 2

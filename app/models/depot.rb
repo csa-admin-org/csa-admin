@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Depot < ApplicationRecord
   include HasEmails
   include HasPhones

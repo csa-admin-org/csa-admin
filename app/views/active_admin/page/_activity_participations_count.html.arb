@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ul class: "counts" do
   %i[future pending validated paid missing].each do |scope|
     li do

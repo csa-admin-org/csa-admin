@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::BillingController < Members::BaseController
   # GET /billing
   def index

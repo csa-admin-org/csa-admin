@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionMailerPreview < ActionMailer::Preview
   def new_member_session_email
     session = Session.new(

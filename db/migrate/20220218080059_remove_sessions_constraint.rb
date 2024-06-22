@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveSessionsConstraint < ActiveRecord::Migration[6.1]
   def up
     execute 'ALTER TABLE sessions DROP CONSTRAINT IF EXISTS owner_set'

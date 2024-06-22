@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBasketContentsUnitPrice < ActiveRecord::Migration[7.0]
   def change
     add_column :basket_contents, :unit_price, :decimal, precision: 8, scale: 2, default: nil

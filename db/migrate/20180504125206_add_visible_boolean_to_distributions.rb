@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVisibleBooleanToDistributions < ActiveRecord::Migration[5.2]
   def change
     add_column :distributions, :visible, :boolean, null: false, default: true

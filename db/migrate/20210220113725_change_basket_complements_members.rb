@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeBasketComplementsMembers < ActiveRecord::Migration[6.1]
   def change
     rename_table :basket_complements_members, :members_basket_complements

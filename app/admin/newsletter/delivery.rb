@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Newsletter::Delivery do
   menu false
   actions :index, :show

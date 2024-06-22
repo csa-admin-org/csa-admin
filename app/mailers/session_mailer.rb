@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionMailer < ApplicationMailer
   def new_member_session_email
     session = params[:session]

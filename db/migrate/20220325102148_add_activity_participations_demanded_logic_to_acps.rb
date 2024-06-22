@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddActivityParticipationsDemandedLogicToAcps < ActiveRecord::Migration[7.0]
   def change
     add_column :acps, :activity_participations_demanded_logic, :text, null: false, default: <<~LIQUID

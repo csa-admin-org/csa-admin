@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ul class: "counts" do
   scopes = %i[trial ongoing future]
   scopes.delete(:trial) unless Current.acp.trial_basket_count.positive?

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Newsletter
   class Delivery < ApplicationRecord
     self.table_name = "newsletter_deliveries"
@@ -68,7 +70,7 @@ class Newsletter
 
       update!({
         state: DELIVERED_STATE,
-        delivered_at: at,
+        delivered_at: at
       }.merge(attrs))
     end
 
@@ -77,7 +79,7 @@ class Newsletter
 
       update!({
         state: BOUNCED_STATE,
-        bounced_at: at,
+        bounced_at: at
       }.merge(attrs))
     end
 

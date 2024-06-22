@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvoiceTotal
   include ActivitiesHelper
   include ActionView::Helpers::UrlHelper

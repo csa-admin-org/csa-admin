@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DepotGroup < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts

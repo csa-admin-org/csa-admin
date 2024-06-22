@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HasLanguage
   extend ActiveSupport::Concern
 

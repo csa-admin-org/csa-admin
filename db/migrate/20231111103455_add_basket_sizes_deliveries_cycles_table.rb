@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBasketSizesDeliveriesCyclesTable < ActiveRecord::Migration[7.1]
   def change
     create_table :basket_sizes_deliveries_cycles do |t|

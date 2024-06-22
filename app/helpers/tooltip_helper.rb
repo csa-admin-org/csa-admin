@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TooltipHelper
   def tooltip(id, text, icon_name: "information-circle")
     tooltip_id = "tooltip-#{id}"

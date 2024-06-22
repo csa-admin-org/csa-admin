@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ACP < ApplicationRecord
   self.table_name = "public.acps"
   self.sequence_name = "public.acps_id_seq"

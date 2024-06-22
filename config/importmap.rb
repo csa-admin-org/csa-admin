@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Use direct uploads for Active Storage (remember to import "@rails/activestorage" in your application.js)
 # pin "@rails/activestorage", to: "activestorage.esm.js"
 

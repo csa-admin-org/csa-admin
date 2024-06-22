@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TablesHelper
   def display_with_external_url(text, url)
     txt = text

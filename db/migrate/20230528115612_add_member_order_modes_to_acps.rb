@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMemberOrderModesToAcps < ActiveRecord::Migration[7.0]
   def change
     add_column :acps, :basket_sizes_member_order_mode, :string, null: false, default: 'price_desc'

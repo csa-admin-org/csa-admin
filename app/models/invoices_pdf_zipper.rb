@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvoicesPDFZipper
   def self.zip(invoices)
     new(invoices).zip

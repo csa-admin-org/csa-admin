@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::AdminDeliveryDrop < Liquid::Drop
   def initialize(delivery)
     @delivery = delivery

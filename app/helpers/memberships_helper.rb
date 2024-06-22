@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MembershipsHelper
   def basket_description(basket, text_only: false)
     parts = [ basket_size_description(basket, text_only: text_only) ]

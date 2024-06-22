@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Rounding
   # round a given number to the nearest step
   def round_to_five_cents

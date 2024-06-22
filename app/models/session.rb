@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Session < ApplicationRecord
   TIMEOUT = 1.hour
   EXPIRATION = 1.year

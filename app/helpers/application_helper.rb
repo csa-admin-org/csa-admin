@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def spaced(string, size: 3)
     string = string.to_s

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XLSX
   class Delivery < Base
     def initialize(delivery, depot = nil)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SharedDataPreview
   extend ActiveSupport::Concern
 
@@ -69,7 +71,7 @@ module SharedDataPreview
     wday = deliveries.first.date.wday
     OpenStruct.new(
       id: 1,
-      public_name: I18n.t('date.day_names')[wday].titleize.pluralize)
+      public_name: I18n.t("date.day_names")[wday].titleize.pluralize)
   end
 
   def memberships_basket_complements

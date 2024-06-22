@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::ActivitiesController < Members::BaseController
   skip_before_action :authenticate_member!
 

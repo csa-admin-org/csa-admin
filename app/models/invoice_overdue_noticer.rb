@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InvoiceOverdueNoticer
   DAYS_DELAY = 35.days.freeze
   attr_reader :invoice

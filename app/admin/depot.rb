@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Depot do
   menu parent: :other, priority: 5
 
@@ -83,7 +85,6 @@ ActiveAdmin.register Depot do
             icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
             icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: "_blank")
           ) do
-
             attrs = {}
             if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
               attrs[:class] = "cursor-move table-auto"

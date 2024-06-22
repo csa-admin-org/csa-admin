@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register_page "Dashboard" do
   DEPOTS_LIMIT = 12
 

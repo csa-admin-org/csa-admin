@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Basket do
   menu false
   actions :index, :edit, :update

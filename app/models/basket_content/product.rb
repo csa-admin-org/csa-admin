@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasketContent
   class Product < ApplicationRecord
     include TranslatedAttributes

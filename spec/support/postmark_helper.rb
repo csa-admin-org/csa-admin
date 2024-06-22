@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PostmarkHelper
   def postmark_client
     PostmarkMockClient.instance

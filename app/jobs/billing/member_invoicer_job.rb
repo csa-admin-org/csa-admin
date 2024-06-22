@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class MemberInvoicerJob < ApplicationJob
     queue_as :low

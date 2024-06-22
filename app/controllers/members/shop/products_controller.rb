@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::Shop::ProductsController < Members::Shop::BaseController
   before_action :ensure_next_shop_delivery!
   before_action :find_or_create_order!

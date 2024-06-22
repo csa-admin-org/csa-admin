@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shop
   class Order < ApplicationRecord
     include NumbersHelper

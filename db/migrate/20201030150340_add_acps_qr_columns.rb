@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAcpsQRColumns < ActiveRecord::Migration[6.0]
   def change
     add_column :acps, :qr_iban, :string

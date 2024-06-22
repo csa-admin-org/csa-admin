@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class Snapshot < ApplicationRecord
     self.table_name = "billing_snapshots"

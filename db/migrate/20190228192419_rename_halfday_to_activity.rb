@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameHalfdayToActivity < ActiveRecord::Migration[5.2]
   def change
     rename_column :acps, :halfday_i18n_scope, :activity_i18n_scope

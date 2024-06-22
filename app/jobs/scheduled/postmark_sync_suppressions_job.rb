@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Scheduled
   class PostmarkSyncSuppressionsJob < BaseJob
     sidekiq_options retry: 3

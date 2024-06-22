@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNewsletterAttachments < ActiveRecord::Migration[7.0]
   def change
     create_table :newsletter_attachments do |t|

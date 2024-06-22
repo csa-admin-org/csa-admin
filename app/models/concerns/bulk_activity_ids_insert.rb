@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BulkActivityIdsInsert
   extend ActiveSupport::Concern
 

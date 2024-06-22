@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class InvoiceProcessorJob < ApplicationJob
     queue_as :critical

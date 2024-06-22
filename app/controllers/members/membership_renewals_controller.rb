@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::MembershipRenewalsController < Members::BaseController
   before_action :redirect_renewal_decision_params!, only: :new
 

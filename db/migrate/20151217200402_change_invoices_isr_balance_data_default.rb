@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeInvoicesIsrBalanceDataDefault < ActiveRecord::Migration[4.2]
   def change
     change_column_default :invoices, :isr_balance_data, {}

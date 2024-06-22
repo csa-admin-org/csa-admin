@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAttachmentToGribouilles < ActiveRecord::Migration[4.2]
   def change
     add_column :gribouilles, :attachment, :oid

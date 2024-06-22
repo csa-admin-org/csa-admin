@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :postmark do
   desc "Create/update message streams"
   task message_streams_setup: :environment do
@@ -42,7 +44,7 @@ namespace :postmark do
           ],
           triggers: {
             delivery: { enabled: true },
-            bounce: { enabled: true, include_content: false },
+            bounce: { enabled: true, include_content: false }
           }
         }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNewFormPriorityAndPublicNamesColumnsToBasketComplements < ActiveRecord::Migration[6.1]
   def change
     add_column :basket_complements, :public_names, :jsonb, default: {}, null: false

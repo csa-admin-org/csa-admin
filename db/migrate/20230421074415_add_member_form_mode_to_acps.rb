@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMemberFormModeToAcps < ActiveRecord::Migration[7.0]
   def change
     add_column :acps, :member_form_mode, :string, default: 'membership', null: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fix rails_blob_path not using the right schema when linking to a blob
 # https://github.com/rails-on-services/apartment/issues/196
 module Tenant

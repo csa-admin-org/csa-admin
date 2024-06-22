@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCalculatedExtraPriceToBaskets < ActiveRecord::Migration[7.0]
   def change
     rename_column :baskets, :price_extra, :calculated_price_extra

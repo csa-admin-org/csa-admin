@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :membership do
     member { create(:member, state: "active", activated_at: Time.current) }

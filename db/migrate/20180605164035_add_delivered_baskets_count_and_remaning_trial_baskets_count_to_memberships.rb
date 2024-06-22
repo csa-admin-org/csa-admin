@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDeliveredBasketsCountAndRemaningTrialBasketsCountToMemberships < ActiveRecord::Migration[5.2]
   def change
     add_column :memberships, :delivered_baskets_count, :integer, default: 0, null: false

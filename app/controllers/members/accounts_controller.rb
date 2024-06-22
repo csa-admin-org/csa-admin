@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::AccountsController < Members::BaseController
   # GET /account
   def show

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shop
   class DeliveryTotal
     include ActiveModel::Model

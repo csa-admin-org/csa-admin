@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeMemberFields < ActiveRecord::Migration[4.2]
   def change
     change_column :members, :gribouille, :boolean, default: nil, null: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipBasketsUpdater
   def self.perform_all!(memberships)
     memberships.find_each { |m| new(m).perform! }

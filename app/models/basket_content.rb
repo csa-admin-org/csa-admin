@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasketContent < ApplicationRecord
   UNITS = %w[kg pc]
   DISTRIBUTION_MODES = %w[automatic manual]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::DeliveryCycleDrop < Liquid::Drop
   def initialize(delivery_cycle)
     @delivery_cycle = delivery_cycle

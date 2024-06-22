@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActivitiesHelper
   def display_activity?
     Current.acp.feature?("activity") && !current_member.inactive?

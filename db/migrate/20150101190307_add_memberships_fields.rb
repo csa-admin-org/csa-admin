@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMembershipsFields < ActiveRecord::Migration[4.2]
   def change
     add_column :memberships, :distribution_basket_price, :integer

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module StatesHelper
   def state_color(object)
     case object.state

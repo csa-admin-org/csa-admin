@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDeliverySheetModeToDepots < ActiveRecord::Migration[7.0]
   def change
     add_column :depots, :delivery_sheets_mode, :string, default: 'signature', null: false

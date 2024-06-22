@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActiveAdmin::CounterHelper
   def counter_tag(title, count)
     content_tag :span, class: "count" do

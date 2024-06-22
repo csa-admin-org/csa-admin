@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveryBasketsUpdaterJob < ApplicationJob
   queue_as :default
   unique :until_executing, on_conflict: :log

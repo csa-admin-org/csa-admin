@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActiveAdmin
   # Extends the ActiveAdmin controller to persist and restore
   # index q/scope filter params between NON-GET requests.

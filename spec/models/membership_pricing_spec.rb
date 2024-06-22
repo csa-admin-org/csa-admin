@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 describe MembershipPricing do
@@ -211,7 +213,7 @@ describe MembershipPricing do
         "0" => { basket_complement_id: 1, quantity: 1 }
       },
       waiting_activity_participations_demanded_annually: 5)
-    expect(pricing.prices).to eq [ 4 * (10 + 2) - 2 * 5]
+    expect(pricing.prices).to eq [ 4 * (10 + 2) - 2 * 5 ]
 
     pricing = pricing(
       waiting_basket_size_id: 1,
@@ -219,6 +221,6 @@ describe MembershipPricing do
         "0" => { basket_complement_id: 1, quantity: 1 }
       },
       waiting_activity_participations_demanded_annually: 0)
-    expect(pricing.prices).to eq [ 4 * (10 + 2) + 3 * 5]
+    expect(pricing.prices).to eq [ 4 * (10 + 2) + 3 * 5 ]
   end
 end

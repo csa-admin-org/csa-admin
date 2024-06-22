@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBillingDivisionToMembersAndAcps < ActiveRecord::Migration[5.2]
   def change
     add_column :acps, :billing_year_divisions, :integer, array: true, default: [], null: false

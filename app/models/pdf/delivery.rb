@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PDF
   class Delivery < Base
     attr_reader :delivery, :current_time

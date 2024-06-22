@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FormsHelper
   def translated_input(form, attr, options = {})
     locales = Array(options.delete(:locale) || Current.acp.languages)

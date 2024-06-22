@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipMailerPreview < ActionMailer::Preview
   include SharedDataPreview
 

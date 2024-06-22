@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::BasketsController < Members::BaseController
   before_action :load_basket
   before_action :ensure_member_can_update_basket!

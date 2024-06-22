@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 describe ActivityParticipationDemanded, freeze: "2022-01-01" do

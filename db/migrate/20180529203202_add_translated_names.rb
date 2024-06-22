@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTranslatedNames < ActiveRecord::Migration[5.2]
   def change
     add_column :basket_sizes, :names, :jsonb, default: {}, null: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixIndexShopOrdersOnMemberIdAndDeliveryId < ActiveRecord::Migration[7.0]
   def change
     remove_index :shop_orders, name: 'index_shop_orders_on_member_id_and_delivery_id'

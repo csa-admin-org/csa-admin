@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::AbsenceDrop < Liquid::Drop
   def initialize(absence)
     @absence = absence

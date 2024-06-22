@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HasNote
   extend ActiveSupport::Concern
 

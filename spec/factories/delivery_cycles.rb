@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :delivery_cycle do
     sequence(:name) { |n| "Cycle #{n}" }

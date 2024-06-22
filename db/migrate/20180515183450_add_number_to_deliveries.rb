@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNumberToDeliveries < ActiveRecord::Migration[5.2]
   def change
     add_column :deliveries, :number, :integer, null: false, default: 0

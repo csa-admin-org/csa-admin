@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixSoftDeletableIndexes < ActiveRecord::Migration[6.0]
   def change
     remove_index :baskets, [ :membership_id, :delivery_id ]

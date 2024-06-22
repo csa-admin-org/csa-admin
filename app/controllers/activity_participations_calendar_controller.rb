@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivityParticipationsCalendarController < ApplicationController
   before_action :verify_icalendar_auth_token
 

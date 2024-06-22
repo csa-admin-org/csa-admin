@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasketContent
   ActiveAdmin.register Product do
     menu false

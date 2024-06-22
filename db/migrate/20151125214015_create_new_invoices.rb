@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateNewInvoices < ActiveRecord::Migration[4.2]
   def change
     rename_table :invoices, :old_invoices

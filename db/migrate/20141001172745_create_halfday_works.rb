@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateHalfdayWorks < ActiveRecord::Migration[4.2]
   def change
     create_table :halfday_works do |t|

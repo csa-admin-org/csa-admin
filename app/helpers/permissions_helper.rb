@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PermissionsHelper
   def permission_rights_collection(permission, feature)
     Permission::RIGHTS.map { |r|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Permission do
   menu false
   actions :all, except: [ :show ]

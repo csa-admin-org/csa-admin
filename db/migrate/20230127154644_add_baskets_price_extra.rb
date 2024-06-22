@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBasketsPriceExtra < ActiveRecord::Migration[7.0]
   def up
     add_column :baskets, :price_extra, :decimal, precision: 8, scale: 3, null: false, default: 0

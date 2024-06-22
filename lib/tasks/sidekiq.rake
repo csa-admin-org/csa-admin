@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :sidekiq do
   desc "Check if Sidekiq worker process is running"
   task check_health: :environment do

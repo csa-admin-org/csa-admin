@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class CamtFile
     UnsupportedFileError = Class.new(StandardError)

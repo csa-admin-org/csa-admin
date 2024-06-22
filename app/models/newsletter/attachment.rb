@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Newsletter
   class Attachment < ApplicationRecord
     self.table_name = "newsletter_attachments"

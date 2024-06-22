@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameSupportPriceToAnnualFee < ActiveRecord::Migration[5.2]
   def change
     rename_column :members, :support_price, :annual_fee

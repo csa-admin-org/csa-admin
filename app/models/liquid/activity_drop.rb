@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::ActivityDrop < Liquid::Drop
   def initialize(activity)
     @activity = activity

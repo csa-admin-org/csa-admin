@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostmarkWrapper
   def self.client
     if Rails.env.production?

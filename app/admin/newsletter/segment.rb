@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Newsletter::Segment do
   menu false
   actions :all, except: [ :show ]
@@ -25,7 +27,7 @@ ActiveAdmin.register Newsletter::Segment do
   sidebar_handbook_link("newsletters", only: :index)
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       translated_input(f, :titles, required: true)
     end
 

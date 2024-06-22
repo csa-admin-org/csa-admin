@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :locales do
   desc "Automatically format the locale files"
   task format: :environment do

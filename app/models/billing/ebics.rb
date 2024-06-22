@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class EBICS
     GET_PAYMENTS_FROM = 1.month.ago

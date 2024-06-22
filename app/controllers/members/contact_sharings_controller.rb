@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::ContactSharingsController < Members::BaseController
   before_action :ensure_contact_sharing_feature
   before_action :ensure_member_next_basket_presence

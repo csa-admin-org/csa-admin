@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::ACPDrop < Liquid::Drop
   def initialize(acp)
     @acp = acp

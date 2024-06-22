@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :shop_product, class: Shop::Product do
     association :producer, factory: :shop_producer

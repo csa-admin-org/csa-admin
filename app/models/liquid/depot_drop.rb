@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::DepotDrop < Liquid::Drop
   def initialize(depot)
     @depot = depot

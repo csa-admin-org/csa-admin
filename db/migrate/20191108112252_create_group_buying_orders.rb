@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGroupBuyingOrders < ActiveRecord::Migration[6.0]
   def change
     create_table :group_buying_orders do |t|

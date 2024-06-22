@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Scheduled
   class BillingMembersInvoicerJob < BaseJob
     def perform

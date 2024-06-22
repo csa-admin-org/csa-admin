@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :newsletter_delivery, class: Newsletter::Delivery do
     newsletter

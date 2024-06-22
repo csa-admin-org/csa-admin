@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BasketContentsHelper
   include ActionView::Helpers::NumberHelper
   include NumbersHelper

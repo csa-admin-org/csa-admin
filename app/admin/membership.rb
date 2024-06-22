@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Membership do
   menu priority: 3
 
@@ -306,7 +308,7 @@ ActiveAdmin.register Membership do
             column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number_short), b.delivery }
             column(:description)
             column(:depot)
-            if m.baskets.where(state: [:absent, :trial]).any?
+            if m.baskets.where(state: [ :absent, :trial ]).any?
               column(class: "text-right") { |b| display_basket_state(b) }
             end
             column(nil) { |b|
@@ -603,7 +605,7 @@ ActiveAdmin.register Membership do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :member,
         collection: Member.order(:name).map { |d| [ d.name, d.id ] },
         prompt: true

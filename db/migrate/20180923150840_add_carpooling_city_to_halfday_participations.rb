@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCarpoolingCityToHalfdayParticipations < ActiveRecord::Migration[5.2]
   def change
     add_column :halfday_participations, :carpooling_city, :string

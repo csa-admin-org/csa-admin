@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Delivery do
   menu parent: :other, priority: 10
 
@@ -85,7 +87,6 @@ ActiveAdmin.register Delivery do
           icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
           icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: "_blank")
         ) do
-
           counts = delivery.basket_counts
           if counts.present?
             render partial: "active_admin/deliveries/baskets",

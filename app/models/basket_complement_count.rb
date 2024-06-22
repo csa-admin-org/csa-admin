@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasketComplementCount
   def self.all(delivery, scope: nil)
     BasketComplement
