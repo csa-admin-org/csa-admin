@@ -2,15 +2,61 @@ ActiveAdmin.register_page "Dashboard" do
   DEPOTS_LIMIT = 12
 
   menu priority: 1, label: -> {
-    inline_svg_tag("admin/home.svg", size: "20", title: t("active_admin.dashboard"))
+    icon "home", title: t("active_admin.dashboard"), class: "w-5 h-5 my-0.5 min-w-6"
   }
 
-  content title: proc { t("active_admin.dashboard") unless onboarding? } do
+  content title: proc {
+    unless onboarding?
+      content_tag(:div, class: "flex items-center") do
+        content_tag(:div, t("active_admin.dashboard"), class: "flex-grow") + " " +
+        content_tag(:div, Current.fiscal_year, class: "text-right text-gray-300 dark:text-gray-600")
+      end
+    end
+  } do
     if onboarding?
       render "onboarding"
     else
       next_delivery = Delivery.next
       columns do
+        column do
+          if next_delivery
+            panel t(".next_delivery", delivery: link_to(next_delivery.display_name(format: :short), next_delivery)).html_safe, action: next_delivery_panel_action(next_delivery) do
+              counts = next_delivery.basket_counts
+              if counts.present?
+                render partial: "active_admin/deliveries/baskets",
+                  locals: { delivery: next_delivery, scope: :active }
+
+                if next_delivery.note?
+                  para class: "mt-4 p-2 text-sm rounded-md bg-green-200 dark:bg-green-900" do
+                    next_delivery.note
+                  end
+                end
+
+                if Current.acp.feature?("absence")
+                  absences_count = next_delivery.baskets.absent.sum(:quantity)
+                  if absences_count.positive?
+                    div class: "text-right mt-2 p-2" do
+                      link_to t(".absences_count", count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s })
+                    end
+                  end
+                end
+              else
+                div class: "missing-data" do
+                  if feature?("shop")
+                    t(".no_baskets_or_shop_orders")
+                  else
+                    t(".no_baskets")
+                  end
+                end
+              end
+            end
+          else
+            panel t(".no_next_delivery") do
+              link_to t(".no_next_deliveries"), deliveries_path, class: "missing-data"
+            end
+          end
+        end
+
         column do
           panel Member.model_name.human(count: 2) do
             render "members_count"
@@ -20,94 +66,42 @@ ActiveAdmin.register_page "Dashboard" do
             render "memberships_count"
           end
 
-          if Current.acp.feature?("activity") && Depot.visible.count > DEPOTS_LIMIT
-            panel "#{activities_human_name} #{Current.fiscal_year}" do
+          if Current.acp.feature?("activity")
+            panel activities_human_name do
               render "activity_participations_count"
             end
           end
 
-          panel t(".billing_year", fiscal_year: Current.fiscal_year) do
-            div class: "actions" do
-              icon_link(:xlsx_file, Invoice.human_attribute_name(:summary), billing_path(Current.fy_year, format: :xlsx))
-            end
-
-            table_for InvoiceTotal.all(Current.fiscal_year), class: "totals_2" do
-              column Invoice.model_name.human(count: 2), :title
-              column(class: "align-right") { |total| cur(total.price) }
-            end
-
-            table_for PaymentTotal.all, class: "totals" do
-              column Payment.model_name.human(count: 2), :title
-              column(class: "align-right") { |total| cur(total.price) }
-            end
-
-            latest_snapshots = Billing::Snapshot.order(updated_at: :desc).first(4)
-            if latest_snapshots.any?
-              div style: "margin: 30px 0 5px 0" do
-                txt = t(".quarterly_snapshots")
-                txt += ": "
-                txt += latest_snapshots.map { |s|
-                    link_to l(s.updated_at.to_date, format: :number), billing_snapshot_path(s)
-                  }.join(" / ")
-                txt.html_safe
-              end
-            end
-          end
-        end
-
-        column do
-          if next_delivery
-            panel t(".next_delivery", delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
-              div class: "actions" do
-                icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: next_delivery.id }, format: :csv)) +
-                icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx)) +
-                icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf), target: "_blank")
-              end
-
-              counts = next_delivery.basket_counts
-              if counts.present?
-                render partial: "active_admin/deliveries/baskets",
-                  locals: { delivery: next_delivery, scope: :active }
-
-                if next_delivery.note?
-                  div class: "delivery-note" do
-                    para next_delivery.note
-                  end
-                end
-
-                if Current.acp.feature?("absence")
-                  absences_count = next_delivery.baskets.absent.sum(:quantity)
-                  if absences_count.positive?
-                    div class: "delivery_absences" do
-                      link_to t(".absences_count", count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s })
-                    end
-                  end
-                end
-              else
-                div class: "blank_slate_container" do
-                  i do
-                    if feature?("shop")
-                      t(".no_baskets_or_shop_orders")
-                    else
-                      t(".no_baskets")
+          panel t(".billing"), action: billing_panel_action do
+            div class: "px-2" do
+              table class: "w-full text-base data-table-invoice-total" do
+                tbody do
+                  InvoiceTotal.all(Current.fiscal_year).each do |total|
+                    tr class: "px-2 h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
+                      td total.title
+                      td class: "text-right w-36" do
+                        cur(total.price)
+                      end
                     end
                   end
                 end
               end
             end
-          else
-            panel t(".no_next_delivery") do
-              div class: "blank_slate_container" do
-                i do
-                  link_to t(".no_next_deliveries"), deliveries_path
+
+            div class: "px-2" do
+              h4 Payment.model_name.human(count: 2), class: "text-base font-semibold mt-4"
+              table class: "p-2 w-full text-base data-table-total" do
+                tbody do
+                  PaymentTotal.all.each do |total|
+                    tr class: "h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
+                      td total.title
+                      td class: "text-right w-36" do
+                        cur(total.price)
+                      end
+                    end
+                  end
                 end
               end
-            end
-          end
-
-          if Current.acp.feature?("activity") && Depot.visible.count <= DEPOTS_LIMIT
-            panel "#{activities_human_name} #{Current.fiscal_year}" do
-              render "activity_participations_count"
             end
           end
         end

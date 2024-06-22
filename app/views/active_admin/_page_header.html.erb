@@ -1,0 +1,25 @@
+<div class="p-5 py-3 mt-14 mb-4 flex flex-col gap-4 md:flex-row md:items-center justify-between dark:border-gray-800/50">
+  <div class="flex flex-grow flex-col gap-1 pt-1">
+    <% breadcrumb_links = build_breadcrumb_links(request.path, class: " no-underline") %>
+    <% if breadcrumb_links.present? %>
+      <nav aria-label="breadcrumb">
+        <ol class="flex flex-wrap gap-1 text-sm">
+          <% breadcrumb_links.each_with_index do |link, index| %>
+            <li class="inline-flex items-center h-5 gap-1">
+              <% if index > 0 %>
+                <span class="font-thin mx-1">/</span>
+              <% end %>
+              <%= link %>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+    <% end %>
+    <h2 class="text-4xl font-thin" aria-label="Page Title"><%= title %></h2>
+  </div>
+  <% if action_items_for_action.present? %>
+    <div data-test-action-items class="flex gap-2 flex-wrap lg:justify-end">
+      <%= render "active_admin/shared/action_items" %>
+    </div>
+  <% end %>
+</div>

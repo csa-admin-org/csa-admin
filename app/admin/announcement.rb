@@ -13,20 +13,18 @@ ActiveAdmin.register Announcement do
     column Announcement.human_attribute_name(:future_deliveries), ->(a) {
       display_objects(a.coming_deliveries)
     }
-    if authorized?(:update, Announcement)
-      actions class: "col-actions-2"
-    end
+    actions
   end
 
   sidebar :info, only: :index do
-    div class: "content" do
+    div class: "panel text-sm p-4 rounded b text-gray-800 dark:bg-gray-800 dark:text-gray-200" do
       t(".announcement_info")
     end
   end
 
   form do |f|
     f.semantic_errors :base
-    f.inputs do
+    f.inputs t(".details") do
       translated_input(f, :texts,
         as: :text,
         input_html: { rows: 4, cols: 32 } ,

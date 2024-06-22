@@ -60,7 +60,7 @@ module PDF
         case invoice.entity_type
         when "Membership"
           move_down 5
-          text membership_short_period(entity), size: 10
+          text membership_period(entity), size: 10
         when "Shop::Order"
           move_down 12
           text "#{::Shop::Order.model_name.human} N° #{entity.id}"

@@ -1,6 +1,6 @@
 ActiveAdmin.register ACP do
   menu priority: 100, label: -> {
-    inline_svg_tag("admin/gear.svg", size: "20", title: t("active_admin.settings"))
+    icon "cog", title: t("active_admin.settings"), class: "w-5 h-5 my-0.5 min-w-6"
   }
 
   actions :edit, :update
@@ -12,9 +12,9 @@ ActiveAdmin.register ACP do
       end
     end
 
-    tabs do
-      tab t(".general") do
-        f.inputs do
+    f.inputs do
+      tabs do
+        tab t(".general"), id: "general" do
           f.input :name
           f.input :url
           f.input :email, as: :email
@@ -25,12 +25,11 @@ ActiveAdmin.register ACP do
             input_html: { disabled: true }
           f.input :languages,
             as: :check_boxes,
+            wrapper_html: { class: "no-toggle-all single-column" },
             collection: ACP.languages.map { |l| [ t("languages.#{l}"), l ] },
             disabled: ACP.languages
         end
-      end
-      tab t(".billing"), id: "billing" do
-        f.inputs do
+        tab t(".billing"), id: "billing" do
           f.input :recurring_billing_wday,
             as: :select,
             collection: wdays_collection(t(".recurring_billing_disabled")),
@@ -40,6 +39,7 @@ ActiveAdmin.register ACP do
             hint: t("formtastic.hints.acp.recurring_billing_wday_html")
           f.input :billing_year_divisions,
             as: :check_boxes,
+            wrapper_html: { class: "no-toggle-all single-column" },
             collection: billing_year_divisions_collection,
             required: true
           f.input :fiscal_year_start_month,
@@ -69,8 +69,10 @@ ActiveAdmin.register ACP do
           end
           f.input :creditor_name, input_html: { maxlength: 70 }
           f.input :creditor_address, input_html: { maxlength: 70 }
-          f.input :creditor_city, input_html: { maxlength: 35 }
-          f.input :creditor_zip, input_html: { maxlength: 16 }
+          div class: "single-line" do
+            f.input :creditor_zip, input_html: { maxlength: 16 }, wrapper_html: { class: "md:w-50" }
+            f.input :creditor_city, input_html: { maxlength: 35 }, wrapper_html: { class: "w-full" }
+          end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.acp.invoice_info"))
           translated_input(f, :invoice_footers,
@@ -92,7 +94,7 @@ ActiveAdmin.register ACP do
               label: t(".vat_rate", type: t("shop.title"))
           end
 
-          li class: "subtitle" do
+          li do
             h2 t(".annual_fee")
             span t(".if_applicable"), class: "optional"
           end
@@ -107,9 +109,7 @@ ActiveAdmin.register ACP do
 
           handbook_button(self, "billing")
         end
-      end
-      tab t(".registration"), id: "registration" do
-        f.inputs do
+        tab t(".registration"), id: "registration" do
           translated_input(f, :member_form_extra_texts,
             hint: t("formtastic.hints.acp.member_form_extra_text"),
             required: false,
@@ -163,18 +163,14 @@ ActiveAdmin.register ACP do
             required: false,
             hint: t("formtastic.hints.acp.registration_url"))
 
-          para class: "actions" do
-            a href: new_members_member_url(subdomain: Current.acp.members_subdomain), class: "action" do
-              span do
-                span inline_svg_tag("admin/external-link.svg", size: "20", title: t("layouts.footer.handbook"))
-                span t(".registration_form")
-              end
+          para class: "mt-4 flex justify-center" do
+            a href: new_members_member_url(subdomain: Current.acp.members_subdomain), class: "action-item-button light small" do
+              span icon("arrow-top-right-on-square", class: "h-5 w-5 me-1", title: t("active_admin.site_footer.handbook"))
+              span t(".registration_form")
             end.html_safe
           end
         end
-      end
-      tab t(".member_account"), id: "member_account" do
-        f.inputs do
+        tab t(".member_account"), id: "member_account" do
           translated_input(f, :member_information_texts,
             hint: t("formtastic.hints.acp.member_information_text"),
             required: false,
@@ -185,9 +181,7 @@ ActiveAdmin.register ACP do
             required: false,
             input_html: { placeholder: t("members.information.default_title") })
         end
-      end
-      tab Membership.model_name.human, id: "membership" do
-        f.inputs do
+        tab Membership.model_name.human, id: "membership" do
           para t(".membership_update_text_html"), class: "description"
 
           f.input :membership_depot_update_allowed
@@ -199,24 +193,22 @@ ActiveAdmin.register ACP do
 
           f.input :basket_update_limit_in_days, step: 1
         end
-      end
-      tab t(".membership_renewal"), id: "membership_renewal" do
-        f.inputs do
+        tab t(".membership_renewal"), id: "membership_renewal" do
           para t(".membership_renewal_text_html"), class: "description"
           translated_input(f, :open_renewal_texts,
             as: :action_text,
             required: false,
             hint: t("formtastic.hints.acp.open_renewal_text"))
           f.input :open_renewal_reminder_sent_after_in_days
-          f.input :membership_renewed_attributes, as: :check_boxes,
+          f.input :membership_renewed_attributes,
+            as: :check_boxes,
+            wrapper_html: { class: "no-toggle-all single-column" },
             collection: membership_renewed_attributes_collection
           f.input :membership_renewal_depot_update
 
           handbook_button(self, "membership_renewal")
         end
-      end
-      tab Delivery.human_attribute_name(:sheets) do
-        f.inputs do
+        tab Delivery.human_attribute_name(:sheets), id: "pdf-sheets" do
           para t(".delivery_sheets_text_html"), class: "description"
           translated_input(f, :delivery_pdf_footers, required: false)
 
@@ -230,9 +222,7 @@ ActiveAdmin.register ACP do
               ]
             }
         end
-      end
-      tab t(".mailer"), id: "mail"  do
-        f.inputs do
+        tab t(".mailer"), id: "mail"  do
           para t(".mailer_text_html"), class: "description"
           f.input :email_default_from, as: :string
           translated_input(f, :email_signatures,
@@ -249,163 +239,147 @@ ActiveAdmin.register ACP do
 
     f.input :features,
       as: :check_boxes,
-      wrapper_html: { class: "no-check-boxes-toggle-all detailed-option" },
+      wrapper_html: {
+        class: "features-list no-toggle-all single-column",
+        data: { controller: "features-list" }
+        },
       collection: ACP.features.map { |ff|
         [
-          content_tag(:span) {
-            content_tag(:span, t("features.#{ff}")) +
-            content_tag(:span, t("features.#{ff}_hint").html_safe, class: "hint")
+          content_tag(:span, class: "ms-4") {
+            content_tag(:h3, t("features.#{ff}"), class: "font-medium") +
+            content_tag(:span, t("features.#{ff}_hint").html_safe, class: "text-gray-500 dark:text-gray-400")
           },
-          ff
+          ff,
+          data: { action: "features-list#toggleTab" }
         ]
       }
 
-    if Current.acp.features.any?
+    f.inputs do
       tabs do
-        if Current.acp.feature?("absence")
-          tab Absence.model_name.human, id: "absence" do
-            f.inputs do
-              translated_input(f, :absence_extra_texts,
-                hint: t("formtastic.hints.acp.absence_extra_text"),
-                required: false,
-                as: :action_text,
-                input_html: { rows: 5 })
-              f.input :absence_extra_text_only, as: :boolean
+        tab Absence.model_name.human, id: "absence", hidden: !Current.acp.feature?("absence") do
+          translated_input(f, :absence_extra_texts,
+            hint: t("formtastic.hints.acp.absence_extra_text"),
+            required: false,
+            as: :action_text,
+            input_html: { rows: 5 })
+          f.input :absence_extra_text_only, as: :boolean
 
-              f.input :absences_billed
-              f.input :absence_notice_period_in_days, min: 1, required: true
+          f.input :absences_billed
+          f.input :absence_notice_period_in_days, min: 1, required: true
 
-              handbook_button(self, "absences")
-            end
-          end
+          handbook_button(self, "absences")
         end
-        if Current.acp.feature?("activity")
-          tab t(".members_participation"), id: "activity" do
-            f.inputs do
-              f.input :activity_i18n_scope,
-                as: :select,
-                collection: ACP.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
-                prompt: true
-              f.input :activity_price
-              f.input :activity_participations_form_min
-              f.input :activity_participations_form_max
-              translated_input(f, :activity_participations_form_details,
-                hint: t("formtastic.hints.acp.activity_participations_demanded_annually_form_detail"),
-                required: false,
-                placeholder: ->(locale) {
-                  I18n.with_locale(locale) {
-                    activity_participations_form_detail(force_default: true)
-                  }
-                })
-              f.input :activity_participations_demanded_logic,
-                as: :text,
-                hint: t("formtastic.hints.acp.activity_participations_demanded_logic_html"),
-                wrapper_html: { class: "ace-editor" },
-                input_html: {
-                  class: "ace-editor",
-                  data: { mode: "liquid", code_editor_target: "editor" }
-                }
+        tab t(".shop"), id: "shop", hidden: !Current.acp.feature?("shop") do
+          f.input :shop_admin_only
+          translated_input(f, :shop_texts,
+            as: :action_text,
+            required: false,
+            hint: t("formtastic.hints.acp.shop_text"))
+          translated_input(f, :shop_terms_of_sale_urls,
+            required: false,
+            hint: t("formtastic.hints.acp.shop_terms_of_sale_url"))
+          f.input :shop_order_maximum_weight_in_kg
+          f.input :shop_order_minimal_amount
+          f.input :shop_member_percentages,
+            as: :string,
+            input_html: { value: f.object.shop_member_percentages }
+          f.input :shop_delivery_open_delay_in_days
+          f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
+            value: f.object.shop_delivery_open_last_day_end_time&.strftime("%H:%M")
+          }
+          f.input :shop_order_automatic_invoicing_delay_in_days
+          translated_input(f, :shop_invoice_infos,
+            hint: t("formtastic.hints.acp.shop_invoice_info"),
+            required: false)
+          translated_input(f, :shop_delivery_pdf_footers, required: false)
 
-              f.input :activity_availability_limit_in_days, required: true
-              f.input :activity_participation_deletion_deadline_in_days
-              f.input :activity_phone, as: :phone
-
-              handbook_button(self, "activity")
-            end
-          end
+          handbook_button(self, "shop")
         end
-        if Current.acp.feature?("shop")
-          tab t(".shop"), id: "shop" do
-            f.inputs do
-              f.input :shop_admin_only
-              translated_input(f, :shop_texts,
-                as: :action_text,
-                required: false,
-                hint: t("formtastic.hints.acp.shop_text"))
-              translated_input(f, :shop_terms_of_sale_urls,
-                required: false,
-                hint: t("formtastic.hints.acp.shop_terms_of_sale_url"))
-              f.input :shop_order_maximum_weight_in_kg
-              f.input :shop_order_minimal_amount
-              f.input :shop_member_percentages,
-                as: :string,
-                input_html: { value: f.object.shop_member_percentages }
-              f.input :shop_delivery_open_delay_in_days
-              f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
-                value: f.object.shop_delivery_open_last_day_end_time&.strftime("%H:%M")
+        tab t(".members_participation"), id: "activity", hidden: !Current.acp.feature?("activity") do
+          f.input :activity_i18n_scope,
+            as: :select,
+            collection: ACP.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
+            prompt: true
+          f.input :activity_price
+          f.input :activity_participations_form_min
+          f.input :activity_participations_form_max
+          translated_input(f, :activity_participations_form_details,
+            hint: t("formtastic.hints.acp.activity_participations_demanded_annually_form_detail"),
+            required: false,
+            placeholder: ->(locale) {
+              I18n.with_locale(locale) {
+                activity_participations_form_detail(force_default: true)
               }
-              f.input :shop_order_automatic_invoicing_delay_in_days
-              translated_input(f, :shop_invoice_infos,
-                hint: t("formtastic.hints.acp.shop_invoice_info"),
-                required: false)
-              translated_input(f, :shop_delivery_pdf_footers, required: false)
+            })
+          f.input :activity_participations_demanded_logic,
+            as: :text,
+            hint: t("formtastic.hints.acp.activity_participations_demanded_logic_html"),
+            wrapper_html: { class: "ace-editor" },
+            input_html: {
+              class: "ace-editor",
+              data: { mode: "liquid", code_editor_target: "editor" }
+            }
 
-              handbook_button(self, "shop")
-            end
-          end
+          f.input :activity_availability_limit_in_days, required: true
+          f.input :activity_participation_deletion_deadline_in_days
+          f.input :activity_phone, as: :phone
+
+          handbook_button(self, "activity")
         end
-        if Current.acp.feature?("new_member_fee")
-          tab t("features.new_member_fee"), id: "new_member_fee" do
-            f.inputs do
-              translated_input(f, :new_member_fee_descriptions,
-                required: true,
-                label: ->(_) { InvoiceItem.human_attribute_name(:description) },
-                hint: t("formtastic.hints.acp.new_member_fee_description"))
-              f.input :new_member_fee,
-                required: true,
-                min: 0,
-                step: 0.05,
-                label: InvoiceItem.human_attribute_name(:amount)
+        tab t("features.new_member_fee"), id: "new_member_fee", hidden: !Current.acp.feature?("new_member_fee") do
+          translated_input(f, :new_member_fee_descriptions,
+            required: true,
+            label: ->(_) { InvoiceItem.human_attribute_name(:description) },
+            hint: t("formtastic.hints.acp.new_member_fee_description"))
+          f.input :new_member_fee,
+            required: true,
+            min: 0,
+            step: 0.05,
+            label: InvoiceItem.human_attribute_name(:amount)
 
-              handbook_button(self, "new_member_fee")
-            end
-          end
+          handbook_button(self, "new_member_fee")
         end
-        if Current.acp.feature?("basket_price_extra")
-          tab ACP.human_attribute_name(:basket_price_extra), id: "basket_price_extra" do
-            f.inputs do
-              translated_input(f, :basket_price_extra_titles, required: false)
-              translated_input(f, :basket_price_extra_public_titles,
-                hint: t("formtastic.hints.acp.basket_price_extra_public_title"),
-                required: false)
-              translated_input(f, :basket_price_extra_texts,
-                hint: t("formtastic.hints.acp.basket_price_extra_text"),
-                required: false,
-                as: :action_text,
-                input_html: { rows: 5 })
-              f.input :basket_price_extras,
-                as: :string,
-                input_html: { value: f.object.basket_price_extras }
-              translated_input(f, :basket_price_extra_labels,
-                as: :text,
-                hint: t("formtastic.hints.acp.basket_price_extra_labels_html"),
-                wrapper_html: { class: "ace-editor" },
-                input_html: {
-                  class: "ace-editor",
-                  data: { mode: "liquid", code_editor_target: "editor" }
-                })
-              translated_input(f, :basket_price_extra_label_details,
-                as: :text,
-                placeholder: Current.acp.basket_price_extra_label_detail_default,
-                hint: t("formtastic.hints.acp.basket_price_extra_label_details_html"),
-                wrapper_html: { class: "ace-editor" },
-                input_html: {
-                  class: "ace-editor",
-                  data: { mode: "liquid", code_editor_target: "editor" }
-                })
+        tab ACP.human_attribute_name(:basket_price_extra), id: "basket_price_extra", hidden: !Current.acp.feature?("basket_price_extra") do
+          translated_input(f, :basket_price_extra_titles, required: false)
+          translated_input(f, :basket_price_extra_public_titles,
+            hint: t("formtastic.hints.acp.basket_price_extra_public_title"),
+            required: false)
+          translated_input(f, :basket_price_extra_texts,
+            hint: t("formtastic.hints.acp.basket_price_extra_text"),
+            required: false,
+            as: :action_text,
+            input_html: { rows: 5 })
+          f.input :basket_price_extras,
+            as: :string,
+            input_html: { value: f.object.basket_price_extras }
+          translated_input(f, :basket_price_extra_labels,
+            as: :text,
+            hint: t("formtastic.hints.acp.basket_price_extra_labels_html"),
+            wrapper_html: { class: "ace-editor" },
+            input_html: {
+              class: "ace-editor",
+              data: { mode: "liquid", code_editor_target: "editor" }
+            })
+          translated_input(f, :basket_price_extra_label_details,
+            as: :text,
+            placeholder: Current.acp.basket_price_extra_label_detail_default,
+            hint: t("formtastic.hints.acp.basket_price_extra_label_details_html"),
+            wrapper_html: { class: "ace-editor" },
+            input_html: {
+              class: "ace-editor",
+              data: { mode: "liquid", code_editor_target: "editor" }
+            })
 
-              f.input :basket_price_extra_dynamic_pricing,
-                as: :text,
-                hint: t("formtastic.hints.acp.basket_price_extra_dynamic_pricing_html"),
-                wrapper_html: { class: "ace-editor" },
-                input_html: {
-                  class: "ace-editor",
-                  data: { mode: "liquid", code_editor_target: "editor" }
-                }
+          f.input :basket_price_extra_dynamic_pricing,
+            as: :text,
+            hint: t("formtastic.hints.acp.basket_price_extra_dynamic_pricing_html"),
+            wrapper_html: { class: "ace-editor" },
+            input_html: {
+              class: "ace-editor",
+              data: { mode: "liquid", code_editor_target: "editor" }
+            }
 
-              handbook_button(self, "basket_price_extra")
-            end
-          end
+          handbook_button(self, "basket_price_extra")
         end
       end
     end
@@ -488,19 +462,6 @@ ActiveAdmin.register ACP do
     include FormsHelper
 
     defaults singleton: true
-
-    def update
-      update! do |success, failure|
-        success.html do
-          if resource.features_previously_changed? && (resource.features.map(&:to_s) - resource.features_previously_was).any?
-            new_feature = (resource.features.map(&:to_s) - resource.features_previously_was).first
-            redirect_to "/settings##{new_feature}"
-          else
-            redirect_to "/"
-          end
-        end
-      end
-    end
 
     def resource
       @resource ||= Current.acp

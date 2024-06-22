@@ -1,10 +1,10 @@
 module MembersHelper
   def link_with_session(member, session)
-    content_tag(:span, class: "link-with-session") {
+    content_tag(:span) {
       link = auto_link(member).html_safe
       if session && (!session.admin_id? && session.email)
-        link += content_tag(:span, class: "session-email", title: Session.human_attribute_name(:email_session)) {
-          "(#{session.email})"
+        link += content_tag(:span, class: "block text-sm text-gray-500", title: Session.human_attribute_name(:email_session)) {
+          session.email
         }
       end
       link
@@ -12,16 +12,16 @@ module MembersHelper
   end
 
   def with_note_icon(note)
-    text = yield
     if note.present?
-      content_tag(:span, class: "note-icon") {
-        content_tag(:span, text) +
-        content_tag(:span, class: "inline-block tooltip-toggle", data: { tooltip: note }) {
-          inline_svg_tag "members/chat-note.svg", size: "20"
-        }
-      }.html_safe
+      id = SecureRandom.hex(6)
+      Arbre::Context.new({}, self) do
+        div class: "flex items-center justify-between" do
+          div yield
+          div helpers.tooltip(id, note, icon_name: "chat-bubble-bottom-center-text")
+        end
+      end.html_safe
     else
-      text
+      yield
     end
   end
 

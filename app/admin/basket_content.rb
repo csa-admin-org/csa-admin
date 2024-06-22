@@ -16,11 +16,15 @@ ActiveAdmin.register BasketContent do
     def build(_page_presenter, collection)
       if params.dig(:q, :delivery_id_eq).present? && collection.with_unit_price.any?
         delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-        panel t(".basket_prices", currency: currency_symbol), class: "basket_prices" do
+        panel t(".basket_prices", currency: currency_symbol) do
           render partial: "active_admin/basket_contents/prices", locals: { delivery: delivery, context: self }
         end
       end
-      super
+      div class: "table-wrapper" do
+        div class: "table-wrapper-content" do
+          super
+        end
+      end
     end
   end
 
@@ -35,7 +39,7 @@ ActiveAdmin.register BasketContent do
     title
   } do
     unless params.dig(:q, :delivery_id_eq).present?
-      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "nowrap"
+      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "whitespace-nowrap"
     end
     column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
@@ -47,7 +51,7 @@ ActiveAdmin.register BasketContent do
         display_with_price(bc.unit_price, bc.quantity) {
           display_quantity(bc.quantity, bc.unit)
         }
-      }
+      }, class: "text-right whitespace-nowrap"
     end
     basket_sizes = if params.dig(:q, :basket_size_eq).present?
       BasketSize.where(id: params.dig(:q, :basket_size_eq))
@@ -59,23 +63,21 @@ ActiveAdmin.register BasketContent do
         display_with_price(bc.unit_price, bc.basket_quantity(basket_size)) {
           display_basket_quantity(bc, basket_size)
         }
-      }, class: "nowrap"
+      }, class: "text-right whitespace-nowrap"
     end
     unless params.dig(:q, :basket_size_eq).present?
       column :surplus, ->(bc) {
         display_with_price(bc.unit_price, bc.surplus_quantity) {
           display_surplus_quantity(bc)
         }
-      }
+      }, class: "text-right whitespace-nowrap"
     end
     column :depots, ->(bc) { display_depots(bc.depots) }
-    if authorized?(:update, BasketContent)
-      actions class: "col-actions-2"
-    end
+    actions
   end
 
   action_item :product, only: :index do
-    link_to BasketContent::Product.model_name.human(count: 2), basket_content_products_path
+    link_to BasketContent::Product.model_name.human(count: 2), basket_content_products_path, class: "action-item-button"
   end
 
   csv do
@@ -111,9 +113,11 @@ ActiveAdmin.register BasketContent do
       (delivery = Delivery.find(params.dig(:q, :delivery_id_eq))) &&
       BasketContent.coming_unfilled_deliveries(after_date: delivery.date).any?
   } do
-    delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-    render partial: "active_admin/basket_contents/duplicate_all_to",
-      locals: { from_delivery: delivery }
+    side_panel t(".duplicate_all_to") do
+      delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+      render partial: "active_admin/basket_contents/duplicate_all_to",
+        locals: { from_delivery: delivery }
+    end
   end
 
   sidebar :duplicate_all_from, only: :index, if: -> {
@@ -122,9 +126,11 @@ ActiveAdmin.register BasketContent do
       collection.empty? &&
       BasketContent.any?
   } do
-    delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-    render partial: "active_admin/basket_contents/duplicate_all_from",
-      locals: { to_delivery: delivery }
+    side_panel t(".duplicate_all_from") do
+      delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+      render partial: "active_admin/basket_contents/duplicate_all_from",
+        locals: { to_delivery: delivery }
+    end
   end
 
   collection_action :duplicate_all, method: :post do
@@ -136,7 +142,7 @@ ActiveAdmin.register BasketContent do
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t('.details') do
       f.input :delivery,
         collection: Delivery.all,
         required: true,
@@ -186,10 +192,10 @@ ActiveAdmin.register BasketContent do
         }
     end
     div "data-controller" => "basket-content-distribution" do
-      h2 t("basket_content.distribution")
-      tabs  do
-        tab t("basket_content.distribution_mode.automatic"), id: "automatic", html_options: { class: ("ui-tabs-active" if f.object.distribution_automatic?), "data-action" => "click->basket-content-distribution#automaticMode" } do
-          f.inputs do
+      h2 t("basket_content.distribution"), class: "text-2xl font-extralight mb-2"
+      f.inputs do
+        tabs  do
+          tab t("basket_content.distribution_mode.automatic"), id: "automatic", html_options: { class: ("ui-tabs-active" if f.object.distribution_automatic?), "data-action" => "click->basket-content-distribution#automaticMode" } do
             f.semantic_errors :basket_percentages
             BasketSize.paid.each do |basket_size|
               f.input :basket_size_ids_percentages,
@@ -201,13 +207,17 @@ ActiveAdmin.register BasketContent do
                 required: true,
                 wrapper_html: {
                   id: nil,
-                  class: "basket_content_distribution_wrapper"
+                  class: "flex flex-wrap items-center space-y-0 gap-2"
+                },
+                label_html: {
+                  class: "w-full m-0 p-0"
                 },
                 hint: "%",
                 input_html: {
                   id: "basket_size_ids_percentages_#{basket_size.id}",
                   value: f.object.basket_percentage(basket_size),
                   name: "basket_content[basket_size_ids_percentages][#{basket_size.id}]",
+                  class: "w-14 text-right",
                   data: {
                     "basket-content-distribution-target" => "input",
                     "action" => "blur->basket-content-distribution#change"
@@ -216,23 +226,24 @@ ActiveAdmin.register BasketContent do
                 range_html: {
                   id: "basket_size_ids_percentages_#{basket_size.id}_range",
                   name: "basket_content[basket_size_ids_percentages_range][#{basket_size.id}]",
+                  class: "w-60",
                   data: {
                     "basket-content-distribution-target" => "range",
                     "action" => "basket-content-distribution#change"
                   }
                 }
             end
-            span class: "basket_size_ids_percentages_sum",
+            span class: "ms-5 w-72 mt-2 text-right text-base text-red-500 font-bold after:content-['%']",
               style: "display: none;",
               "data-basket-content-distribution-target" => "sum"
-            div class: "basket_size_ids_percentages_presets" do
-              a class: "button",
+            div class: "flex mt-6 mb-2 gap-2" do
+              a class: "action-item-button small",
                   "data-basket-content-distribution-target" => "preset",
                   "data-action" => "basket-content-distribution#applyPreset",
                   "data-preset" => f.object.basket_size_ids_percentages_pro_rated.to_json do
                 t("basket_content.preset.basket_content_percentages_pro_rated")
               end
-              a class: "button",
+              a class: "action-item-button small",
                   "data-basket-content-distribution-target" => "preset",
                   "data-action" => "basket-content-distribution#applyPreset",
                   "data-preset" => f.object.basket_size_ids_percentages_even.to_json do
@@ -243,9 +254,7 @@ ActiveAdmin.register BasketContent do
               t("basket_content.percentages_hint")
             end
           end
-        end
-        tab t("basket_content.distribution_mode.manual"), id: "manual", html_options: { class: ("ui-tabs-active" if f.object.distribution_manual?), "data-action" => "click->basket-content-distribution#manualMode" } do
-          f.inputs do
+          tab t("basket_content.distribution_mode.manual"), id: "manual", html_options: { class: ("ui-tabs-active" if f.object.distribution_manual?), "data-action" => "click->basket-content-distribution#manualMode" } do
             f.semantic_errors :basket_quantities
             BasketSize.paid.each do |basket_size|
               f.input :basket_size_ids_quantities,
@@ -269,8 +278,9 @@ ActiveAdmin.register BasketContent do
     end
     f.inputs do
       f.input :depots,
-        collection: admin_depots_collection,
-        as: :check_boxes
+        as: :check_boxes,
+        wrapper_html: { class: "legend-title" },
+        collection: admin_depots_collection
     end
     f.actions
   end

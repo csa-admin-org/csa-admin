@@ -1,5 +1,5 @@
 ActiveAdmin.register Shop::SpecialDelivery do
-  menu parent: :shop, priority: 4
+  menu parent: :navshop, priority: 4
   actions :all
 
   breadcrumb do
@@ -11,7 +11,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         link_to(Shop::SpecialDelivery.model_name.human(count: 2), shop_special_deliveries_path)
       ]
       if params["action"].in? %W[edit]
-        links << I18n.l(shop_special_delivery.date)
+        links << I18n.l(resource.date)
       end
       links
     end
@@ -40,21 +40,29 @@ ActiveAdmin.register Shop::SpecialDelivery do
       else
         status_tag :closed, class: "red"
       end
-    }
+    }, class: "text-right"
     column Shop::Product.model_name.human(count: 2), ->(d) {
       link_to(
         d.shop_products_count,
         edit_shop_special_delivery_path(d, anchor: "products"))
-    }, sortable: :shop_products_count
+    }, sortable: :shop_products_count, class: "text-right"
     column :orders, ->(d) {
       link_to(
         d.shop_orders_count,
         shop_orders_path(
           q: { _delivery_gid_eq: d.gid }, scope: :all_without_cart))
-    }, sortable: false
-    actions defaults: true, class: "col-actions-5" do |delivery|
-      link_to("XLSX", shop_special_delivery_path(delivery, format: :xlsx), class: "xlsx_link") +
-        link_to("PDF", delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), class: "pdf_link", target: "_blank")
+    }, sortable: false, class: "text-right"
+    actions do |delivery|
+      div do
+        link_to shop_special_delivery_path(delivery, format: :xlsx), title: "XLSX" do
+          inline_svg_tag "admin/xlsx_file.svg", class: "h-5 w-5"
+        end
+      end
+      div do
+        link_to delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), title: "PDF", target: "_blank" do
+          inline_svg_tag "admin/pdf_file.svg", class: "h-5 w-5"
+        end
+      end
     end
   end
 
@@ -67,61 +75,66 @@ ActiveAdmin.register Shop::SpecialDelivery do
       column do
         all = Shop::DeliveryTotal.all_by_producer(delivery)
         if all.empty?
-          panel "" do
-            em t(".no_orders")
+          panel Shop::Order.model_name.human(count: 2) do
+            div(class: "missing-data") { t(".no_orders") }
           end
         else
           all.each do |producer, items|
-            xlsx_link = "<span class='link'>#{link_to('XLSX', shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id), class: 'xlsx_link')}</span>"
-            panel (producer.name + xlsx_link).html_safe do
-              table_for items, class: "totals", i18n: Shop::OrderItem do
+            panel producer.name, action: icon_link(:xlsx_file, "XLSX", shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
+              table_for items, i18n: Shop::OrderItem, class: "table-auto data-table-total" do
                 column(:product) { |i| auto_link i.product }
                 column(:product_variant) { |i| i.product_variant }
-                column(:quantity)
-                column(:amount) { |i| cur(i.amount) }
+                column(:quantity, class: "text-right")
+                column(:amount, class: "text-right") { |i|
+                  span(class: "whitespace-nowrap") { cur(i.amount) }
+                }
               end
             end
           end
         end
       end
       column do
-        attributes_table do
-          row(:title)
-          row(:date) { l(delivery.date, format: :medium_long) }
-          row(:open) { status_tag(delivery.shop_open?) }
-          if delivery.shop_open?
-            row(:open_until) { l(delivery.shop_closing_at, format: :medium_long) }
+        panel t(".details") do
+          attributes_table do
+            row(:title)
+            row(:date) { l(delivery.date, format: :medium_long) }
+            row(:open) { status_tag(delivery.shop_open?) }
+            if delivery.shop_open?
+              row(:open_until) { l(delivery.shop_closing_at, format: :medium_long) }
+            end
+            row(:products) {
+              link_to(
+                delivery.shop_products_count,
+                edit_shop_special_delivery_path(delivery, anchor: "products"))
+            }
+            row(:orders) {
+              link_to(
+                delivery.shop_orders_count,
+                shop_orders_path(
+                  q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
+                  }
           end
-          row(:products) {
-            link_to(
-              delivery.shop_products_count,
-              edit_shop_special_delivery_path(delivery, anchor: "products"))
-          }
-          row(:orders) {
-            link_to(
-              delivery.shop_orders_count,
-              shop_orders_path(
-                q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
-                }
         end
         panel Shop::SpecialDelivery.human_attribute_name(:description) do
-          if delivery.shop_text?
-            delivery.shop_text
-          else
-            para(class: "empty") { t("active_admin.empty") }
+          div class: "p-2" do
+            if delivery.shop_text?
+              delivery.shop_text
+            else
+              div(class: "missing-data") { t("active_admin.empty") }
+            end
           end
         end
-        active_admin_comments
+        active_admin_comments_for(delivery)
       end
     end
   end
 
   action_item :xlsx, only: :show do
-    link_to("XLSX", [ resource, format: :xlsx ], class: "xlsx_link")
+    link_to("XLSX", [ resource, format: :xlsx ], class: "action-item-button")
   end
 
   action_item :pdf, only: :show do
-    link_to t(".delivery_orders_pdf"), delivery_shop_orders_path(delivery_gid: resource.gid, format: :pdf), target: "_blank"
+    link_to t(".delivery_orders_pdf"), delivery_shop_orders_path(delivery_gid: resource.gid, format: :pdf), target: "_blank", class: "action-item-button"
   end
 
   form do |f|

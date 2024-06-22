@@ -26,7 +26,7 @@ module ApplicationHelper
   def display_name_with_public_name(object)
     txt = object.display_name
     if object.public_name != txt
-      txt += content_tag(:span, object.public_name, class: "subtitle")
+      txt += content_tag(:span, object.public_name, class: "block text-sm text-gray-500")
     end
     txt.html_safe
   end
@@ -90,9 +90,9 @@ module ApplicationHelper
   def display_price_description(price, description)
     txt = ""
     unless price.zero?
-      txt += content_tag(:span, description, class: "details")
+      txt += content_tag(:span, description, class: "text-sm text-gray-500")
     end
-    txt += content_tag(:span, cur(price, unit: false), class: "price")
+    txt += content_tag(:span, cur(price, unit: false), class: "inline-block w-20")
     txt.html_safe
   end
 
@@ -155,8 +155,8 @@ module ApplicationHelper
   end
 
   def handbook_icon_link(*args)
-    link_to(handbook_page_path(*args), title: I18n.t("layouts.footer.handbook"), class: "color-light") do
-      inline_svg_tag("admin/book-open.svg", size: "24")
+    link_to handbook_page_path(*args), title: I18n.t("active_admin.site_footer.handbook") do
+      icon "book-open", class: "w-6 h-6"
     end
   end
 end

@@ -2,9 +2,9 @@
   - case Current.acp.country_code
   - when 'DE'
     = label_tag :file, t('.file_label_de')
-    = file_field_tag :file, accept: 'text/xml, .mta', required: true
+    = file_field_tag :file, accept: 'text/xml, .mta', required: true, class: "mt-1"
   - else
     = label_tag :file, t('.file_label')
-    = file_field_tag :file, accept: 'text/xml', required: true
-  .buttons
-    = submit_tag t('.submit')
+    = file_field_tag :file, accept: 'text/xml', required: true, class: "mt-1"
+  div class="flex justify-end mt-1 py-1"
+    = submit_tag t('.submit'), class: 'action-item-button secondary small'

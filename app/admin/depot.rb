@@ -22,17 +22,17 @@ ActiveAdmin.register Depot do
     column :name, ->(d) { link_to display_name_with_public_name(d), d }
     column :group
     if Depot.kept.pluck(:price).any?(&:positive?)
-      column :price, ->(d) { cur(d.price) }
+      column :price, ->(d) { cur(d.price) }, class: "text-right"
     end
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {
         d.delivery_cycles.map { |cycle|
           auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
         }.join(", ").html_safe
-      }
+      }, class: "text-right"
     end
-    column :visible
-    actions class: "col-actions-3"
+    column :visible, class: "text-right"
+    actions
   end
 
   member_action :move_to, method: :patch do
@@ -72,22 +72,21 @@ ActiveAdmin.register Depot do
   end
 
   action_item :depot_group, only: :index do
-    link_to DepotGroup.model_name.human(count: 2), depot_groups_path
+    link_to DepotGroup.model_name.human(count: 2), depot_groups_path, class: "action-item-button"
   end
 
   show do |depot|
     columns do
       column do
         if next_delivery = depot.next_delivery
-          panel t("active_admin.page.index.next_delivery", delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe do
-            div class: "actions" do
-              icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
-              icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: "_blank")
-            end
+          panel t("active_admin.page.index.next_delivery", delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe, action: (
+            icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(next_delivery, format: :xlsx, depot_id: depot.id)) +
+            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: "_blank")
+          ) do
 
             attrs = {}
             if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
-              attrs[:class] = "sortable"
+              attrs[:class] = "cursor-move table-auto"
               attrs[:tbody] = { "data-controller" => "sortable" }
               attrs[:row_data] = ->(b) {
                 { "data-sortable-update-url" => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
@@ -101,67 +100,75 @@ ActiveAdmin.register Depot do
           end
         else
           panel t("active_admin.page.index.no_next_delivery") do
-            div class: "blank_slate_container" do
-              i do
-                link_to t("active_admin.page.index.no_next_deliveries"), deliveries_path
-              end
+            div class: "missing-data" do
+              link_to t("active_admin.page.index.no_next_deliveries"), deliveries_path
             end
           end
         end
       end
       column do
-        attributes_table do
-          row :id
-          row :name
-          row :public_name
-          row(:group)
-          if Current.acp.languages.many?
-            row(:language) { t("languages.#{depot.language}") }
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row :name
+            row :public_name
+            row(:group)
+            if Current.acp.languages.many?
+              row(:language) { t("languages.#{depot.language}") }
+            end
+            row(:price) { cur(depot.price) }
+            row(:note) { text_format(depot.note) }
+            row(:public_note) { depot.public_note if depot.public_note? }
           end
-          row(:price) { cur(depot.price) }
-          row(:note) { text_format(depot.note) }
-          row(:public_note) { depot.public_note if depot.public_note? }
         end
 
-        attributes_table title: Delivery.human_attribute_name(:sheets_pdf) do
-          row(:delivery_sheets_mode) { t("delivery.sheets_mode.#{depot.delivery_sheets_mode}") }
+        panel Delivery.human_attribute_name(:sheets_pdf) do
+          attributes_table do
+            row(:delivery_sheets_mode) { t("delivery.sheets_mode.#{depot.delivery_sheets_mode}") }
+          end
         end
 
-        attributes_table title: t(".member_new_form") do
-          row :visible
-          if DeliveryCycle.visible?
-            table_for depot.delivery_cycles, class: "delivery_cycles" do
-              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
-              column Current.acp.current_fiscal_year, ->(dc) {
-                auto_link dc, dc.current_deliveries_count
-              }
-              column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
-                auto_link dc, dc.future_deliveries_count
-              }
+        panel t(".member_new_form") do
+          attributes_table do
+            row :visible
+            if DeliveryCycle.visible?
+              table_for depot.delivery_cycles, class: "delivery_cycles" do
+                column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
+                column Current.acp.current_fiscal_year, ->(dc) {
+                  auto_link dc, dc.current_deliveries_count
+                }
+                column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
+                  auto_link dc, dc.future_deliveries_count
+                }
+              end
             end
           end
         end
 
-        attributes_table title: Depot.human_attribute_name(:address) do
-          row :address_name
-          row :address
-          row :zip
-          row :city
+        panel Depot.human_attribute_name(:address) do
+          attributes_table do
+            row :address_name
+            row :address
+            row :zip
+            row :city
+          end
         end
 
-        attributes_table title: Depot.human_attribute_name(:contact) do
-          row :contact_name
-          row(:emails) { display_emails_with_link(self, depot.emails_array) }
-          row(:phones) { display_phones_with_link(self, depot.phones_array) }
+        panel Depot.human_attribute_name(:contact) do
+          attributes_table do
+            row :contact_name
+            row(:emails) { display_emails_with_link(self, depot.emails_array) }
+            row(:phones) { display_phones_with_link(self, depot.phones_array) }
+          end
         end
 
-        active_admin_comments
+        active_admin_comments_for(depot)
       end
     end
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t(".details") do
       f.input :name
       translated_input(f, :public_names,
         required: false,
@@ -212,8 +219,10 @@ ActiveAdmin.register Depot do
     f.inputs Depot.human_attribute_name(:address) do
       f.input :address_name
       f.input :address
-      f.input :city
-      f.input :zip
+      div class: "single-line" do
+        f.input :zip, wrapper_html: { class: "md:w-50" }
+        f.input :city, wrapper_html: { class: "w-full" }
+      end
     end
 
     f.inputs Depot.human_attribute_name(:contact) do

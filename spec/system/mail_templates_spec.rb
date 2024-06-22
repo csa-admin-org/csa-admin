@@ -26,7 +26,7 @@ describe "Mail Templates" do
 
     click_link "Membre activé"
 
-    expect(page).to have_selector "h2#page_title", text: "Membre activé"
+    expect(page).to have_selector "h2[aria-label='Page Title']", text: "Membre activé"
     expect(page).to have_content("Envoi Oui")
     expect(iframe).to have_selector "h1", text: "Bienvenue Jane Doe!!"
     expect(iframe).to have_selector "p", text: "Panier:: Eveil"

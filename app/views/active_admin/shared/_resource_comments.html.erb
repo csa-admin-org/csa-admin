@@ -1,0 +1,48 @@
+<div class="panel">
+  <h3 class="panel-title">
+    <%= I18n.t "active_admin.comments.title_content", count: comments.total_count %>
+  </h3>
+  <div class="panel-body">
+    <% if comments.any? %>
+      <div class="px-2 space-y-4">
+        <% comments.each do |comment| %>
+          <div class="relative group border-dotted border-b dark:border-gray-600" id="<%= dom_id(comment, :active_admin) %>" data-test-comment-container>
+            <div class="flex justify-between items-center gap-4 items-end mb-2">
+              <span class="font-semibold">
+                <%= comment.author ? auto_link(comment.author) : I18n.t("active_admin.comments.author_missing") %>
+              </span>
+              <span class="text-xs text-gray-400 group-hover:hidden">
+                <%= pretty_format comment.created_at %>
+              </span>
+              <% if authorized?(ActiveAdmin::Auth::DESTROY, comment) %>
+                <div class="absolute top-0 right-0 hidden group-hover:flex justify-center items-center mb-2">
+                  <%= link_to I18n.t("active_admin.comments.delete"), url_for_comments(comment.id), method: :delete, data: { confirm: I18n.t("active_admin.comments.delete_confirmation") }, class: "action-item-button secondary tiny" %>
+                </div>
+              <% end %>
+            </div>
+            <div class="mb-4 break-keep leading-5">
+              <%= simple_format(comment.body) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="missing-data">
+        <%= I18n.t("active_admin.comments.no_comments_yet") %>
+      </div>
+    <% end %>
+    <% if authorized?(ActiveAdmin::Auth::NEW, ActiveAdmin::Comment) %>
+      <%= active_admin_form_for(ActiveAdmin::Comment.new, url: comment_form_url, html: { class: "p-2 pt-0", novalidate: false }) do |f|
+        ol class: "list-none" do
+          f.input :resource_type, as: :hidden, input_html: { value: ActiveAdmin::Comment.resource_type(resource) }
+          f.input :resource_id, as: :hidden, input_html: { value: resource.id }
+          f.input :body, label: false, input_html: { size: "80x2", required: true }, wrapper_html: { class: "pt-4 py-1" }
+        end
+        div class: "flex items-center justify-end list-none" do
+          f.action :submit, label: I18n.t("active_admin.comments.add"), button_html: { class: "action-item-button secondary small" }
+        end
+      end
+      %>
+    <% end %>
+  </div>
+</div>

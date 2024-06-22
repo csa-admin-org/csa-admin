@@ -3,9 +3,9 @@ module TablesHelper
     txt = text
     if url.present?
       txt += link_to(url, target: "_blank") do
-        inline_svg_tag("admin/external-link.svg", size: "16")
+        icon("arrow-top-right-on-square", class: "h-4 w-4 ml-1")
       end
     end
-    content_tag(:span, txt.html_safe, class: "url")
+    content_tag(:span, txt.html_safe, class: "flex items-center")
   end
 end

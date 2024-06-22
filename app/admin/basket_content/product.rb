@@ -60,7 +60,7 @@ class BasketContent
     end
 
     form do |f|
-      f.inputs do
+      f.inputs t(".details") do
         translated_input(f, :names)
         f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end

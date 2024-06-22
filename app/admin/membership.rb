@@ -7,13 +7,13 @@ ActiveAdmin.register Membership do
     elsif params["action"] != "index"
       links = [
         link_to(Member.model_name.human(count: 2), members_path),
-        auto_link(membership.member),
+        auto_link(resource.member),
         link_to(
           Membership.model_name.human(count: 2),
-          memberships_path(q: { member_id_eq: membership.member_id }, scope: :all))
+          memberships_path(q: { member_id_eq: resource.member_id }, scope: :all))
       ]
       if params["action"].in? %W[edit]
-        links << auto_link(membership)
+        links << auto_link(resource)
       end
       links
     end
@@ -69,8 +69,8 @@ ActiveAdmin.register Membership do
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: "members.name"
-    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number) }
-    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number) }
+    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number_short) }, class: "text-right"
+    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number_short) }, class: "text-right"
     if Current.acp.feature?("activity")
       column activities_human_name, ->(m) {
         link_to(
@@ -79,35 +79,22 @@ ActiveAdmin.register Membership do
             member_id_eq: m.member_id,
             during_year: m.fiscal_year
           }, scope: "all"))
-      }, sortable: "activity_participations_demanded", class: "col-activity_participations_demanded"
+      }, sortable: "activity_participations_demanded", class: "text-right"
     end
     column :baskets_count,
-      ->(m) { auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}" }
-    actions defaults: false, class: "col-actions-2" do |resource|
-      localizer = ActiveAdmin::Localizers.resource(active_admin_config)
-      if authorized?(ActiveAdmin::Auth::READ, resource)
-        item localizer.t(:view), resource_path(resource), class: "view_link member_link", title: localizer.t(:view)
-      end
-      if authorized?(ActiveAdmin::Auth::UPDATE, resource)
-        item localizer.t(:edit), edit_resource_path(resource), class: "edit_link member_link", title: localizer.t(:edit)
-      end
-    end
+      ->(m) { auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}" },
+      class: "text-right"
+    actions
   end
 
   sidebar :renewal, only: :index do
-    div class: "actions" do
-      handbook_icon_link("membership_renewal")
-    end
-
-    renewal = MembershipsRenewal.new
-    if !Delivery.any_next_year?
-      div class: "content" do
+    side_panel t(".renewal"), action: handbook_icon_link("membership_renewal") do
+      renewal = MembershipsRenewal.new
+      if !Delivery.any_next_year?
         t(".no_next_year_deliveries",
           fiscal_year: renewal.next_fy,
           new_delivery_path: new_delivery_path).html_safe
-      end
-    else
-      div class: "content" do
+      else
         ul do
           li do
             openable_count = renewal.openable.count
@@ -149,30 +136,38 @@ ActiveAdmin.register Membership do
             ).html_safe
           end
         end
-      end
-      renewable_count = renewal.renewable.count
-      if renewable_count.positive?
-        div class: "content top-spacing" do
+        renewable_count = renewal.renewable.count
+        if renewable_count.positive?
           if renewal.renewing?
-            span { t(".renewing") }
+            div class: "mt-3 flex justify-center items-center italic" do
+              icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renewing")
+            end
           elsif renewal.opening?
-            span { t(".opening") }
+            div class: "mt-3 flex justify-center items-center italic" do
+              icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".opening")
+            end
           else
-            if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
-              openable_count = renewal.openable.count
-              if openable_count.positive?
-                div class: "top-small-spacing" do
-                  button_to t(".open_renewal_all_action", count: openable_count), open_renewal_all_memberships_path,
-                    form: { data: { controller: "disable", disable_with_value: t(".opening") } },
-                    class: "full-width"
+            div class: "mt-2" do
+              if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
+                openable_count = renewal.openable.count
+                if openable_count.positive?
+                  div class: "mt-2" do
+                    button_to open_renewal_all_memberships_path,
+                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
+                      class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
+                        icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
+                      end
+                  end
                 end
               end
-            end
-            if authorized?(:renew_all, Membership)
-              div class: "top-small-spacing" do
-                button_to t(".renew_all_action", count: renewable_count), renew_all_memberships_path,
-                  form: { data: { controller: "disable", disable_with_value: t(".renewing") } },
-                  class: "full-width"
+              if authorized?(:renew_all, Membership)
+                div class: "mt-2" do
+                  button_to renew_all_memberships_path,
+                    form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
+                    class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
+                      icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew_all_action", count: renewable_count)
+                    end
+                end
               end
             end
           end
@@ -182,32 +177,28 @@ ActiveAdmin.register Membership do
   end
 
   sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
-    div class: "actions" do
-      handbook_icon_link("basket_price_extra")
-    end
-
-    coll =
-      collection
-        .unscope(:includes, :joins, :order)
-        .offset(nil).limit(nil)
-        .joins(:member)
-        .merge(Member.no_salary_basket)
-    baskets = Basket.billable.where(membership: coll)
-    div class: "content" do
+    side_panel Current.acp.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
+      coll =
+        collection
+          .unscope(:includes, :joins, :order)
+          .offset(nil).limit(nil)
+          .joins(:member)
+          .merge(Member.no_salary_basket)
+      baskets = Basket.billable.where(membership: coll)
       if coll.where("basket_price_extra < 0").any?
-        div class: "total" do
+        div class: "flex justify-end" do
           sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
-          span cur(sum), style: "text-align: right; display: inline-block; width: 100%;"
+          span cur(sum)
         end
-        div class: "total" do
+        div class: "flex justify-end" do
           sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
-          span cur(sum), style: "text-align: right; display: inline-block; width: 100%;"
+          span cur(sum)
         end
       end
-      div class: "totals" do
+      div class: "flex justify-between" do
         sum = baskets.sum("quantity * price_extra")
-        span t("active_admin.sidebars.amount")
-        span cur(sum), style: "float: right; font-weight: bold;"
+        span t("active_admin.shared.sidebar_section.amount")
+        span cur(sum), class: "font-bold"
       end
     end
   end
@@ -305,22 +296,26 @@ ActiveAdmin.register Membership do
           ),
             row_class: ->(b) {
               classes = []
-              classes << "next" if b == next_basket
-              classes << "absent" if b.absent?
-              classes << "not-billable" unless b.billable?
+              classes << "bg-gray-200 dark:bg-gray-700" if b == next_basket
+              classes << "disabled" if b.absent?
+              classes << "line-through" unless b.billable?
               classes.join(" ")
             },
-            class: "table-baskets"
+            class: "table-auto"
           ) do
-            column(:delivery) { |b| link_to b.delivery.display_name(format: :number), b.delivery }
+            column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number_short), b.delivery }
             column(:description)
             column(:depot)
             if m.baskets.where(state: [:absent, :trial]).any?
-              column(class: "col-status") { |b| display_basket_state(b) }
+              column(class: "text-right") { |b| display_basket_state(b) }
             end
-            column(class: "col-actions-1") { |b|
+            column(nil) { |b|
               if authorized?(:update, b)
-                link_to t(".edit"), edit_basket_path(b), class: "edit_link"
+                div class: "data-table-resource-actions" do
+                  link_to edit_basket_path(b), title: t(".edit") do
+                    icon "pencil-square", class: "h-5 w-5"
+                  end
+                end
               end
             }
           end
@@ -333,185 +328,169 @@ ActiveAdmin.register Membership do
       end
 
       column do
-        attributes_table do
-          row :id
-          row :member
-          row(:period) { [ l(m.started_on), l(m.ended_on) ].join(" - ") }
-          row(:fiscal_year)
-          row(:created_at) { l m.created_at, format: :long }
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row :member
+            row(:period) { [ l(m.started_on), l(m.ended_on) ].join(" - ") }
+            row(:fiscal_year)
+            row(:created_at) { l m.created_at, format: :long }
+          end
         end
 
-        attributes_table title: t(".config") do
-          row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
-          if BasketComplement.kept.any?
-            row(:memberships_basket_complements) {
-              basket_complements_description(
-                m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
-              }
-          end
-          row :depot
-          row(:delivery_cycle) {
-            cycle = m.delivery_cycle
-            auto_link cycle, "#{cycle.display_name} (#{cycle.deliveries_count_for(m.fy_year)})"
-          }
-          if feature?("absence") && m.absences_included_annually.positive?
-            row(:absences_included) {
-              used = m.baskets.definitely_absent.count
-              link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
-                t(".absences_used", used: used, count: m.absences_included)
-              end
+        panel t(".config") do
+          attributes_table do
+            row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
+            if BasketComplement.kept.any?
+              row(:memberships_basket_complements) {
+                basket_complements_description(
+                  m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
+                }
+            end
+            row :depot
+            row(:delivery_cycle) {
+              cycle = m.delivery_cycle
+              auto_link cycle, "#{cycle.display_name} (#{cycle.deliveries_count_for(m.fy_year)})"
             }
+            if feature?("absence") && m.absences_included_annually.positive?
+              row(:absences_included) {
+                used = m.baskets.definitely_absent.count
+                link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
+                  t(".absences_used", used: used, count: m.absences_included)
+                end
+              }
+            end
           end
         end
 
         if Current.fiscal_year >= m.fiscal_year
-          attributes_table title: Membership.human_attribute_name(:renew) do
-            div class: "actions" do
-              handbook_icon_link("membership_renewal")
-            end
-
-            row(:status) { status_tag(m.renewal_state) }
-            if m.renewed?
-              row(:renewed_at) { l m.renewed_at.to_date }
-              row(:renewed_membership)
-              row :renewal_note
-            elsif m.canceled?
-              if Current.acp.annual_fee?
-                row(:renewal_annual_fee) {
-                  status_tag(!!m.renewal_annual_fee)
-                  span { cur(m.renewal_annual_fee) }
-                }
-              end
-              row :renewal_note
-              if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
-                div class: "buttons-inline" do
-                  div class: "button-inline" do
-                    button_to t(".mark_renewal_as_pending"), mark_renewal_as_pending_membership_path(m),
-                      form: {
-                        data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                      },
-                      data: { confirm: t(".confirm") }
+          panel Membership.human_attribute_name(:renew), action: handbook_icon_link("membership_renewal") do
+            attributes_table do
+              row(:status) { status_tag(m.renewal_state) }
+              if m.renewed?
+                row(:renewed_at) { l m.renewed_at.to_date }
+                row(:renewed_membership)
+                row :renewal_note
+              elsif m.canceled?
+                if Current.acp.annual_fee?
+                  row(:renewal_annual_fee) {
+                    status_tag(!!m.renewal_annual_fee)
+                    span { cur(m.renewal_annual_fee) }
+                  }
+                end
+                row :renewal_note
+                if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
+                  div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                    div do
+                      button_to mark_renewal_as_pending_membership_path(m),
+                        form: {
+                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                        },
+                        class: "action-item-button small secondary",
+                        data: { confirm: t(".confirm") } do
+                          icon("arrow-uturn-left", class: "h-4 w-4 mr-2") + t(".mark_renewal_as_pending")
+                        end
+                    end
                   end
                 end
-              end
-            elsif m.renewal_opened?
-              row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
-              if Current.acp.open_renewal_reminder_sent_after_in_days?
-                row(:renewal_reminder_sent_at) {
-                  if m.renewal_reminder_sent_at
-                    l m.renewal_reminder_sent_at.to_date
-                  end
-                }
-              end
-              div class: "buttons-inline" do
-                if authorized?(:renew, m)
-                  div class: "button-inline" do
-                    button_to t(".renew"), renew_membership_path(m),
+              elsif m.renewal_opened?
+                row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
+                if Current.acp.open_renewal_reminder_sent_after_in_days?
+                  row(:renewal_reminder_sent_at) {
+                    if m.renewal_reminder_sent_at
+                      l m.renewal_reminder_sent_at.to_date
+                    end
+                  }
+                end
+                div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                  if authorized?(:renew, m)
+                    button_to renew_membership_path(m),
                       form: {
                         data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                       },
                       data: { confirm: t(".confirm") },
-                      disabled: !m.can_renew?
+                      class: "action-item-button small secondary",
+                      disabled: !m.can_renew? do
+                        icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew")
+                      end
                   end
-                end
-                if authorized?(:cancel, m)
-                  div class: "button-inline" do
-                    button_to t(".cancel_renewal"), cancel_membership_path(m),
+                  if authorized?(:cancel, m)
+                    button_to cancel_membership_path(m),
                       form: {
                         data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                       },
-                      data: { confirm: t(".confirm") }
+                      data: { confirm: t(".confirm") },
+                      class: "action-item-button small secondary" do
+                        icon("x-circle", class: "h-4 w-4 mr-2") + t(".cancel_renewal")
+                      end
                   end
                 end
-              end
-            else
-              div class: "buttons-inline" do
-                if Delivery.any_next_year?
-                  if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
-                    div class: "button-inline" do
-                      button_to t(".open_renewal"), open_renewal_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
-                        data: { confirm: t(".confirm") }
+              else
+                div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                  if Delivery.any_next_year?
+                    if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
+                      div do
+                        button_to open_renewal_membership_path(m),
+                          form: {
+                            data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                          },
+                          data: { confirm: t(".confirm") },
+                          class: "action-item-button small secondary" do
+                            icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal")
+                          end
+                      end
+                    end
+                    if authorized?(:renew, m)
+                      div do
+                        button_to renew_membership_path(m),
+                          form: {
+                            data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                          },
+                          data: { confirm: t(".confirm") },
+                          class: "action-item-button small secondary",
+                          disabled: !m.can_renew? do
+                            icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew")
+                          end
+                      end
                     end
                   end
-                  if authorized?(:renew, m)
-                    div class: "button-inline" do
-                      button_to t(".renew"), renew_membership_path(m),
+                  if authorized?(:cancel, m)
+                    div do
+                      button_to cancel_membership_path(m),
                         form: {
                           data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                         },
                         data: { confirm: t(".confirm") },
-                        disabled: !m.can_renew?
+                        class: "action-item-button small secondary" do
+                          icon("x-circle", class: "h-4 w-4 mr-2") + t(".cancel_renewal")
+                        end
                     end
                   end
                 end
-                if authorized?(:cancel, m)
-                  div class: "button-inline" do
-                    button_to t(".cancel_renewal"), cancel_membership_path(m),
-                      form: {
-                        data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                      },
-                      data: { confirm: t(".confirm") }
-                  end
-                end
               end
             end
           end
         end
 
-        if Current.acp.feature?("activity")
-          panel activities_human_name do
-            div class: "actions" do
-              handbook_icon_link("activity")
-            end
-
-            ul class: "counts" do
-              li do
-                counter_tag(
-                  Membership.human_attribute_name(:activity_participations_demanded),
-                  m.activity_participations_demanded)
-              end
-              %i[future pending validated rejected].each do |scope|
-                li do
-                  link_to activity_participations_path(scope: scope, q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
-                    counter_tag(
-                      Membership.human_attribute_name("activity_participations_#{scope}"),
-                      m.member.activity_participations.during_year(m.fiscal_year).send(scope).sum(:participants_count))
-                  end
-                end
-              end
-              li do
-                link_to invoices_path(scope: :all, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
-                  counter_tag(
-                    Membership.human_attribute_name(:activity_participations_paid),
-                    m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations))
-                end
-              end
-            end
-          end
-        end
-
-        div class: "amount" do
-          attributes_table title: Membership.human_attribute_name(:amount) do
-            if m.member.salary_basket?
-              em t(".salary_basket")
-            elsif m.baskets_count.zero?
-              em t(".no_baskets")
-            else
+        panel Membership.human_attribute_name(:amount) do
+          if m.member.salary_basket?
+            div(class: "missing-data") { t(".salary_basket") }
+          elsif m.baskets_count.zero?
+            div(class: "missing-data") { t(".no_baskets") }
+          else
+            attributes_table do
               if m.basket_sizes_price.nonzero?
-                row(Basket.model_name.human(count: m.baskets_count)) {
+                row(Basket.model_name.human(count: m.baskets_count), class: "text-right") {
                   display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
                 }
               end
               if m.baskets_annual_price_change.nonzero?
-                row(t(".baskets_annual_price_change")) {
+                row(t(".baskets_annual_price_change"), class: "text-right") {
                   cur(m.baskets_annual_price_change, unit: false)
                 }
               end
               if m.basket_complements.any? && m.basket_complements_price.nonzero?
-                row(BasketComplement.model_name.human(count: m.basket_complements.count)) {
+                row(BasketComplement.model_name.human(count: m.basket_complements.count), class: "text-right") {
                   display_price_description(
                     m.basket_complements_price,
                     membership_basket_complements_price_info(m))
@@ -523,82 +502,115 @@ ActiveAdmin.register Membership do
                 end
               end
               if Current.acp.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
-                row(:basket_price_extra_title) {
+                row(:basket_price_extra_title, class: "text-right") {
                   description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
                   display_price_description(m.baskets_price_extra, description)
                 }
               end
               if m.depots_price.nonzero?
-                row(Depot.model_name.human(count: m.baskets_count)) {
+                row(Depot.model_name.human(count: m.baskets_count), class: "text-right") {
                   display_price_description(m.depots_price, depots_price_info(m.baskets))
                 }
               end
               if Current.acp.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
-                row(t_activity(".activity_participations_annual_price_change")) {
+                row(t_activity(".activity_participations_annual_price_change"), class: "text-right") {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
               end
-              row(:price) { cur(m.price, format: "%u %n") }
+              row(:price, class: "border-solid border-0 border-t border-gray-800 dark:border-gray-200 text-right font-bold") {
+                cur(m.price, format: "%u %n")
+              }
             end
           end
         end
 
-        attributes_table title: t(".billing") do
-          div class: "actions" do
-            handbook_icon_link("billing", anchor: "abonnements")
-          end
-
-          row(:billing_year_division) { t("billing.year_division.x#{m.billing_year_division}") }
-          row(:invoices_amount) {
-            link_to(
-              cur(m.invoices_amount),
-              invoices_path(scope: :all, q: {
-                member_id_eq: resource.member_id,
-                entity_type_in: "Membership",
-                during_year: resource.fiscal_year.year
-              }))
-          }
-          row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
-          if resource.billable?
-            row(:next_invoice_on) {
-              if Current.acp.recurring_billing?
-                invoicer = Billing::Invoicer.new(resource.member, resource)
-                if invoicer.next_date
-                  span class: "next_date" do
-                    l(invoicer.next_date, format: :long_medium)
-                  end
-                  if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
-                    button_to t(".invoice_now"), force_recurring_billing_member_path(resource.member),
-                      form: {
-                        data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                        class: "inline"
-                      },
-                      data: { confirm: t(".invoice_now_confirm") }
-                  end
-                end
-              else
-                span class: "empty" do
-                  t(".recurring_billing_disabled")
-                end
-              end
+        panel t(".billing"), action: handbook_icon_link("billing") do
+          attributes_table do
+            row(:billing_year_division) { t("billing.year_division.x#{m.billing_year_division}") }
+            row(:invoices_amount) {
+              link_to(
+                cur(m.invoices_amount),
+                invoices_path(scope: :all, q: {
+                  member_id_eq: resource.member_id,
+                  entity_type_in: "Membership",
+                  during_year: resource.fiscal_year.year
+                }))
             }
+            row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
+            if resource.billable?
+              row(:next_invoice_on) {
+                if Current.acp.recurring_billing?
+                  invoicer = Billing::Invoicer.new(resource.member, resource)
+                  if invoicer.next_date
+                    div class: "flex items-center justify-between gap-2" do
+                      span do
+                        l(invoicer.next_date, format: :long_medium)
+                      end
+                      if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
+                        div do
+                          button_to t(".invoice_now"), force_recurring_billing_member_path(resource.member),
+                            form: {
+                              data: { controller: "disable", disable_with_value: t("formtastic.processing") },
+                              class: "inline"
+                            },
+                            data: { confirm: t(".invoice_now_confirm") },
+                            class: "action-item-button tiny secondary"
+                            end
+                      end
+                    end
+                  end
+                else
+                  span class: "italic text-gray-400 dark:text-gray-600" do
+                    t(".recurring_billing_disabled")
+                  end
+                end
+              }
+            end
           end
         end
 
-        active_admin_comments
+        if Current.acp.feature?("activity")
+          panel activities_human_name, action: handbook_icon_link("activity") do
+            ul class: "counts justify-evenly" do
+              li class: "w-1/3" do
+                counter_tag(
+                  Membership.human_attribute_name(:activity_participations_demanded),
+                  m.activity_participations_demanded)
+              end
+              %i[future pending validated rejected].each do |scope|
+                li class: "w-1/3" do
+                  link_to activity_participations_path(scope: scope, q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
+                    counter_tag(
+                      Membership.human_attribute_name("activity_participations_#{scope}"),
+                      m.member.activity_participations.during_year(m.fiscal_year).send(scope).sum(:participants_count))
+                  end
+                end
+              end
+              li class: "w-1/3" do
+                link_to invoices_path(scope: :all, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
+                  counter_tag(
+                    Membership.human_attribute_name(:activity_participations_paid),
+                    m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations))
+                end
+              end
+            end
+          end
+        end
+
+        active_admin_comments_for(m)
       end
     end
   end
 
   form do |f|
-    f.inputs Member.model_name.human do
+    f.inputs t('.details') do
       f.input :member,
         collection: Member.order(:name).map { |d| [ d.name, d.id ] },
         prompt: true
-    end
-    f.inputs Membership.human_attribute_name(:dates) do
-      f.input :started_on, as: :date_picker
-      f.input :ended_on, as: :date_picker
+      div class: "single-line" do
+        f.input :started_on, as: :date_picker
+        f.input :ended_on, as: :date_picker
+      end
     end
 
     if Current.acp.annual_fee? && f.object.canceled?
@@ -609,7 +621,7 @@ ActiveAdmin.register Membership do
 
     if Current.acp.feature?("activity")
       f.inputs activities_human_name, "data-controller" => "form-reset" do
-        div class: "actions" do
+        div class: "panel-actions" do
           handbook_icon_link("activity")
         end
 
@@ -641,7 +653,7 @@ ActiveAdmin.register Membership do
     if resource.new_record?
       para t(".membership_configuration_text")
     else
-      para t(".membership_configuration_warning_text"), class: "new_config_from warning"
+      para t(".membership_configuration_warning_text"), class: "font-bold text-red-600 dark:text-red-400"
       f.inputs do
         f.input :new_config_from, as: :date_picker, required: true
       end
@@ -700,7 +712,7 @@ ActiveAdmin.register Membership do
 
       if BasketComplement.kept.any?
         f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
-          ff.inputs class: "blank", "data-controller" => "form-reset" do
+          div "data-controller" => "form-reset" do
             ff.input :basket_complement,
               collection: admin_basket_complements_collection,
               prompt: true,

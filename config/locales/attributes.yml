@@ -253,9 +253,9 @@ _:
       _fr: Facture Objet
       _it: Oggetto Fattura
     invoice_id:
-      _de: Rechnung ID
-      _fr: Facture ID
-      _it: ID Fattura
+      _de: Rechnung
+      _fr: Facture
+      _it: Fattura
     language:
       _de: Sprache
       _fr: Langue

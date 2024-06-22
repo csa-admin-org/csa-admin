@@ -16,10 +16,8 @@ ActiveAdmin.register Permission do
     column [ Permission.human_attribute_name(:rights), t("permissions.rights.write") ].join(" – "), ->(p) { display_rights(p) }
     column :admins, ->(p) {
       link_to p.admins_count, admins_path(q: { permission_id_eq: p.id }, scope: :all)
-    }, class: "align-right"
-    if authorized?(:update, Permission)
-      actions class: "col-actions-2"
-    end
+    }, class: "text-right"
+    actions
   end
 
   form do |f|
@@ -28,7 +26,7 @@ ActiveAdmin.register Permission do
     end
 
     f.semantic_fields_for :rights do |fr|
-      fr.inputs Permission.human_attribute_name(:rights) do
+      f.inputs Permission.human_attribute_name(:rights) do
         features = Permission.editable_features
         features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
@@ -41,7 +39,7 @@ ActiveAdmin.register Permission do
       end
     end
     f.semantic_fields_for :rights do |fr|
-      fr.inputs Permission.human_attribute_name(:superadmin_rights) do
+      f.inputs Permission.human_attribute_name(:superadmin_rights) do
         Permission.superadmin_features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
             label: feature_name(feature),

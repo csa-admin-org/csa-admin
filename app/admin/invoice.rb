@@ -1,5 +1,5 @@
 ActiveAdmin.register Invoice do
-  menu parent: :billing, priority: 1
+  menu parent: :navbilling, priority: 1
   actions :all
 
   breadcrumb do
@@ -8,10 +8,10 @@ ActiveAdmin.register Invoice do
     elsif params["action"] != "index"
       [
         link_to(Member.model_name.human(count: 2), members_path),
-        auto_link(invoice.member),
+        auto_link(resource.member),
         link_to(
           Invoice.model_name.human(count: 2),
-          invoices_path(q: { member_id_eq: invoice.member_id }, scope: :all))
+          invoices_path(q: { member_id_eq: resource.member_id }, scope: :all))
       ]
     end
   end
@@ -51,13 +51,13 @@ ActiveAdmin.register Invoice do
     end
    } do
     column :id, ->(i) { auto_link i, i.id }
-    column :date, ->(i) { l i.date, format: :number }
+    column :date, ->(i) { l i.date, format: :number }, class: "text-right"
     column :member, sortable: "members.name"
-    column :amount, ->(invoice) { cur(invoice.amount) }
-    column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }
-    column :overdue_notices_count
-    column :state, ->(invoice) { status_tag invoice.state }
-    actions defaults: true, class: "col-actions-3" do |invoice|
+    column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right"
+    column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }, class: "text-right"
+    column :overdue_notices_count, class: "text-right"
+    column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
+    actions do |invoice|
       link_to_invoice_pdf(invoice)
     end
   end
@@ -90,61 +90,61 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).offset(nil).limit(nil)
-    div class: "content" do
+    side_panel t(".total") do
+      all = collection.unscope(:includes).offset(nil).limit(nil)
+
       if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.acp.annual_fee?
-        div class: "total" do
+        div class: "flex justify-between" do
           span Membership.model_name.human(count: 2)
-          span cur(all.not_canceled.sum(:memberships_amount)), style: "float: right"
+          span cur(all.sum(:memberships_amount))
         end
-        div class: "total" do
+        div class: "flex justify-between" do
           span t("billing.annual_fees")
-          span cur(all.not_canceled.sum(:annual_fee)), style: "float: right;"
+          span cur(all.sum(:annual_fee))
         end
-        div class: "totals" do
-          span t("active_admin.sidebars.amount")
-          span cur(all.not_canceled.sum(:amount)), style: "float: right; font-weight: bold;"
+        div class: "flex justify-between" do
+          span t(".amount")
+          span cur(all.sum(:amount)), class: "font-bold"
         end
       elsif params[:scope].in? [ "open", "all", "closed", nil ]
-        div class: "total" do
-          span t("billing.scope.paid") + ":"
-          span cur(all.not_canceled.sum(:paid_amount)), style: "float: right;"
+        div class: "flex justify-between" do
+          span t("billing.scope.paid")
+          span cur(all.not_canceled.sum(:paid_amount))
         end
-        div class: "total" do
+        div class: "flex justify-between" do
           amount = all.not_canceled.sum("amount - paid_amount")
           if amount >= 0
-            span t("billing.scope.missing") + ":"
+            span t("billing.scope.missing")
           else
-            span t("active_admin.sidebars.overpaid")
+            span t(".overpaid")
           end
-          span cur(amount), style: "float: right;"
+          span cur(amount)
         end
-        div class: "totals" do
-          span t("active_admin.sidebars.amount")
-          span cur(all.not_canceled.sum(:amount)), style: "float: right; font-weight: bold;"
+        div class: "flex justify-between mt-0.5" do
+          span t(".amount")
+          span cur(all.not_canceled.sum(:amount)), class: "font-bold"
         end
       else
-        div do
-          span t("active_admin.sidebars.amount")
-          span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
+        div class: "flex justify-between" do
+          span t(".amount")
+          span cur(all.sum(:amount)), class: "font-bold"
         end
       end
     end
   end
 
-  sidebar :overdue_notice_not_sent_warning, only: :index, class: "warning", if: -> { !Current.acp.send_invoice_overdue_notice? } do
-    div class: "actions warning" do
-      handbook_icon_link("billing", anchor: "rappels")
-    end
-
-    div class: "content" do
-      span t("active_admin.sidebars.overdue_notice_not_sent_warning_text_html")
-
+  sidebar :overdue_notice_not_sent_warning, only: :index, if: -> { !Current.acp.send_invoice_overdue_notice? } do
+    side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "rappels") do
+      para class: "p-2 rounded bg-red-100 text-red-800" do
+        t(".overdue_notice_not_sent_warning_text_html")
+      end
       if authorized?(:create, Invoice)
-        div class: "top-spacing" do
-          button_to t(".send_overdue_notices"), send_overdue_notices_invoices_path,
-            form: { data: { controller: "disable", disable_with_value: t(".sending") } },
-            class: "full-width"
+        div class: "mt-3 " do
+          button_to send_overdue_notices_invoices_path,
+            form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".sending") } },
+            class: "action-item-button secondary small" do
+              icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".send_overdue_notices")
+            end
         end
       end
     end
@@ -164,31 +164,28 @@ ActiveAdmin.register Invoice do
         panel link_to(t(".direct_payments"), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
           payments = invoice.payments.order(:date)
           if payments.none?
-            em t(".no_payments")
+            div(class: "missing-data") { t(".no_payments") }
           else
-            table_for(payments, class: "table-payments") do
+            table_for(payments, class: "table-auto") do
               column(:date) { |p| auto_link p, l(p.date, format: :number) }
-              column(:amount) { |p| cur(p.amount) }
-              column(:type) { |p| status_tag p.type }
+              column(:amount, class: "text-right") { |p| cur(p.amount) }
+              column(:type, class: "text-right") { |p| status_tag p.type }
             end
           end
         end
         if invoice.items.any?
           panel InvoiceItem.model_name.human(count: 2) do
-            table_for(invoice.items, class: "table-payments") do
+            table_for(invoice.items, class: "table-auto") do
               column(:description) { |ii| ii.description }
-              column(:amount) { |ii| cur(ii.amount) }
+              column(:amount, class: "text-right") { |ii| cur(ii.amount) }
             end
           end
         end
         if Rails.env.production? && !invoice.processing?
-          panel "PDF" do
-            div class: "actions" do
-              icon_link(:pdf_file, "PDF", invoice_pdf_url(invoice), target: "_blank")
-            end
-            div do
+          panel "PDF", action: icon_link(:pdf_file, "PDF", invoice_pdf_url(invoice), target: "_blank") do
+            div class: "p-2" do
               link_to_invoice_pdf(invoice) do
-                image_tag invoice.pdf_file.representation(resize_to_limit: [ 1000, 1000 ]), width: "100%"
+                image_tag invoice.pdf_file.representation(resize_to_limit: [ 1000, 1000 ]), class: "w-full"
               end
             end
           end
@@ -196,89 +193,102 @@ ActiveAdmin.register Invoice do
       end
 
       column do
-        attributes_table do
-          row :id
-          row :member
-          row(:entity) { display_entity(invoice) }
-          if invoice.acp_share_type?
-            row(:acp_shares_number)
-          end
-          if invoice.activity_participation_type?
-            row(:paid_missing_activity_participations)
-          end
-          row(:date) { l invoice.date }
-          row(:state) { status_tag invoice.state }
-          row(:sent) { status_tag invoice.sent_at? }
-          row(:created_at) { l(invoice.created_at, format: :long) }
-          row(:created_by)
-          if invoice.sent_at?
-            row(:sent_at) { l(invoice.sent_at, format: :long) if invoice.sent_at }
-            row(:sent_by)
-          end
-          if invoice.closed?
-            row(:closed_at) { l(invoice.closed_at, format: :long) if invoice.closed_at }
-            row(:closed_by)
-          elsif invoice.canceled?
-            row(:canceled_at) { l invoice.canceled_at, format: :long }
-            row(:canceled_by)
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row :member
+            row(:entity) { display_entity(invoice) }
+            if invoice.acp_share_type?
+              row(:acp_shares_number)
+            end
+            if invoice.activity_participation_type?
+              row(:paid_missing_activity_participations)
+            end
+            row(:date) { l invoice.date }
+            row(:state) { status_tag invoice.state }
+            row(:sent) { status_tag invoice.sent_at? }
+            row(:created_at) { l(invoice.created_at, format: :medium_long) }
+            row(:created_by)
+            if invoice.sent_at?
+              row(:sent_at) { l(invoice.sent_at, format: :medium_long) if invoice.sent_at }
+              row(:sent_by)
+            end
+            if invoice.closed?
+              row(:closed_at) { l(invoice.closed_at, format: :medium_long) if invoice.closed_at }
+              row(:closed_by)
+            elsif invoice.canceled?
+              row(:canceled_at) { l invoice.canceled_at, format: :medium_long }
+              row(:canceled_by)
+            end
           end
         end
 
-        attributes_table title: Invoice.human_attribute_name(:amount) do
-          if invoice.amount_percentage?
-            row(:amount_before_percentage) { cur(invoice.amount_before_percentage) }
-            row(:amount_percentage) { number_to_percentage(invoice.amount_percentage, precision: 1) }
+        panel Invoice.human_attribute_name(:amount) do
+          attributes_table do
+            if invoice.amount_percentage?
+              row(:amount_before_percentage) { cur(invoice.amount_before_percentage) }
+              row(:amount_percentage) { number_to_percentage(invoice.amount_percentage, precision: 1) }
+            end
+            row(:amount) { cur(invoice.amount) }
+            row(:paid_amount) { cur(invoice.paid_amount) }
+            row(:balance) { cur(invoice.balance) }
           end
-          row(:amount) { cur(invoice.amount) }
-          row(:paid_amount) { cur(invoice.paid_amount) }
-          row(:balance) { cur(invoice.balance) }
         end
 
-        attributes_table title: Invoice.human_attribute_name(:overdue_notices_count) do
-          row :overdue_notices_count
-          row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
+        panel Invoice.human_attribute_name(:overdue_notices_count) do
+          attributes_table do
+            row :overdue_notices_count
+            row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
+          end
         end
 
-        active_admin_comments
+        active_admin_comments_for(invoice)
       end
     end
   end
 
-  action_item :cancel_and_edit_shop_order, only: :show, if: -> { invoice.shop_order_type? && authorized?(:cancel, invoice.entity) } do
-    button_to t(".cancel_and_edit_shop_order"), cancel_shop_order_path(invoice.entity),
+  action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
+    button_to t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
       data: { confirm: t(".cancel_action_confirm") }
   end
 
-  action_item :pdf, only: :show, if: -> { !invoice.processing? } do
-    link_to_invoice_pdf(resource)
+  action_item :pdf, only: :show, if: -> { !resource.processing? } do
+    link_to_invoice_pdf(resource, class: "action-item-button") do
+      "PDF"
+    end
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
     link_to t(".new_payment"), new_payment_path(
-      invoice_id: invoice.id, amount: [ invoice.amount, invoice.missing_amount ].min)
+      invoice_id: resource.id, amount: [ resource.amount, resource.missing_amount ].min),
+      class: "action-item-button"
   end
 
-  action_item :refund, only: :show, if: -> { invoice.can_refund? } do
-    acp_shares_number = [ invoice.acp_shares_number, invoice.member.acp_shares_number ].min
+  action_item :refund, only: :show, if: -> { resource.can_refund? } do
+    acp_shares_number = [ resource.acp_shares_number, resource.member.acp_shares_number ].min
     link_to t(".refund"),
-      new_invoice_path(member_id: invoice.member_id, acp_shares_number: -acp_shares_number, anchor: "acp_share")
+      new_invoice_path(member_id: resource.member_id, acp_shares_number: -acp_shares_number, anchor: "acp_share"),
+      class: "action-item-button"
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
     button_to t(".send_email"), send_email_invoice_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      class: "action-item-button"
   end
 
   action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
     button_to t(".mark_as_sent"), mark_as_sent_invoice_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      class: "action-item-button"
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.entity_type != "Shop::Order" } do
     button_to t(".cancel_invoice"), cancel_invoice_path(resource),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      data: { confirm: t(".link_confirm") }
+      data: { confirm: t(".link_confirm") },
+      class: "action-item-button"
   end
 
   member_action :pdf, method: :get, if: -> { Rails.env.development? } do
@@ -323,11 +333,11 @@ ActiveAdmin.register Invoice do
         f.input :comment, as: :text, input_html: { rows: 4 }
       end
     end
-    tabs do
-      unless f.object.persisted?
-        if Current.acp.feature?("activity")
-          tab activities_human_name, id: "activity_participation" do
-            f.inputs do
+    f.inputs do
+      tabs do
+        unless f.object.persisted?
+          if Current.acp.feature?("activity")
+            tab activities_human_name, id: "activity_participation" do
               if f.object.entity.is_a?(ActivityParticipation)
                 li(class: "refused_activity_participation") do
                   parts = []
@@ -345,17 +355,13 @@ ActiveAdmin.register Invoice do
               f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
             end
           end
-        end
-        if Current.acp.share?
-          tab t_invoice_entity_type("ACPShare"), id: "acp_share" do
-            f.inputs do
+          if Current.acp.share?
+            tab t_invoice_entity_type("ACPShare"), id: "acp_share" do
               f.input :acp_shares_number, as: :number, step: 1
             end
           end
         end
-      end
-      tab t_invoice_entity_type("Other"), id: "other" do
-        f.inputs do
+        tab t_invoice_entity_type("Other"), id: "items" do
           f.semantic_errors :items
           if Current.acp.vat_number?
             f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01

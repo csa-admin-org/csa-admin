@@ -1,14 +1,14 @@
 module BasketsHelper
   def display_basket_state(basket)
     if basket.trial?
-      content_tag(:span, t("active_admin.status_tag.trial"), class: "status_tag trial")
+      content_tag(:span, t("active_admin.status_tag.trial"), class: "status-tag", data: { status: "trial" })
     elsif basket.absent?
       if basket.absence
         link_to basket.absence do
-          content_tag(:span, t("active_admin.status_tag.absent"), class: "status_tag absent")
+          content_tag(:span, t("active_admin.status_tag.absent"), class: "status-tag", data: { status: "absent" })
         end
       else
-        content_tag(:span, t("active_admin.status_tag.absent") + " *", class: "status_tag absent provisional")
+        content_tag(:span, t("active_admin.status_tag.absent") + " *", class: "status-tag italic", data: { status: "absent" })
       end
     end
   end

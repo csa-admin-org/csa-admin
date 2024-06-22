@@ -7,7 +7,7 @@ ActiveAdmin.register Activity do
     unless params["action"] == "index"
       links << link_to(Activity.model_name.human(count: 2), activities_path)
       if params["action"].in? %W[edit]
-        links << activity.name
+        links << resource.name
       end
     end
     links
@@ -31,21 +31,19 @@ ActiveAdmin.register Activity do
     column resource_selection_toggle_cell, class: "col-selectable", sortable: false do |a|
       resource_selection_cell(a) if a.can_destroy?
     end
-    column :date, ->(a) { l a.date, format: :medium }, sortable: :date
-    column :period, ->(a) { a.period }
+    column :date, ->(a) { l a.date, format: :medium }, sortable: :date, class: "text-right"
+    column :period, ->(a) { a.period }, class: "text-right"
     column :place, ->(a) { display_place(a) }
     column :title, ->(a) { a.title }
     column :participants_short, ->(a) {
       text = [ a.participations.sum(&:participants_count), a.participants_limit || "∞" ].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
-    }, class: "align-right"
-    if authorized?(:update, Activity)
-      actions class: "col-actions-2"
-    end
+    }, class: "text-right"
+    actions
   end
 
   action_item :activity_presets, only: :index do
-    link_to ActivityPreset.model_name.human(count: 2), activity_presets_path
+    link_to ActivityPreset.model_name.human(count: 2), activity_presets_path, class: "action-item-button"
   end
 
   order_by(:date) do |order_clause|
@@ -69,12 +67,14 @@ ActiveAdmin.register Activity do
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
 
     f.inputs t("formtastic.inputs.period") do
-      f.input :start_time, as: :time_picker, input_html: {
-        value: f.object.start_time&.strftime("%H:%M") || "08:00"
-      }
-      f.input :end_time, as: :time_picker, input_html: {
-        value: f.object.end_time&.strftime("%H:%M") || "12:00"
-      }
+      div class: "single-line" do
+        f.input :start_time,
+          as: :time_picker,
+          input_html: { value: f.object.start_time&.strftime("%H:%M") || "08:00" }
+        f.input :end_time,
+          as: :time_picker,
+          input_html: { value: f.object.end_time&.strftime("%H:%M") || "12:00" }
+      end
     end
     f.inputs t("formtastic.inputs.place_and_title"), "data-controller" => "preset" do
       if f.object.new_record? && ActivityPreset.any?

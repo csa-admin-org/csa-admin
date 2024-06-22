@@ -508,7 +508,7 @@ _:
           _de: Alle vier Wochen
           _fr: Toutes les quatre semaines
           _it: Ogni quattro settimane
-      edit:
+      form:
         annual_fee:
           _de: Jährlicher Vereinsbeitrag
           _fr: Cotisation annuelle association
@@ -549,6 +549,10 @@ _:
           _de: E-Mail
           _fr: Email
           _it: E-mail
+        erase:
+          _de: Löschen
+          _fr: Effacer
+          _it: Cancellare
         full_year:
           _de: ganzes Jahr
           _fr: année complète
@@ -585,6 +589,10 @@ _:
           _de: Beteiligung der Mitglieder
           _fr: Participation des membres
           _it: Partecipazione dei soci
+        membership_configuration_text:
+          _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
+          _fr: Tous les paniers de cet abonnement seront créés en fonction de la configuration ci-dessous.
+          _it: Tutti i cesti di questo abbonamento saranno creati secondo la seguente configurazione.
         membership_configuration_warning_text:
           _de: Achtung, jede Änderung der Konfiguration wird die Taschen dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
           _fr: Attention, toute modification de la configuration recréera les paniers de cet abonnement à partir de la date ci-dessous!
@@ -655,10 +663,6 @@ _:
           _fr: "%{type} (en %)"
           _it: "%{type} (en %)"
       index:
-        activity_participation_ical_text_html:
-          _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
-          _fr: Flux <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a> contenant toutes les participations aux activités à venir.
-          _it: Feed <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le voci per le prossime attività.
         activity_participations_accepted/basket_preparation:
           _de: Geleistete Taschen befüllung
           _fr: Mises en panier effectuées
@@ -691,147 +695,15 @@ _:
           _de: Verlangte Arbeitsstunden
           _fr: Heures de travail demandées
           _it: Ore di lavoro richieste
-        announcement_info:
-          _de: Ankündigungen ermöglichen es, eine kurze Information auf den Lieferblättern anzuzeigen, oben rechts auf diesen.
-          _fr: Les annonces permettent d'afficher une information succincte sur les fiches de livraison, en haut à droite de celles-ci.
-          _it: Gli annunci consentono di visualizzare un'informazione sintetica sulle schede di consegna, in alto a destra di queste ultime.
         basket_prices:
           _de: Wert der Taschen (%{currency})
           _fr: Valeur des paniers (%{currency})
           _it: Valore dei cestini (%{currency})
-        canceled_renewals:
-          one:
-            _de: "%{count_link} Kündigung"
-            _fr: "%{count_link} résiliation"
-            _it: "%{count_link} résiliation"
-          other:
-            _de: "%{count_link} Kündigungen"
-            _fr: "%{count_link} résiliations"
-            _it: "%{count_link} risoluzione"
-        confirm:
-          _de: Sind Sie mehr als sicher?
-          _fr: Êtes-vous sûr de sûr?
-          _it: Siete davvero sicuri?
-        delivery_orders_pdf:
-          _de: Lieferscheine (PDF)
-          _fr: Bulletins de livraison (PDF)
-          _it: Bolle di consegna (PDF)
         duplicate:
           _de: Duplizieren
           _fr: Dupliquer
           _it: Duplicare
-        invoice_all:
-          _de: Alles in Rechnung stellen
-          _fr: Tout facturer
-          _it: Fattura tutti
-        invoice_all_confirm:
-          one:
-            _de: Sind Sie sicher, dass Sie 1 fehlende Teilnahme (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
-            _fr: Êtes-vous sûr de vouloir facturer 1 participation manquante (%{activity_price}/part.) pour l'année %{year}?
-            _it: Siete sicuri di voler addebitare 1 partecipazione mancante ({activity_price}/part.) per l'anno %{year}?
-          other:
-            _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
-            _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
-            _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
-        invoicing:
-          _de: Rechnungen werden erstellt ...
-          _fr: Facturation en cours...
-          _it: Creazione delle fatture in corso...
-        missing_activity_participations_count_html:
-          one:
-            _de: "<b>%{count}</b> fehlende in %{year}"
-            _fr: "<b>%{count}</b> manquante en %{year}"
-            _it: "<b>%{count}</b> mancante in %{year}"
-          other:
-            _de: "<b>%{count}</b> fehlende in %{year}"
-            _fr: "<b>%{count}</b> manquantes en %{year}"
-            _it: "<b>%{count}</b> mancanti in %{year}"
-        no_missing_activity_participations:
-          _de: Keine fehlenden Teilnahmen
-          _fr: Aucune participation manquante
-          _it: Nessuna partecipazione mancante
-        no_next_year_deliveries:
-          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
-          _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
-          _it: Grazie per <a href="%{new_delivery_path}">creare le consegne %{fiscal_year}</a> prima di procedere al rinnovo.
-        open_renewal_all_action:
-          one:
-            _de: 1 Anfrage senden
-            _fr: Envoyer 1 demande
-            _it: Inviare 1 domanda
-          other:
-            _de: "%{count} Anfragen senden"
-            _fr: Envoyer %{count} demandes
-            _it: Inviare %{count} domande
-        openable_renewals:
-          one:
-            _de: "%{count_link} Anfrage zu senden"
-            _fr: "%{count_link} demande à envoyer"
-            _it: "%{count_link} domanda da inviare"
-          other:
-            _de: "%{count_link} Anfragen zu senden"
-            _fr: "%{count_link} demandes à envoyer"
-            _it: "%{count_link} domande da inviare"
-        opened_renewals:
-          one:
-            _de: "%{count_link} offener Antrag"
-            _fr: "%{count_link} demande ouverte"
-            _it: "%{count_link} domanda aperta"
-          other:
-            _de: "%{count_link} offene Anträge"
-            _fr: "%{count_link} demandes ouvertes"
-            _it: "%{count_link} domande aperte"
-        opening:
-          _de: Anfragen werden gesendet ...
-          _fr: Demandes en cours d'envoi...
-          _it: Domanda in corso d'invio...
-        renew_all_action:
-          one:
-            _de: "%{count} Abonnement verlängern"
-            _fr: Renouveler %{count} abonnement
-            _it: Rinnovare %{count} abbonamento
-          other:
-            _de: "%{count} Abonnements verlängern"
-            _fr: Renouveler %{count} abonnements
-            _it: Rinnovare %{count} abbonamenti
-        renewed_renewals:
-          one:
-            _de: "%{count_link} Erneuerung"
-            _fr: "%{count_link} renouvellement"
-            _it: "%{count_link} rinnovo"
-          other:
-            _de: "%{count_link} Erneuerungen"
-            _fr: "%{count_link} renouvellements"
-            _it: "%{count_link} rinnovi"
-        renewing:
-          _de: Verlängerungen am laufen...
-          _fr: Renouvellements en cours...
-          _it: Rinnovi in corso...
-        send_overdue_notices:
-          _de: Mahnungen versenden
-          _fr: Envoyer les rappels
-          _it: Invio dei promemoria
-        sending:
-          _de: Versand läuft...
-          _fr: Envois en cours...
-          _it: Invio in corso...
-        settings:
-          _de: Einstellungen
-          _fr: Paramètres
-          _it: Impostazioni
-        subscribe_ical_link:
-          _de: Feed abonnieren
-          _fr: S'abonner au flux
-          _it: Abbonati al feed
-        waiting_attribute:
-          _de: "%{attribute} (Warteliste)"
-          _fr: "%{attribute} (en attente)"
-          _it: "%{attribute} (in lista d'attesa)"
       new:
-        annual_fee:
-          _de: Jährlicher Vereinsbeitrag
-          _fr: Cotisation annuelle association
-          _it: Quota annuale associativa
         availability:
           _de: Verfügbarkeit
           _fr: Disponibilité
@@ -864,10 +736,6 @@ _:
           _de: E-Mail
           _fr: Email
           _it: E-mail
-        erase:
-          _de: Löschen
-          _fr: Effacer
-          _it: Cancellare
         full_year:
           _de: ganzes Jahr
           _fr: année complète
@@ -876,10 +744,6 @@ _:
           _de: Einen Artikel hinzufügen
           _fr: Ajouter un article
           _it: Aggiungere un articolo
-        membership_configuration_text:
-          _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
-          _fr: Tous les paniers de cet abonnement seront créés en fonction de la configuration ci-dessous.
-          _it: Tutti i cesti di questo abbonamento saranno creati secondo la seguente configurazione.
         preview:
           _de: Vorschau
           _fr: Prévisualisation
@@ -992,22 +856,6 @@ _:
           _de: Abbrechen
           _fr: Annuler
           _it: Annullare
-        cancel_action:
-          _de: Bearbeiten
-          _fr: Modifier
-          _it: Modificare
-        cancel_action_confirm:
-          _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
-          _fr: Modifier une commande déjà facturée aura pour action d'annuler la facture existante. Êtes-vous sûr?
-          _it: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
-        cancel_and_edit_shop_order:
-          _de: Bestellung bearbeiten (Abbrechen)
-          _fr: Modifier commande (Annuler)
-          _it: Modifica ordine (Annullare)
-        cancel_invoice:
-          _de: Stornieren
-          _fr: Annuler
-          _it: Annullare
         cancel_renewal:
           _de: Kündigen
           _fr: Résilier
@@ -1020,14 +868,6 @@ _:
           _de: Sind Sie sicher?
           _fr: Êtes-vous sûr?
           _it: Siete sicuri?
-        create_membership:
-          _de: Abonnement erstellen
-          _fr: Créer abonnement
-          _it: Creare abbonamento
-        deactivate:
-          _de: Inatkiv setzen
-          _fr: Rendre inactif
-          _it: Disattivare
         delivered_emails:
           one:
             _de: Verteilte E-Mail
@@ -1045,14 +885,14 @@ _:
           _de: Lieferscheine (PDF)
           _fr: Bulletins de livraison (PDF)
           _it: Bolle di consegna (PDF)
+        details:
+          _de: Details
+          _fr: Détails
+          _it: Dettagli
         direct_payments:
           _de: Direkte Einzahlungen
           _fr: Paiements directs
           _it: Pagamento diretto
-        duplicate:
-          _de: Duplizieren
-          _fr: Dupliquer
-          _it: Duplicare
         edit:
           _de: Bearbeiten
           _fr: Modifier
@@ -1070,30 +910,14 @@ _:
             _de: E-Mails
             _fr: Emails
             _it: Email
-        invoice_action:
-          _de: Rechnung stellen
-          _fr: Facturer
-          _it: Fatturare
         invoice_now:
-          _de: Rechnung sofort
-          _fr: Facturer maintenant
+          _de: Rechnung erstellen
+          _fr: Facturer
           _it: Fatturare ora
         invoice_now_confirm:
           _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
           _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
-        invoice_pdf:
-          _de: Rechnung (PDF)
-          _fr: Facture (PDF)
-          _it: Fattura (PDF)
-        link_confirm:
-          _de: Sind Sie mehr als sicher?
-          _fr: Êtes-vous sûr de sûr?
-          _it: Siete davvero sicuri?
-        mark_as_sent:
-          _de: Als gesendet markieren
-          _fr: Marquer comme envoyée
-          _it: Contrassegnare come inviata
         mark_renewal_as_pending:
           _de: Kündigung abbrechen
           _fr: Annuler résiliation
@@ -1102,15 +926,6 @@ _:
           _de: Registrierungsformular
           _fr: Formulaire d'inscription
           _it: Formulario d'iscrizione
-        new_payment:
-          _de: Neue Einzahlung
-          _fr: Nouveau paiement
-          _it: Nuovo pagamento
-        newsletter:
-          confirm:
-            _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
-            _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
-            _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
         no_absences:
           _de: Keine Abwesenheit
           _fr: Aucune absence
@@ -1188,10 +1003,6 @@ _:
           _de: Automatische Rechnungsstellung Deaktiviert
           _fr: Facturation automatique désactivée
           _it: Fatturazione automatica disattivata
-        refund:
-          _de: Rückerstattung
-          _fr: Remboursement
-          _it: Rimborso
         renew:
           _de: Erneuern
           _fr: Renouveler
@@ -1237,14 +1048,6 @@ _:
           _de: Gesamtsummen %{numbers}
           _fr: Totaux %{numbers}
           _it: Totali %{numbers}
-        validate:
-          _de: Bestätigen
-          _fr: Valider
-          _it: Confermare
-        wait:
-          _de: Nochmals auf die Warteliste setzen
-          _fr: Mettre en liste d'attente
-          _it: Mettere in lista d'attesa
         waiting_membership:
           _de: Abonnement (Warteliste)
           _fr: Abonnement (en attente)
@@ -1614,99 +1417,315 @@ _:
       _de: E-Mail-Einstellungen
       _fr: Paramètres E-Mails
       _it: Impostazioni dell 'email
-    sidebars:
-      amount:
-        _de: 'Betrag:'
-        _fr: 'Montant:'
-        _it: 'Quantità:'
-      billing:
-        _de: Rechnungsstellung
-        _fr: Facturation
-        _it: Fatturazione
-      calendar:
-        _de: Kalender
-        _fr: Calendrier
-        _it: Calendario
-      duplicate_all_from:
-        _de: Import
-        _fr: Importation
-        _it: Importazione
-      duplicate_all_to:
-        _de: Duplizieren
-        _fr: Duplication
-        _it: Duplicazione
-      edit_settings:
-        _de: Einstellungen bearbeiten
-        _fr: Modifier les paramètres
-        _it: Modifica parametri
-      filters:
-        _de: Filter
-        _fr: Filtres
-        _it: Filtri
-      help:
-        _de: Hilfe
-        _fr: Aide
-        _it: Aiuto
-      import:
-        _de: Import
-        _fr: Importation
-        _it: Importazione
-      info:
-        _de: Info
-        _fr: Info
-        _it: Info
-      overdue_notice_not_sent_warning:
-        _de: Mahnungen deaktiviert!
-        _fr: Rappels désactivés!
-        _it: Promemoria disabilitati!
-      overdue_notice_not_sent_warning_text_html:
-        _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
-        _fr: Les rappels ne sont pas automatiquement envoyés tant que les paiements ne sont pas également traités automatiquement (EBICS).
-        _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
-      overpaid:
-        _de: 'Überbezahlt:'
-        _fr: 'Payé en trop:'
-        _it: 'Pagamento in eccesso:'
-      pages:
-        _de: Seiten
-        _fr: Pages
-        _it: Pagine
-      renewal:
-        _de: Verlängerungen
-        _fr: Renouvellements
-        _it: Rinnovi
-      search_status:
-        _de: Resultate der Suche
-        _fr: Résultats de la recherche
-        _it: Risultati della ricerca
-      shop_admin_only:
-        _de: Beschränkter Zugang!
-        _fr: Accès limité!
-        _it: Accesso limitato!
-      shop_admin_only_text_html:
-        _de: Nur Admins können derzeit den Hofladen sehen.
-        _fr: Seuls les admins peuvent actuellement voir l'épicerie.
-        _it: Solo gli amministratori possono attualmente vedere il negozio di drogheria.
-      shop_closed_html:
-        _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
-        _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont plus possibles.
-        _it: Gli ordini per la consegna il <u>%{date}</u> non sono più possibili.
-      shop_not_open_yet_html:
-        _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
-        _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possibles.
-        _it: Gli ordini con consegna il <u>%{date}</u> non sono ancora possibili.
-      shop_open_until_html:
-        _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
-        _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
-        _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai soci fino al <u>%{end_date}</u>.
-      shop_status:
-        _de: Status Hofladen
-        _fr: Statut épicerie
-        _it: Stato della drogheria
-      total:
-        _de: Gesamt
-        _fr: Total
-        _it: Totale
+    shared:
+      action_items:
+        cancel_action:
+          _de: Bearbeiten
+          _fr: Modifier
+          _it: Modificare
+        cancel_action_confirm:
+          _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
+          _fr: Modifier une commande déjà facturée aura pour action d'annuler la facture existante. Êtes-vous sûr?
+          _it: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
+        cancel_and_edit_shop_order:
+          _de: Bestellung bearbeiten (Abbrechen)
+          _fr: Modifier commande (Annuler)
+          _it: Modifica ordine (Annullare)
+        cancel_invoice:
+          _de: Stornieren
+          _fr: Annuler
+          _it: Annullare
+        create_membership:
+          _de: Abonnement erstellen
+          _fr: Créer abonnement
+          _it: Creare abbonamento
+        deactivate:
+          _de: Inatkiv setzen
+          _fr: Rendre inactif
+          _it: Disattivare
+        delivery_order_pdf:
+          _de: Lieferschein (PDF)
+          _fr: Bulletin de livraison (PDF)
+          _it: Bolla di consegna (PDF)
+        delivery_orders_pdf:
+          _de: Lieferscheine (PDF)
+          _fr: Bulletins de livraison (PDF)
+          _it: Bolle di consegna (PDF)
+        duplicate:
+          _de: Duplizieren
+          _fr: Dupliquer
+          _it: Duplicare
+        invoice_action:
+          _de: Rechnung stellen
+          _fr: Facturer
+          _it: Fatturare
+        invoice_pdf:
+          _de: Rechnung (PDF)
+          _fr: Facture (PDF)
+          _it: Fattura (PDF)
+        link_confirm:
+          _de: Sind Sie mehr als sicher?
+          _fr: Êtes-vous sûr de sûr?
+          _it: Siete davvero sicuri?
+        mark_as_sent:
+          _de: Als gesendet markieren
+          _fr: Marquer comme envoyée
+          _it: Contrassegnare come inviata
+        new_payment:
+          _de: Neue Einzahlung
+          _fr: Nouveau paiement
+          _it: Nuovo pagamento
+        newsletter:
+          confirm:
+            _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
+            _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
+            _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
+        refund:
+          _de: Rückerstattung
+          _fr: Remboursement
+          _it: Rimborso
+        send_email:
+          _de: Senden
+          _fr: Envoyer
+          _it: Inviare
+        settings:
+          _de: Einstellungen
+          _fr: Paramètres
+          _it: Impostazioni
+        validate:
+          _de: Bestätigen
+          _fr: Valider
+          _it: Confermare
+        wait:
+          _de: Nochmals auf die Warteliste setzen
+          _fr: Mettre en liste d'attente
+          _it: Mettere in lista d'attesa
+      sidebar_section:
+        activity_participation_ical_text_html:
+          _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
+          _fr: Flux <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a> contenant toutes les participations aux activités à venir.
+          _it: Feed <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le voci per le prossime attività.
+        amount:
+          _de: Betrag
+          _fr: Montant
+          _it: Quantità
+        announcement_info:
+          _de: Ankündigungen ermöglichen es, eine kurze Information auf den Lieferblättern anzuzeigen, oben rechts auf diesen.
+          _fr: Les annonces permettent d'afficher une information succincte sur les fiches de livraison, en haut à droite de celles-ci.
+          _it: Gli annunci consentono di visualizzare un'informazione sintetica sulle schede di consegna, in alto a destra di queste ultime.
+        billing:
+          _de: Rechnungsstellung
+          _fr: Facturation
+          _it: Fatturazione
+        calendar:
+          _de: Kalender
+          _fr: Calendrier
+          _it: Calendario
+        canceled_renewals:
+          one:
+            _de: "%{count_link} Kündigung"
+            _fr: "%{count_link} résiliation"
+            _it: "%{count_link} résiliation"
+          other:
+            _de: "%{count_link} Kündigungen"
+            _fr: "%{count_link} résiliations"
+            _it: "%{count_link} risoluzione"
+        confirm:
+          _de: Sind Sie mehr als sicher?
+          _fr: Êtes-vous sûr de sûr?
+          _it: Siete davvero sicuri?
+        duplicate_all_from:
+          _de: Import
+          _fr: Importation
+          _it: Importazione
+        duplicate_all_to:
+          _de: Duplizieren
+          _fr: Duplication
+          _it: Duplicazione
+        edit_settings:
+          _de: Einstellungen bearbeiten
+          _fr: Modifier les paramètres
+          _it: Modifica parametri
+        filters:
+          _de: Filter
+          _fr: Filtres
+          _it: Filtri
+        help:
+          _de: Hilfe
+          _fr: Aide
+          _it: Aiuto
+        import:
+          _de: Import
+          _fr: Importation
+          _it: Importazione
+        info:
+          _de: Info
+          _fr: Info
+          _it: Info
+        invoice_all:
+          _de: Alles in Rechnung stellen
+          _fr: Tout facturer
+          _it: Fattura tutti
+        invoice_all_confirm:
+          one:
+            _de: Sind Sie sicher, dass Sie 1 fehlende Teilnahme (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
+            _fr: Êtes-vous sûr de vouloir facturer 1 participation manquante (%{activity_price}/part.) pour l'année %{year}?
+            _it: Siete sicuri di voler addebitare 1 partecipazione mancante ({activity_price}/part.) per l'anno %{year}?
+          other:
+            _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
+            _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
+            _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
+        invoicing:
+          _de: Rechnungen werden erstellt ...
+          _fr: Facturation en cours...
+          _it: Creazione delle fatture in corso...
+        missing_activity_participations_count_html:
+          one:
+            _de: "<b>%{count}</b> fehlende in %{year}"
+            _fr: "<b>%{count}</b> manquante en %{year}"
+            _it: "<b>%{count}</b> mancante in %{year}"
+          other:
+            _de: "<b>%{count}</b> fehlende in %{year}"
+            _fr: "<b>%{count}</b> manquantes en %{year}"
+            _it: "<b>%{count}</b> mancanti in %{year}"
+        no_missing_activity_participations:
+          _de: Keine fehlenden Teilnahmen
+          _fr: Aucune participation manquante
+          _it: Nessuna partecipazione mancante
+        no_next_year_deliveries:
+          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
+          _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
+          _it: Grazie per <a href="%{new_delivery_path}">creare le consegne %{fiscal_year}</a> prima di procedere al rinnovo.
+        open_renewal_all_action:
+          one:
+            _de: Anfrage senden (1)
+            _fr: Envoyer demande (1)
+            _it: Inviare domanda (1)
+          other:
+            _de: Anfrage senden (%{count})
+            _fr: Envoyer demandes (%{count})
+            _it: Inviare domande (%{count})
+        openable_renewals:
+          one:
+            _de: "%{count_link} Anfrage zu senden"
+            _fr: "%{count_link} demande à envoyer"
+            _it: "%{count_link} domanda da inviare"
+          other:
+            _de: "%{count_link} Anfragen zu senden"
+            _fr: "%{count_link} demandes à envoyer"
+            _it: "%{count_link} domande da inviare"
+        opened_renewals:
+          one:
+            _de: "%{count_link} offener Antrag"
+            _fr: "%{count_link} demande ouverte"
+            _it: "%{count_link} domanda aperta"
+          other:
+            _de: "%{count_link} offene Anträge"
+            _fr: "%{count_link} demandes ouvertes"
+            _it: "%{count_link} domande aperte"
+        opening:
+          _de: Anfragen werden gesendet ...
+          _fr: Demandes en cours d'envoi...
+          _it: Domanda in corso d'invio...
+        overdue_notice_not_sent_warning:
+          _de: Mahnungen deaktiviert!
+          _fr: Rappels désactivés!
+          _it: Promemoria disabilitati!
+        overdue_notice_not_sent_warning_text_html:
+          _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
+          _fr: Les rappels ne sont pas automatiquement envoyés tant que les paiements ne sont pas également traités automatiquement (EBICS).
+          _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
+        overpaid:
+          _de: 'Überbezahlt:'
+          _fr: 'Payé en trop:'
+          _it: 'Pagamento in eccesso:'
+        pages:
+          _de: Seiten
+          _fr: Pages
+          _it: Pagine
+        renew_all_action:
+          one:
+            _de: Verlängern (%{count})
+            _fr: Renouveler (%{count})
+            _it: Rinnovare (%{count})
+          other:
+            _de: Verlängern (%{count})
+            _fr: Renouveler (%{count})
+            _it: Rinnovare (%{count})
+        renewal:
+          _de: Verlängerungen
+          _fr: Renouvellements
+          _it: Rinnovi
+        renewed_renewals:
+          one:
+            _de: "%{count_link} Erneuerung"
+            _fr: "%{count_link} renouvellement"
+            _it: "%{count_link} rinnovo"
+          other:
+            _de: "%{count_link} Erneuerungen"
+            _fr: "%{count_link} renouvellements"
+            _it: "%{count_link} rinnovi"
+        renewing:
+          _de: Verlängerungen am laufen...
+          _fr: Renouvellements en cours...
+          _it: Rinnovi in corso...
+        search_status:
+          _de: Resultate der Suche
+          _fr: Résultats de la recherche
+          _it: Risultati della ricerca
+        send_overdue_notices:
+          _de: Mahnungen versenden
+          _fr: Envoyer les rappels
+          _it: Invio dei promemoria
+        sending:
+          _de: Versand läuft...
+          _fr: Envois en cours...
+          _it: Invio in corso...
+        shop_admin_only:
+          _de: Beschränkter Zugang!
+          _fr: Accès limité!
+          _it: Accesso limitato!
+        shop_admin_only_text_html:
+          _de: Nur Admins können derzeit den Hofladen sehen.
+          _fr: Seuls les admins peuvent actuellement voir l'épicerie.
+          _it: Solo gli amministratori possono attualmente vedere il negozio di drogheria.
+        shop_closed_html:
+          _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
+          _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont plus possibles.
+          _it: Gli ordini per la consegna il <u>%{date}</u> non sono più possibili.
+        shop_not_open_yet_html:
+          _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
+          _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possibles.
+          _it: Gli ordini con consegna il <u>%{date}</u> non sono ancora possibili.
+        shop_open_until_html:
+          _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
+          _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
+          _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai soci fino al <u>%{end_date}</u>.
+        shop_status:
+          _de: Status Hofladen
+          _fr: Statut épicerie
+          _it: Stato della drogheria
+        subscribe_ical_link:
+          _de: Feed abonnieren
+          _fr: S'abonner au flux
+          _it: Abbonati al feed
+        total:
+          _de: Gesamt
+          _fr: Total
+          _it: Totale
+        waiting_attribute:
+          _de: "%{attribute} (Warteliste)"
+          _fr: "%{attribute} (en attente)"
+          _it: "%{attribute} (in lista d'attesa)"
+    site_footer:
+      handbook:
+        _de: Handbuch
+        _fr: Manuel
+        _it: Manuale
+      updates:
+        _de: Letzte Neuigkeiten
+        _fr: Dernières nouveautés
+        _it: Ultime notizie
     status_tag:
       absent:
         _de: abwesend

@@ -10,7 +10,7 @@ ActiveAdmin.register ActivityPreset do
     unless params["action"] == "index"
       links << link_to(ActivityPreset.model_name.human(count: 2), activity_presets_path)
       if params["action"].in? %W[edit]
-        links << activity_preset.name
+        links << resource.name
       end
     end
     links
@@ -22,13 +22,11 @@ ActiveAdmin.register ActivityPreset do
       link_to(truncate(ap.place_url, length: 50), ap.place_url) if ap.place_url?
     }
     column :title
-    if authorized?(:update, ActivityPreset)
-      actions class: "col-actions-2"
-    end
+    actions
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t(".details") do
       translated_input(f, :places)
       translated_input(f, :place_urls)
       translated_input(f, :titles)

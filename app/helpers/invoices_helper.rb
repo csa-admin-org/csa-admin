@@ -24,12 +24,16 @@ module InvoicesHelper
     I18n.t("invoices.entity_type.#{type.underscore}")
   end
 
-  def link_to_invoice_pdf(invoice, title: "PDF", &block)
+  def link_to_invoice_pdf(invoice, title: "PDF", **options, &block)
     return unless invoice
     return if invoice.processing?
 
-    link_to invoice_pdf_url(invoice), class: "pdf_link", target: "_blank" do
-      block ? block.call : title
+    link_to invoice_pdf_url(invoice), **options, title: title, target: "_blank" do
+      if block
+        block.call
+      else
+        inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
+      end
     end
   end
 

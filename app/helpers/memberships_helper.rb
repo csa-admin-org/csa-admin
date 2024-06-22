@@ -7,9 +7,9 @@ module MembershipsHelper
     parts.join(", ")
   end
 
-  def membership_short_period(membership)
+  def membership_period(membership, format: :number)
     %i[started_on ended_on].map { |d|
-      I18n.l(membership.send(d), format: :number)
+      I18n.l(membership.send(d), format: format)
     }.join(" – ")
   end
 
@@ -18,7 +18,7 @@ module MembershipsHelper
     when Basket, Membership
       object.basket_description(public_name: public_name)
     else
-      content_tag(:em, t("activerecord.models.basket_size.none"), class: "empty") unless text_only
+      content_tag(:em, t("activerecord.models.basket_size.none"), class: "italic text-gray-400 dark:text-gray-600") unless text_only
     end
   end
 
@@ -33,7 +33,7 @@ module MembershipsHelper
     if names.present?
       names.to_sentence
     elsif !text_only
-      content_tag :em, t("activerecord.models.basket_complement.none"), class: "empty"
+      content_tag :em, t("activerecord.models.basket_complement.none"), class: "italic text-gray-400 dark:text-gray-600"
     end
   end
 

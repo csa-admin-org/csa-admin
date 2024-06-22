@@ -1,0 +1,69 @@
+<div class="bg-green-600 fixed w-full z-20 top-0 start-0 shadow-sm">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 p-2">
+    <div class="flex grow order-1 md:hidden">
+      <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-1 w-10 h-10 justify-center text-sm text-white/50 hover:text-white  dark:text-black/50 dark:hover:text-black rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <%= icon "bars-3", size: 32 %>
+      </button>
+    </div>
+
+    <nav class="grow hidden w-full md:block md:w-auto order-3 md:order-2" id="navbar-dropdown">
+      <ul class="flex flex-col md:items-center text-sm  font-medium my-4 md:my-0 space-y-2 md:space-y-0 md:space-x-2 md:flex-row">
+        <% current_menu.items(self).each do |item| %>
+          <% children = item.items(self).presence %>
+          <li class="group " data-item-id="<%= item.id %>">
+            <% if children %>
+              <button id="dropdownHoverButton-<%= item.id %>" data-dropdown-toggle="<%= item.id %>" data-dropdown-trigger="hover" data-dropdown-placement="bottom-start" data-dropdown-offset-distance="0" data-dropdown-delay="0"
+                class="flex items-center w-full py-1 px-2 text-white dark:text-black hover:text-white dark:hover:text-black rounded-md hover:bg-transparent/20 md:border-0 md:w-auto <%= "bg-transparent/20" if children.any? { |j| current_menu_item?(j) } %>"><%= item.label(self) %>
+                <%= icon "chevron-down", class: "w-4 h-4 ms-1" %>
+              </button>
+              <ul id="<%= item.id %>" role="list" class="p-4 md:p-2 space-y-1 hidden bg-green-600 shadow-xl rounded-md group-data-[open]:block" aria-labelledby="dropdownHoverButton-<%= item.id %>" <%= item.html_options[:data].to_h.map { |k, v| "data-#{k}=#{v}" }.join(" ") %>>
+                <% children.each do |j| %>
+                  <li data-item-id="<%= j.id %>">
+                    <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "text-white dark:text-black hover:text-white dark:hover:text-black hover:bg-transparent/20 block rounded-md py-1 px-2 no-underline #{(current_menu_item?(j) ? "bg-transparent/20 selected" : "")}") %>
+                  </li>
+                <% end %>
+              </ul>
+            <% elsif url = item.url(self) %>
+              <%= link_to item.label(self), url, item.html_options.merge(class: "block #{item.label(self).start_with?("<svg") ? "py-0.5 px-2" : "py-1 px-2"} text-white dark:text-black hover:text-white dark:hover:text-black no-underline rounded-md hover:bg-transparent/20 md:border-0 #{current_menu_item?(item) ? "bg-transparent/20" : ""}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
+            <% else %>
+              <%= item.label(self) %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <div class="flex order-2 md:order-3">
+      <% if Update.unread_count(current_active_admin_user).positive? %>
+        <a href=<%= updates_path %> class="relative flex items-center w-9 h-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-none text-sm">
+          <%= icon "gift", class: "w-5 h-5" %>
+          <div class="absolute w-2 h-2 text-xs font-semibold text-white bg-red-500 rounded-full top-1 end-1 dark:border-gray-900"></div>
+        </a>
+      <% end %>
+
+      <button type="button" class="dark-mode-toggle flex items-center w-9 h-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-none text-sm">
+        <%= icon "moon", class: "w-5 h-5 hidden dark:block" %>
+        <%= icon "sun", class: "w-5 h-5 dark:hidden" %>
+      </button>
+
+      <button id="user-menu-button" class="flex items-center w-9 h-9 justify-center text-sm text-white/50 hover:text-white focus:outline-none dark:text-black/50 dark:hover:text-black ms-1" data-dropdown-toggle="user-menu" data-dropdown-offset-distance="3" data-dropdown-placement="bottom-end">
+        <%= icon "user-circle", class: "w-8 h-8", set: "solid" %>
+      </button>
+
+      <div id="user-menu" class="z-50 hidden min-w-max bg-white rounded shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700 py-1 text-sm text-right text-gray-700 dark:text-gray-200" aria-labelledby="user-menu-button">
+        <ul class="">
+          <% if current_active_admin_user? %>
+            <li><%= auto_link current_active_admin_user, class: "block px-2.5 py-2 no-underline text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white" %></li>
+            <li>
+              <%= link_to auto_logout_link_path, class: "inline-flex items-center px-2.5 py-2 no-underline text-xs text-gray-500 dark:text-gray-300 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white", data: { method: :delete } do %>
+                <%= t("active_admin.logout") %>
+                <%= icon "arrow-right-start-on-rectangle", class: "h-4 w-4 ms-1" %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,19 +10,17 @@ ActiveAdmin.register Admin do
   index download_links: false do
     column :name
     column :email, ->(admin) { display_email_with_link(self, admin.email) }
-    column :last_session_used_at, ->(a) {
-      I18n.l(a.last_session_used_at, format: :medium) if a.last_session_used_at
-    }
     column :permission, ->(a) {
       link_to a.permission&.name, permissions_path
     }
-    if authorized?(:manage, Admin)
-      actions class: "col-actions-2"
-    end
+    column :last_session_used_at, ->(a) {
+      I18n.l(a.last_session_used_at, format: :medium) if a.last_session_used_at
+    }, class: "text-right"
+    actions
   end
 
   action_item :permissions, only: :index do
-    link_to Permission.model_name.human(count: 2), permissions_path
+    link_to Permission.model_name.human(count: 2), permissions_path, class: "action-item-button"
   end
 
   form do |f|
@@ -40,12 +38,12 @@ ActiveAdmin.register Admin do
     f.inputs id: "notifications" do
       f.input :notifications,
         as: :check_boxes,
-        wrapper_html: { class: "no-check-boxes-toggle-all detailed-option" },
+        wrapper_html: { class: "legend-title single-column" },
         collection: Admin.notifications.map { |n|
           [
-            content_tag(:span) {
-              content_tag(:span, t("admin.notifications.#{n}")).html_safe +
-              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: "hint")
+            content_tag(:span, class: "ms-1") {
+              content_tag(:h3, t("admin.notifications.#{n}"), class: "font-medium") +
+              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: "text-gray-500 dark:text-gray-400")
             },
             n
           ]

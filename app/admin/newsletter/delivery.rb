@@ -44,52 +44,54 @@ ActiveAdmin.register Newsletter::Delivery do
     column :state, ->(d) {
       state = d.pending? ? :processing : d.state
       status_tag(state)
-    }, class: 'align-right'
-    actions class: "col-actions-1"
+    }, class: "text-right"
+    actions
   end
 
   show do |delivery|
     columns do
-      column do
-        attributes_table do
-          row(:status) {
-            state = delivery.pending? ? :processing : delivery.state
-            status_tag(state)
-          }
-          case delivery.state
-          when "delivered"
-            row(:delivered_at) { l(delivery.delivered_at, format: :medium_long) }
-          when "bounced"
-            row(:bounced_at) { l(delivery.bounced_at, format: :medium_long) }
-            row(:bounce_type)
-            row(:bounce_description)
-          when "ignored"
-            row(:processed_at) { l(delivery.processed_at, format: :medium_long) }
-            row(:email_suppression_reasons) {
-              content_tag :div do
-                if delivery.email?
-                  delivery.email_suppression_reasons.map { |r| status_tag(r.underscore) }
-                else
-                  status_tag(:no_email)
-                end
-              end
-            }
+      column "data-controller" => "iframe" do
+        panel t(".preview") do
+          div class: "iframe-wrapper" do
+            iframe(
+              srcdoc: delivery.mail_preview,
+              scrolling: "no",
+              class: "mail_preview",
+              "data-iframe-target" => "iframe")
           end
-          row(:member) { auto_link(delivery.member) }
-          row(:audience) { delivery.newsletter.audience_name }
-          row(:from) { delivery.newsletter.from || Current.acp.email_default_from }
-          row(:attachments) { delivery.newsletter.attachments.map { |a| display_attachment(a.file) } }
         end
       end
-    end
-    columns "data-controller" => "iframe-resize" do
       column do
-        panel t(".preview") do
-          iframe(
-            srcdoc: delivery.mail_preview,
-            scrolling: "no",
-            class: "mail_preview",
-            "data-iframe-resize-target" => "iframe")
+        panel t(".details") do
+          attributes_table do
+            row(:status) {
+              state = delivery.pending? ? :processing : delivery.state
+              status_tag(state)
+            }
+            case delivery.state
+            when "delivered"
+              row(:delivered_at) { l(delivery.delivered_at, format: :medium_long) }
+            when "bounced"
+              row(:bounced_at) { l(delivery.bounced_at, format: :medium_long) }
+              row(:bounce_type)
+              row(:bounce_description)
+            when "ignored"
+              row(:processed_at) { l(delivery.processed_at, format: :medium_long) }
+              row(:email_suppression_reasons) {
+                content_tag :div do
+                  if delivery.email?
+                    delivery.email_suppression_reasons.map { |r| status_tag(r.underscore) }
+                  else
+                    status_tag(:no_email)
+                  end
+                end
+              }
+            end
+            row(:member) { auto_link(delivery.member) }
+            row(:audience) { delivery.newsletter.audience_name }
+            row(:from) { delivery.newsletter.from || Current.acp.email_default_from }
+            row(:attachments) { delivery.newsletter.attachments.map { |a| display_attachment(a.file) } }
+          end
         end
       end
     end

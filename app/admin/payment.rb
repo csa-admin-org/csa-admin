@@ -1,5 +1,5 @@
 ActiveAdmin.register Payment do
-  menu parent: :billing, priority: 2
+  menu parent: :navbilling, priority: 2
   actions :all
 
   breadcrumb do
@@ -8,13 +8,13 @@ ActiveAdmin.register Payment do
     elsif params["action"] != "index"
       links = [
         link_to(Member.model_name.human(count: 2), members_path),
-        auto_link(payment.member),
+        auto_link(resource.member),
         link_to(
           Payment.model_name.human(count: 2),
-          payments_path(q: { member_id_eq: payment.member_id }, scope: :all))
+          payments_path(q: { member_id_eq: resource.member_id }, scope: :all))
       ]
       if params["action"].in? %W[edit]
-        links << auto_link(payment)
+        links << auto_link(resource)
       end
       links
     end
@@ -27,12 +27,12 @@ ActiveAdmin.register Payment do
   includes :member, :invoice
   index do
     column :id, ->(p) { auto_link p, p.id }
-    column :date, ->(p) { l p.date, format: :number }
     column :member, sortable: "members.name"
-    column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
-    column :amount, ->(p) { cur(p.amount) }
-    column :type, ->(p) { status_tag p.type }
-    actions class: "col-actions-3"
+    column :date, ->(p) { l p.date, format: :number }, class: "text-right"
+    column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }, class: "text-right"
+    column :amount, ->(p) { cur(p.amount) }, class: "text-right"
+    column :type, ->(p) { status_tag p.type }, class: "text-right"
+    actions
   end
 
   csv do
@@ -62,15 +62,19 @@ ActiveAdmin.register Payment do
     collection: -> { fiscal_years_collection }
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).offset(nil).limit(nil)
-    div class: "content" do
-      span t("active_admin.sidebars.amount")
-      span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
+    side_panel t(".total") do
+      all = collection.unscope(:includes).offset(nil).limit(nil)
+      div class: "flex justify-between" do
+        span t(".amount")
+        span cur(all.sum(:amount)), class: "font-bold"
+      end
     end
   end
 
   sidebar :import, only: :index, if: -> { authorized?(:import, Payment) } do
-    render("active_admin/payments/import")
+    side_panel t(".import") do
+      render("active_admin/payments/import")
+    end
   end
 
   sidebar_handbook_link("billing#paiements")
@@ -85,31 +89,40 @@ ActiveAdmin.register Payment do
   end
 
   show do |payement|
-    attributes_table do
-      row :id
-      row :member
-      row :invoice
-      row(:date) { l payement.date }
-      row(:amount) { cur(payement.amount) }
-      row(:created_at) { l payement.created_at, format: :long }
-      row(:created_by)
-      if payment.manual? && payment.updated?
-        row(:updated_at) { l payement.updated_at, format: :long }
-        row(:updated_by)
+    columns do
+      column do
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row :member
+            row :invoice
+            row(:date) { l payement.date }
+            row(:amount) { cur(payement.amount) }
+            row(:created_at) { l payement.created_at, format: :long }
+            row(:created_by)
+            if payment.manual? && payment.updated?
+              row(:updated_at) { l payement.updated_at, format: :long }
+              row(:updated_by)
+            end
+          end
+        end
+      end
+      column do
+        active_admin_comments_for(payement)
       end
     end
-
-    active_admin_comments
   end
 
   form do |f|
     f.inputs t(".details") do
+      if f.object.invoice_id?
+        f.input :member_id, as: :hidden
+      end
       f.input :member,
         collection: Member.order(:name).distinct,
         prompt: true,
         input_html: { disabled: f.object.invoice_id? }
       if f.object.invoice_id?
-        f.input :member_id, as: :hidden
         f.input :invoice, collection: f.object.member.invoices, include_blank: true
       end
       f.input :date, as: :date_picker, prompt: true

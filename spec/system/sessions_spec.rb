@@ -6,8 +6,7 @@ describe "Admin sessions" do
 
     visit "/"
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Merci de vous authentifier pour accéder à votre compte.")
+    expect(flash_alert).to eq "Merci de vous authentifier pour accéder à votre compte."
 
     fill_in "Email", with: " Thibaud@thibaud.gg "
     click_button "Envoyer"
@@ -18,22 +17,19 @@ describe "Admin sessions" do
     expect(SessionMailer.deliveries.size).to eq 1
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_notice",
-      text: "Merci! Un email vient de vous être envoyé.")
+    expect(flash_notice).to eq "Merci! Un email vient de vous être envoyé."
 
     open_email("thibaud@thibaud.gg")
     current_email.click_link "Accéder à mon compte admin"
 
     expect(current_path).to eq "/"
-    expect(page).to have_selector(".flash_notice",
-      text: "Vous êtes maintenant connecté.")
+    expect(flash_notice).to eq "Vous êtes maintenant connecté."
 
     delete_session(admin)
     visit "/"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Merci de vous authentifier pour accéder à votre compte.")
+    expect(flash_alert).to eq "Merci de vous authentifier pour accéder à votre compte."
   end
 
   it "does not accept blank email" do
@@ -81,8 +77,7 @@ describe "Admin sessions" do
     visit "/sessions/#{old_session.token}"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.")
+    expect(flash_alert).to eq "Votre lien de connexion n'est plus valide, merci d'en demander un nouveau."
   end
 
   it "handles old session when already logged in" do
@@ -93,7 +88,7 @@ describe "Admin sessions" do
     visit "/sessions/#{old_session.token}"
 
     expect(current_path).to eq "/"
-    expect(page).to have_selector(".flash_notice", text: "Vous êtes déjà connecté.")
+    expect(flash_notice).to eq "Vous êtes déjà connecté."
   end
 
   it "logout session without email" do
@@ -104,14 +99,12 @@ describe "Admin sessions" do
     visit "/"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Votre session a expirée, merci de vous authentifier à nouveau.")
+    expect(flash_alert).to eq "Votre session a expirée, merci de vous authentifier à nouveau."
 
     visit "/"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Merci de vous authentifier pour accéder à votre compte.")
+    expect(flash_alert).to eq "Merci de vous authentifier pour accéder à votre compte."
   end
 
   it "logout expired session" do
@@ -122,14 +115,12 @@ describe "Admin sessions" do
     visit "/"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Votre session a expirée, merci de vous authentifier à nouveau.")
+    expect(flash_alert).to eq "Votre session a expirée, merci de vous authentifier à nouveau."
 
     visit "/"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_selector(".flash_alert",
-      text: "Merci de vous authentifier pour accéder à votre compte.")
+    expect(flash_alert).to eq "Merci de vous authentifier pour accéder à votre compte."
   end
 
   it "update last usage column every hour when using the session" do

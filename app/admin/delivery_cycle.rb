@@ -20,25 +20,25 @@ ActiveAdmin.register DeliveryCycle do
   includes :depots
   index download_links: false do
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }
-    column :next_delivery, ->(dc) { auto_link dc.next_delivery }
+    column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right whitespace-nowrap"
     column Current.acp.current_fiscal_year, ->(dc) {
       txt = dc.current_deliveries_count.to_s
       if dc.current_deliveries_count.positive? && dc.absences_included_annually.positive?
         txt += " (-#{dc.absences_included_annually})"
       end
       auto_link dc, txt
-    }
+    }, class: "text-right whitespace-nowrap"
     column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
       txt = dc.future_deliveries_count.to_s
       if dc.future_deliveries_count.positive? && dc.absences_included_annually.positive?
         txt += " (-#{dc.absences_included_annually})"
       end
       auto_link dc, txt
-    }
+    }, class: "text-right whitespace-nowrap"
     if DeliveryCycle.visible?
-      column :visible, ->(dc) { status_tag dc.visible? }
+      column :visible, ->(dc) { status_tag dc.visible? }, class: "text-right"
     end
-    actions class: "col-actions-3"
+    actions
   end
 
   sidebar_handbook_link("deliveries#cycles-de-livraisons")
@@ -48,34 +48,36 @@ ActiveAdmin.register DeliveryCycle do
       column do
         panel "#{deliveries_current_year_title}: #{dc.current_deliveries_count}" do
           if dc.current_deliveries_count.positive?
-            table_for dc.current_deliveries, class: "deliveries" do
+            table_for dc.current_deliveries, class: "table-auto" do
               column "#", ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
+              column :date, ->(d) { auto_link d, l(d.date, format: :long) }
             end
           else
-            span t("active_admin.empty"), class: "empty"
+            div(class: "missing-data") { t("active_admin.empty") }
           end
         end
         panel "#{deliveries_next_year_title}: #{dc.future_deliveries_count}"  do
           if dc.future_deliveries_count.positive?
-            table_for dc.future_deliveries, class: "deliveries" do
+            table_for dc.future_deliveries, class: "table-auto" do
               column "#", ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :medium_long) }
+              column :date, ->(d) { auto_link d, l(d.date, format: :long) }
             end
           else
-            span t("active_admin.empty"), class: "empty"
+            div(class: "missing-data") { t("active_admin.empty") }
           end
         end
       end
 
       column do
-        attributes_table do
-          row :name
-          row :public_name
+        panel t(".details") do
+          attributes_table do
+            row :name
+            row :public_name
+          end
         end
 
         if DeliveryCycle.visible?
-          attributes_table title: t(".member_new_form") do
+          attributes_table t(".member_new_form") do
             row(:visible) { status_tag(dc.visible?) }
             if dc.visible?
               table_for dc.depots, class: "depots" do
@@ -87,38 +89,42 @@ ActiveAdmin.register DeliveryCycle do
         end
 
         if feature?("absence")
-          attributes_table title: t(".billing") do
-            row :absences_included_annually
+          panel t(".billing") do
+            attributes_table do
+              row :absences_included_annually
+            end
           end
         end
 
-        attributes_table title: t("delivery_cycle.settings") do
-          row(:wdays) {
-            if dc.wdays.size == 7
-              t("active_admin.scopes.all")
-            else
-              dc.wdays.map { |d| t("date.day_names")[d].capitalize }.to_sentence
-            end
-          }
-          row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
-          row(:months) {
-            if dc.months.size == 12
-              t("active_admin.scopes.all")
-            else
-              dc.months.map { |m| t("date.month_names")[m].capitalize }.to_sentence
-            end
-          }
-          row(:results) { t("delivery_cycle.results.#{dc.results}") }
-          row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
+        panel t("delivery_cycle.settings") do
+          attributes_table do
+            row(:wdays) {
+              if dc.wdays.size == 7
+                t("active_admin.scopes.all")
+              else
+                dc.wdays.map { |d| t("date.day_names")[d].capitalize }.to_sentence
+              end
+            }
+            row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
+            row(:months) {
+              if dc.months.size == 12
+                t("active_admin.scopes.all")
+              else
+                dc.months.map { |m| t("date.month_names")[m].capitalize }.to_sentence
+              end
+            }
+            row(:results) { t("delivery_cycle.results.#{dc.results}") }
+            row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
+          end
         end
 
-        active_admin_comments
+        active_admin_comments_for(dc)
       end
     end
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t(".details") do
       translated_input(f, :names, required: true)
       translated_input(f, :public_names,
         required: false,
