@@ -43,6 +43,6 @@ _:
         _fr: Envoyer
         _it: Inviare
       title:
-        _de: "Admin-Anmeldung"
-        _fr: "Connexion Admin"
-        _it: "Connessione Admin"
+        _de: Admin-Anmeldung
+        _fr: Connexion Admin
+        _it: Connessione Admin

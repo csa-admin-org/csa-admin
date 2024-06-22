@@ -7,7 +7,7 @@ ActiveAdmin.register_page "Dashboard" do
 
   content title: proc {
     unless onboarding?
-      content_tag(:div, class: "flex items-center") do
+      content_tag(:div, class: "flex flex-wrap items-center whitespace-nowrap") do
         content_tag(:div, t("active_admin.dashboard"), class: "flex-grow") + " " +
         content_tag(:div, Current.fiscal_year, class: "text-right text-gray-300 dark:text-gray-600")
       end
@@ -20,7 +20,7 @@ ActiveAdmin.register_page "Dashboard" do
       columns do
         column do
           if next_delivery
-            panel t(".next_delivery", delivery: link_to(next_delivery.display_name(format: :short), next_delivery)).html_safe, action: next_delivery_panel_action(next_delivery) do
+            panel t(".next_delivery", delivery: link_to(next_delivery.display_name(format: :no_year), next_delivery)).html_safe, action: next_delivery_panel_action(next_delivery) do
               counts = next_delivery.basket_counts
               if counts.present?
                 render partial: "active_admin/deliveries/baskets",

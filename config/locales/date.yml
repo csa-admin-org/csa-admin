@@ -21,6 +21,10 @@ _:
         _de: "%a. %-d. %B %y"
         _fr: "%a. %-d %B %y"
         _it: "%a. %-d %B %y"
+      no_year:
+        _de: "%A %-d. %B"
+        _fr: "%A %-d %B"
+        _it: "%A %-d %B"
       number:
         _de: "%d.%m.%Y"
         _fr: "%d.%m.%Y"
