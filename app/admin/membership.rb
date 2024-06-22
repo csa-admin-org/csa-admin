@@ -286,7 +286,7 @@ ActiveAdmin.register Membership do
     columns do
       column do
         next_basket = m.next_basket
-        panel "#{m.baskets_count} #{Basket.model_name.human(count: m.baskets_count)}" do
+        panel Basket.model_name.human(count: 2), count: m.baskets_count do
           table_for(m.baskets.preload(
             :membership,
             :delivery,

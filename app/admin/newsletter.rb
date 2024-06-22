@@ -128,7 +128,7 @@ ActiveAdmin.register Newsletter do
         end
         unless newsletter.sent?
           suppressed_emails = newsletter.audience_segment.suppressed_emails
-          panel "#{t(".suppressed_emails", count: suppressed_emails.size)} (#{suppressed_emails.size})", data: { controller: "show-all" }, id: "suppressed-emails" do
+          panel t(".suppressed_emails", count: 2), count: suppressed_emails.size, data: { controller: "show-all" }, id: "suppressed-emails" do
             if suppressed_emails.any?
               members = newsletter.audience_segment.members
               active_suppressions = EmailSuppression.active.where(email: suppressed_emails)

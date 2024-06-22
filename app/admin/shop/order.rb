@@ -146,7 +146,7 @@ ActiveAdmin.register Shop::Order do
   show do |order|
     columns do
       column do
-        panel "#{order.items.size} #{Shop::Product.model_name.human(count: order.items.size)}" do
+        panel Shop::Product.model_name.human(count: 2), count: order.items.size do
           table_for order.items.includes(:product, :product_variant), class: "table-auto" do
             column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}" }
             column(:item_price, class: "text-right") { |i| cur(i.item_price) }

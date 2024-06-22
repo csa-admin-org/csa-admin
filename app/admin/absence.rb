@@ -62,7 +62,7 @@ ActiveAdmin.register Absence do
   show do |absence|
     columns do
       column do
-        panel "#{absence.baskets.count} #{Basket.model_name.human(count: absence.baskets.count)}" do
+        panel Basket.model_name.human(count: 2), count: absence.baskets.count do
           table_for absence.baskets.includes(:membership, :delivery), class: "table-auto" do
             column(:delivery) { |b| auto_link(b.delivery) }
             column(:membership) { |b| auto_link(b.membership) }

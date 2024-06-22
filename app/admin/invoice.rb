@@ -163,7 +163,7 @@ ActiveAdmin.register Invoice do
   show do |invoice|
     columns do
       column do
-        panel link_to(t(".direct_payments"), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)) do
+        panel link_to(t(".direct_payments"), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)), count: invoice.payments.count do
           payments = invoice.payments.order(:date)
           if payments.none?
             div(class: "missing-data") { t(".no_payments") }
@@ -176,7 +176,7 @@ ActiveAdmin.register Invoice do
           end
         end
         if invoice.items.any?
-          panel InvoiceItem.model_name.human(count: 2) do
+          panel InvoiceItem.model_name.human(count: 2), count: invoice.items.count do
             table_for(invoice.items, class: "table-auto") do
               column(:description) { |ii| ii.description }
               column(:amount, class: "text-right") { |ii| cur(ii.amount) }
