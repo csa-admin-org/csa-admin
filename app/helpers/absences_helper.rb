@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AbsencesHelper
   def display_absence?
     Current.acp.feature?("absence") && current_member.current_or_future_membership

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PDF
   module Shop
     class Delivery < PDF::Base

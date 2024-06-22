@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register ACP do
   menu priority: 100, label: -> {
     icon "cog", title: t("active_admin.settings"), class: "w-5 h-5 my-0.5 min-w-6"

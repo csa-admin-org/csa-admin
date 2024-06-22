@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAdminToSessions < ActiveRecord::Migration[5.2]
   def up
     add_reference :sessions, :admin, foreign_key: true, index: true

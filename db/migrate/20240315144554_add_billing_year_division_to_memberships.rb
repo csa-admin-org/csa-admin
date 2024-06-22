@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBillingYearDivisionToMemberships < ActiveRecord::Migration[7.1]
   def change
     add_column :memberships, :billing_year_division, :integer, null: false, default: 1

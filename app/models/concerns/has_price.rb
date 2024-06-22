@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HasPrice
   extend ActiveSupport::Concern
 

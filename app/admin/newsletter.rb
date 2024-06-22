@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Newsletter do
   menu priority: 99, label: -> {
     icon "envelope", title: Newsletter.model_name.human, class: "w-5 h-5 my-0.5 min-w-6"
@@ -99,7 +101,7 @@ ActiveAdmin.register Newsletter do
               end
               li do
                   count = newsletter.audience_segment.suppressed_emails.size
-                  link_to('#suppressed-emails', data: { turbolinks: false }) do
+                  link_to("#suppressed-emails", data: { turbolinks: false }) do
                     counter_tag(t(".suppressed_emails", count: count), count)
                   end
               end
@@ -110,7 +112,7 @@ ActiveAdmin.register Newsletter do
           attributes_table do
             row(:status) {
               if newsletter.pending_delivery?
-                status_tag t(".pending_delivery"), class: 'processing'
+                status_tag t(".pending_delivery"), class: "processing"
               elsif newsletter.sent_at?
                 status_tag :sent, title: [
                   "#{Newsletter.human_attribute_name(:sent_at)}: #{I18n.l(newsletter.sent_at, format: :medium)}",
@@ -158,7 +160,7 @@ ActiveAdmin.register Newsletter do
               end
               if suppressed_emails.size > 10
                 div class: "mt-2 flex justify-center" do
-                  link_to('#', title: t(".show_all"), class: "show_more", data: { action: "click->show-all#showAll" }) do
+                  link_to("#", title: t(".show_all"), class: "show_more", data: { action: "click->show-all#showAll" }) do
                     icon "ellipsis-horizontal", class: "h-6 w-6"
                   end
                 end
@@ -346,7 +348,7 @@ ActiveAdmin.register Newsletter do
     end
 
     def apply_sorting(chain)
-      params[:order] ||= "sent_at_desc" if params[:scope].in?([nil, "all", "sent"])
+      params[:order] ||= "sent_at_desc" if params[:scope].in?([ nil, "all", "sent" ])
       super
     end
 

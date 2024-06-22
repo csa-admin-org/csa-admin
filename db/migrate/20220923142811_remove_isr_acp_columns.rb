@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveIsrACPColumns < ActiveRecord::Migration[7.0]
   def change
     remove_column :acps, :ccp

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipsRenewal
   attr_reader :next_fy
 

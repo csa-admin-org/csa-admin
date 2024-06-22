@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddEmailsSettingsToAcps < ActiveRecord::Migration[5.2]
   def change
     add_column :acps, :email_api_token, :string

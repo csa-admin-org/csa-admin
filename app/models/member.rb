@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Member < ApplicationRecord
   include HasState
   include HasEmails
@@ -112,7 +114,7 @@ class Member < ApplicationRecord
   validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :desired_acp_shares_number,
     numericality: {
-      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.acp.shares_number || 0 },
+      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.acp.shares_number || 0 }
     },
     if: -> { public_create && Current.acp.share? }
   validates :billing_email, format: { with: ACP::EMAIL_REGEXP, allow_nil: true }

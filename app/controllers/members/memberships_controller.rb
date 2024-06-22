@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::MembershipsController < Members::BaseController
   before_action :load_membership, only: %i[edit update]
   before_action :ensure_member_can_update_membership!, only: %i[edit update]

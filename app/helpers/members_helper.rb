@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MembersHelper
   def link_with_session(member, session)
     content_tag(:span) {

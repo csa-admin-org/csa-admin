@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::EmailSuppressionDrop < Liquid::Drop
   def initialize(email_suppression)
     @email_suppression = email_suppression

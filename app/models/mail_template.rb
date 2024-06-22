@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MailTemplate < ApplicationRecord
   include TranslatedAttributes
   include Auditable

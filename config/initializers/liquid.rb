@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Liquid::Template.error_mode = :strict
 
 Rails.application.config.after_initialize do

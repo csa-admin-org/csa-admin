@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Invoice do
   menu parent: :navbilling, priority: 1
   actions :all

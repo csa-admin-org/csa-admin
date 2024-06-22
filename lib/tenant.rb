@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "tenant/migration_context"
 require "tenant/schema_creator"
 require "tenant/pg_adapter_patch"

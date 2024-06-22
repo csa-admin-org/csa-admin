@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomRangeInput < Formtastic::Inputs::RangeInput
   def to_html
     input_wrapping do
@@ -15,8 +17,8 @@ class CustomRangeInput < Formtastic::Inputs::RangeInput
 
   def label_html_options
     {
-      :for => input_html_options[:id],
-      :class => options.dig(:label_html, :class) || 'label',
+      for: input_html_options[:id],
+      class: options.dig(:label_html, :class) || "label"
     }
   end
 end

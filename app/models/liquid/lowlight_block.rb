@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::LowlightBlock < Liquid::Block
   def initialize(_name, _args, _tokens)
      super

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::MemberDrop < Liquid::Drop
   include NumbersHelper
 

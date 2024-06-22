@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMoreAttachmentsToGribouilles < ActiveRecord::Migration[5.1]
   def change
     rename_column :gribouilles, :attachment, :attachment_0

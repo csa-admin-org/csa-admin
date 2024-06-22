@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :comment, class: ActiveAdmin::Comment do
     association :author, factory: :admin

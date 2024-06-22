@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HeaderHelper
   def menu_nav
     links = page.all("nav ul li a").map(&:text)

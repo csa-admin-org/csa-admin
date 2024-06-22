@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 describe Newsletter do
@@ -186,8 +188,8 @@ describe Newsletter do
       expect(newsletter.deliveries.ignored.count).to eq 1
       expect(newsletter.deliveries.ignored.first).to have_attributes(
         email: "john@bob.com",
-        email_suppression_ids: [123],
-        email_suppression_reasons: ["HardBounce"])
+        email_suppression_ids: [ 123 ],
+        email_suppression_reasons: [ "HardBounce" ])
 
       newsletter = Newsletter.last # hard reload
       expect(newsletter).to be_sent

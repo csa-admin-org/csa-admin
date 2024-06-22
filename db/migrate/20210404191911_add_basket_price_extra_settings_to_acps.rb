@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBasketPriceExtraSettingsToAcps < ActiveRecord::Migration[6.1]
   def change
     add_column :acps, :basket_price_extras, :decimal, precision: 8, scale: 2, array: true, default: [], null: false

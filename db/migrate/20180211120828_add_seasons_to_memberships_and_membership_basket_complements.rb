@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSeasonsToMembershipsAndMembershipBasketComplements < ActiveRecord::Migration[5.2]
   def change
     add_column :memberships, :seasons, :string, array: true, null: false, default: %w[summer winter]

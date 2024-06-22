@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::InfosController < Members::BaseController
   before_action :ensure_info_presence
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToBasketPrices < ActiveRecord::Migration[5.1]
   def change
     add_column :basket_sizes, :price, :decimal, scale: 3, precision: 8, default: 0, null: false

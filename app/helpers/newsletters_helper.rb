@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NewslettersHelper
   def newsletter_audience_collection
     Newsletter::Audience.segments.map { |key, segments|

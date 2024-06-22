@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 I18n.backend = I18n::Backend::SideBySide.new
 
 ISO3166.configure do |config|

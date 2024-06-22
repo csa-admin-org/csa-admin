@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register ActiveAdmin::Comment, as: "Comment" do
   controller do
     def destroy

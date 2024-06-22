@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMemberships < ActiveRecord::Migration[4.2]
   def change
     remove_index :members, :distribution_id

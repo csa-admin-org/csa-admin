@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Newsletter
   class Block < ApplicationRecord
     include TranslatedRichTexts

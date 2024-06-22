@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImproveBasketContents < ActiveRecord::Migration[6.1]
   def change
     add_column :basket_contents, :basket_quantities, :decimal, precision: 8, scale: 2, array: true, null: false, default: []

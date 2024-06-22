@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module XLSX
   class Billing < Base
     def initialize(year)

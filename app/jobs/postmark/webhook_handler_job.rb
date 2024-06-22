@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Postmark
   class WebhookHandlerJob < ::ApplicationJob
     queue_as :low

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterMailer < ApplicationMailer
   include Templatable
   EmailRender = Struct.new(:subject, :content)

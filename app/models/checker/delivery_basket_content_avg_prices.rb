@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Checker
   class DeliveryBasketContentAvgPrices
     MIN_DIFF = 0.01

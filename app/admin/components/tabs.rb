@@ -20,7 +20,7 @@ class Tabs < ActiveAdmin::Component
   def build_menu_item(title, options, &block)
     hidden = options.delete(:hidden) || false
     fragment = options.fetch(:id, fragmentize(title))
-    html_options = options.fetch(:html_options, {  }).merge(
+    html_options = options.fetch(:html_options, {}).merge(
       "data-tabs-hidden": hidden,
       "data-tabs-target": "##{fragment}",
       "data-action": "tabs#updateAnchor",

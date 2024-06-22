@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::AdminMemberDrop < Liquid::Drop
   def initialize(member)
     @member = member

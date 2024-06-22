@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 ruby file: ".ruby-version"
@@ -109,7 +111,7 @@ group :development do
 
   gem "rubocop-rails-omakase", require: false
 
-  gem 'stringio', '3.1.0' # 3.1.1. Issue with puma-dev
+  gem "stringio", "3.1.0" # 3.1.1. Issue with puma-dev
 end
 
 group :test do

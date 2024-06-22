@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HasDate
   extend ActiveSupport::Concern
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDeliveriesCycleToMemberships < ActiveRecord::Migration[6.1]
   def change
     add_reference :memberships, :deliveries_cycle, foreign_key: true, index: true

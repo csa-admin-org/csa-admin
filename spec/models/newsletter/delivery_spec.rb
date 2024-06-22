@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 describe Newsletter::Delivery do
@@ -35,8 +37,8 @@ describe Newsletter::Delivery do
       email_suppression_ids: [])
     expect(Newsletter::Delivery.ignored.first).to have_attributes(
       email: "john@bob.com",
-      email_suppression_ids: [512312, 153123],
-      email_suppression_reasons: ["ManualSuppression", "HardBounce"])
+      email_suppression_ids: [ 512312, 153123 ],
+      email_suppression_reasons: [ "ManualSuppression", "HardBounce" ])
   end
 
   specify "store delivery even for members without email" do

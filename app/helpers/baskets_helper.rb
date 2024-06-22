@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BasketsHelper
   def display_basket_state(basket)
     if basket.trial?

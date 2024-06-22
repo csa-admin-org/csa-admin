@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tenant
   class SchemaCreator
     PSQL_DUMP_IGNORED_STATEMENTS = [

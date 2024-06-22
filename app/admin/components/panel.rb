@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Panel < ActiveAdmin::Component
   builder_method :panel
 

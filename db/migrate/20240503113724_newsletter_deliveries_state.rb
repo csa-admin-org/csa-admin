@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterDeliveriesState < ActiveRecord::Migration[7.1]
   def change
     add_column :newsletter_deliveries, :state, :string, default: "pending", null: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Turbo
   module Redirection
     extend ActiveSupport::Concern

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Newsletter::Template do
   menu false
   actions :all, except: [ :show ]

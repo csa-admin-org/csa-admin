@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSepaColumns < ActiveRecord::Migration[7.1]
   def change
     add_column :acps, :sepa_creditor_identifier, :string

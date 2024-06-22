@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::BasketDrop < Liquid::Drop
   def initialize(basket)
     @basket = basket

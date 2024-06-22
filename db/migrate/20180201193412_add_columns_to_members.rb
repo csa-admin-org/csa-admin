@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToMembers < ActiveRecord::Migration[5.2]
   def change
     add_column :members, :profession, :string

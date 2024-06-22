@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Skip non-interactive terminal
 return unless $stdout.tty?
 

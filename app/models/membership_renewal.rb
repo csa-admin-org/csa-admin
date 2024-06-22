@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipRenewal
   MissingDeliveriesError = Class.new(StandardError)
 

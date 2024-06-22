@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # European Payments Council: Quick Response Code
 # https://github.com/mtgrosser/girocode
 

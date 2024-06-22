@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :basket_size do
     sequence(:name) { |n| "Basket Size #{n}" }

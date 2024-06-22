@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSharesNumberToAcps < ActiveRecord::Migration[7.1]
   def change
     add_column :acps, :shares_number, :integer

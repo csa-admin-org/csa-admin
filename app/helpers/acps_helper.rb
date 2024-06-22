@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AcpsHelper
   def feature?(feature)
     Current.acp.feature?(feature)

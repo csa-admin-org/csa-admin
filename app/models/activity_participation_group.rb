@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivityParticipationGroup
   class ActivityGroup < SimpleDelegator
     attr_accessor :period

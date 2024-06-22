@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DeliveryCyclesHelper
   def deliveries_current_year_title
     fiscal_year = Current.acp.current_fiscal_year

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::ButtonBlock < Liquid::Block
   def initialize(_name, url_name, _tokens)
      super

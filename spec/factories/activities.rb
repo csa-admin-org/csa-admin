@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :activity do
     date { Date.current.beginning_of_week + 8.days }

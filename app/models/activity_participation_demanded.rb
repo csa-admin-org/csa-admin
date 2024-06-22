@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivityParticipationDemanded
   class MemberDrop < Liquid::Drop
     def initialize(member)

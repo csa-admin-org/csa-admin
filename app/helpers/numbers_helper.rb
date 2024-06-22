@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NumbersHelper
   include ActiveSupport::NumberHelper
 

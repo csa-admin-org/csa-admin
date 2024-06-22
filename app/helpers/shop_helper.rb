@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShopHelper
   def show_shop_menu?
     return unless Current.acp.feature?("shop")

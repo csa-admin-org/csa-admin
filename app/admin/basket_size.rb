@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register BasketSize do
   menu parent: :other, priority: 10, label: -> { t("active_admin.menu.basket_sizes") }
   actions :all, except: [ :show ]
@@ -32,7 +34,7 @@ ActiveAdmin.register BasketSize do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       translated_input(f, :names)
       translated_input(f, :public_names,
         hint: t("formtastic.hints.basket_size.public_name"))

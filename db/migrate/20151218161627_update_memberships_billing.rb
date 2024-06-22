@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateMembershipsBilling < ActiveRecord::Migration[4.2]
   def change
     remove_column :memberships, :distribution_basket_price

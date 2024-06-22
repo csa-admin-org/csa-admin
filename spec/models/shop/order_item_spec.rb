@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 describe Shop::OrderItem, freeze: "2023-01-01" do

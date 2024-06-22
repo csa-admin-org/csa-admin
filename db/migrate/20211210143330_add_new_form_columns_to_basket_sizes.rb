@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNewFormColumnsToBasketSizes < ActiveRecord::Migration[6.1]
   def change
     add_column :basket_sizes, :public_names, :jsonb, default: {}, null: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InvoicesHelper
   def entity_type_collection
     Invoice.used_entity_types.map { |type|

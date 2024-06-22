@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveOldBasketContentsColumns < ActiveRecord::Migration[6.1]
   def change
     remove_column :basket_contents, :small_basket_quantity

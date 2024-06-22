@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SLog
   def self.log(event, context = {})
     context[:acp] = Tenant.current

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdminHelper
   def admin_depots_collection
     Depot.kept.reorder(:name)

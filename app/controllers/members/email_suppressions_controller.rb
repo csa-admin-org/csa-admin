@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::EmailSuppressionsController < Members::BaseController
   before_action :ensure_non_admin_originated_session!
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Absence do
   menu parent: :other, priority: 1
 

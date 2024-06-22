@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterDeliveriesSingleEmail < ActiveRecord::Migration[7.1]
   class NewsletterDelivery < ApplicationRecord
     self.table_name = "newsletter_deliveries"
@@ -16,7 +18,7 @@ class NewsletterDeliveriesSingleEmail < ActiveRecord::Migration[7.1]
 
           email = emails.shift
           delivery.update!({
-              email: email,
+              email: email
             }.merge(suppressions(delivery, email)))
 
           emails.each do |email|

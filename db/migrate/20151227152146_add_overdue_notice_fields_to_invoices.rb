@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddOverdueNoticeFieldsToInvoices < ActiveRecord::Migration[4.2]
   def change
     remove_column :invoices, :overdue_notices

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivityMailer < ApplicationMailer
   include Templatable
 

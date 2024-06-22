@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameActivityParticipationsDemandedAnnually < ActiveRecord::Migration[7.1]
   def change
     rename_column :basket_sizes, :activity_participations_demanded_annualy, :activity_participations_demanded_annually

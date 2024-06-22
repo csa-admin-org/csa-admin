@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Columns < ActiveAdmin::Component
   builder_method :columns
 

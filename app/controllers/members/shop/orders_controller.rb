@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::Shop::OrdersController < Members::Shop::BaseController
   before_action :find_order
   before_action :ensure_order_not_empty

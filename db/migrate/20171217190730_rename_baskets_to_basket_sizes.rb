@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameBasketsToBasketSizes < ActiveRecord::Migration[5.1]
   def change
     rename_table :baskets, :basket_sizes

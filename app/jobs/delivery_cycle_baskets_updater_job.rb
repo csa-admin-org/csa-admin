@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveryCycleBasketsUpdaterJob < ApplicationJob
   queue_as :default
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 used_cycles = Membership.used_delivery_cycle_ids_for(delivery.fy_year)
 div class: "flex justify-evenly mt-4 mb-6 gap-4" do
   delivery.basket_content_prices.each do |basket_size, depot_prices|

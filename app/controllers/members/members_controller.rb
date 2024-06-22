@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::MembersController < Members::BaseController
   include ActivitiesHelper
   include ShopHelper

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ul class: "counts" do
   states = %i[pending waiting active]
   states += %i[support] if Current.acp.member_support?

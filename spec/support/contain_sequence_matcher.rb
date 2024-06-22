@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Matcher that tests whether a sequence contains another subsequence.
 #
 #   expect([1, 2, 3, 4]).to contain_sequence(2, 3)

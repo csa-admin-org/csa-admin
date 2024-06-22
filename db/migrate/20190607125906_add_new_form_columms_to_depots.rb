@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNewFormColummsToDepots < ActiveRecord::Migration[5.2]
   def change
     add_column :depots, :public_names, :jsonb, default: {}, null: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemberMailer < ApplicationMailer
   include Templatable
 

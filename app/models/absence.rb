@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Absence < ApplicationRecord
   include HasNote
 
@@ -57,8 +59,8 @@ class Absence < ApplicationRecord
   end
 
   def update_memberships!
-    min = [started_on_previously_was, started_on].compact.min
-    max = [ended_on_previously_was, ended_on].compact.max
+    min = [ started_on_previously_was, started_on ].compact.min
+    max = [ ended_on_previously_was, ended_on ].compact.max
     member.memberships.overlaps(min..max).find_each(&:save!)
   end
 

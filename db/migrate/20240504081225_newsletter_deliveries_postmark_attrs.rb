@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterDeliveriesPostmarkAttrs < ActiveRecord::Migration[7.1]
   def change
     add_column :newsletter_deliveries, :postmark_message_id, :string

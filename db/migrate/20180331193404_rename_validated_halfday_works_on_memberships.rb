@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameValidatedHalfdayWorksOnMemberships < ActiveRecord::Migration[5.2]
   def change
     rename_column :memberships, :validated_halfday_works, :recognized_halfday_works

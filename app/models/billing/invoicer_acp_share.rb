@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class InvoicerACPShare
     attr_reader :member

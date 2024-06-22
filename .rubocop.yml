@@ -11,3 +11,6 @@ Style/StringLiterals:
     - "spec/**/*"
     - "Gemfile"
     - "Rakefile"
+
+Style/FrozenStringLiteralComment:
+  Enabled: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAbsencesIncluded < ActiveRecord::Migration[7.1]
   def change
     add_column :delivery_cycles, :absences_included_annually, :integer, default: 0, null: false

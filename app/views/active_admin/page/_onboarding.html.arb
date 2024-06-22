@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 div class: "flex justify-center" do
   div class: "w-96" do
     h1 class: "text-5xl text-center py-8" do

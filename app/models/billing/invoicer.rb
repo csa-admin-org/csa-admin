@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class Invoicer
     attr_reader :member, :membership, :invoices, :date, :fy_month

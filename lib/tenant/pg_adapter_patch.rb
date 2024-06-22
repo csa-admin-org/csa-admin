@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # fix: strip schema from sequence name
 module Tenant
   module PgAdapterPatch

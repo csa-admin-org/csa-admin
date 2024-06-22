@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Admin do
   menu parent: :other, priority: 2
   actions :all, except: [ :show ]

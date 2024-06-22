@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMembersWaitingFields < ActiveRecord::Migration[4.2]
   def change
     add_column :members, :waiting_basket_id, :integer

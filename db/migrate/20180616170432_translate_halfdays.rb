@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TranslateHalfdays < ActiveRecord::Migration[5.2]
   def change
     add_column :halfday_presets, :places, :jsonb, default: {}, null: false

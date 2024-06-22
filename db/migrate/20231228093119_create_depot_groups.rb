@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDepotGroups < ActiveRecord::Migration[7.1]
   def change
     create_table :depot_groups do |t|

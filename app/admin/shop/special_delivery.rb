@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Shop::SpecialDelivery do
   menu parent: :navshop, priority: 4
   actions :all

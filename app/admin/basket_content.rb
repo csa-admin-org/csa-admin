@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register BasketContent do
   menu priority: 5
   actions :all, except: [ :show ]
@@ -142,7 +144,7 @@ ActiveAdmin.register BasketContent do
   end
 
   form do |f|
-    f.inputs t('.details') do
+    f.inputs t(".details") do
       f.input :delivery,
         collection: Delivery.all,
         required: true,

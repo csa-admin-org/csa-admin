@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_valid do |*attributes|
   match do |record|
     record.validate

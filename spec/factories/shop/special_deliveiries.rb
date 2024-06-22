@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :shop_special_delivery, class: Shop::SpecialDelivery do
     open { true }

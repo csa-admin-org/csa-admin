@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shop
   class Producer < ApplicationRecord
     self.table_name = "shop_producers"

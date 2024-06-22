@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register MailTemplate do
   menu parent: :other, priority: 99
   actions :index, :show, :edit, :update

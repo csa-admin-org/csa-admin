@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameVegetablesToBasketContentProducts < ActiveRecord::Migration[7.0]
   def change
     rename_table :vegetables, :basket_content_products

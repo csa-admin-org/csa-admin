@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sidekiq::Middleware::Tenant
   class Client
     def call(_worker_class, msg, _queue, _redis_pool)

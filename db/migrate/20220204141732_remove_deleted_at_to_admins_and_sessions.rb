@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveDeletedAtToAdminsAndSessions < ActiveRecord::Migration[6.1]
   def change
     execute 'DELETE FROM sessions WHERE deleted_at IS NOT NULL'

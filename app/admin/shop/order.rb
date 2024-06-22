@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Shop::Order do
   menu parent: :navshop, priority: 1
 

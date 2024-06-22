@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Billing
   class PaymentsRedistributor
     def self.redistribute!(member_id)

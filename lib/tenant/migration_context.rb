@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tenant
   module MigrationContext
     def migrate(target_version = nil, &block)

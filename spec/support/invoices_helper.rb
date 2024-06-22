@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InvoicesHelper
   def save_pdf_and_return_strings(invoice)
     invoice.send(:attach_pdf) unless invoice.pdf_file.attached?

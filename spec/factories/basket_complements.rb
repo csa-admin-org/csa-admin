@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :basket_complement do
     sequence(:name) { |n| "Basket Complement #{n}" }

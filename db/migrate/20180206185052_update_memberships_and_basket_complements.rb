@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateMembershipsAndBasketComplements < ActiveRecord::Migration[5.2]
   def change
     drop_table :basket_complements_memberships

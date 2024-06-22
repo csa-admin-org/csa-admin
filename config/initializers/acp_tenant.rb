@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "tenant"
 require "tenant/middleware"
 

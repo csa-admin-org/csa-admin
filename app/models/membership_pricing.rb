@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rounding"
 
 class MembershipPricing
@@ -97,8 +99,8 @@ class MembershipPricing
   end
 
   def activity_participations_prices
-    return [0, 0] unless @params[:waiting_activity_participations_demanded_annually]
-    return [0, 0] unless basket_size
+    return [ 0, 0 ] unless @params[:waiting_activity_participations_demanded_annually]
+    return [ 0, 0 ] unless basket_size
 
     counts = delivery_cycles.map { |dc|
       fy = Delivery.last.fiscal_year
@@ -116,7 +118,7 @@ class MembershipPricing
       demanded = ActivityParticipationDemanded.new(m).count
       -1 * (demanded - default)  * Current.acp.activity_price
     }
-    [counts.min, counts.max]
+    [ counts.min, counts.max ]
   end
 
   def depot_prices

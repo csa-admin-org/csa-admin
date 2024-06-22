@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActiveAdmin::HandbookHelper
   def handbook_button(arbre, page, **options)
     arbre.para class: "mt-4 flex justify-center" do

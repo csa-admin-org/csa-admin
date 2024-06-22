@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Audit < ApplicationRecord
   belongs_to :session, optional: true
   belongs_to :auditable, polymorphic: true

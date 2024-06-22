@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddShopSettings < ActiveRecord::Migration[6.1]
   def change
     add_column :acps, :shop_order_maximum_weight_in_kg, :decimal, precision: 8, scale: 3

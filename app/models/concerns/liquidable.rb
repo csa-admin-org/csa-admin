@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Liquidable
   extend ActiveSupport::Concern
 

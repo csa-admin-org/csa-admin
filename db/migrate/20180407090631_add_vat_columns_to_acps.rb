@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVatColumnsToAcps < ActiveRecord::Migration[5.2]
   def change
     add_column :acps, :vat_number, :string

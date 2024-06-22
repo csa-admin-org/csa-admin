@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "postmark_wrapper"
 
 class EmailSuppression < ApplicationRecord

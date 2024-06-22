@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Checker
   class MembershipPrice < SimpleDelegator
     def self.check_all!

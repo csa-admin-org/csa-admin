@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::ContentBlock < Liquid::Block
   attr :id, :title
 

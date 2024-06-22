@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPriceAndInvoicesAmountToMemberships < ActiveRecord::Migration[5.2]
   def change
     add_column :memberships, :price, :decimal, scale: 2, precision: 8

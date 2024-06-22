@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Shop::Product do
   menu parent: :navshop, priority: 2
   actions :all, except: [ :show ]

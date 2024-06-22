@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register ActivityParticipation do
   menu parent: :activities_human_name, priority: 1
 

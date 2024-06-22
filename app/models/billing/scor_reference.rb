@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Structured Creditor Reference (référence type SCOR) ISO-11649
 # https://www.mobilefish.com/services/creditor_reference/creditor_reference.php
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Liquid::BasketComplementDrop < Liquid::Drop
   def initialize(basket_complement)
     @config = basket_complement

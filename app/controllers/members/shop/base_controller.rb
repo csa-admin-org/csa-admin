@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Members::Shop::BaseController < Members::BaseController
   before_action :ensure_shop_feature
   before_action :ensure_delivery
