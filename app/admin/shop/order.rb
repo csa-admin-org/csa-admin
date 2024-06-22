@@ -1,5 +1,5 @@
 ActiveAdmin.register Shop::Order do
-  menu parent: :shop, priority: 1
+  menu parent: :navshop, priority: 1
 
   breadcrumb do
     if params["action"] == "index"
@@ -11,10 +11,10 @@ ActiveAdmin.register Shop::Order do
       ]
       if params["action"].in? %W[show edit]
         links << link_to(
-          shop_order.delivery.display_name,
-          shop_orders_path(q: { _delivery_gid_eq: shop_order.delivery_gid }, scope: :all_without_cart))
+          resource.delivery.display_name,
+          shop_orders_path(q: { _delivery_gid_eq: resource.delivery_gid }, scope: :all_without_cart))
         if params["action"].in? %W[edit]
-          links << auto_link(shop_order, shop_order.id)
+          links << auto_link(resource, resource.id)
         end
       end
       links
@@ -53,16 +53,16 @@ ActiveAdmin.register Shop::Order do
   } do
     selectable_column if params[:scope].in?([ nil, "pending" ])
     column :id, ->(order) { auto_link order, order.id }
-    column :created_at, ->(order) { l(order.date, format: :number) }
+    column :created_at, ->(order) { l(order.date, format: :number) }, class: "text-right"
     column :member, sortable: "members.name"
     if params.dig(:q, :_delivery_gid_eq).present?
       column :depot, sortable: "depots.name"
     else
       column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: "delivery_id"
     end
-    column :amount, ->(order) { cur(order.amount) }
-    column :state, ->(order) { status_tag order.state_i18n_name, class: order.state }
-    actions defaults: true, class: "col-actions-3" do |order|
+    column :amount, ->(order) { cur(order.amount) }, class: "text-right"
+    column :state, ->(order) { status_tag order.state, label: order.state_i18n_name }, class: "text-right"
+    actions do |order|
       link_to_invoice_pdf(order.invoice)
     end
   end
@@ -86,53 +86,49 @@ ActiveAdmin.register Shop::Order do
   sidebar_shop_admin_only_warning
 
   sidebar :total, only: :index do
-    all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
-    div class: "content" do
+    side_panel t(".total") do
+      all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
       if params[:scope].in? [ "invoiced", nil ]
-        div class: "total" do
+        div class: "flex justify-between" do
           span t("billing.scope.paid")
-          span cur(all.sum("invoices.paid_amount")), style: "float: right;"
+          span cur(all.sum("invoices.paid_amount"))
         end
-        div class: "total" do
+        div class: "flex justify-between" do
           span t("billing.scope.missing")
-          span cur(all.sum("invoices.amount - invoices.paid_amount")), style: "float: right"
+          span cur(all.sum("invoices.amount - invoices.paid_amount"))
         end
-        div class: "totals" do
-          span t("active_admin.sidebars.amount")
-          span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
+        div class: "flex justify-between" do
+          span t("active_admin.shared.sidebar_section.amount")
+          span cur(all.sum(:amount)), class: "font-bold"
         end
       else
-        div do
-          span t("active_admin.sidebars.amount")
-          span cur(all.sum(:amount)), style: "float: right; font-weight: bold;"
+        div class: "flex justify-between" do
+          span t("active_admin.shared.sidebar_section.amount")
+          span cur(all.sum(:amount)), class: "font-bold"
         end
       end
     end
   end
 
   sidebar :shop_status, if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
-    div class: "content" do
+    side_panel t(".shop_status") do
       delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
       if delivery == Delivery.shop_open.next
         if delivery.shop_open?
-          span t("active_admin.sidebars.shop_open_until_html", date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :long))
+          span t("active_admin.shared.sidebar_section.shop_open_until_html", date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :long))
         else
-          span t("active_admin.sidebars.shop_closed_html", date: l(delivery.date, format: :long))
+          span t("active_admin.shared.sidebar_section.shop_closed_html", date: l(delivery.date, format: :long))
         end
       elsif delivery.date.past?
-        span t("active_admin.sidebars.shop_closed_html", date: l(delivery.date, format: :long))
+        span t("active_admin.shared.sidebar_section.shop_closed_html", date: l(delivery.date, format: :long))
       else
-        span t("active_admin.sidebars.shop_not_open_yet_html", date: l(delivery.date, format: :long))
+        span t("active_admin.shared.sidebar_section.shop_not_open_yet_html", date: l(delivery.date, format: :long))
       end
     end
   end
 
   sidebar :billing, if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
-    div class: "actions" do
-      handbook_icon_link("shop", anchor: "facturation")
-    end
-
-    div class: "content" do
+    side_panel t(".billing"), action: handbook_icon_link("shop", anchor: "facturation") do
       if delay = Current.acp.shop_order_automatic_invoicing_delay_in_days
         delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
         date = delivery.date + delay.days
@@ -149,41 +145,45 @@ ActiveAdmin.register Shop::Order do
     columns do
       column do
         panel "#{order.items.size} #{Shop::Product.model_name.human(count: order.items.size)}" do
-          table_for order.items.includes(:product, :product_variant), class: "table-shop_orders" do
+          table_for order.items.includes(:product, :product_variant), class: "table-auto" do
             column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}" }
-            column(:item_price) { |i| cur(i.item_price) }
-            column(:quantity)
-            column(:amount) { |i| cur(i.amount) }
+            column(:item_price, class: "text-right") { |i| cur(i.item_price) }
+            column(:quantity, class: "text-right")
+            column(:amount, class: "text-right") { |i| cur(i.amount) }
           end
         end
       end
       column do
-        attributes_table do
-          row :id
-          row(:member)
-          row(:delivery) { auto_link order.delivery, order.delivery.display_name }
-          row(:depot)
-          row(:state) { status_tag order.state_i18n_name, class: order.state }
-          row(:weight) { kg(order.weight_in_kg) }
-          row(:created_at) { l(order.created_at, format: :long) }
-          row(:updated_at) { l(order.updated_at, format: :long) }
-        end
-
-        attributes_table title: t("billing.title") do
-          if order.amount_percentage?
-            row(:amount_before_percentage) { cur(order.amount_before_percentage) }
-            row(:amount_percentage) { number_to_percentage(order.amount_percentage, precision: 1) }
-          end
-          row(:amount) { cur(order.amount) }
-          if order.invoice
-            row(:invoice) { auto_link order.invoice, order.invoice.id }
-            row(:state) { status_tag order.invoice.state_i18n_name, class: order.invoice.state }
-            row(:paid_amount) { cur(order.invoice.paid_amount) }
-            row(:balance) { cur(order.invoice.balance) }
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row(:member)
+            row(:delivery) { auto_link order.delivery, order.delivery.display_name }
+            row(:depot)
+            row(:state) { status_tag order.state, label: order.state_i18n_name }
+            row(:weight) { kg(order.weight_in_kg) }
+            row(:created_at) { l(order.created_at, format: :long) }
+            row(:updated_at) { l(order.updated_at, format: :long) }
           end
         end
 
-        active_admin_comments
+        panel t("billing.title") do
+          attributes_table do
+            if order.amount_percentage?
+              row(:amount_before_percentage) { cur(order.amount_before_percentage) }
+              row(:amount_percentage) { number_to_percentage(order.amount_percentage, precision: 1) }
+            end
+            row(:amount) { cur(order.amount) }
+            if order.invoice
+              row(:invoice) { auto_link order.invoice, order.invoice.id }
+              row(:state) { status_tag order.invoice.state, label: order.invoice.state_i18n_name }
+              row(:paid_amount) { cur(order.invoice.paid_amount) }
+              row(:balance) { cur(order.invoice.balance) }
+            end
+          end
+        end
+
+        active_admin_comments_for(order)
       end
     end
   end
@@ -252,7 +252,8 @@ ActiveAdmin.register Shop::Order do
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
     button_to t(".cancel_action"), cancel_shop_order_path(resource),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      data: { confirm: t(".cancel_action_confirm") }
+      data: { confirm: t(".cancel_action_confirm") },
+      class: "action-item-button"
   end
 
   member_action :cancel, method: :post, only: :show, if: -> { resource.can_cancel? } do
@@ -263,15 +264,18 @@ ActiveAdmin.register Shop::Order do
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) && resource.invoice } do
     link_to t(".new_payment"), new_payment_path(
-      invoice_id: resource.invoice.id, amount: [ resource.invoice.amount, resource.invoice.missing_amount ].min)
+      invoice_id: resource.invoice.id, amount: [ resource.invoice.amount, resource.invoice.missing_amount ].min),
+      class: "action-item-button"
   end
 
   action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
-    link_to_invoice_pdf(resource.invoice, title: t(".invoice_pdf"))
+    link_to_invoice_pdf(resource.invoice, class: "action-item-button", title: t(".invoice_pdf")) do
+      t(".invoice_pdf")
+    end
   end
 
   action_item :delivery_pdf, only: :show do
-    link_to t(".delivery_order_pdf"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: "_blank"
+    link_to t(".delivery_order_pdf"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: "_blank",   class: "action-item-button"
   end
 
   action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? } do
@@ -288,13 +292,17 @@ ActiveAdmin.register Shop::Order do
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    link_to t(".delivery_orders_pdf"), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), target: "_blank"
+    link_to delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), class: "action-item-button", target: "_blank", title: t(".delivery_orders_pdf") do
+      inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
+    end
   end
 
   action_item :delivery_xlsx, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    link_to "XLSX", delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), target: "_blank"
+    link_to delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), class: "action-item-button", target: "_blank", title: "XLSX" do
+      inline_svg_tag "admin/xlsx_file.svg", class: "w-5 h-5"
+    end
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) } do |selection|

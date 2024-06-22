@@ -26,11 +26,11 @@ module ActivitiesHelper
           activity_label(activity).html_safe
         end
       }.concat(
-        content_tag(:span, class: "flex-none ml-2 flex flex-row flex-nowrap text-gray-400 dark:text-gray-800 #{'font-semibold' if activity.full?}", title: t("activities.participant_count", count: activity.participants_count)) {
+        content_tag(:span, class: "flex-none ml-2 flex flex-row items-center flex-nowrap text-gray-400 dark:text-gray-800 #{'font-semibold' if activity.full?}", title: t("activities.participant_count", count: activity.participants_count)) {
           content_tag(:span, class: "mr-1") {
             "#{activity.participants_count}/#{activity.participants_limit || '∞'}"
           }.concat(
-            inline_svg_tag "members/participant.svg", class: "h-6 w-6 flex-shrink-0 fill-stroke")
+            icon("users", class: "ms-1 h-5 w-5 text-gray-500", library: "lucide"))
         })
       [
         text,
@@ -79,10 +79,8 @@ module ActivitiesHelper
     if description && activity.description
       content_tag(:span, class: "inline-block") {
         content_tag(:span, class: "flex flex-row items-center") {
-          (content_tag(:span, activity.title, class: "inline-block") +
-            content_tag(:span, class: "inline-block tooltip-toggle", data: { tooltip: activity.description }) {
-              inline_svg_tag "members/info_circle.svg", size: "16px"
-            }).html_safe
+          content_tag(:span, activity.title, class: "inline-block") +
+            tooltip("activity-#{activity.id}", activity.description)
         }
       }
     else

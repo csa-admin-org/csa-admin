@@ -43,8 +43,7 @@ div class='mb-12'
           = " (#{t('.deliveries_count', count: absence.baskets.size)})"
 
         - if absence.note?
-          span class='m-0 flex items-center tooltip-toggle' onclick="" data-tooltip="#{absence.note}"
-            = inline_svg_tag 'members/chat-note.svg', class: 'stroke-2 mt-px -mb-px'
+          = tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text")
 
         span class="mt-1 md:mt-0 flex-grow flex-none flex flex-row items-center align-center justify-end"
           == button_to t('.cancel_link'), [:members, absence], method: :delete, class: 'ml-2 px-2 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white hover:text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer', form_class: 'flex items-center'
@@ -62,5 +61,4 @@ div class='mb-12'
             = " (#{t('.deliveries_count', count: absence.baskets.size)})"
 
           - if absence.note?
-            span class='m-0 flex items-center tooltip-toggle' onclick="" data-tooltip="#{absence.note}"
-              = inline_svg_tag 'members/chat-note.svg', class: 'stroke-2 mt-px -mb-px'
+            = tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text")

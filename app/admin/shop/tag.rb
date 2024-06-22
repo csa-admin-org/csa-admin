@@ -22,10 +22,8 @@ ActiveAdmin.register Shop::Tag do
         tag.products.size,
         shop_products_path(
           q: { tags_id_eq: tag.id }))
-    }
-    if authorized?(:update, Shop::Tag)
-      actions class: "col-actions-2"
-    end
+    }, class: "text-right"
+    actions
   end
 
   form do |f|

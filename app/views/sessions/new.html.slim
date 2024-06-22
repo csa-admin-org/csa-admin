@@ -1,41 +1,11 @@
-doctype html
-html
-  head
-    meta charset="UTF-8"
-    title = t('.title', acp: Current.acp.name)
-    - ActiveAdmin.application.stylesheets.each do |style, options|
-      = stylesheet_link_tag style, **options
-    - ActiveAdmin.application.javascripts.each do |path, options|
-      = javascript_include_tag path, **options
-    - if ActiveAdmin.application.favicon
-      = favicon_link_tag ActiveAdmin.application.favicon
-    - ActiveAdmin.application.meta_tags_for_logged_out_pages.each do |name, content|
-      = tag(:meta, name: name, content: content)
-    = csrf_meta_tags
+div class="mt-2 panel"
+  div class="panel-title text-2xl pb-1"
+    h1 = set_page_title t(".title")
+  div class="panel-body"
+    p class="px-2 text-sm text-gray-500"
+      = t('.form_text')
+    = semantic_form_for @session, as: :session do |f|
+      ol class="p-2 list-none"
+        = f.input :email, label: t(".email_input"), required: true
 
-body class="active_admin logged_out #{controller.action_name}"
-  #wrapper
-    #logo_wrapper
-      = image_tag(Current.acp.logo_url, size: '240', alt: "#{Current.acp.name} Logo")
-    #content_wrapper
-      - flash_messages.each do |type, message|
-        = content_tag :div, message, class: "flash flash_#{type}"
-      #active_admin_content
-        #login
-          h2 = t('.title', acp: Current.acp.name)
-          p = t('.form_text')
-          = semantic_form_for @session, as: :session do |f|
-            = f.inputs do
-              = f.input :email, label: t('.email_input'), required: true
-            = f.actions do
-              = f.action :submit, label: t('.submit'), button_html: { value: t('.submit') }
-
-    footer
-      - if Current.acp.languages.many?
-        ul.locales
-          - Current.acp.languages.each do |locale|
-            li = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: 'Turbolinks.clearCache()'
-      p
-        = link_to 'https://acp-admin.ch' do
-          = inline_svg_tag 'logo.svg'
-          span= 'ACP Admin'
+        = f.action :submit, label: t(".submit"), button_html: { value: t(".submit") }, wrapper_html: { class: "text-right" }

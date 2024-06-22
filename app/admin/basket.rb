@@ -2,6 +2,21 @@ ActiveAdmin.register Basket do
   menu false
   actions :index, :edit, :update
 
+  breadcrumb do
+    links = [
+      link_to(Member.model_name.human(count: 2), members_path),
+      auto_link(resource.membership.member),
+      link_to(
+        Membership.model_name.human(count: 2),
+        memberships_path(q: { member_id_eq: resource.membership.member_id }, scope: :all)),
+      auto_link(resource.membership)
+    ]
+    if params["action"].in? %W[edit]
+      links << [ Basket.model_name.human, resource.delivery.display_name(format: :number) ].join(" ")
+    end
+    links
+  end
+
   filter :delivery, as: :select
 
   includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
@@ -62,21 +77,6 @@ ActiveAdmin.register Basket do
         }
       end
     end
-  end
-
-  breadcrumb do
-    links = [
-      link_to(Member.model_name.human(count: 2), members_path),
-      auto_link(basket.membership.member),
-      link_to(
-        Membership.model_name.human(count: 2),
-        memberships_path(q: { member_id_eq: basket.membership.member_id }, scope: :all)),
-      auto_link(basket.membership)
-    ]
-    if params["action"].in? %W[edit]
-      links << [ Basket.model_name.human, basket.delivery.display_name(format: :number) ].join(" ")
-    end
-    links
   end
 
   form do |f|

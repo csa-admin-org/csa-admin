@@ -5,7 +5,7 @@ export default class extends Controller {
     const form = event.target.closest('form')
     if (!form) return
 
-    if (this.isSelectAndSearch(event.target)) {
+    if (this.isSelectSearch(event.target)) {
       if (event.target.nextElementSibling.value != '') {
         // Let the select_and_search active admin JS do its job first
         setTimeout(() => { form.submit() }, 50)
@@ -15,8 +15,7 @@ export default class extends Controller {
     }
   }
 
-  isSelectAndSearch(el) {
-    return (el.tagName == 'SELECT' &&
-      el.closest('div').classList.contains('select_and_search'))
+  isSelectSearch(el) {
+    return (el.tagName == 'SELECT' && el.hasAttribute('data-search-methods'))
   }
 }

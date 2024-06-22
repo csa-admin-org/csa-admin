@@ -1,5 +1,3 @@
-require "sane_patch"
-
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -7,18 +5,6 @@ ActiveAdmin.setup do |config|
   # for each of the active admin pages.
   #
   config.site_title = ->(view) { Current.acp.name }
-
-  # Set the link url for the title. For example, to take
-  # users to your main site. Defaults to no link.
-  #
-  # config.site_title_link = "/"
-
-  # Set an optional image to be displayed for the header
-  # instead of a string (overrides :site_title)
-  #
-  # Note: Aim for an image that's 21px high so it fits in the header.
-  #
-  # config.site_title_image = "logo.png"
 
   # == Default Namespace
   #
@@ -103,12 +89,6 @@ ActiveAdmin.setup do |config|
   # Default:
   config.logout_link_path = :logout_path
 
-  # This setting changes the http method used when rendering the
-  # link. For example :get, :delete, :put, etc..
-  #
-  # Default:
-  config.logout_link_method = :delete
-
   # == Root
   #
   # Set the action to call for the root path. You can set different
@@ -160,23 +140,6 @@ ActiveAdmin.setup do |config|
   #
   # config.localize_format = :long
 
-  # == Setting a Favicon
-  #
-  # config.favicon = '/assets/favicon.ico'
-
-  # == Meta Tags
-  #
-  # Add additional meta tags to the head element of active admin pages.
-  #
-  # Add tags to all pages logged in users see:
-  #   config.meta_tags = { author: 'My Company' }
-
-  # By default, sign up/sign in/recover password pages are excluded
-  # from showing up in search engine results by adding a robots meta
-  # tag. You can reset the hash of meta tags included in logged out
-  # pages:
-  #   config.meta_tags_for_logged_out_pages = {}
-
   # == Removing Breadcrumbs
   #
   # Breadcrumbs are enabled by default. You can customize them for individual
@@ -190,21 +153,6 @@ ActiveAdmin.setup do |config|
   # resources or you can enable them globally from here.
   #
   # config.create_another = true
-
-  # == Register Stylesheets & Javascripts
-  #
-  # We recommend using the built in Active Admin layout and loading
-  # up your own stylesheets / javascripts to customize the look
-  # and feel.
-  #
-  # To load a stylesheet:
-  #   config.register_stylesheet 'my_stylesheet.css'
-  #
-  # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
-  config.register_stylesheet "active_admin/print.css", media: :print
-
-  # To load a javascript file:
-  #   config.register_javascript 'my_javascript.js'
 
   # == CSV options
   #
@@ -234,17 +182,19 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu do |menu|
-      menu.add label: -> { I18n.t("active_admin.menu.shop") }, priority: 6, id: :shop
+      menu.add label: -> { I18n.t("active_admin.menu.shop") }, priority: 6, id: :navshop
       menu.add label: :activities_human_name, priority: 7
-      menu.add label: -> { I18n.t("active_admin.menu.billing") }, priority: 9, id: :billing
-      menu.add label: -> { I18n.t("active_admin.menu.other") }, priority: 10, id: :other, html_options: { data: { controller: "menu-sorting" } }
+      menu.add label: -> { I18n.t("active_admin.menu.billing") }, priority: 9, id: :navbilling
+      menu.add label: -> {
+        icon "ellipsis-horizontal", class: "w-5 h-5", title: t("active_admin.settings")
+      }, priority: 20, id: :other, html_options: { data: { controller: "menu-sorting" } }
     end
 
-    admin.build_menu :utility_navigation do |menu|
-      admin.add_current_user_to_menu menu, 1
-      admin.add_updates_notice_to_menu menu, 2
-      admin.add_logout_button_to_menu menu, 3
-    end
+    # admin.build_menu :utility_navigation do |menu|
+    #   admin.add_current_user_to_menu menu, 1
+    #   admin.add_updates_notice_to_menu menu, 2
+    #   admin.add_logout_button_to_menu menu, 3
+    # end
   end
 
   # == Download Links
@@ -298,33 +248,12 @@ ActiveAdmin.setup do |config|
   # config.include_default_association_filters = true
   config.current_filters = false
 
-  # == Head
-  #
-  # You can add your own content to the site head like analytics. Make sure
-  # you only pass content you trust.
-  #
-  # config.head = ''.html_safe
-
-  # == Footer
-  #
-  # By default, the footer shows the current Active Admin version. You can
-  # override the content of the footer here.
-  #
-  config.footer = ->(footer) { render(partial: "layouts/footer") }
-
   # == Sorting
   #
   # By default ActiveAdmin::OrderClause is used for sorting logic
   # You can inherit it with own class and inject it for all resources
   #
   # config.order_clause = MyOrderClause
-
-  # == Webpacker
-  #
-  # By default, Active Admin uses Sprocket's asset pipeline.
-  # You can switch to using Webpacker here.
-  #
-  config.use_webpacker = false
 end
 
 Rails.application.reloader.to_prepare do
@@ -332,110 +261,18 @@ Rails.application.reloader.to_prepare do
     include ActionView::Helpers::TranslationHelper
     include ApplicationHelper
     include ActivitiesHelper
+    include RailsIcons::Helpers::IconHelper
   end
 end
 
-# Inject admin importmap tag to admin header
-module ActiveAdmin
-  module Views
-    module Pages
-      class Base < Arbre::HTML::Document
-        private
-        def build_active_admin_head
-          within head do
-            html_title [ title, helpers.active_admin_namespace.site_title(self) ].compact.join(" | ")
-
-            text_node(active_admin_namespace.head)
-
-            active_admin_application.stylesheets.each do |style, options|
-              stylesheet_tag = active_admin_namespace.use_webpacker ? stylesheet_pack_tag(style, **options) : stylesheet_link_tag(style, **options)
-              text_node(stylesheet_tag.html_safe) if stylesheet_tag
-            end
-
-            active_admin_namespace.meta_tags.each do |name, content|
-              text_node(meta(name: name, content: content))
-            end
-
-            active_admin_application.javascripts.each do |path, options|
-              javascript_tag = active_admin_namespace.use_webpacker ? javascript_pack_tag(path, **options) : javascript_include_tag(path, **options)
-              text_node(javascript_tag)
-            end
-
-            # Inject Importmap
-            text_node(javascript_importmap_tags "admin")
-
-            if active_admin_namespace.favicon
-              favicon = active_admin_namespace.favicon
-              favicon_tag = active_admin_namespace.use_webpacker ? favicon_pack_tag(favicon) : favicon_link_tag(favicon)
-              text_node(favicon_tag)
-            end
-
-            text_node csrf_meta_tags
-            text_node csp_meta_tag
-          end
-        end
-      end
-    end
-  end
-end
-
-# Imported from https://github.com/formaweb/formadmin
-module ActiveAdmin
-  responsive_viewport = { viewport: "width=device-width, initial-scale=1" }
-
-  ActiveAdmin.application.meta_tags.merge! responsive_viewport
-  ActiveAdmin.application.meta_tags_for_logged_out_pages.merge! responsive_viewport
-
-  module Views
-    class Header < Component
-      alias_method :_build, :build
-
-      def build(namespace, menu)
-        _build namespace, menu
-        build_responsive_menu
-      end
-
-      def build_responsive_menu
-        button "<i></i>".html_safe, type: "button", class: "menu-button", onclick: 'document.body.classList.toggle("opened-menu")'
-      end
-    end
-  end
-end
-
-# Overwrite logout link with image
-module ActiveAdmin
-  class Namespace
-    def add_updates_notice_to_menu(menu, priority = 10, html_options = {})
-      menu.add \
-        id: "updates", priority: priority, html_options: html_options,
-        label: -> {
-          content_tag(:span) {
-            inline_svg_tag("admin/gift.svg", size: "20") +
-            content_tag(:span, "", class: "badge")
-          }
-        },
-        url: -> { updates_path },
-        if: -> { Update.unread_count(current_active_admin_user).positive? }
-    end
-
-    def add_logout_button_to_menu(menu, priority = 20, html_options = {})
-      if logout_link_path
-        html_options = html_options.reverse_merge(method: logout_link_method || :get)
-        menu.add \
-          id: "logout", priority: priority, html_options: html_options,
-          label: -> { inline_svg_tag("admin/sign-out.svg", size: "20") },
-          url: -> { render_or_call_method_or_proc_on self, active_admin_namespace.logout_link_path },
-          if: :current_active_admin_user?
-      end
-    end
-  end
-end
-
+# Support dynamic sidebar title with the :basket_price_extra_title name
 module ActiveAdmin
   module Filters
     module ResourceExtension
       def filters_sidebar_section
-        ActiveAdmin::SidebarSection.new :filters, only: :index, if: -> { active_admin_config.filters.any? } do
+        name = :filters
+        ActiveAdmin::SidebarSection.new name, only: :index, if: -> { active_admin_config.filters.any? } do
+          h3 I18n.t("active_admin.shared.sidebar_section.#{name}", default: name.to_s.titlecase), class: "filters-form-title"
           active_admin_filters_form_for assigns[:search], active_admin_config.filters,
             data: {
               controller: "filters",
@@ -445,42 +282,21 @@ module ActiveAdmin
       end
     end
   end
-
-  module Inputs
-    module Filters
-      class DateRangeInput < ::Formtastic::Inputs::StringInput
-        def input_html_options
-          {
-            size: 12,
-            type: "date"
-           }.merge(options[:input_html] || {})
-        end
-      end
-    end
-  end
-end
-
-# Support dynamic sidebar title with the :basket_price_extra_title name
-module ActiveAdmin
-  class SidebarSection
-    def title
-      case name
-      when "basket_price_extra_title"
-        Current.acp.basket_price_extra_title
-      else
-        I18n.t("active_admin.sidebars.#{name}", default: name.titleize)
-      end
-    end
-  end
 end
 
 module ActiveAdmin
   class DSL
     def sidebar_handbook_link(page, only: :index)
       section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
-        a href: "/handbook/#{page}" do
-          span inline_svg_tag("admin/book-open.svg", size: "20")
-          span t("layouts.footer.handbook")
+        div class: "flex justify-center" do
+          a href: "/handbook/#{page}", class: "action-item-button small light" do
+            span do
+              icon "book-open", class: "w-5 h-5 me-2"
+            end
+            span do
+              t("active_admin.site_footer.handbook")
+            end
+          end
         end
       end
       config.sidebar_sections << section
@@ -490,15 +306,14 @@ module ActiveAdmin
       section = ActiveAdmin::SidebarSection.new(
         :shop_admin_only,
         if: -> { Current.acp.shop_admin_only },
-        only: :index,
-        class: "warning"
+        only: :index
       ) do
-        div class: "content" do
-          span t("active_admin.sidebars.shop_admin_only_text_html")
-          if authorized?(:read, Current.acp)
-            para class: "text-center" do
-              a(href: "/settings#shop") { t("active_admin.sidebars.edit_settings") }
-            end
+        para class: "p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
+          t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
+        end
+        if authorized?(:read, Current.acp)
+          div class: "text-center text-sm mt-3" do
+            a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
           end
         end
       end
@@ -512,10 +327,10 @@ module ActiveAdmin
   module Views
     class IndexAsTable < ActiveAdmin::Component
       def build(page_presenter, collection)
+        add_class "index-as-table"
         table_options = {
           id: "index_table_#{active_admin_config.resource_name.plural}",
           sortable: true,
-          class: "index_table index",
           i18n: active_admin_config.resource_class,
           paginator: page_presenter[:paginator] != false,
           row_class: page_presenter[:row_class]
@@ -525,9 +340,12 @@ module ActiveAdmin
         table_options[:row_data] = page_presenter[:row_data]
         table_options[:tbody] = page_presenter[:tbody]
 
-        table_for collection, table_options do |t|
-          table_config_block = page_presenter.block || default_table
-          instance_exec(t, &table_config_block)
+        if page_presenter.block
+          insert_tag(IndexTableFor, collection, table_options) do |t|
+            instance_exec(t, &page_presenter.block)
+          end
+        else
+          render "index_as_table_default", table_options: table_options
         end
       end
     end
@@ -536,7 +354,7 @@ module ActiveAdmin
       def build(obj, *attrs)
         options = attrs.extract_options!
         @sortable = options.delete(:sortable)
-        @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [ obj ]
+        @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [obj]
         @resource_class = options.delete(:i18n)
         @resource_class ||= @collection.klass if @collection.respond_to? :klass
 
@@ -549,6 +367,7 @@ module ActiveAdmin
 
         build_table
         super(options)
+        add_class "data-table"
         columns(*attrs)
       end
 
@@ -559,15 +378,9 @@ module ActiveAdmin
         @tbody = tbody @tbody_options do
           # Build enough rows for our collection
           @collection.each do |elem|
-            classes = [ helpers.cycle("odd", "even") ]
-
-            if @row_class
-              classes << @row_class.call(elem)
-            end
-
             # Add tr row data attributes
             data_attrs = @row_data ? @row_data.call(elem) : {}
-            tr({ class: classes.flatten.join(" "), id: dom_id_for(elem) }.merge(data_attrs))
+            tr({ id: dom_id_for(elem), class: @row_class&.call(elem) }.merge(data_attrs))
           end
         end
       end
@@ -580,31 +393,8 @@ ActiveAdmin.before_load do |app|
   ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver
 end
 
-# https://github.com/activeadmin/activeadmin/issues/5712#issuecomment-508184641
 ActiveAdmin.after_load do |app|
-  app.namespaces.each do |namespace|
-    namespace.fetch_menu(ActiveAdmin::DEFAULT_MENU)
-  end
-
-  # https://github.com/activeadmin/activeadmin/pull/7437/files
   module ActiveAdmin
-    class ResourceController < BaseController
-      module DataAccess
-        def update_resource(object, attributes)
-          status = nil
-          ActiveRecord::Base.transaction do
-            object = assign_attributes(object, attributes)
-
-            run_update_callbacks object do
-              status = save_resource(object)
-              raise ActiveRecord::Rollback unless status
-            end
-          end
-          status
-        end
-      end
-    end
-
     module ViewHelpers
       module AutoLinkHelper
         def auto_link(resource, content = display_name(resource))

@@ -1,5 +1,5 @@
 ActiveAdmin.register Shop::Producer do
-  menu parent: :shop, priority: 3
+  menu parent: :navshop, priority: 3
   actions :all, except: [ :show ]
 
   breadcrumb do
@@ -28,10 +28,8 @@ ActiveAdmin.register Shop::Producer do
         producer.products.size,
         shop_products_path(
           q: { producer_id_eq: producer.id }))
-    }
-    if authorized?(:update, Shop::Producer)
-      actions class: "col-actions-2"
-    end
+    }, class: "text-right"
+    actions
   end
 
   sidebar_shop_admin_only_warning

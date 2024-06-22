@@ -5,6 +5,7 @@ ruby file: ".ruby-version"
 gem "rails", "7.1.3.4"
 
 gem "bootsnap", require: false
+gem "propshaft"
 gem "pg"
 gem "puma"
 
@@ -23,8 +24,7 @@ gem "phony_rails"
 gem "tod"
 gem "discard"
 
-gem "activeadmin"
-gem "sprockets-rails"
+gem "activeadmin", "4.0.0.beta7"
 gem "cancancan"
 gem "acts_as_list"
 
@@ -32,13 +32,11 @@ gem "simple_form"
 gem "inline_svg"
 gem "slim"
 
-# Admin section
-gem "turbolinks"
-# Members section
-gem "importmap-rails", "~> 1.2"
+gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
+gem "rails_icons", github: "Rails-Designer/rails_icons"
 
 gem "cld"
 

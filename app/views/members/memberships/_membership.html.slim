@@ -2,8 +2,8 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = membership.fiscal_year
 
   - if membership.can_member_update?
-    = link_to edit_members_membership_path(membership), title: t('.edit'), class: 'ml-1.5 p-2 text-gray-400 dark:text-gray-600 hover:text-green-500' do
-      = inline_svg_tag 'members/pencil_square.svg', class: 'mb-1.5 inline h-5 w-5 fill-stroke'
+    = link_to edit_members_membership_path(membership), title: t('.edit'), class: 'ml-1.5 p-2' do
+      = inline_svg_tag 'members/pencil_square.svg', class: 'mb-1.5 inline h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500'
 
 ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.year
   li class='flex flex-row items-center'
@@ -61,7 +61,4 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
             = link_to members_billing_path do
               = cur(membership.price)
             - if membership.invoices.any?
-              span class='m-0 flex items-center tooltip-toggle' onclick="" data-tooltip="#{t('.price_tooltip')}"
-                = inline_svg_tag 'members/info_circle.svg', class: 'ml-2 stroke-2'
-
-
+              = tooltip "membership-price-#{membership.id}", t('.price_tooltip')

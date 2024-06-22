@@ -9,7 +9,7 @@ ActiveAdmin.register MailTemplate do
     when "edit", "update"
       [
         link_to(MailTemplate.model_name.human(count: 2), mail_templates_path),
-        link_to(mail_template.display_name, mail_template)
+        link_to(resource.display_name, resource)
       ]
     end
   end
@@ -22,37 +22,39 @@ ActiveAdmin.register MailTemplate do
   scope :invoice
 
   action_item :view, only: :index, if: -> { authorized?(:update, ACP) } do
-    link_to t(".settings"), edit_acp_path(anchor: "mail")
+    link_to t(".settings"), edit_acp_path(anchor: "mail"), class: "action-item-button"
   end
 
   index download_links: false do
-    column :title, ->(mt) { link_to mt.display_name, mt }, sortable: false
+    column :title, ->(mt) { link_to mt.display_name, mt }, sortable: false, class: "whitespace-nowrap"
     column :description
-    column :active, sortable: false
-    actions class: "col-actions-2"
+    column :active, sortable: false, class: "text-right"
+    actions
   end
 
   show do |mail_template|
     columns do
-      column do
-        attributes_table do
-          row(:description)
-          row(:active)
-        end
-      end
-    end
-    columns "data-controller" => "iframe-resize" do
-      Current.acp.languages.each do |locale|
-        column do
+      column "data-controller" => "iframe" do
+        Current.acp.languages.each do |locale|
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           panel title do
-            iframe(
-              srcdoc: mail_template.mail_preview(locale),
-              scrolling: "no",
-              class: "mail_preview",
-              id: "mail_preview_#{locale}",
-              "data-iframe-resize-target" => "iframe")
+            div class: "iframe-wrapper" do
+              iframe(
+                srcdoc: mail_template.mail_preview(locale),
+                scrolling: "no",
+                class: "mail_preview",
+                id: "mail_preview_#{locale}",
+                "data-iframe-target" => "iframe")
+            end
+          end
+        end
+      end
+      column do
+        panel t(".details") do
+          attributes_table do
+            row(:description)
+            row(:active)
           end
         end
       end
@@ -71,10 +73,8 @@ ActiveAdmin.register MailTemplate do
     code_editor_preview_path_value: "/mail_templates/preview.js"
   } do |f|
     f.inputs t(".settings") do
+      para f.object.description, class: "description"
       f.input :title, as: :hidden
-      li do
-        para f.object.description
-      end
 
       if mail_template.always_active?
         f.input :active,
@@ -100,9 +100,9 @@ ActiveAdmin.register MailTemplate do
           data: { mode: "liquid", code_editor_target: "editor" }
         })
     end
-    columns "data-controller" => "iframe-resize" do
+    div "data-controller" => "iframe", class: "flex  gap-5" do
       Current.acp.languages.each do |locale|
-        column do
+        div class: "w-full" do
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           f.inputs title do
@@ -112,7 +112,7 @@ ActiveAdmin.register MailTemplate do
                 scrolling: "no",
                 class: "mail_preview",
                 id: "mail_preview_#{locale}",
-                "data-iframe-resize-target" => "iframe")
+                "data-iframe-target" => "iframe")
             end
             translated_input(f, :liquid_data_preview_yamls,
               locale: locale,

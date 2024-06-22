@@ -15,13 +15,13 @@ ActiveAdmin.register DepotGroup do
 
   includes :depots
   index download_links: false do
-    column :name, ->(dg) { display_name_with_public_name(dg) }
+    column :name, ->(dg) { display_name_with_public_name(dg) }, class: "whitespace-nowrap"
     column :depots, ->(dg) { dg.depots.reorder(:name).map { |d| auto_link d }.to_sentence.html_safe }
-    actions class: "col-actions-2"
+    actions
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t(".details") do
       translated_input(f, :names, required: true)
       translated_input(f, :public_names,
         required: false,
@@ -43,8 +43,9 @@ ActiveAdmin.register DepotGroup do
     f.inputs do
       other_group_ids = DepotGroup.pluck(:id) - [ f.object.id ]
       f.input :depots,
-        collection: admin_depots_collection,
-        as: :check_boxes
+        as: :check_boxes,
+        wrapper_html: { class: "legend-title" },
+        collection: admin_depots_collection
     end
 
     f.actions

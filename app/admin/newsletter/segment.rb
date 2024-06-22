@@ -10,29 +10,30 @@ ActiveAdmin.register Newsletter::Segment do
     links
   end
 
-  sidebar :info do
-    div class: "content" do
+  sidebar :info, only: :index do
+    side_panel t(".info") do
       para t("newsletters.segment.info_html")
     end
   end
 
   index download_links: false do
     column :title, ->(s) { link_to s.title, [ :edit, s ] }, sortable: false
-    column Member.model_name.human(count: 2), ->(s) { s.members.count }, sortable: false
-    actions defaults: true, class: "col-actions-2"
+    column Member.model_name.human(count: 2), ->(s) { s.members.count }, sortable: false, class: "text-right"
+    actions
   end
 
-  sidebar_handbook_link("newsletters", only: nil)
+  sidebar_handbook_link("newsletters", only: :index)
 
   form do |f|
-    f.inputs do
+    f.inputs t('.details') do
       translated_input(f, :titles, required: true)
     end
 
     f.inputs t("newsletters.segment.criterias") do
       f.input :basket_size_ids,
-        collection: admin_basket_sizes_collection,
         as: :check_boxes,
+        wrapper_html: { class: "single-column" },
+        collection: admin_basket_sizes_collection,
         label: BasketSize.model_name.human(count: 2),
         hint: t("formtastic.hints.newsletter/segment.basket_size_ids")
       if BasketComplement.kept.any?

@@ -25,6 +25,10 @@ _:
         _de: "%d.%m.%Y"
         _fr: "%d.%m.%Y"
         _it: "%d.%m.%Y"
+      number_short:
+        _de: "%d.%m.%y"
+        _fr: "%d.%m.%y"
+        _it: "%d.%m.%y"
       short:
         _de: "%e %B"
         _fr: "%e %B"

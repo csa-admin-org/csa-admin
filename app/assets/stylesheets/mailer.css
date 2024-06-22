@@ -600,3 +600,41 @@ p {
     text-shadow: none !important;
   }
 }
+
+body.dark,
+body.dark .email-body,
+body.dark .email-body_inner,
+body.dark .email-content,
+body.dark .email-wrapper,
+body.dark .email-masthead,
+body.dark .email-footer {
+  background-color: #000000 !important;
+  color: #eee !important;
+}
+
+body.dark .email-body_inner {
+  background-color: #333333 !important;
+}
+
+body.dark p,
+body.dark ul,
+body.dark ol,
+body.dark blockquote,
+body.dark h1,
+body.dark h2,
+body.dark h3 {
+  color: #eee !important;
+}
+
+body.dark .email-masthead img {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+body.dark .attributes_highlight,
+body.dark .discount {
+  background-color: #222 !important;
+}
+
+body.dark .email-masthead_name {
+  text-shadow: none !important;
+}

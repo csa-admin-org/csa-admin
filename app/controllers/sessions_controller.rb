@@ -1,8 +1,9 @@
 require "bcrypt"
 
 class SessionsController < ApplicationController
-  helper ActiveAdmin::ViewHelpers
-  layout false
+  # helper ActiveAdmin::ViewHelpers
+  helper ActiveAdmin::LayoutHelper
+  layout "active_admin_logged_out"
 
   # GET /login
   def new
@@ -24,7 +25,7 @@ class SessionsController < ApplicationController
       I18n.locale = @session.admin.language
       redirect_to login_path(locale: I18n.locale), notice: t("sessions.flash.initiated")
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

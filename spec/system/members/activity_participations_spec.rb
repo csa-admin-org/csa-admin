@@ -19,14 +19,18 @@ describe "Activity Participation" do
     click_button "Inscription"
 
     expect(page).to have_content("Merci pour votre inscription!")
+
+    participation = member.activity_participations.last
+
     within("ul#coming_participations") do
       expect(page).to have_content I18n.l(activity.date, format: :medium).capitalize
       expect(page).to have_content activity.period
       expect(page).not_to have_selector("span.carpooling svg")
-      note_tooltip = find("span.tooltip-toggle")["data-tooltip"]
-      expect(note_tooltip).to eq("Je viens avec mes enfants (3 et 5 ans)")
+
+      note_tooltip = find("#tooltip-activity-participation-#{participation.id}")
+      expect(note_tooltip).to have_text("Je viens avec mes enfants (3 et 5 ans)")
     end
-    expect(member.activity_participations.last).to have_attributes(
+    expect(participation).to have_attributes(
       note: "Je viens avec mes enfants (3 et 5 ans)",
       participants_count: 3,
       carpooling_phone: nil,

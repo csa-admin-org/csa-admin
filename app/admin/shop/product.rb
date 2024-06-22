@@ -1,5 +1,5 @@
 ActiveAdmin.register Shop::Product do
-  menu parent: :shop, priority: 2
+  menu parent: :navshop, priority: 2
   actions :all, except: [ :show ]
 
   breadcrumb do
@@ -11,7 +11,7 @@ ActiveAdmin.register Shop::Product do
         link_to(Shop::Product.model_name.human(count: 2), shop_products_path)
       ]
       if params["action"].in? %W[edit]
-        links << shop_product.name
+        links << resource.name
       end
       links
     end
@@ -44,14 +44,12 @@ ActiveAdmin.register Shop::Product do
     column :name, ->(product) { auto_link product }, sortable: :names
     column Shop::ProductVariant.model_name.human(count: 2), ->(product) {
       display_variants(self, product)
-    }
-    if authorized?(:update, Shop::Product)
-      actions class: "col-actions-2"
-    end
+    }, class: "w-7/12"
+    actions
   end
 
   action_item :tags, only: :index do
-    link_to Shop::Tag.model_name.human(count: 2), shop_tags_path
+    link_to Shop::Tag.model_name.human(count: 2), shop_tags_path, class: "action-item-button"
   end
 
   csv do
@@ -72,9 +70,10 @@ ActiveAdmin.register Shop::Product do
   form do |f|
     f.semantic_errors :base
     errors_on(self, f, :variants)
-    tabs do
-      tab t(".details") do
-        f.inputs nil do
+
+    f.inputs do
+      tabs do
+        tab t(".details") do
           translated_input(f, :names)
           translated_input(f, :descriptions, as: :action_text)
           f.input :tags,
@@ -93,37 +92,35 @@ ActiveAdmin.register Shop::Product do
             input_html: { disabled: f.object.basket_complement_id? },
             hint: t("formtastic.hints.shop/product.display_in_delivery_sheets")
         end
-      end
-      tab t(".availability"), id: :availability do
-        f.inputs nil, "data-controller" => "form-checkbox-toggler" do
-          f.input :available,
-            as: :boolean,
-            required: false,
-            input_html: { data: {
-              form_checkbox_toggler_target: "checkbox",
-              action: "form-checkbox-toggler#toggleInput"
-            } }
-          f.input :available_for_depot_ids,
-            label: Depot.model_name.human(count: 2),
-            as: :check_boxes,
-            collection: admin_depots_collection,
-            input_html: {
-              data: { form_checkbox_toggler_target: "input" }
-            }
-          coming_deliveries = Delivery.coming.shop_open.all
-          if coming_deliveries.any?
-            f.input :available_for_delivery_ids,
-              label: Delivery.model_name.human(count: 2),
+        tab t(".availability"), id: :availability do
+          div "data-controller" => "form-checkbox-toggler" do
+            f.input :available,
+              as: :boolean,
+              required: false,
+              input_html: { data: {
+                form_checkbox_toggler_target: "checkbox",
+                action: "form-checkbox-toggler#toggleInput"
+              } }
+            f.input :available_for_depot_ids,
+              label: Depot.model_name.human(count: 2),
               as: :check_boxes,
-              collection: coming_deliveries,
+              collection: admin_depots_collection,
               input_html: {
                 data: { form_checkbox_toggler_target: "input" }
               }
+            coming_deliveries = Delivery.coming.shop_open.all
+            if coming_deliveries.any?
+              f.input :available_for_delivery_ids,
+                label: Delivery.model_name.human(count: 2),
+                as: :check_boxes,
+                collection: coming_deliveries,
+                input_html: {
+                  data: { form_checkbox_toggler_target: "input" }
+                }
+            end
           end
         end
-      end
-      tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
-        f.inputs nil do
+        tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
           f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
             translated_input(ff, :names)
             ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95

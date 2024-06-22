@@ -12,4 +12,11 @@ class CustomRangeInput < Formtastic::Inputs::RangeInput
   def range_html_options
     input_html_options.merge(options[:range_html] || {})
   end
+
+  def label_html_options
+    {
+      :for => input_html_options[:id],
+      :class => options.dig(:label_html, :class) || 'label',
+    }
+  end
 end

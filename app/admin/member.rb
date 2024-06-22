@@ -42,7 +42,7 @@ ActiveAdmin.register Member do
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
       column "#", ->(member) {
         @waiting_started_ats.index(member.waiting_started_at) + 1
-      }, sortable: :waiting_started_at
+      }, sortable: :waiting_started_at, class: "text-right"
     end
     column :name, ->(member) { auto_link member }
     case Current.acp.member_form_mode
@@ -62,7 +62,7 @@ ActiveAdmin.register Member do
                 next_basket.depot.name
               ].join(" / "))
             end
-            status_tag(:trial) if next_basket.trial?
+            status_tag(:trial, class: "ms-1") if next_basket.trial?
           end
         }
       end
@@ -72,16 +72,8 @@ ActiveAdmin.register Member do
     if params[:scope] == "inactive"
       column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : "–" }
     end
-    column :state, ->(member) { status_tag(member.state) }
-    actions defaults: false, class: "col-actions-2" do |resource|
-      localizer = ActiveAdmin::Localizers.resource(active_admin_config)
-      if authorized?(ActiveAdmin::Auth::READ, resource)
-        item localizer.t(:view), resource_path(resource), class: "view_link member_link", title: localizer.t(:view)
-      end
-      if authorized?(ActiveAdmin::Auth::UPDATE, resource)
-        item localizer.t(:edit), edit_resource_path(resource), class: "edit_link member_link", title: localizer.t(:edit)
-      end
-    end
+    column :state, ->(member) { status_tag(member.state) }, class: "text-right"
+    actions
   end
 
   csv do
@@ -157,83 +149,90 @@ ActiveAdmin.register Member do
     columns do
       column do
         if next_basket = member.next_basket
-          attributes_table title: link_to(Member.human_attribute_name(:next_basket), next_basket.membership) do
-            if next_basket.trial?
-              row(:state) { status_tag(:trial) }
+          panel link_to(Member.human_attribute_name(:next_basket), next_basket.membership).html_safe do
+            attributes_table do
+              if next_basket.trial?
+                row(:state) { status_tag(:trial) }
+              end
+              row(:basket_size) { basket_size_description(member.next_basket, text_only: true, public_name: false) }
+              if BasketComplement.kept.any?
+                row(Membership.human_attribute_name(:memberships_basket_complements)) {
+                  basket_complements_description(member.next_basket.baskets_basket_complements, text_only: true, public_name: false)
+                }
+              end
+              row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
+              row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
+              if Current.acp.feature?("shop")
+                shop_order = next_basket.delivery.shop_orders.all_without_cart.find_by(member_id: member.id)
+                row(t("shop.title")) { auto_link shop_order }
+              end
+              row(:delivery_cycle) { auto_link next_basket.membership.delivery_cycle }
+              row(:membership) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
             end
-            row(:basket_size) { basket_size_description(member.next_basket, text_only: true, public_name: false) }
-            if BasketComplement.kept.any?
-              row(Membership.human_attribute_name(:memberships_basket_complements)) {
-                basket_complements_description(member.next_basket.baskets_basket_complements, text_only: true, public_name: false)
-              }
-            end
-            row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
-            row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
-            if Current.acp.feature?("shop")
-              shop_order = next_basket.delivery.shop_orders.all_without_cart.find_by(member_id: member.id)
-              row(t("shop.title")) { auto_link shop_order }
-            end
-            row(:delivery_cycle) { auto_link next_basket.membership.delivery_cycle }
-            row(:membership) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
           end
         end
 
         if member.pending? || member.waiting?
-          attributes_table title: t(".waiting_membership") do
-            row(:basket_size) { member.waiting_basket_size&.name }
-            if BasketComplement.kept.any?
-              row(Membership.human_attribute_name(:memberships_basket_complements)) {
-                basket_complements_description(
-                  member.members_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
-              }
-            end
-            if feature?("activity")
-              row(activities_human_name) { member.waiting_activity_participations_demanded_annually }
-            end
-            if feature?("basket_price_extra")
-              row(Current.acp.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
-            end
-            row(:depot) { member.waiting_depot&.name }
-            row(:delivery_cycle) { member.waiting_delivery_cycle&.name }
-            if Current.acp.allow_alternative_depots?
-              row(:waiting_alternative_depot_ids) {
-                member.waiting_alternative_depots.map(&:name).to_sentence
-              }
-            end
-            if member.waiting_billing_year_division?
-              row(:billing_year_division) {
-                t("billing.year_division.x#{member.waiting_billing_year_division}")
-              }
-            end
-            if member.waiting?
-              row :waiting_started_at
+          panel t(".waiting_membership") do
+            div class: "px-2" do
+              attributes_table do
+                row(:basket_size) { member.waiting_basket_size&.name }
+                if BasketComplement.kept.any?
+                  row(Membership.human_attribute_name(:memberships_basket_complements)) {
+                    basket_complements_description(
+                      member.members_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
+                  }
+                end
+                if feature?("activity")
+                  row(activities_human_name) { member.waiting_activity_participations_demanded_annually }
+                end
+                if feature?("basket_price_extra")
+                  row(Current.acp.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
+                end
+                row(:depot) { member.waiting_depot&.name }
+                row(:delivery_cycle) { member.waiting_delivery_cycle&.name }
+                if Current.acp.allow_alternative_depots?
+                  row(:waiting_alternative_depot_ids) {
+                    member.waiting_alternative_depots.map(&:name).to_sentence
+                  }
+                end
+                if member.waiting_billing_year_division?
+                  row(:billing_year_division) {
+                    t("billing.year_division.x#{member.waiting_billing_year_division}")
+                  }
+                end
+                if member.waiting?
+                  row :waiting_started_at
+                end
+              end
             end
           end
         end
 
         all_memberships_path = memberships_path(q: { member_id_eq: member.id }, scope: :all)
-        panel link_to("#{Membership.model_name.human(count: 2)} (#{member.memberships_count})", all_memberships_path) do
+        panel link_to(Membership.model_name.human(count: 2), all_memberships_path) do
           memberships = member.memberships.order(started_on: :desc)
           memberships_count = memberships.count
           if memberships_count.zero?
-            em t(".no_memberships")
+            div(class: "missing-data") { t(".no_memberships") }
           else
             table_for(memberships.limit(3), class: "table-memberships") do
-              column(:period) { |m| auto_link m, membership_short_period(m) }
+              column(:period) { |m| auto_link m, membership_period(m, format: :number_short) }
               if Current.acp.feature?("activity")
-                column(activities_human_name, class: "col-activity_participations_demanded") { |m|
+                column(activities_human_name, class: "text-right") { |m|
                   auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}"
                 }
               end
-              column(:baskets_count) { |m|
+              column(:baskets_count, class: "text-right") { |m|
                 auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}"
               }
             end
             if memberships_count > 3
-              em link_to(t(".show_more"), all_memberships_path), class: "show_more"
+              div show_more_link(all_memberships_path)
             end
           end
         end
+
         if Current.acp.feature?("shop")
           all_orders_path = shop_orders_path(q: { member_id_eq: member.id }, scope: :all_without_cart)
           panel link_to(t("shop.title_orders", count: 2), all_orders_path) do
@@ -246,23 +245,23 @@ ActiveAdmin.register Member do
             orders_count = orders.count
             if orders_count.zero?
               div do
-                em t(".no_orders")
+                div(class: "missing-data") { t(".no_orders") }
               end
             else
-              table_for(orders.limit(3), class: "table-shop_orders") do
+              table_for(orders.limit(3), class: "table-auto") do
                 column(:id) { |o| auto_link o, o.id }
-                column(:date) { |o| l(o.date, format: :number) }
+                column(:date) { |o| l(o.date, format: :number_short) }
                 column(:delivery) { |o| link_to o.delivery.display_name(format: :number), o.delivery }
-                column(:amount) { |o| cur(o.amount) }
-                column(:status) { |o| status_tag o.state_i18n_name, class: o.state }
-                column(class: "col-actions") { |o| link_to_invoice_pdf(o.invoice) }
+                column(:amount, class: "text-right") { |o| cur(o.amount) }
+                column(:status, class: "text-right") { |o| status_tag o.state, label: o.state_i18n_name }
               end
               if orders_count > 3
-                em link_to(t(".show_more"), all_orders_path), class: "show_more"
+                div show_more_link(all_orders_path)
               end
             end
           end
         end
+
         if Current.acp.feature?("activity")
           all_activity_participations_path =
             activity_participations_path(q: { member_id_eq: member.id }, scope: :all)
@@ -272,17 +271,17 @@ ActiveAdmin.register Member do
                 .order("activities.date DESC, activities.start_time DESC")
             activity_participations_count = activity_participations.count
             if activity_participations_count.zero?
-              em t_activity(".no_activities")
+              div(class: "missing-data") { t_activity(".no_activities") }
             else
-              table_for(activity_participations.limit(6), class: "table-activity_participations") do
+              table_for(activity_participations.limit(6), class: "table-auto") do
                 column(Activity.model_name.human) { |ap|
                   auto_link ap, ap.activity.name
                 }
-                column(:participants_short) { |ap| ap.participants_count }
-                column(:state) { |ap| status_tag(ap.state) }
+                column(:participants_short, class: "text-right") { |ap| ap.participants_count }
+                column(:state, class: "text-right") { |ap| status_tag(ap.state) }
               end
               if activity_participations_count > 6
-                em link_to(t(".show_more"), all_activity_participations_path), class: "show_more"
+                div show_more_link(all_activity_participations_path)
               end
             end
           end
@@ -293,19 +292,19 @@ ActiveAdmin.register Member do
           invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc, id: :desc)
           invoices_count = invoices.count
           if invoices_count.zero?
-            em t(".no_invoices")
+            div(class: "missing-data") { t(".no_invoices") }
           else
-            table_for(invoices.limit(10), class: "table-invoices") do
-              column(:id) { |i| auto_link i, i.id }
-              column(:date) { |i| l(i.date, format: :number) }
-              column(:amount) { |i| cur(i.amount) }
-              column(:paid_amount) { |i| cur(i.paid_amount) }
-              column(:overdue_notices_count)
-              column(:status) { |i| status_tag i.state }
-              column(class: "col-actions") { |i| link_to_invoice_pdf(i) }
+            table_for(invoices.limit(10), class: "table-auto") do
+              column(:id, class: "") { |i| auto_link i, i.id }
+              column(:date, class: "text-right") { |i| l(i.date, format: :number_short) }
+              column(:amount, class: "text-right") { |i|
+                (content_tag(:span, cur(i.paid_amount) + " /", class: "text-sm whitespace-nowrap text-gray-500") + " " +
+                  content_tag(:span, cur(i.amount), class: "whitespace-nowrap")).html_safe
+              }
+              column(:status, class: "text-right") { |i| status_tag i.state }
             end
             if invoices_count > 10
-              em link_to(t(".show_more"), all_invoices_path), class: "show_more"
+              div show_more_link(all_invoices_path)
             end
           end
         end
@@ -315,17 +314,17 @@ ActiveAdmin.register Member do
           payments = member.payments.includes(:invoice).reorder(date: :desc)
           payments_count = payments.count
           if payments_count.zero?
-            em t(".no_payments")
+            div(class: "missing-data") { t(".no_payments") }
           else
-            table_for(payments.limit(10), class: "table-payments") do
+            table_for(payments.limit(10), class: "table-auto") do
               column(:id) { |p| auto_link p, p.id }
-              column(:date) { |p| l(p.date, format: :number) }
-              column(:invoice_id) { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
-              column(:amount) { |p| cur(p.amount) }
-              column(:type) { |p| status_tag p.type }
+              column(:date, class: "text-right") { |p| l(p.date, format: :number_short) }
+              column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
+              column(:amount, class: "text-right") { |p| cur(p.amount) }
+              column(:type, class: "text-right") { |p| status_tag p.type }
             end
             if payments_count > 10
-              em link_to(t(".show_more"), all_payments_path), class: "show_more"
+              div show_more_link(all_payments_path)
             end
           end
         end
@@ -336,14 +335,14 @@ ActiveAdmin.register Member do
             absences = member.absences.order(started_on: :desc)
             absences_count = absences.count
             if absences_count.zero?
-              em t(".no_absences")
+              div(class: "missing-data") { t(".no_absences") }
             else
               table_for(absences.limit(3), class: "table-absences") do
                 column(:started_on) { |a| auto_link a, l(a.started_on) }
                 column(:ended_on) { |a| auto_link a, l(a.ended_on) }
               end
               if absences_count > 3
-                em link_to(t(".show_more"), all_absences_path), class: "show_more"
+                div show_more_link(all_absences_path)
               end
             end
           end
@@ -351,131 +350,102 @@ ActiveAdmin.register Member do
       end
 
       column do
-        attributes_table do
-          row(:id) {
-            span { member.id.to_s }
-            if authorized?(:become, resource)
-              link_to(t(".become_member"), become_member_path(resource), class: "button")
-            end
-          }
-          row(:status) { status_tag member.state }
-          row(:created_at) { l member.created_at, format: :long }
-          row(:validated_at) { member.validated_at ? l(member.validated_at, format: :long) : nil }
-          row :validator
+        panel t(".details") do
+          attributes_table do
+            row(:id) {
+              div class: "flex items-center justify-between" do
+                span { member.id.to_s }
+                if authorized?(:become, resource)
+                  div do
+                    link_to become_member_path(resource), class: "ms-2 action-item-button tiny whitespace-nowrap" do
+                      icon("arrow-right-end-on-rectangle", class: "h-4 w-4 mr-1") + t(".become_member")
+                    end
+                  end
+                end
+              end
+            }
+            row(:status) { status_tag member.state }
+            row(:created_at) { l member.created_at, format: :long }
+            row(:validated_at) { member.validated_at ? l(member.validated_at, format: :long) : nil }
+            row :validator
+          end
         end
         if Current.acp.feature?("shop") && member.use_shop_depot?
-          attributes_table title: t("shop.title") do
+          attributes_table t("shop.title") do
             row(:depot) { member.shop_depot }
           end
         end
-        attributes_table title: Member.human_attribute_name(:contact) do
-          row :name
-          row(Member.human_attribute_name(:address)) { member.display_address }
-          unless member.same_delivery_address?
-            row(Member.human_attribute_name(:delivery_address)) { member.display_delivery_address }
-          end
-          row(:emails) { display_emails_with_link(self, member.emails_array) }
-          row(:phones) { display_phones_with_link(self, member.phones_array) }
-          if Current.acp.languages.many?
-            row(:language) { t("languages.#{member.language}") }
-          end
-          if Current.acp.feature?("contact_sharing")
-            row(:contact_sharing) { status_tag(member.contact_sharing) }
-          end
-        end
-        attributes_table title: t(".billing") do
-          div class: "actions" do
-            handbook_icon_link("billing")
-          end
-
-          if member.billing_email?
-            row(t(".email")) { display_email_with_link(self, member.billing_email) }
-          end
-          if member.salary_basket?
-            row(:salary_basket) { status_tag(member.salary_basket) }
-          end
-          if Current.acp.annual_fee
-            row(:annual_fee) { cur member.annual_fee }
-          end
-          row(:invoices_amount) {
-            link_to(
-              cur(member.invoices_amount),
-              invoices_path(q: { member_id_eq: member.id }, scope: :all))
-          }
-          row(:payments_amount) {
-            link_to(
-              cur(member.payments_amount),
-              payments_path(q: { member_id_eq: member.id }, scope: :all))
-          }
-          row(:balance_amount) {
-            if member.balance_amount.zero?
-              cur member.balance_amount
-            else
-              content_tag :b do
-                cur member.balance_amount
-              end
+        panel Member.human_attribute_name(:contact) do
+          attributes_table do
+            row :name
+            row(Member.human_attribute_name(:address)) { member.display_address }
+            unless member.same_delivery_address?
+              row(Member.human_attribute_name(:delivery_address)) { member.display_delivery_address }
             end
-          }
-          invoicer = Billing::Invoicer.new(member)
-          if invoicer.next_date
-            row(:next_invoice_on) {
-              if Current.acp.recurring_billing?
-                if invoicer.next_date
-                  span class: "next_date" do
-                    l(invoicer.next_date, format: :long_medium)
-                  end
-                  if authorized?(:force_recurring_billing, member) && invoicer.billable?
-                    button_to t(".invoice_now"), force_recurring_billing_member_path(member),
-                      form: {
-                        data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                        class: "inline"
-                      },
-                      data: { confirm: t(".invoice_now_confirm") }
-                  end
-                end
+            row(:emails) { display_emails_with_link(self, member.emails_array) }
+            row(:phones) { display_phones_with_link(self, member.phones_array) }
+            if Current.acp.languages.many?
+              row(:language) { t("languages.#{member.language}") }
+            end
+            if Current.acp.feature?("contact_sharing")
+              row(:contact_sharing) { status_tag(member.contact_sharing) }
+            end
+          end
+        end
+        panel t(".billing"), action: handbook_icon_link("billing") do
+          attributes_table do
+            if member.billing_email?
+              row(t(".email")) { display_email_with_link(self, member.billing_email) }
+            end
+            if member.salary_basket?
+              row(:salary_basket) { status_tag(member.salary_basket) }
+            end
+            if Current.acp.annual_fee
+              row(:annual_fee) { cur member.annual_fee }
+            end
+            row(:invoices_amount) {
+              link_to(
+                cur(member.invoices_amount),
+                invoices_path(q: { member_id_eq: member.id }, scope: :all))
+            }
+            row(:payments_amount) {
+              link_to(
+                cur(member.payments_amount),
+                payments_path(q: { member_id_eq: member.id }, scope: :all))
+            }
+            row(:balance_amount) {
+              if member.balance_amount.zero?
+                cur member.balance_amount
               else
-                span class: "empty" do
-                  t(".recurring_billing_disabled")
+                span class: "font-bold" do
+                  cur member.balance_amount
                 end
               end
             }
-          end
-        end
-
-        if Current.acp.sepa?
-          attributes_table title: t(".billing") + " (SEPA)" do
-            row(:iban) { member.iban_formatted }
-            row(:sepa_mandate_id) {
-              if member.sepa_mandate_id?
-                member.sepa_mandate_id + " (#{l(member.sepa_mandate_signed_on)})"
-              end
-            }
-          end
-        end
-
-        if Current.acp.share?
-          attributes_table title: t("active_admin.resource.edit.shares") do
-            row(ACP.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
-            row(:acp_shares_info) { member.acp_shares_info }
-            invoicer = Billing::InvoicerACPShare.new(member)
-            if invoicer.billable?
+            invoicer = Billing::Invoicer.new(member)
+            if invoicer.next_date
               row(:next_invoice_on) {
                 if Current.acp.recurring_billing?
-                  if invoicer.next_date
-                    span class: "next_date" do
-                      l(invoicer.next_date, format: :long_medium)
-                    end
-                    if authorized?(:force_acp_share_billing, member)
-                      button_to t(".invoice_now"), force_acp_share_billing_member_path(member),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                          class: "inline"
-                        },
-                        data: { confirm: t(".invoice_now_confirm") }
+                  div class: "flex items-center justify-between gap-2" do
+                    if invoicer.next_date
+                      span do
+                        l(invoicer.next_date, format: :long_medium)
+                      end
+                      if authorized?(:force_recurring_billing, member) && invoicer.billable?
+                        div do
+                          button_to t(".invoice_now"), force_recurring_billing_member_path(member),
+                            form: {
+                              data: { controller: "disable", disable_with_value: t("formtastic.processing") },
+                              class: "inline"
+                            },
+                            data: { confirm: t(".invoice_now_confirm") },
+                            class: "action-item-button tiny secondary"
+                        end
+                      end
                     end
                   end
                 else
-                  span class: "empty" do
+                  span class: "italic text-gray-400 dark:text-gray-600" do
                     t(".recurring_billing_disabled")
                   end
                 end
@@ -484,15 +454,63 @@ ActiveAdmin.register Member do
           end
         end
 
-        attributes_table title: t(".notes") do
-          row :profession
-          row(:come_from) { text_format(member.come_from) }
-          row :delivery_note
-          row(:food_note) { text_format(member.food_note) }
-          row(:note) { text_format(member.note) }
+        if Current.acp.sepa?
+          panel t(".billing") + " (SEPA)" do
+            attributes_table do
+              row(:iban) { member.iban_formatted }
+              row(:sepa_mandate_id) {
+                if member.sepa_mandate_id?
+                  member.sepa_mandate_id + " (#{l(member.sepa_mandate_signed_on)})"
+                end
+              }
+            end
+          end
         end
 
-        active_admin_comments
+        if Current.acp.share?
+          panel t("active_admin.resource.new.shares") do
+            attributes_table do
+              row(ACP.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
+              row(:acp_shares_info) { member.acp_shares_info }
+              invoicer = Billing::InvoicerACPShare.new(member)
+              if invoicer.billable?
+                row(:next_invoice_on) {
+                  if Current.acp.recurring_billing?
+                    if invoicer.next_date
+                      span class: "next_date" do
+                        l(invoicer.next_date, format: :long_medium)
+                      end
+                      if authorized?(:force_acp_share_billing, member)
+                        button_to t(".invoice_now"), force_acp_share_billing_member_path(member),
+                          form: {
+                            data: { controller: "disable", disable_with_value: t("formtastic.processing") },
+                            class: "inline"
+                          },
+                          data: { confirm: t(".invoice_now_confirm") }
+                      end
+                    end
+                  else
+                    span class: "italic text-gray-400 dark:text-gray-600" do
+                      t(".recurring_billing_disabled")
+                    end
+                  end
+                }
+              end
+            end
+          end
+        end
+
+        panel t(".notes") do
+          attributes_table do
+            row :profession
+            row(:come_from) { text_format(member.come_from) }
+            row :delivery_note
+            row(:food_note) { text_format(member.food_note) }
+            row(:note) { text_format(member.note) }
+          end
+        end
+
+        active_admin_comments_for(member)
       end
     end
   end
@@ -579,16 +597,21 @@ ActiveAdmin.register Member do
     end
     f.inputs Member.human_attribute_name(:address) do
       f.input :address
-      f.input :city
-      f.input :zip
+      div class: "single-line" do
+        f.input :zip, wrapper_html: { class: "md:w-50" }
+        f.input :city, wrapper_html: { class: "w-full" }
+      end
       f.input :country_code,
         as: :select,
         collection: countries_collection
     end
+
     f.inputs Member.human_attribute_name(:delivery_address) do
-      f.input :delivery_address
-      f.input :delivery_city
-      f.input :delivery_zip
+      f.input :delivery_address, label: Member.human_attribute_name(:address)
+      div class: "single-line" do
+        f.input :delivery_zip, label: Member.human_attribute_name(:zip), wrapper_html: { class: "md:w-50" }
+        f.input :delivery_city, label: Member.human_attribute_name(:city), wrapper_html: { class: "w-full" }
+      end
     end
 
     f.inputs t("active_admin.resource.show.billing") do
@@ -658,20 +681,25 @@ ActiveAdmin.register Member do
       :id, :basket_complement_id, :quantity, :_destroy
     ]
 
+  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
+    link_to t(".create_membership"), new_membership_path(member_id: resource.id),
+      class: "action-item-button"
+  end
+
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
     button_to t(".validate"), validate_member_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      class: "action-item-button"
   end
   action_item :wait, only: :show, if: -> { authorized?(:wait, resource) } do
     button_to t(".wait"), wait_member_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      class: "action-item-button"
   end
   action_item :deactivate, only: :show, if: -> { authorized?(:deactivate, resource) } do
     button_to t(".deactivate"), deactivate_member_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
-  end
-  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
-    link_to t(".create_membership"), new_membership_path(member_id: resource.id)
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      class: "action-item-button"
   end
 
   member_action :validate, method: :post do

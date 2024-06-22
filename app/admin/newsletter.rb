@@ -1,6 +1,6 @@
 ActiveAdmin.register Newsletter do
   menu priority: 99, label: -> {
-    inline_svg_tag("admin/envelope.svg", size: "20", title: Newsletter.model_name.human)
+    icon "envelope", title: Newsletter.model_name.human, class: "w-5 h-5 my-0.5 min-w-6"
   }
 
   filter :id
@@ -16,10 +16,10 @@ ActiveAdmin.register Newsletter do
   scope :sent
 
   action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
-    link_to Newsletter.human_attribute_name(:audience), newsletter_segments_path
+    link_to Newsletter.human_attribute_name(:audience), newsletter_segments_path, class: "action-item-button"
   end
   action_item :templates, only: :index do
-    link_to Newsletter::Template.model_name.human(count: 2), newsletter_templates_path
+    link_to Newsletter::Template.model_name.human(count: 2), newsletter_templates_path, class: "action-item-button"
   end
 
   index download_links: false do
@@ -27,14 +27,18 @@ ActiveAdmin.register Newsletter do
     column :subject, ->(n) { link_to n.subject, n }
     column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
-      if n.sent_at?
-        I18n.l(n.sent_at, format: :medium)
-      else
-        status_tag :draft
+      span class: "whitespace-nowrap" do
+        if n.sent_at?
+          I18n.l(n.sent_at, format: :medium)
+        else
+          status_tag :draft
+        end
       end
-    }
-    actions defaults: true, class: "col-actions-4" do |newsletter|
-      link_to(t(".duplicate"), new_newsletter_path(newsletter_id: newsletter.id), class: "duplicate_link", title: t(".duplicate"))
+    }, class: "text-right"
+    actions do |newsletter|
+      link_to new_newsletter_path(newsletter_id: newsletter.id), title: t(".duplicate") do
+        icon "document-duplicate", class: "w-5 h-5"
+      end
     end
   end
 
@@ -42,6 +46,22 @@ ActiveAdmin.register Newsletter do
 
   show do |newsletter|
     columns do
+      column "data-controller" => "iframe" do
+        Current.acp.languages.each do |locale|
+          title = t(".preview")
+          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
+          panel title do
+            div class: "iframe-wrapper" do
+              iframe(
+                srcdoc: newsletter.mail_preview(locale),
+                scrolling: "no",
+                class: "mail_preview",
+                id: "mail_preview_#{locale}",
+                "data-iframe-target" => "iframe")
+            end
+          end
+        end
+      end
       column do
         panel "#{Newsletter.human_attribute_name(:audience)} – #{newsletter.audience_name}" do
           ul class: "counts" do
@@ -86,48 +106,27 @@ ActiveAdmin.register Newsletter do
             end
           end
         end
-
-      end
-      column do
-        attributes_table do
-          row(:status) {
-            if newsletter.pending_delivery?
-              status_tag t(".pending_delivery"), class: 'processing'
-            elsif newsletter.sent_at?
-              status_tag :sent, title: [
-                "#{Newsletter.human_attribute_name(:sent_at)}: #{I18n.l(newsletter.sent_at, format: :medium)}",
-                "#{Newsletter.human_attribute_name(:sent_by)}: #{newsletter.sent_by&.name}"
-              ].join(" / ").html_safe
-            else
-              status_tag :draft,
-                title: "#{Newsletter.human_attribute_name(:updated_at)}: #{I18n.l(newsletter.updated_at, format: :medium)}"
-            end
-          }
-          row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
-        end
-      end
-    end
-    columns "data-controller" => "iframe-resize" do
-      Current.acp.languages.each do |locale|
-        column do
-          title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
-          panel title do
-            iframe(
-              srcdoc: newsletter.mail_preview(locale),
-              scrolling: "no",
-              class: "mail_preview",
-              id: "mail_preview_#{locale}",
-              "data-iframe-resize-target" => "iframe")
+        panel t(".details") do
+          attributes_table do
+            row(:status) {
+              if newsletter.pending_delivery?
+                status_tag t(".pending_delivery"), class: 'processing'
+              elsif newsletter.sent_at?
+                status_tag :sent, title: [
+                  "#{Newsletter.human_attribute_name(:sent_at)}: #{I18n.l(newsletter.sent_at, format: :medium)}",
+                  "#{Newsletter.human_attribute_name(:sent_by)}: #{newsletter.sent_by&.name}"
+                ].join(" / ").html_safe
+              else
+                status_tag :draft,
+                  title: "#{Newsletter.human_attribute_name(:updated_at)}: #{I18n.l(newsletter.updated_at, format: :medium)}"
+              end
+            }
+            row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           end
         end
-      end
-    end
-    unless newsletter.sent?
-      columns id: "suppressed-emails" do
-        column do
+        unless newsletter.sent?
           suppressed_emails = newsletter.audience_segment.suppressed_emails
-          panel "#{t(".suppressed_emails", count: suppressed_emails.size)} (#{suppressed_emails.size})", data: { controller: "show-all" } do
+          panel "#{t(".suppressed_emails", count: suppressed_emails.size)} (#{suppressed_emails.size})", data: { controller: "show-all" }, id: "suppressed-emails" do
             if suppressed_emails.any?
               members = newsletter.audience_segment.members
               active_suppressions = EmailSuppression.active.where(email: suppressed_emails)
@@ -140,10 +139,14 @@ ActiveAdmin.register Newsletter do
                   email: email,
                   reasons: active_suppressions.select { |s| s.email == email }.map(&:reason).uniq)
               }
-              table_for(suppressions, class: "partially-hidden", data: { "show-all-target" => "elements" }) do
-                column(Member.model_name.human) { |s| auto_link s.member }
-                column(Newsletter::Delivery.human_attribute_name(:email)) { |s| s.email }
-                column(Newsletter::Delivery.human_attribute_name(:state), class: 'align-right') { |s|
+              table_for(suppressions, class: "partially-hidden table-auto", data: { "show-all-target" => "elements" }) do
+                # column(Member.model_name.human) { |s|  }
+                column(Newsletter::Delivery.human_attribute_name(:email)) { |s|
+                  div do
+                    span { s.email } + span(class: "block text-sm") { auto_link s.member }
+                  end
+                }
+                column(Newsletter::Delivery.human_attribute_name(:state), class: "text-right") { |s|
                   if s.reasons.any?
                     content_tag :div do
                       s.reasons.map { |r| status_tag(r.underscore) }
@@ -154,13 +157,17 @@ ActiveAdmin.register Newsletter do
                 }
               end
               if suppressed_emails.size > 10
-                em link_to(t(".show_all")), class: "show_more", data: { action: "click->show-all#showAll" }
+                div class: "mt-2 flex justify-center" do
+                  link_to('#', title: t(".show_all"), class: "show_more", data: { action: "click->show-all#showAll" }) do
+                    icon "ellipsis-horizontal", class: "h-6 w-6"
+                  end
+                end
               end
-              para class: "bottom-text" do
-                em t(".suppressed_emails_description")
+              div(class: "mt-2 py-2 text-sm text-center italic") do
+                t(".suppressed_emails_description")
               end
             else
-              em t(".none")
+              div(class: "missing-data") { t(".none") }
             end
           end
         end
@@ -176,8 +183,8 @@ ActiveAdmin.register Newsletter do
     action: "change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage"
   } do |f|
     newsletter = f.object
-    div class: "form-warning", data: { "auto-save-target" => "warningMessage" } do
-      span t("newsletters.auto_save_recovered")
+    div class: "hidden text-base text-center mb-2 text-orange-700 dark:text-orange-400", data: { "auto-save-target" => "warningMessage" } do
+      t("newsletters.auto_save_recovered")
     end
     f.inputs t(".details") do
       f.input :id, as: :hidden
@@ -243,9 +250,9 @@ ActiveAdmin.register Newsletter do
           data: { action: "code-editor#updatePreview" }
         })
     end
-    columns "data-controller" => "iframe-resize" do
+    div "data-controller" => "iframe", class: "flex  gap-5" do
       Current.acp.languages.each do |locale|
-        column do
+        div class: "w-full" do
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
           f.inputs title do
@@ -255,7 +262,7 @@ ActiveAdmin.register Newsletter do
                 scrolling: "no",
                 class: "mail_preview",
                 id: "mail_preview_#{locale}",
-                "data-iframe-resize-target" => "iframe")
+                "data-iframe-target" => "iframe")
             end
             translated_input(f, :liquid_data_preview_yamls,
               locale: locale,
@@ -302,19 +309,21 @@ ActiveAdmin.register Newsletter do
   end
 
   action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
-    link_to(t(".duplicate"), new_newsletter_path(newsletter_id: resource.id), class: "duplicate_link")
+    link_to(t(".duplicate"), new_newsletter_path(newsletter_id: resource.id), class: "action-item-button")
   end
 
   action_item :deliveries, only: :show, if: -> { resource.sent? } do
     link_to(
       Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: newsletter.id }))
+      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id }),
+      class: "action-item-button")
   end
 
   action_item :send_email, class: "left-margin", only: :show, if: -> { authorized?(:send_email, resource) } do
     button_to t(".send_email"), send_email_newsletter_path(resource),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      data: { confirm: t(".newsletter.confirm", members_count: resource.audience_segment.members.count) }
+      data: { confirm: t(".newsletter.confirm", members_count: resource.audience_segment.members.count) },
+      class: "action-item-button"
   end
 
   member_action :send_email, method: :post do

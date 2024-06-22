@@ -10,31 +10,29 @@ ActiveAdmin.register BasketSize do
   index download_links: false do
     column :id
     column :name, ->(bs) { display_name_with_public_name(bs) }
-    column :price, ->(bs) { cur(bs.price, precision: 3) }
+    column :price, ->(bs) { cur(bs.price, precision: 3) }, class: "text-right"
     column :annual_price, ->(bs) {
       if bs.price.positive?
         deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)
       end
-    }
+    }, class: "text-right"
     column :deliveries, ->(bs) {
       deliveries_count_range(bs.billable_deliveries_counts)
-    }
+    }, class: "text-right"
     if Current.acp.feature?("activity")
       column activities_human_name,
         ->(bs) { bs.activity_participations_demanded_annually },
-        class: "col-activities"
+        class: "text-right"
     end
     if Current.acp.share?
-      column t("billing.acp_shares"), ->(bs) { bs.acp_shares_number }
+      column t("billing.acp_shares"), ->(bs) { bs.acp_shares_number }, class: "text-right"
     end
-    column :visible
-    if authorized?(:update, BasketSize)
-      actions class: "col-actions-2"
-    end
+    column :visible, class: "text-right"
+    actions
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t('.details') do
       translated_input(f, :names)
       translated_input(f, :public_names,
         hint: t("formtastic.hints.basket_size.public_name"))

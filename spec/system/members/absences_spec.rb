@@ -23,10 +23,13 @@ describe "Absences", freeze: "2021-06-15" do
     expect(page).to have_content("Merci de nous avoir prévenus!")
     expect(page).to have_content("Ces paniers ne sont pas remboursés")
     expect(page).to have_content "#{I18n.l(2.weeks.from_now.to_date)} – #{I18n.l(3.weeks.from_now.to_date)}"
-    note_tooltip = find("span.tooltip-toggle")["data-tooltip"]
-    expect(note_tooltip).to eq("Je serai absent, mais je paie quand même!")
 
-    expect(member.absences.last).to have_attributes(
+    absence = member.absences.last
+
+    note_tooltip = find("#tooltip-absence-#{absence.id}")
+    expect(note_tooltip).to have_text("Je serai absent, mais je paie quand même!")
+
+    expect(absence).to have_attributes(
       started_on: 2.weeks.from_now.to_date,
       ended_on: 3.weeks.from_now.to_date,
       note: "Je serai absent, mais je paie quand même!",

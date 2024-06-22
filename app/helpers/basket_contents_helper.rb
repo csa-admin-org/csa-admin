@@ -58,11 +58,11 @@ module BasketContentsHelper
 
   def display_basket_price_with_diff(base_price, prices)
     prices.map { |price|
-      content_tag(:div, class: "price-diff") {
-        (content_tag(:span, cur(price, unit: false, format: "%n"), class: "subtitle") +
+      content_tag(:div, class: "mt-1") {
+        (content_tag(:h4, cur(price, unit: false, format: "%n"), class: "text-2xl font-bold") +
           display_basket_price_diff(base_price, price - base_price))
       }
-    }.join(content_tag(:span, "-", class: "main-divider")).html_safe
+    }.join(content_tag(:span, "–", class: "text-2xl mx-2")).html_safe
   end
 
   def display_basket_price_diff(base_price, diff)
@@ -70,17 +70,17 @@ module BasketContentsHelper
     plus_sign = diff.positive? ? "+" : ""
     color_class =
       if per.in?(-5..5)
-        "neutral"
+        "bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200"
       elsif per > 5
-        "positive"
+        "bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-200"
       else
-        "negative"
+        "bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-200"
       end
-    content_tag :span, class: "diff #{color_class}" do
+    content_tag :span, class: "py-0.5 px-1 text-xs rounded-full #{color_class}" do
       [
         "#{plus_sign}#{cur(diff, unit: false, format: '%n')}",
         "#{plus_sign}#{per}%"
-      ].join(content_tag(:span, "/", class: "divider")).html_safe
+      ].join(content_tag(:span, "/", class: "px-1 font-extralight").html_safe).html_safe
     end.html_safe
   end
 
@@ -89,7 +89,7 @@ module BasketContentsHelper
 
     (
       yield +
-      content_tag(:span, cur(price * quantity.to_f), class: "subtitle")
+      content_tag(:span, cur(price * quantity.to_f), class: "block text-sm text-gray-500 whitespace-nowrap")
     ).html_safe
   end
 
@@ -103,7 +103,7 @@ module BasketContentsHelper
     return yield unless price.present?
 
     unit_price = I18n.t("units.#{unit}_quantity", quantity: "#{cur(price)}/")
-    (yield + content_tag(:span, unit_price, class: "subtitle")).html_safe
+    (yield + content_tag(:span, unit_price, class: "block text-sm text-gray-500 whitespace-nowrap")).html_safe
   end
 
   def units_collection

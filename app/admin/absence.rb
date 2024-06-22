@@ -7,13 +7,13 @@ ActiveAdmin.register Absence do
     elsif params["action"] != "index"
       links = [
         link_to(Member.model_name.human(count: 2), members_path),
-        auto_link(absence.member),
+        auto_link(resource.member),
         link_to(
           Absence.model_name.human(count: 2),
-          absences_path(q: { member_id_eq: absence.member_id }, scope: :all))
+          absences_path(q: { member_id_eq: resource.member_id }, scope: :all))
       ]
       if params["action"].in? %W[edit]
-        links << auto_link(absence)
+        links << auto_link(resource)
       end
       links
     end
@@ -44,15 +44,15 @@ ActiveAdmin.register Absence do
       end
     }, sortable: "members.name"
     column :started_on, ->(absence) {
-      link_to l(absence.started_on, format: :medium_long), absence
-    }
+      link_to l(absence.started_on, format: :medium), absence
+    }, class: "text-right"
     column :ended_on, ->(absence) {
-      link_to l(absence.ended_on, format: :medium_long), absence
-    }
+      link_to l(absence.ended_on, format: :medium), absence
+    }, class: "text-right"
     column :deliveries, ->(absence) {
       link_to absence.baskets.size, absence
-    }
-    actions class: "col-actions-3"
+    }, class: "text-right"
+    actions
   end
 
   sidebar_handbook_link("absences")
@@ -61,23 +61,24 @@ ActiveAdmin.register Absence do
     columns do
       column do
         panel "#{absence.baskets.count} #{Basket.model_name.human(count: absence.baskets.count)}" do
-          table_for absence.baskets.includes(:membership, :delivery) do
+          table_for absence.baskets.includes(:membership, :delivery), class: "table-auto" do
             column(:delivery) { |b| auto_link(b.delivery) }
             column(:membership) { |b| auto_link(b.membership) }
           end
         end
       end
       column do
-        attributes_table do
-          row :id
-          row :member
-          row(:email_session) { absence.session&.email }
-          row :note
-          row(:started_on) { l absence.started_on }
-          row(:ended_on) { l absence.ended_on }
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row :member
+            row(:email_session) { absence.session&.email }
+            row :note
+            row(:started_on) { l absence.started_on }
+            row(:ended_on) { l absence.ended_on }
+          end
         end
-
-        active_admin_comments
+        active_admin_comments_for(absence)
       end
     end
   end
@@ -87,15 +88,15 @@ ActiveAdmin.register Absence do
       f.input :member,
         collection: Member.joins(:memberships).distinct.order(:name).map { |d| [ d.name, d.id ] },
         prompt: true
+      div class: "single-line" do
+        f.input :started_on, as: :date_picker
+        f.input :ended_on, as: :date_picker
+      end
       if f.object.persisted?
         f.input :note, as: :text, input_html: { rows: 4 }
       else
         f.input :comment, as: :text, input_html: { rows: 4 }
       end
-    end
-    f.inputs Absence.human_attribute_name(:dates) do
-      f.input :started_on, as: :date_picker
-      f.input :ended_on, as: :date_picker
     end
     f.actions
   end

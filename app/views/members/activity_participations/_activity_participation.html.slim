@@ -11,15 +11,14 @@ span class="flex-grow flex flex-col flex-nowrap"
 
 span class="flex-none flex flex-row flex-nowrap md:flex-wrap"
   span class='h-8 md:ml-5 space-x-2 flex flex-row justify-start md:justify-end'
-    span class='w-10 flex flex-row justify-center items-center' title=t('activities.participant_count', count: activity_participation.participants_count)
+    span class='ms-1 flex flex-row justify-center items-center' title=t('activities.participant_count', count: activity_participation.participants_count)
       span = activity_participation.participants_count
-      = inline_svg_tag 'members/participant.svg'
+      = icon "users", class: "ms-1 h-5 w-5 text-gray-500", library: "lucide"
     - if activity_participation.carpooling?
-      span class='w-8 flex justify-center items-center' title="#{t('.carpooling')}: #{activity_participation.carpooling_phone.phony_formatted}"
-          = inline_svg_tag 'members/car.svg'
+      span class='ms-1 flex justify-center items-center' title="#{t('.carpooling')}: #{activity_participation.carpooling_phone.phony_formatted}"
+        = icon "car", library: "lucide", stroke_width: 1.5, class: "h-6 w-6 text-gray-500"
     - if activity_participation.note?
-      span class='w-8 flex justify-center items-center tooltip-toggle' onclick="" data-tooltip="#{activity_participation.note}"
-        = inline_svg_tag 'members/chat-note.svg', class: 'stroke-2 mt-px -mb-px'
+      = tooltip("activity-participation-#{activity_participation.id}", activity_participation.note, icon_name: "chat-bubble-bottom-center-text")
 
   span class="ml-2 flex-grow flex flex-row justify-end items-center"
     - if activity_participation.destroyable?

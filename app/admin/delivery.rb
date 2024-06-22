@@ -28,18 +28,30 @@ ActiveAdmin.register Delivery do
     if Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming")
       selectable_column
     end
-    column "#", ->(delivery) { auto_link delivery, delivery.number }, class: "col-number"
-    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium).capitalize }
+    column "#", ->(delivery) { auto_link delivery, delivery.number }
+    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium).capitalize }, class: "text-right"
     if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
     if Current.acp.feature?("shop")
-      column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }
+      column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right"
     end
-    actions defaults: true, class: "col-actions-6" do |delivery|
-      link_to("CSV", baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), class: "csv_link") +
-      link_to("XLSX", delivery_path(delivery, format: :xlsx), class: "xlsx_link") +
-        link_to("PDF", delivery_path(delivery, format: :pdf), class: "pdf_link", target: "_blank")
+    actions do |delivery|
+      div do
+        link_to baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: "CSV" do
+          inline_svg_tag "admin/csv_file.svg", class: "w-5 h-5"
+        end
+      end
+      div do
+        link_to delivery_path(delivery, format: :xlsx), title: "XLSX" do
+          inline_svg_tag "admin/xlsx_file.svg", class: "w-5 h-5"
+        end
+      end
+      div do
+        link_to delivery_path(delivery, format: :pdf), target: "_blank", title: "PDF" do
+          inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
+        end
+      end
     end
   end
 
@@ -60,7 +72,7 @@ ActiveAdmin.register Delivery do
   end
 
   action_item :delivery_cycle, only: :index do
-    link_to DeliveryCycle.model_name.human(count: 2), delivery_cycles_path
+    link_to DeliveryCycle.model_name.human(count: 2), delivery_cycles_path, class: "action-item-button"
   end
 
   sidebar_handbook_link("deliveries")
@@ -68,12 +80,11 @@ ActiveAdmin.register Delivery do
   show title: ->(d) { d.display_name(format: :long).capitalize } do |delivery|
     columns do
       column do
-        panel Basket.model_name.human(count: 2) do
-          div class: "actions" do
-            icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv)) +
-            icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
-            icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: "_blank")
-          end
+        panel Basket.model_name.human(count: 2), action: (
+          icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv)) +
+          icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
+          icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: "_blank")
+        ) do
 
           counts = delivery.basket_counts
           if counts.present?
@@ -90,33 +101,37 @@ ActiveAdmin.register Delivery do
               render partial: "active_admin/deliveries/baskets",
                 locals: { delivery: delivery, scope: :absent }
             else
-              content_tag :span, t("active_admin.empty"), class: "empty"
+              div(class: "missing-data") { t("active_admin.empty") }
             end
           end
         end
       end
 
       column do
-        attributes_table do
-          row("#") { delivery.number }
-          row(:date) { l(delivery.date, format: :long) }
-          row(:note) { text_format(delivery.note) }
+        panel t(".details") do
+          attributes_table do
+            row("#") { delivery.number }
+            row(:date) { l(delivery.date, format: :long) }
+            row(:note) { text_format(delivery.note) }
+          end
         end
 
         if Current.acp.feature?("shop")
-          attributes_table title: t("shop.title") do
-            row(t("shop.open")) { status_tag(delivery.shop_open?) }
-            if delivery.shop_open
-              row(:depots) { display_depots(delivery.shop_open_for_depots) }
-            end
-            row(Shop::Order.model_name.human(count: 2)) {
-              orders_count = delivery.shop_orders.all_without_cart.count
-              if orders_count.positive?
-                link_to(orders_count, shop_orders_path(q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
-              else
-                content_tag :span, t("active_admin.empty"), class: "empty"
+          panel t("shop.title") do
+          attributes_table do
+              row(t("shop.open")) { status_tag(delivery.shop_open?) }
+              if delivery.shop_open
+                row(:depots) { display_depots(delivery.shop_open_for_depots) }
               end
-            }
+              row(Shop::Order.model_name.human(count: 2)) {
+                orders_count = delivery.shop_orders.all_without_cart.count
+                if orders_count.positive?
+                  link_to(orders_count, shop_orders_path(q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
+                else
+                  content_tag :span, t("active_admin.empty"), class: "italic text-gray-400 dark:text-gray-600"
+                end
+              }
+            end
           end
         end
 
@@ -124,14 +139,16 @@ ActiveAdmin.register Delivery do
           basket_contents = delivery.basket_contents.includes(:product)
           panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
             if basket_contents.any?
-              basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe
+              div class: "p-2" do
+                basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe
+              end
             else
-              content_tag :span, t("active_admin.empty"), class: "empty"
+              div(class: "missing-data") { t("active_admin.empty") }
             end
           end
         end
 
-        active_admin_comments
+        active_admin_comments_for(delivery)
       end
     end
   end
@@ -142,20 +159,14 @@ ActiveAdmin.register Delivery do
       f.inputs do
         f.input :basket_complements,
           as: :check_boxes,
+          wrapper_html: { class: "legend-title" },
           collection: admin_basket_complements_collection,
           hint: true
 
-        para class: "actions" do
-          a href: handbook_page_path("deliveries", anchor: "complments-de-panier"), class: "action" do
-            span do
-              span inline_svg_tag("admin/book-open.svg", size: "20", title: t("layouts.footer.handbook"))
-              span t(".check_handbook")
-            end
-          end.html_safe
-        end
+        handbook_button(self, "deliveries", anchor: "complments-de-panier")
       end
     end
-    f.inputs do
+    f.inputs t(".details") do
       f.input :note, as: :text, input_html: { rows: 3 }
     end
     if Current.acp.feature?("shop")

@@ -10,15 +10,15 @@ ActiveAdmin.register BasketComplement do
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }
-    column :price, ->(bc) { cur(bc.price) }
+    column :price, ->(bc) { cur(bc.price) }, class: "text-right"
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
         deliveries_based_price_info(bc.price, bc.billable_deliveries_counts)
       end
-    }
+    }, class: "text-right"
     column :deliveries, ->(bc) {
       deliveries_count_range(bc.billable_deliveries_counts)
-    }
+    }, class: "text-right"
     column Current.acp.current_fiscal_year, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {
@@ -26,7 +26,7 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.acp.current_fiscal_year.year
         },
         scope: :all)
-    }, class: "col-deliveries"
+    }, class: "text-right"
     column Current.acp.fiscal_year_for(1.year.from_now), ->(bc) {
       link_to bc.future_deliveries.size, deliveries_path(
         q: {
@@ -34,20 +34,18 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.acp.current_fiscal_year.year + 1
         },
         scope: :all)
-    }, class: "col-deliveries"
+    }, class: "text-right"
     if Current.acp.feature?("activity")
       column activities_human_name,
         ->(bc) { bc.activity_participations_demanded_annually },
-        class: "col-activities"
+        class: "text-right"
     end
-    column :visible
-    if authorized?(:update, BasketComplement)
-      actions class: "col-actions-2"
-    end
+    column :visible, class: "text-right"
+    actions
   end
 
   form do |f|
-    f.inputs do
+    f.inputs t('.details') do
       translated_input(f, :names)
       translated_input(f, :public_names,
         hint: t("formtastic.hints.basket_complement.public_name"))
@@ -77,30 +75,23 @@ ActiveAdmin.register BasketComplement do
         })
     end
 
-    f.inputs do
+    f.inputs Delivery.model_name.human(count: 2) do
       if Delivery.current_year.any?
         f.input :current_deliveries,
-          label: deliveries_current_year_title,
+          label: Current.fiscal_year.to_s,
           as: :check_boxes,
           collection: Delivery.current_year,
           hint: f.object.persisted? ? t("formtastic.hints.basket_complement.current_deliveries_html") : nil
       end
       if Delivery.future_year.any?
         f.input :future_deliveries,
-          label: deliveries_next_year_title,
+          label: FiscalYear.for(1.year.from_now).to_s,
           as: :check_boxes,
           collection: Delivery.future_year,
           hint: f.object.persisted?
       end
 
-      para class: "actions" do
-        a href: handbook_page_path("deliveries", anchor: "complments-de-panier"), class: "action" do
-          span do
-            span inline_svg_tag("admin/book-open.svg", size: "20", title: t("layouts.footer.handbook"))
-            span t(".check_handbook")
-          end
-        end.html_safe
-      end
+      handbook_button(self, "deliveries", anchor: "complments-de-panier")
     end
 
     f.actions
