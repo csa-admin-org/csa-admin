@@ -1,8 +1,8 @@
 module TooltipHelper
   def tooltip(id, text, icon_name: "information-circle")
     tooltip_id = "tooltip-#{id}"
-    content_tag(:button,
-      class: "ms-1 block",
+    content_tag(:a,
+      class: "ms-1 block hover:text-gray-900 dark:hover:text-gray-100",
       data: { "tooltip-target" => tooltip_id }
     ) {
       icon icon_name, class: "h-5 w-5"
