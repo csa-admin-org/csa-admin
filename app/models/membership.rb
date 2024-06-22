@@ -528,7 +528,7 @@ class Membership < ApplicationRecord
       basket_size_id basket_price basket_price_extra basket_quantity
       depot_id depot_price delivery_cycle_id
     ]
-    (saved_changes.keys & tracked_attributes).any?
+    (saved_changes.keys & tracked_attributes).any? || !new_config_from.today?
   end
 
   def memberships_basket_complements_config_changed?

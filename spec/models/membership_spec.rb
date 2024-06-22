@@ -237,10 +237,10 @@ describe Membership do
       create(:delivery, date: "2022-10-01")
       create(:membership)
     end
-      basket_size = membership.basket_size
-      depot = membership.depot
-      new_basket_size = create(:basket_size)
-      new_depot = create(:depot)
+    basket_size = membership.basket_size
+    depot = membership.depot
+    new_basket_size = create(:basket_size)
+    new_depot = create(:depot)
 
     expect(membership.baskets_count).to eq(2)
     beginning_of_year = Date.new(2022, 1, 1)
@@ -262,6 +262,27 @@ describe Membership do
     expect(second_half_baskets.pluck(:basket_size_id).uniq).to eq [ new_basket_size.id ]
     expect(first_half_baskets.pluck(:depot_id).uniq).to eq [ depot.id ]
     expect(second_half_baskets.pluck(:depot_id).uniq).to eq [ new_depot.id ]
+  end
+
+  it "re-creates baskets when only new_config_from change" do
+    membership = travel_to "2022-01-01" do
+      create(:delivery, date: "2022-02-01")
+      create(:delivery, date: "2022-10-01")
+      create(:membership)
+    end
+
+    expect(membership.baskets_count).to eq(2)
+    middle_of_year = Date.new(2022, 6, 1)
+    end_of_year = Date.new(2022, 12, 31)
+
+    travel_to(end_of_year) do
+      expect {
+        membership.update!(
+          new_config_from: middle_of_year)
+      }. to change { membership.reload.baskets.last.id }
+    end
+
+    expect(membership.reload.baskets_count).to eq(2)
   end
 
   specify "with standard basket_size" do
