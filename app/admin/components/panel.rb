@@ -6,10 +6,14 @@ class Panel < ActiveAdmin::Component
   def build(title, *args)
     args = args.extract_options!
     action = args.delete(:action) if args.key?(:action)
+    count = args.delete(:count) if args.key?(:count)
     super(args)
     add_class "panel"
-    div class: "panel-title flex items-center justify-between" do
-      @title = h3(title.to_s, class: "")
+    div class: "panel-title justify-between" do
+      div class: "flex items-center gap-2" do
+        @title = h3(title.to_s, class: "")
+        span(class: "panel-title-count") { count } if count
+      end
       div(class: "panel-actions") { action } if action
     end
     @contents = div(class: "panel-body")

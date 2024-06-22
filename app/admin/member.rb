@@ -212,9 +212,9 @@ ActiveAdmin.register Member do
         end
 
         all_memberships_path = memberships_path(q: { member_id_eq: member.id }, scope: :all)
-        panel link_to(Membership.model_name.human(count: 2), all_memberships_path) do
-          memberships = member.memberships.order(started_on: :desc)
-          memberships_count = memberships.count
+        memberships = member.memberships.order(started_on: :desc)
+        memberships_count = memberships.count
+        panel link_to(Membership.model_name.human(count: 2), all_memberships_path), count: memberships_count do
           if memberships_count.zero?
             div(class: "missing-data") { t(".no_memberships") }
           else
@@ -237,14 +237,14 @@ ActiveAdmin.register Member do
 
         if Current.acp.feature?("shop")
           all_orders_path = shop_orders_path(q: { member_id_eq: member.id }, scope: :all_without_cart)
-          panel link_to(t("shop.title_orders", count: 2), all_orders_path) do
-            orders =
-              member
-                .shop_orders
-                .all_without_cart
-                .includes(:delivery, invoice: { pdf_file_attachment: :blob })
-                .order(created_at: :desc)
-            orders_count = orders.count
+          orders =
+            member
+              .shop_orders
+              .all_without_cart
+              .includes(:delivery, invoice: { pdf_file_attachment: :blob })
+              .order(created_at: :desc)
+          orders_count = orders.count
+          panel link_to(t("shop.title_orders", count: 2), all_orders_path), count: orders_count do
             if orders_count.zero?
               div do
                 div(class: "missing-data") { t(".no_orders") }
@@ -267,11 +267,11 @@ ActiveAdmin.register Member do
         if Current.acp.feature?("activity")
           all_activity_participations_path =
             activity_participations_path(q: { member_id_eq: member.id }, scope: :all)
-          panel link_to(activities_human_name, all_activity_participations_path) do
-            activity_participations =
-              member.activity_participations.includes(:activity)
-                .order("activities.date DESC, activities.start_time DESC")
-            activity_participations_count = activity_participations.count
+          activity_participations =
+            member.activity_participations.includes(:activity)
+              .order("activities.date DESC, activities.start_time DESC")
+          activity_participations_count = activity_participations.count
+          panel link_to(activities_human_name, all_activity_participations_path), count: activity_participations_count do
             if activity_participations_count.zero?
               div(class: "missing-data") { t_activity(".no_activities") }
             else
@@ -290,9 +290,9 @@ ActiveAdmin.register Member do
         end
 
         all_invoices_path = invoices_path(q: { member_id_eq: member.id }, scope: :all)
-        panel link_to(Invoice.model_name.human(count: 2), all_invoices_path) do
-          invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc, id: :desc)
-          invoices_count = invoices.count
+        invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc, id: :desc)
+        invoices_count = invoices.count
+        panel link_to(Invoice.model_name.human(count: 2), all_invoices_path), count: invoices.count do
           if invoices_count.zero?
             div(class: "missing-data") { t(".no_invoices") }
           else
@@ -312,9 +312,9 @@ ActiveAdmin.register Member do
         end
 
         all_payments_path = payments_path(q: { member_id_eq: member.id }, scope: :all)
-        panel link_to(Payment.model_name.human(count: 2), all_payments_path) do
-          payments = member.payments.includes(:invoice).reorder(date: :desc)
-          payments_count = payments.count
+        payments = member.payments.includes(:invoice).reorder(date: :desc)
+        payments_count = payments.count
+        panel link_to(Payment.model_name.human(count: 2), all_payments_path), count: payments_count do
           if payments_count.zero?
             div(class: "missing-data") { t(".no_payments") }
           else
@@ -333,9 +333,9 @@ ActiveAdmin.register Member do
 
         if Current.acp.feature?("absence")
           all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
-          panel link_to(Absence.model_name.human(count: 2), all_absences_path) do
-            absences = member.absences.order(started_on: :desc)
-            absences_count = absences.count
+          absences = member.absences.order(started_on: :desc)
+          absences_count = absences.count
+          panel link_to(Absence.model_name.human(count: 2), all_absences_path), count: absences_count do
             if absences_count.zero?
               div(class: "missing-data") { t(".no_absences") }
             else

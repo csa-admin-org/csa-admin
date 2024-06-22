@@ -1,7 +1,12 @@
 <div class="panel">
-  <h3 class="panel-title">
-    <%= I18n.t "active_admin.comments.title_content", count: comments.total_count %>
-  </h3>
+  <div class="panel-title">
+    <h3>
+      <%= I18n.t "active_admin.comments.title_content" %>
+    </h3>
+    <span class="panel-title-count">
+      <%= comments.total_count %>
+    </span>
+  </div>
   <div class="panel-body">
     <% if comments.any? %>
       <div class="px-2 space-y-4">

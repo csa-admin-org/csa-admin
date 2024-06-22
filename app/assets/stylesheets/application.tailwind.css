@@ -186,7 +186,11 @@
   }
 
   .panel-title {
-    @apply flex flex-wrap px-4 pb-2 gap-2 whitespace-nowrap text-xl bg-transparent font-extralight overflow-x-auto;
+    @apply flex items-center flex-wrap px-4 pb-2 gap-2 whitespace-nowrap text-xl bg-transparent font-extralight overflow-x-auto;
+  }
+
+  .panel-title-count {
+    @apply text-base px-2 py-0 m-0 rounded-full;
   }
 
   .panel-actions {
@@ -205,7 +209,7 @@
     @apply hover:text-green-600 dark:hover:text-green-600 !important;
   }
 
-  .scopes-count {
+  .scopes-count, .panel-title-count {
     @apply font-medium bg-green-200/80 text-green-800 dark:bg-green-800 dark:text-green-200 ;
   }
 

@@ -160,9 +160,9 @@ _:
         _fr: Commentaire
         _it: Commento
       title_content:
-        _de: Kommentare (%{count})
-        _fr: Commentaires (%{count})
-        _it: Commenti (%{count})
+        _de: Kommentare
+        _fr: Commentaires
+        _it: Commenti
     create_model:
       _de: Neu %{model}
       _fr: Nouveau %{model}

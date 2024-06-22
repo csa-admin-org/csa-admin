@@ -48,7 +48,7 @@ ActiveAdmin.register DeliveryCycle do
   show do |dc|
     columns do
       column do
-        panel "#{deliveries_current_year_title}: #{dc.current_deliveries_count}" do
+        panel deliveries_current_year_title, count: dc.current_deliveries_count do
           if dc.current_deliveries_count.positive?
             table_for dc.current_deliveries, class: "table-auto" do
               column "#", ->(d) { auto_link d, d.number }
@@ -58,7 +58,7 @@ ActiveAdmin.register DeliveryCycle do
             div(class: "missing-data") { t("active_admin.empty") }
           end
         end
-        panel "#{deliveries_next_year_title}: #{dc.future_deliveries_count}"  do
+        panel deliveries_next_year_title, count: dc.future_deliveries_count do
           if dc.future_deliveries_count.positive?
             table_for dc.future_deliveries, class: "table-auto" do
               column "#", ->(d) { auto_link d, d.number }
