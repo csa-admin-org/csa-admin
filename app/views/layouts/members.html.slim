@@ -2,6 +2,7 @@ doctype html
 html lang=I18n.locale
   head
     title = [Current.acp.name, t('.title')].join(' – ')
+    script src="https://js.sentry-cdn.com/98d2ed9e0cb845cabc1fff00323e06ca.min.js" crossorigin="anonymous"
     = javascript_importmap_tags 'members'
     = stylesheet_link_tag 'https://npmcdn.com/flatpickr/dist/themes/confetti.css'
     = stylesheet_link_tag "tailwind", "inter-font", data: { turbo_track: 'reload' }
