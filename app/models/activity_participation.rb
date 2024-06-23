@@ -100,7 +100,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def validate!(validator)
-    return if future? || validated?
+    return unless can_validate?
 
     update!(
       state: "validated",
@@ -110,8 +110,12 @@ class ActivityParticipation < ApplicationRecord
       review_sent_at: nil)
   end
 
+  def can_validate?
+    !future? && !validated?
+  end
+
   def reject!(validator)
-    return if future? || rejected?
+    return unless can_reject?
 
     update!(
       state: "rejected",
@@ -119,6 +123,10 @@ class ActivityParticipation < ApplicationRecord
       validator: validator,
       validated_at: nil,
       review_sent_at: nil)
+  end
+
+  def can_reject?
+    !future? && !rejected?
   end
 
   def can_send_email?

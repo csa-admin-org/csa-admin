@@ -1484,6 +1484,10 @@ _:
           _de: Rückerstattung
           _fr: Remboursement
           _it: Rimborso
+        reject:
+          _de: Ablehnen
+          _fr: Refuser
+          _it: Rifiutare
         send_email:
           _de: Senden
           _fr: Envoyer

@@ -119,6 +119,11 @@ class Ability
       writable_models += models_for(:activity)
     end
 
+    if admin.permission.can_write?(:activity_participation)
+      can :validate, ActivityParticipation, can_validate?: true
+      can :reject, ActivityParticipation, can_reject?: true
+    end
+
     if admin.permission.can_write?(:basket_content)
       writable_models += models_for(:basket_content)
     end
