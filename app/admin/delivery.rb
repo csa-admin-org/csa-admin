@@ -203,12 +203,12 @@ ActiveAdmin.register Delivery do
 
   batch_action :destroy, false
 
-  batch_action :open_shop, if: ->(attr) { Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
+  batch_action :open_shop, if: proc { Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming") }, confirm: true do |selection|
     Delivery.where(id: selection).update_all(shop_open: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :close_shop, if: ->(attr) { Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
+  batch_action :close_shop, if: proc { Current.acp.feature?("shop") && (!params[:scope] || params[:scope] == "coming") }, confirm: true do |selection|
     Delivery.where(id: selection).update_all(shop_open: false)
     redirect_back fallback_location: collection_path
   end

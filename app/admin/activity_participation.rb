@@ -9,7 +9,7 @@ ActiveAdmin.register ActivityParticipation do
       links << link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path)
     elsif params["action"] != "index"
       links << link_to(Activity.model_name.human(count: 2), activities_path)
-      links << auto_link(resource.activity)
+      links << auto_link(resource.activity, resource.activity.name(show_place: false))
       links << link_to(
         ActivityParticipation.model_name.human(count: 2),
         activity_participations_path(q: { activity_id_eq: resource.activity_id }, scope: :all))
@@ -64,6 +64,34 @@ ActiveAdmin.register ActivityParticipation do
     }, sortable: "participants_count", class: "text-right"
     column :state, ->(ap) { status_tag ap.state }, class: "text-right"
     actions
+  end
+
+  batch_action :validate, if: proc {
+    authorized?(:update, ActivityParticipation) &&
+      params[:scope].in?([ nil, "pending", "rejected" ])
+  }, confirm: true do |selection|
+    participations = ActivityParticipation.includes(:activity).where(id: selection)
+    participations.find_each do |participation|
+      participation.validate!(current_admin)
+    end
+    if participations.future.any?
+      flash[:alert] = t(".validate.flash.alert")
+    end
+    redirect_back fallback_location: collection_path
+  end
+
+  batch_action :reject, if: proc {
+    authorized?(:update, ActivityParticipation) &&
+      params[:scope].in?([ nil, "pending", "validated" ])
+  }, confirm: true do |selection|
+    participations = ActivityParticipation.includes(:activity).where(id: ids)
+    participations.find_each do |participation|
+      participation.reject!(current_admin)
+    end
+    if participations.future.any?
+      flash[:alert] = t(".reject.flash.alert")
+    end
+    redirect_back fallback_location: collection_path
   end
 
   csv do
@@ -221,34 +249,6 @@ ActiveAdmin.register ActivityParticipation do
         active_admin_comments_for(ap)
       end
     end
-  end
-
-  batch_action :validate, if: ->(_) {
-    authorized?(:update, ActivityParticipation) &&
-      params[:scope].in?([ nil, "pending", "rejected" ])
-  } do |selection|
-    participations = ActivityParticipation.includes(:activity).where(id: selection)
-    participations.find_each do |participation|
-      participation.validate!(current_admin)
-    end
-    if participations.future.any?
-      flash[:alert] = t(".validate.flash.alert")
-    end
-    redirect_back fallback_location: collection_path
-  end
-
-  batch_action :reject, if: ->(_) {
-    authorized?(:update, ActivityParticipation) &&
-      params[:scope].in?([ nil, "pending", "validated" ])
-  } do |selection|
-    participations = ActivityParticipation.includes(:activity).where(id: selection)
-    participations.find_each do |participation|
-      participation.reject!(current_admin)
-    end
-    if participations.future.any?
-      flash[:alert] = t(".reject.flash.alert")
-    end
-    redirect_back fallback_location: collection_path
   end
 
   action_item :invoice, only: :show, if: -> {

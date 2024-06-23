@@ -306,7 +306,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) } do |selection|
+  batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|
     Shop::Order.where(id: selection).find_each do |order|
       order.admin = current_admin
       order.invoice! if order.can_invoice?

@@ -163,12 +163,12 @@ ActiveAdmin.register Shop::Product do
     end
   end
 
-  batch_action :make_available, if: ->(attr) { params[:scope] == "unavailable" } do |selection|
+  batch_action :make_available, if: ->(attr) { params[:scope] == "unavailable" }, confirm: true do |selection|
     Shop::Product.where(id: selection).update_all(available: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :make_unavailable, if: ->(attr) { !params[:scope] || params[:scope] == "available" } do |selection|
+  batch_action :make_unavailable, if: ->(attr) { !params[:scope] || params[:scope] == "available" }, confirm: true do |selection|
     Shop::Product.where(id: selection).update_all(available: false)
     redirect_back fallback_location: collection_path
   end
