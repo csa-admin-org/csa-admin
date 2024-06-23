@@ -1,67 +1,220 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>The page you were looking for doesn't exist (404)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+    /*
+      ! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
+      */
+    /*
+      1. Use a consistent sensible line-height in all browsers.
+      2. Prevent adjustments of font size after orientation changes in iOS.
+      3. Use a more readable tab size.
+      4. Use the user's configured `sans` font-family by default.
+      5. Use the user's configured `sans` font-feature-settings by default.
+      6. Use the user's configured `sans` font-variation-settings by default.
+      7. Disable tap highlights on iOS
+      */
+    html,
+    :host {
+      line-height: 1.5;
+      /* 1 */
+      -webkit-text-size-adjust: 100%;
+      /* 2 */
+      -moz-tab-size: 4;
+      /* 3 */
+      tab-size: 4;
+      /* 3 */
+      font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      /* 4 */
+      font-feature-settings: normal;
+      /* 5 */
+      font-variation-settings: normal;
+      /* 6 */
+      -webkit-tap-highlight-color: transparent;
+      /* 7 */
+    }
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
+    /*
+      1. Remove the margin in all browsers.
+      2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+      */
+    body {
+      margin: 0;
+      /* 1 */
+      line-height: inherit;
+      /* 2 */
+    }
 
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    /*
+      Remove the default font size and weight for headings.
+      */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: inherit;
+    }
 
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
+    /*
+      Reset links to optimize for opt-in styling instead of opt-out.
+      */
+    a {
+      color: inherit;
+      text-decoration: inherit;
+    }
 
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    /*
+      Removes the default spacing and border for appropriate elements.
+      */
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .my-8 {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .mt-4 {
+      margin-top: 1rem;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .min-h-screen {
+      min-height: 100vh;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .space-y-4> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    .rounded {
+      border-radius: 0.25rem;
+    }
+
+    .bg-gray-950 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(3 7 18 / var(--tw-bg-opacity));
+    }
+
+    .bg-green-500 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+    }
+
+    .p-4 {
+      padding: 1rem;
+    }
+
+    .px-2 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    .text-9xl {
+      font-size: 8rem;
+      line-height: 1;
+    }
+
+    .text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+
+    .font-extrabold {
+      font-weight: 800;
+    }
+
+    .text-white {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+    }
+
+    .underline {
+      text-decoration-line: underline;
+    }
+
+    .hover\:underline:hover {
+      text-decoration-line: underline;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .dark\:bg-gray-950 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(3 7 18 / var(--tw-bg-opacity));
+      }
+
+      .dark\:text-white {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity));
+      }
+    }
   </style>
 </head>
 
-<body class="rails-default-error-page">
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
+<body class="flex min-h-screen w-full flex-col justify-center overflow-hidden dark:bg-gray-950">
+  <div class="p-4 mx-auto text-center dark:text-white">
+    <h1 class="text-9xl font-extrabold">404</h1>
+    <span class="text-9xl">🕳️</span>
+    <div class="my-8 space-y-4">
+      <h2 class="text-2xl">
+        The page you were looking for doesn't exist.
+      </h2>
+      <p class="text-lg">
+        You may have mistyped the address or the page may have moved.
+      </p>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
+    <a href="#" onclick="history.back()" class="text-white text-lg px-2 py-1 rounded bg-green-500 hover:underline">
+      ← Go back
+    </a>
   </div>
 </body>
 </html>
