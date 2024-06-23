@@ -110,19 +110,13 @@ ActiveAdmin.register Newsletter do
         end
         panel t(".details") do
           attributes_table do
-            row(:status) {
-              if newsletter.pending_delivery?
-                status_tag t(".pending_delivery"), class: "processing"
-              elsif newsletter.sent_at?
-                status_tag :sent, title: [
-                  "#{Newsletter.human_attribute_name(:sent_at)}: #{I18n.l(newsletter.sent_at, format: :medium)}",
-                  "#{Newsletter.human_attribute_name(:sent_by)}: #{newsletter.sent_by&.name}"
-                ].join(" / ").html_safe
-              else
-                status_tag :draft,
-                  title: "#{Newsletter.human_attribute_name(:updated_at)}: #{I18n.l(newsletter.updated_at, format: :medium)}"
-              end
-            }
+            case newsletter.state
+            when "sent"
+              row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
+              row(:sent_by) { newsletter.sent_by&.name }
+            when "draft"
+              row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
+            end
             row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           end
         end

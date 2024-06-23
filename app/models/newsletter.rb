@@ -46,6 +46,16 @@ class Newsletter < ApplicationRecord
     "newsletter-#{id}"
   end
 
+  def state
+    if pending_delivery?
+      "processing"
+    elsif sent?
+      "sent"
+    else
+      "draft"
+    end
+  end
+
   def audience_segment
     @audience_segment ||= Audience::Segment.parse(audience)
   end

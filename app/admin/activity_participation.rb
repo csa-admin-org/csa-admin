@@ -207,7 +207,6 @@ ActiveAdmin.register ActivityParticipation do
         if ap.validated? || ap.rejected?
           panel ActivityParticipation.human_attribute_name(:state) do
             attributes_table do
-              row(:status) { status_tag ap.state, label: ap.state_i18n_name }
               row :validator
               if ap.validated?
                 row(:validated_at) { l(ap.validated_at) }
@@ -255,8 +254,8 @@ ActiveAdmin.register ActivityParticipation do
   action_item :invoice, only: :show, if: -> {
     authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
   } do
-    link_to t(".invoice_action"),
-      new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation")
+    link_to t(".invoice_action"), new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation"),
+      class: "action-item-button"
   end
 
   before_build do |ap|

@@ -225,6 +225,16 @@ class Membership < ApplicationRecord
     end
   end
 
+  def state
+    if current?
+      trial? ? "trial" : "ongoing"
+    elsif future?
+      "future"
+    else
+      "past"
+    end
+  end
+
   def renewal_state
     if renewed?
       :renewed

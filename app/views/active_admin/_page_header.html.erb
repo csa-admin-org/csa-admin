@@ -15,7 +15,21 @@
         </ol>
       </nav>
     <% end %>
-    <h2 class="text-4xl font-thin" aria-label="Page Title"><%= title %></h2>
+    <div class="flex flex-wrap items-center gap-1 md:gap-3">
+      <h2 class="text-4xl text-left font-thin" aria-label="Page Title"><%= title %></h2>
+      <% if params[:action] == "show" && params[:id] && resource&.respond_to?(:state) %>
+        <div class="flex-grow md:grow-0 text-right">
+          <span class="status-tag m-0 mr-auto leading-3 text-base font-bold h-auto py-2 px-2.5" data-status="<%= resource.state %>">
+            <%= t("states.#{resource.model_name.to_s.underscore}.#{resource.state}") %>
+          </span>
+        </div>
+      <% end %>
+      <% if params[:controller] == "dashboard" %>
+        <span class="flex-grow text-4xl font-thin text-right text-gray-300 dark:text-gray-600">
+          <%= Current.fiscal_year %>
+        </span>
+      <% end %>
+    </div>
   </div>
   <% if action_items_for_action.present? %>
     <div data-test-action-items class="flex gap-2 flex-wrap lg:justify-end">

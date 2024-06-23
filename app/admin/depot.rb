@@ -132,16 +132,16 @@ ActiveAdmin.register Depot do
         panel t(".member_new_form") do
           attributes_table do
             row :visible
-            if DeliveryCycle.visible?
-              table_for depot.delivery_cycles, class: "delivery_cycles" do
-                column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
-                column Current.acp.current_fiscal_year, ->(dc) {
-                  auto_link dc, dc.current_deliveries_count
-                }
-                column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
-                  auto_link dc, dc.future_deliveries_count
-                }
-              end
+          end
+          if DeliveryCycle.visible?
+            table_for depot.delivery_cycles, class: "table-auto" do
+              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
+              column Current.acp.current_fiscal_year, ->(dc) {
+                auto_link dc, dc.current_deliveries_count
+              }, class: "text-right"
+              column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
+                auto_link dc, dc.future_deliveries_count
+              }, class: "text-right"
             end
           end
         end

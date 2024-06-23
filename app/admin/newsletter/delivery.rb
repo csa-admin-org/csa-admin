@@ -66,10 +66,6 @@ ActiveAdmin.register Newsletter::Delivery do
       column do
         panel t(".details") do
           attributes_table do
-            row(:status) {
-              state = delivery.pending? ? :processing : delivery.state
-              status_tag(state)
-            }
             case delivery.state
             when "delivered"
               row(:delivered_at) { l(delivery.delivered_at, format: :medium_long) }

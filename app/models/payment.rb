@@ -38,6 +38,10 @@ class Payment < ApplicationRecord
     fingerprint? ? "auto" : "manual"
   end
 
+  def state
+    type
+  end
+
   def manual?
     type == "manual"
   end
