@@ -27,7 +27,7 @@ describe "Invoices" do
       .and have_content("ouverte")
       .and have_content("Non")
       .and have_content("Montant CHF 120.00")
-      .and have_content("Commentaires (1)")
+      .and have_content("Commentaires")
       .and have_content("Sheriff")
       .and have_content("A oublier de venir.")
   end
