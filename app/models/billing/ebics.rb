@@ -20,6 +20,12 @@ module Billing
       client.Z54(
         GET_PAYMENTS_FROM.to_date.to_s,
         Date.current.to_s)
+    rescue Epics::Error::BusinessError => e
+      if e.message.include?("EBICS_NO_DOWNLOAD_DATA_AVAILABLE")
+        []
+      else
+        raise e
+      end
     end
 
     def client
