@@ -10,6 +10,7 @@ class Session < ApplicationRecord
   validates :email, format: /\A.+\@.+\..+\z/, allow_nil: true
   validates :remote_addr, :token, :user_agent, presence: true
   validate :owner_must_be_present
+  validate :email_must_not_be_suppressed
 
   before_validation :set_unique_token
 
@@ -68,6 +69,14 @@ class Session < ApplicationRecord
   end
 
   def owner_must_be_present
-    errors.add(:email, :unknown) unless member_id || admin_id
+    unless owner
+      errors.add(:email, :unknown)
+    end
+  end
+
+  def email_must_not_be_suppressed
+    if owner && EmailSuppression.outbound.active.exists?(email: email)
+      errors.add(:email, :suppressed)
+    end
   end
 end

@@ -1377,6 +1377,10 @@ _:
         session:
           attributes:
             email:
+              suppressed:
+                _de: E-Mail gesperrt, bitte kontaktieren Sie uns.
+                _fr: Email bloqué, veuillez nous contacter.
+                _it: E-mail bloccata, contattateci per favore.
               unknown:
                 _de: E-Mail unbekannt
                 _fr: Email inconnu

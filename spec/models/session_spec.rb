@@ -3,6 +3,20 @@
 require "rails_helper"
 
 describe Session do
+  describe "validations" do
+    specify "email_must_not_be_suppressed" do
+      create(:member, emails: "john@doe.com")
+      session = build(:session, member_email: "john@doe.com")
+      expect(session).to have_valid(:email)
+
+      create(:email_suppression, stream_id: "broadcast", email: "john@doe.com")
+      expect(session).to have_valid(:email)
+
+      create(:email_suppression, stream_id: "outbound", email: "john@doe.com")
+      expect(session).not_to have_valid(:email)
+    end
+  end
+
   describe "#expired?" do
     it "expires after a year" do
       session = build(:session,
