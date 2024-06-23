@@ -509,6 +509,10 @@ _:
           _fr: Toutes les quatre semaines
           _it: Ogni quattro settimane
       form:
+        admin_invitation:
+          _de: Ein Willkommens-E-Mail wird an den Admin gesendet, um ihn zur Anmeldung einzuladen.
+          _fr: Un email de bienvenue sera envoyé à l'admin pour l'inviter à se connecter.
+          _it: Un'email di benvenuto verrà inviata all'amministratore per invitarlo a connettersi.
         annual_fee:
           _de: Jährlicher Vereinsbeitrag
           _fr: Cotisation annuelle association

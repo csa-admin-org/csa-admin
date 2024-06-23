@@ -336,6 +336,10 @@ _:
           _de: Pro g oder pro Stück.
           _fr: En g ou à la pièce.
           _it: Per g o per pezzo.
+        depots:
+          _de: Die Depots ohne gelieferte Taschen werden automatisch ignoriert.
+          _fr: Les dépôts sans paniers livrés sont automatiquement ignorés.
+          _it: I punti di ritiro senza ceste consegnate vengono automaticamente ignorati.
         unit_price:
           _de: Pro kg oder pro Stück.
           _fr: Au kg ou à la pièce.
