@@ -19,8 +19,9 @@ class Admin < ApplicationRecord
   scope :with_email, ->(email) { where("lower(email) = ?", email.downcase) }
 
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: true, format: /\A.+\@.+\..+\z/
+  validates :email, presence: true, uniqueness: true
   validates :language, presence: true, inclusion: { in: proc { ACP.languages } }
+  validate :truemail
 
   after_create -> { Update.mark_as_read!(self) }
 
@@ -71,5 +72,13 @@ class Admin < ApplicationRecord
 
   def email=(email)
     super(email.downcase.strip)
+  end
+
+  private
+
+  def truemail
+    if email.present? && email_changed? && !Truemail.valid?(email)
+      errors.add(:email, :invalid)
+    end
   end
 end

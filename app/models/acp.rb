@@ -22,7 +22,6 @@ class ACP < ApplicationRecord
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]
-  EMAIL_REGEXP = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
   MEMBER_FORM_MODES = %w[membership shop]
   INPUT_FORM_MODES = %w[hidden visible required]
   DELIVERY_PDF_MEMBER_INFOS = %w[none phones food_note]
@@ -59,7 +58,7 @@ class ACP < ApplicationRecord
     presence: true,
     format: { with: %r{\Ahttps://.*\z} }
   validates :email_default_from, presence: true
-  validates :email_default_from, format: { with: EMAIL_REGEXP }
+  validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
   validates :email_default_from, format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
   validates :activity_phone, presence: true, if: -> { feature?("activity") }
   validates :iban, :creditor_name, :creditor_address,
