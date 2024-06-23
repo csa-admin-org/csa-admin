@@ -356,6 +356,9 @@
   .attributes-table :where(tbody > tr:last-child) {
     @apply border-none;
   }
+  .attributes-table :where(tbody > tr > th) {
+    @apply flex items-start;
+  }
   .attributes-table :where(tbody > tr > th, tbody > tr > td) {
     @apply p-0 py-1.5 text-base;
   }
@@ -652,6 +655,7 @@
     &[data-status="active"],
     &[data-status="closed"],
     &[data-status="auto"],
+    &[data-status="ongoing"],
     &[data-status="validated"],
     &[data-status="sent"],
     &[data-status="yes"] {
@@ -697,6 +701,7 @@
     &[data-status="processing"],
     &[data-status="no_email"],
     &[data-status="canceled"],
+    &[data-status="past"],
     &[data-status="inactive"] {
       @apply bg-neutral-300 dark:bg-neutral-600;
     }

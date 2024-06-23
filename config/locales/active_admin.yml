@@ -987,10 +987,6 @@ _:
             _de: "%{count} stornierte"
             _fr: "%{count} annulées"
             _it: "%{count} annullati"
-        pending_delivery:
-          _de: Lieferung in Bearbeitung...
-          _fr: Envoi en cours...
-          _it: Spedizione in corso...
         preview:
           _de: Vorschau
           _fr: Prévisualisation

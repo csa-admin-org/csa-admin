@@ -6,9 +6,9 @@ _:
         _fr: à venir
         _it: venendo
       pending:
-        _de: wartet auf Bestätigung
-        _fr: en attente de validation
-        _it: in attesa di conferma
+        _de: Zu bestätigen
+        _fr: À valider
+        _it: Da confermare
       rejected:
         _de: abgelehnt
         _fr: refusée
@@ -76,6 +76,62 @@ _:
         _de: Warteliste
         _fr: liste d'attente
         _it: lista di attesa
+    membership:
+      future:
+        _de: Künftig
+        _fr: Futur
+        _it: Futuro
+      ongoing:
+        _de: Laufend
+        _fr: En cours
+        _it: In corso
+      past:
+        _de: Vergangen
+        _fr: Passé
+        _it: Passato
+      trial:
+        _de: Probe
+        _fr: Essai
+        _it: Prova
+    newsletter:
+      draft:
+        _de: Entwurf
+        _fr: brouillon
+        _it: bozza
+      processing:
+        _de: Lieferung in Bearbeitung...
+        _fr: Envoi en cours...
+        _it: Spedizione in corso...
+      sent:
+        _de: gesendet
+        _fr: envoyé
+        _it: inviato
+    newsletter/delivery:
+      bounced:
+        _de: abgelehnte
+        _fr: rejetée
+        _it: respinto
+      delivered:
+        _de: verteilte
+        _fr: distribuée
+        _it: distribuito
+      ignored:
+        _de: ignorierte
+        _fr: ignorée
+        _it: ignorato
+      pending:
+        _de: ausstehend
+        _fr: en attente
+        _it: in attesa
+    payment:
+      auto:
+        _de: auto
+        _fr: auto
+        _it: auto
+      manual:
+        _de: manuell
+        _fr: manuel
+        _it: manuale
     shop/order:
       cart:
         _de: Warenkorb

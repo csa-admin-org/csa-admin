@@ -162,7 +162,6 @@ ActiveAdmin.register Shop::Order do
             row(:member)
             row(:delivery) { auto_link order.delivery, order.delivery.display_name }
             row(:depot)
-            row(:state) { status_tag order.state, label: order.state_i18n_name }
             row(:weight) { kg(order.weight_in_kg) }
             row(:created_at) { l(order.created_at, format: :long) }
             row(:updated_at) { l(order.updated_at, format: :long) }

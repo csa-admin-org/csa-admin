@@ -7,14 +7,7 @@ ActiveAdmin.register_page "Dashboard" do
     icon "home", title: t("active_admin.dashboard"), class: "w-5 h-5 my-0.5 min-w-6"
   }
 
-  content title: proc {
-    unless onboarding?
-      content_tag(:div, class: "flex flex-wrap items-center whitespace-nowrap") do
-        content_tag(:div, t("active_admin.dashboard"), class: "flex-grow") + " " +
-        content_tag(:div, Current.fiscal_year, class: "text-right text-gray-300 dark:text-gray-600")
-      end
-    end
-  } do
+  content title: proc { !onboarding? && t("active_admin.dashboard") } do
     if onboarding?
       render "onboarding"
     else

@@ -207,7 +207,6 @@ ActiveAdmin.register Invoice do
               row(:paid_missing_activity_participations)
             end
             row(:date) { l invoice.date }
-            row(:state) { status_tag invoice.state }
             row(:sent) { status_tag invoice.sent_at? }
             row(:created_at) { l(invoice.created_at, format: :medium_long) }
             row(:created_by)
