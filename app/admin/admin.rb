@@ -26,6 +26,7 @@ ActiveAdmin.register Admin do
   end
 
   form do |f|
+    para t('.admin_invitation'), class: "m-0 pt-0 pb-4 text-base"
     f.inputs t(".details") do
       f.input :name
       f.input :email
