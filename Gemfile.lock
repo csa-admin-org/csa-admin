@@ -543,6 +543,7 @@ GEM
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
+    simpleidn (0.2.3)
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
@@ -571,6 +572,8 @@ GEM
     tilt (2.3.0)
     timeout (0.4.1)
     tod (3.1.2)
+    truemail (3.3.1)
+      simpleidn (~> 0.2.1)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
     turbo-rails (2.0.5)
@@ -682,6 +685,7 @@ DEPENDENCIES
   terminal-table
   test-prof
   tod
+  truemail
   turbo-rails
   web-console
 

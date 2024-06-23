@@ -7,8 +7,9 @@ class Session < ApplicationRecord
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
 
-  validates :email, format: /\A.+\@.+\..+\z/, allow_nil: true
   validates :remote_addr, :token, :user_agent, presence: true
+  validates :email, presence: true, allow_nil: true
+  validate :truemail
   validate :owner_must_be_present
   validate :email_must_not_be_suppressed
 
@@ -68,8 +69,16 @@ class Session < ApplicationRecord
     end
   end
 
+  def truemail
+    if email.present? && !Truemail.valid?(email)
+      errors.add(:email, :invalid)
+    end
+  end
+
   def owner_must_be_present
-    unless owner
+    return unless email.present?
+
+    unless member_id || admin_id
       errors.add(:email, :unknown)
     end
   end

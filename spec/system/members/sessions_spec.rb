@@ -54,7 +54,7 @@ describe "Member sessions" do
     expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq "/sessions"
-    expect(page).to have_selector("span.error", text: "n'est pas valide")
+    expect(page).to have_selector("span.error", text: "doit être rempli(e)")
   end
 
   it "does not accept invalid email" do
@@ -74,13 +74,13 @@ describe "Member sessions" do
     visit "/"
     expect(current_path).to eq "/login"
 
-    fill_in "session_email", with: "foo@bar.com)"
+    fill_in "session_email", with: "foo@gmail.com)"
     click_button "Envoyer"
 
     expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq "/sessions"
-    expect(page).to have_selector("span.error", text: "Email inconnu")
+    expect(page).to have_selector("span.error", text: "n'est pas valide")
   end
 
   it "does not accept partial email matching other" do

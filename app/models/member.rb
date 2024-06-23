@@ -117,7 +117,7 @@ class Member < ApplicationRecord
       greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.acp.shares_number || 0 }
     },
     if: -> { public_create && Current.acp.share? }
-  validates :billing_email, format: { with: ACP::EMAIL_REGEXP, allow_nil: true }
+  validate :billing_truemail
   validates :iban, presence: true, if: :sepa_mandate_id?
   validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
   validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
@@ -394,6 +394,12 @@ class Member < ApplicationRecord
         errors.add(:emails, :taken)
         break
       end
+    end
+  end
+
+  def billing_truemail
+    if billing_email && billing_email_changed? && !Truemail.valid?(billing_email)
+      errors.add(:billing_email, :invalid)
     end
   end
 

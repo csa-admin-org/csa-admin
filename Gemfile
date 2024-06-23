@@ -23,6 +23,7 @@ gem "rack-status"
 gem "rack-cors"
 
 gem "phony_rails"
+gem "truemail"
 gem "tod"
 gem "discard"
 

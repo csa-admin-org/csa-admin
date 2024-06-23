@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_admin
-    current_session&.admin #|| auto_sign_in_admin_in_dev
+    current_session&.admin || auto_sign_in_admin_in_dev
   end
 
   def auto_sign_in_admin_in_dev

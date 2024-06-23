@@ -6,7 +6,7 @@ module HasEmails
   included do
     attr_accessor :email
 
-    validate :emails_must_be_valid
+    validate :truemails
 
     scope :with_email, ->(email) { where("emails ILIKE ?", "%#{email}%") }
     scope :including_email, ->(email) {
@@ -40,9 +40,11 @@ module HasEmails
 
   private
 
-  def emails_must_be_valid
+  def truemails
+    return unless emails_changed?
+
     emails_array.each do |email|
-      unless email.match?(ACP::EMAIL_REGEXP)
+      unless Truemail.valid?(email)
         errors.add(:emails, :invalid)
         break
       end

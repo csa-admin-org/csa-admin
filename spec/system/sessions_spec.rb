@@ -44,7 +44,7 @@ describe "Admin sessions" do
     expect(SessionMailer.deliveries.size).to eq 0
 
     expect(current_path).to eq "/sessions"
-    expect(page).to have_selector("p.inline-errors", text: "n'est pas valide")
+    expect(page).to have_selector("p.inline-errors", text: "doit être rempli(e)")
   end
 
   it "does not accept invalid email" do
