@@ -47,7 +47,7 @@ ActiveAdmin.register BasketContent do
       display_with_unit_price(bc.unit_price, bc.unit) {
         display_with_external_url(bc.product.name, bc.product.url)
       }
-    }
+    }, class: "whitespace-nowrap"
     unless params.dig(:q, :basket_size_eq).present?
       column :qt, ->(bc) {
         display_with_price(bc.unit_price, bc.quantity) {
