@@ -270,7 +270,7 @@ class BasketContent < ApplicationRecord
 
   def set_distribution_mode
     self.distribution_mode =
-      @quantities.values.any?(&:present?) ? "manual" : "automatic"
+      @quantities.values.map(&:to_i).any?(&:positive?) ? "manual" : "automatic"
   end
 
   def set_basket_quantities
