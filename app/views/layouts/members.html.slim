@@ -2,7 +2,8 @@ doctype html
 html lang=I18n.locale
   head
     title = [Current.acp.name, t('.title')].join(' – ')
-    script src="https://js.sentry-cdn.com/98d2ed9e0cb845cabc1fff00323e06ca.min.js" crossorigin="anonymous"
+    - if Rails.env.production?
+      script src="https://js.sentry-cdn.com/98d2ed9e0cb845cabc1fff00323e06ca.min.js" crossorigin="anonymous"
     = javascript_importmap_tags 'members'
     = stylesheet_link_tag 'https://npmcdn.com/flatpickr/dist/themes/confetti.css'
     = stylesheet_link_tag "tailwind", "inter-font", data: { turbo_track: 'reload' }
@@ -18,6 +19,7 @@ html lang=I18n.locale
             = render 'layouts/members/header'
           div class="md:mx-8 hidden md:block flex" data-menu-target='menu'
             = render 'layouts/members/footer'
+        main class="mt-4 md:mt-48 mb-24 mx-auto px-4 md:pl-0 w-full md:max-w-xl" data-menu-target='body'
         main class="mt-4 md:mt-48 mb-24 mx-auto px-4 md:pl-0 w-full md:max-w-xl" data-menu-target='body'
           section class="relative w-full"
             div class='md:absolute md:-mt-24 w-full md:pr-4'
