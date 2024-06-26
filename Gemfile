@@ -52,7 +52,10 @@ gem "faraday-cookie_jar"
 
 gem "icalendar"
 gem "image_processing"
-gem "prawn"
+# https://github.com/prawnpdf/ttfunk/issues/102
+gem "prawn", "2.4.0"
+gem "ttfunk", "1.7.0"
+gem "pdf-core", "0.9.0"
 gem "prawn-table"
 gem "prawn-svg"
 gem "hexapdf"
