@@ -1,6 +1,5 @@
 import "@hotwired/turbo-rails"
-import "components/trix"
-
+import "admin/trix"
 import "controllers/admin"
 
 // Active Admin
