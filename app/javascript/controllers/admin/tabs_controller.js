@@ -1,37 +1,41 @@
 import { Controller } from "@hotwired/stimulus";
-import { addClass } from "components/utils";
+import { prop, addClass } from "components/utils";
 
 export default class extends Controller {
   connect() {
-    var hash = location.hash.substring(1)
-    if (hash) {
+    const hash = location.hash.substring(1)
+    if (typeof hash === 'string' && hash.length > 0) {
       this.showTab(hash)
     }
     this.hideTabs()
   }
 
   showTab(hash) {
-    var tab = this.element.querySelectorAll('[aria-controls="' + hash + '"]')[0]
+    const tab = this.element.querySelectorAll('[aria-controls="' + hash + '"]')[0]
     if (tab && tab.getAttribute("data-tabs-hidden") != "true") {
-      tab.click()
+      prop("[aria-selected='true']", "aria-selected", false)
+      tab.setAttribute("aria-selected", "true")
       document.getElementById(hash).scrollIntoView();
     }
   }
 
   hideTabs() {
-    var tabs = this.element.querySelectorAll('a[data-tabs-hidden="true"]')
+    const tabs = this.element.querySelectorAll('a[data-tabs-hidden="true"]')
     for (const tab of tabs) {
       addClass(tab, "hidden")
     }
   }
 
   updateAnchor(event) {
-    var hash = event.target.getAttribute("aria-controls")
-    if (hash && hash != location.hash.substring(1)) {
+    const hash = event.target.getAttribute("aria-controls")
+    if (typeof hash !== 'string' || hash.length === 0) {
+      return
+    }
+
+    if (hash !== location.hash.substring(1)) {
       if (history.replaceState) {
-        history.replaceState(null, null, "#" + hash)
-      }
-      else {
+        history.replaceState(null, null, `#${hash}`)
+      } else {
         location.hash = hash
       }
     }
