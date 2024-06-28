@@ -1,6 +1,6 @@
 :queues:
-  - [critical, 5]
-  - [default, 2]
+  - critical
+  - default
   - low
 :scheduler:
   :schedule:
