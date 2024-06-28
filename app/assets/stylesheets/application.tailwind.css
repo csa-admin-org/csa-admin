@@ -708,7 +708,7 @@
   }
 
   .iframe-wrapper {
-    @apply flex justify-center;
+    @apply flex justify-center lg:mb-5;
   }
 
   iframe.mail_preview {
