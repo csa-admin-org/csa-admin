@@ -469,7 +469,7 @@ class Invoice < ApplicationRecord
   def apply_amount_percentage
     if amount_percentage?
       self[:amount_before_percentage] = amount
-      self[:amount] = (amount * (1 + amount_percentage / 100.0)).round_to_five_cents
+      self[:amount] = (amount * (1 + amount_percentage / 100.0)).round_to_one_cent
     else
       self[:amount_before_percentage] = nil
     end
@@ -480,7 +480,7 @@ class Invoice < ApplicationRecord
       self[:vat_rate] = configured_vat_rate
       gross_amount = amount_with_vat
       net_amount = gross_amount / (1 + vat_rate / 100.0)
-      self[:vat_amount] = gross_amount - net_amount.round(2)
+      self[:vat_amount] = gross_amount - net_amount.round_to_one_cent
     end
   end
 

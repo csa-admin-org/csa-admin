@@ -125,8 +125,8 @@ ActiveAdmin.register Shop::Product do
         tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
           f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
             translated_input(ff, :names)
-            ff.input :price, as: :number, step: 0.05, min: 0, max: 99999.95
-            ff.input :weight_in_kg, as: :number, step: 0.005, min: 0, required: false
+            ff.input :price, as: :number, step: 0.01, min: 0, max: 99999.99
+            ff.input :weight_in_kg, as: :number, step: 0.001, min: 0, required: false
             ff.input :stock, as: :number, step: 1, min: 0, required: false
             ff.input :available, as: :boolean, required: false
           end

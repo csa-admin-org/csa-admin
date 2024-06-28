@@ -27,13 +27,13 @@ module Shop
     after_save :set_order_amount
 
     def amount
-      (item_price * quantity).round_to_five_cents
+      (item_price * quantity).round_to_one_cent
     end
 
     def amount_after_percentage
       return amount unless order.amount_percentage
 
-      (amount * (1 + order.amount_percentage / 100.0)).round_to_five_cents
+      (amount * (1 + order.amount_percentage / 100.0)).round_to_one_cent
     end
 
     def weight_in_kg

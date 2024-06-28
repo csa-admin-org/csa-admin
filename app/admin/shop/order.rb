@@ -276,12 +276,13 @@ ActiveAdmin.register Shop::Order do
   end
 
   action_item :delivery_pdf, only: :show do
-    link_to t(".delivery_order_pdf"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: "_blank",   class: "action-item-button"
+    link_to t(".delivery_order_pdf"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: "_blank", class: "action-item-button"
   end
 
   action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? } do
     button_to t(".invoice_action"), invoice_shop_order_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } }
+      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      class: "action-item-button"
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do

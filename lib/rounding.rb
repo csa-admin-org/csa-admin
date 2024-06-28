@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 module Rounding
-  # round a given number to the nearest step
   def round_to_five_cents
-    ((round(2) * 20).round / BigDecimal(20))
+    (to_d * 20).round(0, :half_up) / 20
+  end
+
+  def round_to_one_cent
+    to_d.round(2, :half_up)
   end
 end
 

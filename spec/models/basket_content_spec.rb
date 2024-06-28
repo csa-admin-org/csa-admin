@@ -316,14 +316,14 @@ describe BasketContent do
       }.to change { delivery.reload.basket_content_avg_prices }
 
       expect(delivery.basket_content_avg_prices).to eq(
-        "1001" => 78.0,
-        "1002" => 122.0)
+        "1001" => "78.0",
+        "1002" => "122.0")
       expect(delivery.basket_content_yearly_price_diffs).to eq(
         1001 => { DeliveryCycle.first => 58.0 },
         1002 => { DeliveryCycle.first => 92.0 })
       expect(delivery.basket_content_prices).to eq(
-        basket_size_1 => { depot => 78.0 },
-        basket_size_2 => { depot => 122.0 })
+        basket_size_1 => { depot => 78.0.to_d },
+        basket_size_2 => { depot => 122.0.to_d })
     end
 
     specify "with different depots content", sidekiq: :inline do
@@ -340,8 +340,8 @@ describe BasketContent do
         depot_ids: [ depot.id ])
 
       expect(delivery.basket_content_avg_prices).to eq(
-        "1001" => 78.0,
-        "1002" => 122.0)
+        "1001" => "78.0",
+        "1002" => "122.0")
       expect(delivery.basket_content_prices).to eq(
         basket_size_1 => {
           depot => 78.0 },
@@ -362,7 +362,7 @@ describe BasketContent do
         unit_price: 2)
 
       expect(delivery.basket_content_avg_prices).to eq(
-        "1002" => 200.0)
+        "1002" => "200.0")
       expect(delivery.basket_content_prices).to eq(
         basket_size_1 => {},
         basket_size_2 => { depot => 200.0 })
@@ -390,11 +390,11 @@ describe BasketContent do
         unit_price: 2)
 
       expect(other_delivery.basket_content_avg_prices).to eq(
-        "1001" => 40.0,
-        "1002" => 60.0)
+        "1001" => "40.0",
+        "1002" => "60.0")
       expect(delivery.basket_content_avg_prices).to eq(
-        "1001" => 78.0,
-        "1002" => 122.0)
+        "1001" => "78.0",
+        "1002" => "122.0")
       expect(delivery.basket_content_yearly_price_diffs)
         .not_to eq(other_delivery.basket_content_yearly_price_diffs)
       expect(other_delivery.basket_content_yearly_price_diffs).to eq(

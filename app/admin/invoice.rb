@@ -369,7 +369,7 @@ ActiveAdmin.register Invoice do
           end
           f.has_many :items, new_record: t(".has_many_new_invoice_item"), allow_destroy: true do |ff|
             ff.input :description
-            ff.input :amount, as: :number, step: 0.05, min: 0, max: 99999.95
+            ff.input :amount, as: :number, step: 0.01, min: 0, max: 99999.99
           end
         end
       end
