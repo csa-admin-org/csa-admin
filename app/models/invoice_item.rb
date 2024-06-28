@@ -7,8 +7,4 @@ class InvoiceItem < ApplicationRecord
 
   validates :description, presence: true
   validates :amount, presence: true, numericality: true
-
-  def amount=(amount)
-    super(BigDecimal(amount).round_to_five_cents)
-  end
 end

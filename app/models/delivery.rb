@@ -158,11 +158,11 @@ class Delivery < ApplicationRecord
         range = fiscal_year.beginning_of_year..date
         avg_prices = cycle.deliveries_in(range).map(&:basket_content_avg_prices)
         BasketSize.paid.each do |basket_size|
-          prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact
+          prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact.map(&:to_d)
           basket_prices = prices.size * basket_size.price_for(fy_year)
           prices_sum = prices.sum
           h[basket_size.id] ||= {}
-          h[basket_size.id][cycle] = (prices_sum - basket_prices).round_to_five_cents
+          h[basket_size.id][cycle] = (prices_sum - basket_prices).round_to_one_cent
         end
       end
     end
@@ -176,7 +176,7 @@ class Delivery < ApplicationRecord
       depot_prices = depots.map do |depot|
         [
           depot,
-          bcs.sum { |bc| bc.price_for(basket_size, depot) || 0 }.round_to_five_cents
+          bcs.sum { |bc| bc.price_for(basket_size, depot) || 0 }.round_to_one_cent
         ]
       end.to_h.select { |_, price| price.positive? } # ignore depot with zero price
       [ basket_size, depot_prices ]
@@ -191,7 +191,7 @@ class Delivery < ApplicationRecord
       }.select(&:positive?) # ignore empty depot
       if prices.any?
         avg_price = prices.sum.fdiv(prices.size)
-        avg_prices[basket_size.id] = avg_price.round(2)
+        avg_prices[basket_size.id] = avg_price.round_to_one_cent
       end
     end
     update_column(:basket_content_avg_prices, avg_prices)

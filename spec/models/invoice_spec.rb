@@ -158,9 +158,9 @@ describe Invoice do
         })
 
       expect(invoice.entity_type).to eq "Other"
-      expect(invoice.items.first.amount).to eq 10.1
-      expect(invoice.items.last.amount).to eq 32.35
-      expect(invoice.amount).to eq 42.45
+      expect(invoice.items.first.amount).to eq 10.11
+      expect(invoice.items.last.amount).to eq 32.33
+      expect(invoice.amount).to eq 42.44
     end
 
     specify "accepts custom vat_rate" do
@@ -204,7 +204,7 @@ describe Invoice do
 
       expect(invoice.amount_percentage).to eq -10.1
       expect(invoice.amount_before_percentage).to eq 10
-      expect(invoice.amount).to eq BigDecimal(9.00, 6)
+      expect(invoice.amount).to eq BigDecimal(8.99, 6)
     end
 
     specify "set percentage (increase)" do

@@ -293,17 +293,17 @@ describe PDF::Invoice do
         date: "2018-11-01",
         amount_percentage: 4.2,
         items_attributes: {
-          "0" => { description: "Un truc cool pas cher", amount: 10 },
-          "1" => { description: "Un truc cool plus cher", amount: 32 }
+          "0" => { description: "Un truc cool pas cher", amount: 10.22 },
+          "1" => { description: "Un truc cool plus cher", amount: 32.41 }
         })
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to contain_sequence("Un truc cool pas cher", "10.00")
-        .and contain_sequence("Un truc cool plus cher", "32.00")
-        .and contain_sequence("Total (avant pourcentage)", "42.00")
-        .and contain_sequence("+4.2%", "1.75")
-        .and contain_sequence("Total", "43.75")
+        .to contain_sequence("Un truc cool pas cher", "10.22")
+        .and contain_sequence("Un truc cool plus cher", "32.41")
+        .and contain_sequence("Total (avant pourcentage)", "42.63")
+        .and contain_sequence("+4.2%", "1.79")
+        .and contain_sequence("Total", "44.42")
     end
 
     it "generates an invoice with items and VAT", sidekiq: :inline do
