@@ -567,37 +567,59 @@ describe Member do
   end
 
   describe "#deactivate!" do
-    it "sets state to inactive and clears waiting_started_at, annual_fee, and shop_depot" do
-      member = create(:member, :waiting,
-        annual_fee: 42,
-        shop_depot: create(:depot))
+    context "with annual_fee" do
+      it "sets state to inactive and clears waiting_started_at, annual_fee, and shop_depot" do
+        member = create(:member, :waiting,
+          annual_fee: 42,
+          shop_depot: create(:depot))
 
-      expect { member.deactivate! }.to change(member, :state).to("inactive")
-      expect(member.waiting_started_at).to be_nil
-      expect(member.annual_fee).to be_nil
-      expect(member.shop_depot).to be_nil
+        expect { member.deactivate! }.to change(member, :state).to("inactive")
+        expect(member.waiting_started_at).to be_nil
+        expect(member.annual_fee).to be_nil
+        expect(member.shop_depot).to be_nil
+      end
+
+      it "sets state to inactive and clears annual_fee" do
+        member = create(:member, :support_annual_fee, annual_fee: 42)
+
+        expect { member.deactivate! }.to change(member, :state).to("inactive")
+        expect(member.annual_fee).to be_nil
+      end
+
+      it "sets state to inactive when membership ended" do
+        member = create(:member, :active)
+        member.membership.update_column(:ended_on, 1.day.ago)
+        member.reload
+
+        expect { member.deactivate! }.to change(member, :state).to("inactive")
+        expect(member.annual_fee).to be_nil
+      end
+
+      it "raise if current membership" do
+        member = create(:member, :active)
+
+        expect { member.deactivate! }.to raise_error(InvalidTransitionError)
+      end
     end
 
-    it "sets state to inactive and clears annual_fee" do
-      member = create(:member, :support_annual_fee, annual_fee: 42)
+    context "with acp shares" do
+      before { Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
 
-      expect { member.deactivate! }.to change(member, :state).to("inactive")
-      expect(member.annual_fee).to be_nil
-    end
+      specify "support member with acp shares" do
+        member = create(:member, :support_acp_share, acp_shares_number: 2)
 
-    it "sets state to inactive when membership ended" do
-      member = create(:member, :active)
-      member.membership.update_column(:ended_on, 1.day.ago)
-      member.reload
+        expect { member.deactivate! }.to change(member, :state).from("support").to("inactive")
+        expect(member.desired_acp_shares_number).to be_zero
+        expect(member.required_acp_shares_number).to eq -2
+      end
 
-      expect { member.deactivate! }.to change(member, :state).to("inactive")
-      expect(member.annual_fee).to be_nil
-    end
+      specify "support member with only desired shares" do
+        member = create(:member, state: "support", desired_acp_shares_number: 1)
 
-    it "raise if current membership" do
-      member = create(:member, :active)
-
-      expect { member.deactivate! }.to raise_error(InvalidTransitionError)
+        expect { member.deactivate! }.to change(member, :state).from("support").to("inactive")
+        expect(member.desired_acp_shares_number).to be_zero
+        expect(member.required_acp_shares_number).to be_zero
+      end
     end
   end
 
@@ -657,6 +679,38 @@ describe Member do
       member = create(:member, :support_annual_fee)
       expect { member.update!(annual_fee: nil) }
         .to change(member, :state).to("inactive")
+    end
+  end
+
+  describe "#handle_required_acp_shares_number_change" do
+    before { Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
+
+    specify "change to negative number" do
+      member = create(:member, :support_acp_share, acp_shares_number: 2)
+
+      expect { member.update!(required_acp_shares_number: -1) }.not_to change { member.reload.state }.from("support")
+      expect { member.update!(required_acp_shares_number: -2) }.to change(member, :state).from("support").to("inactive")
+      expect(member.desired_acp_shares_number).to be_zero
+      expect(member.acp_shares_number).to eq 2
+    end
+
+    specify "change to negative number, with only desired acp shares" do
+      member = create(:member, state: "support", desired_acp_shares_number: 2)
+
+      expect { member.update!(required_acp_shares_number: -1) }.not_to change { member.reload.state }.from("support")
+      expect { member.update!(required_acp_shares_number: -2) }.to change(member, :state).from("support").to("inactive")
+      expect(member.desired_acp_shares_number).to be_zero
+      expect(member.acp_shares_number).to be_zero
+    end
+
+    specify "removing negative number" do
+      member = create(:member, :support_acp_share, acp_shares_number: 2)
+      member.update!(required_acp_shares_number: -2)
+
+      expect { member.update!(required_acp_shares_number: 0) }.to change(member, :state).from("inactive").to("support")
+
+      expect(member.desired_acp_shares_number).to be_zero
+      expect(member.acp_shares_number).to eq 2
     end
   end
 

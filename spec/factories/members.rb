@@ -68,11 +68,12 @@ FactoryBot.define do
     end
 
     trait :support_acp_share do
-      state { "support" }
-
       transient do
         acp_shares_number { 1 }
       end
+
+      state { "support" }
+      required_acp_shares_number { acp_shares_number }
 
       after :create do |member, evaluator|
         create(:invoice, member: member,

@@ -278,7 +278,8 @@ module MembersHelper
     end
     txt = parts.to_sentence.html_safe
     if member.acp_shares_number > member.required_acp_shares_number
-      txt += " (#{t('.acp_shares_number.required', count: member.required_acp_shares_number)})"
+      sign = member.required_acp_shares_number.negative? ? "-" : ""
+      txt += " (#{sign}#{t('.acp_shares_number.required', count: member.required_acp_shares_number.abs)})"
     end
     txt
   end

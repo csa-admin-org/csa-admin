@@ -110,7 +110,7 @@ class Member < ApplicationRecord
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
   validates :existing_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :required_acp_shares_number, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :required_acp_shares_number, numericality: { allow_nil: true }
   validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :desired_acp_shares_number,
     numericality: {
@@ -123,7 +123,7 @@ class Member < ApplicationRecord
   validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
-  before_save :handle_annual_fee_change
+  before_save :handle_annual_fee_change, :handle_required_acp_shares_number_change
   after_save :update_membership_if_salary_basket_changed
   after_update :review_active_state!
   after_create_commit :notify_admins!, if: :public_create
@@ -286,12 +286,18 @@ class Member < ApplicationRecord
   def deactivate!
     invalid_transition(:deactivate!) unless can_deactivate?
 
-    update!(
+    attrs = {
       state: INACTIVE_STATE,
       shop_depot: nil,
       annual_fee: nil,
       desired_acp_shares_number: 0,
-      waiting_started_at: nil)
+      waiting_started_at: nil
+    }
+    if acp_shares_number.positive?
+      attrs[:required_acp_shares_number] = -1 * acp_shares_number
+    end
+
+    update!(**attrs)
   end
 
   def can_wait?
@@ -301,8 +307,9 @@ class Member < ApplicationRecord
   def can_deactivate?
     !inactive? && (
       waiting? ||
-      (support? && !Current.acp.share?) ||
-      (!support? && !current_or_future_membership))
+      support? ||
+      (!support? && !current_or_future_membership)
+    )
   end
 
   def absent?(date)
@@ -431,6 +438,18 @@ class Member < ApplicationRecord
       self.state = SUPPORT_STATE if inactive?
     elsif support?
       self.annual_fee = nil
+      self.state = INACTIVE_STATE
+    end
+  end
+
+  def handle_required_acp_shares_number_change
+    return unless Current.acp.share?
+
+    final_acp_shares_number = [acp_shares_number, desired_acp_shares_number].max
+    if (final_acp_shares_number + required_acp_shares_number).positive?
+      self.state = SUPPORT_STATE if inactive?
+    elsif support?
+      self.desired_acp_shares_number = 0
       self.state = INACTIVE_STATE
     end
   end
