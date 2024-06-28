@@ -534,9 +534,9 @@ _:
           _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
-        required_acp_shares_number:
+        required_acp_shares_number_html:
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
-          _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.
+          _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cestino dell'abbonamento corrente.
         shop_depot:
           _de: Ermöglicht es einem Mitglied ohne Abonnement, Produkte vom Hofladen zu bestellen.

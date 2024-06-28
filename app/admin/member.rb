@@ -646,7 +646,8 @@ ActiveAdmin.register Member do
           input_html: {
             value: f.object[:required_acp_shares_number],
             placeholder: f.object.default_required_acp_shares_number
-          }
+          },
+          hint: t("formtastic.hints.member.required_acp_shares_number_html")
         f.input :acp_shares_info
       end
     end
