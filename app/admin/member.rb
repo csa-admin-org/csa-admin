@@ -359,7 +359,7 @@ ActiveAdmin.register Member do
                 span { member.id.to_s }
                 if authorized?(:become, resource)
                   div do
-                    link_to become_member_path(resource), class: "ms-2 action-item-button tiny whitespace-nowrap" do
+                    link_to become_member_path(resource), class: "ms-2 action-item-button tiny whitespace-nowrap", data: { turbo: false } do
                       icon("arrow-right-end-on-rectangle", class: "h-4 w-4 mr-1") + t(".become_member")
                     end
                   end
