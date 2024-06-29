@@ -4,6 +4,8 @@ class Newsletter
   class Delivery < ApplicationRecord
     self.table_name = "newsletter_deliveries"
 
+    CONSIDER_STALE_AFTER = 1.hour
+
     include HasState
 
     has_states :pending, :ignored, :delivered, :bounced
@@ -12,6 +14,7 @@ class Newsletter
     belongs_to :member
 
     scope :with_email, ->(email) { where("email ILIKE ?", "%#{email}%") }
+    scope :stale, -> { pending.where("created_at < ?", CONSIDER_STALE_AFTER.ago) }
 
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job
