@@ -963,6 +963,10 @@
     @apply font-sans text-base;
   }
 
+  body .buorg-icon {
+    @apply h-5 w-5 mb-0.5 mr-0.5;
+  }
+
   body .buorg-pad {
     @apply p-4 leading-5;
   }
