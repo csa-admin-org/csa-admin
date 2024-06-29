@@ -227,7 +227,7 @@ module MembersHelper
   end
 
   def document_link(type, url)
-    link_to t(".documents.#{type}"), url, target: "_blank", class: "underline hover:text-green-500"
+    link_to t(".documents.#{type}"), url, target: "_blank", class: "underline text-green-500 hover:text-green-500"
   end
 
   def display_address(member, country: true)
@@ -402,8 +402,8 @@ module MembersHelper
   end
 
   def map_icon(location)
-    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank, class: "text-gray-300 dark:text-gray-700 hover:text-green-500" do
-      inline_svg_tag "members/map.svg", class: "inline-block"
+    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank do
+      inline_svg_tag "members/map.svg", class: "inline-block text-gray-300 dark:text-gray-700 hover:text-green-500"
     end
   end
 
