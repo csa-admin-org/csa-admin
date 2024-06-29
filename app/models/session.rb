@@ -15,9 +15,26 @@ class Session < ApplicationRecord
 
   before_validation :set_unique_token
 
-  scope :expired, -> { where("created_at > ?", EXPIRATION.ago) }
+  scope :used, -> { where.not(last_used_at: nil) }
+  scope :recent, -> { where(last_used_at: 1.month.ago..) }
+  scope :active, -> { where(created_at: EXPIRATION.ago..) }
+  scope :expired, -> { where(created_at: ...EXPIRATION.ago) }
   scope :admin, -> { where.not(admin_id: nil) }
   scope :member, -> { where.not(member_id: nil) }
+  scope :owner_type_eq, ->(type) {
+    case type
+    when "Admin" then admin
+    when "Member" then member
+    end
+   }
+
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[owner_type_eq]
+  end
+
+  def owner_type
+    member_id ? "Member" : "Admin"
+  end
 
   def owner
     member || admin
@@ -58,6 +75,13 @@ class Session < ApplicationRecord
 
   def admin_originated?
     member && admin
+  end
+
+  def last_user_agent
+    user_agent = self[:last_user_agent]
+    return unless user_agent.present?
+
+    UserAgentParser.parse(user_agent)
   end
 
   private

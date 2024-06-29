@@ -1194,6 +1194,20 @@ _:
             _de: Offen (nicht gesendeten)
             _fr: Ouvertes (non-envoyées)
             _it: Aperte (non inviate)
+      m_session:
+        scopes:
+          active:
+            _de: Aktive
+            _fr: Actives
+            _it: Attivo
+          expired:
+            _de: Abgelaufene
+            _fr: Expirées
+            _it: Scaduto
+          recent:
+            _de: Letzte
+            _fr: Récentes
+            _it: Recente
       mail_template:
         scopes:
           invoice:

@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_admin
-    current_session&.admin || auto_sign_in_admin_in_dev
+    auto_sign_in_admin_in_dev || current_session&.admin
   end
 
   def auto_sign_in_admin_in_dev
@@ -42,6 +42,10 @@ class ApplicationController < ActionController::Base
     return unless ENV["AUTO_SIGN_IN_ADMIN_EMAIL"]
 
     admin = Admin.find_by!(email: ENV["AUTO_SIGN_IN_ADMIN_EMAIL"])
+    if current_session&.admin == admin
+      return admin
+    end
+
     session = create_session!(admin)
     cookies.encrypted.permanent[:session_id] = session.id
     session.admin

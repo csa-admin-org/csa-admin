@@ -131,10 +131,11 @@ describe "Admin sessions" do
     travel_to Time.new(2018, 7, 6, 1) do
       login(admin)
 
-      expect(admin.sessions.last).to have_attributes(
+      session = admin.sessions.last
+      expect(session).to have_attributes(
         last_used_at: Time.new(2018, 7, 6, 1),
-        last_remote_addr: "127.0.0.1",
-        last_user_agent: "-")
+        last_remote_addr: "127.0.0.1")
+      expect(session.last_user_agent.to_s).to eq "Other"
     end
 
     travel_to Time.new(2018, 7, 6, 1, 59) do

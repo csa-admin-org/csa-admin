@@ -584,6 +584,7 @@ GEM
     unicode-display_width (2.5.0)
     uniform_notifier (1.16.0)
     uri (0.13.0)
+    user_agent_parser (2.18.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -687,6 +688,7 @@ DEPENDENCIES
   truemail
   ttfunk (= 1.7.0)
   turbo-rails
+  user_agent_parser
   web-console
 
 RUBY VERSION

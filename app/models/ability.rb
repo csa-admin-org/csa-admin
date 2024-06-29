@@ -142,6 +142,10 @@ class Ability
       can :send_email, Newsletter, can_send_email?: true
     end
 
+    if admin.master?
+      can :manage, Session
+    end
+
     can :create, writable_models
     can :update, writable_models, can_update?: true
     can :destroy, writable_models, can_destroy?: true
