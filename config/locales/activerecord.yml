@@ -1282,6 +1282,23 @@ _:
           _de: Zugriffsrechte
           _fr: Droits d'accès réservés aux Super Admins
           _it: Diritti di accesso
+      session:
+        last_used_at:
+          _de: Anmeldung am
+          _fr: Connexion le
+          _it: Connessione il
+        last_user_agent:
+          _de: User Agent
+          _fr: User Agent
+          _it: User Agent
+        owner:
+          _de: Besitzer
+          _fr: Propriétaire
+          _it: Proprietario
+        owner_type:
+          _de: Typ
+          _fr: Type
+          _it: Tipo
       shop/order:
         items:
           _de: Produkte
@@ -1713,6 +1730,15 @@ _:
           _de: Erlaubnisse
           _fr: Permissions
           _it: Permessi
+      session:
+        one:
+          _de: Sitzung
+          _fr: Session
+          _it: Sessione
+        other:
+          _de: Sitzungen
+          _fr: Sessions
+          _it: Sessioni
       shop:
         one:
           _de: Hofladen
