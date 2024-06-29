@@ -7,6 +7,7 @@ module Scheduled
       review_active_state!
       Checker::MembershipPrice.check_all!
       Checker::DeliveryBasketContentAvgPrices.check_all!
+      Checker::NewsletterStaleProcessing.check_all!
       clear_stale_cart_shop_orders!
     end
 
