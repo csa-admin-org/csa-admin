@@ -104,6 +104,10 @@ export default class extends Controller {
   }
 
   _dateToISO(date) {
+    if (!date || !(date instanceof Date)) {
+      return null
+    }
+
     const offset = date.getTimezoneOffset()
     return new Date(date.getTime() - (offset * 60 * 1000)).toISOString().substring(0, 10)
   }
