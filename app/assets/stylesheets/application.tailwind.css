@@ -85,7 +85,7 @@
       @apply hover:text-white;
     }
 
-    p a {
+    p a, label a {
       @apply underline;
     }
 
