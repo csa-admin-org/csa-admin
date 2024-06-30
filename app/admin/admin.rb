@@ -16,7 +16,11 @@ ActiveAdmin.register Admin do
       link_to a.permission&.name, permissions_path
     }
     column :last_session_used_at, ->(a) {
-      I18n.l(a.last_session_used_at, format: :medium) if a.last_session_used_at
+      if a.last_session_used_at
+        link_to_if authorized?(:read, Session),
+          I18n.l(a.last_session_used_at, format: :medium),
+          m_sessions_path(q: { owner_type_eq: "Admin", admin_id_eq: a.id }, scope: :all)
+      end
     }, class: "text-right"
     actions
   end

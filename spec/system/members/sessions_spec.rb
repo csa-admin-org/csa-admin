@@ -139,11 +139,6 @@ describe "Member sessions" do
     visit "/"
 
     expect(current_path).to eq "/login"
-    expect(page).to have_content "Votre session a expirée, merci de vous authentifier à nouveau."
-
-    visit "/"
-
-    expect(current_path).to eq "/login"
     expect(page).to have_content "Merci de vous authentifier pour accéder à votre compte."
   end
 
@@ -187,5 +182,21 @@ describe "Member sessions" do
       expect(member.sessions.last).to have_attributes(
         last_used_at: Time.new(2018, 7, 6, 2, 0, 1))
     end
+  end
+
+  specify "revoke session on logout" do
+    member = create(:member)
+    login(member)
+    session = member.sessions.last
+
+    visit "/"
+
+    expect { click_button "Déconnexion" }
+      .to change { session.reload.revoked_at }.from(nil)
+
+    visit "/"
+
+    expect(current_path).to eq "/login"
+    expect(page).to have_content "Merci de vous authentifier pour accéder à votre compte."
   end
 end
