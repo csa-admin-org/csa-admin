@@ -648,63 +648,63 @@
   .status-tag {
     font-size: 0.65rem;
     @apply px-2 h-5 mb-1 text-white dark:text-black font-bold rounded-full uppercase;
+  }
 
-    &[data-status="renewed"],
-    &[data-status="delivered"],
-    &[data-status="invoiced"],
-    &[data-status="active"],
-    &[data-status="closed"],
-    &[data-status="auto"],
-    &[data-status="ongoing"],
-    &[data-status="validated"],
-    &[data-status="sent"],
-    &[data-status="yes"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
+  .status-tag[data-status="renewed"],
+  .status-tag[data-status="delivered"],
+  .status-tag[data-status="invoiced"],
+  .status-tag[data-status="active"],
+  .status-tag[data-status="closed"],
+  .status-tag[data-status="auto"],
+  .status-tag[data-status="ongoing"],
+  .status-tag[data-status="validated"],
+  .status-tag[data-status="sent"],
+  .status-tag[data-status="yes"] {
+    @apply bg-green-500 dark:bg-green-500;
+  }
 
-    &[data-status="support"],
-    &[data-status="future"] {
-      @apply bg-yellow-400 dark:bg-yellow-600;
-    }
+  .status-tag[data-status="support"],
+  .status-tag[data-status="future"] {
+    @apply bg-yellow-400 dark:bg-yellow-600;
+  }
 
-    &[data-status="renewal_pending"],
-    &[data-status="waiting"] {
-      @apply bg-orange-500 dark:bg-orange-500;
-    }
+  .status-tag[data-status="renewal_pending"],
+  .status-tag[data-status="waiting"] {
+    @apply bg-orange-500 dark:bg-orange-500;
+  }
 
-    &[data-status="renewal_opened"],
-    &[data-status="pending"] {
-      @apply bg-lime-400 dark:bg-lime-400;
-    }
+  .status-tag[data-status="renewal_opened"],
+  .status-tag[data-status="pending"] {
+    @apply bg-lime-400 dark:bg-lime-400;
+  }
 
-    &[data-status="ignored"],
-    &[data-status="coming"],
-    &[data-status="draft"],
-    &[data-status="manual"],
-    &[data-status="not_sent"],
-    &[data-status="manual_suppression"],
-    &[data-status="trial"] {
-      @apply bg-blue-500 dark:bg-blue-500;
-    }
+  .status-tag[data-status="ignored"],
+  .status-tag[data-status="coming"],
+  .status-tag[data-status="draft"],
+  .status-tag[data-status="manual"],
+  .status-tag[data-status="not_sent"],
+  .status-tag[data-status="manual_suppression"],
+  .status-tag[data-status="trial"] {
+    @apply bg-blue-500 dark:bg-blue-500;
+  }
 
-    &[data-status="renewal_canceled"],
-    &[data-status="hard_bounce"],
-    &[data-status="bounced"],
-    &[data-status="spam_complaint"],
-    &[data-status="no"],
-    &[data-status="open"],
-    &[data-status="rejected"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
+  .status-tag[data-status="renewal_canceled"],
+  .status-tag[data-status="hard_bounce"],
+  .status-tag[data-status="bounced"],
+  .status-tag[data-status="spam_complaint"],
+  .status-tag[data-status="no"],
+  .status-tag[data-status="open"],
+  .status-tag[data-status="rejected"] {
+    @apply bg-red-500 dark:bg-red-500;
+  }
 
-    &[data-status="absent"],
-    &[data-status="processing"],
-    &[data-status="no_email"],
-    &[data-status="canceled"],
-    &[data-status="past"],
-    &[data-status="inactive"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
+  .status-tag[data-status="absent"],
+  .status-tag[data-status="processing"],
+  .status-tag[data-status="no_email"],
+  .status-tag[data-status="canceled"],
+  .status-tag[data-status="past"],
+  .status-tag[data-status="inactive"] {
+    @apply bg-neutral-300 dark:bg-neutral-600;
   }
 
   .iframe-wrapper {
