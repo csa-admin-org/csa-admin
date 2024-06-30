@@ -683,6 +683,11 @@ ActiveAdmin.register Member do
       :id, :basket_complement_id, :quantity, :_destroy
     ]
 
+  action_item :sessions, only: :show, if: -> { authorized?(:read, Session) } do
+    link_to Session.model_name.human(count: 2), m_sessions_path(q: { member_id_eq: resource.id }, scope: :all),
+      class: "action-item-button"
+  end
+
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
     link_to t(".create_membership"), new_membership_path(member_id: resource.id),
       class: "action-item-button"

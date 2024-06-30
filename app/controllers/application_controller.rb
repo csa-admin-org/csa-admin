@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_session
-    Current.session ||= session_id && Session.find_by(id: session_id)
+    Current.session ||= session_id && Session.usable.find_by(id: session_id)
   end
 
   def session_id

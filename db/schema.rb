@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_10_093951) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_30_093854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -739,6 +739,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_10_093951) do
     t.string "last_user_agent"
     t.string "email"
     t.bigint "admin_id"
+    t.datetime "revoked_at"
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
     t.index ["token"], name: "index_sessions_on_token", unique: true

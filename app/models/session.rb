@@ -19,11 +19,12 @@ class Session < ApplicationRecord
   scope :recent, -> { where(last_used_at: 1.month.ago..) }
   scope :active, -> { where(created_at: EXPIRATION.ago..) }
   scope :expired, -> { where(created_at: ...EXPIRATION.ago) }
+  scope :usable, -> { where(revoked_at: nil).where.not(email: nil) }
   scope :admin, -> { where.not(admin_id: nil) }
   scope :member, -> { where.not(member_id: nil) }
   scope :owner_type_eq, ->(type) {
     case type
-    when "Admin" then admin
+    when "Admin" then admin.where(member_id: nil)
     when "Member" then member
     end
    }
@@ -70,7 +71,15 @@ class Session < ApplicationRecord
   end
 
   def expired?
-    !email || expires_at < Time.current
+    expires_at < Time.current
+  end
+
+  def revoke!
+    touch(:revoked_at)
+  end
+
+  def revoked?
+    revoked_at?
   end
 
   def admin_originated?
