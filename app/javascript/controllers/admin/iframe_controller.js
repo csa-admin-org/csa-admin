@@ -22,7 +22,7 @@ export default class extends Controller {
   }
 
   resize() {
-    const heights = this.iframeTargets.map(i => i.contentWindow.document.body.offsetHeight)
+    const heights = this.iframeTargets.map(i => i.contentWindow.document.body ? i.contentWindow.document.body.offsetHeight : 0);
     this.iframeTargets.forEach(i => i.style.height = Math.max(...heights) + 'px');
   }
 
