@@ -51,7 +51,10 @@ export default class extends Controller {
         if (input) {
           let editor = form.querySelector(`[name='${name}'] ~ trix-editor`)
           if (editor) {
-            editor.editor.loadJSON(JSON.parse(value))
+            try {
+              const parsedValue = JSON.parse(value)
+              editor.editor.loadJSON(parsedValue)
+            } catch (e) { }
           } else {
             input.value = value
             // Wait for other Stimulus controllers loading before triggering a change event.
