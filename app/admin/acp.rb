@@ -257,7 +257,7 @@ ActiveAdmin.register ACP do
       }
 
     f.inputs do
-      tabs do
+      tabs id: "features" do
         tab Absence.model_name.human, id: "absence", hidden: !Current.acp.feature?("absence") do
           translated_input(f, :absence_extra_texts,
             hint: t("formtastic.hints.acp.absence_extra_text"),

@@ -2,6 +2,12 @@ import { Controller } from "@hotwired/stimulus";
 import { removeClass, addClass, prop } from "components/utils";
 
 export default class extends Controller {
+  connect() {
+    for (var hash of this.allHiddenTabs()) {
+      prop(this.allTabRequiredInputs(hash), "required", false)
+    }
+  }
+
   toggleTab(event) {
     var feature = event.target.value;
     if (event.target.checked) {
@@ -45,5 +51,10 @@ export default class extends Controller {
     return Array.from(
       document.querySelectorAll('#' + hash + '[role="tabpanel"] li.required input')
     )
+  }
+
+  allHiddenTabs() {
+    var tabs = Array.from(document.querySelectorAll('#features [role="tab"][data-tabs-hidden="true"]'))
+    return tabs.map((tab) => { return tab.getAttribute("aria-controls") })
   }
 }
