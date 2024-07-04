@@ -4,7 +4,8 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", "7.1.3.4"
+# https://github.com/rails/rails/pull/52093
+gem "rails", github: "rails/rails", branch: "7-1-stable"
 
 gem "bootsnap", require: false
 gem "propshaft"
