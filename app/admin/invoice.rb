@@ -326,7 +326,12 @@ ActiveAdmin.register Invoice do
       f.input :member,
         collection: Member.order(:name).distinct,
         prompt: true,
-        input_html: { onchange: "self.location='#{new_invoice_path}?member_id='+$(this).val();" }
+        input_html: {
+          disabled: f.object.entity.is_a?(ActivityParticipation)
+        }
+      if f.object.entity.is_a?(ActivityParticipation)
+        f.input :member_id, as: :hidden
+      end
       f.hidden_field :entity_id
       f.hidden_field :entity_type
       f.input :date, as: :date_picker
@@ -357,12 +362,12 @@ ActiveAdmin.register Invoice do
             end
           end
           if Current.acp.share?
-            tab t_invoice_entity_type("ACPShare"), id: "acp_share" do
+            tab t_invoice_entity_type("ACPShare"), id: "acp_share", hidden: f.object.entity.is_a?(ActivityParticipation) do
               f.input :acp_shares_number, as: :number, step: 1
             end
           end
         end
-        tab t_invoice_entity_type("Other"), id: "items" do
+        tab t_invoice_entity_type("Other"), id: "items", hidden: f.object.entity.is_a?(ActivityParticipation) do
           f.semantic_errors :items
           if Current.acp.vat_number?
             f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01
