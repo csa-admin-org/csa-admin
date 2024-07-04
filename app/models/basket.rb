@@ -76,7 +76,7 @@ class Basket < ApplicationRecord
   end
 
   def complements_price
-    baskets_basket_complements.sum { |bbc| bbc.quantity * bbc.price }
+    baskets_basket_complements.sum { |bbc| bbc.quantity.to_i * bbc.price }
   end
 
   def empty?
