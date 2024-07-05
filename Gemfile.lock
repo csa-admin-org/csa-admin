@@ -542,10 +542,10 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
-    sidekiq-scheduler (5.0.3)
+    sidekiq-scheduler (5.0.5)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 6, < 8)
-      tilt (>= 1.4.0)
+      tilt (>= 1.4.0, < 3)
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
