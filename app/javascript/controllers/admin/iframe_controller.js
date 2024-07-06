@@ -8,41 +8,45 @@ export default class extends Controller {
   connect() {
     let toggleColorThemeButton = document.querySelector("button.dark-mode-toggle")
     toggleColorThemeButton.addEventListener("mouseup", () => {
-      this.toggleColorScheme()
+      this._toggleColorScheme()
     })
   }
 
   iframeTargetConnected(element) {
     element.onload = () => {
-      this.resize()
+      this._resize()
       this.setColorScheme()
     }
-    this.resize()
-    this.setColorScheme()
+    this._resize()
+    this._setColorScheme()
   }
 
-  resize() {
-    const heights = this.iframeTargets.map(i => i.contentWindow.document.body ? i.contentWindow.document.body.offsetHeight : 0);
-    this.iframeTargets.forEach(i => i.style.height = Math.max(...heights) + 'px');
+  _resize() {
+    const heights = this._iframeBodies().map(body => body.offsetHeight)
+    this.iframeTargets.forEach(i => i.style.height = Math.max(...heights) + 'px')
   }
 
-  setColorScheme() {
+  _setColorScheme() {
     if (localStorage.getItem('theme')) {
       if (localStorage.getItem('theme') === 'light') {
-        this.iframeTargets.forEach(i => i.contentWindow.document.body.classList.remove('dark'))
+        this._iframeBodies().forEach(body => body.classList.remove('dark'))
       } else {
-        this.iframeTargets.forEach(i => i.contentWindow.document.body.classList.add('dark'))
+        this._iframeBodies().forEach(body => body.classList.add('dark'))
       }
     }
   }
 
-  toggleColorScheme() {
-    this.iframeTargets.forEach(i => {
-      if (i.contentWindow.document.body.classList.contains('dark')) {
-        i.contentWindow.document.body.classList.remove('dark')
+  _toggleColorScheme() {
+    this._iframeBodies().forEach(body => {
+      if (body.classList.contains('dark')) {
+        body.classList.remove('dark')
       } else {
-        i.contentWindow.document.body.classList.add('dark')
+        body.classList.add('dark')
       }
     })
+  }
+
+  _iframeBodies() {
+    return this.iframeTargets.map(i => i.contentWindow.document.body).filter(Boolean)
   }
 }
