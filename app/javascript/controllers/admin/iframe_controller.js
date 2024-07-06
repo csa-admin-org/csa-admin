@@ -15,7 +15,7 @@ export default class extends Controller {
   iframeTargetConnected(element) {
     element.onload = () => {
       this._resize()
-      this.setColorScheme()
+      this._setColorScheme()
     }
     this._resize()
     this._setColorScheme()
