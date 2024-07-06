@@ -445,7 +445,7 @@ class Member < ApplicationRecord
   def handle_required_acp_shares_number_change
     return unless Current.acp.share?
 
-    final_acp_shares_number = [acp_shares_number, desired_acp_shares_number].max
+    final_acp_shares_number = [ acp_shares_number, desired_acp_shares_number ].max
     if (final_acp_shares_number + required_acp_shares_number).positive?
       self.state = SUPPORT_STATE if inactive?
     elsif support?
