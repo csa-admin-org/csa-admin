@@ -4,7 +4,7 @@ class Newsletter < ApplicationRecord
   include TranslatedAttributes
   include Auditable
 
-  ATTACHMENTS_MAXIMUM_SIZE = 5.megabytes
+  ATTACHMENTS_MAXIMUM_SIZE = 3.megabytes
 
   translated_attributes :audience_name
   translated_attributes :signature
