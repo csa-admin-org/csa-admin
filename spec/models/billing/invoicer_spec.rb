@@ -492,7 +492,7 @@ describe Billing::Invoicer do
       travel_to("2022-02-01") { create_invoice(member) }
       travel_to("2022-03-01") {
         # last invoice automatically canceled
-        membership.update!(ended_on: 1.month.ago)
+        membership.update!(ended_on: 1.month.ago, new_config_from: 1.month.ago)
 
         expect { create_invoice(member) }.to change(Invoice, :count).by(1)
         expect(described_class.new(member.reload)).not_to be_billable

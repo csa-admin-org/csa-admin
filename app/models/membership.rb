@@ -64,8 +64,7 @@ class Membership < ApplicationRecord
       after_or_equal_to: :started_on,
       before_or_equal_to: :ended_on
     },
-    on: :update,
-    unless: ->(m) { m.started_on_changed? || m.ended_on_changed? }
+    on: :update
   validate :good_period_range
   validate :cannot_update_dates_when_renewed
   validate :only_one_per_year
