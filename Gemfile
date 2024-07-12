@@ -40,7 +40,7 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
-gem "rails_icons", github: "Rails-Designer/rails_icons"
+gem "rails_icons"
 
 gem "cld"
 
