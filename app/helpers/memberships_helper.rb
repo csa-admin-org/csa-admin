@@ -73,29 +73,34 @@ module MembershipsHelper
     end
   end
 
-  def baskets_price_extra_info(membership, baskets, highlight_current: false)
-    grouped =
+  def baskets_price_extra_info(membership, baskets, highlight: false)
+    label_grouped =
       baskets
-        .reject { |b| b.calculated_price_extra.zero? }
-        .group_by(&:calculated_price_extra)
+        .reject { |b| b.price_extra.zero? }
+        .group_by(&:price_extra)
         .sort
-    grouped.map { |calculated_price_extra, bbs|
-        price_extra = bbs.first.price_extra
+    label_grouped.map { |price_extra, bbs|
+      grouped =
+        bbs
+          .reject { |b| b.calculated_price_extra.zero? }
+          .group_by(&:calculated_price_extra)
+          .sort
+      info = grouped.map { |calculated_price_extra, bbs|
         price = precise_cur(calculated_price_extra).strip
-        if !Current.acp.basket_price_extra_dynamic_pricing? && highlight_current && membership.basket_price_extra == price_extra && grouped.many?
-          price = content_tag(:strong, price)
+        "#{bbs.sum(&:quantity)}x #{price}"
+      }.join(" + ")
+
+      if Current.acp.basket_price_extra_dynamic_pricing?
+        label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
+        label = label_template.render("extra" => price_extra).strip
+        if highlight
+          label = content_tag(:strong, label)
         end
-        info = "#{bbs.sum(&:quantity)}x #{price}"
-        if Current.acp.basket_price_extra_dynamic_pricing?
-          label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
-          extra = label_template.render("extra" => price_extra).strip
-          if highlight_current && membership.basket_price_extra == price_extra
-            extra = content_tag(:strong, extra)
-          end
-          info = "#{info}, #{extra}"
-        end
-        info
-      }.join(" + ").html_safe
+        info = "#{info}, #{label}"
+      end
+
+      info
+    }.join(" + ").html_safe
   end
 
   def membership_basket_complements_price_info(membership)
