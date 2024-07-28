@@ -258,141 +258,147 @@ ActiveAdmin.setup do |config|
   # config.order_clause = MyOrderClause
 end
 
-Rails.application.reloader.to_prepare do
+ActiveAdmin.before_load do
   class ActiveAdmin::ResourceDSL
     include ActionView::Helpers::TranslationHelper
+    include RailsIcons::Helpers::IconHelper
     include ApplicationHelper
     include ActivitiesHelper
-    include RailsIcons::Helpers::IconHelper
   end
+end
+
+ActiveAdmin.before_load do |app|
+  require "active_admin/filter_saver"
+  ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver
 end
 
 # Support dynamic sidebar title with the :basket_price_extra_title name
-module ActiveAdmin
-  module Filters
-    module ResourceExtension
-      def filters_sidebar_section
-        name = :filters
-        ActiveAdmin::SidebarSection.new name, only: :index, if: -> { active_admin_config.filters.any? } do
-          h3 I18n.t("active_admin.shared.sidebar_section.#{name}", default: name.to_s.titlecase), class: "filters-form-title"
-          active_admin_filters_form_for assigns[:search], active_admin_config.filters,
-            data: {
-              controller: "filters",
-              action: "change->filters#submit"
-            }
+ActiveAdmin.before_load do |app|
+  module ActiveAdmin
+    module Filters
+      module ResourceExtension
+        def filters_sidebar_section
+          name = :filters
+          ActiveAdmin::SidebarSection.new name, only: :index, if: -> { active_admin_config.filters.any? } do
+            h3 I18n.t("active_admin.shared.sidebar_section.#{name}", default: name.to_s.titlecase), class: "filters-form-title"
+            active_admin_filters_form_for assigns[:search], active_admin_config.filters,
+              data: {
+                controller: "filters",
+                action: "change->filters#submit"
+              }
+          end
         end
       end
     end
   end
 end
 
-module ActiveAdmin
-  class DSL
-    def sidebar_handbook_link(page, only: :index)
-      section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
-        div class: "flex justify-center" do
-          a href: "/handbook/#{page}", class: "action-item-button small light" do
-            span do
-              icon "book-open", class: "w-5 h-5 me-2"
-            end
-            span do
-              t("active_admin.site_footer.handbook")
+ActiveAdmin.before_load do |app|
+  module ActiveAdmin
+    class DSL
+      def sidebar_handbook_link(page, only: :index)
+        section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
+          div class: "flex justify-center" do
+            a href: "/handbook/#{page}", class: "action-item-button small light" do
+              span do
+                icon "book-open", class: "w-5 h-5 me-2"
+              end
+              span do
+                t("active_admin.site_footer.handbook")
+              end
             end
           end
         end
+        config.sidebar_sections << section
       end
-      config.sidebar_sections << section
-    end
 
-    def sidebar_shop_admin_only_warning
-      section = ActiveAdmin::SidebarSection.new(
-        :shop_admin_only,
-        if: -> { Current.acp.shop_admin_only },
-        only: :index
-      ) do
-        para class: "p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
-          t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
-        end
-        if authorized?(:read, Current.acp)
-          div class: "text-center text-sm mt-3" do
-            a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
+      def sidebar_shop_admin_only_warning
+        section = ActiveAdmin::SidebarSection.new(
+          :shop_admin_only,
+          if: -> { Current.acp.shop_admin_only },
+          only: :index
+        ) do
+          para class: "p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
+            t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
+          end
+          if authorized?(:read, Current.acp)
+            div class: "text-center text-sm mt-3" do
+              a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
+            end
           end
         end
+        config.sidebar_sections << section
       end
-      config.sidebar_sections << section
     end
   end
 end
 
 # Allow to add table data attributes
-module ActiveAdmin
-  module Views
-    class IndexAsTable < ActiveAdmin::Component
-      def build(page_presenter, collection)
-        add_class "index-as-table"
-        table_options = {
-          id: "index_table_#{active_admin_config.resource_name.plural}",
-          sortable: true,
-          i18n: active_admin_config.resource_class,
-          paginator: page_presenter[:paginator] != false,
-          row_class: page_presenter[:row_class]
-        }
+ActiveAdmin.after_load do |app|
+  module ActiveAdmin
+    module Views
+      class IndexAsTable < ActiveAdmin::Component
+        def build(page_presenter, collection)
+          add_class "index-as-table"
+          table_options = {
+            id: "index_table_#{active_admin_config.resource_name.plural}",
+            sortable: true,
+            i18n: active_admin_config.resource_class,
+            paginator: page_presenter[:paginator] != false,
+            row_class: page_presenter[:row_class]
+          }
 
-        # Support row_data and tbody extra options
-        table_options[:row_data] = page_presenter[:row_data]
-        table_options[:tbody] = page_presenter[:tbody]
+          # Support row_data and tbody extra options
+          table_options[:row_data] = page_presenter[:row_data]
+          table_options[:tbody] = page_presenter[:tbody]
 
-        if page_presenter.block
-          insert_tag(IndexTableFor, collection, table_options) do |t|
-            instance_exec(t, &page_presenter.block)
+          if page_presenter.block
+            insert_tag(IndexTableFor, collection, table_options) do |t|
+              instance_exec(t, &page_presenter.block)
+            end
+          else
+            render "index_as_table_default", table_options: table_options
           end
-        else
-          render "index_as_table_default", table_options: table_options
         end
       end
-    end
 
-    class TableFor < Arbre::HTML::Table
-      def build(obj, *attrs)
-        options = attrs.extract_options!
-        @sortable = options.delete(:sortable)
-        @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [ obj ]
-        @resource_class = options.delete(:i18n)
-        @resource_class ||= @collection.klass if @collection.respond_to? :klass
+      class TableFor < Arbre::HTML::Table
+        def build(obj, *attrs)
+          options = attrs.extract_options!
+          @sortable = options.delete(:sortable)
+          @collection = obj.respond_to?(:each) && !obj.is_a?(Hash) ? obj : [ obj ]
+          @resource_class = options.delete(:i18n)
+          @resource_class ||= @collection.klass if @collection.respond_to? :klass
 
-        @columns = []
-        @row_class = options.delete(:row_class)
+          @columns = []
+          @row_class = options.delete(:row_class)
 
-        # Handle row_data and tbody extra options
-        @tbody_options = options.delete(:tbody)
-        @row_data = options.delete(:row_data)
+          # Handle row_data and tbody extra options
+          @tbody_options = options.delete(:tbody)
+          @row_data = options.delete(:row_data)
 
-        build_table
-        super(options)
-        add_class "data-table"
-        columns(*attrs)
-      end
+          build_table
+          super(options)
+          add_class "data-table"
+          columns(*attrs)
+        end
 
-      protected
+        protected
 
-      def build_table_body
-        # Add tbody tag with data attributes
-        @tbody = tbody @tbody_options do
-          # Build enough rows for our collection
-          @collection.each do |elem|
-            # Add tr row data attributes
-            data_attrs = @row_data ? @row_data.call(elem) : {}
-            tr({ id: dom_id_for(elem), class: @row_class&.call(elem) }.merge(data_attrs))
+        def build_table_body
+          # Add tbody tag with data attributes
+          @tbody = tbody @tbody_options do
+            # Build enough rows for our collection
+            @collection.each do |elem|
+              # Add tr row data attributes
+              data_attrs = @row_data ? @row_data.call(elem) : {}
+              tr({ id: dom_id_for(elem), class: @row_class&.call(elem) }.merge(data_attrs))
+            end
           end
         end
       end
     end
   end
-end
-
-require "active_admin/filter_saver"
-ActiveAdmin.before_load do |app|
-  ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver
 end
 
 ActiveAdmin.after_load do |app|
