@@ -49,8 +49,8 @@ class Members::SessionsController < Members::BaseController
 
   # DELETE /logout
   def destroy
+    current_session&.revoke!
     cookies.delete(:session_id)
-    current_session.revoke!
     redirect_to members_login_path, notice: t("sessions.flash.deleted")
   end
 end

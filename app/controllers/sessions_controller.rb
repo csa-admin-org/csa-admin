@@ -50,8 +50,8 @@ class SessionsController < ApplicationController
 
   # DELETE /logout
   def destroy
+    current_session&.revoke!
     cookies.delete(:session_id)
-    current_session.revoke!
     redirect_to login_path, notice: t("sessions.flash.deleted")
   end
 end
