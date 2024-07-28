@@ -12,6 +12,7 @@ html lang=I18n.locale
     = csrf_meta_tags
     meta charset="UTF-8"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = render "layouts/members/dark_mode_switch"
 
   body class="members dark:bg-black text-gray-500" data-controller="menu"
     - if current_member
