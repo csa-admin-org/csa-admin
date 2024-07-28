@@ -505,7 +505,7 @@ ActiveAdmin.register Membership do
               end
               if Current.acp.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
                 row(:basket_price_extra_title, class: "text-right") {
-                  description = baskets_price_extra_info(m, m.baskets, highlight_current: true)
+                  description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
                 }
               end

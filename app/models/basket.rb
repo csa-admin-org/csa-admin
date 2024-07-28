@@ -21,9 +21,10 @@ class Basket < ApplicationRecord
 
   accepts_nested_attributes_for :baskets_basket_complements, allow_destroy: true
 
-  before_create :add_complements
   before_validation :set_prices
-  before_save :set_calculated_price_extra
+  before_create :add_complements
+  before_create :set_calculated_price_extra
+  before_update :set_calculated_price_extra
 
   scope :current_year, -> { joins(:delivery).merge(Delivery.current_year) }
   scope :current_and_future_year, -> { joins(:delivery).merge(Delivery.current_and_future_year) }

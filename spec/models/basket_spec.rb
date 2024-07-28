@@ -203,17 +203,17 @@ describe Basket do
         {{ price | divided_by: 100.0 | times: extra }}
       LIQUID
 
-      membership = create(:membership)
+      create_deliveries(1)
       complement_1 = create(:basket_complement)
       complement_2 = create(:basket_complement)
-      basket = membership.baskets.first
-      basket.update!(
+      membership = create(:membership,
         basket_price: 20.5,
-        price_extra: -20,
-        baskets_basket_complements_attributes: {
+        basket_price_extra: -20,
+        memberships_basket_complements_attributes: {
           "0" => { basket_complement_id: complement_1.id, quantity: 2, price: 3.3 },
           "1" => { basket_complement_id: complement_2.id, quantity: 1, price: 4.2 }
         })
+      basket = membership.baskets.first
 
       expect(basket.calculated_price_extra).to eq ((20.5 + 2 * 3.3 + 1 * 4.2) / 100.0 * -20)
     end
