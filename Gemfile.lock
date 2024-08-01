@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 582d99b244864641a6e2674d4a7ee1830da220da
+  revision: 9089ade86e149862a5370d003f3bd3d0bce3d788
   branch: 7-1-stable
   specs:
     actioncable (7.1.3.4)
@@ -128,7 +128,7 @@ GEM
     ast (2.4.2)
     attr_extras (7.1.0)
     aws-eventstream (1.3.0)
-    aws-partitions (1.958.0)
+    aws-partitions (1.960.0)
     aws-sdk-core (3.201.3)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -141,7 +141,7 @@ GEM
       aws-sdk-core (~> 3, >= 3.201.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
-    aws-sigv4 (1.9.0)
+    aws-sigv4 (1.9.1)
       aws-eventstream (~> 1, >= 1.0.2)
     bank-contact (0.0.6)
     base64 (0.2.0)
@@ -210,7 +210,7 @@ GEM
       railties (>= 5.0.0)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
-    faraday (2.10.0)
+    faraday (2.10.1)
       faraday-net_http (>= 2.0, < 3.2)
       logger
     faraday-cookie_jar (0.0.7)
@@ -358,7 +358,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.5.6)
+    pg (1.5.7)
     phony (2.20.12)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
@@ -398,7 +398,7 @@ GEM
     puma (6.4.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.8.0)
+    racc (1.8.1)
     rack (3.1.7)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
@@ -451,7 +451,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.2)
+    rexml (3.3.4)
       strscan
     rqrcode (2.2.0)
       chunky_png (~> 1.0)
@@ -474,7 +474,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.1)
-    rubocop (1.65.0)
+    rubocop (1.65.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -503,7 +503,7 @@ GEM
       rubocop-minitest
       rubocop-performance
       rubocop-rails
-    ruby-lsp (0.17.9)
+    ruby-lsp (0.17.10)
       language_server-protocol (~> 3.17.0)
       prism (>= 0.29.0, < 0.31)
       rbs (>= 3, < 4)
@@ -550,7 +550,7 @@ GEM
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
-    sorbet-runtime (0.5.11495)
+    sorbet-runtime (0.5.11504)
     stimulus-rails (1.3.3)
       railties (>= 6.0.0)
     stringio (3.1.0)
@@ -559,13 +559,13 @@ GEM
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
-    tailwindcss-rails (2.6.4)
+    tailwindcss-rails (2.6.5)
       railties (>= 7.0.0)
-    tailwindcss-rails (2.6.4-arm64-darwin)
+    tailwindcss-rails (2.6.5-arm64-darwin)
       railties (>= 7.0.0)
-    tailwindcss-rails (2.6.4-x86_64-darwin)
+    tailwindcss-rails (2.6.5-x86_64-darwin)
       railties (>= 7.0.0)
-    tailwindcss-rails (2.6.4-x86_64-linux)
+    tailwindcss-rails (2.6.5-x86_64-linux)
       railties (>= 7.0.0)
     temple (0.10.3)
     terminal-table (3.0.2)
@@ -600,7 +600,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.16)
+    zeitwerk (2.6.17)
 
 PLATFORMS
   arm64-darwin
@@ -696,7 +696,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.3.3p89
+   ruby 3.3.4p94
 
 BUNDLED WITH
-   2.5.12
+   2.5.16
