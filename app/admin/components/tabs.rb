@@ -6,6 +6,7 @@ class Tabs < ActiveAdmin::Component
   def tab(title, options = {}, &block)
     title = title.to_s.titleize if title.is_a? Symbol
     @menu << build_menu_item(title, options, &block)
+    options.delete(:html_options)
     @tabs_content << build_content_item(title, options, &block)
   end
 
@@ -20,10 +21,11 @@ class Tabs < ActiveAdmin::Component
   def build_menu_item(title, options, &block)
     hidden = options.delete(:hidden) || false
     fragment = options.fetch(:id, fragmentize(title))
+    data_action = options.dig(:html_options, "data-action")
     html_options = options.fetch(:html_options, {}).merge(
       "data-tabs-hidden": hidden,
       "data-tabs-target": "##{fragment}",
-      "data-action": "tabs#updateAnchor",
+      "data-action": "tabs#updateAnchor #{data_action}",
       role: "tab",
       "aria-controls": fragment,
       href: "##{fragment}")
