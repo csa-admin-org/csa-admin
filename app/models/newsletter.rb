@@ -47,7 +47,7 @@ class Newsletter < ApplicationRecord
   end
 
   def state
-    if pending_delivery?
+    if processing_delivery?
       "processing"
     elsif sent?
       "sent"
@@ -80,8 +80,8 @@ class Newsletter < ApplicationRecord
     audits.find_change_of(:sent_at, from: nil)&.actor
   end
 
-  def pending_delivery?
-    deliveries.pending.any?
+  def processing_delivery?
+    deliveries.processing.any?
   end
 
   def send!

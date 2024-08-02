@@ -43,10 +43,7 @@ ActiveAdmin.register Newsletter::Delivery do
       timestamp = d.delivered_at || d.bounced_at || d.processed_at || d.created_at
       l(timestamp, format: :medium)
     }
-    column :state, ->(d) {
-      state = d.pending? ? :processing : d.state
-      status_tag(state)
-    }, class: "text-right"
+    column :state, ->(d) { status_tag(state) }, class: "text-right"
     actions
   end
 

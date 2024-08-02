@@ -194,7 +194,7 @@ describe Newsletter do
       newsletter = Newsletter.last # hard reload
       expect(newsletter).to be_sent
       expect(newsletter.members.count).to eq 2
-      expect(newsletter.deliveries.pending.pluck(:email)).to contain_exactly *%w[
+      expect(newsletter.deliveries.processing.pluck(:email)).to contain_exactly *%w[
         jane@doe.com
         john@doe.com
         jane@bob.com

@@ -9,7 +9,7 @@ module Postmark
       delivery = Newsletter::Delivery.find_by_email_and_tag(email, payload[:tag])
 
       if delivery
-        if delivery.pending?
+        if delivery.processing?
           event = payload[:record_type].downcase
           send("handle_#{event}", delivery, payload)
         else

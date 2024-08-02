@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_30_093854) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_02_090459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -657,7 +657,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_30_093854) do
     t.string "email"
     t.integer "email_suppression_ids", default: [], array: true
     t.string "email_suppression_reasons", default: [], array: true
-    t.string "state", default: "pending", null: false
+    t.string "state", default: "processing", null: false
     t.datetime "delivered_at"
     t.string "postmark_message_id"
     t.text "postmark_details"

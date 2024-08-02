@@ -32,7 +32,7 @@ describe Newsletter::Delivery do
       Newsletter::Delivery.create_for!(newsletter, member)
     }.to change(Newsletter::Delivery, :count).by(2)
 
-    expect(Newsletter::Delivery.pending.first).to have_attributes(
+    expect(Newsletter::Delivery.processing.first).to have_attributes(
       email: "jane@bob.com",
       email_suppression_ids: [])
     expect(Newsletter::Delivery.ignored.first).to have_attributes(
