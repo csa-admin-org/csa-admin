@@ -49,7 +49,7 @@ describe "Postmark Webhooks" do
 
       expect {
         perform_enqueued_jobs
-      }.to change { delivery.reload.state }.from("pending").to("delivered")
+      }.to change { delivery.reload.state }.from("processing").to("delivered")
 
       expect(delivery).to have_attributes(
         delivered_at: Time.parse("2024-05-05T16:33:54.907025Z"),
@@ -94,7 +94,7 @@ describe "Postmark Webhooks" do
 
       expect {
         perform_enqueued_jobs
-      }.to change { delivery.reload.state }.from("pending").to("bounced")
+      }.to change { delivery.reload.state }.from("processing").to("bounced")
 
       expect(delivery).to have_attributes(
         delivered_at: nil,

@@ -6,7 +6,7 @@ FactoryBot.define do
     member
 
     trait :processed do
-      state { Newsletter::Delivery::PENDING_STATE }
+      state { Newsletter::Delivery::PROCESSING_STATE }
       processed_at { Time.current }
     end
   end

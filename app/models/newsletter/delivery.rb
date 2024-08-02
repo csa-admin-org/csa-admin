@@ -8,13 +8,13 @@ class Newsletter
 
     include HasState
 
-    has_states :pending, :ignored, :delivered, :bounced
+    has_states :processing, :ignored, :delivered, :bounced
 
     belongs_to :newsletter
     belongs_to :member
 
     scope :with_email, ->(email) { where("email ILIKE ?", "%#{email}%") }
-    scope :stale, -> { pending.where("created_at < ?", CONSIDER_STALE_AFTER.ago) }
+    scope :stale, -> { processing.where("created_at < ?", CONSIDER_STALE_AFTER.ago) }
 
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job
@@ -69,7 +69,7 @@ class Newsletter
     end
 
     def delivered!(at:, **attrs)
-      raise invalid_transition(:delivered) unless pending?
+      raise invalid_transition(:delivered) unless processing?
 
       update!({
         state: DELIVERED_STATE,
@@ -78,7 +78,7 @@ class Newsletter
     end
 
     def bounced!(at:, **attrs)
-      raise invalid_transition(:bounced) unless pending?
+      raise invalid_transition(:bounced) unless processing?
 
       update!({
         state: BOUNCED_STATE,

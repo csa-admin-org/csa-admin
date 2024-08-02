@@ -119,10 +119,10 @@ _:
         _de: ignorierte
         _fr: ignorée
         _it: ignorato
-      pending:
-        _de: ausstehend
-        _fr: en attente
-        _it: in attesa
+      processsing:
+        _de: in Bearbeitung
+        _fr: en traitement
+        _it: elaborazione
     payment:
       auto:
         _de: auto
