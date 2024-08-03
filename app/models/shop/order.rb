@@ -182,7 +182,7 @@ module Shop
 
       transaction do
         invoice = create_invoice!
-        update!(state: INVOICED_STATE)
+        update_columns(state: INVOICED_STATE)
         invoice
       end
     end
@@ -192,7 +192,7 @@ module Shop
 
       transaction do
         invoice.destroy_or_cancel!
-        update!(state: PENDING_STATE)
+        update_columns(state: PENDING_STATE)
       end
     end
 
