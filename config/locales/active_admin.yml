@@ -1564,10 +1564,6 @@ _:
           _de: Einstellungen bearbeiten
           _fr: Modifier les paramètres
           _it: Modifica parametri
-        filters:
-          _de: Filter
-          _fr: Filtres
-          _it: Filtri
         help:
           _de: Hilfe
           _fr: Aide
@@ -1735,6 +1731,11 @@ _:
           _de: "%{attribute} (Warteliste)"
           _fr: "%{attribute} (en attente)"
           _it: "%{attribute} (in lista d'attesa)"
+    sidebars:
+      filters:
+        _de: Filter
+        _fr: Filtres
+        _it: Filtri
     site_footer:
       handbook:
         _de: Handbuch

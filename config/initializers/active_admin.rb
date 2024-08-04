@@ -258,81 +258,6 @@ ActiveAdmin.setup do |config|
   # config.order_clause = MyOrderClause
 end
 
-ActiveAdmin.before_load do
-  class ActiveAdmin::ResourceDSL
-    include ActionView::Helpers::TranslationHelper
-    include RailsIcons::Helpers::IconHelper
-    include ApplicationHelper
-    include ActivitiesHelper
-  end
-end
-
-ActiveAdmin.before_load do |app|
-  require "active_admin/filter_saver"
-  ActiveAdmin::BaseController.send :include, ActiveAdmin::FilterSaver
-end
-
-# Support dynamic sidebar title with the :basket_price_extra_title name
-ActiveAdmin.before_load do |app|
-  module ActiveAdmin
-    module Filters
-      module ResourceExtension
-        def filters_sidebar_section
-          name = :filters
-          ActiveAdmin::SidebarSection.new name, only: :index, if: -> { active_admin_config.filters.any? } do
-            h3 I18n.t("active_admin.shared.sidebar_section.#{name}", default: name.to_s.titlecase), class: "filters-form-title"
-            active_admin_filters_form_for assigns[:search], active_admin_config.filters,
-              data: {
-                controller: "filters",
-                action: "change->filters#submit"
-              }
-          end
-        end
-      end
-    end
-  end
-end
-
-ActiveAdmin.before_load do |app|
-  module ActiveAdmin
-    class DSL
-      def sidebar_handbook_link(page, only: :index)
-        section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
-          div class: "flex justify-center" do
-            a href: "/handbook/#{page}", class: "action-item-button small light" do
-              span do
-                icon "book-open", class: "w-5 h-5 me-2"
-              end
-              span do
-                t("active_admin.site_footer.handbook")
-              end
-            end
-          end
-        end
-        config.sidebar_sections << section
-      end
-
-      def sidebar_shop_admin_only_warning
-        section = ActiveAdmin::SidebarSection.new(
-          :shop_admin_only,
-          if: -> { Current.acp.shop_admin_only },
-          only: :index
-        ) do
-          para class: "p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
-            t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
-          end
-          if authorized?(:read, Current.acp)
-            div class: "text-center text-sm mt-3" do
-              a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
-            end
-          end
-        end
-        config.sidebar_sections << section
-      end
-    end
-  end
-end
-
 # Allow to add table data attributes
 ActiveAdmin.after_load do |app|
   module ActiveAdmin
@@ -401,19 +326,3 @@ ActiveAdmin.after_load do |app|
   end
 end
 
-ActiveAdmin.after_load do |app|
-  module ActiveAdmin
-    module ViewHelpers
-      module AutoLinkHelper
-        def auto_link(resource, content = display_name(resource))
-          kept = !resource.respond_to?(:kept?) || resource.kept?
-          if kept && url = auto_url_for(resource)
-            link_to content, url
-          else
-            content
-          end
-        end
-      end
-    end
-  end
-end
