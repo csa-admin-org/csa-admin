@@ -275,7 +275,7 @@ ActiveAdmin.after_load do |app|
 
           # Support row_data and tbody extra options
           table_options[:row_data] = page_presenter[:row_data]
-          table_options[:tbody] = page_presenter[:tbody]
+          table_options[:tbody_data] = page_presenter[:tbody_data]
 
           if page_presenter.block
             insert_tag(IndexTableFor, collection, table_options) do |t|
@@ -299,7 +299,7 @@ ActiveAdmin.after_load do |app|
           @row_class = options.delete(:row_class)
 
           # Handle row_data and tbody extra options
-          @tbody_options = options.delete(:tbody)
+          @tbody_data = options.delete(:tbody_data)
           @row_data = options.delete(:row_data)
 
           build_table
@@ -312,12 +312,13 @@ ActiveAdmin.after_load do |app|
 
         def build_table_body
           # Add tbody tag with data attributes
-          @tbody = tbody @tbody_options do
+          @tbody = tbody data: @tbody_data do
             # Build enough rows for our collection
             @collection.each do |elem|
-              # Add tr row data attributes
-              data_attrs = @row_data ? @row_data.call(elem) : {}
-              tr({ id: dom_id_for(elem), class: @row_class&.call(elem) }.merge(data_attrs))
+              tr(
+                id: dom_id_for(elem),
+                class: @row_class&.call(elem),
+                data: @row_data&.call(elem))
             end
           end
         end
