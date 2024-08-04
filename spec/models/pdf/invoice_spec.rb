@@ -131,7 +131,6 @@ describe PDF::Invoice do
         depot: create(:depot, price: 0),
         deliveries_count: 2)
       invoice = create(:invoice,
-        id: 4,
         entity: membership,
         annual_fee: 42,
         memberships_amount_description: "Facturation annuelle")
@@ -159,7 +158,6 @@ describe PDF::Invoice do
         depot: create(:depot, price: 0),
         deliveries_count: 2)
       invoice = create(:invoice,
-        id: 4,
         entity: membership,
         memberships_amount_description: "Facturation annuelle")
 
@@ -215,7 +213,6 @@ describe PDF::Invoice do
       rejected_participation = create(:activity_participation, :rejected,
         activity: activity)
       invoice = create(:invoice,
-        id: 2001,
         date: "2018-4-5",
         entity: rejected_participation,
         paid_missing_activity_participations: 2)
@@ -233,7 +230,6 @@ describe PDF::Invoice do
         activity_price: 60)
       activity = create(:activity, date: "2018-3-4")
       invoice = create(:invoice,
-        id: 20011,
         date: "2023-1-13",
         paid_missing_activity_participations: 2)
 
@@ -246,7 +242,6 @@ describe PDF::Invoice do
 
     it "generates invoice with ActivityParticipation type (one participant)", sidekiq: :inline do
       invoice = create(:invoice,
-        id: 2002,
         date: "2018-4-5",
         paid_missing_activity_participations: 1)
 
@@ -259,7 +254,6 @@ describe PDF::Invoice do
 
     it "generates invoice with ActivityParticipation type (many participants)", sidekiq: :inline do
       invoice = create(:invoice,
-        id: 2003,
         date: "2018-4-5",
         paid_missing_activity_participations: 3,
         activity_price: 60)
@@ -272,7 +266,6 @@ describe PDF::Invoice do
 
     it "generates an invoice with items", sidekiq: :inline do
       invoice = create(:invoice,
-        id: 2010,
         date: "2018-11-01",
         items_attributes: {
           "0" => { description: "Un truc cool pas cher", amount: 10 },
@@ -289,7 +282,6 @@ describe PDF::Invoice do
 
     it "generates an invoice with items and percentage", sidekiq: :inline do
       invoice = create(:invoice,
-        id: 2010,
         date: "2018-11-01",
         amount_percentage: 4.2,
         items_attributes: {
@@ -310,7 +302,6 @@ describe PDF::Invoice do
       Current.acp.update!(vat_number: "CHE-123.456.789")
       payment = create(:payment, amount: 12)
       invoice = create(:invoice,
-        id: 20101,
         date: "2023-01-14",
         member: payment.member,
         vat_rate: 2.5,
@@ -333,7 +324,6 @@ describe PDF::Invoice do
 
     specify "with items over 2 pages", sidekiq: :inline do
       invoice = create(:invoice,
-        id: 20101,
         date: "2023-05-05",
         items_attributes: 50.times.map { |i|
           [ i, { description: "Un truc", amount: 10 } ]
@@ -347,7 +337,6 @@ describe PDF::Invoice do
 
     specify "with items over 3 pages", sidekiq: :inline do
       invoice = create(:invoice,
-        id: 20101,
         date: "2023-05-05",
         items_attributes: 51.times.map { |i|
           [ i, { description: "Un truc", amount: 10 } ]
@@ -442,7 +431,6 @@ describe PDF::Invoice do
         membership_amount_fraction: 3,
         memberships_amount_description: "Facturation quadrimestrielle #1")
       invoice = create(:invoice,
-        id: 125,
         date: Current.fy_range.min + 4.month,
         member: member,
         entity: membership,
@@ -495,7 +483,6 @@ describe PDF::Invoice do
         memberships_amount_description: "Facturation mensuelle #2")
 
       invoice = create(:invoice,
-        id: 127,
         date: Current.fy_range.min + 2.months,
         member: member,
         entity: membership,
@@ -537,7 +524,6 @@ describe PDF::Invoice do
         })
 
       invoice = create(:invoice,
-        id: 123,
         member: member,
         entity: membership,
         annual_fee: 75,
@@ -579,7 +565,6 @@ describe PDF::Invoice do
         })
 
       invoice = create(:invoice,
-        id: 124,
         member: member,
         entity: membership,
         annual_fee: 75,
@@ -607,7 +592,6 @@ describe PDF::Invoice do
       create(:payment, amount: 42, member: member)
 
       invoice = create(:invoice,
-        id: 242,
         member: member,
         entity: membership,
         annual_fee: 75,
@@ -643,7 +627,6 @@ describe PDF::Invoice do
         membership_amount_fraction: 12,
         memberships_amount_description: "Facturation mensuelle #1")
       invoice = create(:invoice,
-        id: 243,
         date: Current.fy_range.min + 1.month,
         member: member,
         entity: membership,
@@ -690,7 +673,6 @@ describe PDF::Invoice do
         acp_shares_info: "345")
       create(:payment, amount: 75, member: member)
       invoice = create(:invoice,
-        id: 301,
         member: member,
         acp_shares_number: 2)
 
@@ -711,7 +693,6 @@ describe PDF::Invoice do
         zip: "3012",
         city: "Bern")
       invoice = create(:invoice,
-        id: 302,
         member: member,
         acp_shares_number: -2)
       create(:payment, amount: 75, member: member)
