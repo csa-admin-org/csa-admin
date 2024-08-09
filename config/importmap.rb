@@ -35,7 +35,7 @@ pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoj
 pin "ace-builds", preload: false # @1.9.6
 pin "ace-builds/src-noconflict/mode-liquid", to: "ace-builds--src-noconflict--mode-liquid.js", preload: false # @1.9.6
 pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode-yaml.js", preload: false # @1.9.6
-pin "ace-builds/src-noconflict/theme-terminal", to: "ace-builds--src-noconflict--theme-terminal.js", preload: false # @1.35.0
+pin "ace-builds/src-noconflict/theme-textmate", to: "ace-builds--src-noconflict--theme-textmate.js" # @1.35.4
 # Don't forget to update app/assets/stylesheets/tom-select.css too
 pin "tom-select", preload: false # @2.1.0
 pin "stimulus-sortable", preload: false # @4.1.1
