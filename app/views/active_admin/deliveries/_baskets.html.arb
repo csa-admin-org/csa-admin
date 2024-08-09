@@ -7,7 +7,7 @@ show_shop_orders = Current.acp.feature?("shop") && delivery.shop_open && scope !
 attrs = { class: "" }
 if authorized?(:update, Depot)
   attrs[:class] += "cursor-move"
-  attrs[:tbody_data] = { controller: "sortable" }
+  attrs[:tbody_html] = { data: { controller: "sortable" } }
   attrs[:row_data] = ->(bc) {
     { "sortable-update-url" => "/depots/#{bc.depot_id}/move_to?delivery_id=#{delivery.id}" }
   }
