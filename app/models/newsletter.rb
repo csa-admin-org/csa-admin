@@ -109,7 +109,7 @@ class Newsletter < ApplicationRecord
       template: template,
       subject: subject(locale).to_s,
       blocks: relevant_blocks,
-      signature: signature,
+      signature: signature_without_fallback(locale),
       locale: locale
     ).html_part.body.encoded
   rescue => e
