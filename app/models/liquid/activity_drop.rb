@@ -33,11 +33,15 @@ class Liquid::ActivityDrop < Liquid::Drop
     @activity.place_url
   end
 
-  def total_participants_count
+  def participants_limit
+    @activity.participants_limit
+  end
+
+  def participants_total_count
     @activity.participants_count
   end
 
-  def missing_participants_count
+  def participants_missing_count
     @activity.missing_participants_count
   end
 end
