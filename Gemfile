@@ -28,7 +28,7 @@ gem "truemail"
 gem "tod"
 gem "discard"
 
-gem "activeadmin", "4.0.0.beta8"
+gem "activeadmin", github: "acp-admin/activeadmin", branch: "table-for-data"
 gem "cancancan"
 gem "acts_as_list"
 
