@@ -58,8 +58,9 @@ class ActivityMailerPreview < ActionMailer::Preview
       description: nil,
       place: activity_preset&.title || "Neuchâtel",
       place_url: activity_preset&.place_url || "https://google.map/foo",
-      participants_count: 10,
-      missing_participants_count: 8)
+      participants_limit: 10,
+      participants_count: 4,
+      missing_participants_count: 6)
   end
 
   def activity_participation
