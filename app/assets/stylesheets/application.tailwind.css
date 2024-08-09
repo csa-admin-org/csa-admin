@@ -881,50 +881,83 @@
 
   /* Trix */
   trix-editor {
-    @apply p-2 px-3 text-base bg-gray-50 border border-gray-300 focus:border-2 text-gray-900 rounded-md focus:ring-green-600 focus:border-green-600 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-600 dark:focus:border-green-600 !important;
+    @apply p-2 px-3 text-base bg-gray-50 border border-gray-300 focus:ring-2 text-gray-900 rounded-md focus:ring-green-600 focus:border-green-600 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-600 dark:focus:border-green-600 !important;
   }
   trix-toolbar .trix-button {
-    @apply dark:invert  dark:disabled:bg-gray-300 !important;
+    @apply dark:bg-gray-200  dark:disabled:bg-gray-300 !important;
   }
-  trix-editor :where(.trix-content, .trix-content h1, .trix-content strong) {
-    @apply dark:text-white !important;
+
+  trix-editor figcaption {
+    @apply hidden !important;
+  }
+
+  .trix-button--icon-quote {
+    @apply hidden !important;
+  }
+  .trix-button--icon-code {
+    @apply hidden !important;
   }
 
   .trix-content * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .trix-content .attachment-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    position: relative !important;
   }
 
   .trix-content .attachment-gallery > action-text-attachment,
   .trix-content .attachment-gallery > .attachment {
-    flex: 1 0 33%;
-    padding: 0 0.5em;
-    max-width: 33%;
+    flex: 1 0 33% !important;
+    padding: 0 0.5em !important;
+    max-width: 33% !important;
   }
 
   .trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
   .trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
   .trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
-    flex-basis: 50%;
-    max-width: 50%;
+    flex-basis: 50% !important;
+    max-width: 50% !important;
   }
 
   .trix-content .attachment {
     padding: 0 !important;
-    max-width: 100% !important;
+    width: 100% !important;
   }
 
   .trix-content img {
-    margin: 0 auto;
-    max-height: 20rem;
-    object-fit: contain;
+    margin: 0 auto !important;
+    max-height: 20rem  !important;
+    object-fit: contain !important;
+  }
+
+  .trix-content .attachment-gallery > action-text-attachment,
+  .trix-content .attachment-gallery > .attachment {
+    flex: 1 0 33% !important;
+    padding: 0 0.5em !important;
+    max-width: 33% !important;
+  }
+
+  .trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
+  .trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
+  .trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
+    flex-basis: 50% !important;
+    max-width: 50% !important;
+  }
+
+  .trix-content action-text-attachment .attachment {
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .trix-content h1 {
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    text-align: left !important;
+    margin-bottom: 10px !important;
   }
 
   .trix-content a {
@@ -933,23 +966,19 @@
 
   .trix-content ul,
   .trix-content ol {
-    margin: 0.4em 0;
+    margin: 0.4em 0 !important;
   }
 
   .trix-content ul li {
-    @apply list-disc list-outside ml-6;
+    @apply list-disc list-outside border-none m-0 ml-6 !important;
   }
 
   .trix-content ol li {
-    @apply list-decimal list-outside ml-6;
-  }
-
-  .trix-content h1 {
-    @apply my-0 text-lg font-bold text-gray-900 dark:text-gray-100;
+    @apply list-decimal list-outside border-none m-0 ml-6 !important;
   }
 
   .trix-content strong {
-    @apply font-semibold text-gray-600 dark:text-gray-400;
+    @apply font-semibold text-gray-600 dark:text-gray-400 !important;
   }
 
   /* tom-select */
