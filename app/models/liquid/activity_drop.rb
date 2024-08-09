@@ -32,4 +32,12 @@ class Liquid::ActivityDrop < Liquid::Drop
   def place_url
     @activity.place_url
   end
+
+  def total_participants_count
+    @activity.participants_count
+  end
+
+  def missing_participants_count
+    @activity.missing_participants_count
+  end
 end

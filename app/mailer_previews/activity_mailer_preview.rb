@@ -57,7 +57,9 @@ class ActivityMailerPreview < ActionMailer::Preview
       period: activity&.period || "8:00-12:00",
       description: nil,
       place: activity_preset&.title || "Neuchâtel",
-      place_url: activity_preset&.place_url || "https://google.map/foo")
+      place_url: activity_preset&.place_url || "https://google.map/foo",
+      participants_count: 10,
+      missing_participants_count: 8)
   end
 
   def activity_participation
