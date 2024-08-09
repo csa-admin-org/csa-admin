@@ -27,7 +27,7 @@ module FormsHelper
         label: label,
         placeholder: placeholder,
         input_html: {
-          class: "#{klass}_#{attr.to_s.singularize}",
+          class: "#{klass}_#{attr.to_s.singularize} #{"trix-content" if options[:as] == :action_text}",
           value: value
         }.merge(input_html)
       }.deep_merge(options)
