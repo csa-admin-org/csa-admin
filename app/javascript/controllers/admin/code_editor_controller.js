@@ -4,7 +4,7 @@ import { debounce } from 'throttle-debounce'
 import * as ace from "ace-builds"
 import "ace-builds/src-noconflict/mode-liquid"
 import "ace-builds/src-noconflict/mode-yaml"
-import "ace-builds/src-noconflict/theme-terminal"
+import "ace-builds/src-noconflict/theme-textmate"
 
 export default class extends Controller {
   static get targets() {
@@ -24,7 +24,7 @@ export default class extends Controller {
     element.parentNode.insertBefore(editDiv, element)
     var editor = ace.edit(editDiv, {
       mode: 'ace/mode/' + element.dataset.mode,
-      theme: 'ace/theme/terminal',
+      theme: 'ace/theme/textmate',
       placeholder: element.placeholder,
       highlightActiveLine: false,
       showGutter: false,
