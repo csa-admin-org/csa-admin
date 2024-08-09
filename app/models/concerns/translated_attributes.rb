@@ -14,6 +14,9 @@ module TranslatedAttributes
           self[column][locale.to_s].presence ||
             self[column][Current.acp.default_locale.to_s].presence
         end
+        define_method("#{attr}_without_fallback") do |locale = I18n.locale|
+          self[column][locale.to_s].presence
+        end
         define_method("#{attr}?") do |locale = I18n.locale|
           send(attr, locale).present?
         end

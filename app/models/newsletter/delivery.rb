@@ -116,7 +116,7 @@ class Newsletter
         subject: newsletter.subject(member.language).to_s,
         template_contents: newsletter.template_contents,
         blocks: newsletter.relevant_blocks,
-        signature: newsletter.signature.presence,
+        signature: newsletter.signature_without_fallback(member.language),
         attachments: newsletter.attachments.to_a
       }
     end
