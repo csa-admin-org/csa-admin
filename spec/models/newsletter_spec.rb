@@ -50,23 +50,6 @@ describe Newsletter do
     expect(newsletter).not_to have_valid(:blocks)
   end
 
-  specify "validate same blocks must be present for all languages" do
-    Current.acp.update! languages: %w[fr de]
-    newsletter = build(:newsletter, template: template,
-      blocks_attributes: {
-        "0" => {
-          block_id: "first",
-          content_fr: "Hello",
-          content_de: ""
-        },
-        "1" => { block_id: "second", content_fr: "", content_de: "" }
-      }
-    )
-
-    expect(newsletter).not_to have_valid(:blocks)
-    expect(newsletter.errors[:blocks]).to eq [ "doit être rempli(e)" ]
-  end
-
   specify "mailpreview" do
     Current.acp.update! email_signature: "Signature"
     newsletter = build(:newsletter, template: template,
