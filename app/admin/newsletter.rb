@@ -222,8 +222,8 @@ ActiveAdmin.register Newsletter do
         translated_input(b, :contents,
           as: :action_text,
           label: ->(locale) {
-            b.object.titles[locale] ||
-              label_with_language(b.object.block_id.titleize, locale)
+            label = b.object.titles[locale] || b.object.block_id.titleize
+            label_with_language(label, locale)
           },
           hint: t("formtastic.hints.liquid").html_safe,
           wrapper_html: {
