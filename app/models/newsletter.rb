@@ -27,7 +27,6 @@ class Newsletter < ApplicationRecord
 
   validates :audience, presence: true
   validate :at_least_one_block_must_be_present
-  validate :same_blocks_must_be_present_for_all_languages
   validate :attachments_must_not_exceed_maximum_size
   validates :from, format: {
     with: ->(n) { /.*@#{Current.acp.email_hostname}\z/ },
@@ -182,19 +181,6 @@ class Newsletter < ApplicationRecord
   def at_least_one_block_must_be_present
     if relevant_blocks.none?(&:any_contents?)
       errors.add(:blocks, :empty)
-    end
-  end
-
-  def same_blocks_must_be_present_for_all_languages
-    relevant_blocks.each do |block|
-      if block.any_contents? && !block.all_contents?
-        block.contents.each do |locale, content|
-          if content.to_plain_text.blank?
-            block.errors.add("content_#{locale}", :empty)
-            errors.add(:blocks, :empty)
-          end
-        end
-      end
     end
   end
 
