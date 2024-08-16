@@ -915,9 +915,9 @@ _:
             _fr: Emails
             _it: Email
         invoice_now:
+          _de: Abrechnen
           _fr: Facturer
           _it: Fatturare
-          _de: Abrechnen
         invoice_now_confirm:
           _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
