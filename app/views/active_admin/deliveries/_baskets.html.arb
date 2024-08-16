@@ -8,8 +8,8 @@ attrs = { class: "" }
 if authorized?(:update, Depot)
   attrs[:class] += "cursor-move"
   attrs[:tbody_html] = { data: { controller: "sortable" } }
-  attrs[:row_data] = ->(bc) {
-    { "sortable-update-url" => "/depots/#{bc.depot_id}/move_to?delivery_id=#{delivery.id}" }
+  attrs[:row_html] = ->(bc) {
+    { data: { "sortable-update-url" => "/depots/#{bc.depot_id}/move_to?delivery_id=#{delivery.id}" } }
   }
 end
 

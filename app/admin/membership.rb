@@ -296,12 +296,12 @@ ActiveAdmin.register Membership do
             :absence,
             baskets_basket_complements: :basket_complement
           ),
-            row_class: ->(b) {
+            row_html: ->(b) {
               classes = []
               classes << "bg-gray-200 dark:bg-gray-700" if b == next_basket
               classes << "disabled" if b.absent?
               classes << "line-through" unless b.billable?
-              classes.join(" ")
+              { class: classes.join(" ") }
             },
             class: "table-auto"
           ) do
