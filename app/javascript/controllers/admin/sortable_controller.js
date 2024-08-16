@@ -1,4 +1,4 @@
-import Sortable from 'stimulus-sortable'
+import Sortable from '@stimulus-components/sortable'
 
 export default class extends Sortable {
   get defaultOptions() {
