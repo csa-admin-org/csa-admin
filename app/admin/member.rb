@@ -430,7 +430,7 @@ ActiveAdmin.register Member do
                   div class: "flex items-center justify-between gap-2" do
                     if invoicer.next_date
                       span do
-                        l(invoicer.next_date, format: :long_medium)
+                        l(invoicer.next_date, format: :medium)
                       end
                       if authorized?(:force_recurring_billing, member) && invoicer.billable?
                         div do
@@ -479,7 +479,7 @@ ActiveAdmin.register Member do
                   if Current.acp.recurring_billing?
                     if invoicer.next_date
                       span class: "next_date" do
-                        l(invoicer.next_date, format: :long_medium)
+                        l(invoicer.next_date, format: :medium)
                       end
                       if authorized?(:force_acp_share_billing, member)
                         button_to t(".invoice_now"), force_acp_share_billing_member_path(member),

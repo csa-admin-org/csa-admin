@@ -546,7 +546,7 @@ ActiveAdmin.register Membership do
                   if invoicer.next_date
                     div class: "flex items-center justify-between gap-2" do
                       span do
-                        l(invoicer.next_date, format: :long_medium)
+                        l(invoicer.next_date, format: :medium)
                       end
                       if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
                         div do
