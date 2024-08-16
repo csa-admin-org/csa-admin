@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/acp-admin/activeadmin.git
-  revision: 5bd07c10b15ee064d3403f40dd89eb451c2b9958
+  revision: e41e0a18ddb9c7895ee44dfa7c1b7956b58b6adc
   branch: table-for-data
   specs:
     activeadmin (4.0.0.beta9)

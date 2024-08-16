@@ -89,8 +89,8 @@ ActiveAdmin.register Depot do
             if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
               attrs[:class] = "cursor-move table-auto"
               attrs[:tbody_html] = { data: { controller: "sortable" } }
-              attrs[:row_data] = ->(b) {
-                { "sortable-update-url" => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" }
+              attrs[:row_html] = ->(b) {
+                { data: { "sortable-update-url" => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" } }
               }
             end
 
