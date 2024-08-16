@@ -38,9 +38,9 @@ pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode
 pin "ace-builds/src-noconflict/theme-textmate", to: "ace-builds--src-noconflict--theme-textmate.js" # @1.35.4
 # Don't forget to update app/assets/stylesheets/tom-select.css too
 pin "tom-select", preload: false # @2.1.0
-pin "stimulus-sortable", preload: false # @4.1.1
-pin "@rails/request.js", to: "@rails--request.js.js", preload: false # @0.0.8
-pin "sortablejs", preload: false # @1.15.2
+pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.1
+pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.8
+pin "sortablejs" # @1.15.2
 # ActiveAdmin
 pin "@rails/ujs", to: "@rails--ujs.js", preload: false # @7.0.8
 pin_all_from File.join(`bundle show activeadmin`.strip, "app/javascript/active_admin"), under: "active_admin", preload: false
