@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.before_load do |app|
   module ActiveAdmin
     class DSL

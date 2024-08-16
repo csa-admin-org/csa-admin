@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeNewsletterDeliveryDefaultState < ActiveRecord::Migration[7.1]
   def change
     change_column_default :newsletter_deliveries, :state, from: "pending", to: "processing"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.after_load do |app|
   module ActiveAdmin
     module ViewHelpers

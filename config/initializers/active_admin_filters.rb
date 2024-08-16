@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Add filters stimulus controller for live fitlering
 ActiveAdmin.before_load do |app|
   module ActiveAdmin
