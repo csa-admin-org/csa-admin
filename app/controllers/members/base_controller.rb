@@ -26,8 +26,9 @@ class Members::BaseController < ApplicationController
   end
 
   def set_locale
-    if params[:locale].in?(Current.acp.languages)
-      cookies.permanent[:locale] = params[:locale]
+    params_locale = params[:locale]&.first(2)
+    if params_locale.in?(Current.acp.languages)
+      cookies.permanent[:locale] = params_locale
     end
     unless cookies[:locale].in?(Current.acp.languages)
       cookies.delete(:locale)
