@@ -421,6 +421,14 @@
     @apply flex flex-wrap gap-6 m-0 text-xl text-gray-950 dark:text-white font-extralight text-center border-b-0 border-gray-200 dark:border-gray-700;
   }
 
+  .formtastic ul.errors {
+    @apply m-0 p-2 gap-2 bg-red-100 dark:bg-red-900 text-red-500 !important;
+  }
+
+  .formtastic ul.errors li {
+    @apply list-inside m-1 !important;
+  }
+
   .tabs-nav > :where(a) {
     @apply block p-0 m-0 border-b-2 border-transparent rounded-t-md text-gray-950 dark:text-white no-underline !important;
 
