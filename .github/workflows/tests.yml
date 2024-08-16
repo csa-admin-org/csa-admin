@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:14.2
+        image: postgres:16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -27,6 +27,15 @@ jobs:
       run: |
         sudo apt-get update -qq -o Acquire::Retries=3
         sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips
+
+    - name: Install PostgreSQL client
+      run: |
+        sudo apt-get -y remove --purge postgresql*
+        sudo apt-get update -qq -o Acquire::Retries=3
+        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        sudo apt-get update -qq -o Acquire::Retries=3
+        sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 postgresql-client-16
 
     - name: Install Ruby and run Bundler install with cache
       uses: ruby/setup-ruby@v1
