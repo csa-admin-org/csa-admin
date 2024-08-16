@@ -100,10 +100,14 @@ export default class extends Controller {
   updateOther(target) {
     if (target.type == "range") {
       const input = document.getElementById(target.id.replace("_range", ""))
-      input.value = target.value
+      if (input) {
+        input.value = target.value
+      }
     } else {
       const range = document.getElementById(target.id + "_range")
-      range.value = target.value
+      if (range) {
+        range.value = target.value
+      }
     }
   }
 
