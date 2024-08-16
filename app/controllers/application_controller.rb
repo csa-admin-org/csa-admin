@@ -60,8 +60,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
+    params_locale = params[:locale]&.first(2)
     I18n.locale =
-      (params[:locale].in?(I18n.available_locales.map(&:to_s)) && params[:locale]) ||
+      (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale) ||
       current_admin&.language ||
       Current.acp.languages.first
   end
