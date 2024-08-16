@@ -4,8 +4,7 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-# https://github.com/rails/rails/pull/52093
-gem "rails", github: "rails/rails", branch: "7-1-stable"
+gem "rails", "7.2.0"
 
 gem "bootsnap", require: false
 gem "propshaft"
@@ -98,6 +97,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "faker"
   gem "factory_bot_rails"
+  gem "brakeman"
 end
 
 group :development do

@@ -18,15 +18,15 @@ class DeliveryCycle < ApplicationRecord
     minimum_gap_in_days
   ]
 
-  enum week_numbers: %i[all odd even], _suffix: true
-  enum results: %i[
+  enum :week_numbers, %i[all odd even], suffix: true
+  enum :results, %i[
     all
     odd even
     quarter_1 quarter_2 quarter_3 quarter_4
     all_but_first
     first_of_each_month
     last_of_each_month
-  ], _suffix: true
+  ], suffix: true
 
   has_many :memberships
   has_many :memberships_basket_complements
