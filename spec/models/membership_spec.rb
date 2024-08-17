@@ -464,6 +464,38 @@ describe Membership do
     expect(membership.price).to be_zero
   end
 
+  describe "#missing_activity_participations" do
+    let(:basket_size) { create(:basket_size, activity_participations_demanded_annually: 3) }
+
+    specify "active membership with no activity participations", freeze: "2024-01-01" do
+      Current.acp.update!(trial_basket_count: 0)
+      membership = create(:membership, basket_size_id: basket_size.id)
+
+      expect(membership.missing_activity_participations).to eq 3
+    end
+
+    specify "when in trial period", freeze: "2024-01-01" do
+      Current.acp.update!(trial_basket_count: 1)
+      membership = create(:membership, basket_size_id: basket_size.id, deliveries_count: 2)
+
+      expect(membership.trial?).to eq true
+      expect(membership.trial_only?).to eq false
+      expect(membership.missing_activity_participations).to eq 0
+    end
+
+    specify "when in trial period", freeze: "2024-02-01"  do
+      Current.acp.update!(trial_basket_count: 1)
+      membership = create(:membership, basket_size_id: basket_size.id,
+        deliveries_count: 1,
+        started_on: "2024-01-01",
+        ended_on: "2024-01-31")
+
+      expect(membership.trial?).to eq false
+      expect(membership.trial_only?).to eq true
+      expect(membership.missing_activity_participations).to eq 0
+    end
+  end
+
   describe "set_renew" do
     it "sets renew to true on creation when ended_on is end of year" do
       membership = create(:membership, ended_on: Date.current.end_of_year)
