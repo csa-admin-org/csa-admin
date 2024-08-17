@@ -436,6 +436,8 @@ class Membership < ApplicationRecord
   end
 
   def missing_activity_participations
+    return 0 if trial? || trial_only?
+
     [ activity_participations_demanded - activity_participations_accepted, 0 ].max
   end
 

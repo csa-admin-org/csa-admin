@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe Billing::MissingActivityParticipationsInvoicerJob do
-  before { Current.acp.update!(activity_price: 90) }
+  before { Current.acp.update!(activity_price: 90, trial_basket_count: 0) }
 
   specify "noop if no activty price" do
     Current.acp.update!(activity_price: 0)
