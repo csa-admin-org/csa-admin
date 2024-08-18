@@ -13,7 +13,7 @@ module DashboardHelper
   end
 
   def billing_panel_action
-    latest_snapshots = Billing::Snapshot.order(updated_at: :desc).first(4)
+    latest_snapshots = Billing::Snapshot.order(created_at: :desc).first(4)
     content_tag :div, class: "flex items-center space-x-3" do
       (
         if latest_snapshots.any?
@@ -27,7 +27,7 @@ module DashboardHelper
             } + content_tag(:ul, class: "space-y-1") do
               latest_snapshots.map do |s|
                 content_tag :li, class: "p2" do
-                  link_to l(s.updated_at.to_date, format: :number), billing_snapshot_path(s)
+                  link_to l(s.created_at.to_date, format: :number), billing_snapshot_path(s)
                 end
               end.join.html_safe
             end
