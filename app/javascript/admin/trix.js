@@ -1,7 +1,7 @@
 import "trix"
 import "@rails/actiontext"
 
-const allowedTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"]
+const allowedTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif", "image/webp"]
 const maxImageSize = 512000
 
 document.addEventListener("trix-file-accept", e => {
