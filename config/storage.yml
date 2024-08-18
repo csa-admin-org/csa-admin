@@ -6,15 +6,6 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-amazon:
-  service: S3
-  region: eu-west-1
-  bucket: acp-admin-storage
-  access_key_id: <%= ENV['S3_ACCESS_KEY_ID'] %>
-  secret_access_key: <%= ENV['S3_SECRET_ACCESS_KEY'] %>
-
 production:
-  service: Mirror
-  primary: amazon
-  mirrors:
-    - local
+  service: Migration
+  primary: local
