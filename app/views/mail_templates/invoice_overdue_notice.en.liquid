@@ -1,0 +1,17 @@
+<p>Unless there is an error or omission on our part, we have not received full payment for invoice #{{ invoice.number }} dated {{ invoice.date }}.</p>
+
+{% highlight %}
+  <strong>The remaining amount to be paid is: {{ invoice.missing_amount }}</strong>
+{% endhighlight %}
+
+<p>Please proceed with the payment as soon as possible. Attached is a duplicate of this invoice for your reference.</p>
+<p>If your payment has already been made, please disregard this notice.</p>
+<p>Thank you in advance for your prompt payment. If you have any questions, please feel free to contact us.</p>
+
+{% unless member.billing_email %}
+  <p>You can view your invoices and payments at any time from your member page.</p>
+
+  {% button member.billing_url %}
+    Access My Member Page
+  {% endbutton %}
+{% endunless %}

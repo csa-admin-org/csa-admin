@@ -3,95 +3,117 @@ _:
     mailer:
       manage_admin_notifications:
         _de: Meine Benachrichtigungen verwalten
+        _en: Manage my notifications
         _fr: Gérer mes notifications
         _it: Gestire le notifiche
       unsubscribe:
         _de: Abmeldung
+        _en: Unsubscribe
         _fr: Désinscription
         _it: Disiscrizione
     members:
       footer:
         contact:
           _de: Kontakt
+          _en: Contact
           _fr: Contact
           _it: Contatti
       header:
         absences_subtitle:
           _de: "⤷ Informieren Sie uns!"
+          _en: "⤷ Let us know!"
           _fr: "⤷ Prévenez-nous!"
           _it: "⤷ Facci sapere!"
         absences_used:
           one:
             _de: "⤷ %{used} von %{count} gemeldet"
+            _en: "⤷ %{used} of %{count} reported"
             _fr: "⤷ %{used} sur %{count} annoncée"
             _it: "⤷ %{used} su %{count} annunciata"
           other:
             _de: "⤷ %{used} von %{count} gemeldet"
+            _en: "⤷ %{used} of %{count} reported"
             _fr: "⤷ %{used} sur %{count} annoncées"
             _it: "⤷ %{used} su %{count} annunciate"
         activity_participations_accepted:
           one:
             _de: "⤷ %{accepted} von %{count} angefordert"
+            _en: "⤷ %{accepted} of %{count} requested"
             _fr: "⤷ %{accepted} sur %{count} demandée"
             _it: "⤷ %{accepted} su %{count} richiesta"
           other:
             _de: "⤷ %{accepted} von %{count} angefordert"
+            _en: "⤷ %{accepted} of %{count} requested"
             _fr: "⤷ %{accepted} sur %{count} demandées"
             _it: "⤷ %{accepted} su %{count} richieste"
         billing:
           _de: Rechnungsstellung
+          _en: Billing
           _fr: Facturation
           _it: Fatturazione
         contact:
           _de: Kontakt
+          _en: Contact
           _fr: Contact
           _it: Contatti
         delivery:
           _de: "⤷ %{date}"
+          _en: "⤷ %{date}"
           _fr: "⤷ %{date}"
           _it: "⤷ %{date}"
         logout:
           _de: Abmeldung
+          _en: Logout
           _fr: Déconnexion
           _it: Disconnessione
         membership_current:
           _de: "⤷ Aktuelles"
+          _en: "⤷ Current"
           _fr: "⤷ En cours"
           _it: "⤷ In corso"
         membership_future:
           _de: "⤷ Zukünftiges"
+          _en: "⤷ Future"
           _fr: "⤷ À venir"
           _it: "⤷ In futuro"
         membership_past:
           _de: "⤷ Abgeschlossenes"
+          _en: "⤷ Past"
           _fr: "⤷ Terminé"
           _it: "⤷ Completato"
         membership_renewal:
           _de: "⤷ Erneuerung?"
+          _en: "⤷ Renewal?"
           _fr: "⤷ Renouvellement ?"
           _it: "⤷ Rinnovo ?"
         membership_trial:
           _de: "⤷ Probezeit"
+          _en: "⤷ Trial period"
           _fr: "⤷ Période d'essai"
           _it: "⤷ Periodo di prova"
         no_activity_participations_demanded:
           _de: "⤷ Keine Verpflichtung"
+          _en: "⤷ No commitment"
           _fr: "⤷ Aucun engagement"
           _it: "⤷ Nessun impegno"
         open_invoices:
           one:
             _de: "⤷ 1 offene Rechnung"
+            _en: "⤷ 1 open invoice"
             _fr: "⤷ 1 facture ouverte"
             _it: "⤷ 1 fattura aperta"
           other:
             _de: "⤷ %{count} offene Rechnungen"
+            _en: "⤷ %{count} open invoices"
             _fr: "⤷ %{count} factures ouvertes"
             _it: "⤷ %{count} fatture aperte"
         see_history:
           _de: "⤷ Verlauf anzeigen"
+          _en: "⤷ View history"
           _fr: "⤷ Consulter l'historique"
           _it: "⤷ Consulta la cronologia"
       title:
         _de: Mitgliederseite
+        _en: Member page
         _fr: Page de Membre
         _it: Pagina dei soci

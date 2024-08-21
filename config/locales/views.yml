@@ -3,21 +3,26 @@ _:
     pagination:
       first:
         _de: "&laquo;"
+        _en: "&laquo;"
         _fr: "&laquo;"
         _it: "&laquo;"
       last:
         _de: "&raquo;"
+        _en: "&raquo;"
         _fr: "&raquo;"
         _it: "&raquo;"
       next:
         _de: "&rsaquo;"
+        _en: "&rsaquo;"
         _fr: "&rsaquo;"
         _it: "&rsaquo;"
       previous:
         _de: "&lsaquo;"
+        _en: "&lsaquo;"
         _fr: "&lsaquo;"
         _it: "&lsaquo;"
       truncate:
         _de: "&hellip;"
+        _en: "&hellip;"
         _fr: "&hellip;"
         _it: "&hellip;"

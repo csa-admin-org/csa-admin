@@ -18,7 +18,7 @@ class ACP < ApplicationRecord
     shop
   ]
   FEATURE_FLAGS = %i[]
-  LANGUAGES = %w[fr de it]
+  LANGUAGES = %w[fr de it en]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]

@@ -4,9 +4,11 @@ _:
       flash:
         alert:
           _de: Die Datei ist nicht gültig.
+          _en: The file is not valid.
           _fr: Le fichier n'est pas valide.
           _it: Il file non è valido.
         notice:
           _de: Neue Zahlungen mit gültiger Referenznummer wurden erfolgreich importiert.
+          _en: New payments with a valid reference number have been successfully imported.
           _fr: Les nouveaux paiements avec un numéro de référence valide ont été importés avec succès.
           _it: I nuovi pagamenti con un numero di riferimento valido sono stati importati con successo.

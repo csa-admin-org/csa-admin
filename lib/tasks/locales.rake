@@ -128,6 +128,6 @@ namespace :locales do
   end
 
   def used_locales
-    I18n.available_locales.sort - [ :en ]
+    I18n.available_locales.sort
   end
 end

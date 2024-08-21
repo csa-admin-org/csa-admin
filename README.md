@@ -24,7 +24,7 @@ Functions currently supported include
 - Automatic invoicing of membership shares or annual fees
 - Activity participations management, with registration form for your member
 - Advanced e-mail and built-in newsletters system
-- Multi-language support (French/German/Italian)
+- Multi-language support (English/French/German/Italian)
 - And more... please [contact me](mailto:info@acp-admin.ch) for a demo.
 
 Other features can be added as required, please [contact me](mailto:info@acp-admin.ch) for more information.

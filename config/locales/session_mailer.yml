@@ -3,10 +3,12 @@ _:
     new_admin_session_email:
       subject:
         _de: Anmeldung mit Ihrem Admin-Konto
+        _en: Login to your admin account
         _fr: Connexion à votre compte admin
         _it: Connessione al vostro conto admin
     new_member_session_email:
       subject:
         _de: Anmeldung mit Ihrem Konto
+        _en: Login to your account
         _fr: Connexion à votre compte
         _it: Connessione al vostro conto

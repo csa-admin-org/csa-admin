@@ -5,24 +5,29 @@ _:
         flash:
           alert:
             _de: Die künftige Teilnahmen können noch nicht abgelehnt werden
+            _en: Future participations cannot yet be rejected
             _fr: Les participations à venir ne peuvent pas encore être refusées
             _it: Le partecipazioni future non possono ancora essere rifiutate
       validate:
         flash:
           alert:
             _de: Die künftige Teilnahmen können noch nicht bestätigt werden
+            _en: Future participations cannot yet be validated
             _fr: Les participations à venir ne peuvent pas encore être validées
             _it: Le partecipazioni future non possono ancora essere confermate
     form_detail:
       max:
         _de: Anzahl erhöhen (-%{price}/Partizipation).
+        _en: Increase the number requested (-%{price}/participation).
         _fr: Augmenter le nombre demandées (-%{price}/participation).
         _it: Aumentare il numero richiesto (-%{price}/partecipazione).
       min:
         _de: Anzahl reduzieren (+%{price}/Partizipation).
+        _en: Reduce the number requested (+%{price}/participation).
         _fr: Réduire le nombre demandées (+%{price}/participation).
         _it: Ridurre il numero richiesto (+%{price}/partecipazione).
       min_max:
         _de: Anzahl anpassen (+/- %{price}/Partizipation).
+        _en: Adjust the number requested (+/- %{price}/participation).
         _fr: Ajuster le nombre demandées (+/- %{price}/participation).
         _it: Regolare il numero richiesto (+/- %{price}/partecipazione).

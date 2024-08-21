@@ -2,46 +2,57 @@ _:
   delivery:
     delivered_by:
       _de: Liefert von
+      _en: Delivered by
       _fr: Livré par
       _it: Consegnato da
     delivery:
       _de: lieferung
+      _en: delivery
       _fr: livraison
       _it: consegna
     free_depots:
       _de: Gratis Depots
+      _en: Free depots
       _fr: Dépôts gratuits
       _it: Punto di ritiro gratuito
     no_basket_complements:
       _de: Kein Zusatz
+      _en: No basket complements
       _fr: Aucun complément
       _it: Nessun supplemento
     paid_depots:
       _de: Bezahlte Depots
+      _en: Paid depots
       _fr: Dépôts payants
       _it: Punto di ritiro a pagamento
     sheets_mode:
       home_delivery:
         _de: Heimlieferung
+        _en: Home delivery
         _fr: Livraison à domicile
         _it: Consegna a domicilio
       home_delivery_hint:
         _de: Liste der Depotmitglieder anpassbar sortiert (Drag & Drop) mit ihrer Lieferadresse.
+        _en: List of depot members sorted in a customizable way (drag & drop) with their delivery address.
         _fr: Liste des membres du dépôt triée de manière personnalisable (glisser-déposer) avec leur adresse de livraison.
         _it: Elenco dei membri del punto di ritiro ordinati in modo personalizzabile (drag & drop) con il loro indirizzo di consegna.
       signature:
         _de: Unterschrift
+        _en: Signature
         _fr: Signature
         _it: Firma
       signature_hint:
         _de: Liste der Depotmitglieder alphabetisch sortiert mit einer Spalte für die Unterschrift der Mitglieder.
+        _en: List of depot members sorted alphabetically with a column for member signatures.
         _fr: Liste des membres du dépôt triée par ordre alphabétique avec une colonne pour la signature des membres.
         _it: Elenco dei membri del punto di ritiro ordinato in ordine alfabetico, con una colonna per le firme dei membri.
     summary:
       _de: Zusammenfassung
+      _en: Summary
       _fr: Récapitulatif
       _it: Sommario
     total:
       _de: Gesamt
+      _en: Total
       _fr: Total
       _it: Totale

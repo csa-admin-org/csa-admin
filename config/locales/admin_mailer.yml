@@ -3,62 +3,75 @@ _:
     delivery_list_email:
       subject:
         _de: Lieferungsliste vom %{date}
+        _en: Delivery list of %{date}
         _fr: Liste livraison du %{date}
         _it: Lista di consegna del %{date}
     depot_delivery_list_email:
       subject:
         _de: Lieferungsliste vom %{date} (%{depot})
+        _en: Delivery list of %{date} (%{depot})
         _fr: Liste livraison du %{date} (%{depot})
         _it: Lista di consegna del %{date} (%{depot})
     invitation_email:
       subject:
         _de: Einladung an den %{acp} Admin
+        _en: Invitation to the %{acp} admin
         _fr: Invitation à l'admin de %{acp}
         _it: Invito all'admin di %{acp}
     invoice_overpaid_email:
       subject:
         _de: 'Überzahlte Rechnung #%{number}'
+        _en: 'Overpaid invoice #%{number}'
         _fr: 'Facture #%{number} payée en trop'
         _it: 'Fattura #%{number} pagata in eccesso'
     invoice_third_overdue_notice_email:
       subject:
         _de: 'Rechnung #%{number}, 3. Mahnung gesendet'
+        _en: 'Invoice #%{number}, 3rd reminder sent'
         _fr: 'Facture #%{number}, 3ᵉ rappel envoyé'
         _it: 'Fattura #%{number}, 3° richiamo inviato'
     memberships_renewal_pending_email:
       subject:
         _de: "⚠️ Mitgliedschaft(en) wartet auf Verlängerung!"
+        _en: "⚠️ Membership(s) pending renewal!"
         _fr: "⚠️ Abonnement(s) en attente de renouvellement!"
         _it: "⚠️ Abbonamento(i) in attesa di rinnovo!"
     new_absence_email:
       subject:
         _de: Neue Abwesenheit
+        _en: New absence
         _fr: Nouvelle absence
         _it: Nuova assenza
     new_activity_participation_email:
       subject/basket_preparation:
         _de: Neue Teilnahme an einer Befüllung der Taschen
+        _en: New participation in basket preparation
         _fr: Nouvelle participation à une mise en panier
         _it: Nuova partecipazione alla preparazione dei cesti
       subject/day_work:
         _de: Neue Teilnahme an einem Arbeitstag
+        _en: New participation in a workday
         _fr: Nouvelle participation à une journée de travail
         _it: Nuova partecipazione ad una giornata di lavoro
       subject/halfday_work:
         _de: Neue Teilnahme an einem ½ Tag
+        _en: New participation in a ½ day
         _fr: Nouvelle participation à une ½ journée
         _it: Nuova partecipazione ad una ½ giornata
       subject/hour_work:
         _de: Neue Teilnahme an einer Arbeitsstunde
+        _en: New participation in a work hour
         _fr: Nouvelle participation à une heure de travail
         _it: Nuova partecipazione ad un'ora di lavoro
     new_email_suppression_email:
       subject:
         _de: E-Mail abgelehnt (%{reason})
+        _en: Email rejected (%{reason})
         _fr: Email rejeté (%{reason})
         _it: E-mail rifiutatata (%{reason})
     new_inscription_email:
       subject:
         _de: Neue Einschreibung
+        _en: New inscription
         _fr: Nouvelle inscription
         _it: Nuova iscrizione

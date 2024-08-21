@@ -3,145 +3,179 @@ _:
     activity_participation:
       future:
         _de: Kommend
+        _en: Upcoming
         _fr: à venir
         _it: venendo
       pending:
         _de: Zu bestätigen
+        _en: Pending
         _fr: À valider
         _it: Da confermare
       rejected:
         _de: abgelehnt
+        _en: Rejected
         _fr: refusée
         _it: rifiutato
       validated:
         _de: bestätigt
+        _en: Validated
         _fr: validée
         _it: confermato
     invoice:
       canceled:
         _de: storniert
+        _en: Canceled
         _fr: annulée
         _it: annullata
       closed:
         _de: geschlossen
+        _en: Closed
         _fr: fermée
         _it: chiusa
       open:
         _de: offen
+        _en: Open
         _fr: ouverte
         _it: aperta
       open_with_overdue_notice:
         _de: offen mit Mahnung(en)
+        _en: Open with overdue notice(s)
         _fr: ouverte avec rappel(s)
         _it: aperta con richiamo(i)
       processing:
         _de: in Bearbeitung
+        _en: Processing
         _fr: en traitement
         _it: elaborazione
     member:
       active:
         _de: aktiv
+        _en: Active
         _fr: actif
         _it: attivo
       inactive:
         _de: inaktiv
+        _en: Inactive
         _fr: inactif
         _it: inattivo
       memberships:
         future:
           _de: Künftige Abonnements
+          _en: Future memberships
           _fr: Abonnements futurs
           _it: Abbonamenti futuri
         ongoing:
           _de: Laufende Abonnements
+          _en: Ongoing memberships
           _fr: Abonnements en cours
           _it: Abbonamenti in corso
         trial:
           _de: Probeabonnements
+          _en: Trial memberships
           _fr: Abonnements à l'essai
           _it: Abbonamenti di prova
       pending:
         _de: zu bestätigen
+        _en: Pending
         _fr: à valider
         _it: da confermare
       support:
         _de: Unterstützung
+        _en: Support
         _fr: soutien
         _it: sostegno
       trial:
         _de: Probeabonnement
+        _en: Trial
         _fr: Abonnement à l'essai
         _it: Abbonamento di prova
       waiting:
         _de: Warteliste
+        _en: Waiting list
         _fr: liste d'attente
         _it: lista di attesa
     membership:
       future:
         _de: Künftig
+        _en: Future
         _fr: Futur
         _it: Futuro
       ongoing:
         _de: Laufend
+        _en: Ongoing
         _fr: En cours
         _it: In corso
       past:
         _de: Vergangen
+        _en: Past
         _fr: Passé
         _it: Passato
       trial:
         _de: Probe
+        _en: Trial
         _fr: Essai
         _it: Prova
     newsletter:
       draft:
         _de: Entwurf
+        _en: Draft
         _fr: brouillon
         _it: bozza
       processing:
         _de: Lieferung in Bearbeitung...
+        _en: Delivery in progress...
         _fr: Envoi en cours...
         _it: Spedizione in corso...
       sent:
         _de: gesendet
+        _en: Sent
         _fr: envoyé
         _it: inviato
     newsletter/delivery:
       bounced:
         _de: abgelehnte
+        _en: Bounced
         _fr: rejetée
         _it: respinto
       delivered:
         _de: verteilte
+        _en: Delivered
         _fr: distribuée
         _it: distribuito
       ignored:
         _de: ignorierte
+        _en: Ignored
         _fr: ignorée
         _it: ignorato
       processsing:
         _de: in Bearbeitung
+        _en: Processing
         _fr: en traitement
         _it: elaborazione
     payment:
       auto:
         _de: auto
+        _en: Auto
         _fr: auto
         _it: auto
       manual:
         _de: manuell
+        _en: Manual
         _fr: manuel
         _it: manuale
     shop/order:
       cart:
         _de: Warenkorb
+        _en: Cart
         _fr: panier
         _it: carrello
       invoiced:
         _de: abgerechnet
+        _en: Invoiced
         _fr: facturée
         _it: fatturato
       pending:
         _de: Vorzubereiten
+        _en: To be prepared
         _fr: à préparer
         _it: essere preparati

@@ -2,13 +2,21 @@ _:
   languages:
     de:
       _de: Deutsch
+      _en: German
       _fr: Allemand
       _it: Tedesco
+    en:
+      _de: Englisch
+      _en: English
+      _fr: Anglais
+      _it: Inglese
     fr:
       _de: Französisch
+      _en: French
       _fr: Français
       _it: Francese
     it:
       _de: Italienisch
+      _en: Italian
       _fr: Italien
       _it: Italiano

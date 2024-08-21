@@ -4,19 +4,23 @@ _:
       create:
         notice:
           _de: Erfolgreich erstellt.
+          _en: Successfully created.
           _fr: Création effectuée avec succès.
           _it: Creazione effettuata con successo.
       destroy:
         alert:
           _de: Die Löschung konnte nicht abgeschlossen werden.
+          _en: Deletion could not be completed.
           _fr: La suppression n'a pas pu effectuée.
           _it: La cancellazione non ha potuto essere eseguita.
         notice:
           _de: Löschung erfolgreich abgeschlossen.
+          _en: Successfully deleted.
           _fr: Suppression effectuée avec succès.
           _it: Cancellazione eseguita con successo.
       update:
         notice:
           _de: Bearbeitung erfolgreich abgeschlossen.
+          _en: Successfully updated.
           _fr: Modification effectuée avec succès.
           _it: Modifica eseguita con successo.

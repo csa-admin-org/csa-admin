@@ -66,7 +66,7 @@ describe "members page" do
       fill_in "Comment avez-vous entendu parler de nous?", with: "Bouche à oreille"
       fill_in "Remarque(s)", with: "Vive Rage de Vert!"
 
-      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+      check "J'ai lu attentivement et accepte le règlement."
 
       click_button "Envoyer"
 
@@ -156,7 +156,7 @@ describe "members page" do
       fill_in "Comment avez-vous entendu parler de nous?", with: "Bouche à oreille"
       fill_in "Remarque(s)", with: "Vive Rage de Vert!"
 
-      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+      check "J'ai lu attentivement et accepte le règlement."
 
       click_button "Envoyer"
 
@@ -227,7 +227,7 @@ describe "members page" do
       fill_in "Comment avez-vous entendu parler de nous?", with: "Bouche à oreille"
       fill_in "Remarque(s)", with: "Vive Rage de Vert!"
 
-      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+      check "J'ai lu attentivement et accepte le règlement."
 
       click_button "Envoyer"
 
@@ -287,7 +287,7 @@ describe "members page" do
 
       choose "Trimestriel"
 
-      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+      check "J'ai lu attentivement et accepte le règlement."
 
       click_button "Envoyer"
 
@@ -394,7 +394,7 @@ describe "members page" do
       fill_in "Comment avez-vous entendu parler de nous?", with: "Bouche à oreille"
       fill_in "Remarque(s)", with: "Vive Rage de Vert!"
 
-      check "J'ai lu attentivement et accepte avec plaisir le règlement."
+      check "J'ai lu attentivement et accepte le règlement."
 
       click_button "Envoyer"
 
@@ -523,7 +523,7 @@ describe "members page" do
       choose "Devenir membre de soutien"
       fill_in "Parts sociales", with: "3"
 
-      check "J'ai lu attentivement et accepte avec plaisir les statuts et le règlement."
+      check "J'ai lu attentivement et accepte les statuts et le règlement."
 
       click_button "Envoyer"
 

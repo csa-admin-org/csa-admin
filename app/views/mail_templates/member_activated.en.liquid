@@ -1,0 +1,19 @@
+<p>EDIT ME!</p>
+
+<p>Your subscription has started or will start soon, here is more information...</p>
+
+{% highlight_list %}
+  <strong>Start:</strong> {{ membership.start_date }}
+  <strong>End:</strong> {{ membership.end_date }}
+  <strong>Basket size:</strong> {{ membership.basket_size.name }}
+  {% if membership.basket_complement_names %}
+  <strong>Complements:</strong> {{ membership.basket_complement_names }}
+  {% endif %}
+  <strong>Depot:</strong> {{ membership.depot.name }}
+  <strong>Number of trial baskets:</strong> {{ membership.trial_baskets_count }}
+  <strong>Requested activity participations:</strong> {{ membership.activity_participations_demanded_count }}
+{% endhighlight_list %}
+
+{% button member.page_url %}
+  Access my member page
+{% endbutton %}

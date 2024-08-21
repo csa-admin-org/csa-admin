@@ -4,72 +4,90 @@ _:
       flash:
         notice:
           _de: Stornierte Rechnung
+          _en: Canceled invoice
           _fr: Facture annulée
           _it: Fattura annullata
     entity_type:
       acp_share:
         _de: Anteilschein
+        _en: Share certificate
         _fr: Part sociale
         _it: Quota sociale cooperativa
       annual_fee:
         _de: Beitrag
+        _en: Annual fee
         _fr: Cotisation
         _it: Quota annuale associativa
       new_member_fee:
         _de: Teilnahmegebühr
+        _en: New member fee
         _fr: Frais d'adhésion
         _it: Quota di iscrizione
       other:
         _de: Andere
+        _en: Other
         _fr: Autre
         _it: Altro
     pdf:
       acp_shares_number:
         one:
           _de: Erwerb eines Anteilscheins
+          _en: Acquisition of one share certificate
           _fr: Acquisition d'une part sociale
           _it: Acquisto di una quota sociale cooperativa
         other:
           _de: Erwerb von %{count} Anteilscheinen
+          _en: Acquisition of %{count} share certificates
           _fr: Acquisition de %{count} parts sociales
           _it: Acquisto di  %{count} quote sociali cooperative
       acp_shares_number_negative:
         one:
           _de: Rückzahlung eines Anteilscheins
+          _en: Refund of one share certificate
           _fr: Remboursement d'une part sociale
           _it: Rimborso di una quota sociale cooperativa
         other:
           _de: Rückzahlung von %{count} Anteilscheinen
+          _en: Refund of %{count} share certificates
           _fr: Remboursement de %{count} parts sociales
           _it: Rimborso di %{count} quote sociali cooperative
       all_taxes_included:
         _de: inkl. MwSt.
+        _en: All taxes included
         _fr: TTC
         _it: IVA inclusa
       annual_fee:
         _de: Jährlicher Vereinsbeitrag
+        _en: Annual association fee
         _fr: Cotisation annuelle association
         _it: Quota annuale associativa
       annual_memberships_amount:
         _de: Jährlicher Betrag
+        _en: Annual amount
         _fr: Montant annuel
         _it: Quota annuale
       basket_complements_annual_price_change:
         _de: Anpassung Preis der Zusätze
+        _en: Adjustment of the price of supplements
         _fr: Ajustement du prix des compléments
         _it: Correzione del prezzo delle aggiunte
       baskets_annual_price_change:
         _de: Anpassung Preis der Taschen
+        _en: Adjustment of the price of baskets
         _fr: Ajustement du prix des paniers
-        _it: ACorrezione del prezzo delle ceste
+        _it: Correzione del prezzo delle ceste
       credit_amount:
         _de: Saldo
+        _en: Balance
         _fr: Balance
         _it: Saldo
       credit_amount_text:
         _de: |-
           Differenz zwischen allen bestehenden Rechnungen und allen Zahlungen, die zum Zeitpunkt der Ausstellung dieser Rechnung geleistet wurden.
           Der Verlauf Ihrer Rechnungen kann jederzeit auf Ihrer Mitgliederseite eingesehen werden.
+        _en: |-
+          Difference between all existing invoices and all payments made at the time of issuing this invoice.
+          The history of your invoices can be viewed at any time on your member page.
         _fr: |-
           Différence entre toutes les factures existantes et tous les paiements effectués au moment de l’émission de cette facture.
           L’historique de votre facturation est disponible à tout moment sur votre page de membre.
@@ -78,152 +96,189 @@ _:
           Lo storico delle tue fatture può essere visualizzato in qualsiasi momento sulla tua pagina utente.
       extra_credit:
         _de: Restguthaben
+        _en: Remaining credit
         _fr: Avoir restant
         _it: Credito residuo
       missed_activity_participation/basket_preparation:
         _de: Nicht geleistete Taschen befüllung
+        _en: Missed basket preparation
         _fr: Mise en panier non-effectuée
         _it: Preparazione ceste non effettuata
       missed_activity_participation/day_work:
         _de: Nicht geleisteter Arbeitstag
+        _en: Missed workday
         _fr: Journée de travail non-effectuée
         _it: Giorno di lavoro non effettuato
       missed_activity_participation/halfday_work:
         _de: nicht geleisteter ½ Tag
+        _en: Missed half-day
         _fr: "½ journée non-effectuée"
-        _it: "½ giornate non effettuate"
+        _it: "½ giornata non effettuata"
       missed_activity_participation/hour_work:
         _de: nicht geleisteter Arbeitsstunde
+        _en: Missed hour of work
         _fr: Heure de travail non-effectuée
-        _it: Ore di lavoro non effettuate
+        _it: Ora di lavoro non effettuata
       missed_activity_participation_with_date/basket_preparation:
         _de: Nicht geleistete Taschen befüllung vom %{date}
+        _en: Missed basket preparation on %{date}
         _fr: Mise en panier du %{date} non-effectuée
         _it: Preparazione ceste del %{date} non effettuata
       missed_activity_participation_with_date/day_work:
         _de: nicht geleisteter Arbeitstag vom %{date}
+        _en: Missed workday on %{date}
         _fr: Journée de travail du %{date} non-effectuée
         _it: Giorno di lavoro di %{date} non effettuato
       missed_activity_participation_with_date/halfday_work:
         _de: nicht geleisteter ½ Tag vom %{date}
+        _en: Missed half-day on %{date}
         _fr: "½ journée du %{date} non-effectuée"
         _it: "½ giornata del %{date} non effettuata"
       missed_activity_participation_with_date/hour_work:
         _de: nicht geleisteter Arbeitsstunde vom %{date}
+        _en: Missed hour of work on %{date}
         _fr: Heure de travail du %{date} non-effectuée
         _it: Ora di lavoro del %{date} non effettuata
       missed_activity_participations/basket_preparation:
         _de: "%{count} nicht geleistete Taschen befüllung"
+        _en: "%{count} missed basket preparations"
         _fr: "%{count} mises en panier non effectuées"
         _it: "%{count} preparazioni ceste non effettuate"
       missed_activity_participations/day_work:
         _de: "%{count} nicht geleistete Arbeitstage"
+        _en: "%{count} missed workdays"
         _fr: "%{count} journées de travail non effectuées"
         _it: "%{count} giorni di lavoro non effettuato"
       missed_activity_participations/halfday_work:
         _de: "%{count} nicht geleistete ½ Tage"
+        _en: "%{count} missed half-days"
         _fr: "%{count} ½ journées non effectuées"
         _it: "%{count} ½ giornate non effettuate"
       missed_activity_participations/hour_work:
         _de: "%{count} nicht geleistete Arbeitsstunden"
+        _en: "%{count} missed hours of work"
         _fr: "%{count} heure de travail non effectuées"
         _it: "%{count} ore di lavoro non effettuate"
       missing_amount:
         _de: Zu begleichen
+        _en: To be paid
         _fr: À payer
         _it: Da pagare
       paid_memberships_amount:
         _de: Bereits in Rechnung gestellt
+        _en: Already invoiced
         _fr: Déjà facturé
         _it: Già fatturato
       payment:
         acceptance_point:
           _de: Annahmestelle
+          _en: Acceptance point
           _fr: Point de dépôt
           _it: Luogo di consegna
         amount:
           _de: Betrag
+          _en: Amount
           _fr: Montant
           _it: Totale
         currency:
           _de: Währung
+          _en: Currency
           _fr: Monnaie
           _it: Denaro
         further_information:
           _de: Zusätzliche Informationen
+          _en: Further information
           _fr: Informations supplémentaires
           _it: Informazioni supplementari
         invoice_number:
           _de: Rechnungsnummer
+          _en: Invoice number
           _fr: Numéro de facture
           _it: Numero fattura
         pay_with_code:
           _de: Zahlen mit Code
+          _en: Pay with code
           _fr: Payer avec un code
           _it: Pagare con codice
         payable_by:
           _de: Zahlbar durch
+          _en: Payable by
           _fr: Payable par
           _it: Pagabile tramite
         payable_to:
           _de: Zahlbar an
+          _en: Payable to
           _fr: Payable à
           _it: Pagabile a
         payable_to_account:
           _de: Konto / Zahlbar an
+          _en: Account / Payable to
           _fr: Compte / Payable à
           _it: Contro / Pagabile a
         payment_part:
           _de: Zahlteil
+          _en: Payment part
           _fr: Section paiement
           _it: Sezione pagamenti
         receipt:
           _de: Empfangsschein
+          _en: Receipt
           _fr: Récépissé
           _it: Ricevuta
         reference:
           _de: Referenz
+          _en: Reference
           _fr: Référence
           _it: Referenza
         sepa_creditor_identifier:
           _de: Gläubiger-ID
+          _en: Creditor ID
           _fr: ID créancier
           _it: ID creditore
         sepa_mandate_id:
           _de: Mandatsreferenz
+          _en: Mandate reference
           _fr: Référence du mandat
           _it: Riferimento del mandato
       remaining_annual_memberships_amount:
         _de: Jährlicher Betrag noch offen
+        _en: Remaining annual amount
         _fr: Montant annuel restant
         _it: Montante annuale residuo
       replacing_invoice:
         _de: Diese Berichtigungsrechnung ersetzt die stornierte Rechnung Nr. %{id}.
+        _en: This corrective invoice replaces the canceled invoice no. %{id}.
         _fr: Cette facture rectificative remplace la facture annulée n° %{id}.
         _it: Questa fattura rettificativa sostituisce la fattura annullata n° %{id}.
       replacing_invoices:
         _de: Diese Berichtigungsrechnung ersetzt die stornierten Rechnungen Nr. %{ids}.
+        _en: This corrective invoice replaces the canceled invoices no. %{ids}.
         _fr: Cette facture rectificative remplace les factures annulées n° %{ids}.
         _it: Questa fattura rettificativa sostituisce le fatture annullate n° %{ids}.
       total:
         _de: Gesamt
+        _en: Total
         _fr: Total
         _it: Totale
       total_before_percentage:
         _de: Total (vor Prozentsatz)
+        _en: Total (before percentage)
         _fr: Total (avant pourcentage)
         _it: Totale (prima della percentuale)
       vat:
         _de: MwSt.
+        _en: VAT
         _fr: TVA
         _it: IVA
       without_taxes:
         _de: exkl. MwSt.
+        _en: Without taxes
         _fr: HT
         _it: Senza IVA
     send_email:
       flash:
         notice:
           _de: E-Mail gesendet
+          _en: Email sent
           _fr: Email envoyé
           _it: E-mail inviata
