@@ -3,107 +3,131 @@ _:
     acp_shares_number:
       one:
         _de: "%{count} Anteilschein"
+        _en: "%{count} share certificate"
         _fr: "%{count} part sociale"
         _it: "%{count} quota sociale cooperativa"
       other:
         _de: "%{count} Anteilscheine"
+        _en: "%{count} share certificates"
         _fr: "%{count} parts sociales"
         _it: "%{count} quote sociali cooperativa"
     activities_count_per_year/basket_preparation:
       one:
         _de: "%{count} Taschen befüllung"
+        _en: "%{count} basket preparation"
         _fr: "%{count} mise en panier"
         _it: "%{count} preparazione cesta"
       other:
         _de: "%{count} Taschen befüllung"
+        _en: "%{count} basket preparations"
         _fr: "%{count} mises en panier"
         _it: "%{count} preparazione ceste"
     activities_count_per_year/day_work:
       one:
         _de: "%{count} Arbeitstag"
+        _en: "%{count} workday"
         _fr: "%{count} journée de travail"
         _it: "%{count} giorno di lavoro"
       other:
         _de: "%{count} Arbeitstage"
+        _en: "%{count} workdays"
         _fr: "%{count} journées de travail"
         _it: "%{count} giorni di lavoro"
     activities_count_per_year/halfday_work:
       one:
         _de: "%{count} Halbtag"
+        _en: "%{count} half-day"
         _fr: "%{count} ½ journée"
         _it: "%{count} ½ giornata"
       other:
         _de: "%{count} Halbtage"
+        _en: "%{count} half-days"
         _fr: "%{count} ½ journées"
         _it: "%{count} ½ giornate"
     activities_count_per_year/hour_work:
       one:
         _de: "%{count} Arbeitsstunde"
+        _en: "%{count} hour of work"
         _fr: "%{count} heure de travail"
         _it: "%{count} ora di lavoro"
       other:
         _de: "%{count} Arbeitsstunden"
+        _en: "%{count} hours of work"
         _fr: "%{count} heures de travail"
         _it: "%{count} ore di lavoro"
     deliveries_count:
       one:
         _de: 1 Lieferung
+        _en: 1 delivery
         _fr: 1 livraison
         _it: 1 consegna
       other:
         _de: "%{count} Lieferungen"
+        _en: "%{count} deliveries"
         _fr: "%{count} livraisons"
         _it: "%{count} consegne"
       zero:
         _de: Keine Lieferung
+        _en: No delivery
         _fr: Aucune livraison
         _it: Nessuna consegna
     deliveries_counts_range:
       _de: "%{range} Lieferungen"
+      _en: "%{range} deliveries"
       _fr: "%{range} livraisons"
       _it: "%{range} consegne"
     email_suppressions:
       destroy:
         _de: Reaktivieren
+        _en: Reactivate
         _fr: Réactiver
         _it: Riattivare
       destroy_confirm:
         _de: Sind Sie sicher? Bitte überprüfen Sie, ob diese E-Mail (noch) gültig ist, bevor Sie sie reaktivieren?
+        _en: Are you sure? Please check that this email is (still) valid before reactivating it?
         _fr: Êtes-vous sûr? Merci de vérifier que cet email soit bien (encore) valide avant de le réactiver?
         _it: Sei sicuro/a? Per favore controllate che questa email sia (ancora) valida prima di riattivarla?
     no_basket_size:
       _de: Unterstützungsmitglied werden
+      _en: Become a supporting member
       _fr: Devenir membre de soutien
       _it: Diventa un socio sostenitore
     no_basket_size_acp_share:
       _de: Nur Anteilschein
+      _en: Share certificate only
       _fr: Part sociale uniquement
       _it: Solamente quota sociale cooperativa
     no_basket_size_annual_fee:
       _de: Nur jährlicher Beitrag
+      _en: Annual fee only
       _fr: Cotisation annuelle uniquement
       _it: Solamente quota associativa annuale
     none:
       _de: Kein
+      _en: None
       _fr: Aucun
       _it: Nessuno
     page_entries_info:
       more_pages:
         display_entries:
           _de: "%{entry_name}  <b>%{first} - %{last}</b> von insgesamt <b>%{total}</b>"
+          _en: "%{entry_name}  <b>%{first} - %{last}</b> of a total of <b>%{total}</b>"
           _fr: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
           _it: "%{entry_name}  <b>%{first} - %{last}</b> su <b>%{total}</b> in totale"
       one_page:
         display_entries:
           one:
             _de: "<b>%{count}</b> %{entry_name}"
+            _en: "<b>%{count}</b> %{entry_name}"
             _fr: "<b>%{count}</b> %{entry_name}"
             _it: "<b>%{count}</b> %{entry_name}"
           other:
             _de: "<b>jede %{count}</b> %{entry_name}"
+            _en: "<b>every %{count}</b> %{entry_name}"
             _fr: "<b>tous les %{count}</b> %{entry_name}"
             _it: "<b>ogni %{count}</b> %{entry_name}"
     price_per_delivery:
       _de: "%{price}/Lieferung"
+      _en: "%{price}/delivery"
       _fr: "%{price}/livraison"
       _it: "%{price}/consegna"

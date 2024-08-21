@@ -1,0 +1,24 @@
+<p>Unfortunately, your participation in the following activity could not be validated. Maybe you forgot!?!</p>
+
+{% highlight_list %}
+  <strong>Date:</strong> {{ activity.date_long }}
+  <strong>Time:</strong> {{ activity.period }}
+  <strong>Activity:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Description:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Location:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Location:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+<p>In case of a last-minute impediment, please contact us at <strong>{{ acp.activity_phone }}</strong> to avoid unnecessary waiting.</p>
+
+<p>Sign up for other activities from your member page.</p>
+
+{% button member.activities_url %}
+Access my member page
+{% endbutton %}

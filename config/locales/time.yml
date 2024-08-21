@@ -3,9 +3,11 @@ _:
     formats:
       medium:
         _de: "%e %b %y, %H:%M"
+        _en: "%e %b %y, %H:%M"
         _fr: "%e %b %y, %H:%M"
         _it: "%e %b %y, %H:%M"
       medium_long:
         _de: "%a. %-d. %B %y, %H:%M"
+        _en: "%a. %-d %B %y, %H:%M"
         _fr: "%a. %-d %B %y, %H:%M"
         _it: "%a. %-d %B %y, %H:%M"

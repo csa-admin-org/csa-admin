@@ -1,0 +1,35 @@
+<p>A quick email to remind you of your registration for an activity:</p>
+
+{% highlight_list %}
+  <strong>Date:</strong> {{ activity.date_long }}
+  <strong>Schedule:</strong> {{ activity.period }}
+  <strong>Activity:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Description:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Location:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Location:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Participants:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+<p>Any questions? You can contact us at <strong>{{ acp.activity_phone }}</strong> or simply reply to this email.</p>
+
+{% if activity_participation.carpooling.size > 0 %}
+  <p>Carpooling, the following members are traveling by car, feel free to get in touch with them:</p>
+  {% highlight %}
+    <ul>
+      {% for carpooling in activity_participation.carpooling %}
+        <li><strong>{{ carpooling.member_name }}</strong>: {{ carpooling.member_phone }} {% if carpooling.leaving_from_city %}({{ carpooling.leaving_from_city }}){% endif %}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
+<p>You can modify your registrations at any time from your member page.</p>
+
+{% button member.activities_url %}
+  Access my member page
+{% endbutton %}

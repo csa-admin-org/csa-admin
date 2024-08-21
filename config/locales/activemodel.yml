@@ -3,5 +3,6 @@ _:
     models:
       system:
         _de: ACP Admin
+        _en: ACP Admin
         _fr: ACP Admin
         _it: ACP Admin

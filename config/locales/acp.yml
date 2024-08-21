@@ -3,13 +3,16 @@ _:
     delivery_pdf_member_info:
       food_note:
         _de: Lebensmittelhinweis
+        _en: Food note
         _fr: Note alimentaire
         _it: Nota alimentare
       none:
         _de: Keine
+        _en: None
         _fr: Aucune
         _it: Nessuna
       phones:
         _de: Telefonnummern
+        _en: Phone numbers
         _fr: Numéros de téléphone
         _it: Numeri di telefono

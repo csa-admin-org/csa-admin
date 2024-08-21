@@ -1,0 +1,11 @@
+<p>Your invoice #{{ invoice.number }} from {{ invoice.date }} has been cancelled.</p>
+
+<p>Feel free to contact us if you have any questions.</p>
+
+{% unless member.billing_email %}
+  <p>You can always view your invoices and payments from your member page.</p>
+
+  {% button member.billing_url %}
+    Access my member page
+  {% endbutton %}
+{% endunless %}

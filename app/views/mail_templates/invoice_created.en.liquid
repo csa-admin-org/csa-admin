@@ -1,0 +1,29 @@
+{% case invoice.entity_type %}
+{% when 'Shop::Order' %}
+  <p>Here is your new invoice for your order number {{ invoice.entity_number }}, all the details are in the attached PDF.</p>
+{% else %}
+  <p>Here is your new invoice, all the details are in the attached PDF.</p>
+{% endcase %}
+
+{% case invoice.state %}
+{% when 'closed' %}
+  {% highlight %}
+    <strong>Considering previous payments, this invoice is considered paid and is sent for informational purposes only.</strong>
+  {% endhighlight %}
+{% when 'open' %}
+  {% if invoice.only_partially_paid %}
+    {% highlight %}
+      <strong>Considering previous payments, the remaining amount to be paid is: {{ invoice.missing_amount }}</strong>
+    {% endhighlight %}
+  {% endif %}
+{% endcase %}
+
+<p>Thank you!</p>
+
+{% unless member.billing_email %}
+  <p>You can view your invoices and payments anytime from your member page.</p>
+
+  {% button member.billing_url %}
+    Access my member page
+  {% endbutton %}
+{% endunless %}

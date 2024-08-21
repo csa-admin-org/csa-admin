@@ -143,7 +143,8 @@ describe ACP do
       names: {
         "de" => "Alle",
         "fr" => "Toutes",
-        "it" => "Tutte"
+        "it" => "Tutte",
+        "en" => "All"
       })
   end
 

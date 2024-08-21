@@ -4,22 +4,27 @@ _:
       member:
         emails:
           _de: Durch Komma getrennt.
+          _en: Separated by a comma.
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
         phones:
           _de: Durch Komma getrennt.
+          _en: Separated by a comma.
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
         profession:
           _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
+          _en: Which could potentially be useful for our activities.
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
     required:
       mark:
         _de: "*"
+        _en: "*"
         _fr: "*"
         _it: "*"
       text:
         _de: Pflichtfeld
+        _en: required
         _fr: requis
         _it: requisito
