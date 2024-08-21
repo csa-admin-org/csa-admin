@@ -477,6 +477,10 @@
     @apply block m-0 border-none text-base font-semibold text-gray-700 dark:text-gray-300 ;
   }
 
+  .formtastic label abbr {
+    @apply ml-0.5 text-gray-500 no-underline;
+  }
+
   /* .formtastic :where(.checkbox-legend label, .has-many-container h3) {
     @apply text-lg font-semibold;
   } */
