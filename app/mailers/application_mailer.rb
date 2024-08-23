@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
+  helper :acps
   default from: -> { Current.acp.email_from }
   layout "mailer"
 

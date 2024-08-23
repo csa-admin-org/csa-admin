@@ -16,6 +16,14 @@ module AcpsHelper
     link_to Current.acp.url.sub(/https?:\/\//, ""), Current.acp.url, options
   end
 
+  def acp_logo_url
+    if Current.acp.logo.attached?
+      logo_url(Current.acp.tenant_name, host: ENV["ASSET_HOST"])
+    else
+      image_path("logo.png")
+    end
+  end
+
   def membership_renewed_attributes_collection
     col = [ [
       Membership.human_attribute_name(:baskets_annual_price_change),

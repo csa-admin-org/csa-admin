@@ -42,13 +42,14 @@ module PDF
     end
 
     def acp_logo_io
-      logo_url =
-        if Rails.env.test?
-          Rails.root.join("spec/fixtures/files/logo.png")
+      logo =
+        if Current.acp.logo.attached?
+          Current.acp.logo.download
         else
-          Current.acp.logo_url
+          path = Rails.root.join("app/assets/images/logo.png")
+          URI.open(path).read
         end
-      StringIO.new(URI.open(logo_url).read)
+      StringIO.new(logo)
     end
   end
 end
