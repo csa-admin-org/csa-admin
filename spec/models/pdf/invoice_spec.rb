@@ -354,7 +354,6 @@ describe PDF::Invoice do
     before {
       Current.acp.update!(
         name: "ldc",
-        logo_url: "https://d2ibcm5tv7rtdh.cloudfront.net/lumieredeschamps/logo.jpg",
         fiscal_year_start_month: 4,
         vat_membership_rate: 0.1,
         vat_number: "CHE-273.220.900",
@@ -656,7 +655,6 @@ describe PDF::Invoice do
     before {
       Current.acp.update!(
         name: "tap",
-        logo_url: "https://d2ibcm5tv7rtdh.cloudfront.net/tapatate/logo.jpg",
         share_price: 250,
         shares_number: 1,
         fiscal_year_start_month: 4,
@@ -878,7 +876,6 @@ describe PDF::Invoice do
     before {
       Current.acp.update!(
         name: "p2r",
-        logo_url: "https://d2ibcm5tv7rtdh.cloudfront.net/p2r/logo.jpg",
         fiscal_year_start_month: 1,
         iban: "CH1830123031135810006",
         creditor_name: "Le Panier Bio à 2 Roues",

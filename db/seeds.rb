@@ -7,7 +7,6 @@ include FactoryBot::Syntax::Methods
 create(:acp,
   name: 'ACP Admin',
   url: 'https://www.acp-admin.ch',
-  logo_url: 'https://d2ibcm5tv7rtdh.cloudfront.net/demo/logo.png',
   host: "acp-admin",
   email: "info@acp-admin.ch",
   phone: "076 449 59 38",

@@ -14,7 +14,6 @@ describe PDF::Delivery, freeze: "2023-01-01" do
     before {
       Current.acp.update!(
         name: "ldc",
-        logo_url: "https://d2ibcm5tv7rtdh.cloudfront.net/lumieredeschamps/logo.jpg",
         delivery_pdf_footer: "Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
     }
 
