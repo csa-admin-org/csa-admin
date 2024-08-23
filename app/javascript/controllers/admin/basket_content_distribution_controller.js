@@ -53,7 +53,7 @@ export default class extends Controller {
       const preset = Object.entries(JSON.parse(p.dataset.preset))
       const matchCurrentPercentages = preset.every(([inputID, value]) => {
         const input = document.getElementById("basket_size_ids_percentages_" + inputID)
-        return input.value == value
+        return input && input.value == value
       })
       if (matchCurrentPercentages) {
         addClass(p, "disabled")
