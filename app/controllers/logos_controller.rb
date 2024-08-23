@@ -2,9 +2,8 @@ class LogosController < ActionController::Base
   around_action :switch_tenant!
 
   def show
-    expires_in 1.day, public: true
-
     if Current.acp.logo.attached?
+      expires_in 1.day, public: true
       logo = Current.acp.logo
       send_data(logo.download,
         filename: logo.filename.to_s,
