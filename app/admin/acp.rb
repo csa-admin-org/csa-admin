@@ -30,6 +30,14 @@ ActiveAdmin.register ACP do
             wrapper_html: { class: "no-toggle-all single-column" },
             collection: ACP.languages.map { |l| [ t("languages.#{l}"), l ] },
             disabled: ACP.languages
+          if current_admin.master?
+            f.input :logo, as: :file
+            if resource.logo.attached?
+              div class: "mt-2" do
+                image_tag resource.logo, class: "h-16"
+              end
+            end
+          end
         end
         tab t(".billing"), id: "billing" do
           f.input :recurring_billing_wday,
@@ -393,7 +401,7 @@ ActiveAdmin.register ACP do
 
   permit_params \
     :name, :host,
-    :url, :email, :phone,
+    :url, :logo, :email, :phone,
     :email_default_host, :email_default_from, :email_footer,
     :trial_basket_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,

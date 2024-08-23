@@ -5,6 +5,7 @@ require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
   get "/health/ready", to: proc { [ 200, {}, [ "ok" ] ] }
+  resources :logos, only: :show
 
   constraints subdomain: "sidekiq" do
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
