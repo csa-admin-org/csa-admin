@@ -30,20 +30,12 @@ module InvoicesHelper
     return unless invoice
     return if invoice.processing?
 
-    link_to invoice_pdf_url(invoice), **options, title: title, target: "_blank" do
+    link_to pdf_invoice_path(invoice), **options, title: title, target: "_blank" do
       if block
         block.call
       else
         inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
       end
-    end
-  end
-
-  def invoice_pdf_url(invoice)
-    if Rails.env.development?
-      pdf_invoice_path(invoice)
-    else
-      rails_blob_path(invoice.pdf_file, disposition: "attachment")
     end
   end
 end
