@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   end
 
   scope module: "members", as: "members" do
-    constraints subdomain: %w[membres mitglieder soci] do
+    constraints subdomain: %w[membres mitglieder soci members] do
       resources :sessions, only: %i[show create]
       get "/login" => "sessions#new", as: :login
       delete "/logout" => "sessions#destroy", as: :logout
