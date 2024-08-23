@@ -49,6 +49,8 @@ class ACP < ApplicationRecord
   translated_attributes :activity_participations_form_detail
   translated_attributes :new_member_fee_description
 
+  has_one_attached :logo
+
   validates :name, presence: true
   validates :host, presence: true
   validates :url, presence: true, format: { with: %r{\Ahttps://.*\z} }
