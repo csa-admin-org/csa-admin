@@ -183,11 +183,11 @@ ActiveAdmin.register Invoice do
             end
           end
         end
-        if Rails.env.production? && !invoice.processing?
-          panel "PDF", action: icon_link(:pdf_file, "PDF", invoice_pdf_url(invoice), target: "_blank") do
+        unless invoice.processing?
+          panel "PDF", action: icon_link(:pdf_file, "PDF", pdf_invoice_path(invoice), target: "_blank") do
             div class: "p-2" do
               link_to_invoice_pdf(invoice) do
-                image_tag invoice.pdf_file.representation(resize_to_limit: [ 1000, 1000 ]), class: "w-full"
+                image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "w-full"
               end
             end
           end
@@ -292,18 +292,8 @@ ActiveAdmin.register Invoice do
       class: "action-item-button"
   end
 
-  member_action :pdf, method: :get, if: -> { Rails.env.development? } do
-    Tempfile.open do |file|
-      I18n.with_locale(resource.member.language) do
-        pdf = PDF::Invoice.new(resource)
-        pdf.render_file(file.path)
-        PDF::InvoiceCancellationStamp.stamp!(file.path) if resource.canceled?
-      end
-      send_file file,
-        filename: "invoice-#{resource.id}.pdf",
-        type: "application/pdf",
-        disposition: "inline"
-    end
+  member_action :pdf, method: :get do
+    redirect_to rails_blob_path(resource.pdf_file, disposition: "inline")
   end
 
   member_action :send_email, method: :post do
@@ -433,6 +423,7 @@ ActiveAdmin.register Invoice do
     include TranslatedCSVFilename
     include ApplicationHelper
 
+    before_action :regenerate_pdf!, only: [ :show, :pdf ]
     after_action :refresh_invoice, only: :update
 
     def index
@@ -463,6 +454,21 @@ ActiveAdmin.register Invoice do
       if resource.valid?
         resource.attach_pdf
         Billing::PaymentsRedistributor.redistribute!(resource.member_id)
+      end
+    end
+
+    def regenerate_pdf!
+      return unless Rails.env.development?
+      return if resource.processing?
+      return if resource.pdf_file.attachment.created_at > 1.hour.ago
+
+      Tempfile.open do |file|
+        I18n.with_locale(resource.member.language) do
+          pdf = PDF::Invoice.new(resource)
+          pdf.render_file(file.path)
+          PDF::InvoiceCancellationStamp.stamp!(file.path) if resource.canceled?
+        end
+        resource.pdf_file.attach io: file, filename: "invoice-#{resource.id}.pdf"
       end
     end
   end
