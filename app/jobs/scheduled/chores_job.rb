@@ -9,6 +9,7 @@ module Scheduled
       Checker::DeliveryBasketContentAvgPrices.check_all!
       Checker::NewsletterStaleProcessing.check_all!
       clear_stale_cart_shop_orders!
+      purge_unattached_active_storage_blobs!
     end
 
     private
@@ -32,6 +33,15 @@ module Scheduled
         .find_each do |order|
           order.destroy! if order.stale?
         end
+    end
+
+    def purge_unattached_active_storage_blobs!
+      ACP.switch_each do
+        ActiveStorage::Blob
+          .unattached
+          .where(created_at: ..1.week.ago)
+          .find_each(&:purge_later)
+      end
     end
   end
 end
