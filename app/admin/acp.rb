@@ -96,7 +96,7 @@ ActiveAdmin.register ACP do
               label: t(".vat_rate", type: t("shop.title"))
           end
 
-          li do
+          li class: "subtitle" do
             h2 t(".annual_fee")
             span t(".if_applicable"), class: "optional"
           end

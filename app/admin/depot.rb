@@ -189,12 +189,11 @@ ActiveAdmin.register Depot do
     f.inputs Delivery.human_attribute_name(:sheets_pdf) do
       f.input :delivery_sheets_mode,
         as: :radio,
-        wrapper_html: { class: "detailed-option" },
         collection: Depot::DELIVERY_SHEETS_MODES.map { |mode|
           [
-            content_tag(:span) {
-              content_tag(:span, t("delivery.sheets_mode.#{mode}")) +
-              content_tag(:span, t("delivery.sheets_mode.#{mode}_hint").html_safe, class: "hint")
+            content_tag(:span, class: "ms-2 py-0.5 leading-5") {
+              content_tag(:span, t("delivery.sheets_mode.#{mode}"), class: "block font-medium") +
+              content_tag(:span, t("delivery.sheets_mode.#{mode}_hint").html_safe, class: "inline-hints")
             },
             mode
           ]
