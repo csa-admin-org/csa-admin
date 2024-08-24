@@ -26,7 +26,7 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
 
     expect { described_class.perform_later(membership) }
       .to change(Invoice, :count).by(1)
-      .and change { membership.reload.missing_activity_participations }.to(0)
+      .and change { membership.reload.activity_participations_missing }.to(0)
       .and change { InvoiceMailer.deliveries.size }.by(1)
 
     invoice = Invoice.last

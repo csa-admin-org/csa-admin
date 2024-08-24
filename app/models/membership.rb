@@ -70,7 +70,6 @@ class Membership < ApplicationRecord
   validate :only_one_per_year
   validate :unique_subscribed_basket_complement_id
   validate :at_least_one_basket
-
   before_save :set_renew
   before_save :set_activity_participations
   after_create :create_baskets!
@@ -121,9 +120,25 @@ class Membership < ApplicationRecord
     left_joins(:memberships_basket_complements)
       .where(memberships_basket_complements: { basket_complement_id: id })
   }
+  scope :activity_participations_missing_eq, ->(count) {
+    where("GREATEST(activity_participations_demanded - activity_participations_accepted, 0) = ?", count)
+  }
+  scope :activity_participations_missing_gt, ->(count) {
+    where("GREATEST(activity_participations_demanded - activity_participations_accepted, 0) > ?", count)
+  }
+  scope :activity_participations_missing_lt, ->(count) {
+    where("GREATEST(activity_participations_demanded - activity_participations_accepted, 0) < ?", count)
+  }
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[during_year renewal_state_eq with_memberships_basket_complement]
+    super + %i[
+      during_year
+      renewal_state_eq
+      with_memberships_basket_complement
+      activity_participations_missing_eq
+      activity_participations_missing_gt
+      activity_participations_missing_lt
+    ]
   end
 
   def self.human_attribute_name(attr, *args)
@@ -435,7 +450,7 @@ class Membership < ApplicationRecord
     @depot ||= Depot.find(depot_id)
   end
 
-  def missing_activity_participations
+  def activity_participations_missing
     return 0 if trial? || trial_only?
 
     [ activity_participations_demanded - activity_participations_accepted, 0 ].max

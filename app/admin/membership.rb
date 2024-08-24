@@ -61,10 +61,14 @@ ActiveAdmin.register Membership do
     label: proc { Current.acp.basket_price_extra_title },
     if: proc { Current.acp.feature?("basket_price_extra") }
   filter :activity_participations_accepted,
-    label: proc { t_activity("active_admin.resource.index.activity_participations_accepted") },
+    label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_accepted)) },
     if: proc { Current.acp.feature?("activity") }
   filter :activity_participations_demanded,
-    label: proc { t_activity("active_admin.resource.index.activity_participations_demanded") },
+    label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded)) },
+    if: proc { Current.acp.feature?("activity") }
+  filter :activity_participations_missing,
+    as: :numeric,
+    label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_missing)) },
     if: proc { Current.acp.feature?("activity") }
 
   includes :member, :baskets, :delivery_cycle
@@ -266,7 +270,7 @@ ActiveAdmin.register Membership do
     if Current.acp.feature?("activity")
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:activity_participations_accepted), &:activity_participations_accepted)
-      column(activity_scoped_attribute(:missing_activity_participations), &:missing_activity_participations)
+      column(activity_scoped_attribute(:activity_participations_missing), &:activity_participations_missing)
     end
     column(:renewal_state) { |m| t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)

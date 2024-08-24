@@ -5,7 +5,11 @@ ul class: "counts" do
     li do
       path =
         case scope
-        when :missing then nil
+        when :missing
+          memberships_path(scope: :all, q: {
+            activity_participations_missing_gt: 0,
+            during_year: Current.acp.current_fiscal_year.year
+          })
         when :paid
           invoices_path(scope: :all, q: {
             entity_type_in: "ActivityParticipation",
@@ -19,7 +23,7 @@ ul class: "counts" do
       count =
         case scope
         when :missing
-          Membership.current_year.sum(&:missing_activity_participations)
+          Membership.current_year.sum(&:activity_participations_missing)
         when :paid
           Invoice.not_canceled.activity_participation_type.current_year.sum(:paid_missing_activity_participations)
         else
@@ -28,11 +32,8 @@ ul class: "counts" do
       content = counter_tag(
         I18n.t("active_admin.resources.activity_participation.scopes.#{scope}").capitalize,
         count)
-      case scope
-      when :missing then content
-      else
-        a content, href: path
-      end
+
+      a content, href: path
     end
   end
 end

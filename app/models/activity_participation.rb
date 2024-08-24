@@ -57,7 +57,8 @@ class ActivityParticipation < ApplicationRecord
     return unless Current.acp.activity_price.positive?
 
     Membership.during_year(year).each do |membership|
-      next unless membership.missing_activity_participations.positive?
+      # Check for trial/trial_only memberships
+      next unless membership.activity_participations_missing.positive?
 
       Billing::MissingActivityParticipationsInvoicerJob.perform_later(membership)
     end
