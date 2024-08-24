@@ -372,8 +372,10 @@ ActiveAdmin.register Member do
           end
         end
         if Current.acp.feature?("shop") && member.use_shop_depot?
-          attributes_table t("shop.title") do
-            row(:depot) { member.shop_depot }
+          panel t("shop.title") do
+            attributes_table do
+              row(:depot) { member.shop_depot }
+            end
           end
         end
         panel Member.human_attribute_name(:contact) do
