@@ -36,12 +36,10 @@ module Scheduled
     end
 
     def purge_unattached_active_storage_blobs!
-      ACP.switch_each do
-        ActiveStorage::Blob
-          .unattached
-          .where(created_at: ..1.week.ago)
-          .find_each(&:purge_later)
-      end
+      ActiveStorage::Blob
+        .unattached
+        .where(created_at: ..1.week.ago)
+        .find_each(&:purge_later)
     end
   end
 end
