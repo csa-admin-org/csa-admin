@@ -464,14 +464,14 @@ describe Membership do
     expect(membership.price).to be_zero
   end
 
-  describe "#missing_activity_participations" do
+  describe "#activity_participations_missing" do
     let(:basket_size) { create(:basket_size, activity_participations_demanded_annually: 3) }
 
     specify "active membership with no activity participations", freeze: "2024-01-01" do
       Current.acp.update!(trial_basket_count: 0)
       membership = create(:membership, basket_size_id: basket_size.id)
 
-      expect(membership.missing_activity_participations).to eq 3
+      expect(membership.activity_participations_missing).to eq 3
     end
 
     specify "when in trial period", freeze: "2024-01-01" do
@@ -480,7 +480,7 @@ describe Membership do
 
       expect(membership.trial?).to eq true
       expect(membership.trial_only?).to eq false
-      expect(membership.missing_activity_participations).to eq 0
+      expect(membership.activity_participations_missing).to eq 0
     end
 
     specify "when in trial period", freeze: "2024-02-01"  do
@@ -492,7 +492,7 @@ describe Membership do
 
       expect(membership.trial?).to eq false
       expect(membership.trial_only?).to eq true
-      expect(membership.missing_activity_participations).to eq 0
+      expect(membership.activity_participations_missing).to eq 0
     end
   end
 

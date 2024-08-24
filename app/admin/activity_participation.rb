@@ -130,7 +130,7 @@ ActiveAdmin.register ActivityParticipation do
       div class: "space-y-4" do
         [ Current.fy_year - 1, Current.fy_year ].each do |year|
           fy = Current.acp.fiscal_year_for(year)
-          missing_count = Membership.during_year(fy).sum(&:missing_activity_participations)
+          missing_count = Membership.during_year(fy).sum(&:activity_participations_missing)
           if missing_count.positive?
             no_counts = false
             div do

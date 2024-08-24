@@ -826,46 +826,6 @@ _:
           _fr: "%{type} (en %)"
           _it: "%{type} (en %)"
       index:
-        activity_participations_accepted/basket_preparation:
-          _de: Geleistete Taschen befüllung
-          _en: Basket preparation performed
-          _fr: Mises en panier effectuées
-          _it: Preparazione dei cestini effettuate
-        activity_participations_accepted/day_work:
-          _de: Geleistete Arbeitstage
-          _en: Days of work performed
-          _fr: Journées de travail effectuées
-          _it: Giorni di lavoro effettuati
-        activity_participations_accepted/halfday_work:
-          _de: Geleistete ½ Tage
-          _en: "½ days of work performed"
-          _fr: "½ journées effectuées"
-          _it: "½ giornate di lavoro effettuate"
-        activity_participations_accepted/hour_work:
-          _de: Geleistete Arbeitsstunden
-          _en: Hours of work performed
-          _fr: Heures de travail demandées
-          _it: Ore di lavoro effettuate
-        activity_participations_demanded/basket_preparation:
-          _de: Verlangte Taschen befüllung
-          _en: Basket preparation demanded
-          _fr: Mises en panier demandées
-          _it: Preparazione dei cestini richieste
-        activity_participations_demanded/day_work:
-          _de: Verlangte Arbeitstage
-          _en: Days of work demanded
-          _fr: Journées de travail demandées
-          _it: Giorni di lavoro richiesti
-        activity_participations_demanded/halfday_work:
-          _de: Verlangte ½ Tage
-          _en: "½ days of work demanded"
-          _fr: "½ journées demandées"
-          _it: "½ giornate di lavoro richieste"
-        activity_participations_demanded/hour_work:
-          _de: Verlangte Arbeitsstunden
-          _en: Hours of work demanded
-          _fr: Heures de travail demandées
-          _it: Ore di lavoro richieste
         basket_prices:
           _de: Wert der Taschen (%{currency})
           _en: Basket value (%{currency})

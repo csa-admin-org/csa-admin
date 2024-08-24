@@ -1276,6 +1276,26 @@ _:
           _en: Upcoming
           _fr: À venir
           _it: Venendo
+        activity_participations_missing/basket_preparation:
+          _de: Fehlende Taschen befüllung
+          _en: Missing basket preparations
+          _fr: Mises en panier manquantes
+          _it: Preparazioni ceste mancanti
+        activity_participations_missing/day_work:
+          _de: Fehlende Arbeitstage
+          _en: Missing work days
+          _fr: Journées de travail manquantes
+          _it: Giorni di lavoro mancanti
+        activity_participations_missing/halfday_work:
+          _de: Fehlende ½ Tage
+          _en: Missing ½ days
+          _fr: "½ journées manquantes"
+          _it: "½ giornate mancanti"
+        activity_participations_missing/hour_work:
+          _de: Fehlende Arbeitsstunden
+          _en: Missing work hours
+          _fr: Heures de travail manquantes
+          _it: Ore di lavoro mancanti
         activity_participations_paid:
           _de: Abgerechnete
           _en: Billed
@@ -1406,26 +1426,6 @@ _:
           _en: Complements
           _fr: Compléments
           _it: Aggiunte
-        missing_activity_participations/basket_preparation:
-          _de: Fehlende Taschen befüllung
-          _en: Missing basket preparations
-          _fr: Mises en panier manquantes
-          _it: Preparazioni ceste mancanti
-        missing_activity_participations/day_work:
-          _de: Fehlende Arbeitstage
-          _en: Missing work days
-          _fr: Journées de travail manquantes
-          _it: Giorni di lavoro mancanti
-        missing_activity_participations/halfday_work:
-          _de: Fehlende ½ Tage
-          _en: Missing ½ days
-          _fr: "½ journées manquantes"
-          _it: "½ giornate mancanti"
-        missing_activity_participations/hour_work:
-          _de: Fehlende Arbeitsstunden
-          _en: Missing work hours
-          _fr: Heures de travail manquantes
-          _it: Ore di lavoro mancanti
         missing_invoices_amount:
           _de: Noch zu verrechnen
           _en: Remaining to be invoiced

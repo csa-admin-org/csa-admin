@@ -5,7 +5,7 @@ module Billing
     queue_as :low
 
     def perform(membership)
-      missing_count = membership.missing_activity_participations
+      missing_count = membership.activity_participations_missing
       return unless missing_count.positive?
       return unless Current.acp.activity_price.positive?
 

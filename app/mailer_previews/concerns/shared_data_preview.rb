@@ -37,7 +37,7 @@ module SharedDataPreview
       remaning_trial_baskets_count: Current.acp.trial_basket_count,
       activity_participations_demanded: participations_demanded,
       activity_participations_accepted: participations_accepted,
-      missing_activity_participations: participations_demanded - participations_accepted,
+      activity_participations_missing: [participations_demanded - participations_accepted, 0].max,
       memberships_basket_complements: memberships_basket_complements)
   end
 

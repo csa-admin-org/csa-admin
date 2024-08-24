@@ -44,7 +44,7 @@ class Liquid::MembershipDrop < Liquid::Drop
   def activity_participations_missing_count
     return unless Current.acp.feature?("activity")
 
-    @membership.missing_activity_participations
+    @membership.activity_participations_missing
   end
 
   def basket_size
