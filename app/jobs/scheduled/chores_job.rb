@@ -39,7 +39,7 @@ module Scheduled
       ActiveStorage::Blob
         .unattached
         .where(created_at: ..1.week.ago)
-        .find_each(&:purge_later)
+        .find_each(&:purge)
     end
   end
 end
