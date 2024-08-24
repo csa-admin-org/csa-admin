@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_02_090459) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_23_145938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -54,7 +54,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_02_090459) do
     t.jsonb "terms_of_service_urls", default: {}, null: false
     t.jsonb "statutes_urls", default: {}, null: false
     t.integer "activity_availability_limit_in_days", default: 3, null: false
-    t.string "logo_url"
     t.string "activity_phone"
     t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
     t.boolean "absences_billed", default: true, null: false
