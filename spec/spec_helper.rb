@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.configure do |config|
-  config.filter_run :focus
-  config.run_all_when_everything_filtered = true
-
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
