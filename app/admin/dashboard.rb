@@ -7,7 +7,7 @@ ActiveAdmin.register_page "Dashboard" do
     icon "home", title: t("active_admin.dashboard"), class: "w-5 h-5 my-0.5 min-w-6"
   }
 
-  content title: proc { !onboarding? && t("active_admin.dashboard") } do
+  content title: proc { onboarding? ? "" : t("active_admin.dashboard") } do
     if onboarding?
       render "onboarding"
     else
