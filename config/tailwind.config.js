@@ -16,6 +16,7 @@ module.exports = {
     './config/initializers/active_admin.rb',
     './app/views/active_admin/**/*.{arb,erb,html,rb}',
     './app/views/admin/**/*.{arb,erb,html,rb}',
+    './app/views/layouts/active_admin*.{erb,html}',
     './app/javascript/**/*.js'
   ],
   theme: {
