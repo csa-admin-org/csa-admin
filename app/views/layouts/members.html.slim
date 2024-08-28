@@ -2,8 +2,7 @@ doctype html
 html lang=I18n.locale
   head
     title = [Current.acp.name, t('.title')].join(' – ')
-    - if Rails.env.production?
-      script src="https://js.sentry-cdn.com/98d2ed9e0cb845cabc1fff00323e06ca.min.js" crossorigin="anonymous"
+    = render "layouts/sentry_js"
     = render "layouts/browser_update"
     script async=true src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" data-turbo-track="reload"
     = javascript_importmap_tags 'members'

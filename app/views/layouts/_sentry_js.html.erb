@@ -1,0 +1,19 @@
+<% if Rails.env.production? %>
+  <script>
+    window.sentryOnLoad = function () {
+      Sentry.init({
+        ignoreErrors: [
+          "AbortError: The operation was aborted.",
+          "AbortError: The user aborted a request.",
+          /Error: Method not found/,
+          /TypeError: undefined is not an object/,
+          /TypeError: Module specifier/,
+          /TypeError: Failed to resolve module specifier/,
+          /TypeError: Error resolving module specifier/,
+          /TypeError: Unable to fetch/,
+        ],
+      });
+    };
+  </script>
+  <script src="https://js.sentry-cdn.com/98d2ed9e0cb845cabc1fff00323e06ca.min.js" crossorigin="anonymous"></script>
+<% end %>
