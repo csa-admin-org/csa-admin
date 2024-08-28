@@ -1,17 +1,3 @@
-GIT
-  remote: https://github.com/activeadmin/activeadmin.git
-  revision: 1cf0414fd49946e1426058abd2a55cdf069a75ae
-  specs:
-    activeadmin (4.0.0.beta10)
-      arbre (~> 2.0)
-      csv
-      formtastic (>= 3.1)
-      formtastic_i18n (>= 0.4)
-      inherited_resources (~> 1.7)
-      kaminari (>= 1.2.1)
-      railties (>= 6.1)
-      ransack (>= 4.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -60,6 +46,15 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
+    activeadmin (4.0.0.beta10)
+      arbre (~> 2.0)
+      csv
+      formtastic (>= 3.1)
+      formtastic_i18n (>= 0.4)
+      inherited_resources (~> 1.7)
+      kaminari (>= 1.2.1)
+      railties (>= 6.1)
+      ransack (>= 4.0)
     activejob (7.2.1)
       activesupport (= 7.2.1)
       globalid (>= 0.3.6)
@@ -280,7 +275,7 @@ GEM
     msgpack (1.7.2)
     net-http (0.4.1)
       uri
-    net-imap (0.4.14)
+    net-imap (0.4.15)
       date
       net-protocol
     net-pop (0.1.2)
@@ -336,7 +331,7 @@ GEM
       rexml (>= 3.2.0, < 4)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    premailer (1.26.0)
+    premailer (1.27.0)
       addressable
       css_parser (>= 1.19.0)
       htmlentities (>= 4.0.0)
@@ -483,7 +478,7 @@ GEM
       rubocop-minitest
       rubocop-performance
       rubocop-rails
-    ruby-lsp (0.17.15)
+    ruby-lsp (0.17.16)
       language_server-protocol (~> 3.17.0)
       prism (>= 0.29.0, < 0.31)
       rbs (>= 3, < 4)
@@ -531,7 +526,7 @@ GEM
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
-    sorbet-runtime (0.5.11545)
+    sorbet-runtime (0.5.11549)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.1)
@@ -568,7 +563,7 @@ GEM
     unaccent (0.4.0)
     unicode-display_width (2.5.0)
     uniform_notifier (1.16.0)
-    uri (0.13.0)
+    uri (0.13.1)
     user_agent_parser (2.18.0)
     useragent (0.16.10)
     web-console (4.2.1)
@@ -591,7 +586,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  activeadmin!
+  activeadmin (= 4.0.0.beta10)
   activejob-uniqueness
   acts_as_list
   bcrypt

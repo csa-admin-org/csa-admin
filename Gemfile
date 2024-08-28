@@ -27,7 +27,7 @@ gem "truemail"
 gem "tod"
 gem "discard"
 
-gem "activeadmin", github: "activeadmin/activeadmin"
+gem "activeadmin", "4.0.0.beta10"
 gem "cancancan"
 gem "acts_as_list"
 
