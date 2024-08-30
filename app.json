@@ -4,9 +4,9 @@
       {
         "type": "startup",
         "name": "web check",
-        "initialDelay": 20,
-        "description": "Checking if the app responds to the /health/ready endpoint",
-        "path": "/health/ready",
+        "initialDelay": 10,
+        "description": "Checking if the app responds to the /up endpoint",
+        "path": "/up",
         "attempts": 3
       }
     ]
@@ -14,7 +14,7 @@
   "cron": [
     {
       "command": "bin/rails sidekiq:check_health",
-      "schedule": "*/5 * * * *"
+      "schedule": "*/10 * * * *"
     }
   ]
 }
