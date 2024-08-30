@@ -213,6 +213,10 @@
     @apply font-medium bg-green-200/80 text-green-800 dark:bg-green-800 dark:text-green-200 ;
   }
 
+  .full-table table tr th {
+    @apply w-full;
+  }
+
   .index-as-table {
     table {
       @apply table-auto shadow-none border-none;

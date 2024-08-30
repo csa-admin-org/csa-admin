@@ -478,7 +478,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        panel Membership.human_attribute_name(:amount) do
+        panel Membership.human_attribute_name(:amount), class: "full-table" do
           if m.member.salary_basket?
             div(class: "missing-data") { t(".salary_basket") }
           elsif m.baskets_count.zero?
@@ -501,11 +501,11 @@ ActiveAdmin.register Membership do
                     m.basket_complements_price,
                     membership_basket_complements_price_info(m))
                 }
-                if m.basket_complements_annual_price_change.nonzero?
-                  row(t(".basket_complements_annual_price_change")) {
-                    cur(m.basket_complements_annual_price_change, unit: false)
-                  }
-                end
+              end
+              if m.basket_complements_annual_price_change.nonzero?
+                row(t(".basket_complements_annual_price_change"), class: "text-right") {
+                  cur(m.basket_complements_annual_price_change, unit: false)
+                }
               end
               if Current.acp.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
                 row(:basket_price_extra_title, class: "text-right") {
