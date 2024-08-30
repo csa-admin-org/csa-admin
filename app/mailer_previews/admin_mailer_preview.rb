@@ -7,7 +7,7 @@ class AdminMailerPreview < ActionMailer::Preview
     depot = Depot.new(
       name: "Jardin de la Main",
       language: I18n.locale,
-      emails: "respondent1@acp-admin.ch, respondent2@acp-admin.ch")
+      emails: "respondent1@csa-admin.org, respondent2@csa-admin.org")
     delivery = Delivery.new(date: Date.new(2020, 11, 10))
     baskets = [
       OpenStruct.new(
@@ -31,7 +31,7 @@ class AdminMailerPreview < ActionMailer::Preview
     admin = Admin.new(
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     delivery = Delivery.new(id: 1, date: Date.new(2020, 11, 10))
     AdminMailer.with(
       admin: admin,
@@ -43,7 +43,7 @@ class AdminMailerPreview < ActionMailer::Preview
     admin = Admin.new(
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     AdminMailer.with(
       admin: admin,
       action_url: "https://admin.example.com",
@@ -55,7 +55,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(
       id: 2,
       name: "Martha")
@@ -72,7 +72,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(
       id: 2,
       name: "Martha")
@@ -88,7 +88,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member = Member.new(name: "Martha")
     absence = Absence.new(
       id: 1,
@@ -107,7 +107,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member = Member.new(name: "Martha")
     act_preset = ActivityPreset.all.sample(random: random)
     act = Activity.last(10).sample(random: random)
@@ -138,7 +138,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     email_suppression = OpenStruct.new(
       reason: "HardBounce",
       email: "john@doe.com",
@@ -158,7 +158,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(
       id: 2,
       name: "Martha")
@@ -173,7 +173,7 @@ class AdminMailerPreview < ActionMailer::Preview
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     membership_1 = Membership.new(id: 1)
     membership_2 = Membership.new(id: 2)
     membership_3 = Membership.new(id: 3)

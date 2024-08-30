@@ -5,7 +5,7 @@ require "rails_helper"
 describe InvoiceMailer do
   specify "#created_email" do
     template = MailTemplate.find_by(title: "invoice_created")
-    member = create(:member, emails: "example@acp-admin.ch")
+    member = create(:member, emails: "example@csa-admin.org")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 42,
@@ -18,7 +18,7 @@ describe InvoiceMailer do
     ).created_email
 
     expect(mail.subject).to eq("Nouvelle facture #42")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     body = mail.html_part.body
     expect(body).to include("Voici votre nouvelle facture")
     expect(body).to include("Accéder à ma page de membre")
@@ -35,7 +35,7 @@ describe InvoiceMailer do
 
   specify "#created_email (closed)" do
     template = MailTemplate.find_by(title: "invoice_created")
-    member = create(:member, emails: "example@acp-admin.ch")
+    member = create(:member, emails: "example@csa-admin.org")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 42,
@@ -56,7 +56,7 @@ describe InvoiceMailer do
 
   specify "#created_email (partially paid)" do
     template = MailTemplate.find_by(title: "invoice_created")
-    member = create(:member, emails: "example@acp-admin.ch")
+    member = create(:member, emails: "example@csa-admin.org")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 42,
@@ -77,7 +77,7 @@ describe InvoiceMailer do
 
   specify "#created_email (Shop::Order)" do
     template = MailTemplate.find_by(title: "invoice_created")
-    member = create(:member, emails: "example@acp-admin.ch")
+    member = create(:member, emails: "example@csa-admin.org")
     order = create(:shop_order, :pending, id: 51235, member: member)
     invoice = order.invoice!
 
@@ -97,7 +97,7 @@ describe InvoiceMailer do
   specify "#created_email (billing_email)" do
     template = MailTemplate.find_by(title: "invoice_created")
     member = create(:member,
-      emails: "example@acp-admin.ch",
+      emails: "example@csa-admin.org",
       billing_email: "john@doe.com")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
@@ -127,7 +127,7 @@ describe InvoiceMailer do
 
   specify "#cancelled_email" do
     template = MailTemplate.find_by(title: "invoice_cancelled")
-    member = create(:member, emails: "example@acp-admin.ch")
+    member = create(:member, emails: "example@csa-admin.org")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 42,
@@ -140,7 +140,7 @@ describe InvoiceMailer do
     ).cancelled_email
 
     expect(mail.subject).to eq("Facture annulée #42")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("invoice-cancelled")
     body = mail.body
     expect(body)
@@ -155,7 +155,7 @@ describe InvoiceMailer do
 
   specify "#overdue_notice_email" do
     template = MailTemplate.find_by(title: "invoice_overdue_notice")
-    member = create(:member, emails: "example@acp-admin.ch")
+    member = create(:member, emails: "example@csa-admin.org")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,
       id: 42,
@@ -169,7 +169,7 @@ describe InvoiceMailer do
     ).overdue_notice_email
 
     expect(mail.subject).to eq("Rappel #2 de la facture #42 😬")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("invoice-overdue-notice")
     body = mail.html_part.body
     expect(body).to include("Le montant restant à payer est de: CHF 62")
@@ -186,7 +186,7 @@ describe InvoiceMailer do
   specify "#overdue_notice_email (billing_email)" do
     template = MailTemplate.find_by(title: "invoice_overdue_notice")
     member = create(:member,
-      emails: "example@acp-admin.ch",
+      emails: "example@csa-admin.org",
       billing_email: "john@doe.com")
     invoice = create(:invoice, :annual_fee, :open,
       member: member,

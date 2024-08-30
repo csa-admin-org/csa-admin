@@ -187,8 +187,8 @@ describe Shop::Order do
     special_delivery = create(:shop_special_delivery)
     special_order = create(:shop_order, delivery_gid: special_delivery.gid)
 
-    expect(order.delivery_gid).to eq "gid://acp-admin/Delivery/#{delivery.id}"
-    expect(special_order.delivery_gid).to eq "gid://acp-admin/Shop::SpecialDelivery/#{special_delivery.id}"
+    expect(order.delivery_gid).to eq "gid://csa-admin/Delivery/#{delivery.id}"
+    expect(special_order.delivery_gid).to eq "gid://csa-admin/Shop::SpecialDelivery/#{special_delivery.id}"
 
     expect(Shop::Order._delivery_gid_eq(delivery.gid)).to eq [ order ]
     expect(Shop::Order._delivery_gid_eq(special_delivery.gid)).to eq [ special_order ]

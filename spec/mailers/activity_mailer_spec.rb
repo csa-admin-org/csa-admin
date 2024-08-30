@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe ActivityMailer do
-  let(:member) { create(:member, emails: "example@acp-admin.ch") }
+  let(:member) { create(:member, emails: "example@csa-admin.org") }
   let(:activity) {
     create(:activity,
       date: "24.03.2020",
@@ -35,7 +35,7 @@ describe ActivityMailer do
     ).participation_reminder_email
 
     expect(mail.subject).to eq("Activité à venir (24 mars 2020)")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("activity-participation-reminder")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
@@ -58,7 +58,7 @@ describe ActivityMailer do
     ).participation_validated_email
 
     expect(mail.subject).to eq("Activité validée 🎉")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("activity-participation-validated")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
@@ -80,7 +80,7 @@ describe ActivityMailer do
     ).participation_rejected_email
 
     expect(mail.subject).to eq("Activité refusée 😬")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("activity-participation-rejected")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
     expect(mail.body).to include("<strong>Horaire:</strong> 8:30-12:00")
