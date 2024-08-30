@@ -546,7 +546,7 @@ ActiveAdmin.register Membership do
             if resource.billable?
               row(:next_invoice_on) {
                 if Current.acp.recurring_billing?
-                  invoicer = Billing::Invoicer.new(resource.member, resource)
+                  invoicer = Billing::Invoicer.new(resource.member, resource, Date.tomorrow)
                   if invoicer.next_date
                     div class: "flex items-center justify-between gap-2" do
                       span do

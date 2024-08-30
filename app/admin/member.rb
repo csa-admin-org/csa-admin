@@ -425,7 +425,7 @@ ActiveAdmin.register Member do
                 end
               end
             }
-            invoicer = Billing::Invoicer.new(member)
+            invoicer = Billing::Invoicer.new(member, nil, Date.tomorrow)
             if invoicer.next_date
               row(:next_invoice_on) {
                 if Current.acp.recurring_billing?
