@@ -1,6 +1,7 @@
 import "@hotwired/turbo-rails"
 import "admin/trix"
 import "controllers/admin"
+import "components/browser_update"
 
 // Active Admin
 import "flowbite"
