@@ -4,7 +4,8 @@ require "sidekiq/web"
 require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
-  get "/health/ready", to: proc { [ 200, {}, [ "ok" ] ] }
+  get "up" => "rails/health#show", as: :rails_health_check
+
   resources :logos, only: :show
 
   constraints subdomain: "sidekiq" do
