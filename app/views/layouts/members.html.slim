@@ -3,7 +3,6 @@ html lang=I18n.locale
   head
     title = [Current.acp.name, t('.title')].join(' – ')
     = render "layouts/sentry_js"
-    = render "layouts/browser_update"
     script async=true src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" data-turbo-track="reload"
     = javascript_importmap_tags 'members'
     = stylesheet_link_tag 'https://npmcdn.com/flatpickr/dist/themes/confetti.css'
