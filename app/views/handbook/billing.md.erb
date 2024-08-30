@@ -1,8 +1,8 @@
 # Facturation
 
-ACP Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#abonnements), <% if Current.acp.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if Current.acp.feature?('activity') %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
+CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#abonnements), <% if Current.acp.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if Current.acp.feature?('activity') %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
 
-Pour la Suisse, ACP Admin génère des factures-QR avec numéro de référence (PDF) et les envoie à tous les emails du membre concerné. Afin de pouvoir générer ces factures, il vous faut demander un QR-IBAN à votre banque, attention ce numéro est différent de l'IBAN de votre compte bancaire. Vous pouvez ensuite l'entrer dans [vos paramètres de facturation](/settings#billing).
+Pour la Suisse, CSA Admin génère des factures-QR avec numéro de référence (PDF) et les envoie à tous les emails du membre concerné. Afin de pouvoir générer ces factures, il vous faut demander un QR-IBAN à votre banque, attention ce numéro est différent de l'IBAN de votre compte bancaire. Vous pouvez ensuite l'entrer dans [vos paramètres de facturation](/settings#billing).
 
 ## Abonnements
 
@@ -51,7 +51,7 @@ Chaque jour de facturation, le système créée automatiquement les factures pou
 
 Pour rembourser une part sociale déjà facturée, rendez vous sur la page de la facture et cliquez sur le bouton "Remboursement" en haut à droite, vous pouvez alors facilement créer une facture de part sociale négative. Assurez-vous bien que le membre n'ai plus besoin de parts sociales, sinon elles seront à nouveau automatiquement créées le prochain jour de facturation.
 
-Si des parts sociales ont déjà été facturées en dehors d'ACP Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturées.
+Si des parts sociales ont déjà été facturées en dehors d'CSA Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturées.
 
 > Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
 <% end %>
@@ -61,7 +61,7 @@ Si des parts sociales ont déjà été facturées en dehors d'ACP Admin, vous po
 ## <%= activities_human_name %> non effectuées {#activity}
 
 Chaque ACP a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent, d'autres non.
-ACP Admin vous permet de facturer individuellement ou de manière groupée les <%= activities_human_name.downcase %> non effectuées.
+CSA Admin vous permet de facturer individuellement ou de manière groupée les <%= activities_human_name.downcase %> non effectuées.
 
 ### Définir les membres à facturer
 
@@ -99,7 +99,7 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 
 ## Facture manuelle (Autre)
 
-ACP Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
+CSA Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 
 > Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.acp.share? %>, parts sociales<% end %><% if Current.acp.feature?('activity') %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
 
@@ -120,21 +120,21 @@ Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou
 
 La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
 
-ACP Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
+CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
 
-> Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](mailto:info@acp-admin.ch).
+> Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](mailto:info@csa-admin.org).
 
 
 ### Importation manuelle
 
-Lorsque l'importation automatique via [EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics) n'est pas encore configurée, vous pouvez facilement importer les paiements des factures avec numéro de référence de vos membres en téléchargeant un fichier au format camt.054 depuis votre e-banking et en l'uploadant dans ACP Admin depuis [la page des paiements](/payments), section "Importation" dans la colonne de droite. N'oubliez pas de répéter l'opération régulièrement (chaque semaine) afin que le système n'envoie pas de rappel inutilement.
+Lorsque l'importation automatique via [EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics) n'est pas encore configurée, vous pouvez facilement importer les paiements des factures avec numéro de référence de vos membres en téléchargeant un fichier au format camt.054 depuis votre e-banking et en l'uploadant dans CSA Admin depuis [la page des paiements](/payments), section "Importation" dans la colonne de droite. N'oubliez pas de répéter l'opération régulièrement (chaque semaine) afin que le système n'envoie pas de rappel inutilement.
 
 Pour les paiements sans numéro de référence (liquide ou versement direct), il vous suffit de [créer un nouveau paiement manuellement](/payments/new). Le montant de celui-ci sera automatiquement redistribué aux factures existantes.
 
 
 ### Remboursement
 
-Si vous souhaitez rembourser un membre pour une raison quelconque, il suffit de créer un nouveau paiement avec un montant négatif. Noter que le remboursement doit bien être effectué par vos soins depuis votre e-banking par exemple, ACP Admin ne pouvant pas créer de versement.
+Si vous souhaitez rembourser un membre pour une raison quelconque, il suffit de créer un nouveau paiement avec un montant négatif. Noter que le remboursement doit bien être effectué par vos soins depuis votre e-banking par exemple, CSA Admin ne pouvant pas créer de versement.
 
 
 ## Rappels

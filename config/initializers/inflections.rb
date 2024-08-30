@@ -18,6 +18,7 @@
 # end
 
 ActiveSupport::Inflector.inflections do |inflect|
+  inflect.acronym "CSA"
   inflect.acronym "ACP"
   inflect.acronym "API"
   inflect.acronym "BAS"

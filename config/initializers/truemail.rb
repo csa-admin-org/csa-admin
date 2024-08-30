@@ -2,7 +2,7 @@
 
 Truemail.configure do |config|
   # Required parameter. Must be an existing email on behalf of which verification will be performed
-  config.verifier_email = "info@acp-admin.ch"
+  config.verifier_email = "info@csa-admin.org"
 
   # Optional parameter. You can predefine default validation type for
   # Truemail.validate('email@email.com') call without with-parameter

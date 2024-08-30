@@ -6,14 +6,14 @@ describe SessionMailer do
   specify "#new_member_session_email" do
     session = Session.new(
       member: Member.new(language: "fr"),
-      email: "example@acp-admin.ch")
+      email: "example@csa-admin.org")
     mail = SessionMailer.with(
       session: session,
       session_url: "https://example.com/session/token",
     ).new_member_session_email
 
     expect(mail.subject).to eq("Connexion à votre compte")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("session-member")
 
     expect(mail.body).to include("Accéder à mon compte")
@@ -24,14 +24,14 @@ describe SessionMailer do
   specify "#new_admin_session_email" do
     session = Session.new(
       admin: Admin.new(language: "fr"),
-      email: "example@acp-admin.ch")
+      email: "example@csa-admin.org")
     mail = SessionMailer.with(
       session: session,
       session_url: "https://example.com/session/token",
     ).new_admin_session_email
 
     expect(mail.subject).to eq("Connexion à votre compte admin")
-    expect(mail.to).to eq([ "example@acp-admin.ch" ])
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("session-admin")
 
     expect(mail.body).to include("Accéder à mon compte admin")

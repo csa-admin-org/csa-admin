@@ -2,7 +2,7 @@ _:
   activemodel:
     models:
       system:
-        _de: ACP Admin
-        _en: ACP Admin
-        _fr: ACP Admin
-        _it: ACP Admin
+        _de: CSA Admin
+        _en: CSA Admin
+        _fr: CSA Admin
+        _it: CSA Admin

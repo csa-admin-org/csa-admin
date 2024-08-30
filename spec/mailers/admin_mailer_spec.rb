@@ -9,7 +9,7 @@ describe AdminMailer do
     depot = create(:depot,
       name: "Jardin de la Main",
       language: I18n.locale,
-      emails: "respondent1@acp-admin.ch, respondent2@acp-admin.ch")
+      emails: "respondent1@csa-admin.org, respondent2@csa-admin.org")
     create(:membership,
       member: create(:member, name: "Martha"),
       basket_size: create(:basket_size, :small))
@@ -23,7 +23,7 @@ describe AdminMailer do
     ).depot_delivery_list_email
 
     expect(mail.subject).to eq("Liste livraison du 6 novembre 2020 (Jardin de la Main)")
-    expect(mail.to).to eq([ "respondent1@acp-admin.ch", "respondent2@acp-admin.ch" ])
+    expect(mail.to).to eq([ "respondent1@csa-admin.org", "respondent2@csa-admin.org" ])
     expect(mail.tag).to eq("admin-depot-delivery-list")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
 
@@ -48,7 +48,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     delivery = create(:delivery,
       id: 1,
       date: Date.new(2023, 11, 6))
@@ -58,7 +58,7 @@ describe AdminMailer do
     ).delivery_list_email
 
     expect(mail.subject).to eq("Liste livraison du 6 novembre 2023")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-delivery-list")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
 
@@ -82,17 +82,17 @@ describe AdminMailer do
     admin = Admin.new(
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     mail = AdminMailer.with(
       admin: admin,
       action_url: "https://admin.ragedevert.ch"
     ).invitation_email
 
     expect(mail.subject).to eq("Invitation à l'admin de Rage de Vert")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-invitation")
     expect(mail.body).to include("Salut John,")
-    expect(mail.body).to include("admin@acp-admin.ch")
+    expect(mail.body).to include("admin@csa-admin.org")
     expect(mail.body).to include("Accéder à l'admin de Rage de Vert")
     expect(mail.body).to include("https://admin.ragedevert.ch")
     expect(mail.body).not_to include("Gérer mes notifications")
@@ -104,7 +104,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(
       id: 2,
       name: "Martha")
@@ -116,7 +116,7 @@ describe AdminMailer do
     ).invoice_overpaid_email
 
     expect(mail.subject).to eq("Facture #42 payée en trop")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-invoice-overpaid")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Facture #42")
@@ -133,7 +133,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(
       id: 2,
       name: "Martha")
@@ -144,7 +144,7 @@ describe AdminMailer do
     ).invoice_third_overdue_notice_email
 
     expect(mail.subject).to eq("Facture #42, 3ᵉ rappel envoyé")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-invoice-third-overdue-notice")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Le 3ᵉ rappel vient d'être envoyé pour la facture #42")
@@ -161,7 +161,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(name: "Martha")
     absence = Absence.new(
       id: 1,
@@ -175,7 +175,7 @@ describe AdminMailer do
     ).new_absence_email
 
     expect(mail.subject).to eq("Nouvelle absence")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-absence-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Martha")
@@ -193,7 +193,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  create(:member, name: "Martha", id: 1512)
     activity = create(:activity,
       date: "24.03.2020",
@@ -217,7 +217,7 @@ describe AdminMailer do
     ).new_activity_participation_email
 
     expect(mail.subject).to eq("Nouvelle participation à une ½ journée")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-activity-participation-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("<strong>Date:</strong> mardi 24 mars 2020")
@@ -240,7 +240,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     email_suppression = OpenStruct.new(
       reason: "HardBounce",
       email: "john@doe.com",
@@ -259,7 +259,7 @@ describe AdminMailer do
     ).new_email_suppression_email
 
     expect(mail.subject).to eq("Email rejeté (HardBounce)")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-email-suppression-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("L'email <strong>john@doe.com</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>HardBounce</strong>.")
@@ -277,7 +277,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     member =  Member.new(
       id: 2,
       name: "Martha")
@@ -287,7 +287,7 @@ describe AdminMailer do
     ).new_inscription_email
 
     expect(mail.subject).to eq("Nouvelle inscription")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-member-created")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Martha")
@@ -303,7 +303,7 @@ describe AdminMailer do
       id: 1,
       name: "John",
       language: I18n.locale,
-      email: "admin@acp-admin.ch")
+      email: "admin@csa-admin.org")
     membership_1 =  Membership.new(id: 1)
     membership_2 =  Membership.new(id: 2)
     membership_3 = Membership.new(id: 3)
@@ -317,7 +317,7 @@ describe AdminMailer do
     ).memberships_renewal_pending_email
 
     expect(mail.subject).to eq("⚠️ Abonnement(s) en attente de renouvellement!")
-    expect(mail.to).to eq([ "admin@acp-admin.ch" ])
+    expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-memberships-renewal-pending")
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("2 abonnement(s)</a>")
@@ -332,7 +332,7 @@ describe AdminMailer do
   end
 
   specify "#memberships_renewal_pending_email (pending only)" do
-    admin = Admin.new(id: 1, language: I18n.locale, email: "admin@acp-admin.ch")
+    admin = Admin.new(id: 1, language: I18n.locale, email: "admin@csa-admin.org")
     membership_1 =  Membership.new(id: 1)
     membership_2 =  Membership.new(id: 2)
     mail = AdminMailer.with(
@@ -352,7 +352,7 @@ describe AdminMailer do
   end
 
   specify "#memberships_renewal_pending_email (opened only)" do
-    admin = Admin.new(id: 1, language: I18n.locale, email: "admin@acp-admin.ch")
+    admin = Admin.new(id: 1, language: I18n.locale, email: "admin@csa-admin.org")
     membership_1 =  Membership.new(id: 1)
     membership_2 =  Membership.new(id: 2)
     mail = AdminMailer.with(

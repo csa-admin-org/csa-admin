@@ -5,7 +5,7 @@ class NewsletterMailerPreview < ActionMailer::Preview
 
   def newsletter_email
     params.merge!(newsletter_email_params)
-    params[:to] = "example@acp-admin.ch"
+    params[:to] = "example@csa-admin.org"
     NewsletterMailer.with(params).newsletter_email
   end
 
