@@ -70,7 +70,7 @@ module Billing
     end
 
     def bank_ref
-      Current.acp.bank_reference
+      Current.org.bank_reference
     end
 
     def add_checksum_digit(string)

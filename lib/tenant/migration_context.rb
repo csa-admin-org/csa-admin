@@ -32,7 +32,7 @@ module Tenant
     private
 
     def switch_each
-      tenants = ACP.pluck(:tenant_name)
+      tenants = Organization.pluck(:tenant_name)
       tenants.each do |tenant|
         Tenant.switch(tenant) { yield tenant }
       end

@@ -45,10 +45,10 @@ ActiveAdmin.register Newsletter::Template do
       handbook_button(self, "newsletters", anchor: "templates")
     end
     div "data-controller" => "iframe", class: "flex  gap-5" do
-      Current.acp.languages.each do |locale|
+      Current.org.languages.each do |locale|
         div class: "w-full" do
           title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
           f.inputs title do
             div class: "iframe-wrapper" do
               iframe(

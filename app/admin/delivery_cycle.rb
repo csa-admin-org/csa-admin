@@ -23,14 +23,14 @@ ActiveAdmin.register DeliveryCycle do
   index download_links: false do
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right whitespace-nowrap"
-    column Current.acp.current_fiscal_year, ->(dc) {
+    column Current.org.current_fiscal_year, ->(dc) {
       txt = dc.current_deliveries_count.to_s
       if dc.current_deliveries_count.positive? && dc.absences_included_annually.positive?
         txt += " (-#{dc.absences_included_annually})"
       end
       auto_link dc, txt
     }, class: "text-right whitespace-nowrap"
-    column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
+    column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
       txt = dc.future_deliveries_count.to_s
       if dc.future_deliveries_count.positive? && dc.absences_included_annually.positive?
         txt += " (-#{dc.absences_included_annually})"
@@ -139,7 +139,7 @@ ActiveAdmin.register DeliveryCycle do
           collection: member_order_priorities_collection,
           as: :select,
           prompt: true,
-          hint: t("formtastic.hints.acp.member_order_priority_html")
+          hint: t("formtastic.hints.organization.member_order_priority_html")
         f.input :depots,
           as: :check_boxes,
           disabled: depot_ids_with_only(f.object)

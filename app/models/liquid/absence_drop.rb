@@ -22,6 +22,6 @@ class Liquid::AbsenceDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .absence_url(@absence, {}, host: Current.acp.email_default_host)
+      .absence_url(@absence, {}, host: Current.org.email_default_host)
   end
 end

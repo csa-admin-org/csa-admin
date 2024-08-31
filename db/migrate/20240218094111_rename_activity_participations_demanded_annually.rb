@@ -24,12 +24,12 @@ class RenameActivityParticipationsDemandedAnnually < ActiveRecord::Migration[7.1
 
     up_only do
       if Tenant.outside?
-        ACP.find_each do |acp|
-          attrs = acp.membership_renewed_attributes
+        Organization.find_each do |org|
+          attrs = org.membership_renewed_attributes
           if i = attrs.index("activity_participations_demanded_annualy")
             attrs[i] = "activity_participations_demanded_annually"
           end
-          acp.update!(membership_renewed_attributes: attrs)
+          org.update!(membership_renewed_attributes: attrs)
         end
       end
     end

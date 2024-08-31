@@ -29,14 +29,14 @@ class Activity < ApplicationRecord
   validate :period_duration_must_one_hour
 
   def self.available_for(member)
-    where("date >= ?", Current.acp.activity_availability_limit_in_days.days.from_now)
+    where("date >= ?", Current.org.activity_availability_limit_in_days.days.from_now)
       .ordered(:asc)
       .includes(:participations)
       .reject { |hd| hd.participant?(member) }
   end
 
   def self.available
-    where("date >= ?", Current.acp.activity_availability_limit_in_days.days.from_now)
+    where("date >= ?", Current.org.activity_availability_limit_in_days.days.from_now)
       .ordered(:asc)
       .includes(:participations)
       .reject(&:full?)
@@ -100,7 +100,7 @@ class Activity < ApplicationRecord
   end
 
   def period_duration_must_one_hour
-    if Current.acp.activity_i18n_scope == "hour_work" &&
+    if Current.org.activity_i18n_scope == "hour_work" &&
         (end_time - start_time).to_i != 1.hour
       errors.add(:end_time, :must_be_one_hour)
     end

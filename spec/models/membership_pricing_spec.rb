@@ -54,7 +54,7 @@ describe MembershipPricing do
   end
 
   specify "with price_extra" do
-    Current.acp.update! features: [ "basket_price_extra" ]
+    Current.org.update! features: [ "basket_price_extra" ]
     create_deliveries(3)
     create(:depot)
 
@@ -186,7 +186,7 @@ describe MembershipPricing do
   end
 
   specify "with activity_participations_demanded_annually" do
-    Current.acp.update!(
+    Current.org.update!(
       activity_participations_form_min: 0,
       activity_participations_form_max: 10,
       activity_price: 5)

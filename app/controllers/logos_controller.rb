@@ -2,9 +2,9 @@ class LogosController < ActionController::Base
   around_action :switch_tenant!
 
   def show
-    if Current.acp.logo.attached?
+    if Current.org.logo.attached?
       expires_in 1.day, public: true
-      logo = Current.acp.logo
+      logo = Current.org.logo
       send_data(logo.download,
         filename: logo.filename.to_s,
         type: logo.content_type,
@@ -20,7 +20,7 @@ class LogosController < ActionController::Base
 
   def switch_tenant!
     tenant_name = params[:id]
-    if ACP.exists?(tenant_name: params[:id])
+    if Organization.exists?(tenant_name: params[:id])
       Tenant.switch(tenant_name) { yield }
     else
       head :not_found

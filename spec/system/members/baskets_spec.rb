@@ -10,7 +10,7 @@ describe "Baskets" do
   end
 
   specify "update depot", freeze: "2022-01-01" do
-    Current.acp.update!(membership_depot_update_allowed: true)
+    Current.org.update!(membership_depot_update_allowed: true)
 
     depot_1 = create(:depot, public_name: "Joli Lieu")
     depot_2 = create(:depot, public_name: "Beau Lieu")
@@ -38,7 +38,7 @@ describe "Baskets" do
   end
 
   specify "update basket complements", freeze: "2022-01-01" do
-    Current.acp.update!(membership_complements_update_allowed: true)
+    Current.org.update!(membership_complements_update_allowed: true)
 
     create(:delivery, date: "2022-02-01")
     membership = create(:membership, member: member)

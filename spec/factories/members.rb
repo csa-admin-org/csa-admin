@@ -8,7 +8,7 @@ FactoryBot.define do
     address { Faker::Address.street_address }
     city { Faker::Address.city }
     zip { Faker::Address.zip }
-    annual_fee { Current.acp.annual_fee }
+    annual_fee { Current.org.annual_fee }
 
     validated_at { Time.current }
     validator { Admin.first || create(:admin) }
@@ -64,7 +64,7 @@ FactoryBot.define do
 
     trait :support_annual_fee do
       state { "support" }
-      annual_fee { Current.acp.annual_fee }
+      annual_fee { Current.org.annual_fee }
     end
 
     trait :support_acp_share do

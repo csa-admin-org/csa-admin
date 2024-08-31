@@ -168,7 +168,7 @@ module Shop
     end
 
     def auto_invoice!
-      delay = Current.acp.shop_order_automatic_invoicing_delay_in_days
+      delay = Current.org.shop_order_automatic_invoicing_delay_in_days
       return unless delay
       return unless can_invoice?
 
@@ -234,7 +234,7 @@ module Shop
       return if cart?
       return if admin
 
-      max = Current.acp.shop_order_maximum_weight_in_kg
+      max = Current.org.shop_order_maximum_weight_in_kg
       return unless max
 
       if weight_in_kg > max
@@ -246,7 +246,7 @@ module Shop
       return if cart?
       return if admin
 
-      min = Current.acp.shop_order_minimal_amount
+      min = Current.org.shop_order_minimal_amount
       return unless min
 
       if amount < min

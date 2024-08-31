@@ -25,7 +25,7 @@ class BasketSize < ApplicationRecord
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
     order_clauses <<
-      case Current.acp.basket_sizes_member_order_mode
+      case Current.org.basket_sizes_member_order_mode
       when "price_asc"; "price ASC"
       when "price_desc"; "price DESC"
       end

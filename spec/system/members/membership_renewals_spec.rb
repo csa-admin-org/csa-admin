@@ -8,7 +8,7 @@ describe "Memberships Renewal" do
   let(:member) { create(:member) }
 
   before do
-    Current.acp.update!(billing_year_divisions: [ 1, 4, 12 ])
+    Current.org.update!(billing_year_divisions: [ 1, 4, 12 ])
     MailTemplate.find_by(title: :membership_renewal).update!(active: true)
     Capybara.app_host = "http://membres.ragedevert.test"
   end
@@ -20,7 +20,7 @@ describe "Memberships Renewal" do
       billing_year_division: 4,
       basket_size: basket_size,
       depot: depot)
-    create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.org.fiscal_year_for(2021))
     new_depot = create(:depot, name: "Nouveau Lieu")
     membership.open_renewal!
     complement = create(:basket_complement,
@@ -90,7 +90,7 @@ describe "Memberships Renewal" do
       public_name: "Nouveau cycle",
       results: :odd,
       depots: [ depot ])
-    create_deliveries(2, Current.acp.fiscal_year_for(2021))
+    create_deliveries(2, Current.org.fiscal_year_for(2021))
     membership.open_renewal!
 
     login(member)
@@ -132,7 +132,7 @@ describe "Memberships Renewal" do
   end
 
   specify "renew membership (with basket_price_extra)", freeze: "2020-09-30" do
-    Current.acp.update!(
+    Current.org.update!(
       basket_price_extra_public_title: "Cotistation solidaire",
       basket_price_extras: "0, 1, 2, 4, 8",
       basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
@@ -140,7 +140,7 @@ describe "Memberships Renewal" do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.org.fiscal_year_for(2021))
     big_basket = create(:basket_size, name: "Grand")
     membership.open_renewal!
 
@@ -190,7 +190,7 @@ describe "Memberships Renewal" do
   end
 
   specify "renew membership (with basket_price_extra but salary basket)", freeze: "2020-09-30" do
-    Current.acp.update!(
+    Current.org.update!(
       basket_price_extra_public_title: "Cotistation solidaire",
       basket_price_extras: "0, 1, 2, 4, 8",
       basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
@@ -199,7 +199,7 @@ describe "Memberships Renewal" do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.org.fiscal_year_for(2021))
     big_basket = create(:basket_size, name: "Grand")
     membership.open_renewal!
 
@@ -252,7 +252,7 @@ describe "Memberships Renewal" do
       member: member,
       basket_size: basket_size,
       depot: depot)
-    create_deliveries(1, Current.acp.fiscal_year_for(2021))
+    create_deliveries(1, Current.org.fiscal_year_for(2021))
     membership.open_renewal!
 
     login(member)

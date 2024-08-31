@@ -28,11 +28,11 @@ module MembersHelper
   end
 
   def languages_collection
-    Current.acp.languages.map { |l| [ t("languages.#{l}"), l ] }
+    Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }
   end
 
   def acp_billing_year_divisions_collection(data: {})
-    Current.acp.billing_year_divisions.sort.map { |i|
+    Current.org.billing_year_divisions.sort.map { |i|
       [
         I18n.t("billing.year_division.x#{i}"),
         i,
@@ -44,7 +44,7 @@ module MembersHelper
   def basket_size_details(bs, force_default: false)
     return bs.form_detail if !force_default && bs.form_detail?
 
-    @acp_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
+    @org_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
     details = []
     if bs.price.positive?
       details << "#{deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)} (#{short_price(bs.price)} x #{deliveries_count(bs.billable_deliveries_counts)})"
@@ -52,7 +52,7 @@ module MembersHelper
       details << deliveries_count(bs.billable_deliveries_counts)
     end
     details << activities_count(bs.activity_participations_demanded_annually)
-    if @acp_shares_numbers.size > 1
+    if @org_shares_numbers.size > 1
       details << acp_shares_number(bs.acp_shares_number)
     end
     details.compact.join(", ").html_safe
@@ -69,19 +69,19 @@ module MembersHelper
         }.merge(data)
       ]
     }
-    if no_basket_option && (Current.acp.member_support?)
+    if no_basket_option && (Current.org.member_support?)
       col << [
         collection_text(t("helpers.no_basket_size"),
           details:
-            if Current.acp.annual_fee
+            if Current.org.annual_fee
               t("helpers.no_basket_size_annual_fee")
-            elsif Current.acp.share?
+            elsif Current.org.share?
               t("helpers.no_basket_size_acp_share")
             end
         ),
         0,
         data: {
-          form_min_value_min_value_param: Current.acp.shares_number,
+          form_min_value_min_value_param: Current.org.shares_number,
           activity: 0
         }.merge(no_basket_data)
       ]
@@ -103,11 +103,11 @@ module MembersHelper
   end
 
   def basket_prices_extra_collection(data: {})
-    return unless Current.acp.basket_price_extras?
+    return unless Current.org.basket_price_extras?
 
-    label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
-    details_template = Liquid::Template.parse(Current.acp.basket_price_extra_label_detail_or_default)
-    Current.acp[:basket_price_extras].map do |extra|
+    label_template = Liquid::Template.parse(Current.org.basket_price_extra_label)
+    details_template = Liquid::Template.parse(Current.org.basket_price_extra_label_detail_or_default)
+    Current.org[:basket_price_extras].map do |extra|
       full_year_price = deliveries_based_price_info(extra) if extra.positive?
       details = details_template.render(
         "extra" => extra,
@@ -208,17 +208,17 @@ module MembersHelper
 
   def terms_of_service_label
     docs = []
-    if Current.acp.charter_url
-      docs << document_link(:charter, Current.acp.charter_url)
+    if Current.org.charter_url
+      docs << document_link(:charter, Current.org.charter_url)
     end
-    if Current.acp.statutes_url
-      docs << document_link(:statutes, Current.acp.statutes_url)
+    if Current.org.statutes_url
+      docs << document_link(:statutes, Current.org.statutes_url)
     end
-    if Current.acp.terms_of_service_url
-      docs << document_link(:terms_of_service, Current.acp.terms_of_service_url)
+    if Current.org.terms_of_service_url
+      docs << document_link(:terms_of_service, Current.org.terms_of_service_url)
     end
-    if Current.acp.privacy_policy_url
-      docs << document_link(:privacy_policy, Current.acp.privacy_policy_url)
+    if Current.org.privacy_policy_url
+      docs << document_link(:privacy_policy, Current.org.privacy_policy_url)
     end
 
     content_tag :span, class: "flex-grow font-normal" do
@@ -408,7 +408,7 @@ module MembersHelper
   end
 
   def activities_count(count)
-    return unless Current.acp.feature?("activity")
+    return unless Current.org.feature?("activity")
     return if count.zero?
 
     t_activity("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
@@ -422,14 +422,14 @@ module MembersHelper
 
   def member_features_sentence
     features = []
-    features << t_activity(".features.activity_text") if Current.acp.feature?("activity")
-    features << t(".features.absence_text") if Current.acp.feature?("absence")
+    features << t_activity(".features.activity_text") if Current.org.feature?("activity")
+    features << t(".features.absence_text") if Current.org.feature?("absence")
     features << t(".features.deliveries_text")
     features << t(".features.billing_text")
     features.to_sentence
   end
 
   def member_information_title
-    Current.acp.member_information_title.presence || t("members.information.default_title")
+    Current.org.member_information_title.presence || t("members.information.default_title")
   end
 end

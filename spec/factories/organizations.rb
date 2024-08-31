@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :acp do
+  factory :organization do
     name { "Rage de Vert" }
     url { "https://www.ragedevert.ch" }
     email { "info@ragedevert.ch" }

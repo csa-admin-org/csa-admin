@@ -22,8 +22,8 @@
             <!-- start text/html -->
             <tr>
               <td class="email-masthead">
-                <a href="<%= Current.acp.url %>" class="f-fallback email-masthead_name" title="<%= Current.acp.name %>" target="_blank">
-                  <img src="<%= acp_logo_url %>" width="100" height="100" alt="<%= Current.acp.name %>" align="center">
+                <a href="<%= Current.org.url %>" class="f-fallback email-masthead_name" title="<%= Current.org.name %>" target="_blank">
+                  <img src="<%= org_logo_url %>" width="100" height="100" alt="<%= Current.org.name %>" align="center">
                 </a>
               </td>
             </tr>
@@ -38,7 +38,7 @@
                     <td class="content-cell">
                       <div class="f-fallback">
                         <%= yield %>
-                        <%= simple_format @signature || Current.acp.email_signature, class: 'closing' %>
+                        <%= simple_format @signature || Current.org.email_signature, class: 'closing' %>
                       </div>
                     </td>
                   </tr>
@@ -50,7 +50,7 @@
                 <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <tr>
                     <td class="content-cell" align="center">
-                      <%= simple_format Current.acp.email_footer, class: 'f-fallback sub align-center' %>
+                      <%= simple_format Current.org.email_footer, class: 'f-fallback sub align-center' %>
 
                       <% if @admin %>
                       <p class="f-fallback sub align-center">
@@ -65,10 +65,10 @@
                       <% end %>
 
                       <p class="f-fallback sub align-center">
-                        <%= link_to Current.acp.name, Current.acp.url, target: '_blank' %>
+                        <%= link_to Current.org.name, Current.org.url, target: '_blank' %>
                       </p>
                       <p class="f-fallback sub align-center">
-                        <%= link_to Current.acp.url, target: '_blank' do %>
+                        <%= link_to Current.org.url, target: '_blank' do %>
                           <img src="https://cdn.csa-admin.org/logo-text.png" width="90" height="18" alt="CSA Admin" align="center"/>
                         <% end %>
                       </p>

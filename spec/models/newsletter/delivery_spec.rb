@@ -93,7 +93,7 @@ describe Newsletter::Delivery do
   end
 
   specify "send newsletter with custom signature", sidekiq: :inline do
-    Current.acp.update! email_signature: "Signature"
+    Current.org.update! email_signature: "Signature"
     newsletter.update!(
       # simulate newsletter sent
       template_contents: template.contents,

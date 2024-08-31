@@ -58,7 +58,7 @@ ActiveAdmin.register Depot do
     column(:id)
     column(:name)
     column(:public_name)
-    if Current.acp.languages.many?
+    if Current.org.languages.many?
       column(:language) { |d| t("languages.#{d.language}") }
     end
     column(:group) { |d| d.group&.name }
@@ -114,7 +114,7 @@ ActiveAdmin.register Depot do
             row :name
             row :public_name
             row(:group)
-            if Current.acp.languages.many?
+            if Current.org.languages.many?
               row(:language) { t("languages.#{depot.language}") }
             end
             row(:price) { cur(depot.price) }
@@ -136,10 +136,10 @@ ActiveAdmin.register Depot do
           if DeliveryCycle.visible?
             table_for depot.delivery_cycles, class: "table-auto" do
               column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
-              column Current.acp.current_fiscal_year, ->(dc) {
+              column Current.org.current_fiscal_year, ->(dc) {
                 auto_link dc, dc.current_deliveries_count
               }, class: "text-right"
-              column Current.acp.fiscal_year_for(1.year.from_now), ->(dc) {
+              column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
                 auto_link dc, dc.future_deliveries_count
               }, class: "text-right"
             end
@@ -206,7 +206,7 @@ ActiveAdmin.register Depot do
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
-        hint: t("formtastic.hints.acp.member_order_priority_html")
+        hint: t("formtastic.hints.organization.member_order_priority_html")
       unless DeliveryCycle.basket_size_config?
         f.input :delivery_cycles,
           collection: admin_delivery_cycles_collection,

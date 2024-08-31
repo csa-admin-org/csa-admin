@@ -2,7 +2,7 @@
 
 ul class: "counts" do
   states = %i[pending waiting active]
-  states += %i[support] if Current.acp.member_support?
+  states += %i[support] if Current.org.member_support?
   states.each do |scope|
     li do
       count = Member.send(scope).count

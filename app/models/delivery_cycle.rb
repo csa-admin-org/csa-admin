@@ -59,7 +59,7 @@ class DeliveryCycle < ApplicationRecord
   after_commit :update_baskets_async, on: :update
 
   def self.create_default!
-    create!(names: ACP.languages.map { |l|
+    create!(names: Organization.languages.map { |l|
       [ l, I18n.t("delivery_cycle.default_name", locale: l) ]
     }.to_h)
   end
@@ -108,7 +108,7 @@ class DeliveryCycle < ApplicationRecord
     kept.to_a.sort_by { |dc|
       clauses = [ dc.member_order_priority ]
       clauses <<
-        case Current.acp.delivery_cycles_member_order_mode
+        case Current.org.delivery_cycles_member_order_mode
         when "deliveries_count_asc"; dc.billable_deliveries_count
         when "deliveries_count_desc"; -dc.billable_deliveries_count
         when "wdays_asc"; [ dc.wdays.sort, -dc.billable_deliveries_count ]
@@ -123,8 +123,8 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def reset_cache!
-    min = Current.acp.fiscal_year_for(Delivery.minimum(:date))&.year || Current.fy_year
-    max = Current.acp.next_fiscal_year.year
+    min = Current.org.fiscal_year_for(Delivery.minimum(:date))&.year || Current.fy_year
+    max = Current.org.next_fiscal_year.year
     counts = (min..max).map { |y| [ y.to_s, deliveries(y).count ] }.to_h
 
     update_column(:deliveries_counts, counts)

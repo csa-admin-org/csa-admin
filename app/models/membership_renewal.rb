@@ -15,7 +15,7 @@ class MembershipRenewal
 
   def initialize(membership)
     @membership = membership
-    @fiscal_year = Current.acp.fiscal_year_for(membership.fy_year + 1)
+    @fiscal_year = Current.org.fiscal_year_for(membership.fy_year + 1)
   end
 
   # This method only takes care of creating the new membership,
@@ -53,7 +53,7 @@ class MembershipRenewal
         depot_id
         delivery_cycle_id
         billing_year_division
-      ] + (OPTIONAL_ATTRIBUTES & Current.acp.membership_renewed_attributes)))
+      ] + (OPTIONAL_ATTRIBUTES & Current.org.membership_renewed_attributes)))
       .symbolize_keys
       .merge(
         started_on: fiscal_year.beginning_of_year,

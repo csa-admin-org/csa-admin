@@ -75,11 +75,11 @@ ActiveAdmin.register Invoice do
     column :amount_before_percentage
     column :amount_percentage
     column :amount
-    if Current.acp.annual_fee?
+    if Current.org.annual_fee?
       column :annual_fee
       column :memberships_amount
     end
-    if Current.acp.vat_number?
+    if Current.org.vat_number?
       column :vat_rate
       column :amount_without_vat
       column :vat_amount
@@ -95,7 +95,7 @@ ActiveAdmin.register Invoice do
     side_panel t(".total") do
       all = collection.unscope(:includes).offset(nil).limit(nil)
 
-      if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.acp.annual_fee?
+      if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.org.annual_fee?
         div class: "flex justify-between" do
           span Membership.model_name.human(count: 2)
           span cur(all.sum(:memberships_amount))
@@ -135,7 +135,7 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  sidebar :overdue_notice_not_sent_warning, only: :index, if: -> { !Current.acp.send_invoice_overdue_notice? } do
+  sidebar :overdue_notice_not_sent_warning, only: :index, if: -> { !Current.org.send_invoice_overdue_notice? } do
     side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "rappels") do
       para class: "p-2 rounded bg-red-100 text-red-800" do
         t(".overdue_notice_not_sent_warning_text_html")
@@ -332,7 +332,7 @@ ActiveAdmin.register Invoice do
     f.inputs do
       tabs do
         unless f.object.persisted?
-          if Current.acp.feature?("activity")
+          if Current.org.feature?("activity")
             tab activities_human_name, id: "activity_participation" do
               if f.object.entity.is_a?(ActivityParticipation)
                 li(class: "refused_activity_participation") do
@@ -351,7 +351,7 @@ ActiveAdmin.register Invoice do
               f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
             end
           end
-          if Current.acp.share?
+          if Current.org.share?
             tab t_invoice_entity_type("ACPShare"), id: "acp_share", hidden: f.object.entity.is_a?(ActivityParticipation) do
               f.input :acp_shares_number, as: :number, step: 1
             end
@@ -359,7 +359,7 @@ ActiveAdmin.register Invoice do
         end
         tab t_invoice_entity_type("Other"), id: "items", hidden: f.object.entity.is_a?(ActivityParticipation) do
           f.semantic_errors :items
-          if Current.acp.vat_number?
+          if Current.org.vat_number?
             f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01
           end
           f.has_many :items, new_record: t(".has_many_new_invoice_item"), allow_destroy: true do |ff|

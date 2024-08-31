@@ -52,24 +52,24 @@ module MembershipsHelper
   end
 
   def show_basket_price_extras?
-    Current.acp.feature?("basket_price_extra") &&
-      Current.acp.basket_price_extra_public_title.present? &&
-      Current.acp.basket_price_extras?
+    Current.org.feature?("basket_price_extra") &&
+      Current.org.basket_price_extra_public_title.present? &&
+      Current.org.basket_price_extras?
   end
 
   def show_activity_participations?
-    Current.acp.feature?("activity") && Current.acp.activity_participations_form?
+    Current.org.feature?("activity") && Current.org.activity_participations_form?
   end
 
   def activity_participations_form_detail(force_default: false)
-    if !force_default && Current.acp.activity_participations_form_detail?
-      Current.acp.activity_participations_form_detail
-    elsif Current.acp.activity_participations_form_min && Current.acp.activity_participations_form_max
-      t("activity_participations.form_detail.min_max", price: cur(Current.acp.activity_price))
-    elsif Current.acp.activity_participations_form_min
-      t("activity_participations.form_detail.min", price: cur(Current.acp.activity_price))
-    elsif Current.acp.activity_participations_form_max
-      t("activity_participations.form_detail.max", price: cur(Current.acp.activity_price))
+    if !force_default && Current.org.activity_participations_form_detail?
+      Current.org.activity_participations_form_detail
+    elsif Current.org.activity_participations_form_min && Current.org.activity_participations_form_max
+      t("activity_participations.form_detail.min_max", price: cur(Current.org.activity_price))
+    elsif Current.org.activity_participations_form_min
+      t("activity_participations.form_detail.min", price: cur(Current.org.activity_price))
+    elsif Current.org.activity_participations_form_max
+      t("activity_participations.form_detail.max", price: cur(Current.org.activity_price))
     end
   end
 
@@ -90,8 +90,8 @@ module MembershipsHelper
         "#{bbs.sum(&:quantity)}x #{price}"
       }.join(" + ")
 
-      if Current.acp.basket_price_extra_dynamic_pricing?
-        label_template = Liquid::Template.parse(Current.acp.basket_price_extra_label)
+      if Current.org.basket_price_extra_dynamic_pricing?
+        label_template = Liquid::Template.parse(Current.org.basket_price_extra_label)
         label = label_template.render("extra" => price_extra).strip
         if highlight
           label = content_tag(:strong, label)
@@ -158,7 +158,7 @@ module MembershipsHelper
   def display_basket_price_extra_raw(membership)
     return unless membership.basket_price_extra&.positive?
 
-    if Current.acp.basket_price_extra_dynamic_pricing?
+    if Current.org.basket_price_extra_dynamic_pricing?
       membership.basket_price_extra.to_i
     else
       cur(membership.basket_price_extra)

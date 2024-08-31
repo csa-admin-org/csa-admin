@@ -128,7 +128,7 @@ describe Newsletter::Segment do
   end
 
   specify "segment by billing_year_division" do
-    Current.acp.update!(billing_year_divisions: [ 1, 4 ])
+    Current.org.update!(billing_year_divisions: [ 1, 4 ])
     member_1 = create(:membership, billing_year_division: 1).member
     member_2 = create(:membership, billing_year_division: 4).member
 

@@ -16,7 +16,7 @@ class Liquid::DataPreview
 
   def data
     params = @mailer_preview.send("#{@email_method}_params")
-    params[:acp] = Current.acp
+    params[:organization] = Current.org
     params.map { |key, object|
       drop_class = drop_class(key)
       if drop_class && object
@@ -69,7 +69,7 @@ class Liquid::DataPreview
   def invokable_methods(drop)
     methods = drop.class.invokable_methods
     methods -= %w[to_liquid]
-    unless Current.acp.feature?(:activity)
+    unless Current.org.feature?(:activity)
       methods -= %w[
         activity_phone
         activities_url
@@ -78,10 +78,10 @@ class Liquid::DataPreview
         activity_participations_missing_count
       ]
     end
-    unless Current.acp.feature?(:shop)
+    unless Current.org.feature?(:shop)
       methods -= %w[shop_depot]
     end
-    unless Current.acp.feature?(:basket_content)
+    unless Current.org.feature?(:basket_content)
       methods -= %w[contents]
     end
     methods

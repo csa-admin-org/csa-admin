@@ -1,5 +1,5 @@
 = form_tag import_payments_path, multipart: true, class: 'sidebar_form' do
-  - case Current.acp.country_code
+  - case Current.org.country_code
   - when 'DE'
     = label_tag :file, t('.file_label_de')
     = file_field_tag :file, accept: 'text/xml, .mta', required: true, class: "mt-1"

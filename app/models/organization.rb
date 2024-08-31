@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ACP < ApplicationRecord
-  self.table_name = "public.acps"
-  self.sequence_name = "public.acps_id_seq"
+class Organization < ApplicationRecord
+  self.table_name = "public.organizations"
+  self.sequence_name = "public.organizations_id_seq"
 
   include TranslatedAttributes
   include TranslatedRichTexts
@@ -66,7 +66,7 @@ class ACP < ApplicationRecord
     :creditor_city, :creditor_zip,
     presence: true
   validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
-  validates :iban, format: ->(acp) { Billing.iban_format(acp.country_code) }, if: :country_code?
+  validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, if: :country_code?
   validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
@@ -143,7 +143,7 @@ class ACP < ApplicationRecord
   after_save :apply_annual_fee_change
 
   def self.features
-    (FEATURES | Current.acp.features)
+    (FEATURES | Current.org.features)
       .sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
   end
   def self.languages; LANGUAGES end
@@ -152,8 +152,8 @@ class ACP < ApplicationRecord
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
 
   def self.switch_each
-    all.each do |acp|
-      Tenant.switch(acp.tenant_name) { yield acp }
+    all.each do |org|
+      Tenant.switch(org.tenant_name) { yield org }
     end
     nil
   end

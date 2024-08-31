@@ -16,7 +16,7 @@ class Permission < ApplicationRecord
   def self.create_superadmin!
     create!(
       id: SUPERADMIN_ID,
-      names: ACP.languages.map { |l|
+      names: Organization.languages.map { |l|
         [ l, I18n.t("permissions.superadmin.name", locale: l) ]
       }.to_h)
     connection.reset_pk_sequence!(table_name)
@@ -50,7 +50,7 @@ class Permission < ApplicationRecord
       announcement
       newsletter
     ] +
-      Current.acp.features.map(&:to_sym) - %i[basket_price_extra contact_sharing]
+      Current.org.features.map(&:to_sym) - %i[basket_price_extra contact_sharing]
   end
 
   def rights=(attrs)

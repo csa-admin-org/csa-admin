@@ -94,7 +94,7 @@ describe "Activity Participation" do
   end
 
   it "cannot delete a participation when deadline is overdue" do
-    Current.acp.update!(
+    Current.org.update!(
       activity_i18n_scope: "basket_preparation",
       activity_participation_deletion_deadline_in_days: 30)
     activity = create(:activity, date: 29.days.from_now)
@@ -114,7 +114,7 @@ describe "Activity Participation" do
   end
 
   it "redirects to billing when activity is not a feature" do
-    current_acp.update!(features: [])
+    current_org.update!(features: [])
 
     visit "/activity_participations"
 

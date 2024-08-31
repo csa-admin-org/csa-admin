@@ -49,9 +49,9 @@ ActiveAdmin.register Newsletter do
   show do |newsletter|
     columns do
       column "data-controller" => "iframe" do
-        Current.acp.languages.each do |locale|
+        Current.org.languages.each do |locale|
           title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
           panel title do
             div class: "iframe-wrapper" do
               iframe(
@@ -194,8 +194,8 @@ ActiveAdmin.register Newsletter do
 
       f.input :from,
         as: :string,
-        placeholder: Current.acp.email_default_from.html_safe,
-        hint: t("formtastic.hints.newsletter.from_html", hostname: Current.acp.email_hostname)
+        placeholder: Current.org.email_default_from.html_safe,
+        hint: t("formtastic.hints.newsletter.from_html", hostname: Current.org.email_hostname)
 
       f.has_many :attachments, allow_destroy: true do |a|
         if a.object.persisted?
@@ -240,17 +240,17 @@ ActiveAdmin.register Newsletter do
 
       translated_input(f, :signatures,
         as: :text,
-        placeholder: ->(locale) { Current.acp.email_signatures[locale]&.html_safe },
+        placeholder: ->(locale) { Current.org.email_signatures[locale]&.html_safe },
         input_html: {
           rows: 3,
           data: { action: "code-editor#updatePreview" }
         })
     end
     div "data-controller" => "iframe", class: "flex  gap-5" do
-      Current.acp.languages.each do |locale|
+      Current.org.languages.each do |locale|
         div class: "w-full" do
           title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
           f.inputs title do
             div class: "iframe-wrapper" do
               iframe(

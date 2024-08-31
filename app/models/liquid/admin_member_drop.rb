@@ -18,6 +18,6 @@ class Liquid::AdminMemberDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .member_url(@member.id, {}, host: Current.acp.email_default_host)
+      .member_url(@member.id, {}, host: Current.org.email_default_host)
   end
 end

@@ -124,12 +124,12 @@ ActiveAdmin.register ActivityParticipation do
     end
   end
 
-  sidebar :billing, only: :index, if: -> { Current.acp.activity_price.positive? } do
+  sidebar :billing, only: :index, if: -> { Current.org.activity_price.positive? } do
     side_panel t(".billing"), action: handbook_icon_link("billing", anchor: "activity") do
       no_counts = true
       div class: "space-y-4" do
         [ Current.fy_year - 1, Current.fy_year ].each do |year|
-          fy = Current.acp.fiscal_year_for(year)
+          fy = Current.org.fiscal_year_for(year)
           missing_count = Membership.during_year(fy).sum(&:activity_participations_missing)
           if missing_count.positive?
             no_counts = false
@@ -140,7 +140,7 @@ ActiveAdmin.register ActivityParticipation do
                   button_to invoice_all_activity_participations_path,
                     params: { year: fy.year },
                     form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
-                    data: { confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.acp.activity_price)) }, class: "action-item-button secondary small" do
+                    data: { confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) }, class: "action-item-button secondary small" do
                       icon("banknotes", class: "h-4 w-4 mr-2") + t(".invoice_all")
                     end
                 end
@@ -161,11 +161,11 @@ ActiveAdmin.register ActivityParticipation do
     redirect_to collection_path, notice: t("active_admin.resource.index.invoicing")
   end
 
-  sidebar :calendar, if: -> { Current.acp.icalendar_auth_token? }, only: :index do
+  sidebar :calendar, if: -> { Current.org.icalendar_auth_token? }, only: :index do
     side_panel t(".calendar") do
       para t(".activity_participation_ical_text_html")
       div class: "mt-2.5 text-center" do
-        link_to activity_participations_calendar_url(auth_token: Current.acp.icalendar_auth_token).gsub(/^https/, "webcal"), data: { turbolinks: false }, class: "action-item-button small" do
+        link_to activity_participations_calendar_url(auth_token: Current.org.icalendar_auth_token).gsub(/^https/, "webcal"), data: { turbolinks: false }, class: "action-item-button small" do
           icon("calendar-days", class: "h-4 w-4 me-2") + t(".subscribe_ical_link")
         end
       end

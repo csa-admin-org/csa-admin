@@ -29,7 +29,7 @@ describe Newsletter::Template do
   end
 
   specify "validate same content block ids for all languages" do
-    Current.acp.update! languages: %w[fr de]
+    Current.org.update! languages: %w[fr de]
     template = build(:newsletter_template,
       content_fr: <<~LIQUID,
         {% content id: 'first' %}{% endcontent %}
@@ -156,7 +156,7 @@ describe Newsletter::Template do
   end
 
   specify "send default next delivery template", sidekiq: :inline do
-    Current.acp.update!(trial_basket_count: 0)
+    Current.org.update!(trial_basket_count: 0)
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
     member = create(:member, :active, name: "John Doe")
     create(:activity, date: 1.week.from_now)
@@ -190,7 +190,7 @@ describe Newsletter::Template do
   end
 
   specify "send default next delivery template (without ativities)", sidekiq: :inline do
-    Current.acp.update!(features: [])
+    Current.org.update!(features: [])
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
     create(:membership)
 
@@ -213,7 +213,7 @@ describe Newsletter::Template do
   end
 
   specify "send default next delivery template (with basket content)", freeze: "2023-01-01", sidekiq: :inline do
-    Current.acp.update!(features: [])
+    Current.org.update!(features: [])
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
 
     delivery = create(:delivery, date: 1.week.from_now)

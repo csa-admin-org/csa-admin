@@ -8,8 +8,8 @@ describe Ability do
   context "superadmin" do
     let(:admin) { create(:admin, permission: Permission.superadmin) }
 
-    specify { expect(ability.can?(:read, ACP)).to be_truthy }
-    specify { expect(ability.can?(:update, Current.acp)).to be_truthy }
+    specify { expect(ability.can?(:read, Organization)).to be_truthy }
+    specify { expect(ability.can?(:update, Current.org)).to be_truthy }
 
     specify { expect(ability.can?(:manage, Admin)).to be_truthy }
     specify { expect(ability.can?(:destroy, admin)).to be_falsey }
@@ -18,7 +18,7 @@ describe Ability do
 
     specify { expect(ability.can?(:create, Absence)).to be_truthy }
     context "without absence feature" do
-      before { Current.acp.update! features: [] }
+      before { Current.org.update! features: [] }
       specify { expect(ability.can?(:create, Absence)).to be_falsey }
     end
   end
@@ -28,7 +28,7 @@ describe Ability do
 
     specify { expect(ability.can?(:read, ActiveAdmin::Page)).to be_truthy }
     specify { expect(ability.can?(:pdf, Invoice)).to be_truthy }
-    specify { expect(ability.can?(:read, ACP)).to be_falsey }
+    specify { expect(ability.can?(:read, Organization)).to be_falsey }
     specify { expect(ability.can?(:manage, Admin)).to be_falsey }
     specify { expect(ability.can?(:destroy, admin)).to be_falsey }
     specify { expect(ability.can?(:update, admin)).to be_truthy }
@@ -97,7 +97,7 @@ describe Ability do
   end
 
   context "with billing shop permission" do
-    before { Current.acp.update! features: [ :shop ] }
+    before { Current.org.update! features: [ :shop ] }
     let(:admin) { create(:admin, permission: create(:permission, rights: { shop: :write })) }
 
     specify { expect(ability.can?(:create, Shop::Order)).to be_truthy }

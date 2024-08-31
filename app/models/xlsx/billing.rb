@@ -21,12 +21,12 @@ module XLSX
           .merge(Member.no_salary_basket)
 
       main_worksheet
-      shop_worksheet if Current.acp.feature?("shop")
+      shop_worksheet if Current.org.feature?("shop")
     end
 
     def filename
       [
-        Current.acp.name.parameterize,
+        Current.org.name.parameterize,
         t("title").parameterize,
         Time.current.strftime("%Y%m%d-%Hh%M")
       ].join("-") + ".xlsx"
@@ -44,9 +44,9 @@ module XLSX
         total = @baskets.where(baskets: { basket_size_id: basket_size.id }).sum("baskets.quantity * baskets.basket_price")
         add_line("#{Basket.model_name.human}: #{basket_size.name}", total, basket_size.price)
       end
-      if Current.acp.feature?("basket_price_extra")
+      if Current.org.feature?("basket_price_extra")
         total = @baskets.sum("baskets.quantity * baskets.calculated_price_extra")
-        add_line(Current.acp.basket_price_extra_title, total)
+        add_line(Current.org.basket_price_extra_title, total)
       end
       add_empty_line
 
@@ -85,25 +85,25 @@ module XLSX
 
       t_invoice = Invoice.model_name.human(count: 2)
       add_line("#{t_invoice}: #{Membership.model_name.human(count: 2)}", @invoices.sum(:memberships_amount))
-      if Current.acp.annual_fee
-        add_line("#{t_invoice}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.acp.annual_fee)
+      if Current.org.annual_fee
+        add_line("#{t_invoice}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.org.annual_fee)
       end
-      if Current.acp.share?
-        add_line("#{t_invoice}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.acp.share_price)
+      if Current.org.share?
+        add_line("#{t_invoice}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.org.share_price)
       end
-      if Current.acp.feature?("shop")
+      if Current.org.feature?("shop")
         add_line("#{t_invoice}: #{I18n.t('shop.title_orders', count: 2)}", @invoices.shop_order_type.sum(:amount))
       end
-      if Current.acp.feature?("activity")
+      if Current.org.feature?("activity")
         add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
       end
-      if Current.acp.feature?("new_member_fee")
+      if Current.org.feature?("new_member_fee")
         add_line("#{t_invoice}: #{I18n.t('invoices.entity_type.new_member_fee')}", @invoices.new_member_fee_type.sum(:amount))
       end
       add_line("#{t_invoice}: #{t('other')}", @invoices.other_type.sum(:amount))
       add_line(t_invoice, invoices_total(:amount))
 
-      if Current.acp.vat_number?
+      if Current.org.vat_number?
         add_empty_line
         add_empty_line
 

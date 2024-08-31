@@ -123,7 +123,7 @@ describe Billing::PaymentsRedistributor do
     end
 
     it "handles payback invoice with negative amount" do
-      Current.acp.update!(share_price: 2, shares_number: 1)
+      Current.org.update!(share_price: 2, shares_number: 1)
 
       member = create(:member, :active)
       beginning_of_year = Time.current.beginning_of_year
@@ -157,7 +157,7 @@ describe Billing::PaymentsRedistributor do
     end
 
     it "handles payback invoice with negative amount with direct negative payment" do
-      Current.acp.update!(share_price: 2, shares_number: 1)
+      Current.org.update!(share_price: 2, shares_number: 1)
 
       member = create(:member, :active)
       beginning_of_year = Time.current.beginning_of_year

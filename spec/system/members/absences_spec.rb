@@ -39,7 +39,7 @@ describe "Absences", freeze: "2021-06-15" do
   end
 
   it "does not show explanation when absences are not billed" do
-    current_acp.update!(absences_billed: false)
+    current_org.update!(absences_billed: false)
 
     visit "/absences"
 
@@ -49,13 +49,13 @@ describe "Absences", freeze: "2021-06-15" do
   it "shows only extra text" do
     default_text = "Ces paniers ne sont pas remboursés"
     extra_text = "Règles spéciales"
-    Current.acp.update!(absence_extra_text: extra_text)
+    Current.org.update!(absence_extra_text: extra_text)
 
     visit "/absences"
     expect(page).to have_content default_text
     expect(page).to have_content extra_text
 
-    Current.acp.update!(absence_extra_text_only: true)
+    Current.org.update!(absence_extra_text_only: true)
     visit "/absences"
 
     expect(page).not_to have_content default_text
@@ -73,7 +73,7 @@ describe "Absences", freeze: "2021-06-15" do
   end
 
   it "redirects to billing when absence is not a feature" do
-    current_acp.update!(features: [])
+    current_org.update!(features: [])
 
     visit "/absences"
 

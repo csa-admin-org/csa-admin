@@ -28,7 +28,7 @@ class Delivery < ApplicationRecord
   validates :date,
     date: {
       before_or_equal_to: proc { |d|
-        Current.acp.fiscal_year_for(d.date_was).end_of_year
+        Current.org.fiscal_year_for(d.date_was).end_of_year
       }
     },
     if: :date_was
@@ -112,8 +112,8 @@ class Delivery < ApplicationRecord
   def shop_closing_at
     return nil unless shop_open
 
-    delay_in_days = Current.acp.shop_delivery_open_delay_in_days.to_i.days
-    end_time = Current.acp.shop_delivery_open_last_day_end_time || Tod::TimeOfDay.parse("23:59:59")
+    delay_in_days = Current.org.shop_delivery_open_delay_in_days.to_i.days
+    end_time = Current.org.shop_delivery_open_last_day_end_time || Tod::TimeOfDay.parse("23:59:59")
     limit = end_time.on(date - delay_in_days)
   end
 
@@ -122,7 +122,7 @@ class Delivery < ApplicationRecord
   end
 
   def shop_open?(depot_id: nil, ignore_closing_at: false)
-    return false unless Current.acp.feature?("shop")
+    return false unless Current.org.feature?("shop")
     return false unless shop_configured_open?
 
     (ignore_closing_at || !shop_closing_at.past?) &&
@@ -130,7 +130,7 @@ class Delivery < ApplicationRecord
   end
 
   def shop_text
-    Current.acp.shop_text
+    Current.org.shop_text
   end
 
   def available_shop_products(depot)
@@ -222,7 +222,7 @@ class Delivery < ApplicationRecord
 
   def update_baskets_async
     if saved_change_to_date? || destroyed?
-      fiscal_year = Current.acp.fiscal_year_for(date)
+      fiscal_year = Current.org.fiscal_year_for(date)
       DeliveryBasketsUpdaterJob.perform_later(fiscal_year.year, Tenant.current)
     end
   end

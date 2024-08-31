@@ -3,10 +3,10 @@
 require "rails_helper"
 
 describe Billing::MissingActivityParticipationsInvoicerJob do
-  before { Current.acp.update!(activity_price: 90, trial_basket_count: 0) }
+  before { Current.org.update!(activity_price: 90, trial_basket_count: 0) }
 
   specify "noop if no activty price" do
-    Current.acp.update!(activity_price: 0)
+    Current.org.update!(activity_price: 0)
 
     membership = create(:membership, activity_participations_demanded_annually: 2)
 
@@ -41,7 +41,7 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
   end
 
   specify "create invoice for previous year membership", sidekiq: :inline do
-    Current.acp.update!(fiscal_year_start_month: 5)
+    Current.org.update!(fiscal_year_start_month: 5)
     membership = travel_to "2021-01-06" do
       create(:membership, activity_participations_demanded_annually: 2)
     end

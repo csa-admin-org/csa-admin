@@ -14,10 +14,10 @@ _:
         _it: Lista di consegna del %{date} (%{depot})
     invitation_email:
       subject:
-        _de: Einladung an den %{acp} Admin
-        _en: Invitation to the %{acp} admin
-        _fr: Invitation à l'admin de %{acp}
-        _it: Invito all'admin di %{acp}
+        _de: Einladung an den %{org} Admin
+        _en: Invitation to the %{org} admin
+        _fr: Invitation à l'admin de %{org}
+        _it: Invito all'admin di %{org}
     invoice_overpaid_email:
       subject:
         _de: 'Überzahlte Rechnung #%{number}'

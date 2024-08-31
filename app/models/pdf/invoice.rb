@@ -9,7 +9,7 @@ module PDF
     attr_reader :country_code, :invoice, :entity
 
     def initialize(invoice)
-      @country_code = Current.acp.country_code
+      @country_code = Current.org.country_code
       @invoice = invoice
       @entity = invoice.entity
       # Reload entity to be sure that the balance is up-to-date
@@ -141,7 +141,7 @@ module PDF
             _cur(entity.basket_complements_annual_price_change)
           ]
         end
-        if Current.acp.feature?("basket_price_extra") && !entity.baskets_price_extra.zero?
+        if Current.org.feature?("basket_price_extra") && !entity.baskets_price_extra.zero?
           data << [
             membership_baskets_price_extra_description,
             _cur(entity.baskets_price_extra)
@@ -329,7 +329,7 @@ module PDF
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
         end
         bounding_box [ 0, y - 5 ], width: bounds.width - 24 do
-          text "N° #{t("vat")} #{Current.acp.vat_number}", width: 200, align: :right, style: :italic, size: 9
+          text "N° #{t("vat")} #{Current.org.vat_number}", width: 200, align: :right, style: :italic, size: 9
         end
         yy = 10
       end
@@ -358,11 +358,11 @@ module PDF
 
       bounding_box [ 0, y - yy - 10 ], width: bounds.width - 24 do
         invoice_info =
-          if invoice.entity_type == "Shop::Order" && Current.acp.shop_invoice_info
-            Current.acp.shop_invoice_info % {
+          if invoice.entity_type == "Shop::Order" && Current.org.shop_invoice_info
+            Current.org.shop_invoice_info % {
               date: I18n.l(invoice.entity.delivery.date)
             }
-          else Current.acp.invoice_info
+          else Current.org.invoice_info
           end
         text invoice_info, width: 200, align: :right, style: :italic, size: 9
       end
@@ -372,7 +372,7 @@ module PDF
       y = last_page ? payment_section_y : 40
       font_size 10
       bounding_box [ 0, y ], width: bounds.width, height: 50 do
-        text Current.acp.invoice_footer, inline_format: true, align: :center
+        text Current.org.invoice_footer, inline_format: true, align: :center
       end
     end
 
@@ -434,10 +434,10 @@ module PDF
         move_down border
 
         qr_text_title t("payment.payable_to_account"), size: 6
-        qr_text Current.acp.iban_formatted, size: 8
-        qr_text Current.acp.creditor_name, size: 8
-        qr_text Current.acp.creditor_address, size: 8
-        qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city, size: 8
+        qr_text Current.org.iban_formatted, size: 8
+        qr_text Current.org.creditor_name, size: 8
+        qr_text Current.org.creditor_address, size: 8
+        qr_text Current.org.creditor_zip + " " + Current.org.creditor_city, size: 8
         move_down border
 
         qr_text_title t("payment.reference"), size: 6
@@ -451,7 +451,7 @@ module PDF
 
         bounding_box [ 0, 98 ], width: 200 do
           qr_text_title t("payment.currency"), size: 6
-          qr_text Current.acp.currency_code, size: 8
+          qr_text Current.org.currency_code, size: 8
         end
         bounding_box [ 65, 98 ], width: 200 do
           qr_text_title t("payment.amount"), size: 6
@@ -474,7 +474,7 @@ module PDF
 
         bounding_box [ 0, 100 ], width: 200 do
           qr_text_title t("payment.currency")
-          qr_text Current.acp.currency_code
+          qr_text Current.org.currency_code
         end
         bounding_box [ 65, 100 ], width: 200 do
           qr_text_title t("payment.amount")
@@ -483,10 +483,10 @@ module PDF
 
         bounding_box [ 146, 270 ], width: 230 do
           qr_text_title t("payment.payable_to_account")
-          qr_text Current.acp.iban_formatted
-          qr_text Current.acp.creditor_name
-          qr_text Current.acp.creditor_address
-          qr_text Current.acp.creditor_zip + " " + Current.acp.creditor_city
+          qr_text Current.org.iban_formatted
+          qr_text Current.org.creditor_name
+          qr_text Current.org.creditor_address
+          qr_text Current.org.creditor_zip + " " + Current.org.creditor_city
           move_down border
 
           qr_text_title t("payment.reference")
@@ -551,11 +551,11 @@ module PDF
         spacing = 9
         bounding_box [ qr_code_width + 16, y_start ], width: 300 do
           qr_text_title "IBAN"
-          qr_text Current.acp.iban_formatted
+          qr_text Current.org.iban_formatted
           move_down spacing
 
           qr_text_title t("payment.payable_to")
-          qr_text Current.acp.creditor_name
+          qr_text Current.org.creditor_name
           move_down spacing
 
           qr_text_title t("payment.reference")
@@ -563,7 +563,7 @@ module PDF
           move_down spacing
 
           qr_text_title t("payment.amount")
-          qr_text [ Current.acp.currency_code, _cur(@missing_amount, delimiter: " ") ].join(" ")
+          qr_text [ Current.org.currency_code, _cur(@missing_amount, delimiter: " ") ].join(" ")
         end
       end
     end
@@ -584,13 +584,13 @@ module PDF
           move_down 10
 
           payment_info_title t("payment.payable_to")
-          payment_info_text Current.acp.creditor_name
-          payment_info_text Current.acp.creditor_address
-          payment_info_text Current.acp.creditor_zip + " " + Current.acp.creditor_city
+          payment_info_text Current.org.creditor_name
+          payment_info_text Current.org.creditor_address
+          payment_info_text Current.org.creditor_zip + " " + Current.org.creditor_city
           move_down 5
-          payment_info_text "IBAN: <b>#{Current.acp.iban_formatted}</b>"
-          if Current.acp.sepa_creditor_identifier?
-            payment_info_text "#{t("payment.sepa_creditor_identifier")}: <b>#{Current.acp.sepa_creditor_identifier}</b>"
+          payment_info_text "IBAN: <b>#{Current.org.iban_formatted}</b>"
+          if Current.org.sepa_creditor_identifier?
+            payment_info_text "#{t("payment.sepa_creditor_identifier")}: <b>#{Current.org.sepa_creditor_identifier}</b>"
           end
         end
         bounding_box [ x_split, y_start ], width: x_split do
@@ -653,7 +653,7 @@ module PDF
     end
 
     def membership_baskets_price_extra_description
-      title = Current.acp.basket_price_extra_public_title
+      title = Current.org.basket_price_extra_public_title
       "#{title}: #{baskets_price_extra_info(entity, entity.baskets)}"
     end
 
@@ -667,7 +667,7 @@ module PDF
     end
 
     def activity_participations_annual_price_change_description
-      i18n_scope = Current.acp.activity_i18n_scope
+      i18n_scope = Current.org.activity_i18n_scope
       diff = entity.activity_participations_demanded_diff_from_default
       if diff.positive?
         Membership.human_attribute_name("activity_participations_annual_price_change_reduction/#{i18n_scope}", count: diff)

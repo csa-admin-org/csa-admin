@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe Billing::SwissQRCode do
   before {
-    Current.acp.update!(
+    Current.org.update!(
       country_code: "CH",
       iban: "CH4431999123000889012",
       creditor_name: "Robert Schneider AG",

@@ -48,7 +48,7 @@ module Billing
     def initialize(invoice)
       @invoice = invoice
       @member = invoice.member
-      @acp = Current.acp
+      @org = Current.org
     end
 
     def generate(rails_env: Rails.env)
@@ -66,14 +66,14 @@ module Billing
         "SPC",
         "0200",
         "1",
-        @acp.iban,
+        @org.iban,
         "S",
-        @acp.creditor_name,
-        @acp.creditor_address,
+        @org.creditor_name,
+        @org.creditor_address,
         "",
-        @acp.creditor_zip,
-        @acp.creditor_city,
-        @acp.country_code,
+        @org.creditor_zip,
+        @org.creditor_city,
+        @org.country_code,
         "",
         "",
         "",
@@ -82,7 +82,7 @@ module Billing
         "",
         "",
         sprintf("%.2f", @invoice.missing_amount),
-        @acp.currency_code,
+        @org.currency_code,
         "S",
         @member.name.truncate(70),
         @member.address.truncate(70),

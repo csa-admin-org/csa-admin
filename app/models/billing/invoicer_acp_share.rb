@@ -27,10 +27,10 @@ module Billing
     end
 
     def next_date
-      return unless Current.acp.recurring_billing?
+      return unless Current.org.recurring_billing?
 
       today = Date.current
-      today + ((Current.acp.recurring_billing_wday - today.wday) % 7).days
+      today + ((Current.org.recurring_billing_wday - today.wday) % 7).days
     end
 
     private

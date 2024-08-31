@@ -18,7 +18,7 @@ ul class="flex flex-row -m-2 flex-wrap justify-center"
           = t('.missing_amount')
         span class='text-xl whitespace-nowrap font-medium text-red-500'
           = cur(-balance)
-  - if Current.acp.share?
+  - if Current.org.share?
     li class="flex-1 flex text-center p-2 m-2 flex-col rounded border dark:border-gray-700"
       span class='flex flex-col my-auto'
         span class='text-sm text-gray-400'

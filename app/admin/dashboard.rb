@@ -27,7 +27,7 @@ ActiveAdmin.register_page "Dashboard" do
                   end
                 end
 
-                if Current.acp.feature?("absence")
+                if Current.org.feature?("absence")
                   absences_count = next_delivery.baskets.absent.sum(:quantity)
                   if absences_count.positive?
                     div class: "text-right mt-2 p-2" do
@@ -61,7 +61,7 @@ ActiveAdmin.register_page "Dashboard" do
             render "memberships_count"
           end
 
-          if Current.acp.feature?("activity")
+          if Current.org.feature?("activity")
             panel activities_human_name do
               render "activity_participations_count"
             end

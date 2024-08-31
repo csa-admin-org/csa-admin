@@ -5,14 +5,14 @@ require "rails_helper"
 describe PDF::Shop::Delivery do
   def save_pdf_and_return_strings(delivery, order: nil)
     pdf = PDF::Shop::Delivery.new(delivery, order: order)
-    # pdf_path = "tmp/shop-delivery-#{Current.acp.name}-#{delivery.date}.pdf"
+    # pdf_path = "tmp/shop-delivery-#{Current.org.name}-#{delivery.date}.pdf"
     # pdf.render_file(Rails.root.join(pdf_path))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
 
   context "P2R" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "P2R",
         shop_delivery_pdf_footer: "Facture envoyée séparément par email.")
     }

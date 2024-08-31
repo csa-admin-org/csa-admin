@@ -1,7 +1,7 @@
 <p>Ciao {{ admin.name }},</p>
 
-<p>Un conto admin per {{ acp.name }} è appena stato creato, per connetterti accedi con la tua e-mail (<strong>{{ admin.email }}</strong>).</p>
+<p>Un conto admin per {{ organization.name }} è appena stato creato, per connetterti accedi con la tua e-mail (<strong>{{ admin.email }}</strong>).</p>
 
 {% button action_url %}
-  Accedere all'admin di {{ acp.name }}
+  Accedere all'admin di {{ organization.name }}
 {% endbutton %}

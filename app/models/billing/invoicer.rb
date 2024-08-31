@@ -23,7 +23,7 @@ module Billing
       ].compact.select(&:billable?).first
       @invoices = member.invoices.not_canceled.current_year
       @date = date || Date.current
-      @fy_month = Current.acp.fy_month_for(@date)
+      @fy_month = Current.org.fy_month_for(@date)
     end
 
     def billable?
@@ -31,7 +31,7 @@ module Billing
     end
 
     def next_date
-      return unless Current.acp.recurring_billing?
+      return unless Current.org.recurring_billing?
 
       @next_date ||=
         if membership&.billable?
@@ -42,7 +42,7 @@ module Billing
               else
                 next_billing_day(beginning_of_next_period)
               end
-            elsif Current.acp.billing_starts_after_first_delivery? || membership.trial?
+            elsif Current.org.billing_starts_after_first_delivery? || membership.trial?
               next_billing_day_after_first_billable_delivery
             else
               next_billing_day(membership.started_on)
@@ -51,7 +51,7 @@ module Billing
         elsif member.support?
           if annual_fee_billable?
             next_billing_day
-          elsif Current.acp.annual_fee?
+          elsif Current.org.annual_fee?
             next_billing_day(Current.fiscal_year.end_of_year + 1.day)
           end
         end
@@ -98,10 +98,10 @@ module Billing
 
     def last_fy_month
       end_dates = [ membership.ended_on ]
-      if Current.acp.billing_ends_on_last_delivery_fy_month?
+      if Current.org.billing_ends_on_last_delivery_fy_month?
         end_dates << membership.deliveries.last.date
       end
-      Current.acp.fy_month_for(end_dates.min)
+      Current.org.fy_month_for(end_dates.min)
     end
 
     def membership_amount_description
@@ -129,7 +129,7 @@ module Billing
 
     def periods
       @periods ||= begin
-        min = Current.acp.fiscal_year_for(date).beginning_of_year
+        min = Current.org.fiscal_year_for(date).beginning_of_year
         billing_year_division.times.map do |i|
           old_min = min
           max = min + period_length_in_months.months
@@ -149,7 +149,7 @@ module Billing
 
     def next_billing_day(day = date)
       day = [ day, date ].compact.max.to_date
-      day + ((Current.acp.recurring_billing_wday - day.wday) % 7).days
+      day + ((Current.org.recurring_billing_wday - day.wday) % 7).days
     end
   end
 end

@@ -148,17 +148,17 @@ ActiveAdmin.register Shop::SpecialDelivery do
           I18n.with_locale(locale) { f.object.class.model_name.human }
         })
       f.input :date, as: :date_picker
-      f.input :open_delay_in_days, hint: t("formtastic.hints.acp.shop_delivery_open_delay_in_days")
+      f.input :open_delay_in_days, hint: t("formtastic.hints.organization.shop_delivery_open_delay_in_days")
       f.input :open_last_day_end_time,
         as: :time_picker,
-        hint: t("formtastic.hints.acp.shop_delivery_open_last_day_end_time"),
+        hint: t("formtastic.hints.organization.shop_delivery_open_last_day_end_time"),
         input_html: {
           value: f.object.open_last_day_end_time&.strftime("%H:%M")
         }
       translated_input(f, :shop_texts,
         as: :action_text,
         required: false,
-        hint: t("formtastic.hints.acp.shop_text"))
+        hint: t("formtastic.hints.organization.shop_text"))
     end
 
     f.inputs Shop::SpecialDelivery.human_attribute_name(:products), id: "products" do

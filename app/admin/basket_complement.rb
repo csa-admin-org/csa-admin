@@ -21,23 +21,23 @@ ActiveAdmin.register BasketComplement do
     column :deliveries, ->(bc) {
       deliveries_count_range(bc.billable_deliveries_counts)
     }, class: "text-right"
-    column Current.acp.current_fiscal_year, ->(bc) {
+    column Current.org.current_fiscal_year, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {
           basket_complements_id_eq: bc.id,
-          during_year: Current.acp.current_fiscal_year.year
+          during_year: Current.org.current_fiscal_year.year
         },
         scope: :all)
     }, class: "text-right"
-    column Current.acp.fiscal_year_for(1.year.from_now), ->(bc) {
+    column Current.org.fiscal_year_for(1.year.from_now), ->(bc) {
       link_to bc.future_deliveries.size, deliveries_path(
         q: {
           basket_complements_id_eq: bc.id,
-          during_year: Current.acp.current_fiscal_year.year + 1
+          during_year: Current.org.current_fiscal_year.year + 1
         },
         scope: :all)
     }, class: "text-right"
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       column activities_human_name,
         ->(bc) { bc.activity_participations_demanded_annually },
         class: "text-right"
@@ -52,7 +52,7 @@ ActiveAdmin.register BasketComplement do
       translated_input(f, :public_names,
         hint: t("formtastic.hints.basket_complement.public_name"))
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
-      if Current.acp.feature?("activity")
+      if Current.org.feature?("activity")
         f.input :activity_participations_demanded_annually,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annually)),
           as: :number,
@@ -66,7 +66,7 @@ ActiveAdmin.register BasketComplement do
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
-        hint: t("formtastic.hints.acp.member_order_priority_html")
+        hint: t("formtastic.hints.organization.member_order_priority_html")
       f.input :visible, as: :select, include_blank: false
       translated_input(f, :form_details,
         hint: t("formtastic.hints.basket_complement.form_detail"),

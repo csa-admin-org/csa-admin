@@ -2,7 +2,7 @@
 
 module FormsHelper
   def translated_input(form, attr, options = {})
-    locales = Array(options.delete(:locale) || Current.acp.languages)
+    locales = Array(options.delete(:locale) || Current.org.languages)
     input_html = options.delete(:input_html) || {}
     label_option = options.delete(:label)
     placeholder_option = options.delete(:placeholder)
@@ -35,9 +35,9 @@ module FormsHelper
   end
 
   def language_input(form)
-    if Current.acp.languages.many?
+    if Current.org.languages.many?
       form.input :language,
-        collection: Current.acp.languages.map { |l| [ t("languages.#{l}"), l ] },
+        collection: Current.org.languages.map { |l| [ t("languages.#{l}"), l ] },
         prompt: true
     end
   end
@@ -51,11 +51,11 @@ module FormsHelper
   end
 
   def form_modes_collection
-    ACP::INPUT_FORM_MODES.map { |mode| [ t("form_modes.#{mode}"), mode ] }
+    Organization::INPUT_FORM_MODES.map { |mode| [ t("form_modes.#{mode}"), mode ] }
   end
 
   def label_with_language(txt, locale)
-    if Current.acp.languages.many?
+    if Current.org.languages.many?
       txt += " (#{I18n.t("languages.#{locale}")})"
     end
     txt

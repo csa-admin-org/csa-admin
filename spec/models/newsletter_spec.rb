@@ -24,7 +24,7 @@ describe Newsletter do
   }
 
   specify "validate from hostname" do
-    Current.acp.update!(email_default_host: "https://membres.ragedevert.ch")
+    Current.org.update!(email_default_host: "https://membres.ragedevert.ch")
 
     newsletter = build(:newsletter, from: "info@rave.ch")
     expect(newsletter).not_to have_valid(:from)
@@ -51,7 +51,7 @@ describe Newsletter do
   end
 
   specify "mailpreview" do
-    Current.acp.update! email_signature: "Signature"
+    Current.org.update! email_signature: "Signature"
     newsletter = build(:newsletter, template: template,
       subject: "Ma Super Newsletter",
       blocks_attributes: {
@@ -76,7 +76,7 @@ describe Newsletter do
   end
 
   specify "mailpreview with custom signature" do
-    Current.acp.update! email_signature: "Signature"
+    Current.org.update! email_signature: "Signature"
     newsletter = build(:newsletter,
       template: template,
       signature: "Au plaisir")

@@ -81,7 +81,7 @@ module ApplicationHelper
 
   def display_phone(phone)
     format =
-      if PhonyRails.country_from_number(phone) == Current.acp.country_code
+      if PhonyRails.country_from_number(phone) == Current.org.country_code
         :national
       else
         :international
@@ -106,7 +106,7 @@ module ApplicationHelper
     min_year = Delivery.minimum(:date)&.year || Date.today.year
     max_year = Delivery.maximum(:date)&.year || Date.today.year
     (min_year..max_year).map { |year|
-      fy = Current.acp.fiscal_year_for(year)
+      fy = Current.org.fiscal_year_for(year)
       [ fy.to_s, fy.year ]
     }.reverse
   end
@@ -152,7 +152,7 @@ module ApplicationHelper
   end
 
   def postmark_url(path = "streams")
-    server_id = Current.acp.credentials(:postmark, :server_id)
+    server_id = Current.org.credentials(:postmark, :server_id)
     "https://account.postmarkapp.com/servers/#{server_id}/#{path}"
   end
 

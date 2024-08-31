@@ -6,7 +6,7 @@ describe "Info" do
   before { Capybara.app_host = "http://membres.ragedevert.test" }
 
   specify "show informations link" do
-    Current.acp.update!(member_information_text: "Some confidential infos")
+    Current.org.update!(member_information_text: "Some confidential infos")
     login(create(:member))
 
     visit "/"
@@ -21,7 +21,7 @@ describe "Info" do
   end
 
   specify "show informations with custom title" do
-    Current.acp.update!(
+    Current.org.update!(
       member_information_title: "Archive",
       member_information_text: "Some confidential archive infos")
     login(create(:member))
@@ -38,7 +38,7 @@ describe "Info" do
   end
 
   specify "do not show informations when not set" do
-    Current.acp.update!(member_information_text: nil)
+    Current.org.update!(member_information_text: nil)
     login(create(:member))
 
     visit "/"
@@ -49,7 +49,7 @@ describe "Info" do
   end
 
   specify "do not show informations when not logged in" do
-    Current.acp.update!(member_information_text: "Some confidential infos")
+    Current.org.update!(member_information_text: "Some confidential infos")
 
     visit "/info"
     expect(current_path).to eq("/login")

@@ -134,7 +134,7 @@ describe "Shop::Order" do
   specify "cart can be finalize depending date" do
     order = nil
     travel_to "2021-11-08 11:59 +01" do
-      Current.acp.update!(
+      Current.org.update!(
         shop_delivery_open_delay_in_days: 2,
         shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse("12:00:00"))
       delivery = create(:delivery, shop_open: true, date: "2021-11-10")
@@ -163,7 +163,7 @@ describe "Shop::Order" do
   end
 
   specify "add a percentage to the pending order" do
-    Current.acp.update!(shop_member_percentages: "5, 10, 20")
+    Current.org.update!(shop_member_percentages: "5, 10, 20")
     travel_to "2021-11-08" do
       delivery = create(:delivery, shop_open: true, date: "2021-11-10")
       create(:membership, member: member, started_on: "2021-11-01", ended_on: "2021-11-30")
@@ -198,7 +198,7 @@ describe "Shop::Order" do
   specify "pending order can be modified/deleted depending date" do
     order = nil
     travel_to "2021-11-08 11:59 +01" do
-      Current.acp.update!(
+      Current.org.update!(
         shop_delivery_open_delay_in_days: 2,
         shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse("12:00:00"))
       delivery = create(:delivery, shop_open: true, date: "2021-11-10")
@@ -231,7 +231,7 @@ describe "Shop::Order" do
 
   specify "invoiced order", sidekiq: :inline do
     travel_to "2021-11-08 12:01 +01" do
-      Current.acp.update!(
+      Current.org.update!(
         shop_delivery_open_delay_in_days: 2,
         shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse("12:00:00"))
       delivery = create(:delivery, shop_open: true, date: "2021-11-10")

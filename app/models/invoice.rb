@@ -10,7 +10,7 @@ class Invoice < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   UnprocessedError = Class.new(StandardError)
 
-  attribute :activity_price, :decimal, default: -> { Current.acp.activity_price }
+  attribute :activity_price, :decimal, default: -> { Current.org.activity_price }
   attr_writer :membership_amount_fraction, :send_email
   attr_accessor :comment
 
@@ -115,11 +115,11 @@ class Invoice < ApplicationRecord
 
   def self.used_entity_types
     types = %w[Membership Other]
-    types << "ActivityParticipation" if Current.acp.feature?("activity")
-    types << "Shop::Order" if Current.acp.feature?("shop")
-    types << "AnnualFee" if Current.acp.annual_fee?
-    types << "ACPShare" if Current.acp.share?
-    types << "NewMemberFee" if Current.acp.feature?("new_member_fee")
+    types << "ActivityParticipation" if Current.org.feature?("activity")
+    types << "Shop::Order" if Current.org.feature?("shop")
+    types << "AnnualFee" if Current.org.annual_fee?
+    types << "ACPShare" if Current.org.share?
+    types << "NewMemberFee" if Current.org.feature?("new_member_fee")
     types += pluck(:entity_type)
     types.uniq.sort
   end
@@ -143,7 +143,7 @@ class Invoice < ApplicationRecord
     transaction do
       update!(state: OPEN_STATE)
       close_or_open!
-      send! if send_email && (Current.acp.send_closed_invoice? || open?)
+      send! if send_email && (Current.org.send_closed_invoice? || open?)
     end
   end
 
@@ -292,7 +292,7 @@ class Invoice < ApplicationRecord
 
     super
     self[:entity_type] = "ACPShare" unless entity_type?
-    self[:amount] = number.to_i * Current.acp.share_price
+    self[:amount] = number.to_i * Current.org.share_price
   end
 
   def processed?
@@ -513,11 +513,11 @@ class Invoice < ApplicationRecord
   def configured_vat_rate
     case entity_type
     when "Membership"
-      Current.acp.vat_membership_rate
+      Current.org.vat_membership_rate
     when "ActivityParticipation"
-      Current.acp.vat_activity_rate
+      Current.org.vat_activity_rate
     when "Shop::Order"
-      Current.acp.vat_shop_rate
+      Current.org.vat_shop_rate
     when "Other", "NewMemberFee"
       vat_rate
     end

@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe Billing::MtFile do
   before do
-    Current.acp.update!(
+    Current.org.update!(
       country_code: "DE",
       iban: "DE89370400440532013000")
   end

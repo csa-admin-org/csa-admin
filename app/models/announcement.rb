@@ -10,7 +10,7 @@ class Announcement < ApplicationRecord
     validates "text_#{locale}",
       presence: true,
       length: { maximum: 140 },
-      if: -> { Current.acp.languages.include?(locale.to_s) }
+      if: -> { Current.org.languages.include?(locale.to_s) }
   end
   validate :must_be_unique_per_depot_and_delivery
 

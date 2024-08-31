@@ -84,7 +84,7 @@ ActiveAdmin.register Newsletter::Delivery do
             end
             row(:member) { auto_link(delivery.member) }
             row(:audience) { delivery.newsletter.audience_name }
-            row(:from) { delivery.newsletter.from || Current.acp.email_default_from }
+            row(:from) { delivery.newsletter.from || Current.org.email_default_from }
             row(:attachments) { delivery.newsletter.attachments.map { |a| display_attachment(a.file) } }
           end
         end

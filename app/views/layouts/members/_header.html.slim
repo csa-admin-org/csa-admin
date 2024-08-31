@@ -1,8 +1,8 @@
 header class='flex-grow flex flex-col flex-nowrap justify-between'
   div class='m-4 flex-none flex justify-between md:justify-center items-center' data-menu-target='body'
     div class='md:my-8'
-      = link_to Current.acp.url do
-        = image_tag(acp_logo_url, alt: "#{Current.acp.name} Logo", class: 'h-20 w-20 md:h-40 md:w-40')
+      = link_to Current.org.url do
+        = image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: 'h-20 w-20 md:h-40 md:w-40')
     div class='m-4 text-gray-900 dark:text-gray-100 md:hidden'
       = link_to '#menu', data: { action: "click->menu#show" } do
         = inline_svg_tag 'members/menu.svg', title: 'Show Menu', class: 'h-10 w-10'
@@ -63,7 +63,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
               - else
                 span = t('.membership_past')
 
-          - if next_basket && Current.acp.feature?('contact_sharing')
+          - if next_basket && Current.org.feature?('contact_sharing')
             li class=nav_class('contact_sharing')
               = link_to members_contact_sharing_path, class: 'block py-2 px-8' do
                 h2 class='font-medium text-gray-700 dark:text-gray-400'

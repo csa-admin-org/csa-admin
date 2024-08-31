@@ -1282,17 +1282,6 @@ _:
             _en: Past
             _fr: Passées
             _it: Passato
-      acp:
-        edit_model:
-          _de: Einstellungen
-          _en: Settings
-          _fr: Paramètres
-          _it: Impostazioni
-        submit:
-          _de: Speichern
-          _en: Save
-          _fr: Sauvegarder
-          _it: Salva
       activity:
         new_model:
           _de: Neue %{model}
@@ -1543,6 +1532,17 @@ _:
             _en: Ignored
             _fr: Ignorées
             _it: Ignorato
+      organization:
+        edit_model:
+          _de: Einstellungen
+          _en: Settings
+          _fr: Paramètres
+          _it: Impostazioni
+        submit:
+          _de: Speichern
+          _en: Save
+          _fr: Sauvegarder
+          _it: Salva
       payment:
         new_model:
           _de: Neue %{model}

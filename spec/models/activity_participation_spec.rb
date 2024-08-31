@@ -62,14 +62,14 @@ describe ActivityParticipation, freeze: "2021-06-15" do
 
   describe ".invoice_all_missing" do
     before do
-      Current.acp.update!(activity_price: 90, trial_basket_count: 0)
+      Current.org.update!(activity_price: 90, trial_basket_count: 0)
       create(:membership, activity_participations_demanded_annually: 0)
       create(:membership, activity_participations_demanded_annually: 1)
       create(:membership, activity_participations_demanded_annually: 2)
     end
 
     specify "noop if no activty price" do
-      Current.acp.update!(activity_price: 0)
+      Current.org.update!(activity_price: 0)
 
       expect {
         described_class.invoice_all_missing(Date.today.year)
@@ -173,14 +173,14 @@ describe ActivityParticipation, freeze: "2021-06-15" do
     end
 
     it "always returns false by the default when the same day" do
-      Current.acp.update!(activity_participation_deletion_deadline_in_days: nil)
+      Current.org.update!(activity_participation_deletion_deadline_in_days: nil)
       activity = create(:activity, date: Date.today)
       participation = create(:activity_participation, activity: activity, created_at: 25.hours.ago)
       expect(participation).not_to be_destroyable
     end
 
     it "returns true when a deletion deadline is set and creation is in the last 24h" do
-      Current.acp.update!(activity_participation_deletion_deadline_in_days: 30)
+      Current.org.update!(activity_participation_deletion_deadline_in_days: 30)
       activity = create(:activity, date: 29.days.from_now)
       participation = create(:activity_participation, activity: activity, created_at: 20.hours.ago)
 
@@ -188,7 +188,7 @@ describe ActivityParticipation, freeze: "2021-06-15" do
     end
 
     it "returns false when a deletion deadline is set and creation has been done more that 24h ago" do
-      Current.acp.update!(activity_participation_deletion_deadline_in_days: 30)
+      Current.org.update!(activity_participation_deletion_deadline_in_days: 30)
       activity = create(:activity, date: 29.days.from_now)
       participation = create(:activity_participation, activity: activity, created_at: 25.hours.ago)
 

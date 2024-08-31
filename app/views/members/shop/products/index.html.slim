@@ -50,6 +50,6 @@
           span class='ml-1 text-base font-normal'
             = t('.next_shop_delivery_link', date: l(next_shop_delivery.date))
 
-- if Current.acp.shop_terms_of_sale_url
+- if Current.org.shop_terms_of_sale_url
   div class='mt-24 text-sm text-gray-400 dark:text-gray-600 text-center underline'
-    = link_to t('members.shop.terms_of_sale'), Current.acp.shop_terms_of_sale_url, target: '_blank'
+    = link_to t('members.shop.terms_of_sale'), Current.org.shop_terms_of_sale_url, target: '_blank'

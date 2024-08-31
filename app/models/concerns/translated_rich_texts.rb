@@ -17,17 +17,17 @@ module TranslatedRichTexts
           end
         }
         define_method(plural) {
-          Current.acp.languages.map { |locale|
+          Current.org.languages.map { |locale|
             [ locale, send("#{text}_#{locale}") ]
           }.to_h
         }
         define_method("all_#{plural}?") {
-          Current.acp.languages.all? { |locale|
+          Current.org.languages.all? { |locale|
             send("#{text}_#{locale}").to_plain_text.present?
           }
         }
         define_method("any_#{plural}?") {
-          Current.acp.languages.any? { |locale|
+          Current.org.languages.any? { |locale|
             send("#{text}_#{locale}").to_plain_text.present?
           }
         }

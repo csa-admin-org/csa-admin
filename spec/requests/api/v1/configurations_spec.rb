@@ -7,7 +7,7 @@ describe "Configurations V1 API" do
 
   describe "/api/v1/configuration" do
     def request(api_token: nil)
-      api_token ||= Current.acp.credentials(:api_token)
+      api_token ||= Current.org.credentials(:api_token)
       authorization =
         ActionController::HttpAuthentication::Token.encode_credentials(api_token)
       headers = {

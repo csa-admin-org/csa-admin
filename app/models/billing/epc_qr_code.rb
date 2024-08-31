@@ -11,7 +11,7 @@ module Billing
 
     def initialize(invoice)
       @invoice = invoice
-      @acp = Current.acp
+      @org = Current.org
       @code = build_code
     end
 
@@ -23,9 +23,9 @@ module Billing
 
     def build_code
       attrs = {
-        iban: @acp.iban,
-        name: @acp.creditor_name,
-        currency: @acp.currency_code,
+        iban: @org.iban,
+        name: @org.creditor_name,
+        currency: @org.currency_code,
         reference: @invoice.reference.to_s
       }
       unless @invoice.missing_amount.zero?

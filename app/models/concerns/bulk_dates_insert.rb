@@ -21,7 +21,7 @@ module BulkDatesInsert
       validates :bulk_dates_ends_on, presence: true
       validates :bulk_dates_ends_on, date: {
         after: :bulk_dates_starts_on,
-        before_or_equal_to: proc { |o| Current.acp.fiscal_year_for(o.bulk_dates_starts_on).end_of_year }
+        before_or_equal_to: proc { |o| Current.org.fiscal_year_for(o.bulk_dates_starts_on).end_of_year }
       }, if: :bulk_dates_starts_on
       validates :bulk_dates_weeks_frequency, inclusion: { in: 1..4, allow_nil: true }, presence: true
       validates :bulk_dates_wdays, presence: true

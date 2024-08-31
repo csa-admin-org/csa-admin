@@ -2,10 +2,10 @@
 
 module ShopHelper
   def show_shop_menu?
-    return unless Current.acp.feature?("shop")
+    return unless Current.org.feature?("shop")
     return unless current_shop_delivery || shop_special_deliveries.any?
 
-    !Current.acp.shop_admin_only || current_session.admin_originated?
+    !Current.org.shop_admin_only || current_session.admin_originated?
   end
 
   def live_stock(variant, order)
@@ -42,7 +42,7 @@ module ShopHelper
   end
 
   def shop_member_percentages_collection
-    options = Current.acp[:shop_member_percentages].reverse.map do |percentage|
+    options = Current.org[:shop_member_percentages].reverse.map do |percentage|
       text =
         if percentage.positive?
           t("shop.percentage.positive", percentage: percentage)
@@ -54,13 +54,13 @@ module ShopHelper
   end
 
   def shop_member_percentages_label(order)
-    if order.amount_percentage.in?(Current.acp[:shop_member_percentages])
+    if order.amount_percentage.in?(Current.org[:shop_member_percentages])
       return t("shop.percentages_title.remove")
     end
 
-    if Current.acp[:shop_member_percentages].all?(&:positive?)
+    if Current.org[:shop_member_percentages].all?(&:positive?)
       t("shop.percentages_title.positive")
-    elsif Current.acp[:shop_member_percentages].all?(&:negative?)
+    elsif Current.org[:shop_member_percentages].all?(&:negative?)
       t("shop.percentages_title.negative")
     else
       t("shop.percentages_title.mixed")

@@ -6,13 +6,13 @@ describe "Shop::Order" do
   let(:member) { create(:member) }
 
   before do
-    Current.acp.update!(shop_admin_only: false)
+    Current.org.update!(shop_admin_only: false)
     Capybara.app_host = "http://membres.ragedevert.test"
     login(member)
   end
 
   specify "shop delivery for next delivery" do
-    Current.acp.update!(
+    Current.org.update!(
       shop_delivery_open_delay_in_days: 2,
       shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse("12:00:00"))
     travel_to "2021-11-01" do
@@ -66,7 +66,7 @@ describe "Shop::Order" do
   end
 
   specify "shop delivery open/closed depending date" do
-    Current.acp.update!(
+    Current.org.update!(
       shop_delivery_open_delay_in_days: 2,
       shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse("12:00:00"))
 
@@ -90,7 +90,7 @@ describe "Shop::Order" do
   end
 
   specify "shop delivery open/closed depending date and depot" do
-    Current.acp.update!(
+    Current.org.update!(
       shop_delivery_open_delay_in_days: 2,
       shop_delivery_open_last_day_end_time: Tod::TimeOfDay.parse("12:00:00"))
 

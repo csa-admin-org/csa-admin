@@ -46,7 +46,7 @@ describe Invoice do
     end
 
     it "closes invoice before sending email", sidekiq: :inline do
-      Current.acp.update!(send_closed_invoice: true)
+      Current.org.update!(send_closed_invoice: true)
       member = create(:member, annual_fee: 42)
       create(:payment, amount: 100, member: member)
       invoice = create(:invoice, :processing, :annual_fee, member: member, send_email: true)
@@ -139,7 +139,7 @@ describe Invoice do
 
   context "when acp_share" do
     it "sets entity_type to ACPShare with acp_shares_number" do
-      Current.acp.update!(share_price: 250, shares_number: 1)
+      Current.org.update!(share_price: 250, shares_number: 1)
       invoice = create(:invoice, :manual, acp_shares_number: -2)
 
       expect(invoice.entity_type).to eq "ACPShare"
@@ -164,7 +164,7 @@ describe Invoice do
     end
 
     specify "accepts custom vat_rate" do
-      Current.acp.update!(vat_membership_rate: 7.7, vat_number: "XXX")
+      Current.org.update!(vat_membership_rate: 7.7, vat_number: "XXX")
 
       invoice = create(:invoice, :manual,
         vat_rate: 2.5,
@@ -179,7 +179,7 @@ describe Invoice do
     end
 
     specify "accepts no vat_rate" do
-      Current.acp.update!(vat_membership_rate: 7.7, vat_number: "XXX")
+      Current.org.update!(vat_membership_rate: 7.7, vat_number: "XXX")
 
       invoice = create(:invoice, :manual,
         vat_rate: "",
@@ -220,7 +220,7 @@ describe Invoice do
     end
 
     specify "with vat" do
-      Current.acp.update!(vat_membership_rate: 7.7, vat_number: "XXX")
+      Current.org.update!(vat_membership_rate: 7.7, vat_number: "XXX")
 
       invoice = create(:invoice, :manual,
         vat_rate: 2.5,
@@ -386,16 +386,16 @@ describe Invoice do
       expect(invoice.vat_rate).to be_nil
     end
 
-    it "does not set it when ACP as no VAT set" do
-      Current.acp.update!(vat_membership_rate: nil)
+    it "does not set it when the organization as no VAT set" do
+      Current.org.update!(vat_membership_rate: nil)
 
       invoice = create(:invoice, :membership)
       expect(invoice.vat_rate).to be_nil
       expect(invoice.vat_amount).to be_nil
     end
 
-    it "sets the vat_amount for membership invoice and ACP with rate set" do
-      Current.acp.update!(vat_membership_rate: 7.7, vat_number: "XXX")
+    it "sets the vat_amount for membership invoice and the organization with rate set" do
+      Current.org.update!(vat_membership_rate: 7.7, vat_number: "XXX")
       invoice = create(:invoice, :membership)
 
       expect(invoice.vat_rate).to eq 7.7
@@ -405,7 +405,7 @@ describe Invoice do
     end
 
     it "sets the vat_amount for activity participation invoice" do
-      Current.acp.update!(vat_activity_rate: 5.5, vat_number: "XXX")
+      Current.org.update!(vat_activity_rate: 5.5, vat_number: "XXX")
       invoice = create(:invoice,
         paid_missing_activity_participations: 2,
         activity_price: 60)
@@ -417,7 +417,7 @@ describe Invoice do
     end
 
     it "sets the vat_amount for shop order invoice" do
-      Current.acp.update!(vat_shop_rate: 2.5, vat_number: "XXX")
+      Current.org.update!(vat_shop_rate: 2.5, vat_number: "XXX")
       order = create(:shop_order, :pending)
       order.invoice!
       invoice = order.invoice
@@ -430,7 +430,7 @@ describe Invoice do
   end
 
   describe "#handle_acp_shares_change!" do
-    before { Current.acp.update!(share_price: 250, shares_number: 1) }
+    before { Current.org.update!(share_price: 250, shares_number: 1) }
 
     it "changes inactive member state to support", sidekiq: :inline do
       member = create(:member, :inactive)
@@ -513,13 +513,13 @@ describe Invoice do
     end
 
     specify "when acp_shares type and closed" do
-      Current.acp.update!(share_price: 250, shares_number: 1)
+      Current.org.update!(share_price: 250, shares_number: 1)
       invoice = create(:invoice, :acp_share, :closed)
       expect(invoice.can_cancel?).to eq false
     end
 
     specify "when acp_shares type and open" do
-      Current.acp.update!(share_price: 250, shares_number: 1)
+      Current.org.update!(share_price: 250, shares_number: 1)
       invoice = create(:invoice, :acp_share, :open)
       expect(invoice.can_cancel?).to eq true
     end

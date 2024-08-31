@@ -7,7 +7,7 @@ ActiveAdmin.register Member do
   scope :pending
   scope :waiting
   scope :active, default: true
-  scope :support, if: -> { Current.acp.member_support? }
+  scope :support, if: -> { Current.org.member_support? }
   scope :inactive
 
   filter :id
@@ -19,7 +19,7 @@ ActiveAdmin.register Member do
     label: -> { Member.human_attribute_name(:waiting_depot) },
     as: :select,
     collection: -> { admin_depots_collection },
-    if: proc { params[:scope] == "waiting" && Current.acp.member_form_mode == "membership" }
+    if: proc { params[:scope] == "waiting" && Current.org.member_form_mode == "membership" }
   filter :shop_depot,
     as: :select,
     collection: -> { admin_depots_collection },
@@ -35,7 +35,7 @@ ActiveAdmin.register Member do
     as: :boolean,
     if: proc { params[:scope].in? [ "active", nil ] }
   filter :annual_fee,
-    if: proc { Current.acp.annual_fee? }
+    if: proc { Current.org.annual_fee? }
 
   includes :shop_depot, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do
@@ -47,11 +47,11 @@ ActiveAdmin.register Member do
       }, sortable: :waiting_started_at, class: "text-right"
     end
     column :name, ->(member) { auto_link member }
-    case Current.acp.member_form_mode
+    case Current.org.member_form_mode
     when "membership"
       case params[:scope]
       when "pending", "waiting"
-        column Depot.model_name.human(count: Current.acp.allow_alternative_depots? ? 2 : 1), ->(member) {
+        column Depot.model_name.human(count: Current.org.allow_alternative_depots? ? 2 : 1), ->(member) {
           ([ member.waiting_depot ] + member.waiting_alternative_depots)
             .compact.map(&:name).to_sentence.truncate(50)
         }
@@ -84,7 +84,7 @@ ActiveAdmin.register Member do
     column(:state, &:state_i18n_name)
     column(:emails) { |m| m.emails_array.join(", ") }
     column(:phones) { |m| m.phones_array.map(&:phony_formatted).join(", ") }
-    if Current.acp.languages.many?
+    if Current.org.languages.many?
       column(:language) { |m| t("languages.#{m.language}") }
     end
     column(:address)
@@ -96,10 +96,10 @@ ActiveAdmin.register Member do
     column(:delivery_city)
     column(:profession)
     column(:billing_email)
-    if Current.acp.annual_fee
+    if Current.org.annual_fee
       column(:annual_fee) { |m| cur(m.annual_fee) }
     end
-    if Current.acp.share?
+    if Current.org.share?
       column(:acp_shares_number)
     end
     column(:salary_basket, &:salary_basket?)
@@ -119,13 +119,13 @@ ActiveAdmin.register Member do
       }
     end
     if feature?("basket_price_extra")
-      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: Current.acp.basket_price_extra_title)) { |m|
+      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: Current.org.basket_price_extra_title)) { |m|
         cur(m.waiting_basket_price_extra)
       }
     end
     column(:waiting_depot) { |m| m.waiting_depot&.name }
     column(:waiting_delivery_cycle) { |m| m.waiting_delivery_cycle&.name }
-    if Current.acp.allow_alternative_depots?
+    if Current.org.allow_alternative_depots?
       column(:waiting_alternative_depot_ids) { |m|
         m.waiting_alternative_depots.map(&:name).to_sentence
       }
@@ -164,7 +164,7 @@ ActiveAdmin.register Member do
               end
               row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
               row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
-              if Current.acp.feature?("shop")
+              if Current.org.feature?("shop")
                 shop_order = next_basket.delivery.shop_orders.all_without_cart.find_by(member_id: member.id)
                 row(t("shop.title")) { auto_link shop_order }
               end
@@ -189,11 +189,11 @@ ActiveAdmin.register Member do
                   row(activities_human_name) { member.waiting_activity_participations_demanded_annually }
                 end
                 if feature?("basket_price_extra")
-                  row(Current.acp.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
+                  row(Current.org.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
                 end
                 row(:depot) { member.waiting_depot&.name }
                 row(:delivery_cycle) { member.waiting_delivery_cycle&.name }
-                if Current.acp.allow_alternative_depots?
+                if Current.org.allow_alternative_depots?
                   row(:waiting_alternative_depot_ids) {
                     member.waiting_alternative_depots.map(&:name).to_sentence
                   }
@@ -220,7 +220,7 @@ ActiveAdmin.register Member do
           else
             table_for(memberships.limit(3), class: "table-memberships") do
               column(:period) { |m| auto_link m, membership_period(m, format: :number_short) }
-              if Current.acp.feature?("activity")
+              if Current.org.feature?("activity")
                 column(activities_human_name, class: "text-right") { |m|
                   auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}"
                 }
@@ -235,7 +235,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.acp.feature?("shop")
+        if Current.org.feature?("shop")
           all_orders_path = shop_orders_path(q: { member_id_eq: member.id }, scope: :all_without_cart)
           orders =
             member
@@ -264,7 +264,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.acp.feature?("activity")
+        if Current.org.feature?("activity")
           all_activity_participations_path =
             activity_participations_path(q: { member_id_eq: member.id }, scope: :all)
           activity_participations =
@@ -331,7 +331,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.acp.feature?("absence")
+        if Current.org.feature?("absence")
           all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
           absences = member.absences.order(started_on: :desc)
           absences_count = absences.count
@@ -371,7 +371,7 @@ ActiveAdmin.register Member do
             row :validator
           end
         end
-        if Current.acp.feature?("shop") && member.use_shop_depot?
+        if Current.org.feature?("shop") && member.use_shop_depot?
           panel t("shop.title") do
             attributes_table do
               row(:depot) { member.shop_depot }
@@ -387,10 +387,10 @@ ActiveAdmin.register Member do
             end
             row(:emails) { display_emails_with_link(self, member.emails_array) }
             row(:phones) { display_phones_with_link(self, member.phones_array) }
-            if Current.acp.languages.many?
+            if Current.org.languages.many?
               row(:language) { t("languages.#{member.language}") }
             end
-            if Current.acp.feature?("contact_sharing")
+            if Current.org.feature?("contact_sharing")
               row(:contact_sharing) { status_tag(member.contact_sharing) }
             end
           end
@@ -403,7 +403,7 @@ ActiveAdmin.register Member do
             if member.salary_basket?
               row(:salary_basket) { status_tag(member.salary_basket) }
             end
-            if Current.acp.annual_fee
+            if Current.org.annual_fee
               row(:annual_fee) { cur member.annual_fee }
             end
             row(:invoices_amount) {
@@ -428,7 +428,7 @@ ActiveAdmin.register Member do
             invoicer = Billing::Invoicer.new(member, nil, Date.tomorrow)
             if invoicer.next_date
               row(:next_invoice_on) {
-                if Current.acp.recurring_billing?
+                if Current.org.recurring_billing?
                   div class: "flex items-center justify-between gap-2" do
                     if invoicer.next_date
                       span do
@@ -457,7 +457,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.acp.sepa?
+        if Current.org.sepa?
           panel t(".billing") + " (SEPA)" do
             attributes_table do
               row(:iban) { member.iban_formatted }
@@ -470,15 +470,15 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.acp.share?
+        if Current.org.share?
           panel t("active_admin.resource.new.shares") do
             attributes_table do
-              row(ACP.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
+              row(Organization.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
               row(:acp_shares_info) { member.acp_shares_info }
               invoicer = Billing::InvoicerACPShare.new(member)
               if invoicer.billable?
                 row(:next_invoice_on) {
-                  if Current.acp.recurring_billing?
+                  if Current.org.recurring_billing?
                     if invoicer.next_date
                       span class: "next_date" do
                         l(invoicer.next_date, format: :medium)
@@ -524,7 +524,7 @@ ActiveAdmin.register Member do
       f.input :emails, as: :string
       f.input :phones, as: :string
       language_input(f)
-      if Current.acp.feature?("contact_sharing")
+      if Current.org.feature?("contact_sharing")
         f.input :contact_sharing
       end
     end
@@ -541,9 +541,9 @@ ActiveAdmin.register Member do
             hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html"),
             required: false
         end
-        if Current.acp.feature?("basket_price_extra")
+        if Current.org.feature?("basket_price_extra")
           f.input :waiting_basket_price_extra,
-            label: Current.acp.basket_price_extra_title,
+            label: Current.org.basket_price_extra_title,
             required: false
         end
         f.input :waiting_depot,
@@ -590,7 +590,7 @@ ActiveAdmin.register Member do
         end
       end
     end
-    if Current.acp.feature?("shop") && !member.current_or_future_membership
+    if Current.org.feature?("shop") && !member.current_or_future_membership
       f.inputs t("shop.title") do
         f.input :shop_depot,
           label: Depot.model_name.human,
@@ -622,7 +622,7 @@ ActiveAdmin.register Member do
       f.input :salary_basket
     end
 
-    if Current.acp.sepa?
+    if Current.org.sepa?
       f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
         f.input :iban,
           placeholder: Billing.iban_placeholder,
@@ -632,13 +632,13 @@ ActiveAdmin.register Member do
       end
     end
 
-    if Current.acp.annual_fee
+    if Current.org.annual_fee
       f.inputs t(".annual_fee") do
-        f.input :annual_fee, label: ACP.human_attribute_name(:annual_fee)
+        f.input :annual_fee, label: Organization.human_attribute_name(:annual_fee)
       end
     end
 
-    if Current.acp.share?
+    if Current.org.share?
       f.inputs t(".shares") do
         f.input :existing_acp_shares_number
         if member.acp_shares_number.zero? || member.desired_acp_shares_number.positive?
@@ -733,7 +733,7 @@ ActiveAdmin.register Member do
       request: request)
     redirect_to members_session_url(
       session.token,
-      subdomain: Current.acp.members_subdomain,
+      subdomain: Current.org.members_subdomain,
       locale: I18n.locale),
       allow_other_host: true
   end

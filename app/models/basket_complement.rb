@@ -67,7 +67,7 @@ class BasketComplement < ApplicationRecord
     all.to_a.sort_by { |bc|
       clauses = [ bc.member_order_priority ]
       clauses <<
-        case Current.acp.basket_complements_member_order_mode
+        case Current.org.basket_complements_member_order_mode
         when "price_asc"; bc.price
         when "price_desc"; -bc.price
         when "deliveries_count_asc"; bc.deliveries_count

@@ -58,7 +58,7 @@ class Membership < ApplicationRecord
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validates :absences_included_annually, numericality: true
-  validates :billing_year_division, presence: true, inclusion: { in: ACP.billing_year_divisions }
+  validates :billing_year_division, presence: true, inclusion: { in: Organization.billing_year_divisions }
   validates :new_config_from,
     date: {
       after_or_equal_to: :started_on,
@@ -95,7 +95,7 @@ class Membership < ApplicationRecord
   scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
   scope :current_year, -> { during_year(Current.fy_year) }
   scope :during_year, ->(year) {
-    fy = Current.acp.fiscal_year_for(year)
+    fy = Current.org.fiscal_year_for(year)
     where(started_on: fy.range.min.., ended_on: ..fy.range.max)
   }
   scope :current_and_future_year, -> { where(started_on: Current.fy_range.min..) }
@@ -143,7 +143,7 @@ class Membership < ApplicationRecord
 
   def self.human_attribute_name(attr, *args)
     if attr == :basket_price_extra_title
-      Current.acp.basket_price_extra_title
+      Current.org.basket_price_extra_title
     else
       super
     end
@@ -176,7 +176,7 @@ class Membership < ApplicationRecord
   end
 
   def fiscal_year
-    @fiscal_year ||= Current.acp.fiscal_year_for(started_on)
+    @fiscal_year ||= Current.org.fiscal_year_for(started_on)
   end
 
   def fy_year
@@ -216,7 +216,7 @@ class Membership < ApplicationRecord
   end
 
   def can_member_update?
-    return false unless Current.acp.membership_depot_update_allowed?
+    return false unless Current.org.membership_depot_update_allowed?
 
     member_updatable_baskets.any?
   end
@@ -328,9 +328,9 @@ class Membership < ApplicationRecord
     return if canceled?
     raise "cannot cancel an already renewed membership" if renewed?
 
-    if Current.acp.annual_fee?
+    if Current.org.annual_fee?
       if ActiveRecord::Type::Boolean.new.cast(attrs[:renewal_annual_fee])
-        self[:renewal_annual_fee] = Current.acp.annual_fee
+        self[:renewal_annual_fee] = Current.org.annual_fee
       end
     end
     self[:renewal_note] = attrs[:renewal_note]
@@ -363,7 +363,7 @@ class Membership < ApplicationRecord
   end
 
   def activity_participations_demanded_annually_by_default
-    return 0 unless Current.acp.feature?("activity")
+    return 0 unless Current.org.feature?("activity")
 
     count = basket_quantity * basket_size&.activity_participations_demanded_annually
     memberships_basket_complements.each do |mbc|
@@ -468,7 +468,7 @@ class Membership < ApplicationRecord
     return if destroyed?
 
     cols = { past_baskets_count: baskets.past.count }
-    if Current.acp.trial_basket_count.positive?
+    if Current.org.trial_basket_count.positive?
       cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
     end
     update_columns(cols)
@@ -508,10 +508,10 @@ class Membership < ApplicationRecord
   end
 
   def set_activity_participations
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
       self.activity_participations_annual_price_change ||=
-        -1 * activity_participations_demanded_diff_from_default * Current.acp.activity_price
+        -1 * activity_participations_demanded_diff_from_default * Current.org.activity_price
     else
       self.activity_participations_demanded = 0
       self.activity_participations_annual_price_change = 0
@@ -585,7 +585,7 @@ class Membership < ApplicationRecord
   end
 
   def update_absences_included!
-    return unless Current.acp.feature?("absence")
+    return unless Current.org.feature?("absence")
 
     full_year = delivery_cycle.deliveries_in(fiscal_year.range).size.to_f
     total = (baskets.count / full_year * absences_included_annually).round
@@ -604,7 +604,7 @@ class Membership < ApplicationRecord
   end
 
   def update_absent_baskets!
-    return unless Current.acp.feature?("absence")
+    return unless Current.org.feature?("absence")
     return if destroyed?
 
     transaction do
@@ -628,13 +628,13 @@ class Membership < ApplicationRecord
   end
 
   def update_not_billable_baskets!
-    return unless Current.acp.feature?("absence")
+    return unless Current.org.feature?("absence")
     return if destroyed?
 
     transaction do
       baskets.not_billable.update_all(billable: true)
       absent_baskets = baskets.absent
-      if Current.acp.absences_billed?
+      if Current.org.absences_billed?
         absent_baskets = absent_baskets.limit(absences_included)
       end
       absent_baskets.update_all(billable: false)
@@ -701,7 +701,7 @@ class Membership < ApplicationRecord
       errors.add(:started_on, :before_end)
       errors.add(:ended_on, :after_start)
     end
-    if ended_on && fy_year != Current.acp.fiscal_year_for(ended_on).year
+    if ended_on && fy_year != Current.org.fiscal_year_for(ended_on).year
       errors.add(:started_on, :same_fiscal_year)
       errors.add(:ended_on, :same_fiscal_year)
     end

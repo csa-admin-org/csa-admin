@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe Billing::Invoicer do
   before {
-    Current.acp.update!(
+    Current.org.update!(
       trial_basket_count: 0,
       billing_year_divisions: [ 1, 2, 3, 4, 12 ],
       fiscal_year_start_month: 1,
@@ -23,7 +23,7 @@ describe Billing::Invoicer do
   end
 
   it "does not create an invoice for member with future membership", freeze: "2022-01-01" do
-    Current.acp.update!(trial_basket_count: 0)
+    Current.org.update!(trial_basket_count: 0)
     member = create(:member)
     create(:delivery, date: "2022-02-01")
     create(:membership, member: member, billing_year_division: 12)
@@ -51,7 +51,7 @@ describe Billing::Invoicer do
   end
 
   it "creates an invoice for trial membership when forced", freeze: "2022-01-01" do
-    Current.acp.update!(trial_basket_count: 4)
+    Current.org.update!(trial_basket_count: 4)
     member = create(:member)
     membership = create(:membership, member: member)
 
@@ -60,7 +60,7 @@ describe Billing::Invoicer do
   end
 
   it "does not bill annual fee for canceled trial membership", sidekiq: :inline do
-    Current.acp.update!(
+    Current.org.update!(
       billing_year_divisions: [ 12 ],
       trial_basket_count: 4)
     member = create(:member, :inactive)
@@ -387,7 +387,7 @@ describe Billing::Invoicer do
     end
 
     specify "when quarter #4 does not include any delivery and billing_ends_on_last_delivery_fy_month is true" do
-      Current.acp.update!(billing_ends_on_last_delivery_fy_month: true)
+      Current.org.update!(billing_ends_on_last_delivery_fy_month: true)
       travel_to("2022-01-01") {
         create(:delivery, date: "2022-01-01")
         create(:delivery, date: "2022-09-30")
@@ -402,7 +402,7 @@ describe Billing::Invoicer do
   end
 
   context "when billed mensualy" do
-    before { Current.acp.update!(billing_year_divisions: [ 12 ]) }
+    before { Current.org.update!(billing_year_divisions: [ 12 ]) }
     let(:member) { create(:member, :active, billing_year_division: 12) }
     let(:membership) { member.current_membership }
 
@@ -500,7 +500,7 @@ describe Billing::Invoicer do
     end
 
     specify "when month #10 does not include any delivery and billing_ends_on_last_delivery_fy_month is true" do
-      Current.acp.update!(billing_ends_on_last_delivery_fy_month: true)
+      Current.org.update!(billing_ends_on_last_delivery_fy_month: true)
       travel_to("2022-01-01") {
         create(:delivery, date: "2022-01-01")
         create(:delivery, date: "2022-09-30")
@@ -558,7 +558,7 @@ describe Billing::Invoicer do
     end
 
     specify "support_annual_fee member already invoiced" do
-      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 1)
+      Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 1)
       member = create(:member, :support_acp_share)
       travel_to "2021-01-01" do # Friday
         expect(described_class.new(member.reload).next_date).to be_nil
@@ -581,8 +581,8 @@ describe Billing::Invoicer do
       end
     end
 
-    specify "membership beginning of the year, with ACP.billing_starts_after_first_delivery to false" do
-      Current.acp.update!(billing_starts_after_first_delivery: false)
+    specify "membership beginning of the year, with Organization.billing_starts_after_first_delivery to false" do
+      Current.org.update!(billing_starts_after_first_delivery: false)
       member = travel_to "2021-01-01" do # Friday
         create(:delivery, date: "2021-01-12") # Tuesday
         create(:member, :active)
@@ -725,7 +725,7 @@ describe Billing::Invoicer do
 
     context "with trial baskets" do
       before {
-        Current.acp.update!(
+        Current.org.update!(
           trial_basket_count: 4,
           billing_starts_after_first_delivery: false)
       }
@@ -777,7 +777,7 @@ describe Billing::Invoicer do
     end
 
     context "with winter deliveries cycle" do
-      before { Current.acp.update!(fiscal_year_start_month: 4) }
+      before { Current.org.update!(fiscal_year_start_month: 4) }
 
       specify "membership, with only winter baskets" do
         dc = create(:delivery_cycle, months: [ 1, 2, 3, 10, 11, 12 ])
